@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Instana</title>
+</head>
+<body>
+
+  <script>
+    var instana = {
+      loadInfo: {
+        user: <!--# include virtual="/api/user" -->,
+        index: <!--# include virtual="/api" -->
+      }
+    };
+  </script>
+  <script src="bundle/index.js"></script>
+</body>
+</html>
