@@ -5,6 +5,8 @@
   globals:
     require: false
     module: true
+    exports: true
+    THREE: false
 
   rules:
     brace-style: [2, '1tbs', { 'allowSingleLine': true }]

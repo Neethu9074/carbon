@@ -1,5 +1,7 @@
 'use strict';
 
-var getMessage = () => 'Hello World!!!';
+var createCube = require('./cube')
 
-console.log(getMessage());
+var getElement = () => 'Hello World!';
+
+console.log(getElement());
