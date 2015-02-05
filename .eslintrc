@@ -11,6 +11,7 @@
     Promise: false
     require: false
     module: true
+    exports: false
 
   rules:
     brace-style: [2, '1tbs', { 'allowSingleLine': true }]
