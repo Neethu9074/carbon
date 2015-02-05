@@ -13,8 +13,9 @@ var shell = require('shelljs');
 var size = require('gulp-size');
 var util = require('util');
 var webpack = require('webpack');
-var webpackConfig = require('./webpack.config.js');
 var WebpackDevServer = require('webpack-dev-server');
+
+var webpackConfig = require('./webpack.config.js');
 
 var paths = {
   js: ['gulpfile.js', 'src/javascript/**/*.js']

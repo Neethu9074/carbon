@@ -1,11 +1,12 @@
+/*eslint-env node */
+'use strict';
+
 var webpack = require('webpack');
 var path = require('path');
 
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
 });
-
-console.log(__dirname);
 
 module.exports = {
   entry: './src/javascript/index.js',
@@ -36,9 +37,7 @@ module.exports = {
   ],
   resolve: {
     alias: {
-      'bootswatch-lumen.css': __dirname + '/node_modules/Bootswatch/lumen/bootstrap.css',
-      'prism': __dirname + '/node_modules/prismjs/prism.js',
-      'prism.css': __dirname + '/node_modules/prismjs/themes/prism.css'
+      'three.js': path.join(__dirname, '/node_modules/three.js/build/three.js')
     }
   }
 };

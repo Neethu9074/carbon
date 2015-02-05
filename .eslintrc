@@ -3,6 +3,7 @@
     browser: true
 
   globals:
+    Promise: false
     require: false
     module: true
 

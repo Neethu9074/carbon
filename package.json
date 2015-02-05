@@ -6,6 +6,7 @@
   "scripts": {
     "build": "gulp build",
     "dev": "gulp dev",
+    "install": "napa",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -14,6 +15,9 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+  },
+  "napa": {
+    "three.js": "mrdoob/three.js#r70"
   },
   "devDependencies": {
     "bluebird": "^2.9.6",
