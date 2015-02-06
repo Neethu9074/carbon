@@ -2,27 +2,37 @@
 
 var THREE = require('three.js');
 var colors = require('./colors');
+var sceneObj = require('./sceneObject');
 
-module.exports = function Connection(app, fromV, toV) {
+exports.Connection = function Connection(fromX, fromY, toX, toY) {
+  //calculate new positions
+  var fromPos = new THREE.Vector3(fromX + 0.5, 0.25, fromY - 0.5);
+  var toPos = new THREE.Vector3(toX + 0.5, 0.25, toY - 0.5);
 
-	var material = new THREE.LineBasicMaterial({
-		color: colors.connectionColor,
-		side: THREE.DoubleSide
-	});
+  var mesh = createMesh(fromPos, toPos);
 
-	var fromPos = new THREE.Vector3(fromV.x + 0.5, 0.25, fromV.y - 0.5);
-	var toPos = new THREE.Vector3(toV.x + 0.5, 0.25, toV.y - 0.5);
-
-	var actualpoints = [fromPos, toPos];
-
-	var actualextrudePath = new THREE.SplineCurve3(actualpoints);
-	var actualtube = new THREE.TubeGeometry(
-		actualextrudePath, //path
-		1, //segments
-		0.02, //radius
-		4, //radius segments
-		false, false);
-
-	var actualtubeMesh = new THREE.Mesh(actualtube, material);
-	app.scene.add(actualtubeMesh);
+  this.setMesh(mesh);
 };
+
+//inherence from SceneObject
+exports.Connection.prototype = new sceneObj.SceneObject();
+exports.Connection.prototype.constructor = exports.Connection;
+
+function createMesh(fromPos, toPos) {
+  var material = new THREE.LineBasicMaterial({
+    color: colors.connectionColor,
+    side: THREE.DoubleSide
+  });
+
+  var actualpoints = [fromPos, toPos];
+
+  var actualextrudePath = new THREE.SplineCurve3(actualpoints);
+  var actualtube = new THREE.TubeGeometry(
+    actualextrudePath, //path
+    1, //segments
+    0.02, //radius
+    4, //radius segments
+    false, false);
+
+  return new THREE.Mesh(actualtube, material);
+}

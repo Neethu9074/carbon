@@ -1,19 +1,23 @@
 'use strict';
 
-var THREE = require('three.js');
 var ground = require('./ground');
 var cube = require('./cube');
 var connection = require('./connection');
 
 module.exports = function createTestSetup(app) {
-  ground(app);
-	cube(app.scene, 0, 0, 1, 1, 0.5);
-	cube(app.scene, 0, 1, 1, 1, 0.5);
-	cube(app.scene, 2, 0, 1, 2, 0.5);
-	cube(app.scene, -2, 2, 3, 2, 0.5);
-	cube(app.scene, 1, -1, 1, 1, 0.2);
+	//add the ground
+  app.addObject(new ground.Ground(app));
 
-  connection(app, new THREE.Vector2(0, 0), new THREE.Vector2(0, -1));
+	//add a few cubes
+	app.addObject(new cube.Cube(0, 0, 1, 1, 0.5));
+  app.addObject(new cube.Cube(0, 0, 1, 1, 0.5));
+  app.addObject(new cube.Cube(0, 1, 1, 1, 0.5));
+  app.addObject(new cube.Cube(2, 0, 1, 2, 0.5));
+  app.addObject(new cube.Cube(-2, 2, 3, 2, 0.5));
+  app.addObject(new cube.Cube(1, -1, 1, 1, 0.2));
 
-//	new instana.Plane(app, -1, -1, 4, 2, Colors.normalPlaneColor)
+	//add connections
+  app.addObject(new connection.Connection(0, 0, 0, -1));
+
+  //	new instana.Plane(app, -1, -1, 4, 2, Colors.normalPlaneColor)
 };
