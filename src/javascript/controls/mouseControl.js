@@ -20,8 +20,11 @@ exports.MouseControl.prototype.init = function(app) {
   this.cameraSpeed = 5;
   this.moveSpeed = 0.01;
   this.drag = false;
+
+  //raytracing fields
   this.raycaster = new THREE.Raycaster();
   this.counterForRayCasting = 0;
+  this.mouseForRay = new THREE.Vector2();
 
   var cam = app.cameraTransform;
   this.targetPositionObj = new THREE.Object3D();
@@ -64,23 +67,23 @@ exports.MouseControl.prototype.onMouseMove = function(event) {
     this.mouse.y = event.clientY;
   } else {
     //do it only every x times, here y = 10
-    if ((this.counterForRayCasting++ % 10) === 0) {
-      doRayPicking(this.appRef, this.raycaster);
+    if ((this.counterForRayCasting++ % 300) === 0) {
+      this.doRayPicking();
     }
   }
 };
 
-function doRayPicking(app, raycaster) {
+exports.MouseControl.prototype.doRayPicking = function() {
   //do raypicking, when not draging and mouse moving
-  var mouse = new THREE.Vector2();
+  var app = this.appRef;
   var width = app.container.offsetWidth;
   var height = app.container.offsetHeight;
-  mouse.x = (event.clientX / width) * 2 - 1;
-  mouse.y = -(event.clientY / height) * 2 + 1;
+  this.mouseForRay.x = (event.clientX / width) * 2 - 1;
+  this.mouseForRay.y = -(event.clientY / height) * 2 + 1;
 
   //set raycaster
-  raycaster.setFromCamera(mouse, app.camera);
-  var intersects = raycaster.intersectObjects(app.scene.children, true);
+  this.raycaster.setFromCamera(this.mouseForRay, app.camera);
+  var intersects = this.raycaster.intersectObjects(app.scene.children, true);
   for (var intersect in intersects) {
     var obj = intersects[intersect];
       console.log(obj.object.name);
@@ -88,6 +91,7 @@ function doRayPicking(app, raycaster) {
 }
 
 exports.MouseControl.prototype.update = function(dTime) {
+  //calculate the delta between wanted position and current position
   var delta = new THREE.Vector3(
     this.targetPositionObj.position.x,
     this.targetPositionObj.position.y,
@@ -98,12 +102,13 @@ exports.MouseControl.prototype.update = function(dTime) {
 
   var obj = this.appRef.cameraTransform;
   obj.position.add(delta.multiplyScalar(dTime * this.cameraSpeed));
-  obj.translateZ(3);
+  //obj now has the new position
 
+  //the camera is (0,3,3) away from the transform handler
+  obj.translateZ(3);
   this.appRef.camera.position.set(
     obj.position.x,
     obj.position.y + 3,
     obj.position.z);
-
   obj.translateZ(-3);
 };
