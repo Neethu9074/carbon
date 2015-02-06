@@ -46,15 +46,16 @@ exports.Application.prototype.initializeScene = function() {
   this.deltaTime = 0;
 
   this.scene = new THREE.Scene();
+  this.scene.fog = new THREE.Fog( 0x000000, 2, 20 );
 
   this.createCamera(width, height);
   this.createLights();
 
-  this.renderer = new THREE.WebGLRenderer({
-    antialias: false
-  });
+  this.renderer = new THREE.WebGLRenderer({ antialias: false });
   this.renderer.setClearColor(0x000000, 1);
   this.renderer.setSize(width, height);
+
+  //add renderer to dom element
   this.container.appendChild(this.renderer.domElement);
 
   if (this.debug) {
@@ -84,7 +85,7 @@ exports.Application.prototype.createLights = function() {
 
 exports.Application.prototype.createCamera = function(width, height) {
   //set the farplane as near as possible
-  this.camera = new THREE.PerspectiveCamera(60, width / height, 1, 100);
+  this.camera = new THREE.PerspectiveCamera(60, width / height, 1, 20);
   this.camera.position.set(-3, 3, 3);
   this.camera.lookAt(new THREE.Vector3(0, 0, 0));
   //pos: -3,3,3 -> lookAt 0,0,0 means 45 degrees looking angle to the center
