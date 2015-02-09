@@ -33,6 +33,7 @@ exports.MouseControl.prototype.init = function(app) {
   this.zoomHeight = this.minZoomHeight;
   this.zoomSpeed = 0.4;
   this.zoomLevel = 0; //[0, 1]
+  this.fogFar = this.appRef.scene.fog.far;
 
   //raytracing fields
   this.raycaster = new THREE.Raycaster();
@@ -70,7 +71,9 @@ exports.MouseControl.prototype.onMouseWheel = function(e) {
   this.zoomLevel = (this.zoomHeight - this.minZoomHeight) /
   (this.maxZoomHeight - this.minZoomHeight);
 
-	//TODO: in/decrease fog distance to get a nice result
+	//in/decrease fog distance to get a nicer result
+  this.appRef.scene.fog.far = this.fogFar +
+    (this.zoomHeight - this.minZoomHeight);
 };
 
 exports.MouseControl.prototype.onMouseDown = function(e) {

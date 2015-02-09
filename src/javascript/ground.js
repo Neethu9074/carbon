@@ -4,26 +4,22 @@ var THREE = require('three.js');
 var colors = require('./colors');
 var math = require('./math');
 var sceneObj = require('./sceneObject');
-var url = require("image!./cube.png");
+var materials = require('./materials');
+var url = require('image!./img/floor.png');
 var config = require('./config');
 
 exports.Ground = function Ground() {
 	var x = 10000, y = 10000;
 	var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
-	var maxAnisotropy = 16;//app.renderer.getMaxAnisotropy();
+/*	var maxAnisotropy = 16;//app.renderer.getMaxAnisotropy();
 
 	var texture = THREE.ImageUtils.loadTexture(config.bundlePath + url);
-/*	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 	texture.repeat.set(x, y);
 	texture.anisotropy = maxAnisotropy;
 */
 
-	var material = new THREE.MeshBasicMaterial({
-		color: colors.groundColor,
-		side: THREE.DoubleSide,
-		//transparent: true
-		//map: texture
-	});
+	var material = materials.groundmaterial;
 
 	var plane = new THREE.Mesh(geometry, material);
 	plane.rotation.x = 90 * math.DegToRad;
@@ -31,6 +27,13 @@ exports.Ground = function Ground() {
 	plane.position.set(0, -0.001, 0);
 
 	this.setMesh(plane);
+
+	var gridHelper = new THREE.GridHelper( x, 1 );
+	gridHelper.position.set(0, -0.001, 0);
+	gridHelper.setColors(
+		colors.cubeGreenLightColor,
+		colors.cubeGreenMidColor);
+	this.setMesh(gridHelper);
 };
 
 //inherence from SceneObject

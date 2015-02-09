@@ -9,11 +9,10 @@ module.exports = function createTestSetup(app) {
   app.addObject(new ground.Ground(app));
 
 	//add a few cubes
-	app.addObject(new cube.Cube(0, 0, 1, 1, 0.5));
-  app.addObject(new cube.Cube(0, 0, 1, 1, 0.5));
-  app.addObject(new cube.Cube(0, 1, 1, 1, 0.5));
-  app.addObject(new cube.Cube(2, 0, 1, 2, 0.5));
-  app.addObject(new cube.Cube(-2, 2, 3, 2, 0.5));
+	app.addObject(new cube.Cube(0, 0, 1, 1, 0.2));
+  app.addObject(new cube.Cube(0, 1, 1, 1, 0.2));
+  app.addObject(new cube.Cube(2, 0, 1, 2, 0.2));
+  app.addObject(new cube.Cube(-2, 2, 3, 2, 0.2));
   app.addObject(new cube.Cube(1, -1, 1, 1, 0.2));
 
 	//add connections

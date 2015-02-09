@@ -6,8 +6,8 @@ var sceneObj = require('./sceneObject');
 
 exports.Connection = function Connection(fromX, fromY, toX, toY) {
   //calculate new positions
-  var fromPos = new THREE.Vector3(fromX + 0.5, 0.25, fromY - 0.5);
-  var toPos = new THREE.Vector3(toX + 0.5, 0.25, toY - 0.5);
+  var fromPos = new THREE.Vector3(fromX + 0.5, 0.1, fromY - 0.5);
+  var toPos = new THREE.Vector3(toX + 0.5, 0.1, toY - 0.5);
 
   var mesh = createMesh(fromPos, toPos);
 

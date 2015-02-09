@@ -25,7 +25,7 @@ exports.Application = function Application() {
 exports.Application.prototype.addRandomCube = function() {
   var x = Math.floor(Math.random() * 11);
 	var y = Math.floor(Math.random() * 11);
-  this.addObject(new cube.Cube(x, y, 1, 1, 0.5));
+  this.addObject(new cube.Cube(x, y, 1, 1, 0.2));
 };
 
 // we need to make sure, that 'this' doesn't get lost.
@@ -46,23 +46,17 @@ exports.Application.prototype.initializeScene = function() {
   this.deltaTime = 0;
 
   this.scene = new THREE.Scene();
-  this.scene.fog = new THREE.Fog( 0x000000, 2, 20 );
+  this.scene.fog = new THREE.Fog( colors.fogColor, 2, 20 );
 
   this.createCamera(width, height);
   this.createLights();
 
-  this.renderer = new THREE.WebGLRenderer({ antialias: false });
-  this.renderer.setClearColor(0x000000, 1);
+  this.renderer = new THREE.WebGLRenderer({ antialias: true });
+  this.renderer.setClearColor(colors.fogColor, 1);
   this.renderer.setSize(width, height);
 
   //add renderer to dom element
   this.container.appendChild(this.renderer.domElement);
-
-  if (this.debug) {
-    var object = new THREE.AxisHelper(10);
-    object.position.set(0, 0, 0);
-    this.scene.add(object);
-  }
 };
 
 exports.Application.prototype.addObject = function(obj) {
@@ -81,6 +75,10 @@ exports.Application.prototype.createLights = function() {
   // add subtle ambient lighting
   var ambientLight = new THREE.AmbientLight(colors.ambientColor);
   this.scene.add(ambientLight);
+
+  var directionalLight = new THREE.DirectionalLight( 0x00ffff, 0.8 );
+  directionalLight.position.set( 1, 1, -1 );
+  this.scene.add( directionalLight );
 };
 
 exports.Application.prototype.createCamera = function(width, height) {
