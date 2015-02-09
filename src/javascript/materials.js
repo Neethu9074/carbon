@@ -33,3 +33,8 @@ function createCubeMaterial(cubeColor) {
 		combine: THREE.MixOperation
 	});*/
 }
+
+exports.collisionmaterial = new THREE.MeshBasicMaterial({
+	visible: false,
+	color: 0xf0f0f0
+});

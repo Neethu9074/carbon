@@ -3,8 +3,13 @@
 var math = require('./math');
 
 exports.SceneObject = function SceneObject() {
-	var guid = math.guid();
-	this.name = 'Scene Object ' + guid;
+};
+
+exports.SceneObject.prototype.init = function() {
+		var guid = math.guid();
+		this.name = 'Scene Object ' + guid;
+		this.mesh = undefined;
+		this.collisionMesh = undefined;
 };
 
 exports.SceneObject.prototype.getName = function() {
@@ -19,4 +24,12 @@ exports.SceneObject.prototype.setMesh = function(mesh) {
 
 exports.SceneObject.prototype.getMesh = function() {
 	return this.mesh;
+};
+
+exports.SceneObject.prototype.setCollisionMesh = function(collMesh) {
+	this.collisionMesh = collMesh;
+};
+
+exports.SceneObject.prototype.getCollisionMesh = function() {
+	return this.collisionMesh;
 };

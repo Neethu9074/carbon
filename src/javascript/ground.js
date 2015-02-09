@@ -9,6 +9,8 @@ var url = require('image!./img/floor.png');
 var config = require('./config');
 
 exports.Ground = function Ground() {
+	this.init();
+
 	var x = 10000, y = 10000;
 	var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
 /*	var maxAnisotropy = 16;//app.renderer.getMaxAnisotropy();
@@ -29,7 +31,7 @@ exports.Ground = function Ground() {
 	this.setMesh(plane);
 
 	var gridHelper = new THREE.GridHelper( x, 1 );
-	gridHelper.position.set(0, -0.001, 0);
+	gridHelper.position.set(0, -0.015, 0);
 	gridHelper.setColors(
 		colors.cubeGreenLightColor,
 		colors.cubeGreenMidColor);

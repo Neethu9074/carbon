@@ -5,6 +5,8 @@ var colors = require('./colors');
 var sceneObj = require('./sceneObject');
 
 exports.Connection = function Connection(fromX, fromY, toX, toY) {
+  this.init();
+
   //calculate new positions
   var fromPos = new THREE.Vector3(fromX + 0.5, 0.1, fromY - 0.5);
   var toPos = new THREE.Vector3(toX + 0.5, 0.1, toY - 0.5);

@@ -16,7 +16,7 @@ module.exports = function createTestSetup(app) {
   app.addObject(new cube.Cube(1, -1, 1, 1, 0.2));
 
 	//add connections
-  app.addObject(new connection.Connection(0, 0, 0, -1));
+  app.addObject(new connection.Connection(0, 0, 2, 0));
 
   //	new instana.Plane(app, -1, -1, 4, 2, Colors.normalPlaneColor)
 };

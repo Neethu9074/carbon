@@ -103,7 +103,7 @@ exports.MouseControl.prototype.onMouseMove = function(event) {
     this.mouse.y = event.clientY;
   } else {
     //do it only every x times, here y = 10
-    if ((this.counterForRayCasting++ % 300) === 0) {
+    if ((this.counterForRayCasting++ % 30) === 0) {
       this.doRayPicking();
     }
   }
@@ -122,10 +122,11 @@ exports.MouseControl.prototype.doRayPicking = function() {
 
   //set raycaster
   this.raycaster.setFromCamera(this.mouseForRay, app.camera);
-  var intersects = this.raycaster.intersectObjects(app.scene.children, true);
+  var intersects = this.raycaster.intersectObjects(app.collisionObjects, true);
   for (var intersect in intersects) {
     var obj = intersects[intersect];
-    console.log(obj.object.name);
+    //obj.object.material.visible = true;
+    //console.log(obj.object.name);
   }
 };
 
