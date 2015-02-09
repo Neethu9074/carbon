@@ -32,7 +32,11 @@ exports.Cube = function Cube(x, y, width, depth, height) {
 	group.add(collisionCube);
 	group.add(cube);
 	group.add(boundingCube);
-	group.add(label);
+
+	//LOD needs more than 1 element...
+	var lod = new THREE.LOD();
+	lod.addLevel(label, 5);
+	group.add(lod);
 
 	this.setMesh(group);
 	this.setCollisionMesh(collisionCube);

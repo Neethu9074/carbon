@@ -15,9 +15,23 @@ exports.MouseControl = function MouseControl(app) {
   // Firefox
   app.container.addEventListener('DOMMouseScroll', this.onMouseWheel, false);
 
+	document.body.addEventListener('keydown', this.keydown);
   //jquery style
   //$(app.container).mousedown(this.onMouseDown);
   //$(app.container).mousemove(this.onMouseMove);
+};
+
+//this is for notebook use beacause i have no scroll wheel -.-
+exports.MouseControl.prototype.keydown = function(e) {
+    var delta = 0;
+    if(e.keyCode === 38) {
+      delta = 1;
+    }
+    if(e.keyCode === 40) {
+      delta = -1;
+    }
+    this.appRef.zoom(delta);
+    this.zoomHeight = this.appRef.zoomLevel.distance;
 };
 
 exports.MouseControl.prototype.init = function(app) {
@@ -28,12 +42,7 @@ exports.MouseControl.prototype.init = function(app) {
   this.drag = false;
 
   //zoom fields
-  this.minZoomHeight = 3;
-  this.maxZoomHeight = 10;
-  this.zoomHeight = this.minZoomHeight;
-  this.zoomSpeed = 0.4;
-  this.zoomLevel = 0; //[0, 1]
-  this.fogFar = this.appRef.scene.fog.far;
+  this.zoomHeight = app.zoomLevel.distance;
 
   //raytracing fields
   this.raycaster = new THREE.Raycaster();
@@ -54,6 +63,7 @@ exports.MouseControl.prototype.bindListeners = function() {
   this.init = this.init.bind(this);
   this.update = this.update.bind(this);
   this.onMouseWheel = this.onMouseWheel.bind(this);
+  this.keydown = this.keydown.bind(this);
 };
 
 exports.MouseControl.prototype.onMouseWheel = function(e) {
@@ -61,19 +71,11 @@ exports.MouseControl.prototype.onMouseWheel = function(e) {
   var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
   //scroll up -> delta = 1, -1 otherwise
 
-  this.zoomHeight -= delta * this.zoomSpeed;
-  //clamp height between min and max distance
-  this.zoomHeight = Math.max(this.minZoomHeight,		// [minHeight,
-		Math.min(this.zoomHeight, this.maxZoomHeight)); //  maxHeight]
+  //cal the zoom method of main app
+  this.appRef.zoom(delta);
 
-
-  //get a normalizedZoomLevel between [0=zoomedIn, 1=zoomedOut];
-  this.zoomLevel = (this.zoomHeight - this.minZoomHeight) /
-  (this.maxZoomHeight - this.minZoomHeight);
-
-	//in/decrease fog distance to get a nicer result
-  this.appRef.scene.fog.far = this.fogFar +
-    (this.zoomHeight - this.minZoomHeight);
+  //now you can grap the new zoom object
+  this.zoomHeight = this.appRef.zoomLevel.distance;
 };
 
 exports.MouseControl.prototype.onMouseDown = function(e) {
@@ -138,7 +140,7 @@ exports.MouseControl.prototype.update = function(dTime) {
   //calculate the delta between wanted position and current position
   var delta = new THREE.Vector3(
     this.targetPositionObj.position.x,
-    this.zoomHeight - this.minZoomHeight,
+    this.zoomHeight,
     this.targetPositionObj.position.z);
 
 	//get the delta
@@ -152,12 +154,12 @@ exports.MouseControl.prototype.update = function(dTime) {
   //the camera is (0, zoomHeight, 3) away from the transform handler
   //x and z will change due to cameraTransform
   //y will change due to zoom / scrolllevel
-  camTransform.translateZ(3);
+  camTransform.translateZ(1);
   cam.position.set(
     camTransPos.x,
-    camTransPos.y + this.minZoomHeight,
+    camTransPos.y,
     camTransPos.z);
-  camTransform.translateZ(-3);
+  camTransform.translateZ(-1);
 
   var POI = camTransPos.clone();
   POI.y = 0;

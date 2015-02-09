@@ -10,6 +10,7 @@ var config = require('./config');
 
 exports.Ground = function Ground() {
 	this.init();
+	this.LODDistance = 100;
 
 	var x = 10000, y = 10000;
 	var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
