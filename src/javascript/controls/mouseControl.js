@@ -32,6 +32,7 @@ exports.MouseControl.prototype.init = function(app) {
   this.maxZoomHeight = 10;
   this.zoomHeight = this.minZoomHeight;
   this.zoomSpeed = 0.4;
+  this.zoomLevel = 0; //[0, 1]
 
   //raytracing fields
   this.raycaster = new THREE.Raycaster();
@@ -63,6 +64,11 @@ exports.MouseControl.prototype.onMouseWheel = function(e) {
   //clamp height between min and max distance
   this.zoomHeight = Math.max(this.minZoomHeight,		// [minHeight,
 		Math.min(this.zoomHeight, this.maxZoomHeight)); //  maxHeight]
+
+
+  //get a normalizedZoomLevel between [0=zoomedIn, 1=zoomedOut];
+  this.zoomLevel = (this.zoomHeight - this.minZoomHeight) /
+  (this.maxZoomHeight - this.minZoomHeight);
 
 	//TODO: in/decrease fog distance to get a nice result
 };
@@ -149,7 +155,6 @@ exports.MouseControl.prototype.update = function(dTime) {
     camTransPos.z);
   camTransform.translateZ(-3);
 
-  //set point of interrest
   var POI = camTransPos.clone();
   POI.y = 0;
   cam.lookAt(POI);

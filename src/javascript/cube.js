@@ -6,6 +6,7 @@ var sceneObj = require('./sceneObject');
 var math = require('./math');
 
 exports.Cube = function Cube(x, y, width, depth, height) {
+
   //no cube is smaller than (1, 0.25, 1)
   width = Math.max(width, 1);
   depth = Math.max(depth, 1);
@@ -31,6 +32,7 @@ exports.Cube.prototype = new sceneObj.SceneObject();
 exports.Cube.prototype.constructor = exports.Cube;
 
 function createCube(width, height, depth, name) {
+
   var materials = [
     createMaterial(colors.cubeGreenMidColor), //right
     createMaterial(colors.cubeGreenMidColor), //left

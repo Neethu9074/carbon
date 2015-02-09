@@ -4,14 +4,16 @@ var THREE = require('three.js');
 var colors = require('./colors');
 var math = require('./math');
 var sceneObj = require('./sceneObject');
+var url = require("image!./cube.png");
 
 exports.Ground = function Ground() {
 	var x = 10000, y = 10000;
 	var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
-/*	var maxAnisotropy = app.renderer.getMaxAnisotropy();
+	var maxAnisotropy = 16;//app.renderer.getMaxAnisotropy();
 
-	var texture = THREE.ImageUtils.loadTexture('img/floor.png');
-	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+	console.log(url);
+	var texture = THREE.ImageUtils.loadTexture(url);
+/*	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 	texture.repeat.set(x, y);
 	texture.anisotropy = maxAnisotropy;
 */
