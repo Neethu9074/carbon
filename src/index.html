@@ -8,23 +8,51 @@
       margin: 0;
       overflow: hidden;
     }
-
-    canvas {
+    #canvas {
       width: 100%;
       height: 100%;
     }
+    #infoBox
+    {
+      top:10px;
+      right:10px;
+      width:100px;
+      height:25px;
+      position:absolute;
+      background-color:#0c3d63;
+      opacity:0.9;
+    }
   </style>
+
+  <!-- TODO: replace by webpack -->
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
 </head>
 <body>
   <div id="mainStage">
-    <div id="GLCanvas">
-      <div id="GLCanvasOverlay">
-      </div>
-    </div>
+    <div id="GLCanvas"></div>
+    <div id="infoBox"></div>
   </div>
 
+  <script>
+    var toggle = false;
+    var toggleAnimation = function ()
+    {
+      toggle = !toggle;
+      if(toggle){
+        var h = 400;
+        var w = 300;
+      }
+      else{
+        var h = 20;
+        var w = 100;
+      }
+      $('#infoBox').animate( {height:h+'px'}, 400 );
+      $('#infoBox').animate( {width:w+'px'}, 200 );
+    }
+  </script>
+
   <input id="newCubeButton" style="position:absolute; top:60px;" type="button" name="Text 1" value="new Cube">
-  <script src="http://threejs.org/examples/js/libs/stats.min.js"></script>
   <script src="bundle/index.js"></script>
 </body>
 </html>

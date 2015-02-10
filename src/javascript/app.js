@@ -67,18 +67,12 @@ exports.Application.prototype.initializeScene = function() {
 	this.deltaTime = 0;
 
 	this.setup3DScene(width, height);
-	this.setup2DScene(width, height);
-
 	this.addObject(new ground.Ground(this));
 };
 
 exports.Application.prototype.clickedOnObject = function(object) {
-	console.log('clicked on obj: ' + object);
-};
-
-
-exports.Application.prototype.setup2DScene = function(width, height) {
-
+	//parse object info to infoBox
+	toggleAnimation();
 };
 
 exports.Application.prototype.setup3DScene = function(width, height) {
@@ -108,7 +102,7 @@ exports.Application.prototype.addObject = function(obj) {
 		this.collisionObjects.push(collisionMesh);
 	}
 	if (mesh !== undefined) {
-		//TODO check whether the objects are inserted into other collections
+		//TODO: check whether the objects are inserted into other collections
 		this.scene.add(mesh);
 		this.sceneObjects3D.push(obj);
 	}
@@ -119,9 +113,9 @@ exports.Application.prototype.createLights = function() {
 	var ambientLight = new THREE.AmbientLight(colors.ambientColor);
 	this.scene.add(ambientLight);
 
-	var directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
-	directionalLight.position.set(100, 100, -100);
-	this.scene.add(directionalLight);
+	//var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+	//directionalLight.position.set(100, 100, -100);
+	//this.scene.add(directionalLight);
 };
 
 exports.Application.prototype.createCamera = function(width, height) {

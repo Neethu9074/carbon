@@ -1,7 +1,7 @@
 'use strict';
 
 var THREE = require('three.js');
-var math = require('../math');
+var colors = require('../colors');
 
 exports.MouseControl = function MouseControl(app) {
   this.bindListeners();
@@ -67,6 +67,11 @@ exports.MouseControl.prototype.init = function(app) {
   this.camTransformObject.add(new THREE.AxisHelper(0.2));
   this.targetObject.add(new THREE.AxisHelper(0.1));
 
+
+  var light = new THREE.PointLight( colors.midBlue, 4, 10 );
+  light.position.set( 0, 2, 0 );
+  this.camTransformObject.add(light);
+
   app.scene.add(this.camTransformObject);
   app.scene.add(this.targetObject);
 };
@@ -107,7 +112,7 @@ exports.MouseControl.prototype.onMouseDown = function(e) {
 exports.MouseControl.prototype.onMouseUp = function() {
   var timeOnMouseUp = Date.now();
   var millisSinceMouseDown = timeOnMouseUp - this.timeOnMouseDown;
-  if (millisSinceMouseDown < 500 && //intervall to click
+  if (millisSinceMouseDown < 250 && //intervall to click
     this.hittenObject !== undefined) {
     //clicked on object!
     this.appReference.clickedOnObject(this.hittenObject);
@@ -132,7 +137,7 @@ exports.MouseControl.prototype.onMouseMove = function(event) {
   }
 
   //do it only every x times, here y = 10
-  if ((this.counterForRayCasting++ % 10) === 0) {
+  if ((this.counterForRayCasting++ % 30) === 0) {
     this.doRayPicking();
   }
 };

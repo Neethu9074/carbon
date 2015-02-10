@@ -47,7 +47,6 @@ exports.Cube.prototype = new sceneObj.SceneObject();
 exports.Cube.prototype.constructor = exports.Cube;
 
 function createCube(width, height, depth, name) {
-
   var cube = new THREE.Mesh(
     new THREE.BoxGeometry(width, height, depth), materials.cubematerial);
 
@@ -69,7 +68,9 @@ function createCollisionCube(width, height, depth, name) {
       depth + offset),
     new THREE.MeshBasicMaterial({
       visible: false,
-      color: 0xf0f0f0
+      color: colors.lightBlue,
+      transparent: true,
+      opacity: 0.8
     }));
 
   //set name to identify later

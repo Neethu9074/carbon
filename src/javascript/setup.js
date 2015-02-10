@@ -4,18 +4,24 @@ var cube = require('./cube');
 var connection = require('./connection');
 
 module.exports = function createTestSetup(app) {
-	var gc = app.groundControl;
-	var xy;
-	//add a few cubes
-	for (var i = 0; i < 30; i++) {
-		var x = Math.floor(Math.random() * 3) + 1;
-		var y = Math.floor(Math.random() * 3) + 1;
-		xy = gc.getNearestFreeField(x, y);
-		app.addObject(new cube.Cube(xy.x, xy.y, x, y, 0.2));
-	}
+  var gc = app.groundControl;
+  var xy;
+  var lastAddedCube;
 
-	//add connections
-	app.addObject(new connection.Connection(0, 0, 2, 0));
+  //add a few cubes
+  for (var i = 0; i < 10; i++) {
+    var x = Math.floor(Math.random() * 3) + 1;
+    var y = Math.floor(Math.random() * 3) + 1;
+    xy = gc.getNearestFreeField(x, y);
+    if (xy !== undefined) {
+      var newCube = new cube.Cube(xy.x, xy.y, x, y, 0.4);
+      app.addObject(newCube);
 
-	//	new instana.Plane(app, -1, -1, 4, 2, Colors.normalPlaneColor)
+      if (lastAddedCube !== undefined) {
+        app.addObject(new connection.Connection(lastAddedCube, newCube));
+      }
+
+      lastAddedCube = newCube;
+    }
+  }
 };
