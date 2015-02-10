@@ -8,11 +8,11 @@ exports.GroundSpaceControl2D = function GroundSpaceControl2D(width, height) {
 };
 
 function create2DArray(rows) {
-  var arr = [];
+  var array = [];
   for (var i = 0; i < rows; i++) {
-    arr[i] = [];
+    array[i] = [];
   }
-  return arr;
+  return array;
 }
 
 exports.GroundSpaceControl2D.prototype.getNearestFreeField = function(
@@ -50,8 +50,8 @@ exports.GroundSpaceControl2D.prototype.getNearestFreeField = function(
 //sets the area around the given x, y, width, height.
 //any value -> it cant be used anymore
 //undefined -> it can be used
-exports.GroundSpaceControl2D.prototype.setArea = function(from, to, width,
-  height, value) {
+exports.GroundSpaceControl2D.prototype.setArea = function(
+  from, to, width, height, value) {
 		for (var x = -1; x < width + 1; x++) {
 			for (var y = -1; y < height + 1; y++) {
 				var xPos = Math.max(0, from + x);
@@ -64,11 +64,13 @@ exports.GroundSpaceControl2D.prototype.setArea = function(from, to, width,
 //checks the area around a given point and checks, if any field is blocked
 //true -> not possible to use
 //false -> is possible to use
-exports.GroundSpaceControl2D.prototype.isPossible = function(xPos, yPos, width,
-  height) {
-  for (var x = xPos; x <= xPos + width + 1; x++) {
-    for (var y = yPos; y <= xPos + height + 1; y++) {
-      if (this.ground[x][y] !== undefined) {
+exports.GroundSpaceControl2D.prototype.isPossible = function(
+  from, to, width, height) {
+  for (var x = 0; x <= width + 1; x++) {
+    for (var y = 0; y <= height + 1; y++) {
+      var xPos = from + x;
+      var yPos = to + y;
+      if (this.ground[xPos][yPos] !== undefined) {
         return false;
       }
     }

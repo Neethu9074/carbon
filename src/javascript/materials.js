@@ -4,25 +4,15 @@ var THREE = require('three.js');
 var colors = require('./colors');
 
 exports.groundmaterial = new THREE.MeshBasicMaterial({
-	color: colors.groundColor,
+	color: colors.darkBlue,
 	side: THREE.DoubleSide
 });
 
-exports.cubematerials = [
-	createCubeMaterial(colors.cubeGreenDarkColor), //right
-	createCubeMaterial(colors.cubeGreenDarkColor), //left
-	createCubeMaterial(colors.cubeGreenLightColor), //top
-	createCubeMaterial(colors.cubeGreenLightColor), //bottom
-	createCubeMaterial(colors.cubeGreenDarkColor), //front
-	createCubeMaterial(colors.cubeGreenDarkColor) //back
-];
-
-exports.cubematerial = createCubeMaterial(colors.cubeGreenLightColor);
+exports.cubematerial = createCubeMaterial(colors.midBlue);
 
 function createCubeMaterial(cubeColor) {
 	return new THREE.MeshLambertMaterial({
-		color: cubeColor,
-		side: THREE.DoubleSide
+		color: cubeColor
 	});
 	/*return new THREE.MeshLambertMaterial({
 		color: cubeColor,
@@ -34,7 +24,7 @@ function createCubeMaterial(cubeColor) {
 	});*/
 }
 
-exports.collisionmaterial = new THREE.MeshBasicMaterial({
-	visible: false,
-	color: 0xf0f0f0
-});
+exports.lineMaterial = new THREE.LineBasicMaterial({
+    color: colors.lightBlue,
+    side: THREE.DoubleSide
+  });

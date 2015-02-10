@@ -27,15 +27,15 @@ exports.Ground = function Ground() {
 	var plane = new THREE.Mesh(geometry, material);
 	plane.rotation.x = 90 * math.DegToRad;
 	plane.doubleSided = true;
-	plane.position.set(0, -0.001, 0);
+	plane.position.set(0, -0.1, 0);
 
 	this.setMesh(plane);
 
 	var gridHelper = new THREE.GridHelper( x, 1 );
-	gridHelper.position.set(0, -0.015, 0);
+	gridHelper.position.set(0, -0.05, 0);
 	gridHelper.setColors(
-		colors.cubeGreenLightColor,
-		colors.cubeGreenMidColor);
+		colors.midBlue,
+		colors.ambientColor);
 	this.setMesh(gridHelper);
 };
 

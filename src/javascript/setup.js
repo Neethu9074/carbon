@@ -7,7 +7,7 @@ module.exports = function createTestSetup(app) {
 	var gc = app.groundControl;
 	var xy;
 	//add a few cubes
-	for (var i = 0; i < 3; i++) {
+	for (var i = 0; i < 30; i++) {
 		var x = Math.floor(Math.random() * 3) + 1;
 		var y = Math.floor(Math.random() * 3) + 1;
 		xy = gc.getNearestFreeField(x, y);

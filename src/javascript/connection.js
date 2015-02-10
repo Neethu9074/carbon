@@ -1,8 +1,8 @@
 'use strict';
 
 var THREE = require('three.js');
-var colors = require('./colors');
 var sceneObj = require('./sceneObject');
+var material = require('./materials');
 
 exports.Connection = function Connection(fromX, fromY, toX, toY) {
   this.init();
@@ -21,13 +21,8 @@ exports.Connection.prototype = new sceneObj.SceneObject();
 exports.Connection.prototype.constructor = exports.Connection;
 
 function createMesh(fromPos, toPos) {
-  var material = new THREE.LineBasicMaterial({
-    color: colors.connectionColor,
-    side: THREE.DoubleSide
-  });
-
+  var mat = material.lineMaterial;
   var actualpoints = [fromPos, toPos];
-
   var actualextrudePath = new THREE.SplineCurve3(actualpoints);
   var actualtube = new THREE.TubeGeometry(
     actualextrudePath, //path
@@ -36,5 +31,5 @@ function createMesh(fromPos, toPos) {
     4, //radius segments
     false, false);
 
-  return new THREE.Mesh(actualtube, material);
+  return new THREE.Mesh(actualtube, mat);
 }

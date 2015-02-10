@@ -19,7 +19,7 @@ exports.Application = function Application() {
   this.initializeScene();
 
   //controller
-  this.zoomIndex = 2;
+  this.zoomIndex = 1;
   this.zoomLevel = zoom.zoomLevel[this.zoomIndex];
   this.mouseControl = new mControl.MouseControl(this);
 
@@ -70,6 +70,11 @@ exports.Application.prototype.initializeScene = function() {
   this.addObject(new ground.Ground(this));
 };
 
+exports.Application.prototype.clickedOnObject = function(object) {
+
+};
+
+
 exports.Application.prototype.setup2DScene = function(width, height) {
 
 };
@@ -112,8 +117,8 @@ exports.Application.prototype.createLights = function() {
   var ambientLight = new THREE.AmbientLight(colors.ambientColor);
   this.scene.add(ambientLight);
 
-  var directionalLight = new THREE.DirectionalLight(0x00ffff, 0.8);
-  directionalLight.position.set(1, 1, -1);
+  var directionalLight = new THREE.DirectionalLight(0xffffff, 1.5);
+  directionalLight.position.set(100, 100, -100);
   this.scene.add(directionalLight);
 };
 
