@@ -1,6 +1,7 @@
 'use strict';
 
 exports.DegToRad = Math.PI / 180;
+exports.RadToDeg = 180 / Math.PI;
 
 exports.guid = function() {
 	// then to call it, plus stitch in '4' in the third group
