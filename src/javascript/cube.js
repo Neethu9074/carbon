@@ -4,6 +4,7 @@ var THREE = require('three.js');
 var sceneObj = require('./sceneObject');
 var materials = require('./materials.js');
 var math = require('./math');
+var textTexture = require('./extensions/textTextureFacade.js');
 
 exports.Cube = function Cube(x, y, width, depth, height) {
 	this.init();
@@ -86,16 +87,17 @@ function createBoundingCube(cube, name) {
 }
 
 function createLabel(width, height, depth, name) {
-	var topOfCube = height / 2 + 0.001;
 	var labelHeight = 0.1;
-	var frontEdgePosition = (-depth / 2) + (labelHeight / 2) + 0.05;
+	var aspect = width / labelHeight;
+	var topOfCube = height / 2 + 0.001;
+	var frontEdgePosition = (-depth / 2) + (labelHeight / 2);
 
+	var tex = textTexture.createTexture(name, aspect);
 	var labelMat = new THREE.MeshBasicMaterial({
-		color: 0xF0F0F0
+		map: tex,
+		transparent: true
 	});
-	var geometry = new THREE.PlaneBufferGeometry(
-		width - 0.1, //reduce width, because we want a small gap
-		labelHeight, 1, 1);
+	var geometry = new THREE.PlaneBufferGeometry( width, labelHeight, 1, 1);
 	var plane = new THREE.Mesh(geometry, labelMat);
 			plane.rotateOnAxis(new THREE.Vector3(1, 0, 0), -90 * math.DegToRad);
 			plane.position.set(0, topOfCube, frontEdgePosition);

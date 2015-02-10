@@ -126,7 +126,7 @@ exports.MouseControl.prototype.doRayPicking = function() {
   this.raycaster.setFromCamera(this.mouseForRay, app.camera);
   var intersects = this.raycaster.intersectObjects(app.collisionObjects, true);
   for (var intersect in intersects) {
-    var obj = intersects[intersect];
+    //var obj = intersects[intersect];
     //obj.object.material.visible = true;
     //console.log(obj.object.name);
   }
