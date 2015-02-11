@@ -17,9 +17,6 @@ exports.MouseControl = function MouseControl(app) {
   app.container.addEventListener('DOMMouseScroll', this.onMouseWheel, false);
 
   document.body.addEventListener('keydown', this.keydown);
-  //jquery style
-  //$(app.container).mousedown(this.onMouseDown);
-  //$(app.container).mousemove(this.onMouseMove);
 };
 
 //this is for notebook use beacause i don't have any scroll wheel -.-
@@ -53,27 +50,26 @@ exports.MouseControl.prototype.init = function(app) {
   this.hittenOnMouseDown = undefined;
   this.timeOnMouseDown = Date.now();
 
+
+  //transformation helper
   //need this to move on the ground
   this.camTransformObject = new THREE.Object3D();
   this.camTransformObject.rotateOnAxis(
     new THREE.Vector3(0, 1, 0), app.camera.rotation.y);
 
-  //target object where the cam should fly at
-  this.targetObject = new THREE.Object3D();
-  //this.targetObject.position.copy(app.camera.position);
-  this.targetObject.rotation.copy(app.camera.rotation);
+  this.directionHelper = new THREE.Object3D();
+  this.directionHelper.rotation.copy(app.camera.rotation);
 
   // a debug axis to see, where camera is transformed with
   this.camTransformObject.add(new THREE.AxisHelper(0.2));
-  this.targetObject.add(new THREE.AxisHelper(0.1));
+  this.directionHelper.add(new THREE.AxisHelper(0.1));
 
+  app.scene.add(this.camTransformObject);
+  app.scene.add(this.directionHelper);
 
   var light = new THREE.PointLight( colors.midBlue, 4, 10 );
   light.position.set( 0, 2, 0 );
   this.camTransformObject.add(light);
-
-  app.scene.add(this.camTransformObject);
-  app.scene.add(this.targetObject);
 };
 
 exports.MouseControl.prototype.bindListeners = function() {
@@ -173,21 +169,20 @@ exports.MouseControl.prototype.doRayPicking = function() {
 exports.MouseControl.prototype.update = function(dTime) {
   var cam = this.appReference.camera;
 
+  this.directionHelper.position.copy(this.camTransformObject.position);
+  this.directionHelper.translateZ(this.zoomDistance);
+
   //calculate the delta between wanted position and current position
   var delta = new THREE.Vector3(
-    this.targetObject.position.x,
-    this.targetObject.position.y,
-    this.targetObject.position.z);
+    cam.position.x,
+    cam.position.y,
+    cam.position.z);
 
   //get the delta
-  delta.sub(this.camTransformObject.position);
+  delta.sub(this.directionHelper.position);
 
-  this.targetObject.position.sub(
+  cam.position.sub(
     delta.multiplyScalar(dTime * this.cameraSpeed));
 
   //TODO: clamp the position to avoid overflow of the level area
-
-  this.targetObject.translateZ(this.zoomDistance);
-  cam.position.copy(this.targetObject.position);
-  this.targetObject.translateZ(-this.zoomDistance);
 };

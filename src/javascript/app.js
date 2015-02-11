@@ -2,13 +2,11 @@
 
 var THREE = require('three.js');
 var colors = require('./colors');
-//var mControl = require('./controls/mouseControl');
 var mControl = require('./controls/mouseCameraController');
 var cube = require('./cube');
 var gc = require('./groundSpaceControl2D');
 var ground = require('./ground');
 var zoom = require('./zoomLevel');
-var math = require('./math');
 
 exports.Application = function Application() {
 	this.container = document.getElementById('GLCanvas');
@@ -72,7 +70,6 @@ exports.Application.prototype.initializeScene = function() {
 
 exports.Application.prototype.clickedOnObject = function(object) {
 	//parse object info to infoBox
-	toggleAnimation();
 };
 
 exports.Application.prototype.setup3DScene = function(width, height) {
