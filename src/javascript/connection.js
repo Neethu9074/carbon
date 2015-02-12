@@ -5,52 +5,55 @@ var sceneObj = require('./sceneObject');
 
 //path is an array of 2DArrays -> [[0,0], [1,2], ...]
 exports.Connection = function Connection(path) {
-  this.init();
+	this.init();
 
-  var line = createMesh(path);
-  this.setMesh(line);
+  this.points = [];
+	var line = this.createMesh(path);
+	this.setMesh(line);
 };
 
 //inherence from SceneObject
 exports.Connection.prototype = new sceneObj.SceneObject();
 exports.Connection.prototype.constructor = exports.Connection;
 
-function createMesh(path) {
-  var points = [];
-  for (var i in path) {
-    //TODO: remove random height...
-    var pos = new THREE.Vector3(path[i][0], 0.4+Math.random()/10, -path[i][1]);
-    points.push(pos);
-  }
+exports.Connection.prototype.createMesh = function(path) {
+	for (var i in path) {
+		//TODO: remove random height...
+		var pos = new THREE.Vector3(
+      path[i][0],
+      0.4 + Math.random() / 10,
+      -path[i][1]);
+		this.points.push(pos);
+	}
 
-  var geometry = new THREE.BufferGeometry();
-  var material = new THREE.LineBasicMaterial({
-    vertexColors: THREE.VertexColors
-  });
+	var geometry = new THREE.BufferGeometry();
+	var material = new THREE.LineBasicMaterial({
+		vertexColors: THREE.VertexColors
+	});
 
-  var positions = new Float32Array(points.length * 3);
-  var colors = new Float32Array(points.length * 3);
-  for (i = 0; i < points.length; i++) {
-    var x = points[i].x;
-    var y = points[i].y;
-    var z = points[i].z;
+	var positions = new Float32Array(this.points.length * 3);
+	var colors = new Float32Array(this.points.length * 3);
+	for (i = 0; i < this.points.length; i++) {
+		var x = this.points[i].x;
+		var y = this.points[i].y;
+		var z = this.points[i].z;
 
-    // positions
-    positions[i * 3] = x;
-    positions[i * 3 + 1] = y;
-    positions[i * 3 + 2] = z;
+		// positions
+		positions[i * 3] = x;
+		positions[i * 3 + 1] = y;
+		positions[i * 3 + 2] = z;
 
-    // colors
-    colors[i * 3] = (x / 10) + 0.5;
-    colors[i * 3 + 1] = (y / 10) + 0.5;
-    colors[i * 3 + 2] = (z / 10) + 0.5;
-  }
+		// colors
+		colors[i * 3] = (x / 10) + 0.5;
+		colors[i * 3 + 1] = (y / 10) + 0.5;
+		colors[i * 3 + 2] = (z / 10) + 0.5;
+	}
 
-  geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
+	geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
+	geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
 
-  return new THREE.Line(geometry, material);
-}
+	return new THREE.Line(geometry, material);
+};
 
 /*
 exports.Connection.prototype.test = function(fromPos, toPos) {

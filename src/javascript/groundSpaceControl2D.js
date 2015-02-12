@@ -179,9 +179,12 @@ exports.GroundSpaceControl2D.prototype.getPath = function(from, to) {
 	var toY = to.y;
 
 	var path = finder.findPath(fromX, fromY, toX, toY, grid);
+	//compress path to massively reduce lines. compressing does:
+	//[[0, 1], [0, 2], [0, 3], [0, 4]] => [[0, 1], [0, 4]]
+	var compressedPath = PF.Util.compressPath(path);
 
-	if (path.length > 1) {
-		return path;
+	if (compressedPath.length > 1) {
+		return compressedPath;
 	} else {
 		return undefined;
 	}
