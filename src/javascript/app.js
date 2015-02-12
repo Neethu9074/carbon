@@ -15,7 +15,7 @@ exports.Application = function Application() {
   this.sceneObjects3D = []; // all objects, added to the 3D scene
   this.collisionObjects = []; //all collision objects for coll-checking
   this.groundControl = new gc.GroundSpaceControl2D(300);
-  this.freeFields = [];
+  this.updateObjects = []; //all sceneObjects3D objects, which needs an update
 
   this.bindListeners();
   this.stats();
@@ -57,6 +57,7 @@ exports.Application.prototype.showWalkable = function() {
     var field = this.freeFields[i];
     this.scene.remove(field);
   }
+  this.freeFields = [];
 
   var fields = this.groundControl.getFreeWalkableFields();
   for(i in fields){
@@ -128,7 +129,12 @@ exports.Application.prototype.addObject = function(obj) {
     this.collisionObjects.push(collisionMesh);
   }
   if (mesh !== undefined) {
-    //TODO: check whether the objects are inserted into other collections
+    //check whether the objects are inserted into other collections
+
+    //store all objects which needs an update on update
+    if(obj.needsUpdate){
+      this.updateObjects.push(obj);
+    }
     this.scene.add(mesh);
     this.sceneObjects3D.push(obj);
   }
@@ -149,6 +155,11 @@ exports.Application.prototype.createCamera = function(width, height) {
   this.camera = new THREE.PerspectiveCamera(60, width / height, 1, 250);
   this.camera.position.set(-2, 5, 2.5);
   this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+
+  if(false){
+    this.camera.position.set(50, 100, -50);
+    this.camera.lookAt(new THREE.Vector3(50, 0, -50));
+  }
 };
 
 exports.Application.prototype.onWindowResize = function() {
@@ -180,6 +191,11 @@ exports.Application.prototype.animate = function() {
   this.stats.update();
 
   this.mouseControl.update(this.deltaTime);
+
+  //update all registered objects
+  for(var i in this.updateObjects){
+    this.updateObjects[i].update(this.deltaTime);
+  }
 
   //update LOD objects
   var cam = this.camera;

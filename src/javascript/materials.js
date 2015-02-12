@@ -8,21 +8,18 @@ exports.groundMaterial = new THREE.MeshBasicMaterial({
 	side: THREE.DoubleSide
 });
 
-exports.cubeMaterial = createCubeMaterial(colors.midBlue);
+exports.cubeMaterialTransparent = new THREE.MeshLambertMaterial({
+	color: colors.midBlue,
+	depthWrite: false,
+	transparent: true,
+	opacity: 0.8,
+	side: THREE.DoubleSide,
+	combine: THREE.MixOperation
+});
 
-function createCubeMaterial(cubeColor) {
-	return new THREE.MeshLambertMaterial({
-		color: cubeColor
-	});
-	/*return new THREE.MeshLambertMaterial({
-		color: cubeColor,
-		depthWrite: false,
-		transparent: true,
-		opacity: 0.8,
-		side: THREE.DoubleSide,
-		combine: THREE.MixOperation
-	});*/
-}
+exports.cubeMaterialOpaque = new THREE.MeshLambertMaterial({
+	color: colors.midBlue
+});
 
 exports.markerMaterial = new THREE.MeshBasicMaterial({
 	color: colors.lightBlue

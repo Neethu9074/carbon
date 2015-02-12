@@ -10,6 +10,7 @@ exports.SceneObject.prototype.init = function() {
 		this.name = 'Scene Object ' + guid;
 		this.mesh = undefined;
 		this.collisionMesh = undefined;
+		this.needsUpdate = false;
 };
 
 exports.SceneObject.prototype.getName = function() {
@@ -32,4 +33,8 @@ exports.SceneObject.prototype.setCollisionMesh = function(collMesh) {
 
 exports.SceneObject.prototype.getCollisionMesh = function() {
 	return this.collisionMesh;
+};
+
+exports.SceneObject.prototype.registerForUpdate = function() {
+	this.needsUpdate = true;
 };
