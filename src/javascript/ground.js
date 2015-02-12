@@ -5,12 +5,11 @@ var colors = require('./colors');
 var math = require('./math');
 var sceneObj = require('./sceneObject');
 var materials = require('./materials');
-var url = require('image!./img/floor.png');
+var url = require('image!../images/floor.png');
 var config = require('./config');
 
 exports.Ground = function Ground() {
 	this.init();
-	this.LODDistance = 100;
 
 	var x = 10000, y = 10000;
 	var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
@@ -22,21 +21,21 @@ exports.Ground = function Ground() {
 	texture.anisotropy = maxAnisotropy;
 */
 
-	var material = materials.groundmaterial;
+	var material = materials.groundMaterial;
 
 	var plane = new THREE.Mesh(geometry, material);
 	plane.rotation.x = 90 * math.DegToRad;
 	plane.doubleSided = true;
-	plane.position.set(0, -0.1, 0);
+	plane.position.set(x / 2, -0.1, -y / 2 );
 
 	this.setMesh(plane);
 
-	var gridHelper = new THREE.GridHelper( x, 1 );
-	gridHelper.position.set(0, -0.05, 0);
+	var gridHelper = new THREE.GridHelper( x, 10 );
+	gridHelper.position.set(x / 2, -0.05, -y / 2);
 	gridHelper.setColors(
 		colors.midBlue,
-		colors.ambientColor);
-	this.setMesh(gridHelper);
+		colors.darkBlue);
+		this.setMesh(gridHelper);
 };
 
 //inherence from SceneObject

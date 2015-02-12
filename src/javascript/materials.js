@@ -3,12 +3,12 @@
 var THREE = require('three.js');
 var colors = require('./colors');
 
-exports.groundmaterial = new THREE.MeshBasicMaterial({
+exports.groundMaterial = new THREE.MeshBasicMaterial({
 	color: colors.darkBlue,
 	side: THREE.DoubleSide
 });
 
-exports.cubematerial = createCubeMaterial(colors.midBlue);
+exports.cubeMaterial = createCubeMaterial(colors.midBlue);
 
 function createCubeMaterial(cubeColor) {
 	return new THREE.MeshLambertMaterial({
@@ -24,7 +24,12 @@ function createCubeMaterial(cubeColor) {
 	});*/
 }
 
+exports.markerMaterial = new THREE.MeshBasicMaterial({
+	color: colors.lightBlue
+});
+
+
 exports.lineMaterial = new THREE.LineBasicMaterial({
-    color: colors.lightBlue,
-    side: THREE.DoubleSide
-  });
+  color: colors.lightBlue,
+  side: THREE.DoubleSide
+});

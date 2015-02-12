@@ -1,13 +1,13 @@
 'use strict';
 
 exports.zoomLevel = [{
-	distance: 1  //nearest
+	distance: 10  //nearest
 }, {
-	distance: 2.5
+	distance: 25
 }, {
-	distance: 4
+	distance: 40
 }, {
-	distance: 7
+	distance: 70
 }, {
-	distance: 10
+	distance: 100
 }];

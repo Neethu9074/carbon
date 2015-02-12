@@ -35,8 +35,8 @@ exports.MouseControl.prototype.keydown = function(e) {
 exports.MouseControl.prototype.init = function(app) {
   this.appReference = app;
   this.mouse = new THREE.Vector2();
-  this.cameraSpeed = 5; //camera fly speed
-  this.moveSpeed = 0.01; //distance moved per pixel
+  this.cameraSpeed = 5; //camera fly speed - heuristic
+  this.moveSpeed = 0.06; //distance moved per pixel - heuristic
 
   //zoom fields
   this.zoomDistance = app.zoomLevel.distance;
@@ -61,14 +61,14 @@ exports.MouseControl.prototype.init = function(app) {
   this.directionHelper.rotation.copy(app.camera.rotation);
 
   // a debug axis to see, where camera is transformed with
-  this.camTransformObject.add(new THREE.AxisHelper(0.2));
-  this.directionHelper.add(new THREE.AxisHelper(0.1));
+  this.camTransformObject.add(new THREE.AxisHelper(2));
+  this.directionHelper.add(new THREE.AxisHelper(1));
 
   app.scene.add(this.camTransformObject);
   app.scene.add(this.directionHelper);
 
-  var light = new THREE.PointLight( colors.midBlue, 4, 10 );
-  light.position.set( 0, 2, 0 );
+  var light = new THREE.PointLight( colors.midBlue, 4, 100 );
+  light.position.set( 0, 15, 0 );
   this.camTransformObject.add(light);
 };
 
@@ -138,6 +138,8 @@ exports.MouseControl.prototype.onMouseMove = function(event) {
   }
 };
 
+//TODO: extract method to single class?
+//TODO: use octree for performance issues
 exports.MouseControl.prototype.doRayPicking = function() {
   //do raypicking, when not draging and mouse moving
   var app = this.appReference;
