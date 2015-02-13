@@ -1,0 +1,22 @@
+---
+  env:
+    browser: true
+
+  ecmaFeatures:
+    # TODO enable arrow functions and destructuring
+    # see http://eslint.org/docs/configuring/#specifying-language-options
+    defaultParams: true
+
+  globals:
+    Promise: true
+    require: false
+    module: true
+    exports: false
+
+  rules:
+    brace-style: [2, '1tbs', { 'allowSingleLine': true }]
+    complexity: [5, 2]
+    global-strict: [2, 'always']
+    max-len: [2, 120, 4]
+    no-use-before-define: [2, 'nofunc']
+    quotes: [2, 'single', 'avoid-escape']

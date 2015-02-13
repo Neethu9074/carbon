@@ -1,0 +1,40 @@
+{
+  "name": "instana-ui.browser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "proxrox install",
+    "clean": "gulp clean",
+    "build": "gulp clean && gulp build",
+    "dev": "proxrox start .proxrox.yaml && gulp dev"
+  },
+  "author": "Ben Ripkens <ben@instana.com>",
+  "dependencies": {
+    "invariant": "^1.0.2",
+    "bluebird": "^2.9.6",
+    "css-loader": "^0.9.1",
+    "del": "^1.1.1",
+    "file-loader": "^0.8.1",
+    "gulp": "^3.8.10",
+    "gulp-cached": "^1.0.2",
+    "gulp-eslint": "^0.2.2",
+    "gulp-filter": "^2.0.0",
+    "gulp-rev": "^3.0.0",
+    "gulp-rev-replace": "^0.3.3",
+    "gulp-size": "^1.2.0",
+    "gulp-util": "^3.0.3",
+    "image-webpack-loader": "^1.2.0",
+    "imagemin": "^3.1.0",
+    "jsx-loader": "^0.12.2",
+    "less": "^2.3.1",
+    "less-loader": "^2.0.0",
+    "shelljs": "^0.3.0",
+    "style-loader": "^0.8.3",
+    "webpack": "^1.5.3",
+    "webpack-dev-server": "^1.7.0"
+  },
+  "devDependencies": {
+    "proxrox": "^1.4.0"
+  }
+}
