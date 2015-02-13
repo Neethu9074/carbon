@@ -10,11 +10,9 @@ exports.groundMaterial = new THREE.MeshBasicMaterial({
 
 exports.cubeMaterialTransparent = new THREE.MeshLambertMaterial({
 	color: colors.midBlue,
-	depthWrite: false,
 	transparent: true,
 	opacity: 0.8,
-	side: THREE.DoubleSide,
-	combine: THREE.MixOperation
+	side: THREE.DoubleSide
 });
 
 exports.cubeMaterialOpaque = new THREE.MeshLambertMaterial({
@@ -24,7 +22,6 @@ exports.cubeMaterialOpaque = new THREE.MeshLambertMaterial({
 exports.markerMaterial = new THREE.MeshBasicMaterial({
 	color: colors.lightBlue
 });
-
 
 exports.lineMaterial = new THREE.LineBasicMaterial({
   color: colors.lightBlue,

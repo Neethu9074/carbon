@@ -12,15 +12,78 @@
       width: 100%;
       height: 100%;
     }
-    #infoBox
-    {
-      top:10px;
-      right:10px;
-      width:100px;
-      height:25px;
-      position:absolute;
-      background-color:#0c3d63;
-      opacity:0.9;
+    .rs-base{
+        position: absolute;
+        z-index: 10000;
+        padding: 10px;
+        background-color: #222;
+        font-size: 10px;
+        line-height: 1.2em;
+        width: 350px;
+        font-family: 'Roboto Condensed', tahoma, sans-serif;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+    }
+
+    .rs-base h1{
+        margin: 0;
+        padding: 0;
+        font-size: 1.4em;
+        color: #fff;
+        margin-bottom: 5px;
+        cursor: pointer;
+    }
+
+    .rs-base div.rs-group{
+        margin-bottom: 10px;
+    }
+
+    .rs-base div.rs-group.hidden{
+        display: none;
+    }
+
+    .rs-base div.rs-fraction{
+        position: relative;
+        margin-bottom: 5px;
+    }
+
+    .rs-base div.rs-fraction p{
+        width: 120px;
+        text-align: right;
+        margin: 0;
+        padding: 0;
+    }
+
+    .rs-base div.rs-legend{
+        position: absolute;
+        line-height: 1em;
+    }
+
+    .rs-base div.rs-counter-base{
+        position: relative;
+        margin: 2px 0;
+        height: 1em;
+    }
+
+    .rs-base span.rs-counter-id{
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+    .rs-base div.rs-counter-value{
+        position: absolute;
+        left: 90px;
+        width: 30px;
+        height: 1em;
+        top: 0;
+        text-align: right;
+    }
+
+    .rs-base canvas.rs-canvas{
+        position: absolute;
+        right: 0;
     }
   </style>
 
@@ -31,29 +94,10 @@
 <body>
   <div id="mainStage">
     <div id="GLCanvas"></div>
-    <div id="infoBox"></div>
   </div>
 
-  <script>
-    var toggle = false;
-    $('#infoBox').click( function ()
-    {
-      toggle = !toggle;
-      if(toggle){
-        var h = 400;
-        var w = 300;
-      }
-      else{
-        var h = 20;
-        var w = 100;
-      }
-      $('#infoBox').animate( {height:h+'px'}, 400 );
-      $('#infoBox').animate( {width:w+'px'}, 200 );
-    });
-  </script>
-
-  <input id="newCubeButton" style="position:absolute; top:60px;" type="button" value="new Cube">
-  <input id="showWalkableButton" style="position:absolute; top:90px;" type="button" value="show walkable">
+  <input id="newCubeButton" style="position:absolute; right:10px; top:60px;" type="button" value="new Cube">
+  <input id="showWalkableButton" style="position:absolute; right:10px; top:90px;" type="button" value="show walkable">
   <script src="bundle/index.js"></script>
 </body>
 </html>

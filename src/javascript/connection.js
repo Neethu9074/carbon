@@ -12,6 +12,10 @@ exports.Connection = function Connection(path) {
   this.points = [];
 	var line = this.createMesh(path);
 
+	//position will not change, so set to static which gives a perfomance boost
+	line.matrixAutoUpdate = false;
+	line.updateMatrix();
+
   //setup path animation
   this.animator = new pa.PathAnimation(path);
 
@@ -27,8 +31,7 @@ exports.Connection.prototype = new sceneObj.SceneObject();
 exports.Connection.prototype.constructor = exports.Connection;
 
 exports.Connection.prototype.createMesh = function(path) {
-	for (var i in path) {
-		//TODO: remove random height...
+	for (var i = 0; i < path.length; i++) {
 		var pos = new THREE.Vector3( path[i][0], 0.1, -path[i][1] );
 		this.points.push(pos);
 	}
