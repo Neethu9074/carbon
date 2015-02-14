@@ -27,7 +27,8 @@ module.exports = {
 			loader: 'file-loader'
 		}, {
 			test: /\.js$/i,
-			loader: 'jsx-loader?harmony&insertPragma=React.DOM&stripTypes'
+			exclude: /node_modules/,
+			loader: '6to5-loader'
 		}]
 	},
 	plugins: [

@@ -101,7 +101,7 @@ gulp.task('dev', ['copyhtml', 'dev-watches', 'webpack:dev']);
 
 
 gulp.task('dev-watches', function() {
-  gulp.watch(paths.js, ['lint']);
+  // gulp.watch(paths.js, ['lint']);
   gulp.watch('src/index.html', ['copyhtml']);
 });
 

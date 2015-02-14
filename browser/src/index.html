@@ -6,9 +6,14 @@
 
   <script>
     window.instana = window.instana || {};
-    window.instana.routes = {
-      userManagement: <!--#include virtual="/user-management/" -->
-    };
+    window.instana.loadInfo = <!--#include virtual="/user-management/" -->;
+
+    if (!window.instana.loadInfo.user) {
+      var signinUrl = window.instana.loadInfo.routes.signin +
+        '?returnUrl=' +
+        encodeURIComponent(window.location.href);
+      window.location.href = signinUrl;
+    }
   </script>
 </head>
 <body>
