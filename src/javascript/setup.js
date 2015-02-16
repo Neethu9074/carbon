@@ -14,7 +14,7 @@ module.exports = function createTestSetup(app) {
 		var randomScale = Math.ceil(Math.random() * 2);
 		xy = gc.getNearestFreeField(10 * randomScale);
 		if (xy !== undefined) {
-			var newCube = new cube.Cube(xy.x, xy.y, randomScale);
+			var newCube = new cube.Cube(app, xy.x, xy.y, randomScale);
 			cubes.push(newCube);
 			app.addObject(newCube);
 		}

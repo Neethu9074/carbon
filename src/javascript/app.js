@@ -7,8 +7,8 @@ var cube = require('./cube');
 var gc = require('./groundSpaceControl2D');
 var ground = require('./ground');
 var zoom = require('./zoomLevel');
-var m = require('./marker');
 require('./extensions/OculusRiftEffect');
+require('./extensions/Octree');
 var TWEEN = require('./extensions/tween.min.js');
 var rStats = require('./extensions/rStats');
 var glStats = require('./extensions/rStats.extras');
@@ -16,13 +16,13 @@ var glStats = require('./extensions/rStats.extras');
 exports.Application = function Application() {
 	this.canvas = document.getElementById('GLCanvas');
 	this.sceneObjects3D = []; // all objects, added to the 3D scene
-	this.sceneCollisionObjects = []; //all collision objects for coll-checking
 	this.groundControl = new gc.GroundSpaceControl2D(300);
 	this.updateableObjects = []; //all objects needing an update every frame
 
 	this.bindListeners();
 	this.initializeScene();
 	this.createStats();
+	this.createOctree();
 	this.tweenEngine = TWEEN;
 
 	//controller
@@ -52,24 +52,24 @@ exports.Application.prototype.addRandomCube = function() {
 	var width = Math.ceil(Math.random() * 2);
 	var xy = this.groundControl.getNearestFreeField(10 * width);
 	if (xy !== undefined) {
-		this.addObject(new cube.Cube(xy.x, xy.y, width));
+		this.addObject(new cube.Cube(this, xy.x, xy.y, width));
 	}
 };
 
 exports.Application.prototype.showWalkable = function() {
-	for (var i in this.freeFields) {
-		var field = this.freeFields[i];
-		this.scene.remove(field);
-	}
-	this.freeFields = [];
-
+	var geo = new THREE.Geometry();
 	var fields = this.groundControl.getFreeWalkableFields();
-	for (i in fields) {
-		field = fields[i];
-		var marker = new m.Marker(field.x, field.y).getMesh();
-		this.scene.add(marker);
-		this.freeFields.push(marker);
+	for (var i in fields) {
+		var field = fields[i];
+		geo.vertices.push(new THREE.Vector3( field.x, 0.1, -field.y ));
 	}
+	var mat = new THREE.PointCloudMaterial({
+		color: 0xF000FF,
+		size: 1
+	});
+
+	var sys = new THREE.PointCloud(geo, mat);
+	this.scene.add(sys);
 };
 
 // we need to make sure, that 'this' doesn't get lost.
@@ -131,7 +131,8 @@ exports.Application.prototype.addObject = function(obj) {
 	var mesh = obj.getMesh();
 	var collisionMesh = obj.getCollisionMesh();
 	if (collisionMesh !== undefined) {
-		this.sceneCollisionObjects.push(collisionMesh);
+		this.octree.add( collisionMesh, { useFaces: false } );
+		this.octree.update();
 	}
 	if (mesh !== undefined) {
 		//check whether the objects are inserted into other collections
@@ -219,6 +220,40 @@ exports.Application.prototype.createStats = function() {
 
   this.glStats = glS;
   this.rStats = rS;
+};
+
+exports.Application.prototype.createOctree = function() {
+	//setup octree
+	this.octree = new THREE.Octree( {
+		// uncomment below to see the octree (may kill the fps)
+		//scene: this.scene,
+		// when undeferred = true, objects are inserted immediately
+		// instead of being deferred until next octree.update() call
+		// this may decrease performance as it forces a matrix update
+		undeferred: false,
+		// set the max depth of tree
+		depthMax: 8,
+		// max number of objects before nodes split or merge
+		objectsThreshold: 8,
+		// percent between 0 and 1 that nodes will overlap each other
+		// helps insert objects that lie over more than one node
+		overlapPct: 0
+	} );
+};
+
+exports.Application.prototype.findObject = function(raycaster) {
+	//search all candidates where ray cutting quadrants of the octree
+	var octreeObjects = this.octree.search(
+		raycaster.ray.origin,
+		raycaster.ray.far,
+		true, //organized by objects
+		raycaster.ray.direction);
+
+	var intersections = raycaster.intersectOctreeObjects( octreeObjects );
+	if ( intersections.length > 0 ) {
+		return intersections[0].object; //first hit
+	}
+	return undefined;
 };
 
 exports.Application.prototype.render = function() {

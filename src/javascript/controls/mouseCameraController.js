@@ -134,42 +134,35 @@ exports.MouseControl.prototype.onMouseMove = function(event) {
 
   //do it only every x times, here y = 10
   if ((this.counterForRayCasting++ % 30) === 0) {
-    this.doRayPicking();
+    this.doRayPicking( event.clientX,  event.clientY);
   }
 };
 
 //TODO: extract method to single class?
-//TODO: use octree for performance issues
-exports.MouseControl.prototype.doRayPicking = function() {
-  //do raypicking, when not draging and mouse moving
+exports.MouseControl.prototype.doRayPicking = function(x, y) {
   var app = this.appReference;
-  var width = app.canvas.offsetWidth;
-  var height = app.canvas.offsetHeight;
-  this.mouseForRay.x = (event.clientX / width) * 2 - 1;
-  this.mouseForRay.y = -(event.clientY / height) * 2 + 1;
-
-  //reset all materials
-  for (var i = 0; i < app.sceneCollisionObjects.length; i++) {
-    app.sceneCollisionObjects[i].material.visible = false;
-  }
-
-  //reset hitten object and calculate new
-  this.hittenObject = undefined;
 
   //update mainCamera world matrix
   app.mainCamera.updateMatrixWorld();
 
-  //set raycaster
+  var width = app.canvas.offsetWidth;
+  var height = app.canvas.offsetHeight;
+  this.mouseForRay.x = (x / width) * 2 - 1;
+  this.mouseForRay.y = -(y / height) * 2 + 1;
+
+  //update raycaster
   this.raycaster.setFromCamera(this.mouseForRay, app.mainCamera);
 
-  //search for intersected objects. true -> recursive
-  var intersects = this.raycaster.intersectObjects(
-    app.sceneCollisionObjects, true);
+  //reset color of the last mouseover object
+  if(this.hittenObject !== undefined){
+    this.hittenObject.material.visible = false;
+  }
 
-  for (var intersect in intersects) {
-    var obj = intersects[intersect];
-    obj.object.material.visible = true;
-    this.hittenObject = obj.object;
+  //find the new object
+  var obj = app.findObject(this.raycaster);
+  if(obj !== undefined){
+    obj.material.visible = true;
+    this.hittenObject = obj;
   }
 };
 
