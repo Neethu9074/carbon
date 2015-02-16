@@ -5,7 +5,7 @@ var PF = require('./extensions/pathfinding-browser.min');
 exports.GroundSpaceControl2D = function GroundSpaceControl2D(dimension) {
 	this.width = dimension;
 	this.height = dimension;
-	this.gap = 6; //the gap between the cubes must be element of Z+
+	this.gap = 5; //the gap between the cubes must be element of Z+
 	this.blockedMarker = 'blocked';
 	this.cubeMarker = 'cube';
 

@@ -65,8 +65,8 @@ exports.Connection.prototype.createMesh = function(path) {
 	return new THREE.Line(geometry, material);
 };
 
-exports.Connection.prototype.update = function(dTime) {
-  this.animator.update(dTime);
+exports.Connection.prototype.update = function(app) {
+  this.animator.update(app.deltaTime);
 };
 
 /*

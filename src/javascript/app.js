@@ -9,19 +9,21 @@ var ground = require('./ground');
 var zoom = require('./zoomLevel');
 var m = require('./marker');
 require('./extensions/OculusRiftEffect');
+var TWEEN = require('./extensions/tween.min.js');
 var rStats = require('./extensions/rStats');
 var glStats = require('./extensions/rStats.extras');
 
 exports.Application = function Application() {
-	this.container = document.getElementById('GLCanvas');
+	this.canvas = document.getElementById('GLCanvas');
 	this.sceneObjects3D = []; // all objects, added to the 3D scene
-	this.collisionObjects = []; //all collision objects for coll-checking
+	this.sceneCollisionObjects = []; //all collision objects for coll-checking
 	this.groundControl = new gc.GroundSpaceControl2D(300);
-	this.updateObjects = []; //all sceneObjects3D objects, which needs an update
+	this.updateableObjects = []; //all objects needing an update every frame
 
 	this.bindListeners();
 	this.initializeScene();
 	this.createStats();
+	this.tweenEngine = TWEEN;
 
 	//controller
 	this.zoomIndex = 2;
@@ -100,23 +102,24 @@ exports.Application.prototype.setup3DScene = function(width, height) {
 	//this.scene.fog = new THREE.Fog(colors.fogColor, 100, 500);
 
 	this.createCamera(width, height);
-	this.createLights();
 
-	this.renderer = new THREE.WebGLRenderer({
+	this.mainRenderer = new THREE.WebGLRenderer({
 		antialias: true
 	});
-	this.renderer.setClearColor(colors.fogColor, 1);
-	this.renderer.setSize(width, height);
+	this.mainRenderer.setClearColor(colors.fogColor, 1);
+	this.mainRenderer.setSize(width, height);
+
+	//setup lights
+	this.createLights();
 
 	//setup occulus rift effect
-	this.effect = new THREE.OculusRiftEffect(this.renderer, {
+	this.effect = new THREE.OculusRiftEffect(this.mainRenderer, {
 		worldScale: 100
 	});
 	this.effect.setSize(window.innerWidth, window.innerHeight);
 
-
-	//add renderer to dom element
-	this.container.appendChild(this.renderer.domElement);
+	//add mainRenderer to dom element
+	this.canvas.appendChild(this.mainRenderer.domElement);
 
 	this.addObject(new ground.Ground(this));
 };
@@ -128,14 +131,14 @@ exports.Application.prototype.addObject = function(obj) {
 	var mesh = obj.getMesh();
 	var collisionMesh = obj.getCollisionMesh();
 	if (collisionMesh !== undefined) {
-		this.collisionObjects.push(collisionMesh);
+		this.sceneCollisionObjects.push(collisionMesh);
 	}
 	if (mesh !== undefined) {
 		//check whether the objects are inserted into other collections
 
 		//store all objects which needs an update on update
 		if (obj.needsUpdate) {
-			this.updateObjects.push(obj);
+			this.updateableObjects.push(obj);
 		}
 		this.scene.add(mesh);
 		this.sceneObjects3D.push(obj);
@@ -154,31 +157,32 @@ exports.Application.prototype.createLights = function() {
 
 exports.Application.prototype.createCamera = function(width, height) {
 	//set the farplane as near as possible
-	this.camera = new THREE.PerspectiveCamera(60, width / height, 1, 250);
-	this.camera.position.set(-2, 5, 2.5);
-	this.camera.lookAt(new THREE.Vector3(0, 0, 0));
+	this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 1, 250);
+	this.mainCamera.position.set(-2, 5, 2.5);
+	this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
+	//set true for debug purpose
 	if (false) {
-		this.camera.position.set(50, 100, -50);
-		this.camera.lookAt(new THREE.Vector3(50, 0, -50));
+		this.mainCamera.position.set(50, 100, -50);
+		this.mainCamera.lookAt(new THREE.Vector3(50, 0, -50));
 	}
 };
 
 exports.Application.prototype.onWindowResize = function() {
-	var width = this.container.offsetWidth;
-	var height = this.container.offsetHeight;
+	var width = this.canvas.offsetWidth;
+	var height = this.canvas.offsetHeight;
 	var aspect = width / height;
-	this.camera.aspect = aspect;
-	this.camera.updateProjectionMatrix();
+	this.mainCamera.aspect = aspect;
+	this.mainCamera.updateProjectionMatrix();
 
-	this.renderer.setSize(width, height);
+	this.mainRenderer.setSize(width, height);
 
 	this.effect.setSize(width, height);
 };
 
 exports.Application.prototype.createStats = function() {
 	var glS = new glStats.glStats();
-  var tS = new glStats.threeStats(this.renderer);
+  var tS = new glStats.threeStats(this.mainRenderer);
 	var rS = new rStats.rStats({
 		values: {
 			frame: {
@@ -207,10 +211,6 @@ exports.Application.prototype.createStats = function() {
 			caption: 'Frame Budget',
 			values: ['frame', 'texture', 'setup', 'render']
 		}],
-		fractions: [{
-			base: 'frame',
-			steps: ['action1', 'render']
-		}],
 		plugins: [
 			tS,
 			glS
@@ -219,16 +219,11 @@ exports.Application.prototype.createStats = function() {
 
   this.glStats = glS;
   this.rStats = rS;
-
-	//TODO replace with webpack config
-	//this.stats = new Stats();
-	//this.stats.domElement.style.position = 'absolute';
-	//this.container.appendChild(this.stats.domElement);
 };
 
 exports.Application.prototype.render = function() {
-	this.renderer.render(this.scene, this.camera);
-	//this.effect.render( this.scene, this.camera );
+	this.mainRenderer.render(this.scene, this.mainCamera);
+	//this.effect.render( this.scene, this.mainCamera );
 };
 
 exports.Application.prototype.animate = function() {
@@ -243,19 +238,21 @@ exports.Application.prototype.animate = function() {
 
 	//call this again
 	requestAnimationFrame(this.animate);
-
+	//calculate time the last frame needed to be updated/rendered
 	this.calculateDeltaTime();
-	//this.stats.update();
 
+	//update the controls
 	this.mouseControl.update(this.deltaTime);
 
+	TWEEN.update();
+
 	//update all registered objects (don't use for in)
-	for (var i = 0; i < this.updateObjects.length; i++) {
-		this.updateObjects[i].update(this.deltaTime);
+	for (var i = 0; i < this.updateableObjects.length; i++) {
+		this.updateableObjects[i].update(this);
 	}
 
 	//update LOD objects
-	var cam = this.camera;
+	var cam = this.mainCamera;
 	this.scene.updateMatrixWorld();
 	this.scene.traverse(function(object) {
 		if (object instanceof THREE.LOD) {
@@ -277,6 +274,6 @@ exports.Application.prototype.animate = function() {
 
 exports.Application.prototype.calculateDeltaTime = function() {
 	var timeNow = Date.now();
-	this.deltaTime = (timeNow - this.time) / 1000;
+	this.deltaTime = (timeNow - this.time) / 1000; //in ms
 	this.time = timeNow;
 };

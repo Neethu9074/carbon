@@ -1,13 +1,12 @@
 'use strict';
 
 var THREE = require('three.js');
-var colors = require('./colors');
 var math = require('./math');
 var sceneObj = require('./sceneObject');
 var materials = require('./materials');
 
-var url = require('image!../images/floor.png');
-var config = require('./config');
+//var url = require('image!../images/floor.png');
+//var config = require('./config');
 
 exports.Ground = function Ground(app) {
 	this.init();
@@ -16,39 +15,26 @@ exports.Ground = function Ground(app) {
 
 	var x = 10000, y = 10000;
 	var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
-/*
-	var maxAnisotropy = 16;//app.renderer.getMaxAnisotropy();
 
-	var texture = THREE.ImageUtils.loadTexture(config.bundlePath + url);
+	var maxAnisotropy = app.mainRenderer.getMaxAnisotropy();
+	var texture = THREE.ImageUtils.loadTexture('./images/floor.png');
 	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-	texture.repeat.set(x, y);
+	texture.repeat.set((x / 25), (y / 25));
 	texture.anisotropy = maxAnisotropy;
-*/
 
 	var material = materials.groundMaterial;
+	material.map = texture;
 
 	var plane = new THREE.Mesh(geometry, material);
 	plane.rotation.x = 90 * math.DegToRad;
 	plane.doubleSided = true;
-	plane.position.set(x / 2, -0.1, -y / 2 );
+	plane.position.set(x / 2 - 2.5, -0.1, -y / 2 + 2.5);
 
 	//position will not change, so set to static which gives a perfomance boost
 	plane.matrixAutoUpdate = false;
 	plane.updateMatrix();
 
 	this.setMesh(plane);
-
-	var gridHelper = new THREE.GridHelper( x, 10 );
-	gridHelper.position.set(0, -0.05, 0);
-	gridHelper.setColors(
-		colors.midBlue,
-		colors.darkBlue);
-
-	//position will not change, so set to static which gives a perfomance boost
-	gridHelper.matrixAutoUpdate = false;
-	gridHelper.updateMatrix();
-
-	this.setMesh(gridHelper);
 };
 
 //inherence from SceneObject

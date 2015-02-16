@@ -7,14 +7,14 @@ exports.MouseControl = function MouseControl(app) {
   this.bindListeners();
   this.init(app);
 
-  app.container.addEventListener('mousedown', this.onMouseDown);
-  app.container.addEventListener('mousemove', this.onMouseMove);
-  app.container.addEventListener('mouseup', this.onMouseUp);
+  app.canvas.addEventListener('mousedown', this.onMouseDown);
+  app.canvas.addEventListener('mousemove', this.onMouseMove);
+  app.canvas.addEventListener('mouseup', this.onMouseUp);
 
   // IE9, Chrome, Safari, Opera
-  app.container.addEventListener('mousewheel', this.onMouseWheel, false);
+  app.canvas.addEventListener('mousewheel', this.onMouseWheel, false);
   // Firefox
-  app.container.addEventListener('DOMMouseScroll', this.onMouseWheel, false);
+  app.canvas.addEventListener('DOMMouseScroll', this.onMouseWheel, false);
 
   document.body.addEventListener('keydown', this.keydown);
 };
@@ -35,7 +35,7 @@ exports.MouseControl.prototype.keydown = function(e) {
 exports.MouseControl.prototype.init = function(app) {
   this.appReference = app;
   this.mouse = new THREE.Vector2();
-  this.cameraSpeed = 5; //camera fly speed - heuristic
+  this.cameraSpeed = 5; //mainCamera fly speed - heuristic
   this.moveSpeed = 0.06; //distance moved per pixel - heuristic
 
   //zoom fields
@@ -55,12 +55,12 @@ exports.MouseControl.prototype.init = function(app) {
   //need this to move on the ground
   this.camTransformObject = new THREE.Object3D();
   this.camTransformObject.rotateOnAxis(
-    new THREE.Vector3(0, 1, 0), app.camera.rotation.y);
+    new THREE.Vector3(0, 1, 0), app.mainCamera.rotation.y);
 
   this.directionHelper = new THREE.Object3D();
-  this.directionHelper.rotation.copy(app.camera.rotation);
+  this.directionHelper.rotation.copy(app.mainCamera.rotation);
 
-  // a debug axis to see, where camera is transformed with
+  // a debug axis to see, where mainCamera is transformed with
   this.camTransformObject.add(new THREE.AxisHelper(2));
   this.directionHelper.add(new THREE.AxisHelper(1));
 
@@ -143,24 +143,29 @@ exports.MouseControl.prototype.onMouseMove = function(event) {
 exports.MouseControl.prototype.doRayPicking = function() {
   //do raypicking, when not draging and mouse moving
   var app = this.appReference;
-  var width = app.container.offsetWidth;
-  var height = app.container.offsetHeight;
+  var width = app.canvas.offsetWidth;
+  var height = app.canvas.offsetHeight;
   this.mouseForRay.x = (event.clientX / width) * 2 - 1;
   this.mouseForRay.y = -(event.clientY / height) * 2 + 1;
 
   //reset all materials
-  for (var i = 0; i < app.collisionObjects.length; i++) {
-    app.collisionObjects[i].material.visible = false;
+  for (var i = 0; i < app.sceneCollisionObjects.length; i++) {
+    app.sceneCollisionObjects[i].material.visible = false;
   }
 
   //reset hitten object and calculate new
   this.hittenObject = undefined;
 
-  //update camera world matrix
-  app.camera.updateMatrixWorld();
+  //update mainCamera world matrix
+  app.mainCamera.updateMatrixWorld();
+
   //set raycaster
-  this.raycaster.setFromCamera(this.mouseForRay, app.camera);
-  var intersects = this.raycaster.intersectObjects(app.collisionObjects, true);
+  this.raycaster.setFromCamera(this.mouseForRay, app.mainCamera);
+
+  //search for intersected objects. true -> recursive
+  var intersects = this.raycaster.intersectObjects(
+    app.sceneCollisionObjects, true);
+
   for (var intersect in intersects) {
     var obj = intersects[intersect];
     obj.object.material.visible = true;
@@ -169,7 +174,7 @@ exports.MouseControl.prototype.doRayPicking = function() {
 };
 
 exports.MouseControl.prototype.update = function(dTime) {
-  var cam = this.appReference.camera;
+  var cam = this.appReference.mainCamera;
 
   this.directionHelper.position.copy(this.camTransformObject.position);
   this.directionHelper.translateZ(this.zoomDistance);
