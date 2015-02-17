@@ -4,10 +4,10 @@ var THREE = require('three.js');
 var colors = require('./colors');
 
 exports.groundMaterial = new THREE.MeshBasicMaterial({
-	color: colors.midBlue,
+	color: colors.lightBlue,
 	side: THREE.DoubleSide,
 	transparent: true,
-	opacity: 1
+	opacity: 0.5
 });
 
 exports.markerMaterial = new THREE.MeshBasicMaterial({

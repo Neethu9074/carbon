@@ -103,6 +103,7 @@ exports.Application.prototype.initializeScene = function() {
 };
 
 exports.Application.prototype.clickedOnObject = function(object) {
+  console.log('clicked on obj:', object);
   //parse object info to infoBox
 };
 
@@ -127,10 +128,11 @@ exports.Application.prototype.setup3DScene = function(width, height) {
   });
   this.effect.setSize(window.innerWidth, window.innerHeight);
 
+  //add the ground
+  this.addObject(new ground.Ground(this));
+
   //add mainRenderer to dom element
   this.canvas.appendChild(this.mainRenderer.domElement);
-
-  this.addObject(new ground.Ground(this));
 };
 
 exports.Application.prototype.setupEffects = function() {
