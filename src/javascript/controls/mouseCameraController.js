@@ -132,8 +132,8 @@ exports.MouseControl.prototype.onMouseMove = function(event) {
     this.mouse.y = event.clientY;
   }
 
-  //do it only every x times, here y = 10
-  if ((this.counterForRayCasting++ % 30) === 0) {
+  //do it only every x times
+  if ((this.counterForRayCasting++ % 5) === 0) {
     this.doRayPicking( event.clientX,  event.clientY);
   }
 };
@@ -155,13 +155,13 @@ exports.MouseControl.prototype.doRayPicking = function(x, y) {
 
   //reset color of the last mouseover object
   if(this.hittenObject !== undefined){
-    this.hittenObject.material.visible = false;
+    app.scene.remove(this.hittenObject);
   }
 
   //find the new object
   var obj = app.findObject(this.raycaster);
   if(obj !== undefined){
-    obj.material.visible = true;
+    app.scene.add(obj);
     this.hittenObject = obj;
   }
 };

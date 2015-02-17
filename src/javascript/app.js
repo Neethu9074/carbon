@@ -136,8 +136,8 @@ exports.Application.prototype.setup3DScene = function(width, height) {
 exports.Application.prototype.setupEffects = function() {
 	var positions = [];
 
-	for (var x = 0; x < 300; x += 10) {
-		for (var y = 0; y < 300; y += 10) {
+	for (var x = 0; x < 300; x += 15) {
+		for (var y = 0; y < 300; y += 15) {
 			positions.push([x, y]);
 		}
 	}
@@ -168,6 +168,20 @@ exports.Application.prototype.addObject = function(obj) {
     this.scene.add(mesh);
     this.sceneObjects3D.push(obj);
   }
+};
+
+//STILL PROTOTYPE: DONT USE
+exports.Application.prototype.removeObject = function(obj) {
+  console.log('removeObject IS STILL PROTOTYPE: DONT USE');
+
+  var name = obj.name;
+
+  this.scene.traverse(function(element) {
+    if(element.name === name){
+      console.log('remove:');
+      console.log(element);
+    }
+  });
 };
 
 exports.Application.prototype.createLights = function() {
