@@ -9,7 +9,7 @@ module.exports = function createTestSetup(app) {
 
 	//add a few cubes
 	var cubes = [];
-	for (var i = 0; i < 30; i++) {
+	for (var i = 0; i < 25; i++) {
 		//create random cubes with a random width and depth
 		var randomScale = Math.ceil(Math.random() * 2);
 		xy = gc.getNearestFreeField(10 * randomScale);

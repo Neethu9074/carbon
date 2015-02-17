@@ -114,8 +114,8 @@ exports.GroundSpaceControl2D.prototype.blockArea = function(
   //block the fields around the cube with a gapsize of 1
 	if (this.gap > 0) {
 		var gapSizeForPath = 1;
-		for (x = -gapSizeForPath; x < width + gapSizeForPath; x++) {
-			for (y = -gapSizeForPath; y < height + gapSizeForPath; y++) {
+		for (x = -gapSizeForPath; x <= width + gapSizeForPath; x++) {
+			for (y = -gapSizeForPath; y <= height + gapSizeForPath; y++) {
 				xPos = from + x;
 				yPos = to + y;
 				if (xPos < 0 || yPos < 0) {	continue; }
