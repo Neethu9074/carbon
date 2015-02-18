@@ -67,7 +67,7 @@ exports.MouseControl.prototype.init = function(app) {
   app.scene.add(this.camTransformObject);
   app.scene.add(this.directionHelper);
 
-  var light = new THREE.PointLight( colors.midBlue, 4.5, 100 );
+  var light = new THREE.PointLight( 0x555555, 4.5, 100 );
   light.position.set( 0, 15, 0 );
   this.camTransformObject.add(light);
 };
@@ -83,6 +83,7 @@ exports.MouseControl.prototype.bindListeners = function() {
 };
 
 exports.MouseControl.prototype.onMouseWheel = function(e) {
+  e.preventDefault();
   e = window.event || e; // old IE support
   var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
   //scroll up -> delta = 1, -1 otherwise => {-1, 1}
@@ -95,6 +96,7 @@ exports.MouseControl.prototype.onMouseWheel = function(e) {
 };
 
 exports.MouseControl.prototype.onMouseDown = function(e) {
+  e.preventDefault();
   if (e.button === 0) {
     this.mouse.x = e.clientX;
     this.mouse.y = e.clientY;
@@ -105,7 +107,8 @@ exports.MouseControl.prototype.onMouseDown = function(e) {
   }
 };
 
-exports.MouseControl.prototype.onMouseUp = function() {
+exports.MouseControl.prototype.onMouseUp = function(e) {
+  e.preventDefault();
   var timeOnMouseUp = Date.now();
   var millisSinceMouseDown = timeOnMouseUp - this.timeOnMouseDown;
   if (millisSinceMouseDown < 250 && //intervall to click
@@ -117,24 +120,25 @@ exports.MouseControl.prototype.onMouseUp = function() {
   }
 };
 
-exports.MouseControl.prototype.onMouseMove = function(event) {
+exports.MouseControl.prototype.onMouseMove = function(e) {
+  e.preventDefault();
   //if left mouse button is pressed while dragging
-  if (event.which === 1) {
+  if (e.which === 1) {
     //calculate the delta between old (frame-1) and this position
-    var dx = (event.clientX - this.mouse.x);
-    var dy = (event.clientY - this.mouse.y);
+    var dx = (e.clientX - this.mouse.x);
+    var dy = (e.clientY - this.mouse.y);
 
     this.camTransformObject.translateX(-dx * this.moveSpeed);
     this.camTransformObject.translateZ(-dy * this.moveSpeed);
 
     //don't forget to set the new position :)
-    this.mouse.x = event.clientX;
-    this.mouse.y = event.clientY;
+    this.mouse.x = e.clientX;
+    this.mouse.y = e.clientY;
   }
 
   //do it only every x times
   if ((this.counterForRayCasting++ % 5) === 0) {
-    this.doRayPicking( event.clientX,  event.clientY);
+    this.doRayPicking( e.clientX,  e.clientY);
   }
 };
 

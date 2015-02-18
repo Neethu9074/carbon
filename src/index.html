@@ -12,6 +12,13 @@
       width: 100%;
       height: 100%;
     }
+    #GLCanvasOverlay{
+      top:0px;
+      height:100%;
+      width:100%;
+      position:absolute;
+      background-color:transparent;
+    }
     .rs-base{
         position: absolute;
         z-index: 10000;
@@ -25,7 +32,6 @@
         top: 0;
         overflow: hidden;
     }
-
     .rs-base h1{
         margin: 0;
         padding: 0;
@@ -34,44 +40,36 @@
         margin-bottom: 5px;
         cursor: pointer;
     }
-
     .rs-base div.rs-group{
         margin-bottom: 10px;
     }
-
     .rs-base div.rs-group.hidden{
         display: none;
     }
-
     .rs-base div.rs-fraction{
         position: relative;
         margin-bottom: 5px;
     }
-
     .rs-base div.rs-fraction p{
         width: 120px;
         text-align: right;
         margin: 0;
         padding: 0;
     }
-
     .rs-base div.rs-legend{
         position: absolute;
         line-height: 1em;
     }
-
     .rs-base div.rs-counter-base{
         position: relative;
         margin: 2px 0;
         height: 1em;
     }
-
     .rs-base span.rs-counter-id{
         position: absolute;
         left: 0;
         top: 0;
     }
-
     .rs-base div.rs-counter-value{
         position: absolute;
         left: 90px;
@@ -80,16 +78,26 @@
         top: 0;
         text-align: right;
     }
-
     .rs-base canvas.rs-canvas{
         position: absolute;
         right: 0;
     }
+    .number{
+      font-size: 20px;
+      font-family: 'Arial', serif;
+      color: white;
+      background-color: transparent;
+      width: 400px;
+      height: 400px;
+    }
   </style>
 </head>
 <body>
-  <div id="mainStage">
-    <div id="GLCanvas"></div>
+  <div id="WebGL">
+    <div id="GLCanvas">
+      <div id="GLCanvasOverlay">
+      </div>
+    </div>
   </div>
 
   <input id="newCubeButton" style="position:absolute; right:0px; top:0px;" type="button" value="new Cube">

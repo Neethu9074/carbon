@@ -27,7 +27,7 @@ exports.Ground = function Ground(app) {
   var mirrorMesh = new THREE.Mesh(geometry, this.groundMirror.material);
   mirrorMesh.add(this.groundMirror);
   mirrorMesh.rotation.x = -90 * math.DegToRad;
-  mirrorMesh.position.set(100, -0.2, -100);
+  mirrorMesh.position.set(100, -0.11, -100);
   group.add(mirrorMesh);
 
   this.setMesh(group);
@@ -35,7 +35,7 @@ exports.Ground = function Ground(app) {
 
 function createGrid(app) {
   var x = 10000,
-    y = 10000;
+      y = 10000;
   var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
 
   var maxAnisotropy = app.mainRenderer.getMaxAnisotropy();
@@ -64,7 +64,7 @@ function createMirror(app) {
     clipBias: 0.003,
     textureWidth: 1024,
     textureHeight: 1024,
-    color: 0x555555
+    color: 0x444444
   });
 }
 

@@ -14,6 +14,7 @@ var mControl = require('./controls/mouseCameraController');
 var particles = require('./effects/risingParticles');
 
 //extensions
+require('./extensions/CSS3DRenderer');
 require('./extensions/OculusRiftEffect');
 require('./extensions/Octree');
 var TWEEN = require('./extensions/tween.min.js');
@@ -22,14 +23,15 @@ var glStats = require('./extensions/rStats.extras');
 
 
 exports.Application = function Application() {
-  this.canvas = document.getElementById('GLCanvas');
+  this.canvas = document.getElementById('WebGL');
   this.sceneObjects3D = []; // all objects, added to the 3D scene
+  this.sceneObjects2D = []; // all objects, added to the 2D CSS scene
   this.groundControl = new gc.GroundSpaceControl2D(300);
   this.updateableObjects = []; //all objects needing an update every frame
 
   this.bindListeners();
-  this.initializeScene();
-  this.createStats();
+  this.initialize();
+  //this.createStats();
   this.createOctree();
   this.tweenEngine = TWEEN;
 
@@ -91,14 +93,16 @@ exports.Application.prototype.bindListeners = function() {
   this.showWalkable = this.showWalkable.bind(this);
 };
 
-exports.Application.prototype.initializeScene = function() {
+exports.Application.prototype.initialize = function() {
   var width = window.innerWidth;
   var height = window.innerHeight;
 
   this.time = Date.now();
   this.deltaTime = 0;
 
+  this.createRenderer(width, height);
   this.setup3DScene(width, height);
+  this.setup2DScene();
   this.setupEffects();
 };
 
@@ -112,14 +116,6 @@ exports.Application.prototype.setup3DScene = function(width, height) {
   //this.scene.fog = new THREE.Fog(colors.fogColor, 100, 500);
 
   this.createCamera(width, height);
-
-  this.mainRenderer = new THREE.WebGLRenderer({
-    antialias: true
-  });
-  this.mainRenderer.setClearColor(colors.fogColor, 1);
-  this.mainRenderer.setSize(width, height);
-
-  //setup lights
   this.createLights();
 
   //setup occulus rift effect
@@ -130,9 +126,27 @@ exports.Application.prototype.setup3DScene = function(width, height) {
 
   //add the ground
   this.addObject(new ground.Ground(this));
+};
+
+exports.Application.prototype.setup2DScene = function() {
+  this.scene2D = new THREE.Scene();
+};
+
+exports.Application.prototype.createRenderer = function(width, height) {
+  this.mainRenderer = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  this.mainRenderer.setClearColor(colors.fogColor, 1);
+  this.mainRenderer.setSize(width, height);
 
   //add mainRenderer to dom element
   this.canvas.appendChild(this.mainRenderer.domElement);
+
+  //3D CSS
+  this.cssRenderer = new THREE.CSS3DRenderer();
+  this.cssRenderer.setSize( width, height );
+  document.getElementById('GLCanvasOverlay')
+    .appendChild(this.cssRenderer.domElement);
 };
 
 exports.Application.prototype.setupEffects = function() {
@@ -217,6 +231,7 @@ exports.Application.prototype.onWindowResize = function() {
   this.mainCamera.updateProjectionMatrix();
 
   this.mainRenderer.setSize(width, height);
+  this.cssRenderer.setSize(width, height);
 
   this.effect.setSize(width, height);
 };
@@ -272,7 +287,7 @@ exports.Application.prototype.createOctree = function() {
     // this may decrease performance as it forces a matrix update
     undeferred: false,
     // set the max depth of tree
-    depthMax: 8,
+    depthMax: Infinity,
     // max number of objects before nodes split or merge
     objectsThreshold: 8,
     // percent between 0 and 1 that nodes will overlap each other
@@ -286,7 +301,7 @@ exports.Application.prototype.findObject = function(raycaster) {
   var octreeObjects = this.octree.search(
     raycaster.ray.origin,
     raycaster.ray.far,
-    true, //organized by objects
+    true, //true -> organized by objects
     raycaster.ray.direction);
 
   var intersections = raycaster.intersectOctreeObjects(octreeObjects);
@@ -298,10 +313,12 @@ exports.Application.prototype.findObject = function(raycaster) {
 
 exports.Application.prototype.render = function() {
   this.mainRenderer.render(this.scene, this.mainCamera);
+  this.cssRenderer.render(this.scene2D, this.mainCamera);
   //this.effect.render( this.scene, this.mainCamera );
 };
 
 exports.Application.prototype.animate = function() {
+  /*
   var rS = this.rStats;
 
   rS('frame').start();
@@ -310,6 +327,7 @@ exports.Application.prototype.animate = function() {
   rS('rAF').tick();
   rS('FPS').frame();
   rS('updates').start();
+  */
 
   //call this again
   requestAnimationFrame(this.animate);
@@ -328,23 +346,23 @@ exports.Application.prototype.animate = function() {
 
   //update LOD objects
   var cam = this.mainCamera;
-  this.scene.updateMatrixWorld();
   this.scene.traverse(function(object) {
     if (object instanceof THREE.LOD) {
       object.update(cam);
     }
   });
-
+/*
   rS('updates').end();
   rS('render').start();
-
+*/
   //Perform render
   //render the scene when all animations are updated
   this.render();
-
+/*
   rS('render').end();
   rS('frame').end();
   rS().update();
+  */
 };
 
 exports.Application.prototype.calculateDeltaTime = function() {
