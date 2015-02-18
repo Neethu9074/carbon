@@ -3,8 +3,7 @@
 var THREE = require('three.js');
 var sceneObj = require('../sceneObject');
 
-var vertexShader = require('../shader/risingParticlesVertexShader');
-var fragmentShader = require('../shader/risingParticlesFragmentShader');
+var shader = require('../shader/risingParticles');
 
 exports.RisingParticles = function RisingParticles(positions) {
 	this.init();
@@ -50,8 +49,8 @@ function createPointCloud(uniforms, positions){
 function createMaterial(uniforms){
 	var shaderMaterial =
 		new THREE.ShaderMaterial({
-			vertexShader: vertexShader,
-			fragmentShader: fragmentShader,
+			vertexShader: shader.Vertex,
+			fragmentShader: shader.Fragment,
 			uniforms: uniforms,
 			transparent: true
 		});

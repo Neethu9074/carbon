@@ -1,6 +1,14 @@
 'use strict';
 
-module.exports = [
+exports.Fragment = [
+  'varying float alpha;',
+
+  'void main(){',
+  'gl_FragColor = vec4(0.11, 0.68, 0.74, alpha);',
+  '}'
+].join('\n');
+
+exports.Vertex = [
   'uniform float amplitude;',
   'varying float alpha;',
 
