@@ -1,6 +1,8 @@
 'use strict';
 
 var cube = require('./cube');
+var server = require('./serverCube');
+//var software = require('./softwareCube');
 var connection = require('./connection');
 
 module.exports = function createTestSetup(app) {
@@ -9,12 +11,12 @@ module.exports = function createTestSetup(app) {
 
 	//add a few cubes
 	var cubes = [];
-	for (var i = 0; i < 25; i++) {
+	for (var i = 0; i < 20; i++) {
 		//create random cubes with a random width and depth
 		var randomScale = Math.ceil(Math.random() * 2);
 		xy = gc.getNearestFreeField(10 * randomScale);
 		if (xy !== undefined) {
-			var newCube = new cube.Cube(app, xy.x, xy.y, randomScale);
+			var newCube = new server.ServerCube(app, xy.x, xy.y, randomScale);
 			cubes.push(newCube);
 			app.addObject(newCube);
 		}

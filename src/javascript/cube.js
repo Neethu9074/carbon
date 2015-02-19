@@ -25,8 +25,9 @@ var DETAIL = {
 };
 
 var htmlContent = [
-	['<img src="images/Ok.png">'].join('\n'), ['<img src="images/Warning.png">'].join(
-		'\n'), ['<img src="images/Error.png">'].join('\n')
+	['<img src="images/Ok.png">'].join('\n'),
+	['<img src="images/Warning.png">'].join('\n'),
+	['<img src="images/Error.png">'].join('\n')
 ];
 
 exports.Cube = function Cube(app, x, y, scaleFactor) {
@@ -80,7 +81,6 @@ exports.Cube = function Cube(app, x, y, scaleFactor) {
 
 	setStatic(collisionCube);
 	setStatic(boundingCube);
-	setStatic(collisionCube);
 
 	this.setMesh(group);
 	this.setCollisionMesh(collisionCube);

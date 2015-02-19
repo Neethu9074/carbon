@@ -31,7 +31,7 @@ exports.Application = function Application() {
 
   this.bindListeners();
   this.initialize();
-  //this.createStats();
+  this.createStats();
   this.createOctree();
   this.tweenEngine = TWEEN;
 
@@ -169,9 +169,7 @@ exports.Application.prototype.addObject = function(obj) {
   var mesh = obj.getMesh();
   var collisionMesh = obj.getCollisionMesh();
   if (collisionMesh !== undefined) {
-    this.octree.add(collisionMesh, {
-      useFaces: false
-    });
+    this.octree.add(collisionMesh, { useFaces: false });
     this.octree.update();
   }
   if (mesh !== undefined) {
@@ -285,7 +283,7 @@ exports.Application.prototype.createOctree = function() {
     // when undeferred = true, objects are inserted immediately
     // instead of being deferred until next octree.update() call
     // this may decrease performance as it forces a matrix update
-    undeferred: false,
+    undeferred: true,
     // set the max depth of tree
     depthMax: Infinity,
     // max number of objects before nodes split or merge
@@ -318,7 +316,7 @@ exports.Application.prototype.render = function() {
 };
 
 exports.Application.prototype.animate = function() {
-  /*
+
   var rS = this.rStats;
 
   rS('frame').start();
@@ -327,7 +325,7 @@ exports.Application.prototype.animate = function() {
   rS('rAF').tick();
   rS('FPS').frame();
   rS('updates').start();
-  */
+
 
   //call this again
   requestAnimationFrame(this.animate);
@@ -351,18 +349,18 @@ exports.Application.prototype.animate = function() {
       object.update(cam);
     }
   });
-/*
+
   rS('updates').end();
   rS('render').start();
-*/
+
   //Perform render
   //render the scene when all animations are updated
   this.render();
-/*
+
   rS('render').end();
   rS('frame').end();
   rS().update();
-  */
+
 };
 
 exports.Application.prototype.calculateDeltaTime = function() {
