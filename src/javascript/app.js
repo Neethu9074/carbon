@@ -188,14 +188,25 @@ exports.Application.prototype.addObject = function(obj) {
 exports.Application.prototype.removeObject = function(obj) {
   console.log('removeObject IS STILL PROTOTYPE: DONT USE');
 
-  var name = obj.name;
+  //getMesh is defined in superclass SceneObject
+  //each object has to set this.setMesh(some mesh or other scene object)
+  //to get added to the scene
+  var mesh = obj.getMesh();
+  var collisionMesh = obj.getCollisionMesh();
+  if (collisionMesh !== undefined) {
+    this.octree.remove(collisionMesh, { useFaces: false });
+    this.octree.update();
+  }
+  if (mesh !== undefined) {
+    //check whether the objects are inserted into other collections
 
-  this.scene.traverse(function(element) {
-    if(element.name === name){
-      console.log('remove:');
-      console.log(element);
+    //store all objects which needs an update on update
+    if (obj.needsUpdate) {
+      this.updateableObjects.pop(obj);
     }
-  });
+    this.scene.remove(mesh);
+    this.sceneObjects3D.pop(obj);
+  }
 };
 
 exports.Application.prototype.createLights = function() {
@@ -325,7 +336,6 @@ exports.Application.prototype.animate = function() {
   rS('rAF').tick();
   rS('FPS').frame();
   rS('updates').start();
-
 
   //call this again
   requestAnimationFrame(this.animate);

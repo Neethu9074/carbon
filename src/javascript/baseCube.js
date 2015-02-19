@@ -6,13 +6,8 @@ var math = require('./math');
 var colors = require('./colors');
 var textTexture = require('./extensions/textTextureFacade.js');
 
-exports.BaseCube = function BaseCube(app, x, y, scaleFactor) {
+exports.BaseCube = function BaseCube(app, x, y, width, height, depth) {
   this.init();
-
-  //no cube is smaller than (30, 5, 30)
-  var width = 10 * scaleFactor;
-  var depth = 10 * scaleFactor;
-  var height = 3;
 
   this.x = x;
   this.y = y;
@@ -20,9 +15,9 @@ exports.BaseCube = function BaseCube(app, x, y, scaleFactor) {
   this.height = depth; //3D -> 2D for pathfinding (z becomes y)
 
   this.dimension = {
-    x: (width / 2) + x,
-    y: (height / 2),
-    z: (-depth / 2) - y,
+    x: (width / 2.0) + x,
+    y: (height / 2.0),
+    z: (-depth / 2.0) - y,
     width: width,
     height: height,
     depth: depth
@@ -31,8 +26,8 @@ exports.BaseCube = function BaseCube(app, x, y, scaleFactor) {
   //create cubes
   var group = new THREE.Object3D();
   //create main cube mesh
-  this.detailedCube = this.createCube(this.dimension, this.name);
-  this.setStatic(this.detailedCube);
+  var detailedCube = this.createCube(this.dimension, this.name);
+  this.setStatic(detailedCube);
 
   //create helper objects
   var collisionCube = createCollisionCube(this.dimension, this.name);
@@ -43,7 +38,7 @@ exports.BaseCube = function BaseCube(app, x, y, scaleFactor) {
     this.name,
     this.opacityAnimatedMaterials);
 
-  group.add(this.detailedCube);
+  group.add(detailedCube);
   //group.add(lodLabels);
 
   this.setMesh(group);
@@ -60,17 +55,34 @@ exports.BaseCube.prototype.setStatic = function(mesh) {
   mesh.updateMatrix();
 };
 
+exports.BaseCube.prototype.collectMaterials = function() {
+	var obj = this.getMesh();
+  var find = function(mats, object) {
+    for (var i = 0; i < object.children.length; i++) {
+      var item = object.children[i];
+      if (item.material !== undefined) {
+        mats.push(item.material);
+      }
+      find(mats, item);
+    }
+  };
+
+  var materials = [];
+  find(materials, obj);
+  return materials;
+};
+
 exports.BaseCube.prototype.createCube = function(dimension, name) {
   var width = dimension.width,
-    height = dimension.height,
-    depth = dimension.depth;
+      height = dimension.height,
+      depth = dimension.depth;
 
   //need a new material, each for each cube...
   var material = new THREE.MeshLambertMaterial({
     color: colors.midBlue,
     side: THREE.DoubleSide,
     transparent: true,
-    opacity: 0,
+    opacity: 1,
     blending: THREE.NormalBlending
   });
 
@@ -98,9 +110,7 @@ function createCollisionCube(dimension, name) {
       dimension.height + offset,
       dimension.depth + offset),
     new THREE.MeshBasicMaterial({
-      color: colors.lightBlue,
-      transparent: true,
-      opacity: 0.4
+      color: colors.lightBlue
     }));
 
   cube.position.set(dimension.x, dimension.y, dimension.z);
@@ -112,8 +122,8 @@ function createCollisionCube(dimension, name) {
 
 function createLabel(dimension, name) {
   var width = dimension.width,
-    height = dimension.height,
-    depth = dimension.depth;
+      height = dimension.height,
+      depth = dimension.depth;
 
   width -= 0.5; //transform to the right
   var labelHeight = 1;
