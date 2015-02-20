@@ -75,10 +75,10 @@ exports.Layouter2D.prototype.block = function(xy, width, height) {
 exports.Layouter2D.prototype.blockForWalkable = function(xy, w, h) {
   var grid = this.walkingGrid;
 
-  var fX = xy.x * 14 + 2,
-      fY = xy.y * 14 + 2,
-      tX = fX + w * 14 - 5,
-      tY = fY + h * 14 - 5;
+  var fX = xy.x * 16 + 2,
+      fY = xy.y * 16 + 2,
+      tX = fX + w * 16 - 5,
+      tY = fY + h * 16 - 5;
 
   for (var x = fX; x < tX; x++) {
     for (var y = fY; y < tY; y++) {

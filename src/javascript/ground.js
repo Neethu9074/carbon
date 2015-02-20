@@ -4,6 +4,7 @@ var THREE = require('three.js');
 var math = require('./math');
 var sceneObj = require('./sceneObject');
 var materials = require('./materials');
+var textures = require('./textures');
 
 require('./extensions/Mirror');
 
@@ -34,14 +35,12 @@ exports.Ground = function Ground(app) {
 };
 
 function createGrid(app) {
-  var x = 1000,
-      y = 1000;
+  var x = 160,
+    y = 160;
   var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
 
   var maxAnisotropy = app.mainRenderer.getMaxAnisotropy();
-  var texture = THREE.ImageUtils.loadTexture('./images/floor.png');
-  texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set((x / 10), (y / 10));
+  var texture = textures.groundTexture;
   texture.anisotropy = maxAnisotropy;
 
   var material = materials.groundMaterial;
