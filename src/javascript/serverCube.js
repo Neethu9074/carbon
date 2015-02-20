@@ -3,6 +3,8 @@
 var THREE = require('three.js');
 var math = require('./math');
 var baseCube = require('./baseCube');
+var gc = require('./groundSpaceControl2D');
+var software = require('./softwareCube');
 
 var DIRECTION = {
   IN: { id: 1 },
@@ -15,19 +17,27 @@ var htmlContent = [
   ['<img src="images/Error.png">'].join('\n')
 ];
 
-exports.ServerCube = function ServerCube(app, x, y, scaleFactor) {
+exports.ServerCube = function ServerCube(app, x, y, w, h) {
   if (app === undefined || x === undefined ||
-    y === undefined || scaleFactor === undefined) {
+    y === undefined || w === undefined) {
     return undefined;
   }
+  var scaleFactor = 14;
 
-  var width = 10 * scaleFactor;
+  x *= scaleFactor;
+  y *= scaleFactor;
+  x += 2;
+  y += 2;
+  var width = scaleFactor * w - 6;
   var height = 3;
-  var depth = 10 * scaleFactor;
+  var depth = scaleFactor * h - 6;
   baseCube.BaseCube.call(this, app, x, y, width, height, depth);
 
 	//a collection which stores all cubes inside this server cube
 	this.children = [];
+
+  //create a ground control for inner software cubes
+  this.groundControl = new gc.GroundSpaceControl2D(10, 1); //10x10, gap: 0
 
   //register for update to calculate distance and fading
   this.registerForUpdate();
@@ -56,9 +66,17 @@ exports.ServerCube = function ServerCube(app, x, y, scaleFactor) {
 exports.ServerCube.prototype = new baseCube.BaseCube();
 exports.ServerCube.prototype.constructor = exports.ServerCube;
 
-exports.ServerCube.prototype.addSoftware = function(softwareCube){
-  this.children.push(softwareCube);
-  console.log('software added to server');
+exports.ServerCube.prototype.addSoftware = function(app, options){
+  //calculte next free field
+  var xy = this.groundControl.getNearestFreeField(2);
+  xy.x += this.dimension.x - (this.dimension.width / 2);
+  xy.y = -this.dimension.y + (3 / 2) - xy.y;
+
+  //create the cube
+  var swCube = new software.SoftwareCube(app, xy);
+
+  this.children.push(swCube);
+  console.log('software added to server', swCube);
 };
 
 function getDetailsGroup(dimension) {
@@ -117,12 +135,12 @@ exports.ServerCube.prototype.update = function(app) {
       this.setTransparency(app, {
         v: 1
       }, {
-        v: 0.1
+        v: 0.2
       }, 250, this.showDetails);
     } else {
       //fade out and then hide details
       this.setTransparency(app, {
-        v: 0.1
+        v: 0.2
       }, {
         v: 1
       }, 250, this.hideDetails);

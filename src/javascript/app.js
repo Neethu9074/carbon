@@ -2,8 +2,9 @@
 
 var THREE = require('three.js');
 var colors = require('./colors');
-var cube = require('./cube');
+var server = require('./serverCube');
 var gc = require('./groundSpaceControl2D');
+var layouter = require('./layouter2D');
 var ground = require('./ground');
 var zoom = require('./zoomLevel');
 
@@ -27,6 +28,7 @@ exports.Application = function Application() {
   this.sceneObjects3D = []; // all objects, added to the 3D scene
   this.sceneObjects2D = []; // all objects, added to the 2D CSS scene
   this.groundControl = new gc.GroundSpaceControl2D(300);
+  this.layouter = new layouter.Layouter2D(50, 50);
   this.updateableObjects = []; //all objects needing an update every frame
 
   this.bindListeners();
@@ -60,21 +62,21 @@ exports.Application.prototype.zoom = function(direction) {
 
 exports.Application.prototype.addRandomCube = function() {
   var width = Math.ceil(Math.random() * 2);
-  var xy = this.groundControl.getNearestFreeField(10 * width);
+  var xy = this.layouter.getNext(width, width);
   if (xy !== undefined) {
-    this.addObject(new cube.Cube(this, xy.x, xy.y, width));
+    this.addObject(new server.ServerCube(this, xy.x, xy.y, width, width));
   }
 };
 
 exports.Application.prototype.showWalkable = function() {
   var geo = new THREE.Geometry();
-  var fields = this.groundControl.getFreeWalkableFields();
+  var fields = this.layouter.getFreeWalkable();
   for (var i in fields) {
     var field = fields[i];
-    geo.vertices.push(new THREE.Vector3(field.x, 0.1, -field.y));
+    geo.vertices.push(new THREE.Vector3(field.x, 3.1, -field.y));
   }
   var mat = new THREE.PointCloudMaterial({
-    color: 0x1CAEBC,
+    color: 0x00D66B,
     size: 1
   });
 
@@ -174,7 +176,6 @@ exports.Application.prototype.addObject = function(obj) {
   }
   if (mesh !== undefined) {
     //check whether the objects are inserted into other collections
-
     //store all objects which needs an update on update
     if (obj.needsUpdate) {
       this.updateableObjects.push(obj);
@@ -186,8 +187,6 @@ exports.Application.prototype.addObject = function(obj) {
 
 //STILL PROTOTYPE: DONT USE
 exports.Application.prototype.removeObject = function(obj) {
-  console.log('removeObject IS STILL PROTOTYPE: DONT USE');
-
   //getMesh is defined in superclass SceneObject
   //each object has to set this.setMesh(some mesh or other scene object)
   //to get added to the scene

@@ -34,14 +34,14 @@ exports.Ground = function Ground(app) {
 };
 
 function createGrid(app) {
-  var x = 10000,
-      y = 10000;
+  var x = 1000,
+      y = 1000;
   var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
 
   var maxAnisotropy = app.mainRenderer.getMaxAnisotropy();
   var texture = THREE.ImageUtils.loadTexture('./images/floor.png');
   texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat.set((x / 25), (y / 25));
+  texture.repeat.set((x / 10), (y / 10));
   texture.anisotropy = maxAnisotropy;
 
   var material = materials.groundMaterial;
@@ -50,7 +50,7 @@ function createGrid(app) {
   var plane = new THREE.Mesh(geometry, material);
   plane.rotation.x = 90 * math.DegToRad;
   plane.doubleSided = true;
-  plane.position.set(x / 2 - 2.5, -0.1, -y / 2 + 2.5);
+  plane.position.set(x / 2, -0.1, -y / 2);
 
   //position will not change, so set to static which gives a perfomance boost
   plane.matrixAutoUpdate = false;

@@ -1,27 +1,27 @@
 'use strict';
 
 var server = require('./serverCube');
-var software = require('./softwareCube');
 var connection = require('./connection');
 
 module.exports = function createTestSetup(app) {
 	//test
-	var testCube = new server.ServerCube(app, -20, 0, 1);
-	app.addObject(testCube);
-	testCube.addSoftware(new software.SoftwareCube(app, testCube));
+	//var testCube = new server.ServerCube(app, -20, 0, 1);
+	//app.addObject(testCube);
+	//testCube.addSoftware( app, {} );
 	//test end
 
-	var gc = app.groundControl;
+	var layouter = app.layouter;
 	var xy;
 
 	//add a few cubes
 	var cubes = [];
-	for (var i = 0; i < 5; i++) {
+	for (var i = 0; i < 20; i++) {
 		//create random cubes with a random width and depth
-		var randomScale = Math.ceil(Math.random() * 2);
-		xy = gc.getNearestFreeField(10 * randomScale);
+		var w = Math.ceil(Math.random() * 2);
+		var h = w;
+		xy = layouter.getNext(w, h);
 		if (xy !== undefined) {
-			var newCube = new server.ServerCube(app, xy.x, xy.y, randomScale);
+			var newCube = new server.ServerCube(app, xy.x, xy.y, w, h);
 			cubes.push(newCube);
 			app.addObject(newCube);
 		}
@@ -34,7 +34,7 @@ module.exports = function createTestSetup(app) {
 		if (a === undefined || b === undefined) {
 			break;
 		}
-		var path = gc.getPath({
+		var path = layouter.getPath({
       x: a.x,	y: a.y,	width: a.width,	height: a.height
 		}, {
 			x: b.x,	y: b.y,	width: b.width,	height: b.height
