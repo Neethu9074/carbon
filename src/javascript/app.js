@@ -185,7 +185,6 @@ exports.Application.prototype.addObject = function(obj) {
   }
 };
 
-//STILL PROTOTYPE: DONT USE
 exports.Application.prototype.removeObject = function(obj) {
   //getMesh is defined in superclass SceneObject
   //each object has to set this.setMesh(some mesh or other scene object)

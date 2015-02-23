@@ -13,10 +13,18 @@ function getGround() {
 }
 
 
-exports.cubeTexture = getCube();
+exports.serverCubeTexture = getCube();
 
 function getCube() {
 	var texture = THREE.ImageUtils.loadTexture('./images/cube.png');
+	texture.anisotropy = 4;
+	return texture;
+}
+
+exports.softwareCubeTexture = getSoftwareCube();
+
+function getSoftwareCube() {
+	var texture = THREE.ImageUtils.loadTexture('./images/softwareCube.png');
 	texture.anisotropy = 4;
 	return texture;
 }

@@ -4,6 +4,7 @@ var THREE = require('three.js');
 var math = require('./math');
 var baseCube = require('./baseCube');
 var software = require('./softwareCube');
+var layouter = require('./layouter2DServer');
 require('./extensions/OBJLoader');
 
 var DIRECTION = {
@@ -19,52 +20,22 @@ var STATE = {
 	OK: {
 		id: 1,
 		objPath: 'obj/ok.obj',
-		color: 0x00FF00
+		color: 0x00FF00,
+		htmlContent: '<img src="images/Ok.png">'
 	},
 	WARNING: {
 		id: 2,
 		objPath: 'obj/warning.obj',
-		color: 0xFFFF00
+		color: 0xFFFF00,
+		htmlContent: '<img src="images/Warning.png">'
 	},
 	ERROR: {
 		id: 3,
 		objPath: 'obj/error.obj',
-		color: 0xFF0000
+		color: 0xFF0000,
+		htmlContent: '<img src="images/Error.png">'
 	}
 };
-
-var grid = [
-	[1, 1],
-	[3, 1],
-	[5, 1],
-	[7, 1],
-	[9, 1],
-	[1, 3],
-	[3, 3],
-	[5, 3],
-	[7, 3],
-	[9, 3],
-	[1, 5],
-	[3, 5],
-	[5, 5],
-	[7, 5],
-	[9, 5],
-	[1, 7],
-	[3, 7],
-	[5, 7],
-	[7, 7],
-	[9, 7],
-	[1, 9],
-	[3, 9],
-	[5, 9],
-	[7, 9],
-	[9, 9]
-];
-
-var htmlContent = [
-	['<img src="images/Ok.png">'].join('\n'), ['<img src="images/Warning.png">']
-	.join('\n'), ['<img src="images/Error.png">'].join('\n')
-];
 
 exports.ServerCube = function ServerCube(app, x, y, w, h) {
 	if (app === undefined || x === undefined ||
@@ -83,6 +54,7 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 	baseCube.BaseCube.call(this, app, x, y, width, height, depth, true);
 
 	//set state
+	//TODO: not random :)
 	var r = Math.ceil(Math.random() * 3);
 	if (r === 1) {
 		this.state = STATE.OK;
@@ -92,10 +64,14 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 		this.state = STATE.ERROR;
 	}
 
+	this.layouter = new layouter.Layouter2DServer(width, depth);
   this.gridIndex = 0;
-
+	this.grid = createGrid(width, depth);
 	//a collection which stores all cubes inside this server cube
 	this.children = [];
+
+	//this collection stores all special server materials, to be animated
+	this.additionalOpacityAnimatedMaterials = [];
 
 	//create the 3D rotating symbol
 	this.stateSymbol = new THREE.Object3D();
@@ -105,7 +81,7 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 	this.registerForUpdate();
 
 	//tween parameters
-	this.minDistanceForTransparency = 40; // 16.5;
+	this.minDistanceForTransparency = 25; // 16.5;
 	this.tweenDirection = DIRECTION.OUT;
 
 	//stores all materials, that are animated due to animation process
@@ -129,7 +105,21 @@ exports.ServerCube.prototype = new baseCube.BaseCube();
 exports.ServerCube.prototype.constructor = exports.ServerCube;
 
 function createGrid(width, height){
-  
+	var gridTemp = [];
+
+	var x = 0;
+	var y = 0;
+	var stepX = 3;
+	var stepY = 3;
+	while(y <= height - 2) {
+		gridTemp.push({ x: x, y: y });
+		x += stepX;
+		if(x >= width - 2){
+			x = 0;
+			y += stepY;
+		}
+	}
+	return gridTemp;
 }
 
 exports.ServerCube.prototype.createStateSymbol = function() {
@@ -138,8 +128,10 @@ exports.ServerCube.prototype.createStateSymbol = function() {
 	var symbol = this.stateSymbol;
 	var state = this.state;
 	var material = new THREE.MeshBasicMaterial({
-		color: state.color
+		color: state.color,
+		transparent: true
 	});
+	this.additionalOpacityAnimatedMaterials.push(material);
 
 	var loader = new THREE.OBJLoader();
 	// load a resource
@@ -177,19 +169,13 @@ function getDetailsGroup(dimension) {
 }
 
 function createCSS3DTestStuff(state, app, dimension) {
-	var content = htmlContent[2];
-	if (state === STATE.OK) {
-		content = htmlContent[0];
-	} else if (state === STATE.WARNING) {
-		content = htmlContent[1];
-	}
-
+	var content = state.htmlContent;
 	var pos = new THREE.Vector3(dimension.x, dimension.y * 2, dimension.z);
 	var scaleX = dimension.width / 10.6;
 	var scaleY = dimension.depth / 10.6;
 
 	var number = document.createElement('div');
-	number.className = 'number';
+	number.className = 'serverCSS3DLayer';
 	number.innerHTML = content;
 	var object = new THREE.CSS3DObject(number);
 	object.scale.set(scaleX / 40, scaleY / 40, 1);
@@ -200,16 +186,13 @@ function createCSS3DTestStuff(state, app, dimension) {
 }
 
 exports.ServerCube.prototype.addSoftware = function(app, options) {
-  if(this.gridIndex >= grid.length){
-    console.log('no more space for new software');
-    return;
-  }
-
-	//calculte next free field
-	var xy = grid[this.gridIndex++].slice();
-  xy = { x: xy[0], y: xy[1] };
-  console.log(xy);
-
+	try{
+		//calculte next free field
+		var xy = this.layouter.getNext(3, 3);
+	} catch(err) {
+		console.log(err);
+		return;
+	}
 	//get dimensions of the parent server
 	var dim = this.dimension;
 
@@ -220,7 +203,7 @@ exports.ServerCube.prototype.addSoftware = function(app, options) {
 	var swCube = new software.SoftwareCube(app, xy);
 
 	this.children.push(swCube);
-	console.log('software added to server', swCube);
+	console.log('software added to server');
 };
 
 exports.ServerCube.prototype.update = function(app) {
@@ -276,6 +259,7 @@ exports.ServerCube.prototype.setTransparency = function(
 
 	//save the material!
 	var mats = this.opacityAnimatedMaterials;
+	var additionalMats = this.additionalOpacityAnimatedMaterials;
 	var dly = delay === undefined ? 500 : delay; //default 500ms delay
 	var func = f;
 	var cube = this;
@@ -285,6 +269,9 @@ exports.ServerCube.prototype.setTransparency = function(
 	tween.onUpdate(function() {
 		for (var i = 0; i < mats.length; i++) {
 			mats[i].opacity = from.v;
+		}
+		for (i = 0; i < additionalMats.length; i++) {
+			additionalMats[i].opacity = from.v;
 		}
 	});
 
@@ -300,7 +287,11 @@ exports.ServerCube.prototype.setTransparency = function(
 
 exports.ServerCube.prototype.hideDetails = function(app, cube) {
 	for (var i = 0; i < cube.children.length; i++) {
-		app.removeObject(cube.children[i]);
+		var child = cube.children[i];
+		if(child instanceof software.SoftwareCube){
+			child.hide();
+		}
+		app.removeObject(child);
 	}
 
 	app.scene2D.add(cube.cssObject);
@@ -312,6 +303,17 @@ exports.ServerCube.prototype.hideDetails = function(app, cube) {
 
 exports.ServerCube.prototype.showDetails = function(app, cube) {
 	for (var i = 0; i < cube.children.length; i++) {
-		app.addObject(cube.children[i]);
+		var child = cube.children[i];
+		if(child instanceof software.SoftwareCube){
+			child.show();
+		}
+		app.addObject(child);
 	}
+	//do it twice because the image is particulary not inserted at first try
+	//happens on fast zoom in/out
+	app.scene2D.remove(cube.cssObject);
+
+	//remove collision object from octree to get access to the details
+	app.octree.remove(cube.getCollisionMesh());
+	app.octree.update();
 };

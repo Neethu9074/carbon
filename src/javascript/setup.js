@@ -8,12 +8,10 @@ module.exports = function createTestSetup(app) {
 	var width = Math.ceil(Math.random() * 2);
 	var cube = new server.ServerCube(app, -1, 1, width, width);
 	app.addObject(cube);
-	cube.addSoftware(app, {});
-	cube.addSoftware(app, {});
-	cube.addSoftware(app, {});
-	cube.addSoftware(app, {});
-	cube.addSoftware(app, {});
-	cube.addSoftware(app, {});
+
+	for (var i = 0; i < 12; i++) {
+		cube.addSoftware(app, {});
+	}
 	//test end
 	return;
 
@@ -22,11 +20,18 @@ module.exports = function createTestSetup(app) {
 
 	//add a few cubes
 	var cubes = [];
-	for (var i = 0; i < 1; i++) {
+	for (var i = 0; i < 20; i++) {
 		//create random cubes with a random width and depth
 		var w = Math.ceil(Math.random() * 2);
 		var h = w;
-		xy = layouter.getNext(w, h);
+
+		try{
+			xy = layouter.getNext(w, h);
+		} catch(err) {
+			console.log(err);
+			break;
+		}
+
 		if (xy !== undefined) {
 			var newCube = new server.ServerCube(app, xy.x, xy.y, w, h);
 			cubes.push(newCube);

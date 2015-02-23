@@ -5,11 +5,10 @@ var sceneObj = require('./sceneObject');
 var math = require('./math');
 var colors = require('./colors');
 var textures = require('./textures');
-var textTexture = require('./extensions/textTextureFacade');
 require('./extensions/OBJLoader');
 
 exports.BaseCube = function BaseCube(
-  app, x, y, width, height, depth, detialed) {
+  app, x, y, width, height, depth, detailed) {
   if (app === undefined || x === undefined ||
     y === undefined || width === undefined ||
     height === undefined || depth === undefined) {
@@ -35,18 +34,11 @@ exports.BaseCube = function BaseCube(
   //create cubes
   var group = new THREE.Object3D();
   //create main cube mesh
-  this.createCube(app, this.dimension, this.name, group, detialed);
+  this.createCube(app, this.dimension, this.name, group, detailed);
 
   //create helper objects
   var collisionCube = createCollisionCube(this.dimension, this.name);
   this.setStatic(collisionCube);
-
-  //create the label
-  var lodLabels = createLODLabels(this.dimension,
-    this.name,
-    this.opacityAnimatedMaterials);
-
-  //group.add(lodLabels);
 
   this.setMesh(group);
   this.setCollisionMesh(collisionCube);
@@ -93,7 +85,7 @@ exports.BaseCube.prototype.createCube = function(app, dimension, name, group,
       transparent: true,
       opacity: 1,
       blending: THREE.NormalBlending,
-      map: textures.cubeTexture
+      map: textures.serverCubeTexture
     });
     var setStatic = this.setStatic;
     var loader = new THREE.OBJLoader();
@@ -122,12 +114,13 @@ exports.BaseCube.prototype.createCube = function(app, dimension, name, group,
     );
   } else {
 		//need a new material, each for each cube...
-    var material = new THREE.MeshLambertMaterial({
-      color: colors.midBlue
+    var simpleMaterial = new THREE.MeshLambertMaterial({
+      color: 0xFFFFFF,
+      map: textures.softwareCubeTexture
     });
     var cube = new THREE.Mesh(
       new THREE.BoxGeometry(width, height, depth),
-      material);
+      simpleMaterial);
 
     cube.position.set(dimension.x, dimension.y, dimension.z);
     this.setStatic(cube);
@@ -176,42 +169,6 @@ function createCollisionCube(dimension, name) {
   return cube;
 }
 
-function createLabel(dimension, name) {
-  var width = dimension.width,
-    height = dimension.height,
-    depth = dimension.depth;
-
-  width -= 0.5; //transform to the right
-  var labelHeight = 1;
-  var aspect = width;
-  var topOfCube = height - 1.4;
-  var frontEdgePosition = (depth / 2) - (labelHeight / 2) - 0.5;
-
-  //get a texture from the facade
-  var tex = textTexture.createTexture(name, aspect);
-  //set to linear because the texture is not power of 2 (64x64, 32x32, ...)
-  tex.minFilter = THREE.LinearFilter;
-
-  var labelMat = new THREE.MeshBasicMaterial({
-    map: tex,
-    transparent: true,
-    depthWrite: false
-  });
-
-  var geometry = new THREE.PlaneBufferGeometry(width, labelHeight, 1, 1);
-  var plane = new THREE.Mesh(geometry, labelMat);
-  plane.position.y = topOfCube;
-  plane.position.z = frontEdgePosition;
-  plane.rotateOnAxis(new THREE.Vector3(1, 0, 0), -90 * math.DegToRad);
-
-  plane.matrixAutoUpdate = false;
-  plane.updateMatrix();
-
-  //set name to identify later
-  plane.name = name;
-  return plane;
-}
-
 exports.BaseCube.prototype.createBoundingCube = function(
   cube, dimension, name) {
   var egh = new THREE.EdgesHelper(cube, colors.lightBlue);
@@ -222,20 +179,7 @@ exports.BaseCube.prototype.createBoundingCube = function(
   //set name to identify later
   egh.name = name;
   return egh;
-}
-
-function createLODLabels(dimension, name, matCollection) {
-  var label = createLabel(dimension, name);
-
-  //LOD for label
-  var lod = new THREE.LOD();
-  lod.addLevel(label, 20);
-  lod.addLevel(new THREE.Object3D(), 100);
-
-  lod.position.add(new THREE.Vector3(dimension.x, dimension.y, dimension.z));
-
-  return lod;
-}
+};
 
 // tests, if a point is seen by the camera
 exports.BaseCube.prototype.isVisible = function(point, camera) {
