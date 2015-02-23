@@ -3,7 +3,6 @@
 var THREE = require('three.js');
 var colors = require('./colors');
 var server = require('./serverCube');
-var gc = require('./groundSpaceControl2D');
 var layouter = require('./layouter2D');
 var ground = require('./ground');
 var zoom = require('./zoomLevel');
@@ -27,7 +26,6 @@ exports.Application = function Application() {
   this.canvas = document.getElementById('WebGL');
   this.sceneObjects3D = []; // all objects, added to the 3D scene
   this.sceneObjects2D = []; // all objects, added to the 2D CSS scene
-  this.groundControl = new gc.GroundSpaceControl2D(300);
   this.layouter = new layouter.Layouter2D(50, 50);
   this.updateableObjects = []; //all objects needing an update every frame
 
@@ -146,19 +144,19 @@ exports.Application.prototype.createRenderer = function(width, height) {
 
   //3D CSS
   this.cssRenderer = new THREE.CSS3DRenderer();
-  this.cssRenderer.setSize( width, height );
+  this.cssRenderer.setSize(width, height);
   document.getElementById('GLCanvasOverlay')
     .appendChild(this.cssRenderer.domElement);
 };
 
 exports.Application.prototype.setupEffects = function() {
-	var positions = [];
+  var positions = [];
 
-	for (var x = 0; x < 300; x += 15) {
-		for (var y = 0; y < 300; y += 15) {
-			positions.push([x, y]);
-		}
-	}
+  for (var x = 0; x < 300; x += 15) {
+    for (var y = 0; y < 300; y += 15) {
+      positions.push([x, y]);
+    }
+  }
 
   var effect = new particles.RisingParticles(positions);
   this.addObject(effect);
@@ -171,7 +169,9 @@ exports.Application.prototype.addObject = function(obj) {
   var mesh = obj.getMesh();
   var collisionMesh = obj.getCollisionMesh();
   if (collisionMesh !== undefined) {
-    this.octree.add(collisionMesh, { useFaces: false });
+    this.octree.add(collisionMesh, {
+      useFaces: false
+    });
     this.octree.update();
   }
   if (mesh !== undefined) {
@@ -193,7 +193,9 @@ exports.Application.prototype.removeObject = function(obj) {
   var mesh = obj.getMesh();
   var collisionMesh = obj.getCollisionMesh();
   if (collisionMesh !== undefined) {
-    this.octree.remove(collisionMesh, { useFaces: false });
+    this.octree.remove(collisionMesh, {
+      useFaces: false
+    });
     this.octree.update();
   }
   if (mesh !== undefined) {

@@ -8,7 +8,14 @@ var textures = require('./textures');
 var textTexture = require('./extensions/textTextureFacade');
 require('./extensions/OBJLoader');
 
-exports.BaseCube = function BaseCube(app, x, y, width, height, depth) {
+exports.BaseCube = function BaseCube(
+  app, x, y, width, height, depth, detialed) {
+  if (app === undefined || x === undefined ||
+    y === undefined || width === undefined ||
+    height === undefined || depth === undefined) {
+    return undefined;
+  }
+
   this.init();
 
   this.x = x;
@@ -28,7 +35,7 @@ exports.BaseCube = function BaseCube(app, x, y, width, height, depth) {
   //create cubes
   var group = new THREE.Object3D();
   //create main cube mesh
-  this.createCube(app, this.dimension, this.name, group);
+  this.createCube(app, this.dimension, this.name, group, detialed);
 
   //create helper objects
   var collisionCube = createCollisionCube(this.dimension, this.name);
@@ -72,49 +79,60 @@ exports.BaseCube.prototype.collectMaterials = function() {
   return materials;
 };
 
-exports.BaseCube.prototype.createCube = function(app, dimension, name, group) {
+exports.BaseCube.prototype.createCube = function(app, dimension, name, group,
+  detailed) {
   var width = dimension.width,
     height = dimension.height,
     depth = dimension.depth;
 
-  //need a new material, each for each cube...
-  var material = new THREE.MeshLambertMaterial({
-    color: colors.midBlue,
-    side: THREE.DoubleSide,
-    transparent: true,
-    opacity: 1,
-    blending: THREE.NormalBlending,
-    map: textures.cubeTexture
-  });
+  if (detailed) {
+    //need a new material, each for each cube...
+    var material = new THREE.MeshLambertMaterial({
+      color: colors.midBlue,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 1,
+      blending: THREE.NormalBlending,
+      map: textures.cubeTexture
+    });
+    var setStatic = this.setStatic;
+    var loader = new THREE.OBJLoader();
 
-  var cube = new THREE.Mesh(
-    new THREE.BoxGeometry(width, height, depth),
-    material);
+    // load a resource
+    loader.load(
+      // resource URL
+      'obj/cube.obj',
+      // Function when resource is loaded
+      function(object) {
+        object = object.children[0];
+        //set position and then static
+        object.position.set(dimension.x, 0, dimension.z);
+        object.scale.set(width, height, depth);
 
-  var setStatic = this.setStatic;
-  var loader = new THREE.OBJLoader();
-  // load a resource
-  loader.load(
-    // resource URL
-    'obj/cube.obj',
-    // Function when resource is loaded
-    function(object) {
-      object = object.children[0];
-      //set position and then static
-      object.position.set(dimension.x, 0, dimension.z);
-      object.scale.set(width, height, depth);
+        object.material = material;
 
-      object.material = material;
+        //set name to identify later
+        object.name = name;
 
-      //set name to identify later
-      object.name = name;
+        setStatic(object);
+        group.add(object);
 
-      setStatic(object);
-      group.add(object);
+        fadeIn(app, object.material);
+      }
+    );
+  } else {
+		//need a new material, each for each cube...
+    var material = new THREE.MeshLambertMaterial({
+      color: colors.midBlue
+    });
+    var cube = new THREE.Mesh(
+      new THREE.BoxGeometry(width, height, depth),
+      material);
 
-      fadeIn(app, object.material);
-    }
-  );
+    cube.position.set(dimension.x, dimension.y, dimension.z);
+    this.setStatic(cube);
+    group.add(cube);
+  }
 };
 
 function fadeIn(app, material) {
