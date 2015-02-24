@@ -7,10 +7,10 @@ require('./postprocessing/EffectComposer');
 require('./postprocessing/RenderPass');
 require('./postprocessing/ShaderPass');
 require('./postprocessing/MaskPass');
-require('./postprocessing/BokehPass');
 
 require('../shader/CopyShader');
-require('../shader/BokehShader');
+require('../shader/HorizontalBlurShader');
+require('../shader/VerticalBlurShader');
 
 /**
  * @author Slayvin / http://slayvin.net
@@ -33,7 +33,7 @@ THREE.ShaderLib['mirror'] = {
 	}
 };
 
-THREE.Mirror = function(renderer, camera, options) {
+THREE.Mirror = function(renderer, camera, scene, options) {
 	THREE.Object3D.call(this);
 
 	this.name = 'mirror_' + this.id;
@@ -55,6 +55,7 @@ THREE.Mirror = function(renderer, camera, options) {
 		new THREE.Color(options.color) :
 		new THREE.Color(0x7F7F7F);
 
+	this.scene = scene;
 	this.renderer = renderer;
 	this.mirrorPlane = new THREE.Plane();
 	this.normal = new THREE.Vector3(0, 0, 1);
@@ -78,7 +79,7 @@ THREE.Mirror = function(renderer, camera, options) {
 
 	this.texture = new THREE.WebGLRenderTarget(width, height);
 
-	var mirrorShader = THREE.ShaderLib['mirror'];
+	var mirrorShader = THREE.ShaderLib.mirror; //['mirror']
 	var mirrorUniforms = THREE.UniformsUtils.clone(mirrorShader.uniforms);
 
 	this.material = new THREE.ShaderMaterial({
@@ -94,6 +95,22 @@ THREE.Mirror = function(renderer, camera, options) {
 	if (!THREE.Math.isPowerOfTwo(width) || !THREE.Math.isPowerOfTwo(height)) {
 		this.texture.generateMipmaps = false;
 	}
+
+	//init post pro effects
+	this.composer = new THREE.EffectComposer( this.renderer, this.texture );
+	//first add the simple render pass to save the raw image
+	this.composer.addPass( new THREE.RenderPass( scene, this.mirrorCamera ) );
+
+	//then add a horizontal blur pass
+	var effect = new THREE.ShaderPass( THREE.HorizontalBlurShader );
+	effect.uniforms.h.value = 0.003;
+	this.composer.addPass( effect );
+
+	//and finally a vertical blur pass
+	effect = new THREE.ShaderPass( THREE.VerticalBlurShader );
+	effect.uniforms.v.value = 0.003;
+	this.composer.addPass( effect );
+
 
 	this.updateTextureMatrix();
 	this.render();
@@ -186,13 +203,6 @@ THREE.Mirror.prototype.render = function() {
 	}
 	this.matrixNeedsUpdate = true;
 
-	// Render the mirrored view of the current scene into the target texture
-	var scene = this;
-	while (scene.parent !== undefined) {
-		scene = scene.parent;
-	}
-
-	if (scene !== undefined && scene instanceof THREE.Scene) {
-		this.renderer.render(scene, this.mirrorCamera, this.texture, true);
-	}
+	this.renderer.render(this.scene, this.mirrorCamera, this.texture, true);
+	this.composer.render();
 };

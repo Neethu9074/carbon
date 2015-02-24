@@ -67,7 +67,8 @@ exports.MouseControl.prototype.init = function(app) {
   app.scene.add(this.camTransformObject);
   app.scene.add(this.directionHelper);
 
-  var light = new THREE.PointLight( 0x555555, 4.5, 100 );
+  //color, intensity, range
+  var light = new THREE.PointLight( 0x555555, 5.5, 125 );
   light.position.set( 0, 15, 0 );
   this.camTransformObject.add(light);
 };

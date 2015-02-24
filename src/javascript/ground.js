@@ -59,11 +59,11 @@ function createGrid(app) {
 }
 
 function createMirror(app) {
-  return new THREE.Mirror(app.mainRenderer, app.mainCamera, {
-    clipBias: 0.003,
+  return new THREE.Mirror(app.mainRenderer, app.mainCamera, app.scene, {
+    clipBias: 0.03,
     textureWidth: 1024,
     textureHeight: 1024,
-    color: 0x444444
+    color: 0x777777
   });
 }
 
@@ -74,6 +74,6 @@ exports.Ground.prototype.constructor = exports.Ground;
 exports.Ground.prototype.update = function(app) {
   this.counter++;
   if (this.counter % 10 === 0) {
-    //this.groundMirror.render();
+    this.groundMirror.render();
   }
 };

@@ -286,7 +286,7 @@ exports.ServerCube.prototype.setTransparency = function(
 };
 
 exports.ServerCube.prototype.hideDetails = function(app, cube) {
-	for (var i = 0; i < cube.children.length; i++) {
+		for (var i = 0; i < cube.children.length; i++) {
 		var child = cube.children[i];
 		if(child instanceof software.SoftwareCube){
 			child.hide();

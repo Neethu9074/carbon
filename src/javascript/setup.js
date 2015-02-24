@@ -6,21 +6,19 @@ var connection = require('./connection');
 module.exports = function createTestSetup(app) {
 	//test
 	var width = Math.ceil(Math.random() * 2);
-	var cube = new server.ServerCube(app, -1, 1, width, width);
+	var cube = new server.ServerCube(app, -3, 1, width, width);
 	app.addObject(cube);
 
 	for (var i = 0; i < 12; i++) {
 		cube.addSoftware(app, {});
 	}
 	//test end
-	return;
 
 	var layouter = app.layouter;
 	var xy;
-
 	//add a few cubes
 	var cubes = [];
-	for (var i = 0; i < 20; i++) {
+	for (var i = 0; i < 2; i++) {
 		//create random cubes with a random width and depth
 		var w = Math.ceil(Math.random() * 2);
 		var h = w;
