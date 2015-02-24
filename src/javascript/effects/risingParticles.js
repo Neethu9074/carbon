@@ -42,7 +42,6 @@ function createPointCloud(uniforms, positions){
 
 	var material = createMaterial(uniforms);
 	var particleSystem = new THREE.PointCloud( geometry, material );
-	particleSystem.position.set(-2.5, 0, 2.5);
 	return particleSystem;
 }
 
@@ -63,7 +62,7 @@ exports.RisingParticles.prototype.update = function(app){
 	var maxHeight = 5;
 	var uniforms = this.uniforms;
 
-	uniforms.amplitude.value += 1 * dTime;
+	uniforms.amplitude.value += dTime; // * speed
 	if(uniforms.amplitude.value > maxHeight){
 		uniforms.amplitude.value = 0;
 	}

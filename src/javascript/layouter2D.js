@@ -153,8 +153,8 @@ exports.Layouter2D.prototype.getPath = function(from, to) {
   //clear the areas of the source and the desination,
   // so that the algorithms won't start in a blocked area
   //and no path could be found
-  this.freeForWalkable(grid, from.x, from.y, from.width, from.height);
-  this.freeForWalkable(grid, to.x, to.y, to.width, to.height);
+  this.freeForWalkable(grid, from.x, from.y, from.width, from.depth);
+  this.freeForWalkable(grid, to.x, to.y, to.width, to.depth);
 
   var finder = new PF.AStarFinder({
     dontCrossCorners: true,
