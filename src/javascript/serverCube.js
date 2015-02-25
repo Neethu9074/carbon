@@ -90,7 +90,7 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 	this.registerForUpdate();
 
 	//tween parameters
-	this.minDistanceForTransparency = 12;
+	this.minDistanceForTransparency = 14.5;
 	this.tweenDirection = DIRECTION.OUT;
 
 	//stores all materials, that are animated due to animation process
@@ -227,6 +227,9 @@ exports.ServerCube.prototype.update = function(app) {
 	//rotate statesymbol
 	this.stateErrorSymbol.rotation.z += app.deltaTime * 1;
   this.stateWarningSymbol.rotation.z += app.deltaTime * 1;
+	var yPos = Math.sin(app.timeSinceStarted * 3) * 0.5 + 5;
+	this.stateErrorSymbol.position.y = yPos;
+	this.stateWarningSymbol.position.y = yPos;
 
 
 	var cam = app.mainCamera;

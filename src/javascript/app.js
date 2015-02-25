@@ -99,6 +99,7 @@ exports.Application.prototype.initialize = function() {
 
   this.time = Date.now();
   this.deltaTime = 0;
+  this.timeSinceStarted = 0;
 
   this.createRenderer(width, height);
   this.setup3DScene(width, height);
@@ -119,10 +120,10 @@ exports.Application.prototype.setup3DScene = function(width, height) {
   this.createLights();
 
   //setup occulus rift effect
-  this.effect = new THREE.OculusRiftEffect(this.mainRenderer, {
-    worldScale: 100
+  this.oculusEffectMain = new THREE.OculusRiftEffect(this.mainRenderer, {
+    worldScale: 1
   });
-  this.effect.setSize(window.innerWidth, window.innerHeight);
+  this.oculusEffectMain.setSize(window.innerWidth, window.innerHeight);
 
   //add the ground
   this.addObject(new ground.Ground(this));
@@ -242,7 +243,7 @@ exports.Application.prototype.onWindowResize = function() {
   this.mainRenderer.setSize(width, height);
   this.cssRenderer.setSize(width, height);
 
-  this.effect.setSize(width, height);
+  this.oculusEffectMain.setSize(width, height);
 };
 
 exports.Application.prototype.createStats = function() {
@@ -323,7 +324,7 @@ exports.Application.prototype.findObject = function(raycaster) {
 exports.Application.prototype.render = function() {
   this.mainRenderer.render(this.scene, this.mainCamera);
   this.cssRenderer.render(this.scene2D, this.mainCamera);
-  //this.effect.render( this.scene, this.mainCamera );
+  //this.oculusEffectMain.render( this.scene, this.mainCamera );
 };
 
 exports.Application.prototype.animate = function() {
@@ -377,4 +378,5 @@ exports.Application.prototype.calculateDeltaTime = function() {
   var timeNow = Date.now();
   this.deltaTime = (timeNow - this.time) / 1000; //in ms
   this.time = timeNow;
+  this.timeSinceStarted += this.deltaTime;
 };

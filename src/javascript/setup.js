@@ -5,8 +5,7 @@ var connection = require('./connection');
 
 module.exports = function createTestSetup(app) {
 	//test
-	var width = Math.ceil(Math.random() * 2);
-	var cube = new server.ServerCube(app, -2, 1, width, width);
+	var cube = new server.ServerCube(app, -2, 1, 1, 1);
 	app.addObject(cube);
 
 	for (var i = 0; i < 4; i++) {
