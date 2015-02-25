@@ -1,47 +1,26 @@
 'use strict';
 
 var THREE = require('three.js');
-require('./extensions/OBJLoader');
-var math = require('./math');
 
-exports.warningSymbol = function() {
-	var container = new THREE.Object3D();
-	var loader = new THREE.OBJLoader();
-	var material = new THREE.MeshLambertMaterial({
-		color: 0xFFFF00,
-		transparent: true,
-    visible: false
-	});
-
-	loader.load(
-		'obj/warning.obj', //resource URL
-		function(object) { // Function when resource is loaded
-			object = object.children[0];
-			object.material = material;
-			object.rotation.x = 90 * math.DegToRad;
-			container.add(object);
-		}
-	);
-	return container;
+exports.stateWarningSymbol = undefined;
+exports.setStateWarningSymbol = function(object){
+	exports.stateWarningSymbol = object;
 };
 
-exports.errorSymbol = function() {
-	var container = new THREE.Object3D();
-	var loader = new THREE.OBJLoader();
-	var material = new THREE.MeshLambertMaterial({
-		color: 0xFF0000,
-		transparent: true,
-    visible: false
-	});
+exports.stateErrorSymbol = undefined;
+exports.setStateErrorSymbol = function(object){
+	exports.stateErrorSymbol = object;
+};
 
-	loader.load(
-		'obj/error.obj', //resource URL
-		function(object) { // Function when resource is loaded
-			object = object.children[0];
-			object.material = material;
-			object.rotation.x = 90 * math.DegToRad;
-			container.add(object);
-		}
-	);
-	return container;
+exports.stateSymbolMaterial = function(color){
+	return new THREE.MeshLambertMaterial({
+		color: color,
+		transparent: true,
+		visible: false
+	});
+};
+
+exports.cube = undefined;
+exports.setCube = function(object){
+	exports.cube = object;
 };

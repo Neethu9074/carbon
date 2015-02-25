@@ -61,13 +61,21 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 		this.state = STATE.ERROR;
 	}
 	this.updateCount = 0;
-	this.randomStateSwitchFactor = Math.ceil(Math.random() * 250);
-  this.stateWarningSymbol = obj.warningSymbol();
-  this.stateErrorSymbol = obj.errorSymbol();
-  this.stateWarningSymbol.position.set(x + width / 2, 4, -y - depth / 1.25);
-  this.stateErrorSymbol.position.set(x + width / 2, 4, -y - depth / 1.25);
+	this.randomStateSwitchFactor = Math.ceil(Math.random() * 500);
+
+	this.stateWarningSymbol = new THREE.Mesh(
+		obj.stateWarningSymbol.geometry,
+		obj.stateSymbolMaterial(0xFFFF00));
+	setSymbolParams(this.stateWarningSymbol, x, y, width, depth);
+
+	this.stateErrorSymbol = new THREE.Mesh(
+		obj.stateErrorSymbol.geometry,
+		obj.stateSymbolMaterial(0xFF0000));
+	setSymbolParams(this.stateErrorSymbol, x, y, width, depth);
+
   this.getMesh().add(this.stateWarningSymbol);
   this.getMesh().add(this.stateErrorSymbol);
+
 
 	this.layouter = new layouter.Layouter2DServer(width, depth);
 	this.gridIndex = 0;
@@ -103,6 +111,11 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 //inherence from SceneObject
 exports.ServerCube.prototype = new baseCube.BaseCube();
 exports.ServerCube.prototype.constructor = exports.ServerCube;
+
+function setSymbolParams(object, x, y, width, depth){
+	object.rotation.x = 90 * math.DegToRad;
+	object.position.set(x + width / 2, 4, -y - depth / 1.25);
+}
 
 function createGrid(width, height) {
 	var gridTemp = [];
@@ -151,21 +164,16 @@ exports.ServerCube.prototype.setState = function(newState) {
   //switch CSS3D layer
   this.cssObject.element.innerHTML = this.state.htmlContent;
 
-  if(this.stateErrorSymbol.children[0] === undefined ||
-      this.stateWarningSymbol.children[0] === undefined){
-    return;
-  }
-
   //switch 3D state symbol
 	if (newState === STATE.WARNING) {
-    this.stateErrorSymbol.children[0].material.visible = false;
-    this.stateWarningSymbol.children[0].material.visible = true;
+    this.stateErrorSymbol.material.visible = false;
+    this.stateWarningSymbol.material.visible = true;
 	} else if(newState === STATE.ERROR) {
-    this.stateErrorSymbol.children[0].material.visible = true;
-    this.stateWarningSymbol.children[0].material.visible = false;
+    this.stateErrorSymbol.material.visible = true;
+    this.stateWarningSymbol.material.visible = false;
 	} else {
-    this.stateErrorSymbol.children[0].material.visible = false;
-    this.stateWarningSymbol.children[0].material.visible = false;
+    this.stateErrorSymbol.material.visible = false;
+    this.stateWarningSymbol.material.visible = false;
   }
 };
 
@@ -209,8 +217,8 @@ exports.ServerCube.prototype.update = function(app) {
 	}
 
 	//rotate statesymbol
-	this.stateErrorSymbol.rotation.y -= app.deltaTime * 1;
-  this.stateWarningSymbol.rotation.y -= app.deltaTime * 1;
+	this.stateErrorSymbol.rotation.z += app.deltaTime * 1;
+  this.stateWarningSymbol.rotation.z += app.deltaTime * 1;
 
 
 	var objectPos = this.collisionMesh.position;

@@ -4,6 +4,7 @@ var THREE = require('three.js');
 var sceneObj = require('./sceneObject');
 var colors = require('./colors');
 var textures = require('./textures');
+var obj = require('./obj');
 require('./extensions/OBJLoader');
 
 exports.BaseCube = function BaseCube(
@@ -85,28 +86,17 @@ exports.BaseCube.prototype.createCube = function(app, dimension, name, group,
 			blending: THREE.NormalBlending,
 			map: textures.serverCubeTexture
 		});
-		var setStatic = this.setStatic;
-		var loader = new THREE.OBJLoader();
 
-		// load a resource
-		loader.load(
-			// resource URL
-			'obj/cube.obj',
-			// Function when resource is loaded
-			function(object) {
-				object = object.children[0];
-				object.position.copy(pos);
-        object.translateY(-dimension.height / 2);
-				object.scale.set(width, height, depth);
-				object.material = material;
-				object.name = name;
+		var detailedCube = new THREE.Mesh(obj.cube.geometry, material);
+		detailedCube.position.copy(pos);
+		detailedCube.translateY(-dimension.height / 2);
+		detailedCube.scale.set(width, height, depth);
+		detailedCube.name = name;
 
-				setStatic(object);
-				group.add(object);
+		this.setStatic(detailedCube);
+		group.add(detailedCube);
 
-				fadeIn(app, object.material);
-			}
-		);
+		fadeIn(app, detailedCube.material);
 	} else {
 		//need a new material, each for each cube...
 		var simpleMaterial = new THREE.MeshLambertMaterial({
@@ -154,10 +144,7 @@ function createCollisionCube(dimension, name) {
 			dimension.height + offset,
 			dimension.depth + offset),
 		new THREE.MeshBasicMaterial({
-			color: colors.lightBlue,
-			transparent: true,
-			opacity: 0.5,
-			blending: THREE.AdditiveBlending
+			color: colors.lightBlue
 		}));
 
 	cube.position.set(dimension.x, dimension.y, dimension.z);
