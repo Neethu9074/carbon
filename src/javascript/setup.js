@@ -22,7 +22,7 @@ module.exports = function createTestSetup(app) {
 	var xy;
 	//add a few cubes
 	var cubes = [];
-	for (i = 0; i < 40; i++) {
+	for (i = 0; i < 4; i++) {
 		//create random cubes with a random width and depth
 		var w = Math.ceil(Math.random() * 2);
 		var h = w;
