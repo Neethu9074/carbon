@@ -186,8 +186,7 @@ exports.MouseControl.prototype.update = function(dTime) {
   //get the delta
   delta.sub(this.directionHelper.position);
 
-  cam.position.sub(
-    delta.multiplyScalar(dTime * this.cameraSpeed));
+  cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
 
   //TODO: clamp the position to avoid overflow of the level area
 };

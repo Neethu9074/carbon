@@ -7,16 +7,20 @@ var software = require('./softwareCube');
 //var colors = require('./colors');
 //var textTexture = require('./extensions/textTextureFacade');
 
-exports.SoftwareCube = function SoftwareCube(app, xyz) {
-  if (app === undefined || xyz === undefined) {
-    return undefined;
-  }
+exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
+	if (app === undefined || xyz === undefined) {
+		return undefined;
+	}
 
-  baseCube.BaseCube.call(this, app, xyz.x, xyz.y, xyz.z, 2, 0.4, 2, false);
-  this.app = app;
+	baseCube.BaseCube.call(this, app, xyz.x, xyz.y, xyz.z, 2, 0.4, 2, false);
 
-  //in this collection higher level softwareCubes will be stored
-  this.stackedsoftware = [];
+	//the parent server or software, where the software belongs to
+	this.parent = serverCube
+
+	this.app = app;
+
+	//in this collection higher level softwareCubes will be stored
+	this.stackedsoftware = [];
 
 	this.cssObject = createCSS3DTestStuff(app, this.dimension, 'Apache 2.4');
 	this.hide();
@@ -26,34 +30,34 @@ exports.SoftwareCube = function SoftwareCube(app, xyz) {
 exports.SoftwareCube.prototype = new baseCube.BaseCube();
 exports.SoftwareCube.prototype.constructor = exports.SoftwareCube;
 
-exports.SoftwareCube.prototype.hide = function(){
-  //remove the 2D overlay from seperate scene
+exports.SoftwareCube.prototype.hide = function() {
+	//remove the 2D overlay from seperate scene
 	this.app.scene2D.remove(this.cssObject);
 
-  //remove all stacked software as well
-  for (var i = 0; i < this.stackedsoftware.length; i++) {
-    this.stackedsoftware[i].hide();
-    this.app.removeObject(this.stackedsoftware[i]);
-  }
+	//remove all stacked software as well
+	for (var i = 0; i < this.stackedsoftware.length; i++) {
+		this.stackedsoftware[i].hide();
+		this.app.removeObject(this.stackedsoftware[i]);
+	}
 };
 
-exports.SoftwareCube.prototype.show = function(){
-  //add the 2D overlay from seperate scene
-  this.app.scene2D.add(this.cssObject);
+exports.SoftwareCube.prototype.show = function() {
+	//add the 2D overlay from seperate scene
+	this.app.scene2D.add(this.cssObject);
 
-  //add all stacked software as well
-  for (var i = 0; i < this.stackedsoftware.length; i++) {
-    this.stackedsoftware[i].show();
-    this.app.addObject(this.stackedsoftware[i]);
-  }
+	//add all stacked software as well
+	for (var i = 0; i < this.stackedsoftware.length; i++) {
+		this.stackedsoftware[i].show();
+		this.app.addObject(this.stackedsoftware[i]);
+	}
 };
 
 function createCSS3DTestStuff(app, dimension, name) {
 	var content = name;
 	var pos = new THREE.Vector3(
-    dimension.x,
-    dimension.y + dimension.height / 2,
-    dimension.z);
+		dimension.x,
+		dimension.y + dimension.height / 2,
+		dimension.z);
 
 	pos.z += dimension.depth / 2;
 	var scaleX = dimension.width / 3;
@@ -63,11 +67,11 @@ function createCSS3DTestStuff(app, dimension, name) {
 	number.className = 'softwareCSS3DLayer';
 	number.innerHTML = content;
 	var object = new THREE.CSS3DObject(number);
-      object.scale.set(scaleX / 40, scaleY / 40, 1);
-      object.position.copy(pos);
-      object.rotation.x = -90 * math.DegToRad;
+	object.scale.set(scaleX / 40, scaleY / 40, 1);
+	object.position.copy(pos);
+	object.rotation.x = -90 * math.DegToRad;
 
-  //set static
+	//set static
 	object.matrixAutoUpdate = false;
 	object.updateMatrix();
 
@@ -78,23 +82,26 @@ exports.SoftwareCube.prototype.addSoftware = function(app, options) {
 	//get dimensions of the parent server
 	var dim = this.dimension;
 
-  var xyz = { x: 0, y: dim.y + dim.height/2, z: 0.5 };
+	var xyz = {
+		x: 0,
+		y: dim.y + dim.height / 2,
+		z: 0.5
+	};
 	xyz.x += dim.x - (dim.width / 2);
-  xyz.z -= dim.z + (dim.depth / 2);
+	xyz.z -= dim.z + (dim.depth / 2);
 
 	//create the cube
-	var swCube = new software.SoftwareCube(app, xyz);
-  this.stackedsoftware.push(swCube);
+	var swCube = new software.SoftwareCube(this, app, xyz);
+	this.stackedsoftware.push(swCube);
 
-  console.log('software stacked onto software: ', swCube);
-  return swCube;
+	console.log('software stacked onto software: ', swCube);
+	return swCube;
 };
 
-exports.SoftwareCube.prototype.removeSoftware = function(softwareCube){
-  this.stackedsoftware.pop();
-  this.app.removeObject(softwareCube);
+exports.SoftwareCube.prototype.removeSoftware = function(softwareCube) {
+	this.stackedsoftware.pop();
+	this.app.removeObject(softwareCube);
 };
-
 
 
 

@@ -90,7 +90,7 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 	this.registerForUpdate();
 
 	//tween parameters
-	this.minDistanceForTransparency = 25; // 16.5;
+	this.minDistanceForTransparency = 12;
 	this.tweenDirection = DIRECTION.OUT;
 
 	//stores all materials, that are animated due to animation process
@@ -104,8 +104,16 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 		v: 1
 	}, 0);
 	this.hideDetails(app, this);
-
 	this.setState(this.state);
+
+	this.relevantVerticesForDistanceCalulation = [];
+	for (var i = 0; i < this.collisionMesh.geometry.vertices.length; i++) {
+		var vertice = this.collisionMesh.geometry.vertices[i];
+		//just need the upper half of the box
+		if(vertice.y > 0){
+			this.relevantVerticesForDistanceCalulation.push(vertice);
+		}
+	}
 };
 
 //inherence from SceneObject
@@ -194,7 +202,7 @@ exports.ServerCube.prototype.addSoftware = function(app, options) {
 		z: xy.y - dim.z - dim.depth / 2 + 1
 	};
 	//create the cube
-	var swCube = new software.SoftwareCube(app, xyz);
+	var swCube = new software.SoftwareCube(this, app, xyz);
 	this.children.push(swCube);
 
 	//console.log('software added to server: ', swCube);
@@ -221,14 +229,11 @@ exports.ServerCube.prototype.update = function(app) {
   this.stateWarningSymbol.rotation.z += app.deltaTime * 1;
 
 
-	var objectPos = this.collisionMesh.position;
 	var cam = app.mainCamera;
-
-	var distance = new THREE.Vector3()
-		.copy(cam.position)
-		.sub(objectPos)
-		.length();
-
+	var distance = getDistance(
+		cam.position,
+		this.relevantVerticesForDistanceCalulation,
+		this.collisionMesh.position);
 	if (distance < this.minDistanceForTransparency) {
 		var tweenDirection = DIRECTION.IN;
 	} else {
@@ -260,6 +265,25 @@ exports.ServerCube.prototype.update = function(app) {
 		}
 	}
 };
+
+/*
+this method calculates the distance from the camera to the a given cube.
+the simple method to do that is to take the center of the cube, but you get
+in trouble when the cube is large, so it will fade out when you reach the edge.
+to avoid this we need to calculate the distance bewteen the cam and the nearest
+vertex position of the upper four vertices of the bounding box.
+*/
+function getDistance(from, vertices, cubePos){
+	var distance = Infinity;
+	for (var i = 0; i < vertices.length; i++) {
+		var vPos = new THREE.Vector3().copy(vertices[i]).add(cubePos);
+		var distanceTemp = from.distanceTo(vPos);
+		if(distanceTemp < distance){
+			distance = distanceTemp;
+		}
+	}
+	return distance;
+}
 
 exports.ServerCube.prototype.setTransparency = function(
 	app, from, to, delay, f) {
