@@ -12,7 +12,6 @@ function getGround() {
 	return texture;
 }
 
-
 exports.serverCubeTexture = getCube();
 
 function getCube() {
