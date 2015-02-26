@@ -47,8 +47,8 @@ exports.MouseControl.prototype.init = function(app) {
   this.directionHelper.rotation.copy(app.mainCamera.rotation);
 
   // a debug axis to see, where mainCamera is transformed with
-  this.camTransformObject.add(new THREE.AxisHelper(2));
-  this.directionHelper.add(new THREE.AxisHelper(1));
+  //this.camTransformObject.add(new THREE.AxisHelper(2));
+  //this.directionHelper.add(new THREE.AxisHelper(1));
 
   app.scene.add(this.camTransformObject);
   app.scene.add(this.directionHelper);
