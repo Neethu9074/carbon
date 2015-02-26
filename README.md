@@ -1,5 +1,7 @@
 # Visualization
 
+The current version of the visualization is always available via our [Jenkins](https://54.221.249.252/job/visualization/ws/target/index.html).
+
 ## Setup
 
 ```

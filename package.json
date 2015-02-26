@@ -7,7 +7,7 @@
     "build": "gulp build",
     "dev": "gulp dev",
     "install": "napa",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp build && gulp lint"
   },
   "repository": {
     "type": "git",
@@ -36,6 +36,7 @@
     "jsx-loader": "^0.12.2",
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
+    "napa": "^1.2.0",
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.3",
     "webpack": "^1.5.3",
