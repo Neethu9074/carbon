@@ -4,13 +4,17 @@ var THREE = require('three.js');
 require('./extensions/OBJLoader');
 var obj = require('./obj');
 
+var warningObjectPath = require('../obj/warning.obj');
+var errorObjectPath = require('../obj/error.obj');
+var cubeObjectPath = require('../obj/cube.obj');
+
 exports.load = function(onFinished) {
-  loadModel('obj/warning.obj', obj.setStateWarningSymbol, function(){
-  loadModel('obj/error.obj', obj.setStateErrorSymbol, function(){
-  loadModel('obj/cube.obj', obj.setCube, function(){
-    onFinished();
-  });
-  });
+  loadModel('bundle/' + warningObjectPath, obj.setStateWarningSymbol, function(){
+    loadModel('bundle/' + errorObjectPath, obj.setStateErrorSymbol, function(){
+      loadModel('bundle/' + cubeObjectPath, obj.setCube, function(){
+        onFinished();
+      });
+    });
   });
 };
 

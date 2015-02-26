@@ -23,7 +23,7 @@ module.exports = {
 			test: /\.css$/i,
 			loader: 'style-loader!css-loader'
 		}, {
-			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot$/i,
+			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot|\.obj$/i,
 			loader: 'file-loader'
 		}, {
 			test: /\.js$/i,

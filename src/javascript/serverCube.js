@@ -8,6 +8,10 @@ var layouter = require('./layouter2DServer');
 var obj = require('./obj');
 var dS = require('./detailStates');
 
+var okImagePath = require('../images/Ok.png');
+var warningImagePath = require('../images/Warning.png');
+var errorImagePath = require('../images/Error.png');
+
 require('./extensions/OBJLoader');
 
 
@@ -23,15 +27,15 @@ var DIRECTION = {
 var STATE = {
   OK: {
     id: 1,
-    htmlContent: '<img src="images/Ok.png">'
+    htmlContent: '<img src="bundle/' + okImagePath + '">'
   },
   WARNING: {
     id: 2,
-    htmlContent: '<img src="images/Warning.png">'
+    htmlContent: '<img src="bundle/' + warningImagePath + '">'
   },
   ERROR: {
     id: 3,
-    htmlContent: '<img src="images/Error.png">'
+    htmlContent: '<img src="bundle/' + errorImagePath + '">'
   }
 };
 
