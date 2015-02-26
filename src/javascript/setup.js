@@ -16,7 +16,6 @@ module.exports = function createTestSetup(app) {
 	newOne = newOne.addSoftware(app, {});
 	newOne = newOne.addSoftware(app, {});
 	//test end
-
 	//---------------------------------------------------------------------
 
 	var layouter = app.layouter;

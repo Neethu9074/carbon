@@ -24,7 +24,7 @@ exports.MouseControl.prototype.init = function(app) {
   this.moveSpeed = 0.06; //distance moved per pixel - heuristic
 
   //zoom fields
-  this.minZoom = 100;
+  this.minZoom = 10000;
   this.zoomLevel = 40;
   this.maxZoom = 4;
 

@@ -234,7 +234,7 @@ exports.Application.prototype.createLights = function() {
 
 exports.Application.prototype.createCamera = function(width, height) {
 	//set the farplane as near as possible
-	this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 1, 250);
+	this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 1, 1250);
 	this.mainCamera.position.set(-2, 5, 2.5);
 	this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
