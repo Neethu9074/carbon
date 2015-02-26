@@ -107,6 +107,7 @@ exports.BaseCube.prototype.createCube = function(app, dimension, name, group,
 			new THREE.BoxGeometry(width, height, depth),
 			simpleMaterial);
 
+		cube.name = name;
 		cube.position.copy(pos);
 		this.setStatic(cube);
 		group.add(cube);

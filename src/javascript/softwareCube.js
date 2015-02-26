@@ -13,9 +13,10 @@ exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
 	}
 
 	baseCube.BaseCube.call(this, app, xyz.x, xyz.y, xyz.z, 2, 0.4, 2, false);
+	this.collisionMesh.parentCube = this;
 
 	//the parent server or software, where the software belongs to
-	this.parent = serverCube
+	this.parent = serverCube;
 
 	this.app = app;
 
@@ -58,16 +59,13 @@ function createCSS3DTestStuff(app, dimension, name) {
 		dimension.x,
 		dimension.y + dimension.height / 2,
 		dimension.z);
-
-	pos.z += dimension.depth / 2;
-	var scaleX = dimension.width / 3;
-	var scaleY = dimension.depth / 3;
+	pos.z += dimension.depth / 2 - 0.2;
 
 	var number = document.createElement('div');
 	number.className = 'softwareCSS3DLayer';
 	number.innerHTML = content;
 	var object = new THREE.CSS3DObject(number);
-	object.scale.set(scaleX / 40, scaleY / 40, 1);
+	object.scale.set(1 / 110, 1 / 100, 1);
 	object.position.copy(pos);
 	object.rotation.x = -90 * math.DegToRad;
 
