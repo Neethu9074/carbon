@@ -61,10 +61,10 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 
   //set state
   //TODO: not random :)
-  var r = Math.ceil(Math.random() * 3);
-  if (r === 1) {
+  var r = Math.ceil(Math.random() * 100);
+  if (r > 30) {
     this.state = STATE.OK;
-  } else if (r === 2) {
+  } else if (r >15) {
     this.state = STATE.WARNING;
   } else {
     this.state = STATE.ERROR;
@@ -227,11 +227,11 @@ exports.ServerCube.prototype.update = function(app) {
     this.updateCount = 0;
     var r = Math.ceil(Math.random() * 3);
     if (r === 1) {
-      this.setState(STATE.OK);
+      //this.setState(STATE.OK);
     } else if (r === 2) {
-      this.setState(STATE.WARNING);
+      //this.setState(STATE.WARNING);
     } else {
-      this.setState(STATE.ERROR);
+      //this.setState(STATE.ERROR);
     }
   }
 
