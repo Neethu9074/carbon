@@ -15,13 +15,14 @@ exports.lineMaterial = new THREE.LineBasicMaterial({
   color: colors.lightBlue
 });
 
-exports.cubeDetailedMaterial = new THREE.MeshLambertMaterial({
+exports.cubeDetailedMaterial = new THREE.MeshPhongMaterial({
   color: colors.midBlue,
   side: THREE.DoubleSide,
   transparent: true,
   opacity: 1,
   blending: THREE.NormalBlending,
-  map: textures.serverCubeTexture
+  map: textures.serverCubeTexture,
+  shininess: 5
 });
 
 exports.cubeSimpleMaterial = new THREE.MeshLambertMaterial({

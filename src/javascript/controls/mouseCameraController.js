@@ -24,9 +24,9 @@ exports.MouseControl.prototype.init = function(app) {
   this.moveSpeed = 0.06; //distance moved per pixel - heuristic
 
   //zoom fields
-  this.minZoom = 10000;
+  this.minZoom = 1000;
   this.zoomLevel = 40;
-  this.maxZoom = 4;
+  this.maxZoom = 6.5;
 
   //raytracing fields
   this.raycaster = new THREE.Raycaster();
@@ -48,7 +48,6 @@ exports.MouseControl.prototype.init = function(app) {
 
   // a debug axis to see, where mainCamera is transformed with
   this.camTransformObject.add(new THREE.AxisHelper(2));
-  this.directionHelper.add(new THREE.AxisHelper(1));
 
   app.scene.add(this.camTransformObject);
   app.scene.add(this.directionHelper);

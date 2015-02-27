@@ -15,6 +15,7 @@ module.exports = function createTestSetup(app) {
 	var newOne = cube.addSoftware(app, {});
 	newOne = newOne.addSoftware(app, {});
 	newOne = newOne.addSoftware(app, {});
+	//cube.removeSoftware(newOne); //remove the last added software
 	//test end
 	//---------------------------------------------------------------------
 
@@ -40,7 +41,7 @@ module.exports = function createTestSetup(app) {
 			app.addObject(newCube);
 		}
 	}
-return;
+
 	i = 0;
 	do {
 		var a = cubes[i];

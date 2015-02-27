@@ -5,6 +5,7 @@ var gridImagePath = require('../images/grid.png');
 var cubeImagePath = require('../images/cube.png');
 var softwareCubePath = require('../images/softwareCube.png');
 
+
 exports.groundTexture = getGround();
 
 function getGround() {

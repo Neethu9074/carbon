@@ -1,7 +1,5 @@
 'use strict';
 
-var PF = require('./extensions/pathfinding-browser.min');
-
 var blocked = 'blocked';
 
 exports.Layouter2DServer = function Layouter2DServer(width, height) {
@@ -12,9 +10,6 @@ exports.Layouter2DServer = function Layouter2DServer(width, height) {
   for (var i = 0; i < width; i++) {
     this.grid[i] = new Array(height);
   }
-
-  //create grid for pathfinding. for each cube, pathfinding knows 100 quads
-  this.walkingGrid = new PF.Grid(width * 4, height * 4);
 };
 
 exports.Layouter2DServer.prototype.getNext = function(width, height) {
@@ -54,45 +49,6 @@ exports.Layouter2DServer.prototype.block = function(xy, width, height) {
       this.grid[w][h] = blocked;
     }
   }
-
-  //also block for pathfinding
-  //this.blockForWalkable(xy, width, height);
-};
-
-/*
- * checks the area around a given point and checks, if any field is blocked
- * true -> not possible to use
- * false -> is possible to use
- *  __
- * |__| -> free field, but blocked (here: gap size = 1)
- *
- * |||| -> the cube
- *  ________
- * |__|__|__|
- * |||||||__|
- * |||||||__|
- */
-exports.Layouter2DServer.prototype.blockForWalkable = function(xy, w, h) {
-  var grid = this.walkingGrid;
-
-  var fX = xy.x * 16 + 2,
-      fY = xy.y * 16 + 2,
-      tX = fX + w * 16 - 5,
-      tY = fY + h * 16 - 5;
-
-  for (var x = fX; x < tX; x++) {
-    for (var y = fY; y < tY; y++) {
-      grid.setWalkableAt(x, y, false);
-    }
-  }
-};
-
-exports.Layouter2DServer.prototype.freeForWalkable = function(grid, x, y, w, h) {
-  for (var xPos = x; xPos < x + w; xPos++) {
-    for (var yPos = y; yPos < y + h; yPos++) {
-      grid.setWalkableAt(x, y, true);
-    }
-  }
 };
 
 exports.Layouter2DServer.prototype.getFree = function(width, height) {
@@ -128,35 +84,12 @@ exports.Layouter2DServer.prototype.getFree = function(width, height) {
   return free;
 };
 
-//from and to are objects of type { x, y, width, height }
-exports.Layouter2DServer.prototype.getPath = function(from, to) {
-  //clone the grid because it gets updated
-  var grid = this.walkingGrid.clone();
+exports.Layouter2DServer.prototype.setFree = function(x, y, width, height) {
+  var grid = this.grid;
 
-  //clear the areas of the source and the desination,
-  // so that the algorithms won't start in a blocked area
-  //and no path could be found
-  this.freeForWalkable(grid, from.x, from.y, from.width, from.height);
-  this.freeForWalkable(grid, to.x, to.y, to.width, to.height);
-
-  var finder = new PF.AStarFinder({
-    dontCrossCorners: true,
-    allowDiagonal: true
-  });
-
-  var fromX = from.x;
-  var fromY = from.y;
-  var toX = to.x;
-  var toY = to.y;
-
-  var path = finder.findPath(fromX, fromY, toX, toY, grid);
-  //compress path to massively reduce lines. compressing does:
-  //[[0, 1], [0, 2], [0, 3], [0, 4]] => [[0, 1], [0, 4]]
-  var compressedPath = PF.Util.compressPath(path);
-
-  if (compressedPath.length > 1) {
-    return compressedPath;
-  } else {
-    return undefined;
+  for (var xPos = x; x < width + x; x++) {
+    for (var yPos = y; y < height + y; y++) {
+      grid[xPos][yPos] = undefined;
+    }
   }
 };
