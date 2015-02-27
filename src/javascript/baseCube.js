@@ -3,12 +3,10 @@
 var THREE = require('three.js');
 var sceneObj = require('./sceneObject');
 var colors = require('./colors');
-var mats = require('./materials');
-var obj = require('./obj');
 require('./extensions/OBJLoader');
 
 exports.BaseCube = function BaseCube(
-  app, x, y, z, width, height, depth, detailed) {
+  app, x, y, z, width, height, depth) {
   if (app === undefined || x === undefined ||
     y === undefined || z === undefined || width === undefined ||
     height === undefined || depth === undefined) {
@@ -29,16 +27,9 @@ exports.BaseCube = function BaseCube(
     depth: depth
   };
 
-  //create cubes
-  var group = new THREE.Object3D();
-  //create main cube mesh
-  this.createCube(app, this.dimension, this.name, group, detailed);
-
   //create helper objects
   var collisionCube = createCollisionCube(this.dimension, this.name);
   this.setStatic(collisionCube);
-
-  this.setMesh(group);
   this.setCollisionMesh(collisionCube);
 };
 
@@ -53,7 +44,7 @@ exports.BaseCube.prototype.setStatic = function(mesh) {
 };
 
 exports.BaseCube.prototype.collectMaterials = function() {
-  var obj = this.getMesh();
+  var root = this.getMesh();
   var find = function(mats, object) {
     for (var i = 0; i < object.children.length; i++) {
       var item = object.children[i];
@@ -64,59 +55,10 @@ exports.BaseCube.prototype.collectMaterials = function() {
     }
   };
 
-  var materials = [];
-  find(materials, obj);
+  var materials = [ root.material ];
+  find(materials, root);
   return materials;
 };
-
-exports.BaseCube.prototype.createCube = function(app, dimension, name, group,
-  detailed) {
-  var width = dimension.width,
-    height = dimension.height,
-    depth = dimension.depth;
-  var pos = new THREE.Vector3(dimension.x, dimension.y, dimension.z);
-
-  if (detailed) {
-    var detailedCube = new THREE.Mesh(obj.cube.geometry, mats.cubeDetailedMaterial);
-    detailedCube.position.copy(pos);
-    detailedCube.translateY(-dimension.height / 2);
-    detailedCube.scale.set(width, height, depth);
-    detailedCube.name = name;
-
-    this.setStatic(detailedCube);
-    group.add(detailedCube);
-
-    fadeIn(app, detailedCube.material);
-  } else {
-    var cube = new THREE.Mesh(
-      new THREE.BoxGeometry(width, height, depth),
-      mats.cubeSimpleMaterial);
-
-    cube.name = name;
-    cube.position.copy(pos);
-    this.setStatic(cube);
-    group.add(cube);
-  }
-};
-
-function fadeIn(app, material) {
-  //setup fade in animation
-  var from = {
-    v: 0
-  };
-  var to = {
-    v: 1
-  };
-
-  //1sec animation duration
-  var tween = new app.tweenEngine.Tween(from).to(to, 1000);
-  tween.onUpdate(function() {
-    material.opacity = from.v;
-  });
-
-  tween.start();
-  tween.easing(app.tweenEngine.Easing.Cubic.InOut);
-}
 
 //this cube is used for collision / ray detection. In the app file,
 //the collision objects are stored in a seperate collection to minimize

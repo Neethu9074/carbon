@@ -40,7 +40,7 @@ module.exports = function createTestSetup(app) {
 			app.addObject(newCube);
 		}
 	}
-
+return;
 	i = 0;
 	do {
 		var a = cubes[i];

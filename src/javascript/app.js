@@ -31,7 +31,7 @@ exports.Application = function Application() {
 
 	this.bindListeners();
 	this.initialize();
-	//this.createStats();
+	this.createStats();
 	this.createOctree();
 	this.tweenEngine = TWEEN;
 
@@ -74,7 +74,8 @@ exports.Application.prototype.addRandomCube = function() {
 	var width = Math.ceil(Math.random() * 2);
 	var xy = this.layouter.getNext(width, width);
 	if (xy !== undefined) {
-		this.addObject(new server.ServerCube(this, xy.x, xy.y, width, width));
+		var cube = new server.ServerCube(this, xy.x, xy.y, width, width);
+		this.addObject(cube);
 	}
 };
 
@@ -189,12 +190,12 @@ exports.Application.prototype.addObject = function(obj) {
 	}
 	if (mesh !== undefined) {
 		//check whether the objects are inserted into other collections
-		//store all objects which needs an update on update
-		if (obj.needsUpdate) {
-			this.updateableObjects.push(obj);
-		}
 		this.scene.add(mesh);
 		this.sceneObjects3D.push(obj);
+	}
+	//store all objects which needs an update on update
+	if (obj.needsUpdate) {
+		this.updateableObjects.push(obj);
 	}
 };
 
@@ -340,7 +341,7 @@ exports.Application.prototype.render = function() {
 };
 
 exports.Application.prototype.animate = function() {
-/*
+
 	var rS = this.rStats;
 
 	rS('frame').start();
@@ -349,7 +350,7 @@ exports.Application.prototype.animate = function() {
 	rS('rAF').tick();
 	rS('FPS').frame();
 	rS('updates').start();
-*/
+
 	//call this again
 	requestAnimationFrame(this.animate);
 	//calculate time the last frame needed to be updated/rendered
@@ -359,6 +360,8 @@ exports.Application.prototype.animate = function() {
 	this.mouseControl.update(this.deltaTime);
 
 	TWEEN.update();
+
+	server.update(this);
 
 	//update all registered objects (don't use for in)
 	for (var i = 0; i < this.updateableObjects.length; i++) {
@@ -372,18 +375,18 @@ exports.Application.prototype.animate = function() {
 			object.update(cam);
 		}
 	});
-/*
+
 	rS('updates').end();
 	rS('render').start();
-*/
+
 	//Perform render
 	//render the scene when all animations are updated
 	this.render();
-/*
+
 	rS('render').end();
 	rS('frame').end();
 	rS().update();
-*/
+
 };
 
 exports.Application.prototype.calculateDeltaTime = function() {

@@ -4,15 +4,30 @@ var THREE = require('three.js');
 var math = require('./math');
 var baseCube = require('./baseCube');
 var software = require('./softwareCube');
-//var colors = require('./colors');
-//var textTexture = require('./extensions/textTextureFacade');
+var mats = require('./materials');
+
+//use this object to merge each new cube into it.
+//boosts extremly performance, because you don't increase draw calls
+var globalMeshObject = new THREE.Mesh();
+var globalMeshWasSet = false;
 
 exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
 	if (app === undefined || xyz === undefined) {
 		return undefined;
 	}
 
-	baseCube.BaseCube.call(this, app, xyz.x, xyz.y, xyz.z, 2, 0.4, 2, false);
+	baseCube.BaseCube.call(this, app, xyz.x, xyz.y, xyz.z, 2, 0.4, 2);
+
+	//first, add the global object to the app
+	if(!globalMeshWasSet){
+		globalMeshObject.name = name;
+		globalMeshObject.material = mats.cubeSimpleMaterial;
+		this.setStatic(globalMeshObject);
+		this.setMesh(globalMeshObject);
+		globalMeshWasSet = true;
+	}
+
+  this.createCube(app, this.dimension);
 	this.collisionMesh.parentCube = this;
 
 	//the parent server or software, where the software belongs to
@@ -30,6 +45,24 @@ exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
 //inherence from SceneObject
 exports.SoftwareCube.prototype = new baseCube.BaseCube();
 exports.SoftwareCube.prototype.constructor = exports.SoftwareCube;
+
+exports.SoftwareCube.prototype.createCube = function(app, dimension) {
+  var width = dimension.width,
+    height = dimension.height,
+    depth = dimension.depth;
+  var pos = new THREE.Vector3(dimension.x, dimension.y, dimension.z);
+
+	var cube = new THREE.Mesh(
+		new THREE.BoxGeometry(width, height, depth),
+		mats.cubeSimpleMaterial);
+
+	cube.position.copy(pos);
+	cube.updateMatrix();
+	globalMeshObject.geometry.merge(cube.geometry, cube.matrix);
+
+	//save this object, because it should be removable from the global mesh
+	this.softwareCube = cube;
+};
 
 exports.SoftwareCube.prototype.hide = function() {
 	//remove the 2D overlay from seperate scene
