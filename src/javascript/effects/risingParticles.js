@@ -2,7 +2,6 @@
 
 var THREE = require('three.js');
 var sceneObj = require('../sceneObject');
-
 var shader = require('../shader/risingParticles');
 
 exports.RisingParticles = function RisingParticles(app, positions) {

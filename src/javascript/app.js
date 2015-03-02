@@ -19,7 +19,6 @@ var particles = require('./effects/risingParticles');
 require('./extensions/CSS3DRenderer');
 require('./extensions/OculusRiftEffect');
 require('./extensions/Octree');
-var TWEEN = require('./extensions/tween.min.js');
 var rStats = require('./extensions/rStats');
 var glStats = require('./extensions/rStats.extras');
 
@@ -35,7 +34,6 @@ exports.Application = function Application() {
 	this.initialize();
 	this.createStats();
 	this.createOctree();
-	this.tweenEngine = TWEEN;
 	this.clickedObj = undefined;
 
 	this.mouseControl = new mControl.MouseControl(this);
@@ -372,8 +370,6 @@ exports.Application.prototype.animate = function() {
 
 	//update the controls
 	this.mouseControl.update(this.deltaTime);
-
-	TWEEN.update();
 
 	server.update(this);
 

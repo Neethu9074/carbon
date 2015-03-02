@@ -17,14 +17,13 @@ module.exports = function createTestSetup(app) {
 	newOne = newOne.addSoftware({});
 
 	//test end
-	return;
 	//---------------------------------------------------------------------
 
 	var layouter = app.layouter;
 	var xy;
 	//add a few cubes
 	var cubes = [];
-	for (i = 0; i < 20; i++) {
+	for (i = 0; i < 2; i++) {
 		//create random cubes with a random width and depth
 		var w = Math.ceil(Math.random() * 2);
 		var h = w;
@@ -32,7 +31,6 @@ module.exports = function createTestSetup(app) {
 		try{
 			xy = layouter.getNext(w, h);
 		} catch(err) {
-			console.log(err);
 			break;
 		}
 
@@ -62,7 +60,7 @@ module.exports = function createTestSetup(app) {
 			depth: b.dimension.depth
 		});
 		if (path !== undefined) {
-			var con = new connection.Connection(path);
+			var con = new connection.Connection(app, path);
 			app.addObject(con);
 		}
 	} while (b !== undefined);

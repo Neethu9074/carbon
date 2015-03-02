@@ -1,7 +1,6 @@
 'use strict';
 
 var THREE = require('three.js');
-var colors = require('../colors');
 
 exports.MouseControl = function MouseControl(app) {
   this.bindListeners();
@@ -124,7 +123,7 @@ exports.MouseControl.prototype.onMouseMove = function(e) {
 
   //do it only every x times
   if ((this.counterForRayCasting++ % 5) === 0) {
-    this.doRayPicking( e.clientX,  e.clientY);
+    this.doRayPicking( e.clientX, e.clientY);
   }
 };
 

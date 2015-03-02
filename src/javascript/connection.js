@@ -5,8 +5,8 @@ var sceneObj = require('./sceneObject');
 var pa = require('./pathAnimation.js');
 
 //path is an array of 2DArrays -> [[0,0], [1,2], ...]
-exports.Connection = function Connection(path) {
-	this.init();
+exports.Connection = function Connection(app, path) {
+	this.init(app);
 
   var group = new THREE.Object3D();
   this.points = [];
@@ -65,49 +65,6 @@ exports.Connection.prototype.createMesh = function(path) {
 	return new THREE.Line(geometry, material);
 };
 
-exports.Connection.prototype.update = function(app) {
-  this.animator.update(app.deltaTime);
+exports.Connection.prototype.update = function() {
+  this.animator.update(this.appRef.deltaTime);
 };
-
-/*
-exports.Connection.prototype.test = function(fromPos, toPos) {
-	var direction = new THREE.Vector3();
-	direction.add(fromPos);
-	direction.sub(toPos);
-	direction.normalize();
-
-	var right = direction.cross(new THREE.Vector3(0, 0, 1));
-	right.multiplyScalar(0.1 / 2);
-
-	var rightposA = new THREE.Vector3(
-		fromPos.x + right.x, fromPos.y + right.y, fromPos.z + right.z);
-	var leftposA = new THREE.Vector3(
-		fromPos.x - right.x, fromPos.y - right.y, fromPos.z - right.z);
-	var rightposB = new THREE.Vector3(
-		toPos.x + right.x, toPos.y + right.y, toPos.z + right.z);
-	var leftposB = new THREE.Vector3(
-		toPos.x - right.x, toPos.y - right.y, toPos.z - right.z);
-
-	var geometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
-	geometry.attributes.position.array[0] = leftposA.x;
-	geometry.attributes.position.array[1] = leftposA.y;
-	geometry.attributes.position.array[3] = rightposA.x;
-	geometry.attributes.position.array[4] = rightposA.y;
-	geometry.attributes.position.array[6] = leftposB.x;
-	geometry.attributes.position.array[7] = leftposB.y;
-	geometry.attributes.position.array[9] = rightposB.x;
-	geometry.attributes.position.array[10] = rightposB.y;
-	geometry.attributes.position.array[2] = leftposA.z;
-	geometry.attributes.position.array[5] = rightposA.z;
-	geometry.attributes.position.array[8] = leftposB.z;
-	geometry.attributes.position.array[11] = rightposB.z;
-
-	var mat = new THREE.MeshBasicMaterial({
-		color: Math.random() * 0xffffff,
-		side: THREE.DoubleSide
-	});
-	var plane = new THREE.Mesh(geometry, mat);
-	plane.doubleSided = true;
-	return plane;
-};
-*/

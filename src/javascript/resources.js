@@ -9,23 +9,26 @@ var errorObjectPath = require('../obj/error.obj');
 var cubeObjectPath = require('../obj/cube.obj');
 
 exports.load = function(onFinished) {
-  loadModel('bundle/' + warningObjectPath, obj.setStateWarningSymbol, function(){
-    loadModel('bundle/' + errorObjectPath, obj.setStateErrorSymbol, function(){
-      loadModel('bundle/' + cubeObjectPath, obj.setCube, function(){
-        onFinished();
-      });
-    });
-  });
+	loadModel('bundle/' + warningObjectPath, obj.setStateWarningSymbol,
+		function() {
+			loadModel('bundle/' + errorObjectPath, obj.setStateErrorSymbol,
+				function() {
+					loadModel('bundle/' + cubeObjectPath, obj.setCube,
+						function() {
+							onFinished();
+						});
+				});
+		});
 };
 
 function loadModel(model, set, onFinished) {
 	var loader = new THREE.OBJLoader();
-  loader.load(
+	loader.load(
 		model,
 		function(object) {
 			object = object.children[0];
-      set(object);
-      onFinished();
+			set(object);
+			onFinished();
 		}
 	);
 }
