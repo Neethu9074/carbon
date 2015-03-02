@@ -392,27 +392,11 @@ exports.ServerCube.prototype.destroy = function() {
 
 
 /*
-exports.ServerCube.prototype.fadeIn = function(app) {
-	var cube = this.serverCube;
-	var material = cube.material;
-	var rebuild = this.rebuildGlobalMesh;
-
-	//setup fade in animation
-	var from = {
-		v: 0
-	};
-	var to = {
-		v: 1
-	};
-
 	//1sec animation duration
 	var tween = new app.tweenEngine.Tween(from).to(to, 1000);
 	tween.onUpdate(function() {
-		material.opacity = from.v;
 	});
 	tween.onComplete(function() {
-		servers.push(cube);
-		rebuild();
 	});
 
 	tween.start();
