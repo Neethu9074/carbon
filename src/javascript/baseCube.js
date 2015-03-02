@@ -13,7 +13,7 @@ exports.BaseCube = function BaseCube(
     return undefined;
   }
 
-  this.init();
+  this.init(app);
 
   this.x = x;
   this.y = z;

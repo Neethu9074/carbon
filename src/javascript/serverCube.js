@@ -19,7 +19,6 @@ var globalMeshObjectForServer = new THREE.Mesh();
 var globalMeshObjectForServerContainer = new THREE.Mesh();
 var servers = [];
 var globalMeshWasSet = false;
-var detailState;
 
 var DIRECTION = {
 	IN: {
@@ -69,11 +68,12 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 		globalMeshWasSet = true;
 	}
 
-	this.createCube(app, this.dimension);
+	this.createCube( this.dimension);
 
 	//set the parent mesh of the collision cube,
 	//so that it can be found during the raypicking stuff
 	this.collisionMesh.parentCube = this;
+	console.log
 
 	//set state
 	//TODO: not random :)
@@ -90,12 +90,12 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 
 	this.stateWarningSymbol = new THREE.Mesh(
 		obj.stateWarningSymbol.geometry,
-		obj.stateSymbolMaterial(0xFFFF00));
+		globalMats.stateSymbolWarningMaterial);
 	setSymbolParams(this.stateWarningSymbol, x, y, width, depth);
 
 	this.stateErrorSymbol = new THREE.Mesh(
 		obj.stateErrorSymbol.geometry,
-		obj.stateSymbolMaterial(0xFF0000));
+		globalMats.stateSymbolErrorMaterial);
 	setSymbolParams(this.stateErrorSymbol, x, y, width, depth);
 
 	globalMeshObjectForServerContainer.add(this.stateWarningSymbol);
@@ -108,21 +108,15 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 	//a collection which stores all cubes inside this server cube
 	this.softwareChildren = [];
 
-	//this collection stores all special server materials, to be animated
-	this.additionalOpacityAnimatedMaterials = [];
-
 	//tween parameters
 	this.minDistanceForTransparency = 17.5;
 	this.fadeDirection = DIRECTION.OUT;
 
 	this.detailState = app.detailState;
 
-	//stores all materials, that are animated due to animation process
-	this.opacityAnimatedMaterials = [];
-
 	//save the css stuff
-	this.cssObject = createCSS3DTestStuff(this.state, app, this.dimension);
-  this.hideDetails(app, this);
+	this.cssObject = createCSS3DTestStuff(this.state, this.dimension);
+  this.hideDetails();
 	this.setState(this.state);
 
 	this.relevantVerticesForDistanceCalulation = [];
@@ -142,7 +136,7 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 exports.ServerCube.prototype = new baseCube.BaseCube();
 exports.ServerCube.prototype.constructor = exports.ServerCube;
 
-exports.ServerCube.prototype.createCube = function(app, dimension) {
+exports.ServerCube.prototype.createCube = function(dimension) {
 	var width = dimension.width,
 		height = dimension.height,
 		depth = dimension.depth;
@@ -159,7 +153,6 @@ exports.ServerCube.prototype.createCube = function(app, dimension) {
 
 	servers.push(detCube);
 	this.rebuildGlobalMesh();
-	//this.fadeIn(app);
 };
 
 exports.ServerCube.prototype.rebuildGlobalMesh = function() {
@@ -172,33 +165,6 @@ exports.ServerCube.prototype.rebuildGlobalMesh = function() {
 	globalMeshObjectForServer = new THREE.Mesh(geo,
 		globalMats.cubeDetailedMaterial);
 	globalMeshObjectForServerContainer.add(globalMeshObjectForServer);
-};
-
-exports.ServerCube.prototype.fadeIn = function(app) {
-	var cube = this.serverCube;
-	var material = cube.material;
-	var rebuild = this.rebuildGlobalMesh;
-
-	//setup fade in animation
-	var from = {
-		v: 0
-	};
-	var to = {
-		v: 1
-	};
-
-	//1sec animation duration
-	var tween = new app.tweenEngine.Tween(from).to(to, 1000);
-	tween.onUpdate(function() {
-		material.opacity = from.v;
-	});
-	tween.onComplete(function() {
-		servers.push(cube);
-		rebuild();
-	});
-
-	tween.start();
-	tween.easing(app.tweenEngine.Easing.Cubic.InOut);
 };
 
 function setSymbolParams(object, x, y, width, depth) {
@@ -227,7 +193,7 @@ function createGrid(width, height) {
 	return gridTemp;
 }
 
-function createCSS3DTestStuff(state, app, dimension) {
+function createCSS3DTestStuff(state, dimension) {
 	var content = state.htmlContent;
 	var pos = new THREE.Vector3(dimension.x, dimension.y * 2, dimension.z);
 	var number = document.createElement('div');
@@ -253,63 +219,54 @@ exports.ServerCube.prototype.setState = function(newState) {
 	//switch CSS3D layer
 	this.cssObject.element.innerHTML = this.state.htmlContent;
 
+	var con = globalMeshObjectForServerContainer;
+
 	//switch 3D state symbol
 	if (newState === STATE.WARNING) {
-		this.stateErrorSymbol.material.visible = false;
-		this.stateWarningSymbol.material.visible = true;
+		con.add(this.stateWarningSymbol);
+		con.remove(this.stateErrorSymbol);
 	} else if (newState === STATE.ERROR) {
-		this.stateErrorSymbol.material.visible = true;
-		this.stateWarningSymbol.material.visible = false;
+			con.remove(this.stateWarningSymbol);
+			con.add(this.stateErrorSymbol);
 	} else {
-		this.stateErrorSymbol.material.visible = false;
-		this.stateWarningSymbol.material.visible = false;
+		con.remove(this.stateWarningSymbol);
+		con.remove(this.stateErrorSymbol);
 	}
 };
 
-exports.ServerCube.prototype.addSoftware = function(app, options) {
-	try {
-		//calculte next free field
-		var xy = this.layouter.getNext(3, 3);
-	} catch (err) {
-		//console.log(err);
-		return undefined;
-	}
-	//get dimensions of the parent server
-	var dim = this.dimension;
-
-	var xyz = {
-		x: xy.x + dim.x - (dim.width / 2) + 1,
-		y: dim.y - dim.height / 2,
-		z: xy.y - dim.z - dim.depth / 2 + 1
-	};
-	//create the cube
-	var swCube = new software.SoftwareCube(this, app, xyz);
-	this.softwareChildren.push(swCube);
-
-	//console.log('software added to server: ', swCube);
-
-	return swCube;
-};
-
+//the global update method to calculate things for the combined mesh or
+//stuff that has to be calculated for every cube
 exports.update = function(app) {
 	if (app.detailState === dS.DETAILSTATE.MID ||
 		app.detailState === dS.DETAILSTATE.MAX) {
+		globalMeshObjectForServer.material.transparent = true;
+		globalMats.stateSymbolWarningMaterial.transparent = true;
+		globalMats.stateSymbolErrorMaterial.transparent = true;
+
 		var normZoomDistance = (app.zoomLevel) / (app.midDetailsDistance);
 		globalMeshObjectForServer.material.opacity = normZoomDistance;
+		globalMats.stateSymbolWarningMaterial.opacity = normZoomDistance;
+		globalMats.stateSymbolErrorMaterial.opacity = normZoomDistance;
+	} else {
+		globalMeshObjectForServer.material.transparent = false;
+		globalMats.stateSymbolWarningMaterial.transparent = false;
+		globalMats.stateSymbolErrorMaterial.transparent = false;
 	}
 };
 
-exports.ServerCube.prototype.update = function(app) {
+exports.ServerCube.prototype.update = function() {
+	var app = this.appRef;
+
 	this.updateCount++;
 	if (this.updateCount % this.randomStateSwitchFactor === 0) {
 		this.updateCount = 0;
 		var r = Math.ceil(Math.random() * 3);
 		if (r === 1) {
-			//this.setState(STATE.OK);
+			this.setState(STATE.OK);
 		} else if (r === 2) {
-			//this.setState(STATE.WARNING);
+			this.setState(STATE.WARNING);
 		} else {
-			//this.setState(STATE.ERROR);
+			this.setState(STATE.ERROR);
 		}
 	}
 
@@ -337,49 +294,128 @@ exports.ServerCube.prototype.update = function(app) {
 	}
 };
 
-exports.ServerCube.prototype.setMinDetails = function(app) {
+exports.ServerCube.prototype.setMinDetails = function() {
 	console.log('changed to min');
-	this.hideDetails(app, this);
+	this.hideDetails();
 };
 
-exports.ServerCube.prototype.setMidDetails = function(app) {
-	this.showDetails(app, this);
+exports.ServerCube.prototype.setMidDetails = function() {
+	this.showDetails();
 	console.log('changed to mid');
 };
 
-exports.ServerCube.prototype.setMaxDetails = function(app) {
+exports.ServerCube.prototype.setMaxDetails = function() {
 	console.log('changed to max');
 };
 
-exports.ServerCube.prototype.hideDetails = function(app, cube) {
-	for (var i = 0; i < cube.softwareChildren.length; i++) {
-		var child = cube.softwareChildren[i];
+exports.ServerCube.prototype.hideDetails = function() {
+	var app = this.appRef;
+
+	for (var i = 0; i < this.softwareChildren.length; i++) {
+		var child = this.softwareChildren[i];
 		if (child instanceof software.SoftwareCube) {
 			child.hide();
 		}
-		app.removeObject(child);
 	}
 
-	app.scene2D.add(cube.cssObject);
+	app.scene2D.add(this.cssObject);
 
 	//add collision object to octree to enable raypicking for this cube
-	app.octree.add(cube.getCollisionMesh());
+	app.octree.add(this.getCollisionMesh());
 	app.octree.update();
 };
 
-exports.ServerCube.prototype.showDetails = function(app, cube) {
-	for (var i = 0; i < cube.softwareChildren.length; i++) {
-		var child = cube.softwareChildren[i];
+exports.ServerCube.prototype.showDetails = function() {
+	var app = this.appRef;
+
+	for (var i = 0; i < this.softwareChildren.length; i++) {
+		var child = this.softwareChildren[i];
 		if (child instanceof software.SoftwareCube) {
 			child.show();
 		}
-		app.addObject(child);
 	}
 	//do it twice because the image is particulary not inserted at first try
 	//happens on fast zoom in/out
-	app.scene2D.remove(cube.cssObject);
+	app.scene2D.remove(this.cssObject);
 
 	//remove collision object from octree to get access to the details
-	app.octree.remove(cube.getCollisionMesh());
+	app.octree.remove(this.getCollisionMesh());
 	app.octree.update();
 };
+
+exports.ServerCube.prototype.addSoftware = function(options) {
+	try {
+		//calculte next free field
+		var xy = this.layouter.getNext(3, 3);
+	} catch (err) {
+		//console.log(err);
+		return undefined;
+	}
+	//get dimensions of the parent server
+	var dim = this.dimension;
+
+	var xyz = {
+		x: xy.x + dim.x - (dim.width / 2) + 1,
+		y: dim.y - dim.height / 2,
+		z: xy.y - dim.z - dim.depth / 2 + 1
+	};
+	//create the cube
+	var swCube = new software.SoftwareCube(this, this.appRef, xyz);
+	this.softwareChildren.push(swCube);
+	return swCube;
+};
+
+exports.ServerCube.prototype.removeSoftware = function(softwareCube) {
+	softwareCube.destroy();
+};
+
+exports.ServerCube.prototype.softwareRemoved = function(softwareCube) {
+	this.softwareChildren = this.softwareChildren.filter(item => item !== softwareCube);
+}
+
+exports.ServerCube.prototype.destroy = function() {
+	//destroy children
+	var children =  this.softwareChildren.slice();
+	for (var i = 0; i < children.length; i++) {
+		this.removeSoftware(children[i]);
+	}
+
+	//free resources
+	this.appRef.scene2D.remove(this.cssObject);
+	globalMeshObjectForServerContainer.remove(this.stateWarningSymbol);
+	globalMeshObjectForServerContainer.remove(this.stateErrorSymbol);
+
+	//rebuild global combined mesh
+	servers = servers.filter(item => item !== this.serverCube);
+	this.rebuildGlobalMesh();
+};
+
+
+/*
+exports.ServerCube.prototype.fadeIn = function(app) {
+	var cube = this.serverCube;
+	var material = cube.material;
+	var rebuild = this.rebuildGlobalMesh;
+
+	//setup fade in animation
+	var from = {
+		v: 0
+	};
+	var to = {
+		v: 1
+	};
+
+	//1sec animation duration
+	var tween = new app.tweenEngine.Tween(from).to(to, 1000);
+	tween.onUpdate(function() {
+		material.opacity = from.v;
+	});
+	tween.onComplete(function() {
+		servers.push(cube);
+		rebuild();
+	});
+
+	tween.start();
+	tween.easing(app.tweenEngine.Easing.Cubic.InOut);
+};
+*/

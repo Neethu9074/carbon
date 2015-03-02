@@ -3,42 +3,48 @@
 var THREE = require('three.js');
 var math = require('./math');
 var baseCube = require('./baseCube');
-var software = require('./softwareCube');
+var softwareCube = require('./softwareCube');
 var mats = require('./materials');
 
 //use this object to merge each new cube into it.
 //boosts extremly performance, because you don't increase draw calls
-var globalMeshObject = new THREE.Mesh();
+//use this object to merge each new cube into it.
+//boosts extremly performance, because you don't increase draw calls
+var globalMeshObjectForSoftware = new THREE.Mesh();
+var globalMeshObjectForSoftwareContainer = new THREE.Mesh();
+var software = [];
 var globalMeshWasSet = false;
 
 exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
 	if (app === undefined || xyz === undefined) {
 		return undefined;
 	}
-
 	baseCube.BaseCube.call(this, app, xyz.x, xyz.y, xyz.z, 2, 0.4, 2);
+
+	this.app = app;
 
 	//first, add the global object to the app
 	if(!globalMeshWasSet){
-		globalMeshObject.name = name;
-		globalMeshObject.material = mats.cubeSimpleMaterial;
-		this.setStatic(globalMeshObject);
-		this.setMesh(globalMeshObject);
+		globalMeshObjectForSoftwareContainer.name = name;
+		this.setStatic(globalMeshObjectForSoftwareContainer);
+		app.scene.add(globalMeshObjectForSoftwareContainer);
 		globalMeshWasSet = true;
 	}
 
-  this.createCube(app, this.dimension);
+  this.createCube(this.dimension);
+	this.collisionMesh.parentCube = this;
+
+	//set the parent mesh of the collision cube,
+	//so that it can be found during the raypicking stuff
 	this.collisionMesh.parentCube = this;
 
 	//the parent server or software, where the software belongs to
 	this.parent = serverCube;
 
-	this.app = app;
-
 	//in this collection higher level softwareCubes will be stored
 	this.stackedsoftware = [];
 
-	this.cssObject = createCSS3DTestStuff(app, this.dimension, 'Apache 2.4');
+	this.cssObject = createCSS3DTestStuff(this.dimension, 'Apache 2.4');
 	this.hide();
 };
 
@@ -46,7 +52,7 @@ exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
 exports.SoftwareCube.prototype = new baseCube.BaseCube();
 exports.SoftwareCube.prototype.constructor = exports.SoftwareCube;
 
-exports.SoftwareCube.prototype.createCube = function(app, dimension) {
+exports.SoftwareCube.prototype.createCube = function(dimension) {
   var width = dimension.width,
     height = dimension.height,
     depth = dimension.depth;
@@ -57,36 +63,53 @@ exports.SoftwareCube.prototype.createCube = function(app, dimension) {
 		mats.cubeSimpleMaterial);
 
 	cube.position.copy(pos);
+	this.setStatic(cube);
 	cube.updateMatrix();
-	globalMeshObject.geometry.merge(cube.geometry, cube.matrix);
 
 	//save this object, because it should be removable from the global mesh
 	this.softwareCube = cube;
+
+	software.push(cube);
+	this.rebuildGlobalMesh();
+};
+
+exports.SoftwareCube.prototype.rebuildGlobalMesh = function() {
+	globalMeshObjectForSoftwareContainer.remove(globalMeshObjectForSoftware);
+
+	var geo = new THREE.Geometry();
+	for (var i = 0; i < software.length; i++) {
+		geo.merge(software[i].geometry, software[i].matrix);
+	}
+	globalMeshObjectForSoftware = new THREE.Mesh(geo,
+		mats.cubeSimpleMaterial);
+	globalMeshObjectForSoftwareContainer.add(globalMeshObjectForSoftware);
 };
 
 exports.SoftwareCube.prototype.hide = function() {
-	//remove the 2D overlay from seperate scene
+	//add the 2D overlay from seperate scene
 	this.app.scene2D.remove(this.cssObject);
-
-	//remove all stacked software as well
 	for (var i = 0; i < this.stackedsoftware.length; i++) {
 		this.stackedsoftware[i].hide();
-		this.app.removeObject(this.stackedsoftware[i]);
 	}
+
+	//remove collision object from octree to get access to the details
+	this.app.octree.remove(this.getCollisionMesh());
+	this.app.octree.update();
 };
 
 exports.SoftwareCube.prototype.show = function() {
 	//add the 2D overlay from seperate scene
 	this.app.scene2D.add(this.cssObject);
-
-	//add all stacked software as well
 	for (var i = 0; i < this.stackedsoftware.length; i++) {
 		this.stackedsoftware[i].show();
-		this.app.addObject(this.stackedsoftware[i]);
 	}
+
+	//remove collision object from octree to get access to the details
+	this.app.octree.add(this.getCollisionMesh());
+	this.app.octree.update();
 };
 
-function createCSS3DTestStuff(app, dimension, name) {
+function createCSS3DTestStuff(dimension, name) {
 	var content = name;
 	var pos = new THREE.Vector3(
 		dimension.x,
@@ -109,7 +132,7 @@ function createCSS3DTestStuff(app, dimension, name) {
 	return object;
 }
 
-exports.SoftwareCube.prototype.addSoftware = function(app, options) {
+exports.SoftwareCube.prototype.addSoftware = function(options) {
 	//get dimensions of the parent server
 	var dim = this.dimension;
 
@@ -122,7 +145,7 @@ exports.SoftwareCube.prototype.addSoftware = function(app, options) {
 	xyz.z -= dim.z + (dim.depth / 2);
 
 	//create the cube
-	var swCube = new software.SoftwareCube(this, app, xyz);
+	var swCube = new softwareCube.SoftwareCube(this, this.app, xyz);
 	this.stackedsoftware.push(swCube);
 
 	console.log('software stacked onto software: ', swCube);
@@ -130,42 +153,30 @@ exports.SoftwareCube.prototype.addSoftware = function(app, options) {
 };
 
 exports.SoftwareCube.prototype.removeSoftware = function(softwareCube) {
-	this.stackedsoftware.pop();
-	this.app.removeObject(softwareCube);
+	softwareCube.destroy();
 };
 
-
-
-/* obsolet
-function createLabel(dimension, name) {
-  var width = dimension.width,
-    height = dimension.height;
-
-  //width -= 0.01;
-  var labelHeight = 0.5;
-  var aspect = width * 2;
-  var topOfCube = height + 0.01; // 0.01 to avoid z-fighting
-
-  //get a texture from the facade
-  var tex = textTexture.createTexture(name, aspect);
-  //set to linear because the texture is not power of 2 (64x64, 32x32, ...)
-  tex.minFilter = THREE.LinearFilter;
-
-  var labelMat = new THREE.MeshBasicMaterial({
-    map: tex
-	});
-
-  var geometry = new THREE.PlaneBufferGeometry(width, labelHeight, 1, 1);
-  var plane = new THREE.Mesh(geometry, labelMat);
-  plane.position.set(dimension.x, topOfCube, dimension.z);
-  plane.rotateOnAxis(new THREE.Vector3(1, 0, 0), -90 * math.DegToRad);
-
-	//set static
-  plane.matrixAutoUpdate = false;
-  plane.updateMatrix();
-
-  //set name to identify later
-  plane.name = name;
-  return plane;
+exports.SoftwareCube.prototype.softwareRemoved = function(softwareCube) {
+	this.stackedsoftware = this.stackedsoftware.filter(item => item !== softwareCube);
 }
-*/
+
+exports.SoftwareCube.prototype.destroy = function() {
+	//remove all stacked software as well
+	var children =  this.stackedsoftware.slice();
+	for (var i = 0; i < children.length; i++) {
+		this.removeSoftware(children[i]);
+	}
+
+	this.parent.softwareRemoved(this);
+
+	//remove the 2D overlay from seperate scene
+	this.app.scene2D.remove(this.cssObject);
+
+	//remove collision object from octree to get access to the details
+	this.app.octree.remove(this.getCollisionMesh());
+	this.app.octree.update();
+
+	software = software.filter(item => item !== this.softwareCube);
+	//rebuild global combined mesh
+	this.rebuildGlobalMesh();
+};

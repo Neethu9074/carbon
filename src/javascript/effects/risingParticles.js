@@ -5,8 +5,8 @@ var sceneObj = require('../sceneObject');
 
 var shader = require('../shader/risingParticles');
 
-exports.RisingParticles = function RisingParticles(positions) {
-	this.init();
+exports.RisingParticles = function RisingParticles(app, positions) {
+	this.init(app);
 
 	this.uniforms = {
 		amplitude: {
@@ -57,8 +57,8 @@ function createMaterial(uniforms){
 	return shaderMaterial;
 }
 
-exports.RisingParticles.prototype.update = function(app){
-  var dTime = app.deltaTime;
+exports.RisingParticles.prototype.update = function(){
+  var dTime = this.appRef.deltaTime;
 	var maxHeight = 5;
 	var uniforms = this.uniforms;
 

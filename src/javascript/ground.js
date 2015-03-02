@@ -12,7 +12,7 @@ require('./extensions/Mirror');
 //var config = require('./config');
 
 exports.Ground = function Ground(app) {
-  this.init();
+  this.init(app);
   this.registerForUpdate();
 
   this.counter = 0;
@@ -74,6 +74,6 @@ exports.Ground.prototype.constructor = exports.Ground;
 exports.Ground.prototype.update = function(app) {
   this.counter++;
   if (this.counter % 10 === 0) {
-    this.groundMirror.render();
+    //this.groundMirror.render();
   }
 };

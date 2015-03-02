@@ -29,3 +29,13 @@ exports.cubeSimpleMaterial = new THREE.MeshLambertMaterial({
 	color: colors.lightBlue,
 	map: textures.softwareCubeTexture
 });
+
+exports.stateSymbolWarningMaterial = new THREE.MeshLambertMaterial({
+	color: 0xFFFF00,
+	transparent: true
+});
+
+exports.stateSymbolErrorMaterial = new THREE.MeshLambertMaterial({
+	color: 0xFF0000,
+	transparent: true
+});

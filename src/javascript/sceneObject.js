@@ -5,12 +5,13 @@ var math = require('./math');
 exports.SceneObject = function SceneObject() {
 };
 
-exports.SceneObject.prototype.init = function() {
+exports.SceneObject.prototype.init = function(app) {
 		var guid = math.guid();
 		this.name = 'Scene Object ' + guid;
 		this.mesh = undefined;
 		this.collisionMesh = undefined;
 		this.needsUpdate = false;
+		this.appRef = app;
 };
 
 exports.SceneObject.prototype.getName = function() {

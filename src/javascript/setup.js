@@ -13,17 +13,18 @@ module.exports = function createTestSetup(app) {
 	}
 
 	var newOne = cube.addSoftware(app, {});
-	newOne = newOne.addSoftware(app, {});
-	newOne = newOne.addSoftware(app, {});
-	//cube.removeSoftware(newOne); //remove the last added software
+	newOne = newOne.addSoftware({});
+	newOne = newOne.addSoftware({});
+
 	//test end
+	return;
 	//---------------------------------------------------------------------
 
 	var layouter = app.layouter;
 	var xy;
 	//add a few cubes
 	var cubes = [];
-	for (i = 0; i < 10; i++) {
+	for (i = 0; i < 20; i++) {
 		//create random cubes with a random width and depth
 		var w = Math.ceil(Math.random() * 2);
 		var h = w;

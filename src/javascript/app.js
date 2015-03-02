@@ -6,6 +6,8 @@ var server = require('./serverCube');
 var layouter = require('./layouter2D');
 var ground = require('./ground');
 var dS = require('./detailStates');
+var server = require('./serverCube');
+var software = require('./softwareCube');
 
 //controls
 var mControl = require('./controls/mouseCameraController');
@@ -34,6 +36,7 @@ exports.Application = function Application() {
 	this.createStats();
 	this.createOctree();
 	this.tweenEngine = TWEEN;
+	this.clickedObj = undefined;
 
 	this.mouseControl = new mControl.MouseControl(this);
 
@@ -46,9 +49,22 @@ exports.Application = function Application() {
 	//events
 	window.addEventListener('resize', this.onWindowResize, false);
 	document.getElementById('newCubeButton').onclick = this.addRandomCube;
+	document.getElementById('destroyCubeButton').onclick = this.removeCube;
 	document.getElementById('showWalkableButton').onclick = this.showWalkable;
 
 	this.animate();
+};
+
+// we need to make sure, that 'this' doesn't get lost.
+// we also only want to do this once
+exports.Application.prototype.bindListeners = function() {
+	this.onWindowResize = this.onWindowResize.bind(this);
+	this.calculateDeltaTime = this.calculateDeltaTime.bind(this);
+	this.animate = this.animate.bind(this);
+	this.render = this.render.bind(this);
+	this.addRandomCube = this.addRandomCube.bind(this);
+	this.removeCube = this.removeCube.bind(this);
+	this.showWalkable = this.showWalkable.bind(this);
 };
 
 //direction is 1 or -1, so the zoomIndex will be 0, 1, 2, ..., max array langth
@@ -63,7 +79,6 @@ exports.Application.prototype.zoom = function(zoomLevel) {
       state = dS.DETAILSTATE.MAX;
     }
   }
-
   //if state changed
   if(state !== this.detailState) {
     this.detailState = state;
@@ -76,6 +91,16 @@ exports.Application.prototype.addRandomCube = function() {
 	if (xy !== undefined) {
 		var cube = new server.ServerCube(this, xy.x, xy.y, width, width);
 		this.addObject(cube);
+	}
+};
+
+exports.Application.prototype.removeCube = function() {
+	var cube = this.clickedObj;
+	if(cube !== undefined){
+		if(cube instanceof server.ServerCube ||
+			cube instanceof software.SoftwareCube) {
+			this.removeObject(cube);
+		}
 	}
 };
 
@@ -95,17 +120,6 @@ exports.Application.prototype.showWalkable = function() {
 	this.scene.add(sys);
 };
 
-// we need to make sure, that 'this' doesn't get lost.
-// we also only want to do this once
-exports.Application.prototype.bindListeners = function() {
-	this.onWindowResize = this.onWindowResize.bind(this);
-	this.calculateDeltaTime = this.calculateDeltaTime.bind(this);
-	this.animate = this.animate.bind(this);
-	this.render = this.render.bind(this);
-	this.addRandomCube = this.addRandomCube.bind(this);
-	this.showWalkable = this.showWalkable.bind(this);
-};
-
 exports.Application.prototype.initialize = function() {
 	var width = window.innerWidth;
 	var height = window.innerHeight;
@@ -121,6 +135,7 @@ exports.Application.prototype.initialize = function() {
 };
 
 exports.Application.prototype.clickedOnObject = function(object) {
+	this.clickedObj = object.parentCube;
 	console.log('clicked on obj:', object);
 	//parse object info to infoBox
 };
@@ -172,7 +187,7 @@ exports.Application.prototype.setupEffects = function() {
 		}
 	}
 
-	var effect = new particles.RisingParticles(positions);
+	var effect = new particles.RisingParticles(this, positions);
 	this.addObject(effect);
 };
 
@@ -203,7 +218,6 @@ exports.Application.prototype.removeObject = function(obj) {
 	//getMesh is defined in superclass SceneObject
 	//each object has to set this.setMesh(some mesh or other scene object)
 	//to get added to the scene
-	var mesh = obj.getMesh();
 	var collisionMesh = obj.getCollisionMesh();
 	if (collisionMesh !== undefined) {
 		this.octree.remove(collisionMesh, {
@@ -211,15 +225,15 @@ exports.Application.prototype.removeObject = function(obj) {
 		});
 		this.octree.update();
 	}
-	if (mesh !== undefined) {
-		//check whether the objects are inserted into other collections
 
-		//store all objects which needs an update on update
-		if (obj.needsUpdate) {
-			this.updateableObjects.pop(obj);
-		}
-		this.scene.remove(mesh);
-		this.sceneObjects3D.pop(obj);
+	//store all objects which needs an update on update
+	if (obj.needsUpdate) {
+		this.updateableObjects = this.updateableObjects.filter(item => item !== obj);
+	}
+	this.sceneObjects3D = this.sceneObjects3D.filter(item => item !== obj);
+
+	if(obj instanceof server.ServerCube || obj  instanceof software.SoftwareCube){
+		obj.destroy();
 	}
 };
 
@@ -365,7 +379,7 @@ exports.Application.prototype.animate = function() {
 
 	//update all registered objects (don't use for in)
 	for (var i = 0; i < this.updateableObjects.length; i++) {
-		this.updateableObjects[i].update(this);
+		this.updateableObjects[i].update();
 	}
 
 	//update LOD objects
