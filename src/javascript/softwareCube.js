@@ -5,6 +5,7 @@ var math = require('./math');
 var baseCube = require('./baseCube');
 var softwareCube = require('./softwareCube');
 var mats = require('./materials');
+var dS = require('./detailStates');
 
 //use this object to merge each new cube into it.
 //boosts extremly performance, because you don't increase draw calls
@@ -45,7 +46,14 @@ exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
 	this.stackedsoftware = [];
 
 	this.cssObject = createCSS3DTestStuff(this.dimension, 'Apache 2.4');
-	this.hide();
+
+	//if the app is zoomed in, the new software should be visible
+	if(this.appRef.detailState === dS.DETAILSTATE.MAX ||
+		this.appRef.detailState === dS.DETAILSTATE.MID) {
+		this.show();
+	} else {
+		this.hide();
+	}
 };
 
 //inherence from SceneObject
@@ -76,6 +84,7 @@ exports.SoftwareCube.prototype.createCube = function(dimension) {
 exports.SoftwareCube.prototype.rebuildGlobalMesh = function() {
 	globalMeshObjectForSoftwareContainer.remove(globalMeshObjectForSoftware);
 
+	globalMeshObjectForSoftware.geometry.dispose();
 	var geo = new THREE.Geometry();
 	for (var i = 0; i < software.length; i++) {
 		geo.merge(software[i].geometry, software[i].matrix);
@@ -148,7 +157,6 @@ exports.SoftwareCube.prototype.addSoftware = function(options) {
 	var swCube = new softwareCube.SoftwareCube(this, this.app, xyz);
 	this.stackedsoftware.push(swCube);
 
-	console.log('software stacked onto software: ', swCube);
 	return swCube;
 };
 
@@ -175,6 +183,8 @@ exports.SoftwareCube.prototype.destroy = function() {
 	//remove collision object from octree to get access to the details
 	this.app.octree.remove(this.getCollisionMesh());
 	this.app.octree.update();
+
+	this.dispose();
 
 	software = software.filter(item => item !== this.softwareCube);
 	//rebuild global combined mesh

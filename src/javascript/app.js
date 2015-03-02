@@ -44,9 +44,12 @@ exports.Application = function Application() {
   this.zoomLevel = this.mouseControl.zoomLevel;
   this.detailState = dS.DETAILSTATE.MIN;
 
+	this.walkableSystem = undefined;
+
 	//events
 	window.addEventListener('resize', this.onWindowResize, false);
 	document.getElementById('newCubeButton').onclick = this.addRandomCube;
+	document.getElementById('newSoftwareButton').onclick = this.addRandomSoftware;
 	document.getElementById('destroyCubeButton').onclick = this.removeCube;
 	document.getElementById('showWalkableButton').onclick = this.showWalkable;
 
@@ -63,6 +66,7 @@ exports.Application.prototype.bindListeners = function() {
 	this.addRandomCube = this.addRandomCube.bind(this);
 	this.removeCube = this.removeCube.bind(this);
 	this.showWalkable = this.showWalkable.bind(this);
+	this.addRandomSoftware = this.addRandomSoftware.bind(this);
 };
 
 //direction is 1 or -1, so the zoomIndex will be 0, 1, 2, ..., max array langth
@@ -89,6 +93,19 @@ exports.Application.prototype.addRandomCube = function() {
 	if (xy !== undefined) {
 		var cube = new server.ServerCube(this, xy.x, xy.y, width, width);
 		this.addObject(cube);
+
+		//say the layouter, that the area should be blocked
+		this.layouter.setBlocked(xy, width, width, cube.name);
+	}
+	console.log(this.mainRenderer);
+};
+
+exports.Application.prototype.addRandomSoftware = function() {
+	var cube = this.clickedObj;
+	if(cube !== undefined){
+		if(cube instanceof server.ServerCube) {
+			cube.addSoftware({});
+		}
 	}
 };
 
@@ -103,6 +120,10 @@ exports.Application.prototype.removeCube = function() {
 };
 
 exports.Application.prototype.showWalkable = function() {
+	if(this.walkableSystem !== undefined) {
+		this.scene.remove(this.walkableSystem);
+	}
+
 	var geo = new THREE.Geometry();
 	var fields = this.layouter.getFreeWalkable();
 	for (var i in fields) {
@@ -114,8 +135,8 @@ exports.Application.prototype.showWalkable = function() {
 		size: 1
 	});
 
-	var sys = new THREE.PointCloud(geo, mat);
-	this.scene.add(sys);
+	this.walkableSystem = new THREE.PointCloud(geo, mat);
+	this.scene.add(this.walkableSystem);
 };
 
 exports.Application.prototype.initialize = function() {
@@ -190,6 +211,8 @@ exports.Application.prototype.setupEffects = function() {
 };
 
 exports.Application.prototype.addObject = function(obj) {
+	this.sceneObjects3D.push(obj);
+
 	//getMesh is defined in superclass SceneObject
 	//each object has to set this.setMesh(some mesh or other scene object)
 	//to get added to the scene
@@ -204,7 +227,6 @@ exports.Application.prototype.addObject = function(obj) {
 	if (mesh !== undefined) {
 		//check whether the objects are inserted into other collections
 		this.scene.add(mesh);
-		this.sceneObjects3D.push(obj);
 	}
 	//store all objects which needs an update on update
 	if (obj.needsUpdate) {
@@ -213,6 +235,8 @@ exports.Application.prototype.addObject = function(obj) {
 };
 
 exports.Application.prototype.removeObject = function(obj) {
+	this.sceneObjects3D = this.sceneObjects3D.filter(item => item !== obj);
+
 	//getMesh is defined in superclass SceneObject
 	//each object has to set this.setMesh(some mesh or other scene object)
 	//to get added to the scene
@@ -228,7 +252,6 @@ exports.Application.prototype.removeObject = function(obj) {
 	if (obj.needsUpdate) {
 		this.updateableObjects = this.updateableObjects.filter(item => item !== obj);
 	}
-	this.sceneObjects3D = this.sceneObjects3D.filter(item => item !== obj);
 
 	if(obj instanceof server.ServerCube || obj  instanceof software.SoftwareCube){
 		obj.destroy();

@@ -102,3 +102,9 @@ exports.BaseCube.prototype.isVisible = function(point, camera) {
   }
   return false;
 };
+
+exports.BaseCube.prototype.dispose = function() {
+  var coll = this.getCollisionMesh();
+  coll.geometry.dispose();
+  coll.material.dispose();
+};

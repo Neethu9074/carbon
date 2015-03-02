@@ -2,8 +2,6 @@
 
 var PF = require('./extensions/pathfinding-browser.min');
 
-var blocked = 'blocked';
-
 exports.Layouter2D = function Layouter2D(width, height) {
   this.width = width;
   this.height = height;
@@ -14,7 +12,7 @@ exports.Layouter2D = function Layouter2D(width, height) {
   }
 
   //create grid for pathfinding. for each cube, pathfinding knows 100 quads
-  this.walkingGrid = new PF.Grid(width * 10, height * 10);
+  this.walkingGrid = new PF.Grid(width * 16, height * 16);
 };
 
 exports.Layouter2D.prototype.getNext = function(width, height) {
@@ -26,7 +24,6 @@ exports.Layouter2D.prototype.getNext = function(width, height) {
       return (a.x - b.x) + (a.y - b.y);
     });
     var nearest = free[0];
-    this.block(nearest, width, height);
     return nearest;
   }
 };
@@ -35,28 +32,36 @@ exports.Layouter2D.prototype.getNext = function(width, height) {
  * sets the area around the given x, y, width, height.
  * any value -> it cant be used anymore
  * undefined -> it can be used
- *  __
- * |__| -> free field, but blocked (here: gap size = 1)
- *
- * |||| -> the cube
- *  ___________
- * |__|__|__|__|
- * |__|||||||__|
- * |__|||||||__|
- * |__|__|__|__|
  */
-exports.Layouter2D.prototype.block = function(xy, width, height) {
+exports.Layouter2D.prototype.setBlocked = function(xy, width, height, marker) {
   for (var w = xy.x; w < xy.x + width; w++) {
     for (var h = xy.y; h < xy.y + height; h++) {
       if (w >= this.width || h >= this.height) {
         continue;
       }
-      this.grid[w][h] = blocked;
+      this.grid[w][h] = marker;
     }
   }
 
   //also block for pathfinding
   this.blockForWalkable(xy, width, height);
+};
+
+exports.Layouter2D.prototype.setFree = function(marker) {
+  var grid = this.grid;
+  var width = this.width;
+  var height = this.height;
+
+  for (var x = 0; x < width; x++) {
+    for (var y = 0; y < height; y++) {
+      if(grid[x][y] === marker) {
+        grid[x][y] = undefined;
+
+        //also set the pathfinding grid free...
+        this.freeForWalkable(this.walkingGrid, x * 16, y * 16, 16, 16);
+      }
+    }
+  }
 };
 
 /*
@@ -90,7 +95,7 @@ exports.Layouter2D.prototype.blockForWalkable = function(xy, w, h) {
 exports.Layouter2D.prototype.freeForWalkable = function(grid, x, y, w, h) {
   for (var xPos = x; xPos < x + w; xPos++) {
     for (var yPos = y; yPos < y + h; yPos++) {
-      grid.setWalkableAt(x, y, true);
+      grid.setWalkableAt(xPos, yPos, true);
     }
   }
 };

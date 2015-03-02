@@ -158,6 +158,7 @@ exports.ServerCube.prototype.createCube = function(dimension) {
 exports.ServerCube.prototype.rebuildGlobalMesh = function() {
 	globalMeshObjectForServerContainer.remove(globalMeshObjectForServer);
 
+	globalMeshObjectForServer.geometry.dispose();
 	var geo = new THREE.Geometry();
 	for (var i = 0; i < servers.length; i++) {
 		geo.merge(servers[i].geometry, servers[i].matrix);
@@ -295,17 +296,17 @@ exports.ServerCube.prototype.update = function() {
 };
 
 exports.ServerCube.prototype.setMinDetails = function() {
-	console.log('changed to min');
+	//console.log('changed to min');
 	this.hideDetails();
 };
 
 exports.ServerCube.prototype.setMidDetails = function() {
 	this.showDetails();
-	console.log('changed to mid');
+	//console.log('changed to mid');
 };
 
 exports.ServerCube.prototype.setMaxDetails = function() {
-	console.log('changed to max');
+	//console.log('changed to max');
 };
 
 exports.ServerCube.prototype.hideDetails = function() {
@@ -344,9 +345,12 @@ exports.ServerCube.prototype.showDetails = function() {
 };
 
 exports.ServerCube.prototype.addSoftware = function(options) {
+	var cubeWidth = 3;
+	var cubeHeight = 3;
+
 	try {
 		//calculte next free field
-		var xy = this.layouter.getNext(3, 3);
+		var xy = this.layouter.getNext(cubeWidth, cubeHeight);
 	} catch (err) {
 		//console.log(err);
 		return undefined;
@@ -362,6 +366,9 @@ exports.ServerCube.prototype.addSoftware = function(options) {
 	//create the cube
 	var swCube = new software.SoftwareCube(this, this.appRef, xyz);
 	this.softwareChildren.push(swCube);
+
+	//say the layouter, that the area should be blocked
+	this.layouter.setBlocked(xy, cubeWidth, cubeHeight, swCube.name);
 	return swCube;
 };
 
@@ -371,6 +378,9 @@ exports.ServerCube.prototype.removeSoftware = function(softwareCube) {
 
 exports.ServerCube.prototype.softwareRemoved = function(softwareCube) {
 	this.softwareChildren = this.softwareChildren.filter(item => item !== softwareCube);
+
+	//set the layouter free from the removed cube so the space can be used anymore
+	this.layouter.setFree(softwareCube.name);
 }
 
 exports.ServerCube.prototype.destroy = function() {
@@ -384,15 +394,17 @@ exports.ServerCube.prototype.destroy = function() {
 	this.appRef.scene2D.remove(this.cssObject);
 	globalMeshObjectForServerContainer.remove(this.stateWarningSymbol);
 	globalMeshObjectForServerContainer.remove(this.stateErrorSymbol);
+	this.dispose();
 
 	//rebuild global combined mesh
 	servers = servers.filter(item => item !== this.serverCube);
 	this.rebuildGlobalMesh();
+
+	this.appRef.layouter.setFree(this.name);
 };
 
 
 /*
-	//1sec animation duration
 	var tween = new app.tweenEngine.Tween(from).to(to, 1000);
 	tween.onUpdate(function() {
 	});

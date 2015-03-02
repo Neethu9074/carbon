@@ -38,6 +38,9 @@ module.exports = function createTestSetup(app) {
 			var newCube = new server.ServerCube(app, xy.x, xy.y, w, h);
 			cubes.push(newCube);
 			app.addObject(newCube);
+
+			//say the layouter, that the area should be blocked
+			layouter.setBlocked(xy, w, h, newCube.name);
 		}
 	}
 
