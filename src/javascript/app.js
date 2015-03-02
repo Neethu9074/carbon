@@ -103,7 +103,8 @@ exports.Application.prototype.addRandomCube = function() {
 exports.Application.prototype.addRandomSoftware = function() {
 	var cube = this.clickedObj;
 	if(cube !== undefined){
-		if(cube instanceof server.ServerCube) {
+		if(cube instanceof server.ServerCube ||
+		cube instanceof software.SoftwareCube) {
 			cube.addSoftware({});
 		}
 	}

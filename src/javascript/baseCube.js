@@ -5,6 +5,8 @@ var sceneObj = require('./sceneObject');
 var colors = require('./colors');
 require('./extensions/OBJLoader');
 
+var globalCollisionGeometry =   new THREE.BoxGeometry(1, 1, 1);
+
 exports.BaseCube = function BaseCube(
   app, x, y, z, width, height, depth) {
   if (app === undefined || x === undefined ||
@@ -67,14 +69,15 @@ exports.BaseCube.prototype.collectMaterials = function() {
 function createCollisionCube(dimension, name) {
   var offset = 0.01;
   var cube = new THREE.Mesh(
-    new THREE.BoxGeometry(
-      dimension.width + offset,
-      dimension.height + offset,
-      dimension.depth + offset),
+    globalCollisionGeometry,
     new THREE.MeshBasicMaterial({
       color: colors.lightBlue
     }));
 
+  cube.scale.set(
+    dimension.width + offset,
+    dimension.height + offset,
+    dimension.depth + offset);
   cube.position.set(dimension.x, dimension.y, dimension.z);
 
   //set name to identify later
