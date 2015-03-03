@@ -13,22 +13,16 @@ var dS = require('./detailStates');
 //boosts extremly performance, because you don't increase draw calls
 var globalMeshObjectForSoftware = new THREE.Mesh();
 var globalMeshObjectForSoftwareContainer = new THREE.Mesh();
+globalMeshObjectForSoftwareContainer.name = 'global container for software';
+globalMeshObjectForSoftwareContainer.matrixAutoUpdate = false;
+globalMeshObjectForSoftwareContainer.updateMatrix();
 var software = [];
-var globalMeshWasSet = false;
 
 exports.SoftwareCube = function SoftwareCube(serverCube, appRef, xyz) {
 	if (appRef === undefined || xyz === undefined) {
 		return undefined;
 	}
 	baseCube.BaseCube.call(this, appRef, xyz.x, xyz.y, xyz.z, 2, 0.4, 2);
-
-	//first, add the global object to the appRef
-	if(!globalMeshWasSet){
-		globalMeshObjectForSoftwareContainer.name = name;
-		this.setStatic(globalMeshObjectForSoftwareContainer);
-		appRef.scene.add(globalMeshObjectForSoftwareContainer);
-		globalMeshWasSet = true;
-	}
 
   this.createCube(this.dimension);
 	this.collisionMesh.parentCube = this;
@@ -187,4 +181,8 @@ exports.SoftwareCube.prototype.destroy = function() {
 	software = software.filter(item => item !== this.softwareCube);
 	//rebuild global combined mesh
 	this.rebuildGlobalMesh();
+};
+
+exports.getGlobalObject = function() {
+	return globalMeshObjectForSoftwareContainer;
 };

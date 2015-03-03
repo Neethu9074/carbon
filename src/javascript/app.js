@@ -174,6 +174,11 @@ exports.Application.prototype.setup3DScene = function(width, height) {
 
 	//add the ground
 	this.addObject(new ground.Ground(this));
+
+	//add the global objects for server and software cubes, they will not be added
+	//via addObject(new Server());
+	this.scene.add(server.getGlobalObject());
+	this.scene.add(software.getGlobalObject());
 };
 
 exports.Application.prototype.setup2DScene = function() {

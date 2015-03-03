@@ -98,9 +98,13 @@ exports.BaseCube.prototype.removeConnection = function(otherCube) {
 };
 
 exports.BaseCube.prototype.dispose = function() {
+  var coll = this.getCollisionMesh();
+  coll.geometry.dispose();
+  coll.material.dispose();
+
   //make a copy of the collection, because the original collection gets modified
   var conCubes = this.connectedCubes.slice();
-
+  
   for (var i = 0; i < conCubes.length; i++) {
     var item = conCubes[i];
     this.removeConnection(item.to);
@@ -111,10 +115,6 @@ exports.BaseCube.prototype.dispose = function() {
     this.appRef.removeObject(item.connection);
     item.connection = undefined;
   }
-
-  var coll = this.getCollisionMesh();
-  coll.geometry.dispose();
-  coll.material.dispose();
 };
 
 

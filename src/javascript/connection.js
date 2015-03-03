@@ -70,8 +70,6 @@ exports.Connection.prototype.update = function() {
 };
 
 exports.Connection.prototype.destroy = function() {
-  console.log('Burn the fucking roof');
-	return;
 	for (var i = 0; i < this.getMesh().children.length; i++) {
 		var child = this.getMesh().children[i];
 		child.geometry.dispose();
