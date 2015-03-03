@@ -1,9 +1,9 @@
 'use strict';
 
 var THREE = require('three.js');
-var gridImagePath = require('../images/grid.png');
-var cubeImagePath = require('../images/cube.png');
-var softwareCubePath = require('../images/softwareCube.png');
+var gridImagePath = require('../../images/grid.png');
+var cubeImagePath = require('../../images/cube.png');
+var softwareCubePath = require('../../images/softwareCube.png');
 
 
 exports.groundTexture = getGround();
@@ -11,7 +11,7 @@ exports.groundTexture = getGround();
 function getGround() {
 	var texture = THREE.ImageUtils.loadTexture('bundle/' + gridImagePath);
 	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-	texture.repeat.set(10, 10);
+	texture.repeat.set(50, 50);
 	return texture;
 }
 

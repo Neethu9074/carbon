@@ -9,9 +9,9 @@ var obj = require('./obj');
 var globalMats = require('./materials');
 var dS = require('./detailStates');
 
-var okImagePath = require('../images/Ok.png');
-var warningImagePath = require('../images/Warning.png');
-var errorImagePath = require('../images/Error.png');
+var okImagePath = require('../../images/Ok.png');
+var warningImagePath = require('../../images/Warning.png');
+var errorImagePath = require('../../images/Error.png');
 
 //use this object to merge each new cube into it.
 //boosts extremly performance, because you don't increase draw calls

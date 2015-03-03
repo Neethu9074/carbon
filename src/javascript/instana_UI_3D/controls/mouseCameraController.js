@@ -113,8 +113,14 @@ exports.MouseControl.prototype.onMouseMove = function(e) {
     var dx = (e.clientX - this.mouse.x);
     var dy = (e.clientY - this.mouse.y);
 
-    this.camTransformObject.translateX(-dx * this.moveSpeed);
-    this.camTransformObject.translateZ(-dy * this.moveSpeed);
+    var transObj = this.camTransformObject;
+    transObj.translateX(-dx * this.moveSpeed);
+    transObj.translateZ(-dy * this.moveSpeed);
+    //clamp the position to avoid overflow of the level area
+    transObj.position.x = Math.max(-25, transObj.position.x);
+    transObj.position.x = Math.min(250, transObj.position.x);
+    transObj.position.z = Math.min(25, transObj.position.z);
+    transObj.position.z = Math.max(-250, transObj.position.z);
 
     //don't forget to set the new position :)
     this.mouse.x = e.clientX;
@@ -171,6 +177,4 @@ exports.MouseControl.prototype.update = function(dTime) {
   delta.sub(this.directionHelper.position);
 
   cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
-
-  //TODO: clamp the position to avoid overflow of the level area
 };

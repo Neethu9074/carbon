@@ -35,8 +35,8 @@ exports.Ground = function Ground(app) {
 };
 
 function createGrid(app) {
-  var x = 160,
-    y = 160;
+  var x = 800,
+    y = 800;
   var geometry = new THREE.PlaneBufferGeometry(x, y, 1, 1);
 
   var maxAnisotropy = app.mainRenderer.getMaxAnisotropy();

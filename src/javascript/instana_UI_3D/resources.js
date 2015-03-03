@@ -4,9 +4,9 @@ var THREE = require('three.js');
 require('./extensions/OBJLoader');
 var obj = require('./obj');
 
-var warningObjectPath = require('../obj/warning.obj');
-var errorObjectPath = require('../obj/error.obj');
-var cubeObjectPath = require('../obj/cube.obj');
+var warningObjectPath = require('../../obj/warning.obj');
+var errorObjectPath = require('../../obj/error.obj');
+var cubeObjectPath = require('../../obj/cube.obj');
 
 exports.load = function(onFinished) {
 	loadModel('bundle/' + warningObjectPath, obj.setStateWarningSymbol,
