@@ -151,12 +151,17 @@ exports.MouseControl.prototype.doRayPicking = function(x, y) {
   //reset color of the last mouseover object
   if(this.hittenObject !== undefined){
     app.scene.remove(this.hittenObject);
+
+    //reset object
+    this.hittenObject = undefined;
   }
 
   //find the new object
   var obj = app.findObject(this.raycaster);
   if(obj !== undefined){
     app.scene.add(obj);
+
+    //save object
     this.hittenObject = obj;
   }
 };

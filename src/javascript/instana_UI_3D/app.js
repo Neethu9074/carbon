@@ -63,6 +63,7 @@ exports.Application.prototype.bindListeners = function() {
 	this.calculateDeltaTime = this.calculateDeltaTime.bind(this);
 	this.animate = this.animate.bind(this);
 	this.render = this.render.bind(this);
+
 	this.addRandomCube = this.addRandomCube.bind(this);
 	this.removeCube = this.removeCube.bind(this);
 	this.showWalkable = this.showWalkable.bind(this);
@@ -155,8 +156,22 @@ exports.Application.prototype.initialize = function() {
 
 exports.Application.prototype.clickedOnObject = function(object) {
 	this.clickedObj = object.parentCube;
-	console.log('clicked on obj:', object);
+	this.setHighlightToPosition(this.clickedObj.getCollisionMesh().position);
 	//parse object info to infoBox
+};
+
+exports.Application.prototype.setHighlightToPosition = function(position) {
+	var highlight = this.highlight;
+	var children = highlight.children;
+	for (var i = 0; i < children.length; i++) {
+		highlight.remove(children[i]);
+	}
+
+	//add light to position
+  var light = new THREE.PointLight( 0xFF0000, 5.5, 40 );
+  light.position.copy(position);
+	light.position.y = 10;
+	//highlight.add(light);
 };
 
 exports.Application.prototype.setup3DScene = function(width, height) {
@@ -179,6 +194,9 @@ exports.Application.prototype.setup3DScene = function(width, height) {
 	//via addObject(new Server());
 	this.scene.add(server.getGlobalObject());
 	this.scene.add(software.getGlobalObject());
+
+	this.highlight = new THREE.Mesh();
+	this.scene.add(this.highlight);
 };
 
 exports.Application.prototype.setup2DScene = function() {
