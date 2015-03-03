@@ -55,9 +55,9 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
 	y *= scaleFactor;
 	x += 2;
 	y += 2;
-	var width = scaleFactor * w - 6;
+	var width = scaleFactor * w - 4;
 	var height = 3;
-	var depth = scaleFactor * h - 6;
+	var depth = scaleFactor * h - 4;
 	baseCube.BaseCube.call(this, app, x, 0, y, width, height, depth);
 
 	//first, add the global object to the app
@@ -240,18 +240,22 @@ exports.ServerCube.prototype.setState = function(newState) {
 exports.update = function(app) {
 	if (app.detailState === dS.DETAILSTATE.MID ||
 		app.detailState === dS.DETAILSTATE.MAX) {
-		globalMeshObjectForServer.material.transparent = true;
+		globalMats.cubeDetailedMaterial.transparent = true;
 		globalMats.stateSymbolWarningMaterial.transparent = true;
 		globalMats.stateSymbolErrorMaterial.transparent = true;
+
+		globalMats.cubeSimpleMaterial.visible = true;
 
 		var normZoomDistance = (app.zoomLevel) / (app.midDetailsDistance);
 		globalMeshObjectForServer.material.opacity = normZoomDistance;
 		globalMats.stateSymbolWarningMaterial.opacity = normZoomDistance;
 		globalMats.stateSymbolErrorMaterial.opacity = normZoomDistance;
 	} else {
-		globalMeshObjectForServer.material.transparent = false;
+		globalMats.cubeDetailedMaterial.transparent = false;
 		globalMats.stateSymbolWarningMaterial.transparent = false;
 		globalMats.stateSymbolErrorMaterial.transparent = false;
+
+		globalMats.cubeSimpleMaterial.visible = false;
 	}
 };
 

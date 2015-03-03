@@ -82,8 +82,8 @@ exports.Layouter2D.prototype.blockForWalkable = function(xy, w, h) {
 
   var fX = xy.x * 16 + 2,
       fY = xy.y * 16 + 2,
-      tX = fX + w * 16 - 5,
-      tY = fY + h * 16 - 5;
+      tX = fX + w * 16 - 3,
+      tY = fY + h * 16 - 3;
 
   for (var x = fX; x < tX; x++) {
     for (var y = fY; y < tY; y++) {

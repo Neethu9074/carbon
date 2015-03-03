@@ -97,7 +97,6 @@ exports.Application.prototype.addRandomCube = function() {
 		//say the layouter, that the area should be blocked
 		this.layouter.setBlocked(xy, width, width, cube.name);
 	}
-	console.log(this.mainRenderer);
 };
 
 exports.Application.prototype.addRandomSoftware = function() {
@@ -129,7 +128,7 @@ exports.Application.prototype.showWalkable = function() {
 	var fields = this.layouter.getFreeWalkable();
 	for (var i in fields) {
 		var field = fields[i];
-		geo.vertices.push(new THREE.Vector3(field.x, 3.1, -field.y));
+		geo.vertices.push(new THREE.Vector3(field.x, 0.1, -field.y));
 	}
 	var mat = new THREE.PointCloudMaterial({
 		color: 0x00D66B,
@@ -226,7 +225,6 @@ exports.Application.prototype.addObject = function(obj) {
 		this.octree.update();
 	}
 	if (mesh !== undefined) {
-		//check whether the objects are inserted into other collections
 		this.scene.add(mesh);
 	}
 	//store all objects which needs an update on update
@@ -247,6 +245,11 @@ exports.Application.prototype.removeObject = function(obj) {
 			useFaces: false
 		});
 		this.octree.update();
+	}
+
+	var mesh = obj.getMesh();
+	if (mesh !== undefined) {
+		this.scene.remove(mesh);
 	}
 
 	//store all objects which needs an update on update

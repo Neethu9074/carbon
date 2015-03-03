@@ -12,7 +12,7 @@ exports.Connection = function Connection(app, path) {
   this.points = [];
 	var line = this.createMesh(path);
 
-	//position will not change, so set to static which gives a perfomance boost
+	//position will not change, so set to static which gives a performance boost
 	line.matrixAutoUpdate = false;
 	line.updateMatrix();
 
@@ -67,4 +67,14 @@ exports.Connection.prototype.createMesh = function(path) {
 
 exports.Connection.prototype.update = function() {
   this.animator.update(this.appRef.deltaTime);
+};
+
+exports.Connection.prototype.destroy = function() {
+  console.log('Burn the fucking roof');
+	return;
+	for (var i = 0; i < this.getMesh().children.length; i++) {
+		var child = this.getMesh().children[i];
+		child.geometry.dispose();
+		child.material.dispose();
+	}
 };

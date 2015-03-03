@@ -23,7 +23,7 @@ module.exports = function createTestSetup(app) {
 	var xy;
 	//add a few cubes
 	var cubes = [];
-	for (i = 0; i < 2; i++) {
+	for (i = 0; i < 3; i++) {
 		//create random cubes with a random width and depth
 		var w = Math.ceil(Math.random() * 2);
 		var h = w;
@@ -65,6 +65,8 @@ module.exports = function createTestSetup(app) {
 		if (path !== undefined) {
 			var con = new connection.Connection(app, path);
 			app.addObject(con);
+			a.connectWith(b, con);
+			b.connectWith(a, con);
 		}
 	} while (b !== undefined);
 };

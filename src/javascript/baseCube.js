@@ -33,6 +33,9 @@ exports.BaseCube = function BaseCube(
   var collisionCube = createCollisionCube(this.dimension, this.name);
   this.setStatic(collisionCube);
   this.setCollisionMesh(collisionCube);
+
+  //a collection where all connected cubes are stored
+  this.connectedCubes = [];
 };
 
 //inherence from SceneObject
@@ -85,6 +88,37 @@ function createCollisionCube(dimension, name) {
   return cube;
 }
 
+exports.BaseCube.prototype.connectWith = function(otherCube, connection) {
+  this.connectedCubes.push( { to: otherCube, connection: connection } );
+};
+
+exports.BaseCube.prototype.removeConnection = function(otherCube) {
+  //remove the connected cube from collection
+	this.connectedCubes = this.connectedCubes.filter(item => item.to !== otherCube);
+};
+
+exports.BaseCube.prototype.dispose = function() {
+  //make a copy of the collection, because the original collection gets modified
+  var conCubes = this.connectedCubes.slice();
+
+  for (var i = 0; i < conCubes.length; i++) {
+    var item = conCubes[i];
+    this.removeConnection(item.to);
+    item.to.removeConnection(this);
+
+    //destroy the connection only once
+    item.connection.destroy();
+    this.appRef.removeObject(item.connection);
+    item.connection = undefined;
+  }
+
+  var coll = this.getCollisionMesh();
+  coll.geometry.dispose();
+  coll.material.dispose();
+};
+
+
+//not used yet
 // tests, if a point is seen by the camera
 exports.BaseCube.prototype.isVisible = function(point, camera) {
   var maxValue = -0.7;
@@ -104,10 +138,4 @@ exports.BaseCube.prototype.isVisible = function(point, camera) {
     return true;
   }
   return false;
-};
-
-exports.BaseCube.prototype.dispose = function() {
-  var coll = this.getCollisionMesh();
-  coll.geometry.dispose();
-  coll.material.dispose();
 };

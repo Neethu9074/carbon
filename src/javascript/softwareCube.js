@@ -16,19 +16,17 @@ var globalMeshObjectForSoftwareContainer = new THREE.Mesh();
 var software = [];
 var globalMeshWasSet = false;
 
-exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
-	if (app === undefined || xyz === undefined) {
+exports.SoftwareCube = function SoftwareCube(serverCube, appRef, xyz) {
+	if (appRef === undefined || xyz === undefined) {
 		return undefined;
 	}
-	baseCube.BaseCube.call(this, app, xyz.x, xyz.y, xyz.z, 2, 0.4, 2);
+	baseCube.BaseCube.call(this, appRef, xyz.x, xyz.y, xyz.z, 2, 0.4, 2);
 
-	this.app = app;
-
-	//first, add the global object to the app
+	//first, add the global object to the appRef
 	if(!globalMeshWasSet){
 		globalMeshObjectForSoftwareContainer.name = name;
 		this.setStatic(globalMeshObjectForSoftwareContainer);
-		app.scene.add(globalMeshObjectForSoftwareContainer);
+		appRef.scene.add(globalMeshObjectForSoftwareContainer);
 		globalMeshWasSet = true;
 	}
 
@@ -47,7 +45,7 @@ exports.SoftwareCube = function SoftwareCube(serverCube, app, xyz) {
 
 	this.cssObject = createCSS3DTestStuff(this.dimension, 'Apache 2.4');
 
-	//if the app is zoomed in, the new software should be visible
+	//if the appRef is zoomed in, the new software should be visible
 	if(this.appRef.detailState === dS.DETAILSTATE.MAX ||
 		this.appRef.detailState === dS.DETAILSTATE.MID) {
 		this.show();
@@ -96,26 +94,26 @@ exports.SoftwareCube.prototype.rebuildGlobalMesh = function() {
 
 exports.SoftwareCube.prototype.hide = function() {
 	//add the 2D overlay from seperate scene
-	this.app.scene2D.remove(this.cssObject);
+	this.appRef.scene2D.remove(this.cssObject);
 	for (var i = 0; i < this.stackedsoftware.length; i++) {
 		this.stackedsoftware[i].hide();
 	}
 
 	//remove collision object from octree to get access to the details
-	this.app.octree.remove(this.getCollisionMesh());
-	this.app.octree.update();
+	this.appRef.octree.remove(this.getCollisionMesh());
+	this.appRef.octree.update();
 };
 
 exports.SoftwareCube.prototype.show = function() {
 	//add the 2D overlay from seperate scene
-	this.app.scene2D.add(this.cssObject);
+	this.appRef.scene2D.add(this.cssObject);
 	for (var i = 0; i < this.stackedsoftware.length; i++) {
 		this.stackedsoftware[i].show();
 	}
 
 	//remove collision object from octree to get access to the details
-	this.app.octree.add(this.getCollisionMesh());
-	this.app.octree.update();
+	this.appRef.octree.add(this.getCollisionMesh());
+	this.appRef.octree.update();
 };
 
 function createCSS3DTestStuff(dimension, name) {
@@ -154,7 +152,7 @@ exports.SoftwareCube.prototype.addSoftware = function(options) {
 	xyz.z -= dim.z + (dim.depth / 2);
 
 	//create the cube
-	var swCube = new softwareCube.SoftwareCube(this, this.app, xyz);
+	var swCube = new softwareCube.SoftwareCube(this, this.appRef, xyz);
 	this.stackedsoftware.push(swCube);
 
 	return swCube;
@@ -178,11 +176,11 @@ exports.SoftwareCube.prototype.destroy = function() {
 	this.parent.softwareRemoved(this);
 
 	//remove the 2D overlay from seperate scene
-	this.app.scene2D.remove(this.cssObject);
+	this.appRef.scene2D.remove(this.cssObject);
 
 	//remove collision object from octree to get access to the details
-	this.app.octree.remove(this.getCollisionMesh());
-	this.app.octree.update();
+	this.appRef.octree.remove(this.getCollisionMesh());
+	this.appRef.octree.update();
 
 	this.dispose();
 
