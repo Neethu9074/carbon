@@ -19,11 +19,11 @@ globalMeshObjectForSoftwareContainer.matrixAutoUpdate = false;
 globalMeshObjectForSoftwareContainer.updateMatrix();
 var software = [];
 
-exports.SoftwareCube = function SoftwareCube(serverCube, appRef, xyz) {
+exports.SoftwareCube = function SoftwareCube(serverCube, appRef, xyz, id) {
 	if (appRef === undefined || xyz === undefined) {
 		return undefined;
 	}
-	baseCube.BaseCube.call(this, appRef, xyz.x, xyz.y, xyz.z, 2, 0.4, 2);
+	baseCube.BaseCube.call(this, appRef, xyz.x, xyz.y, xyz.z, 2, 0.4, 2, id);
 
   this.createCube(this.dimension);
 	this.collisionMesh.parentCube = this;

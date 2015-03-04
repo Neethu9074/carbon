@@ -66,3 +66,7 @@ exports.RisingParticles.prototype.update = function(){
 		uniforms.amplitude.value = 0;
 	}
 };
+
+exports.RisingParticles.prototype.dispose = function() {
+	this.mesh.geometry.dispose();
+};

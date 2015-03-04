@@ -6,20 +6,41 @@ var res = require('./instana_UI_3D/resources');
 var data = require('./instana_data/dataListener');
 
 //first load all resources
-res.load(function(){ //on finished
+res.load(function() { //on finished
 
-  //start up the UI when all resources are loaded
-  var uiApplication = new instana.Application();
+	//start up the UI when all resources are loaded
+	var uiApplication = new instana.Application();
 
-  //create test setup
-  setup(uiApplication);
+  //fire up the data listener
+	var detectedHostIds = [];
+	Array.prototype.contains = function(obj) {
+		var i = this.length;
+		while (i--) {
+			if (this[i] === obj) {
+				return true;
+			}
+		}
+		return false;
+	};
 
+	//add logic to get realtime data and react to it
+	var dataListener = new data.DataListener(1000); // in ms
+	dataListener.onUpdate = function(currentData) {
+		//react to it
+		if (currentData.error !== undefined) {
+			//error happened -> create test setup
+			setup(uiApplication);
+		} else {
+			for (var i = 0; i < currentData.length; i++) {
+				var host = currentData[i];
 
-  //add logic to get realtime data and react to it
-  var dataListener = new data.DataListener(2500);
-  dataListener.onUpdate = function( currentData ) {
-    //react to it
+				if (!detectedHostIds.contains(host.id)) {
+					//new host found!
 
-    //console.log(currentData);
-  };
+					detectedHostIds.push(host.id);
+					uiApplication.addServer(1, 1, host);
+				}
+			}
+		}
+	};
 });

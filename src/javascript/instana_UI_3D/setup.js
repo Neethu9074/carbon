@@ -12,9 +12,9 @@ module.exports = function createTestSetup(app) {
 		cube.addSoftware(app, {});
 	}
 
-	var newOne = cube.addSoftware(app, {});
-	newOne = newOne.addSoftware({});
-	newOne = newOne.addSoftware({});
+	var newOne = cube.addSoftware(app, { id: 'Apache 2.4' });
+	newOne = newOne.addSoftware({ id: 'JVM' });
+	newOne = newOne.addSoftware({ id: 'namegame' });
 
 	//test end
 	//---------------------------------------------------------------------
@@ -35,7 +35,8 @@ module.exports = function createTestSetup(app) {
 		}
 
 		if (xy !== undefined) {
-			var newCube = new server.ServerCube(app, xy.x, xy.y, w, h);
+			var newCube = new server.ServerCube(
+				app, xy.x, xy.y, w, h);
 			cubes.push(newCube);
 			app.addObject(newCube);
 

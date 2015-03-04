@@ -48,13 +48,12 @@ var STATE = {
   }
 };
 
-exports.ServerCube = function ServerCube(app, x, y, w, h) {
+exports.ServerCube = function ServerCube(app, x, y, w, h, metaData) {
   if (app === undefined || x === undefined ||
     y === undefined || w === undefined || h === undefined) {
     return undefined;
   }
   var scaleFactor = 16;
-
   x *= scaleFactor;
   y *= scaleFactor;
   x += 2;
@@ -62,7 +61,18 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
   var width = scaleFactor * w - 4;
   var height = 3;
   var depth = scaleFactor * h - 4;
-  baseCube.BaseCube.call(this, app, x, 0, y, width, height, depth);
+
+  if(metaData !== undefined) {
+    var id = metaData.id;
+    this.cpu = metaData.cpu.count + 'x ' + metaData.cpu.model;
+    this.memory = Math.round(metaData.memory.total / 1000000)
+      + 'MB RAM'; //Byte -> MB
+  } else {
+    var id = math.guid();
+    this.cpu = 'not available';
+    this.memory = 'not available';
+  }
+  baseCube.BaseCube.call(this, app, x, 0, y, width, height, depth, id);
 
   this.createCube(this.dimension);
 
@@ -83,20 +93,22 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
   this.updateCount = 0;
   this.randomStateSwitchFactor = Math.ceil(Math.random() * 500);
 
+  //the state symbols
   this.stateWarningSymbol = new THREE.Mesh(
     obj.stateWarningSymbol.geometry,
     globalMats.stateSymbolWarningMaterial);
-  setSymbolParams(this.stateWarningSymbol, x, y, width, depth);
 
   this.stateErrorSymbol = new THREE.Mesh(
     obj.stateErrorSymbol.geometry,
     globalMats.stateSymbolErrorMaterial);
+
+  setSymbolParams(this.stateWarningSymbol, x, y, width, depth);
   setSymbolParams(this.stateErrorSymbol, x, y, width, depth);
 
   globalMeshObjectForServerContainer.add(this.stateWarningSymbol);
   globalMeshObjectForServerContainer.add(this.stateErrorSymbol);
 
-
+  //the layouter for the softwareCubes
   this.layouter = new layouter.Layouter2DServer(width, depth);
   this.gridIndex = 0;
   this.grid = createGrid(width, depth);
@@ -191,7 +203,7 @@ function createGrid(width, height) {
 
 function createCSS3DTestStuff(state, dimension) {
   var content = state.htmlContent;
-  var pos = new THREE.Vector3(dimension.x, dimension.y * 2, dimension.z);
+  var pos = new THREE.Vector3(dimension.x + 1, dimension.y * 2, dimension.z);
   var number = document.createElement('div');
   number.className = 'serverCSS3DLayer';
   number.innerHTML = content;
@@ -213,7 +225,7 @@ exports.ServerCube.prototype.setState = function(newState) {
   this.state = newState;
 
   //switch CSS3D layer
-  this.cssObject.element.innerHTML = this.state.htmlContent;
+  this.cssObject.element.innerHTML = this.toHTML(); //this.state.htmlContent;
 
   var con = globalMeshObjectForServerContainer;
 
@@ -228,6 +240,12 @@ exports.ServerCube.prototype.setState = function(newState) {
     con.remove(this.stateWarningSymbol);
     con.remove(this.stateErrorSymbol);
   }
+};
+
+exports.ServerCube.prototype.toHTML = function(newState) {
+  return '<h3>Server</h3><p>' + this.name + '</p>' +
+            '<h3>CPU</h3><p>' + this.cpu + '</p>' +
+            '<h3>Memory</h3><p>' + this.memory + '</p>' ;
 };
 
 exports.ServerCube.prototype.update = function() {
@@ -339,7 +357,7 @@ exports.ServerCube.prototype.addSoftware = function(options) {
     z: xy.y - dim.z - dim.depth / 2 + 1
   };
   //create the cube
-  var swCube = new software.SoftwareCube(this, this.appRef, xyz);
+  var swCube = new software.SoftwareCube(this, this.appRef, xyz, options.id);
   this.softwareChildren.push(swCube);
 
   //say the layouter, that the area should be blocked

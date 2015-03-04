@@ -74,6 +74,6 @@ exports.Ground.prototype.constructor = exports.Ground;
 exports.Ground.prototype.update = function() {
   this.counter++;
   if (this.counter % 10 === 0) {
-    //this.groundMirror.render();
+    this.groundMirror.render();
   }
 };

@@ -8,14 +8,14 @@ require('./extensions/OBJLoader');
 var globalCollisionGeometry =   new THREE.BoxGeometry(1, 1, 1);
 
 exports.BaseCube = function BaseCube(
-  app, x, y, z, width, height, depth) {
+  app, x, y, z, width, height, depth, id) {
   if (app === undefined || x === undefined ||
     y === undefined || z === undefined || width === undefined ||
     height === undefined || depth === undefined) {
     return undefined;
   }
 
-  this.init(app);
+  this.init(app, id);
 
   this.x = x;
   this.y = z;
@@ -104,7 +104,7 @@ exports.BaseCube.prototype.dispose = function() {
 
   //make a copy of the collection, because the original collection gets modified
   var conCubes = this.connectedCubes.slice();
-  
+
   for (var i = 0; i < conCubes.length; i++) {
     var item = conCubes[i];
     this.removeConnection(item.to);

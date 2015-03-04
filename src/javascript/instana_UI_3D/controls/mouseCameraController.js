@@ -96,12 +96,14 @@ exports.MouseControl.prototype.onMouseUp = function(e) {
   e.preventDefault();
   var timeOnMouseUp = Date.now();
   var millisSinceMouseDown = timeOnMouseUp - this.timeOnMouseDown;
-  if (millisSinceMouseDown < 250 && //intervall to click
-    this.hittenObject !== undefined) {
-    //clicked on object!
+  if (millisSinceMouseDown < 250) {
+    if(this.hittenObject !== undefined) {
+      //clicked on object!
+      this.camTransformObject.position.x = this.hittenObject.position.x;
+      this.camTransformObject.position.z = this.hittenObject.position.z;
+    }
+    
     this.appReference.clickedOnObject(this.hittenObject);
-    this.camTransformObject.position.x = this.hittenObject.position.x;
-    this.camTransformObject.position.z = this.hittenObject.position.z;
   }
 };
 

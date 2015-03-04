@@ -1,13 +1,12 @@
 'use strict';
 
-var math = require('./math');
+//var math = require('./math');
 
 exports.SceneObject = function SceneObject() {
 };
 
-exports.SceneObject.prototype.init = function(app) {
-		var guid = math.guid();
-		this.name = 'Scene Object ' + guid;
+exports.SceneObject.prototype.init = function(app, id) {
+		this.name = id;// 'Scene Object ' + math.guid();;
 		this.mesh = undefined;
 		this.collisionMesh = undefined;
 		this.needsUpdate = false;
