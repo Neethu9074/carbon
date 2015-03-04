@@ -39,3 +39,10 @@ exports.stateSymbolErrorMaterial = new THREE.MeshLambertMaterial({
 	color: 0xFF0000,
 	transparent: true
 });
+
+exports.highlightMaterial = new THREE.MeshBasicMaterial( {
+  color: colors.lightBlue,
+  transparent: true,
+  opacity: 0.5,
+  map: textures.highlightTexture
+});

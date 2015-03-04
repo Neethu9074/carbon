@@ -8,6 +8,8 @@ var ground = require('./ground');
 var dS = require('./detailStates');
 var server = require('./serverCube');
 var software = require('./softwareCube');
+var materials = require('./materials');
+var geometries = require('./geometries');
 
 //controls
 var mControl = require('./controls/mouseCameraController');
@@ -76,11 +78,14 @@ exports.Application.prototype.zoom = function(zoomLevel) {
 
 	//report to registered zoom cubes
   var state = dS.DETAILSTATE.MIN;
+	materials.highlightMaterial.visible = true;
   if(zoomLevel < this.midDetailsDistance) {
     state = dS.DETAILSTATE.MID;
-    if(zoomLevel < this.maxDetailsDistance) {
-      state = dS.DETAILSTATE.MAX;
-    }
+		materials.highlightMaterial.visible = false;
+
+	  if(zoomLevel < this.maxDetailsDistance) {
+	      state = dS.DETAILSTATE.MAX;
+	    }
   }
   //if state changed
   if(state !== this.detailState) {
@@ -156,22 +161,36 @@ exports.Application.prototype.initialize = function() {
 
 exports.Application.prototype.clickedOnObject = function(object) {
 	this.clickedObj = object.parentCube;
-	this.setHighlightToPosition(this.clickedObj.getCollisionMesh().position);
-	//parse object info to infoBox
+	this.setHighlightToPosition(this.clickedObj);
+
+	//parse object info to infoBox or what ever
 };
 
-exports.Application.prototype.setHighlightToPosition = function(position) {
-	var highlight = this.highlight;
-	var children = highlight.children;
-	for (var i = 0; i < children.length; i++) {
-		highlight.remove(children[i]);
-	}
+exports.Application.prototype.clearHighlight = function() {
+		var highlight = this.highlight;
+		var children = highlight.children;
 
-	//add light to position
-  var light = new THREE.PointLight( 0xFF0000, 5.5, 40 );
-  light.position.copy(position);
-	light.position.y = 10;
-	//highlight.add(light);
+		//clear all children from the highlight container
+		for (var i = 0; i < children.length; i++) {
+			highlight.remove(children[i]);
+		}
+}
+
+exports.Application.prototype.setHighlightToPosition = function(object) {
+	this.clearHighlight();
+
+	var position = object.getCollisionMesh().position;
+	var highlight = this.highlight;
+	var cube = new THREE.Mesh(geometries.cube, materials.highlightMaterial);
+
+	//scale + 0.01 to avoit z-fighting
+	cube.scale.set(
+		object.dimension.width + 0.01,
+		object.dimension.height + 0.01,
+		object.dimension.depth + 0.01);
+	cube.position.copy(position);
+
+	highlight.add(cube);
 };
 
 exports.Application.prototype.setup3DScene = function(width, height) {
@@ -282,6 +301,11 @@ exports.Application.prototype.removeObject = function(obj) {
 
 	if(obj instanceof server.ServerCube || obj  instanceof software.SoftwareCube){
 		obj.destroy();
+
+		//delete highlight when the deleted cube is the highlighted one
+		if(obj === this.clickedObj) {
+			this.clearHighlight();
+		}
 	}
 };
 

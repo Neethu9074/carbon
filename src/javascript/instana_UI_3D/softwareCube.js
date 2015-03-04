@@ -6,6 +6,7 @@ var baseCube = require('./baseCube');
 var softwareCube = require('./softwareCube');
 var mats = require('./materials');
 var dS = require('./detailStates');
+var geometries = require('./geometries');
 
 //use this object to merge each new cube into it.
 //boosts extremly performance, because you don't increase draw calls
@@ -56,15 +57,13 @@ exports.SoftwareCube.prototype.createCube = function(dimension) {
   var width = dimension.width,
     height = dimension.height,
     depth = dimension.depth;
+
   var pos = new THREE.Vector3(dimension.x, dimension.y, dimension.z);
+	var cube = new THREE.Mesh(geometries.cube, mats.cubeSimpleMaterial);
 
-	var cube = new THREE.Mesh(
-		new THREE.BoxGeometry(width, height, depth),
-		mats.cubeSimpleMaterial);
-
+  cube.scale.set(width, height, depth);
 	cube.position.copy(pos);
 	this.setStatic(cube);
-	cube.updateMatrix();
 
 	//save this object, because it should be removable from the global mesh
 	this.softwareCube = cube;

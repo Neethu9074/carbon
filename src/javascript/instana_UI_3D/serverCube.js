@@ -8,6 +8,7 @@ var layouter = require('./layouter2DServer');
 var obj = require('./obj');
 var globalMats = require('./materials');
 var dS = require('./detailStates');
+var geometries = require('./geometries');
 
 var okImagePath = require('../../images/Ok.png');
 var warningImagePath = require('../../images/Warning.png');
@@ -68,7 +69,6 @@ exports.ServerCube = function ServerCube(app, x, y, w, h) {
   //set the parent mesh of the collision cube,
   //so that it can be found during the raypicking stuff
   this.collisionMesh.parentCube = this;
-  console.log
 
   //set state
   //TODO: not random :)
@@ -135,13 +135,13 @@ exports.ServerCube.prototype.createCube = function(dimension) {
   var width = dimension.width,
     height = dimension.height,
     depth = dimension.depth;
+
   var pos = new THREE.Vector3(dimension.x, dimension.y, dimension.z);
+  var detCube = new THREE.Mesh(geometries.cube);
 
-  var detCube = new THREE.Mesh(new THREE.BoxGeometry(width, height, depth));
-
+  detCube.scale.set(width, height, depth);
   detCube.position.copy(pos);
   this.setStatic(detCube);
-  detCube.updateMatrix();
 
   //save this object, because it should be removable from the global mesh
   this.serverCube = detCube;
