@@ -82,7 +82,7 @@ exports.ServerCube = function ServerCube(app, x, y, w, h, metaData) {
 
   //set state
   //TODO: not random :)
-  var r = Math.ceil(Math.random() * 100);
+  var r = Math.max(Math.ceil(Math.random() * 100), 2);
   if (r > 30) {
     this.state = STATE.OK;
   } else if (r > 15) {
@@ -203,7 +203,7 @@ function createGrid(width, height) {
 
 function createCSS3DTestStuff(state, dimension) {
   var content = state.htmlContent;
-  var pos = new THREE.Vector3(dimension.x + 1, dimension.y * 2, dimension.z);
+  var pos = new THREE.Vector3(dimension.x + 0, dimension.y * 2, dimension.z);
   var number = document.createElement('div');
   number.className = 'serverCSS3DLayer';
   number.innerHTML = content;
@@ -225,7 +225,7 @@ exports.ServerCube.prototype.setState = function(newState) {
   this.state = newState;
 
   //switch CSS3D layer
-  this.cssObject.element.innerHTML = this.toHTML(); //this.state.htmlContent;
+  this.cssObject.element.innerHTML = this.state.htmlContent;// this.toHTML(); //this.state.htmlContent;
 
   var con = globalMeshObjectForServerContainer;
 

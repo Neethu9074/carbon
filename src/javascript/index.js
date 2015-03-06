@@ -10,6 +10,8 @@ res.load(function() { //on finished
 
 	//start up the UI when all resources are loaded
 	var uiApplication = new instana.Application();
+	setup(uiApplication);
+	return;
 
   //fire up the data listener
 	var detectedHostIds = [];
@@ -29,7 +31,6 @@ res.load(function() { //on finished
 		//react to it
 		if (currentData.error !== undefined) {
 			//error happened -> create test setup
-			setup(uiApplication);
 		} else {
 			for (var i = 0; i < currentData.length; i++) {
 				var host = currentData[i];
