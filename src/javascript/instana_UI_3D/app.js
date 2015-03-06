@@ -34,7 +34,7 @@ exports.Application = function Application() {
 
   this.bindListeners();
   this.initialize();
-  this.createStats();
+  //this.createStats();
   this.createOctree();
   this.clickedObj = undefined;
 
@@ -444,7 +444,7 @@ exports.Application.prototype.render = function() {
 };
 
 exports.Application.prototype.animate = function() {
-
+/*
   var rS = this.rStats;
 
   rS('frame').start();
@@ -453,7 +453,7 @@ exports.Application.prototype.animate = function() {
   rS('rAF').tick();
   rS('FPS').frame();
   rS('updates').start();
-
+*/
   //call this again
   requestAnimationFrame(this.animate);
   //calculate time the last frame needed to be updated/rendered
@@ -479,18 +479,18 @@ exports.Application.prototype.animate = function() {
       object.update(cam);
     }
   });
-
+/*
   rS('updates').end();
   rS('render').start();
-
+*/
   //Perform render
   //render the scene when all animations are updated
   this.render();
-
+/*
   rS('render').end();
   rS('frame').end();
   rS().update();
-
+*/
 };
 
 exports.Application.prototype.calculateDeltaTime = function() {
