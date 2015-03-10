@@ -15,6 +15,10 @@ exports.lineMaterial = new THREE.LineBasicMaterial({
   color: colors.lightBlue
 });
 
+exports.collisionCubeMaterial = new THREE.MeshBasicMaterial({
+  color: colors.lightBlue
+});
+
 exports.cubeDetailedMaterial = new THREE.MeshPhongMaterial({
   color: colors.midBlue,
   side: THREE.DoubleSide,

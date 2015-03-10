@@ -1,16 +1,25 @@
 'use strict';
 
 //var math = require('./math');
+var THREE = require('three.js');
 
 exports.SceneObject = function SceneObject() {
 };
 
-exports.SceneObject.prototype.init = function(app, id) {
-		this.name = id;// 'Scene Object ' + math.guid();;
+exports.SceneObject.prototype.init = function(app, id, x, y, z, w, h, d) {
+		this.name = id;// 'Scene Object ' + math.guid();
+		this.position = new THREE.Vector3(x, y, z);
+		this.dimension = new THREE.Vector3(w, h, d);
 		this.mesh = undefined;
 		this.collisionMesh = undefined;
 		this.needsUpdate = false;
 		this.appRef = app;
+};
+
+exports.SceneObject.prototype.setStatic = function(mesh) {
+  //position will not change, so set to static which gives a perfomance boost
+  mesh.matrixAutoUpdate = false;
+  mesh.updateMatrix();
 };
 
 exports.SceneObject.prototype.getName = function() {
@@ -37,4 +46,14 @@ exports.SceneObject.prototype.getCollisionMesh = function() {
 
 exports.SceneObject.prototype.registerForUpdate = function() {
 	this.needsUpdate = true;
+};
+
+exports.SceneObject.prototype.disposeSceneObject = function() {
+	delete this.name;
+	delete this.position;
+	delete this.dimension;
+	delete this.mesh;
+	delete this.collisionMesh;
+	delete this.needsUpdate;
+	delete this.appRef;
 };

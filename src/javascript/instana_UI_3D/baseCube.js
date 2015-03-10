@@ -2,35 +2,24 @@
 
 var THREE = require('three.js');
 var sceneObj = require('./sceneObject');
-var colors = require('./colors');
-require('./extensions/OBJLoader');
-
-var globalCollisionGeometry =   new THREE.BoxGeometry(1, 1, 1);
+var materials = require('./materials');
+var geometries = require('./geometries');
 
 exports.BaseCube = function BaseCube(
-  app, x, y, z, width, height, depth, id) {
+  dataProvider, app, x, y, z, width, height, depth, id) {
   if (app === undefined || x === undefined ||
     y === undefined || z === undefined || width === undefined ||
     height === undefined || depth === undefined) {
     return undefined;
   }
 
-  this.init(app, id);
+  this.init(app, id, x, y ,z, width, height, depth);
 
-  this.x = x;
-  this.y = z;
-
-  this.dimension = {
-    x: (width / 2.0) + x,
-    y: (height / 2.0) + y,
-    z: (-depth / 2.0) - z,
-    width: width,
-    height: height,
-    depth: depth
-  };
+  dataProvider.init(this);
+  this.dataProvider = dataProvider;
 
   //create helper objects
-  var collisionCube = createCollisionCube(this.dimension, this.name);
+  var collisionCube = this.createCollisionCube();
   this.setStatic(collisionCube);
   this.setCollisionMesh(collisionCube);
 
@@ -41,12 +30,6 @@ exports.BaseCube = function BaseCube(
 //inherence from SceneObject
 exports.BaseCube.prototype = new sceneObj.SceneObject();
 exports.BaseCube.prototype.constructor = exports.BaseCube;
-
-exports.BaseCube.prototype.setStatic = function(mesh) {
-  //position will not change, so set to static which gives a perfomance boost
-  mesh.matrixAutoUpdate = false;
-  mesh.updateMatrix();
-};
 
 exports.BaseCube.prototype.collectMaterials = function() {
   var root = this.getMesh();
@@ -69,19 +52,21 @@ exports.BaseCube.prototype.collectMaterials = function() {
 //the collision objects are stored in a seperate collection to minimize
 //collision cecking. the collision cube is a little bit bigger
 //than the original cube.
-function createCollisionCube(dimension, name) {
-  var offset = 0.01;
-  var cube = new THREE.Mesh(
-    globalCollisionGeometry,
-    new THREE.MeshBasicMaterial({
-      color: colors.lightBlue
-    }));
+exports.BaseCube.prototype.createCollisionCube = function() {
+  var offset = new THREE.Vector3()
+  .copy(this.dimension)
+  .multiplyScalar(1.01); //1%
 
-  cube.scale.set(
-    dimension.width + offset,
-    dimension.height + offset,
-    dimension.depth + offset);
-  cube.position.set(dimension.x, dimension.y, dimension.z);
+  var cube = new THREE.Mesh(
+    geometries.cube,
+    materials.collisionCubeMaterial);
+
+  cube.scale.copy(offset);
+
+  cube.position.copy(this.position);
+  cube.position.x += this.dimension.x / 2;
+  cube.position.y += this.dimension.y / 2;
+  cube.position.z -= this.dimension.z / 2;
 
   //set name to identify later
   cube.name = name;
@@ -97,11 +82,7 @@ exports.BaseCube.prototype.removeConnection = function(otherCube) {
 	this.connectedCubes = this.connectedCubes.filter(item => item.to !== otherCube);
 };
 
-exports.BaseCube.prototype.dispose = function() {
-  var coll = this.getCollisionMesh();
-  coll.geometry.dispose();
-  coll.material.dispose();
-
+exports.BaseCube.prototype.disposeBaseCube = function() {
   //make a copy of the collection, because the original collection gets modified
   var conCubes = this.connectedCubes.slice();
 
@@ -115,27 +96,10 @@ exports.BaseCube.prototype.dispose = function() {
     this.appRef.removeObject(item.connection);
     item.connection = undefined;
   }
-};
 
+  this.disposeSceneObject();
 
-//not used yet
-// tests, if a point is seen by the camera
-exports.BaseCube.prototype.isVisible = function(point, camera) {
-  var maxValue = -0.7;
-  //get the view vector of the camera
-  var V = new THREE.Vector3(0, 0, -1);
-  V.applyQuaternion(camera.quaternion);
-  V.normalize();
-
-  //get the pointing vector from object to camera
-  var O = new THREE.Vector3()
-    .copy(camera.position)
-    .sub(point)
-    .normalize();
-
-  var alpha = O.dot(V);
-  if (alpha < maxValue) {
-    return true;
-  }
-  return false;
+  this.dataProvider.dispose();
+	delete this.dataProvider;
+	delete this.connectedCubes;
 };

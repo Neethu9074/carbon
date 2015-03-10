@@ -25,7 +25,8 @@ exports.MouseControl.prototype.init = function(app) {
   //zoom fields
   this.minZoom = 1000;
   this.zoomLevel = 40;
-  this.maxZoom = 6.5;
+  this.beginToRotate = 10;
+  this.maxZoom = 3.5;
 
   //raytracing fields
   this.raycaster = new THREE.Raycaster();
@@ -45,11 +46,7 @@ exports.MouseControl.prototype.init = function(app) {
   this.directionHelper = new THREE.Object3D();
   this.directionHelper.rotation.copy(app.mainCamera.rotation);
 
-  // a debug axis to see, where mainCamera is transformed with
-  //this.camTransformObject.add(new THREE.AxisHelper(2));
-
   app.scene.add(this.camTransformObject);
-  app.scene.add(this.directionHelper);
 
   //color, intensity, range
   var light = new THREE.PointLight( 0x666666, 5.5, 150 );
@@ -102,7 +99,7 @@ exports.MouseControl.prototype.onMouseUp = function(e) {
       this.camTransformObject.position.x = this.hittenObject.position.x;
       this.camTransformObject.position.z = this.hittenObject.position.z;
     }
-    
+
     this.appReference.clickedOnObject(this.hittenObject);
   }
 };
@@ -184,4 +181,11 @@ exports.MouseControl.prototype.update = function(dTime) {
   delta.sub(this.directionHelper.position);
 
   cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
+
+  //apply rotation
+  var angleFactor = 1 -
+  (cam.position.y - this.maxZoom) /
+  (this.beginToRotate - this.maxZoom);
+
+  angleFactor = Math.max(Math.min(1, angleFactor), 0); //[0, 1]
 };

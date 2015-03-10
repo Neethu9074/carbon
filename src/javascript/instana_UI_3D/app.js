@@ -2,12 +2,12 @@
 
 var THREE = require('three.js');
 var colors = require('./colors');
-var server = require('./serverCube');
 var layouter = require('./layouter2D');
 var ground = require('./ground');
 var dS = require('./detailStates');
-var server = require('./serverCube');
-var software = require('./softwareCube');
+var host = require('./hostCube');
+var container = require('./containerCube');
+var baseCube = require('./baseCube');
 var materials = require('./materials');
 var geometries = require('./geometries');
 
@@ -34,9 +34,8 @@ exports.Application = function Application() {
 
   this.bindListeners();
   this.initialize();
-  //this.createStats();
+  this.createStats();
   this.createOctree();
-  this.clickedObj = undefined;
 
   this.mouseControl = new mControl.MouseControl(this);
 
@@ -72,7 +71,19 @@ exports.Application.prototype.bindListeners = function() {
   this.addRandomSoftware = this.addRandomSoftware.bind(this);
 };
 
-//direction is 1 or -1, so the zoomIndex will be 0, 1, 2, ..., max array langth
+exports.Application.prototype.onWindowResize = function() {
+  var width = this.canvas.offsetWidth;
+  var height = this.canvas.offsetHeight;
+  var aspect = width / height;
+  this.mainCamera.aspect = aspect;
+  this.mainCamera.updateProjectionMatrix();
+
+  this.mainRenderer.setSize(width, height);
+  this.cssRenderer.setSize(width, height);
+
+  this.oculusEffectMain.setSize(width, height);
+};
+
 exports.Application.prototype.zoom = function(zoomLevel) {
   this.zoomLevel = zoomLevel;
 
@@ -95,26 +106,27 @@ exports.Application.prototype.zoom = function(zoomLevel) {
 
 exports.Application.prototype.addRandomCube = function() {
   var width = Math.ceil(Math.random() * 2);
-  this.addServer(width, width);
+  this.addHost(width, width);
 };
 
-exports.Application.prototype.addServer = function(width, height, metaData) {
+exports.Application.prototype.addHost = function(width, height, metaData) {
   var xy = this.layouter.getNext(width, width);
 
   if (xy !== undefined) {
-    var cube = new server.ServerCube(this, xy.x, xy.y, width, height, metaData);
+    var cube = new host.HostCube(this, xy.x, -xy.y, width, height, metaData);
     this.addObject(cube);
 
     //say the layouter, that the area should be blocked
     this.layouter.setBlocked(xy, width, width, cube.name);
+    return cube;
   }
 };
 
 exports.Application.prototype.addRandomSoftware = function() {
-  var cube = this.clickedObj.parentCube;
+  var cube = this.clickedObj;
   if (cube !== undefined) {
-    if (cube instanceof server.ServerCube ||
-      cube instanceof software.SoftwareCube) {
+    if (cube instanceof host.HostCube ||
+      cube instanceof container.ContainerCube) {
       cube.addSoftware({
         id: 'dummy SW'
       });
@@ -125,8 +137,7 @@ exports.Application.prototype.addRandomSoftware = function() {
 exports.Application.prototype.removeCube = function() {
   var cube = this.clickedObj;
   if (cube !== undefined) {
-    if (cube instanceof server.ServerCube ||
-      cube instanceof software.SoftwareCube) {
+    if (cube instanceof baseCube.BaseCube) {
       this.removeObject(cube);
     }
   }
@@ -169,7 +180,8 @@ exports.Application.prototype.initialize = function() {
 exports.Application.prototype.clickedOnObject = function(object) {
   this.clickedObj = object;
   if(object !== undefined) {
-    this.setHighlightToPosition(this.clickedObj.parentCube);
+    this.clickedObj = this.clickedObj.parentCube
+    this.setHighlightToPosition(this.clickedObj);
   } else {
     this.clearHighlight();
   }
@@ -195,16 +207,19 @@ exports.Application.prototype.clearHighlight = function() {
 exports.Application.prototype.setHighlightToPosition = function(object) {
   this.clearHighlight();
 
-  var position = object.getCollisionMesh().position;
   var highlight = this.highlight;
   var cube = new THREE.Mesh(geometries.cube, materials.highlightMaterial);
 
   //scale + 0.01 to avoit z-fighting
   cube.scale.set(
-    object.dimension.width + 0.01,
-    object.dimension.height + 0.01,
-    object.dimension.depth + 0.01);
-  cube.position.copy(position);
+    object.dimension.x + 0.01,
+    object.dimension.y + 0.01,
+    object.dimension.z + 0.01);
+
+  cube.position.copy(object.position);
+  cube.position.x += object.dimension.x / 2;
+  cube.position.y += object.dimension.y / 2;
+  cube.position.z -= object.dimension.z / 2;
 
   highlight.add(cube);
 };
@@ -213,8 +228,14 @@ exports.Application.prototype.setup3DScene = function(width, height) {
   this.scene = new THREE.Scene();
   //this.scene.fog = new THREE.Fog(colors.fogColor, 100, 500);
 
-  this.createCamera(width, height);
-  this.createLights();
+  //set the farplane as near as possible
+  this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 1, 1000);
+  this.mainCamera.position.set(-2, 5, 2.5);
+  this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
+
+  // add subtle ambient lighting
+  var ambientLight = new THREE.AmbientLight(colors.ambientColor);
+  this.scene.add(ambientLight);
 
   //setup occulus rift effect
   this.oculusEffectMain = new THREE.OculusRiftEffect(this.mainRenderer, {
@@ -225,10 +246,9 @@ exports.Application.prototype.setup3DScene = function(width, height) {
   //add the ground
   this.addObject(new ground.Ground(this));
 
-  //add the global objects for server and software cubes, they will not be added
+  //add the global objects for host and container cubes, they will not be added
   //via addObject(new Server());
-  this.scene.add(server.getGlobalObject());
-  this.scene.add(software.getGlobalObject());
+  this.scene.add(host.globalMeshObjectForServerContainer);
 
   this.highlight = new THREE.Mesh();
   this.scene.add(this.highlight);
@@ -271,10 +291,6 @@ exports.Application.prototype.setupEffects = function() {
 exports.Application.prototype.addObject = function(obj) {
   this.sceneObjects3D.push(obj);
 
-  //getMesh is defined in superclass SceneObject
-  //each object has to set this.setMesh(some mesh or other scene object)
-  //to get added to the scene
-  var mesh = obj.getMesh();
   var collisionMesh = obj.getCollisionMesh();
   if (collisionMesh !== undefined) {
     this.octree.add(collisionMesh, {
@@ -282,6 +298,8 @@ exports.Application.prototype.addObject = function(obj) {
     });
     this.octree.update();
   }
+
+  var mesh = obj.getMesh();
   if (mesh !== undefined) {
     this.scene.add(mesh);
   }
@@ -299,9 +317,7 @@ exports.Application.prototype.removeObject = function(obj) {
   //to get added to the scene
   var collisionMesh = obj.getCollisionMesh();
   if (collisionMesh !== undefined) {
-    this.octree.remove(collisionMesh, {
-      useFaces: false
-    });
+    this.octree.remove(collisionMesh);
     this.octree.update();
   }
 
@@ -316,50 +332,15 @@ exports.Application.prototype.removeObject = function(obj) {
       obj);
   }
 
-  if (obj instanceof server.ServerCube || obj instanceof software.SoftwareCube) {
-    obj.destroy();
+  if (obj instanceof baseCube.BaseCube) {
+    obj.dispose();
 
     //delete highlight when the deleted cube is the highlighted one
     if (obj === this.clickedObj) {
+      this.clickedObj = undefined;
       this.clearHighlight();
     }
   }
-};
-
-exports.Application.prototype.createLights = function() {
-  // add subtle ambient lighting
-  var ambientLight = new THREE.AmbientLight(colors.ambientColor);
-  this.scene.add(ambientLight);
-
-  //var directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-  //directionalLight.position.set(100, 100, -100);
-  //this.scene.add(directionalLight);
-};
-
-exports.Application.prototype.createCamera = function(width, height) {
-  //set the farplane as near as possible
-  this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 1, 1250);
-  this.mainCamera.position.set(-2, 5, 2.5);
-  this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
-
-  //set true for debug purpose
-  if (false) {
-    this.mainCamera.position.set(50, 100, -50);
-    this.mainCamera.lookAt(new THREE.Vector3(50, 0, -50));
-  }
-};
-
-exports.Application.prototype.onWindowResize = function() {
-  var width = this.canvas.offsetWidth;
-  var height = this.canvas.offsetHeight;
-  var aspect = width / height;
-  this.mainCamera.aspect = aspect;
-  this.mainCamera.updateProjectionMatrix();
-
-  this.mainRenderer.setSize(width, height);
-  this.cssRenderer.setSize(width, height);
-
-  this.oculusEffectMain.setSize(width, height);
 };
 
 exports.Application.prototype.createStats = function() {
@@ -444,7 +425,7 @@ exports.Application.prototype.render = function() {
 };
 
 exports.Application.prototype.animate = function() {
-/*
+
   var rS = this.rStats;
 
   rS('frame').start();
@@ -453,7 +434,7 @@ exports.Application.prototype.animate = function() {
   rS('rAF').tick();
   rS('FPS').frame();
   rS('updates').start();
-*/
+
   //call this again
   requestAnimationFrame(this.animate);
   //calculate time the last frame needed to be updated/rendered
@@ -462,7 +443,7 @@ exports.Application.prototype.animate = function() {
   //update the controls
   this.mouseControl.update(this.deltaTime);
 
-  server.update(this);
+  host.update(this);
 
   //update all registered objects (don't use for in)
   for (var i = 0; i < this.updateableObjects.length; i++) {
@@ -479,18 +460,18 @@ exports.Application.prototype.animate = function() {
       object.update(cam);
     }
   });
-/*
+
   rS('updates').end();
   rS('render').start();
-*/
+
   //Perform render
   //render the scene when all animations are updated
   this.render();
-/*
+
   rS('render').end();
   rS('frame').end();
   rS().update();
-*/
+
 };
 
 exports.Application.prototype.calculateDeltaTime = function() {

@@ -1,21 +1,19 @@
 'use strict';
 
-var server = require('./serverCube');
+var host = require('./hostCube');
 var connection = require('./connection');
 
 module.exports = function createTestSetup(app) {
 	//test
-	var cube = new server.ServerCube(app, -1, -1, 1, 1);
-	app.addObject(cube);
-
+	var cube = app.addHost(1, 1);
 	for (var i = 0; i < 4; i++) {
-		cube.addSoftware(app, {});
+		cube.addSoftware({id: 'unbekannt'});
 	}
 
-	var newOne = cube.addSoftware(app, { id: 'Apache 2.4' });
+	var newOne = cube.addSoftware({ id: 'Apache 2.4' });
 	newOne = newOne.addSoftware({ id: 'JVM' });
 	newOne = newOne.addSoftware({ id: 'namegame' });
-
+return;
 	//test end
 	//---------------------------------------------------------------------
 
@@ -23,7 +21,7 @@ module.exports = function createTestSetup(app) {
 	var xy;
 	//add a few cubes
 	var cubes = [];
-	for (i = 0; i < 12; i++) {
+	for (i = 0; i < 4; i++) {
 		//create random cubes with a random width and depth
 		var w = Math.ceil(Math.random() * 2);
 		var h = w;
@@ -35,7 +33,7 @@ module.exports = function createTestSetup(app) {
 		}
 
 		if (xy !== undefined) {
-			var newCube = new server.ServerCube(
+			var newCube = new host.HostCube(
 				app, xy.x, xy.y, w, h);
 			cubes.push(newCube);
 			app.addObject(newCube);
