@@ -4,6 +4,7 @@ var THREE = require('three.js');
 var sceneObj = require('./sceneObject');
 var materials = require('./materials');
 var geometries = require('./geometries');
+var layouter = require('./layouter2DServer');
 
 exports.BaseCube = function BaseCube(
   dataProvider, app, x, y, z, width, height, depth, id) {
@@ -15,6 +16,9 @@ exports.BaseCube = function BaseCube(
 
   this.init(app, id, x, y ,z, width, height, depth);
 
+  //the layouter for the softwareCubes
+  this.layouter = new layouter.Layouter2DServer(width, depth);
+
   dataProvider.init(this);
   this.dataProvider = dataProvider;
 
@@ -25,27 +29,35 @@ exports.BaseCube = function BaseCube(
 
   //a collection where all connected cubes are stored
   this.connectedCubes = [];
+
+  //a collection which stores all cubes inside this server cube
+  this.containerChildren = [];
 };
 
 //inherence from SceneObject
 exports.BaseCube.prototype = new sceneObj.SceneObject();
 exports.BaseCube.prototype.constructor = exports.BaseCube;
 
-exports.BaseCube.prototype.collectMaterials = function() {
-  var root = this.getMesh();
-  var find = function(mats, object) {
-    for (var i = 0; i < object.children.length; i++) {
-      var item = object.children[i];
-      if (item.material !== undefined) {
-        mats.push(item.material);
-      }
-      find(mats, item);
-    }
+exports.BaseCube.prototype.nextContainerPosition = function(width, depth) {
+  try {
+    //calculte next free field
+    var xy = this.layouter.getNext(width, depth);
+  } catch (err) {
+    console.log(err);
+    return undefined;
+  }
+  //get dimensions of the parent host
+  var dim = this.dimension;
+  var pos = this.position;
+
+  //xy will be calculated in positive z coord so reverse it
+  var pos = {
+    x: xy.x + pos.x,
+    y: pos.y,
+    z: -xy.y + pos.z
   };
 
-  var materials = [ root.material ];
-  find(materials, root);
-  return materials;
+  return { xy: xy, pos: pos };
 };
 
 //this cube is used for collision / ray detection. In the app file,
@@ -82,24 +94,38 @@ exports.BaseCube.prototype.removeConnection = function(otherCube) {
 	this.connectedCubes = this.connectedCubes.filter(item => item.to !== otherCube);
 };
 
+//is called from the children in this.containerChildren when its disposed
+exports.BaseCube.prototype.containerRemoved = function(container) {
+  this.containerChildren = this.containerChildren.filter(item => item !==
+    container);
+
+  //set the layouter free from the removed cube so the space can be used anymore
+  this.layouter.setFree(container.name);
+}
+
 exports.BaseCube.prototype.disposeBaseCube = function() {
+  //destroy children
+  var children = this.containerChildren.slice();
+  for (var i = 0; i < children.length; i++) {
+    children[i].dispose();
+  }
+
   //make a copy of the collection, because the original collection gets modified
   var conCubes = this.connectedCubes.slice();
-
   for (var i = 0; i < conCubes.length; i++) {
     var item = conCubes[i];
     this.removeConnection(item.to);
     item.to.removeConnection(this);
 
     //destroy the connection only once
-    item.connection.destroy();
     this.appRef.removeObject(item.connection);
-    item.connection = undefined;
+    item.connection.dispose();
+    delete item.connection;
   }
 
   this.disposeSceneObject();
 
   this.dataProvider.dispose();
-	delete this.dataProvider;
-	delete this.connectedCubes;
+	this.dataProvider = null;
+	this.connectedCubes = null;
 };

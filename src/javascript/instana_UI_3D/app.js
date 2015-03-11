@@ -6,10 +6,12 @@ var layouter = require('./layouter2D');
 var ground = require('./ground');
 var dS = require('./detailStates');
 var host = require('./hostCube');
-var container = require('./containerCube');
 var baseCube = require('./baseCube');
+var container = require('./containerCube');
 var materials = require('./materials');
 var geometries = require('./geometries');
+var textures = require('./textures');
+var math = require('./math');
 
 //controls
 var mControl = require('./controls/mouseCameraController');
@@ -28,7 +30,6 @@ var glStats = require('./extensions/rStats.extras');
 exports.Application = function Application() {
   this.canvas = document.getElementById('WebGL');
   this.sceneObjects3D = []; // all objects, added to the 3D scene
-  this.sceneObjects2D = []; // all objects, added to the 2D CSS scene
   this.layouter = new layouter.Layouter2D(50, 50);
   this.updateableObjects = []; //all objects needing an update every frame
 
@@ -40,6 +41,7 @@ exports.Application = function Application() {
   this.mouseControl = new mControl.MouseControl(this);
 
   //zoom detail Level
+  this.cloudDistance = 70;
   this.midDetailsDistance = 20;
   this.maxDetailsDistance = 10;
   this.zoomLevel = this.mouseControl.zoomLevel;
@@ -49,10 +51,11 @@ exports.Application = function Application() {
 
   //events
   window.addEventListener('resize', this.onWindowResize, false);
-  document.getElementById('newCubeButton').onclick = this.addRandomCube;
-  document.getElementById('newSoftwareButton').onclick = this.addRandomSoftware;
+  document.getElementById('newHostButton').onclick = this.addRandomCube;
+  document.getElementById('newContainerButton').onclick = this.addRandomContainer;
   document.getElementById('destroyCubeButton').onclick = this.removeCube;
   document.getElementById('showWalkableButton').onclick = this.showWalkable;
+  document.getElementById('stackContainerButton').onclick = this.stackContainer;
 
   this.animate();
 };
@@ -68,9 +71,11 @@ exports.Application.prototype.bindListeners = function() {
   this.addRandomCube = this.addRandomCube.bind(this);
   this.removeCube = this.removeCube.bind(this);
   this.showWalkable = this.showWalkable.bind(this);
-  this.addRandomSoftware = this.addRandomSoftware.bind(this);
+  this.addRandomContainer = this.addRandomContainer.bind(this);
+  this.stackContainer = this.stackContainer.bind(this);
 };
 
+//events
 exports.Application.prototype.onWindowResize = function() {
   var width = this.canvas.offsetWidth;
   var height = this.canvas.offsetHeight;
@@ -86,6 +91,23 @@ exports.Application.prototype.onWindowResize = function() {
 
 exports.Application.prototype.zoom = function(zoomLevel) {
   this.zoomLevel = zoomLevel;
+
+  if(zoomLevel > this.cloudDistance) {
+    for (var i = 0; i < this.sceneObjects3D.length; i++) {
+      var item = this.sceneObjects3D[i];
+      if(item instanceof host.HostCube) {
+        this.scene2D.remove(item.cssObject);
+      }
+    }
+    return;
+  } else if (zoomLevel < this.cloudDistance && zoomLevel > 40) {
+    for (var i = 0; i < this.sceneObjects3D.length; i++) {
+      var item = this.sceneObjects3D[i];
+      if(item instanceof host.HostCube) {
+        this.scene2D.add(item.cssObject);
+      }
+    }
+  }
 
   //report to registered zoom cubes
   var state = dS.DETAILSTATE.MIN;
@@ -122,12 +144,11 @@ exports.Application.prototype.addHost = function(width, height, metaData) {
   }
 };
 
-exports.Application.prototype.addRandomSoftware = function() {
+exports.Application.prototype.addRandomContainer = function() {
   var cube = this.clickedObj;
   if (cube !== undefined) {
-    if (cube instanceof host.HostCube ||
-      cube instanceof container.ContainerCube) {
-      cube.addSoftware({
+    if (cube instanceof baseCube.BaseCube) {
+      cube.addContainer({
         id: 'dummy SW'
       });
     }
@@ -139,6 +160,17 @@ exports.Application.prototype.removeCube = function() {
   if (cube !== undefined) {
     if (cube instanceof baseCube.BaseCube) {
       this.removeObject(cube);
+    }
+  }
+};
+
+exports.Application.prototype.stackContainer = function() {
+  var cube = this.clickedObj;
+  if (cube !== undefined) {
+    if (cube instanceof container.ContainerCube) {
+      cube.stackContainer({ id:'another one' });
+    } else {
+      console.log('cant stack on ', cube);
     }
   }
 };
@@ -162,6 +194,8 @@ exports.Application.prototype.showWalkable = function() {
   this.walkableSystem = new THREE.PointCloud(geo, mat);
   this.scene.add(this.walkableSystem);
 };
+//events end
+
 
 exports.Application.prototype.initialize = function() {
   var width = window.innerWidth;
@@ -170,6 +204,8 @@ exports.Application.prototype.initialize = function() {
   this.time = Date.now();
   this.deltaTime = 0;
   this.timeSinceStarted = 0;
+
+  this.renderCSS = true;
 
   this.createRenderer(width, height);
   this.setup3DScene(width, height);
@@ -286,6 +322,54 @@ exports.Application.prototype.setupEffects = function() {
 
   var effect = new particles.RisingParticles(this, positions);
   this.addObject(effect);
+
+  //add clouds
+  this.clouds = new THREE.Object3D();
+  var geo = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+
+  for (var i = 0; i < 10; i++) {
+    var plane = new THREE.Mesh(geo, materials.cloudMaterialLight);
+    plane.rotation.x = -90 * math.DegToRad;
+
+    plane.position.y = 60 + Math.random() * 10;
+    plane.position.x = Math.random() * 500 - 150;
+    plane.position.z = Math.random() * -500 + 150;
+
+    plane.scale.multiplyScalar(Math.random() * 400 + 300);
+    plane.velocity = Math.random() * 2 - 1;
+
+    this.clouds.add(plane);
+  }
+
+  for (var i = 0; i < 100; i++) {
+    var plane = new THREE.Mesh(geo, materials.cloudMaterialMid);
+    plane.rotation.x = -90 * math.DegToRad;
+
+    plane.position.y = 60 + Math.random() * 10;
+    plane.position.x = Math.random() * 500 - 150;
+    plane.position.z = Math.random() * -500 + 150;
+
+    plane.scale.multiplyScalar(Math.random() * 150 + 50);
+    plane.velocity = Math.random() * 5 - 2.5;
+
+    this.clouds.add(plane);
+  }
+
+  for (var i = 0; i < 50; i++) {
+    var plane = new THREE.Mesh(geo, materials.cloudMaterialHeavy);
+    plane.rotation.x = -90 * math.DegToRad;
+
+    plane.position.y = 60 + Math.random() * 10;
+    plane.position.x = Math.random() * 500 - 150;
+    plane.position.z = Math.random() * -500 + 150;
+
+    plane.scale.multiplyScalar(Math.random() * 150 + 50);
+    plane.velocity = Math.random() * 5 - 2.5;
+
+    this.clouds.add(plane);
+  }
+
+  this.scene.add(this.clouds);
 };
 
 exports.Application.prototype.addObject = function(obj) {
@@ -449,17 +533,11 @@ exports.Application.prototype.animate = function() {
   for (var i = 0; i < this.updateableObjects.length; i++) {
     this.updateableObjects[i].update();
   }
-  if(this.highlight !== undefined && this.highlight.particles !== undefined) {
-    this.highlight.particles.update(this);
-  }
 
-  //update LOD objects
-  var cam = this.mainCamera;
-  this.scene.traverse(function(object) {
-    if (object instanceof THREE.LOD) {
-      object.update(cam);
-    }
-  });
+  for (var i = 0; i < this.clouds.children.length; i++) {
+    var cloud = this.clouds.children[i];
+    cloud.rotation.z += cloud.velocity * math.DegToRad * this.deltaTime;
+  }
 
   rS('updates').end();
   rS('render').start();

@@ -4,10 +4,39 @@ var THREE = require('three.js');
 var colors = require('./colors');
 var textures = require('./textures');
 
+
+exports.cloudMaterialLight = new THREE.MeshBasicMaterial({
+  color: 0xFFFFFF,
+  side: THREE.DoubleSide,
+  transparent: true,
+  depthWrite: false,
+  opacity: 0.1,
+  map: textures.cloudTextures[2]
+});
+
+exports.cloudMaterialMid = new THREE.MeshBasicMaterial({
+  color: 0xFFFFFF,
+  side: THREE.DoubleSide,
+  transparent: true,
+  depthWrite: false,
+  opacity: 0.4,
+  map: textures.cloudTextures[1]
+});
+
+exports.cloudMaterialHeavy = new THREE.MeshBasicMaterial({
+  color: 0xFFFFFF,
+  side: THREE.DoubleSide,
+  transparent: true,
+  depthWrite: false,
+  opacity: 0.4,
+  map: textures.cloudTextures[0]
+});
+
 exports.groundMaterial = new THREE.MeshBasicMaterial({
   color: 0xFFFFFF,
   side: THREE.DoubleSide,
   transparent: true,
+  depthWrite: false,
   opacity: 1
 });
 

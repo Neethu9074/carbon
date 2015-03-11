@@ -49,11 +49,11 @@ exports.SceneObject.prototype.registerForUpdate = function() {
 };
 
 exports.SceneObject.prototype.disposeSceneObject = function() {
-	delete this.name;
-	delete this.position;
-	delete this.dimension;
-	delete this.mesh;
-	delete this.collisionMesh;
-	delete this.needsUpdate;
-	delete this.appRef;
+	this.name = null;
+	this.position = null;
+	this.dimension = null;
+	this.mesh = null;
+	this.collisionMesh = null;
+	this.needsUpdate = null;
+	this.appRef = null;
 };

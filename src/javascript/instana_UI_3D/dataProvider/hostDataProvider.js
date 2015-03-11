@@ -28,7 +28,7 @@ exports.HostDataProvider.prototype.init = function(baseCube) {
 
 	//the state symbols
   var symbolPos = this.position.clone();
-  symbolPos.y += this.dimension.y + 1;
+  symbolPos.y += this.dimension.y + 2;
   symbolPos.x += this.dimension.x / 2;
   symbolPos.z -= this.dimension.z - 2;
 
@@ -36,13 +36,13 @@ exports.HostDataProvider.prototype.init = function(baseCube) {
 		obj.stateWarningSymbol.geometry,
 		globalMats.stateSymbolWarningMaterial);
   this.stateWarningSymbol.position.copy(symbolPos);
-  this.stateWarningSymbol.rotation.x = 90 * Math.PI / 180;
+	this.stateWarningSymbol.scale.multiplyScalar(2);
 
 	this.stateErrorSymbol = new THREE.Mesh(
 		obj.stateErrorSymbol.geometry,
 		globalMats.stateSymbolErrorMaterial);
   this.stateErrorSymbol.position.copy(symbolPos);
-  this.stateErrorSymbol.rotation.x = 90 * Math.PI / 180;
+	this.stateErrorSymbol.scale.multiplyScalar(2);
 };
 
 exports.HostDataProvider.prototype.createVisibleMesh = function() {

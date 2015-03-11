@@ -1,7 +1,6 @@
 'use strict';
 
 var THREE = require('three.js');
-var math = require('./math');
 var baseCube = require('./baseCube');
 var mats = require('./materials');
 var dS = require('./detailStates');
@@ -9,14 +8,24 @@ var geometries = require('./geometries');
 
 var dataProvider = require('./dataProvider/containerDataProvider');
 
-exports.ContainerCube = function ContainerCube(serverCube, app, xyz, id) {
-	if (app === undefined || xyz === undefined) {
+//the offset where cubes are translated and rescaled with
+var cubeOffset = 0.5;
+
+exports.ContainerCube = function ContainerCube(serverCube, pos, metaData) {
+	if (serverCube === undefined || pos === undefined) {
 		return undefined;
 	}
+	var app = serverCube.appRef;
+	var id = metaData.id;
+
+  var x = pos.x + cubeOffset;
+  var z = pos.z - cubeOffset; //remember negative webGL z space
+  var width = 3 - (cubeOffset * 2);
+  var depth = 3 - (cubeOffset * 2);
 
   //call super contructor
   var provider = new dataProvider.ContainerDataProvider();
-	baseCube.BaseCube.call(this, provider, app, xyz.x, xyz.y, xyz.z, 2, 0.4, 2, id);
+	baseCube.BaseCube.call(this, provider, app, x, pos.y, z, width, 0.4, depth, id);
 
   this.setMesh(this.createCube());
 	this.collisionMesh.parentCube = this;
@@ -29,7 +38,7 @@ exports.ContainerCube = function ContainerCube(serverCube, app, xyz, id) {
 	this.parent = serverCube;
 
 	//in this collection higher level softwareCubes will be stored
-	this.stackedsoftware = [];
+	this.stackedContainer = [];
 
 	this.cssObject = this.dataProvider.createCSS3DTestStuff();
 
@@ -46,6 +55,7 @@ exports.ContainerCube = function ContainerCube(serverCube, app, xyz, id) {
 exports.ContainerCube.prototype = new baseCube.BaseCube();
 exports.ContainerCube.prototype.constructor = exports.ContainerCube;
 
+
 exports.ContainerCube.prototype.createCube = function() {
 	var cube = this.dataProvider.createVisibleMesh();
 	this.setStatic(cube);
@@ -55,8 +65,8 @@ exports.ContainerCube.prototype.createCube = function() {
 exports.ContainerCube.prototype.hide = function() {
 	//add the 2D overlay from seperate scene
 	this.appRef.scene2D.remove(this.cssObject);
-	for (var i = 0; i < this.stackedsoftware.length; i++) {
-		this.stackedsoftware[i].hide();
+	for (var i = 0; i < this.stackedContainer.length; i++) {
+		this.stackedContainer[i].hide();
 	}
 
 	this.appRef.scene.remove(this.getMesh());
@@ -69,8 +79,8 @@ exports.ContainerCube.prototype.hide = function() {
 exports.ContainerCube.prototype.show = function() {
 	//add the 2D overlay from seperate scene
 	this.appRef.scene2D.add(this.cssObject);
-	for (var i = 0; i < this.stackedsoftware.length; i++) {
-		this.stackedsoftware[i].show();
+	for (var i = 0; i < this.stackedContainer.length; i++) {
+		this.stackedContainer[i].show();
 	}
 
 	this.appRef.scene.add(this.getMesh());
@@ -80,37 +90,42 @@ exports.ContainerCube.prototype.show = function() {
 	this.appRef.octree.update();
 };
 
-exports.ContainerCube.prototype.addSoftware = function(options) {
+exports.ContainerCube.prototype.stackContainer = function(options) {
 	//get dimensions of the parent server
 	var dim = this.dimension;
 	var pos = this.position;
 
 	var xyz = {
-		x:  pos.x,
+		x:  pos.x - cubeOffset,
 		y: pos.y + dim.y + 0.1,
-		z: pos.z
+		z: pos.z + cubeOffset
 	};
 
 	//create the cube
-	var swCube = new exports.ContainerCube(this, this.appRef, xyz, 'd');
-	this.stackedsoftware.push(swCube);
+	var swCube = new exports.ContainerCube(this, xyz, 'd');
+	this.stackedContainer.push(swCube);
 
 	return swCube;
 };
 
-exports.ContainerCube.prototype.removeSoftware = function(softwareCube) {
-	softwareCube.dispose();
+exports.ContainerCube.prototype.addContainer = function(options) {
+	console.log('add a container inside. NOT SUPPORTED YET');
 };
 
-exports.ContainerCube.prototype.softwareRemoved = function(softwareCube) {
-	this.stackedsoftware = this.stackedsoftware.filter(item => item !== softwareCube);
+
+exports.ContainerCube.prototype.removeContainer = function(container) {
+	container.dispose();
+};
+
+exports.ContainerCube.prototype.containerRemoved = function(container) {
+	this.stackedContainer = this.stackedContainer.filter(item => item !== container);
 }
 
 exports.ContainerCube.prototype.dispose = function() {
-	//remove all stacked container as well
-	var children =  this.stackedsoftware.slice();
+	//remove all stacked container as well. no javaapp without JVM
+	var children =  this.stackedContainer.slice();
 	for (var i = 0; i < children.length; i++) {
-		this.removeSoftware(children[i]);
+		this.removeContainer(children[i]);
 	}
 
 	//remove the 2D overlay from seperate scene
@@ -122,10 +137,10 @@ exports.ContainerCube.prototype.dispose = function() {
 
 	this.appRef.scene.remove(this.getMesh());
 
+	this.parent.containerRemoved(this);
 	this.disposeBaseCube();
-	this.parent.softwareRemoved(this);
 
-	delete this.parent;
-	delete this.stackedsoftware;
-	delete this.cssObject;
+	this.parent = null;
+	this.stackedContainer = null;
+	this.cssObject = null;
 };

@@ -69,3 +69,16 @@ exports.PathAnimation.prototype.calculateSpeed = function() {
   var distance = new THREE.Vector3().copy(this.to).sub(this.from).length();
   this.speed = 6 / distance;
 };
+
+exports.PathAnimation.prototype.dispose = function() {
+	this.mesh.geometry.dispose();
+	this.mesh.material.dispose();
+
+	this.mesh = null;
+  this.path = null;
+	this.lerpPercentage = null;
+	this.index = null;
+	this.from = null;
+	this.to = null;
+	this.speed = null;
+};

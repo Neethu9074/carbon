@@ -151,7 +151,20 @@ exports.Layouter2D.prototype.getFreeWalkable = function() {
 };
 
 //from and to are objects of type { x, y, width, height }
-exports.Layouter2D.prototype.getPath = function(from, to) {
+exports.Layouter2D.prototype.getPath = function(fromCube, toCube) {
+	var from = {
+		x: fromCube.position.x,
+		y: -fromCube.position.z,
+		width: fromCube.dimension.x,
+		depth: fromCube.dimension.z
+	};
+	var to = {
+		x: toCube.position.x,
+		y: -toCube.position.z,
+		width: toCube.dimension.x,
+		depth: toCube.dimension.z
+	};
+
   //clone the grid because it gets updated
   var grid = this.walkingGrid.clone();
 
@@ -166,14 +179,9 @@ exports.Layouter2D.prototype.getPath = function(from, to) {
     allowDiagonal: true
   });
 
-  var fromX = from.x;
-  var fromY = from.y;
-  var toX = to.x;
-  var toY = to.y;
-
-  var path = finder.findPath(fromX, fromY, toX, toY, grid);
+  var path = finder.findPath(from.x, from.y, to.x, to.y, grid);
   //compress path to massively reduce lines. compressing does:
-  //[[0, 1], [0, 2], [0, 3], [0, 4]] => [[0, 1], [0, 4]]
+  //[[0, 1], [0, 2], [0, 3], [0, 4], [1,6]] => [[0, 1], [0, 4], [1,6]]
   var compressedPath = PF.Util.compressPath(path);
 
   if (compressedPath.length > 1) {

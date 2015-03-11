@@ -5,8 +5,8 @@ var sceneObj = require('./sceneObject');
 var pa = require('./pathAnimation.js');
 
 //path is an array of 2DArrays -> [[0,0], [1,2], ...]
-exports.Connection = function Connection(app, path) {
-	this.init(app);
+exports.Connection = function Connection(from, to, path) {
+	this.init(from.appRef);
 
   var group = new THREE.Object3D();
   this.points = [];
@@ -24,6 +24,9 @@ exports.Connection = function Connection(app, path) {
   this.setMesh(group);
 
   this.registerForUpdate();
+
+	from.connectWith(to, this);
+	to.connectWith(from, this);
 };
 
 //inherence from SceneObject
@@ -69,10 +72,16 @@ exports.Connection.prototype.update = function() {
   this.animator.update(this.appRef.deltaTime);
 };
 
-exports.Connection.prototype.destroy = function() {
+exports.Connection.prototype.dispose = function() {
 	for (var i = 0; i < this.getMesh().children.length; i++) {
 		var child = this.getMesh().children[i];
 		child.geometry.dispose();
 		child.material.dispose();
 	}
+
+  this.disposeSceneObject();
+	this.animator.dispose();
+
+	this.points = null;
+	this.animator = null;
 };
