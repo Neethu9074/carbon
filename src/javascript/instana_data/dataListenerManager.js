@@ -1,0 +1,77 @@
+'use strict';
+
+var data = require('./dataListener');
+
+exports.DataListenerManager = function DataListenerManager(app, interval) {
+	if (app === undefined || interval === undefined) {
+		return undefined;
+	}
+
+  this.onUpdateHosts = this.onUpdateHosts.bind(this);
+  this.onUpdateInventory = this.onUpdateInventory.bind(this);
+  this.app = app;
+
+  Array.prototype.contains = function(obj) {
+    var i = this.length;
+    while (i--) {
+      if (this[i] === obj) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+	//a collection to store all found hosts
+	this.detectedHostIds = [];
+	//a collection to store all found inventory
+	this.detectedInventory = [];
+
+	//create the listener with a refresh interval of x
+	var dataListener = new data.DataListener(2000); // in ms
+	dataListener.onUpdateHosts = this.onUpdateHosts;
+  dataListener.onUpdateInventory = this.onUpdateInventory;
+};
+
+exports.DataListenerManager.prototype.onUpdateHosts = function(
+	currentHosts) {
+	if (currentHosts.error !== undefined) {
+    return; //if error occured
+  }
+
+	for (var i = 0; i < currentHosts.length; i++) {
+		var host = currentHosts[i];
+		if (host.id !== undefined &&
+      !this.detectedHostIds.contains(host.id)) {
+			//new host found!
+			this.detectedHostIds.push(host.id);
+
+			//create new host cube
+      this.app.addHost(2, 2, host);
+		}
+	}
+};
+
+exports.DataListenerManager.prototype.onUpdateInventory = function(
+	currentInventory) {
+	if (currentInventory.error !== undefined) {
+    return; //if error occured
+  }
+
+  var hostID = currentInventory[0];
+	for (var i = 0; i < currentInventory[1].length; i++) {
+		var inv = currentInventory[1][i];
+    var invID = hostID + '/' + inv.type + '/' + inv.properties.pid;
+    if (!this.detectedInventory.contains(invID)) {
+			//new host found!
+			this.detectedInventory.push(invID);
+
+      //get cube with name = hostID and add a cube
+      var hostCube = this.app.getHost(hostID);
+      hostCube.addContainer( {
+        id: invID,
+        discription: inv.type,
+				pid: inv.properties.pid
+      });
+		}
+	}
+};

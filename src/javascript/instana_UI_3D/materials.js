@@ -64,13 +64,27 @@ exports.cubeSimpleMaterial = new THREE.MeshLambertMaterial({
 });
 
 exports.stateSymbolWarningMaterial = new THREE.MeshLambertMaterial({
-	color: 0xFFFF00,
+	color: 0xfff41f,
 	transparent: true
 });
 
 exports.stateSymbolErrorMaterial = new THREE.MeshLambertMaterial({
-	color: 0xFF0000,
+	color: 0xff1f35,
 	transparent: true
+});
+
+exports.boundageMat = new THREE.MeshBasicMaterial({
+  color: 0xfff41f,
+  side: THREE.DoubleSide,
+  map: textures.cubeBoundageTex,
+  transparent: true
+});
+
+exports.boundageEMat = new THREE.MeshBasicMaterial({
+  color: 0xff1f35,
+  side: THREE.DoubleSide,
+  map: textures.cubeBoundageETex,
+  transparent: true
 });
 
 exports.highlightMaterial = new THREE.MeshBasicMaterial( {

@@ -14,3 +14,8 @@ exports.cube = undefined;
 exports.setCube = function(object){
 	exports.cube = object;
 };
+
+exports.cubeBoundage = undefined;
+exports.setCubeBoundage = function(object){
+	exports.cubeBoundage = object;
+};

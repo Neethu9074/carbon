@@ -10,6 +10,9 @@ var cloudPath1 = require('../../images/cloud1.png');
 var cloudPath2 = require('../../images/cloud2.png');
 var cloudPath3 = require('../../images/cloud3.png');
 
+var cubeBondage = require('../../images/warningBondage.png');
+var cubeBondageE = require('../../images/errorBondage.png');
+
 
 //the repeated texture for the ground
 exports.groundTexture = getGround();
@@ -43,7 +46,7 @@ function getHighlight() {
 	return texture;
 }
 
-//the repeated texture for the ground
+//the repeated texture for the clouds
 exports.cloudTextures = getClouds();
 function getClouds() {
 	return [
@@ -51,4 +54,24 @@ function getClouds() {
 		THREE.ImageUtils.loadTexture('bundle/' + cloudPath2),
 		THREE.ImageUtils.loadTexture('bundle/' + cloudPath3)
 	];
+}
+
+//the texture for the boundage around the box
+exports.cubeBoundageTex = getCubeBoundageTex();
+function getCubeBoundageTex() {
+	var texture = THREE.ImageUtils.loadTexture('bundle/' + cubeBondage);
+	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set(20, 1);
+	texture.anisotropy = 4;
+	return texture;
+}
+
+//the texture for the boundage around the box
+exports.cubeBoundageETex = getCubeBoundageETex();
+function getCubeBoundageETex() {
+	var texture = THREE.ImageUtils.loadTexture('bundle/' + cubeBondageE);
+	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+	texture.repeat.set(20, 1);
+	texture.anisotropy = 4;
+	return texture;
 }

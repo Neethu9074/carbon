@@ -17,6 +17,8 @@ exports.ContainerCube = function ContainerCube(serverCube, pos, metaData) {
 	}
 	var app = serverCube.appRef;
 	var id = metaData.id;
+	this.discription = metaData.discription;
+	this.pid = metaData.pid;
 
   var x = pos.x + cubeOffset;
   var z = pos.z - cubeOffset; //remember negative webGL z space
@@ -90,7 +92,12 @@ exports.ContainerCube.prototype.show = function() {
 	this.appRef.octree.update();
 };
 
-exports.ContainerCube.prototype.stackContainer = function(options) {
+exports.ContainerCube.prototype.stackContainer = function(metaData) {
+	//for demo purpose only
+	if(this.stackedContainer.length > 0) {
+		return this.stackedContainer[0].stackContainer(metaData);
+	}
+
 	//get dimensions of the parent server
 	var dim = this.dimension;
 	var pos = this.position;
@@ -98,11 +105,11 @@ exports.ContainerCube.prototype.stackContainer = function(options) {
 	var xyz = {
 		x:  pos.x - cubeOffset,
 		y: pos.y + dim.y + 0.1,
-		z: pos.z + cubeOffset
+		z: pos.z + cubeOffset + - 0.25
 	};
 
 	//create the cube
-	var swCube = new exports.ContainerCube(this, xyz, 'd');
+	var swCube = new exports.ContainerCube(this, xyz, metaData);
 	this.stackedContainer.push(swCube);
 
 	return swCube;

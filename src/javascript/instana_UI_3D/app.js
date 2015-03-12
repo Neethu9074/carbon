@@ -56,6 +56,7 @@ exports.Application = function Application() {
   document.getElementById('destroyCubeButton').onclick = this.removeCube;
   document.getElementById('showWalkableButton').onclick = this.showWalkable;
   document.getElementById('stackContainerButton').onclick = this.stackContainer;
+  document.getElementById('showInGrafanaButton').onclick = this.showInGrafanaButton;
 
   this.animate();
 };
@@ -73,6 +74,7 @@ exports.Application.prototype.bindListeners = function() {
   this.showWalkable = this.showWalkable.bind(this);
   this.addRandomContainer = this.addRandomContainer.bind(this);
   this.stackContainer = this.stackContainer.bind(this);
+  this.showInGrafanaButton =  this.showInGrafanaButton.bind(this);
 };
 
 //events
@@ -89,59 +91,9 @@ exports.Application.prototype.onWindowResize = function() {
   this.oculusEffectMain.setSize(width, height);
 };
 
-exports.Application.prototype.zoom = function(zoomLevel) {
-  this.zoomLevel = zoomLevel;
-
-  if(zoomLevel > this.cloudDistance) {
-    for (var i = 0; i < this.sceneObjects3D.length; i++) {
-      var item = this.sceneObjects3D[i];
-      if(item instanceof host.HostCube) {
-        this.scene2D.remove(item.cssObject);
-      }
-    }
-    return;
-  } else if (zoomLevel < this.cloudDistance && zoomLevel > 40) {
-    for (var i = 0; i < this.sceneObjects3D.length; i++) {
-      var item = this.sceneObjects3D[i];
-      if(item instanceof host.HostCube) {
-        this.scene2D.add(item.cssObject);
-      }
-    }
-  }
-
-  //report to registered zoom cubes
-  var state = dS.DETAILSTATE.MIN;
-  materials.highlightMaterial.visible = true;
-  if (zoomLevel < this.midDetailsDistance) {
-    state = dS.DETAILSTATE.MID;
-    materials.highlightMaterial.visible = false;
-
-    if (zoomLevel < this.maxDetailsDistance) {
-      state = dS.DETAILSTATE.MAX;
-    }
-  }
-  //if state changed
-  if (state !== this.detailState) {
-    this.detailState = state;
-  }
-};
-
 exports.Application.prototype.addRandomCube = function() {
   var width = Math.ceil(Math.random() * 2);
   this.addHost(width, width);
-};
-
-exports.Application.prototype.addHost = function(width, height, metaData) {
-  var xy = this.layouter.getNext(width, width);
-
-  if (xy !== undefined) {
-    var cube = new host.HostCube(this, xy.x, -xy.y, width, height, metaData);
-    this.addObject(cube);
-
-    //say the layouter, that the area should be blocked
-    this.layouter.setBlocked(xy, width, width, cube.name);
-    return cube;
-  }
 };
 
 exports.Application.prototype.addRandomContainer = function() {
@@ -194,8 +146,80 @@ exports.Application.prototype.showWalkable = function() {
   this.walkableSystem = new THREE.PointCloud(geo, mat);
   this.scene.add(this.walkableSystem);
 };
+
+exports.Application.prototype.showInGrafanaButton = function() {
+  var cube = this.clickedObj;
+  if (cube !== undefined) {
+    if (cube instanceof container.ContainerCube) {
+      //container
+    } else if (cube instanceof host.HostCube){
+      //host
+    }
+  }
+};
 //events end
 
+exports.Application.prototype.addHost = function(width, height, metaData) {
+  var xy = this.layouter.getNext(width, width);
+
+  if (xy !== undefined) {
+    var cube = new host.HostCube(this, xy.x, -xy.y, width, height, metaData);
+    this.addObject(cube);
+
+    //say the layouter, that the area should be blocked
+    this.layouter.setBlocked(xy, width, width, cube.name);
+    return cube;
+  }
+};
+
+exports.Application.prototype.getHost = function(hostName) {
+  return host.findByName(hostName);
+};
+
+exports.Application.prototype.changeHost = function(id, metaData) {
+  var foundHost = this.getHost(id);
+  if(foundHost !== undefined) {
+    var cleanedMeta = foundHost.extractMetadata(metaData);
+    foundHost.changeMetadata(cleanedMeta);
+  }
+};
+
+exports.Application.prototype.zoom = function(zoomLevel) {
+  this.zoomLevel = zoomLevel;
+
+  if(zoomLevel > this.cloudDistance) {
+    for (var i = 0; i < this.sceneObjects3D.length; i++) {
+      var item = this.sceneObjects3D[i];
+      if(item instanceof host.HostCube) {
+        this.scene2D.remove(item.cssObject);
+      }
+    }
+    return;
+  } else if (zoomLevel < this.cloudDistance && zoomLevel > 40) {
+    for (var i = 0; i < this.sceneObjects3D.length; i++) {
+      var item = this.sceneObjects3D[i];
+      if(item instanceof host.HostCube) {
+        this.scene2D.add(item.cssObject);
+      }
+    }
+  }
+
+  //report to registered zoom cubes
+  var state = dS.DETAILSTATE.MIN;
+  materials.highlightMaterial.visible = true;
+  if (zoomLevel < this.midDetailsDistance) {
+    state = dS.DETAILSTATE.MID;
+    materials.highlightMaterial.visible = false;
+
+    if (zoomLevel < this.maxDetailsDistance) {
+      state = dS.DETAILSTATE.MAX;
+    }
+  }
+  //if state changed
+  if (state !== this.detailState) {
+    this.detailState = state;
+  }
+};
 
 exports.Application.prototype.initialize = function() {
   var width = window.innerWidth;
@@ -265,7 +289,7 @@ exports.Application.prototype.setup3DScene = function(width, height) {
   //this.scene.fog = new THREE.Fog(colors.fogColor, 100, 500);
 
   //set the farplane as near as possible
-  this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 1, 1000);
+  this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.25, 1000);
   this.mainCamera.position.set(-2, 5, 2.5);
   this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 

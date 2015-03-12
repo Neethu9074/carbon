@@ -4,20 +4,19 @@ var connection = require('./connection');
 
 module.exports = function createTestSetup(app) {
 	//test
-	var cube = app.addHost(1, 1);
-	for (var i = 0; i < 4; i++) {
-		cube.addContainer({id: 'unbekannt'});
-	}
+	var cube = app.addHost(1, 1, { id: 'host1' });
 
 	var newOne = cube.addContainer({ id: 'JVM' });
 	newOne = newOne.stackContainer({ id: 'Java Host' });
 	newOne = newOne.stackContainer({ id: 'namegame' });
+
+	//app.changeHost('host1', { cpu: {count: 2, model: 'Intel Atom'}});
 	//test end
 	//---------------------------------------------------------------------
 
 	//add a few cubes
 	var cubes = [];
-	for (i = 0; i < 4; i++) {
+	for (var i = 0; i < 4; i++) {
 		//create random cubes with a random width and depth
 		var w = Math.ceil(Math.random() * 2);
 		var newCube = app.addHost(w, w);

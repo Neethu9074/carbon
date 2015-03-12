@@ -13,6 +13,7 @@ exports.ContainerDataProvider.prototype.init = function (baseCube) {
     return;
   }
 
+  this.host = baseCube;
   this.position = baseCube.position;
   this.dimension = baseCube.dimension;
 
@@ -36,8 +37,8 @@ exports.ContainerDataProvider.prototype.createCSS3DTestStuff = function() {
   var dim = this.dimension;
 
   var number = document.createElement('div');
-  number.className = 'softwareCSS3DLayer';
-  number.innerHTML = 'container';
+  number.className = 'containerCSS3DLayer';
+  number.innerHTML = this.host.discription;
   var object = new THREE.CSS3DObject(number);
   object.scale.set(1 / 110, 1 / 100, 1);
 
@@ -56,8 +57,9 @@ exports.ContainerDataProvider.prototype.createCSS3DTestStuff = function() {
 };
 
 exports.ContainerDataProvider.prototype.dispose = function() {
-  delete this.position;
-  delete this.dimension;
-  delete this.visibleMesh;
-  delete this.content2D;
+  this.position = null;
+  this.dimension = null;
+  this.visibleMesh = null;
+  this.content2D = null;
+  this.host = null;
 };

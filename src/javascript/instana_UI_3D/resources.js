@@ -7,28 +7,32 @@ var obj = require('./obj');
 var warningObjectPath = require('../../obj/warning.obj');
 var errorObjectPath = require('../../obj/error.obj');
 var cubeObjectPath = require('../../obj/cube.obj');
+var cubeBoundageObjectPath = require('../../obj/cubeBoundage.obj');
 
 exports.load = function(onFinished) {
-	loadModel('bundle/' + warningObjectPath, obj.setStateWarningSymbol,
-		function() {
-			loadModel('bundle/' + errorObjectPath, obj.setStateErrorSymbol,
-				function() {
-					loadModel('bundle/' + cubeObjectPath, obj.setCube,
-						function() {
-							onFinished();
-						});
-				});
-		});
+  loadModel('bundle/' + warningObjectPath, obj.setStateWarningSymbol,
+    function() {
+      loadModel('bundle/' + errorObjectPath, obj.setStateErrorSymbol,
+        function() {
+          loadModel('bundle/' + cubeObjectPath, obj.setCube,
+            function() {
+              loadModel('bundle/' + cubeBoundageObjectPath, obj.setCubeBoundage,
+                function() {
+                  onFinished();
+                });
+            });
+        });
+    });
 };
 
 function loadModel(model, set, onFinished) {
-	var loader = new THREE.OBJLoader();
-	loader.load(
-		model,
-		function(object) {
-			object = object.children[0];
-			set(object);
-			onFinished();
-		}
-	);
+  var loader = new THREE.OBJLoader();
+  loader.load(
+    model,
+    function(object) {
+      object = object.children[0];
+      set(object);
+      onFinished();
+    }
+  );
 }

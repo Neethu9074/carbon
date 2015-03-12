@@ -14,6 +14,7 @@ var dataProvider = require('./dataProvider/hostDataProvider');
 //boosts extremly performance, because you don't increase draw calls
 var globalMeshForHosts = new THREE.Mesh();
 exports.globalMeshObjectForServerContainer = new THREE.Mesh();
+exports.globalMeshObjectForServerContainer = new THREE.Mesh();
 exports.globalMeshObjectForServerContainer.name = 'global container for hosts';
 exports.globalMeshObjectForServerContainer.matrixAutoUpdate = false;
 
@@ -32,9 +33,8 @@ exports.HostCube = function HostCube(app, x, y, w, h, metaData) {
   }
 
   var meta = this.extractMetadata(metaData);
+  this.changeMetadata(meta);
   var id = meta.id;
-  this.cpu = meta.cpu;
-  this.memory = meta.memory;
 
   /*
 	    x	________  x
@@ -85,26 +85,30 @@ exports.HostCube.prototype.constructor = exports.HostCube;
 
 
 exports.HostCube.prototype.extractMetadata = function(metaData) {
-  var meta = {
-    id: '',
-    cpu: '',
-    memory: ''
-  };
+  var meta = { id: math.guid() };
 
-  if (metaData !== undefined) {
-    //backend uuid
-    meta.id = metaData.id;
-    //cpu cores times cpu speed
+  if(metaData === undefined) { return meta; }
+  if(metaData.id !== undefined) { meta.id = metaData.id; }
+  if(metaData.cpu !== undefined) {
     meta.cpu = metaData.cpu.count + 'x ' + metaData.cpu.model;
-    //Byte -> MB
-    meta.memory = Math.round(metaData.memory.total / 1000000) + 'MB RAM';
-  } else {
-    meta.id = math.guid();
-    meta.cpu = 'not available';
-    meta.memory = 'not available';
   }
+  if(metaData.memory !== undefined) {
+    meta.memory = Math.round(metaData.memory.total / 1000000) + 'MB RAM';
+  }
+    if(metaData.operatingSystem !== undefined) {
+      meta.operatingSystem = metaData.operatingSystem.name + ' - '
+      + metaData.operatingSystem.version;
+    }
 
   return meta;
+};
+
+exports.HostCube.prototype.changeMetadata = function(metaData) {
+  console.log('change to ', metaData)
+
+  this.cpu = metaData.cpu;
+  this.memory = metaData.memory;
+  this.operatingSystem = metaData.operatingSystem;
 };
 
 exports.HostCube.prototype.createCube = function(dimension) {
@@ -115,7 +119,7 @@ exports.HostCube.prototype.createCube = function(dimension) {
   this.visibleCube = detCube;
 
 	//you need all cubes to rebuild the global mesh
-  hosts.push(detCube);
+  hosts.push(this);
   this.rebuildGlobalMesh();
 };
 
@@ -129,7 +133,8 @@ exports.HostCube.prototype.rebuildGlobalMesh = function() {
 
   var geo = new THREE.Geometry();
   for (var i = 0; i < hosts.length; i++) {
-    geo.merge(hosts[i].geometry, hosts[i].matrix);
+    var cube = hosts[i].visibleCube;
+    geo.merge(cube.geometry, cube.matrix);
   }
   globalMeshForHosts = new THREE.Mesh(
 		new THREE.BufferGeometry().fromGeometry(geo),
@@ -175,6 +180,8 @@ exports.HostCube.prototype.update = function() {
       this.hideDetails();
     }
   }
+
+  this.dataProvider.update();
 };
 
 exports.HostCube.prototype.hideDetails = function() {
@@ -213,20 +220,35 @@ exports.HostCube.prototype.showDetails = function() {
 };
 
 exports.HostCube.prototype.addContainer = function(metaData) {
-	var width = 3;
-	var depth = 3;
-	var pos = this.nextContainerPosition(width, depth);
-	if(pos === undefined) {
-		return;
-	}
+  var containerWithSamePID = undefined;
+  for (var i = 0; i < this.containerChildren.length; i++) {
+    if(this.containerChildren[i].pid === metaData.pid) {
+      containerWithSamePID = this.containerChildren[i];
+    }
+  }
 
-  //create the container
-  var container = new containerCube.ContainerCube(this, pos.pos, metaData);
-  this.containerChildren.push(container);
+  if(containerWithSamePID !== undefined) {
+    return containerWithSamePID.stackContainer(metaData);
 
-  //say the layouter, that the area should be blocked
-  this.layouter.setBlocked(pos.xy, width, depth, container.name);
-  return container;
+  } else{
+
+  	var width = 3;
+  	var depth = 3;
+  	var pos = this.nextContainerPosition(width, depth);
+  	if(pos === undefined) {
+  		return;
+  	}
+    //create the container
+    if(metaData.pid !== undefined) {
+      metaData.discription += ' - ' + metaData.pid;
+    }
+    var container = new containerCube.ContainerCube(this, pos.pos, metaData);
+    this.containerChildren.push(container);
+
+    //say the layouter, that the area should be blocked
+    this.layouter.setBlocked(pos.xy, width, depth, container.name);
+    return container;
+  }
 };
 
 exports.HostCube.prototype.dispose = function() {
@@ -234,7 +256,7 @@ exports.HostCube.prototype.dispose = function() {
   this.appRef.scene2D.remove(this.cssObject);
 
   //rebuild global combined mesh
-  hosts = hosts.filter(item => item !== this.visibleCube);
+  hosts = hosts.filter(item => item !== this);
   this.rebuildGlobalMesh();
 
   this.appRef.layouter.setFree(this.name);
@@ -268,6 +290,9 @@ exports.update = function(app) {
     globalMeshForHosts.material.opacity = normZoomDistance;
     materials.stateSymbolWarningMaterial.opacity = normZoomDistance;
     materials.stateSymbolErrorMaterial.opacity = normZoomDistance;
+    materials.boundageMat.opacity = normZoomDistance;
+    materials.boundageEMat.opacity = normZoomDistance;
+
   } else {
     materials.cubeDetailedMaterial.transparent = false;
     materials.stateSymbolWarningMaterial.transparent = false;
@@ -275,4 +300,14 @@ exports.update = function(app) {
 
     materials.cubeSimpleMaterial.visible = false;
   }
+};
+
+exports.findByName = function(name) {
+  for (var i = 0; i < hosts.length; i++) {
+    var host = hosts[i];
+    if(host.name === name) {
+      return host;
+    }
+  }
+  return undefined;
 };
