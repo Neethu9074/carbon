@@ -70,20 +70,6 @@ exports.stateSymbolErrorMaterial = new THREE.MeshLambertMaterial({
 	transparent: true
 });
 
-exports.boundageMat = new THREE.MeshBasicMaterial({
-  color: 0xfff41f,
-  side: THREE.DoubleSide,
-  map: textures.cubeBoundageTex,
-  transparent: true
-});
-
-exports.boundageEMat = new THREE.MeshBasicMaterial({
-  color: 0xff1f35,
-  side: THREE.DoubleSide,
-  map: textures.cubeBoundageETex,
-  transparent: true
-});
-
 exports.highlightMaterial = new THREE.MeshBasicMaterial( {
   color: colors.lightBlue,
   transparent: true,

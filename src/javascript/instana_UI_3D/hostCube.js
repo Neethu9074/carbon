@@ -84,7 +84,7 @@ exports.HostCube.prototype.setColorFromMetadata = function(metaData) {
   if(metaData.colors !== undefined) {
     for (var i = 0; i < metaData.colors.length; i++) {
       var color = metaData.colors[i];
-      var state = color[Object.keys(color)[0]];
+      maxError = color[Object.keys(color)[0]];
     }
   }
 

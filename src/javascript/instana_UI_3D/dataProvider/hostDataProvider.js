@@ -6,7 +6,6 @@ var geometries = require('../geometries');
 var bc = require('../baseCube');
 var host = require('../hostCube');
 var obj = require('../obj');
-var textures = require('../textures');
 var globalMats = require('../materials');
 
 var okImagePath = require('../../../images/Ok.png');
@@ -48,22 +47,6 @@ exports.HostDataProvider.prototype.init = function(baseCube) {
     globalMats.stateSymbolErrorMaterial);
   this.stateErrorSymbol.position.copy(symbolPos);
   this.stateErrorSymbol.scale.multiplyScalar(3);
-
-  this.boundage = new THREE.Mesh(
-    obj.cubeBoundage.geometry,
-    globalMats.boundageMat);
-  this.boundage.scale.copy(this.dimension);
-  this.boundage.scale.multiplyScalar(1.02);
-  this.boundage.scale.y = 1;
-  this.boundage.position.x = this.position.x + (this.dimension.x / 2);
-  this.boundage.position.y = this.position.y + (this.dimension.y) - 0.6;
-  this.boundage.position.z = this.position.z - (this.dimension.z / 2);
-
-  this.boundageE = new THREE.Mesh(
-    obj.cubeBoundage.geometry,
-    globalMats.boundageEMat);
-  this.boundageE.scale.copy(this.boundage.scale);
-  this.boundageE.position.copy(this.boundage.position);
 };
 
 exports.HostDataProvider.prototype.createVisibleMesh = function() {
@@ -134,31 +117,22 @@ exports.HostDataProvider.prototype.setState = function(newState) {
     //ele.innerHTML = '<img src="bundle/' + okImagePath + '">';
     container.remove(this.stateWarningSymbol);
     container.remove(this.stateErrorSymbol);
-    //container.remove(this.boundage);
-    //container.remove(this.boundageE);
 
   } else if (newState === host.STATE.WARNING) {
     //ele.innerHTML = '<img src="bundle/' + warningImagePath + '">';
     container.add(this.stateWarningSymbol);
     container.remove(this.stateErrorSymbol);
-    //container.add(this.boundage);
-    //container.remove(this.boundageE);
 
   } else {
     //ele.innerHTML = '<img src="bundle/' + errorImagePath + '">';
     container.remove(this.stateWarningSymbol);
     container.add(this.stateErrorSymbol);
-    //container.remove(this.boundage);
-    //container.add(this.boundageE);
   }
 };
 
 exports.HostDataProvider.prototype.update = function() {
   var dt = this.host.appRef.deltaTime;
   var t = this.host.appRef.timeSinceStarted;
-
-	textures.cubeBoundageTex.offset.x -= dt * 0.05;
-	textures.cubeBoundageETex.offset.x -= dt * 0.05;
 
   this.stateWarningSymbol.rotation.y -= dt;
   this.stateErrorSymbol.rotation.y -= dt;
