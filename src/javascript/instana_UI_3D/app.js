@@ -290,7 +290,7 @@ exports.Application.prototype.setup3DScene = function(width, height) {
   //this.scene.fog = new THREE.Fog(colors.fogColor, 100, 500);
 
   //set the farplane as near as possible
-  this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.25, 1000);
+  this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.5, 700);
   this.mainCamera.position.set(-2, 5, 2.5);
   this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -513,6 +513,8 @@ exports.Application.prototype.createOctree = function() {
 };
 
 exports.Application.prototype.findObject = function(raycaster) {
+  raycaster.far = Math.min(125, raycaster.far); //[0, 125]
+
   //search all candidates where ray cutting quadrants of the octree
   var octreeObjects = this.octree.search(
     raycaster.ray.origin,
