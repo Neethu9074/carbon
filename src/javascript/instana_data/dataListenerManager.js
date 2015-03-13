@@ -27,7 +27,7 @@ exports.DataListenerManager = function DataListenerManager(app, interval) {
 	this.detectedInventory = [];
 
 	//create the listener with a refresh interval of x
-	var dataListener = new data.DataListener(2000); // in ms
+	var dataListener = new data.DataListener(interval); // in ms
 	dataListener.onUpdateHosts = this.onUpdateHosts;
   dataListener.onUpdateInventory = this.onUpdateInventory;
 };
@@ -39,14 +39,20 @@ exports.DataListenerManager.prototype.onUpdateHosts = function(
   }
 
 	for (var i = 0; i < currentHosts.length; i++) {
-		var host = currentHosts[i];
-		if (host.id !== undefined &&
-      !this.detectedHostIds.contains(host.id)) {
-			//new host found!
-			this.detectedHostIds.push(host.id);
+		var hostMetaData = currentHosts[i];
+		var hostID = hostMetaData.id;
+		if (hostID !== undefined &&
+      !this.detectedHostIds.contains(hostID)) {
+			//new hostMetaData found!
+			this.detectedHostIds.push(hostID);
 
-			//create new host cube
-      this.app.addHost(2, 2, host);
+			//create new hostMetaData cube
+      this.app.addHost(2, 2, hostMetaData);
+		} else {
+			//hostMetaData is still created
+			this.app.changeHost(hostID, hostMetaData);
+
+			//TODO: calculate dif ?
 		}
 	}
 };

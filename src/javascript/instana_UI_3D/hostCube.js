@@ -21,9 +21,9 @@ exports.globalMeshObjectForServerContainer.matrixAutoUpdate = false;
 var hosts = [];
 
 exports.STATE = {
-  OK: {},
-  WARNING: {},
-  ERROR: {}
+  OK: { id:'ok' },
+  WARNING: { id:'warning' },
+  ERROR: { id:'error' }
 };
 
 exports.HostCube = function HostCube(app, x, y, w, h, metaData) {
@@ -33,7 +33,7 @@ exports.HostCube = function HostCube(app, x, y, w, h, metaData) {
   }
 
   var meta = this.extractMetadata(metaData);
-  this.changeMetadata(meta);
+  this.changeMetadata(metaData);
   var id = meta.id;
 
   /*
@@ -69,12 +69,6 @@ exports.HostCube = function HostCube(app, x, y, w, h, metaData) {
   this.cssObject = this.dataProvider.content2D;
   this.hideDetails();
 
-  //set state
-  this.state = exports.STATE.OK;
-  this.setState(this.state);
-  this.updateCount = 0;
-  this.randomStateSwitchFactor = Math.ceil(Math.random() * 500 + 100);
-
   //register for update to calculate distance and fading
   this.registerForUpdate();
 };
@@ -83,6 +77,27 @@ exports.HostCube = function HostCube(app, x, y, w, h, metaData) {
 exports.HostCube.prototype = new baseCube.BaseCube();
 exports.HostCube.prototype.constructor = exports.HostCube;
 
+
+exports.HostCube.prototype.setColorFromMetadata = function(metaData) {
+  //set state
+  var maxError = undefined;
+  if(metaData.colors !== undefined) {
+    for (var i = 0; i < metaData.colors.length; i++) {
+      var color = metaData.colors[i];
+      maxError = color[Object.keys(color)[0]];
+    }
+  }
+  if(maxError === 'GREEN') {
+    this.state = exports.STATE.OK;
+    this.setState(this.state);
+  } else if(maxError === 'YELLOW') {
+    this.state = exports.STATE.WARNING;
+    this.setState(this.state);
+  } else if(maxError === 'RED') {
+    this.state = exports.STATE.ERROR;
+    this.setState(this.state);
+  }
+};
 
 exports.HostCube.prototype.extractMetadata = function(metaData) {
   var meta = { id: math.guid() };
@@ -95,20 +110,26 @@ exports.HostCube.prototype.extractMetadata = function(metaData) {
   if(metaData.memory !== undefined) {
     meta.memory = Math.round(metaData.memory.total / 1000000) + 'MB RAM';
   }
-    if(metaData.operatingSystem !== undefined) {
-      meta.operatingSystem = metaData.operatingSystem.name + ' - '
-      + metaData.operatingSystem.version;
-    }
+  if(metaData.operatingSystem !== undefined) {
+    meta.operatingSystem = metaData.operatingSystem.name + ' - '
+    + metaData.operatingSystem.version;
+  }
+  if(metaData.colors !== undefined) {
+    meta.colors = metaData.colors;
+  }
 
   return meta;
 };
 
 exports.HostCube.prototype.changeMetadata = function(metaData) {
-  console.log('change to ', metaData)
+  var meta = this.extractMetadata(metaData);
 
-  this.cpu = metaData.cpu;
-  this.memory = metaData.memory;
-  this.operatingSystem = metaData.operatingSystem;
+  //set state
+  this.setColorFromMetadata(meta);
+
+  this.cpu = meta.cpu;
+  this.memory = meta.memory;
+  this.operatingSystem = meta.operatingSystem;
 };
 
 exports.HostCube.prototype.createCube = function(dimension) {
@@ -147,24 +168,13 @@ exports.HostCube.prototype.rebuildGlobalMesh = function() {
 exports.HostCube.prototype.setState = function(newState) {
   //set new state
   this.state = newState;
-  this.dataProvider.setState(newState);
+  if(this.dataProvider !== undefined) {
+    this.dataProvider.setState(newState);
+  }
 };
 
 exports.HostCube.prototype.update = function() {
   var app = this.appRef;
-
-  this.updateCount++;
-  if (this.updateCount % this.randomStateSwitchFactor === 0) {
-    this.updateCount = 0;
-    var r = Math.ceil(Math.random() * 3);
-    if (r === 1) {
-      this.setState(exports.STATE.OK);
-    } else if (r === 2) {
-      this.setState(exports.STATE.WARNING);
-    } else {
-      this.setState(exports.STATE.ERROR);
-    }
-  }
 
   //if the detail state has changed
   if (this.detailState !== app.detailState) {

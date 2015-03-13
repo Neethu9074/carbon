@@ -42,7 +42,7 @@ exports.Application = function Application() {
 
   //zoom detail Level
   this.cloudDistance = 70;
-  this.midDetailsDistance = 20;
+  this.midDetailsDistance = 30;
   this.maxDetailsDistance = 10;
   this.zoomLevel = this.mouseControl.zoomLevel;
   this.detailState = dS.DETAILSTATE.MIN;
@@ -56,7 +56,7 @@ exports.Application = function Application() {
   document.getElementById('destroyCubeButton').onclick = this.removeCube;
   document.getElementById('showWalkableButton').onclick = this.showWalkable;
   document.getElementById('stackContainerButton').onclick = this.stackContainer;
-  document.getElementById('showInGrafanaButton').onclick = this.showInGrafanaButton;
+  document.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
 
   this.animate();
 };
@@ -74,7 +74,7 @@ exports.Application.prototype.bindListeners = function() {
   this.showWalkable = this.showWalkable.bind(this);
   this.addRandomContainer = this.addRandomContainer.bind(this);
   this.stackContainer = this.stackContainer.bind(this);
-  this.showInGrafanaButton =  this.showInGrafanaButton.bind(this);
+  this.showInGrafana =  this.showInGrafana.bind(this);
 };
 
 //events
@@ -147,7 +147,7 @@ exports.Application.prototype.showWalkable = function() {
   this.scene.add(this.walkableSystem);
 };
 
-exports.Application.prototype.showInGrafanaButton = function() {
+exports.Application.prototype.showInGrafana = function() {
   var cube = this.clickedObj;
   if (cube !== undefined) {
     if (cube instanceof container.ContainerCube) {
@@ -181,8 +181,7 @@ exports.Application.prototype.getHost = function(hostName) {
 exports.Application.prototype.changeHost = function(id, metaData) {
   var foundHost = this.getHost(id);
   if(foundHost !== undefined) {
-    var cleanedMeta = foundHost.extractMetadata(metaData);
-    foundHost.changeMetadata(cleanedMeta);
+    foundHost.changeMetadata(metaData);
   }
 };
 

@@ -185,6 +185,9 @@ exports.MouseControl.prototype.update = function(dTime) {
 
   cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
 
+  return;
+  //leads to artefacts when switching the tabs
+
   //apply rotation
   var angleFactor = 1 -
   (cam.position.y - this.maxZoom) /

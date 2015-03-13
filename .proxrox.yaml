@@ -2,7 +2,9 @@ port: 4000
 root: false
 ssi: true
 proxy:
-  # this endpoint provided by webpack during development
+  #the local address from gulp dev
   '/': http://127.0.0.1:3000
 
-  '/api/': http://ec2-54-93-114-240.eu-central-1.compute.amazonaws.com:8080/
+  #service API
+  #'/api/': http://ec2-54-93-114-240.eu-central-1.compute.amazonaws.com:8080/
+  '/api/': http://ec2-54-197-51-67.compute-1.amazonaws.com:8080/api/
