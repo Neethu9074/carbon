@@ -99,9 +99,11 @@ exports.HostCube.prototype.setColorFromMetadata = function(metaData) {
     this.setState(this.state);
   } else if(maxError === 'YELLOW') {
     this.state = exports.STATE.WARNING;
+    console.log('set state to warning');
     this.setState(this.state);
   } else if(maxError === 'RED') {
     this.state = exports.STATE.ERROR;
+    console.log('set state to warning');
     this.setState(this.state);
   }
 };
