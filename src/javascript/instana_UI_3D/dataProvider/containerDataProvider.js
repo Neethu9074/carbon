@@ -45,7 +45,9 @@ exports.ContainerDataProvider.prototype.createCSS3DTestStuff = function() {
   object.position.copy(this.position);
   object.position.y += dim.y / 2;
   object.position.x += dim.x / 2;
+  object.position.z += 0.1;
 
+  object.rotation.x = -25 * Math.PI / 180;
 
   //set static
   object.matrixAutoUpdate = false;

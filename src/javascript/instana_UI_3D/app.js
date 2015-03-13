@@ -42,7 +42,7 @@ exports.Application = function Application() {
 
   //zoom detail Level
   this.cloudDistance = 90;
-  this.midDetailsDistance = 30;
+  this.midDetailsDistance = 25;
   this.maxDetailsDistance = 10;
   this.zoomLevel = this.mouseControl.zoomLevel;
   this.detailState = dS.DETAILSTATE.MIN;

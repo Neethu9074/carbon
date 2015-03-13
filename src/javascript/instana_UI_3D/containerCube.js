@@ -9,7 +9,7 @@ var geometries = require('./geometries');
 var dataProvider = require('./dataProvider/containerDataProvider');
 
 //the offset where cubes are translated and rescaled with
-var cubeOffset = 1
+var cubeOffset = 0.5;
 
 exports.ContainerCube = function ContainerCube(serverCube, pos, metaData) {
 	if (serverCube === undefined || pos === undefined) {
@@ -26,8 +26,8 @@ exports.ContainerCube = function ContainerCube(serverCube, pos, metaData) {
 
   var x = pos.x + cubeOffset;
   var z = pos.z - cubeOffset; //remember negative webGL z space
-  var width = 5 - (cubeOffset * 2);
-  var depth = 5 - (cubeOffset * 2);
+  var width = 4 - (cubeOffset * 2);
+  var depth = 4 - (cubeOffset * 2);
 
   //call super contructor
   var provider = new dataProvider.ContainerDataProvider();

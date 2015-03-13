@@ -111,7 +111,9 @@ exports.HostDataProvider.prototype.toHTML = function() {
   var memory = h.memory;
   var os = h.operatingSystem;
 
-  var html = '<p>' + id + '</p>' +
+  var html = '<p>Host</p>' +
+    '<ul><li>' + id + '</li></ul>' +
+    '<p>System</p>' +
     '<ul><li>' + os + '</li>' +
     '<li>' + cpu + '</li>' +
     '<li>' + memory + '</li></ul>';

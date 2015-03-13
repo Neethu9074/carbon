@@ -108,7 +108,7 @@ exports.HostCube.prototype.extractMetadata = function(metaData) {
     meta.cpu = metaData.cpu.count + 'x ' + metaData.cpu.model;
   }
   if(metaData.memory !== undefined) {
-    meta.memory = Math.round(metaData.memory.total / 1000000) + 'MB RAM';
+    meta.memory = Math.round((metaData.memory.total / 1073741824) *100) / 100 + ' GB RAM';
   }
   if(metaData.operatingSystem !== undefined) {
     meta.operatingSystem = metaData.operatingSystem.name + ' - '
@@ -241,8 +241,8 @@ exports.HostCube.prototype.addContainer = function(metaData) {
 
   } else{
     //add as new container
-  	var width = 5;
-  	var depth = 5;
+  	var width = 4;
+  	var depth = 4;
   	var pos = this.nextContainerPosition(width, depth);
   	if(pos === undefined) {
   		return;
