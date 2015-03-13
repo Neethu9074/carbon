@@ -22,6 +22,9 @@ exports.MouseControl.prototype.init = function(app) {
   this.cameraSpeed = 5; //mainCamera fly speed - heuristic
   this.moveSpeed = 0.06; //distance moved per pixel - heuristic
 
+  this.alreadyRotated = 0;
+  this.maxRotate = 20;
+
   //zoom fields
   this.minZoom = 1000;
   this.zoomLevel = 40;
@@ -188,4 +191,10 @@ exports.MouseControl.prototype.update = function(dTime) {
   (this.beginToRotate - this.maxZoom);
 
   angleFactor = Math.max(Math.min(1, angleFactor), 0); //[0, 1]
+
+  var targetAngle = (angleFactor * this.maxRotate * Math.PI / 180)
+   - this.alreadyRotated;
+  cam.rotateOnAxis(
+    new THREE.Vector3(1, 0, 0), targetAngle * dTime * 5);
+  this.alreadyRotated += targetAngle * dTime * 5;
 };

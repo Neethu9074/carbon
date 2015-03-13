@@ -170,11 +170,10 @@ exports.HostCube.prototype.update = function() {
   if (this.detailState !== app.detailState) {
     this.detailState = app.detailState;
     //do single on changed
-    if (this.detailState === dS.DETAILSTATE.MID) {
+    if (this.detailState === dS.DETAILSTATE.MID ||
+    this.detailState === dS.DETAILSTATE.MAX) {
       //do mid calculations
       this.showDetails();
-    } else if (this.detailState === dS.DETAILSTATE.MAX) {
-      //do max calculations
     } else {
       //do min calculations
       this.hideDetails();
@@ -231,13 +230,14 @@ exports.HostCube.prototype.addContainer = function(metaData) {
     return containerWithSamePID.stackContainer(metaData);
 
   } else{
-
-  	var width = 3;
-  	var depth = 3;
+    //add as new container
+  	var width = 5;
+  	var depth = 5;
   	var pos = this.nextContainerPosition(width, depth);
   	if(pos === undefined) {
   		return;
   	}
+
     //create the container
     if(metaData.pid !== undefined) {
       metaData.discription += ' - ' + metaData.pid;
