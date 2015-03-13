@@ -97,11 +97,11 @@ exports.HostDataProvider.prototype.toHTML = function() {
   var memory = h.memory;
   var os = h.operatingSystem;
 
-  var html = '<h4></h4><p><img src=" /bundle' + hostImagePath +
-    '" class="icon">Host</p>' +
+  var html = '<h4></h4><p><img src= bundle/' + hostImagePath +
+    ' class=icon>Host</p>' +
     '<ul><li>' + id + '</li></ul>' +
-    '<h4></h4><p><img src=" /bundle' + systemImagePath +
-      '" class="icon">System</p>' +
+    '<h4></h4><p><img src= bundle/' + systemImagePath +
+      ' class=icon>System</p>' +
     '<ul><li>' + os + '</li>' +
     '<li>' + cpu + '</li>' +
     '<li>' + memory + '</li></ul>';
