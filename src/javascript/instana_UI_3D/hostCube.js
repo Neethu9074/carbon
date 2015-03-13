@@ -242,6 +242,7 @@ exports.HostCube.prototype.addContainer = function(metaData) {
     if(metaData.pid !== undefined) {
       metaData.discription += ' - ' + metaData.pid;
     }
+
     var container = new containerCube.ContainerCube(this, pos.pos, metaData);
     this.containerChildren.push(container);
 

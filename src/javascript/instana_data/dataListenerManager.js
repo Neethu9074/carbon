@@ -70,7 +70,10 @@ exports.DataListenerManager.prototype.onUpdateInventory = function(
       hostCube.addContainer( {
         id: invID,
         discription: inv.type,
-				pid: inv.properties.pid
+				pid: inv.properties.pid,
+        tag: inv.properties.name,
+        entityId: inv.properties.entityId,
+        host: inv.properties.host
       });
 		}
 	}

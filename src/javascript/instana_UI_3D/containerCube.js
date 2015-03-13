@@ -17,8 +17,12 @@ exports.ContainerCube = function ContainerCube(serverCube, pos, metaData) {
 	}
 	var app = serverCube.appRef;
 	var id = metaData.id;
+
 	this.discription = metaData.discription;
 	this.pid = metaData.pid;
+  this.tag = metaData.tag;
+  this.entityId = metaData.entityId;
+  this.host = metaData.host;
 
   var x = pos.x + cubeOffset;
   var z = pos.z - cubeOffset; //remember negative webGL z space

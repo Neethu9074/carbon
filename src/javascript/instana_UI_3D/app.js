@@ -151,9 +151,11 @@ exports.Application.prototype.showInGrafanaButton = function() {
   var cube = this.clickedObj;
   if (cube !== undefined) {
     if (cube instanceof container.ContainerCube) {
-      //container
+      var url = "/#/dashboard/file/" + btoa(cube.host + "___" + cube.tag + "___" + cube.entityId) + ".json";
+      window.open(url,'_blank');
     } else if (cube instanceof host.HostCube){
-      //host
+      var url = "/#/dashboard/file/" + btoa(cube.name + "___com.instana.agent.host.discovery.Host___localhost") + ".json";
+      window.open(url,'_blank');
     }
   }
 };
