@@ -80,13 +80,20 @@ exports.HostCube.prototype.constructor = exports.HostCube;
 
 exports.HostCube.prototype.setColorFromMetadata = function(metaData) {
   //set state
-  var maxError = undefined;
+  var maxError = 'GREEN';
   if(metaData.colors !== undefined) {
     for (var i = 0; i < metaData.colors.length; i++) {
       var color = metaData.colors[i];
-      maxError = color[Object.keys(color)[0]];
+      var state = color[Object.keys(color)[0]];
+      if(state === 'YELLOW') {
+        maxError = 'YELLOW';
+      } else if(state === 'RED') {
+        maxError = 'RED';
+        break;
+      }
     }
   }
+
   if(maxError === 'GREEN') {
     this.state = exports.STATE.OK;
     this.setState(this.state);

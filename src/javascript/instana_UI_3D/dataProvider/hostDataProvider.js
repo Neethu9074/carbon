@@ -13,6 +13,9 @@ var okImagePath = require('../../../images/Ok.png');
 var warningImagePath = require('../../../images/Warning.png');
 var errorImagePath = require('../../../images/Error.png');
 
+var hostImagePath = require('../../../images/icon_host.png');
+var systemImagePath = require('../../../images/icon_system.png');
+
 
 exports.HostDataProvider = function HostDataProvider() {};
 
@@ -111,9 +114,11 @@ exports.HostDataProvider.prototype.toHTML = function() {
   var memory = h.memory;
   var os = h.operatingSystem;
 
-  var html = '<p>Host</p>' +
+  var html = '<h4></h4><p><img src=" /bundle' + hostImagePath +
+    '" class="icon">Host</p>' +
     '<ul><li>' + id + '</li></ul>' +
-    '<p>System</p>' +
+    '<h4></h4><p><img src=" /bundle' + systemImagePath +
+      '" class="icon">System</p>' +
     '<ul><li>' + os + '</li>' +
     '<li>' + cpu + '</li>' +
     '<li>' + memory + '</li></ul>';
