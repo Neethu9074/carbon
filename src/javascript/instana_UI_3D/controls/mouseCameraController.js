@@ -123,21 +123,18 @@ exports.MouseControl.prototype.onMouseMove = function(e) {
     transObj.position.x = Math.min(250, transObj.position.x);
     transObj.position.z = Math.min(25, transObj.position.z);
     transObj.position.z = Math.max(-250, transObj.position.z);
-
-    //don't forget to set the new position :)
-    this.mouse.x = e.clientX;
-    this.mouse.y = e.clientY;
   }
 
-  //do it only every x times
-  if ((this.counterForRayCasting++ % 5) === 0) {
-    this.doRayPicking( e.clientX, e.clientY);
-  }
+  //don't forget to set the new position :)
+  this.mouse.x = e.clientX;
+  this.mouse.y = e.clientY;
 };
 
 //TODO: extract method to single class?
-exports.MouseControl.prototype.doRayPicking = function(x, y) {
+exports.MouseControl.prototype.doRayPicking = function() {
   var app = this.appReference;
+  var x = this.mouse.x;
+  var y = this.mouse.y;
 
   //update mainCamera world matrix
   app.mainCamera.updateMatrixWorld();
@@ -169,6 +166,11 @@ exports.MouseControl.prototype.doRayPicking = function(x, y) {
 };
 
 exports.MouseControl.prototype.update = function(dTime) {
+  //do it only every x times
+  if ((this.counterForRayCasting++ % 5) === 0) {
+    this.doRayPicking();
+  }
+
   var cam = this.appReference.mainCamera;
 
   this.directionHelper.position.copy(this.camTransformObject.position);
