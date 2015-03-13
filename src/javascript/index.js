@@ -13,5 +13,5 @@ res.load(function() { //on finished
   //test setup
   //setup(uiApplication); return;
 
-  var m = new data.DataListenerManager(uiApplication, 1000);
+  var m = new data.DataListenerManager(uiApplication, 2000);
 });

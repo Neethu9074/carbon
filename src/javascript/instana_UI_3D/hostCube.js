@@ -132,6 +132,14 @@ exports.HostCube.prototype.changeMetadata = function(metaData) {
   this.operatingSystem = meta.operatingSystem;
 };
 
+exports.HostCube.prototype.setState = function(newState) {
+  //set new state
+  this.state = newState;
+  if(this.dataProvider !== undefined) {
+    this.dataProvider.setState(newState);
+  }
+};
+
 exports.HostCube.prototype.createCube = function(dimension) {
   var detCube = this.dataProvider.visibleMesh;
   this.setStatic(detCube);
@@ -163,14 +171,6 @@ exports.HostCube.prototype.rebuildGlobalMesh = function() {
 
 	geo.dispose();
   exports.globalMeshObjectForServerContainer.add(globalMeshForHosts);
-};
-
-exports.HostCube.prototype.setState = function(newState) {
-  //set new state
-  this.state = newState;
-  if(this.dataProvider !== undefined) {
-    this.dataProvider.setState(newState);
-  }
 };
 
 exports.HostCube.prototype.update = function() {

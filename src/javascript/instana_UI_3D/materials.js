@@ -7,7 +7,6 @@ var textures = require('./textures');
 
 exports.cloudMaterialLight = new THREE.MeshBasicMaterial({
   color: 0xFFFFFF,
-  side: THREE.DoubleSide,
   transparent: true,
   depthWrite: false,
   opacity: 0.1,
@@ -16,7 +15,6 @@ exports.cloudMaterialLight = new THREE.MeshBasicMaterial({
 
 exports.cloudMaterialMid = new THREE.MeshBasicMaterial({
   color: 0xFFFFFF,
-  side: THREE.DoubleSide,
   transparent: true,
   depthWrite: false,
   opacity: 0.4,
@@ -25,7 +23,6 @@ exports.cloudMaterialMid = new THREE.MeshBasicMaterial({
 
 exports.cloudMaterialHeavy = new THREE.MeshBasicMaterial({
   color: 0xFFFFFF,
-  side: THREE.DoubleSide,
   transparent: true,
   depthWrite: false,
   opacity: 0.4,

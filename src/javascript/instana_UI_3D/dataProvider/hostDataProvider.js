@@ -88,7 +88,7 @@ exports.HostDataProvider.prototype.createCSS3DTestStuff = function() {
   var object = new THREE.CSS3DObject(number);
 
   //400px in css are 1 unit in 3D space so 1*width / 400
-  object.scale.set(dim.x / 400, dim.z / 400, 1);
+  object.scale.set(dim.x / 800, dim.z / 800, 1);
 
   object.position.copy(pos);
   object.position.x += dim.x / 2;
@@ -127,22 +127,22 @@ exports.HostDataProvider.prototype.setState = function(newState) {
     //ele.innerHTML = '<img src="bundle/' + okImagePath + '">';
     container.remove(this.stateWarningSymbol);
     container.remove(this.stateErrorSymbol);
-    container.remove(this.boundage);
-    container.remove(this.boundageE);
+    //container.remove(this.boundage);
+    //container.remove(this.boundageE);
 
   } else if (newState === host.STATE.WARNING) {
     //ele.innerHTML = '<img src="bundle/' + warningImagePath + '">';
     container.add(this.stateWarningSymbol);
     container.remove(this.stateErrorSymbol);
-    container.add(this.boundage);
-    container.remove(this.boundageE);
+    //container.add(this.boundage);
+    //container.remove(this.boundageE);
 
   } else {
     //ele.innerHTML = '<img src="bundle/' + errorImagePath + '">';
     container.remove(this.stateWarningSymbol);
     container.add(this.stateErrorSymbol);
-    container.remove(this.boundage);
-    container.add(this.boundageE);
+    //container.remove(this.boundage);
+    //container.add(this.boundageE);
   }
 };
 

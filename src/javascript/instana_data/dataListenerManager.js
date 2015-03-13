@@ -35,6 +35,7 @@ exports.DataListenerManager = function DataListenerManager(app, interval) {
 exports.DataListenerManager.prototype.onUpdateHosts = function(
 	currentHosts) {
 	if (currentHosts.error !== undefined) {
+		console.log(currentHosts.error);
     return; //if error occured
   }
 
@@ -60,6 +61,7 @@ exports.DataListenerManager.prototype.onUpdateHosts = function(
 exports.DataListenerManager.prototype.onUpdateInventory = function(
 	currentInventory) {
 	if (currentInventory.error !== undefined) {
+		console.log(currentInventory.error);
     return; //if error occured
   }
 

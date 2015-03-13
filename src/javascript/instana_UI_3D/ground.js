@@ -28,7 +28,7 @@ exports.Ground = function Ground(app) {
   var mirrorMesh = new THREE.Mesh(geometry, this.groundMirror.material);
   mirrorMesh.add(this.groundMirror);
   mirrorMesh.rotation.x = -90 * math.DegToRad;
-  mirrorMesh.position.set(100, -0.11, -100);
+  mirrorMesh.position.set(140, -0.11, -140);
   group.add(mirrorMesh);
 
   this.setMesh(group);
@@ -74,6 +74,6 @@ exports.Ground.prototype.constructor = exports.Ground;
 exports.Ground.prototype.update = function() {
   this.counter++;
   if (this.counter % 10 === 0) {
-    //this.groundMirror.render();
+    this.groundMirror.render();
   }
 };

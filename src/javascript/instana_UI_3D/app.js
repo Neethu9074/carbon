@@ -41,7 +41,7 @@ exports.Application = function Application() {
   this.mouseControl = new mControl.MouseControl(this);
 
   //zoom detail Level
-  this.cloudDistance = 70;
+  this.cloudDistance = 90;
   this.midDetailsDistance = 30;
   this.maxDetailsDistance = 10;
   this.zoomLevel = this.mouseControl.zoomLevel;
