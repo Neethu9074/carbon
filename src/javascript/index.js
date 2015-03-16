@@ -5,11 +5,14 @@ var setup = require('./instana_UI_3D/setup');
 var res = require('./instana_UI_3D/resources');
 var data = require('./instana_data/dataListenerManager');
 
+var instanaPrototype = require('./ui_prototype/app');
+
 //first load all resources
 res.load(function() { //on finished
 
   //start up the UI when all resources are loaded
   var uiApplication = new instana.Application();
+
   //test setup
   //setup(uiApplication); return;
 

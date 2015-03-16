@@ -40,13 +40,13 @@ exports.HostDataProvider.prototype.init = function(baseCube) {
     obj.stateWarningSymbol.geometry,
     globalMats.stateSymbolWarningMaterial);
   this.stateWarningSymbol.position.copy(symbolPos);
-  this.stateWarningSymbol.scale.multiplyScalar(3);
+  this.stateWarningSymbol.scale.multiplyScalar(1.5);
 
   this.stateErrorSymbol = new THREE.Mesh(
     obj.stateErrorSymbol.geometry,
     globalMats.stateSymbolErrorMaterial);
   this.stateErrorSymbol.position.copy(symbolPos);
-  this.stateErrorSymbol.scale.multiplyScalar(3);
+  this.stateErrorSymbol.scale.multiplyScalar(1.5);
 };
 
 exports.HostDataProvider.prototype.createVisibleMesh = function() {

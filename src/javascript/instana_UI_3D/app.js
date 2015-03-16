@@ -51,7 +51,7 @@ exports.Application = function Application() {
 
   //events
   window.addEventListener('resize', this.onWindowResize, false);
-  document.getElementById('newHostButton').onclick = this.addRandomCube;
+  document.getElementById('newHostButton').onclick = this.addHost;
   document.getElementById('newContainerButton').onclick = this.addRandomContainer;
   document.getElementById('destroyCubeButton').onclick = this.removeCube;
   document.getElementById('showWalkableButton').onclick = this.showWalkable;
@@ -69,8 +69,8 @@ exports.Application.prototype.bindListeners = function() {
   this.animate = this.animate.bind(this);
   this.render = this.render.bind(this);
 
-  this.addRandomCube = this.addRandomCube.bind(this);
   this.removeCube = this.removeCube.bind(this);
+  this.addHost = this.addHost.bind(this);
   this.showWalkable = this.showWalkable.bind(this);
   this.addRandomContainer = this.addRandomContainer.bind(this);
   this.stackContainer = this.stackContainer.bind(this);
@@ -91,17 +91,12 @@ exports.Application.prototype.onWindowResize = function() {
   this.oculusEffectMain.setSize(width, height);
 };
 
-exports.Application.prototype.addRandomCube = function() {
-  var width = Math.ceil(Math.random() * 2);
-  this.addHost(width, width);
-};
-
 exports.Application.prototype.addRandomContainer = function() {
   var cube = this.clickedObj;
   if (cube !== undefined) {
     if (cube instanceof baseCube.BaseCube) {
       cube.addContainer({
-        id: 'dummy SW'
+        id: 'dummy SW', pid: Math.random()
       });
     }
   }
@@ -120,7 +115,7 @@ exports.Application.prototype.stackContainer = function() {
   var cube = this.clickedObj;
   if (cube !== undefined) {
     if (cube instanceof container.ContainerCube) {
-      cube.stackContainer({ id:'another one' });
+      cube.stackContainer({ id:'another one', pid: Math.random() });
     } else {
       console.log('cant stack on ', cube);
     }
@@ -161,15 +156,15 @@ exports.Application.prototype.showInGrafana = function() {
 };
 //events end
 
-exports.Application.prototype.addHost = function(width, height, metaData) {
-  var xy = this.layouter.getNext(width, width);
+exports.Application.prototype.addHost = function(metaData) {
+  var xy = this.layouter.getNext(1, 1);
 
   if (xy !== undefined) {
-    var cube = new host.HostCube(this, xy.x, -xy.y, width, height, metaData);
+    var cube = new host.HostCube(this, xy.x, -xy.y, metaData);
     this.addObject(cube);
 
     //say the layouter, that the area should be blocked
-    this.layouter.setBlocked(xy, width, width, cube.name);
+    this.layouter.setBlocked(xy, 1, 1, cube.name);
     return cube;
   }
 };
@@ -347,7 +342,7 @@ exports.Application.prototype.setupEffects = function() {
 
   var effect = new particles.RisingParticles(this, positions);
   this.addObject(effect);
-return;
+  return;
 
   //add clouds
   this.clouds = new THREE.Object3D();

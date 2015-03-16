@@ -56,3 +56,43 @@ exports.SceneObject.prototype.disposeSceneObject = function() {
 	this.needsUpdate = null;
 	this.appRef = null;
 };
+
+exports.SceneObject.prototype.setDimensionSceneObject = function(width, depth) {
+	this.dimension.set(width,	this.dimension.y, depth);
+
+	this.mesh.scale.set(width, this.dimension.y, depth);
+	this.collisionMesh.scale.set(
+		width * 1.01,
+		this.dimension.y * 1.01,
+		depth * 1.01);
+
+	this.mesh.updateMatrix();
+	this.collisionMesh.updateMatrix();
+
+	this.appRef.octree.remove(this.collisionMesh);
+	this.appRef.octree.add(this.collisionMesh, {
+		useFaces: false
+	});
+};
+
+exports.SceneObject.prototype.setPositionSceneObject = function(pos) {
+	this.position.copy(pos);
+
+	this.mesh.position.copy(pos);
+	this.mesh.position.x += this.dimension.x / 2;
+	this.mesh.position.y += this.dimension.y / 2;
+	this.mesh.position.z -= this.dimension.z / 2;
+
+	this.collisionMesh.position.copy(pos);
+	this.collisionMesh.position.x += this.dimension.x / 2;
+	this.collisionMesh.position.y += this.dimension.y / 2;
+	this.collisionMesh.position.z -= this.dimension.z / 2;
+
+	this.mesh.updateMatrix();
+	this.collisionMesh.updateMatrix();
+
+	this.appRef.octree.remove(this.collisionMesh);
+	this.appRef.octree.add(this.collisionMesh, {
+		useFaces: false
+	});
+};

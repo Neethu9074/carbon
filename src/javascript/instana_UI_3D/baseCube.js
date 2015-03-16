@@ -4,7 +4,7 @@ var THREE = require('three.js');
 var sceneObj = require('./sceneObject');
 var materials = require('./materials');
 var geometries = require('./geometries');
-var layouter = require('./layouter2DServer');
+var layouter = require('./layouterContainer');
 
 exports.BaseCube = function BaseCube(
   dataProvider, app, x, y, z, width, height, depth, id) {
@@ -16,9 +16,6 @@ exports.BaseCube = function BaseCube(
 
   this.init(app, id, x, y ,z, width, height, depth);
 
-  //the layouter for the softwareCubes
-  this.layouter = new layouter.Layouter2DServer(width, depth);
-
   dataProvider.init(this);
   this.dataProvider = dataProvider;
 
@@ -27,11 +24,16 @@ exports.BaseCube = function BaseCube(
   this.setStatic(collisionCube);
   this.setCollisionMesh(collisionCube);
 
+	this.cssObject = this.dataProvider.content2D;
+
   //a collection where all connected cubes are stored
   this.connectedCubes = [];
 
   //a collection which stores all cubes inside this server cube
   this.containerChildren = [];
+
+  this.dividingFactor = 1;
+  this.layouter = new layouter.LayouterContainer(1, 1);
 };
 
 //inherence from SceneObject
@@ -43,8 +45,7 @@ exports.BaseCube.prototype.nextContainerPosition = function(width, depth) {
     //calculte next free field
     var xy = this.layouter.getNext(width, depth);
   } catch (err) {
-    console.log(err);
-    return undefined;
+    throw err;
   }
   //get dimensions of the parent host
   var dim = this.dimension;
@@ -128,4 +129,21 @@ exports.BaseCube.prototype.disposeBaseCube = function() {
   this.dataProvider.dispose();
 	this.dataProvider = null;
 	this.connectedCubes = null;
+};
+
+
+exports.BaseCube.prototype.setDimensionBaseCube = function(width, depth) {
+  this.setDimensionSceneObject(width, depth);
+
+  this.dataProvider.setDimension(this.dimension);
+
+  //scale children
+};
+
+exports.BaseCube.prototype.setPositionBaseCube = function(pos) {
+  this.setPositionSceneObject(pos);
+
+  this.dataProvider.setPosition(this.position);
+
+  //move children
 };

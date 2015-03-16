@@ -40,7 +40,7 @@ exports.ContainerDataProvider.prototype.createCSS3DTestStuff = function() {
   number.className = 'containerCSS3DLayer';
   number.innerHTML = this.host.discription;
   var object = new THREE.CSS3DObject(number);
-  object.scale.set(1 / 110, 1 / 100, 1);
+  object.scale.set(1 / 100, 1 / 100, 1);
 
   object.position.copy(this.position);
   object.position.y += dim.y / 2;
@@ -62,4 +62,20 @@ exports.ContainerDataProvider.prototype.dispose = function() {
   this.visibleMesh = null;
   this.content2D = null;
   this.host = null;
+};
+
+exports.ContainerDataProvider.prototype.setDimension = function(dimension) {
+  this.dimension = dimension;
+};
+
+exports.ContainerDataProvider.prototype.setPosition = function(position) {
+  this.position = position;
+  var dim = this.dimension;
+
+  this.content2D.position.copy(position);
+  this.content2D.position.x += dim.x / 2;
+  this.content2D.position.y += dim.y / 2;
+  this.content2D.position.z += 0.1;
+
+  this.content2D.updateMatrix();
 };

@@ -6,31 +6,42 @@ var mats = require('./materials');
 var dS = require('./detailStates');
 var geometries = require('./geometries');
 
-var dataProvider = require('./dataProvider/containerDataProvider');
+var daProv = require('./dataProvider/containerDataProvider');
 
-//the offset where cubes are translated and rescaled with
-var cubeOffset = 0.5;
 
-exports.ContainerCube = function ContainerCube(serverCube, pos, metaData) {
+exports.ContainerCube = function ContainerCube(serverCube, pos, w, d, metaData) {
 	if (serverCube === undefined || pos === undefined) {
 		return undefined;
 	}
 	var app = serverCube.appRef;
 	var id = metaData.id;
 
-	this.discription = metaData.discription;
+  //create the container
+  if(metaData.pid !== undefined) {
+    metaData.discription += ' - ' + metaData.pid;
+  }
+
 	this.pid = metaData.pid;
   this.tag = metaData.tag;
   this.entityId = metaData.entityId;
+	this.discription = metaData.discription;
   this.host = metaData.host;
 
-  var x = pos.x + cubeOffset;
-  var z = pos.z - cubeOffset; //remember negative webGL z space
-  var width = 4 - (cubeOffset * 2);
-  var depth = 4 - (cubeOffset * 2);
+	if(!(serverCube instanceof exports.ContainerCube)){
+	  this.offset = 0.1 * w;
+	  var x = pos.x + this.offset;
+	  var z = pos.z - this.offset;//remember negative webGL z space
+	  var width = w - this.offset * 2;
+	  var depth = d - this.offset * 2;
+	} else {
+		 var x = pos.x;
+	  var z = pos.z; //remember negative webGL z space
+	  var width = w;
+	  var depth = d;
+	}
 
   //call super contructor
-  var provider = new dataProvider.ContainerDataProvider();
+  var provider = new daProv.ContainerDataProvider();
 	baseCube.BaseCube.call(this, provider, app, x, pos.y, z, width, 0.5, depth, id);
 
   this.setMesh(this.createCube());
@@ -45,8 +56,6 @@ exports.ContainerCube = function ContainerCube(serverCube, pos, metaData) {
 
 	//in this collection higher level softwareCubes will be stored
 	this.stackedContainer = [];
-
-	this.cssObject = this.dataProvider.createCSS3DTestStuff();
 
 	//if the appRef is zoomed in, the new container should be visible
 	if(this.appRef.detailState === dS.DETAILSTATE.MAX ||
@@ -107,13 +116,13 @@ exports.ContainerCube.prototype.stackContainer = function(metaData) {
 	var pos = this.position;
 
 	var xyz = {
-		x:  pos.x - cubeOffset,
+		x:  pos.x,
 		y: pos.y + dim.y + 0.1,
-		z: pos.z + cubeOffset + - 0.25
+		z: pos.z + - 0.25
 	};
 
 	//create the cube
-	var swCube = new exports.ContainerCube(this, xyz, metaData);
+	var swCube = new exports.ContainerCube(this, xyz, dim.x, dim.z, metaData);
 	this.stackedContainer.push(swCube);
 
 	return swCube;
@@ -122,7 +131,6 @@ exports.ContainerCube.prototype.stackContainer = function(metaData) {
 exports.ContainerCube.prototype.addContainer = function(options) {
 	console.log('add a container inside. NOT SUPPORTED YET');
 };
-
 
 exports.ContainerCube.prototype.removeContainer = function(container) {
 	container.dispose();
@@ -154,4 +162,35 @@ exports.ContainerCube.prototype.dispose = function() {
 	this.parent = null;
 	this.stackedContainer = null;
 	this.cssObject = null;
+};
+
+
+
+exports.ContainerCube.prototype.setDimension = function(width, depth) {
+  this.offset = 0.1 * width;
+  width -= this.offset * 2;
+  depth -= this.offset * 2;
+
+  this.setDimensionBaseCube(width, depth);
+
+  //scale stacked children
+	for (var i = 0; i < this.stackedContainer.length; i++) {
+		this.stackedContainer[i].setDimension(width, depth);
+	}
+};
+
+exports.ContainerCube.prototype.setPosition = function(pos) {
+  pos.x += this.offset;
+  pos.z -= this.offset;//remember negative webGL z space
+
+  this.setPositionBaseCube(pos);
+
+  //move stacked children
+	for (var i = 0; i < this.stackedContainer.length; i++) {
+		var container = this.stackedContainer[i];
+		var containerPos = container.position;
+		var targetPos = pos.clone();
+		targetPos.y = containerPos.y;
+		container.setPosition(targetPos);
+	}
 };

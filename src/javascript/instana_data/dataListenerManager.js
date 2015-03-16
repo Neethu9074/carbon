@@ -48,7 +48,7 @@ exports.DataListenerManager.prototype.onUpdateHosts = function(
 			this.detectedHostIds.push(hostID);
 
 			//create new hostMetaData cube
-      this.app.addHost(2, 2, hostMetaData);
+      this.app.addHost(hostMetaData);
 		} else {
 			//hostMetaData is still created
 			this.app.changeHost(hostID, hostMetaData);

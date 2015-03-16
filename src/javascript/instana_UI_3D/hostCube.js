@@ -7,8 +7,9 @@ var containerCube = require('./containerCube');
 var materials = require('./materials');
 var dS = require('./detailStates');
 var geometries = require('./geometries');
-
+var layouter = require('./layouterContainer');
 var dataProvider = require('./dataProvider/hostDataProvider');
+var connection = require('./connection');
 
 //use this object to merge each new cube into it.
 //boosts extremly performance, because you don't increase draw calls
@@ -19,6 +20,7 @@ exports.globalMeshObjectForServerContainer.name = 'global container for hosts';
 exports.globalMeshObjectForServerContainer.matrixAutoUpdate = false;
 
 var hosts = [];
+var currentIndex = 0;
 
 exports.STATE = {
   OK: { id:'ok' },
@@ -26,15 +28,14 @@ exports.STATE = {
   ERROR: { id:'error' }
 };
 
-exports.HostCube = function HostCube(app, x, y, w, h, metaData) {
+exports.HostCube = function HostCube(app, x, y, metaData) {
   if (app === undefined || x === undefined ||
-    y === undefined || w === undefined || h === undefined) {
+    y === undefined) {
     return undefined;
   }
 
   var meta = this.extractMetadata(metaData);
   this.changeMetadata(metaData);
-  var id = meta.id;
 
   /*
 	    x	________  x
@@ -50,12 +51,12 @@ exports.HostCube = function HostCube(app, x, y, w, h, metaData) {
   var scaleFactor = 16;
   var x = x * scaleFactor + cubeOffset;
   var y = y * scaleFactor - cubeOffset;
-  var width = w * scaleFactor - (cubeOffset * 2);
-  var depth = h * scaleFactor - (cubeOffset * 2);
+  var width = scaleFactor - (cubeOffset * 2);
+  var depth = scaleFactor - (cubeOffset * 2);
 
   //call super contructor
   var provider = new dataProvider.HostDataProvider();
-  baseCube.BaseCube.call(this, provider, app, x, 0, y, width, 3, depth, id);
+  baseCube.BaseCube.call(this, provider, app, x, 0, y, width, 3, depth, meta.id);
 
   this.createCube();
 
@@ -65,9 +66,12 @@ exports.HostCube = function HostCube(app, x, y, w, h, metaData) {
 
   this.detailState = app.detailState;
 
-  //save the css stuff
-  this.cssObject = this.dataProvider.content2D;
-  this.hideDetails();
+  if (app.detailState === dS.DETAILSTATE.MID ||
+    app.detailState === dS.DETAILSTATE.MAX) {
+      this.showDetails();
+  } else {
+    this.hideDetails();
+  }
 
   //register for update to calculate distance and fading
   this.registerForUpdate();
@@ -144,7 +148,7 @@ exports.HostCube.prototype.setState = function(newState) {
 };
 
 exports.HostCube.prototype.createCube = function(dimension) {
-  var detCube = this.dataProvider.visibleMesh;
+  var detCube = this.dataProvider.createVisibleMesh();
   this.setStatic(detCube);
 
   //save this object, because it should be removable from the global mesh
@@ -153,6 +157,17 @@ exports.HostCube.prototype.createCube = function(dimension) {
 	//you need all cubes to rebuild the global mesh
   hosts.push(this);
   this.rebuildGlobalMesh();
+
+  var lastCube = hosts[currentIndex - 1]; //FOR DEMO
+  if(lastCube !== undefined) {
+  	var path = this.appRef.layouter.getPath(this, lastCube);
+  	if (path !== undefined) {
+  		var con = new connection.Connection(this, lastCube, path);
+  		this.appRef.addObject(con);
+  	}
+  }
+
+  currentIndex++; //FOR DEMO
 };
 
 exports.HostCube.prototype.rebuildGlobalMesh = function() {
@@ -174,6 +189,65 @@ exports.HostCube.prototype.rebuildGlobalMesh = function() {
 
 	geo.dispose();
   exports.globalMeshObjectForServerContainer.add(globalMeshForHosts);
+};
+
+exports.HostCube.prototype.addContainer = function(metaData) {
+  //stack container with same PID ---------------------------------
+  var containerWithSamePID = undefined;
+  for (var i = 0; i < this.containerChildren.length; i++) {
+    if(this.containerChildren[i].pid === metaData.pid) {
+      containerWithSamePID = this.containerChildren[i];
+    }
+  }
+  if(containerWithSamePID !== undefined) {
+    return containerWithSamePID.stackContainer(metaData);
+  }
+  //------------------------------------------------------------------
+
+  try {
+    var xy = this.layouter.getNext();
+    this.layouter.setBlocked(xy, metaData.id);
+
+    var width = this.dimension.x / this.dividingFactor;
+    var depth = width;
+    var pos = new THREE.Vector3(
+      xy.x * width + this.position.x,
+      this.position.y,
+      -xy.y * depth + this.position.z);
+
+    var container = new containerCube.ContainerCube(
+      this, pos, width, depth, metaData);
+    this.containerChildren.push(container);
+    return container;
+
+  } catch (ex) {
+    if(ex !== 'no more empty fields') {
+      console.log(ex);
+      return;
+    }
+
+    //give the layouter more space
+    this.dividingFactor++;
+    this.layouter = new layouter.LayouterContainer(this.dividingFactor);
+
+    for (var i = 0; i < this.containerChildren.length; i++) {
+      var container = this.containerChildren[i];
+      var xy = this.layouter.getNext();
+      this.layouter.setBlocked(xy, container.name);
+
+      var width = this.dimension.x / this.dividingFactor;
+      var depth = width;
+      var pos = new THREE.Vector3(
+        xy.x * width + this.position.x,
+        this.position.y,
+        -xy.y * depth + this.position.z);
+
+      container.setDimension(width, depth);
+      container.setPosition(pos);
+    }
+
+    this.addContainer(metaData);
+  }
 };
 
 exports.HostCube.prototype.update = function() {
@@ -231,40 +305,6 @@ exports.HostCube.prototype.showDetails = function() {
   app.octree.update();
 };
 
-exports.HostCube.prototype.addContainer = function(metaData) {
-  var containerWithSamePID = undefined;
-  for (var i = 0; i < this.containerChildren.length; i++) {
-    if(this.containerChildren[i].pid === metaData.pid) {
-      containerWithSamePID = this.containerChildren[i];
-    }
-  }
-
-  if(containerWithSamePID !== undefined) {
-    return containerWithSamePID.stackContainer(metaData);
-
-  } else{
-    //add as new container
-  	var width = 4;
-  	var depth = 4;
-  	var pos = this.nextContainerPosition(width, depth);
-  	if(pos === undefined) {
-  		return;
-  	}
-
-    //create the container
-    if(metaData.pid !== undefined) {
-      metaData.discription += ' - ' + metaData.pid;
-    }
-
-    var container = new containerCube.ContainerCube(this, pos.pos, metaData);
-    this.containerChildren.push(container);
-
-    //say the layouter, that the area should be blocked
-    this.layouter.setBlocked(pos.xy, width, depth, container.name);
-    return container;
-  }
-};
-
 exports.HostCube.prototype.dispose = function() {
   //free resources
   this.appRef.scene2D.remove(this.cssObject);
@@ -317,6 +357,7 @@ exports.update = function(app) {
 exports.findByName = function(name) {
   for (var i = 0; i < hosts.length; i++) {
     var host = hosts[i];
+
     if(host.name === name) {
       return host;
     }

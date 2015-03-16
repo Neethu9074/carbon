@@ -3,6 +3,7 @@
 var connection = require('./connection');
 
 module.exports = function createTestSetup(app) {
+
 	//test
 	var cube = app.addHost(1, 1, { id: 'host1' });
 
