@@ -304,8 +304,6 @@ exports.update = function(app) {
     globalMeshForHosts.material.opacity = normZoomDistance;
     materials.stateSymbolWarningMaterial.opacity = normZoomDistance;
     materials.stateSymbolErrorMaterial.opacity = normZoomDistance;
-    materials.boundageMat.opacity = normZoomDistance;
-    materials.boundageEMat.opacity = normZoomDistance;
 
   } else {
     materials.cubeDetailedMaterial.transparent = false;

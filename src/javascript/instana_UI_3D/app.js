@@ -347,6 +347,7 @@ exports.Application.prototype.setupEffects = function() {
 
   var effect = new particles.RisingParticles(this, positions);
   this.addObject(effect);
+return;
 
   //add clouds
   this.clouds = new THREE.Object3D();
@@ -560,7 +561,7 @@ exports.Application.prototype.animate = function() {
   for (var i = 0; i < this.updateableObjects.length; i++) {
     this.updateableObjects[i].update();
   }
-
+/*
   for (var i = 0; i < this.clouds.children.length; i++) {
     var cloud = this.clouds.children[i];
     cloud.rotation.z += cloud.velocity * math.DegToRad * this.deltaTime;
