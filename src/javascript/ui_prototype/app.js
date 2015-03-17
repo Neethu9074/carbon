@@ -2,11 +2,12 @@
 
 import THREE from 'three.js';
 
-import colors from './colors';
+import * as colors from './colors';
 import ground from './sceneObjects/ground';
 
 import rStats from '../lib/rStats';
 import glStats from '../lib/rStats.extras';
+
 
 class App {
   constructor() {
@@ -63,9 +64,7 @@ class App {
     this.scene.add(cube);
   }
 
-
-
-  exports.App.prototype.setupStats = function() {
+  setupStats() {
     var glS = new glStats.glStats();
     var tS = new glStats.threeStats(this.webGLRenderer);
     var rS = new rStats.rStats({
@@ -104,9 +103,9 @@ class App {
 
     this.glStats = glS;
     this.rStats = rS;
-  };
+  }
 
-  exports.App.prototype.setupEvents = function() {
+  setupEvents() {
     var doc = document;
     window.addEventListener('resize', this.onWindowResize, false);
     doc.getElementById('newHostButton').onclick = this.addHost;
@@ -115,9 +114,9 @@ class App {
     doc.getElementById('showWalkableButton').onclick = this.showWalkable;
     doc.getElementById('stackContainerButton').onclick = this.stackContainer;
     doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
-  };
+  }
 
-  exports.App.prototype.onWindowResize = function() {
+  onWindowResize() {
     var width = window.innerWidth;
     var height = window.innerHeight;
 
@@ -125,15 +124,15 @@ class App {
 
     this.mainCamera.aspect = width / height;
     this.mainCamera.updateProjectionMatrix();
-  };
+  }
 
-  exports.App.prototype.bindMethods = function() {
+  bindMethods() {
     this.update = this.update.bind(this);
     this.bindMethods = this.bindMethods.bind(this);
     this.onWindowResize = this.onWindowResize.bind(this);
-  };
+  }
 
-  exports.App.prototype.update = function() {
+  update() {
     requestAnimationFrame(this.update);
 
     if(__DEV__) {
@@ -160,20 +159,20 @@ class App {
       rS('frame').end();
       rS().update();
     }
-  };
+  }
 
-  exports.App.prototype.animate = function() {
+  animate() {
     this.calculateDeltaTime();
-  };
+  }
 
-  exports.App.prototype.calculateDeltaTime = function() {
+  calculateDeltaTime() {
     var timeNow = Date.now();
     this.deltaTime = (timeNow - this.time) / 1000; //in ms
     this.time = timeNow;
     this.timeSinceStarted += this.deltaTime;
-  };
+  }
 
-  render = function() {
+  render() {
     this.webGLRenderer.render(this.scene, this.mainCamera);
   }
 }
