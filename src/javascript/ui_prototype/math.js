@@ -1,15 +1,15 @@
 'use strict';
 
-exports.DegToRad = Math.PI / 180;
-exports.RadToDeg = 180 / Math.PI;
+export const DegToRad = Math.PI / 180;
+export const RadToDeg = 180 / Math.PI;
 
-exports.guid = function() {
+export function guid() {
 	// then to call it, plus stitch in '4' in the third group
-	var guid = (s4() + s4() + '-' + s4() + '-4' + s4().substr(0, 3) + '-' +
+	var guidTemp = (s4() + s4() + '-' + s4() + '-4' + s4().substr(0, 3) + '-' +
 		s4() + '-' + s4() + s4() + s4()).toLowerCase();
 
-	return guid;
-};
+	return guidTemp;
+}
 
 function s4() {
 	return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);

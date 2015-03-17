@@ -1,5 +1,5 @@
 'use strict';
 
-exports.renderClearColor = 0x00000;
-exports.ambientColor = 0x00000;
-exports.groundColor = 0xFFFFFF;
+export const renderClearColor = 0x00000;
+export const ambientColor = 0x00000;
+export const groundColor = 0xFFFFFF;
