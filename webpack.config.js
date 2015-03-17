@@ -5,7 +5,8 @@ var webpack = require('webpack');
 var path = require('path');
 
 var definePlugin = new webpack.DefinePlugin({
-	__DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
+	__DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
+	'process.env.NODE_ENV': process.env.BUILD_DEV === 'true' ? '"development"' : '"production"'
 });
 
 module.exports = {

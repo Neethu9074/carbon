@@ -18,3 +18,4 @@
     no-use-before-define: [2, 'nofunc']
     quotes: [2, 'single', 'avoid-escape']
     no-var: [2]
+    no-console: [0]

@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "export BUILD_DEV=false && gulp build",
-    "dev": "gulp dev",
+    "dev": "export BUILD_DEV=true && gulp dev",
     "install": "napa",
     "test": "npm run build && gulp lint"
   },
@@ -15,6 +15,7 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+    "invariant": "^2.0.0",
     "pathfinding": "^0.4.16"
   },
   "napa": {
@@ -37,7 +38,6 @@
     "gulp-util": "^3.0.3",
     "image-webpack-loader": "^1.2.0",
     "imagemin": "^3.1.0",
-    "jsx-loader": "^0.12.2",
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
     "napa": "^1.2.0",
