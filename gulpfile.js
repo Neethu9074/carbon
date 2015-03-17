@@ -32,7 +32,7 @@ gulp.task('lint', function() {
     .pipe(cache('linting'))
     .pipe(eslint())
     .pipe(eslint.format())
-    .pipe(eslint.failOnError());
+    .pipe(eslint.failAfterError());
 });
 
 

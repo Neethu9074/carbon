@@ -8,9 +8,7 @@
 
   globals:
     Promise: false
-    require: false
-    module: true
-    exports: false
+    __DEV__: false
 
   rules:
     brace-style: [2, '1tbs', { 'allowSingleLine': true }]

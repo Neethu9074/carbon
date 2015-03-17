@@ -8,8 +8,6 @@ var ground = require('./sceneObjects/ground');
 var rStats = require('../lib/rStats');
 var glStats = require('../lib/rStats.extras');
 
-var DEBUG = true;
-
 exports.App = function App() {
   //first of all -> bind methods
   this.bindMethods();
@@ -21,7 +19,7 @@ exports.App = function App() {
   //setup 3D scene
   this.setup3D();
 
-  if(DEBUG) {
+  if(__DEV__) {
     this.setupStats();
   }
 
@@ -135,7 +133,7 @@ exports.App.prototype.bindMethods = function() {
 exports.App.prototype.update = function() {
   requestAnimationFrame(this.update);
 
-  if(DEBUG) {
+  if(__DEV__) {
     var rS = this.rStats;
     rS('frame').start();
     this.glStats.start();
@@ -147,14 +145,14 @@ exports.App.prototype.update = function() {
 
   this.animate();
 
-  if(DEBUG) {
+  if(__DEV__) {
     rS('updates').end();
     rS('render').start();
   }
 
   this.render();
 
-  if(DEBUG) {
+  if(__DEV__) {
     rS('render').end();
     rS('frame').end();
     rS().update();
