@@ -1,11 +1,11 @@
 ---
   env:
     browser: true
+    es6: true
 
   ecmaFeatures:
-    # TODO enable arrow functions and destructuring
-    # see http://eslint.org/docs/configuring/#specifying-language-options
-    defaultParams: true
+    modules: true
+    jsx: true
 
   globals:
     Promise: true
@@ -15,7 +15,7 @@
 
   rules:
     brace-style: [2, '1tbs', { 'allowSingleLine': true }]
-    complexity: [5, 2]
+    complexity: [2, 10]
     global-strict: [2, 'always']
     max-len: [2, 120, 4]
     no-use-before-define: [2, 'nofunc']
