@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "export BUILD_DEV=false && gulp build",
-    "dev": "export BUILD_DEV=true && gulp dev",
+    "dev": "proxrox stop && proxrox start .proxrox.yaml && export BUILD_DEV=true && gulp dev",
     "install": "napa",
     "test": "npm run build && gulp lint"
   },
@@ -41,6 +41,7 @@
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
     "napa": "^1.2.0",
+    "proxrox": "^1.6.0",
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.3",
     "webpack": "^1.5.3",
