@@ -6,7 +6,7 @@ var sceneObj = require('./sceneObject');
 var materials = require('./materials');
 var textures = require('./textures');
 
-require('./extensions/Mirror');
+require('../lib/Mirror');
 
 //var url = require('image!../images/floor.png');
 //var config = require('./config');

@@ -1,7 +1,7 @@
 'use strict';
 
 var THREE = require('three.js');
-require('./extensions/OBJLoader');
+require('../lib/OBJLoader');
 var obj = require('./obj');
 
 var warningObjectPath = require('../../obj/warning.obj');

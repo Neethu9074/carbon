@@ -20,11 +20,11 @@ var mControl = require('./controls/mouseCameraController');
 var particles = require('./effects/risingParticles');
 
 //extensions
-require('./extensions/CSS3DRenderer');
-require('./extensions/OculusRiftEffect');
-require('./extensions/Octree');
-var rStats = require('./extensions/rStats');
-var glStats = require('./extensions/rStats.extras');
+require('../lib/CSS3DRenderer');
+require('../lib/OculusRiftEffect');
+require('../lib/Octree');
+var rStats = require('../lib/rStats');
+var glStats = require('../lib/rStats.extras');
 
 
 exports.Application = function Application() {

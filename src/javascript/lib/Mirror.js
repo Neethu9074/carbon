@@ -1,16 +1,16 @@
 'use strict';
 
 var THREE = require('three.js');
-var shader = require('../shader/mirror');
+var shader = require('./mirror_shader');
 
 require('./postprocessing/EffectComposer');
 require('./postprocessing/RenderPass');
 require('./postprocessing/ShaderPass');
 require('./postprocessing/MaskPass');
 
-require('../shader/CopyShader');
-require('../shader/HorizontalBlurShader');
-require('../shader/VerticalBlurShader');
+require('./CopyShader');
+require('./HorizontalBlurShader');
+require('./VerticalBlurShader');
 
 
 THREE.ShaderLib.mirror = {

@@ -5,8 +5,8 @@ var THREE = require('three.js');
 var colors = require('./colors');
 var ground = require('./sceneObjects/ground');
 
-var rStats = require('./extensions/rStats');
-var glStats = require('./extensions/rStats.extras');
+var rStats = require('../lib/rStats');
+var glStats = require('../lib/rStats.extras');
 
 var DEBUG = true;
 

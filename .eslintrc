@@ -1,11 +1,10 @@
 ---
   env:
     browser: true
+    es6: true
 
   ecmaFeatures:
-    # TODO enable arrow functions and destructuring
-    # see http://eslint.org/docs/configuring/#specifying-language-options
-    defaultParams: true
+    modules: true
 
   globals:
     Promise: false
