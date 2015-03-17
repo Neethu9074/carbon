@@ -14,7 +14,9 @@
     "url": "https://github.com/instana/visualization.git"
   },
   "author": "Ben Ripkens <ben@instana.com>",
-  "dependencies": {},
+  "dependencies": {
+    "pathfinding": "^0.4.16"
+  },
   "napa": {
     "three.js": "mrdoob/three.js#r70"
   },

@@ -1,6 +1,6 @@
 'use strict';
 
-var PF = require('./extensions/pathfinding-browser.min');
+var PF = require('pathfinding');
 
 exports.Layouter2D = function Layouter2D(width, height) {
   this.width = width;
