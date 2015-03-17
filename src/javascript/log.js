@@ -45,6 +45,7 @@ function log(severity, params) {
   appenders.forEach(appender => appender(severity, params));
 }
 
+/*eslint-disable no-console */
 if (typeof console !== 'undefined') {
   addAppender((severity, params) => {
     if (console[severity]) {
@@ -54,6 +55,7 @@ if (typeof console !== 'undefined') {
     }
   });
 }
+/*eslint-enable no-console */
 
 export function addAppender(appender) {
   appenders.push(appender);
