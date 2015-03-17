@@ -4,10 +4,10 @@
   "description": "The 3D visuliaztion of client's infrastructure",
   "main": "lib/index.js",
   "scripts": {
-    "build": "gulp build",
+    "build": "export BUILD_DEV=false && gulp build",
     "dev": "gulp dev",
     "install": "napa",
-    "test": "gulp build && gulp lint"
+    "test": "npm run build && gulp lint"
   },
   "repository": {
     "type": "git",
