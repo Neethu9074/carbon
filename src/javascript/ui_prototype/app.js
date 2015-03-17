@@ -3,176 +3,275 @@
 import THREE from 'three.js';
 
 import * as colors from './colors';
-import ground from './sceneObjects/ground';
+import Ground from './sceneObjects/ground';
+import Container from './sceneObjects/containerCube';
+import HostDataProvider from './dataProvider/hostDataProvider';
+
+import MouseControls from './controls/mouseCameraController';
+import Layouter from './layouterContainer';
 
 import rStats from '../lib/rStats';
 import glStats from '../lib/rStats.extras';
 
+import '../lib/CSS3DRenderer';
+import '../lib/Octree';
+
 
 class App {
-  constructor() {
-    //first of all -> bind methods
-    this.bindMethods();
+	constructor() {
+		this.width = window.innerWidth;
+		this.height = window.innerHeight;
 
-    this.time = Date.now();
-    this.deltaTime = 0;
-    this.timeSinceStarted = 0;
+		//first of all -> bind methods
+		this.bindMethods();
 
-    //setup 3D scene
-    this.setup3D();
+		this.time = Date.now();
+		this.deltaTime = 0;
+		this.timeSinceStarted = 0;
 
-    if(__DEV__) {
-      this.setupStats();
-    }
+		//setup 3D stuff
+		this.setupOctree();
+		this.setup3D();
+		this.setup2D();
 
-    this.setupEvents();
-    this.update();
-  }
+		this.controller = new MouseControls(this);
+		this.layouter = new Layouter(100); //for 100x100 cubes
 
-  setup3D() {
-    this.canvas = document.getElementById('WebGL');
+		if (__DEV__) {
+			this.setupStats();
+		}
 
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+		this.setupEvents();
+		this.update();
+	}
 
-    this.webGLRenderer = new THREE.WebGLRenderer();
-    this.webGLRenderer.setClearColor(colors.renderClearColor, 1);
-    this.webGLRenderer.setSize(width, height);
+	setupOctree() {
+		//setup octree
+		this.octree = new THREE.Octree({
+			// uncomment below to see the octree (may kill the fps)
+			//scene: this.scene,
+			// when undeferred = true, objects are inserted immediately
+			// instead of being deferred until next octree.update() call
+			// this may decrease performance as it forces a matrix update
+			undeferred: true,
+			// set the max depth of tree
+			depthMax: Infinity,
+			// max number of objects before nodes split or merge
+			objectsThreshold: 8,
+			// percent between 0 and 1 that nodes will overlap each other
+			// helps insert objects that lie over more than one node
+			overlapPct: 0
+		});
+	}
 
-    //add webGLRenderer to dom element
-    this.canvas.appendChild(this.webGLRenderer.domElement);
+	setup3D() {
+		this.canvas = document.getElementById('WebGL');
 
-    this.scene = new THREE.Scene();
+		const width = this.width;
+		const height = this.height;
 
-    //set the farplane as near as possible
-    this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.5, 700);
-    this.mainCamera.position.set(0, 10, 0);
-    this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
+		this.webGLRenderer = new THREE.WebGLRenderer();
+		this.webGLRenderer.setClearColor(colors.renderClearColor, 1);
+		this.webGLRenderer.setSize(width, height);
 
-    // add subtle ambient lighting
-    var ambientLight = new THREE.AmbientLight(colors.ambientColor);
-    this.scene.add(ambientLight);
+		//add webGLRenderer to dom element
+		this.canvas.appendChild(this.webGLRenderer.domElement);
 
-    //a collection to store all sceneObjects
-    this.sceneObjects3D = [];
+		this.scene = new THREE.Scene();
 
-    this.sceneObjects3D.push(new ground.Ground(this));
+		//set the farplane as near as possible
+		this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.5, 700);
+		this.mainCamera.position.set(-2, 5, 4);
+		this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
-    var cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1, 1));
-    cube.position.x = 0.5;
-    cube.position.z = -0.5;
-    this.scene.add(cube);
-  }
+		// add subtle ambient lighting
+		const ambientLight = new THREE.AmbientLight(colors.ambientColor);
+		this.scene.add(ambientLight);
 
-  setupStats() {
-    var glS = new glStats.glStats();
-    var tS = new glStats.threeStats(this.webGLRenderer);
-    var rS = new rStats.rStats({
-      values: {
-        frame: {
-          caption: 'Total frame time (ms)',
-          over: 16
-        },
-        fps: {
-          caption: 'Framerate (FPS)',
-          below: 30
-        },
-        calls: {
-          caption: 'Calls (three.js)',
-          over: 3000
-        },
-        raf: {
-          caption: 'Time since last rAF (ms)'
-        },
-        rstats: {
-          caption: 'rStats update (ms)'
-        }
-      },
-      groups: [{
-        caption: 'Framerate',
-        values: ['fps', 'raf']
-      }, {
-        caption: 'Frame Budget',
-        values: ['frame', 'texture', 'setup', 'render']
-      }],
-      plugins: [
-        tS,
-        glS
-      ]
-    });
+		//a collection to store all sceneObjects
+		this.sceneObjects3D = [];
 
-    this.glStats = glS;
-    this.rStats = rS;
-  }
+		this.sceneObjects3D.push(new Ground(this));
+	}
 
-  setupEvents() {
-    var doc = document;
-    window.addEventListener('resize', this.onWindowResize, false);
-    doc.getElementById('newHostButton').onclick = this.addHost;
-    doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
-    doc.getElementById('destroyCubeButton').onclick = this.removeCube;
-    doc.getElementById('showWalkableButton').onclick = this.showWalkable;
-    doc.getElementById('stackContainerButton').onclick = this.stackContainer;
-    doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
-  }
+	setup2D() {
+		const width = this.width;
+		const height = this.height;
 
-  onWindowResize() {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
+		this.scene2D = new THREE.Scene();
 
-    this.webGLRenderer.setSize( width, height );
+		this.cssRenderer = new THREE.CSS3DRenderer();
+		this.cssRenderer.setSize(width, height);
+		document.getElementById('GLCanvasOverlay')
+			.appendChild(this.cssRenderer.domElement);
+	}
 
-    this.mainCamera.aspect = width / height;
-    this.mainCamera.updateProjectionMatrix();
-  }
+	setupStats() {
+		var glS = new glStats.glStats();
+		var tS = new glStats.threeStats(this.webGLRenderer);
+		var rS = new rStats.rStats({
+			values: {
+				frame: {
+					caption: 'Total frame time (ms)',
+					over: 16
+				},
+				fps: {
+					caption: 'Framerate (FPS)',
+					below: 30
+				},
+				calls: {
+					caption: 'Calls (three.js)',
+					over: 3000
+				},
+				raf: {
+					caption: 'Time since last rAF (ms)'
+				},
+				rstats: {
+					caption: 'rStats update (ms)'
+				}
+			},
+			groups: [{
+				caption: 'Framerate',
+				values: ['fps', 'raf']
+			}, {
+				caption: 'Frame Budget',
+				values: ['frame', 'texture', 'setup', 'render']
+			}],
+			plugins: [
+				tS,
+				glS
+			]
+		});
 
-  bindMethods() {
-    this.update = this.update.bind(this);
-    this.bindMethods = this.bindMethods.bind(this);
-    this.onWindowResize = this.onWindowResize.bind(this);
-  }
+		this.glStats = glS;
+		this.rStats = rS;
+	}
 
-  update() {
-    requestAnimationFrame(this.update);
+	setupEvents() {
+		var doc = document;
+		window.addEventListener('resize', this.onWindowResize, false);
+		doc.getElementById('newHostButton').onclick = this.addHost;
+		doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
+		doc.getElementById('destroyCubeButton').onclick = this.removeCube;
+		doc.getElementById('showWalkableButton').onclick = this.showWalkable;
+		doc.getElementById('stackContainerButton').onclick = this.stackContainer;
+		doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
+	}
 
-    if(__DEV__) {
-      var rS = this.rStats;
-      rS('frame').start();
-      this.glStats.start();
-      rS('frame').start();
-      rS('rAF').tick();
-      rS('FPS').frame();
-      rS('updates').start();
-    }
+	onWindowResize() {
+		this.width = window.innerWidth;
+		this.height = window.innerHeight;
 
-    this.animate();
+		this.webGLRenderer.setSize(this.width, this.height);
+		this.cssRenderer.setSize(this.width, this.height);
 
-    if(__DEV__) {
-      rS('updates').end();
-      rS('render').start();
-    }
+		this.mainCamera.aspect = this.width / this.height;
+		this.mainCamera.updateProjectionMatrix();
+	}
 
-    this.render();
+	bindMethods() {
+		this.update = this.update.bind(this);
+		this.bindMethods = this.bindMethods.bind(this);
+		this.onWindowResize = this.onWindowResize.bind(this);
+		this.animate = this.animate.bind(this);
+	}
 
-    if(__DEV__) {
-      rS('render').end();
-      rS('frame').end();
-      rS().update();
-    }
-  }
+	update() {
+		requestAnimationFrame(this.update);
 
-  animate() {
-    this.calculateDeltaTime();
-  }
+		if (__DEV__) {
+			var rS = this.rStats;
+			rS('frame').start();
+			this.glStats.start();
+			rS('frame').start();
+			rS('rAF').tick();
+			rS('FPS').frame();
+			rS('updates').start();
+		}
 
-  calculateDeltaTime() {
-    var timeNow = Date.now();
-    this.deltaTime = (timeNow - this.time) / 1000; //in ms
-    this.time = timeNow;
-    this.timeSinceStarted += this.deltaTime;
-  }
+		this.animate();
 
-  render() {
-    this.webGLRenderer.render(this.scene, this.mainCamera);
+		if (__DEV__) {
+			rS('updates').end();
+			rS('render').start();
+		}
+
+		this.render();
+
+		if (__DEV__) {
+			rS('render').end();
+			rS('frame').end();
+			rS().update();
+		}
+	}
+
+	animate() {
+		this.calculateDeltaTime();
+
+		this.controller.update(this.deltaTime);
+	}
+
+	calculateDeltaTime() {
+		var timeNow = Date.now();
+		this.deltaTime = (timeNow - this.time) / 1000; //in ms
+		this.time = timeNow;
+		this.timeSinceStarted += this.deltaTime;
+	}
+
+	render() {
+		this.webGLRenderer.render(this.scene, this.mainCamera);
+		this.cssRenderer.render(this.scene2D, this.mainCamera);
+	}
+
+	findObjectInOctree(raycaster) {
+		raycaster.far = Math.min(125, raycaster.far); //[0, 125]
+
+		//search all candidates where ray cutting quadrants of the octree
+		const octreeObjects = this.octree.search(
+			raycaster.ray.origin,
+			raycaster.ray.far,
+			true, //true -> organized by objects
+			raycaster.ray.direction);
+
+		const intersections = raycaster.intersectOctreeObjects(octreeObjects);
+		if (intersections.length > 0) {
+			return intersections[0].object; //first hit
+		}
+		return undefined;
+	}
+
+	clickedOnObject(object) {
+		this.clickedObject = object;
+		if (object !== undefined && object.parentSceneObject !== undefined) {
+			this.clickedObject = object.parentSceneObject;
+		}
+		console.log('clicked on: ', this.clickedObject);
+	}
+
+	zoom(distance) {
+		console.log(distance);
+	}
+
+	addHost(metaData) {
+		try {
+			//get new position if possible
+			const newPos2D = this.layouter.getNext();
+			//and block it with the uuid
+			this.layouter.setBlocked(newPos2D, metaData.id);
+			newPos2D.y *= -1;
+
+			const pos = new THREE.Vector3(newPos2D.x, 0, newPos2D.y); //2D -> 3D
+			const cube = new Container(this, pos, new HostDataProvider(metaData));
+			this.sceneObjects3D.push(cube);
+
+		} catch (e) {
+			console.log(e);
+		}
+	}
+
+  getHost(ID) {
+    
   }
 }
+
+export default App;

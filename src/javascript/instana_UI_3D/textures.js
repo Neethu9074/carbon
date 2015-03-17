@@ -17,6 +17,7 @@ function getGround() {
 	var texture = THREE.ImageUtils.loadTexture('bundle/' + gridImagePath);
 	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 	texture.repeat.set(50, 50);
+	texture.anisotropy = 16;
 	return texture;
 }
 
