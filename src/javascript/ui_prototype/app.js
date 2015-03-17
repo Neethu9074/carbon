@@ -3,6 +3,7 @@
 var THREE = require('three.js');
 
 var colors = require('./colors');
+var ground = require('./sceneObjects/ground');
 
 var rStats = require('./extensions/rStats');
 var glStats = require('./extensions/rStats.extras');
@@ -45,12 +46,22 @@ exports.App.prototype.setup3D = function() {
 
   //set the farplane as near as possible
   this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.5, 700);
-  this.mainCamera.position.set(-2, 2, 3);
+  this.mainCamera.position.set(0, 10, 0);
   this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
   // add subtle ambient lighting
   var ambientLight = new THREE.AmbientLight(colors.ambientColor);
   this.scene.add(ambientLight);
+
+  //a collection to store all sceneObjects
+  this.sceneObjects3D = [];
+
+  this.sceneObjects3D.push(new ground.Ground(this));
+
+  var cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1, 1));
+  cube.position.x = 0.5;
+  cube.position.z = -0.5;
+  this.scene.add(cube);
 };
 
 exports.App.prototype.setupStats = function() {

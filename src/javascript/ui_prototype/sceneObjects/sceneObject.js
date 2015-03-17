@@ -1,7 +1,8 @@
 'use strict';
 
 exports.SceneObject = function SceneObject(app, ID, pos, dim) {
-  if(app === undefined || ID === undefined) {
+  if(app === undefined || ID === undefined ||
+    pos === undefined || dim === undefined) {
     return;
   }
 
@@ -17,6 +18,9 @@ exports.SceneObject.prototype.setStatic = function(mesh) {
   mesh.updateMatrix();
 };
 
-exports.SceneObject.prototype.getName = function() {
-	return this.name;
+exports.SceneObject.prototype.dispose = function() {
+  this.app = null;
+  this.ID = null;
+  this.position = null;
+  this.dimension = null;
 };

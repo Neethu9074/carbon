@@ -11,10 +11,10 @@ var instanaPrototype = require('./ui_prototype/app');
 res.load(function() { //on finished
 
   //start up the UI when all resources are loaded
-  var uiApplication = new instana.Application();
+  var uiApplication = new instanaPrototype.App();// instana.Application();
 
   //test setup
   //setup(uiApplication); return;
 
-  var m = new data.DataListenerManager(uiApplication, 2000);
+  //var m = new data.DataListenerManager(uiApplication, 2000);
 });
