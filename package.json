@@ -16,6 +16,7 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "invariant": "^2.0.0",
+    "lodash": "^3.5.0",
     "pathfinding": "^0.4.16"
   },
   "napa": {

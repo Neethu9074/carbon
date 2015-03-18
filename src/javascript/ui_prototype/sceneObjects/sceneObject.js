@@ -2,24 +2,27 @@
 
 class SceneObject{
   constructor(app, ID, pos, dim) {
-    if(app === undefined || ID === undefined ||
-      pos === undefined || dim === undefined) {
-      return;
-    }
-
     this.app = app;
     this.ID = ID;
     this.position = pos.clone();
     this.dimension = dim.clone();
   }
 
-    setStatic(mesh) {
+  setStatic(mesh) {
     //position will not change, so set to static which gives a perfomance boost
     mesh.matrixAutoUpdate = false;
     mesh.updateMatrix();
   }
 
-    dispose() {
+  setSize(newSize) {
+		this.dimension.copy(newSize);
+	}
+
+	setPosition(newPos) {
+		this.position.copy(newPos);
+	}
+
+  dispose() {
     this.app = null;
     this.ID = null;
     this.position = null;

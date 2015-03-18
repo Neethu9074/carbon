@@ -2,7 +2,7 @@
 
 import THREE from 'three.js';
 
-import dataProvider from './dataProvider';
+import DataProvider from './dataProvider';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as textures from '../textures';
@@ -12,10 +12,8 @@ import * as colors from '../colors';
 import hostImagePath from '../../../images/icon_host.png';
 import systemImagePath from '../../../images/icon_system.png';
 
-import '../../lib/CSS3DRenderer';
 
-
-class HostDataProvider extends dataProvider {
+class HostDataProvider extends DataProvider {
   constructor(metaData) {
     super(metaData);
 
@@ -31,11 +29,17 @@ class HostDataProvider extends dataProvider {
   get3DContent() {
     const geo = geometries.cubeGeometry;
     const mat = materials.cubeHostMaterial;
+    const cube = new THREE.Mesh(geo, mat);
 
-    return new THREE.Mesh(geo, mat);
+		cube.scale.copy(this.cube.dimension);
+		cube.position.copy(this.cube.position);
+
+    return cube;
   }
 
   get2DContent() {
+		const dim = this.cube.dimension;
+		const pos = this.cube.position;
     const content = this.getHTML();
     const div = document.createElement('div');
     div.className = 'hostCSS3DLayer';
@@ -43,9 +47,13 @@ class HostDataProvider extends dataProvider {
 
     const object = new THREE.CSS3DObject(div);
     object.rotation.x = -90 * math.DegToRad;
-    //set static
-    object.matrixAutoUpdate = false;
-    object.updateMatrix();
+
+		//1px in css is 1 unit in 3D space
+		object.scale.set(dim.x / 600, dim.x / 600, 1);
+		object.position.copy(pos);
+		object.position.x += 2;
+		object.position.z += 1;
+		object.position.y += dim.y / 2;
 
     return object;
   }
@@ -65,7 +73,18 @@ class HostDataProvider extends dataProvider {
       '<li>' + cpu + '</li>' +
       '<li>' + memory + '</li></ul>';
 
-    return html;
+    return '';//html;
+  }
+
+  getDashboardUrl(){
+    return '/#/dashboard/file/' +
+      btoa(this.ID + '___com.instana.agent.host.discovery.Host___localhost') +
+      '.json';
+  }
+
+  dispose(){
+    super.dispose();
+    //TODO
   }
 }
 

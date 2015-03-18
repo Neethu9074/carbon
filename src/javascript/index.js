@@ -20,14 +20,17 @@ const logger = createLogger('index.js');
 //first load all resources
 logger.info('Loading resources...');
 load(() => { //on finished
+
   logger.info('Initializing application');
+
   //start up the UI when all resources are loaded
   const uiApplication = new app();
-  //setup(uiApplication);
 
   //test setup
   //setup(uiApplication); return;
 
+  //live data
   const dataManager = new DataListenerManager(uiApplication, 2000);
+
   logger.info('Finished initialization');
 });

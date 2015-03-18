@@ -3,6 +3,7 @@
 import THREE from 'three.js';
 
 import * as colors from './colors';
+import * as materials from './materials';
 import Ground from './sceneObjects/ground';
 import Container from './sceneObjects/containerCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
@@ -16,261 +17,352 @@ import glStats from '../lib/rStats.extras';
 import '../lib/CSS3DRenderer';
 import '../lib/Octree';
 
+import 'lodash';
+
+//logging
+import {
+  createLogger
+}
+from '../log';
+const logger = createLogger('app.js');
+
 
 class App {
-	constructor() {
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
+  constructor() {
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
 
-		//first of all -> bind methods
-		this.bindMethods();
+    //first of all -> bind methods
+    this.bindMethods();
 
-		this.time = Date.now();
-		this.deltaTime = 0;
-		this.timeSinceStarted = 0;
+    //time properties
+    this.time = Date.now();
+    this.deltaTime = 0;
+    this.timeSinceStarted = 0;
 
-		//setup 3D stuff
-		this.setupOctree();
-		this.setup3D();
-		this.setup2D();
+    //zoom properties
+    this.showHostDetailsDistance = 25;
+    this.showHostDetails = false;
 
-		this.controller = new MouseControls(this);
-		this.layouter = new Layouter(100); //for 100x100 cubes
+    //setup 3D stuff
+    this.setupOctree();
+    this.setup3D();
+    this.setup2D();
 
-		if (__DEV__) {
-			this.setupStats();
-		}
+    this.controller = new MouseControls(this);
+    this.layouter = new Layouter(100); //for 100x100 cubes
+    //a collection to store all hosts
+    this.hosts = [];
 
-		this.setupEvents();
-		this.update();
-	}
+    if (__DEV__) {
+      this.setupStats();
+    }
 
-	setupOctree() {
-		//setup octree
-		this.octree = new THREE.Octree({
-			// uncomment below to see the octree (may kill the fps)
-			//scene: this.scene,
-			// when undeferred = true, objects are inserted immediately
-			// instead of being deferred until next octree.update() call
-			// this may decrease performance as it forces a matrix update
-			undeferred: true,
-			// set the max depth of tree
-			depthMax: Infinity,
-			// max number of objects before nodes split or merge
-			objectsThreshold: 8,
-			// percent between 0 and 1 that nodes will overlap each other
-			// helps insert objects that lie over more than one node
-			overlapPct: 0
-		});
-	}
+    this.setupEvents();
+    this.update();
+  }
 
-	setup3D() {
-		this.canvas = document.getElementById('WebGL');
+  setupOctree() {
+    //setup octree
+    this.octree = new THREE.Octree({
+      // uncomment below to see the octree (may kill the fps)
+      //scene: this.scene,
+      // when undeferred = true, objects are inserted immediately
+      // instead of being deferred until next octree.update() call
+      // this may decrease performance as it forces a matrix update
+      undeferred: true,
+      // set the max depth of tree
+      depthMax: Infinity,
+      // max number of objects before nodes split or merge
+      objectsThreshold: 8,
+      // percent between 0 and 1 that nodes will overlap each other
+      // helps insert objects that lie over more than one node
+      overlapPct: 0
+    });
+  }
 
-		const width = this.width;
-		const height = this.height;
+  setup3D() {
+    this.canvas = document.getElementById('WebGL');
 
-		this.webGLRenderer = new THREE.WebGLRenderer();
-		this.webGLRenderer.setClearColor(colors.renderClearColor, 1);
-		this.webGLRenderer.setSize(width, height);
+    const width = this.width;
+    const height = this.height;
 
-		//add webGLRenderer to dom element
-		this.canvas.appendChild(this.webGLRenderer.domElement);
+    this.webGLRenderer = new THREE.WebGLRenderer();
+    this.webGLRenderer.setClearColor(colors.renderClearColor, 1);
+    this.webGLRenderer.setSize(width, height);
 
-		this.scene = new THREE.Scene();
+    //add webGLRenderer to dom element
+    this.canvas.appendChild(this.webGLRenderer.domElement);
 
-		//set the farplane as near as possible
-		this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.5, 700);
-		this.mainCamera.position.set(-2, 5, 4);
-		this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
+    this.scene = new THREE.Scene();
 
-		// add subtle ambient lighting
-		const ambientLight = new THREE.AmbientLight(colors.ambientColor);
-		this.scene.add(ambientLight);
+    //set the farplane as near as possible
+    this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.5,
+      700);
+    this.mainCamera.position.set(-2, 5, 4);
+    this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
-		//a collection to store all sceneObjects
-		this.sceneObjects3D = [];
+    // add subtle ambient lighting
+    const ambientLight = new THREE.AmbientLight(colors.ambientColor);
+    this.scene.add(ambientLight);
 
-		this.sceneObjects3D.push(new Ground(this));
-	}
+    //a collection to store all sceneObjects
+    this.sceneObjects3D = [];
 
-	setup2D() {
-		const width = this.width;
-		const height = this.height;
+    this.sceneObjects3D.push(new Ground(this));
+  }
 
-		this.scene2D = new THREE.Scene();
+  setup2D() {
+    const width = this.width;
+    const height = this.height;
 
-		this.cssRenderer = new THREE.CSS3DRenderer();
-		this.cssRenderer.setSize(width, height);
-		document.getElementById('GLCanvasOverlay')
-			.appendChild(this.cssRenderer.domElement);
-	}
+    this.scene2D = new THREE.Scene();
 
-	setupStats() {
-		var glS = new glStats.glStats();
-		var tS = new glStats.threeStats(this.webGLRenderer);
-		var rS = new rStats.rStats({
-			values: {
-				frame: {
-					caption: 'Total frame time (ms)',
-					over: 16
-				},
-				fps: {
-					caption: 'Framerate (FPS)',
-					below: 30
-				},
-				calls: {
-					caption: 'Calls (three.js)',
-					over: 3000
-				},
-				raf: {
-					caption: 'Time since last rAF (ms)'
-				},
-				rstats: {
-					caption: 'rStats update (ms)'
-				}
-			},
-			groups: [{
-				caption: 'Framerate',
-				values: ['fps', 'raf']
-			}, {
-				caption: 'Frame Budget',
-				values: ['frame', 'texture', 'setup', 'render']
-			}],
-			plugins: [
-				tS,
-				glS
-			]
-		});
+    this.cssRenderer = new THREE.CSS3DRenderer();
+    this.cssRenderer.setSize(width, height);
+    document.getElementById('GLCanvasOverlay')
+      .appendChild(this.cssRenderer.domElement);
+  }
 
-		this.glStats = glS;
-		this.rStats = rS;
-	}
+  setupStats() {
+    var glS = new glStats.glStats();
+    var tS = new glStats.threeStats(this.webGLRenderer);
+    var rS = new rStats.rStats({
+      values: {
+        frame: {
+          caption: 'Total frame time (ms)',
+          over: 16
+        },
+        fps: {
+          caption: 'Framerate (FPS)',
+          below: 30
+        },
+        calls: {
+          caption: 'Calls (three.js)',
+          over: 3000
+        },
+        raf: {
+          caption: 'Time since last rAF (ms)'
+        },
+        rstats: {
+          caption: 'rStats update (ms)'
+        }
+      },
+      groups: [{
+        caption: 'Framerate',
+        values: ['fps', 'raf']
+      }, {
+        caption: 'Frame Budget',
+        values: ['frame', 'texture', 'setup', 'render']
+      }],
+      plugins: [
+        tS,
+        glS
+      ]
+    });
 
-	setupEvents() {
-		var doc = document;
-		window.addEventListener('resize', this.onWindowResize, false);
-		doc.getElementById('newHostButton').onclick = this.addHost;
-		doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
-		doc.getElementById('destroyCubeButton').onclick = this.removeCube;
-		doc.getElementById('showWalkableButton').onclick = this.showWalkable;
-		doc.getElementById('stackContainerButton').onclick = this.stackContainer;
-		doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
-	}
+    this.glStats = glS;
+    this.rStats = rS;
+  }
 
-	onWindowResize() {
-		this.width = window.innerWidth;
-		this.height = window.innerHeight;
+//events
+  setupEvents() {
+    const doc = document;
+    window.addEventListener('resize', this.onWindowResize, false);
+    doc.getElementById('newHostButton').onclick = this.addRandomHost;
+    doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
+    doc.getElementById('destroyCubeButton').onclick = this.removeCube;
+    doc.getElementById('showWalkableButton').onclick = this.showWalkable;
+    doc.getElementById('stackContainerButton').onclick = this.stackContainer;
+    doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
+  }
 
-		this.webGLRenderer.setSize(this.width, this.height);
-		this.cssRenderer.setSize(this.width, this.height);
+  onWindowResize() {
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
 
-		this.mainCamera.aspect = this.width / this.height;
-		this.mainCamera.updateProjectionMatrix();
-	}
+    this.webGLRenderer.setSize(this.width, this.height);
+    this.cssRenderer.setSize(this.width, this.height);
 
-	bindMethods() {
-		this.update = this.update.bind(this);
-		this.bindMethods = this.bindMethods.bind(this);
-		this.onWindowResize = this.onWindowResize.bind(this);
-		this.animate = this.animate.bind(this);
-	}
+    this.mainCamera.aspect = this.width / this.height;
+    this.mainCamera.updateProjectionMatrix();
+  }
 
-	update() {
-		requestAnimationFrame(this.update);
+  addRandomHost() {
+    this.addHost( {
+      id: 'UUID 1',
+      cpu: { model: 'Test CPU', count: 2 },
+      memory: {total: 1234567890},
+      operatingSystem: {name: 'OS'} } );
+  }
 
-		if (__DEV__) {
-			var rS = this.rStats;
-			rS('frame').start();
-			this.glStats.start();
-			rS('frame').start();
-			rS('rAF').tick();
-			rS('FPS').frame();
-			rS('updates').start();
-		}
+  addRandomContainer() {
+    const object = this.clickedObject;
+    if (object instanceof Container) {
+      object.addContainer( { id: 'id', pid: '1' } );
+    }
+  }
 
-		this.animate();
+  removeCube() {
+    logger.error('NOT IMPLEMENTED YET');
+  }
 
-		if (__DEV__) {
-			rS('updates').end();
-			rS('render').start();
-		}
+  showWalkable() {
+    logger.error('NOT IMPLEMENTED YET');
+  }
 
-		this.render();
+  stackContainer() {
+    logger.error('NOT IMPLEMENTED YET');
+  }
 
-		if (__DEV__) {
-			rS('render').end();
-			rS('frame').end();
-			rS().update();
-		}
-	}
+  showInGrafana() {
+    const object = this.clickedObject;
+    if (object instanceof Container) {
+      const url = object.dataProvider.getDashboardUrl();
+      window.open(url, '_blank');
+    }
+  }
+//end events
 
-	animate() {
-		this.calculateDeltaTime();
+  bindMethods() {
+    this.update = this.update.bind(this);
+    this.bindMethods = this.bindMethods.bind(this);
+    this.onWindowResize = this.onWindowResize.bind(this);
+    this.addRandomHost = this.addRandomHost.bind(this);
+    this.addRandomContainer = this.addRandomContainer.bind(this);
+    this.removeCube = this.removeCube.bind(this);
+    this.showWalkable = this.showWalkable.bind(this);
+    this.stackContainer = this.stackContainer.bind(this);
+    this.showInGrafana = this.showInGrafana.bind(this);
+    this.animate = this.animate.bind(this);
+  }
 
-		this.controller.update(this.deltaTime);
-	}
+  update() {
+    requestAnimationFrame(this.update);
 
-	calculateDeltaTime() {
-		var timeNow = Date.now();
-		this.deltaTime = (timeNow - this.time) / 1000; //in ms
-		this.time = timeNow;
-		this.timeSinceStarted += this.deltaTime;
-	}
+    if (__DEV__) {
+      var rS = this.rStats;
+      rS('frame').start();
+      this.glStats.start();
+      rS('frame').start();
+      rS('rAF').tick();
+      rS('FPS').frame();
+      rS('updates').start();
+    }
 
-	render() {
-		this.webGLRenderer.render(this.scene, this.mainCamera);
-		this.cssRenderer.render(this.scene2D, this.mainCamera);
-	}
+    this.animate();
 
-	findObjectInOctree(raycaster) {
-		raycaster.far = Math.min(125, raycaster.far); //[0, 125]
+    if (__DEV__) {
+      rS('updates').end();
+      rS('render').start();
+    }
 
-		//search all candidates where ray cutting quadrants of the octree
-		const octreeObjects = this.octree.search(
-			raycaster.ray.origin,
-			raycaster.ray.far,
-			true, //true -> organized by objects
-			raycaster.ray.direction);
+    this.render();
 
-		const intersections = raycaster.intersectOctreeObjects(octreeObjects);
-		if (intersections.length > 0) {
-			return intersections[0].object; //first hit
-		}
-		return undefined;
-	}
+    if (__DEV__) {
+      rS('render').end();
+      rS('frame').end();
+      rS().update();
+    }
+  }
 
-	clickedOnObject(object) {
-		this.clickedObject = object;
-		if (object !== undefined && object.parentSceneObject !== undefined) {
-			this.clickedObject = object.parentSceneObject;
-		}
-		console.log('clicked on: ', this.clickedObject);
-	}
+  animate() {
+    this.calculateDeltaTime();
 
-	zoom(distance) {
-		console.log(distance);
-	}
+    this.controller.update(this.deltaTime);
+  }
 
-	addHost(metaData) {
-		try {
-			//get new position if possible
-			const newPos2D = this.layouter.getNext();
-			//and block it with the uuid
-			this.layouter.setBlocked(newPos2D, metaData.id);
-			newPos2D.y *= -1;
+  calculateDeltaTime() {
+    const timeNow = Date.now();
+    this.deltaTime = (timeNow - this.time) / 1000; //in ms
+    this.time = timeNow;
+    this.timeSinceStarted += this.deltaTime;
+  }
 
-			const pos = new THREE.Vector3(newPos2D.x, 0, newPos2D.y); //2D -> 3D
-			const cube = new Container(this, pos, new HostDataProvider(metaData));
-			this.sceneObjects3D.push(cube);
+  render() {
+    this.webGLRenderer.render(this.scene, this.mainCamera);
+    this.cssRenderer.render(this.scene2D, this.mainCamera);
+  }
 
-		} catch (e) {
-			console.log(e);
-		}
-	}
+  findObjectInOctree(raycaster) {
+    raycaster.far = Math.min(200, raycaster.far); //[0, 200]
+
+    //search all candidates where ray cutting quadrants of the octree
+    const octreeObjects = this.octree.search(
+      raycaster.ray.origin,
+      raycaster.ray.far,
+      true, //true -> organized by objects
+      raycaster.ray.direction);
+
+    const intersections = raycaster.intersectOctreeObjects(octreeObjects);
+    if (intersections.length > 0) {
+      return intersections[0].object; //first hit
+    }
+    return undefined;
+  }
+
+  clickedOnObject(object) {
+    this.clickedObject = object;
+    logger.info('clicked on: ', this.clickedObject);
+  }
+
+  zoom(distance) {
+    if(distance <= this.showHostDetailsDistance) {
+      const opacity = distance / this.showHostDetailsDistance;
+      materials.cubeHostMaterial.opacity = opacity;
+
+      if(!this.showHostDetails) {
+        //switch on
+        this.showHostDetails = true;
+        materials.cubeHostMaterial.transparent = true;
+
+        _.forEach(this.hosts, host => { host.showDetails(); });
+        this.octree.update();
+      }
+    } else {
+      if(this.showHostDetails) {
+        //switch off
+        this.showHostDetails = false;
+        materials.cubeHostMaterial.transparent = false;
+        materials.cubeHostMaterial.opacity = 1;
+
+        _.forEach(this.hosts, host => { host.hideDetails(); });
+        this.octree.update();
+      }
+    }
+  }
+
+  addHost(metaData) {
+    try {
+      //get new position if possible
+      const newPos2D = this.layouter.getNext();
+      //and block it with the uuid
+      this.layouter.setBlocked(newPos2D, metaData.id);
+
+      const pos = new THREE.Vector3(newPos2D.x * 20, 0, -newPos2D.y * 20);
+      const dim = new THREE.Vector3(20, 4, 20);
+      const cube = new Container(this, pos, dim, new HostDataProvider(metaData));
+
+      this.sceneObjects3D.push(cube);
+      this.hosts.push(cube);
+
+      if(this.showHostDetails) {
+        cube.showDetails();
+      } else {
+        cube.hideDetails();
+      }
+      this.octree.update();
+
+      return cube;
+
+    } catch (e) {
+      logger.error(e);
+      return undefined;
+    }
+  }
 
   getHost(ID) {
-    
+    return _.find(this.hosts, host => host.ID === ID);
   }
 }
 

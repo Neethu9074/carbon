@@ -2,5 +2,15 @@
 
 import THREE from 'three.js';
 
+import 'lodash';
 
-export const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1);
+
+export const cubeGeometry = ( () => {
+  const box = new THREE.BoxGeometry(1, 1, 1, 1);
+
+  _.forEach(box.vertices, vertex => {
+    vertex.y += 0.5;
+  } );
+
+  return box;
+})();
