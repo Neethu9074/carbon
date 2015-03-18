@@ -1,6 +1,6 @@
 {
   "name": "instana-visualization",
-  "version": "1.0.0",
+  "version": "0.0.0-postrelease",
   "description": "The 3D visuliaztion of client's infrastructure",
   "main": "lib/index.js",
   "scripts": {
@@ -12,6 +12,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/instana/visualization.git"
+  },
+  "publishConfig" : {
+    "registry" : "http://ec2-54-152-139-11.compute-1.amazonaws.com:8080/nexus/content/repositories/npm-internal/"
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
