@@ -3,7 +3,7 @@
 #   _auth description
 
 registry=http://ec2-54-152-139-11.compute-1.amazonaws.com:8080/nexus/content/groups/npm-all/
-always-auth=false
+always-auth=true
 init.author.name=Ben Ripkens
 init.author.email=ben@instana.com
 init.author.url=http://bripkens.de
