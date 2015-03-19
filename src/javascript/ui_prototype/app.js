@@ -1,6 +1,10 @@
 'use strict';
 
+import './app.less'
+
 import THREE from 'three.js';
+import '../lib/CSS3DRenderer';
+import '../lib/Octree';
 
 import * as colors from './colors';
 import * as materials from './materials';
@@ -13,9 +17,6 @@ import Layouter from './layouterContainer';
 
 import rStats from '../lib/rStats';
 import glStats from '../lib/rStats.extras';
-
-import '../lib/CSS3DRenderer';
-import '../lib/Octree';
 
 import _ from 'lodash';
 
