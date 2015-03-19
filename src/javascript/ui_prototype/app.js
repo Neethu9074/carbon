@@ -293,7 +293,9 @@ class App {
         this.switchHostDetails = true;
         materials.cubeHostMaterial.transparent = true;
 
-        _.forEach(this.hosts, host => { host.showDetails(); });
+        _.forEach(this.hosts, host => {
+          this.hideHost(host);
+        });
         this.octree.update();
       }
 
@@ -306,10 +308,24 @@ class App {
         materials.cubeHostMaterial.transparent = false;
         materials.cubeHostMaterial.opacity = 1;
 
-        _.forEach(this.hosts, host => { host.hideDetails(); });
+        _.forEach(this.hosts, host => {
+          this.showHost(host);
+        });
         this.octree.update();
       }
     }
+  }
+
+  showHost(host) {
+    host.hideChildren();
+    this.octree.add(host.collisionBox, { useFaces: false });
+    this.scene.add(host.content2D);
+  }
+
+  hideHost(host) {
+    host.showChildren();
+    this.octree.remove(host.collisionBox);
+    this.scene.remove(host.content2D);
   }
 
   calculateDeltaTime() {
@@ -359,13 +375,11 @@ class App {
 
       this.sceneObjects3D.push(cube);
       this.hosts.push(cube);
+      this.scene.add(cube.cube);
 
-      if(this.showHostDetails) {
-        cube.showDetails();
-      } else {
-        cube.hideDetails();
+      if(!this.showHostDetails) {
+        this.showHost(cube);
       }
-      this.octree.update();
 
       return cube;
 

@@ -33,15 +33,29 @@ class ContainerCube extends SceneObject {
     this.layouter = new Layouter(1, 10);
     this.container = [];
 
+    //this is a container object for alle the children elements as
+    //3D meshed (+ collision) and 2D CSS3D stuff
+    //the idea is to insert all the stuff into this container
+    // and when this container is hidden you only have to disable this container
+    // (or add/remove from scene)
+    this.childrenContainer = new THREE.Object3D();
+    app.scene.add(this.childrenContainer);
+
     this.setup3DContent();
     this.setupCollisionBox();
     this.setup2DContent();
+
+    if(app.showHostDetails) {
+      this.showChildren();
+    } else {
+      this.hideChildren();
+    }
+    app.octree.update();
   }
 
   setup3DContent() {
     const cube = this.dataProvider.get3DContent();
     this.setStatic(cube);
-    this.app.scene.add(cube);
     this.cube = cube;
   }
 
@@ -87,13 +101,15 @@ class ContainerCube extends SceneObject {
       this.container.push(container);
       container.parentContainer = this;
 
-      if(this.hidden) {
+      this.childrenContainer.add(container.cube);
+
+      /*if(this.hidden) {
         container.hideDetails();
         container.hide();
       } else {
         container.showDetails();
         container.show();
-      }
+      }*/
 
       return container;
 
@@ -156,46 +172,24 @@ class ContainerCube extends SceneObject {
     this.app.octree.update();
   }
 
-  hideDetails() {
-    const octree = this.app.octree;
-    //add the collision box of this box
-    octree.add(this.collisionBox, { useFaces: false });
+  hideChildren() {
+    const app = this.app;
+    app.scene.remove(this.childrenContainer);
 
-    //remove all children collision boxes
     _.forEach(this.container, child => {
-      child.hide();
+      app.octree.remove(child.collisionBox);
+      app.scene.remove(child.content2D);
     });
-
-    //add this CSS3D overlay
-    this.app.scene.add(this.content2D);
-    this.hidden = true;
   }
 
-  showDetails() {
-    const octree = this.app.octree;
-    //Remove the collision box of this box
-    octree.remove(this.collisionBox);
+  showChildren() {
+    const app = this.app;
+    app.scene.add(this.childrenContainer);
 
-    //add all children collision boxes
     _.forEach(this.container, child => {
-        child.show();
+      app.octree.add(child.collisionBox, { useFaces: false });
+      app.scene.add(child.content2D);
     });
-
-    //remove this CSS3D overlay
-    this.app.scene.remove(this.content2D);
-    this.hidden = false;
-  }
-
-  show() {
-    this.app.octree.add(this.collisionBox, { useFaces: false });
-    this.app.scene.add(this.cube);
-    this.app.scene.add(this.content2D);
-  }
-
-  hide() {
-    this.app.octree.remove(this.collisionBox);
-    this.app.scene.remove(this.cube);
-    this.app.scene.remove(this.content2D);
   }
 
   setHighlight(b) {
