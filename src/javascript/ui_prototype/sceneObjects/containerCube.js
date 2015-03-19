@@ -14,7 +14,7 @@ import {
 }
 from '../../log';
 
-import 'lodash';
+import _ from 'lodash';
 
 
 const logger = createLogger('containerCube.js');

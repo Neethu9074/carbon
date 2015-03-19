@@ -17,7 +17,7 @@ import glStats from '../lib/rStats.extras';
 import '../lib/CSS3DRenderer';
 import '../lib/Octree';
 
-import 'lodash';
+import _ from 'lodash';
 
 //logging
 import {

@@ -2,7 +2,7 @@
 
 import THREE from 'three.js';
 
-import 'lodash';
+import _ from 'lodash';
 
 
 export const cubeGeometry = ( () => {
