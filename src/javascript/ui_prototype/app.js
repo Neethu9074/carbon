@@ -41,7 +41,8 @@ class App {
     this.timeSinceStarted = 0;
 
     //zoom properties
-    this.showHostDetailsDistance = 25;
+    this.showHostDetailsDistance = 50;
+    this.switchHostDetails = false;
     this.showHostDetails = false;
 
     //setup 3D stuff
@@ -50,7 +51,7 @@ class App {
     this.setup2D();
 
     this.controller = new MouseControls(this);
-    this.layouter = new Layouter(100); //for 100x100 cubes
+    this.layouter = new Layouter(100, 1000); //for 100x100 cubes
     //a collection to store all hosts
     this.hosts = [];
 
@@ -97,8 +98,7 @@ class App {
     this.scene = new THREE.Scene();
 
     //set the farplane as near as possible
-    this.mainCamera = new THREE.PerspectiveCamera(60, width / height, 0.5,
-      700);
+    this.mainCamera = new THREE.PerspectiveCamera(30, width / height, 0.5, 500);
     this.mainCamera.position.set(-2, 5, 4);
     this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -116,7 +116,6 @@ class App {
     const width = this.width;
     const height = this.height;
 
-    this.scene2D = new THREE.Scene();
 
     this.cssRenderer = new THREE.CSS3DRenderer();
     this.cssRenderer.setSize(width, height);
@@ -189,8 +188,8 @@ class App {
   }
 
   addRandomHost() {
-    this.addHost( {
-      id: 'UUID 1',
+    return this.addHost( {
+      id: 'UUID ' + Math.random(),
       cpu: { model: 'Test CPU', count: 2 },
       memory: {total: 1234567890},
       operatingSystem: {name: 'OS'} } );
@@ -204,7 +203,15 @@ class App {
   }
 
   removeCube() {
-    logger.error('NOT IMPLEMENTED YET');
+    const object = this.clickedObject;
+    if (object instanceof Container) {
+      if(object.dataProvider instanceof HostDataProvider) {
+        _.remove(this.objects3D, obj => obj === object);
+        _.remove(this.hosts, obj => obj === object);
+        this.layouter.setFree(object.ID);
+      }
+      object.dispose();
+    }
   }
 
   showWalkable() {
@@ -270,6 +277,36 @@ class App {
     this.calculateDeltaTime();
 
     this.controller.update(this.deltaTime);
+
+    const distance = this.controller.zoomLevel;
+    if(distance <= this.showHostDetailsDistance) {
+      this.showHostDetails = true;
+
+      const opacity = distance / this.showHostDetailsDistance;
+      materials.cubeHostMaterial.opacity = opacity;
+
+      if(!this.switchHostDetails) {
+        //switch on
+        this.switchHostDetails = true;
+        materials.cubeHostMaterial.transparent = true;
+
+        _.forEach(this.hosts, host => { host.showDetails(); });
+        this.octree.update();
+      }
+
+    } else {
+      this.showHostDetails = false;
+
+      if(this.switchHostDetails) {
+        //switch off
+        this.switchHostDetails = false;
+        materials.cubeHostMaterial.transparent = false;
+        materials.cubeHostMaterial.opacity = 1;
+
+        _.forEach(this.hosts, host => { host.hideDetails(); });
+        this.octree.update();
+      }
+    }
   }
 
   calculateDeltaTime() {
@@ -281,7 +318,7 @@ class App {
 
   render() {
     this.webGLRenderer.render(this.scene, this.mainCamera);
-    this.cssRenderer.render(this.scene2D, this.mainCamera);
+    this.cssRenderer.render(this.scene, this.mainCamera);
   }
 
   findObjectInOctree(raycaster) {
@@ -304,32 +341,6 @@ class App {
   clickedOnObject(object) {
     this.clickedObject = object;
     logger.info('clicked on: ', this.clickedObject);
-  }
-
-  zoom(distance) {
-    if(distance <= this.showHostDetailsDistance) {
-      const opacity = distance / this.showHostDetailsDistance;
-      materials.cubeHostMaterial.opacity = opacity;
-
-      if(!this.showHostDetails) {
-        //switch on
-        this.showHostDetails = true;
-        materials.cubeHostMaterial.transparent = true;
-
-        _.forEach(this.hosts, host => { host.showDetails(); });
-        this.octree.update();
-      }
-    } else {
-      if(this.showHostDetails) {
-        //switch off
-        this.showHostDetails = false;
-        materials.cubeHostMaterial.transparent = false;
-        materials.cubeHostMaterial.opacity = 1;
-
-        _.forEach(this.hosts, host => { host.hideDetails(); });
-        this.octree.update();
-      }
-    }
   }
 
   addHost(metaData) {

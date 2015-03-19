@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 var THREE = require('three.js');
@@ -85,3 +86,4 @@ exports.Connection.prototype.dispose = function() {
 	this.points = null;
 	this.animator = null;
 };
+*/

@@ -1,7 +1,10 @@
 'use strict';
 
+import Pathfinding from 'pathfinding';
+
+
 class LayouterContainer{
-  constructor(width) {
+  constructor(width, pathfindingWidth) {
     this.width = width;
     this.height = width;
 
@@ -9,6 +12,9 @@ class LayouterContainer{
     for (let i = 0; i < width; i++) {
       this.grid[i] = new Array(width);
     }
+
+    //create grid for pathfinding. for each cube, pathfinding knows 100 quads
+    //this.walkingGrid = new Pathfinding.Grid(pathfindingWidth, pathfindingWidth);
   }
 
   getNext() {
@@ -61,6 +67,7 @@ class LayouterContainer{
       }
     }
   }
+
 }
 
 export default LayouterContainer;
