@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 var THREE = require('three.js');
@@ -82,3 +83,4 @@ exports.PathAnimation.prototype.dispose = function() {
 	this.to = null;
 	this.speed = null;
 };
+*/

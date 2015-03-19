@@ -9,7 +9,7 @@ import * as math from '../math';
 
 class Ground extends sceneObject {
 	constructor(app) {
-		var pos = new THREE.Vector3(500, -0.1, -500);
+		var pos = new THREE.Vector3(490, -0.1, -490);
 		var dim = new THREE.Vector3(1000, 0, 1000);
 
 		//call super constructor

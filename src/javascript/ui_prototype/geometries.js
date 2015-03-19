@@ -14,3 +14,6 @@ export const cubeGeometry = ( () => {
 
   return box;
 })();
+
+export const containerLabelGeometry =
+  new THREE.PlaneBufferGeometry(10, 1, 1, 1);

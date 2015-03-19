@@ -37,9 +37,9 @@ class MouseControl {
 
     //zoom fields
     this.minZoom = 1000;
-    this.zoomLevel = 40;
-    this.beginToRotate = 10;
-    this.maxZoom = 3.5;
+    this.zoomLevel = 100;
+    this.beginToRotate = 40;
+    this.maxZoom = 10;
 
     //raytracing fields
     this.raycaster = new THREE.Raycaster();
@@ -78,9 +78,6 @@ class MouseControl {
       max = this.maxZoom;
     //[min, max]
     this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
-
-    //cal the zoom method of main app
-    this.appReference.zoom(this.zoomLevel);
   }
 
   onMouseDown(e) {

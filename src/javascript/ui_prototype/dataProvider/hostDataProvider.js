@@ -53,7 +53,7 @@ class HostDataProvider extends DataProvider {
 		object.position.copy(pos);
 		object.position.x += 2;
 		object.position.z += 1;
-		object.position.y += dim.y / 2;
+		object.position.y += dim.y;
 
     return object;
   }
@@ -73,7 +73,7 @@ class HostDataProvider extends DataProvider {
       '<li>' + cpu + '</li>' +
       '<li>' + memory + '</li></ul>';
 
-    return '';//html;
+    return html;
   }
 
   getDashboardUrl(){

@@ -1,3 +1,4 @@
+/*
 'use strict';
 
 var THREE = require('three.js');
@@ -70,3 +71,5 @@ exports.RisingParticles.prototype.update = function(){
 exports.RisingParticles.prototype.dispose = function() {
 	this.mesh.geometry.dispose();
 };
+
+*/
