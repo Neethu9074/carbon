@@ -20,11 +20,12 @@ const logger = createLogger('index.js');
 //first load all resources
 logger.info('Loading resources...');
 load(() => { //on finished
+  const canvas = document.getElementById('WebGL');
 
   logger.info('Initializing application');
 
   //start up the UI when all resources are loaded
-  const uiApplication = new app();
+  const uiApplication = new app(canvas);
 
   //test setup
   //setup(uiApplication); return;

@@ -28,7 +28,8 @@ const logger = createLogger('app.js');
 
 
 class App {
-  constructor() {
+  constructor(canvas) {
+    this.canvas = canvas;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
@@ -82,8 +83,6 @@ class App {
   }
 
   setup3D() {
-    this.canvas = document.getElementById('WebGL');
-
     const width = this.width;
     const height = this.height;
 
@@ -120,8 +119,11 @@ class App {
 
     this.cssRenderer = new THREE.CSS3DRenderer();
     this.cssRenderer.setSize(width, height);
-    document.getElementById('GLCanvasOverlay')
-      .appendChild(this.cssRenderer.domElement);
+
+    const div = document.createElement('div');
+    div.classList.add('webgl-canvas-overlay');
+    div.appendChild(this.cssRenderer.domElement);
+    this.canvas.appendChild(div);
   }
 
   setupStats() {
