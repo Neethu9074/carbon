@@ -8,6 +8,7 @@ import '../lib/Octree';
 
 import * as colors from './colors';
 import * as materials from './materials';
+import * as geometries from './geometries';
 import Ground from './sceneObjects/ground';
 import Container from './sceneObjects/containerCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
@@ -98,7 +99,7 @@ class App {
     this.scene = new THREE.Scene();
 
     //set the farplane as near as possible
-    this.mainCamera = new THREE.PerspectiveCamera(30, width / height, 0.5, 500);
+    this.mainCamera = new THREE.PerspectiveCamera(30, width / height, 0.1, 500);
     this.mainCamera.position.set(-2, 5, 4);
     this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
 
@@ -110,6 +111,8 @@ class App {
     this.sceneObjects3D = [];
 
     this.sceneObjects3D.push(new Ground(this));
+
+    this.scene.add(geometries.globalHostContainer);
   }
 
   setup2D() {
@@ -222,7 +225,10 @@ class App {
   }
 
   stackContainer() {
-    logger.error('NOT IMPLEMENTED YET');
+    const object = this.clickedObject;
+    if (object instanceof Container) {
+      object.stackContainer( { id: 'id', pid: '1' } );
+    }
   }
 
   showInGrafana() {
@@ -352,7 +358,13 @@ class App {
 
     const intersections = raycaster.intersectOctreeObjects(octreeObjects);
     if (intersections.length > 0) {
-      return intersections[0].object; //first hit
+      for (let i = 0; i < intersections.length; i++) {
+        const intersect = intersections[i].object;
+        if(intersect.enabled) {
+          return intersect;
+        }
+      }
+      //return intersections[0].object; //first hit
     }
     return undefined;
   }

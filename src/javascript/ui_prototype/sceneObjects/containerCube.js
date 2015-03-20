@@ -31,7 +31,6 @@ class ContainerCube extends SceneObject {
     dataProvider.setCube(this);
     this.dataProvider = dataProvider;
     this.layouter = new Layouter(1, 10);
-    this.container = [];
 
     //this is a container object for alle the children elements as
     //3D meshed (+ collision) and 2D CSS3D stuff
@@ -39,6 +38,8 @@ class ContainerCube extends SceneObject {
     // and when this container is hidden you only have to disable this container
     // (or add/remove from scene)
     this.childrenContainer = new THREE.Object3D();
+    this.container = [];
+    this.stackedContainer = [];
     app.scene.add(this.childrenContainer);
 
     this.setup3DContent();
@@ -68,6 +69,9 @@ class ContainerCube extends SceneObject {
     cube.scale.multiplyScalar(1.01); //make 1% bigger
     cube.position.copy(this.position);
     this.setStatic(cube);
+
+    //set enabled to true, if you want to click on this object
+    cube.enabled = true;
 
     cube.parentSceneObject = this;
     this.collisionBox = cube;
@@ -102,14 +106,7 @@ class ContainerCube extends SceneObject {
       container.parentContainer = this;
 
       this.childrenContainer.add(container.cube);
-
-      /*if(this.hidden) {
-        container.hideDetails();
-        container.hide();
-      } else {
-        container.showDetails();
-        container.show();
-      }*/
+      this.childrenContainer.add(container.content2D);
 
       return container;
 
@@ -140,6 +137,19 @@ class ContainerCube extends SceneObject {
         return this.addContainer(metaData);
       }
     }
+  }
+
+  stackContainer(metaData) {
+    const pos3D = this.position.clone();
+    const dim = this.dimension.clone();
+
+    const container = new ContainerCube(this.app, pos3D, dim,
+      new ContainerDataProvider(metaData));
+
+    this.stackedContainer.push(container);
+    container.parentContainer = this.parentContainer;
+
+    return container;
   }
 
   setSize(newSize) {
@@ -207,15 +217,18 @@ class ContainerCube extends SceneObject {
     app.scene.remove(this.content2D);
     app.octree.remove(this.collisionBox);
 
+    //destroy children
+    this.app.scene.remove(this.childrenContainer);
+    this.childrenContainer = null;
+    _.forEach(this.container, child => {
+      child.dispose();
+    });
+    //end destroy children
+
     super.dispose();
 
-    const containerCopy = this.container.slice();
-    _.forEach(containerCopy, child => {
-      child.dispose();
-      _.remove(this.container, container => container === child);
-    });
-
     if(this.parentContainer !== undefined) {
+      this.parentContainer.childrenContainer.remove(this.cube);
       this.parentContainer.layouter.setFree(this.dataProvider.pid);
       _.remove(this.parentContainer.container, child => child === this);
     }

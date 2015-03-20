@@ -31,8 +31,3 @@ export const cubeHostMaterial = new THREE.MeshPhongMaterial({
 export const collisonHighlightMaterial = new THREE.MeshBasicMaterial({
 	color: colors.midBlue
 });
-
-export const containerLabelMaterial = new THREE.MeshBasicMaterial({
-	transparent: false,
-	depthWrite: false
-});

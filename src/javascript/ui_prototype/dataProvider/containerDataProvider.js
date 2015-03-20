@@ -39,7 +39,7 @@ class HostDataProvider extends DataProvider {
 		div.innerHTML = content;
 
 		const object = new THREE.CSS3DObject(div);
-		object.rotation.x = -25 * math.DegToRad;
+		object.rotation.x = -90 * math.DegToRad;
 
 		//1px in css is 1 unit in 3D space
 		object.scale.set(dim.x / 250, dim.x / 250, 1);
