@@ -27,6 +27,27 @@ class HostDataProvider extends DataProvider {
 		cube.scale.copy(this.cube.dimension);
 		cube.position.copy(this.cube.position);
 
+		const coll = this.getCollisionObject();
+    coll.parentSceneObject = this.cube;
+
+    //set enabled to true, if you want to click on this object
+    coll.collisionEnabled = true;
+    this.cube.app.addToOctree(coll);
+
+    cube.add(coll);
+
+		return cube;
+	}
+
+	getCollisionObject() {
+	  const cube = new THREE.Mesh(
+      geometries.cubeGeometry,
+      materials.collisonHighlightMaterial);
+
+    //cube.scale.copy(this.dimension);
+    cube.scale.set(1.01, 1.01, 1.01); //make 1% bigger
+		cube.visible = false;
+
 		return cube;
 	}
 

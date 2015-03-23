@@ -27,6 +27,9 @@ module.exports = {
 			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot|\.obj$/i,
 			loader: 'file-loader'
 		}, {
+			test: /\.glsl$/i,
+			loader: 'raw-loader'
+		}, {
 			test: /\.js$/i,
 			exclude: /node_modules/,
 			loader: 'babel-loader'

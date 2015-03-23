@@ -85,6 +85,10 @@ class App {
     });
   }
 
+  addToOctree(obj) {
+    this.octree.add(obj, { useFaces: false });
+  }
+
   setup3D() {
     const width = this.width;
     const height = this.height;
@@ -204,7 +208,7 @@ class App {
   addRandomContainer() {
     const object = this.clickedObject;
     if (object instanceof Container) {
-      object.addContainer( { id: 'id', pid: '1' } );
+      object.addContainer( { id: 'id', pid: Math.random() } );
     }
   }
 
@@ -302,7 +306,6 @@ class App {
         _.forEach(this.hosts, host => {
           this.hideHost(host);
         });
-        this.octree.update();
       }
 
     } else {
@@ -317,21 +320,20 @@ class App {
         _.forEach(this.hosts, host => {
           this.showHost(host);
         });
-        this.octree.update();
       }
     }
   }
 
   showHost(host) {
-    host.hideChildren();
-    this.octree.add(host.collisionBox, { useFaces: false });
+    host.hide();
     this.scene.add(host.content2D);
+    this.scene.add(host.cube);
   }
 
   hideHost(host) {
-    host.showChildren();
-    this.octree.remove(host.collisionBox);
+    host.show();
     this.scene.remove(host.content2D);
+    this.scene.remove(host.cube);
   }
 
   calculateDeltaTime() {
@@ -347,24 +349,43 @@ class App {
   }
 
   findObjectInOctree(raycaster) {
+    var toBeTested = [];
+    this.scene.traverse (function (object)
+    {
+      if(object.collisionEnabled === true) {
+        toBeTested.push(object);
+      }
+    });
+
+    var i = raycaster.intersectObjects(toBeTested);
+    if (i.length > 0) {
+      return i[0].object;
+    }
+    return;
+
+
+
+
+    this.octree.update();
+
     raycaster.far = Math.min(200, raycaster.far); //[0, 200]
 
     //search all candidates where ray cutting quadrants of the octree
-    const octreeObjects = this.octree.search(
+    const octree2Objects = this.octree.search(
       raycaster.ray.origin,
       raycaster.ray.far,
       true, //true -> organized by objects
       raycaster.ray.direction);
 
-    const intersections = raycaster.intersectOctreeObjects(octreeObjects);
+    const intersections = raycaster.intersectOctreeObjects(octree2Objects);
     if (intersections.length > 0) {
       for (let i = 0; i < intersections.length; i++) {
         const intersect = intersections[i].object;
-        if(intersect.enabled) {
+        //return nearest enabled hit
+        if(intersect.collisionEnabled) {
           return intersect;
         }
       }
-      //return intersections[0].object; //first hit
     }
     return undefined;
   }

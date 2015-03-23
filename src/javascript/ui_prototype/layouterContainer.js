@@ -68,6 +68,13 @@ class LayouterContainer{
     }
   }
 
+  toString() {
+    let str = '';
+    for (let i = 0; i < this.grid.length; i++) {
+      str += this.grid[i].join(' - ') + '\n';
+    }
+    return str;
+  }
 }
 
 export default LayouterContainer;

@@ -6,6 +6,7 @@ import sceneObject from './sceneObject';
 import * as materials from '../materials';
 import * as math from '../math';
 
+import textS from './test.glsl';
 
 class Ground extends sceneObject {
 	constructor(app) {
@@ -25,6 +26,8 @@ class Ground extends sceneObject {
 
 		this.ground = plane;
 		this.app.scene.add(plane);
+
+		console.log(textS)
 	}
 
 	dispose() {

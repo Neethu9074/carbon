@@ -98,9 +98,11 @@ class MouseControl {
     const millisSinceMouseDown = timeOnMouseUp - this.timeOnMouseDown;
     if (millisSinceMouseDown < 250) {
       if (this.hittenObject !== undefined) {
+
         //clicked on object!
-        this.camTransformObject.position.x = this.hittenObject.position.x;
-        this.camTransformObject.position.z = this.hittenObject.position.z;
+        const targetPosition = this.hittenObject.getWorldPos();
+        this.camTransformObject.position.x = targetPosition.x;
+        this.camTransformObject.position.z = targetPosition.z;
       }
 
       this.appReference.clickedOnObject(this.hittenObject);

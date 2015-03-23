@@ -11,9 +11,13 @@ import * as colors from '../colors';
 
 import hostImagePath from '../../../images/icon_host.png';
 import systemImagePath from '../../../images/icon_system.png';
-
+import {
+  createLogger
+}
+from '../../log';
 import _ from 'lodash';
 
+const logger = createLogger('containerCube.js');
 
 const all3DMeshes = [];
 let globalMesh = new THREE.Mesh(
@@ -35,8 +39,7 @@ class HostDataProvider extends DataProvider {
 
 	get3DContent() {
 		const geo = geometries.cubeGeometry;
-		const mat = materials.cubeHostMaterial;
-		const cube = new THREE.Mesh(geo, mat);
+		const cube = new THREE.Mesh(geo);
 
 		cube.scale.copy(this.cube.dimension);
 		cube.position.copy(this.cube.position);
@@ -45,7 +48,32 @@ class HostDataProvider extends DataProvider {
 		this.rebuildGlobalMesh();
 
     this.content3D = cube;
-		return new THREE.Mesh();
+
+		const coll = this.getCollisionObject();
+    coll.parentSceneObject = this.cube;
+
+    //set enabled to true, if you want to click on this object
+    coll.collisionEnabled = true;
+    this.cube.app.addToOctree(coll);
+
+		const invisibleObj = new THREE.Mesh();
+		invisibleObj.add(coll);
+		invisibleObj.position.copy(this.cube.position);
+
+		return invisibleObj;
+	}
+
+	getCollisionObject() {
+	  const cube = new THREE.Mesh(
+      geometries.cubeGeometry,
+      materials.collisonHighlightMaterial);
+
+    cube.scale.copy(this.cube.dimension);
+    cube.scale.multiplyScalar(1.01); //make 1% bigger
+
+		cube.visible = false;
+
+		return cube;
 	}
 
 	rebuildGlobalMesh() {
@@ -66,8 +94,8 @@ class HostDataProvider extends DataProvider {
       geometries.globalHostGeometry = geo;
 			container.add(globalMesh);
 
-		} catch (er) {
-			console.log(er);
+		} catch (err) {
+			logger.error(err);
 		}
 	}
 

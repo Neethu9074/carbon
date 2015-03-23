@@ -32,49 +32,34 @@ class ContainerCube extends SceneObject {
     this.dataProvider = dataProvider;
     this.layouter = new Layouter(1, 10);
 
+    this.setup3DContent();
+    this.setup2DContent();
+
     //this is a container object for alle the children elements as
     //3D meshed (+ collision) and 2D CSS3D stuff
     //the idea is to insert all the stuff into this container
     // and when this container is hidden you only have to disable this container
     // (or add/remove from scene)
+    this.children = [];
     this.childrenContainer = new THREE.Object3D();
-    this.container = [];
-    this.stackedContainer = [];
-    app.scene.add(this.childrenContainer);
 
-    this.setup3DContent();
-    this.setupCollisionBox();
-    this.setup2DContent();
+    this.stacked = [];
+    this.stackedContainer = new THREE.Object3D();
+
+    app.scene.add(this.childrenContainer);
+    this.cube.add(this.stackedContainer);
 
     if(app.showHostDetails) {
-      this.showChildren();
+      this.show();
     } else {
-      this.hideChildren();
+      this.hide();
     }
-    app.octree.update();
   }
 
   setup3DContent() {
     const cube = this.dataProvider.get3DContent();
     this.setStatic(cube);
     this.cube = cube;
-  }
-
-  setupCollisionBox() {
-    const cube = new THREE.Mesh(
-      geometries.cubeGeometry,
-      materials.collisonHighlightMaterial);
-
-    cube.scale.copy(this.dimension);
-    cube.scale.multiplyScalar(1.01); //make 1% bigger
-    cube.position.copy(this.position);
-    this.setStatic(cube);
-
-    //set enabled to true, if you want to click on this object
-    cube.enabled = true;
-
-    cube.parentSceneObject = this;
-    this.collisionBox = cube;
   }
 
   setup2DContent() {
@@ -85,8 +70,13 @@ class ContainerCube extends SceneObject {
   }
 
   addContainer(metaData) {
-    const parentDim = this.dimension;
+    //if this container contains a container with the same PID stack them
+    const match = _.find(this.children, child => child.dataProvider.pid === metaData.pid);
+    if(match !== undefined) {
+      return match.stackContainer(metaData);
+    }
 
+    const parentDim = this.dimension;
     try {
       const pos2D = this.layouter.getNext();
       this.layouter.setBlocked(pos2D, metaData.pid);
@@ -99,16 +89,8 @@ class ContainerCube extends SceneObject {
         this.position.z + parentDim.z / 2 - cubeSize / 2 - pos2D.y *
         cubeSize);
       const dim = new THREE.Vector3(cubeSize, 1, cubeSize);
-      const container = new ContainerCube(this.app, pos3D, dim,
-        new ContainerDataProvider(metaData));
 
-      this.container.push(container);
-      container.parentContainer = this;
-
-      this.childrenContainer.add(container.cube);
-      this.childrenContainer.add(container.content2D);
-
-      return container;
+      return this.addContainerToPosWithDim(pos3D, dim, metaData);
 
     } catch (err) {
       if (err === 'no more empty fields') {
@@ -116,10 +98,10 @@ class ContainerCube extends SceneObject {
         this.layouter = new Layouter(this.layouter.width + 1, 10);
 
         //rescale all available container
-        for (let i = 0; i < this.container.length; i++) {
-          const child = this.container[i];
+        for (let i = 0; i < this.children.length; i++) {
+          const child = this.children[i];
           const pos2D = this.layouter.getNext();
-          this.layouter.setBlocked(pos2D, child.ID);
+          this.layouter.setBlocked(pos2D, child.dataProvider.pid);
 
           const cubeSize = (parentDim.x / this.layouter.width);
           const pos3D = new THREE.Vector3(
@@ -139,15 +121,36 @@ class ContainerCube extends SceneObject {
     }
   }
 
-  stackContainer(metaData) {
-    const pos3D = this.position.clone();
-    const dim = this.dimension.clone();
+  addContainerToPosWithDim(pos, dim, metaData) {
+    const container = new ContainerCube(this.app, pos, dim,
+      new ContainerDataProvider(metaData));
 
+    container.parentContainer = this;
+
+    this.children.push(container);
+    this.childrenContainer.add(container.cube);
+    this.childrenContainer.add(container.content2D);
+
+    return container;
+  }
+
+  stackContainer(metaData) {
+    if(this.stacked.length > 0) {
+      return this.stacked[0].stackContainer(metaData);
+    }
+
+    const dim = new THREE.Vector3(1, 1, 1);
+    dim.multiplyScalar(1 + cubeOffset);
+
+    const pos3D = new THREE.Vector3(0, this.dimension.y, 0);
     const container = new ContainerCube(this.app, pos3D, dim,
       new ContainerDataProvider(metaData));
 
-    this.stackedContainer.push(container);
-    container.parentContainer = this.parentContainer;
+    container.parentStacked = this;
+
+    this.stacked.push(container);
+    this.stackedContainer.add(container.cube);
+    this.stackedContainer.add(container.content2D);
 
     return container;
   }
@@ -157,89 +160,139 @@ class ContainerCube extends SceneObject {
     super.setSize(newSize);
     this.cube.scale.copy(this.dimension);
 
-    this.collisionBox.scale.copy(this.dimension);
-    this.collisionBox.scale.multiplyScalar(1.01); //make 1% bigger
-
     this.dataProvider.setSize(this.dimension);
 
-    this.updateObjects();
+    this.cube.updateMatrix();
   }
 
   setPosition(newPos) {
     super.setPosition(newPos);
     this.cube.position.copy(this.position);
-    this.collisionBox.position.copy(this.position);
 
     this.dataProvider.setPosition(this.position);
 
-    this.updateObjects();
-  }
-
-  updateObjects() {
     this.cube.updateMatrix();
-    this.collisionBox.updateMatrix();
-
-    this.app.octree.update();
-  }
-
-  hideChildren() {
-    const app = this.app;
-    app.scene.remove(this.childrenContainer);
-
-    _.forEach(this.container, child => {
-      app.octree.remove(child.collisionBox);
-      app.scene.remove(child.content2D);
-    });
   }
 
   showChildren() {
-    const app = this.app;
-    app.scene.add(this.childrenContainer);
+    for (let i = 0; i < this.children.length; i++) {
+      const child = this.children[i];
+      child.show();
+      this.app.scene.remove(child.content2D);
+      this.childrenContainer.add(child.content2D);
+    }
+  }
 
-    _.forEach(this.container, child => {
-      app.octree.add(child.collisionBox, { useFaces: false });
-      app.scene.add(child.content2D);
+  hideChildren() {
+    for (let i = 0; i < this.children.length; i++) {
+      const child = this.children[i];
+      child.hide();
+      this.app.scene.remove(child.content2D);
+      this.childrenContainer.remove(child.content2D);
+    }
+  }
+
+  showStacked(){
+    _.forEach(this.stacked, child => {
+      child.show();
+      this.app.scene.remove(child.content2D);
+      this.stackedContainer.add(child.content2D);
     });
+  }
+
+  hideStacked(){
+    _.forEach(this.stacked, child => {
+      child.hide();
+      this.app.scene.remove(child.content2D);
+      this.stackedContainer.remove(child.content2D);
+    });
+  }
+
+  show() {
+    this.app.scene.add(this.childrenContainer);
+    this.showStacked();
+    this.showChildren();
+
+    this.app.scene.add(this.content2D);
+  }
+
+  hide() {
+    this.app.scene.remove(this.childrenContainer);
+    this.hideStacked();
+    this.hideChildren();
+
+    this.app.scene.remove(this.content2D);
   }
 
   setHighlight(b) {
     if(b) {
-      this.app.scene.add(this.collisionBox);
+      this.cube.children[0].visible = true;
     } else {
-      this.app.scene.remove(this.collisionBox);
+      this.cube.children[0].visible = false;
     }
   }
 
+  getWorldPos() {
+    if(this.parentStacked !== undefined) {
+      return this.parentStacked.getWorldPos();
+    }
+    return this.position;
+  }
+
   dispose() {
-    logger.debug('dispose this: ', this);
     const app = this.app;
+    const parentCon = this.parentContainer;
+    const parentStacked = this.parentStacked;
+
+    this.disposeChildren();
+    this.disposeStacked();
+
+    logger.debug('dispose : ', this);
     app.scene.remove(this.cube);
     app.scene.remove(this.content2D);
-    app.octree.remove(this.collisionBox);
 
-    //destroy children
-    this.app.scene.remove(this.childrenContainer);
-    this.childrenContainer = null;
-    _.forEach(this.container, child => {
-      child.dispose();
-    });
-    //end destroy children
+    //if this container is a child
+    if(parentCon !== undefined) {
+      parentCon.layouter.setFree(this.dataProvider.pid);
+
+      parentCon.childrenContainer.remove(this.cube);
+      _.remove(parentCon.children, child => child === this);
+    }
+
+    //if this container is stacked on another one
+    if(parentStacked !== undefined) {
+
+      parentStacked.stackedContainer.remove(this.cube);
+      _.remove(parentStacked.stacked, child => child === this);
+    }
 
     super.dispose();
 
-    if(this.parentContainer !== undefined) {
-      this.parentContainer.childrenContainer.remove(this.cube);
-      this.parentContainer.layouter.setFree(this.dataProvider.pid);
-      _.remove(this.parentContainer.container, child => child === this);
-    }
-
     this.dataProvider.dispose();
     this.layouter = null;
+    this.parentContainer = null;
     this.container = null;
     this.dataProvider = null;
     this.cube = null;
-    this.collisionBox = null;
     this.content2D = null;
+  }
+
+  disposeChildren() {
+    const temp = this.children.slice(); //local copy!
+    _.forEach(temp, child => {
+      child.dispose();
+    });
+    this.app.scene.remove(this.childrenContainer);
+    this.childrenContainer = null;
+  }
+
+  disposeStacked() {
+    const temp = this.stacked.slice(); //local copy!
+    _.forEach(temp, stacked => {
+      stacked.dispose();
+    });
+    this.app.scene.remove(this.stackedContainer);
+    this.stackedContainer = null;
   }
 }
 

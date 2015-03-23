@@ -1,6 +1,6 @@
 'use strict';
 
-exports.Fragment = [
+export const fragment = [
   'varying float alpha;',
 
   'void main(){',
@@ -8,7 +8,7 @@ exports.Fragment = [
   '}'
 ].join('\n');
 
-exports.Vertex = [
+export const vertex = [
   'uniform float amplitude;',
   'varying float alpha;',
 
