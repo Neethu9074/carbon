@@ -31,6 +31,7 @@ class MouseControl {
     this.mouse = new THREE.Vector2();
     this.cameraSpeed = 5; //mainCamera fly speed - heuristic
     this.moveSpeed = 0.06; //distance moved per pixel - heuristic
+    this.camInitAngle = app.mainCamera.rotation.x;
 
     this.alreadyRotated = 0;
     this.maxRotate = 20;
@@ -53,8 +54,7 @@ class MouseControl {
     //transformation helper
     //need this to move on the ground
     this.camTransformObject = new THREE.Object3D();
-    this.camTransformObject.rotateOnAxis(
-      new THREE.Vector3(0, 1, 0), app.mainCamera.rotation.y);
+    this.camTransformObject.rotation.y = app.mainCamera.rotation.y;
 
     this.directionHelper = new THREE.Object3D();
     this.directionHelper.rotation.copy(app.mainCamera.rotation);
@@ -174,32 +174,26 @@ class MouseControl {
     this.directionHelper.translateZ(this.zoomLevel);
 
     //calculate the delta between wanted position and current position
-    const delta = new THREE.Vector3(
-      cam.position.x,
-      cam.position.y,
-      cam.position.z);
+    const delta = cam.position.clone();
 
     //get the delta
     delta.sub(this.directionHelper.position);
 
     cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
 
-    return;
+
+
     //leads to artefacts when switching the tabs
-    /*
-		//apply rotation
-		const angleFactor = 1 -
-			(cam.position.y - this.maxZoom) /
-			(this.beginToRotate - this.maxZoom);
+    //apply rotation
+    let angleFactor = 1 -
+      (this.zoomLevel - this.maxZoom) /
+      (this.beginToRotate - this.maxZoom);
 
-		angleFactor = Math.max(Math.min(1, angleFactor), 0); //[0, 1]
+    const targetAngleNorm = Math.max(Math.min(1, angleFactor), 0); //[0, 1]
+    const targetAngle = targetAngleNorm * Math.PI / 180 * 15;
+    const deltaAngle = targetAngle + this.camInitAngle - cam.rotation.x;
 
-		const targetAngle = (angleFactor * this.maxRotate * Math.PI / 180)
-			- this.alreadyRotated;
-		cam.rotateOnAxis(
-			new THREE.Vector3(1, 0, 0), targetAngle * dTime * 5);
-		this.alreadyRotated += targetAngle * dTime * 5;
-		*/
+    cam.rotateOnAxis(new THREE.Vector3(1, 0, 0), deltaAngle * 0.075);
   }
 }
 
