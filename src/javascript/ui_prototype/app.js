@@ -48,6 +48,9 @@ class App {
     this.switchHostDetails = false;
     this.showHostDetails = false;
 
+    //a collection to store all objects that need an update call on update
+    this.updates = [];
+
     //setup 3D stuff
     this.setupOctree();
     this.setup3D();
@@ -288,8 +291,14 @@ class App {
 
   animate() {
     this.calculateDeltaTime();
+    const dt = this.deltaTime;
 
-    this.controller.update(this.deltaTime);
+    this.controller.update(dt);
+
+    _.forEach(this.updates, obj => {
+      obj.update(dt);
+    });
+
 
     const distance = this.controller.zoomLevel;
     if(distance <= this.showHostDetailsDistance) {
@@ -412,6 +421,8 @@ class App {
 
       if(!this.showHostDetails) {
         this.showHost(cube);
+      } else {
+        this.hideHost(cube);
       }
 
       return cube;

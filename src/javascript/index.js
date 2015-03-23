@@ -26,7 +26,7 @@ load(() => { //on finished
   const uiApplication = new app(canvas);
 
   //test setup
-  setup(uiApplication);
+  setup(uiApplication); return;
 
   //live data
   const dataManager = new DataListenerManager(uiApplication, 2000);

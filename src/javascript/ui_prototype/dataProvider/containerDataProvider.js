@@ -9,25 +9,25 @@ import DataProvider from './dataProvider';
 
 
 class HostDataProvider extends DataProvider {
-	constructor(metaData) {
-		super(metaData);
+  constructor(metaData) {
+    super(metaData);
 
-		this.discription = metaData.discription;
-		this.pid = metaData.pid;
-		this.tag = metaData.tag;
-		this.entityID = metaData.entityId;
-		this.host = metaData.host;
-	}
+    this.discription = metaData.discription;
+    this.pid = metaData.pid;
+    this.tag = metaData.tag;
+    this.entityID = metaData.entityId;
+    this.host = metaData.host;
+  }
 
-	get3DContent() {
-		const geo = geometries.cubeGeometry;
-		const mat = materials.cubeContainerMaterial;
-		const cube = new THREE.Mesh(geo, mat);
+  get3DContent() {
+    const geo = geometries.cubeGeometry;
+    const mat = materials.cubeContainerMaterial;
+    const cube = new THREE.Mesh(geo, mat);
 
-		cube.scale.copy(this.cube.dimension);
-		cube.position.copy(this.cube.position);
+    cube.scale.copy(this.cube.dimension);
+    cube.position.copy(this.cube.position);
 
-		const coll = this.getCollisionObject();
+    const coll = this.getCollisionObject();
     coll.parentSceneObject = this.cube;
 
     //set enabled to true, if you want to click on this object
@@ -36,80 +36,119 @@ class HostDataProvider extends DataProvider {
 
     cube.add(coll);
 
-		return cube;
-	}
+    return cube;
+  }
 
-	getCollisionObject() {
-	  const cube = new THREE.Mesh(
+  getCollisionObject() {
+    const cube = new THREE.Mesh(
       geometries.cubeGeometry,
       materials.collisonHighlightMaterial);
 
     //cube.scale.copy(this.dimension);
     cube.scale.set(1.01, 1.01, 1.01); //make 1% bigger
-		cube.visible = false;
+    cube.visible = false;
 
-		return cube;
-	}
+    return cube;
+  }
 
-	get2DContent() {
-		const dim = this.cube.dimension;
-		const pos = this.cube.position;
-		const content = this.getHTML();
-		const div = document.createElement('div');
-		div.className = 'containerCSS3DLayer';
-		div.innerHTML = content;
+  get2DContent() {
+		/*
+		try {
+			  // create canvas
+		    var canvas = document.createElement('canvas');
 
-		const object = new THREE.CSS3DObject(div);
-		object.rotation.x = -90 * math.DegToRad;
+		    // the larger these numbers, the larger the canvas, and
+		    // the smoother your final image can be. If your final
+		    // texture is blurry or pixelated, try increasing these
+		    // numbers, and drawing on the canvas in a larger font.
+		    canvas.width = 512;
+		    canvas.height = 64;
 
-		//1px in css is 1 unit in 3D space
-		object.scale.set(dim.x / 250, dim.x / 250, 1);
-		object.position.copy(pos);
-		object.position.z += dim.z / 2;
-		object.position.y += dim.y;
+		    // draw the score of "50" to the canvas
+		    var context = canvas.getContext('2d');
+		    context.font = "Bold 32px Helvetica";
+		    context.fillStyle = "rgba(255,0,0,0.95)";
+		    context.fillText('0', 0, 300);
 
-		this.content2D = object;
-		return object;
-	}
+		    // use canvas contents as a texture
+		    var texture = new THREE.Texture(canvas)
+		    texture.needsUpdate = true;
 
-	getHTML() {
-		const disc = this.discription;
-		const pid = this.pid;
+		    var material = new THREE.MeshBasicMaterial({
+		      map: texture,
+		      side: THREE.DoubleSide
+		    });
 
-		const html = '<p>' + disc + ' - ' + pid + '</p>';
+		    var geo = new THREE.PlaneGeometry(this.cube.dimension.x, 1, 1, 1);
 
-		return html;
-	}
+		    var mesh = new THREE.Mesh(geo, material);
+		    this.content2D = mesh;
+		    return mesh;
 
-	setSize(newSize) {
-		const object = this.content2D;
-		const dim = newSize;
+		} catch (err) {
+			console.log(err)
+		}
+*/
 
-		//1px in css is 1 unit in 3D space
-		object.scale.set(dim.x / 250, dim.x / 250, 1);
-		object.updateMatrix();
-	}
 
-	setPosition(newPos) {
-		const object = this.content2D;
-		const dim = this.cube.dimension;
+    const dim = this.cube.dimension;
+    const pos = this.cube.position;
+    const content = this.getHTML();
+    const div = document.createElement('div');
+    div.className = 'containerCSS3DLayer';
+    div.innerHTML = content;
 
-		object.position.copy(newPos);
-		object.position.z += dim.z / 2;
-		object.position.y += dim.y;
-		object.updateMatrix();
-	}
+    const object = new THREE.CSS3DObject(div);
+    object.rotation.x = -90 * math.DegToRad;
 
-	getDashboardUrl() {
-		return '/#/dashboard/file/' +
-			btoa(this.host + '___' + this.tag + '___' + this.entityID) + '.json';
-	}
+    //1px in css is 1 unit in 3D space
+    object.scale.set(dim.x / 250, dim.x / 250, 1);
+    object.position.copy(pos);
+    object.position.z += dim.z / 2;
+    object.position.y += dim.y;
 
-	dispose() {
-		super.dispose();
+    this.content2D = object;
+    return object;
+  }
 
-		this.content2D = null;
-	}
+  getHTML() {
+    const disc = this.discription;
+    const pid = this.pid;
+
+    const html = '<p>' + disc + ' - ' + pid + '</p>';
+
+    return html;
+  }
+
+  setSize(newSize) {
+    const object = this.content2D;
+    const dim = newSize;
+
+    //1px in css is 1 unit in 3D space
+    object.scale.set(dim.x / 250, dim.x / 250, 1);
+    object.updateMatrix();
+  }
+
+  setPosition(newPos) {
+    const object = this.content2D;
+    const dim = this.cube.dimension;
+
+    object.position.copy(newPos);
+    object.position.z += dim.z / 2;
+    object.position.y += dim.y;
+    object.updateMatrix();
+  }
+
+  getDashboardUrl() {
+    return '/#/dashboard/file/' +
+      btoa(this.host + '___' + this.tag + '___' + this.entityID) + '.json';
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.content2D = null;
+  }
 }
 
 export default HostDataProvider;
