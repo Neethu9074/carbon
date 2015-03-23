@@ -160,16 +160,12 @@ class ContainerCube extends SceneObject {
     super.setSize(newSize);
     this.cube.scale.copy(this.dimension);
 
-    this.dataProvider.setSize(this.dimension);
-
     this.cube.updateMatrix();
   }
 
   setPosition(newPos) {
     super.setPosition(newPos);
     this.cube.position.copy(this.position);
-
-    this.dataProvider.setPosition(this.position);
 
     this.cube.updateMatrix();
   }

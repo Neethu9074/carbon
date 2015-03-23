@@ -4,8 +4,12 @@ import THREE from 'three.js';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as math from '../math';
+import * as colors from '../colors';
 
 import DataProvider from './dataProvider';
+
+const labelWidth = 512;
+const labelHeight = 64;
 
 
 class HostDataProvider extends DataProvider {
@@ -36,6 +40,9 @@ class HostDataProvider extends DataProvider {
 
     cube.add(coll);
 
+    const content2D = this.getLabel();
+    cube.add(content2D);
+
     return cube;
   }
 
@@ -45,54 +52,67 @@ class HostDataProvider extends DataProvider {
       materials.collisonHighlightMaterial);
 
     //cube.scale.copy(this.dimension);
-    cube.scale.set(1.01, 1.01, 1.01); //make 1% bigger
+    cube.scale.set(1.05, 1.05, 1.05); //make 10% bigger
     cube.visible = false;
 
     return cube;
   }
 
-  get2DContent() {
-		/*
-		try {
-			  // create canvas
-		    var canvas = document.createElement('canvas');
-
-		    // the larger these numbers, the larger the canvas, and
-		    // the smoother your final image can be. If your final
-		    // texture is blurry or pixelated, try increasing these
-		    // numbers, and drawing on the canvas in a larger font.
-		    canvas.width = 512;
-		    canvas.height = 64;
-
-		    // draw the score of "50" to the canvas
-		    var context = canvas.getContext('2d');
-		    context.font = "Bold 32px Helvetica";
-		    context.fillStyle = "rgba(255,0,0,0.95)";
-		    context.fillText('0', 0, 300);
-
-		    // use canvas contents as a texture
-		    var texture = new THREE.Texture(canvas)
-		    texture.needsUpdate = true;
-
-		    var material = new THREE.MeshBasicMaterial({
-		      map: texture,
-		      side: THREE.DoubleSide
-		    });
-
-		    var geo = new THREE.PlaneGeometry(this.cube.dimension.x, 1, 1, 1);
-
-		    var mesh = new THREE.Mesh(geo, material);
-		    this.content2D = mesh;
-		    return mesh;
-
-		} catch (err) {
-			console.log(err)
-		}
-*/
-
-
+  getLabel() {
     const dim = this.cube.dimension;
     const pos = this.cube.position;
+    const aspect = labelWidth / labelHeight;
+
+    const disc = this.discription;
+    const pid = this.pid;
+
+    const content = disc + ' - ' + pid;
+
+    // create canvas
+    var canvas = document.createElement('canvas');
+
+    // the larger these numbers, the larger the canvas, and
+    // the smoother your final image can be. If your final
+    // texture is blurry or pixelated, try increasing these
+    // numbers, and drawing on the canvas in a larger font.
+    canvas.width = labelWidth;
+    canvas.height = labelHeight;
+    var context = canvas.getContext('2d');
+
+    context.fillStyle = 'rgba(255, 255, 255, 1)';
+    context.font = '40px Arial';
+    context.fillText(content, 0, labelHeight / 2);
+
+    // use canvas contents as a texture
+    var texture = new THREE.Texture(canvas);
+
+    //set the minFilter, because the texture could not be power of 2
+    texture.minFilter = THREE.LinearFilter;
+    texture.needsUpdate = true;
+
+    var material = new THREE.MeshBasicMaterial({
+      map: texture,
+      color: colors.lightBlue,
+      side: THREE.DoubleSide,
+    });
+
+    var geo = geometries.containerLabelGeometry;
+    var mesh = new THREE.Mesh(geo, material);
+
+    mesh.position.x = -0.5;
+    mesh.position.z = 0.51;
+
+    mesh.matrixAutoUpdate = false;
+    mesh.updateMatrix();
+
+    this.content2D = mesh;
+    return mesh;
+  }
+
+  get2DContent() {
+    return new THREE.Object3D();
+
+    /*
     const content = this.getHTML();
     const div = document.createElement('div');
     div.className = 'containerCSS3DLayer';
@@ -109,6 +129,7 @@ class HostDataProvider extends DataProvider {
 
     this.content2D = object;
     return object;
+		*/
   }
 
   getHTML() {
@@ -120,25 +141,6 @@ class HostDataProvider extends DataProvider {
     return html;
   }
 
-  setSize(newSize) {
-    const object = this.content2D;
-    const dim = newSize;
-
-    //1px in css is 1 unit in 3D space
-    object.scale.set(dim.x / 250, dim.x / 250, 1);
-    object.updateMatrix();
-  }
-
-  setPosition(newPos) {
-    const object = this.content2D;
-    const dim = this.cube.dimension;
-
-    object.position.copy(newPos);
-    object.position.z += dim.z / 2;
-    object.position.y += dim.y;
-    object.updateMatrix();
-  }
-
   getDashboardUrl() {
     return '/#/dashboard/file/' +
       btoa(this.host + '___' + this.tag + '___' + this.entityID) + '.json';
@@ -147,6 +149,9 @@ class HostDataProvider extends DataProvider {
   dispose() {
     super.dispose();
 
+    this.content2D.material.map.dispose();
+    this.content2D.material.dispose();
+    this.content2D.geometry.dispose();
     this.content2D = null;
   }
 }

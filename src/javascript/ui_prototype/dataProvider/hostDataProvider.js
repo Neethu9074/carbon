@@ -69,7 +69,7 @@ class HostDataProvider extends DataProvider {
       materials.collisonHighlightMaterial);
 
     cube.scale.copy(this.cube.dimension);
-    cube.scale.multiplyScalar(1.01); //make 1% bigger
+    cube.scale.multiplyScalar(1.1); //make 1% bigger
 
 		cube.visible = false;
 
@@ -113,8 +113,8 @@ class HostDataProvider extends DataProvider {
 		//1px in css is 1 unit in 3D space
 		object.scale.set(dim.x / 600, dim.x / 600, 1);
 		object.position.copy(pos);
-		object.position.x += 2;
-		object.position.z += 1;
+		object.position.x += 1;
+		object.position.z += 0;
 		object.position.y += dim.y;
 
 		return object;
