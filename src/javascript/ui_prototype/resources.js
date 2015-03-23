@@ -7,7 +7,6 @@ import * as obj from './obj'
 import warningObjectPath from '../../obj/warning.obj';
 import errorObjectPath from '../../obj/error.obj';
 import cubeObjectPath from '../../obj/cube.obj';
-import cubeBoundageObjectPath from '../../obj/cubeBoundage.obj';
 
 export function load (onFinished) {
   loadModel('bundle/' + warningObjectPath, obj.setStateWarningSymbol,
@@ -16,10 +15,7 @@ export function load (onFinished) {
         function() {
           loadModel('bundle/' + cubeObjectPath, obj.setCube,
             function() {
-              loadModel('bundle/' + cubeBoundageObjectPath, obj.setCubeBoundage,
-                function() {
-                  onFinished();
-                });
+              onFinished();
             });
         });
     });
