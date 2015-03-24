@@ -25,7 +25,9 @@ export const containerLabelGeometry = ( () => {
     vertex.x += 0.5;
   });
 
-  return new THREE.BufferGeometry().fromGeometry(plane);
+  const bufferGeo = new THREE.BufferGeometry().fromGeometry(plane);
+  plane.dispose();
+  return bufferGeo;
 })();
 
 export let globalHostGeometry = new THREE.Geometry();

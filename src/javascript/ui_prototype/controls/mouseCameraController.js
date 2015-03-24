@@ -34,7 +34,6 @@ class MouseControl {
     this.mouse = new THREE.Vector2();
     this.cameraSpeed = 5; //mainCamera fly speed - heuristic
     this.moveSpeed = 0.06; //distance moved per pixel - heuristic
-    this.camInitAngle = app.mainCamera.rotation.x;
 
     //zoom fields
     this.zoomLevel = 100;
@@ -52,16 +51,18 @@ class MouseControl {
 
     const pitch = -25;
     const yaw = -55;
-    //transformation helper
-    //need this to move on the ground
+    //transformation helper. need this to move on the ground
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.rotation.y = pitch * math.DegToRad;
     app.scene.add(this.camTransformObject);
 
+    this.camTransformTranslatedObject = new THREE.Object3D();
+    this.camTransformObject.add(this.camTransformTranslatedObject);
+
     this.directionHelper = new THREE.Object3D();
     this.directionHelper.position.copy(this.camTransformObject.position);
     this.directionHelper.rotation.x = yaw * math.DegToRad;
-    this.camTransformObject.add(this.directionHelper);
+    this.camTransformTranslatedObject.add(this.directionHelper);
 
     this.targetCamPosition = new THREE.Object3D();
     this.targetCamPosition.translateZ(30);
@@ -78,6 +79,7 @@ class MouseControl {
     //this.camTransformObject.add( new THREE.AxisHelper( 3 ) );
     //this.directionHelper.add( new THREE.AxisHelper( 6 ) );
     //this.targetCamPosition.add( new THREE.AxisHelper( 3 ) );
+    //this.camTransformTranslatedObject.add( new THREE.AxisHelper( 4 ) );
   }
 
   onMouseWheel(e) {
@@ -180,10 +182,20 @@ class MouseControl {
       this.doRayPicking();
     }
 
+    //apply flatten effect
+    let angleFactor = 1 -
+      (this.zoomLevel - this.maxZoomIn) /
+      (this.beginToRotate - this.maxZoomIn);
+
+    const targetAngleNorm = Math.max(Math.min(1, angleFactor), 0); //[0, 1]
     const cam = this.appReference.mainCamera;
 
     this.targetCamPosition.position.set(0, 0, 0);
     this.targetCamPosition.translateZ(this.zoomLevel);
+
+    this.camTransformTranslatedObject.position.set(0, 0, 0);
+    this.camTransformTranslatedObject.translateZ(targetAngleNorm * 5);
+
 
     //.updateMatrixWorld(); is called via update loop
     const targetWorldPos = new THREE.Vector3();
@@ -204,13 +216,6 @@ class MouseControl {
     this.lookAt.position
       .add(deltaLookAt.multiplyScalar(dTime * this.cameraSpeed));
 
-
-    //apply flatten effect
-    let angleFactor = 1 -
-      (this.zoomLevel - this.maxZoomIn) /
-      (this.beginToRotate - this.maxZoomIn);
-
-    const targetAngleNorm = Math.max(Math.min(1, angleFactor), 0); //[0, 1]
     this.lookAt.position.y = targetAngleNorm * 3;
 
     //apply rotation
