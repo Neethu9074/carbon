@@ -70,16 +70,17 @@ class MouseControl {
 
     this.lookAt = new THREE.Object3D();
 
+    if (__DEV__) {
+      this.camTransformObject.add( new THREE.AxisHelper( 3 ) );
+      this.directionHelper.add( new THREE.AxisHelper( 3 ) );
+      this.targetCamPosition.add( new THREE.AxisHelper( 3 ) );
+      this.camTransformTranslatedObject.add( new THREE.AxisHelper( 3 ) );
+    }
 
     //color, intensity, range
     const light = new THREE.PointLight(0x666666, 5.5, 150);
     light.position.set(0, 10, 0);
     this.camTransformObject.add(light);
-
-    //this.camTransformObject.add( new THREE.AxisHelper( 3 ) );
-    //this.directionHelper.add( new THREE.AxisHelper( 6 ) );
-    //this.targetCamPosition.add( new THREE.AxisHelper( 3 ) );
-    //this.camTransformTranslatedObject.add( new THREE.AxisHelper( 4 ) );
   }
 
   onMouseWheel(e) {
@@ -194,7 +195,7 @@ class MouseControl {
     this.targetCamPosition.translateZ(this.zoomLevel);
 
     this.camTransformTranslatedObject.position.set(0, 0, 0);
-    this.camTransformTranslatedObject.translateZ(targetAngleNorm * 5);
+    this.camTransformTranslatedObject.translateZ(targetAngleNorm * 15);
 
 
     //.updateMatrixWorld(); is called via update loop
@@ -216,7 +217,7 @@ class MouseControl {
     this.lookAt.position
       .add(deltaLookAt.multiplyScalar(dTime * this.cameraSpeed));
 
-    this.lookAt.position.y = targetAngleNorm * 3;
+    this.lookAt.position.y = targetAngleNorm * 1;
 
     //apply rotation
     cam.lookAt(this.lookAt.position);
