@@ -2,6 +2,9 @@
 
 import THREE from 'three.js';
 
+import * as math from '../math';
+
+
 class MouseControl {
   constructor(app) {
     this.bindListeners();
@@ -33,38 +36,48 @@ class MouseControl {
     this.moveSpeed = 0.06; //distance moved per pixel - heuristic
     this.camInitAngle = app.mainCamera.rotation.x;
 
-    this.alreadyRotated = 0;
-    this.maxRotate = 20;
-
     //zoom fields
-    this.minZoom = 1000;
     this.zoomLevel = 100;
     this.beginToRotate = 40;
-    this.maxZoom = 10;
+    this.maxZoomOut = 500;
+    this.maxZoomIn = 10;
 
     //raytracing fields
     this.raycaster = new THREE.Raycaster();
     this.counterForRayCasting = 0;
     this.mouseForRay = new THREE.Vector2();
     this.hittenObject = undefined;
-    this.hittenOnMouseDown = undefined;
     this.timeOnMouseDown = Date.now();
 
 
+    const pitch = -25;
+    const yaw = -55;
     //transformation helper
     //need this to move on the ground
     this.camTransformObject = new THREE.Object3D();
-    this.camTransformObject.rotation.y = app.mainCamera.rotation.y;
+    this.camTransformObject.rotation.y = pitch * math.DegToRad;
+    app.scene.add(this.camTransformObject);
 
     this.directionHelper = new THREE.Object3D();
-    this.directionHelper.rotation.copy(app.mainCamera.rotation);
+    this.directionHelper.position.copy(this.camTransformObject.position);
+    this.directionHelper.rotation.x = yaw * math.DegToRad;
+    this.camTransformObject.add(this.directionHelper);
 
-    app.scene.add(this.camTransformObject);
+    this.targetCamPosition = new THREE.Object3D();
+    this.targetCamPosition.translateZ(30);
+    this.directionHelper.add(this.targetCamPosition);
+
+    this.lookAt = new THREE.Object3D();
+
 
     //color, intensity, range
     const light = new THREE.PointLight(0x666666, 5.5, 150);
     light.position.set(0, 10, 0);
     this.camTransformObject.add(light);
+
+    //this.camTransformObject.add( new THREE.AxisHelper( 3 ) );
+    //this.directionHelper.add( new THREE.AxisHelper( 6 ) );
+    //this.targetCamPosition.add( new THREE.AxisHelper( 3 ) );
   }
 
   onMouseWheel(e) {
@@ -74,8 +87,8 @@ class MouseControl {
     const delta = e.wheelDelta / 150;
 
     this.zoomLevel -= delta;
-    const min = this.minZoom,
-      max = this.maxZoom;
+    const min = this.maxZoomOut,
+      max = this.maxZoomIn;
     //[min, max]
     this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
   }
@@ -87,7 +100,6 @@ class MouseControl {
       this.mouse.y = e.clientY;
 
       //set the hitten object at the time, the mouse was pressed
-      this.hittenOnMouseDown = this.hittenObject;
       this.timeOnMouseDown = Date.now();
     }
   }
@@ -170,30 +182,39 @@ class MouseControl {
 
     const cam = this.appReference.mainCamera;
 
-    this.directionHelper.position.copy(this.camTransformObject.position);
-    this.directionHelper.translateZ(this.zoomLevel);
+    this.targetCamPosition.position.set(0, 0, 0);
+    this.targetCamPosition.translateZ(this.zoomLevel);
+
+    //.updateMatrixWorld(); is called via update loop
+    const targetWorldPos = new THREE.Vector3();
+    targetWorldPos.applyMatrix4(this.targetCamPosition.matrixWorld);
 
     //calculate the delta between wanted position and current position
     const delta = cam.position.clone();
+    delta.sub(targetWorldPos);
 
-    //get the delta
-    delta.sub(this.directionHelper.position);
-
+    //apply position
     cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
 
 
+    //calculate rotation (lookAt position)
+    const deltaLookAt = this.camTransformObject.position.clone();
+    deltaLookAt.sub(this.lookAt.position);
 
-    //leads to artefacts when switching the tabs
-    //apply rotation
+    this.lookAt.position
+      .add(deltaLookAt.multiplyScalar(dTime * this.cameraSpeed));
+
+
+    //apply flatten effect
     let angleFactor = 1 -
-      (this.zoomLevel - this.maxZoom) /
-      (this.beginToRotate - this.maxZoom);
+      (this.zoomLevel - this.maxZoomIn) /
+      (this.beginToRotate - this.maxZoomIn);
 
     const targetAngleNorm = Math.max(Math.min(1, angleFactor), 0); //[0, 1]
-    const targetAngle = targetAngleNorm * Math.PI / 180 * 15;
-    const deltaAngle = targetAngle + this.camInitAngle - cam.rotation.x;
+    this.lookAt.position.y = targetAngleNorm * 3;
 
-    cam.rotateOnAxis(new THREE.Vector3(1, 0, 0), deltaAngle * 0.075);
+    //apply rotation
+    cam.lookAt(this.lookAt.position);
   }
 }
 

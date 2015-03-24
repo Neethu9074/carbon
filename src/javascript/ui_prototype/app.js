@@ -106,9 +106,7 @@ class App {
     this.scene = new THREE.Scene();
 
     //set the farplane as near as possible
-    this.mainCamera = new THREE.PerspectiveCamera(30, width / height, 0.1, 500);
-    this.mainCamera.position.set(-1.5, 5, 3);
-    this.mainCamera.lookAt(new THREE.Vector3(0, 0, 0));
+    this.mainCamera = new THREE.PerspectiveCamera(30, width / height, 0.5, 500);
 
     // add subtle ambient lighting
     const ambientLight = new THREE.AmbientLight(colors.ambientColor);
