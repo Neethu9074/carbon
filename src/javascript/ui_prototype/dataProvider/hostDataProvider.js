@@ -5,6 +5,7 @@ import THREE from 'three.js';
 import DataProvider from './dataProvider';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
+import * as obj from '../obj';
 import * as textures from '../textures';
 import * as math from '../math';
 import * as colors from '../colors';
@@ -65,7 +66,7 @@ class HostDataProvider extends DataProvider {
 
 	getCollisionObject() {
 	  const cube = new THREE.Mesh(
-      geometries.cubeGeometry,
+      obj.collisionObjectCube.geometry,
       materials.collisonHighlightMaterial);
 
     cube.scale.copy(this.cube.dimension);
@@ -84,14 +85,20 @@ class HostDataProvider extends DataProvider {
 
 			container.remove(globalMesh);
 
+      if(all3DMeshes.length === 0) {
+        return;
+      }
+
 			_.forEach(all3DMeshes, mesh => {
         mesh.updateMatrix();
-				//const temp = new THREE.BufferGeometry().fromGeometry(mesh.geometry);
 				geo.merge(mesh.geometry, mesh.matrix);
 			});
 
-			globalMesh = new THREE.Mesh(geo, materials.cubeHostMaterial);
-      geometries.globalHostGeometry = geo;
+      const finalGeo = new THREE.BufferGeometry().fromGeometry(geo);
+      geo.dispose();
+
+			globalMesh = new THREE.Mesh(finalGeo, materials.cubeHostMaterial);
+      geometries.globalHostGeometry = finalGeo;
 			container.add(globalMesh);
 
 		} catch (err) {

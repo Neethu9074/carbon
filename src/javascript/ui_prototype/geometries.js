@@ -2,6 +2,8 @@
 
 import THREE from 'three.js';
 
+import * as obj from './obj';
+
 import _ from 'lodash';
 
 
@@ -30,5 +32,5 @@ export const containerLabelGeometry = ( () => {
   return bufferGeo;
 })();
 
-export let globalHostGeometry = new THREE.Geometry();
+export let globalHostGeometry = new THREE.BufferGeometry();
 export const globalHostContainer = new THREE.Object3D();

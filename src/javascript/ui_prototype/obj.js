@@ -1,21 +1,26 @@
 'use strict';
 
-export const stateWarningSymbol = undefined;
+export let stateWarningSymbol;
 export function setStateWarningSymbol(object) {
-	exports.stateWarningSymbol = object;
+	stateWarningSymbol = object;
 }
 
-export const stateErrorSymbol = undefined;
+export let stateErrorSymbol;
 export function setStateErrorSymbol(object) {
-	exports.stateErrorSymbol = object;
+	stateErrorSymbol = object;
 }
 
-export const cube = undefined;
+export let cube;
 export function setCube(object) {
-	exports.cube = object;
+	cube = object;
 }
 
-export const cubeBoundage = undefined;
+export let cubeBoundage;
 export function setCubeBoundage(object) {
-	exports.cubeBoundage = object;
+	cubeBoundage = object;
+}
+
+export let collisionObjectCube;
+export function setCollisionObjectCube(object) {
+	collisionObjectCube = object;
 }

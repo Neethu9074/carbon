@@ -26,9 +26,9 @@ load(() => { //on finished
   const uiApplication = new app(canvas);
 
   //test setup
-  setup(uiApplication); ;
+  setup(uiApplication); //logger.info('Finished initialization'); return;
 
-  //live data
+  //live data each 2000 ms
   const dataManager = new DataListenerManager(uiApplication, 2000);
 
   logger.info('Finished initialization');

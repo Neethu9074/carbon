@@ -10,7 +10,7 @@ import * as colors from './colors';
 import * as materials from './materials';
 import * as geometries from './geometries';
 import Ground from './sceneObjects/ground';
-import Container from './sceneObjects/containerCube';
+import Container from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
 
 import MouseControls from './controls/mouseCameraController';
@@ -183,7 +183,6 @@ class App {
     doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
     doc.getElementById('destroyCubeButton').onclick = this.removeCube;
     doc.getElementById('showWalkableButton').onclick = this.showWalkable;
-    doc.getElementById('stackContainerButton').onclick = this.stackContainer;
     doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
   }
 
@@ -208,32 +207,21 @@ class App {
 
   addRandomContainer() {
     const object = this.clickedObject;
-    if (object instanceof Container) {
-      object.addContainer( { id: 'id', pid: Math.random() } );
-    }
+    object.addContainer( { id: 'id', pid: Math.random() } );
   }
 
   removeCube() {
     const object = this.clickedObject;
-    if (object instanceof Container) {
-      if(object.dataProvider instanceof HostDataProvider) {
-        _.remove(this.objects3D, obj => obj === object);
-        _.remove(this.hosts, obj => obj === object);
-        this.layouter.setFree(object.ID);
-      }
-      object.dispose();
+    if(object.dataProvider instanceof HostDataProvider) {
+      _.remove(this.objects3D, obj => obj === object);
+      _.remove(this.hosts, obj => obj === object);
+      this.layouter.setFree(object.ID);
     }
+    object.dispose();
   }
 
   showWalkable() {
     logger.error('NOT IMPLEMENTED YET');
-  }
-
-  stackContainer() {
-    const object = this.clickedObject;
-    if (object instanceof Container) {
-      object.stackContainer( { id: 'id', pid: '1' } );
-    }
   }
 
   showInGrafana() {
@@ -253,7 +241,6 @@ class App {
     this.addRandomContainer = this.addRandomContainer.bind(this);
     this.removeCube = this.removeCube.bind(this);
     this.showWalkable = this.showWalkable.bind(this);
-    this.stackContainer = this.stackContainer.bind(this);
     this.showInGrafana = this.showInGrafana.bind(this);
     this.animate = this.animate.bind(this);
   }

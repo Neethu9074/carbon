@@ -5,6 +5,9 @@ import THREE from 'three.js';
 import * as math from '../math';
 
 
+//see: https://github.com/instana/visualization/
+//commit/2a09db973b63cfbfa22b1b94769c0ca5c887628b/
+//src/images/scetches/mouseControl.png
 class MouseControl {
   constructor(app) {
     this.bindListeners();
@@ -36,10 +39,10 @@ class MouseControl {
     this.moveSpeed = 0.06; //distance moved per pixel - heuristic
 
     //zoom fields
-    this.zoomLevel = 100;
-    this.beginToRotate = 40;
     this.maxZoomOut = 500;
     this.maxZoomIn = 10;
+    this.zoomLevel = 100;
+    this.beginToRotate = 40;
 
     //raytracing fields
     this.raycaster = new THREE.Raycaster();
@@ -79,7 +82,7 @@ class MouseControl {
 
     //color, intensity, range
     const light = new THREE.PointLight(0x666666, 5.5, 150);
-    light.position.set(0, 10, 0);
+    light.position.set(0, 12, 0);
     this.camTransformObject.add(light);
   }
 
@@ -115,7 +118,7 @@ class MouseControl {
       if (this.hittenObject !== undefined) {
 
         //clicked on object!
-        const targetPosition = this.hittenObject.getWorldPos();
+        const targetPosition = this.hittenObject.position;
         this.camTransformObject.position.x = targetPosition.x;
         this.camTransformObject.position.z = targetPosition.z;
       }
@@ -195,7 +198,7 @@ class MouseControl {
     this.targetCamPosition.translateZ(this.zoomLevel);
 
     this.camTransformTranslatedObject.position.set(0, 0, 0);
-    this.camTransformTranslatedObject.translateZ(targetAngleNorm * 15);
+    this.camTransformTranslatedObject.translateZ(targetAngleNorm * 5);
 
 
     //.updateMatrixWorld(); is called via update loop
