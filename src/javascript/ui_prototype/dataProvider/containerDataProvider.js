@@ -3,15 +3,16 @@
 import THREE from 'three.js';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
+import * as obj from '../obj';
 import * as math from '../math';
 import * as colors from '../colors';
 
 import DataProvider from './dataProvider';
 
-import * as font from './../../lib/helvetiker_regular.typeface.js';
+import './../../lib/helvetiker_regular.typeface.js';
 
-const labelWidth = 512;
-const labelHeight = 64;
+//const labelWidth = 512;
+//const labelHeight = 64;
 
 
 class HostDataProvider extends DataProvider {
@@ -41,14 +42,13 @@ class HostDataProvider extends DataProvider {
 		this.cube.app.addToOctree(coll);
 
 		cube.add(coll);
-    cube.add(this.getLabel());
 
 		return cube;
 	}
 
 	getCollisionObject() {
 		const cube = new THREE.Mesh(
-			geometries.cubeGeometry,
+			obj.collisionObjectCube.geometry,
 			materials.collisonHighlightMaterial);
 
 		//cube.scale.copy(this.dimension);
@@ -60,35 +60,39 @@ class HostDataProvider extends DataProvider {
 
 	getLabel() {
 		const dim = this.cube.dimension;
+		const pos = this.cube.position;
     const disc = this.discription;
     const pid = this.pid;
     const text = (disc + ' - ' + pid).substring(0, 16);
 
-/*
+
 		let param = {
-			size: 1,
-			curveSegments: 2,
+			size: 0.3,
+			curveSegments: 1,
 			font: 'helvetiker'
 		};
-		let text3d = new THREE.ShapeGeometry(
-      THREE.FontUtils.generateShapes(text, param), param);
+		const shape = THREE.FontUtils.generateShapes(text, param);
+		const text3d = new THREE.ShapeGeometry(shape, param);
+		const geo = new THREE.BufferGeometry().fromGeometry(text3d);
 
-		let textMaterial = new THREE.MeshBasicMaterial();
-		let mesh = new THREE.Mesh(text3d, textMaterial);
+		text3d.dispose();
 
-    mesh.position.x = -0.5;
-    mesh.position.z = 0.51;
-    mesh.position.y = 0.75;
+		const textMaterial = new THREE.MeshBasicMaterial();
+		const mesh = new THREE.Mesh(geo, textMaterial);
 
-    mesh.scale.set(1 / dim.x, 1 / dim.y, 1 / dim.z);
+		mesh.position.copy(pos);
+    mesh.position.x -= dim.x / 2 - (dim.x * 0.01); //left: 10%
+    mesh.position.z += dim.z / 2 - (dim.z * 0.01); //bottom: 10%
+    mesh.position.y += dim.y + 0.1;
+
+		mesh.rotation.x = -90 * math.DegToRad;
 
     this.cube.setStatic(mesh);
 
 		this.content2D = mesh;
 		return mesh;
-    */
 
-
+/*
 
 		const aspect = labelWidth / labelHeight;
 
@@ -131,11 +135,26 @@ class HostDataProvider extends DataProvider {
 
 		this.content2D = mesh;
 		return mesh;
+*/
+	}
+
+	setSize(newSize) {
 
 	}
 
+	setPosition(newPos) {
+		const dim = this.cube.dimension;
+		const mesh = this.content2D;
+
+		mesh.position.copy(newPos);
+    mesh.position.x -= dim.x / 2 - 0.1;
+    mesh.position.z += dim.z / 2 - 0.1;
+    mesh.position.y += dim.y + 0.1;
+		this.content2D.updateMatrix();
+	}
+
 	get2DContent() {
-		return new THREE.Object3D();
+		return this.getLabel();
 		/*
     const content = this.getHTML();
     const div = document.createElement('div');
@@ -175,7 +194,7 @@ class HostDataProvider extends DataProvider {
 	dispose() {
 		super.dispose();
 
-		this.content2D.material.map.dispose();
+		//this.content2D.material.map.dispose();
 		this.content2D.material.dispose();
 		this.content2D.geometry.dispose();
 		this.content2D = null;

@@ -18,11 +18,17 @@ from '../../log';
 import _ from 'lodash';
 
 const logger = createLogger('hostCube.js');
+const hideCSS3DDistance = 100;
 
 
 class HostCube extends BaseCube {
   constructor(app, pos, dim, dataProvider) {
     super(app, pos, dim, dataProvider);
+
+    this.app.updates.push(this);
+
+    this.time = 0; //stores the time since last tick
+    this.tick = 1; //tick in sec
   }
 
   addContainerToPosWithDim(pos, dim, metaData) {
@@ -36,6 +42,48 @@ class HostCube extends BaseCube {
     this.childrenContainer.add(container.content2D);
 
     return container;
+  }
+
+  dispose() {
+    //remove this from apps update list
+    _.remove(this.app.updates, obj => obj === this);
+    this.time = null;
+    this.tick = null;
+
+    super.dispose();
+  }
+
+  update(dt) {
+    this.time += dt;
+    if(this.time < this.tick) {
+      return;
+    }
+
+    //tick
+    this.time = 0;
+
+    const distanceToCam = this.app.controller.lookAt.position.clone()
+      .sub(this.position)
+      .length();
+
+    if(distanceToCam > hideCSS3DDistance) {
+      if(this.hidden){
+        return;
+      }
+
+      //hide css
+      this.app.scene.remove(this.content2D);
+      this.hidden = true;
+
+    }else {
+      if(!this.hidden){
+        return;
+      }
+
+      //show css
+      this.app.scene.add(this.content2D);
+      this.hidden = false;
+    }
   }
 }
 

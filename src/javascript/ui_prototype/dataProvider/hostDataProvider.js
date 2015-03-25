@@ -151,6 +151,14 @@ class HostDataProvider extends DataProvider {
 			'.json';
 	}
 
+	setSize(newSize) {
+
+	}
+
+	setPosition(newPos) {
+		
+	}
+
 	dispose() {
 		super.dispose();
 

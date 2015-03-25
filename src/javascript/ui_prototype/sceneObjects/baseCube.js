@@ -117,22 +117,18 @@ class BaseCube extends SceneObject {
 		newSize.multiplyScalar(1 - cubeOffset);
 		super.setSize(newSize);
 
-		this.cube.scale.copy(this.dimension);
+		this.dataProvider.setSize(this.dimension);
 
+		this.cube.scale.copy(this.dimension);
 		this.cube.updateMatrix();
 	}
 
 	setPosition(newPos) {
 		super.setPosition(newPos);
-		const dim = this.dimension;
+
+		this.dataProvider.setPosition(this.position);
 
 		this.cube.position.copy(this.position);
-		this.content2D.position.copy(this.position);
-		this.content2D.position.x -= dim.x / 2;
-		this.content2D.position.y += dim.y / 2;
-		this.content2D.position.z += dim.z / 2 + 0.2;
-		this.content2D.updateMatrix();
-
 		this.cube.updateMatrix();
 	}
 

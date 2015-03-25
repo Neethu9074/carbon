@@ -6,7 +6,7 @@ import * as textures from './textures';
 
 
 export function setup(app) {
-  var host = app.addRandomHost();
+  let host = app.addRandomHost();
 
   host.addContainer( { id: 'uuid1', pid: '1' } );
   host.addContainer( { id: 'uuid2', pid: '2' } );

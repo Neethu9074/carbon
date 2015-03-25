@@ -36,10 +36,10 @@ class MouseControl {
     this.appReference = app;
     this.mouse = new THREE.Vector2();
     this.cameraSpeed = 5; //mainCamera fly speed - heuristic
-    this.moveSpeed = 0.06; //distance moved per pixel - heuristic
+    this.moveSpeed = 0.1; //distance moved per pixel - heuristic
 
     //zoom fields
-    this.maxZoomOut = 500;
+    this.maxZoomOut = 1000;
     this.maxZoomIn = 10;
     this.zoomLevel = 100;
     this.beginToRotate = 40;
@@ -140,9 +140,9 @@ class MouseControl {
       transObj.translateZ(-dy * this.moveSpeed);
       //clamp the position to avoid overflow of the level area
       transObj.position.x = Math.max(-25, transObj.position.x);
-      transObj.position.x = Math.min(250, transObj.position.x);
+      transObj.position.x = Math.min(1000, transObj.position.x);
       transObj.position.z = Math.min(25, transObj.position.z);
-      transObj.position.z = Math.max(-250, transObj.position.z);
+      transObj.position.z = Math.max(-1000, transObj.position.z);
     }
 
     //don't forget to set the new position :)

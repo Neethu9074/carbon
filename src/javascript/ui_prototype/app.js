@@ -57,7 +57,7 @@ class App {
     this.setup2D();
 
     this.controller = new MouseControls(this);
-    this.layouter = new Layouter(100, 1000); //for 100x100 cubes
+    this.layouter = new Layouter(200, 1000); //for 100x100 cubes
     //a collection to store all hosts
     this.hosts = [];
 
@@ -106,7 +106,7 @@ class App {
     this.scene = new THREE.Scene();
 
     //set the farplane as near as possible
-    this.mainCamera = new THREE.PerspectiveCamera(30, width / height, 0.5, 500);
+    this.mainCamera = new THREE.PerspectiveCamera(30, width / height, 0.5, 1500);
 
     // add subtle ambient lighting
     const ambientLight = new THREE.AmbientLight(colors.ambientColor);
@@ -114,7 +114,6 @@ class App {
 
     //a collection to store all sceneObjects
     this.sceneObjects3D = [];
-
     this.sceneObjects3D.push(new Ground(this));
 
     this.scene.add(geometries.globalHostContainer);
@@ -343,6 +342,8 @@ class App {
   }
 
   findObjectInOctree(raycaster) {
+
+    raycaster.far = Math.min(250, raycaster.far); //[0, 200]
     var toBeTested = [];
     this.scene.traverse (function (object)
     {
@@ -362,7 +363,6 @@ class App {
 
     this.octree.update();
 
-    raycaster.far = Math.min(200, raycaster.far); //[0, 200]
 
     //search all candidates where ray cutting quadrants of the octree
     const octree2Objects = this.octree.search(
@@ -398,19 +398,19 @@ class App {
 
       const pos = new THREE.Vector3(newPos2D.x * 20, 0, -newPos2D.y * 20);
       const dim = new THREE.Vector3(20, 4, 20);
-      const cube = new Container(this, pos, dim, new HostDataProvider(metaData));
+      const host = new Container(this, pos, dim, new HostDataProvider(metaData));
 
-      this.sceneObjects3D.push(cube);
-      this.hosts.push(cube);
-      this.scene.add(cube.cube);
+      this.sceneObjects3D.push(host);
+      this.hosts.push(host);
+      this.scene.add(host.cube);
 
       if(!this.showHostDetails) {
-        this.showHost(cube);
+        this.showHost(host);
       } else {
-        this.hideHost(cube);
+        this.hideHost(host);
       }
 
-      return cube;
+      return host;
 
     } catch (e) {
       logger.error(e);
