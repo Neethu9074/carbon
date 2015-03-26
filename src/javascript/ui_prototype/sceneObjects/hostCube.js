@@ -22,7 +22,9 @@ const hideCSS3DDistance = 100;
 
 
 class HostCube extends BaseCube {
+
   constructor(app, pos, dim, dataProvider) {
+    this.cubeOffset = 0.15; //85%
     super(app, pos, dim, dataProvider);
 
     this.app.updates.push(this);
@@ -62,28 +64,45 @@ class HostCube extends BaseCube {
     //tick
     this.time = 0;
 
-    const distanceToCam = this.app.controller.lookAt.position.clone()
+    const distanceToFocus = this.app.controller.lookAt.position.clone()
       .sub(this.position)
       .length();
 
-    if(distanceToCam > hideCSS3DDistance) {
-      if(this.hidden){
-        return;
-      }
-
-      //hide css
-      this.app.scene.remove(this.content2D);
-      this.hidden = true;
-
-    }else {
-      if(!this.hidden){
-        return;
-      }
-
-      //show css
-      this.app.scene.add(this.content2D);
-      this.hidden = false;
+    if(distanceToFocus > hideCSS3DDistance) {
+      this.hideCSS3DLayer();
+      return;
     }
+
+    const distanceToCam = this.app.mainCamera.position.clone()
+      .sub(this.position)
+      .length() / 2;
+
+    if(distanceToCam > hideCSS3DDistance) {
+      this.hideCSS3DLayer();
+      return;
+    }
+
+    this.showCSS3DLayer();
+  }
+
+  hideCSS3DLayer() {
+    if(this.hidden){
+      return;
+    }
+
+    //hide css
+    this.app.scene.remove(this.content2D);
+    this.hidden = true;
+  }
+
+  showCSS3DLayer() {
+    if(!this.hidden){
+      return;
+    }
+
+    //show css
+    this.app.scene.add(this.content2D);
+    this.hidden = false;
   }
 }
 

@@ -41,7 +41,7 @@ class MouseControl {
     //zoom fields
     this.maxZoomOut = 1000;
     this.maxZoomIn = 10;
-    this.zoomLevel = 100;
+    this.zoomLevel = 150;
     this.beginToRotate = 40;
 
     //raytracing fields
@@ -139,10 +139,10 @@ class MouseControl {
       transObj.translateX(-dx * this.moveSpeed);
       transObj.translateZ(-dy * this.moveSpeed);
       //clamp the position to avoid overflow of the level area
-      transObj.position.x = Math.max(-25, transObj.position.x);
-      transObj.position.x = Math.min(1000, transObj.position.x);
-      transObj.position.z = Math.min(25, transObj.position.z);
-      transObj.position.z = Math.max(-1000, transObj.position.z);
+      transObj.position.x = Math.max(-500, transObj.position.x);
+      transObj.position.x = Math.min(500, transObj.position.x);
+      transObj.position.z = Math.min(500, transObj.position.z);
+      transObj.position.z = Math.max(-500, transObj.position.z);
     }
 
     //don't forget to set the new position :)

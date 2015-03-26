@@ -10,7 +10,7 @@ import * as math from '../math';
 
 class Ground extends SceneObject {
 	constructor(app) {
-		const pos = new THREE.Vector3(490, -0.1, -490);
+		const pos = new THREE.Vector3(10, -0.1, 10);
 		const dim = new THREE.Vector3(1000, 0, 1000);
 
 		//call super constructor
@@ -28,8 +28,8 @@ class Ground extends SceneObject {
 		this.app.scene.add(plane);
 
 		const points = [];
-		for (let x = 0; x < 50; x++) {
-			for (let y = 0; y < 50; y++) {
+		for (let x = -25; x < 25; x++) {
+			for (let y = -25; y < 25; y++) {
 				points.push( new THREE.Vector3(x * 20, 0, y * 20) );
 			}
 		}

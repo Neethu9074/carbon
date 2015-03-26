@@ -17,13 +17,12 @@ from '../../log';
 import _ from 'lodash';
 
 const logger = createLogger('baseCube.js');
-const cubeOffset = 0.1; //90%
 
 
 class BaseCube extends SceneObject {
 	constructor(app, pos, dim, dataProvider) {
 
-		dim.multiplyScalar(1 - cubeOffset);
+		dim.multiplyScalar(1 - this.cubeOffset);
 
 		//call super contructor
 		super(app, dataProvider.ID, pos, dim);
@@ -114,10 +113,8 @@ class BaseCube extends SceneObject {
 	}
 
 	setSize(newSize) {
-		newSize.multiplyScalar(1 - cubeOffset);
+		newSize.multiplyScalar(1 - this.cubeOffset);
 		super.setSize(newSize);
-
-		this.dataProvider.setSize(this.dimension);
 
 		this.cube.scale.copy(this.dimension);
 		this.cube.updateMatrix();
@@ -131,7 +128,6 @@ class BaseCube extends SceneObject {
 		this.cube.position.copy(this.position);
 		this.cube.updateMatrix();
 	}
-
 	showChildren() {
 		for (let i = 0; i < this.children.length; i++) {
 			const child = this.children[i];
@@ -193,6 +189,7 @@ class BaseCube extends SceneObject {
 		super.dispose();
 
 		this.dataProvider.dispose();
+		this.cubeOffset = null;
 		this.layouter = null;
 		this.parentContainer = null;
 		this.container = null;
@@ -200,6 +197,7 @@ class BaseCube extends SceneObject {
 		this.cube = null;
 		this.content2D = null;
 	}
+
 
 	disposeChildren() {
 		const temp = this.children.slice(); //local copy!

@@ -14,7 +14,8 @@ import Container from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
 
 import MouseControls from './controls/mouseCameraController';
-import Layouter from './layouterContainer';
+//import Layouter from './layouterContainer';
+import Layouter from './harmonicSphericalLayouter';
 
 import rStats from '../lib/rStats';
 import glStats from '../lib/rStats.extras';
@@ -45,6 +46,7 @@ class App {
 
     //zoom properties
     this.showHostDetailsDistance = 50;
+    this.hideHostsDistance = 400;
     this.switchHostDetails = false;
     this.showHostDetails = false;
 
@@ -57,7 +59,8 @@ class App {
     this.setup2D();
 
     this.controller = new MouseControls(this);
-    this.layouter = new Layouter(200, 1000); //for 100x100 cubes
+    //this.layouter = new Layouter(200, 1000); //for 100x100 cubes
+    this.layouter = new Layouter(2000);
     //a collection to store all hosts
     this.hosts = [];
 
@@ -106,7 +109,11 @@ class App {
     this.scene = new THREE.Scene();
 
     //set the farplane as near as possible
-    this.mainCamera = new THREE.PerspectiveCamera(30, width / height, 0.5, 1500);
+    this.mainCamera = new THREE.PerspectiveCamera(
+      30, //fov
+      width / height, //aspect
+      0.5, //near
+      1500); //far
 
     // add subtle ambient lighting
     const ambientLight = new THREE.AmbientLight(colors.ambientColor);
@@ -134,9 +141,9 @@ class App {
   }
 
   setupStats() {
-    var glS = new glStats.glStats();
-    var tS = new glStats.threeStats(this.webGLRenderer);
-    var rS = new rStats.rStats({
+    let glS = new glStats.glStats();
+    let tS = new glStats.threeStats(this.webGLRenderer);
+    let rS = new rStats.rStats({
       values: {
         frame: {
           caption: 'Total frame time (ms)',
@@ -279,12 +286,16 @@ class App {
 
     this.controller.update(dt);
 
+    const distance = this.controller.zoomLevel;
+    if(distance >= this.hideHostsDistance) {
+      //console.log('hide hosts', distance);
+      //return;
+    }
+
     _.forEach(this.updates, obj => {
       obj.update(dt);
     });
 
-
-    const distance = this.controller.zoomLevel;
     if(distance <= this.showHostDetailsDistance) {
       this.showHostDetails = true;
 
@@ -394,7 +405,7 @@ class App {
       //get new position if possible
       const newPos2D = this.layouter.getNext();
       //and block it with the uuid
-      this.layouter.setBlocked(newPos2D, metaData.id);
+      //this.layouter.setBlocked(newPos2D, metaData.id);
 
       const pos = new THREE.Vector3(newPos2D.x * 20, 0, -newPos2D.y * 20);
       const dim = new THREE.Vector3(20, 4, 20);
