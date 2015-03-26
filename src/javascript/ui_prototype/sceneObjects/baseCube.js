@@ -3,6 +3,7 @@
 import THREE from 'three.js';
 
 import SceneObject from './sceneObject';
+import OfflineCube from './offlineCube';
 import ContainerDataProvider from '../dataProvider/containerDataProvider';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
@@ -166,6 +167,9 @@ class BaseCube extends SceneObject {
 	setOffline() {
 		logger.debug('set offline');
 
+		let offlineObject = this.getOfflineObject();
+		this.app.scene.add(offlineObject.mesh);
+
 		this.hide();
 		this.online = false;
 	}
@@ -173,14 +177,35 @@ class BaseCube extends SceneObject {
 	setOnline() {
 		logger.debug('set online');
 
+		let offlineObject = this.getOfflineObject();
+		this.app.scene.remove(offlineObject.mesh);
+
 		this.online = true;
 		this.show();
+	}
+
+	getOfflineObject() {
+		if(this.offlineObject !== undefined) {
+			return this.offlineObject;
+		}
+
+		//else create the offlineObject
+		let pos = this.position;
+		let dim = this.dimension;
+		this.offlineObject = new OfflineCube(this.app, pos, dim);
+
+		return this.offlineObject;
 	}
 
 	//is called by app and delegates to extending classes if online
 	update(dt) {
 		if(this.onUpdate !== undefined && this.online) {
-		this.	onUpdate(dt);
+			this.	onUpdate(dt);
+		} else {
+			//if offline -> update the offline cube if available
+			if(this.offlineObject !== undefined) {
+				this.offlineObject.update(dt);
+			}
 		}
 	}
 
@@ -213,6 +238,7 @@ class BaseCube extends SceneObject {
 		super.dispose();
 
 		this.dataProvider.dispose();
+		this.offlineObject = null;
 		this.cubeOffset = null;
 		this.online = null;
 		this.layouter = null;

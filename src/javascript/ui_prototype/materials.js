@@ -3,6 +3,8 @@
 import THREE from 'three.js';
 import * as colors from './colors';
 import * as textures from './textures';
+import ghostVertex from './shader/ghostVertex.glsl';
+import ghostFragment from './shader/ghostFragment.glsl';
 
 
 export const groundMaterial = new THREE.MeshBasicMaterial({
@@ -16,6 +18,11 @@ export const groundMaterial = new THREE.MeshBasicMaterial({
 export const cubeContainerMaterial = new THREE.MeshLambertMaterial({
 	color: colors.lightBlue,
 	map: textures.cubeContainerTexture
+});
+
+export const offlineMaterial = new THREE.ShaderMaterial({
+	vertexShader: ghostVertex,
+	fragmentShader: ghostFragment
 });
 
 export const cubeHostMaterial = new THREE.MeshPhongMaterial({
