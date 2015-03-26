@@ -58,42 +58,7 @@ class HostDataProvider extends DataProvider {
 		return cube;
 	}
 
-	getLabel() {
-		const dim = this.cube.dimension;
-		const pos = this.cube.position;
-    const disc = this.discription;
-    const pid = this.pid;
-    const text = (disc + ' - ' + pid).substring(0, 16);
-
-
-		let param = {
-			size: 0.3,
-			curveSegments: 1,
-			font: 'helvetiker'
-		};
-		const shape = THREE.FontUtils.generateShapes(text, param);
-		const text3d = new THREE.ShapeGeometry(shape, param);
-		const geo = new THREE.BufferGeometry().fromGeometry(text3d);
-
-		text3d.dispose();
-
-		const textMaterial = new THREE.MeshBasicMaterial();
-		const mesh = new THREE.Mesh(geo, textMaterial);
-
-		mesh.position.copy(pos);
-    mesh.position.x -= dim.x / 2 - (dim.x * 0.01); //left: 10%
-    mesh.position.z += dim.z / 2 - (dim.z * 0.01); //bottom: 10%
-    mesh.position.y += dim.y + 0.1;
-
-		mesh.rotation.x = -90 * math.DegToRad;
-
-    this.cube.setStatic(mesh);
-
-		this.content2D = mesh;
-		return mesh;
-
 /*
-
 		const aspect = labelWidth / labelHeight;
 
 		// create canvas
@@ -136,7 +101,6 @@ class HostDataProvider extends DataProvider {
 		this.content2D = mesh;
 		return mesh;
 */
-	}
 
 	setSize(newSize) {
 
@@ -154,37 +118,39 @@ class HostDataProvider extends DataProvider {
 	}
 
 	get2DContent() {
-		return this.getLabel();
-		/*
-    const content = this.getHTML();
-    const div = document.createElement('div');
-    div.className = 'containerCSS3DLayer';
-    div.innerHTML = content;
+		const dim = this.cube.dimension;
+		const pos = this.cube.position;
+    const disc = this.discription;
+    const pid = this.pid;
+    const text = (disc + ' - ' + pid).substring(0, 16);
 
-    const object = new THREE.CSS3DObject(div);
-    object.rotation.x = -90 * math.DegToRad;
 
-    //1px in css is 1 unit in 3D space
-    object.scale.set(dim.x / 250, dim.x / 250, 1);
-    object.position.copy(pos);
-    object.position.z += dim.z / 2;
-    object.position.y += dim.y;
+		let param = {
+			size: 0.3,
+			curveSegments: 1,
+			font: 'helvetiker'
+		};
+		const shape = THREE.FontUtils.generateShapes(text, param);
+		const text3d = new THREE.ShapeGeometry(shape, param);
+		const geo = new THREE.BufferGeometry().fromGeometry(text3d);
 
-    this.content2D = object;
-    return object;
-		*/
+		text3d.dispose();
+
+		const textMaterial = new THREE.MeshBasicMaterial();
+		const mesh = new THREE.Mesh(geo, textMaterial);
+
+		mesh.position.copy(pos);
+    mesh.position.x -= dim.x / 2 - (dim.x * 0.01); //left: 10%
+    mesh.position.z += dim.z / 2 - (dim.z * 0.01); //bottom: 10%
+    mesh.position.y += dim.y + 0.1;
+
+		mesh.rotation.x = -90 * math.DegToRad;
+
+    this.cube.setStatic(mesh);
+
+		this.content2D = mesh;
+		return mesh;
 	}
-
-/*
-	getHTML() {
-		const disc = this.discription;
-		const pid = this.pid;
-
-		const html = '<p>' + disc + ' - ' + pid + '</p>';
-
-		return html;
-	}
-  */
 
 	getDashboardUrl() {
 		return '/#/dashboard/file/' +
@@ -194,8 +160,6 @@ class HostDataProvider extends DataProvider {
 	dispose() {
 		super.dispose();
 
-		//this.content2D.material.map.dispose();
-		this.content2D.material.dispose();
 		this.content2D.geometry.dispose();
 		this.content2D = null;
 	}

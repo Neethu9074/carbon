@@ -42,10 +42,9 @@ class BaseCube extends SceneObject {
     //this container (or add/remove from scene)
 		this.children = [];
 		this.childrenContainer = new THREE.Object3D();
+		app.scene.add(this.childrenContainer);
 
 		this.online = true;
-
-		app.scene.add(this.childrenContainer);
 
 		if (app.showHostDetails) {
 			this.show();
@@ -136,8 +135,6 @@ class BaseCube extends SceneObject {
 		for (let i = 0; i < this.children.length; i++) {
 			const child = this.children[i];
 			child.show();
-			this.app.scene.remove(child.content2D);
-			this.childrenContainer.add(child.content2D);
 		}
 	}
 
@@ -145,8 +142,6 @@ class BaseCube extends SceneObject {
 		for (let i = 0; i < this.children.length; i++) {
 			const child = this.children[i];
 			child.hide();
-			this.app.scene.remove(child.content2D);
-			this.childrenContainer.remove(child.content2D);
 		}
 	}
 
@@ -226,6 +221,7 @@ class BaseCube extends SceneObject {
 		logger.debug('dispose : ', this);
 		app.scene.remove(this.cube);
 		app.scene.remove(this.content2D);
+		app.scene.remove(this.childrenContainer);
 
 		//if this container is a child
 		if (parentCon !== undefined) {
@@ -233,6 +229,10 @@ class BaseCube extends SceneObject {
 
 			parentCon.childrenContainer.remove(this.cube);
 			_.remove(parentCon.children, child => child === this);
+		}
+
+		if(this.offlineObject !== undefined) {
+			this.offlineObject.dispose();
 		}
 
 		super.dispose();

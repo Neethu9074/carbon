@@ -22,16 +22,8 @@ class OfflineCube extends SceneObject {
     dim.multiplyScalar(1.05);
 		super(app, 'offlineCube', pos, dim);
 
-    this.uniforms = {
-			time: { type: 'f', value: 1.0 },
-			texture1: { type: 't', value: textures.ghostTexture2 },
-			texture2: { type: 't', value: textures.ghostTexture1 }
-		};
-
     const geo = obj.cube.geometry;
     const mat = materials.offlineMaterial;
-		mat.uniforms = this.uniforms;
-
     const cube = new THREE.Mesh(geo, mat);
 
     cube.position.copy(pos);
@@ -43,8 +35,14 @@ class OfflineCube extends SceneObject {
     logger.debug('create offline cube');
 	}
 
-	update(dt) {
-		this.uniforms.time.value += 0.5 * dt;
+	update() {
+	}
+
+	dispose() {
+		logger.debug('dispose: ', this);
+		this.app.scene.remove(this.mesh);
+		this.mesh.geometry.dispose();
+		this.mesh = null;
 	}
 }
 

@@ -16,7 +16,7 @@ class HarmonicSphericalLayouter {
 		this.numCubes = 0;
 	}
 
-	getNext() {
+	getNext(ID) {
 		if (this.numCubes >= this.maxElements) {
 			return undefined;
 		}
@@ -71,7 +71,8 @@ class HarmonicSphericalLayouter {
 		//and add to blocked
 		blocked.push({
 			x: next.x,
-			y: next.y
+			y: next.y,
+			ID: ID
 		});
 
 		this.numCubes++;
@@ -101,6 +102,16 @@ class HarmonicSphericalLayouter {
 		const distanceB = Math.sqrt(bX + bY);
 
 		return distanceA - distanceB;
+	}
+
+	setFree(ID) {
+		const match = _.find(this.blocked, item => item.ID === ID);
+		if(match === undefined) {
+			return;
+		}
+
+		_.remove(this.blocked, item => item.ID === ID);
+		this.freeFields.push( { x: match.x, y: match.y } );
 	}
 
 	getFree() {

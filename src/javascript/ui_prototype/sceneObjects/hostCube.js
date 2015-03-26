@@ -41,7 +41,6 @@ class HostCube extends BaseCube {
 
     this.children.push(container);
     this.childrenContainer.add(container.cube);
-    this.childrenContainer.add(container.content2D);
 
     return container;
   }

@@ -412,7 +412,7 @@ class App {
   addHost(metaData) {
     try {
       //get new position if possible
-      const newPos2D = this.layouter.getNext();
+      const newPos2D = this.layouter.getNext(metaData.id);
       //and block it with the uuid
       //this.layouter.setBlocked(newPos2D, metaData.id);
 
