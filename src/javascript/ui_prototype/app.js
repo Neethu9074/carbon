@@ -188,7 +188,7 @@ class App {
     doc.getElementById('newHostButton').onclick = this.addRandomHost;
     doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
     doc.getElementById('destroyCubeButton').onclick = this.removeCube;
-    doc.getElementById('showWalkableButton').onclick = this.showWalkable;
+    doc.getElementById('OffOnlineButton').onclick = this.toggleOffOnline;
     doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
   }
 
@@ -226,8 +226,13 @@ class App {
     object.dispose();
   }
 
-  showWalkable() {
-    logger.error('NOT IMPLEMENTED YET');
+  toggleOffOnline() {
+    const object = this.clickedObject;
+    if(object.online) {
+      object.setOffline();
+    } else {
+      object.setOnline();
+    }
   }
 
   showInGrafana() {
@@ -246,7 +251,7 @@ class App {
     this.addRandomHost = this.addRandomHost.bind(this);
     this.addRandomContainer = this.addRandomContainer.bind(this);
     this.removeCube = this.removeCube.bind(this);
-    this.showWalkable = this.showWalkable.bind(this);
+    this.toggleOffOnline = this.toggleOffOnline.bind(this);
     this.showInGrafana = this.showInGrafana.bind(this);
     this.animate = this.animate.bind(this);
   }
@@ -329,15 +334,19 @@ class App {
   }
 
   showHost(host) {
-    host.hide();
-    this.scene.add(host.content2D);
-    this.scene.add(host.cube);
+    if(host.online) {
+      host.hide();
+      this.scene.add(host.content2D);
+      this.scene.add(host.cube);
+    }
   }
 
   hideHost(host) {
-    host.show();
-    this.scene.remove(host.content2D);
-    this.scene.remove(host.cube);
+    if(host.online) {
+      host.show();
+      this.scene.remove(host.content2D);
+      this.scene.remove(host.cube);
+    }
   }
 
   calculateDeltaTime() {

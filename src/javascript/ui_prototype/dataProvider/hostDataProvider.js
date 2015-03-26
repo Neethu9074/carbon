@@ -25,6 +25,7 @@ let globalMesh = new THREE.Mesh(
 	geometries.globalHostGeometry,
 	materials.cubeHostMaterial);
 
+
 class HostDataProvider extends DataProvider {
 	constructor(metaData) {
 		super(metaData);
@@ -46,7 +47,7 @@ class HostDataProvider extends DataProvider {
 		cube.position.copy(this.cube.position);
 
 		all3DMeshes.push(cube);
-		this.rebuildGlobalMesh();
+		this.	rebuildGlobalMesh();
 
     this.content3D = cube;
 
@@ -99,6 +100,7 @@ class HostDataProvider extends DataProvider {
 
 			globalMesh = new THREE.Mesh(finalGeo, materials.cubeHostMaterial);
       geometries.globalHostGeometry = finalGeo;
+      
 			container.add(globalMesh);
 
 		} catch (err) {
@@ -156,7 +158,7 @@ class HostDataProvider extends DataProvider {
 	}
 
 	setPosition(newPos) {
-		
+
 	}
 
 	dispose() {

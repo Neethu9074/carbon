@@ -55,7 +55,7 @@ class HostCube extends BaseCube {
     super.dispose();
   }
 
-  update(dt) {
+  onUpdate(dt) {
     this.time += dt;
     if(this.time < this.tick) {
       return;

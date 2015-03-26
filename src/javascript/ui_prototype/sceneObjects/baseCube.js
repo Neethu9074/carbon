@@ -42,6 +42,8 @@ class BaseCube extends SceneObject {
 		this.children = [];
 		this.childrenContainer = new THREE.Object3D();
 
+		this.online = true;
+
 		app.scene.add(this.childrenContainer);
 
 		if (app.showHostDetails) {
@@ -128,6 +130,7 @@ class BaseCube extends SceneObject {
 		this.cube.position.copy(this.position);
 		this.cube.updateMatrix();
 	}
+
 	showChildren() {
 		for (let i = 0; i < this.children.length; i++) {
 			const child = this.children[i];
@@ -160,6 +163,27 @@ class BaseCube extends SceneObject {
 		this.app.scene.remove(this.content2D);
 	}
 
+	setOffline() {
+		logger.debug('set offline');
+
+		this.hide();
+		this.online = false;
+	}
+
+	setOnline() {
+		logger.debug('set online');
+
+		this.online = true;
+		this.show();
+	}
+
+	//is called by app and delegates to extending classes if online
+	update(dt) {
+		if(this.onUpdate !== undefined && this.online) {
+		this.	onUpdate(dt);
+		}
+	}
+
 	setHighlight(b) {
 		if (b) {
 			this.cube.children[0].visible = true;
@@ -190,6 +214,7 @@ class BaseCube extends SceneObject {
 
 		this.dataProvider.dispose();
 		this.cubeOffset = null;
+		this.online = null;
 		this.layouter = null;
 		this.parentContainer = null;
 		this.container = null;
@@ -197,7 +222,6 @@ class BaseCube extends SceneObject {
 		this.cube = null;
 		this.content2D = null;
 	}
-
 
 	disposeChildren() {
 		const temp = this.children.slice(); //local copy!
