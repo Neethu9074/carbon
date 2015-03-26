@@ -21,6 +21,9 @@ class DataProvider{
     return 'www.google.com';
   }
 
+  setState(newState) {
+    this.onStateChanged(newState);
+  }
 
   dispose(){
     this.cube = null;

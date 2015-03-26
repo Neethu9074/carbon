@@ -9,6 +9,7 @@ import * as obj from '../obj';
 import * as textures from '../textures';
 import * as math from '../math';
 import * as colors from '../colors';
+import * as states from '../cubeStates';
 
 import hostImagePath from '../../../images/icon_host.png';
 import systemImagePath from '../../../images/icon_system.png';
@@ -100,7 +101,7 @@ class HostDataProvider extends DataProvider {
 
 			globalMesh = new THREE.Mesh(finalGeo, materials.cubeHostMaterial);
       geometries.globalHostGeometry = finalGeo;
-      
+
 			container.add(globalMesh);
 
 		} catch (err) {
@@ -149,16 +150,16 @@ class HostDataProvider extends DataProvider {
 
 	getDashboardUrl() {
 		return '/#/dashboard/file/' +
-			btoa(this.ID + '___com.instana.agent.host.discovery.Host___localhost') +
-			'.json';
+			btoa(this.ID + '___com.instana.agent.' +
+      'host.discovery.Host___localhost') + '.json';
 	}
 
-	setSize(newSize) {
+	setSize() {}
 
-	}
+	setPosition() {}
 
-	setPosition(newPos) {
-
+  onStateChanged(newSate) {
+		console.log('state changed to: ', newSate);
 	}
 
 	dispose() {

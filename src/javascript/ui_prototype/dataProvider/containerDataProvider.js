@@ -6,13 +6,10 @@ import * as materials from '../materials';
 import * as obj from '../obj';
 import * as math from '../math';
 import * as colors from '../colors';
-
+import * as states from '../cubeStates';
 import DataProvider from './dataProvider';
 
 import './../../lib/helvetiker_regular.typeface.js';
-
-//const labelWidth = 512;
-//const labelHeight = 64;
 
 
 class HostDataProvider extends DataProvider {
@@ -58,53 +55,7 @@ class HostDataProvider extends DataProvider {
 		return cube;
 	}
 
-/*
-		const aspect = labelWidth / labelHeight;
-
-		// create canvas
-		var canvas = document.createElement('canvas');
-
-		// the larger these numbers, the larger the canvas, and
-		// the smoother your final image can be. If your final
-		// texture is blurry or pixelated, try increasing these
-		// numbers, and drawing on the canvas in a larger font.
-		canvas.width = labelWidth;
-		canvas.height = labelHeight;
-		var context = canvas.getContext('2d');
-
-		context.fillStyle = 'rgba(255, 255, 255, 1)';
-		context.font = '40px Arial';
-		context.fillText(text, 0, labelHeight / 2);
-
-		// use canvas contents as a texture
-		var texture = new THREE.Texture(canvas);
-
-		//set the minFilter, because the texture could not be power of 2
-		texture.minFilter = THREE.LinearFilter;
-		texture.needsUpdate = true;
-
-		var material = new THREE.MeshBasicMaterial({
-			map: texture,
-			color: colors.lightBlue,
-			side: THREE.DoubleSide,
-		});
-
-		var geo = geometries.containerLabelGeometry;
-		var mesh = new THREE.Mesh(geo, material);
-
-		mesh.position.x = -0.5;
-		mesh.position.z = 0.51;
-
-		mesh.matrixAutoUpdate = false;
-		mesh.updateMatrix();
-
-		this.content2D = mesh;
-		return mesh;
-*/
-
-	setSize(newSize) {
-
-	}
+	setSize() {}
 
 	setPosition(newPos) {
 		const dim = this.cube.dimension;
@@ -157,6 +108,10 @@ class HostDataProvider extends DataProvider {
 			btoa(this.host + '___' + this.tag + '___' + this.entityID) + '.json';
 	}
 
+	onStateChanged(newSate) {
+		console.log('state changed to: ', newSate);
+	}
+
 	dispose() {
 		super.dispose();
 
@@ -166,3 +121,52 @@ class HostDataProvider extends DataProvider {
 }
 
 export default HostDataProvider;
+
+
+
+
+//const labelWidth = 512;
+//const labelHeight = 64;
+/*
+		const aspect = labelWidth / labelHeight;
+
+		// create canvas
+		var canvas = document.createElement('canvas');
+
+		// the larger these numbers, the larger the canvas, and
+		// the smoother your final image can be. If your final
+		// texture is blurry or pixelated, try increasing these
+		// numbers, and drawing on the canvas in a larger font.
+		canvas.width = labelWidth;
+		canvas.height = labelHeight;
+		var context = canvas.getContext('2d');
+
+		context.fillStyle = 'rgba(255, 255, 255, 1)';
+		context.font = '40px Arial';
+		context.fillText(text, 0, labelHeight / 2);
+
+		// use canvas contents as a texture
+		var texture = new THREE.Texture(canvas);
+
+		//set the minFilter, because the texture could not be power of 2
+		texture.minFilter = THREE.LinearFilter;
+		texture.needsUpdate = true;
+
+		var material = new THREE.MeshBasicMaterial({
+			map: texture,
+			color: colors.lightBlue,
+			side: THREE.DoubleSide,
+		});
+
+		var geo = geometries.containerLabelGeometry;
+		var mesh = new THREE.Mesh(geo, material);
+
+		mesh.position.x = -0.5;
+		mesh.position.z = 0.51;
+
+		mesh.matrixAutoUpdate = false;
+		mesh.updateMatrix();
+
+		this.content2D = mesh;
+		return mesh;
+*/

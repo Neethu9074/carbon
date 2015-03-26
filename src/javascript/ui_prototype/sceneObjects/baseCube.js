@@ -8,6 +8,7 @@ import ContainerDataProvider from '../dataProvider/containerDataProvider';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as math from '../math';
+import * as states from '../cubeStates';
 
 import Layouter from '../layouterContainer';
 import {
@@ -21,8 +22,8 @@ const logger = createLogger('baseCube.js');
 
 
 class BaseCube extends SceneObject {
-	constructor(app, pos, dim, dataProvider) {
 
+	constructor(app, pos, dim, dataProvider) {
 		dim.multiplyScalar(1 - this.cubeOffset);
 
 		//call super contructor
@@ -45,12 +46,18 @@ class BaseCube extends SceneObject {
 		app.scene.add(this.childrenContainer);
 
 		this.online = true;
+		this.setState(states.ok);
 
 		if (app.showHostDetails) {
 			this.show();
 		} else {
 			this.hide();
 		}
+	}
+
+	setState(newState) {
+		this.state = newState;
+		this.dataProvider.setState(newState);
 	}
 
 	setup3DContent() {
@@ -241,6 +248,7 @@ class BaseCube extends SceneObject {
 		this.offlineObject = null;
 		this.cubeOffset = null;
 		this.online = null;
+		this.state = null;
 		this.layouter = null;
 		this.parentContainer = null;
 		this.container = null;
