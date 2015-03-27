@@ -38,7 +38,21 @@ export const collisonHighlightMaterial = new THREE.MeshBasicMaterial({
 });
 
 export const groundEffectMaterial = new THREE.MeshBasicMaterial({
+	color: 0x888888,
+	map: textures.groundEffectTexture,
+	transparent: true,
+	depthWrite: false
+});
+
+export const groundEffectMaterialError = new THREE.MeshBasicMaterial({
 	color: 0x880000,
+	map: textures.groundEffectTexture,
+	transparent: true,
+	depthWrite: false
+});
+
+export const groundEffectMaterialWarning = new THREE.MeshBasicMaterial({
+	color: 0xffd000,
 	map: textures.groundEffectTexture,
 	transparent: true,
 	depthWrite: false

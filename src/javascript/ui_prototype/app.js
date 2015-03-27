@@ -10,6 +10,7 @@ import * as colors from './colors';
 import * as materials from './materials';
 import * as states from './cubeStates';
 import * as geometries from './geometries';
+import * as textures from './textures';
 import Ground from './sceneObjects/ground';
 import Container from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
@@ -299,6 +300,9 @@ class App {
     const dt = this.deltaTime;
 
     this.controller.update(dt);
+
+    //update global texture offsets
+    textures.groundEffectTexture.offset.y = 0.25 * -this.timeSinceStarted;
 
     const distance = this.controller.zoomLevel;
     if(distance >= this.hideHostsDistance) {

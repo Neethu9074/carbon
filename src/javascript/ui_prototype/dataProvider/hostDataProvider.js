@@ -7,7 +7,6 @@ import GroundEffect from '../sceneObjects/groundWarningEffect';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as obj from '../obj';
-import * as textures from '../textures';
 import * as math from '../math';
 import * as colors from '../colors';
 import * as states from '../cubeStates';
@@ -167,14 +166,19 @@ class HostDataProvider extends DataProvider {
       this.effect = undefined;
     }
 
+    //setup error ground effect
+    const pos = this.cube.position;
+    const dim = this.cube.dimension
+      .clone()
+      .multiplyScalar(1 + this.cube.cubeOffset);
+
     if(newState === states.error) {
-      //setup error ground effect
-      const pos = this.cube.position;
-      const dim = this.cube.dimension
-        .clone()
-        .multiplyScalar(1 + this.cube.cubeOffset);
-      this.effect = new GroundEffect( this.cube.app, pos, dim);
-    }
+      this.effect = new GroundEffect( this.cube.app, pos, dim, 'red');
+
+    } else if(newState === states.warning) {
+
+        this.effect = new GroundEffect( this.cube.app, pos, dim, 'yellow');
+      }
 	}
 
 	dispose() {
