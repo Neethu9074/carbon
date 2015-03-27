@@ -3,10 +3,17 @@
 import THREE from 'three.js';
 import * as colors from './colors';
 import * as textures from './textures';
+import Connection from './sceneObjects/cubeConnection';
 
 
 export function setup(app) {
   let host = app.addRandomHost();
+  let hostB = app.addRandomHost();
+  let hostC = app.addRandomHost();
+
+  new Connection(app, host, hostB);
+  new Connection(app, hostB, hostC);
+
 
   host.addContainer( { id: 'uuid1', pid: '1' } );
   host.addContainer( { id: 'uuid2', pid: '2' } );

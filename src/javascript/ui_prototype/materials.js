@@ -45,14 +45,14 @@ export const groundEffectMaterial = new THREE.MeshBasicMaterial({
 });
 
 export const groundEffectMaterialError = new THREE.MeshBasicMaterial({
-	color: 0x880000,
+	color: colors.errorRed,
 	map: textures.groundEffectTexture,
 	transparent: true,
 	depthWrite: false
 });
 
 export const groundEffectMaterialWarning = new THREE.MeshBasicMaterial({
-	color: 0xffd000,
+	color: colors.warningYellow,
 	map: textures.groundEffectTexture,
 	transparent: true,
 	depthWrite: false
