@@ -28,32 +28,36 @@ class CubeConnection extends SceneObject {
 			return;
 		}
 
-
-		var geometry = new THREE.BufferGeometry();
-		var material = new THREE.LineBasicMaterial({
+		const geometry = new THREE.BufferGeometry();
+		const material = new THREE.LineBasicMaterial({
 			vertexColors: THREE.VertexColors
 		});
 
-		var positions = new Float32Array(points.length * 3);
-		var colors = new Float32Array(points.length * 3);
+    const itemsPerPoint = 3; //x y z
+    const numLines = points.length * itemsPerPoint;
+		const positions = new Float32Array(numLines);
+		const colors = new Float32Array(numLines);
 		for (let i = 0; i < points.length; i++) {
-			var x = points[i].x;
-			var y = points[i].y + 4;
-			var z = points[i].z;
+			const x = points[i].x;
+			const y = points[i].y;
+			const z = points[i].z;
 
 			// positions
-			positions[i * 3] = x;
-			positions[i * 3 + 1] = y;
-			positions[i * 3 + 2] = z;
+			positions[i * itemsPerPoint] = x;
+			positions[i * itemsPerPoint + 1] = y;
+			positions[i * itemsPerPoint + 2] = z;
 
 			// colors
-			colors[i * 3] = (x / 10) + 0.5;
-			colors[i * 3 + 1] = (y / 10) + 0.5;
-			colors[i * 3 + 2] = (z / 10) + 0.5;
+			colors[i * itemsPerPoint] = (x / 10) + 0.5;
+			colors[i * itemsPerPoint + 1] = (y / 10) + 0.5;
+			colors[i * itemsPerPoint + 2] = (z / 10) + 0.5;
 		}
 
-		geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-		geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
+		geometry.addAttribute('position',
+      new THREE.BufferAttribute(positions, itemsPerPoint));
+
+    geometry.addAttribute('color',
+      new THREE.BufferAttribute(colors, itemsPerPoint));
 
 		return new THREE.Line(geometry, material);
 	}

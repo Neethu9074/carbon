@@ -11,9 +11,12 @@ const logger = createLogger('app.js');
 
 
 class DataListenerManager {
+
 	constructor(app, interval) {
+		//bind methods
 		this.onUpdateHosts = this.onUpdateHosts.bind(this);
 		this.onUpdateInventory = this.onUpdateInventory.bind(this);
+
 		this.app = app;
 
 		//a collection to store all found hosts
@@ -22,7 +25,8 @@ class DataListenerManager {
 		this.detectedInventory = [];
 
 		//create the listener with a refresh interval of x
-		const dataListener = new DataListener(interval); // in ms
+		const dataListener = new DataListener(interval);
+
 		dataListener.onUpdateHosts = this.onUpdateHosts;
 		dataListener.onUpdateInventory = this.onUpdateInventory;
 	}
