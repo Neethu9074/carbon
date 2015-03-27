@@ -10,6 +10,7 @@ import * as obj from '../obj';
 import * as materials from '../materials';
 import * as textures from '../textures';
 import * as math from '../math';
+import * as states from '../cubeStates';
 
 import Layouter from '../layouterContainer';
 import {
@@ -21,12 +22,18 @@ import _ from 'lodash';
 
 const logger = createLogger('hostCube.js');
 const hideCSS3DDistance = 100;
+const hostWidth = 20;
+const hostHeight = 4;
 
 
 class HostCube extends BaseCube {
 
-  constructor(app, pos, dim, dataProvider) {
+  constructor(app, pos, dataProvider) {
     this.cubeOffset = 0.15; //85%
+    pos.x *= hostWidth;
+    pos.z *= hostWidth;
+    const dim = new THREE.Vector3(hostWidth, hostHeight, hostWidth);
+
     super(app, pos, dim, dataProvider);
 
     this.app.updates.push(this);
@@ -54,6 +61,28 @@ class HostCube extends BaseCube {
     this.tick = null;
 
     super.dispose();
+  }
+
+  changeMetaData(metaData) {
+    this.dataProvider.changeMetaData(metaData);
+
+    let key = 'com.instana.agent.host.sensor.Host.memory.free';
+    key = 'com.instana.agent.host.sensor.Host.cpu.idle';
+
+    const match = _.find(metaData.colors,
+      item => item[key]
+      !== undefined);
+
+    if(match !== undefined) {
+      const color = match[key];
+      if(color === 'YELLOW' && this.state !== states.warning) {
+        this.setState(states.warning);
+      } else if(color === 'RED' && this.state !== states.error) {
+        this.setState(states.error);
+      } else if(color === 'GREEN' && this.state !== states.ok) {
+        this.setState(states.ok);
+      }
+    }
   }
 
   onUpdate(dt) {

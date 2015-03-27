@@ -109,7 +109,6 @@ class HostDataProvider extends DataProvider {
 	}
 
 	onStateChanged(newSate) {
-		console.log('state changed to: ', newSate);
 	}
 
 	dispose() {

@@ -29,7 +29,7 @@ load(() => { //on finished
   setup(uiApplication); logger.info('Finished initialization'); return;
 
   //live data each 2000 ms
-  const dataManager = new DataListenerManager(uiApplication, 2000);
+  const dataManager = new DataListenerManager(uiApplication, 1000);
 
   logger.info('Finished initialization');
 });

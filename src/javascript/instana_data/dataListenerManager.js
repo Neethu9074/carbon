@@ -43,9 +43,11 @@ class DataListenerManager {
 
 				//create new hostMetaData cube
 				this.app.addHost(hostMetaData);
+
 			} else {
 				//hostMetaData is still created
-				//this.app.changeHost(hostID, hostMetaData);
+				const host = this.app.getHost(hostID);
+				host.changeMetaData(hostMetaData);
 
 				//TODO: calculate diff ?
 			}

@@ -28,9 +28,13 @@ let globalMesh = new THREE.Mesh(
 
 
 class HostDataProvider extends DataProvider {
+
 	constructor(metaData) {
 		super(metaData);
+    this.setFromMetaData(metaData);
+	}
 
+  setFromMetaData(metaData) {
 		this.discription = metaData.id;
 		this.cpu = metaData.cpu.count + 'x ' + metaData.cpu.model;
 		this.memory =
@@ -38,7 +42,7 @@ class HostDataProvider extends DataProvider {
 			' GB RAM';
 		this.OS = metaData.operatingSystem.name + ' - ' +
 			metaData.operatingSystem.version;
-	}
+  }
 
 	get3DContent() {
 		const geo = geometries.cubeGeometry;
@@ -159,8 +163,6 @@ class HostDataProvider extends DataProvider {
 	setPosition() {}
 
   onStateChanged(newState) {
-		console.log('state changed to: ', newState);
-
     if(this.effect !== undefined) {
       this.effect.dispose();
       this.effect = undefined;
@@ -173,13 +175,18 @@ class HostDataProvider extends DataProvider {
       .multiplyScalar(1 + this.cube.cubeOffset);
 
     if(newState === states.error) {
+      logger.debug('state changed to: ', newState);
       this.effect = new GroundEffect( this.cube.app, pos, dim, 'red');
 
     } else if(newState === states.warning) {
-
+	      logger.debug('state changed to: ', newState);
         this.effect = new GroundEffect( this.cube.app, pos, dim, 'yellow');
       }
 	}
+
+  changeMetaData(metaData) {
+    this.setFromMetaData(metaData);
+  }
 
 	dispose() {
 		super.dispose();

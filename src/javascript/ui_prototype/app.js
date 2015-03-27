@@ -12,7 +12,7 @@ import * as states from './cubeStates';
 import * as geometries from './geometries';
 import * as textures from './textures';
 import Ground from './sceneObjects/ground';
-import Container from './sceneObjects/hostCube';
+import Host from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
 
 import MouseControls from './controls/mouseCameraController';
@@ -302,7 +302,7 @@ class App {
     this.controller.update(dt);
 
     //update global texture offsets
-    textures.groundEffectTexture.offset.y = 0.25 * -this.timeSinceStarted;
+      textures.groundEffectTexture.offset.y = 0.25 * -this.timeSinceStarted;
 
     const distance = this.controller.zoomLevel;
     if(distance >= this.hideHostsDistance) {
@@ -426,12 +426,8 @@ class App {
     try {
       //get new position if possible
       const newPos2D = this.layouter.getNext(metaData.id);
-      //and block it with the uuid
-      //this.layouter.setBlocked(newPos2D, metaData.id);
-
-      const pos = new THREE.Vector3(newPos2D.x * 20, 0, -newPos2D.y * 20);
-      const dim = new THREE.Vector3(20, 4, 20);
-      const host = new Container(this, pos, dim, new HostDataProvider(metaData));
+      const pos = new THREE.Vector3(newPos2D.x, 0, -newPos2D.y);
+      const host = new Host(this, pos, new HostDataProvider(metaData));
 
       this.sceneObjects3D.push(host);
       this.hosts.push(host);

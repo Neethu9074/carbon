@@ -16,7 +16,6 @@ class Ground extends SceneObject {
 		//call super constructor
 		super(app, 'ground', pos, dim);
 
-
 		const geo = new THREE.PlaneBufferGeometry(dim.x, dim.z, 1, 1);
 		const plane = new THREE.Mesh(geo, materials.groundMaterial);
 
