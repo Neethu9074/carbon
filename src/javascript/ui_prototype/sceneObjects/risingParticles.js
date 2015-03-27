@@ -76,7 +76,7 @@ class RisingParticles extends SceneObject {
 
   dispose() {
     this.app.scene.remove(this.pointCloud);
-    _.remove(this.app.updates, obj => pbj === this);
+    _.remove(this.app.updates, obj => obj === this);
 
     super.dispose();
 

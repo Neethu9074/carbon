@@ -13,7 +13,7 @@ export function setup(app) {
   host.addContainer( { id: 'uuid3', pid: '3' } );
   host.addContainer( { id: 'uuid4', pid: '4' } );
   //host.addContainer( { id: 'uuid6', pid: '5' } );
-
+return;
   var max = 5;
   var step = 1;
   var counter = 0;

@@ -4,22 +4,19 @@ import THREE from 'three.js';
 import '../lib/OBJLoader';
 import * as obj from './obj'
 
-import warningObjectPath from '../../obj/warning.obj';
-import errorObjectPath from '../../obj/error.obj';
 import cubeObjectPath from '../../obj/cube.obj';
-import collObjCube from '../../obj/collisionObjectCube.obj';
+import collObjCubePath from '../../obj/collisionObjectCube.obj';
+import groundEffectPath from '../../obj/groundEffect.obj';
+
 
 export function load(onFinished) {
-	loadModel('bundle/' + warningObjectPath, obj.setStateWarningSymbol,
+	loadModel('bundle/' + groundEffectPath, obj.setGroundEffect,
 		function() {
-			loadModel('bundle/' + errorObjectPath, obj.setStateErrorSymbol,
+			loadModel('bundle/' + cubeObjectPath, obj.setCube,
 				function() {
-					loadModel('bundle/' + cubeObjectPath, obj.setCube,
+					loadModel('bundle/' + collObjCubePath, obj.setCollisionObjectCube,
 						function() {
-							loadModel('bundle/' + collObjCube, obj.setCollisionObjectCube,
-								function() {
-									onFinished();
-								});
+							onFinished();
 						});
 				});
 		}

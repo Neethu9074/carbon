@@ -8,13 +8,13 @@ import '../lib/Octree';
 
 import * as colors from './colors';
 import * as materials from './materials';
+import * as states from './cubeStates';
 import * as geometries from './geometries';
 import Ground from './sceneObjects/ground';
 import Container from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
 
 import MouseControls from './controls/mouseCameraController';
-//import Layouter from './layouterContainer';
 import Layouter from './harmonicSphericalLayouter';
 
 import rStats from '../lib/rStats';
@@ -190,6 +190,7 @@ class App {
     doc.getElementById('destroyCubeButton').onclick = this.removeCube;
     doc.getElementById('OffOnlineButton').onclick = this.toggleOffOnline;
     doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
+    doc.getElementById('switchStateButton').onclick = this.switchState;
   }
 
   onWindowResize() {
@@ -237,10 +238,17 @@ class App {
 
   showInGrafana() {
     const object = this.clickedObject;
-    if (object instanceof Container) {
-      const url = object.dataProvider.getDashboardUrl();
-      window.open(url, '_blank');
-    }
+    const url = object.dataProvider.getDashboardUrl();
+    window.open(url, '_blank');
+  }
+
+  switchState() {
+    const object = this.clickedObject;
+    const state = object.state;
+
+    if(state === states.ok) { object.setState(states.warning); }
+    else if(state === states.warning) { object.setState(states.error); }
+    else { object.setState(states.ok); }
   }
 //end events
 
@@ -254,6 +262,7 @@ class App {
     this.toggleOffOnline = this.toggleOffOnline.bind(this);
     this.showInGrafana = this.showInGrafana.bind(this);
     this.animate = this.animate.bind(this);
+    this.switchState = this.switchState.bind(this);
   }
 
   update() {

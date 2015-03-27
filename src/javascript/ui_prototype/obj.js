@@ -1,13 +1,8 @@
 'use strict';
 
-export let stateWarningSymbol;
-export function setStateWarningSymbol(object) {
-	stateWarningSymbol = object;
-}
-
-export let stateErrorSymbol;
-export function setStateErrorSymbol(object) {
-	stateErrorSymbol = object;
+export let groundEffect;
+export function setGroundEffect(object) {
+	groundEffect = object;
 }
 
 export let cube;

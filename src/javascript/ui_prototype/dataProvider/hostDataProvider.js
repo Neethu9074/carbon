@@ -3,6 +3,7 @@
 import THREE from 'three.js';
 
 import DataProvider from './dataProvider';
+import GroundEffect from '../sceneObjects/groundWarningEffect';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as obj from '../obj';
@@ -158,8 +159,22 @@ class HostDataProvider extends DataProvider {
 
 	setPosition() {}
 
-  onStateChanged(newSate) {
-		console.log('state changed to: ', newSate);
+  onStateChanged(newState) {
+		console.log('state changed to: ', newState);
+
+    if(this.effect !== undefined) {
+      this.effect.dispose();
+      this.effect = undefined;
+    }
+
+    if(newState === states.error) {
+      //setup error ground effect
+      const pos = this.cube.position;
+      const dim = this.cube.dimension
+        .clone()
+        .multiplyScalar(1 + this.cube.cubeOffset);
+      this.effect = new GroundEffect( this.cube.app, pos, dim);
+    }
 	}
 
 	dispose() {

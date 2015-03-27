@@ -6,7 +6,9 @@ import BaseCube from './baseCube';
 import ContainerCube from './containerCube';
 import ContainerDataProvider from '../dataProvider/containerDataProvider';
 import * as geometries from '../geometries';
+import * as obj from '../obj';
 import * as materials from '../materials';
+import * as textures from '../textures';
 import * as math from '../math';
 
 import Layouter from '../layouterContainer';
@@ -59,8 +61,6 @@ class HostCube extends BaseCube {
     if(this.time < this.tick) {
       return;
     }
-
-    //tick
     this.time = 0;
 
     const distanceToFocus = this.app.controller.lookAt.position.clone()

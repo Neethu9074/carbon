@@ -10,6 +10,7 @@ export const groundMaterial = new THREE.MeshBasicMaterial({
 	side: THREE.DoubleSide,
 	map: textures.groundTexture,
 	transparent: true,
+	depthWrite: false,
 	opacity: 1
 });
 
@@ -34,4 +35,11 @@ export const cubeHostMaterial = new THREE.MeshPhongMaterial({
 
 export const collisonHighlightMaterial = new THREE.MeshBasicMaterial({
 	color: colors.midBlue
+});
+
+export const groundEffectMaterial = new THREE.MeshBasicMaterial({
+	color: 0x880000,
+	map: textures.groundEffectTexture,
+	transparent: true,
+	depthWrite: false
 });
