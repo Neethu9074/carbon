@@ -58,16 +58,6 @@ class HostCube extends BaseCube {
 		return container;
 	}
 
-	dispose() {
-		//remove this from apps update list
-		_.remove(this.app.updates, obj => obj === this);
-		this.time = null;
-		this.tick = null;
-
-		this.app.onHostDestroyed(this.ID);
-		super.dispose();
-	}
-
 	changeMetaData(metaData) {
 		this.dataProvider.changeMetaData(metaData);
 
@@ -161,7 +151,12 @@ class HostCube extends BaseCube {
 	}
 
   tween(from, to, onUpdate, onComplete) {
-		new TWEEN.Tween(from)
+    //if tween is enabled -> stop it
+    if(this.tweenAnimation !== undefined) {
+      this.tweenAnimation.stop();
+    }
+
+		this.tweenAnimation = new TWEEN.Tween(from)
 			.to(to, 1500)
 			.easing(TWEEN.Easing.Cubic.InOut)
 			.onUpdate(function() {
@@ -172,6 +167,21 @@ class HostCube extends BaseCube {
         onComplete();
       });
   }
+
+  dispose() {
+		//remove this from apps update list
+		_.remove(this.app.updates, obj => obj === this);
+		this.time = null;
+		this.tick = null;
+
+    if(this.tweenAnimation !== undefined) {
+      this.tweenAnimation.stop();
+      this.tweenAnimation = null;
+    }
+
+		this.app.onHostDestroyed(this.ID);
+		super.dispose();
+	}
 }
 
 export default HostCube;

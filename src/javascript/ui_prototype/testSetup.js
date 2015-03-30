@@ -21,7 +21,7 @@ export function setup(app) {
   host.addContainer( { id: 'uuid4', pid: '4' } );
   //host.addContainer( { id: 'uuid6', pid: '5' } );
 
-  var max = 50;
+  var max = 10;
   var step = 1;
   var counter = 0;
   setInterval(function() {
