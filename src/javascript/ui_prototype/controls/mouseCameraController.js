@@ -14,8 +14,13 @@ class MouseControl {
     this.init(app);
 
     app.canvas.addEventListener('mousedown', this.onMouseDown);
+    app.canvas.addEventListener('touchstart', this.onMouseDown);
+
     app.canvas.addEventListener('mousemove', this.onMouseMove);
+    app.canvas.addEventListener('touchmove', this.onMouseMove);
+
     app.canvas.addEventListener('mouseup', this.onMouseUp);
+    app.canvas.addEventListener('touchend', this.onMouseUp);
 
     // IE9, Chrome, Safari, Opera
     app.canvas.addEventListener('mousewheel', this.onMouseWheel, false);
