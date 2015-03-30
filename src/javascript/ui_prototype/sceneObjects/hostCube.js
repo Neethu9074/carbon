@@ -14,7 +14,7 @@ import * as states from '../cubeStates';
 
 import Layouter from '../layouterContainer';
 import {
-  createLogger
+	createLogger
 }
 from '../../log';
 
@@ -29,110 +29,148 @@ const hostHeight = 4;
 
 class HostCube extends BaseCube {
 
-  constructor(app, pos, dataProvider) {
-    this.cubeOffset = 0.15; //85%
-    pos.x *= hostWidth;
-    pos.z *= hostWidth;
-    const dim = new THREE.Vector3(hostWidth, hostHeight, hostWidth);
+	constructor(app, pos, dataProvider) {
+    //bind methods
+    this.removeCSSLayerFromScene = this.removeCSSLayerFromScene.bind(this);
 
-    super(app, pos, dim, dataProvider);
+		this.cubeOffset = 0.15; //85%
+		pos.x *= hostWidth;
+		pos.z *= hostWidth;
+		const dim = new THREE.Vector3(hostWidth, hostHeight, hostWidth);
 
-    this.app.updates.push(this);
+		super(app, pos, dim, dataProvider);
 
-    this.time = 0; //stores the time since last tick
-    this.tick = 1; //tick in sec
-  }
+		this.app.updates.push(this);
 
-  addContainerToPosWithDim(pos, dim, metaData) {
-    const container = new ContainerCube(this.app, pos, dim,
-      new ContainerDataProvider(metaData));
+		this.time = 0; //stores the time since last tick
+		this.tick = 1; //tick in sec
+	}
 
-    container.parentContainer = this;
+	addContainerToPosWithDim(pos, dim, metaData) {
+		const container = new ContainerCube(this.app, pos, dim,
+			new ContainerDataProvider(metaData));
 
-    this.children.push(container);
-    this.childrenContainer.add(container.cube);
+		container.parentContainer = this;
 
-    return container;
-  }
+		this.children.push(container);
+		this.childrenContainer.add(container.cube);
 
-  dispose() {
-    //remove this from apps update list
-    _.remove(this.app.updates, obj => obj === this);
-    this.time = null;
-    this.tick = null;
+		return container;
+	}
 
-    this.app.onHostDestroyed(this.ID);
-    super.dispose();
-  }
+	dispose() {
+		//remove this from apps update list
+		_.remove(this.app.updates, obj => obj === this);
+		this.time = null;
+		this.tick = null;
 
-  changeMetaData(metaData) {
-    this.dataProvider.changeMetaData(metaData);
+		this.app.onHostDestroyed(this.ID);
+		super.dispose();
+	}
 
-    let key = 'com.instana.agent.host.sensor.Host.memory.free';
-    key = 'com.instana.agent.host.sensor.Host.cpu.idle';
+	changeMetaData(metaData) {
+		this.dataProvider.changeMetaData(metaData);
 
-    const match = _.find(metaData.colors,
-      item => item[key]
-      !== undefined);
+		let key = 'com.instana.agent.host.sensor.Host.memory.free';
+		key = 'com.instana.agent.host.sensor.Host.cpu.idle';
 
-    if(match !== undefined) {
-      const color = match[key];
-      if(color === 'YELLOW' && this.state !== states.warning) {
-        this.setState(states.warning);
-      } else if(color === 'RED' && this.state !== states.error) {
-        this.setState(states.error);
-      } else if(color === 'GREEN' && this.state !== states.ok) {
-        this.setState(states.ok);
-      }
-    }
-  }
+		const match = _.find(metaData.colors,
+			item => item[key] !== undefined);
 
-  onUpdate(dt) {
-    this.time += dt;
-    if(this.time < this.tick) {
-      return;
-    }
-    this.time = 0;
+		if (match !== undefined) {
+			const color = match[key];
+			if (color === 'YELLOW' && this.state !== states.warning) {
+				this.setState(states.warning);
+			} else if (color === 'RED' && this.state !== states.error) {
+				this.setState(states.error);
+			} else if (color === 'GREEN' && this.state !== states.ok) {
+				this.setState(states.ok);
+			}
+		}
+	}
 
-    const distanceToFocus = this.app.controller.lookAt.position.clone()
-      .sub(this.position)
-      .length();
+	onUpdate(dt) {
+		this.time += dt;
+		if (this.time < this.tick) {
+			return;
+		}
+		this.time = 0;
 
-    if(distanceToFocus > hideCSS3DDistance) {
-      this.hideCSS3DLayer();
-      return;
-    }
+		const distanceToFocus = this.app.controller.lookAt.position.clone()
+			.sub(this.position)
+			.length();
 
-    const distanceToCam = this.app.mainCamera.position.clone()
-      .sub(this.position)
-      .length() / 2;
+		if (distanceToFocus > hideCSS3DDistance) {
+			this.hideCSS3DLayer();
+			return;
+		}
 
-    if(distanceToCam > hideCSS3DDistance) {
-      this.hideCSS3DLayer();
-      return;
-    }
+		const distanceToCam = this.app.mainCamera.position.clone()
+			.sub(this.position)
+			.length() / 2;
 
-    this.showCSS3DLayer();
-  }
+		if (distanceToCam > hideCSS3DDistance) {
+			this.hideCSS3DLayer();
+			return;
+		}
 
-  hideCSS3DLayer() {
-    if(this.hidden){
-      return;
-    }
+		this.showCSS3DLayer();
+	}
 
-    //hide css
-    this.app.scene.remove(this.content2D);
+	hideCSS3DLayer() {
+		if (this.hidden) {
+			return;
+		}
+
+		const from = { x: 1 };
+		const to = { x: 0 };
+    const remove = this.removeCSSLayerFromScene;
+    const content = this.content2D;
+
+    this.tween(from, to, function() {
+      content.element.style.opacity = from.x;
+    }, function() {
+      remove();
+    });
+
     this.hidden = true;
+	}
+
+  removeCSSLayerFromScene() {
+    //check if the css layer is still hidden after the animation time
+    if(this.hidden) {
+      this.app.scene.remove(this.content2D);
+    }
   }
 
-  showCSS3DLayer() {
-    if(!this.hidden){
-      return;
-    }
+	showCSS3DLayer() {
+		if (!this.hidden) {
+			return;
+		}
 
-    //show css
+		const from = { x: 0 };
+		const to = { x: 1 };
+    const content = this.content2D;
+
+    this.tween(from, to, function() {
+      content.element.style.opacity = from.x;
+    }, function() {});
+
     this.app.scene.add(this.content2D);
-    this.hidden = false;
+		this.hidden = false;
+	}
+
+  tween(from, to, onUpdate, onComplete) {
+		new TWEEN.Tween(from)
+			.to(to, 1500)
+			.easing(TWEEN.Easing.Cubic.InOut)
+			.onUpdate(function() {
+        onUpdate(from);
+			})
+			.start()
+      .onComplete(function() {
+        onComplete();
+      });
   }
 }
 

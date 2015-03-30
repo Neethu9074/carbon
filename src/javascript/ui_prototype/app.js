@@ -22,6 +22,7 @@ import Layouter from './harmonicSphericalLayouter';
 import rStats from '../lib/rStats';
 import glStats from '../lib/rStats.extras';
 
+import TWEEN from 'tween.js'
 import _ from 'lodash';
 
 //logging
@@ -309,6 +310,7 @@ class App {
     const dt = this.deltaTime;
 
     this.controller.update(dt);
+    TWEEN.update();
 
     //update global texture offsets
     textures.groundEffectTexture.offset.y = 0.25 * -this.timeSinceStarted;
