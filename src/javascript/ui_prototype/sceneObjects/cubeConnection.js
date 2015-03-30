@@ -25,7 +25,7 @@ class CubeConnection extends SceneObject {
 	createPath(points) {
 		//you need at least two points to create a line
 		if (points.length < 2) {
-			return;
+			return undefined;
 		}
 
 		const geometry = new THREE.BufferGeometry();
@@ -59,7 +59,8 @@ class CubeConnection extends SceneObject {
     geometry.addAttribute('color',
       new THREE.BufferAttribute(colors, itemsPerPoint));
 
-		return new THREE.Line(geometry, material);
+		const line = new THREE.Line(geometry, material);
+		return line;
 	}
 
 	dispose() {

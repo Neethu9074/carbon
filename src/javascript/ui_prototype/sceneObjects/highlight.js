@@ -11,7 +11,7 @@ import * as math from '../math';
 class Hightlight extends SceneObject {
 	constructor(app, obj) {
 		const dim = obj.dimension;
-  	const pos = obj.position.clone();
+		const pos = obj.position.clone();
     pos.sub(new THREE.Vector3(dim.x / 2, 0, -dim.z / 2));
 
 

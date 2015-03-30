@@ -144,9 +144,9 @@ class App {
   }
 
   setupStats() {
-    let glS = new glStats.glStats();
-    let tS = new glStats.threeStats(this.webGLRenderer);
-    let rS = new rStats.rStats({
+    let glS = new glStats.GlStats();
+    let tS = new glStats.ThreeStats(this.webGLRenderer);
+    let rS = new rStats.RStats({
       values: {
         frame: {
           caption: 'Total frame time (ms)',
@@ -249,9 +249,13 @@ class App {
     const object = this.clickedObject;
     const state = object.state;
 
-    if(state === states.ok) { object.setState(states.warning); }
-    else if(state === states.warning) { object.setState(states.error); }
-    else { object.setState(states.ok); }
+    if(state === states.ok) {
+      object.setState(states.warning);
+    } else if(state === states.warning) {
+      object.setState(states.error);
+    } else {
+      object.setState(states.ok);
+    }
   }
 
   onHostDestroyed() {
@@ -279,8 +283,9 @@ class App {
   update() {
     requestAnimationFrame(this.update);
 
+    let rS;
     if (__DEV__) {
-      var rS = this.rStats;
+      rS = this.rStats;
       rS('frame').start();
       this.glStats.start();
       rS('frame').start();
@@ -317,7 +322,7 @@ class App {
 
     const distance = this.controller.zoomLevel;
     if(distance >= this.hideHostsDistance) {
-      //console.log('hide hosts', distance);
+      logger.debug('hide hosts', distance);
       //return;
     }
 
@@ -388,21 +393,19 @@ class App {
   findObjectInOctree(raycaster) {
 
     raycaster.far = Math.min(250, raycaster.far); //[0, 200]
-    var toBeTested = [];
-    this.scene.traverse (function (object)
-    {
+    const toBeTested = [];
+    this.scene.traverse(function (object) {
       if(object.collisionEnabled === true) {
         toBeTested.push(object);
       }
     });
 
-    var i = raycaster.intersectObjects(toBeTested);
+    let i = raycaster.intersectObjects(toBeTested);
     if (i.length > 0) {
       return i[0].object;
     }
-    return;
 
-
+    /*
 
 
     this.octree.update();
@@ -426,6 +429,7 @@ class App {
       }
     }
     return undefined;
+    */
   }
 
   clickedOnObject(object) {

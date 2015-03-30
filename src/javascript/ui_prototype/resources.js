@@ -14,7 +14,8 @@ export function load(onFinished) {
 		function() {
 			loadModel('bundle/' + cubeObjectPath, obj.setCube,
 				function() {
-					loadModel('bundle/' + collObjCubePath, obj.setCollisionObjectCube,
+					loadModel('bundle/' + collObjCubePath,
+						obj.setCollisionObjectCube,
 						function() {
 							onFinished();
 						});
@@ -25,7 +26,7 @@ export function load(onFinished) {
 
 
 function loadModel(model, set, onFinished) {
-	var loader = new THREE.OBJLoader();
+	const loader = new THREE.OBJLoader();
 	loader.load(
 		model,
 		function(object) {

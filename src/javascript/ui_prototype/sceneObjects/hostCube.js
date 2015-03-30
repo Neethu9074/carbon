@@ -21,7 +21,7 @@ from '../../log';
 import TWEEN from 'tween.js'
 import _ from 'lodash';
 
-const logger = createLogger('hostCube.js');
+//const logger = createLogger('hostCube.js');
 const hideCSS3DDistance = 100;
 const hostWidth = 20;
 const hostHeight = 4;

@@ -4,7 +4,7 @@ import Pathfinding from 'pathfinding';
 
 
 class LayouterContainer{
-  constructor(width, pathfindingWidth) {
+  constructor(width) {
     this.width = width;
     this.height = width;
 
@@ -14,7 +14,8 @@ class LayouterContainer{
     }
 
     //create grid for pathfinding. for each cube, pathfinding knows 100 quads
-    //this.walkingGrid = new Pathfinding.Grid(pathfindingWidth, pathfindingWidth);
+    //this.walkingGrid =
+    //new Pathfinding.Grid(pathfindingWidth, pathfindingWidth);
   }
 
   getNext() {

@@ -14,7 +14,7 @@ from '../../log';
 
 import _ from 'lodash';
 
-const logger = createLogger('groundWarningEffect.js');
+//const logger = createLogger('groundWarningEffect.js');
 const all3DMeshes = [];
 
 

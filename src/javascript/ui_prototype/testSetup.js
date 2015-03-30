@@ -5,14 +5,17 @@ import * as colors from './colors';
 import * as textures from './textures';
 import Connection from './sceneObjects/cubeConnection';
 
+const tempConnections = [];
 
 export function setup(app) {
   let host = app.addRandomHost();
   let hostB = app.addRandomHost();
   let hostC = app.addRandomHost();
 
-  new Connection(app, host, hostB);
-  new Connection(app, hostB, hostC);
+  const a = new Connection(app, host, hostB);
+  const b = new Connection(app, hostB, hostC);
+  tempConnections.push(a);
+  tempConnections.push(b);
 
 
   host.addContainer( { id: 'uuid1', pid: '1' } );
@@ -21,11 +24,13 @@ export function setup(app) {
   host.addContainer( { id: 'uuid4', pid: '4' } );
   //host.addContainer( { id: 'uuid6', pid: '5' } );
 
-  var max = 10;
-  var step = 1;
-  var counter = 0;
+  const max = 10;
+  let step = 1;
+  let counter = 0;
   setInterval(function() {
-    if(counter >= step) return;
+    if(counter >= step){
+      return;
+    }
 
     app.addRandomHost();
     counter++;

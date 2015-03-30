@@ -29,9 +29,9 @@ class HarmonicSphericalLayouter {
 
 		/* add the surounding fields if possible as new free fields
 		     _________________
-		    |__1__|__2__|__3__|
-		    |__4__|_____|__5__|
-		    |__6__|__7__|__8__|
+				|__1__|__2__|__3__|
+				|__4__|_____|__5__|
+				|__6__|__7__|__8__|
 		*/
 		this.tryAdd({
 			x: next.x - 1,

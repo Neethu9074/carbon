@@ -1,19 +1,20 @@
 'use strict';
 
-var cache = require('gulp-cached');
-var del = require('del');
-var eslint = require('gulp-eslint');
-var filter = require('gulp-filter');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var Promise = require('bluebird');
-var rev = require('gulp-rev');
-var revReplace = require('gulp-rev-replace');
-var shell = require('shelljs');
-var size = require('gulp-size');
-var util = require('util');
-var webpack = require('webpack');
-var WebpackDevServer = require('webpack-dev-server');
+var cache = require ('gulp-cached');
+var del = require ('del');
+var eslint = require ('gulp-eslint');
+var filter = require ('gulp-filter');
+var gulp = require ('gulp');
+var gutil = require ('gulp-util');
+var Promise = require ('bluebird');
+var rev = require ('gulp-rev');
+var revReplace = require ('gulp-rev-replace');
+var shell = require ('shelljs');
+var size = require ('gulp-size');
+var util = require ('util');
+var webpack = require ('webpack');
+var WebpackDevServer = require ('webpack-dev-server');
+//import * as r from './package.json'
 
 var webpackConfig = require('./webpack.config.js');
 
@@ -94,7 +95,6 @@ function getBanner() {
     shell.exec('git rev-parse HEAD').output.trim()
   );
 }
-
 
 // The development server (the recommended option for development)
 gulp.task('dev', ['copyhtml', 'dev-watches', 'webpack:dev']);

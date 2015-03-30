@@ -3,7 +3,7 @@
 import {load} from './ui_prototype/resources';
 import DataListenerManager from './instana_data/dataListenerManager';
 
-import app from './ui_prototype/app';
+import App from './ui_prototype/app';
 import {setup} from './ui_prototype/testSetup';
 import {createLogger, setActiveSeverity} from './log';
 
@@ -14,6 +14,7 @@ if (__DEV__) {
 }
 
 const logger = createLogger('index.js');
+const liveData = false;
 
 //first load all resources
 logger.info('Loading resources...');
@@ -23,13 +24,16 @@ load(() => { //on finished
   logger.info('Initializing application');
 
   //start up the UI when all resources are loaded
-  const uiApplication = new app(canvas);
+  const uiApplication = new App(canvas);
 
   //test setup
-  setup(uiApplication); logger.info('Finished initialization'); return;
+  setup(uiApplication);
 
-  //live data each 2000 ms
-  const dataManager = new DataListenerManager(uiApplication, 1000);
+  if(liveData) {
+    //live data each 2000 ms
+    const dataManager = new DataListenerManager(uiApplication, 1000);
+    logger.info('get live data via', dataManager);
+  }
 
   logger.info('Finished initialization');
 });

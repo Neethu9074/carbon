@@ -1,4 +1,4 @@
-exports.glStats = function glStats() {
+exports.GlStats = function GlStats() {
 
     var _rS = null;
 
@@ -89,7 +89,7 @@ exports.glStats = function glStats() {
 
 }
 
-exports.threeStats = function threeStats( renderer ) {
+exports.ThreeStats = function ThreeStats( renderer ) {
 
     var _rS = null;
 

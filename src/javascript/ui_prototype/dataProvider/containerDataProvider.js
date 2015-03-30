@@ -105,10 +105,11 @@ class HostDataProvider extends DataProvider {
 
 	getDashboardUrl() {
 		return '/#/dashboard/file/' +
-			btoa(this.host + '___' + this.tag + '___' + this.entityID) + '.json';
+			btoa(this.host + '___' + this.tag + '___' + this.entityID)
+			+ '.json';
 	}
 
-	onStateChanged(newSate) {
+	onStateChanged() {
 	}
 
 	dispose() {

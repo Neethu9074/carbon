@@ -44,7 +44,7 @@ class HostDataProvider extends DataProvider {
 			metaData.operatingSystem.version;
   }
 
-	get3DContent(originalDim) {
+	get3DContent() {
 		const geo = geometries.cubeGeometry;
 		const cube = new THREE.Mesh(geo);
 
@@ -69,14 +69,40 @@ class HostDataProvider extends DataProvider {
 		invisibleObj.position.copy(this.cube.position);
 
 
+    //setup the ground tag plane
     //const plane = this.getGroundPlane(originalDim);
     //invisibleObj.add(plane);
+
+
+/*
+    const geometry = new THREE.Geometry();
+
+    geometry.vertices.push( new THREE.Vector3( 0, 10, 0 ) );
+    geometry.vertices.push( new THREE.Vector3( 10, 10, 0 ) );
+    geometry.vertices.push( new THREE.Vector3( 10, 10, -10 ) );
+    geometry.vertices.push( new THREE.Vector3( 0, 10, -10 ) );
+
+    //counter-clockwise winding order
+    geometry.faces.push( new THREE.Face3( 0, 1, 2 ) );
+    geometry.faces.push( new THREE.Face3( 0, 2, 3 ) );
+    geometry.faceVertexUvs[0][0] = [ 0, 1, 2 ];
+    geometry.faceVertexUvs[0][1] = [ 0, 2, 3 ];
+
+    geometry.computeFaceNormals(); //let three do the magic
+    geometry.computeVertexNormals();
+
+    var material = new THREE.MeshBasicMaterial({ side:THREE.DoubleSide });
+    var mesh = new THREE.Mesh(
+      new THREE.BufferGeometry().fromGeometry(geometry),
+      material);
+    this.cube.app.scene.add(mesh);
+*/
 
 		return invisibleObj;
 	}
 
 	getCollisionObject() {
-	  const cube = new THREE.Mesh(
+    const cube = new THREE.Mesh(
       obj.collisionObjectCube.geometry,
       materials.collisonHighlightMaterial);
 
@@ -196,7 +222,7 @@ class HostDataProvider extends DataProvider {
       this.effect = new GroundEffect( this.cube.app, pos, dim, 'red');
 
     } else if(newState === states.warning) {
-	      logger.debug('state changed to: ', newState);
+        logger.debug('state changed to: ', newState);
         this.effect = new GroundEffect( this.cube.app, pos, dim, 'yellow');
       }
 	}

@@ -107,10 +107,12 @@ class BaseCube extends SceneObject {
 
 					const cubeSize = (parentDim.x / this.layouter.width);
 					const pos3D = new THREE.Vector3(
-						this.position.x - parentDim.x / 2 + cubeSize / 2 + pos2D.x *
+						this.position.x - parentDim.x / 2
+						+ cubeSize / 2 + pos2D.x *
 						cubeSize,
 						child.position.y,
-						this.position.z + parentDim.z / 2 - cubeSize / 2 - pos2D.y *
+						this.position.z + parentDim.z / 2
+						- cubeSize / 2 - pos2D.y *
 						cubeSize);
 					const dim = new THREE.Vector3(cubeSize, 1, cubeSize);
 					child.setSize(dim);

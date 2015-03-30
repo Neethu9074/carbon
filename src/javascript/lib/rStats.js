@@ -25,7 +25,7 @@
 
 })();
 
-module.exports.rStats = function rStats(settings) {
+module.exports.RStats = function RStats(settings) {
 
 	function iterateKeys(array, callback) {
 
