@@ -18,6 +18,7 @@ import {
 }
 from '../../log';
 
+import TWEEN from 'tween.js'
 import _ from 'lodash';
 
 const logger = createLogger('hostCube.js');
