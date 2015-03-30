@@ -193,7 +193,11 @@ class HostDataProvider extends DataProvider {
 
     _.remove(all3DMeshes, mesh => mesh === this.content3D);
     this.rebuildGlobalMesh();
-		//TODO
+
+    if(this.effect !== undefined) {
+      this.effect.dispose();
+      this.effect = null;
+    }
 	}
 }
 

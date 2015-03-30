@@ -251,6 +251,10 @@ class App {
     else if(state === states.warning) { object.setState(states.error); }
     else { object.setState(states.ok); }
   }
+
+  onHostDestroyed(ID) {
+    logger.info('host', ID, 'was destroyed');
+  }
 //end events
 
   bindMethods() {
@@ -302,7 +306,7 @@ class App {
     this.controller.update(dt);
 
     //update global texture offsets
-      textures.groundEffectTexture.offset.y = 0.25 * -this.timeSinceStarted;
+    textures.groundEffectTexture.offset.y = 0.25 * -this.timeSinceStarted;
 
     const distance = this.controller.zoomLevel;
     if(distance >= this.hideHostsDistance) {

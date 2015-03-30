@@ -60,6 +60,7 @@ class HostCube extends BaseCube {
     this.time = null;
     this.tick = null;
 
+    this.app.onHostDestroyed(this.ID);
     super.dispose();
   }
 

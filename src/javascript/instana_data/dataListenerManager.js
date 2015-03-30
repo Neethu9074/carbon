@@ -7,7 +7,9 @@ import {
 	createLogger
 }
 from '../log';
-const logger = createLogger('app.js');
+import _ from 'lodash';
+
+const logger = createLogger('dataListenerManager.js');
 
 
 class DataListenerManager {
@@ -16,8 +18,10 @@ class DataListenerManager {
 		//bind methods
 		this.onUpdateHosts = this.onUpdateHosts.bind(this);
 		this.onUpdateInventory = this.onUpdateInventory.bind(this);
+		this.onHostDestroyed = this.onHostDestroyed.bind(this);
 
 		this.app = app;
+		app.onHostDestroyed = this.onHostDestroyed;
 
 		//a collection to store all found hosts
 		this.detectedHostIds = [];
@@ -51,11 +55,16 @@ class DataListenerManager {
 			} else {
 				//hostMetaData is still created
 				const host = this.app.getHost(hostID);
-				host.changeMetaData(hostMetaData);
-
-				//TODO: calculate diff ?
+				if(host !== undefined) {
+					host.changeMetaData(hostMetaData);
+				}
 			}
 		}
+	}
+
+	onHostDestroyed(ID) {
+  	logger.info('host', ID, 'was destroyed');
+		_.remove(this.detectedHostIds, item => item === ID);
 	}
 
 	onUpdateInventory(currentInventory) {
