@@ -12,6 +12,7 @@ import * as states from './cubeStates';
 import * as geometries from './geometries';
 import * as textures from './textures';
 import Ground from './sceneObjects/ground';
+import Hightlight from './sceneObjects/highlight';
 import Host from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
 
@@ -427,7 +428,15 @@ class App {
 
   clickedOnObject(object) {
     this.clickedObject = object;
-    logger.info('clicked on: ', this.clickedObject);
+    logger.info('clicked on: ', object);
+    this.addHighlightOnObj(object);
+  }
+
+  addHighlightOnObj() {
+    if(this.hightlight !== undefined) {
+      this.hightlight.dispose();
+    }
+    //this.hightlight = new Hightlight(this, this.clickedObject);
   }
 
   addHost(metaData) {

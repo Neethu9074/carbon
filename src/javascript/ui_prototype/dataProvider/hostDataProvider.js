@@ -44,7 +44,7 @@ class HostDataProvider extends DataProvider {
 			metaData.operatingSystem.version;
   }
 
-	get3DContent() {
+	get3DContent(originalDim) {
 		const geo = geometries.cubeGeometry;
 		const cube = new THREE.Mesh(geo);
 
@@ -56,6 +56,7 @@ class HostDataProvider extends DataProvider {
 
     this.content3D = cube;
 
+    //setup collision object
 		const coll = this.getCollisionObject();
     coll.parentSceneObject = this.cube;
 
@@ -66,6 +67,10 @@ class HostDataProvider extends DataProvider {
 		const invisibleObj = new THREE.Mesh();
 		invisibleObj.add(coll);
 		invisibleObj.position.copy(this.cube.position);
+
+
+    //const plane = this.getGroundPlane(originalDim);
+    //invisibleObj.add(plane);
 
 		return invisibleObj;
 	}
@@ -82,6 +87,18 @@ class HostDataProvider extends DataProvider {
 
 		return cube;
 	}
+
+  getGroundPlane(dim) {
+		const geo = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+		const plane = new THREE.Mesh(geo);
+
+		plane.position.y -= 0.25;
+		plane.scale.set(dim.x, dim.z, 1);
+		plane.rotation.x = -90 * math.DegToRad;
+
+		this.cube.setStatic(plane);
+    return plane;
+  }
 
 	rebuildGlobalMesh() {
 		try {
@@ -172,7 +189,7 @@ class HostDataProvider extends DataProvider {
     const pos = this.cube.position;
     const dim = this.cube.dimension
       .clone()
-      .multiplyScalar(1 + this.cube.cubeOffset);
+      .multiplyScalar(1 / (1 - this.cube.cubeOffset)); //get the 100%
 
     if(newState === states.error) {
       logger.debug('state changed to: ', newState);

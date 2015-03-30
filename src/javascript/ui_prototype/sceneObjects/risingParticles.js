@@ -12,7 +12,7 @@ import _ from 'lodash';
 class RisingParticles extends SceneObject {
   constructor(app, positions) {
     const pos = new THREE.Vector3(-10, 0, 10);
-    const dim = new THREE.Vector3(1000, 0, 1000);
+    const dim = new THREE.Vector3(1, 0, 1);
 
     //call super constructor
     super(app, 'rising particles', pos, dim);
