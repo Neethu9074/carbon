@@ -252,8 +252,12 @@ class App {
     else { object.setState(states.ok); }
   }
 
-  onHostDestroyed(ID) {
-    logger.info('host', ID, 'was destroyed');
+  onHostDestroyed() {
+    logger.info('NOONE IS LISTENING TO onHostDestroyed(ID)');
+  }
+
+  onInventoryDestroyed() {
+    logger.info('NOONE IS LISTENING TO onInventoryDestroyed(ID)');
   }
 //end events
 

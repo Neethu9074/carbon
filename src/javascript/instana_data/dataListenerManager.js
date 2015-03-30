@@ -18,10 +18,12 @@ class DataListenerManager {
 		//bind methods
 		this.onUpdateHosts = this.onUpdateHosts.bind(this);
 		this.onUpdateInventory = this.onUpdateInventory.bind(this);
+		this.onInventoryDestroyed = this.onInventoryDestroyed.bind(this);
 		this.onHostDestroyed = this.onHostDestroyed.bind(this);
 
 		this.app = app;
 		app.onHostDestroyed = this.onHostDestroyed;
+		app.onInventoryDestroyed = this.onInventoryDestroyed;
 
 		//a collection to store all found hosts
 		this.detectedHostIds = [];
@@ -45,6 +47,7 @@ class DataListenerManager {
 		for (let i = 0; i < currentHosts.length; i++) {
 			const hostMetaData = currentHosts[i];
 			const hostID = hostMetaData.id;
+
 			if (this.detectedHostIds.indexOf(hostID) < 0) {
 				//new hostMetaData found!
 				this.detectedHostIds.push(hostID);
@@ -77,13 +80,15 @@ class DataListenerManager {
 		for (let i = 0; i < currentInventory[1].length; i++) {
 			const inv = currentInventory[1][i];
 			const invID = hostID + '/' + inv.type + '/' + inv.properties.pid;
-			if (this.detectedInventory.indexOf(invID) < 0) {
-				//new inventory found!
-				this.detectedInventory.push(invID);
 
+			if (this.detectedInventory.indexOf(invID) < 0) {
 				//get cube with name = hostID and add a cube
 				const hostCube = this.app.getHost(hostID);
+
 				if (hostCube !== undefined) {
+					//add the inventory if the host exists
+					this.detectedInventory.push(invID);
+
 					hostCube.addContainer({
 						id: invID,
 						discription: inv.type,
@@ -95,6 +100,11 @@ class DataListenerManager {
 				}
 			}
 		}
+	}
+
+	onInventoryDestroyed(ID) {
+  	logger.info('inventory', ID, 'was destroyed');
+		_.remove(this.detectedInventory, item => item === ID);
 	}
 }
 

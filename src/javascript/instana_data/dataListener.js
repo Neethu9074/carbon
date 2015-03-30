@@ -27,7 +27,6 @@ class DataListener {
 
   getInventory(hosts) {
     const onUpdateInventoryTemp = this.onUpdateInventory;
-
     for (let i = 0; i < hosts.length; i++) {
       const host = hosts[i];
       const id = host.id;

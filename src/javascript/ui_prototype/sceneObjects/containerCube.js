@@ -30,6 +30,12 @@ class ContainerCube extends BaseCube {
 		logger.error('not supported yet: container inside container');
     return undefined;
 	}
+
+  dispose(){
+    this.app.onInventoryDestroyed(this.ID);
+
+    super.dispose();
+  }
 }
 
 export default ContainerCube;
