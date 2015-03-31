@@ -173,6 +173,8 @@ class HostDataProvider extends DataProvider {
   }
 
 	dispose() {
+    factory.removeFragment(this.cube.ID);
+
 		super.dispose();
 
     if(this.effect !== undefined) {

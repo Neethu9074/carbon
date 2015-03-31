@@ -9,6 +9,8 @@ import * as math from './math';
 import * as colors from './colors';
 import * as app from './app';
 
+import _ from 'lodash';
+
 let globalGeometry = new THREE.Geometry();
 let globalMesh = new THREE.Mesh();
 const fragments = [];
@@ -62,6 +64,11 @@ class HostCubeFactory {
 
     this.app.scene.add(globalMesh);
   }
+
+	removeFragment(ID) {
+		_.remove(fragments, fragment => fragment.ID === ID);
+		this.rebuild();
+	}
 }
 
 export default HostCubeFactory;

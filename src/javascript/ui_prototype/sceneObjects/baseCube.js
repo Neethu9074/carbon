@@ -248,9 +248,9 @@ class BaseCube extends SceneObject {
 			this.offlineObject.dispose();
 		}
 
+		this.dataProvider.dispose();
 		super.dispose();
 
-		this.dataProvider.dispose();
 		this.offlineObject = null;
 		this.cubeOffset = null;
 		this.online = null;
