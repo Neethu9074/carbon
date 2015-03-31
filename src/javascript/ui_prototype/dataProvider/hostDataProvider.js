@@ -4,6 +4,7 @@ import THREE from 'three.js';
 
 import DataProvider from './dataProvider';
 import GroundEffect from '../sceneObjects/groundWarningEffect';
+import CubeFactory from '../hostCubeFactory';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as obj from '../obj';
@@ -20,11 +21,7 @@ from '../../log';
 import _ from 'lodash';
 
 const logger = createLogger('containerCube.js');
-
-const all3DMeshes = [];
-let globalMesh = new THREE.Mesh(
-	geometries.globalHostGeometry,
-	materials.cubeHostMaterial);
+let factory;
 
 
 class HostDataProvider extends DataProvider {
@@ -32,6 +29,10 @@ class HostDataProvider extends DataProvider {
 	constructor(metaData) {
 		super(metaData);
     this.setFromMetaData(metaData);
+
+    if(factory === undefined) {
+      factory = new CubeFactory();
+    }
 	}
 
   setFromMetaData(metaData) {
@@ -45,16 +46,10 @@ class HostDataProvider extends DataProvider {
   }
 
 	get3DContent() {
-		const geo = geometries.cubeGeometry;
-		const cube = new THREE.Mesh(geo);
-
-		cube.scale.copy(this.cube.dimension);
-		cube.position.copy(this.cube.position);
-
-		all3DMeshes.push(cube);
-		this.	rebuildGlobalMesh();
-
-    this.content3D = cube;
+    factory.createHostCube(
+      this.cube.position,
+      this.cube.dimension,
+      this.cube.ID);
 
     //setup collision object
 		const coll = this.getCollisionObject();
@@ -101,36 +96,6 @@ class HostDataProvider extends DataProvider {
 		this.cube.setStatic(plane);
     return plane;
   }
-
-	rebuildGlobalMesh() {
-		try {
-			const container = geometries.globalHostContainer;
-      geometries.globalHostGeometry.dispose();
-			let geo = new THREE.Geometry();
-
-			container.remove(globalMesh);
-
-      if(all3DMeshes.length === 0) {
-        return;
-      }
-
-			_.forEach(all3DMeshes, mesh => {
-        mesh.updateMatrix();
-				geo.merge(mesh.geometry, mesh.matrix);
-			});
-
-      const finalGeo = new THREE.BufferGeometry().fromGeometry(geo);
-      geo.dispose();
-
-			globalMesh = new THREE.Mesh(finalGeo, materials.cubeHostMaterial);
-      geometries.globalHostGeometry = finalGeo;
-
-			container.add(globalMesh);
-
-		} catch (err) {
-			logger.error(err);
-		}
-	}
 
 	get2DContent() {
 		const dim = this.cube.dimension;
@@ -209,9 +174,6 @@ class HostDataProvider extends DataProvider {
 
 	dispose() {
 		super.dispose();
-
-    _.remove(all3DMeshes, mesh => mesh === this.content3D);
-    this.rebuildGlobalMesh();
 
     if(this.effect !== undefined) {
       this.effect.dispose();

@@ -31,6 +31,7 @@ import {
 }
 from '../log';
 const logger = createLogger('app.js');
+let application;
 
 
 class App {
@@ -73,6 +74,8 @@ class App {
 
     this.setupEvents();
     this.update();
+
+    application = this;
   }
 
   setupOctree() {
@@ -125,8 +128,6 @@ class App {
     //a collection to store all sceneObjects
     this.sceneObjects3D = [];
     this.sceneObjects3D.push(new Ground(this));
-
-    this.scene.add(geometries.globalHostContainer);
   }
 
   setup2D() {
@@ -473,6 +474,11 @@ class App {
   getHost(ID) {
     return _.find(this.hosts, host => host.ID === ID);
   }
+}
+
+//returns the active application as a global object
+export function getApplication() {
+  return application;
 }
 
 export default App;

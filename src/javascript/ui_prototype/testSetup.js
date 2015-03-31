@@ -23,7 +23,7 @@ export function setup(app) {
   host.addContainer( { id: 'uuid3', pid: '3' } );
   host.addContainer( { id: 'uuid4', pid: '4' } );
   //host.addContainer( { id: 'uuid6', pid: '5' } );
-
+return;
   const max = 10;
   let step = 1;
   let counter = 0;

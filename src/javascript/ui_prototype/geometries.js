@@ -17,6 +17,3 @@ export const cubeGeometry = ( () => {
 
   return box;
 })();
-
-export let globalHostGeometry = new THREE.BufferGeometry();
-export const globalHostContainer = new THREE.Object3D();
