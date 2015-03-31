@@ -2,24 +2,14 @@
 
 import THREE from 'three.js';
 
-import SceneObject from './sceneObject';
-import * as geometries from '../geometries';
-import * as obj from '../obj';
-import * as materials from '../materials';
-import * as textures from '../textures';
-
 const globalGeometry = new THREE.Geometry();
 let globalMesh = new THREE.Mesh();
 
 
-class PlaneFactory extends SceneObject {
+class PlaneFactory {
 
 	constructor(app) {
-    const pos = new THREE.Vector3();
-    const dim = new THREE.Vector3();
-		super(app, 'offlineCube', pos, dim);
-
-
+    this.app = app;
 	}
 
   /*

@@ -13,7 +13,6 @@ import * as geometries from './geometries';
 import * as textures from './textures';
 import Ground from './sceneObjects/ground';
 import Hightlight from './sceneObjects/highlight';
-import PlaneFactory from './sceneObjects/planeFactory';
 import Host from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
 
@@ -128,11 +127,6 @@ class App {
     this.sceneObjects3D.push(new Ground(this));
 
     this.scene.add(geometries.globalHostContainer);
-
-    const pf = new PlaneFactory(this);
-    pf.createPlane(
-      new THREE.Vector3(10, 10, 0),
-      new THREE.Vector3(10, 1, 0));
   }
 
   setup2D() {
