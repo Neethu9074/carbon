@@ -39,10 +39,11 @@ class OfflineCube extends SceneObject {
 	}
 
 	dispose() {
-		logger.debug('dispose: ', this);
 		this.app.scene.remove(this.mesh);
 		this.mesh.geometry.dispose();
 		this.mesh = null;
+
+		super.dispose();
 	}
 }
 
