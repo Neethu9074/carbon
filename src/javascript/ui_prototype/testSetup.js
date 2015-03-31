@@ -12,8 +12,8 @@ export function setup(app) {
   let hostB = app.addRandomHost();
   let hostC = app.addRandomHost();
 
-  const a = new Connection(app, host, hostB);
-  const b = new Connection(app, hostB, hostC);
+  const a = new Connection(host, hostB);
+  const b = new Connection(hostB, hostC);
   tempConnections.push(a);
   tempConnections.push(b);
 

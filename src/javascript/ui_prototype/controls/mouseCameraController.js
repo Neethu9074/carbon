@@ -3,13 +3,14 @@
 import THREE from 'three.js';
 
 import * as math from '../math';
-
+import * as App from '../app';
 
 //see: https://github.com/instana/visualization/
 //commit/2a09db973b63cfbfa22b1b94769c0ca5c887628b/
 //src/images/scetches/mouseControl.png
 class MouseControl {
-  constructor(app) {
+  constructor() {
+    const app = App.getApplication();
     this.bindListeners();
     this.init(app);
 

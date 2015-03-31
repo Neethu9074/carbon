@@ -20,8 +20,8 @@ const all3DMeshes = [];
 
 class GroundWarningEffect extends SceneObject {
 
-	constructor(app, pos, dim, color) {
-		super(app, 'groundWarningEffect', pos, dim);
+	constructor(pos, dim, color) {
+		super('groundWarningEffect', pos, dim);
 
 		let mat = materials.groundEffectMaterialError;
 		if(color === 'yellow') {
@@ -37,7 +37,7 @@ class GroundWarningEffect extends SceneObject {
 
     this.ground = ground;
 		all3DMeshes.push(ground);
-    app.scene.add(ground);
+    this.app.scene.add(ground);
 	}
 
 	dispose() {

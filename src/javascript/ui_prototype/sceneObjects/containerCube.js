@@ -21,9 +21,9 @@ const logger = createLogger('containerCube.js');
 
 class ContainerCube extends BaseCube {
 
-  constructor(app, pos, dim, dataProvider) {
+  constructor(pos, dim, dataProvider) {
     this.cubeOffset = 0.1; //90%
-    super(app, pos, dim, dataProvider);
+    super(pos, dim, dataProvider);
   }
 
 	addContainerToPosWithDim() {

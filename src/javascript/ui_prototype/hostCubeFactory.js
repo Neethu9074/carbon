@@ -4,9 +4,6 @@ import THREE from 'three.js';
 
 import * as geometries from './geometries';
 import * as materials from './materials';
-import * as obj from './obj';
-import * as math from './math';
-import * as colors from './colors';
 import * as app from './app';
 
 import _ from 'lodash';

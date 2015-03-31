@@ -10,12 +10,12 @@ import _ from 'lodash';
 
 
 class RisingParticles extends SceneObject {
-  constructor(app, positions) {
+  constructor(positions) {
     const pos = new THREE.Vector3(-10, 0, 10);
     const dim = new THREE.Vector3(1, 0, 1);
 
     //call super constructor
-    super(app, 'rising particles', pos, dim);
+    super('rising particles', pos, dim);
 
     this.uniforms = {
       amplitude: {
@@ -26,8 +26,8 @@ class RisingParticles extends SceneObject {
     this.pointCloud = this.createPointCloud(this.uniforms, positions);
     this.pointCloud.position.copy(pos);
 
-    app.scene.add(this.pointCloud);
-    app.updates.push(this);
+    this.app.scene.add(this.pointCloud);
+    this.app.updates.push(this);
   }
 
   createPointCloud(uniforms, positions) {

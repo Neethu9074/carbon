@@ -9,12 +9,12 @@ import * as math from '../math';
 
 
 class Ground extends SceneObject {
-	constructor(app) {
+	constructor() {
 		const pos = new THREE.Vector3(10, -0.1, 10);
 		const dim = new THREE.Vector3(1000, 0, 1000);
 
 		//call super constructor
-		super(app, 'ground', pos, dim);
+		super('ground', pos, dim);
 
 		const geo = new THREE.PlaneBufferGeometry(dim.x, dim.z, 1, 1);
 		const plane = new THREE.Mesh(geo, materials.groundMaterial);
@@ -32,7 +32,7 @@ class Ground extends SceneObject {
 				points.push( new THREE.Vector3(x * 20, 0, y * 20) );
 			}
 		}
-		this.particles = new Particles(app, points);
+		this.particles = new Particles(points);
 	}
 
 	dispose() {

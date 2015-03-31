@@ -1,8 +1,11 @@
 'use strict';
 
+import * as App from '../app';
+
+
 class SceneObject{
-  constructor(app, ID, pos, dim) {
-    this.app = app;
+  constructor(ID, pos, dim) {
+    this.app = App.getApplication();
     this.ID = ID;
     this.position = pos.clone();
     this.dimension = dim.clone();

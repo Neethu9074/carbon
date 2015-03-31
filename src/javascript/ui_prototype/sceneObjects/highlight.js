@@ -16,7 +16,7 @@ class Hightlight extends SceneObject {
 
 
 		//call super constructor
-		super(app, 'ground', pos, dim);
+		super('ground', pos, dim);
 
     const points = [];
     for (let x = 0; x < dim.x; x += 0.1) {

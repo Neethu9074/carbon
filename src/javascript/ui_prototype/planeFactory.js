@@ -2,14 +2,16 @@
 
 import THREE from 'three.js';
 
+import * as App from './app';
+
 const globalGeometry = new THREE.Geometry();
 let globalMesh = new THREE.Mesh();
 
 
 class PlaneFactory {
 
-	constructor(app) {
-    this.app = app;
+	constructor() {
+    this.app = App.getApplication();
 	}
 
   /*

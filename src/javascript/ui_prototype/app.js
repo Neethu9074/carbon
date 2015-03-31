@@ -40,6 +40,9 @@ class App {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
+    //save global reference
+    application = this;
+
     //first of all -> bind methods
     this.bindMethods();
 
@@ -62,7 +65,7 @@ class App {
     this.setup3D();
     this.setup2D();
 
-    this.controller = new MouseControls(this);
+    this.controller = new MouseControls();
     //this.layouter = new Layouter(200, 1000); //for 100x100 cubes
     this.layouter = new Layouter(2000);
     //a collection to store all hosts
@@ -74,8 +77,6 @@ class App {
 
     this.setupEvents();
     this.update();
-
-    application = this;
   }
 
   setupOctree() {
@@ -451,7 +452,7 @@ class App {
       //get new position if possible
       const newPos2D = this.layouter.getNext(metaData.id);
       const pos = new THREE.Vector3(newPos2D.x, 0, -newPos2D.y);
-      const host = new Host(this, pos, new HostDataProvider(metaData));
+      const host = new Host(pos, new HostDataProvider(metaData));
 
       this.sceneObjects3D.push(host);
       this.hosts.push(host);

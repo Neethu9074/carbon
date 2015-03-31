@@ -9,7 +9,6 @@ import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as obj from '../obj';
 import * as math from '../math';
-import * as colors from '../colors';
 import * as states from '../cubeStates';
 
 import hostImagePath from '../../../images/icon_host.png';
@@ -160,11 +159,11 @@ class HostDataProvider extends DataProvider {
 
     if(newState === states.error) {
       logger.debug('state changed to: ', newState);
-      this.effect = new GroundEffect( this.cube.app, pos, dim, 'red');
+      this.effect = new GroundEffect(pos, dim, 'red');
 
     } else if(newState === states.warning) {
         logger.debug('state changed to: ', newState);
-        this.effect = new GroundEffect( this.cube.app, pos, dim, 'yellow');
+        this.effect = new GroundEffect(pos, dim, 'yellow');
       }
 	}
 

@@ -18,9 +18,9 @@ const logger = createLogger('offlineCube.js');
 
 class OfflineCube extends SceneObject {
 
-	constructor(app, pos, dim) {
+	constructor(pos, dim) {
     dim.multiplyScalar(1.05);
-		super(app, 'offlineCube', pos, dim);
+		super('offlineCube', pos, dim);
 
     const geo = obj.cube.geometry;
     const mat = materials.offlineMaterial;

@@ -29,7 +29,7 @@ const hostHeight = 4;
 
 class HostCube extends BaseCube {
 
-	constructor(app, pos, dataProvider) {
+	constructor(pos, dataProvider) {
     //bind methods
     this.removeCSSLayerFromScene = this.removeCSSLayerFromScene.bind(this);
 
@@ -38,7 +38,7 @@ class HostCube extends BaseCube {
 		pos.z *= hostWidth;
 		const dim = new THREE.Vector3(hostWidth, hostHeight, hostWidth);
 
-		super(app, pos, dim, dataProvider);
+		super(pos, dim, dataProvider);
 
 		this.app.updates.push(this);
 
@@ -47,7 +47,7 @@ class HostCube extends BaseCube {
 	}
 
 	addContainerToPosWithDim(pos, dim, metaData) {
-		const container = new ContainerCube(this.app, pos, dim,
+		const container = new ContainerCube(pos, dim,
 			new ContainerDataProvider(metaData));
 
 		container.parentContainer = this;

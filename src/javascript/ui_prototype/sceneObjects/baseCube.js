@@ -23,7 +23,7 @@ const logger = createLogger('baseCube.js');
 
 class BaseCube extends SceneObject {
 
-	constructor(app, pos, dim, dataProvider) {
+	constructor(pos, dim, dataProvider) {
 		//this is the dimension the cubes ground takes
 		const originalDim = dim.clone();
 
@@ -31,7 +31,7 @@ class BaseCube extends SceneObject {
 		dim.multiplyScalar(1 - this.cubeOffset);
 
 		//call super contructor
-		super(app, dataProvider.ID, pos, dim);
+		super(dataProvider.ID, pos, dim);
 
 		dataProvider.setCube(this);
 		this.dataProvider = dataProvider;
@@ -47,12 +47,12 @@ class BaseCube extends SceneObject {
     //this container (or add/remove from scene)
 		this.children = [];
 		this.childrenContainer = new THREE.Object3D();
-		app.scene.add(this.childrenContainer);
+		this.app.scene.add(this.childrenContainer);
 
 		this.online = true;
 		this.setState(states.ok);
 
-		if (app.showHostDetails) {
+		if (this.app.showHostDetails) {
 			this.show();
 		} else {
 			this.hide();

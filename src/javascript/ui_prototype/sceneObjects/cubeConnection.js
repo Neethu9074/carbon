@@ -12,14 +12,14 @@ const logger = createLogger('cubeConnection.js');
 
 
 class CubeConnection extends SceneObject {
-	constructor(app, a, b) {
+	constructor(a, b) {
 
 		//call super constructor
-		super(app, 'ground', a.position, a.dimension);
+		super('ground', a.position, a.dimension);
 
 		logger.info('connect', a.ID, 'with', b.ID);
 		this.path = this.createPath([a.position, b.position]);
-    app.scene.add(this.path);
+    this.app.scene.add(this.path);
 	}
 
 	createPath(points) {
