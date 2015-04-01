@@ -1,8 +1,10 @@
+'use strict';
+
 import React from 'react';
 import SignOutForm from './SignOutForm';
 import RadialChart from 'instana-ui-radial-chart';
 
-var App = React.createClass({
+const App = React.createClass({
   render() {
     return (
       <div>
