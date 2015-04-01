@@ -323,10 +323,10 @@ class App {
     textures.groundEffectTexture.offset.y = 0.25 * -this.timeSinceStarted;
 
     const distance = this.controller.zoomLevel;
-    if(distance >= this.hideHostsDistance) {
-      logger.debug('hide hosts', distance);
+    /*if(distance >= this.hideHostsDistance) {
+      //logger.debug('hide hosts', distance);
       //return;
-    }
+    }*/
 
     _.forEach(this.updates, obj => {
       obj.update(dt);

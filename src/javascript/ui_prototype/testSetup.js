@@ -24,7 +24,7 @@ export function setup(app) {
   host.addContainer( { id: 'uuid4', pid: '4' } );
   //host.addContainer( { id: 'uuid6', pid: '5' } );
 
-  const max = 1;
+  const max = 4;
   let step = 1;
   let counter = 0;
   setInterval(function() {
@@ -34,7 +34,6 @@ export function setup(app) {
 
     app.addRandomHost();
     counter++;
-    //console.log(counter, app.layouter.getFree().length)
   }, 10);
 
     setInterval(function() {

@@ -26,13 +26,13 @@ load(() => { //on finished
   //start up the UI when all resources are loaded
   const uiApplication = new App(canvas);
 
-  //test setup
-  setup(uiApplication);
-
   if(liveData) {
     //live data each 2000 ms
     const dataManager = new DataListenerManager(uiApplication, 1000);
     logger.info('get live data via', dataManager);
+  } else {
+      //test setup
+      setup(uiApplication);
   }
 
   logger.info('Finished initialization');

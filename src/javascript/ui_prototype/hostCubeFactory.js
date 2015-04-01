@@ -28,25 +28,40 @@ class HostCubeFactory {
 		cube.position.copy(pos);
 		cube.updateMatrix();
 
+		/*
 		fragments.push({
 			geometry: geo,
 			matrix: cube.matrix,
 			ID: ID //is needed to identify the fragment when deleting
 		});
+		*/
+
+		fragments.push({
+			pos: pos,
+			dim: dim,
+			ID: ID //is needed to identify the fragment when deleting
+		});
 
 		this.rebuild();
-		//this.test(pos, dim);
 
 		//return empty objecs as a container for further use
 		return new THREE.Object3D();
 	}
 
-	test(pos, dim) {
-		const cubes = 1;
+	rebuild() {
+		//var t1 = console.time('1');
+		this.app.scene.remove(globalMesh);
+		globalGeometry.dispose();
+
+		const cubes = fragments.length;
 		const ti = new Uint32Array(cubes * 36);
 		const tp = new Float32Array(cubes * 24);
 		const tuv = new Float32Array(cubes * 16);
-		for (let i = 0; i < cubes; i++) {
+		for (let i = 0; i < fragments.length; i++) {
+			const fragment = fragments[i];
+			const pos = fragment.pos;
+			const dim = fragment.dim;
+
 			const o = i * 8; //offset
 			const ii = i * 36;
 
@@ -146,18 +161,29 @@ class HostCubeFactory {
 			tp[ip + 23] = -dimZ + rz;
 		}
 
-		const geometry = new THREE.BufferGeometry();
-		geometry.addAttribute('index', new THREE.BufferAttribute(ti, 1));
-		geometry.addAttribute('position', new THREE.BufferAttribute(tp, 3));
-		geometry.addAttribute('uv', new THREE.BufferAttribute(tuv, 2));
-		geometry.computeVertexNormals();
+		globalGeometry = new THREE.BufferGeometry();
+
+		//add the indices
+		globalGeometry.addAttribute('index',
+			new THREE.BufferAttribute(ti, 1));
+
+		//add all positions
+		globalGeometry.addAttribute('position',
+			new THREE.BufferAttribute(tp, 3));
+
+		//add the uv coordinates
+		globalGeometry.addAttribute('uv',
+			new THREE.BufferAttribute(tuv, 2));
+		globalGeometry.computeVertexNormals();
 
 		const material = materials.cubeHostMaterial;
-		const mesh = new THREE.Mesh(geometry, material);
+		globalMesh = new THREE.Mesh(globalGeometry, material);
 
-		this.app.scene.add(mesh);
+		this.app.scene.add(globalMesh);
+		//var t2 = console.timeEnd('1');
 	}
 
+/*
 	rebuild() {
 		this.app.scene.remove(globalMesh);
 
@@ -180,6 +206,7 @@ class HostCubeFactory {
 
 		this.app.scene.add(globalMesh);
 	}
+*/
 
 	removeFragment(ID) {
 		_.remove(fragments, fragment => fragment.ID === ID);
