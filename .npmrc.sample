@@ -1,8 +1,7 @@
 # - copy this file and name it .npmrc
-# - update the following props and take note of the
-#   _auth description
+# - update the following props and take note of the _auth description
 
-registry=http://ec2-54-152-139-11.compute-1.amazonaws.com:8080/nexus/content/groups/npm-all/
+registry=http://nexus.instana.com/nexus/content/groups/instana-npm-all/
 always-auth=true
 init.author.name=Ben Ripkens
 init.author.email=ben@instana.com
@@ -10,5 +9,5 @@ init.author.url=http://bripkens.de
 email=ben@instana.com
 
 # generate the auth token the following via
-# echo -n 'instana-developer:<the dev account password>' | openssl base64
-_auth=<token>
+# echo -n '<your account name>:<your account password>' | openssl base64
+_auth=<your token>
