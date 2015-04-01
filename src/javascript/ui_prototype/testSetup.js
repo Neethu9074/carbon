@@ -41,7 +41,7 @@ export function setup(app) {
 
     app.addRandomHost();
     counter++;
-    logger.debug(counter ,'cubes created');
+    logger.debug(counter, 'cubes created');
   }, 10);
 
     setInterval(function() {
