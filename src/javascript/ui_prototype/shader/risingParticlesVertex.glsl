@@ -11,6 +11,9 @@ void main() {
   float percent = newPosition.y / maxHeight;
 
   alpha = 1.0 - percent;
-  gl_PointSize = 2.5;
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(newPosition, 1.0);
+
+  vec4 mvPosition = modelViewMatrix * vec4(newPosition, 1.0);
+  gl_PointSize = 2.0 * ( 300.0 / length( mvPosition.xyz ) );
+
+  gl_Position = projectionMatrix * mvPosition;
 }

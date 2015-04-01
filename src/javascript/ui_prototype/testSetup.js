@@ -5,7 +5,14 @@ import * as colors from './colors';
 import * as textures from './textures';
 import Connection from './sceneObjects/cubeConnection';
 
+//logging
+import {
+  createLogger
+}
+from '../log';
+const logger = createLogger('testSetup.js');
 const tempConnections = [];
+
 
 export function setup(app) {
   let host = app.addRandomHost();
@@ -24,7 +31,7 @@ export function setup(app) {
   host.addContainer( { id: 'uuid4', pid: '4' } );
   //host.addContainer( { id: 'uuid6', pid: '5' } );
 
-  const max = 4;
+  const max = 2;
   let step = 1;
   let counter = 0;
   setInterval(function() {
@@ -34,12 +41,13 @@ export function setup(app) {
 
     app.addRandomHost();
     counter++;
+    logger.debug(counter ,'cubes created');
   }, 10);
 
     setInterval(function() {
       if(step <= max) {
         step += 1;
       }
-    }, 100);
+    }, 50);
 
 }

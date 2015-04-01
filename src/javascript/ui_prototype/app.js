@@ -120,7 +120,7 @@ class App {
       30, //fov
       width / height, //aspect
       0.5, //near
-      1500); //far
+      2000); //far
 
     // add subtle ambient lighting
     const ambientLight = new THREE.AmbientLight(colors.ambientColor);

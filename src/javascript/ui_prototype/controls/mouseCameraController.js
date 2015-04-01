@@ -45,7 +45,7 @@ class MouseControl {
     this.moveSpeed = 0.1; //distance moved per pixel - heuristic
 
     //zoom fields
-    this.maxZoomOut = 1000;
+    this.maxZoomOut = 1500;
     this.maxZoomIn = 10;
     this.zoomLevel = 150;
     this.beginToRotate = 40;
