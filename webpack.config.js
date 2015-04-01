@@ -27,8 +27,7 @@ module.exports = {
 			loader: 'file-loader'
 		}, {
 			test: /\.js$/i,
-			exclude: /node_modules/,
-			loader: '6to5-loader'
+			loader: 'babel-loader'
 		}]
 	},
 	plugins: [

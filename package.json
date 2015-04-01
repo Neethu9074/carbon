@@ -7,18 +7,18 @@
     "install": "proxrox install",
     "clean": "gulp clean",
     "build": "gulp clean && gulp build",
-    "dev": "proxrox start .proxrox.yaml && gulp dev"
+    "dev": "proxrox stop && proxrox start .proxrox.yaml && gulp dev"
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "immutable": "^3.6.2",
-    "instana-visualization": "^0.0.0-postrelease",
+    "instana-ui-radial-chart": "^1.0.0",
     "invariant": "^1.0.2",
-    "react": "^0.12.2"
+    "react": "^0.13.1"
   },
   "devDependencies": {
-    "6to5-core": "^3.6.4",
-    "6to5-loader": "^3.0.0",
+    "babel-core": "^4.7.13",
+    "babel-loader": "^4.2.0",
     "bluebird": "^2.9.6",
     "css-loader": "^0.9.1",
     "del": "^1.1.1",
