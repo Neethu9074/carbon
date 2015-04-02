@@ -11,6 +11,8 @@ import * as obj from '../obj';
 import * as math from '../math';
 import * as states from '../cubeStates';
 
+import createLineChart from 'instana-ui-line-chart/src/chart';
+
 import hostImagePath from '../../../images/icon_host.png';
 import systemImagePath from '../../../images/icon_system.png';
 import {
@@ -99,20 +101,25 @@ class HostDataProvider extends DataProvider {
 	get2DContent() {
 		const dim = this.cube.dimension;
 		const pos = this.cube.position;
-		const content = this.getHTML();
+		//const content = this.getHTML();
 		const div = document.createElement('div');
 		div.className = 'hostCSS3DLayer';
-		div.innerHTML = content;
+		//div.innerHTML = content;
 
 		const object = new THREE.CSS3DObject(div);
 		object.rotation.x = -90 * math.DegToRad;
 
 		//1px in css is 1 unit in 3D space
-		object.scale.set(dim.x / 600, dim.x / 600, 1);
+		object.scale.set(dim.x / 400, dim.x / 400, 1);
 		object.position.copy(pos);
 		object.position.x += 1;
 		object.position.z += 0;
 		object.position.y += dim.y;
+
+    const cubeSurfaceDomElement = object.element;
+    createLineChart({
+     canvas: cubeSurfaceDomElement
+   });
 
 		return object;
 	}

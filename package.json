@@ -18,10 +18,11 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+    "instana-ui-line-chart": "^1.0.0",
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
-    "pathfinding": "^0.4.16",
-    "napa": "^1.2.0"
+    "napa": "^1.2.0",
+    "pathfinding": "^0.4.16"
   },
   "napa": {
     "three.js": "mrdoob/three.js#r70"
