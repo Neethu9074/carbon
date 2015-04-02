@@ -64,11 +64,9 @@ class HostDataProvider extends DataProvider {
 		invisibleObj.add(coll);
 		invisibleObj.position.copy(this.cube.position);
 
-
     //setup the ground tag plane
     //const plane = this.getGroundPlane(originalDim);
     //invisibleObj.add(plane);
-
 
 		return invisibleObj;
 	}
@@ -79,7 +77,7 @@ class HostDataProvider extends DataProvider {
       materials.collisonHighlightMaterial);
 
     cube.scale.copy(this.cube.dimension);
-    cube.scale.multiplyScalar(1.1); //make 1% bigger
+    cube.scale.multiplyScalar(1.01); //make 1% bigger
 
 		cube.visible = false;
 
