@@ -117,7 +117,10 @@ class HostDataProvider extends DataProvider {
 		object.position.y += dim.y;
 
     const cubeSurfaceDomElement = object.element;
-    createLineChart({ canvas: cubeSurfaceDomElement });
+    createLineChart({
+      canvas: cubeSurfaceDomElement,
+      height: 180
+    });
 
 		return object;
 	}

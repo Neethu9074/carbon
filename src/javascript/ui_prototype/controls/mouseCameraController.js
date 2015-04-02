@@ -41,7 +41,7 @@ class MouseControl {
   init(app) {
     this.appReference = app;
     this.mouse = new THREE.Vector2();
-    this.cameraSpeed = 5; //mainCamera fly speed - heuristic
+    this.cameraSpeed = 10; //mainCamera fly speed - heuristic
     this.moveSpeed = 0.1; //distance moved per pixel - heuristic
 
     //zoom fields

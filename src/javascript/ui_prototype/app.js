@@ -133,6 +133,10 @@ class App {
     const ambientLight = new THREE.AmbientLight(colors.ambientColor);
     this.scene.add(ambientLight);
 
+    const directionalLight = new THREE.DirectionalLight( 0xffffff, 0.25 );
+    directionalLight.position.set( 0, 1, 1 );
+    this.scene.add( directionalLight );
+
     //a collection to store all sceneObjects
     this.sceneObjects3D = [];
     this.sceneObjects3D.push(new Ground(this));

@@ -174,22 +174,26 @@ class BaseCube extends SceneObject {
 
 	setOffline() {
 		logger.debug('set offline');
+		this.online = false;
 
+		/*
 		let offlineObject = this.getOfflineObject();
 		this.app.scene.add(offlineObject.mesh);
 
 		this.hide();
-		this.online = false;
+		*/
 	}
 
 	setOnline() {
 		logger.debug('set online');
+		this.online = true;
 
+		/*
 		let offlineObject = this.getOfflineObject();
 		this.app.scene.remove(offlineObject.mesh);
 
-		this.online = true;
 		this.show();
+		*/
 	}
 
 	getOfflineObject() {
