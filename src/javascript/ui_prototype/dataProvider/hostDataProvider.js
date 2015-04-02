@@ -124,11 +124,12 @@ class HostDataProvider extends DataProvider {
 
 	getHTML() {
 		const id = this.ID;
+
+/*
 		const cpu = this.cpu;
 		const memory = this.memory;
 		const os = this.OS;
 
-/*
 		const html = '<h4></h4><p><img src= bundle/' + hostImagePath +
 			' class=icon>Host</p>' +
 			'<ul><li>' + id + '</li></ul>' +
