@@ -101,10 +101,10 @@ class HostDataProvider extends DataProvider {
 	get2DContent() {
 		const dim = this.cube.dimension;
 		const pos = this.cube.position;
-		//const content = this.getHTML();
+		const content = this.getHTML();
 		const div = document.createElement('div');
 		div.className = 'hostCSS3DLayer';
-		//div.innerHTML = content;
+		div.innerHTML = content;
 
 		const object = new THREE.CSS3DObject(div);
 		object.rotation.x = -90 * math.DegToRad;
@@ -117,9 +117,7 @@ class HostDataProvider extends DataProvider {
 		object.position.y += dim.y;
 
     const cubeSurfaceDomElement = object.element;
-    createLineChart({
-     canvas: cubeSurfaceDomElement
-   });
+    createLineChart({ canvas: cubeSurfaceDomElement });
 
 		return object;
 	}
@@ -130,6 +128,7 @@ class HostDataProvider extends DataProvider {
 		const memory = this.memory;
 		const os = this.OS;
 
+/*
 		const html = '<h4></h4><p><img src= bundle/' + hostImagePath +
 			' class=icon>Host</p>' +
 			'<ul><li>' + id + '</li></ul>' +
@@ -138,6 +137,9 @@ class HostDataProvider extends DataProvider {
 			'<ul><li>' + os + '</li>' +
 			'<li>' + cpu + '</li>' +
 			'<li>' + memory + '</li></ul>';
+  */
+
+  const html = '<text class=hostLabel>' + id + '</text><h4></h4></br>';
 
 		return html;
 	}

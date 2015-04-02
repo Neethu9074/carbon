@@ -22,7 +22,8 @@ import TWEEN from 'tween.js'
 import _ from 'lodash';
 
 //const logger = createLogger('hostCube.js');
-const hideCSS3DDistance = 100;
+const hideCSS3DDistanceLookAt = 35;
+const hideCSS3DDistanceCam = 200;
 const hostWidth = 20;
 const hostHeight = 4;
 
@@ -90,16 +91,16 @@ class HostCube extends BaseCube {
 			.sub(this.position)
 			.length();
 
-		if (distanceToFocus > hideCSS3DDistance) {
+		if (distanceToFocus > hideCSS3DDistanceLookAt) {
 			this.hideCSS3DLayer();
 			return;
 		}
 
 		const distanceToCam = this.app.mainCamera.position.clone()
 			.sub(this.position)
-			.length() / 2;
+			.length();
 
-		if (distanceToCam > hideCSS3DDistance) {
+		if (distanceToCam > hideCSS3DDistanceCam) {
 			this.hideCSS3DLayer();
 			return;
 		}
