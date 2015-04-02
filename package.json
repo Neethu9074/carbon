@@ -12,6 +12,7 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "immutable": "^3.6.2",
+    "instana-ui-line-chart": "^1.0.0",
     "instana-ui-radial-chart": "^1.0.0",
     "invariant": "^1.0.2",
     "react": "^0.13.1"
