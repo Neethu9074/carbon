@@ -13,6 +13,7 @@ import * as geometries from './geometries';
 import * as textures from './textures';
 import Ground from './sceneObjects/ground';
 import Hightlight from './sceneObjects/highlight';
+import Pathfinder from './gridPathfinder';
 import Host from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
 
@@ -65,9 +66,15 @@ class App {
     this.setup3D();
     this.setup2D();
 
+    //the controller for the camera movement with the mouse
     this.controller = new MouseControls();
-    //this.layouter = new Layouter(200, 1000); //for 100x100 cubes
+
+    //a spherical layouter with maxcubes = 2000
     this.layouter = new Layouter(2000);
+
+    //the pathfinding wrapper
+    this.pathFinder = new Pathfinder();
+
     //a collection to store all hosts
     this.hosts = [];
 

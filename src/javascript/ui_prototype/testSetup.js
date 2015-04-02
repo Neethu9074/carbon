@@ -29,7 +29,6 @@ export function setup(app) {
   host.addContainer( { id: 'uuid2', pid: '2' } );
   host.addContainer( { id: 'uuid3', pid: '3' } );
   host.addContainer( { id: 'uuid4', pid: '4' } );
-  //host.addContainer( { id: 'uuid6', pid: '5' } );
 
   const max = 2;
   let step = 1;

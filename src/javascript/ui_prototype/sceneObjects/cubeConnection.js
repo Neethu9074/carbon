@@ -28,6 +28,27 @@ class CubeConnection extends SceneObject {
 			return undefined;
 		}
 
+    const path = this.app.pathFinder.getPath( points[0], points[1] );
+    const geo = new THREE.BufferGeometry();
+    const geoPos = new Float32Array(path.length * 3);
+
+    let index = 0;
+    for (let i = 0; i < path.length; i++) {
+      const position = path[i];
+
+      geoPos[index] = position[0] - 190;
+      geoPos[index + 1] = 0.5;
+      geoPos[index + 2] = position[1] - 190;
+
+      index += 3;
+    }
+    geo.addAttribute('position', new THREE.BufferAttribute(geoPos, 3));
+		const line = new THREE.Line(geo);
+
+		return line;
+
+
+/*
 		const geometry = new THREE.BufferGeometry();
 		const material = new THREE.LineBasicMaterial({
 			vertexColors: THREE.VertexColors
@@ -61,6 +82,7 @@ class CubeConnection extends SceneObject {
 
 		const line = new THREE.Line(geometry, material);
 		return line;
+		*/
 	}
 
 	dispose() {

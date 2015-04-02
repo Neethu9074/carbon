@@ -65,6 +65,7 @@ class HostCubeFactory {
 			const o = i * 8; //offset
 			const ii = i * 36;
 
+			//front
 			ti[ii + 0] = 0 + o;
 			ti[ii + 1] = 1 + o;
 			ti[ii + 2] = 2 + o;
@@ -72,6 +73,7 @@ class HostCubeFactory {
 			ti[ii + 4] = 2 + o;
 			ti[ii + 5] = 3 + o;
 
+			//back
 			ti[ii + 6] = 4 + o;
 			ti[ii + 7] = 5 + o;
 			ti[ii + 8] = 6 + o;
@@ -79,6 +81,7 @@ class HostCubeFactory {
 			ti[ii + 10] = 6 + o;
 			ti[ii + 11] = 7 + o;
 
+			//left
 			ti[ii + 12] = 0 + o;
 			ti[ii + 13] = 4 + o;
 			ti[ii + 14] = 7 + o;
@@ -86,6 +89,7 @@ class HostCubeFactory {
 			ti[ii + 16] = 7 + o;
 			ti[ii + 17] = 3 + o;
 
+			//right
 			ti[ii + 18] = 1 + o;
 			ti[ii + 19] = 5 + o;
 			ti[ii + 20] = 6 + o;
@@ -93,13 +97,17 @@ class HostCubeFactory {
 			ti[ii + 22] = 6 + o;
 			ti[ii + 23] = 2 + o;
 
+/*
+			//bottom
 			ti[ii + 30] = 0 + o;
 			ti[ii + 31] = 1 + o;
 			ti[ii + 32] = 5 + o;
 			ti[ii + 33] = 0 + o;
 			ti[ii + 34] = 5 + o;
 			ti[ii + 35] = 4 + o;
+*/
 
+			//top
 			ti[ii + 24] = 3 + o;
 			ti[ii + 25] = 2 + o;
 			ti[ii + 26] = 6 + o;
