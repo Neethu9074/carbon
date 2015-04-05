@@ -9,14 +9,11 @@ import * as materials from '../materials';
 import * as math from '../math';
 
 import Layouter from '../layouterContainer';
-import {
-  createLogger
-}
-from '../../log';
+import logging from 'instalog';
 
 import _ from 'lodash';
 
-const logger = createLogger('containerCube.js');
+const logger = logging.createLogger('containerCube.js');
 
 
 class ContainerCube extends BaseCube {

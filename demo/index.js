@@ -7,15 +7,13 @@ import DataListenerManager from '../src/javascript/instana_data/dataListenerMana
 
 import App from '../src/javascript/ui_prototype/app';
 import {setup} from '../src/javascript/ui_prototype/testSetup';
-import {createLogger, setActiveSeverity} from '../src/javascript/log';
+import logging from 'instalog';
 
-if (__DEV__) {
-  setActiveSeverity('debug');
-} else {
-  setActiveSeverity('info');
-}
+console.log(logging);
+const appender = new logging.ConsoleAppender();
+logging.addAppender(appender);
 
-const logger = createLogger('index.js');
+const logger = logging.createLogger('index.js');
 const liveData = false;
 
 //first load all resources

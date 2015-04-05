@@ -3,13 +3,10 @@
 import DataListener from './dataListener';
 
 //logging
-import {
-  createLogger
-}
-from '../log';
+import logging from 'instalog';
 import _ from 'lodash';
 
-const logger = createLogger('dataListenerManager.js');
+const logger = logging.createLogger('dataListenerManager.js');
 
 
 class DataListenerManager {

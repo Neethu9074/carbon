@@ -8,12 +8,9 @@ import * as obj from '../obj';
 import * as materials from '../materials';
 import * as textures from '../textures';
 
-import {
-	createLogger
-}
-from '../../log';
+import logging from 'instalog';
 
-const logger = createLogger('offlineCube.js');
+const logger = logging.createLogger('offlineCube.js');
 
 
 class OfflineCube extends SceneObject {
