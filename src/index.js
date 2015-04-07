@@ -11,13 +11,12 @@ const instana3DMap = React.createClass({
   },
 
   render() {
-    return <div ref="parent"><h1>hello 3Dmap</h1></div>;
+    return <div ref="parent" id="WebGL"></div>;
   },
 
   componentDidMount() {
     const parent = React.findDOMNode(this.refs.parent);
-    //do something crazy with dom element parent
-    init();
+    init(parent);
   }
 });
 
