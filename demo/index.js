@@ -4,7 +4,6 @@ import {load} from '../src/javascript/ui_prototype/resources';
 /*eslint-disable max-len */
 import DataListenerManager from '../src/javascript/instana_data/dataListenerManager';
 /*eslint-enable max-len */
-
 import App from '../src/javascript/ui_prototype/app';
 import rStats from './rStats';
 import glStats from './rStats.extras';

@@ -24,6 +24,7 @@
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
     "pathfinding": "^0.4.16",
+    "react": "^0.13.1",
     "rxemitter": "^1.0.0"
   },
   "napa": {
