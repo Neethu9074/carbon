@@ -9,7 +9,7 @@ import App from '../src/javascript/ui_prototype/app';
 import {setup} from '../src/javascript/ui_prototype/testSetup';
 import logging from 'instalog';
 
-console.log(logging);
+//console.log(logging);
 const appender = new logging.ConsoleAppender();
 logging.addAppender(appender);
 

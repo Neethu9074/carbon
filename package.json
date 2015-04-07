@@ -18,12 +18,8 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
-<<<<<<< HEAD
-    "instana-ui-line-chart": "^1.1.0",
-=======
     "instalog": "^1.0.0",
     "instana-ui-line-chart": "^1.2.1",
->>>>>>> 6333c748d8efae7d3e8fc72072dc26ddb7d6ac10
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
