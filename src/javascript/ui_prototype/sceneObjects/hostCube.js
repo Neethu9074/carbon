@@ -14,6 +14,7 @@ import * as states from '../cubeStates';
 
 import Layouter from '../layouterContainer';
 import logging from 'instalog';
+import _ from 'lodash';
 import TWEEN from 'tween.js'
 
 //const logger = logging.createLogger('hostCube.js');
