@@ -13,15 +13,12 @@ import * as math from '../math';
 import * as states from '../cubeStates';
 
 import Layouter from '../layouterContainer';
-import {
-	createLogger
-}
-from '../../log';
+import logging from 'instalog';
 
 import TWEEN from 'tween.js'
 import _ from 'lodash';
 
-//const logger = createLogger('hostCube.js');
+//const logger = logging.createLogger('hostCube.js');
 const hideCSS3DDistanceLookAt = 35;
 const hideCSS3DDistanceCam = 200;
 const hostWidth = 20;

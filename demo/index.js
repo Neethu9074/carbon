@@ -1,19 +1,19 @@
 'use strict';
 
-import {load} from './ui_prototype/resources';
-import DataListenerManager from './instana_data/dataListenerManager';
+import {load} from '../src/javascript/ui_prototype/resources';
+/*eslint-disable max-len */
+import DataListenerManager from '../src/javascript/instana_data/dataListenerManager';
+/*eslint-enable max-len */
 
-import App from './ui_prototype/app';
-import {setup} from './ui_prototype/testSetup';
-import {createLogger, setActiveSeverity} from './log';
+import App from '../src/javascript/ui_prototype/app';
+import {setup} from '../src/javascript/ui_prototype/testSetup';
+import logging from 'instalog';
 
-if (__DEV__) {
-  setActiveSeverity('debug');
-} else {
-  setActiveSeverity('info');
-}
+console.log(logging);
+const appender = new logging.ConsoleAppender();
+logging.addAppender(appender);
 
-const logger = createLogger('index.js');
+const logger = logging.createLogger('index.js');
 const liveData = false;
 
 //first load all resources
@@ -31,8 +31,8 @@ load(() => { //on finished
     const dataManager = new DataListenerManager(uiApplication, 1000);
     logger.info('get live data via', dataManager);
   } else {
-      //test setup
-      setup(uiApplication);
+    //test setup
+    setup(uiApplication);
   }
 
   logger.info('Finished initialization');

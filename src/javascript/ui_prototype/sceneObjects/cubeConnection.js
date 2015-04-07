@@ -4,11 +4,8 @@ import THREE from 'three.js';
 
 import SceneObject from './sceneObject';
 import systemImagePath from '../../../images/icon_system.png';
-import {
-	createLogger
-}
-from '../../log';
-const logger = createLogger('cubeConnection.js');
+import logging from 'instalog';
+const logger = logging.createLogger('cubeConnection.js');
 
 
 class CubeConnection extends SceneObject {

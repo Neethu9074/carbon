@@ -12,19 +12,17 @@ var definePlugin = new webpack.DefinePlugin({
 });
 
 module.exports = {
-	entry: './src/javascript/index.js',
-	output: {
-		path: path.join(__dirname, 'target/bundle/'),
-		filename: 'index.js'
-	},
+	entry: './demo/index.js',
+  output: {
+    path: './target/bundle/',
+    publicPath: '/target/bundle/',
+    filename: 'index.js'
+  },
 	devtool: 'source-map',
 	module: {
 		loaders: [{
 			test: /\.less$/i,
 			loader: 'style-loader!css-loader!less-loader'
-		}, {
-			test: /\.css$/i,
-			loader: 'style-loader!css-loader'
 		}, {
 			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot|\.obj$/i,
 			loader: 'file-loader'

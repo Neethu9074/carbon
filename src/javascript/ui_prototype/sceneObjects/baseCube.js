@@ -11,14 +11,11 @@ import * as math from '../math';
 import * as states from '../cubeStates';
 
 import Layouter from '../layouterContainer';
-import {
-	createLogger
-}
-from '../../log';
+import logging from 'instalog';
 
 import _ from 'lodash';
 
-const logger = createLogger('baseCube.js');
+const logger = logging.createLogger('baseCube.js');
 
 
 class BaseCube extends SceneObject {
