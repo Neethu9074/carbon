@@ -207,13 +207,13 @@ class BaseCube extends SceneObject {
 	}
 
 	//is called by app and delegates to extending classes if online
-	update(dt) {
-		if(this.onUpdate !== undefined && this.online) {
-			this.	onUpdate(dt);
+	update(baseCube, dt) {
+		if(baseCube.onUpdate !== undefined && baseCube.online) {
+			baseCube.	onUpdate(dt);
 		} else {
 			//if offline -> update the offline cube if available
-			if(this.offlineObject !== undefined) {
-				this.offlineObject.update(dt);
+			if(baseCube.offlineObject !== undefined) {
+				baseCube.offlineObject.update(dt);
 			}
 		}
 	}

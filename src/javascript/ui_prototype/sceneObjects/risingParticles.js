@@ -10,81 +10,93 @@ import _ from 'lodash';
 
 
 class RisingParticles extends SceneObject {
-  constructor(positions) {
-    const pos = new THREE.Vector3(-10, 0, 10);
-    const dim = new THREE.Vector3(1, 0, 1);
+	constructor(positions) {
+		const pos = new THREE.Vector3(-10, 0, 10);
+		const dim = new THREE.Vector3(1, 0, 1);
 
-    //call super constructor
-    super('rising particles', pos, dim);
+		//call super constructor
+		super('rising particles', pos, dim);
 
-    this.uniforms = {
-      amplitude: {
-        type: 'f',
-        value: 1.0
-      }
-    };
-    this.pointCloud = this.createPointCloud(this.uniforms, positions);
-    this.pointCloud.position.copy(pos);
+		this.uniforms = {
+			amplitude: {
+				type: 'f',
+				value: 1.0
+			}
+		};
+		this.pointCloud = this.createPointCloud(this.uniforms, positions);
+		this.pointCloud.position.copy(pos);
 
-    this.app.scene.add(this.pointCloud);
-    this.app.updates.push(this);
+		this.app.scene.add(this.pointCloud);
+		this.registerEvents();
+	}
+
+	createPointCloud(uniforms, positions) {
+		const geometry = new THREE.BufferGeometry();
+		let geoPos = new Float32Array(positions.length * 3);
+
+		let index = 0;
+		for (let i = 0; i < positions.length; i++) {
+			const position = positions[i];
+			geoPos[index] = position.x;
+			geoPos[index + 1] = Math.random() * 10;
+			geoPos[index + 2] = -position.z;
+
+			index += 3;
+		}
+
+		geometry.addAttribute('position', new THREE.BufferAttribute(geoPos, 3));
+
+		const material = this.createMaterial(uniforms);
+		const particleSystem = new THREE.PointCloud(geometry, material);
+		return particleSystem;
+	}
+
+	createMaterial(uniforms) {
+		const shaderMaterial =
+			new THREE.ShaderMaterial({
+				vertexShader: vertex,
+				fragmentShader: fragment,
+				uniforms: uniforms,
+				transparent: true
+			});
+
+		return shaderMaterial;
+	}
+
+	registerEvents() {
+    const update = this.update;
+		const uniforms = this.uniforms;
+		this.subscription = this.app.emitter.on('endUpdate').subscribe(
+			function(data) {
+				update(uniforms, data.dt);
+			},
+			function() {},
+			function() {}
+    );
   }
 
-  createPointCloud(uniforms, positions) {
-    const geometry = new THREE.BufferGeometry();
-    let geoPos = new Float32Array(positions.length * 3);
+	update(uniforms, dt) {
+		const dTime = dt;
+		const maxHeight = 5;
 
-    let index = 0;
-    for (let i = 0; i < positions.length; i++) {
-      const position = positions[i];
-      geoPos[index] = position.x;
-      geoPos[index + 1] = Math.random() * 10;
-      geoPos[index + 2] = -position.z;
+		uniforms.amplitude.value += dTime; // * speed
+		if (uniforms.amplitude.value > maxHeight) {
+			uniforms.amplitude.value = 0;
+		}
+	}
 
-      index += 3;
-    }
+	dispose() {
+		this.app.scene.remove(this.pointCloud);
 
-    geometry.addAttribute('position', new THREE.BufferAttribute(geoPos, 3));
+		this.subscription.dispose();
 
-    const material = this.createMaterial(uniforms);
-    const particleSystem = new THREE.PointCloud(geometry, material);
-    return particleSystem;
-  }
+		super.dispose();
 
-  createMaterial(uniforms) {
-    const shaderMaterial =
-      new THREE.ShaderMaterial({
-        vertexShader: vertex,
-        fragmentShader: fragment,
-        uniforms: uniforms,
-        transparent: true
-      });
-
-    return shaderMaterial;
-  }
-
-  update(dt) {
-    const dTime = dt;
-    const maxHeight = 5;
-    const uniforms = this.uniforms;
-
-    uniforms.amplitude.value += dTime; // * speed
-    if (uniforms.amplitude.value > maxHeight) {
-      uniforms.amplitude.value = 0;
-    }
-  }
-
-  dispose() {
-    this.app.scene.remove(this.pointCloud);
-    _.remove(this.app.updates, obj => obj === this);
-
-    super.dispose();
-
-    this.pointCloud.geometry.dispose();
-    this.pointCloud.material.dispose();
-    this.pointCloud = null;
-    this.uniforms = null;
-  }
+		this.pointCloud.geometry.dispose();
+		this.pointCloud.material.dispose();
+		this.pointCloud = null;
+		this.uniforms = null;
+	}
 }
 
 export default RisingParticles;

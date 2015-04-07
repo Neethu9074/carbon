@@ -41,6 +41,9 @@ class App {
     //first of all -> bind methods
     this.bindMethods();
 
+    //create the event emitter
+    this.emitter = new RxEmitter();
+
     //time properties
     this.time = Date.now();
     this.deltaTime = 0;
@@ -51,9 +54,6 @@ class App {
     this.hideHostsDistance = 400;
     this.switchHostDetails = false;
     this.showHostDetails = false;
-
-    //a collection to store all objects that need an update call on update
-    this.updates = [];
 
     //setup 3D stuff
     this.setupOctree();
@@ -73,7 +73,6 @@ class App {
     this.hosts = [];
 
     this.setupEvents();
-    this.emitter = new RxEmitter();
     this.update();
   }
 
@@ -253,7 +252,7 @@ class App {
     this.animate();
 
     //update is done
-    this.emitter.emit('endUpdate');
+    this.emitter.emit('endUpdate', {dt: this.deltaTime});
 
     //render the scene
     this.render();
@@ -277,10 +276,6 @@ class App {
       //logger.debug('hide hosts', distance);
       //return;
     }*/
-
-    _.forEach(this.updates, obj => {
-      obj.update(dt);
-    });
 
     if(distance <= this.showHostDetailsDistance) {
       this.showHostDetails = true;

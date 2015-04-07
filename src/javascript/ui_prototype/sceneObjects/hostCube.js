@@ -14,9 +14,7 @@ import * as states from '../cubeStates';
 
 import Layouter from '../layouterContainer';
 import logging from 'instalog';
-
 import TWEEN from 'tween.js'
-import _ from 'lodash';
 
 //const logger = logging.createLogger('hostCube.js');
 const hideCSS3DDistanceLookAt = 35;
@@ -38,10 +36,7 @@ class HostCube extends BaseCube {
 
 		super(pos, dim, dataProvider);
 
-		this.app.updates.push(this);
-
-		this.time = 0; //stores the time since last tick
-		this.tick = 1; //tick in sec
+		this.registerEvents();
 	}
 
 	addContainerToPosWithDim(pos, dim, metaData) {
@@ -75,6 +70,18 @@ class HostCube extends BaseCube {
 				this.setState(states.ok);
 			}
 		}
+	}
+
+	registerEvents() {
+		const update = this.update;
+		const baseCube = this;
+		this.subscription = this.app.emitter.on('endUpdate').subscribe(
+			function(data) {
+				update(baseCube, data.dt);
+			},
+			function() {},
+			function() {}
+		);
 	}
 
 	onUpdate(dt) {
@@ -168,7 +175,7 @@ class HostCube extends BaseCube {
 
   dispose() {
 		//remove this from apps update list
-		_.remove(this.app.updates, obj => obj === this);
+		this.subscription.dispose();
 		this.time = null;
 		this.tick = null;
 
