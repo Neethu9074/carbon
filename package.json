@@ -23,7 +23,8 @@
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
-    "pathfinding": "^0.4.16"
+    "pathfinding": "^0.4.16",
+    "rxemitter": "^1.0.0"
   },
   "napa": {
     "three.js": "mrdoob/three.js#r70"

@@ -1,4 +1,4 @@
-exports.GlStats = function GlStats() {
+exports.GlStats = function GlStats(emitter) {
 
     var _rS = null;
 
@@ -77,6 +77,18 @@ exports.GlStats = function GlStats() {
         _rS = r;
     }
 
+    var s = _start;
+		var beginUpdateObserver = Rx.Observer.create(
+		  function () {
+	      s();
+		  },
+		  function (err) {},
+		  function () {}
+		);
+
+		emitter.on('beginUpdate').subscribe(beginUpdateObserver);
+
+
     return {
         update: _update,
         start: _start,
@@ -86,7 +98,6 @@ exports.GlStats = function GlStats() {
         groups: _groups,
         fractions: _fractions
     }
-
 }
 
 exports.ThreeStats = function ThreeStats( renderer ) {

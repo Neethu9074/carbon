@@ -26,6 +26,12 @@ load(() => { //on finished
   //start up the UI when all resources are loaded
   const uiApplication = new App(canvas);
 
+  //setup statistics if dev demo
+  if (__DEV__) {
+    uiApplication.setupStats();
+  }
+
+
   if(liveData) {
     //live data each 2000 ms
     const dataManager = new DataListenerManager(uiApplication, 1000);

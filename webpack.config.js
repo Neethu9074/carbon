@@ -30,9 +30,10 @@ module.exports = {
 			test: /\.glsl$/i,
 			loader: 'raw-loader'
 		}, {
-			test: /\.js$/i,
-			loader: 'babel-loader'
-		}]
+	    test: /\.js$/i,
+	    exclude: /rx/,
+	    loader: 'babel-loader'
+    }]
 	},
 	plugins: [
 		definePlugin

@@ -1,5 +1,6 @@
 'use strict';
 
+
 // performance.now() polyfill from https://gist.github.com/paulirish/5438650
 (function() {
 
@@ -25,7 +26,7 @@
 
 })();
 
-module.exports.RStats = function RStats(settings) {
+module.exports.RStats = function RStats(emitter, settings) {
 
 	function iterateKeys(array, callback) {
 
@@ -123,7 +124,6 @@ module.exports.RStats = function RStats(settings) {
 			_current = 0;
 
 		function _init() {
-
 			_canvas.width = _elWidth;
 			_canvas.height = _elHeight * _num;
 			_canvas.style.width = _canvas.width + 'px';
@@ -150,10 +150,47 @@ module.exports.RStats = function RStats(settings) {
 
 		_init();
 
+
+		var beginUpdateObserver = Rx.Observer.create(
+		  function () {
+	      _perf('frame').start();
+	      _perf('frame').start();
+	      _perf('rAF').tick();
+	      _perf('FPS').frame();
+	      _perf('updates').start();
+		  },
+		  function (err) {},
+		  function () {}
+		);
+
+		var endUpdateObserver = Rx.Observer.create(
+		  function () {
+		    _perf('updates').end();
+	      _perf('render').start();
+		  },
+		  function (err) {},
+		  function () {}
+		);
+
+		var update = _update;
+		var endRenderObserver = Rx.Observer.create(
+		  function () {
+	      _perf('render').end();
+	      _perf('frame').end();
+	      update();
+		  },
+		  function (err) {},
+		  function () {}
+		);
+
+		emitter.on('beginUpdate').subscribe(beginUpdateObserver);
+		emitter.on('endUpdate').subscribe(endUpdateObserver);
+		emitter.on('endRender').subscribe(endRenderObserver);
+
+
 		return {
 			draw: _draw
 		}
-
 	}
 
 	function PerfCounter(id, group) {

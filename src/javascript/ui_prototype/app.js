@@ -7,9 +7,8 @@ import '../lib/CSS3DRenderer';
 import '../lib/Octree';
 
 import * as colors from './colors';
-import * as materials from './materials';
 import * as states from './cubeStates';
-import * as geometries from './geometries';
+import * as materials from './materials';
 import * as textures from './textures';
 import Ground from './sceneObjects/ground';
 import Hightlight from './sceneObjects/highlight';
@@ -23,12 +22,14 @@ import Layouter from './harmonicSphericalLayouter';
 import rStats from '../lib/rStats';
 import glStats from '../lib/rStats.extras';
 
-import TWEEN from 'tween.js'
+import TWEEN from 'tween.js';
+import RxEmitter from 'rxemitter';
 import _ from 'lodash';
 
 //logging
 import logging from 'instalog';
 const logger = logging.createLogger('app.js');
+const emitter = new RxEmitter();
 let application;
 
 
@@ -74,10 +75,6 @@ class App {
 
     //a collection to store all hosts
     this.hosts = [];
-
-    if (__DEV__) {
-      this.setupStats();
-    }
 
     this.setupEvents();
     this.update();
@@ -154,9 +151,9 @@ class App {
   }
 
   setupStats() {
-    let glS = new glStats.GlStats();
+    let glS = new glStats.GlStats(emitter);
     let tS = new glStats.ThreeStats(this.webGLRenderer);
-    let rS = new rStats.RStats({
+    let rS = new rStats.RStats(emitter, {
       values: {
         frame: {
           caption: 'Total frame time (ms)',
@@ -293,31 +290,20 @@ class App {
   update() {
     requestAnimationFrame(this.update);
 
-    let rS;
-    if (__DEV__) {
-      rS = this.rStats;
-      rS('frame').start();
-      this.glStats.start();
-      rS('frame').start();
-      rS('rAF').tick();
-      rS('FPS').frame();
-      rS('updates').start();
-    }
+    //fire event for updating stats
+    emitter.emit('beginUpdate');
 
+    //do all animation and deltaTime stuff
     this.animate();
 
-    if (__DEV__) {
-      rS('updates').end();
-      rS('render').start();
-    }
+    //update is done
+    emitter.emit('endUpdate');
 
+    //render the scene
     this.render();
 
-    if (__DEV__) {
-      rS('render').end();
-      rS('frame').end();
-      rS().update();
-    }
+    //render is ready, frame is done
+    emitter.emit('endRender');
   }
 
   animate() {

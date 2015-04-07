@@ -7,7 +7,6 @@ import Connection from './sceneObjects/cubeConnection';
 
 import logging from 'instalog';
 const logger = logging.createLogger('testSetup.js');
-const tempConnections = [];
 
 export function setup(app) {
 /*
