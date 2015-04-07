@@ -1,6 +1,6 @@
 {
-  "name": "instana-visualization",
-  "version": "0.0.1-postrelease",
+  "name": "instana-ui-map",
+  "version": "1.0.0",
   "description": "The 3D visuliaztion of client's infrastructure",
   "main": "src/index.js",
   "scripts": {
