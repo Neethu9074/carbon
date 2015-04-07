@@ -6,8 +6,8 @@ import DataListenerManager from '../src/javascript/instana_data/dataListenerMana
 /*eslint-enable max-len */
 
 import App from '../src/javascript/ui_prototype/app';
-import rStats from '../src/javascript/lib/rStats';
-import glStats from '../src/javascript/lib/rStats.extras';
+import rStats from './rStats';
+import glStats from './rStats.extras';
 import {setup} from '../src/javascript/ui_prototype/testSetup';
 import logging from 'instalog';
 
