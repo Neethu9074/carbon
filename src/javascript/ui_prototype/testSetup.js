@@ -5,12 +5,9 @@ import * as colors from './colors';
 import * as textures from './textures';
 import Connection from './sceneObjects/cubeConnection';
 
-//logging
-import {
-  createLogger
-}
-from '../log';
-const logger = createLogger('testSetup.js');
+import logging from 'instalog';
+const logger = logging.createLogger('testSetup.js');
+const tempConnections = [];
 
 export function setup(app) {
 /*

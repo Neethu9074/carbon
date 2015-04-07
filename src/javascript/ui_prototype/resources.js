@@ -10,11 +10,11 @@ import groundEffectPath from '../../obj/groundEffect.obj';
 
 
 export function load(onFinished) {
-	loadModel('bundle/' + groundEffectPath, obj.setGroundEffect,
+	loadModel(groundEffectPath, obj.setGroundEffect,
 		function() {
-			loadModel('bundle/' + cubeObjectPath, obj.setCube,
+			loadModel(cubeObjectPath, obj.setCube,
 				function() {
-					loadModel('bundle/' + collObjCubePath,
+					loadModel(collObjCubePath,
 						obj.setCollisionObjectCube,
 						function() {
 							onFinished();

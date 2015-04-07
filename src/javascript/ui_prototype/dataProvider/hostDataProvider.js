@@ -15,13 +15,10 @@ import createLineChart from 'instana-ui-line-chart/src/chart';
 
 import hostImagePath from '../../../images/icon_host.png';
 import systemImagePath from '../../../images/icon_system.png';
-import {
-  createLogger
-}
-from '../../log';
+import logging from 'instalog';
 import _ from 'lodash';
 
-const logger = createLogger('containerCube.js');
+const logger = logging.createLogger('containerCube.js');
 let factory;
 
 

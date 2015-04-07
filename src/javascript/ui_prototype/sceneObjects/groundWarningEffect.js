@@ -7,14 +7,11 @@ import * as obj from '../obj';
 import * as materials from '../materials';
 import * as textures from '../textures';
 
-import {
-	createLogger
-}
-from '../../log';
+import logging from 'instalog';
 
 import _ from 'lodash';
 
-//const logger = createLogger('groundWarningEffect.js');
+//const logger = logging.createLogger('groundWarningEffect.js');
 const all3DMeshes = [];
 
 

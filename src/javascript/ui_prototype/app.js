@@ -27,11 +27,8 @@ import TWEEN from 'tween.js'
 import _ from 'lodash';
 
 //logging
-import {
-  createLogger
-}
-from '../log';
-const logger = createLogger('app.js');
+import logging from 'instalog';
+const logger = logging.createLogger('app.js');
 let application;
 
 
