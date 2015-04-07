@@ -10,6 +10,9 @@ import glStats from './rStats.extras';
 import {setup} from '../src/javascript/ui_prototype/testSetup';
 import logging from 'instalog';
 
+import React from 'react';
+import Map from '../src';
+
 //console.log(logging);
 const appender = new logging.ConsoleAppender();
 logging.addAppender(appender);
@@ -82,3 +85,10 @@ function createStats(app) {
   });
   logger.info('created statisitcs', rS);
 }
+
+/*
+React.render(
+  <Map width="500" height="500"/>,
+  document.body
+);
+*/

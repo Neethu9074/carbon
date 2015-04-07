@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import init from './map';
 
 
 const instana3DMap = React.createClass({
@@ -16,6 +17,7 @@ const instana3DMap = React.createClass({
   componentDidMount() {
     const parent = React.findDOMNode(this.refs.parent);
     //do something crazy with dom element parent
+    init();
   }
 });
 
