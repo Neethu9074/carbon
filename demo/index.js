@@ -6,6 +6,8 @@ import DataListenerManager from '../src/javascript/instana_data/dataListenerMana
 /*eslint-enable max-len */
 
 import App from '../src/javascript/ui_prototype/app';
+import rStats from '../src/javascript/lib/rStats';
+import glStats from '../src/javascript/lib/rStats.extras';
 import {setup} from '../src/javascript/ui_prototype/testSetup';
 import logging from 'instalog';
 
@@ -28,7 +30,7 @@ load(() => { //on finished
 
   //setup statistics if dev demo
   if (__DEV__) {
-    uiApplication.setupStats();
+    createStats(uiApplication);
   }
 
 
@@ -40,6 +42,44 @@ load(() => { //on finished
     //test setup
     setup(uiApplication);
   }
-
   logger.info('Finished initialization');
 });
+
+function createStats(app) {
+  let glS = new glStats.GlStats(app.emitter);
+  let tS = new glStats.ThreeStats(app.webGLRenderer);
+  let rS = new rStats.RStats(app.emitter, {
+    values: {
+      frame: {
+        caption: 'Total frame time (ms)',
+        over: 16
+      },
+      fps: {
+        caption: 'Framerate (FPS)',
+        below: 30
+      },
+      calls: {
+        caption: 'Calls (three.js)',
+        over: 3000
+      },
+      raf: {
+        caption: 'Time since last rAF (ms)'
+      },
+      rstats: {
+        caption: 'rStats update (ms)'
+      }
+    },
+    groups: [{
+      caption: 'Framerate',
+      values: ['fps', 'raf']
+    }, {
+      caption: 'Frame Budget',
+      values: ['frame', 'texture', 'setup', 'render']
+    }],
+    plugins: [
+      tS,
+      glS
+    ]
+  });
+  logger.info('created statisitcs', rS);
+}

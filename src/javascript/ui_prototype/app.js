@@ -19,9 +19,6 @@ import HostDataProvider from './dataProvider/hostDataProvider';
 import MouseControls from './controls/mouseCameraController';
 import Layouter from './harmonicSphericalLayouter';
 
-import rStats from '../lib/rStats';
-import glStats from '../lib/rStats.extras';
-
 import TWEEN from 'tween.js';
 import RxEmitter from 'rxemitter';
 import _ from 'lodash';
@@ -29,7 +26,6 @@ import _ from 'lodash';
 //logging
 import logging from 'instalog';
 const logger = logging.createLogger('app.js');
-const emitter = new RxEmitter();
 let application;
 
 
@@ -77,6 +73,7 @@ class App {
     this.hosts = [];
 
     this.setupEvents();
+    this.emitter = new RxEmitter();
     this.update();
   }
 
@@ -148,47 +145,6 @@ class App {
     div.classList.add('webgl-canvas-overlay');
     div.appendChild(this.cssRenderer.domElement);
     this.canvas.appendChild(div);
-  }
-
-  setupStats() {
-    let glS = new glStats.GlStats(emitter);
-    let tS = new glStats.ThreeStats(this.webGLRenderer);
-    let rS = new rStats.RStats(emitter, {
-      values: {
-        frame: {
-          caption: 'Total frame time (ms)',
-          over: 16
-        },
-        fps: {
-          caption: 'Framerate (FPS)',
-          below: 30
-        },
-        calls: {
-          caption: 'Calls (three.js)',
-          over: 3000
-        },
-        raf: {
-          caption: 'Time since last rAF (ms)'
-        },
-        rstats: {
-          caption: 'rStats update (ms)'
-        }
-      },
-      groups: [{
-        caption: 'Framerate',
-        values: ['fps', 'raf']
-      }, {
-        caption: 'Frame Budget',
-        values: ['frame', 'texture', 'setup', 'render']
-      }],
-      plugins: [
-        tS,
-        glS
-      ]
-    });
-
-    this.glStats = glS;
-    this.rStats = rS;
   }
 
 //events
@@ -291,19 +247,19 @@ class App {
     requestAnimationFrame(this.update);
 
     //fire event for updating stats
-    emitter.emit('beginUpdate');
+    this.emitter.emit('beginUpdate');
 
     //do all animation and deltaTime stuff
     this.animate();
 
     //update is done
-    emitter.emit('endUpdate');
+    this.emitter.emit('endUpdate');
 
     //render the scene
     this.render();
 
     //render is ready, frame is done
-    emitter.emit('endRender');
+    this.emitter.emit('endRender');
   }
 
   animate() {
