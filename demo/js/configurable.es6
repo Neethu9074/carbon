@@ -82,4 +82,4 @@ export default function init() {
     });
     logger.info('created statisitcs', rS);
   }
-};
+}

@@ -12,4 +12,4 @@ export default function init() {
     <Map width="500" height="500"/>,
     document.body
   );
-};
+}

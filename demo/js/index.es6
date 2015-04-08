@@ -1,3 +1,5 @@
+'use strict';
+
 import initConfigurable from './configurable';
 import initReact from './react';
 
