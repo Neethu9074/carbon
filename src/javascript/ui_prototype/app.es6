@@ -149,16 +149,16 @@ class App {
 
 //events
   setupEvents() {
-    //const doc = document;
+    const doc = document;
     window.addEventListener('resize', this.onWindowResize, false);
-    //doc.getElementById('newHostButton').onclick = this.addRandomHost;
+    doc.getElementById('newHostButton').onclick = this.addRandomHost;
     /*eslint-disable max-len */
-    //doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
+    doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
     /*eslint-enable max-len */
-    //doc.getElementById('destroyCubeButton').onclick = this.removeCube;
-    //doc.getElementById('OffOnlineButton').onclick = this.toggleOffOnline;
-    //doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
-    //doc.getElementById('switchStateButton').onclick = this.switchState;
+    doc.getElementById('destroyCubeButton').onclick = this.removeCube;
+    doc.getElementById('OffOnlineButton').onclick = this.toggleOffOnline;
+    doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
+    doc.getElementById('switchStateButton').onclick = this.switchState;
   }
 
   onWindowResize() {
