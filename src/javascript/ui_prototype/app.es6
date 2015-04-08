@@ -153,17 +153,7 @@ class App {
   setupEvents() {
     const doc = document;
     window.addEventListener('resize', this.onWindowResize, false);
-<<<<<<< HEAD
-    doc.getElementById('newHostButton').onclick = this.addRandomHost;
-    /*eslint-disable max-len */
-    doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
-    /*eslint-enable max-len */
-    doc.getElementById('destroyCubeButton').onclick = this.removeCube;
-    doc.getElementById('OffOnlineButton').onclick = this.toggleOffOnline;
-    doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
-    doc.getElementById('switchStateButton').onclick = this.switchState;
-    doc.getElementById('showWalkingGridButton').onclick = this.showWalkingGrid;
-=======
+
     setOnClick('newHostButton', this.addRandomHost);
     setOnClick('newContainerButton', this.addRandomContainer);
     setOnClick('destroyCubeButton', this.removeCube);
@@ -172,12 +162,11 @@ class App {
     setOnClick('switchStateButton', this.switchState);
 
     function setOnClick(id, fn) {
-      var button = doc.getElementById(id);
+      const button = doc.getElementById(id);
       if (button) {
         button.onclick = fn;
       }
     }
->>>>>>> 5edeff2e44594867157453eb086ee7c64997b275
   }
 
   onWindowResize() {
