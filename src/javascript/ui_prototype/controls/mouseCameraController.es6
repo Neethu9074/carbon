@@ -96,7 +96,7 @@ class MouseControl {
     e.preventDefault();
     e = window.event || e; // old IE support
 
-    const delta = e.wheelDelta / 150;
+    const delta = e.wheelDelta / 50;
 
     this.zoomLevel -= delta;
     const min = this.maxZoomOut,
