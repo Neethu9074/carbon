@@ -1,5 +1,5 @@
 {
-  "name": "instana-ui.browser",
+  "name": "instana-ui-client",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,13 +9,18 @@
     "build": "gulp clean && gulp build",
     "dev": "proxrox stop && proxrox start .proxrox.yaml && gulp dev"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/instana/ui-client.git"
+  },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "immutable": "^3.6.2",
-    "instana-ui-line-chart": "^1.0.0",
-    "instana-ui-radial-chart": "^1.0.0",
+    "instana-ui-line-chart": "^3.0.0",
+    "instana-ui-radial-chart": "^2.0.0",
     "invariant": "^1.0.2",
-    "react": "^0.13.1"
+    "react": "^0.13.1",
+    "rx-observable-generator": "^1.0.0"
   },
   "devDependencies": {
     "babel-core": "^4.7.13",

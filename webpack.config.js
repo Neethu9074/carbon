@@ -9,7 +9,7 @@ var definePlugin = new webpack.DefinePlugin({
 });
 
 module.exports = {
-	entry: './src/js/index.js',
+	entry: './src/js/index.es6',
 	output: {
 		path: path.join(__dirname, 'target/bundle/'),
 		filename: 'index.js'
@@ -26,7 +26,7 @@ module.exports = {
 			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot$/i,
 			loader: 'file-loader'
 		}, {
-			test: /\.js$/i,
+			test: /\.es6$/i,
 			loader: 'babel-loader'
 		}]
 	},
@@ -34,6 +34,7 @@ module.exports = {
 		definePlugin
 	],
 	resolve: {
+		extensions: ["", ".js", '.es6'],
 		alias: {
 			// 'three.js': path.join(__dirname, '/node_modules/three.js/build/three.js')
 		}
