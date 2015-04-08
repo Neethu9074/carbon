@@ -7,7 +7,7 @@
     "install": "napa",
     "dev": "open http://localhost:8080/demo/configurable.html && webpack-dev-server",
     "clean": "rm -rf target/",
-    "test": "eslint src/ demo/index.es6"
+    "test": "eslint --ext .es6 src/ demo/js/"
   },
   "repository": {
     "type": "git",
