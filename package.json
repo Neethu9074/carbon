@@ -2,12 +2,12 @@
   "name": "instana-ui-map",
   "version": "1.0.0",
   "description": "The 3D visuliaztion of client's infrastructure",
-  "main": "src/index.js",
+  "main": "src/index.es6",
   "scripts": {
     "install": "napa",
     "dev": "open http://localhost:8080/demo/ && webpack-dev-server",
     "clean": "rm -rf target/",
-    "test": "eslint src/ demo/index.js"
+    "test": "eslint src/ demo/index.es6"
   },
   "repository": {
     "type": "git",
@@ -19,12 +19,13 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "instalog": "^1.0.0",
-    "instana-ui-line-chart": "^1.2.1",
+    "instana-ui-line-chart": "^3.0.0",
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
     "pathfinding": "^0.4.16",
     "react": "^0.13.1",
+    "rx-observable-generator": "^1.0.0",
     "rxemitter": "^1.0.0"
   },
   "napa": {

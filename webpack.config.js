@@ -12,11 +12,11 @@ var definePlugin = new webpack.DefinePlugin({
 });
 
 module.exports = {
-	entry: './demo/index.js',
+	entry: './demo/index.es6',
   output: {
     path: './target/bundle/',
     publicPath: '/target/bundle/',
-    filename: 'index.js'
+    filename: 'index.es6'
   },
 	devtool: 'source-map',
 	module: {
@@ -30,8 +30,7 @@ module.exports = {
 			test: /\.glsl$/i,
 			loader: 'raw-loader'
 		}, {
-	    test: /\.js$/i,
-	    exclude: /rx/,
+	    test: /\.es6$/i,
 	    loader: 'babel-loader'
     }]
 	},
@@ -39,6 +38,7 @@ module.exports = {
 		definePlugin
 	],
 	resolve: {
+		extensions: ["", ".js", '.es6'],
 		alias: {
 			'three.js': path.join(__dirname,
         '/node_modules/three.js/build/three.js')
