@@ -13,8 +13,8 @@ const logger = logging.createLogger('cubeConnection.js');
 
 class CubeConnection extends SceneObject {
   constructor(a, b, bidirectional = false) {
-		const from = a.position.clone().add(new THREE.Vector3(-1, 0, -1));
-    const to = b.position.clone().add(new THREE.Vector3(-1, 0, -1));
+		const from = a.position.clone().add(new THREE.Vector3(-1, 0, -2));
+    const to = b.position.clone().add(new THREE.Vector3(-1, 0, -2));
 
     //call super constructor
     super('ground', a.position, a.dimension);

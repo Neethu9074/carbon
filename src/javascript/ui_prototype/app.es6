@@ -12,6 +12,7 @@ import * as materials from './materials';
 import * as textures from './textures';
 import Ground from './sceneObjects/ground';
 import Hightlight from './sceneObjects/highlight';
+import Connection from './sceneObjects/cubeConnection';
 import Pathfinder from './gridPathfinder';
 import Host from './sceneObjects/hostCube';
 import HostDataProvider from './dataProvider/hostDataProvider';
@@ -443,6 +444,12 @@ class App {
       } else {
         this.hideHost(host);
       }
+
+      if(this.lastAddedHost !== undefined) {
+        const c = new Connection(this.lastAddedHost, host);
+        this.sceneObjects3D.push(c);
+      }
+      this.lastAddedHost = host;
 
       return host;
 
