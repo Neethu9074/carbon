@@ -5,7 +5,7 @@
   "main": "src/index.es6",
   "scripts": {
     "install": "napa",
-    "dev": "open http://localhost:8080/demo/ && webpack-dev-server",
+    "dev": "open http://localhost:8080/demo/configurable.html && webpack-dev-server",
     "clean": "rm -rf target/",
     "test": "eslint src/ demo/index.es6"
   },

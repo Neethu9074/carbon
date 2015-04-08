@@ -3,16 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Instana</title>
-
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-    input {
-      width: 120px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/demo.css">
 </head>
 <body>
   <div id="WebGL"></div>
@@ -24,5 +15,8 @@
   <input id="showInGrafanaButton" style="position:absolute; right:0px; top:100px;" type="button" value="show dashboard">
   <input id="switchStateButton" style="position:absolute; right:0px; top:125px;" type="button" value="switch state">
   <script src="../target/bundle/index.es6 "></script>
+  <script>
+    window.initConfigurable();
+  </script>
 </body>
 </html>
