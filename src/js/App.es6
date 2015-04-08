@@ -1,5 +1,7 @@
 'use strict';
 
+import './App.less'
+
 import React from 'react/react';
 import RadialChart from 'instana-ui-radial-chart';
 import LineChart from 'instana-ui-line-chart';
