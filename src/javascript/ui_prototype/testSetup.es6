@@ -17,7 +17,7 @@ export function setup(app) {
   let hostC = app.addRandomHost();
 
   const a = new Connection(host, hostB);
-  const b = new Connection(hostB, hostC);
+  const b = new Connection(hostB, hostC, true);
   tempConnections.push(a);
   tempConnections.push(b);
 
@@ -40,10 +40,9 @@ export function setup(app) {
     logger.debug(counter, 'cubes created');
   }, 10);
 
-    setInterval(function() {
-      if(step <= max) {
-        step += 1;
-      }
-    }, 50);
-
+  setInterval(function() {
+    if(step <= max) {
+      step += 1;
+    }
+  }, 50);
 }

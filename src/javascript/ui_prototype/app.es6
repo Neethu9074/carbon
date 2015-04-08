@@ -243,7 +243,6 @@ class App {
 		geometry.addAttribute('position', new THREE.BufferAttribute(geoPos, 3));
 
 		const particleSystem = new THREE.PointCloud(geometry);
-    particleSystem.position.set(-210, 0, 210);
     this.scene.add(particleSystem);
   }
 
