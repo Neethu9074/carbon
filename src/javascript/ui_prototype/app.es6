@@ -160,6 +160,7 @@ class App {
     setOnClick('OffOnlineButton', this.toggleOffOnline);
     setOnClick('showInGrafanaButton', this.showInGrafana);
     setOnClick('switchStateButton', this.switchState);
+    setOnClick('showWalkingGridButton', this.showWalkingGrid);
 
     function setOnClick(id, fn) {
       const button = doc.getElementById(id);
@@ -241,7 +242,7 @@ class App {
 		for (let i = 0; i < freeFields.length; i++) {
 			const position = freeFields[i];
 			geoPos[index] = position.x;
-			geoPos[index + 1] = 0.05;
+			geoPos[index + 1] = 0.2;
 			geoPos[index + 2] = -position.y;
 
 			index += 3;
