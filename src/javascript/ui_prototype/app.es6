@@ -33,6 +33,8 @@ let application;
 class App {
   constructor(canvas) {
     this.canvas = canvas;
+    this.canvas.classList.add('in-map');
+
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
