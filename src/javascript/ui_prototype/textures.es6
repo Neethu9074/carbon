@@ -2,7 +2,7 @@
 
 import THREE from 'three.js';
 
-import gridTexturePath from '../../images/grid.png';
+import gridTexturePath from '../../images/grid2.png';
 import cubeTexturePath from '../../images/cube.png';
 import containerTexturePath from '../../images/softwareCube.png';
 import groundEffectTexturePath from '../../images/groundEffect.png';

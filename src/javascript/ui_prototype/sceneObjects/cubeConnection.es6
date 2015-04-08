@@ -36,7 +36,7 @@ class CubeConnection extends SceneObject {
       const position = path[i];
 
       geoPos[index] = position[0];
-      geoPos[index + 1] = 0.05; //hover over the ground
+      geoPos[index + 1] = 0.2; //hover over the ground
       geoPos[index + 2] = position[1];
 
       index += 3;

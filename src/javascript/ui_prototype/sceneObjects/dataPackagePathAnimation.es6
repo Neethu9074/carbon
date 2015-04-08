@@ -32,7 +32,7 @@ class DataPackagePathAnimation extends SceneObject {
 	}
 
 	toVector3(pathPoint) {
-		return new THREE.Vector3(pathPoint[0], 0.1, pathPoint[1]);
+		return new THREE.Vector3(pathPoint[0], 0.2, pathPoint[1]);
 	}
 
 	calculateSpeed() {

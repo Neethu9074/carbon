@@ -11,7 +11,7 @@ import * as math from '../math';
 
 class Ground extends SceneObject {
 	constructor() {
-		const pos = new THREE.Vector3(10, -0.1, 10);
+		const pos = new THREE.Vector3(10, -0.15, 10);
 		const dim = new THREE.Vector3(1000, 0, 1000);
 
 		//call super constructor
@@ -55,9 +55,7 @@ class Ground extends SceneObject {
 			this.app.webGLRenderer,
 			this.app.mainCamera,
 			this.app.scene, {
-				textureHeight: 512,
-				textureWidth: 512,
-				clipBias: 0.1
+				clipBias: 0.03
 			});
 	}
 
@@ -72,7 +70,7 @@ class Ground extends SceneObject {
 	update() {
 		if(this.mirrorUpdateCounter >= this.mirrorUpdateFreq) {
 			this.mirrorUpdateCounter = 0;
-			//this.mirror.render();
+			this.mirror.render();
 		}
 
 		this.mirrorUpdateCounter++;

@@ -42,10 +42,10 @@ class Mirror extends THREE.Object3D{
 
     var width = options.textureWidth !== undefined ?
       options.textureWidth :
-      512;
+      1024;
     var height = options.textureHeight !== undefined ?
       options.textureHeight :
-      512;
+      1024;
 
     this.clipBias = options.clipBias !== undefined ? options.clipBias : 0.0;
 
@@ -100,12 +100,12 @@ class Mirror extends THREE.Object3D{
 
     //then add a horizontal blur pass
     var effect = new THREE.ShaderPass(THREE.HorizontalBlurShader);
-    effect.uniforms.h.value = 0.003;
+    effect.uniforms.h.value = 0.001;
     this.composer.addPass(effect);
 
     //and finally a vertical blur pass
     effect = new THREE.ShaderPass(THREE.VerticalBlurShader);
-    effect.uniforms.v.value = 0.003;
+    effect.uniforms.v.value = 0.001;
     this.composer.addPass(effect);
 
     this.updateTextureMatrix();
