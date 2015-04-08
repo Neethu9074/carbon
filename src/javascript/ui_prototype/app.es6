@@ -25,7 +25,7 @@ import _ from 'lodash';
 
 //logging
 import logging from 'instalog';
-const logger = logging.createLogger('app.js');
+const logger = logging.createLogger('app.es6');
 
 let application;
 

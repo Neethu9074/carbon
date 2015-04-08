@@ -4,6 +4,7 @@ import THREE from 'three.js';
 
 import SceneObject from './sceneObject';
 import Particles from './risingParticles';
+import Mirror from '../../lib/Mirror';
 import * as materials from '../materials';
 import * as math from '../math';
 
@@ -15,6 +16,11 @@ class Ground extends SceneObject {
 
 		//call super constructor
 		super('ground', pos, dim);
+
+		//bind methods
+		this.update = this.update.bind(this);
+		this.mirrorUpdateFreq = 5;
+		this.mirrorUpdateCounter = 0;
 
 		const geo = new THREE.PlaneBufferGeometry(dim.x, dim.z, 1, 1);
 		const plane = new THREE.Mesh(geo, materials.groundMaterial);
@@ -33,6 +39,43 @@ class Ground extends SceneObject {
 			}
 		}
 		this.particles = new Particles(points);
+
+		this.createMirror();
+		const mirrorMesh = new THREE.Mesh(geo, this.mirror.material);
+		mirrorMesh.add(this.mirror);
+		mirrorMesh.rotation.x = -90 * math.DegToRad;
+		mirrorMesh.position.set(0, -0.2, 0);
+		this.app.scene.add(mirrorMesh);
+
+		this.setupEvents();
+	}
+
+	createMirror() {
+		this.mirror = new Mirror(
+			this.app.webGLRenderer,
+			this.app.mainCamera,
+			this.app.scene, {
+				textureHeight: 512,
+				textureWidth: 512,
+				clipBias: 0.1
+			});
+	}
+
+	setupEvents() {
+		this.subscription = this.app.emitter.on('endUpdate').subscribe(
+			this.update,
+			function() {},
+			function() {}
+    );
+	}
+
+	update() {
+		if(this.mirrorUpdateCounter >= this.mirrorUpdateFreq) {
+			this.mirrorUpdateCounter = 0;
+			this.mirror.render();
+		}
+
+		this.mirrorUpdateCounter++;
 	}
 
 	dispose() {

@@ -8,7 +8,7 @@ import App from './javascript/ui_prototype/app';
 import {setup} from './javascript/ui_prototype/testSetup';
 
 import logging from 'instalog';
-const logger = logging.createLogger('map.js');
+const logger = logging.createLogger('map.es6');
 const liveData = false;
 
 
