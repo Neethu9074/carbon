@@ -3,6 +3,7 @@
 import React from 'react/react';
 import RadialChart from 'instana-ui-radial-chart';
 import LineChart from 'instana-ui-line-chart';
+import Map from 'instana-ui-map';
 import observableGenerator from 'rx-observable-generator';
 import SignOutForm from './SignOutForm';
 
@@ -21,13 +22,7 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <h1>Hello World!</h1>
-
-        <RadialChart />
-
-        <LineChart datasource={datasource} />
-
-        <SignOutForm></SignOutForm>
+        <Map />
       </div>
     );
   }
