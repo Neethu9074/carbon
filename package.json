@@ -8,7 +8,7 @@
     "clean": "gulp clean",
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
     "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
-    "test": "gulp lint"
+    "test": "gulp lint && mocha --compilers js:babel/register test/**/*.es6"
   },
   "repository": {
     "type": "git",
@@ -16,19 +16,22 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
-    "immutable": "^3.6.2",
+    "immutable": "^3.7.1",
     "instalog": "^1.0.0",
     "instana-ui-line-chart": "^3.0.0",
     "instana-ui-map": "^1.1.0",
     "instana-ui-radial-chart": "^2.0.0",
     "invariant": "^1.0.2",
     "react": "^0.13.1",
+    "rx": "^2.5.1",
     "rx-observable-generator": "^1.0.0"
   },
   "devDependencies": {
+    "babel": "^5.0.10",
     "babel-core": "^4.7.13",
     "babel-loader": "^4.2.0",
     "bluebird": "^2.9.6",
+    "chai": "^2.2.0",
     "css-loader": "^0.9.1",
     "del": "^1.1.1",
     "file-loader": "^0.8.1",
@@ -44,10 +47,13 @@
     "imagemin": "^3.1.0",
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
+    "mocha": "^2.2.4",
     "napa": "^1.2.0",
     "proxrox": "^1.4.0",
+    "proxyquire": "^1.4.0",
     "raw-loader": "^0.5.1",
     "shelljs": "^0.3.0",
+    "sinon": "^1.14.1",
     "style-loader": "^0.8.3",
     "webpack": "^1.5.3",
     "webpack-dev-server": "^1.7.0"

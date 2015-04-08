@@ -18,7 +18,7 @@ var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 
 var paths = {
-  js: ['src/js/**/*.es6']
+  js: ['src/js/**/*.es6', 'test/js/**/*.es6']
 };
 
 
