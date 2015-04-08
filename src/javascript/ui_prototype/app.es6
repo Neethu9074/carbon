@@ -33,6 +33,8 @@ let application;
 class App {
   constructor(canvas) {
     this.canvas = canvas;
+    this.canvas.classList.add('in-map');
+
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
@@ -151,6 +153,7 @@ class App {
   setupEvents() {
     const doc = document;
     window.addEventListener('resize', this.onWindowResize, false);
+<<<<<<< HEAD
     doc.getElementById('newHostButton').onclick = this.addRandomHost;
     /*eslint-disable max-len */
     doc.getElementById('newContainerButton').onclick = this.addRandomContainer;
@@ -160,6 +163,21 @@ class App {
     doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
     doc.getElementById('switchStateButton').onclick = this.switchState;
     doc.getElementById('showWalkingGridButton').onclick = this.showWalkingGrid;
+=======
+    setOnClick('newHostButton', this.addRandomHost);
+    setOnClick('newContainerButton', this.addRandomContainer);
+    setOnClick('destroyCubeButton', this.removeCube);
+    setOnClick('OffOnlineButton', this.toggleOffOnline);
+    setOnClick('showInGrafanaButton', this.showInGrafana);
+    setOnClick('switchStateButton', this.switchState);
+
+    function setOnClick(id, fn) {
+      var button = doc.getElementById(id);
+      if (button) {
+        button.onclick = fn;
+      }
+    }
+>>>>>>> 5edeff2e44594867157453eb086ee7c64997b275
   }
 
   onWindowResize() {

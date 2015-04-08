@@ -12,7 +12,7 @@ var definePlugin = new webpack.DefinePlugin({
 });
 
 module.exports = {
-	entry: './demo/index.es6',
+	entry: './demo/js/index.es6',
   output: {
     path: './target/bundle/',
     publicPath: '/target/bundle/',
