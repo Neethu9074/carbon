@@ -8,7 +8,8 @@ class GridPathfinder {
 		const width = 400;
 		this.width = width;
 
-		//create grid for pathfinding. for each cube, pathfinding knows 100 quads
+		//create grid for pathfinding. for each cube,
+		//pathfinding knows 100 quads
 		this.grid = new Pathfinding.Grid(width, width);
 
 		const grid = this.grid;
@@ -20,7 +21,10 @@ class GridPathfinder {
 			for (let y = 0; y < width; y += fieldWidth) {
 				for (let xGap = 0; xGap <= holeWidth; xGap++) {
 					for (let yGap = 0; yGap <= holeWidth; yGap++) {
-						grid.setWalkableAt(x + xGap + offset, y + yGap + offset, false);
+						grid.setWalkableAt(
+							x + xGap + offset,
+							y + yGap + offset,
+							false);
 					}
 				}
 			}
