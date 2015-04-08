@@ -159,6 +159,7 @@ class App {
     doc.getElementById('OffOnlineButton').onclick = this.toggleOffOnline;
     doc.getElementById('showInGrafanaButton').onclick = this.showInGrafana;
     doc.getElementById('switchStateButton').onclick = this.switchState;
+    doc.getElementById('showWalkingGridButton').onclick = this.showWalkingGrid;
   }
 
   onWindowResize() {
@@ -223,6 +224,29 @@ class App {
     }
   }
 
+  showWalkingGrid() {
+    const freeFields = this.pathFinder.getFreeFields();
+
+    const geometry = new THREE.BufferGeometry();
+		let geoPos = new Float32Array(freeFields.length * 3);
+
+		let index = 0;
+		for (let i = 0; i < freeFields.length; i++) {
+			const position = freeFields[i];
+			geoPos[index] = position.x;
+			geoPos[index + 1] = 0.05;
+			geoPos[index + 2] = -position.y;
+
+			index += 3;
+		}
+
+		geometry.addAttribute('position', new THREE.BufferAttribute(geoPos, 3));
+
+		const particleSystem = new THREE.PointCloud(geometry);
+    particleSystem.position.set(-210, 0, 210);
+    this.scene.add(particleSystem);
+  }
+
   onHostDestroyed() {
     logger.info('NOONE IS LISTENING TO onHostDestroyed(ID)');
   }
@@ -243,6 +267,7 @@ class App {
     this.showInGrafana = this.showInGrafana.bind(this);
     this.animate = this.animate.bind(this);
     this.switchState = this.switchState.bind(this);
+    this.showWalkingGrid = this.showWalkingGrid.bind(this);
   }
 
   update() {

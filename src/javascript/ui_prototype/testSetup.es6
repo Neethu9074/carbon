@@ -9,7 +9,7 @@ import logging from 'instalog';
 const logger = logging.createLogger('testSetup.js');
 
 export function setup(app) {
-/*
+
   const tempConnections = [];
 
   let host = app.addRandomHost();
@@ -25,7 +25,7 @@ export function setup(app) {
   host.addContainer( { id: 'uuid2', pid: '2' } );
   host.addContainer( { id: 'uuid3', pid: '3' } );
   host.addContainer( { id: 'uuid4', pid: '4' } );
-*/
+
 
   const max = 2;
   let step = 1;
