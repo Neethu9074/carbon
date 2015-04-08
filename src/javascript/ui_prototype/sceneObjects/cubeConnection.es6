@@ -26,7 +26,7 @@ class CubeConnection extends SceneObject {
 
   createPath(points, bidirectional) {
     const path = this.app.pathFinder.getPath(points[0], points[1]);
-		this.createDataPackageAnimation(path, bidirectional);
+		this.animation = new DataPackageAnimation(path, bidirectional);
 
     const geo = new THREE.BufferGeometry();
     const geoPos = new Float32Array(path.length * 3);
@@ -49,10 +49,6 @@ class CubeConnection extends SceneObject {
     const line = new THREE.Line(geo, mat);
     return line;
   }
-
-	createDataPackageAnimation(path, bidirectional) {
-		this.animation = new DataPackageAnimation(path, bidirectional);
-	}
 
   dispose() {
     super.dispose();

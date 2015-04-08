@@ -16,7 +16,7 @@ module.exports = {
   output: {
     path: './target/bundle/',
     publicPath: '/target/bundle/',
-    filename: 'index.es6'
+    filename: 'index.js'
   },
 	devtool: 'source-map',
 	module: {

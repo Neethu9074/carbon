@@ -27,5 +27,5 @@ export function setup(app) {
       step += 1;
       logger.debug(counter, 'cubes created');
     }
-  }, 50);
+  }, 200);
 }
