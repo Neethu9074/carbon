@@ -15,13 +15,13 @@ class MouseControl {
     this.init(app);
 
     app.canvas.addEventListener('mousedown', this.onMouseDown);
-    //app.canvas.addEventListener('touchstart', this.onMouseDown);
+    app.canvas.addEventListener('touchstart', this.onTouchStart);
 
     app.canvas.addEventListener('mousemove', this.onMouseMove);
-    //app.canvas.addEventListener('touchmove', this.onMouseMove);
+    app.canvas.addEventListener('touchmove', this.onTouchMove);
 
     app.canvas.addEventListener('mouseup', this.onMouseUp);
-    //app.canvas.addEventListener('touchend', this.onMouseUp);
+    app.canvas.addEventListener('touchend', this.onTouchEnd);
 
     // IE9, Chrome, Safari, Opera
     app.canvas.addEventListener('mousewheel', this.onMouseWheel, false);
@@ -36,6 +36,9 @@ class MouseControl {
     this.init = this.init.bind(this);
     this.update = this.update.bind(this);
     this.onMouseWheel = this.onMouseWheel.bind(this);
+    this.onTouchStart = this.onTouchStart.bind(this);
+    this.onTouchEnd = this.onTouchEnd.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
   }
 
   init(app) {
@@ -154,6 +157,22 @@ class MouseControl {
     //don't forget to set the new position :)
     this.mouse.x = e.clientX;
     this.mouse.y = e.clientY;
+  }
+
+  onTouchStart(e) {
+    e.preventDefault();
+    console.log('touch start', e);
+  }
+
+  onTouchEnd(e) {
+    e.preventDefault();
+    console.log('touch end', e);
+  }
+
+  onTouchMove(e) {
+		e.stopPropagation();
+    e.preventDefault();
+    console.log('touch move', e);
   }
 
   doRayPicking() {
