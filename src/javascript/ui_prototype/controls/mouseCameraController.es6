@@ -161,18 +161,18 @@ class MouseControl {
 
   onTouchStart(e) {
     e.preventDefault();
-    console.log('touch start', e);
+    //console.log('touch start', e);
   }
 
   onTouchEnd(e) {
     e.preventDefault();
-    console.log('touch end', e);
+    //console.log('touch end', e);
   }
 
   onTouchMove(e) {
 		e.stopPropagation();
     e.preventDefault();
-    console.log('touch move', e);
+    //console.log('touch move', e);
   }
 
   doRayPicking() {
