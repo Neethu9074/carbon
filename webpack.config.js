@@ -15,7 +15,7 @@ module.exports = {
 	entry: './demo/js/index.es6',
   output: {
     path: './target/bundle/',
-    publicPath: '/target/bundle/',
+    publicPath: '../target/bundle/',
     filename: 'index.js'
   },
 	devtool: 'source-map',
