@@ -14,8 +14,6 @@ export default function init() {
   const consoleAppender = new logging.ConsoleAppender();
   logging.addAppender(consoleAppender);
   const logger = logging.createLogger('index.es6');
-  const liveData = true;
-
 
   //first load all resources
   logger.info('Loading resources...');
@@ -33,7 +31,7 @@ export default function init() {
     }
 
 
-    if(liveData) {
+    if(window.location.search === '?livedata') {
       //live data each 1000 ms
       const dataManager = new DataListenerManager(uiApplication, 1000);
       logger.info('get live data via', dataManager);
