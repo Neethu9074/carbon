@@ -21,3 +21,4 @@
     no-var: [2]
     yoda: [0]
     no-console: [1]
+    curly: [2, "multi-line"]

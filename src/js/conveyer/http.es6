@@ -17,6 +17,7 @@ export function get(url) {
       if (xhr.readyState === 4) {
         const response = {
           status: xhr.status,
+          statusText: xhr.statusText,
           body: Immutable.fromJS(xhr.response),
           getHeader: name => xhr.getResponseHeader(name)
         };

@@ -6,37 +6,43 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+import {create} from '../../../src/js/conveyer'
 
-const conveyerPath = '../../../src/js/conveyer';
+const conveyerPath = '../../../src/js/conveyer/InventoryConveyer';
 
 describe('conveyer', () => {
 
   let http;
   let conveyer;
+  let subscription;
 
   beforeEach(() => {
     http = {
       get: sinon.stub()
     };
-
-    http.get.returns(Promise.resolve({
-      status: 200,
-      body: Immutable.fromJS([])
-    }));
-
-    conveyer = proxyquire(conveyerPath, {
-      './http': http
-    });
   });
 
   afterEach(() => {
-    conveyer.dispose();
+    subscription.dispose();
   });
 
-  describe('inventoryConveyer', () => {
+  describe('InventoryConveyer', () => {
+
+    beforeEach(() => {
+      http.get.returns(Promise.resolve({
+        status: 200,
+        body: Immutable.fromJS([])
+      }));
+
+      const ConveyerType = proxyquire(conveyerPath, {
+        './http': http
+      });
+
+      conveyer = create(ConveyerType);
+    });
 
     it('should emit the current inventory by default', done => {
-      conveyer.getInventory().subscribe(hosts => {
+      subscription = conveyer.subscribe(hosts => {
         expect(hosts.size).to.equal(0);
         done();
       });
@@ -47,7 +53,7 @@ describe('conveyer', () => {
     it('should not emit the same value twice', function(done) {
       this.timeout(3000);
       let callCount = 0;
-      conveyer.getInventory().subscribe(hosts => {
+      conveyer.subscribe(hosts => {
         expect(hosts.size).to.equal(0);
         callCount++;
       });
@@ -60,18 +66,18 @@ describe('conveyer', () => {
 
     it('should emit when values change', (done) => {
       let callCount = 0;
-      http.get.returns(Promise.resolve({
-        status: 200,
-        body: Immutable.fromJS([{
-          id: 'foobar'
-        }])
-      }));
 
-      conveyer.getInventory().subscribe(hosts => {
+      conveyer.subscribe(hosts => {
         callCount++;
 
         if (callCount === 1) {
           expect(hosts.size).to.equal(0);
+          http.get.returns(Promise.resolve({
+            status: 200,
+            body: Immutable.fromJS([{
+              id: 'foobar'
+            }])
+          }));
         } else {
           expect(hosts.size).to.equal(1);
           done();
