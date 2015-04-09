@@ -55,14 +55,12 @@ class HostCube extends BaseCube {
 	changeMetaData(metaData) {
 		this.dataProvider.changeMetaData(metaData);
 
-		let key = 'com.instana.agent.host.sensor.Host.memory.free';
-		key = 'com.instana.agent.host.sensor.Host.cpu.idle';
+		let key = 'memory.free';
+		key = 'cpu.idle';
 
-		const match = _.find(metaData.colors,
-			item => item[key] !== undefined);
+		const color = metaData.metricState[key];
 
-		if (match !== undefined) {
-			const color = match[key];
+		if (color !== undefined) {
 			if (color === 'YELLOW' && this.state !== states.warning) {
 				this.setState(states.warning);
 			} else if (color === 'RED' && this.state !== states.error) {
