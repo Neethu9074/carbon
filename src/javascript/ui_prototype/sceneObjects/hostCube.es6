@@ -30,7 +30,7 @@ class HostCube extends BaseCube {
     //bind methods
     this.removeCSSLayerFromScene = this.removeCSSLayerFromScene.bind(this);
 
-		this.cubeOffset = 0.15; //85%
+		this.cubeOffset = 0.16; //84%
 		pos.x *= hostWidth;
 		pos.z *= hostWidth;
 		const dim = new THREE.Vector3(hostWidth, hostHeight, hostWidth);

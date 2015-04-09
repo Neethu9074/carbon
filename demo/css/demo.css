@@ -106,7 +106,7 @@ input {
   left: 10px;
   width: 100px;
 }
-.controlsPanel {
+#controlsPanel {
   position: absolute;
   right: 0;
   top: 0;

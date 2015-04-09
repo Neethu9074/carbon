@@ -14,7 +14,7 @@ export default function init() {
   const consoleAppender = new logging.ConsoleAppender();
   logging.addAppender(consoleAppender);
   const logger = logging.createLogger('index.es6');
-  const liveData = false;
+  const liveData = true;
 
 
   //first load all resources

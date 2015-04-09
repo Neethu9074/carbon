@@ -6,7 +6,7 @@ import * as obj from './obj'
 
 import cubeObjectPath from '../../obj/cube.obj';
 import collObjCubePath from '../../obj/collisionObjectCube.obj';
-import groundEffectPath from '../../obj/groundEffect.obj';
+import groundEffectPath from '../../obj/cubeGroundPlane.obj';
 
 
 export function load(onFinished) {
@@ -23,7 +23,6 @@ export function load(onFinished) {
 		}
   );
 }
-
 
 function loadModel(model, set, onFinished) {
 	const loader = new THREE.OBJLoader();

@@ -1,6 +1,6 @@
 'use strict';
 
-const localUrl = window.location.href;
+const localUrl = window.location.origin;
 
 class DataListener {
   constructor(interval) {
@@ -15,7 +15,7 @@ class DataListener {
     const onUpdateHostsTemp = this.onUpdateHosts;
     const getInventoryTemp = this.getInventory;
 
-    this.getJSON(localUrl + 'api/hosts')
+    this.getJSON(localUrl + '/api/hosts')
       .then(function(hosts) {
         onUpdateHostsTemp(hosts);
         getInventoryTemp(hosts);
@@ -40,7 +40,7 @@ class DataListener {
 
   //create external function to get scope of hostID
   getInv(hostID, url, update) {
-    this.getJSON(localUrl + 'api' + url)
+    this.getJSON(localUrl + '/api' + url)
       .then(function(inv) {
         update([hostID, inv]);
       }, function(status) {
