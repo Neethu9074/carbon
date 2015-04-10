@@ -106,10 +106,8 @@ class HostDataProvider extends DataProvider {
     object.rotation.x = -90 * math.DegToRad;
 
     //1px in css is 1 unit in 3D space
-    object.scale.set(dim.x / 400, dim.x / 400, 1);
+    object.scale.set(dim.x / 416, dim.x / 416, 1);
     object.position.copy(pos);
-    object.position.x += 0;
-    object.position.z += 0;
     object.position.y += dim.y;
 
 /*
