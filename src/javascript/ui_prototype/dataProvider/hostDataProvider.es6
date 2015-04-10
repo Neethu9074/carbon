@@ -10,7 +10,8 @@ import * as materials from '../materials';
 import * as obj from '../obj';
 import * as math from '../math';
 import * as states from '../cubeStates';
-import createLineChart from 'instana-ui-line-chart/src/chart';
+import CubeFace from 'instana-ui-cube-face';
+import React from 'react';
 import observableGenerator from 'rx-observable-generator';
 
 import hostImagePath from '../../../images/icon_host.png';
@@ -107,10 +108,11 @@ class HostDataProvider extends DataProvider {
     //1px in css is 1 unit in 3D space
     object.scale.set(dim.x / 400, dim.x / 400, 1);
     object.position.copy(pos);
-    object.position.x += 1;
+    object.position.x += 0;
     object.position.z += 0;
     object.position.y += dim.y;
 
+/*
     const numberGenerator = observableGenerator.createDeviatingGenerator(
       50, // mean
       45, // allowed deviation
@@ -123,13 +125,20 @@ class HostDataProvider extends DataProvider {
       // floor(timeframe / frequency)
       numberGenerator // the random number generator function.
     );
+*/
 
+    const id = this.ID;
     const cubeSurfaceDomElement = object.element;
-    createLineChart({
-      canvas: cubeSurfaceDomElement,
-      height: 180,
-			datasource: observable
-    });
+    React.render(
+      <div>
+        <span className="hostLabel">{id}</span><h4></h4>
+        <CubeFace
+          header="header"
+          subHeader="subHeader"
+        />
+      </div>,
+      cubeSurfaceDomElement
+    );
 
     return object;
   }

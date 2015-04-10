@@ -6,7 +6,7 @@
   "scripts": {
     "install": "napa",
     "build": "webpack",
-    "dev":"proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/configurable.html && webpack-dev-server --host 0.0.0.0",
+    "dev": "proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/configurable.html && webpack-dev-server --host 0.0.0.0",
     "clean": "rm -rf target/",
     "test": "eslint --ext .es6 src/ demo/js/"
   },
@@ -20,7 +20,7 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "instalog": "^1.0.0",
-    "instana-ui-line-chart": "^3.0.0",
+    "instana-ui-cube-face": "^1.0.0",
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
