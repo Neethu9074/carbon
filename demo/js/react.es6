@@ -4,6 +4,8 @@ import React from 'react';
 import logging from 'instalog';
 import Map from '../../src';
 
+
+
 export default function init() {
   const consoleAppender = new logging.ConsoleAppender();
   logging.addAppender(consoleAppender);
@@ -13,7 +15,6 @@ export default function init() {
     document.body
   );
 
-  function onClick (a, b) {
-    console.log(a, b);
+  function onClick () {
   }
 }
