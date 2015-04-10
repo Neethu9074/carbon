@@ -9,7 +9,11 @@ export default function init() {
   logging.addAppender(consoleAppender);
 
   React.render(
-    <Map width="500" height="500"/>,
+    <Map onClick={onClick}/>,
     document.body
   );
+
+  function onClick (a, b) {
+    console.log(a, b);
+  }
 }

@@ -30,9 +30,10 @@ let application;
 
 
 class App {
-  constructor(canvas) {
+  constructor(canvas, clickHandler) {
     this.canvas = canvas;
     this.canvas.classList.add('in-map');
+    this.clickHandler = clickHandler;
 
     this.width = window.innerWidth;
     this.height = window.innerHeight;
@@ -417,6 +418,12 @@ class App {
     this.clickedObject = object;
     logger.info('clicked on: ', object);
     this.addHighlightOnObj(object);
+
+    if(object instanceof Host && this.clickHandler !== undefined) {
+      const ID = object.dataProvider.ID;
+      const secID = object.dataProvider.cpu;
+      this.clickHandler(ID, secID);
+    }
   }
 
   addHighlightOnObj() {

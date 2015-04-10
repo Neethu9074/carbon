@@ -12,14 +12,14 @@ const logger = logging.createLogger('map.es6');
 const liveData = false;
 
 
-function init(domElement){
+function init(domElement, clickHandler){
   //first load all resources
   logger.info('Loading resources...');
   load(() => { //on finished
     logger.info('Initializing application');
 
     //start up the UI when all resources are loaded
-    const uiApplication = new App(domElement);
+    const uiApplication = new App(domElement, clickHandler);
 
     if(liveData) {
       //live data each 1000 ms
