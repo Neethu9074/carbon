@@ -1,11 +1,10 @@
 'use strict';
 
 import Immutable from 'immutable';
+import {create} from '../conveyer';
 import http from '../http';
 
-export default class InventoryConveyer {
-  // publishes ImmutableSet<ImmutableHost>
-
+class MemoryFreeConveyer {
   constructor() {
     this.run = this.run.bind(this);
   }
@@ -43,3 +42,4 @@ export default class InventoryConveyer {
     this.lastInventory = null;
   }
 }
+export default create(MemoryFreeConveyer);

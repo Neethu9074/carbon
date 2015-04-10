@@ -35,7 +35,7 @@ describe('conveyer', () => {
       }));
 
       const ConveyerType = proxyquire(conveyerPath, {
-        './http': http
+        '../http': http
       });
 
       conveyer = create(ConveyerType);

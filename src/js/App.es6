@@ -9,7 +9,7 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <Map />
+        <Map onClick={alert} />
       </div>
     );
   }
