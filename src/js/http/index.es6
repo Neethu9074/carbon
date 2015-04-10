@@ -4,10 +4,11 @@ import Immutable from 'immutable';
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';
 
-export function get(url) {
-  return new Promise(function(resolve, reject) {
+export default function({method, url, queryParams}) {
+  url = formatUrl(url, queryParams);
+  return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
+    xhr.open(method, url, true);
     xhr.timeout = 10000;
     xhr.responseType = 'json';
     xhr.ontimeout = () => {
@@ -30,4 +31,12 @@ export function get(url) {
     };
     xhr.send();
   });
+}
+
+function formatUrl(url, queryParams={}) {
+  const queryPart = Object.keys(queryParams)
+  .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(queryParams[k]))
+  .join('&');
+
+  return url + '?' + queryPart;
 }

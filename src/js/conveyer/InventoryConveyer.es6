@@ -20,7 +20,10 @@ export default class InventoryConveyer {
   run() {
     if (!this.running) return;
 
-    http.get('/api/snapshots/com.instana.forge.infrastructure.os.OS')
+    http({
+      method: 'get',
+      url: '/api/snapshots/com.instana.forge.infrastructure.os.OS'
+    })
     .then(response => {
       if (!this.running) return;
       const newInventory = response.body;

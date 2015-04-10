@@ -17,9 +17,7 @@ describe('conveyer', () => {
   let subscription;
 
   beforeEach(() => {
-    http = {
-      get: sinon.stub()
-    };
+    http = sinon.stub();
   });
 
   afterEach(() => {
@@ -29,7 +27,7 @@ describe('conveyer', () => {
   describe('InventoryConveyer', () => {
 
     beforeEach(() => {
-      http.get.returns(Promise.resolve({
+      http.returns(Promise.resolve({
         status: 200,
         body: Immutable.fromJS([])
       }));
@@ -72,7 +70,7 @@ describe('conveyer', () => {
 
         if (callCount === 1) {
           expect(hosts.size).to.equal(0);
-          http.get.returns(Promise.resolve({
+          http.returns(Promise.resolve({
             status: 200,
             body: Immutable.fromJS([{
               id: 'foobar'

@@ -3,8 +3,8 @@
 import rx from 'rx';
 import Immutable from 'immutable';
 
-export function create(Conveyer) {
-  const conveyer = new Conveyer();
+export function create(Conveyer, ...params) {
+  const conveyer = new Conveyer(...params);
   const observers = [];
   let running = false;
   let lastValue = null;

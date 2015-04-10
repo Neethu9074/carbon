@@ -6,4 +6,4 @@ proxy:
   '/': http://127.0.0.1:3000
 
   # this endpoint is also available in production
-  /api/: http://127.0.0.1:9000/
+  /api/: http://127.0.0.1:8080/
