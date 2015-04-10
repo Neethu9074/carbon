@@ -11,7 +11,7 @@ import logging from 'instalog';
 const logger = logging.createLogger('map.es6');
 const liveData = false;
 
-
+//magic
 function init(domElement, clickHandler){
   //first load all resources
   logger.info('Loading resources...');
