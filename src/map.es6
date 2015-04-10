@@ -22,7 +22,7 @@ function init(domElement, clickHandler){
     const uiApplication = new App(domElement, clickHandler);
 
     if(liveData) {
-      //live data each 1000 ms
+      //live data each  1000 ms
       const dataManager = new DataListenerManager(uiApplication, 1000);
       logger.info('get live data via', dataManager);
     } else {
