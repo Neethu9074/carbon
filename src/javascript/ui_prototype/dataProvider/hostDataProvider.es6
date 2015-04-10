@@ -35,13 +35,12 @@ class HostDataProvider extends DataProvider {
   }
 
   setFromMetaData(metaData) {
-    this.discription = metaData.id;
-    this.cpu = metaData.cpu.count + 'x ' + metaData.cpu.model;
-    this.memory =
-      Math.round((metaData.memory.total / 1073741824) * 100) / 100 +
-      ' GB RAM';
-    this.OS = metaData.operatingSystem.name + ' - ' +
-      metaData.operatingSystem.version;
+    this.discription = metaData.hostId;
+    const snap = metaData.snapshot;
+
+    this.OS = snap['os.name'] + '-' + snap['os.version'];
+    this.subID = metaData.hostId;
+    this.extractMemory(snap['memory.free.status']);
   }
 
   get3DContent() {
@@ -110,35 +109,29 @@ class HostDataProvider extends DataProvider {
     object.position.copy(pos);
     object.position.y += dim.y;
 
-/*
-    const numberGenerator = observableGenerator.createDeviatingGenerator(
-      50, // mean
-      45, // allowed deviation
-      Math.ceil // optional rounding function
-    );
-    const observable = observableGenerator.createObservable(
-      500, // how often updates should be published in millis
-      5000, // what kind of timeframe should be announced in millis.
-			// Determines number of initialValues via
-      // floor(timeframe / frequency)
-      numberGenerator // the random number generator function.
-    );
-*/
-
-    const id = this.ID;
     const cubeSurfaceDomElement = object.element;
     React.render(
       <div>
-        <span className="hostLabel">{id}</span><h4></h4>
+        <span className="hostLabel">{this.ID}</span><h4></h4>
         <CubeFace
-          header="header"
-          subHeader="subHeader"
+          header={this.ID}
+          subHeader={this.subID}
         />
       </div>,
       cubeSurfaceDomElement
     );
 
     return object;
+  }
+
+  extractMemory(memoryJSON) {
+    const parsed = JSON.parse(memoryJSON);
+    this.color = 'GREEN';
+    if(parsed.score > 0.5) {
+      this.color = 'YELLOW';
+    } else if(parsed.score > 0.9) {
+      this.color = 'RED';
+    }
   }
 
   getHTML() {

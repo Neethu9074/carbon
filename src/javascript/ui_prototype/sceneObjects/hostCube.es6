@@ -55,11 +55,7 @@ class HostCube extends BaseCube {
 	changeMetaData(metaData) {
 		this.dataProvider.changeMetaData(metaData);
 
-		let key = 'memory.free';
-		key = 'cpu.idle';
-
-		const color = metaData.metricState[key];
-
+		const color = this.dataProvider.color;
 		if (color !== undefined) {
 			if (color === 'YELLOW' && this.state !== states.warning) {
 				this.setState(states.warning);

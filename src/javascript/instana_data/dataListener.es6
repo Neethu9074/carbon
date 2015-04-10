@@ -6,11 +6,26 @@ class DataListener {
   constructor(interval) {
     //bind methods
     this.getHosts = this.getHosts.bind(this);
-    this.getInventory = this.getInventory.bind(this);
+    //this.getInventory = this.getInventory.bind(this);
 
     setInterval(this.getHosts, interval);
   }
 
+  getHosts() {
+    const onUpdateHostsTemp = this.onUpdateHosts;
+
+    this.getJSON(localUrl + '/api')
+      .then(function(hosts) {
+        onUpdateHostsTemp(hosts);
+      }, function(status) {
+        //error detection....
+        onUpdateHostsTemp({
+          error: status
+        });
+      });
+  }
+
+/*
   getHosts() {
     const onUpdateHostsTemp = this.onUpdateHosts;
     const getInventoryTemp = this.getInventory;
@@ -50,6 +65,7 @@ class DataListener {
         });
       });
   }
+*/
 
   onUpdateHosts() {};
   onUpdateInventory() {};

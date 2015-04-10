@@ -34,8 +34,35 @@ class DataListenerManager {
     dataListener.onUpdateInventory = this.onUpdateInventory;
   }
 
-  onUpdateHosts(
-    currentHosts) {
+  onUpdateHosts(currentHosts) {
+    if (currentHosts.error !== undefined) {
+      logger.error(currentHosts.error);
+      return; //if error occured
+    }
+
+    for (let i = 0; i < currentHosts.length; i++) {
+      const hostMetaData = currentHosts[i];
+      const hostID = hostMetaData.steadyId;
+
+      if (this.detectedHostIds.indexOf(hostID) < 0) {
+        //new hostMetaData found!
+        this.detectedHostIds.push(hostID);
+
+        //create new hostMetaData cube
+        this.app.addHost(hostMetaData);
+
+      } else {
+        //hostMetaData is still created
+        const host = this.app.getHost(hostID);
+        if (host !== undefined) {
+          host.changeMetaData(hostMetaData);
+        }
+      }
+    }
+  }
+
+/*
+  onUpdateHosts(currentHosts) {
     if (currentHosts.error !== undefined) {
       logger.error(currentHosts.error);
       return; //if error occured
@@ -61,6 +88,7 @@ class DataListenerManager {
       }
     }
   }
+*/
 
   onHostDestroyed(ID) {
     logger.info('host', ID, 'was destroyed');
