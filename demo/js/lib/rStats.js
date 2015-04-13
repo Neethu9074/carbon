@@ -369,7 +369,9 @@ module.exports.RStats = function RStats(emitter, settings) {
 		_div.className = 'rs-container';
 		_div.style.height = 'auto';
 		_base.appendChild(_div);
-		document.body.appendChild(_base);
+
+		var parent = document.getElementById('stats');
+		parent.appendChild(_base);
 
 		var style = window.getComputedStyle(_base, null).getPropertyValue(
 			'font-size');

@@ -23,7 +23,6 @@ input {
   background-color:transparent;
 }
 .rs-base{
-    position: absolute;
     z-index: 10000;
     padding: 5px;
     background-color: #222;
