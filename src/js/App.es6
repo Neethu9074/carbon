@@ -35,7 +35,7 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <Map onClick={alert} />
+        <Map onClick={alert} liveData={true} />
       </div>
     );
   }
