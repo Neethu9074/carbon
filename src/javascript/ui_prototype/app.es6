@@ -434,11 +434,6 @@ class App {
         snapshot: Immutable.fromJS(object.dataProvider.metaData)
       });
     }
-
-    if(object instanceof Host) {
-      //TEST
-      object.dataProvider.switchCubeFaceState('area');
-    }
   }
 
   addHighlightOnObj() {
