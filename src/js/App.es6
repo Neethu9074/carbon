@@ -9,13 +9,15 @@ import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 
 const snapshot = Immutable.fromJS({
-	'hostId': 'alexs-mbp.local',
-	'steadyId': 'MacOSX.10.10.2',
+	'hostId': 'ip-10-86-133-33',
+	'steadyId': 'Linux.3.14.26-24.46.amzn1.x86_64',
 	'pluginId': 'com.instana.forge.infrastructure.os.OS',
 	'snapshot': {
+		'memory.total': '7882125312',
 		'os.arch': 'x86_64',
-		'os.name': 'MacOSX',
-		'os.version': '10.10.2'
+		'os.name': 'Linux',
+		'os.version': '3.14.26-24.46.amzn1.x86_64',
+		'swap.total': '0'
 	}
 });
 const conveyer = create(MetricConveyer, {
