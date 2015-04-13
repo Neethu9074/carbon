@@ -15,7 +15,8 @@ const instana3DMap = React.createClass({
 
   componentDidMount() {
     const parent = React.findDOMNode(this.refs.parent);
-    init(parent, this.handleClick);
+    const liveData = this.props.liveData;
+    init(parent, this.handleClick, liveData);
   }
 });
 
