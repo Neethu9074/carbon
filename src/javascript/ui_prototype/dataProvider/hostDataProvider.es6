@@ -48,6 +48,8 @@ class HostDataProvider extends DataProvider {
       + ' GB RAM';
     this.swapTotal = snap['swap.total'];
 
+    this.cpu = snap['cpu.count'] + 'x ' + snap['cpu.model'];
+
     this.extractProcesses(snap.processes);
 
     this.metaData = metaData;
