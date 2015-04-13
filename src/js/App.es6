@@ -5,8 +5,8 @@ import './App.less'
 import Immutable from 'immutable';
 import React from 'react/react';
 import Map from 'instana-ui-map';
-import {create} from './conveyer';
-import MetricConveyer from './conveyer/MetricConveyer';
+import {create} from 'instana-ui-services/conveyer';
+import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 
 const snapshot = Immutable.fromJS({
 	'hostId': 'alexs-mbp.local',
