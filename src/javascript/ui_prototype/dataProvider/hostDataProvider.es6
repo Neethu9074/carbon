@@ -43,6 +43,16 @@ class HostDataProvider extends DataProvider {
     this.extractMemory(snap['memory.free.status']);
   }
 
+  extractMemory(memoryJSON) {
+    const parsed = JSON.parse(memoryJSON);
+    this.color = 'GREEN';
+    if(parsed.score > 0.5) {
+      this.color = 'YELLOW';
+    } else if(parsed.score > 0.9) {
+      this.color = 'RED';
+    }
+  }
+
   get3DContent() {
     factory.createHostCube(
       this.cube.position,
@@ -122,16 +132,6 @@ class HostDataProvider extends DataProvider {
     );
 
     return object;
-  }
-
-  extractMemory(memoryJSON) {
-    const parsed = JSON.parse(memoryJSON);
-    this.color = 'GREEN';
-    if(parsed.score > 0.5) {
-      this.color = 'YELLOW';
-    } else if(parsed.score > 0.9) {
-      this.color = 'RED';
-    }
   }
 
   getHTML() {

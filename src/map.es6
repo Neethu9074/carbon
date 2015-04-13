@@ -9,7 +9,7 @@ import {setup} from './javascript/ui_prototype/testSetup';
 
 import logging from 'instalog';
 const logger = logging.createLogger('map.es6');
-const liveData = true;
+const liveData = false;
 
 
 function init(domElement, clickHandler){

@@ -182,11 +182,19 @@ class App {
   }
 
   addRandomHost() {
-    return this.addHost( {
-      id: 'UUID ' + Math.random(),
-      cpu: { model: 'Test CPU', count: 2 },
-      memory: {total: 1234567890},
-      operatingSystem: {name: 'OS'} } );
+    const jsonObject = {
+      hostId: 'hostID ' + Math.random(),
+      steadyId: 'steadyID',
+      snapshot: {}
+    };
+
+    jsonObject.snapshot['os.arch'] = 'x64';
+    jsonObject.snapshot['os.name'] = 'Mac OSX';
+    jsonObject.snapshot['os.version'] = '10.10.2';
+    /*eslint-disable max-len */
+    jsonObject.snapshot['memory.free.status'] = '{"score":0.0,"labels":["operating system instance"],"issues":["Free memory will go below zero in 120 seconds"],"solutions":["identify and eventually eliminate memory consuming processes","give this OS instance more memory"]}';
+    /*eslint-enable max-len */
+    return this.addHost(jsonObject);
   }
 
   addRandomContainer() {
