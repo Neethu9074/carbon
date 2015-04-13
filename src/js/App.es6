@@ -26,7 +26,6 @@ const App = React.createClass({
   },
 
 	onClick(event) {
-		console.log(event);
 		this.setState({
 			selectedSnapshot: event.snapshot
 		});
