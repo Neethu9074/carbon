@@ -6,9 +6,9 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
-import {create} from '../../conveyer';
+import {create} from './index';
 
-const conveyerPath = '../../conveyer/InventoryConveyer';
+const conveyerPath = './InventoryConveyer';
 
 describe('conveyer', () => {
 
