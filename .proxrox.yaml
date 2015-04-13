@@ -9,4 +9,4 @@ proxy:
   #'/api/': http://ec2-54-93-114-240.eu-central-1.compute.amazonaws.com:8080/
   #'/api/': http://ec2-54-197-51-67.compute-1.amazonaws.com:4000/api/
   #'/api/': http://52.5.144.215/api/
-  '/api/': http://52.5.144.215/api/snapshots/com.instana.forge.infrastructure.os.OS
+  '/api/snapshots/': http://52.5.144.215/api/snapshots/com.instana.forge.infrastructure.os.OS
