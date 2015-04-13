@@ -1,5 +1,7 @@
 'use strict';
 
+import './app.less';
+
 import THREE from 'three.js';
 import '../lib/CSS3DRenderer';
 import '../lib/Octree';
