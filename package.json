@@ -8,7 +8,7 @@
     "clean": "gulp clean",
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
     "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
-    "test": "gulp lint && mocha --compilers js:babel/register test/**/*.es6"
+    "test": "gulp lint"
   },
   "repository": {
     "type": "git",
