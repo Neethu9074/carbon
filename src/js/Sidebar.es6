@@ -4,6 +4,7 @@ import './Sidebar.less';
 
 import React from 'react';
 import invariant from 'invariant';
+import prettyBytes from 'pretty-bytes';
 
 const Sidebar = React.createClass({
   propTypes: {
@@ -26,7 +27,7 @@ const Sidebar = React.createClass({
 
           <dt>Memory</dt>
           <dd>
-            {this.props.snapshot.get('snapshot').get('memory.total')} bytes
+            {this.getMemory()}
           </dd>
 
           <dt>Operating System</dt>
@@ -40,6 +41,11 @@ const Sidebar = React.createClass({
     return JSON.parse(this.props.snapshot.get('snapshot').get('interfaces'))
     .reduce((agg, i) => agg.concat(i.ips), [])
     .join(', ');
+  },
+
+  getMemory() {
+    const memory = this.props.snapshot.get('snapshot').get('memory.total');
+    return prettyBytes(parseInt(memory, 10));
   },
 
   getOs() {
