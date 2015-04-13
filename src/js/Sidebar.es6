@@ -25,6 +25,11 @@ const Sidebar = React.createClass({
           <dt>IPs</dt>
           <dd>{this.getIps()}</dd>
 
+          <dt>CPUs</dt>
+          <dd>
+            {this.getCpus()}
+          </dd>
+
           <dt>Memory</dt>
           <dd>
             {this.getMemory()}
@@ -41,6 +46,11 @@ const Sidebar = React.createClass({
     return JSON.parse(this.props.snapshot.get('snapshot').get('interfaces'))
     .reduce((agg, i) => agg.concat(i.ips), [])
     .join(', ');
+  },
+
+  getCpus() {
+    const snapshot = this.props.snapshot.get('snapshot');
+    return `${snapshot.get('cpu.count')} x ${snapshot.get('cpu.model')}`;
   },
 
   getMemory() {
