@@ -1,6 +1,8 @@
 'use strict';
 
 const localUrl = window.location.origin;
+const snapshotUrl = localUrl +
+  '/api/snapshots/com.instana.forge.infrastructure.os.OS';
 
 class DataListener {
   constructor(interval) {
@@ -14,7 +16,7 @@ class DataListener {
   getHosts() {
     const onUpdateHostsTemp = this.onUpdateHosts;
 
-    this.getJSON(localUrl + '/api')
+    this.getJSON(snapshotUrl)
       .then(function(hosts) {
         onUpdateHostsTemp(hosts);
       }, function(status) {
