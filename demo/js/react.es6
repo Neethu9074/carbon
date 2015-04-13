@@ -16,7 +16,7 @@ export default function init() {
 
   React.render(
     <Map liveData={liveData} onClick={onClick}/>,
-    document.body
+    document.getElementById('map')
   );
 
   function onClick () {

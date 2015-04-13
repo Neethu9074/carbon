@@ -107,7 +107,20 @@ input {
 }
 #controlsPanel {
   position: absolute;
+  height: 100%;
   right: 0;
   top: 0;
-  vertical-align:middle
+}
+#cp_left {
+  background-color: #015473;
+  width: 20px;
+  float: left;
+  min-height:100%;
+  height:100%;
+}
+#cp_right {
+  vertical-align:middle;
+  background-color: 0x015473;
+  opacity: 0.5;
+  transparent: true;
 }
