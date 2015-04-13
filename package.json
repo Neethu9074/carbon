@@ -2,7 +2,7 @@
   "name": "instana-ui-services",
   "version": "1.0.0",
   "description": "In-browser, pluggable-independent, service layer",
-  "main": "index.js",
+  "main": "index.es6",
   "scripts": {
     "test": "eslint --ext .es6 conveyer/ http/ test/ && mocha --compilers js:babel/register test/**/*_test.es6"
   },
