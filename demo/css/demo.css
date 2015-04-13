@@ -108,6 +108,7 @@ input {
 #controlsPanel {
   position: absolute;
   height: 100%;
+  width: 20px;
   right: 0;
   top: 0;
 }

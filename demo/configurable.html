@@ -33,7 +33,7 @@
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
   <script>
-    var toggle = true;
+    var toggle = false;
     $( "#controlsPanel" ).click(function() {
       toggle = !toggle;
       var w = 20;
@@ -42,7 +42,6 @@
       }
       $( this ).animate( {width:w+'px'}, 200 );
     });
-    $( "#controlsPanel" ).click();
   </script>
 </body>
 </html>
