@@ -13,6 +13,7 @@ import * as states from '../cubeStates';
 import CubeFace from 'instana-ui-cube-face';
 import React from 'react';
 import observableGenerator from 'rx-observable-generator';
+import Immutable from 'immutable';
 
 import hostImagePath from '../../../images/icon_host.png';
 import systemImagePath from '../../../images/icon_system.png';
@@ -127,6 +128,7 @@ class HostDataProvider extends DataProvider {
     this.cubeFace = <CubeFace
       header={this.ID}
       subHeader={this.steadyId}
+      snapshot={Immutable.fromJS({})}
     />;
 
     const cubeSurfaceDomElement = object.element;
