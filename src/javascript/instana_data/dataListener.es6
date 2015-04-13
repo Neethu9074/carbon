@@ -14,7 +14,7 @@ class DataListener {
   getHosts() {
     const onUpdateHostsTemp = this.onUpdateHosts;
 
-    this.getJSON(localUrl + '/api')
+    this.getJSON(localUrl + '/api/snapshots')
       .then(function(hosts) {
         onUpdateHostsTemp(hosts);
       }, function(status) {

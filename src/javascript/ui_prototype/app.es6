@@ -431,7 +431,9 @@ class App {
       const ID = object.dataProvider.ID;
       const secID = object.dataProvider.cpu;
       this.clickHandler(ID, secID);
+    }
 
+    if(object instanceof Host) {
       //TEST
       object.dataProvider.switchCubeFaceState('area');
     }
@@ -447,7 +449,7 @@ class App {
   addHost(metaData) {
     try {
       //get new position if possible
-      const newPos2D = this.layouter.getNext(metaData.steadyId);
+      const newPos2D = this.layouter.getNext(metaData.hostId);
       const pos = new THREE.Vector3(newPos2D.x, 0, -newPos2D.y);
       const host = new Host(pos, new HostDataProvider(metaData));
 

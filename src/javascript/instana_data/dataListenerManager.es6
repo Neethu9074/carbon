@@ -42,7 +42,7 @@ class DataListenerManager {
 
     for (let i = 0; i < currentHosts.length; i++) {
       const hostMetaData = currentHosts[i];
-      const hostID = hostMetaData.steadyId;
+      const hostID = hostMetaData.hostId;
 
       if (this.detectedHostIds.indexOf(hostID) < 0) {
         //new hostMetaData found!

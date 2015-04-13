@@ -39,7 +39,7 @@ class HostDataProvider extends DataProvider {
     const snap = metaData.snapshot;
 
     this.OS = snap['os.name'] + '-' + snap['os.version'];
-    this.subID = metaData.hostId;
+    this.subID = metaData.steadyId;
     this.extractMemory(snap['memory.free.status']);
   }
 
