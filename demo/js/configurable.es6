@@ -23,7 +23,9 @@ export default function init() {
     const domElement = document.getElementById('WebGL');
 
     //start up the UI when all resources are loaded
-    const uiApplication = new App(domElement);
+    const uiApplication = new App(domElement, (event) => {
+      logger.info('Clicked on OS snapshot', event.snapshot.toJS());
+    });
 
     //setup statistics if dev demo
     if (__DEV__) {

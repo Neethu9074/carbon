@@ -17,6 +17,7 @@ import HostDataProvider from './dataProvider/hostDataProvider';
 
 import MouseControls from './controls/mouseCameraController';
 import Layouter from './harmonicSphericalLayouter';
+import Immutable from 'immutable';
 
 import TWEEN from 'tween.js';
 import RxEmitter from 'rxemitter';
@@ -428,7 +429,9 @@ class App {
     this.addHighlightOnObj(object);
 
     if(object instanceof Host && this.clickHandler !== undefined) {
-      this.clickHandler({ blob: object.dataProvider.metaData });
+      this.clickHandler({
+        snapshot: Immutable.fromJS(object.dataProvider.metaData)
+      });
     }
 
     if(object instanceof Host) {
