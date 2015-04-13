@@ -183,8 +183,8 @@ class App {
 
   addRandomHost() {
     const jsonObject = {
-      hostId: 'hostID ' + Math.random(),
-      steadyId: 'steadyID',
+      hostId: 'hostID',
+      steadyId: 'steadyID' + Math.random(),
       snapshot: {}
     };
 
@@ -447,7 +447,7 @@ class App {
   addHost(metaData) {
     try {
       //get new position if possible
-      const newPos2D = this.layouter.getNext(metaData.id);
+      const newPos2D = this.layouter.getNext(metaData.steadyId);
       const pos = new THREE.Vector3(newPos2D.x, 0, -newPos2D.y);
       const host = new Host(pos, new HostDataProvider(metaData));
 
