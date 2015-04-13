@@ -119,14 +119,16 @@ class HostDataProvider extends DataProvider {
     object.position.copy(pos);
     object.position.y += dim.y;
 
+    this.cubeFace = <CubeFace
+      header={this.ID}
+      subHeader={this.subID}
+    />;
+
     const cubeSurfaceDomElement = object.element;
     React.render(
       <div>
         <span className="hostLabel">{this.ID}</span><h4></h4>
-        <CubeFace
-          header={this.ID}
-          subHeader={this.subID}
-        />
+        {this.cubeFace}
       </div>,
       cubeSurfaceDomElement
     );
@@ -134,8 +136,16 @@ class HostDataProvider extends DataProvider {
     return object;
   }
 
+  switchCubeFaceState(newState) {
+    this.cubeFace.props.switchState(newState);
+  }
+
   getHTML() {
     const id = this.ID;
+    const html = '<text class=hostLabel>' + id + '</text><h4></h4></br>';
+
+    return html;
+  }
 
 /*
 const cpu = this.cpu;
@@ -151,11 +161,6 @@ const html = '<h4></h4><p><img src= bundle/' + hostImagePath +
 '<li>' + cpu + '</li>' +
 '<li>' + memory + '</li></ul>';
 */
-
-    const html = '<text class=hostLabel>' + id + '</text><h4></h4></br>';
-
-    return html;
-  }
 
   getDashboardUrl() {
     return '/#/dashboard/file/' +
@@ -202,6 +207,7 @@ const html = '<h4></h4><p><img src= bundle/' + hostImagePath +
       this.effect.dispose();
       this.effect = null;
     }
+    this.cubeFace = null;
   }
 }
 

@@ -431,6 +431,9 @@ class App {
       const ID = object.dataProvider.ID;
       const secID = object.dataProvider.cpu;
       this.clickHandler(ID, secID);
+
+      //TEST
+      object.dataProvider.switchCubeFaceState('area');
     }
   }
 
