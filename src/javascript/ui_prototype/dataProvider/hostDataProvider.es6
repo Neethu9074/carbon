@@ -50,12 +50,15 @@ class HostDataProvider extends DataProvider {
 
     this.cpu = snap['cpu.count'] + 'x ' + snap['cpu.model'];
 
-    this.extractProcesses(snap.processes);
+    // this.extractProcesses(snap.processes);
 
     this.metaData = metaData;
   }
 
   extractMemory(memoryJSON) {
+    if (!memoryJSON) {
+      return;
+    }
     const parsed = JSON.parse(memoryJSON);
     this.color = 'GREEN';
     if(parsed.score < 0.9) {
@@ -144,11 +147,7 @@ class HostDataProvider extends DataProvider {
     object.position.copy(pos);
     object.position.y += dim.y;
 
-    this.cubeFace = <CubeFace
-      header={this.ID}
-      subHeader={this.steadyId}
-      snapshot={Immutable.fromJS(this.metaData)}
-    />;
+    this.cubeFace = <CubeFace snapshot={Immutable.fromJS(this.metaData)} />;
 
     const cubeSurfaceDomElement = object.element;
     React.render(
@@ -160,10 +159,6 @@ class HostDataProvider extends DataProvider {
     );
 
     return object;
-  }
-
-  switchCubeFaceState(newState) {
-    this.cubeFace.props.switchState(newState);
   }
 
   getHTML() {
