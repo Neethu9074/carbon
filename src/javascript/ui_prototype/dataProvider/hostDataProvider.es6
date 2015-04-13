@@ -41,6 +41,10 @@ class HostDataProvider extends DataProvider {
     this.OS = snap['os.name'] + '-' + snap['os.version'];
     this.subID = metaData.steadyId;
     this.extractMemory(snap['memory.free.status']);
+    this.memoryTotal = snap['memory.total'];
+    this.memoryTotal = Math.round((this.memoryTotal / 1073741824) * 100)
+      / 100 + ' GB RAM';
+    this.swapTotal = snap['swap.total'];
   }
 
   extractMemory(memoryJSON) {
