@@ -18,8 +18,8 @@ import _ from 'lodash';
 import TWEEN from 'tween.js'
 
 //const logger = logging.createLogger('hostCube.js');
-const hideCSS3DDistanceLookAt = 35;
-const hideCSS3DDistanceCam = 200;
+const hideCSS3DDistanceLookAt = 60;
+const hideCSS3DDistanceCam = 350;
 const hostWidth = 20;
 const hostHeight = 4;
 

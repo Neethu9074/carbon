@@ -428,9 +428,7 @@ class App {
     this.addHighlightOnObj(object);
 
     if(object instanceof Host && this.clickHandler !== undefined) {
-      const ID = object.dataProvider.ID;
-      const secID = object.dataProvider.cpu;
-      this.clickHandler(ID, secID);
+      this.clickHandler({ blob: object.dataProvider.metaData });
     }
 
     if(object instanceof Host) {
