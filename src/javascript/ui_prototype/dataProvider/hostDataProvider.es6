@@ -127,7 +127,10 @@ class HostDataProvider extends DataProvider {
     this.cubeFace = <CubeFace
       header={this.ID}
       subHeader={this.steadyId}
+      snapshot={this.metaData}
     />;
+
+    console.log(this.cubeFace);
 
     const cubeSurfaceDomElement = object.element;
     React.render(

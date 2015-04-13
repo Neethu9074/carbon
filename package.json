@@ -20,13 +20,12 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
     "instalog": "^1.0.0",
-    "instana-ui-cube-face": "^2.0.0",
+    "instana-ui-cube-face": "^2.2.0",
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
     "pathfinding": "^0.4.16",
     "react": "^0.13.1",
-    "rx-observable-generator": "^1.0.0",
     "rxemitter": "^1.0.0",
     "tween.js": "^0.14.0"
   },
