@@ -19,6 +19,7 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+    "immutable": "^3.7.2",
     "instalog": "^1.0.0",
     "instana-ui-cube-face": "^2.0.0",
     "invariant": "^2.0.0",
