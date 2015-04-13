@@ -41,21 +41,38 @@ class HostDataProvider extends DataProvider {
 
     this.OS = snap['os.name'] + '-' + snap['os.version'];
     this.steadyId = metaData.steadyId;
+
     this.extractMemory(snap['memory.free.status']);
     this.memoryTotal = snap['memory.total'];
     this.memoryTotal = ((this.memoryTotal / (1073741824) * 100) | 0) / 100
       + ' GB RAM';
     this.swapTotal = snap['swap.total'];
+
+    this.extractProcesses(snap.processes);
+
     this.metaData = metaData;
   }
 
   extractMemory(memoryJSON) {
     const parsed = JSON.parse(memoryJSON);
     this.color = 'GREEN';
-    if(parsed.score > 0.5) {
+    if(parsed.score < 0.9) {
       this.color = 'YELLOW';
-    } else if(parsed.score > 0.9) {
+    } if(parsed.score < 0.5) {
       this.color = 'RED';
+    }
+  }
+
+  extractProcesses(processesJSON) {
+    const parsed = JSON.parse(processesJSON);
+    const memory = parsed.memory;
+    this.processes = [];
+    for (let i = 0; i < memory.length; i++) {
+      const process = memory[i];
+      this.processes.push( {
+        pid: process.pid,
+        memory: process.memory
+      });
     }
   }
 

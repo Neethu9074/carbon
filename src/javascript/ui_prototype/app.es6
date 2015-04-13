@@ -183,19 +183,20 @@ class App {
   }
 
   addRandomHost() {
-    const jsonObject = {
-      hostId: 'hostID',
-      steadyId: 'steadyID' + Math.random(),
-      snapshot: {}
-    };
-
-    jsonObject.snapshot['os.arch'] = 'x64';
-    jsonObject.snapshot['os.name'] = 'Mac OSX';
-    jsonObject.snapshot['os.version'] = '10.10.2';
     /*eslint-disable max-len */
-    jsonObject.snapshot['memory.free.status'] = '{"score":0.0,"labels":["operating system instance"],"issues":["Free memory will go below zero in 120 seconds"],"solutions":["identify and eventually eliminate memory consuming processes","give this OS instance more memory"]}';
+    const snapshot = {
+      'hostId': 'alexs-mbp.local',
+      'steadyId': 'MacOSX.10.10.2' + Math.random(),
+      'pluginId': 'com.instana.forge.infrastructure.os.OS',
+      'snapshot': {
+          'os.arch': 'x86_64',
+          'os.name': 'MacOSX',
+          'os.version': '10.10.2',
+          'memory.free.status': '{"score":0.0,"labels":["operating system instance"],"issues":["Free memory will go below zero in 120 seconds"],"solutions":["identify and eventually eliminate memory consuming processes","give this OS instance more memory"]}'
+      }
+    };
     /*eslint-enable max-len */
-    return this.addHost(jsonObject);
+    return this.addHost(snapshot);
   }
 
   addRandomContainer() {

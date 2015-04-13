@@ -38,6 +38,12 @@ class HostCube extends BaseCube {
 		super(pos, dim, dataProvider);
 
 		this.registerEvents();
+
+		const processes = this.dataProvider.processes;
+		for (let i = 0; i < processes.length; i++) {
+			const process = processes[i];
+			this.addContainer( { id: 'id', pid: process.pid } );
+		}
 	}
 
 	addContainerToPosWithDim(pos, dim, metaData) {
