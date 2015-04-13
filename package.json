@@ -4,8 +4,31 @@
   "description": "In-browser, pluggable-independent, service layer",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "eslint --ext .es6 conveyer/ http/ test/ && mocha --compilers js:babel/register test/**/*_test.es6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/instana/ui-services.git"
   },
   "author": "Ben Ripkens <ben@instana.com>",
-  "license": "proprietary"
+  "license": "proprietary",
+  "dependencies": {
+    "immutable": "^3.7.1",
+    "instalog": "^1.0.0",
+    "invariant": "^1.0.2",
+    "rx": "^2.5.1"
+  },
+  "devDependencies": {
+    "babel": "^5.0.10",
+    "babel-core": "^4.7.13",
+    "bluebird": "^2.9.6",
+    "chai": "^2.2.0",
+    "eslint": "^0.19.0",
+    "mocha": "^2.2.4",
+    "proxyquire": "^1.4.0",
+    "sinon": "^1.14.1"
+  },
+  "publishConfig": {
+    "registry": "http://nexus.instana.com/nexus/content/repositories/instana-npm-releases/"
+  }
 }
