@@ -34,14 +34,13 @@ export default class MetricConveyer {
     const now = new Date();
     http({
       method: 'get',
-      url: '/api/metrics',
+      url: '/api/metrics/lastn',
       queryParams: {
         hostId: this.snapshot.hostId,
         pluginId: this.snapshot.pluginId,
         steadyId: this.snapshot.steadyId,
         metricName: this.metric,
-        rangeStart: now.getTime() - this.timeframe,
-        rangeEnd: now.getTime()
+	lastn: 60
       }
     })
     .then(response => {
