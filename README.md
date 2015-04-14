@@ -8,3 +8,5 @@ The current version of the visualization is always available via our [Jenkins](h
 npm install
 npm run dev
 ```
+
+Take `.npmrc.sample` and copy it to `.npmrc`, configure it your nexus account name/password.
