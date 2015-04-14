@@ -144,7 +144,7 @@ class HostDataProvider extends DataProvider {
     object.rotation.x = -90 * math.DegToRad;
 
     //1px in css is 1 unit in 3D space
-    object.scale.set(dim.x / 416, dim.x / 416, 1);
+    object.scale.set(dim.x / 450, dim.x / 450, 1);
     object.position.copy(pos);
     object.position.y += dim.y;
 
@@ -153,7 +153,6 @@ class HostDataProvider extends DataProvider {
     const cubeSurfaceDomElement = object.element;
     React.render(
       <div>
-        <span className="hostLabel">{this.ID}</span><h4></h4>
         {this.cubeFace}
       </div>,
       cubeSurfaceDomElement
