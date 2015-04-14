@@ -15,15 +15,10 @@ const App = React.createClass({
 	},
 
   render() {
-		let sidebar;
-		if(this.state.selectedSnapshot !== undefined) {
-			sidebar = <Sidebar snapshot={this.state.selectedSnapshot} />;
-		}
-
     return (
       <div>
 				{this.state.selectedSnapshot ?
-					{sidebar}
+					<Sidebar snapshot={this.state.selectedSnapshot} />
 					: null}
         <Map onClick={this.onClick} liveData={true} />
       </div>

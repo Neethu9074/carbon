@@ -70,7 +70,9 @@ const Sidebar = React.createClass({
 
   getAmiId() {
     const snapshot = this.props.snapshot.get('EC2');
-    return `${snapshot.get('ami-id')}`;
+    if(snapshot !== undefined) {
+      return `${snapshot.get('ami-id')}`;
+    }
   }
 });
 
