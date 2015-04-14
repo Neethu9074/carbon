@@ -21,7 +21,7 @@
   "dependencies": {
     "immutable": "^3.7.2",
     "instalog": "^1.0.0",
-    "instana-ui-cube-face": "^2.5.0",
+    "instana-ui-cube-face": "^2.5.1",
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
