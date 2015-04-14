@@ -80,6 +80,8 @@ class App {
 
     this.setupEvents();
     this.update();
+
+    logger.debug('app created');
   }
 
   setupOctree() {

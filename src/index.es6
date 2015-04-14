@@ -1,12 +1,13 @@
 'use strict';
 
+import './index.less';
 import React from 'react';
 import init from './map';
 
 
 const instana3DMap = React.createClass({
   render() {
-    return <div ref="parent" id="WebGL"></div>;
+    return <div className="ui-map" ref="parent" id="WebGL"></div>;
   },
 
   handleClick: function(a, b) {
