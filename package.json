@@ -1,6 +1,6 @@
 {
   "name": "instana-ui-map",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "The 3D visuliaztion of client's infrastructure",
   "main": "src/index.es6",
   "scripts": {
@@ -21,7 +21,7 @@
   "dependencies": {
     "immutable": "^3.7.2",
     "instalog": "^1.0.0",
-    "instana-ui-cube-face": "^2.4.3",
+    "instana-ui-cube-face": "^2.5.0",
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
