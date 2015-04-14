@@ -37,6 +37,9 @@ const Sidebar = React.createClass({
 
           <dt>Operating System</dt>
           <dd>{this.getOs()}</dd>
+
+          <dt>AMI-ID</dt>
+          <dd>{this.getAmiId()}</dd>
         </dl>
       </div>
     );
@@ -63,6 +66,11 @@ const Sidebar = React.createClass({
     return `${snapshot.get('os.name')}
       ${snapshot.get('os.version')}
       (${snapshot.get('os.arch')})`;
+  },
+
+  getAmiId() {
+    const snapshot = this.props.snapshot.get('EC2');
+    return `${snapshot.get('ami-id')}`;
   }
 });
 

@@ -1,6 +1,6 @@
 'use strict';
 
-import './App.less'
+import './App.less';
 
 import Immutable from 'immutable';
 import React from 'react/react';
