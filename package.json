@@ -15,7 +15,7 @@
     "url": "https://github.com/instana/visualization.git"
   },
   "publishConfig": {
-    "registry": "http://nexus.instana.com/nexus/content/repositories/instana-npm-releases/"
+    "registry": "http://54.204.9.148/nexus/content/repositories/instana-npm-releases/"
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
