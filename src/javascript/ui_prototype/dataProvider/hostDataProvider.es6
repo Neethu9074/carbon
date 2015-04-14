@@ -42,7 +42,8 @@ class HostDataProvider extends DataProvider {
     this.OS = snap['os.name'] + '-' + snap['os.version'];
     this.steadyId = metaData.steadyId;
 
-    this.extractMemory(snap['memory.free.status']);
+    this.extractColor(snap['accumulated.status']);
+
     this.memoryTotal = snap['memory.total'];
     this.memoryTotal = ((this.memoryTotal / (1073741824) * 100) | 0) / 100
       + ' GB RAM';
@@ -50,20 +51,20 @@ class HostDataProvider extends DataProvider {
 
     this.cpu = snap['cpu.count'] + 'x ' + snap['cpu.model'];
 
-    // this.extractProcesses(snap.processes);
+    //this.extractProcesses(snap.processes);
 
     this.metaData = metaData;
   }
 
-  extractMemory(memoryJSON) {
-    if (!memoryJSON) {
+  extractColor(JSONStructure) {
+    if (!JSONStructure) {
       return;
     }
-    const parsed = JSON.parse(memoryJSON);
+    const parsed = JSON.parse(JSONStructure);
     this.color = 'GREEN';
-    if(parsed.score < 0.9) {
+    if(parsed.score < 0.5) {
       this.color = 'YELLOW';
-    } if(parsed.score < 0.5) {
+    } if(parsed.score <= 0.0) {
       this.color = 'RED';
     }
   }
