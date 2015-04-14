@@ -10,3 +10,5 @@ npm run dev
 ```
 
 Take `.npmrc.sample` and copy it to `.npmrc`, configure it your nexus account name/password.
+
+Nginx proxy used in development, shall can be adjusted/configured in `proxrox.yaml`
