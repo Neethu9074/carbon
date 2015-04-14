@@ -5,6 +5,7 @@ import './Sidebar.less';
 import React from 'react';
 import invariant from 'invariant';
 import prettyBytes from 'pretty-bytes';
+import Immutable from 'immutable';
 
 const Sidebar = React.createClass({
   propTypes: {
@@ -12,6 +13,9 @@ const Sidebar = React.createClass({
   },
 
   render() {
+    const statusInfo = this.getStatusInfo();
+    const issues = statusInfo.get('issues');
+    const solutions = statusInfo.get('solutions');
     return (
       <div className="in-sidebar">
         <h1>
@@ -45,6 +49,28 @@ const Sidebar = React.createClass({
             </div>
           : null}
         </dl>
+
+        {!issues.isEmpty() ?
+          <div>
+            <h2>Issues</h2>
+            <ul>
+              {issues.map(issue =>
+                <li key={issue}>{issue}</li>
+              )}
+            </ul>
+          </div>
+        : null}
+
+        {!solutions.isEmpty() ?
+          <div>
+            <h2>Solutions</h2>
+            <ul>
+              {solutions.map(solution =>
+                <li key={solution}>{solution}</li>
+              )}
+            </ul>
+          </div>
+        : null}
       </div>
     );
   },
@@ -81,6 +107,11 @@ const Sidebar = React.createClass({
     if(snapshot !== undefined) {
       return `${snapshot.get('ami-id')}`;
     }
+  },
+
+  getStatusInfo() {
+    const json = this.props.snapshot.get('snapshot').get('accumulated.status');
+    return Immutable.fromJS(JSON.parse(json));
   }
 });
 
