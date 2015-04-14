@@ -19,7 +19,7 @@
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
     "instana-ui-line-chart": "^3.0.0",
-    "instana-ui-map": "^1.4.4",
+    "instana-ui-map": "^1.5.1",
     "instana-ui-radial-chart": "^2.0.0",
     "instana-ui-services": "^1.0.0",
     "invariant": "^1.0.2",
@@ -61,6 +61,6 @@
     "webpack-dev-server": "^1.7.0"
   },
   "publishConfig": {
-    "registry": "http://nexus.instana.com/nexus/content/repositories/instana-npm-releases/"
+    "registry": "http://54.204.9.148/nexus/content/repositories/instana-npm-releases/"
   }
 }
