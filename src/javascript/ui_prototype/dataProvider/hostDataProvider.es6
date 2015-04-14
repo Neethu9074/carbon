@@ -62,9 +62,10 @@ class HostDataProvider extends DataProvider {
     }
     const parsed = JSON.parse(JSONStructure);
     this.color = 'GREEN';
-    if(parsed.score < 0.5) {
+    if(parsed.score < 0.95) {
       this.color = 'YELLOW';
-    } if(parsed.score <= 0.0) {
+    }
+    if(parsed.score < 0.5) {
       this.color = 'RED';
     }
   }
