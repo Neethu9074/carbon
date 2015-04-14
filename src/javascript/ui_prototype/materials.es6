@@ -33,7 +33,7 @@ export const cubeHostMaterial = new THREE.MeshPhongMaterial({
 	shininess: 5
 });
 
-export const collisonHighlightMaterial = new THREE.MeshBasicMaterial({
+export const collisonHighlightMaterial = new THREE.MeshLambertMaterial({
 	color: colors.midBlue
 });
 
