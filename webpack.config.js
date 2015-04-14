@@ -5,13 +5,17 @@ var webpack = require('webpack');
 var path = require('path');
 
 var definePlugin = new webpack.DefinePlugin({
-	__DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true'))
+	__DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
+
+	// this is necessary for the React and Invariant modules
+	'process.env.NODE_ENV': process.env.BUILD_DEV === 'true' ? '"development"' : '"production"'
 });
 
 module.exports = {
-	entry: './src/js/index.js',
+	entry: './src/js/index.es6',
 	output: {
 		path: path.join(__dirname, 'target/bundle/'),
+		publicPath: 'bundle/',
 		filename: 'index.js'
 	},
 	devtool: 'source-map',
@@ -20,23 +24,23 @@ module.exports = {
 			test: /\.less$/i,
 			loader: 'style-loader!css-loader!less-loader'
 		}, {
-			test: /\.css$/i,
-			loader: 'style-loader!css-loader'
-		}, {
-			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot$/i,
+			test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot|\.obj$/i,
 			loader: 'file-loader'
 		}, {
-			test: /\.js$/i,
-			exclude: /node_modules/,
-			loader: '6to5-loader'
+			test: /\.glsl$/i,
+			loader: 'raw-loader'
+		}, {
+			test: /\.es6$/i,
+			loader: 'babel-loader'
 		}]
 	},
 	plugins: [
 		definePlugin
 	],
 	resolve: {
+		extensions: ["", ".js", '.es6'],
 		alias: {
-			// 'three.js': path.join(__dirname, '/node_modules/three.js/build/three.js')
+			'three.js': path.join(__dirname, '/node_modules/instana-ui-map/node_modules/three.js/build/three.js')
 		}
 	}
 };

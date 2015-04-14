@@ -1,31 +1,45 @@
 {
-  "name": "instana-ui.browser",
+  "name": "instana-ui-client",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "install": "proxrox install",
     "clean": "gulp clean",
-    "build": "gulp clean && gulp build",
-    "dev": "proxrox start .proxrox.yaml && gulp dev"
+    "build": "export BUILD_DEV='false' && gulp clean && gulp build",
+    "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
+    "test": "gulp lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/instana/ui-client.git"
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
-    "immutable": "^3.6.2",
-    "instana-visualization": "^0.0.1",
+    "immutable": "^3.7.1",
+    "instalog": "^1.0.0",
+    "instana-ui-line-chart": "^3.0.0",
+    "instana-ui-map": "^1.4.4",
+    "instana-ui-radial-chart": "^2.0.0",
+    "instana-ui-services": "^1.0.0",
     "invariant": "^1.0.2",
-    "react": "^0.12.2"
+    "pretty-bytes": "^1.0.4",
+    "react": "^0.13.1",
+    "rx": "^2.5.1",
+    "rx-observable-generator": "^1.0.0"
   },
   "devDependencies": {
-    "6to5-core": "^3.6.4",
-    "6to5-loader": "^3.0.0",
+    "babel": "^5.0.10",
+    "babel-core": "^4.7.13",
+    "babel-loader": "^4.2.0",
     "bluebird": "^2.9.6",
+    "chai": "^2.2.0",
     "css-loader": "^0.9.1",
     "del": "^1.1.1",
     "file-loader": "^0.8.1",
     "gulp": "^3.8.10",
     "gulp-cached": "^1.0.2",
-    "gulp-eslint": "^0.2.2",
+    "gulp-eslint": "^0.8.0",
     "gulp-filter": "^2.0.0",
     "gulp-rev": "^3.0.0",
     "gulp-rev-replace": "^0.3.3",
@@ -35,9 +49,13 @@
     "imagemin": "^3.1.0",
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
+    "mocha": "^2.2.4",
     "napa": "^1.2.0",
     "proxrox": "^1.4.0",
+    "proxyquire": "^1.4.0",
+    "raw-loader": "^0.5.1",
     "shelljs": "^0.3.0",
+    "sinon": "^1.14.1",
     "style-loader": "^0.8.3",
     "webpack": "^1.5.3",
     "webpack-dev-server": "^1.7.0"

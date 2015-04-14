@@ -18,7 +18,7 @@ var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 
 var paths = {
-  js: ['gulpfile.js', 'webpack.config.js', 'src/js/**/*.js']
+  js: ['src/js/**/*.es6', 'test/js/**/*.es6']
 };
 
 

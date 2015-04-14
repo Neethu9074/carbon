@@ -1,0 +1,42 @@
+.in-sidebar {
+  @title-color: #2EFFFE;
+
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+
+  width: 30em;
+  padding: 1em 2em;
+  z-index: 1;
+
+  background: hsla(210, 21%, 13%, 0.7);
+
+  h1 {
+    font-size: 1.5em;
+    font-weight: 300;
+    color: @title-color;
+
+    small {
+      color: #fcfcfc;
+      display: block;
+      padding: .5em 0;
+      font-size: 0.6em;
+    }
+  }
+
+  dt, dd {
+    line-height: 1.4;
+  }
+
+  dt {
+    float: left;
+    width: 9em;
+    overflow: hidden;
+    color: #26d6c4;
+  }
+
+  dd {
+    margin-left: 10em;
+  }
+}
