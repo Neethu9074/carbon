@@ -25,30 +25,37 @@ const Sidebar = React.createClass({
           </small>
         </h1>
 
-        <dl>
-          <dt>IPs</dt>
-          <dd>{this.getIps()}</dd>
+        <div>
+          <h2>Host</h2>
+          <dl>
+            <dt>IPs</dt>
+            <dd>{this.getIps()}</dd>
+            <dt>CPUs</dt>
+            <dd>{this.getCpus()}</dd>
+            <dt>Memory</dt>
+            <dd>{this.getMemory()}</dd>
+            <dt>Operating System</dt>
+            <dd>{this.getOs()}</dd>
+          </dl>
+        </div>
 
-          <dt>CPUs</dt>
-          <dd>
-            {this.getCpus()}
-          </dd>
-
-          <dt>Memory</dt>
-          <dd>
-            {this.getMemory()}
-          </dd>
-
-          <dt>Operating System</dt>
-          <dd>{this.getOs()}</dd>
-
-          {this.hasAmiId() ?
-            <div>
-              <dt>AMI-ID</dt>
+        {this.hasEC2Plugin() ?
+          <div>
+            <h2>Amazon Elastice Compute Cloud</h2>
+            <dl>
+              <dt>Instance</dt>
+              <dd>{this.getInstanceId()}</dd>
+              <dt>Instance</dt>
+              <dd>{this.getInstanceType()}</dd>
+              <dt>Availability Zone</dt>
+              <dd>{this.getAvailabilityZone()}</dd>
+              <dt>Amazon Machine Image</dt>
               <dd>{this.getAmiId()}</dd>
-            </div>
-          : null}
-        </dl>
+              <dt>Kernel</dt>
+              <dd>{this.getKernelId()}</dd>
+            </dl>
+          </div>
+        : null}
 
         {!issues.isEmpty() ?
           <div>
@@ -98,7 +105,7 @@ const Sidebar = React.createClass({
       (${snapshot.get('os.arch')})`;
   },
 
-  hasAmiId() {
+  hasEC2Plugin() {
     return this.props.snapshot.has('EC2');
   },
 
@@ -106,6 +113,34 @@ const Sidebar = React.createClass({
     const snapshot = this.props.snapshot.get('EC2');
     if(snapshot !== undefined) {
       return `${snapshot.get('ami-id')}`;
+    }
+  },
+
+  getKernelId() {
+    const snapshot = this.props.snapshot.get('EC2');
+    if(snapshot !== undefined) {
+      return `${snapshot.get('kernel-id')}`;
+    }
+  },
+
+  getInstanceId() {
+    const snapshot = this.props.snapshot.get('EC2');
+    if(snapshot !== undefined) {
+      return `${snapshot.get('instance-id')}`;
+    }
+  },
+
+  getInstanceType() {
+    const snapshot = this.props.snapshot.get('EC2');
+    if(snapshot !== undefined) {
+      return `${snapshot.get('instance-type')}`;
+    }
+  },
+
+  getAvailabilityZone() {
+    const snapshot = this.props.snapshot.get('EC2');
+    if(snapshot !== undefined) {
+      return `${snapshot.get('availability-zone')}`;
     }
   },
 
