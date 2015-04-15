@@ -7,4 +7,4 @@ proxy:
 
   # this endpoint is also available in production
   #/api/: http://127.0.0.1:8080/
-  '/api/': http://54.197.140.9/api/
+  '/api/': http://54.197.140.9/api
