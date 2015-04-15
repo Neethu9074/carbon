@@ -87,7 +87,6 @@ const Sidebar = React.createClass({
             <table>
               <thead>
                 <th>PID</th>
-                <th>CPU</th>
                 <th>Memory</th>
               </thead>
               <tbody>
@@ -186,12 +185,10 @@ const Sidebar = React.createClass({
         const pid = process.pid;
         const memory = (((process.memory /
           (1024 * 1024) * 100) | 0) / 100) + 'MB';
-        const cpu = process.cpu + '%';
 
         processList.push(
           <tr>
             <td>{pid}</td>
-            <td>{cpu}</td>
             <td>{memory}</td>
           </tr>
         );
