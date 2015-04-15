@@ -30,6 +30,12 @@ const Sidebar = React.createClass({
       metric: 'memory.free.5000.mean'
     });
 
+    if(this.hasEC2Plugin()) {
+      console.log(this.props.snapshot.get('EC2'));
+    } else {
+      console.log(this.props.snapshot);
+    }
+
     return (
       <div className="in-sidebar">
         <h1>
