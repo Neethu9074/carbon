@@ -6,6 +6,9 @@ import React from 'react';
 import invariant from 'invariant';
 import prettyBytes from 'pretty-bytes';
 import Immutable from 'immutable';
+import {create} from 'instana-ui-services/conveyer';
+import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
+import AreaChart from 'instana-ui-area-chart';
 
 const Sidebar = React.createClass({
   propTypes: {
@@ -17,6 +20,15 @@ const Sidebar = React.createClass({
     const issues = statusInfo.get('issues');
     const solutions = statusInfo.get('solutions');
     const processes = this.extractProcesses();
+
+    const datasource = create(MetricConveyer, {
+      snapshot: this.props.snapshot,
+      min: 0,
+      max: parseInt(this.props.snapshot.get('snapshot').get('memory.total')),
+      frequency: 5000,
+      timeframe: 3 * 60 * 1000,
+      metric: 'memory.free.5000.mean'
+    })
 
     return (
       <div className="in-sidebar">
@@ -95,6 +107,9 @@ const Sidebar = React.createClass({
             </table>
           </div>
         : null}
+
+        <h2>Memory Free</h2>
+        <AreaChart width="300" height="100" datasource={datasource} />
       </div>
     );
   },
