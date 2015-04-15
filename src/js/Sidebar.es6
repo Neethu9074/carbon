@@ -41,7 +41,7 @@ const Sidebar = React.createClass({
 
         {this.hasEC2Plugin() ?
           <div>
-            <h2>Amazon Elastice Compute Cloud</h2>
+            <h2>Amazon Elastic Compute Cloud</h2>
             <dl>
               <dt>Instance</dt>
               <dd>{this.getInstanceId()}</dd>
@@ -49,7 +49,7 @@ const Sidebar = React.createClass({
               <dd>{this.getInstanceType()}</dd>
               <dt>Availability Zone</dt>
               <dd>{this.getAvailabilityZone()}</dd>
-              <dt>Amazon Machine Image</dt>
+              <dt>AMI</dt>
               <dd>{this.getAmiId()}</dd>
               <dt>Kernel</dt>
               <dd>{this.getKernelId()}</dd>
