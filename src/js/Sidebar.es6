@@ -168,39 +168,39 @@ const Sidebar = React.createClass({
   },
 
   extractProcesses() {
-    const processList = [];
-    const snapshot = this.props.snapshot.get('snapshot');
-    let processes = `${snapshot.get('processes')}`;
-    if(processes === undefined) {
+    try {
+      const processList = [];
+      const snapshot = this.props.snapshot.get('snapshot');
+      let processes = `${snapshot.get('processes')}`;
+      if(processes === undefined) {
+        return processList;
+      }
+      processes = JSON.parse(processes);
+
+      processes.sort(function(a, b){
+        return b.memory - a.memory;
+      });
+
+      for (let i = 0; i < processes.length; i++) {
+        const process = processes[i];
+        const pid = process.pid;
+        const memory = (((process.memory /
+          (1024 * 1024) * 100) | 0) / 100) + 'MB';
+        const cpu = process.cpu + '%';
+
+        processList.push(
+          <tr>
+            <td>{pid}</td>
+            <td>{cpu}</td>
+            <td>{memory}</td>
+          </tr>
+        );
+      }
+
       return processList;
+    } catch(err){
+      return [];
     }
-    processes = JSON.parse(processes);
-
-    if(processes === undefined || processes.length === 0) {
-      return processList;
-    }
-
-    processes.sort(function(a, b){
-      return b.memory - a.memory;
-    });
-
-    for (let i = 0; i < processes.length; i++) {
-      const process = processes[i];
-      const pid = process.pid;
-      const memory = (((process.memory /
-        (1024 * 1024) * 100) | 0) / 100) + 'MB';
-      const cpu = process.cpu + '%';
-
-      processList.push(
-        <tr>
-          <td>{pid}</td>
-          <td>{cpu}</td>
-          <td>{memory}</td>
-        </tr>
-      );
-    }
-
-    return processList;
   }
 });
 
