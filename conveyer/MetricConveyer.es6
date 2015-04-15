@@ -2,6 +2,9 @@
 
 import Immutable from 'immutable';
 import http from '../http';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('ui-services/conveyer/MetricConveyer');
 
 export default class MetricConveyer {
   constructor({snapshot, metric, min, max, frequency, timeframe}) {
@@ -31,7 +34,6 @@ export default class MetricConveyer {
   run() {
     if (!this.running) return;
 
-    const now = new Date();
     http({
       method: 'get',
       url: '/api/metrics/lastn',
@@ -40,7 +42,7 @@ export default class MetricConveyer {
         pluginId: this.snapshot.pluginId,
         steadyId: this.snapshot.steadyId,
         metricName: this.metric,
-	lastn: 60
+        lastn: Math.floor(this.timeframe / this.frequency)
       }
     })
     .then(response => {
@@ -50,6 +52,14 @@ export default class MetricConveyer {
       if (!Immutable.is(this.lastEvent.get('values'), values)) {
         this.lastEvent = this.lastEvent.set('values', values);
         this.onNext(this.lastEvent);
+      } else {
+        logger.debug(
+          'Assuming that values have not changed for steadyId %s and ' +
+          'metric %s. New values:',
+          this.snapshot.steadyId,
+          this.metric,
+          values.toJS()
+        );
       }
       setTimeout(this.run, this.frequency);
     }, error => {
