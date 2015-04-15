@@ -28,7 +28,7 @@ const Sidebar = React.createClass({
       frequency: 5000,
       timeframe: 3 * 60 * 1000,
       metric: 'memory.free.5000.mean'
-    })
+    });
 
     return (
       <div className="in-sidebar">
