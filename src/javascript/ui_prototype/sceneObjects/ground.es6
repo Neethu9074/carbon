@@ -70,7 +70,7 @@ class Ground extends SceneObject {
 	update() {
 		if(this.mirrorUpdateCounter >= this.mirrorUpdateFreq) {
 			this.mirrorUpdateCounter = 0;
-			//this.mirror.render();
+			this.mirror.render();
 		}
 
 		this.mirrorUpdateCounter++;
