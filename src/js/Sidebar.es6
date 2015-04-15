@@ -176,6 +176,14 @@ const Sidebar = React.createClass({
     }
     processes = JSON.parse(processes);
 
+    if(processes === undefined || processes.length === 0) {
+      return processList;
+    }
+
+    processes.sort(function(a, b){
+      return b.memory - a.memory;
+    });
+
     for (let i = 0; i < processes.length; i++) {
       const process = processes[i];
       const pid = process.pid;
