@@ -16,6 +16,8 @@ const Sidebar = React.createClass({
     const statusInfo = this.getStatusInfo();
     const issues = statusInfo.get('issues');
     const solutions = statusInfo.get('solutions');
+    const processes = this.extractProcesses();
+
     return (
       <div className="in-sidebar">
         <h1>
@@ -76,6 +78,22 @@ const Sidebar = React.createClass({
                 <li key={solution}>{solution}</li>
               )}
             </ul>
+          </div>
+        : null}
+
+        {(!issues.isEmpty() && processes.length > 0) ?
+          <div>
+            <h2>Processes</h2>
+            <table>
+              <thead>
+                <th>PID</th>
+                <th>CPU</th>
+                <th>Memory</th>
+              </thead>
+              <tbody>
+                {processes}
+              </tbody>
+            </table>
           </div>
         : null}
       </div>
@@ -147,6 +165,34 @@ const Sidebar = React.createClass({
   getStatusInfo() {
     const json = this.props.snapshot.get('snapshot').get('accumulated.status');
     return Immutable.fromJS(JSON.parse(json));
+  },
+
+  extractProcesses() {
+    const processList = [];
+    const snapshot = this.props.snapshot.get('snapshot');
+    let processes = `${snapshot.get('processes')}`;
+    if(processes === undefined) {
+      return processList;
+    }
+    processes = JSON.parse(processes);
+
+    for (let i = 0; i < processes.length; i++) {
+      const process = processes[i];
+      const pid = process.pid;
+      const memory = (((process.memory /
+        (1024 * 1024) * 100) | 0) / 100) + 'MB';
+      const cpu = process.cpu + '%';
+
+      processList.push(
+        <tr>
+          <td>{pid}</td>
+          <td>{cpu}</td>
+          <td>{memory}</td>
+        </tr>
+      );
+    }
+
+    return processList;
   }
 });
 
