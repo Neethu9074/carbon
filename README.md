@@ -15,6 +15,7 @@ import theme from 'instana-ui-default-theme';
 // theme.common.fontColor
 ```
 
-## Development
+The JavaScript file is build from the LESS file. To update the JavaScript file, simply run `npm run build`.
 
-How to install hook...
+## Development
+It is easy to forget to update the JS file. We can obviously automate this! One simple way is a commit hook. To install the hook, run `npm run installHook`!
