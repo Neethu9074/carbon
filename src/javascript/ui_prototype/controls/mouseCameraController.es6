@@ -22,11 +22,12 @@ class MouseControl {
 
     app.canvas.addEventListener('mouseup', this.onMouseUp);
     app.canvas.addEventListener('touchend', this.onTouchEnd);
+    app.canvas.addEventListener('mouseout', this.onMouseOut);
 
     // IE9, Chrome, Safari, Opera
     app.canvas.addEventListener('mousewheel', this.onMouseWheel, false);
     // Firefox
-    app.canvas.addEventListener('DOMMouseScroll', this.onMouseWheel, false);
+    app.canvas.addEventListener('DOMMouseScroll', this.onMozMouseWheel, false);
   }
 
   bindListeners() {
@@ -39,6 +40,8 @@ class MouseControl {
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
+    this.onMozMouseWheel = this.onMozMouseWheel.bind(this);
   }
 
   init(app) {
@@ -60,6 +63,7 @@ class MouseControl {
     this.hittenObject = undefined;
     this.timeOnMouseDown = Date.now();
 
+    this.leftMouseButtonIsPressed = false;
 
     const pitch = -25;
     const yaw = -55;
@@ -108,6 +112,18 @@ class MouseControl {
     this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
   }
 
+  onMozMouseWheel(e) {
+    e.preventDefault();
+
+    const delta = -e.detail;
+
+    this.zoomLevel -= delta;
+    const min = this.maxZoomOut,
+      max = this.maxZoomIn;
+    //[min, max]
+    this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
+  }
+
   onMouseDown(e) {
     e.preventDefault();
     if (e.button === 0) {
@@ -116,7 +132,15 @@ class MouseControl {
 
       //set the hitten object at the time, the mouse was pressed
       this.timeOnMouseDown = Date.now();
+
+      //save the state for mouse move
+      this.leftMouseButtonIsPressed = true;
     }
+  }
+
+  onMouseOut() {
+    //reset the state when mouse left the map
+    //this.leftMouseButtonIsPressed = false;
   }
 
   onMouseUp(e) {
@@ -134,12 +158,17 @@ class MouseControl {
 
       this.appReference.clickedOnObject(this.hittenObject);
     }
+
+    if(e.button === 0) {
+      //save the state for mouse move
+      this.leftMouseButtonIsPressed = false;
+    }
   };
 
   onMouseMove(e) {
     e.preventDefault();
     //if left mouse button is pressed while dragging
-    if (e.which === 1) {
+    if (this.leftMouseButtonIsPressed) {
       //calculate the delta between old (frame-1) and this position
       const dx = (e.clientX - this.mouse.x);
       const dy = (e.clientY - this.mouse.y);

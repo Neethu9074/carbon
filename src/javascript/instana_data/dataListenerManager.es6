@@ -56,6 +56,8 @@ class DataListenerManager {
         const host = this.app.getHost(hostID);
         if (host !== undefined) {
           host.changeMetaData(hostMetaData);
+        } else {
+          logger.debug('no host found for', hostID);
         }
       }
     }
