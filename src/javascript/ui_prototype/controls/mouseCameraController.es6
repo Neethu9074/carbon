@@ -1,7 +1,6 @@
 'use strict';
 
 import THREE from 'three.js';
-import Hammer from 'hammerjs';
 
 import * as math from '../math';
 import * as App from '../app';
