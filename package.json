@@ -6,7 +6,7 @@
   "author": "Ben Ripkens <ben@instana.com>",
   "license": "proprietary",
   "scripts": {
-    "installHook": "echo '#!/bin/sh\nnpm run build' >.git/hooks/pre-commit && chmod a+x .git/hooks/pre-commit",
+    "installHook": "echo '#!/bin/sh\nnpm run build\ngit add js/index.js' >.git/hooks/pre-commit && chmod a+x .git/hooks/pre-commit",
     "build": "node bin/"
   },
   "repository": {
