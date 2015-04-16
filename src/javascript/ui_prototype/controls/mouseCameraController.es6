@@ -50,6 +50,7 @@ class MouseControl {
     this.mouse = new THREE.Vector2();
     this.cameraSpeed = 10; //mainCamera fly speed - heuristic
     this.moveSpeed = 0.1; //distance moved per pixel - heuristic
+    this.pitchSpeed = 0.4;
 
     //zoom fields
     this.maxZoomOut = 1500;
@@ -66,6 +67,7 @@ class MouseControl {
 
     this.leftMouseButtonIsPressed = false;
     this.unitsMoved = 0;
+    this.lastDistance = 0;
 
     const pitch = -25;
     const yaw = -55;
@@ -201,13 +203,22 @@ class MouseControl {
       Math.pow(dy, 2));
   }
 
+  zoom(delta) {
+    this.zoomLevel += delta * 0.5;
+    const min = this.maxZoomOut,
+      max = this.maxZoomIn;
+    //[min, max]
+    this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
+  }
+
   onTouchStart(e) {
     e.preventDefault();
-    this.touchDown = true;
     this.unitsMoved = 0;
 
     if(e.touches.length === 2) {
       this.scaling = true;
+    } else {
+      this.touchDown = true;
     }
 
     this.mouse.x = e.touches[0].clientX;
@@ -220,12 +231,13 @@ class MouseControl {
 
     if(this.scaling) {
       this.scaling = false;
+    } else {
+      if (this.unitsMoved < 100) {
+        this.doClick();
+      }
     }
 
-    if (this.unitsMoved < 100) {
-      this.doClick();
-    }
-
+    this.lastDistance = 0;
     this.unitsMoved = 0;
   }
 
@@ -233,20 +245,28 @@ class MouseControl {
 		e.stopPropagation();
     e.preventDefault();
 
-    if(this.touchDown) {
-      //calculate the delta between old (frame-1) and this position
-      const dx = (e.touches[0].clientX - this.mouse.x);
-      const dy = (e.touches[0].clientY - this.mouse.y);
-
-      this.move(dx, dy);
-    }
-
     if(this.scaling) {
       const dist = Math.sqrt(
-        (e.touches[0].x - e.touches[1].x) * (e.touches[0].x - e.touches[1].x) +
-        (e.touches[0].y - e.touches[1].y) * (e.touches[0].y - e.touches[1].y));
+        Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2) +
+        Math.pow(e.touches[0].clientY - e.touches[1].clientY, 2));
 
-        console.log(dist, e);
+      if(this.lastDistance === 0) {
+        this.lastDistance = dist;
+      }
+
+      const delta = this.lastDistance - dist;
+      this.zoom(delta * this.pitchSpeed);
+      this.lastDistance = dist;
+
+    } else {
+      this.lastDistance = 0;
+      if(this.touchDown) {
+        //calculate the delta between old (frame-1) and this position
+        const dx = (e.touches[0].clientX - this.mouse.x);
+        const dy = (e.touches[0].clientY - this.mouse.y);
+
+        this.move(dx, dy);
+      }
     }
 
     this.mouse.x = e.touches[0].clientX;
