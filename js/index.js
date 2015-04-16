@@ -11,7 +11,8 @@ module.exports = {
       "razzmatazz": "#e50066",
       "easternBlue": "#1d90a9",
       "governorBay": "#3d2dcf",
-      "toryBlue": "#0b5cad"
+      "toryBlue": "#0b5cad",
+      "dodgerBlue": "#15aafe"
     }
   }
 };
