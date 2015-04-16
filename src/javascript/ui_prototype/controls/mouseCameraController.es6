@@ -1,6 +1,7 @@
 'use strict';
 
 import THREE from 'three.js';
+import Hammer from 'hammerjs';
 
 import * as math from '../math';
 import * as App from '../app';
@@ -64,6 +65,7 @@ class MouseControl {
     this.timeOnMouseDown = Date.now();
 
     this.leftMouseButtonIsPressed = false;
+    this.unitsMoved = 0;
 
     const pitch = -25;
     const yaw = -55;
@@ -130,8 +132,7 @@ class MouseControl {
       this.mouse.x = e.clientX;
       this.mouse.y = e.clientY;
 
-      //set the hitten object at the time, the mouse was pressed
-      this.timeOnMouseDown = Date.now();
+      this.pixelMoved = 0;
 
       //save the state for mouse move
       this.leftMouseButtonIsPressed = true;
@@ -145,25 +146,29 @@ class MouseControl {
 
   onMouseUp(e) {
     e.preventDefault();
-    const timeOnMouseUp = Date.now();
-    const millisSinceMouseDown = timeOnMouseUp - this.timeOnMouseDown;
-    if (millisSinceMouseDown < 250) {
-      if (this.hittenObject !== undefined) {
 
-        //clicked on object!
-        const targetPosition = this.hittenObject.position;
-        this.camTransformObject.position.x = targetPosition.x;
-        this.camTransformObject.position.z = targetPosition.z;
-      }
-
-      this.appReference.clickedOnObject(this.hittenObject);
+    if (this.unitsMoved < 100) {
+      this.doClick();
     }
 
     if(e.button === 0) {
       //save the state for mouse move
       this.leftMouseButtonIsPressed = false;
+      this.unitsMoved = 0;
     }
   };
+
+  doClick() {
+    if (this.hittenObject !== undefined) {
+
+      //clicked on object!
+      const targetPosition = this.hittenObject.position;
+      this.camTransformObject.position.x = targetPosition.x;
+      this.camTransformObject.position.z = targetPosition.z;
+    }
+
+    this.appReference.clickedOnObject(this.hittenObject);
+  }
 
   onMouseMove(e) {
     e.preventDefault();
@@ -172,15 +177,7 @@ class MouseControl {
       //calculate the delta between old (frame-1) and this position
       const dx = (e.clientX - this.mouse.x);
       const dy = (e.clientY - this.mouse.y);
-
-      const transObj = this.camTransformObject;
-      transObj.translateX(-dx * this.moveSpeed);
-      transObj.translateZ(-dy * this.moveSpeed);
-      //clamp the position to avoid overflow of the level area
-      transObj.position.x = Math.max(-500, transObj.position.x);
-      transObj.position.x = Math.min(500, transObj.position.x);
-      transObj.position.z = Math.min(500, transObj.position.z);
-      transObj.position.z = Math.max(-500, transObj.position.z);
+      this.move(dx, dy);
     }
 
     //don't forget to set the new position :)
@@ -188,20 +185,72 @@ class MouseControl {
     this.mouse.y = e.clientY;
   }
 
+  move(dx, dy) {
+    const transObj = this.camTransformObject;
+    transObj.translateX(-dx * this.moveSpeed);
+    transObj.translateZ(-dy * this.moveSpeed);
+    //clamp the position to avoid overflow of the level area
+    transObj.position.x = Math.max(-500, transObj.position.x);
+    transObj.position.x = Math.min(500, transObj.position.x);
+    transObj.position.z = Math.min(500, transObj.position.z);
+    transObj.position.z = Math.max(-500, transObj.position.z);
+
+    //the pixels moved until last mouseDown / touchDown
+    this.unitsMoved += Math.sqrt(
+      Math.pow(dx, 2) +
+      Math.pow(dy, 2));
+  }
+
   onTouchStart(e) {
     e.preventDefault();
-    //console.log('touch start', e);
+    this.touchDown = true;
+    this.unitsMoved = 0;
+
+    if(e.touches.length === 2) {
+      this.scaling = true;
+    }
+
+    this.mouse.x = e.touches[0].clientX;
+    this.mouse.y = e.touches[0].clientY;
   }
 
   onTouchEnd(e) {
     e.preventDefault();
-    //console.log('touch end', e);
+    this.touchDown = false;
+
+    if(this.scaling) {
+      this.scaling = false;
+    }
+
+    if (this.unitsMoved < 100) {
+      this.doClick();
+    }
+
+    this.unitsMoved = 0;
   }
 
   onTouchMove(e) {
 		e.stopPropagation();
     e.preventDefault();
-    //console.log('touch move', e);
+
+    if(this.touchDown) {
+      //calculate the delta between old (frame-1) and this position
+      const dx = (e.touches[0].clientX - this.mouse.x);
+      const dy = (e.touches[0].clientY - this.mouse.y);
+
+      this.move(dx, dy);
+    }
+
+    if(this.scaling) {
+      const dist = Math.sqrt(
+        (e.touches[0].x - e.touches[1].x) * (e.touches[0].x - e.touches[1].x) +
+        (e.touches[0].y - e.touches[1].y) * (e.touches[0].y - e.touches[1].y));
+
+        console.log(dist, e);
+    }
+
+    this.mouse.x = e.touches[0].clientX;
+    this.mouse.y = e.touches[0].clientY;
   }
 
   doRayPicking() {
