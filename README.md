@@ -3,7 +3,7 @@
 Use this module to get the default theme's variables in your stylesheets:
 
 ```css
-@import "~bootstrap/less/variables.less";
+@import "~instana-ui-default-theme/less/variables.less";
 ```
 
 Alternatively, use it as an ES6 module for styles that are applied via JavaScript:
