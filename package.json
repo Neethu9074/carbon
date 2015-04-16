@@ -1,0 +1,19 @@
+{
+  "name": "instana-ui-default-theme",
+  "version": "1.0.0",
+  "description": "The instana default theme",
+  "main": "js/index.js",
+  "author": "Ben Ripkens <ben@instana.com>",
+  "license": "proprietary",
+  "scripts": {
+    "installHook": "echo '#!/bin/sh\nnpm run build' >.git/hooks/pre-commit",
+    "build": "node bin/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/instana/ui-default-theme.git"
+  },
+  "publishConfig": {
+    "registry": "http://54.204.9.148/nexus/content/repositories/instana-npm-releases/"
+  }
+}
