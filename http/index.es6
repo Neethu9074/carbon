@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';
 
-export default function({method, url, queryParams}) {
+export default function({method, url, queryParams, data}) {
   url = formatUrl(url, queryParams);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
@@ -14,6 +14,9 @@ export default function({method, url, queryParams}) {
     xhr.ontimeout = () => {
       reject(new HttpRequestTimeoutError());
     };
+    if (data) {
+      xhr.setRequestHeader('Content-Type', 'application/json');
+    }
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4) {
         const response = {
@@ -29,7 +32,7 @@ export default function({method, url, queryParams}) {
         }
       }
     };
-    xhr.send();
+    xhr.send(JSON.stringify(data));
   });
 }
 
