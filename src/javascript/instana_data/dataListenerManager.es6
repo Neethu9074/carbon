@@ -35,15 +35,14 @@ class DataListenerManager {
   }
 
   onUpdateHosts(currentHosts) {
-
     if (currentHosts.error !== undefined) {
       logger.error(currentHosts.error);
       return; //if error occured
     }
 
-    for (let i = 0; i < currentHosts.length; i++) {
-      const hostMetaData = currentHosts[i];
-      const hostID = hostMetaData.hostId;
+    for (let i = 0; i < currentHosts.size; i++) {
+      const hostMetaData = currentHosts.get(i);
+      const hostID = hostMetaData.get('hostId');
 
       if (this.detectedHostIds.indexOf(hostID) < 0) {
         //new hostMetaData found!

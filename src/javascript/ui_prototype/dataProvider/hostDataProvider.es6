@@ -36,8 +36,8 @@ class HostDataProvider extends DataProvider {
   }
 
   setFromMetaData(metaData) {
-    const snap = metaData.snapshot;
-    this.extractColor(snap['accumulated.status']);
+    const snap = metaData.get('snapshot');
+    this.extractColor(snap.get('accumulated.status'));
     this.metaData = metaData;
   }
 
@@ -46,10 +46,10 @@ class HostDataProvider extends DataProvider {
       return;
     }
     this.color = 'GREEN';
-    if(accumulatedStatus.score < 0.95) {
+    if(accumulatedStatus.get('score') < 0.95) {
       this.color = 'YELLOW';
     }
-    if(accumulatedStatus.score < 0.5) {
+    if(accumulatedStatus.get('score') < 0.5) {
       this.color = 'RED';
     }
   }

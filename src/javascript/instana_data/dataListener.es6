@@ -14,8 +14,7 @@ class DataListener {
     this.dataSource.start(this.onNext, this.onError);
   }
 
-  onNext(obj) {
-    const hosts = obj.toJS();
+  onNext(hosts) {
     this.onUpdateHosts(hosts);
   }
 

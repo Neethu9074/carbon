@@ -447,8 +447,9 @@ class App {
 
   addHost(metaData) {
     try {
+      const hostId = metaData.get('hostId');
       //get new position if possible
-      const newPos2D = this.layouter.getNext(metaData.hostId);
+      const newPos2D = this.layouter.getNext(hostId);
       const pos = new THREE.Vector3(newPos2D.x, 0, -newPos2D.y);
       const host = new Host(pos, new HostDataProvider(metaData));
 

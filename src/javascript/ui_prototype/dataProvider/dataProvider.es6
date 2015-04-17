@@ -5,7 +5,7 @@ import * as math from '../math';
 
 class DataProvider{
   constructor(metaData) {
-    this.ID = metaData.hostId;
+    this.ID = metaData.get('hostId');
   }
 
   setCube(cube) {
