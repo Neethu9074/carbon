@@ -4,7 +4,7 @@ import THREE from 'three.js';
 
 import SceneObject from './sceneObject';
 import DataPackageAnimation from './dataPackagePathAnimation';
-import * as colors from '../colors';
+import colors from '../colors';
 
 import systemImagePath from '../../../images/icon_system.png';
 import logging from 'instalog';

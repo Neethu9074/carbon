@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three.js';
-import * as colors from './colors';
+import colors from './colors';
 import * as textures from './textures';
 
 
@@ -15,16 +15,16 @@ export const groundMaterial = new THREE.MeshBasicMaterial({
 });
 
 export const cubeContainerMaterial = new THREE.MeshLambertMaterial({
-	color: colors.lightBlue,
+	color: colors.lightColor,
 	map: textures.cubeContainerTexture
 });
 
 export const offlineMaterial = new THREE.ShaderMaterial({
-	color: colors.ghostGrey
+	color: colors.ambientColor
 });
 
 export const cubeHostMaterial = new THREE.MeshPhongMaterial({
-	color: colors.midBlue,
+	color: colors.midColor,
 	side: THREE.DoubleSide,
 	transparent: true,
 	opacity: 1,
@@ -34,7 +34,7 @@ export const cubeHostMaterial = new THREE.MeshPhongMaterial({
 });
 
 export const collisonHighlightMaterial = new THREE.MeshLambertMaterial({
-	color: colors.midBlue
+	color: colors.midColor
 });
 
 export const groundEffectMaterial = new THREE.MeshBasicMaterial({
@@ -45,14 +45,14 @@ export const groundEffectMaterial = new THREE.MeshBasicMaterial({
 });
 
 export const groundEffectMaterialError = new THREE.MeshBasicMaterial({
-	color: colors.errorRed,
+	color: colors.error,
 	map: textures.groundEffectTexture,
 	transparent: true,
 	depthWrite: false
 });
 
 export const groundEffectMaterialWarning = new THREE.MeshBasicMaterial({
-	color: colors.warningYellow,
+	color: colors.warning,
 	map: textures.groundEffectTexture,
 	transparent: true,
 	depthWrite: false

@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three.js';
-import * as colors from './colors';
+import colors from './colors';
 import * as textures from './textures';
 import Connection from './sceneObjects/cubeConnection';
 

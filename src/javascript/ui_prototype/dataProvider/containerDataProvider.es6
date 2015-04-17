@@ -5,7 +5,7 @@ import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as obj from '../obj';
 import * as math from '../math';
-import * as colors from '../colors';
+import colors from '../colors';
 import * as states from '../cubeStates';
 import DataProvider from './dataProvider';
 

@@ -6,7 +6,7 @@ import THREE from 'three.js';
 import '../lib/CSS3DRenderer';
 import '../lib/Octree';
 
-import * as colors from './colors';
+import colors from './colors';
 import * as states from './cubeStates';
 import * as materials from './materials';
 import * as textures from './textures';
