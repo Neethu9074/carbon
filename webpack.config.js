@@ -38,10 +38,6 @@ module.exports = {
 		definePlugin
 	],
 	resolve: {
-		extensions: ["", ".js", '.es6'],
-		alias: {
-			'three.js': path.join(__dirname,
-        '/node_modules/three.js/build/three.js')
-		}
+		extensions: ["", ".js", '.es6']
 	}
 };
