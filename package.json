@@ -4,7 +4,6 @@
   "description": "The 3D visuliaztion of client's infrastructure",
   "main": "src/index.es6",
   "scripts": {
-    "install": "napa",
     "build": "webpack",
     "dev": "proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/configurable.html && webpack-dev-server --host 0.0.0.0",
     "clean": "rm -rf target/",
@@ -30,10 +29,8 @@
     "react": "^0.13.1",
     "rx-observable-generator": "^2.0.0",
     "rxemitter": "^1.0.0",
-    "tween.js": "^0.14.0"
-  },
-  "napa": {
-    "three.js": "mrdoob/three.js#r70"
+    "tween.js": "^0.14.0",
+    "three.js": "^0.71.0"
   },
   "devDependencies": {
     "babel-core": "^4.7.13",
