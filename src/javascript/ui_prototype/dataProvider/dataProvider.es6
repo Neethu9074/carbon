@@ -6,7 +6,6 @@ import * as math from '../math';
 class DataProvider{
   constructor(metaData) {
     this.ID = metaData.hostId;
-    this.discription = '';
   }
 
   setCube(cube) {
@@ -18,7 +17,7 @@ class DataProvider{
 
 
   getDashboardUrl(){
-    return 'www.google.com';
+    return 'www.instana.com';
   }
 
   setState(newState) {

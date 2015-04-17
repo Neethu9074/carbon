@@ -36,21 +36,8 @@ class HostDataProvider extends DataProvider {
   }
 
   setFromMetaData(metaData) {
-    this.discription = metaData.hostId;
     const snap = metaData.snapshot;
-
-    this.OS = snap['os.name'] + '-' + snap['os.version'];
-    this.steadyId = metaData.steadyId;
-
     this.extractColor(snap['accumulated.status']);
-
-    this.memoryTotal = snap['memory.total'];
-    this.memoryTotal = ((this.memoryTotal / (1073741824) * 100) | 0) / 100
-      + ' GB RAM';
-    this.swapTotal = snap['swap.total'];
-
-    this.cpu = snap['cpu.count'] + 'x ' + snap['cpu.model'];
-
     this.metaData = metaData;
   }
 
@@ -120,10 +107,8 @@ class HostDataProvider extends DataProvider {
   get2DContent() {
     const dim = this.cube.dimension;
     const pos = this.cube.position;
-    const content = this.getHTML();
     const div = document.createElement('div');
     div.className = 'hostCSS3DLayer';
-    div.innerHTML = content;
 
     const object = new THREE.CSS3DObject(div);
     object.rotation.x = -90 * math.DegToRad;
@@ -145,28 +130,6 @@ class HostDataProvider extends DataProvider {
 
     return object;
   }
-
-  getHTML() {
-    const id = this.ID;
-    const html = '<text class=hostLabel>' + id + '</text><h4></h4></br>';
-
-    return html;
-  }
-
-/*
-const cpu = this.cpu;
-const memory = this.memory;
-const os = this.OS;
-
-const html = '<h4></h4><p><img src= bundle/' + hostImagePath +
-' class=icon>Host</p>' +
-'<ul><li>' + id + '</li></ul>' +
-'<h4></h4><p><img src= bundle/' + systemImagePath +
-' class=icon>System</p>' +
-'<ul><li>' + os + '</li>' +
-'<li>' + cpu + '</li>' +
-'<li>' + memory + '</li></ul>';
-*/
 
   getDashboardUrl() {
     return '/#/dashboard/file/' +
