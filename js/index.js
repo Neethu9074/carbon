@@ -47,5 +47,8 @@ exports.consts = {
         connectionColor: mapColors.flushOrange
       }
     }
+  },
+  day: {
+
   }
 };
