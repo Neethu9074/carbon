@@ -1,5 +1,14 @@
 'use strict';
 
+var chartColors = {
+  cyan: '#2dfffe',
+  razzmatazz: '#e50066',
+  easternBlue: '#1d90a9',
+  governorBay: '#3d2dcf',
+  toryBlue: '#0b5cad',
+  dodgerBlue: '#15aafe'
+};
+
 // first level is the color theme's name
 exports.consts = {
   night: {
@@ -8,14 +17,15 @@ exports.consts = {
       fontColor: '#ddd'
     },
     charts: {
-      colors: {
-        cyan: '#2dfffe',
-        razzmatazz: '#e50066',
-        easternBlue: '#1d90a9',
-        governorBay: '#3d2dcf',
-        toryBlue: '#0b5cad',
-        dodgerBlue: '#15aafe'
-      }
+      colors: chartColors,
+      defaultPalette: [
+        chartColors.cyan,
+        chartColors.razzmatazz,
+        chartColors.easternBlue,
+        chartColors.governorBay,
+        chartColors.toryBlue,
+        chartColors.dodgerBlue
+      ]
     },
     map: {
       colors: {

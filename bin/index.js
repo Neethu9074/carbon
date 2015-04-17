@@ -19,7 +19,7 @@ function walkConstants(path, obj) {
     var value = obj[key];
     if (typeof value === 'string') {
       addConstant(path.concat(key), value);
-    } else if (typeof value === 'object') {
+    } else if (typeof value === 'object' && !(value instanceof Array)) {
       walkConstants(path.concat(key), value);
       stylesheet += '\n';
     }
