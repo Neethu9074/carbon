@@ -8,6 +8,15 @@ var chartColors = {
   toryBlue: '#0b5cad',
   dodgerBlue: '#15aafe'
 };
+var mapColors = {
+  black: '#000000',
+  mineShaft: '#202020',
+  cyan: '#2dfffe',
+  orient: '#015473',
+  redBerry: '#880000',
+  gold: '#ffd000',
+  flushOrange: '#ff8000'
+};
 
 // first level is the color theme's name
 exports.consts = {
@@ -17,7 +26,6 @@ exports.consts = {
       fontColor: '#ddd'
     },
     charts: {
-      colors: chartColors,
       defaultPalette: [
         chartColors.cyan,
         chartColors.razzmatazz,
@@ -29,13 +37,14 @@ exports.consts = {
     },
     map: {
       colors: {
-        black: '#000000',
-        mineShaft: '#202020',
-        cyan: '#2dfffe',
-        orient: '#015473',
-        redBerry: '#880000',
-        gold: '#ffd000',
-        flushOrange: '#ff8000'
+        renderClearColor: mapColors.black,
+        ambientColor: mapColors.mineShaft,
+        groundColor: mapColors.cyan,
+        lightColor: mapColors.cyan,
+        midColor: mapColors.orient,
+        error: mapColors.redBerry,
+        warning: mapColors.gold,
+        connectionColor: mapColors.flushOrange
       }
     }
   }
