@@ -1,63 +1,31 @@
 'use strict';
 
-const localUrl = window.location.origin;
-const snapshotUrl = localUrl +
-  '/api/snapshots/com.instana.forge.infrastructure.os.OS';
-const ec2Url = localUrl +
-  '/api/snapshots/com.instana.forge.infrastructure.virtualization.EC2';
+import InventoryConveyer from 'instana-ui-services/conveyer/InventoryConveyer';
+import {create} from 'instana-ui-services/conveyer';
+import Immutable from 'immutable';
 
 class DataListener {
-  constructor(interval) {
+  constructor() {
     //bind methods
-    this.getHosts = this.getHosts.bind(this);
-    this.merge = this.merge.bind(this);
+    this.onNext = this.onNext.bind(this);
+    this.onError = this.onError.bind(this);
 
-    setInterval(this.getHosts, interval);
+    this.dataSource = new InventoryConveyer();
+    this.dataSource.start(this.onNext, this.onError);
   }
 
-  getHosts() {
-    const onUpdateHostsTemp = this.onUpdateHosts;
-    const doit = this.merge;
-    const t = this;
-
-    this.getJSON(snapshotUrl)
-      .then(function(hosts) {
-        onUpdateHostsTemp(hosts);
-
-        t.getJSON(ec2Url)
-          .then(function(ec2s) {
-            doit(hosts, ec2s);
-          }, function(status) {
-            //error detection....
-            onUpdateHostsTemp({
-              error: status
-            });
-          });
-
-      }, function(status) {
-        //error detection....
-        onUpdateHostsTemp({
-          error: status
-        });
-      });
-  }
-
-  merge(hosts, ec2s) {
-    for (let i = 0; i < hosts.length; i++) {
-      const host = hosts[i];
-      for (let i2 = 0; i2 < ec2s.length; i2++) {
-        const ec2 = ec2s[i2];
-
-        if(host.hostId === ec2.hostId) {
-          host.EC2 = ec2.snapshot;
-        }
-      }
-    }
+  onNext(obj) {
+    const hosts = obj.toJS();
     this.onUpdateHosts(hosts);
+  }
+
+  onError() {
+
   }
 
   onUpdateHosts() {};
 
+  /*
   //support stuff
   getJSON(url) {
     return new Promise(function(resolve, reject) {
@@ -75,6 +43,7 @@ class DataListener {
       xhr.send();
     });
   }
+  */
 }
 
 export default DataListener;

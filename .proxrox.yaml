@@ -3,10 +3,8 @@ root: false
 ssi: true
 proxy:
   #the local address from gulp dev
-  '/': http://127.0.0.1:8080
+  '/': http://127.0.0.1:9000
 
   #service API
-  #'/api/': http://ec2-54-93-114-240.eu-central-1.compute.amazonaws.com:8080/
-  #'/api/': http://ec2-54-197-51-67.compute-1.amazonaws.com:4000/api/
-  #'/api/': http://52.5.144.215/api/
-  '/api/': http://54.197.140.9/api/
+  '/api/': http://127.0.0.1:8080/
+  #'/api/': http://54.197.140.9/api/

@@ -5,7 +5,7 @@
   "main": "src/index.es6",
   "scripts": {
     "build": "webpack",
-    "dev": "proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/configurable.html && webpack-dev-server --host 0.0.0.0",
+    "dev": "proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/configurable.html && webpack-dev-server --host 0.0.0.0 --port 9000",
     "clean": "rm -rf target/",
     "test": "eslint --ext .es6 src/ demo/js/"
   },
@@ -21,6 +21,7 @@
     "immutable": "^3.7.2",
     "instalog": "^1.0.0",
     "instana-ui-cube-face": "^2.5.1",
+    "instana-ui-services": "^1.1.0",
     "instana-ui-themes": "^1.0.0",
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
@@ -29,8 +30,8 @@
     "react": "^0.13.1",
     "rx-observable-generator": "^2.0.0",
     "rxemitter": "^1.0.0",
-    "tween.js": "^0.14.0",
-    "three.js": "^0.71.0"
+    "three.js": "^0.71.0",
+    "tween.js": "^0.14.0"
   },
   "devDependencies": {
     "babel-core": "^4.7.13",
