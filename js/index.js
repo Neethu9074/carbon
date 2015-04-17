@@ -1,17 +1,14 @@
 'use strict';
 
-var chartColors = {
+var colors = {
   cyan: '#2dfffe',
   razzmatazz: '#e50066',
   easternBlue: '#1d90a9',
   governorBay: '#3d2dcf',
   toryBlue: '#0b5cad',
-  dodgerBlue: '#15aafe'
-};
-var mapColors = {
+  dodgerBlue: '#15aafe',
   black: '#000000',
   mineShaft: '#202020',
-  cyan: '#2dfffe',
   orient: '#015473',
   redBerry: '#880000',
   gold: '#ffd000',
@@ -27,28 +24,39 @@ exports.consts = {
     },
     charts: {
       defaultPalette: [
-        chartColors.cyan,
-        chartColors.razzmatazz,
-        chartColors.easternBlue,
-        chartColors.governorBay,
-        chartColors.toryBlue,
-        chartColors.dodgerBlue
+        colors.cyan,
+        colors.razzmatazz,
+        colors.easternBlue,
+        colors.governorBay,
+        colors.toryBlue,
+        colors.dodgerBlue
       ]
     },
     map: {
       colors: {
-        renderClearColor: mapColors.black,
-        ambientColor: mapColors.mineShaft,
-        groundColor: mapColors.cyan,
-        lightColor: mapColors.cyan,
-        midColor: mapColors.orient,
-        error: mapColors.redBerry,
-        warning: mapColors.gold,
-        connectionColor: mapColors.flushOrange
+        renderClearColor: colors.black,
+        ambientColor: colors.mineShaft,
+        groundColor: colors.cyan,
+        lightColor: colors.cyan,
+        midColor: colors.orient,
+        error: colors.redBerry,
+        warning: colors.gold,
+        connectionColor: colors.flushOrange
       }
     }
   },
   day: {
-
+    map: {
+      colors: {
+        renderClearColor: colors.flushOrange,
+        ambientColor: colors.gold,
+        groundColor: colors.redBerry,
+        lightColor: colors.orient,
+        midColor: colors.cyan,
+        error: colors.cyan,
+        warning: colors.mineShaft,
+        connectionColor: colors.black
+      }
+    }
   }
 };
