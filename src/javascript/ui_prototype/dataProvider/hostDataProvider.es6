@@ -51,35 +51,19 @@ class HostDataProvider extends DataProvider {
 
     this.cpu = snap['cpu.count'] + 'x ' + snap['cpu.model'];
 
-    //this.extractProcesses(snap.processes);
-
     this.metaData = metaData;
   }
 
-  extractColor(JSONStructure) {
-    if (!JSONStructure) {
+  extractColor(accumulatedStatus) {
+    if (!accumulatedStatus) {
       return;
     }
-    const parsed = JSON.parse(JSONStructure);
     this.color = 'GREEN';
-    if(parsed.score < 0.95) {
+    if(accumulatedStatus.score < 0.95) {
       this.color = 'YELLOW';
     }
-    if(parsed.score < 0.5) {
+    if(accumulatedStatus.score < 0.5) {
       this.color = 'RED';
-    }
-  }
-
-  extractProcesses(processesJSON) {
-    const parsed = JSON.parse(processesJSON);
-    const memory = parsed.memory;
-    this.processes = [];
-    for (let i = 0; i < memory.length; i++) {
-      const process = memory[i];
-      this.processes.push( {
-        pid: process.pid,
-        memory: process.memory
-      });
     }
   }
 

@@ -11,7 +11,6 @@ class DataListener {
     //bind methods
     this.getHosts = this.getHosts.bind(this);
     this.merge = this.merge.bind(this);
-    //this.getInventory = this.getInventory.bind(this);
 
     setInterval(this.getHosts, interval);
   }
@@ -57,50 +56,7 @@ class DataListener {
     this.onUpdateHosts(hosts);
   }
 
-/*
-  getHosts() {
-    const onUpdateHostsTemp = this.onUpdateHosts;
-    const getInventoryTemp = this.getInventory;
-
-    this.getJSON(localUrl + '/api/hosts')
-      .then(function(hosts) {
-        onUpdateHostsTemp(hosts);
-        getInventoryTemp(hosts);
-      }, function(status) {
-        //error detection....
-        onUpdateHostsTemp({
-          error: status
-        });
-      });
-  }
-
-  getInventory(hosts) {
-    const onUpdateInventoryTemp = this.onUpdateInventory;
-    for (let i = 0; i < hosts.length; i++) {
-      const host = hosts[i];
-      const id = host.id;
-      let url = host.discoveriesUrl;
-      url = url.substring(url.indexOf('/hosts/'));
-      this.getInv(id, url, onUpdateInventoryTemp);
-    }
-  }
-
-  //create external function to get scope of hostID
-  getInv(hostID, url, update) {
-    this.getJSON(localUrl + '/api' + url)
-      .then(function(inv) {
-        update([hostID, inv]);
-      }, function(status) {
-        //error detection....
-        update({
-          error: status
-        });
-      });
-  }
-*/
-
   onUpdateHosts() {};
-  onUpdateInventory() {};
 
   //support stuff
   getJSON(url) {
