@@ -5,7 +5,7 @@
   "main": "src/index.es6",
   "scripts": {
     "build": "webpack",
-    "dev": "proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/configurable.html && webpack-dev-server --host 0.0.0.0 --port 9090",
+    "dev": "proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/configurable.html && webpack-dev-server --host 0.0.0.0",
     "clean": "rm -rf target/",
     "test": "eslint --ext .es6 src/ demo/js/"
   },

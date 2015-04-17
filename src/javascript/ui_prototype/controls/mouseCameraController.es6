@@ -106,23 +106,23 @@ class MouseControl {
     e.preventDefault();
     e = window.event || e; // old IE support
 
-    const delta = e.wheelDelta / 50;
-
-    this.zoomLevel -= delta;
-    const min = this.maxZoomOut,
-      max = this.maxZoomIn;
-    //[min, max]
-    this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
+    this.zoom(e.wheelDelta / 50);
   }
 
   onMozMouseWheel(e) {
     e.preventDefault();
 
-    const delta = -e.detail;
+    this.zoom(-e.detail);
+  }
+
+  zoom(delta) {
+    const min = this.maxZoomOut;
+    const max = this.maxZoomIn;
+
+    const nZoomLevel = this.zoomLevel / (min - max) * 5;
+    delta *= nZoomLevel;
 
     this.zoomLevel -= delta;
-    const min = this.maxZoomOut,
-      max = this.maxZoomIn;
     //[min, max]
     this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
   }
@@ -187,6 +187,13 @@ class MouseControl {
   }
 
   move(dx, dy) {
+    const min = this.maxZoomOut;
+    const max = this.maxZoomIn;
+
+    const nZoomLevel = (this.zoomLevel / (min - max) * 10) + 1;
+    dx *= nZoomLevel;
+    dy *= nZoomLevel;
+
     const transObj = this.camTransformObject;
     transObj.translateX(-dx * this.moveSpeed);
     transObj.translateZ(-dy * this.moveSpeed);
@@ -200,14 +207,6 @@ class MouseControl {
     this.unitsMoved += Math.sqrt(
       Math.pow(dx, 2) +
       Math.pow(dy, 2));
-  }
-
-  zoom(delta) {
-    this.zoomLevel += delta * 0.5;
-    const min = this.maxZoomOut,
-      max = this.maxZoomIn;
-    //[min, max]
-    this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
   }
 
   onTouchStart(e) {
