@@ -3,7 +3,7 @@
 import rx from 'rx';
 
 export function create(Conveyer, params) {
-  const conveyer = new Conveyer(params);
+  const conveyer = new Conveyer(params || {});
   const observers = [];
   let running = false;
   let lastValue = null;

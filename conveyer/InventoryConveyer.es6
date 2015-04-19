@@ -1,48 +1,47 @@
 'use strict';
 
 import Immutable from 'immutable';
-import http from '../http';
+import AbstractHttpConveyer from './AbstractHttpConveyer';
 
-export default class InventoryConveyer {
-  // publishes ImmutableSet<ImmutableHost>
+export default class InventoryConveyer extends AbstractHttpConveyer {
 
-  constructor() {
-    this.run = this.run.bind(this);
-  }
-
-  start(onNext, onError) {
-    this.running = true;
-    this.onNext = onNext;
-    this.onError = onError;
-    this.run();
-  }
-
-  run() {
-    if (!this.running) return;
-
-    http({
+  constructor({pluginId='com.instana.forge.infrastructure.os.OS'}) {
+    super({frequency: 1000});
+    this.requestConfig = {
       method: 'get',
-      url: '/api/snapshots/com.instana.forge.infrastructure.os.OS'
-    })
-    .then(response => {
-      if (!this.running) return;
-      const newInventory = response.body;
-      if (!Immutable.is(this.lastInventory, newInventory)) {
-        // TODO Ben compute smallest possible diff between both immutable
-        // values
-        this.onNext(newInventory);
-        this.lastInventory = newInventory;
-      }
-      setTimeout(this.run, 1000);
-    }, error => {
-      if (!this.running) return;
-      this.onError(error);
-      setTimeout(this.run, 1000);
-    });
+      url: '/api/snapshots/' + encodeURIComponent(pluginId)
+    };
   }
 
   stop() {
-    this.running = false;
-    this.lastInventory = null;
+    super.stop();
+    this.previousEvent = null;
   }
+
+  getHttpRequestConfig() {
+    return this.requestConfig;
+  }
+
+  buildNextEvent(response) {
+    const nextEvent = applyMinimumNumberOfMutations(
+      this.previousEvent,
+      response.body
+    );
+    if (nextEvent === this.previousEvent) {
+      return false;
+    }
+    this.previousEvent = nextEvent;
+    return this.previousEvent;
+  }
+
+}
+
+function applyMinimumNumberOfMutations(previous, next) {
+  if (previous === null || previous === undefined) {
+    return Immutable.fromJS(next);
+  }
+
+  // meh, wrong! We do not want to merge! We want to translate an immutable
+  // object deeply from a to b
+  return previous.mergeDeep(next);
 }

@@ -2,7 +2,6 @@
 /*eslint-disable no-unused-expressions */
 'use strict';
 
-import Immutable from 'immutable';
 import {expect} from 'chai';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
@@ -29,11 +28,15 @@ describe('conveyer', () => {
     beforeEach(() => {
       http.returns(Promise.resolve({
         status: 200,
-        body: Immutable.fromJS([])
+        body: []
       }));
 
-      const ConveyerType = proxyquire(conveyerPath, {
+      const AbstractHttpConveyer = proxyquire('./AbstractHttpConveyer', {
         '../http': http
+      });
+
+      const ConveyerType = proxyquire(conveyerPath, {
+        './AbstractHttpConveyer': AbstractHttpConveyer
       });
 
       conveyer = create(ConveyerType);
@@ -46,12 +49,12 @@ describe('conveyer', () => {
       });
     });
 
-    // not using the arrow notation to access the unit test execution context
-    // to change the timeout
+    // not using the arrow notation just so that we can access the unit test
+    // execution context to change the timeout
     it('should not emit the same value twice', function(done) {
       this.timeout(3000);
       let callCount = 0;
-      conveyer.subscribe(hosts => {
+      subscription = conveyer.subscribe(hosts => {
         expect(hosts.size).to.equal(0);
         callCount++;
       });
@@ -65,16 +68,16 @@ describe('conveyer', () => {
     it('should emit when values change', (done) => {
       let callCount = 0;
 
-      conveyer.subscribe(hosts => {
+      subscription = conveyer.subscribe(hosts => {
         callCount++;
 
         if (callCount === 1) {
           expect(hosts.size).to.equal(0);
           http.returns(Promise.resolve({
             status: 200,
-            body: Immutable.fromJS([{
+            body: [{
               id: 'foobar'
-            }])
+            }]
           }));
         } else {
           expect(hosts.size).to.equal(1);

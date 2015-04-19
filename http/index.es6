@@ -1,6 +1,5 @@
 'use strict';
 
-import Immutable from 'immutable';
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';
 
@@ -22,7 +21,7 @@ export default function({method, url, queryParams, data, timeout=5000}) {
         const response = {
           status: xhr.status,
           statusText: xhr.statusText,
-          body: Immutable.fromJS(xhr.response),
+          body: xhr.response,
           getHeader: name => xhr.getResponseHeader(name)
         };
         if (199 < response.status && response.status < 300) {
