@@ -16,6 +16,7 @@
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
     "invariant": "^1.0.2",
+    "pretty-bytes": "^1.0.4",
     "rx": "^2.5.1"
   },
   "devDependencies": {
