@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';
 
-export default function({method, url, queryParams, data, timeout=10000}) {
+export default function({method, url, queryParams, data, timeout=5000}) {
   url = formatUrl(url, queryParams);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
