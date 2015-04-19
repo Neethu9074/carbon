@@ -25,7 +25,7 @@ export default class InventoryConveyer extends AbstractHttpConveyer {
   buildNextEvent(response) {
     const nextEvent = applyMinimumNumberOfMutations(
       this.previousEvent,
-      response.body
+      Immutable.fromJS(response.body)
     );
     if (nextEvent === this.previousEvent) {
       return false;
@@ -37,11 +37,9 @@ export default class InventoryConveyer extends AbstractHttpConveyer {
 }
 
 function applyMinimumNumberOfMutations(previous, next) {
-  if (previous === null || previous === undefined) {
-    return Immutable.fromJS(next);
+  // TODO
+  if (Immutable.is(previous, next)) {
+    return previous;
   }
-
-  // meh, wrong! We do not want to merge! We want to translate an immutable
-  // object deeply from a to b
-  return previous.mergeDeep(next);
+  return next;
 }
