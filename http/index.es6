@@ -4,12 +4,12 @@ import Immutable from 'immutable';
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';
 
-export default function({method, url, queryParams, data}) {
+export default function({method, url, queryParams, data, timeout=10000}) {
   url = formatUrl(url, queryParams);
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.open(method, url, true);
-    xhr.timeout = 10000;
+    xhr.timeout = timeout;
     xhr.responseType = 'json';
     xhr.ontimeout = () => {
       reject(new HttpRequestTimeoutError());
