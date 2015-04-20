@@ -326,7 +326,10 @@ class App {
     if(distance <= this.showHostDetailsDistance) {
       this.showHostDetails = true;
 
+      //the opacity of the hosts cubes is increasing while zooming in
+      //[1, 0]
       const opacity = distance / this.showHostDetailsDistance;
+      //set material for all hosts by manipulating the global shared mat
       materials.cubeHostMaterial.opacity = opacity;
 
       if(!this.switchHostDetails) {
@@ -345,6 +348,9 @@ class App {
       if(this.switchHostDetails) {
         //switch off
         this.switchHostDetails = false;
+
+        //when zooming out make hosts not transparent anymore.
+        //furthermore set opacity to 1 to avoid gaps if FPS is low
         materials.cubeHostMaterial.transparent = false;
         materials.cubeHostMaterial.opacity = 1;
 

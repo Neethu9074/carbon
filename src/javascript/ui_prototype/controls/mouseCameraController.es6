@@ -47,7 +47,8 @@ class MouseControl {
   init(app) {
     this.appReference = app;
     this.mouse = new THREE.Vector2();
-    this.cameraSpeed = 10; //mainCamera fly speed - heuristic
+    this.cameraSpeed = 15; //mainCamera fly speed - heuristic
+    this.cameraLookAtSpeed = 30;
     this.moveSpeed = 0.1; //distance moved per pixel - heuristic
     this.pitchSpeed = 0.4;
 
@@ -337,10 +338,17 @@ class MouseControl {
     //calculate rotation (lookAt position)
     const deltaLookAt = this.camTransformObject.position.clone();
     deltaLookAt.sub(this.lookAt.position);
+    let toMove = deltaLookAt
+      .clone()
+      .multiplyScalar(dTime * this.cameraLookAtSpeed);
 
-    this.lookAt.position
-      .add(deltaLookAt.multiplyScalar(dTime * this.cameraSpeed));
+    //avoid to go beyond the target position (happens on low FPS, when
+    //dTime grows)
+    if(toMove.length() > deltaLookAt.length()) {
+      toMove = deltaLookAt;
+    }
 
+    this.lookAt.position.add(toMove);
     this.lookAt.position.y = targetAngleNorm * 1;
 
     //apply rotation
