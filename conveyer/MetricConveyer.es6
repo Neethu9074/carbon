@@ -62,7 +62,7 @@ export default class MetricConveyer {
     .then(response => {
       if (!this.running) return;
 
-      const values = response.body;
+      const values = Immutable.fromJS(response.body);
       if (!Immutable.is(this.lastEvent.get('values'), values)) {
         this.lastEvent = this.lastEvent.set('values', values);
         this.onNext(this.lastEvent);
