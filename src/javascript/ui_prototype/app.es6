@@ -316,6 +316,7 @@ class App {
 
     //update global texture offsets
     textures.groundEffectTexture.offset.y = 0.25 * -this.timeSinceStarted;
+    this.octree.update();
 
     const distance = this.controller.zoomLevel;
     /*if(distance >= this.hideHostsDistance) {
@@ -390,45 +391,42 @@ class App {
   }
 
   findObjectInOctree(raycaster) {
-
     raycaster.far = Math.min(250, raycaster.far); //[0, 200]
-    const toBeTested = [];
-    this.scene.traverse(function (object) {
-      if(object.collisionEnabled === true) {
-        toBeTested.push(object);
-      }
-    });
 
-    let i = raycaster.intersectObjects(toBeTested);
-    if (i.length > 0) {
-      return i[0].object;
-    }
+    const useOctree = true;
 
-    /*
+    if(useOctree) {
+      const octree2Objects = this.octree.search(
+        raycaster.ray.origin,
+        raycaster.ray.far,
+        true, //true -> organized by objects
+        raycaster.ray.direction);
 
-
-    this.octree.update();
-
-
-    //search all candidates where ray cutting quadrants of the octree
-    const octree2Objects = this.octree.search(
-      raycaster.ray.origin,
-      raycaster.ray.far,
-      true, //true -> organized by objects
-      raycaster.ray.direction);
-
-    const intersections = raycaster.intersectOctreeObjects(octree2Objects);
-    if (intersections.length > 0) {
-      for (let i = 0; i < intersections.length; i++) {
-        const intersect = intersections[i].object;
-        //return nearest enabled hit
-        if(intersect.collisionEnabled) {
-          return intersect;
+      const intersections = raycaster.intersectOctreeObjects(octree2Objects);
+      if (intersections.length > 0) {
+        for (let i = 0; i < intersections.length; i++) {
+          const intersect = intersections[i].object;
+          //return nearest enabled hit
+          if(intersect.collisionEnabled) {
+            return intersect;
+          }
         }
       }
+      return undefined;
+
+    } else {
+      const toBeTested = [];
+      this.scene.traverse(function (object) {
+        if(object.collisionEnabled === true) {
+          toBeTested.push(object);
+        }
+      });
+
+      let i = raycaster.intersectObjects(toBeTested);
+      if (i.length > 0) {
+        return i[0].object;
+      }
     }
-    return undefined;
-    */
   }
 
   clickedOnObject(object) {

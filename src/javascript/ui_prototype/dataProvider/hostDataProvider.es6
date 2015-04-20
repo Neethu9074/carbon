@@ -71,6 +71,7 @@ class HostDataProvider extends DataProvider {
     const invisibleObj = new THREE.Mesh();
     invisibleObj.add(coll);
     invisibleObj.position.copy(this.cube.position);
+    this.collisionCube = coll;
 
     //setup the ground tag plane
     //const plane = this.getGroundPlane(originalDim);
@@ -169,6 +170,7 @@ class HostDataProvider extends DataProvider {
 
   dispose() {
     factory.removeFragment(this.cube.ID);
+    this.cube.app.octree.remove(this.collisionCube);
 
     super.dispose();
 
@@ -177,6 +179,7 @@ class HostDataProvider extends DataProvider {
       this.effect = null;
     }
     this.cubeFace = null;
+    this.collisionCube = null;
   }
 }
 
