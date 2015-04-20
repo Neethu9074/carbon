@@ -3,12 +3,31 @@
 import rx from 'rx';
 
 export function create(Conveyer, params) {
-  const conveyer = new Conveyer(params || {});
+  params = params || {};
+
+  const uniqueId = Conveyer.getUniqueId(params);
+  /*eslint-disable no-underscore-dangle*/
+  const conveyerCache = Conveyer._conveyerCache = Conveyer._conveyerCache || {};
+  /*eslint-enable no-underscore-dangle*/
+  if (uniqueId in conveyerCache) {
+    const cachedConveyer = conveyerCache[uniqueId];
+    return cachedConveyer.observable;
+  }
+
+  const conveyer = new Conveyer(params);
   const observers = [];
   let running = false;
+  let stoppedOnce = false;
   let lastValue = null;
 
-  return rx.Observable.create(observer => {
+  const observable = rx.Observable.create(observer => {
+    if (stoppedOnce) {
+      // TODO can we somehow magically migrate to another Observable with the
+      // same ID?
+      const err = 'Observables may not be reused once everyone unsubscribed!';
+      throw new Error(err);
+    }
+
     observers.push(observer);
     if (lastValue) {
       observer.onNext(lastValue);
@@ -23,10 +42,18 @@ export function create(Conveyer, params) {
       observers.splice(observers.indexOf(observer), 1);
       if (observers.length === 0) {
         running = false;
+        stoppedOnce = true;
         conveyer.stop();
+        delete conveyerCache[uniqueId];
       }
     };
   });
+
+  conveyerCache[uniqueId] = {
+    observable
+  };
+
+  return observable;
 
   function onNext(v) {
     lastValue = v;

@@ -7,6 +7,20 @@ import {createLogger} from 'instalog';
 const logger = createLogger('ui-services/conveyer/MetricConveyer');
 
 export default class MetricConveyer {
+
+  static getUniqueId({snapshot, metric, min, max, frequency, timeframe}) {
+    return [
+      snapshot.get('hostId'),
+      snapshot.get('pluginId'),
+      snapshot.get('steadyId'),
+      metric,
+      min,
+      max,
+      frequency,
+      timeframe
+    ].join(',');
+  }
+
   constructor({snapshot, metric, min, max, frequency, timeframe}) {
     // we are using a mutable version for fast property access
     this.snapshot = snapshot.toJS();

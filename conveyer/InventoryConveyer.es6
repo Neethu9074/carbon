@@ -5,6 +5,10 @@ import AbstractHttpConveyer from './AbstractHttpConveyer';
 
 export default class InventoryConveyer extends AbstractHttpConveyer {
 
+  static getUniqueId({pluginId='com.instana.forge.infrastructure.os.OS'}) {
+    return pluginId;
+  }
+
   constructor({pluginId='com.instana.forge.infrastructure.os.OS'}) {
     super({frequency: 1000});
     this.requestConfig = {

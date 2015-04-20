@@ -24,6 +24,7 @@ describe('conveyer', () => {
   });
 
   describe('InventoryConveyer', () => {
+    let ConveyerType;
 
     beforeEach(() => {
       http.returns(Promise.resolve({
@@ -35,7 +36,7 @@ describe('conveyer', () => {
         '../http': http
       });
 
-      const ConveyerType = proxyquire(conveyerPath, {
+      ConveyerType = proxyquire(conveyerPath, {
         './AbstractHttpConveyer': AbstractHttpConveyer
       });
 
@@ -84,6 +85,11 @@ describe('conveyer', () => {
           done();
         }
       });
+    });
+
+    it('should not create the same conveyer twice', () => {
+      const conveyer2 = create(ConveyerType);
+      expect(conveyer2).to.equal(conveyer);
     });
   });
 
