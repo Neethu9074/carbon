@@ -101,13 +101,15 @@ class MouseControl {
     app.mainCamera.position.copy(targetWorldPos);
     app.mainCamera.lookAt(this.lookAt.position);
 
+    app.mainCamera.updateMatrixWorld();
+    this.lookAt.rotation.copy(app.mainCamera.rotation);
+
 
     if (__DEV__) {
       this.camTransformObject.add( new THREE.AxisHelper( 3 ) );
       this.directionHelper.add( new THREE.AxisHelper( 3 ) );
       this.targetCamPosition.add( new THREE.AxisHelper( 3 ) );
       this.camTransformTranslatedObject.add( new THREE.AxisHelper( 3 ) );
-      this.lookAt.add( new THREE.AxisHelper( 10 ) );
     }
 
     //color, intensity, range
@@ -360,11 +362,11 @@ class MouseControl {
       toMove = deltaLookAt;
     }
 
-    this.lookAt.position.add(toMove);
-    this.lookAt.position.y = targetAngleNorm * 1;
+    this.lookAt.position.copy(cam.position);
+    this.lookAt.translateZ(-this.zoomLevel);
 
     //apply rotation
-    //cam.lookAt(this.lookAt.position);
+    cam.lookAt(this.lookAt.position);
   }
 }
 
