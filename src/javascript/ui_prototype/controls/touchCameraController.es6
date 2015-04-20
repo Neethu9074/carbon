@@ -16,73 +16,44 @@ class TouchControl extends CameraController{
     const app = this.appReference;
     this.bindListeners();
 
-    app.canvas.addEventListener('mousedown', this.onMouseDown);
     app.canvas.addEventListener('touchstart', this.onTouchStart);
-
     app.canvas.addEventListener('touchmove', this.onTouchMove);
-
-    app.canvas.addEventListener('mouseup', this.onMouseUp);
     app.canvas.addEventListener('touchend', this.onTouchEnd);
   }
 
   bindListeners() {
-    this.onMouseDown = this.onMouseDown.bind(this);
-    this.onMouseUp = this.onMouseUp.bind(this);
     this.onTouchStart = this.onTouchStart.bind(this);
     this.onTouchEnd = this.onTouchEnd.bind(this);
     this.onTouchMove = this.onTouchMove.bind(this);
   }
 
-  onMouseDown(e) {
-    e.preventDefault();
-    if (e.button === 0) {
-      this.cursor.x = e.clientX;
-      this.cursor.y = e.clientY;
-
-      this.pixelMoved = 0;
-
-      //save the state for mouse move
-      this.leftMouseButtonIsPressed = true;
-    }
-  }
-
-  onMouseUp(e) {
-    e.preventDefault();
-
-    if (this.unitsMoved < 100) {
-      this.doClick();
-    }
-
-    if(e.button === 0) {
-      //save the state for mouse move
-      this.leftMouseButtonIsPressed = false;
-      this.unitsMoved = 0;
-    }
-  };
-
   onTouchStart(e) {
     e.preventDefault();
     this.unitsMoved = 0;
 
+    //if it is a multi finger gesture
     if(e.touches.length >= 2) {
       this.scaling = true;
       this.touchDown = false;
+
     } else {
       this.touchDown = true;
+      this.cursor.x = e.touches[0].clientX;
+      this.cursor.y = e.touches[0].clientY;
     }
-
-    this.cursor.x = e.touches[0].clientX;
-    this.cursor.y = e.touches[0].clientY;
   }
 
   onTouchEnd(e) {
     e.preventDefault();
     this.touchDown = false;
 
+    //if it was a multi finger gesture
     if(this.scaling) {
       this.scaling = false;
+
     } else {
       if (this.unitsMoved < 100) {
+        this.doRayPicking();
         this.doClick();
       }
     }

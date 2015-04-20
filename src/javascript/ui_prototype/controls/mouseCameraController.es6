@@ -16,6 +16,8 @@ class MouseControl extends CameraController {
     const app = this.appReference;
     this.bindListeners();
 
+    this.counterForRayCasting = 0;
+
     app.canvas.addEventListener('mousedown', this.onMouseDown);
     app.canvas.addEventListener('mousemove', this.onMouseMove);
     app.canvas.addEventListener('mouseup', this.onMouseUp);
@@ -94,6 +96,15 @@ class MouseControl extends CameraController {
     //don't forget to set the new position :)
     this.cursor.x = e.clientX;
     this.cursor.y = e.clientY;
+  }
+
+  update(dTime) {
+    //do it only every x times
+    if ((this.counterForRayCasting++ % 5) === 0) {
+      this.doRayPicking();
+    }
+
+    super.update(dTime);
   }
 }
 

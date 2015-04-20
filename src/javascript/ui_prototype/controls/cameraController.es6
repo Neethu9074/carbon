@@ -38,7 +38,6 @@ class CameraController {
 
     //raytracing fields
     this.raycaster = new THREE.Raycaster();
-    this.counterForRayCasting = 0;
     this.mouseForRay = new THREE.Vector2();
     this.hittenObject = undefined;
     this.timeOnMouseDown = Date.now();
@@ -174,11 +173,6 @@ class CameraController {
   }
 
   update(dTime) {
-    //do it only every x times
-    if ((this.counterForRayCasting++ % 5) === 0) {
-      this.doRayPicking();
-    }
-
     //apply flatten effect
     let angleFactor = 1 -
       (this.zoomLevel - this.maxZoomIn) /
