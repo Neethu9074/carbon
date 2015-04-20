@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import invariant from 'invariant';
 
 const Button = React.createClass({
   propTypes: {
