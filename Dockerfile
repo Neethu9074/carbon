@@ -28,6 +28,6 @@ RUN pip install j2cli
 # - use j2cli to write nginx config file with environment vars
 # - adapt nginx.conf.js to docker environment vars
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf && nginx -g "daemon off;"
 
 EXPOSE 80 443

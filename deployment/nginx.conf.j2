@@ -22,9 +22,7 @@ http {
                              '"$http_referer" "$http_user_agent" "$gzip_ratio"';
 
   upstream api {
-    {% for host in groups['ui-backend-servers'] %}
-    server {{hostvars[host]['inventory_hostname']}}:8080;
-    {% endfor %}
+    server {{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}};
   }
 
   server {
@@ -47,7 +45,7 @@ http {
     ssi_silent_errors        off;
 
     location / {
-      root                   /var/www;
+      root                   /opt/www;
       autoindex              off;
       try_files              $uri $uri/index.html $uri/ =404;
     }
