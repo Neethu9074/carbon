@@ -9,7 +9,7 @@ import * as App from '../app';
 //see: https://github.com/instana/visualization/
 //commit/2a09db973b63cfbfa22b1b94769c0ca5c887628b/
 //src/images/scetches/mouseControl.png
-class MouseControl {
+class TouchControl {
 
   constructor() {
     const app = App.getApplication();
@@ -372,4 +372,4 @@ class MouseControl {
   }
 }
 
-export default MouseControl;
+export default TouchControl;
