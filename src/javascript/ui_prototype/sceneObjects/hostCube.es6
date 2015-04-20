@@ -92,7 +92,8 @@ class HostCube extends BaseCube {
 		}
 		this.time = 0;
 
-		const distanceToFocus = this.app.controller.lookAt.position.clone()
+		const distanceToFocus = this.app.controller.camTransformObject.position
+			.clone()
 			.sub(this.position)
 			.length();
 
@@ -101,7 +102,8 @@ class HostCube extends BaseCube {
 			return;
 		}
 
-		const distanceToCam = this.app.mainCamera.position.clone()
+		const distanceToCam = this.app.mainCamera.position
+			.clone()
 			.sub(this.position)
 			.length();
 
