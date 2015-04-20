@@ -254,7 +254,7 @@ class MouseControl {
       }
 
       const delta = this.lastDistance - dist;
-      this.zoom(delta * this.pitchSpeed);
+      this.zoom(-delta * this.pitchSpeed);
       this.lastDistance = dist;
 
     } else {
