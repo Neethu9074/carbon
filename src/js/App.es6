@@ -15,10 +15,13 @@ const App = React.createClass({
 	},
 
   render() {
+		const selectedSnapshot = this.state.selectedSnapshot;
     return (
       <div>
-				{this.state.selectedSnapshot ?
-					<Sidebar snapshot={this.state.selectedSnapshot} />
+				{selectedSnapshot ?
+					<Sidebar steadyId={selectedSnapshot.get('steadyId')}
+                   hostId={selectedSnapshot.get('hostId')}
+                   pluginId={selectedSnapshot.get('pluginId')} />
 					: null}
         <Map onClick={this.onClick} liveData={true} />
       </div>

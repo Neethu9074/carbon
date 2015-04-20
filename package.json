@@ -24,7 +24,7 @@
     "instana-ui-radial-chart": "^2.0.0",
     "instana-ui-services": "^1.0.0",
     "invariant": "^1.0.2",
-    "pretty-bytes": "^1.0.4",
+    "lodash": "^3.7.0",
     "react": "^0.13.1",
     "rx": "^2.5.1",
     "rx-observable-generator": "^1.0.0"
