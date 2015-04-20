@@ -47,14 +47,14 @@ class MouseControl {
   init(app) {
     this.appReference = app;
     this.mouse = new THREE.Vector2();
-    this.cameraSpeed = 15; //mainCamera fly speed - heuristic
+    this.cameraSpeed = 10; //mainCamera fly speed - heuristic
     this.cameraLookAtSpeed = 30;
     this.moveSpeed = 0.1; //distance moved per pixel - heuristic
     this.pitchSpeed = 0.4;
 
     //zoom fields
     this.maxZoomOut = 1500;
-    this.maxZoomIn = 10;
+    this.maxZoomIn = 20;
     this.zoomLevel = 150;
     this.beginToRotate = 40;
 
@@ -90,11 +90,24 @@ class MouseControl {
 
     this.lookAt = new THREE.Object3D();
 
+
+    //.updateMatrixWorld(); is called via update loop
+    const targetWorldPos = new THREE.Vector3();
+    this.camTransformObject.updateMatrixWorld();
+    this.camTransformTranslatedObject.updateMatrixWorld();
+    this.directionHelper.updateMatrixWorld();
+    this.targetCamPosition.updateMatrixWorld();
+    targetWorldPos.applyMatrix4(this.targetCamPosition.matrixWorld);
+    app.mainCamera.position.copy(targetWorldPos);
+    app.mainCamera.lookAt(this.lookAt.position);
+
+
     if (__DEV__) {
       this.camTransformObject.add( new THREE.AxisHelper( 3 ) );
       this.directionHelper.add( new THREE.AxisHelper( 3 ) );
       this.targetCamPosition.add( new THREE.AxisHelper( 3 ) );
       this.camTransformTranslatedObject.add( new THREE.AxisHelper( 3 ) );
+      this.lookAt.add( new THREE.AxisHelper( 10 ) );
     }
 
     //color, intensity, range
@@ -330,10 +343,8 @@ class MouseControl {
     //calculate the delta between wanted position and current position
     const delta = cam.position.clone();
     delta.sub(targetWorldPos);
-
     //apply position
-    cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
-
+    cam.position.sub(delta.clone().multiplyScalar(dTime * this.cameraSpeed));
 
     //calculate rotation (lookAt position)
     const deltaLookAt = this.camTransformObject.position.clone();
@@ -352,7 +363,7 @@ class MouseControl {
     this.lookAt.position.y = targetAngleNorm * 1;
 
     //apply rotation
-    cam.lookAt(this.lookAt.position);
+    //cam.lookAt(this.lookAt.position);
   }
 }
 
