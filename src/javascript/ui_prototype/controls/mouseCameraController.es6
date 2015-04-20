@@ -227,8 +227,9 @@ class MouseControl {
     e.preventDefault();
     this.unitsMoved = 0;
 
-    if(e.touches.length === 2) {
+    if(e.touches.length >= 2) {
       this.scaling = true;
+      this.touchDown = false;
     } else {
       this.touchDown = true;
     }
