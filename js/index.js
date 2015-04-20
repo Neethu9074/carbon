@@ -23,6 +23,11 @@ exports.consts = {
       fontColor: '#ddd'
     },
     charts: {
+      areaChart: {
+        area1: colors.cyan,
+        background: colors.mineShaft
+      },
+
       defaultPalette: [
         colors.cyan,
         colors.razzmatazz,
