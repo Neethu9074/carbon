@@ -1,8 +1,7 @@
 'use strict';
 
-import DataListener from './dataListener';
-
-//logging
+import InventoryConveyer from 'instana-ui-services/conveyer/InventoryConveyer';
+import {create} from 'instana-ui-services/conveyer';
 import logging from 'instalog';
 import _ from 'lodash';
 
@@ -27,11 +26,9 @@ class DataListenerManager {
     //a collection to store all found inventory
     this.detectedInventory = [];
 
-    //create the listener with a refresh interval of x
-    const dataListener = new DataListener(interval);
-
-    dataListener.onUpdateHosts = this.onUpdateHosts;
-    dataListener.onUpdateInventory = this.onUpdateInventory;
+    create(InventoryConveyer).subscribe(
+      hosts => this.onUpdateHosts(hosts)
+    );
   }
 
   onUpdateHosts(currentHosts) {
