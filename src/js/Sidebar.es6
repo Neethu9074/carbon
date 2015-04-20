@@ -107,8 +107,10 @@ const Sidebar = React.createClass({
     let list = [];
     const interfaces = snapshot.get('interfaces');
     for (let i = 0; i < interfaces.size; i++) {
-      const ip = interfaces.get(i);
-      list.push(ip.get('ips'));
+      const ips = interfaces.get(i).get('ips');
+      for (let iips = 0; iips < ips.size; iips++) {
+        list.push(ips.get(iips));
+      }
     }
     return list.join(', ');
   },
