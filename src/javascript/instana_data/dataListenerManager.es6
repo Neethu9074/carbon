@@ -10,7 +10,7 @@ const logger = logging.createLogger('dataListenerManager.js');
 
 class DataListenerManager {
 
-  constructor(app, interval) {
+  constructor(app) {
     //bind methods
     this.onUpdateHosts = this.onUpdateHosts.bind(this);
     this.onUpdateInventory = this.onUpdateInventory.bind(this);
