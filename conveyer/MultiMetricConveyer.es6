@@ -2,9 +2,6 @@
 
 import Immutable from 'immutable';
 import http from '../http';
-import {createLogger} from 'instalog';
-
-const logger = createLogger('ui-services/conveyer/MultiMetricConveyer');
 
 export default class MultiMetricConveyer {
 
@@ -70,14 +67,6 @@ export default class MultiMetricConveyer {
       if (!Immutable.is(this.lastEvent.get('values'), values)) {
         this.lastEvent = this.lastEvent.set('values', values);
         this.onNext(this.lastEvent);
-      } else {
-        logger.debug(
-          'Assuming that values have not changed for steadyId %s and ' +
-          'metric %s. New values:',
-          this.snapshot.steadyId,
-          this.metric,
-          values.toJS()
-        );
       }
       setTimeout(this.run, this.frequency);
     }, error => {

@@ -1,12 +1,9 @@
 'use strict';
 
 import Immutable from 'immutable';
-import http from '../http';
-import {createLogger} from 'instalog';
+import AbstractHttpConveyer from './AbstractHttpConveyer';
 
-const logger = createLogger('ui-services/conveyer/MetricConveyer');
-
-export default class MetricConveyer {
+export default class MetricConveyer extends AbstractHttpConveyer {
 
   static getUniqueId({snapshot, metric, min, max, frequency, timeframe}) {
     return [
@@ -22,69 +19,45 @@ export default class MetricConveyer {
   }
 
   constructor({snapshot, metric, min, max, frequency, timeframe}) {
-    // we are using a mutable version for fast property access
-    this.snapshot = snapshot.toJS();
-    this.metric = metric;
-    this.min = min;
-    this.max = max;
-    this.frequency = frequency;
-    this.timeframe = timeframe;
-    this.lastEvent = Immutable.fromJS({
-      min,
-      max,
-      frequency,
-      timeframe
-    });
-    this.run = this.run.bind(this);
-  }
+    super({frequency});
 
-  start(onNext, onError) {
-    this.running = true;
-    this.onNext = onNext;
-    this.onError = onError;
-    this.run();
-  }
-
-  run() {
-    if (!this.running) return;
-
-    http({
+    this.requestConfig = {
       method: 'get',
       url: '/api/metrics/lastn',
       queryParams: {
-        hostId: this.snapshot.hostId,
-        pluginId: this.snapshot.pluginId,
-        steadyId: this.snapshot.steadyId,
-        metricName: this.metric,
-        lastn: Math.floor(this.timeframe / this.frequency)
+        hostId: snapshot.get('hostId'),
+        pluginId: snapshot.get('pluginId'),
+        steadyId: snapshot.get('steadyId'),
+        metricName: metric,
+        lastn: Math.floor(timeframe / frequency)
       }
-    })
-    .then(response => {
-      if (!this.running) return;
+    };
 
-      const values = Immutable.fromJS(response.body);
-      if (!Immutable.is(this.lastEvent.get('values'), values)) {
-        this.lastEvent = this.lastEvent.set('values', values);
-        this.onNext(this.lastEvent);
-      } else {
-        logger.debug(
-          'Assuming that values have not changed for steadyId %s and ' +
-          'metric %s. New values:',
-          this.snapshot.steadyId,
-          this.metric,
-          values.toJS()
-        );
-      }
-      setTimeout(this.run, this.frequency);
-    }, error => {
-      if (!this.running) return;
-      this.onError(error);
-      setTimeout(this.run, this.frequency);
+    this.previousEvent = Immutable.fromJS({
+      min: min,
+      max: max,
+      frequency: frequency,
+      timeframe: timeframe
     });
   }
 
   stop() {
-    this.running = false;
-    this.lastEvent = null;
+    super.stop();
+    this.previousEvent = this.previousEvent.set('values', []);
   }
+
+  getHttpRequestConfig() {
+    return this.requestConfig;
+  }
+
+  buildNextEvent(response) {
+    const newValues = Immutable.fromJS(response.body);
+    if (Immutable.is(newValues, this.previousEvent.get('values'))) {
+      return false;
+    }
+
+    this.previousEvent = this.previousEvent.set('values', newValues);
+    return this.previousEvent;
+  }
+
 }
