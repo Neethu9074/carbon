@@ -2,6 +2,8 @@
 
 import THREE from 'three.js';
 
+import * as Settings from './settings';
+
 import gridTexturePath from '../../images/grid2.png';
 import cubeTexturePath from '../../images/cube.png';
 import containerTexturePath from '../../images/softwareCube.png';
@@ -13,21 +15,21 @@ export const groundTexture = ( function() {
 	const texture = THREE.ImageUtils.loadTexture(gridTexturePath);
 	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 	texture.repeat.set(50, 50);
-	texture.anisotropy = 16;
+	texture.anisotropy = Math.min(Settings.maxAnisotropy, 16);
 	return texture;
 })();
 
 //the texture for all server cubes
 export const cubeHostTexture = ( function() {
 	const texture = THREE.ImageUtils.loadTexture(cubeTexturePath);
-	texture.anisotropy = 4;
+	texture.anisotropy = Math.min(Settings.maxAnisotropy, 4);
 	return texture;
 })();
 
 //the texture for all software cubes
 export const cubeContainerTexture = ( function() {
 	const texture = THREE.ImageUtils.loadTexture(containerTexturePath);
-	texture.anisotropy = 4;
+	texture.anisotropy = Math.min(Settings.maxAnisotropy, 4);
 	return texture;
 })();
 

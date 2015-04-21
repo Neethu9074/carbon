@@ -6,6 +6,7 @@ import THREE from 'three.js';
 import '../lib/CSS3DRenderer';
 import '../lib/Octree';
 
+import * as Settings from './settings';
 import colors from './colors';
 import * as states from './cubeStates';
 import * as materials from './materials';
@@ -146,6 +147,7 @@ class App {
 		this.webGLRenderer = new THREE.WebGLRenderer();
 		this.webGLRenderer.setClearColor(colors.renderClearColor, 1);
 		this.webGLRenderer.setSize(width, height);
+		Settings.maxAnisotropy = this.webGLRenderer.getMaxAnisotropy();
 
 		//add webGLRenderer to dom element
 		this.canvas.appendChild(this.webGLRenderer.domElement);
