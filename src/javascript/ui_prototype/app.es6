@@ -531,6 +531,10 @@ class App {
 
 	dispose() {
 		logger.log('dispose:', this);
+
+		//overwrite update function so that it will not be called by browser
+		//via requestAnimationFrame(this.update) again
+		this.update = {};
 	}
 }
 
