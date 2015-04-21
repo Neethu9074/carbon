@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import http from '../http';
 import {createLogger} from 'instalog';
 
-const logger = createLogger('ui-services/conveyer/MetricConveyer');
+const logger = createLogger('ui-services/conveyer/MultiMetricConveyer');
 
 export default class MultiMetricConveyer {
 
