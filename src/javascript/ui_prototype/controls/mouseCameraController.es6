@@ -73,6 +73,7 @@ class MouseControl extends CameraController {
     e.preventDefault();
 
     if (this.unitsMoved < 100) {
+      this.doRayPicking();
       this.doClick();
     }
 
