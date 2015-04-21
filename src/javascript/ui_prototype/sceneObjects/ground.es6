@@ -80,6 +80,10 @@ class Ground extends SceneObject {
 		this.mirrorUpdateCounter++;
 	}
 
+	resize(width, height) {
+		this.mirror.resize(width, height);
+	}
+
 	dispose() {
 		super.dispose();
 

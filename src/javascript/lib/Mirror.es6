@@ -62,12 +62,7 @@ class Mirror extends THREE.Object3D{
     this.rotationMatrix = new THREE.Matrix4();
     this.lookAtPosition = new THREE.Vector3(0, 0, -1);
     this.clipPlane = new THREE.Vector4();
-
-    if (camera instanceof THREE.PerspectiveCamera) {
-      this.camera = camera;
-    } else {
-      this.camera = new THREE.PerspectiveCamera();
-    }
+    this.camera = camera;
 
     this.textureMatrix = new THREE.Matrix4();
 
@@ -207,9 +202,14 @@ class Mirror extends THREE.Object3D{
 
     this.renderer.render(this.scene, this.mirrorCamera, this.texture, true);
     this.composer.render();
-    
+
     this.material.uniforms.mirrorSampler.value = this.texture;
   }
+
+  resize(width, height) {
+		this.mirrorCamera.aspect = width / height;
+		this.mirrorCamera.updateProjectionMatrix();
+	}
 }
 
 export default Mirror;

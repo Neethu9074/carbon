@@ -163,7 +163,8 @@ class App {
 
 		//a collection to store all sceneObjects
 		this.sceneObjects3D = [];
-		this.sceneObjects3D.push(new Ground(this));
+		this.ground = new Ground(this);
+		this.sceneObjects3D.push(this.ground);
 	}
 
 	setup2D() {
@@ -214,6 +215,8 @@ class App {
 
 		this.mainCamera.aspect = this.width / this.height;
 		this.mainCamera.updateProjectionMatrix();
+
+		this.ground.resize(this.width, this.height);
 	}
 
 	addRandomHost() {
