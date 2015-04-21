@@ -165,7 +165,7 @@ class HostDataProvider extends DataProvider {
   }
 
   dispose() {
-    factory.removeFragment(this.cube.ID);
+    this.factory.removeFragment(this.cube.ID);
     this.cube.app.octree.remove(this.collisionCube);
 
     super.dispose();
