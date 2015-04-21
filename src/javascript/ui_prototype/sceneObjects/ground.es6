@@ -72,7 +72,7 @@ class Ground extends SceneObject {
 			this.mirrorUpdateCounter = 0;
 
 			//only draw reflections on desktop device
-			if(!this.app.isMobileDevice()) {
+			if(!this.app.isMobileDevice) {
 				this.mirror.render();
 			}
 		}
