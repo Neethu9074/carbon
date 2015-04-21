@@ -4,7 +4,7 @@ import THREE from 'three.js';
 
 import DataProvider from './dataProvider';
 import GroundEffect from '../sceneObjects/groundWarningEffect';
-import CubeFactory from '../hostCubeFactory';
+import * as CubeFactory from '../factories/hostCubeFactory';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as obj from '../obj';
@@ -21,7 +21,6 @@ import logging from 'instalog';
 import _ from 'lodash';
 
 const logger = logging.createLogger('containerCube.es6');
-let factory;
 
 
 class HostDataProvider extends DataProvider {
@@ -29,10 +28,7 @@ class HostDataProvider extends DataProvider {
   constructor(metaData) {
     super(metaData);
     this.setFromMetaData(metaData);
-
-    if (factory === undefined) {
-      factory = new CubeFactory();
-    }
+    this.factory = CubeFactory.getInstance();
   }
 
   setFromMetaData(metaData) {
@@ -55,7 +51,7 @@ class HostDataProvider extends DataProvider {
   }
 
   get3DContent() {
-    factory.createHostCube(
+    this.factory.addFragment(
       this.cube.position,
       this.cube.dimension,
       this.cube.ID);
