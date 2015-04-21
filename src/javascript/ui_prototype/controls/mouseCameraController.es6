@@ -3,6 +3,9 @@
 import THREE from 'three.js';
 
 import CameraController from './cameraController';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('mouseCameraController');
 
 
 //see: https://github.com/instana/visualization/
@@ -73,7 +76,10 @@ class MouseControl extends CameraController {
   onMouseUp(e) {
     e.preventDefault();
 
+    logger.debug('On mouse up with event: ', e, ' and unitsMoved ',
+      this.unitsMoved);
     if (this.unitsMoved < 100) {
+      logger.debug('Recognized mouse up as a click event!');
       this.doClick();
     }
 
