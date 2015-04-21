@@ -12,15 +12,43 @@ import _ from 'lodash';
 let globalGeometry = new THREE.Geometry();
 let globalMesh = new THREE.Mesh();
 const fragments = [];
+let registered = false;
+let rebuildGlobalMesh = false;
 
 
 class HostCubeFactory {
 
 	constructor() {
 		this.app = app.getApplication();
+
+		//bind methods
+		this.update = this.update.bind(this);
+
+		if(!registered) {
+			this.registerEvents();
+			registered = true;
+		}
 	}
 
-	createHostCube(pos, dim, ID) {
+	registerEvents() {
+    const update = this.update;
+		this.subscription = this.app.emitter.on('beginUpdate').subscribe(
+			function() {
+				update();
+			},
+			function() {},
+			function() {}
+    );
+  }
+
+	update() {
+		if(rebuildGlobalMesh) {
+			rebuildGlobalMesh = false;
+			this.rebuild();
+		}
+	}
+
+	createHostCube(pos, dim, ID, enabled = true) {
 		const geo = geometries.cubeGeometry;
 		let cube = new THREE.Mesh(geo);
 
@@ -28,24 +56,40 @@ class HostCubeFactory {
 		cube.position.copy(pos);
 		cube.updateMatrix();
 
-		/*
-		fragments.push({
-			geometry: geo,
-			matrix: cube.matrix,
-			ID: ID //is needed to identify the fragment when deleting
-		});
-		*/
-
 		fragments.push({
 			pos: pos,
 			dim: dim,
-			ID: ID //is needed to identify the fragment when deleting
+			ID: ID, //is needed to identify the fragment when deleting
+			enabled: enabled
 		});
 
-		this.rebuild();
+		//set rebuild to true
+		//so that the mesh will be generated on the next event
+		rebuildGlobalMesh = true;
 
 		//return empty objecs as a container for further use
 		return new THREE.Object3D();
+	}
+
+	//returns all registered objects which are enabled
+	getLegalFragments() {
+		return fragments.filter(item => item.enabled);
+	}
+
+	disableFragment(ID) {
+		fragments.find(item => item.ID === ID).enabled = false;
+
+		//set rebuild to true
+		//so that the mesh will be generated on the next event
+		rebuildGlobalMesh = true;
+	}
+
+	enableFragment(ID) {
+		fragments.find(item => item.ID === ID).enabled = true;
+
+		//set rebuild to true
+		//so that the mesh will be generated on the next event
+		rebuildGlobalMesh = true;
 	}
 
 	rebuild() {
@@ -53,12 +97,13 @@ class HostCubeFactory {
 		this.app.scene.remove(globalMesh);
 		globalGeometry.dispose();
 
-		const cubes = fragments.length;
+		const frags = this.getLegalFragments();
+		const cubes = frags.length;
 		const ti = new Uint32Array(cubes * 36);
 		const tp = new Float32Array(cubes * 24);
 		const tuv = new Float32Array(cubes * 16);
-		for (let i = 0; i < fragments.length; i++) {
-			const fragment = fragments[i];
+		for (let i = 0; i < frags.length; i++) {
+			const fragment = frags[i];
 			const pos = fragment.pos;
 			const dim = fragment.dim;
 
@@ -191,34 +236,12 @@ class HostCubeFactory {
 		//var t2 = console.timeEnd('1');
 	}
 
-/*
-	rebuild() {
-		this.app.scene.remove(globalMesh);
-
-		globalGeometry.dispose();
-		const temp = new THREE.Geometry();
-
-		for (let i = 0; i < fragments.length; i++) {
-			const fragment = fragments[i];
-			temp.merge(fragment.geometry, fragment.matrix);
-		}
-
-		globalGeometry = new THREE.BufferGeometry().fromGeometry(temp);
-		globalMesh = new THREE.Mesh(
-			globalGeometry,
-			materials.cubeHostMaterial
-		);
-
-		//clear temp geometry from three cache
-		temp.dispose();
-
-		this.app.scene.add(globalMesh);
-	}
-*/
-
 	removeFragment(ID) {
 		_.remove(fragments, fragment => fragment.ID === ID);
-		this.rebuild();
+
+		//set rebuild to true
+		//so that the mesh will be generated on the next event
+		rebuildGlobalMesh = true;
 	}
 }
 
