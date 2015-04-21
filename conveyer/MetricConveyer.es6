@@ -34,10 +34,10 @@ export default class MetricConveyer extends AbstractHttpConveyer {
     };
 
     this.previousEvent = Immutable.fromJS({
-      min: min,
-      max: max,
-      frequency: frequency,
-      timeframe: timeframe
+      min,
+      max,
+      frequency,
+      timeframe
     });
   }
 

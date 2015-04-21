@@ -1,9 +1,9 @@
 'use strict';
 
 import Immutable from 'immutable';
-import http from '../http';
+import AbstractHttpConveyer from './AbstractHttpConveyer';
 
-export default class MultiMetricConveyer {
+export default class MultiMetricConveyer extends AbstractHttpConveyer {
 
   static getUniqueId({snapshot, metrics, min, max, frequency, timeframe}) {
     return [
@@ -19,65 +19,49 @@ export default class MultiMetricConveyer {
   }
 
   constructor({snapshot, metrics, min, max, frequency, timeframe}) {
-    // we are using a mutable version for fast property access
-    this.snapshot = snapshot.toJS();
-    this.metrics = metrics;
-    this.min = min;
-    this.max = max;
-    this.frequency = frequency;
-    this.timeframe = timeframe;
-    this.lastEvent = Immutable.fromJS({
+    super({frequency});
+
+    this.requestConfig = {
+      method: 'post',
+      url: '/api/metrics/lastn',
+      data: {
+        lastn: Math.floor(timeframe / frequency),
+        metricSpec: metrics.map(metric => {
+          return {
+            hostId: snapshot.get('hostId'),
+            pluginId: snapshot.get('pluginId'),
+            steadyId: snapshot.get('steadyId'),
+            metricName: metric
+          };
+        })
+      }
+    };
+
+    this.previousEvent = Immutable.fromJS({
       min,
       max,
       frequency,
       timeframe
     });
-    this.run = this.run.bind(this);
-  }
-
-  start(onNext, onError) {
-    this.running = true;
-    this.onNext = onNext;
-    this.onError = onError;
-    this.run();
-  }
-
-  run() {
-    if (!this.running) return;
-
-    http({
-      method: 'post',
-      url: '/api/metrics/lastn',
-      data: {
-        lastn: Math.floor(this.timeframe / this.frequency),
-        metricSpec: this.metrics.map(metric => {
-          return {
-            hostId: this.snapshot.hostId,
-            pluginId: this.snapshot.pluginId,
-            steadyId: this.snapshot.steadyId,
-            metricName: metric
-          };
-        })
-      }
-    })
-    .then(response => {
-      if (!this.running) return;
-
-      const values = Immutable.fromJS(response.body);
-      if (!Immutable.is(this.lastEvent.get('values'), values)) {
-        this.lastEvent = this.lastEvent.set('values', values);
-        this.onNext(this.lastEvent);
-      }
-      setTimeout(this.run, this.frequency);
-    }, error => {
-      if (!this.running) return;
-      this.onError(error);
-      setTimeout(this.run, this.frequency);
-    });
   }
 
   stop() {
-    this.running = false;
-    this.lastEvent = null;
+    super.stop();
+    this.previousEvent = this.previousEvent.set('values', []);
   }
+
+  getHttpRequestConfig() {
+    return this.requestConfig;
+  }
+
+  buildNextEvent(response) {
+    const newValues = Immutable.fromJS(response.body);
+    if (Immutable.is(newValues, this.previousEvent.get('values'))) {
+      return false;
+    }
+
+    this.previousEvent = this.previousEvent.set('values', newValues);
+    return this.previousEvent;
+  }
+
 }
