@@ -30,6 +30,6 @@
     "sinon": "^1.14.1"
   },
   "publishConfig": {
-    "registry": "http://nexus.instana.com/nexus/content/repositories/instana-npm-releases/"
+    "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"
   }
 }

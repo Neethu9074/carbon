@@ -1,7 +1,7 @@
 # - copy this file and name it .npmrc
 # - update the following props and take note of the _auth description
 
-registry=http://nexus.instana.com/nexus/content/groups/instana-npm-all/
+registry=http://repo.internal.instana.io/nexus/content/groups/instana-npm-all/
 always-auth=true
 init.author.name=Ben Ripkens
 init.author.email=ben@instana.com
