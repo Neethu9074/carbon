@@ -1,4 +1,4 @@
-FROM instana-docker:8080/instana/base:0.2.1
+FROM registry.internal.instana.io/instana/base:0.2.1
 
 MAINTAINER Ben Ripkens "ben@instana.com"
 

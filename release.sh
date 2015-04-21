@@ -1,7 +1,7 @@
 #!/bin/sh
 
 version=`node -e 'console.log(require("./package.json").version)'`
-imageName="instana-docker:8080/instana/ui-client"
+imageName="registry.internal.instana.io/instana/ui-client"
 qualifiedImageName="$imageName:$version"
 echo $qualifiedImageName
 
