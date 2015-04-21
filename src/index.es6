@@ -4,6 +4,10 @@ import './index.less';
 import React from 'react';
 import init from './map';
 
+//logging
+import logging from 'instalog';
+const logger = logging.createLogger('app.es6');
+
 
 const instana3DMap = React.createClass({
   render() {
@@ -14,10 +18,22 @@ const instana3DMap = React.createClass({
     this.props.onClick(a, b);
   },
 
+  componentWillMount() {
+
+  },
+
   componentDidMount() {
     const parent = React.findDOMNode(this.refs.parent);
     const liveData = this.props.liveData;
     init(parent, this.handleClick, liveData);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    logger.debug('receive props:', nextProps);
+  },
+
+  componentWillUnmount() {
+
   }
 });
 
