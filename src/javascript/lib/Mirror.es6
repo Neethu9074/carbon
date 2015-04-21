@@ -75,6 +75,11 @@ class Mirror extends THREE.Object3D{
     this.mirrorCamera.matrixAutoUpdate = true;
 
     this.texture = new THREE.WebGLRenderTarget(width, height);
+    //we need this texture replacing the original one while rendering to
+    //avoid missunderstanding between browser and logic and to avoid
+    //[.WebGLRenderingContext]GL ERROR :GL_INVALID_OPERATION :
+    //glDrawElements: Source and destination textures of the draw are the same.
+    this.emptyTexture = new THREE.WebGLRenderTarget(1, 1);
 
     var mirrorShader = THREE.ShaderLib.mirror; //['mirror']
     var mirrorUniforms = THREE.UniformsUtils.clone(mirrorShader.uniforms);
@@ -198,8 +203,12 @@ class Mirror extends THREE.Object3D{
     }
     this.matrixNeedsUpdate = true;
 
+    this.material.uniforms.mirrorSampler.value = this.emptyTexture;
+
     this.renderer.render(this.scene, this.mirrorCamera, this.texture, true);
     this.composer.render();
+    
+    this.material.uniforms.mirrorSampler.value = this.texture;
   }
 }
 

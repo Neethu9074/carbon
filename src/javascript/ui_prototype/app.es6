@@ -86,7 +86,6 @@ class App {
 		this.setup3D();
 		this.setup2D();
 
-
 		if (isMobile.any()) {
       //the controller for the camera movement controlled by mouse and keys
       this.controller = new TouchControls();
@@ -179,6 +178,10 @@ class App {
 		div.classList.add('webgl-canvas-overlay');
 		div.appendChild(this.cssRenderer.domElement);
 		this.canvas.appendChild(div);
+	}
+
+	isMobileDevice() {
+		return isMobile.any();
 	}
 
 	//events
