@@ -47,13 +47,21 @@ class AbstractMeshCreationFactory {
 		}
 	}
 
-	//abstract rebuild method has to be implemented
-	rebuild() {
-		throw 'NOT IMPLEMENTED EXCEPTION';
+	addFragment(ID, pos, dim, enabled = true) {
+		this.fragments.push({
+			pos: pos,
+			dim: dim,
+			ID: ID, //is needed to identify the fragment when deleting
+			enabled: enabled
+		});
+
+		//set rebuild to true
+		//so that the mesh will be generated on the next event
+		this.rebuildGlobalMesh = true;
 	}
 
-	//abstract addFragment method has to be implemented
-	addFragment() {
+	//abstract rebuild method has to be implemented
+	rebuild() {
 		throw 'NOT IMPLEMENTED EXCEPTION';
 	}
 

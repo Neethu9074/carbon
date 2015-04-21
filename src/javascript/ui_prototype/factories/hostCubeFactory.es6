@@ -2,10 +2,8 @@
 
 import THREE from 'three.js';
 
-import * as geometries from '../geometries';
-import * as materials from '../materials';
-
 import AbstractMeshCreationFactory from './abstractMeshCreationFactory';
+import * as materials from '../materials';
 
 //singleton
 let instance;
@@ -23,29 +21,6 @@ class HostCubeFactory extends AbstractMeshCreationFactory {
 		super();
 	}
 
-	addFragment(pos, dim, ID, enabled = true) {
-		const geo = geometries.cubeGeometry;
-		let cube = new THREE.Mesh(geo);
-
-		cube.scale.copy(dim);
-		cube.position.copy(pos);
-		cube.updateMatrix();
-
-		this.fragments.push({
-			pos: pos,
-			dim: dim,
-			ID: ID, //is needed to identify the fragment when deleting
-			enabled: enabled
-		});
-
-		//set rebuild to true
-		//so that the mesh will be generated on the next event
-		this.rebuildGlobalMesh = true;
-
-		//return empty objecs as a container for further use
-		return new THREE.Object3D();
-	}
-
 	rebuild() {
 		//var t1 = console.time('1');
 		this.app.scene.remove(this.globalMesh);
@@ -53,7 +28,7 @@ class HostCubeFactory extends AbstractMeshCreationFactory {
 
 		const frags = this.getLegalFragments();
 		const cubes = frags.length;
-		const ti = new Uint32Array(cubes * 36);
+		const ti = new Uint32Array(cubes * 30);
 		const tp = new Float32Array(cubes * 24);
 		const tuv = new Float32Array(cubes * 16);
 		for (let i = 0; i < frags.length; i++) {
@@ -62,7 +37,7 @@ class HostCubeFactory extends AbstractMeshCreationFactory {
 			const dim = fragment.dim;
 
 			const o = i * 8; //offset
-			const ii = i * 36;
+			const ii = i * 30;
 
 			//front
 			ti[ii + 0] = 0 + o;
@@ -81,12 +56,12 @@ class HostCubeFactory extends AbstractMeshCreationFactory {
 			ti[ii + 11] = 7 + o;
 
 			//left
-			ti[ii + 12] = 0 + o;
-			ti[ii + 13] = 4 + o;
-			ti[ii + 14] = 7 + o;
-			ti[ii + 15] = 0 + o;
-			ti[ii + 16] = 7 + o;
-			ti[ii + 17] = 3 + o;
+			ti[ii + 12] = 4 + o;
+			ti[ii + 13] = 0 + o;
+			ti[ii + 14] = 3 + o;
+			ti[ii + 15] = 4 + o;
+			ti[ii + 16] = 3 + o;
+			ti[ii + 17] = 7 + o;
 
 			//right
 			ti[ii + 18] = 1 + o;

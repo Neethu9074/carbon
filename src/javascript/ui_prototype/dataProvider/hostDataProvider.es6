@@ -5,6 +5,7 @@ import THREE from 'three.js';
 import DataProvider from './dataProvider';
 import GroundEffect from '../sceneObjects/groundWarningEffect';
 import * as CubeFactory from '../factories/hostCubeFactory';
+import * as TagFactory from '../factories/tagFactory';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as obj from '../obj';
@@ -52,9 +53,20 @@ class HostDataProvider extends DataProvider {
 
   get3DContent() {
     this.factory.addFragment(
+      this.cube.ID,
       this.cube.position,
-      this.cube.dimension,
-      this.cube.ID);
+      this.cube.dimension);
+
+/*
+    const test = TagFactory.getInstance();
+    const numTags = Math.ceil(Math.random() * 4);
+    for (let i = 0; i < numTags; i++) {
+      test.addFragment(
+        this.cube.ID,
+        this.cube.position,
+        this.cube.dimension.clone().multiplyScalar(1.05));
+    }
+*/
 
     //setup collision object
     const coll = this.getCollisionObject();
