@@ -6,8 +6,8 @@ qualifiedImageName="$imageName:$version"
 echo $qualifiedImageName
 
 echo "Building Docker image..."
-docker build -t "$qualifiedImageName" .
-#sudo docker tag -f "$qualifiedImageName" "$imageName:latest"
+sudo docker build -t "$qualifiedImageName" .
+sudo docker tag -f "$qualifiedImageName" "$imageName:latest"
 
 echo "Publishing Docker image..."
-#sudo docker push "$qualifiedImageName"
+sudo docker push "$qualifiedImageName"
