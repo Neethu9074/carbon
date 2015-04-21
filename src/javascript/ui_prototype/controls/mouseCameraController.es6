@@ -17,6 +17,7 @@ class MouseControl extends CameraController {
     this.bindListeners();
 
     this.counterForRayCasting = 0;
+    this.unitsMoved = 0;
 
     app.canvas.addEventListener('mousedown', this.onMouseDown);
     app.canvas.addEventListener('mousemove', this.onMouseMove);
