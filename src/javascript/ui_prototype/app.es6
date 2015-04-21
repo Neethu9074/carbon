@@ -100,7 +100,6 @@ class App {
       //the controller for the camera movement controlled by touch gesture
       this.controller = new MouseControls();
     }
-    logger.info('use', this.controller, 'as controller');
 
 		//a spherical layouter with maxcubes = 2000
 		this.layouter = new Layouter(2000);
@@ -528,6 +527,10 @@ class App {
 
 	getHost(ID) {
 		return _.find(this.hosts, host => host.ID === ID);
+	}
+
+	dispose() {
+		logger.log('dispose:', this);
 	}
 }
 

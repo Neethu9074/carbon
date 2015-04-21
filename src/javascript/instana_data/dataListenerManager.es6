@@ -101,6 +101,10 @@ class DataListenerManager {
     logger.info('inventory', ID, 'was destroyed');
     _.remove(this.detectedInventory, item => item === ID);
   }
+
+  dispose() {
+    logger.log('dispose:', this);
+  }
 }
 
 export default DataListenerManager;

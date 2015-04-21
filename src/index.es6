@@ -2,7 +2,7 @@
 
 import './index.less';
 import React from 'react';
-import init from './map';
+import {init, dispose} from './map';
 
 //logging
 import logging from 'instalog';
@@ -18,14 +18,12 @@ const instana3DMap = React.createClass({
     this.props.onClick(a, b);
   },
 
-  componentWillMount() {
-
-  },
+  componentWillMount() {},
 
   componentDidMount() {
     const parent = React.findDOMNode(this.refs.parent);
     const liveData = this.props.liveData;
-    init(parent, this.handleClick, liveData);
+    this.map = init(parent, this.handleClick, liveData);
   },
 
   componentWillReceiveProps(nextProps) {
@@ -33,7 +31,7 @@ const instana3DMap = React.createClass({
   },
 
   componentWillUnmount() {
-
+    dispose(this.map);
   }
 });
 

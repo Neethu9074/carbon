@@ -11,7 +11,7 @@ import logging from 'instalog';
 const logger = logging.createLogger('map.es6');
 
 
-function init(domElement, clickHandler, liveData){
+export function init(domElement, clickHandler, liveData){
   //first load all resources
   logger.info('Loading resources...');
   load(() => { //on finished
@@ -19,17 +19,29 @@ function init(domElement, clickHandler, liveData){
 
     //start up the UI when all resources are loaded
     const uiApplication = new App(domElement, clickHandler);
+    let dataManager;
 
     if(liveData) {
       //live data each  1000 ms
-      const dataManager = new DataListenerManager(uiApplication, 1000);
+      dataManager = new DataListenerManager(uiApplication, 1000);
       logger.info('get live data via', dataManager);
+
     } else {
       //test setup
       setup(uiApplication);
     }
     logger.info('Finished initialization');
+
+    return {
+      uiApplication: uiApplication,
+      dataManager: dataManager
+    };
   });
 }
 
-export default init;
+export function dispose(map) {
+  map.uiApplication.dispose();
+  if(map.dataManager !== undefined) {
+    map.dataManager.dispose();
+  }
+}
