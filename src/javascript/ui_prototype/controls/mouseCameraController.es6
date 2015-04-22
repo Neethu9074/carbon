@@ -3,9 +3,6 @@
 import THREE from 'three.js';
 
 import CameraController from './cameraController';
-import {createLogger} from 'instalog';
-
-const logger = createLogger('mouseCameraController');
 
 
 //see: https://github.com/instana/visualization/
