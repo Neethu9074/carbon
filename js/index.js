@@ -7,12 +7,7 @@ var colors = {
   governorBay: '#3d2dcf',
   toryBlue: '#0b5cad',
   dodgerBlue: '#15aafe',
-  black: '#000000',
-  mineShaft: '#202020',
-  orient: '#015473',
-  redBerry: '#880000',
-  gold: '#ffd000',
-  flushOrange: '#ff8000'
+  bunker: '#0d1217'
 };
 
 // first level is the color theme's name
@@ -39,28 +34,13 @@ exports.consts = {
     },
     map: {
       colors: {
-        renderClearColor: colors.black,
-        ambientColor: colors.mineShaft,
-        groundColor: colors.cyan,
-        lightColor: colors.cyan,
-        midColor: colors.orient,
-        error: colors.redBerry,
-        warning: colors.gold,
-        connectionColor: colors.flushOrange
+        renderClearColor: colors.bunker
       }
     }
   },
   day: {
     map: {
       colors: {
-        renderClearColor: colors.flushOrange,
-        ambientColor: colors.gold,
-        groundColor: colors.redBerry,
-        lightColor: colors.orient,
-        midColor: colors.cyan,
-        error: colors.cyan,
-        warning: colors.mineShaft,
-        connectionColor: colors.black
       }
     }
   }
