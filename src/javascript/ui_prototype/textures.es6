@@ -15,6 +15,8 @@ export const groundTexture = ( function() {
 	const texture = THREE.ImageUtils.loadTexture(gridTexturePath);
 	texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
 	texture.repeat.set(50, 50);
+	//set the ground anisotropy to the max
+	//because it's a huge ground always seen
 	texture.anisotropy = Math.min(Settings.maxAnisotropy, 16);
 	return texture;
 })();

@@ -12,7 +12,9 @@ import * as App from '../app';
 class CameraController {
 
   constructor() {
+    //save the reference for later use
     const app = App.getApplication();
+
     this.bindListeners();
     this.init(app);
   }
@@ -24,27 +26,34 @@ class CameraController {
 
   init(app) {
     this.appReference = app;
+
+    //holds the mouse/touch position in pixel coordinates
     this.cursor = new THREE.Vector2();
+
     this.cameraSpeed = 10; //mainCamera fly speed - heuristic
     this.cameraLookAtSpeed = 30;
     this.moveSpeed = 0.1; //distance moved per pixel - heuristic
-    this.pitchSpeed = 0.4;
+    this.zoomSpeed = 5;
 
     //zoom fields
     this.maxZoomOut = 1500;
     this.maxZoomIn = 20;
     this.zoomLevel = 150;
-    this.beginToRotate = 40;
+    this.beginToRotate = 40; //the distance where camera begins to slope
 
     //raytracing fields
     this.raycaster = new THREE.Raycaster();
+
+    //holds the mouse/touch position in screen coordinates (x,y) => [-1, 1]
     this.mouseForRay = new THREE.Vector2();
+
+    //holds the last hitten object from raycasting on click or mouseover
     this.hittenObject = undefined;
-    this.timeOnMouseDown = Date.now();
 
     this.leftMouseButtonIsPressed = false;
+
+    //the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
-    this.lastDistance = 0;
 
     const pitch = -25;
     const yaw = -55;
@@ -69,6 +78,7 @@ class CameraController {
 
 
     //.updateMatrixWorld(); is called via update loop
+    //update all object of the hierarchy beginning with the parent
     const targetWorldPos = new THREE.Vector3();
     this.camTransformObject.updateMatrixWorld();
     this.camTransformTranslatedObject.updateMatrixWorld();
@@ -99,8 +109,8 @@ class CameraController {
     const min = this.maxZoomOut;
     const max = this.maxZoomIn;
 
-    const nZoomLevel = this.zoomLevel / (min - max) * 5;
-    delta *= nZoomLevel;
+    const nZoomLevel = this.zoomLevel / (min - max);
+    delta *= nZoomLevel * this.zoomSpeed;
 
     this.zoomLevel -= delta;
     //[min, max]
@@ -120,9 +130,16 @@ class CameraController {
   }
 
   move(dx, dy) {
+    //the pixels moved until last mouseDown / touchDown
+    //set this before dx and dy gets manipulated
+    this.unitsMoved += Math.sqrt(
+      Math.pow(dx, 2) +
+      Math.pow(dy, 2));
+
     const min = this.maxZoomOut;
     const max = this.maxZoomIn;
 
+    //[0, 1] => [1, 11]
     const nZoomLevel = (this.zoomLevel / (min - max) * 10) + 1;
     dx *= nZoomLevel;
     dy *= nZoomLevel;
@@ -130,28 +147,30 @@ class CameraController {
     const transObj = this.camTransformObject;
     transObj.translateX(-dx * this.moveSpeed);
     transObj.translateZ(-dy * this.moveSpeed);
+
     //clamp the position to avoid overflow of the level area
+    //TODO: calculate the bounding box of all cubes inside the scene
+    //(remember to update it) and set the bounds to that
     transObj.position.x = Math.max(-500, transObj.position.x);
     transObj.position.x = Math.min(500, transObj.position.x);
     transObj.position.z = Math.min(500, transObj.position.z);
     transObj.position.z = Math.max(-500, transObj.position.z);
-
-    //the pixels moved until last mouseDown / touchDown
-    this.unitsMoved += Math.sqrt(
-      Math.pow(dx, 2) +
-      Math.pow(dy, 2));
   }
 
   doRayPicking() {
     const app = this.appReference;
+
+    //get the mouse/touch position in pixel coords
     const x = this.cursor.x;
     const y = this.cursor.y;
 
+    //trnasform into screen coords
     this.mouseForRay.x = (x / app.width) * 2 - 1;
     this.mouseForRay.y = -(y / app.height) * 2 + 1;
 
-    //update cameras world matrix
+    //update cameras world matrix to get the correct pos/rotation
     app.mainCamera.updateMatrixWorld();
+
     //update raycaster
     this.raycaster.setFromCamera(this.mouseForRay, app.mainCamera);
 

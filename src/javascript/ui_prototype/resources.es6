@@ -9,6 +9,7 @@ import collObjCubePath from '../../obj/collisionObjectCube.obj';
 import groundEffectPath from '../../obj/cubeGroundPlane.obj';
 
 
+//load all resources synchronous and call onFinished when loading completed
 export function load(onFinished) {
 	loadModel(groundEffectPath, obj.setGroundEffect,
 		function() {
@@ -24,6 +25,7 @@ export function load(onFinished) {
   );
 }
 
+//loads a obj file asynchronous
 function loadModel(model, set, onFinished) {
 	const loader = new THREE.OBJLoader();
 	loader.load(

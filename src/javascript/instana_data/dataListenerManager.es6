@@ -17,7 +17,10 @@ class DataListenerManager {
     this.onInventoryDestroyed = this.onInventoryDestroyed.bind(this);
     this.onHostDestroyed = this.onHostDestroyed.bind(this);
 
+    //save the reference for later use
     this.app = app;
+
+    //set deletion methods so that the manager gets informed on delete
     app.onHostDestroyed = this.onHostDestroyed;
     app.onInventoryDestroyed = this.onInventoryDestroyed;
 
@@ -32,15 +35,11 @@ class DataListenerManager {
   }
 
   onUpdateHosts(currentHosts) {
-    if (currentHosts.error !== undefined) {
-      logger.error(currentHosts.error);
-      return; //if error occured
-    }
-
     for (let i = 0; i < currentHosts.size; i++) {
       const hostMetaData = currentHosts.get(i);
       const hostID = hostMetaData.get('hostId');
 
+      //if there is NO valid host stored
       if (this.detectedHostIds.indexOf(hostID) < 0) {
         //new hostMetaData found!
         this.detectedHostIds.push(hostID);
@@ -52,6 +51,7 @@ class DataListenerManager {
         //hostMetaData is still created
         const host = this.app.getHost(hostID);
         if (host !== undefined) {
+          //change hosts metaData to the new one
           host.changeMetaData(hostMetaData);
         } else {
           logger.debug('no host found for', hostID);
@@ -60,8 +60,11 @@ class DataListenerManager {
     }
   }
 
+  //this method is called by the app if a host was disposed
   onHostDestroyed(ID) {
     logger.info('host', ID, 'was destroyed');
+
+    //remove the host from the list so that it can be recreated again!
     _.remove(this.detectedHostIds, item => item === ID);
   }
 
@@ -97,13 +100,20 @@ class DataListenerManager {
     }
   }
 
+  //this method is called by the app if an inventory cube was disposed
   onInventoryDestroyed(ID) {
     logger.info('inventory', ID, 'was destroyed');
+
+    //remove the host from the list so that it can be recreated again!
     _.remove(this.detectedInventory, item => item === ID);
   }
 
   dispose() {
     logger.log('dispose:', this);
+
+    //dispose InventoryConveyer
+    //clear arrays
+    //set all to null
   }
 }
 

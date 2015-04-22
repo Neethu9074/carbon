@@ -6,7 +6,6 @@ import SceneObject from './sceneObject';
 import DataPackageAnimation from './dataPackagePathAnimation';
 import colors from '../colors';
 
-import systemImagePath from '../../../images/icon_system.png';
 import logging from 'instalog';
 const logger = logging.createLogger('cubeConnection.js');
 

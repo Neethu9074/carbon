@@ -14,24 +14,27 @@ class AbstractMeshCreationFactory {
 
 	constructor() {
 		this.app = app.getApplication();
+
+		//represents the geometry for all combined fragments
 		this.globalGeometry = new THREE.Geometry();
+
+		//a global mesh that stores global geometry
 		this.globalMesh = new THREE.Mesh();
+
+		//stores all added fragments to create the global geometry
 		this.fragments = [];
-		this.registered = false;
-		this.rebuildGlobalMesh = false;
 
 		//bind methods
 		this.update = this.update.bind(this);
 
-		if(!this.registered) {
-			this.registerEvents();
-			this.registered = true;
-		}
+		this.registerEvents();
+		this.rebuildGlobalMesh = false;
 	}
 
 	registerEvents() {
     const update = this.update;
 		this.subscription = this.app.emitter.on('beginUpdate').subscribe(
+			//onEmit
 			function() {
 				update();
 			},
@@ -42,8 +45,8 @@ class AbstractMeshCreationFactory {
 
 	update() {
 		if(this.rebuildGlobalMesh) {
-			this.rebuildGlobalMesh = false;
 			this.rebuild();
+			this.rebuildGlobalMesh = false;
 		}
 	}
 

@@ -16,8 +16,8 @@ class MouseControl extends CameraController {
     const app = this.appReference;
     this.bindListeners();
 
+    //a counter increased by the update loop to counter the num of update calls
     this.counterForRayCasting = 0;
-    this.unitsMoved = 0;
 
     app.canvas.addEventListener('mousedown', this.onMouseDown);
     app.canvas.addEventListener('mousemove', this.onMouseMove);
@@ -41,8 +41,10 @@ class MouseControl extends CameraController {
 
   onMouseWheel(e) {
     e.preventDefault();
-    e = window.event || e; // old IE support
+    e = window.event || e; //old IE support. rofl we support old IE scroll
+    //event support but fireing hardcore webGL stuff which even kills IE...
 
+    //bring the scroll to the same speed as mozilla scroll event
     this.zoom(e.wheelDelta / 50);
   }
 
@@ -57,8 +59,6 @@ class MouseControl extends CameraController {
     if (e.button === 0) {
       this.cursor.x = e.clientX;
       this.cursor.y = e.clientY;
-
-      this.pixelMoved = 0;
 
       //save the state for mouse move
       this.leftMouseButtonIsPressed = true;
@@ -107,7 +107,7 @@ class MouseControl extends CameraController {
   }
 
   update(dTime) {
-    //do it only every x times
+    //do it only every 5 times
     if ((this.counterForRayCasting++ % 5) === 0) {
       this.doRayPicking();
     }

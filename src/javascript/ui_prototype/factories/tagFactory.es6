@@ -27,8 +27,8 @@ class TagFactory extends AbstractMeshCreationFactory {
 		const numOtherFragmentsWithSameId = this.fragments
 			.filter(fragment => fragment.ID === ID).length;
 
-		pos = pos
-			.clone()
+		//translate the tag to stack them
+		pos = pos.clone()
 			.add(new THREE.Vector3(0, numOtherFragmentsWithSameId, 0));
 
 		this.fragments.push({

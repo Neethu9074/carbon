@@ -16,8 +16,6 @@ import React from 'react';
 import observableGenerator from 'rx-observable-generator';
 import Immutable from 'immutable';
 
-import hostImagePath from '../../../images/icon_host.png';
-import systemImagePath from '../../../images/icon_system.png';
 import logging from 'instalog';
 import _ from 'lodash';
 
