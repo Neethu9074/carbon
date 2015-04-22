@@ -2,20 +2,16 @@
 
 import './index.less';
 import React from 'react';
-import {init, dispose} from './map';
+import {init} from './map';
 
 //logging
 import logging from 'instalog';
-const logger = logging.createLogger('app.es6');
+const logger = logging.createLogger('index.es6');
 
 
-const instana3DMap = React.createClass({
+const UiMap = React.createClass({
   render() {
-    return <div className="ui-map" ref="parent" id="WebGL"></div>;
-  },
-
-  handleClick: function(a, b) {
-    this.props.onClick(a, b);
+    return <div className="in-map" ref="parent"/>;
   },
 
   /* Invoked once, both on the client and server,
@@ -32,7 +28,7 @@ const instana3DMap = React.createClass({
   componentDidMount() {
     const parent = React.findDOMNode(this.refs.parent);
     const liveData = this.props.liveData;
-    this.map = init(parent, this.handleClick, liveData);
+    init({parent, liveData, onClick: this.props.onClick});
   },
 
   /* Invoked when a component is receiving new props.
@@ -43,8 +39,8 @@ const instana3DMap = React.createClass({
 
   //Invoked immediately before a component is unmounted from the DOM.
   componentWillUnmount() {
-    dispose(this.map);
+
   }
 });
 
-export default instana3DMap;
+export default UiMap;

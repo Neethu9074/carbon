@@ -1,47 +1,17 @@
 'use strict';
 
-import {load} from './javascript/ui_prototype/resources';
-/*eslint-disable max-len */
-import DataListenerManager from './javascript/instana_data/dataListenerManager';
-/*eslint-enable max-len */
-import App from './javascript/ui_prototype/app';
-import {setup} from './javascript/ui_prototype/testSetup';
+import Scene from './Scene';
 
+//logging
 import logging from 'instalog';
-const logger = logging.createLogger('map.es6');
+//const logger = logging.createLogger('map.es6');
 
 
-export function init(domElement, clickHandler, liveData){
-  //first load all resources
-  logger.info('Loading resources...');
-  load(() => { //on finished
-    logger.info('Initializing application');
+export function init(opts) {
+  const uiApplication = new Scene(opts);
+  //const dataManager = new DataListenerManager(uiApplication, 1000);
 
-    //start up the UI when all resources are loaded
-    const uiApplication = new App(domElement, clickHandler);
-    let dataManager;
-
-    if(liveData) {
-      //live data each  1000 ms
-      dataManager = new DataListenerManager(uiApplication, 1000);
-      logger.info('get live data via', dataManager);
-
-    } else {
-      //test setup
-      setup(uiApplication);
-    }
-    logger.info('Finished initialization');
-
-    return {
-      uiApplication: uiApplication,
-      dataManager: dataManager
-    };
-  });
-}
-
-export function dispose(map) {
-  map.uiApplication.dispose();
-  if(map.dataManager !== undefined) {
-    map.dataManager.dispose();
-  }
+  return {
+    dispose: () => uiApplication.dispose()
+  };
 }
