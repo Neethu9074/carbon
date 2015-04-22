@@ -76,16 +76,14 @@ class MouseControl extends CameraController {
   onMouseUp(e) {
     e.preventDefault();
 
-    logger.debug('On mouse up with event: ', e, ' and unitsMoved ',
-      this.unitsMoved);
     if (this.unitsMoved < 100) {
-
-      //don't forget to set the new position :)
+      //set the new position when clicking (needed for automated tests)
       this.cursor.x = e.clientX;
       this.cursor.y = e.clientY;
 
+      //pick the current object on cursor position
       this.doRayPicking();
-      logger.debug('Recognized mouse up as a click event!');
+
       this.doClick();
     }
 
