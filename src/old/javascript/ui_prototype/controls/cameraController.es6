@@ -1,6 +1,6 @@
 'use strict';
 
-import THREE from 'three.js';
+import THREE from 'three';
 
 import * as math from '../math';
 import * as App from '../app';

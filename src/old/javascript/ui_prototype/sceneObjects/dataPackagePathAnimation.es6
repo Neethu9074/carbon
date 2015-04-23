@@ -1,6 +1,6 @@
 'use strict';
 
-import THREE from 'three.js';
+import THREE from 'three';
 
 import SceneObject from './sceneObject';
 import * as materials from '../materials';

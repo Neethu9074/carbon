@@ -30,7 +30,7 @@
     "react": "^0.13.1",
     "rx-observable-generator": "^2.0.0",
     "rxemitter": "^1.0.0",
-    "three.js": "^0.71.0",
+    "three": "^0.71.0",
     "tween.js": "^0.14.0",
     "webcola": "git://github.com/tgdwyer/WebCola.git#efcc09527ae76186b18db6afd4e3d6dd427d940a"
   },

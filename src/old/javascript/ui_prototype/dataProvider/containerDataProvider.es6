@@ -1,6 +1,6 @@
 'use strict';
 
-import THREE from 'three.js';
+import THREE from 'three';
 import * as geometries from '../geometries';
 import * as materials from '../materials';
 import * as obj from '../obj';

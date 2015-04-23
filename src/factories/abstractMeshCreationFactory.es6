@@ -1,6 +1,6 @@
 'use strict';
 
-import THREE from 'three.js';
+import THREE from 'three';
 import * as EventEmitter from '../eventEmitter';
 import _ from 'lodash';
 

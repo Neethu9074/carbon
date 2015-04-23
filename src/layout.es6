@@ -1,6 +1,6 @@
 'use strict';
 
-import THREE from 'three.js';
+import THREE from 'three';
 
 export default function applyLayout(map) {
   map.zones.forEach((zone, zoneIndex) => {

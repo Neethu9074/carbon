@@ -1,6 +1,6 @@
 'use strict';
 
-import THREE from 'three.js';
+import THREE from 'three';
 
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';

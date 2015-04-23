@@ -1,6 +1,6 @@
 'use strict';
 
-import THREE from 'three.js';
+import THREE from 'three';
 
 import _ from 'lodash';
 import Immutable from 'immutable';

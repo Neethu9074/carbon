@@ -2,7 +2,7 @@
 
 import './app.less';
 
-import THREE from 'three.js';
+import THREE from 'three';
 import '../lib/CSS3DRenderer';
 import '../lib/Octree';
 
