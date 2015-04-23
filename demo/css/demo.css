@@ -1,7 +1,21 @@
 body {
   margin: 0;
   overflow: hidden;
+  font-family: sans-serif;
+  font-size: 13px;
 }
+
+.demo-open-with-live-data {
+  position: absolute;
+  top: 1em;
+  right: 1em;
+  border: 1px solid black;
+  border-radius: 3px;
+  background: #ddd;
+  padding: .1em .3em;
+  cursor: pointer;
+}
+
 input {
   width: 120px;
   margin: 2px;
