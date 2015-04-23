@@ -1,5 +1,22 @@
 .in-sticky-note {
   position: absolute;
-
   color: white;
+
+  @title-size: 1.2em;
+  margin-top: @title-size * -1;
+
+  img {
+    width: auto;
+    height: @title-size * 1.1;
+    margin: 0 .6em;
+  }
+
+  h2 {
+    font-size: @title-size;
+    display: inline;
+  }
+
+  p {
+    display: none;
+  }
 }
