@@ -6,7 +6,7 @@ const HOST_SIZE = 1;
 const ZONE_PADDING = 1;
 const ZONE_MARGIN = 1;
 const MAX_HOSTS_PER_ROW = 3;
-const HOST_PADDING = 1;
+const HOST_PADDING = 2;
 
 // Each host takes up one unit horizontally.
 const ZONE_WIDTH = MAX_HOSTS_PER_ROW +
