@@ -4,7 +4,7 @@ import THREE from 'three.js';
 
 export default class SceneObject {
 
-  constructor({parent, pos = new THREE.Vector()}) {
+  constructor({parent, pos = new THREE.Vector3()}) {
     this.position = pos.clone();
     this.parent = parent;
   }

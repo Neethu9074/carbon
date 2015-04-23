@@ -2,7 +2,7 @@
 
 import SceneObject from './SceneObject';
 
-export default class Area extends SceneObject {
+export default class Zone extends SceneObject {
 
   constructor({parent}) {
     super({parent});
