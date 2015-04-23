@@ -15,13 +15,34 @@ export default class Host extends SceneObject {
     this.id = id;
 
     const mat = new THREE.MeshBasicMaterial({
-      color: 0x606060,
+      color: 0x232d36,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
       blending: THREE.NormalBlending
     });
-    this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), mat);
+
+    const matB = new THREE.MeshBasicMaterial({
+      color: 0x323d45,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.NormalBlending
+    });
+    const matC = new THREE.MeshBasicMaterial({
+      color: 0x37424a,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.NormalBlending
+    });
+
+    const mats = [
+      mat, matB, matC, mat, matB, matC
+    ];
+    const finalMat = new THREE.MeshFaceMaterial(mats);
+
+    this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), finalMat);
     this.addSceneObject(this.cube);
   }
 
