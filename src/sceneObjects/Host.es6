@@ -9,7 +9,7 @@ import eventEmitter from '../eventEmitter';
 import StickyNote from './StickyNote';
 
 const stickyNoteLineStartLocalPosition = new THREE.Vector3(0, 0.5, 0);
-const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 1, 0.5);
+const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 
 export default class Host extends SceneObject {
 
