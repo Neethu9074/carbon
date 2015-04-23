@@ -81,7 +81,7 @@ export default class Scene {
       2000
     );
 
-    this.camera.position.set(-10, 10, 10);
+    this.camera.position.set(-30, 30, 30);
     this.camera.lookAt(new THREE.Vector3());
   }
 
