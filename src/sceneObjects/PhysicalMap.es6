@@ -14,7 +14,7 @@ const mapSize = 1000;
 export default class PhysicalMap extends SceneObject {
 
 	constructor({scene}) {
-		super({parent: null});
+		super({parent: scene});
 
 		this.scene = scene;
     this.zones = [];
@@ -23,7 +23,8 @@ export default class PhysicalMap extends SceneObject {
 		const mat = new THREE.MeshBasicMaterial({
 			map: this.getGroundTexture(),
 			transparent: true,
-			opacity: 0.1
+			opacity: 0.1,
+			depthWrite: false
 		});
 
 		const ground = new THREE.Mesh(geo, mat);
@@ -37,7 +38,7 @@ export default class PhysicalMap extends SceneObject {
 	getGroundTexture() {
 		const texture = THREE.ImageUtils.loadTexture(groundTexturePath);
 		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set(mapSize, mapSize);
+		texture.repeat.set(mapSize + 1, mapSize + 1);
 		//set the ground anisotropy to the max
 		//because it's a huge ground always seen
 		texture.anisotropy = 8;
