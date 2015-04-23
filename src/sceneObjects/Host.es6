@@ -10,6 +10,7 @@ export default class Host extends SceneObject {
   constructor({parent, snapshot}) {
     super({parent});
     this.id = snapshot.get('hostId');
+    this.snapshot = snapshot;
     this.render();
     this.addStickyNote();
   }
@@ -48,11 +49,15 @@ export default class Host extends SceneObject {
   }
 
   addStickyNote() {
-    
+
   }
 
   setLocalPosition(position) {
     super.setLocalPosition(position);
     this.cube.position.copy(this.getWorldPosition());
+  }
+
+  onUpdate(snapshot) {
+    this.snapshot = snapshot;
   }
 }

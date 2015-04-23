@@ -5,7 +5,6 @@ import THREE from 'three';
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import RxEmitter from 'rxemitter';
-import layout from './layout';
 
 
 export default class Scene {
@@ -26,8 +25,6 @@ export default class Scene {
 
     this.setup3D();
     this.update();
-
-    layout(this.map);
 
     window.addEventListener('resize', this.onWindowResize, false);
   }

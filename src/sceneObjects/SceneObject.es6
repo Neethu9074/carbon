@@ -7,6 +7,7 @@ export default class SceneObject {
   constructor({parent, pos = new THREE.Vector3()}) {
     this.position = pos.clone();
     this.parent = parent;
+    this.subscriptions = [];
   }
 
 	setLocalPosition(newPos) {
@@ -33,5 +34,14 @@ export default class SceneObject {
 
   removeSceneObject(obj) {
     this.parent.removeSceneObject(obj);
+  }
+
+  addSubscription(subscription) {
+    this.subscriptions.push(subscription);
+  }
+
+  dispose() {
+    this.subscriptions.forEach(subscription => subscription.dispose());
+    this.subscriptions = [];
   }
 }
