@@ -1,24 +1,24 @@
 'use strict';
 
 export default function applyLayout(map) {
-  // const graph = buildColaGraphStructure(map);
+  const structure = buildColaGraphStructure(map);
 
-  // var cola = cola.d3adaptor()
-  //         .linkDistance(100)
-  //         .avoidOverlaps(true)
-  //         .handleDisconnected(false)
-  //         .size([100, 100]);
-  //
-  // cola
-  //             .nodes(graph.nodes)
-  //             .links(graph.links)
-  //             .groups(graph.groups)
-  //             .start();
-  //
-  //
-  // cola.on('tick', function() {
-  //   console.log('tick', arguments);
-  // });
+  const cola = cola.d3adaptor()
+    .linkDistance(100)
+    .avoidOverlaps(true)
+    .handleDisconnected(false)
+    .size([1000, 1000]);
+
+  cola
+    .nodes(structure.graph.nodes)
+    .links(structure.graph.links)
+    .groups(structure.graph.groups)
+    .start();
+
+  cola.on('tick', function() {
+    // TODO
+    // console.log('tick');
+  });
 }
 
 export function buildColaGraphStructure(map) {
