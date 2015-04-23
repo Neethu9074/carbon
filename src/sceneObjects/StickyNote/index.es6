@@ -1,6 +1,6 @@
 'use strict';
 
-import './StickyNote.less';
+import './index.less';
 
 import React from 'react';
 
