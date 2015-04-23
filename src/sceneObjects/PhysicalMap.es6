@@ -2,6 +2,7 @@
 
 import THREE from 'three.js';
 
+import _ from 'lodash';
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
 import Immutable from 'immutable';
@@ -44,12 +45,21 @@ export default class PhysicalMap extends SceneObject {
 	}
 
   fillMap() {
-    const snapshots = this.getSnapshots();
-
-    snapshots.forEach((snapshpot) => {
-      this.zones.push(new Zone());
-    });
+    this.getSnapshots().forEach((host) => this.addHost(host));
   }
+
+	addHost(host) {
+		const zoneId = host.getIn(['snapshot', 'availability-zone']);
+		let zone = _.find(this.zones, zone => zone.id === zoneId);
+		if (!zone) {
+			zone = new Zone({
+				parent: this,
+				id: zoneId
+			});
+			this.zones.push(zone);
+		}
+		zone.addHost(host);
+	}
 
 	getSnapshots() {
 		const snapshots = Immutable.fromJS([{

@@ -26,4 +26,12 @@ export default class SceneObject {
       return this.getLocalPosition();
     }
   }
+
+  addSceneObject(obj) {
+    this.parent.addSceneObject(obj);
+  }
+
+  removeSceneObject(obj) {
+    this.parent.removeSceneObject(obj);
+  }
 }

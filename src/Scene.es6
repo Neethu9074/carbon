@@ -30,6 +30,10 @@ export default class Scene {
     this.scene.add(obj);
   }
 
+  removeSceneObject(obj) {
+    this.scene.remove(obj);
+  }
+
   bindMethods() {
 		this.onWindowResize = this.onWindowResize.bind(this);
     this.update = this.update.bind(this);
