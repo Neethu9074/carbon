@@ -5,7 +5,6 @@ import THREE from 'three';
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import eventEmitter from './eventEmitter';
-import layout from './layout';
 
 
 export default class Scene {
