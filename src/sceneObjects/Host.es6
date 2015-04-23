@@ -30,6 +30,18 @@ export default class Host extends SceneObject {
       cube: obj
     });
 */
+
+    this.cube = obj;
     this.addSceneObject(obj);
+  }
+
+  setLocalPosition(position) {
+    //console.log(position);
+    super.setLocalPosition(position);
+
+    //HostCubeFactory.getInstance().removeFragment(this.id);
+
+    const worldPosition = this.getWorldPosition();
+    this.cube.position.copy(worldPosition);
   }
 }

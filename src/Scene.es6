@@ -5,6 +5,7 @@ import THREE from 'three.js';
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as EventEmitter from './eventEmitter';
+import layout from './layout';
 
 
 export default class Scene {
@@ -26,6 +27,8 @@ export default class Scene {
 
     this.setup3D();
     this.update();
+
+    layout(this.map);
 
     window.addEventListener('resize', this.onWindowResize, false);
   }
@@ -58,16 +61,16 @@ export default class Scene {
 
     this.map = new PhysicalMap({scene: this});
 
-/*
+    /*
     //set the farplane as near as possible
     this.camera = new THREE.PerspectiveCamera(
       30, //fov
       width / height, //aspect
       0.5, //near
       2000); //far
-*/
+    */
 
-    const size = 10;
+    const size = 30;
     const aspect = width / height;
     this.camera = new THREE.OrthographicCamera(
       -size / 2 * aspect,
@@ -75,9 +78,10 @@ export default class Scene {
       size / 2,
       -size / 2,
       0.5,
-      2000);
+      2000
+    );
 
-    this.camera.position.set(-10, 10, 10);
+    this.camera.position.set(-30, 30, 30);
     this.camera.lookAt(new THREE.Vector3());
   }
 

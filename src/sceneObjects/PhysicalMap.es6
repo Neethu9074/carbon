@@ -3,23 +3,22 @@
 import THREE from 'three.js';
 
 import _ from 'lodash';
+import Immutable from 'immutable';
+
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
-import Immutable from 'immutable';
 import Zone from './Zone';
-
-const mapSize = 1000;
-
 
 export default class PhysicalMap extends SceneObject {
 
 	constructor({scene}) {
 		super({parent: scene});
 
+		this.size = 1000;
 		this.scene = scene;
     this.zones = [];
 
-		const geo = new THREE.PlaneBufferGeometry(mapSize, mapSize, 1, 1);
+    const geo = new THREE.PlaneBufferGeometry(this.size, this.size, 1, 1);
 		const mat = new THREE.MeshBasicMaterial({
 			map: this.getGroundTexture(),
 			transparent: true,
@@ -38,7 +37,7 @@ export default class PhysicalMap extends SceneObject {
 	getGroundTexture() {
 		const texture = THREE.ImageUtils.loadTexture(groundTexturePath);
 		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set(mapSize, mapSize);
+		texture.repeat.set(this.size, this.size);
 		//set the ground anisotropy to the max
 		//because it's a huge ground always seen
 		texture.anisotropy = 8;
