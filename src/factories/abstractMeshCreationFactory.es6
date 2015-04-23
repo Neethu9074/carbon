@@ -47,10 +47,9 @@ export default class AbstractMeshCreationFactory {
 		}
 	}
 
-	addFragment({ID, pos, dim, enabled = true}) {
+	addFragment({ID, cube, enabled = true}) {
 		this.fragments.push({
-			pos: pos,
-			dim: dim,
+			cube: cube,
 			ID: ID, //is needed to identify the fragment when deleting
 			enabled: enabled
 		});

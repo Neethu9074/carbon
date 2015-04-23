@@ -15,15 +15,21 @@ export default class Host extends SceneObject {
     this.id = id;
 
     const pos = this.getWorldPosition();
-
-    HostCubeFactory.getInstance().addFragment({
-      ID: Math.random(),
-      pos: pos.clone().add(new THREE.Vector3(
+    const obj = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1));
+    obj.position
+      .copy(pos)
+      .add(new THREE.Vector3(
         Math.ceil(Math.random() * 5),
         0,
-        -Math.ceil(Math.random() * 5)
-      )),
-      dim: new THREE.Vector3(1, 1, 1)
+        Math.ceil(Math.random() * 5)));
+    obj.updateMatrix();
+
+/*
+    HostCubeFactory.getInstance().addFragment({
+      ID: Math.random(),
+      cube: obj
     });
+*/
+    this.addSceneObject(obj);
   }
 }
