@@ -27,8 +27,6 @@ export default class Scene {
     this.setup3D();
     this.update();
 
-    layout(this.map);
-
     window.addEventListener('resize', this.onWindowResize, false);
   }
 

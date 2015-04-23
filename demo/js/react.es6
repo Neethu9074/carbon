@@ -9,13 +9,8 @@ export default function init() {
   const consoleAppender = new logging.ConsoleAppender();
   logging.addAppender(consoleAppender);
 
-  let liveData = false;
-  if(window.location.search === '?livedata') {
-    liveData = true;
-  }
-
   React.render(
-    <Map liveData={liveData} onClick={onClick}/>,
+    <Map onClick={onClick}/>,
     document.getElementById('map')
   );
 
