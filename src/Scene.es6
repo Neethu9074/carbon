@@ -16,6 +16,7 @@ export default class Scene {
     this.parent = parent;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
+    this.cameraSize = 10;
 
     //time properties
 		this.timeOfLastFrameUpdate = Date.now();
@@ -67,13 +68,13 @@ export default class Scene {
       2000); //far
     */
 
-    const size = 10;
+
     const aspect = width / height;
     this.camera = new THREE.OrthographicCamera(
-      -size / 2 * aspect,
-      size / 2 * aspect,
-      size / 2,
-      -size / 2,
+      -this.cameraSize / 2 * aspect,
+      this.cameraSize / 2 * aspect,
+      this.cameraSize / 2,
+      -this.cameraSize / 2,
       0.5,
       2000
     );
@@ -88,7 +89,9 @@ export default class Scene {
 
 		this.renderer.setSize(this.width, this.height);
 
-		this.camera.aspect = this.width / this.height;
+		const aspect = this.width / this.height;
+    this.camera.left = -this.cameraSize / 2 * aspect;
+    this.camera.right = this.cameraSize / 2 * aspect;
 		this.camera.updateProjectionMatrix();
 	}
 
