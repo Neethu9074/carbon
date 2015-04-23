@@ -4,6 +4,7 @@ import THREE from 'three.js';
 
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
+import * as EventEmitter from './eventEmitter';
 
 
 export default class Scene {
@@ -19,6 +20,9 @@ export default class Scene {
 		this.timeOfLastFrameUpdate = Date.now();
 		this.deltaTime = 0;
 		this.timeSinceFirstFrame = 0;
+
+    //create the event emitter
+		this.emitter = EventEmitter.getInstance();
 
     this.setup3D();
     this.update();
@@ -87,6 +91,10 @@ export default class Scene {
 		this.camera.updateProjectionMatrix();
 	}
 
+  getWorldPosition() {
+    return new THREE.Vector3();
+  }
+
 	calculateDeltaTime() {
 		const timeNow = Date.now();
 		this.deltaTime = (timeNow - this.timeOfLastFrameUpdate) / 1000; //in ms
@@ -98,10 +106,16 @@ export default class Scene {
     if(this.disposed){
       return;
     }
-
     requestAnimationFrame(this.update);
 
+    //fire event for updating stats
+		this.emitter.emit('beginUpdate');
+
     this.calculateDeltaTime();
+
+    //update is done
+		this.emitter.emit('endUpdate', {scene: this });
+
     this.render();
   }
 
