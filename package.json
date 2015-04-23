@@ -7,7 +7,7 @@
     "build": "webpack",
     "dev": "proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/configurable.html && webpack-dev-server --host 0.0.0.0 --port 7272",
     "clean": "rm -rf target/",
-    "test": "eslint --ext .es6 src/ && mocha --compilers js:babel/register src/tests/*_test.es6"
+    "test": "eslint --ext .es6 src/ && mocha --compilers js:babel/register src/**/*_test.es6"
   },
   "repository": {
     "type": "git",
@@ -31,7 +31,8 @@
     "rx-observable-generator": "^2.0.0",
     "rxemitter": "^1.0.0",
     "three.js": "^0.71.0",
-    "tween.js": "^0.14.0"
+    "tween.js": "^0.14.0",
+    "webcola": "git://github.com/tgdwyer/WebCola.git#efcc09527ae76186b18db6afd4e3d6dd427d940a"
   },
   "devDependencies": {
     "babel": "^5.1.11",

@@ -1,4 +1,5 @@
 src/javascript/lib
+src/old
 gulpfile.js
 webpack.config.js
 demo/js/lib/rStats.extras.js
