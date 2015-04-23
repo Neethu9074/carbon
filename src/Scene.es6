@@ -4,7 +4,7 @@ import THREE from 'three';
 
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import RxEmitter from 'rxemitter';
+import eventEmitter from './eventEmitter';
 import layout from './layout';
 
 
@@ -22,7 +22,7 @@ export default class Scene {
 		this.deltaTime = 0;
 		this.timeSinceFirstFrame = 0;
 
-		this.emitter = new RxEmitter();
+		this.emitter = eventEmitter;
 
     this.setup3D();
     this.update();
@@ -69,7 +69,7 @@ export default class Scene {
       2000); //far
     */
 
-    const size = 30;
+    const size = 10;
     const aspect = width / height;
     this.camera = new THREE.OrthographicCamera(
       -size / 2 * aspect,

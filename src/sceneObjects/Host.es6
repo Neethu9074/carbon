@@ -4,14 +4,32 @@ import THREE from 'three';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
+import eventEmitter from '../eventEmitter';
+
 
 export default class Host extends SceneObject {
 
   constructor({parent, snapshot}) {
     super({parent});
+
+    this.getStickNoteScreenPosition =
+      this.getStickNoteScreenPosition.bind(this);
+    this.update = this.update.bind(this);
+
     this.id = snapshot.get('hostId');
     this.render();
     this.addStickyNote();
+    this.registerEvents();
+	}
+
+	registerEvents() {
+    const update = this.update;
+		this.subscription = eventEmitter.on('endUpdate').subscribe(
+			//onEmit
+			function(data) {
+				update(data);
+			}
+    );
   }
 
   render() {
@@ -48,7 +66,45 @@ export default class Host extends SceneObject {
   }
 
   addStickyNote() {
-    
+    const topOfCube = new THREE.Vector3(0, 0.5, 0);
+    this.stickNotePosition = new THREE.Vector3(0.5, 1, 0.5);
+
+    const geo = new THREE.Geometry();
+    geo.vertices.push(topOfCube);
+    geo.vertices.push(this.stickNotePosition);
+
+    const mat = new THREE.LineBasicMaterial({
+      color: 0xA0A0A0
+    });
+
+    const line = new THREE.Line(geo, mat);
+    this.cube.add(line);
+  }
+
+  update(data) {
+    const worldPos = new THREE.Vector3();
+    worldPos.applyMatrix4(this.cube.matrixWorld);
+
+    const pos2D = this.getStickNoteScreenPosition(
+      worldPos,
+      data.scene.camera,
+      data.scene.width,
+      data.scene.height
+    );
+  }
+
+  getStickNoteScreenPosition(position, camera, width, height) {
+    const pos = position.clone();
+    const projScreenMat = new THREE.Matrix4();
+    projScreenMat.multiplyMatrices(
+      camera.projectionMatrix,
+      camera.matrixWorldInverse);
+    pos.applyMatrix4(projScreenMat);
+
+    return {
+      x: (pos.x + 1) * width / 2,
+      y: (-pos.y + 1) * height / 2
+    };
   }
 
   setLocalPosition(position) {
