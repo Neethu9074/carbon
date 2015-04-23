@@ -22,14 +22,13 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
 
 	rebuild() {
 		//var t1 = console.time('1');
-		//this.app.scene.remove(this.globalMesh);
 		this.globalGeometry.dispose();
 
 		const frags = this.getLegalFragments();
 		const cubes = frags.length;
 		const ti = new Uint32Array(cubes * 30);
 		const tp = new Float32Array(cubes * 24);
-		const tuv = new Float32Array(cubes * 16);
+
 		for (let i = 0; i < frags.length; i++) {
 			const fragment = frags[i];
 			const pos = fragment.pos;
@@ -89,18 +88,6 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
 			ti[ii + 29] = 7 + o;
 
 
-      const iuv = i * 16;
-      tuv[iuv + 0] = 0; tuv[iuv + 1] = 0;
-      tuv[iuv + 2] = 1; tuv[iuv + 3] = 0;
-      tuv[iuv + 4] = 1; tuv[iuv + 5] = 1;
-      tuv[iuv + 6] = 0; tuv[iuv + 7] = 1;
-
-      tuv[iuv + 8] = 0; tuv[iuv + 9] = 1;
-      tuv[iuv + 10] = 1; tuv[iuv + 11] = 1;
-      tuv[iuv + 12] = 1; tuv[iuv + 13] = 0;
-      tuv[iuv + 14] = 0; tuv[iuv + 15] = 0;
-
-
 			const rx = pos.x;
 			const ry = pos.y;
 			const rz = pos.z;
@@ -152,15 +139,17 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
 		this.globalGeometry.addAttribute('position',
 			new THREE.BufferAttribute(tp, 3));
 
-		//add the uv coordinates
-		this.globalGeometry.addAttribute('uv',
-			new THREE.BufferAttribute(tuv, 2));
 		this.globalGeometry.computeVertexNormals();
 
-		//const material = materials.cubeHostMaterial;
-		this.globalMesh = new THREE.Mesh(this.globalGeometry);
+		const material = new THREE.MeshBasicMaterial({
+			color: 0xF0FF00,
+			transparent: true,
+			opacity: 0.25,
+			blending: THREE.NormalBlending,
+			side: THREE.DoubleSide
+		});
 
-		//this.app.scene.add(this.globalMesh);
+		this.globalMesh = new THREE.Mesh(this.globalGeometry, material);
 		//var t2 = console.timeEnd('1');
 	}
 }

@@ -60,6 +60,14 @@ export default class AbstractMeshCreationFactory {
 		this.rebuildGlobalMesh = true;
 	}
 
+	removeFragment(ID) {
+		_.remove(this.fragments, fragment => fragment.id === ID);
+
+		//set rebuild to true
+		//so that the mesh will be generated on the next event
+		this.rebuildGlobalMesh = true;
+	}
+
 	//abstract rebuild method has to be implemented
 	rebuild() {
 		throw 'NOT IMPLEMENTED EXCEPTION';
