@@ -3,76 +3,21 @@
 import THREE from 'three.js';
 
 export default function applyLayout(map) {
-  const structure = buildColaGraphStructure(map);
-
-  const cola = window.cola.d3adaptor()
-    .linkDistance(100)
-    .avoidOverlaps(true)
-    .handleDisconnected(false)
-    .size([map.size, map.size]);
-
-  cola
-    .nodes(structure.graph.nodes)
-    .links(structure.graph.links)
-    .groups(structure.graph.groups)
-    .start();
-
-  cola.on('tick', function() {
-    applyPositionUpdate(map, structure);
+  map.zones.forEach((zone, zoneIndex) => {
+    zone.hosts.forEach((host, hostIndex) => {
+      const [x, y] = getCubePosition(zoneIndex, hostIndex);
+      host.setLocalPosition(new THREE.Vector3(
+        x,
+        0,
+        -y
+      ));
+    });
   });
 }
 
-
-export function buildColaGraphStructure(map) {
-  const graph = {
-    nodes: [],
-    links: [],
-    groups: []
-  };
-
-  // cola is indexed based, we are ID based. We use this
-  // to translate between both worlds
-  const zoneToGroupNumberMapping = {};
-  const hostToNodeNumberMapping = {};
-
-  let numberOfHosts = 0;
-  map.zones.forEach((zone, zoneNumber) => {
-    const group = {leaves: []};
-    graph.groups.push(group);
-    zoneToGroupNumberMapping[zone.id] = zoneNumber;
-
-    zone.hosts.forEach(host => {
-      const hostNumber = numberOfHosts++;
-      hostToNodeNumberMapping[host.id] = hostNumber;
-      graph.nodes[hostNumber] = {
-        name: hostNumber + '',
-        width: 1,
-        height: 1
-      };
-      group.leaves.push(hostNumber);
-    });
-  });
-
-  return {
-    graph,
-    zoneToGroupNumberMapping,
-    hostToNodeNumberMapping
-  };
-}
-
-
-function applyPositionUpdate(map, structure) {
-  map.zones.forEach(zone => {
-    zone.hosts.forEach(host => {
-      const nodeIndex = structure.hostToNodeNumberMapping[host.id];
-      const node = structure.graph.nodes[nodeIndex];
-      host.setLocalPosition(
-        new THREE.Vector3(
-          Math.ceil(node.x) - map.size / 2,
-          0,
-          Math.ceil(node.y * -1) + map.size / 2
-        )
-      );
-    });
-  });
+export function getCubePosition(zoneIndex, hostIndex) {
+  return [
+    zoneIndex * 8 + hostIndex % 3 * 2 + 1,
+    Math.floor(hostIndex / 3) * 2 + 1
+  ];
 }

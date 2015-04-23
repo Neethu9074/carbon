@@ -27,13 +27,11 @@ export default class Host extends SceneObject {
   }
 
   setLocalPosition(position) {
-    // console.log(position);
     super.setLocalPosition(position);
 
     HostCubeFactory.getInstance().removeFragment(this.id);
 
     const worldPosition = this.getWorldPosition();
-    console.log(worldPosition);
     HostCubeFactory.getInstance().addFragment({
       id: this.id,
       pos: worldPosition,
