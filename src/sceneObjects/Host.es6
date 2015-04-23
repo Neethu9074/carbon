@@ -15,7 +15,14 @@ export default class Host extends SceneObject {
     this.id = id;
 
     const pos = this.getWorldPosition();
-    const obj = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1));
+    const mat = new THREE.MeshBasicMaterial({
+      color: 0x606060,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.5,
+      blending: THREE.NormalBlending
+    });
+    const obj = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), mat);
     obj.position
       .copy(pos)
       .add(new THREE.Vector3(
