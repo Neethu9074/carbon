@@ -1,9 +1,11 @@
 'use strict';
 
+import THREE from 'three.js';
+
 export default function applyLayout(map) {
   const structure = buildColaGraphStructure(map);
 
-  const cola = cola.d3adaptor()
+  const cola = window.cola.d3adaptor()
     .linkDistance(100)
     .avoidOverlaps(true)
     .handleDisconnected(false)
@@ -16,10 +18,10 @@ export default function applyLayout(map) {
     .start();
 
   cola.on('tick', function() {
-    // TODO
-    // console.log('tick');
+    applyPositionUpdate(map, structure);
   });
 }
+
 
 export function buildColaGraphStructure(map) {
   const graph = {
@@ -56,4 +58,15 @@ export function buildColaGraphStructure(map) {
     zoneToGroupNumberMapping,
     hostToNodeNumberMapping
   };
+}
+
+
+function applyPositionUpdate(map, structure) {
+  map.zones.forEach(zone => {
+    zone.hosts.forEach(host => {
+      const nodeIndex = structure.hostToNodeNumberMapping[host.id];
+      const node = structure.graph.nodes[nodeIndex];
+      host.setLocalPosition(new THREE.Vector3(node.x, 0, node.y * -1));
+    });
+  });
 }

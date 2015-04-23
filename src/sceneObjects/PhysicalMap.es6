@@ -3,9 +3,10 @@
 import THREE from 'three.js';
 
 import _ from 'lodash';
+import Immutable from 'immutable';
+
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
-import Immutable from 'immutable';
 import Zone from './Zone';
 
 const mapSize = 1000;

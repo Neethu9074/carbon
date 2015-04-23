@@ -5,6 +5,7 @@ import THREE from 'three.js';
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as EventEmitter from './eventEmitter';
+import layout from './layout';
 
 
 export default class Scene {
@@ -26,6 +27,8 @@ export default class Scene {
 
     this.setup3D();
     this.update();
+
+    layout(this.map);
 
     window.addEventListener('resize', this.onWindowResize, false);
   }
