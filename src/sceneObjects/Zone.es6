@@ -20,7 +20,7 @@ export default class Zone extends SceneObject {
 		if (!host) {
 			host = new Host({
 				parent: this,
-				id: hostId
+				snapshot
 			});
 			this.hosts.push(host);
 		}

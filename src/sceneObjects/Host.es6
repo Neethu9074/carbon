@@ -4,16 +4,17 @@ import THREE from 'three';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
-import * as HostCubeFactory from '../factories/hostCubeFactory';
-
 
 export default class Host extends SceneObject {
 
-  constructor({parent, id}) {
+  constructor({parent, snapshot}) {
     super({parent});
+    this.id = snapshot.get('hostId');
+    this.render();
+    this.addStickyNote();
+  }
 
-    this.id = id;
-
+  render() {
     const mat = new THREE.MeshBasicMaterial({
       color: 0x232d36,
       side: THREE.DoubleSide,
@@ -44,6 +45,10 @@ export default class Host extends SceneObject {
 
     this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), finalMat);
     this.addSceneObject(this.cube);
+  }
+
+  addStickyNote() {
+    
   }
 
   setLocalPosition(position) {

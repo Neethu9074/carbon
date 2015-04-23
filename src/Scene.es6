@@ -4,7 +4,7 @@ import THREE from 'three';
 
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import * as EventEmitter from './eventEmitter';
+import RxEmitter from 'rxemitter';
 import layout from './layout';
 
 
@@ -22,8 +22,7 @@ export default class Scene {
 		this.deltaTime = 0;
 		this.timeSinceFirstFrame = 0;
 
-    //create the event emitter
-		this.emitter = EventEmitter.getInstance();
+		this.emitter = new RxEmitter();
 
     this.setup3D();
     this.update();
