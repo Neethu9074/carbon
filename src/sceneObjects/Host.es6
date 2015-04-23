@@ -1,11 +1,15 @@
 'use strict';
 
 import THREE from 'three';
+import React from 'react';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
 import eventEmitter from '../eventEmitter';
+import StickyNote from '../StickyNote';
 
+const stickyNoteLineStartLocalPosition = new THREE.Vector3(0, 0.5, 0);
+const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 1, 0.5);
 
 export default class Host extends SceneObject {
 
@@ -24,13 +28,9 @@ export default class Host extends SceneObject {
 	}
 
 	registerEvents() {
-    const update = this.update;
-		this.subscription = eventEmitter.on('endUpdate').subscribe(
-			//onEmit
-			function(data) {
-				update(data);
-			}
-    );
+		this.addSubscription(eventEmitter.on('endUpdate').subscribe(
+      data => this.update(data)
+    ));
   }
 
   render() {
@@ -67,12 +67,11 @@ export default class Host extends SceneObject {
   }
 
   addStickyNote() {
-    const topOfCube = new THREE.Vector3(0, 0.5, 0);
-    this.stickNotePosition = new THREE.Vector3(0.5, 1, 0.5);
-
     const geo = new THREE.Geometry();
-    geo.vertices.push(topOfCube);
-    geo.vertices.push(this.stickNotePosition);
+    geo.vertices.push(
+      stickyNoteLineStartLocalPosition,
+      stickyNoteLineEndLocalPosition
+    );
 
     const mat = new THREE.LineBasicMaterial({
       color: 0xA0A0A0
@@ -80,18 +79,31 @@ export default class Host extends SceneObject {
 
     const line = new THREE.Line(geo, mat);
     this.cube.add(line);
+
+    this.stickyNoteContainer = document.createElement('div');
+    this.stickyNoteContainer.classList.add('in-sticky-note');
+    this.getHtmlContainer().appendChild(this.stickyNoteContainer);
+
+    React.render(
+      <StickyNote snapshot={this.snapshot} />,
+      this.stickyNoteContainer
+    );
   }
 
   update(data) {
     const worldPos = new THREE.Vector3();
     worldPos.applyMatrix4(this.cube.matrixWorld);
+    worldPos.add(stickyNoteLineEndLocalPosition);
 
-    const pos2D = this.getStickNoteScreenPosition(
+    const [x, y] = this.getStickNoteScreenPosition(
       worldPos,
       data.scene.camera,
       data.scene.width,
       data.scene.height
     );
+
+    this.stickyNoteContainer.style.top = y + 'px';
+    this.stickyNoteContainer.style.left = x + 'px';
   }
 
   getStickNoteScreenPosition(position, camera, width, height) {
@@ -102,10 +114,10 @@ export default class Host extends SceneObject {
       camera.matrixWorldInverse);
     pos.applyMatrix4(projScreenMat);
 
-    return {
-      x: (pos.x + 1) * width / 2,
-      y: (-pos.y + 1) * height / 2
-    };
+    return [
+      (pos.x + 1) * width / 2,
+      (-pos.y + 1) * height / 2
+    ];
   }
 
   setLocalPosition(position) {
@@ -113,7 +125,7 @@ export default class Host extends SceneObject {
     this.cube.position.copy(this.getWorldPosition());
   }
 
-  onUpdate(snapshot) {
+  onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
   }
 }

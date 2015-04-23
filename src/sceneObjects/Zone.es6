@@ -24,7 +24,7 @@ export default class Zone extends SceneObject {
 			});
 			this.hosts.push(host);
 		} else {
-      host.onUpdate(snapshot);
+      host.onSnapshotUpdate(snapshot);
     }
   }
 }

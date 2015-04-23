@@ -68,7 +68,6 @@ export default class Scene {
       2000); //far
     */
 
-
     const aspect = width / height;
     this.camera = new THREE.OrthographicCamera(
       -this.cameraSize / 2 * aspect,
@@ -129,5 +128,9 @@ export default class Scene {
 
   dispose() {
     this.disposed = true;
+  }
+
+  getHtmlContainer() {
+    return this.parent;
   }
 }

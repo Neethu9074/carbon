@@ -14,7 +14,7 @@ const StickyNote = React.createClass({
 
   render() {
     return (
-      <div className="in-sticky-note">
+      <div>
         {this.props.snapshot.get('hostId')}
       </div>
     );
