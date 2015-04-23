@@ -3,7 +3,7 @@ root: false
 ssi: true
 proxy:
   #the local address from gulp dev
-  '/': http://127.0.0.1:8282
+  '/': http://127.0.0.1:7272
 
   #service API
   '/api/': http://127.0.0.1:8080/
