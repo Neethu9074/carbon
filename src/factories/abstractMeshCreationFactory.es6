@@ -47,11 +47,11 @@ export default class AbstractMeshCreationFactory {
 		}
 	}
 
-	addFragment({ID, pos, dim, enabled = true}) {
+	addFragment({id, pos, dim, enabled = true}) {
 		this.fragments.push({
 			pos: pos,
 			dim: dim,
-			ID: ID, //is needed to identify the fragment when deleting
+			id: id, //is needed to identify the fragment when deleting
 			enabled: enabled
 		});
 
@@ -60,8 +60,8 @@ export default class AbstractMeshCreationFactory {
 		this.rebuildGlobalMesh = true;
 	}
 
-	removeFragment(ID) {
-		_.remove(this.fragments, fragment => fragment.id === ID);
+	removeFragment(id) {
+		_.remove(this.fragments, fragment => fragment.id === id);
 
 		//set rebuild to true
 		//so that the mesh will be generated on the next event
@@ -78,16 +78,16 @@ export default class AbstractMeshCreationFactory {
 		return this.fragments.filter(item => item.enabled);
 	}
 
-	disableFragment(ID) {
-		this.fragments.find(item => item.ID === ID).enabled = false;
+	disableFragment(id) {
+		this.fragments.find(item => item.id === id).enabled = false;
 
 		//set rebuild to true
 		//so that the mesh will be generated on the next event
 		this.rebuildGlobalMesh = true;
 	}
 
-	enableFragment(ID) {
-		this.fragments.find(item => item.ID === ID).enabled = true;
+	enableFragment(id) {
+		this.fragments.find(item => item.id === id).enabled = true;
 
 		//set rebuild to true
 		//so that the mesh will be generated on the next event

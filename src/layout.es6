@@ -9,7 +9,7 @@ export default function applyLayout(map) {
     .linkDistance(100)
     .avoidOverlaps(true)
     .handleDisconnected(false)
-    .size([1000, 1000]);
+    .size([map.size, map.size]);
 
   cola
     .nodes(structure.graph.nodes)
@@ -66,7 +66,13 @@ function applyPositionUpdate(map, structure) {
     zone.hosts.forEach(host => {
       const nodeIndex = structure.hostToNodeNumberMapping[host.id];
       const node = structure.graph.nodes[nodeIndex];
-      host.setLocalPosition(new THREE.Vector3(node.x, 0, node.y * -1));
+      host.setLocalPosition(
+        new THREE.Vector3(
+          Math.ceil(node.x) - map.size / 2,
+          0,
+          Math.ceil(node.y * -1) + map.size / 2
+        )
+      );
     });
   });
 }
