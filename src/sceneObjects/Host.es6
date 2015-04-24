@@ -28,9 +28,9 @@ export default class Host extends SceneObject {
 	}
 
 	registerEvents() {
-		this.addSubscription(this.on('endUpdate').subscribe(
-      data => this.update(data)
-    ));
+		this.addSubscription(
+      this.on('endUpdate').subscribe(this.update.bind(this))
+    );
   }
 
   render() {
