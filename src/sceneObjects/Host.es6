@@ -11,6 +11,7 @@ import StickyNote from './StickyNote';
 const stickyNoteLineStartLocalPosition = new THREE.Vector3(0, 0.5, 0);
 const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 
+
 export default class Host extends SceneObject {
 
   constructor({parent, snapshot}) {
@@ -63,6 +64,7 @@ export default class Host extends SceneObject {
     const finalMat = new THREE.MeshFaceMaterial(mats);
 
     this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), finalMat);
+    this.cube.position.y = 0.5;
     this.addSceneObject(this.cube);
   }
 
@@ -123,6 +125,7 @@ export default class Host extends SceneObject {
   setLocalPosition(position) {
     super.setLocalPosition(position);
     this.cube.position.copy(this.getWorldPosition());
+    this.cube.position.y = 0.5;
   }
 
   onSnapshotUpdate(snapshot) {
