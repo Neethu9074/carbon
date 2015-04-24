@@ -29,9 +29,9 @@ export default class CameraController {
     this.zoomSpeed = 5;
 
     //zoom fields
-    this.maxZoomOut = 1000;
+    this.maxZoomOut = 700;
     this.maxZoomIn = 20;
-    this.zoomLevel = 150;
+    this.zoomLevel = 100;
 
     //raytracing fields
     this.raycaster = new THREE.Raycaster();
@@ -46,19 +46,10 @@ export default class CameraController {
     this.unitsMoved = 0;
 
     const pitch = -45;
-    const yaw = -45;
     //transformation helper. need this to move on the ground
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
     scene.addSceneObject(this.camTransformObject);
-
-    this.directionHelper = new THREE.Object3D();
-    this.directionHelper.rotation.x = yaw * Math.PI / 180;
-    this.camTransformObject.add(this.directionHelper);
-
-    this.targetCamPosition = new THREE.Object3D();
-    this.targetCamPosition.translateZ(20);
-    this.directionHelper.add(this.targetCamPosition);
   }
 
   zoom(delta) {
@@ -152,12 +143,9 @@ export default class CameraController {
   update(dTime) {
     const cam = this.scene.camera;
 
-    //this.targetCamPosition.position.set(0, 0, 0);
-    //this.targetCamPosition.translateZ(this.zoomLevel);
-
     //.updateMatrixWorld(); is called via update loop
     const targetWorldPos = new THREE.Vector3();
-    targetWorldPos.applyMatrix4(this.targetCamPosition.matrixWorld);
+    targetWorldPos.applyMatrix4(this.camTransformObject.matrixWorld);
 
     //calculate the delta between wanted position and current position
     const delta = cam.position.clone();
@@ -165,5 +153,7 @@ export default class CameraController {
 
     //apply position
     cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
+
+    cam.translateZ(this.zoomLevel);
   }
 }

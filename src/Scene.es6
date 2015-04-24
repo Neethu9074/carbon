@@ -6,6 +6,7 @@ import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import RxEmitter from 'rxemitter';
 import MouseCameraController from './controls/mouseCameraController';
+import TouchCameraController from './controls/touchCameraController';
 
 
 export default class Scene {
@@ -16,7 +17,7 @@ export default class Scene {
     this.parent = parent;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-    this.cameraSize = 10;
+    this.cameraSize = 30;
 
     //time properties
 		this.timeOfLastFrameUpdate = Date.now();
@@ -29,6 +30,8 @@ export default class Scene {
 
     //controls
     this.controller = new MouseCameraController({scene: this});
+    //this.controller = new TouchCameraController({scene: this});
+    this.controller.zoom(0);
 
     this.update();
 
@@ -60,7 +63,6 @@ export default class Scene {
     this.parent.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-
     this.map = new PhysicalMap({scene: this});
 
     /*
@@ -73,16 +75,15 @@ export default class Scene {
     */
 
     const aspect = width / height;
+    const left = -this.cameraSize / 2 * aspect;
+    const top = this.cameraSize / 2;
     this.camera = new THREE.OrthographicCamera(
-      -this.cameraSize / 2 * aspect,
-      this.cameraSize / 2 * aspect,
-      this.cameraSize / 2,
-      -this.cameraSize / 2,
-      0.5,
-      2000
+      left, -left, top, -top,
+      0.1, //near
+      5000 //far
     );
 
-    this.camera.position.set(-30, 30, 30);
+    this.camera.position.set(-1, 1, 1);
     this.camera.lookAt(new THREE.Vector3());
   }
 
@@ -121,14 +122,6 @@ export default class Scene {
     this.calculateDeltaTime();
     this.controller.update(this.deltaTime);
 
-    this.cameraSize = this.controller.zoomLevel / 10;
-    const aspect = this.width / this.height;
-    this.camera.left = -this.cameraSize / 2 * aspect;
-    this.camera.right = this.cameraSize / 2 * aspect;
-    this.camera.top = this.cameraSize / 2;
-    this.camera.bottom = -this.cameraSize / 2;
-		this.camera.updateProjectionMatrix();
-
     //update is done
 		this.emitter.emit('endUpdate', {scene: this });
 
@@ -153,5 +146,14 @@ export default class Scene {
 
   onZoom(event) {
     this.emitter.emit('zoom', event);
+
+    const zoomLevel = event.zoomLevel;
+    this.cameraSize = zoomLevel / 10;
+    const aspect = this.width / this.height;
+    this.camera.left = -this.cameraSize / 2 * aspect;
+    this.camera.right = this.cameraSize / 2 * aspect;
+    this.camera.top = this.cameraSize / 2;
+    this.camera.bottom = -this.cameraSize / 2;
+		this.camera.updateProjectionMatrix();
   }
 }
