@@ -2,9 +2,9 @@
 
 import THREE from 'three';
 
-import Colors from './Colors';
+import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import eventEmitter from './eventEmitter';
+import RxEmitter from 'rxemitter';
 import MouseCameraController from './controls/mouseCameraController';
 
 
@@ -23,7 +23,7 @@ export default class Scene {
 		this.deltaTime = 0;
 		this.timeSinceFirstFrame = 0;
 
-		this.emitter = eventEmitter;
+		this.emitter = new RxEmitter();
 
     this.setup3D();
 
@@ -54,7 +54,7 @@ export default class Scene {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(Colors.renderClearColor);
+    this.renderer.setClearColor(colors.renderClearColor);
 
     //add webGLRenderer to dom element
     this.parent.appendChild(this.renderer.domElement);
@@ -145,5 +145,9 @@ export default class Scene {
 
   getHtmlContainer() {
     return this.parent;
+  }
+
+  on(event) {
+    return this.emitter.on(event);
   }
 }

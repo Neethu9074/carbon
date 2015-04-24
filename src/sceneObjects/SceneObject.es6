@@ -10,23 +10,13 @@ export default class SceneObject {
     this.subscriptions = [];
   }
 
-	setLocalPosition(newPos) {
+	setPosition(newPos) {
 		this.position.copy(newPos);
 	}
 
-  getLocalPosition() {
+  getPosition() {
 		return this.position;
 	}
-
-  getWorldPosition() {
-    if(this.parent) {
-      return this.getLocalPosition()
-        .clone()
-        .add(this.parent.getWorldPosition());
-    } else {
-      return this.getLocalPosition();
-    }
-  }
 
   addSceneObject(obj) {
     this.parent.addSceneObject(obj);
@@ -47,5 +37,9 @@ export default class SceneObject {
 
   getHtmlContainer() {
     return this.parent.getHtmlContainer();
+  }
+
+  on(event) {
+    return this.parent.on(event);
   }
 }

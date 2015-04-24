@@ -17,9 +17,24 @@ const ZONE_WIDTH = MAX_HOSTS_PER_ROW +
 
 export default function applyLayout(map) {
   map.zones.forEach((zone, zoneIndex) => {
+    const zonePosition = getZonePosition(zoneIndex, zone.hosts.length);
+
+    // add respectively subtract 0.5 to accomodate for central positioning of
+    // hosts.
+    zone.setPosition(new THREE.Vector3(
+      zonePosition.x + zonePosition.width / 2 - 0.5,
+      0,
+      (zonePosition.y + zonePosition.height / 2) * -1 + 0.5
+    ));
+    zone.setScale(new THREE.Vector3(
+      zonePosition.width,
+      zonePosition.height,
+      1
+    ));
+
     zone.hosts.forEach((host, hostIndex) => {
       const position = getCubePosition(zoneIndex, hostIndex);
-      host.setLocalPosition(position);
+      host.setPosition(position);
     });
   });
 }
@@ -38,4 +53,14 @@ export function getCubePosition(zoneIndex, hostIndex) {
       (HOST_SIZE + HOST_PADDING) + ZONE_PADDING;
 
   return new THREE.Vector3(x, 0, -y);
+}
+
+export function getZonePosition(zoneIndex, numberOfHosts) {
+  const x = zoneIndex * (ZONE_WIDTH + ZONE_MARGIN);
+  const y = 0;
+  const width = ZONE_WIDTH;
+  const height = getCubePosition(zoneIndex, numberOfHosts - 1).z * -1 +
+    HOST_SIZE + ZONE_PADDING;
+
+  return {x, y, width, height};
 }

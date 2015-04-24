@@ -5,7 +5,6 @@ import React from 'react';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
-import eventEmitter from '../eventEmitter';
 import StickyNote from './StickyNote';
 
 const stickyNoteLineStartLocalPosition = new THREE.Vector3(0, 0.5, 0);
@@ -29,9 +28,9 @@ export default class Host extends SceneObject {
 	}
 
 	registerEvents() {
-		this.addSubscription(eventEmitter.on('endUpdate').subscribe(
-      data => this.update(data)
-    ));
+		this.addSubscription(
+      this.on('endUpdate').subscribe(this.update.bind(this))
+    );
   }
 
   render() {
@@ -122,9 +121,9 @@ export default class Host extends SceneObject {
     ];
   }
 
-  setLocalPosition(position) {
-    super.setLocalPosition(position);
-    this.cube.position.copy(this.getWorldPosition());
+  setPosition(position) {
+    super.setPosition(position);
+    this.cube.position.copy(position);
     this.cube.position.y = 0.5;
   }
 
