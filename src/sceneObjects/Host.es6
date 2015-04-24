@@ -5,7 +5,6 @@ import React from 'react';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
-import eventEmitter from '../eventEmitter';
 import StickyNote from './StickyNote';
 
 const stickyNoteLineStartLocalPosition = new THREE.Vector3(0, 0.5, 0);
@@ -29,7 +28,7 @@ export default class Host extends SceneObject {
 	}
 
 	registerEvents() {
-		this.addSubscription(eventEmitter.on('endUpdate').subscribe(
+		this.addSubscription(this.on('endUpdate').subscribe(
       data => this.update(data)
     ));
   }

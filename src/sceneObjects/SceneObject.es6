@@ -48,4 +48,8 @@ export default class SceneObject {
   getHtmlContainer() {
     return this.parent.getHtmlContainer();
   }
+
+  on(event) {
+    return this.parent.on(event);
+  }
 }

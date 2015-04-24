@@ -4,7 +4,7 @@ import THREE from 'three';
 
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import eventEmitter from './eventEmitter';
+import RxEmitter from 'rxemitter';
 import MouseCameraController from './controls/mouseCameraController';
 
 
@@ -23,7 +23,7 @@ export default class Scene {
 		this.deltaTime = 0;
 		this.timeSinceFirstFrame = 0;
 
-		this.emitter = eventEmitter;
+		this.emitter = new RxEmitter();
 
     this.setup3D();
 
@@ -145,5 +145,9 @@ export default class Scene {
 
   getHtmlContainer() {
     return this.parent;
+  }
+
+  on(event) {
+    return this.emitter.on(event);
   }
 }
