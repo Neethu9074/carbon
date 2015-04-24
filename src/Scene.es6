@@ -150,4 +150,8 @@ export default class Scene {
   on(event) {
     return this.emitter.on(event);
   }
+
+  onZoom(event) {
+    this.emitter.emit('zoom', event);
+  }
 }

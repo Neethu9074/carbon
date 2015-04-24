@@ -13,15 +13,16 @@ const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 
 export default class Host extends SceneObject {
 
-  constructor({parent, snapshot}) {
+  constructor({parent, snapshot, hostNumber}) {
     super({parent});
 
-    this.getStickNoteScreenPosition =
-      this.getStickNoteScreenPosition.bind(this);
-    this.update = this.update.bind(this);
-
     this.id = snapshot.get('hostId');
+    this.hostNumber = hostNumber;
     this.snapshot = snapshot;
+
+    // TODO Ben get from Scene
+    this.zoomLevel = 150;
+
     this.render();
     this.addStickyNote();
     this.registerEvents();
@@ -30,6 +31,10 @@ export default class Host extends SceneObject {
 	registerEvents() {
 		this.addSubscription(
       this.on('endUpdate').subscribe(this.update.bind(this))
+    );
+
+    this.addSubscription(
+      this.on('zoom').subscribe(this.onZoom.bind(this))
     );
   }
 
@@ -85,10 +90,7 @@ export default class Host extends SceneObject {
     this.stickyNoteContainer.classList.add('in-sticky-note');
     this.getHtmlContainer().appendChild(this.stickyNoteContainer);
 
-    React.render(
-      <StickyNote snapshot={this.snapshot} />,
-      this.stickyNoteContainer
-    );
+    this.renderStickyNote();
   }
 
   update(data) {
@@ -129,9 +131,20 @@ export default class Host extends SceneObject {
 
   onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
+    this.renderStickyNote();
+  }
+
+  renderStickyNote() {
     React.render(
-      <StickyNote snapshot={this.snapshot} />,
+      <StickyNote snapshot={this.snapshot}
+                  zoomLevel={this.zoomLevel}
+                  hostNumber={this.hostNumber}/>,
       this.stickyNoteContainer
     );
+  }
+
+  onZoom(event) {
+    this.zoomLevel = event.zoomLevel;
+    this.renderStickyNote();
   }
 }
