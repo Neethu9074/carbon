@@ -22,9 +22,9 @@ export default class Zone extends SceneObject {
     const geo = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
 		const mat = new THREE.MeshBasicMaterial({
 			transparent: true,
-			opacity: 0.5,
+			opacity: 0.2,
 			depthWrite: false,
-      color: 0xFF0000
+      color: 0x80bff0
 		});
 
 		this.ground = new THREE.Mesh(geo, mat);
@@ -51,10 +51,10 @@ export default class Zone extends SceneObject {
 
   setPosition(position) {
     super.setPosition(position);
-    this.ground.position = position;
+    this.ground.position.copy(position);
   }
 
   setScale(scale) {
-    this.ground.scale = scale;
+    this.ground.scale.copy(scale);
   }
 }

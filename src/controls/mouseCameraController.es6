@@ -108,9 +108,9 @@ class MouseControl extends CameraController {
 
   update(dTime) {
     //do it only every 5 times
-    if ((this.counterForRayCasting++ % 5) === 0) {
+    // if ((this.counterForRayCasting++ % 5) === 0) {
       //this.doRayPicking();
-    }
+    // }
 
     super.update(dTime);
   }

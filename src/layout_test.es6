@@ -3,43 +3,71 @@
 'use strict';
 
 import {expect} from 'chai';
-import {getCubePosition} from './layout';
+import {getCubePosition, getZonePosition} from './layout';
 
 describe('layout', () => {
 
-  it('should calculate cube position', () => {
-    const {x, z} = getCubePosition(0, 0);
-    expect(x).to.equal(1);
-    expect(-z).to.equal(1);
+  describe('cubePosition', () => {
+    it('should calculate cube position', () => {
+      const {x, z} = getCubePosition(0, 0);
+      expect(x).to.equal(1);
+      expect(-z).to.equal(1);
+    });
+
+    it('should support multiple cubes per zone', () => {
+      const {x, z} = getCubePosition(0, 1);
+      expect(x).to.equal(4);
+      expect(-z).to.equal(1);
+    });
+
+    it('should support multiple zones', () => {
+      const {x, z} = getCubePosition(1, 0);
+      expect(x).to.equal(11);
+      expect(-z).to.equal(1);
+    });
+
+    it('should use at most three cubes horizontally', () => {
+      const {x, z} = getCubePosition(0, 3);
+      expect(x).to.equal(1);
+      expect(-z).to.equal(4);
+    });
+
+    it('should support support nine cubes', () => {
+      const {x, z} = getCubePosition(0, 8);
+      expect(x).to.equal(7);
+      expect(-z).to.equal(7);
+    });
+
+    it('should use at most four cubes in multiple zones', () => {
+      const {x, z} = getCubePosition(1, 8);
+      expect(x).to.equal(17);
+      expect(-z).to.equal(7);
+    });
   });
 
-  it('should support multiple cubes per zone', () => {
-    const {x, z} = getCubePosition(0, 1);
-    expect(x).to.equal(4);
-    expect(-z).to.equal(1);
-  });
+  describe('zonePosition', () => {
+    it('should support zones with only one cube', () => {
+      const {x, y, width, height} = getZonePosition(0, 1);
+      expect(x).to.equal(0);
+      expect(y).to.equal(0);
+      expect(width).to.equal(9);
+      expect(height).to.equal(3);
+    });
 
-  it('should support multiple zones', () => {
-    const {x, z} = getCubePosition(1, 0);
-    expect(x).to.equal(11);
-    expect(-z).to.equal(1);
-  });
+    it('should support zones with multiple cubes', () => {
+      const {x, y, width, height} = getZonePosition(0, 4);
+      expect(x).to.equal(0);
+      expect(y).to.equal(0);
+      expect(width).to.equal(9);
+      expect(height).to.equal(6);
+    });
 
-  it('should use at most three cubes horizontally', () => {
-    const {x, z} = getCubePosition(0, 3);
-    expect(x).to.equal(1);
-    expect(-z).to.equal(4);
-  });
-
-  it('should support support nine cubes', () => {
-    const {x, z} = getCubePosition(0, 8);
-    expect(x).to.equal(7);
-    expect(-z).to.equal(7);
-  });
-
-  it('should use at most four cubes in multiple zones', () => {
-    const {x, z} = getCubePosition(1, 8);
-    expect(x).to.equal(17);
-    expect(-z).to.equal(7);
+    it('should support zones with multiple cubes', () => {
+      const {x, y, width, height} = getZonePosition(1, 4);
+      expect(x).to.equal(10);
+      expect(y).to.equal(0);
+      expect(width).to.equal(9);
+      expect(height).to.equal(6);
+    });
   });
 });
