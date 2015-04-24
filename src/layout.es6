@@ -19,7 +19,7 @@ export default function applyLayout(map) {
   map.zones.forEach((zone, zoneIndex) => {
     zone.hosts.forEach((host, hostIndex) => {
       const position = getCubePosition(zoneIndex, hostIndex);
-      host.setLocalPosition(position);
+      host.setPosition(position);
     });
   });
 }

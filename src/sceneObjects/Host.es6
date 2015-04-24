@@ -121,9 +121,9 @@ export default class Host extends SceneObject {
     ];
   }
 
-  setLocalPosition(position) {
-    super.setLocalPosition(position);
-    this.cube.position.copy(this.getWorldPosition());
+  setPosition(position) {
+    super.setPosition(position);
+    this.cube.position.copy(position);
     this.cube.position.y = 0.5;
   }
 
