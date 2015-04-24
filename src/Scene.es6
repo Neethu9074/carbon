@@ -17,7 +17,7 @@ export default class Scene {
     this.parent = parent;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-    this.cameraSize = 10;
+    this.cameraSize = 30;
 
     //time properties
 		this.timeOfLastFrameUpdate = Date.now();
@@ -31,6 +31,7 @@ export default class Scene {
     //controls
     this.controller = new MouseCameraController({scene: this});
     //this.controller = new TouchCameraController({scene: this});
+    this.controller.zoom(0);
 
     this.update();
 
@@ -62,7 +63,6 @@ export default class Scene {
     this.parent.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();
-
     this.map = new PhysicalMap({scene: this});
 
     /*
@@ -75,16 +75,15 @@ export default class Scene {
     */
 
     const aspect = width / height;
+    const left = -this.cameraSize / 2 * aspect;
+    const top = this.cameraSize / 2;
     this.camera = new THREE.OrthographicCamera(
-      -this.cameraSize / 2 * aspect,
-      this.cameraSize / 2 * aspect,
-      this.cameraSize / 2,
-      -this.cameraSize / 2,
-      0.5,
-      2000
+      left, -left, top, -top,
+      0.1, //near
+      5000 //far
     );
 
-    this.camera.position.set(-30, 30, 30);
+    this.camera.position.set(-1, 1, 1);
     this.camera.lookAt(new THREE.Vector3());
   }
 
