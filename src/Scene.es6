@@ -2,7 +2,7 @@
 
 import THREE from 'three';
 
-import Colors from './Colors';
+import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import RxEmitter from 'rxemitter';
 import MouseCameraController from './controls/mouseCameraController';
@@ -54,7 +54,7 @@ export default class Scene {
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(Colors.renderClearColor);
+    this.renderer.setClearColor(colors.renderClearColor);
 
     //add webGLRenderer to dom element
     this.parent.appendChild(this.renderer.domElement);

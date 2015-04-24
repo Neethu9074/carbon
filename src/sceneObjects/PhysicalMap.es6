@@ -72,7 +72,8 @@ export default class PhysicalMap extends SceneObject {
 		if (!zone) {
 			zone = new Zone({
 				parent: this,
-				id: zoneId
+				id: zoneId,
+				zoneIndex: this.zones.length
 			});
 			this.zones.push(zone);
 		}
