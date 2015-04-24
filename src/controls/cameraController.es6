@@ -59,12 +59,6 @@ export default class CameraController {
     this.targetCamPosition = new THREE.Object3D();
     this.targetCamPosition.translateZ(20);
     this.directionHelper.add(this.targetCamPosition);
-
-    if (__DEV__) {
-      this.camTransformObject.add( new THREE.AxisHelper( 2 ) );
-      this.directionHelper.add( new THREE.AxisHelper( 2 ) );
-      this.targetCamPosition.add( new THREE.AxisHelper( 3 ) );
-    }
   }
 
   zoom(delta) {
