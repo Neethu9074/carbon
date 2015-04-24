@@ -5,6 +5,7 @@ import THREE from 'three';
 import Colors from './Colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import eventEmitter from './eventEmitter';
+import MouseCameraController from './controls/mouseCameraController';
 
 
 export default class Scene {
@@ -25,6 +26,10 @@ export default class Scene {
 		this.emitter = eventEmitter;
 
     this.setup3D();
+
+    //controls
+    this.controller = new MouseCameraController({scene: this});
+
     this.update();
 
     window.addEventListener('resize', this.onWindowResize, false);
@@ -114,6 +119,15 @@ export default class Scene {
 		this.emitter.emit('beginUpdate');
 
     this.calculateDeltaTime();
+    this.controller.update(this.deltaTime);
+
+    this.cameraSize = this.controller.zoomLevel / 10;
+    const aspect = this.width / this.height;
+    this.camera.left = -this.cameraSize / 2 * aspect;
+    this.camera.right = this.cameraSize / 2 * aspect;
+    this.camera.top = this.cameraSize / 2;
+    this.camera.bottom = -this.cameraSize / 2;
+		this.camera.updateProjectionMatrix();
 
     //update is done
 		this.emitter.emit('endUpdate', {scene: this });
