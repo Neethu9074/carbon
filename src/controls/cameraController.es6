@@ -71,6 +71,8 @@ export default class CameraController {
     this.zoomLevel -= delta;
     //[min, max]
     this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
+
+    this.scene.zoom(this.zoomLevel);
   }
 
   doClick() {

@@ -6,6 +6,7 @@ import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import RxEmitter from 'rxemitter';
 import MouseCameraController from './controls/mouseCameraController';
+import TouchCameraController from './controls/touchCameraController';
 
 
 export default class Scene {
@@ -29,6 +30,7 @@ export default class Scene {
 
     //controls
     this.controller = new MouseCameraController({scene: this});
+    //this.controller = new TouchCameraController({scene: this});
 
     this.update();
 
@@ -109,6 +111,17 @@ export default class Scene {
 		this.timeSinceFirstFrame += this.deltaTime;
 	}
 
+  //is called by controller
+  zoom(zoomLevel) {
+    this.cameraSize = zoomLevel / 10;
+    const aspect = this.width / this.height;
+    this.camera.left = -this.cameraSize / 2 * aspect;
+    this.camera.right = this.cameraSize / 2 * aspect;
+    this.camera.top = this.cameraSize / 2;
+    this.camera.bottom = -this.cameraSize / 2;
+		this.camera.updateProjectionMatrix();
+  }
+
   update() {
     if(this.disposed){
       return;
@@ -120,14 +133,6 @@ export default class Scene {
 
     this.calculateDeltaTime();
     this.controller.update(this.deltaTime);
-
-    this.cameraSize = this.controller.zoomLevel / 10;
-    const aspect = this.width / this.height;
-    this.camera.left = -this.cameraSize / 2 * aspect;
-    this.camera.right = this.cameraSize / 2 * aspect;
-    this.camera.top = this.cameraSize / 2;
-    this.camera.bottom = -this.cameraSize / 2;
-		this.camera.updateProjectionMatrix();
 
     //update is done
 		this.emitter.emit('endUpdate', {scene: this });
