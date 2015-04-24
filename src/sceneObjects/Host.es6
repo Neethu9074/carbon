@@ -127,5 +127,9 @@ export default class Host extends SceneObject {
 
   onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
+    React.render(
+      <StickyNote snapshot={this.snapshot} />,
+      this.stickyNoteContainer
+    );
   }
 }
