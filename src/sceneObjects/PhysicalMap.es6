@@ -15,7 +15,7 @@ import layout from '../layout';
 export default class PhysicalMap extends SceneObject {
 
 	constructor({scene}) {
-		super({parent: scene});
+    super({parent: scene});
 
 		this.size = 1000;
 		this.scene = scene;
@@ -30,6 +30,8 @@ export default class PhysicalMap extends SceneObject {
 		});
 
 		const ground = new THREE.Mesh(geo, mat);
+    // turn the group around to make it visible. If we wouldn't be doing this,
+    // then backface culling would make it invisible.
 		ground.rotation.x = -90 * Math.PI / 180;
 
 		scene.addSceneObject(ground);
