@@ -24,16 +24,14 @@ export default class CameraController {
     //holds the mouse/touch position in pixel coordinates
     this.cursor = new THREE.Vector2();
 
-    this.cameraSpeed = 10; //mainCamera fly speed - heuristic
-    this.cameraLookAtSpeed = 30;
-    this.moveSpeed = 0.025; //distance moved per pixel - heuristic
+    this.cameraSpeed = 10; //camera fly speed
+    this.moveSpeed = 0.025; //distance moved per pixel
     this.zoomSpeed = 5;
 
     //zoom fields
-    this.maxZoomOut = 1500;
+    this.maxZoomOut = 1000;
     this.maxZoomIn = 20;
     this.zoomLevel = 150;
-    this.beginToRotate = 40; //the distance where camera begins to slope
 
     //raytracing fields
     this.raycaster = new THREE.Raycaster();
@@ -44,59 +42,29 @@ export default class CameraController {
     //holds the last hitten object from raycasting on click or mouseover
     this.hittenObject = undefined;
 
-    this.leftMouseButtonIsPressed = false;
-
     //the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
 
-    const pitch = -25;
-    const yaw = -55;
+    const pitch = -45;
+    const yaw = -45;
     //transformation helper. need this to move on the ground
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
     scene.addSceneObject(this.camTransformObject);
 
-    this.camTransformTranslatedObject = new THREE.Object3D();
-    this.camTransformObject.add(this.camTransformTranslatedObject);
-
     this.directionHelper = new THREE.Object3D();
-    this.directionHelper.position.copy(this.camTransformObject.position);
     this.directionHelper.rotation.x = yaw * Math.PI / 180;
-    this.camTransformTranslatedObject.add(this.directionHelper);
+    this.camTransformObject.add(this.directionHelper);
 
     this.targetCamPosition = new THREE.Object3D();
-    this.targetCamPosition.translateZ(30);
+    this.targetCamPosition.translateZ(20);
     this.directionHelper.add(this.targetCamPosition);
 
-    this.lookAt = new THREE.Object3D();
-
-
-    //.updateMatrixWorld(); is called via update loop
-    //update all object of the hierarchy beginning with the parent
-    const targetWorldPos = new THREE.Vector3();
-    this.camTransformObject.updateMatrixWorld();
-    this.camTransformTranslatedObject.updateMatrixWorld();
-    this.directionHelper.updateMatrixWorld();
-    this.targetCamPosition.updateMatrixWorld();
-    targetWorldPos.applyMatrix4(this.targetCamPosition.matrixWorld);
-    const cam = scene.camera;
-    cam.position.copy(targetWorldPos);
-    cam.lookAt(this.lookAt.position);
-
-    cam.updateMatrixWorld();
-    this.lookAt.rotation.copy(cam.rotation);
-
     if (__DEV__) {
-      this.camTransformObject.add( new THREE.AxisHelper( 3 ) );
-      this.directionHelper.add( new THREE.AxisHelper( 3 ) );
+      this.camTransformObject.add( new THREE.AxisHelper( 2 ) );
+      this.directionHelper.add( new THREE.AxisHelper( 2 ) );
       this.targetCamPosition.add( new THREE.AxisHelper( 3 ) );
-      this.camTransformTranslatedObject.add( new THREE.AxisHelper( 3 ) );
     }
-
-    //color, intensity, range
-    const light = new THREE.PointLight(0x666666, 5.5, 150);
-    light.position.set(0, 12, 0);
-    this.camTransformObject.add(light);
   }
 
   zoom(delta) {
@@ -113,7 +81,6 @@ export default class CameraController {
 
   doClick() {
     if (this.hittenObject !== undefined) {
-
       //clicked on object!
       const targetPosition = this.hittenObject.position;
       this.camTransformObject.position.x = targetPosition.x;
@@ -186,20 +153,10 @@ export default class CameraController {
   }
 
   update(dTime) {
-    //apply flatten effect
-    let angleFactor = 1 -
-      (this.zoomLevel - this.maxZoomIn) /
-      (this.beginToRotate - this.maxZoomIn);
-
-    const targetAngleNorm = Math.max(Math.min(1, angleFactor), 0); //[0, 1]
     const cam = this.scene.camera;
 
-    this.targetCamPosition.position.set(0, 0, 0);
-    this.targetCamPosition.translateZ(this.zoomLevel);
-
-    this.camTransformTranslatedObject.position.set(0, 0, 0);
-    this.camTransformTranslatedObject.translateZ(targetAngleNorm * 5);
-
+    //this.targetCamPosition.position.set(0, 0, 0);
+    //this.targetCamPosition.translateZ(this.zoomLevel);
 
     //.updateMatrixWorld(); is called via update loop
     const targetWorldPos = new THREE.Vector3();
@@ -208,26 +165,8 @@ export default class CameraController {
     //calculate the delta between wanted position and current position
     const delta = cam.position.clone();
     delta.sub(targetWorldPos);
+
     //apply position
-    cam.position.sub(delta.clone().multiplyScalar(dTime * this.cameraSpeed));
-
-    //calculate rotation (lookAt position)
-    const deltaLookAt = this.camTransformObject.position.clone();
-    deltaLookAt.sub(this.lookAt.position);
-    let toMove = deltaLookAt
-      .clone()
-      .multiplyScalar(dTime * this.cameraLookAtSpeed);
-
-    //avoid to go beyond the target position (happens on low FPS, when
-    //dTime grows)
-    if(toMove.length() > deltaLookAt.length()) {
-      toMove = deltaLookAt;
-    }
-
-    this.lookAt.position.copy(cam.position);
-    this.lookAt.translateZ(-this.zoomLevel);
-
-    //apply rotation
-    cam.lookAt(this.lookAt.position);
+    cam.position.sub(delta.multiplyScalar(dTime * this.cameraSpeed));
   }
 }

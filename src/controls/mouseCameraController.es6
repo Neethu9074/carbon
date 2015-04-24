@@ -18,6 +18,8 @@ class MouseControl extends CameraController {
     //a counter increased by the update loop to counter the num of update calls
     this.counterForRayCasting = 0;
 
+    this.leftMouseButtonIsPressed = false;
+
     const canvas = scene.parent;
     canvas.addEventListener('mousedown', this.onMouseDown);
     canvas.addEventListener('mousemove', this.onMouseMove);
