@@ -34,7 +34,12 @@ exports.consts = {
     },
     map: {
       colors: {
-        renderClearColor: colors.bunker
+        renderClearColor: colors.bunker,
+        zones: [
+          '#80bff0',
+          '#31ad90',
+          '#e9d17d'
+        ]
       }
     }
   },
