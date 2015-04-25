@@ -10,4 +10,4 @@ sudo docker build -t "$qualifiedImageName" .
 sudo docker tag -f "$qualifiedImageName" "$imageName:latest"
 
 echo "Publishing Docker image..."
-sudo docker push "$qualifiedImageName"
+sudo docker push $imageName
