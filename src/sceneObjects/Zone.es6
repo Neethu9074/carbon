@@ -19,6 +19,8 @@ export default class Zone extends SceneObject {
   }
 
   renderGround() {
+    const zoneColor = colors.zones[this.zoneIndex];
+
     // using plane size of 1x1 because we are scaling it to the appropriate
     // size
     const geo = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
@@ -26,7 +28,7 @@ export default class Zone extends SceneObject {
 			transparent: true,
 			opacity: 0.2,
 			depthWrite: false,
-      color: colors.zones[this.zoneIndex]
+      color: zoneColor
 		});
 
 		this.ground = new THREE.Mesh(geo, mat);
@@ -35,6 +37,10 @@ export default class Zone extends SceneObject {
 		this.ground.rotation.x = -90 * Math.PI / 180;
 
     this.addSceneObject(this.ground);
+
+    const edge = new THREE.EdgesHelper(this.ground, zoneColor);
+    edge.material.linewidth = 1;
+    this.addSceneObject(edge);
   }
 
   addHost({snapshot, hostNumber}) {
