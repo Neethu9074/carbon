@@ -44,7 +44,8 @@ export default class Host extends SceneObject {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      blending: THREE.NormalBlending
+      blending: THREE.NormalBlending,
+      depthWrite: false
     });
 
     const matB = new THREE.MeshBasicMaterial({
@@ -52,14 +53,18 @@ export default class Host extends SceneObject {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      blending: THREE.NormalBlending
+      blending: THREE.NormalBlending,
+      depthWrite: false
+
     });
     const matC = new THREE.MeshBasicMaterial({
       color: 0x37424a,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      blending: THREE.NormalBlending
+      blending: THREE.NormalBlending,
+      depthWrite: false
+
     });
 
     const mats = [
