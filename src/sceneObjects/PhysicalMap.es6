@@ -27,13 +27,16 @@ export default class PhysicalMap extends SceneObject {
 			map: this.getGroundTexture(),
 			transparent: true,
 			opacity: 0.1,
-			depthWrite: false
+			blending: THREE.NormalBlending,
+			side: THREE.DoubleSide,
+      depthWrite: false
 		});
 
 		const ground = new THREE.Mesh(geo, mat);
     // turn the group around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
 		ground.rotation.x = -90 * Math.PI / 180;
+		ground.position.y = -0.02;
 
 		scene.addSceneObject(ground);
 

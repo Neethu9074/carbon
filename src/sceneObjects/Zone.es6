@@ -27,14 +27,16 @@ export default class Zone extends SceneObject {
 		const mat = new THREE.MeshBasicMaterial({
 			transparent: true,
 			opacity: 0.2,
-			depthWrite: false,
-      color: zoneColor
+      color: zoneColor,
+      side: THREE.DoubleSide,
+      depthWrite: false
 		});
 
 		this.ground = new THREE.Mesh(geo, mat);
     // turn the ground around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
 		this.ground.rotation.x = -90 * Math.PI / 180;
+    this.ground.renderOrder = 1;
 
     this.addSceneObject(this.ground);
 
