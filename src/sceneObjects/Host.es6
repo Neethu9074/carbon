@@ -40,42 +40,9 @@ export default class Host extends SceneObject {
   }
 
   render(width, height, depth) {
-    const mat = new THREE.MeshBasicMaterial({
-      color: 0x232d36,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.5,
-      depthWrite: false,
-      visible: false
-    });
-
-    const matB = new THREE.MeshBasicMaterial({
-      color: 0x323d45,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.5,
-      depthWrite: false,
-      visible: false
-    });
-
-    const matC = new THREE.MeshBasicMaterial({
-      color: 0x37424a,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.5,
-      depthWrite: false,
-      visible: false
-    });
-
-    const mats = [
-      mat, matB, matC, mat, mat, mat
-    ];
-    const finalMat = new THREE.MeshFaceMaterial(mats);
-
-    this.cube = new THREE.Mesh(
-      new THREE.BoxGeometry(width, height, depth), finalMat);
+    this.cube = new THREE.Object3D();
+    this.cube.scale.set(width, height, depth);
     this.cube.position.y = 0.5;
-    this.cube.renderOrder = 2;
 
     const collisionBox = new THREE.Mesh(
       new THREE.BoxGeometry(width, height, depth));
@@ -86,7 +53,6 @@ export default class Host extends SceneObject {
 
     this.position = this.cube.position.clone();
     this.dimension = this.cube.scale.clone();
-    this.collisionObject = collisionBox;
 
     this.addSceneObject(this);
     this.addSceneObject(this.cube);
