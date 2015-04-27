@@ -56,6 +56,7 @@ export default class Host extends SceneObject {
       blending: THREE.NormalBlending,
       depthWrite: false
     });
+
     const matC = new THREE.MeshBasicMaterial({
       color: 0x37424a,
       side: THREE.DoubleSide,
@@ -73,6 +74,13 @@ export default class Host extends SceneObject {
     this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), finalMat);
     this.cube.position.y = 0.5;
     this.cube.renderOrder = 2;
+
+
+    const collisionBox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1));
+    collisionBox.material.visible = false;
+
+    this.cube.collisionObject = collisionBox;
+    this.cube.add(collisionBox);
 
     this.addSceneObject(this.cube);
   }

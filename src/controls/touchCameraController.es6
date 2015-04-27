@@ -52,7 +52,7 @@ class TouchControl extends CameraController{
 
     } else {
       if (this.unitsMoved < 100) {
-        this.doRayPicking();
+        this.getObjectOnCursor();
         this.doClick();
       }
     }

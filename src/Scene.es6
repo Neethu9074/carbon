@@ -2,6 +2,8 @@
 
 import THREE from 'three';
 
+import './lib/Octree';
+
 import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import RxEmitter from 'rxemitter';
@@ -26,6 +28,10 @@ export default class Scene {
 
 		this.emitter = new RxEmitter();
 
+    //stores all objects which should be clickable
+    this.collisionObjects = [];
+
+    this.setupOctree();
     this.setup3D();
 
     //controls
@@ -40,6 +46,12 @@ export default class Scene {
 
   addSceneObject(obj) {
     this.scene.add(obj);
+
+    if(obj.collisionObject !== undefined) {
+      this.octree.add(obj.collisionObject, {
+        useFaces: false
+      });
+    }
   }
 
   removeSceneObject(obj) {
@@ -50,6 +62,25 @@ export default class Scene {
 		this.onWindowResize = this.onWindowResize.bind(this);
     this.update = this.update.bind(this);
 	}
+
+  setupOctree() {
+    //setup octree
+    this.octree = new THREE.Octree({
+      // uncomment below to see the octree (may kill the fps)
+      //scene: this.scene,
+      // when undeferred = true, objects are inserted immediately
+      // instead of being deferred until next octree.update() call
+      // this may decrease performance as it forces a matrix update
+      undeferred: true,
+      // set the max depth of tree
+      depthMax: Infinity,
+      // max number of objects before nodes split or merge
+      objectsThreshold: 8,
+      // percent between 0 and 1 that nodes will overlap each other
+      // helps insert objects that lie over more than one node
+      overlapPct: 0
+    });
+  }
 
   setup3D() {
     const width = this.width;
@@ -120,6 +151,7 @@ export default class Scene {
 		this.emitter.emit('beginUpdate');
 
     this.calculateDeltaTime();
+    this.octree.update();
     this.controller.update(this.deltaTime);
 
     //update is done
@@ -155,5 +187,26 @@ export default class Scene {
     this.camera.top = this.cameraSize / 2;
     this.camera.bottom = -this.cameraSize / 2;
 		this.camera.updateProjectionMatrix();
+  }
+
+  findObjectByRay(raycaster){
+    raycaster.far = Math.min(2500, raycaster.far); //[0, 250]
+
+		const octree2Objects = this.octree.search(
+      raycaster.ray.origin,
+      raycaster.ray.far,
+      true, //true -> organized by objects
+      raycaster.ray.direction);
+
+		const intersections = raycaster
+      .intersectOctreeObjects(octree2Objects);
+		if (intersections.length > 0) {
+			return intersections[0].object;
+		}
+		return undefined;
+  }
+
+  clickedOnObject(/*obj*/) {
+    //TODO something with the clicked obj
   }
 }

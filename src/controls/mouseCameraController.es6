@@ -81,9 +81,8 @@ class MouseControl extends CameraController {
       this.cursor.y = e.clientY;
 
       //pick the current object on cursor position
-      //this.doRayPicking();
-
-      //this.doClick();
+      this.getObjectOnCursor();
+      this.doClick();
     }
 
     if(e.button === 0) {
@@ -111,7 +110,7 @@ class MouseControl extends CameraController {
   update(dTime) {
     //do it only every 5 times
     // if ((this.counterForRayCasting++ % 5) === 0) {
-      //this.doRayPicking();
+      //this.getObjectOnCursor();
     // }
 
     super.update(dTime);

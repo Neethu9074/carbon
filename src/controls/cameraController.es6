@@ -3,9 +3,6 @@
 import THREE from 'three';
 
 
-//see: https://github.com/instana/visualization/
-//commit/2a09db973b63cfbfa22b1b94769c0ca5c887628b/
-//src/images/scetches/mouseControl.png
 export default class CameraController {
 
   constructor({scene}) {
@@ -37,7 +34,7 @@ export default class CameraController {
     this.raycaster = new THREE.Raycaster();
 
     //holds the mouse/touch position in screen coordinates (x,y) => [-1, 1]
-    this.mouseForRay = new THREE.Vector2();
+    this.cursorForRay = new THREE.Vector2();
 
     //holds the last hitten object from raycasting on click or mouseover
     this.hittenObject = undefined;
@@ -68,14 +65,17 @@ export default class CameraController {
   }
 
   doClick() {
+    //if an object was found via raycasting, inform the scene
     if (this.hittenObject !== undefined) {
-      //clicked on object!
-      const targetPosition = this.hittenObject.position;
+      const targetPosition = new THREE.Vector3();
+      this.hittenObject.updateMatrixWorld();
+      targetPosition.applyMatrix4(this.hittenObject.matrixWorld);
+
       this.camTransformObject.position.x = targetPosition.x;
       this.camTransformObject.position.z = targetPosition.z;
-    }
 
-    this.scene.clickedOnObject(this.hittenObject);
+      this.scene.clickedOnObject(this.hittenObject);
+    }
   }
 
   move(dx, dy) {
@@ -106,38 +106,25 @@ export default class CameraController {
     transObj.position.z = Math.max(-500, transObj.position.z);
   }
 
-  doRayPicking() {
+  getObjectOnCursor() {
     const scene = this.scene;
 
     //get the mouse/touch position in pixel coords
     const x = this.cursor.x;
     const y = this.cursor.y;
 
-    //trnasform into screen coords
-    this.mouseForRay.x = (x / scene.width) * 2 - 1;
-    this.mouseForRay.y = -(y / scene.height) * 2 + 1;
+    //transform into screen space
+    this.cursorForRay.x = (x / scene.width) * 2 - 1;
+    this.cursorForRay.y = -(y / scene.height) * 2 + 1;
 
     //update cameras world matrix to get the correct pos/rotation
     scene.camera.updateMatrixWorld();
 
     //update raycaster
-    this.raycaster.setFromCamera(this.mouseForRay, scene.camera);
+    this.raycaster.setFromCamera(this.cursorForRay, scene.camera);
 
     //find the hitten object
-    let obj = scene.findObjectInOctree(this.raycaster);
-		if (obj !== undefined) {
-			obj = obj.parentSceneObject;
-			obj.setHighlight(true);
-
-			if(obj !== this.hittenObject && this.hittenObject !== undefined) {
-				this.hittenObject.setHighlight(false);
-			}
-		} else {
-			if(this.hittenObject !== undefined) {
-				this.hittenObject.setHighlight(false);
-			}
-		}
-		this.hittenObject = obj;
+    this.hittenObject = scene.findObjectByRay(this.raycaster);
   }
 
   update(dTime) {
