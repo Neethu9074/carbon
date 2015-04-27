@@ -59,19 +59,6 @@ export default class Host extends SceneObject {
   }
 
   addStickyNote() {
-    const geo = new THREE.Geometry();
-    geo.vertices.push(
-      stickyNoteLineStartLocalPosition,
-      stickyNoteLineEndLocalPosition
-    );
-
-    const mat = new THREE.LineBasicMaterial({
-      color: 0xA0A0A0
-    });
-
-    const line = new THREE.Line(geo, mat);
-    this.cube.add(line);
-
     this.stickyNoteContainer = document.createElement('div');
     this.stickyNoteContainer.classList.add('in-sticky-note');
     this.getHtmlContainer().appendChild(this.stickyNoteContainer);

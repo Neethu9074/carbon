@@ -43,9 +43,7 @@ export default class AbstractMeshCreationFactory {
     }
   }
 
-  addFragment({
-    id, pos, dim, enabled = true
-  }) {
+  addFragment({id, pos, dim, enabled = true}) {
     this.fragments.push({
       pos,
       dim,

@@ -9,6 +9,7 @@ import PhysicalMap from './sceneObjects/PhysicalMap';
 import Host from './sceneObjects/Host';
 import RxEmitter from 'rxemitter';
 import HostCubeFactory from './factories/HostCubeFactory';
+import LineFactory from './factories/LineFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
@@ -34,6 +35,7 @@ export default class Scene {
     this.collisionObjects = [];
 
     this.hostFactory = new HostCubeFactory({scene: this});
+    this.lineFactory = new LineFactory({scene: this});
 
     this.setupOctree();
     this.setup3D();
@@ -51,6 +53,11 @@ export default class Scene {
   addSceneObject(obj) {
     if(obj instanceof Host) {
       this.hostFactory.addFragment({
+        id: obj.id,
+        pos: obj.position,
+        dim: obj.dimension
+      });
+      this.lineFactory.addFragment({
         id: obj.id,
         pos: obj.position,
         dim: obj.dimension
