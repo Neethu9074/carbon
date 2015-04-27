@@ -45,7 +45,8 @@ export default class Host extends SceneObject {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      depthWrite: false
+      depthWrite: false,
+      visible: false
     });
 
     const matB = new THREE.MeshBasicMaterial({
@@ -53,7 +54,8 @@ export default class Host extends SceneObject {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      depthWrite: false
+      depthWrite: false,
+      visible: false
     });
 
     const matC = new THREE.MeshBasicMaterial({
@@ -61,7 +63,8 @@ export default class Host extends SceneObject {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      depthWrite: false
+      depthWrite: false,
+      visible: false
     });
 
     const mats = [
@@ -81,6 +84,11 @@ export default class Host extends SceneObject {
     this.cube.collisionObject = collisionBox;
     this.cube.add(collisionBox);
 
+    this.position = this.cube.position.clone();
+    this.dimension = this.cube.scale.clone();
+    this.collisionObject = collisionBox;
+
+    this.addSceneObject(this);
     this.addSceneObject(this.cube);
   }
 

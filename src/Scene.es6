@@ -6,7 +6,9 @@ import './lib/Octree';
 
 import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
+import Host from './sceneObjects/Host';
 import RxEmitter from 'rxemitter';
+import HostCubeFactory from './factories/HostCubeFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
@@ -31,6 +33,8 @@ export default class Scene {
     //stores all objects which should be clickable
     this.collisionObjects = [];
 
+    this.hostFactory = new HostCubeFactory({scene: this});
+
     this.setupOctree();
     this.setup3D();
 
@@ -45,7 +49,15 @@ export default class Scene {
   }
 
   addSceneObject(obj) {
-    this.scene.add(obj);
+    if(obj instanceof Host) {
+      this.hostFactory.addFragment({
+        id: obj.id,
+        pos: obj.position,
+        dim: obj.dimension
+      });
+    } else {
+      this.scene.add(obj);
+    }
 
     if(obj.collisionObject !== undefined) {
       this.octree.add(obj.collisionObject, {
@@ -56,6 +68,10 @@ export default class Scene {
 
   removeSceneObject(obj) {
     this.scene.remove(obj);
+
+    if(obj.collisionObject !== undefined) {
+      this.octree.remove(obj.collisionObject);
+    }
   }
 
   bindMethods() {
