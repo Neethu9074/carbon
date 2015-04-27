@@ -13,7 +13,8 @@ const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 
 export default class Host extends SceneObject {
 
-  constructor({parent, snapshot, hostNumber}) {
+  constructor({parent, snapshot, hostNumber,
+    width = 1, height = 1, depth = 1}) {
     super({parent});
 
     this.id = snapshot.get('hostId');
@@ -23,7 +24,7 @@ export default class Host extends SceneObject {
     // TODO Ben get from Scene
     this.zoomLevel = 150;
 
-    this.render();
+    this.render(width, height, depth);
     this.addStickyNote();
     this.registerEvents();
 	}
@@ -38,13 +39,12 @@ export default class Host extends SceneObject {
     );
   }
 
-  render() {
+  render(width, height, depth) {
     const mat = new THREE.MeshBasicMaterial({
       color: 0x232d36,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      blending: THREE.NormalBlending,
       depthWrite: false
     });
 
@@ -53,7 +53,6 @@ export default class Host extends SceneObject {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      blending: THREE.NormalBlending,
       depthWrite: false
     });
 
@@ -62,21 +61,21 @@ export default class Host extends SceneObject {
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.5,
-      blending: THREE.NormalBlending,
       depthWrite: false
     });
 
     const mats = [
-      mat, matB, matC, mat, matB, matC
+      mat, matB, matC, mat, mat, mat
     ];
     const finalMat = new THREE.MeshFaceMaterial(mats);
 
-    this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), finalMat);
+    this.cube = new THREE.Mesh(
+      new THREE.BoxGeometry(width, height, depth), finalMat);
     this.cube.position.y = 0.5;
     this.cube.renderOrder = 2;
 
-
-    const collisionBox = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1));
+    const collisionBox = new THREE.Mesh(
+      new THREE.BoxGeometry(width, height, depth));
     collisionBox.material.visible = false;
 
     this.cube.collisionObject = collisionBox;
