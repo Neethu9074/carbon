@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/instana/ui-sdk.git"
+    "url": "https://github.com/instana/ui-forge.git"
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "license": "proprietary",
