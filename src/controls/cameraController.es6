@@ -47,8 +47,6 @@ export default class CameraController {
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
     scene.addSceneObject(this.camTransformObject);
-
-    this.camTransformObject.add( new THREE.AxisHelper( 0.2 ) );
   }
 
   zoom(delta) {
