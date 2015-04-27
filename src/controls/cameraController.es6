@@ -22,7 +22,7 @@ export default class CameraController {
     this.cursor = new THREE.Vector2();
 
     this.cameraSpeed = 10; //camera fly speed
-    this.moveSpeed = 0.025; //distance moved per pixel
+    this.moveSpeed = 0.01; //distance moved per pixel
     this.zoomSpeed = 5;
 
     //zoom fields
@@ -47,6 +47,8 @@ export default class CameraController {
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
     scene.addSceneObject(this.camTransformObject);
+
+    this.camTransformObject.add( new THREE.AxisHelper( 0.2 ) );
   }
 
   zoom(delta) {
