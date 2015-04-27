@@ -7,7 +7,6 @@ import SceneObject from './SceneObject';
 import colors from '../colors';
 import StickyNote from './StickyNote';
 
-const stickyNoteLineStartLocalPosition = new THREE.Vector3(0, 0.5, 0);
 const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 
 
