@@ -41,7 +41,6 @@ export default class Host extends SceneObject {
   render(width, height, depth) {
     this.cube = new THREE.Object3D();
     this.cube.scale.set(width, height, depth);
-    this.cube.position.y = 0.5;
 
     const collisionBox = new THREE.Mesh(
       new THREE.BoxGeometry(width, height, depth));

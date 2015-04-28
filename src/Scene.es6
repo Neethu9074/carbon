@@ -52,16 +52,13 @@ export default class Scene {
 
   addSceneObject(obj) {
     if(obj instanceof Host) {
-      this.hostFactory.addFragment({
+      const fragment = {
         id: obj.id,
         pos: obj.position,
         dim: obj.dimension
-      });
-      this.lineFactory.addFragment({
-        id: obj.id,
-        pos: obj.position,
-        dim: obj.dimension
-      });
+      };
+      this.hostFactory.addFragment(fragment);
+      this.lineFactory.addFragment(fragment);
     } else {
       this.scene.add(obj);
     }
