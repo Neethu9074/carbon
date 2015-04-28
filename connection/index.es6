@@ -26,6 +26,7 @@ const endpoint = buildEndpointUrl(window.location);
 // after we got disconnected.
 let queuedMessages = [];
 
+// the last established WebSocket connection
 let connection;
 
 connect();

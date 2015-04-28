@@ -44,9 +44,46 @@ describe('connection', () => {
     expect(WebSocket.getCall(0).args[0]).to.equal('wss://example.com/api/data');
   });
 
+  it('should emit connected events', (done) => {
+    doStubbedImport();
+    emitter.on('connected').subscribe(done);
+    open();
+  });
+
+  it('should send messages as JSON', () => {
+    doStubbedImport();
+    open();
+    send({
+      yes: true
+    });
+    expect(connection.send.getCall(0).args[0]).to.equal('{"yes":true}');
+  });
+
+  it('should not send messages before the connection is established', () => {
+    doStubbedImport();
+    send({
+      yes: true
+    });
+    expect(connection.send.callCount).to.equal(0);
+  });
+
+  it('should send queued messages once the connection is established', () => {
+    doStubbedImport();
+    send({
+      yes: true
+    });
+    open();
+    expect(connection.send.getCall(0).args[0]).to.equal('{"yes":true}');
+  });
+
   function doStubbedImport() {
     const module = proxyquire('./index', {});
     emitter = module.emitter;
     send = module.send;
+  }
+
+  function open() {
+    connection.readyState = 1;
+    connection.onopen();
   }
 });
