@@ -70,9 +70,9 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
 
   addFragment({id, pos, dim, enabled = true}) {
     this.fragments.push({
+      id, //is needed to identify the fragment when deleting
       pos,
       dim,
-      id, //is needed to identify the fragment when deleting
       enabled
     });
 
@@ -113,9 +113,9 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
       //copy positions into global array
       for (let iVertex = 0; iVertex < vertexPos.length; iVertex++) {
         const index = iVertex * numElementPerVertex + oV;
-        vertices[index + 0] = vertexPos[iVertex][0] + pos.x * dim.x;
-        vertices[index + 1] = vertexPos[iVertex][1] + pos.y * dim.y;
-        vertices[index + 2] = vertexPos[iVertex][2] + pos.z * dim.z;
+        vertices[index + 0] = vertexPos[iVertex][0] * dim.x + pos.x;
+        vertices[index + 1] = vertexPos[iVertex][1] * dim.y + pos.y;
+        vertices[index + 2] = vertexPos[iVertex][2] * dim.z + pos.z;
       }
 
       //copy colors into global array
