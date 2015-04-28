@@ -209,7 +209,7 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
       vertexColors: THREE.VertexColors,
       side: THREE.DoubleSide,
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.75,
       blending: THREE.NormalBlending,
       depthWrite: false
     });
