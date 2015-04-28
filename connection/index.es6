@@ -31,6 +31,7 @@ let connection;
 
 connect();
 
+
 function connect() {
   // If there is a previous connection, we make sure that we are always closing
   // it.
@@ -83,6 +84,7 @@ function onError(error) {
   }
 }
 
+
 export function send(msg) {
   // the WebSocket API does not queue messages but instead will fail when we try
   // to send messages before the connection is successfully established, i.e.
@@ -93,6 +95,7 @@ export function send(msg) {
 
   connection.send(JSON.stringify(msg));
 }
+
 
 function buildEndpointUrl(location) {
   return location.origin.replace(/^http/, 'ws') + '/api/data';
