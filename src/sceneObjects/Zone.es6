@@ -72,7 +72,8 @@ export default class Zone extends SceneObject {
     const mat = new THREE.MeshBasicMaterial({
 			map: texture,
       transparent: true,
-      side: THREE.DoubleSide
+      side: THREE.DoubleSide,
+      depthWrite: false
 		});
     const label = new THREE.Mesh(zoneGeometry, mat);
 
@@ -110,7 +111,7 @@ export default class Zone extends SceneObject {
       this.ground.children[0].position.set(
         -0.5 + scaleX / 2,
         -0.5 + scaleY / 2,
-        -0.01);
+        0.05);
       this.ground.children[0].scale.set(
         scaleX,
         scaleY,
