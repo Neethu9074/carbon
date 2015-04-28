@@ -50,18 +50,12 @@ export default class Scene {
     window.addEventListener('resize', this.onWindowResize, false);
   }
 
+  getScene() {
+    return this;
+  }
+
   addSceneObject(obj) {
-    if(obj instanceof Host) {
-      const fragment = {
-        id: obj.id,
-        pos: obj.position,
-        dim: obj.dimension
-      };
-      this.hostFactory.addFragment(fragment);
-      this.lineFactory.addFragment(fragment);
-    } else {
-      this.scene.add(obj);
-    }
+    this.scene.add(obj);
 
     if(obj.collisionObject !== undefined) {
       this.octree.add(obj.collisionObject, {

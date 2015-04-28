@@ -10,6 +10,19 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     super({scene});
   }
 
+  addFragment({id, from, to, enabled = true}) {
+    this.fragments.push({
+      id, //is needed to identify the fragment when deleting
+      from,
+      to,
+      enabled
+    });
+
+    //set rebuild to true
+    //so that the mesh will be generated on the next event
+    this.rebuildGlobalMesh = true;
+  }
+
   rebuild() {
     //remove the current global mesh from the scene
     this.scene.removeSceneObject(this.globalMesh);
@@ -30,19 +43,19 @@ export default class LineFactory extends AbstractMeshCreationFactory {
 
     for (let i = 0; i < numLines; i++) {
       const fragment = frags[i];
-      const pos = fragment.pos;
-      const dim = fragment.dim;
+      const from = fragment.from;
+      const to = fragment.to;
       const oV = i * numElementPerVertex * numPointsPerLine; //offsetVertex
 
       //from
-      vertices[oV + 0] = pos.x;
-      vertices[oV + 1] = pos.y + dim.y;
-      vertices[oV + 2] = pos.z;
+      vertices[oV + 0] = from.x;
+      vertices[oV + 1] = from.y;
+      vertices[oV + 2] = from.z;
 
       //to
-      vertices[oV + 3] = pos.x + dim.x / 2;
-      vertices[oV + 4] = pos.y + dim.y + 0.3;
-      vertices[oV + 5] = pos.z;
+      vertices[oV + 3] = to.x;
+      vertices[oV + 4] = to.y;
+      vertices[oV + 5] = to.z;
     }
 
     this.globalGeometry = new THREE.BufferGeometry();

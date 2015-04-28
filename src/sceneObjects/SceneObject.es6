@@ -30,6 +30,10 @@ export default class SceneObject {
     this.subscriptions.push(subscription);
   }
 
+  getScene() {
+    return this.parent.getScene();
+  }
+
   dispose() {
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];

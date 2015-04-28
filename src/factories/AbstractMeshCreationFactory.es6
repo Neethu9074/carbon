@@ -43,17 +43,12 @@ export default class AbstractMeshCreationFactory {
     }
   }
 
-  addFragment({id, pos, dim, enabled = true}) {
-    this.fragments.push({
-      pos,
-      dim,
-      id, //is needed to identify the fragment when deleting
-      enabled
-    });
+  addFragment() {
+    throw 'NOT IMPLEMENTED EXCEPTION';
+  }
 
-    //set rebuild to true
-    //so that the mesh will be generated on the next event
-    this.rebuildGlobalMesh = true;
+  removeFragment(id) {
+    _.remove(this.fragments, fragment => fragment.id === id);
   }
 
   //abstract rebuild method has to be implemented

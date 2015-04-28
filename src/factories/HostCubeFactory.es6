@@ -1,5 +1,5 @@
-'use strict';
 
+'use strict';
 import THREE from 'three';
 
 import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
@@ -66,6 +66,19 @@ const colorItems = [
 export default class HostCubeFactory extends AbstractMeshCreationFactory {
   constructor({scene}) {
     super({scene});
+  }
+
+  addFragment({id, pos, dim, enabled = true}) {
+    this.fragments.push({
+      pos,
+      dim,
+      id, //is needed to identify the fragment when deleting
+      enabled
+    });
+
+    //set rebuild to true
+    //so that the mesh will be generated on the next event
+    this.rebuildGlobalMesh = true;
   }
 
   rebuild() {

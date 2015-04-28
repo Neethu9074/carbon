@@ -14,8 +14,10 @@ export default class Host extends SceneObject {
 
   constructor({parent, snapshot, hostNumber,
     width = 1, height = 1, depth = 1}) {
+
     super({parent});
 
+    this.scene = this.getScene();
     this.id = snapshot.get('hostId');
     this.hostNumber = hostNumber;
     this.snapshot = snapshot;
@@ -49,11 +51,8 @@ export default class Host extends SceneObject {
     this.cube.collisionObject = collisionBox;
     this.cube.add(collisionBox);
 
-    this.position = this.cube.position.clone();
-    this.dimension = this.cube.scale.clone();
-
-    this.addSceneObject(this);
     this.addSceneObject(this.cube);
+    this.addToGlobalGeometry();
   }
 
   addStickyNote() {
@@ -98,6 +97,32 @@ export default class Host extends SceneObject {
     super.setPosition(position);
     this.cube.position.copy(position);
     this.cube.position.y = 0.5;
+
+    this.removeFromGlobalGeometry();
+    this.addToGlobalGeometry();
+  }
+
+  removeFromGlobalGeometry() {
+    this.scene.hostFactory.removeFragment(this.id);
+    this.scene.lineFactory.removeFragment(this.id);
+  }
+
+  addToGlobalGeometry() {
+    //add fragment to global geometry
+    this.scene.hostFactory.addFragment({
+      id: this.id,
+      pos: this.cube.position.clone().add(new THREE.Vector3(-0.5, 0, 0.5)),
+      dim: this.cube.scale
+    });
+
+    const lineFactory = this.scene.lineFactory;
+    const from = this.cube.position.clone()
+      .add(new THREE.Vector3(-0.5, this.cube.scale.y, 0.5));
+    const to = from.clone().add(new THREE.Vector3(0, 0.8, 0.54));
+    lineFactory.addFragment({
+      id: this.id,
+      from, to
+    });
   }
 
   onSnapshotUpdate(snapshot) {
