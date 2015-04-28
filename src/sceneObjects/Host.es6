@@ -65,6 +65,9 @@ export default class Host extends SceneObject {
   }
 
   update(data) {
+    data.scene.camera.updateMatrixWorld();
+    data.scene.camera.updateProjectionMatrix();
+
     const [x, y] = this.getStickNoteScreenPosition(
       this.stickyNoteEndPosWorld,
       data.scene.camera,
@@ -79,9 +82,9 @@ export default class Host extends SceneObject {
   getStickNoteScreenPosition(position, camera, width, height) {
     const pos = position.clone();
     const projScreenMat = new THREE.Matrix4();
-    projScreenMat.multiplyMatrices(
-      camera.projectionMatrix,
-      camera.matrixWorldInverse);
+    const inverse = new THREE.Matrix4().getInverse(camera.matrixWorld);
+
+    projScreenMat.multiplyMatrices(camera.projectionMatrix, inverse);
     pos.applyMatrix4(projScreenMat);
 
     return [
