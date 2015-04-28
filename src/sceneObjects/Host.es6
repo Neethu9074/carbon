@@ -4,6 +4,7 @@ import THREE from 'three';
 import React from 'react';
 
 import SceneObject from './SceneObject';
+import Process from './Process';
 import colors from '../colors';
 import StickyNote from './StickyNote';
 
