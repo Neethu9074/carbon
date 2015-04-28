@@ -14,6 +14,8 @@ import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
 
+const getZoomClass = (level) => 'in-map--zoom-' + level;
+
 export default class Scene {
 
   constructor({parent}) {
@@ -191,8 +193,6 @@ export default class Scene {
   }
 
   onZoom(event) {
-    this.emitter.emit('zoom', event);
-
     const zoomLevel = event.zoomLevel;
     this.cameraSize = zoomLevel / 10;
     const aspect = this.width / this.height;
@@ -201,6 +201,21 @@ export default class Scene {
     this.camera.top = this.cameraSize / 2;
     this.camera.bottom = -this.cameraSize / 2;
 		this.camera.updateProjectionMatrix();
+
+    const parentClasses = this.parent.classList;
+    [100, 50, 25].forEach(level => {
+      parentClasses.remove(getZoomClass(level));
+    });
+
+    let zoomLevelAccordingToDesign;
+    if (zoomLevel < 70) {
+      zoomLevelAccordingToDesign = 100;
+    } else if (zoomLevel <= 100) {
+      zoomLevelAccordingToDesign = 50;
+    } else {
+      zoomLevelAccordingToDesign = 25;
+    }
+    parentClasses.add(getZoomClass(zoomLevelAccordingToDesign));
   }
 
   findObjectByRay(raycaster){

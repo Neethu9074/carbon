@@ -20,7 +20,6 @@ export default class PhysicalMap extends SceneObject {
 		this.size = 1000;
 		this.scene = scene;
     this.zones = [];
-		this.hostNumberCounter = 0;
 
     const geo = new THREE.PlaneBufferGeometry(this.size, this.size, 1, 1);
 		const mat = new THREE.MeshBasicMaterial({
@@ -81,8 +80,7 @@ export default class PhysicalMap extends SceneObject {
 			});
 			this.zones.push(zone);
 		}
-		const hostNumber = ++this.hostNumberCounter;
-		zone.addHost({snapshot: host, hostNumber});
+		zone.addHost({snapshot: host});
 	}
 
 	getDummyData() {
