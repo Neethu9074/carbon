@@ -139,14 +139,19 @@ export default class CameraController {
       .clone()
       .sub(targetWorldPos);
 
+    //get the total distance from the camera position to target position
     const distance = delta.length();
+
+    //camera can only move this direction in units/sec (dTime => 1 / sec)
     delta.multiplyScalar(dTime * this.cameraSpeed);
 
+    //if the distance after multiplication is bigger than the total distance
+    //set it to total distance
     if(delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
     }
 
-    //apply position
+    //move to target position with cameraspeed in units/sec
     cam.position.sub(delta);
 
     cam.translateZ(this.zoomLevel);
