@@ -34,45 +34,106 @@ const vertexPos = [
   [-0.5, 1, 0.5]
 ];
 
-const colorItems = [
+const colorItemsOk = [
   //front
-  [0.134, 0.16, 0.2], //RGB -> 34, 41, 51
-  [0.134, 0.16, 0.2],
-  [0.134, 0.16, 0.2],
+  [0.184, 0.64, 0.71],
+  [0.184, 0.64, 0.71],
+  [0.184, 0.64, 0.71],
 
-  [0.134, 0.16, 0.2],
-  [0.134, 0.16, 0.2],
-  [0.134, 0.16, 0.2],
+  [0.184, 0.64, 0.71],
+  [0.184, 0.64, 0.71],
+  [0.184, 0.64, 0.71],
 
   //top
-  [0.2, 0.25, 0.278], //RGB -> 51, 64, 71
-  [0.2, 0.25, 0.278],
-  [0.2, 0.25, 0.278],
+  [0.212, 0.71, 0.745],
+  [0.212, 0.71, 0.745],
+  [0.212, 0.71, 0.745],
 
-  [0.2, 0.25, 0.278],
-  [0.2, 0.25, 0.278],
-  [0.2, 0.25, 0.278],
+  [0.212, 0.71, 0.745],
+  [0.212, 0.71, 0.745],
+  [0.212, 0.71, 0.745],
 
   //left
-  [0.188, 0.224, 0.259], //RGB -> 48, 57, 66
-  [0.188, 0.224, 0.259],
-  [0.188, 0.224, 0.259],
+  [0.204, 0.694, 0.75],
+  [0.204, 0.694, 0.75],
+  [0.204, 0.694, 0.75],
 
-  [0.188, 0.224, 0.259],
-  [0.188, 0.224, 0.259],
-  [0.188, 0.224, 0.259]
+  [0.204, 0.694, 0.75],
+  [0.204, 0.694, 0.75],
+  [0.204, 0.694, 0.75]
 ];
+
+const colorItemsWarning = [
+  //front
+  [0.89, 0.73, 0.02],
+  [0.89, 0.73, 0.02],
+  [0.89, 0.73, 0.02],
+
+  [0.89, 0.73, 0.02],
+  [0.89, 0.73, 0.02],
+  [0.89, 0.73, 0.02],
+
+  //top
+  [0.89, 0.824, 0.078],
+  [0.89, 0.824, 0.078],
+  [0.89, 0.824, 0.078],
+
+  [0.89, 0.824, 0.078],
+  [0.89, 0.824, 0.078],
+  [0.89, 0.824, 0.078],
+
+  //left
+  [0.89, 0.827, 0.14],
+  [0.89, 0.827, 0.14],
+  [0.89, 0.827, 0.14],
+
+  [0.89, 0.827, 0.14],
+  [0.89, 0.827, 0.14],
+  [0.89, 0.827, 0.14]
+];
+
+const colorItemsDanger = [
+  //front
+  [0.878, 0.145, 0],
+  [0.878, 0.145, 0],
+  [0.878, 0.145, 0],
+
+  [0.878, 0.145, 0],
+  [0.878, 0.145, 0],
+  [0.878, 0.145, 0],
+
+  //top
+  [0.878, 0.31, 0],
+  [0.878, 0.31, 0],
+  [0.878, 0.31, 0],
+
+  [0.878, 0.31, 0],
+  [0.878, 0.31, 0],
+  [0.878, 0.31, 0],
+
+  //left
+  [0.878, 0.262, 0],
+  [0.878, 0.262, 0],
+  [0.878, 0.262, 0],
+
+  [0.878, 0.262, 0],
+  [0.878, 0.262, 0],
+  [0.878, 0.262, 0]
+];
+const colorsPerCube = colorItemsOk.length;
+
 
 export default class HostCubeFactory extends AbstractMeshCreationFactory {
   constructor({scene}) {
     super({scene});
   }
 
-  addFragment({id, pos, dim, enabled = true}) {
+  addFragment({id, pos, dim, health, enabled = true}) {
     this.fragments.push({
       id, //is needed to identify the fragment when deleting
       pos,
       dim,
+      health,
       enabled
     });
 
@@ -99,12 +160,19 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
     );
     const colors = new Float32Array(
       numCubes *
-      colorItems.length *
+      colorsPerCube *
       numElementPerVertex
     );
 
     for (let i = 0; i < numCubes; i++) {
       const fragment = frags[i];
+      let colorItems = colorItemsOk;
+      if(fragment.health === 'warning') {
+        colorItems = colorItemsWarning;
+      } else if(fragment.health === 'danger') {
+        colorItems = colorItemsDanger;
+      }
+
       const pos = fragment.pos;
       const dim = fragment.dim;
       const oV = i * vertexPos.length * numElementPerVertex; //offsetVertex
