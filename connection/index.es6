@@ -1,7 +1,6 @@
 'use strict';
 
 import RxEmitter from 'rxemitter';
-import WebSocket from './WebSocket';
 
 // taken from the spec
 const readyState = {
@@ -40,7 +39,7 @@ function connect() {
 
   emitter.emit('connecting');
 
-  connection = new WebSocket(endpoint);
+  connection = new window.WebSocket(endpoint);
   connection.onopen = onOpen;
   connection.onclose = onClose;
   connection.onerror = onError;
