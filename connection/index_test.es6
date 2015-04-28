@@ -76,6 +76,16 @@ describe('connection', () => {
     expect(connection.send.getCall(0).args[0]).to.equal('{"yes":true}');
   });
 
+  it('should emit message events', () => {
+    doStubbedImport();
+    const onMessage = sinon.stub();
+    emitter.on('message').subscribe(onMessage);
+
+    open();
+    connection.onmessage('{"yes":true}');
+    expect(onMessage.getCall(0).args[0]).to.deep.equal({yes: true});
+  });
+
   function doStubbedImport() {
     const module = proxyquire('./index', {});
     emitter = module.emitter;
