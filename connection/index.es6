@@ -60,6 +60,11 @@ function onOpen() {
 
 function onClose() {
   emitter.emit('closed');
+  tryToReconnect();
+}
+
+
+function tryToReconnect() {
   // try to reconnect in 1s
   setTimeout(connect, 1000);
 }
@@ -80,7 +85,7 @@ function onError(error) {
   emitter.emit('error', error);
 
   if (connection.readyState > readyState.open) {
-    connect();
+    tryToReconnect();
   }
 }
 
