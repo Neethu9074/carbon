@@ -52,16 +52,21 @@ export default class Host extends SceneObject {
     this.stickyNoteContainer.classList.add('in-sticky-note');
     this.getHtmlContainer().appendChild(this.stickyNoteContainer);
 
+    this.calcStickyNodeWorldPos();
     this.renderStickyNote();
   }
 
-  update(data) {
+  calcStickyNodeWorldPos() {
+    this.cube.updateMatrixWorld();
     const worldPos = new THREE.Vector3();
     worldPos.applyMatrix4(this.cube.matrixWorld);
     worldPos.add(stickyNoteLineEndLocalPosition);
+    this.stickyNoteEndPosWorld = worldPos;
+  }
 
+  update(data) {
     const [x, y] = this.getStickNoteScreenPosition(
-      worldPos,
+      this.stickyNoteEndPosWorld,
       data.scene.camera,
       data.scene.width,
       data.scene.height
@@ -89,6 +94,8 @@ export default class Host extends SceneObject {
     super.setPosition(position);
     this.cube.position.copy(position);
     this.cube.position.y = 0.5;
+
+    this.calcStickyNodeWorldPos();
 
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
