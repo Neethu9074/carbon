@@ -80,14 +80,13 @@ export default class Zone extends SceneObject {
     return label;
   }
 
-  addHost({snapshot, hostNumber}) {
+  addHost({snapshot}) {
     const hostId = snapshot.get('hostId');
 		let host = _.find(this.hosts, host => host.id === hostId);
 		if (!host) {
 			host = new Host({
 				parent: this,
-				snapshot,
-        hostNumber
+				snapshot
 			});
 			this.hosts.push(host);
 		} else {
