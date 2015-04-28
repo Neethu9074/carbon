@@ -50,10 +50,6 @@ export default class Zone extends SceneObject {
   getZoneLabel(text) {
     const canvas = document.createElement('canvas');
 
-		// the larger these numbers, the larger the canvas, and
-		// the smoother your final image can be. If your final
-		// texture is blurry or pixelated, try increasing these
-		// numbers, and drawing on the canvas in a larger font.
 		canvas.width = 600;
 		canvas.height = 100;
 		const context = canvas.getContext('2d');
