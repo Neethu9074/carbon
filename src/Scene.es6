@@ -10,6 +10,7 @@ import Host from './sceneObjects/Host';
 import RxEmitter from 'rxemitter';
 import HostCubeFactory from './factories/HostCubeFactory';
 import LineFactory from './factories/LineFactory';
+import GroundFactory from './factories/GroundFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
@@ -38,6 +39,7 @@ export default class Scene {
 
     this.hostFactory = new HostCubeFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
+    this.groundFactory = new GroundFactory({scene: this});
 
     this.setupOctree();
     this.setup3D();

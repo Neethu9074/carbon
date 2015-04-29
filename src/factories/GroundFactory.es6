@@ -6,59 +6,37 @@ import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 
 //pivot point is at 1/2, 0, 1/2
 const vertexPos = [
-  //front
   [-0.5, 0, 0.5],
   [0.5, 0, 0.5],
-  [0.5, 1, 0.5],
+  [0.5, 0, -0.5],
 
   [-0.5, 0, 0.5],
-  [0.5, 1, 0.5],
-  [-0.5, 1, 0.5],
-
-  //top
-  [-0.5, 1, 0.5],
-  [0.5, 1, 0.5],
-  [0.5, 1, -0.5],
-
-  [-0.5, 1, 0.5],
-  [0.5, 1, -0.5],
-  [-0.5, 1, -0.5],
-
-  //left
-  [-0.5, 0, 0.5],
-  [-0.5, 0, -0.5],
-  [-0.5, 1, -0.5],
-
-  [-0.5, 0, 0.5],
-  [-0.5, 1, -0.5],
-  [-0.5, 1, 0.5]
+  [0.5, 0, -0.5],
+  [-0.5, 0, -0.5]
 ];
 
 const colorItemsOk = [
-  [0.184, 0.64, 0.71], //front
-  [0.212, 0.71, 0.745], //top
-  [0.204, 0.694, 0.75] //left
+  [0.9, 0.1, 0.1]
 ];
 
 const colorItemsWarning = [
-  [0.89, 0.73, 0.02], //front
-  [0.89, 0.824, 0.078], //top
-  [0.89, 0.827, 0.14] //left
+  [0.51, 0.47, 0.08]
 ];
 
 const colorItemsDanger = [
-  [0.878, 0.145, 0], //front
-  [0.878, 0.31, 0], //top
-  [0.878, 0.262, 0] //left
+  [0.5, 0.22, 0.1]
 ];
 
 
-export default class HostCubeFactory extends AbstractMeshCreationFactory {
+export default class GroundFactory extends AbstractMeshCreationFactory {
   constructor({scene}) {
     super({scene});
   }
 
   addFragment({id, pos, dim, health, enabled = true}) {
+    if(health === 'ok') {
+      enabled = false;
+    }
     this.fragments.push({
       id, //is needed to identify the fragment when deleting
       pos,

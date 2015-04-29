@@ -114,6 +114,7 @@ export default class Host extends SceneObject {
   removeFromGlobalGeometry() {
     this.scene.hostFactory.removeFragment(this.id);
     this.scene.lineFactory.removeFragment(this.id);
+    this.scene.groundFactory.removeFragment(this.id);
   }
 
   addToGlobalGeometry() {
@@ -122,6 +123,13 @@ export default class Host extends SceneObject {
       id: this.id,
       pos: this.cube.position.clone().add(new THREE.Vector3(-0.5, 0, 0.5)),
       dim: this.cube.scale,
+      health: this.health
+    });
+
+    this.scene.groundFactory.addFragment({
+      id: this.id,
+      pos: this.cube.position.clone().add(new THREE.Vector3(-0.5, 0, 0.5)),
+      dim: this.cube.scale.clone().add(new THREE.Vector3(0.67, 0, 0.67)),
       health: this.health
     });
 
