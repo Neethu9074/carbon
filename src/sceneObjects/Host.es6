@@ -30,11 +30,6 @@ export default class Host extends SceneObject {
     this.render(width, height, depth);
     this.addStickyNote();
     this.registerEvents();
-
-    const mat = new THREE.MeshBasicMaterial({
-      transparent: true,
-      opacity: 0.5
-    });
 	}
 
 	registerEvents() {
