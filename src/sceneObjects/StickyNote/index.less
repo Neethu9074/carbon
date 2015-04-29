@@ -24,12 +24,16 @@
 }
 
 .in-sticky-note__content {
-  margin-left: 2.8em;
+  margin-left: 2.6em;
 }
 
 .in-sticky-note__host-id, .in-sticky-note__details {
-  opacity: 0;
-  transition: opacity .5s;
+  // As log as we want to fade in the stickies which are text only we can use
+  // a color transition, which will perform fine.
+  // opacity transforms perform much worse, because they cause a new composition
+  // layer.
+  color: transparent;
+  transition: color .5s;
 }
 
 .in-sticky-note__host-id {
@@ -38,16 +42,15 @@
   padding-top: 0.1em;
 
   .in-map--zoom-50 &, .in-map--zoom-100 & {
-    opacity: 1;
+    color: white;
   }
 }
 
 .in-sticky-note__details {
-  color: #8ea6ab;
   margin: 0.5em 0 0;
   line-height: 1.4;
 
   .in-map--zoom-100 & {
-    opacity: 1;
+    color: #8ea6ab;
   }
 }
