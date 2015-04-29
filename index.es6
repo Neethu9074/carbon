@@ -4,3 +4,4 @@
 // this is the only module required by the application.
 
 import './health';
+import './power';
