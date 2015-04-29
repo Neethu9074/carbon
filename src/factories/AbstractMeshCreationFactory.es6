@@ -50,6 +50,10 @@ export default class AbstractMeshCreationFactory {
     throw {message: 'NOT IMPLEMENTED EXCEPTION'};
   }
 
+  getFragment(id) {
+    return _.find(this.fragments, fragment => fragment.id === id);
+  }
+
   removeFragment(id) {
     _.remove(this.fragments, fragment => fragment.id === id);
   }

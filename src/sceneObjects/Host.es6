@@ -30,6 +30,8 @@ export default class Host extends SceneObject {
     this.render(width, height, depth);
     this.addStickyNote();
     this.registerEvents();
+
+    this.showLine(true);
 	}
 
 	registerEvents() {
@@ -138,14 +140,20 @@ export default class Host extends SceneObject {
       health: this.health
     });
 
-    const lineFactory = this.scene.lineFactory;
-    const from = this.cube.position.clone()
-      .add(new THREE.Vector3(-0.5, this.cube.scale.y, 0.5));
-    const to = from.clone().add(niceLookingDistanceForSticky);
-    lineFactory.addFragment({
-      id: this.id,
-      from, to
-    });
+    if(this.showLine) {
+      const lineFactory = this.scene.lineFactory;
+      const from = this.cube.position.clone()
+        .add(new THREE.Vector3(-0.5, this.cube.scale.y, 0.5));
+      const to = from.clone().add(niceLookingDistanceForSticky);
+      lineFactory.addFragment({
+        id: this.id,
+        from, to
+      });
+    }
+  }
+
+  showLine(trueFalse) {
+    this.showLine = trueFalse;
   }
 
   onSnapshotUpdate(snapshot) {
