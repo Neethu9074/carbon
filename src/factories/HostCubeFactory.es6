@@ -35,92 +35,22 @@ const vertexPos = [
 ];
 
 const colorItemsOk = [
-  //front
-  [0.184, 0.64, 0.71],
-  [0.184, 0.64, 0.71],
-  [0.184, 0.64, 0.71],
-
-  [0.184, 0.64, 0.71],
-  [0.184, 0.64, 0.71],
-  [0.184, 0.64, 0.71],
-
-  //top
-  [0.212, 0.71, 0.745],
-  [0.212, 0.71, 0.745],
-  [0.212, 0.71, 0.745],
-
-  [0.212, 0.71, 0.745],
-  [0.212, 0.71, 0.745],
-  [0.212, 0.71, 0.745],
-
-  //left
-  [0.204, 0.694, 0.75],
-  [0.204, 0.694, 0.75],
-  [0.204, 0.694, 0.75],
-
-  [0.204, 0.694, 0.75],
-  [0.204, 0.694, 0.75],
-  [0.204, 0.694, 0.75]
+  [0.184, 0.64, 0.71], //front
+  [0.212, 0.71, 0.745], //top
+  [0.204, 0.694, 0.75] //left
 ];
 
 const colorItemsWarning = [
-  //front
-  [0.89, 0.73, 0.02],
-  [0.89, 0.73, 0.02],
-  [0.89, 0.73, 0.02],
-
-  [0.89, 0.73, 0.02],
-  [0.89, 0.73, 0.02],
-  [0.89, 0.73, 0.02],
-
-  //top
-  [0.89, 0.824, 0.078],
-  [0.89, 0.824, 0.078],
-  [0.89, 0.824, 0.078],
-
-  [0.89, 0.824, 0.078],
-  [0.89, 0.824, 0.078],
-  [0.89, 0.824, 0.078],
-
-  //left
-  [0.89, 0.827, 0.14],
-  [0.89, 0.827, 0.14],
-  [0.89, 0.827, 0.14],
-
-  [0.89, 0.827, 0.14],
-  [0.89, 0.827, 0.14],
-  [0.89, 0.827, 0.14]
+  [0.89, 0.73, 0.02], //front
+  [0.89, 0.824, 0.078], //top
+  [0.89, 0.827, 0.14] //left
 ];
 
 const colorItemsDanger = [
-  //front
-  [0.878, 0.145, 0],
-  [0.878, 0.145, 0],
-  [0.878, 0.145, 0],
-
-  [0.878, 0.145, 0],
-  [0.878, 0.145, 0],
-  [0.878, 0.145, 0],
-
-  //top
-  [0.878, 0.31, 0],
-  [0.878, 0.31, 0],
-  [0.878, 0.31, 0],
-
-  [0.878, 0.31, 0],
-  [0.878, 0.31, 0],
-  [0.878, 0.31, 0],
-
-  //left
-  [0.878, 0.262, 0],
-  [0.878, 0.262, 0],
-  [0.878, 0.262, 0],
-
-  [0.878, 0.262, 0],
-  [0.878, 0.262, 0],
-  [0.878, 0.262, 0]
+  [0.878, 0.145, 0], //front
+  [0.878, 0.31, 0], //top
+  [0.878, 0.262, 0] //left
 ];
-const colorsPerCube = colorItemsOk.length;
 
 
 export default class HostCubeFactory extends AbstractMeshCreationFactory {
@@ -153,6 +83,9 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
     const frags = this.getLegalFragments();
     const numCubes = frags.length;
     const numElementPerVertex = 3; //x, y, z
+    const numFacesPerCube = 3;
+    const numVerticesPerFace = 6;
+    const colorsPerCube = colorItemsOk.length * numVerticesPerFace;
     const vertices = new Float32Array(
       numCubes *
       vertexPos.length *
@@ -163,6 +96,7 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
       colorsPerCube *
       numElementPerVertex
     );
+    let colorIndex = 0;
 
     for (let i = 0; i < numCubes; i++) {
       const fragment = frags[i];
@@ -176,7 +110,6 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
       const pos = fragment.pos;
       const dim = fragment.dim;
       const oV = i * vertexPos.length * numElementPerVertex; //offsetVertex
-      const oC = i * colorItems.length * numElementPerVertex; //offsetColor
 
       //copy positions into global array
       for (let iVertex = 0; iVertex < vertexPos.length; iVertex++) {
@@ -186,12 +119,13 @@ export default class HostCubeFactory extends AbstractMeshCreationFactory {
         vertices[index + 2] = vertexPos[iVertex][2] * dim.z + pos.z;
       }
 
-      //copy colors into global array
-      for (let iColor = 0; iColor < colorItems.length; iColor++) {
-        const index = iColor * numElementPerVertex + oC;
-        colors[index + 0] = colorItems[iColor][0];
-        colors[index + 1] = colorItems[iColor][1];
-        colors[index + 2] = colorItems[iColor][2];
+
+      for (let i2 = 0; i2 < numFacesPerCube; i2++) {
+        for (let i3 = 0; i3 < numVerticesPerFace; i3++) {
+          colors[colorIndex++] = colorItems[i2][0];
+          colors[colorIndex++] = colorItems[i2][1];
+          colors[colorIndex++] = colorItems[i2][2];
+        }
       }
     }
 
