@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.es6",
   "scripts": {
-    "test": "eslint --ext .es6 conveyer/ http/ && mocha --compilers js:babel/register **/*_test.es6"
+    "test": "eslint --ext .es6 health/ && mocha --require ./test_setup.js **/*_test.es6"
   },
   "repository": {
     "type": "git",
@@ -15,7 +15,8 @@
   "dependencies": {
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
-    "invariant": "^1.0.2",
+    "instana-ui-sdk": "^1.0.0",
+    "invariant": "^1.0.2"
   },
   "devDependencies": {
     "babel": "^5.0.10",
