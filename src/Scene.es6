@@ -54,7 +54,7 @@ export default class Scene {
   setupController() {
     this.controller = new MouseCameraController({scene: this});
     //this.controller = new TouchCameraController({scene: this});
-    this.controller.zoom(0);
+    this.controller.zoom(-1);
   }
 
   addSceneObject(obj) {

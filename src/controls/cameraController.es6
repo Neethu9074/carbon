@@ -54,6 +54,9 @@ export default class CameraController {
   }
 
   zoom(delta) {
+    if (delta === 0) {
+      return;
+    }
     const min = this.maxZoomOut;
     const max = this.maxZoomIn;
 
