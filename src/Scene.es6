@@ -10,7 +10,7 @@ import Host from './sceneObjects/Host';
 import RxEmitter from 'rxemitter';
 import HostCubeFactory from './factories/HostCubeFactory';
 import LineFactory from './factories/LineFactory';
-import GroundFactory from './factories/GroundFactory';
+import GroundFactory from './factories/PlaneFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
@@ -25,7 +25,6 @@ export default class Scene {
     this.parent = parent;
 		this.width = window.innerWidth;
 		this.height = window.innerHeight;
-    this.cameraSize = 30;
 
     //time properties
 		this.timeOfLastFrameUpdate = Date.now();
@@ -37,17 +36,13 @@ export default class Scene {
     //stores all objects which should be clickable
     this.collisionObjects = [];
 
-    this.hostFactory = new HostCubeFactory({scene: this});
-    this.lineFactory = new LineFactory({scene: this});
-    this.groundFactory = new GroundFactory({scene: this});
-
+    this.setupFactories();
     this.setupOctree();
     this.setup3D();
 
     //controls
     this.controller = new MouseCameraController({scene: this});
     //this.controller = new TouchCameraController({scene: this});
-    this.controller.zoom(0);
 
     this.update();
 
@@ -100,7 +95,14 @@ export default class Scene {
     });
   }
 
+  setupFactories() {
+    this.hostFactory = new HostCubeFactory({scene: this});
+    this.lineFactory = new LineFactory({scene: this});
+    this.groundFactory = new GroundFactory({scene: this});
+  }
+
   setup3D() {
+    this.cameraSize = 30;
     const width = this.width;
     const height = this.height;
 
@@ -173,7 +175,7 @@ export default class Scene {
     this.controller.update(this.deltaTime);
 
     //update is done
-		this.emitter.emit('endUpdate', {scene: this });
+		this.emitter.emit('endUpdate', {scene: this});
 
     this.render();
   }
@@ -197,12 +199,7 @@ export default class Scene {
   onZoom(event) {
     const zoomLevel = event.zoomLevel;
     this.cameraSize = zoomLevel / 10;
-    const aspect = this.width / this.height;
-    this.camera.left = -this.cameraSize / 2 * aspect;
-    this.camera.right = this.cameraSize / 2 * aspect;
-    this.camera.top = this.cameraSize / 2;
-    this.camera.bottom = -this.cameraSize / 2;
-		this.camera.updateProjectionMatrix();
+    this.setCameraFromSize();
 
     const parentClasses = this.parent.classList;
     [100, 50, 25].forEach(level => {
@@ -218,6 +215,15 @@ export default class Scene {
       zoomLevelAccordingToDesign = 25;
     }
     parentClasses.add(getZoomClass(zoomLevelAccordingToDesign));
+  }
+
+  setCameraFromSize() {
+    const aspect = this.width / this.height;
+    this.camera.left = -this.cameraSize / 2 * aspect;
+    this.camera.right = this.cameraSize / 2 * aspect;
+    this.camera.top = this.cameraSize / 2;
+    this.camera.bottom = -this.cameraSize / 2;
+		this.camera.updateProjectionMatrix();
   }
 
   findObjectByRay(raycaster){

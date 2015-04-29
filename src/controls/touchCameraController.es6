@@ -51,10 +51,11 @@ class TouchControl extends CameraController{
       this.scaling = false;
 
     } else {
-      if (this.unitsMoved < 100) {
+      if (this.unitsMoved < 75) {
         this.getObjectOnCursor();
         this.doClick();
       }
+      this.lastDistance = 0;
     }
 
     this.lastDistance = 0;
@@ -66,31 +67,39 @@ class TouchControl extends CameraController{
     e.preventDefault();
 
     if(this.scaling) {
-      const dist = Math.sqrt(
-        Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2) +
-        Math.pow(e.touches[0].clientY - e.touches[1].clientY, 2));
-
-      if(this.lastDistance === 0) {
-        this.lastDistance = dist;
-      }
-
-      const delta = this.lastDistance - dist;
-      this.zoom(-delta * this.pitchSpeed);
-      this.lastDistance = dist;
+      this.zoom(e);
 
     } else {
-      this.lastDistance = 0;
-      if(this.touchDown) {
-        //calculate the delta between old (frame-1) and this position
-        const dx = (e.touches[0].clientX - this.cursor.x);
-        const dy = (e.touches[0].clientY - this.cursor.y);
-
-        this.move(dx, dy);
-      }
+      this.pitch(e);
     }
 
     this.cursor.x = e.touches[0].clientX;
     this.cursor.y = e.touches[0].clientY;
+  }
+
+  zoom(e) {
+    const dist = Math.sqrt(
+      Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2) +
+      Math.pow(e.touches[0].clientY - e.touches[1].clientY, 2));
+
+    if(this.lastDistance === 0) {
+      this.lastDistance = dist;
+    }
+
+    const delta = this.lastDistance - dist;
+    this.zoom(-delta * this.pitchSpeed);
+    this.lastDistance = dist;
+  }
+
+  pitch(e) {
+    this.lastDistance = 0;
+    if(this.touchDown) {
+      //calculate the delta between old (frame-1) and this position
+      const dx = (e.touches[0].clientX - this.cursor.x);
+      const dy = (e.touches[0].clientY - this.cursor.y);
+
+      this.move(dx, dy);
+    }
   }
 }
 

@@ -44,7 +44,7 @@ export default class AbstractMeshCreationFactory {
   }
 
   addFragment() {
-    throw 'NOT IMPLEMENTED EXCEPTION';
+    throw {message: 'NOT IMPLEMENTED EXCEPTION'};
   }
 
   removeFragment(id) {
@@ -53,7 +53,7 @@ export default class AbstractMeshCreationFactory {
 
   //abstract rebuild method has to be implemented
   rebuild() {
-    throw 'NOT IMPLEMENTED EXCEPTION';
+    throw {message: 'NOT IMPLEMENTED EXCEPTION'};
   }
 
   //returns all registered objects which are enabled

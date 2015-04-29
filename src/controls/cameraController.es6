@@ -23,12 +23,8 @@ export default class CameraController {
 
     this.cameraSpeed = 10; //camera fly speed
     this.moveSpeed = 0.01; //distance moved per pixel
-    this.zoomSpeed = 5;
 
-    //zoom fields
-    this.maxZoomOut = 700;
-    this.maxZoomIn = 20;
-    this.zoomLevel = 100;
+    this.initZoomField();
 
     //raytracing fields
     this.raycaster = new THREE.Raycaster();
@@ -47,6 +43,16 @@ export default class CameraController {
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
     scene.addSceneObject(this.camTransformObject);
+
+    this.zoom(0);
+  }
+
+  initZoomField() {
+    //zoom fields
+    this.maxZoomOut = 700;
+    this.maxZoomIn = 20;
+    this.zoomLevel = 100;
+    this.zoomSpeed = 5;
   }
 
   zoom(delta) {

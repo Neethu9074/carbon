@@ -8,6 +8,9 @@ import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 export default class LineFactory extends AbstractMeshCreationFactory {
   constructor({scene}) {
     super({scene});
+
+    this.numElementPerVertex = 3; //x, y, z
+    this.numPointsPerLine = 2; //from and to
   }
 
   addFragment({id, from, to, enabled = true}) {
@@ -33,34 +36,40 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     //get all fragments that are enabled
     const frags = this.getLegalFragments();
     const numLines = frags.length;
-    const numElementPerVertex = 3; //x, y, z
-    const numPointsPerLine = 2; //from, to
     const vertices = new Float32Array(
       numLines *
-      numPointsPerLine *
-      numElementPerVertex
+      this.numPointsPerLine *
+      this.numElementPerVertex
     );
 
     for (let i = 0; i < numLines; i++) {
       const fragment = frags[i];
-      const from = fragment.from;
-      const to = fragment.to;
-      const oV = i * numElementPerVertex * numPointsPerLine; //offsetVertex
-
-      //from
-      vertices[oV + 0] = from.x;
-      vertices[oV + 1] = from.y;
-      vertices[oV + 2] = from.z;
-
-      //to
-      vertices[oV + 3] = to.x;
-      vertices[oV + 4] = to.y;
-      vertices[oV + 5] = to.z;
+      this.copyLineToGLobalVerticArray(vertices, fragment, i);
     }
 
+    this.createGlobalMesh(vertices);
+  }
+
+  copyLineToGLobalVerticArray(vertices, fragment, index){
+    const from = fragment.from;
+    const to = fragment.to;
+    const offset = index * this.numElementPerVertex * this.numPointsPerLine;
+
+    //from
+    vertices[offset + 0] = from.x;
+    vertices[offset + 1] = from.y;
+    vertices[offset + 2] = from.z;
+
+    //to
+    vertices[offset + 3] = to.x;
+    vertices[offset + 4] = to.y;
+    vertices[offset + 5] = to.z;
+  }
+
+  createGlobalMesh(vertices) {
     this.globalGeometry = new THREE.BufferGeometry();
     this.globalGeometry.addAttribute('position',
-      new THREE.BufferAttribute(vertices, numElementPerVertex));
+      new THREE.BufferAttribute(vertices, this.numElementPerVertex));
 
 		const material = new THREE.LineBasicMaterial({
       color: 0xFFFFFF
