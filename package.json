@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.es6",
   "scripts": {
-    "test": "eslint --ext .es6 health/ && mocha --require ./test_setup.js **/*_test.es6"
+    "test": "eslint --ext .es6 health/ && mocha --require mocha-babel-es6 **/*_test.es6"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,7 @@
     "chai": "^2.2.0",
     "eslint": "^0.19.0",
     "mocha": "^2.2.4",
+    "mocha-babel-es6": "^1.0.0",
     "proxyquire": "^1.4.0",
     "sinon": "^1.14.1"
   },
