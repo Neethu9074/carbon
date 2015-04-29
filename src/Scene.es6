@@ -182,7 +182,6 @@ export default class Scene {
     this.controller.update(this.deltaTime);
 
     const camera = this.camera;
-    camera.updateMatrix();
     camera.updateMatrixWorld();
     camera.updateProjectionMatrix();
 
@@ -197,13 +196,7 @@ export default class Scene {
   }
 
   render() {
-    this.camera.translateZ(this.controller.zoomLevel);
-    this.camera.updateMatrix();
-
     this.renderer.render(this.scene, this.camera);
-
-    this.camera.translateZ(-this.controller.zoomLevel);
-    this.camera.updateMatrix();
   }
 
   dispose() {

@@ -43,6 +43,11 @@ export default class CameraController {
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
     scene.addSceneObject(this.camTransformObject);
+
+    this.directionToCam = scene.camera.position
+      .clone()
+      .sub(new THREE.Vector3())
+      .normalize();
   }
 
   initZoomField() {
@@ -124,15 +129,8 @@ export default class CameraController {
     this.cursorForRay.x = (x / scene.width) * 2 - 1;
     this.cursorForRay.y = -(y / scene.height) * 2 + 1;
 
-    //update cameras world matrix to get the correct pos/rotation
-    scene.camera.translateZ(this.zoomLevel);
-    scene.camera.updateMatrix();
-    scene.camera.updateMatrixWorld();
-
     //update raycaster
     this.raycaster.setFromCamera(this.cursorForRay, scene.camera);
-    scene.camera.translateZ(-this.zoomLevel);
-    scene.camera.updateMatrix();
 
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
@@ -141,9 +139,12 @@ export default class CameraController {
   update(dTime) {
     const cam = this.scene.camera;
 
-    //.updateMatrixWorld(); is called via update loop
     const targetWorldPos = new THREE.Vector3();
-    targetWorldPos.applyMatrix4(this.camTransformObject.matrixWorld);
+    targetWorldPos
+      .applyMatrix4(this.camTransformObject.matrixWorld)
+      .add(this.directionToCam
+        .clone()
+        .multiplyScalar(this.zoomLevel));
 
     //calculate the delta between wanted position and current position
     const direction = cam.position
