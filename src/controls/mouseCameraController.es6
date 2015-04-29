@@ -53,9 +53,13 @@ class MouseControl extends CameraController {
     // mice send stable large ticks.
 
     // scale down
-    var zoom = (e.deltaY / 6) | 0;
+    let zoom = (e.deltaY / 6) | 0;
     // clamp to -30 .. 30
-    zoom = zoom > 30 ? 30 : (zoom < -30 ? -30 : zoom);
+    if (zoom < -30) {
+      zoom = -30;
+    } else if (zoom > 30) {
+      zoom = 30;
+    }
     this.zoom(zoom);
   }
 
