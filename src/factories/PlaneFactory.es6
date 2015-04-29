@@ -145,6 +145,7 @@ export default class PlaneFactory extends AbstractMeshCreationFactory {
     this.globalGeometry.computeVertexNormals();
 
     this.globalMesh = new THREE.Mesh(this.globalGeometry, this.material);
+    this.globalMesh.matrixAutoUpdate = false;
     this.globalMesh.renderOrder = 2;
 
     this.scene.addSceneObject(this.globalMesh);

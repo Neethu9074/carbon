@@ -40,9 +40,12 @@ export default class Zone extends SceneObject {
     this.addSceneObject(this.ground);
 
     const edge = new THREE.EdgesHelper(this.ground, zoneColor);
+    edge.matrixAutoUpdate = false;
     this.addSceneObject(edge);
 
     const label = this.getZoneLabel(this.id);
+    label.updateMatrix();
+    label.matrixAutoUpdate = false;
     this.ground.add(label);
   }
 
@@ -92,6 +95,8 @@ export default class Zone extends SceneObject {
   setPosition(position) {
     super.setPosition(position);
     this.ground.position.copy(position);
+
+    this.ground.updateMatrix();
   }
 
   setScale(scale) {
@@ -111,6 +116,9 @@ export default class Zone extends SceneObject {
         scaleY,
         scaleZ
       );
+
+      this.ground.updateMatrix();
+      this.ground.children[0].updateMatrix();
     }
   }
 }

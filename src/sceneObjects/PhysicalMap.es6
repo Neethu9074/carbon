@@ -36,6 +36,8 @@ export default class PhysicalMap extends SceneObject {
     // then backface culling would make it invisible.
 		ground.rotation.x = -90 * Math.PI / 180;
 		ground.position.y = -0.02;
+		ground.updateMatrix();
+		ground.matrixAutoUpdate = false;
 
 		scene.addSceneObject(ground);
 

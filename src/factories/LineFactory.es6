@@ -81,6 +81,7 @@ export default class LineFactory extends AbstractMeshCreationFactory {
       this.material,
       THREE.LinePieces
     );
+    this.globalMesh.matrixAutoUpdate = false;
 
     this.scene.addSceneObject(this.globalMesh);
   }
