@@ -2,6 +2,7 @@
 
 import THREE from 'three';
 import React from 'react';
+import {getHealth} from 'instana-ui-sdk/health';
 
 import SceneObject from './SceneObject';
 import Process from './Process';
@@ -25,6 +26,7 @@ export default class Host extends SceneObject {
     this.scene = this.getScene();
     this.id = snapshot.get('hostId');
     this.snapshot = snapshot;
+    this.health = getHealth(snapshot);
 
     this.render(width, height, depth);
     this.addStickyNote();
@@ -149,6 +151,7 @@ export default class Host extends SceneObject {
 
   onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
+    this.setHealth(getHealth(snapshot));
     this.renderStickyNote();
   }
 

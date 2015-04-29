@@ -10,14 +10,6 @@ import Host from './Host';
 //use global geometry to reduce object instances
 const zoneGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
 
-const health = [
-  'ok',
-  'warning',
-  'danger'
-];
-let healthIndex = 0;
-
-
 export default class Zone extends SceneObject {
 
   constructor({parent, id, zoneIndex}) {
@@ -91,10 +83,6 @@ export default class Zone extends SceneObject {
 				parent: this,
 				snapshot
 			});
-      host.setHealth(health[healthIndex++]);
-      if(healthIndex >= health.length) {
-        healthIndex = 0;
-      }
 			this.hosts.push(host);
 		} else {
       host.onSnapshotUpdate(snapshot);
