@@ -9,6 +9,9 @@ import colors from '../colors';
 import StickyNote from './StickyNote';
 
 const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
+const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
+const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
+const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 
 
 export default class Host extends SceneObject {
@@ -69,15 +72,15 @@ export default class Host extends SceneObject {
     data.scene.camera.updateMatrixWorld();
     data.scene.camera.updateProjectionMatrix();
 
-    const [x, y] = this.getStickNoteScreenPosition({
+    const pos = this.getStickNoteScreenPosition({
       position: this.stickyNoteEndPosWorld,
       camera: data.scene.camera,
       width: data.scene.width,
       height: data.scene.height
     });
 
-    this.stickyNoteContainer.style.top = y + 'px';
-    this.stickyNoteContainer.style.left = x + 'px';
+    this.stickyNoteContainer.style.left = pos.x + 'px';
+    this.stickyNoteContainer.style.top = pos.y + 'px';
   }
 
   getStickNoteScreenPosition({position, camera, width, height}) {
@@ -88,10 +91,8 @@ export default class Host extends SceneObject {
     projScreenMat.multiplyMatrices(camera.projectionMatrix, inverse);
     pos.applyMatrix4(projScreenMat);
 
-    return [
-      ((pos.x + 1) * width / 2) | 0,
-      ((-pos.y + 1) * height / 2) | 0
-    ];
+    return { x: ((pos.x + 1) * width / 2) | 0,
+             y: ((-pos.y + 1) * height / 2) | 0 };
   }
 
   setPosition(position) {
@@ -121,15 +122,15 @@ export default class Host extends SceneObject {
     //add fragment to global geometry
     this.scene.hostFactory.addFragment({
       id: this.id,
-      pos: this.cube.position.clone().add(new THREE.Vector3(-0.5, 0, 0.5)),
+      pos: this.cube.position.clone().add(cubePosition),
       dim: this.cube.scale,
       health: this.health
     });
 
     this.scene.groundFactory.addFragment({
       id: this.id,
-      pos: this.cube.position.clone().add(new THREE.Vector3(-0.5, 0, 0.5)),
-      dim: this.cube.scale.clone().add(new THREE.Vector3(0.67, 0, 0.67)),
+      pos: this.cube.position.clone().add(groundPosition),
+      dim: this.cube.scale.clone().add(groundScale),
       health: this.health
     });
 
