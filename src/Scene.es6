@@ -180,19 +180,23 @@ export default class Scene {
     this.calculateDeltaTime();
     this.octree.update();
     this.controller.update(this.deltaTime);
+    this.updateCamera();
 
+    //update is done
+		this.emitter.emit('endUpdate', {scene: this});
+
+    this.render();
+  }
+
+  updateCamera() {
     const camera = this.camera;
+    //updateMatrix is called in controller before
     camera.updateMatrixWorld();
     camera.updateProjectionMatrix();
 
     camera.projection = new THREE.Matrix4();
     const inverse = new THREE.Matrix4().getInverse(camera.matrixWorld);
     camera.projection.multiplyMatrices(camera.projectionMatrix, inverse);
-
-    //update is done
-		this.emitter.emit('endUpdate', {scene: this});
-
-    this.render();
   }
 
   render() {
