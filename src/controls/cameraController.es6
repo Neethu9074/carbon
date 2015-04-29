@@ -43,8 +43,6 @@ export default class CameraController {
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
     scene.addSceneObject(this.camTransformObject);
-
-    this.zoom(0);
   }
 
   initZoomField() {

@@ -5,7 +5,6 @@ import React from 'react';
 import {getHealth} from 'instana-ui-sdk/health';
 
 import SceneObject from './SceneObject';
-import Process from './Process';
 import colors from '../colors';
 import StickyNote from './StickyNote';
 

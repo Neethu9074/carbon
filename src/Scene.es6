@@ -40,9 +40,7 @@ export default class Scene {
     this.setupOctree();
     this.setup3D();
 
-    //controls
-    this.controller = new MouseCameraController({scene: this});
-    //this.controller = new TouchCameraController({scene: this});
+    this.setupController();
 
     this.update();
 
@@ -51,6 +49,12 @@ export default class Scene {
 
   getScene() {
     return this;
+  }
+
+  setupController() {
+    this.controller = new MouseCameraController({scene: this});
+    //this.controller = new TouchCameraController({scene: this});
+    this.controller.zoom(0);
   }
 
   addSceneObject(obj) {
@@ -74,6 +78,8 @@ export default class Scene {
   bindMethods() {
 		this.onWindowResize = this.onWindowResize.bind(this);
     this.update = this.update.bind(this);
+    this.updateMaterialsByZoomLevel =
+      this.updateMaterialsByZoomLevel.bind(this);
 	}
 
   setupOctree() {
@@ -203,6 +209,27 @@ export default class Scene {
     this.cameraSize = zoomLevel / 10;
     this.setCameraFromSize();
 
+    //update the css design zoom distance
+    this.updateZoomLevelInCss(zoomLevel);
+
+    //update the opacity for the 3D elements
+    this.updateMaterialsByZoomLevel(zoomLevel);
+  }
+
+  updateMaterialsByZoomLevel(zoomLevel) {
+    if(this.controller === undefined) {
+      return;
+    }
+    const maxZoomIn = 25;
+    const maxZoomOut = 100;
+
+    //[1 - max out, 0 - max in]
+    let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
+    normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
+    this.hostFactory.material.opacity = normedZoomLevel;
+  }
+
+  updateZoomLevelInCss(zoomLevel) {
     const parentClasses = this.parent.classList;
     [100, 50, 25].forEach(level => {
       parentClasses.remove(getZoomClass(level));
