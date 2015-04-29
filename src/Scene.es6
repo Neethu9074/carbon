@@ -129,7 +129,7 @@ export default class Scene {
 
   setupCamera(width, height) {
     this.cameraSize = 30;
-    
+
     const aspect = width / height;
     const left = -this.cameraSize / 2 * aspect;
     const top = this.cameraSize / 2;
@@ -141,6 +141,8 @@ export default class Scene {
 
     this.camera.position.set(-1, 1, 1);
     this.camera.lookAt(new THREE.Vector3());
+    this.camera.updateMatrix();
+    this.camera.matrixAutoUpdate = false;
   }
 
   onWindowResize() {
@@ -187,8 +189,12 @@ export default class Scene {
 
   render() {
     this.camera.translateZ(this.controller.zoomLevel);
+    this.camera.updateMatrix();
+
     this.renderer.render(this.scene, this.camera);
+
     this.camera.translateZ(-this.controller.zoomLevel);
+    this.camera.updateMatrix();
   }
 
   dispose() {
@@ -251,7 +257,8 @@ export default class Scene {
     this.camera.right = this.cameraSize / 2 * aspect;
     this.camera.top = this.cameraSize / 2;
     this.camera.bottom = -this.cameraSize / 2;
-		this.camera.updateProjectionMatrix();
+
+    this.camera.updateProjectionMatrix();
   }
 
   findObjectByRay(raycaster){

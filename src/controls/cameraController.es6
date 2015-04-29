@@ -123,11 +123,13 @@ export default class CameraController {
 
     //update cameras world matrix to get the correct pos/rotation
     scene.camera.translateZ(this.zoomLevel);
+    scene.camera.updateMatrix();
     scene.camera.updateMatrixWorld();
 
     //update raycaster
     this.raycaster.setFromCamera(this.cursorForRay, scene.camera);
     scene.camera.translateZ(-this.zoomLevel);
+    scene.camera.updateMatrix();
 
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
@@ -161,5 +163,6 @@ export default class CameraController {
 
     //move to target position with cameraspeed in units/sec
     cam.position.sub(delta);
+    cam.updateMatrix();
   }
 }
