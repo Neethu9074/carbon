@@ -2,6 +2,8 @@
 
 import THREE from 'three';
 
+import {getPower} from 'instana-ui-sdk/power';
+
 const HOST_SIZE = 1;
 const ZONE_PADDING = 1;
 const ZONE_MARGIN = 1;
@@ -37,6 +39,8 @@ export default function applyLayout(map) {
       host.setPosition(position);
     });
   });
+
+  updateHeight(map);
 }
 
 export function getCubePosition(zoneIndex, hostIndex) {
@@ -63,4 +67,22 @@ export function getZonePosition(zoneIndex, numberOfHosts) {
     HOST_SIZE + ZONE_PADDING;
 
   return {x, y, width, height};
+}
+
+function updateHeight(map) {
+  const hosts = map.zones.reduce((agg, zone) => {
+    return agg.concat(zone.hosts);
+  }, []);
+
+  const maxPower = getMaxPower(hosts);
+  hosts.forEach(host => {
+    const height = 1 + 2 * (getPower(host.snapshot) / maxPower);
+    host.setHeight(height);
+  });
+}
+
+function getMaxPower(hosts) {
+  return hosts.reduce((power, host) => {
+    return Math.max(power, getPower(host.snapshot));
+  }, 0);
 }

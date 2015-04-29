@@ -160,4 +160,14 @@ export default class Host extends SceneObject {
       this.stickyNoteContainer
     );
   }
+
+  setHeight(height) {
+    this.cube.scale.y = height;
+    this.cube.updateMatrix();
+
+    this.calcStickyNodeWorldPos();
+
+    this.removeFromGlobalGeometry();
+    this.addToGlobalGeometry();
+  }
 }
