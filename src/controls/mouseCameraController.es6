@@ -75,7 +75,7 @@ class MouseControl extends CameraController {
   onMouseUp(e) {
     e.preventDefault();
 
-    if (this.unitsMoved < 100) {
+    if (this.unitsMoved < 75) {
       //set the new position when clicking (needed for automated tests)
       this.cursor.x = e.clientX;
       this.cursor.y = e.clientY;

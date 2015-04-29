@@ -124,10 +124,12 @@ export default class CameraController {
     this.cursorForRay.y = -(y / scene.height) * 2 + 1;
 
     //update cameras world matrix to get the correct pos/rotation
+    scene.camera.translateZ(this.zoomLevel);
     scene.camera.updateMatrixWorld();
 
     //update raycaster
     this.raycaster.setFromCamera(this.cursorForRay, scene.camera);
+    scene.camera.translateZ(-this.zoomLevel);
 
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
