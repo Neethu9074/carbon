@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import {expect} from 'chai';
 import Immutable from 'immutable';
 
-import {addMapping, getHealth, health} from './health';
+import {addMapping, getHealth, health} from './index';
 
 const os = 'com.instana.forge.infrastructure.os.OS';
 
@@ -28,6 +28,7 @@ describe('health', () => {
     });
 
     it('should fail when no healthProvider is registered', () => {
+      snapshot = snapshot.set('pluginId', 'you dont know me!');
       expect(() => getHealth(snapshot)).to.throw(Error);
     });
 
@@ -45,13 +46,6 @@ describe('health', () => {
       expect(() => getHealth(snapshot)).to.throw(Error);
     });
 
-    it('should fail when an unknown health is determined', () => {
-      const healthProvider = sinon.stub();
-      healthProvider.onFirstCall().returns('fart');
-      addMapping(os, healthProvider);
-
-      expect(() => getHealth(snapshot)).to.throw(Error);
-    });
   });
 
 });
