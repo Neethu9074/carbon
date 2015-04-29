@@ -47,7 +47,7 @@ export default class PhysicalMap extends SceneObject {
 	getGroundTexture() {
 		const texture = THREE.ImageUtils.loadTexture(groundTexturePath);
 		texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set(3 * this.size + 1, 3 * this.size + 1);
+		texture.repeat.set(3 * this.size, 3 * this.size);
 		//set the ground anisotropy to the max
 		//because it's a huge ground always seen
 		texture.anisotropy = 8;
