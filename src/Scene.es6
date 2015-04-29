@@ -181,7 +181,9 @@ export default class Scene {
   }
 
   render() {
+    this.camera.translateZ(this.controller.zoomLevel);
     this.renderer.render(this.scene, this.camera);
+    this.camera.translateZ(-this.controller.zoomLevel);
   }
 
   dispose() {

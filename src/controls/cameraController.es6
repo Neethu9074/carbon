@@ -141,25 +141,26 @@ export default class CameraController {
     targetWorldPos.applyMatrix4(this.camTransformObject.matrixWorld);
 
     //calculate the delta between wanted position and current position
-    let delta = cam.position
+    const direction = cam.position
       .clone()
       .sub(targetWorldPos);
 
     //get the total distance from the camera position to target position
-    const distance = delta.length();
+    const distance = direction.length();
 
     //camera can only move this direction in units/sec (dTime => 1 / sec)
-    delta.multiplyScalar(dTime * this.cameraSpeed);
+    const delta = direction.clone().multiplyScalar(dTime * this.cameraSpeed);
 
     //if the distance after multiplication is bigger than the total distance
     //set it to total distance
     if(delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
+    } else if(delta.length() < 0.0001) {
+      cam.position.copy(targetWorldPos);
+      return;
     }
 
     //move to target position with cameraspeed in units/sec
     cam.position.sub(delta);
-
-    cam.translateZ(this.zoomLevel);
   }
 }
