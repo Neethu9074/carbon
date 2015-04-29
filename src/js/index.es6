@@ -1,5 +1,8 @@
 'use strict';
 
+// require the forge to add pluggables
+import 'instana-ui-forge';
+
 import React from 'react';
 import logging from 'instalog';
 
