@@ -92,8 +92,10 @@ export default class Host extends SceneObject {
     projScreenMat.multiplyMatrices(camera.projectionMatrix, inverse);
     pos.applyMatrix4(projScreenMat);
 
-    return { x: ((pos.x + 1) * width / 2) | 0,
-             y: ((-pos.y + 1) * height / 2) | 0 };
+    return {
+      x: ((pos.x + 1) * width / 2) | 0,
+      y: ((-pos.y + 1) * height / 2) | 0
+    };
   }
 
   setPosition(position) {
