@@ -156,7 +156,6 @@ export default class CameraController {
     if(delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
     } else if(delta.length() < 0.0001) {
-      cam.position.copy(targetWorldPos);
       return;
     }
 
