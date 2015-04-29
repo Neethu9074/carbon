@@ -19,6 +19,9 @@ export default class AbstractMeshCreationFactory {
     //stores all added fragments to create the global geometry
     this.fragments = [];
 
+    //the default material
+    this.material = new THREE.MeshBasicMaterial();
+
     //bind methods
     this.update = this.update.bind(this);
 

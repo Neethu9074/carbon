@@ -32,6 +32,15 @@ export default class PlaneFactory extends AbstractMeshCreationFactory {
       [0.5, 0.22, 0.1]
     ];
 
+    //overwrite teh default material
+    this.material = new THREE.MeshBasicMaterial({
+      vertexColors: THREE.VertexColors,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.75,
+      blending: THREE.NormalBlending
+    });
+
     this.numElementPerVertex = 3; //x, y, z
     this.numFacesPerCube = this.colorItemsOk.length;
     this.numVerticesPerFace = 6;
@@ -135,15 +144,7 @@ export default class PlaneFactory extends AbstractMeshCreationFactory {
 
     this.globalGeometry.computeVertexNormals();
 
-    const material = new THREE.MeshBasicMaterial({
-      vertexColors: THREE.VertexColors,
-      side: THREE.DoubleSide,
-      transparent: true,
-      opacity: 0.75,
-      blending: THREE.NormalBlending
-    });
-
-    this.globalMesh = new THREE.Mesh(this.globalGeometry, material);
+    this.globalMesh = new THREE.Mesh(this.globalGeometry, this.material);
     this.globalMesh.renderOrder = 2;
 
     this.scene.addSceneObject(this.globalMesh);

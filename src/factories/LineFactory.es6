@@ -11,6 +11,11 @@ export default class LineFactory extends AbstractMeshCreationFactory {
 
     this.numElementPerVertex = 3; //x, y, z
     this.numPointsPerLine = 2; //from and to
+
+    //overwrite teh default material
+    this.material = new THREE.LineBasicMaterial({
+      color: 0xFFFFFF
+    });
   }
 
   addFragment({id, from, to, enabled = true}) {
@@ -71,13 +76,9 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     this.globalGeometry.addAttribute('position',
       new THREE.BufferAttribute(vertices, this.numElementPerVertex));
 
-		const material = new THREE.LineBasicMaterial({
-      color: 0xFFFFFF
-    });
-
     this.globalMesh = new THREE.Line(
       this.globalGeometry,
-      material,
+      this.material,
       THREE.LinePieces
     );
 

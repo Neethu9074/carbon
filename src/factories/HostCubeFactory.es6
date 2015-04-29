@@ -9,6 +9,15 @@ export default class HostCubeFactory extends PlaneFactory {
   constructor({scene}) {
     super({scene});
 
+    //overwrite teh default material
+    this.material = new THREE.MeshBasicMaterial({
+      vertexColors: THREE.VertexColors,
+      side: THREE.DoubleSide,
+      transparent: true,
+      opacity: 0.75,
+      blending: THREE.NormalBlending
+    });
+
     this.vertexPos = [
       //front
       [-0.5, 0, 0.5],
