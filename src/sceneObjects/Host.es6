@@ -30,6 +30,11 @@ export default class Host extends SceneObject {
     this.render(width, height, depth);
     this.addStickyNote();
     this.registerEvents();
+
+    const mat = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0.5
+    });
 	}
 
 	registerEvents() {
@@ -67,10 +72,11 @@ export default class Host extends SceneObject {
     this.cube.updateMatrixWorld();
 
     const worldPos = new THREE.Vector3();
-    worldPos.applyMatrix4(this.cube.matrixWorld)
-      .add(stickyNoteLineEndLocalPosition);
-    worldPos.z += 1;
-    worldPos.x -= 1;
+    worldPos.applyMatrix4(this.cube.matrixWorld);
+
+    worldPos.x -= stickyNoteLineEndLocalPosition.x;
+    worldPos.z += niceLookingDistanceForSticky.z + 0.5;
+
     worldPos.y = this.cube.scale.y +
       stickyNoteLineEndLocalPosition.y;
 
