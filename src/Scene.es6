@@ -108,29 +108,28 @@ export default class Scene {
   }
 
   setup3D() {
-    this.cameraSize = 30;
     const width = this.width;
     const height = this.height;
 
+    this.setupRenderer(width, height);
+    this.setupCamera(width, height);
+
+    this.scene = new THREE.Scene();
+    this.map = new PhysicalMap({scene: this});
+  }
+
+  setupRenderer(width, height) {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
     this.renderer.setClearColor(colors.renderClearColor);
 
     //add webGLRenderer to dom element
     this.parent.appendChild(this.renderer.domElement);
+  }
 
-    this.scene = new THREE.Scene();
-    this.map = new PhysicalMap({scene: this});
-
-    /*
-    //set the farplane as near as possible
-    this.camera = new THREE.PerspectiveCamera(
-      30, //fov
-      width / height, //aspect
-      0.5, //near
-      2000); //far
-    */
-
+  setupCamera(width, height) {
+    this.cameraSize = 30;
+    
     const aspect = width / height;
     const left = -this.cameraSize / 2 * aspect;
     const top = this.cameraSize / 2;
