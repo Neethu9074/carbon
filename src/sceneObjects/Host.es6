@@ -12,6 +12,7 @@ const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
+const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
 
 
 export default class Host extends SceneObject {
@@ -137,7 +138,7 @@ export default class Host extends SceneObject {
     const lineFactory = this.scene.lineFactory;
     const from = this.cube.position.clone()
       .add(new THREE.Vector3(-0.5, this.cube.scale.y, 0.5));
-    const to = from.clone().add(new THREE.Vector3(0, 0.8, 0.54));
+    const to = from.clone().add(niceLookingDistanceForSticky);
     lineFactory.addFragment({
       id: this.id,
       from, to
