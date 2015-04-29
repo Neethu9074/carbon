@@ -181,6 +181,14 @@ export default class Scene {
     this.octree.update();
     this.controller.update(this.deltaTime);
 
+    this.camera.updateMatrix();
+    this.camera.updateMatrixWorld();
+    this.camera.updateProjectionMatrix();
+
+    this.camera.projection = new THREE.Matrix4();
+    const inverse = new THREE.Matrix4().getInverse(this.camera.matrixWorld);
+    this.camera.projection.multiplyMatrices(this.camera.projectionMatrix, inverse);
+
     //update is done
 		this.emitter.emit('endUpdate', {scene: this});
 
