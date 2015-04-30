@@ -100,29 +100,23 @@ export default class Host extends SceneObject {
     if(!isInView) {
       //disable sticky note
       this.stickyNoteContainer.style.display = 'none';
-      return;
+    } else {
+      this.updateStickyNotePosition(data);
     }
-
-    const pos = this.getStickNoteScreenPosition({
-      position: this.stickyNoteEndPosWorld,
-      camera: camera,
-      width: data.scene.width,
-      height: data.scene.height
-    });
-
-    this.stickyNoteContainer.style.left = pos.x + 'px';
-    this.stickyNoteContainer.style.top = pos.y + 'px';
-    this.stickyNoteContainer.style.display = '';
   }
 
-  getStickNoteScreenPosition({position, camera, width, height}) {
-    const pos = position.clone();
-    pos.applyMatrix4(camera.projection);
+  updateStickyNotePosition(data) {
+    const scene = data.scene;
 
-    return {
-      x: ((pos.x + 1) * width / 2) | 0,
-      y: ((-pos.y + 1) * height / 2) | 0
-    };
+    const pos = this.stickyNoteEndPosWorld.clone();
+    pos.applyMatrix4(scene.camera.projection);
+
+    const x = ((pos.x + 1) * scene.width / 2) | 0;
+    const y = ((-pos.y + 1) * scene.height / 2) | 0;
+
+    this.stickyNoteContainer.style.left = x + 'px';
+    this.stickyNoteContainer.style.top = y + 'px';
+    this.stickyNoteContainer.style.display = '';
   }
 
   setPosition(position) {

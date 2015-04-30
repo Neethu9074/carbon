@@ -5,6 +5,7 @@ import THREE from 'three';
 import {getPower} from 'instana-ui-sdk/power';
 
 const HOST_SIZE = 1;
+const MAX_HOST_SIZE = 3;
 const ZONE_PADDING = 1;
 const ZONE_MARGIN = 1;
 const MAX_HOSTS_PER_ROW = 3;
@@ -75,9 +76,11 @@ function updateHeight(map) {
   }, []);
 
   const maxPower = getMaxPower(hosts);
+  const baseHeight = HOST_SIZE;
+  const growthRange = MAX_HOST_SIZE - HOST_SIZE;
   hosts.forEach(host => {
-    const height = 1 + 2 * (getPower(host.snapshot) / maxPower);
-    host.setHeight(height);
+    const weightedHeight = growthRange * (getPower(host.snapshot) / maxPower);
+    host.setHeight(baseHeight + weightedHeight);
   });
 }
 
