@@ -46,4 +46,9 @@ export default class SceneObject {
   on(event) {
     return this.parent.on(event);
   }
+
+  //each object can tell that the scene should be redrawn
+  renderScene() {
+    this.parent.renderScene();
+  }
 }

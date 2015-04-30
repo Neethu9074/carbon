@@ -114,10 +114,6 @@ export default class CameraController {
     //clamp the position to avoid overflow of the level area
     //TODO: calculate the bounding box of all cubes inside the scene
     //(remember to update it) and set the bounds to that
-    transObj.position.x = Math.max(-500, transObj.position.x);
-    transObj.position.x = Math.min(500, transObj.position.x);
-    transObj.position.z = Math.min(500, transObj.position.z);
-    transObj.position.z = Math.max(-500, transObj.position.z);
   }
 
   getObjectOnCursor() {
@@ -164,11 +160,13 @@ export default class CameraController {
     if(delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
     } else if(delta.length() < 0.0001) {
+      this.camTransformObject.updateMatrixWorld();
       return;
     }
 
     //move to target position with cameraspeed in units/sec
     cam.position.sub(delta);
     cam.updateMatrix();
+    this.scene.renderScene();
   }
 }

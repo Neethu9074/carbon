@@ -70,6 +70,8 @@ export default class PhysicalMap extends SceneObject {
 	onInventoryUpdate(snapshots) {
 		snapshots.forEach(host => this.addHost(host));
 		layout(this);
+
+		this.parent.renderScene();
 	}
 
 	addHost(host) {

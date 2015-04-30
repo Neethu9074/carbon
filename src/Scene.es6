@@ -81,6 +81,10 @@ export default class Scene {
 		return this;
 	}
 
+	renderScene() {
+		this.shouldRenderScene = true;
+	}
+
 	setupController() {
 		if (isMobile.any()) {
 			this.controller = new TouchCameraController({
@@ -160,9 +164,9 @@ export default class Scene {
 		this.setupCamera(width, height);
 
 		this.scene = new THREE.Scene();
-		this.map = new PhysicalMap({
-			scene: this
-		});
+		this.map = new PhysicalMap({scene: this});
+
+		this.shouldRenderScene = true;
 	}
 
 	setupRenderer(width, height) {
@@ -219,15 +223,22 @@ export default class Scene {
 		if (this.disposed) {
 			return;
 		}
+
 		requestAnimationFrame(this.update);
 
 		//fire event for updating stats
 		this.emitter.emit('beginUpdate');
 
 		this.calculateDeltaTime();
-		this.octree.update();
 		this.controller.update(this.deltaTime);
+
+		//don't render scene if it is not needed
+		if(!this.shouldRenderScene) {
+			return;
+		}
+
 		this.updateCamera();
+		this.octree.update();
 
 		//update is done
 		this.emitter.emit('endUpdate', {
@@ -235,6 +246,7 @@ export default class Scene {
 		});
 
 		this.render();
+		this.shouldRenderScene = false;
 	}
 
 	updateCamera() {
@@ -275,6 +287,7 @@ export default class Scene {
 
 		//update the opacity for the 3D elements
 		this.updateMaterialsByZoomLevel(zoomLevel);
+		this.renderScene();
 	}
 
 	updateMaterialsByZoomLevel(zoomLevel) {
