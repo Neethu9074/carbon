@@ -5,8 +5,11 @@ import {addMapping} from 'instana-ui-sdk/zones';
 addMapping(
   'com.instana.forge.infrastructure.os.OS',
   snapshot => {
-    const data = snapshot.get('snapshot');
-    data.x = 1;
-    return undefined;
+    return snapshot.getIn([
+      'snapshot',
+      'com.instana.forge.infrastructure.virtualization.EC2',
+      'snapshot',
+      'availability-zone'
+    ], 'undefined');
   }
 );

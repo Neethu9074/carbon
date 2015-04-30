@@ -21,7 +21,17 @@ describe('zones', () => {
     });
   });
 
-  it('should return undefined since its not implemented yet', () => {
-    expect(getZone(snapshot)).to.equal(undefined);
+  it('should return undefined due to missing EC2 information', () => {
+    expect(getZone(snapshot)).to.equal('undefined');
+  });
+
+  it('should return EC2 availability zone information', () => {
+    snapshot = snapshot.setIn([
+      'snapshot',
+      'com.instana.forge.infrastructure.virtualization.EC2',
+      'snapshot',
+      'availability-zone'
+    ], 'eu-central');
+    expect(getZone(snapshot)).to.equal('eu-central');
   });
 });
