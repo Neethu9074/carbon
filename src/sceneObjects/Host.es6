@@ -116,7 +116,7 @@ export default class Host extends SceneObject {
 
     this.stickyNoteContainer.style.left = x + 'px';
     this.stickyNoteContainer.style.top = y + 'px';
-    this.stickyNoteContainer.style.display = '';
+    this.stickyNoteContainer.style.display = 'unset';
   }
 
   setPosition(position) {
