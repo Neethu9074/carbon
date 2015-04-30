@@ -1,6 +1,7 @@
 'use strict';
 
 import THREE from 'three';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 
 import './lib/Octree';
 
@@ -323,4 +324,14 @@ export default class Scene {
 	clickedOnObject(object) {
 		this.controller.flyToObject(object);
 	}
+
+  focus(snapshotId) {
+    this.map.zones.forEach(zone => {
+      zone.hosts.forEach(host => {
+        if (isIdEqual(host.snapshot, snapshotId)) {
+          this.clickedOnObject(host.cube);
+        }
+      });
+    });
+  }
 }
