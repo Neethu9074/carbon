@@ -118,6 +118,9 @@ export default class Host extends SceneObject {
     const style = this.stickyNoteContainer.style;
     style.left = x + 'px';
     style.top = y + 'px';
+
+    //set to '' because the display is set by zoom too. If you would set
+    //this value to another like '' you would overwrite it
     style.display = '';
   }
 
