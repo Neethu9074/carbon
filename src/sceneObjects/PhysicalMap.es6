@@ -57,7 +57,9 @@ export default class PhysicalMap extends SceneObject {
 
 	bindToDatasource() {
 		if (__DEV__ && window.location.search.indexOf('livedata') === -1) {
-			return this.onInventoryUpdate(this.getDummyData());
+			return this.onInventoryUpdate(
+				this.getDummyData(
+					window.location.search.substring(1)));
 		}
 
 		const pluginId = 'com.instana.forge.infrastructure.os.OS';
@@ -88,17 +90,18 @@ export default class PhysicalMap extends SceneObject {
 		zone.addHost({snapshot: host});
 	}
 
-	getDummyData() {
-		return Immutable.fromJS([
-			{
-				hostId: 'ip-10-140-194-67.ec2.internal',
-				steadyId: 'Linux.3.13.0-44-generic',
+	getDummyData(hostCount) {
+		let dummies = [];
+		for (let i = 0, max = hostCount || 10; i < max; i++) {
+			dummies.push({
+				hostId: 'ip-10-140-194-67.ec2.internal.' + i,
+				steadyId: 'Linux.3.13.0-44-generic' + i,
 				pluginId: 'com.instana.forge.infrastructure.os.OS',
 				snapshot: {
 					'availability-zone': 'us-east-1c',
-					'cpu.count': 1,
+					'cpu.count': i,
 					'accumulated.status': {
-						score: 1,
+						score: 1 - (i / max),
 						labels: [
 							'operating system instance',
 							'operating system instance'
@@ -106,45 +109,10 @@ export default class PhysicalMap extends SceneObject {
 						issues: [],
 						solutions: []
 					},
-					'memory.total': 3947331584
+					'memory.total': 3947331 * i
 				}
-			}, {
-				hostId: 'ip-10-144-192-212',
-				steadyId: 'Linux.3.8.0-37-generic',
-				pluginId: 'com.instana.forge.infrastructure.os.OS',
-				snapshot: {
-					'availability-zone': 'eu-central',
-					'cpu.count': 2,
-					'accumulated.status': {
-						score: 1,
-						labels: [
-							'operating system instance',
-							'operating system instance'
-						],
-						issues: [],
-						solutions: []
-					},
-					'memory.total': 7879286784
-				}
-			}, {
-				hostId: 'ip-10-179-191-97.ec2.internal',
-				steadyId: 'Linux.3.13.0-44-generic',
-				pluginId: 'com.instana.forge.infrastructure.os.OS',
-				snapshot: {
-					'availability-zone': 'eu-west',
-					'cpu.count': 1,
-					'accumulated.status': {
-						score: 1,
-						labels: [
-							'operating system instance',
-							'operating system instance'
-						],
-						issues: [],
-						solutions: []
-					},
-					'memory.total': 3947331584
-				}
-			}
-		]);
+			});
+		}
+		return Immutable.fromJS(dummies);
 	}
 }
