@@ -89,17 +89,17 @@ export default class PhysicalMap extends SceneObject {
 	}
 
 	getDummyData(hostCount) {
-		let dummies = Array();
+		let dummies = [];
 		for (let i = 0, max = hostCount || 10; i < max; i++) {
 			dummies.push({
-				hostId: 'ip-10-140-194-67.ec2.internal.'+i,
-				steadyId: 'Linux.3.13.0-44-generic'+i,
+				hostId: 'ip-10-140-194-67.ec2.internal.' + i,
+				steadyId: 'Linux.3.13.0-44-generic' + i,
 				pluginId: 'com.instana.forge.infrastructure.os.OS',
 				snapshot: {
 					'availability-zone': 'us-east-1c',
 					'cpu.count': i,
 					'accumulated.status': {
-						score: 1-(i/max),
+						score: 1 - (i / max),
 						labels: [
 							'operating system instance',
 							'operating system instance'
