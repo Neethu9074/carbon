@@ -24,9 +24,9 @@ export default function applyLayout(map) {
     // add respectively subtract 0.5 to accomodate for central positioning of
     // hosts.
     zone.setPosition(new THREE.Vector3(
-      zonePosition.x + zonePosition.width / 2 - 0.5,
+      zonePosition.x + zonePosition.width / 2 - 1,
       0,
-      (zonePosition.y + zonePosition.height / 2) * -1 + 0.5
+      (zonePosition.y + zonePosition.height / 2) * -1 + 1
     ));
     zone.setScale(new THREE.Vector3(
       zonePosition.width,
