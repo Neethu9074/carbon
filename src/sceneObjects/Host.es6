@@ -31,7 +31,7 @@ export default class Host extends SceneObject {
     this.addStickyNote();
     this.registerEvents();
 
-    this.showLine(true);
+    this.setLineVisible(true);
 	}
 
 	registerEvents() {
@@ -140,7 +140,7 @@ export default class Host extends SceneObject {
       health: this.health
     });
 
-    if(this.showLine) {
+    if(this.lineVisible) {
       const lineFactory = this.scene.lineFactory;
       const from = this.cube.position.clone()
         .add(new THREE.Vector3(-0.5, this.cube.scale.y, 0.5));
@@ -152,8 +152,8 @@ export default class Host extends SceneObject {
     }
   }
 
-  showLine(trueFalse) {
-    this.showLine = trueFalse;
+  setLineVisible(lineVisible) {
+    this.lineVisible = lineVisible;
   }
 
   onSnapshotUpdate(snapshot) {
