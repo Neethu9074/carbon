@@ -99,7 +99,7 @@ export default class PhysicalMap extends SceneObject {
 					'availability-zone': 'us-east-1c',
 					'cpu.count': i,
 					'accumulated.status': {
-						score: 1-(i/1000),
+						score: 1-(i/max),
 						labels: [
 							'operating system instance',
 							'operating system instance'
