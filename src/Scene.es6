@@ -206,6 +206,7 @@ export default class Scene {
 		this.camera.left = -this.cameraSize / 2 * aspect;
 		this.camera.right = this.cameraSize / 2 * aspect;
 		this.camera.updateProjectionMatrix();
+		this.renderScene();
 	}
 
 	getWorldPosition() {
