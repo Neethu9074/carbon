@@ -244,8 +244,9 @@ export default class Scene {
 		camera.updateProjectionMatrix();
 
 		camera.projection = new THREE.Matrix4();
-		const inverse = new THREE.Matrix4().getInverse(camera.matrixWorld);
-		camera.projection.multiplyMatrices(camera.projectionMatrix, inverse);
+		this.inverse = new THREE.Matrix4().getInverse(camera.matrixWorld);
+		camera.projection
+			.multiplyMatrices(camera.projectionMatrix, this.inverse);
 	}
 
 	render() {

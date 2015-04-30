@@ -13,12 +13,20 @@ const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
+const frustum = new THREE.Frustum();
+const projScreenMatrix = new THREE.Matrix4();
+const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
+for (let i = 0; i < cubeGeometry.vertices.length; i++) {
+  cubeGeometry.vertices[i].x -= 0.5;
+  cubeGeometry.vertices[i].y += 0.5;
+  cubeGeometry.vertices[i].z += 0.5;
+}
+const cubeMaterial = new THREE.MeshBasicMaterial({visible: false});
 
 
 export default class Host extends SceneObject {
 
-  constructor({parent, snapshot,
-    width = 1, height = 1, depth = 1}) {
+  constructor({parent, snapshot}) {
 
     super({parent});
 
@@ -27,7 +35,7 @@ export default class Host extends SceneObject {
     this.snapshot = snapshot;
     this.health = getHealth(snapshot);
 
-    this.render(width, height, depth);
+    this.render();
     this.addStickyNote();
     this.registerEvents();
 	}
@@ -38,12 +46,10 @@ export default class Host extends SceneObject {
     );
   }
 
-  render(width, height, depth) {
-    this.cube = new THREE.Object3D();
-    this.cube.scale.set(width, height, depth);
+  render() {
+    this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 
-    const collisionBox = new THREE.Mesh(
-      new THREE.BoxGeometry(width, height, depth));
+    const collisionBox = new THREE.Mesh(cubeGeometry);
     collisionBox.material.visible = false;
 
     this.cube.collisionObject = collisionBox;
@@ -79,15 +85,34 @@ export default class Host extends SceneObject {
   }
 
   update(data) {
+    const camera = data.scene.camera;
+    const inverse = data.scene.inverse;
+
+		projScreenMatrix
+      .multiplyMatrices(camera.projectionMatrix, inverse);
+		frustum.setFromMatrix(projScreenMatrix);
+
+    //do not update if the cube is not in view frustum
+    this.cube.material.visible = true;
+    const isInView = frustum.intersectsObject(this.cube);
+    this.cube.material.visible = false;
+
+    if(!isInView) {
+      //disable sticky note
+      this.stickyNoteContainer.style.display = 'none';
+      return;
+    }
+
     const pos = this.getStickNoteScreenPosition({
       position: this.stickyNoteEndPosWorld,
-      camera: data.scene.camera,
+      camera: camera,
       width: data.scene.width,
       height: data.scene.height
     });
 
     this.stickyNoteContainer.style.left = pos.x + 'px';
     this.stickyNoteContainer.style.top = pos.y + 'px';
+    this.stickyNoteContainer.style.display = '';
   }
 
   getStickNoteScreenPosition({position, camera, width, height}) {
