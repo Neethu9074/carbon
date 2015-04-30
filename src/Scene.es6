@@ -8,6 +8,7 @@ from 'instana-ui-services/util/snapshots';
 
 import './lib/Octree';
 
+import * as zoom from './zoom';
 import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import Host from './sceneObjects/Host';
@@ -288,24 +289,13 @@ export default class Scene {
 		this.hostFactory.material.opacity = normedZoomLevel;
 	}
 
-	updateZoomLevelInCss(zoomLevel) {
+	updateZoomLevelInCss(zoomUnits) {
 		const parentClasses = this.parent.classList;
-		[100, 50, 25, 0].forEach(level => {
+
+    zoom.zoomLevelsInDesign.forEach(level => {
 			parentClasses.remove(getZoomClass(level));
 		});
-
-		let zoomLevelAccordingToDesign;
-		if (zoomLevel >= 250) {
-      zoomLevelAccordingToDesign = 0;
-		} else if (zoomLevel < 70) {
-			zoomLevelAccordingToDesign = 100;
-		} else if (zoomLevel <= 100) {
-			zoomLevelAccordingToDesign = 50;
-		} else {
-			zoomLevelAccordingToDesign = 25;
-		}
-
-		parentClasses.add(getZoomClass(zoomLevelAccordingToDesign));
+		parentClasses.add(getZoomClass(zoom.getZoomLevel(zoomUnits)));
 	}
 
 	setCameraFromSize() {
