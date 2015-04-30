@@ -6,6 +6,7 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 import {create} from 'instana-ui-services/conveyer';
 import InventoryConveyer from 'instana-ui-services/conveyer/InventoryConveyer';
+import {getZone} from 'instana-ui-sdk/zones';
 
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
@@ -72,7 +73,7 @@ export default class PhysicalMap extends SceneObject {
 	}
 
 	addHost(host) {
-		const zoneId = host.getIn(['snapshot', 'availability-zone']);
+		const zoneId = getZone(host);
 		let zone = _.find(this.zones, zone => zone.id === zoneId);
 		if (!zone) {
 			zone = new Zone({
