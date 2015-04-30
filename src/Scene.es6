@@ -242,9 +242,7 @@ export default class Scene {
 		this.octree.update();
 
 		//update is done
-		this.emitter.emit('endUpdate', {
-			scene: this
-		});
+		this.emitter.emit('endUpdate', {scene: this});
 
 		this.render();
 		this.shouldRenderScene = false;

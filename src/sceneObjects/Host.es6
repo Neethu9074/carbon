@@ -97,9 +97,10 @@ export default class Host extends SceneObject {
     const isInView = frustum.intersectsObject(this.cube);
     this.cube.material.visible = false;
 
+    const style = this.stickyNoteContainer.style;
     if(!isInView) {
       //disable sticky note
-      this.stickyNoteContainer.style.display = 'none';
+      style.display = 'none';
     } else {
       this.updateStickyNotePosition(data);
     }
@@ -117,7 +118,7 @@ export default class Host extends SceneObject {
     const style = this.stickyNoteContainer.style;
     style.left = x + 'px';
     style.top = y + 'px';
-    style.display = 'unset';
+    style.display = '';
   }
 
   setPosition(position) {
