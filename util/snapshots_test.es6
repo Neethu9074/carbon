@@ -4,7 +4,7 @@
 
 import {expect} from 'chai';
 import Immutable from 'immutable';
-import {extractId, getIdPredicate} from './snapshots';
+import {extractId, isIdEqual} from './snapshots';
 
 describe('util.snapshots', () => {
 
@@ -17,13 +17,13 @@ describe('util.snapshots', () => {
     });
   });
 
-  describe('getIdPredicate', () => {
-    it('should return false when ID does not match', () => {
-      expect(getIdPredicate(newSnapshot(0))(newSnapshot(1))).to.equal(false);
+  describe('isIdEqual', () => {
+    it('should return false when IDs do not match', () => {
+      expect(isIdEqual(newSnapshot(0), newSnapshot(1))).to.equal(false);
     });
 
     it('should return true when ID matches', () => {
-      expect(getIdPredicate(newSnapshot(0))(newSnapshot(0))).to.equal(true);
+      expect(isIdEqual(newSnapshot(0), newSnapshot(0))).to.equal(true);
     });
   });
 

@@ -20,17 +20,17 @@ export function extractId(snapshot) {
   /* eslint-enable new-cap */
 }
 
+
 /**
- * Build a predicate function using the given snapshot ID
+ * Determines whether both IDs are equal.
  *
- * @param {Immutable.Map} id A snapshot ID definition as defined by extractId.
- * @return {Function} A function that takes an Immutable snapshot and returns
- *   true when the ID matches.
+ * @param {Immutable.Map} id1
+ * @param {Immutable.Map} id2
+ * @return {boolean} true when both IDs describe the same snapshot, i.e.
+ *  the hostId, pluginId and steadyId property are the same.
  */
-export function getIdPredicate(id) {
-  return snapshot => {
-    return snapshot.get('hostId') === id.get('hostId') &&
-      snapshot.get('pluginId') === id.get('pluginId') &&
-      snapshot.get('steadyId') === id.get('steadyId');
-  };
+export function isIdEqual(id1, id2) {
+  return id1.get('hostId') === id2.get('hostId') &&
+    id1.get('pluginId') === id2.get('pluginId') &&
+    id1.get('steadyId') === id2.get('steadyId');
 }
