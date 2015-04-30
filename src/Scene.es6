@@ -287,6 +287,7 @@ export default class Scene {
 		let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
 		normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 		this.hostFactory.material.opacity = normedZoomLevel;
+    this.lineFactory.material.visible = (zoomLevel <= 250);
 	}
 
 	updateZoomLevelInCss(zoomUnits) {
