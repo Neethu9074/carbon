@@ -13,8 +13,6 @@ const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
-const frustum = new THREE.Frustum();
-const projScreenMatrix = new THREE.Matrix4();
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
 for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].x -= 0.5;
@@ -85,16 +83,9 @@ export default class Host extends SceneObject {
   }
 
   update(data) {
-    const camera = data.scene.camera;
-    const inverse = data.scene.inverse;
-
-		projScreenMatrix
-      .multiplyMatrices(camera.projectionMatrix, inverse);
-		frustum.setFromMatrix(projScreenMatrix);
-
     //do not update if the cube is not in view frustum
     this.cube.material.visible = true;
-    const isInView = frustum.intersectsObject(this.cube);
+    const isInView = data.scene.objectIsVisible(this.cube);
     this.cube.material.visible = false;
 
     const style = this.stickyNoteContainer.style;

@@ -21,6 +21,8 @@ import TouchCameraController from './controls/touchCameraController';
 
 import _ from 'lodash';
 
+const frustum = new THREE.Frustum();
+const projScreenMatrix = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 const isMobile = {
 	android: function() {
@@ -255,13 +257,21 @@ export default class Scene {
 		camera.updateProjectionMatrix();
 
 		camera.projection = new THREE.Matrix4();
-		this.inverse = new THREE.Matrix4().getInverse(camera.matrixWorld);
+		const inverse = new THREE.Matrix4().getInverse(camera.matrixWorld);
 		camera.projection
-			.multiplyMatrices(camera.projectionMatrix, this.inverse);
+			.multiplyMatrices(camera.projectionMatrix, inverse);
+
+		//calculte view frustum
+		projScreenMatrix.multiplyMatrices(camera.projectionMatrix, inverse);
+		frustum.setFromMatrix(projScreenMatrix);
 	}
 
 	render() {
 		this.renderer.render(this.scene, this.camera);
+	}
+
+	objectIsVisible(object) {
+		return frustum.intersectsObject(object);
 	}
 
 	dispose() {
