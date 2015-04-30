@@ -79,15 +79,17 @@ export default class CameraController {
   doClick() {
     //if an object was found via raycasting, inform the scene
     if (this.hittenObject !== undefined) {
-      const targetPosition = new THREE.Vector3();
-      this.hittenObject.updateMatrixWorld();
-      targetPosition.applyMatrix4(this.hittenObject.matrixWorld);
-
-      this.camTransformObject.position.x = targetPosition.x;
-      this.camTransformObject.position.z = targetPosition.z;
-
       this.scene.clickedOnObject(this.hittenObject);
     }
+  }
+
+  flyToObject(obj) {
+    obj.updateMatrixWorld();
+
+    const targetPosition = new THREE.Vector3().applyMatrix4(obj.matrixWorld);
+
+    this.camTransformObject.position.x = targetPosition.x;
+    this.camTransformObject.position.z = targetPosition.z;
   }
 
   move(dx, dy) {

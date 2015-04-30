@@ -284,7 +284,7 @@ export default class Scene {
 		return undefined;
   }
 
-  clickedOnObject(/*obj*/) {
-    //TODO something with the clicked obj
+  clickedOnObject(object) {
+    this.controller.flyToObject(object);
   }
 }
