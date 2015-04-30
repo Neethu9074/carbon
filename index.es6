@@ -5,3 +5,4 @@
 
 import './health';
 import './power';
+import './zones';

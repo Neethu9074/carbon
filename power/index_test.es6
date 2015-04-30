@@ -26,7 +26,5 @@ describe('power', () => {
     it('should calculate power', () => {
       expect(getPower(snapshot)).to.equal(1000);
     });
-
   });
-
 });
