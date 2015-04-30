@@ -14,6 +14,9 @@ class TouchControl extends CameraController{
     super({scene});
     this.bindListeners();
 
+    this.moveSpeed = 0.005;
+    this.pitchSpeed = 0.3;
+
     const canvas = scene.parent;
     canvas.addEventListener('touchstart', this.onTouchStart);
     canvas.addEventListener('touchmove', this.onTouchMove);
@@ -67,7 +70,7 @@ class TouchControl extends CameraController{
     e.preventDefault();
 
     if(this.scaling) {
-      this.zoom(e);
+      this.touchZoom(e);
 
     } else {
       this.pitch(e);
@@ -77,7 +80,7 @@ class TouchControl extends CameraController{
     this.cursor.y = e.touches[0].clientY;
   }
 
-  zoom(e) {
+  touchZoom(e) {
     const dist = Math.sqrt(
       Math.pow(e.touches[0].clientX - e.touches[1].clientX, 2) +
       Math.pow(e.touches[0].clientY - e.touches[1].clientY, 2));
