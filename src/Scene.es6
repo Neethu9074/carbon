@@ -1,7 +1,10 @@
 'use strict';
 
 import THREE from 'three';
-import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import {
+	isIdEqual
+}
+from 'instana-ui-services/util/snapshots';
 
 import './lib/Octree';
 
@@ -15,33 +18,37 @@ import GroundFactory from './factories/PlaneFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
+import _ from 'lodash';
+
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 const isMobile = {
-  android: function() {
-    return navigator.userAgent.match(/Android/i);
-  },
-  blackBerry: function() {
-    return navigator.userAgent.match(/BlackBerry/i);
-  },
-  iOS: function() {
-    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-  },
-  opera: function() {
-    return navigator.userAgent.match(/Opera Mini/i);
-  },
-  windows: function() {
-    return navigator.userAgent.match(/IEMobile/i);
-  },
-  any: function() {
-    return (isMobile.android() || isMobile.blackBerry() ||
-    isMobile.iOS() || isMobile.opera() || isMobile.windows());
-  }
+	android: function() {
+		return navigator.userAgent.match(/Android/i);
+	},
+	blackBerry: function() {
+		return navigator.userAgent.match(/BlackBerry/i);
+	},
+	iOS: function() {
+		return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+	},
+	opera: function() {
+		return navigator.userAgent.match(/Opera Mini/i);
+	},
+	windows: function() {
+		return navigator.userAgent.match(/IEMobile/i);
+	},
+	any: function() {
+		return (isMobile.android() || isMobile.blackBerry() ||
+			isMobile.iOS() || isMobile.opera() || isMobile.windows());
+	}
 };
 
 
 export default class Scene {
 
-	constructor({parent}) {
+	constructor({
+		parent
+	}) {
 		this.bindMethods();
 
 		this.parent = parent;
@@ -74,11 +81,15 @@ export default class Scene {
 	}
 
 	setupController() {
-    if(isMobile.any()) {
-      this.controller = new TouchCameraController({scene: this});
-    } else {
-      this.controller = new MouseCameraController({scene: this});
-    }
+		if (isMobile.any()) {
+			this.controller = new TouchCameraController({
+				scene: this
+			});
+		} else {
+			this.controller = new MouseCameraController({
+				scene: this
+			});
+		}
 
 		//call zoom to trigger camera movemnt to the right position
 		this.controller.zoom(-1);
@@ -279,18 +290,21 @@ export default class Scene {
 
 	updateZoomLevelInCss(zoomLevel) {
 		const parentClasses = this.parent.classList;
-		[100, 50, 25].forEach(level => {
+		[100, 50, 25, 0].forEach(level => {
 			parentClasses.remove(getZoomClass(level));
 		});
 
 		let zoomLevelAccordingToDesign;
-		if (zoomLevel < 70) {
+		if (zoomLevel >= 250) {
+      zoomLevelAccordingToDesign = 0;
+		} else if (zoomLevel < 70) {
 			zoomLevelAccordingToDesign = 100;
 		} else if (zoomLevel <= 100) {
 			zoomLevelAccordingToDesign = 50;
 		} else {
 			zoomLevelAccordingToDesign = 25;
 		}
+
 		parentClasses.add(getZoomClass(zoomLevelAccordingToDesign));
 	}
 
@@ -325,13 +339,13 @@ export default class Scene {
 		this.controller.flyToObject(object);
 	}
 
-  focus(snapshotId) {
-    this.map.zones.forEach(zone => {
-      zone.hosts.forEach(host => {
-        if (isIdEqual(host.snapshot, snapshotId)) {
-          this.clickedOnObject(host.cube);
-        }
-      });
-    });
-  }
+	focus(snapshotId) {
+		this.map.zones.forEach(zone => {
+			zone.hosts.forEach(host => {
+				if (isIdEqual(host.snapshot, snapshotId)) {
+					this.clickedOnObject(host.cube);
+				}
+			});
+		});
+	}
 }
