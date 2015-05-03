@@ -98,7 +98,6 @@ export default class PhysicalMap extends SceneObject {
 				steadyId: 'Linux.3.13.0-44-generic' + i,
 				pluginId: 'com.instana.forge.infrastructure.os.OS',
 				snapshot: {
-					'availability-zone': 'us-east-1c',
 					'cpu.count': i,
 					'accumulated.status': {
 						score: 1 - (i / max),
@@ -109,7 +108,12 @@ export default class PhysicalMap extends SceneObject {
 						issues: [],
 						solutions: []
 					},
-					'memory.total': 3947331 * i
+					'memory.total': 3947331 * i,
+					'com.instana.forge.infrastructure.virtualization.EC2': {
+						snapshot: {
+							'availability-zone': 'us-east-' + i % 5
+						}
+					}
 				}
 			});
 		}
