@@ -65,8 +65,39 @@ describe('connection.subscriptionAwareConnection', () => {
     }));
   });
 
+  it('should not perimt multiple subscriptions with the same ID', () => {
+    sac.subscribe('snapshot:yo', {});
+    expect(() => sac.subscribe('snapshot:yo', {})).to.throw(Error);
+  });
+
+  it('should resend subscriptions on reconnect', () => {
+    sac.subscribe('snapshot:yo', {foo: 'bar'});
+
+    // when opening the connection, the pending subscription will be send to the
+    // server.
+    open();
+    expect(webSocketConnection.send.callCount).to.equal(1);
+
+    // close the connection. The subscription should not yet be resend.
+    close();
+    expect(webSocketConnection.send.callCount).to.equal(1);
+
+    // once the connection was reestablished, the subscription should be resend.
+    open();
+    expect(webSocketConnection.send.callCount).to.equal(2);
+    expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
+      event: 'subscribe',
+      data: {foo: 'bar'}
+    }));
+  });
+
   function open() {
     webSocketConnection.readyState = 1;
     webSocketConnection.onopen();
+  }
+
+  function close() {
+    webSocketConnection.readyState = 3;
+    webSocketConnection.onclose();
   }
 });
