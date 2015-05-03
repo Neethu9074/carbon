@@ -3,7 +3,8 @@
 import invariant from 'invariant';
 import * as connection from './index';
 
-// we are exposing the emitter of the connection to maintain a similar interface
+// we are exposing the emitter of the connection to maintain the interface of
+// connection/index
 export const emitter = connection.emitter;
 
 // {

@@ -6,7 +6,7 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
 
-describe('connection', () => {
+describe('connection.connection', () => {
 
   let WebSocket;
   let connection;
