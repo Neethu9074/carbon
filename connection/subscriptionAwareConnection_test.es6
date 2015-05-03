@@ -91,6 +91,35 @@ describe('connection.subscriptionAwareConnection', () => {
     }));
   });
 
+  it('should send unsubscribe notices', () => {
+    open();
+    sac.subscribe('snapshot:yo', {foo: 'bar'});
+
+    sac.unsubscribe('snapshot:yo');
+    expect(webSocketConnection.send.callCount).to.equal(2);
+    expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
+      event: 'unsubscribe',
+      data: {
+        id: 'snapshot:yo'
+      }
+    }));
+  });
+
+  it('should not resubscribe after reconnect once unsubscribed', () => {
+    open();
+    sac.subscribe('snapshot:yo', {foo: 'bar'});
+    close();
+    sac.unsubscribe('snapshot:yo');
+    open();
+    expect(webSocketConnection.send.callCount).to.equal(2);
+    expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
+      event: 'unsubscribe',
+      data: {
+        id: 'snapshot:yo'
+      }
+    }));
+  });
+
   function open() {
     webSocketConnection.readyState = 1;
     webSocketConnection.onopen();

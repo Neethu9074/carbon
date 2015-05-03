@@ -14,7 +14,7 @@ let subscriptions = {};
 
 // automatically try to resend the subscriptions once the connection is closed
 // (for whatever reason that may happen).
-emitter.on('closed').subscribe(() => {
+emitter.on('connected').subscribe(() => {
   Object.keys(subscriptions).forEach(k => send(subscriptions[k]));
 });
 
@@ -32,7 +32,12 @@ export function subscribe(id, subscription) {
     event: 'subscribe',
     data: subscription
   };
-  send(msg);
+
+  // the queueing mechanism of connection is insufficient. We want to refresh
+  // subscriptions once the connection is established, not on disconnect.
+  if (connection.isOpen()) {
+    send(msg);
+  }
 }
 
 export function unsubscribe(id) {

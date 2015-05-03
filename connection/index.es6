@@ -94,11 +94,16 @@ export function send(msg) {
   // the WebSocket API does not queue messages but instead will fail when we try
   // to send messages before the connection is successfully established, i.e.
   // opened.
-  if (connection.readyState !== readyState.open) {
+  if (!isOpen()) {
     return queuedMessages.push(msg);
   }
 
   connection.send(JSON.stringify(msg));
+}
+
+
+export function isOpen() {
+  return connection.readyState === readyState.open;
 }
 
 
