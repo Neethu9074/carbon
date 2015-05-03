@@ -1,7 +1,7 @@
 'use strict';
 
 import Immutable from 'immutable';
-import {emitter, send} from '../connection';
+import * as connection from '../connection/subscriptionAwareConnection';
 
 export class SnapshotConveyer {
 
@@ -9,35 +9,43 @@ export class SnapshotConveyer {
     return pluginId;
   }
 
-  constructor({pluginId}) {
+  constructor(opts) {
+    this.id = SnapshotConveyer.getUniqueId(opts);
     this.subscribeEvent = {
-      event: 'subscribe',
-      data: {
-        type: 'snapshot',
-        pluginId: pluginId
-      }
+      type: 'snapshot',
+      pluginId: opts.pluginId
     };
 
-    const msgEventType = 'snapshot:' + pluginId;
+    this.dataEventPredicate = e => e.event === this.id;
 
-    this.dataEventPredicate = e => e.event === msgEventType;
+    // initially, there is no data!
+    this.snapshots = null;
   }
 
   start(onNext, onError) {
     this.onNext = onNext;
     this.onError = onError;
 
-    this.subscription = emitter.on('message')
+    this.subscription = connection.emitter.on('message')
       .filter(this.dataEventPredicate)
-      .subscribe(e => {
-        onNext(Immutable.fromJS(e));
-      });
+      .subscribe(e => this.handleMessage(e.data));
 
-    send(this.subscribeEvent);
+    connection.subscribe(this.id, this.subscribeEvent);
+  }
+
+  handleMessage(message) {
+    if (this.snapshots === null) {
+      this.snapshots = Immutable.fromJS(message.new);
+      this.onNext(message);
+      return;
+    }
+    // TODO handle changes and removal
   }
 
   stop() {
     this.subscription.dispose();
+    connection.unsubscribe(this.id);
+    this.snapshots = null;
   }
 
 }
