@@ -3,10 +3,10 @@
 import Immutable from 'immutable';
 import * as connection from '../connection/subscriptionAwareConnection';
 
-export class SnapshotConveyer {
+export default class SnapshotConveyer {
 
   static getUniqueId({pluginId}) {
-    return pluginId;
+    return 'snapshot:' + pluginId;
   }
 
   constructor(opts) {
@@ -22,9 +22,8 @@ export class SnapshotConveyer {
     this.snapshots = null;
   }
 
-  start(onNext, onError) {
+  start(onNext) {
     this.onNext = onNext;
-    this.onError = onError;
 
     this.subscription = connection.emitter.on('message')
       .filter(this.dataEventPredicate)
@@ -36,7 +35,7 @@ export class SnapshotConveyer {
   handleMessage(message) {
     if (this.snapshots === null) {
       this.snapshots = Immutable.fromJS(message.new);
-      this.onNext(message);
+      this.onNext(this.snapshots);
       return;
     }
     // TODO handle changes and removal
