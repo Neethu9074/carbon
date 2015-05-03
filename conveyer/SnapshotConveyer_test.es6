@@ -130,6 +130,7 @@ describe('conveyer.SnapshotConveyer', () => {
     emitData({
       changed: [snapshot(2, 'initial')]
     });
+
     const initialSnapshots = onNext.getCall(0).args[0];
     const updatedSnapshots = onNext.getCall(1).args[0];
     expect(initialSnapshots.get(0)).to.equal(updatedSnapshots.get(0));
@@ -138,9 +139,21 @@ describe('conveyer.SnapshotConveyer', () => {
     expect(initialSnapshots.get(1)).not.to.equal(updatedSnapshots.get(1));
   });
 
-  it('should handle reconnects', () => {
-    // TODO on reconnect, discard all previous values and accept the server's
-    // new values
+  it('should discard previous values on reconnect', () => {
+    conveyer = new SnapshotConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+    emitData({
+      neu: [snapshot(1, 'beforeReconnect')]
+    });
+
+    connection.emitter.emit('connected');
+    emitData({
+      neu: [snapshot(2, 'afterReconnect')]
+    });
+
+    const data = onNext.getCall(1).args[0];
+    expect(data.size).to.equal(1);
+    expect(data.get(0).get('hostId')).to.equal('h2');
   });
 
   function emitData({neu=[], changed=[], removed=[]}) {

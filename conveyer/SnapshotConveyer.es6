@@ -29,6 +29,11 @@ export default class SnapshotConveyer {
       .filter(this.dataEventPredicate)
       .subscribe(e => this.handleMessage(e.data));
 
+    // After a reconnect we should discard all previously gathered values,
+    // as we are getting a full update!
+    this.reconnectSubscription = connection.emitter.on('connected')
+      .subscribe(() => this.snapshots = null);
+
     connection.subscribe(this.id, this.subscribeEvent);
   }
 
@@ -62,6 +67,7 @@ export default class SnapshotConveyer {
 
   stop() {
     this.subscription.dispose();
+    this.reconnectSubscription.dispose();
     connection.unsubscribe(this.id);
     this.snapshots = null;
   }
