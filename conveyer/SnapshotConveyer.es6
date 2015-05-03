@@ -38,7 +38,26 @@ export default class SnapshotConveyer {
       this.onNext(this.snapshots);
       return;
     }
-    // TODO handle changes and removal
+
+    this.snapshots.withMutations(snapshots => {
+      // handle new values
+      snapshots = snapshots.concat(Immutable.fromJS(message.new));
+
+      // handle removed values
+      snapshots = snapshots.filter(snapshot => {
+        return !containsSnapshot(snapshot, message.removed);
+      });
+
+      // handle edited values
+      // easy way: Remove those items that have changed and add them to the end
+      snapshots = snapshots.filter(snapshot => {
+        return !containsSnapshot(snapshot, message.changed);
+      });
+      snapshots = snapshots.concat(Immutable.fromJS(message.changed));
+
+      this.snapshots = snapshots;
+      this.onNext(snapshots);
+    });
   }
 
   stop() {
@@ -47,4 +66,17 @@ export default class SnapshotConveyer {
     this.snapshots = null;
   }
 
+}
+
+
+function containsSnapshot(immutableSnapshot, mutableSnapshots) {
+  for (let i = 0, len = mutableSnapshots.length; i < len; i++) {
+    const mutableSnapshot = mutableSnapshots[i];
+    if (immutableSnapshot.get('hostId') === mutableSnapshot.hostId &&
+        immutableSnapshot.get('pluginId') === mutableSnapshot.pluginId &&
+        immutableSnapshot.get('steadyId') === mutableSnapshot.steadyId) {
+      return true;
+    }
+  }
+  return false;
 }

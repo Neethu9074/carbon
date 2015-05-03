@@ -3,7 +3,6 @@
 
 'use strict';
 
-import Immutable from 'immutable';
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -81,14 +80,86 @@ describe('conveyer.SnapshotConveyer', () => {
     expect(onNext.callCount).to.equal(0);
   });
 
+  it('should handle successive new messages', () => {
+    conveyer = new SnapshotConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+    emitData({
+      neu: [snapshot(1, 'initial')]
+    });
+    emitData({
+      neu: [snapshot(2, 'initial')]
+    });
+    const snapshots = onNext.getCall(1).args[0];
+    expect(snapshots.size).to.equal(2);
+  });
+
+  it('should support edits', () => {
+    conveyer = new SnapshotConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+    emitData({
+      neu: [snapshot(1, 'initial'), snapshot(2, 'initial')]
+    });
+    emitData({
+      changed: [snapshot(2, 'changed')]
+    });
+    const snapshots = onNext.getCall(1).args[0];
+    expect(snapshots.size).to.equal(2);
+    expect(snapshots.get(1).get('snapshot')).to.equal('changed');
+  });
+
+  it('should support removals', () => {
+    conveyer = new SnapshotConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+    emitData({
+      neu: [snapshot(1, 'initial'), snapshot(2, 'initial')]
+    });
+    emitData({
+      removed: [snapshot(2)]
+    });
+    const snapshots = onNext.getCall(1).args[0];
+    expect(snapshots.size).to.equal(1);
+    expect(snapshots.get(0).get('hostId')).to.equal('h1');
+  });
+
+  it('should keep existing immutable snapshots on update', () => {
+    conveyer = new SnapshotConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+    emitData({
+      neu: [snapshot(1, 'initial'), snapshot(2, 'initial')]
+    });
+    emitData({
+      changed: [snapshot(2, 'initial')]
+    });
+    const initialSnapshots = onNext.getCall(0).args[0];
+    const updatedSnapshots = onNext.getCall(1).args[0];
+    expect(initialSnapshots.get(0)).to.equal(updatedSnapshots.get(0));
+
+    // value changed. The immutable data structure needs to have been updated!
+    expect(initialSnapshots.get(1)).not.to.equal(updatedSnapshots.get(1));
+  });
+
+  it('should handle reconnects', () => {
+    // TODO on reconnect, discard all previous values and accept the server's
+    // new values
+  });
+
   function emitData({neu=[], changed=[], removed=[]}) {
     connection.emitter.emit('message', {
       event: 'snapshot:' + ec2,
       data: {
-        'new': Immutable.fromJS(neu),
-        changed: Immutable.fromJS(changed),
-        removed: Immutable.fromJS(removed)
+        'new': neu,
+        changed: changed,
+        removed: removed
       }
     });
+  }
+
+  function snapshot(i, data) {
+    return {
+      pluginId: 'p' + i,
+      steadyId: 's' + i,
+      hostId: 'h' + i,
+      snapshot: data
+    };
   }
 });
