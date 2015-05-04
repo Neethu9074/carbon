@@ -60,6 +60,7 @@ export default class Host extends SceneObject {
 
   addStickyNote() {
     this.stickyNoteContainer = document.createElement('div');
+    this.stickyNoteContainerStyle = this.stickyNoteContainer.style;
     this.stickyNoteContainer.classList.add('in-sticky-note');
     this.getHtmlContainer().appendChild(this.stickyNoteContainer);
 
@@ -86,10 +87,9 @@ export default class Host extends SceneObject {
     const isInView = data.scene.objectIsVisible(this.cube);
     this.cube.material.visible = false;
 
-    const style = this.stickyNoteContainer.style;
     if(!isInView) {
       //disable sticky note
-      style.display = 'none';
+      this.stickyNoteContainerStyle.display = 'none';
     } else {
       this.updateStickyNotePosition(data);
     }
@@ -103,13 +103,12 @@ export default class Host extends SceneObject {
     const x = ((pos.x + 1) * scene.width / 2) | 0;
     const y = ((-pos.y + 1) * scene.height / 2) | 0;
 
-    const style = this.stickyNoteContainer.style;
-    style.left = x + 'px';
-    style.top = y + 'px';
+    this.stickyNoteContainerStyle.left = x + 'px';
+    this.stickyNoteContainerStyle.top = y + 'px';
 
     //set to '' because the display is set by zoom too. If you would set
     //this value to another like '' you would overwrite it
-    style.display = '';
+    this.stickyNoteContainerStyle.display = '';
   }
 
   setPosition(position) {
