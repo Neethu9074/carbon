@@ -263,6 +263,15 @@ export default class Scene {
 		return frustum.intersectsObject(object);
 	}
 
+	objectIsNear() {
+		const distance = this.controller.zoomLevel;
+
+		if(distance < 250) {
+			return true;
+		}
+		return false;
+	}
+
 	dispose() {
 		this.disposed = true;
 	}
