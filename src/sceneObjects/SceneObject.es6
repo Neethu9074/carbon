@@ -37,6 +37,9 @@ export default class SceneObject {
   dispose() {
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];
+
+    this.position = null;
+    this.parent = null;
   }
 
   getHtmlContainer() {

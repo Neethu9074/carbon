@@ -49,6 +49,7 @@ export default class Zone extends SceneObject {
     label.updateMatrix();
     label.matrixAutoUpdate = false;
     this.ground.add(label);
+    this.ground.label = label;
   }
 
   getZoneLabel(text) {
@@ -123,4 +124,23 @@ export default class Zone extends SceneObject {
       this.ground.children[0].updateMatrix();
     }
   }
+
+  dispose() {
+		super.dispose();
+
+    this.removeSceneObject(this.ground);
+
+    this.ground.label.geometry.dispose();
+    this.ground.label.material.dispose();
+
+		this.id = null;
+		this.hosts = [];
+		this.zoneIndex = null;
+		this.parent = null;
+
+		//clear three.js cache trough disposing
+		this.ground.geometry.dispose();
+		this.ground.material.dispose();
+		this.ground = null;
+	}
 }

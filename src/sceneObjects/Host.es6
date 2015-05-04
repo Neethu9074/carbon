@@ -49,8 +49,6 @@ export default class Host extends SceneObject {
   render() {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check
     this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-    this.cube.scale.set(1, 1, 1);
-    this.cube.material.visible = false;
 
     //set this flag to add this obj to scenes octree
     this.cube.useForCollisionDetection = true;
@@ -185,5 +183,20 @@ export default class Host extends SceneObject {
 
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.removeSceneObject(this.cube);
+    this.removeFromGlobalGeometry();
+    this.cube = null;
+
+    //TODO delete sticky note
+
+    this.scene = null;
+    this.id = null;
+    this.snapshot = null;
+    this.health = null;
   }
 }

@@ -120,4 +120,20 @@ export default class PhysicalMap extends SceneObject {
 		}
 		return Immutable.fromJS(dummies);
 	}
+
+	dispose() {
+		super.dispose();
+
+		this.removeSceneObject(this.ground);
+
+		this.size = null;
+		this.zones = [];
+		this.scene = null;
+		this.parent = null;
+
+		//clear three.js cache trough disposing
+		this.ground.geometry.dispose();
+		this.ground.material.dispose();
+		this.ground = null;
+	}
 }
