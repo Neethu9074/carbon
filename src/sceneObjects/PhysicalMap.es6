@@ -86,6 +86,7 @@ export default class PhysicalMap extends SceneObject {
 				id: zoneId,
 				zoneIndex: this.zones.length
 			});
+			zone.createLabel();
 			this.zones.push(zone);
 		}
 		zone.addHost({snapshot: host});
