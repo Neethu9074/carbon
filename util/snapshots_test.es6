@@ -4,7 +4,7 @@
 
 import {expect} from 'chai';
 import Immutable from 'immutable';
-import {extractId, isIdEqual} from './snapshots';
+import {getIdString, extractId, isIdEqual} from './snapshots';
 
 describe('util.snapshots', () => {
 
@@ -24,6 +24,13 @@ describe('util.snapshots', () => {
 
     it('should return true when ID matches', () => {
       expect(isIdEqual(newSnapshot(0), newSnapshot(0))).to.equal(true);
+    });
+  });
+
+  describe('getIdString', () => {
+    it('should turn an immutable snapshot into an ID string', () => {
+      expect(getIdString(newSnapshot(42)))
+        .to.equal('h42#p42#s42');
     });
   });
 

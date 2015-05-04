@@ -34,3 +34,15 @@ export function isIdEqual(id1, id2) {
     id1.get('pluginId') === id2.get('pluginId') &&
     id1.get('steadyId') === id2.get('steadyId');
 }
+
+
+/**
+ * Turns the snapshot into an ID string which can be used as a key in
+ * Objects.
+ *
+ * @param {Immutable.Map} s The snapshot
+ * @returns {string} An ID string
+ */
+export function getIdString(s) {
+  return `${s.get('hostId')}#${s.get('pluginId')}#${s.get('steadyId')}`;
+}
