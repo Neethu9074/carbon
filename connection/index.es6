@@ -73,7 +73,7 @@ function tryToReconnect() {
 function onMessage(msg) {
   let data;
   try {
-    data = JSON.parse(msg);
+    data = JSON.parse(msg.data);
   } catch (e) {
     return emitter.emit('error', new Error('Failed to parse message ' + msg));
   }

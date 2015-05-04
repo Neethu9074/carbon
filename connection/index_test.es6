@@ -82,7 +82,7 @@ describe('connection.connection', () => {
     emitter.on('message').subscribe(onMessage);
 
     open();
-    connection.onmessage('{"yes":true}');
+    connection.onmessage({data: '{"yes":true}'});
     expect(onMessage.getCall(0).args[0]).to.deep.equal({yes: true});
   });
 
