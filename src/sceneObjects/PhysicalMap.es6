@@ -13,6 +13,7 @@ import groundTexturePath from './ground.png';
 import Zone from './Zone';
 import layout from '../layout';
 
+
 export default class PhysicalMap extends SceneObject {
 
 	constructor({scene}) {
@@ -92,7 +93,7 @@ export default class PhysicalMap extends SceneObject {
 
 	getDummyData(hostCount) {
 		let dummies = [];
-		for (let i = 0, max = hostCount || 10; i < max; i++) {
+		for (let i = 1, max = hostCount || 20; i < max; i++) {
 			dummies.push({
 				hostId: 'ip-10-140-194-67.ec2.internal.' + i,
 				steadyId: 'Linux.3.13.0-44-generic' + i,
@@ -100,7 +101,7 @@ export default class PhysicalMap extends SceneObject {
 				snapshot: {
 					'cpu.count': i,
 					'accumulated.status': {
-						score: 1 - (i / max),
+						score: 1 - (i / max) * 0.1,
 						labels: [
 							'operating system instance',
 							'operating system instance'
