@@ -235,6 +235,8 @@ export default class Scene {
 
 		this.render();
 		this.shouldRenderScene = false;
+
+		this.emitter.emit('endRender', {scene: this});
 	}
 
 	updateCamera() {

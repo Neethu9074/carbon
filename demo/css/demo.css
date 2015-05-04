@@ -16,6 +16,11 @@ body {
   cursor: pointer;
 }
 
+#stats {
+  position: absolute;
+  top: 0;
+}
+
 input {
   width: 120px;
   margin: 2px;

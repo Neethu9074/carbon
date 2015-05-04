@@ -58,9 +58,7 @@ export default class PhysicalMap extends SceneObject {
 
 	bindToDatasource() {
 		if (__DEV__ && window.location.search.indexOf('livedata') === -1) {
-			return this.onInventoryUpdate(
-				this.getDummyData(
-					window.location.search.substring(1)));
+			return this.onInventoryUpdate(this.getDummyData());
 		}
 
 		const pluginId = 'com.instana.forge.infrastructure.os.OS';
@@ -92,9 +90,17 @@ export default class PhysicalMap extends SceneObject {
 		zone.addHost({snapshot: host});
 	}
 
-	getDummyData(hostCount) {
-		let dummies = [];
-		for (let i = 1, max = hostCount || 20; i < max; i++) {
+	getDummyData() {
+		const match = window.location.search.match(/hostCount=(\d+)/);
+		let hostCount = 10;
+		if (match) {
+			hostCount = match[1];
+		}
+
+		// avoid devision by 0 issues
+		hostCount++;
+		const dummies = [];
+		for (let i = 1; i < hostCount; i++) {
 			dummies.push({
 				hostId: 'ip-10-140-194-67.ec2.internal.' + i,
 				steadyId: 'Linux.3.13.0-44-generic' + i,
@@ -102,7 +108,7 @@ export default class PhysicalMap extends SceneObject {
 				snapshot: {
 					'cpu.count': i,
 					'accumulated.status': {
-						score: 1 - (i / max) * 0.1,
+						score: Math.random(),
 						labels: [
 							'operating system instance',
 							'operating system instance'
