@@ -30,8 +30,6 @@
     "napa": "^1.2.0",
     "pathfinding": "^0.4.16",
     "react": "^0.13.1",
-    "rx-observable-generator": "^2.0.0",
-    "rxemitter": "^1.0.0",
     "three": "^0.71.0",
     "tween.js": "^0.14.0",
     "url-loader": "^0.5.5"
