@@ -15,6 +15,7 @@ export default class Zone extends SceneObject {
 
   constructor({parent, id, zoneIndex}) {
     super({parent});
+
     this.id = id;
     this.zoneIndex = zoneIndex;
     this.hosts = [];
@@ -24,7 +25,6 @@ export default class Zone extends SceneObject {
 
   renderGround() {
     const zoneColor = colors.zones[this.zoneIndex];
-
 		const mat = new THREE.MeshBasicMaterial({
 			transparent: true,
 			opacity: 0.2,
