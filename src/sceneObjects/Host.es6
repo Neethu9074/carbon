@@ -85,11 +85,14 @@ export default class Host extends SceneObject {
     //do not update if the cube is not in view frustum
     this.cube.material.visible = true;
     const isInView = data.scene.objectIsVisible(this.cube);
+    const isNear = data.scene.objectIsNear(this.cube);
     this.cube.material.visible = false;
 
-    if(!isInView) {
+    if(!isInView || !isNear) {
       //disable sticky note
-      this.stickyNoteContainerStyle.display = 'none';
+      if(this.stickyNoteContainerStyle.display !== 'none') {
+        this.stickyNoteContainerStyle.display = 'none';
+      }
     } else {
       this.updateStickyNotePosition(data);
     }
