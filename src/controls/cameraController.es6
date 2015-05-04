@@ -88,8 +88,10 @@ export default class CameraController {
 
     const targetPosition = new THREE.Vector3().applyMatrix4(obj.matrixWorld);
 
-    this.camTransformObject.position.x = targetPosition.x;
-    this.camTransformObject.position.z = targetPosition.z;
+    const transObj = this.camTransformObject;
+    transObj.position.x = targetPosition.x;
+    transObj.position.z = targetPosition.z;
+    transObj.updateMatrixWorld();
   }
 
   move(dx, dy) {
@@ -110,6 +112,8 @@ export default class CameraController {
     const transObj = this.camTransformObject;
     transObj.translateX(-dx * this.moveSpeed);
     transObj.translateZ(-dy * this.moveSpeed);
+
+    transObj.updateMatrixWorld();
 
     //clamp the position to avoid overflow of the level area
     //TODO: calculate the bounding box of all cubes inside the scene
@@ -160,7 +164,6 @@ export default class CameraController {
     if(delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
     } else if(delta.length() < 0.0001) {
-      this.camTransformObject.updateMatrixWorld();
       return;
     }
 
