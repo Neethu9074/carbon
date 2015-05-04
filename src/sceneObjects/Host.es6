@@ -13,6 +13,8 @@ const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
+
+//the basic geometry is a uniformed cube, where the pivot point is at the corner
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
 for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].x -= 0.5;
@@ -45,13 +47,13 @@ export default class Host extends SceneObject {
   }
 
   render() {
+    //the cube needs a mesh to calculate the inside/outside viewfrustum check
     this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    this.cube.scale.set(1, 1, 1);
+    this.cube.material.visible = false;
 
-    const collisionBox = new THREE.Mesh(cubeGeometry);
-    collisionBox.material.visible = false;
-
-    this.cube.collisionObject = collisionBox;
-    this.cube.add(collisionBox);
+    //set this flag to add this obj to scenes octree
+    this.cube.useForCollisionDetection = true;
 
     this.addSceneObject(this.cube);
     this.addToGlobalGeometry();

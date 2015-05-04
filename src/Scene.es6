@@ -1,10 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import {
-	isIdEqual
-}
-from 'instana-ui-services/util/snapshots';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 
 import './lib/Octree';
 
@@ -15,7 +12,7 @@ import Host from './sceneObjects/Host';
 import RxEmitter from 'rxemitter';
 import HostCubeFactory from './factories/HostCubeFactory';
 import LineFactory from './factories/LineFactory';
-import GroundFactory from './factories/PlaneFactory';
+import GroundFactory from './factories/ZoneFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
@@ -49,9 +46,7 @@ const isMobile = {
 
 export default class Scene {
 
-	constructor({
-		parent
-	}) {
+	constructor({parent}) {
 		this.bindMethods();
 
 		this.parent = parent;
@@ -89,13 +84,9 @@ export default class Scene {
 
 	setupController() {
 		if (isMobile.any()) {
-			this.controller = new TouchCameraController({
-				scene: this
-			});
+			this.controller = new TouchCameraController({scene: this});
 		} else {
-			this.controller = new MouseCameraController({
-				scene: this
-			});
+			this.controller = new MouseCameraController({scene: this});
 		}
 
 		//call zoom to trigger camera movemnt to the right position
@@ -105,8 +96,8 @@ export default class Scene {
 	addSceneObject(obj) {
 		this.scene.add(obj);
 
-		if (obj.collisionObject !== undefined) {
-			this.octree.add(obj.collisionObject, {
+		if (obj.useForCollisionDetection) {
+			this.octree.add(obj, {
 				useFaces: false
 			});
 		}
@@ -147,15 +138,9 @@ export default class Scene {
 	}
 
 	setupFactories() {
-		this.hostFactory = new HostCubeFactory({
-			scene: this
-		});
-		this.lineFactory = new LineFactory({
-			scene: this
-		});
-		this.groundFactory = new GroundFactory({
-			scene: this
-		});
+		this.hostFactory = new HostCubeFactory({scene: this});
+		this.lineFactory = new LineFactory({scene: this});
+		this.groundFactory = new GroundFactory({scene: this});
 	}
 
 	setup3D() {
