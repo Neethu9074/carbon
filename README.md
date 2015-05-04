@@ -1,6 +1,6 @@
 # ui-map
 
-The current version of the visualization is always available via our [Jenkins](https://http://52.6.5.25/).
+The current version of the visualization is always available via our [Jenkins](http://52.6.5.25/).
 
 ## Setup
 
