@@ -49,6 +49,7 @@ export default class Host extends SceneObject {
   render() {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check
     this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    this.cube.matrixAutoUpdate = false;
 
     //set this flag to add this obj to scenes octree
     this.cube.useForCollisionDetection = true;
@@ -118,6 +119,7 @@ export default class Host extends SceneObject {
   setPosition(position) {
     super.setPosition(position);
     this.cube.position.copy(position);
+    this.cube.updateMatrix();
 
     this.calcStickyNodeWorldPos();
 
@@ -178,6 +180,7 @@ export default class Host extends SceneObject {
 
   setHeight(height) {
     this.cube.scale.y = height;
+    this.cube.updateMatrix();
 
     this.calcStickyNodeWorldPos();
 

@@ -39,7 +39,7 @@ which enables render statistics.
 to get the livedata via url/api.
 
 ```
-hostCount=x
+?hostCount=x
 ```
 for testing enviroment (creates x random hosts).
 
