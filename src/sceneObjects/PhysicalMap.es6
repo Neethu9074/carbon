@@ -86,17 +86,20 @@ export default class PhysicalMap extends SceneObject {
 				x => x.set('availability-zone', 'undefined'));
 
 			this.addHost(randomHost);
-			layout(this);
+			this.applyLayout(dummyData.size);
 		}
 	}
 
 	onInventoryUpdate(snapshots) {
 		snapshots.forEach(host => this.addHost(host));
-		const maxHostsPerRow = Math.floor(
-			Math.sqrt(snapshots.size / this.zones.length));
-		new Layouter({maxHostsPerRow}).applyLayout(this);
-
+		this.applyLayout(snapshots.size);
 		this.parent.renderScene();
+	}
+
+	applyLayout(numberOfHosts) {
+		const maxHostsPerRow = Math.floor(
+			Math.sqrt(numberOfHosts / this.zones.length));
+		new Layouter({maxHostsPerRow}).applyLayout(this);
 	}
 
 	addHost(host) {
