@@ -4,88 +4,94 @@ import THREE from 'three';
 
 import {getPower} from 'instana-ui-sdk/power';
 
-const HOST_SIZE = 1;
-const MAX_HOST_SIZE = 3;
-const ZONE_PADDING = 1;
-const ZONE_MARGIN = 1;
-const MAX_HOSTS_PER_ROW = 3;
-const HOST_PADDING = 2;
 
-// Each host takes up one unit horizontally.
-const ZONE_WIDTH = MAX_HOSTS_PER_ROW +
-  // Between the hosts we have some empty space.
-  (MAX_HOSTS_PER_ROW - 1) * HOST_PADDING +
-  // Before the first and after the last host we have zone padding.
-  ZONE_PADDING * 2;
+export default class Layouter {
+  constructor({hostSize=1, maxHostHeight=3, zonePadding=1, zoneMargin=1,
+      maxHostsPerRow=3, hostPadding=2}={}) {
+    this.hostSize = hostSize;
+    this.maxHostHeight = maxHostHeight;
+    this.zonePadding = zonePadding;
+    this.zoneMargin = zoneMargin;
+    this.maxHostsPerRow = maxHostsPerRow;
+    this.hostPadding = hostPadding;
 
-export default function applyLayout(map) {
-  map.zones.forEach((zone, zoneIndex) => {
-    const zonePosition = getZonePosition(zoneIndex, zone.hosts.length);
+    // Each host takes up one unit horizontally.
+    this.zoneWidth = maxHostsPerRow +
+      // Between the hosts we have some empty space.
+      (maxHostsPerRow - 1) * hostPadding +
+      // Before the first and after the last host we have zone padding.
+      zonePadding * 2;
+  }
 
-    // add respectively subtract 0.5 to accomodate for central positioning of
-    // hosts.
-    zone.setPosition(new THREE.Vector3(
-      zonePosition.x + zonePosition.width / 2 - 1,
-      0,
-      (zonePosition.y + zonePosition.height / 2) * -1 + 1
-    ));
-    zone.setScale(new THREE.Vector3(
-      zonePosition.width,
-      zonePosition.height,
-      1
-    ));
+  applyLayout(map) {
+    map.zones.forEach((zone, zoneIndex) => {
+      const zonePosition = this.getZonePosition(zoneIndex, zone.hosts.length);
 
-    zone.hosts.forEach((host, hostIndex) => {
-      const position = getCubePosition(zoneIndex, hostIndex);
-      host.setPosition(position);
+      // add respectively subtract 0.5 to accomodate for central positioning of
+      // hosts.
+      zone.setPosition(new THREE.Vector3(
+        zonePosition.x + zonePosition.width / 2 - 1,
+        0,
+        (zonePosition.y + zonePosition.height / 2) * -1 + 1
+      ));
+      zone.setScale(new THREE.Vector3(
+        zonePosition.width,
+        zonePosition.height,
+        1
+      ));
+
+      zone.hosts.forEach((host, hostIndex) => {
+        const position = this.getCubePosition(zoneIndex, hostIndex);
+        host.setPosition(position);
+      });
     });
-  });
 
-  updateHeight(map);
-}
+    this.updateHeight(map);
+  }
 
-export function getCubePosition(zoneIndex, hostIndex) {
-  // Each zone means that we need to advance one zone horizontally.
-  const x = zoneIndex * (ZONE_WIDTH + ZONE_MARGIN) +
-      // advance one host- and padding width per host, except the first.
-      hostIndex % MAX_HOSTS_PER_ROW * (HOST_PADDING + HOST_SIZE) +
-      // There is always the zone padding which we need to take into account.
-      ZONE_PADDING;
+  getCubePosition(zoneIndex, hostIndex) {
+    // Each zone means that we need to advance one zone horizontally.
+    const x = zoneIndex * (this.zoneWidth + this.zoneMargin) +
+        // advance one host- and padding width per host, except the first.
+        hostIndex % this.maxHostsPerRow * (this.hostPadding + this.hostSize) +
+        // There is always the zone padding which we need to take into account.
+        this.zonePadding;
 
-  // For every host that exceeds the max number of hosts per row we move
-  // one unit downwards, where unit means host size + padding
-  const y = Math.floor(hostIndex / MAX_HOSTS_PER_ROW) *
-      (HOST_SIZE + HOST_PADDING) + ZONE_PADDING;
+    // For every host that exceeds the max number of hosts per row we move
+    // one unit downwards, where unit means host size + padding
+    const y = Math.floor(hostIndex / this.maxHostsPerRow) *
+        (this.hostSize + this.hostPadding) + this.zonePadding;
 
-  return new THREE.Vector3(x, 0, -y);
-}
+    return new THREE.Vector3(x, 0, -y);
+  }
 
-export function getZonePosition(zoneIndex, numberOfHosts) {
-  const x = zoneIndex * (ZONE_WIDTH + ZONE_MARGIN);
-  const y = 0;
-  const width = ZONE_WIDTH;
-  const height = getCubePosition(zoneIndex, numberOfHosts - 1).z * -1 +
-    HOST_SIZE + ZONE_PADDING;
+  getZonePosition(zoneIndex, numberOfHosts) {
+    const x = zoneIndex * (this.zoneWidth + this.zoneMargin);
+    const y = 0;
+    const width = this.zoneWidth;
+    const height = this.getCubePosition(zoneIndex, numberOfHosts - 1).z * -1 +
+      this.hostSize + this.zonePadding;
 
-  return {x, y, width, height};
-}
+    return {x, y, width, height};
+  }
 
-function updateHeight(map) {
-  const hosts = map.zones.reduce((agg, zone) => {
-    return agg.concat(zone.hosts);
-  }, []);
+  updateHeight(map) {
+    const hosts = map.zones.reduce((agg, zone) => {
+      return agg.concat(zone.hosts);
+    }, []);
 
-  const maxPower = getMaxPower(hosts);
-  const baseHeight = HOST_SIZE;
-  const growthRange = MAX_HOST_SIZE - HOST_SIZE;
-  hosts.forEach(host => {
-    const weightedHeight = growthRange * (getPower(host.snapshot) / maxPower);
-    host.setHeight(baseHeight + weightedHeight);
-  });
-}
+    const maxPower = this.getMaxPower(hosts);
+    const baseHeight = this.hostSize;
+    const growthRange = this.maxHostHeight - this.hostSize;
+    hosts.forEach(host => {
+      const weightedHeight = growthRange * (getPower(host.snapshot) / maxPower);
+      host.setHeight(baseHeight + weightedHeight);
+    });
+  }
 
-function getMaxPower(hosts) {
-  return hosts.reduce((power, host) => {
-    return Math.max(power, getPower(host.snapshot));
-  }, 0);
+  getMaxPower(hosts) {
+    return hosts.reduce((power, host) => {
+      return Math.max(power, getPower(host.snapshot));
+    }, 0);
+  }
 }

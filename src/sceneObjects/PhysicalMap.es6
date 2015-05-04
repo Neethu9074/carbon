@@ -11,7 +11,7 @@ import {getZone} from 'instana-ui-sdk/zones';
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
 import Zone from './Zone';
-import layout from '../layout';
+import Layouter from '../layout';
 
 
 export default class PhysicalMap extends SceneObject {
@@ -92,7 +92,9 @@ export default class PhysicalMap extends SceneObject {
 
 	onInventoryUpdate(snapshots) {
 		snapshots.forEach(host => this.addHost(host));
-		layout(this);
+		const maxHostsPerRow = Math.floor(
+			Math.sqrt(snapshots.size / this.zones.length));
+		new Layouter({maxHostsPerRow}).applyLayout(this);
 
 		this.parent.renderScene();
 	}
@@ -130,7 +132,7 @@ export default class PhysicalMap extends SceneObject {
 				snapshot: {
 					'cpu.count': i,
 					'accumulated.status': {
-						score: Math.random(),
+						score: Math.random() + 0.4,
 						labels: [
 							'operating system instance',
 							'operating system instance'

@@ -3,9 +3,18 @@
 'use strict';
 
 import {expect} from 'chai';
-import {getCubePosition, getZonePosition} from './layout';
+import Layouter from './layout';
 
 describe('layout', () => {
+
+  let getCubePosition;
+  let getZonePosition;
+
+  beforeEach(() => {
+    const layouter = new Layouter();
+    getCubePosition = layouter.getCubePosition.bind(layouter);
+    getZonePosition = layouter.getZonePosition.bind(layouter);
+  });
 
   describe('cubePosition', () => {
     it('should calculate cube position', () => {
