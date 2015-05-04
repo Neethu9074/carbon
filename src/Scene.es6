@@ -9,7 +9,7 @@ import * as zoom from './zoom';
 import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import Host from './sceneObjects/Host';
-import RxEmitter from 'rxemitter';
+import EventEmitter from 'eventemitter3';
 import HostCubeFactory from './factories/HostCubeFactory';
 import LineFactory from './factories/LineFactory';
 import ZoneFactory from './factories/ZoneFactory';
@@ -59,7 +59,7 @@ export default class Scene {
 		this.deltaTime = 0;
 		this.timeSinceFirstFrame = 0;
 
-		this.emitter = new RxEmitter();
+		this.emitter = new EventEmitter();
 
 		//stores all objects which should be clickable
 		this.collisionObjects = [];
@@ -271,8 +271,8 @@ export default class Scene {
 		return this.parent;
 	}
 
-	on(event) {
-		return this.emitter.on(event);
+	on(event, cb) {
+		return this.emitter.on(event, cb);
 	}
 
 	onZoom(event) {

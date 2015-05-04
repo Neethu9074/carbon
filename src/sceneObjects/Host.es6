@@ -42,7 +42,7 @@ export default class Host extends SceneObject {
 
 	registerEvents() {
 		this.addSubscription(
-      this.on('endUpdate').subscribe(this.update.bind(this))
+      this.on('endUpdate', this.update.bind(this))
     );
   }
 

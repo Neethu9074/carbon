@@ -150,42 +150,24 @@ module.exports.RStats = function RStats(emitter, settings) {
 
 		_init();
 
+		emitter.on('beginUpdate', function () {
+			_perf('frame').start();
+			_perf('frame').start();
+			_perf('rAF').tick();
+			_perf('FPS').frame();
+			_perf('updates').start();
+		});
 
-		var beginUpdateObserver = Rx.Observer.create(
-		  function () {
-	      _perf('frame').start();
-	      _perf('frame').start();
-	      _perf('rAF').tick();
-	      _perf('FPS').frame();
-	      _perf('updates').start();
-		  },
-		  function (err) {},
-		  function () {}
-		);
+		emitter.on('endUpdate', function () {
+			_perf('updates').end();
+			_perf('render').start();
+		});
 
-		var endUpdateObserver = Rx.Observer.create(
-		  function () {
-		    _perf('updates').end();
-	      _perf('render').start();
-		  },
-		  function (err) {},
-		  function () {}
-		);
-
-		var update = _update;
-		var endRenderObserver = Rx.Observer.create(
-		  function () {
-	      _perf('render').end();
-	      _perf('frame').end();
-	      update();
-		  },
-		  function (err) {},
-		  function () {}
-		);
-
-		emitter.on('beginUpdate').subscribe(beginUpdateObserver);
-		emitter.on('endUpdate').subscribe(endUpdateObserver);
-		emitter.on('endRender').subscribe(endRenderObserver);
+		emitter.on('endRender', function () {
+			_perf('render').end();
+			_perf('frame').end();
+			_update();
+		});
 
 
 		return {

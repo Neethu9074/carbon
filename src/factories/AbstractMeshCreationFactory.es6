@@ -22,20 +22,14 @@ export default class AbstractMeshCreationFactory {
     //the default material
     this.material = new THREE.MeshBasicMaterial();
 
-    //bind methods
-    this.update = this.update.bind(this);
-
     this.registerEvents();
     this.rebuildGlobalMesh = false;
   }
 
   registerEvents() {
-    const update = this.update;
-    this.subscription = this.scene.emitter.on('beginUpdate').subscribe(
-      //onEmit
-      function() {
-        update();
-      }
+    this.subscription = this.scene.emitter.on(
+      'beginUpdate',
+      this.update.bind(this)
     );
   }
 

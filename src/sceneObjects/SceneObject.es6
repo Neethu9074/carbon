@@ -46,8 +46,8 @@ export default class SceneObject {
     return this.parent.getHtmlContainer();
   }
 
-  on(event) {
-    return this.parent.on(event);
+  on(event, cb) {
+    return this.parent.on(event, cb);
   }
 
   //each object can tell that the scene should be redrawn

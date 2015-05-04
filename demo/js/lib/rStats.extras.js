@@ -77,16 +77,7 @@ exports.GlStats = function GlStats(emitter) {
         _rS = r;
     }
 
-    var s = _start;
-		var beginUpdateObserver = Rx.Observer.create(
-		  function () {
-	      s();
-		  },
-		  function (err) {},
-		  function () {}
-		);
-
-		emitter.on('beginUpdate').subscribe(beginUpdateObserver);
+		emitter.on('beginUpdate', _start);
 
 
     return {
