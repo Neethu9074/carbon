@@ -22,8 +22,6 @@ export function create(Conveyer, params) {
 
   const observable = rx.Observable.create(observer => {
     if (stoppedOnce) {
-      // TODO can we somehow magically migrate to another Observable with the
-      // same ID?
       const err = 'Observables may not be reused once everyone unsubscribed!';
       throw new Error(err);
     }

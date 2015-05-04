@@ -1,169 +1,91 @@
 /*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions */
+/*eslint-disable no-unused-expressions, max-len */
 'use strict';
 
 import {expect} from 'chai';
-import proxyquire from 'proxyquire';
 import sinon from 'sinon';
-import Immutable from 'immutable';
 import {create} from './index';
 
 
 describe('conveyer', () => {
-
-  let http;
-  let conveyer;
-  let subscription;
+  let Conveyer;
+  let conveyerInstance;
 
   beforeEach(() => {
-    http = sinon.stub();
-  });
-
-  afterEach(() => {
-    subscription.dispose();
-  });
-
-  describe('InventoryConveyer', () => {
-    let ConveyerType;
-
-    beforeEach(() => {
-      http.returns(Promise.resolve({
-        status: 200,
-        body: []
-      }));
-
-      const AbstractHttpConveyer = proxyquire('./AbstractHttpConveyer', {
-        '../http': http
-      });
-
-      ConveyerType = proxyquire('./InventoryConveyer', {
-        './AbstractHttpConveyer': AbstractHttpConveyer
-      });
-
-      conveyer = create(ConveyerType);
-    });
-
-    it('should emit the current inventory by default', done => {
-      subscription = conveyer.subscribe(hosts => {
-        expect(hosts.size).to.equal(0);
-        done();
-      });
-    });
-
-    // not using the arrow notation just so that we can access the unit test
-    // execution context to change the timeout
-    it('should not emit the same value twice', function(done) {
-      this.timeout(3000);
-      let callCount = 0;
-      subscription = conveyer.subscribe(hosts => {
-        expect(hosts.size).to.equal(0);
-        callCount++;
-      });
-
-      setTimeout(() => {
-        expect(callCount).to.equal(1);
-        done();
-      }, 2000);
-    });
-
-    it('should emit when values change', (done) => {
-      let callCount = 0;
-
-      subscription = conveyer.subscribe(hosts => {
-        callCount++;
-
-        if (callCount === 1) {
-          expect(hosts.size).to.equal(0);
-          http.returns(Promise.resolve({
-            status: 200,
-            body: [{
-              id: 'foobar'
-            }]
-          }));
-        } else {
-          expect(hosts.size).to.equal(1);
-          done();
-        }
-      });
-    });
-
-    it('should not create the same conveyer twice', () => {
-      const conveyer2 = create(ConveyerType);
-      expect(conveyer2).to.equal(conveyer);
-    });
-  });
-
-
-  describe('MetricConveyer', () => {
-    let ConveyerType;
-
-    const config = {
-      snapshot: Immutable.fromJS({
-        hostId: 'ip-10-140-194-67.ec2.internal',
-        steadyId: 'Linux.3.13.0-44-generic',
-        pluginId: 'com.instana.forge.infrastructure.os.OS'
-      }),
-      metric: 'cpu.idle',
-      min: 0,
-      max: 1,
-      frequency: 10,
-      timeframe: 60
+    Conveyer = sinon.stub();
+    Conveyer.getUniqueId = (opts) => JSON.stringify(opts);
+    conveyerInstance = {
+      start: sinon.stub(),
+      stop: sinon.stub()
     };
-
-    beforeEach(() => {
-      http.returns(Promise.resolve({
-        status: 200,
-        body: [1, 2, 3, 4, 5, 6]
-      }));
-
-      const AbstractHttpConveyer = proxyquire('./AbstractHttpConveyer', {
-        '../http': http
-      });
-
-      ConveyerType = proxyquire('./MetricConveyer', {
-        './AbstractHttpConveyer': AbstractHttpConveyer,
-        '../http': http
-      });
-
-      conveyer = create(ConveyerType, config);
-    });
-
-    it('should emit the metrics and value range', done => {
-      subscription = conveyer.subscribe(e => {
-        expect(e).to.be.defined;
-        expect(e.get('min')).to.equal(config.min);
-        expect(e.get('max')).to.equal(config.max);
-        expect(e.get('frequency')).to.equal(config.frequency);
-        expect(e.get('timeframe')).to.equal(config.timeframe);
-        done();
-      });
-    });
-
-    it('should emit a sufficient number of values', done => {
-      subscription = conveyer.subscribe(e => {
-        expect(e.get('values').size).to.equal(6);
-        done();
-      });
-    });
-
-    // not using the arrow notation just so that we can access the unit test
-    // execution context to change the timeout
-    it('should not emit the same value twice', done => {
-      let callCount = 0;
-      subscription = conveyer.subscribe(() => {
-        callCount++;
-      });
-
-      setTimeout(() => {
-        expect(callCount).to.equal(1);
-        done();
-      }, 100);
-    });
-
-    it('should not create the same conveyer twice', () => {
-      const conveyer2 = create(ConveyerType, config);
-      expect(conveyer2).to.equal(conveyer);
-    });
+    Conveyer.onFirstCall().returns(conveyerInstance);
   });
 
+  it('should return observable instances', () => {
+    const observable = create(Conveyer);
+    expect(observable.subscribe).to.be.instanceof(Function);
+  });
+
+  it('should pass options to conveyer constructor', () => {
+    create(Conveyer, {id: 'pups'});
+    expect(Conveyer.getCall(0).args[0]).to.deep.equal({id: 'pups'});
+  });
+
+  it('should always pass at least an empty options object', () => {
+    create(Conveyer);
+    expect(Conveyer.getCall(0).args[0]).to.deep.equal({});
+  });
+
+  it('should cache observable instances with same parameters', () => {
+    const observable1 = create(Conveyer);
+    const observable2 = create(Conveyer);
+    expect(Conveyer.calledOnce).to.equal(true);
+    expect(observable1).to.equal(observable2);
+  });
+
+  it('should create distinct conveyer for varying options', () => {
+    const observable1 = create(Conveyer, {id: 1});
+    const observable2 = create(Conveyer, {id: 2});
+    expect(Conveyer.callCount).to.equal(2);
+    expect(observable1).not.to.equal(observable2);
+  });
+
+  it('should start conveyer once somebody subscribes', () => {
+    const observable = create(Conveyer);
+    expect(conveyerInstance.start.callCount).to.equal(0);
+    observable.subscribe(() => {});
+    expect(conveyerInstance.start.callCount).to.equal(1);
+  });
+
+  it('should unsubscribe once everbody unsubscribes', () => {
+    const subscription1 = create(Conveyer).subscribe(() => {});
+    const subscription2 = create(Conveyer).subscribe(() => {});
+    expect(conveyerInstance.stop.callCount).to.equal(0);
+    subscription1.dispose();
+    expect(conveyerInstance.stop.callCount).to.equal(0);
+    subscription2.dispose();
+    expect(conveyerInstance.stop.callCount).to.equal(1);
+  });
+
+  it('should forbid to reuse disposed observables', () => {
+    const observable = create(Conveyer);
+    observable.subscribe(() => {}).dispose();
+    expect(() => observable.subscribe(() => {})).to.throw(Error);
+  });
+
+  it('should create new observable instances once all previous subscribers disposed', () => {
+    const observable1 = create(Conveyer);
+    observable1.subscribe(() => {}).dispose();
+    const observable2 = create(Conveyer);
+    expect(observable1).not.to.equal(observable2);
+  });
+
+  it('should make published values available via the observable', (done) => {
+    create(Conveyer).subscribe(e => {
+      expect(e).to.equal('foo');
+      done();
+    });
+    const onNext = conveyerInstance.start.getCall(0).args[0];
+    onNext('foo');
+  });
 });
