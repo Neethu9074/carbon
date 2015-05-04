@@ -68,9 +68,6 @@ export default class Host extends SceneObject {
   }
 
   calcStickyNodeWorldPos() {
-    this.cube.updateMatrix();
-    this.cube.updateMatrixWorld();
-
     const worldPos = new THREE.Vector3();
     worldPos.applyMatrix4(this.cube.matrixWorld);
 
@@ -100,7 +97,6 @@ export default class Host extends SceneObject {
 
   updateStickyNotePosition(data) {
     const scene = data.scene;
-
     const pos = this.stickyNoteEndPosWorld.clone();
     pos.applyMatrix4(scene.camera.projection);
 
@@ -119,7 +115,9 @@ export default class Host extends SceneObject {
   setPosition(position) {
     super.setPosition(position);
     this.cube.position.copy(position);
+
     this.cube.updateMatrix();
+    this.cube.updateMatrixWorld();
 
     this.calcStickyNodeWorldPos();
 
@@ -180,7 +178,9 @@ export default class Host extends SceneObject {
 
   setHeight(height) {
     this.cube.scale.y = height;
+
     this.cube.updateMatrix();
+    this.cube.updateMatrixWorld();
 
     this.calcStickyNodeWorldPos();
 
