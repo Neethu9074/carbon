@@ -58,7 +58,8 @@ export default class PhysicalMap extends SceneObject {
 
 	bindToDatasource() {
 		if (__DEV__ && window.location.search.indexOf('livedata') === -1) {
-			return this.onInventoryUpdate(this.getDummyData());
+			this.createTestSetup();
+			return;
 		}
 
 		const pluginId = 'com.instana.forge.infrastructure.os.OS';
@@ -66,6 +67,21 @@ export default class PhysicalMap extends SceneObject {
 		this.addSubscription(observable.subscribe(
 			snapshots => this.onInventoryUpdate(snapshots)
 		));
+	}
+
+	createTestSetup() {
+		const dummyData =
+			this.getDummyData(window.location.search.substring(1));
+
+		this.onInventoryUpdate(dummyData);
+		let randomHost = dummyData.get(0);
+
+		randomHost = randomHost.updateIn(['snapshot',
+			'com.instana.forge.infrastructure.virtualization.EC2', 'snapshot'],
+			x => x.set('availability-zone', 'undefined'));
+
+		this.addHost(randomHost);
+		layout(this);
 	}
 
 	onInventoryUpdate(snapshots) {
