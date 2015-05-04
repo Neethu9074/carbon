@@ -26,9 +26,28 @@ React.render(
 );
 ```
 
+## URL params
+You can call the map with the params:
+```
+?stats=true
+```
+which enables render statistics.
+
+```
+?livedata
+```
+to get the livedata via url/api.
+
+```
+hostCount=x
+```
+for testing enviroment (creates x random hosts).
+
+## Structure
+
 The map is structured in:
 
 scene has a map (physical/logical).
-map has n zones
-zone has n hosts
-host has n processes
+map has n zones.
+zone has n hosts.
+host has n processes.
