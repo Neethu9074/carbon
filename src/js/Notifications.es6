@@ -4,9 +4,9 @@ import './Notifications.less';
 
 import React from 'react';
 import {create} from 'instana-ui-services/conveyer';
-import InventoryConveyer from 'instana-ui-services/conveyer/InventoryConveyer';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
-import {extractId} from 'instana-ui-services/util/snapshots';
+import {extractId, getIdString} from 'instana-ui-services/util/snapshots';
 
 const Notifications = React.createClass({
   mixins: [ConveyerMixin],
@@ -18,8 +18,9 @@ const Notifications = React.createClass({
   },
 
   componentDidMount() {
+    const pluginId = 'com.instana.forge.infrastructure.os.OS';
     this.addSubscription(
-      create(InventoryConveyer).subscribe(
+      create(SnapshotConveyer, {pluginId}).subscribe(
         snapshots => this.setState({snapshots})
       )
     );
@@ -34,7 +35,8 @@ const Notifications = React.createClass({
     return (
       <div className="in-notifications">
         {snapshots.map(snapshot =>
-          <div onClick={this.onNotificationClick.bind(this, snapshot)}>
+          <div onClick={this.onNotificationClick.bind(this, snapshot)}
+               key={getIdString(snapshot)}>
             {snapshot.get('hostId')}
           </div>
         ).toJS()}

@@ -5,26 +5,30 @@ import './App.less';
 import React from 'react/react';
 import Map from 'instana-ui-map';
 
+import Sidebar from './Sidebar';
 import Notifications from './Notifications';
 
 const App = React.createClass({
-	getInitialState() {
-		return {
-		};
-	},
+  getInitialState() {
+    return {
+    };
+  },
 
   render() {
     return (
       <div>
-				<Notifications onClick={this.onNotificationClick} />
+        {__DEV__ ? <Notifications onClick={this.onNotificationClick} /> : null}
+
         <Map ref="map" />
+
+        {__DEV__ ? <Sidebar /> : null}
       </div>
     );
   },
 
-	onNotificationClick(snapshotId) {
-		this.refs.map.focus(snapshotId);
-	}
+  onNotificationClick(snapshotId) {
+    this.refs.map.focus(snapshotId);
+  }
 
 });
 
