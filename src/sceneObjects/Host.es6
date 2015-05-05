@@ -3,6 +3,8 @@
 import THREE from 'three';
 import React from 'react';
 import {getHealth} from 'instana-ui-sdk/health';
+import {getIdString} from 'instana-ui-services/util/snapshots';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
@@ -25,13 +27,12 @@ const cubeMaterial = new THREE.MeshBasicMaterial({visible: false});
 
 
 export default class Host extends SceneObject {
-
   constructor({parent, snapshot}) {
 
     super({parent});
 
     this.scene = this.getScene();
-    this.id = snapshot.get('hostId');
+    this.id = getIdString(snapshot);
     this.snapshot = snapshot;
     this.health = getHealth(snapshot);
 
@@ -84,11 +85,10 @@ export default class Host extends SceneObject {
   update(data) {
     //do not update if the cube is not in view frustum
     this.cube.material.visible = true;
-    const isInView = data.scene.objectIsVisible(this.cube);
-    const isNear = data.scene.objectIsNear(this.cube);
-    this.cube.material.visible = false;
 
-    if(!isInView || !isNear) {
+    //if the host is near enough or is in the view frustum
+    if(!data.scene.objectIsNear(this.cube) ||
+      !data.scene.objectIsVisible(this.cube)) {
       //disable sticky note
       if(this.stickyNoteContainerStyle.display !== 'none') {
         this.stickyNoteContainerStyle.display = 'none';
@@ -96,6 +96,8 @@ export default class Host extends SceneObject {
     } else {
       this.updateStickyNotePosition(data);
     }
+
+    this.cube.material.visible = false;
   }
 
   updateStickyNotePosition(data) {

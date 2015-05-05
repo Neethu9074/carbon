@@ -6,6 +6,7 @@ import THREE from 'three';
 import colors from '../colors';
 import SceneObject from './SceneObject';
 import Host from './Host';
+import {getIdString} from 'instana-ui-services/util/snapshots';
 
 //use global geometry to reduce object instances
 const zoneGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
@@ -84,7 +85,7 @@ export default class Zone extends SceneObject {
   }
 
   addHost({snapshot}) {
-    const hostId = snapshot.get('hostId');
+    const hostId = getIdString(snapshot);
 		let host = _.find(this.hosts, host => host.id === hostId);
 		if (!host) {
 			host = new Host({
