@@ -9,24 +9,24 @@ import Sidebar from './Sidebar';
 import Notifications from './Notifications';
 
 const App = React.createClass({
-	getInitialState() {
-		return {
-		};
-	},
+  getInitialState() {
+    return {
+    };
+  },
 
   render() {
     return (
       <div>
-				<Notifications onClick={this.onNotificationClick} />
+        <Notifications onClick={this.onNotificationClick} />
         <Map ref="map" />
-				<Sidebar />
+        <Sidebar />
       </div>
     );
   },
 
-	onNotificationClick(snapshotId) {
-		this.refs.map.focus(snapshotId);
-	}
+  onNotificationClick(snapshotId) {
+    this.refs.map.focus(snapshotId);
+  }
 
 });
 
