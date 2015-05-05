@@ -1,14 +1,14 @@
 'use strict';
 
 import {addMapping} from 'instana-ui-sdk/zones';
+import * as constants from '../constants';
 
 addMapping(
-  'com.instana.forge.infrastructure.os.OS',
+  constants.plugins.os,
   snapshot => {
     return snapshot.getIn([
       'snapshot',
-      'com.instana.forge.infrastructure.virtualization.EC2',
-      'snapshot',
+      constants.rels.describes + ':' + constants.plugins.ec2,
       'availability-zone'
     ], 'undefined');
   }

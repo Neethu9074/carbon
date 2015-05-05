@@ -1,9 +1,10 @@
 'use strict';
 
 import {health, addMapping} from 'instana-ui-sdk/health';
+import * as constants from '../constants';
 
 addMapping(
-  'com.instana.forge.infrastructure.os.OS',
+  constants.plugins.os,
   snapshot => {
     const score = snapshot.getIn(['snapshot', 'accumulated.status', 'score']);
 

@@ -6,14 +6,14 @@ import {expect} from 'chai';
 
 import './index';
 import {getZone} from 'instana-ui-sdk/zones';
+import * as constants from '../constants';
 
 describe('zones', () => {
-  const osPlugin = 'com.instana.forge.infrastructure.os.OS';
   let snapshot;
 
   beforeEach(() => {
     snapshot = Immutable.fromJS({
-      pluginId: osPlugin,
+      pluginId: constants.plugins.os,
       snapshot: {
         'cpu.count': 1,
         'memory.total': 1000
@@ -28,8 +28,7 @@ describe('zones', () => {
   it('should return EC2 availability zone information', () => {
     snapshot = snapshot.setIn([
       'snapshot',
-      'com.instana.forge.infrastructure.virtualization.EC2',
-      'snapshot',
+      constants.rels.describes + ':' + constants.plugins.ec2,
       'availability-zone'
     ], 'eu-central');
     expect(getZone(snapshot)).to.equal('eu-central');
