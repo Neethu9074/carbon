@@ -1,6 +1,9 @@
 'use strict';
 
 import RxEmitter from 'rxemitter';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('ui-services.connection');
 
 // how often the server should be pinged
 const pingInterval = 5000;
@@ -50,6 +53,7 @@ function connect() {
 
   emitter.emit('connecting');
 
+  logger.debug('Attempting to connect to WebSocket URL', endpoint);
   connection = new window.WebSocket(endpoint);
   connection.onopen = onOpen;
   connection.onclose = onClose;
@@ -59,6 +63,7 @@ function connect() {
 
 
 function onOpen() {
+  logger.debug('WebSocket connection successfully established');
   emitter.emit('connected');
 
   // yeah, we managed to connect. Send all queued messages out!
@@ -74,12 +79,15 @@ function ping() {
   pingTimeoutHandle = setTimeout(() => {
     // if this ever gets called, then the pong message was not received in
     // time and we just try to reconnect.
-    onClose();
+    if (isOpen()) {
+      onClose();
+    }
   }, pingTimeout);
 }
 
 
 function onClose() {
+  logger.debug('WebSocket connection was closed.');
   emitter.emit('closed');
   if (pingTimeoutHandle) {
     clearTimeout(pingTimeoutHandle);
@@ -90,6 +98,7 @@ function onClose() {
 
 
 function tryToReconnect() {
+  logger.debug('Attempting reconnect.');
   // try to reconnect in 1s
   setTimeout(connect, 1000);
 }
@@ -117,11 +126,8 @@ function onMessage(msg) {
 
 
 function onError(error) {
+  logger.error('Retrieved error for WebSocket connection', error);
   emitter.emit('error', error);
-
-  if (connection.readyState > readyState.open) {
-    tryToReconnect();
-  }
 }
 
 
