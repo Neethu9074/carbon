@@ -5,7 +5,7 @@ import THREE from 'three';
 import _ from 'lodash';
 import Immutable from 'immutable';
 import {create} from 'instana-ui-services/conveyer';
-import InventoryConveyer from 'instana-ui-services/conveyer/InventoryConveyer';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import {getZone} from 'instana-ui-sdk/zones';
 
 import SceneObject from './SceneObject';
@@ -63,7 +63,7 @@ export default class PhysicalMap extends SceneObject {
 		}
 
 		const pluginId = 'com.instana.forge.infrastructure.os.OS';
-		const observable = create(InventoryConveyer, {pluginId});
+		const observable = create(SnapshotConveyer, {pluginId});
 		this.addSubscription(observable.subscribe(
 			snapshots => this.onInventoryUpdate(snapshots)
 		));
