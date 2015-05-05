@@ -127,7 +127,7 @@ export default class Scene {
 			// when undeferred = true, objects are inserted immediately
 			// instead of being deferred until next octree.update() call
 			// this may decrease performance as it forces a matrix update
-			undeferred: true,
+			undeferred: false,
 			// set the max depth of tree
 			depthMax: Infinity,
 			// max number of objects before nodes split or merge
@@ -228,12 +228,12 @@ export default class Scene {
 		}
 
 		this.updateCamera();
-		this.octree.update();
 
 		//update is done
 		this.emitter.emit('endUpdate', {scene: this});
 
 		this.render();
+		this.octree.update();
 		this.shouldRenderScene = false;
 
 		this.emitter.emit('endRender', {scene: this});
@@ -328,7 +328,7 @@ export default class Scene {
 	}
 
 	findObjectByRay(raycaster) {
-		raycaster.far = Math.min(2500, raycaster.far); //[0, 250]
+		raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
 
 		const octree2Objects = this.octree.search(
 			raycaster.ray.origin,
