@@ -5,6 +5,7 @@ import './App.less';
 import React from 'react/react';
 import Map from 'instana-ui-map';
 
+import Sidebar from './Sidebar';
 import Notifications from './Notifications';
 
 const App = React.createClass({
@@ -18,6 +19,7 @@ const App = React.createClass({
       <div>
 				<Notifications onClick={this.onNotificationClick} />
         <Map ref="map" />
+				<Sidebar />
       </div>
     );
   },
