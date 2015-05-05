@@ -95,12 +95,12 @@ export default class Scene {
 	}
 
 	addSceneObject(obj) {
-		this.scene.add(obj);
-
-		if (obj.useForCollisionDetection) {
+		if (obj.useOnlyForCollisionDetection) {
 			this.octree.add(obj, {
 				useFaces: false
 			});
+		} else {
+			this.scene.add(obj);
 		}
 	}
 

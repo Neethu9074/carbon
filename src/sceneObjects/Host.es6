@@ -26,8 +26,8 @@ const cubeMaterial = new THREE.MeshBasicMaterial({visible: false});
 
 
 export default class Host extends SceneObject {
-  constructor({parent, snapshot}) {
 
+  constructor({parent, snapshot}) {
     super({parent});
 
     this.scene = this.getScene();
@@ -51,8 +51,8 @@ export default class Host extends SceneObject {
     this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     this.cube.matrixAutoUpdate = false;
 
-    //set this flag to add this obj to scenes octree
-    this.cube.useForCollisionDetection = true;
+    //set this flag to add this obj to octree and not to scene!
+    this.cube.useOnlyForCollisionDetection = true;
 
     this.addSceneObject(this.cube);
     this.addToGlobalGeometry();
