@@ -1,9 +1,9 @@
 'use strict';
 
-import './Sidebar.less';
+import './index.less';
 
 import React from 'react';
-import {Tabs, Tab} from './Tabs';
+import {Tabs, Tab} from '../components/Tabs';
 
 const Sidebar = React.createClass({
 
