@@ -39,26 +39,23 @@ export default class SnapshotConveyer {
 
   handleMessage(message) {
     if (this.snapshots === null) {
-      this.snapshots = Immutable.fromJS(message.new);
+      this.snapshots = Immutable.fromJS(message.online);
       this.onNext(this.snapshots);
       return;
     }
 
     this.snapshots.withMutations(snapshots => {
-      // handle new values
-      snapshots = snapshots.concat(Immutable.fromJS(message.new));
-
       // handle removed values
       snapshots = snapshots.filter(snapshot => {
         return !containsSnapshot(snapshot, message.removed);
       });
 
-      // handle edited values
+      // handle edited and new values
       // easy way: Remove those items that have changed and add them to the end
       snapshots = snapshots.filter(snapshot => {
-        return !containsSnapshot(snapshot, message.changed);
+        return !containsSnapshot(snapshot, message.online);
       });
-      snapshots = snapshots.concat(Immutable.fromJS(message.changed));
+      snapshots = snapshots.concat(Immutable.fromJS(message.online));
 
       this.snapshots = snapshots;
       this.onNext(snapshots);

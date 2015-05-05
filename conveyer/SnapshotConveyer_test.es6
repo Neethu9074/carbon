@@ -52,7 +52,7 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      neu: [
+      online: [
         {id: 1},
         {id: 2}
       ]
@@ -76,7 +76,7 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     conveyer.stop();
-    emitData({neu: [{id: 1}]});
+    emitData({online: [{id: 1}]});
     expect(onNext.callCount).to.equal(0);
   });
 
@@ -84,10 +84,10 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      neu: [snapshot(1, 'initial')]
+      online: [snapshot(1, 'initial')]
     });
     emitData({
-      neu: [snapshot(2, 'initial')]
+      online: [snapshot(2, 'initial')]
     });
     const snapshots = onNext.getCall(1).args[0];
     expect(snapshots.size).to.equal(2);
@@ -97,10 +97,10 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      neu: [snapshot(1, 'initial'), snapshot(2, 'initial')]
+      online: [snapshot(1, 'initial'), snapshot(2, 'initial')]
     });
     emitData({
-      changed: [snapshot(2, 'changed')]
+      online: [snapshot(2, 'changed')]
     });
     const snapshots = onNext.getCall(1).args[0];
     expect(snapshots.size).to.equal(2);
@@ -111,7 +111,7 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      neu: [snapshot(1, 'initial'), snapshot(2, 'initial')]
+      online: [snapshot(1, 'initial'), snapshot(2, 'initial')]
     });
     emitData({
       removed: [snapshot(2)]
@@ -125,10 +125,10 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      neu: [snapshot(1, 'initial'), snapshot(2, 'initial')]
+      online: [snapshot(1, 'initial'), snapshot(2, 'initial')]
     });
     emitData({
-      changed: [snapshot(2, 'initial')]
+      online: [snapshot(2, 'initial')]
     });
 
     const initialSnapshots = onNext.getCall(0).args[0];
@@ -143,12 +143,12 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      neu: [snapshot(1, 'beforeReconnect')]
+      online: [snapshot(1, 'beforeReconnect')]
     });
 
     connection.emitter.emit('connected');
     emitData({
-      neu: [snapshot(2, 'afterReconnect')]
+      online: [snapshot(2, 'afterReconnect')]
     });
 
     const data = onNext.getCall(1).args[0];
@@ -156,13 +156,12 @@ describe('conveyer.SnapshotConveyer', () => {
     expect(data.get(0).get('hostId')).to.equal('h2');
   });
 
-  function emitData({neu=[], changed=[], removed=[]}) {
+  function emitData({online=[], removed=[]}) {
     connection.emitter.emit('message', {
       event: 'snapshot:' + ec2,
       data: {
-        'new': neu,
-        changed: changed,
-        removed: removed
+        online,
+        removed
       }
     });
   }
