@@ -158,11 +158,9 @@ describe('conveyer.SnapshotConveyer', () => {
 
   function emitData({online=[], removed=[]}) {
     connection.emitter.emit('message', {
-      event: 'snapshot:' + ec2,
-      data: {
-        online,
-        removed
-      }
+      pluginId: ec2,
+      online,
+      removed
     });
   }
 

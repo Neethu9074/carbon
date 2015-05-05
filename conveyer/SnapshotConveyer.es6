@@ -16,7 +16,7 @@ export default class SnapshotConveyer {
       channel: opts.pluginId
     };
 
-    this.dataEventPredicate = e => e.event === this.id;
+    this.dataEventPredicate = e => e.pluginId === opts.pluginId;
 
     // initially, there is no data!
     this.snapshots = null;
@@ -27,7 +27,7 @@ export default class SnapshotConveyer {
 
     this.subscription = connection.emitter.on('message')
       .filter(this.dataEventPredicate)
-      .subscribe(e => this.handleMessage(e.data));
+      .subscribe(e => this.handleMessage(e));
 
     // After a reconnect we should discard all previously gathered values,
     // as we are getting a full update!
