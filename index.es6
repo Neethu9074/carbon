@@ -6,3 +6,4 @@
 import './health';
 import './power';
 import './zones';
+import './sorting';
