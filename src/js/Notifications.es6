@@ -7,6 +7,8 @@ import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
 import {extractId, getIdString} from 'instana-ui-services/util/snapshots';
+import * as constants from 'instana-ui-forge/constants';
+import {sort} from 'instana-ui-sdk/sorting';
 
 const Notifications = React.createClass({
   mixins: [ConveyerMixin],
@@ -18,10 +20,11 @@ const Notifications = React.createClass({
   },
 
   componentDidMount() {
-    const pluginId = 'com.instana.forge.infrastructure.os.OS';
+    const pluginId = constants.plugins.os;
     this.addSubscription(
-      create(SnapshotConveyer, {pluginId}).subscribe(
-        snapshots => this.setState({snapshots})
+      create(SnapshotConveyer, {pluginId})
+      .map(sort)
+      .subscribe(snapshots => this.setState({snapshots})
       )
     );
   },

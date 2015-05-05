@@ -4,6 +4,7 @@ import './index.less';
 
 import React from 'react';
 import {Tabs, Tab} from '../components/Tabs';
+import Overview from './Overview';
 
 const Sidebar = React.createClass({
 
@@ -13,10 +14,7 @@ const Sidebar = React.createClass({
 
         <Tab title="Overview">
           <h1 className="in-sidebar__header">Overview</h1>
-          <Tabs>
-            <Tab title="Servers">Servers...</Tab>
-            <Tab title="Services">Services...</Tab>
-          </Tabs>
+          <Overview />
         </Tab>
 
         <Tab title="Performance">
