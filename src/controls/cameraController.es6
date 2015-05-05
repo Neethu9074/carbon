@@ -52,7 +52,7 @@ export default class CameraController {
 
   initZoomField() {
     //zoom fields
-    this.maxZoomOut = 3000;
+    this.maxZoomOut = 1800;
     this.maxZoomIn = 20;
     this.zoomLevel = 100;
     this.zoomSpeed = 5;

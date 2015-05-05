@@ -176,7 +176,7 @@ export default class Scene {
 		this.camera = new THREE.OrthographicCamera(
 			left, -left, top, -top,
 			0.1, //near
-			5000 //far
+			2000 //far
 		);
 
 		this.camera.position.set(-1, 1, 1);
