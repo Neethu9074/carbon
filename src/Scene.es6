@@ -356,6 +356,7 @@ export default class Scene {
 			zone.hosts.forEach(host => {
 				if (isIdEqual(host.snapshot, snapshotId)) {
 					this.clickedOnObject(host.cube);
+					return;
 				}
 			});
 		});
