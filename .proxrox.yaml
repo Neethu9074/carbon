@@ -8,3 +8,5 @@ proxy:
   #service API
   '/api/': http://127.0.0.1:8080/
   #'/api/': http://54.197.140.9/api/
+websocketProxy:
+  '/api/data': http://127.0.0.1:8080/data
