@@ -1,4 +1,5 @@
 /*eslint-env mocha,node*/
+/*eslint-disable max-len*/
 
 'use strict';
 
@@ -14,6 +15,8 @@ describe('connection.connection', () => {
   let emitter;
   let send;
 
+  let clock;
+
   beforeEach(() => {
     connection = {
       send: sinon.stub(),
@@ -21,7 +24,7 @@ describe('connection.connection', () => {
     };
 
     WebSocket = sinon.stub();
-    WebSocket.onFirstCall().returns(connection);
+    WebSocket.returns(connection);
 
     global.window = {
       WebSocket: WebSocket,
@@ -29,6 +32,14 @@ describe('connection.connection', () => {
         origin: 'http://demo.internal.instana.io'
       }
     };
+
+    clock = sinon.useFakeTimers();
+  });
+
+  afterEach(() => {
+    clock.restore();
+    emitter = null;
+    send = null;
   });
 
   it('should request the correct URL', () => {
@@ -84,6 +95,37 @@ describe('connection.connection', () => {
     open();
     connection.onmessage({data: '{"yes":true}'});
     expect(onMessage.getCall(0).args[0]).to.deep.equal({yes: true});
+  });
+
+  it('should ping the server every 5 seconds', () => {
+    doStubbedImport();
+    clock.tick(5000);
+    open();
+    clock.tick(1000);
+    expect(connection.send.called).to.equal(false);
+
+    clock.tick(4000);
+    expect(connection.send.calledOnce).to.equal(true);
+    expect(connection.send.getCall(0).args[0]).to.equal('ping');
+  });
+
+  it('should assume the connection is broken after 10000 seconds without pong response', () => {
+    const onClose = sinon.stub();
+    doStubbedImport();
+    emitter.on('closed').subscribe(onClose);
+
+    // open the connection and send the ping msg
+    open();
+    clock.tick(5000);
+
+    // force the ping timeout to be invoked
+    clock.tick(10000);
+    expect(onClose.calledOnce).to.equal(true);
+
+    // it tries to reconnect after 1s. Expect a new WS connection to be
+    // established
+    clock.tick(1000);
+    expect(WebSocket.callCount).to.equal(2);
   });
 
   function doStubbedImport() {

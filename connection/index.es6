@@ -2,6 +2,12 @@
 
 import RxEmitter from 'rxemitter';
 
+// how often the server should be pinged
+const pingInterval = 5000;
+
+// after how much time should we assume that the connection is broken?
+const pingTimeout = 10000;
+
 // taken from the spec
 const readyState = {
   connecting: 0,
@@ -29,6 +35,9 @@ let queuedMessages = [];
 // the last established WebSocket connection
 let connection;
 
+// the ping timeout handle
+let pingTimeoutHandle;
+
 connect();
 
 
@@ -55,11 +64,27 @@ function onOpen() {
   // yeah, we managed to connect. Send all queued messages out!
   queuedMessages.forEach(send);
   queuedMessages = [];
+
+  pingTimeoutHandle = setTimeout(ping, pingInterval);
+}
+
+
+function ping() {
+  connection.send('ping');
+  pingTimeoutHandle = setTimeout(() => {
+    // if this ever gets called, then the pong message was not received in
+    // time and we just try to reconnect.
+    onClose();
+  }, pingTimeout);
 }
 
 
 function onClose() {
   emitter.emit('closed');
+  if (pingTimeoutHandle) {
+    clearTimeout(pingTimeoutHandle);
+    pingTimeoutHandle = null;
+  }
   tryToReconnect();
 }
 
@@ -71,11 +96,21 @@ function tryToReconnect() {
 
 
 function onMessage(msg) {
+  if (msg.data === 'pong') {
+    if (pingTimeoutHandle) {
+      clearTimeout(pingTimeoutHandle);
+      pingTimeoutHandle = null;
+    }
+    pingTimeoutHandle = setTimeout(ping, pingInterval);
+    return;
+  }
+
   let data;
   try {
     data = JSON.parse(msg.data);
   } catch (e) {
-    return emitter.emit('error', new Error('Failed to parse message ' + msg));
+    emitter.emit('error', new Error('Failed to parse message ' + msg));
+    return;
   }
   emitter.emit('message', data);
 }
