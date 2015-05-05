@@ -13,7 +13,7 @@ export default class SnapshotConveyer {
     this.id = SnapshotConveyer.getUniqueId(opts);
     this.subscribeEvent = {
       type: 'snapshot',
-      pluginId: opts.pluginId
+      channel: opts.pluginId
     };
 
     this.dataEventPredicate = e => e.event === this.id;

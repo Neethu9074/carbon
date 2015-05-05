@@ -28,24 +28,19 @@ export function subscribe(id, subscription) {
     'Multiple subscriptions with the same id are not possible!'
   );
 
-  const msg = subscriptions[id] = {
-    event: 'subscribe',
-    data: subscription
-  };
+  subscription.event = 'subscribe';
+  subscriptions[id] = subscription;
 
   // the queueing mechanism of connection is insufficient. We want to refresh
   // subscriptions once the connection is established, not on disconnect.
   if (connection.isOpen()) {
-    send(msg);
+    send(subscription);
   }
 }
 
 export function unsubscribe(id) {
+  const subscription = subscriptions[id];
+  subscription.event = 'unsubscribe';
   delete subscriptions[id];
-  send({
-    event: 'unsubscribe',
-    data: {
-      id
-    }
-  });
+  send(subscription);
 }

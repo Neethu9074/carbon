@@ -51,17 +51,16 @@ describe('connection.subscriptionAwareConnection', () => {
 
   it('should send subscriptions', () => {
     sac.subscribe('snapshot:com.instana.forge.infrastructure.virtualization.EC2', {
+      event: 'subscribe',
       type: 'snapshot',
-      pluginId: 'com.instana.forge.infrastructure.virtualization.EC2'
+      channel: 'com.instana.forge.infrastructure.virtualization.EC2'
     });
     open();
     expect(webSocketConnection.send.callCount).to.equal(1);
     expect(webSocketConnection.send.getCall(0).args[0]).to.equal(JSON.stringify({
       event: 'subscribe',
-      data: {
-        'type': 'snapshot',
-        'pluginId': 'com.instana.forge.infrastructure.virtualization.EC2'
-      }
+      type: 'snapshot',
+      channel: 'com.instana.forge.infrastructure.virtualization.EC2'
     }));
   });
 
@@ -86,8 +85,8 @@ describe('connection.subscriptionAwareConnection', () => {
     open();
     expect(webSocketConnection.send.callCount).to.equal(2);
     expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
-      event: 'subscribe',
-      data: {foo: 'bar'}
+      foo: 'bar',
+      event: 'subscribe'
     }));
   });
 
@@ -98,10 +97,8 @@ describe('connection.subscriptionAwareConnection', () => {
     sac.unsubscribe('snapshot:yo');
     expect(webSocketConnection.send.callCount).to.equal(2);
     expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
-      event: 'unsubscribe',
-      data: {
-        id: 'snapshot:yo'
-      }
+      foo: 'bar',
+      event: 'unsubscribe'
     }));
   });
 
@@ -113,10 +110,8 @@ describe('connection.subscriptionAwareConnection', () => {
     open();
     expect(webSocketConnection.send.callCount).to.equal(2);
     expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
-      event: 'unsubscribe',
-      data: {
-        id: 'snapshot:yo'
-      }
+      foo: 'bar',
+      event: 'unsubscribe'
     }));
   });
 

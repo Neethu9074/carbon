@@ -44,7 +44,7 @@ describe('conveyer.SnapshotConveyer', () => {
     expect(connection.subscribe.getCall(0).args[0]).to.equal('snapshot:' + ec2);
     expect(connection.subscribe.getCall(0).args[1]).to.deep.equal({
       type: 'snapshot',
-      pluginId: ec2
+      channel: ec2
     });
   });
 
