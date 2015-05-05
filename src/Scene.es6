@@ -349,6 +349,7 @@ export default class Scene {
 
 	clickedOnObject(object) {
 		this.controller.flyToObject(object);
+		this.controller.setZoomLevel(100);
 	}
 
 	focus(snapshotId) {
