@@ -7,6 +7,7 @@ import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
 import * as constants from 'instana-ui-forge/constants';
 import {sort} from 'instana-ui-sdk/sorting';
 
+import ServerListing from './ServerListing';
 import {Tabs, Tab} from '../components/Tabs';
 
 const Overview = React.createClass({
@@ -31,19 +32,14 @@ const Overview = React.createClass({
       <div className="in-sidebar-overview">
         <Tabs>
           <Tab title="Servers">
-            <ul>
-              {this.state.snapshots.map(snapshot =>
-                <li key={snapshot.get('hostId')}>
-                  {snapshot.get('hostId')}
-                </li>
-              )}
-            </ul>
+            <ServerListing snapshots={this.state.snapshots} />
           </Tab>
           <Tab title="Services">Services...</Tab>
         </Tabs>
       </div>
     );
   }
+
 });
 
 export default Overview;
