@@ -3,8 +3,7 @@
 import THREE from 'three';
 import React from 'react';
 import {getHealth} from 'instana-ui-sdk/health';
-import {getIdString} from 'instana-ui-services/util/snapshots';
-import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
