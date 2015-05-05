@@ -9,28 +9,28 @@ const Sidebar = React.createClass({
 
   render() {
     return (
-      <section className="in-sidebar">
-        <div className="in-sidebar__content">
-          <h1 className="in-sidebar__header">
-            Overview
-          </h1>
+      <Tabs blockIdentifier="in-sidebar">
 
+        <Tab title="Overview">
+          <h1 className="in-sidebar__header">Overview</h1>
           <Tabs>
-            <Tab title="Servers">
-              Servers content
-            </Tab>
-            <Tab title="Services">
-              Services content
-            </Tab>
+            <Tab title="Servers">Servers...</Tab>
+            <Tab title="Services">Services...</Tab>
           </Tabs>
+        </Tab>
 
-        </div>
-        <ul className="in-sidebar__tabs">
-          <li className="in-sidebar__tab in-sidebar__tab--active">Overview</li>
-          <li className="in-sidebar__tab">Performance</li>
-          <li className="in-sidebar__tab">Tags</li>
-        </ul>
-      </section>
+        <Tab title="Performance">
+          <h1 className="in-sidebar__header">Performance</h1>
+          <Tabs>
+            <Tab title="CPU">CPU...</Tab>
+            <Tab title="Memory">Memory...</Tab>
+          </Tabs>
+        </Tab>
+
+        <Tab title="Tags">
+          <h1 className="in-sidebar__header">Tags</h1>
+        </Tab>
+      </Tabs>
     );
   }
 });

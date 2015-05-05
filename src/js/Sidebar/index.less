@@ -11,10 +11,9 @@
   width: @in-sidebar-content-width + @in-sidebar-tabs-width;
 }
 
-.in-sidebar__content {
+.in-sidebar__tab-content {
   width: @in-sidebar-content-width;
   height: 100%;
-  float: left;
 
   background: hsla(214, 23%, 12%, 0.95);
 
@@ -31,9 +30,10 @@
 
 .in-sidebar__tabs {
   width: @in-sidebar-tabs-width;
-  margin: 0 0 0 @in-sidebar-content-width;
   padding: 0;
+  margin: 0;
   list-style: none;
+  float: right;
 }
 
 .in-sidebar__tab {
@@ -43,6 +43,8 @@
   color: #384046;
   font-size: 0.8em;
   text-align: center;
+
+  cursor: pointer;
 
   &--active {
     background: #1A2127;
