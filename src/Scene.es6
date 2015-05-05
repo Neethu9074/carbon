@@ -263,15 +263,6 @@ export default class Scene {
 		return frustum.intersectsObject(object);
 	}
 
-	objectIsNear() {
-		const distance = this.controller.zoomLevel;
-
-		if(distance < 250) {
-			return true;
-		}
-		return false;
-	}
-
 	dispose() {
 		this.disposed = true;
 	}
@@ -288,6 +279,12 @@ export default class Scene {
 		const zoomLevel = event.zoomLevel;
 		this.cameraSize = zoomLevel / 10;
 		this.setCameraFromSize();
+
+		if(zoomLevel > 250) {
+			this.renderHtmlStuff = false;
+		} else {
+			this.renderHtmlStuff = true;
+		}
 
 		//update the css design zoom distance
 		this.updateZoomLevelInCss(zoomLevel);

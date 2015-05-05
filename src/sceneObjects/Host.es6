@@ -22,7 +22,7 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].y += 0.5;
   cubeGeometry.vertices[i].z += 0.5;
 }
-const cubeMaterial = new THREE.MeshBasicMaterial({visible: false});
+const cubeMaterial = new THREE.MeshBasicMaterial({visible: true});
 
 
 export default class Host extends SceneObject {
@@ -82,12 +82,12 @@ export default class Host extends SceneObject {
   }
 
   update(data) {
-    //do not update if the cube is not in view frustum
-    this.cube.material.visible = true;
+    if(!data.scene.renderHtmlStuff) {
+      return;
+    }
 
     //if the host is near enough or is in the view frustum
-    if(!data.scene.objectIsNear(this.cube) ||
-      !data.scene.objectIsVisible(this.cube)) {
+    if(!data.scene.objectIsVisible(this.cube)) {
       //disable sticky note
       if(this.stickyNoteContainerStyle.display !== 'none') {
         this.stickyNoteContainerStyle.display = 'none';
@@ -95,8 +95,6 @@ export default class Host extends SceneObject {
     } else {
       this.updateStickyNotePosition(data);
     }
-
-    this.cube.material.visible = false;
   }
 
   updateStickyNotePosition(data) {
