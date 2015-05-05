@@ -17,9 +17,11 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <Notifications onClick={this.onNotificationClick} />
+        {__DEV__ ? <Notifications onClick={this.onNotificationClick} /> : null}
+
         <Map ref="map" />
-        <Sidebar />
+
+        {__DEV__ ? <Sidebar /> : null}
       </div>
     );
   },
