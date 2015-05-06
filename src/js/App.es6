@@ -20,8 +20,7 @@ const App = React.createClass({
         {__DEV__ ? <Notifications onClick={this.onNotificationClick} /> : null}
 
         <Map ref="map" />
-
-        {__DEV__ ? <Sidebar /> : null}
+        <Sidebar />
       </div>
     );
   },
