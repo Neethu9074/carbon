@@ -46,13 +46,13 @@ export default class HostCubeFactory extends MeshFactory {
       [-0.5, 1, -0.5],
 
       //left
-      [-0.5, 0, 0.5],
       [-0.5, 0, -0.5],
+      [-0.5, 0, 0.5],
       [-0.5, 1, -0.5],
 
       [-0.5, 0, 0.5],
-      [-0.5, 1, -0.5],
-      [-0.5, 1, 0.5]
+      [-0.5, 1, 0.5],
+      [-0.5, 1, -0.5]
     ];
 
     //overwrite the default material

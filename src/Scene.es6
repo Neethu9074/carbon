@@ -11,6 +11,7 @@ import PhysicalMap from './sceneObjects/PhysicalMap';
 import Host from './sceneObjects/Host';
 import EventEmitter from 'eventemitter3';
 import HostCubeFactory from './factories/HostCubeFactory';
+import HostMetricCubeFactory from './factories/HostMetricCubeFactory';
 import LineFactory from './factories/LineFactory';
 import ZoneFactory from './factories/ZoneFactory';
 import PlaneFactory from './factories/PlaneFactory';
@@ -140,9 +141,19 @@ export default class Scene {
 
   setupFactories() {
     this.hostFactory = new HostCubeFactory({scene: this});
+    this.hostMetricFactory = new HostMetricCubeFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
     this.zoneFactory = new ZoneFactory({scene: this});
     this.planeFactory = new PlaneFactory({scene: this});
+
+    setInterval(this.updateHeights.bind(this), 1000);
+  }
+
+  updateHeights() {
+    this.hostMetricFactory.updateHeights();
+
+    //render scene to show the update
+    this.renderScene();
   }
 
   setup3D() {
@@ -299,13 +310,14 @@ export default class Scene {
       return;
     }
     const maxZoomIn = 25;
-    const maxZoomOut = 100;
+    const maxZoomOut = 150;
 
     //[1 - max out, 0 - max in]
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
     this.hostFactory.material.opacity = normedZoomLevel;
     this.lineFactory.material.visible = (zoomLevel <= 250);
+    this.hostMetricFactory.material.visible = (zoomLevel <= 130);
   }
 
   updateZoomLevelInCss(zoomUnits) {
