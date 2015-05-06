@@ -1,6 +1,6 @@
 {
   "name": "instana-ui-services",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "description": "In-browser, pluggable-independent, service layer",
   "main": "index.es6",
   "scripts": {
