@@ -4,7 +4,7 @@ import React from 'react/addons';
 
 import {formatBytes} from 'instana-ui-services/converters';
 
-var cx = React.addons.classSet;
+const cx = React.addons.classSet;
 
 const ServerItem = React.createClass({
   getInitialState() {
