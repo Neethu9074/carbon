@@ -1,12 +1,12 @@
 'use strict';
 
+import './ServerListing.less';
+
 import React from 'react/addons';
 import {getZone} from 'instana-ui-sdk/zones';
 import ServerItem from './ServerItem';
 
 const ServerListing = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
-
   render() {
     // zone => snapshot[]
     const snapshots = {};
@@ -21,10 +21,12 @@ const ServerListing = React.createClass({
     const zones = Object.keys(snapshots).sort();
 
     return (
-      <ul>
+      <ul className="in-sidebar-server-listing__zones">
         {zones.map(zone =>
-          <li key={zone}>
-            {zone}
+          <li key={zone} className="in-sidebar-server-listing__zone">
+            <h2 className="in-sidebar-server-listing__zone-label">
+              {zone}
+            </h2>
             <ul>
               {snapshots[zone].map(snapshot =>
                 <ServerItem snapshot={snapshot} key={snapshot.get('hostId')} />

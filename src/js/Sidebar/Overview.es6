@@ -1,6 +1,6 @@
 'use strict';
 
-import React from 'react';
+import React from 'react/addons';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
@@ -11,7 +11,7 @@ import ServerListing from './ServerListing';
 import {Tabs, Tab} from '../components/Tabs';
 
 const Overview = React.createClass({
-  mixins: [ConveyerMixin],
+  mixins: [ConveyerMixin, React.addons.PureRenderMixin],
 
   getInitialState() {
     return {
@@ -29,14 +29,12 @@ const Overview = React.createClass({
 
   render() {
     return (
-      <div className="in-sidebar-overview">
-        <Tabs>
-          <Tab title="Servers">
-            <ServerListing snapshots={this.state.snapshots} />
-          </Tab>
-          <Tab title="Services">Services...</Tab>
-        </Tabs>
-      </div>
+      <Tabs>
+        <Tab title="Servers">
+          <ServerListing snapshots={this.state.snapshots} />
+        </Tab>
+        <Tab title="Services">Services...</Tab>
+      </Tabs>
     );
   }
 
