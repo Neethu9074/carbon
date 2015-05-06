@@ -10,13 +10,13 @@ export default class SceneObject {
     this.subscriptions = [];
   }
 
-	setPosition(newPos) {
-		this.position.copy(newPos);
-	}
+  setPosition(newPos) {
+    this.position.copy(newPos);
+  }
 
   getPosition() {
-		return this.position;
-	}
+    return this.position;
+  }
 
   addSceneObject(obj) {
     this.parent.addSceneObject(obj);

@@ -66,7 +66,7 @@ class TouchControl extends CameraController{
   }
 
   onTouchMove(e) {
-		e.stopPropagation();
+    e.stopPropagation();
     e.preventDefault();
 
     if(this.scaling) {

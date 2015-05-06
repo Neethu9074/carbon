@@ -38,10 +38,10 @@ export default class Host extends SceneObject {
     this.render();
     this.addStickyNote();
     this.registerEvents();
-	}
+  }
 
-	registerEvents() {
-		this.addSubscription(
+  registerEvents() {
+    this.addSubscription(
       this.on('endUpdate', this.update.bind(this))
     );
   }

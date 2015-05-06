@@ -26,18 +26,18 @@ export default class Zone extends SceneObject {
 
   renderGround() {
     const zoneColor = colors.zones[this.zoneIndex];
-		const mat = new THREE.MeshBasicMaterial({
-			transparent: true,
-			opacity: 0.2,
+    const mat = new THREE.MeshBasicMaterial({
+      transparent: true,
+      opacity: 0.2,
       color: zoneColor,
       side: THREE.DoubleSide,
       depthWrite: false
-		});
+    });
 
-		this.ground = new THREE.Mesh(zoneGeometry, mat);
+    this.ground = new THREE.Mesh(zoneGeometry, mat);
     // turn the ground around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
-		this.ground.rotation.x = -90 * Math.PI / 180;
+    this.ground.rotation.x = -90 * Math.PI / 180;
     this.ground.renderOrder = 1;
 
     this.addSceneObject(this.ground);
@@ -58,27 +58,27 @@ export default class Zone extends SceneObject {
   getZoneLabel(text) {
     const canvas = document.createElement('canvas');
 
-		canvas.width = 600;
-		canvas.height = 100;
-		const context = canvas.getContext('2d');
+    canvas.width = 600;
+    canvas.height = 100;
+    const context = canvas.getContext('2d');
 
-		context.fillStyle = 'rgb(255, 255, 255)';
-		context.font = '100px Arial';
-		context.fillText(text, 0, 95);
+    context.fillStyle = 'rgb(255, 255, 255)';
+    context.font = '100px Arial';
+    context.fillText(text, 0, 95);
 
-		// use canvas contents as a texture
-		const texture = new THREE.Texture(canvas);
+    // use canvas contents as a texture
+    const texture = new THREE.Texture(canvas);
 
-		//set the minFilter, because the texture could not be power of 2
-		texture.minFilter = THREE.LinearFilter;
-		texture.needsUpdate = true;
+    //set the minFilter, because the texture could not be power of 2
+    texture.minFilter = THREE.LinearFilter;
+    texture.needsUpdate = true;
 
     const mat = new THREE.MeshBasicMaterial({
-			map: texture,
+      map: texture,
       transparent: true,
       side: THREE.DoubleSide,
       depthWrite: false
-		});
+    });
     const label = new THREE.Mesh(zoneGeometry, mat);
 
     return label;
@@ -86,14 +86,14 @@ export default class Zone extends SceneObject {
 
   addHost({snapshot}) {
     const hostId = getIdString(snapshot);
-		let host = _.find(this.hosts, host => host.id === hostId);
-		if (!host) {
-			host = new Host({
-				parent: this,
-				snapshot
-			});
-			this.hosts.push(host);
-		} else {
+    let host = _.find(this.hosts, host => host.id === hostId);
+    if (!host) {
+      host = new Host({
+        parent: this,
+        snapshot
+      });
+      this.hosts.push(host);
+    } else {
       host.onSnapshotUpdate(snapshot);
     }
   }
@@ -131,21 +131,21 @@ export default class Zone extends SceneObject {
   dispose() {
     this.removeSceneObject(this.ground);
 
-		super.dispose();
+    super.dispose();
 
     if(this.ground.label !== undefined) {
       this.ground.label.geometry.dispose();
       this.ground.label.material.dispose();
     }
 
-		this.id = null;
-		this.hosts = [];
-		this.zoneIndex = null;
-		this.parent = null;
+    this.id = null;
+    this.hosts = [];
+    this.zoneIndex = null;
+    this.parent = null;
 
-		//clear three.js cache trough disposing
-		this.ground.geometry.dispose();
-		this.ground.material.dispose();
-		this.ground = null;
-	}
+    //clear three.js cache trough disposing
+    this.ground.geometry.dispose();
+    this.ground.material.dispose();
+    this.ground = null;
+  }
 }
