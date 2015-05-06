@@ -31,7 +31,8 @@ const ServerListing = React.createClass({
                 style={{color: consts.night.map.colors.zones[i]}}>
               {zone}
             </h2>
-            <ul>
+
+            <ul className="in-sidebar-server-listing__snapshots">
               {snapshots[zone].map(snapshot =>
                 <ServerItem snapshot={snapshot}
                             key={snapshot.get('hostId')}/>
