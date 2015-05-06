@@ -16,6 +16,7 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+    "font-awesome": "^4.3.0",
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
     "instana-ui-area-chart": "^1.0.0",
