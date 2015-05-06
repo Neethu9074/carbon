@@ -4,7 +4,10 @@ import './ServerListing.less';
 
 import React from 'react/addons';
 import {getZone} from 'instana-ui-sdk/zones';
+import {consts} from 'instana-ui-themes';
+
 import ServerItem from './ServerItem';
+
 
 const ServerListing = React.createClass({
   render() {
@@ -22,14 +25,16 @@ const ServerListing = React.createClass({
 
     return (
       <ul className="in-sidebar-server-listing__zones">
-        {zones.map(zone =>
+        {zones.map((zone, i) =>
           <li key={zone} className="in-sidebar-server-listing__zone">
-            <h2 className="in-sidebar-server-listing__zone-label">
+            <h2 className="in-sidebar-server-listing__zone-label"
+                style={{color: consts.night.map.colors.zones[i]}}>
               {zone}
             </h2>
             <ul>
               {snapshots[zone].map(snapshot =>
-                <ServerItem snapshot={snapshot} key={snapshot.get('hostId')} />
+                <ServerItem snapshot={snapshot}
+                            key={snapshot.get('hostId')}/>
               )}
             </ul>
           </li>
