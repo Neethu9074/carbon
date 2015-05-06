@@ -53,6 +53,8 @@ export default class PhysicalMap extends SceneObject {
     //set the ground anisotropy to the max
     //because it's a huge ground always seen
     texture.anisotropy = 8;
+    this.groundtexture = texture;
+
     return texture;
   }
 
@@ -115,6 +117,16 @@ export default class PhysicalMap extends SceneObject {
       this.zones.push(zone);
     }
     zone.addHost({snapshot: host});
+  }
+
+  onZoom(zoomLevel) {
+    if(zoomLevel < 120) {
+      this.groundtexture.repeat.set(3 * this.size, 3 * this.size);
+    } else if(zoomLevel < 300) {
+      this.groundtexture.repeat.set(this.size, this.size);
+    } else if(zoomLevel < 500) {
+      this.groundtexture.repeat.set(1 / 3 * this.size, 1 / 3 * this.size);
+    }
   }
 
   getDummyData() {

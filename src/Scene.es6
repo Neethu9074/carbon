@@ -146,7 +146,7 @@ export default class Scene {
     this.zoneFactory = new ZoneFactory({scene: this});
     this.planeFactory = new PlaneFactory({scene: this});
 
-    setInterval(this.updateHeights.bind(this), 1000);
+    //setInterval(this.updateHeights.bind(this), 1000);
   }
 
   updateHeights() {
@@ -302,6 +302,7 @@ export default class Scene {
 
     //update the opacity for the 3D elements
     this.updateMaterialsByZoomLevel(zoomLevel);
+    this.map.onZoom(zoomLevel);
     this.renderScene();
   }
 
