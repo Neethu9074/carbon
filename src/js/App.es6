@@ -2,16 +2,41 @@
 
 import './App.less';
 
-import React from 'react/react';
+import React from 'react';
 import Map from 'instana-ui-map';
+import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
+import * as connection from 'instana-ui-services/connection';
 
 import Sidebar from './Sidebar';
 import Notifications from './Notifications';
+import Toast from './components/Toast';
 
 const App = React.createClass({
+  mixins: [ConveyerMixin],
+
   getInitialState() {
     return {
+      systemMessage: null
     };
+  },
+
+  componentDidMount() {
+
+    this.addSubscription(
+      connection.emitter.on('closed').subscribe(() =>
+        this.setState({
+          systemMessage: 'Connection lost.'
+        })
+      )
+    );
+
+    this.addSubscription(
+      connection.emitter.on('connected').subscribe(() =>
+        this.setState({
+          systemMessage: null
+        })
+      )
+    );
   },
 
   render() {
@@ -21,6 +46,11 @@ const App = React.createClass({
 
         <Map ref="map" />
         <Sidebar />
+
+        <Toast action="Dismiss"
+               onClick={() => this.setState({systemMessage: null})}>
+          {this.state.systemMessage}
+        </Toast>
       </div>
     );
   },
