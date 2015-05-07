@@ -1,6 +1,7 @@
 'use strict';
 
 import THREE from 'three';
+import TWEEN from 'tween.js'
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 
 import './lib/Octree';
@@ -82,6 +83,14 @@ export default class Scene {
 
   renderScene() {
     this.shouldRenderScene = true;
+  }
+
+  startAnimation() {
+    this.animationInProgress = true;
+  }
+
+  stopAnimation() {
+    this.animationInProgress = false;
   }
 
   setupController() {
@@ -167,6 +176,7 @@ export default class Scene {
     this.map = new PhysicalMap({scene: this});
 
     this.shouldRenderScene = true;
+    this.animationInProgress = false;
   }
 
   setupRenderer(width, height) {
@@ -232,9 +242,10 @@ export default class Scene {
 
     this.calculateDeltaTime();
     this.controller.update(this.deltaTime);
+    TWEEN.update();
 
     //don't render scene if it is not needed
-    if(!this.shouldRenderScene) {
+    if(!this.shouldRenderScene && !this.animationInProgress) {
       return;
     }
 

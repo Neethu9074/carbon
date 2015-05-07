@@ -124,8 +124,6 @@ export default class PhysicalMap extends SceneObject {
       this.groundtexture.repeat.set(3 * this.size, 3 * this.size);
     } else if(zoomLevel < 300) {
       this.groundtexture.repeat.set(this.size, this.size);
-    } else if(zoomLevel < 500) {
-      this.groundtexture.repeat.set(1 / 3 * this.size, 1 / 3 * this.size);
     }
   }
 
