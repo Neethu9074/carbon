@@ -1,5 +1,7 @@
 'use strict';
 
+import './ServerItem.less';
+
 import React from 'react/addons';
 
 import {formatBytes} from 'instana-ui-services/converters';

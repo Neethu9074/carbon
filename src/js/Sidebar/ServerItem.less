@@ -1,0 +1,41 @@
+.in-sidebar-server-listing__snapshot {
+  list-style: none;
+  border-bottom: 1px solid #29323C;
+
+  max-height: 2.5em;
+  overflow: hidden;
+
+  transition: max-height .5s ease;
+
+  &--open {
+    max-height: 10em;
+  }
+}
+
+.in-sidebar-server-listing__snapshot-label {
+  background: url("~instana-ui-themes/images/icons/server.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  padding: 0 0 0 2em;
+  margin-bottom: 0;
+  font-size: 0.9em;
+  font-weight: 200;
+  cursor: pointer;
+}
+
+.in-sidebar-server-listing__listing {
+  dt {
+    float: left;
+    width: 3em;
+    text-align: right;
+    font-size: 0.7em;
+    color: #ccc;
+    padding: 0.4em 0 0;
+  }
+
+  dd {
+    margin-left: 4em;
+    font-size: 0.9em;
+    line-height: 1.6;
+  }
+}
