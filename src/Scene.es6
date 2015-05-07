@@ -180,7 +180,10 @@ export default class Scene {
   }
 
   setupRenderer(width, height) {
-    this.renderer = new THREE.WebGLRenderer();
+    this.renderer = new THREE.WebGLRenderer({
+      precision: 'highp',
+      antialias: true
+    });
     this.renderer.setSize(width, height);
     this.renderer.setClearColor(colors.renderClearColor);
 
@@ -327,9 +330,30 @@ export default class Scene {
     //[1 - max out, 0 - max in]
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
+
     this.hostFactory.material.opacity = normedZoomLevel;
     this.lineFactory.material.visible = (zoomLevel <= 250);
     this.hostMetricFactory.material.visible = (zoomLevel <= 130);
+
+    //this.updateHostColors(zoomLevel, maxZoomOut);
+  }
+
+  updateHostColors(zoomLevel, maxZoomOut) {
+    if(zoomLevel > maxZoomOut) {
+      this.hostFactory.material.transparent = false;
+
+      if(this.hostFactory.grayHosts === true) {
+        this.hostFactory.grayHosts = false;
+        this.hostFactory.rebuildGlobalMesh = true;
+      }
+    } else {
+      this.hostFactory.material.transparent = true;
+
+      if(this.hostFactory.grayHosts === false) {
+        this.hostFactory.grayHosts = true;
+        this.hostFactory.rebuildGlobalMesh = true;
+      }
+    }
   }
 
   updateZoomLevelInCss(zoomUnits) {

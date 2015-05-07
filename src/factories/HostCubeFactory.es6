@@ -3,6 +3,12 @@
 import THREE from 'three';
 import MeshFactory from './MeshFactory';
 
+const colorItemsGrayed = [
+  [0.2, 0.2, 0.2], //front
+  [0.4, 0.4, 0.4], //top
+  [0.3, 0.3, 0.3] //left
+];
+
 const colorItemsOk = [
   [0.184, 0.64, 0.71], //front
   [0.212, 0.71, 0.745], //top
@@ -65,9 +71,18 @@ export default class HostCubeFactory extends MeshFactory {
     });
 
     this.numDifferentColors = 3;
+    this.grayHosts = false;
+  }
+
+  grayAllHosts(trueFalse) {
+
   }
 
   getColorArrayForFragment(fragment) {
+    if(this.grayHosts === true) {
+      return colorItemsGrayed;
+    }
+
     const health = fragment.health;
 
     if(health === 'warning') {
