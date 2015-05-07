@@ -15,6 +15,7 @@
   "dependencies": {
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
+    "instana-ui-themes": "^1.4.0",
     "invariant": "^1.0.2"
   },
   "devDependencies": {
