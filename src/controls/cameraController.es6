@@ -73,7 +73,7 @@ export default class CameraController {
     const max = this.maxZoomIn;
 
     const nZoomLevel = this.zoomLevel / (min - max);
-    delta *= nZoomLevel * this.scrollSpeed  ;
+    delta *= nZoomLevel * this.scrollSpeed;
 
     this.targetZoomLevel -= delta;
 
