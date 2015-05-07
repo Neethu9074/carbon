@@ -49,16 +49,14 @@ export default class HostMetricCubeFactory extends MeshFactory {
     ];
 
 
-    const uniforms = {
-      progress: {
-        type: 'f',
-        value: 0.0
-      }
-    };
-
     //overwrite the default material
     this.material = new THREE.ShaderMaterial({
-      uniforms: uniforms,
+      uniforms: {
+        progress: {
+          type: 'f',
+          value: 0.0
+        }
+      },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       vertexColors: THREE.VertexColors
@@ -88,7 +86,6 @@ export default class HostMetricCubeFactory extends MeshFactory {
     }
 
     this.globalGeometry.addAttribute('uv', new THREE.BufferAttribute(uvs, 2));
-
     this.startAnimation();
   }
 
