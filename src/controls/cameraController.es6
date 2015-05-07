@@ -54,8 +54,15 @@ export default class CameraController {
     //zoom fields
     this.maxZoomOut = 1800;
     this.maxZoomIn = 20;
+
+    //the current Level of zooming
     this.zoomLevel = 100;
-    this.zoomSpeed = 5;
+
+    //the wished level of zooming
+    this.targetZoomLevel = 100;
+
+    this.zoomSpeed = 10;
+    this.scrollSpeed = 5;
   }
 
   zoom(delta) {
@@ -66,12 +73,21 @@ export default class CameraController {
     const max = this.maxZoomIn;
 
     const nZoomLevel = this.zoomLevel / (min - max);
-    delta *= nZoomLevel * this.zoomSpeed;
+    delta *= nZoomLevel * this.scrollSpeed  ;
 
-    this.zoomLevel -= delta;
+    this.targetZoomLevel -= delta;
+
     //[min, max]
-    this.zoomLevel = Math.max(max, Math.min(min, (this.zoomLevel)));
-    this.scene.onZoom({zoomLevel: this.zoomLevel});
+    this.targetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel)));
+    this.scene.onZoom({zoomLevel: this.targetZoomLevel});
+  }
+
+  setZoomLevel(zL) {
+    const min = this.maxZoomOut;
+    const max = this.maxZoomIn;
+
+    this.targetZoomLevel = Math.max(max, Math.min(min, (zL)));
+    this.scene.onZoom({zoomLevel: this.targetZoomLevel});
   }
 
   doClick() {
@@ -90,11 +106,6 @@ export default class CameraController {
     transObj.position.x = targetPosition.x;
     transObj.position.z = targetPosition.z;
     transObj.updateMatrixWorld();
-  }
-
-  setZoomLevel(zL) {
-    this.zoomLevel = Math.max(this.maxZoomIn, Math.min(this.maxZoomOut, (zL)));
-    this.scene.onZoom({zoomLevel: this.zoomLevel});
   }
 
   move(dx, dy) {
@@ -142,9 +153,11 @@ export default class CameraController {
   }
 
   update(dTime) {
-    const cam = this.scene.camera;
+    this.updateZoomLevel(dTime);
 
+    const cam = this.scene.camera;
     const targetWorldPos = new THREE.Vector3();
+
     targetWorldPos
       .applyMatrix4(this.camTransformObject.matrixWorld)
       .add(this.directionToCam
@@ -174,5 +187,13 @@ export default class CameraController {
     cam.position.sub(delta);
     cam.updateMatrix();
     this.scene.renderScene();
+  }
+
+  updateZoomLevel(dT) {
+    const delta = this.targetZoomLevel - this.zoomLevel;
+    this.zoomLevel += delta * dT * this.zoomSpeed;
+
+    this.scene.cameraSize = this.zoomLevel / 10;
+    this.scene.setCameraFromSize();
   }
 }

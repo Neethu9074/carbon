@@ -302,8 +302,6 @@ export default class Scene {
 
   onZoom(event) {
     const zoomLevel = event.zoomLevel;
-    this.cameraSize = zoomLevel / 10;
-    this.setCameraFromSize();
 
     if(zoomLevel > 250) {
       this.renderHtmlStuff = false;
