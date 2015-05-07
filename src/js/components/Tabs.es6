@@ -8,7 +8,7 @@ export const Tabs = React.createClass({
 
   getInitialState() {
     return {
-      selectedTab: 0
+      selectedTab: this.props.collapsible === true ? -1 : 0
     };
   },
 
@@ -18,6 +18,8 @@ export const Tabs = React.createClass({
     // component does provide a default theme, but this theme can easily be
     // changed. Styling can be achieved via the `blockIdentifier` property.
     const blockIdentifier = this.props.blockIdentifier || 'in-subtle-tabs';
+
+
 
     const headerNodes = this.props.children.map((tab, i) => {
       let classNames = blockIdentifier + '__tab';
@@ -38,17 +40,25 @@ export const Tabs = React.createClass({
         <ul className={blockIdentifier + '__tabs'}>
           {headerNodes}
         </ul>
-        <div className={blockIdentifier + '__tab-content'}>
-          {this.props.children[this.state.selectedTab].props.children}
-        </div>
+        {this.state.selectedTab >= 0 ?
+          <div className={blockIdentifier + '__tab-content'}>
+            {this.props.children[this.state.selectedTab].props.children}
+          </div>
+        : null}
       </div>
     );
   },
 
   selectTab(i) {
-    this.setState({
-      selectedTab: i
-    });
+    if (this.props.collapsible === true && this.state.selectedTab === i) {
+      this.setState({
+        selectedTab: -1
+      });
+    } else {
+      this.setState({
+        selectedTab: i
+      });
+    }
   }
 });
 

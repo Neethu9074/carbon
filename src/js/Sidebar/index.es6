@@ -10,7 +10,7 @@ const Sidebar = React.createClass({
 
   render() {
     return (
-      <Tabs blockIdentifier="in-sidebar">
+      <Tabs blockIdentifier="in-sidebar" collapsible={true}>
 
         <Tab title="Overview">
           <h1 className="in-sidebar__header">Overview</h1>
