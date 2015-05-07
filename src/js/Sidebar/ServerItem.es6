@@ -2,11 +2,10 @@
 
 import './ServerItem.less';
 
-import React from 'react/addons';
+import React from 'react';
+import classnames from 'instana-ui-services/util/classnames';
 
 import {formatBytes} from 'instana-ui-services/converters';
-
-const cx = React.addons.classSet;
 
 const ServerItem = React.createClass({
   getInitialState() {
@@ -18,7 +17,7 @@ const ServerItem = React.createClass({
   render() {
     const snap = this.props.snapshot.get('snapshot');
 
-    const liClasses = cx({
+    const liClasses = classnames({
       'in-sidebar-server-listing__snapshot': true,
       'in-sidebar-server-listing__snapshot--open': this.state.open
     });
