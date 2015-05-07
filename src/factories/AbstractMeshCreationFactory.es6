@@ -11,7 +11,7 @@ export default class AbstractMeshCreationFactory {
     this.scene = scene;
 
     //represents the geometry for all combined fragments
-    this.globalGeometry = new THREE.Geometry();
+    this.globalGeometry = new THREE.BufferGeometry();
 
     //a global mesh that stores global geometry
     this.globalMesh = new THREE.Mesh();

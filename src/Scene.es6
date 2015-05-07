@@ -335,24 +335,16 @@ export default class Scene {
     this.lineFactory.material.visible = (zoomLevel <= 250);
     this.hostMetricFactory.material.visible = (zoomLevel <= 130);
 
-    //this.updateHostColors(zoomLevel, maxZoomOut);
+    this.updateHostColors(zoomLevel, maxZoomOut);
   }
 
   updateHostColors(zoomLevel, maxZoomOut) {
     if(zoomLevel > maxZoomOut) {
       this.hostFactory.material.transparent = false;
-
-      if(this.hostFactory.grayHosts === true) {
-        this.hostFactory.grayHosts = false;
-        this.hostFactory.rebuildGlobalMesh = true;
-      }
+      this.hostFactory.grayAllHosts(false);
     } else {
       this.hostFactory.material.transparent = true;
-
-      if(this.hostFactory.grayHosts === false) {
-        this.hostFactory.grayHosts = true;
-        this.hostFactory.rebuildGlobalMesh = true;
-      }
+      this.hostFactory.grayAllHosts(true);
     }
   }
 
