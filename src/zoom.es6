@@ -4,7 +4,7 @@
 export const zoomUnitToLevel = {
   70: 100,
   100: 50,
-  250: 25,
+  200: 25,
   300000: 0
 };
 

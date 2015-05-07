@@ -330,7 +330,7 @@ export default class Scene {
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
     this.hostFactory.material.opacity = normedZoomLevel;
-    this.lineFactory.material.visible = (zoomLevel <= 250);
+    this.lineFactory.material.visible = (zoomLevel <= 200);
     this.hostMetricFactory.material.visible = (zoomLevel <= 130);
 
     this.updateHostColors(zoomLevel, maxZoomOut);
