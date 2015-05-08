@@ -43,6 +43,17 @@ to get the livedata via url/api.
 ```
 for testing enviroment (creates x random hosts).
 
+```
+?metrices=true
+```
+for testing enviroment (shows random metrices/host in 1sec update intervall).
+
+```
+?processes=true
+```
+for testing enviroment (creates x random processes/host).
+looks shitty if used with metrices!
+
 ## Structure
 
 The map is structured in:
