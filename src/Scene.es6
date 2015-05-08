@@ -3,6 +3,7 @@
 import THREE from 'three';
 import TWEEN from 'tween.js'
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import EventBus from 'instana-ui-services/eventbus';
 
 import './lib/Octree';
 
@@ -63,9 +64,7 @@ export default class Scene {
     this.timeSinceFirstFrame = 0;
 
     this.emitter = new EventEmitter();
-
-    //stores all objects which should be clickable
-    this.collisionObjects = [];
+    this.setupEvents();
 
     this.setupFactories();
     this.setupOctree();
@@ -76,6 +75,10 @@ export default class Scene {
     this.update();
 
     window.addEventListener('resize', this.onWindowResize, false);
+  }
+
+  setupEvents() {
+    this.subscription = EventEmitter.on('update').forEach(/*handle*/);
   }
 
   getScene() {
