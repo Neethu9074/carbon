@@ -67,7 +67,9 @@ gulp.task('webpack:build', ['clean'], function(callback) {
       }
     }),
     new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      comments: /\/DONOTKEEPANYCOMMENTS/
+    }),
     new webpack.BannerPlugin(getBanner())
   );
 
