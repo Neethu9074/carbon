@@ -120,22 +120,6 @@ export default class Host extends SceneObject {
     this.stickyNoteContainerStyle.display = '';
   }
 
-  setPosition(position) {
-    super.setPosition(position);
-    this.cube.position.copy(position);
-
-    this.cube.updateMatrix();
-    this.cube.updateMatrixWorld();
-
-    this.calcStickyNodeWorldPos();
-
-    this.removeFromGlobalGeometry();
-    this.addToGlobalGeometry();
-
-    _.forEach(this.processes, p => p.setPosition(
-      new THREE.Vector3(position.x, p.getPosition().y, position.z)));
-  }
-
   setHealth(health) {
     this.health = health;
     this.removeFromGlobalGeometry();
@@ -194,9 +178,24 @@ export default class Host extends SceneObject {
     );
   }
 
+  setPosition(position) {
+    super.setPosition(position);
+    this.cube.position.copy(position);
+
+    this.refreshMesh();
+
+    _.forEach(this.processes, p => p.setPosition(
+      new THREE.Vector3(position.x, p.getPosition().y, position.z)));
+  }
+
   setHeight(height) {
     this.cube.scale.y = height;
 
+    this.refreshMesh();
+    this.arrangeProcesses();
+  }
+
+  refreshMesh() {
     this.cube.updateMatrix();
     this.cube.updateMatrixWorld();
 
@@ -204,8 +203,6 @@ export default class Host extends SceneObject {
 
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
-
-    this.arrangeProcesses();
   }
 
   addProcesses() {

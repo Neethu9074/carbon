@@ -11,8 +11,9 @@ import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import Host from './sceneObjects/Host';
 import EventEmitter from 'eventemitter3';
-import HostCubeFactory from './factories/HostCubeFactory';
+import HostFactory from './factories/HostFactory';
 import HostMetricCubeFactory from './factories/HostMetricCubeFactory';
+import CubeFactory from './factories/CubeFactory';
 import LineFactory from './factories/LineFactory';
 import ZoneFactory from './factories/ZoneFactory';
 import PlaneFactory from './factories/PlaneFactory';
@@ -149,11 +150,12 @@ export default class Scene {
   }
 
   setupFactories() {
-    this.hostFactory = new HostCubeFactory({scene: this});
+    this.hostFactory = new HostFactory({scene: this});
     this.hostMetricFactory = new HostMetricCubeFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
     this.zoneFactory = new ZoneFactory({scene: this});
     this.planeFactory = new PlaneFactory({scene: this});
+    this.cubeFactory = new CubeFactory({scene: this});
 
     //setInterval(this.updateHeights.bind(this), 1000);
   }
