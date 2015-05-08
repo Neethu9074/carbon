@@ -114,6 +114,8 @@ export default class Host extends SceneObject {
     const y = ((-pos.y + 1) * scene.height / 2) | 0;
 
     this.stickyNoteContainerStyle.transform = `translate3d(${x}px,${y}px,0)`;
+    this.stickyNoteContainerStyle['-webkit-transform'] =
+      `translate3d(${x}px,${y}px,0)`;
 
     //set to '' because the display is set by zoom too. If you would set
     //this value to another like '' you would overwrite it
