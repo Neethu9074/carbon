@@ -2,12 +2,14 @@
 
 import THREE from 'three';
 import React from 'react';
+import _ from 'lodash';
 import {getHealth} from 'instana-ui-sdk/health';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
 import StickyNote from './StickyNote';
+import Process from './Process';
 
 const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
@@ -38,6 +40,12 @@ export default class Host extends SceneObject {
     this.render();
     this.addStickyNote();
     this.registerEvents();
+
+    this.processes = [];
+
+    if(window.location.search.match(/processes=true/)) {
+      this.addProcesses(snapshot);
+    }
   }
 
   registerEvents() {
@@ -123,6 +131,9 @@ export default class Host extends SceneObject {
 
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
+
+    _.forEach(this.processes, p => p.setPosition(
+      new THREE.Vector3(position.x, p.getPosition().y, position.z)));
   }
 
   setHealth(health) {
@@ -193,6 +204,32 @@ export default class Host extends SceneObject {
 
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
+
+    this.arrangeProcesses();
+  }
+
+  addProcesses() {
+    const numOfProcesses = Math.floor(Math.random() * 10);
+    for (let i = 0; i < numOfProcesses; i++) {
+      const process = new Process({parent: this});
+      this.processes.push(process);
+    }
+
+    this.arrangeProcesses();
+  }
+
+  arrangeProcesses() {
+    const numOfProcesses = this.processes.length;
+    const parentHeight = this.cube.scale.y;
+    const heightOfEachProcess = parentHeight / numOfProcesses;
+    let index = 0;
+
+    _.forEach(this.processes, p => {
+      const pos = p.getPosition();
+      p.setPosition(new THREE.Vector3(
+        pos.x, index++ * heightOfEachProcess, pos.z));
+      p.setHeight(heightOfEachProcess);
+    });
   }
 
   dispose() {
@@ -208,5 +245,8 @@ export default class Host extends SceneObject {
     this.id = null;
     this.snapshot = null;
     this.health = null;
+
+    _.forEach(this.processes, p => p.dispose());
+    this.processes = [];
   }
 }
