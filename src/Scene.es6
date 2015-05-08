@@ -13,7 +13,7 @@ import Host from './sceneObjects/Host';
 import EventEmitter from 'eventemitter3';
 import HostFactory from './factories/HostFactory';
 import HostMetricCubeFactory from './factories/HostMetricCubeFactory';
-import CubeFactory from './factories/CubeFactory';
+import ProcessFactory from './factories/ProcessFactory';
 import LineFactory from './factories/LineFactory';
 import ZoneFactory from './factories/ZoneFactory';
 import PlaneFactory from './factories/PlaneFactory';
@@ -155,7 +155,7 @@ export default class Scene {
     this.lineFactory = new LineFactory({scene: this});
     this.zoneFactory = new ZoneFactory({scene: this});
     this.planeFactory = new PlaneFactory({scene: this});
-    this.cubeFactory = new CubeFactory({scene: this});
+    this.cubeFactory = new ProcessFactory({scene: this});
 
     //setInterval(this.updateHeights.bind(this), 1000);
   }

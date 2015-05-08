@@ -23,6 +23,7 @@ export default class Process extends SceneObject {
     this.id = Math.random();
     this.scene = this.getScene();
     this.snapshot = snapshot;
+    this.layerIndex = 0; //see this.setLayerIndex
 
     this.render();
   }
@@ -50,7 +51,8 @@ export default class Process extends SceneObject {
     this.scene.cubeFactory.addFragment({
       id: this.id,
       pos: this.cube.position.clone().add(cubePosition),
-      dim: this.cube.scale.clone().multiplyScalar(0.95)
+      dim: this.cube.scale.clone().multiplyScalar(0.95),
+      layerIndex: this.layerIndex
     });
   }
 
@@ -69,6 +71,15 @@ export default class Process extends SceneObject {
     this.cube.scale.y = height;
 
     this.refreshMesh();
+  }
+
+  //this value is used to store the information of the layer of this process
+  // -----   layer 3
+  // -----   layer 2
+  // -----   layer 1
+  // -----   layer 0 (bottom layer)
+  setLayerIndex(index) {
+    this.layerIndex = index;
   }
 
   refreshMesh() {

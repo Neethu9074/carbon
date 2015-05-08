@@ -209,6 +209,7 @@ export default class Host extends SceneObject {
     const numOfProcesses = Math.floor(Math.random() * 10);
     for (let i = 0; i < numOfProcesses; i++) {
       const process = new Process({parent: this});
+      process.setLayerIndex(i);
       this.processes.push(process);
     }
 
