@@ -25,7 +25,7 @@ module.exports = {
       loader: 'style-loader!css-loader!less-loader'
     }, {
       test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot|\.obj$/i,
-      loader: 'file-loader'
+      loader: 'url-loader?limit=3000'
     }, {
       test: /\.glsl$/i,
       loader: 'raw-loader'
