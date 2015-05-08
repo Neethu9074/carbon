@@ -18,9 +18,6 @@ describe('3D map', () => {
     it('can be created', () => {
       expect(zone.id).to.equal('id');
     });
-  });
-
-  describe('Zone', () => {
     it('can be disposed', () => {
       zone.dispose();
       expect(zone.id).to.equal(null);
