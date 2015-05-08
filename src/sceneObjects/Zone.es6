@@ -63,7 +63,7 @@ export default class Zone extends SceneObject {
     const context = canvas.getContext('2d');
 
     context.fillStyle = 'rgb(255, 255, 255)';
-    context.font = '100px Open Sans sans-serif';
+    context.font = '100px "Open Sans" sans-serif';
     context.fillText(text, 0, 95);
 
     // use canvas contents as a texture
