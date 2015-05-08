@@ -96,7 +96,9 @@ export default class Scene {
     this.planeFactory = new PlaneFactory({scene: this});
     this.cubeFactory = new ProcessFactory({scene: this});
 
-    //setInterval(this.updateHeights.bind(this), 1000);
+    if(window.location.search.match(/metrices=true/)) {
+      setInterval(this.updateHeights.bind(this), 1000);
+    }
   }
 
   setupOctree() {
