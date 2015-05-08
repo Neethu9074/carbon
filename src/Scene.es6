@@ -77,60 +77,26 @@ export default class Scene {
     window.addEventListener('resize', this.onWindowResize, false);
   }
 
-  setupEvents() {
-    this.subscription = EventEmitter.on('update').forEach(/*handle*/);
-  }
-
-  getScene() {
-    return this;
-  }
-
-  renderScene() {
-    this.shouldRenderScene = true;
-  }
-
-  startAnimation() {
-    this.animationInProgress = true;
-  }
-
-  stopAnimation() {
-    this.animationInProgress = false;
-  }
-
-  setupController() {
-    if (isMobile.any()) {
-      this.controller = new TouchCameraController({scene: this});
-    } else {
-      this.controller = new MouseCameraController({scene: this});
-    }
-
-    //call zoom to trigger camera movemnt to the right position
-    this.controller.zoom(-1);
-  }
-
-  addSceneObject(obj) {
-    if (obj.useOnlyForCollisionDetection) {
-      this.octree.add(obj, {
-        useFaces: false
-      });
-    } else {
-      this.scene.add(obj);
-    }
-  }
-
-  removeSceneObject(obj) {
-    this.scene.remove(obj);
-
-    if (obj.collisionObject !== undefined) {
-      this.octree.remove(obj.collisionObject);
-    }
-  }
-
   bindMethods() {
     this.onWindowResize = this.onWindowResize.bind(this);
     this.update = this.update.bind(this);
     this.updateMaterialsByZoomLevel =
       this.updateMaterialsByZoomLevel.bind(this);
+  }
+
+  setupEvents() {
+    this.subscription = EventBus.on('update').forEach(/*handle*/);
+  }
+
+  setupFactories() {
+    this.hostFactory = new HostFactory({scene: this});
+    this.hostMetricFactory = new HostMetricCubeFactory({scene: this});
+    this.lineFactory = new LineFactory({scene: this});
+    this.zoneFactory = new ZoneFactory({scene: this});
+    this.planeFactory = new PlaneFactory({scene: this});
+    this.cubeFactory = new ProcessFactory({scene: this});
+
+    //setInterval(this.updateHeights.bind(this), 1000);
   }
 
   setupOctree() {
@@ -150,24 +116,6 @@ export default class Scene {
       // helps insert objects that lie over more than one node
       overlapPct: 0
     });
-  }
-
-  setupFactories() {
-    this.hostFactory = new HostFactory({scene: this});
-    this.hostMetricFactory = new HostMetricCubeFactory({scene: this});
-    this.lineFactory = new LineFactory({scene: this});
-    this.zoneFactory = new ZoneFactory({scene: this});
-    this.planeFactory = new PlaneFactory({scene: this});
-    this.cubeFactory = new ProcessFactory({scene: this});
-
-    //setInterval(this.updateHeights.bind(this), 1000);
-  }
-
-  updateHeights() {
-    this.hostMetricFactory.updateHeights();
-
-    //render scene to show the update
-    this.renderScene();
   }
 
   setup3D() {
@@ -214,28 +162,15 @@ export default class Scene {
     this.camera.matrixAutoUpdate = false;
   }
 
-  onWindowResize() {
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+  setupController() {
+    if (isMobile.any()) {
+      this.controller = new TouchCameraController({scene: this});
+    } else {
+      this.controller = new MouseCameraController({scene: this});
+    }
 
-    this.renderer.setSize(this.width, this.height);
-
-    const aspect = this.width / this.height;
-    this.camera.left = -this.cameraSize / 2 * aspect;
-    this.camera.right = this.cameraSize / 2 * aspect;
-    this.camera.updateProjectionMatrix();
-    this.renderScene();
-  }
-
-  getWorldPosition() {
-    return new THREE.Vector3();
-  }
-
-  calculateDeltaTime() {
-    const timeNow = Date.now();
-    this.deltaTime = (timeNow - this.timeOfLastFrameUpdate) / 1000; //in ms
-    this.timeOfLastFrameUpdate = timeNow;
-    this.timeSinceFirstFrame += this.deltaTime;
+    //call zoom to trigger camera movemnt to the right position
+    this.controller.zoom(-1);
   }
 
   update() {
@@ -269,6 +204,13 @@ export default class Scene {
     this.emitter.emit('endRender', {scene: this});
   }
 
+  calculateDeltaTime() {
+    const timeNow = Date.now();
+    this.deltaTime = (timeNow - this.timeOfLastFrameUpdate) / 1000; //in ms
+    this.timeOfLastFrameUpdate = timeNow;
+    this.timeSinceFirstFrame += this.deltaTime;
+  }
+
   updateCamera() {
     const camera = this.camera;
     //updateMatrix is called in controller before
@@ -283,44 +225,6 @@ export default class Scene {
     //calculte view frustum
     projScreenMatrix.multiplyMatrices(camera.projectionMatrix, inverse);
     frustum.setFromMatrix(projScreenMatrix);
-  }
-
-  render() {
-    this.renderer.render(this.scene, this.camera);
-  }
-
-  objectIsVisible(object) {
-    return frustum.intersectsObject(object);
-  }
-
-  dispose() {
-    this.disposed = true;
-  }
-
-  getHtmlContainer() {
-    return this.parent;
-  }
-
-  on(event, cb) {
-    return this.emitter.on(event, cb);
-  }
-
-  onZoom(event) {
-    const zoomLevel = event.zoomLevel;
-
-    if(zoomLevel > 250) {
-      this.renderHtmlStuff = false;
-    } else {
-      this.renderHtmlStuff = true;
-    }
-
-    //update the css design zoom distance
-    this.updateZoomLevelInCss(zoomLevel);
-
-    //update the opacity for the 3D elements
-    this.updateMaterialsByZoomLevel(zoomLevel);
-    this.map.onZoom(zoomLevel);
-    this.renderScene();
   }
 
   updateMaterialsByZoomLevel(zoomLevel) {
@@ -387,6 +291,98 @@ export default class Scene {
     return undefined;
   }
 
+  render() {
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  renderScene() {
+    this.shouldRenderScene = true;
+  }
+
+  startAnimation() {
+    this.animationInProgress = true;
+  }
+
+  stopAnimation() {
+    this.animationInProgress = false;
+  }
+
+  getScene() {
+    return this;
+  }
+
+  addSceneObject(obj) {
+    if (obj.useOnlyForCollisionDetection) {
+      this.octree.add(obj, {
+        useFaces: false
+      });
+    } else {
+      this.scene.add(obj);
+    }
+  }
+
+  removeSceneObject(obj) {
+    this.scene.remove(obj);
+
+    if (obj.collisionObject !== undefined) {
+      this.octree.remove(obj.collisionObject);
+    }
+  }
+
+  updateHeights() {
+    this.hostMetricFactory.updateHeights();
+
+    //render scene to show the update
+    this.renderScene();
+  }
+
+  getWorldPosition() {
+    return new THREE.Vector3();
+  }
+
+  objectIsVisible(object) {
+    return frustum.intersectsObject(object);
+  }
+
+  getHtmlContainer() {
+    return this.parent;
+  }
+
+  onWindowResize() {
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
+
+    this.renderer.setSize(this.width, this.height);
+
+    const aspect = this.width / this.height;
+    this.camera.left = -this.cameraSize / 2 * aspect;
+    this.camera.right = this.cameraSize / 2 * aspect;
+    this.camera.updateProjectionMatrix();
+    this.renderScene();
+  }
+
+  on(event, cb) {
+    return this.emitter.on(event, cb);
+  }
+
+  onZoom(event) {
+    const zoomLevel = event.zoomLevel;
+
+    if(zoomLevel > 250) {
+      this.renderHtmlStuff = false;
+    } else {
+      this.renderHtmlStuff = true;
+    }
+
+    //update the css design zoom distance
+    this.updateZoomLevelInCss(zoomLevel);
+
+    //update the opacity for the 3D elements
+    this.updateMaterialsByZoomLevel(zoomLevel);
+    this.map.onZoom(zoomLevel);
+    this.renderScene();
+  }
+
   clickedOnObject(object) {
     this.controller.flyToObject(object);
     this.controller.setZoomLevel(100);
@@ -401,5 +397,9 @@ export default class Scene {
         }
       });
     });
+  }
+
+  dispose() {
+    this.disposed = true;
   }
 }
