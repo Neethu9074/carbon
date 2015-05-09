@@ -4,7 +4,9 @@ import './Toast.less';
 
 import React from 'react/addons';
 
+/*eslint-disable no-unused-vars*/
 const ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+/*eslint-enable no-unused-vars*/
 
 const Toast = React.createClass({
   getInitialState() {
