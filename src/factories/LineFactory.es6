@@ -16,6 +16,13 @@ export default class LineFactory extends AbstractMeshCreationFactory {
 
     this.numElementPerVertex = 3; //x, y, z
     this.numPointsPerLine = 2; //from and to
+
+    this.globalMesh = new THREE.Line(
+      this.globalGeometry,
+      this.material,
+      THREE.LinePieces
+    );
+    this.globalMesh.matrixAutoUpdate = false;
   }
 
   addFragment({id, from, to, enabled = true}) {
@@ -34,9 +41,6 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   rebuild() {
     //remove the current global mesh from the scene
     this.scene.removeSceneObject(this.globalMesh);
-
-    //don't forget to clear the chace
-    this.globalGeometry.dispose();
 
     //get all fragments that are enabled
     const frags = this.getLegalFragments();
@@ -72,16 +76,10 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   }
 
   createGlobalMesh(vertices) {
-    this.globalGeometry = new THREE.BufferGeometry();
+    this.scene.removeSceneObject(this.globalMesh);
+
     this.globalGeometry.addAttribute('position',
       new THREE.BufferAttribute(vertices, this.numElementPerVertex));
-
-    this.globalMesh = new THREE.Line(
-      this.globalGeometry,
-      this.material,
-      THREE.LinePieces
-    );
-    this.globalMesh.matrixAutoUpdate = false;
 
     this.scene.addSceneObject(this.globalMesh);
   }
