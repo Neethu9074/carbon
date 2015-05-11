@@ -98,9 +98,9 @@ export default class Zone extends SceneObject {
     }
   }
 
-  setPosition(position) {
-    super.setPosition(position);
-    this.ground.position.copy(position);
+  setPosition(x, y, z) {
+    super.setPosition(x, y, z);
+    this.ground.position.set(x, y, z);
 
     this.ground.updateMatrix();
   }

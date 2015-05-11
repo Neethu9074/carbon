@@ -178,14 +178,13 @@ export default class Host extends SceneObject {
     );
   }
 
-  setPosition(position) {
-    super.setPosition(position);
-    this.cube.position.copy(position);
+  setPosition(x, y, z) {
+    super.setPosition(x, y, z);
+    this.cube.position.set(x, y, z);
 
     this.refreshMesh();
 
-    _.forEach(this.processes, p => p.setPosition(
-      new THREE.Vector3(position.x, p.getPosition().y, position.z)));
+    _.forEach(this.processes, p => p.setPosition(x, p.getPosition().y, z));
   }
 
   setHeight(height) {
@@ -224,8 +223,7 @@ export default class Host extends SceneObject {
 
     _.forEach(this.processes, p => {
       const pos = p.getPosition();
-      p.setPosition(new THREE.Vector3(
-        pos.x, index++ * heightOfEachProcess, pos.z));
+      p.setPosition(pos.x, index++ * heightOfEachProcess, pos.z);
       p.setHeight(heightOfEachProcess);
     });
   }

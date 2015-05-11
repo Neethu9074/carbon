@@ -17,7 +17,7 @@ describe('3D map', () => {
     });
 
     it('can change position', () => {
-      obj.setPosition(new THREE.Vector3(3, 2, 1));
+      obj.setPosition(3, 2, 1);
       expect(obj.position.x).to.equal(3);
       expect(obj.position.y).to.equal(2);
       expect(obj.position.z).to.equal(1);

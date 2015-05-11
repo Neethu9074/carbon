@@ -10,8 +10,8 @@ export default class SceneObject {
     this.subscriptions = [];
   }
 
-  setPosition(newPos) {
-    this.position.copy(newPos);
+  setPosition(x, y, z) {
+    this.position.set(x, y, z);
   }
 
   getPosition() {

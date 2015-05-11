@@ -60,9 +60,9 @@ export default class Process extends SceneObject {
     this.scene.cubeFactory.removeFragment(this.id);
   }
 
-  setPosition(position) {
-    super.setPosition(position);
-    this.cube.position.copy(position);
+  setPosition(x, y, z) {
+    super.setPosition(x, y, z);
+    this.cube.position.set(x, y, z);
 
     this.refreshMesh();
   }

@@ -29,11 +29,11 @@ export default class Layouter {
 
       // add respectively subtract 0.5 to accomodate for central positioning of
       // hosts.
-      zone.setPosition(new THREE.Vector3(
+      zone.setPosition(
         zonePosition.x + zonePosition.width / 2 - 1,
         0,
         (zonePosition.y + zonePosition.height / 2) * -1 + 1
-      ));
+      );
       zone.setScale(new THREE.Vector3(
         zonePosition.width,
         zonePosition.height,
@@ -42,7 +42,7 @@ export default class Layouter {
 
       zone.hosts.forEach((host, hostIndex) => {
         const position = this.getCubePosition(zoneIndex, hostIndex);
-        host.setPosition(position);
+        host.setPosition(position.x, position.y, position.z);
       });
     });
 
