@@ -29,7 +29,7 @@ React.render(
 ## URL params
 You can call the map with the params:
 ```
-?stats=true
+?stats
 ```
 which enables render statistics.
 
@@ -44,12 +44,12 @@ to get the livedata via url/api.
 for testing enviroment (creates x random hosts).
 
 ```
-?metrices=true
+?metrices
 ```
 for testing enviroment (shows random metrices/host in 1sec update intervall).
 
 ```
-?processes=true
+?processes
 ```
 for testing enviroment (creates x random processes/host).
 looks shitty if used with metrices!

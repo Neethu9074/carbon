@@ -63,7 +63,7 @@ export default class HostMetricCubeFactory extends MeshFactory {
       visible: false
     });
 
-    if(window.location.search.match(/metrices=true/)) {
+    if(window.location.search.match(/metrices/)) {
       this.material.visible = true;
     }
 

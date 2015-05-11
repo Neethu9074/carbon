@@ -96,7 +96,7 @@ export default class Scene {
     this.planeFactory = new PlaneFactory({scene: this});
     this.cubeFactory = new ProcessFactory({scene: this});
 
-    if(window.location.search.match(/metrices=true/)) {
+    if(window.location.search.match(/metrices/)) {
       setInterval(this.updateHeights.bind(this), 1000);
     }
   }

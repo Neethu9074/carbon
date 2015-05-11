@@ -43,7 +43,7 @@ export default class Host extends SceneObject {
 
     this.processes = [];
 
-    if(window.location.search.match(/processes=true/)) {
+    if(window.location.search.match(/processes/)) {
       this.addProcesses(snapshot);
     }
   }

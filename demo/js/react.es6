@@ -15,7 +15,7 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-    if (window.location.search.indexOf('stats=true') !== -1) {
+    if (window.location.search.indexOf('stats') !== -1) {
       const container = document.createElement('div');
       container.id = 'stats';
       document.body.appendChild(container);
