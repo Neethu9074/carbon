@@ -86,13 +86,13 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
   createGlobalMesh(vertices, colors) {
     this.scene.removeSceneObject(this.globalMesh);
 
+    //update the geometies position array
     this.globalGeometry.addAttribute('position',
       new THREE.BufferAttribute(vertices, this.numElementPerVertex));
 
+    //update the geometies color array
     this.globalGeometry.addAttribute('color',
       new THREE.BufferAttribute(colors, this.numElementPerVertex));
-
-    this.globalGeometry.computeVertexNormals();
 
     this.scene.addSceneObject(this.globalMesh);
     this.colorIndex = 0;
