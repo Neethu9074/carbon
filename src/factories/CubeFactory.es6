@@ -25,14 +25,13 @@ const colorItemsDanger = [
 export default class CubeFactory extends MeshFactory {
 
   constructor({scene}) {
-    //overwrite the default material
-    this.material = new THREE.MeshBasicMaterial({
+    super({scene});
+
+    this.setMaterial(new THREE.MeshBasicMaterial({
       vertexColors: THREE.VertexColors,
       side: THREE.DoubleSide,
       blending: THREE.NormalBlending
-    });
-
-    super({scene});
+    }));
 
     this.vertexPos = [
       //front

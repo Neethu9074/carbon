@@ -14,7 +14,7 @@ export default class AbstractMeshCreationFactory {
     this.globalGeometry = new THREE.BufferGeometry();
 
     //a global mesh that stores global geometry
-    this.globalMesh = new THREE.Mesh(this.globalGeometry, this.material);
+    this.globalMesh = new THREE.Mesh(this.globalGeometry);
     this.globalMesh.matrixAutoUpdate = false;
     this.globalMesh.renderOrder = 2;
 
@@ -30,6 +30,11 @@ export default class AbstractMeshCreationFactory {
       'beginUpdate',
       this.update.bind(this)
     );
+  }
+
+  setMaterial(material) {
+    this.material = material;
+    this.globalMesh.material = material;
   }
 
   update() {

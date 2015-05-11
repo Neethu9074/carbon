@@ -8,11 +8,11 @@ import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 export default class LineFactory extends AbstractMeshCreationFactory {
 
   constructor({scene}) {
-    //overwrite teh default material
-    this.material = new THREE.LineBasicMaterial({
-      color: 0xFFFFFF
-    });
     super({scene});
+
+    this.setMaterial(new THREE.LineBasicMaterial({
+      color: 0xFFFFFF
+    }));
 
     this.numElementPerVertex = 3; //x, y, z
     this.numPointsPerLine = 2; //from and to

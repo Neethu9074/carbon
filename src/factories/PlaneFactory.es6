@@ -7,15 +7,15 @@ import MeshFactory from './MeshFactory';
 export default class PlaneFactory extends MeshFactory {
 
   constructor({scene, colorItems = [[1, 1, 1]]}) {
-    //overwrite the default material
-    this.material = new THREE.MeshBasicMaterial({
+    super({scene});
+
+    this.setMaterial(new THREE.MeshBasicMaterial({
       vertexColors: THREE.VertexColors,
       side: THREE.DoubleSide,
       transparent: true,
       opacity: 0.75,
       blending: THREE.NormalBlending
-    });
-    super({scene});
+    }));
 
     //pivot point is at 1/2, 0, 1/2
     this.vertexPos = [

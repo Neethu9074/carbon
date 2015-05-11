@@ -18,8 +18,9 @@ const colorItemsOk = [
 export default class HostMetricCubeFactory extends MeshFactory {
 
   constructor({scene}) {
-    //overwrite the default material
-    this.material = new THREE.ShaderMaterial({
+    super({scene});
+
+    this.setMaterial(new THREE.ShaderMaterial({
       uniforms: {
         progress: {
           type: 'f',
@@ -30,8 +31,7 @@ export default class HostMetricCubeFactory extends MeshFactory {
       fragmentShader: fragmentShader,
       vertexColors: THREE.VertexColors,
       visible: false
-    });
-    super({scene});
+    }));
 
     this.vertexPos = [
       //front
