@@ -22,7 +22,7 @@ const colorItemsDanger = [
 ];
 
 
-export default class HostCubeFactory extends MeshFactory {
+export default class CubeFactory extends MeshFactory {
 
   constructor({scene}) {
     //overwrite the default material
