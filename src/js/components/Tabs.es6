@@ -3,6 +3,7 @@
 import './Tabs.less';
 
 import React from 'react';
+import classnames from 'instana-ui-services/util/classnames';
 
 export const Tabs = React.createClass({
 
@@ -35,8 +36,14 @@ export const Tabs = React.createClass({
       );
     });
 
+    const blockClassNames = classnames({
+      [blockIdentifier]: true,
+      [blockIdentifier + '--collapsed']: this.props.collapsible === true &&
+        this.state.selectedTab === -1
+    });
+
     return (
-      <div className={blockIdentifier}>
+      <div className={blockClassNames}>
         <ul className={blockIdentifier + '__tabs'}>
           {headerNodes}
         </ul>
