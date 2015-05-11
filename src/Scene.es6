@@ -256,10 +256,10 @@ export default class Scene {
   updateHostColors(zoomLevel, maxZoomOut) {
     if(zoomLevel > maxZoomOut) {
       this.hostFactory.material.transparent = false;
-      this.hostFactory.grayAllHosts(false);
+      //this.hostFactory.grayAllHosts(false);
     } else {
       this.hostFactory.material.transparent = true;
-      this.hostFactory.grayAllHosts(true);
+      //this.hostFactory.grayAllHosts(true);
     }
   }
 
