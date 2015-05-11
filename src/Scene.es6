@@ -161,7 +161,7 @@ export default class Scene {
       2000 //far
     );
 
-    this.camera.position.set(-1.2, 1, 1);
+    this.camera.position.set(-0.8, 1, 1);
     this.camera.lookAt(new THREE.Vector3());
     this.camera.projection = new THREE.Matrix4();
     this.camera.updateMatrix();
