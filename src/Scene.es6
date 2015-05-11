@@ -3,7 +3,7 @@
 import THREE from 'three';
 import TWEEN from 'tween.js'
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import EventBus from 'instana-ui-services/eventbus';
+import eventBus from 'instana-ui-services/eventbus';
 
 import './lib/Octree';
 
@@ -86,7 +86,7 @@ export default class Scene {
   }
 
   setupEvents() {
-    this.subscription = EventBus.on('update').forEach(/*handle*/);
+    eventBus.on('focus').subscribe(e => this.focus(e.snapshot));
 
     //TODO: defined external events and listen to them
   }
