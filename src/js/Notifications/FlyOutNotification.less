@@ -1,0 +1,51 @@
+.in-fly-out-notification {
+  @indention: 2rem;
+
+  padding: 1rem 1rem 1rem 3rem;
+  margin: 1rem 0 0 @indention;
+  width: 17rem;
+
+  border-radius: 0.3rem;
+  overflow: hidden;
+
+  transition: margin-left 1s ease,
+              height .5s ease .5s,
+              margin-top .5s ease .5s,
+              padding .5s ease .5s;
+
+  &--ok {
+    background: #78F2D9;
+  }
+
+  &--warning {
+    background: #ffda6b;
+  }
+
+  &--danger {
+    background: #FF1744;
+  }
+
+  &--enter {
+    margin-left: -200%;
+    max-height: 0rem;
+  }
+
+  &--enter-active, &--leave {
+    margin-left: @indention;
+  }
+
+  &--leave-active {
+    // move the element twice as far to the left as we are using twice the
+    // animation duration.
+    margin-left: -200%;
+    padding: 0;
+    margin-top: 0;
+    height: 0 !important;
+  }
+
+  h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+  }
+}
