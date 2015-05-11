@@ -1,6 +1,6 @@
 'use strict';
 
-import './Notifications.less';
+import './index.less';
 
 import React from 'react';
 import {create} from 'instana-ui-services/conveyer';
