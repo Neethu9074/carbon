@@ -113,15 +113,6 @@ class MouseControl extends CameraController {
     this.cursor.x = e.clientX;
     this.cursor.y = e.clientY;
   }
-
-  update(dTime) {
-    //do it only every 5 times
-    // if ((this.counterForRayCasting++ % 5) === 0) {
-      //this.getObjectOnCursor();
-    // }
-
-    super.update(dTime);
-  }
 }
 
 export default MouseControl;
