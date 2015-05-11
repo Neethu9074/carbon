@@ -127,31 +127,36 @@ export default class Host extends SceneObject {
   }
 
   removeFromGlobalGeometry() {
-    this.scene.hostFactory.removeFragment(this.id);
-    this.scene.lineFactory.removeFragment(this.id);
-    this.scene.zoneFactory.removeFragment(this.id);
-    this.scene.hostMetricFactory.removeFragment(this.id);
+    const id = this.id;
+    this.scene.hostFactory.removeFragment(id);
+    this.scene.lineFactory.removeFragment(id);
+    this.scene.zoneFactory.removeFragment(id);
+    this.scene.hostMetricFactory.removeFragment(id);
   }
 
   addToGlobalGeometry() {
+    const id = this.id;
+    const cubePos = this.cube.position.clone().add(cubePosition);
+    const cubeScale = this.cube.scale;
+
     //add fragment to global geometry
     this.scene.hostFactory.addFragment({
-      id: this.id,
-      pos: this.cube.position.clone().add(cubePosition),
-      dim: this.cube.scale,
+      id,
+      pos: cubePos,
+      dim: cubeScale,
       health: this.health
     });
 
     this.scene.hostMetricFactory.addFragment({
-      id: this.id,
-      pos: this.cube.position.clone().add(cubePosition),
-      dim: this.cube.scale
+      id,
+      pos: cubePos,
+      dim: cubeScale
     });
 
     this.scene.zoneFactory.addFragment({
-      id: this.id,
+      id,
       pos: this.cube.position.clone().add(groundPosition),
-      dim: this.cube.scale.clone().add(groundScale),
+      dim: cubeScale.clone().add(groundScale),
       health: this.health
     });
 
@@ -160,8 +165,9 @@ export default class Host extends SceneObject {
       .add(new THREE.Vector3(-0.5, this.cube.scale.y, 0.5));
     const to = from.clone().add(niceLookingDistanceForSticky);
     lineFactory.addFragment({
-      id: this.id,
-      from, to
+      id,
+      from,
+      to
     });
   }
 
