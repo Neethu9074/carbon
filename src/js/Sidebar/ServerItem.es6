@@ -2,13 +2,17 @@
 
 import './ServerItem.less';
 
-import React from 'react';
+import React from 'react/addons';
 import classnames from 'instana-ui-services/util/classnames';
 import {formatBytes} from 'instana-ui-services/converters';
+import eventBus from 'instana-ui-services/eventbus';
+import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
 
 import Icon from '../components/Icon';
 
 const ServerItem = React.createClass({
+  mixins: [ConveyerMixin, React.addons.PureRenderMixin],
+
   getInitialState() {
     return {
       open: false
@@ -27,11 +31,12 @@ const ServerItem = React.createClass({
     return (
       <li className={liClasses}>
         <h2 className='in-sidebar-server-listing__snapshot-label'
-            onClick={this.toggle}>
+            onClick={this.focus}>
           {this.props.snapshot.get('hostId')}
 
           <Icon type={this.state.open ? 'chevron-up' : 'chevron-down'}
-                className='in-sidebar-server-listing__snapshot-toggle'/>
+                className='in-sidebar-server-listing__snapshot-toggle'
+                onClick={this.toggle}/>
         </h2>
 
         <dl className='in-sidebar-server-listing__listing'>
@@ -57,6 +62,13 @@ const ServerItem = React.createClass({
   toggle() {
     this.setState({
       open: !this.state.open
+    });
+  },
+
+  focus() {
+    eventBus.emit('focus', {
+      snapshot: this.props.snapshot,
+      zoom: true
     });
   }
 });
