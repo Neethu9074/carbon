@@ -13,9 +13,6 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
     this.vertexPos = [[-0.5, 0, 0.5]];
     this.colorItemsDefault = [[1, 1, 1]];
 
-    //overwrite teh default material
-    this.material = new THREE.MeshBasicMaterial();
-
     this.numElementPerVertex = 3; //x, y, z
     this.numVerticesPerFace = 6;
     this.numDifferentColors = 1;
@@ -31,8 +28,6 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
   }
 
   rebuild() {
-    this.clearGlobalMesh();
-
     //get all enabled fragments
     const frags = this.getLegalFragments();
     const numCubes = frags.length;
@@ -84,20 +79,12 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
     }
   }
 
-  clearGlobalMesh() {
-    //remove the current global mesh from the scene
-    this.scene.removeSceneObject(this.globalMesh);
-
-    //don't forget to clear the chace
-    this.globalGeometry.dispose();
-  }
-
   getColorArrayForFragment() {
     return this.colorItemsDefault;
   }
 
   createGlobalMesh(vertices, colors) {
-    this.globalGeometry = new THREE.BufferGeometry();
+    this.scene.removeSceneObject(this.globalMesh);
 
     this.globalGeometry.addAttribute('position',
       new THREE.BufferAttribute(vertices, this.numElementPerVertex));
@@ -106,10 +93,6 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
       new THREE.BufferAttribute(colors, this.numElementPerVertex));
 
     this.globalGeometry.computeVertexNormals();
-
-    this.globalMesh = new THREE.Mesh(this.globalGeometry, this.material);
-    this.globalMesh.matrixAutoUpdate = false;
-    this.globalMesh.renderOrder = 2;
 
     this.scene.addSceneObject(this.globalMesh);
     this.colorIndex = 0;

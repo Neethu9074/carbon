@@ -6,16 +6,16 @@ import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 
 
 export default class LineFactory extends AbstractMeshCreationFactory {
+
   constructor({scene}) {
-    super({scene});
-
-    this.numElementPerVertex = 3; //x, y, z
-    this.numPointsPerLine = 2; //from and to
-
     //overwrite teh default material
     this.material = new THREE.LineBasicMaterial({
       color: 0xFFFFFF
     });
+    super({scene});
+
+    this.numElementPerVertex = 3; //x, y, z
+    this.numPointsPerLine = 2; //from and to
   }
 
   addFragment({id, from, to, enabled = true}) {
