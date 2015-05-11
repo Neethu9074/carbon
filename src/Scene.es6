@@ -200,7 +200,6 @@ export default class Scene {
     this.emitter.emit('endUpdate', {scene: this});
 
     this.render();
-    this.octree.update();
     this.shouldRenderScene = false;
 
     this.emitter.emit('endRender', {scene: this});
@@ -242,7 +241,6 @@ export default class Scene {
 
     this.hostFactory.material.opacity = normedZoomLevel;
     this.lineFactory.material.visible = (zoomLevel <= 200);
-    //this.hostMetricFactory.material.visible = (zoomLevel <= 130);
 
     this.updateHostColors(zoomLevel, maxZoomOut);
   }
@@ -318,6 +316,7 @@ export default class Scene {
       this.octree.add(obj, {
         useFaces: false
       });
+      this.octree.update();
     } else {
       this.scene.add(obj);
     }
