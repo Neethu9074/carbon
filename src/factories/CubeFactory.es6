@@ -16,9 +16,9 @@ const colorItemsWarning = [
 ];
 
 const colorItemsDanger = [
-  [0.878, 0.145, 0], //front
-  [0.878, 0.31, 0], //top
-  [0.878, 0.262, 0] //left
+  [0.5, 0.055, 0.16], //front
+  [0.811, 0.075, 0.207], //top
+  [0.73, 0.075, 0.19] //left
 ];
 
 

@@ -10,7 +10,7 @@ export default class ZoneFactory extends PlaneFactory {
 
     this.colorItemsOk = [[0.9, 0.1, 0.1]];
     this.colorItemsWarning = [[0.51, 0.47, 0.08]];
-    this.colorItemsDanger = [[0.5, 0.22, 0.1]];
+    this.colorItemsDanger = [[0.42, 0.04, 0.13]];
   }
 
   addFragment(fragment = {id, pos, dim, health}) {
