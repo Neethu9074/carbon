@@ -57,12 +57,13 @@ export default class Zone extends SceneObject {
 
   getZoneLabel(text) {
     const canvas = document.createElement('canvas');
+    const zoneColor = getColor(this.id);
 
     canvas.width = 600;
     canvas.height = 100;
     const context = canvas.getContext('2d');
 
-    context.fillStyle = 'rgb(255, 255, 255)';
+    context.fillStyle = zoneColor;
     context.font = '100px "Open Sans" sans-serif';
     context.fillText(text, 0, 95);
 
