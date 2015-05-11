@@ -25,6 +25,7 @@ import _ from 'lodash';
 
 const frustum = new THREE.Frustum();
 const projScreenMatrix = new THREE.Matrix4();
+const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 const isMobile = {
   android: function() {
@@ -86,6 +87,8 @@ export default class Scene {
 
   setupEvents() {
     this.subscription = EventBus.on('update').forEach(/*handle*/);
+
+    //TODO: defined external events and listen to them
   }
 
   setupFactories() {
@@ -160,6 +163,7 @@ export default class Scene {
 
     this.camera.position.set(-1, 1, 1);
     this.camera.lookAt(new THREE.Vector3());
+    this.camera.projection = new THREE.Matrix4();
     this.camera.updateMatrix();
     this.camera.matrixAutoUpdate = false;
   }
@@ -199,7 +203,8 @@ export default class Scene {
     //update is done
     this.emitter.emit('endUpdate', {scene: this});
 
-    this.render();
+    //inline render since it's only called here
+    this.renderer.render(this.scene, this.camera);
     this.shouldRenderScene = false;
 
     this.emitter.emit('endRender', {scene: this});
@@ -214,17 +219,20 @@ export default class Scene {
 
   updateCamera() {
     const camera = this.camera;
+    const camProjectionMat = camera.projectionMatrix;
+
     //updateMatrix is called in controller before
     camera.updateMatrixWorld();
     camera.updateProjectionMatrix();
 
-    camera.projection = new THREE.Matrix4();
-    const inverse = new THREE.Matrix4().getInverse(camera.matrixWorld);
-    camera.projection
-      .multiplyMatrices(camera.projectionMatrix, inverse);
+    //sets inverse to camera.matrixWorld^-1
+    inverse.getInverse(camera.matrixWorld);
+
+    //sets the projection matrix
+    camera.projection.multiplyMatrices(camProjectionMat, inverse);
 
     //calculte view frustum
-    projScreenMatrix.multiplyMatrices(camera.projectionMatrix, inverse);
+    projScreenMatrix.multiplyMatrices(camProjectionMat, inverse);
     frustum.setFromMatrix(projScreenMatrix);
   }
 
@@ -265,11 +273,12 @@ export default class Scene {
   }
 
   setCameraFromSize() {
+    const camSizeHalf = this.cameraSize / 2;
     const aspect = this.width / this.height;
-    this.camera.left = -this.cameraSize / 2 * aspect;
-    this.camera.right = this.cameraSize / 2 * aspect;
-    this.camera.top = this.cameraSize / 2;
-    this.camera.bottom = -this.cameraSize / 2;
+    this.camera.left = -camSizeHalf * aspect;
+    this.camera.right = camSizeHalf * aspect;
+    this.camera.top = camSizeHalf;
+    this.camera.bottom = -camSizeHalf;
 
     this.camera.updateProjectionMatrix();
   }
@@ -283,26 +292,27 @@ export default class Scene {
       true, //true -> organized by objects
       raycaster.ray.direction);
 
-    const intersections = raycaster
-      .intersectOctreeObjects(octree2Objects);
+    const intersections = raycaster.intersectOctreeObjects(octree2Objects);
     if (intersections.length > 0) {
+      //the array is sorted by distance
       return intersections[0].object;
     }
     return undefined;
   }
 
-  render() {
-    this.renderer.render(this.scene, this.camera);
-  }
-
+  //set this flag if the scene needs to be redrawn
   renderScene() {
     this.shouldRenderScene = true;
   }
 
+  //set this flag if a animation is in progress so the render loop
+  //keeps updated
   startAnimation() {
     this.animationInProgress = true;
   }
 
+  //set this flag if your animations has finished and the render loop
+  //could be paused
   stopAnimation() {
     this.animationInProgress = false;
   }
@@ -312,11 +322,14 @@ export default class Scene {
   }
 
   addSceneObject(obj) {
+    //if the object is only used for collision detection ->
+    //add it to the octree and not to scene
     if (obj.useOnlyForCollisionDetection) {
       this.octree.add(obj, {
         useFaces: false
       });
       this.octree.update();
+
     } else {
       this.scene.add(obj);
     }
@@ -355,10 +368,7 @@ export default class Scene {
 
     this.renderer.setSize(this.width, this.height);
 
-    const aspect = this.width / this.height;
-    this.camera.left = -this.cameraSize / 2 * aspect;
-    this.camera.right = this.cameraSize / 2 * aspect;
-    this.camera.updateProjectionMatrix();
+    this.setCameraFromSize();
     this.renderScene();
   }
 
@@ -390,16 +400,18 @@ export default class Scene {
   }
 
   focus(snapshotId) {
+    //search each zone for the given host id
     this.map.zones.forEach(zone => {
       zone.hosts.forEach(host => {
         if (isIdEqual(host.snapshot, snapshotId)) {
           this.clickedOnObject(host.cube);
-          return;
+          return; //return if you found one
         }
       });
     });
   }
 
+  //set this flag if the update loop should be stoped
   dispose() {
     this.disposed = true;
   }
