@@ -86,7 +86,9 @@ export default class Scene {
   }
 
   setupEvents() {
-    eventBus.on('focus').subscribe(e => this.focus(e.snapshot, e.zoom));
+    eventBus.on('focus').subscribe(e => this.focus(e));
+
+    //TODO: defined external events and listen to them
   }
 
   setupFactories() {
@@ -392,20 +394,20 @@ export default class Scene {
     this.renderScene();
   }
 
-  clickedOnObject(object, zoom = true) {
+  clickedOnObject(object) {
     this.controller.flyToObject(object);
-
-    if (zoom) {
-      this.controller.setZoomLevel(100);
-    }
   }
 
-  focus(snapshotId, zoom = true) {
+  focus(event) {
     //search each zone for the given host id
     this.map.zones.forEach(zone => {
       zone.hosts.forEach(host => {
-        if (isIdEqual(host.snapshot, snapshotId)) {
-          this.clickedOnObject(host.cube, zoom);
+        if (isIdEqual(host.snapshot, event.snapshot)) {
+          this.clickedOnObject(host.cube);
+
+          if(event.zoom) {
+            this.controller.setZoomLevel(100);
+          }
           return; //return if you found one
         }
       });
