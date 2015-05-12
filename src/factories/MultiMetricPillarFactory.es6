@@ -30,7 +30,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       vertexColors: THREE.VertexColors,
-      visible: window.location.search.match(/metrices/) ? true : false
+      visible: window.location.search.match(/multimetrices/) ? true : false
     }));
 
     this.vertexPos = this.calculateVertices(numTiles);
@@ -105,9 +105,11 @@ export default class MultiMetricPillarFactory extends MeshFactory {
   }
 
 /*eslint-disable max-statements */
-  fillUvs({uvs, fragment}) {
+  fillUvs({uvs, iCube, fragment}) {
     const tiles = fragment.tiles;
     const scaleY = fragment.dim.y;
+
+    const offset = iCube * this.vertexPos.length * 2;
 
     //for each part of the pillar
     for (let iTiles = 0; iTiles < this.numTiles; iTiles++) {
@@ -123,33 +125,33 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       const fromOld = tile.old.from * scaleY;
       const toOld = tile.old.to * scaleY;
 
-      uvs[uvOffset + 1] = fromOld;
-      uvs[uvOffset + 3] = fromOld;
-      uvs[uvOffset + 5] = toOld;
-      uvs[uvOffset + 7] = fromOld;
-      uvs[uvOffset + 9] = toOld;
-      uvs[uvOffset + 11] = toOld;
+      uvs[offset + uvOffset + 1] = fromOld;
+      uvs[offset + uvOffset + 3] = fromOld;
+      uvs[offset + uvOffset + 5] = toOld;
+      uvs[offset + uvOffset + 7] = fromOld;
+      uvs[offset + uvOffset + 9] = toOld;
+      uvs[offset + uvOffset + 11] = toOld;
 
-      uvs[uvOffset + 13] = fromOld;
-      uvs[uvOffset + 15] = fromOld;
-      uvs[uvOffset + 17] = toOld;
-      uvs[uvOffset + 19] = fromOld;
-      uvs[uvOffset + 21] = toOld;
-      uvs[uvOffset + 23] = toOld;
+      uvs[offset + uvOffset + 13] = fromOld;
+      uvs[offset + uvOffset + 15] = fromOld;
+      uvs[offset + uvOffset + 17] = toOld;
+      uvs[offset + uvOffset + 19] = fromOld;
+      uvs[offset + uvOffset + 21] = toOld;
+      uvs[offset + uvOffset + 23] = toOld;
 
-      uvs[uvOffset + 0] = fromNew;
-      uvs[uvOffset + 2] = fromNew;
-      uvs[uvOffset + 4] = toNew;
-      uvs[uvOffset + 6] = fromNew;
-      uvs[uvOffset + 8] = toNew;
-      uvs[uvOffset + 10] = toNew;
+      uvs[offset + uvOffset + 0] = fromNew;
+      uvs[offset + uvOffset + 2] = fromNew;
+      uvs[offset + uvOffset + 4] = toNew;
+      uvs[offset + uvOffset + 6] = fromNew;
+      uvs[offset + uvOffset + 8] = toNew;
+      uvs[offset + uvOffset + 10] = toNew;
 
-      uvs[uvOffset + 12] = fromNew;
-      uvs[uvOffset + 14] = fromNew;
-      uvs[uvOffset + 16] = toNew;
-      uvs[uvOffset + 18] = fromNew;
-      uvs[uvOffset + 20] = toNew;
-      uvs[uvOffset + 22] = toNew;
+      uvs[offset + uvOffset + 12] = fromNew;
+      uvs[offset + uvOffset + 14] = fromNew;
+      uvs[offset + uvOffset + 16] = toNew;
+      uvs[offset + uvOffset + 18] = fromNew;
+      uvs[offset + uvOffset + 20] = toNew;
+      uvs[offset + uvOffset + 22] = toNew;
     }
   }
 /*eslint-enable max-statements */

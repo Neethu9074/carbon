@@ -40,7 +40,12 @@ which enables render statistics.
 for testing enviroment (creates x random hosts).
 
 ```
-?metrices
+?singlemetrices
+```
+for testing enviroment (shows random metrices/host in 1sec update intervall).
+
+```
+?multimetrices
 ```
 for testing enviroment (shows random metrices/host in 1sec update intervall).
 

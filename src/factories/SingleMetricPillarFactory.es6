@@ -31,7 +31,7 @@ export default class SingleMetricPillarFactory extends MeshFactory {
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       vertexColors: THREE.VertexColors,
-      visible: window.location.search.match(/metrices/) ? true : false
+      visible: window.location.search.match(/singlemetrices/) ? true : false
     }));
 
     this.vertexPos = [
