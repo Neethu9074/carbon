@@ -34,11 +34,7 @@ You can call the map with the params:
 which enables render statistics.
 
 ```
-?livedata
-```
-to get the livedata via url/api.
 
-```
 ?hostCount=x
 ```
 for testing enviroment (creates x random hosts).
