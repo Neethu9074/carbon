@@ -5,8 +5,7 @@ import './index.less';
 import Immutable from 'immutable';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import React from 'react/addons';
-import {create} from 'instana-ui-services/conveyer';
-import NotificationConveyer from 'instana-ui-services/conveyer/NotificationConveyer';
+import {getActiveProblems} from 'instana-ui-services/notificationCenter';
 
 import FlyOutNotification from './FlyOutNotification';
 
@@ -22,11 +21,11 @@ const Notifications = React.createClass({
 
   componentDidMount() {
     this.addSubscription(
-      create(NotificationConveyer).subscribe(notification =>
+      getActiveProblems().subscribe(notifications => {
         this.setState({
-          notifications: this.state.notifications.unshift(notification)
-        })
-      )
+          notifications: notifications.reverse()
+        });
+      })
     );
   },
 
@@ -38,7 +37,7 @@ const Notifications = React.createClass({
     return (
       <div className="in-notifications">
         <CSSTransitionGroup transitionName="in-fly-out-notification-"
-                                         component="div">
+                            component="div">
           {this.state.notifications.map(notification =>
             <FlyOutNotification key={notification.get('id')}
                                 notification={notification}
