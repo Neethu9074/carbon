@@ -36,7 +36,7 @@ gulp.task('lint', function() {
 });
 
 
-gulp.task('build', ['webpack:build'], function() {
+gulp.task('build', ['webpack:build', 'copyfavicon'], function() {
   var assetFilter = filter('**/*.js');
   var htmlFilter = filter('**/*.html');
 
@@ -99,7 +99,7 @@ function getBanner() {
 
 
 // The development server (the recommended option for development)
-gulp.task('dev', ['copyhtml', 'dev-watches', 'webpack:dev']);
+gulp.task('dev', ['copyhtml', 'copyfavicon', 'dev-watches', 'webpack:dev']);
 
 
 gulp.task('dev-watches', function() {
@@ -110,6 +110,11 @@ gulp.task('dev-watches', function() {
 
 gulp.task('copyhtml', function() {
   gulp.src('src/index.html').pipe(gulp.dest('target/'));
+});
+
+
+gulp.task('copyfavicon', function() {
+  gulp.src('src/favicon.ico').pipe(gulp.dest('target/'));
 });
 
 
