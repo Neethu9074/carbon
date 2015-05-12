@@ -86,7 +86,11 @@ export default class Scene {
   }
 
   setupEvents() {
-    eventBus.on('focus').subscribe(e => this.onFocus(e));
+    eventBus.on('focus').subscribe(e =>
+      this.onFocus(e));
+
+    eventBus.on('updateMetricHostEventName').subscribe(e =>
+      this.onUpdateHostMetricValue(e));
 
     //TODO: defined external events and listen to them
   }
@@ -344,10 +348,8 @@ export default class Scene {
   }
 
   updateHeights() {
-    this.map.zones.forEach(zone => {
-      zone.hosts.forEach(host => {
-        host.setMetricValue(Math.random() * 3);
-      });
+    this.forEachHost((host) => {
+      host.setMetricValue(Math.random() * 3);
     });
 
     this.hostMetricFactory.updateHeights();
@@ -402,17 +404,34 @@ export default class Scene {
   }
 
   onFocus(event) {
+    this.forEachHost((host) => {
+      if (isIdEqual(host.snapshot, event.snapshot)) {
+        this.onObjectClicked(host.cube);
+
+        if(event.zoom) {
+          this.controller.setZoomLevel(100);
+        }
+        return; //return if you found one
+      }
+    });
+  }
+
+  onUpdateHostMetricValue(event) {
+    const hostId = event.hostId;
+    const value = event.value;
+
+    this.forEachHost((host) => {
+      if(host.id === hostId) {
+        host.setMetricValue(value);
+      }
+    });
+  }
+
+  forEachHost(func) {
     //search each zone for the given host id
     this.map.zones.forEach(zone => {
       zone.hosts.forEach(host => {
-        if (isIdEqual(host.snapshot, event.snapshot)) {
-          this.onObjectClicked(host.cube);
-
-          if(event.zoom) {
-            this.controller.setZoomLevel(100);
-          }
-          return; //return if you found one
-        }
+        func(host);
       });
     });
   }
