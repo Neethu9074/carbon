@@ -43,7 +43,7 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        {__DEV__ ? <Notifications onClick={this.onNotificationClick} /> : null}
+        <Notifications />
         <Lettering className="in-root-lettering" />
 
         <Map ref="map" />
@@ -56,10 +56,6 @@ const App = React.createClass({
       </div>
     );
   },
-
-  onNotificationClick(snapshotId) {
-    this.refs.map.focus(snapshotId);
-  }
 
 });
 
