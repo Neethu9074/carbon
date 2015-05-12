@@ -36,7 +36,7 @@ const Notifications = React.createClass({
     /*eslint-enable no-unused-vars*/
 
     return (
-      <div className="in-notifications">
+      <div className="in-fly-out-notifications">
         <CSSTransitionGroup transitionName="in-fly-out-notification-"
                             component="div">
           {this.state.notifications

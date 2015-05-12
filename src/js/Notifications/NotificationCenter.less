@@ -1,0 +1,38 @@
+.in-notification-center {
+  @width: 23rem;
+  width: @width;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+
+  margin-left: @width * -1;
+
+  background: #293138;
+  transition: margin-left .5s ease;
+
+  &--open {
+    margin-left: 0;
+
+    & + .in-notification-center__toggle {
+      left: @width + 2rem;
+    }
+  }
+}
+
+.in-notification-center__header {
+  background: #4D555C;
+  text-align: center;
+}
+
+.in-notification-center__toggle {
+  position: absolute;
+  bottom: 1rem;
+  left: 2rem;
+  padding: .2rem 0.8rem;
+
+  background: #4E575E;
+  font-size: 1.2rem;
+
+  transition: left .5s ease;
+}
