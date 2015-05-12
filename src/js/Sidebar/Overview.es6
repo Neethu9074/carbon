@@ -3,7 +3,7 @@
 import React from 'react/addons';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
-import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as constants from 'instana-ui-forge/constants';
 import {sort} from 'instana-ui-sdk/sorting';
 
@@ -11,7 +11,7 @@ import ServerListing from './ServerListing';
 import {Tabs, Tab} from '../components/Tabs';
 
 const Overview = React.createClass({
-  mixins: [ConveyerMixin, React.addons.PureRenderMixin],
+  mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
 
   getInitialState() {
     return {

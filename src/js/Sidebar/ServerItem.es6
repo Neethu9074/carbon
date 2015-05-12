@@ -6,12 +6,12 @@ import React from 'react/addons';
 import classnames from 'instana-ui-services/util/classnames';
 import {formatBytes} from 'instana-ui-services/converters';
 import eventBus from 'instana-ui-services/eventbus';
-import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 import Icon from '../components/Icon';
 
 const ServerItem = React.createClass({
-  mixins: [ConveyerMixin, React.addons.PureRenderMixin],
+  mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
 
   getInitialState() {
     return {

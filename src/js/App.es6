@@ -4,7 +4,7 @@ import './App.less';
 
 import React from 'react';
 import Map from 'instana-ui-map';
-import ConveyerMixin from 'instana-ui-services/conveyer/ConveyerMixin';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as connection from 'instana-ui-services/connection';
 
 import Sidebar from './Sidebar';
@@ -12,7 +12,7 @@ import Notifications from './Notifications';
 import Toast from './components/Toast';
 
 const App = React.createClass({
-  mixins: [ConveyerMixin],
+  mixins: [SubscriptionMixin],
 
   getInitialState() {
     return {
