@@ -5,10 +5,7 @@ import THREE from 'three';
 import CameraController from './cameraController';
 
 
-//see: https://github.com/instana/visualization/
-//commit/2a09db973b63cfbfa22b1b94769c0ca5c887628b/
-//src/images/scetches/mouseControl.png
-class MouseControl extends CameraController {
+export default class MouseControl extends CameraController {
 
   constructor({scene}) {
     super({scene});
@@ -114,5 +111,3 @@ class MouseControl extends CameraController {
     this.cursor.y = e.clientY;
   }
 }
-
-export default MouseControl;

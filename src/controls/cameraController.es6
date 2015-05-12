@@ -93,7 +93,7 @@ export default class CameraController {
   doClick() {
     //if an object was found via raycasting, inform the scene
     if (this.hittenObject !== undefined) {
-      this.scene.clickedOnObject(this.hittenObject);
+      this.scene.onObjectClicked(this.hittenObject);
     }
   }
 
