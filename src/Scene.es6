@@ -13,7 +13,8 @@ import PhysicalMap from './sceneObjects/PhysicalMap';
 import Host from './sceneObjects/Host';
 import EventEmitter from 'eventemitter3';
 import HostFactory from './factories/HostFactory';
-import HostMetricCubeFactory from './factories/HostMetricCubeFactory';
+import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
+import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import ProcessFactory from './factories/ProcessFactory';
 import LineFactory from './factories/LineFactory';
 import ZoneFactory from './factories/ZoneFactory';
@@ -97,7 +98,8 @@ export default class Scene {
 
   setupFactories() {
     this.hostFactory = new HostFactory({scene: this});
-    this.hostMetricFactory = new HostMetricCubeFactory({scene: this});
+    this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
+    this.multiMetricFactory = new MultiMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
     this.zoneFactory = new ZoneFactory({scene: this});
     this.planeFactory = new PlaneFactory({scene: this});
@@ -352,7 +354,7 @@ export default class Scene {
       host.setMetricValue(Math.random() * 3);
     });
 
-    this.hostMetricFactory.updateHeights();
+    this.singleMetricFactory.updateHeights();
   }
 
   getWorldPosition() {

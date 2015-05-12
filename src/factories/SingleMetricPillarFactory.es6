@@ -5,8 +5,8 @@ import TWEEN from 'tween.js'
 import MeshFactory from './MeshFactory';
 
 //import shader
-import fragmentShader from './hostMetricFragmentShader.glsl';
-import vertexShader from './hostMetricVertexShader.glsl';
+import fragmentShader from './singleMetricFragmentShader.glsl';
+import vertexShader from './singleMetricVertexShader.glsl';
 
 const colorItemsOk = [
   [0.184, 0.64, 0.71], //front
@@ -15,7 +15,7 @@ const colorItemsOk = [
 ];
 
 
-export default class HostMetricCubeFactory extends MeshFactory {
+export default class SingleMetricPillarFactory extends MeshFactory {
 
   constructor({scene}) {
     super({scene});
@@ -30,7 +30,7 @@ export default class HostMetricCubeFactory extends MeshFactory {
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       vertexColors: THREE.VertexColors,
-      visible: false
+      visible: window.location.search.match(/metrices/) ? true : false
     }));
 
     this.vertexPos = [
@@ -61,10 +61,6 @@ export default class HostMetricCubeFactory extends MeshFactory {
       [-0.4, 1, 0.4],
       [-0.4, 1, -0.4]
     ];
-
-    if(window.location.search.match(/metrices/)) {
-      this.material.visible = true;
-    }
 
     this.numDifferentColors = 3;
   }

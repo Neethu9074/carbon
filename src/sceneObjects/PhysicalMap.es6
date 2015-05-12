@@ -133,7 +133,7 @@ export default class PhysicalMap extends SceneObject {
 
   getDummyData() {
     const match = window.location.search.match(/hostCount=(\d+)/);
-    let hostCount = 10;
+    let hostCount = 1;
     if (match) {
       hostCount = match[1];
     }

@@ -70,7 +70,7 @@ export default class Host extends SceneObject {
       health: this.health
     });
 
-    this.scene.hostMetricFactory.addFragment({id, pos, dim});
+    this.scene.singleMetricFactory.addFragment({id, pos, dim});
 
     this.scene.zoneFactory.addFragment({
       id,
@@ -228,7 +228,7 @@ export default class Host extends SceneObject {
     this.scene.hostFactory.removeFragment(id);
     this.scene.lineFactory.removeFragment(id);
     this.scene.zoneFactory.removeFragment(id);
-    this.scene.hostMetricFactory.removeFragment(id);
+    this.scene.singleMetricFactory.removeFragment(id);
   }
 
   dispose() {
