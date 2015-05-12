@@ -10,6 +10,7 @@ import * as connection from 'instana-ui-services/connection';
 import Sidebar from './Sidebar';
 import Notifications from './Notifications';
 import Toast from './components/Toast';
+import Lettering from './components/Lettering';
 
 const App = React.createClass({
   mixins: [SubscriptionMixin],
@@ -43,6 +44,7 @@ const App = React.createClass({
     return (
       <div>
         {__DEV__ ? <Notifications onClick={this.onNotificationClick} /> : null}
+        <Lettering className="in-root-lettering" />
 
         <Map ref="map" />
         <Sidebar />
