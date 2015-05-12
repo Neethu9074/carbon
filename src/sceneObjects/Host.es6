@@ -184,11 +184,9 @@ export default class Host extends SceneObject {
   }
 
   setMetricValue(value) {
-    this.scene.hostMetricFactory
+    this.scene.singleMetricFactory
       .getFragment(this.id)
       .dim.y = value;
-
-    this.scene.hostMetricFactory.rebuildGlobalMesh = true;
   }
 
   refreshMesh() {
