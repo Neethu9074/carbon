@@ -25,7 +25,9 @@ const NotificationCenter = React.createClass({
     return (
       <div>
         <div className={classes}>
-          Yo!
+          <div className='in-notification-center__header'>
+            <h2>Notification Center</h2>
+          </div>
         </div>
         <Icon type={this.state.open ? 'remove' : 'minus'}
               className='in-notification-center__toggle'
