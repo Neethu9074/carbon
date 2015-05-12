@@ -344,10 +344,13 @@ export default class Scene {
   }
 
   updateHeights() {
-    this.hostMetricFactory.updateHeights();
+    this.map.zones.forEach(zone => {
+      zone.hosts.forEach(host => {
+        host.setMetricValue(Math.random() * 3);
+      });
+    });
 
-    //render scene to show the update
-    this.renderScene();
+    this.hostMetricFactory.updateHeights();
   }
 
   getWorldPosition() {

@@ -81,7 +81,7 @@ export default class HostMetricCubeFactory extends MeshFactory {
 
     for (let i = 0; i < numCubes; i++) {
       const fragment = frags[i];
-      const newHeight = Math.random() * 4.0;
+      const newHeight = fragment.dim.y;
       const oldHeight = fragment.height === undefined ? 0.0 : fragment.height;
       const offset = i * this.vertexPos.length * 2;
 

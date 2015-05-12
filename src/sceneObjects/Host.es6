@@ -48,12 +48,6 @@ export default class Host extends SceneObject {
     }
   }
 
-  registerEvents() {
-    this.addSubscription(
-      this.on('endUpdate', this.update.bind(this))
-    );
-  }
-
   render() {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check
     this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -64,6 +58,34 @@ export default class Host extends SceneObject {
 
     this.addSceneObject(this.cube);
     this.addToGlobalGeometry();
+  }
+
+  addToGlobalGeometry() {
+    const id = this.id;
+    const pos = this.cube.position.clone().add(cubePosition);
+    const dim = this.cube.scale;
+
+    //add fragment to global geometry
+    this.scene.hostFactory.addFragment({id, pos, dim,
+      health: this.health
+    });
+
+    this.scene.hostMetricFactory.addFragment({id, pos, dim});
+
+    this.scene.zoneFactory.addFragment({
+      id,
+      pos: this.cube.position.clone().add(groundPosition),
+      dim: dim.clone().add(groundScale),
+      health: this.health
+    });
+
+    const lineFactory = this.scene.lineFactory;
+    const from = this.cube.position.clone()
+      .add(new THREE.Vector3(-0.5, dim.y, 0.5));
+    const to = from.clone()
+      .add(niceLookingDistanceForSticky);
+
+    lineFactory.addFragment({id, from, to});
   }
 
   addStickyNote() {
@@ -85,6 +107,19 @@ export default class Host extends SceneObject {
     worldPos.x -= stickyNoteLineEndLocalPosition.x;
     worldPos.y = this.cube.scale.y + stickyNoteLineEndLocalPosition.y;
     worldPos.z += niceLookingDistanceForSticky.z + 0.5;
+  }
+
+  renderStickyNote() {
+    React.render(
+      <StickyNote snapshot={this.snapshot} />,
+      this.stickyNoteContainer
+    );
+  }
+
+  registerEvents() {
+    this.addSubscription(
+      this.on('endUpdate', this.update.bind(this))
+    );
   }
 
   update(data) {
@@ -120,68 +155,10 @@ export default class Host extends SceneObject {
     this.stickyNoteContainerStyle.display = '';
   }
 
-  setHealth(health) {
-    this.health = health;
-    this.removeFromGlobalGeometry();
-    this.addToGlobalGeometry();
-  }
-
-  removeFromGlobalGeometry() {
-    const id = this.id;
-    this.scene.hostFactory.removeFragment(id);
-    this.scene.lineFactory.removeFragment(id);
-    this.scene.zoneFactory.removeFragment(id);
-    this.scene.hostMetricFactory.removeFragment(id);
-  }
-
-  addToGlobalGeometry() {
-    const id = this.id;
-    const cubePos = this.cube.position.clone().add(cubePosition);
-    const cubeScale = this.cube.scale;
-
-    //add fragment to global geometry
-    this.scene.hostFactory.addFragment({
-      id,
-      pos: cubePos,
-      dim: cubeScale,
-      health: this.health
-    });
-
-    this.scene.hostMetricFactory.addFragment({
-      id,
-      pos: cubePos,
-      dim: cubeScale
-    });
-
-    this.scene.zoneFactory.addFragment({
-      id,
-      pos: this.cube.position.clone().add(groundPosition),
-      dim: cubeScale.clone().add(groundScale),
-      health: this.health
-    });
-
-    const lineFactory = this.scene.lineFactory;
-    const from = this.cube.position.clone()
-      .add(new THREE.Vector3(-0.5, this.cube.scale.y, 0.5));
-    const to = from.clone().add(niceLookingDistanceForSticky);
-    lineFactory.addFragment({
-      id,
-      from,
-      to
-    });
-  }
-
   onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
     this.setHealth(getHealth(snapshot));
     this.renderStickyNote();
-  }
-
-  renderStickyNote() {
-    React.render(
-      <StickyNote snapshot={this.snapshot} />,
-      this.stickyNoteContainer
-    );
   }
 
   setPosition(x, y, z) {
@@ -198,6 +175,20 @@ export default class Host extends SceneObject {
 
     this.refreshMesh();
     this.arrangeProcesses();
+  }
+
+  setHealth(health) {
+    this.health = health;
+    this.removeFromGlobalGeometry();
+    this.addToGlobalGeometry();
+  }
+
+  setMetricValue(value) {
+    this.scene.hostMetricFactory
+      .getFragment(this.id)
+      .dim.y = value;
+
+    this.scene.hostMetricFactory.rebuildGlobalMesh = true;
   }
 
   refreshMesh() {
@@ -232,6 +223,14 @@ export default class Host extends SceneObject {
       p.setPosition(pos.x, index++ * heightOfEachProcess, pos.z);
       p.setHeight(heightOfEachProcess);
     });
+  }
+
+  removeFromGlobalGeometry() {
+    const id = this.id;
+    this.scene.hostFactory.removeFragment(id);
+    this.scene.lineFactory.removeFragment(id);
+    this.scene.zoneFactory.removeFragment(id);
+    this.scene.hostMetricFactory.removeFragment(id);
   }
 
   dispose() {
