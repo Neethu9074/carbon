@@ -18,10 +18,9 @@ export default class NotificationConveyer {
   }
 
   start(onNext) {
-    this.onNext = onNext;
-
     this.subscription = connection.emitter.on('message')
-      .subscribe(e => onNext(Immutable.fromJS(e)));
+      .filter(e => e.type === 'notification')
+      .subscribe(e => onNext(Immutable.fromJS(e.data)));
 
     connection.subscribe(this.id, this.subscribeEvent);
   }
