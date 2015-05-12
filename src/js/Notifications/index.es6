@@ -15,6 +15,7 @@ const Notifications = React.createClass({
 
   getInitialState() {
     return {
+      hiddenNotifications: Immutable.Set(),
       notifications: Immutable.List()
     };
   },
@@ -38,7 +39,9 @@ const Notifications = React.createClass({
       <div className="in-notifications">
         <CSSTransitionGroup transitionName="in-fly-out-notification-"
                             component="div">
-          {this.state.notifications.map(notification =>
+          {this.state.notifications
+           .filter(n => !this.state.hiddenNotifications.contains(n.get('id')))
+           .map(notification =>
             <FlyOutNotification key={notification.get('id')}
                                 notification={notification}
                                 onClick={this.onClick.bind(null, notification)}
@@ -49,12 +52,9 @@ const Notifications = React.createClass({
     );
   },
 
-  onClick(notification) {
-    const filteredNotifications = this.state.notifications.filter(n =>
-      n.get('id') !== notification.get('id')
-    );
+  onClick(n) {
     this.setState({
-      notifications: filteredNotifications
+      hiddenNotifications: this.state.hiddenNotifications.add(n.get('id'))
     });
   }
 });
