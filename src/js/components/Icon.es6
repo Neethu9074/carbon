@@ -12,7 +12,9 @@ const Icon = React.createClass({
     }
 
     if (this.props.onClick) {
-      return <a href="#" className={classes} onClick={this.props.onClick}></a>;
+      return <button type='button'
+                     className={classes}
+                     onClick={this.props.onClick} />;
     } else {
       return <i className={classes} />;
     }
