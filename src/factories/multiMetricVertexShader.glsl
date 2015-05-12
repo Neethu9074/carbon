@@ -3,11 +3,11 @@ varying vec3 vColor;
 
 void main() {
   vColor = color;
-  float height = position.y;
 
-  if(height > 0.0) {
-    height *= 2.0;
-  }
+  float targetHeight = uv.x;
+  float oldHeight = uv.y;
+  float delta = targetHeight - oldHeight;
+  float height = oldHeight + (delta * progress);
 
   gl_Position =
     projectionMatrix *

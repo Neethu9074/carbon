@@ -1,7 +1,9 @@
-
 'use strict';
+
 import THREE from 'three';
-import TWEEN from 'tween.js'
+import _ from 'lodash';
+import TWEEN from 'tween.js';
+
 import MeshFactory from './MeshFactory';
 
 //import shader
@@ -15,6 +17,8 @@ export default class MultiMetricPillarFactory extends MeshFactory {
 
   constructor({scene, numTiles = 3}) {
     super({scene});
+
+    this.numTiles = numTiles;
 
     this.setMaterial(new THREE.ShaderMaterial({
       uniforms: {
@@ -33,6 +37,16 @@ export default class MultiMetricPillarFactory extends MeshFactory {
 
     this.calculateColorItems(numTiles);
     this.numDifferentColors = colorItems.length;
+  }
+
+  addFragment(fragment) {
+    if(fragment.tiles === undefined ||
+      fragment.tiles.length < this.numTiles) {
+
+      throw {error: 'argument exception'};
+    }
+
+    super.addFragment(fragment);
   }
 
 /*eslint-disable max-statements */
@@ -77,52 +91,81 @@ export default class MultiMetricPillarFactory extends MeshFactory {
   }
 
   updateHeights() {
-    return;
-    /*
     //get all enabled fragments
     const frags = this.getLegalFragments();
     const numCubes = frags.length;
     const uvs = new Float32Array(numCubes * this.vertexPos.length * 2);
 
     for (let i = 0; i < numCubes; i++) {
-      const fragment = frags[i];
-      const newHeight = fragment.dim.y;
-      const oldHeight = fragment.height === undefined ? 0.0 : fragment.height;
-      const offset = i * this.vertexPos.length * 2;
-
-      fragment.height = newHeight;
-      this.fillUvs({uvs, offset, newHeight, oldHeight});
+      this.fillUvs({uvs, iCube: i, fragment: frags[i]});
     }
 
     this.globalGeometry.addAttribute('uv', new THREE.BufferAttribute(uvs, 2));
     this.startAnimation();
-    */
   }
 
-  fillUvs({uvs, offset, newHeight, oldHeight}) {
-    //copy positions into global array
-    for (let iVertex = 0; iVertex < this.vertexPos.length; iVertex++) {
-      const index = iVertex * 2 + offset;
-      if(this.vertexPos[iVertex][1] > 0) {
-        //use u field to store the height of the cube
-        uvs[index + 0] = newHeight; //u
-        uvs[index + 1] = oldHeight; //v
-      }
+/*eslint-disable max-statements */
+  fillUvs({uvs, fragment}) {
+    const tiles = fragment.tiles;
+    const scaleY = fragment.dim.y;
+
+    //for each part of the pillar
+    for (let iTiles = 0; iTiles < this.numTiles; iTiles++) {
+      const verticesPerTile = this.vertexPos.length / this.numTiles;
+      const vertexOffset = iTiles * verticesPerTile;
+      const uvOffset = vertexOffset * 2;
+      const top = this.vertexPos[vertexOffset + 2][1];
+      const tileIndex = ((this.numTiles * top) - 1) | 0;
+      const tile = tiles[tileIndex];
+
+      const fromNew = tile.new.from * scaleY;
+      const toNew = tile.new.to * scaleY;
+      const fromOld = tile.old.from * scaleY;
+      const toOld = tile.old.to * scaleY;
+
+      uvs[uvOffset + 1] = fromOld;
+      uvs[uvOffset + 3] = fromOld;
+      uvs[uvOffset + 5] = toOld;
+      uvs[uvOffset + 7] = fromOld;
+      uvs[uvOffset + 9] = toOld;
+      uvs[uvOffset + 11] = toOld;
+
+      uvs[uvOffset + 13] = fromOld;
+      uvs[uvOffset + 15] = fromOld;
+      uvs[uvOffset + 17] = toOld;
+      uvs[uvOffset + 19] = fromOld;
+      uvs[uvOffset + 21] = toOld;
+      uvs[uvOffset + 23] = toOld;
+
+      uvs[uvOffset + 0] = fromNew;
+      uvs[uvOffset + 2] = fromNew;
+      uvs[uvOffset + 4] = toNew;
+      uvs[uvOffset + 6] = fromNew;
+      uvs[uvOffset + 8] = toNew;
+      uvs[uvOffset + 10] = toNew;
+
+      uvs[uvOffset + 12] = fromNew;
+      uvs[uvOffset + 14] = fromNew;
+      uvs[uvOffset + 16] = toNew;
+      uvs[uvOffset + 18] = fromNew;
+      uvs[uvOffset + 20] = toNew;
+      uvs[uvOffset + 22] = toNew;
     }
   }
+/*eslint-enable max-statements */
 
   startAnimation() {
     const from = {v: 0.0};
     const to = {v: 1.0};
     const tween = new TWEEN.Tween(from).to(to, 500);
-    //const mat = this.material;
+    const mat = this.material;
     const scene = this.scene;
 
     tween.onStart(function(){
       scene.startAnimation();
     });
     tween.onUpdate(function(){
-      //mat.uniforms.progress.value = from.v;
+      mat.uniforms.progress.value = from.v;
     });
     tween.onComplete(function(){
       scene.stopAnimation();

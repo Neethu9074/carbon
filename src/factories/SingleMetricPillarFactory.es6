@@ -1,7 +1,8 @@
-
 'use strict';
+
 import THREE from 'three';
 import TWEEN from 'tween.js'
+
 import MeshFactory from './MeshFactory';
 
 //import shader

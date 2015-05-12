@@ -70,7 +70,16 @@ export default class Host extends SceneObject {
       health: this.health
     });
 
-    this.scene.singleMetricFactory.addFragment({id, pos, dim});
+    const tiles = [];
+    for (let i = 0; i < this.scene.numTiles; i++) {
+      tiles[i] = {
+        old: {from: 0, to: 0},
+        new: {from: 0, to: 0}
+      };
+    }
+    const fragment = {id, pos, dim, tiles};
+
+    this.scene.multiMetricFactory.addFragment(fragment);
 
     this.scene.zoneFactory.addFragment({
       id,
@@ -183,10 +192,37 @@ export default class Host extends SceneObject {
     this.addToGlobalGeometry();
   }
 
-  setMetricValue(value) {
-    this.scene.singleMetricFactory
-      .getFragment(this.id)
-      .dim.y = value;
+  setMetricValue(/*value*/) {
+    const fragment = this.scene.multiMetricFactory.getFragment(this.id);
+    this.createRandomMultiMetricValues(fragment.tiles);
+  }
+
+  createRandomMultiMetricValues(tiles) {
+    const rStart = Math.random();
+    let total = rStart;
+    tiles[0] = {
+      old: {from: tiles[0].new.from, to: tiles[0].new.to},
+      new: {from: 0, to: rStart}
+    };
+    for (let i = 1; i < this.scene.numTiles - 1; i++) {
+      const randomHeight = Math.random();
+      total += randomHeight;
+      tiles[i] = {
+        old: {from: tiles[i].new.from, to: tiles[i].new.to},
+        new: {from: tiles[i - 1].new.to, to: tiles[i - 1].new.to + randomHeight}
+      };
+    }
+    const lastIndex = tiles.length - 1;
+    tiles[lastIndex] = {
+      old: {from: tiles[lastIndex].new.from, to: tiles[lastIndex].new.to},
+      new: {from: tiles[lastIndex - 1].new.to, to: 1}
+    };
+
+    for (let i = 0; i < tiles.length; i++) {
+      tiles[i].new.from /= total;
+      tiles[i].new.to /= total;
+    }
+    tiles[tiles.length - 1].new.to = 1;
   }
 
   refreshMesh() {
@@ -228,7 +264,7 @@ export default class Host extends SceneObject {
     this.scene.hostFactory.removeFragment(id);
     this.scene.lineFactory.removeFragment(id);
     this.scene.zoneFactory.removeFragment(id);
-    this.scene.singleMetricFactory.removeFragment(id);
+    this.scene.multiMetricFactory.removeFragment(id);
   }
 
   dispose() {

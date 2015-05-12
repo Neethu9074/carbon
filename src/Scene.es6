@@ -99,11 +99,15 @@ export default class Scene {
   setupFactories() {
     this.hostFactory = new HostFactory({scene: this});
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
-    this.multiMetricFactory = new MultiMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
     this.zoneFactory = new ZoneFactory({scene: this});
     this.planeFactory = new PlaneFactory({scene: this});
     this.cubeFactory = new ProcessFactory({scene: this});
+    this.numTiles = 3;
+    this.multiMetricFactory = new MultiMetricPillarFactory({
+      scene: this,
+      numTiles: this.numTiles
+    });
 
     if(window.location.search.match(/metrices/)) {
       setInterval(this.updateHeights.bind(this), 1000);
@@ -355,6 +359,7 @@ export default class Scene {
     });
 
     this.singleMetricFactory.updateHeights();
+    this.multiMetricFactory.updateHeights();
   }
 
   getWorldPosition() {

@@ -22,6 +22,7 @@ export default class PhysicalMap extends SceneObject {
     this.size = 1000;
     this.scene = scene;
     this.zones = [];
+    this.hosts = 0;
 
     const geo = new THREE.PlaneBufferGeometry(this.size, this.size, 1, 1);
     const mat = new THREE.MeshBasicMaterial({
@@ -83,6 +84,8 @@ export default class PhysicalMap extends SceneObject {
   }
 
   addHost(host) {
+    //if(this.hosts++ > 1) { return; }
+
     const zoneId = getZone(host);
     let zone = _.find(this.zones, zone => zone.id === zoneId);
     if (!zone) {
