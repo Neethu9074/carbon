@@ -8,11 +8,6 @@
   border-radius: 0.3rem;
   overflow: hidden;
 
-  transition: margin-left 1s ease,
-              height .5s ease .5s,
-              margin-top .5s ease .5s,
-              padding .5s ease .5s;
-
   &--ok {
     background: #78F2D9;
   }
@@ -25,9 +20,15 @@
     background: #FF1744;
   }
 
+  &--enter-active, &--leave-active {
+    transition: margin-left 1s ease,
+                height .5s ease .5s,
+                margin-top .5s ease .5s,
+                padding .5s ease .5s;
+  }
+
   &--enter {
     margin-left: -200%;
-    max-height: 0rem;
   }
 
   &--enter-active, &--leave {

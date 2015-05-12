@@ -12,7 +12,7 @@ const FlyOutNotification = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   render() {
-    const severity = this.props.notification.get('severity');
+    const severity = this.props.notification.getIn(['data', 'severity']);
     const classes = classnames({
       [blockIdentifier]: true,
       [blockIdentifier + '--warning']: severity === health.warning,
@@ -25,7 +25,7 @@ const FlyOutNotification = React.createClass({
            onClick={this.props.onClick}
            ref='element'>
         <h1>
-          {this.props.notification.get('title')}
+          {this.props.notification.getIn(['data', 'title'])}
         </h1>
       </div>
     );
