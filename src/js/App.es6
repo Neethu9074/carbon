@@ -55,7 +55,7 @@ const App = React.createClass({
         </Toast>
       </div>
     );
-  },
+  }
 
 });
 
