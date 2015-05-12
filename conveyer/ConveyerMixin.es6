@@ -1,38 +1,24 @@
+/*eslint-disable no-console*/
+
 'use strict';
 
-import invariant from 'invariant';
+import SubscriptionMixin from '../util/SubscriptionMixin';
 
 const ConveyerMixin = {
   componentWillMount() {
-    this.subscriptions = [];
-  },
-
-  addSubscription(subscription) {
-    invariant(
-      typeof subscription.dispose === 'function',
-      'subscription must be disposable'
+    SubscriptionMixin.componentWillMount.call(this);
+    console.warn(
+      '[DEPRECATED]: Please use SubscriptionMixin instead of the ConveyerMixin'
     );
-    this.subscriptions.push(subscription);
   },
 
-  disposeSubscription(subscription) {
-    invariant(
-      typeof subscription.dispose === 'function',
-      'subscription must be disposable'
-    );
+  addSubscription: SubscriptionMixin.addSubscription,
 
-    this.subscriptions.splice(this.subscriptions.indexOf(subscription));
-    subscription.dispose();
-  },
+  disposeSubscription: SubscriptionMixin.disposeSubscription,
 
-  disposeSubscriptions() {
-    this.subscriptions.forEach(s => s.dispose());
-    this.subscriptions = [];
-  },
+  disposeSubscriptions: SubscriptionMixin.disposeSubscriptions,
 
-  componentWillUnmount() {
-    this.disposeSubscriptions();
-  }
+  componentWillUnmount: SubscriptionMixin.componentWillUnmount
 };
 
 export default ConveyerMixin;

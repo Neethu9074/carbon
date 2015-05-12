@@ -2,16 +2,16 @@
 
 'use strict';
 
-import ConveyerMixin from './ConveyerMixin';
+import SubscriptionMixin from './SubscriptionMixin';
 import sinon from 'sinon';
 import {expect} from 'chai';
 
-describe('ConveyerMixin', () => {
+describe('SubscriptionMixin', () => {
   let instance;
   let subscription;
 
   beforeEach(() => {
-    instance = Object.create(ConveyerMixin);
+    instance = Object.create(SubscriptionMixin);
     instance.componentWillMount();
     subscription = {
       dispose: sinon.stub()
