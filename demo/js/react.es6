@@ -75,7 +75,7 @@ export default function init() {
     eventBus.emit('showMetrics', {
       metrics: ['memory.free.5000.mean']
     });
-  }, 3000);
+  }, 1000);
 
   React.render(
     <App/>,

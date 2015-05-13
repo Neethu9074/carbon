@@ -30,6 +30,7 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].z += 0.5;
 }
 const cubeMaterial = new THREE.MeshBasicMaterial({visible: true});
+let currentMetrics = [];
 
 
 export default class Host extends SceneObject {
@@ -86,7 +87,7 @@ export default class Host extends SceneObject {
     const fragment = {id, pos, dim, tiles};
 
     this.scene.multiMetricFactory.addFragment(fragment);
-    this.scene.singleMetricFactory.addFragment({id, pos, dim});
+    this.scene.singleMetricFactory.addFragment({id, pos, dim, newHeight: 0});
 
     this.scene.zoneFactory.addFragment({
       id,
@@ -139,9 +140,14 @@ export default class Host extends SceneObject {
     });
 
     eventBus.on('showMetrics').subscribe(e => this.showMetrics(e.metrics));
+
+    if(currentMetrics.length !== 0) {
+      this.showMetrics(currentMetrics);
+    }
   }
 
   showMetrics(metrics) {
+    currentMetrics = metrics;
     metrics.forEach(metric => {
       const max = getMaxValue(metric, this.snapshot);
       const observable = create(MetricConveyer, {
@@ -149,7 +155,7 @@ export default class Host extends SceneObject {
         frequency: 1000,
         snapshot: this.snapshot
       });
-      observable.subscribe(value => this.setMetricValue(value, max));
+      observable.subscribe(value => this.setMetricValue(value / max));
     });
   }
 
@@ -220,7 +226,7 @@ export default class Host extends SceneObject {
       this.createRandomMultiMetricValues(frag.tiles);
     } else {
       const frag2 = this.scene.singleMetricFactory.getFragment(this.id);
-      frag2.dim.y = value;
+      frag2.newHeight = value;
     }
   }
 

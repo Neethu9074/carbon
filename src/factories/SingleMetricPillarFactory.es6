@@ -80,12 +80,12 @@ export default class SingleMetricPillarFactory extends MeshFactory {
 
     for (let i = 0; i < numCubes; i++) {
       const fragment = frags[i];
-      const newHeight = fragment.dim.y;
+      const newHeight = fragment.newHeight;
       const oldHeight = fragment.height === undefined ? 0.0 : fragment.height;
       const offset = i * this.vertexPos.length * numElementsPerUv;
 
       fragment.height = newHeight;
-      this.fillUvs({uvs, offset, newHeight, oldHeight});
+      this.fillUvs({uvs, offset, newHeight, oldHeight, scale: fragment.dim.y});
     }
 
     this.globalGeometry.addAttribute('uv',
@@ -94,7 +94,7 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     this.startAnimation();
   }
 
-  fillUvs({uvs, offset, newHeight, oldHeight}) {
+  fillUvs({uvs, offset, newHeight, oldHeight, scale}) {
     //copy positions into global array
     for (let iVertex = 0; iVertex < this.vertexPos.length; iVertex++) {
 
@@ -105,10 +105,10 @@ export default class SingleMetricPillarFactory extends MeshFactory {
       if(this.vertexPos[iVertex][1] > 0) {
 
         //use u field to store the height of the cube
-        uvs[index + 0] = newHeight;
+        uvs[index + 0] = newHeight * scale;
 
         //use v field to store the last height of the cube
-        uvs[index + 1] = oldHeight;
+        uvs[index + 1] = oldHeight * scale;
       }
     }
   }

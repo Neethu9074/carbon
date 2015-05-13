@@ -108,7 +108,7 @@ export default class Scene {
     });
 
     if(window.location.search.match(/metrics/)) {
-      //setInterval(this.updateHeights.bind(this), 1000);
+      setInterval(this.updateHeights.bind(this), 1000);
     }
   }
 
@@ -353,7 +353,7 @@ export default class Scene {
 
   updateHeights() {
     this.forEachHost((host) => {
-      host.setMetricValue(Math.random() * 3);
+      //host.setMetricValue(Math.random() * 3);
     });
 
     this.singleMetricFactory.updateHeights();
