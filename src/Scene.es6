@@ -352,10 +352,6 @@ export default class Scene {
   }
 
   updateHeights() {
-    this.forEachHost((host) => {
-      //host.setMetricValue(Math.random() * 3);
-    });
-
     this.singleMetricFactory.updateHeights();
     this.multiMetricFactory.updateHeights();
   }
@@ -417,17 +413,6 @@ export default class Scene {
           this.controller.setZoomLevel(100);
         }
         return; //return if you found one
-      }
-    });
-  }
-
-  onUpdateHostMetricValue(event) {
-    const hostId = event.hostId;
-    const value = event.value;
-
-    this.forEachHost((host) => {
-      if(host.id === hostId) {
-        host.setMetricValue(value);
       }
     });
   }

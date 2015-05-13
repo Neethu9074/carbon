@@ -141,12 +141,15 @@ export default class Host extends SceneObject {
 
     eventBus.on('showMetrics').subscribe(e => this.showMetrics(e.metrics));
 
+    //if there are metrics available, show them for new hosts
     if(currentMetrics.length !== 0) {
       this.showMetrics(currentMetrics);
     }
   }
 
   showMetrics(metrics) {
+    this.disposeSubscriptions();
+
     currentMetrics = metrics;
     metrics.forEach(metric => {
       const max = getMaxValue(metric, this.snapshot);
@@ -155,8 +158,18 @@ export default class Host extends SceneObject {
         frequency: 1000,
         snapshot: this.snapshot
       });
-      observable.subscribe(value => this.setMetricValue(value / max));
+      this.eventBusSubscriptions.push(
+        observable.subscribe(value => this.setMetricValue(value / max))
+      );
     });
+  }
+
+  disposeSubscriptions() {
+    //dispose old subscriptions
+    if(this.eventBusSubscriptions) {
+      this.eventBusSubscriptions.forEach(sub => sub.dispose);
+    }
+    this.eventBusSubscriptions = [];
   }
 
   update(data) {
@@ -306,6 +319,7 @@ export default class Host extends SceneObject {
     this.stickyNoteContainer.parentNode.removeChild(this.stickyNoteContainer);
     this.stickyNoteEndPosWorld = null;
 
+    this.disposeSubscriptions();
     super.dispose();
     this.scene = null;
     this.id = null;
