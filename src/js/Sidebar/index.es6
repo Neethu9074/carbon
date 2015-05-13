@@ -5,6 +5,7 @@ import './index.less';
 import React from 'react';
 import {Tabs, Tab} from '../components/Tabs';
 import Overview from './Overview';
+import Performance from './Performance';
 
 const Sidebar = React.createClass({
 
@@ -19,10 +20,7 @@ const Sidebar = React.createClass({
 
         <Tab title="Performance">
           <h1 className="in-sidebar__header">Performance</h1>
-          <Tabs>
-            <Tab title="CPU">CPU...</Tab>
-            <Tab title="Memory">Memory...</Tab>
-          </Tabs>
+          <Performance />
         </Tab>
 
         <Tab title="Tags">
