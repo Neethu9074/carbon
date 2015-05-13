@@ -21,7 +21,6 @@
     "eventemitter3": "^1.0.1",
     "immutable": "^3.7.2",
     "instalog": "^1.0.0",
-    "instana-ui-cube-face": "^2.5.1",
     "instana-ui-sdk": "^1.0.0",
     "instana-ui-services": "^1.1.0",
     "instana-ui-themes": "^1.0.2",
