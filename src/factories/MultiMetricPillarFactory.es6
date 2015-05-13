@@ -33,13 +33,18 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       visible: window.location.search.match(/multimetrices/) ? true : false
     }));
 
+    //for each tile there is a part of the geometry added
     this.vertexPos = this.calculateVertices(numTiles);
 
+    //the color are generated on demand too because it depends
+    //on the number of tiles
     this.calculateColorItems(numTiles);
+
     this.numDifferentColors = colorItems.length;
   }
 
   addFragment(fragment) {
+    //if the fragment has less tiles than the factory awaits
     if(fragment.tiles === undefined ||
       fragment.tiles.length < this.numTiles) {
 
@@ -57,6 +62,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     for (let i = 0; i < numTiles; i++) {
       const bottom = (1 / numTiles) * (i);
       const top = (1 / numTiles) * (i + 1);
+      //front
       vertices[index++] = [-0.4, bottom, 0.4];
       vertices[index++] = [0.4, bottom, 0.4];
       vertices[index++] = [0.4, top, 0.4];
@@ -65,6 +71,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       vertices[index++] = [0.4, top, 0.4];
       vertices[index++] = [-0.4, top, 0.4];
 
+      //left
       vertices[index++] = [-0.4, bottom, -0.4];
       vertices[index++] = [-0.4, bottom, 0.4];
       vertices[index++] = [-0.4, top, -0.4];
@@ -73,10 +80,12 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       vertices[index++] = [-0.4, top, 0.4];
       vertices[index++] = [-0.4, top, -0.4];
     }
+
     return vertices;
   }
 /*eslint-enable max-statements */
 
+  //creates a gradient from black to white
   calculateColorItems(numTiles) {
     let index = 0;
     for (let i = 0; i < numTiles; i++) {
@@ -94,29 +103,41 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     //get all enabled fragments
     const frags = this.getLegalFragments();
     const numCubes = frags.length;
-    const uvs = new Float32Array(numCubes * this.vertexPos.length * 2);
+    const numElementsPerUv = 2; //u & v
+    const uvs = new Float32Array(
+      numCubes * this.vertexPos.length * numElementsPerUv);
 
     for (let i = 0; i < numCubes; i++) {
       this.fillUvs({uvs, iCube: i, fragment: frags[i]});
     }
 
-    this.globalGeometry.addAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+    this.globalGeometry.addAttribute('uv',
+      new THREE.BufferAttribute(uvs, numElementsPerUv));
+
     this.startAnimation();
   }
 
 /*eslint-disable max-statements */
   fillUvs({uvs, iCube, fragment}) {
     const tiles = fragment.tiles;
+    const numVertices = this.vertexPos.length;
     const scaleY = fragment.dim.y;
-
-    const offset = iCube * this.vertexPos.length * 2;
+    const offset = iCube * numVertices * 2;
+    const verticesPerTile = numVertices / this.numTiles;
 
     //for each part of the pillar
     for (let iTiles = 0; iTiles < this.numTiles; iTiles++) {
-      const verticesPerTile = this.vertexPos.length / this.numTiles;
+      //this is the offset to get the right cursor position to the vertices
+      //in the global array
       const vertexOffset = iTiles * verticesPerTile;
+
+      //two elements per vertex so the offset must shift by 2
       const uvOffset = vertexOffset * 2;
-      const top = this.vertexPos[vertexOffset + 2][1];
+
+      //look at the vertex array calculation. the third added vertex has a
+      //top position in y, so get it
+      const top = this.vertexPos[vertexOffset + 2][1]; //[1] is the y pos
+
       const tileIndex = ((this.numTiles * top) - 1) | 0;
       const tile = tiles[tileIndex];
 

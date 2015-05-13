@@ -103,7 +103,7 @@ export default class Scene {
     this.zoneFactory = new ZoneFactory({scene: this});
     this.planeFactory = new PlaneFactory({scene: this});
     this.cubeFactory = new ProcessFactory({scene: this});
-    this.numTiles = 4;
+    this.numTiles = 10;
     this.multiMetricFactory = new MultiMetricPillarFactory({
       scene: this,
       numTiles: this.numTiles
