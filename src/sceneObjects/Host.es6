@@ -127,9 +127,10 @@ export default class Host extends SceneObject {
   }
 
   registerEvents() {
-    this.addSubscription(
-      this.on('endUpdate', this.update.bind(this))
-    );
+    this.addSubscription({
+      event: 'endUpdate',
+      fn: this.update.bind(this)
+    });
   }
 
   update(data) {
@@ -269,14 +270,15 @@ export default class Host extends SceneObject {
   }
 
   dispose() {
-    super.dispose();
-
     this.removeSceneObject(this.cube);
     this.removeFromGlobalGeometry();
     this.cube = null;
 
-    //TODO delete sticky note
+    React.unmountComponentAtNode(this.stickyNoteContainer);
+    this.stickyNoteContainer.parentNode.removeChild(this.stickyNoteContainer);
+    this.stickyNoteEndPosWorld = null;
 
+    super.dispose();
     this.scene = null;
     this.id = null;
     this.snapshot = null;

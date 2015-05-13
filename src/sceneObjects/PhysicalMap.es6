@@ -85,6 +85,14 @@ export default class PhysicalMap extends SceneObject {
       return !snapshot;
     });
 
+    removedHosts.forEach(host => {
+      //remove host from zones
+      this.zones.forEach(zone => {
+        _.remove(zone.hosts, zoneHost => zoneHost.id === host.id);
+      });
+      host.dispose();
+    });
+
     this.applyLayout(snapshots.size);
     this.parent.renderScene();
   }

@@ -27,6 +27,7 @@ export default class SceneObject {
   }
 
   addSubscription(subscription) {
+    subscription.emitter = this.on(subscription.event, subscription.fn);
     this.subscriptions.push(subscription);
   }
 
@@ -35,7 +36,10 @@ export default class SceneObject {
   }
 
   dispose() {
-    this.subscriptions.forEach(subscription => subscription.dispose());
+    this.subscriptions.forEach(subscription => {
+      subscription.emitter.removeListener(subscription.event, subscription.fn);
+      subscription = null;
+    });
     this.subscriptions = [];
 
     this.position = null;
