@@ -1,24 +1,20 @@
 'use strict';
 
-import Immutable from 'immutable';
 import AbstractHttpConveyer from './AbstractHttpConveyer';
 
 export default class MetricConveyer extends AbstractHttpConveyer {
 
-  static getUniqueId({snapshot, metric, min, max, frequency, timeframe}) {
+  static getUniqueId({snapshot, metric, frequency}) {
     return [
       snapshot.get('hostId'),
       snapshot.get('pluginId'),
       snapshot.get('steadyId'),
       metric,
-      min,
-      max,
-      frequency,
-      timeframe
+      frequency
     ].join(',');
   }
 
-  constructor({snapshot, metric, min, max, frequency, timeframe}) {
+  constructor({snapshot, metric, frequency}) {
     super({frequency});
 
     this.requestConfig = {
@@ -29,21 +25,13 @@ export default class MetricConveyer extends AbstractHttpConveyer {
         pluginId: snapshot.get('pluginId'),
         steadyId: snapshot.get('steadyId'),
         metricName: metric,
-        lastn: Math.floor(timeframe / frequency)
+        lastn: 1
       }
     };
-
-    this.previousEvent = Immutable.fromJS({
-      min,
-      max,
-      frequency,
-      timeframe
-    });
   }
 
   stop() {
     super.stop();
-    this.previousEvent = this.previousEvent.set('values', []);
   }
 
   getHttpRequestConfig() {
@@ -51,13 +39,7 @@ export default class MetricConveyer extends AbstractHttpConveyer {
   }
 
   buildNextEvent(response) {
-    const newValues = Immutable.fromJS(response.body);
-    if (Immutable.is(newValues, this.previousEvent.get('values'))) {
-      return false;
-    }
-
-    this.previousEvent = this.previousEvent.set('values', newValues);
-    return this.previousEvent;
+    return response.body[0];
   }
 
 }
