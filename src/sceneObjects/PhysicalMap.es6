@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import {getZone} from 'instana-ui-sdk/zones';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
@@ -72,6 +73,18 @@ export default class PhysicalMap extends SceneObject {
 
   onInventoryUpdate(snapshots) {
     snapshots.forEach(host => this.addHost(host));
+
+    // identify removed hosts
+    const removedHosts = this.zones.reduce((hosts, zone) => {
+      return hosts.concat(zone.hosts);
+    }, [])
+    .filter(host => {
+      const snapshot = snapshots.find(
+        snapshot => isIdEqual(snapshot, host.snapshot)
+      );
+      return !snapshot;
+    });
+
     this.applyLayout(snapshots.size);
     this.parent.renderScene();
   }
