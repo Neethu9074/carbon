@@ -46,3 +46,14 @@ eventBus.emit('focus', {
   zoom: true
 });
 ```
+
+### Showing metrics
+```javascript
+import eventBus from 'instana-ui-services/eventbus';
+
+eventBus.emit('showMetrics', {
+  metrics: [
+    'memory.free.5000.mean'
+  ]
+});
+```
