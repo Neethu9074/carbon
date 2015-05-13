@@ -17,6 +17,7 @@ export default class AbstractMeshCreationFactory {
     this.globalMesh = new THREE.Mesh(this.globalGeometry);
     this.globalMesh.matrixAutoUpdate = false;
     this.globalMesh.renderOrder = 2;
+    this.globalMesh.frustumCulled = false;
 
     //stores all added fragments to create the global geometry
     this.fragments = [];
