@@ -1,5 +1,8 @@
+@import "~font-awesome/less/variables.less";
+@import "~font-awesome/less/mixins.less";
+
 @in-sidebar-content-width: 20em;
-@in-sidebar-tabs-width: 6em;
+@in-sidebar-tabs-width: 5em;
 
 .in-sidebar {
   position: absolute;
@@ -42,11 +45,12 @@
 }
 
 .in-sidebar__tab {
-  height: 6em;
+  height: 5rem;
 
   background: #101519;
   color: #384046;
-  font-size: 0.8em;
+  font-size: 0.65rem;
+  font-weight: 200;
   text-align: center;
 
   cursor: pointer;
@@ -54,5 +58,24 @@
   &--active {
     background: #1A2127;
     color: white;
+  }
+
+  &--overview:before, &--performance:before, &--tags:before {
+    .fa-icon();
+    display: block;
+    font-size: 1.9rem;
+    padding: 0.9rem 0 0.6rem;
+  }
+
+  &--overview:before {
+    content: @fa-var-cubes;
+  }
+
+  &--performance:before {
+    content: @fa-var-tachometer;
+  }
+
+  &--tags:before {
+    content: @fa-var-tags;
   }
 }

@@ -27,6 +27,9 @@ export const Tabs = React.createClass({
       if (i === this.state.selectedTab) {
         classNames += ' ' + blockIdentifier + '__tab--active';
       }
+      if (tab.props.modifier) {
+        classNames += ' ' + blockIdentifier + '__tab--' + tab.props.modifier;
+      }
       return (
         <li key={tab.props.title}
             onClick={this.selectTab.bind(this, i)}

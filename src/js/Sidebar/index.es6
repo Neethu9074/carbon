@@ -13,17 +13,17 @@ const Sidebar = React.createClass({
     return (
       <Tabs blockIdentifier="in-sidebar" collapsible={true}>
 
-        <Tab title="Overview">
+        <Tab title="Overview" modifier="overview">
           <h1 className="in-sidebar__header">Overview</h1>
           <Overview />
         </Tab>
 
-        <Tab title="Performance">
+        <Tab title="Performance" modifier="performance">
           <h1 className="in-sidebar__header">Performance</h1>
           <Performance />
         </Tab>
 
-        <Tab title="Tags">
+        <Tab title="Tags" modifier="tags">
           <h1 className="in-sidebar__header">Tags</h1>
         </Tab>
       </Tabs>
