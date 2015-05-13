@@ -46,6 +46,9 @@ export default class SceneObject {
     this.parent = null;
   }
 
+  removeChild() {
+  }
+
   getHtmlContainer() {
     return this.parent.getHtmlContainer();
   }

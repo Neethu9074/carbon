@@ -272,6 +272,8 @@ export default class Host extends SceneObject {
   }
 
   dispose() {
+    this.parent.removeChild(this);
+
     this.removeSceneObject(this.cube);
     this.removeFromGlobalGeometry();
     this.cube = null;

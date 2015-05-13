@@ -129,6 +129,15 @@ export default class Zone extends SceneObject {
     }
   }
 
+  removeChild(child) {
+    _.remove(this.hosts, host => host.id === child.id);
+
+    if(this.hosts.length === 0) {
+      this.parent.removeChild(this);
+      this.dispose();
+    }
+  }
+
   dispose() {
     this.removeSceneObject(this.ground);
 
@@ -142,7 +151,6 @@ export default class Zone extends SceneObject {
     this.id = null;
     this.hosts = [];
     this.zoneIndex = null;
-    this.parent = null;
 
     //clear three.js cache trough disposing
     this.ground.geometry.dispose();
