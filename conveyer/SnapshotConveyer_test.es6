@@ -80,7 +80,7 @@ describe('conveyer.SnapshotConveyer', () => {
     expect(onNext.callCount).to.equal(0);
   });
 
-  it('should handle successive new messages', () => {
+  it('should handle successive new messages', (done) => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
@@ -89,11 +89,14 @@ describe('conveyer.SnapshotConveyer', () => {
     emitData({
       online: [snapshot(2, 'initial')]
     });
-    const snapshots = onNext.getCall(1).args[0];
-    expect(snapshots.size).to.equal(2);
+    setTimeout(() => {
+      const snapshots = onNext.getCall(1).args[0];
+      expect(snapshots.size).to.equal(2);
+      done();
+    }, 110);
   });
 
-  it('should support edits', () => {
+  it('should support edits', (done) => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
@@ -102,12 +105,15 @@ describe('conveyer.SnapshotConveyer', () => {
     emitData({
       online: [snapshot(2, 'changed')]
     });
-    const snapshots = onNext.getCall(1).args[0];
-    expect(snapshots.size).to.equal(2);
-    expect(snapshots.get(1).get('snapshot')).to.equal('changed');
+    setTimeout(() => {
+      const snapshots = onNext.getCall(1).args[0];
+      expect(snapshots.size).to.equal(2);
+      expect(snapshots.get(1).get('snapshot')).to.equal('changed');
+      done();
+    }, 110);
   });
 
-  it('should support removals', () => {
+  it('should support removals', (done) => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
@@ -116,12 +122,15 @@ describe('conveyer.SnapshotConveyer', () => {
     emitData({
       removed: [snapshot(2)]
     });
-    const snapshots = onNext.getCall(1).args[0];
-    expect(snapshots.size).to.equal(1);
-    expect(snapshots.get(0).get('hostId')).to.equal('h1');
+    setTimeout(() => {
+      const snapshots = onNext.getCall(1).args[0];
+      expect(snapshots.size).to.equal(1);
+      expect(snapshots.get(0).get('hostId')).to.equal('h1');
+      done();
+    }, 110);
   });
 
-  it('should keep existing immutable snapshots on update', () => {
+  it('should keep existing immutable snapshots on update', (done) => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
@@ -131,15 +140,18 @@ describe('conveyer.SnapshotConveyer', () => {
       online: [snapshot(2, 'initial')]
     });
 
-    const initialSnapshots = onNext.getCall(0).args[0];
-    const updatedSnapshots = onNext.getCall(1).args[0];
-    expect(initialSnapshots.get(0)).to.equal(updatedSnapshots.get(0));
+    setTimeout(() => {
+      const initialSnapshots = onNext.getCall(0).args[0];
+      const updatedSnapshots = onNext.getCall(1).args[0];
+      expect(initialSnapshots.get(0)).to.equal(updatedSnapshots.get(0));
 
-    // value changed. The immutable data structure needs to have been updated!
-    expect(initialSnapshots.get(1)).not.to.equal(updatedSnapshots.get(1));
+      // value changed. The immutable data structure needs to have been updated!
+      expect(initialSnapshots.get(1)).not.to.equal(updatedSnapshots.get(1));
+      done();
+    }, 110);
   });
 
-  it('should discard previous values on reconnect', () => {
+  it('should discard previous values on reconnect', (done) => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
@@ -151,9 +163,12 @@ describe('conveyer.SnapshotConveyer', () => {
       online: [snapshot(2, 'afterReconnect')]
     });
 
-    const data = onNext.getCall(1).args[0];
-    expect(data.size).to.equal(1);
-    expect(data.get(0).get('hostId')).to.equal('h2');
+    setTimeout(() => {
+      const data = onNext.getCall(1).args[0];
+      expect(data.size).to.equal(1);
+      expect(data.get(0).get('hostId')).to.equal('h2');
+      done();
+    }, 100);
   });
 
   function emitData({online=[], removed=[]}) {

@@ -1,5 +1,6 @@
 'use strict';
 
+import _ from 'lodash';
 import Immutable from 'immutable';
 import * as connection from '../connection/subscriptionAwareConnection';
 
@@ -23,7 +24,7 @@ export default class SnapshotConveyer {
   }
 
   start(onNext) {
-    this.onNext = onNext;
+    this.onNext = _.throttle(onNext, 100);
 
     this.subscription = connection.emitter.on('message')
       .filter(this.dataEventPredicate)
