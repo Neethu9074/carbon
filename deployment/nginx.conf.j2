@@ -22,7 +22,7 @@ http {
                              '"$http_referer" "$http_user_agent" "$gzip_ratio"';
 
   upstream api {
-    server {{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}};
+    server                   {{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}};
   }
 
   server {
