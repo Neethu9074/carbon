@@ -57,7 +57,8 @@ export default class Zone extends SceneObject {
 
   getZoneLabel(text) {
     const canvas = document.createElement('canvas');
-    const zoneColor = getColor(this.id);
+    let zoneColor = getColor(this.id);
+    zoneColor = zoneColor === undefined ? '#FFFFFF' : zoneColor;
 
     canvas.width = 600;
     canvas.height = 100;
