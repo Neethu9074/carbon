@@ -197,7 +197,7 @@ export default class Host extends SceneObject {
   }
 
   setMetricValue(value) {
-    if(window.location.search.match(/multimetrices/)) {
+    if(window.location.search.match(/multimetrics/)) {
       const frag = this.scene.multiMetricFactory.getFragment(this.id);
       this.createRandomMultiMetricValues(frag.tiles);
     } else {

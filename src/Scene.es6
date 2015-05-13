@@ -109,7 +109,7 @@ export default class Scene {
       numTiles: this.numTiles
     });
 
-    if(window.location.search.match(/metrices/)) {
+    if(window.location.search.match(/metrics/)) {
       setInterval(this.updateHeights.bind(this), 1000);
     }
   }

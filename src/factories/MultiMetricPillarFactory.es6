@@ -30,7 +30,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
       vertexColors: THREE.VertexColors,
-      visible: window.location.search.match(/multimetrices/) ? true : false
+      visible: window.location.search.match(/multimetrics/) ? true : false
     }));
 
     //for each tile there is a part of the geometry added
