@@ -25,7 +25,7 @@ const readyState = {
 // closed: When the connection was closed
 // error: When an error occurred
 // message: When a message was retrieved
-export const emitter = new RxEmitter();
+export const emitter = new RxEmitter('WebSocket Connection');
 
 // this is the URL to which a WebSocket connection can be established. It takes
 // HTTP and HTTPS into account.
