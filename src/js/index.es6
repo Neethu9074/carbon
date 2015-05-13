@@ -11,11 +11,7 @@ import App from './App';
 const consoleAppender = new logging.ConsoleAppender();
 
 // during development we want to see all log messages
-if (__DEV__) {
-  consoleAppender.setActivePriority(0);
-} else {
-  consoleAppender.setActivePriority(10);
-}
+consoleAppender.setActivePriority(0);
 
 logging.addAppender(consoleAppender);
 
