@@ -13,6 +13,7 @@ import Process from './Process';
 
 const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
+const cubeHullThickness = new THREE.Vector3(0, 0.1, 0);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
@@ -66,7 +67,8 @@ export default class Host extends SceneObject {
     const dim = this.cube.scale;
 
     //add fragment to global geometry
-    this.scene.hostFactory.addFragment({id, pos, dim,
+    this.scene.hostFactory.addFragment({id, pos,
+      dim: dim.clone().add(cubeHullThickness),
       health: this.health
     });
 

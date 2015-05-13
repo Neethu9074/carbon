@@ -79,6 +79,15 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       vertices[index++] = [-0.4, bottom, 0.4];
       vertices[index++] = [-0.4, top, 0.4];
       vertices[index++] = [-0.4, top, -0.4];
+
+      //top
+      vertices[index++] = [-0.4, top, 0.4];
+      vertices[index++] = [0.4, top, 0.4];
+      vertices[index++] = [0.4, top, -0.4];
+
+      vertices[index++] = [-0.4, top, 0.4];
+      vertices[index++] = [0.4, top, -0.4];
+      vertices[index++] = [-0.4, top, -0.4];
     }
 
     return vertices;
@@ -92,6 +101,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       const color = (1 / numTiles) * i; //[0, 1]
       colorItems[index++] = [color, color, color];
       colorItems[index++] = [color + 0.1, color + 0.1, color + 0.1];
+      colorItems[index++] = [color, color, color];
     }
   }
 
@@ -174,6 +184,21 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       uvs[cursorPosition + 18] = fromNew;
       uvs[cursorPosition + 20] = toNew;
       uvs[cursorPosition + 22] = toNew;
+
+      //top
+      uvs[cursorPosition + 25] = toOld;
+      uvs[cursorPosition + 27] = toOld;
+      uvs[cursorPosition + 29] = toOld;
+      uvs[cursorPosition + 31] = toOld;
+      uvs[cursorPosition + 33] = toOld;
+      uvs[cursorPosition + 35] = toOld;
+
+      uvs[cursorPosition + 24] = toNew;
+      uvs[cursorPosition + 26] = toNew;
+      uvs[cursorPosition + 28] = toNew;
+      uvs[cursorPosition + 30] = toNew;
+      uvs[cursorPosition + 32] = toNew;
+      uvs[cursorPosition + 34] = toNew;
     }
   }
 /*eslint-enable max-statements */
