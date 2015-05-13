@@ -1,6 +1,6 @@
 {
   "name": "instana-ui-forge",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "",
   "main": "index.es6",
   "scripts": {
