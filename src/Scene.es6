@@ -18,7 +18,6 @@ import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import ProcessFactory from './factories/ProcessFactory';
 import LineFactory from './factories/LineFactory';
 import ZoneFactory from './factories/ZoneFactory';
-import PlaneFactory from './factories/PlaneFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
@@ -101,7 +100,6 @@ export default class Scene {
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
     this.zoneFactory = new ZoneFactory({scene: this});
-    this.planeFactory = new PlaneFactory({scene: this});
     this.cubeFactory = new ProcessFactory({scene: this});
     this.numTiles = 4;
     this.multiMetricFactory = new MultiMetricPillarFactory({
