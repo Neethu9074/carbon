@@ -42,9 +42,9 @@ export default class Zone extends SceneObject {
 
     this.addSceneObject(this.ground);
 
-    const edge = new THREE.EdgesHelper(this.ground, zoneColor);
-    edge.matrixAutoUpdate = false;
-    this.addSceneObject(edge);
+    this.edge = new THREE.EdgesHelper(this.ground, zoneColor);
+    this.edge.matrixAutoUpdate = false;
+    this.addSceneObject(this.edge);
   }
 
   createLabel() {
@@ -140,6 +140,7 @@ export default class Zone extends SceneObject {
 
   dispose() {
     this.removeSceneObject(this.ground);
+    this.removeSceneObject(this.edge);
 
     super.dispose();
 

@@ -272,11 +272,11 @@ export default class Host extends SceneObject {
   }
 
   dispose() {
-    this.parent.removeChild(this);
-
     this.removeSceneObject(this.cube);
     this.removeFromGlobalGeometry();
     this.cube = null;
+
+    this.parent.removeChild(this);
 
     React.unmountComponentAtNode(this.stickyNoteContainer);
     this.stickyNoteContainer.parentNode.removeChild(this.stickyNoteContainer);
