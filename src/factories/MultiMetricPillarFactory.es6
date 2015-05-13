@@ -133,6 +133,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
 
       //two elements per vertex so the offset must shift by 2
       const uvOffset = vertexOffset * 2;
+      const cursorPosition = offset + uvOffset;
 
       //look at the vertex array calculation. the third added vertex has a
       //top position in y, so get it
@@ -146,33 +147,33 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       const fromOld = tile.old.from * scaleY;
       const toOld = tile.old.to * scaleY;
 
-      uvs[offset + uvOffset + 1] = fromOld;
-      uvs[offset + uvOffset + 3] = fromOld;
-      uvs[offset + uvOffset + 5] = toOld;
-      uvs[offset + uvOffset + 7] = fromOld;
-      uvs[offset + uvOffset + 9] = toOld;
-      uvs[offset + uvOffset + 11] = toOld;
+      uvs[cursorPosition + 1] = fromOld;
+      uvs[cursorPosition + 3] = fromOld;
+      uvs[cursorPosition + 5] = toOld;
+      uvs[cursorPosition + 7] = fromOld;
+      uvs[cursorPosition + 9] = toOld;
+      uvs[cursorPosition + 11] = toOld;
 
-      uvs[offset + uvOffset + 13] = fromOld;
-      uvs[offset + uvOffset + 15] = fromOld;
-      uvs[offset + uvOffset + 17] = toOld;
-      uvs[offset + uvOffset + 19] = fromOld;
-      uvs[offset + uvOffset + 21] = toOld;
-      uvs[offset + uvOffset + 23] = toOld;
+      uvs[cursorPosition + 13] = fromOld;
+      uvs[cursorPosition + 15] = fromOld;
+      uvs[cursorPosition + 17] = toOld;
+      uvs[cursorPosition + 19] = fromOld;
+      uvs[cursorPosition + 21] = toOld;
+      uvs[cursorPosition + 23] = toOld;
 
-      uvs[offset + uvOffset + 0] = fromNew;
-      uvs[offset + uvOffset + 2] = fromNew;
-      uvs[offset + uvOffset + 4] = toNew;
-      uvs[offset + uvOffset + 6] = fromNew;
-      uvs[offset + uvOffset + 8] = toNew;
-      uvs[offset + uvOffset + 10] = toNew;
+      uvs[cursorPosition + 0] = fromNew;
+      uvs[cursorPosition + 2] = fromNew;
+      uvs[cursorPosition + 4] = toNew;
+      uvs[cursorPosition + 6] = fromNew;
+      uvs[cursorPosition + 8] = toNew;
+      uvs[cursorPosition + 10] = toNew;
 
-      uvs[offset + uvOffset + 12] = fromNew;
-      uvs[offset + uvOffset + 14] = fromNew;
-      uvs[offset + uvOffset + 16] = toNew;
-      uvs[offset + uvOffset + 18] = fromNew;
-      uvs[offset + uvOffset + 20] = toNew;
-      uvs[offset + uvOffset + 22] = toNew;
+      uvs[cursorPosition + 12] = fromNew;
+      uvs[cursorPosition + 14] = fromNew;
+      uvs[cursorPosition + 16] = toNew;
+      uvs[cursorPosition + 18] = fromNew;
+      uvs[cursorPosition + 20] = toNew;
+      uvs[cursorPosition + 22] = toNew;
     }
   }
 /*eslint-enable max-statements */
