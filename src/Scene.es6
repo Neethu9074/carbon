@@ -108,7 +108,7 @@ export default class Scene {
     });
 
     if(window.location.search.match(/metrics/)) {
-      setInterval(this.updateHeights.bind(this), 1000);
+      //setInterval(this.updateHeights.bind(this), 1000);
     }
   }
 

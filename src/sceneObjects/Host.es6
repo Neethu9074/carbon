@@ -3,8 +3,12 @@
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
+import {create} from 'instana-ui-services/conveyer';
+import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getHealth} from 'instana-ui-sdk/health';
+import {getMaxValue} from 'instana-ui-sdk/metrics';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
+import eventBus from 'instana-ui-services/eventbus';
 
 import SceneObject from './SceneObject';
 import colors from '../colors';
@@ -132,6 +136,22 @@ export default class Host extends SceneObject {
     this.addSubscription({
       event: 'endUpdate',
       fn: this.update.bind(this)
+    });
+
+    eventBus.on('showMetrics').subscribe(e => this.showMetrics(e.metrics));
+  }
+
+  showMetrics(metrics) {
+    metrics.forEach(metric => {
+      const max = getMaxValue(this.snapshot);
+      const observable = create(MetricConveyer, {
+        metric,
+        frequency: 1000,
+        snapshot: this.snapshot
+      });
+      this.addSubscription(observable.subscribe(
+        value => this.setMetricValue(value / max)
+      ));
     });
   }
 
