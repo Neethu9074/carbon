@@ -143,15 +143,13 @@ export default class Host extends SceneObject {
 
   showMetrics(metrics) {
     metrics.forEach(metric => {
-      const max = getMaxValue(this.snapshot);
+      const max = getMaxValue(metric, this.snapshot);
       const observable = create(MetricConveyer, {
         metric,
         frequency: 1000,
         snapshot: this.snapshot
       });
-      this.addSubscription(observable.subscribe(
-        value => this.setMetricValue(value / max)
-      ));
+      observable.subscribe(value => this.setMetricValue(value, max));
     });
   }
 

@@ -8,6 +8,7 @@ import logging from 'instalog';
 import rStats from './lib/rStats';
 import glStats from './lib/rStats.extras';
 import Map from '../../src';
+import eventBus from 'instana-ui-services/eventbus';
 
 const App = React.createClass({
   render() {
@@ -69,6 +70,12 @@ const App = React.createClass({
 export default function init() {
   const consoleAppender = new logging.ConsoleAppender();
   logging.addAppender(consoleAppender);
+
+  setTimeout(() => {
+    eventBus.emit('showMetrics', {
+      metrics: ['memory.free.5000.mean']
+    });
+  }, 3000);
 
   React.render(
     <App/>,
