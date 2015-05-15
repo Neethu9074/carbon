@@ -12,10 +12,14 @@ const SnapshotIcon = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   render() {
+    let classes = 'in-snapshot-icon';
+    if (this.props.className) {
+      classes += ' ' + this.props.className;
+    }
     return (
       <Icon type={getIcon(this.props.snapshot)}
             style={{borderColor: getColor(getZone(this.props.snapshot))}}
-            className='in-snapshot-icon'/>
+            className={classes}/>
     );
   }
 });
