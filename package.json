@@ -1,0 +1,43 @@
+{
+  "name": "instana-ui-components",
+  "version": "1.1.0",
+  "description": "All reusable base UI components such as buttons, charts, icons, tabs... Will supersede all ui-*-charts repos and parts of ui-client",
+  "main": "index.es6",
+  "scripts": {
+    "dev": "open http://localhost:7272/demo && webpack-dev-server --host 0.0.0.0 --port 7272",
+    "test": "eslint --ext .es6 src/ && mocha --require mocha-babel-es6 src/**/*_test.es6 src/*_test.es6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/instana/ui-components.git"
+  },
+  "publishConfig": {
+    "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"
+  },
+  "author": "Ben Ripkens <ben@instana.com>",
+  "dependencies": {
+    "instana-ui-themes": "^1.0.2",
+    "invariant": "^2.0.0",
+    "react": "^0.13.1"
+  },
+  "devDependencies": {
+    "babel": "^5.1.11",
+    "babel-core": "^4.7.13",
+    "babel-loader": "^4.2.0",
+    "chai": "^2.2.0",
+    "css-loader": "^0.9.1",
+    "eslint": "^0.18.0",
+    "file-loader": "^0.8.1",
+    "image-webpack-loader": "^1.2.0",
+    "imagemin": "^3.1.0",
+    "instana-ui-forge": "^1.0.0",
+    "less": "^2.3.1",
+    "less-loader": "^2.0.0",
+    "mocha": "^2.2.4",
+    "mocha-babel-es6": "^1.0.0",
+    "raw-loader": "^0.5.1",
+    "style-loader": "^0.8.3",
+    "webpack": "^1.5.3",
+    "webpack-dev-server": "^1.7.0"
+  }
+}
