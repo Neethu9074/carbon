@@ -1,3 +1,5 @@
+@import "~instana-ui-themes/less/constants.less";
+
 .in-fly-out-notification {
   @indention: 2rem;
 
@@ -7,6 +9,8 @@
 
   border-radius: 0.3rem;
   overflow: hidden;
+
+  z-index: @z-index__fly-out-notifications;
 
   &--ok {
     background: #78F2D9;

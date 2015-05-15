@@ -1,14 +1,16 @@
+@import "~instana-ui-themes/less/constants.less";
+@import "~instana-ui-themes/less/common.less";
+
 body {
   // we are a fullscreen app and have dedicated scrollable areas
   margin: 0;
   overflow: hidden;
-
-  font-family: 'Open Sans', sans-serif;
-  color: #fcfcfc;
 }
 
 .in-root-lettering {
   position: absolute;
   left: 5.9rem;
   top: 1.7em;
+
+  z-index: @z-index__lettering;
 }

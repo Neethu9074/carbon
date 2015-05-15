@@ -1,3 +1,5 @@
+@import "~instana-ui-themes/less/constants.less";
+
 .in-notification-center {
   @width: 23rem;
   width: @width;
@@ -10,6 +12,8 @@
 
   background: #293138;
   transition: margin-left .5s ease;
+
+  z-index: @z-index__notification-center;
 
   &--open {
     margin-left: 0;
@@ -44,4 +48,6 @@
   border-radius: 0.1rem;
 
   transition: left .5s ease;
+
+  z-index: @z-index__notification-center;
 }

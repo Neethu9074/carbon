@@ -1,5 +1,6 @@
 @import "~font-awesome/less/variables.less";
 @import "~font-awesome/less/mixins.less";
+@import "~instana-ui-themes/less/constants.less";
 
 @in-sidebar-content-width: 20em;
 @in-sidebar-tabs-width: 5em;
@@ -12,6 +13,8 @@
   max-height: 50em;
 
   width: @in-sidebar-content-width + @in-sidebar-tabs-width;
+
+  z-index: @z-index__sidebar;
 
   &--collapsed {
     width: @in-sidebar-tabs-width;
