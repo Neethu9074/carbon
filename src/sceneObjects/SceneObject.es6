@@ -53,6 +53,16 @@ export default class SceneObject {
     this.parent.renderScene();
   }
 
+  //hides the visual representation and pauses all live data streaming
+  hide() {
+
+  }
+
+  //show the visual representation and continues all live data streaming
+  show() {
+
+  }
+
   dispose() {
     this.disposeRxSubscriptions();
     this.disposeEE3Subscriptions();

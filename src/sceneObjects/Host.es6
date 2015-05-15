@@ -3,6 +3,7 @@
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
+import Rx from 'rx';
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getHealth} from 'instana-ui-sdk/health';
@@ -52,6 +53,8 @@ export default class Host extends SceneObject {
     if(window.location.search.match(/processes/)) {
       this.addProcesses(snapshot);
     }
+
+    this.show();
   }
 
   render() {
@@ -71,12 +74,24 @@ export default class Host extends SceneObject {
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
 
+    this.addToHostFactory(id, pos, dim);
+    this.addToZoneFactory(id, pos, dim);
+    this.addToLineFactory(id, pos, dim);
+    this.addToMultiMetricFactory(id, pos, dim);
+    this.addToSingleMetricFactory(id, pos, dim);
+  }
+
+  //adds the cube geometry
+  addToHostFactory(id, pos, dim) {
     //add fragment to global geometry
     this.scene.hostFactory.addFragment({id, pos,
       dim: dim.clone().add(cubeHullThickness),
       health: this.health
     });
+  }
 
+  //for the multi metric pillars
+  addToMultiMetricFactory(id, pos, dim) {
     const tiles = [];
     for (let i = 0; i < this.scene.numTiles; i++) {
       tiles[i] = {
@@ -87,15 +102,29 @@ export default class Host extends SceneObject {
     const fragment = {id, pos, dim, tiles};
 
     this.scene.multiMetricFactory.addFragment(fragment);
-    this.scene.singleMetricFactory.addFragment({id, pos, dim, newHeight: 0});
+  }
 
+  //for the single metric pillar
+  addToSingleMetricFactory(id, pos, dim) {
+    this.scene.singleMetricFactory.addFragment({
+      id, pos, dim,
+      newHeight: 0
+    });
+  }
+
+  //not the zone where hosts are!
+  //it's the ground zone of each host for the health
+  addToZoneFactory(id, pos, dim) {
     this.scene.zoneFactory.addFragment({
       id,
       pos: this.cube.position.clone().add(groundPosition),
       dim: dim.clone().add(groundScale),
       health: this.health
     });
+  }
 
+  //this is the visual line between the cube top surface and the sticky note
+  addToLineFactory(id, pos, dim) {
     const lineFactory = this.scene.lineFactory;
     const from = this.cube.position.clone()
       .add(new THREE.Vector3(-0.5, dim.y, 0.5));
@@ -151,18 +180,57 @@ export default class Host extends SceneObject {
 
   showMetrics(metrics) {
     this.disposeRxSubscriptions();
-
     currentMetrics = metrics;
-    metrics.forEach(metric => {
-      const max = getMaxValue(metric, this.snapshot);
-      const observable = create(MetricConveyer, {
-        metric,
-        frequency: 1000,
-        snapshot: this.snapshot
+
+    if(metrics.length === 1) {
+      this.setupSingleMetric(metrics[0]);
+    } else {
+      this.setupMultiMetric(metrics);
+    }
+  }
+
+  setupSingleMetric(metric) {
+    const max = getMaxValue(metric, this.snapshot);
+    const observable = create(MetricConveyer, {
+      metric,
+      frequency: 1000,
+      snapshot: this.snapshot
+    });
+    this.addRxSubscription({
+      metricName: metric,
+      subscription:
+        observable.subscribe(value =>
+          this.setSingleMetricValue(value / max))
+    });
+  }
+
+  setupMultiMetric(metrics) {
+    let max = 0;
+    const subscriptions = metrics.map(metric => {
+      max = getMaxValue(metric, this.snapshot);
+      return create(MetricConveyer, {
+        metric, frequency: 1000, snapshot: this.snapshot
       });
-      this.addRxSubscription(
-        observable.subscribe(value => this.setMetricValue(value / max))
-      );
+    });
+
+    const multiMetricSource = Rx.Observable.combineLatest(
+      subscriptions,
+      function (){
+        const metrices = [];
+        for (let i = 0; i < arguments.length; i++) {
+          metrices[i] = arguments[i];
+        }
+        return metrices;
+      }
+    ).throttle(100);
+
+    const subscription = multiMetricSource.subscribe(value =>
+      this.setMultiMetricValue(value, max)
+    );
+
+    this.addRxSubscription({
+      metricName: 'lalalulu',
+      subscription: subscription
     });
   }
 
@@ -227,13 +295,24 @@ export default class Host extends SceneObject {
     this.addToGlobalGeometry();
   }
 
-  setMetricValue(value) {
-    if(window.location.search.match(/multimetrics/)) {
-      const frag = this.scene.multiMetricFactory.getFragment(this.id);
-      this.createRandomMultiMetricValues(frag.tiles);
-    } else {
-      const frag2 = this.scene.singleMetricFactory.getFragment(this.id);
-      frag2.newHeight = value;
+  setSingleMetricValue(value) {
+    this.scene.singleMetricFactory
+      .getFragment(this.id)
+      .newHeight = value;
+  }
+
+  setMultiMetricValue(values) {
+    const frag = this.scene.multiMetricFactory.getFragment(this.id);
+    const tiles = frag.tiles;
+    tiles[0] = {
+      old: {from: tiles[0].new.from, to: tiles[0].new.to},
+      new: {from: 0, to: values[0]}
+    };
+    for (let i = 1; i < values.length; i++) {
+      tiles[i] = {
+        old: {from: tiles[i].new.from, to: tiles[i].new.to},
+        new: {from: tiles[i - 1].new.to, to: tiles[i - 1].new.to + values[i]}
+      };
     }
   }
 
@@ -293,13 +372,40 @@ export default class Host extends SceneObject {
     });
   }
 
+  show() {
+    super.show();
+
+    const id = this.id;
+    const scene = this.scene;
+
+    scene.hostFactory.enableFragment(id);
+    scene.lineFactory.enableFragment(id);
+    scene.zoneFactory.enableFragment(id);
+    scene.multiMetricFactory.enableFragment(id);
+    scene.singleMetricFactory.enableFragment(id);
+  }
+
+  hide() {
+    super.hide();
+
+    const id = this.id;
+    const scene = this.scene;
+
+    scene.hostFactory.disableFragment(id);
+    scene.lineFactory.disableFragment(id);
+    scene.zoneFactory.disableFragment(id);
+    scene.multiMetricFactory.disableFragment(id);
+    scene.singleMetricFactory.disableFragment(id);
+  }
+
   removeFromGlobalGeometry() {
     const id = this.id;
-    this.scene.hostFactory.removeFragment(id);
-    this.scene.lineFactory.removeFragment(id);
-    this.scene.zoneFactory.removeFragment(id);
-    this.scene.multiMetricFactory.removeFragment(id);
-    this.scene.singleMetricFactory.removeFragment(id);
+    const scene = this.scene;
+    scene.hostFactory.removeFragment(id);
+    scene.lineFactory.removeFragment(id);
+    scene.zoneFactory.removeFragment(id);
+    scene.multiMetricFactory.removeFragment(id);
+    scene.singleMetricFactory.removeFragment(id);
   }
 
   dispose() {

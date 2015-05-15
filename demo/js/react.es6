@@ -73,7 +73,14 @@ export default function init() {
 
   setTimeout(() => {
     eventBus.emit('showMetrics', {
-      metrics: ['memory.free.5000.mean']
+      //metrics: ['memory.free.5000.mean']
+      metrics: [
+        'cpu.user.5000.mean',
+        'cpu.system.5000.mean',
+        'cpu.io.5000.mean',
+        'cpu.steal.5000.mean',
+        'cpu.nice.5000.mean'
+      ]
     });
   }, 1000);
 
