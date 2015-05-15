@@ -59,7 +59,8 @@ const ServerItem = React.createClass({
     );
   },
 
-  toggle() {
+  toggle(e) {
+    e.stopPropagation();
     this.setState({
       open: !this.state.open
     });
