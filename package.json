@@ -4,8 +4,8 @@
   "description": "All reusable base UI components such as buttons, charts, icons, tabs... Will supersede all ui-*-charts repos and parts of ui-client",
   "main": "index.es6",
   "scripts": {
-    "dev": "open http://localhost:7272/demo && webpack-dev-server --host 0.0.0.0 --port 7272",
-    "test": "eslint --ext .es6 src/ && mocha --require mocha-babel-es6 src/**/*_test.es6 src/*_test.es6"
+    "dev": "export BUILD_DEV=true && open http://localhost:7272/demo && webpack-dev-server --host 0.0.0.0 --port 7272",
+    "test": "eslint $(find . -name \"*.es6\" | grep -v \"./node_modules\") && mocha --require mocha-babel-es6 src/**/*_test.es6 src/*_test.es6"
   },
   "repository": {
     "type": "git",
@@ -16,6 +16,9 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+    "font-awesome": "^4.3.0",
+    "instana-ui-sdk": "^1.7.0",
+    "instana-ui-services": "^1.15.0",
     "instana-ui-themes": "^1.0.2",
     "invariant": "^2.0.0",
     "react": "^0.13.1"
@@ -30,6 +33,7 @@
     "file-loader": "^0.8.1",
     "image-webpack-loader": "^1.2.0",
     "imagemin": "^3.1.0",
+    "immutable": "^3.7.2",
     "instana-ui-forge": "^1.0.0",
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
@@ -37,6 +41,7 @@
     "mocha-babel-es6": "^1.0.0",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.8.3",
+    "url-loader": "^0.5.5",
     "webpack": "^1.5.3",
     "webpack-dev-server": "^1.7.0"
   }
