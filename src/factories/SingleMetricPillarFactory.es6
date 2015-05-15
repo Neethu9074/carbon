@@ -131,6 +131,7 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     const mat = this.material;
     const scene = this.scene;
 
+    tween.easing(TWEEN.Easing.Cubic.InOut);
     tween.onStart(function(){
       scene.startAnimation();
     });
@@ -141,6 +142,5 @@ export default class SingleMetricPillarFactory extends MeshFactory {
       scene.stopAnimation();
     });
     tween.start();
-    tween.easing(TWEEN.Easing.Cubic.InOut);
   }
 }
