@@ -21,6 +21,16 @@
   font-size: 0.9em;
   font-weight: 200;
   cursor: pointer;
+
+  // we need to increase specificity in order to avoid CSS file ordering issues
+  .in-sidebar-server-listing__snapshot-toggle {
+    float: right;
+    display: none;
+  }
+
+  &:hover .in-sidebar-server-listing__snapshot-toggle {
+    display: block;
+  }
 }
 
 .in-sidebar-server-listing__listing {
@@ -37,14 +47,5 @@
     margin-left: 4em;
     font-size: 0.9em;
     line-height: 1.6;
-  }
-}
-
-.in-sidebar-server-listing__snapshot-toggle {
-  float: right;
-  display: none;
-
-  .in-sidebar-server-listing__snapshot-label:hover & {
-    display: block;
   }
 }
