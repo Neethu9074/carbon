@@ -25,19 +25,25 @@ module.exports = {
       loader: 'style-loader!css-loader!less-loader'
     }, {
       test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot|\.obj$/i,
-      loader: 'url-loader?limit=2048'
+      loader: 'url-loader?limit=3000'
     }, {
       test: /\.glsl$/i,
       loader: 'raw-loader'
     }, {
       test: /\.es6$/i,
       loader: 'babel-loader'
+    }, {
+      test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: 'file-loader'
+    }, {
+      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+      loader: 'url-loader?limit=10000&mimetype=application/font-woff'
     }]
   },
   plugins: [
     definePlugin
   ],
   resolve: {
-    extensions: ["", ".js", '.es6']
+    extensions: ['', '.js', '.es6']
   }
 };

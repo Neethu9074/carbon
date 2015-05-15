@@ -1,9 +1,11 @@
 'use strict';
 
-import './index.less';
 
 import React from 'react/addons';
 import {formatBytes} from 'instana-ui-services/converters';
+import SnapshotIcon from 'instana-ui-components/SnapshotIcon';
+
+import './index.less';
 
 const rpt = React.PropTypes;
 
@@ -19,7 +21,8 @@ const StickyNote = React.createClass({
     const contents = this.props.snapshot.get('snapshot');
     return (
       <div>
-        <div className="in-sticky-note__host-icon"></div>
+        <SnapshotIcon className="in-sticky-note__host-icon"
+                      snapshot={this.props.snapshot}/>
         <div className="in-sticky-note__content">
           <h2 className="in-sticky-note__host-id">
             {this.props.snapshot.get('hostId')}
