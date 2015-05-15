@@ -2,27 +2,16 @@
 
 .in-fly-out-notification {
   @indention: 2rem;
+  @width: 23rem;
 
-  padding: 1rem 1rem 1rem 3rem;
+  padding: 1rem 1rem 1rem 0;
   margin: 1rem 0 0 @indention;
-  width: 17rem;
+  width: @width;
 
   border-radius: 0.3rem;
   overflow: hidden;
-
   z-index: @z-index__fly-out-notifications;
-
-  &--ok {
-    background: #78F2D9;
-  }
-
-  &--warning {
-    background: #ffda6b;
-  }
-
-  &--danger {
-    background: #FF1744;
-  }
+  background: #293138;
 
   &--enter-active, &--leave-active {
     transition: margin-left 1s ease,
@@ -48,9 +37,49 @@
     height: 0 !important;
   }
 
-  h1 {
+  @icon-width: 5rem;
+  &__icon {
+    float: left;
+    width: @icon-width;
+    text-align: center;
+
+    .icon {
+      display: block;
+      font-size: 1.9rem;
+      color: inherit;
+    }
+
+    span {
+      font-size: 0.8rem;
+    }
+
+    &--ok {
+      color: #78F2D9;
+    }
+
+    &--warning {
+      color: #ffda6b;
+    }
+
+    &--danger {
+      color: #FF1744;
+    }
+  }
+
+  &__content {
+    margin-left: @icon-width;
+    width: @width - @icon-width;
+  }
+
+  &__heading {
     margin: 0;
     padding: 0;
     font-size: 1rem;
+  }
+
+  &__message {
+    margin: 0.5rem 0 0;
+    color: #808589;
+    font-size: 0.9rem;
   }
 }

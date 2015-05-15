@@ -29,7 +29,7 @@ const NotificationCenter = React.createClass({
             <h2>Notification Center</h2>
           </div>
         </div>
-        <Icon type={this.state.open ? 'remove' : 'minus'}
+        <Icon type={this.state.open ? 'remove' : 'bars'}
               className='in-notification-center__toggle'
               onClick={this.toggle} />
       </div>
