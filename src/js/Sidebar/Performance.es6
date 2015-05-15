@@ -29,7 +29,6 @@ const Performance = React.createClass({
       metrics: [
         'cpu.total.user.5000.mean',
         'cpu.total.sys.5000.mean',
-        'cpu.total.idle.5000.mean',
         'cpu.total.wait.5000.mean',
         'cpu.total.nice.5000.mean',
         'cpu.total.steal.5000.mean'
