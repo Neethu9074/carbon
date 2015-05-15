@@ -7,4 +7,5 @@ import './health';
 import './metrics';
 import './power';
 import './sorting';
+import './snapshotIcon';
 import './zones';
