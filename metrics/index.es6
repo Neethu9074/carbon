@@ -14,5 +14,5 @@ addMaxValueLocator(
 
 addMaxValueLocator(
   /^cpu\.(user|system|io|nice|steal|idle)/,
-  () => 100
+  () => 1
 );
