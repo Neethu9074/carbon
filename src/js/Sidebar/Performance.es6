@@ -3,7 +3,7 @@
 import React from 'react';
 import eventBus from 'instana-ui-services/eventbus';
 
-import {Tabs, Tab} from '../components/Tabs';
+import {Tabs, Tab} from 'instana-ui-components/Tabs';
 
 const Performance = React.createClass({
 

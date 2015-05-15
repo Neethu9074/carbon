@@ -8,7 +8,7 @@ import * as constants from 'instana-ui-forge/constants';
 import {sort} from 'instana-ui-sdk/sorting';
 
 import ServerListing from './ServerListing';
-import {Tabs, Tab} from '../components/Tabs';
+import {Tabs, Tab} from 'instana-ui-components/Tabs';
 
 const Overview = React.createClass({
   mixins: [SubscriptionMixin, React.addons.PureRenderMixin],

@@ -5,7 +5,7 @@ import './NotificationCenter.less';
 import React from 'react/addons';
 import classnames from 'instana-ui-services/util/classnames';
 
-import Icon from '../components/Icon';
+import Icon from 'instana-ui-components/Icon';
 
 const NotificationCenter = React.createClass({
   mixins: [React.addons.PureRenderMixin],

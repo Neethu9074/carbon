@@ -5,7 +5,7 @@ import './FlyOutNotification.less';
 import React from 'react/addons';
 import classnames from 'instana-ui-services/util/classnames';
 import {health} from 'instana-ui-sdk/health';
-import Icon from '../components/Icon';
+import Icon from 'instana-ui-components/Icon';
 
 const blockIdentifier = 'in-fly-out-notification';
 

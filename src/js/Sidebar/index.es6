@@ -3,7 +3,7 @@
 import './index.less';
 
 import React from 'react';
-import {Tabs, Tab} from '../components/Tabs';
+import {Tabs, Tab} from 'instana-ui-components/Tabs';
 import Overview from './Overview';
 import Performance from './Performance';
 

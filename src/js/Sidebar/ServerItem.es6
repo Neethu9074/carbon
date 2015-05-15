@@ -10,8 +10,8 @@ import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getColor} from 'instana-ui-sdk/zones';
 
-import Icon from '../components/Icon';
-import SnapshotIcon from '../components/SnapshotIcon';
+import Icon from 'instana-ui-components/Icon';
+import SnapshotIcon from 'instana-ui-components/SnapshotIcon';
 
 const ServerItem = React.createClass({
   mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
