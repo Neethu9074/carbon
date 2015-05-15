@@ -20,12 +20,13 @@ export default class MultiMetricPillarFactory extends MeshFactory {
 
     this.numTiles = numTiles;
 
+    const progress = {
+      type: 'f',
+      value: 0.0
+    };
     this.setMaterial(new THREE.ShaderMaterial({
       uniforms: {
-        progress: {
-          type: 'f',
-          value: 0.0
-        }
+        progress: progress
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
@@ -41,6 +42,15 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     this.calculateColorItems(numTiles);
 
     this.numDifferentColors = colorItems.length;
+
+    const from = {v: 0.0};
+    const to = {v: 1.0};
+    const animation = new TWEEN.Tween(from).to(to, 500);
+    animation.easing(TWEEN.Easing.Cubic.InOut);
+    animation.onStart(() => scene.startAnimation());
+    animation.onUpdate(() => progress.value = from.v);
+    animation.onComplete(() => scene.stopAnimation());
+    this.animation = animation;
   }
 
   addFragment(fragment) {
@@ -129,7 +139,8 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     this.globalGeometry.addAttribute('uv',
       new THREE.BufferAttribute(uvs, numElementsPerUv));
 
-    this.startAnimation();
+    this.animation.stop();
+    this.animation.start();
   }
 
 /*eslint-disable max-statements */
@@ -208,23 +219,4 @@ export default class MultiMetricPillarFactory extends MeshFactory {
   }
 /*eslint-enable max-statements */
 
-  startAnimation() {
-    const from = {v: 0.0};
-    const to = {v: 1.0};
-    const tween = new TWEEN.Tween(from).to(to, 500);
-    const mat = this.material;
-    const scene = this.scene;
-
-    tween.easing(TWEEN.Easing.Cubic.InOut);
-    tween.onStart(function(){
-      scene.startAnimation();
-    });
-    tween.onUpdate(function(){
-      mat.uniforms.progress.value = from.v;
-    });
-    tween.onComplete(function(){
-      scene.stopAnimation();
-    });
-    tween.start();
-  }
 }
