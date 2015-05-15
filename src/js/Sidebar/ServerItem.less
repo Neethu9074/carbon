@@ -13,14 +13,14 @@
 }
 
 .in-sidebar-server-listing__snapshot-label {
-  background: url("~instana-ui-themes/images/icons/server.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  padding: 0 0 0 2em;
   margin-bottom: 0;
   font-size: 0.9em;
   font-weight: 200;
   cursor: pointer;
+
+  .in-snapshot-icon {
+    margin-right: 1rem;
+  }
 
   // we need to increase specificity in order to avoid CSS file ordering issues
   .in-sidebar-server-listing__snapshot-toggle {

@@ -7,8 +7,11 @@ import classnames from 'instana-ui-services/util/classnames';
 import {formatBytes} from 'instana-ui-services/converters';
 import eventBus from 'instana-ui-services/eventbus';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import {getZone} from 'instana-ui-sdk/zones';
+import {getColor} from 'instana-ui-sdk/zones';
 
 import Icon from '../components/Icon';
+import SnapshotIcon from '../components/SnapshotIcon';
 
 const ServerItem = React.createClass({
   mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
@@ -21,6 +24,7 @@ const ServerItem = React.createClass({
 
   render() {
     const snap = this.props.snapshot.get('snapshot');
+    const color = getColor(getZone(this.props.snapshot));
 
     const liClasses = classnames({
       'in-sidebar-server-listing__snapshot': true,
@@ -32,11 +36,13 @@ const ServerItem = React.createClass({
       <li className={liClasses}>
         <h2 className='in-sidebar-server-listing__snapshot-label'
             onClick={this.focus}>
+          <SnapshotIcon snapshot={this.props.snapshot} />
           {this.props.snapshot.get('hostId')}
 
           <Icon type={this.state.open ? 'chevron-up' : 'chevron-down'}
                 className='in-sidebar-server-listing__snapshot-toggle'
-                onClick={this.toggle}/>
+                onClick={this.toggle}
+                style={{borderColor: color}}/>
         </h2>
 
         <dl className='in-sidebar-server-listing__listing'>
