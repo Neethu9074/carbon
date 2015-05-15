@@ -15,7 +15,8 @@ exports.consts = {
   night: {
     common: {
       fontFamily: '\'Open Sans\', sans-serif',
-      fontColor: '#fcfcfc'
+      fontColor: '#fcfcfc',
+      backgroundColor: '#0D1217'
     },
     zIndex: {
       stickyNotes: 1,
