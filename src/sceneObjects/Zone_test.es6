@@ -10,7 +10,8 @@ import Zone from './Zone';
 describe('3D map', () => {
   const parent = {
     addSceneObject() {},
-    removeSceneObject() {}
+    removeSceneObject() {},
+    removeChild() {}
   };
   let zone = new Zone({parent, id: 'id', zoneIndex: 1});
 

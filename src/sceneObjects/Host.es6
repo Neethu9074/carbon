@@ -134,12 +134,14 @@ export default class Host extends SceneObject {
   }
 
   registerEvents() {
-    this.addSubscription({
+    this.addEE3Subscription({
       event: 'endUpdate',
       fn: this.update.bind(this)
     });
 
-    eventBus.on('showMetrics').subscribe(e => this.showMetrics(e.metrics));
+    this.addRxSubscription(
+      eventBus.on('showMetrics').subscribe(e => this.showMetrics(e.metrics))
+    );
 
     //if there are metrics available, show them for new hosts
     if(currentMetrics.length !== 0) {
@@ -148,7 +150,7 @@ export default class Host extends SceneObject {
   }
 
   showMetrics(metrics) {
-    this.disposeSubscriptions();
+    this.disposeRxSubscriptions();
 
     currentMetrics = metrics;
     metrics.forEach(metric => {
@@ -158,18 +160,10 @@ export default class Host extends SceneObject {
         frequency: 1000,
         snapshot: this.snapshot
       });
-      this.eventBusSubscriptions.push(
+      this.addRxSubscription(
         observable.subscribe(value => this.setMetricValue(value / max))
       );
     });
-  }
-
-  disposeSubscriptions() {
-    //dispose old subscriptions
-    if(this.eventBusSubscriptions) {
-      this.eventBusSubscriptions.forEach(sub => sub.dispose);
-    }
-    this.eventBusSubscriptions = [];
   }
 
   update(data) {
@@ -313,14 +307,12 @@ export default class Host extends SceneObject {
     this.removeFromGlobalGeometry();
     this.cube = null;
 
-    this.parent.removeChild(this);
+    super.dispose();
 
     React.unmountComponentAtNode(this.stickyNoteContainer);
     this.stickyNoteContainer.parentNode.removeChild(this.stickyNoteContainer);
     this.stickyNoteEndPosWorld = null;
 
-    this.disposeSubscriptions();
-    super.dispose();
     this.scene = null;
     this.id = null;
     this.snapshot = null;

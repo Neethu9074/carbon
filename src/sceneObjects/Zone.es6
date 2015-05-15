@@ -150,13 +150,13 @@ export default class Zone extends SceneObject {
       this.ground.label.material.dispose();
     }
 
-    this.id = null;
-    this.hosts = [];
-    this.zoneIndex = null;
-
     //clear three.js cache trough disposing
     this.ground.geometry.dispose();
     this.ground.material.dispose();
     this.ground = null;
+
+    this.id = null;
+    this.hosts = [];
+    this.zoneIndex = null;
   }
 }

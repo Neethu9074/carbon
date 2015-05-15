@@ -7,7 +7,8 @@ export default class SceneObject {
   constructor({parent, pos = new THREE.Vector3()}) {
     this.position = pos.clone();
     this.parent = parent;
-    this.subscriptions = [];
+    this.ee3Subscriptions = [];
+    this.rxSubscriptions = [];
   }
 
   setPosition(x, y, z) {
@@ -26,27 +27,17 @@ export default class SceneObject {
     this.parent.removeSceneObject(obj);
   }
 
-  addSubscription(subscription) {
+  addEE3Subscription(subscription) {
     subscription.emitter = this.on(subscription.event, subscription.fn);
-    this.subscriptions.push(subscription);
+    this.ee3Subscriptions.push(subscription);
+  }
+
+  addRxSubscription(subscription) {
+    this.rxSubscriptions.push(subscription);
   }
 
   getScene() {
     return this.parent.getScene();
-  }
-
-  dispose() {
-    this.subscriptions.forEach(subscription => {
-      subscription.emitter.removeListener(subscription.event, subscription.fn);
-      subscription = null;
-    });
-    this.subscriptions = [];
-
-    this.position = null;
-    this.parent = null;
-  }
-
-  removeChild() {
   }
 
   getHtmlContainer() {
@@ -61,4 +52,34 @@ export default class SceneObject {
   renderScene() {
     this.parent.renderScene();
   }
+
+  dispose() {
+    this.disposeRxSubscriptions();
+    this.disposeEE3Subscriptions();
+
+    this.position = null;
+
+    if(this.parent) {
+      this.parent.removeChild(this);
+    }
+    this.parent = null;
+  }
+
+  disposeRxSubscriptions() {
+    this.rxSubscriptions.forEach(subscription => {
+      subscription.dispose();
+      subscription = null;
+    });
+    this.rxSubscriptions = [];
+  }
+
+  disposeEE3Subscriptions() {
+    this.ee3Subscriptions.forEach(subscription => {
+      subscription.emitter.removeListener(subscription.event, subscription.fn);
+      subscription = null;
+    });
+    this.ee3Subscriptions = [];
+  }
+
+  removeChild() {}
 }

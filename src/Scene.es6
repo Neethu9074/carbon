@@ -86,11 +86,16 @@ export default class Scene {
   }
 
   setupEvents() {
-    eventBus.on('focus').subscribe(e =>
-      this.onFocus(e));
+    this.subscriptions = [];
 
-    eventBus.on('updateMetricHostEventName').subscribe(e =>
-      this.onUpdateHostMetricValue(e));
+    this.subscriptions.push(
+      eventBus.on('focus').subscribe(e =>this.onFocus(e))
+    );
+
+    this.subscriptions.push(
+      eventBus.on('updateMetricHostEventName').subscribe(e =>
+        this.onUpdateHostMetricValue(e))
+    );
 
     //TODO: defined external events and listen to them
   }
@@ -428,6 +433,7 @@ export default class Scene {
 
   //set this flag if the update loop should be stoped
   dispose() {
+    this.subscriptions.forEach(sub => sub.dispose());
     this.disposed = true;
   }
 }
