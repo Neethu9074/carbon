@@ -31,9 +31,7 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
     //get all enabled fragments
     const frags = this.getLegalFragments();
     const numCubes = frags.length;
-    const colorsPerCube =
-      this.numDifferentColors *
-      this.numVerticesPerFace;
+    const colorsPerCube = this.numDifferentColors * this.numVerticesPerFace;
     const vertices = new Float32Array(
       numCubes *
       this.vertexPos.length *
@@ -47,16 +45,19 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
 
     for (let i = 0; i < numCubes; i++) {
       const fragment = frags[i];
-      const pos = fragment.pos;
-      const dim = fragment.dim;
       const offset = i * this.vertexPos.length * this.numElementPerVertex;
       const colorItems = this.getColorArrayForFragment(fragment);
 
-      this.fillVertices({vertices, pos, dim, offset});
+      this.fillVertices({
+        vertices,
+        pos: fragment.pos,
+        dim: fragment.dim,
+        offset
+      });
       this.fillColors({colors, cubeIndex: i, colorItems});
     }
 
-    this.createGlobalMesh(vertices, colors);
+    this.createGlobalMesh({vertices, colors});
   }
 
   fillVertices({vertices, offset, pos, dim}) {
@@ -83,7 +84,7 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
     return this.colorItemsDefault;
   }
 
-  createGlobalMesh(vertices, colors) {
+  createGlobalMesh({vertices, colors}) {
     this.scene.removeSceneObject(this.globalMesh);
 
     //update the geometies position array

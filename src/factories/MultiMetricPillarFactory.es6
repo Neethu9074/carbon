@@ -54,6 +54,11 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     super.addFragment(fragment);
   }
 
+  rebuild() {
+    super.rebuild();
+    this.updateHeights();
+  }
+
 /*eslint-disable max-statements */
   calculateVertices(numTiles) {
     const vertices = [];
@@ -118,7 +123,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       numCubes * this.vertexPos.length * numElementsPerUv);
 
     for (let i = 0; i < numCubes; i++) {
-      this.fillUvs({uvs, iCube: i, fragment: frags[i]});
+      this.setHeightToUvs({uvs, iCube: i, fragment: frags[i]});
     }
 
     this.globalGeometry.addAttribute('uv',
@@ -128,7 +133,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
   }
 
 /*eslint-disable max-statements */
-  fillUvs({uvs, iCube, fragment}) {
+  setHeightToUvs({uvs, iCube, fragment}) {
     const tiles = fragment.tiles;
     const numVertices = this.vertexPos.length;
     const scaleY = fragment.dim.y;

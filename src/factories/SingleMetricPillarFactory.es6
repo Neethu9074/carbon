@@ -66,6 +66,11 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     this.numDifferentColors = 3;
   }
 
+  rebuild() {
+    super.rebuild();
+    this.updateHeights();
+  }
+
   getColorArrayForFragment() {
     return colorItemsOk;
   }
@@ -85,7 +90,13 @@ export default class SingleMetricPillarFactory extends MeshFactory {
       const offset = i * this.vertexPos.length * numElementsPerUv;
 
       fragment.height = newHeight;
-      this.fillUvs({uvs, offset, newHeight, oldHeight, scale: fragment.dim.y});
+      this.setHeightToUvs({
+        uvs,
+        offset,
+        newHeight,
+        oldHeight,
+        scale: fragment.dim.y
+      });
     }
 
     this.globalGeometry.addAttribute('uv',
@@ -94,7 +105,7 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     this.startAnimation();
   }
 
-  fillUvs({uvs, offset, newHeight, oldHeight, scale}) {
+  setHeightToUvs({uvs, offset, newHeight, oldHeight, scale}) {
     //copy positions into global array
     for (let iVertex = 0; iVertex < this.vertexPos.length; iVertex++) {
 
