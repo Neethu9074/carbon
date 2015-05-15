@@ -28,12 +28,11 @@ function walkConstants(path, obj) {
 
 function addConstant(path, value) {
   var key = toSpinalCase(path.join('__'));
-  console.log(path, 'to', key);
   stylesheet += '@' + key + ': ' + value + ';\n';
 }
 
 function toSpinalCase(name) {
   return name.replace(/([a-z])([A-Z])/g, function(match, g1, g2) {
     return g1 + '-' + g2.toLowerCase();
-  })
+  });
 }

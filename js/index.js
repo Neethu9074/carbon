@@ -14,8 +14,14 @@ var colors = {
 exports.consts = {
   night: {
     common: {
-      fontFamily: 'sans-serif',
-      fontColor: '#ddd'
+      fontFamily: '\'Open Sans\', sans-serif',
+      fontColor: '#fcfcfc'
+    },
+    zIndex: {
+      stickyNotes: 1,
+      flyOutNotifications: 2,
+      sidebar: 3,
+      notificationCenter: 4
     },
     charts: {
       areaChart: {
