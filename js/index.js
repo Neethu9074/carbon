@@ -21,7 +21,8 @@ exports.consts = {
       stickyNotes: 1,
       flyOutNotifications: 2,
       sidebar: 3,
-      notificationCenter: 4
+      notificationCenter: 4,
+      lettering: 5
     },
     charts: {
       areaChart: {
