@@ -205,9 +205,7 @@ export default class Host extends SceneObject {
   }
 
   setupMultiMetric(metrics) {
-    let max = 0;
     const subscriptions = metrics.map(metric => {
-      max = getMaxValue(metric, this.snapshot);
       return create(MetricConveyer, {
         metric, frequency: 1000, snapshot: this.snapshot
       });
@@ -225,7 +223,7 @@ export default class Host extends SceneObject {
     ).throttle(100);
 
     const subscription = multiMetricSource.subscribe(value =>
-      this.setMultiMetricValue(value, max)
+      this.setMultiMetricValue(value)
     );
 
     this.addRxSubscription(subscription);
