@@ -3,16 +3,15 @@
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
-import Rx from 'rx';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {create} from 'instana-ui-services/conveyer';
+import {combine} from 'instana-ui-services/util/serviceMethods';
 import {getHealth} from 'instana-ui-sdk/health';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 
 import SceneObject from './SceneObject';
-import colors from '../colors';
 import StickyNote from './StickyNote';
 import Process from './Process';
 
@@ -211,17 +210,7 @@ export default class Host extends SceneObject {
       });
     });
 
-    const multiMetricSource = Rx.Observable.combineLatest(
-      subscriptions,
-      function (){
-        const metrices = [];
-        for (let i = 0; i < arguments.length; i++) {
-          metrices[i] = arguments[i];
-        }
-        return metrices;
-      }
-    ).throttle(100);
-
+    const multiMetricSource = combine(subscriptions).throttle(200);
     const subscription = multiMetricSource.subscribe(value =>
       this.setMultiMetricValue(value)
     );
