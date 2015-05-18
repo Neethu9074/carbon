@@ -1,10 +1,10 @@
 /*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions, no-unused-vars, max-len */
+/*eslint-disable no-unused-expressions, max-len */
 'use strict';
 
 import {expect} from 'chai';
 import sinon from 'sinon';
-import {create, combine} from './index';
+import {create} from './index';
 
 
 describe('conveyer', () => {

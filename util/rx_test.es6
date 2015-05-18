@@ -4,7 +4,7 @@
 
 import {expect} from 'chai';
 import sinon from 'sinon';
-import {combine} from './serviceMethods';
+import {combine} from './rx';
 import {create} from '../conveyer/index';
 
 
