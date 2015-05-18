@@ -3,7 +3,6 @@
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {create} from 'instana-ui-services/conveyer';
 import {combine} from 'instana-ui-services/util/rx';
 import {getHealth} from 'instana-ui-sdk/health';
@@ -14,6 +13,8 @@ import eventBus from 'instana-ui-services/eventbus';
 import SceneObject from './SceneObject';
 import StickyNote from './StickyNote';
 import Process from './Process';
+
+import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 
 const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
