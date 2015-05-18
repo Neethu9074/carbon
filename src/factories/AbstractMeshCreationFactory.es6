@@ -45,8 +45,13 @@ export default class AbstractMeshCreationFactory {
     }
   }
 
-  addFragment() {
-    throw {message: 'NOT IMPLEMENTED EXCEPTION'};
+  addFragment(fragment) {
+    this.fragments.push(fragment);
+    fragment.indexInList = this.fragments.indexOf(fragment);
+
+    //set rebuild to true
+    //so that the mesh will be generated on the next event
+    this.rebuildGlobalMesh = true;
   }
 
   getFragment(id) {
@@ -55,6 +60,12 @@ export default class AbstractMeshCreationFactory {
 
   removeFragment(id) {
     _.remove(this.fragments, fragment => fragment.id === id);
+
+    this.fragments.forEach(fragment => {
+      fragment.indexInList = this.fragments.indexOf(fragment);
+    });
+
+    this.rebuildGlobalMesh = true;
   }
 
   //abstract rebuild method has to be implemented
