@@ -326,13 +326,13 @@ export default class Host extends SceneObject {
     if(health === this.health) {
       return;
     }
-
-    this.health = health;
-    this.changeColorInFactory(this.id, health, this.scene.hostFactory);
-
     const id = this.id;
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
+
+    this.health = health;
+    this.changeColorInFactory(id, health, this.scene.hostFactory);
+
     this.scene.zoneFactory.removeFragment(id);
     this.addToZoneFactory(id, pos, dim);
   }
