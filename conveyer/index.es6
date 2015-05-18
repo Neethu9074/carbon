@@ -1,6 +1,6 @@
 'use strict';
 
-import rx from 'rx';
+import Rx from 'rx';
 
 export function create(Conveyer, params) {
   params = params || {};
@@ -20,7 +20,7 @@ export function create(Conveyer, params) {
   let stoppedOnce = false;
   let lastValue = null;
 
-  const observable = rx.Observable.create(observer => {
+  const observable = Rx.Observable.create(observer => {
     if (stoppedOnce) {
       const err = 'Observables may not be reused once everyone unsubscribed!';
       throw new Error(err);

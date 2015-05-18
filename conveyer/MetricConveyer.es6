@@ -41,5 +41,4 @@ export default class MetricConveyer extends AbstractHttpConveyer {
   buildNextEvent(response) {
     return response.body[0];
   }
-
 }
