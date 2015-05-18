@@ -8,12 +8,12 @@ import logging from 'instalog';
 
 import App from './App';
 
-const consoleAppender = new logging.ConsoleAppender();
-
-// during development we want to see all log messages
-consoleAppender.setActivePriority(0);
-
-logging.addAppender(consoleAppender);
+if (logging.ConsoleAppender.isPossible()) {
+  const consoleAppender = new logging.ConsoleAppender();
+  // during development we want to see all log messages
+  consoleAppender.setActivePriority(0);
+  logging.addAppender(consoleAppender);
+}
 
 React.render(
   <App />,
