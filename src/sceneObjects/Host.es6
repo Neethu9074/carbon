@@ -4,8 +4,8 @@ import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
 import Rx from 'rx';
-import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
+import {create} from 'instana-ui-services/conveyer';
 import {getHealth} from 'instana-ui-sdk/health';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
@@ -228,10 +228,7 @@ export default class Host extends SceneObject {
       this.setMultiMetricValue(value, max)
     );
 
-    this.addRxSubscription({
-      metricName: 'lalalulu',
-      subscription: subscription
-    });
+    this.addRxSubscription(subscription);
   }
 
   update(data) {
