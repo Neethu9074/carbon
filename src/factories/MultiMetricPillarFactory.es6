@@ -20,19 +20,8 @@ export default class MultiMetricPillarFactory extends MeshFactory {
 
     this.numTiles = numTiles;
 
-    const progress = {
-      type: 'f',
-      value: 0.0
-    };
-    this.setMaterial(new THREE.ShaderMaterial({
-      uniforms: {
-        progress: progress
-      },
-      vertexShader: vertexShader,
-      fragmentShader: fragmentShader,
-      vertexColors: THREE.VertexColors,
-      visible: window.location.search.match(/multimetrics/) ? true : false
-    }));
+    const progress = {type: 'f', value: 0.0};
+    this.setupMaterial(progress);
 
     //for each tile there is a part of the geometry added
     this.vertexPos = this.calculateVertices(numTiles);
@@ -51,6 +40,18 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     animation.onComplete(() => scene.stopAnimation());
     animation.onUpdate((v) => progress.value = v);
     this.animation = animation;
+  }
+
+  setupMaterial(progress) {
+    this.setMaterial(new THREE.ShaderMaterial({
+      uniforms: {
+        progress: progress
+      },
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
+      vertexColors: THREE.VertexColors,
+      visible: window.location.search.match(/multimetrics/) ? true : false
+    }));
   }
 
   addFragment(fragment) {
@@ -72,37 +73,40 @@ export default class MultiMetricPillarFactory extends MeshFactory {
 /*eslint-disable max-statements */
   calculateVertices(numTiles) {
     const vertices = [];
+    const normalCubeWidthHalf = (1.0 / 2.0);
+    const widthInPercent = 0.8;
+    const tx = normalCubeWidthHalf * widthInPercent;
     let index = 0;
 
     for (let i = 0; i < numTiles; i++) {
       const bottom = (1 / numTiles) * (i);
       const top = (1 / numTiles) * (i + 1);
       //front
-      vertices[index++] = [-0.4, bottom, 0.4];
-      vertices[index++] = [0.4, bottom, 0.4];
-      vertices[index++] = [0.4, top, 0.4];
+      vertices[index++] = [-tx, bottom, tx];
+      vertices[index++] = [tx, bottom, tx];
+      vertices[index++] = [tx, top, tx];
 
-      vertices[index++] = [-0.4, bottom, 0.4];
-      vertices[index++] = [0.4, top, 0.4];
-      vertices[index++] = [-0.4, top, 0.4];
+      vertices[index++] = [-tx, bottom, tx];
+      vertices[index++] = [tx, top, tx];
+      vertices[index++] = [-tx, top, tx];
 
       //left
-      vertices[index++] = [-0.4, bottom, -0.4];
-      vertices[index++] = [-0.4, bottom, 0.4];
-      vertices[index++] = [-0.4, top, -0.4];
+      vertices[index++] = [-tx, bottom, -tx];
+      vertices[index++] = [-tx, bottom, tx];
+      vertices[index++] = [-tx, top, -tx];
 
-      vertices[index++] = [-0.4, bottom, 0.4];
-      vertices[index++] = [-0.4, top, 0.4];
-      vertices[index++] = [-0.4, top, -0.4];
+      vertices[index++] = [-tx, bottom, tx];
+      vertices[index++] = [-tx, top, tx];
+      vertices[index++] = [-tx, top, -tx];
 
       //top
-      vertices[index++] = [-0.4, top, 0.4];
-      vertices[index++] = [0.4, top, 0.4];
-      vertices[index++] = [0.4, top, -0.4];
+      vertices[index++] = [-tx, top, tx];
+      vertices[index++] = [tx, top, tx];
+      vertices[index++] = [tx, top, -tx];
 
-      vertices[index++] = [-0.4, top, 0.4];
-      vertices[index++] = [0.4, top, -0.4];
-      vertices[index++] = [-0.4, top, -0.4];
+      vertices[index++] = [-tx, top, tx];
+      vertices[index++] = [tx, top, -tx];
+      vertices[index++] = [-tx, top, -tx];
     }
 
     return vertices;
@@ -173,6 +177,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       const fromOld = tile.old.from * scaleY;
       const toOld = tile.old.to * scaleY;
 
+      //front
       uvs[cursorPosition + 1] = fromOld;
       uvs[cursorPosition + 3] = fromOld;
       uvs[cursorPosition + 5] = toOld;
@@ -187,6 +192,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       uvs[cursorPosition + 21] = toOld;
       uvs[cursorPosition + 23] = toOld;
 
+      //left
       uvs[cursorPosition + 0] = fromNew;
       uvs[cursorPosition + 2] = fromNew;
       uvs[cursorPosition + 4] = toNew;
@@ -218,5 +224,4 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     }
   }
 /*eslint-enable max-statements */
-
 }
