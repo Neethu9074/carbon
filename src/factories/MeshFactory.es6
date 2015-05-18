@@ -79,11 +79,11 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
       this.vertexPos.length *
       this.numElementPerVertex;
 
-    for (let i2 = 0; i2 < this.numDifferentColors; i2++) {
+    for (let i = 0; i < this.numDifferentColors; i++) {
       for (let i3 = 0; i3 < this.numVerticesPerFace; i3++) {
-        colors[colorIndex++] = color[i2][0];
-        colors[colorIndex++] = color[i2][1];
-        colors[colorIndex++] = color[i2][2];
+        colors[colorIndex++] = color[i][0];
+        colors[colorIndex++] = color[i][1];
+        colors[colorIndex++] = color[i][2];
       }
     }
 

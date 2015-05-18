@@ -59,7 +59,7 @@ export default class AbstractMeshCreationFactory {
 
   removeFragment(id) {
     _.remove(this.fragments, fragment => fragment.id === id);
-    
+
     this.rebuildGlobalMesh = true;
   }
 
