@@ -69,6 +69,7 @@ const App = React.createClass({
 
 export default function init() {
   const consoleAppender = new logging.ConsoleAppender();
+  consoleAppender.setActivePriority(11);
   logging.addAppender(consoleAppender);
 
   setTimeout(() => {

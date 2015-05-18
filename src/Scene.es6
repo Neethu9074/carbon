@@ -112,9 +112,7 @@ export default class Scene {
       numTiles: this.numTiles
     });
 
-    if(window.location.search.match(/metrics/)) {
-      setInterval(this.updateHeights.bind(this), 1000);
-    }
+    setInterval(this.updateMetricHeights.bind(this), 1000);
   }
 
   setupOctree() {
@@ -249,6 +247,14 @@ export default class Scene {
     frustum.setFromMatrix(projScreenMatrix);
   }
 
+  updateMetricHeights() {
+    this.emitter.emit('upateMetricHeights');
+
+    //TODO: switch between if single or multi is active
+    this.singleMetricFactory.updateHeights();
+    this.multiMetricFactory.updateHeights();
+  }
+
   updateMaterialsByZoomLevel(zoomLevel) {
     if (this.controller === undefined) {
       return;
@@ -354,11 +360,6 @@ export default class Scene {
     if (obj.collisionObject !== undefined) {
       this.octree.remove(obj.collisionObject);
     }
-  }
-
-  updateHeights() {
-    this.singleMetricFactory.updateHeights();
-    this.multiMetricFactory.updateHeights();
   }
 
   getWorldPosition() {

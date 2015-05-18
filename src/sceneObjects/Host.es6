@@ -5,7 +5,7 @@ import React from 'react';
 import _ from 'lodash';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {create} from 'instana-ui-services/conveyer';
-import {combine} from 'instana-ui-services/util/serviceMethods';
+import {combine} from 'instana-ui-services/util/rx';
 import {getHealth} from 'instana-ui-sdk/health';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
@@ -167,6 +167,11 @@ export default class Host extends SceneObject {
       fn: this.update.bind(this)
     });
 
+    this.addEE3Subscription({
+      event: 'upateMetricHeights',
+      fn: this.updateMetricHeight.bind(this)
+    });
+
     this.addRxSubscription(
       eventBus.on('showMetrics').subscribe(e => this.showMetrics(e.metrics))
     );
@@ -211,11 +216,45 @@ export default class Host extends SceneObject {
     });
 
     const multiMetricSource = combine(subscriptions).throttle(200);
-    const subscription = multiMetricSource.subscribe(value =>
+    this.addRxSubscription(multiMetricSource.subscribe(value =>
       this.setMultiMetricValue(value)
-    );
+    ));
+  }
 
-    this.addRxSubscription(subscription);
+  setSingleMetricValue(value) {
+    this.scene.singleMetricFactory
+      .getFragment(this.id)
+      .newHeight = value;
+  }
+
+  setMultiMetricValue(values) {
+    this.newMetricValues = values;
+  }
+
+  updateMetricHeight() {
+    const frag = this.scene.multiMetricFactory.getFragment(this.id);
+    const tiles = frag.tiles;
+    let values = [];
+    let useOldPos = this.newMetricValues === undefined;
+
+    if(!useOldPos) {
+      values = this.newMetricValues;
+      this.newMetricValues = undefined;
+    } else {
+      values = tiles.map((t) => { return t.new.to; });
+    }
+
+    tiles[0] = {
+      old: {from: tiles[0].new.from, to: tiles[0].new.to},
+      new: {from: 0, to: values[0]}
+    };
+    for (let i = 1; i < values.length; i++) {
+      tiles[i] = {
+        old: {from: tiles[i].new.from, to: tiles[i].new.to},
+        new: {from: tiles[i - 1].new.to,
+          to: useOldPos ? values[i] : tiles[i - 1].new.to + values[i]}
+      };
+    }
   }
 
   update(data) {
@@ -258,6 +297,11 @@ export default class Host extends SceneObject {
   }
 
   setPosition(x, y, z) {
+    const pos = this.getPosition();
+    if(pos.x === x && pos.y === y && pos.z === z) {
+      return;
+    }
+
     super.setPosition(x, y, z);
     this.cube.position.set(x, y, z);
 
@@ -267,6 +311,10 @@ export default class Host extends SceneObject {
   }
 
   setHeight(height) {
+    if(height === this.cube.scale.y) {
+      return;
+    }
+
     this.cube.scale.y = height;
 
     this.refreshMesh();
@@ -274,52 +322,16 @@ export default class Host extends SceneObject {
   }
 
   setHealth(health) {
+    if(health === this.health) {
+      return;
+    }
+
     this.health = health;
-    this.removeFromGlobalGeometry();
-    this.addToGlobalGeometry();
-  }
 
-  setSingleMetricValue(value) {
-    this.scene.singleMetricFactory
-      .getFragment(this.id)
-      .newHeight = value;
-  }
-
-  setMultiMetricValue(values) {
-    const frag = this.scene.multiMetricFactory.getFragment(this.id);
-    const tiles = frag.tiles;
-    tiles[0] = {
-      old: {from: tiles[0].new.from, to: tiles[0].new.to},
-      new: {from: 0, to: values[0]}
-    };
-    for (let i = 1; i < values.length; i++) {
-      tiles[i] = {
-        old: {from: tiles[i].new.from, to: tiles[i].new.to},
-        new: {from: tiles[i - 1].new.to, to: tiles[i - 1].new.to + values[i]}
-      };
-    }
-  }
-
-  createRandomMultiMetricValues(tiles) {
-    const rStart = Math.random();
-    let total = rStart;
-    tiles[0] = {
-      old: {from: tiles[0].new.from, to: tiles[0].new.to},
-      new: {from: 0, to: rStart}
-    };
-    for (let i = 1; i < this.scene.numTiles; i++) {
-      const randomHeight = Math.random();
-      total += randomHeight;
-      tiles[i] = {
-        old: {from: tiles[i].new.from, to: tiles[i].new.to},
-        new: {from: tiles[i - 1].new.to, to: tiles[i - 1].new.to + randomHeight}
-      };
-    }
-
-    for (let i = 0; i < tiles.length; i++) {
-      tiles[i].new.from /= total;
-      tiles[i].new.to /= total;
-    }
+    this.scene.zoneFactory.removeFragment(this.id);
+    this.scene.hostFactory.removeFragment(this.id);
+    this.addToZoneFactory();
+    this.addToHostFactory();
   }
 
   refreshMesh() {
