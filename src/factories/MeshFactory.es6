@@ -19,14 +19,6 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
     this.colorIndex = 0;
   }
 
-  addFragment(fragment) {
-    this.fragments.push(fragment);
-
-    //set rebuild to true
-    //so that the mesh will be generated on the next event
-    this.rebuildGlobalMesh = true;
-  }
-
   rebuild() {
     //get all enabled fragments
     const frags = this.getLegalFragments();
@@ -54,7 +46,7 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
         dim: fragment.dim,
         offset
       });
-      this.fillColors({colors, cubeIndex: i, colorItems});
+      this.fillColors({colors, colorItems});
     }
 
     this.createGlobalMesh({vertices, colors});
@@ -78,6 +70,24 @@ export default class MeshFactory extends AbstractMeshCreationFactory {
         colors[this.colorIndex++] = colorItems[i2][2];
       }
     }
+  }
+
+  changeColorOfFragment(fragment, color) {
+    const indexOfFragment = this.fragments.indexOf(fragment);
+    const colors = this.globalGeometry.attributes.color.array;
+    let colorIndex = indexOfFragment *
+      this.vertexPos.length *
+      this.numElementPerVertex;
+
+    for (let i2 = 0; i2 < this.numDifferentColors; i2++) {
+      for (let i3 = 0; i3 < this.numVerticesPerFace; i3++) {
+        colors[colorIndex++] = color[i2][0];
+        colors[colorIndex++] = color[i2][1];
+        colors[colorIndex++] = color[i2][2];
+      }
+    }
+
+    this.globalGeometry.attributes.color.needsUpdate = true;
   }
 
   getColorArrayForFragment() {

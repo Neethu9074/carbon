@@ -328,11 +328,21 @@ export default class Host extends SceneObject {
     }
 
     this.health = health;
+    this.changeColorInFactory(this.id, health, this.scene.hostFactory);
 
-    this.scene.zoneFactory.removeFragment(this.id);
-    this.scene.hostFactory.removeFragment(this.id);
-    this.addToZoneFactory();
-    this.addToHostFactory();
+    const id = this.id;
+    const pos = this.cube.position.clone().add(cubePosition);
+    const dim = this.cube.scale;
+    this.scene.zoneFactory.removeFragment(id);
+    this.addToZoneFactory(id, pos, dim);
+  }
+
+  changeColorInFactory(id, health, factory) {
+    const fragment = factory.getFragment(this.id);
+    fragment.health = health;
+
+    factory.changeColorOfFragment(fragment,
+      factory.getColorArrayForFragment(fragment));
   }
 
   refreshMesh() {
