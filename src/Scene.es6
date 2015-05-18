@@ -150,11 +150,11 @@ export default class Scene {
 
   setupRenderer(width, height) {
     this.renderer = new THREE.WebGLRenderer({
-      precision: 'highp',
       antialias: true
     });
     this.renderer.setSize(width, height);
     this.renderer.setClearColor(colors.renderClearColor);
+    this.renderer.shadowMapEnabled = false;
 
     //add webGLRenderer to dom element
     this.parent.appendChild(this.renderer.domElement);
