@@ -8,7 +8,7 @@ import {combine} from './rx';
 import {create} from '../conveyer/index';
 
 
-describe('conveyer', () => {
+describe('util.rx', () => {
   let Conveyer, Conveyer2;
   let conveyerInstance, conveyerInstance2;
 

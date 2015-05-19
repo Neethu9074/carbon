@@ -2,11 +2,10 @@
 
 import Rx from 'rx';
 
-
 export function combine(subscriptions) {
-  const multiMetricSource = Rx.Observable.combineLatest(
+  return Rx.Observable.combineLatest(
     subscriptions,
-    function (){
+    function() {
       const values = [];
       for (let i = 0; i < arguments.length; i++) {
         values[i] = arguments[i];
@@ -14,6 +13,4 @@ export function combine(subscriptions) {
       return values;
     }
   );
-
-  return multiMetricSource;
 }
