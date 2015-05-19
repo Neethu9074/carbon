@@ -1,16 +1,43 @@
 'use strict';
 
+
+export const health = {
+  ok: 'ok',
+  warning: 'warning',
+  danger: 'danger'
+};
+
+/**
+ * Gets the max severity of all problems and maps them to a health string.
+ *
+ * @param {immutable} snapshot - the snapshot of a host
+ * @returns {string} the mapped string for severity
+ */
+export function getHealth(snapshot) {
+  const severity = getMaxSeverity(snapshot);
+  if(severity > 8) {
+    return health.danger;
+  } else if(severity > 4) {
+    return health.warning;
+  }
+  return health.ok;
+}
+
 /**
  * Iterates through all the problems and searches for the most important one.
  * Retuns a number [0, 10] which is the highest found severity
  * inside the problem.
  *
- * @param {collection} status - The collection, holding all problems
+ * @param {immutable} snapshot - the snapshot of a host
  * @returns {number} highest found severity
  */
-export function getHealth(status) {
+export function getMaxSeverity(snapshot) {
+  if(snapshot === undefined) {
+    return 0;
+  }
+
   let maxSeverity = 0;
-  iterateTrough(status, (hardware) => {
+  iterateTrough(snapshot.getIn(['snapshot', 'status']), (hardware) => {
     iterateTrough(hardware, (part) => {
       iterateTrough(part.get('problems'), (problem) =>{
         const severity = problem.get('severity');
