@@ -42,7 +42,7 @@ export default class Host extends SceneObject {
     this.scene = this.getScene();
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
-    this.health = this.mapSnapshotSeverityToHealth(snapshot);
+    this.health = getHealth(snapshot);
 
     this.render();
     this.addStickyNote();
@@ -55,16 +55,6 @@ export default class Host extends SceneObject {
     }
 
     this.show();
-  }
-
-  mapSnapshotSeverityToHealth(snapshot) {
-    const severity = getHealth(snapshot.getIn(['snapshot', 'status']));
-    if(severity > 8) {
-      return 'danger';
-    } else if(severity > 4) {
-      return 'warning';
-    }
-    return 'ok';
   }
 
   render() {
@@ -303,7 +293,7 @@ export default class Host extends SceneObject {
 
   onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
-    this.setHealth(this.mapSnapshotSeverityToHealth(snapshot));
+    this.setHealth(getHealth(snapshot));
     this.renderStickyNote();
   }
 
