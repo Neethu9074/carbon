@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import TWEEN from 'tween.js'
+import Tween from 'tween.js'
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 
@@ -62,12 +62,7 @@ export default class Scene {
   }
 
   setupEvents() {
-    this.subscriptions = [];
-
-    this.subscriptions.push(
-      eventBus.on('focus').subscribe(e =>this.onFocus(e))
-    );
-
+    this.subscriptions = [eventBus.on('focus').subscribe(e =>this.onFocus(e))];
     this.subscriptions.push(
       eventBus.on('updateMetricHostEventName').subscribe(e =>
         this.onUpdateHostMetricValue(e))
@@ -175,8 +170,8 @@ export default class Scene {
     this.emitter.emit('beginUpdate');
 
     Time.update();
+    Tween.update();
     this.controller.update();
-    TWEEN.update();
 
     //don't render scene if it is not needed
     if(!this.shouldRenderScene && !this.animationInProgress) {
@@ -311,21 +306,18 @@ export default class Scene {
     //if the object is only used for collision detection ->
     //add it to the octree and not to scene
     if (obj.useOnlyForCollisionDetection) {
-      this.octree.add(obj, {
-        useFaces: false
-      });
+      this.octree.add(obj, {useFaces: false});
       this.octree.update();
-
     } else {
       this.scene.add(obj);
     }
   }
 
   removeSceneObject(obj) {
-    this.scene.remove(obj);
-
-    if (obj.collisionObject !== undefined) {
-      this.octree.remove(obj.collisionObject);
+    if (obj.useOnlyForCollisionDetection) {
+      this.octree.remove(obj);
+    } else {
+      this.scene.remove(obj);
     }
   }
 
