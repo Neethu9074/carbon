@@ -3,18 +3,14 @@
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
-import {create} from 'instana-ui-services/conveyer';
-import {combine} from 'instana-ui-services/util/rx';
+import MetricServer from '../MetricServer';
+
 import {getHealth} from 'instana-ui-services/health';
-import {getMaxValue} from 'instana-ui-sdk/metrics';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
-import eventBus from 'instana-ui-services/eventbus';
 
 import SceneObject from './SceneObject';
 import StickyNote from './StickyNote';
 import Process from './Process';
-
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 
 const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
@@ -31,7 +27,6 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].z += 0.5;
 }
 const cubeMaterial = new THREE.MeshBasicMaterial({visible: true});
-let currentMetrics = [];
 
 
 export default class Host extends SceneObject {
@@ -173,53 +168,7 @@ export default class Host extends SceneObject {
       fn: this.updateMetricHeight.bind(this)
     });
 
-    this.addRxSubscription(
-      eventBus.on('showMetrics').subscribe(e => this.showMetrics(e.metrics))
-    );
-
-    //if there are metrics available, show them for new hosts
-    if(currentMetrics.length !== 0) {
-      this.showMetrics(currentMetrics);
-    }
-  }
-
-  showMetrics(metrics) {
-    this.disposeRxSubscriptions();
-    currentMetrics = metrics;
-
-    if(metrics.length === 1) {
-      this.setupSingleMetric(metrics[0]);
-    } else {
-      this.setupMultiMetric(metrics);
-    }
-  }
-
-  setupSingleMetric(metric) {
-    const max = getMaxValue(metric, this.snapshot);
-    const observable = create(MetricConveyer, {
-      metric,
-      frequency: 1000,
-      snapshot: this.snapshot
-    });
-    this.addRxSubscription({
-      metricName: metric,
-      subscription:
-        observable.subscribe(value =>
-          this.setSingleMetricValue(value / max))
-    });
-  }
-
-  setupMultiMetric(metrics) {
-    const subscriptions = metrics.map(metric => {
-      return create(MetricConveyer, {
-        metric, frequency: 1000, snapshot: this.snapshot
-      });
-    });
-
-    const multiMetricSource = combine(subscriptions).throttle(200);
-    this.addRxSubscription(multiMetricSource.subscribe(value =>
-      this.setMultiMetricValue(value)
-    ));
+    this.metricServer = new MetricServer(this);
   }
 
   setSingleMetricValue(value) {
