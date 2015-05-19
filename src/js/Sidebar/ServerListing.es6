@@ -5,6 +5,7 @@ import './ServerListing.less';
 import React from 'react/addons';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getColor} from 'instana-ui-sdk/zones';
+import {getIdString} from 'instana-ui-services/util/snapshots';
 
 import ServerItem from './ServerItem';
 
@@ -35,7 +36,7 @@ const ServerListing = React.createClass({
             <ul className="in-sidebar-server-listing__snapshots">
               {snapshots[zone].map(snapshot =>
                 <ServerItem snapshot={snapshot}
-                            key={snapshot.get('hostId')}/>
+                            key={getIdString(snapshot)}/>
               )}
             </ul>
           </li>
