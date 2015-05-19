@@ -1,31 +1,31 @@
 'use strict';
 
+let timeOfLastFrameUpdate = Date.now();
+let deltaTime = 0;
+let timeSinceFirstFrame = 0;
+let fps = 0;
+let secondCounter = 0;
+let fpsCounter = 0;
 
-class Time {
-  constructor() {
-    this.timeOfLastFrameUpdate = Date.now();
-    this.deltaTime = 0;
-    this.timeSinceFirstFrame = 0;
-    this.fps = 0;
-    this.secondCounter = 0;
-    this.fpsCounter = 0;
-  }
+export function update() {
+  const timeNow = Date.now();
+  deltaTime = (timeNow - timeOfLastFrameUpdate) / 1000; //in ms
+  timeOfLastFrameUpdate = timeNow;
+  timeSinceFirstFrame += deltaTime;
+  fpsCounter++;
+  secondCounter += deltaTime;
 
-  update() {
-    const timeNow = Date.now();
-    this.deltaTime = (timeNow - this.timeOfLastFrameUpdate) / 1000; //in ms
-    this.timeOfLastFrameUpdate = timeNow;
-    this.timeSinceFirstFrame += this.deltaTime;
-    this.fpsCounter++;
-    this.secondCounter += this.deltaTime;
-
-    if(this.secondCounter >= 1) {
-      this.secondCounter = 0;
-      this.fps = this.fpsCounter;
-      this.fpsCounter = 0;
-    }
+  if(secondCounter >= 1) {
+    secondCounter = 0;
+    fps = fpsCounter;
+    fpsCounter = 0;
   }
 }
 
-const time = new Time();
-export default time;
+export function getFPS() {
+  return fps;
+}
+
+export function getDeltaTime() {
+  return deltaTime;
+}
