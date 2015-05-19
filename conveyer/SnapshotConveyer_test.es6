@@ -43,6 +43,7 @@ describe('conveyer.SnapshotConveyer', () => {
     expect(connection.subscribe.calledOnce).to.equal(true);
     expect(connection.subscribe.getCall(0).args[0]).to.equal('snapshot:' + ec2);
     expect(connection.subscribe.getCall(0).args[1]).to.deep.equal({
+      event: 'subscribe',
       type: 'snapshot',
       channel: ec2
     });
