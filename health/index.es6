@@ -32,16 +32,11 @@ export function getHealth(snapshot) {
  * @returns {number} highest found severity
  */
 function getMaxSeverity(snapshot) {
-  if(snapshot === undefined) {
-    return 0;
-  }
-
   let maxSeverity = 0;
   iterateTrough(snapshot.getIn(['snapshot', 'status']), (hardware) => {
     iterateTrough(hardware, (part) => {
       iterateTrough(part.get('problems'), (problem) =>{
-        const severity = problem.get('severity');
-        maxSeverity = severity > maxSeverity ? severity : maxSeverity;
+        maxSeverity = Math.max(maxSeverity, problem.get('severity'));
       });
     });
   });

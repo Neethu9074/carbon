@@ -130,13 +130,14 @@ const snapshot = {
 /*eslint-enable max-len */
 
 describe('health', () => {
-  it('should extract the highest severity', () => {
-    expect(health.getMaxSeverity(immutable.fromJS(snapshot))).to.equal(8);
-    expect(health.getMaxSeverity(undefined)).to.equal(0);
-  });
 
-  it('should map to the correct health', () => {
-    expect(health.getHealth(immutable.fromJS(snapshot))).to.equal('warning');
-    expect(health.getHealth(undefined)).to.equal('ok');
+  describe('getHealth', () => {
+    it('should map to the correct health', () => {
+      expect(health.getHealth(immutable.fromJS(snapshot))).to.equal('warning');
+    });
+
+    it('should fail when passing undefined', () => {
+      expect(() => health.getHealth(undefined)).to.throw(Error);
+    });
   });
 });
