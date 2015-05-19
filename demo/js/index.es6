@@ -11,7 +11,7 @@ import {Tabs, Tab} from '../../Tabs';
 import Lettering from '../../Lettering';
 import Icon from '../../Icon';
 import Toast from '../../Toast';
-import SnapshotIcon from '../../SnapshotIcon';
+import SnapshotIconDemo from './SnapshotIconDemo';
 
 import '../less/demo.less';
 
@@ -22,29 +22,25 @@ const Demo = React.createClass({
       snapshot: Immutable.fromJS({
         'snapshot': {
           'cpu.count': 2,
-          'interfaces': [{
-            'name': 'veth07fba13',
-            'mac': 'fe:36:42:87:6a:ef',
-            'ips': ['fe80:0:0:0:fc36:42ff:fe87:6aef%veth07fba13']
-          }, {
-            'name': 'docker0',
-            'mac': '56:84:7a:fe:97:99',
-            'ips': ['fe80:0:0:0:5484:7aff:fefe:9799%docker0', '172.17.42.1']
-          }, {
-            'name': 'eth0',
-            'mac': '22:00:0a:4f:84:67',
-            'ips': ['fe80:0:0:0:2000:aff:fe4f:8467%eth0', '10.79.132.103']
-          }],
-          'accumulated.status': {
-            'score': 1.0,
-            'labels': ['operating system instance', 'operating system instance'],
-            'issues': [],
-            'solutions': []
-          },
           'cpu.model': 'Intel Xeon 2.5 GHz',
           'os.arch': 'amd64',
           'os.name': 'Windows 2012 R2 Datacenter',
           'memory.total': 7843336192,
+          status: {
+            memory: {
+              'stream_merger_70': {
+                problems: [{
+                  problemText: "You will run out of main memory just within next 2 hours",
+                  fixSuggestion: "Analyse running processes for eventual memory leaks, eventually kill heavy memory consuming processes",
+                  explanation: "Determined through linear regression",
+                  severity: 5
+                }],
+                labels: [
+                  "operating system instance"
+                ]
+              }
+            }
+          },
           'com.instana.sdk.annotation.Describes:com.instana.forge.infrastructure.virtualization.EC2': {
             'availability-zone': 'us-east-1d',
             'reservation-id': 'r-9defc776',
@@ -89,7 +85,7 @@ const Demo = React.createClass({
           </Toast>
         </Tab>
         <Tab title="SnapshotIcon">
-          <SnapshotIcon snapshot={this.state.snapshot} />
+          <SnapshotIconDemo snapshot={this.state.snapshot} />
         </Tab>
       </Tabs>
     );
