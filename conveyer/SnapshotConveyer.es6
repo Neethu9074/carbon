@@ -13,6 +13,7 @@ export default class SnapshotConveyer {
   constructor(opts) {
     this.id = SnapshotConveyer.getUniqueId(opts);
     this.subscribeEvent = {
+      event: 'subscribe',
       type: 'snapshot',
       channel: opts.pluginId
     };
