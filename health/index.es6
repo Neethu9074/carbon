@@ -10,7 +10,7 @@ export const health = {
 /**
  * Gets the max severity of all problems and maps them to a health string.
  *
- * @param {immutable} snapshot - the snapshot of a host
+ * @param {Immutable<Snapshot>} snapshot - the snapshot of a host
  * @returns {string} the mapped string for severity
  */
 export function getHealth(snapshot) {
@@ -28,10 +28,10 @@ export function getHealth(snapshot) {
  * Retuns a number [0, 10] which is the highest found severity
  * inside the problem.
  *
- * @param {immutable} snapshot - the snapshot of a host
+ * @param {Immutable<Snapshot>} snapshot - the snapshot of a host
  * @returns {number} highest found severity
  */
-export function getMaxSeverity(snapshot) {
+function getMaxSeverity(snapshot) {
   if(snapshot === undefined) {
     return 0;
   }
