@@ -96,8 +96,6 @@ export default class Scene {
       eventBus.on('updateMetricHostEventName').subscribe(e =>
         this.onUpdateHostMetricValue(e))
     );
-
-    //TODO: defined external events and listen to them
   }
 
   setupFactories() {

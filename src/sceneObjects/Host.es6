@@ -5,7 +5,7 @@ import React from 'react';
 import _ from 'lodash';
 import {create} from 'instana-ui-services/conveyer';
 import {combine} from 'instana-ui-services/util/rx';
-import {getHealth} from 'instana-ui-sdk/health';
+import {getHealth} from 'instana-ui-services/health';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
@@ -42,7 +42,7 @@ export default class Host extends SceneObject {
     this.scene = this.getScene();
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
-    this.health = getHealth(snapshot);
+    this.health = this.mapSnapshotSeverityToHealth(snapshot);
 
     this.render();
     this.addStickyNote();
@@ -55,6 +55,16 @@ export default class Host extends SceneObject {
     }
 
     this.show();
+  }
+
+  mapSnapshotSeverityToHealth(snapshot) {
+    const severity = getHealth(snapshot.getIn(['snapshot', 'status']));
+    if(severity > 8) {
+      return 'danger';
+    } else if(severity > 4) {
+      return 'warning';
+    }
+    return 'ok';
   }
 
   render() {
@@ -293,7 +303,7 @@ export default class Host extends SceneObject {
 
   onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
-    this.setHealth(getHealth(snapshot));
+    this.setHealth(this.mapSnapshotSeverityToHealth(snapshot));
     this.renderStickyNote();
   }
 
