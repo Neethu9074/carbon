@@ -43,7 +43,7 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <Notifications />
+        {__DEV__ ? <Notifications /> : null}
         <Lettering className="in-root-lettering" />
 
         <Map ref="map" />
