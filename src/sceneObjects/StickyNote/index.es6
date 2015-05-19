@@ -25,7 +25,7 @@ const StickyNote = React.createClass({
                       snapshot={this.props.snapshot}/>
         <div className="in-sticky-note__content">
           <h2 className="in-sticky-note__host-id">
-            {this.props.snapshot.get('snapshot').get('hostName')}
+            {this.props.snapshot.get('snapshot').get('hostname')}
           </h2>
           <p className="in-sticky-note__details">
             {contents.get('os.name')} {contents.get('os.version')}<br/>
