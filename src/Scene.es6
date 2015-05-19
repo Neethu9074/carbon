@@ -10,6 +10,7 @@ import './lib/Octree';
 import * as zoom from './zoom';
 import colors from './colors';
 import PhysicalMap from './sceneObjects/PhysicalMap';
+import Time from './Time';
 import Host from './sceneObjects/Host';
 import EventEmitter from 'eventemitter3';
 import HostFactory from './factories/HostFactory';
@@ -58,11 +59,6 @@ export default class Scene {
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-
-    //time properties
-    this.timeOfLastFrameUpdate = Date.now();
-    this.deltaTime = 0;
-    this.timeSinceFirstFrame = 0;
 
     this.emitter = new EventEmitter();
     this.setupEvents();
@@ -198,8 +194,8 @@ export default class Scene {
     //fire event for updating stats
     this.emitter.emit('beginUpdate');
 
-    this.calculateDeltaTime();
-    this.controller.update(this.deltaTime);
+    Time.update();
+    this.controller.update();
     TWEEN.update();
 
     //don't render scene if it is not needed
@@ -217,13 +213,6 @@ export default class Scene {
     this.shouldRenderScene = false;
 
     this.emitter.emit('endRender', {scene: this});
-  }
-
-  calculateDeltaTime() {
-    const timeNow = Date.now();
-    this.deltaTime = (timeNow - this.timeOfLastFrameUpdate) / 1000; //in ms
-    this.timeOfLastFrameUpdate = timeNow;
-    this.timeSinceFirstFrame += this.deltaTime;
   }
 
   updateCamera() {

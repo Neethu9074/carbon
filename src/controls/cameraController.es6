@@ -1,6 +1,7 @@
 'use strict';
 
 import THREE from 'three';
+import Time from '../Time';
 
 
 export default class CameraController {
@@ -152,7 +153,8 @@ export default class CameraController {
     this.hittenObject = scene.findObjectByRay(this.raycaster);
   }
 
-  update(dTime) {
+  update() {
+    const dTime = Time.deltaTime;
     this.updateZoomLevel(dTime);
 
     const cam = this.scene.camera;
