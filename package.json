@@ -50,6 +50,7 @@
     "mocha": "^2.2.4",
     "mocha-babel-es6": "^1.0.0",
     "proxrox": "^1.7.0",
+    "proxyquire": "^1.4.0",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.8.3",
     "webpack": "^1.5.3",
