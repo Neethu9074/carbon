@@ -9,6 +9,7 @@ import './lib/Octree';
 
 import * as zoom from './zoom';
 import colors from './colors';
+import mobileChecker from './mobileChecker';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import Time from './Time';
 import Host from './sceneObjects/Host';
@@ -28,27 +29,6 @@ const frustum = new THREE.Frustum();
 const projScreenMatrix = new THREE.Matrix4();
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
-const isMobile = {
-  android: function() {
-    return navigator.userAgent.match(/Android/i);
-  },
-  blackBerry: function() {
-    return navigator.userAgent.match(/BlackBerry/i);
-  },
-  iOS: function() {
-    return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-  },
-  opera: function() {
-    return navigator.userAgent.match(/Opera Mini/i);
-  },
-  windows: function() {
-    return navigator.userAgent.match(/IEMobile/i);
-  },
-  any: function() {
-    return (isMobile.android() || isMobile.blackBerry() ||
-      isMobile.iOS() || isMobile.opera() || isMobile.windows());
-  }
-};
 
 
 export default class Scene {
@@ -174,7 +154,7 @@ export default class Scene {
   }
 
   setupController() {
-    if (isMobile.any()) {
+    if (mobileChecker.any()) {
       this.controller = new TouchCameraController({scene: this});
     } else {
       this.controller = new MouseCameraController({scene: this});

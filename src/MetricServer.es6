@@ -8,7 +8,7 @@ import {combine} from 'instana-ui-services/util/rx';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 
 /*eslint-disable no-console*/
-console.log('----->', MetricConveyer);
+//console.log('----->', MetricConveyer);
 /*eslint-enable no-console*/
 
 export default class MetricServer {
