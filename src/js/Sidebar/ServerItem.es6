@@ -37,7 +37,7 @@ const ServerItem = React.createClass({
         <h2 className='in-sidebar-server-listing__snapshot-label'
             onClick={this.focus}>
           <SnapshotIcon snapshot={this.props.snapshot} />
-          {this.props.snapshot.get('hostId')}
+          {this.props.snapshot.getIn(['snapshot', 'hostname'])}
 
           <Icon type={this.state.open ? 'chevron-up' : 'chevron-down'}
                 className='in-sidebar-server-listing__snapshot-toggle'
