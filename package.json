@@ -28,7 +28,7 @@
     "invariant": "^2.0.0",
     "lodash": "^3.5.0",
     "napa": "^1.2.0",
-    "pathfinding": "^0.4.16",
+    "pathfinding": "^0.4.17",
     "react": "^0.13.1",
     "three": "^0.71.0",
     "tween.js": "^0.14.0",

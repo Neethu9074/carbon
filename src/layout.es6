@@ -1,6 +1,7 @@
 'use strict';
 
 import THREE from 'three';
+import ConnectionGrid from './connectionGrid';
 
 import {getPower} from 'instana-ui-sdk/power';
 
@@ -14,6 +15,8 @@ export default class Layouter {
     this.zoneMargin = zoneMargin;
     this.maxHostsPerRow = maxHostsPerRow;
     this.hostPadding = hostPadding;
+
+    this.connections = [];
 
     // Each host takes up one unit horizontally.
     this.zoneWidth = maxHostsPerRow +
@@ -41,8 +44,12 @@ export default class Layouter {
       ));
 
       zone.hosts.forEach((host, hostIndex) => {
-        const position = this.getCubePosition(zoneIndex, hostIndex);
-        host.setPosition(position.x, position.y, position.z);
+        const oldPosition = host.getPosition();
+        const newPosition = this.getCubePosition(zoneIndex, hostIndex);
+        host.setPosition(newPosition.x, newPosition.y, newPosition.z);
+
+        ConnectionGrid.clearPosition(oldPosition);
+        ConnectionGrid.blockPosition(newPosition);
       });
     });
 

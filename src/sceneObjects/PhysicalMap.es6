@@ -7,7 +7,10 @@ import Immutable from 'immutable';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import {getZone} from 'instana-ui-sdk/zones';
-import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import {
+  isIdEqual,
+  getIdString,
+  extractConnections} from 'instana-ui-services/util/snapshots';
 
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
@@ -91,6 +94,33 @@ export default class PhysicalMap extends SceneObject {
 
     this.applyLayout(snapshots.size);
     this.parent.renderScene();
+    this.setupConnections(snapshots);
+  }
+
+  //is called after an inventory update incoming. the prerequirement is
+  //that all hosts are available to connect the objects
+  setupConnections(snapshots) {
+    //connections is a Immutable.map<snapshot, Immutable.List<snapshot>>
+    const connections = extractConnections(snapshots);
+    connections.forEach((hostConnections, host) => {
+      const hostObject = this.getHostBySnapshot(host);
+      hostConnections.forEach(connection => {
+        const toObject = this.getHostBySnapshot(connection);
+        hostObject.connectWith(toObject);
+      });
+    });
+  }
+
+  getHostBySnapshot(snapshot) {
+    let hit;
+    this.zones.forEach(zone => {
+      zone.hosts.forEach(host => {
+        if(host.snapshot === snapshot) {
+          hit = host;
+        }
+      });
+    });
+    return hit;
   }
 
   //is called from zone if it has no hosts anymore

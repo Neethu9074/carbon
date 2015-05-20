@@ -1,5 +1,8 @@
 'use strict';
 
+import {createLogger} from 'instalog';
+const logger = createLogger('ui-services.connection');
+
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
@@ -8,6 +11,8 @@ import MetricServer from '../MetricServer';
 import {getHealth} from 'instana-ui-services/health';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
 
+import ConnectionGrid from '../connectionGrid';
+import Connection from './Connection';
 import SceneObject from './SceneObject';
 import StickyNote from './StickyNote';
 import Process from './Process';
@@ -44,6 +49,7 @@ export default class Host extends SceneObject {
     this.registerEvents();
 
     this.processes = [];
+    this.connections = [];
 
     if(window.location.search.match(/processes/)) {
       this.addProcesses(snapshot);
@@ -256,6 +262,7 @@ export default class Host extends SceneObject {
     this.cube.position.set(x, y, z);
 
     this.refreshMesh();
+    this.refreshConnections();
 
     _.forEach(this.processes, p => p.setPosition(x, p.getPosition().y, z));
   }
@@ -310,9 +317,44 @@ export default class Host extends SceneObject {
       const process = new Process({parent: this});
       process.setLayerIndex(i);
       this.processes.push(process);
+
+      logger.debug('create process', process.id);
     }
 
     this.arrangeProcesses();
+  }
+
+  //connects this host with another one. the connection is stored in a
+  //connections collection
+  connectWith(otherHost) {
+    //don't setup a new connection if it's still available
+    if(this.connections.indexOf(otherHost) >= 0) {
+      return;
+    }
+
+    const connection = new Connection({
+      parent: this,
+      from: this,
+      to: otherHost
+    });
+
+    //TODO: use the line factory to store the lines in one geometry
+
+    this.addSceneObject(connection.line);
+    //logger.debug('connect', this.id, 'with', otherHost.id);
+  }
+
+  //is called from Connection class when creating a new connection
+  addConnection(connection) {
+    this.connections.push(connection);
+  }
+
+  //takes all connections and dispose them because the position of the host
+  //has changed then calculates the new routes to the other Hosts
+  refreshConnections() {
+    this.connections.forEach(connection => {
+      connection.refresh();
+    });
   }
 
   arrangeProcesses() {
@@ -382,5 +424,8 @@ export default class Host extends SceneObject {
 
     _.forEach(this.processes, p => p.dispose());
     this.processes = [];
+
+    _.forEach(this.connections, c => c.dispose());
+    this.connections = [];
   }
 }
