@@ -73,7 +73,7 @@ export default class PhysicalMap extends SceneObject {
     this.addRxSubscription({
       metricName: pluginId,
       subscription:
-        observable.subscribe(data => this.onInventoryUpdate(data.get('data')))
+        observable.subscribe(data => this.onInventoryUpdate(data))
     });
   }
 
