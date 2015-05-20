@@ -66,13 +66,13 @@ export function extractConnections(snapshots) {
   let map = Immutable.Map().asMutable();
 
   snapshots.forEach(host => {
-    try {
-      const connections = host.getIn(['data', 'connections']);
+    const connections = host.getIn(['data', 'connections']);
+    if (connections) {
       map.set(host, connections.map(connection => {
         return ipSnapshotMap.get(connection);
       }));
-    } catch (error) {
-      map.set(host, new Immutable.List());
+    } else {
+      map.set(host, Immutable.List());
     }
   });
 
