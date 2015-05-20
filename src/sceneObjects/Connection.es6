@@ -8,7 +8,7 @@ import SceneObject from './SceneObject';
 import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
 
-//const material = new THREE.LineBasicMaterial({color: 0xFFFFFF});
+const material = new THREE.LineBasicMaterial({color: 0xeb6600});
 const connections = [];
 
 
@@ -19,6 +19,7 @@ export default class Connection extends SceneObject {
 
     const found = _.find(connections, con =>
       (con.to === from || con.from === from));
+
     if(found) {
       return found;
     }
@@ -42,7 +43,7 @@ export default class Connection extends SceneObject {
         new THREE.Vector3(this.path[i][0], 0, -this.path[i][1]));
     }
 
-    const line = new THREE.Line(geometry);
+    const line = new THREE.Line(geometry, material);
     line.position.x -= 0.9;
     line.position.z += 0.9;
     line.position.y = Math.random() * 0.3;
