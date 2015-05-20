@@ -14,7 +14,7 @@ describe('zones', () => {
   beforeEach(() => {
     snapshot = Immutable.fromJS({
       pluginId: constants.plugins.os,
-      snapshot: {
+      data: {
         'cpu.count': 1,
         'memory.total': 1000
       }
@@ -27,7 +27,7 @@ describe('zones', () => {
 
   it('should return EC2 availability zone information', () => {
     snapshot = snapshot.setIn([
-      'snapshot',
+      'data',
       constants.rels.describes + ':' + constants.plugins.ec2,
       'availability-zone'
     ], 'eu-central');

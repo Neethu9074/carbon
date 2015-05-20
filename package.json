@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.es6",
   "scripts": {
-    "test": "eslint --ext .es6 health/ power/ zones/ sorting/ metrics/ && mocha --require mocha-babel-es6 **/*_test.es6"
+    "test": "eslint --ext .es6 power/ zones/ sorting/ metrics/ && mocha --require mocha-babel-es6 **/*_test.es6"
   },
   "repository": {
     "type": "git",
