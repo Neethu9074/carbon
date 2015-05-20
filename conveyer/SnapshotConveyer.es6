@@ -10,15 +10,16 @@ export default class SnapshotConveyer {
     return 'snapshot:' + pluginId;
   }
 
-  constructor(opts) {
-    this.id = SnapshotConveyer.getUniqueId(opts);
+  constructor({pluginId}) {
+    this.id = connection.getSubscriptionId();
     this.subscribeEvent = {
+      id: this.id,
       event: 'subscribe',
       type: 'snapshot',
-      channel: opts.pluginId
+      pluginId
     };
 
-    this.dataEventPredicate = e => e.pluginId === opts.pluginId;
+    this.dataEventPredicate = e => e.id === this.id;
 
     // initially, there is no data!
     this.snapshots = null;
@@ -41,23 +42,18 @@ export default class SnapshotConveyer {
 
   handleMessage(message) {
     if (this.snapshots === null) {
-      this.snapshots = Immutable.fromJS(message.online);
+      this.snapshots = Immutable.fromJS(message.data);
       this.onNext(this.snapshots);
       return;
     }
 
     this.snapshots.withMutations(snapshots => {
-      // handle removed values
-      snapshots = snapshots.filter(snapshot => {
-        return !containsSnapshot(snapshot, message.removed);
-      });
-
       // handle edited and new values
       // easy way: Remove those items that have changed and add them to the end
       snapshots = snapshots.filter(snapshot => {
-        return !containsSnapshot(snapshot, message.online);
+        return !containsSnapshot(snapshot, message.data);
       });
-      snapshots = snapshots.concat(Immutable.fromJS(message.online));
+      snapshots = snapshots.concat(Immutable.fromJS(message.data));
 
       this.snapshots = snapshots;
       this.onNext(snapshots);

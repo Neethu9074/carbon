@@ -50,17 +50,19 @@ describe('connection.subscriptionAwareConnection', () => {
   });
 
   it('should send subscriptions', () => {
-    sac.subscribe('snapshot:com.instana.forge.infrastructure.virtualization.EC2', {
+    sac.subscribe(42, {
+      id: 42,
       event: 'subscribe',
       type: 'snapshot',
-      channel: 'com.instana.forge.infrastructure.virtualization.EC2'
+      pluginId: 'com.instana.forge.infrastructure.virtualization.EC2'
     });
     open();
     expect(webSocketConnection.send.callCount).to.equal(1);
     expect(webSocketConnection.send.getCall(0).args[0]).to.equal(JSON.stringify({
+      id: 42,
       event: 'subscribe',
       type: 'snapshot',
-      channel: 'com.instana.forge.infrastructure.virtualization.EC2'
+      pluginId: 'com.instana.forge.infrastructure.virtualization.EC2'
     }));
   });
 
@@ -84,10 +86,14 @@ describe('connection.subscriptionAwareConnection', () => {
     // once the connection was reestablished, the subscription should be resend.
     open();
     expect(webSocketConnection.send.callCount).to.equal(2);
-    expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
-      foo: 'bar',
-      event: 'subscribe'
-    }));
+    expect(JSON.parse(webSocketConnection.send.getCall(1).args[0]))
+      .to
+      .deep
+      .equal({
+        id: 'snapshot:yo',
+        event: 'subscribe',
+        foo: 'bar'
+      });
   });
 
   it('should send unsubscribe notices', () => {
@@ -97,7 +103,7 @@ describe('connection.subscriptionAwareConnection', () => {
     sac.unsubscribe('snapshot:yo');
     expect(webSocketConnection.send.callCount).to.equal(2);
     expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
-      foo: 'bar',
+      id: 'snapshot:yo',
       event: 'unsubscribe'
     }));
   });
@@ -110,7 +116,7 @@ describe('connection.subscriptionAwareConnection', () => {
     open();
     expect(webSocketConnection.send.callCount).to.equal(2);
     expect(webSocketConnection.send.getCall(1).args[0]).to.equal(JSON.stringify({
-      foo: 'bar',
+      id: 'snapshot:yo',
       event: 'unsubscribe'
     }));
   });

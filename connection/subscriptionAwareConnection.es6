@@ -36,6 +36,7 @@ export function subscribe(id, subscription) {
     'Multiple subscriptions with the same id are not possible!'
   );
 
+  subscription.id = id;
   subscription.event = 'subscribe';
   subscriptions[id] = subscription;
 
@@ -47,10 +48,11 @@ export function subscribe(id, subscription) {
 }
 
 export function unsubscribe(id) {
-  const subscription = subscriptions[id];
-  subscription.event = 'unsubscribe';
   delete subscriptions[id];
-  send(subscription);
+  send({
+    id,
+    event: 'unsubscribe'
+  });
 }
 
 export function getSubscriptionId() {
