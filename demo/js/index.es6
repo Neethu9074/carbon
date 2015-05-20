@@ -20,7 +20,7 @@ const Demo = React.createClass({
     return {
       toast: null,
       snapshot: Immutable.fromJS({
-        'snapshot': {
+        'data': {
           'cpu.count': 2,
           'cpu.model': 'Intel Xeon 2.5 GHz',
           'os.arch': 'amd64',

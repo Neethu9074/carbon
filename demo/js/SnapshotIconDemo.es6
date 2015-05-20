@@ -23,7 +23,7 @@ const SnapshotIconDemo = React.createClass({
   withSeverity(severity) {
     return this.props.snapshot.setIn(
       [
-       'snapshot', 'status', 'memory', 'stream_merger_70',
+       'data', 'status', 'memory', 'stream_merger_70',
        'problems', '0', 'severity'
       ],
       severity
