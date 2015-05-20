@@ -18,19 +18,19 @@ const StickyNote = React.createClass({
   },
 
   render() {
-    const contents = this.props.snapshot.get('snapshot');
+    const data = this.props.snapshot.get('data');
     return (
       <div>
         <SnapshotIcon className="in-sticky-note__host-icon"
                       snapshot={this.props.snapshot}/>
         <div className="in-sticky-note__content">
           <h2 className="in-sticky-note__host-id">
-            {this.props.snapshot.getIn(['snapshot', 'hostname'])}
+            {data.get('hostname')}
           </h2>
           <p className="in-sticky-note__details">
-            {contents.get('os.name')} {contents.get('os.version')}<br/>
-            {contents.get('cpu.count')}x{contents.get('cpu.model')}<br/>
-            {formatBytes(contents.get('memory.total'))}
+            {data.get('os.name')} {data.get('os.version')}<br/>
+            {data.get('cpu.count')}x{data.get('cpu.model')}<br/>
+            {formatBytes(data.get('memory.total'))}
           </p>
         </div>
       </div>
