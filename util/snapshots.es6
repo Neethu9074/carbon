@@ -66,7 +66,7 @@ export function extractConnections(snapshots) {
   let map = Immutable.Map().asMutable();
 
   snapshots.forEach(host => {
-    const connections = host.getIn(['snapshot', 'connections']);
+    const connections = host.getIn(['data', 'connections']);
     map.set(host, connections.map(connection => {
       return ipSnapshotMap.get(connection);
     }));
@@ -82,7 +82,7 @@ function calculateIpMap(snapshots) {
   snapshots.forEach(host => {
 
     //get all ethernet interfaces
-    const ethInterfaces = host.getIn(['snapshot', 'interfaces']);
+    const ethInterfaces = host.getIn(['data', 'interfaces']);
     ethInterfaces.forEach(interf => {
 
       //get allips of the interface

@@ -9,7 +9,7 @@ import immutable from 'immutable';
 
 /*eslint-disable max-len */
 const snapshot = {
-  'snapshot': {
+  'data': {
     'interfaces': {
       'eth0': {
         'mac': '22:00:0b:5d:9c:cc',

@@ -59,7 +59,7 @@ describe('util.snapshots', () => {
 
     return Immutable.fromJS({
       a: {
-        snapshot: {
+        data: {
           interfaces: {
             eth0: {
               ips: ['192.168.0.1']
@@ -71,7 +71,7 @@ describe('util.snapshots', () => {
           ]
         }
       }, b: {
-        snapshot: {
+        data: {
           interfaces: {
             eth0: {
               ips: ['192.168.0.2']
@@ -83,7 +83,7 @@ describe('util.snapshots', () => {
           ]
         }
       }, c: {
-        snapshot: {
+        data: {
           interfaces: {
             eth0: {
               ips: ['192.168.0.3']

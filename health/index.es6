@@ -33,7 +33,7 @@ export function getHealth(snapshot) {
  */
 function getMaxSeverity(snapshot) {
   let maxSeverity = 0;
-  iterateTrough(snapshot.getIn(['snapshot', 'status']), (hardware) => {
+  iterateTrough(snapshot.getIn(['data', 'status']), (hardware) => {
     iterateTrough(hardware, (part) => {
       iterateTrough(part.get('problems'), (problem) =>{
         maxSeverity = Math.max(maxSeverity, problem.get('severity'));
