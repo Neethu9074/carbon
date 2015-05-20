@@ -43,7 +43,7 @@ describe('util.snapshots', () => {
     it('should extract connections', () => {
       const snapshots = getConnectedSnapshots();
       const connections = extractConnections(snapshots);
-      expect(connections.size).to.equal(3);
+      expect(connections.size).to.equal(4);
     });
   });
 
@@ -93,6 +93,14 @@ describe('util.snapshots', () => {
             '192.168.0.1',
             '192.168.0.2'
           ]
+        }
+      }, d: {
+        data: {
+          interfaces: {
+            eth0: {
+              ips: ['192.168.0.1']
+            }
+          }
         }
       }
     });
