@@ -2,6 +2,9 @@
 
 import Immutable from 'immutable';
 
+let ipSnapshotMap = new Immutable.Map();
+
+
 /**
  * Extract an ID triplet from a snapshot. This method encapsulates what it
  * means to uniquely identify a snapshot.
@@ -53,15 +56,42 @@ export function getIdString(s) {
  *
  * @param {Immutable.Map} snapshot An immutable snapshot from which the
  * connection part should be extracted.
- * @returns {Immutable.List<string>} a list with all connections.
+ * @returns {Immutable.Map<Immutable, Immutable.List<string>>} a amp with all
+ * snapshots and a list of all connected ones.
  */
-export function extractConnections(snapshot) {
-  const connectionMap = snapshot.getIn(['snapshot', 'connections']);
-  if(connectionMap) {
-    return connectionMap.map(connection => {
-      return connection;
-    });
-  }
+export function extractConnections(snapshots) {
+  calculateIpMap(snapshots);
 
-  return [];
+  /* eslint-disable new-cap */
+  let map = Immutable.Map().asMutable();
+
+  snapshots.forEach(host => {
+    const connections = host.getIn(['snapshot', 'connections']);
+    map.set(host, connections.map(connection => {
+      return ipSnapshotMap.get(connection);
+    }));
+  });
+
+  return map.asImmutable();
+  /* eslint-enable new-cap */
+}
+
+function calculateIpMap(snapshots) {
+  const map = new Immutable.Map().asMutable();
+  //get ips for each host
+  snapshots.forEach(host => {
+
+    //get all ethernet interfaces
+    const ethInterfaces = host.getIn(['snapshot', 'interfaces']);
+    ethInterfaces.forEach(interf => {
+
+      //get allips of the interface
+      const ips = interf.get('ips');
+      ips.forEach(ip => {
+        map.set(ip, host);
+      });
+    });
+  });
+
+  ipSnapshotMap = map.asImmutable();
 }

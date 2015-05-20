@@ -1,4 +1,5 @@
 /*eslint-env mocha*/
+/*eslint-disable no-unused-vars */
 
 'use strict';
 
@@ -40,11 +41,9 @@ describe('util.snapshots', () => {
 
   describe('extractConnections', () => {
     it('should extract connections', () => {
-      const connections = extractConnections(newSnapshot(1));
+      const snapshots = getConnectedSnapshots();
+      const connections = extractConnections(snapshots);
       expect(connections.size).to.equal(3);
-      expect(connections.get(0)).to.equal('192.168.0.1');
-      expect(connections.get(1)).to.equal('192.168.0.2');
-      expect(connections.get(2)).to.equal('192.168.0.3');
     });
   });
 
@@ -52,13 +51,49 @@ describe('util.snapshots', () => {
     return Immutable.fromJS({
       pluginId: 'p' + n,
       steadyId: 's' + n,
-      hostId: 'h' + n,
-      snapshot: {
-        connections: [
-          '192.168.0.1',
-          '192.168.0.2',
-          '192.168.0.3'
-        ]
+      hostId: 'h' + n
+    });
+  }
+
+  function getConnectedSnapshots() {
+
+    return Immutable.fromJS({
+      a: {
+        snapshot: {
+          interfaces: {
+            eth0: {
+              ips: ['192.168.0.1']
+            }
+          },
+          connections: [
+            '192.168.0.2',
+            '192.168.0.3'
+          ]
+        }
+      }, b: {
+        snapshot: {
+          interfaces: {
+            eth0: {
+              ips: ['192.168.0.2']
+            }
+          },
+          connections: [
+            '192.168.0.1',
+            '192.168.0.3'
+          ]
+        }
+      }, c: {
+        snapshot: {
+          interfaces: {
+            eth0: {
+              ips: ['192.168.0.3']
+            }
+          },
+          connections: [
+            '192.168.0.1',
+            '192.168.0.2'
+          ]
+        }
       }
     });
   }
