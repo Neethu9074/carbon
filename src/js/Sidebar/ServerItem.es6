@@ -23,7 +23,7 @@ const ServerItem = React.createClass({
   },
 
   render() {
-    const snap = this.props.snapshot.get('snapshot');
+    const data = this.props.snapshot.get('data');
     const color = getColor(getZone(this.props.snapshot));
 
     const liClasses = classnames({
@@ -37,7 +37,7 @@ const ServerItem = React.createClass({
         <h2 className='in-sidebar-server-listing__snapshot-label'
             onClick={this.focus}>
           <SnapshotIcon snapshot={this.props.snapshot} />
-          {this.props.snapshot.getIn(['snapshot', 'hostname'])}
+          {this.props.snapshot.getIn(['data', 'hostname'])}
 
           <Icon type={this.state.open ? 'chevron-up' : 'chevron-down'}
                 className='in-sidebar-server-listing__snapshot-toggle'
@@ -48,17 +48,17 @@ const ServerItem = React.createClass({
         <dl className='in-sidebar-server-listing__listing'>
           <dt>OS</dt>
           <dd>
-            {snap.get('os.name')} {snap.get('os.version')}
+            {data.get('os.name')} {data.get('os.version')}
           </dd>
 
           <dt>CPU</dt>
           <dd>
-            {snap.get('cpu.count')}x{snap.get('cpu.model')}
+            {data.get('cpu.count')}x{data.get('cpu.model')}
           </dd>
 
           <dt>MEM</dt>
           <dd>
-            {formatBytes(snap.get('memory.total'))}
+            {formatBytes(data.get('memory.total'))}
           </dd>
         </dl>
       </li>
