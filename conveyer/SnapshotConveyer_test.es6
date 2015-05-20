@@ -140,7 +140,7 @@ describe('conveyer.SnapshotConveyer', () => {
       data: [{
         hostId: 'h2',
         steadyId: 's2',
-        pluginId: 'p2'
+        pluginId: 'p1'
       }]
     });
     setTimeout(() => {
@@ -202,7 +202,7 @@ describe('conveyer.SnapshotConveyer', () => {
 
   function snapshot(i, data) {
     return {
-      pluginId: 'p' + i,
+      pluginId: 'p1',
       steadyId: 's' + i,
       hostId: 'h' + i,
       snapshot: data
