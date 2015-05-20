@@ -44,8 +44,8 @@ export default class Connection extends SceneObject {
     }
 
     const line = new THREE.Line(geometry, material);
-    line.position.x -= 2.01;
-    line.position.z += 2.01;
+    line.position.x -= 0.01;
+    line.position.z += 1.01;
     line.position.y = Math.random() * 0.3;
     this.line = line;
 
@@ -57,10 +57,10 @@ export default class Connection extends SceneObject {
     const toPos = this.to.getPosition();
 
     this.path = ConnectionGrid.getPath({
-      fromX: fromPos.x + 1,
-      fromY: -fromPos.z + 1,
-      toX: toPos.x + 1,
-      toY: -toPos.z + 1
+      fromX: fromPos.x - 1,
+      fromY: -fromPos.z,
+      toX: toPos.x - 1,
+      toY: -toPos.z
     });
   }
 
