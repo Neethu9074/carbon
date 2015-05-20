@@ -1,4 +1,4 @@
-/*eslint-disable max-len*/
+/*eslint-disable max-len, no-unused-vars*/
 
 'use strict';
 
@@ -30,13 +30,13 @@ const Demo = React.createClass({
             memory: {
               'stream_merger_70': {
                 problems: [{
-                  problemText: "You will run out of main memory just within next 2 hours",
-                  fixSuggestion: "Analyse running processes for eventual memory leaks, eventually kill heavy memory consuming processes",
-                  explanation: "Determined through linear regression",
+                  problemText: 'You will run out of main memory just within next 2 hours',
+                  fixSuggestion: 'Analyse running processes for eventual memory leaks, eventually kill heavy memory consuming processes',
+                  explanation: 'Determined through linear regression',
                   severity: 5
                 }],
                 labels: [
-                  "operating system instance"
+                  'operating system instance'
                 ]
               }
             }
