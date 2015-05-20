@@ -137,9 +137,11 @@ describe('conveyer.SnapshotConveyer', () => {
     });
     emitData({
       id: conveyer.presenceId,
-      hostId: 'h2',
-      steadyId: 's2',
-      pluginId: 'p2'
+      data: [{
+        hostId: 'h2',
+        steadyId: 's2',
+        pluginId: 'p2'
+      }]
     });
     setTimeout(() => {
       const snapshots = onNext.getCall(1).args[0];

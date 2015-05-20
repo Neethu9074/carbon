@@ -74,10 +74,12 @@ export default class SnapshotConveyer {
   }
 
   handlePresenceMessage(message) {
-    this.snapshots = this.snapshots.filter(snapshot => {
-      return snapshot.get('hostId') !== message.hostId &&
-        snapshot.get('steadyId') !== message.steadyId &&
-        snapshot.get('pluginId') !== message.pluginId;
+    message.data.forEach(presenceMessage => {
+      this.snapshots = this.snapshots.filter(snapshot => {
+        return snapshot.get('hostId') !== presenceMessage.hostId &&
+          snapshot.get('steadyId') !== presenceMessage.steadyId &&
+          snapshot.get('pluginId') !== presenceMessage.pluginId;
+      });
     });
     this.onNext(this.snapshots);
   }
