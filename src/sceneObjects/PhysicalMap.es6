@@ -3,12 +3,11 @@
 import THREE from 'three';
 
 import _ from 'lodash';
-//if you want to see the walkable grid, uncomment this code// import Immutable from 
-'immutable';
-// import {create} from 'instana-ui-services/conveyer';
-// import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
-// import ConnectionGrid from '../connectionGrid';
-// import {getZone} from 'itana-ui-sdk/zones';
+import Immutable from 'immutable';
+import {create} from 'instana-ui-services/conveyer';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
+import ConnectionGrid from '../connectionGrid';
+import {getZone} from 'instana-ui-sdk/zones';
 import {
   isIdEqual,
   getIdString,
@@ -102,7 +101,7 @@ export default class PhysicalMap extends SceneObject {
   //is called after an inventory update incoming. the prerequirement is
   //that all hosts are available to connect the objects
   setupConnections(snapshots) {
-    //if you want to see the walkable grid, uncomment this code
+    // //if you want to see the visual walking grid, uncomment this
     // if(this.particles) {
     //   this.removeSceneObject(this.particles);
     // }
