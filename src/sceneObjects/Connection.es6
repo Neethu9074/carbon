@@ -44,8 +44,8 @@ export default class Connection extends SceneObject {
     }
 
     const line = new THREE.Line(geometry, material);
-    line.position.x -= 0.9;
-    line.position.z += 0.9;
+    line.position.x -= 2.01;
+    line.position.z += 2.01;
     line.position.y = Math.random() * 0.3;
     this.line = line;
 
