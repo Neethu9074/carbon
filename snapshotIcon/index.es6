@@ -11,6 +11,8 @@ addIconFinder(
       return 'linux';
     } else if (os.match(/windows/i)) {
       return 'windows';
+    } else if (os.match(/mac/i)) {
+      return 'apple';
     }
 
     return 'server';
