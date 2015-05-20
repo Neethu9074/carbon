@@ -93,9 +93,18 @@ export default class PhysicalMap extends SceneObject {
 
     removedHosts.forEach(host => host.dispose());
 
+    this.clearAllConnections();
     this.applyLayout(snapshots.size);
     this.parent.renderScene();
     this.setupConnections(snapshots);
+  }
+
+  clearAllConnections() {
+    this.zones.forEach(zone => {
+      zone.hosts.forEach(host => {
+        host.clearConnections();
+      });
+    });
   }
 
   //is called after an inventory update incoming. the prerequirement is

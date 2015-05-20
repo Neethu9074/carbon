@@ -10,6 +10,7 @@ import _ from 'lodash';
 
 const material = new THREE.LineBasicMaterial({color: 0xeb6600});
 const connections = [];
+let id = 0;
 
 
 export default class Connection extends SceneObject {
@@ -17,6 +18,7 @@ export default class Connection extends SceneObject {
   constructor({parent, from, to}) {
     super({parent});
 
+    this.id = id++;
     const found = _.find(connections, con => con.to === from);
     if(found) {
       return found;
@@ -70,10 +72,13 @@ export default class Connection extends SceneObject {
   }
 
   dispose() {
+    this.to.removeConnection(this);
+    if(this.parent !== null) {
+      this.removeSceneObject(this.line);
+    }
+
     _.remove(connections, con => con === this);
-    this.removeSceneObject(this.line);
 
     super.dispose();
-    this.parent = null;
   }
 }

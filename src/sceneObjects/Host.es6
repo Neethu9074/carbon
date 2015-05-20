@@ -406,12 +406,20 @@ export default class Host extends SceneObject {
     scene.singleMetricFactory.removeFragment(id);
   }
 
+  clearConnections() {
+    this.connections.forEach(c => c.dispose());
+    this.connections = [];
+  }
+
+  removeConnection(connection) {
+    _.remove(this.connections, con => con === connection);
+  }
+
   dispose() {
+    this.clearConnections();
+
     _.forEach(this.processes, p => p.dispose());
     this.processes = [];
-
-    _.forEach(this.connections, c => c.dispose());
-    this.connections = [];
 
     this.removeSceneObject(this.cube);
     this.removeFromGlobalGeometry();
