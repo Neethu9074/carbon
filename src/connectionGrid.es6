@@ -1,6 +1,6 @@
 'use strict';
 
-import PF from 'pathFinding';
+import PF from 'pathfinding';
 
 
 class ConnectionGrid {
