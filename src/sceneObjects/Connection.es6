@@ -17,9 +17,7 @@ export default class Connection extends SceneObject {
   constructor({parent, from, to}) {
     super({parent});
 
-    const found = _.find(connections, con =>
-      (con.to === from || con.from === from));
-
+    const found = _.find(connections, con => con.to === from);
     if(found) {
       return found;
     }
@@ -65,7 +63,7 @@ export default class Connection extends SceneObject {
   }
 
   refresh() {
-    logger.log('refresh connection', this);
+    logger.debug('refresh connection', this);
     //this.line.geometry.dispose();
     //this.calculatePath();
     //this.render();
@@ -73,6 +71,7 @@ export default class Connection extends SceneObject {
 
   dispose() {
     _.remove(connections, con => con === this);
+    this.removeSceneObject(this.line);
 
     super.dispose();
     this.parent = null;

@@ -407,6 +407,12 @@ export default class Host extends SceneObject {
   }
 
   dispose() {
+    _.forEach(this.processes, p => p.dispose());
+    this.processes = [];
+
+    _.forEach(this.connections, c => c.dispose());
+    this.connections = [];
+
     this.removeSceneObject(this.cube);
     this.removeFromGlobalGeometry();
     this.cube = null;
@@ -421,11 +427,5 @@ export default class Host extends SceneObject {
     this.id = null;
     this.snapshot = null;
     this.health = null;
-
-    _.forEach(this.processes, p => p.dispose());
-    this.processes = [];
-
-    _.forEach(this.connections, c => c.dispose());
-    this.connections = [];
   }
 }
