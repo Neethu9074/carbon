@@ -46,3 +46,22 @@ export function isIdEqual(id1, id2) {
 export function getIdString(s) {
   return `${s.get('hostId')}#${s.get('pluginId')}#${s.get('steadyId')}`;
 }
+
+
+/**
+ * Extract an array of all found connections as string IPs.
+ *
+ * @param {Immutable.Map} snapshot An immutable snapshot from which the
+ * connection part should be extracted.
+ * @returns {Immutable.List<string>} a list with all connections.
+ */
+export function extractConnections(snapshot) {
+  const connectionMap = snapshot.getIn(['snapshot', 'connections']);
+  if(connectionMap) {
+    return connectionMap.map(connection => {
+      return connection;
+    });
+  }
+
+  return [];
+}

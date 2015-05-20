@@ -4,7 +4,11 @@
 
 import {expect} from 'chai';
 import Immutable from 'immutable';
-import {getIdString, extractId, isIdEqual} from './snapshots';
+import {
+  getIdString,
+  extractId,
+  isIdEqual,
+  extractConnections} from './snapshots';
 
 describe('util.snapshots', () => {
 
@@ -34,11 +38,28 @@ describe('util.snapshots', () => {
     });
   });
 
+  describe('extractConnections', () => {
+    it('should extract connections', () => {
+      const connections = extractConnections(newSnapshot(1));
+      expect(connections.size).to.equal(3);
+      expect(connections.get(0)).to.equal('192.168.0.1');
+      expect(connections.get(1)).to.equal('192.168.0.2');
+      expect(connections.get(2)).to.equal('192.168.0.3');
+    });
+  });
+
   function newSnapshot(n) {
     return Immutable.fromJS({
       pluginId: 'p' + n,
       steadyId: 's' + n,
-      hostId: 'h' + n
+      hostId: 'h' + n,
+      snapshot: {
+        connections: [
+          '192.168.0.1',
+          '192.168.0.2',
+          '192.168.0.3'
+        ]
+      }
     });
   }
 });
