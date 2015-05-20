@@ -11,15 +11,24 @@ export default class SnapshotConveyer {
   }
 
   constructor({pluginId}) {
-    this.id = connection.getSubscriptionId();
-    this.subscribeEvent = {
-      id: this.id,
+    this.snapshotId = connection.getSubscriptionId();
+    this.presenceId = connection.getSubscriptionId();
+
+    this.snapshotSubscribeEvent = {
+      id: this.snapshotId,
       event: 'subscribe',
       type: 'snapshot',
       pluginId
     };
+    this.presenceSubscribeEvent = {
+      id: this.presenceId,
+      event: 'subscribe',
+      type: 'presence',
+      pluginId
+    };
 
-    this.dataEventPredicate = e => e.id === this.id;
+    this.snapshotDataEventPredicate = e => e.id === this.snapshotId;
+    this.presenceDataEventPredicate = e => e.id === this.presenceId;
 
     // initially, there is no data!
     this.snapshots = null;
@@ -28,19 +37,23 @@ export default class SnapshotConveyer {
   start(onNext) {
     this.onNext = _.throttle(onNext, 100);
 
-    this.subscription = connection.emitter.on('message')
-      .filter(this.dataEventPredicate)
-      .subscribe(e => this.handleMessage(e));
+    this.snapshotSubscription = connection.emitter.on('message')
+      .filter(this.snapshotDataEventPredicate)
+      .subscribe(e => this.handleSnapshotMessage(e));
+    this.presenceSubscription = connection.emitter.on('message')
+      .filter(this.presenceDataEventPredicate)
+      .subscribe(e => this.handlePresenceMessage(e));
 
     // After a reconnect we should discard all previously gathered values,
     // as we are getting a full update!
     this.reconnectSubscription = connection.emitter.on('connected')
       .subscribe(() => this.snapshots = null);
 
-    connection.subscribe(this.id, this.subscribeEvent);
+    connection.subscribe(this.snapshotId, this.snapshotSubscribeEvent);
+    connection.subscribe(this.presenceId, this.presenceSubscribeEvent);
   }
 
-  handleMessage(message) {
+  handleSnapshotMessage(message) {
     if (this.snapshots === null) {
       this.snapshots = Immutable.fromJS(message.data);
       this.onNext(this.snapshots);
@@ -60,10 +73,21 @@ export default class SnapshotConveyer {
     });
   }
 
+  handlePresenceMessage(message) {
+    this.snapshots = this.snapshots.filter(snapshot => {
+      return snapshot.get('hostId') !== message.hostId &&
+        snapshot.get('steadyId') !== message.steadyId &&
+        snapshot.get('pluginId') !== message.pluginId;
+    });
+    this.onNext(this.snapshots);
+  }
+
   stop() {
-    this.subscription.dispose();
+    this.snapshotSubscription.dispose();
+    this.presenceSubscription.dispose();
     this.reconnectSubscription.dispose();
-    connection.unsubscribe(this.id);
+    connection.unsubscribe(this.snapshotId);
+    connection.unsubscribe(this.presenceId);
     this.snapshots = null;
   }
 

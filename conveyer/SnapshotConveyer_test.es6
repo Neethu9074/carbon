@@ -40,12 +40,19 @@ describe('conveyer.SnapshotConveyer', () => {
   it('should subscribe via WebSocket connection', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
-    expect(connection.subscribe.calledOnce).to.equal(true);
-    expect(connection.subscribe.getCall(0).args[0]).to.equal(conveyer.id);
+    expect(connection.subscribe.calledTwice).to.equal(true);
+    expect(connection.subscribe.getCall(0).args[0]).to.equal(conveyer.snapshotId);
     expect(connection.subscribe.getCall(0).args[1]).to.deep.equal({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       event: 'subscribe',
       type: 'snapshot',
+      pluginId: ec2
+    });
+    expect(connection.subscribe.getCall(1).args[0]).to.equal(conveyer.presenceId);
+    expect(connection.subscribe.getCall(1).args[1]).to.deep.equal({
+      id: conveyer.presenceId,
+      event: 'subscribe',
+      type: 'presence',
       pluginId: ec2
     });
   });
@@ -54,7 +61,7 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [
         {id: 1},
         {id: 2}
@@ -71,8 +78,9 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     conveyer.stop();
-    expect(connection.unsubscribe.calledOnce).to.equal(true);
-    expect(connection.unsubscribe.getCall(0).args[0]).to.equal(conveyer.id);
+    expect(connection.unsubscribe.calledTwice).to.equal(true);
+    expect(connection.unsubscribe.getCall(0).args[0]).to.equal(conveyer.snapshotId);
+    expect(connection.unsubscribe.getCall(1).args[0]).to.equal(conveyer.presenceId);
   });
 
   it('should dispose of emitter subscription', () => {
@@ -87,11 +95,11 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [snapshot(1, 'initial')]
     });
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [snapshot(2, 'initial')]
     });
     setTimeout(() => {
@@ -105,11 +113,11 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [snapshot(1, 'initial'), snapshot(2, 'initial')]
     });
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [snapshot(2, 'changed')]
     });
     setTimeout(() => {
@@ -120,35 +128,36 @@ describe('conveyer.SnapshotConveyer', () => {
     }, 110);
   });
 
-  // TODO Ben Support removal
-  // it('should support removals', (done) => {
-  //   conveyer = new SnapshotConveyer({pluginId: ec2});
-  //   conveyer.start(onNext);
-  //   emitData({
-  //     id: conveyer.id,
-  //     data: [snapshot(1, 'initial'), snapshot(2, 'initial')]
-  //   });
-  //   emitData({
-  //     id: conveyer.id,
-  //     removed: [snapshot(2)]
-  //   });
-  //   setTimeout(() => {
-  //     const snapshots = onNext.getCall(1).args[0];
-  //     expect(snapshots.size).to.equal(1);
-  //     expect(snapshots.get(0).get('hostId')).to.equal('h1');
-  //     done();
-  //   }, 110);
-  // });
+  it('should support removals', (done) => {
+    conveyer = new SnapshotConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+    emitData({
+      id: conveyer.snapshotId,
+      data: [snapshot(1, 'initial'), snapshot(2, 'initial')]
+    });
+    emitData({
+      id: conveyer.presenceId,
+      hostId: 'h2',
+      steadyId: 's2',
+      pluginId: 'p2'
+    });
+    setTimeout(() => {
+      const snapshots = onNext.getCall(1).args[0];
+      expect(snapshots.size).to.equal(1);
+      expect(snapshots.get(0).get('hostId')).to.equal('h1');
+      done();
+    }, 110);
+  });
 
   it('should keep existing immutable snapshots on update', (done) => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [snapshot(1, 'initial'), snapshot(2, 'initial')]
     });
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [snapshot(2, 'initial')]
     });
 
@@ -167,13 +176,13 @@ describe('conveyer.SnapshotConveyer', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [snapshot(1, 'beforeReconnect')]
     });
 
     connection.emitter.emit('connected');
     emitData({
-      id: conveyer.id,
+      id: conveyer.snapshotId,
       data: [snapshot(2, 'afterReconnect')]
     });
 
