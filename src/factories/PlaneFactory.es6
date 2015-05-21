@@ -9,6 +9,7 @@ export default class PlaneFactory extends MeshFactory {
   constructor({scene, colorItems = [[1, 1, 1]]}) {
     super({scene});
 
+    this.globalMesh.renderOrder = 1;
     this.setMaterial(new THREE.MeshBasicMaterial({
       vertexColors: THREE.VertexColors,
       side: THREE.DoubleSide,
