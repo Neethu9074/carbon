@@ -5,7 +5,9 @@ import './FlyOutNotifications.less';
 import Immutable from 'immutable';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import React from 'react/addons';
-import {getActiveProblems} from 'instana-ui-services/notificationCenter';
+import {getStatusMessages} from 'instana-ui-services/notificationCenter';
+import {extractId} from 'instana-ui-services/util/snapshots';
+import eventBus from 'instana-ui-services/eventbus';
 
 import FlyOutNotification from './FlyOutNotification';
 
@@ -22,7 +24,7 @@ const Notifications = React.createClass({
 
   componentDidMount() {
     this.addSubscription(
-      getActiveProblems().subscribe(notifications => {
+      getStatusMessages().subscribe(notifications => {
         this.setState({
           notifications: notifications.reverse()
         });
@@ -52,9 +54,10 @@ const Notifications = React.createClass({
     );
   },
 
-  onClick(n) {
-    this.setState({
-      hiddenNotifications: this.state.hiddenNotifications.add(n.get('id'))
+  onClick(notification) {
+    eventBus.emit('focus', {
+      snapshot: extractId(notification),
+      zoom: true
     });
   }
 });

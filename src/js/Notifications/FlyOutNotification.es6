@@ -5,6 +5,7 @@ import './FlyOutNotification.less';
 import React from 'react/addons';
 import classnames from 'instana-ui-services/util/classnames';
 import {health} from 'instana-ui-sdk/health';
+import {getHealth} from 'instana-ui-services/health';
 import Icon from 'instana-ui-components/Icon';
 
 const blockIdentifier = 'in-fly-out-notification';
@@ -20,10 +21,15 @@ const FlyOutNotification = React.createClass({
         {this.getIcon()}
         <div className={blockIdentifier + '__content'}>
           <h1 className={blockIdentifier + '__heading'}>
-            {this.props.notification.getIn(['data', 'title'])}
+            <span className={this.getClassIdentifierWithSeverity(
+                  blockIdentifier + '__health'
+                )}>
+              {this.getHealthLabel() + ': '}
+            </span>
+            {this.props.notification.getIn(['data', 'problemText'])}
           </h1>
           <p className={blockIdentifier + '__message'}>
-            {this.props.notification.getIn(['data', 'message'])}
+            {this.props.notification.getIn(['data', 'fixSuggestion'])}
           </p>
         </div>
       </div>
@@ -31,39 +37,43 @@ const FlyOutNotification = React.createClass({
   },
 
   getIcon() {
-    const severity = this.props.notification.getIn(['data', 'severity']);
     const classes = this.getClassIdentifierWithSeverity(
       blockIdentifier + '__icon'
     );
+    const icon = this.getHealthIconType();
+    return <Icon type={icon} className={classes}/>;
+  },
 
-    let label;
-    let icon;
-    if (severity === health.warning) {
-      label = 'Warning';
-      icon = 'bell-o';
-    } else if (severity === health.danger) {
-      label = 'Danger';
-      icon = 'exclamation-triangle';
-    } else {
-      label = 'Message';
-      icon = 'bullhorn';
+  getHealthIconType() {
+    switch(getHealth(this.props.notification.getIn(['data', 'severity']))) {
+      case health.warning:
+        return 'bell-o';
+      case health.danger:
+        return 'exclamation-triangle';
+      default:
+        return 'bullhorn';
     }
+  },
 
-    return (
-      <div className={classes}>
-        <Icon type={icon}/>
-        {label}
-      </div>
-    );
+  getHealthLabel() {
+    switch(getHealth(this.props.notification.getIn(['data', 'severity']))) {
+      case health.warning:
+        return 'Warning';
+      case health.danger:
+        return 'Danger';
+      default:
+        return 'Message';
+    }
   },
 
   getClassIdentifierWithSeverity(identifier) {
     const severity = this.props.notification.getIn(['data', 'severity']);
+    const snapshotHealth = getHealth(severity);
     return classnames({
       [identifier]: true,
-      [identifier + '--warning']: severity === health.warning,
-      [identifier + '--danger']: severity === health.danger,
-      [identifier + '--ok']: severity === health.ok
+      [identifier + '--warning']: snapshotHealth === health.warning,
+      [identifier + '--danger']: snapshotHealth === health.danger,
+      [identifier + '--ok']: snapshotHealth === health.ok
     });
   },
 

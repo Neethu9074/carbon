@@ -2,10 +2,11 @@
   @indention: 2rem;
   @width: 23rem;
 
-  padding: 1rem 1rem 1rem 0;
+  padding: 0.6rem 0.6rem 0.6rem 0;
   margin: 1rem 0 0 @indention;
   width: @width;
 
+  font-size: 0.8rem;
   border-radius: 0.3rem;
   overflow: hidden;
   background: #293138;
@@ -39,23 +40,16 @@
     float: left;
     width: @icon-width;
     text-align: center;
-
-    .icon {
-      display: block;
-      font-size: 1.9rem;
-      color: inherit;
-    }
-
-    span {
-      font-size: 0.8rem;
-    }
+    display: block;
+    font-size: 1.9rem;
+    color: inherit;
 
     &--ok {
       color: #78F2D9;
     }
 
     &--warning {
-      color: #ffda6b;
+      color: #FDC206;
     }
 
     &--danger {
@@ -71,12 +65,25 @@
   &__heading {
     margin: 0;
     padding: 0;
-    font-size: 1rem;
+    font-size: inherit;
+  }
+
+  &__health {
+    &--ok {
+      color: #78F2D9;
+    }
+
+    &--warning {
+      color: #FDC206;
+    }
+
+    &--danger {
+      color: #FF1744;
+    }
   }
 
   &__message {
-    margin: 0.5rem 0 0;
+    margin: 0;
     color: #808589;
-    font-size: 0.9rem;
   }
 }
