@@ -46,7 +46,8 @@ exports.consts = {
         zones: [
           '#80bff0',
           '#31ad90',
-          '#e9d17d'
+          '#e9d17d',
+          '#7BD7D5'
         ]
       }
     }
