@@ -1,4 +1,5 @@
 /*eslint-env mocha*/
+/*eslint-disable max-len*/
 
 'use strict';
 
@@ -22,6 +23,53 @@ describe('notificationConveyer', () => {
     notificationCenter = proxyquire('./index', {
       '../conveyer': {create}
     });
+  });
+
+  describe('getStatusMessages', () => {
+
+    it('should aggregate status messages', (done) => {
+      const snapshots = Immutable.fromJS([
+        {
+          hostId: 'h1',
+          steadyId: 's1',
+          pluginId: 'p',
+          data: {
+            status: {
+              memory: {
+                freeSwap: {
+                  problems: [
+                    {
+                      problemText: 'You will run out of main memory just within next 2 hours',
+                      fixSuggestion: 'Analyse running processes for eventual memory leaks, eventually kill heavy memory consuming processes',
+                      explanation: 'Determined through linear regression',
+                      severity: 5
+                    }
+                  ]
+                }
+              },
+              cpu: {
+                'cpu.total.steal': {
+                  problems: []
+                }
+              }
+            }
+          }
+        }
+      ]);
+
+      notificationCenter.getStatusMessages()
+        .subscribe(notifications => {
+          expect(notifications.size).to.equal(1);
+          expect(notifications.getIn([0, 'steadyId'])).to.equal('s1');
+          expect(notifications.getIn([0, 'data', 'severity']))
+            .to
+            .equal(5);
+          done();
+        });
+
+      observable.onNext(snapshots);
+    });
+
   });
 
   describe('getActiveProblems', () => {

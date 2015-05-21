@@ -7,6 +7,27 @@ import Immutable from 'immutable';
 import {create} from '../conveyer';
 import NotificationConveyer from '../conveyer/NotificationConveyer';
 
+export function getStatusMessages() {
+  return getStream()
+    .map(snapshots => {
+      return snapshots.reduce((messages, snapshot) => {
+        snapshot.getIn(['data', 'status']).forEach(status => {
+          status.forEach(part => {
+            part.get('problems').forEach(problem => {
+              messages = messages.push(Immutable.Map([
+                ['steadyId', snapshot.get('steadyId')],
+                ['hostId', snapshot.get('hostId')],
+                ['pluginId', snapshot.get('pluginId')],
+                ['data', problem]
+              ]));
+            });
+          });
+        });
+        return messages;
+      }, Immutable.List());
+    });
+}
+
 export function getActiveProblems() {
   return getStream()
     .filter(notification => {
