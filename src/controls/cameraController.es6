@@ -95,6 +95,10 @@ export default class CameraController {
     //if an object was found via raycasting, inform the scene
     if (this.hittenObject !== undefined) {
       this.scene.onObjectClicked(this.hittenObject);
+      // this.scene.onFocus({
+      //   snapshot: this.hittenObject.parentSceneObject.snapshot,
+      //   zoom: true
+      // });
     }
   }
 

@@ -375,7 +375,7 @@ export default class Scene {
           const zoomSpeed = this.controller.zoomSpeed;
           const camSpeed = this.controller.cameraSpeed;
           this.controller.zoomSpeed = 5;
-          this.controller.cameraSpeed = 3;
+          this.controller.cameraSpeed = 4;
           this.controller.setZoomLevel(200);
           setTimeout(() => {
             this.onObjectClicked(host.cube);
@@ -384,9 +384,9 @@ export default class Scene {
               setTimeout(() => {
                 this.controller.zoomSpeed = zoomSpeed;
                 this.controller.cameraSpeed = camSpeed;
-              }, 700);
+              }, 1000);
             }, 600);
-          }, 600);
+          }, 10);
         } else {
           this.onObjectClicked(host.cube);
         }
