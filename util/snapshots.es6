@@ -87,10 +87,9 @@ function calculateIpMap(snapshots) {
 
     //get all ethernet interfaces
     const ethInterfaces = host.getIn(['data', 'interfaces']);
-    if(ethInterfaces !== undefined) {
+    if(ethInterfaces) {
       ethInterfaces.forEach(interf => {
-
-        //get allips of the interface
+        //get all ips of the interface
         const ips = interf.get('ips');
         ips.forEach(ip => {
           map.set(ip, host);
