@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 
 import {create} from '../conveyer';
 import NotificationConveyer from '../conveyer/NotificationConveyer';
+import {getIdString} from '../util/snapshots';
 
 export function getStatusMessages() {
   return getStream()
@@ -14,7 +15,11 @@ export function getStatusMessages() {
         snapshot.getIn(['data', 'status']).forEach(status => {
           status.forEach(part => {
             part.get('problems').forEach(problem => {
+              const id = getIdString(snapshot) +
+                '$' +
+                problem.get('problemText');
               messages = messages.push(Immutable.Map([
+                ['id', id],
                 ['steadyId', snapshot.get('steadyId')],
                 ['hostId', snapshot.get('hostId')],
                 ['pluginId', snapshot.get('pluginId')],
@@ -27,6 +32,7 @@ export function getStatusMessages() {
       }, Immutable.List());
     });
 }
+
 
 export function getActiveProblems() {
   return getStream()
