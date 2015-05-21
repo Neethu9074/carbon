@@ -11,5 +11,5 @@ import prettyBytes from 'pretty-bytes';
  * @throws An error when the bytes are NaN
  */
 export function formatBytes(bytes) {
-  return prettyBytes(bytes);
+  return prettyBytes(bytes, 1024);
 }
