@@ -349,7 +349,6 @@ export default class Scene {
 
   onZoom(event) {
     const zoomLevel = event.zoomLevel;
-
     if(zoomLevel > 250) {
       this.renderHtmlStuff = false;
     } else {
@@ -381,7 +380,7 @@ export default class Scene {
           setTimeout(() => {
             this.onObjectClicked(host.cube);
             setTimeout(() => {
-              this.controller.setZoomLevel(80);
+              this.controller.setZoomLevel(50);
               setTimeout(() => {
                 this.controller.zoomSpeed = zoomSpeed;
                 this.controller.cameraSpeed = camSpeed;
