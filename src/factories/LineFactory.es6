@@ -12,7 +12,7 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     super({scene});
 
     this.setMaterial(new THREE.LineBasicMaterial({
-      color: 0xFFFFFF
+      vertexColors: THREE.VertexColors
     }));
 
     this.numElementPerVertex = 3; //x, y, z
@@ -26,10 +26,11 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     this.globalMesh.matrixAutoUpdate = false;
   }
 
-  addFragment({id, points, enabled = true}) {
+  addFragment({id, points, color = undefined, enabled = true}) {
     this.fragments.push({
       id, //is needed to identify the fragment when deleting
       points,
+      color,
       enabled
     });
 
@@ -48,29 +49,45 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     //get all fragments that are enabled
     const frags = this.getLegalFragments();
     const vertices = [];
+    const colors = [];
 
     for (let i = 0; i < frags.length; i++) {
       const fragment = frags[i];
-      this.copyLineToGLobalVerticArray(vertices, fragment);
+      this.copyLineAttributesToGlobalArray(vertices, colors, fragment);
     }
 
-    this.createGlobalMesh(new Float32Array(vertices));
+    this.createGlobalMesh(new Float32Array(vertices), new Float32Array(colors));
   }
 
-  copyLineToGLobalVerticArray(vertices, fragment){
+  copyLineAttributesToGlobalArray(vertices, colors, fragment){
+    const color = this.getColorForFragment(fragment);
     for (let i = 0; i < fragment.points.length; i++) {
       const point = fragment.points[i];
+      colors[index] = color[0];
       vertices[index++] = point.x;
+      colors[index] = color[1];
       vertices[index++] = point.y;
+      colors[index] = color[2];
       vertices[index++] = point.z;
     }
   }
 
-  createGlobalMesh(vertices) {
+  getColorForFragment(fragment) {
+    if(fragment.color) {
+      return fragment.color;
+    }
+    //white
+    return [1, 1, 1];
+  }
+
+  createGlobalMesh(vertices, colors) {
     this.scene.removeSceneObject(this.globalMesh);
 
     this.globalGeometry.addAttribute('position',
       new THREE.BufferAttribute(vertices, this.numElementPerVertex));
+
+    this.globalGeometry.addAttribute('color',
+      new THREE.BufferAttribute(colors, this.numElementPerVertex));
 
     this.scene.addSceneObject(this.globalMesh);
   }

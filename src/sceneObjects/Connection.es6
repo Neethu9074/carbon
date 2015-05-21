@@ -5,7 +5,7 @@ import SceneObject from './SceneObject';
 import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
 
-const material = new THREE.LineBasicMaterial({color: 0xeb6600});
+const orange = [0.92, 0.4, 0];
 const connections = [];
 let id = 0;
 
@@ -34,19 +34,20 @@ export default class Connection extends SceneObject {
   }
 
   render() {
-    const geometry = new THREE.Geometry();
-    for (let i = 0; i < this.path.length; i++) {
-      geometry.vertices.push(
-        new THREE.Vector3(this.path[i][0], 0, -this.path[i][1]));
+    const scene = this.getScene();
+    const factory = scene.lineFactory;
+    const points = [];
+    const height = Math.random() * 0.3;
+
+    for (let i = 1; i < this.path.length; i++) {
+      const point = this.path[i];
+      const lastPoint = this.path[i - 1];
+
+      points.push(new THREE.Vector3(lastPoint[0], height, -lastPoint[1]));
+      points.push(new THREE.Vector3(point[0], height, -point[1]));
     }
 
-    const line = new THREE.Line(geometry, material);
-    line.position.x -= 0.01;
-    line.position.z += 1.01;
-    line.position.y = Math.random() * 0.3;
-    this.line = line;
-
-    this.addSceneObject(line);
+    factory.addFragment({id: this.id, points, color: orange});
   }
 
   calculatePath() {
@@ -72,7 +73,7 @@ export default class Connection extends SceneObject {
   dispose() {
     this.to.removeConnection(this);
     if(this.parent !== null) {
-      this.removeSceneObject(this.line);
+      this.getScene().lineFactory.removeFragment(this.id);
     }
 
     _.remove(connections, con => con === this);
