@@ -6,10 +6,14 @@ import Immutable from 'immutable';
 
 import {create} from '../conveyer';
 import NotificationConveyer from '../conveyer/NotificationConveyer';
+import SnapshotConveyer from '../conveyer/SnapshotConveyer';
 import {getIdString} from '../util/snapshots';
 
 export function getStatusMessages() {
-  return getStream()
+  return create(
+      SnapshotConveyer,
+      {pluginId: 'com.instana.forge.infrastructure.os.OS'}
+    )
     .map(snapshots => {
       return snapshots.reduce((messages, snapshot) => {
         snapshot.getIn(['data', 'status']).forEach(status => {
