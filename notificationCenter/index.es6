@@ -16,7 +16,12 @@ export function getStatusMessages() {
     )
     .map(snapshots => {
       return snapshots.reduce((messages, snapshot) => {
-        snapshot.getIn(['data', 'status']).forEach(status => {
+        const allStatus = snapshot.getIn(['data', 'status']);
+        // a status might not exist when a host has only just been discovered
+        if (!allStatus) {
+          return;
+        }
+        allStatus.forEach(status => {
           status.forEach(part => {
             part.get('problems').forEach(problem => {
               const id = getIdString(snapshot) +
