@@ -28,7 +28,7 @@ export default class Zone extends SceneObject {
     const zoneColor = getColor(this.id);
     const mat = new THREE.MeshBasicMaterial({
       transparent: true,
-      opacity: 0.03,
+      opacity: 0.10,
       color: zoneColor,
       side: THREE.DoubleSide,
       depthWrite: false
