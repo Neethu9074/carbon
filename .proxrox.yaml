@@ -6,7 +6,7 @@ proxy:
   '/': http://127.0.0.1:7272
 
   #service API
-  '/api/': http://127.0.0.1:3100/
-  #'/api/': http://54.197.140.9/api/
+  '/api/': http://127.0.0.1:3100/ #dummy backend
+  #'/api/': http://127.0.0.1:8080/ #local backend
 websocketProxy:
-  '/api/data': http://localhost:3100/data
+  '/api/data': http://localhost:3100/data #dummy backen
