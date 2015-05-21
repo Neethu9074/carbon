@@ -1,8 +1,5 @@
 'use strict';
 
-import {createLogger} from 'instalog';
-const logger = createLogger('ui-services.connection');
-
 import THREE from 'three';
 import SceneObject from './SceneObject';
 import ConnectionGrid from '../connectionGrid';
@@ -29,7 +26,7 @@ export default class Connection extends SceneObject {
 
     this.calculatePath();
 
-    from.addConnection(this);
+    //add connection to to as well
     to.addConnection(this);
 
     connections.push(this);
@@ -49,7 +46,7 @@ export default class Connection extends SceneObject {
     line.position.y = Math.random() * 0.3;
     this.line = line;
 
-    return line;
+    this.addSceneObject(line);
   }
 
   calculatePath() {
@@ -65,10 +62,11 @@ export default class Connection extends SceneObject {
   }
 
   refresh() {
-    logger.debug('refresh connection', this);
-    //this.line.geometry.dispose();
-    //this.calculatePath();
-    //this.render();
+    // this.calculatePath();
+    //
+    // this.removeSceneObject(this.line);
+    // this.line.geometry.dispose();
+    // this.render();
   }
 
   dispose() {

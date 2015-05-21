@@ -147,12 +147,13 @@ export default class Host extends SceneObject {
   }
 
   calcStickyNodeWorldPos() {
+    const cube = this.cube;
     const worldPos = this.stickyNoteEndPosWorld;
     worldPos.set(0, 0, 0);
-    worldPos.applyMatrix4(this.cube.matrixWorld);
+    worldPos.applyMatrix4(cube.matrixWorld);
 
     worldPos.x -= stickyNoteLineEndLocalPosition.x;
-    worldPos.y = this.cube.scale.y + stickyNoteLineEndLocalPosition.y;
+    worldPos.y = cube.scale.y + stickyNoteLineEndLocalPosition.y;
     worldPos.z += niceLookingDistanceForSticky.z + 0.5;
   }
 
@@ -247,6 +248,12 @@ export default class Host extends SceneObject {
   }
 
   onSnapshotUpdate(snapshot) {
+    //if the reference is equal, don't update. the reference is always equal
+    //on the same snapshots because they are immutable
+    if(this.snapshot === snapshot) {
+      return;
+    }
+
     this.snapshot = snapshot;
     this.setHealth(getHealth(snapshot));
     this.renderStickyNote();
@@ -332,16 +339,13 @@ export default class Host extends SceneObject {
       return;
     }
 
-    const connection = new Connection({
+    this.addConnection(new Connection({
       parent: this,
       from: this,
       to: otherHost
-    });
+    }));
 
     //TODO: use the line factory to store the lines in one geometry
-
-    this.addSceneObject(connection.line);
-    //logger.debug('connect', this.id, 'with', otherHost.id);
   }
 
   //is called from Connection class when creating a new connection

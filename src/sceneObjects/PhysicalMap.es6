@@ -95,8 +95,8 @@ export default class PhysicalMap extends SceneObject {
 
     this.clearAllConnections();
     this.applyLayout(snapshots.size);
-    this.parent.renderScene();
     this.setupConnections(snapshots);
+    this.parent.renderScene();
   }
 
   clearAllConnections() {
