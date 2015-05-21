@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import * as Time from '../Time';
+import * as time from '../time';
 
 
 export default class CameraController {
@@ -158,7 +158,7 @@ export default class CameraController {
   }
 
   update() {
-    const dTime = Time.getDeltaTime();
+    const dTime = time.getDeltaTime();
     this.updateZoomLevel(dTime);
 
     const cam = this.scene.camera;
