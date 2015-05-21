@@ -7,6 +7,7 @@ import React from 'react';
 import logging from 'instalog';
 
 import App from './App';
+import * as airshow from './airshow';
 
 if (logging.ConsoleAppender.isPossible()) {
   const consoleAppender = new logging.ConsoleAppender();
@@ -19,3 +20,7 @@ React.render(
   <App />,
   document.body
 );
+
+if (window.location.href.indexOf('airshow') !== -1) {
+  airshow.start();
+}
