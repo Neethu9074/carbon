@@ -132,7 +132,7 @@ export default class Host extends SceneObject {
     const to = from.clone()
       .add(niceLookingDistanceForSticky);
 
-    lineFactory.addFragment({id, from, to});
+    lineFactory.addFragment({id, points: [from, to]});
   }
 
   addStickyNote() {
@@ -344,8 +344,6 @@ export default class Host extends SceneObject {
       from: this,
       to: otherHost
     }));
-
-    //TODO: use the line factory to store the lines in one geometry
   }
 
   //is called from Connection class when creating a new connection

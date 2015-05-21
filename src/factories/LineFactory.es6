@@ -1,8 +1,9 @@
 'use strict';
 
 import THREE from 'three';
-
 import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
+
+let index = 0;
 
 
 export default class LineFactory extends AbstractMeshCreationFactory {
@@ -25,11 +26,10 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     this.globalMesh.matrixAutoUpdate = false;
   }
 
-  addFragment({id, from, to, enabled = true}) {
+  addFragment({id, points, enabled = true}) {
     this.fragments.push({
       id, //is needed to identify the fragment when deleting
-      from,
-      to,
+      points,
       enabled
     });
 
@@ -39,40 +39,31 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   }
 
   rebuild() {
+    //reset index
+    index = 0;
+
     //remove the current global mesh from the scene
     this.scene.removeSceneObject(this.globalMesh);
 
     //get all fragments that are enabled
     const frags = this.getLegalFragments();
-    const numLines = frags.length;
-    const vertices = new Float32Array(
-      numLines *
-      this.numPointsPerLine *
-      this.numElementPerVertex
-    );
+    const vertices = [];
 
-    for (let i = 0; i < numLines; i++) {
+    for (let i = 0; i < frags.length; i++) {
       const fragment = frags[i];
-      this.copyLineToGLobalVerticArray(vertices, fragment, i);
+      this.copyLineToGLobalVerticArray(vertices, fragment);
     }
 
-    this.createGlobalMesh(vertices);
+    this.createGlobalMesh(new Float32Array(vertices));
   }
 
-  copyLineToGLobalVerticArray(vertices, fragment, index){
-    const from = fragment.from;
-    const to = fragment.to;
-    const offset = index * this.numElementPerVertex * this.numPointsPerLine;
-
-    //from
-    vertices[offset + 0] = from.x;
-    vertices[offset + 1] = from.y;
-    vertices[offset + 2] = from.z;
-
-    //to
-    vertices[offset + 3] = to.x;
-    vertices[offset + 4] = to.y;
-    vertices[offset + 5] = to.z;
+  copyLineToGLobalVerticArray(vertices, fragment){
+    for (let i = 0; i < fragment.points.length; i++) {
+      const point = fragment.points[i];
+      vertices[index++] = point.x;
+      vertices[index++] = point.y;
+      vertices[index++] = point.z;
+    }
   }
 
   createGlobalMesh(vertices) {
