@@ -139,5 +139,11 @@ describe('health', () => {
     it('should fail when passing undefined', () => {
       expect(() => health.getHealth(undefined)).to.throw(Error);
     });
+
+    it('should accept numbers', () => {
+      expect(health.getHealth(9)).to.equal('danger');
+      expect(health.getHealth(6)).to.equal('warning');
+      expect(health.getHealth(1)).to.equal('ok');
+    });
   });
 });
