@@ -12,11 +12,11 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     super({scene});
 
     this.setMaterial(new THREE.LineBasicMaterial({
-      vertexColors: THREE.VertexColors
+      vertexColors: THREE.VertexColors,
+      linewidth: 2
     }));
 
     this.numElementPerVertex = 3; //x, y, z
-    this.numPointsPerLine = 2; //from and to
 
     this.globalMesh = new THREE.Line(
       this.globalGeometry,

@@ -372,12 +372,25 @@ export default class Scene {
   onFocus(event) {
     this.forEachHost((host) => {
       if (isIdEqual(host.snapshot, event.snapshot)) {
-        this.onObjectClicked(host.cube);
-
         if(event.zoom) {
-          this.controller.setZoomLevel(100);
+          const zoomSpeed = this.controller.zoomSpeed;
+          const camSpeed = this.controller.cameraSpeed;
+          this.controller.zoomSpeed = 5;
+          this.controller.cameraSpeed = 3;
+          this.controller.setZoomLevel(200);
+          setTimeout(() => {
+            this.onObjectClicked(host.cube);
+            setTimeout(() => {
+              this.controller.setZoomLevel(80);
+              setTimeout(() => {
+                this.controller.zoomSpeed = zoomSpeed;
+                this.controller.cameraSpeed = camSpeed;
+              }, 700);
+            }, 600);
+          }, 600);
+        } else {
+          this.onObjectClicked(host.cube);
         }
-        return; //return if you found one
       }
     });
   }

@@ -65,6 +65,7 @@ export default class Host extends SceneObject {
 
     //set this flag to add this obj to octree and not to scene!
     this.cube.useOnlyForCollisionDetection = true;
+    this.cube.parentSceneObject = this;
 
     this.addSceneObject(this.cube);
     this.addToGlobalGeometry();
