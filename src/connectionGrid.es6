@@ -55,15 +55,15 @@ class ConnectionGrid {
           geoPos[index] = x - dimX / 2;
           geoPos[index + 1] = 0;
           geoPos[index + 2] = -z + dimZ / 2;
-          index += 3;
+        } else {
+            geoPos[index] = Infinity;
         }
+        index += 3;
       }
     }
 
     geometry.addAttribute('position', new THREE.BufferAttribute(geoPos, 3));
-
-    const material = new THREE.PointCloudMaterial();
-    return new THREE.PointCloud(geometry, material);
+    return new THREE.PointCloud(geometry, new THREE.PointCloudMaterial());
   }
 
   dispose() {
