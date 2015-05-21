@@ -19,7 +19,7 @@ export function getStatusMessages() {
         const allStatus = snapshot.getIn(['data', 'status']);
         // a status might not exist when a host has only just been discovered
         if (!allStatus) {
-          return;
+          return messages;
         }
         allStatus.forEach(status => {
           status.forEach(part => {
