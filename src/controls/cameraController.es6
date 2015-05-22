@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import * as time from '../time';
+import * as time from '../timeCalculations';
 
 
 export default class CameraController {

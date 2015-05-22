@@ -11,7 +11,7 @@ import * as zoom from './zoom';
 import colors from './colors';
 import mobileChecker from './mobileChecker';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import * as time from './time';
+import * as time from './timeCalculations';
 import Host from './sceneObjects/Host';
 import EventEmitter from 'eventemitter3';
 import HostFactory from './factories/HostFactory';
