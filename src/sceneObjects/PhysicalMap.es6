@@ -99,6 +99,45 @@ export default class PhysicalMap extends SceneObject {
     this.parent.renderScene();
   }
 
+  addHost(host) {
+    const zoneId = getZone(host);
+
+    //get find the zone with zoneId
+    let zone = _.find(this.zones, zone => zone.id === zoneId);
+
+    //if the zone doesn't exist, create it
+    if (!zone) {
+      zone = new Zone({
+        parent: this,
+        id: zoneId,
+        zoneIndex: this.zones.length
+      });
+      zone.createLabel();
+      this.zones.push(zone);
+    }
+
+    //add the host to zone (the zone handles duplicates)
+    zone.addHost({snapshot: host});
+
+    //if the zone has switched,
+    //delete the hosts in other zones than the current one
+    this.removeHostFromAllZonesInsteadOf(zoneId, host);
+  }
+
+  //runs through all zones instead of the current one and searches for the
+  //host added to the current one. if found -> delete it from old zones
+  removeHostFromAllZonesInsteadOf(zoneId, host) {
+    this.zones.forEach(zone =>{
+      if(zone.id !== zoneId) {
+        zone.hosts.forEach(zoneHost => {
+          if(isIdEqual(host, zoneHost.snapshot)) {
+            zoneHost.dispose();
+          }
+        });
+      }
+    });
+  }
+
   clearAllConnections() {
     this.zones.forEach(zone => {
       zone.hosts.forEach(host => {
@@ -155,21 +194,6 @@ export default class PhysicalMap extends SceneObject {
     const maxHostsPerRow = Math.floor(
       Math.sqrt(numberOfHosts / this.zones.length));
     new Layouter({maxHostsPerRow}).applyLayout(this);
-  }
-
-  addHost(host) {
-    const zoneId = getZone(host);
-    let zone = _.find(this.zones, zone => zone.id === zoneId);
-    if (!zone) {
-      zone = new Zone({
-        parent: this,
-        id: zoneId,
-        zoneIndex: this.zones.length
-      });
-      zone.createLabel();
-      this.zones.push(zone);
-    }
-    zone.addHost({snapshot: host});
   }
 
   onZoom(zoomLevel) {
