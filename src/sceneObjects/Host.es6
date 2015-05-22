@@ -53,7 +53,7 @@ export default class Host extends SceneObject {
     this.connections = [];
 
     //if(window.location.search.match(/processes/)) {
-    //this.addProcesses(snapshot);
+      //this.addProcesses(snapshot);
     //}
 
     this.show();
@@ -178,6 +178,16 @@ export default class Host extends SceneObject {
     });
 
     this.metricServer = new MetricServer(this);
+  }
+
+  showMetrics() {
+    //changing the material means changing the material for all processes
+    this.getScene().cubeFactory.material.visible = false;
+  }
+
+  hideMetrics() {
+    //changing the material means changing the material for all processes
+    this.getScene().cubeFactory.material.visible = true;
   }
 
   setSingleMetricValue(value) {

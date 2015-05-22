@@ -67,6 +67,16 @@ export default class Scene {
       eventBus.on('updateMetricHostEventName').subscribe(e =>
         this.onUpdateHostMetricValue(e))
     );
+
+    this.subscriptions.push(
+      eventBus.on('showMetricsOn').subscribe(() => {this.showMetrics = true; })
+    );
+
+    this.subscriptions.push(
+      eventBus.on('showMetricsOff').subscribe(() => {
+        this.showMetrics = false;
+      })
+    );
   }
 
   setupFactories() {
@@ -81,7 +91,11 @@ export default class Scene {
       numTiles: this.numTiles
     });
 
-    setInterval(this.updateMetricHeights.bind(this), 1000);
+    setInterval(() => {
+      if(this.showMetrics) {
+        this.updateMetricHeights.bind(this);
+      }
+    }, 1000);
   }
 
   setupOctree() {

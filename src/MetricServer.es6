@@ -15,15 +15,31 @@ import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 export default class MetricServer {
 
   constructor(client) {
-    this.externalSubscription =
-      eventBus.on('showMetrics').subscribe(e => this.showMetrics(e.metrics));
+    this.subscriptions = [eventBus.on('showMetrics').subscribe(
+      e => this.showMetrics(e.metrics)
+    )];
 
     this.client = client;
     this.subscriptions = [];
 
     const pluginId = 'com.instana.forge.infrastructure.os.Process';
     const observable = create(SnapshotConveyer, {pluginId});
-    this.sub = observable.subscribe(data => this.onProcessUpdate(data));
+
+    this.subscriptions.push(
+      observable.subscribe(data => this.onProcessUpdate(data))
+    );
+
+    this.subscriptions.push(
+      eventBus.on('showMetricsOn').subscribe(() => {
+        this.client.showMetrics();
+      })
+    );
+
+    this.subscriptions.push(
+      eventBus.on('showMetricsOff').subscribe(() => {
+        this.client.hideMetrics();
+      })
+    );
   }
 
   onProcessUpdate(snapshots) {
@@ -76,8 +92,8 @@ export default class MetricServer {
   }
 
   dispose() {
-    this.externalSubscription.dispose();
-    this.externalSubscription = null;
+    this.subscriptions.forEach(sub => sub.dispose());
+    this.subscriptions = null;
 
     this.subscriptions.forEach(sub => sub.dispose);
     this.subscriptions = [];
