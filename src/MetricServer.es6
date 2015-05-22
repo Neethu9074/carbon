@@ -6,6 +6,7 @@ import {getMaxValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
 import {combine} from 'instana-ui-services/util/rx';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 
 /*eslint-disable no-console*/
 //console.log('----->', MetricConveyer);
@@ -19,6 +20,19 @@ export default class MetricServer {
 
     this.client = client;
     this.subscriptions = [];
+
+    const pluginId = 'com.instana.forge.infrastructure.os.Process';
+    const observable = create(SnapshotConveyer, {pluginId});
+    this.sub = observable.subscribe(data => this.onProcessUpdate(data));
+  }
+
+  onProcessUpdate(snapshots) {
+    snapshots.forEach(process => {
+      const hostId = process.get('hostId');
+      if(hostId === this.client.snapshot.get('hostId')) {
+        this.client.addProcess(process);
+      }
+    });
   }
 
   showMetrics(metrics) {

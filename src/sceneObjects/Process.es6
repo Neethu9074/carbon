@@ -26,6 +26,9 @@ export default class Process extends SceneObject {
     this.layerIndex = 0; //see this.setLayerIndex
 
     this.render();
+
+    const parentPos = parent.getPosition();
+    this.setPosition(parentPos.x, parentPos.y, parentPos.z);
   }
 
   registerEvents() {

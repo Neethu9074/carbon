@@ -9,6 +9,7 @@ import _ from 'lodash';
 import MetricServer from '../MetricServer';
 
 import {getHealth} from 'instana-ui-services/health';
+import {create} from 'instana-ui-services/conveyer';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
 
 import ConnectionGrid from '../connectionGrid';
@@ -52,7 +53,7 @@ export default class Host extends SceneObject {
     this.connections = [];
 
     //if(window.location.search.match(/processes/)) {
-      this.addProcesses(snapshot);
+    //this.addProcesses(snapshot);
     //}
 
     this.show();
@@ -322,14 +323,28 @@ export default class Host extends SceneObject {
   addProcesses() {
     const numOfProcesses = Math.floor(Math.random() * 10);
     for (let i = 0; i < numOfProcesses; i++) {
-      const process = new Process({parent: this});
-      process.setLayerIndex(i);
-      this.processes.push(process);
-
-      logger.debug('create process', process.id);
+      this.addProcess();
     }
 
     this.arrangeProcesses();
+  }
+
+  addProcess(snapshot) {
+    //if this process is still there
+    if(this.processes.indexOf(process => {
+      return process.snapshot === snapshot;
+    }) >= 0) {
+      return;
+    }
+
+    const process = new Process({parent: this});
+    process.setLayerIndex(this.processes.length);
+    process.snapshot = snapshot;
+    this.processes.push(process);
+
+    this.arrangeProcesses();
+
+    logger.debug('create process', process.id);
   }
 
   //connects this host with another one. the connection is stored in a
