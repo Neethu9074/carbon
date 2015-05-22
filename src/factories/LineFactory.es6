@@ -24,6 +24,8 @@ export default class LineFactory extends AbstractMeshCreationFactory {
       THREE.LinePieces
     );
     this.globalMesh.matrixAutoUpdate = false;
+    this.globalMesh.renderOrder = 2;
+    this.globalMesh.frustumCulled = false;
   }
 
   addFragment({id, points, color = undefined, enabled = true}) {
