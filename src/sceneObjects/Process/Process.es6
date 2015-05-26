@@ -16,15 +16,13 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].y += 0.5;
   cubeGeometry.vertices[i].z += 0.5;
 }
-let id = 0;
-
 
 export default class Process extends SceneObject {
 
   constructor({parent, snapshot}) {
     super({parent});
 
-    this.id = id++;
+    this.id = snapshot.get('steadyId');
     this.scene = this.getScene();
     this.snapshot = snapshot;
     this.layerIndex = 0; //see this.setLayerIndex
