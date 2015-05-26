@@ -2,8 +2,11 @@
 
 import THREE from 'three';
 
-import SceneObject from './SceneObject';
-import colors from '../colors';
+import React from 'react';
+
+import SceneObject from '../SceneObject';
+import colors from '../../colors';
+import StickyNote from './StickyNote';
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
@@ -13,6 +16,7 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].y += 0.5;
   cubeGeometry.vertices[i].z += 0.5;
 }
+let id = 0;
 
 
 export default class Process extends SceneObject {
@@ -20,21 +24,16 @@ export default class Process extends SceneObject {
   constructor({parent, snapshot}) {
     super({parent});
 
-    this.id = Math.random();
+    this.id = id++;
     this.scene = this.getScene();
     this.snapshot = snapshot;
     this.layerIndex = 0; //see this.setLayerIndex
 
     this.render();
+    this.addStickyNote();
 
     const parentPos = parent.getPosition();
     this.setPosition(parentPos.x, parentPos.y, parentPos.z);
-  }
-
-  registerEvents() {
-    this.addSubscription(
-      this.on('endUpdate', this.update.bind(this))
-    );
   }
 
   render() {
@@ -42,10 +41,6 @@ export default class Process extends SceneObject {
     this.cube = new THREE.Mesh(cubeGeometry);
     this.cube.matrixAutoUpdate = false;
 
-    //set this flag to add this obj to octree and not to scene!
-    //this.cube.useOnlyForCollisionDetection = true;
-
-    //this.addSceneObject(this.cube);
     this.addToGlobalGeometry();
   }
 
@@ -59,8 +54,60 @@ export default class Process extends SceneObject {
     });
   }
 
+  addStickyNote() {
+    this.stickyNoteContainer = document.createElement('div');
+    this.stickyNoteContainerStyle = this.stickyNoteContainer.style;
+    this.stickyNoteContainer.classList.add('in-sticky-note-process');
+    this.getHtmlContainer().appendChild(this.stickyNoteContainer);
+
+    this.stickyNoteEndPosWorld = new THREE.Vector3();
+    this.calcStickyNodeWorldPos();
+
+    this.renderStickyNote();
+  }
+
+  calcStickyNodeWorldPos() {
+    const pos = this.parent.getPosition();
+    const worldPos = this.stickyNoteEndPosWorld;
+    worldPos.set(pos.x, pos.y + this.parent.cube.scale.y, pos.z + 1);
+  }
+
+  renderStickyNote(height) {
+    const numProcesses = this.parent.processes.length;
+
+    React.render(
+      <StickyNote height={height} numProcesses={numProcesses} />,
+      this.stickyNoteContainer
+    );
+  }
+
   removeFromGlobalGeometry() {
     this.scene.cubeFactory.removeFragment(this.id);
+  }
+
+  updateStickyNotePosition() {
+    if(this.layerIndex !== 0) {
+      return;
+    }
+
+    const scene = this.getScene();
+    const pos = this.stickyNoteEndPosWorld.clone();
+    pos.applyMatrix4(scene.camera.projection);
+
+    const x = ((pos.x + 1) * scene.width / 2) | 0;
+    const y = ((-pos.y + 1) * scene.height / 2) | 0;
+    const translate = `translate3d(${x}px,${y}px,0)`;
+
+    this.stickyNoteContainerStyle.transform = translate;
+    this.stickyNoteContainerStyle['-webkit-transform'] = translate;
+
+
+    const posBottom = this.stickyNoteEndPosWorld.clone();
+    posBottom.y = 0;
+    posBottom.applyMatrix4(scene.camera.projection);
+
+    const yBottom = ((-posBottom.y + 1) * scene.height / 2) | 0;
+    this.renderStickyNote(yBottom - y);
   }
 
   setPosition(x, y, z) {
@@ -72,7 +119,6 @@ export default class Process extends SceneObject {
 
   setHeight(height) {
     this.cube.scale.y = height;
-
     this.refreshMesh();
   }
 
@@ -83,27 +129,22 @@ export default class Process extends SceneObject {
   // -----   layer 0 (bottom layer)
   setLayerIndex(index) {
     this.layerIndex = index;
+
+    if(index > 0) {
+      this.stickyNoteContainerStyle.display = 'none';
+    } else {
+      this.stickyNoteContainerStyle.display = '';
+    }
   }
 
   refreshMesh() {
     this.cube.updateMatrix();
     this.cube.updateMatrixWorld();
 
+    this.calcStickyNodeWorldPos();
+
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
-  }
-
-  update(data) {
-    if(!data.scene.renderHtmlStuff) {
-      return;
-    }
-
-    //if the host is near enough or is in the view frustum
-    if(data.scene.objectIsVisible(this.cube)) {
-      this.cube.material.visible = true;
-    } else {
-      this.cube.material.visible = false;
-    }
   }
 
   dispose() {

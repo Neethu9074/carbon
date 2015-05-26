@@ -6,17 +6,17 @@ const logger = createLogger('ui-services.connection');
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
-import MetricServer from '../MetricServer';
+import MetricServer from '../../MetricServer';
 
 import {getHealth} from 'instana-ui-services/health';
 import {create} from 'instana-ui-services/conveyer';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
 
-import ConnectionGrid from '../connectionGrid';
-import Connection from './Connection';
-import SceneObject from './SceneObject';
+import ConnectionGrid from '../../connectionGrid';
+import Connection from '../Connection';
+import SceneObject from '../SceneObject';
 import StickyNote from './StickyNote';
-import Process from './Process';
+import Process from '../Process/Process';
 
 //const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
@@ -235,6 +235,7 @@ export default class Host extends SceneObject {
       }
     } else {
       this.updateStickyNotePosition(data);
+      this.processes.forEach(process => process.updateStickyNotePosition());
     }
   }
 
@@ -326,15 +327,6 @@ export default class Host extends SceneObject {
     this.addToGlobalGeometry();
   }
 
-  addProcesses() {
-    const numOfProcesses = Math.floor(Math.random() * 10);
-    for (let i = 0; i < numOfProcesses; i++) {
-      this.addProcess();
-    }
-
-    this.arrangeProcesses();
-  }
-
   addProcess(snapshot) {
     //if this process is still there
     if(this.processes.indexOf(process => {
@@ -343,9 +335,8 @@ export default class Host extends SceneObject {
       return;
     }
 
-    const process = new Process({parent: this});
+    const process = new Process({parent: this, snapshot});
     process.setLayerIndex(this.processes.length);
-    process.snapshot = snapshot;
     this.processes.push(process);
 
     this.arrangeProcesses();

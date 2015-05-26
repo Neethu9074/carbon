@@ -4,7 +4,7 @@ import _ from 'lodash';
 import THREE from 'three';
 
 import SceneObject from './SceneObject';
-import Host from './Host';
+import Host from './Host/Host';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getColor} from 'instana-ui-sdk/zones';
 
