@@ -10,6 +10,7 @@ import {getColor} from 'instana-ui-sdk/zones';
 
 //use global geometry to reduce object instances
 const zoneGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+const white = 0xFFFFFF;
 
 
 export default class Zone extends SceneObject {
@@ -25,12 +26,15 @@ export default class Zone extends SceneObject {
   }
 
   renderGround() {
-    const zoneColor = getColor(this.id);
+    let zoneColor = getColor(this.id);
+    if(!zoneColor) {
+      zoneColor = white;
+    }
+
     const mat = new THREE.MeshBasicMaterial({
       transparent: true,
       opacity: 0.10,
       color: zoneColor,
-      side: THREE.DoubleSide,
       depthWrite: false
     });
 
@@ -78,7 +82,6 @@ export default class Zone extends SceneObject {
     const mat = new THREE.MeshBasicMaterial({
       map: texture,
       transparent: true,
-      side: THREE.DoubleSide,
       depthWrite: false
     });
     const label = new THREE.Mesh(zoneGeometry, mat);
