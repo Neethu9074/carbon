@@ -1,7 +1,7 @@
 'use strict';
 
 import {createLogger} from 'instalog';
-const logger = createLogger('ui-services.connection');
+const logger = createLogger('ui-map.Host');
 
 import THREE from 'three';
 import React from 'react';
