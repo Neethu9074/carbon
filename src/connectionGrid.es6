@@ -20,14 +20,14 @@ class ConnectionGrid {
 
   clearPosition(position) {
     this.grid.setWalkableAt(
-      position.x + this.width / 2,
+      position.x + this.width / 2 - 1,
       -position.z + this.height / 2,
       true);
   }
 
   blockPosition(position) {
     this.grid.setWalkableAt(
-      position.x + this.width / 2,
+      position.x + this.width / 2 - 1,
       -position.z + this.height / 2,
       false);
   }
@@ -52,9 +52,9 @@ class ConnectionGrid {
     for(let x = 0; x < dimX; x++) {
       for(let z = 0; z < dimZ; z++) {
         if(this.grid.isWalkableAt(x, z)) {
-          geoPos[index] = x - dimX / 2;
+          geoPos[index] = 0.5 + x - dimX / 2;
           geoPos[index + 1] = 0;
-          geoPos[index + 2] = -z + dimZ / 2;
+          geoPos[index + 2] = 0.5 - z + dimZ / 2;
         } else {
             geoPos[index] = Infinity;
         }

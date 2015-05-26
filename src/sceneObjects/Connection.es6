@@ -37,15 +37,36 @@ export default class Connection extends SceneObject {
     const scene = this.getScene();
     const factory = scene.lineFactory;
     const points = [];
-    const height = Math.random() * 0.3;
+    const height = -0.4; // Math.random() * 0.3;
+
+    points.push(new THREE.Vector3(this.path[0][0] - 0.5,
+      0,
+      -this.path[0][1] + 0.5));
+    points.push(new THREE.Vector3(this.path[0][0] - 0.5,
+      height,
+      -this.path[0][1] + 0.5));
 
     for (let i = 1; i < this.path.length; i++) {
       const point = this.path[i];
       const lastPoint = this.path[i - 1];
 
-      points.push(new THREE.Vector3(lastPoint[0], height, -lastPoint[1]));
-      points.push(new THREE.Vector3(point[0], height, -point[1]));
+      points.push(new THREE.Vector3(
+        lastPoint[0] - 0.5,
+        height,
+        -lastPoint[1] + 0.5));
+      points.push(new THREE.Vector3(
+        point[0] - 0.5,
+        height,
+        -point[1] + 0.5));
     }
+
+    const lastIndex = this.path.length - 1;
+    points.push(new THREE.Vector3(this.path[lastIndex][0] - 0.5,
+      0,
+      -this.path[lastIndex][1] + 0.5));
+    points.push(new THREE.Vector3(this.path[lastIndex][0] - 0.5,
+      height,
+      -this.path[lastIndex][1] + 0.5));
 
     factory.addFragment({id: this.id, points, color: orange});
   }
@@ -54,12 +75,18 @@ export default class Connection extends SceneObject {
     const fromPos = this.from.getPosition();
     const toPos = this.to.getPosition();
 
+    ConnectionGrid.clearPosition(fromPos);
+    ConnectionGrid.clearPosition(toPos);
+
     this.path = ConnectionGrid.getPath({
-      fromX: fromPos.x - 1,
+      fromX: fromPos.x,
       fromY: -fromPos.z,
-      toX: toPos.x - 1,
+      toX: toPos.x,
       toY: -toPos.z
     });
+
+    ConnectionGrid.blockPosition(fromPos);
+    ConnectionGrid.blockPosition(toPos);
   }
 
   refresh() {

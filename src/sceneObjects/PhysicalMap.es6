@@ -34,7 +34,6 @@ export default class PhysicalMap extends SceneObject {
       transparent: true,
       opacity: 0.1,
       blending: THREE.NormalBlending,
-      side: THREE.DoubleSide,
       depthWrite: false
     });
 
