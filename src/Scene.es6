@@ -93,7 +93,7 @@ export default class Scene {
 
     setInterval(() => {
       if(this.showMetrics) {
-        this.updateMetricHeights.bind(this);
+        this.updateMetricHeights();
       }
     }, 1000);
   }
@@ -243,7 +243,7 @@ export default class Scene {
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
     this.hostFactory.material.opacity = normedZoomLevel;
-    this.lineFactory.material.visible = (zoomLevel <= 200);
+    //this.lineFactory.material.visible = (zoomLevel <= 200);
 
     this.updateHostColors(zoomLevel, maxZoomOut);
   }

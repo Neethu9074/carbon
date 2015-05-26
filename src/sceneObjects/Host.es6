@@ -79,7 +79,7 @@ export default class Host extends SceneObject {
 
     this.addToHostFactory(id, pos, dim);
     this.addToZoneFactory(id, pos, dim);
-    this.addToLineFactory(id, pos, dim);
+    //this.addToLineFactory(id, pos, dim);
     this.addToMultiMetricFactory(id, pos, dim);
     this.addToSingleMetricFactory(id, pos, dim);
   }
@@ -151,12 +151,12 @@ export default class Host extends SceneObject {
   calcStickyNodeWorldPos() {
     const cube = this.cube;
     const worldPos = this.stickyNoteEndPosWorld;
-    worldPos.set(0, 0, 0);
+    worldPos.set(-0.5, 0, 0.5);
     worldPos.applyMatrix4(cube.matrixWorld);
 
-    worldPos.x -= stickyNoteLineEndLocalPosition.x;
-    worldPos.y = cube.scale.y + stickyNoteLineEndLocalPosition.y;
-    worldPos.z += niceLookingDistanceForSticky.z + 0.5;
+    // worldPos.x -= stickyNoteLineEndLocalPosition.x;
+    worldPos.y = cube.scale.y; //+ stickyNoteLineEndLocalPosition.y;
+    //worldPos.z += niceLookingDistanceForSticky.z + 0.5;
   }
 
   renderStickyNote() {
@@ -405,7 +405,7 @@ export default class Host extends SceneObject {
     const scene = this.scene;
 
     scene.hostFactory.enableFragment(id);
-    scene.lineFactory.enableFragment(id);
+    //scene.lineFactory.enableFragment(id);
     scene.zoneFactory.enableFragment(id);
     scene.multiMetricFactory.enableFragment(id);
     scene.singleMetricFactory.enableFragment(id);
@@ -418,7 +418,7 @@ export default class Host extends SceneObject {
     const scene = this.scene;
 
     scene.hostFactory.disableFragment(id);
-    scene.lineFactory.disableFragment(id);
+    //scene.lineFactory.disableFragment(id);
     scene.zoneFactory.disableFragment(id);
     scene.multiMetricFactory.disableFragment(id);
     scene.singleMetricFactory.disableFragment(id);
@@ -428,7 +428,7 @@ export default class Host extends SceneObject {
     const id = this.id;
     const scene = this.scene;
     scene.hostFactory.removeFragment(id);
-    scene.lineFactory.removeFragment(id);
+    //scene.lineFactory.removeFragment(id);
     scene.zoneFactory.removeFragment(id);
     scene.multiMetricFactory.removeFragment(id);
     scene.singleMetricFactory.removeFragment(id);
