@@ -18,7 +18,7 @@ import SceneObject from './SceneObject';
 import StickyNote from './StickyNote';
 import Process from './Process';
 
-const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
+//const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const cubeHullThickness = new THREE.Vector3(0, 0.1, 0);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
