@@ -65,10 +65,12 @@ describe('util.snapshots', () => {
               ips: ['192.168.0.1']
             }
           },
-          connections: [
-            '192.168.0.2',
-            '192.168.0.3'
-          ]
+          connections: {
+            outgoing: [
+              '192.168.0.1',
+              '192.168.0.2'
+            ]
+          }
         }
       }, b: {
         data: {
@@ -77,10 +79,16 @@ describe('util.snapshots', () => {
               ips: ['192.168.0.2']
             }
           },
-          connections: [
-            '192.168.0.1',
-            '192.168.0.3'
-          ]
+          connections: {
+            incoming: [
+              '1.1.1.1',
+              '2.2.2.2'
+            ],
+            outgoing: [
+              '192.168.0.1',
+              '192.168.0.2'
+            ]
+          }
         }
       }, c: {
         data: {
@@ -89,10 +97,12 @@ describe('util.snapshots', () => {
               ips: ['192.168.0.3']
             }
           },
-          connections: [
-            '192.168.0.1',
-            '192.168.0.2'
-          ]
+          connections: {
+            incoming: [
+              '192.168.0.1',
+              '192.168.0.2'
+            ]
+          }
         }
       }, d: {
         data: {

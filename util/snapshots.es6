@@ -66,7 +66,7 @@ export function extractConnections(snapshots) {
   let map = Immutable.Map().asMutable();
 
   snapshots.forEach(host => {
-    const connections = host.getIn(['data', 'connections']);
+    const connections = host.getIn(['data', 'connections', 'outgoing']);
     if (connections) {
       map.set(host, connections.map(connection => {
         return ipSnapshotMap.get(connection);
