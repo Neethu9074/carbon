@@ -7,7 +7,7 @@ import PF from 'pathfinding';
 class ConnectionGrid {
 
   constructor() {
-    this.width = 100;
+    this.width = 300;
     this.height = 100;
 
     this.grid = new PF.Grid(this.width, this.height);
