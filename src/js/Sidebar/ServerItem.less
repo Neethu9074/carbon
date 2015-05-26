@@ -2,7 +2,7 @@
   list-style: none;
   border-bottom: 1px solid #29323C;
 
-  max-height: 2.5em;
+  max-height: 2.7em;
   overflow: hidden;
 
   transition: max-height .5s ease;
@@ -17,9 +17,12 @@
   font-size: 0.9em;
   font-weight: 200;
   cursor: pointer;
+  padding-bottom: .3em;
 
   .in-snapshot-icon {
     margin-right: 1rem;
+    position: relative;
+    top: -.3rem;
   }
 
   // we need to increase specificity in order to avoid CSS file ordering issues
@@ -30,6 +33,14 @@
 
   &:hover .in-sidebar-server-listing__snapshot-toggle {
     display: block;
+  }
+
+  span {
+    max-width: 12.5rem;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
