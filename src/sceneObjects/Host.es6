@@ -52,10 +52,6 @@ export default class Host extends SceneObject {
     this.processes = [];
     this.connections = [];
 
-    //if(window.location.search.match(/processes/)) {
-      //this.addProcesses(snapshot);
-    //}
-
     this.show();
   }
 

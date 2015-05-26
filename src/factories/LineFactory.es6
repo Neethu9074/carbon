@@ -17,7 +17,6 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     }));
 
     this.numElementPerVertex = 3; //x, y, z
-
     this.globalMesh = new THREE.Line(
       this.globalGeometry,
       this.material,
