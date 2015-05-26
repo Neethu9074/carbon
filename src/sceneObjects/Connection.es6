@@ -37,38 +37,47 @@ export default class Connection extends SceneObject {
     const scene = this.getScene();
     const factory = scene.lineFactory;
     const points = [];
-    const height = -0.4; // Math.random() * 0.3;
+    const height = -0.4;
 
-    points.push(new THREE.Vector3(this.path[0][0] - 0.5,
-      0,
-      -this.path[0][1] + 0.5));
-    points.push(new THREE.Vector3(this.path[0][0] - 0.5,
-      height,
-      -this.path[0][1] + 0.5));
-
+    this.addBeginning(points, this.path, height);
     for (let i = 1; i < this.path.length; i++) {
       const point = this.path[i];
       const lastPoint = this.path[i - 1];
 
       points.push(new THREE.Vector3(
-        lastPoint[0] - 0.5,
-        height,
-        -lastPoint[1] + 0.5));
+        lastPoint[0] - 0.5, height, -lastPoint[1] + 0.5));
       points.push(new THREE.Vector3(
-        point[0] - 0.5,
-        height,
-        -point[1] + 0.5));
+        point[0] - 0.5, height, -point[1] + 0.5));
     }
-
-    const lastIndex = this.path.length - 1;
-    points.push(new THREE.Vector3(this.path[lastIndex][0] - 0.5,
-      0,
-      -this.path[lastIndex][1] + 0.5));
-    points.push(new THREE.Vector3(this.path[lastIndex][0] - 0.5,
-      height,
-      -this.path[lastIndex][1] + 0.5));
+    this.addEnding(points, this.path, height);
 
     factory.addFragment({id: this.id, points, color: orange});
+  }
+
+  addBeginning(points, path, height) {
+    const firstPointX = path[0][0] - 0.5;
+    const firstPointZ = -path[0][1] + 0.5;
+    points.push(new THREE.Vector3(firstPointX, 0, firstPointZ));
+    points.push(new THREE.Vector3(firstPointX, height, firstPointZ));
+  }
+
+  addEnding(points, path, height) {
+    const lastIndex = path.length - 1;
+    const lastPoint = path[lastIndex];
+    const lastPointPos = new THREE.Vector3(
+      lastPoint[0] - 0.5, 0, -lastPoint[1] + 0.5);
+
+    points.push(lastPointPos);
+    points.push(new THREE.Vector3(
+      lastPoint[0] - 0.5, height, lastPointPos.z));
+
+    points.push(lastPointPos);
+    points.push(new THREE.Vector3(
+      lastPoint[0] - 0.6, -0.25, lastPointPos.z));
+
+    points.push(lastPointPos);
+    points.push(new THREE.Vector3(
+      lastPoint[0] - 0.4, -0.25, lastPointPos.z));
   }
 
   calculatePath() {
@@ -84,6 +93,11 @@ export default class Connection extends SceneObject {
       toX: toPos.x,
       toY: -toPos.z
     });
+
+    const movement = (Math.random() * 0.2) - 0.2;
+    for (let i = 0; i < this.path.length; i++) {
+      this.path[i][0] += movement;
+    }
 
     ConnectionGrid.blockPosition(fromPos);
     ConnectionGrid.blockPosition(toPos);
