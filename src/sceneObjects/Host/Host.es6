@@ -1,7 +1,6 @@
 'use strict';
 
-import {createLogger} from 'instalog';
-const logger = createLogger('ui-map.Host');
+import {createLogger} from 'instalog'
 
 import THREE from 'three';
 import React from 'react';
@@ -344,8 +343,6 @@ export default class Host extends SceneObject {
     this.processes.push(process);
 
     this.arrangeProcesses();
-
-    logger.debug('create process', process.id);
   }
 
   //connects this host with another one. the connection is stored in a
