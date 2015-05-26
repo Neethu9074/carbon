@@ -329,6 +329,10 @@ export default class Host extends SceneObject {
 
   addProcess(snapshot) {
     //if this process is still there
+    if(!this.processes) {
+      this.processes = [];
+    }
+
     if(this.processes.indexOf(process => {
       return process.snapshot === snapshot;
     }) >= 0) {
