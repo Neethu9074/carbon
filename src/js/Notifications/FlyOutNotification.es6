@@ -4,7 +4,6 @@ import './FlyOutNotification.less';
 
 import React from 'react/addons';
 import classnames from 'instana-ui-services/util/classnames';
-import {health} from 'instana-ui-sdk/health';
 import {getHealth} from 'instana-ui-services/health';
 import Icon from 'instana-ui-components/Icon';
 
