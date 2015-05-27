@@ -11,6 +11,7 @@ import {Tabs, Tab} from '../../Tabs';
 import Lettering from '../../Lettering';
 import Icon from '../../Icon';
 import Toast from '../../Toast';
+import TimeLine from '../../TimeLine';
 import SnapshotIconDemo from './SnapshotIconDemo';
 
 import '../less/demo.less';
@@ -76,6 +77,9 @@ const Demo = React.createClass({
         </Tab>
         <Tab title="Lettering">
           <Lettering />
+        </Tab>
+        <Tab title="TimeLine">
+          <TimeLine />
         </Tab>
         <Tab title="Toast">
           <button onClick={this.showToast}>Show Toast</button>
