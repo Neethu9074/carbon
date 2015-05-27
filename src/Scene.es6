@@ -64,14 +64,16 @@ export default class Scene {
 
   setupEvents() {
     this.subscriptions = [eventBus.on('focus').subscribe(e =>this.onFocus(e))];
-    this.subscriptions.push(
-      eventBus.on('updateMetricHostEventName').subscribe(e =>
-        this.onUpdateHostMetricValue(e))
-    );
 
     this.subscriptions.push(
-      eventBus.on('showMetrics').subscribe((e) => this.setMetrics(e))
-    );
+      eventBus.on('updateMetricHostEventName').subscribe(e =>
+        this.onUpdateHostMetricValue(e)));
+
+    this.subscriptions.push(
+      eventBus.on('showMetrics').subscribe((e) => this.showMetrics(e)));
+
+    this.subscriptions.push(
+      eventBus.on('hideMetrics').subscribe(() => this.hideMetrics()));
   }
 
   setupFactories() {
@@ -237,7 +239,7 @@ export default class Scene {
     }
   }
 
-  setMetrics(e) {
+  showMetrics(e) {
     //deactivate old factory
     if(this.activeMetricFactory) {
       this.activeMetricFactory.material.visible = false;
@@ -249,6 +251,14 @@ export default class Scene {
       this.activeMetricFactory = this.singleMetricFactory;
     }
     this.activeMetricFactory.material.visible = true;
+  }
+
+  hideMetrics() {
+    //disable current metric viz
+    this.activeMetricFactory.material.visible = false;
+
+    //set this to undefined will not trigger any factory to update heights
+    this.activeMetricFactory = undefined;
   }
 
   updateMaterialsByZoomLevel(zoomLevel) {
