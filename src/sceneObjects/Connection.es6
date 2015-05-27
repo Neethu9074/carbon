@@ -16,8 +16,11 @@ export default class Connection extends SceneObject {
     super({parent});
 
     this.id = id++;
-    const found = _.find(connections, con => con.to === from);
+    const found = _.find(connections, con => {
+      return (con.to === from && con.from === to);
+    });
     if(found) {
+      found.setBidirectional();
       return found;
     }
 
@@ -51,6 +54,7 @@ export default class Connection extends SceneObject {
     }
     this.addEnding(points, this.path, height);
 
+    factory.removeFragment(this.id);
     factory.addFragment({id: this.id, points, color: orange});
   }
 
@@ -59,6 +63,14 @@ export default class Connection extends SceneObject {
     const firstPointZ = -path[0][1] + 0.5;
     points.push(new THREE.Vector3(firstPointX, 0, firstPointZ));
     points.push(new THREE.Vector3(firstPointX, height, firstPointZ));
+
+    if(this.bidirectional) {
+      points.push(new THREE.Vector3(firstPointX, 0, firstPointZ));
+      points.push(new THREE.Vector3(firstPointX + 0.1, -0.25, firstPointZ));
+
+      points.push(new THREE.Vector3(firstPointX, 0, firstPointZ));
+      points.push(new THREE.Vector3(firstPointX - 0.1, -0.25, firstPointZ));
+    }
   }
 
   addEnding(points, path, height) {
@@ -109,6 +121,11 @@ export default class Connection extends SceneObject {
     // this.removeSceneObject(this.line);
     // this.line.geometry.dispose();
     // this.render();
+  }
+
+  setBidirectional() {
+    this.bidirectional = true;
+    this.render();
   }
 
   dispose() {
