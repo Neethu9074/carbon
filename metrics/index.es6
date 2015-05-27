@@ -1,6 +1,7 @@
 'use strict';
 
-import {addMaxValueLocator} from 'instana-ui-sdk/metrics';
+import {addMaxValueLocator,
+  addNormalizedValueLocator} from 'instana-ui-sdk/metrics';
 
 addMaxValueLocator(
   /^memory\.free/,
@@ -15,4 +16,19 @@ addMaxValueLocator(
 addMaxValueLocator(
   /^cpu\.(user|system|io|nice|steal|idle)/,
   () => 1
+);
+
+addNormalizedValueLocator(
+  /^memory\.free/,
+  (max, value) => (max - value) / max //translates free -> used
+);
+
+addNormalizedValueLocator(
+  /^load/,
+  (max, value) => value / max
+);
+
+addNormalizedValueLocator(
+  /^cpu\.(user|system|io|nice|steal|idle)/,
+  (max, value) => value
 );
