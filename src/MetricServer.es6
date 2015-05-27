@@ -2,7 +2,6 @@
 
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
-import {getMaxValue} from 'instana-ui-sdk/metrics';
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
 import {combine} from 'instana-ui-services/util/rx';
@@ -53,7 +52,6 @@ export default class MetricServer {
   }
 
   setupSingleMetric(metric) {
-    const max = getMaxValue(metric, this.client.snapshot);
     const observable = create(MetricConveyer, {
       metric,
       frequency: 1000,
@@ -61,11 +59,9 @@ export default class MetricServer {
     });
     this.metricSubscription = observable.subscribe(
       (value) => {
-        // this.client.setSingleMetricValue(getNormalizedValue(
-        //   metric, this.client.snapshot, value
-        // ));
-        this.client.setSingleMetricValue((max - value) / max);
-        //console.log(value, max, (max - value) / max);
+        this.client.setSingleMetricValue(getNormalizedValue(
+          metric, this.client.snapshot, value
+        ));
       }
     );
   }
