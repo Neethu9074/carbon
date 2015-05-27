@@ -10,6 +10,7 @@ import './lib/Octree';
 import * as zoom from './zoom';
 import colors from './colors';
 import mobileChecker from './mobileChecker';
+import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as time from './timeCalculations';
 import Host from './sceneObjects/Host/Host';
@@ -125,6 +126,9 @@ export default class Scene {
     this.setupCamera(width, height);
 
     this.scene = new THREE.Scene();
+    this.backgroundScene = new THREE.Scene();
+    this.backgroundScene.add(backgroundPlane);
+
     this.map = new PhysicalMap({scene: this});
 
     this.shouldRenderScene = true;
@@ -160,6 +164,10 @@ export default class Scene {
     this.camera.projection = new THREE.Matrix4();
     this.camera.updateMatrix();
     this.camera.matrixAutoUpdate = false;
+
+    this.backgroundCamera = new THREE.OrthographicCamera(
+      1, -1, 1, -1, 0.1, 20);
+    this.backgroundCamera.matrixAutoUpdate = false;
   }
 
   setupController() {
@@ -198,7 +206,12 @@ export default class Scene {
     this.emitter.emit('endUpdate', {scene: this});
 
     //inline render since it's only called here
-    this.renderer.render(this.scene, this.camera);
+    const renderer = this.renderer;
+    renderer.render(this.backgroundScene, this.backgroundCamera);
+    renderer.autoClearColor = false;
+    renderer.render(this.scene, this.camera);
+    renderer.autoClearColor = true;
+
     this.shouldRenderScene = false;
 
     this.emitter.emit('endRender', {scene: this});
