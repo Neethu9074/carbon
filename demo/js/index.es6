@@ -23,3 +23,7 @@ window.performanceMemory = function() {
     metrics: ['memory.free.5000.mean']
   });
 };
+
+window.hideMetrics = function() {
+  eventBus.emit('hideMetrics');
+};
