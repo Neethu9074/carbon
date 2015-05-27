@@ -57,3 +57,11 @@ eventBus.emit('showMetrics', {
   ]
 });
 ```
+
+### Hiding metrics
+Call this event if the metrics shall be disabled (and not be shown anymore)
+```javascript
+import eventBus from 'instana-ui-services/eventbus';
+
+eventBus.emit('hideMetrics');
+```
