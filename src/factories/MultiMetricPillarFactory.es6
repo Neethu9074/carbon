@@ -49,7 +49,8 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
-      vertexColors: THREE.VertexColors
+      vertexColors: THREE.VertexColors,
+      visible: false
     }));
   }
 
