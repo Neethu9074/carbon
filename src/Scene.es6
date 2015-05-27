@@ -201,20 +201,22 @@ export default class Scene {
     }
 
     this.updateCamera();
-
     //update is done
     this.emitter.emit('endUpdate', {scene: this});
 
+    this.render();
+    this.shouldRenderScene = false;
+
+    this.emitter.emit('endRender', {scene: this});
+  }
+
+  render() {
     //inline render since it's only called here
     const renderer = this.renderer;
     renderer.render(this.backgroundScene, this.backgroundCamera);
     renderer.autoClearColor = false;
     renderer.render(this.scene, this.camera);
     renderer.autoClearColor = true;
-
-    this.shouldRenderScene = false;
-
-    this.emitter.emit('endRender', {scene: this});
   }
 
   updateCamera() {
