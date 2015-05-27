@@ -39,18 +39,16 @@ export default class MetricServer {
   }
 
   showMetrics(metrics) {
-    this.disposeSubscriptions();
+    if(this.metricSubscription) {
+      this.metricSubscription.dispose();
+    }
+    this.metricSubscription = undefined;
 
     if(metrics.length === 1) {
       this.setupSingleMetric(metrics[0]);
     } else {
       this.setupMultiMetric(metrics);
     }
-  }
-
-  disposeSubscriptions() {
-    this.subscriptions.forEach(sub => sub.dispose());
-    this.subscriptions = [];
   }
 
   setupSingleMetric(metric) {
@@ -60,12 +58,12 @@ export default class MetricServer {
       frequency: 1000,
       snapshot: this.client.snapshot
     });
-    this.subscriptions.push(observable.subscribe(
+    this.metricSubscription = observable.subscribe(
       (value) => {
         this.client.setSingleMetricValue((max - value) / max);
         //console.log(value, max, (max - value) / max);
       }
-    ));
+    );
   }
 
   setupMultiMetric(metrics) {
@@ -76,9 +74,8 @@ export default class MetricServer {
     });
 
     const multiMetricSource = combine(tempSubscriptions).throttle(200);
-    this.subscriptions.push(multiMetricSource.subscribe(value =>
-      this.client.setMultiMetricValue(value)
-    ));
+    this.metricSubscription = multiMetricSource.subscribe(value =>
+      this.client.setMultiMetricValue(value));
   }
 
   dispose() {
