@@ -4,7 +4,7 @@
   "description": "The SDK provides an access point to pluggables",
   "main": "index.es6",
   "scripts": {
-    "test": "eslint --ext .es6 health/ power/ zones/ sorting/ metrics/ snapshotIcon/ && mocha --compilers js:babel/register **/*_test.es6"
+    "test": "eslint --ext .es6 power/ zones/ sorting/ metrics/ snapshotIcon/ && mocha --compilers js:babel/register **/*_test.es6"
   },
   "repository": {
     "type": "git",
