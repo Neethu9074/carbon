@@ -72,19 +72,6 @@ export default function init() {
   consoleAppender.setActivePriority(11);
   logging.addAppender(consoleAppender);
 
-  setTimeout(() => {
-    eventBus.emit('showMetrics', {
-      //metrics: ['memory.free.5000.mean']
-      metrics: [
-        'cpu.total.user.5000.mean',
-        'cpu.total.sys.5000.mean',
-        'cpu.total.wait.5000.mean',
-        'cpu.total.nice.5000.mean',
-        'cpu.total.steal.5000.mean'
-      ]
-    });
-  }, 1000);
-
   React.render(
     <App/>,
     document.getElementById('map')
