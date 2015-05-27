@@ -15,10 +15,10 @@ const tc = new Float32Array(12);
   tp[6] = 1; tp[7] = 1; tp[8] = -1;
   tp[9] = -1; tp[10] = 1; tp[11] = -1;
 
-  tc[0] = 0.13; tc[1] = 0.17; tc[2] = 0.19;
-  tc[6] = 0.13; tc[7] = 0.17; tc[8] = 0.19;
-  tc[3] = 0.15; tc[4] = 0.17; tc[5] = 0.19; //bottom left
-  tc[9] = 0.1; tc[10] = 0.12; tc[11] = 0.14; //top right
+  tc[3] = 0.23; tc[4] = 0.275; tc[5] = 0.31; //bottom left
+  tc[0] = 0.18; tc[1] = 0.216; tc[2] = 0.24; //mid
+  tc[6] = 0.18; tc[7] = 0.216; tc[8] = 0.24; //mid
+  tc[9] = 0.137; tc[10] = 0.17; tc[11] = 0.2; //top right
 
 const geometry = new THREE.BufferGeometry();
 geometry.addAttribute( 'index', new THREE.BufferAttribute( ti, 1 ) );
