@@ -9,18 +9,24 @@ window.initReact = initReact;
 window.performanceCpu = function() {
   eventBus.emit('showMetrics', {
     metrics: [
-      'cpu.total.user.5000.mean',
-      'cpu.total.sys.5000.mean',
-      'cpu.total.wait.5000.mean',
-      'cpu.total.nice.5000.mean',
-      'cpu.total.steal.5000.mean'
+      'cpu.total.user',
+      'cpu.total.sys',
+      'cpu.total.wait',
+      'cpu.total.nice',
+      'cpu.total.steal'
     ]
   });
 };
 
 window.performanceMemory = function() {
   eventBus.emit('showMetrics', {
-    metrics: ['memory.free.5000.mean']
+    metrics: ['memory.free']
+  });
+};
+
+window.performanceLoad = function() {
+  eventBus.emit('showMetrics', {
+    metrics: ['load.1min']
   });
 };
 
