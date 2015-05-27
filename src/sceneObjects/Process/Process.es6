@@ -7,6 +7,7 @@ import React from 'react';
 import SceneObject from '../SceneObject';
 import colors from '../../colors';
 import StickyNote from './StickyNote';
+import {getIdString} from 'instana-ui-services/util/snapshots';
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
@@ -22,7 +23,7 @@ export default class Process extends SceneObject {
   constructor({parent, snapshot}) {
     super({parent});
 
-    this.id = snapshot.get('steadyId');
+    this.id = getIdString(snapshot);
     this.scene = this.getScene();
     this.snapshot = snapshot;
     this.layerIndex = 0; //see this.setLayerIndex
@@ -65,16 +66,18 @@ export default class Process extends SceneObject {
   }
 
   calcStickyNodeWorldPos() {
-    const pos = this.parent.getPosition();
-    const worldPos = this.stickyNoteEndPosWorld;
-    worldPos.set(pos.x, pos.y + this.parent.cube.scale.y, pos.z + 1);
+    const pos = this.getPosition();
+    this.stickyNoteEndPosWorld.set(
+      pos.x,
+      pos.y + this.cube.scale.y,
+      pos.z + 1);
   }
 
   renderStickyNote(height) {
     const numProcesses = this.parent.processes.length;
 
     React.render(
-      <StickyNote height={height} numProcesses={numProcesses} />,
+      <StickyNote height={height} numProcesses={numProcesses} id={this.id}/>,
       this.stickyNoteContainer
     );
   }
@@ -84,10 +87,6 @@ export default class Process extends SceneObject {
   }
 
   updateStickyNotePosition() {
-    if(this.layerIndex !== 0) {
-      return;
-    }
-
     const scene = this.getScene();
     const pos = this.stickyNoteEndPosWorld.clone();
     pos.applyMatrix4(scene.camera.projection);
@@ -99,12 +98,11 @@ export default class Process extends SceneObject {
     this.stickyNoteContainerStyle.transform = translate;
     this.stickyNoteContainerStyle['-webkit-transform'] = translate;
 
-
     const posBottom = this.stickyNoteEndPosWorld.clone();
-    posBottom.y = 0;
+    posBottom.y -= this.cube.scale.y;
     posBottom.applyMatrix4(scene.camera.projection);
-
     const yBottom = ((-posBottom.y + 1) * scene.height / 2) | 0;
+
     this.renderStickyNote(yBottom - y);
   }
 
@@ -127,12 +125,6 @@ export default class Process extends SceneObject {
   // -----   layer 0 (bottom layer)
   setLayerIndex(index) {
     this.layerIndex = index;
-
-    if(index > 0) {
-      this.stickyNoteContainerStyle.display = 'none';
-    } else {
-      this.stickyNoteContainerStyle.display = '';
-    }
   }
 
   refreshMesh() {
