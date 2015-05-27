@@ -70,17 +70,7 @@ export default class Scene {
     );
 
     this.subscriptions.push(
-      eventBus.on('showMetricsOn').subscribe(() => {this.showMetrics = true; })
-    );
-
-    this.subscriptions.push(
       eventBus.on('showMetrics').subscribe((e) => this.setMetrics(e))
-    );
-
-    this.subscriptions.push(
-      eventBus.on('showMetricsOff').subscribe(() => {
-        this.showMetrics = false;
-      })
     );
   }
 
@@ -97,9 +87,7 @@ export default class Scene {
     });
 
     setInterval(() => {
-      //if(this.showMetrics) {
-        this.updateMetricHeights();
-      //}
+      this.updateMetricHeights();
     }, 1000);
   }
 
@@ -243,10 +231,9 @@ export default class Scene {
   }
 
   updateMetricHeights() {
-    this.emitter.emit('upateMetricHeights');
-
     if(this.activeMetricFactory) {
       this.activeMetricFactory.updateHeights();
+      this.emitter.emit('upateMetricHeights');
     }
   }
 
