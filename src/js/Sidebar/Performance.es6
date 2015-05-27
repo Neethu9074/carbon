@@ -14,6 +14,9 @@ const Performance = React.createClass({
           <button onClick={this.showCpuUsage}>
             Show CPU usage
           </button>
+          <button onClick={this.showCpuLoad}>
+            Show CPU load
+          </button>
         </Tab>
         <Tab title="Memory">
           <button onClick={this.showMemoryUsage}>
@@ -27,18 +30,24 @@ const Performance = React.createClass({
   showCpuUsage() {
     eventBus.emit('showMetrics', {
       metrics: [
-        'cpu.total.user.5000.mean',
-        'cpu.total.sys.5000.mean',
-        'cpu.total.wait.5000.mean',
-        'cpu.total.nice.5000.mean',
-        'cpu.total.steal.5000.mean'
+        'cpu.total.user',
+        'cpu.total.sys',
+        'cpu.total.wait',
+        'cpu.total.nice',
+        'cpu.total.steal'
       ]
+    });
+  },
+
+  showCpuLoad() {
+    eventBus.emit('showMetrics', {
+      metrics: ['load.1min']
     });
   },
 
   showMemoryUsage() {
     eventBus.emit('showMetrics', {
-      metrics: ['memory.free.5000.mean']
+      metrics: ['memory.free']
     });
   }
 });
