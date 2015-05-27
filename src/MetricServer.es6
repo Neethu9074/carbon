@@ -8,16 +8,12 @@ import {combine} from 'instana-ui-services/util/rx';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 
-/*eslint-disable no-console*/
-//console.log('----->', MetricConveyer);
-/*eslint-enable no-console*/
 
 export default class MetricServer {
 
   constructor(client) {
     this.subscriptions = [eventBus.on('showMetrics').subscribe(
-      e => this.showMetrics(e.metrics)
-    )];
+      e => this.showMetrics(e.metrics))];
 
     this.client = client;
     this.subscriptions = [];
@@ -28,18 +24,6 @@ export default class MetricServer {
     // this.subscriptions.push(
     //   observable.subscribe(data => this.onProcessUpdate(data))
     // );
-
-    this.subscriptions.push(
-      eventBus.on('showMetricsOn').subscribe(() => {
-        this.client.showMetrics();
-      })
-    );
-
-    this.subscriptions.push(
-      eventBus.on('showMetricsOff').subscribe(() => {
-        this.client.hideMetrics();
-      })
-    );
   }
 
   onProcessUpdate(snapshots) {
@@ -52,7 +36,7 @@ export default class MetricServer {
   }
 
   showMetrics(metrics) {
-    this.disposeOldSubscriptions();
+    this.disposeSubscriptions();
 
     if(metrics.length === 1) {
       this.setupSingleMetric(metrics[0]);
@@ -61,7 +45,7 @@ export default class MetricServer {
     }
   }
 
-  disposeOldSubscriptions() {
+  disposeSubscriptions() {
     this.subscriptions.forEach(sub => sub.dispose());
     this.subscriptions = [];
   }
@@ -73,8 +57,11 @@ export default class MetricServer {
       frequency: 1000,
       snapshot: this.client.snapshot
     });
-    this.subscriptions.push(observable.subscribe(value =>
-      this.client.setSingleMetricValue(value / max)
+    this.subscriptions.push(observable.subscribe(
+      (value) => {
+        this.client.setSingleMetricValue((max - value) / max);
+        //console.log(value, max, (max - value) / max);
+      }
     ));
   }
 
