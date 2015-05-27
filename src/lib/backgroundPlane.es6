@@ -21,9 +21,9 @@ const tc = new Float32Array(12);
   tc[9] = 0.137; tc[10] = 0.17; tc[11] = 0.2; //top right
 
 const geometry = new THREE.BufferGeometry();
-geometry.addAttribute( 'index', new THREE.BufferAttribute( ti, 1 ) );
-geometry.addAttribute( 'position', new THREE.BufferAttribute( tp, 3 ) );
-geometry.addAttribute( 'color', new THREE.BufferAttribute( tc, 3 ) );
+geometry.addAttribute('index', new THREE.BufferAttribute(ti, 1));
+geometry.addAttribute('position', new THREE.BufferAttribute(tp, 3));
+geometry.addAttribute('color', new THREE.BufferAttribute(tc, 3));
 geometry.computeVertexNormals();
 
 const material = new THREE.MeshBasicMaterial({
