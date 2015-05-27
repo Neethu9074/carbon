@@ -4,7 +4,8 @@
 
 import sinon from 'sinon';
 import {expect} from 'chai';
-import {getMaxValue, addMaxValueLocator} from './index';
+import {getMaxValue, addMaxValueLocator,
+  getNormalizedValue, addNormalizedValueLocator} from './index';
 
 describe('metrics', () => {
 
@@ -20,7 +21,7 @@ describe('metrics', () => {
       const snapshot = 'aSnapshot';
       addMaxValueLocator(/^memory\.free/, locator);
 
-      const maxValue = getMaxValue('memory.free.5000.mean', snapshot);
+      const maxValue = getMaxValue('memory.free', snapshot);
       expect(maxValue).to.equal(42);
       expect(locator.calledOnce).to.equal(true);
       expect(locator.getCall(0).args[0]).to.equal(snapshot);
@@ -35,8 +36,28 @@ describe('metrics', () => {
       loadStub.returns('load');
       addMaxValueLocator(/^load/, loadStub);
 
-      const maxValue = getMaxValue('load.5000.mean', 'aSnapshot');
+      const maxValue = getMaxValue('load', 'aSnapshot');
       expect(maxValue).to.equal('load');
+    });
+
+  });
+
+  describe('getNormalizedValue', () => {
+
+    it('should throw error for unknown metrics', () => {
+      expect(() => getNormalizedValue('gibbet nich')).to.throw(Error);
+    });
+
+    it('should match metric names based on a regular expression', () => {
+      const locator = sinon.stub();
+      locator.returns(42);
+      const snapshot = 'aSnapshot';
+      addNormalizedValueLocator(/^memory\.free/, locator);
+
+      const value = getNormalizedValue('memory.free', snapshot, 0.5);
+      expect(value).to.equal(42);
+      expect(locator.calledOnce).to.equal(true);
+      expect(locator.getCall(0).args[0]).to.equal(42);
     });
 
   });
