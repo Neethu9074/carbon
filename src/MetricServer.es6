@@ -22,12 +22,12 @@ export default class MetricServer {
     this.client = client;
     this.subscriptions = [];
 
-    const pluginId = 'com.instana.forge.infrastructure.os.Process';
-    const observable = create(SnapshotConveyer, {pluginId});
-
-    this.subscriptions.push(
-      observable.subscribe(data => this.onProcessUpdate(data))
-    );
+    // const pluginId = 'com.instana.forge.infrastructure.os.Process';
+    // const observable = create(SnapshotConveyer, {pluginId});
+    //
+    // this.subscriptions.push(
+    //   observable.subscribe(data => this.onProcessUpdate(data))
+    // );
 
     this.subscriptions.push(
       eventBus.on('showMetricsOn').subscribe(() => {

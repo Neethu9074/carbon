@@ -49,8 +49,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
-      vertexColors: THREE.VertexColors,
-      visible: window.location.search.match(/multimetrics/) ? true : false
+      vertexColors: THREE.VertexColors
     }));
   }
 

@@ -74,6 +74,10 @@ export default class Scene {
     );
 
     this.subscriptions.push(
+      eventBus.on('showMetrics').subscribe((e) => this.setMetrics(e))
+    );
+
+    this.subscriptions.push(
       eventBus.on('showMetricsOff').subscribe(() => {
         this.showMetrics = false;
       })
@@ -93,9 +97,9 @@ export default class Scene {
     });
 
     setInterval(() => {
-      if(this.showMetrics) {
+      //if(this.showMetrics) {
         this.updateMetricHeights();
-      }
+      //}
     }, 1000);
   }
 
@@ -241,9 +245,23 @@ export default class Scene {
   updateMetricHeights() {
     this.emitter.emit('upateMetricHeights');
 
-    //TODO: switch between if single or multi is active
-    this.singleMetricFactory.updateHeights();
-    this.multiMetricFactory.updateHeights();
+    if(this.activeMetricFactory) {
+      this.activeMetricFactory.updateHeights();
+    }
+  }
+
+  setMetrics(e) {
+    //deactivate old factory
+    if(this.activeMetricFactory) {
+      this.activeMetricFactory.material.visible = false;
+    }
+
+    if(e.metrics.length > 1){
+      this.activeMetricFactory = this.multiMetricFactory;
+    } else {
+      this.activeMetricFactory = this.singleMetricFactory;
+    }
+    this.activeMetricFactory.material.visible = true;
   }
 
   updateMaterialsByZoomLevel(zoomLevel) {
