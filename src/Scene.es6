@@ -254,8 +254,10 @@ export default class Scene {
   }
 
   hideMetrics() {
-    //disable current metric viz
-    this.activeMetricFactory.material.visible = false;
+    if(this.activeMetricFactory) {
+      //disable current metric viz
+      this.activeMetricFactory.material.visible = false;
+    }
 
     //set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
