@@ -115,13 +115,7 @@ export default class Connection extends SceneObject {
     ConnectionGrid.blockPosition(toPos);
   }
 
-  refresh() {
-    // this.calculatePath();
-    //
-    // this.removeSceneObject(this.line);
-    // this.line.geometry.dispose();
-    // this.render();
-  }
+  refresh() {}
 
   setBidirectional() {
     this.bidirectional = true;
@@ -130,10 +124,12 @@ export default class Connection extends SceneObject {
 
   dispose() {
     this.to.removeConnection(this);
-    if(this.parent !== null) {
-      this.getScene().lineFactory.removeFragment(this.id);
-    }
 
+    try{
+      this.getScene().lineFactory.removeFragment(this.id);
+    } catch(err) {
+      this.parent = null;
+    }
     _.remove(connections, con => con === this);
 
     super.dispose();

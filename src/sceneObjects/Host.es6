@@ -1,7 +1,5 @@
 'use strict';
 
-import {createLogger} from 'instalog'
-
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
