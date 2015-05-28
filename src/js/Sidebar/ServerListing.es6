@@ -35,8 +35,7 @@ const ServerListing = React.createClass({
 
             <ul className="in-sidebar-server-listing__snapshots">
               {snapshots[zone].map(snapshot =>
-                <ServerItem snapshot={snapshot}
-                            key={getIdString(snapshot)}/>
+                <ServerItem snapshot={snapshot} key={getIdString(snapshot)}/>
               )}
             </ul>
           </li>
