@@ -9,12 +9,14 @@ import MetricServer from '../MetricServer';
 
 import {getHealth} from 'instana-ui-services/health';
 import {create} from 'instana-ui-services/conveyer';
-import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
+import {isIdEqual, extractId, getIdString}
+  from 'instana-ui-services/util/snapshots';
 
 import ConnectionGrid from '../connectionGrid';
 import Connection from './Connection';
 import SceneObject from './SceneObject';
 import StickyNoteHost from './StickyNote/Host';
+import StickyNoteProcess from './StickyNote/Process';
 import Process from './Process';
 
 //const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
@@ -283,7 +285,7 @@ export default class Host extends SceneObject {
 
     //if this process is still there
     if(this.processes.indexOf(process => {
-      return process.snapshot === snapshot;
+      return (isIdEqual(extractId(snapshot), extractId(process.snapshot)));
     }) >= 0) {
       return;
     }
