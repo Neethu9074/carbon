@@ -21,12 +21,11 @@ import StickyNoteMetric from './StickyNote/Metric';
 import Process from './Process';
 
 //const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
-const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
+// const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const cubeHullThickness = new THREE.Vector3(0, 0.1, 0);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
-
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
@@ -36,6 +35,16 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].z += 0.5;
 }
 const cubeMaterial = new THREE.MeshBasicMaterial({visible: true});
+
+//if unavailable, the StickyNote-Metric / Process will not be undefined but this
+//to avoid all these if(available) {do something} stuff
+const emptyMetricStickyObject = {
+  hide() {},
+  update() {},
+  updateWorldPos() {},
+  render() {},
+  dispose() {}
+};
 
 
 export default class Host extends SceneObject {
@@ -50,6 +59,7 @@ export default class Host extends SceneObject {
 
     this.render();
     this.stickyNote = new StickyNoteHost(this);
+    this.stickyNoteMetric = emptyMetricStickyObject;
     this.registerEvents();
 
     this.processes = [];
@@ -126,15 +136,15 @@ export default class Host extends SceneObject {
   }
 
   //this is the visual line between the cube top surface and the sticky note
-  addToLineFactory(id, pos, dim) {
-    const lineFactory = this.scene.lineFactory;
-    const from = this.cube.position.clone()
-      .add(new THREE.Vector3(-0.5, dim.y, 0.5));
-    const to = from.clone()
-      .add(niceLookingDistanceForSticky);
-
-    lineFactory.addFragment({id, points: [from, to]});
-  }
+  // addToLineFactory(id, pos, dim) {
+  //   const lineFactory = this.scene.lineFactory;
+  //   const from = this.cube.position.clone()
+  //     .add(new THREE.Vector3(-0.5, dim.y, 0.5));
+  //   const to = from.clone()
+  //     .add(niceLookingDistanceForSticky);
+  //
+  //   lineFactory.addFragment({id, points: [from, to]});
+  // }
 
   registerEvents() {
     this.addEE3Subscription({
@@ -161,10 +171,8 @@ export default class Host extends SceneObject {
     //changing the material means changing the material for all processes
     this.getScene().cubeFactory.material.visible = true;
 
-    if(this.stickyNoteMetric) {
-      this.stickyNoteMetric.dispose();
-      this.stickyNoteMetric = undefined;
-    }
+    this.stickyNoteMetric.dispose();
+    this.stickyNoteMetric = emptyMetricStickyObject;
   }
 
   setSingleMetricValue(value) {
@@ -172,19 +180,15 @@ export default class Host extends SceneObject {
       .getFragment(this.id)
       .newHeight = value;
 
-    if(this.stickyNoteMetric) {
-      this.stickyNoteMetric.updateWorldPos();
-      this.stickyNoteMetric.render(value);
-    }
+    this.stickyNoteMetric.updateWorldPos();
+    this.stickyNoteMetric.render(value);
   }
 
   setMultiMetricValue(values) {
     this.newMetricValues = values;
 
-    if(this.stickyNoteMetric) {
-      this.stickyNoteMetric.updateWorldPos();
-      this.stickyNoteMetric.render();
-    }
+    this.stickyNoteMetric.updateWorldPos();
+    this.stickyNoteMetric.render();
   }
 
   updateMetricHeight() {
@@ -222,9 +226,7 @@ export default class Host extends SceneObject {
     if(!data.scene.objectIsVisible(this.cube)) {
       //disable sticky note
       this.stickyNote.hide();
-      if(this.stickyNoteMetric) {
-        this.stickyNoteMetric.hide();
-      }
+      this.stickyNoteMetric.hide();
     } else {
       this.updateStickyNote();
     }
@@ -232,10 +234,7 @@ export default class Host extends SceneObject {
 
   updateStickyNote() {
     this.stickyNote.update();
-
-    if(this.stickyNoteMetric) {
-      this.stickyNoteMetric.update();
-    }
+    this.stickyNoteMetric.update();
   }
 
   onSnapshotUpdate(snapshot) {
@@ -377,7 +376,7 @@ export default class Host extends SceneObject {
 
   addStickyNoteForMetric() {
     //only one sticky metric sticky for each host
-    if(this.stickyNoteMetric) {
+    if(this.stickyNoteMetric !== emptyMetricStickyObject) {
       return;
     }
 
