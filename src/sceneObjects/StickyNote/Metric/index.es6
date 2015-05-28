@@ -17,10 +17,11 @@ const StickyNoteRC = React.createClass({
   render() {
     //const numProcesses = this.props.numProcesses;
     const style = {height: this.props.height};
+    const value = this.props.value;
     const component = (
       <div className='in-sticky-note-process__container' style={style}>
         <div className='in-sticky-note-process__content'>
-           -- process
+           -- metric: {value}
         </div>
       </div>
     );
@@ -30,9 +31,9 @@ const StickyNoteRC = React.createClass({
 });
 /*eslint-enable no-unused-vars*/
 
-export default class StickyNoteHost extends StickyNote {
+export default class StickyNoteMetric extends StickyNote {
   constructor(parent) {
-    super({parent, cssClass: 'in-sticky-note-process'});
+    super({parent, cssClass: 'in-sticky-note-metric'});
     this.updateWorldPos();
     this.render();
   }
@@ -40,17 +41,15 @@ export default class StickyNoteHost extends StickyNote {
   updateWorldPos() {
     const cube = this.parent.cube;
     const worldPos = this.stickyNoteEndPosWorld;
-    worldPos.set(-0.5, 0, 0.5);
+    worldPos.set(0, 0, 1);
     worldPos.applyMatrix4(cube.matrixWorld);
 
-    //worldPos.x -= stickyNoteLineEndLocalPosition.x;
-    worldPos.y = cube.scale.y; //+ stickyNoteLineEndLocalPosition.y;
-    //worldPos.z += niceLookingDistanceForSticky.z + 0.5;
+    worldPos.y = cube.scale.y / 2;
   }
 
-  render() {
+  render(value = 0) {
     React.render(
-      <StickyNoteRC snapshot={this.parent.snapshot} />,
+      <StickyNoteRC snapshot={this.parent.snapshot} value={value} />,
       this.stickyNoteContainer
     );
   }

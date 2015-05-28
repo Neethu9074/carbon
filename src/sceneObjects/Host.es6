@@ -17,14 +17,16 @@ import Connection from './Connection';
 import SceneObject from './SceneObject';
 import StickyNoteHost from './StickyNote/Host';
 import StickyNoteProcess from './StickyNote/Process';
+import StickyNoteMetric from './StickyNote/Metric';
 import Process from './Process';
 
 //const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
+const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const cubeHullThickness = new THREE.Vector3(0, 0.1, 0);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
-const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
+
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
@@ -151,21 +153,38 @@ export default class Host extends SceneObject {
   showMetrics() {
     //changing the material means changing the material for all processes
     this.getScene().cubeFactory.material.visible = false;
+
+    this.addStickyNoteForMetric();
   }
 
   hideMetrics() {
     //changing the material means changing the material for all processes
     this.getScene().cubeFactory.material.visible = true;
+
+    if(this.stickyNoteMetric) {
+      this.stickyNoteMetric.dispose();
+      this.stickyNoteMetric = undefined;
+    }
   }
 
   setSingleMetricValue(value) {
     this.scene.singleMetricFactory
       .getFragment(this.id)
       .newHeight = value;
+
+    if(this.stickyNoteMetric) {
+      this.stickyNoteMetric.updateWorldPos();
+      this.stickyNoteMetric.render(value);
+    }
   }
 
   setMultiMetricValue(values) {
     this.newMetricValues = values;
+
+    if(this.stickyNoteMetric) {
+      this.stickyNoteMetric.updateWorldPos();
+      this.stickyNoteMetric.render();
+    }
   }
 
   updateMetricHeight() {
@@ -203,9 +222,19 @@ export default class Host extends SceneObject {
     if(!data.scene.objectIsVisible(this.cube)) {
       //disable sticky note
       this.stickyNote.hide();
+      if(this.stickyNoteMetric) {
+        this.stickyNoteMetric.hide();
+      }
     } else {
-      this.stickyNote.update();
-      this.processes.forEach(process => process.stickyNote.update());
+      this.updateStickyNote();
+    }
+  }
+
+  updateStickyNote() {
+    this.stickyNote.update();
+
+    if(this.stickyNoteMetric) {
+      this.stickyNoteMetric.update();
     }
   }
 
@@ -321,9 +350,7 @@ export default class Host extends SceneObject {
   //takes all connections and dispose them because the position of the host
   //has changed then calculates the new routes to the other Hosts
   refreshConnections() {
-    this.connections.forEach(connection => {
-      connection.refresh();
-    });
+    this.connections.forEach(connection => connection.refresh());
   }
 
   arrangeProcesses() {
@@ -340,33 +367,41 @@ export default class Host extends SceneObject {
   }
 
   addStickyNoteForProcess() {
+    //only one sticky process sticky for each host
+    if(this.stickyNoteProcess) {
+      return;
+    }
 
+    this.stickyNoteProcess = new StickyNoteProcess(this);
+  }
+
+  addStickyNoteForMetric() {
+    //only one sticky metric sticky for each host
+    if(this.stickyNoteMetric) {
+      return;
+    }
+
+    this.stickyNoteMetric = new StickyNoteMetric(this);
   }
 
   show() {
     super.show();
-
-    const id = this.id;
-    const scene = this.scene;
-
-    scene.hostFactory.enableFragment(id);
-    //scene.lineFactory.enableFragment(id);
-    scene.zoneFactory.enableFragment(id);
-    scene.multiMetricFactory.enableFragment(id);
-    scene.singleMetricFactory.enableFragment(id);
+    this.enableFragments(true);
   }
 
   hide() {
     super.hide();
+    this.enableFragments(false);
+  }
 
-    const id = this.id;
+  enableFragments(enabled) {
     const scene = this.scene;
-
-    scene.hostFactory.disableFragment(id);
-    //scene.lineFactory.disableFragment(id);
-    scene.zoneFactory.disableFragment(id);
-    scene.multiMetricFactory.disableFragment(id);
-    scene.singleMetricFactory.disableFragment(id);
+    const id = this.id;
+    scene.hostFactory.enableFragment(id, enabled);
+    //scene.lineFactory.enableFragment(id, enabled);
+    scene.zoneFactory.enableFragment(id, enabled);
+    scene.multiMetricFactory.enableFragment(id, enabled);
+    scene.singleMetricFactory.enableFragment(id, enabled);
   }
 
   removeFromGlobalGeometry() {

@@ -74,16 +74,8 @@ export default class AbstractMeshCreationFactory {
       item.enabled || item.enabled === undefined);
   }
 
-  disableFragment(id) {
-    _.find(this.fragments, item => item.id === id).enabled = false;
-
-    //set rebuild to true
-    //so that the mesh will be generated on the next event
-    this.rebuildGlobalMesh = true;
-  }
-
-  enableFragment(id) {
-    _.find(this.fragments, item => item.id === id).enabled = true;
+  enableFragment(id, enabled = true) {
+    _.find(this.fragments, item => item.id === id).enabled = enabled;
 
     //set rebuild to true
     //so that the mesh will be generated on the next event

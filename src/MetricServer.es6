@@ -12,8 +12,10 @@ import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 export default class MetricServer {
 
   constructor(client) {
-    this.subscriptions = [eventBus.on('showMetrics').subscribe(e =>
-      this.showMetrics(e.metrics))];
+    this.subscriptions = [eventBus.on('showMetrics').subscribe(e =>{
+      this.showMetrics(e.metrics);
+      this.client.showMetrics();
+    })];
 
     this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() => {
       this.disposeMetricSubscription();
