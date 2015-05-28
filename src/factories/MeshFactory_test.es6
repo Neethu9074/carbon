@@ -59,7 +59,7 @@ describe('3D map', () => {
         dim: new THREE.Vector3()
       });
 
-      factory.disableFragment(id);
+      factory.enableFragment(id, false);
 
       expect(factory.getFragment(id).enabled).to.equal(false);
 
@@ -77,7 +77,7 @@ describe('3D map', () => {
         dim: new THREE.Vector3()
       });
 
-      factory.disableFragment(id);
+      factory.enableFragment(id, false);
 
       expect(factory.getFragment(id).enabled).to.equal(false);
 
@@ -127,7 +127,7 @@ describe('3D map', () => {
       expect(factory.globalGeometry.attributes.position.array.length)
         .to.equal(3 * 1); //one point
 
-      factory.disableFragment(id);
+      factory.enableFragment(id, false);
       factory.rebuild();
 
       expect(factory.globalGeometry.attributes.position.array.length)
