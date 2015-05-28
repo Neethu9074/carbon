@@ -14,9 +14,10 @@ addMaxValueLocator(
 );
 
 addMaxValueLocator(
-  /^cpu\.(user|system|io|nice|steal|idle)/,
+  /^cpu\.total\.(user|system|io|nice|steal|idle)/,
   () => 1
 );
+
 
 addNormalizedValueLocator(
   /^memory\.free/,
@@ -29,6 +30,6 @@ addNormalizedValueLocator(
 );
 
 addNormalizedValueLocator(
-  /^cpu\.(user|system|io|nice|steal|idle)/,
+  /^cpu\.total\.(user|system|io|nice|steal|idle)/,
   (max, value) => value
 );
