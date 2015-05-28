@@ -5,17 +5,17 @@ import {createLogger} from 'instalog'
 import THREE from 'three';
 import React from 'react';
 import _ from 'lodash';
-import MetricServer from '../../MetricServer';
+import MetricServer from '../MetricServer';
 
 import {getHealth} from 'instana-ui-services/health';
 import {create} from 'instana-ui-services/conveyer';
 import {isIdEqual, getIdString} from 'instana-ui-services/util/snapshots';
 
-import ConnectionGrid from '../../connectionGrid';
-import Connection from '../Connection';
-import SceneObject from '../SceneObject';
-import StickyNote from './StickyNote';
-import Process from '../Process/Process';
+import ConnectionGrid from '../connectionGrid';
+import Connection from './Connection';
+import SceneObject from './SceneObject';
+import StickyNoteHost from './StickyNote/Host';
+import Process from './Process';
 
 //const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
@@ -45,7 +45,7 @@ export default class Host extends SceneObject {
     this.health = getHealth(snapshot);
 
     this.render();
-    this.addStickyNote();
+    this.stickyNote = new StickyNoteHost(this);
     this.registerEvents();
 
     this.processes = [];
@@ -132,35 +132,6 @@ export default class Host extends SceneObject {
     lineFactory.addFragment({id, points: [from, to]});
   }
 
-  addStickyNote() {
-    this.stickyNoteContainer = document.createElement('div');
-    this.stickyNoteContainerStyle = this.stickyNoteContainer.style;
-    this.stickyNoteContainer.classList.add('in-sticky-note');
-    this.getHtmlContainer().appendChild(this.stickyNoteContainer);
-
-    this.stickyNoteEndPosWorld = new THREE.Vector3();
-    this.calcStickyNodeWorldPos();
-    this.renderStickyNote();
-  }
-
-  calcStickyNodeWorldPos() {
-    const cube = this.cube;
-    const worldPos = this.stickyNoteEndPosWorld;
-    worldPos.set(-0.5, 0, 0.5);
-    worldPos.applyMatrix4(cube.matrixWorld);
-
-    // worldPos.x -= stickyNoteLineEndLocalPosition.x;
-    worldPos.y = cube.scale.y; //+ stickyNoteLineEndLocalPosition.y;
-    //worldPos.z += niceLookingDistanceForSticky.z + 0.5;
-  }
-
-  renderStickyNote() {
-    React.render(
-      <StickyNote snapshot={this.snapshot} />,
-      this.stickyNoteContainer
-    );
-  }
-
   registerEvents() {
     this.addEE3Subscription({
       event: 'endUpdate',
@@ -229,30 +200,11 @@ export default class Host extends SceneObject {
     //if the host is near enough or is in the view frustum
     if(!data.scene.objectIsVisible(this.cube)) {
       //disable sticky note
-      if(this.stickyNoteContainerStyle.display !== 'none') {
-        this.stickyNoteContainerStyle.display = 'none';
-      }
+      this.stickyNote.hide();
     } else {
-      this.updateStickyNotePosition(data);
-      this.processes.forEach(process => process.updateStickyNotePosition());
+      this.stickyNote.update();
+      this.processes.forEach(process => process.stickyNote.update());
     }
-  }
-
-  updateStickyNotePosition(data) {
-    const scene = data.scene;
-    const pos = this.stickyNoteEndPosWorld.clone();
-    pos.applyMatrix4(scene.camera.projection);
-
-    const x = ((pos.x + 1) * scene.width / 2) | 0;
-    const y = ((-pos.y + 1) * scene.height / 2) | 0;
-
-    const translate = `translate3d(${x}px,${y}px,0)`;
-    this.stickyNoteContainerStyle.transform = translate;
-    this.stickyNoteContainerStyle['-webkit-transform'] = translate;
-
-    //set to '' because the display is set by zoom too. If you would set
-    //this value to another like '' you would overwrite it
-    this.stickyNoteContainerStyle.display = '';
   }
 
   onSnapshotUpdate(snapshot) {
@@ -264,7 +216,7 @@ export default class Host extends SceneObject {
 
     this.snapshot = snapshot;
     this.setHealth(getHealth(snapshot));
-    this.renderStickyNote();
+    this.stickyNote.render();
   }
 
   setPosition(x, y, z) {
@@ -320,18 +272,16 @@ export default class Host extends SceneObject {
     this.cube.updateMatrix();
     this.cube.updateMatrixWorld();
 
-    this.calcStickyNodeWorldPos();
+    this.stickyNote.updateWorldPos();
 
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
   }
 
   addProcess(snapshot) {
-    //if this process is still there
-    if(!this.processes) {
-      this.processes = [];
-    }
+    this.processes = this.processes ? this.processes : [];
 
+    //if this process is still there
     if(this.processes.indexOf(process => {
       return process.snapshot === snapshot;
     }) >= 0) {
@@ -343,6 +293,7 @@ export default class Host extends SceneObject {
     this.processes.push(process);
 
     this.arrangeProcesses();
+    this.addStickyNoteForProcess();
   }
 
   //connects this host with another one. the connection is stored in a
@@ -384,6 +335,10 @@ export default class Host extends SceneObject {
       p.setPosition(pos.x, index++ * heightOfEachProcess, pos.z);
       p.setHeight(heightOfEachProcess);
     });
+  }
+
+  addStickyNoteForProcess() {
+
   }
 
   show() {
@@ -441,11 +396,8 @@ export default class Host extends SceneObject {
     this.removeFromGlobalGeometry();
     this.cube = null;
 
+    this.stickyNote.dispose();
     super.dispose();
-
-    React.unmountComponentAtNode(this.stickyNoteContainer);
-    this.stickyNoteContainer.parentNode.removeChild(this.stickyNoteContainer);
-    this.stickyNoteEndPosWorld = null;
 
     this.scene = null;
     this.id = null;

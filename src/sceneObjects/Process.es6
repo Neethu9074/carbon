@@ -4,9 +4,8 @@ import THREE from 'three';
 
 import React from 'react';
 
-import SceneObject from '../SceneObject';
-import colors from '../../colors';
-import StickyNote from './StickyNote';
+import SceneObject from './SceneObject';
+import colors from '../colors';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
@@ -29,7 +28,6 @@ export default class Process extends SceneObject {
     this.layerIndex = 0; //see this.setLayerIndex
 
     this.render();
-    this.addStickyNote();
 
     const parentPos = parent.getPosition();
     this.setPosition(parentPos.x, parentPos.y, parentPos.z);
@@ -53,57 +51,8 @@ export default class Process extends SceneObject {
     });
   }
 
-  addStickyNote() {
-    this.stickyNoteContainer = document.createElement('div');
-    this.stickyNoteContainerStyle = this.stickyNoteContainer.style;
-    this.stickyNoteContainer.classList.add('in-sticky-note-process');
-    this.getHtmlContainer().appendChild(this.stickyNoteContainer);
-
-    this.stickyNoteEndPosWorld = new THREE.Vector3();
-    this.calcStickyNodeWorldPos();
-
-    this.renderStickyNote();
-  }
-
-  calcStickyNodeWorldPos() {
-    const pos = this.getPosition();
-    this.stickyNoteEndPosWorld.set(
-      pos.x,
-      pos.y + this.cube.scale.y,
-      pos.z + 1);
-  }
-
-  renderStickyNote(height) {
-    const numProcesses = this.parent.processes.length;
-
-    React.render(
-      <StickyNote height={height} numProcesses={numProcesses} id={this.id}/>,
-      this.stickyNoteContainer
-    );
-  }
-
   removeFromGlobalGeometry() {
     this.scene.cubeFactory.removeFragment(this.id);
-  }
-
-  updateStickyNotePosition() {
-    const scene = this.getScene();
-    const pos = this.stickyNoteEndPosWorld.clone();
-    pos.applyMatrix4(scene.camera.projection);
-
-    const x = ((pos.x + 1) * scene.width / 2) | 0;
-    const y = ((-pos.y + 1) * scene.height / 2) | 0;
-    const translate = `translate3d(${x}px,${y}px,0)`;
-
-    this.stickyNoteContainerStyle.transform = translate;
-    this.stickyNoteContainerStyle['-webkit-transform'] = translate;
-
-    const posBottom = this.stickyNoteEndPosWorld.clone();
-    posBottom.y -= this.cube.scale.y;
-    posBottom.applyMatrix4(scene.camera.projection);
-    const yBottom = ((-posBottom.y + 1) * scene.height / 2) | 0;
-
-    this.renderStickyNote(yBottom - y);
   }
 
   setPosition(x, y, z) {

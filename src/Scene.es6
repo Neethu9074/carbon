@@ -13,7 +13,7 @@ import mobileChecker from './mobileChecker';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as time from './timeCalculations';
-import Host from './sceneObjects/Host/Host';
+import Host from './sceneObjects/Host';
 import EventEmitter from 'eventemitter3';
 import HostFactory from './factories/HostFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
