@@ -8,7 +8,8 @@ addMapping(
   snapshot => {
     return snapshot.getIn([
       'data',
-      constants.rels.describes + ':' + constants.plugins.ec2,
+      constants.rels.describes,
+      constants.plugins.ec2,
       'availability-zone'
     ], 'undefined');
   }

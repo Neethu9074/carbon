@@ -28,7 +28,8 @@ describe('zones', () => {
   it('should return EC2 availability zone information', () => {
     snapshot = snapshot.setIn([
       'data',
-      constants.rels.describes + ':' + constants.plugins.ec2,
+      constants.rels.describes,
+      constants.plugins.ec2,
       'availability-zone'
     ], 'eu-central');
     expect(getZone(snapshot)).to.equal('eu-central');
