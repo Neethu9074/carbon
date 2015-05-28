@@ -15,8 +15,10 @@ export default class MetricServer {
     this.subscriptions = [eventBus.on('showMetrics').subscribe(e =>
       this.showMetrics(e.metrics))];
 
-    this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() =>
-      this.client.hideMetrics()));
+    this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() => {
+      this.disposeMetricSubscription();
+      this.client.hideMetrics();
+    }));
 
     this.client = client;
     this.subscriptions = [];
@@ -39,16 +41,20 @@ export default class MetricServer {
   }
 
   showMetrics(metrics) {
-    if(this.metricSubscription) {
-      this.metricSubscription.dispose();
-    }
-    this.metricSubscription = undefined;
+    this.disposeMetricSubscription();
 
     if(metrics.length === 1) {
       this.setupSingleMetric(metrics[0]);
     } else {
       this.setupMultiMetric(metrics);
     }
+  }
+
+  disposeMetricSubscription() {
+    if(this.metricSubscription) {
+      this.metricSubscription.dispose();
+    }
+    this.metricSubscription = undefined;
   }
 
   setupSingleMetric(metric) {
