@@ -44,8 +44,6 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <Header className="in-root-header"/>
-
         <Map ref="map" />
         <Notifications />
         <Sidebar />
