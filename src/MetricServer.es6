@@ -60,30 +60,70 @@ export default class MetricServer {
   }
 
   setupSingleMetric(metric) {
-    const observable = create(MetricConveyer, {
-      metric,
-      frequency: 1000,
-      snapshot: this.client.snapshot
-    });
-    this.metricSubscription = observable.subscribe(
-      (value) => {
-        this.client.setSingleMetricValue(getNormalizedValue(
-          metric, this.client.snapshot, value
-        ));
-      }
-    );
+    this.createMetricSource = this.createSingleMetricSource;
+    this.currentMetric = metric;
+
+    this.currentMetricFunction = (v) => {
+      this.client.setSingleMetricValue(getNormalizedValue(
+        metric, this.client.snapshot, v
+      ));
+    };
+
+    this.subscribeToCurrent();
   }
 
   setupMultiMetric(metrics) {
+    this.createMetricSource = this.createMultiMetricSource;
+    this.currentMetric = metrics;
+
+    this.currentMetricFunction = (v) => this.client.setMultiMetricValue(v);
+
+    this.subscribeToCurrent();
+  }
+
+  //reference to once, multi or single metric creator
+  createMetricSource() {}
+
+  createMultiMetricSource(metrics) {
     const tempSubscriptions = metrics.map(metric => {
       return create(MetricConveyer, {
         metric, frequency: 1000, snapshot: this.client.snapshot
       });
     });
 
-    const multiMetricSource = combine(tempSubscriptions).throttle(200);
-    this.metricSubscription = multiMetricSource.subscribe(value =>
-      this.client.setMultiMetricValue(value));
+    return combine(tempSubscriptions).throttle(200);
+  }
+
+  createSingleMetricSource(metric) {
+    return create(MetricConveyer, {
+      metric,
+      frequency: 1000,
+      snapshot: this.client.snapshot
+    });
+  }
+
+  subscribeToCurrent() {
+    const metric = this.currentMetric;
+    this.currentMetricSource = this.createMetricSource(metric);
+
+    this.metricSubscription = this.currentMetricSource.subscribe(value =>
+      this.currentMetricFunction(value));
+  }
+
+  pauseMetrics() {
+    //because metrics could not be paused, we have to unsubscribe for the event
+
+    this.disposeMetricSubscription();
+  }
+
+  resumeMetrics() {
+    //if there was an active metric subscribtion which is paused,
+    //resubscribe to it but only if there was no hide metric or other metric
+    //fired until then
+
+    if(!this.metricSubscription && this.currentMetricSource) {
+      this.subscribeToCurrent();
+    }
   }
 
   dispose() {
