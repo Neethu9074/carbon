@@ -77,16 +77,12 @@ export default class MetricServer {
       ));
     };
 
-    this.currentMetricSource = this.createMetricSource(currentMetric[0]);
-
     this.subscribeToCurrent();
   }
 
   setupMultiMetric() {
     this.createMetricSource = this.createMultiMetricSource;
     this.currentMetricFunction = (v) => this.client.setMultiMetricValue(v);
-
-    this.currentMetricSource = this.createMetricSource(currentMetric);
 
     this.subscribeToCurrent();
   }
@@ -104,7 +100,8 @@ export default class MetricServer {
     return combineLatest(tempSubscriptions).throttle(200);
   }
 
-  createSingleMetricSource(metric) {
+  createSingleMetricSource() {
+    const metric = currentMetric[0];
     return create(MetricConveyer, {
       metric,
       frequency: 1000,
@@ -113,13 +110,14 @@ export default class MetricServer {
   }
 
   subscribeToCurrent() {
+    this.currentMetricSource = this.createMetricSource(currentMetric);
+
     this.metricSubscription = this.currentMetricSource.subscribe(value =>
       this.currentMetricFunction(value));
   }
 
   pauseMetrics() {
     //because metrics could not be paused, we have to unsubscribe for the event
-
     this.disposeMetricSubscription();
   }
 
@@ -127,8 +125,7 @@ export default class MetricServer {
     //if there was an active metric subscribtion which is paused,
     //resubscribe to it but only if there was no hide metric or other metric
     //fired until then
-
-    if(!this.metricSubscription && this.currentMetricSource) {
+    if(!this.metricSubscription && currentMetric) {
       this.subscribeToCurrent();
     }
   }

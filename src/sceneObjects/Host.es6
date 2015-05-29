@@ -163,8 +163,6 @@ export default class Host extends SceneObject {
     this.getScene().cubeFactory.material.visible = false;
 
     this.addStickyNoteForMetric();
-
-    this.activeHideMetrics = false;
   }
 
   hideMetrics() {
@@ -173,8 +171,6 @@ export default class Host extends SceneObject {
 
     this.stickyNoteMetric.dispose();
     this.stickyNoteMetric = emptyMetricStickyObject;
-
-    this.activeHideMetrics = true;
   }
 
   setSingleMetricValue(value) {
@@ -237,9 +233,7 @@ export default class Host extends SceneObject {
 
       //enable metrics if the host is visible but only if there is no "active"
       //hideMetrics event
-      if(!this.activeHideMetrics) {
-         this.metricServer.resumeMetrics();
-      }
+     this.metricServer.resumeMetrics();
     }
   }
 
