@@ -32,7 +32,6 @@
     "invariant": "^1.0.2",
     "lodash": "^3.9.0",
     "react": "^0.13.1",
-    "rx": "^2.5.1",
     "rx-observable-generator": "^1.0.0"
   },
   "devDependencies": {
