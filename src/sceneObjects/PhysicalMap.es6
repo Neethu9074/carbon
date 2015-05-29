@@ -10,7 +10,6 @@ import ConnectionGrid from '../connectionGrid';
 import {getZone} from 'instana-ui-sdk/zones';
 import {
   isIdEqual,
-  getIdString,
   extractConnections} from 'instana-ui-services/util/snapshots';
 
 import SceneObject from './SceneObject';
@@ -173,10 +172,14 @@ export default class PhysicalMap extends SceneObject {
   }
 
   getHostBySnapshot(snapshot) {
+    if(!snapshot) {
+      return undefined;
+    }
+
     let hit;
     this.zones.forEach(zone => {
       zone.hosts.forEach(host => {
-        if(host.snapshot === snapshot) {
+        if(isIdEqual(snapshot, host.snapshot)) {
           hit = host;
         }
       });

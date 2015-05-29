@@ -324,7 +324,7 @@ export default class Host extends SceneObject {
 
     //if this process is still there
     if(this.processes.indexOf(process => {
-      return (isIdEqual(extractId(snapshot), extractId(process.snapshot)));
+      return (isIdEqual(snapshot, process.snapshot));
     }) >= 0) {
       return;
     }
