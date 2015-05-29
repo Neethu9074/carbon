@@ -12,6 +12,7 @@ import Notifications from './Notifications';
 import Toast from 'instana-ui-components/Toast';
 import Lettering from 'instana-ui-components/Lettering';
 import Header from './Header';
+import Timeline from './Timeline';
 
 const App = React.createClass({
   mixins: [SubscriptionMixin],
@@ -23,7 +24,6 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-
     this.addSubscription(
       connection.emitter.on('closed').subscribe(() =>
         this.setState({
@@ -44,10 +44,10 @@ const App = React.createClass({
   render() {
     return (
       <div>
-        <Header />
-        <Notifications />
+        <Header className="in-root-header"/>
 
         <Map ref="map" />
+        <Notifications />
         <Sidebar />
 
         <Toast action="Dismiss"
