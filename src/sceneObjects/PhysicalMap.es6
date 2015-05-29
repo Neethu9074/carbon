@@ -161,10 +161,11 @@ export default class PhysicalMap extends SceneObject {
       const hostObject = this.getHostBySnapshot(host);
       if(hostObject !== undefined) {
         hostConnections.forEach(connection => {
-
-          const toObject = this.getHostBySnapshot(connection);
-          if(toObject !== undefined) {
-            hostObject.connectWith(toObject);
+          if(connection) {
+            const toObject = this.getHostBySnapshot(connection);
+            if(toObject !== undefined) {
+              hostObject.connectWith(toObject);
+            }
           }
         });
       }

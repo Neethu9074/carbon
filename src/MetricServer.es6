@@ -4,22 +4,23 @@ import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
-import {combine} from 'instana-ui-services/util/rx';
+import {combineLatest} from 'reactive-observables';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 
+let currentMetric;
 
 export default class MetricServer {
 
   constructor(client) {
     this.subscriptions = [eventBus.on('showMetrics').subscribe(e =>{
-      this.showMetrics(e.metrics);
-      this.client.showMetrics();
+      currentMetric = e.metrics;
+      this.showMetrics();
     })];
 
     this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() => {
+      currentMetric = undefined;
       this.disposeMetricSubscription();
-      this.client.hideMetrics();
     }));
 
     this.client = client;
@@ -31,6 +32,11 @@ export default class MetricServer {
     // this.subscriptions.push(
     //   observable.subscribe(data => this.onProcessUpdate(data))
     // );
+
+    //if there is an active metric, subscribe to it
+    if(currentMetric) {
+      this.showMetrics();
+    }
   }
 
   onProcessUpdate(snapshots) {
@@ -42,14 +48,16 @@ export default class MetricServer {
     });
   }
 
-  showMetrics(metrics) {
+  showMetrics() {
     this.disposeMetricSubscription();
 
-    if(metrics.length === 1) {
-      this.setupSingleMetric(metrics[0]);
+    if(currentMetric.length === 1) {
+      this.setupSingleMetric();
     } else {
-      this.setupMultiMetric(metrics);
+      this.setupMultiMetric();
     }
+
+    this.client.showMetrics();
   }
 
   disposeMetricSubscription() {
@@ -57,26 +65,28 @@ export default class MetricServer {
       this.metricSubscription.dispose();
     }
     this.metricSubscription = undefined;
+    this.client.hideMetrics();
   }
 
-  setupSingleMetric(metric) {
+  setupSingleMetric() {
     this.createMetricSource = this.createSingleMetricSource;
-    this.currentMetric = metric;
 
     this.currentMetricFunction = (v) => {
       this.client.setSingleMetricValue(getNormalizedValue(
-        metric, this.client.snapshot, v
+        currentMetric[0], this.client.snapshot, v
       ));
     };
+
+    this.currentMetricSource = this.createMetricSource(currentMetric[0]);
 
     this.subscribeToCurrent();
   }
 
-  setupMultiMetric(metrics) {
+  setupMultiMetric() {
     this.createMetricSource = this.createMultiMetricSource;
-    this.currentMetric = metrics;
-
     this.currentMetricFunction = (v) => this.client.setMultiMetricValue(v);
+
+    this.currentMetricSource = this.createMetricSource(currentMetric);
 
     this.subscribeToCurrent();
   }
@@ -91,7 +101,7 @@ export default class MetricServer {
       });
     });
 
-    return combine(tempSubscriptions).throttle(200);
+    return combineLatest(tempSubscriptions).throttle(200);
   }
 
   createSingleMetricSource(metric) {
@@ -103,9 +113,6 @@ export default class MetricServer {
   }
 
   subscribeToCurrent() {
-    const metric = this.currentMetric;
-    this.currentMetricSource = this.createMetricSource(metric);
-
     this.metricSubscription = this.currentMetricSource.subscribe(value =>
       this.currentMetricFunction(value));
   }
