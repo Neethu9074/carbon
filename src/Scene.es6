@@ -397,6 +397,11 @@ export default class Scene {
     const zoomLevel = event.zoomLevel;
     if(zoomLevel > 250) {
       this.renderHtmlStuff = false;
+
+      //if there is an active metric, disable metrics
+      if(this.activeMetricFactory) {
+        eventBus.emit('hideMetrics');
+      }
     } else {
       this.renderHtmlStuff = true;
     }
