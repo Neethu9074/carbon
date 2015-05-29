@@ -116,7 +116,7 @@ export default class Connection extends SceneObject {
   }
 
   refresh() {
-    console.log('refresh');
+    //console.log('refresh');
   }
 
   setBidirectional() {
@@ -130,9 +130,10 @@ export default class Connection extends SceneObject {
     try{
       this.getScene().lineFactory.removeFragment(this.id);
     } catch(err) {
-      if(!this.bidirectional) {
-        console.log('cant destroy this', this.bidirectional, this);
-      }
+      // if(!this.bidirectional) {
+      //   console.log('cant destroy this', this.bidirectional, this);
+      // }
+      this.parent = null;
     }
     _.remove(connections, con => con === this);
 
