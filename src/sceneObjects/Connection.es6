@@ -96,6 +96,8 @@ export default class Connection extends SceneObject {
     const fromPos = this.from.getPosition();
     const toPos = this.to.getPosition();
 
+    //set the postions of source and dest to walkable, because you want to
+    //find a route between them
     ConnectionGrid.clearPosition(fromPos);
     ConnectionGrid.clearPosition(toPos);
 
@@ -111,6 +113,8 @@ export default class Connection extends SceneObject {
       this.path[i][0] += movement;
     }
 
+    //dont forget to block the positions after calculating the route to avoid
+    //crossing connections
     ConnectionGrid.blockPosition(fromPos);
     ConnectionGrid.blockPosition(toPos);
   }
@@ -130,6 +134,8 @@ export default class Connection extends SceneObject {
     try{
       this.getScene().lineFactory.removeFragment(this.id);
     } catch(err) {
+      //this parent was already disposed and the line isn't visible anymore
+      //happens on bidirectional connections
       // if(!this.bidirectional) {
       //   console.log('cant destroy this', this.bidirectional, this);
       // }
