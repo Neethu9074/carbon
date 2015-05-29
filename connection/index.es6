@@ -1,6 +1,6 @@
 'use strict';
 
-import RxEmitter from 'rxemitter';
+import RoEmitter from 'roemitter';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-services.connection');
@@ -25,7 +25,7 @@ const readyState = {
 // closed: When the connection was closed
 // error: When an error occurred
 // message: When a message was retrieved
-export const emitter = new RxEmitter('WebSocket Connection');
+export const emitter = new RoEmitter('WebSocket Connection');
 
 // this is the URL to which a WebSocket connection can be established. It takes
 // HTTP and HTTPS into account.

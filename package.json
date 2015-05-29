@@ -4,7 +4,7 @@
   "description": "In-browser, pluggable-independent, service layer",
   "main": "index.es6",
   "scripts": {
-    "test": "eslint --ext .es6 conveyer/ http/ converters/ util/ connection/ && mocha --compilers js:babel/register **/*_test.es6"
+    "test": "eslint --ext .es6 conveyer/ http/ converters/ util/ connection/ && mocha --require mocha-babel-es6 **/*_test.es6"
   },
   "repository": {
     "type": "git",
@@ -18,8 +18,8 @@
     "invariant": "^1.0.2",
     "lodash": "^3.9.0",
     "pretty-bytes": "bripkens/pretty-bytes#4c7116245e466d0836577fb504e3f44ab16877f3",
-    "rx": "^2.5.1",
-    "rxemitter": "^1.0.0"
+    "reactive-observables": "^1.1.0",
+    "roemitter": "^2.0.0"
   },
   "devDependencies": {
     "babel": "^5.0.10",
@@ -28,6 +28,7 @@
     "chai": "^2.2.0",
     "eslint": "^0.19.0",
     "mocha": "^2.2.4",
+    "mocha-babel-es6": "^1.2.1",
     "proxyquire": "^1.4.0",
     "sinon": "^1.14.1"
   },

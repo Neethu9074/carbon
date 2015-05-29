@@ -49,7 +49,7 @@ export function getActiveProblems() {
       return notification.get('type') === 'problem' &&
         notification.getIn(['data', 'end'], null) === null;
     })
-    .scan(Immutable.List(), collectingReducer)
+    .scan(collectingReducer, Immutable.List())
     .debounce(10)
     .map(sortingMapper);
 }

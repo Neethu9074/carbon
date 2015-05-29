@@ -6,7 +6,7 @@
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import RxEmitter from 'rxemitter';
+import RoEmitter from 'roemitter';
 
 const ec2 = 'com.instana.forge.infrastructure.virtualization.EC2';
 
@@ -21,7 +21,7 @@ describe('conveyer.SnapshotConveyer', () => {
     onNext = sinon.stub();
 
     connection = {
-      emitter: new RxEmitter(),
+      emitter: new RoEmitter(),
       send: sinon.stub(),
       subscribe: sinon.stub(),
       unsubscribe: sinon.stub(),

@@ -1,6 +1,6 @@
 'use strict';
 
-import Rx from 'rx';
+import * as ro from 'reactive-observables';
 
 export function create(Conveyer, params) {
   params = params || {};
@@ -15,36 +15,25 @@ export function create(Conveyer, params) {
   }
 
   const conveyer = new Conveyer(params);
-  const observers = [];
-  let running = false;
   let stoppedOnce = false;
-  let lastValue = null;
 
-  const observable = Rx.Observable.create(observer => {
-    if (stoppedOnce) {
-      const err = 'Observables may not be reused once everyone unsubscribed!';
-      throw new Error(err);
-    }
-
-    observers.push(observer);
-    if (lastValue) {
-      observer.onNext(lastValue);
-    }
-
-    if (!running) {
-      running = true;
-      conveyer.start(onNext, onError);
-    }
-
-    return () => {
-      observers.splice(observers.indexOf(observer), 1);
-      if (observers.length === 0) {
-        running = false;
-        stoppedOnce = true;
-        conveyer.stop();
-        delete conveyerCache[uniqueId];
+  const observable = ro.create({
+    start() {
+      if (stoppedOnce) {
+        const err = 'Observables may not be reused once everyone unsubscribed!';
+        throw new Error(err);
       }
-    };
+
+      conveyer.start(observable.emit.bind(observable));
+    },
+
+    stop() {
+      conveyer.stop();
+      stoppedOnce = true;
+      delete conveyerCache[uniqueId];
+    },
+
+    emitLatestOnSubscribe: true
   });
 
   conveyerCache[uniqueId] = {
@@ -52,17 +41,4 @@ export function create(Conveyer, params) {
   };
 
   return observable;
-
-  function onNext(v) {
-    lastValue = v;
-    for (let i = 0, len = observers.length; i < len; i++) {
-      observers[i].onNext(v);
-    }
-  }
-
-  function onError(error) {
-    for (let i = 0, len = observers.length; i < len; i++) {
-      observers[i].onError(error);
-    }
-  }
 }

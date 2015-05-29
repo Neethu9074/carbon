@@ -1,8 +1,8 @@
 'use strict';
 
-import RxEmitter from 'rxemitter';
+import RoEmitter from 'roemitter';
 
 // This is our application wide event bus
-const emitter = new RxEmitter('global event bus');
+const emitter = new RoEmitter('global event bus');
 
 export default emitter;

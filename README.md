@@ -1,7 +1,7 @@
 # ui-services
 
 ## Conveyer
-A conveyer is mix of Rx.JS observables, immutable data structures and a contract.
+A conveyer is mix of reactive observables, immutable data structures and a contract.
 
 ### Usage
 ```javascript
@@ -21,7 +21,7 @@ const subscription = observable.subscribe(
 subscription.dispose();
 ```
 
-On creation of an conveyer, an Rx.JS observable is returned. This observable can be used to subscribe to events via regular Rx.JS mechanisms. Additionally, subscriptions can be disposed of via `subscription.dispose()`. This makes it simple and very convenient to dispose of required resources.
+On creation of an conveyer, a reactive observable is returned. This observable can be used to subscribe to events via regular reactive observable mechanisms. Additionally, subscriptions can be disposed of via `subscription.dispose()`. This makes it simple and very convenient to dispose of required resources.
 
 ### Contract and Guarantees
  - The `create` function guarantees that there is only ever one conveyer instance being created for the same parameters. This means that multiple subscriptions to OS plugin snapshots (via `InventoryConveyer`) will not result in multiple `InventoryConveyer`s.

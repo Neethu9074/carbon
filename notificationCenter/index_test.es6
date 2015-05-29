@@ -6,7 +6,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
-import rx from 'rx';
+import * as ro from 'reactive-observables';
 import Immutable from 'immutable';
 
 describe('notificationConveyer', () => {
@@ -15,7 +15,7 @@ describe('notificationConveyer', () => {
   let notificationCenter;
 
   beforeEach(() => {
-    observable = new rx.Subject();
+    observable = ro.create();
 
     const create = sinon.stub();
     create.returns(observable);
@@ -67,7 +67,7 @@ describe('notificationConveyer', () => {
           done();
         });
 
-      observable.onNext(snapshots);
+      observable.emit(snapshots);
     });
 
   });
@@ -83,7 +83,7 @@ describe('notificationConveyer', () => {
           done();
         });
 
-      observable.onNext(notification);
+      observable.emit(notification);
     });
 
     it('should bundle multiple successive notifications', (done) => {
@@ -96,8 +96,8 @@ describe('notificationConveyer', () => {
           done();
         });
 
-      observable.onNext(n1);
-      observable.onNext(n2);
+      observable.emit(n1);
+      observable.emit(n2);
     });
 
     it('should sort notifications by timestamp', (done) => {
@@ -111,8 +111,8 @@ describe('notificationConveyer', () => {
           done();
         });
 
-      observable.onNext(n1);
-      observable.onNext(n2);
+      observable.emit(n1);
+      observable.emit(n2);
     });
 
     it('should support notification updates', (done) => {
@@ -135,10 +135,10 @@ describe('notificationConveyer', () => {
           }
         });
 
-      observable.onNext(notification);
+      observable.emit(notification);
 
       setTimeout(() => {
-        observable.onNext(notification.setIn(['data', 'pluginId'], 'osPlugin'));
+        observable.emit(notification.setIn(['data', 'pluginId'], 'osPlugin'));
       }, 20);
     });
   });
