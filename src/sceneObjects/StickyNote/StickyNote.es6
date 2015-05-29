@@ -21,7 +21,11 @@ export default class StickyNote {
     }
   }
 
+  updateWorldPos() {}
+
   update() {
+    this.updateWorldPos();
+
     const scene = this.parent.getScene();
     const pos = this.stickyNoteEndPosWorld.clone();
     pos.applyMatrix4(scene.camera.projection);

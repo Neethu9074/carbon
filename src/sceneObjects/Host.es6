@@ -41,7 +41,8 @@ const emptyMetricStickyObject = {
   update() {},
   updateWorldPos() {},
   render() {},
-  dispose() {}
+  dispose() {},
+  show() {}
 };
 
 
@@ -215,6 +216,7 @@ export default class Host extends SceneObject {
     }
   }
 
+/*eslint-disable complexity */
   update(data) {
     if(!data.scene.renderHtmlStuff) {
       return;
@@ -222,22 +224,34 @@ export default class Host extends SceneObject {
 
     //if the host is near enough or is in the view frustum
     if(!data.scene.objectIsVisible(this.cube)) {
-      //disable sticky note
-      this.stickyNote.hide();
-      this.stickyNoteMetric.hide();
+      if(!this.hidden) {
+        //disable sticky note
+        this.stickyNote.hide();
+        this.stickyNoteMetric.hide();
 
-      //disable metrics if the host isn't visible
-      this.metricServer.pauseMetrics();
+        //disable metrics if the host isn't visible
+        this.metricServer.pauseMetrics();
+        this.hidden = true;
+      }
     } else {
-      this.updateStickyNote();
+      this.updateStickyNotes();
 
-      //enable metrics if the host is visible but only if there is no "active"
-      //hideMetrics event
-     this.metricServer.resumeMetrics();
+      if(this.hidden) {
+
+        if(this.stickyNoteMetric === emptyMetricStickyObject) {
+          this.stickyNoteMetric = new StickyNoteMetric(this);
+        }
+
+        //enable metrics if the host is visible but only if there is no "active"
+        //hideMetrics event
+        this.metricServer.resumeMetrics();
+        this.hidden = false;
+      }
     }
   }
+/*eslint-enable complexity */
 
-  updateStickyNote() {
+  updateStickyNotes() {
     this.stickyNote.update();
     this.stickyNoteMetric.update();
   }

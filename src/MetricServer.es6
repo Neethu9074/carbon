@@ -90,6 +90,7 @@ export default class MetricServer {
   //reference to once, multi or single metric creator
   createMetricSource() {}
 
+  //this is one of the possible metric creation method for multiple metrics
   createMultiMetricSource(metrics) {
     const tempSubscriptions = metrics.map(metric => {
       return create(MetricConveyer, {
@@ -100,6 +101,7 @@ export default class MetricServer {
     return combineLatest(tempSubscriptions).throttle(200);
   }
 
+  //this is one of the possible metric creation method for single metrics
   createSingleMetricSource() {
     const metric = currentMetric[0];
     return create(MetricConveyer, {
@@ -109,10 +111,13 @@ export default class MetricServer {
     });
   }
 
+  /* takes the current method reference for creating a subscribtion and
+  * subscribes to it.
+  */
   subscribeToCurrent() {
-    this.currentMetricSource = this.createMetricSource(currentMetric);
+    const metricSource = this.createMetricSource(currentMetric);
 
-    this.metricSubscription = this.currentMetricSource.subscribe(value =>
+    this.metricSubscription = metricSource.subscribe(value =>
       this.currentMetricFunction(value));
   }
 
@@ -123,8 +128,7 @@ export default class MetricServer {
 
   resumeMetrics() {
     //if there was an active metric subscribtion which is paused,
-    //resubscribe to it but only if there was no hide metric or other metric
-    //fired until then
+    //resubscribe to it but only if there is a active metric
     if(!this.metricSubscription && currentMetric) {
       this.subscribeToCurrent();
     }
@@ -133,8 +137,5 @@ export default class MetricServer {
   dispose() {
     this.subscriptions.forEach(sub => sub.dispose());
     this.subscriptions = null;
-
-    this.subscriptions.forEach(sub => sub.dispose);
-    this.subscriptions = [];
   }
 }
