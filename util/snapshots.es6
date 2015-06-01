@@ -2,8 +2,6 @@
 
 import Immutable from 'immutable';
 
-let ipSnapshotMap = new Immutable.Map();
-
 
 /**
  * Extract an ID triplet from a snapshot. This method encapsulates what it
@@ -51,25 +49,25 @@ export function getIdString(s) {
 }
 
 
+/* eslint-disable new-cap */
 /**
  * Extract an array of all found connections as string IPs.
  *
  * @param {Immutable.Map} snapshot An immutable snapshot from which the
  * connection part should be extracted.
- * @returns {Immutable.Map<Immutable, Immutable.List<string>>} a amp with all
+ * @returns {Immutable.Map<Immutable, Immutable.List<string>>} a map with all
  * snapshots and a list of all connected ones.
  */
 export function extractConnections(snapshots) {
-  calculateIpMap(snapshots);
+  const ipSnapshotMap = calculateIpMap(snapshots);
+  const map = Immutable.Map().asMutable();
 
-  /* eslint-disable new-cap */
-  let map = Immutable.Map().asMutable();
+  ipSnapshotMap.forEach((host) => {
 
-  snapshots.forEach(host => {
     const connections = host.getIn(['data', 'connections', 'outgoing']);
-    if (connections) {
-      map.set(host, connections.map(connection => {
-        return ipSnapshotMap.get(connection);
+    if (connections && connections.size > 0) {
+      map.set(host, connections.map(ip => {
+        return ipSnapshotMap.get(ip);
       }));
     } else {
       map.set(host, Immutable.List());
@@ -77,10 +75,18 @@ export function extractConnections(snapshots) {
   });
 
   return map.asImmutable();
-  /* eslint-enable new-cap */
 }
+/* eslint-enable new-cap */
 
-function calculateIpMap(snapshots) {
+/**
+ * Extract a map of all hosts.
+ *
+ * @param {Immutable.Map} snapshot An immutable snapshot from which the
+ * connection part should be extracted.
+ *
+ * @returns {Immutable.Map<string, Immutable.Map>}
+ */
+export function calculateIpMap(snapshots) {
   const map = new Immutable.Map().asMutable();
   //get ips for each host
   snapshots.forEach(host => {
@@ -89,6 +95,7 @@ function calculateIpMap(snapshots) {
     const ethInterfaces = host.getIn(['data', 'interfaces']);
     if(ethInterfaces) {
       ethInterfaces.forEach(interf => {
+
         //get all ips of the interface
         const ips = interf.get('ips');
         ips.forEach(ip => {
@@ -98,5 +105,5 @@ function calculateIpMap(snapshots) {
     }
   });
 
-  ipSnapshotMap = map.asImmutable();
+  return map.asImmutable();
 }

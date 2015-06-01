@@ -9,7 +9,8 @@ import {
   getIdString,
   extractId,
   isIdEqual,
-  extractConnections} from './snapshots';
+  extractConnections,
+  calculateIpMap} from './snapshots';
 
 describe('util.snapshots', () => {
 
@@ -56,19 +57,19 @@ describe('util.snapshots', () => {
   }
 
   function getConnectedSnapshots() {
-
     return Immutable.fromJS({
       a: {
         data: {
           interfaces: {
             eth0: {
-              ips: ['192.168.0.1']
+              ips: ['1.1.1.1']
             }
           },
           connections: {
             outgoing: [
-              '192.168.0.1',
-              '192.168.0.2'
+              '1.1.1.2',
+              '1.1.1.3',
+              '1.1.1.6' //unknown
             ]
           }
         }
@@ -76,17 +77,18 @@ describe('util.snapshots', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['192.168.0.2']
+              ips: ['1.1.1.2']
             }
           },
           connections: {
             incoming: [
               '1.1.1.1',
-              '2.2.2.2'
+              '1.1.1.3'
             ],
             outgoing: [
-              '192.168.0.1',
-              '192.168.0.2'
+              '1.1.1.1',
+              '1.1.1.3',
+              '1.1.1.5' //unknown
             ]
           }
         }
@@ -94,13 +96,12 @@ describe('util.snapshots', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['192.168.0.3']
+              ips: ['1.1.1.3']
             }
           },
           connections: {
             incoming: [
-              '192.168.0.1',
-              '192.168.0.2'
+              '1.1.1.4'
             ]
           }
         }
@@ -108,7 +109,7 @@ describe('util.snapshots', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['192.168.0.1']
+              ips: ['1.1.1.4']
             }
           }
         }
