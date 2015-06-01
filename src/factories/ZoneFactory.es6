@@ -3,14 +3,13 @@
 import THREE from 'three';
 import PlaneFactory from './PlaneFactory';
 
+const colorItemsOk = [[0.0, 0.0, 0.0]];
+const colorItemsWarning = [[0.51, 0.47, 0.08]];
+const colorItemsDanger = [[0.42, 0.04, 0.13]];
 
 export default class ZoneFactory extends PlaneFactory {
   constructor({scene}) {
     super({scene});
-
-    this.colorItemsOk = [[0.9, 0.1, 0.1]];
-    this.colorItemsWarning = [[0.51, 0.47, 0.08]];
-    this.colorItemsDanger = [[0.42, 0.04, 0.13]];
   }
 
   addFragment(fragment = {id, pos, dim, health}) {
@@ -22,11 +21,12 @@ export default class ZoneFactory extends PlaneFactory {
 
   getColorArrayForFragment(fragment) {
     const health = fragment.health;
+
     if(health === 'warning') {
-      return this.colorItemsWarning;
+      return colorItemsWarning;
     } else if(health === 'danger') {
-      return this.colorItemsDanger;
+      return colorItemsDanger;
     }
-    return this.colorItemsOk;
+    return colorItemsOk;
   }
 }

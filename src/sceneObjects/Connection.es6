@@ -31,6 +31,7 @@ export default class Connection extends SceneObject {
 
     //add connection to to as well
     to.addConnection(this);
+    from.addConnection(this);
 
     connections.push(this);
     this.render();
@@ -130,6 +131,7 @@ export default class Connection extends SceneObject {
 
   dispose() {
     this.to.removeConnection(this);
+    this.from.removeConnection(this);
 
     try{
       this.getScene().lineFactory.removeFragment(this.id);

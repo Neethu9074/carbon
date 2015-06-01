@@ -290,7 +290,6 @@ export default class Scene {
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
     this.hostFactory.material.opacity = normedZoomLevel;
-    //this.lineFactory.material.visible = (zoomLevel <= 200);
 
     //update host color opacity by distance
     this.hostFactory.material.transparent = (zoomLevel < maxZoomOut);

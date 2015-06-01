@@ -19,10 +19,8 @@ import StickyNoteProcess from './StickyNote/Process';
 import StickyNoteMetric from './StickyNote/Metric';
 import Process from './Process';
 
-//const stickyNoteLineEndLocalPosition = new THREE.Vector3(0.5, 0.8, 0);
-// const niceLookingDistanceForSticky = new THREE.Vector3(0, 0.8, 0.54);
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
-const cubeHullThickness = new THREE.Vector3(0, 0.1, 0);
+const cubeHullThickness = new THREE.Vector3(0, 0.01, 0);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 
@@ -33,7 +31,8 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].y += 0.5;
   cubeGeometry.vertices[i].z += 0.5;
 }
-const cubeMaterial = new THREE.MeshBasicMaterial({visible: true});
+//global cube material to reduce object creation
+const cubeMaterial = new THREE.MeshBasicMaterial();
 
 //if unavailable, the StickyNote-Metric / Process will not be undefined but this
 //to avoid all these if(available) {do something} stuff
@@ -52,18 +51,18 @@ export default class Host extends SceneObject {
   constructor({parent, snapshot}) {
     super({parent});
 
-    this.scene = this.getScene();
+    this.scene = parent.getScene();
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
     this.health = getHealth(snapshot);
+    this.processes = [];
+    this.connections = [];
 
     this.render();
     this.stickyNote = new StickyNoteHost(this);
     this.stickyNoteMetric = emptyMetricStickyObject;
-    this.registerEvents();
 
-    this.processes = [];
-    this.connections = [];
+    this.registerEvents();
 
     this.show();
   }
@@ -72,6 +71,7 @@ export default class Host extends SceneObject {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check
     this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
     this.cube.matrixAutoUpdate = false;
+    this.cube.rotationAutoUpdate = false;
 
     //set this flag to add this obj to octree and not to scene!
     this.cube.useOnlyForCollisionDetection = true;
@@ -88,15 +88,14 @@ export default class Host extends SceneObject {
 
     this.addToHostFactory(id, pos, dim);
     this.addToZoneFactory(id, pos, dim);
-    //this.addToLineFactory(id, pos, dim);
     this.addToMultiMetricFactory(id, pos, dim);
     this.addToSingleMetricFactory(id, pos, dim);
   }
 
   //adds the cube geometry
   addToHostFactory(id, pos, dim) {
-    //add fragment to global geometry
-    this.scene.hostFactory.addFragment({id, pos,
+    this.scene.hostFactory.addFragment({
+      id, pos,
       dim: dim.clone().add(cubeHullThickness),
       health: this.health
     });
@@ -119,13 +118,12 @@ export default class Host extends SceneObject {
   //for the single metric pillar
   addToSingleMetricFactory(id, pos, dim) {
     this.scene.singleMetricFactory.addFragment({
-      id, pos, dim,
-      newHeight: 0
+      id, pos, dim, newHeight: 0
     });
   }
 
-  //not the zone where hosts are!
-  //it's the ground zone of each host for the health
+  //this is not the zone where hosts are on!
+  //it's the health ground zone of each host
   addToZoneFactory(id, pos, dim) {
     this.scene.zoneFactory.addFragment({
       id,
@@ -134,17 +132,6 @@ export default class Host extends SceneObject {
       health: this.health
     });
   }
-
-  //this is the visual line between the cube top surface and the sticky note
-  // addToLineFactory(id, pos, dim) {
-  //   const lineFactory = this.scene.lineFactory;
-  //   const from = this.cube.position.clone()
-  //     .add(new THREE.Vector3(-0.5, dim.y, 0.5));
-  //   const to = from.clone()
-  //     .add(niceLookingDistanceForSticky);
-  //
-  //   lineFactory.addFragment({id, points: [from, to]});
-  // }
 
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) =>
@@ -158,17 +145,17 @@ export default class Host extends SceneObject {
 
   showMetrics() {
     //changing the material means changing the material for all processes
-    this.getScene().cubeFactory.material.visible = false;
+    this.scene.cubeFactory.material.visible = false;
 
-    this.addStickyNoteForMetric();
+    // this.addStickyNoteForMetric();
   }
 
   hideMetrics() {
     //changing the material means changing the material for all processes
-    this.getScene().cubeFactory.material.visible = true;
+    this.scene.cubeFactory.material.visible = true;
 
-    this.stickyNoteMetric.dispose();
-    this.stickyNoteMetric = emptyMetricStickyObject;
+    // this.stickyNoteMetric.dispose();
+    // this.stickyNoteMetric = emptyMetricStickyObject;
   }
 
   setSingleMetricValue(value) {
@@ -176,27 +163,29 @@ export default class Host extends SceneObject {
       .getFragment(this.id)
       .newHeight = value;
 
-    this.stickyNoteMetric.updateWorldPos();
-    this.stickyNoteMetric.render(value);
+    // this.stickyNoteMetric.updateWorldPos();
+    // this.stickyNoteMetric.render(value);
   }
 
   setMultiMetricValue(values) {
     this.newMetricValues = values;
 
-    this.stickyNoteMetric.updateWorldPos();
-    this.stickyNoteMetric.render();
+    // this.stickyNoteMetric.updateWorldPos();
+    // this.stickyNoteMetric.render();
   }
 
   updateMetricHeight() {
     const frag = this.scene.multiMetricFactory.getFragment(this.id);
     const tiles = frag.tiles;
     let values = [];
-    let useOldPos = this.newMetricValues === undefined;
 
+    //if there are no new metric values available
+    let useOldPos = (this.newMetricValues === undefined);
     if(!useOldPos) {
       values = this.newMetricValues;
       this.newMetricValues = undefined;
     } else {
+      //use the "old" to value as the new to value
       values = tiles.map((t) => { return t.new.to; });
     }
 
@@ -213,7 +202,6 @@ export default class Host extends SceneObject {
     }
   }
 
-/*eslint-disable complexity*/
   update(data) {
     if(!data.scene.renderHtmlStuff) {
       return;
@@ -221,36 +209,43 @@ export default class Host extends SceneObject {
 
     //if the host is near enough or is in the view frustum
     if(!data.scene.objectIsVisible(this.cube)) {
+      //trigger the hide method just once
       if(!this.hidden) {
-        //disable sticky note
-        this.stickyNote.hide();
-        this.stickyNoteMetric.hide();
-
-        //disable metrics if the host isn't visible
-        this.metricServer.pauseMetrics();
+        this.hide();
         this.hidden = true;
       }
     } else {
-      this.updateStickyNotes();
-
+      //trigger the show method just once
       if(this.hidden) {
-
-        if(this.stickyNoteMetric === emptyMetricStickyObject) {
-          this.stickyNoteMetric = new StickyNoteMetric(this);
-        }
-
-        //enable metrics if the host is visible but only if there is no "active"
-        //hideMetrics event
-        this.metricServer.resumeMetrics();
+        this.show();
         this.hidden = false;
       }
+      this.updateStickyNotes();
     }
   }
-/*eslint-enable complexity */
+
+  hide() {
+    //disable sticky note
+    this.stickyNote.hide();
+    // this.stickyNoteMetric.hide();
+
+    //disable metrics if the host isn't visible
+    this.metricServer.pauseMetrics();
+  }
+
+  show() {
+    // if(this.stickyNoteMetric === emptyMetricStickyObject) {
+    //   this.stickyNoteMetric = new StickyNoteMetric(this);
+    // }
+
+    //enable metrics if the host is visible but only if there is no "active"
+    //hideMetrics event
+    this.metricServer.resumeMetrics();
+  }
 
   updateStickyNotes() {
     this.stickyNote.update();
-    this.stickyNoteMetric.update();
+    // this.stickyNoteMetric.update();
   }
 
   onSnapshotUpdate(snapshot) {
@@ -275,7 +270,6 @@ export default class Host extends SceneObject {
     this.cube.position.set(x, y, z);
 
     this.refreshMesh();
-    this.refreshConnections();
 
     _.forEach(this.processes, p => p.setPosition(x, p.getPosition().y, z));
   }
@@ -295,6 +289,7 @@ export default class Host extends SceneObject {
     if(health === this.health) {
       return;
     }
+
     const id = this.id;
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
@@ -302,6 +297,8 @@ export default class Host extends SceneObject {
     this.health = health;
     this.changeColorInFactory(id, health, this.scene.hostFactory);
 
+    //can't change the color of the zone like the host does because
+    //ok zones doesn't have a zone geometry!
     this.scene.zoneFactory.removeFragment(id);
     this.addToZoneFactory(id, pos, dim);
   }
@@ -345,27 +342,19 @@ export default class Host extends SceneObject {
   //connects this host with another one. the connection is stored in a
   //connections collection
   connectWith(otherHost) {
-    //don't setup a new connection if it's still available
+    //don't setup a new connection if it's still alive
     if(this.connections.indexOf(otherHost) >= 0) {
       return;
     }
 
-    this.addConnection(new Connection({
-      parent: this,
-      from: this,
-      to: otherHost
-    }));
+    /*eslint-disable no-new*/
+    new Connection({parent: this, from: this, to: otherHost});
+    /*eslint-enable no-new*/
   }
 
   //is called from Connection class when creating a new connection
   addConnection(connection) {
     this.connections.push(connection);
-  }
-
-  //takes all connections and dispose them because the position of the host
-  //has changed then calculates the new routes to the other Hosts
-  refreshConnections() {
-    this.connections.forEach(connection => connection.refresh());
   }
 
   arrangeProcesses() {
@@ -413,7 +402,6 @@ export default class Host extends SceneObject {
     const scene = this.scene;
     const id = this.id;
     scene.hostFactory.enableFragment(id, enabled);
-    //scene.lineFactory.enableFragment(id, enabled);
     scene.zoneFactory.enableFragment(id, enabled);
     scene.multiMetricFactory.enableFragment(id, enabled);
     scene.singleMetricFactory.enableFragment(id, enabled);
@@ -423,7 +411,6 @@ export default class Host extends SceneObject {
     const id = this.id;
     const scene = this.scene;
     scene.hostFactory.removeFragment(id);
-    //scene.lineFactory.removeFragment(id);
     scene.zoneFactory.removeFragment(id);
     scene.multiMetricFactory.removeFragment(id);
     scene.singleMetricFactory.removeFragment(id);
@@ -434,21 +421,26 @@ export default class Host extends SceneObject {
     this.connections = [];
   }
 
+  //is called from Connection class on disposing
   removeConnection(connection) {
     _.remove(this.connections, con => con === connection);
   }
 
+  clearProcesses() {
+    this.processes.forEach(p => p.dispose());
+    this.processes = [];
+  }
+
   dispose() {
     this.clearConnections();
+    this.clearProcesses();
 
-    _.forEach(this.processes, p => p.dispose());
-    this.processes = [];
-
-    this.removeSceneObject(this.cube);
     this.removeFromGlobalGeometry();
+    this.removeSceneObject(this.cube);
     this.cube = null;
 
     this.stickyNote.dispose();
+
     super.dispose();
 
     this.scene = null;
