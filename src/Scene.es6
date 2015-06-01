@@ -117,29 +117,40 @@ export default class Scene {
     this.setupRenderer(width, height);
     this.setupCamera(width, height);
 
+    //this is the main scene for all scene objects like hosts or metrics
     this.scene = new THREE.Scene();
+
+    //this is a scene just for the background rect to create a gradient instead
+    //of a solid color
     this.backgroundScene = new THREE.Scene();
     this.backgroundScene.add(backgroundPlane);
 
     this.map = new PhysicalMap({scene: this});
 
+    //set this flag to force a render cycle
     this.shouldRenderScene = true;
+
+    //set this flag to keep the render cycle alive
     this.animationInProgress = false;
   }
 
   setupRenderer(width, height) {
-    this.renderer = new THREE.WebGLRenderer({
-      antialias: true
-    });
+    this.renderer = new THREE.WebGLRenderer({antialias: true});
     this.renderer.setSize(width, height);
-    this.renderer.setClearColor(colors.renderClearColor);
+
+    //since the app doesn't use any shadows, set this flag to shorten internal
+    //three.js code
     this.renderer.shadowMapEnabled = false;
+
+    //don't need to clear the buffer because it's filled with a gradient
+    this.renderer.autoClearColor = false;
 
     //add webGLRenderer to dom element
     this.parent.appendChild(this.renderer.domElement);
   }
 
   setupCamera(width, height) {
+    //a multiplicator for a homogenious viewport * aspect
     this.cameraSize = 30;
 
     const aspect = width / height;
@@ -154,12 +165,17 @@ export default class Scene {
     this.camera.position.set(-0.8, 1, 1);
     this.camera.lookAt(new THREE.Vector3());
     this.camera.projection = new THREE.Matrix4();
-    this.camera.updateMatrix();
+    //set static
     this.camera.matrixAutoUpdate = false;
+    this.camera.rotationAutoUpdate = false;
+    this.camera.updateMatrix();
 
+    //this is a camera just for the background scene to render
     this.backgroundCamera = new THREE.OrthographicCamera(
       1, -1, 1, -1, 0.1, 20);
+    //set static
     this.backgroundCamera.matrixAutoUpdate = false;
+    this.backgroundCamera.rotationAutoUpdate = false;
   }
 
   setupController() {
@@ -174,6 +190,7 @@ export default class Scene {
   }
 
   update() {
+    //break the requestAnimationFrame loop if disposed
     if (this.disposed) {
       return;
     }
@@ -193,22 +210,24 @@ export default class Scene {
     }
 
     this.updateCamera();
-    //update is done
+
+    //updating is done
     eventBus.emit('endUpdate', {scene: this});
 
     this.render();
     this.shouldRenderScene = false;
 
+    //rendering is done
     eventBus.emit('endRender', {scene: this});
   }
 
   render() {
-    //inline render since it's only called here
+    //first render the background
     const renderer = this.renderer;
     renderer.render(this.backgroundScene, this.backgroundCamera);
-    renderer.autoClearColor = false;
+
+    //after rendering the background, render the hole scene
     renderer.render(this.scene, this.camera);
-    renderer.autoClearColor = true;
   }
 
   updateCamera() {
@@ -231,40 +250,38 @@ export default class Scene {
   }
 
   updateMetricHeights() {
+    //if there is an active metric to be rendered, update the heights
     if(this.activeMetricFactory) {
       this.activeMetricFactory.updateHeights();
       eventBus.emit('upateMetricHeights');
     }
   }
 
-  showMetrics(e) {
-    //deactivate old factory
+  hideMetricFactoryMesh() {
     if(this.activeMetricFactory) {
       this.activeMetricFactory.material.visible = false;
     }
+  }
 
-    if(e.metrics.length > 1){
-      this.activeMetricFactory = this.multiMetricFactory;
-    } else {
-      this.activeMetricFactory = this.singleMetricFactory;
-    }
+  showMetrics(e) {
+    this.hideMetricFactoryMesh();
+
+    //check if there are multiple metrics to be rendered
+    this.activeMetricFactory = e.metrics.length > 1 ?
+      this.multiMetricFactory : this.singleMetricFactory;
+
     this.activeMetricFactory.material.visible = true;
   }
 
   hideMetrics() {
-    if(this.activeMetricFactory) {
-      //disable current metric viz
-      this.activeMetricFactory.material.visible = false;
-    }
+    this.hideMetricFactoryMesh();
 
     //set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
   }
 
   updateMaterialsByZoomLevel(zoomLevel) {
-    if (this.controller === undefined) {
-      return;
-    }
+    //TODO: set this values globally
     const maxZoomIn = 25;
     const maxZoomOut = 150;
 
@@ -275,17 +292,8 @@ export default class Scene {
     this.hostFactory.material.opacity = normedZoomLevel;
     //this.lineFactory.material.visible = (zoomLevel <= 200);
 
-    this.updateHostColors(zoomLevel, maxZoomOut);
-  }
-
-  updateHostColors(zoomLevel, maxZoomOut) {
-    if(zoomLevel > maxZoomOut) {
-      this.hostFactory.material.transparent = false;
-      //this.hostFactory.grayAllHosts(false);
-    } else {
-      this.hostFactory.material.transparent = true;
-      //this.hostFactory.grayAllHosts(true);
-    }
+    //update host color opacity by distance
+    this.hostFactory.material.transparent = (zoomLevel < maxZoomOut);
   }
 
   updateZoomLevelInCss(zoomUnits) {
@@ -298,24 +306,27 @@ export default class Scene {
   }
 
   setCameraFromSize() {
+    //we start in the middle and go totalWidth / 2 to the left
     const camSizeHalf = this.cameraSize / 2;
     const aspect = this.width / this.height;
+
     this.camera.left = -camSizeHalf * aspect;
     this.camera.right = camSizeHalf * aspect;
     this.camera.top = camSizeHalf;
     this.camera.bottom = -camSizeHalf;
 
-    this.camera.updateProjectionMatrix();
+    //projection matrix is updated in update loop
   }
 
   findObjectByRay(raycaster) {
     raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
+    const ray = raycaster.ray;
 
     const octree2Objects = this.octree.search(
-      raycaster.ray.origin,
-      raycaster.ray.far,
+      ray.origin,
+      ray.far,
       true, //true -> organized by objects
-      raycaster.ray.direction);
+      ray.direction);
 
     const intersections = raycaster.intersectOctreeObjects(octree2Objects);
     if (intersections.length > 0) {
@@ -369,6 +380,7 @@ export default class Scene {
     return new THREE.Vector3();
   }
 
+  //checks if the object is inside the view frustum
   objectIsVisible(object) {
     return frustum.intersectsObject(object);
   }
