@@ -66,8 +66,9 @@ export function extractConnections(snapshots) {
 
     const connections = host.getIn(['data', 'connections', 'outgoing']);
     if (connections && connections.size > 0) {
+
       map.set(host, connections.map(ip => {
-        return ipSnapshotMap.get(ip);
+        return getSnapshotByIp(ip, ipSnapshotMap);
       }));
     } else {
       map.set(host, Immutable.List());
@@ -77,6 +78,18 @@ export function extractConnections(snapshots) {
   return map.asImmutable();
 }
 /* eslint-enable new-cap */
+
+function getSnapshotByIp(ip, ipSnapshotMap) {
+  let snapshot = ipSnapshotMap.get(ip);
+  if(!snapshot) {
+    snapshot = Immutable.fromJS({
+      'state': 'unmonitored',
+      'ip': ip
+    });
+  }
+
+  return snapshot;
+}
 
 /**
  * Extract a map of all hosts.
