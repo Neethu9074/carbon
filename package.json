@@ -16,12 +16,15 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+    "d3": "^3.5.5",
     "font-awesome": "^4.3.0",
     "instana-ui-sdk": "^1.7.0",
     "instana-ui-services": "^1.15.0",
     "instana-ui-themes": "^1.0.2",
     "invariant": "^2.0.0",
-    "react": "^0.13.1"
+    "lodash": "^3.9.3",
+    "react": "^0.13.1",
+    "reactive-observables": "^1.2.0"
   },
   "devDependencies": {
     "babel": "^5.1.11",

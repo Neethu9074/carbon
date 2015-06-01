@@ -29,3 +29,4 @@
     no-nested-ternary: [2]
     space-in-parens: [2, 'never']
     space-in-brackets: [2, 'never']
+    no-console: [1]

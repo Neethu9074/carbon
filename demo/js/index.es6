@@ -12,6 +12,7 @@ import Lettering from '../../Lettering';
 import Icon from '../../Icon';
 import Toast from '../../Toast';
 import SnapshotIconDemo from './SnapshotIconDemo';
+import LineChartDemo from './LineChartDemo';
 
 import '../less/demo.less';
 
@@ -86,6 +87,9 @@ const Demo = React.createClass({
         </Tab>
         <Tab title="SnapshotIcon">
           <SnapshotIconDemo snapshot={this.state.snapshot} />
+        </Tab>
+        <Tab title="Line Chart">
+          <LineChartDemo />
         </Tab>
       </Tabs>
     );
