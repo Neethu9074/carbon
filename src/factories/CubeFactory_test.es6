@@ -16,9 +16,7 @@ describe('3D map', () => {
       addSceneObject() {},
       removeSceneObject() {},
       renderScene() {},
-      emitter: {
-        on() {}
-      }
+      on() {}
     };
     factory = new CubeFactory({scene});
   });

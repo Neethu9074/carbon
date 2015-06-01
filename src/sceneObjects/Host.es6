@@ -9,6 +9,7 @@ import {getHealth} from 'instana-ui-services/health';
 import {create} from 'instana-ui-services/conveyer';
 import {isIdEqual, extractId, getIdString}
   from 'instana-ui-services/util/snapshots';
+import eventBus from 'instana-ui-services/eventbus';
 
 import ConnectionGrid from '../connectionGrid';
 import Connection from './Connection';
@@ -146,8 +147,11 @@ export default class Host extends SceneObject {
   // }
 
   registerEvents() {
-    this.scene.on('endUpdate', this.update.bind(this));
-    this.scene.on('upateMetricHeights', this.updateMetricHeight.bind(this));
+    this.addSubscription(eventBus.on('endUpdate').subscribe((data) =>
+      this.update(data)));
+
+    this.addSubscription(eventBus.on('upateMetricHeights').subscribe(() =>
+      this.updateMetricHeight()));
 
     this.metricServer = new MetricServer(this);
   }
@@ -209,7 +213,7 @@ export default class Host extends SceneObject {
     }
   }
 
-/*eslint-disable complexity */
+/*eslint-disable complexity*/
   update(data) {
     if(!data.scene.renderHtmlStuff) {
       return;

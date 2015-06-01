@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-
+import eventBus from 'instana-ui-services/eventbus';
 import _ from 'lodash';
 
 
@@ -27,10 +27,8 @@ export default class AbstractMeshCreationFactory {
   }
 
   registerEvents() {
-    this.subscription = this.scene.on(
-      'beginUpdate',
-      this.update.bind(this)
-    );
+    this.subscription = eventBus.on('beginUpdate').subscribe(
+      this.update.bind(this));
   }
 
   setMaterial(material) {
