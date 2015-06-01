@@ -23,16 +23,18 @@ export default class PhysicalMap extends SceneObject {
   constructor({scene}) {
     super({parent: scene});
 
+    //the size of the map in world units
     this.size = 1000;
+
     this.scene = scene;
     this.zones = [];
 
-    this.createGroungGrid();
+    this.createGroundGrid();
 
     this.bindToDatasource();
   }
 
-  createGroungGrid() {
+  createGroundGrid() {
     const geo = new THREE.PlaneBufferGeometry(this.size, this.size, 1, 1);
     const mat = new THREE.MeshBasicMaterial({
       map: this.getGroundTexture(),
@@ -47,23 +49,29 @@ export default class PhysicalMap extends SceneObject {
     // then backface culling would make it invisible.
     ground.rotation.x = -90 * Math.PI / 180;
     ground.position.y = -0.02;
-    ground.updateMatrix();
+
+    //set static
     ground.matrixAutoUpdate = false;
+    ground.rotationAutoUpdate = false;
+    ground.updateMatrix();
 
     this.scene.addSceneObject(ground);
   }
 
   getGroundTexture() {
+    const quadsPerWorldUnit = 3;
+    const repating = quadsPerWorldUnit * this.size;
     const texture = THREE.ImageUtils.loadTexture(
       groundTexturePath,
-      undefined,
+      THREE.UVMapping,
       () => { this.scene.renderScene(); });
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(3 * this.size, 3 * this.size);
+    texture.repeat.set(repating, repating);
+
     //set the ground anisotropy to the max
     //because it's a huge ground always seen
-    texture.anisotropy = 8;
+    texture.anisotropy = this.scene.renderer.getMaxAnisotropy();
     this.groundtexture = texture;
 
     return texture;
@@ -79,7 +87,7 @@ export default class PhysicalMap extends SceneObject {
   onInventoryUpdate(snapshots) {
     snapshots.forEach(host => this.addHost(host));
 
-    // identify removed hosts
+    // identify removed hosts: hosts that are not inside the snapshot update
     const removedHosts = this.zones.reduce((hosts, zone) => {
       return hosts.concat(zone.hosts);
     }, [])
@@ -104,7 +112,7 @@ export default class PhysicalMap extends SceneObject {
     //get find the zone with zoneId
     let zone = _.find(this.zones, zone => zone.id === zoneId);
 
-    //if the zone doesn't exist, create it
+    //if the hosts zone doesn't exist, create it
     if (!zone) {
       zone = new Zone({
         parent: this,
@@ -201,10 +209,11 @@ export default class PhysicalMap extends SceneObject {
   }
 
   onZoom(zoomLevel) {
+    const size = this.size;
     if(zoomLevel < 120) {
-      this.groundtexture.repeat.set(3 * this.size, 3 * this.size);
-    } else if(zoomLevel < 300) {
-      this.groundtexture.repeat.set(this.size, this.size);
+      this.groundtexture.repeat.set(3 * size, 3 * size);
+    } else {
+      this.groundtexture.repeat.set(size, size);
     }
   }
 
