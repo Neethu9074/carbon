@@ -20,10 +20,12 @@ exports.consts = {
     },
     zIndex: {
       stickyNotes: 1,
-      flyOutNotifications: 2,
-      sidebar: 3,
+      header: 2,
+      footer: 2,
+      sidebar: 2,
+      flyOutNotifications: 3,
       notificationCenter: 4,
-      lettering: 5
+      detailPane: 5
     },
     charts: {
       areaChart: {
