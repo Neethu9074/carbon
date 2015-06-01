@@ -94,9 +94,9 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
   if(!snapshot) {
     snapshot = Immutable.fromJS({
       state: 'unmonitored',
-      hostId: ip,
-      pluginId: 'unknown',
-      steadyId: 'unknown'
+      hostId: 'unknown',
+      pluginId: 'com.instana.forge.infrastructure.os.OS',
+      steadyId: ip
     });
   }
   return snapshot;
