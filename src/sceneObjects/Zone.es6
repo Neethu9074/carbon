@@ -7,6 +7,9 @@ import SceneObject from './SceneObject';
 import Host from './Host';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getColor} from 'instana-ui-sdk/zones';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('ui-map.Zone');
 
 //use global geometry to reduce object instances
 const zoneGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
@@ -22,10 +25,10 @@ export default class Zone extends SceneObject {
     this.zoneIndex = zoneIndex;
     this.hosts = [];
 
-    this.renderGround();
+    this.createGround();
   }
 
-  renderGround() {
+  createGround() {
     let zoneColor = getColor(this.id);
     if(!zoneColor) {
       zoneColor = white;
@@ -43,12 +46,18 @@ export default class Zone extends SceneObject {
     // then backface culling would make it invisible.
     this.ground.rotation.x = -90 * Math.PI / 180;
     this.ground.renderOrder = 1;
-
+    this.setStatic(this.ground);
     this.addSceneObject(this.ground);
 
     this.edge = new THREE.EdgesHelper(this.ground, zoneColor);
-    this.edge.matrixAutoUpdate = false;
+    this.setStatic(this.edge);
     this.addSceneObject(this.edge);
+  }
+
+  setStatic(obj) {
+    obj.matrixAutoUpdate = false;
+    obj.rotationAutoUpdate = false;
+    obj.updateMatrix();
   }
 
   createLabel() {
@@ -59,6 +68,10 @@ export default class Zone extends SceneObject {
     this.ground.label = label;
   }
 
+  /* the zone label is a plane with a transparent texture on it.
+  * the texture is created via a canvas which is filled with a text and
+  * then transformed into a texture.
+  */
   getZoneLabel(text) {
     const canvas = document.createElement('canvas');
     let zoneColor = getColor(this.id);
@@ -72,10 +85,10 @@ export default class Zone extends SceneObject {
     context.font = '100px "Open Sans" sans-serif';
     context.fillText(text, 0, 95);
 
-    // use canvas contents as a texture
+    // use canvas content as a texture
     const texture = new THREE.Texture(canvas);
 
-    //set the minFilter, because the texture could not be power of 2
+    //set the minFilter, because the textures size is not power of 2
     texture.minFilter = THREE.LinearFilter;
     texture.needsUpdate = true;
 
@@ -91,22 +104,26 @@ export default class Zone extends SceneObject {
 
   addHost({snapshot}) {
     const hostId = getIdString(snapshot);
+    //if the hostId could not be extracted
+    if(!hostId) {
+      logger.error('hostId could not be extracted');
+      return;
+    }
+
     let host = _.find(this.hosts, host => host.id === hostId);
-    if (!host) {
-      host = new Host({
-        parent: this,
-        snapshot
-      });
-      this.hosts.push(host);
-    } else {
+
+    //if the host was created in the past
+    if (host) {
       host.onSnapshotUpdate(snapshot);
+    } else {
+      this.hosts.push(new Host({parent: this, snapshot}));
     }
   }
 
   setPosition(x, y, z) {
     super.setPosition(x, y, z);
-    this.ground.position.set(x, y, z);
 
+    this.ground.position.set(x, y, z);
     this.ground.updateMatrix();
   }
 
@@ -117,28 +134,34 @@ export default class Zone extends SceneObject {
       const scaleX = 1 / scale.x * 3;
       const scaleY = 1 / scale.y * 0.5;
       const scaleZ = 1 / scale.z;
-
-      this.ground.children[0].position.set(
-        -0.5 + scaleX / 2,
-        -0.5 + scaleY / 2,
-        0.05);
-      this.ground.children[0].scale.set(
-        scaleX,
-        scaleY,
-        scaleZ
-      );
-
       this.ground.updateMatrix();
-      this.ground.children[0].updateMatrix();
+
+      const label = this.ground.label;
+      if(label) {
+        label.position.set(-0.5 + scaleX / 2, -0.5 + scaleY / 2, 0.05);
+        label.scale.set(scaleX, scaleY, scaleZ);
+        label.updateMatrix();
+      }
     }
   }
 
   removeChild(child) {
     _.remove(this.hosts, host => host.id === child.id);
 
+    //destroy this zone if there are no hosts anymore
     if(this.hosts.length === 0) {
+      //remove this from parents zones collection
       this.parent.removeChild(this);
+
       this.dispose();
+    }
+  }
+
+  disposeMesh(mesh) {
+    if(mesh) {
+      mesh.geometry.dispose();
+      mesh.material.dispose();
+      mesh = null;
     }
   }
 
@@ -146,17 +169,13 @@ export default class Zone extends SceneObject {
     this.removeSceneObject(this.ground);
     this.removeSceneObject(this.edge);
 
+    this.hosts.forEach(host => host.dispose());
+
     super.dispose();
 
-    if(this.ground.label !== undefined) {
-      this.ground.label.geometry.dispose();
-      this.ground.label.material.dispose();
-    }
-
-    //clear three.js cache trough disposing
-    this.ground.geometry.dispose();
-    this.ground.material.dispose();
-    this.ground = null;
+    this.disposeMesh(this.ground.label);
+    this.disposeMesh(this.edge);
+    this.disposeMesh(this.ground);
 
     this.id = null;
     this.hosts = [];
