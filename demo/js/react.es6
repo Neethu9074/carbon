@@ -21,10 +21,10 @@ const App = React.createClass({
       container.id = 'stats';
       document.body.appendChild(container);
 
-      let glS = new glStats.GlStats(this.refs.map.emitter);
+      let glS = new glStats.GlStats(eventBus);
       let tS = new glStats.ThreeStats(this.refs.map.scene.renderer);
       /*eslint-disable no-new*/
-      new rStats.RStats(this.refs.map.emitter, {
+      new rStats.RStats(eventBus, {
         values: {
           frame: {
             caption: 'Total frame time (ms)',

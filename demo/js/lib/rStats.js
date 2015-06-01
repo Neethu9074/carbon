@@ -150,24 +150,27 @@ module.exports.RStats = function RStats(emitter, settings) {
 
     _init();
 
-    emitter.on('beginUpdate', function () {
+    function beginUpdate() {
       _perf('frame').start();
       _perf('frame').start();
       _perf('rAF').tick();
       _perf('FPS').frame();
       _perf('updates').start();
-    });
+    };
+    emitter.on('beginUpdate').subscribe(beginUpdate);
 
-    emitter.on('endUpdate', function () {
+    function endUpdate() {
       _perf('updates').end();
       _perf('render').start();
-    });
+    }
+    emitter.on('endUpdate').subscribe(endUpdate);
 
-    emitter.on('endRender', function () {
+    function endRender() {
       _perf('render').end();
       _perf('frame').end();
       _update();
-    });
+    }
+    emitter.on('endRender').subscribe(endRender);
 
 
     return {

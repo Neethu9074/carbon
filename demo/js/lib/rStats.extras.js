@@ -77,7 +77,7 @@ exports.GlStats = function GlStats(emitter) {
         _rS = r;
     }
 
-    emitter.on('beginUpdate', _start);
+    emitter.on('beginUpdate').subscribe(_start);
 
 
     return {
