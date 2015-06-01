@@ -8,7 +8,7 @@ class ConnectionGrid {
 
   constructor() {
     this.width = 300;
-    this.height = 100;
+    this.height = 300;
 
     this.grid = new PF.Grid(this.width, this.height);
 
