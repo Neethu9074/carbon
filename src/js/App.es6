@@ -6,11 +6,10 @@ import React from 'react';
 import Map from 'instana-ui-map';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as connection from 'instana-ui-services/connection';
+import Toast from 'instana-ui-components/Toast';
 
 import Sidebar from './Sidebar';
 import Notifications from './Notifications';
-import Toast from 'instana-ui-components/Toast';
-import Lettering from 'instana-ui-components/Lettering';
 import Header from './Header';
 import Timeline from './Timeline';
 

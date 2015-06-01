@@ -1,11 +1,10 @@
 'use strict';
 
-import './index.less';
 
 import React from 'react';
-import Lettering from 'instana-ui-components/Lettering';
 import Icon from 'instana-ui-components/Icon';
 
+import './index.less';
 
 const Header = React.createClass({
   render() {
@@ -13,32 +12,10 @@ const Header = React.createClass({
     if (this.props.className) {
       classes += ' ' + this.props.className;
     }
+
     return (
       <div className={classes}>
-        <div className="in-header__right-navigation">
-          <div className="in-header__right-navigation-preferences">
-            <Icon type="reorder fa-2x" className="in-header__icon"/>
-          </div>
-
-          <div className="in-header__right-navigation-search">
-            <Icon type="search fa-2x" className="in-header__icon"/>
-          </div>
-        </div>
-
-        <div className="in-header__clock">
-          <Icon type="clock-o fa-2x" className="in-header__icon"/>
-        </div>
-
-        <div className="in-header__lettering">
-          <Lettering/>
-        </div>
-
-        <div className="in-header__info1">
-          DATACENTER 1 /
-        </div>
-        <div className="in-header__info2">
-          SERVERCLUSTER 1
-        </div>
+        Asdf
       </div>
     );
   }
