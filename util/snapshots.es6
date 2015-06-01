@@ -93,6 +93,7 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
   let snapshot = ipSnapshotMap.get(ip);
   if(!snapshot) {
     snapshot = Immutable.fromJS({
+      state: 'unmonitored',
       hostId: ip,
       pluginId: 'unknown',
       steadyId: 'unknown'
