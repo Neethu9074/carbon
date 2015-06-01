@@ -19,4 +19,26 @@
     stroke: hsl(54, 71%, 56%);
     fill: hsla(54, 71%, 56%, @fill-opacity);
   }
+
+  .axis {
+    text {
+      stroke: none;
+      fill: #3D464C;
+      font-size: 0.8rem;
+    }
+
+    .tick line {
+      stroke: none;
+    }
+
+    .domain {
+      fill: none;
+    }
+
+    &.y line {
+      stroke: white;
+      stroke-width: 1px;
+      opacity: 0.2;
+    }
+  }
 }

@@ -4,6 +4,9 @@ import React from 'react';
 import LineChart from '../../LineChart';
 import {create} from 'reactive-observables';
 import Immutable from 'immutable';
+import d3 from 'd3';
+
+const commasFormatter = d3.format(',.0f');
 
 const LineChartDemo = React.createClass({
   render() {
@@ -11,8 +14,14 @@ const LineChartDemo = React.createClass({
       createObservable({min: 0, max: 100, numberOfValues: 30}),
       createObservable({min: 20, max: 30, numberOfValues: 30})
     ];
+
+    const yAxisTickFormatter = d => commasFormatter(d) + '%';
+
     return (
-      <LineChart datasources={datasources} />
+      <LineChart datasources={datasources}
+                 width={700}
+                 height={280}
+                 yAxisTickFormatter={yAxisTickFormatter} />
     );
   }
 });
@@ -41,7 +50,7 @@ function createObservable({min, max, numberOfValues}) {
       interval = setInterval(() => {
         data.values.shift();
         const latestTime = data.values[data.values.length - 1][0];
-        const newValue = [latestTime + 1, numberGenerator()];
+        const newValue = [latestTime + 300000, numberGenerator()];
         data.values.push(newValue);
         data.values = data.values.slice(
           data.length - numberOfValues,
@@ -67,7 +76,7 @@ function createDeviatingGenerator(mean, deviation, roundingFn) {
 function createInitialValues(numberOfValues, numberGenerator) {
   const initialValues = [];
   for (let i = 0; i < numberOfValues; i++) {
-    initialValues.push([i, numberGenerator()]);
+    initialValues.push([i * 300000, numberGenerator()]);
   }
   return initialValues;
 }
