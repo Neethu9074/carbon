@@ -27,7 +27,7 @@ export default class AbstractMeshCreationFactory {
   }
 
   registerEvents() {
-    this.subscription = this.scene.emitter.on(
+    this.subscription = this.scene.on(
       'beginUpdate',
       this.update.bind(this)
     );

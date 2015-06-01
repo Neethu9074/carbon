@@ -14,7 +14,6 @@ import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as time from './timeCalculations';
 import Host from './sceneObjects/Host';
-import EventEmitter from 'eventemitter3';
 import HostFactory from './factories/HostFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
@@ -41,7 +40,6 @@ export default class Scene {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
-    this.emitter = new EventEmitter();
     this.setupEvents();
 
     this.setupFactories();
@@ -183,7 +181,7 @@ export default class Scene {
     requestAnimationFrame(this.update);
 
     //fire event for updating stats
-    this.emitter.emit('beginUpdate');
+    eventBus.emit('beginUpdate');
 
     time.update();
     Tween.update();
@@ -196,12 +194,12 @@ export default class Scene {
 
     this.updateCamera();
     //update is done
-    this.emitter.emit('endUpdate', {scene: this});
+    eventBus.emit('endUpdate', {scene: this});
 
     this.render();
     this.shouldRenderScene = false;
 
-    this.emitter.emit('endRender', {scene: this});
+    eventBus.emit('endRender', {scene: this});
   }
 
   render() {
@@ -235,7 +233,7 @@ export default class Scene {
   updateMetricHeights() {
     if(this.activeMetricFactory) {
       this.activeMetricFactory.updateHeights();
-      this.emitter.emit('upateMetricHeights');
+      eventBus.emit('upateMetricHeights');
     }
   }
 
@@ -390,7 +388,7 @@ export default class Scene {
   }
 
   on(event, cb) {
-    return this.emitter.on(event, cb);
+    return eventBus.on(event, cb);
   }
 
   onZoom(event) {

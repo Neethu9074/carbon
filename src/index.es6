@@ -12,7 +12,6 @@ const UiMap = React.createClass({
   componentDidMount() {
     const parent = React.findDOMNode(this.refs.parent);
     this.scene = new Scene({parent, onClick: this.props.onClick});
-    this.emitter = this.scene.emitter;
   },
 
   componentWillUnmount() {

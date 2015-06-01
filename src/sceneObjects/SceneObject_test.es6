@@ -27,8 +27,7 @@ describe('3D map', () => {
       obj.dispose();
       expect(obj.position).to.equal(null);
       expect(obj.parent).to.equal(null);
-      expect(obj.rxSubscriptions.length).to.equal(0);
-      expect(obj.ee3Subscriptions.length).to.equal(0);
+      expect(obj.subscriptions.length).to.equal(0);
     });
   });
 });

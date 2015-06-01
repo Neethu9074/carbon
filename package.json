@@ -18,7 +18,6 @@
   },
   "author": "Simon Thiele <simon@instana.com>",
   "dependencies": {
-    "eventemitter3": "^1.0.1",
     "immutable": "^3.7.2",
     "instalog": "^1.0.0",
     "instana-ui-components": "^1.0.0",

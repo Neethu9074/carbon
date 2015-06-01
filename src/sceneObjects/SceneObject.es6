@@ -7,8 +7,7 @@ export default class SceneObject {
   constructor({parent, pos = new THREE.Vector3()}) {
     this.position = pos.clone();
     this.parent = parent;
-    this.ee3Subscriptions = [];
-    this.rxSubscriptions = [];
+    this.subscriptions = [];
   }
 
   setPosition(x, y, z) {
@@ -27,13 +26,8 @@ export default class SceneObject {
     this.parent.removeSceneObject(obj);
   }
 
-  addEE3Subscription(subscription) {
-    subscription.emitter = this.on(subscription.event, subscription.fn);
-    this.ee3Subscriptions.push(subscription);
-  }
-
-  addRxSubscription(subscription) {
-    this.rxSubscriptions.push(subscription);
+  addSubscription(subscription) {
+    this.subscriptions.push(subscription);
   }
 
   getScene() {
@@ -64,8 +58,7 @@ export default class SceneObject {
   }
 
   dispose() {
-    this.disposeRxSubscriptions();
-    this.disposeEE3Subscriptions();
+    this.disposeSubscriptions();
 
     this.position = null;
 
@@ -75,20 +68,12 @@ export default class SceneObject {
     this.parent = null;
   }
 
-  disposeRxSubscriptions() {
-    this.rxSubscriptions.forEach(subscription => {
+  disposeSubscriptions() {
+    this.subscriptions.forEach(subscription => {
       subscription.dispose();
       subscription = null;
     });
-    this.rxSubscriptions = [];
-  }
-
-  disposeEE3Subscriptions() {
-    this.ee3Subscriptions.forEach(subscription => {
-      subscription.emitter.removeListener(subscription.event, subscription.fn);
-      subscription = null;
-    });
-    this.ee3Subscriptions = [];
+    this.subscriptions = [];
   }
 
   removeChild() {}

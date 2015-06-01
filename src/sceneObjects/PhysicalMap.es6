@@ -72,11 +72,8 @@ export default class PhysicalMap extends SceneObject {
   bindToDatasource() {
     const pluginId = 'com.instana.forge.infrastructure.os.OS';
     const observable = create(SnapshotConveyer, {pluginId});
-    this.addRxSubscription({
-      metricName: pluginId,
-      subscription:
-        observable.subscribe(data => this.onInventoryUpdate(data))
-    });
+    this.addSubscription(
+      observable.subscribe(data => this.onInventoryUpdate(data)));
   }
 
   onInventoryUpdate(snapshots) {

@@ -146,15 +146,8 @@ export default class Host extends SceneObject {
   // }
 
   registerEvents() {
-    this.addEE3Subscription({
-      event: 'endUpdate',
-      fn: this.update.bind(this)
-    });
-
-    this.addEE3Subscription({
-      event: 'upateMetricHeights',
-      fn: this.updateMetricHeight.bind(this)
-    });
+    this.scene.on('endUpdate', this.update.bind(this));
+    this.scene.on('upateMetricHeights', this.updateMetricHeight.bind(this));
 
     this.metricServer = new MetricServer(this);
   }
