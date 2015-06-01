@@ -91,14 +91,14 @@ export default class Layouter {
     const baseHeight = this.hostSize;
     const growthRange = this.maxHostHeight - this.hostSize;
     hosts.forEach(host => {
-      const weightedHeight = growthRange * (getPower(host.snapshot) / maxPower);
+      const weightedHeight = growthRange * (host.calculatePower() / maxPower);
       host.setHeight(baseHeight + weightedHeight);
     });
   }
 
   getMaxPower(hosts) {
     return hosts.reduce((power, host) => {
-      return Math.max(power, getPower(host.snapshot));
+      return Math.max(power, host.calculatePower());
     }, 0);
   }
 }

@@ -92,13 +92,16 @@ export default class PhysicalMap extends SceneObject {
       return hosts.concat(zone.hosts);
     }, [])
     .filter(host => {
-      const snapshot = snapshots.find(
-        snapshot => isIdEqual(snapshot, host.snapshot)
-      );
+      const snapshot = snapshots.find(snapshot =>
+        isIdEqual(snapshot, host.snapshot));
       return !snapshot;
     });
 
-    removedHosts.forEach(host => host.dispose());
+    removedHosts.forEach((host) => {
+      if(!host.isUnknown) {
+        host.dispose();
+      }
+    });
 
     this.clearAllConnections();
     this.applyLayout(snapshots.size);
@@ -108,7 +111,17 @@ export default class PhysicalMap extends SceneObject {
 
   addHost(host) {
     const zoneId = getZone(host);
+    const zone = this.getZone(zoneId);
 
+    //add the host to zone (the zone handles duplicates)
+    zone.addHost({snapshot: host});
+
+    //if the zone has switched,
+    //delete the hosts in other zones than the current one
+    this.removeHostFromAllZonesInsteadOf(zoneId, host);
+  }
+
+  getZone(zoneId) {
     //get find the zone with zoneId
     let zone = _.find(this.zones, zone => zone.id === zoneId);
 
@@ -123,12 +136,7 @@ export default class PhysicalMap extends SceneObject {
       this.zones.push(zone);
     }
 
-    //add the host to zone (the zone handles duplicates)
-    zone.addHost({snapshot: host});
-
-    //if the zone has switched,
-    //delete the hosts in other zones than the current one
-    this.removeHostFromAllZonesInsteadOf(zoneId, host);
+    return zone;
   }
 
   //runs through all zones instead of the current one and searches for the
@@ -168,12 +176,18 @@ export default class PhysicalMap extends SceneObject {
     connections.forEach((hostConnections, host) => {
 
       const hostObject = this.getHostBySnapshot(host);
-      if(hostObject !== undefined) {
+      if(hostObject) {
         hostConnections.forEach(connection => {
+          //if the host has any connection
           if(connection) {
             const toObject = this.getHostBySnapshot(connection);
-            if(toObject !== undefined) {
+
+            if(toObject && connection.get('state') !== 'unmonitored') {
               hostObject.connectWith(toObject);
+            } else {
+              //untracked host detected
+              const zone = this.getZone('unmonitored');
+              zone.addHost({snapshot: connection, unknown: true});
             }
           }
         });

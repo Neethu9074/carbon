@@ -5,11 +5,9 @@ import THREE from 'three';
 
 import SceneObject from './SceneObject';
 import Host from './Host';
+import UnknownHost from './UnknownHost';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getColor} from 'instana-ui-sdk/zones';
-import {createLogger} from 'instalog';
-
-const logger = createLogger('ui-map.Zone');
 
 //use global geometry to reduce object instances
 const zoneGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
@@ -102,21 +100,22 @@ export default class Zone extends SceneObject {
     return label;
   }
 
-  addHost({snapshot}) {
+  addHost({snapshot, unknown=false}) {
     const hostId = getIdString(snapshot);
-    //if the hostId could not be extracted
-    if(!hostId) {
-      logger.error('hostId could not be extracted');
-      return;
-    }
 
-    let host = _.find(this.hosts, host => host.id === hostId);
+    //if there is no hostId it's an unknown host
+    if(hostId) {
+      //check if the host was already created and only needs an update
+      let host = _.find(this.hosts, host => host.id === hostId);
 
-    //if the host was created in the past
-    if (host) {
-      host.onSnapshotUpdate(snapshot);
-    } else {
-      this.hosts.push(new Host({parent: this, snapshot}));
+      //if the host was created in the past
+      if(host) {
+        host.onSnapshotUpdate(snapshot);
+      } else if(unknown) {
+        this.hosts.push(new UnknownHost({parent: this, snapshot}));
+      } else {
+        this.hosts.push(new Host({parent: this, snapshot}));
+      }
     }
   }
 
@@ -125,6 +124,7 @@ export default class Zone extends SceneObject {
 
     this.ground.position.set(x, y, z);
     this.ground.updateMatrix();
+    this.edge.updateMatrix();
   }
 
   setScale(scale) {
@@ -135,6 +135,7 @@ export default class Zone extends SceneObject {
       const scaleY = 1 / scale.y * 0.5;
       const scaleZ = 1 / scale.z;
       this.ground.updateMatrix();
+      this.edge.updateMatrix();
 
       const label = this.ground.label;
       if(label) {

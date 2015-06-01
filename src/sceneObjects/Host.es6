@@ -6,6 +6,7 @@ import _ from 'lodash';
 import MetricServer from '../MetricServer';
 
 import {getHealth} from 'instana-ui-services/health';
+import {getPower} from 'instana-ui-sdk/power';
 import {create} from 'instana-ui-services/conveyer';
 import {isIdEqual, extractId, getIdString}
   from 'instana-ui-services/util/snapshots';
@@ -211,20 +212,20 @@ export default class Host extends SceneObject {
     if(!data.scene.objectIsVisible(this.cube)) {
       //trigger the hide method just once
       if(!this.hidden) {
-        this.hide();
+        this.hideMetric();
         this.hidden = true;
       }
     } else {
       //trigger the show method just once
       if(this.hidden) {
-        this.show();
+        this.showMetric();
         this.hidden = false;
       }
       this.updateStickyNotes();
     }
   }
 
-  hide() {
+  hideMetric() {
     //disable sticky note
     this.stickyNote.hide();
     // this.stickyNoteMetric.hide();
@@ -233,7 +234,7 @@ export default class Host extends SceneObject {
     this.metricServer.pauseMetrics();
   }
 
-  show() {
+  showMetric() {
     // if(this.stickyNoteMetric === emptyMetricStickyObject) {
     //   this.stickyNoteMetric = new StickyNoteMetric(this);
     // }
@@ -447,5 +448,9 @@ export default class Host extends SceneObject {
     this.id = null;
     this.snapshot = null;
     this.health = null;
+  }
+
+  calculatePower() {
+    return getPower(this.snapshot);
   }
 }
