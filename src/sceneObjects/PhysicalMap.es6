@@ -27,6 +27,12 @@ export default class PhysicalMap extends SceneObject {
     this.scene = scene;
     this.zones = [];
 
+    this.createGroungGrid();
+
+    this.bindToDatasource();
+  }
+
+  createGroungGrid() {
     const geo = new THREE.PlaneBufferGeometry(this.size, this.size, 1, 1);
     const mat = new THREE.MeshBasicMaterial({
       map: this.getGroundTexture(),
@@ -44,9 +50,7 @@ export default class PhysicalMap extends SceneObject {
     ground.updateMatrix();
     ground.matrixAutoUpdate = false;
 
-    scene.addSceneObject(ground);
-
-    this.bindToDatasource();
+    this.scene.addSceneObject(ground);
   }
 
   getGroundTexture() {
