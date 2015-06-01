@@ -184,11 +184,11 @@ export default class PhysicalMap extends SceneObject {
 
             if(toObject && connection.get('state') !== 'unmonitored') {
               hostObject.connectWith(toObject);
-            } else {
-              //untracked host detected
-              const zone = this.getZone('unmonitored');
-              zone.addHost({snapshot: connection, unknown: true});
-            }
+            }// else {
+            //   //untracked host detected
+            //   // const zone = this.getZone('unmonitored');
+            //   // zone.addHost({snapshot: connection, unknown: true});
+            // }
           }
         });
       }
