@@ -31,6 +31,10 @@ export function extractId(snapshot) {
  *  the hostId, pluginId and steadyId property are the same.
  */
 export function isIdEqual(id1, id2) {
+  if(id1 === id2) {
+    return true;
+  }
+
   return id1.get('hostId') === id2.get('hostId') &&
     id1.get('pluginId') === id2.get('pluginId') &&
     id1.get('steadyId') === id2.get('steadyId');
