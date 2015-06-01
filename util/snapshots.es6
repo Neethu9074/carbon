@@ -45,7 +45,14 @@ export function isIdEqual(id1, id2) {
  * @returns {string} An ID string
  */
 export function getIdString(s) {
-  return `${s.get('hostId')}#${s.get('pluginId')}#${s.get('steadyId')}`;
+  const hostId = s.get('hostId');
+  const pluginId = s.get('pluginId');
+  const steadyId = s.get('steadyId');
+
+  if(hostId && pluginId && steadyId) {
+    return `${hostId}#${pluginId}#${steadyId}`;
+  }
+  return undefined;
 }
 
 
@@ -63,13 +70,12 @@ export function extractConnections(snapshots) {
   const map = Immutable.Map().asMutable();
 
   ipSnapshotMap.forEach((host) => {
-
     const connections = host.getIn(['data', 'connections', 'outgoing']);
     if (connections && connections.size > 0) {
-
-      map.set(host, connections.map(ip => {
+      const conns = connections.map(ip => {
         return getSnapshotByIp(ip, ipSnapshotMap);
-      }));
+      });
+      map.set(host, conns);
     } else {
       map.set(host, Immutable.List());
     }
@@ -87,7 +93,6 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
       'ip': ip
     });
   }
-
   return snapshot;
 }
 

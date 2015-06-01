@@ -38,6 +38,14 @@ describe('util.snapshots', () => {
       expect(getIdString(newSnapshot(42)))
         .to.equal('h42#p42#s42');
     });
+
+    it('should extract undefined', () => {
+      const id = getIdString(Immutable.fromJS({
+        pluginId: '1',
+        steadyId: '2'
+      }));
+      expect(id).to.equal(undefined);
+    });
   });
 
   describe('extractConnections', () => {
@@ -45,6 +53,10 @@ describe('util.snapshots', () => {
       const snapshots = getConnectedSnapshots();
       const connections = extractConnections(snapshots);
       expect(connections.size).to.equal(4);
+
+      connections.forEach(con => {
+        //console.log('from', con.toJS());
+      });
     });
   });
 
