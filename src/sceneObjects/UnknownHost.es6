@@ -11,7 +11,6 @@ import Connection from './Connection';
 import SceneObject from './SceneObject';
 import StickyNoteHost from './StickyNote/Host';
 
-let zShift = 0;
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
@@ -25,7 +24,7 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
 const cubeMaterial = new THREE.MeshBasicMaterial();
 
 
-export default class BaseHost extends SceneObject {
+export default class UnknownHost extends SceneObject {
 
   constructor({parent, snapshot}) {
     super({parent});
@@ -38,7 +37,6 @@ export default class BaseHost extends SceneObject {
 
     this.render();
     this.stickyNote = new StickyNoteHost(this);
-    this.setPosition(-2, 0, -zShift++ * 2);
 
     this.registerEvents();
   }
