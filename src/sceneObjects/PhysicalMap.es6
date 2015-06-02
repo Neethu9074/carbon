@@ -87,6 +87,7 @@ export default class PhysicalMap extends SceneObject {
   onInventoryUpdate(snapshots) {
     const connections = extractConnections(snapshots);
     snapshots.forEach(host => this.addHost(host, connections));
+    this.removeVanishedUnknownHosts(connections);
 
     // identify removed hosts: hosts that are not inside the snapshot update
     const removedHosts = this.zones
@@ -165,6 +166,37 @@ export default class PhysicalMap extends SceneObject {
         zone.addHost({snapshot: connection, unknown: true});
       }
     });
+  }
+
+  removeVanishedUnknownHosts(connections) {
+    const allUnmonitoredHosts = this.getZone('unmonitored').hosts;
+
+    const allAvailableUnmonitoredHosts = [];
+    connections.forEach((hostConnections) => {
+      hostConnections.forEach((connection) => {
+        if(connection.get('state') === 'unmonitored') {
+          allAvailableUnmonitoredHosts.push(connection);
+        }
+      });
+    });
+
+    const removed = allUnmonitoredHosts
+      .filter(host => {
+        // console.log('-------------------');
+        // console.log(host.snapshot.toJS());
+        // console.log('---');
+        const match = _.find(allAvailableUnmonitoredHosts, available => {
+          // console.log(available.toJS());
+          return isIdEqual(available, host.snapshot);
+        });
+        // console.log(match !== undefined)
+        return !match;
+      });
+
+    // console.log('all added', allUnmonitoredHosts.length,
+    // 'all available', allAvailableUnmonitoredHosts.length,
+    // 'to be removed:', removed.length);
+    removed.forEach((host) => host.dispose());
   }
 
   clearAllConnections() {

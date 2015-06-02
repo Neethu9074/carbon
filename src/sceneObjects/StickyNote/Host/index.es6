@@ -45,7 +45,7 @@ const StickyNoteRC = React.createClass({
         </div>
       );
     } catch(err) {
-      logger.error(err);
+      //logger.error(err);
       jsxStructure = (
         <div>
           <div className="in-sticky-note__line"></div>
