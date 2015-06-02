@@ -10,7 +10,7 @@ export default class IssueConveyer {
   }
 
   constructor() {
-    this.id = IssueConveyer.getUniqueId();
+    this.id = connection.getSubscriptionId();
     this.subscribeEvent = {
       id: this.id,
       event: 'subscribe',
