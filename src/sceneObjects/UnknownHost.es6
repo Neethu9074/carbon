@@ -87,6 +87,8 @@ export default class BaseHost extends SceneObject {
     //if the host is near enough or is in the view frustum
     if(data.scene.objectIsVisible(this.cube)) {
       this.updateStickyNotes();
+    } else {
+      this.stickyNote.hide();
     }
   }
 
