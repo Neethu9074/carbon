@@ -1,5 +1,6 @@
 'use strict';
 
+import {getProblemsForSnapshot} from '../notificationCenter';
 
 export const health = {
   ok: 'ok',
@@ -8,19 +9,12 @@ export const health = {
 };
 
 /**
- * Gets the max severity of all problems and maps them to a health string.
+ * Turn a severity value into a health
  *
- * @param {Immutable<Snapshot>|number} snapshot - the snapshot of a host or
- *   a severity value as a number
- * @returns {string} the mapped string for severity
+ * @param {number} severity A severity as retrieved by a problem
+ * @returns {string} the mapped severity
  */
-export function getHealth(snapshot) {
-  let severity;
-  if (typeof snapshot === 'number') {
-    severity = snapshot;
-  } else {
-    severity = getMaxSeverity(snapshot);
-  }
+export function mapSeverityToHealth(severity) {
   if(severity > 8) {
     return health.danger;
   } else if(severity > 4) {
@@ -30,29 +24,22 @@ export function getHealth(snapshot) {
 }
 
 /**
- * Iterates through all the problems and searches for the most important one.
- * Retuns a number [0, 10] which is the highest found severity
- * inside the problem.
+ * Gets the max severity of all problems and maps them to a health string. This
+ * works by subscribing to all problems that occured for this snapshot and
+ * returning a reactive observable.
  *
- * @param {Immutable<Snapshot>} snapshot - the snapshot of a host
- * @returns {number} highest found severity
+ * @param {Immutable<Snapshot>} snapshot The snapshot for which the health
+ *   should be determined.
+ * @returns {ReactiveObservable<string>} A stream that emits whenever the health
+ *   changes.
  */
-function getMaxSeverity(snapshot) {
-  let maxSeverity = 0;
-  iterateTrough(snapshot.getIn(['data', 'status']), (hardware) => {
-    iterateTrough(hardware, (part) => {
-      iterateTrough(part.get('problems'), (problem) =>{
-        maxSeverity = Math.max(maxSeverity, problem.get('severity'));
-      });
-    });
-  });
-  return maxSeverity;
-}
-
-function iterateTrough(collection, fn) {
-  if(collection === undefined || collection.size === 0) {
-    return;
-  }
-
-  collection.forEach(item => fn(item));
+export function getHealth(snapshot) {
+  return getProblemsForSnapshot(snapshot)
+    .map(problems => {
+      return problems.reduce((acc, problem) => {
+        return Math.max(problem.get('severity'), acc);
+      }, 0);
+    })
+    .map(mapSeverityToHealth)
+    .distinct();
 }
