@@ -4,53 +4,20 @@ import './App.less';
 
 import React from 'react';
 import Map from 'instana-ui-map';
-import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import * as connection from 'instana-ui-services/connection';
-import Toast from 'instana-ui-components/Toast';
 
+import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
-import Notifications from './Notifications';
 import Header from './Header';
-import Timeline from './Timeline';
 
 const App = React.createClass({
-  mixins: [SubscriptionMixin],
-
-  getInitialState() {
-    return {
-      systemMessage: null
-    };
-  },
-
-  componentDidMount() {
-    this.addSubscription(
-      connection.emitter.on('closed').subscribe(() =>
-        this.setState({
-          systemMessage: 'Connection lost.'
-        })
-      )
-    );
-
-    this.addSubscription(
-      connection.emitter.on('connected').subscribe(() =>
-        this.setState({
-          systemMessage: null
-        })
-      )
-    );
-  },
 
   render() {
     return (
       <div>
-        <Map ref="map" />
-        <Notifications />
+        <Header />
+        <Map />
         <Sidebar />
-
-        <Toast action="Dismiss"
-               onClick={() => this.setState({systemMessage: null})}>
-          {this.state.systemMessage}
-        </Toast>
+        <ConnectionStatus />
       </div>
     );
   }

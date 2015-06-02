@@ -1,0 +1,46 @@
+'use strict';
+
+import React from 'react';
+
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import * as connection from 'instana-ui-services/connection';
+import Toast from 'instana-ui-components/Toast';
+
+const ConnectionStatus = React.createClass({
+  mixins: [SubscriptionMixin],
+
+  getInitialState() {
+    return {
+      systemMessage: null
+    };
+  },
+
+  componentDidMount() {
+    this.addSubscription(
+      connection.emitter.on('closed').subscribe(() =>
+        this.setState({
+          systemMessage: 'Connection lost.'
+        })
+      )
+    );
+
+    this.addSubscription(
+      connection.emitter.on('connected').subscribe(() =>
+        this.setState({
+          systemMessage: null
+        })
+      )
+    );
+  },
+
+  render() {
+    return (
+      <Toast action="Dismiss"
+             onClick={() => this.setState({systemMessage: null})}>
+        {this.state.systemMessage}
+      </Toast>
+    );
+  }
+});
+
+export default ConnectionStatus;

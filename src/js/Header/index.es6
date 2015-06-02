@@ -1,6 +1,5 @@
 'use strict';
 
-
 import React from 'react';
 import Icon from 'instana-ui-components/Icon';
 
@@ -8,14 +7,25 @@ import './index.less';
 
 const Header = React.createClass({
   render() {
-    let classes = 'in-header';
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
+    const block = 'in-header';
 
     return (
-      <div className={classes}>
-        Asdf
+      <div className={block}>
+        <div className={block + '__navigation'}>
+          <Icon type='long-arrow-left'
+                className={block + '__back'}/>
+
+          <ol className={block + '__breadcrumb'}>
+            <li>Your Server Farm</li>
+          </ol>
+        </div>
+
+        <div className={block + '__settings'}>
+          <Icon type='search'
+                className={block + '__search'} />
+          <Icon type='bars'
+                className={block + '__settings'} />
+        </div>
       </div>
     );
   }

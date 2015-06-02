@@ -1,13 +1,46 @@
+@import "~instana-ui-themes/less/constants.less";
+
 .in-header {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
+  height: 4rem;
 
-  width: auto;
-  height: 2rem;
+  background-color: #425059;
+  z-index: @z-index__header;
 
-  background-color: #111617;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-  overflow: hidden;
+  &__navigation, &__settings {
+    display: flex;
+    align-items: center;
+  }
+
+  &__back {
+    margin-left: 1rem;
+    font-size: 1.7rem;
+  }
+
+  &__breadcrumb {
+    display: inline-block;
+    list-style: none;
+    margin: 0 0 0 5rem;
+    padding: 0;
+
+    li {
+      display: inline-block;
+    }
+  }
+
+  &__search, &__settings {
+    font-size: 1.3rem;
+    padding: 0 0.8rem;
+  }
+
+  &__search, &__back {
+    opacity: .5;
+  }
 }

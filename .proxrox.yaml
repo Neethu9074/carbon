@@ -6,8 +6,8 @@ proxy:
   '/': http://127.0.0.1:3000
 
   #service API
-  '/api/': http://127.0.0.1:8080/ #local backend
+  '/api/': http://test.internal.instana.io/api/ #local backend
   #'/api/': http://192.168.0.114:8080/ #local backend
 websocketProxy:
-  '/api/data': http://localhost:8080/data #dummy backend
+  '/api/data': http://test.internal.instana.io/api/data #dummy backend
   #'/api/data': http://192.168.0.114:8080/data
