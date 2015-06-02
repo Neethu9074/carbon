@@ -8,7 +8,7 @@ import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.stickyNote.Host.index');
 const orange = [0.92, 0.4, 0];
-const connections = [];
+export const connections = [];
 let id = 0;
 
 
@@ -17,15 +17,15 @@ export default class Connection extends SceneObject {
   constructor({parent, from, to}) {
     super({parent});
 
-    this.id = id++;
-    const found = _.find(connections, con => {
+    const match = _.find(connections, con => {
       return (con.to === from && con.from === to);
     });
-    if(found) {
-      found.setBidirectional();
-      return found;
+    if(match) {
+      match.setBidirectional();
+      return match;
     }
 
+    this.id = id++;
     this.from = from;
     this.to = to;
 
@@ -148,14 +148,16 @@ export default class Connection extends SceneObject {
     this.to.removeConnection(this);
     this.from.removeConnection(this);
 
+    _.remove(connections, con => con.id === this.id);
+
     try{
       this.getScene().lineFactory.removeFragment(this.id);
     } catch(err) {
       if(!this.bidirectional) {
         logger.error('cant destroy connection', this, err);
       }
+      logger.error(err);
     }
-    _.remove(connections, con => con === this);
 
     super.dispose();
   }

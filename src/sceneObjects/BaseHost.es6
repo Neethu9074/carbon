@@ -141,7 +141,7 @@ export default class BaseHost extends SceneObject {
 
   //is called from Connection class on disposing
   removeConnection(connection) {
-    _.remove(this.connections, con => con === connection);
+    _.remove(this.connections, con => con.id === connection.id);
   }
 
   dispose() {

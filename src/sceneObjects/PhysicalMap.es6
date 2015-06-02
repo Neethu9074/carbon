@@ -7,11 +7,11 @@ import Immutable from 'immutable';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConnectionGrid from '../connectionGrid';
+import {connections as allConnections} from './Connection';
 import {getZone} from 'instana-ui-sdk/zones';
 import {
   isIdEqual,
   extractConnections} from 'instana-ui-services/util/snapshots';
-
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
 import Zone from './Zone';
@@ -110,7 +110,6 @@ export default class PhysicalMap extends SceneObject {
 
     removedHosts.forEach((host) => host.dispose());
 
-    this.clearAllConnections();
     this.applyLayout(snapshots.size);
     this.setupConnections(snapshots);
     this.parent.renderScene();
@@ -211,16 +210,17 @@ export default class PhysicalMap extends SceneObject {
   }
 
   clearAllConnections() {
-    this.zones.forEach(zone => {
-      zone.hosts.forEach(host => {
-        host.clearConnections();
-      });
+    const tempCopy = allConnections.slice();
+    tempCopy.forEach(l => {
+      l.dispose();
     });
   }
 
   //is called after an inventory update incoming. the prerequirement is
   //that all hosts are available to connect the objects
   setupConnections(snapshots) {
+    this.clearAllConnections();
+
     // //if you want to see the visual walking grid, uncomment this
     // if(this.particles) {
     //   this.removeSceneObject(this.particles);
