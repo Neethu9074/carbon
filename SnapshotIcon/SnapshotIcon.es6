@@ -6,11 +6,28 @@ import Icon from '../Icon';
 import {getIcon} from 'instana-ui-sdk/snapshotIcon';
 import {getColor, getZone} from 'instana-ui-sdk/zones';
 import {getHealth, health} from 'instana-ui-services/health';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 import './SnapshotIcon.less';
 
 const SnapshotIcon = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+
+  getInitialState() {
+    return {
+      health: health.ok
+    };
+  },
+
+  componentDidMount() {
+    this.addSubscription(
+      getHealth(this.props.snapshot).subscribe(health => {
+        this.setState({
+          health
+        });
+      })
+    );
+  },
 
   render() {
     let classes = 'in-snapshot-icon';
@@ -27,7 +44,7 @@ const SnapshotIcon = React.createClass({
   getStyles() {
     const styles = {};
 
-    switch(getHealth(this.props.snapshot)) {
+    switch(this.state.health) {
       case health.ok:
         styles.borderColor = getColor(getZone(this.props.snapshot));
         break;
