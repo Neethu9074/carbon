@@ -2,13 +2,16 @@
 
 import THREE from 'three';
 import PF from 'pathfinding';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('ui-map.stickyNote.Host.index');
 
 
 class ConnectionGrid {
 
   constructor() {
-    this.width = 600;
-    this.height = 600;
+    this.width = 100;
+    this.height = 100;
 
     this.grid = new PF.Grid(this.width, this.height);
 
@@ -19,17 +22,20 @@ class ConnectionGrid {
   }
 
   clearPosition(position) {
-    this.grid.setWalkableAt(
-      position.x + this.width / 2 - 1,
-      -position.z + this.height / 2,
-      true);
+    this.setWalkableAt(position.x, -position.z, true);
   }
 
   blockPosition(position) {
-    this.grid.setWalkableAt(
-      position.x + this.width / 2 - 1,
-      -position.z + this.height / 2,
-      false);
+    this.setWalkableAt(position.x, -position.z, false);
+  }
+
+  setWalkableAt(x, y, value) {
+    try {
+      this.grid.setWalkableAt(x, y, value);
+    } catch(err) {
+      logger.debug('cannot set position for:', x, y);
+      logger.error(err);
+    }
   }
 
   getPath({fromX, fromY, toX, toY}) {
@@ -42,6 +48,7 @@ class ConnectionGrid {
     return path;
   }
 
+  /*eslint-disable max-statements */
   asVisualObject() {
     const dimX = this.width;
     const dimZ = this.height;
@@ -52,19 +59,20 @@ class ConnectionGrid {
     for(let x = 0; x < dimX; x++) {
       for(let z = 0; z < dimZ; z++) {
         if(this.grid.isWalkableAt(x, z)) {
-          geoPos[index] = 0.5 + x - dimX / 2;
+          geoPos[index] = x - 0.5;
           geoPos[index + 1] = 0;
-          geoPos[index + 2] = 0.5 - z + dimZ / 2;
+          geoPos[index + 2] = -z + 0.5;
         } else {
-            geoPos[index] = Infinity;
+          geoPos[index] = -0.5;
+          geoPos[index + 2] = 0.5;
         }
         index += 3;
       }
     }
-
     geometry.addAttribute('position', new THREE.BufferAttribute(geoPos, 3));
     return new THREE.PointCloud(geometry, new THREE.PointCloudMaterial());
   }
+  /*eslint-enable max-statements */
 
   dispose() {
 

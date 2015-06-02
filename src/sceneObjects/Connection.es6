@@ -48,10 +48,8 @@ export default class Connection extends SceneObject {
       const point = this.path[i];
       const lastPoint = this.path[i - 1];
 
-      points.push(new THREE.Vector3(
-        lastPoint[0] - 0.5, height, -lastPoint[1] + 0.5));
-      points.push(new THREE.Vector3(
-        point[0] - 0.5, height, -point[1] + 0.5));
+      points.push(new THREE.Vector3(lastPoint[0], height, -lastPoint[1]));
+      points.push(new THREE.Vector3(point[0], height, -point[1]));
     }
     this.addEnding(points, this.path, height);
 
@@ -60,8 +58,8 @@ export default class Connection extends SceneObject {
   }
 
   addBeginning(points, path, height) {
-    const firstPointX = path[0][0] - 0.5;
-    const firstPointZ = -path[0][1] + 0.5;
+    const firstPointX = path[0][0];
+    const firstPointZ = -path[0][1];
     points.push(new THREE.Vector3(firstPointX, 0, firstPointZ));
     points.push(new THREE.Vector3(firstPointX, height, firstPointZ));
 
@@ -78,19 +76,19 @@ export default class Connection extends SceneObject {
     const lastIndex = path.length - 1;
     const lastPoint = path[lastIndex];
     const lastPointPos = new THREE.Vector3(
-      lastPoint[0] - 0.5, 0, -lastPoint[1] + 0.5);
+      lastPoint[0], 0, -lastPoint[1]);
 
     points.push(lastPointPos);
     points.push(new THREE.Vector3(
-      lastPoint[0] - 0.5, height, lastPointPos.z));
+      lastPoint[0], height, lastPointPos.z));
 
     points.push(lastPointPos);
     points.push(new THREE.Vector3(
-      lastPoint[0] - 0.6, -0.25, lastPointPos.z));
+      lastPoint[0] - 0.1, -0.25, lastPointPos.z));
 
     points.push(lastPointPos);
     points.push(new THREE.Vector3(
-      lastPoint[0] - 0.4, -0.25, lastPointPos.z));
+      lastPoint[0] + 0.1, -0.25, lastPointPos.z));
   }
 
   calculatePath() {
