@@ -8,6 +8,7 @@ import Map from 'instana-ui-map';
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
 import Header from './Header';
+import Footer from './Footer';
 
 const App = React.createClass({
 
@@ -15,9 +16,8 @@ const App = React.createClass({
     return (
       <div>
         <Header />
-        <Map />
-        <Sidebar />
         <ConnectionStatus />
+        <Footer />
       </div>
     );
   }

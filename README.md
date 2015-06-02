@@ -12,7 +12,11 @@
  - header background color
  - header background opacity
  - header button active / inactive color
+ - header box shadow
  - footer height
  - footer background color
  - footer background opacity
  - footer button active / inactive color
+ - link color
+
+ - set common background color to #20272D

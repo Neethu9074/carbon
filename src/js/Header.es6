@@ -3,7 +3,7 @@
 import React from 'react';
 import Icon from 'instana-ui-components/Icon';
 
-import './index.less';
+import './Header.less';
 
 const Header = React.createClass({
   render() {
