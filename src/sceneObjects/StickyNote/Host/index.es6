@@ -52,7 +52,7 @@ const StickyNoteRC = React.createClass({
           <div className="in-sticky-after_line">
             <div className="in-sticky-note__content">
               <h2 className="in-sticky-note__host-id">
-                {this.props.snapshot.get('hostId')}
+                {this.props.snapshot.get('steadyId')}
               </h2>
             </div>
           </div>

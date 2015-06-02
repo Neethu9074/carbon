@@ -85,23 +85,23 @@ export default class PhysicalMap extends SceneObject {
   }
 
   onInventoryUpdate(snapshots) {
-    snapshots.forEach(host => this.addHost(host));
+    const connections = extractConnections(snapshots);
+    snapshots.forEach(host => this.addHost(host, connections));
 
     // identify removed hosts: hosts that are not inside the snapshot update
-    const removedHosts = this.zones.reduce((hosts, zone) => {
-      return hosts.concat(zone.hosts);
-    }, [])
-    .filter(host => {
-      const snapshot = snapshots.find(snapshot =>
-        isIdEqual(snapshot, host.snapshot));
-      return !snapshot;
-    });
+    const removedHosts = this.zones
+      //get all hosts from all zones
+      .reduce((hosts, zone) => {return hosts.concat(zone.hosts); }, [])
+      //only the monitored
+      .filter(host => !host.isUnknown)
+      //only the ones that are not in snapshots anymore
+      .filter(host => {
+        const foundSnapshot = snapshots.find(snapshot =>
+          isIdEqual(snapshot, host.snapshot));
+        return !foundSnapshot;
+      });
 
-    removedHosts.forEach((host) => {
-      if(!host.isUnknown) {
-        host.dispose();
-      }
-    });
+    removedHosts.forEach((host) => host.dispose());
 
     this.clearAllConnections();
     this.applyLayout(snapshots.size);
@@ -109,7 +109,7 @@ export default class PhysicalMap extends SceneObject {
     this.parent.renderScene();
   }
 
-  addHost(host) {
+  addHost(host, connections) {
     const zoneId = getZone(host);
     const zone = this.getZone(zoneId);
 
@@ -119,6 +119,11 @@ export default class PhysicalMap extends SceneObject {
     //if the zone has switched,
     //delete the hosts in other zones than the current one
     this.removeHostFromAllZonesInsteadOf(zoneId, host);
+
+    const hostConnections = connections.find((v, k) => k === host);
+    if(hostConnections) {
+      this.createAllUnknownHostsFor(host, hostConnections);
+    }
   }
 
   getZone(zoneId) {
@@ -153,6 +158,15 @@ export default class PhysicalMap extends SceneObject {
     });
   }
 
+  createAllUnknownHostsFor(snapshot, connections) {
+    connections.forEach((connection) => {
+      if(connection.get('state') === 'unmonitored') {
+        const zone = this.getZone('unmonitored');
+        zone.addHost({snapshot: connection, unknown: true});
+      }
+    });
+  }
+
   clearAllConnections() {
     this.zones.forEach(zone => {
       zone.hosts.forEach(host => {
@@ -180,15 +194,11 @@ export default class PhysicalMap extends SceneObject {
         hostConnections.forEach(connection => {
           //if the host has any connection
           if(connection) {
+            //get all known hosts
             const toObject = this.getHostBySnapshot(connection);
-
             if(toObject && connection.get('state') !== 'unmonitored') {
               hostObject.connectWith(toObject);
-            }// else {
-            //   //untracked host detected
-            //   // const zone = this.getZone('unmonitored');
-            //   // zone.addHost({snapshot: connection, unknown: true});
-            // }
+            }
           }
         });
       }

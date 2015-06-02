@@ -95,9 +95,7 @@ export default class Zone extends SceneObject {
       transparent: true,
       depthWrite: false
     });
-    const label = new THREE.Mesh(zoneGeometry, mat);
-
-    return label;
+    return new THREE.Mesh(zoneGeometry, mat);
   }
 
   addHost({snapshot, unknown=false}) {
