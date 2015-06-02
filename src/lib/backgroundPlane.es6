@@ -3,22 +3,31 @@
 import THREE from 'three';
 
 
-const ti = new Uint32Array(6)
-const tp = new Float32Array(12);
-const tc = new Float32Array(12);
+//we create a gradient from color1 to color2
+const color1 = [0.23, 0.275, 0.31];
+const color2 = [0.137, 0.17, 0.2];
+const colorInBetween = [
+  (color1[0] + color2[0]) / 2,
+  (color1[1] + color2[1]) / 2,
+  (color1[2] + color2[2]) / 2
+]
 
-  ti[0] = 0; ti[1] = 1; ti[2] = 2;
-  ti[3] = 0; ti[4] = 2; ti[5] = 3;
+const ti = new Uint32Array(6) //index arrax
+const tp = new Float32Array(12); //position array
+const tc = new Float32Array(12); //color array
 
-  tp[0] = -1; tp[1] = -1; tp[2] = -1;
-  tp[3] = 1; tp[4] = -1; tp[5] = -1;
-  tp[6] = 1; tp[7] = 1; tp[8] = -1;
-  tp[9] = -1; tp[10] = 1; tp[11] = -1;
+ti[0] = 0; ti[1] = 1; ti[2] = 2;
+ti[3] = 0; ti[4] = 2; ti[5] = 3;
 
-  tc[3] = 0.23; tc[4] = 0.275; tc[5] = 0.31; //bottom left
-  tc[0] = 0.18; tc[1] = 0.216; tc[2] = 0.24; //mid
-  tc[6] = 0.18; tc[7] = 0.216; tc[8] = 0.24; //mid
-  tc[9] = 0.137; tc[10] = 0.17; tc[11] = 0.2; //top right
+tp[0] = -1; tp[1] = -1; tp[2] = -1;
+tp[3] = 1; tp[4] = -1; tp[5] = -1;
+tp[6] = 1; tp[7] = 1; tp[8] = -1;
+tp[9] = -1; tp[10] = 1; tp[11] = -1;
+
+tc[3] = color1[0]; tc[4] = color1[1]; tc[5] = color1[2]; //bottom left
+tc[0] = colorInBetween[0]; tc[1] = colorInBetween[1]; tc[2] = colorInBetween[2];
+tc[6] = colorInBetween[0]; tc[7] = colorInBetween[1]; tc[8] = colorInBetween[2];
+tc[9] = color2[0]; tc[10] = color2[0]; tc[11] = color2[0]; //top right
 
 const geometry = new THREE.BufferGeometry();
 geometry.addAttribute('index', new THREE.BufferAttribute(ti, 1));
