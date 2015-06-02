@@ -1,5 +1,5 @@
 'use strict';
 
-import colors from 'instana-ui-themes';
+import {theme} from 'instana-ui-services/theme';
 
-export default colors.consts.night.map.colors;
+export default theme.map.colors;
