@@ -17,6 +17,10 @@
  - footer background color
  - footer background opacity
  - footer button active / inactive color
+ - timeline width
+ - sidebar width
  - link color
+ - detail pane zIndex
 
  - set common background color to #20272D
+ - set theme CSS class on body

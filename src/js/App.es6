@@ -16,10 +16,15 @@ const App = React.createClass({
     return (
       <div>
         <Header />
+        <Map onClick={this.openDashboard} />
         <ConnectionStatus />
         <Footer />
       </div>
     );
+  },
+
+  openDashboard(snapshot) {
+    console.log(snapshot);
   }
 
 });
