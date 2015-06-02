@@ -6,10 +6,10 @@ A conveyer is mix of reactive observables, immutable data structures and a contr
 ### Usage
 ```javascript
 import {create} from 'instana-ui-services/conveyer';
-import InventoryConveyer from 'instana-ui-services/conveyer/InventoryConveyer';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 
 const pluginId = 'com.instana.forge.infrastructure.os.OS';
-const observable = create(InventoryConveyer, {pluginId});
+const observable = create(SnapshotConveyer, {pluginId});
 
 const subscription = observable.subscribe(
   nextEvent => console.log(nextEvent),
@@ -30,7 +30,7 @@ On creation of an conveyer, a reactive observable is returned. This observable c
 
 
 ## Events and Event Bus
-A global event bus is availabe via this project. The event bus can be used to control various interactions in the system. This section and the following subsections describe the event bus usage and the possible events.
+A global event bus is available via this project. The event bus can be used to control various interactions in the system. This section and the following subsections describe the event bus usage and the possible events.
 
 ### Focusing on a snapshot
 ```javascript
