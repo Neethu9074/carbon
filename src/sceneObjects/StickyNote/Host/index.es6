@@ -45,17 +45,15 @@ const StickyNoteRC = React.createClass({
         </div>
       );
     } catch(err) {
-      logger.error('there are missing properties inside the snapshot that' +
+      logger.error('there are missing properties inside the snapshot that ' +
       'avoid rendering correct sticky note');
       jsxStructure = (
         <div>
           <div className="in-sticky-note__line"></div>
           <div className="in-sticky-after_line">
-            <div className="in-sticky-note__content">
-              <h2 className="in-sticky-note__host-id">
-                {this.props.snapshot.get('steadyId')}
-              </h2>
-            </div>
+            <h2 className="in-sticky-note__host-id">
+              {this.props.snapshot.get('steadyId')}
+            </h2>
           </div>
         </div>
       );
@@ -79,9 +77,7 @@ export default class StickyNoteHost extends StickyNote {
     worldPos.set(-0.5, 0, 0.5);
     worldPos.applyMatrix4(cube.matrixWorld);
 
-    //worldPos.x -= stickyNoteLineEndLocalPosition.x;
-    worldPos.y = cube.scale.y; //+ stickyNoteLineEndLocalPosition.y;
-    //worldPos.z += niceLookingDistanceForSticky.z + 0.5;
+    worldPos.y = cube.scale.y;
   }
 
   render() {

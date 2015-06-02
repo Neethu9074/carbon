@@ -1,11 +1,10 @@
 'use strict';
 
-
 import React from 'react/addons';
-
 import StickyNote from '../StickyNote';
 
 import './index.less';
+
 
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
@@ -41,9 +40,7 @@ export default class StickyNoteHost extends StickyNote {
     worldPos.set(-0.5, 0, 0.5);
     worldPos.applyMatrix4(cube.matrixWorld);
 
-    //worldPos.x -= stickyNoteLineEndLocalPosition.x;
-    worldPos.y = cube.scale.y; //+ stickyNoteLineEndLocalPosition.y;
-    //worldPos.z += niceLookingDistanceForSticky.z + 0.5;
+    worldPos.y = cube.scale.y;
   }
 
   render() {

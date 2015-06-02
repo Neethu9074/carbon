@@ -13,7 +13,6 @@ const StickyNoteRC = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   render() {
-    //const numProcesses = this.props.numProcesses;
     const style = {height: this.props.height};
     const value = this.props.value;
     const component = (
