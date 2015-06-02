@@ -5,6 +5,7 @@ import 'instana-ui-forge';
 
 import React from 'react';
 import logging from 'instalog';
+import {setThemeOnHtmlDocument} from 'instana-ui-services/theme';
 
 import App from './App';
 import * as airshow from './airshow';
@@ -15,6 +16,8 @@ if (logging.ConsoleAppender.isPossible()) {
   consoleAppender.setActivePriority(0);
   logging.addAppender(consoleAppender);
 }
+
+setThemeOnHtmlDocument();
 
 React.render(
   <App />,
