@@ -2,17 +2,16 @@
 
 import THREE from 'three';
 
-import MetricServer from '../MetricServer';
-
 import {getHealth} from 'instana-ui-services/health';
 import {getPower} from 'instana-ui-sdk/power';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 
 import BaseHost from './BaseHost';
+import Process from './Process';
+import MetricServer from '../MetricServer';
 import StickyNoteProcess from './StickyNote/Process';
 import StickyNoteMetric from './StickyNote/Metric';
-import Process from './Process';
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
@@ -20,7 +19,7 @@ const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 
 //if unavailable, the StickyNote-Metric / Process will not be undefined but this
 //to avoid all these if(available) {do something} stuff
-const emptyMetricStickyObject = {
+const emptyStickyObject = {
   hide() {},
   update() {},
   updateWorldPos() {},
@@ -38,7 +37,7 @@ export default class Host extends BaseHost {
     this.health = getHealth(snapshot);
     this.processes = [];
 
-    this.stickyNoteMetric = emptyMetricStickyObject;
+    this.stickyNoteMetric = emptyStickyObject;
   }
 
   addToGlobalGeometry() {
@@ -105,7 +104,7 @@ export default class Host extends BaseHost {
     this.scene.cubeFactory.material.visible = true;
 
     // this.stickyNoteMetric.dispose();
-    // this.stickyNoteMetric = emptyMetricStickyObject;
+    // this.stickyNoteMetric = emptyStickyObject;
   }
 
   setSingleMetricValue(value) {
@@ -184,7 +183,7 @@ export default class Host extends BaseHost {
   }
 
   showMetric() {
-    // if(this.stickyNoteMetric === emptyMetricStickyObject) {
+    // if(this.stickyNoteMetric === emptyStickyObject) {
     //   this.stickyNoteMetric = new StickyNoteMetric(this);
     // }
 
@@ -290,7 +289,7 @@ export default class Host extends BaseHost {
 
   addStickyNoteForMetric() {
     //only one sticky metric sticky for each host
-    if(this.stickyNoteMetric !== emptyMetricStickyObject) {
+    if(this.stickyNoteMetric !== emptyStickyObject) {
       return;
     }
 
