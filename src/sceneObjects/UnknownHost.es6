@@ -1,17 +1,11 @@
 'use strict';
 
 import THREE from 'three';
-import React from 'react';
-import _ from 'lodash';
-import eventBus from 'instana-ui-services/eventbus';
-import {getIdString} from 'instana-ui-services/util/snapshots';
 
-import ConnectionGrid from '../connectionGrid';
-import Connection from './Connection';
 import BaseHost from './BaseHost';
-import StickyNoteHost from './StickyNote/Host';
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
+
 
 export default class UnknownHost extends BaseHost {
 

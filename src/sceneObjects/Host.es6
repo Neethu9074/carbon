@@ -1,21 +1,15 @@
 'use strict';
 
 import THREE from 'three';
-import React from 'react';
-import _ from 'lodash';
+
 import MetricServer from '../MetricServer';
 
 import {getHealth} from 'instana-ui-services/health';
 import {getPower} from 'instana-ui-sdk/power';
-import {create} from 'instana-ui-services/conveyer';
-import {isIdEqual, extractId, getIdString}
-  from 'instana-ui-services/util/snapshots';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 
-import ConnectionGrid from '../connectionGrid';
-import Connection from './Connection';
 import BaseHost from './BaseHost';
-import StickyNoteHost from './StickyNote/Host';
 import StickyNoteProcess from './StickyNote/Process';
 import StickyNoteMetric from './StickyNote/Metric';
 import Process from './Process';
@@ -214,7 +208,7 @@ export default class Host extends BaseHost {
   setPosition(x, y, z) {
     super.setPosition(x, y, z);
 
-    _.forEach(this.processes, p => p.setPosition(x, p.getPosition().y, z));
+    this.processes.forEach(p => p.setPosition(x, p.getPosition().y, z));
   }
 
   setHeight(height) {
@@ -278,7 +272,7 @@ export default class Host extends BaseHost {
     const heightOfEachProcess = parentHeight / numOfProcesses;
     let index = 0;
 
-    _.forEach(this.processes, p => {
+    this.processes.forEach(p => {
       const pos = p.getPosition();
       p.setPosition(pos.x, index++ * heightOfEachProcess, pos.z);
       p.setHeight(heightOfEachProcess);

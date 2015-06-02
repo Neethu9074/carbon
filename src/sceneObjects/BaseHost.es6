@@ -1,12 +1,11 @@
 'use strict';
 
 import THREE from 'three';
-import React from 'react';
+
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 
-import ConnectionGrid from '../connectionGrid';
 import Connection from './Connection';
 import SceneObject from './SceneObject';
 import StickyNoteHost from './StickyNote/Host';
