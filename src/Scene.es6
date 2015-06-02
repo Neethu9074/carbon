@@ -8,7 +8,6 @@ import eventBus from 'instana-ui-services/eventbus';
 import './lib/Octree';
 
 import * as zoom from './zoom';
-import colors from './colors';
 import mobileChecker from './mobileChecker';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';

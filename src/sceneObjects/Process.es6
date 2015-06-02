@@ -5,7 +5,6 @@ import THREE from 'three';
 import React from 'react';
 
 import SceneObject from './SceneObject';
-import colors from '../colors';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
