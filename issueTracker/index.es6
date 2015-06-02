@@ -22,15 +22,13 @@ export function getOpenIssues() {
 }
 
 export function getProblemsForSnapshot(snapshotId) {
-  const predicate = isIdEqual.bind(null, snapshotId);
-
   return allIssuesStream.map(issues => {
-      return issues.reduce((problemsForSnapshot, issue) => {
-        return problemsForSnapshot.concat(
-          issue.get('problems').filter(predicate)
-        );
-      }, Immutable.List());
-    });
+    issues.reduce((problemsForSnapshot, issue) => {
+      return problemsForSnapshot.concat(
+        issue.get('problems').filter(isIdEqual.bind(null, snapshotId))
+      );
+    }, Immutable.List());
+  });
 }
 
 function collectingReducer(existingIssues, issueUpdates) {

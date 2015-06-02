@@ -107,56 +107,7 @@ describe('issueTracker', () => {
       observable.emit(issuesStubData.setIn([0, 'end'], 42));
       observable.emit(issuesStubData.setIn([0, 'id'], 'i2'));
     });
-  });
 
-  describe('getProblemsForSnapshot', () => {
-    beforeEach(() => {
-      issuesStubData = issuesStubData.push(Immutable.fromJS({
-       'id': 'i2',
-       'problems': [{
-         'pluginId': 'o2',
-         'steadyId': 's2',
-         'hostId': 'h2',
-         'problemText': 'You will run out of main memory just within next...',
-         'fixSuggestion': 'Analyse running processes for eventual memory...',
-         'explanation': 'Determined through linear regression',
-         'severity': 7
-       }],
-       'start': 1433251409977,
-       'end': null
-     }));
-    });
-
-    it('should retrieve problems for a specified snapshot', done => {
-      const id = Immutable.fromJS({
-        pluginId: 'o2',
-        steadyId: 's2',
-        hostId: 'h2'
-      });
-      issueTracker.getProblemsForSnapshot(id)
-        .subscribe(problems => {
-          expect(problems.size).to.equal(1);
-          expect(problems.getIn([0, 'severity'])).to.equal(7);
-          done();
-        });
-
-      observable.emit(issuesStubData);
-    });
-
-    it('should return an empty list when no problems are found', done => {
-      const id = Immutable.fromJS({
-        pluginId: 'o3',
-        steadyId: 's3',
-        hostId: 'h3'
-      });
-      issueTracker.getProblemsForSnapshot(id)
-        .subscribe(problems => {
-          expect(problems.size).to.equal(0);
-          done();
-        });
-
-      observable.emit(issuesStubData);
-    });
   });
 
 });

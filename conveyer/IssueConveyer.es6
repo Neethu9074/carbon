@@ -3,23 +3,24 @@
 import Immutable from 'immutable';
 import * as connection from '../connection/subscriptionAwareConnection';
 
-export default class NotificationConveyer {
+export default class IssueConveyer {
 
   static getUniqueId() {
-    return 'notifications';
+    return 'issue';
   }
 
-  constructor(opts) {
-    this.id = NotificationConveyer.getUniqueId(opts);
+  constructor() {
+    this.id = IssueConveyer.getUniqueId();
     this.subscribeEvent = {
+      id: this.id,
       event: 'subscribe',
-      type: 'notification'
+      type: 'issue'
     };
   }
 
   start(onNext) {
     this.subscription = connection.emitter.on('message')
-      .filter(e => e.type === 'notification')
+      .filter(e => e.id === this.id)
       .subscribe(e => onNext(Immutable.fromJS(e.data)));
 
     connection.subscribe(this.id, this.subscribeEvent);
