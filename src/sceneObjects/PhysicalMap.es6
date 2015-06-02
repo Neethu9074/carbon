@@ -188,15 +188,13 @@ export default class PhysicalMap extends SceneObject {
     //connections is a Immutable.map<snapshot, Immutable.List<snapshot>>
     const connections = extractConnections(snapshots);
     connections.forEach((hostConnections, host) => {
-
       const hostObject = this.getHostBySnapshot(host);
       if(hostObject) {
         hostConnections.forEach(connection => {
           //if the host has any connection
           if(connection) {
-            //get all known hosts
             const toObject = this.getHostBySnapshot(connection);
-            if(toObject && connection.get('state') !== 'unmonitored') {
+            if(toObject) {
               hostObject.connectWith(toObject);
             }
           }
