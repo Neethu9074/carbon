@@ -7,6 +7,7 @@ import SceneObject from './SceneObject';
 import Host from './Host';
 import UnknownHost from './UnknownHost';
 import {getIdString} from 'instana-ui-services/util/snapshots';
+import {theme} from 'instana-ui-services/theme';
 import {getColor} from 'instana-ui-sdk/zones';
 
 //use global geometry to reduce object instances
@@ -80,7 +81,7 @@ export default class Zone extends SceneObject {
     const context = canvas.getContext('2d');
 
     context.fillStyle = zoneColor;
-    context.font = '100px "Open Sans" sans-serif';
+    context.font = '100px ' + theme.common.fontFamily;
     context.fillText(text, 0, 95);
 
     // use canvas content as a texture
