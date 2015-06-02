@@ -121,11 +121,13 @@ export default class BaseHost extends SceneObject {
   show() {
     super.show();
     this.enableFragments(true);
+    this.connections.forEach(c => c.show());
   }
 
   hide() {
     super.hide();
     this.enableFragments(false);
+    this.connections.forEach(c => c.hide());
   }
 
   enableFragments() {}

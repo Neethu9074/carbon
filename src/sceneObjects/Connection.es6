@@ -4,7 +4,9 @@ import THREE from 'three';
 import SceneObject from './SceneObject';
 import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
+import {createLogger} from 'instalog';
 
+const logger = createLogger('ui-map.stickyNote.Host.index');
 const orange = [0.92, 0.4, 0];
 const connections = [];
 let id = 0;
@@ -55,6 +57,11 @@ export default class Connection extends SceneObject {
 
     factory.removeFragment(this.id);
     factory.addFragment({id: this.id, points, color: orange});
+
+    //hide this if the parent is hidden
+    if(this.parent.hidden) {
+      this.hide();
+    }
   }
 
   addBeginning(points, path, height) {
@@ -118,13 +125,23 @@ export default class Connection extends SceneObject {
     ConnectionGrid.blockPosition(toPos);
   }
 
-  refresh() {
-    //console.log('refresh');
-  }
-
   setBidirectional() {
     this.bidirectional = true;
     this.render();
+  }
+
+  show() {
+    super.show();
+    this.enableFragment(true);
+  }
+
+  hide() {
+    super.hide();
+    this.enableFragment(false);
+  }
+
+  enableFragment(enabled) {
+    this.getScene().lineFactory.enableFragment(this.id, enabled);
   }
 
   dispose() {
@@ -134,12 +151,9 @@ export default class Connection extends SceneObject {
     try{
       this.getScene().lineFactory.removeFragment(this.id);
     } catch(err) {
-      //this parent was already disposed and the line isn't visible anymore
-      //happens on bidirectional connections
-      // if(!this.bidirectional) {
-      //   console.log('cant destroy this', this.bidirectional, this);
-      // }
-      this.parent = null;
+      if(!this.bidirectional) {
+        logger.error('cant destroy connection', this, err);
+      }
     }
     _.remove(connections, con => con === this);
 
