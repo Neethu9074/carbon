@@ -36,6 +36,12 @@ export default class UnknownHost extends BaseHost {
     }
   }
 
+  enableFragments(enabled) {
+    const scene = this.scene;
+    const id = this.id;
+    scene.hostFactory.enableFragment(id, enabled);
+  }
+
   removeFromGlobalGeometry() {
     const id = this.id;
     const scene = this.scene;

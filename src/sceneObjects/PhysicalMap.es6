@@ -84,6 +84,12 @@ export default class PhysicalMap extends SceneObject {
       observable.subscribe(data => this.onInventoryUpdate(data)));
   }
 
+  applyLayout(numberOfHosts) {
+    const maxHostsPerRow = Math.floor(
+      Math.sqrt(numberOfHosts / this.zones.length));
+    new Layouter({maxHostsPerRow}).applyLayout(this);
+  }
+
   onInventoryUpdate(snapshots) {
     const connections = extractConnections(snapshots);
     snapshots.forEach(host => this.addHost(host, connections));
@@ -256,15 +262,18 @@ export default class PhysicalMap extends SceneObject {
     return hit;
   }
 
+  filter(validationFunction) {
+    const unMatched = this.zones
+      //get all hosts from all zones
+      .reduce((hosts, zone) => {return hosts.concat(zone.hosts); }, [])
+      .filter(host => !validationFunction(host));
+
+    unMatched.forEach((host) => host.hide());
+  }
+
   //is called from zone if it has no hosts anymore
   removeChild(child) {
     _.remove(this.zones, zone => zone.id === child.id);
-  }
-
-  applyLayout(numberOfHosts) {
-    const maxHostsPerRow = Math.floor(
-      Math.sqrt(numberOfHosts / this.zones.length));
-    new Layouter({maxHostsPerRow}).applyLayout(this);
   }
 
   onZoom(zoomLevel) {

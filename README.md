@@ -56,10 +56,17 @@ for testing enviroment (creates x random processes/host).
 looks shitty if used with metrices!
 
 ## Structure
-
 The map is structured in:
 
 scene has a map (physical/logical).
 map has n zones.
 zone has n hosts.
 host has n processes.
+
+## Filtering
+Hosts can be filtered via: PhysicalMap.filter(validationFunction);
+
+```
+//filters the map and shows only all unknown hosts
+map.filter((host) => {return host.isUnknown === true; });
+```
