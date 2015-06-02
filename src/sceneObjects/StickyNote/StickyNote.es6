@@ -39,7 +39,7 @@ export default class StickyNote {
     stickyNoteContainerStyle['-webkit-transform'] = translate;
 
     //set to '' because the display is set by zoom too. If you would set
-    //this value to another like '' you would overwrite it
+    //this value to another like '' you would overrite it
     stickyNoteContainerStyle.display = '';
   }
 

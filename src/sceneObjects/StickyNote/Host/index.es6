@@ -45,7 +45,8 @@ const StickyNoteRC = React.createClass({
         </div>
       );
     } catch(err) {
-      logger.error(err);
+      logger.error('there are missing properties inside the snapshot that' +
+      'avoid rendering correct sticky note');
       jsxStructure = (
         <div>
           <div className="in-sticky-note__line"></div>

@@ -14,26 +14,15 @@ import eventBus from 'instana-ui-services/eventbus';
 
 import ConnectionGrid from '../connectionGrid';
 import Connection from './Connection';
-import SceneObject from './SceneObject';
+import BaseHost from './BaseHost';
 import StickyNoteHost from './StickyNote/Host';
 import StickyNoteProcess from './StickyNote/Process';
 import StickyNoteMetric from './StickyNote/Metric';
 import Process from './Process';
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
-const cubeHullThickness = new THREE.Vector3(0, 0.01, 0);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
-
-//the basic geometry is a uniformed cube, where the pivot point is at the corner
-const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
-for (let i = 0; i < cubeGeometry.vertices.length; i++) {
-  cubeGeometry.vertices[i].x -= 0.5;
-  cubeGeometry.vertices[i].y += 0.5;
-  cubeGeometry.vertices[i].z += 0.5;
-}
-//global cube material to reduce object creation
-const cubeMaterial = new THREE.MeshBasicMaterial();
 
 //if unavailable, the StickyNote-Metric / Process will not be undefined but this
 //to avoid all these if(available) {do something} stuff
@@ -47,39 +36,15 @@ const emptyMetricStickyObject = {
 };
 
 
-export default class Host extends SceneObject {
+export default class Host extends BaseHost {
 
   constructor({parent, snapshot}) {
-    super({parent});
+    super({parent, snapshot});
 
-    this.scene = parent.getScene();
-    this.id = getIdString(snapshot);
-    this.snapshot = snapshot;
     this.health = getHealth(snapshot);
     this.processes = [];
-    this.connections = [];
 
-    this.render();
-    this.stickyNote = new StickyNoteHost(this);
     this.stickyNoteMetric = emptyMetricStickyObject;
-
-    this.registerEvents();
-
-    this.show();
-  }
-
-  render() {
-    //the cube needs a mesh to calculate the inside/outside viewfrustum check
-    this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-    this.cube.matrixAutoUpdate = false;
-    this.cube.rotationAutoUpdate = false;
-
-    //set this flag to add this obj to octree and not to scene!
-    this.cube.useOnlyForCollisionDetection = true;
-    this.cube.parentSceneObject = this;
-
-    this.addSceneObject(this.cube);
-    this.addToGlobalGeometry();
   }
 
   addToGlobalGeometry() {
@@ -91,15 +56,6 @@ export default class Host extends SceneObject {
     this.addToZoneFactory(id, pos, dim);
     this.addToMultiMetricFactory(id, pos, dim);
     this.addToSingleMetricFactory(id, pos, dim);
-  }
-
-  //adds the cube geometry
-  addToHostFactory(id, pos, dim) {
-    this.scene.hostFactory.addFragment({
-      id, pos,
-      dim: dim.clone().add(cubeHullThickness),
-      health: this.health
-    });
   }
 
   //for the multi metric pillars
@@ -135,8 +91,7 @@ export default class Host extends SceneObject {
   }
 
   registerEvents() {
-    this.addSubscription(eventBus.on('endUpdate').subscribe((data) =>
-      this.update(data)));
+    super.registerEvents();
 
     this.addSubscription(eventBus.on('upateMetricHeights').subscribe(() =>
       this.updateMetricHeight()));
@@ -244,11 +199,6 @@ export default class Host extends SceneObject {
     this.metricServer.resumeMetrics();
   }
 
-  updateStickyNotes() {
-    this.stickyNote.update();
-    // this.stickyNoteMetric.update();
-  }
-
   onSnapshotUpdate(snapshot) {
     //if the reference is equal, don't update. the reference is always equal
     //on the same snapshots because they are immutable
@@ -262,15 +212,7 @@ export default class Host extends SceneObject {
   }
 
   setPosition(x, y, z) {
-    const pos = this.getPosition();
-    if(pos.x === x && pos.y === y && pos.z === z) {
-      return;
-    }
-
     super.setPosition(x, y, z);
-    this.cube.position.set(x, y, z);
-
-    this.refreshMesh();
 
     _.forEach(this.processes, p => p.setPosition(x, p.getPosition().y, z));
   }
@@ -312,16 +254,6 @@ export default class Host extends SceneObject {
       factory.getColorArrayForFragment(fragment));
   }
 
-  refreshMesh() {
-    this.cube.updateMatrix();
-    this.cube.updateMatrixWorld();
-
-    this.stickyNote.updateWorldPos();
-
-    this.removeFromGlobalGeometry();
-    this.addToGlobalGeometry();
-  }
-
   addProcess(snapshot) {
     this.processes = this.processes ? this.processes : [];
 
@@ -338,24 +270,6 @@ export default class Host extends SceneObject {
 
     this.arrangeProcesses();
     this.addStickyNoteForProcess();
-  }
-
-  //connects this host with another one. the connection is stored in a
-  //connections collection
-  connectWith(otherHost) {
-    //don't setup a new connection if it's still alive
-    if(this.connections.indexOf(otherHost) >= 0) {
-      return;
-    }
-
-    /*eslint-disable no-new*/
-    new Connection({parent: this, from: this, to: otherHost});
-    /*eslint-enable no-new*/
-  }
-
-  //is called from Connection class when creating a new connection
-  addConnection(connection) {
-    this.connections.push(connection);
   }
 
   arrangeProcesses() {
@@ -389,16 +303,6 @@ export default class Host extends SceneObject {
     this.stickyNoteMetric = new StickyNoteMetric(this);
   }
 
-  show() {
-    super.show();
-    this.enableFragments(true);
-  }
-
-  hide() {
-    super.hide();
-    this.enableFragments(false);
-  }
-
   enableFragments(enabled) {
     const scene = this.scene;
     const id = this.id;
@@ -417,35 +321,16 @@ export default class Host extends SceneObject {
     scene.singleMetricFactory.removeFragment(id);
   }
 
-  clearConnections() {
-    this.connections.forEach(c => c.dispose());
-    this.connections = [];
-  }
-
-  //is called from Connection class on disposing
-  removeConnection(connection) {
-    _.remove(this.connections, con => con === connection);
-  }
-
   clearProcesses() {
     this.processes.forEach(p => p.dispose());
     this.processes = [];
   }
 
   dispose() {
-    this.clearConnections();
     this.clearProcesses();
-
-    this.removeFromGlobalGeometry();
-    this.removeSceneObject(this.cube);
-    this.cube = null;
-
-    this.stickyNote.dispose();
 
     super.dispose();
 
-    this.scene = null;
-    this.id = null;
     this.snapshot = null;
     this.health = null;
   }
@@ -454,7 +339,7 @@ export default class Host extends SceneObject {
     try {
       return getPower(this.snapshot);
     } catch (err) {
-      return 1;
+      return super.calculatePower();
     }
   }
 }
