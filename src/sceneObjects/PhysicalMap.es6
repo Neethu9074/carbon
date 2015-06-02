@@ -171,6 +171,11 @@ export default class PhysicalMap extends SceneObject {
   removeVanishedUnknownHosts(connections) {
     const allUnmonitoredHosts = this.getZone('unmonitored').hosts;
 
+    if(allUnmonitoredHosts.length === 0) {
+      this.getZone('unmonitored').dispose();
+      return;
+    }
+
     const allAvailableUnmonitoredHosts = [];
     connections.forEach((hostConnections) => {
       hostConnections.forEach((connection) => {
