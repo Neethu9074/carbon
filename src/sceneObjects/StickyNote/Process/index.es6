@@ -2,8 +2,6 @@
 
 
 import React from 'react/addons';
-import {formatBytes} from 'instana-ui-services/converters';
-import SnapshotIcon from 'instana-ui-components/SnapshotIcon';
 
 import StickyNote from '../StickyNote';
 

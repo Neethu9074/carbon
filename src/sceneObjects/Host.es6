@@ -451,6 +451,10 @@ export default class Host extends SceneObject {
   }
 
   calculatePower() {
-    return getPower(this.snapshot);
+    try {
+      return getPower(this.snapshot);
+    } catch (err) {
+      return 1;
+    }
   }
 }
