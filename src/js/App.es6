@@ -44,7 +44,6 @@ const App = React.createClass({
     return (
       <div>
         <Map ref="map" />
-        <Notifications />
         <Sidebar />
 
         <Toast action="Dismiss"
