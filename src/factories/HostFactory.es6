@@ -4,9 +4,9 @@ import THREE from 'three';
 import CubeFactory from './CubeFactory';
 
 const colorItemsGrayed = [
-  [0.2, 0.2, 0.2], //front
-  [0.4, 0.4, 0.4], //top
-  [0.3, 0.3, 0.3] //left
+  [0.35, 0.4, 0.42], //left
+  [0.44, 0.47, 0.5], //top
+  [0.44, 0.5, 0.51] //front
 ];
 
 
@@ -61,7 +61,8 @@ export default class HostFactory extends CubeFactory {
   }
 
   getColorArrayForFragment(fragment) {
-    if(this.hostsGrayed) {
+    //if all hosts are grayed of the health is undefined
+    if(this.hostsGrayed || !fragment.health) {
       return colorItemsGrayed;
     } else {
       return super.getColorArrayForFragment(fragment);
