@@ -63,8 +63,12 @@ export default class BaseHost extends SceneObject {
   }
 
   registerEvents() {
-    this.addSubscription(eventBus.on('endUpdate').subscribe((data) =>
-      this.update(data)));
+    this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
+      //update only if this host is visible
+      if(!this.hidden) {
+        this.update(data);
+      }
+    }));
   }
 
   createStickyNote() {throw new Error('NOT IMPLEMENTED'); }
