@@ -2,23 +2,28 @@
 'use strict';
 import THREE from 'three';
 import MeshFactory from './MeshFactory';
+import {theme} from 'instana-ui-services/theme';
 
+
+const ok = new THREE.Color(theme.map.colors.default);
 const colorItemsOk = [
-  [0.184, 0.64, 0.71], //front
-  [0.212, 0.71, 0.745], //top
-  [0.204, 0.694, 0.75] //left
+  [ok.r, ok.g, ok.b], //front
+  [ok.r + 0.1, ok.g + 0.1, ok.b + 0.1], //top
+  [ok.r + 0.1, ok.g + 0.1, ok.b + 0.1] //left
 ];
 
+const warning = new THREE.Color(theme.map.colors.warning);
 const colorItemsWarning = [
-  [0.89, 0.73, 0.02], //front
-  [0.89, 0.824, 0.078], //top
-  [0.89, 0.827, 0.14] //left
+  [warning.r, warning.g, warning.b], //front
+  [warning.r + 0.1, warning.g + 0.1, warning.b + 0.1], //top
+  [warning.r + 0.1, warning.g + 0.1, warning.b + 0.1] //left
 ];
 
+const critical = new THREE.Color(theme.map.colors.critical);
 const colorItemsDanger = [
-  [0.5, 0.055, 0.16], //front
-  [0.811, 0.075, 0.207], //top
-  [0.73, 0.075, 0.19] //left
+  [critical.r, critical.g, critical.b], //front
+  [critical.r + 0.1, critical.g + 0.1, critical.b + 0.1], //top
+  [critical.r + 0.1, critical.g + 0.1, critical.b + 0.1] //left
 ];
 
 

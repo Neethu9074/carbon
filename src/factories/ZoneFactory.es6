@@ -1,11 +1,16 @@
-
 'use strict';
+
 import THREE from 'three';
 import PlaneFactory from './PlaneFactory';
+import {theme} from 'instana-ui-services/theme';
+
+
+const warning = new THREE.Color(theme.map.colors.warning);
+const critical = new THREE.Color(theme.map.colors.critical);
 
 const colorItemsOk = [[0.0, 0.0, 0.0]];
-const colorItemsWarning = [[0.51, 0.47, 0.08]];
-const colorItemsDanger = [[0.42, 0.04, 0.13]];
+const colorItemsWarning = [[warning.r, warning.g, warning.b]];
+const colorItemsDanger = [[critical.r, critical.g, critical.b]];
 
 export default class ZoneFactory extends PlaneFactory {
   constructor({scene}) {

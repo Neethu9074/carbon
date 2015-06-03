@@ -5,9 +5,11 @@ import SceneObject from './SceneObject';
 import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
 import {createLogger} from 'instalog';
+import {theme} from 'instana-ui-services/theme';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
-const orange = [0.92, 0.4, 0];
+const connection = new THREE.Color(theme.map.colors.connection);
+const orange = [connection.r, connection.g, connection.b];
 export const connections = [];
 let id = 0;
 
@@ -40,10 +42,24 @@ export default class Connection extends SceneObject {
   }
 
   render() {
-    const scene = this.getScene();
-    const factory = scene.lineFactory;
+    if(!this.path) {
+      return;
+    }
+
+    const factory = this.getScene().lineFactory;
+    const points = this.calculateVertices(-0.4);
+
+    factory.removeFragment(this.id);
+    factory.addFragment({id: this.id, points, color: orange});
+
+    //hide this if the parent is hidden
+    if(this.parent.hidden) {
+      this.hide();
+    }
+  }
+
+  calculateVertices(height) {
     const points = [];
-    const height = -0.4;
 
     this.addBeginning(points, this.path, height);
     for (let i = 1; i < this.path.length; i++) {
@@ -55,13 +71,7 @@ export default class Connection extends SceneObject {
     }
     this.addEnding(points, this.path, height);
 
-    factory.removeFragment(this.id);
-    factory.addFragment({id: this.id, points, color: orange});
-
-    //hide this if the parent is hidden
-    if(this.parent.hidden) {
-      this.hide();
-    }
+    return points;
   }
 
   addBeginning(points, path, height) {
@@ -114,9 +124,11 @@ export default class Connection extends SceneObject {
       toY: -toPos.z
     });
 
-    const movement = (Math.random() * 0.2) - 0.2;
-    for (let i = 0; i < this.path.length; i++) {
-      this.path[i][0] += movement;
+    if(this.path) {
+      const movement = (Math.random() * 0.2) - 0.2;
+      for (let i = 0; i < this.path.length; i++) {
+        this.path[i][0] += movement;
+      }
     }
 
     //dont forget to block the positions after calculating the route to avoid
@@ -155,10 +167,11 @@ export default class Connection extends SceneObject {
     } catch(err) {
       //if the parent was still disposed and the connection is not bidirectional
       //(so disposed on the other end) there is something curious
-      if(!this.parent && !this.bidirectional) {
+      if(!this.parent || !this.bidirectional) {
         logger.error('cant destroy connection', this, err);
       } else {
-        logger.error('there is something curious', this, err);
+        logger.error('there is something curious',
+          'parent:', this.parent, 'bidirectional:', this.bidirectional, err);
       }
     }
 

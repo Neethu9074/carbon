@@ -2,11 +2,14 @@
 'use strict';
 import THREE from 'three';
 import CubeFactory from './CubeFactory';
+import {theme} from 'instana-ui-services/theme';
 
+
+const grey = new THREE.Color(theme.map.colors.unknownStatus);
 const colorItemsGrayed = [
-  [0.35, 0.4, 0.42], //left
-  [0.44, 0.47, 0.5], //top
-  [0.44, 0.5, 0.51] //front
+  [grey.r, grey.g, grey.b], //front
+  [grey.r + 0.1, grey.g + 0.1, grey.b + 0.1], //top
+  [grey.r + 0.2, grey.g + 0.2, grey.b + 0.2] //left
 ];
 
 

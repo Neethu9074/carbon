@@ -1,11 +1,14 @@
 'use strict'
 
 import THREE from 'three';
-
+import {theme} from 'instana-ui-services/theme';
 
 //we create a gradient from color1 to color2
-const color1 = [0.23, 0.275, 0.31];
-const color2 = [0.137, 0.17, 0.2];
+const gradient1 = new THREE.Color(theme.map.colors.renderClearGradient1);
+const gradient2 = new THREE.Color(theme.map.colors.renderClearGradient2);
+
+const color1 = [gradient2.r, gradient2.g, gradient2.b];
+const color2 = [gradient1.r, gradient1.g, gradient1.b];
 const colorInBetween = [
   (color1[0] + color2[0]) / 2,
   (color1[1] + color2[1]) / 2,
