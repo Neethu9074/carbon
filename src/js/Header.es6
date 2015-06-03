@@ -16,7 +16,9 @@ const Header = React.createClass({
                 className={block + '__back'}/>
 
           <ol className={block + '__breadcrumb'}>
-            <li>Your Server Farm</li>
+            <li className={block + '__breadcrumb-item'}>
+              Your Server Farm
+            </li>
           </ol>
         </div>
 
@@ -24,7 +26,7 @@ const Header = React.createClass({
           <Icon type='search'
                 className={block + '__search'} />
           <Icon type='bars'
-                className={block + '__settings'} />
+                className={block + '__sidebar'} />
         </div>
       </div>
     );
