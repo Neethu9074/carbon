@@ -21,6 +21,7 @@ export default class MetricServer {
     this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() => {
       currentMetric = undefined;
       this.disposeMetricSubscription();
+      this.client.hideMetrics();
     }));
 
     this.client = client;
@@ -65,7 +66,6 @@ export default class MetricServer {
       this.metricSubscription.dispose();
     }
     this.metricSubscription = undefined;
-    this.client.hideMetrics();
   }
 
   setupSingleMetric() {

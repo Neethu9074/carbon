@@ -102,16 +102,10 @@ export default class Host extends BaseHost {
   }
 
   showMetrics() {
-    //changing the material means changing the material for all processes
-    this.scene.cubeFactory.material.visible = false;
-
     // this.addStickyNoteForMetric();
   }
 
   hideMetrics() {
-    //changing the material means changing the material for all processes
-    this.scene.cubeFactory.material.visible = true;
-
     // this.stickyNoteMetric.dispose();
     // this.stickyNoteMetric = emptyStickyObject;
   }

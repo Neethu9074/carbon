@@ -270,6 +270,7 @@ export default class Scene {
       this.multiMetricFactory : this.singleMetricFactory;
 
     this.activeMetricFactory.material.visible = true;
+    this.renderScene();
   }
 
   hideMetrics() {
@@ -277,6 +278,7 @@ export default class Scene {
 
     //set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
+    this.renderScene();
   }
 
   updateMaterialsByZoomLevel(zoomLevel) {
