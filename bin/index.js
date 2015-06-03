@@ -17,7 +17,7 @@ fs.writeFileSync(
 function walkConstants(path, obj) {
   Object.keys(obj).forEach(function(key) {
     var value = obj[key];
-    if (typeof value === 'string') {
+    if (typeof value === 'string' || typeof value === 'number') {
       addConstant(path.concat(key), value);
     } else if (typeof value === 'object' && !(value instanceof Array)) {
       walkConstants(path.concat(key), value);
@@ -32,7 +32,7 @@ function addConstant(path, value) {
 }
 
 function toSpinalCase(name) {
-  return name.replace(/([a-z])([A-Z])/, function(match, g1, g2) {
+  return name.replace(/([a-z])([A-Z])/g, function(match, g1, g2) {
     return g1 + '-' + g2.toLowerCase();
-  })
+  });
 }

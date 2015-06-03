@@ -14,8 +14,18 @@ var colors = {
 exports.consts = {
   night: {
     common: {
-      fontFamily: 'sans-serif',
-      fontColor: '#ddd'
+      fontFamily: '\'Open Sans\', sans-serif',
+      fontColor: '#fcfcfc',
+      backgroundColor: '#0D1217'
+    },
+    zIndex: {
+      stickyNotes: 1,
+      header: 2,
+      footer: 2,
+      sidebar: 2,
+      flyOutNotifications: 3,
+      notificationCenter: 4,
+      detailPane: 5
     },
     charts: {
       areaChart: {
@@ -34,7 +44,13 @@ exports.consts = {
     },
     map: {
       colors: {
-        renderClearColor: colors.bunker
+        renderClearColor: colors.bunker,
+        zones: [
+          '#80bff0',
+          '#31ad90',
+          '#e9d17d',
+          '#7BD7D5'
+        ]
       }
     }
   },
