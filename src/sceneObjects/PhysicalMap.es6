@@ -31,7 +31,6 @@ export default class PhysicalMap extends SceneObject {
     this.zones = [];
 
     this.createGroundGrid();
-
     this.bindToDatasource();
   }
 
@@ -70,11 +69,11 @@ export default class PhysicalMap extends SceneObject {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(repating, repating);
 
-    //set the ground anisotropy to the max
-    //because it's a huge ground always seen
+    //set the ground anisotropy to the max because it's a huge ground always
+    //seen and it needs to be as sharp as possible
     texture.anisotropy = this.scene.renderer.getMaxAnisotropy();
-    this.groundtexture = texture;
 
+    this.groundtexture = texture;
     return texture;
   }
 
@@ -113,6 +112,7 @@ export default class PhysicalMap extends SceneObject {
 
     this.applyLayout(snapshots.size);
     this.setupConnections(snapshots);
+    //this.showWalkableGrid(); //uncomment this to see the walking grid
     this.parent.renderScene();
 
     //check for debugging
@@ -213,6 +213,14 @@ export default class PhysicalMap extends SceneObject {
     removed.forEach((host) => host.dispose());
   }
 
+  showWalkableGrid() {
+    if(this.particles) {
+      this.removeSceneObject(this.particles);
+    }
+    this.particles = ConnectionGrid.asVisualObject();
+    this.addSceneObject(this.particles);
+  }
+
   //is called after an inventory update incoming. the prerequirement is
   //that all hosts are available to connect the objects
   setupConnections(snapshots) {
@@ -221,40 +229,34 @@ export default class PhysicalMap extends SceneObject {
 
     const idHostMap = this.getIdHostMap();
 
-    // //if you want to see the visual walking grid, uncomment this
-    // if(this.particles) {
-    //   this.removeSceneObject(this.particles);
-    // }
-    // this.particles = ConnectionGrid.asVisualObject();
-    // this.addSceneObject(this.particles);
-
-    console.time('1')
     //connections is a Immutable.map<snapshot, Immutable.List<snapshot>>
     const connections = extractConnections(snapshots);
     connections.forEach((hostConnections, host) => {
-      const hostObject = idHostMap[getIdString(host)];
-      if(hostObject) {
+      //if the from host is available
+      const fromHost = idHostMap[getIdString(host)];
+      if(fromHost) {
         hostConnections.forEach(connection => {
+
           //if the host has any connection
           if(connection) {
-            const toObject = idHostMap[getIdString(connection)];
-            if(toObject) {
-              hostObject.connectWith(toObject);
+            //if to host is available
+            const toHost = idHostMap[getIdString(connection)];
+            if(toHost) {
+              fromHost.connectWith(toHost);
             }
           }
         });
       }
     });
-    console.timeEnd('1')
   }
 
-  //creates an object<getIdString, host> to get fast access to it
+  //creates an object<getIdString(host), host> to get fast access to it
   getIdHostMap() {
     const map = {};
 
     this.zones.forEach(zone => {
       zone.hosts.forEach(host => {
-        map[getIdString(host.snapshot)] = host;
+        map[host.id] = host;
       });
     });
 
