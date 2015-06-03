@@ -168,15 +168,15 @@ export default class Host extends BaseHost {
     //if the host is near enough or is in the view frustum
     if(!data.scene.objectIsVisible(this.cube)) {
       //trigger the hide method just once
-      if(!this.hidden) {
+      if(!this.outsideViewFrustum) {
         this.hideMetric();
-        this.hidden = true;
+        this.outsideViewFrustum = true;
       }
     } else {
       //trigger the show method just once
-      if(this.hidden) {
+      if(this.outsideViewFrustum) {
         this.showMetric();
-        this.hidden = false;
+        this.outsideViewFrustum = false;
       }
       this.updateStickyNotes();
     }
