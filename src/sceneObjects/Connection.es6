@@ -6,7 +6,7 @@ import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
 import {createLogger} from 'instalog';
 
-const logger = createLogger('ui-map.stickyNote.Host.index');
+const logger = createLogger('ui-map.stickyNote.Connection');
 const orange = [0.92, 0.4, 0];
 export const connections = [];
 let id = 0;
@@ -153,10 +153,13 @@ export default class Connection extends SceneObject {
     try{
       this.getScene().lineFactory.removeFragment(this.id);
     } catch(err) {
-      if(!this.bidirectional) {
+      //if the parent was still disposed and the connection is not bidirectional
+      //(so disposed on the other end) there is something curious
+      if(!this.parent && !this.bidirectional) {
         logger.error('cant destroy connection', this, err);
+      } else {
+        logger.error('there is something curious', this, err);
       }
-      logger.error(err);
     }
 
     super.dispose();
