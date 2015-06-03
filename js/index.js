@@ -1,13 +1,14 @@
 'use strict';
 
 var colors = {
-  cyan: '#2dfffe',
-  razzmatazz: '#e50066',
-  easternBlue: '#1d90a9',
-  governorBay: '#3d2dcf',
-  toryBlue: '#0b5cad',
-  dodgerBlue: '#15aafe',
-  bunker: '#0d1217'
+  white: '#FFFFFF',
+  black: '#121416',
+  darkGrey: '#20272C',
+  grey: '#44535D',
+  highlight: '#9FFFFF',
+  default: '#15829EB',
+  warning: '#FFD823',
+  critical: '#FF4229'
 };
 
 // first level is the color theme's name
@@ -27,24 +28,13 @@ exports.consts = {
       notificationCenter: 4,
       detailPane: 5
     },
-    charts: {
-      areaChart: {
-        area1: colors.cyan,
-        background: colors.mineShaft
-      },
-
-      defaultPalette: [
-        colors.cyan,
-        colors.razzmatazz,
-        colors.easternBlue,
-        colors.governorBay,
-        colors.toryBlue,
-        colors.dodgerBlue
-      ]
-    },
     map: {
       colors: {
-        renderClearColor: colors.bunker,
+        renderClearGradient1: colors.darkGrey,
+        renderClearGradient2: colors.grey,
+        warning: colors.warning,
+        critical: colors.critical,
+        default: colors.default,
         zones: [
           '#80bff0',
           '#31ad90',
