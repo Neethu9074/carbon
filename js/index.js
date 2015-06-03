@@ -36,6 +36,7 @@ exports.consts = {
         critical: colors.critical,
         default: colors.default,
         connection: colors.highlight,
+        unknownStatus: colors.grey,
         zones: [
           '#80bff0',
           '#31ad90',
