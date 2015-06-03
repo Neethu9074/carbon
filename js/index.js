@@ -6,7 +6,7 @@ var colors = {
   darkGrey: '#20272C',
   grey: '#44535D',
   highlight: '#9FFFFF',
-  default: '#15829EB',
+  default: '#829EB1',
   warning: '#FFD823',
   critical: '#FF4229'
 };
