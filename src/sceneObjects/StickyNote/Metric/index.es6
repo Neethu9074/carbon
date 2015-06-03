@@ -35,15 +35,6 @@ export default class StickyNoteMetric extends StickyNote {
     this.render();
   }
 
-  updateWorldPos() {
-    const cube = this.parent.cube;
-    const worldPos = this.stickyNoteEndPosWorld;
-    worldPos.set(0, 0, 1);
-    worldPos.applyMatrix4(cube.matrixWorld);
-
-    worldPos.y = cube.scale.y / 2;
-  }
-
   render(value = 0) {
     React.render(
       <StickyNoteRC snapshot={this.parent.snapshot} value={value} />,

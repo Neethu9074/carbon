@@ -43,7 +43,14 @@ export default class StickyNote {
     stickyNoteContainerStyle.display = '';
   }
 
-  render() {}
+  updateWorldPos() {
+    const cube = this.parent.cube;
+    const worldPos = this.stickyNoteEndPosWorld;
+    worldPos.set(-0.5, 0, 0.5);
+    worldPos.applyMatrix4(cube.matrixWorld);
+
+    worldPos.y = cube.scale.y;
+  }
 
   dispose() {
     const container = this.stickyNoteContainer;

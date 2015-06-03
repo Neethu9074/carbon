@@ -34,15 +34,6 @@ export default class StickyNoteHost extends StickyNote {
     this.render();
   }
 
-  updateWorldPos() {
-    const cube = this.parent.cube;
-    const worldPos = this.stickyNoteEndPosWorld;
-    worldPos.set(-0.5, 0, 0.5);
-    worldPos.applyMatrix4(cube.matrixWorld);
-
-    worldPos.y = cube.scale.y;
-  }
-
   render() {
     React.render(
       <StickyNoteRC snapshot={this.parent.snapshot} />,
