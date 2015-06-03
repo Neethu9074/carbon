@@ -33,6 +33,7 @@ const emptyStickyObject = {
 export default class Host extends BaseHost {
 
   constructor({parent, snapshot}) {
+    this.health = 'ok';
     super({parent, snapshot});
 
     this.processes = [];
