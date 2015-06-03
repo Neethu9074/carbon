@@ -79,8 +79,6 @@ export default class Process extends SceneObject {
     this.cube.updateMatrix();
     this.cube.updateMatrixWorld();
 
-    this.calcStickyNodeWorldPos();
-
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
   }

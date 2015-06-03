@@ -37,6 +37,7 @@ export default class Host extends BaseHost {
 
     this.health = 'ok';
     this.processes = [];
+    this.container = [];
 
     this.stickyNoteMetric = emptyStickyObject;
   }
@@ -47,9 +48,8 @@ export default class Host extends BaseHost {
     this.addSubscription(eventBus.on('upateMetricHeights').subscribe(() =>
       this.updateMetricHeight()));
 
-    this.addSubscription(
-      getHealth(this.snapshot).subscribe(health => this.setHealth(health))
-    );
+    this.addSubscription(getHealth(this.snapshot).subscribe(health =>
+        this.setHealth(health)));
 
     this.metricServer = new MetricServer(this);
   }
@@ -220,7 +220,7 @@ export default class Host extends BaseHost {
     this.cube.scale.y = height;
 
     this.refreshMesh();
-    this.arrangeProcesses();
+    this.arrangeChildren();
   }
 
   setHealth(health) {
@@ -250,12 +250,8 @@ export default class Host extends BaseHost {
   }
 
   addProcess(snapshot) {
-    this.processes = this.processes ? this.processes : [];
-
-    //if this process is still there
-    if(this.processes.indexOf(process => {
-      return (isIdEqual(snapshot, process.snapshot));
-    }) >= 0) {
+    //dont create a process if its still there
+    if(this.processes.indexOf(process => snapshot === process.snapshot) >= 0) {
       return;
     }
 
@@ -263,20 +259,24 @@ export default class Host extends BaseHost {
     process.setLayerIndex(this.processes.length);
     this.processes.push(process);
 
-    this.arrangeProcesses();
-    this.addStickyNoteForProcess();
+    this.arrangeChildren();
+    //this.addStickyNoteForProcess();
   }
 
-  arrangeProcesses() {
-    const numOfProcesses = this.processes.length;
-    const parentHeight = this.cube.scale.y;
-    const heightOfEachProcess = parentHeight / numOfProcesses;
+  arrangeChildren() {
+    const processes = this.processes;
+    const container = this.container;
+    const heightOfEachChild = this.cube.scale.y /
+      (processes.length + container.length); //totalHeight(host) / #children
+
     let index = 0;
 
-    this.processes.forEach(p => {
-      const pos = p.getPosition();
-      p.setPosition(pos.x, index++ * heightOfEachProcess, pos.z);
-      p.setHeight(heightOfEachProcess);
+    processes
+    .concat(container)
+    .forEach(child => {
+      const pos = child.getPosition();
+      child.setPosition(pos.x, index++ * heightOfEachChild, pos.z);
+      child.setHeight(heightOfEachChild);
     });
   }
 
