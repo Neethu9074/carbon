@@ -10,6 +10,7 @@ import eventBus from 'instana-ui-services/eventbus';
 import BaseHost from './BaseHost';
 import Process from './Process';
 import MetricServer from '../MetricServer';
+import StickyNoteHost from './StickyNote/Host';
 import StickyNoteProcess from './StickyNote/Process';
 import StickyNoteMetric from './StickyNote/Metric';
 
@@ -94,6 +95,10 @@ export default class Host extends BaseHost {
       dim: dim.clone().add(groundScale),
       health: this.health
     });
+  }
+
+  createStickyNote() {
+    return new StickyNoteHost(this);
   }
 
   showMetrics() {

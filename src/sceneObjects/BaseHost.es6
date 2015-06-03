@@ -8,7 +8,6 @@ import {getIdString} from 'instana-ui-services/util/snapshots';
 
 import Connection from './Connection';
 import SceneObject from './SceneObject';
-import StickyNoteHost from './StickyNote/Host';
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
@@ -32,7 +31,7 @@ export default class BaseHost extends SceneObject {
     this.connections = [];
 
     this.render();
-    this.stickyNote = new StickyNoteHost(this);
+    this.stickyNote = this.createStickyNote();
 
     this.registerEvents();
     this.show();
@@ -67,6 +66,8 @@ export default class BaseHost extends SceneObject {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) =>
       this.update(data)));
   }
+
+  createStickyNote() {throw new Error('NOT IMPLEMENTED'); }
 
   update() {throw new Error('NOT IMPLEMENTED'); }
 

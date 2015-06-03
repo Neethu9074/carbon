@@ -3,6 +3,7 @@
 import THREE from 'three';
 
 import BaseHost from './BaseHost';
+import StickyNoteUnknownHost from './StickyNote/UnknownHost';
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 
@@ -21,6 +22,10 @@ export default class UnknownHost extends BaseHost {
     const dim = this.cube.scale;
 
     this.addToHostFactory(id, pos, dim);
+  }
+
+  createStickyNote() {
+    return new StickyNoteUnknownHost(this);
   }
 
   update(data) {

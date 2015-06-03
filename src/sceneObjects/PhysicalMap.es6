@@ -114,13 +114,15 @@ export default class PhysicalMap extends SceneObject {
     this.setupConnections(snapshots);
     this.parent.renderScene();
 
-    // this.zones.forEach(zone => {
-    //   zone.hosts.forEach(host => {
-    //     if(host.isUnknown && host.connections.length === 0) {
-    //       console.log('HIIIT');
-    //     }
-    //   });
-    // });
+
+    //check for debugging
+    this.zones.forEach(zone => {
+      zone.hosts.forEach(host => {
+        if(host.isUnknown && host.connections.length === 0) {
+          console.log('HIIIT');
+        }
+      });
+    });
   }
 
   addHost(host, connections) {
