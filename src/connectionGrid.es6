@@ -15,9 +15,10 @@ class ConnectionGrid {
 
     this.grid = new PF.Grid(this.width, this.height);
 
-    this.finder = new PF.IDAStarFinder({
-      dontCrossCorners: false,
-      allowDiagonal: false
+    this.finder = new PF.BestFirstFinder({
+      dontCrossCorners: true,
+      allowDiagonal: false,
+      bidirectional: false
     });
   }
 
