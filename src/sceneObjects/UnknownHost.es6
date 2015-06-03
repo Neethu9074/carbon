@@ -36,6 +36,11 @@ export default class UnknownHost extends BaseHost {
     }
   }
 
+  onSnapshotUpdate() {}
+
+  setHeight() {}
+
+
   enableFragments(enabled) {
     const scene = this.scene;
     const id = this.id;

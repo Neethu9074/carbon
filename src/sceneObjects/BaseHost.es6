@@ -52,7 +52,7 @@ export default class BaseHost extends SceneObject {
     this.addToGlobalGeometry();
   }
 
-  addToGlobalGeometry() {}
+  addToGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
   //adds the cube geometry
   addToHostFactory(id, pos, dim) {
@@ -68,11 +68,11 @@ export default class BaseHost extends SceneObject {
       this.update(data)));
   }
 
-  update() {}
+  update() {throw new Error('NOT IMPLEMENTED'); }
 
-  onSnapshotUpdate() {}
+  onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 
-  setHeight() {}
+  setHeight() {throw new Error('NOT IMPLEMENTED'); }
 
   updateStickyNotes() {
     this.stickyNote.update();
@@ -130,9 +130,9 @@ export default class BaseHost extends SceneObject {
     this.connections.forEach(c => c.hide());
   }
 
-  enableFragments() {}
+  enableFragments() {throw new Error('NOT IMPLEMENTED'); }
 
-  removeFromGlobalGeometry() {}
+  removeFromGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
   clearConnections() {
     this.connections.forEach(c => c.dispose());

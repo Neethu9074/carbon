@@ -4,6 +4,7 @@ import THREE from 'three';
 
 import {getPower} from 'instana-ui-sdk/power';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import {getHealth} from 'instana-ui-services/health';
 import eventBus from 'instana-ui-services/eventbus';
 
 import BaseHost from './BaseHost';
@@ -33,14 +34,23 @@ export default class Host extends BaseHost {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    // TODO Simon / Ben: getHealth is now asynchronous. How do we handle
-    // RO subscriptions here? Hint: Check out ui-components/SnapshotIcon
-    // for an example how to retrieve snapshot health with the new issue
-    // tracker
     this.health = 'ok';
     this.processes = [];
 
     this.stickyNoteMetric = emptyStickyObject;
+  }
+
+  registerEvents() {
+    super.registerEvents();
+
+    this.addSubscription(eventBus.on('upateMetricHeights').subscribe(() =>
+      this.updateMetricHeight()));
+
+    this.addSubscription(
+      getHealth(this.snapshot).subscribe(health => this.setHealth(health))
+    );
+
+    this.metricServer = new MetricServer(this);
   }
 
   addToGlobalGeometry() {
@@ -84,15 +94,6 @@ export default class Host extends BaseHost {
       dim: dim.clone().add(groundScale),
       health: this.health
     });
-  }
-
-  registerEvents() {
-    super.registerEvents();
-
-    this.addSubscription(eventBus.on('upateMetricHeights').subscribe(() =>
-      this.updateMetricHeight()));
-
-    this.metricServer = new MetricServer(this);
   }
 
   showMetrics() {
@@ -203,11 +204,6 @@ export default class Host extends BaseHost {
     }
 
     this.snapshot = snapshot;
-    // TODO Simon / Ben: getHealth is now asynchronous. How do we handle
-    // RO subscriptions here? Hint: Check out ui-components/SnapshotIcon
-    // for an example how to retrieve snapshot health with the new issue
-    // tracker
-    this.setHealth('ok');
     this.stickyNote.render();
   }
 

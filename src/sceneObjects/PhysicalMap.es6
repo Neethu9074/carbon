@@ -113,6 +113,14 @@ export default class PhysicalMap extends SceneObject {
     this.applyLayout(snapshots.size);
     this.setupConnections(snapshots);
     this.parent.renderScene();
+
+    // this.zones.forEach(zone => {
+    //   zone.hosts.forEach(host => {
+    //     if(host.isUnknown && host.connections.length === 0) {
+    //       console.log('HIIIT');
+    //     }
+    //   });
+    // });
   }
 
   addHost(host, connections) {
@@ -192,20 +200,12 @@ export default class PhysicalMap extends SceneObject {
 
     const removed = allUnmonitoredHosts
       .filter(host => {
-        // console.log('-------------------');
-        // console.log(host.snapshot.toJS());
-        // console.log('---');
         const match = _.find(allAvailableUnmonitoredHosts, available => {
-          // console.log(available.toJS());
           return isIdEqual(available, host.snapshot);
         });
-        // console.log(match !== undefined)
         return !match;
       });
 
-    // console.log('all added', allUnmonitoredHosts.length,
-    // 'all available', allAvailableUnmonitoredHosts.length,
-    // 'to be removed:', removed.length);
     removed.forEach((host) => host.dispose());
   }
 
