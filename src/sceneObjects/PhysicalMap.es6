@@ -84,9 +84,16 @@ export default class PhysicalMap extends SceneObject {
       observable.subscribe(data => this.onInventoryUpdate(data)));
   }
 
-  applyLayout(numberOfHosts) {
+  applyLayout() {
+    let numElementsOnMap = 0;
+    this.zones.forEach(zone => {
+      zone.hosts.forEach(() => {
+        numElementsOnMap++;
+      });
+    });
+
     const maxHostsPerRow = Math.floor(
-      Math.sqrt(numberOfHosts / this.zones.length));
+      Math.sqrt(numElementsOnMap / this.zones.length));
     new Layouter({maxHostsPerRow}).applyLayout(this);
   }
 
@@ -110,7 +117,7 @@ export default class PhysicalMap extends SceneObject {
 
     removedHosts.forEach((host) => host.dispose());
 
-    this.applyLayout(snapshots.size);
+    this.applyLayout();
     this.setupConnections(snapshots);
     //this.showWalkableGrid(); //uncomment this to see the walking grid
     this.parent.renderScene();
@@ -129,7 +136,7 @@ export default class PhysicalMap extends SceneObject {
 
   addHost(host, connections) {
     const zoneId = getZone(host);
-    const zone = this.getZone(zoneId);
+    const zone = this.getOrCreateZone(zoneId);
 
     //add the host to zone (the zone handles duplicates)
     zone.addHost({snapshot: host});
@@ -144,7 +151,7 @@ export default class PhysicalMap extends SceneObject {
     }
   }
 
-  getZone(zoneId) {
+  getOrCreateZone(zoneId) {
     //get find the zone with zoneId
     let zone = _.find(this.zones, zone => zone.id === zoneId);
 
@@ -179,17 +186,17 @@ export default class PhysicalMap extends SceneObject {
   createAllUnknownHostsFor(snapshot, connections) {
     connections.forEach((connection) => {
       if(connection.get('state') === 'unmonitored') {
-        const zone = this.getZone('unmonitored');
+        const zone = this.getOrCreateZone('unmonitored');
         zone.addHost({snapshot: connection, unknown: true});
       }
     });
   }
 
   removeVanishedUnknownHosts(connections) {
-    const allUnmonitoredHosts = this.getZone('unmonitored').hosts;
+    const allUnmonitoredHosts = this.getOrCreateZone('unmonitored').hosts;
 
     if(allUnmonitoredHosts.length === 0) {
-      this.getZone('unmonitored').dispose();
+      this.getOrCreateZone('unmonitored').dispose();
       return;
     }
 
