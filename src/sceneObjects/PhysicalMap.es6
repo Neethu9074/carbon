@@ -228,10 +228,11 @@ export default class PhysicalMap extends SceneObject {
     // this.particles = ConnectionGrid.asVisualObject();
     // this.addSceneObject(this.particles);
 
+    console.time('1')
     //connections is a Immutable.map<snapshot, Immutable.List<snapshot>>
     const connections = extractConnections(snapshots);
     connections.forEach((hostConnections, host) => {
-      const hostObject = this.getHostBySnapshot(host);
+      const hostObject = idHostMap[getIdString(host)];
       if(hostObject) {
         hostConnections.forEach(connection => {
           //if the host has any connection
@@ -244,6 +245,7 @@ export default class PhysicalMap extends SceneObject {
         });
       }
     });
+    console.timeEnd('1')
   }
 
   //creates an object<getIdString, host> to get fast access to it
@@ -257,22 +259,6 @@ export default class PhysicalMap extends SceneObject {
     });
 
     return map;
-  }
-
-  getHostBySnapshot(snapshot) {
-    if(!snapshot) {
-      return undefined;
-    }
-
-    let hit;
-    this.zones.forEach(zone => {
-      zone.hosts.forEach(host => {
-        if(isIdEqual(snapshot, host.snapshot)) {
-          hit = host;
-        }
-      });
-    });
-    return hit;
   }
 
   filter(validationFunction) {
