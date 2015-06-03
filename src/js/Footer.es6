@@ -21,7 +21,7 @@ const Footer = React.createClass({
         </div>
 
         <div className={block + '__block'}>
-          <Icon type='cubes'
+          <Icon type='th'
                 className={block + '__content-control'} />
           <Icon type='bar-chart'
                 className={block + '__content-control'}/>
