@@ -73,10 +73,13 @@ export default class AbstractMeshCreationFactory {
   }
 
   enableFragment(id, enabled = true) {
-    _.find(this.fragments, item => item.id === id).enabled = enabled;
+    const match = _.find(this.fragments, item => item.id === id);
+    if(match) {
+      match.enabled = enabled;
 
-    //set rebuild to true
-    //so that the mesh will be generated on the next event
-    this.rebuildGlobalMesh = true;
+      //set rebuild to true
+      //so that the mesh will be generated on the next event
+      this.rebuildGlobalMesh = true;
+    }
   }
 }

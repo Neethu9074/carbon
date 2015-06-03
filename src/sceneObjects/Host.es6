@@ -35,7 +35,6 @@ export default class Host extends BaseHost {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.health = 'ok';
     this.processes = [];
     this.container = [];
 
@@ -83,6 +82,10 @@ export default class Host extends BaseHost {
   //this is not the zone where hosts are on!
   //it's the health ground zone of each host
   addToZoneFactory(id, pos, dim) {
+    if(!this.health) {
+      return;
+    }
+
     this.scene.zoneFactory.addFragment({
       id,
       pos: this.cube.position.clone().add(groundPosition),
