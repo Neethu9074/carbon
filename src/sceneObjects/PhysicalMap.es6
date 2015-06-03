@@ -11,6 +11,7 @@ import {connections as allConnections} from './Connection';
 import {getZone} from 'instana-ui-sdk/zones';
 import {
   isIdEqual,
+  getIdString,
   extractConnections} from 'instana-ui-services/util/snapshots';
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
@@ -114,15 +115,16 @@ export default class PhysicalMap extends SceneObject {
     this.setupConnections(snapshots);
     this.parent.renderScene();
 
-
     //check for debugging
-    this.zones.forEach(zone => {
-      zone.hosts.forEach(host => {
-        if(host.isUnknown && host.connections.length === 0) {
-          console.log('HIIIT');
-        }
-      });
-    });
+    // this.zones.forEach(zone => {
+    //   zone.hosts.forEach(host => {
+    //     if(host.isUnknown && host.connections.length === 0) {
+    //       console.log('HIIIT');
+    //     } else {
+    //       console.log('all good');
+    //     }
+    //   });
+    // });
   }
 
   addHost(host, connections) {
@@ -211,17 +213,13 @@ export default class PhysicalMap extends SceneObject {
     removed.forEach((host) => host.dispose());
   }
 
-  clearAllConnections() {
-    const tempCopy = allConnections.slice();
-    tempCopy.forEach(l => {
-      l.dispose();
-    });
-  }
-
   //is called after an inventory update incoming. the prerequirement is
   //that all hosts are available to connect the objects
   setupConnections(snapshots) {
-    this.clearAllConnections();
+    //clear all connections
+    allConnections.slice().forEach(l => l.dispose());
+
+    const idHostMap = this.getIdHostMap();
 
     // //if you want to see the visual walking grid, uncomment this
     // if(this.particles) {
@@ -238,7 +236,7 @@ export default class PhysicalMap extends SceneObject {
         hostConnections.forEach(connection => {
           //if the host has any connection
           if(connection) {
-            const toObject = this.getHostBySnapshot(connection);
+            const toObject = idHostMap[getIdString(connection)];
             if(toObject) {
               hostObject.connectWith(toObject);
             }
@@ -246,6 +244,19 @@ export default class PhysicalMap extends SceneObject {
         });
       }
     });
+  }
+
+  //creates an object<getIdString, host> to get fast access to it
+  getIdHostMap() {
+    const map = {};
+
+    this.zones.forEach(zone => {
+      zone.hosts.forEach(host => {
+        map[getIdString(host.snapshot)] = host;
+      });
+    });
+
+    return map;
   }
 
   getHostBySnapshot(snapshot) {
