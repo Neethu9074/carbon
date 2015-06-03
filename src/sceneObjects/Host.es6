@@ -9,7 +9,7 @@ import eventBus from 'instana-ui-services/eventbus';
 
 import BaseHost from './BaseHost';
 import Process from './Process';
-import MetricServer from '../MetricServer';
+import HostSnapshotServer from '../HostSnapshotServer';
 import StickyNoteHost from './StickyNote/Host';
 import StickyNoteProcess from './StickyNote/Process';
 import StickyNoteMetric from './StickyNote/Metric';
@@ -45,13 +45,7 @@ export default class Host extends BaseHost {
   registerEvents() {
     super.registerEvents();
 
-    this.addSubscription(eventBus.on('upateMetricHeights').subscribe(() =>
-      this.updateMetricHeight()));
-
-    this.addSubscription(getHealth(this.snapshot).subscribe(health =>
-        this.setHealth(health)));
-
-    this.metricServer = new MetricServer(this);
+    this.snapshotServer = new HostSnapshotServer(this);
   }
 
   addToGlobalGeometry() {
@@ -182,7 +176,7 @@ export default class Host extends BaseHost {
     // this.stickyNoteMetric.hide();
 
     //disable metrics if the host isn't visible
-    this.metricServer.pauseMetrics();
+    this.snapshotServer.pauseMetrics();
   }
 
   showMetric() {
@@ -192,7 +186,7 @@ export default class Host extends BaseHost {
 
     //enable metrics if the host is visible but only if there is no "active"
     //hideMetrics event
-    this.metricServer.resumeMetrics();
+    this.snapshotServer.resumeMetrics();
   }
 
   onSnapshotUpdate(snapshot) {
@@ -322,6 +316,7 @@ export default class Host extends BaseHost {
   }
 
   dispose() {
+    this.snapshotServer.dispose();
     this.clearProcesses();
 
     super.dispose();

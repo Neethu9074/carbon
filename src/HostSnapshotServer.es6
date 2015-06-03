@@ -4,6 +4,7 @@ import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
+import {getHealth} from 'instana-ui-services/health';
 import {combineLatest} from 'reactive-observables';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
@@ -13,6 +14,8 @@ let currentMetric;
 export default class MetricServer {
 
   constructor(client) {
+    this.client = client;
+
     this.subscriptions = [eventBus.on('showMetrics').subscribe(e =>{
       currentMetric = e.metrics;
       this.showMetrics();
@@ -21,11 +24,14 @@ export default class MetricServer {
     this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() => {
       currentMetric = undefined;
       this.disposeMetricSubscription();
-      this.client.hideMetrics();
+      client.hideMetrics();
     }));
 
-    this.client = client;
-    this.subscriptions = [];
+    this.subscriptions.push(eventBus.on('upateMetricHeights').subscribe(() =>
+      client.updateMetricHeight()));
+
+    this.subscriptions.push(getHealth(client.snapshot).subscribe(health =>
+      client.setHealth(health)));
 
     // const pluginId = 'com.instana.forge.infrastructure.os.Process';
     // const observable = create(SnapshotConveyer, {pluginId});
