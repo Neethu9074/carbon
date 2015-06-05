@@ -61,6 +61,11 @@ const ServerListing = React.createClass({
               <h2 className="in-sidebar-server-listing__zone-label"
                   style={{color: getColor(zone)}}>
                 {zone}
+
+                <span className="in-sidebar-server-listing__server-count"
+                      style={{backgroundColor: getColor(zone)}}>
+                  {snapshots[zone].length}
+                </span>
               </h2>
 
               <ul className="in-sidebar-server-listing__snapshots">
