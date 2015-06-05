@@ -9,6 +9,9 @@ import rStats from './lib/rStats';
 import glStats from './lib/rStats.extras';
 import Map from '../../src';
 import eventBus from 'instana-ui-services/eventbus';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('react.js');
 
 const App = React.createClass({
   render() {
@@ -62,7 +65,7 @@ const App = React.createClass({
   },
 
   onClick() {
-    // console.log(arguments);
+    logger.debug(arguments);
   }
 });
 
