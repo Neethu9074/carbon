@@ -32,8 +32,9 @@ const getZoomClass = (level) => 'in-map--zoom-' + level;
 
 export default class Scene {
 
-  constructor({parent}) {
+  constructor({parent, onClick}) {
     this.bindMethods();
+    this.onClick = onClick;
 
     this.parent = parent;
     this.width = window.innerWidth;
@@ -427,6 +428,7 @@ export default class Scene {
 
   onObjectClicked(object) {
     this.controller.flyToObject(object);
+    this.onClick(object.parentSceneObject.snapshot);
   }
 
   onFocus(event) {
