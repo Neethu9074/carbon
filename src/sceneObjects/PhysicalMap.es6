@@ -121,17 +121,6 @@ export default class PhysicalMap extends SceneObject {
     this.setupConnections(snapshots, connections);
     //this.showWalkableGrid(); //uncomment this to see the walking grid
     this.parent.renderScene();
-
-    //check for debugging
-    // this.zones.forEach(zone => {
-    //   zone.hosts.forEach(host => {
-    //     if(host.isUnknown && host.connections.length === 0) {
-    //       console.log('HIIIT');
-    //     } else {
-    //       console.log('all good');
-    //     }
-    //   });
-    // });
   }
 
   addHost(host, connections) {
