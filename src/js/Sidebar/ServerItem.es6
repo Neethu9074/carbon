@@ -9,8 +9,6 @@ const ServerItem = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   render() {
-    const data = this.props.snapshot.get('data');
-
     return (
       <li className='in-sidebar-server-listing__snapshot'
           onClick={this.focus}>
