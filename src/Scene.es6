@@ -430,7 +430,10 @@ export default class Scene {
 
   onObjectClicked(object) {
     this.controller.flyToObject(object);
-    this.onClick(object.parentSceneObject.snapshot);
+
+    if(!object.parentSceneObject.isUnknown) {
+      this.onClick({snapshot: object.parentSceneObject.snapshot});
+    }
   }
 
   onFocus(event) {
