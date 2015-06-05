@@ -15,17 +15,17 @@ const Footer = React.createClass({
     return (
       <div className={block}>
         <div className={block + '__block'}>
-          <Icon type='tasks'
+          <Icon type='list'
                 className={block + '__issues'}/>
           <Lettering className={block + '__lettering'}/>
         </div>
 
         <div className={block + '__block'}>
-          <Icon type='th'
+          <Icon type='map'
                 className={block + '__content-control'} />
-          <Icon type='bar-chart'
+          <Icon type='stats'
                 className={block + '__content-control'}/>
-          <Icon type='cog'
+          <Icon type='settings'
                 className={block + '__content-control'}/>
         </div>
 

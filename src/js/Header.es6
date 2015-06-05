@@ -12,7 +12,7 @@ const Header = React.createClass({
     return (
       <div className={block}>
         <div className={block + '__navigation'}>
-          <Icon type='long-arrow-left'
+          <Icon type='arrow_left'
                 className={block + '__back'}/>
 
           <ol className={block + '__breadcrumb'}>
@@ -25,7 +25,7 @@ const Header = React.createClass({
         <div className={block + '__settings'}>
           <Icon type='search'
                 className={block + '__search'} />
-          <Icon type='bars'
+          <Icon type='menue'
                 className={block + '__sidebar'}
                 onClick={this.toggleSidebarVisibility} />
         </div>

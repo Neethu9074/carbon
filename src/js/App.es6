@@ -32,8 +32,8 @@ const App = React.createClass({
           <Sidebar />
         : null}
 
-        <ConnectionStatus />
         <Footer />
+        <ConnectionStatus />
       </div>
     );
   },
