@@ -66,8 +66,10 @@ export function getIdString(s) {
  *
  * @param {Immutable.Map} snapshot An immutable snapshot from which the
  * connection part should be extracted.
- * @returns {Immutable.Map<Immutable, Immutable.List<string>>} a map with all
- * snapshots and a list of all connected ones.
+ * @returns {Immutable.Map<
+      Immutable, {Immutable.List<string>, Immutable.List<string>}
+    >} a map with all snapshots and a list of all connected ones, seperated into
+ * outgoing and incoming connections.
  */
 export function extractConnections(snapshots) {
   const ipSnapshotMap = calculateIpMap(snapshots);
