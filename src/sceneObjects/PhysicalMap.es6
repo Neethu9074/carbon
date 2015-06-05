@@ -118,7 +118,7 @@ export default class PhysicalMap extends SceneObject {
     removedHosts.forEach((host) => host.dispose());
 
     this.applyLayout();
-    this.setupConnections(snapshots);
+    this.setupConnections(snapshots, connections);
     //this.showWalkableGrid(); //uncomment this to see the walking grid
     this.parent.renderScene();
 
@@ -184,7 +184,8 @@ export default class PhysicalMap extends SceneObject {
   }
 
   createAllUnknownHostsFor(snapshot, connections) {
-    connections.forEach((connection) => {
+    const allConnections = connections.outgoing.concat(connections.incoming);
+    allConnections.forEach((connection) => {
       if(connection.get('state') === 'unmonitored') {
         const zone = this.getOrCreateZone('unmonitored');
         zone.addHost({snapshot: connection, unknown: true});
@@ -201,8 +202,9 @@ export default class PhysicalMap extends SceneObject {
     }
 
     const allAvailableUnmonitoredHosts = [];
-    connections.forEach((hostConnections) => {
-      hostConnections.forEach((connection) => {
+    connections.forEach((hostCons) => {
+      const allConnections = hostCons.outgoing.concat(hostCons.incoming);
+      allConnections.forEach((connection) => {
         if(connection.get('state') === 'unmonitored') {
           allAvailableUnmonitoredHosts.push(connection);
         }
@@ -230,26 +232,35 @@ export default class PhysicalMap extends SceneObject {
 
   //is called after an inventory update incoming. the prerequirement is
   //that all hosts are available to connect the objects
-  setupConnections(snapshots) {
+  setupConnections(snapshots, connections) {
     //clear all connections
-    allConnections.slice().forEach(l => l.dispose());
+    allConnections.slice().forEach(connection => connection.dispose());
 
     const idHostMap = this.getIdHostMap();
 
-    //connections is a Immutable.map<snapshot, Immutable.List<snapshot>>
-    const connections = extractConnections(snapshots);
-    connections.forEach((hostConnections, host) => {
+    connections.forEach((hostCons, host) => {
       //if the from host is available
       const fromHost = idHostMap[getIdString(host)];
       if(fromHost) {
-        hostConnections.forEach(connection => {
 
+        hostCons.outgoing.forEach(connection => {
           //if the host has any connection
           if(connection) {
             //if to host is available
             const toHost = idHostMap[getIdString(connection)];
             if(toHost) {
               fromHost.connectWith(toHost);
+            }
+          }
+        });
+
+        hostCons.incoming.forEach(connection => {
+          //if the host has any connection
+          if(connection) {
+            //if to host is available
+            const toHost = idHostMap[getIdString(connection)];
+            if(toHost) {
+              toHost.connectWith(fromHost);
             }
           }
         });
