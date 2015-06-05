@@ -27,20 +27,21 @@ const StickyNoteRC = React.createClass({
     try {
       jsxStructure = (
         <div>
+          <h2 className="in-sticky-note__host-id-without-sticky">
+            {data.get('hostname')}
+          </h2>
           <div className="in-sticky-note__line"></div>
           <div className="in-sticky-after_line">
-            <SnapshotIcon className="in-sticky-note__host-icon"
-                          snapshot={this.props.snapshot}/>
-              <div className="in-sticky-note__content">
-                <h2 className="in-sticky-note__host-id">
-                  {data.get('hostname')}
-                </h2>
-                <p className="in-sticky-note__details">
-                  {data.get('os.name')} {data.get('os.version')}<br/>
-                  {data.get('cpu.count')}x {data.get('cpu.model')}<br/>
-                  {formatBytes(data.get('memory.total'))}
-                </p>
-              </div>
+            <div className="in-sticky-note__content">
+              <h2 className="in-sticky-note__host-id">
+                {data.get('hostname')}
+              </h2>
+              <p className="in-sticky-note__details">
+                {data.get('os.name')} {data.get('os.version')}<br/>
+                {data.get('cpu.count')}x {data.get('cpu.model')}<br/>
+                {formatBytes(data.get('memory.total'))}
+              </p>
+            </div>
           </div>
         </div>
       );
