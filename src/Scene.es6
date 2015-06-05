@@ -30,6 +30,7 @@ const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 
 
+export const scene = {};
 export default class Scene {
 
   constructor({parent, onClick}) {
@@ -51,6 +52,7 @@ export default class Scene {
     this.update();
 
     window.addEventListener('resize', this.onWindowResize, false);
+    scene.scene = this;
   }
 
   bindMethods() {

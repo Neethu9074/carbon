@@ -6,6 +6,7 @@ import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
 import {createLogger} from 'instalog';
 import {theme} from 'instana-ui-services/theme';
+import * as app from '../Scene';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
 const connection = new THREE.Color(theme.map.colors.connection);
@@ -163,7 +164,7 @@ export default class Connection extends SceneObject {
     _.remove(connections, con => con.id === this.id);
 
     try{
-      this.getScene().lineFactory.removeFragment(this.id);
+      app.scene.scene.lineFactory.removeFragment(this.id);
     } catch(err) {
       //if the parent was still disposed and the connection is not bidirectional
       //(so disposed on the other end) there is something curious
@@ -171,7 +172,8 @@ export default class Connection extends SceneObject {
         logger.error('cant destroy connection', this, err);
       } else {
         logger.error('there is something curious',
-          'parent:', this.parent, 'bidirectional:', this.bidirectional, err);
+          'parent:', this.parent, 'parent.parent:', this.parent.parent,
+          'bidirectional:', this.bidirectional, err);
       }
     }
 
