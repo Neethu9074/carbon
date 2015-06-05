@@ -24,7 +24,7 @@ module.exports = {
       test: /\.less$/i,
       loader: 'style-loader!css-loader!less-loader'
     }, {
-      test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.eot|\.obj$/i,
+      test: /\.(jpe?g|gif|png|svg|ttf|eot|obj)$/i,
       loader: 'url-loader?limit=3000'
     }, {
       test: /\.glsl$/i,
@@ -33,11 +33,8 @@ module.exports = {
       test: /\.es6$/i,
       loader: 'babel-loader'
     }, {
-      test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'file-loader'
-    }, {
-      test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-      loader: 'url-loader?limit=10000&mimetype=application/font-woff'
+      test: /\.woff?$/,
+      loader: 'url-loader?limit=3000&mimetype=application/font-woff'
     }]
   },
   plugins: [

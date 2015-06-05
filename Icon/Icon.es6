@@ -1,12 +1,12 @@
 'use strict';
 
-import './Icon.less';
-
 import React from 'react';
+
+import './Icon.less';
 
 const Icon = React.createClass({
   render() {
-    let classes = 'icon fa fa-' + this.props.type;
+    let classes = 'icon icon-' + this.props.type;
     if (this.props.className) {
       classes += ' ' + this.props.className;
     }

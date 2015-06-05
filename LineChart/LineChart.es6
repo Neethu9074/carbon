@@ -42,14 +42,13 @@ const LineChart = React.createClass({
   },
 
   renderChart(props) {
-    let chart;
     const subscription = combineLatest(props.datasources)
       .debounce(100)
       .subscribe(datasets => {
-        if (chart) {
-          chart.update(datasets);
+        if (this.chart) {
+          this.chart.update(datasets);
         } else {
-          chart = this.doInitialRender(props, datasets);
+          this.chart = this.doInitialRender(props, datasets);
         }
       });
 
@@ -157,6 +156,10 @@ const LineChart = React.createClass({
         .attr('d', d => line(d.values));
 
     return {
+      dispose() {
+        // TODO Implement dispose logic
+      },
+
       update(datasetsUpdate) {
         let newDomainStart = Number.MAX_VALUE;
         let newDomainEnd = Number.MIN_VALUE;

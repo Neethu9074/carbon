@@ -68,7 +68,7 @@ const Demo = React.createClass({
           </p>
         </Tab>
         <Tab title="Icon">
-          {['server', 'windows', 'linux'].map(type =>
+          {['graph', 'menue', 'grid'].map(type =>
             <div key={type}>
               <h2>Icon: {type}</h2>
               <Icon type={type} />
