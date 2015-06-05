@@ -26,6 +26,11 @@
     font-size: 40px;
     text-align: center;
     margin-right: 20px;
+    color: #aaa;
+
+    &--active {
+      color: #fff;
+    }
   }
 
   &__breadcrumb {
@@ -34,11 +39,16 @@
     margin: 0;
     padding: 0;
 
-    &-item {
+    &-group {
+      display: inline-block;
+    }
+
+    &-item, &-separator {
       display: inline-block;
       font-size: 13px;
       font-weight: bold;
       color: #aaa;
+      padding: 0 10px;
 
       &--active {
         color: #fff;

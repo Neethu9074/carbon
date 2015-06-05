@@ -14,12 +14,27 @@ const Header = React.createClass({
       <div className={block}>
         <div className={block + '__navigation'}>
           <Icon type='arrow_left'
-                className={block + '__back'}/>
+                className={classnames({
+                  [block + '__back']: true,
+                  [block + '__back--active']: this.props.backEnabled
+                })}
+                onClick={this.props.onBack} />
 
           <ol className={block + '__breadcrumb'}>
             <li className={block + '__breadcrumb-item'}>
               Your Server Farm
             </li>
+            {this.props.path.map(path =>
+              <div key={path}
+                   className={block + '__breadcrumb-group'}>
+                <li className={block + '__breadcrumb-separator'}>
+                  /
+                </li>
+                <li className={block + '__breadcrumb-item'}>
+                  {path}
+                </li>
+              </div>
+            )}
           </ol>
         </div>
 

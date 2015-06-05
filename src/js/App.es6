@@ -3,11 +3,13 @@
 import React from 'react';
 import {IntlMixin} from 'react-intl';
 import Map from 'instana-ui-map';
+import {getZone} from 'instana-ui-sdk/zones';
 
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Footer from './Footer';
+import DetailPane from './DetailPane';
 
 import './App.less';
 
@@ -16,6 +18,7 @@ const App = React.createClass({
 
   getInitialState() {
     return {
+      selectedSnapshot: null,
       sidebarVisible: false
     };
   },
@@ -24,12 +27,21 @@ const App = React.createClass({
     return (
       <div>
         <Header sidebarVisible={this.state.sidebarVisible}
-                onSidebarVisibilityChanged={this.setSidebarVisibility} />
-        <Map onClick={this.openDashboard} />
+                onSidebarVisibilityChanged={this.setSidebarVisibility}
+                onBack={this.back}
+                backEnabled={!!this.state.selectedSnapshot}
+                path={this.getPath()}/>
 
+        <div style={{display: this.state.selectedSnapshot ? 'none' : 'block'}}>
+          <Map onClick={this.openDashboard} />
 
-        {this.state.sidebarVisible ?
-          <Sidebar />
+          {this.state.sidebarVisible ?
+            <Sidebar />
+          : null}
+        </div>
+
+        {this.state.selectedSnapshot ?
+          <DetailPane snapshot={this.state.selectedSnapshot} />
         : null}
 
         <Footer />
@@ -38,14 +50,35 @@ const App = React.createClass({
     );
   },
 
+  getPath() {
+    const snapshot = this.state.selectedSnapshot;
+    if (!snapshot) {
+      return [];
+    }
+
+    const path = [];
+    const zone = getZone(snapshot);
+    path.push(zone);
+    path.push(snapshot.getIn(['data', 'hostname']));
+    return path;
+  },
+
   setSidebarVisibility(visible) {
     this.setState({
       sidebarVisible: visible
     });
   },
 
-  openDashboard(snapshot) {
-    console.log(snapshot);
+  openDashboard(event) {
+    this.setState({
+      selectedSnapshot: event.snapshot
+    });
+  },
+
+  back() {
+    this.setState({
+      selectedSnapshot: null
+    });
   }
 
 });
