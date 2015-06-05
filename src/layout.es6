@@ -44,7 +44,7 @@ export default class Layouter {
       ));
 
       zone.hosts.forEach((host, hostIndex) => {
-        const oldPosition = host.getPosition();
+        const oldPosition = host.getPosition().clone();
         const newPosition = this.getCubePosition(zoneIndex, hostIndex);
         host.setPosition(newPosition.x, newPosition.y, newPosition.z);
 
