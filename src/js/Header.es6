@@ -26,10 +26,15 @@ const Header = React.createClass({
           <Icon type='search'
                 className={block + '__search'} />
           <Icon type='bars'
-                className={block + '__sidebar'} />
+                className={block + '__sidebar'}
+                onClick={this.toggleSidebarVisibility} />
         </div>
       </div>
     );
+  },
+
+  toggleSidebarVisibility() {
+    this.props.onSidebarVisibilityChanged(!this.props.sidebarVisible);
   }
 });
 

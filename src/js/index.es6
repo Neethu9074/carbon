@@ -8,19 +8,20 @@ import logging from 'instalog';
 import {setThemeOnHtmlDocument} from 'instana-ui-services/theme';
 
 import App from './App';
+import i18n from './i18n';
 import * as airshow from './airshow';
 
 if (logging.ConsoleAppender.isPossible()) {
   const consoleAppender = new logging.ConsoleAppender();
   // during development we want to see all log messages
-  consoleAppender.setActivePriority(0);
+  consoleAppender.setActivePriority(11);
   logging.addAppender(consoleAppender);
 }
 
 setThemeOnHtmlDocument();
 
 React.render(
-  <App />,
+  <App {...i18n}/>,
   document.body
 );
 

@@ -1,33 +1,70 @@
 'use strict';
 
-import './index.less';
-
 import React from 'react';
 import {Tabs, Tab} from 'instana-ui-components/Tabs';
-import Overview from './Overview';
-import Performance from './Performance';
+import ServerListing from './ServerListing';
+import eventBus from 'instana-ui-services/eventbus';
+
+import './index.less';
 
 const Sidebar = React.createClass({
 
   render() {
     return (
-      <Tabs blockIdentifier="in-sidebar" collapsible={true}>
+      <Tabs blockIdentifier="in-sidebar">
 
-        <Tab title="Overview" modifier="overview">
-          <h1 className="in-sidebar__header">Overview</h1>
-          <Overview />
+        <Tab title="Overview">
+          <ServerListing />
         </Tab>
 
-        <Tab title="Performance" modifier="performance">
-          <h1 className="in-sidebar__header">Performance</h1>
-          <Performance />
+        <Tab title="CPU">
+          <button onClick={this.showCpuUsage}>
+            Show CPU usage
+          </button>
         </Tab>
 
-        <Tab title="Tags" modifier="tags">
-          <h1 className="in-sidebar__header">Tags</h1>
+        <Tab title="CPU Load">
+          <button onClick={this.showCpuLoad}>
+            Show CPU load
+          </button>
         </Tab>
+
+        <Tab title="Memory">
+          <button onClick={this.showMemoryUsage}>
+            Show Memory usage
+          </button>
+        </Tab>
+
+        <Tab title="Tags">
+          Tags?
+        </Tab>
+
       </Tabs>
     );
+  },
+
+  showCpuUsage() {
+    eventBus.emit('showMetrics', {
+      metrics: [
+        'cpu.total.user',
+        'cpu.total.sys',
+        'cpu.total.wait',
+        'cpu.total.nice',
+        'cpu.total.steal'
+      ]
+    });
+  },
+
+  showCpuLoad() {
+    eventBus.emit('showMetrics', {
+      metrics: ['load.1min']
+    });
+  },
+
+  showMemoryUsage() {
+    eventBus.emit('showMetrics', {
+      metrics: ['memory.free']
+    });
   }
 });
 

@@ -1,85 +1,58 @@
-@import "~font-awesome/less/variables.less";
-@import "~font-awesome/less/mixins.less";
 @import "~instana-ui-themes/less/constants.less";
 
-@in-sidebar-content-width: 20em;
-@in-sidebar-tabs-width: 5em;
-
 .in-sidebar {
+  @in-sidebar-content-width: 350px;
+  @in-sidebar-tabs-width: 150px;
+
   position: absolute;
-  top: 5em;
-  bottom: 5em;
-  right: 3em;
-  max-height: 50em;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 500px;
 
   width: @in-sidebar-content-width + @in-sidebar-tabs-width;
 
   z-index: @z-index__sidebar;
 
-  &--collapsed {
+  &__tabs {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
     width: @in-sidebar-tabs-width;
-    bottom: auto;
-  }
-}
 
-.in-sidebar__tab-content {
-  width: @in-sidebar-content-width;
-  height: 100%;
+    padding: 100px 24px 80px;
+    margin: 0;
+    box-sizing: border-box;
 
-  background: hsla(214, 23%, 12%, 0.95);
-
-  overflow-x: hidden;
-  overflow-y: auto;
-}
-
-.in-sidebar__header {
-  font-weight: 300;
-  font-size: 1.7em;
-  margin: 0;
-  padding: 0.8em 1em;
-  background: #48545A;
-}
-
-.in-sidebar__tabs {
-  width: @in-sidebar-tabs-width;
-  padding: 0;
-  margin: 0;
-  list-style: none;
-  float: right;
-}
-
-.in-sidebar__tab {
-  height: 5rem;
-
-  background: #101519;
-  color: #384046;
-  font-size: 0.65rem;
-  font-weight: 200;
-  text-align: center;
-
-  cursor: pointer;
-
-  &--active {
-    background: #1A2127;
-    color: white;
+    list-style: none;
+    background: hsla(0, 0%, 7%, 0.8);
   }
 
-  &--overview:before, &--performance:before, &--tags:before {
-    .fa-icon();
-    display: block;
-    font-size: 1.9rem;
-    padding: 0.9rem 0 0.6rem;
+  &__tab {
+    color: #aaa;
+    font-size: 15px;
+    cursor: pointer;
+    line-height: 1.8;
+
+    &--active {
+      color: #fff;
+    }
   }
 
-  &--overview:before {
-    content: @fa-var-cubes;
-  }
+  &__tab-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: @in-sidebar-content-width;
+    padding: 100px 10px 80px;
+    box-sizing: border-box;
 
-  &--performance:before {
-    content: @fa-var-tachometer;
-  }
+    background: hsla(201, 19%, 18%, 0.85);
+    border-left: 1px solid #555;
 
-  &--tags:before {
-    content: @fa-var-tags;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
 }
