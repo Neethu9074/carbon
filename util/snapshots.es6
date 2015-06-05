@@ -74,33 +74,31 @@ export function extractConnections(snapshots) {
   const map = Immutable.Map().asMutable();
 
   ipSnapshotMap.forEach((host) => {
-    const connections = host.getIn(['data', 'connections', 'outgoing']);
-    if (connections && connections.size > 0) {
-      const conns = connections.map(ip => {
-        return getSnapshotByIp(ip, ipSnapshotMap);
-      });
-      map.set(host, conns);
-    } else {
-      map.set(host, Immutable.List());
-    }
+    const connections = {};
+
+    connections.outgoing = extractConnectionsFromMap(
+      host.getIn(['data', 'connections', 'outgoing']),
+      ipSnapshotMap);
+
+    connections.incoming = extractConnectionsFromMap(
+      host.getIn(['data', 'connections', 'incoming']),
+      ipSnapshotMap);
+
+    map.set(host, connections);
   });
 
   return map.asImmutable();
 }
-/* eslint-enable new-cap */
 
-function getSnapshotByIp(ip, ipSnapshotMap) {
-  let snapshot = ipSnapshotMap.get(ip);
-  if(!snapshot) {
-    snapshot = Immutable.fromJS({
-      state: 'unmonitored',
-      hostId: 'unknown',
-      pluginId: 'com.instana.forge.infrastructure.os.OS',
-      steadyId: ip
+function extractConnectionsFromMap(connections, ipSnapshotMap) {
+  if (connections && connections.size > 0) {
+    return connections.map(ip => {
+      return getSnapshotByIp(ip, ipSnapshotMap);
     });
   }
-  return snapshot;
+  return Immutable.List();
 }
+/* eslint-enable new-cap */
 
 /**
  * Extract a map of all hosts.
@@ -130,4 +128,17 @@ export function calculateIpMap(snapshots) {
   });
 
   return map.asImmutable();
+}
+
+function getSnapshotByIp(ip, ipSnapshotMap) {
+  let snapshot = ipSnapshotMap.get(ip);
+  if(!snapshot) {
+    snapshot = Immutable.fromJS({
+      state: 'unmonitored',
+      hostId: 'unknown',
+      pluginId: 'com.instana.forge.infrastructure.os.OS',
+      steadyId: ip
+    });
+  }
+  return snapshot;
 }

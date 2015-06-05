@@ -54,8 +54,21 @@ describe('util.snapshots', () => {
       const connections = extractConnections(snapshots);
       expect(connections.size).to.equal(4);
 
-      connections.forEach(con => {
-        //console.log('from', con.toJS());
+      connections.forEach((con, host) => {
+        const hostName = host.get('name');
+        if(hostName === 'a') {
+          expect(con.outgoing.size).to.equal(3);
+          expect(con.incoming.size).to.equal(0);
+        } else if(hostName === 'b') {
+          expect(con.outgoing.size).to.equal(3);
+          expect(con.incoming.size).to.equal(2);
+        } else if(hostName === 'c') {
+          expect(con.outgoing.size).to.equal(0);
+          expect(con.incoming.size).to.equal(1);
+        } else if(hostName === 'd') {
+          expect(con.outgoing.size).to.equal(0);
+          expect(con.incoming.size).to.equal(0);
+        }
       });
     });
   });
@@ -71,6 +84,7 @@ describe('util.snapshots', () => {
   function getConnectedSnapshots() {
     return Immutable.fromJS({
       a: {
+        name: 'a',
         data: {
           interfaces: {
             eth0: {
@@ -86,6 +100,7 @@ describe('util.snapshots', () => {
           }
         }
       }, b: {
+        name: 'b',
         data: {
           interfaces: {
             eth0: {
@@ -105,6 +120,7 @@ describe('util.snapshots', () => {
           }
         }
       }, c: {
+        name: 'c',
         data: {
           interfaces: {
             eth0: {
@@ -118,6 +134,7 @@ describe('util.snapshots', () => {
           }
         }
       }, d: {
+        name: 'd',
         data: {
           interfaces: {
             eth0: {
