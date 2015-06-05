@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Icon from 'instana-ui-components/Icon';
+import classnames from 'instana-ui-services/util/classnames';
 
 import './Header.less';
 
@@ -26,7 +27,10 @@ const Header = React.createClass({
           <Icon type='search'
                 className={block + '__search'} />
           <Icon type='menue'
-                className={block + '__sidebar'}
+                className={classnames({
+                  [block + '__sidebar']: true,
+                  [block + '__sidebar--active']: this.props.sidebarVisible
+                })}
                 onClick={this.toggleSidebarVisibility} />
         </div>
       </div>
