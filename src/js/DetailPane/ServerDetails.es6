@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import {getLabel} from 'instana-ui-sdk/snapshot';
 
 import Panel from './Panel';
 import {formatBytes} from 'instana-ui-services/converters';
@@ -21,7 +22,7 @@ const ServerDetails = React.createClass({
           Server Details
         </h1>
         <h2 className={block + '__hostname'}>
-          {data.get('hostname')}
+          {getLabel(this.props.snapshot)}
         </h2>
 
         <Panel title='System'>
