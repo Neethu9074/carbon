@@ -3,6 +3,7 @@
 import THREE from 'three';
 import PlaneFactory from './PlaneFactory';
 import {theme} from 'instana-ui-services/theme';
+import {health} from 'instana-ui-services/health';
 
 
 const warning = new THREE.Color(theme.map.colors.warning);
@@ -18,7 +19,7 @@ export default class ZoneFactory extends PlaneFactory {
   }
 
   addFragment(fragment = {id, pos, dim, health}) {
-    if(fragment.health === 'ok') {
+    if(fragment.health === health.ok) {
       fragment.enabled = false;
     }
     super.addFragment(fragment);
@@ -27,9 +28,9 @@ export default class ZoneFactory extends PlaneFactory {
   getColorArrayForFragment(fragment) {
     const health = fragment.health;
 
-    if(health === 'warning') {
+    if(health === health.warning) {
       return colorItemsWarning;
-    } else if(health === 'danger') {
+    } else if(health === health.danger) {
       return colorItemsDanger;
     }
     return colorItemsOk;

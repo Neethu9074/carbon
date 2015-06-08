@@ -3,6 +3,7 @@
 import THREE from 'three';
 import MeshFactory from './MeshFactory';
 import {theme} from 'instana-ui-services/theme';
+import {health} from 'instana-ui-services/health';
 
 
 const ok = new THREE.Color(theme.map.colors.default);
@@ -73,9 +74,9 @@ export default class CubeFactory extends MeshFactory {
   getColorArrayForFragment(fragment) {
     const health = fragment.health;
 
-    if(health === 'warning') {
+    if(health === health.warning) {
       return colorItemsWarning;
-    } else if(health === 'danger') {
+    } else if(health === health.danger) {
       return colorItemsDanger;
     }
     return colorItemsOk;

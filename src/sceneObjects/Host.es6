@@ -4,7 +4,7 @@ import THREE from 'three';
 
 import {getPower} from 'instana-ui-sdk/power';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import {getHealth} from 'instana-ui-services/health';
+import {health} from 'instana-ui-services/health';
 import eventBus from 'instana-ui-services/eventbus';
 
 import BaseHost from './BaseHost';
@@ -33,7 +33,7 @@ const emptyStickyObject = {
 export default class Host extends BaseHost {
 
   constructor({parent, snapshot}) {
-    this.health = 'ok';
+    this.health = health.ok;
     super({parent, snapshot});
 
     this.processes = [];
