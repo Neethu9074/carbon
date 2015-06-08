@@ -17,6 +17,7 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+    "d3": "^3.5.5",
     "font-awesome": "^4.3.0",
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
