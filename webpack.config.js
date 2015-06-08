@@ -22,19 +22,19 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.less$/i,
-      loader: 'style-loader!css-loader!less-loader'
+      loader: 'style!css!autoprefixer?browsers=last 2 version!less'
     }, {
       test: /\.(jpe?g|gif|png|svg|ttf|eot|obj)$/i,
-      loader: 'url-loader?limit=3000'
+      loader: 'url?limit=3000'
     }, {
       test: /\.glsl$/i,
-      loader: 'raw-loader'
+      loader: 'raw'
     }, {
       test: /\.es6$/i,
-      loader: 'babel-loader'
+      loader: 'babel'
     }, {
       test: /\.woff?$/,
-      loader: 'url-loader?limit=3000&mimetype=application/font-woff'
+      loader: 'url?limit=3000&mimetype=application/font-woff'
     }]
   },
   plugins: [
