@@ -11,36 +11,36 @@ import {theme} from 'instana-ui-services/theme';
 import {getColor} from 'instana-ui-sdk/zones';
 
 //use global geometry to reduce object instances
-const zoneGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
+const groupGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
 const white = 0xFFFFFF;
 
 
-export default class Zone extends SceneObject {
+export default class Group extends SceneObject {
 
-  constructor({parent, id, zoneIndex}) {
+  constructor({parent, id, groupIndex}) {
     super({parent});
 
     this.id = id;
-    this.zoneIndex = zoneIndex;
+    this.groupIndex = groupIndex;
     this.hosts = [];
 
     this.createGround();
   }
 
   createGround() {
-    let zoneColor = getColor(this.id);
-    if(!zoneColor) {
-      zoneColor = white;
+    let color = getColor(this.id);
+    if(!color) {
+      color = white;
     }
 
     const mat = new THREE.MeshBasicMaterial({
       transparent: true,
       opacity: 0.10,
-      color: zoneColor,
+      color: color,
       depthWrite: false
     });
 
-    this.ground = new THREE.Mesh(zoneGeometry, mat);
+    this.ground = new THREE.Mesh(groupGeometry, mat);
     // turn the ground around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
     this.ground.rotation.x = -90 * Math.PI / 180;
@@ -48,7 +48,7 @@ export default class Zone extends SceneObject {
     this.setStatic(this.ground);
     this.addSceneObject(this.ground);
 
-    this.edge = new THREE.EdgesHelper(this.ground, zoneColor);
+    this.edge = new THREE.EdgesHelper(this.ground, color);
     this.setStatic(this.edge);
     this.addSceneObject(this.edge);
   }
@@ -60,27 +60,27 @@ export default class Zone extends SceneObject {
   }
 
   createLabel() {
-    const label = this.getZoneLabel(this.id);
+    const label = this.getGroupLabel(this.id);
     label.updateMatrix();
     label.matrixAutoUpdate = false;
     this.ground.add(label);
     this.ground.label = label;
   }
 
-  /* the zone label is a plane with a transparent texture on it.
+  /* the group label is a plane with a transparent texture on it.
   * the texture is created via a canvas which is filled with a text and
   * then transformed into a texture.
   */
-  getZoneLabel(text) {
+  getGroupLabel(text) {
     const canvas = document.createElement('canvas');
-    let zoneColor = getColor(this.id);
-    zoneColor = zoneColor === undefined ? '#FFFFFF' : zoneColor;
+    let color = getColor(this.id);
+    color = color === undefined ? '#FFFFFF' : color;
 
     canvas.width = 600;
     canvas.height = 100;
     const context = canvas.getContext('2d');
 
-    context.fillStyle = zoneColor;
+    context.fillStyle = color;
     context.font = '100px ' + theme.common.fontFamily;
     context.fillText(text, 0, 95);
 
@@ -96,7 +96,7 @@ export default class Zone extends SceneObject {
       transparent: true,
       depthWrite: false
     });
-    return new THREE.Mesh(zoneGeometry, mat);
+    return new THREE.Mesh(groupGeometry, mat);
   }
 
   addHost({snapshot, unknown=false}) {
@@ -148,9 +148,9 @@ export default class Zone extends SceneObject {
   removeChild(child) {
     _.remove(this.hosts, host => host.id === child.id);
 
-    //destroy this zone if there are no hosts anymore
+    //destroy this group if there are no hosts anymore
     if(this.hosts.length === 0) {
-      //remove this from parents zones collection
+      //remove this from parents groups collection
       this.parent.removeChild(this);
 
       this.dispose();
@@ -179,6 +179,6 @@ export default class Zone extends SceneObject {
 
     this.id = null;
     this.hosts = [];
-    this.zoneIndex = null;
+    this.groupIndex = null;
   }
 }

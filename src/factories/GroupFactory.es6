@@ -13,7 +13,7 @@ const colorItemsOk = [[0.0, 0.0, 0.0]];
 const colorItemsWarning = [[warning.r, warning.g, warning.b]];
 const colorItemsDanger = [[critical.r, critical.g, critical.b]];
 
-export default class ZoneFactory extends PlaneFactory {
+export default class GroupFactory extends PlaneFactory {
   constructor({scene}) {
     super({scene});
   }

@@ -18,7 +18,7 @@ import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import ProcessFactory from './factories/ProcessFactory';
 import LineFactory from './factories/LineFactory';
-import ZoneFactory from './factories/ZoneFactory';
+import GroupFactory from './factories/GroupFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import TouchCameraController from './controls/touchCameraController';
 
@@ -80,7 +80,7 @@ export default class Scene {
     this.hostFactory = new HostFactory({scene: this});
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
-    this.zoneFactory = new ZoneFactory({scene: this});
+    this.groupFactory = new GroupFactory({scene: this});
     this.cubeFactory = new ProcessFactory({scene: this});
     this.numTiles = 5;
     this.multiMetricFactory = new MultiMetricPillarFactory({
@@ -463,9 +463,9 @@ export default class Scene {
   }
 
   forEachHost(func) {
-    //search each zone for the given host id
-    this.map.zones.forEach(zone => {
-      zone.hosts.forEach(host => {
+    //search each group for the given host id
+    this.map.groups.forEach(group => {
+      group.hosts.forEach(host => {
         func(host);
       });
     });

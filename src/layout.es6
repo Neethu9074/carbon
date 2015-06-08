@@ -7,45 +7,46 @@ import {getPower} from 'instana-ui-sdk/power';
 
 
 export default class Layouter {
-  constructor({hostSize=1, maxHostHeight=3, zonePadding=1, zoneMargin=1,
+  constructor({hostSize=1, maxHostHeight=3, groupPadding=1, groupMargin=1,
       maxHostsPerRow=3, hostPadding=2}={}) {
     this.hostSize = hostSize;
     this.maxHostHeight = maxHostHeight;
-    this.zonePadding = zonePadding;
-    this.zoneMargin = zoneMargin;
+    this.groupPadding = groupPadding;
+    this.groupMargin = groupMargin;
     this.maxHostsPerRow = maxHostsPerRow;
     this.hostPadding = hostPadding;
 
     this.connections = [];
 
     // Each host takes up one unit horizontally.
-    this.zoneWidth = maxHostsPerRow +
+    this.groupWidth = maxHostsPerRow +
       // Between the hosts we have some empty space.
       (maxHostsPerRow - 1) * hostPadding +
-      // Before the first and after the last host we have zone padding.
-      zonePadding * 2;
+      // Before the first and after the last host we have group padding.
+      groupPadding * 2;
   }
 
   applyLayout(map) {
-    map.zones.forEach((zone, zoneIndex) => {
-      const zonePosition = this.getZonePosition(zoneIndex, zone.hosts.length);
+    map.groups.forEach((group, groupIndex) => {
+      const groupPosition =
+        this.getgroupPosition(groupIndex, group.hosts.length);
 
       // add respectively subtract 0.5 to accomodate for central positioning of
       // hosts.
-      zone.setPosition(
-        zonePosition.x + zonePosition.width / 2 - 1,
+      group.setPosition(
+        groupPosition.x + groupPosition.width / 2 - 1,
         0,
-        (zonePosition.y + zonePosition.height / 2) * -1 + 1
+        (groupPosition.y + groupPosition.height / 2) * -1 + 1
       );
-      zone.setScale(new THREE.Vector3(
-        zonePosition.width,
-        zonePosition.height,
+      group.setScale(new THREE.Vector3(
+        groupPosition.width,
+        groupPosition.height,
         1
       ));
 
-      zone.hosts.forEach((host, hostIndex) => {
+      group.hosts.forEach((host, hostIndex) => {
         const oldPosition = host.getPosition().clone();
-        const newPosition = this.getCubePosition(zoneIndex, hostIndex);
+        const newPosition = this.getCubePosition(groupIndex, hostIndex);
         host.setPosition(newPosition.x, newPosition.y, newPosition.z);
 
         ConnectionGrid.clearPosition(oldPosition);
@@ -56,35 +57,35 @@ export default class Layouter {
     this.updateHeight(map);
   }
 
-  getCubePosition(zoneIndex, hostIndex) {
-    // Each zone means that we need to advance one zone horizontally.
-    const x = zoneIndex * (this.zoneWidth + this.zoneMargin) +
+  getCubePosition(groupIndex, hostIndex) {
+    // Each group means that we need to advance one group horizontally.
+    const x = groupIndex * (this.groupWidth + this.groupMargin) +
         // advance one host- and padding width per host, except the first.
         hostIndex % this.maxHostsPerRow * (this.hostPadding + this.hostSize) +
-        // There is always the zone padding which we need to take into account.
-        this.zonePadding;
+        // There is always the group padding which we need to take into account.
+        this.groupPadding;
 
     // For every host that exceeds the max number of hosts per row we move
     // one unit downwards, where unit means host size + padding
     const y = Math.floor(hostIndex / this.maxHostsPerRow) *
-        (this.hostSize + this.hostPadding) + this.zonePadding;
+        (this.hostSize + this.hostPadding) + this.groupPadding;
 
     return new THREE.Vector3(x, 0, -y);
   }
 
-  getZonePosition(zoneIndex, numberOfHosts) {
-    const x = zoneIndex * (this.zoneWidth + this.zoneMargin);
+  getgroupPosition(groupIndex, numberOfHosts) {
+    const x = groupIndex * (this.groupWidth + this.groupMargin);
     const y = 0;
-    const width = this.zoneWidth;
-    const height = this.getCubePosition(zoneIndex, numberOfHosts - 1).z * -1 +
-      this.hostSize + this.zonePadding;
+    const width = this.groupWidth;
+    const height = this.getCubePosition(groupIndex, numberOfHosts - 1).z * -1 +
+      this.hostSize + this.groupPadding;
 
     return {x, y, width, height};
   }
 
   updateHeight(map) {
-    const hosts = map.zones.reduce((agg, zone) => {
-      return agg.concat(zone.hosts);
+    const hosts = map.groups.reduce((agg, group) => {
+      return agg.concat(group.hosts);
     }, []);
 
     const maxPower = this.getMaxPower(hosts);

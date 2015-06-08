@@ -59,8 +59,8 @@ looks shitty if used with metrices!
 The map is structured in:
 
 scene has a map (physical/logical).
-map has n zones.
-zone has n hosts.
+map has n groups.
+group has n hosts.
 host has n processes.
 
 ## Filtering

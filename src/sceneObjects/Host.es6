@@ -54,7 +54,7 @@ export default class Host extends BaseHost {
     const dim = this.cube.scale;
 
     this.addToHostFactory(id, pos, dim);
-    this.addToZoneFactory(id, pos, dim);
+    this.addToGroupFactory(id, pos, dim);
     this.addToMultiMetricFactory(id, pos, dim);
     this.addToSingleMetricFactory(id, pos, dim);
   }
@@ -80,14 +80,14 @@ export default class Host extends BaseHost {
     });
   }
 
-  //this is not the zone where hosts are on!
-  //it's the health ground zone of each host
-  addToZoneFactory(id, pos, dim) {
+  //this is not the group where hosts are on!
+  //it's the health ground group of each host
+  addToGroupFactory(id, pos, dim) {
     if(!this.health) {
       return;
     }
 
-    this.scene.zoneFactory.addFragment({
+    this.scene.groupFactory.addFragment({
       id,
       pos: this.cube.position.clone().add(groundPosition),
       dim: dim.clone().add(groundScale),
@@ -233,10 +233,10 @@ export default class Host extends BaseHost {
     this.health = health;
     this.changeColorInFactory(id, health, this.scene.hostFactory);
 
-    //can't change the color of the zone like the host does because
-    //ok zones doesn't have a zone geometry!
-    this.scene.zoneFactory.removeFragment(id);
-    this.addToZoneFactory(id, pos, dim);
+    //can't change the color of the group like the host does because
+    //ok groups doesn't have a group geometry!
+    this.scene.groupFactory.removeFragment(id);
+    this.addToGroupFactory(id, pos, dim);
   }
 
   changeColorInFactory(id, health, factory) {
@@ -300,7 +300,7 @@ export default class Host extends BaseHost {
     const scene = this.scene;
     const id = this.id;
     scene.hostFactory.enableFragment(id, enabled);
-    scene.zoneFactory.enableFragment(id, enabled);
+    scene.groupFactory.enableFragment(id, enabled);
     scene.multiMetricFactory.enableFragment(id, enabled);
     scene.singleMetricFactory.enableFragment(id, enabled);
   }
@@ -309,7 +309,7 @@ export default class Host extends BaseHost {
     const id = this.id;
     const scene = this.scene;
     scene.hostFactory.removeFragment(id);
-    scene.zoneFactory.removeFragment(id);
+    scene.groupFactory.removeFragment(id);
     scene.multiMetricFactory.removeFragment(id);
     scene.singleMetricFactory.removeFragment(id);
   }

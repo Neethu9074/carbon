@@ -15,7 +15,7 @@ import {
   extractConnections} from 'instana-ui-services/util/snapshots';
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
-import Zone from './Zone';
+import Group from './Group';
 import Layouter from '../layout';
 
 
@@ -28,7 +28,7 @@ export default class PhysicalMap extends SceneObject {
     this.size = 1000;
 
     this.scene = scene;
-    this.zones = [];
+    this.groups = [];
 
     this.createGroundGrid();
     this.bindToDatasource();
@@ -86,28 +86,28 @@ export default class PhysicalMap extends SceneObject {
 
   applyLayout() {
     let numElementsOnMap = 0;
-    this.zones.forEach(zone => {
-      zone.hosts.forEach(() => {
+    this.groups.forEach(group => {
+      group.hosts.forEach(() => {
         numElementsOnMap++;
       });
     });
 
     const maxHostsPerRow = Math.floor(
-      Math.sqrt(numElementsOnMap / this.zones.length));
+      Math.sqrt(numElementsOnMap / this.groups.length));
     new Layouter({maxHostsPerRow}).applyLayout(this);
   }
 
   onInventoryUpdate(snapshots) {
-    const unknownZone = this.getOrCreateZone('unmonitored');
+    const unknownGroup = this.getOrCreateGroup('unmonitored');
     const connections = extractConnections(snapshots);
-    snapshots.forEach(host => this.addHost(host, connections, unknownZone));
+    snapshots.forEach(host => this.addHost(host, connections, unknownGroup));
 
-    this.removeVanishedUnknownHosts(connections, unknownZone);
+    this.removeVanishedUnknownHosts(connections, unknownGroup);
     this.removeVanishedHosts(snapshots);
 
-    //delete the unknownZone if there are no hosts in it
-    if(unknownZone.length === 0) {
-      unknownZone.dispose();
+    //delete the unknownGroup if there are no hosts in it
+    if(unknownGroup.length === 0) {
+      unknownGroup.dispose();
     }
 
     this.applyLayout();
@@ -118,9 +118,9 @@ export default class PhysicalMap extends SceneObject {
 
   removeVanishedHosts(snapshots) {
     // identify removed hosts: hosts that are not inside the snapshot update
-    const removedHosts = this.zones
-      //get all hosts from all zones
-      .reduce((hosts, zone) => {return hosts.concat(zone.hosts); }, [])
+    const removedHosts = this.groups
+      //get all hosts from all groups
+      .reduce((hosts, group) => {return hosts.concat(group.hosts); }, [])
       //only the monitored
       .filter(host => !host.isUnknown)
       //only the ones that are not in snapshots anymore
@@ -133,68 +133,68 @@ export default class PhysicalMap extends SceneObject {
     removedHosts.forEach((host) => host.dispose());
   }
 
-  addHost(host, connections, unknownZone) {
-    const zoneId = getZone(host);
-    const zone = this.getOrCreateZone(zoneId);
+  addHost(host, connections, unknownGroup) {
+    const groupId = getZone(host);
+    const group = this.getOrCreateGroup(groupId);
 
-    //add the host to zone (the zone handles duplicates)
-    zone.addHost({snapshot: host});
+    //add the host to group (the group handles duplicates)
+    group.addHost({snapshot: host});
 
-    //if the zone has switched,
-    //delete the hosts in other zones than the current one
-    this.removeHostFromAllZonesInsteadOf(zoneId, host);
+    //if the group has switched,
+    //delete the hosts in other groups than the current one
+    this.removeHostFromAllGroupsInsteadOf(groupId, host);
 
     const hostConnections = connections.find((v, k) => k === host);
     if(hostConnections) {
-      this.createAllUnknownHostsFor(host, hostConnections, unknownZone);
+      this.createAllUnknownHostsFor(host, hostConnections, unknownGroup);
     }
   }
 
-  getOrCreateZone(zoneId) {
-    //get find the zone with zoneId
-    let zone = _.find(this.zones, zone => zone.id === zoneId);
+  getOrCreateGroup(groupId) {
+    //get find the group with groupId
+    let group = _.find(this.groups, group => group.id === groupId);
 
-    //if the hosts zone doesn't exist, create it
-    if (!zone) {
-      zone = new Zone({
+    //if the hosts group doesn't exist, create it
+    if (!group) {
+      group = new Group({
         parent: this,
-        id: zoneId,
-        zoneIndex: this.zones.length
+        id: groupId,
+        groupIndex: this.groups.length
       });
-      zone.createLabel();
-      this.zones.push(zone);
+      group.createLabel();
+      this.groups.push(group);
     }
 
-    return zone;
+    return group;
   }
 
-  //runs through all zones instead of the current one and searches for the
-  //host added to the current one. if found -> delete it from old zones
-  removeHostFromAllZonesInsteadOf(zoneId, host) {
-    this.zones.forEach(zone =>{
-      if(zone.id !== zoneId) {
-        zone.hosts.forEach(zoneHost => {
-          if(isIdEqual(host, zoneHost.snapshot)) {
-            zoneHost.dispose();
+  //runs through all groups instead of the current one and searches for the
+  //host added to the current one. if found -> delete it from old groups
+  removeHostFromAllGroupsInsteadOf(groupId, host) {
+    this.groups.forEach(group =>{
+      if(group.id !== groupId) {
+        group.hosts.forEach(groupHost => {
+          if(isIdEqual(host, groupHost.snapshot)) {
+            groupHost.dispose();
           }
         });
       }
     });
   }
 
-  createAllUnknownHostsFor(snapshot, connections, unknownZone) {
+  createAllUnknownHostsFor(snapshot, connections, unknownGroup) {
     const allConnections = connections.outgoing.concat(connections.incoming);
 
     allConnections.forEach((connection) => {
       //only create hosts that are unmonitored by agent
       if(connection.get('state') === 'unmonitored') {
-        unknownZone.addHost({snapshot: connection, unknown: true});
+        unknownGroup.addHost({snapshot: connection, unknown: true});
       }
     });
   }
 
-  removeVanishedUnknownHosts(connections, unknownZone) {
-    const allUnmonitoredHosts = unknownZone.hosts;
+  removeVanishedUnknownHosts(connections, unknownGroup) {
+    const allUnmonitoredHosts = unknownGroup.hosts;
     const allAvailableUnmonitoredHosts = [];
 
     connections.forEach((hostCons) => {
@@ -269,8 +269,8 @@ export default class PhysicalMap extends SceneObject {
   getIdHostMap() {
     const map = {};
 
-    this.zones.forEach(zone => {
-      zone.hosts.forEach(host => {
+    this.groups.forEach(group => {
+      group.hosts.forEach(host => {
         map[host.id] = host;
       });
     });
@@ -279,17 +279,17 @@ export default class PhysicalMap extends SceneObject {
   }
 
   filter(validationFunction) {
-    const unMatched = this.zones
-      //get all hosts from all zones
-      .reduce((hosts, zone) => {return hosts.concat(zone.hosts); }, [])
+    const unMatched = this.groups
+      //get all hosts from all groups
+      .reduce((hosts, group) => {return hosts.concat(group.hosts); }, [])
       .filter(host => !validationFunction(host));
 
     unMatched.forEach((host) => host.hide());
   }
 
-  //is called from zone if it has no hosts anymore
+  //is called from group if it has no hosts anymore
   removeChild(child) {
-    _.remove(this.zones, zone => zone.id === child.id);
+    _.remove(this.groups, group => group.id === child.id);
   }
 
   onZoom(zoomLevel) {
@@ -312,7 +312,7 @@ export default class PhysicalMap extends SceneObject {
     this.ground = null;
 
     this.size = null;
-    this.zones = [];
+    this.groups = [];
     this.scene = null;
     this.parent = null;
   }
