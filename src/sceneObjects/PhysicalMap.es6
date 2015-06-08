@@ -87,7 +87,7 @@ export default class PhysicalMap extends SceneObject {
   applyLayout() {
     let numElementsOnMap = 0;
     this.groups.forEach(group => {
-      group.nodes.forEach(() => {
+      group.children.forEach(() => {
         numElementsOnMap++;
       });
     });
@@ -112,7 +112,7 @@ export default class PhysicalMap extends SceneObject {
 
     this.applyLayout();
     this.setupConnections(snapshots, connections);
-    //this.showWalkableGrid(); //uncomment this to see the walking grid
+    this.showWalkableGrid(); //uncomment this to see the walking grid
     this.parent.renderScene();
   }
 
@@ -120,7 +120,7 @@ export default class PhysicalMap extends SceneObject {
     // identify removed nodes: nodes that are not inside the snapshot update
     const removedNodes = this.groups
       //get all nodes from all groups
-      .reduce((nodes, group) => {return nodes.concat(group.nodes); }, [])
+      .reduce((nodes, group) => {return nodes.concat(group.children); }, [])
       //only the monitored
       .filter(node => !node.isUnknown)
       //only the ones that are not in snapshots anymore
@@ -173,7 +173,7 @@ export default class PhysicalMap extends SceneObject {
   removeNodeFromAllGroupsInsteadOf(groupId, node) {
     this.groups.forEach(group =>{
       if(group.id !== groupId) {
-        group.nodes.forEach(groupNode => {
+        group.children.forEach(groupNode => {
           if(isIdEqual(node, groupNode.snapshot)) {
             groupNode.dispose();
           }
@@ -194,7 +194,7 @@ export default class PhysicalMap extends SceneObject {
   }
 
   removeVanishedUnknownNodes(connections, unknownGroup) {
-    const allUnmonitoredNodes = unknownGroup.nodes;
+    const allUnmonitoredNodes = unknownGroup.children;
     const allAvailableUnmonitoredNodes = [];
 
     connections.forEach((nodeCons) => {
@@ -270,7 +270,7 @@ export default class PhysicalMap extends SceneObject {
     const map = {};
 
     this.groups.forEach(group => {
-      group.nodes.forEach(node => {
+      group.children.forEach(node => {
         map[node.id] = node;
       });
     });
@@ -281,7 +281,7 @@ export default class PhysicalMap extends SceneObject {
   filter(validationFunction) {
     const unMatched = this.groups
       //get all nodes from all groups
-      .reduce((nodes, group) => {return nodes.concat(group.nodes); }, [])
+      .reduce((nodes, group) => {return nodes.concat(group.children); }, [])
       .filter(node => !validationFunction(node));
 
     unMatched.forEach((node) => node.hide());

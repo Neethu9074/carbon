@@ -22,7 +22,7 @@ export default class Group extends SceneObject {
 
     this.id = id;
     this.groupIndex = groupIndex;
-    this.nodes = [];
+    this.children = [];
 
     this.createGround();
   }
@@ -105,15 +105,15 @@ export default class Group extends SceneObject {
     //if there is no nodeId it's an unknown node
     if(nodeId) {
       //check if the node was already created and only needs an update
-      let node = _.find(this.nodes, node => node.id === nodeId);
+      let node = _.find(this.children, node => node.id === nodeId);
 
       //if the node was created in the past
       if(node) {
         node.onSnapshotUpdate(snapshot);
       } else if(unknown) {
-        this.nodes.push(new UnknownNode({parent: this, snapshot}));
+        this.children.push(new UnknownNode({parent: this, snapshot}));
       } else {
-        this.nodes.push(new Node({parent: this, snapshot}));
+        this.children.push(new Node({parent: this, snapshot}));
       }
     }
   }
@@ -146,10 +146,10 @@ export default class Group extends SceneObject {
   }
 
   removeChild(child) {
-    _.remove(this.nodes, node => node.id === child.id);
+    _.remove(this.children, node => node.id === child.id);
 
-    //destroy this group if there are no nodes anymore
-    if(this.nodes.length === 0) {
+    //destroy this group if there are no children anymore
+    if(this.children.length === 0) {
       //remove this from parents groups collection
       this.parent.removeChild(this);
 
@@ -169,7 +169,7 @@ export default class Group extends SceneObject {
     this.removeSceneObject(this.ground);
     this.removeSceneObject(this.edge);
 
-    this.nodes.forEach(node => node.dispose());
+    this.children.forEach(node => node.dispose());
 
     super.dispose();
 
@@ -178,7 +178,7 @@ export default class Group extends SceneObject {
     this.disposeMesh(this.ground);
 
     this.id = null;
-    this.nodes = [];
+    this.children = [];
     this.groupIndex = null;
   }
 }
