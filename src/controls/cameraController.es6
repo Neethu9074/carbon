@@ -14,6 +14,7 @@ export default class CameraController {
   bindListeners() {
     this.init = this.init.bind(this);
     this.update = this.update.bind(this);
+    this.zoom = this.zoom.bind(this);
   }
 
   init(scene) {

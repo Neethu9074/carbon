@@ -8,7 +8,6 @@ import eventBus from 'instana-ui-services/eventbus';
 import './lib/Octree';
 
 import * as zoom from './zoom';
-import mobileChecker from './mobileChecker';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as time from './timeCalculations';
@@ -19,7 +18,6 @@ import LayerFactory from './factories/LayerFactory';
 import LineFactory from './factories/LineFactory';
 import GroupFactory from './factories/GroupFactory';
 import MouseCameraController from './controls/mouseCameraController';
-import TouchCameraController from './controls/touchCameraController';
 
 import _ from 'lodash';
 
@@ -176,11 +174,7 @@ export default class Scene {
   }
 
   setupController() {
-    if (mobileChecker.any()) {
-      this.controller = new TouchCameraController({scene: this});
-    } else {
-      this.controller = new MouseCameraController({scene: this});
-    }
+    this.controller = new MouseCameraController({scene: this});
 
     //call zoom to trigger camera movemnt to the right position
     this.controller.zoom(-1);
