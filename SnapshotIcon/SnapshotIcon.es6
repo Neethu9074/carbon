@@ -5,6 +5,7 @@ import React from 'react/addons';
 import Icon from '../Icon';
 import {getHealth, health} from 'instana-ui-services/health';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import {theme} from 'instana-ui-services/theme';
 
 import './SnapshotIcon.less';
 
@@ -31,6 +32,7 @@ const SnapshotIcon = React.createClass({
     }
     return (
       <Icon type={this.getIcon()}
+            style={this.getStyles()}
             className={classes}/>
     );
   },
@@ -43,16 +45,36 @@ const SnapshotIcon = React.createClass({
         iconType = '';
         break;
       case health.warning:
-        iconType = 'grid';
+        iconType = 'warning';
         break;
       case health.danger:
-        iconType = 'map';
+        iconType = 'critical';
         break;
       default:
         throw new Error('Unknown health');
     }
 
     return iconType;
+  },
+
+  getStyles() {
+    const style = {};
+
+    switch(this.state.health) {
+      case health.ok:
+        style.color = '';
+        break;
+      case health.warning:
+        style.color = theme.map.colors.warning;
+        break;
+      case health.danger:
+        style.color = theme.map.colors.critical;
+        break;
+      default:
+        throw new Error('Unknown health');
+    }
+
+    return style;
   }
 });
 
