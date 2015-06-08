@@ -59,7 +59,8 @@ const App = React.createClass({
         </div>
 
         {this.state.selectedSnapshot ?
-          <DetailPane snapshot={this.state.selectedSnapshot} />
+          <DetailPane snapshot={this.state.selectedSnapshot}
+                      sidebarVisible={this.state.sidebarVisible} />
         : null}
 
         <Footer />

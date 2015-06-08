@@ -12,7 +12,10 @@ const DetailPane = React.createClass({
   render() {
     return (
       <div className={block}>
-        <ServerDetails snapshot={this.props.snapshot} />
+
+        {this.props.sidebarVisible ?
+          <ServerDetails snapshot={this.props.snapshot} />
+        : null}
       </div>
     );
   }

@@ -4,6 +4,8 @@ import React from 'react';
 
 import classnames from 'instana-ui-services/util/classnames';
 
+import './Panel.less';
+
 const block = 'in-detail-pane-panel';
 
 const Panel = React.createClass({
@@ -11,7 +13,9 @@ const Panel = React.createClass({
   render() {
     return (
       <div className={block}>
-        <h2>{this.props.title}</h2>
+        <h2 className={block + '__heading'}>
+          {this.props.title}
+        </h2>
         <div className={classnames({
           [block + '__content']: true,
           [block + '__content--open']: true
