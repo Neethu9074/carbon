@@ -16,8 +16,8 @@ const StickyNoteRC = React.createClass({
     const style = {height: this.props.height};
     const value = this.props.value;
     const component = (
-      <div className='in-sticky-note-process__container' style={style}>
-        <div className='in-sticky-note-process__content'>
+      <div className='in-sticky-note-layer__container' style={style}>
+        <div className='in-sticky-note-layer__content'>
            -- metric: {value}
         </div>
       </div>

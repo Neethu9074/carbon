@@ -12,12 +12,12 @@ const StickyNoteRC = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   render() {
-    //const numProcesses = this.props.numProcesses;
+    //const numLayer = this.props.numLayer;
     const style = {height: this.props.height};
     const component = (
-      <div className='in-sticky-note-process__container' style={style}>
-        <div className='in-sticky-note-process__content'>
-           -- process
+      <div className='in-sticky-note-layer__container' style={style}>
+        <div className='in-sticky-note-layer__content'>
+           -- layer
         </div>
       </div>
     );
@@ -27,9 +27,9 @@ const StickyNoteRC = React.createClass({
 });
 /*eslint-enable no-unused-vars*/
 
-export default class StickyNoteNode extends StickyNote {
+export default class StickyNoteLayer extends StickyNote {
   constructor(parent) {
-    super({parent, cssClass: 'in-sticky-note-process'});
+    super({parent, cssClass: 'in-sticky-note-layer'});
     this.updateWorldPos();
     this.render();
   }

@@ -15,7 +15,7 @@ import * as time from './timeCalculations';
 import NodeFactory from './factories/NodeFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
-import ProcessFactory from './factories/ProcessFactory';
+import LayerFactory from './factories/LayerFactory';
 import LineFactory from './factories/LineFactory';
 import GroupFactory from './factories/GroupFactory';
 import MouseCameraController from './controls/mouseCameraController';
@@ -76,7 +76,7 @@ export default class Scene {
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
     this.groupFactory = new GroupFactory({scene: this});
-    this.cubeFactory = new ProcessFactory({scene: this});
+    this.cubeFactory = new LayerFactory({scene: this});
     this.numTiles = 5;
     this.multiMetricFactory = new MultiMetricPillarFactory({
       scene: this,

@@ -8,17 +8,17 @@ import {health} from 'instana-ui-services/health';
 import eventBus from 'instana-ui-services/eventbus';
 
 import BaseNode from './BaseNode';
-import Process from './Process';
+import Layer from './Layer';
 import NodeSnapshotServer from '../NodeSnapshotServer';
 import StickyNoteNode from './StickyNote/Node';
-import StickyNoteProcess from './StickyNote/Process';
+import StickyNoteLayer from './StickyNote/Layer';
 import StickyNoteMetric from './StickyNote/Metric';
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
 const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 
-//if unavailable, the StickyNote-Metric / Process will not be undefined but this
+//if unavailable, the StickyNote-Metric / Layer will not be undefined but this
 //to avoid all these if(available) {do something} stuff
 const emptyStickyObject = {
   hide() {},
@@ -36,8 +36,7 @@ export default class Node extends BaseNode {
     this.health = health.ok;
     super({parent, snapshot});
 
-    this.processes = [];
-    this.container = [];
+    this.layer = [];
 
     this.stickyNoteMetric = emptyStickyObject;
   }
@@ -207,7 +206,7 @@ export default class Node extends BaseNode {
   setPosition(x, y, z) {
     super.setPosition(x, y, z);
 
-    this.processes.forEach(p => p.setPosition(x, p.getPosition().y, z));
+    this.layer.forEach(p => p.setPosition(x, p.getPosition().y, z));
   }
 
   setHeight(height) {
@@ -247,44 +246,40 @@ export default class Node extends BaseNode {
       factory.getColorArrayForFragment(fragment));
   }
 
-  addProcess(snapshot) {
-    //dont create a process if its still there
-    if(this.processes.indexOf(process => snapshot === process.snapshot) >= 0) {
+  addLayer(snapshot) {
+    //dont create a layer if its still there
+    if(this.layer.indexOf(layer => snapshot === layer.snapshot) >= 0) {
       return;
     }
 
-    const process = new Process({parent: this, snapshot});
-    process.setLayerIndex(this.processes.length);
-    this.processes.push(process);
+    const layer = new Layer({parent: this, snapshot});
+    layer.setLayerIndex(this.layer.length);
+    this.layer.push(layer);
 
     this.arrangeChildren();
-    //this.addStickyNoteForProcess();
+    //this.addStickyNoteForLayer();
   }
 
   arrangeChildren() {
-    const processes = this.processes;
-    const container = this.container;
-    const heightOfEachChild = this.cube.scale.y /
-      (processes.length + container.length); //totalHeight(node) / #children
+    const layer = this.layer;
+    const heightOfEachChild = this.cube.scale.y / layer.length;
 
     let index = 0;
 
-    processes
-    .concat(container)
-    .forEach(child => {
+    layer.forEach(child => {
       const pos = child.getPosition();
       child.setPosition(pos.x, index++ * heightOfEachChild, pos.z);
       child.setHeight(heightOfEachChild);
     });
   }
 
-  addStickyNoteForProcess() {
-    //only one sticky process sticky for each node
-    if(this.stickyNoteProcess) {
+  addStickyNoteForLayer() {
+    //only one sticky layer sticky for each node
+    if(this.stickyNoteLayer) {
       return;
     }
 
-    this.stickyNoteProcess = new StickyNoteProcess(this);
+    this.stickyNoteLayer = new StickyNoteLayer(this);
   }
 
   addStickyNoteForMetric() {
@@ -314,14 +309,14 @@ export default class Node extends BaseNode {
     scene.singleMetricFactory.removeFragment(id);
   }
 
-  clearProcesses() {
-    this.processes.forEach(p => p.dispose());
-    this.processes = [];
+  clearLayer() {
+    this.layer.forEach(p => p.dispose());
+    this.layer = [];
   }
 
   dispose() {
     this.snapshotServer.dispose();
-    this.clearProcesses();
+    this.clearLayer();
 
     super.dispose();
 

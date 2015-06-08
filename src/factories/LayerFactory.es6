@@ -16,7 +16,7 @@ const colorItemsDarkerBlue = [
 ];
 
 
-export default class NodeFactory extends CubeFactory {
+export default class LayerFactory extends CubeFactory {
   constructor({scene}) {
     super({scene});
   }

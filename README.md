@@ -41,7 +41,7 @@ The map is structured in:
 scene has a map (physical/logical).
 map has n groups.
 group has n nodes.
-node has n processes.
+node has n layer.
 
 ## Filtering
 Nodes can be filtered via: PhysicalMap.filter(validationFunction);

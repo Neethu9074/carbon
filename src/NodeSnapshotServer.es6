@@ -37,7 +37,7 @@ export default class NodeSnapshotServer {
     // const observable = create(SnapshotConveyer, {pluginId});
     //
     // this.subscriptions.push(
-    //   observable.subscribe(data => this.onProcessUpdate(data))
+    //   observable.subscribe(data => this.onLayerUpdate(data))
     // );
 
     //if there is an active metric, subscribe to it
@@ -46,11 +46,11 @@ export default class NodeSnapshotServer {
     }
   }
 
-  onProcessUpdate(snapshots) {
-    snapshots.forEach(process => {
-      const nodeId = process.get('hostId');
+  onLayerUpdate(snapshots) {
+    snapshots.forEach(layer => {
+      const nodeId = layer.get('hostId');
       if(nodeId === this.client.snapshot.get('hostId')) {
-        this.client.addProcess(process);
+        this.client.addLayer(layer);
       }
     });
   }

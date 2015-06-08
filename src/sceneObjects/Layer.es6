@@ -16,7 +16,7 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].z += 0.5;
 }
 
-export default class Process extends SceneObject {
+export default class Layer extends SceneObject {
 
   constructor({parent, snapshot}) {
     super({parent});
@@ -66,7 +66,7 @@ export default class Process extends SceneObject {
     this.refreshMesh();
   }
 
-  //this value is used to store the information of the layer of this process
+  //this value is used to store the information of the layer of this layer
   // -----   layer 3
   // -----   layer 2
   // -----   layer 1
