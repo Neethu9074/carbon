@@ -16,6 +16,7 @@ class TouchControl extends CameraController{
 
     this.moveSpeed = 0.005;
     this.pitchSpeed = 0.3;
+    this.lastDistance = 0;
 
     const canvas = scene.parent;
     canvas.addEventListener('touchstart', this.onTouchStart);
