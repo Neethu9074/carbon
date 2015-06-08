@@ -23,13 +23,13 @@ const StickyNoteRC = React.createClass({
   render() {
     const data = this.props.snapshot.get('data');
     let formattedBytes;
-    let jsxStructure = (<div></div>);
+    let jsxStructure;
     try {
       jsxStructure = (
         <div>
-          <h2 className="in-sticky-note__host-id-without-sticky">
-            {data.get('hostname')}
-          </h2>
+          <SnapshotIcon className="in-sticky-note__host-icon"
+              snapshot={this.props.snapshot}/>
+
           <div className="in-sticky-note__line"></div>
           <div className="in-sticky-after_line">
             <div className="in-sticky-note__content">
@@ -45,9 +45,13 @@ const StickyNoteRC = React.createClass({
           </div>
         </div>
       );
+
     } catch(err) {
       logger.error('there are missing properties inside the snapshot that ' +
       'avoid rendering correct sticky note');
+
+      jsxStructure = (<div></div>);
+
     } finally {
       return jsxStructure;
     }
