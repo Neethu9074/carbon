@@ -1,6 +1,6 @@
 'use strict';
 
-import {addIconFinder} from 'instana-ui-sdk/snapshotIcon';
+import {addIconFinder, addLabelFinder} from 'instana-ui-sdk/snapshot';
 import * as constants from '../constants';
 
 addIconFinder(
@@ -17,4 +17,9 @@ addIconFinder(
 
     return 'server';
   }
+);
+
+addLabelFinder(
+  constants.plugins.os,
+  snapshot => snapshot.getIn(['data', 'hostname'])
 );

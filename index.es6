@@ -6,5 +6,5 @@
 import './metrics';
 import './power';
 import './sorting';
-import './snapshotIcon';
+import './snapshot';
 import './zones';
