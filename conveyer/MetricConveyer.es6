@@ -4,12 +4,13 @@ import * as connection from '../connection/subscriptionAwareConnection';
 
 export default class MetricConveyer {
 
-  static getUniqueId({snapshot, metric}) {
+  static getUniqueId({snapshot, metric, since}) {
     return [
       snapshot.get('hostId'),
       snapshot.get('pluginId'),
       snapshot.get('steadyId'),
-      metric
+      metric,
+      since
     ].join(',');
   }
 
