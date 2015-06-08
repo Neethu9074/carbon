@@ -3,8 +3,6 @@
 import React from 'react/addons';
 
 import Icon from '../Icon';
-import {getIcon} from 'instana-ui-sdk/snapshotIcon';
-import {getColor, getZone} from 'instana-ui-sdk/zones';
 import {getHealth, health} from 'instana-ui-services/health';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
@@ -21,11 +19,8 @@ const SnapshotIcon = React.createClass({
 
   componentDidMount() {
     this.addSubscription(
-      getHealth(this.props.snapshot).subscribe(health => {
-        this.setState({
-          health
-        });
-      })
+      getHealth(this.props.snapshot).subscribe(health =>
+        this.setState({health}))
     );
   },
 
@@ -35,32 +30,29 @@ const SnapshotIcon = React.createClass({
       classes += ' ' + this.props.className;
     }
     return (
-      <Icon type={getIcon(this.props.snapshot)}
-            style={this.getStyles()}
+      <Icon type={this.getIcon()}
             className={classes}/>
     );
   },
 
-  getStyles() {
-    const styles = {};
+  getIcon() {
+    let iconType = '';
 
     switch(this.state.health) {
       case health.ok:
-        styles.borderColor = getColor(getZone(this.props.snapshot));
+        iconType = '';
         break;
       case health.warning:
-        styles.borderColor = '#F3BA09';
-        styles.backgroundColor = '#575014';
+        iconType = 'grid';
         break;
       case health.danger:
-        styles.borderColor = '#B61531';
-        styles.backgroundColor = '#551424';
+        iconType = 'map';
         break;
       default:
         throw new Error('Unknown health');
     }
 
-    return styles;
+    return iconType;
   }
 });
 
