@@ -24,7 +24,6 @@
     "instana-ui-components": "^1.0.0",
     "instana-ui-sdk": "^1.0.0",
     "instana-ui-services": "^1.1.0",
-    "instana-ui-themes": "^1.9.0",
     "invariant": "^2.0.0",
     "lodash": "^3.9.0",
     "napa": "^1.2.0",
