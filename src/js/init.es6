@@ -1,3 +1,5 @@
+'use strict';
+
 // require the forge to add pluggables
 import 'instana-ui-forge';
 
