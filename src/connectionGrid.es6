@@ -4,7 +4,7 @@ import THREE from 'three';
 import PF from 'pathfinding';
 import {createLogger} from 'instalog';
 
-const logger = createLogger('ui-map.stickyNote.Node.index');
+const logger = createLogger('ui-map.connectionGrid');
 
 
 class ConnectionGrid {

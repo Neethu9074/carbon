@@ -423,10 +423,10 @@ export default class Scene {
     this.renderScene();
   }
 
-  onObjectClicked(object) {
+  onObjectClicked(object, fireExternalEvent = true) {
     this.controller.flyToObject(object);
 
-    if(!object.parentSceneObject.isUnknown) {
+    if(!object.parentSceneObject.isUnknown && fireExternalEvent) {
       const snapshotId = extractId(object.parentSceneObject.snapshot);
       this.onClick({snapshot: snapshotId});
     }
@@ -442,7 +442,7 @@ export default class Scene {
           this.controller.cameraSpeed = 4;
           this.controller.setZoomLevel(200);
           setTimeout(() => {
-            this.onObjectClicked(node.cube);
+            this.onObjectClicked(node.cube, false);
             setTimeout(() => {
               this.controller.setZoomLevel(50);
               setTimeout(() => {
@@ -452,7 +452,7 @@ export default class Scene {
             }, 600);
           }, 10);
         } else {
-          this.onObjectClicked(node.cube);
+          this.onObjectClicked(node.cube, false);
         }
       }
     });
