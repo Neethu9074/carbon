@@ -2,7 +2,7 @@
 
 import THREE from 'three';
 import Tween from 'tween.js'
-import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import {isIdEqual, extractId} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 
 import './lib/Octree';
@@ -432,7 +432,8 @@ export default class Scene {
     this.controller.flyToObject(object);
 
     if(!object.parentSceneObject.isUnknown) {
-      this.onClick({snapshot: object.parentSceneObject.snapshot});
+      const snapshotId = extractId(object.parentSceneObject.snapshot);
+      this.onClick({snapshot: snapshotId});
     }
   }
 
