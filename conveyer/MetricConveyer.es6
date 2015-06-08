@@ -37,7 +37,13 @@ export default class MetricConveyer {
   start(onNext) {
     this.subscription = connection.emitter.on('message')
       .filter(this.dataEventPredicate)
-      .subscribe(e => onNext(e.v));
+      .subscribe(e => {
+        if (this.subscribeEvent.since) {
+          onNext(e.data);
+        } else {
+          onNext(e.v);
+        }
+      });
 
     connection.subscribe(this.id, this.subscribeEvent);
   }
