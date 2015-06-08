@@ -34,7 +34,8 @@
     "invariant": "^1.0.2",
     "lodash": "^3.9.0",
     "react": "^0.13.1",
-    "react-intl": "^1.2.0"
+    "react-intl": "^1.2.0",
+    "reactive-observables": "^1.2.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",

@@ -3,41 +3,46 @@
 import React from 'react';
 import Icon from 'instana-ui-components/Icon';
 import classnames from 'instana-ui-services/util/classnames';
+import {getZone} from 'instana-ui-sdk/zones';
+import * as selectedSnapshotStore from './stores/selectedSnapshot';
+import * as sidebarStore from './stores/sidebar';
 
 import './Header.less';
 
 const Header = React.createClass({
   render() {
     const block = 'in-header';
+    const snapshot = this.props.selectedSnapshot;
+    const path = this.getPath(snapshot);
 
     return (
       <div className={classnames({
         [block]: true,
-        [block + '--in-drilldown']: this.props.backEnabled
+        [block + '--in-drilldown']: !!snapshot
       })}>
         <div className={block + '__navigation'}>
           <Icon type='arrow_left'
                 className={classnames({
                   [block + '__back']: true,
-                  [block + '__back--active']: this.props.backEnabled
+                  [block + '__back--active']: !!snapshot
                 })}
-                onClick={this.props.onBack} />
+                onClick={this.onBack} />
 
           <ol className={block + '__breadcrumb'}>
             <li className={block + '__breadcrumb-item'}>
               Your Server Farm
             </li>
-            {this.props.path.map((path, i) =>
-              <div key={path}
+            {path.map((p, i) =>
+              <div key={p}
                    className={block + '__breadcrumb-group'}>
                 <li className={block + '__breadcrumb-separator'}>
                   /
                 </li>
                 <li className={classnames({
                   [block + '__breadcrumb-item']: true,
-                  [block + '__breadcrumb-item--active']: i === this.props.path.length - 1,
+                  [block + '__breadcrumb-item--active']: i === path.length - 1
                 })}>
-                  {path}
+                  {p}
                 </li>
               </div>
             )}
@@ -58,8 +63,25 @@ const Header = React.createClass({
     );
   },
 
+  getPath() {
+    const snapshot = this.props.selectedSnapshot;
+    if (!snapshot) {
+      return [];
+    }
+
+    const path = [];
+    const zone = getZone(snapshot);
+    path.push(zone);
+    path.push(snapshot.getIn(['data', 'hostname']));
+    return path;
+  },
+
   toggleSidebarVisibility() {
-    this.props.onSidebarVisibilityChanged(!this.props.sidebarVisible);
+    sidebarStore.setVisibility(!this.props.sidebarVisible);
+  },
+
+  onBack() {
+    selectedSnapshotStore.clear();
   }
 });
 

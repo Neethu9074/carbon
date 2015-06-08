@@ -1,9 +1,12 @@
 'use strict';
 
-import React from 'react';
+import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import Map from 'instana-ui-map';
-import {getZone} from 'instana-ui-sdk/zones';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+
+import * as selectedSnapshotStore from './stores/selectedSnapshot';
+import * as sidebarStore from './stores/sidebar';
 
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
@@ -14,7 +17,7 @@ import DetailPane from './DetailPane';
 import './App.less';
 
 const App = React.createClass({
-  mixins: [IntlMixin],
+  mixins: [IntlMixin, SubscriptionMixin, React.addons.PureRenderMixin],
 
   getInitialState() {
     return {
@@ -23,14 +26,29 @@ const App = React.createClass({
     };
   },
 
+  componentDidMount() {
+    this.addSubscription(
+      selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot => {
+        this.setState({
+          selectedSnapshot
+        });
+      })
+    );
+
+    this.addSubscription(
+      sidebarStore.visibility.subscribe(sidebarVisible => {
+        this.setState({
+          sidebarVisible
+        });
+      })
+    );
+  },
+
   render() {
     return (
       <div>
-        <Header sidebarVisible={this.state.sidebarVisible}
-                onSidebarVisibilityChanged={this.setSidebarVisibility}
-                onBack={this.back}
-                backEnabled={!!this.state.selectedSnapshot}
-                path={this.getPath()}/>
+        <Header selectedSnapshot={this.state.selectedSnapshot}
+                sidebarVisible={this.state.sidebarVisible} />
 
         <div style={{display: this.state.selectedSnapshot ? 'none' : 'block'}}>
           <Map onClick={this.openDashboard} />
@@ -50,19 +68,6 @@ const App = React.createClass({
     );
   },
 
-  getPath() {
-    const snapshot = this.state.selectedSnapshot;
-    if (!snapshot) {
-      return [];
-    }
-
-    const path = [];
-    const zone = getZone(snapshot);
-    path.push(zone);
-    path.push(snapshot.getIn(['data', 'hostname']));
-    return path;
-  },
-
   setSidebarVisibility(visible) {
     this.setState({
       sidebarVisible: visible
@@ -70,15 +75,7 @@ const App = React.createClass({
   },
 
   openDashboard(event) {
-    this.setState({
-      selectedSnapshot: event.snapshot
-    });
-  },
-
-  back() {
-    this.setState({
-      selectedSnapshot: null
-    });
+    selectedSnapshotStore.select(event.snapshot);
   }
 
 });
