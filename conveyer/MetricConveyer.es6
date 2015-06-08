@@ -13,7 +13,7 @@ export default class MetricConveyer {
     ].join(',');
   }
 
-  constructor({snapshot, metric}) {
+  constructor({snapshot, metric, since}) {
     this.id = connection.getSubscriptionId();
 
     this.subscribeEvent = {
@@ -25,6 +25,10 @@ export default class MetricConveyer {
       steadyId: snapshot.get('steadyId'),
       pluginId: snapshot.get('pluginId')
     };
+
+    if (since) {
+      this.subscribeEvent.since = since;
+    }
 
     this.dataEventPredicate = e => e.id === this.id;
   }
