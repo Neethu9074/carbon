@@ -50,9 +50,9 @@ const ServerDetails = React.createClass({
           <Panel title='Amazon'>
             <dl>
               <div className={block + '__horizontal-list-item'}>
-                <dt>Type</dt>
+                <dt>AMI ID</dt>
                 <dd>
-                  {ec2.get('instance-type')}
+                  {ec2.get('ami-id')}
                 </dd>
               </div>
 
@@ -64,16 +64,23 @@ const ServerDetails = React.createClass({
               </div>
 
               <div className={block + '__horizontal-list-item'}>
-                <dt>Availability Zone</dt>
+                <dt>Reservation ID</dt>
                 <dd>
-                  {ec2.get('availability-zone')}
+                  {ec2.get('reservation-id')}
                 </dd>
               </div>
 
               <div className={block + '__horizontal-list-item'}>
-                <dt>AMI ID</dt>
+                <dt>Type</dt>
                 <dd>
-                  {ec2.get('ami-id')}
+                  {ec2.get('instance-type')}
+                </dd>
+              </div>
+
+              <div className={block + '__horizontal-list-item'}>
+                <dt>Availability Zone</dt>
+                <dd>
+                  {ec2.get('availability-zone')}
                 </dd>
               </div>
             </dl>
