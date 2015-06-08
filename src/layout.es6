@@ -29,7 +29,7 @@ export default class Layouter {
   applyLayout(map) {
     map.groups.forEach((group, groupIndex) => {
       const groupPosition =
-        this.getgroupPosition(groupIndex, group.nodes.length);
+        this.getGroupPosition(groupIndex, group.nodes.length);
 
       // add respectively subtract 0.5 to accomodate for central positioning of
       // nodes.
@@ -73,7 +73,7 @@ export default class Layouter {
     return new THREE.Vector3(x, 0, -y);
   }
 
-  getgroupPosition(groupIndex, numberOfNodes) {
+  getGroupPosition(groupIndex, numberOfNodes) {
     const x = groupIndex * (this.groupWidth + this.groupMargin);
     const y = 0;
     const width = this.groupWidth;

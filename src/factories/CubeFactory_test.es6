@@ -21,7 +21,7 @@ describe('3D map', () => {
     factory = new CubeFactory({scene});
   });
 
-  describe('mesh factory', () => {
+  describe('cube factory', () => {
     it('can be created', () => {
       expect(factory.vertexPos.length).to.equal(18); //one point
       expect(factory.vertexPos[0].length).to.equal(3); //three parts x,y,z

@@ -74,6 +74,10 @@ export default class CubeFactory extends MeshFactory {
   getColorArrayForFragment(fragment) {
     const health = fragment.health;
 
+    if(!health) {
+      return colorItemsOk;
+    }
+
     if(health === health.warning) {
       return colorItemsWarning;
     } else if(health === health.danger) {
