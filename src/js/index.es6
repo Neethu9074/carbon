@@ -1,30 +1,22 @@
+/*global require:false */
+
 'use strict';
 
-// require the forge to add pluggables
-import 'instana-ui-forge';
+runWithPolyfills(() => {
+  require('./init');
+});
 
-import React from 'react';
-import logging from 'instalog';
-import {setThemeOnHtmlDocument} from 'instana-ui-services/theme';
-
-import App from './App';
-import i18n from './i18n';
-import * as airshow from './airshow';
-
-if (logging.ConsoleAppender.isPossible()) {
-  const consoleAppender = new logging.ConsoleAppender();
-  // during development we want to see all log messages
-  consoleAppender.setActivePriority(11);
-  logging.addAppender(consoleAppender);
-}
-
-setThemeOnHtmlDocument();
-
-React.render(
-  <App {...i18n}/>,
-  document.body
-);
-
-if (window.location.href.indexOf('airshow') !== -1) {
-  airshow.start();
+function runWithPolyfills(fn) {
+  // Check if polyfill required
+  if (!window.Intl) {
+    // Webpack parses the inside of require([]) at build time to know that
+    // intl should be bundled separately. You could get the same effect by
+    // passing ['intl'] as the first argument.
+    require(['intl'], () => {
+      fn();
+    });
+  } else {
+    // Polyfill wasn't needed, carry on
+    fn();
+  }
 }
