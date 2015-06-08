@@ -20,7 +20,7 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
 const cubeMaterial = new THREE.MeshBasicMaterial();
 
 
-export default class BaseHost extends SceneObject {
+export default class BaseNode extends SceneObject {
 
   constructor({parent, snapshot}) {
     super({parent});
@@ -54,8 +54,8 @@ export default class BaseHost extends SceneObject {
   addToGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
   //adds the cube geometry
-  addToHostFactory(id, pos, dim) {
-    this.scene.hostFactory.addFragment({
+  addToNodeFactory(id, pos, dim) {
+    this.scene.nodeFactory.addFragment({
       id, pos,
       dim: dim.clone(),
       health: this.health
@@ -64,7 +64,7 @@ export default class BaseHost extends SceneObject {
 
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
-      //update only if this host is visible
+      //update only if this node is visible
       if(!this.hidden) {
         this.update(data);
       }
@@ -105,16 +105,16 @@ export default class BaseHost extends SceneObject {
     this.addToGlobalGeometry();
   }
 
-  //connects this host with another one. the connection is stored in a
+  //connects this node with another one. the connection is stored in a
   //connections collection
-  connectWith(otherHost) {
+  connectWith(otherNode) {
     //don't setup a new connection if it's still alive
-    if(this.connections.indexOf(otherHost) >= 0) {
+    if(this.connections.indexOf(otherNode) >= 0) {
       return;
     }
 
     /*eslint-disable no-new*/
-    new Connection({parent: this, from: this, to: otherHost});
+    new Connection({parent: this, from: this, to: otherNode});
     /*eslint-enable no-new*/
   }
 

@@ -4,8 +4,8 @@ import _ from 'lodash';
 import THREE from 'three';
 
 import SceneObject from './SceneObject';
-import Host from './Host';
-import UnknownHost from './UnknownHost';
+import Node from './Node';
+import UnknownNode from './UnknownNode';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {theme} from 'instana-ui-services/theme';
 import {getColor} from 'instana-ui-sdk/zones';
@@ -22,7 +22,7 @@ export default class Group extends SceneObject {
 
     this.id = id;
     this.groupIndex = groupIndex;
-    this.hosts = [];
+    this.nodes = [];
 
     this.createGround();
   }
@@ -99,21 +99,21 @@ export default class Group extends SceneObject {
     return new THREE.Mesh(groupGeometry, mat);
   }
 
-  addHost({snapshot, unknown=false}) {
-    const hostId = getIdString(snapshot);
+  addNode({snapshot, unknown=false}) {
+    const nodeId = getIdString(snapshot);
 
-    //if there is no hostId it's an unknown host
-    if(hostId) {
-      //check if the host was already created and only needs an update
-      let host = _.find(this.hosts, host => host.id === hostId);
+    //if there is no nodeId it's an unknown node
+    if(nodeId) {
+      //check if the node was already created and only needs an update
+      let node = _.find(this.nodes, node => node.id === nodeId);
 
-      //if the host was created in the past
-      if(host) {
-        host.onSnapshotUpdate(snapshot);
+      //if the node was created in the past
+      if(node) {
+        node.onSnapshotUpdate(snapshot);
       } else if(unknown) {
-        this.hosts.push(new UnknownHost({parent: this, snapshot}));
+        this.nodes.push(new UnknownNode({parent: this, snapshot}));
       } else {
-        this.hosts.push(new Host({parent: this, snapshot}));
+        this.nodes.push(new Node({parent: this, snapshot}));
       }
     }
   }
@@ -146,10 +146,10 @@ export default class Group extends SceneObject {
   }
 
   removeChild(child) {
-    _.remove(this.hosts, host => host.id === child.id);
+    _.remove(this.nodes, node => node.id === child.id);
 
-    //destroy this group if there are no hosts anymore
-    if(this.hosts.length === 0) {
+    //destroy this group if there are no nodes anymore
+    if(this.nodes.length === 0) {
       //remove this from parents groups collection
       this.parent.removeChild(this);
 
@@ -169,7 +169,7 @@ export default class Group extends SceneObject {
     this.removeSceneObject(this.ground);
     this.removeSceneObject(this.edge);
 
-    this.hosts.forEach(host => host.dispose());
+    this.nodes.forEach(node => node.dispose());
 
     super.dispose();
 
@@ -178,7 +178,7 @@ export default class Group extends SceneObject {
     this.disposeMesh(this.ground);
 
     this.id = null;
-    this.hosts = [];
+    this.nodes = [];
     this.groupIndex = null;
   }
 }

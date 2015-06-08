@@ -2,13 +2,13 @@
 
 import THREE from 'three';
 
-import BaseHost from './BaseHost';
-import StickyNoteUnknownHost from './StickyNote/UnknownHost';
+import BaseNode from './BaseNode';
+import StickyNoteUnknownNode from './StickyNote/UnknownNode';
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 
 
-export default class UnknownHost extends BaseHost {
+export default class Unknownnode extends BaseNode {
 
   constructor({parent, snapshot}) {
     super({parent, snapshot});
@@ -21,11 +21,11 @@ export default class UnknownHost extends BaseHost {
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
 
-    this.addToHostFactory(id, pos, dim);
+    this.addToNodeFactory(id, pos, dim);
   }
 
   createStickyNote() {
-    return new StickyNoteUnknownHost(this);
+    return new StickyNoteUnknownNode(this);
   }
 
   update(data) {
@@ -33,7 +33,7 @@ export default class UnknownHost extends BaseHost {
       return;
     }
 
-    //if the host is near enough or is in the view frustum
+    //if the node is near enough or is in the view frustum
     if(data.scene.objectIsVisible(this.cube)) {
       this.updateStickyNotes();
     } else {
@@ -49,13 +49,13 @@ export default class UnknownHost extends BaseHost {
   enableFragments(enabled) {
     const scene = this.scene;
     const id = this.id;
-    scene.hostFactory.enableFragment(id, enabled);
+    scene.nodeFactory.enableFragment(id, enabled);
   }
 
   removeFromGlobalGeometry() {
     const id = this.id;
     const scene = this.scene;
-    scene.hostFactory.removeFragment(id);
+    scene.nodeFactory.removeFragment(id);
   }
 
   dispose() {

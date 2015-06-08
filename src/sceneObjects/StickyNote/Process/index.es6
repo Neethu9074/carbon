@@ -27,7 +27,7 @@ const StickyNoteRC = React.createClass({
 });
 /*eslint-enable no-unused-vars*/
 
-export default class StickyNoteHost extends StickyNote {
+export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note-process'});
     this.updateWorldPos();

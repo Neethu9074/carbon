@@ -16,7 +16,7 @@ const colorItemsDarkerBlue = [
 ];
 
 
-export default class HostFactory extends CubeFactory {
+export default class NodeFactory extends CubeFactory {
   constructor({scene}) {
     super({scene});
   }

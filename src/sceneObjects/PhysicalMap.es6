@@ -87,25 +87,25 @@ export default class PhysicalMap extends SceneObject {
   applyLayout() {
     let numElementsOnMap = 0;
     this.groups.forEach(group => {
-      group.hosts.forEach(() => {
+      group.nodes.forEach(() => {
         numElementsOnMap++;
       });
     });
 
-    const maxHostsPerRow = Math.floor(
+    const maxNodesPerRow = Math.floor(
       Math.sqrt(numElementsOnMap / this.groups.length));
-    new Layouter({maxHostsPerRow}).applyLayout(this);
+    new Layouter({maxNodesPerRow}).applyLayout(this);
   }
 
   onInventoryUpdate(snapshots) {
     const unknownGroup = this.getOrCreateGroup('unmonitored');
     const connections = extractConnections(snapshots);
-    snapshots.forEach(host => this.addHost(host, connections, unknownGroup));
+    snapshots.forEach(node => this.addNode(node, connections, unknownGroup));
 
-    this.removeVanishedUnknownHosts(connections, unknownGroup);
-    this.removeVanishedHosts(snapshots);
+    this.removeVanishedUnknownNodes(connections, unknownGroup);
+    this.removeVanishedNodes(snapshots);
 
-    //delete the unknownGroup if there are no hosts in it
+    //delete the unknownGroup if there are no nodes in it
     if(unknownGroup.length === 0) {
       unknownGroup.dispose();
     }
@@ -116,37 +116,37 @@ export default class PhysicalMap extends SceneObject {
     this.parent.renderScene();
   }
 
-  removeVanishedHosts(snapshots) {
-    // identify removed hosts: hosts that are not inside the snapshot update
-    const removedHosts = this.groups
-      //get all hosts from all groups
-      .reduce((hosts, group) => {return hosts.concat(group.hosts); }, [])
+  removeVanishedNodes(snapshots) {
+    // identify removed nodes: nodes that are not inside the snapshot update
+    const removedNodes = this.groups
+      //get all nodes from all groups
+      .reduce((nodes, group) => {return nodes.concat(group.nodes); }, [])
       //only the monitored
-      .filter(host => !host.isUnknown)
+      .filter(node => !node.isUnknown)
       //only the ones that are not in snapshots anymore
-      .filter(host => {
+      .filter(node => {
         const foundSnapshot = snapshots.find(snapshot =>
-          isIdEqual(snapshot, host.snapshot));
+          isIdEqual(snapshot, node.snapshot));
         return !foundSnapshot;
       });
 
-    removedHosts.forEach((host) => host.dispose());
+    removedNodes.forEach((node) => node.dispose());
   }
 
-  addHost(host, connections, unknownGroup) {
-    const groupId = getZone(host);
+  addNode(node, connections, unknownGroup) {
+    const groupId = getZone(node);
     const group = this.getOrCreateGroup(groupId);
 
-    //add the host to group (the group handles duplicates)
-    group.addHost({snapshot: host});
+    //add the node to group (the group handles duplicates)
+    group.addNode({snapshot: node});
 
     //if the group has switched,
-    //delete the hosts in other groups than the current one
-    this.removeHostFromAllGroupsInsteadOf(groupId, host);
+    //delete the nodes in other groups than the current one
+    this.removeNodeFromAllGroupsInsteadOf(groupId, node);
 
-    const hostConnections = connections.find((v, k) => k === host);
-    if(hostConnections) {
-      this.createAllUnknownHostsFor(host, hostConnections, unknownGroup);
+    const nodeConnections = connections.find((v, k) => k === node);
+    if(nodeConnections) {
+      this.createAllUnknownNodesFor(node, nodeConnections, unknownGroup);
     }
   }
 
@@ -154,7 +154,7 @@ export default class PhysicalMap extends SceneObject {
     //get find the group with groupId
     let group = _.find(this.groups, group => group.id === groupId);
 
-    //if the hosts group doesn't exist, create it
+    //if the nodes group doesn't exist, create it
     if (!group) {
       group = new Group({
         parent: this,
@@ -169,54 +169,54 @@ export default class PhysicalMap extends SceneObject {
   }
 
   //runs through all groups instead of the current one and searches for the
-  //host added to the current one. if found -> delete it from old groups
-  removeHostFromAllGroupsInsteadOf(groupId, host) {
+  //node added to the current one. if found -> delete it from old groups
+  removeNodeFromAllGroupsInsteadOf(groupId, node) {
     this.groups.forEach(group =>{
       if(group.id !== groupId) {
-        group.hosts.forEach(groupHost => {
-          if(isIdEqual(host, groupHost.snapshot)) {
-            groupHost.dispose();
+        group.nodes.forEach(groupNode => {
+          if(isIdEqual(node, groupNode.snapshot)) {
+            groupNode.dispose();
           }
         });
       }
     });
   }
 
-  createAllUnknownHostsFor(snapshot, connections, unknownGroup) {
+  createAllUnknownNodesFor(snapshot, connections, unknownGroup) {
     const allConnections = connections.outgoing.concat(connections.incoming);
 
     allConnections.forEach((connection) => {
-      //only create hosts that are unmonitored by agent
+      //only create nodes that are unmonitored by agent
       if(connection.get('state') === 'unmonitored') {
-        unknownGroup.addHost({snapshot: connection, unknown: true});
+        unknownGroup.addNode({snapshot: connection, unknown: true});
       }
     });
   }
 
-  removeVanishedUnknownHosts(connections, unknownGroup) {
-    const allUnmonitoredHosts = unknownGroup.hosts;
-    const allAvailableUnmonitoredHosts = [];
+  removeVanishedUnknownNodes(connections, unknownGroup) {
+    const allUnmonitoredNodes = unknownGroup.nodes;
+    const allAvailableUnmonitoredNodes = [];
 
-    connections.forEach((hostCons) => {
-      const allConnections = hostCons.outgoing.concat(hostCons.incoming);
+    connections.forEach((nodeCons) => {
+      const allConnections = nodeCons.outgoing.concat(nodeCons.incoming);
       allConnections.forEach((connection) => {
         if(connection.get('state') === 'unmonitored') {
-          allAvailableUnmonitoredHosts.push(connection);
+          allAvailableUnmonitoredNodes.push(connection);
         }
       });
     });
 
-    //get all created hosts which are not inside all current hosts collection
-    const removed = allUnmonitoredHosts
-      .filter(host => {
-        const match = _.find(allAvailableUnmonitoredHosts, available => {
-          return isIdEqual(available, host.snapshot);
+    //get all created nodes which are not inside all current nodes collection
+    const removed = allUnmonitoredNodes
+      .filter(node => {
+        const match = _.find(allAvailableUnmonitoredNodes, available => {
+          return isIdEqual(available, node.snapshot);
         });
         return !match;
       });
 
-    //dispose all found hosts
-    removed.forEach((host) => host.dispose());
+    //dispose all found nodes
+    removed.forEach((node) => node.dispose());
   }
 
   showWalkableGrid() {
@@ -228,36 +228,36 @@ export default class PhysicalMap extends SceneObject {
   }
 
   //is called after an inventory update incoming. the prerequirement is
-  //that all hosts are available to connect the objects
+  //that all nodes are available to connect the objects
   setupConnections(snapshots, connections) {
     //clear all connections
     allConnections.slice().forEach(connection => connection.dispose());
 
-    const idHostMap = this.getIdHostMap();
+    const idNodeMap = this.getIdNodeMap();
 
-    connections.forEach((hostCons, host) => {
-      //if the from host is available
-      const fromHost = idHostMap[getIdString(host)];
-      if(fromHost) {
+    connections.forEach((nodeCons, node) => {
+      //if the from node is available
+      const fromNode = idNodeMap[getIdString(node)];
+      if(fromNode) {
 
-        hostCons.outgoing.forEach(connection => {
-          //if the host has any connection
+        nodeCons.outgoing.forEach(connection => {
+          //if the node has any connection
           if(connection) {
-            //if to host is available
-            const toHost = idHostMap[getIdString(connection)];
-            if(toHost) {
-              fromHost.connectWith(toHost);
+            //if to node is available
+            const toNode = idNodeMap[getIdString(connection)];
+            if(toNode) {
+              fromNode.connectWith(toNode);
             }
           }
         });
 
-        hostCons.incoming.forEach(connection => {
-          //if the host has any connection
+        nodeCons.incoming.forEach(connection => {
+          //if the node has any connection
           if(connection) {
-            //if to host is available
-            const toHost = idHostMap[getIdString(connection)];
-            if(toHost) {
-              toHost.connectWith(fromHost);
+            //if to node is available
+            const toNode = idNodeMap[getIdString(connection)];
+            if(toNode) {
+              toNode.connectWith(fromNode);
             }
           }
         });
@@ -265,13 +265,13 @@ export default class PhysicalMap extends SceneObject {
     });
   }
 
-  //creates an object<getIdString(host), host> to get fast access to it
-  getIdHostMap() {
+  //creates an object<getIdString(node), node> to get fast access to it
+  getIdNodeMap() {
     const map = {};
 
     this.groups.forEach(group => {
-      group.hosts.forEach(host => {
-        map[host.id] = host;
+      group.nodes.forEach(node => {
+        map[node.id] = node;
       });
     });
 
@@ -280,14 +280,14 @@ export default class PhysicalMap extends SceneObject {
 
   filter(validationFunction) {
     const unMatched = this.groups
-      //get all hosts from all groups
-      .reduce((hosts, group) => {return hosts.concat(group.hosts); }, [])
-      .filter(host => !validationFunction(host));
+      //get all nodes from all groups
+      .reduce((nodes, group) => {return nodes.concat(group.nodes); }, [])
+      .filter(node => !validationFunction(node));
 
-    unMatched.forEach((host) => host.hide());
+    unMatched.forEach((node) => node.hide());
   }
 
-  //is called from group if it has no hosts anymore
+  //is called from group if it has no nodes anymore
   removeChild(child) {
     _.remove(this.groups, group => group.id === child.id);
   }

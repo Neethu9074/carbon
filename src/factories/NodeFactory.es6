@@ -13,25 +13,25 @@ const colorItemsGrayed = [
 ];
 
 
-export default class HostFactory extends CubeFactory {
+export default class NodeFactory extends CubeFactory {
   constructor({scene}) {
     super({scene});
 
-    this.colorHosts = this.colorHosts.bind(this);
-    this.hostsGrayed = false;
+    this.colorNodes = this.colorNodes.bind(this);
+    this.nodesGrayed = false;
   }
 
-  grayAllHosts(colorThem) {
-    if(colorThem && !this.hostsGrayed) {
-      this.hostsGrayed = true;
-      this.colorHosts();
-    } else if(!colorThem && this.hostsGrayed) {
-      this.hostsGrayed = false;
-      this.colorHosts();
+  grayAllNodes(colorThem) {
+    if(colorThem && !this.nodesGrayed) {
+      this.nodesGrayed = true;
+      this.colorNodes();
+    } else if(!colorThem && this.nodesGrayed) {
+      this.nodesGrayed = false;
+      this.colorNodes();
     }
   }
 
-  colorHosts() {
+  colorNodes() {
     //get all enabled fragments
     const frags = this.getLegalFragments();
     const numCubes = frags.length;
@@ -64,8 +64,8 @@ export default class HostFactory extends CubeFactory {
   }
 
   getColorArrayForFragment(fragment) {
-    //if all hosts are grayed of the health is undefined
-    if(this.hostsGrayed || !fragment.health) {
+    //if all nodes are grayed of the health is undefined
+    if(this.nodesGrayed || !fragment.health) {
       return colorItemsGrayed;
     } else {
       return super.getColorArrayForFragment(fragment);

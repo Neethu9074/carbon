@@ -11,7 +11,7 @@ import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 
 let currentMetric;
 
-export default class MetricServer {
+export default class NodeSnapshotServer {
 
   constructor(client) {
     this.client = client;
@@ -48,8 +48,8 @@ export default class MetricServer {
 
   onProcessUpdate(snapshots) {
     snapshots.forEach(process => {
-      const hostId = process.get('hostId');
-      if(hostId === this.client.snapshot.get('hostId')) {
+      const nodeId = process.get('hostId');
+      if(nodeId === this.client.snapshot.get('hostId')) {
         this.client.addProcess(process);
       }
     });

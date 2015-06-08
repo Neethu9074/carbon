@@ -7,10 +7,10 @@ import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {health} from 'instana-ui-services/health';
 import eventBus from 'instana-ui-services/eventbus';
 
-import BaseHost from './BaseHost';
+import BaseNode from './BaseNode';
 import Process from './Process';
-import HostSnapshotServer from '../HostSnapshotServer';
-import StickyNoteHost from './StickyNote/Host';
+import NodeSnapshotServer from '../NodeSnapshotServer';
+import StickyNoteNode from './StickyNote/Node';
 import StickyNoteProcess from './StickyNote/Process';
 import StickyNoteMetric from './StickyNote/Metric';
 
@@ -30,7 +30,7 @@ const emptyStickyObject = {
 };
 
 
-export default class Host extends BaseHost {
+export default class Node extends BaseNode {
 
   constructor({parent, snapshot}) {
     this.health = health.ok;
@@ -45,7 +45,7 @@ export default class Host extends BaseHost {
   registerEvents() {
     super.registerEvents();
 
-    this.snapshotServer = new HostSnapshotServer(this);
+    this.snapshotServer = new NodeSnapshotServer(this);
   }
 
   addToGlobalGeometry() {
@@ -53,7 +53,7 @@ export default class Host extends BaseHost {
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
 
-    this.addToHostFactory(id, pos, dim);
+    this.addToNodeFactory(id, pos, dim);
     this.addToGroupFactory(id, pos, dim);
     this.addToMultiMetricFactory(id, pos, dim);
     this.addToSingleMetricFactory(id, pos, dim);
@@ -80,8 +80,8 @@ export default class Host extends BaseHost {
     });
   }
 
-  //this is not the group where hosts are on!
-  //it's the health ground group of each host
+  //this is not the group where nodes are on!
+  //it's the health ground group of each node
   addToGroupFactory(id, pos, dim) {
     if(!this.health) {
       return;
@@ -96,7 +96,7 @@ export default class Host extends BaseHost {
   }
 
   createStickyNote() {
-    return new StickyNoteHost(this);
+    return new StickyNoteNode(this);
   }
 
   showMetrics() {
@@ -157,7 +157,7 @@ export default class Host extends BaseHost {
       return;
     }
 
-    //if the host is near enough or is in the view frustum
+    //if the node is near enough or is in the view frustum
     if(!data.scene.objectIsVisible(this.cube)) {
       //trigger the hide method just once
       if(!this.outsideViewFrustum) {
@@ -179,7 +179,7 @@ export default class Host extends BaseHost {
     this.stickyNote.hide();
     // this.stickyNoteMetric.hide();
 
-    //disable metrics if the host isn't visible
+    //disable metrics if the node isn't visible
     this.snapshotServer.pauseMetrics();
   }
 
@@ -188,7 +188,7 @@ export default class Host extends BaseHost {
     //   this.stickyNoteMetric = new StickyNoteMetric(this);
     // }
 
-    //enable metrics if the host is visible but only if there is no "active"
+    //enable metrics if the node is visible but only if there is no "active"
     //hideMetrics event
     this.snapshotServer.resumeMetrics();
   }
@@ -231,9 +231,9 @@ export default class Host extends BaseHost {
     const dim = this.cube.scale;
 
     this.health = health;
-    this.changeColorInFactory(id, health, this.scene.hostFactory);
+    this.changeColorInFactory(id, health, this.scene.nodeFactory);
 
-    //can't change the color of the group like the host does because
+    //can't change the color of the group like the node does because
     //ok groups doesn't have a group geometry!
     this.scene.groupFactory.removeFragment(id);
     this.addToGroupFactory(id, pos, dim);
@@ -265,7 +265,7 @@ export default class Host extends BaseHost {
     const processes = this.processes;
     const container = this.container;
     const heightOfEachChild = this.cube.scale.y /
-      (processes.length + container.length); //totalHeight(host) / #children
+      (processes.length + container.length); //totalHeight(node) / #children
 
     let index = 0;
 
@@ -279,7 +279,7 @@ export default class Host extends BaseHost {
   }
 
   addStickyNoteForProcess() {
-    //only one sticky process sticky for each host
+    //only one sticky process sticky for each node
     if(this.stickyNoteProcess) {
       return;
     }
@@ -288,7 +288,7 @@ export default class Host extends BaseHost {
   }
 
   addStickyNoteForMetric() {
-    //only one sticky metric sticky for each host
+    //only one sticky metric sticky for each node
     if(this.stickyNoteMetric !== emptyStickyObject) {
       return;
     }
@@ -299,7 +299,7 @@ export default class Host extends BaseHost {
   enableFragments(enabled) {
     const scene = this.scene;
     const id = this.id;
-    scene.hostFactory.enableFragment(id, enabled);
+    scene.nodeFactory.enableFragment(id, enabled);
     scene.groupFactory.enableFragment(id, enabled);
     scene.multiMetricFactory.enableFragment(id, enabled);
     scene.singleMetricFactory.enableFragment(id, enabled);
@@ -308,7 +308,7 @@ export default class Host extends BaseHost {
   removeFromGlobalGeometry() {
     const id = this.id;
     const scene = this.scene;
-    scene.hostFactory.removeFragment(id);
+    scene.nodeFactory.removeFragment(id);
     scene.groupFactory.removeFragment(id);
     scene.multiMetricFactory.removeFragment(id);
     scene.singleMetricFactory.removeFragment(id);

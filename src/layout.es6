@@ -7,32 +7,32 @@ import {getPower} from 'instana-ui-sdk/power';
 
 
 export default class Layouter {
-  constructor({hostSize=1, maxHostHeight=3, groupPadding=1, groupMargin=1,
-      maxHostsPerRow=3, hostPadding=2}={}) {
-    this.hostSize = hostSize;
-    this.maxHostHeight = maxHostHeight;
+  constructor({nodeSize=1, maxNodeHeight=3, groupPadding=1, groupMargin=1,
+      maxNodesPerRow=3, nodePadding=2}={}) {
+    this.nodeSize = nodeSize;
+    this.maxNodeHeight = maxNodeHeight;
     this.groupPadding = groupPadding;
     this.groupMargin = groupMargin;
-    this.maxHostsPerRow = maxHostsPerRow;
-    this.hostPadding = hostPadding;
+    this.maxNodesPerRow = maxNodesPerRow;
+    this.nodePadding = nodePadding;
 
     this.connections = [];
 
-    // Each host takes up one unit horizontally.
-    this.groupWidth = maxHostsPerRow +
-      // Between the hosts we have some empty space.
-      (maxHostsPerRow - 1) * hostPadding +
-      // Before the first and after the last host we have group padding.
+    // Each node takes up one unit horizontally.
+    this.groupWidth = maxNodesPerRow +
+      // Between the nodes we have some empty space.
+      (maxNodesPerRow - 1) * nodePadding +
+      // Before the first and after the last node we have group padding.
       groupPadding * 2;
   }
 
   applyLayout(map) {
     map.groups.forEach((group, groupIndex) => {
       const groupPosition =
-        this.getgroupPosition(groupIndex, group.hosts.length);
+        this.getgroupPosition(groupIndex, group.nodes.length);
 
       // add respectively subtract 0.5 to accomodate for central positioning of
-      // hosts.
+      // nodes.
       group.setPosition(
         groupPosition.x + groupPosition.width / 2 - 1,
         0,
@@ -44,10 +44,10 @@ export default class Layouter {
         1
       ));
 
-      group.hosts.forEach((host, hostIndex) => {
-        const oldPosition = host.getPosition().clone();
-        const newPosition = this.getCubePosition(groupIndex, hostIndex);
-        host.setPosition(newPosition.x, newPosition.y, newPosition.z);
+      group.nodes.forEach((node, nodeIndex) => {
+        const oldPosition = node.getPosition().clone();
+        const newPosition = this.getCubePosition(groupIndex, nodeIndex);
+        node.setPosition(newPosition.x, newPosition.y, newPosition.z);
 
         ConnectionGrid.clearPosition(oldPosition);
         ConnectionGrid.blockPosition(newPosition);
@@ -57,49 +57,49 @@ export default class Layouter {
     this.updateHeight(map);
   }
 
-  getCubePosition(groupIndex, hostIndex) {
+  getCubePosition(groupIndex, nodeIndex) {
     // Each group means that we need to advance one group horizontally.
     const x = groupIndex * (this.groupWidth + this.groupMargin) +
-        // advance one host- and padding width per host, except the first.
-        hostIndex % this.maxHostsPerRow * (this.hostPadding + this.hostSize) +
+        // advance one node- and padding width per node, except the first.
+        nodeIndex % this.maxNodesPerRow * (this.nodePadding + this.nodeSize) +
         // There is always the group padding which we need to take into account.
         this.groupPadding;
 
-    // For every host that exceeds the max number of hosts per row we move
-    // one unit downwards, where unit means host size + padding
-    const y = Math.floor(hostIndex / this.maxHostsPerRow) *
-        (this.hostSize + this.hostPadding) + this.groupPadding;
+    // For every node that exceeds the max number of nodes per row we move
+    // one unit downwards, where unit means node size + padding
+    const y = Math.floor(nodeIndex / this.maxNodesPerRow) *
+        (this.nodeSize + this.nodePadding) + this.groupPadding;
 
     return new THREE.Vector3(x, 0, -y);
   }
 
-  getgroupPosition(groupIndex, numberOfHosts) {
+  getgroupPosition(groupIndex, numberOfNodes) {
     const x = groupIndex * (this.groupWidth + this.groupMargin);
     const y = 0;
     const width = this.groupWidth;
-    const height = this.getCubePosition(groupIndex, numberOfHosts - 1).z * -1 +
-      this.hostSize + this.groupPadding;
+    const height = this.getCubePosition(groupIndex, numberOfNodes - 1).z * -1 +
+      this.nodeSize + this.groupPadding;
 
     return {x, y, width, height};
   }
 
   updateHeight(map) {
-    const hosts = map.groups.reduce((agg, group) => {
-      return agg.concat(group.hosts);
+    const nodes = map.groups.reduce((agg, group) => {
+      return agg.concat(group.nodes);
     }, []);
 
-    const maxPower = this.getMaxPower(hosts);
-    const baseHeight = this.hostSize;
-    const growthRange = this.maxHostHeight - this.hostSize;
-    hosts.forEach(host => {
-      const weightedHeight = growthRange * (host.calculatePower() / maxPower);
-      host.setHeight(baseHeight + weightedHeight);
+    const maxPower = this.getMaxPower(nodes);
+    const baseHeight = this.nodeSize;
+    const growthRange = this.maxNodeHeight - this.nodeSize;
+    nodes.forEach(node => {
+      const weightedHeight = growthRange * (node.calculatePower() / maxPower);
+      node.setHeight(baseHeight + weightedHeight);
     });
   }
 
-  getMaxPower(hosts) {
-    return hosts.reduce((power, host) => {
-      return Math.max(power, host.calculatePower());
+  getMaxPower(nodes) {
+    return nodes.reduce((power, node) => {
+      return Math.max(power, node.calculatePower());
     }, 0);
   }
 }

@@ -35,38 +35,18 @@ which enables render statistics.
 
 ```
 
-?hostCount=x
-```
-for testing enviroment (creates x random hosts).
-
-```
-?singlemetrics
-```
-for testing enviroment (shows random metrics/host in 1sec update intervall).
-
-```
-?multimetrics
-```
-for testing enviroment (shows random metrics/host in 1sec update intervall).
-
-```
-?processes
-```
-for testing enviroment (creates x random processes/host).
-looks shitty if used with metrices!
-
 ## Structure
 The map is structured in:
 
 scene has a map (physical/logical).
 map has n groups.
-group has n hosts.
-host has n processes.
+group has n nodes.
+node has n processes.
 
 ## Filtering
-Hosts can be filtered via: PhysicalMap.filter(validationFunction);
+Nodes can be filtered via: PhysicalMap.filter(validationFunction);
 
 ```
-//filters the map and shows only all unknown hosts
-map.filter((host) => {return host.isUnknown === true; });
+//filters the map and shows only all unknown nodes
+map.filter((node) => {return node.isUnknown === true; });
 ```

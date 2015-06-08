@@ -12,8 +12,7 @@ import mobileChecker from './mobileChecker';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as time from './timeCalculations';
-import Host from './sceneObjects/Host';
-import HostFactory from './factories/HostFactory';
+import NodeFactory from './factories/NodeFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import ProcessFactory from './factories/ProcessFactory';
@@ -66,10 +65,6 @@ export default class Scene {
     this.subscriptions = [eventBus.on('focus').subscribe(e =>this.onFocus(e))];
 
     this.subscriptions.push(
-      eventBus.on('updateMetricHostEventName').subscribe(e =>
-        this.onUpdateHostMetricValue(e)));
-
-    this.subscriptions.push(
       eventBus.on('showMetrics').subscribe((e) => this.showMetrics(e)));
 
     this.subscriptions.push(
@@ -77,7 +72,7 @@ export default class Scene {
   }
 
   setupFactories() {
-    this.hostFactory = new HostFactory({scene: this});
+    this.nodeFactory = new NodeFactory({scene: this});
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
     this.groupFactory = new GroupFactory({scene: this});
@@ -119,7 +114,7 @@ export default class Scene {
     this.setupRenderer(width, height);
     this.setupCamera(width, height);
 
-    //this is the main scene for all scene objects like hosts or metrics
+    //this is the main scene for all scene objects like nodes or metrics
     this.scene = new THREE.Scene();
 
     //this is a scene just for the background rect to create a gradient instead
@@ -293,10 +288,10 @@ export default class Scene {
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
-    this.hostFactory.material.opacity = normedZoomLevel;
+    this.nodeFactory.material.opacity = normedZoomLevel;
 
-    //update host color opacity by distance
-    this.hostFactory.material.transparent = (zoomLevel < maxZoomOut);
+    //update node color opacity by distance
+    this.nodeFactory.material.transparent = (zoomLevel < maxZoomOut);
   }
 
   updateZoomLevelInCss(zoomUnits) {
@@ -437,8 +432,8 @@ export default class Scene {
   }
 
   onFocus(event) {
-    this.forEachHost((host) => {
-      if (isIdEqual(host.snapshot, event.snapshot)) {
+    this.forEachNode((node) => {
+      if (isIdEqual(node.snapshot, event.snapshot)) {
         if(event.zoom) {
           const zoomSpeed = this.controller.zoomSpeed;
           const camSpeed = this.controller.cameraSpeed;
@@ -446,7 +441,7 @@ export default class Scene {
           this.controller.cameraSpeed = 4;
           this.controller.setZoomLevel(200);
           setTimeout(() => {
-            this.onObjectClicked(host.cube);
+            this.onObjectClicked(node.cube);
             setTimeout(() => {
               this.controller.setZoomLevel(50);
               setTimeout(() => {
@@ -456,17 +451,17 @@ export default class Scene {
             }, 600);
           }, 10);
         } else {
-          this.onObjectClicked(host.cube);
+          this.onObjectClicked(node.cube);
         }
       }
     });
   }
 
-  forEachHost(func) {
-    //search each group for the given host id
+  forEachNode(func) {
+    //search each group for the given node id
     this.map.groups.forEach(group => {
-      group.hosts.forEach(host => {
-        func(host);
+      group.nodes.forEach(node => {
+        func(node);
       });
     });
   }

@@ -6,7 +6,7 @@ import {createLogger} from 'instalog';
 
 import './index.less';
 
-const logger = createLogger('ui-map.stickyNote.UnknownHost.index');
+const logger = createLogger('ui-map.stickyNote.UnknownNode.index');
 const rpt = React.PropTypes;
 
 /*eslint-disable no-unused-vars*/
@@ -24,7 +24,7 @@ const StickyNoteRC = React.createClass({
     let jsxStructure = (<div></div>);
     try {
       jsxStructure = (
-        <div className="in-sticky-note__host_id">
+        <div className="in-sticky-note__node_id">
           {snapshot.get('steadyId')}
         </div>
       );
@@ -38,7 +38,7 @@ const StickyNoteRC = React.createClass({
 });
 /*eslint-enable no-unused-vars*/
 
-export default class StickyNoteUnknownHost extends StickyNote {
+export default class StickyNoteUnknownNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note'});
     this.updateWorldPos();
