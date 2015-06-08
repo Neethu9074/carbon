@@ -11,7 +11,10 @@ const Header = React.createClass({
     const block = 'in-header';
 
     return (
-      <div className={block}>
+      <div className={classnames({
+        [block]: true,
+        [block + '--in-drilldown']: this.props.backEnabled
+      })}>
         <div className={block + '__navigation'}>
           <Icon type='arrow_left'
                 className={classnames({
@@ -24,13 +27,16 @@ const Header = React.createClass({
             <li className={block + '__breadcrumb-item'}>
               Your Server Farm
             </li>
-            {this.props.path.map(path =>
+            {this.props.path.map((path, i) =>
               <div key={path}
                    className={block + '__breadcrumb-group'}>
                 <li className={block + '__breadcrumb-separator'}>
                   /
                 </li>
-                <li className={block + '__breadcrumb-item'}>
+                <li className={classnames({
+                  [block + '__breadcrumb-item']: true,
+                  [block + '__breadcrumb-item--active']: i === this.props.path.length - 1,
+                })}>
                   {path}
                 </li>
               </div>

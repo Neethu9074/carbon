@@ -16,6 +16,10 @@
   align-items: center;
   justify-content: space-between;
 
+  &--in-drilldown {
+    background-color: rgba(85, 196, 252, 0.9);
+  }
+
   &__navigation, &__settings {
     display: flex;
     align-items: center;
@@ -49,6 +53,14 @@
       font-weight: bold;
       color: #aaa;
       padding: 0 10px;
+
+      .in-header--in-drilldown & {
+        color: #ccc;
+
+        &--active {
+          color: #fff;
+        }
+      }
 
       &--active {
         color: #fff;
