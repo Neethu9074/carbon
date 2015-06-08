@@ -1,16 +1,19 @@
 /*eslint-env mocha*/
-/*eslint-disable no-unused-vars */
+/*eslint-disable no-unused-vars, new-cap */
 
 'use strict';
 
 import {expect} from 'chai';
 import Immutable from 'immutable';
+import sinon from 'sinon';
+import {create} from 'reactive-observables';
 import {
   getIdString,
   extractId,
   isIdEqual,
   extractConnections,
-  calculateIpMap} from './snapshots';
+  calculateIpMap,
+  only} from './snapshots';
 
 describe('util.snapshots', () => {
 
@@ -70,6 +73,35 @@ describe('util.snapshots', () => {
           expect(con.incoming.size).to.equal(0);
         }
       });
+    });
+  });
+
+  describe('only', () => {
+    let observable;
+    let subscriber;
+
+    beforeEach(() => {
+      subscriber = sinon.stub();
+      observable = create();
+      only(observable, newSnapshot(2)).subscribe(subscriber);
+    });
+
+    it('should restrict to the desired snapshots', () => {
+      expect(subscriber.callCount).to.equal(0);
+
+      observable.emit(Immutable.List([newSnapshot(1)]));
+      expect(subscriber.callCount).to.equal(0);
+
+      observable.emit(Immutable.List([newSnapshot(1), newSnapshot(2)]));
+      expect(subscriber.callCount).to.equal(1);
+      expect(subscriber.getCall(0).args[0].get('hostId')).to.equal('h2');
+    });
+
+    it('should not emit when the snapshots is missing', () => {
+      observable.emit(Immutable.List([newSnapshot(1)]));
+      observable.emit(Immutable.List([newSnapshot(2)]));
+      observable.emit(Immutable.List());
+      expect(subscriber.callCount).to.equal(1);
     });
   });
 

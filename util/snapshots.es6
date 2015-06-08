@@ -60,6 +60,27 @@ export function getIdString(s) {
 }
 
 
+/**
+ * Look for a snapshot in an reactive observable. Commonly used to extract a
+ * single snapshot out of a conveyer.
+ *
+ * @param {ReactiveObservable<Collection<ImmutableSnapshot>>} observable
+ *   The data in which to look for the snapshotId
+ * @param {ImmutableSnapshotId} snapshotId The snapshot for which to look
+ * @param {ReactiveObservable<ImmutableSnapshot>} An observable which only
+ *   emits when the snapshot is found and when the snapshot changed.
+ */
+export function only(observable, snapshotId) {
+  const predicate = isIdEqual.bind(null, snapshotId);
+
+  return observable.map(snapshots => {
+    return snapshots.find(predicate, null, undefined);
+  })
+  .filter(v => v !== undefined)
+  .distinct();
+}
+
+
 /* eslint-disable new-cap */
 /**
  * Extract an array of all found connections as string IPs.
