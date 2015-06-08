@@ -43,6 +43,17 @@ map has n groups.
 group has n nodes.
 node has n layer.
 
+# Factories
+AbstractMeshCreationFactory //basic methods like add/removing fragments and creating a geometry
+  - MeshFactory //building a geometry with position and color / vertex
+    - CubeFactory //defining cubes as vertices and health as color
+      - LayerFactory //cubes with alternating colors
+      - NodeFactory //cubes can be grayed and support method for changing single colors
+    - PlaneFactory //creates planar geometry
+    - MultiMetricPillarFactory //creates cubes with multiple layer and animating height/layer
+    - SingleMetricPillarFactory //creates cubes with animating height
+  - LineFactory //creates lines as a single geometry
+
 ## Filtering
 Nodes can be filtered via: PhysicalMap.filter(validationFunction);
 
