@@ -51,7 +51,7 @@ const ServerListing = React.createClass({
         <h1 className='in-sidebar-server-listing__header'>
           <FormattedHTMLMessage
             message={this.getIntlMessage('map.sidebar.serverListing.heading')}
-            servers={this.state.snapshots.size}
+            servers={this.state.snapshots.size || 0}
             zones={Object.keys(snapshots).length} />
         </h1>
 

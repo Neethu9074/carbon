@@ -8,7 +8,7 @@ export default {
     map: {
       sidebar: {
         serverListing: {
-          heading: '<span class="ok">{servers, plural, one{# Server} other{# Servers}}</span> in <span class="ok">{zones, plural, one{# Zone} other{# Zones}}</span>'
+          heading: '<span class="ok">{servers, plural, =0 {# Server} one {# Server} other {# Servers}}</span> in <span class="ok">{zones, plural, one{# Zone} other{# Zones}}</span>'
         }
       }
     }
