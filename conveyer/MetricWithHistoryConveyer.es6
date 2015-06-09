@@ -46,6 +46,17 @@ export default class MetricWithHistoryConveyer {
         max: this.max,
         values: []
       })
+      .map(data => {
+        data.values.sort((v1, v2) => {
+          if (v1[0] < v2[0]) {
+            return -1;
+          } else if (v1[0] > v2[0]) {
+            return 1;
+          }
+          return 0;
+        });
+        return data;
+      })
       .subscribe(data => {
         onNext(data);
       });
