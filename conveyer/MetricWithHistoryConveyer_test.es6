@@ -46,7 +46,7 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
     const steadyId = 's42';
     const hostId = 'h42';
     const since = new Date().getTime();
-    const metric = 'cpu.total.system';
+    const metric = 'cpu.total.sys';
 
     conveyer = new MetricWithHistoryConveyer({
       snapshot: Immutable.fromJS({
@@ -116,7 +116,7 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
     const steadyId = 's42';
     const hostId = 'h42';
     const since = new Date().getTime();
-    const metric = 'cpu.total.system';
+    const metric = 'cpu.total.sys';
 
     return {
       snapshot: Immutable.fromJS({
