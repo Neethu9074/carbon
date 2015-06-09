@@ -11,11 +11,11 @@ const commasFormatter = d3.format(',.0f');
 const LineChartDemo = React.createClass({
   render() {
     let datasources = [
-      createObservable({min: 0, max: 100, numberOfValues: 30}),
-      createObservable({min: 20, max: 30, numberOfValues: 30})
+      createObservable({min: 0, max: 1, numberOfValues: 30}),
+      createObservable({min: 0.2, max: 0.3, numberOfValues: 30})
     ];
 
-    const yAxisTickFormatter = d => commasFormatter(d) + '%';
+    const yAxisTickFormatter = d => commasFormatter(d * 100) + '%';
 
     return (
       <LineChart datasources={datasources}

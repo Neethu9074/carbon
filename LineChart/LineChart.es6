@@ -11,7 +11,7 @@ import d3 from 'd3';
 import './LineChart.less';
 
 
-const xAxisTickFormatter = d3.time.format('%H:%M');
+const xAxisTickFormatter = d3.time.format('%H:%M:%S');
 
 const LineChart = React.createClass({
 
@@ -205,16 +205,17 @@ const LineChart = React.createClass({
             .attr(
               'transform',
               'translate(' + xAxisEndPositionX + ',' + xAxisEndPositionY + ')'
-            );
-
-        // remove all previous data and set the new data as the domain
-        x.domain([newDomainStart, newDomainEnd]);
-        datasets = datasets.map(dataset => {
-          dataset.values = dataset.values.filter(value =>
-            value[0] >= newDomainStart
-          );
-          return dataset;
-        });
+            )
+            .each('end', () => {
+              // remove all previous data and set the new data as the domain
+              x.domain([newDomainStart, newDomainEnd]);
+              datasets = datasets.map(dataset => {
+                dataset.values = dataset.values.filter(value =>
+                  value[0] >= newDomainStart
+                );
+                return dataset;
+              });
+            });
       }
     };
   }

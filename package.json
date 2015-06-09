@@ -4,7 +4,7 @@
   "description": "All reusable base UI components such as buttons, charts, icons, tabs... Will supersede all ui-*-charts repos and parts of ui-client",
   "main": "index.es6",
   "scripts": {
-    "dev": "export BUILD_DEV=true && open http://localhost:7272/demo && webpack-dev-server --host 0.0.0.0 --port 7272",
+    "dev": "export BUILD_DEV=true && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:7373/demo && webpack-dev-server --host 0.0.0.0 --port 7272",
     "test": "eslint $(find . -name \"*.es6\" | grep -v \"./node_modules\")"
   },
   "repository": {
@@ -42,6 +42,7 @@
     "less-loader": "^2.0.0",
     "mocha": "^2.2.4",
     "mocha-babel-es6": "^1.0.0",
+    "proxrox": "^1.7.0",
     "raw-loader": "^0.5.1",
     "style-loader": "^0.8.3",
     "url-loader": "^0.5.5",
