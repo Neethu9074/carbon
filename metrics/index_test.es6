@@ -4,8 +4,13 @@
 
 import sinon from 'sinon';
 import {expect} from 'chai';
-import {getMaxValue, addMaxValueLocator,
-  getNormalizedValue, addNormalizedValueLocator} from './index';
+import {
+  getMaxValue,
+  addMaxValueLocator,
+  getMinValue,
+  addMinValueLocator,
+  getNormalizedValue,
+  addNormalizedValueLocator} from './index';
 
 describe('metrics', () => {
 
@@ -39,7 +44,38 @@ describe('metrics', () => {
       const maxValue = getMaxValue('load', 'aSnapshot');
       expect(maxValue).to.equal('load');
     });
+  });
 
+  describe('getMinValue', () => {
+
+    it('should throw error for unknown metrics', () => {
+      expect(() => getMinValue('gibbet nich')).to.throw(Error);
+    });
+
+    it('should match metric names based on a regular expression', () => {
+      const locator = sinon.stub();
+      locator.returns(42);
+      const snapshot = 'aSnapshot';
+      addMinValueLocator(/^memory\.free/, locator);
+
+      const minValue = getMinValue('memory.free', snapshot);
+      expect(minValue).to.equal(42);
+      expect(locator.calledOnce).to.equal(true);
+      expect(locator.getCall(0).args[0]).to.equal(snapshot);
+    });
+
+    it('should avoid similar locators that do not match exactly', () => {
+      const memoryStub = sinon.stub();
+      memoryStub.returns('memory');
+      addMinValueLocator(/^memory\.free/, memoryStub);
+
+      const loadStub = sinon.stub();
+      loadStub.returns('load');
+      addMinValueLocator(/^load/, loadStub);
+
+      const minValue = getMinValue('load', 'aSnapshot');
+      expect(minValue).to.equal('load');
+    });
   });
 
   describe('getNormalizedValue', () => {
