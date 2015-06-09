@@ -7,6 +7,7 @@ import eventBus from 'instana-ui-services/eventbus';
 
 import './lib/Octree';
 
+import {getAllNodes} from './mapStructureUtils';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
@@ -453,11 +454,8 @@ export default class Scene {
   }
 
   forEachNode(func) {
-    //search each group for the given node id
-    this.map.groups.forEach(group => {
-      group.nodes.forEach(node => {
-        func(node);
-      });
+    getAllNodes(this.map).forEach(node => {
+      func(node);
     });
   }
 
