@@ -45,7 +45,7 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
     const pluginId = ec2;
     const steadyId = 's42';
     const hostId = 'h42';
-    const since = new Date().getTime();
+    const timeframe = 60;
     const metric = 'cpu.total.sys';
 
     conveyer = new MetricWithHistoryConveyer({
@@ -54,7 +54,7 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
         hostId,
         steadyId
       }),
-      since,
+      timeframe,
       metric
     });
     conveyer.start(onNext);
@@ -67,7 +67,8 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
       pluginId,
       steadyId,
       hostId,
-      since, metric
+      timeframe,
+      metric
     });
   });
 
@@ -111,11 +112,41 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
     expect(event.values).to.deep.equal(data.concat(dataUpdate));
   });
 
+  it('should remove old data points', () => {
+    conveyer = new MetricWithHistoryConveyer(getSubscribeParams());
+    conveyer.start(onNext);
+    expect(onNext.callCount).to.equal(0);
+
+    const data = [[1, 0.5], [2, 0.6], [3, 0.7]];
+    emitData({
+      id: conveyer.id,
+      data
+    });
+    emitData({
+      id: conveyer.id,
+      data: [[11, 0.9]]
+    });
+
+    expect(onNext.callCount).to.equal(2);
+    const event1 = onNext.getCall(1).args[0];
+    expect(event1.values.length).to.equal(3);
+
+    emitData({
+      id: conveyer.id,
+      data: [[15, 0.3]]
+    });
+    expect(onNext.callCount).to.equal(3);
+    const event2 = onNext.getCall(2).args[0];
+    expect(event2.values.length).to.equal(2);
+    expect(event2.values[0][0]).to.equal(11);
+    expect(event2.values[1][0]).to.equal(15);
+  });
+
   function getSubscribeParams() {
     const pluginId = ec2;
     const steadyId = 's42';
     const hostId = 'h42';
-    const since = new Date().getTime();
+    const timeframe = 10;
     const metric = 'cpu.total.sys';
 
     return {
@@ -124,7 +155,7 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
         hostId,
         steadyId
       }),
-      since,
+      timeframe,
       metric
     };
   }
