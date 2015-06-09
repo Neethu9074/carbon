@@ -105,4 +105,61 @@ export default class Layouter {
       return Math.max(power, node.calculatePower());
     }, 0);
   }
+
+  applyLayout2(map) {
+    map.groups.forEach((group, groupIndex) => {
+      const groupPosition =
+        this.getGroupPosition(groupIndex, group.children.length);
+
+      // add respectively subtract 0.5 to accomodate for central positioning of
+      // nodes.
+      group.setPosition(
+        groupPosition.x + groupPosition.width / 2 - 1,
+        0,
+        (groupPosition.y + groupPosition.height / 2) * -1 + 1
+      );
+      group.setScale(new THREE.Vector3(
+        groupPosition.width,
+        groupPosition.height,
+        1
+      ));
+
+      group.children.forEach((node, nodeIndex) => {
+        const oldPosition = node.getPosition().clone();
+        const newPosition = this.getCubePosition(groupIndex, nodeIndex);
+        node.setPosition(newPosition.x, newPosition.y, newPosition.z);
+
+        ConnectionGrid.clearPosition(oldPosition);
+        ConnectionGrid.blockPosition(newPosition);
+      });
+    });
+    this.updateHeight(map);
+  }
+
+
+
+  getCubePosition(groupIndex, nodeIndex) {
+    // Each group means that we need to advance one group horizontally.
+    const x = groupIndex * (this.groupWidth + this.groupMargin) +
+        // advance one node- and padding width per node, except the first.
+        nodeIndex % this.maxNodesPerRow * (this.nodePadding + this.nodeSize) +
+        // There is always the group padding which we need to take into account.
+        this.groupPadding;
+
+    // For every node that exceeds the max number of nodes per row we move
+    // one unit downwards, where unit means node size + padding
+    const y = Math.floor(nodeIndex / this.maxNodesPerRow) *
+        (this.nodeSize + this.nodePadding) + this.groupPadding;
+    return new THREE.Vector3(x, 0, -y);
+  }
+
+  getGroupPosition(groupIndex, numberOfNodes) {
+    const x = groupIndex * (this.groupWidth + this.groupMargin);
+    const y = 0;
+    const width = this.groupWidth;
+    const height = this.getCubePosition(groupIndex, numberOfNodes - 1).z * -1 +
+      this.nodeSize + this.groupPadding;
+
+    return {x, y, width, height};
+  }
 }

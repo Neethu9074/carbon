@@ -114,9 +114,10 @@ export default class PhysicalMap extends SceneObject {
 
     const maxNodesPerRow = Math.floor(
       Math.sqrt(numElementsOnMap / this.groups.length));
-      const layouter = new Layouter({maxNodesPerRow});
-      layouter.applyLayout({parent: this});
-      layouter.updateHeight(this);
+    const layouter = new Layouter({maxNodesPerRow});
+    // layouter.applyLayout({parent: this});
+    // layouter.updateHeight(this);
+    layouter.applyLayout2(this);
   }
 
   removeVanishedNodes(snapshots) {
