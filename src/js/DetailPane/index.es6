@@ -30,15 +30,12 @@ const DetailPane = React.createClass({
   },
 
   renderLineChart() {
-    // TODO Ben move date calculation logic to the backend
-    // TODO Ben remove old data points
-    const since = new Date().getTime() - 1000 * 60 * 5 * 1;
     const metrics = ['cpu.total.user.5000.mean', 'cpu.total.sys.5000.mean'];
     const datasources = metrics.map(metric =>
       create(MetricWithHistoryConveyer, {
         snapshot: this.props.snapshot,
         metric,
-        since
+        timeframe: 1000 * 60 * 5
       })
     );
 
