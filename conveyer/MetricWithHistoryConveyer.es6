@@ -69,11 +69,6 @@ export default class MetricWithHistoryConveyer {
   }
 
   removeTooOldDataPoints(data) {
-    // this happens when there is no historic information in the databse
-    if (data.values.length === 0) {
-      return data;
-    }
-
     const newestDataPoint = data.values[data.values.length - 1];
     const since = newestDataPoint[0] - this.timeframe;
 
