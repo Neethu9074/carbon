@@ -24,7 +24,7 @@ addMaxValueLocator(
   /^cpu\.total\.(user|system|io|nice|steal|idle)/,
   () => 1
 );
-addMinValueLocator(/^cpu\.total\.(user|system|io|nice|steal|idle)/, zero);
+addMinValueLocator(/^cpu\.total\.(user|sys|io|nice|steal|idle)/, zero);
 
 
 addNormalizedValueLocator(
