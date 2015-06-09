@@ -33,9 +33,9 @@ const emptyStickyObject = {
 export default class Node extends BaseNode {
 
   constructor({parent, snapshot}) {
-    this.health = health.ok;
     super({parent, snapshot});
 
+    this.health = health.ok;
     this.layer = [];
 
     this.stickyNoteMetric = emptyStickyObject;

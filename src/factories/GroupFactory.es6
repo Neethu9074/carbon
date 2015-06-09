@@ -26,11 +26,11 @@ export default class GroupFactory extends PlaneFactory {
   }
 
   getColorArrayForFragment(fragment) {
-    const health = fragment.health;
+    const fragHealth = fragment.health;
 
-    if(health === health.warning) {
+    if(fragHealth === health.warning) {
       return colorItemsWarning;
-    } else if(health === health.danger) {
+    } else if(fragHealth === health.danger) {
       return colorItemsDanger;
     }
     return colorItemsOk;
