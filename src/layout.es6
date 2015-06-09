@@ -2,13 +2,20 @@
 
 import THREE from 'three';
 import ConnectionGrid from './connectionGrid';
-
+import Group from './sceneObjects/Group';
+import {getAllNodes, getChildren} from './mapStructureUtils';
 import {getPower} from 'instana-ui-sdk/power';
 
 
 export default class Layouter {
-  constructor({nodeSize=1, maxNodeHeight=3, groupPadding=1, groupMargin=1,
-      maxNodesPerRow=3, nodePadding=2}={}) {
+  constructor({
+    nodeSize = 1,
+    maxNodeHeight = 3,
+    groupPadding = 1,
+    groupMargin = 1,
+    maxNodesPerRow = 3,
+    nodePadding = 2} = {}) {
+
     this.nodeSize = nodeSize;
     this.maxNodeHeight = maxNodeHeight;
     this.groupPadding = groupPadding;
@@ -26,68 +33,64 @@ export default class Layouter {
       groupPadding * 2;
   }
 
-  applyLayout(map) {
-    map.groups.forEach((group, groupIndex) => {
-      const groupPosition =
-        this.getGroupPosition(groupIndex, group.nodes.length);
+  applyLayout({parent, xOffset=0, yOffset=0, vertical=true}) {
+    let col = getChildren(parent);
+    if(!col) {return; }
 
-      // add respectively subtract 0.5 to accomodate for central positioning of
-      // nodes.
-      group.setPosition(
-        groupPosition.x + groupPosition.width / 2 - 1,
-        0,
-        (groupPosition.y + groupPosition.height / 2) * -1 + 1
-      );
-      group.setScale(new THREE.Vector3(
-        groupPosition.width,
-        groupPosition.height,
-        1
-      ));
+    let x = 0;
+    let y = 0;
+    const margin = this.groupMargin;
 
-      group.nodes.forEach((node, nodeIndex) => {
-        const oldPosition = node.getPosition().clone();
-        const newPosition = this.getCubePosition(groupIndex, nodeIndex);
-        node.setPosition(newPosition.x, newPosition.y, newPosition.z);
+    col.forEach((child) => {
+      if(child instanceof Group) {
+        const dimension = child.getDimension();
+        const width = dimension.width;
+        const depth = dimension.depth;
 
-        ConnectionGrid.clearPosition(oldPosition);
-        ConnectionGrid.blockPosition(newPosition);
-      });
+        child.setScale(new THREE.Vector3(width, depth, 1));
+
+        if(vertical) {
+          child.setPosition(x + width / 2, 0, -depth / 2);
+          this.applyLayout({parent: child, xOffset: x, vertical: false});
+          x += margin + width;
+
+        } else {
+          child.setPosition(
+            x + margin + width / 2,
+            0,
+            -(y + margin + depth / 2));
+            this.applyLayout({
+              parent: child,
+              xOffset: x + margin,
+              yOffset: y + margin,
+              vertical: false});
+            y += depth + margin;
+        }
+
+      //it's a node
+      } else {
+        this.setNodeToPos({
+          node: child,
+          x: xOffset + margin + 1,
+          z: -(y + margin + 1) - yOffset
+        });
+        y += 1 + margin;
+      }
     });
-
-    this.updateHeight(map);
   }
 
-  getCubePosition(groupIndex, nodeIndex) {
-    // Each group means that we need to advance one group horizontally.
-    const x = groupIndex * (this.groupWidth + this.groupMargin) +
-        // advance one node- and padding width per node, except the first.
-        nodeIndex % this.maxNodesPerRow * (this.nodePadding + this.nodeSize) +
-        // There is always the group padding which we need to take into account.
-        this.groupPadding;
+  setNodeToPos({node, x=0, y=0, z=0}) {
+    const oldPos = node.getPosition().clone();
+    const newPos = new THREE.Vector3(x, y, z);
 
-    // For every node that exceeds the max number of nodes per row we move
-    // one unit downwards, where unit means node size + padding
-    const y = Math.floor(nodeIndex / this.maxNodesPerRow) *
-        (this.nodeSize + this.nodePadding) + this.groupPadding;
+    node.setPosition(newPos.x, newPos.y, newPos.z);
 
-    return new THREE.Vector3(x, 0, -y);
-  }
-
-  getGroupPosition(groupIndex, numberOfNodes) {
-    const x = groupIndex * (this.groupWidth + this.groupMargin);
-    const y = 0;
-    const width = this.groupWidth;
-    const height = this.getCubePosition(groupIndex, numberOfNodes - 1).z * -1 +
-      this.nodeSize + this.groupPadding;
-
-    return {x, y, width, height};
+    ConnectionGrid.clearPosition(oldPos);
+    ConnectionGrid.blockPosition(newPos);
   }
 
   updateHeight(map) {
-    const nodes = map.groups.reduce((agg, group) => {
-      return agg.concat(group.nodes);
-    }, []);
-
+    const nodes = getAllNodes(map);
     const maxPower = this.getMaxPower(nodes);
     const baseHeight = this.nodeSize;
     const growthRange = this.maxNodeHeight - this.nodeSize;

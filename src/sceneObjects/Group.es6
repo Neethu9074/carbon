@@ -17,11 +17,10 @@ const white = 0xFFFFFF;
 
 export default class Group extends SceneObject {
 
-  constructor({parent, id, groupIndex}) {
+  constructor({parent, id}) {
     super({parent});
 
     this.id = id;
-    this.groupIndex = groupIndex;
     this.children = [];
 
     this.createGround();
@@ -60,11 +59,6 @@ export default class Group extends SceneObject {
   }
 
   createLabel() {
-    const label = this.getGroupLabel(this.id);
-    label.updateMatrix();
-    label.matrixAutoUpdate = false;
-    this.ground.add(label);
-    this.ground.label = label;
   }
 
   /* the group label is a plane with a transparent texture on it.
@@ -118,6 +112,34 @@ export default class Group extends SceneObject {
     }
   }
 
+  addGroup(group) {
+    if(this.children.indexOf(child => child.id === group.id) >= 0) {
+      return;
+    }
+
+    this.children.push(group);
+  }
+
+  getDimension() {
+    let width = 1;
+    let depth = 1;
+
+    this.children.forEach(child => {
+      const w = child.getDimension().width;
+      if(w > width) {
+        width = w;
+      }
+    });
+
+    width += 2;
+
+    this.children.forEach(child => {
+      depth += 1 + child.getDimension().depth;
+    });
+
+    return {width, depth};
+  }
+
   setPosition(x, y, z) {
     super.setPosition(x, y, z);
 
@@ -128,21 +150,7 @@ export default class Group extends SceneObject {
 
   setScale(scale) {
     this.ground.scale.copy(scale);
-
-    if(this.ground.children.length > 0) {
-      const scaleX = 1 / scale.x * 3;
-      const scaleY = 1 / scale.y * 0.5;
-      const scaleZ = 1 / scale.z;
-      this.ground.updateMatrix();
-      this.edge.updateMatrix();
-
-      const label = this.ground.label;
-      if(label) {
-        label.position.set(-0.5 + scaleX / 2, -0.5 + scaleY / 2, 0.05);
-        label.scale.set(scaleX, scaleY, scaleZ);
-        label.updateMatrix();
-      }
-    }
+    this.ground.updateMatrix();
   }
 
   removeChild(child) {
@@ -179,6 +187,5 @@ export default class Group extends SceneObject {
 
     this.id = null;
     this.children = [];
-    this.groupIndex = null;
   }
 }

@@ -9,6 +9,7 @@ import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConnectionGrid from '../connectionGrid';
 import {connections as allConnections} from './Connection';
 import {getZone} from 'instana-ui-sdk/zones';
+import {getAllNodes, getAllGroups} from '../mapStructureUtils';
 import {
   isIdEqual,
   getIdString,
@@ -24,7 +25,7 @@ export default class PhysicalMap extends SceneObject {
   constructor({scene}) {
     super({parent: scene});
 
-    //the size of the map in world units
+    //the size of the map in world units (sizeXsize)
     this.size = 1000;
 
     this.scene = scene;
@@ -84,19 +85,6 @@ export default class PhysicalMap extends SceneObject {
       observable.subscribe(data => this.onInventoryUpdate(data)));
   }
 
-  applyLayout() {
-    let numElementsOnMap = 0;
-    this.groups.forEach(group => {
-      group.children.forEach(() => {
-        numElementsOnMap++;
-      });
-    });
-
-    const maxNodesPerRow = Math.floor(
-      Math.sqrt(numElementsOnMap / this.groups.length));
-    new Layouter({maxNodesPerRow}).applyLayout(this);
-  }
-
   onInventoryUpdate(snapshots) {
     const unknownGroup = this.getOrCreateGroup('unmonitored');
     const connections = extractConnections(snapshots);
@@ -112,8 +100,23 @@ export default class PhysicalMap extends SceneObject {
 
     this.applyLayout();
     this.setupConnections(snapshots, connections);
-    this.showWalkableGrid(); //uncomment this to see the walking grid
+    //this.showWalkableGrid(); //uncomment this to see the walking grid
     this.parent.renderScene();
+  }
+
+  applyLayout() {
+    let numElementsOnMap = 0;
+    this.groups.forEach(group => {
+      group.children.forEach(() => {
+        numElementsOnMap++;
+      });
+    });
+
+    const maxNodesPerRow = Math.floor(
+      Math.sqrt(numElementsOnMap / this.groups.length));
+      const layouter = new Layouter({maxNodesPerRow});
+      layouter.applyLayout({parent: this});
+      layouter.updateHeight(this);
   }
 
   removeVanishedNodes(snapshots) {
@@ -125,9 +128,11 @@ export default class PhysicalMap extends SceneObject {
       .filter(node => !node.isUnknown)
       //only the ones that are not in snapshots anymore
       .filter(node => {
-        const foundSnapshot = snapshots.find(snapshot =>
-          isIdEqual(snapshot, node.snapshot));
-        return !foundSnapshot;
+        if(!node instanceof Group) {
+          const foundSnapshot = snapshots.find(snapshot =>
+            isIdEqual(snapshot, node.snapshot));
+          return !foundSnapshot;
+        }
       });
 
     removedNodes.forEach((node) => node.dispose());
@@ -152,16 +157,11 @@ export default class PhysicalMap extends SceneObject {
 
   getOrCreateGroup(groupId) {
     //get find the group with groupId
-    let group = _.find(this.groups, group => group.id === groupId);
+    let group = _.find(getAllGroups(this), g => g.id === groupId);
 
     //if the nodes group doesn't exist, create it
     if (!group) {
-      group = new Group({
-        parent: this,
-        id: groupId,
-        groupIndex: this.groups.length
-      });
-      group.createLabel();
+      group = new Group({parent: this, id: groupId});
       this.groups.push(group);
     }
 
@@ -171,13 +171,12 @@ export default class PhysicalMap extends SceneObject {
   //runs through all groups instead of the current one and searches for the
   //node added to the current one. if found -> delete it from old groups
   removeNodeFromAllGroupsInsteadOf(groupId, node) {
-    this.groups.forEach(group =>{
-      if(group.id !== groupId) {
-        group.children.forEach(groupNode => {
-          if(isIdEqual(node, groupNode.snapshot)) {
-            groupNode.dispose();
-          }
-        });
+    const nodes = getAllNodes(this)
+      .filter(n => isIdEqual(n.snapshot, node));
+
+    nodes.forEach(node => {
+      if(node.parent.id !== groupId) {
+        node.dispose();
       }
     });
   }
@@ -239,7 +238,6 @@ export default class PhysicalMap extends SceneObject {
       //if the from node is available
       const fromNode = idNodeMap[getIdString(node)];
       if(fromNode) {
-
         nodeCons.outgoing.forEach(connection => {
           //if the node has any connection
           if(connection) {
@@ -268,11 +266,9 @@ export default class PhysicalMap extends SceneObject {
   //creates an object<getIdString(node), node> to get fast access to it
   getIdNodeMap() {
     const map = {};
-
-    this.groups.forEach(group => {
-      group.children.forEach(node => {
-        map[node.id] = node;
-      });
+    const nodes = getAllNodes(this);
+    nodes.forEach(node => {
+      map[node.id] = node;
     });
 
     return map;

@@ -105,6 +105,10 @@ export default class BaseNode extends SceneObject {
     this.addToGlobalGeometry();
   }
 
+  getDimension() {
+    return {width: 1, depth: 1};
+  }
+
   //connects this node with another one. the connection is stored in a
   //connections collection
   connectWith(otherNode) {
