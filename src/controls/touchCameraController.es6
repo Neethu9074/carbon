@@ -16,6 +16,7 @@ export default class TouchControl extends CameraController{
 
     const canvas = scene.parent;
     const eventHandler = new Hammer(canvas);
+    eventHandler.get('pan').set({direction: Hammer.DIRECTION_ALL});
     eventHandler.on('pan', this.onPan.bind(this));
     eventHandler.on('panstart', (e) => this.setCursorToEvent(e));
     eventHandler.on('tap', this.onTab.bind(this));
