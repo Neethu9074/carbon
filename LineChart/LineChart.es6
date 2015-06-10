@@ -25,6 +25,16 @@ const LineChart = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    // special case resizing
+    if (this.props.datasources === nextProps.datasources &&
+        this.props.yAxisTickFormatter === nextProps.yAxisTickFormatter) {
+      this.chart.resize({
+        width: nextProps.width,
+        height: nextProps.height
+      });
+      return;
+    }
+
     this.disposeSubscriptions();
     if (this.chart) {
       this.chart.dispose();
@@ -40,7 +50,10 @@ const LineChart = React.createClass({
 
   renderChart(props) {
     const subscription = combineLatest(props.datasources)
+      .debounce(5)
       .subscribe(datasets => {
+        console.log('New data', new Date().getTime(),
+          JSON.parse(JSON.stringify(datasets)));
         if (this.chart) {
           this.chart.update(datasets);
         } else {

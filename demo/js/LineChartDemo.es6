@@ -1,3 +1,5 @@
+/*eslint-disable no-prompt, no-alert*/
+
 'use strict';
 
 import React from 'react';
@@ -7,22 +9,49 @@ import Immutable from 'immutable';
 import d3 from 'd3';
 
 const commasFormatter = d3.format(',.0f');
+const yAxisTickFormatter = d => commasFormatter(d * 100) + '%';
+
+let running = true;
 
 const LineChartDemo = React.createClass({
+  getInitialState() {
+    return {
+      width: 700,
+      height: 280,
+      datasources: [
+        createObservable({min: 0, max: 1, numberOfValues: 30}),
+        createObservable({min: 0.2, max: 0.3, numberOfValues: 30})
+      ]
+    };
+  },
+
   render() {
-    let datasources = [
-      createObservable({min: 0, max: 1, numberOfValues: 30}),
-      createObservable({min: 0.2, max: 0.3, numberOfValues: 30})
-    ];
-
-    const yAxisTickFormatter = d => commasFormatter(d * 100) + '%';
-
     return (
-      <LineChart datasources={datasources}
-                 width={700}
-                 height={280}
-                 yAxisTickFormatter={yAxisTickFormatter} />
+      <div>
+        <button type='button' onClick={this.changeDimensions}>
+          Change chart dimensions
+        </button>
+        <button type='button' onClick={this.startStop}>
+          Start / Stop
+        </button>
+        <br />
+        <LineChart datasources={this.state.datasources}
+                   width={this.state.width}
+                   height={this.state.height}
+                   yAxisTickFormatter={yAxisTickFormatter} />
+      </div>
     );
+  },
+
+  changeDimensions() {
+    this.setState({
+      width: parseInt(prompt('New width', this.state.width), 10),
+      height: parseInt(prompt('New height', this.state.height), 10)
+    });
+  },
+
+  startStop() {
+    running = !running;
   }
 });
 
@@ -48,6 +77,9 @@ function createObservable({min, max, numberOfValues}) {
     start(observable) {
       observable.emit(data);
       interval = setInterval(() => {
+        if (!running) {
+          return;
+        }
         data.values.shift();
         const latestTime = data.values[data.values.length - 1][0];
         const newValue = [latestTime + 300000, numberGenerator()];

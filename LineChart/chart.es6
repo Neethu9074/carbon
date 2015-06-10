@@ -14,22 +14,16 @@ export default class LineChart {
       datasets,
       xAxisTickFormatter=defaultXAxisTickFormatter,
       yAxisTickFormatter=defaultYAxisTickFormatter}) {
-    this.setSize({width, height});
-
     // copy the incoming data set so that we can mutate it freely
     this.datasets = JSON.parse(JSON.stringify(datasets));
 
     const domains = this.determineDomains();
 
     this.x = d3.time.scale()
-      .domain([domains.oldest, domains.latest])
-      // increase width to avoid strokes at the sides
-      .range([-1, this.chartWidth + 1]);
+      .domain([domains.oldest, domains.latest]);
 
     this.y = d3.scale.linear()
-      .domain([domains.min, domains.max])
-      // avoid showing strokes to the left and right of a chart
-      .range([this.chartHeight, 0]);
+      .domain([domains.min, domains.max]);
 
     this.x.axis = d3.svg.axis()
       .scale(this.x)
@@ -41,62 +35,37 @@ export default class LineChart {
       .scale(this.y)
       .ticks(5)
       .tickFormat(yAxisTickFormatter)
-      .innerTickSize(-1 * this.chartWidth)
       .tickPadding(10)
       .orient('left');
 
     this.line = d3.svg.area()
       .x(d => this.x(d[0]))
       // avoid showing a stroke at the bottom of the chart
-      .y0(this.chartHeight + 1)
       .y1(d => this.y(d[1]));
 
-    this.chart = d3.select(mountPoint)
-      .attr('width', this.width)
-      .attr('height', this.height);
+    this.chart = d3.select(mountPoint);
 
     this.x.axis.element = this.chart.append('g')
-      .attr('class', 'x axis')
-      .attr(
-        'transform',
-        'translate(' + this.getXAxisTranslation().join(',') + ')'
-      )
-      .call(this.x.axis);
+      .attr('class', 'x axis');
 
-    this.chart.append('g')
-      .attr('class', 'y axis')
-      .attr(
-        'transform',
-        'translate(' + this.padding.left + ',' + this.padding.top + ')'
-      )
-      .call(this.y.axis);
+    this.y.axis.element = this.chart.append('g')
+      .attr('class', 'y axis');
 
     this.chart.append('defs')
       .append('clipPath')
         .attr('id', 'clip')
-      .append('rect')
-        .attr('width', this.chartWidth)
-        .attr('height', this.chartHeight);
+      .append('rect');
 
     this.lines = this.chart.append('g')
-      .attr('clip-path', 'url(#clip)')
-      .attr(
-        'transform',
-        'translate(' + this.padding.left + ', ' + this.padding.top + ')'
-      );
+      .attr('clip-path', 'url(#clip)');
 
     this.lines.selectAll('path')
         .data(datasets)
       .enter().append('path')
         .attr('class', 'line')
         .attr('d', d => this.line(d.values));
-  }
 
-  getXAxisTranslation() {
-    return [
-      this.padding.left,
-      this.chartHeight + this.padding.top + 10
-    ];
+    this.resize({width, height});
   }
 
   dispose() {
@@ -153,24 +122,68 @@ export default class LineChart {
         .attr(
           'transform',
           'translate(' + xAxisEndPositionX + ',' + xAxisEndPositionY + ')'
-        )
-        .each('end', () => {
-          // remove all previous data and set the new data as the domain
-          this.x.domain([newDomainStart, newDomainEnd]);
-          this.datasets = this.datasets.map(dataset => {
-            dataset.values = dataset.values.filter(value =>
-              value[0] >= newDomainStart
-            );
-            return dataset;
-          });
-        });
+        );
+
+    // remove all previous data and set the new data as the domain
+    this.x.domain([newDomainStart, newDomainEnd]);
+    this.datasets = this.datasets.map(dataset => {
+      dataset.values = dataset.values.filter(value =>
+        value[0] >= newDomainStart
+      );
+      return dataset;
+    });
   }
 
   resize({width, height}) {
     this.stopTransitions();
     this.setSize({width, height});
 
-    // TODO Ben handle resizing
+    // increase width to avoid strokes at the sides
+    this.x.range([-2, this.chartWidth + 2]);
+
+    // increase height to avoid strokes at the sides
+    this.y.range([this.chartHeight, 0]);
+
+    // draw a grid throughout the chart
+    this.y.axis.innerTickSize(-1 * this.chartWidth);
+
+    this.line.y0(this.chartHeight + 2);
+
+    this.chart.attr('width', this.width)
+      .attr('height', this.height);
+
+    this.x.axis.element
+      .attr(
+        'transform',
+        'translate(' + this.getXAxisTranslation().join(',') + ')'
+      )
+      .call(this.x.axis);
+
+    this.y.axis.element
+      .attr(
+        'transform',
+        'translate(' + this.padding.left + ',' + this.padding.top + ')'
+      )
+      .call(this.y.axis);
+
+    this.chart.select('defs rect')
+      .attr('width', this.chartWidth)
+      .attr('height', this.chartHeight);
+
+    this.lines.attr(
+      'transform',
+      'translate(' + this.padding.left + ', ' + this.padding.top + ')'
+    );
+
+    // force a redraw of all lines
+    this.lines.selectAll('path').attr('d', d => this.line(d.values));
+  }
+
+  getXAxisTranslation() {
+    return [
+      this.padding.left,
+      this.chartHeight + this.padding.top + 10
+    ];
   }
 
   setSize({width, height}) {
