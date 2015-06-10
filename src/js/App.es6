@@ -77,6 +77,7 @@ const App = React.createClass({
 
   openDashboard(event) {
     selectedSnapshotStore.select(event.snapshot);
+    sidebarStore.setVisibility(true);
   }
 
 });
