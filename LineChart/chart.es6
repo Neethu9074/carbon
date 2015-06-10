@@ -105,7 +105,7 @@ export default class LineChart {
         .attr('d', d => this.line(d.values))
         .attr('transform', null)
       .transition()
-        .duration(500)
+        .duration(300)
         .ease('linear')
         .attr('transform', 'translate(' + this.x(newDomainStart) * -1 + ')');
 
@@ -117,7 +117,7 @@ export default class LineChart {
         'translate(' + this.padding.left + ',' + xAxisEndPositionY + ')'
       )
       .transition()
-        .duration(500)
+        .duration(300)
         .ease('linear')
         .attr(
           'transform',

@@ -50,10 +50,8 @@ const LineChart = React.createClass({
 
   renderChart(props) {
     const subscription = combineLatest(props.datasources)
-      .debounce(5)
+      .debounce(300)
       .subscribe(datasets => {
-        console.log('New data', new Date().getTime(),
-          JSON.parse(JSON.stringify(datasets)));
         if (this.chart) {
           this.chart.update(datasets);
         } else {
