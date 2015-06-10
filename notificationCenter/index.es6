@@ -11,20 +11,22 @@ import {isIdEqual} from '../util/snapshots';
 const allIssuesStream = create(IssueConveyer)
   .scan(collectingReducer, Immutable.List());
 
+const openIssuesStream = allIssuesStream.map(issues => {
+  return issues.filter(issue => issue.get('end') === null);
+});
+
 export function getIssues() {
   return allIssuesStream;
 }
 
 export function getOpenIssues() {
-  return allIssuesStream.map(issues => {
-    return issues.filter(issue => issue.get('end') === null);
-  });
+  return openIssuesStream;
 }
 
 export function getProblemsForSnapshot(snapshotId) {
   const predicate = isIdEqual.bind(null, snapshotId);
 
-  return allIssuesStream.map(issues => {
+  return openIssuesStream.map(issues => {
     return issues.reduce((problemsForSnapshot, issue) => {
       return problemsForSnapshot.concat(
         issue.get('problems').filter(predicate)
