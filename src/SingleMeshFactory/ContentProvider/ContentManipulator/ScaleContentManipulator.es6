@@ -1,6 +1,5 @@
 'use strict';
 
-import THREE from 'three';
 import ContentManipulator from './ContentManipulator';
 
 
@@ -9,7 +8,7 @@ export default class ScaleContentManipulator extends ContentManipulator {
   constructor({contentProvider, x=1, y=1, z=1}) {
     super({contentProvider});
 
-    this.scale = new THREE.Vector3(x, y, z);
+    this.scale = {x, y, z};
   }
 
   getVertices() {

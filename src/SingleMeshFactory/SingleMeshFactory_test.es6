@@ -65,12 +65,10 @@ describe('3D map', () => {
         getColors() { return [10, 11, 12]; }
       }});
 
-      factory.buildGeometry();
       expect(factory.geometry.attributes.position.array.length).to.equal(6);
       expect(factory.geometry.attributes.color.array.length).to.equal(6);
 
       factory.removeFragment(1);
-      factory.buildGeometry();
       expect(factory.geometry.attributes.position.array.length).to.equal(3);
       expect(factory.geometry.attributes.color.array.length).to.equal(3);
     });

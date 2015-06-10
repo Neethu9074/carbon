@@ -1,15 +1,14 @@
 'use strict';
 
-import THREE from 'three';
 import ContentManipulator from './ContentManipulator';
 
 
 export default class PositionContentManipulator extends ContentManipulator {
 
-  constructor({contentProvider, x, y, z}) {
+  constructor({contentProvider, x=0, y=0, z=0}) {
     super({contentProvider});
 
-    this.position = new THREE.Vector3(x, y, z);
+    this.position = {x, y, z};
   }
 
   getVertices() {
@@ -20,7 +19,6 @@ export default class PositionContentManipulator extends ContentManipulator {
       vertices[i + 1] += position.y;
       vertices[i + 2] += position.z;
     }
-
     return vertices;
   }
 

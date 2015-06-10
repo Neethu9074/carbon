@@ -2,12 +2,21 @@
 
 import THREE from 'three';
 
+import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 
 import Connection from './Connection';
 import SceneObject from './SceneObject';
+
+/*eslint-disable max-len*/
+import CCP from '../SingleMeshFactory/ContentProvider/CubeContentProvider';
+import TCP from '../SingleMeshFactory/ContentProvider/TriangleContentProvider';
+import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import HCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/HealthContentManipulator';
+import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+/*eslint-enable max-len*/
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
 const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
@@ -53,15 +62,6 @@ export default class BaseNode extends SceneObject {
 
   addToGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
-  //adds the cube geometry
-  addToNodeFactory(id, pos, dim) {
-    this.scene.nodeFactory.addFragment({
-      id, pos,
-      dim: dim.clone(),
-      health: this.health
-    });
-  }
-
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
       //update only if this node is visible
@@ -93,6 +93,7 @@ export default class BaseNode extends SceneObject {
     this.cube.position.set(x, y, z);
 
     this.refreshMesh();
+    this.refreshFragment();
   }
 
   refreshMesh() {
@@ -103,6 +104,26 @@ export default class BaseNode extends SceneObject {
 
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
+  }
+
+  refreshFragment() {
+    //adding a existing fragment will penetrate an update
+    const color = this.calculateHealthColor();
+    const position = this.getPosition();
+    const scale = this.cube.scale;
+    this.scene.singleMeshFactory.addFragment({
+      id: this.id,
+      contentProvider: new HCM({
+        contentProvider: new PCM({
+          contentProvider: new SCM({
+            contentProvider: new CCP(),
+            x: scale.x, y: scale.y, z: scale.z
+          }),
+          x: position.x - 0.5, y: position.y, z: position.z + 0.5
+        }),
+        r: color.r, g: color.g, b: color.b
+      })
+    });
   }
 
   getDimension() {
@@ -157,6 +178,7 @@ export default class BaseNode extends SceneObject {
     this.clearConnections();
 
     this.removeFromGlobalGeometry();
+    this.scene.singleMeshFactory.removeFragment(this.id);
     this.removeSceneObject(this.cube);
     this.cube = null;
 
@@ -166,6 +188,11 @@ export default class BaseNode extends SceneObject {
 
     this.scene = null;
     this.id = null;
+  }
+
+  calculateHealthColor() {
+    const ok = new THREE.Color(theme.map.colors.default);
+    return {r: ok.r, g: ok.g, b: ok.b};
   }
 
   calculatePower() {

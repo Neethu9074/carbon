@@ -14,6 +14,7 @@ export default class SingleMeshFactory {
 
     //represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
+    this.geometry.dynamic = true;
 
     this.material = new THREE.MeshBasicMaterial({
       vertexColors: THREE.VertexColors,
@@ -29,7 +30,8 @@ export default class SingleMeshFactory {
     mesh.renderOrder = 10;
     this.mesh = mesh;
 
-    scene.addSceneObject(mesh);
+    this.buildGeometry();
+    this.scene.addSceneObject(this.mesh);
   }
 
   setMaterial(material) {
@@ -43,13 +45,44 @@ export default class SingleMeshFactory {
       match.vertices = contentProvider.getVertices();
       match.colors = contentProvider.getColors();
 
+      this.updateGeometryByFragment(match, match.vertices.length);
+
     } else {
-      this.fragments.push({
+      const fragment = {
         id,
         vertices: contentProvider.getVertices(),
         colors: contentProvider.getColors()
-      });
+      };
+
+      this.fragments.push(fragment);
+
+      //calculate the index of the fragment where it was inserted
+      fragment.index = this.fragments.indexOf(fragment);
+
+      this.updateGeometryByFragment(fragment, 0);
     }
+  }
+
+  updateGeometryByFragment(fragment, numElements = 0) {
+    let indexInVertices = 0;
+    const till = this.fragments.indexOf(fragment);
+    for (let i = 0; i < till; i++) {
+      indexInVertices += this.fragments[i].vertices.length;
+    }
+
+    this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);
+    this.colors.splice(indexInVertices, numElements, ...fragment.colors);
+
+    const geometry = this.geometry;
+
+    geometry.addAttribute('position',
+      new THREE.BufferAttribute(new Float32Array(this.vertices), 3));
+
+    geometry.addAttribute('color',
+      new THREE.BufferAttribute(new Float32Array(this.colors), 3));
+
+    geometry.attributes.color.needsUpdate = true;
+    geometry.attributes.position.needsUpdate = true;
   }
 
   getFragment(id) {
@@ -57,25 +90,33 @@ export default class SingleMeshFactory {
   }
 
   removeFragment(id) {
+    const fragment = this.getFragment(id);
+    if(!fragment) {
+      return;
+    }
+
+    const numElementsToBeDeleted = fragment.vertices.length;
+    fragment.vertices = [];
+    fragment.colors = [];
+    this.updateGeometryByFragment(fragment, numElementsToBeDeleted);
+
     _.remove(this.fragments, fragment => fragment.id === id);
   }
 
   buildGeometry() {
-    let vertices = [];
-    let colors = [];
+    const vertices = [];
+    const colors = [];
 
-    this.fragments.forEach(fragment => {
-      const fragVertices = fragment.vertices;
-      const fragColors = fragment.colors;
-
-      vertices = vertices.concat(fragVertices);
-      colors = colors.concat(fragColors);
-    });
+    this.vertices = vertices;
+    this.colors = colors;
 
     this.updateGeometry({
       colors: new Float32Array(colors),
       vertices: new Float32Array(vertices)
     });
+
+    this.scene.removeSceneObject(this.mesh);
+    this.scene.addSceneObject(this.mesh);
   }
 
   updateGeometry({colors, vertices}) {

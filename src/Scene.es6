@@ -12,13 +12,13 @@ import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as time from './timeCalculations';
-import NodeFactory from './factories/NodeFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import LayerFactory from './factories/LayerFactory';
 import LineFactory from './factories/LineFactory';
-import GroupFactory from './factories/GroupFactory';
 import MouseCameraController from './controls/mouseCameraController';
+
+import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 
 import _ from 'lodash';
 
@@ -39,13 +39,14 @@ export default class Scene {
     this.width = window.innerWidth;
     this.height = window.innerHeight;
 
-    this.setupEvents();
-
     this.setupFactories();
     this.setupOctree();
     this.setup3D();
+    this.singleMeshFactory = new SingleMeshFactory({scene: this});
 
     this.setupController();
+
+    this.setupEvents();
 
     this.update();
 
@@ -71,10 +72,8 @@ export default class Scene {
   }
 
   setupFactories() {
-    this.nodeFactory = new NodeFactory({scene: this});
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
-    this.groupFactory = new GroupFactory({scene: this});
     this.cubeFactory = new LayerFactory({scene: this});
     this.numTiles = 5;
     this.multiMetricFactory = new MultiMetricPillarFactory({
@@ -283,10 +282,10 @@ export default class Scene {
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
-    this.nodeFactory.material.opacity = normedZoomLevel;
+    this.singleMeshFactory.material.opacity = normedZoomLevel;
 
     //update node color opacity by distance
-    this.nodeFactory.material.transparent = (zoomLevel < maxZoomOut);
+    this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
   }
 
   updateZoomLevelInCss(zoomUnits) {

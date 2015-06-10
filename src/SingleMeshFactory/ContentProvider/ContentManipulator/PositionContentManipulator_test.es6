@@ -10,8 +10,7 @@ import PCM from './PositionContentManipulator';
 
 describe('3D map', () => {
   let contentProvider = {
-    getVertices() { return [4, 5, 6]; },
-    getColors() { return [7, 8, 9]; }
+    getVertices() { return [4, 5, 6]; }
   };
 
   describe('PositionContentManipulator', () => {

@@ -5,8 +5,6 @@ import THREE from 'three';
 import BaseNode from './BaseNode';
 import StickyNoteUnknownNode from './StickyNote/UnknownNode';
 
-const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
-
 
 export default class Unknownnode extends BaseNode {
 
@@ -14,14 +12,6 @@ export default class Unknownnode extends BaseNode {
     super({parent, snapshot});
 
     this.isUnknown = true;
-  }
-
-  addToGlobalGeometry() {
-    const id = this.id;
-    const pos = this.cube.position.clone().add(cubePosition);
-    const dim = this.cube.scale;
-
-    this.addToNodeFactory(id, pos, dim);
   }
 
   createStickyNote() {
@@ -41,22 +31,15 @@ export default class Unknownnode extends BaseNode {
     }
   }
 
+  addToGlobalGeometry() {}
+
+  removeFromGlobalGeometry() {}
+
   onSnapshotUpdate() {}
 
   setHeight() {}
 
-
-  enableFragments(enabled) {
-    const scene = this.scene;
-    const id = this.id;
-    scene.nodeFactory.enableFragment(id, enabled);
-  }
-
-  removeFromGlobalGeometry() {
-    const id = this.id;
-    const scene = this.scene;
-    scene.nodeFactory.removeFragment(id);
-  }
+  enableFragments() {}
 
   dispose() {
     super.dispose();

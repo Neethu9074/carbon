@@ -1,5 +1,6 @@
 
 'use strict';
+
 import THREE from 'three';
 import MeshFactory from './MeshFactory';
 import {theme} from 'instana-ui-services/theme';

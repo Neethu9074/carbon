@@ -2,6 +2,7 @@
 
 import THREE from 'three';
 
+import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {health} from 'instana-ui-services/health';
@@ -14,9 +15,15 @@ import StickyNoteNode from './StickyNote/Node';
 import StickyNoteLayer from './StickyNote/Layer';
 import StickyNoteMetric from './StickyNote/Metric';
 
+/*eslint-disable max-len*/
+import PCP from '../SingleMeshFactory/ContentProvider/PlaneContentProvider';
+import TCP from '../SingleMeshFactory/ContentProvider/TriangleContentProvider';
+import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import HCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/HealthContentManipulator';
+import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+/*eslint-enable max-len*/
+
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
-const groundPosition = new THREE.Vector3(-0.5, 0, 0.5);
-const groundScale = new THREE.Vector3(0.67, 0, 0.67);
 
 //if unavailable, the StickyNote-Metric / Layer will not be undefined but this
 //to avoid all these if(available) {do something} stuff
@@ -52,7 +59,6 @@ export default class Node extends BaseNode {
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
 
-    this.addToNodeFactory(id, pos, dim);
     this.addToGroupFactory(id, pos, dim);
     this.addToMultiMetricFactory(id, pos, dim);
     this.addToSingleMetricFactory(id, pos, dim);
@@ -86,11 +92,27 @@ export default class Node extends BaseNode {
       return;
     }
 
-    this.scene.groupFactory.addFragment({
-      id,
-      pos: this.cube.position.clone().add(groundPosition),
-      dim: dim.clone().add(groundScale),
-      health: this.health
+    if(this.health === health.ok) {
+      this.scene.singleMeshFactory.removeFragment(id + '_plane');
+      return;
+    }
+
+    //adding a existing fragment will penetrate an update
+    const color = this.calculateHealthColor();
+    const position = pos;
+    const scale = dim.clone().multiplyScalar(1.5);
+    this.scene.singleMeshFactory.addFragment({
+      id: id + '_plane',
+      contentProvider: new HCM({
+        contentProvider: new PCM({
+          contentProvider: new SCM({
+            contentProvider: new PCP(),
+            x: scale.x, y: 1, z: scale.z
+          }),
+          x: position.x, y: position.y, z: position.z
+        }),
+        r: color.r, g: color.g, b: color.b
+      })
     });
   }
 
@@ -204,8 +226,12 @@ export default class Node extends BaseNode {
   }
 
   setPosition(x, y, z) {
-    super.setPosition(x, y, z);
+    const position = this.getPosition();
+    if(x === position.x && y === position.y && z === position.z) {
+      return;
+    }
 
+    super.setPosition(x, y, z);
     this.layer.forEach(p => p.setPosition(x, p.getPosition().y, z));
   }
 
@@ -218,10 +244,11 @@ export default class Node extends BaseNode {
 
     this.refreshMesh();
     this.arrangeChildren();
+    this.refreshFragment();
   }
 
-  setHealth(health) {
-    if(health === this.health) {
+  setHealth(newHealth) {
+    if(newHealth === this.health) {
       return;
     }
 
@@ -229,18 +256,15 @@ export default class Node extends BaseNode {
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
 
-    this.health = health;
-    this.changeColorInFactory(id, health, this.scene.nodeFactory);
+    this.health = newHealth;
 
-    //can't change the color of the group like the node does because
-    //ok groups doesn't have a group geometry!
-    this.scene.groupFactory.removeFragment(id);
     this.addToGroupFactory(id, pos, dim);
+    this.refreshFragment();
   }
 
-  changeColorInFactory(id, health, factory) {
+  changeColorInFactory(id, newHealth, factory) {
     const fragment = factory.getFragment(this.id);
-    fragment.health = health;
+    fragment.health = newHealth;
 
     factory.changeColorOfFragment(fragment,
       factory.getColorArrayForFragment(fragment));
@@ -294,8 +318,6 @@ export default class Node extends BaseNode {
   enableFragments(enabled) {
     const scene = this.scene;
     const id = this.id;
-    scene.nodeFactory.enableFragment(id, enabled);
-    scene.groupFactory.enableFragment(id, enabled);
     scene.multiMetricFactory.enableFragment(id, enabled);
     scene.singleMetricFactory.enableFragment(id, enabled);
   }
@@ -303,8 +325,6 @@ export default class Node extends BaseNode {
   removeFromGlobalGeometry() {
     const id = this.id;
     const scene = this.scene;
-    scene.nodeFactory.removeFragment(id);
-    scene.groupFactory.removeFragment(id);
     scene.multiMetricFactory.removeFragment(id);
     scene.singleMetricFactory.removeFragment(id);
   }
@@ -322,6 +342,19 @@ export default class Node extends BaseNode {
 
     this.snapshot = null;
     this.health = null;
+  }
+
+  calculateHealthColor() {
+    const hostHealth = this.health;
+    let color;
+    if(hostHealth === health.warning) {
+      color = new THREE.Color(theme.map.colors.warning);
+    } else if(hostHealth === health.danger) {
+      color = new THREE.Color(theme.map.colors.critical);
+    } else {
+      color = new THREE.Color(theme.map.colors.ok);
+    }
+    return {r: color.r, g: color.g, b: color.b};
   }
 
   calculatePower() {
