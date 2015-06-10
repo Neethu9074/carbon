@@ -7,6 +7,8 @@ export function create(Conveyer, params) {
 
   const uniqueId = Conveyer.getUniqueId(params);
   /*eslint-disable no-underscore-dangle*/
+  // TODO Ben evict stopped converyers from cache after a certain amount of time
+  // has passed.
   const conveyerCache = Conveyer._conveyerCache = Conveyer._conveyerCache || {};
   /*eslint-enable no-underscore-dangle*/
   if (uniqueId in conveyerCache) {
