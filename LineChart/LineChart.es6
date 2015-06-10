@@ -48,7 +48,8 @@ const LineChart = React.createClass({
             mountPoint: React.findDOMNode(this.refs.element),
             width: props.width,
             height: props.height,
-            datasets: datasets
+            datasets: datasets,
+            yAxisTickFormatter: props.yAxisTickFormatter
           });
         }
       });
