@@ -1,17 +1,36 @@
 'use strict';
 
+import Immutable from 'immutable';
 import React from 'react/addons';
 import {getLabel} from 'instana-ui-sdk/snapshot';
+import {formatBytes} from 'instana-ui-services/converters';
+import {getProblemsForSnapshot} from 'instana-ui-services/notificationCenter';
+import * as constants from 'instana-ui-forge/constants';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import {mapSeverityToHealth, health} from 'instana-ui-services/health';
 
 import Panel from './Panel';
-import {formatBytes} from 'instana-ui-services/converters';
-import * as constants from 'instana-ui-forge/constants';
 
 import './ServerDetails.less';
 
 const block = 'in-detail-panel-server-details';
 
 const ServerDetails = React.createClass({
+  mixins: [SubscriptionMixin],
+
+  getInitialState() {
+    return {
+      problems: Immutable.List()
+    };
+  },
+
+  componentDidMount() {
+    this.addSubscription(
+      getProblemsForSnapshot(this.props.snapshot)
+        .subscribe(problems => this.setState({problems}))
+    );
+  },
+
   render() {
     const data = this.props.snapshot.get('data');
     const ec2 = data.getIn([constants.rels.describes, constants.plugins.ec2]);
@@ -27,6 +46,16 @@ const ServerDetails = React.createClass({
 
         <Panel title='System'>
           <dl>
+            <dt>Host ID</dt>
+            <dd>
+              {this.props.snapshot.get('hostId')}
+            </dd>
+
+            <dt>Steady ID</dt>
+            <dd>
+              {this.props.snapshot.get('steadyId')}
+            </dd>
+
             <dt>OS</dt>
             <dd>
               {data.get('os.name')}{' '}
@@ -86,8 +115,43 @@ const ServerDetails = React.createClass({
             </dl>
           </Panel>
         : null}
+
+        {this.state.problems.size > 0 ? this.renderProblems() : null}
       </div>
     );
+  },
+
+  renderProblems() {
+    return (
+      <Panel title='Problems'>
+        <ul className={block + '__problems'}>
+          {this.state.problems.map(problem =>
+            <li key={problem.get('problemText')}>
+              <h3 className={block + '__problem-text'}
+                  style={{color: this.getColor(problem)}}>
+                {problem.get('problemText')}
+              </h3>
+              <p className={block + '__problem-fix-suggestion'}>
+                {problem.get('fixSuggestion')}
+              </p>
+            </li>
+          ).toJS()}
+        </ul>
+      </Panel>
+    );
+  },
+
+  getColor(problem) {
+    switch (mapSeverityToHealth(problem.get('severity'))) {
+      case health.ok:
+        return '#fff';
+      case health.warning:
+        return 'yellow';
+      case health.danger:
+        return 'darkred';
+      default:
+        throw new Error('Unknown health ' + mapSeverityToHealth(problem));
+    }
   }
 });
 
