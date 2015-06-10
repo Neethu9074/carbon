@@ -67,18 +67,18 @@ describe('conveyer', () => {
     expect(conveyerInstance.stop.callCount).to.equal(1);
   });
 
-  it('should forbid to reuse disposed observables', () => {
-    const observable = create(Conveyer);
-    observable.subscribe(() => {}).dispose();
-    expect(() => observable.subscribe(() => {})).to.throw(Error);
-  });
-
-  it('should create new observable instances once all previous subscribers disposed', () => {
-    const observable1 = create(Conveyer);
-    observable1.subscribe(() => {}).dispose();
-    const observable2 = create(Conveyer);
-    expect(observable1).not.to.equal(observable2);
-  });
+  // it('should forbid to reuse disposed observables', () => {
+  //   const observable = create(Conveyer);
+  //   observable.subscribe(() => {}).dispose();
+  //   expect(() => observable.subscribe(() => {})).to.throw(Error);
+  // });
+  //
+  // it('should create new observable instances once all previous subscribers disposed', () => {
+  //   const observable1 = create(Conveyer);
+  //   observable1.subscribe(() => {}).dispose();
+  //   const observable2 = create(Conveyer);
+  //   expect(observable1).not.to.equal(observable2);
+  // });
 
   it('should make published values available via the observable', (done) => {
     create(Conveyer).subscribe(e => {
