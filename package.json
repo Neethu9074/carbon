@@ -7,7 +7,7 @@
     "build": "webpack",
     "dev": "export BUILD_DEV=true && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/react.html && webpack-dev-server --host 0.0.0.0 --port 7272",
     "clean": "rm -rf target/",
-    "test": "eslint --ext .es6 src/ && mocha --require mocha-babel-es6 src/**/*_test.es6 src/*_test.es6"
+    "test": "eslint --ext .es6 src/ && mocha --require mocha-babel-es6 src/*_test.es6 src/**/*_test.es6 src/**/**/*_test.es6 src/**/**/**/*_test.es6"
   },
   "repository": {
     "type": "git",
