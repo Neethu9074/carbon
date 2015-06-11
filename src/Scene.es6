@@ -37,6 +37,7 @@ export default class Scene {
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
+    this.selectedSceneObject = undefined;
 
     this.setupFactories();
     this.setupOctree();
@@ -419,9 +420,20 @@ export default class Scene {
   onObjectClicked(object, fireExternalEvent = true) {
     this.controller.flyToObject(object);
 
-    if(!object.parentSceneObject.isUnknown && fireExternalEvent) {
-      const snapshotId = extractId(object.parentSceneObject.snapshot);
-      this.onClick({snapshot: snapshotId});
+    let lastSelected = this.selectedSceneObject;
+    if(lastSelected) {
+      lastSelected.unSelect();
+    }
+
+    if(fireExternalEvent) {
+      const clickedSceneObject = object.parentSceneObject;
+
+      if(!object.parentSceneObject.isUnknown) {
+        const snapshotId = extractId(clickedSceneObject.snapshot);
+        this.onClick({snapshot: snapshotId});
+      }
+      this.selectedSceneObject = clickedSceneObject;
+      clickedSceneObject.select();
     }
   }
 

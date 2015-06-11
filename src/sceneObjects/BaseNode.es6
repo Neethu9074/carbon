@@ -93,18 +93,46 @@ export default class BaseNode extends SceneObject {
   }
 
   highlight(value) {
-    if(value) {
-      this.stickyNote = this.createStickyNote();
-      this.renderScene();
+    //if mouseover and not selected
+    if(value && !this.selected) {
+      this.setupHighLight();
 
-    } else {
-      this.stickyNote.dispose();
-      this.stickyNote = emptyStickyObject;
-      this.connections.forEach(c => c.show());
+    //if mouseoff and not selected
+    } else if(!value && !this.selected) {
+      this.clearHighlight();
     }
-    this.connections.forEach(c => c.highlight(value));
+  }
 
+  select() {
+    if(!this.highlighted) {
+      this.setupHighLight();
+    }
+    this.selected = true;
+  }
+
+  unSelect() {
+    if(this.highlighted) {
+      this.clearHighlight();
+    }
+    this.selected = false;
+  }
+
+  setupHighLight() {
+    if(this.stickyNote === emptyStickyObject) {
+      this.stickyNote = this.createStickyNote();
+    }
+
+    this.connections.forEach(c => c.highlight(true));
     this.renderScene();
+    this.highlighted = true;
+  }
+
+  clearHighlight() {
+    this.stickyNote.dispose();
+    this.stickyNote = emptyStickyObject;
+    this.connections.forEach(c => c.highlight(false));
+    this.renderScene();
+    this.highlighted = false;
   }
 
   setPosition(x, y, z) {
