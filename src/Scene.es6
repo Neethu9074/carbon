@@ -14,7 +14,6 @@ import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as time from './timeCalculations';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
-import LayerFactory from './factories/LayerFactory';
 import LineFactory from './factories/LineFactory';
 import MouseCameraController from './controls/mouseCameraController';
 
@@ -42,6 +41,7 @@ export default class Scene {
     this.setupFactories();
     this.setupOctree();
     this.setup3D();
+
     this.singleMeshFactory = new SingleMeshFactory({scene: this});
 
     this.setupController();
@@ -74,7 +74,6 @@ export default class Scene {
   setupFactories() {
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
-    this.cubeFactory = new LayerFactory({scene: this});
     this.numTiles = 5;
     this.multiMetricFactory = new MultiMetricPillarFactory({
       scene: this,
