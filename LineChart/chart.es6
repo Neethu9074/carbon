@@ -40,10 +40,9 @@ export default class LineChart {
       .tickPadding(10)
       .orient('left');
 
-    this.line = d3.svg.area()
+    this.line = d3.svg.line()
       .x(d => this.x(d[0]))
-      // avoid showing a stroke at the bottom of the chart
-      .y1(d => this.y(d[1]));
+      .y(d => this.y(d[1]));
 
     this.chart = d3.select(mountPoint);
 
@@ -66,7 +65,7 @@ export default class LineChart {
       .enter().append('path')
         .attr('class', 'line')
         .attr('d', d => this.line(d.values))
-        .attr('fill', (d, i) => theme.chart.fillColors[i])
+        .attr('fill', () => 'transparent')
         .attr('stroke', (d, i) => theme.chart.strokeColors[i]);
 
     this.resize({width, height});
@@ -152,8 +151,6 @@ export default class LineChart {
 
     // draw a grid throughout the chart
     this.y.axis.innerTickSize(-1 * this.chartWidth);
-
-    this.line.y0(this.chartHeight + 2);
 
     this.chart.attr('width', this.width)
       .attr('height', this.height);
