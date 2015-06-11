@@ -2,6 +2,10 @@
 
 import THREE from 'three';
 
+import {createLogger} from 'instalog';
+const logger = createLogger('ui-map.SceneObject');
+
+
 export default class SceneObject {
 
   constructor({parent, pos = new THREE.Vector3()}) {
@@ -55,6 +59,9 @@ export default class SceneObject {
   //show the visual representation and continues all live data streaming
   show() {
     this.hidden = false;
+  }
+
+  highlight(/*value*/) {
   }
 
   dispose() {
