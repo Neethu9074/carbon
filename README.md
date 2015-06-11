@@ -59,5 +59,5 @@ Nodes can be filtered via: PhysicalMap.filter(validationFunction);
 
 ```
 //filters the map and shows only all unknown nodes
-map.filter((node) => {return node.isUnknown === true; });
+map.filter(node => node.isUnknown);
 ```
