@@ -7,10 +7,11 @@ import _ from 'lodash';
 import {createLogger} from 'instalog';
 import {theme} from 'instana-ui-services/theme';
 import * as app from '../Scene';
+import {getColor} from 'instana-ui-sdk/zones';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
 const connection = new THREE.Color(theme.map.colors.connection);
-const orange = [connection.r, connection.g, connection.b];
+const defaultColor = [connection.r, connection.g, connection.b];
 export const connections = [];
 let id = 0;
 
@@ -49,14 +50,21 @@ export default class Connection extends SceneObject {
 
     const factory = this.getScene().lineFactory;
     const points = this.calculateVertices(-0.4);
+    let color = getColor(this.from.parent.id);
+    color = color ? this.hexToArray(color) : defaultColor;
 
     factory.removeFragment(this.id);
-    factory.addFragment({id: this.id, points, color: orange});
+    factory.addFragment({id: this.id, points, color});
 
     //hide this if the parent is hidden
     if(this.parent.hidden) {
       this.hide();
     }
+  }
+
+  hexToArray(color) {
+    color = new THREE.Color(color);
+    return [color.r, color.g, color.b];
   }
 
   calculateVertices(height) {
