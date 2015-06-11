@@ -95,6 +95,7 @@ export default class BaseNode extends SceneObject {
   highlight(value) {
     if(value) {
       this.stickyNote = this.createStickyNote();
+      this.renderScene();
 
     } else {
       this.stickyNote.dispose();

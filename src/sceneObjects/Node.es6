@@ -312,15 +312,6 @@ export default class Node extends BaseNode {
     this.stickyNoteLayer = new StickyNoteLayer(this);
   }
 
-  addStickyNoteForMetric() {
-    //only one sticky metric sticky for each node
-    if(this.stickyNoteMetric !== emptyStickyObject) {
-      return;
-    }
-
-    this.stickyNoteMetric = new StickyNoteMetric(this);
-  }
-
   enableFragments(enabled) {
     super.enableFragments(enabled);
 
