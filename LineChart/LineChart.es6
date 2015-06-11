@@ -26,8 +26,7 @@ const LineChart = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     // special case resizing
-    if (this.props.datasources === nextProps.datasources &&
-        this.props.yAxisTickFormatter === nextProps.yAxisTickFormatter) {
+    if (this.isOnlySizeChanged(this.props, nextProps)) {
       this.chart.resize({
         width: nextProps.width,
         height: nextProps.height
@@ -40,6 +39,24 @@ const LineChart = React.createClass({
       this.chart.dispose();
     }
     this.renderChart(nextProps);
+  },
+
+  isOnlySizeChanged(currentProps, nextProps) {
+    if (currentProps.yAxisTickFormatter !== nextProps.yAxisTickFormatter) {
+      return false;
+    }
+
+    if (currentProps.datasources.length !== nextProps.datasources.length) {
+      return false;
+    }
+
+    for (let i = 0; i < currentProps.datasources.length; i++) {
+      if (currentProps.datasources[i] !== nextProps.datasources[i]) {
+        return false;
+      }
+    }
+
+    return true;
   },
 
   componentWillUnmount() {
