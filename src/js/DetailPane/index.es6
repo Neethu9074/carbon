@@ -30,7 +30,7 @@ const DetailPane = React.createClass({
   },
 
   renderLineChart() {
-    const metrics = ['cpu.total.user.5000.mean', 'cpu.total.sys.5000.mean'];
+    const metrics = ['cpu.total.user', 'cpu.total.sys'];
     const datasources = metrics.map(metric =>
       create(MetricWithHistoryConveyer, {
         snapshot: this.props.snapshot,
