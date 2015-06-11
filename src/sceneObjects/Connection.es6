@@ -124,9 +124,13 @@ export default class Connection extends SceneObject {
 
   highlight(value) {
     if(value) {
+      //create the path and add it as a fragment to global factory
       this.render();
-    } else {
-      app.scene.scene.lineFactory.removeFragment(this.id);
+
+    //hide the connection will end up in removing the fragment from factory
+    //don't hide conenctions that are part of a selected host
+    } else if(!this.from.selected && !this.to.selected) {
+        app.scene.scene.lineFactory.removeFragment(this.id);
     }
   }
 

@@ -104,10 +104,10 @@ export default class BaseNode extends SceneObject {
   }
 
   select() {
-    this.selected = true;
     if(!this.highlighted) {
       this.setupHighLight();
     }
+    this.selected = true;
   }
 
   unSelect() {
