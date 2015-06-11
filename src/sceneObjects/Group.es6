@@ -58,40 +58,7 @@ export default class Group extends SceneObject {
     obj.updateMatrix();
   }
 
-  createLabel() {
-  }
-
-  /* the group label is a plane with a transparent texture on it.
-  * the texture is created via a canvas which is filled with a text and
-  * then transformed into a texture.
-  */
-  getGroupLabel(text) {
-    const canvas = document.createElement('canvas');
-    let color = getColor(this.id);
-    color = color === undefined ? '#FFFFFF' : color;
-
-    canvas.width = 600;
-    canvas.height = 100;
-    const context = canvas.getContext('2d');
-
-    context.fillStyle = color;
-    context.font = '100px ' + theme.common.fontFamily;
-    context.fillText(text, 0, 95);
-
-    // use canvas content as a texture
-    const texture = new THREE.Texture(canvas);
-
-    //set the minFilter, because the textures size is not power of 2
-    texture.minFilter = THREE.LinearFilter;
-    texture.needsUpdate = true;
-
-    const mat = new THREE.MeshBasicMaterial({
-      map: texture,
-      transparent: true,
-      depthWrite: false
-    });
-    return new THREE.Mesh(groupGeometry, mat);
-  }
+  createLabel() {}
 
   addNode({snapshot, unknown=false}) {
     const nodeId = getIdString(snapshot);
@@ -152,7 +119,6 @@ export default class Group extends SceneObject {
     this.ground.scale.copy(scale);
     this.ground.updateMatrix();
   }
-
   removeChild(child) {
     _.remove(this.children, node => node.id === child.id);
 

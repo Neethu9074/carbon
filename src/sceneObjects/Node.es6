@@ -14,12 +14,12 @@ import NodeSnapshotServer from '../NodeSnapshotServer';
 import StickyNoteNode from './StickyNote/Node';
 import StickyNoteLayer from './StickyNote/Layer';
 import StickyNoteMetric from './StickyNote/Metric';
+import deckelTexturePath from './java-logo.png';
 
 /*eslint-disable max-len*/
 import PCP from '../SingleMeshFactory/ContentProvider/PlaneContentProvider';
-import TCP from '../SingleMeshFactory/ContentProvider/TriangleContentProvider';
 import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import HCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/HealthContentManipulator';
+import CMCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 /*eslint-enable max-len*/
 
@@ -46,12 +46,33 @@ export default class Node extends BaseNode {
     this.layer = [];
 
     this.stickyNoteMetric = emptyStickyObject;
+
+    //this.createLabel();
   }
 
   registerEvents() {
     super.registerEvents();
 
     this.snapshotServer = new NodeSnapshotServer(this);
+  }
+
+  createLabel() {
+    const geometry = new THREE.PlaneBufferGeometry(0.75, 0.75, 1, 1);
+    const material = new THREE.MeshBasicMaterial({
+      map: THREE.ImageUtils.loadTexture(deckelTexturePath, THREE.UVMapping),
+      transparent: true,
+      depthWrite: false,
+      side: THREE.DoubleSide,
+      blending: THREE.NormalBlending
+    });
+    const mesh = new THREE.Mesh(geometry, material);
+    mesh.rotation.x = -Math.PI / 2;
+    //mesh.rotation.z = -40 * Math.PI / 180;
+    mesh.position.y = 2;
+    mesh.renderOrder = 10;
+    this.deckel = mesh;
+
+    this.scene.addSceneObject(mesh);
   }
 
   addToGlobalGeometry() {
@@ -88,11 +109,7 @@ export default class Node extends BaseNode {
   //this is not the group where nodes are on!
   //it's the health ground group of each node
   addToGroupFactory(id, pos, dim) {
-    if(!this.health) {
-      return;
-    }
-
-    if(this.health === health.ok) {
+    if(!this.health || this.health === health.ok) {
       this.scene.singleMeshFactory.removeFragment(id + '_plane');
       return;
     }
@@ -103,7 +120,7 @@ export default class Node extends BaseNode {
     const scale = dim.clone().multiplyScalar(1.5);
     this.scene.singleMeshFactory.addFragment({
       id: id + '_plane',
-      contentProvider: new HCM({
+      contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
             contentProvider: new PCP(),
@@ -232,6 +249,7 @@ export default class Node extends BaseNode {
     }
 
     super.setPosition(x, y, z);
+    //this.deckel.position.set(x - 0.5, y, z + 0.5);
     this.layer.forEach(p => p.setPosition(x, p.getPosition().y, z));
   }
 
@@ -241,6 +259,7 @@ export default class Node extends BaseNode {
     }
 
     this.cube.scale.y = height;
+    //this.deckel.position.y = height + 0.01;
 
     this.refreshMesh();
     this.arrangeChildren();
