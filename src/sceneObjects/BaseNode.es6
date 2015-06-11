@@ -12,9 +12,8 @@ import SceneObject from './SceneObject';
 
 /*eslint-disable max-len*/
 import CCP from '../SingleMeshFactory/ContentProvider/CubeContentProvider';
-import TCP from '../SingleMeshFactory/ContentProvider/TriangleContentProvider';
 import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import HCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/HealthContentManipulator';
+import CMCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 /*eslint-enable max-len*/
 
@@ -113,7 +112,7 @@ export default class BaseNode extends SceneObject {
     const scale = this.cube.scale;
     this.scene.singleMeshFactory.addFragment({
       id: this.id,
-      contentProvider: new HCM({
+      contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
             contentProvider: new CCP(),

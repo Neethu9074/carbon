@@ -3,9 +3,10 @@
 import ContentManipulator from './ContentManipulator';
 
 
-export default class HealthContentManipulator extends ContentManipulator {
+export default class ColorMultiplierContentManipulator
+  extends ContentManipulator {
 
-  constructor({contentProvider, r=0, g=0, b=0}) {
+  constructor({contentProvider, r=1, g=1, b=1}) {
     super({contentProvider});
 
     this.color = {r, g, b};
