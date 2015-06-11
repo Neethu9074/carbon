@@ -25,38 +25,43 @@ const LineChart = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    // special case resizing
-    if (this.isOnlySizeChanged(this.props, nextProps)) {
+    if (this.isTickFormatterChanged(this.props, nextProps) ||
+        this.isDatasourcesChanged(this.props, nextProps)) {
+      this.disposeSubscriptions();
+      if (this.chart) {
+        this.chart.dispose();
+      }
+      this.renderChart(nextProps);
+
+    } else if (this.isSizeChanged(this.props, nextProps)) {
       this.chart.resize({
         width: nextProps.width,
         height: nextProps.height
       });
-      return;
     }
-
-    this.disposeSubscriptions();
-    if (this.chart) {
-      this.chart.dispose();
-    }
-    this.renderChart(nextProps);
   },
 
-  isOnlySizeChanged(currentProps, nextProps) {
-    if (currentProps.yAxisTickFormatter !== nextProps.yAxisTickFormatter) {
-      return false;
-    }
+  isTickFormatterChanged(currentProps, nextProps) {
+    return currentProps.yAxisTickFormatter !== nextProps.yAxisTickFormatter;
+  },
 
+  isDatasourcesChanged(currentProps, nextProps) {
     if (currentProps.datasources.length !== nextProps.datasources.length) {
-      return false;
+      return true;
     }
 
     for (let i = 0; i < currentProps.datasources.length; i++) {
       if (currentProps.datasources[i] !== nextProps.datasources[i]) {
-        return false;
+        return true;
       }
     }
 
-    return true;
+    return false;
+  },
+
+  isSizeChanged(currentProps, nextProps) {
+    return currentProps.width !== nextProps.width ||
+      currentProps.height !== nextProps.height;
   },
 
   componentWillUnmount() {

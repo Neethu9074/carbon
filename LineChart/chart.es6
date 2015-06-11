@@ -1,6 +1,7 @@
 'use strict';
 
 import d3 from 'd3';
+import {theme} from 'instana-ui-services/theme';
 
 const defaultXAxisTickFormatter = d3.time.format('%H:%M:%S');
 const defaultYAxisTickFormatter = d3.format(',.2f');
@@ -29,6 +30,7 @@ export default class LineChart {
       .scale(this.x)
       .orient('bottom')
       .tickFormat(xAxisTickFormatter)
+      .ticks(5)
       .outerTickSize(0);
 
     this.y.axis = d3.svg.axis()
@@ -63,7 +65,9 @@ export default class LineChart {
         .data(datasets)
       .enter().append('path')
         .attr('class', 'line')
-        .attr('d', d => this.line(d.values));
+        .attr('d', d => this.line(d.values))
+        .attr('fill', (d, i) => theme.chart.fillColors[i])
+        .attr('stroke', (d, i) => theme.chart.strokeColors[i]);
 
     this.resize({width, height});
   }
@@ -78,6 +82,8 @@ export default class LineChart {
   }
 
   update(datasetsUpdate) {
+    this.stopTransitions();
+
     let newDomainStart = Number.MAX_VALUE;
     let newDomainEnd = Number.MIN_VALUE;
     const previousDomainEnd = this.x.domain()[1].getTime();
