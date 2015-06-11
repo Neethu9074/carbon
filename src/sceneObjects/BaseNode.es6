@@ -118,21 +118,27 @@ export default class BaseNode extends SceneObject {
   }
 
   setupHighLight() {
+    this.highlighted = true;
+
     if(this.stickyNote === emptyStickyObject) {
       this.stickyNote = this.createStickyNote();
     }
 
+    this.scene.highlightSingleMeshFactory.addFragment(this.getNodeAsFragment());
+
     this.connections.forEach(c => c.highlight(true));
     this.renderScene();
-    this.highlighted = true;
   }
 
   clearHighlight() {
+    this.highlighted = false;
+
+    this.scene.highlightSingleMeshFactory.removeFragment(this.id);
+
     this.stickyNote.dispose();
     this.stickyNote = emptyStickyObject;
     this.connections.forEach(c => c.highlight(false));
     this.renderScene();
-    this.highlighted = false;
   }
 
   setPosition(x, y, z) {
@@ -159,11 +165,17 @@ export default class BaseNode extends SceneObject {
   }
 
   refreshFragment() {
+    const fragment = this.getNodeAsFragment();
     //adding a existing fragment will penetrate an update
+    this.scene.singleMeshFactory.addFragment(fragment);
+  }
+
+  getNodeAsFragment() {
     const color = this.calculateNodeColor();
     const position = this.getPosition();
     const scale = this.cube.scale;
-    this.scene.singleMeshFactory.addFragment({
+
+    return {
       id: this.id,
       contentProvider: new CMCM({
         contentProvider: new PCM({
@@ -175,7 +187,7 @@ export default class BaseNode extends SceneObject {
         }),
         r: color.r, g: color.g, b: color.b
       })
-    });
+    };
   }
 
   getDimension() {

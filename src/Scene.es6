@@ -39,11 +39,9 @@ export default class Scene {
     this.height = window.innerHeight;
     this.selectedSceneObject = undefined;
 
-    this.setupFactories();
     this.setupOctree();
     this.setup3D();
-
-    this.singleMeshFactory = new SingleMeshFactory({scene: this});
+    this.setupFactories();
 
     this.setupController();
 
@@ -73,6 +71,9 @@ export default class Scene {
   }
 
   setupFactories() {
+    this.singleMeshFactory = new SingleMeshFactory({scene: this});
+    this.highlightSingleMeshFactory = new SingleMeshFactory({scene: this});
+
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
     this.numTiles = 5;
@@ -282,10 +283,13 @@ export default class Scene {
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
-    this.singleMeshFactory.material.opacity = normedZoomLevel;
+    //if there is no cube selected, fade all cubes by distance
+    if(!this.selectedSceneObject) {
+      this.singleMeshFactory.material.opacity = normedZoomLevel;
 
-    //update node color opacity by distance
-    this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
+      //update node color opacity by distance
+      this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
+    }
   }
 
   updateZoomLevelInCss(zoomUnits) {
@@ -437,6 +441,9 @@ export default class Scene {
     if(this.selectedSceneObject) {
       this.selectedSceneObject.unSelect();
     }
+
+    this.singleMeshFactory.material.opacity = 0.25;
+    this.singleMeshFactory.material.transparent = true;
 
     //save the new object and select it
     this.selectedSceneObject = obj;
