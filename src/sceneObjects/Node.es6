@@ -115,7 +115,7 @@ export default class Node extends BaseNode {
     }
 
     //adding a existing fragment will penetrate an update
-    const color = this.calculateHealthColor();
+    const color = this.calculateNodeColor();
     const position = pos;
     const scale = dim.clone().multiplyScalar(1.5);
     this.scene.singleMeshFactory.addFragment({
@@ -371,7 +371,7 @@ export default class Node extends BaseNode {
     this.health = null;
   }
 
-  calculateHealthColor() {
+  calculateNodeColor() {
     const hostHealth = this.health;
     let color;
     if(hostHealth === health.warning) {
@@ -381,11 +381,6 @@ export default class Node extends BaseNode {
     } else {
       color = new THREE.Color(theme.map.colors.ok);
     }
-    return {r: color.r, g: color.g, b: color.b};
-  }
-
-  calculateNodeColor() {
-    const color = new THREE.Color(theme.map.colors.ok);
     return {r: color.r, g: color.g, b: color.b};
   }
 
