@@ -25,17 +25,6 @@ import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleCo
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 
-//if unavailable, the StickyNote-Metric / Layer will not be undefined but this
-//to avoid all these if(available) {do something} stuff
-const emptyStickyObject = {
-  hide() {},
-  update() {},
-  updateWorldPos() {},
-  render() {},
-  dispose() {},
-  show() {}
-};
-
 
 export default class Node extends BaseNode {
 
@@ -44,8 +33,6 @@ export default class Node extends BaseNode {
 
     this.health = health.ok;
     this.layer = [];
-
-    this.stickyNoteMetric = emptyStickyObject;
 
     //this.createLabel();
   }

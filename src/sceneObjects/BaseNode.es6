@@ -27,6 +27,17 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
 //global cube material to reduce object creation
 const cubeMaterial = new THREE.MeshBasicMaterial();
 
+//if unavailable, the StickyNote-Metric / Layer will not be undefined but this
+//to avoid all these if(available) {do something} stuff
+const emptyStickyObject = {
+  hide() {},
+  update() {},
+  updateWorldPos() {},
+  render() {},
+  dispose() {},
+  show() {}
+};
+
 
 export default class BaseNode extends SceneObject {
 
@@ -38,8 +49,8 @@ export default class BaseNode extends SceneObject {
     this.snapshot = snapshot;
     this.connections = [];
 
+    this.stickyNote = emptyStickyObject;
     this.render();
-    this.stickyNote = this.createStickyNote();
 
     this.registerEvents();
   }
@@ -79,6 +90,16 @@ export default class BaseNode extends SceneObject {
 
   updateStickyNotes() {
     this.stickyNote.update();
+  }
+
+  highlight(value) {
+    if(value) {
+      this.stickyNote = this.createStickyNote();
+
+    } else {
+      this.stickyNote.dispose();
+      this.stickyNote = emptyStickyObject;
+    }
   }
 
   setPosition(x, y, z) {

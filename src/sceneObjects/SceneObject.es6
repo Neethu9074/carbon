@@ -61,8 +61,7 @@ export default class SceneObject {
     this.hidden = false;
   }
 
-  highlight(/*value*/) {
-  }
+  highlight(/*value*/) {}
 
   dispose() {
     this.disposeSubscriptions();
