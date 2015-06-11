@@ -59,7 +59,8 @@ exports.consts = {
           metricColors.lime,
           metricColors.teal
         ]
-      }
+      },
+      metricColors: metricColors
     },
     chart: {
       strokeColors: [
