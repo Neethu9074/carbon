@@ -124,20 +124,28 @@ export default class BaseNode extends SceneObject {
       this.stickyNote = this.createStickyNote();
     }
 
+    //add the fargment to the highlight factory
+    //so that the material is not faded by camera distance
     this.scene.highlightSingleMeshFactory.addFragment(this.getNodeAsFragment());
 
+    //show all connections of the node
     this.connections.forEach(c => c.highlight(true));
+
     this.renderScene();
   }
 
   clearHighlight() {
     this.highlighted = false;
 
+    //remove the highlight from the factory
     this.scene.highlightSingleMeshFactory.removeFragment(this.id);
 
     this.stickyNote.dispose();
     this.stickyNote = emptyStickyObject;
+
+    //hide all connections
     this.connections.forEach(c => c.highlight(false));
+
     this.renderScene();
   }
 
