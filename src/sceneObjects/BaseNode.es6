@@ -100,7 +100,11 @@ export default class BaseNode extends SceneObject {
     } else {
       this.stickyNote.dispose();
       this.stickyNote = emptyStickyObject;
+      this.connections.forEach(c => c.show());
     }
+    this.connections.forEach(c => c.highlight(value));
+
+    this.renderScene();
   }
 
   setPosition(x, y, z) {

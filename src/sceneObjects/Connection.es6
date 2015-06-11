@@ -48,11 +48,11 @@ export default class Connection extends SceneObject {
       return;
     }
 
-    const factory = this.getScene().lineFactory;
     const points = this.calculateVertices(-0.4);
     let color = getColor(this.from.parent.id);
     color = color ? this.hexToArray(color) : defaultColor;
 
+    const factory = this.getScene().lineFactory;
     factory.removeFragment(this.id);
     factory.addFragment({id: this.id, points, color});
 
@@ -154,6 +154,10 @@ export default class Connection extends SceneObject {
   show() {
     super.show();
     this.enableFragment(true);
+  }
+
+  highlight(value) {
+    this.getScene().lineFactory.highlightFragment(this.id, value);
   }
 
   hide() {

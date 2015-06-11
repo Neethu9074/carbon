@@ -2,6 +2,10 @@
 
 import THREE from 'three';
 import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
+import {theme} from 'instana-ui-services/theme';
+
+const grey = new THREE.Color(theme.map.colors.renderClearGradient1);
+const defaultLineColor = [grey.r, grey.g, grey.b];
 
 let index = 0;
 
@@ -27,16 +31,26 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     this.globalMesh.frustumCulled = false;
   }
 
-  addFragment({id, points, color = undefined, enabled = true}) {
+  addFragment({id, points, color, enabled = true}) {
     this.fragments.push({
       id, //is needed to identify the fragment when deleting
       points,
-      color,
+      color: color,
       enabled
     });
 
     //set rebuild to true
     //so that the mesh will be generated on the next event
+    this.rebuildGlobalMesh = true;
+  }
+
+  highlightFragment(id, highlight) {
+    const match = this.getFragment(id);
+    if(!match) {
+      return;
+    }
+
+    match.highlighted = highlight;
     this.rebuildGlobalMesh = true;
   }
 
@@ -61,24 +75,22 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   }
 
   copyLineAttributesToGlobalArray(vertices, colors, fragment){
-    const color = this.getColorForFragment(fragment);
+    let color = defaultLineColor;
+    let yManipulator = 0;
+    if(fragment.highlighted) {
+      color = fragment.color;
+      yManipulator = 0.2;
+    }
+
     for (let i = 0; i < fragment.points.length; i++) {
       const point = fragment.points[i];
       colors[index] = color[0];
       vertices[index++] = point.x;
       colors[index] = color[1];
-      vertices[index++] = point.y;
+      vertices[index++] = point.y + yManipulator;
       colors[index] = color[2];
       vertices[index++] = point.z;
     }
-  }
-
-  getColorForFragment(fragment) {
-    if(fragment.color) {
-      return fragment.color;
-    }
-    //white
-    return [1, 1, 1];
   }
 
   createGlobalMesh(vertices, colors) {
