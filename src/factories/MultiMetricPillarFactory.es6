@@ -10,6 +10,28 @@ import MeshFactory from './MeshFactory';
 import fragmentShader from './multiMetricFragmentShader.glsl';
 import vertexShader from './multiMetricVertexShader.glsl';
 
+import {theme} from 'instana-ui-services/theme';
+
+const availableColors = (() => {
+  const colors = [];
+  const converter = new THREE.Color();
+
+  fillIn(colors, converter, theme.map.metricColors.blue);
+  fillIn(colors, converter, theme.map.metricColors.blue2);
+  fillIn(colors, converter, theme.map.metricColors.blue3);
+  fillIn(colors, converter, theme.map.metricColors.blue4);
+
+  fillIn(colors, converter, theme.map.metricColors.cyan);
+  fillIn(colors, converter, theme.map.metricColors.cyan2);
+  fillIn(colors, converter, theme.map.metricColors.cyan3);
+  fillIn(colors, converter, theme.map.metricColors.cyan4);
+
+  return colors;
+})();
+function fillIn(colors, converter, hex) {
+  converter.set(hex);
+  colors.push([converter.r, converter.g, converter.b]);
+}
 const colorItems = [];
 
 
@@ -116,11 +138,17 @@ export default class MultiMetricPillarFactory extends MeshFactory {
   //creates a gradient from black to white
   calculateColorItems(numTiles) {
     let index = 0;
+    let colorIndex = 0;
     for (let i = 0; i < numTiles; i++) {
-      const color = (1 / numTiles) * i; //[0, 1]
-      colorItems[index++] = [color, color, color];
-      colorItems[index++] = [color + 0.1, color + 0.1, color + 0.1];
-      colorItems[index++] = [color, color, color];
+      const color = availableColors[colorIndex];
+      colorIndex++;
+      if(colorIndex >= availableColors.length) {
+        colorIndex = 0;
+      }
+
+      colorItems[index++] = [color[0] - 0.1, color[1] - 0.1, color[2] - 0.1];
+      colorItems[index++] = [color[0], color[1], color[2]];
+      colorItems[index++] = [color[0] + 0.1, color[1] + 0.1, color[2] + 0.1];
     }
   }
 

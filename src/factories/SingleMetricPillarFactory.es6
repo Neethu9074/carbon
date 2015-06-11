@@ -4,15 +4,18 @@ import THREE from 'three';
 import TWEEN from 'tween.js'
 
 import MeshFactory from './MeshFactory';
+import {theme} from 'instana-ui-services/theme';
 
 //import shader
 import fragmentShader from './singleMetricFragmentShader.glsl';
 import vertexShader from './singleMetricVertexShader.glsl';
 
+
+const cyan = new THREE.Color(theme.map.metricColors.cyan);
 const colorItemsOk = [
-  [0.184, 0.64, 0.71], //front
-  [0.212, 0.71, 0.745], //top
-  [0.204, 0.694, 0.75] //left
+  [cyan.r - 0.1, cyan.g - 0.1, cyan.b - 0.1], //front
+  [cyan.r, cyan.g, cyan.b], //top
+  [cyan.r + 0.1, cyan.g + 0.1, cyan.b + 0.1] //left
 ];
 
 
