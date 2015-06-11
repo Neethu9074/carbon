@@ -87,34 +87,79 @@ const DetailPane = React.createClass({
         <div className={block + '__content'} ref='content'>
           {this.state.datasources !== null ?
             <div className={block + '__chart'}>
-              <h1>CPU Usage</h1>
 
-              <dl>
-                <dt style={{color: theme.chart.strokeColors[0]}}>
-                  User
-                </dt>
-                <dd>{this.state['cpu.total.user']}</dd>
+              <div className={block + '__chart-heading'}>
+                <h1 className={block + '__chart-title'}>
+                  CPU Usage
+                </h1>
 
-                <dt style={{color: theme.chart.strokeColors[1]}}>
-                  System
-                </dt>
-                <dd>{this.state['cpu.total.sys']}</dd>
+                <dl className={block + '__chart-metrics'}>
+                  <div className={block + '__chart-metric'}>
+                    <dt className={block + '__chart-metric-title'}
+                        style={{color: theme.chart.strokeColors[0]}}>
+                      User
+                    </dt>
+                    <dd className={block + '__chart-metric-value'}>
+                      {this.state['cpu.total.user']}
+                      <span className={block + '__chart-metric-percentage'}>
+                        %
+                      </span>
+                    </dd>
+                  </div>
 
-                <dt style={{color: theme.chart.strokeColors[2]}}>
-                  Wait
-                </dt>
-                <dd>{this.state['cpu.total.wait']}</dd>
+                  <div className={block + '__chart-metric'}>
+                    <dt className={block + '__chart-metric-title'}
+                        style={{color: theme.chart.strokeColors[1]}}>
+                      System
+                    </dt>
+                    <dd className={block + '__chart-metric-value'}>
+                      {this.state['cpu.total.sys']}
+                      <span className={block + '__chart-metric-percentage'}>
+                        %
+                      </span>
+                    </dd>
+                  </div>
 
-                <dt style={{color: theme.chart.strokeColors[3]}}>
-                  Nice
-                </dt>
-                <dd>{this.state['cpu.total.nice']}</dd>
+                  <div className={block + '__chart-metric'}>
+                    <dt className={block + '__chart-metric-title'}
+                        style={{color: theme.chart.strokeColors[2]}}>
+                      Wait
+                    </dt>
+                    <dd className={block + '__chart-metric-value'}>
+                      {this.state['cpu.total.wait']}
+                      <span className={block + '__chart-metric-percentage'}>
+                        %
+                      </span>
+                    </dd>
+                  </div>
 
-                <dt style={{color: theme.chart.strokeColors[4]}}>
-                  Steal
-                </dt>
-                <dd>{this.state['cpu.total.steal']}</dd>
-              </dl>
+                  <div className={block + '__chart-metric'}>
+                    <dt className={block + '__chart-metric-title'}
+                        style={{color: theme.chart.strokeColors[3]}}>
+                      Nice
+                    </dt>
+                    <dd className={block + '__chart-metric-value'}>
+                      {this.state['cpu.total.nice']}
+                      <span className={block + '__chart-metric-percentage'}>
+                        %
+                      </span>
+                    </dd>
+                  </div>
+
+                  <div className={block + '__chart-metric'}>
+                    <dt className={block + '__chart-metric-title'}
+                        style={{color: theme.chart.strokeColors[4]}}>
+                      Steal
+                    </dt>
+                    <dd className={block + '__chart-metric-value'}>
+                      {this.state['cpu.total.steal']}
+                      <span className={block + '__chart-metric-percentage'}>
+                        %
+                      </span>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
 
               {this.renderLineChart()}
             </div>
