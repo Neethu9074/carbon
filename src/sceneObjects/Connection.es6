@@ -157,7 +157,12 @@ export default class Connection extends SceneObject {
   }
 
   highlight(value) {
-    this.getScene().lineFactory.highlightFragment(this.id, value);
+    if(!value) {
+      this.hide();
+    } else {
+      this.show();
+      this.getScene().lineFactory.highlightFragment(this.id, value);
+    }
 
     //if other hosts is selected
     if(this.to.selected) {
