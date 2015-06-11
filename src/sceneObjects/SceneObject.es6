@@ -2,9 +2,6 @@
 
 import THREE from 'three';
 
-import {createLogger} from 'instalog';
-const logger = createLogger('ui-map.SceneObject');
-
 
 export default class SceneObject {
 
