@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 export default class SingleMeshFactory {
 
-  constructor({scene}) {
+  constructor({scene, renderOrder=2}) {
     this.scene = scene;
 
     //stores all added fragments to create the global geometry
@@ -27,7 +27,7 @@ export default class SingleMeshFactory {
     mesh.matrixAutoUpdate = false;
     mesh.rotationAutoUpdate = false;
     mesh.frustumCulled = false;
-    mesh.renderOrder = 10;
+    mesh.renderOrder = renderOrder;
     this.mesh = mesh;
 
     this.buildGeometry();
