@@ -2,10 +2,6 @@
 
 import THREE from 'three';
 import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
-import {theme} from 'instana-ui-services/theme';
-
-const grey = new THREE.Color(theme.map.colors.renderClearGradient1);
-const defaultLineColor = [grey.r, grey.g, grey.b];
 
 let index = 0;
 

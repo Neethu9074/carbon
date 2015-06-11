@@ -424,6 +424,7 @@ export default class Scene {
       const clickedSceneObject = object.parentSceneObject;
       this.selectObject(clickedSceneObject);
 
+      //only send known nodes to external listener like sidebar
       if(!clickedSceneObject.isUnknown) {
         const snapshotId = extractId(clickedSceneObject.snapshot);
         this.onClick({snapshot: snapshotId});
@@ -432,10 +433,12 @@ export default class Scene {
   }
 
   selectObject(obj) {
+    //if there is an selected object, unselect it
     if(this.selectedSceneObject) {
       this.selectedSceneObject.unSelect();
     }
 
+    //save the new object and select it
     this.selectedSceneObject = obj;
     obj.select();
   }

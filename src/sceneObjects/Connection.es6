@@ -35,9 +35,9 @@ export default class Connection extends SceneObject {
 
     this.calculatePath();
 
+    from.addConnection(this);
     //add connection to to as well
     to.addConnection(this);
-    from.addConnection(this);
 
     connections.push(this);
   }
