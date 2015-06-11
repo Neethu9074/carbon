@@ -5,6 +5,7 @@ import d3 from 'd3';
 import LineChart from 'instana-ui-components/LineChart';
 import {create} from 'instana-ui-services/conveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
+import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {on} from 'reactive-observables';
 
@@ -22,7 +23,10 @@ const DetailPane = React.createClass({
   getInitialState() {
     return {
       width: 1200,
-      datasources: null
+      datasources: null,
+      cpuUsageUser: 0,
+      cpuUsageSystem: 0,
+      cpuUsageIdle: 0
     };
   },
 
@@ -45,6 +49,30 @@ const DetailPane = React.createClass({
       })
     );
 
+    datasources[0].subscribe(dataset => {
+      const currentValue = dataset.values[dataset.values.length - 1][1];
+      this.setState({
+        cpuUsageUser: commasFormatter(currentValue * 100)
+      });
+    });
+
+    datasources[1].subscribe(dataset => {
+      const currentValue = dataset.values[dataset.values.length - 1][1];
+      this.setState({
+        cpuUsageSystem: commasFormatter(currentValue * 100)
+      });
+    });
+
+    create(MetricConveyer, {
+      snapshot: this.props.snapshot,
+      metric: 'cpu.total.idle'
+    }).subscribe(v => {
+      this.setState({
+        cpuUsageIdle: commasFormatter(v * 100)
+      });
+    });
+
+
     this.setState({
       width: this.calculateChartWidth(),
       datasources
@@ -64,17 +92,30 @@ const DetailPane = React.createClass({
         : null}
 
         <div className={block + '__content'} ref='content'>
-          {this.renderLineChart()}
+          {this.state.datasources !== null ?
+            <div className={block + '__chart'}>
+              <h1>CPU Usage</h1>
+
+              <dl>
+                <dt>User</dt>
+                <dd>{this.state.cpuUsageUser}</dd>
+
+                <dt>System</dt>
+                <dd>{this.state.cpuUsageSystem}</dd>
+
+                <dt>Idle</dt>
+                <dd>{this.state.cpuUsageIdle}</dd>
+              </dl>
+
+              {this.renderLineChart()}
+            </div>
+          : null}
         </div>
       </div>
     );
   },
 
   renderLineChart() {
-    if (this.state.datasources === null) {
-      return null;
-    }
-
     return <LineChart datasources={this.state.datasources}
                       width={this.state.width}
                       height={300}
