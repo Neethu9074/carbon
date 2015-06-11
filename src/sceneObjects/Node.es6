@@ -342,6 +342,7 @@ export default class Node extends BaseNode {
   dispose() {
     this.snapshotServer.dispose();
     this.clearLayer();
+    this.scene.singleMeshFactory.removeFragment(this.id + '_plane');
 
     super.dispose();
 
