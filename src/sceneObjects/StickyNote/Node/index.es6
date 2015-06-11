@@ -27,9 +27,6 @@ const StickyNoteRC = React.createClass({
     try {
       jsxStructure = (
         <div>
-          <SnapshotIcon className="in-sticky-note__node-icon"
-              snapshot={this.props.snapshot}/>
-
           <div className="in-sticky-note__line"></div>
           <div className="in-sticky-after_line">
             <div className="in-sticky-note__content">
