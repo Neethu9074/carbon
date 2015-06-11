@@ -1,6 +1,6 @@
 {
   "name": "instana-ui-components",
-  "version": "1.11.0",
+  "version": "1.12.0",
   "description": "All reusable base UI components such as buttons, charts, icons, tabs... Will supersede all ui-*-charts repos and parts of ui-client",
   "main": "index.es6",
   "scripts": {
