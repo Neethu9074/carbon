@@ -5,8 +5,8 @@ import d3 from 'd3';
 import LineChart from 'instana-ui-components/LineChart';
 import {create} from 'instana-ui-services/conveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import {theme} from 'instana-ui-services/theme';
 import {on} from 'reactive-observables';
 
 import ServerDetails from './ServerDetails';
@@ -40,7 +40,13 @@ const DetailPane = React.createClass({
         })
     );
 
-    const metrics = ['cpu.total.user', 'cpu.total.sys'];
+    const metrics = [
+      'cpu.total.user',
+      'cpu.total.sys',
+      'cpu.total.wait',
+      'cpu.total.nice',
+      'cpu.total.steal'
+    ];
     const datasources = metrics.map(metric =>
       create(MetricWithHistoryConveyer, {
         snapshot: this.props.snapshot,
@@ -49,29 +55,16 @@ const DetailPane = React.createClass({
       })
     );
 
-    datasources[0].subscribe(dataset => {
-      const currentValue = dataset.values[dataset.values.length - 1][1];
-      this.setState({
-        cpuUsageUser: commasFormatter(currentValue * 100)
-      });
+    datasources.forEach((datasource, i) => {
+      this.addSubscription(
+        datasource.subscribe(dataset => {
+          const currentValue = dataset.values[dataset.values.length - 1][1];
+          this.setState({
+            [metrics[i]]: commasFormatter(currentValue * 100)
+          });
+        })
+      );
     });
-
-    datasources[1].subscribe(dataset => {
-      const currentValue = dataset.values[dataset.values.length - 1][1];
-      this.setState({
-        cpuUsageSystem: commasFormatter(currentValue * 100)
-      });
-    });
-
-    create(MetricConveyer, {
-      snapshot: this.props.snapshot,
-      metric: 'cpu.total.idle'
-    }).subscribe(v => {
-      this.setState({
-        cpuUsageIdle: commasFormatter(v * 100)
-      });
-    });
-
 
     this.setState({
       width: this.calculateChartWidth(),
@@ -97,14 +90,30 @@ const DetailPane = React.createClass({
               <h1>CPU Usage</h1>
 
               <dl>
-                <dt>User</dt>
-                <dd>{this.state.cpuUsageUser}</dd>
+                <dt style={{color: theme.chart.strokeColors[0]}}>
+                  User
+                </dt>
+                <dd>{this.state['cpu.total.user']}</dd>
 
-                <dt>System</dt>
-                <dd>{this.state.cpuUsageSystem}</dd>
+                <dt style={{color: theme.chart.strokeColors[1]}}>
+                  System
+                </dt>
+                <dd>{this.state['cpu.total.sys']}</dd>
 
-                <dt>Idle</dt>
-                <dd>{this.state.cpuUsageIdle}</dd>
+                <dt style={{color: theme.chart.strokeColors[2]}}>
+                  Wait
+                </dt>
+                <dd>{this.state['cpu.total.wait']}</dd>
+
+                <dt style={{color: theme.chart.strokeColors[3]}}>
+                  Nice
+                </dt>
+                <dd>{this.state['cpu.total.nice']}</dd>
+
+                <dt style={{color: theme.chart.strokeColors[4]}}>
+                  Steal
+                </dt>
+                <dd>{this.state['cpu.total.steal']}</dd>
               </dl>
 
               {this.renderLineChart()}
