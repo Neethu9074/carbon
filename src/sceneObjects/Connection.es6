@@ -40,7 +40,6 @@ export default class Connection extends SceneObject {
     from.addConnection(this);
 
     connections.push(this);
-    this.render();
   }
 
   render() {
@@ -48,7 +47,7 @@ export default class Connection extends SceneObject {
       return;
     }
 
-    const points = this.calculateVertices(-0.4);
+    const points = this.calculateVertices(-0.01);
     let color = getColor(this.from.parent.id);
     color = color ? this.hexToArray(color) : defaultColor;
 
@@ -70,51 +69,23 @@ export default class Connection extends SceneObject {
   calculateVertices(height) {
     const points = [];
 
-    this.addBeginning(points, this.path, height);
     for (let i = 1; i < this.path.length; i++) {
       const point = this.path[i];
       const lastPoint = this.path[i - 1];
 
-      points.push(new THREE.Vector3(lastPoint[0], height, -lastPoint[1]));
-      points.push(new THREE.Vector3(point[0], height, -point[1]));
+      points.push(new THREE.Vector3(
+        lastPoint[0] - 0.5,
+        height,
+        -lastPoint[1] + 0.5)
+      );
+      points.push(new THREE.Vector3(
+        point[0] - 0.5,
+        height,
+        -point[1] + 0.5)
+      );
     }
-    this.addEnding(points, this.path, height);
 
     return points;
-  }
-
-  addBeginning(points, path, height) {
-    const firstPointX = path[0][0];
-    const firstPointZ = -path[0][1];
-    points.push(new THREE.Vector3(firstPointX, 0, firstPointZ));
-    points.push(new THREE.Vector3(firstPointX, height, firstPointZ));
-
-    if(this.bidirectional) {
-      points.push(new THREE.Vector3(firstPointX, 0, firstPointZ));
-      points.push(new THREE.Vector3(firstPointX + 0.1, -0.25, firstPointZ));
-
-      points.push(new THREE.Vector3(firstPointX, 0, firstPointZ));
-      points.push(new THREE.Vector3(firstPointX - 0.1, -0.25, firstPointZ));
-    }
-  }
-
-  addEnding(points, path, height) {
-    const lastIndex = path.length - 1;
-    const lastPoint = path[lastIndex];
-    const lastPointPos = new THREE.Vector3(
-      lastPoint[0], 0, -lastPoint[1]);
-
-    points.push(lastPointPos);
-    points.push(new THREE.Vector3(
-      lastPoint[0], height, lastPointPos.z));
-
-    points.push(lastPointPos);
-    points.push(new THREE.Vector3(
-      lastPoint[0] - 0.1, -0.25, lastPointPos.z));
-
-    points.push(lastPointPos);
-    points.push(new THREE.Vector3(
-      lastPoint[0] + 0.1, -0.25, lastPointPos.z));
   }
 
   calculatePath() {
@@ -151,32 +122,12 @@ export default class Connection extends SceneObject {
     this.render();
   }
 
-  show() {
-    super.show();
-    this.enableFragment(true);
-  }
-
   highlight(value) {
-    if(!value) {
-      this.hide();
+    if(value) {
+      this.render();
     } else {
-      this.show();
-      this.getScene().lineFactory.highlightFragment(this.id, value);
+      app.scene.scene.lineFactory.removeFragment(this.id);
     }
-
-    //if other hosts is selected
-    if(this.to.selected) {
-      this.getScene().lineFactory.highlightFragment(this.id, true);
-    }
-  }
-
-  hide() {
-    super.hide();
-    this.enableFragment(false);
-  }
-
-  enableFragment(enabled) {
-    this.getScene().lineFactory.enableFragment(this.id, enabled);
   }
 
   dispose() {

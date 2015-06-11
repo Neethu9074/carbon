@@ -75,19 +75,14 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   }
 
   copyLineAttributesToGlobalArray(vertices, colors, fragment){
-    let color = defaultLineColor;
-    let yManipulator = 0;
-    if(fragment.highlighted) {
-      color = fragment.color;
-      yManipulator = 0.2;
-    }
+    let color = fragment.color;
 
     for (let i = 0; i < fragment.points.length; i++) {
       const point = fragment.points[i];
       colors[index] = color[0];
       vertices[index++] = point.x;
       colors[index] = color[1];
-      vertices[index++] = point.y + yManipulator;
+      vertices[index++] = point.y;
       colors[index] = color[2];
       vertices[index++] = point.z;
     }
