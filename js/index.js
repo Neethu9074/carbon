@@ -11,6 +11,20 @@ var colors = {
   critical: '#FF4229'
 };
 
+var metricColors = {
+  pink: '#ED1C63',
+  'purple_light': '#A526BB',
+  purple: '#6A3BBD',
+  'slate_blue': '#3F51B5',
+  blue: '#269AF6',
+  cyan: '#00C9E3',
+  teal: '#00A696',
+  green: '#4CBB51',
+  'green_light': '#8BC34A',
+  lime: '#D0E035',
+  orange: '#FF9800'
+};
+
 // first level is the color theme's name
 exports.consts = {
   night: {
@@ -38,10 +52,12 @@ exports.consts = {
         connection: colors.highlight,
         unknownStatus: colors.grey,
         zones: [
-          '#80bff0',
-          '#31ad90',
-          '#e9d17d',
-          '#7BD7D5'
+          metricColors.orange,
+          metricColors.cyan,
+          metricColors.slate_blue,
+          metricColors.purple,
+          metricColors.lime,
+          metricColors.teal
         ]
       }
     }
