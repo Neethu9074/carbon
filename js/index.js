@@ -91,7 +91,7 @@ exports.consts = {
         renderClearGradient2: colors.grey,
         warning: colors.warning,
         critical: colors.critical,
-        default: colors.default,
+        'default': colors.default,
         connection: colors.highlight,
         unknownStatus: colors.grey,
         zones: [
@@ -109,13 +109,17 @@ exports.consts = {
       strokeColors: [
         'hsl(205, 63%, 61%)',
         'hsl(125, 41%, 56%)',
-        'hsl(54, 71%, 56%)'
+        'hsl(54, 71%, 56%)',
+        'hsl(263, 100%, 81%)',
+        'hsl(331, 100%, 67%)'
       ],
 
       fillColors: [
         'hsla(205, 63%, 61%, 0.3)',
         'hsla(125, 41%, 56%, 0.3)',
-        'hsla(54, 71%, 56%, 0.3)'
+        'hsla(54, 71%, 56%, 0.3)',
+        'hsla(263, 100%, 81%, 0.3)',
+        'hsla(331, 100%, 67%, 0.3)'
       ]
     }
   },
