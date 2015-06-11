@@ -420,21 +420,24 @@ export default class Scene {
   onObjectClicked(object, fireExternalEvent = true) {
     this.controller.flyToObject(object);
 
-    let lastSelected = this.selectedSceneObject;
-    if(lastSelected) {
-      lastSelected.unSelect();
-    }
-
     if(fireExternalEvent) {
       const clickedSceneObject = object.parentSceneObject;
+      this.selectObject(clickedSceneObject);
 
-      if(!object.parentSceneObject.isUnknown) {
+      if(!clickedSceneObject.isUnknown) {
         const snapshotId = extractId(clickedSceneObject.snapshot);
         this.onClick({snapshot: snapshotId});
       }
-      this.selectedSceneObject = clickedSceneObject;
-      clickedSceneObject.select();
     }
+  }
+
+  selectObject(obj) {
+    if(this.selectedSceneObject) {
+      this.selectedSceneObject.unSelect();
+    }
+
+    this.selectedSceneObject = obj;
+    obj.select();
   }
 
   onFocus(event) {
