@@ -60,6 +60,19 @@ exports.consts = {
           metricColors.teal
         ]
       }
+    },
+    chart: {
+      strokeColors: [
+        'hsl(205, 63%, 61%)',
+        'hsl(125, 41%, 56%)',
+        'hsl(54, 71%, 56%)'
+      ],
+
+      fillColors: [
+        'hsla(205, 63%, 61%, 0.3)',
+        'hsla(125, 41%, 56%, 0.3)',
+        'hsla(54, 71%, 56%, 0.3)'
+      ]
     }
   },
   day: {
