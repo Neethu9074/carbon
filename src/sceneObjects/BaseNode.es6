@@ -104,17 +104,17 @@ export default class BaseNode extends SceneObject {
   }
 
   select() {
+    this.selected = true;
     if(!this.highlighted) {
       this.setupHighLight();
     }
-    this.selected = true;
   }
 
   unSelect() {
+    this.selected = false;
     if(this.highlighted) {
       this.clearHighlight();
     }
-    this.selected = false;
   }
 
   setupHighLight() {
@@ -191,7 +191,8 @@ export default class BaseNode extends SceneObject {
     }
 
     /*eslint-disable no-new*/
-    new Connection({parent: this, from: this, to: otherNode});
+    const con = new Connection({parent: this, from: this, to: otherNode});
+    con.highlight(this.highlighted);
     /*eslint-enable no-new*/
   }
 
