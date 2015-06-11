@@ -42,7 +42,6 @@ export default class BaseNode extends SceneObject {
     this.stickyNote = this.createStickyNote();
 
     this.registerEvents();
-    this.show();
   }
 
   render() {
@@ -159,7 +158,13 @@ export default class BaseNode extends SceneObject {
     this.connections.forEach(c => c.hide());
   }
 
-  enableFragments() {throw new Error('NOT IMPLEMENTED'); }
+  enableFragments(enable) {
+    if(enable) {
+      this.refreshFragment();
+    } else {
+      this.scene.singleMeshFactory.removeFragment(this.id);
+    }
+  }
 
   removeFromGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 

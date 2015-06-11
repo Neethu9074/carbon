@@ -39,8 +39,6 @@ export default class Unknownnode extends BaseNode {
 
   setHeight() {}
 
-  enableFragments() {}
-
   dispose() {
     super.dispose();
   }

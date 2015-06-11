@@ -272,9 +272,7 @@ export default class PhysicalMap extends SceneObject {
   }
 
   filter(validationFunction) {
-    const unMatched = this.groups
-      //get all nodes from all groups
-      .reduce((nodes, group) => {return nodes.concat(group.children); }, [])
+    const unMatched = getAllNodes(this)
       .filter(node => !validationFunction(node));
 
     unMatched.forEach((node) => node.hide());

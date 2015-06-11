@@ -110,7 +110,7 @@ export default class Node extends BaseNode {
   //it's the health ground group of each node
   addToGroupFactory(id, pos, dim) {
     if(!this.health || this.health === health.ok) {
-      this.scene.singleMeshFactory.removeFragment(id + '_plane');
+      this.getScene().singleMeshFactory.removeFragment(id + '_plane');
       return;
     }
 
@@ -335,10 +335,18 @@ export default class Node extends BaseNode {
   }
 
   enableFragments(enabled) {
+    super.enableFragments(enabled);
+
     const scene = this.scene;
     const id = this.id;
     scene.multiMetricFactory.enableFragment(id, enabled);
     scene.singleMetricFactory.enableFragment(id, enabled);
+
+    if(enabled) {
+      this.addToGroupFactory();
+    } else {
+      this.getScene().singleMeshFactory.removeFragment(this.id + '_plane');
+    }
   }
 
   removeFromGlobalGeometry() {
