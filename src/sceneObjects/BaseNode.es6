@@ -106,7 +106,7 @@ export default class BaseNode extends SceneObject {
 
   refreshFragment() {
     //adding a existing fragment will penetrate an update
-    const color = this.calculateHealthColor();
+    const color = this.calculateNodeColor();
     const position = this.getPosition();
     const scale = this.cube.scale;
     this.scene.singleMeshFactory.addFragment({
@@ -194,7 +194,7 @@ export default class BaseNode extends SceneObject {
     this.id = null;
   }
 
-  calculateHealthColor() {
+  calculateNodeColor() {
     const ok = new THREE.Color(theme.map.colors.default);
     return {r: ok.r, g: ok.g, b: ok.b};
   }

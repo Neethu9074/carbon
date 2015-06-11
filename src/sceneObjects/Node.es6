@@ -384,6 +384,11 @@ export default class Node extends BaseNode {
     return {r: color.r, g: color.g, b: color.b};
   }
 
+  calculateNodeColor() {
+    const color = new THREE.Color(theme.map.colors.ok);
+    return {r: color.r, g: color.g, b: color.b};
+  }
+
   calculatePower() {
     try {
       return getPower(this.snapshot);

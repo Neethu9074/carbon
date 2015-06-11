@@ -6,7 +6,7 @@ import Hammer from 'hammerjs';
 import CameraController from './cameraController';
 import {createLogger} from 'instalog';
 
-const logger = createLogger('ui-map.stickyNote.Connection');
+const logger = createLogger('ui-map.TouchControl');
 
 
 export default class TouchControl extends CameraController{
@@ -16,8 +16,10 @@ export default class TouchControl extends CameraController{
 
     const canvas = scene.parent;
     const eventHandler = new Hammer(canvas);
+
     eventHandler.get('pan').set({direction: Hammer.DIRECTION_ALL});
     eventHandler.on('pan', this.onPan.bind(this));
+
     eventHandler.on('panstart', (e) => this.setCursorToEvent(e));
     eventHandler.on('tap', this.onTab.bind(this));
     eventHandler.on('pinch', this.onPinch.bind(this));
