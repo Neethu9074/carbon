@@ -5,6 +5,8 @@ import d3 from 'd3';
 import LineChart from 'instana-ui-components/LineChart';
 import {create} from 'instana-ui-services/conveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import {on} from 'reactive-observables';
 
 import ServerDetails from './ServerDetails';
 
@@ -15,21 +17,25 @@ const commasFormatter = d3.format(',.0f');
 const yAxisTickFormatter = d => commasFormatter(d * 100) + '%';
 
 const DetailPane = React.createClass({
-  render() {
-    return (
-      <div className={block}>
-        {this.props.sidebarVisible ?
-          <ServerDetails snapshot={this.props.snapshot} />
-        : null}
+  mixins: [SubscriptionMixin],
 
-        <div className={block + '__content'}>
-          {this.renderLineChart()}
-        </div>
-      </div>
-    );
+  getInitialState() {
+    return {
+      width: 1200,
+      datasources: null
+    };
   },
 
-  renderLineChart() {
+  componentDidMount() {
+    this.addSubscription(
+      on(window, 'resize')
+        .debounce(500)
+        .subscribe(() => {
+          const width = this.calculateChartWidth();
+          this.setState({width});
+        })
+    );
+
     const metrics = ['cpu.total.user', 'cpu.total.sys'];
     const datasources = metrics.map(metric =>
       create(MetricWithHistoryConveyer, {
@@ -39,8 +45,38 @@ const DetailPane = React.createClass({
       })
     );
 
-    return <LineChart datasources={datasources}
-                      width={1200}
+    this.setState({
+      width: this.calculateChartWidth(),
+      datasources
+    });
+  },
+
+  calculateChartWidth() {
+    const domNode = React.findDOMNode(this.refs.content);
+    return parseInt(window.getComputedStyle(domNode).width, 10);
+  },
+
+  render() {
+    return (
+      <div className={block}>
+        {this.props.sidebarVisible ?
+          <ServerDetails snapshot={this.props.snapshot} />
+        : null}
+
+        <div className={block + '__content'} ref='content'>
+          {this.renderLineChart()}
+        </div>
+      </div>
+    );
+  },
+
+  renderLineChart() {
+    if (this.state.datasources === null) {
+      return null;
+    }
+
+    return <LineChart datasources={this.state.datasources}
+                      width={this.state.width}
                       height={300}
                       yAxisTickFormatter={yAxisTickFormatter} />;
   }
