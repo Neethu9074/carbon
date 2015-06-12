@@ -74,8 +74,7 @@ export default class LineChart {
       .enter().append('path')
         .attr('class', 'line')
         .attr('d', d => this.line(d.values))
-        .attr('fill', (d, i) => theme.chart.strokeColors[i])
-        .attr('stroke', (d, i) => theme.chart.strokeColors[i]);
+        .attr('fill', (d, i) => theme.chart.strokeColors[i]);
   }
 
   dispose() {
