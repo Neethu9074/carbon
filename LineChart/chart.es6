@@ -40,9 +40,17 @@ export default class LineChart {
       .tickPadding(10)
       .orient('left');
 
-    this.line = d3.svg.line()
+    this.stack = d3.layout.stack()
+      .values(d => d.values)
+      .x(d => d[0])
+      .y(d => d[1]);
+
+    this.line = d3.svg.area()
       .x(d => this.x(d[0]))
-      .y(d => this.y(d[1]));
+      .y0(d => {
+        return this.y(d.y0);
+      })
+      .y1(d => this.y(d.y0 + d.y));
 
     this.chart = d3.select(mountPoint);
 
@@ -65,7 +73,7 @@ export default class LineChart {
       .enter().append('path')
         .attr('class', 'line')
         .attr('d', d => this.line(d.values))
-        .attr('fill', () => 'transparent')
+        .attr('fill', (d, i) => theme.chart.fillColors[i])
         .attr('stroke', (d, i) => theme.chart.strokeColors[i]);
 
     this.resize({width, height});
@@ -103,6 +111,8 @@ export default class LineChart {
       dataset.values = dataset.values.concat(newValues[i]);
       return dataset;
     });
+
+    this.stack(this.datasets);
 
     // update the exsiting data sets and transition the graph to the left
     this.lines.selectAll('path')
