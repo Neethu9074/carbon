@@ -5,8 +5,8 @@ import {IntlMixin} from 'react-intl';
 import Map from 'instana-ui-map';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
-import * as selectedSnapshotStore from './stores/selectedSnapshot';
-import * as sidebarStore from './stores/sidebar';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as sidebarStore from 'instana-ui-services/stores/sidebar';
 
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';

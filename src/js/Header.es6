@@ -6,8 +6,8 @@ import classnames from 'instana-ui-services/util/classnames';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getLabel} from 'instana-ui-sdk/snapshot';
 
-import * as selectedSnapshotStore from './stores/selectedSnapshot';
-import * as sidebarStore from './stores/sidebar';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as sidebarStore from 'instana-ui-services/stores/sidebar';
 
 import './Header.less';
 
