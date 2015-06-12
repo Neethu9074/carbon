@@ -73,16 +73,16 @@ export default class Connection extends SceneObject {
       const point = this.path[i];
       const lastPoint = this.path[i - 1];
 
-      points.push(new THREE.Vector3(
-        lastPoint[0] - 0.5,
-        height,
-        -lastPoint[1] + 0.5)
-      );
-      points.push(new THREE.Vector3(
-        point[0] - 0.5,
-        height,
-        -point[1] + 0.5)
-      );
+      points.push({
+        x: lastPoint[0] - 0.5,
+        y: height,
+        z: -lastPoint[1] + 0.5
+      });
+      points.push({
+        x: point[0] - 0.5,
+        y: height,
+        z: -point[1] + 0.5
+      });
     }
 
     return points;
@@ -105,16 +105,39 @@ export default class Connection extends SceneObject {
     });
 
     if(this.path) {
-      const movement = (Math.random() * 0.2) - 0.2;
-      for (let i = 0; i < this.path.length; i++) {
-        this.path[i][0] += movement;
-      }
-    }
+      this.postProcessPath();
 
-    //dont forget to block the positions after calculating the route to avoid
-    //crossing connections
-    ConnectionGrid.blockPosition(fromPos);
-    ConnectionGrid.blockPosition(toPos);
+      //don't forget to block the positions after calculating the route to avoid
+      //crossing connections
+      ConnectionGrid.blockPosition(fromPos);
+      ConnectionGrid.blockPosition(toPos);
+    }
+  }
+
+  postProcessPath() {
+    const path = this.path;
+
+    const pathLength = path.length;
+    const first = {x: path[0][0], y: path[0][1]};
+    const second = {x: path[1][0], y: path[1][1]};
+    const forLast = {x: path[pathLength - 2][0], y: path[pathLength - 2][1]};
+    const last = {x: path[pathLength - 1][0], y: path[pathLength - 1][1]};
+    const dir = this.getDirectionForPoints(first, second);
+    const dir2 = this.getDirectionForPoints(last, forLast);
+
+    path[0][0] += dir.x * 0.5;
+    path[0][1] += dir.y * 0.5;
+    path[pathLength - 1][0] += dir2.x * 0.5;
+    path[pathLength - 1][1] += dir2.y * 0.5;
+  }
+
+  getDirectionForPoints(a, b) {
+    const dir = {x: b.x - a.x, y: b.y - a.y};
+    const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y);
+    dir.x /= (length);
+    dir.y /= (length);
+
+    return dir;
   }
 
   setBidirectional() {
@@ -126,11 +149,15 @@ export default class Connection extends SceneObject {
     if(value) {
       //create the path and add it as a fragment to global factory
       this.render();
+      this.to.setupImplicitHighlight();
+      this.from.setupImplicitHighlight();
 
     //hide the connection will end up in removing the fragment from factory
     //don't hide conenctions that are part of a selected host
     } else if(!this.from.selected && !this.to.selected) {
-        app.scene.scene.lineFactory.removeFragment(this.id);
+      app.scene.scene.lineFactory.removeFragment(this.id);
+      this.to.clearImplicitHighlight();
+      this.from.clearImplicitHighlight();
     }
   }
 

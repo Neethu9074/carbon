@@ -6,6 +6,7 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
+import {getColor} from 'instana-ui-sdk/zones';
 
 import Connection from './Connection';
 import SceneObject from './SceneObject';
@@ -95,29 +96,26 @@ export default class BaseNode extends SceneObject {
   highlight(value) {
     //if mouseover and not selected
     if(value && !this.selected) {
-      this.setupHighLight();
+      this.setupExplicitHighLight();
 
     //if mouseoff and not selected
     } else if(!value && !this.selected) {
-      this.clearHighlight();
+      this.clearExplicitHighlight();
     }
   }
 
   select() {
-    if(!this.highlighted) {
-      this.setupHighLight();
-    }
+    this.setupExplicitHighLight();
     this.selected = true;
   }
 
   unSelect() {
     this.selected = false;
-    if(this.highlighted) {
-      this.clearHighlight();
-    }
+    this.clearExplicitHighlight();
   }
 
-  setupHighLight() {
+  //the explicit highlight is used for the primary selected or mouseover node
+  setupExplicitHighLight() {
     this.highlighted = true;
 
     if(this.stickyNote === emptyStickyObject) {
@@ -134,19 +132,65 @@ export default class BaseNode extends SceneObject {
     this.renderScene();
   }
 
-  clearHighlight() {
+  clearExplicitHighlight() {
     this.highlighted = false;
 
     //remove the highlight from the factory
     this.scene.highlightSingleMeshFactory.removeFragment(this.id);
 
-    this.stickyNote.dispose();
-    this.stickyNote = emptyStickyObject;
+    this.disposeStickyNote();
 
     //hide all connections
     this.connections.forEach(c => c.highlight(false));
 
     this.renderScene();
+  }
+
+  //the primary highlight is for nodes
+  //which are connected with a primary selected node
+  setupImplicitHighlight() {
+    const pos = this.getPosition();
+    const points = [
+      {x: pos.x + 0.01, y: 0, z: pos.z - 0.01},
+      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
+
+      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
+      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
+
+      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
+      {x: pos.x, y: 0, z: pos.z + 1.01},
+
+      {x: pos.x + 0.01, y: 0, z: pos.z + 1.01},
+      {x: pos.x + 0.01, y: 0, z: pos.z - 0.01}
+    ];
+
+    let color = getColor(this.parent.id);
+    color = color ? this.hexToArray(color) : [1, 0, 0];
+
+    const factory = this.getScene().lineFactory;
+    factory.addFragment({id: this.id, points, color});
+
+    if(this.stickyNote === emptyStickyObject) {
+      this.stickyNote = this.createStickyNote();
+    }
+  }
+
+  hexToArray(color) {
+    color = new THREE.Color(color);
+    return [color.r, color.g, color.b];
+  }
+
+  clearImplicitHighlight() {
+    //if this node is connected to a selected node
+    if(_.find(this.connections, c => (c.from.selected || c.to.selected))) {
+      return;
+    }
+
+    if(!this.selected) {
+      this.disposeStickyNote();
+    }
+
+    this.getScene().lineFactory.removeFragment(this.id);
   }
 
   setPosition(x, y, z) {
@@ -249,17 +293,28 @@ export default class BaseNode extends SceneObject {
   //is called from Connection class on disposing
   removeConnection(connection) {
     _.remove(this.connections, con => con.id === connection.id);
+
+    if(this.connections.length === 0) {
+      this.clearImplicitHighlight();
+    }
+  }
+
+  disposeStickyNote() {
+    this.stickyNote.dispose();
+    this.stickyNote = emptyStickyObject;
   }
 
   dispose() {
     this.clearConnections();
+
+    this.clearExplicitHighlight();
 
     this.removeFromGlobalGeometry();
     this.scene.singleMeshFactory.removeFragment(this.id);
     this.removeSceneObject(this.cube);
     this.cube = null;
 
-    this.stickyNote.dispose();
+    this.disposeStickyNote();
 
     super.dispose();
 
