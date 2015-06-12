@@ -33,7 +33,10 @@ const LineChart = React.createClass({
       }
       this.renderChart(nextProps);
 
-    } else if (this.isSizeChanged(this.props, nextProps)) {
+    } else if (this.isSizeChanged(this.props, nextProps)
+        // React component properties can be changed before the initial
+        // rendering happens.
+        && this.chart) {
       this.chart.resize({
         width: nextProps.width,
         height: nextProps.height

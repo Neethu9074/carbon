@@ -1,3 +1,5 @@
+/*eslint-disable max-statements */
+
 'use strict';
 
 import d3 from 'd3';
