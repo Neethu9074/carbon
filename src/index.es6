@@ -1,10 +1,12 @@
 'use strict';
 
 import './index.less';
-import React from 'react';
+import React from 'react/addons';
 import Scene from './Scene';
 
 const UiMap = React.createClass({
+  mixins: [React.addons.PureRenderMixin],
+
   render() {
     return <div className="in-map" ref="parent"/>;
   },
