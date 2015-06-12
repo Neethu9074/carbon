@@ -77,15 +77,18 @@ const LineChart = React.createClass({
     const subscription = combineLatest(props.datasources)
       .debounce(300)
       .subscribe(datasets => {
+        // when we reach this point, render will have been called asynchronously
+        // and the props in the parameter list will be outdated. We need to
+        // reference the most up to date parameter list.
         if (this.chart) {
           this.chart.update(datasets);
         } else {
           this.chart = new Chart({
             mountPoint: React.findDOMNode(this.refs.element),
-            width: props.width,
-            height: props.height,
+            width: this.props.width,
+            height: this.props.height,
             datasets: datasets,
-            yAxisTickFormatter: props.yAxisTickFormatter
+            yAxisTickFormatter: this.props.yAxisTickFormatter
           });
         }
       });
