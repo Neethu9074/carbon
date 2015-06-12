@@ -20,7 +20,9 @@ const LineChartDemo = React.createClass({
       height: 280,
       datasources: [
         createObservable({min: 0, max: 1, numberOfValues: 30}),
-        createObservable({min: 0.2, max: 0.3, numberOfValues: 30})
+        createObservable({min: 0.2, max: 0.3, numberOfValues: 30}),
+        createObservable({min: 0.4, max: 0.5, numberOfValues: 30}),
+        createObservable({min: 0.2, max: 0.7, numberOfValues: 30})
       ]
     };
   },

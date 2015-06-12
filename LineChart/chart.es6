@@ -47,9 +47,7 @@ export default class LineChart {
 
     this.line = d3.svg.area()
       .x(d => this.x(d[0]))
-      .y0(d => {
-        return this.y(d.y0);
-      })
+      .y0(d => this.y(d.y0))
       .y1(d => this.y(d.y0 + d.y));
 
     this.chart = d3.select(mountPoint);
@@ -68,15 +66,16 @@ export default class LineChart {
     this.lines = this.chart.append('g')
       .attr('clip-path', 'url(#clip)');
 
+    this.stack(this.datasets);
+    this.resize({width, height});
+
     this.lines.selectAll('path')
-        .data(datasets)
+        .data(this.datasets)
       .enter().append('path')
         .attr('class', 'line')
         .attr('d', d => this.line(d.values))
-        .attr('fill', (d, i) => theme.chart.fillColors[i])
+        .attr('fill', (d, i) => theme.chart.strokeColors[i])
         .attr('stroke', (d, i) => theme.chart.strokeColors[i]);
-
-    this.resize({width, height});
   }
 
   dispose() {
