@@ -276,8 +276,8 @@ export default class Scene {
 
   updateMaterialsByZoomLevel(zoomLevel) {
     //TODO: set this values globally
-    const maxZoomIn = 25;
-    const maxZoomOut = 150;
+    const maxZoomIn = 60;
+    const maxZoomOut = 250;
 
     //[1 - max out, 0 - max in]
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
