@@ -2,6 +2,8 @@
 
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
+import {RouteHandler, Navigation} from 'react-router';
+
 import Map from 'instana-ui-map';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
@@ -12,12 +14,16 @@ import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Footer from './Footer';
-import DetailPane from './DetailPane';
 
 import './App.less';
 
 const App = React.createClass({
-  mixins: [IntlMixin, SubscriptionMixin, React.addons.PureRenderMixin],
+  mixins: [
+    IntlMixin,
+    SubscriptionMixin,
+    React.addons.PureRenderMixin,
+    Navigation
+  ],
 
   getInitialState() {
     return {
@@ -45,12 +51,13 @@ const App = React.createClass({
   },
 
   render() {
+    const hasChildren = this.props.state.routes.length > 1;
     return (
       <div>
         <Header selectedSnapshot={this.state.selectedSnapshot}
                 sidebarVisible={this.state.sidebarVisible} />
 
-        <div style={{display: this.state.selectedSnapshot ? 'none' : 'block'}}>
+        <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map onClick={this.openDashboard} />
 
           {this.state.sidebarVisible ?
@@ -58,10 +65,7 @@ const App = React.createClass({
           : null}
         </div>
 
-        {this.state.selectedSnapshot ?
-          <DetailPane snapshot={this.state.selectedSnapshot}
-                      sidebarVisible={this.state.sidebarVisible} />
-        : null}
+        <RouteHandler/>
 
         <Footer />
         <ConnectionStatus />
@@ -76,8 +80,14 @@ const App = React.createClass({
   },
 
   openDashboard(event) {
-    selectedSnapshotStore.select(event.snapshot);
-    sidebarStore.setVisibility(true);
+    this.transitionTo(
+      'detail-pane',
+      {
+        pluginId: event.snapshot.get('pluginId'),
+        steadyId: event.snapshot.get('steadyId'),
+        hostId: event.snapshot.get('hostId')
+      }
+    );
   }
 
 });

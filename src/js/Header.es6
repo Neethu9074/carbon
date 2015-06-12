@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import {Navigation} from 'react-router';
 import Icon from 'instana-ui-components/Icon';
 import classnames from 'instana-ui-services/util/classnames';
 import {getZone} from 'instana-ui-sdk/zones';
@@ -12,6 +13,8 @@ import * as sidebarStore from 'instana-ui-services/stores/sidebar';
 import './Header.less';
 
 const Header = React.createClass({
+  mixins: [Navigation],
+
   render() {
     const block = 'in-header';
     const snapshot = this.props.selectedSnapshot;
@@ -84,6 +87,7 @@ const Header = React.createClass({
 
   onBack() {
     selectedSnapshotStore.clear();
+    this.transitionTo('/');
   }
 });
 

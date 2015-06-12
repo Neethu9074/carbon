@@ -35,6 +35,7 @@
     "lodash": "^3.9.0",
     "react": "^0.13.1",
     "react-intl": "^1.2.0",
+    "react-router": "^0.13.3",
     "reactive-observables": "^1.2.0"
   },
   "devDependencies": {

@@ -2,12 +2,16 @@
 
 import React from 'react';
 import d3 from 'd3';
+import {State} from 'react-router';
+import Immutable from 'immutable';
+
 import LineChart from 'instana-ui-components/LineChart';
 import {create} from 'instana-ui-services/conveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {theme} from 'instana-ui-services/theme';
 import {on} from 'reactive-observables';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
 import ServerDetails from './ServerDetails';
 
@@ -18,19 +22,29 @@ const commasFormatter = d3.format(',.0f');
 const yAxisTickFormatter = d => commasFormatter(d * 100) + '%';
 
 const DetailPane = React.createClass({
-  mixins: [SubscriptionMixin],
+  mixins: [SubscriptionMixin, State],
+
+  statics: {
+    willTransitionTo(transition, params) {
+      const snapshotId = Immutable.Map({
+        steadyId: params.steadyId,
+        pluginId: params.pluginId,
+        hostId: params.hostId
+      });
+      selectedSnapshotStore.select(snapshotId);
+    }
+  },
 
   getInitialState() {
     return {
-      width: 1200,
-      datasources: null,
-      cpuUsageUser: 0,
-      cpuUsageSystem: 0,
-      cpuUsageIdle: 0
+      snapshot: null,
+      width: -1,
+      datasources: null
     };
   },
 
   componentDidMount() {
+    // we need to observe the available size in order to resize the chart
     this.addSubscription(
       on(window, 'resize')
         .debounce(500)
@@ -40,49 +54,80 @@ const DetailPane = React.createClass({
         })
     );
 
-    const metrics = [
-      'cpu.total.user',
-      'cpu.total.sys',
-      'cpu.total.wait',
-      'cpu.total.nice',
-      'cpu.total.steal'
-    ];
-    const datasources = metrics.map(metric =>
-      create(MetricWithHistoryConveyer, {
-        snapshot: this.props.snapshot,
-        metric,
-        timeframe: 1000 * 60 * 5
+    const snapshotRelatedSubscriptions = [];
+
+    this.addSubscription(
+      selectedSnapshotStore.selectedSnapshot
+      .filter(snapshot => !!snapshot)
+      .subscribe(snapshot => {
+        snapshotRelatedSubscriptions.forEach(d => d.dispose());
+        snapshotRelatedSubscriptions.length = 0;
+
+        const metrics = [
+          'cpu.total.user',
+          'cpu.total.sys',
+          'cpu.total.wait',
+          'cpu.total.nice',
+          'cpu.total.steal'
+        ];
+        const datasources = metrics.map(metric =>
+          create(MetricWithHistoryConveyer, {
+            snapshot: snapshot,
+            metric,
+            timeframe: 1000 * 60 * 5
+          })
+        );
+
+        datasources.forEach((datasource, i) => {
+          snapshotRelatedSubscriptions.push(
+            datasource.subscribe(dataset => {
+              const currentValue = dataset.values[dataset.values.length - 1][1];
+              this.setState({
+                [metrics[i]]: commasFormatter(currentValue * 100)
+              });
+            })
+          );
+        });
+
+        this.setState({
+          datasources,
+          snapshot
+        });
       })
     );
+  },
 
-    datasources.forEach((datasource, i) => {
-      this.addSubscription(
-        datasource.subscribe(dataset => {
-          const currentValue = dataset.values[dataset.values.length - 1][1];
-          this.setState({
-            [metrics[i]]: commasFormatter(currentValue * 100)
-          });
-        })
-      );
-    });
-
-    this.setState({
-      width: this.calculateChartWidth(),
-      datasources
-    });
+  // Observe componentDidUpdate as componentDidMount does not necessarily
+  // define the point in time at which the root HTML is available due to
+  // async rendering.
+  componentDidUpdate() {
+    // We may only try to calculate the width once. Without this check, this
+    // will result in an endless loop.
+    if (this.state.width === -1) {
+      const width = this.calculateChartWidth();
+      if (width !== -1) {
+        this.setState({width});
+      }
+    }
   },
 
   calculateChartWidth() {
     const domNode = React.findDOMNode(this.refs.content);
-    return parseInt(window.getComputedStyle(domNode).width, 10);
+    if (domNode) {
+      return parseInt(window.getComputedStyle(domNode).width, 10);
+    }
+    return -1;
   },
 
   render() {
+    if (!this.state.snapshot) {
+      // TODO show loading indicator?
+      return null;
+    }
+
     return (
       <div className={block}>
-        {this.props.sidebarVisible ?
-          <ServerDetails snapshot={this.props.snapshot} />
-        : null}
+        <ServerDetails snapshot={this.state.snapshot} />
 
         <div className={block + '__content'} ref='content'>
           {this.state.datasources !== null ?
@@ -171,7 +216,7 @@ const DetailPane = React.createClass({
 
   renderLineChart() {
     return <LineChart datasources={this.state.datasources}
-                      width={this.state.width}
+                      width={this.state.width === -1 ? 700 : this.state.width}
                       height={300}
                       yAxisTickFormatter={yAxisTickFormatter} />;
   }

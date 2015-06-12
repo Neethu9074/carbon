@@ -1,13 +1,16 @@
 'use strict';
 
-// require the forge to add pluggables
+// Require the forge to add pluggables before everything else to ensure that
+// the SDK is properly configured.
 import 'instana-ui-forge';
 
 import React from 'react';
+import {run, HashLocation} from 'react-router';
+
 import logging from 'instalog';
 import {setThemeOnHtmlDocument} from 'instana-ui-services/theme';
 
-import App from './App';
+import routes from './routes';
 import i18n from './i18n';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
@@ -21,7 +24,6 @@ if (logging.ConsoleAppender.isPossible()) {
 // add a theme css class on the HTML document to allow style overrides
 setThemeOnHtmlDocument();
 
-React.render(
-  <App {...i18n}/>,
-  document.body
-);
+run(routes, HashLocation, (Root, state) => {
+  React.render(<Root {...i18n} state={state} />, document.body);
+});
