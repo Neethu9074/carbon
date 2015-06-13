@@ -30,6 +30,7 @@ const LineChart = React.createClass({
       this.disposeSubscriptions();
       if (this.chart) {
         this.chart.dispose();
+        this.chart = null;
       }
       this.renderChart(nextProps);
 

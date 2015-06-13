@@ -17,6 +17,7 @@ export default class LineChart {
       datasets,
       xAxisTickFormatter=defaultXAxisTickFormatter,
       yAxisTickFormatter=defaultYAxisTickFormatter}) {
+    this.mountPoint = mountPoint;
     // copy the incoming data set so that we can mutate it freely
     this.datasets = JSON.parse(JSON.stringify(datasets));
 
@@ -81,6 +82,14 @@ export default class LineChart {
 
   dispose() {
     this.stopTransitions();
+
+    // we need to clean up thoroughly as any remaining DOM nodes could
+    // be picked up by D3 when the component is repainted, i.e. LineChart's
+    // props change.
+    const childNodes = this.mountPoint.childNodes;
+    for (let i = childNodes.length - 1; i >= 0; i--) {
+      this.mountPoint.removeChild(childNodes[i]);
+    }
   }
 
   stopTransitions() {
