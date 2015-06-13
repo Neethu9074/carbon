@@ -75,8 +75,26 @@ const LineChart = React.createClass({
   },
 
   renderChart(props) {
-    const subscription = combineLatest(props.datasources)
-      .debounce(300)
+    const subscription = combineLatest(props.datasources, true)
+      // we can only accept datasets when each and every dataset has the same
+      // number of data points and the same last value on the time scale. This
+      // is due to the fact that we are using stacked charts. Stacked charts
+      // require every dataset to have the same time axis.
+      .filter(datasets => {
+        const firstDataset = datasets[0];
+        const numberOfDataPoints = firstDataset.values.length;
+        const latest = firstDataset.values[numberOfDataPoints - 1][0];
+
+        for (let i = 1; i < datasets.length; i++) {
+          const dataset = datasets[i];
+          if (dataset.values.length !== numberOfDataPoints ||
+              dataset.values[numberOfDataPoints - 1][0] !== latest) {
+            return false;
+          }
+        }
+
+        return true;
+      })
       .subscribe(datasets => {
         // when we reach this point, render will have been called asynchronously
         // and the props in the parameter list will be outdated. We need to

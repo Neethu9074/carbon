@@ -149,7 +149,7 @@ export default class LineChart {
     this.lines
         .attr('transform', null)
       .transition()
-        .duration(timeSinceLastUpdate)
+        .duration(Math.max(timeSinceLastUpdate, 2000))
         .ease('linear')
         .attr('transform', 'translate(' + this.x(newDomainStart) * -1 + ')')
         .each('end', () => {
