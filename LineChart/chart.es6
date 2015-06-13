@@ -109,6 +109,10 @@ export default class LineChart {
   }
 
   update(datasetsUpdate) {
+    if (this.errorFound) {
+      return;
+    }
+
     const now = new Date().getTime();
     const timeSinceLastUpdate = now - this.lastUpdate;
     this.lastUpdate = now;
@@ -140,6 +144,7 @@ export default class LineChart {
     try {
       this.stack(this.datasets);
     } catch (e) {
+      this.errorFound = true;
       console.error(
         'Failed to calculate stack information. Error:',
         e,
@@ -158,6 +163,7 @@ export default class LineChart {
             const path = this.line(d.values);
 
             if (path.indexOf('NaN') !== -1) {
+              this.errorFound = true;
               console.error(
                 'Failed to create valid path:',
                 {path},
@@ -172,6 +178,7 @@ export default class LineChart {
             return path;
           });
     } catch (e) {
+      this.errorFound = true;
       console.error(
         'Failed to path information. Error:',
         e,
