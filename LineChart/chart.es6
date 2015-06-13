@@ -154,7 +154,23 @@ export default class LineChart {
     try {
       this.lines.selectAll('path.line')
         .data(this.datasets)
-          .attr('d', d => this.line(d.values));
+          .attr('d', d => {
+            const path = this.line(d.values);
+
+            if (path.indexOf('NaN') !== -1) {
+              console.error(
+                'Failed to create valid path:',
+                {path},
+                'Data used for the calculation:',
+                JSON.parse(JSON.stringify(this.datasets)),
+                'New values:',
+                JSON.parse(JSON.stringify(newValues))
+              );
+              return 'M0';
+            }
+
+            return path;
+          });
     } catch (e) {
       console.error(
         'Failed to path information. Error:',
