@@ -54,14 +54,18 @@ const DetailPane = React.createClass({
         })
     );
 
-    const snapshotRelatedSubscriptions = [];
+    // unfortunately the SubscriptionMixin alone is insufficient for this
+    // component. The DetailPane needs to differentiate between the window
+    // resize subscriptions and the snapshot related subscriptions, e.g.
+    // metrics, that can change more frequently.
+    this.snapshotRelatedSubscriptions = [];
 
     this.addSubscription(
       selectedSnapshotStore.selectedSnapshot
       .filter(snapshot => !!snapshot)
       .subscribe(snapshot => {
-        snapshotRelatedSubscriptions.forEach(d => d.dispose());
-        snapshotRelatedSubscriptions.length = 0;
+        this.snapshotRelatedSubscriptions.forEach(d => d.dispose());
+        this.snapshotRelatedSubscriptions.length = 0;
 
         const metrics = [
           'cpu.total.user',
@@ -79,7 +83,7 @@ const DetailPane = React.createClass({
         );
 
         datasources.forEach((datasource, i) => {
-          snapshotRelatedSubscriptions.push(
+          this.snapshotRelatedSubscriptions.push(
             datasource.subscribe(dataset => {
               const currentValue = dataset.values[dataset.values.length - 1][1];
               this.setState({
@@ -109,6 +113,10 @@ const DetailPane = React.createClass({
         this.setState({width});
       }
     }
+  },
+
+  componentWillUnmount() {
+    this.snapshotRelatedSubscriptions.forEach(d => d.dispose());
   },
 
   calculateChartWidth() {
