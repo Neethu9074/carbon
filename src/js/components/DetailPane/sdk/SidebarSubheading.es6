@@ -7,7 +7,7 @@ const SidebarSubheading = React.createClass({
 
   render() {
     return (
-      <h2 className='in-detail-panel__sidebar-subheading'>
+      <h2 className='in-detail-pane__sidebar-subheading'>
         {this.props.children}
       </h2>
     );
