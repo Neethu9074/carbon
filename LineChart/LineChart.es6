@@ -82,7 +82,7 @@ const LineChart = React.createClass({
         // and the props in the parameter list will be outdated. We need to
         // reference the most up to date parameter list.
         if (this.chart) {
-          this.chart.update(datasets);
+          this.chart.setNewData(datasets);
         } else {
           this.chart = new Chart({
             mountPoint: React.findDOMNode(this.refs.element),

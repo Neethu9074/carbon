@@ -98,13 +98,21 @@ export default class LineChart {
   stopTransitions() {
     this.lines.selectAll('path').transition().duration(0);
     this.x.axis.element.transition().duration(0);
-    this.updateRunning = false;
+  }
+
+  setNewData(newDatasets) {
+    if (this.updateRunning) {
+      this.delayedDataUpdate = newDatasets;
+    } else {
+      this.update(newDatasets);
+    }
   }
 
   update(datasetsUpdate) {
     const now = new Date().getTime();
-    // const timeSinceLastUpdate = now - this.lastUpdate;
+    const timeSinceLastUpdate = now - this.lastUpdate;
     this.lastUpdate = now;
+    this.updateRunning = true;
 
     this.stopTransitions();
 
@@ -141,9 +149,17 @@ export default class LineChart {
     this.lines
         .attr('transform', null)
       .transition()
-        .duration(300)
+        .duration(timeSinceLastUpdate)
         .ease('linear')
-        .attr('transform', 'translate(' + this.x(newDomainStart) * -1 + ')');
+        .attr('transform', 'translate(' + this.x(newDomainStart) * -1 + ')')
+        .each('end', () => {
+          this.updateRunning = false;
+          if (this.delayedDataUpdate) {
+            const data = this.delayedDataUpdate;
+            this.delayedDataUpdate = null;
+            this.update(data);
+          }
+        });
 
     // remove all previous data and set the new data as the domain
     this.x.domain([newDomainStart, newDomainEnd]);
