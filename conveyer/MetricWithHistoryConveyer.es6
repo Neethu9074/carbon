@@ -19,8 +19,8 @@ export default class MetricWithHistoryConveyer {
   constructor({snapshot, metric, timeframe}) {
     this.id = connection.getSubscriptionId();
     this.timeframe = timeframe;
-    this.max = metrics.getMaxValue(metric);
-    this.min = metrics.getMinValue(metric);
+    this.max = metrics.getMaxValue(metric, snapshot);
+    this.min = metrics.getMinValue(metric, snapshot);
 
     this.subscribeEvent = {
       id: this.id,
