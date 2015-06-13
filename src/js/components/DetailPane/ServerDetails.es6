@@ -2,6 +2,7 @@
 
 import Immutable from 'immutable';
 import React from 'react/addons';
+
 import {getLabel} from 'instana-ui-sdk/snapshot';
 import {formatBytes} from 'instana-ui-services/converters';
 import {getProblemsForSnapshot} from 'instana-ui-services/notificationCenter';
@@ -9,6 +10,7 @@ import * as constants from 'instana-ui-forge/constants';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {mapSeverityToHealth, health} from 'instana-ui-services/health';
 
+import {DescriptionList, DescriptionItem} from './DescriptionList';
 import Panel from './Panel';
 
 import './ServerDetails.less';
@@ -45,74 +47,54 @@ const ServerDetails = React.createClass({
         </h2>
 
         <Panel title='System'>
-          <dl>
-            <dt>Host ID</dt>
-            <dd>
+          <DescriptionList>
+            <DescriptionItem title='Host ID'>
               {this.props.snapshot.get('hostId')}
-            </dd>
+            </DescriptionItem>
 
-            <dt>Steady ID</dt>
-            <dd>
+            <DescriptionItem title='Steady ID'>
               {this.props.snapshot.get('steadyId')}
-            </dd>
+            </DescriptionItem>
 
-            <dt>OS</dt>
-            <dd>
+            <DescriptionItem title='OS'>
               {data.get('os.name')}{' '}
               {data.get('os.arch')}{' '}
               {data.get('os.version')}
-            </dd>
+            </DescriptionItem>
 
-            <dt>CPU</dt>
-            <dd>
+            <DescriptionItem title='CPU'>
               {data.get('cpu.count')} x {data.get('cpu.model')}
-            </dd>
+            </DescriptionItem>
 
-            <dt>Memory</dt>
-            <dd>
+            <DescriptionItem title='Memory'>
               {formatBytes(data.get('memory.total'))}
-            </dd>
-          </dl>
+            </DescriptionItem>
+          </DescriptionList>
         </Panel>
 
         {ec2 ?
           <Panel title='Amazon'>
-            <dl>
-              <div className={block + '__horizontal-list-item'}>
-                <dt>AMI ID</dt>
-                <dd>
-                  {ec2.get('ami-id')}
-                </dd>
-              </div>
+            <DescriptionList horizontal={true}>
+              <DescriptionItem title='AMI ID'>
+                {ec2.get('ami-id')}
+              </DescriptionItem>
 
-              <div className={block + '__horizontal-list-item'}>
-                <dt>Instance ID</dt>
-                <dd>
-                  {ec2.get('instance-id')}
-                </dd>
-              </div>
+              <DescriptionItem title='Instance ID'>
+                {ec2.get('instance-id')}
+              </DescriptionItem>
 
-              <div className={block + '__horizontal-list-item'}>
-                <dt>Reservation ID</dt>
-                <dd>
-                  {ec2.get('reservation-id')}
-                </dd>
-              </div>
+              <DescriptionItem title='Reservation ID'>
+                {ec2.get('reservation-id')}
+              </DescriptionItem>
 
-              <div className={block + '__horizontal-list-item'}>
-                <dt>Type</dt>
-                <dd>
-                  {ec2.get('instance-type')}
-                </dd>
-              </div>
+              <DescriptionItem title='Type'>
+                {ec2.get('instance-type')}
+              </DescriptionItem>
 
-              <div className={block + '__horizontal-list-item'}>
-                <dt>Availability Zone</dt>
-                <dd>
-                  {ec2.get('availability-zone')}
-                </dd>
-              </div>
-            </dl>
+              <DescriptionItem title='Availability Zone'>
+                {ec2.get('availability-zone')}
+              </DescriptionItem>
+            </DescriptionList>
           </Panel>
         : null}
 

@@ -9,7 +9,6 @@ import './Panel.less';
 const block = 'in-detail-pane-panel';
 
 const Panel = React.createClass({
-
   render() {
     return (
       <div className={block}>
@@ -25,8 +24,6 @@ const Panel = React.createClass({
       </div>
     );
   }
-
-
 });
 
 export default Panel;
