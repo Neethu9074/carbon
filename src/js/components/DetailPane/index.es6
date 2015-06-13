@@ -1,15 +1,11 @@
 'use strict';
 
 import React from 'react';
-import d3 from 'd3';
 import {State} from 'react-router';
 import Immutable from 'immutable';
 
 import LineChart from 'instana-ui-components/LineChart';
-import {create} from 'instana-ui-services/conveyer';
-import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import {theme} from 'instana-ui-services/theme';
 import {on} from 'reactive-observables';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
@@ -19,8 +15,6 @@ import OSDetailPaneContent from './forge/OSDetailPaneContent';
 import './index.less';
 
 const block = 'in-detail-pane';
-const commasFormatter = d3.format(',.0f');
-const yAxisTickFormatter = d => commasFormatter(d * 100) + '%';
 
 const DetailPane = React.createClass({
   mixins: [SubscriptionMixin, State],
@@ -39,7 +33,7 @@ const DetailPane = React.createClass({
   getInitialState() {
     return {
       snapshot: null,
-      width: 700
+      width: -1
     };
   },
 
@@ -58,8 +52,12 @@ const DetailPane = React.createClass({
         this.setState({snapshot});
       })
     );
+  },
 
-    this.setState({width: this.calculateChartWidth()});
+  componentDidUpdate() {
+    if (this.state.width === -1 && this.state.snapshot) {
+      this.setState({width: this.calculateChartWidth()});
+    }
   },
 
   calculateChartWidth() {
@@ -70,17 +68,16 @@ const DetailPane = React.createClass({
   render() {
     return (
       <div className={block}>
-        <div className={block + '__sidebar'}>
-          {this.state.snapshot ?
-            <OSDetailPaneSidebar snapshot={this.state.snapshot} />
-          : <div>Loading...</div>}
-        </div>
-
-
         <div className={block + '__content'} ref='content'>
           {this.state.snapshot ?
             <OSDetailPaneContent snapshot={this.state.snapshot}
-                                 width={this.state.width}/>
+                                 width={this.state.width === -1 ? 700 : this.state.width}/>
+          : <div>Loading...</div>}
+        </div>
+
+        <div className={block + '__sidebar'}>
+          {this.state.snapshot ?
+            <OSDetailPaneSidebar snapshot={this.state.snapshot} />
           : <div>Loading...</div>}
         </div>
       </div>
