@@ -163,7 +163,7 @@ export default class LineChart {
     this.setSize({width, height});
 
     // increase width to avoid strokes at the sides
-    this.x.range([-2, this.chartWidth + 2]);
+    this.x.range([0, this.chartWidth]);
 
     // increase height to avoid strokes at the sides
     this.y.range([this.chartHeight, 0]);
