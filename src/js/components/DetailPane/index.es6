@@ -13,7 +13,7 @@ import {theme} from 'instana-ui-services/theme';
 import {on} from 'reactive-observables';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
-import ServerDetails from './ServerDetails';
+import DetailPaneSidebar from './DetailPaneSidebar';
 
 import './index.less';
 
@@ -135,7 +135,7 @@ const DetailPane = React.createClass({
 
     return (
       <div className={block}>
-        <ServerDetails snapshot={this.state.snapshot} />
+        <DetailPaneSidebar snapshot={this.state.snapshot} />
 
         <div className={block + '__content'} ref='content'>
           {this.state.datasources !== null ?

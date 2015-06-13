@@ -5,46 +5,29 @@ import React from 'react/addons';
 
 import {getLabel} from 'instana-ui-sdk/snapshot';
 import {formatBytes} from 'instana-ui-services/converters';
-import {getProblemsForSnapshot} from 'instana-ui-services/notificationCenter';
 import * as constants from 'instana-ui-forge/constants';
-import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import {mapSeverityToHealth, health} from 'instana-ui-services/health';
 
-import {DescriptionList, DescriptionItem} from './DescriptionList';
-import Panel from './Panel';
-
-import './ServerDetails.less';
-
-const block = 'in-detail-panel-server-details';
+import {DescriptionList, DescriptionItem} from '../sdk/DescriptionList';
+import Panel from '../sdk/Panel';
+import ProblemPanel from '../sdk/ProblemPanel';
+import SidebarHeading from '../sdk/SidebarHeading';
+import SidebarSubheading from '../sdk/SidebarSubheading';
 
 const ServerDetails = React.createClass({
-  mixins: [SubscriptionMixin],
-
-  getInitialState() {
-    return {
-      problems: Immutable.List()
-    };
-  },
-
-  componentDidMount() {
-    this.addSubscription(
-      getProblemsForSnapshot(this.props.snapshot)
-        .subscribe(problems => this.setState({problems}))
-    );
-  },
+  mixins: [React.addons.PureRenderMixin],
 
   render() {
     const data = this.props.snapshot.get('data');
     const ec2 = data.getIn([constants.rels.describes, constants.plugins.ec2]);
 
     return (
-      <div className={block}>
-        <h1 className={block + '__heading'}>
+      <div>
+        <SidebarHeading>
           Server Details
-        </h1>
-        <h2 className={block + '__hostname'}>
+        </SidebarHeading>
+        <SidebarSubheading>
           {getLabel(this.props.snapshot)}
-        </h2>
+        </SidebarSubheading>
 
         <Panel title='System'>
           <DescriptionList>
@@ -98,43 +81,11 @@ const ServerDetails = React.createClass({
           </Panel>
         : null}
 
-        {this.state.problems.size > 0 ? this.renderProblems() : null}
+        <ProblemPanel snapshot={this.props.snapshot} />
       </div>
     );
-  },
-
-  renderProblems() {
-    return (
-      <Panel title='Problems'>
-        <ul className={block + '__problems'}>
-          {this.state.problems.map(problem =>
-            <li key={problem.get('problemText')}>
-              <h3 className={block + '__problem-text'}
-                  style={{color: this.getColor(problem)}}>
-                {problem.get('problemText')}
-              </h3>
-              <p className={block + '__problem-fix-suggestion'}>
-                {problem.get('fixSuggestion')}
-              </p>
-            </li>
-          ).toJS()}
-        </ul>
-      </Panel>
-    );
-  },
-
-  getColor(problem) {
-    switch (mapSeverityToHealth(problem.get('severity'))) {
-      case health.ok:
-        return '#fff';
-      case health.warning:
-        return 'yellow';
-      case health.danger:
-        return 'darkred';
-      default:
-        throw new Error('Unknown health ' + mapSeverityToHealth(problem));
-    }
   }
+
 });
 
 export default ServerDetails;

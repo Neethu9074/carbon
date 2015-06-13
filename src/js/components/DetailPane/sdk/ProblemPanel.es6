@@ -1,0 +1,85 @@
+'use strict';
+
+import Immutable from 'immutable';
+import React from 'react/addons';
+
+import {getProblemsForSnapshot} from 'instana-ui-services/notificationCenter';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import {mapSeverityToHealth, health} from 'instana-ui-services/health';
+
+import Panel from './Panel';
+
+import './ProblemPanel.less';
+
+const block = 'in-detail-panel';
+
+const ProblemPanel = React.createClass({
+  mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
+
+  getInitialState() {
+    return {
+      problems: Immutable.List()
+    };
+  },
+
+  componentDidMount() {
+    this.subscribeToProblems();
+  },
+
+  subscribeToProblems() {
+    this.addSubscription(
+      getProblemsForSnapshot(this.props.snapshot)
+        .subscribe(problems => this.setState({problems}))
+    );
+  },
+
+  componentWillReceiveProps() {
+    this.disposeSubscriptions();
+
+    // reset problems of previous snapshot
+    this.setState({
+      problems: Immutable.List()
+    });
+
+    this.subscribeToProblems();
+  },
+
+  render() {
+    if (this.state.problems.size === 0) {
+      return null;
+    }
+
+    return (
+      <Panel title='Problems'>
+        <ul className={block + '__problems'}>
+          {this.state.problems.map(problem =>
+            <li key={problem.get('problemText')}>
+              <h3 className={block + '__problem-text'}
+                  style={{color: this.getColor(problem)}}>
+                {problem.get('problemText')}
+              </h3>
+              <p className={block + '__problem-fix-suggestion'}>
+                {problem.get('fixSuggestion')}
+              </p>
+            </li>
+          ).toJS()}
+        </ul>
+      </Panel>
+    );
+  },
+
+  getColor(problem) {
+    switch (mapSeverityToHealth(problem.get('severity'))) {
+      case health.ok:
+        return '#fff';
+      case health.warning:
+        return 'yellow';
+      case health.danger:
+        return 'darkred';
+      default:
+        throw new Error('Unknown health ' + mapSeverityToHealth(problem));
+    }
+  }
+});
+
+export default ProblemPanel;

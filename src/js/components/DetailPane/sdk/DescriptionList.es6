@@ -26,10 +26,11 @@ export const DescriptionList = React.createClass({
     }
 
     return (
-      <div className={classnames({
-        [block + '__description-item']: true,
-        [block + '__description-item--horizontal']: this.props.horizontal
-      })}>
+      <div key={descriptionItemProps.title}
+           className={classnames({
+             [block + '__description-item']: true,
+             [block + '__description-item--horizontal']: this.props.horizontal
+           })}>
         <dt className={block + '__description-title'}>
           {descriptionItemProps.title}
         </dt>
