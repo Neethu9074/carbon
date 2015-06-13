@@ -17,6 +17,7 @@ export default class LineChart {
       datasets,
       xAxisTickFormatter=defaultXAxisTickFormatter,
       yAxisTickFormatter=defaultYAxisTickFormatter}) {
+    this.lastUpdate = new Date().getTime();
     this.mountPoint = mountPoint;
     // copy the incoming data set so that we can mutate it freely
     this.datasets = JSON.parse(JSON.stringify(datasets));
@@ -55,9 +56,6 @@ export default class LineChart {
 
     this.chart = d3.select(mountPoint);
 
-    this.x.axis.element = this.chart.append('g')
-      .attr('class', 'x axis');
-
     this.y.axis.element = this.chart.append('g')
       .attr('class', 'y axis');
 
@@ -66,13 +64,18 @@ export default class LineChart {
         .attr('id', 'clip')
       .append('rect');
 
-    this.lines = this.chart.append('g')
+    this.lineClipping = this.chart.append('g')
       .attr('clip-path', 'url(#clip)');
+
+    this.lines = this.lineClipping.append('g');
+
+    this.x.axis.element = this.lines.append('g')
+      .attr('class', 'x axis');
 
     this.stack(this.datasets);
     this.resize({width, height});
 
-    this.lines.selectAll('path')
+    this.lines.selectAll('path.line')
         .data(this.datasets)
       .enter().append('path')
         .attr('class', 'line')
@@ -95,9 +98,14 @@ export default class LineChart {
   stopTransitions() {
     this.lines.selectAll('path').transition().duration(0);
     this.x.axis.element.transition().duration(0);
+    this.updateRunning = false;
   }
 
   update(datasetsUpdate) {
+    const now = new Date().getTime();
+    // const timeSinceLastUpdate = now - this.lastUpdate;
+    this.lastUpdate = now;
+
     this.stopTransitions();
 
     let newDomainStart = Number.MAX_VALUE;
@@ -124,29 +132,18 @@ export default class LineChart {
     this.stack(this.datasets);
 
     // update the exsiting data sets and transition the graph to the left
-    this.lines.selectAll('path')
+    this.lines.selectAll('path.line')
       .data(this.datasets)
-        .attr('d', d => this.line(d.values))
+        .attr('d', d => this.line(d.values));
+
+    this.lines
         .attr('transform', null)
       .transition()
         .duration(300)
         .ease('linear')
         .attr('transform', 'translate(' + this.x(newDomainStart) * -1 + ')');
 
-    const xAxisEndPositionX = this.x(newDomainStart) * -1 + this.padding.left;
-    const xAxisEndPositionY = this.chartHeight + this.padding.top + 10;
-    this.x.axis.element.call(this.x.axis)
-      .attr(
-        'transform',
-        'translate(' + this.padding.left + ',' + xAxisEndPositionY + ')'
-      )
-      .transition()
-        .duration(300)
-        .ease('linear')
-        .attr(
-          'transform',
-          'translate(' + xAxisEndPositionX + ',' + xAxisEndPositionY + ')'
-        );
+    this.x.axis.element.call(this.x.axis);
 
     // remove all previous data and set the new data as the domain
     this.x.domain([newDomainStart, newDomainEnd]);
@@ -177,7 +174,7 @@ export default class LineChart {
     this.x.axis.element
       .attr(
         'transform',
-        'translate(' + this.getXAxisTranslation().join(',') + ')'
+        'translate(0, ' + (this.chartHeight + 10) + ')'
       )
       .call(this.x.axis);
 
@@ -190,22 +187,15 @@ export default class LineChart {
 
     this.chart.select('defs rect')
       .attr('width', this.chartWidth)
-      .attr('height', this.chartHeight);
+      .attr('height', this.chartHeight + this.padding.bottom);
 
-    this.lines.attr(
+    this.lineClipping.attr(
       'transform',
       'translate(' + this.padding.left + ', ' + this.padding.top + ')'
     );
 
     // force a redraw of all lines
-    this.lines.selectAll('path').attr('d', d => this.line(d.values));
-  }
-
-  getXAxisTranslation() {
-    return [
-      this.padding.left,
-      this.chartHeight + this.padding.top + 10
-    ];
+    this.lines.selectAll('path.line').attr('d', d => this.line(d.values));
   }
 
   setSize({width, height}) {
