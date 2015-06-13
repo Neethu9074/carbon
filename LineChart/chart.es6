@@ -136,14 +136,14 @@ export default class LineChart {
       .data(this.datasets)
         .attr('d', d => this.line(d.values));
 
+    this.x.axis.element.call(this.x.axis);
+
     this.lines
         .attr('transform', null)
       .transition()
         .duration(300)
         .ease('linear')
         .attr('transform', 'translate(' + this.x(newDomainStart) * -1 + ')');
-
-    this.x.axis.element.call(this.x.axis);
 
     // remove all previous data and set the new data as the domain
     this.x.domain([newDomainStart, newDomainEnd]);
