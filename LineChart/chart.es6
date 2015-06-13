@@ -137,12 +137,34 @@ export default class LineChart {
       return dataset;
     });
 
-    this.stack(this.datasets);
+    try {
+      this.stack(this.datasets);
+    } catch (e) {
+      console.error(
+        'Failed to calculate stack information. Error:',
+        e,
+        'Data used for the calculation:',
+        JSON.parse(JSON.stringify(this.datasets)),
+        'New values:',
+        JSON.parse(JSON.stringify(newValues))
+      );
+    }
 
     // update the exsiting data sets and transition the graph to the left
-    this.lines.selectAll('path.line')
-      .data(this.datasets)
-        .attr('d', d => this.line(d.values));
+    try {
+      this.lines.selectAll('path.line')
+        .data(this.datasets)
+          .attr('d', d => this.line(d.values));
+    } catch (e) {
+      console.error(
+        'Failed to path information. Error:',
+        e,
+        'Data used for the calculation:',
+        JSON.parse(JSON.stringify(this.datasets)),
+        'New values:',
+        JSON.parse(JSON.stringify(newValues))
+      );
+    }
 
     this.x.axis.element.call(this.x.axis);
 
