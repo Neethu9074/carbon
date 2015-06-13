@@ -87,7 +87,7 @@ const StackedAreaChart = React.createClass({
                     0
                   : this.props.metricValueFormatter(this.state[metric])}
                   <span className={block + '-metric-percentage'}>
-                    %
+                    {this.props.metricUnit}
                   </span>
                 </dt>
               </div>
