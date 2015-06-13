@@ -105,23 +105,35 @@ export default class LineChart {
     const previousDomainEnd = this.x.domain()[1].getTime();
 
     const newValues = datasetsUpdate.map(dataset => {
-      return dataset.values.filter(value => {
+      const newValuesForDataset = dataset.values.filter(value => {
         newDomainStart = Math.min(newDomainStart, value[0]);
         newDomainEnd = Math.max(newDomainEnd, value[0]);
 
         return value[0] > previousDomainEnd;
       });
+
+      // use the same format as this.datasets so that stacking information
+      // can be calculated for updated values only. Meining: Stick to format
+      // that `this.stack` can understand.
+      return {
+        values: newValuesForDataset
+      };
     });
+
+    // It is sufficient to calculate stacking information for new values.
+    // We do not need to recalculate this information for all data points. The
+    // reason being that for each point in time x the various data points y
+    // are inspected and the `y0` and `y1` points set. The algorithm does not
+    // look back on previous points in time.
+    this.stack(newValues);
 
     // Add all new values to the graph so that the graph extends beyond
     // the domain. This is necessary so that we can transition the graph's
     // contents to the left in the next step
     this.datasets = this.datasets.map((dataset, i) => {
-      dataset.values = dataset.values.concat(newValues[i]);
+      dataset.values = dataset.values.concat(newValues[i].values);
       return dataset;
     });
-
-    this.stack(this.datasets);
 
     // update the exsiting data sets and transition the graph to the left
     this.lines.selectAll('path')
