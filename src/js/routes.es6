@@ -9,8 +9,8 @@ import React from 'react';
 
 import {Route} from 'react-router';
 
-import App from './App';
-import DetailPane from './DetailPane';
+import App from './components/App';
+import DetailPane from './components/DetailPane';
 
 export default (
   <Route name='root' path='/' handler={App}>
