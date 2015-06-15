@@ -141,6 +141,7 @@ export default class BaseNode extends SceneObject {
   setupConnections() {
     const connectedSnapshots = this.getCurrentConnections().get(this.snapshot);
     if(!connectedSnapshots) {
+      //TODO: unknown hosts must have a connection to known ones
       return;
     }
 
@@ -283,7 +284,6 @@ export default class BaseNode extends SceneObject {
 
     /*eslint-disable no-new*/
     new Connection({parent: this, from: this, to: otherNode});
-    //con.highlight(this.isHighlighted);
     /*eslint-enable no-new*/
   }
 

@@ -41,16 +41,7 @@ export default class Connection extends SceneObject {
 
     connections.push(this);
 
-    // this.setupHighlights();
     this.render();
-  }
-
-  setupHighlights() {
-    if(this.to.isHighlighted && this.to.isHighlighted) {
-      this.to.setupImplicitHighlight();
-      this.from.setupImplicitHighlight();
-      this.render();
-    }
   }
 
   render() {
@@ -60,8 +51,10 @@ export default class Connection extends SceneObject {
 
     const points = this.calculateVertices(-0.01);
     const factory = this.getScene().lineFactory;
-    factory.removeFragment(this.id);
     factory.addFragment({id: this.id, points, color: defaultColor});
+
+    this.to.setupImplicitHighlight();
+    this.from.setupImplicitHighlight();
 
     //hide this if the parent is hidden
     if(this.parent.hidden) {
@@ -149,25 +142,12 @@ export default class Connection extends SceneObject {
     this.setupHighlights();
   }
 
-  highlight(value) {
-    if(value) {
-      //create the path and add it as a fragment to global factory
-      this.render();
-      this.to.setupImplicitHighlight();
-      this.from.setupImplicitHighlight();
-
-    //hide the connection will end up in removing the fragment from factory
-    //don't hide conenctions that are part of a isSelected host
-    } else if(!this.to.isHighlighted && !this.to.isHighlighted) {
-      app.scene.scene.lineFactory.removeFragment(this.id);
-      this.to.clearImplicitHighlight();
-      this.from.clearImplicitHighlight();
-    }
-  }
-
   dispose() {
     this.to.removeConnection(this);
     this.from.removeConnection(this);
+
+    this.to.clearImplicitHighlight();
+    this.from.clearImplicitHighlight();
 
     _.remove(connections, con => con.id === this.id);
 
