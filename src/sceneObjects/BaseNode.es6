@@ -118,6 +118,10 @@ export default class BaseNode extends SceneObject {
 
   //the explicit highlight is used for the primary isSelected or mouseover node
   setupExplicitHighLight() {
+    if(this.isHighlighted) {
+      return;
+    }
+
     this.isHighlighted = true;
 
     if(this.stickyNote === emptyStickyObject) {
@@ -170,9 +174,14 @@ export default class BaseNode extends SceneObject {
     if(this.stickyNote === emptyStickyObject) {
       this.stickyNote = this.createStickyNote();
     }
+    this.implicitHighlighted = true;
   }
 
   clearImplicitHighlight() {
+    if(!this.implicitHighlighted) {
+      return;
+    }
+
     //if this node is connected to a isSelected node
     if(_.find(this.connections, c => (c.from.isSelected || c.to.isSelected))) {
       return;
@@ -184,6 +193,7 @@ export default class BaseNode extends SceneObject {
 
     //remove frame on the ground
     this.scene.lineFactory.removeFragment(this.id);
+    this.implicitHighlighted = false;
   }
 
   setPosition(x, y, z) {
@@ -215,11 +225,6 @@ export default class BaseNode extends SceneObject {
 
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
-
-    //if this fragment is isHighlighted -> update the hightlight geometry
-    if(scene.lineFactory.getFragment(this.id)) {
-      this.setupImplicitHighlight();
-    }
 
     if(scene.highlightSingleMeshFactory.getFragment(this.id)) {
       scene.highlightSingleMeshFactory.addFragment(fragment);
