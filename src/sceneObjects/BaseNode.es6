@@ -218,7 +218,7 @@ export default class BaseNode extends SceneObject {
 
     //if this fragment is isHighlighted -> update the hightlight geometry
     if(scene.lineFactory.getFragment(this.id)) {
-      scene.lineFactory.addFragment(fragment);
+      this.setupImplicitHighlight();
     }
 
     if(scene.highlightSingleMeshFactory.getFragment(this.id)) {

@@ -43,6 +43,7 @@ export default class CameraController {
     const pitch = -45;
     //transformation helper. need this to move on the ground
     this.camTransformObject = new THREE.Object3D();
+    this.camTransformObject.position.set(10, 0, -10);
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
     scene.addSceneObject(this.camTransformObject);
 
