@@ -5,13 +5,9 @@ import THREE from 'three';
 import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
-import {
-  getIdString,
-  extractConnections
-  } from 'instana-ui-services/util/snapshots';
+import {getIdString} from 'instana-ui-services/util/snapshots';
 import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
 
-import * as app from '../Scene';
 import Connection from './Connection';
 import SceneObject from './SceneObject';
 

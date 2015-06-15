@@ -4,7 +4,6 @@ import THREE from 'three';
 
 import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
-import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {health} from 'instana-ui-services/health';
 import eventBus from 'instana-ui-services/eventbus';
 

@@ -7,7 +7,6 @@ import _ from 'lodash';
 import {createLogger} from 'instalog';
 import {theme} from 'instana-ui-services/theme';
 import * as app from '../Scene';
-import {getColor} from 'instana-ui-sdk/zones';
 import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
