@@ -78,6 +78,13 @@ const LineChart = React.createClass({
 
   renderChart(props) {
     const subscription = combineLatest(props.datasources, true)
+      // a very short debounce function used to handle bursts of updates. Thus
+      // updates can happen for various reasons, e.g. when the tab is not
+      // active or when there are network issues.
+      .debounce(10, {
+        leading: true,
+        trailing: true
+      })
       // we can only accept datasets when each and every dataset has the same
       // number of data points and the same last value on the time scale. This
       // is due to the fact that we are using stacked charts. Stacked charts
