@@ -70,8 +70,12 @@ export default class Scene {
   }
 
   setupFactories() {
-    this.singleMeshFactory = new SingleMeshFactory({scene: this});
-    this.highlightSingleMeshFactory = new SingleMeshFactory({scene: this});
+    this.singleMeshFactory
+      = new SingleMeshFactory({scene: this, renderOrder: 3});
+    this.groundSingleMeshFactory
+      = new SingleMeshFactory({scene: this, renderOrder: 2});
+    this.highlightSingleMeshFactory
+      = new SingleMeshFactory({scene: this, renderOrder: 4});
 
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
@@ -285,9 +289,11 @@ export default class Scene {
     //if there is no cube isSelected, fade all cubes by distance
     if(!this.selectedSceneObject) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
-
-      //update node color opacity by distance
       this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
+
+      this.groundSingleMeshFactory.material.opacity = normedZoomLevel;
+      this.groundSingleMeshFactory.material.transparent
+        = (zoomLevel < maxZoomOut);
     }
   }
 

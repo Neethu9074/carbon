@@ -66,7 +66,7 @@ export default class Node extends BaseNode {
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
 
-    this.addToGroupFactory(id, pos, dim);
+    this.addToGroundFactory(id, pos, dim);
     this.addToMultiMetricFactory(id, pos, dim);
     this.addToSingleMetricFactory(id, pos, dim);
   }
@@ -94,9 +94,9 @@ export default class Node extends BaseNode {
 
   //this is not the group where nodes are on!
   //it's the health ground group of each node
-  addToGroupFactory(id, pos, dim) {
+  addToGroundFactory(id, pos, dim) {
     if(!this.health || this.health === health.ok) {
-      this.getScene().singleMeshFactory.removeFragment(id + '_plane');
+      this.scene.groundSingleMeshFactory.removeFragment(id);
       return;
     }
 
@@ -104,8 +104,8 @@ export default class Node extends BaseNode {
     const color = this.calculateNodeColor();
     const position = pos;
     const scale = dim.clone().multiplyScalar(1.5);
-    this.scene.singleMeshFactory.addFragment({
-      id: id + '_plane',
+    this.scene.groundSingleMeshFactory.addFragment({
+      id: id,
       contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
@@ -267,7 +267,7 @@ export default class Node extends BaseNode {
 
     this.health = newHealth;
 
-    this.addToGroupFactory(id, pos, dim);
+    this.addToGroundFactory(id, pos, dim);
     this.refreshFragment();
   }
 
@@ -324,9 +324,9 @@ export default class Node extends BaseNode {
     scene.singleMetricFactory.enableFragment(id, enabled);
 
     if(enabled) {
-      this.addToGroupFactory();
+      this.addToGroundFactory();
     } else {
-      this.getScene().singleMeshFactory.removeFragment(this.id + '_plane');
+      this.scene.groundSingleMeshFactory.removeFragment(this.id);
     }
   }
 
@@ -345,7 +345,7 @@ export default class Node extends BaseNode {
   dispose() {
     this.snapshotServer.dispose();
     this.clearLayer();
-    this.scene.singleMeshFactory.removeFragment(this.id + '_plane');
+    this.scene.groundSingleMeshFactory.removeFragment(this.id);
 
     super.dispose();
 
