@@ -7,7 +7,6 @@ import Immutable from 'immutable';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConnectionGrid from '../connectionGrid';
-import {connections as allConnections} from './Connection';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getAllNodes, getAllGroups} from '../mapStructureUtils';
 import {
@@ -18,6 +17,8 @@ import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
 import Group from './Group';
 import Layouter from '../layout';
+
+let currentConnections = [];
 
 
 export default class PhysicalMap extends SceneObject {
@@ -87,10 +88,10 @@ export default class PhysicalMap extends SceneObject {
 
   onInventoryUpdate(snapshots) {
     const unknownGroup = this.getOrCreateGroup('unmonitored');
-    const connections = extractConnections(snapshots);
-    snapshots.forEach(node => this.addNode(node, connections, unknownGroup));
+    currentConnections = extractConnections(snapshots);
+    snapshots.forEach(node => this.addNode(node, unknownGroup));
 
-    this.removeVanishedUnknownNodes(connections, unknownGroup);
+    this.removeVanishedUnknownNodes(unknownGroup);
     this.removeVanishedNodes(snapshots);
 
     //delete the unknownGroup if there are no nodes in it
@@ -99,7 +100,6 @@ export default class PhysicalMap extends SceneObject {
     }
 
     this.applyLayout();
-    this.setupConnections(snapshots, connections);
     //this.showWalkableGrid(); //uncomment this to see the walking grid
     this.parent.renderScene();
   }
@@ -135,9 +135,10 @@ export default class PhysicalMap extends SceneObject {
     removedNodes.forEach((node) => node.dispose());
   }
 
-  addNode(node, connections, unknownGroup) {
+  addNode(node, unknownGroup) {
     const groupId = getZone(node);
     const group = this.getOrCreateGroup(groupId);
+    const connectedNodes = currentConnections.get(node);
 
     //add the node to group (the group handles duplicates)
     group.addNode({snapshot: node});
@@ -146,9 +147,8 @@ export default class PhysicalMap extends SceneObject {
     //delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(groupId, node);
 
-    const nodeConnections = connections.find((v, k) => k === node);
-    if(nodeConnections) {
-      this.createAllUnknownNodesFor(node, nodeConnections, unknownGroup);
+    if(connectedNodes) {
+      this.createAllUnknownNodesFor(node, connectedNodes, unknownGroup);
     }
   }
 
@@ -184,16 +184,19 @@ export default class PhysicalMap extends SceneObject {
     allConnections.forEach((connection) => {
       //only create nodes that are unmonitored by agent
       if(connection.get('state') === 'unmonitored') {
-        unknownGroup.addNode({snapshot: connection, unknown: true});
+        unknownGroup.addNode({
+          snapshot: connection,
+          unknown: true
+        });
       }
     });
   }
 
-  removeVanishedUnknownNodes(connections, unknownGroup) {
+  removeVanishedUnknownNodes(unknownGroup) {
     const allUnmonitoredNodes = unknownGroup.children;
     const allAvailableUnmonitoredNodes = [];
 
-    connections.forEach((nodeCons) => {
+    currentConnections.forEach((nodeCons) => {
       const allConnections = nodeCons.outgoing.concat(nodeCons.incoming);
       allConnections.forEach((connection) => {
         if(connection.get('state') === 'unmonitored') {
@@ -223,54 +226,6 @@ export default class PhysicalMap extends SceneObject {
     this.addSceneObject(this.particles);
   }
 
-  //is called after an inventory update incoming. the prerequirement is
-  //that all nodes are available to connect the objects
-  setupConnections(snapshots, connections) {
-    //clear all connections
-    allConnections.slice().forEach(connection => connection.dispose());
-
-    const idNodeMap = this.getIdNodeMap();
-
-    connections.forEach((nodeCons, node) => {
-      //if the from node is available
-      const fromNode = idNodeMap[getIdString(node)];
-      if(fromNode) {
-        nodeCons.outgoing.forEach(connection => {
-          //if the node has any connection
-          if(connection) {
-            //if to node is available
-            const toNode = idNodeMap[getIdString(connection)];
-            if(toNode) {
-              fromNode.connectWith(toNode);
-            }
-          }
-        });
-
-        nodeCons.incoming.forEach(connection => {
-          //if the node has any connection
-          if(connection) {
-            //if to node is available
-            const toNode = idNodeMap[getIdString(connection)];
-            if(toNode) {
-              toNode.connectWith(fromNode);
-            }
-          }
-        });
-      }
-    });
-  }
-
-  //creates an object<getIdString(node), node> to get fast access to it
-  getIdNodeMap() {
-    const map = {};
-    const nodes = getAllNodes(this);
-    nodes.forEach(node => {
-      map[node.id] = node;
-    });
-
-    return map;
-  }
-
   filter(validationFunction) {
     const unMatched = getAllNodes(this)
       .filter(node => !validationFunction(node));
@@ -281,6 +236,22 @@ export default class PhysicalMap extends SceneObject {
   //is called from group if it has no nodes anymore
   removeChild(child) {
     _.remove(this.groups, group => group.id === child.id);
+  }
+
+  getCurrentConnections() {
+    return currentConnections;
+  }
+
+  findNodeBySnapshot(snapshot) {
+    let match;
+
+    getAllNodes(this).forEach(node => {
+      if(isIdEqual(node.snapshot, snapshot)) {
+        match = node;
+      }
+    });
+
+    return match;
   }
 
   onZoom(zoomLevel) {

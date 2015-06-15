@@ -72,7 +72,8 @@ export default class Group extends SceneObject {
       if(node) {
         node.onSnapshotUpdate(snapshot);
       } else if(unknown) {
-        this.children.push(new UnknownNode({parent: this, snapshot}));
+        this.children.push(
+          new UnknownNode({parent: this, snapshot}));
       } else {
         this.children.push(new Node({parent: this, snapshot}));
       }
@@ -119,6 +120,7 @@ export default class Group extends SceneObject {
     this.ground.scale.copy(scale);
     this.ground.updateMatrix();
   }
+
   removeChild(child) {
     _.remove(this.children, node => node.id === child.id);
 

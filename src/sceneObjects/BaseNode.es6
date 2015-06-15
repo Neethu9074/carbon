@@ -5,7 +5,10 @@ import THREE from 'three';
 import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
-import {getIdString} from 'instana-ui-services/util/snapshots';
+import {
+  getIdString,
+  extractConnections
+  } from 'instana-ui-services/util/snapshots';
 import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
 
 import * as app from '../Scene';
@@ -96,32 +99,28 @@ export default class BaseNode extends SceneObject {
   }
 
   highlight(value) {
-    //if mouseover and not isSelected
-    if(value && !this.isSelected) {
-      this.setupExplicitHighLight();
-
-    //if mouseoff and not isSelected
-    } else if(!value && !this.isSelected) {
-      this.clearExplicitHighlight();
+    if(value) {
+      this.setupHighLight();
+    } else if(!this.isSelected){
+      this.clearHighlight();
     }
   }
 
   select() {
-    this.setupExplicitHighLight();
     this.isSelected = true;
+    this.highlight(true);
   }
 
   unSelect() {
     this.isSelected = false;
-    this.clearExplicitHighlight();
+    this.highlight(false);
   }
 
   //the explicit highlight is used for the primary isSelected or mouseover node
-  setupExplicitHighLight() {
+  setupHighLight() {
     if(this.isHighlighted) {
       return;
     }
-
     this.isHighlighted = true;
 
     if(this.stickyNote === emptyStickyObject) {
@@ -132,20 +131,40 @@ export default class BaseNode extends SceneObject {
     //so that the material is not faded by camera distance
     this.scene.highlightSingleMeshFactory.addFragment(this.getNodeAsFragment());
 
+    this.setupConnections();
     //show all connections of the node
-    this.connections.forEach(c => c.highlight(true));
+    //this.connections.forEach(c => c.highlight(true));
 
     this.renderScene();
   }
 
-  clearExplicitHighlight() {
+  setupConnections() {
+    const connectedSnapshots = this.getCurrentConnections().get(this.snapshot);
+    if(!connectedSnapshots) {
+      return;
+    }
+
+    connectedSnapshots.outgoing.concat(connectedSnapshots.incoming)
+    .forEach(n => {
+      const other = this.findNodeBySnapshot(n);
+      if(other) {
+        this.connectWith(other);
+      }
+    });
+  }
+
+  clearHighlight() {
+    if(!this.isHighlighted) {
+      return;
+    }
     this.isHighlighted = false;
 
     //remove the highlight from the factory
     this.scene.highlightSingleMeshFactory.removeFragment(this.id);
 
-    //hide all connections
-    this.connections.forEach(c => c.highlight(false));
+    this.clearConnections();
+
+    this.disposeStickyNote();
 
     this.renderScene();
   }
@@ -225,10 +244,9 @@ export default class BaseNode extends SceneObject {
 
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
-
-    if(scene.highlightSingleMeshFactory.getFragment(this.id)) {
-      scene.highlightSingleMeshFactory.addFragment(fragment);
-    }
+    // if(scene.highlightSingleMeshFactory.getFragment(this.id)) {
+    //   scene.highlightSingleMeshFactory.addFragment(fragment);
+    // }
   }
 
   getNodeAsFragment() {
@@ -264,8 +282,8 @@ export default class BaseNode extends SceneObject {
     }
 
     /*eslint-disable no-new*/
-    const con = new Connection({parent: this, from: this, to: otherNode});
-    con.highlight(this.isHighlighted);
+    new Connection({parent: this, from: this, to: otherNode});
+    //con.highlight(this.isHighlighted);
     /*eslint-enable no-new*/
   }
 
@@ -295,7 +313,7 @@ export default class BaseNode extends SceneObject {
   removeFromGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
   clearConnections() {
-    this.connections.forEach(c => c.dispose());
+    this.connections.slice().forEach(c => c.dispose());
     this.connections = [];
   }
 
@@ -304,9 +322,9 @@ export default class BaseNode extends SceneObject {
     _.remove(this.connections, con => con.id === connection.id);
 
     //if this cube has no other connection -> clear highlight
-    if(this.connections.length === 0) {
-      this.clearImplicitHighlight();
-    }
+    // if(this.connections.length === 0) {
+    //   this.clearImplicitHighlight();
+    // }
   }
 
   disposeStickyNote() {
@@ -317,7 +335,7 @@ export default class BaseNode extends SceneObject {
   dispose() {
     this.clearConnections();
 
-    this.clearExplicitHighlight();
+    this.clearHighlight();
 
     this.removeFromGlobalGeometry();
 

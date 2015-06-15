@@ -41,11 +41,12 @@ export default class Connection extends SceneObject {
 
     connections.push(this);
 
-    this.setupHighlights();
+    // this.setupHighlights();
+    this.render();
   }
 
   setupHighlights() {
-    if(this.from.isSelected || this.to.isSelected) {
+    if(this.to.isHighlighted && this.to.isHighlighted) {
       this.to.setupImplicitHighlight();
       this.from.setupImplicitHighlight();
       this.render();
@@ -66,6 +67,7 @@ export default class Connection extends SceneObject {
     if(this.parent.hidden) {
       this.hide();
     }
+    this.visible = true;
   }
 
   calculateVertices(height) {
@@ -144,7 +146,7 @@ export default class Connection extends SceneObject {
 
   setBidirectional() {
     this.bidirectional = true;
-    this.render();
+    this.setupHighlights();
   }
 
   highlight(value) {
@@ -156,7 +158,7 @@ export default class Connection extends SceneObject {
 
     //hide the connection will end up in removing the fragment from factory
     //don't hide conenctions that are part of a isSelected host
-    } else if(!this.from.isSelected && !this.to.isSelected) {
+    } else if(!this.to.isHighlighted && !this.to.isHighlighted) {
       app.scene.scene.lineFactory.removeFragment(this.id);
       this.to.clearImplicitHighlight();
       this.from.clearImplicitHighlight();
