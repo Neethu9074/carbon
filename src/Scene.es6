@@ -424,13 +424,7 @@ export default class Scene {
     this.controller.flyToObject(object);
 
     if(fireExternalEvent) {
-      const clickedSceneObject = object.parentSceneObject;
-      this.selectObject(clickedSceneObject);
-
-      //only send known nodes to external listener like sidebar
-      if(!clickedSceneObject.isUnknown) {
-        snapshotStore.select(clickedSceneObject.snapshot);
-      }
+      this.selectObject(object.parentSceneObject);
     }
   }
 
@@ -444,6 +438,7 @@ export default class Scene {
     if(this.selectedSceneObject === obj) {
       this.selectedSceneObject = undefined;
       this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+      snapshotStore.clear();
       return;
     }
 
@@ -453,6 +448,11 @@ export default class Scene {
     //save the new object and select it
     this.selectedSceneObject = obj;
     obj.select();
+
+    //only send known nodes to external listener like sidebar
+    if(!obj.isUnknown) {
+      snapshotStore.select(obj.snapshot);
+    }
   }
 
   onFocus(event) {
