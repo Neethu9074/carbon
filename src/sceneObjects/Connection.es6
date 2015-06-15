@@ -139,7 +139,6 @@ export default class Connection extends SceneObject {
 
   setBidirectional() {
     this.bidirectional = true;
-    this.setupHighlights();
   }
 
   dispose() {

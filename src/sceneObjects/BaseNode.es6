@@ -98,14 +98,6 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.update();
   }
 
-  highlight(value) {
-    if(value) {
-      this.setupHighLight();
-    } else if(!this.isSelected){
-      this.clearHighlight();
-    }
-  }
-
   select() {
     this.isSelected = true;
     this.highlight(true);
@@ -116,12 +108,19 @@ export default class BaseNode extends SceneObject {
     this.highlight(false);
   }
 
+  highlight(value) {
+    if(value) {
+      this.setupHighLight();
+    } else if(!this.isSelected) {
+      this.clearHighlight();
+    }
+  }
+
   //the explicit highlight is used for the primary isSelected or mouseover node
   setupHighLight() {
     if(this.isHighlighted) {
       return;
     }
-    this.isHighlighted = true;
 
     if(this.stickyNote === emptyStickyObject) {
       this.stickyNote = this.createStickyNote();
@@ -131,11 +130,11 @@ export default class BaseNode extends SceneObject {
     //so that the material is not faded by camera distance
     this.scene.highlightSingleMeshFactory.addFragment(this.getNodeAsFragment());
 
-    this.setupConnections();
     //show all connections of the node
-    //this.connections.forEach(c => c.highlight(true));
+    this.setupConnections();
 
     this.renderScene();
+    this.isHighlighted = true;
   }
 
   setupConnections() {
@@ -199,11 +198,6 @@ export default class BaseNode extends SceneObject {
 
   clearImplicitHighlight() {
     if(!this.implicitHighlighted) {
-      return;
-    }
-
-    //if this node is connected to a isSelected node
-    if(_.find(this.connections, c => (c.from.isSelected || c.to.isSelected))) {
       return;
     }
 
@@ -313,7 +307,12 @@ export default class BaseNode extends SceneObject {
   removeFromGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
   clearConnections() {
-    this.connections.slice().forEach(c => c.dispose());
+    this.connections.slice().forEach(c => {
+      //only dispose those which are not part of a highlighted network
+      if(!c.from.isHighlighted || !c.to.isHighlighted) {
+        c.dispose();
+      }
+    });
     this.connections = [];
   }
 
