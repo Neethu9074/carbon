@@ -6,9 +6,9 @@ import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
 import {createLogger} from 'instalog';
 import {theme} from 'instana-ui-services/theme';
-import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
 import * as app from '../Scene';
 import {getColor} from 'instana-ui-sdk/zones';
+import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
 const defaultColor = hexToRGBNormalized(theme.map.colors.connection);
@@ -58,12 +58,9 @@ export default class Connection extends SceneObject {
     }
 
     const points = this.calculateVertices(-0.01);
-    let color = getColor(this.from.parent.id);
-    color = color ? hexToRGBNormalized(color) : defaultColor;
-
     const factory = this.getScene().lineFactory;
     factory.removeFragment(this.id);
-    factory.addFragment({id: this.id, points, color});
+    factory.addFragment({id: this.id, points, color: defaultColor});
 
     //hide this if the parent is hidden
     if(this.parent.hidden) {
