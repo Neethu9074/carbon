@@ -31,7 +31,7 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     this.fragments.push({
       id, //is needed to identify the fragment when deleting
       points,
-      color: color,
+      color,
       enabled
     });
 
@@ -75,11 +75,11 @@ export default class LineFactory extends AbstractMeshCreationFactory {
 
     for (let i = 0; i < fragment.points.length; i++) {
       const point = fragment.points[i];
-      colors[index] = color[0];
+      colors[index] = color.r;
       vertices[index++] = point.x;
-      colors[index] = color[1];
+      colors[index] = color.g;
       vertices[index++] = point.y;
-      colors[index] = color[2];
+      colors[index] = color.b;
       vertices[index++] = point.z;
     }
   }

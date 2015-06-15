@@ -7,6 +7,7 @@ import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getColor} from 'instana-ui-sdk/zones';
+import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
 
 import Connection from './Connection';
 import SceneObject from './SceneObject';
@@ -164,9 +165,7 @@ export default class BaseNode extends SceneObject {
       {x: pos.x + 0.01, y: 0, z: pos.z - 0.01}
     ];
 
-    let color = getColor(this.parent.id);
-    color = color ? this.hexToArray(color) : [1, 0, 0];
-
+    const color = hexToRGBNormalized(getColor(this.parent.id));
     const factory = this.getScene().lineFactory;
     factory.addFragment({id: this.id, points, color});
 

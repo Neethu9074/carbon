@@ -6,12 +6,12 @@ import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
 import {createLogger} from 'instalog';
 import {theme} from 'instana-ui-services/theme';
+import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
 import * as app from '../Scene';
 import {getColor} from 'instana-ui-sdk/zones';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
-const connection = new THREE.Color(theme.map.colors.connection);
-const defaultColor = [connection.r, connection.g, connection.b];
+const defaultColor = hexToRGBNormalized(theme.map.colors.connection);
 export const connections = [];
 let id = 0;
 
@@ -40,6 +40,11 @@ export default class Connection extends SceneObject {
     to.addConnection(this);
 
     connections.push(this);
+
+    if(this.from.selected || this.to.selected) {
+      this.to.setupImplicitHighlight();
+      this.from.setupImplicitHighlight();
+    }
   }
 
   render() {
@@ -49,7 +54,7 @@ export default class Connection extends SceneObject {
 
     const points = this.calculateVertices(-0.01);
     let color = getColor(this.from.parent.id);
-    color = color ? this.hexToArray(color) : defaultColor;
+    color = color ? hexToRGBNormalized(color) : defaultColor;
 
     const factory = this.getScene().lineFactory;
     factory.removeFragment(this.id);
@@ -59,11 +64,6 @@ export default class Connection extends SceneObject {
     if(this.parent.hidden) {
       this.hide();
     }
-  }
-
-  hexToArray(color) {
-    color = new THREE.Color(color);
-    return [color.r, color.g, color.b];
   }
 
   calculateVertices(height) {
