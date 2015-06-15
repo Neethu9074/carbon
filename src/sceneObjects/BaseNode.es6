@@ -100,11 +100,14 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.update();
   }
 
+  //is called via scene when the user pressed on a node
   select() {
     this.isSelected = true;
     this.highlight(true);
   }
 
+  //is called when the user hits the node again or the selection was cleared
+  //by another way
   unSelect() {
     this.isSelected = false;
     this.highlight(false);
@@ -113,6 +116,9 @@ export default class BaseNode extends SceneObject {
   highlight(value) {
     if(value) {
       this.setupHighLight();
+
+    //only disable highlighting if the node was not selected (is needed if
+    //the node was selected and mouseoff was fired)
     } else if(!this.isSelected) {
       this.clearHighlight();
     }
@@ -120,6 +126,7 @@ export default class BaseNode extends SceneObject {
 
   //the explicit highlight is used for the primary isSelected or mouseover node
   setupHighLight() {
+    //just create one sticky
     if(this.stickyNote === emptyStickyObject) {
       this.stickyNote = this.createStickyNote();
     }
@@ -131,20 +138,23 @@ export default class BaseNode extends SceneObject {
     //show all connections of the node
     this.setupConnections();
 
+    //make the changes visible
     this.renderScene();
     this.isHighlighted = true;
   }
 
   setupConnections() {
+    //get all connections of this node
     const connectedSnapshots = this.getCurrentConnections().get(this.snapshot);
     if(!connectedSnapshots) {
       //TODO: unknown hosts must have a connection to known ones
       return;
     }
 
+    //show all, incoming and outgoing connections
     connectedSnapshots.outgoing.concat(connectedSnapshots.incoming)
-    .forEach(n => {
-      const other = this.findNodeBySnapshot(n);
+    .forEach(otherSnapshot => {
+      const other = this.findNodeBySnapshot(otherSnapshot);
       if(other) {
         this.connectWith(other);
       }
@@ -152,6 +162,7 @@ export default class BaseNode extends SceneObject {
   }
 
   clearHighlight() {
+    //don't dispose the highlighting twice
     if(!this.isHighlighted) {
       return;
     }
@@ -159,21 +170,25 @@ export default class BaseNode extends SceneObject {
     //remove the highlight from the factory
     this.scene.highlightSingleMeshFactory.removeFragment(this.id);
 
+    //dispose all connections tangents this node
     this.clearConnections();
 
+    //only dispose the sticky note if there is no indirect/implicit highlight
     if(this.implicitHighlightCounter === 0) {
       this.disposeStickyNote();
     }
 
+    //make the changes visible
     this.renderScene();
-
     this.isHighlighted = false;
   }
 
   //the primary highlight is for nodes
   //which are connected with a primary isSelected node
   setupImplicitHighlight() {
+    //increase the counter of events making this node highlighting
     this.implicitHighlightCounter++;
+
     const pos = this.getPosition();
     const points = [
       {x: pos.x + 0.01, y: 0, z: pos.z - 0.01},
@@ -198,18 +213,23 @@ export default class BaseNode extends SceneObject {
   }
 
   clearImplicitHighlight() {
+    //count #object making this node highlight
     this.implicitHighlightCounter--;
 
+    //other nodes/connections keep that node highlighting
     if(this.implicitHighlightCounter > 0) {
       return;
     }
 
+    //only dispose sticky if this node isn't selected (e.g. mouseover)
     if(!this.isSelected) {
       this.disposeStickyNote();
     }
 
     //remove frame on the ground
     this.scene.lineFactory.removeFragment(this.id);
+
+    //avoing negative counting
     this.implicitHighlightCounter = 0;
   }
 
