@@ -92,7 +92,7 @@ exports.consts = {
         warning: colors.warning,
         critical: colors.critical,
         'default': colors.default,
-        connection: colors.cyan,
+        connection: metricColors.cyan,
         unknownStatus: colors.grey,
         zones: [
           metricColors.orange,
