@@ -161,7 +161,9 @@ export default class BaseNode extends SceneObject {
 
     this.clearConnections();
 
-    this.disposeStickyNote();
+    if(this.implicitHighlightCounter === 0) {
+      this.disposeStickyNote();
+    }
 
     this.renderScene();
 
