@@ -117,10 +117,6 @@ export default class LineChart {
   }
 
   update(datasetsUpdate) {
-    if (this.errorFound) {
-      return;
-    }
-
     const now = new Date().getTime();
     const timeSinceLastUpdate = now - this.lastUpdate;
     this.lastUpdate = now;
@@ -145,19 +141,7 @@ export default class LineChart {
       };
     });
 
-    try {
-      this.stack(newValues);
-    } catch (e) {
-      this.errorFound = true;
-      console.error(
-        'Failed to calculate stack information. Error:',
-        e,
-        'Data used for the calculation:',
-        JSON.parse(JSON.stringify(this.datasets)),
-        'New values:',
-        JSON.parse(JSON.stringify(newValues))
-      );
-    }
+    this.stack(newValues);
 
     // Add all new values to the graph so that the graph extends beyond
     // the domain. This is necessary so that we can transition the graph's
@@ -168,38 +152,9 @@ export default class LineChart {
     });
 
     // update the exsiting data sets and transition the graph to the left
-    try {
-      this.lines.selectAll('path.line')
-        .data(this.datasets)
-          .attr('d', d => {
-            const path = this.line(d.values);
-
-            if (path.indexOf('NaN') !== -1) {
-              this.errorFound = true;
-              console.error(
-                'Failed to create valid path:',
-                {path},
-                'Data used for the calculation:',
-                JSON.parse(JSON.stringify(this.datasets)),
-                'New values:',
-                JSON.parse(JSON.stringify(newValues))
-              );
-              return 'M0';
-            }
-
-            return path;
-          });
-    } catch (e) {
-      this.errorFound = true;
-      console.error(
-        'Failed to path information. Error:',
-        e,
-        'Data used for the calculation:',
-        JSON.parse(JSON.stringify(this.datasets)),
-        'New values:',
-        JSON.parse(JSON.stringify(newValues))
-      );
-    }
+    this.lines.selectAll('path.line')
+      .data(this.datasets)
+        .attr('d', d => this.line(d.values));
 
     this.x.axis.element.call(this.x.axis);
 
