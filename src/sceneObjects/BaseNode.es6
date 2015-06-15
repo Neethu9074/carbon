@@ -118,10 +118,6 @@ export default class BaseNode extends SceneObject {
 
   //the explicit highlight is used for the primary isSelected or mouseover node
   setupHighLight() {
-    if(this.isHighlighted) {
-      return;
-    }
-
     if(this.stickyNote === emptyStickyObject) {
       this.stickyNote = this.createStickyNote();
     }
@@ -309,9 +305,9 @@ export default class BaseNode extends SceneObject {
   clearConnections() {
     this.connections.slice().forEach(c => {
       //only dispose those which are not part of a highlighted network
-      if(!c.from.isHighlighted || !c.to.isHighlighted) {
+
         c.dispose();
-      }
+
     });
     this.connections = [];
   }
