@@ -7,7 +7,7 @@ import _ from 'lodash';
 import {createLogger} from 'instalog';
 import {theme} from 'instana-ui-services/theme';
 import * as app from '../Scene';
-import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
+import {hexToRGBNormalized} from 'instana-ui-services/converters';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
 const defaultColor = hexToRGBNormalized(theme.map.colors.connection);
