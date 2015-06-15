@@ -10,6 +10,8 @@ import Chart from './chart';
 
 import './LineChart.less';
 
+const identity = a => a;
+
 const LineChart = React.createClass({
 
   mixins: [SubscriptionMixin],
@@ -107,7 +109,8 @@ const LineChart = React.createClass({
             width: this.props.width,
             height: this.props.height,
             datasets: datasets,
-            yAxisTickFormatter: this.props.yAxisTickFormatter
+            yAxisTickFormatter: this.props.yAxisTickFormatter,
+            valueTransformer: this.props.valueTransformer || identity
           });
         }
       });

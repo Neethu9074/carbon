@@ -43,7 +43,8 @@ const LineChartDemo = React.createClass({
         <LineChart datasources={this.state.datasources}
                    width={this.state.width}
                    height={this.state.height}
-                   yAxisTickFormatter={yAxisTickFormatter} />
+                   yAxisTickFormatter={yAxisTickFormatter}
+                   valueTransformer={d => d * 0.5} />
       </div>
     );
   },

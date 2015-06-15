@@ -15,10 +15,13 @@ export default class LineChart {
       width,
       height,
       datasets,
+      valueTransformer,
       xAxisTickFormatter=defaultXAxisTickFormatter,
       yAxisTickFormatter=defaultYAxisTickFormatter}) {
+
     this.lastUpdate = new Date().getTime();
     this.mountPoint = mountPoint;
+    this.valueTransformer = valueTransformer;
     // copy the incoming data set so that we can mutate it freely
     this.datasets = copyDatasets(datasets);
 
@@ -47,7 +50,7 @@ export default class LineChart {
     this.stack = d3.layout.stack()
       .values(d => d.values)
       .x(d => d[0])
-      .y(d => d[1]);
+      .y(d => this.valueTransformer(d[1]));
 
     this.line = d3.svg.area()
       .x(d => this.x(d[0]))
