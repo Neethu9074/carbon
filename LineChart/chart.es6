@@ -102,7 +102,8 @@ export default class LineChart {
 
   setNewData(newDatasets) {
     if (this.updateRunning) {
-      this.delayedDataUpdate = newDatasets;
+      console.log('Delay update with', JSON.parse(JSON.stringify(newDatasets)));
+      this.delayedDataUpdate = JSON.parse(JSON.stringify(newDatasets));
     } else {
       this.update(newDatasets);
     }
