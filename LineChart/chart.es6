@@ -20,7 +20,7 @@ export default class LineChart {
     this.lastUpdate = new Date().getTime();
     this.mountPoint = mountPoint;
     // copy the incoming data set so that we can mutate it freely
-    this.datasets = JSON.parse(JSON.stringify(datasets));
+    this.datasets = copyDatasets(datasets);
 
     const domains = this.determineDomains();
 
@@ -102,8 +102,12 @@ export default class LineChart {
 
   setNewData(newDatasets) {
     if (this.updateRunning) {
-      console.log('Delay update with', JSON.parse(JSON.stringify(newDatasets)));
-      this.delayedDataUpdate = JSON.parse(JSON.stringify(newDatasets));
+      // we need to copy the incoming data to make sure that delayed
+      // updates does not pick up mutated datasets. This is important as
+      // LineChart is filtering the incoming data. Without copying, we could
+      // end up using inconsistent data and stacking and patch calculation
+      // could fail.
+      this.delayedDataUpdate = copyDatasets(newDatasets);
     } else {
       this.update(newDatasets);
     }
@@ -126,24 +130,20 @@ export default class LineChart {
     const previousDomainEnd = this.x.domain()[1].getTime();
 
     const newValues = datasetsUpdate.map(dataset => {
-      return dataset.values.filter(value => {
+      const values = dataset.values.filter(value => {
         newDomainStart = Math.min(newDomainStart, value[0]);
         newDomainEnd = Math.max(newDomainEnd, value[0]);
 
         return value[0] > previousDomainEnd;
       });
-    });
 
-    // Add all new values to the graph so that the graph extends beyond
-    // the domain. This is necessary so that we can transition the graph's
-    // contents to the left in the next step
-    this.datasets = this.datasets.map((dataset, i) => {
-      dataset.values = dataset.values.concat(newValues[i]);
-      return dataset;
+      return {
+        values
+      };
     });
 
     try {
-      this.stack(this.datasets);
+      this.stack(newValues);
     } catch (e) {
       this.errorFound = true;
       console.error(
@@ -155,6 +155,14 @@ export default class LineChart {
         JSON.parse(JSON.stringify(newValues))
       );
     }
+
+    // Add all new values to the graph so that the graph extends beyond
+    // the domain. This is necessary so that we can transition the graph's
+    // contents to the left in the next step
+    this.datasets = this.datasets.map((dataset, i) => {
+      dataset.values = dataset.values.concat(newValues[i].values);
+      return dataset;
+    });
 
     // update the exsiting data sets and transition the graph to the left
     try {
@@ -296,4 +304,14 @@ export default class LineChart {
     );
   }
 
+}
+
+function copyDatasets(datsets) {
+  return datsets.map(dataset => {
+    return {
+      min: dataset.min,
+      max: dataset.max,
+      values: dataset.values.slice()
+    };
+  });
 }

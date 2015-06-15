@@ -19,7 +19,7 @@ const LineChartDemo = React.createClass({
       width: 700,
       height: 280,
       datasources: [
-        createObservable({min: 0, max: 1, numberOfValues: 30, frequency: 400}),
+        createObservable({min: 0, max: 1, numberOfValues: 30}),
         createObservable({
           min: 0.2,
           max: 0.3,
@@ -62,7 +62,7 @@ const LineChartDemo = React.createClass({
 
 export default LineChartDemo;
 
-function createObservable({min, max, numberOfValues, frequency=1000}) {
+function createObservable({min, max, numberOfValues}) {
   let interval;
 
   const numberGenerator = createDeviatingGenerator(
@@ -94,7 +94,7 @@ function createObservable({min, max, numberOfValues, frequency=1000}) {
           data.length
         );
         observable.emit(data);
-      }, frequency);
+      }, 500);
     },
 
     stop() {
