@@ -96,6 +96,8 @@ export default class BaseNode extends SceneObject {
 
   setHeight() {throw new Error('NOT IMPLEMENTED'); }
 
+  collectConnections() {throw new Error('NOT IMPLEMENTED'); }
+
   updateStickyNotes() {
     this.stickyNote.update();
   }
@@ -145,7 +147,7 @@ export default class BaseNode extends SceneObject {
 
   setupConnections() {
     //get all connections of this node
-    const connectedSnapshots = this.getCurrentConnections().get(this.snapshot);
+    const connectedSnapshots = this.collectConnections();
     if(!connectedSnapshots) {
       //TODO: unknown hosts must have a connection to known ones
       return;
