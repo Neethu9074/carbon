@@ -87,8 +87,8 @@ exports.consts = {
     },
     map: {
       colors: {
-        renderClearGradient1: colors.darkGrey,
-        renderClearGradient2: colors.grey,
+        renderClearGradient1: '#2B3F46',
+        renderClearGradient2: '#3D515C',
         warning: colors.warning,
         critical: colors.critical,
         'default': colors.default,
