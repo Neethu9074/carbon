@@ -37,7 +37,7 @@ export default class Scene {
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    this.isSelectedSceneObject = undefined;
+    this.selectedSceneObject = undefined;
 
     this.setupOctree();
     this.setup3D();
@@ -284,7 +284,7 @@ export default class Scene {
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
     //if there is no cube isSelected, fade all cubes by distance
-    if(!this.isSelectedSceneObject) {
+    if(!this.selectedSceneObject) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
 
       //update node color opacity by distance
@@ -430,23 +430,29 @@ export default class Scene {
 
       //only send known nodes to external listener like sidebar
       if(!clickedSceneObject.isUnknown) {
-        const snapshotId = extractId(clickedSceneObject.snapshot);
-        this.onClick({snapshot: snapshotId});
+        this.onClick({snapshot: extractId(clickedSceneObject.snapshot)});
       }
     }
   }
 
   selectObject(obj) {
     //if there is an isSelected object, unselect it
-    if(this.isSelectedSceneObject) {
-      this.isSelectedSceneObject.unSelect();
+    if(this.selectedSceneObject) {
+      this.selectedSceneObject.unSelect();
+    }
+
+    //clicked on a selected object again -> unselect
+    if(this.selectedSceneObject === obj) {
+      this.selectedSceneObject = undefined;
+      this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+      return;
     }
 
     this.singleMeshFactory.material.opacity = 0.25;
     this.singleMeshFactory.material.transparent = true;
 
     //save the new object and select it
-    this.isSelectedSceneObject = obj;
+    this.selectedSceneObject = obj;
     obj.select();
   }
 
