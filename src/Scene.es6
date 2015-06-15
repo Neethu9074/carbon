@@ -16,7 +16,7 @@ import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import LineFactory from './factories/LineFactory';
 import MouseCameraController from './controls/mouseCameraController';
-
+import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 
 import _ from 'lodash';
@@ -30,9 +30,8 @@ const getZoomClass = (level) => 'in-map--zoom-' + level;
 export const scene = {};
 export default class Scene {
 
-  constructor({parent, onClick}) {
+  constructor({parent}) {
     this.bindMethods();
-    this.onClick = onClick;
 
     this.parent = parent;
     this.width = window.innerWidth;
@@ -430,7 +429,7 @@ export default class Scene {
 
       //only send known nodes to external listener like sidebar
       if(!clickedSceneObject.isUnknown) {
-        this.onClick({snapshot: extractId(clickedSceneObject.snapshot)});
+        snapshotStore.select(clickedSceneObject.snapshot);
       }
     }
   }
