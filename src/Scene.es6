@@ -37,7 +37,7 @@ export default class Scene {
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    this.selectedSceneObject = undefined;
+    this.isSelectedSceneObject = undefined;
 
     this.setupOctree();
     this.setup3D();
@@ -283,8 +283,8 @@ export default class Scene {
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
-    //if there is no cube selected, fade all cubes by distance
-    if(!this.selectedSceneObject) {
+    //if there is no cube isSelected, fade all cubes by distance
+    if(!this.isSelectedSceneObject) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
 
       //update node color opacity by distance
@@ -437,16 +437,16 @@ export default class Scene {
   }
 
   selectObject(obj) {
-    //if there is an selected object, unselect it
-    if(this.selectedSceneObject) {
-      this.selectedSceneObject.unSelect();
+    //if there is an isSelected object, unselect it
+    if(this.isSelectedSceneObject) {
+      this.isSelectedSceneObject.unSelect();
     }
 
     this.singleMeshFactory.material.opacity = 0.25;
     this.singleMeshFactory.material.transparent = true;
 
     //save the new object and select it
-    this.selectedSceneObject = obj;
+    this.isSelectedSceneObject = obj;
     obj.select();
   }
 

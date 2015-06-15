@@ -41,9 +41,14 @@ export default class Connection extends SceneObject {
 
     connections.push(this);
 
-    if(this.from.selected || this.to.selected) {
+    this.setupHighlights();
+  }
+
+  setupHighlights() {
+    if(this.from.isSelected || this.to.isSelected) {
       this.to.setupImplicitHighlight();
       this.from.setupImplicitHighlight();
+      this.render();
     }
   }
 
@@ -153,8 +158,8 @@ export default class Connection extends SceneObject {
       this.from.setupImplicitHighlight();
 
     //hide the connection will end up in removing the fragment from factory
-    //don't hide conenctions that are part of a selected host
-    } else if(!this.from.selected && !this.to.selected) {
+    //don't hide conenctions that are part of a isSelected host
+    } else if(!this.from.isSelected && !this.to.isSelected) {
       app.scene.scene.lineFactory.removeFragment(this.id);
       this.to.clearImplicitHighlight();
       this.from.clearImplicitHighlight();

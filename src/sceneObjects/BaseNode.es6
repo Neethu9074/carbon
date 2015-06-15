@@ -9,6 +9,7 @@ import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getColor} from 'instana-ui-sdk/zones';
 import {hexToRGBNormalized} from 'instana-ui-services/util/colors';
 
+import * as app from '../Scene';
 import Connection from './Connection';
 import SceneObject from './SceneObject';
 
@@ -95,29 +96,29 @@ export default class BaseNode extends SceneObject {
   }
 
   highlight(value) {
-    //if mouseover and not selected
-    if(value && !this.selected) {
+    //if mouseover and not isSelected
+    if(value && !this.isSelected) {
       this.setupExplicitHighLight();
 
-    //if mouseoff and not selected
-    } else if(!value && !this.selected) {
+    //if mouseoff and not isSelected
+    } else if(!value && !this.isSelected) {
       this.clearExplicitHighlight();
     }
   }
 
   select() {
     this.setupExplicitHighLight();
-    this.selected = true;
+    this.isSelected = true;
   }
 
   unSelect() {
-    this.selected = false;
+    this.isSelected = false;
     this.clearExplicitHighlight();
   }
 
-  //the explicit highlight is used for the primary selected or mouseover node
+  //the explicit highlight is used for the primary isSelected or mouseover node
   setupExplicitHighLight() {
-    this.highlighted = true;
+    this.isHighlighted = true;
 
     if(this.stickyNote === emptyStickyObject) {
       this.stickyNote = this.createStickyNote();
@@ -134,12 +135,10 @@ export default class BaseNode extends SceneObject {
   }
 
   clearExplicitHighlight() {
-    this.highlighted = false;
+    this.isHighlighted = false;
 
     //remove the highlight from the factory
     this.scene.highlightSingleMeshFactory.removeFragment(this.id);
-
-    this.disposeStickyNote();
 
     //hide all connections
     this.connections.forEach(c => c.highlight(false));
@@ -148,7 +147,7 @@ export default class BaseNode extends SceneObject {
   }
 
   //the primary highlight is for nodes
-  //which are connected with a primary selected node
+  //which are connected with a primary isSelected node
   setupImplicitHighlight() {
     const pos = this.getPosition();
     const points = [
@@ -174,22 +173,18 @@ export default class BaseNode extends SceneObject {
     }
   }
 
-  hexToArray(color) {
-    color = new THREE.Color(color);
-    return [color.r, color.g, color.b];
-  }
-
   clearImplicitHighlight() {
-    //if this node is connected to a selected node
-    if(_.find(this.connections, c => (c.from.selected || c.to.selected))) {
+    //if this node is connected to a isSelected node
+    if(_.find(this.connections, c => (c.from.isSelected || c.to.isSelected))) {
       return;
     }
 
-    if(!this.selected) {
+    if(!this.isSelected) {
       this.disposeStickyNote();
     }
 
-    this.getScene().lineFactory.removeFragment(this.id);
+    //remove frame on the ground
+    this.scene.lineFactory.removeFragment(this.id);
   }
 
   setPosition(x, y, z) {
@@ -217,8 +212,19 @@ export default class BaseNode extends SceneObject {
 
   refreshFragment() {
     const fragment = this.getNodeAsFragment();
+    const scene = this.scene;
+
     //adding a existing fragment will penetrate an update
-    this.scene.singleMeshFactory.addFragment(fragment);
+    scene.singleMeshFactory.addFragment(fragment);
+
+    //if this fragment is isHighlighted -> update the hightlight geometry
+    if(scene.lineFactory.getFragment(this.id)) {
+      scene.lineFactory.addFragment(fragment);
+    }
+
+    if(scene.highlightSingleMeshFactory.getFragment(this.id)) {
+      scene.highlightSingleMeshFactory.addFragment(fragment);
+    }
   }
 
   getNodeAsFragment() {
@@ -255,7 +261,7 @@ export default class BaseNode extends SceneObject {
 
     /*eslint-disable no-new*/
     const con = new Connection({parent: this, from: this, to: otherNode});
-    con.highlight(this.highlighted);
+    con.highlight(this.isHighlighted);
     /*eslint-enable no-new*/
   }
 
@@ -293,6 +299,7 @@ export default class BaseNode extends SceneObject {
   removeConnection(connection) {
     _.remove(this.connections, con => con.id === connection.id);
 
+    //if this cube has no other connection -> clear highlight
     if(this.connections.length === 0) {
       this.clearImplicitHighlight();
     }
@@ -309,7 +316,10 @@ export default class BaseNode extends SceneObject {
     this.clearExplicitHighlight();
 
     this.removeFromGlobalGeometry();
+
     this.scene.singleMeshFactory.removeFragment(this.id);
+    this.scene.highlightSingleMeshFactory.removeFragment(this.id);
+
     this.removeSceneObject(this.cube);
     this.cube = null;
 
@@ -317,7 +327,7 @@ export default class BaseNode extends SceneObject {
 
     super.dispose();
 
-    this.scene = null;
+    //this.scene = null;
     this.id = null;
   }
 

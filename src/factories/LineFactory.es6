@@ -46,7 +46,7 @@ export default class LineFactory extends AbstractMeshCreationFactory {
       return;
     }
 
-    match.highlighted = highlight;
+    match.isHighlighted = highlight;
     this.rebuildGlobalMesh = true;
   }
 
