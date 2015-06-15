@@ -143,8 +143,8 @@ export default class Connection extends SceneObject {
     this.to.removeConnection(this);
     this.from.removeConnection(this);
 
-    this.to.clearImplicitHighlight();
     this.from.clearImplicitHighlight();
+    this.to.clearImplicitHighlight();
 
     _.remove(connections, con => con.id === this.id);
 

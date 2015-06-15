@@ -55,6 +55,8 @@ export default class BaseNode extends SceneObject {
     this.snapshot = snapshot;
     this.connections = [];
 
+    this.implicitHighlightCounter = 0;
+
     this.stickyNote = emptyStickyObject;
     this.render();
 
@@ -153,7 +155,6 @@ export default class BaseNode extends SceneObject {
     if(!this.isHighlighted) {
       return;
     }
-    this.isHighlighted = false;
 
     //remove the highlight from the factory
     this.scene.highlightSingleMeshFactory.removeFragment(this.id);
@@ -163,11 +164,14 @@ export default class BaseNode extends SceneObject {
     this.disposeStickyNote();
 
     this.renderScene();
+
+    this.isHighlighted = false;
   }
 
   //the primary highlight is for nodes
   //which are connected with a primary isSelected node
   setupImplicitHighlight() {
+    this.implicitHighlightCounter++;
     const pos = this.getPosition();
     const points = [
       {x: pos.x + 0.01, y: 0, z: pos.z - 0.01},
@@ -189,11 +193,12 @@ export default class BaseNode extends SceneObject {
     if(this.stickyNote === emptyStickyObject) {
       this.stickyNote = this.createStickyNote();
     }
-    this.implicitHighlighted = true;
   }
 
   clearImplicitHighlight() {
-    if(!this.implicitHighlighted) {
+    this.implicitHighlightCounter--;
+
+    if(this.implicitHighlightCounter > 0) {
       return;
     }
 
@@ -203,7 +208,7 @@ export default class BaseNode extends SceneObject {
 
     //remove frame on the ground
     this.scene.lineFactory.removeFragment(this.id);
-    this.implicitHighlighted = false;
+    this.implicitHighlightCounter = 0;
   }
 
   setPosition(x, y, z) {
@@ -315,11 +320,6 @@ export default class BaseNode extends SceneObject {
   //is called from Connection class on disposing
   removeConnection(connection) {
     _.remove(this.connections, con => con.id === connection.id);
-
-    //if this cube has no other connection -> clear highlight
-    // if(this.connections.length === 0) {
-    //   this.clearImplicitHighlight();
-    // }
   }
 
   disposeStickyNote() {
