@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConnectionGrid from '../connectionGrid';
+import eventBus from 'instana-ui-services/eventbus';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getAllNodes, getAllGroups} from '../mapStructureUtils';
 import {
@@ -100,6 +101,7 @@ export default class PhysicalMap extends SceneObject {
     }
 
     this.applyLayout();
+    eventBus.emit('layoutChanged');
     //this.showWalkableGrid(); //uncomment this to see the walking grid
     this.parent.renderScene();
   }

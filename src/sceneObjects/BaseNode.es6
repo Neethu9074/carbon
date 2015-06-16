@@ -85,6 +85,10 @@ export default class BaseNode extends SceneObject {
         this.update(data);
       }
     }));
+
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
+      this.refreshHighlighting();
+    }));
   }
 
   createStickyNote() {throw new Error('NOT IMPLEMENTED'); }
@@ -246,11 +250,18 @@ export default class BaseNode extends SceneObject {
 
     this.refreshMesh();
     this.refreshFragment();
+  }
 
+  refreshHighlighting() {
+    //reselect if the host is selected so that all geometry and
+    //connections are refreshed
     if(this.isSelected) {
       this.unSelect();
       this.select();
     }
+
+    //this is for unselected nodes which have incoming connections from
+    //selected ones. if this position changes -> update the connection too
     this.incomingConnections.forEach(c => c.refresh());
   }
 
