@@ -33,7 +33,7 @@ export default class Node extends BaseNode {
     this.health = health.ok;
     this.layer = [];
 
-    //this.createLabel();
+    this.createLabel();
   }
 
   registerEvents() {
@@ -239,7 +239,7 @@ export default class Node extends BaseNode {
     }
 
     super.setPosition(x, y, z);
-    //this.deckel.position.set(x - 0.5, y, z + 0.5);
+    this.deckel.position.set(x - 0.5, y, z + 0.5);
     this.layer.forEach(p => p.setPosition(x, p.getPosition().y, z));
   }
 
@@ -249,7 +249,7 @@ export default class Node extends BaseNode {
     }
 
     this.cube.scale.y = height;
-    //this.deckel.position.y = height + 0.01;
+    this.deckel.position.y = height + 0.01;
 
     this.refreshMesh();
     this.arrangeChildren();
