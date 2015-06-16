@@ -1,19 +1,16 @@
 'use strict';
 
 import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
+import {IntlMixin, FormattedMessage} from 'react-intl';
 import {RouteHandler, Navigation} from 'react-router';
 
 import Map from 'instana-ui-map';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
-import * as sidebarStore from 'instana-ui-services/stores/sidebar';
 
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
-import Header from './Header';
-import Footer from './Footer';
 
 import './App.less';
 
@@ -27,8 +24,7 @@ const App = React.createClass({
 
   getInitialState() {
     return {
-      selectedSnapshot: null,
-      sidebarVisible: false
+      selectedSnapshot: null
     };
   },
 
@@ -40,52 +36,39 @@ const App = React.createClass({
         });
       })
     );
-
-    this.addSubscription(
-      sidebarStore.visibility.subscribe(sidebarVisible => {
-        this.setState({
-          sidebarVisible
-        });
-      })
-    );
   },
 
   render() {
     const hasChildren = this.props.state.routes.length > 1;
     return (
       <div>
-        <Header selectedSnapshot={this.state.selectedSnapshot}
-                sidebarVisible={this.state.sidebarVisible} />
-
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map onClick={this.openDashboard} />
 
-          {this.state.sidebarVisible ?
-            <Sidebar />
-          : null}
+          <Sidebar />
         </div>
 
-        <RouteHandler/>
+        {this.state.selectedSnapshot ?
+          <button type='button'
+                  className='in-switch-to-dashboard'
+                  onClick={this.openDashboard}>
+            {this.getIntlMessage('main.switchToDashboard')}
+          </button>
+        : null}
 
-        <Footer />
+        <RouteHandler/>
         <ConnectionStatus />
       </div>
     );
   },
 
-  setSidebarVisibility(visible) {
-    this.setState({
-      sidebarVisible: visible
-    });
-  },
-
-  openDashboard(event) {
+  openDashboard() {
     this.transitionTo(
       'detail-pane',
       {
-        pluginId: event.snapshot.get('pluginId'),
-        steadyId: event.snapshot.get('steadyId'),
-        hostId: event.snapshot.get('hostId')
+        pluginId: this.state.selectedSnapshot.get('pluginId'),
+        steadyId: this.state.selectedSnapshot.get('steadyId'),
+        hostId: this.state.selectedSnapshot.get('hostId')
       }
     );
   }

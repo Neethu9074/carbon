@@ -5,6 +5,9 @@
 export default {
   locales: ['en-US'],
   messages: {
+    main: {
+      switchToDashboard: 'Switch to dashboard'
+    },
     map: {
       sidebar: {
         serverListing: {

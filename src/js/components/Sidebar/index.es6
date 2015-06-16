@@ -1,9 +1,10 @@
 'use strict';
 
 import React from 'react';
-import {Tabs, Tab} from 'instana-ui-components/Tabs';
-import ServerListing from './ServerListing';
 import eventBus from 'instana-ui-services/eventbus';
+
+import ServerListing from './ServerListing';
+import FloatingFrame from './FloatingFrame';
 
 import './index.less';
 
@@ -11,35 +12,25 @@ const Sidebar = React.createClass({
 
   render() {
     return (
-      <Tabs blockIdentifier="in-sidebar">
-
-        <Tab title="Overview">
+      <div className='in-sidebar'>
+        <FloatingFrame icon='menue' title='Details'>
           <ServerListing />
-        </Tab>
+        </FloatingFrame>
 
-        <Tab title="CPU">
+        <FloatingFrame icon='stats' title='Metrics'>
           <button onClick={this.showCpuUsage}>
             Show CPU usage
           </button>
-        </Tab>
-
-        <Tab title="CPU Load">
+          <br />
           <button onClick={this.showCpuLoad}>
             Show CPU load
           </button>
-        </Tab>
-
-        <Tab title="Memory">
+          <br />
           <button onClick={this.showMemoryUsage}>
             Show Memory usage
           </button>
-        </Tab>
-
-        <Tab title="Tags">
-          Tags?
-        </Tab>
-
-      </Tabs>
+        </FloatingFrame>
+      </div>
     );
   },
 
@@ -66,6 +57,7 @@ const Sidebar = React.createClass({
       metrics: ['memory.free']
     });
   }
+
 });
 
 export default Sidebar;

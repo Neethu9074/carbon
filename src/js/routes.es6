@@ -13,7 +13,7 @@ import App from './components/App';
 import DetailPane from './components/DetailPane';
 
 export default (
-  <Route name='root' path='/' handler={App}>
+  <Route name='map' path='/' handler={App}>
     <Route handler={DetailPane}
            path='detail-pane/:pluginId/:hostId/:steadyId'
            name='detail-pane'/>

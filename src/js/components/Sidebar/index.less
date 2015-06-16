@@ -1,58 +1,15 @@
 @import "~instana-ui-themes/less/constants.less";
 
 .in-sidebar {
-  @in-sidebar-content-width: 350px;
-  @in-sidebar-tabs-width: 150px;
-
   position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 500px;
+  top: 40px;
+  bottom: 40px;
+  right: 40px;
+  overflow: hidden;
 
-  width: @in-sidebar-content-width + @in-sidebar-tabs-width;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
   z-index: @z-index__sidebar;
-
-  &__tabs {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: @in-sidebar-tabs-width;
-
-    padding: 100px 24px 80px;
-    margin: 0;
-    box-sizing: border-box;
-
-    list-style: none;
-    background: hsla(0, 0%, 7%, 0.8);
-  }
-
-  &__tab {
-    color: #aaa;
-    font-size: 15px;
-    cursor: pointer;
-    line-height: 1.8;
-
-    &--active {
-      color: #fff;
-    }
-  }
-
-  &__tab-content {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: @in-sidebar-content-width;
-    padding: 100px 20px 80px;
-    box-sizing: border-box;
-
-    background-color: rgba(43, 54, 61, 0.95);
-    border-left: 1px solid #555;
-
-    overflow-x: hidden;
-    overflow-y: auto;
-  }
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {State} from 'react-router';
+import {State, Navigation} from 'react-router';
 import Immutable from 'immutable';
 
 import LineChart from 'instana-ui-components/LineChart';
@@ -17,7 +17,7 @@ import './index.less';
 const block = 'in-detail-pane';
 
 const DetailPane = React.createClass({
-  mixins: [SubscriptionMixin, State],
+  mixins: [SubscriptionMixin, State, Navigation],
 
   statics: {
     willTransitionTo(transition, params) {
@@ -68,6 +68,11 @@ const DetailPane = React.createClass({
   render() {
     return (
       <div className={block}>
+        <button type='button'
+                onClick={this.closeDashboard}
+                className={block + '__close'}>
+          x
+        </button>
         <div className={block + '__content'} ref='content'>
           {this.state.snapshot ?
             <OSDetailPaneContent snapshot={this.state.snapshot}
@@ -82,6 +87,10 @@ const DetailPane = React.createClass({
         </div>
       </div>
     );
+  },
+
+  closeDashboard() {
+    this.transitionTo('map');
   }
 
 });
