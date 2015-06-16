@@ -247,7 +247,10 @@ export default class BaseNode extends SceneObject {
     this.refreshMesh();
     this.refreshFragment();
 
-    this.connections.forEach(c => c.refresh());
+    if(this.isSelected) {
+      this.unSelect();
+      this.select();
+    }
     this.incomingConnections.forEach(c => c.refresh());
   }
 
@@ -267,15 +270,6 @@ export default class BaseNode extends SceneObject {
 
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
-    if(this.isHighlighted) {
-      scene.highlightSingleMeshFactory.addFragment(fragment);
-    }
-
-    if(this.implicitHighlightCounter > 0) {
-      this.implicitHighlightCounter--;
-      this.scene.lineFactory.removeFragment(this.id);
-      this.setupImplicitHighlight();
-    }
   }
 
   getNodeAsFragment() {
