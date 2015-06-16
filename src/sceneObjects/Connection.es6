@@ -144,13 +144,13 @@ export default class Connection extends SceneObject {
   }
 
   dispose() {
-    this.from.removeConnection(this);
-    this.to.removeIncomingConnection(this);
-
     //this connection is done with the implicit highlighting so decrease the
     //counter by calling clearIndirectHighlight
     this.from.highlighting.clearIndirectHighlight();
     this.to.highlighting.clearIndirectHighlight();
+
+    this.from.removeConnection(this);
+    this.to.removeIncomingConnection(this);
 
     try{
       app.scene.scene.lineFactory.removeFragment(this.id);

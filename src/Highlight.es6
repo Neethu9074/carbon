@@ -44,13 +44,4 @@ export default class Highlight {
 
   //disposing the indirect highlighting if the counter is 0
   disposeIndirectHighlight() {throw new Error('NOT IMPLEMENTED'); }
-
-  dispose() {
-    this.clearHighlight();
-    this.disposeIndirectHighlight();
-
-    this.client = null;
-    this.isHighlighted = null;
-    this.IndirectHighlightCounter = null;
-  }
 }

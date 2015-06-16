@@ -283,8 +283,6 @@ export default class BaseNode extends SceneObject {
   dispose() {
     this.clearConnections();
 
-    this.highlighting.dispose();
-
     this.removeFromGlobalGeometry();
 
     this.scene.singleMeshFactory.removeFragment(this.id);
