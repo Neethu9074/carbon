@@ -50,7 +50,7 @@ export const DescriptionList = React.createClass({
     // React avoids using an array of children when there is only one child
     // node. In these cases we are going to have a string
     if (typeof children === 'string') {
-      return children.length > 0;
+      return children.length === 0;
     }
 
     // For any other cases we are currently not able to tell whether it is
