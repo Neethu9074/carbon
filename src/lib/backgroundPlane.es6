@@ -27,10 +27,10 @@ tp[3] = 1; tp[4] = -1; tp[5] = -1;
 tp[6] = 1; tp[7] = 1; tp[8] = -1;
 tp[9] = -1; tp[10] = 1; tp[11] = -1;
 
-tc[3] = color1.r; tc[4] = color1.g; tc[5] = color1.b; //bottom left
+tc[3] = color2.r; tc[4] = color2.g; tc[5] = color2.b; //bottom left
 tc[0] = colorInBetween.r; tc[1] = colorInBetween.g; tc[2] = colorInBetween.b;
 tc[6] = colorInBetween.r; tc[7] = colorInBetween.g; tc[8] = colorInBetween.b;
-tc[9] = color2.r; tc[10] = color2.g; tc[11] = color2.b; //top right
+tc[9] = color1.r; tc[10] = color1.g; tc[11] = color1.b; //top right
 
 const geometry = new THREE.BufferGeometry();
 geometry.addAttribute('index', new THREE.BufferAttribute(ti, 1));
