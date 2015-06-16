@@ -31,7 +31,7 @@ export default class Node extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.health = health.ok;
+    this.health = this.health || health.ok;
     this.layer = [];
 
     this.createLabel();
@@ -326,6 +326,16 @@ export default class Node extends BaseNode {
     } else {
       this.scene.groundSingleMeshFactory.removeFragment(this.id);
     }
+  }
+
+  show() {
+    super.show();
+    this.deckel.material.visible = true;
+  }
+
+  hide() {
+    super.hide();
+    this.deckel.material.visible = false;
   }
 
   removeFromGlobalGeometry() {
