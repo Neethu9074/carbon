@@ -110,4 +110,49 @@ describe('issueTracker', () => {
 
   });
 
+  describe('getIssueSummary', () => {
+    it('should summarize severities across issues', () => {
+      const stub = sinon.stub();
+      issueTracker.getIssueSummary().subscribe(stub);
+      expect(stub.callCount).to.equal(0);
+
+      observable.emit(issuesStubData);
+      expect(stub.callCount).to.equal(1);
+      let summary = stub.getCall(0).args[0];
+      expect(summary.get('ok')).to.equal(0);
+      expect(summary.get('warning')).to.equal(1);
+      expect(summary.get('danger')).to.equal(0);
+
+      observable.emit(issuesStubData.setIn([0, 'id'], 'i2')
+        .setIn([0, 'problems', 0, 'severity'], 10));
+      expect(stub.callCount).to.equal(2);
+      summary = stub.getCall(1).args[0];
+      expect(summary.get('ok')).to.equal(0);
+      expect(summary.get('warning')).to.equal(1);
+      expect(summary.get('danger')).to.equal(1);
+    });
+
+    it('should determine the maximum severity per issues', () => {
+      const stub = sinon.stub();
+      issueTracker.getIssueSummary().subscribe(stub);
+
+      const data = issuesStubData.setIn([0, 'problems', 1], Immutable.fromJS({
+        'pluginId': 'o1',
+        'steadyId': 's1',
+        'hostId': 'h1',
+        'problemText': 'You will run out of main memory just within',
+        'fixSuggestion': 'Analyse running processes for eventual',
+        'explanation': 'Determined through linear regression',
+        'severity': 10
+      }));
+
+      observable.emit(data);
+      expect(stub.callCount).to.equal(1);
+      let summary = stub.getCall(0).args[0];
+      expect(summary.get('ok')).to.equal(0);
+      expect(summary.get('warning')).to.equal(0);
+      expect(summary.get('danger')).to.equal(1);
+
+    });
+  });
 });
