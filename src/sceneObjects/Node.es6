@@ -53,8 +53,6 @@ export default class Node extends BaseNode {
     });
     const mesh = new THREE.Mesh(geometry, material);
     mesh.rotation.x = -Math.PI / 2;
-    //mesh.rotation.z = -40 * Math.PI / 180;
-    mesh.position.y = 2;
     mesh.renderOrder = 10;
     this.deckel = mesh;
 
@@ -346,6 +344,10 @@ export default class Node extends BaseNode {
     this.snapshotServer.dispose();
     this.clearLayer();
     this.scene.groundSingleMeshFactory.removeFragment(this.id);
+
+    this.scene.removeSceneObject(this.deckel);
+    this.deckel.geometry.dispose();
+    this.deckel.material.dispose();
 
     super.dispose();
 
