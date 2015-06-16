@@ -23,6 +23,7 @@ import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleCo
 /*eslint-enable max-len*/
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
+const deckelGeometry = new THREE.PlaneBufferGeometry(0.75, 0.75, 1, 1);
 
 
 export default class Node extends BaseNode {
@@ -43,7 +44,7 @@ export default class Node extends BaseNode {
   }
 
   createLabel() {
-    const geometry = new THREE.PlaneBufferGeometry(0.75, 0.75, 1, 1);
+
     const material = new THREE.MeshBasicMaterial({
       map: THREE.ImageUtils.loadTexture(deckelTexturePath, THREE.UVMapping),
       transparent: true,
@@ -51,7 +52,7 @@ export default class Node extends BaseNode {
       side: THREE.DoubleSide,
       blending: THREE.NormalBlending
     });
-    const mesh = new THREE.Mesh(geometry, material);
+    const mesh = new THREE.Mesh(deckelGeometry, material);
     mesh.rotation.x = -Math.PI / 2;
     mesh.renderOrder = 10;
     this.deckel = mesh;
@@ -346,7 +347,6 @@ export default class Node extends BaseNode {
     this.scene.groundSingleMeshFactory.removeFragment(this.id);
 
     this.scene.removeSceneObject(this.deckel);
-    this.deckel.geometry.dispose();
     this.deckel.material.dispose();
 
     super.dispose();
