@@ -320,11 +320,6 @@ export default class BaseNode extends SceneObject {
     /*eslint-enable no-new*/
   }
 
-  //is called from Connection class when creating a new connection
-  addConnection(connection) {
-    this.connections.push(connection);
-  }
-
   show() {
     super.show();
     this.enableFragments(true);
@@ -350,9 +345,23 @@ export default class BaseNode extends SceneObject {
     this.connections = [];
   }
 
+  //is called from Connection class when creating a new connection
+  addConnection(connection) {
+    this.connections.push(connection);
+  }
+
+  addIncomingConnection(connection) {
+    this.incomingConnections.push(connection);
+  }
+
   //is called from Connection class on disposing
   removeConnection(connection) {
     _.remove(this.connections, con => con.id === connection.id);
+  }
+
+  //is called from Connection class on disposing
+  removeIncomingConnection(connection) {
+    _.remove(this.incomingConnections, con => con.id === connection.id);
   }
 
   disposeStickyNote() {
