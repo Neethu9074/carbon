@@ -18,7 +18,9 @@ const ServerDetails = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
-    const ec2 = data.getIn([constants.rels.describes, constants.plugins.ec2]);
+    const ec2s = data.getIn([constants.rels.describes, constants.plugins.ec2],
+                            Immutable.Map());
+    const ec2 = ec2s.valueSeq().first();
 
     return (
       <div>
@@ -76,6 +78,14 @@ const ServerDetails = React.createClass({
 
               <DescriptionItem title='Availability Zone'>
                 {ec2.get('availability-zone')}
+              </DescriptionItem>
+
+              <DescriptionItem title='Security Group'>
+                {ec2.get('security-groups')}
+              </DescriptionItem>
+
+              <DescriptionItem title='VPC'>
+                {ec2.get('vpc-ids')}
               </DescriptionItem>
             </DescriptionList>
           </Panel>
