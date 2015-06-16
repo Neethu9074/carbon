@@ -87,8 +87,8 @@ exports.consts = {
     },
     map: {
       colors: {
-        renderClearGradient1: '#2B3F46',
-        renderClearGradient2: '#3D515C',
+        renderClearGradient1: '#435964', //left bottom
+        renderClearGradient2: '#2B3F46', //top right
         warning: colors.warning,
         critical: colors.critical,
         'default': colors.default,
