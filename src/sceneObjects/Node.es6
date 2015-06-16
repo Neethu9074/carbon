@@ -236,7 +236,8 @@ export default class Node extends BaseNode {
     }
 
     super.setPosition(x, y, z);
-    this.deckel.position.set(x - 0.5, y, z + 0.5);
+
+    this.deckel.position.set(x - 0.5, this.deckel.position.y, z + 0.5);
     this.layer.forEach(p => p.setPosition(x, p.getPosition().y, z));
   }
 
