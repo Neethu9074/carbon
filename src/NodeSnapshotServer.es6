@@ -5,9 +5,11 @@ import eventBus from 'instana-ui-services/eventbus';
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
 import {getHealth} from 'instana-ui-services/health';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {combineLatest} from 'reactive-observables';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
+import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
 let currentMetric;
 
@@ -29,6 +31,12 @@ export default class NodeSnapshotServer {
 
     this.subscriptions.push(eventBus.on('upateMetricHeights').subscribe(() =>
       client.updateMetricHeight()));
+
+    this.subscriptions.push(snapshotStore.selectedSnapshot.subscribe((s) =>{
+      if(s && isIdEqual(s, client.snapshot)) {
+        client.select();
+      }
+    }));
 
     this.subscriptions.push(getHealth(client.snapshot).subscribe(health =>
       client.setHealth(health)));

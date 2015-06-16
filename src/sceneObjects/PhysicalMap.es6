@@ -42,7 +42,7 @@ export default class PhysicalMap extends SceneObject {
     const mat = new THREE.MeshBasicMaterial({
       map: this.getGroundTexture(),
       transparent: true,
-      opacity: 0.5,
+      opacity: 0.25,
       depthWrite: false
     });
 
