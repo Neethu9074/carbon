@@ -4,9 +4,11 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import d3 from 'd3';
 
+import LineChart from 'instana-ui-components/LineChart';
 import {formatBytes} from 'instana-ui-services/converters';
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
+import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
 
 import StackedAreaChart from '../sdk/charts/StackedAreaChart';
 import Separator from '../sdk/Separator';
@@ -19,6 +21,10 @@ const metricValueFormatter = d => commasFormatter(d * 100);
 
 const OSDetailPaneContent = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
+
+  getInitialState() {
+    return {filesystemDatasources: null};
+  },
 
   render() {
     const filesystems = this.props.snapshot.getIn(['data', 'filesystems']);
@@ -70,6 +76,15 @@ const OSDetailPaneContent = React.createClass({
         <ContentHeading>
           {this.getIntlMessage('forge.os.filesystems')}
         </ContentHeading>
+
+        {this.state.filesystemDatasources ?
+          <LineChart datasources={this.state.filesystemDatasources}
+                     width={this.props.width}
+                     height={250}
+                     yAxisTickFormatter={d => formatBytes(d * 1024)}
+                     type='line' />
+        : null}
+
         <table className='in-subtle-table'>
           <thead>
             <tr>
@@ -84,7 +99,7 @@ const OSDetailPaneContent = React.createClass({
 
           <tbody>
             {filesystems.map((data, name) =>
-              <tr key={name}>
+              <tr key={name} onClick={() => this.selectFilesystem(name)}>
                 <td>{name}</td>
                 <td>{data.get('mount')}</td>
                 <td>{data.get('options')}</td>
@@ -97,6 +112,23 @@ const OSDetailPaneContent = React.createClass({
         </table>
       </div>
     );
+  },
+
+  selectFilesystem(fs) {
+    this.setState({
+      filesystemDatasources: [
+        this.createFsMetricWithHistoryStream(fs)
+      ]
+    });
+  },
+
+  createFsMetricWithHistoryStream(fs) {
+    const metric = 'fs.' + fs + '.free.5000.mean';
+    return create(MetricWithHistoryConveyer, {
+      snapshot: this.props.snapshot,
+      timeframe: 1000 * 60 * 5,
+      metric
+    });
   },
 
   createFsMetricValueStream(fs) {
