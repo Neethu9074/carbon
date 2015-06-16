@@ -33,14 +33,6 @@ const ServerDetails = React.createClass({
 
         <Panel title='System'>
           <DescriptionList>
-            <DescriptionItem title='Host ID'>
-              {this.props.snapshot.get('hostId')}
-            </DescriptionItem>
-
-            <DescriptionItem title='Steady ID'>
-              {this.props.snapshot.get('steadyId')}
-            </DescriptionItem>
-
             <DescriptionItem title='OS'>
               {data.get('os.name')}{' '}
               {data.get('os.arch')}{' '}
