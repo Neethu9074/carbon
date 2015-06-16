@@ -11,6 +11,8 @@ import {hexToRGBNormalized} from 'instana-ui-services/converters';
 import Connection from './Connection';
 import SceneObject from './SceneObject';
 
+import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+
 /*eslint-disable max-len*/
 import CCP from '../SingleMeshFactory/ContentProvider/CubeContentProvider';
 import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -50,6 +52,7 @@ export default class BaseNode extends SceneObject {
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
     this.connections = [];
+    this.incomingConnections = [];
 
     this.implicitHighlightCounter = 0;
 
@@ -142,6 +145,8 @@ export default class BaseNode extends SceneObject {
   }
 
   setupConnections() {
+    this.clearConnections();
+
     //get all connections of this node
     const connectedSnapshots = this.collectConnections();
     if(!connectedSnapshots) {
@@ -242,6 +247,9 @@ export default class BaseNode extends SceneObject {
 
     this.refreshMesh();
     this.refreshFragment();
+
+    this.connections.forEach(c => c.refresh());
+    this.incomingConnections.forEach(c => c.refresh());
   }
 
   refreshMesh() {
@@ -334,12 +342,7 @@ export default class BaseNode extends SceneObject {
   removeFromGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
   clearConnections() {
-    this.connections.slice().forEach(c => {
-      //only dispose those which are not part of a highlighted network
-
-        c.dispose();
-
-    });
+    this.connections.slice().forEach(c => c.dispose());
     this.connections = [];
   }
 
@@ -355,13 +358,18 @@ export default class BaseNode extends SceneObject {
 
   dispose() {
     this.clearConnections();
-
     this.clearHighlight();
 
     this.removeFromGlobalGeometry();
 
     this.scene.singleMeshFactory.removeFragment(this.id);
     this.scene.highlightSingleMeshFactory.removeFragment(this.id);
+    this.scene.lineFactory.removeFragment(this.id);
+
+    //clear the selected element if it is disposed
+    if(this.isSelected) {
+      snapshotStore.clear();
+    }
 
     this.removeSceneObject(this.cube);
     this.cube = null;
@@ -370,7 +378,6 @@ export default class BaseNode extends SceneObject {
 
     super.dispose();
 
-    //this.scene = null;
     this.id = null;
   }
 

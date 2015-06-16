@@ -51,6 +51,9 @@ class ConnectionGrid {
       //compress path to reduce lines:
       //[[0, 1], [0, 2], [0, 3], [0, 4]] => [[0, 1], [0, 4]]
       path = PF.Util.compressPath(path);
+      if(path.length < 2) {
+        path = undefined;
+      }
       return path;
 
     } catch(err) {

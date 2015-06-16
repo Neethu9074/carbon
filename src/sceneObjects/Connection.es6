@@ -35,6 +35,7 @@ export default class Connection extends SceneObject {
     this.calculatePath();
 
     from.addConnection(this);
+    to.incomingConnections.push(this);
 
     connections.push(this);
 
@@ -48,7 +49,8 @@ export default class Connection extends SceneObject {
 
     const points = this.calculateVertices(-0.01);
     const factory = this.getScene().lineFactory;
-    //factory.addFragment({id: this.id, points, color: defaultColor});
+    factory.removeFragment(this.id);
+    factory.addFragment({id: this.id, points, color: defaultColor});
 
     this.to.setupImplicitHighlight();
     this.from.setupImplicitHighlight();
@@ -138,9 +140,18 @@ export default class Connection extends SceneObject {
     this.bidirectional = true;
   }
 
+  refresh() {
+    //render will call setup, so clear it before
+    this.from.clearImplicitHighlight();
+    this.to.clearImplicitHighlight();
+
+    this.calculatePath();
+    this.render();
+  }
+
   dispose() {
-    this.to.removeConnection(this);
     this.from.removeConnection(this);
+    _.remove(this.to.incomingConnections, c => c === this);
 
     this.from.clearImplicitHighlight();
     this.to.clearImplicitHighlight();
