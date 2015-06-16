@@ -14,11 +14,20 @@ const Mtd = React.createClass({
   },
 
   componentDidMount() {
-    const stream = this.props.createMetricValueStream();
-    // TODO Ben handle update?
+    this.establishSubscription(this.props);
+  },
+
+  establishSubscription(props) {
+    const stream = props.createMetricValueStream();
     this.addSubscription(
       stream.subscribe(metricValue => this.setState({metricValue}))
     );
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({metricValue: null});
+    this.disposeSubscriptions();
+    this.establishSubscription(nextProps);
   },
 
   render() {
