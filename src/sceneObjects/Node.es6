@@ -13,7 +13,7 @@ import NodeSnapshotServer from '../NodeSnapshotServer';
 import StickyNoteNode from './StickyNote/Node';
 import StickyNoteLayer from './StickyNote/Layer';
 import StickyNoteMetric from './StickyNote/Metric';
-import deckelTexturePath from './java-logo.png';
+import deckelTexturePath from './linux-logo.png';
 
 /*eslint-disable max-len*/
 import PCP from '../SingleMeshFactory/ContentProvider/PlaneContentProvider';
