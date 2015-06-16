@@ -263,6 +263,12 @@ export default class BaseNode extends SceneObject {
     if(this.isHighlighted) {
       scene.highlightSingleMeshFactory.addFragment(fragment);
     }
+
+    if(this.implicitHighlightCounter > 0) {
+      this.implicitHighlightCounter--;
+      this.scene.lineFactory.removeFragment(this.id);
+      this.setupImplicitHighlight();
+    }
   }
 
   getNodeAsFragment() {

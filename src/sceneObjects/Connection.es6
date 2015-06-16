@@ -48,7 +48,7 @@ export default class Connection extends SceneObject {
 
     const points = this.calculateVertices(-0.01);
     const factory = this.getScene().lineFactory;
-    factory.addFragment({id: this.id, points, color: defaultColor});
+    //factory.addFragment({id: this.id, points, color: defaultColor});
 
     this.to.setupImplicitHighlight();
     this.from.setupImplicitHighlight();
