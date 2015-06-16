@@ -8,6 +8,11 @@ export default {
     main: {
       switchToDashboard: 'Switch to dashboard'
     },
+    forge: {
+      os: {
+        filesystems: 'Filesystems'
+      }
+    },
     map: {
       sidebar: {
         serverListing: {

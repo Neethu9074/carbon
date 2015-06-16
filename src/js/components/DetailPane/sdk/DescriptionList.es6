@@ -43,27 +43,19 @@ export const DescriptionList = React.createClass({
 
   isItemEmpty(descriptionItemProps) {
     const children = descriptionItemProps.children;
-    if (!children) {
-      return true;
-    }
-
-    if (!children.length) {
+    if (children === null || children === undefined) {
       return true;
     }
 
     // React avoids using an array of children when there is only one child
     // node. In these cases we are going to have a string
     if (typeof children === 'string') {
-      return false;
+      return children.length > 0;
     }
 
-    for (let i = 0; i < children.length; i++) {
-      if (children[i]) {
-        return false;
-      }
-    }
-
-    return true;
+    // For any other cases we are currently not able to tell whether it is
+    // empty, e.g. for child components.
+    return false;
   }
 });
 

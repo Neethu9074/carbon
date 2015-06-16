@@ -8,6 +8,7 @@ import {create} from 'instana-ui-services/conveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {theme} from 'instana-ui-services/theme';
+import ContentHeading from '../ContentHeading';
 
 import './StackedAreaChart.less';
 
@@ -70,9 +71,9 @@ const StackedAreaChart = React.createClass({
     return (
       <div className={block}>
         <div className={block + '-heading'}>
-          <h1 className={block + '-title'}>
+          <ContentHeading>
             {this.props.title}
-          </h1>
+          </ContentHeading>
 
           <dl>
             {this.props.metrics.map((metric, i) =>
