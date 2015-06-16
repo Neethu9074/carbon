@@ -41,8 +41,8 @@ export default class Connection extends SceneObject {
     factory.removeFragment(this.id);
     factory.addFragment({id: this.id, points, color: defaultColor});
 
-    this.to.setupImplicitHighlight();
-    this.from.setupImplicitHighlight();
+    this.to.highlighting.setIndirectHighlight();
+    this.from.highlighting.setIndirectHighlight();
 
     //hide this if the parent is hidden
     if(this.parent.hidden) {
@@ -135,9 +135,9 @@ export default class Connection extends SceneObject {
   }
 
   refresh() {
-    //render will call setupImplicitHighlight, so clear it before
-    this.from.clearImplicitHighlight();
-    this.to.clearImplicitHighlight();
+    //render will call setIndirectHighlight, so clear it before
+    this.from.highlighting.clearIndirectHighlight();
+    this.to.highlighting.clearIndirectHighlight();
 
     this.calculatePath();
     this.render();
@@ -148,9 +148,9 @@ export default class Connection extends SceneObject {
     this.to.removeIncomingConnection(this);
 
     //this connection is done with the implicit highlighting so decrease the
-    //counter by calling clearImplicitHighlight
-    this.from.clearImplicitHighlight();
-    this.to.clearImplicitHighlight();
+    //counter by calling clearIndirectHighlight
+    this.from.highlighting.clearIndirectHighlight();
+    this.to.highlighting.clearIndirectHighlight();
 
     try{
       app.scene.scene.lineFactory.removeFragment(this.id);

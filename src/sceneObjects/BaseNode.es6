@@ -6,10 +6,10 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
-import {hexToRGBNormalized} from 'instana-ui-services/converters';
 
 import Connection from './Connection';
 import SceneObject from './SceneObject';
+import Highlight from '../BaseNodeHighlight';
 
 import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
@@ -29,11 +29,11 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
 }
 //global cube material to reduce object creation
 const cubeMaterial = new THREE.MeshBasicMaterial();
-const highlightColor = hexToRGBNormalized(theme.map.colors.connection);
 
 //if unavailable, the StickyNote-Metric / Layer will not be undefined but this
 //to avoid all these if(available) {do something} stuff
 const emptyStickyObject = {
+  isEmpty: true,
   hide() {},
   update() {},
   updateWorldPos() {},
@@ -54,7 +54,8 @@ export default class BaseNode extends SceneObject {
     this.connections = [];
     this.incomingConnections = [];
 
-    this.implicitHighlightCounter = 0;
+    //the highlighting object which handles the highlighting stuff
+    this.highlighting = new Highlight({client: this});
 
     this.stickyNote = emptyStickyObject;
     this.render();
@@ -87,7 +88,7 @@ export default class BaseNode extends SceneObject {
     }));
 
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
-      this.refreshHighlighting();
+      this.refreshConnections();
     }));
   }
 
@@ -118,34 +119,16 @@ export default class BaseNode extends SceneObject {
     this.highlight(false);
   }
 
+  //is called via mouseover effect
   highlight(value) {
     if(value) {
-      this.setupHighLight();
+      this.highlighting.setHighlight();
 
     //only disable highlighting if the node was not selected (is needed if
     //the node was selected and mouseoff was fired)
     } else if(!this.isSelected) {
-      this.clearHighlight();
+      this.highlighting.clearHighlight();
     }
-  }
-
-  //the explicit highlight is used for the primary isSelected or mouseover node
-  setupHighLight() {
-    //just create one sticky
-    if(this.stickyNote === emptyStickyObject) {
-      this.stickyNote = this.createStickyNote();
-    }
-
-    //add the fargment to the highlight factory
-    //so that the material is not faded by camera distance
-    this.scene.highlightSingleMeshFactory.addFragment(this.getNodeAsFragment());
-
-    //show all connections of the node
-    this.setupConnections();
-
-    //make the changes visible
-    this.renderScene();
-    this.isHighlighted = true;
   }
 
   setupConnections() {
@@ -167,78 +150,6 @@ export default class BaseNode extends SceneObject {
     });
   }
 
-  clearHighlight() {
-    //don't dispose the highlighting twice
-    if(!this.isHighlighted) {
-      return;
-    }
-
-    //remove the highlight from the factory
-    this.scene.highlightSingleMeshFactory.removeFragment(this.id);
-
-    //dispose all connections tangents this node
-    this.clearConnections();
-
-    //only dispose the sticky note if there is no indirect/implicit highlight
-    if(this.implicitHighlightCounter === 0) {
-      this.disposeStickyNote();
-    }
-
-    //make the changes visible
-    this.renderScene();
-    this.isHighlighted = false;
-  }
-
-  //the primary highlight is for nodes
-  //which are connected with a primary isSelected node
-  setupImplicitHighlight() {
-    //increase the counter of events making this node highlighting
-    this.implicitHighlightCounter++;
-
-    const pos = this.getPosition();
-    const points = [
-      {x: pos.x + 0.01, y: 0, z: pos.z - 0.01},
-      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
-
-      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
-      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
-
-      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
-      {x: pos.x, y: 0, z: pos.z + 1.01},
-
-      {x: pos.x + 0.01, y: 0, z: pos.z + 1.01},
-      {x: pos.x + 0.01, y: 0, z: pos.z - 0.01}
-    ];
-
-    const factory = this.getScene().lineFactory;
-    factory.addFragment({id: this.id, points, color: highlightColor});
-
-    if(this.stickyNote === emptyStickyObject) {
-      this.stickyNote = this.createStickyNote();
-    }
-  }
-
-  clearImplicitHighlight() {
-    //count #object making this node highlight
-    this.implicitHighlightCounter--;
-
-    //other nodes/connections keep that node highlighting
-    if(this.implicitHighlightCounter > 0) {
-      return;
-    }
-
-    //only dispose sticky if this node isn't selected (e.g. mouseover)
-    if(!this.isSelected) {
-      this.disposeStickyNote();
-    }
-
-    //remove frame on the ground
-    this.scene.lineFactory.removeFragment(this.id);
-
-    //avoing negative counting
-    this.implicitHighlightCounter = 0;
-  }
-
   setPosition(x, y, z) {
     const pos = this.getPosition();
     if(pos.x === x && pos.y === y && pos.z === z) {
@@ -252,7 +163,7 @@ export default class BaseNode extends SceneObject {
     this.refreshFragment();
   }
 
-  refreshHighlighting() {
+  refreshConnections() {
     //reselect if the host is selected so that all geometry and
     //connections are refreshed
     if(this.isSelected) {
@@ -371,7 +282,8 @@ export default class BaseNode extends SceneObject {
 
   dispose() {
     this.clearConnections();
-    this.clearHighlight();
+
+    this.highlighting.dispose();
 
     this.removeFromGlobalGeometry();
 
