@@ -11,7 +11,6 @@ import {hexToRGBNormalized} from 'instana-ui-services/converters';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
 const defaultColor = hexToRGBNormalized(theme.map.colors.connection);
-export const connections = [];
 let id = 0;
 
 
@@ -19,14 +18,6 @@ export default class Connection extends SceneObject {
 
   constructor({parent, from, to}) {
     super({parent});
-
-    const match = _.find(connections, con => {
-      return (con.to === from && con.from === to);
-    });
-    if(match) {
-      match.setBidirectional();
-      return match;
-    }
 
     this.id = id++;
     this.from = from;
@@ -36,8 +27,6 @@ export default class Connection extends SceneObject {
 
     from.addConnection(this);
     to.addIncomingConnection(this);
-
-    connections.push(this);
 
     this.render();
   }
@@ -145,12 +134,8 @@ export default class Connection extends SceneObject {
     return dir;
   }
 
-  setBidirectional() {
-    this.bidirectional = true;
-  }
-
   refresh() {
-    //render will call setup, so clear it before
+    //render will call setupImplicitHighlight, so clear it before
     this.from.clearImplicitHighlight();
     this.to.clearImplicitHighlight();
 
@@ -162,10 +147,10 @@ export default class Connection extends SceneObject {
     this.from.removeConnection(this);
     this.to.removeIncomingConnection(this);
 
+    //this connection is done with the implicit highlighting so decrease the
+    //counter by calling clearImplicitHighlight
     this.from.clearImplicitHighlight();
     this.to.clearImplicitHighlight();
-
-    _.remove(connections, con => con.id === this.id);
 
     try{
       app.scene.scene.lineFactory.removeFragment(this.id);
