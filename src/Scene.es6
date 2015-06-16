@@ -451,6 +451,9 @@ export default class Scene {
     this.singleMeshFactory.material.opacity = 0.25;
     this.singleMeshFactory.material.transparent = true;
 
+    this.groundSingleMeshFactory.material.opacity = 0.25;
+    this.groundSingleMeshFactory.material.transparent = true;
+
     //save the new object and select it
     this.selectedSceneObject = obj;
     obj.select();

@@ -260,9 +260,9 @@ export default class BaseNode extends SceneObject {
 
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
-    // if(scene.highlightSingleMeshFactory.getFragment(this.id)) {
-    //   scene.highlightSingleMeshFactory.addFragment(fragment);
-    // }
+    if(this.isHighlighted) {
+      scene.highlightSingleMeshFactory.addFragment(fragment);
+    }
   }
 
   getNodeAsFragment() {
