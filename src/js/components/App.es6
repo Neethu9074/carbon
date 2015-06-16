@@ -5,8 +5,8 @@ import {IntlMixin, FormattedMessage} from 'react-intl';
 import {RouteHandler, Navigation} from 'react-router';
 
 import Map from 'instana-ui-map';
+import Lettering from 'instana-ui-components/Lettering';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
 import ConnectionStatus from './ConnectionStatus';
@@ -42,6 +42,8 @@ const App = React.createClass({
     const hasChildren = this.props.state.routes.length > 1;
     return (
       <div>
+        <Lettering className='in-root-lettering' />
+
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map onClick={this.openDashboard} />
 
