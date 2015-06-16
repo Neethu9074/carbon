@@ -18,8 +18,7 @@ export default class SingleMeshFactory {
 
     this.material = new THREE.MeshBasicMaterial({
       vertexColors: THREE.VertexColors,
-      side: THREE.DoubleSide,
-      blending: THREE.NormalBlending
+      side: THREE.DoubleSide
     });
 
     //a global mesh that stores global geometry

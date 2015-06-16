@@ -44,13 +44,11 @@ export default class Node extends BaseNode {
   }
 
   createLabel() {
-
     const material = new THREE.MeshBasicMaterial({
       map: THREE.ImageUtils.loadTexture(deckelTexturePath, THREE.UVMapping),
       transparent: true,
       depthWrite: false,
-      side: THREE.DoubleSide,
-      blending: THREE.NormalBlending
+      side: THREE.DoubleSide
     });
     const mesh = new THREE.Mesh(deckelGeometry, material);
     mesh.rotation.x = -Math.PI / 2;

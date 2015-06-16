@@ -43,7 +43,6 @@ export default class PhysicalMap extends SceneObject {
       map: this.getGroundTexture(),
       transparent: true,
       opacity: 0.5,
-      blending: THREE.NormalBlending,
       depthWrite: false
     });
 
