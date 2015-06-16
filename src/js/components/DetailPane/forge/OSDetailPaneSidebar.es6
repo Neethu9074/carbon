@@ -81,11 +81,11 @@ const ServerDetails = React.createClass({
               </DescriptionItem>
 
               <DescriptionItem title='Security Group'>
-                {ec2.get('security-groups')}
+                {ec2.get('security-groups', []).join(', ')}
               </DescriptionItem>
 
               <DescriptionItem title='VPC'>
-                {ec2.get('vpc-ids')}
+                {ec2.get('vpc-ids', []).join(', ')}
               </DescriptionItem>
             </DescriptionList>
           </Panel>
