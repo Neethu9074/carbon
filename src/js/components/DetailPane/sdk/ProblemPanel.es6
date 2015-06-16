@@ -53,7 +53,7 @@ const ProblemPanel = React.createClass({
       <Panel title='Problems'>
         <ul className={block + '__problems'}>
           {this.state.problems.map(problem =>
-            <li key={problem.get('problemText')}>
+            <li key={problem.get('id')}>
               <h3 className={block + '__problem-text'}
                   style={{color: this.getColor(problem)}}>
                 {problem.get('problemText')}
