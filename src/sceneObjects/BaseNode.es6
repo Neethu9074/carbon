@@ -150,7 +150,6 @@ export default class BaseNode extends SceneObject {
     //get all connections of this node
     const connectedSnapshots = this.collectConnections();
     if(!connectedSnapshots) {
-      //TODO: unknown hosts must have a connection to known ones
       return;
     }
 
