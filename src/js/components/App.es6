@@ -5,6 +5,7 @@ import {IntlMixin, FormattedMessage} from 'react-intl';
 import {RouteHandler, Navigation} from 'react-router';
 
 import Map from 'instana-ui-map';
+import Issues from './Issues';
 import Lettering from 'instana-ui-components/Lettering';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
@@ -58,6 +59,7 @@ const App = React.createClass({
           </button>
         : null}
 
+        <Issues />
         <RouteHandler/>
         <ConnectionStatus />
       </div>
