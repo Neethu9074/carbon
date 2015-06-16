@@ -171,7 +171,10 @@ export default class Scene {
 
     //this is a camera just for the background scene to render
     this.backgroundCamera = new THREE.OrthographicCamera(
-      1, -1, 1, -1, 0.1, 20);
+      1, -1, 1, -1,
+      0.1, //near
+      10 //far
+    );
     //set static
     this.backgroundCamera.matrixAutoUpdate = false;
     this.backgroundCamera.rotationAutoUpdate = false;
