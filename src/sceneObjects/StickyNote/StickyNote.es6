@@ -45,10 +45,10 @@ export default class StickyNote {
 
   updateWorldPos() {
     const cube = this.parent.cube;
+    const position = this.parent.getPosition();
     const worldPos = this.stickyNoteEndPosWorld;
-    worldPos.set(-0.5, 0, 0.5);
-    worldPos.applyMatrix4(cube.matrixWorld);
 
+    worldPos.copy(position);
     worldPos.y = cube.scale.y;
   }
 

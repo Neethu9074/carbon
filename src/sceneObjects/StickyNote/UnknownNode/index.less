@@ -1,14 +1,21 @@
 @import "~instana-ui-themes/less/constants.less";
 
-.in-sticky-note__node-id {
-  font-size: 1.2em;
-  margin: 0;
-  padding-top: 0.1em;
+@import "~instana-ui-themes/less/constants.less";
 
-  color: transparent;
-  transition: color .5s;
+.in-sticky-note__unknown__node {
+  position: absolute;
+  top: 0;
 
-  .in-map--zoom-50 &, .in-map--zoom-100 & {
-    color: white;
-  }
+  color: white;
+  white-space: nowrap;
+
+  z-index: @z-index__sticky-notes;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
 }

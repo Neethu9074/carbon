@@ -24,7 +24,7 @@ const StickyNoteRC = React.createClass({
     let jsxStructure = (<div></div>);
     try {
       jsxStructure = (
-        <div className="in-sticky-note__node_id">
+        <div>
           {snapshot.get('steadyId')}
         </div>
       );
@@ -40,7 +40,7 @@ const StickyNoteRC = React.createClass({
 
 export default class StickyNoteUnknownNode extends StickyNote {
   constructor(parent) {
-    super({parent, cssClass: 'in-sticky-note'});
+    super({parent, cssClass: 'in-sticky-note__unknown__node'});
     this.updateWorldPos();
     this.render();
   }

@@ -1,17 +1,9 @@
 @import "~instana-ui-themes/less/constants.less";
 
-.in-sticky-note {
-  .in-map--zoom-0 & {
-    display: none;
-  }
-
-  @img-height: 1.6em;
-
+.in-sticky-note__node {
   position: absolute;
-  top: 0;
-
-  // align with connecting line
-  margin-top: @img-height * -1;
+  top: -48px;
+  left: -50px;
 
   color: white;
   white-space: nowrap;
@@ -27,51 +19,15 @@
   cursor: default;
 }
 
-.in-sticky-after_line {
-  margin-left: 5px;
-  margin-top: -25px;
+.in-sticky-note__node__id {
+  margin-bottom: 5px;
+  width: 100px;
+  left: -50%;
 }
 
-.in-sticky-note__line {
-  width: 40px;
-  height: 1px;
+.in-sticky-note__node__icon {
+  width: 36px;
+  height: 36px;
 
-  -webkit-transform:
-      rotate(-45deg);
-
-  .in-map--zoom-50 &, .in-map--zoom-100 & {
-    border-bottom: 1px solid white;
-  }
-}
-
-.in-sticky-note__node-id, .in-sticky-note__details {
-  // As log as we want to fade in the stickies which are text only we can use
-  // a color transition, which will perform fine.
-  // opacity transforms perform much worse, because they cause a new composition
-  // layer.
-  color: transparent;
-  transition: color .5s;
-}
-
-.in-sticky-note__content {
-  margin-left: 2.6em;
-}
-
-.in-sticky-note__node-id {
-  margin: 0;
-  padding-top: 0.1em;
-  font-size: 1.2em;
-
-  .in-map--zoom-50 &, .in-map--zoom-100 & {
-    color: white;
-  }
-}
-
-.in-sticky-note__details {
-  margin: 0.5em 0 0;
-  line-height: 1.4;
-
-  .in-map--zoom-100 & {
-    color: #8ea6ab;
-  }
+  margin-left: 32px;
 }
