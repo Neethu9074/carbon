@@ -16,18 +16,20 @@ import Mtd from '../sdk/Mtd';
 import ContentHeading from '../sdk/ContentHeading';
 
 const commasFormatter = d3.format(',.0f');
-const yAxisTickFormatter = d => commasFormatter(d * 100) + '%';
+const percentFormatter = d => commasFormatter(d * 100) + '%';
 const metricValueFormatter = d => commasFormatter(d * 100);
 
 const OSDetailPaneContent = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
   getInitialState() {
-    return {filesystemDatasources: null};
+    return {filesystemDatasources: null,
+            interfaceDatasources: null};
   },
 
   render() {
     const filesystems = this.props.snapshot.getIn(['data', 'filesystems']);
+    const interfaces = this.props.snapshot.getIn(['data', 'interfaces']);
 
     return (
       <div>
@@ -51,7 +53,7 @@ const OSDetailPaneContent = React.createClass({
                             'Steal'
                           ]}
                           metricUnit='%'
-                          yAxisTickFormatter={yAxisTickFormatter}
+                          percentFormatter={percentFormatter}
                           metricValueFormatter={metricValueFormatter} />
 
         <Separator />
@@ -68,7 +70,7 @@ const OSDetailPaneContent = React.createClass({
                             'Load'
                           ]}
                           metricUnit=''
-                          yAxisTickFormatter={d => d}
+                          percentFormatter={d => d}
                           metricValueFormatter={d => d} />
 
         <Separator />
@@ -81,7 +83,7 @@ const OSDetailPaneContent = React.createClass({
           <LineChart datasources={this.state.filesystemDatasources}
                      width={this.props.width}
                      height={250}
-                     yAxisTickFormatter={d => formatBytes(d * 1024)}
+                     percentFormatter={d => formatBytes(d * 1024)}
                      type='line' />
         : null}
 
@@ -122,6 +124,98 @@ const OSDetailPaneContent = React.createClass({
             ).valueSeq()}
           </tbody>
         </table>
+
+        <Separator />
+
+        <ContentHeading>
+          {this.getIntlMessage('forge.os.networkinterfaces')}
+        </ContentHeading>
+
+        {this.state.interfaceDatasources ?
+          <LineChart datasources={this.state.interfaceDatasources}
+                     width={this.props.width}
+                     height={250}
+                     percentFormatter={d => formatBytes(d) + "/s"}
+                     type='line' />
+        : null}
+
+        <table className='in-subtle-table'>
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th colSpan="4">Received (RX)</th>
+              <th colSpan="4">Transmitted (TX)</th>
+            </tr>
+            <tr>
+              <th>Interface</th>
+              <th>Mac</th>
+              <th>IPs</th>
+              <th>Bytes</th><th>Errors</th><th>Dropped</th><th>Overruns</th>
+              <th>Bytes</th><th>Errors</th><th>Dropped</th><th>Overruns</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {interfaces.map((data, name) =>
+              <tr key={name} onClick={() => this.selectInterface(name)}>
+                <td>{name}</td>
+                <td>{data.get('mac')}</td>
+                <td>{data.get('ips').join(', ')}</td>
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.rx.bytes.5000.mean'
+                       )}
+                     formatter={d => formatBytes(d * 1024) + '/s'} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.rx.errors.5000.mean'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.rx.dropped.5000.mean'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.rx.overruns.5000.mean'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.tx.bytes.5000.mean'
+                       )}
+                     formatter={d => formatBytes(d * 1024) + '/s'} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.tx.errors.5000.mean'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.tx.dropped.5000.mean'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.tx.overruns.5000.mean'
+                       )}
+                     formatter={percentFormatter} />
+              </tr>
+            ).valueSeq()}
+          </tbody>
+        </table>
+
       </div>
     );
   },
@@ -130,6 +224,15 @@ const OSDetailPaneContent = React.createClass({
     this.setState({
       filesystemDatasources: [
         this.createMetricWithHistoryStream('fs.' + fs + '.free.5000.mean')
+      ]
+    });
+  },
+
+  selectInterface(fs) {
+    this.setState({
+      interfaceDatasources: [
+        this.createMetricWithHistoryStream('ifs.' + fs + '.rx.bytes.5000.mean'),
+        this.createMetricWithHistoryStream('ifs.' + fs + '.tx.bytes.5000.mean')
       ]
     });
   },

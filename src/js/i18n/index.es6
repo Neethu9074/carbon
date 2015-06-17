@@ -10,6 +10,7 @@ export default {
     },
     forge: {
       os: {
+        networkinterfaces: 'Network Interfaces',
         filesystems: 'Filesystems'
       }
     },
