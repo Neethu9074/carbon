@@ -17,8 +17,10 @@ export default class LineChart {
       datasets,
       valueTransformer,
       xAxisTickFormatter=defaultXAxisTickFormatter,
-      yAxisTickFormatter=defaultYAxisTickFormatter}) {
+      yAxisTickFormatter=defaultYAxisTickFormatter,
+      type='area'}) {
 
+    this.type = type;
     this.lastUpdate = new Date().getTime();
     this.mountPoint = mountPoint;
     this.valueTransformer = valueTransformer;
@@ -47,15 +49,23 @@ export default class LineChart {
       .tickPadding(10)
       .orient('left');
 
-    this.stack = d3.layout.stack()
-      .values(d => d.values)
-      .x(d => d[0])
-      .y(d => this.valueTransformer(d[1]));
+    if (this.type === 'area') {
+      this.stack = d3.layout.stack()
+        .values(d => d.values)
+        .x(d => d[0])
+        .y(d => this.valueTransformer(d[1]));
+    }
 
-    this.line = d3.svg.area()
-      .x(d => this.x(d[0]))
-      .y0(d => this.y(d.y0))
-      .y1(d => this.y(d.y0 + d.y));
+    if (this.type === 'area') {
+      this.line = d3.svg.area()
+        .x(d => this.x(d[0]))
+        .y0(d => this.y(d.y0))
+        .y1(d => this.y(d.y0 + d.y));
+    } else {
+      this.line = d3.svg.area()
+        .x(d => this.x(d[0]))
+        .y(d => this.y(this.valueTransformer(d[1])));
+    }
 
     this.chart = d3.select(mountPoint);
 
@@ -75,15 +85,25 @@ export default class LineChart {
     this.x.axis.element = this.lines.append('g')
       .attr('class', 'x axis');
 
-    this.stack(this.datasets);
+    if (this.type === 'area') {
+      this.stack(this.datasets);
+    }
     this.resize({width, height});
 
-    this.lines.selectAll('path.line')
+    const lines = this.lines.selectAll('path.line')
         .data(this.datasets)
       .enter().append('path')
         .attr('class', 'line')
-        .attr('d', d => this.line(d.values))
-        .attr('fill', (d, i) => theme.chart.strokeColors[i]);
+        .attr('d', d => this.line(d.values));
+
+    if (this.type === 'area') {
+      lines.attr('fill', (d, i) => theme.chart.strokeColors[i]);
+      lines.attr('stroke-width', '1');
+    } else {
+      lines.attr('fill', 'transparent');
+      lines.attr('stroke', (d, i) => theme.chart.strokeColors[i]);
+      lines.attr('stroke-width', '2');
+    }
   }
 
   dispose() {
@@ -141,7 +161,9 @@ export default class LineChart {
       };
     });
 
-    this.stack(newValues);
+    if (this.type === 'area') {
+      this.stack(newValues);
+    }
 
     // Add all new values to the graph so that the graph extends beyond
     // the domain. This is necessary so that we can transition the graph's

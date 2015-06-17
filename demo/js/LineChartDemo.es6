@@ -18,6 +18,7 @@ const LineChartDemo = React.createClass({
     return {
       width: 700,
       height: 280,
+      type: 'line',
       datasources: [
         createObservable({min: 0, max: 1, numberOfValues: 30}),
         createObservable({
@@ -39,10 +40,14 @@ const LineChartDemo = React.createClass({
         <button type='button' onClick={this.startStop}>
           Start / Stop
         </button>
+        <button type='button' onClick={this.drawAreaChart}>
+          Draw area chart
+        </button>
         <br />
         <LineChart datasources={this.state.datasources}
                    width={this.state.width}
                    height={this.state.height}
+                   type={this.state.type}
                    yAxisTickFormatter={yAxisTickFormatter}
                    valueTransformer={d => d * 0.5} />
       </div>
@@ -53,6 +58,12 @@ const LineChartDemo = React.createClass({
     this.setState({
       width: parseInt(prompt('New width', this.state.width), 10),
       height: parseInt(prompt('New height', this.state.height), 10)
+    });
+  },
+
+  drawAreaChart() {
+    this.setState({
+      type: 'area'
     });
   },
 

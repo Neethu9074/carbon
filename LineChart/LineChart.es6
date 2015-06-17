@@ -28,7 +28,8 @@ const LineChart = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (this.isTickFormatterChanged(this.props, nextProps) ||
-        this.isDatasourcesChanged(this.props, nextProps)) {
+        this.isDatasourcesChanged(this.props, nextProps) ||
+        this.props.type !== nextProps.type) {
       this.disposeSubscriptions();
       if (this.chart) {
         this.chart.dispose();
@@ -76,8 +77,10 @@ const LineChart = React.createClass({
     }
   },
 
-  renderChart(props) {
-    const subscription = combineLatest(props.datasources, true)
+  renderChart(nextProps) {
+    let async = false;
+
+    const subscription = combineLatest(nextProps.datasources, true)
       // a very short debounce function used to handle bursts of updates. Thus
       // updates can happen for various reasons, e.g. when the tab is not
       // active or when there are network issues.
@@ -105,24 +108,34 @@ const LineChart = React.createClass({
         return true;
       })
       .subscribe(datasets => {
-        // when we reach this point, render will have been called asynchronously
-        // and the props in the parameter list will be outdated. We need to
-        // reference the most up to date parameter list.
+        // reactive-observables do not guarante async execution. As such the
+        // first dataset can arrive asynchronously or synchronously. This is
+        // okay, but we need to handle it.
+        let props;
+        if (async) {
+          props = this.props;
+        } else {
+          props = nextProps;
+        }
+
         if (this.chart) {
           this.chart.setNewData(datasets);
         } else {
           this.chart = new Chart({
             mountPoint: React.findDOMNode(this.refs.element),
-            width: this.props.width,
-            height: this.props.height,
+            width: props.width,
+            height: props.height,
             datasets: datasets,
-            yAxisTickFormatter: this.props.yAxisTickFormatter,
-            valueTransformer: this.props.valueTransformer || identity
+            yAxisTickFormatter: props.yAxisTickFormatter,
+            valueTransformer: props.valueTransformer || identity,
+            type: props.type
           });
         }
       });
 
     this.addSubscription(subscription);
+
+    async = true;
   }
 
 });
