@@ -2,6 +2,7 @@
 
 import React from 'react/addons';
 import StickyNote from '../StickyNote';
+import {getColor} from 'instana-ui-sdk/zones';
 
 import './index.less';
 
@@ -13,7 +14,8 @@ const StickyNoteRC = React.createClass({
 
   render() {
     return (
-      <div>
+      <div className="in-sticky-note__group__content"
+           style={{backgroundColor: this.props.color}}>
         {this.props.label}
       </div>
     );
@@ -37,7 +39,8 @@ export default class StickyNoteNode extends StickyNote {
 
   render() {
     React.render(
-      <StickyNoteRC label={this.parent.id} />,
+      <StickyNoteRC label={this.parent.id}
+                    color={getColor(this.parent.id) || '#0F0F0F'} />,
       this.stickyNoteContainer
     );
   }
