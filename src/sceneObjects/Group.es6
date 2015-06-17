@@ -130,6 +130,7 @@ export default class Group extends SceneObject {
 
   dispose() {
     this.children.forEach(node => node.dispose());
+    this.getScene().lineFactory.removeFragment(this.id);
 
     super.dispose();
 
