@@ -105,7 +105,8 @@ const OSDetailPaneContent = React.createClass({
                 <td>{data.get('options')}</td>
                 <td>{data.get('systype')}</td>
                 <td>{formatBytes(data.get('capacity') * 1024)}</td>
-                <Mtd createMetricValueStream={this.createFsMetricValueStream.bind(this, name)} />
+                <Mtd createMetricValueStream={this.createFsMetricValueStream.bind(this, name)}
+                     formatter={d => formatBytes(d * 1024)} />
               </tr>
             ).valueSeq()}
           </tbody>
@@ -136,8 +137,7 @@ const OSDetailPaneContent = React.createClass({
     return create(MetricConveyer, {
       snapshot: this.props.snapshot,
       metric
-    })
-    .map(kb => formatBytes(kb * 1024));
+    });
   }
 });
 

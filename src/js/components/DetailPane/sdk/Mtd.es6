@@ -9,29 +9,39 @@ const Mtd = React.createClass({
 
   getInitialState() {
     return {
-      metricValue: null
+      metricValue: undefined
     };
   },
 
   componentDidMount() {
-    this.establishSubscription(this.props);
+    this.establishSubscription(this.props.createMetricValueStream());
   },
 
-  establishSubscription(props) {
-    const stream = props.createMetricValueStream();
+  establishSubscription(stream) {
+    this.stream = stream;
     this.addSubscription(
       stream.subscribe(metricValue => this.setState({metricValue}))
     );
   },
 
   componentWillReceiveProps(nextProps) {
-    this.setState({metricValue: null});
-    this.disposeSubscriptions();
-    this.establishSubscription(nextProps);
+    const nextStream = nextProps.createMetricValueStream();
+    if (this.stream !== nextStream) {
+      this.setState(this.getInitialState());
+      this.disposeSubscriptions();
+      this.establishSubscription(nextStream);
+    }
+  },
+
+  format(v) {
+    if (v !== undefined && this.props.formatter) {
+      return this.props.formatter(v);
+    }
+    return v;
   },
 
   render() {
-    return <td>{this.state.metricValue}</td>;
+    return <td>{this.format(this.state.metricValue)}</td>;
   }
 
 });
