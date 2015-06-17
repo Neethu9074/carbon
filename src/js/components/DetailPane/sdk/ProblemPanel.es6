@@ -6,6 +6,7 @@ import React from 'react/addons';
 import {getProblemsForSnapshot} from 'instana-ui-services/notificationCenter';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {mapSeverityToHealth, health} from 'instana-ui-services/health';
+import {theme} from 'instana-ui-services/theme';
 
 import Panel from './Panel';
 
@@ -73,9 +74,9 @@ const ProblemPanel = React.createClass({
       case health.ok:
         return '#fff';
       case health.warning:
-        return 'yellow';
+        return theme.health.warning;
       case health.danger:
-        return 'darkred';
+        return theme.health.danger;
       default:
         throw new Error('Unknown health ' + mapSeverityToHealth(problem));
     }

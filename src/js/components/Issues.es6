@@ -6,6 +6,7 @@ import Immutable from 'immutable';
 import {getIssueSummary} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {health} from 'instana-ui-services/health';
+import {theme} from 'instana-ui-services/theme';
 
 import './Issues.less';
 
@@ -58,10 +59,10 @@ const Issues = React.createClass({
     const summary = this.state.issueSummary;
 
     if (summary.get(health.danger) > 0) {
-      return 'darkred';
+      return theme.health.danger;
     }
 
-    return '#FFE621';
+    return theme.health.warning;
   }
 });
 
