@@ -147,6 +147,7 @@ const OSDetailPaneContent = React.createClass({
       snapshot: this.props.snapshot,
       metric
     });
+  }
 
 });
 
