@@ -3,7 +3,8 @@
 import './ServerItem.less';
 
 import React from 'react/addons';
-import eventBus from 'instana-ui-services/eventbus';
+import {select} from 'instana-ui-services/stores/selectedSnapshot';
+import {getLabel} from 'instana-ui-sdk/snapshot';
 
 const ServerItem = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -12,7 +13,7 @@ const ServerItem = React.createClass({
     return (
       <li className='in-sidebar-server-listing__snapshot'
           onClick={this.focus}>
-        {this.props.snapshot.getIn(['data', 'hostname'])}
+        {getLabel(this.props.snapshot)}
       </li>
     );
   },
@@ -25,10 +26,7 @@ const ServerItem = React.createClass({
   },
 
   focus() {
-    eventBus.emit('focus', {
-      snapshot: this.props.snapshot,
-      zoom: true
-    });
+    select(this.props.snapshot);
   }
 });
 
