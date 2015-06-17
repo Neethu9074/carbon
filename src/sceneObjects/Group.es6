@@ -133,6 +133,9 @@ export default class Group extends SceneObject {
 
     super.dispose();
 
+    this.stickyNote.dispose();
+    this.stickyNote = null;
+
     this.id = null;
     this.children = [];
   }
