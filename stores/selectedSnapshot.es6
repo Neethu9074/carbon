@@ -3,10 +3,11 @@
 import * as ro from 'reactive-observables';
 import {create} from '../conveyer';
 import SnapshotConveyer from '../conveyer/SnapshotConveyer';
-import {only} from '../util/snapshots';
+import {only, isIdEqual} from '../util/snapshots';
 
 const roSpec = {emitLatestOnSubscribe: true};
 
+let subscribedSnapshotId = null;
 let selectedSnapshotSubscription = null;
 export const selectedSnapshot = ro.create(roSpec);
 // initialize it with a default value so that subscribers will get an
@@ -14,6 +15,11 @@ export const selectedSnapshot = ro.create(roSpec);
 selectedSnapshot.emit(null);
 
 export function select(snapshotId) {
+  if (isIdEqual(subscribedSnapshotId, snapshotId)) {
+    return;
+  }
+
+  subscribedSnapshotId = snapshotId;
   disposeSnapshotSubscription();
 
   selectedSnapshotSubscription = only(
@@ -29,6 +35,7 @@ export function select(snapshotId) {
 }
 
 export function clear() {
+  subscribedSnapshotId = null;
   disposeSnapshotSubscription();
   selectedSnapshot.emit(null);
 }

@@ -33,6 +33,10 @@ export function extractId(snapshot) {
 export function isIdEqual(id1, id2) {
   if(id1 === id2) {
     return true;
+  } else if (id1 !== null && id2 === null) {
+    return false;
+  } else if (id1 === null && id2 !== null) {
+    return false;
   }
 
   return id1.get('hostId') === id2.get('hostId') &&
