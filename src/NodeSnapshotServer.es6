@@ -23,8 +23,11 @@ export default class NodeSnapshotServer {
       this.showMetrics();
     })];
 
+    this.subscriptions = [eventBus.on('resumeMetrics').subscribe(() =>{
+      this.showMetrics();
+    })];
+
     this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() => {
-      currentMetric = undefined;
       this.disposeMetricSubscription();
       client.hideMetrics();
     }));

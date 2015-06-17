@@ -25,6 +25,7 @@ const frustum = new THREE.Frustum();
 const projScreenMatrix = new THREE.Matrix4();
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
+let currentMetrics;
 
 
 export const scene = {};
@@ -273,8 +274,10 @@ export default class Scene {
   showMetrics(e) {
     this.hideMetricFactoryMesh();
 
+    currentMetrics = e ? e.metrics : currentMetrics;
+
     //check if there are multiple metrics to be rendered
-    this.activeMetricFactory = e.metrics.length > 1 ?
+    this.activeMetricFactory = currentMetrics.length > 1 ?
       this.multiMetricFactory : this.singleMetricFactory;
 
     this.activeMetricFactory.material.visible = true;
@@ -286,6 +289,7 @@ export default class Scene {
 
     //set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
+    this.hideMetricsOnZoomOut = false;
     this.renderScene();
   }
 
@@ -421,11 +425,22 @@ export default class Scene {
     if(zoomLevel > 250) {
       this.renderHtmlStuff = false;
 
-      //if there is an active metric, disable metrics
+      //if there is an active metric, disable metrics.
+      //activeMetricFactory is disposed on hideMetrics
       if(this.activeMetricFactory) {
+        this.hideMetricsOnZoomOut = true;
         eventBus.emit('hideMetrics');
       }
     } else {
+      //if the metrics where hidden by zooming, resume them if the zoom
+      //has reached the right level again
+      if(this.hideMetricsOnZoomOut) {
+        this.hideMetricsOnZoomOut = false;
+        eventBus.emit('resumeMetrics');
+
+        //call method without arguments will use the last added metrics
+        this.showMetrics();
+      }
       this.renderHtmlStuff = true;
     }
 
