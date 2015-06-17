@@ -94,6 +94,7 @@ const OSDetailPaneContent = React.createClass({
               <th>Type</th>
               <th>Capacity</th>
               <th>Free</th>
+              <th>iFree</th>
             </tr>
           </thead>
 
@@ -105,8 +106,10 @@ const OSDetailPaneContent = React.createClass({
                 <td>{data.get('options')}</td>
                 <td>{data.get('systype')}</td>
                 <td>{formatBytes(data.get('capacity') * 1024)}</td>
-                <Mtd createMetricValueStream={this.createFsMetricValueStream.bind(this, name)}
+                <Mtd createMetricValueStream={this.createFsMetricValueStream.bind(this, 'fs.' + name + '.free.5000.mean')}
                      formatter={d => formatBytes(d * 1024)} />
+                <Mtd createMetricValueStream={this.createFsMetricValueStream.bind(this, 'fs.' + name + '.ifree.5000.mean')}
+                     formatter={commasFormatter} />
               </tr>
             ).valueSeq()}
           </tbody>
@@ -118,13 +121,12 @@ const OSDetailPaneContent = React.createClass({
   selectFilesystem(fs) {
     this.setState({
       filesystemDatasources: [
-        this.createFsMetricWithHistoryStream(fs)
+        this.createFsMetricWithHistoryStream('fs.' + fs + '.free.5000.mean')
       ]
     });
   },
 
-  createFsMetricWithHistoryStream(fs) {
-    const metric = 'fs.' + fs + '.free.5000.mean';
+  createFsMetricWithHistoryStream(metric) {
     return create(MetricWithHistoryConveyer, {
       snapshot: this.props.snapshot,
       timeframe: 1000 * 60 * 5,
@@ -132,8 +134,7 @@ const OSDetailPaneContent = React.createClass({
     });
   },
 
-  createFsMetricValueStream(fs) {
-    const metric = 'fs.' + fs + '.free.5000.mean';
+  createFsMetricValueStream(metric) {
     return create(MetricConveyer, {
       snapshot: this.props.snapshot,
       metric
