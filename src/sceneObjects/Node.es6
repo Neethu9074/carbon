@@ -13,7 +13,6 @@ import NodeSnapshotServer from '../NodeSnapshotServer';
 import StickyNoteNode from './StickyNote/Node';
 import StickyNoteLayer from './StickyNote/Layer';
 import StickyNoteMetric from './StickyNote/Metric';
-import deckelTexturePath from './linux-logo.png';
 
 /*eslint-disable max-len*/
 import PCP from '../SingleMeshFactory/ContentProvider/PlaneContentProvider';
@@ -23,7 +22,6 @@ import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleCo
 /*eslint-enable max-len*/
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
-const deckelGeometry = new THREE.PlaneBufferGeometry(0.75, 0.75, 1, 1);
 
 
 export default class Node extends BaseNode {
@@ -33,29 +31,12 @@ export default class Node extends BaseNode {
 
     this.health = this.health || health.ok;
     this.layer = [];
-
-    //this.createLabel();
   }
 
   registerEvents() {
     super.registerEvents();
 
     this.snapshotServer = new NodeSnapshotServer(this);
-  }
-
-  createLabel() {
-    const material = new THREE.MeshBasicMaterial({
-      map: THREE.ImageUtils.loadTexture(deckelTexturePath, THREE.UVMapping),
-      transparent: true,
-      depthWrite: false,
-      side: THREE.DoubleSide
-    });
-    const mesh = new THREE.Mesh(deckelGeometry, material);
-    mesh.rotation.x = -Math.PI / 2;
-    mesh.renderOrder = 10;
-    this.deckel = mesh;
-
-    this.scene.addSceneObject(mesh);
   }
 
   addToGlobalGeometry() {
@@ -237,7 +218,6 @@ export default class Node extends BaseNode {
 
     super.setPosition(x, y, z);
 
-    //this.deckel.position.set(x - 0.5, this.deckel.position.y, z + 0.5);
     this.layer.forEach(p => p.setPosition(x, p.getPosition().y, z));
   }
 
@@ -247,7 +227,6 @@ export default class Node extends BaseNode {
     }
 
     this.cube.scale.y = height;
-    //this.deckel.position.y = height + 0.01;
 
     this.refreshMesh();
     this.arrangeChildren();
@@ -328,16 +307,6 @@ export default class Node extends BaseNode {
     }
   }
 
-  show() {
-    super.show();
-    this.deckel.material.visible = true;
-  }
-
-  hide() {
-    super.hide();
-    this.deckel.material.visible = false;
-  }
-
   removeFromGlobalGeometry() {
     const id = this.id;
     const scene = this.scene;
@@ -354,9 +323,6 @@ export default class Node extends BaseNode {
     this.snapshotServer.dispose();
     this.clearLayer();
     this.scene.groundSingleMeshFactory.removeFragment(this.id);
-
-    this.scene.removeSceneObject(this.deckel);
-    //this.deckel.material.dispose();
 
     super.dispose();
 
