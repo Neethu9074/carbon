@@ -47,7 +47,7 @@ export default class Layouter {
         const width = dimension.width;
         const depth = dimension.depth;
 
-        child.setScale(new THREE.Vector3(width, depth, 1));
+        child.setScale(width, 1, depth);
 
         if(vertical) {
           child.setPosition(x + width / 2, 0, -depth / 2);
@@ -81,9 +81,9 @@ export default class Layouter {
 
   setNodeToPos({node, x=0, y=0, z=0}) {
     const oldPos = node.getPosition().clone();
-    const newPos = new THREE.Vector3(x, y, z);
+    const newPos = {x, y, z};
 
-    node.setPosition(newPos.x, newPos.y, newPos.z);
+    node.setPosition(x, y, z);
 
     ConnectionGrid.clearPosition(oldPos);
     ConnectionGrid.blockPosition(newPos);
@@ -118,11 +118,7 @@ export default class Layouter {
         0,
         (groupPosition.y + groupPosition.height / 2) * -1 + 1
       );
-      group.setScale(new THREE.Vector3(
-        groupPosition.width,
-        groupPosition.height,
-        1
-      ));
+      group.setScale(groupPosition.width, 1, groupPosition.height);
 
       group.children.forEach((node, nodeIndex) => {
         const oldPosition = node.getPosition().clone();

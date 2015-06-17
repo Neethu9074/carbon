@@ -7,12 +7,8 @@ import SceneObject from './SceneObject';
 import Node from './Node';
 import UnknownNode from './UnknownNode';
 import {getIdString} from 'instana-ui-services/util/snapshots';
-import {theme} from 'instana-ui-services/theme';
 import {getColor} from 'instana-ui-sdk/zones';
-
-//use global geometry to reduce object instances
-const groupGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1);
-const white = 0xFFFFFF;
+import {hexToRGBNormalized} from 'instana-ui-services/converters';
 
 
 export default class Group extends SceneObject {
@@ -22,43 +18,8 @@ export default class Group extends SceneObject {
 
     this.id = id;
     this.children = [];
-
-    this.createGround();
+    this.size = {x: 1, y: 1, z: 1};
   }
-
-  createGround() {
-    let color = getColor(this.id);
-    if(!color) {
-      color = white;
-    }
-
-    const mat = new THREE.MeshBasicMaterial({
-      transparent: true,
-      opacity: 0.10,
-      color: color,
-      depthWrite: false
-    });
-
-    this.ground = new THREE.Mesh(groupGeometry, mat);
-    // turn the ground around to make it visible. If we wouldn't be doing this,
-    // then backface culling would make it invisible.
-    this.ground.rotation.x = -90 * Math.PI / 180;
-    this.ground.renderOrder = 1;
-    this.setStatic(this.ground);
-    this.addSceneObject(this.ground);
-
-    this.edge = new THREE.EdgesHelper(this.ground, color);
-    this.setStatic(this.edge);
-    this.addSceneObject(this.edge);
-  }
-
-  setStatic(obj) {
-    obj.matrixAutoUpdate = false;
-    obj.rotationAutoUpdate = false;
-    obj.updateMatrix();
-  }
-
-  createLabel() {}
 
   addNode({snapshot, unknown=false}) {
     const nodeId = getIdString(snapshot);
@@ -110,15 +71,40 @@ export default class Group extends SceneObject {
 
   setPosition(x, y, z) {
     super.setPosition(x, y, z);
-
-    this.ground.position.set(x, y, z);
-    this.ground.updateMatrix();
-    this.edge.updateMatrix();
+    this.refreshGroundGeometry();
   }
 
-  setScale(scale) {
-    this.ground.scale.copy(scale);
-    this.ground.updateMatrix();
+  setScale(x, y, z) {
+    this.size = {x, y, z};
+    this.refreshGroundGeometry();
+  }
+
+  refreshGroundGeometry() {
+    const color = hexToRGBNormalized(getColor(this.id) || 0xFFFFFF);
+    const lineFactory = this.getScene().lineFactory;
+    const size = this.size;
+    const pos = this.getPosition();
+    const sizeXHalf = size.x / 2;
+    const sizeZHalf = size.z / 2;
+    const posX = pos.x;
+    const posZ = pos.z;
+
+    const points = [
+      {x: posX - sizeXHalf, y: 0, z: posZ - sizeZHalf},
+      {x: posX + sizeXHalf, y: 0, z: posZ - sizeZHalf},
+
+      {x: posX + sizeXHalf, y: 0, z: posZ - sizeZHalf},
+      {x: posX + sizeXHalf, y: 0, z: posZ + sizeZHalf},
+
+      {x: posX + sizeXHalf, y: 0, z: posZ + sizeZHalf},
+      {x: posX - sizeXHalf, y: 0, z: posZ + sizeZHalf},
+
+      {x: posX - sizeXHalf, y: 0, z: posZ + sizeZHalf},
+      {x: posX - sizeXHalf, y: 0, z: posZ - sizeZHalf}
+    ];
+
+    lineFactory.removeFragment(this.id);
+    lineFactory.addFragment({id: this.id, points, color});
   }
 
   removeChild(child) {
@@ -133,25 +119,10 @@ export default class Group extends SceneObject {
     }
   }
 
-  disposeMesh(mesh) {
-    if(mesh) {
-      mesh.geometry.dispose();
-      mesh.material.dispose();
-      mesh = null;
-    }
-  }
-
   dispose() {
-    this.removeSceneObject(this.ground);
-    this.removeSceneObject(this.edge);
-
     this.children.forEach(node => node.dispose());
 
     super.dispose();
-
-    this.disposeMesh(this.ground.label);
-    this.disposeMesh(this.edge);
-    this.disposeMesh(this.ground);
 
     this.id = null;
     this.children = [];
