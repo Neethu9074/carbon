@@ -111,6 +111,7 @@ export default class BaseNode extends SceneObject {
     this.isSelected = true;
     this.highlight(true);
     this.connections.forEach(c => c.select());
+    this.scene.setSelectedObject(this);
   }
 
   //is called when the user hits the node again or the selection was cleared

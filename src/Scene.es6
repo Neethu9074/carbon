@@ -472,8 +472,7 @@ export default class Scene {
     this.groundSingleMeshFactory.material.opacity = 0.25;
     this.groundSingleMeshFactory.material.transparent = true;
 
-    //save the new object and select it
-    this.selectedSceneObject = object;
+    this.setSelectedObject(object);
   }
 
   //is called if the snapshotstore emits null
@@ -484,6 +483,11 @@ export default class Scene {
 
     this.selectedSceneObject = undefined;
     this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+  }
+
+  setSelectedObject(object) {
+    //save the new object and select it
+    this.selectedSceneObject = object;
   }
 
   onFocus(event) {
