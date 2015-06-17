@@ -67,6 +67,15 @@ export default class Scene {
 
     this.subscriptions.push(
       eventBus.on('hideMetrics').subscribe(() => this.hideMetrics()));
+
+    this.subscriptions.push(snapshotStore.selectedSnapshot.subscribe(
+    (snapshot) => {
+      if(!snapshot) {
+        this.onSnapshotCleared();
+      } else {
+        this.onSnapshotSelected(snapshot);
+      }
+    }));
   }
 
   setupFactories() {
@@ -430,26 +439,32 @@ export default class Scene {
   }
 
   onObjectClicked(object, fireExternalEvent = true) {
-    this.controller.flyToObject(object);
-
     if(fireExternalEvent) {
-      this.selectObject(object.parentSceneObject);
+      //get the parent scene object, e.g. a node
+      const node = object.parentSceneObject;
+
+      //only click on known objects
+      if(node && !node.isUnknown){
+
+        //unselect selected objects
+        if(node.isSelected) {
+          snapshotStore.clear();
+        } else {
+          snapshotStore.select(node.snapshot);
+        }
+      }
     }
   }
 
-  selectObject(obj) {
-    //if there is an isSelected object, unselect it
-    if(this.selectedSceneObject) {
-      this.selectedSceneObject.unSelect();
-    }
-
-    //clicked on a selected object again -> unselect
-    if(this.selectedSceneObject === obj) {
-      this.selectedSceneObject = undefined;
-      this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
-      snapshotStore.clear();
+  //is called from snapshotstore event
+  onSnapshotSelected(snapshot) {
+    const object = this.map.findNodeBySnapshot(snapshot);
+    if(!object) {
       return;
     }
+
+    this.onSnapshotCleared();
+    this.controller.flyToObject(object.cube);
 
     this.singleMeshFactory.material.opacity = 0.25;
     this.singleMeshFactory.material.transparent = true;
@@ -458,13 +473,17 @@ export default class Scene {
     this.groundSingleMeshFactory.material.transparent = true;
 
     //save the new object and select it
-    this.selectedSceneObject = obj;
-    obj.select();
+    this.selectedSceneObject = object;
+  }
 
-    //only send known nodes to external listener like sidebar
-    if(!obj.isUnknown) {
-      snapshotStore.select(obj.snapshot);
+  //is called if the snapshotstore emits null
+  onSnapshotCleared() {
+    if(this.selectedSceneObject) {
+      this.selectedSceneObject.unSelect();
     }
+
+    this.selectedSceneObject = undefined;
+    this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
   }
 
   onFocus(event) {
