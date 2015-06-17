@@ -22,12 +22,7 @@ const StickyNoteRC = React.createClass({
     const data = this.props.snapshot.get('data');
     return (
       <div>
-        <div className="in-sticky-note__node__id">
-          {this.props.id}
-        </div>
-        <div >
-          <img src={iconPath} className="in-sticky-note__node__icon"/>
-        </div>
+        {this.props.snapshot.get('hostId')}
       </div>
     );
   }
@@ -36,15 +31,14 @@ const StickyNoteRC = React.createClass({
 
 export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
-    super({parent, cssClass: 'in-sticky-note__node'});
+    super({parent, cssClass: 'in-sticky-note__node__highlight'});
     this.updateWorldPos();
     this.render();
   }
 
   render() {
     React.render(
-      <StickyNoteRC snapshot={this.parent.snapshot}
-                    id={this.parent.incrementId}/>,
+      <StickyNoteRC snapshot={this.parent.snapshot} />,
       this.stickyNoteContainer
     );
   }

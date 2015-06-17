@@ -10,6 +10,7 @@ import eventBus from 'instana-ui-services/eventbus';
 import BaseNode from './BaseNode';
 import Layer from './Layer';
 import NodeSnapshotServer from '../NodeSnapshotServer';
+import StickyNoteNodeHighlight from './StickyNote/NodeHighlight';
 import StickyNoteNode from './StickyNote/Node';
 import StickyNoteLayer from './StickyNote/Layer';
 import StickyNoteMetric from './StickyNote/Metric';
@@ -22,12 +23,16 @@ import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleCo
 /*eslint-enable max-len*/
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
+let incrementId = 0;
 
 
 export default class Node extends BaseNode {
 
   constructor({parent, snapshot}) {
     super({parent, snapshot});
+
+    this.incrementId = ++incrementId;
+    this.stickyNote = new StickyNoteNode(this);
 
     this.health = this.health || health.ok;
     this.layer = [];
@@ -97,8 +102,8 @@ export default class Node extends BaseNode {
     });
   }
 
-  createStickyNote() {
-    return new StickyNoteNode(this);
+  createStickyNoteHighlight() {
+    return new StickyNoteNodeHighlight(this);
   }
 
   showMetrics() {

@@ -58,6 +58,7 @@ export default class BaseNode extends SceneObject {
     this.highlighting = new Highlight({client: this});
 
     this.stickyNote = emptyStickyObject;
+    this.stickyNoteHighlight = emptyStickyObject;
     this.render();
 
     this.registerEvents();
@@ -88,7 +89,7 @@ export default class BaseNode extends SceneObject {
     }));
   }
 
-  createStickyNote() {throw new Error('NOT IMPLEMENTED'); }
+  createStickyNoteHighlight() {throw new Error('NOT IMPLEMENTED'); }
 
   update() {throw new Error('NOT IMPLEMENTED'); }
 
@@ -100,6 +101,7 @@ export default class BaseNode extends SceneObject {
 
   updateStickyNotes() {
     this.stickyNote.update();
+    this.stickyNoteHighlight.update();
   }
 
   //is called via scene when the user pressed on a node
@@ -255,6 +257,11 @@ export default class BaseNode extends SceneObject {
     this.stickyNote = emptyStickyObject;
   }
 
+  disposeStickyNoteHighlight() {
+    this.stickyNoteHighlight.dispose();
+    this.stickyNoteHighlight = emptyStickyObject;
+  }
+
   dispose() {
     this.clearConnections();
 
@@ -275,6 +282,7 @@ export default class BaseNode extends SceneObject {
     this.cube = null;
 
     this.disposeStickyNote();
+    this.disposeStickyNoteHighlight();
 
     super.dispose();
 

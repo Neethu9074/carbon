@@ -12,11 +12,13 @@ export default class Unknownnode extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
+    this.stickyNote = new StickyNoteUnknownNode(this);
+
     this.isUnknown = true;
   }
 
-  createStickyNote() {
-    return new StickyNoteUnknownNode(this);
+  createStickyNoteHighlight() {
+    return this.stickyNoteHighlight;
   }
 
   update(data) {

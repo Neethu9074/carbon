@@ -1,0 +1,40 @@
+@import "~instana-ui-themes/less/constants.less";
+
+.in-sticky-note__node__highlight {
+  position: absolute;
+  top: -124px;
+  left: -30px;
+
+  width: 200px;
+  height: 50px;
+
+  background-color: #171a1d;
+  border-radius: 5px;
+
+  color: white;
+
+  padding: 5px;
+
+  white-space: nowrap;
+
+  z-index: @z-index__sticky-notes;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+.in-sticky-note__node__highlight:before {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 30px;
+  top: 50px;
+  border: 10px solid;
+  border-color: #171a1d transparent transparent #171a1d;
+}

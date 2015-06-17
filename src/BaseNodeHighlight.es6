@@ -19,8 +19,8 @@ export default class BaseNodeHighlight extends Highlight {
     const client = this.client;
 
     //just create one sticky
-    if(client.stickyNote.isEmpty) {
-      client.stickyNote = client.createStickyNote();
+    if(client.stickyNoteHighlight.isEmpty) {
+      client.stickyNoteHighlight = client.createStickyNoteHighlight();
     }
 
     //add the fargment to the highlight factory
@@ -52,10 +52,7 @@ export default class BaseNodeHighlight extends Highlight {
     //dispose all connections tangents this node
     client.clearConnections();
 
-    //only dispose the sticky note if there is no indirect/implicit highlight
-    if(this.implicitHighlightCounter === 0) {
-      client.disposeStickyNote();
-    }
+    client.disposeStickyNoteHighlight();
 
     //make the changes visible
     client.renderScene();
@@ -84,10 +81,6 @@ export default class BaseNodeHighlight extends Highlight {
 
     const factory = client.scene.lineFactory;
     factory.addFragment({id: client.id, points, highlighted: isSelected});
-
-    if(client.stickyNote.isEmpty) {
-      client.stickyNote = client.createStickyNote();
-    }
   }
 
   clearIndirectHighlight() {
@@ -136,7 +129,7 @@ export default class BaseNodeHighlight extends Highlight {
 
     //only dispose sticky if this node isn't selected (e.g. mouseover)
     if(!client.isSelected) {
-      client.disposeStickyNote();
+      client.disposeStickyNoteHighlight();
     }
 
     //remove frame on the ground
