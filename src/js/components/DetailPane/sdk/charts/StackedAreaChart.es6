@@ -99,7 +99,8 @@ const StackedAreaChart = React.createClass({
         <LineChart datasources={this.state.datasources}
                    width={this.props.width}
                    height={this.props.height}
-                   yAxisTickFormatter={this.props.yAxisTickFormatter} />
+                   yAxisTickFormatter={this.props.yAxisTickFormatter}
+                   type='area' />
       </div>
     );
   }
