@@ -2,6 +2,7 @@
 
 import Highlight from './Highlight';
 
+import eventBus from 'instana-ui-services/eventbus';
 import {theme} from 'instana-ui-services/theme';
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
 
@@ -12,6 +13,10 @@ export default class BaseNodeHighlight extends Highlight {
 
   constructor({client}) {
     super({client});
+
+    this.subscription = eventBus.on('layoutChanged').subscribe(() => {
+      this.refreshConnections();
+    });
   }
 
   //sets the primary highlight whatever that means
@@ -29,7 +34,7 @@ export default class BaseNodeHighlight extends Highlight {
       .addFragment(client.getNodeAsFragment());
 
     //show all connections of the node
-    client.setupConnections();
+    this.setupConnections();
 
     //make the changes visible
     client.renderScene();
@@ -94,6 +99,42 @@ export default class BaseNodeHighlight extends Highlight {
     super.clearIndirectHighlight();
   }
 
+  setupConnections() {
+    const client = this.client;
+
+    client.clearConnections();
+
+    //get all connections of this node
+    const connectedSnapshots = client.collectConnections();
+    if(!connectedSnapshots) {
+      return;
+    }
+
+    //show all, incoming and outgoing connections
+    connectedSnapshots.outgoing.concat(connectedSnapshots.incoming)
+    .forEach(otherSnapshot => {
+      const other = client.findNodeBySnapshot(otherSnapshot);
+      if(other) {
+        client.connectWith(other);
+      }
+    });
+  }
+
+  refreshConnections() {
+    const client = this.client;
+
+    //reselect if the host is selected so that all geometry and
+    //connections are refreshed
+    if(client.isSelected) {
+      client.unSelect();
+      client.select();
+    }
+
+    //client is for unselected nodes which have incoming connections from
+    //selected ones. if client position changes -> update the connection too
+    client.incomingConnections.forEach(c => c.refresh());
+  }
+
   //disposing the indirect highlighting if the counter is 0
   disposeIndirectHighlight() {
     const client = this.client;
@@ -105,5 +146,10 @@ export default class BaseNodeHighlight extends Highlight {
 
     //remove frame on the ground
     client.scene.lineFactory.removeFragment(client.id);
+  }
+
+  dispose() {
+    this.subscription.dispose();
+    this.subscription = null;
   }
 }

@@ -86,10 +86,6 @@ export default class BaseNode extends SceneObject {
         this.update(data);
       }
     }));
-
-    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
-      this.refreshConnections();
-    }));
   }
 
   createStickyNote() {throw new Error('NOT IMPLEMENTED'); }
@@ -139,25 +135,6 @@ export default class BaseNode extends SceneObject {
     }
   }
 
-  setupConnections() {
-    this.clearConnections();
-
-    //get all connections of this node
-    const connectedSnapshots = this.collectConnections();
-    if(!connectedSnapshots) {
-      return;
-    }
-
-    //show all, incoming and outgoing connections
-    connectedSnapshots.outgoing.concat(connectedSnapshots.incoming)
-    .forEach(otherSnapshot => {
-      const other = this.findNodeBySnapshot(otherSnapshot);
-      if(other) {
-        this.connectWith(other);
-      }
-    });
-  }
-
   setPosition(x, y, z) {
     const pos = this.getPosition();
     if(pos.x === x && pos.y === y && pos.z === z) {
@@ -169,19 +146,6 @@ export default class BaseNode extends SceneObject {
 
     this.refreshMesh();
     this.refreshFragment();
-  }
-
-  refreshConnections() {
-    //reselect if the host is selected so that all geometry and
-    //connections are refreshed
-    if(this.isSelected) {
-      this.unSelect();
-      this.select();
-    }
-
-    //this is for unselected nodes which have incoming connections from
-    //selected ones. if this position changes -> update the connection too
-    this.incomingConnections.forEach(c => c.refresh());
   }
 
   refreshMesh() {
@@ -296,6 +260,8 @@ export default class BaseNode extends SceneObject {
     this.scene.singleMeshFactory.removeFragment(this.id);
     this.scene.highlightSingleMeshFactory.removeFragment(this.id);
     this.scene.lineFactory.removeFragment(this.id);
+
+    this.highlighting.dispose();
 
     //clear the selected element if it is disposed
     if(this.isSelected) {
