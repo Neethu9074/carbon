@@ -67,7 +67,7 @@ export default class Scene {
       eventBus.on('showMetrics').subscribe((e) => this.showMetrics(e)));
 
     this.subscriptions.push(
-      eventBus.on('hideMetrics').subscribe(() => this.hideMetrics()));
+      eventBus.on('hideMetrics').subscribe((e) => this.hideMetrics(e)));
 
     this.subscriptions.push(snapshotStore.selectedSnapshot.subscribe(
     (snapshot) => {
@@ -272,7 +272,7 @@ export default class Scene {
   }
 
   showMetrics(e) {
-    this.hideMetricFactoryMesh();
+    //this.hideMetricFactoryMesh();
 
     currentMetrics = e ? e.metrics : currentMetrics;
 
@@ -284,12 +284,18 @@ export default class Scene {
     this.renderScene();
   }
 
-  hideMetrics() {
+  hideMetrics(e) {
     this.hideMetricFactoryMesh();
+
+    if(e && e.hiddenByZoom) {
+      this.hideMetricsOnZoomOut = true;
+    } else {
+      this.hideMetricsOnZoomOut = false;
+    }
 
     //set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
-    this.hideMetricsOnZoomOut = false;
+
     this.renderScene();
   }
 
@@ -429,7 +435,7 @@ export default class Scene {
       //activeMetricFactory is disposed on hideMetrics
       if(this.activeMetricFactory) {
         this.hideMetricsOnZoomOut = true;
-        eventBus.emit('hideMetrics');
+        eventBus.emit('hideMetrics', {hiddenByZoom: true});
       }
     } else {
       //if the metrics where hidden by zooming, resume them if the zoom
