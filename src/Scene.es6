@@ -464,7 +464,6 @@ export default class Scene {
     }
 
     this.onSnapshotCleared();
-    this.controller.flyToObject(object.cube);
 
     this.singleMeshFactory.material.opacity = 0.25;
     this.singleMeshFactory.material.transparent = true;
@@ -488,6 +487,7 @@ export default class Scene {
   setSelectedObject(object) {
     //save the new object and select it
     this.selectedSceneObject = object;
+    this.controller.flyToObject(object.cube);
   }
 
   onFocus(event) {
