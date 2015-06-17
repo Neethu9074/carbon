@@ -8,7 +8,7 @@ var colors = {
   highlight: '#9FFFFF',
   default: '#829EB1',
   warning: '#FFD823',
-  critical: '#FF4229'
+  danger: '#FF4229'
 };
 
 var metricColors = {
@@ -85,12 +85,16 @@ exports.consts = {
       detailPane: 5,
       flyOutNotifications: 6
     },
+    health: {
+      danger: colors.danger,
+      warning: colors.warning
+    },
     map: {
       colors: {
         renderClearGradient1: '#435964', //left bottom
         renderClearGradient2: '#2B3F46', //top right
         warning: colors.warning,
-        critical: colors.critical,
+        critical: colors.danger,
         'default': colors.default,
         connection: metricColors.cyan,
         unknownStatus: colors.grey,
