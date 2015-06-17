@@ -6,6 +6,9 @@ import THREE from 'three';
 import SceneObject from './SceneObject';
 import Node from './Node';
 import UnknownNode from './UnknownNode';
+import StickyNote from './StickyNote/Ground';
+
+import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getColor} from 'instana-ui-sdk/zones';
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
@@ -19,6 +22,12 @@ export default class Group extends SceneObject {
     this.id = id;
     this.children = [];
     this.size = {x: 1, y: 1, z: 1};
+
+    this.stickyNote = new StickyNote(this);
+
+    this.addSubscription(eventBus.on('endUpdate').subscribe(() => {
+      this.stickyNote.update();
+    }));
   }
 
   addNode({snapshot, unknown=false}) {
