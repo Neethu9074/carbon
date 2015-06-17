@@ -110,6 +110,7 @@ export default class BaseNode extends SceneObject {
 
     this.isSelected = true;
     this.highlight(true);
+    this.connections.forEach(c => c.select());
   }
 
   //is called when the user hits the node again or the selection was cleared
@@ -121,6 +122,7 @@ export default class BaseNode extends SceneObject {
 
     this.isSelected = false;
     this.highlight(false);
+    this.connections.forEach(c => c.unSelect());
   }
 
   //is called via mouseover effect

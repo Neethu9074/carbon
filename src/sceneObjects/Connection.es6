@@ -7,10 +7,8 @@ import _ from 'lodash';
 import {createLogger} from 'instalog';
 import {theme} from 'instana-ui-services/theme';
 import * as app from '../Scene';
-import {hexToRGBNormalized} from 'instana-ui-services/converters';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
-const defaultColor = hexToRGBNormalized(theme.map.colors.connection);
 let id = 0;
 
 
@@ -39,7 +37,11 @@ export default class Connection extends SceneObject {
     const points = this.calculateVertices(-0.01);
     const factory = this.getScene().lineFactory;
     factory.removeFragment(this.id);
-    factory.addFragment({id: this.id, points, color: defaultColor});
+    factory.addFragment({
+      id: this.id,
+      points,
+      highlighted: this.parent.isSelected
+    });
 
     this.to.highlighting.setIndirectHighlight();
     this.from.highlighting.setIndirectHighlight();
@@ -132,6 +134,14 @@ export default class Connection extends SceneObject {
     dir.y /= (length);
 
     return dir;
+  }
+
+  select() {
+    this.getScene().lineFactory.highlightFragment(this.id, true);
+  }
+
+  unSelect() {
+    this.getScene().lineFactory.highlightFragment(this.id, false);
   }
 
   refresh() {
