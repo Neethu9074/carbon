@@ -5,7 +5,7 @@ import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
 
-const defaultColor = hexToRGBNormalized('#435964');
+const defaultColor = hexToRGBNormalized('#6c7b83');
 const highlightColor = hexToRGBNormalized('#FFFFFF');
 
 let index = 0;
@@ -32,11 +32,12 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     this.globalMesh.frustumCulled = false;
   }
 
-  addFragment({id, points, highlighted, enabled = true}) {
+  addFragment({id, points, highlighted, color, enabled = true}) {
     this.fragments.push({
       id, //is needed to identify the fragment when deleting
       points,
       highlighted,
+      color,
       enabled
     });
 
@@ -76,7 +77,7 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   }
 
   copyLineAttributesToGlobalArray(vertices, colors, fragment){
-    let color = fragment.highlighted ? highlightColor : defaultColor;
+    let color = this.getFragmentColor(fragment);
     const yManipulator = fragment.highlighted ? 0 : -0.025;
 
     for (let i = 0; i < fragment.points.length; i++) {
@@ -88,6 +89,18 @@ export default class LineFactory extends AbstractMeshCreationFactory {
       colors[index] = color.b;
       vertices[index++] = point.z;
     }
+  }
+
+  getFragmentColor(fragment) {
+    //if the fragment is highlighted -> use highlightColor
+    if(fragment.highlighted) {
+      return highlightColor;
+
+    //if the color is specified (e.g. on the ground) -> use it
+    } else if(fragment.color) {
+      return fragment.color;
+    }
+    return defaultColor;
   }
 
   createGlobalMesh(vertices, colors) {

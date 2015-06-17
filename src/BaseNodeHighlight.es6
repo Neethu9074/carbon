@@ -1,12 +1,7 @@
 'use strict';
 
 import Highlight from './Highlight';
-
 import eventBus from 'instana-ui-services/eventbus';
-import {theme} from 'instana-ui-services/theme';
-import {hexToRGBNormalized} from 'instana-ui-services/converters';
-
-const highlightColor = hexToRGBNormalized(theme.map.colors.connection);
 
 
 export default class BaseNodeHighlight extends Highlight {
@@ -68,7 +63,7 @@ export default class BaseNodeHighlight extends Highlight {
     super.clearHighlight();
   }
 
-  setIndirectHighlight() {
+  setIndirectHighlight(isSelected) {
     super.setIndirectHighlight();
 
     const client = this.client;
@@ -88,7 +83,7 @@ export default class BaseNodeHighlight extends Highlight {
     ];
 
     const factory = client.scene.lineFactory;
-    factory.addFragment({id: client.id, points, color: highlightColor});
+    factory.addFragment({id: client.id, points, highlighted: isSelected});
 
     if(client.stickyNote.isEmpty) {
       client.stickyNote = client.createStickyNote();

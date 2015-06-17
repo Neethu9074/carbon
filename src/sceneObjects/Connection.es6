@@ -36,15 +36,15 @@ export default class Connection extends SceneObject {
 
     const points = this.calculateVertices(-0.01);
     const factory = this.getScene().lineFactory;
+    const isSelected = this.parent.isSelected;
+
     factory.removeFragment(this.id);
     factory.addFragment({
-      id: this.id,
-      points,
-      highlighted: this.parent.isSelected
+      id: this.id, points, highlighted: isSelected
     });
 
-    this.to.highlighting.setIndirectHighlight();
-    this.from.highlighting.setIndirectHighlight();
+    this.to.highlighting.setIndirectHighlight(isSelected);
+    this.from.highlighting.setIndirectHighlight(isSelected);
 
     //hide this if the parent is hidden
     if(this.parent.hidden) {
