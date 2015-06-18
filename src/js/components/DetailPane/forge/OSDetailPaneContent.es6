@@ -10,6 +10,7 @@ import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
 
+import HighChart from '../sdk/charts/HighChart';
 import StackedAreaChart from '../sdk/charts/StackedAreaChart';
 import Separator from '../sdk/Separator';
 import Mtd from '../sdk/Mtd';
@@ -33,6 +34,11 @@ const OSDetailPaneContent = React.createClass({
 
     return (
       <div>
+
+        <HighChart height={250} />
+
+        <Separator />
+
         <StackedAreaChart title='CPU Usage'
                           width={this.props.width}
                           height={250}
