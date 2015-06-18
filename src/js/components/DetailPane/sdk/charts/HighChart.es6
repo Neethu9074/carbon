@@ -2,14 +2,20 @@
 
 'use strict';
 
-import React from 'react/addons';
+import _ from 'lodash';
+import React from 'react';
+
+import {create} from 'instana-ui-services/conveyer';
+import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 import theme from './highchart_theme';
 
 Highcharts.setOptions(theme);
 
 const HighChart = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+
+  mixins: [SubscriptionMixin],
 
   render() {
     return (
@@ -18,94 +24,109 @@ const HighChart = React.createClass({
   },
 
   componentDidMount() {
-    this.chart = new Highcharts.Chart({
-      chart: {
-          renderTo: React.findDOMNode(this),
-          type: 'area',
-          animation: Highcharts.svg,
-          height: this.props.height,
-          events: {
-              load: function() {
-                  const chart = this;
-                  let series = chart.series;
-                  setInterval(() => {
-                      let x = (new Date()).getTime(), // current time
-                          y = Math.random();
-                      series[0].addPoint([x, y], false, true);
-                      series[1].addPoint([x, Math.random()], false, true);
-                      chart.redraw();
-                  }, 1000);
-              }
-          }
-      },
-      title: {
-          text: null
-      },
-      xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 150,
-          tickLength: 0,
-          minPadding: 0,
-          maxPadding: 0,
-          labels: {
-            y: 28
-          }
-      },
-      yAxis: {
-          title: {
-              text: null
-          },
-          tickLength: 0,
-          labels: {
-            x: -10
-          }
-      },
-      tooltip: {
-          formatter: function () {
-              return '<b>' + this.series.name + '</b><br/>' +
-                  Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-                  Highcharts.numberFormat(this.y, 2);
-          }
-      },
-      legend: {
-          enabled: false
-      },
-      exporting: {
-          enabled: false
-      },
-      series: [{
-          name: 'Random data',
-          data: (function () {
-              // generate an array of random data
-              let data = [],
-                  time = (new Date()).getTime(),
-                  i;
+    this.renderChart();
+  },
 
-              for (i = -19; i <= 0; i += 1) {
-                  data.push({
-                      x: time + i * 1000,
-                      y: Math.random()
-                  });
-              }
-              return data;
-          }())
-      }, {
-          name: 'Random data 2',
-          data: (function () {
-              // generate an array of random data
-              let data = [],
-                  time = (new Date()).getTime(),
-                  i;
+  componentWillUnmount() {
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = null;
+    }
+  },
 
-              for (i = -19; i <= 0; i += 1) {
-                  data.push({
-                      x: time + i * 1000,
-                      y: Math.random()
-                  });
-              }
-              return data;
-          }())
-      }]
+  shouldComponentUpdate(nextProps) {
+    return nextProps.snapshot !== this.props.snapshot ||
+      !_.isEqual(nextProps.metrics, this.props.metrics) ||
+      nextProps.timeframe !== this.props.timeframe ||
+      nextProps.config !== this.props.config;
+  },
+
+  componentDidUpdate() {
+    this.disposeSubscriptions();
+    if (this.chart) {
+      this.chart.destroy();
+      this.chart = null;
+    }
+    this.renderChart();
+  },
+
+  renderChart() {
+    const config = this.props.config;
+
+    const datasources = this.props.metrics.map(metric =>
+      create(MetricWithHistoryConveyer, {
+        snapshot: this.props.snapshot,
+        metric,
+        timeframe: this.props.timeframe
+      })
+    );
+
+    // override certain config paths that the user of this component is not
+    // responsible for.
+    config.chart.renderTo = React.findDOMNode(this);
+    config.series = datasources.map((datasource, i) => {
+      return {
+        name: this.props.metrics[i],
+        data: []
+      };
+    });
+
+    const chart = this.chart = new Highcharts.Chart(config);
+
+    const redraw = _.debounce(() => {
+      // it can happen that a redraw fires after the current chart was disposed.
+      // In such cases we should not call redraw.
+      if (this.chart === chart) {
+        chart.redraw();
+      }
+    }, 200);
+
+    datasources.forEach((datasource, seriesIndex) => {
+      let latestDataPointInPreviousUpdate = null;
+      let numberOfDataPointsInPreviousUpdate = 0;
+
+      this.addSubscription(datasource
+        // a very short debounce function used to handle bursts of updates. Thus
+        // updates can happen for various reasons, e.g. when the tab is not
+        // active or when there are network issues.
+        .debounce(5, {
+          leading: true,
+          trailing: true
+        })
+        .subscribe(dataset => {
+          const indexOfLatestDataPointInCurrentUpdate = _.findIndex(
+            dataset.values,
+            value => value[0] === latestDataPointInPreviousUpdate
+          );
+
+          const numberOfPointsToAdd = dataset.values.length - 1 -
+            indexOfLatestDataPointInCurrentUpdate;
+          const numberOfPointsToRemove = numberOfDataPointsInPreviousUpdate -
+            1 - indexOfLatestDataPointInCurrentUpdate;
+
+          // do a big update instead of a broken animation
+          if (numberOfPointsToAdd < numberOfPointsToRemove) {
+          // incremental update, HighChart can transition this, yay!
+            this.chart.series[seriesIndex]
+              .setData(dataset.values, false, false);
+          } else {
+            let numberOfAddedPoints = 0;
+            for (let i = indexOfLatestDataPointInCurrentUpdate + 1;
+                 i < dataset.values.length;
+                 i++) {
+              const shift = numberOfAddedPoints < numberOfPointsToRemove;
+              this.chart.series[seriesIndex]
+                .addPoint(dataset.values[i], false, shift);
+              numberOfAddedPoints++;
+            }
+          }
+
+          const latestValue = dataset.values[dataset.values.length - 1];
+          latestDataPointInPreviousUpdate = latestValue[0];
+          numberOfDataPointsInPreviousUpdate = dataset.values.length;
+
+          redraw();
+        }));
     });
   }
 });

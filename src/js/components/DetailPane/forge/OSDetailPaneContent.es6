@@ -1,3 +1,5 @@
+/*global Highcharts*/
+
 'use strict';
 
 import React from 'react/addons';
@@ -24,8 +26,61 @@ const OSDetailPaneContent = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
   getInitialState() {
-    return {filesystemDatasources: null,
-            interfaceDatasources: null};
+    return {
+      filesystemDatasources: null,
+      interfaceDatasources: null,
+      cpuLineChartConfig: {
+        chart: {
+          type: 'area',
+          // Animations are not functional for stacked charts
+          // animation: Highcharts.svg,
+          animation: false,
+          height: 250
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 150,
+          tickLength: 0,
+          minPadding: 0,
+          maxPadding: 0,
+          labels: {
+            y: 28
+          }
+        },
+        yAxis: {
+          title: {
+            text: null
+          },
+          min: 0,
+          max: 1,
+          tickLength: 0,
+          labels: {
+            x: -10
+          }
+        },
+        plotOptions: {
+          area: {
+            stacking: 'normal'
+          }
+        },
+        tooltip: {
+          formatter: function () {
+            return '<b>' + this.series.name + '</b><br/>' +
+              Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
+              Highcharts.numberFormat(this.y, 2);
+          }
+        },
+        legend: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
+        }
+      }
+    };
   },
 
   render() {
@@ -35,7 +90,17 @@ const OSDetailPaneContent = React.createClass({
     return (
       <div>
 
-        <HighChart height={250} />
+        <HighChart
+          snapshot={this.props.snapshot}
+          timeframe={1000 * 60 * 5}
+          metrics={[
+            'cpu.total.user',
+            'cpu.total.sys',
+            'cpu.total.wait',
+            'cpu.total.nice',
+            'cpu.total.steal'
+          ]}
+          config={this.state.cpuLineChartConfig} />
 
         <Separator />
 
