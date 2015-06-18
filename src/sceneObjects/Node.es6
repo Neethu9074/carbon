@@ -343,7 +343,7 @@ export default class Node extends BaseNode {
     } else if(hostHealth === health.danger) {
       color = new THREE.Color(theme.map.colors.critical);
     } else {
-      color = new THREE.Color(theme.map.colors.ok);
+      color = new THREE.Color(theme.map.colors.default);
     }
     return {r: color.r, g: color.g, b: color.b};
   }
