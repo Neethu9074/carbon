@@ -28,25 +28,29 @@ export default class BaseNodeHighlight extends Highlight {
     //create outline effect using lines
     const pos = client.getPosition();
     const height = client.cube.scale.y;
+    const fromX = pos.x + 0.01;
+    const toX = pos.x - 1.01;
+    const fromZ = pos.z - 0.01;
+    const toZ = pos.z + 1.01;
+
     const points = [
+      {x: toX, y: 0, z: fromZ},
+      {x: toX, y: 0, z: toZ},
 
-      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
-      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
+      {x: toX, y: 0, z: toZ},
+      {x: fromX, y: 0, z: toZ},
 
-      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
-      {x: pos.x, y: 0, z: pos.z + 1.01},
+      {x: toX, y: 0, z: fromZ},
+      {x: toX, y: height, z: fromZ},
 
-      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
-      {x: pos.x - 1.01, y: height, z: pos.z - 0.01},
+      {x: fromX, y: 0, z: toZ},
+      {x: fromX, y: height, z: toZ},
 
-      {x: pos.x, y: 0, z: pos.z + 1.01},
-      {x: pos.x, y: height, z: pos.z + 1.01},
+      {x: toX, y: height, z: fromZ},
+      {x: fromX, y: height, z: fromZ},
 
-      {x: pos.x - 1.01, y: height, z: pos.z - 0.01},
-      {x: pos.x + 0.01, y: height, z: pos.z - 0.01},
-
-      {x: pos.x + 0.01, y: height, z: pos.z - 0.01},
-      {x: pos.x + 0.01, y: height, z: pos.z + 1.01}
+      {x: fromX, y: height, z: fromZ},
+      {x: fromX, y: height, z: toZ}
     ];
 
     const factory = client.scene.lineFactory;
