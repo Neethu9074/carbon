@@ -22,9 +22,6 @@ const StickyNoteRC = React.createClass({
     const data = this.props.snapshot.get('data');
     return (
       <div>
-        <div className="in-sticky-note__node__id">
-          {this.props.id}
-        </div>
         <div >
           <img src={iconPath} className="in-sticky-note__node__icon"/>
         </div>
