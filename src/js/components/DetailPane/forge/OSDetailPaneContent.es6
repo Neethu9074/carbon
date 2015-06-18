@@ -11,9 +11,10 @@ import {formatBytes} from 'instana-ui-services/converters';
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
+import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import HighChart from '../sdk/charts/HighChart';
-import StackedAreaChart from '../sdk/charts/StackedAreaChart';
+import ChartLegend from '../sdk/charts/ChartLegend';
 import Separator from '../sdk/Separator';
 import Mtd from '../sdk/Mtd';
 import ContentHeading from '../sdk/ContentHeading';
@@ -27,9 +28,9 @@ const OSDetailPaneContent = React.createClass({
 
   getInitialState() {
     return {
-      filesystemDatasources: null,
       interfaceDatasources: null,
-      cpuLineChartConfig: {
+
+      cpuUsageChartConfig: {
         chart: {
           type: 'area',
           // Animations are not functional for stacked charts
@@ -67,11 +68,7 @@ const OSDetailPaneContent = React.createClass({
           }
         },
         tooltip: {
-          formatter: function () {
-            return '<b>' + this.series.name + '</b><br/>' +
-              Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
-              Highcharts.numberFormat(this.y, 2);
-          }
+          enabled: false
         },
         legend: {
           enabled: false
@@ -79,7 +76,49 @@ const OSDetailPaneContent = React.createClass({
         exporting: {
           enabled: false
         }
-      }
+      },
+
+      cpuLoadChartConfig: {
+        chart: {
+          type: 'area',
+          animation: Highcharts.svg,
+          height: 250
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 150,
+          tickLength: 0,
+          minPadding: 0,
+          maxPadding: 0,
+          labels: {
+            y: 28
+          }
+        },
+        yAxis: {
+          title: {
+            text: null
+          },
+          tickLength: 0,
+          labels: {
+            x: -10
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        legend: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
+        }
+      },
+
+      filesystemMetrics: null,
+      filesystemUsageChartConfig: null
     };
   },
 
@@ -89,26 +128,8 @@ const OSDetailPaneContent = React.createClass({
 
     return (
       <div>
-
-        <HighChart
-          snapshot={this.props.snapshot}
-          timeframe={1000 * 60 * 5}
-          metrics={[
-            'cpu.total.user',
-            'cpu.total.sys',
-            'cpu.total.wait',
-            'cpu.total.nice',
-            'cpu.total.steal'
-          ]}
-          config={this.state.cpuLineChartConfig} />
-
-        <Separator />
-
-        <StackedAreaChart title='CPU Usage'
-                          width={this.props.width}
-                          height={250}
+        <ChartLegend title='CPU Usage'
                           snapshot={this.props.snapshot}
-                          timeframe={1000 * 60 * 5}
                           metrics={[
                             'cpu.total.user',
                             'cpu.total.sys',
@@ -124,16 +145,23 @@ const OSDetailPaneContent = React.createClass({
                             'Steal'
                           ]}
                           metricUnit='%'
-                          percentFormatter={percentFormatter}
                           metricValueFormatter={metricValueFormatter} />
+
+        <HighChart snapshot={this.props.snapshot}
+                   timeframe={1000 * 60 * 5}
+                   metrics={[
+                     'cpu.total.user',
+                     'cpu.total.sys',
+                     'cpu.total.wait',
+                     'cpu.total.nice',
+                     'cpu.total.steal'
+                   ]}
+                   config={this.state.cpuUsageChartConfig} />
 
         <Separator />
 
-        <StackedAreaChart title='CPU Load'
-                          width={this.props.width}
-                          height={250}
+        <ChartLegend title='CPU Load'
                           snapshot={this.props.snapshot}
-                          timeframe={1000 * 60 * 5}
                           metrics={[
                             'load.1min'
                           ]}
@@ -141,8 +169,14 @@ const OSDetailPaneContent = React.createClass({
                             'Load'
                           ]}
                           metricUnit=''
-                          percentFormatter={d => d}
                           metricValueFormatter={d => d} />
+
+        <HighChart snapshot={this.props.snapshot}
+                   timeframe={1000 * 60 * 5}
+                   metrics={[
+                    'load.1min'
+                   ]}
+                   config={this.state.cpuLoadChartConfig} />
 
         <Separator />
 
@@ -150,12 +184,11 @@ const OSDetailPaneContent = React.createClass({
           {this.getIntlMessage('forge.os.filesystems')}
         </ContentHeading>
 
-        {this.state.filesystemDatasources ?
-          <LineChart datasources={this.state.filesystemDatasources}
-                     width={this.props.width}
-                     height={250}
-                     percentFormatter={d => formatBytes(d * 1024)}
-                     type='line' />
+        {this.state.filesystemMetrics ?
+          <HighChart snapshot={this.props.snapshot}
+                     timeframe={1000 * 60 * 5}
+                     metrics={this.state.filesystemMetrics}
+                     config={this.state.filesystemUsageChartConfig} />
         : null}
 
         <table className='in-subtle-table'>
@@ -206,7 +239,7 @@ const OSDetailPaneContent = React.createClass({
           <LineChart datasources={this.state.interfaceDatasources}
                      width={this.props.width}
                      height={250}
-                     percentFormatter={d => formatBytes(d) + "/s"}
+                     percentFormatter={d => formatBytes(d) + '/s'}
                      type='line' />
         : null}
 
@@ -292,10 +325,53 @@ const OSDetailPaneContent = React.createClass({
   },
 
   selectFilesystem(fs) {
+    const metric = 'fs.' + fs + '.free.5000.mean';
     this.setState({
-      filesystemDatasources: [
-        this.createMetricWithHistoryStream('fs.' + fs + '.free.5000.mean')
-      ]
+      filesystemMetrics: [metric],
+      filesystemUsageChartConfig: {
+        chart: {
+          type: 'line',
+          animation: Highcharts.svg,
+          height: 250
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 150,
+          tickLength: 0,
+          minPadding: 0,
+          maxPadding: 0,
+          labels: {
+            y: 28
+          }
+        },
+        yAxis: {
+          title: {
+            text: null
+          },
+          tickLength: 0,
+          min: 0,
+          max: getMaxValue(metric, this.props.snapshot),
+          endOnTick: false,
+          labels: {
+            x: -10,
+            formatter: function() {
+              return formatBytes(this.value * 1024);
+            }
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        legend: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
+        }
+      }
     });
   },
 

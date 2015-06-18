@@ -86,13 +86,6 @@ const HighChart = React.createClass({
       let numberOfDataPointsInPreviousUpdate = 0;
 
       this.addSubscription(datasource
-        // a very short debounce function used to handle bursts of updates. Thus
-        // updates can happen for various reasons, e.g. when the tab is not
-        // active or when there are network issues.
-        .debounce(5, {
-          leading: true,
-          trailing: true
-        })
         .subscribe(dataset => {
           const indexOfLatestDataPointInCurrentUpdate = _.findIndex(
             dataset.values,
