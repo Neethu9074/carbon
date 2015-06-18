@@ -197,14 +197,14 @@ export default class BaseNode extends SceneObject {
 
   //connects this node with another one. the connection is stored in a
   //connections collection
-  connectWith(otherNode) {
+  connectWith(otherNode, direction) {
     //don't setup a new connection if it's still alive
     if(this.connections.indexOf(otherNode) >= 0) {
       return;
     }
 
     /*eslint-disable no-new*/
-    new Connection({parent: this, from: this, to: otherNode});
+    new Connection({parent: this, from: this, to: otherNode, direction});
     /*eslint-enable no-new*/
   }
 

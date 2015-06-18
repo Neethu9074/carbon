@@ -14,12 +14,13 @@ let id = 0;
 
 export default class Connection extends SceneObject {
 
-  constructor({parent, from, to}) {
+  constructor({parent, from, to, direction}) {
     super({parent});
 
     this.id = id++;
     this.from = from;
     this.to = to;
+    this.direction = direction;
 
     this.calculatePath();
 
@@ -75,7 +76,38 @@ export default class Connection extends SceneObject {
       });
     }
 
+    if(this.direction === 'in') {
+      this.addArrow(points, points[0], points[1]);
+    } else {
+      this.addArrow(
+        points, points[points.length - 1], points[points.length - 2]);
+    }
+
     return points;
+  }
+
+  addArrow(points, from, to) {
+    const arrowLength = 0.25;
+    const dir = this.getDirectionForPoints(from, to);
+
+    //because the arrow are laying on the ground, the up-vector is 0 1 0
+    const right = new THREE.Vector3(0, 1, 0)
+      .cross(dir)
+      .multiplyScalar(arrowLength * 0.75); //shorten to get a angle < 45 degree
+    const arrowLineX = (right.x + dir.x) * arrowLength;
+    const arrowLineZ = (right.z + dir.z) * arrowLength;
+    const arrowLineXLeft = (-right.x + dir.x) * arrowLength;
+    const arrowLineZLeft = (-right.z + dir.z) * arrowLength;
+
+    points.push(from);
+    points.push({
+      x: from.x + arrowLineX, y: from.y, z: from.z + arrowLineZ
+    });
+
+    points.push(from);
+    points.push({
+      x: from.x + arrowLineXLeft, y: from.y, z: from.z + arrowLineZLeft
+    });
   }
 
   calculatePath() {
@@ -126,12 +158,15 @@ export default class Connection extends SceneObject {
   }
 
   getDirectionForPoints(a, b) {
-    const dir = {x: b.x - a.x, y: b.y - a.y};
+    a.z = a.z || 0;
+    b.z = b.z || 0;
+    const dir = {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
 
     //normalize them
-    const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y);
+    const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
     dir.x /= (length);
     dir.y /= (length);
+    dir.z /= (length);
 
     return dir;
   }

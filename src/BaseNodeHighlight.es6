@@ -126,11 +126,17 @@ export default class BaseNodeHighlight extends Highlight {
     }
 
     //show all, incoming and outgoing connections
-    connectedSnapshots.outgoing.concat(connectedSnapshots.incoming)
+    this.setConnectionsWithDirection(connectedSnapshots.outgoing, 'out');
+    this.setConnectionsWithDirection(connectedSnapshots.incoming, 'in');
+  }
+
+  setConnectionsWithDirection(connections, direction) {
+    const client = this.client;
+    connections
     .forEach(otherSnapshot => {
       const other = client.findNodeBySnapshot(otherSnapshot);
       if(other) {
-        client.connectWith(other);
+        client.connectWith(other, direction);
       }
     });
   }
