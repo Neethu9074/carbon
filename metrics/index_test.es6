@@ -32,6 +32,19 @@ describe('metrics', () => {
       expect(locator.getCall(0).args[0]).to.equal(snapshot);
     });
 
+    it('should use match group for metric', () => {
+      const locator = sinon.stub();
+      locator.returns(42);
+      const snapshot = 'aSnapshot';
+      addMaxValueLocator(/^fs\.([^\.]+)\.free/, locator);
+
+      const maxValue = getMaxValue('fs./dev/xvda1.free.5000.mean', snapshot);
+      expect(maxValue).to.equal(42);
+      expect(locator.calledOnce).to.equal(true);
+      expect(locator.getCall(0).args[0]).to.equal(snapshot);
+      expect(locator.getCall(0).args[1][1]).to.equal('/dev/xvda1');
+    });
+
     it('should avoid similar locators that do not match exactly', () => {
       const memoryStub = sinon.stub();
       memoryStub.returns('memory');

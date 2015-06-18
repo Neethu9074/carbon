@@ -40,7 +40,8 @@ export function getMaxValue(metric, snapshot) {
   if (!locator) {
     throw new Error('No locator found for metric ' + metric);
   }
-  return locator.locator(snapshot);
+
+  return locator.locator(snapshot, metric.match(locator.metric));
 }
 
 export function getMinValue(metric, snapshot) {
@@ -52,7 +53,7 @@ export function getMinValue(metric, snapshot) {
   if (!locator) {
     throw new Error('No locator found for metric ' + metric);
   }
-  return locator.locator(snapshot);
+  return locator.locator(snapshot, metric.match(locator.metric));
 }
 
 export function getNormalizedValue(metric, snapshot, value) {
