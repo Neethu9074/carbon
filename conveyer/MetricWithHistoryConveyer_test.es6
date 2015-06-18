@@ -84,8 +84,6 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
     });
     expect(onNext.callCount).to.equal(1);
     const event = onNext.getCall(0).args[0];
-    expect(event.min).to.equal(0);
-    expect(event.max).to.equal(1);
     expect(event.values).to.deep.equal(data);
   });
 
@@ -107,8 +105,6 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
 
     expect(onNext.callCount).to.equal(2);
     const event = onNext.getCall(1).args[0];
-    expect(event.min).to.equal(0);
-    expect(event.max).to.equal(1);
     expect(event.values).to.deep.equal(data.concat(dataUpdate));
   });
 
