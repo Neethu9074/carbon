@@ -84,8 +84,6 @@ export default class Scene {
       = new SingleMeshFactory({scene: this, renderOrder: 3});
     this.groundSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 2});
-    this.highlightSingleMeshFactory
-      = new SingleMeshFactory({scene: this, renderOrder: 4});
 
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
