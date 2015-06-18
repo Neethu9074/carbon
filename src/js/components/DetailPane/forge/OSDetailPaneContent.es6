@@ -22,6 +22,7 @@ import ContentHeading from '../sdk/ContentHeading';
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
 const metricValueFormatter = d => commasFormatter(d * 100);
+const bytesPerSecondFormatter = d => formatBytes(d) + '/s';
 
 const OSDetailPaneContent = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
@@ -314,7 +315,7 @@ const OSDetailPaneContent = React.createClass({
                          this,
                          'ifs.' + name + '.rx.bytes.5000.mean'
                        )}
-                     formatter={d => formatBytes(d * 1024) + '/s'} />
+                     formatter={bytesPerSecondFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
@@ -338,7 +339,7 @@ const OSDetailPaneContent = React.createClass({
                          this,
                          'ifs.' + name + '.tx.bytes.5000.mean'
                        )}
-                     formatter={d => formatBytes(d * 1024) + '/s'} />
+                     formatter={bytesPerSecondFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
