@@ -118,7 +118,50 @@ const OSDetailPaneContent = React.createClass({
       },
 
       filesystemMetrics: null,
-      filesystemUsageChartConfig: null
+      filesystemUsageChartConfig: null,
+
+      interfaceMetrics: null,
+      interfaceChartConfig: {
+        chart: {
+          type: 'line',
+          animation: Highcharts.svg,
+          height: 250
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 150,
+          tickLength: 0,
+          minPadding: 0,
+          maxPadding: 0,
+          labels: {
+            y: 28
+          }
+        },
+        yAxis: {
+          title: {
+            text: null
+          },
+          tickLength: 0,
+          labels: {
+            x: -10,
+            formatter: function() {
+              return formatBytes(this.value);
+            }
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        legend: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
+        }
+      }
     };
   },
 
@@ -235,12 +278,11 @@ const OSDetailPaneContent = React.createClass({
           {this.getIntlMessage('forge.os.networkinterfaces')}
         </ContentHeading>
 
-        {this.state.interfaceDatasources ?
-          <LineChart datasources={this.state.interfaceDatasources}
-                     width={this.props.width}
-                     height={250}
-                     percentFormatter={d => formatBytes(d) + '/s'}
-                     type='line' />
+        {this.state.interfaceMetrics ?
+          <HighChart snapshot={this.props.snapshot}
+                     timeframe={1000 * 60 * 5}
+                     metrics={this.state.interfaceMetrics}
+                     config={this.state.interfaceChartConfig} />
         : null}
 
         <table className='in-subtle-table'>
@@ -375,11 +417,11 @@ const OSDetailPaneContent = React.createClass({
     });
   },
 
-  selectInterface(fs) {
+  selectInterface(iface) {
     this.setState({
-      interfaceDatasources: [
-        this.createMetricWithHistoryStream('ifs.' + fs + '.rx.bytes.5000.mean'),
-        this.createMetricWithHistoryStream('ifs.' + fs + '.tx.bytes.5000.mean')
+      interfaceMetrics: [
+        'ifs.' + iface + '.rx.bytes.5000.mean',
+        'ifs.' + iface + '.tx.bytes.5000.mean'
       ]
     });
   },
