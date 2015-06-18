@@ -25,8 +25,14 @@
 }
 
 .in-sticky-note__node__icon {
-  width: 36px;
-  height: 36px;
+    width: 36px;
+    height: 36px;
+    margin-left: 32px;
+    transition: all 0.5s ease;
 
-  margin-left: 32px;
+  .in-map--zoom-50 &, .in-map--zoom-100 & {
+    width: 64px;
+    height: 64px;
+    margin-left: 16px;
+  }
 }
