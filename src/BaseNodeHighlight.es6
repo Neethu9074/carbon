@@ -54,7 +54,7 @@ export default class BaseNodeHighlight extends Highlight {
     ];
 
     const factory = client.scene.lineFactory;
-    factory.addFragment({id: client.id, points, highlighted: true});
+    factory.addFragment({id: client.id + '_h', points, highlighted: true});
 
     //show all connections of the node
     this.setupConnections();
@@ -76,6 +76,8 @@ export default class BaseNodeHighlight extends Highlight {
 
     //dispose all connections tangents this node
     client.clearConnections();
+
+    client.scene.lineFactory.removeFragment(client.id + '_h');
 
     client.disposeStickyNoteHighlight();
 
