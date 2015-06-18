@@ -1,5 +1,7 @@
 'use strict';
 
+import THREE from 'three';
+
 import Highlight from './Highlight';
 import eventBus from 'instana-ui-services/eventbus';
 
@@ -23,10 +25,32 @@ export default class BaseNodeHighlight extends Highlight {
       client.stickyNoteHighlight = client.createStickyNoteHighlight();
     }
 
-    //add the fargment to the highlight factory
-    //so that the material is not faded by camera distance
-    client.scene.highlightSingleMeshFactory
-      .addFragment(client.getNodeAsFragment());
+    //create outline effect using lines
+    const pos = client.getPosition();
+    const height = client.cube.scale.y;
+    const points = [
+
+      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
+      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
+
+      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
+      {x: pos.x, y: 0, z: pos.z + 1.01},
+
+      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
+      {x: pos.x - 1.01, y: height, z: pos.z - 0.01},
+
+      {x: pos.x, y: 0, z: pos.z + 1.01},
+      {x: pos.x, y: height, z: pos.z + 1.01},
+
+      {x: pos.x - 1.01, y: height, z: pos.z - 0.01},
+      {x: pos.x + 0.01, y: height, z: pos.z - 0.01},
+
+      {x: pos.x + 0.01, y: height, z: pos.z - 0.01},
+      {x: pos.x + 0.01, y: height, z: pos.z + 1.01}
+    ];
+
+    const factory = client.scene.lineFactory;
+    factory.addFragment({id: client.id, points, highlighted: true});
 
     //show all connections of the node
     this.setupConnections();
@@ -45,9 +69,6 @@ export default class BaseNodeHighlight extends Highlight {
     if(!this.isHighlighted) {
       return;
     }
-
-    //remove the highlight from the factory
-    client.scene.highlightSingleMeshFactory.removeFragment(client.id);
 
     //dispose all connections tangents this node
     client.clearConnections();
@@ -137,6 +158,8 @@ export default class BaseNodeHighlight extends Highlight {
   }
 
   dispose() {
+    this.client.scene.lineFactory.removeFragment(this.client.id);
+
     this.subscription.dispose();
     this.subscription = null;
   }

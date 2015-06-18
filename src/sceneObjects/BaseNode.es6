@@ -54,12 +54,12 @@ export default class BaseNode extends SceneObject {
     this.connections = [];
     this.incomingConnections = [];
 
-    //the highlighting object which handles the highlighting stuff
-    this.highlighting = new Highlight({client: this});
-
     this.stickyNote = emptyStickyObject;
     this.stickyNoteHighlight = emptyStickyObject;
     this.render();
+
+    //the highlighting object which handles the highlighting stuff
+    this.highlighting = new Highlight({client: this});
 
     this.registerEvents();
   }
@@ -268,7 +268,6 @@ export default class BaseNode extends SceneObject {
     this.removeFromGlobalGeometry();
 
     this.scene.singleMeshFactory.removeFragment(this.id);
-    this.scene.highlightSingleMeshFactory.removeFragment(this.id);
     this.scene.lineFactory.removeFragment(this.id);
 
     this.highlighting.dispose();
