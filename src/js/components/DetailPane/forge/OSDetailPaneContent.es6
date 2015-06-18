@@ -6,7 +6,6 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import d3 from 'd3';
 
-import LineChart from 'instana-ui-components/LineChart';
 import {formatBytes} from 'instana-ui-services/converters';
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
@@ -121,10 +120,9 @@ const OSDetailPaneContent = React.createClass({
       filesystemMetrics: null,
       filesystemUsageChartConfig: null,
 
-      interfaceMetrics: null,
-      interfaceChartConfig: {
+      memoryFreeChartConfig: {
         chart: {
-          type: 'line',
+          type: 'area',
           animation: Highcharts.svg,
           height: 250
         },
@@ -146,6 +144,51 @@ const OSDetailPaneContent = React.createClass({
             text: null
           },
           tickLength: 0,
+          min: 0,
+          labels: {
+            x: -10,
+            formatter: function() {
+              return formatBytes(this.value);
+            }
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        legend: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
+        }
+      },
+
+      interfaceMetrics: null,
+      interfaceChartConfig: {
+        chart: {
+          type: 'spline',
+          animation: Highcharts.svg,
+          height: 250
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 150,
+          tickLength: 0,
+          minPadding: 0,
+          maxPadding: 0,
+          labels: {
+            y: 28
+          }
+        },
+        yAxis: {
+          title: {
+            text: null
+          },
+          tickLength: 0,
+          min: 0,
           labels: {
             x: -10,
             formatter: function() {
@@ -221,6 +264,26 @@ const OSDetailPaneContent = React.createClass({
                     'load.1min'
                    ]}
                    config={this.state.cpuLoadChartConfig} />
+
+        <Separator />
+
+        <ChartLegend title='Memory Free'
+                          snapshot={this.props.snapshot}
+                          metrics={[
+                            'memory.free'
+                          ]}
+                          metricLabels={[
+                            'Free'
+                          ]}
+                          metricUnit=''
+                          metricValueFormatter={d => formatBytes(d)} />
+
+        <HighChart snapshot={this.props.snapshot}
+                   timeframe={1000 * 60 * 5}
+                   metrics={[
+                     'memory.free'
+                   ]}
+                   config={this.state.memoryFreeChartConfig} />
 
         <Separator />
 
@@ -373,7 +436,7 @@ const OSDetailPaneContent = React.createClass({
       filesystemMetrics: [metric],
       filesystemUsageChartConfig: {
         chart: {
-          type: 'line',
+          type: 'spline',
           animation: Highcharts.svg,
           height: 250
         },
