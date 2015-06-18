@@ -52,16 +52,8 @@ const ServerDetails = React.createClass({
         {ec2 ?
           <Panel title='Amazon'>
             <DescriptionList horizontal={true}>
-              <DescriptionItem title='AMI ID'>
-                {ec2.get('ami-id')}
-              </DescriptionItem>
-
               <DescriptionItem title='Instance ID'>
                 {ec2.get('instance-id')}
-              </DescriptionItem>
-
-              <DescriptionItem title='Reservation ID'>
-                {ec2.get('reservation-id')}
               </DescriptionItem>
 
               <DescriptionItem title='Type'>
@@ -70,6 +62,22 @@ const ServerDetails = React.createClass({
 
               <DescriptionItem title='Availability Zone'>
                 {ec2.get('availability-zone')}
+              </DescriptionItem>
+
+              <DescriptionItem title='Public Hostname'>
+                {ec2.get('public-hostname')}
+              </DescriptionItem>
+
+              <DescriptionItem title='Public IP'>
+                {ec2.get('public-ipv4')}
+              </DescriptionItem>
+
+              <DescriptionItem title='AMI ID'>
+                {ec2.get('ami-id')}
+              </DescriptionItem>
+
+              <DescriptionItem title='Reservation ID'>
+                {ec2.get('reservation-id')}
               </DescriptionItem>
 
               <DescriptionItem title='Security Group'>
