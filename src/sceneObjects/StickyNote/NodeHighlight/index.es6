@@ -22,7 +22,12 @@ const StickyNoteRC = React.createClass({
     const data = this.props.snapshot.get('data');
     return (
       <div>
-        {this.props.snapshot.get('hostId')}
+        <div className="in-sticky-note__node__highlight__header">
+          {this.props.snapshot.get('hostId')}
+        </div>
+        <div className="in-sticky-note__node__highlight__content">
+          You will run out of memory space!
+        </div>
       </div>
     );
   }
