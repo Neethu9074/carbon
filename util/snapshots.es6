@@ -21,7 +21,6 @@ export function extractId(snapshot) {
   /* eslint-enable new-cap */
 }
 
-
 /**
  * Determines whether both IDs are equal.
  *
@@ -40,7 +39,6 @@ export function isIdEqual(id1, id2) {
     id1.get('steadyId') === id2.get('steadyId');
 }
 
-
 /**
  * Turns the snapshot into an ID string which can be used as a key in
  * Objects.
@@ -58,7 +56,6 @@ export function getIdString(s) {
   }
   return undefined;
 }
-
 
 /**
  * Look for a snapshot in an reactive observable. Commonly used to extract a
@@ -79,7 +76,6 @@ export function only(observable, snapshotId) {
   .filter(v => v !== undefined)
   .distinct();
 }
-
 
 /* eslint-disable new-cap */
 /**
