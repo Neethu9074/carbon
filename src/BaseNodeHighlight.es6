@@ -5,6 +5,8 @@ import THREE from 'three';
 import Highlight from './Highlight';
 import eventBus from 'instana-ui-services/eventbus';
 
+import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
+
 
 export default class BaseNodeHighlight extends Highlight {
 
@@ -14,6 +16,8 @@ export default class BaseNodeHighlight extends Highlight {
     this.subscription = eventBus.on('layoutChanged').subscribe(() => {
       this.refreshConnections();
     });
+
+    this.wiredSnapshotsSubscription = null;
   }
 
   //sets the primary highlight whatever that means
@@ -81,6 +85,8 @@ export default class BaseNodeHighlight extends Highlight {
 
     client.disposeStickyNoteHighlight();
 
+    this.disposeWiredSnapshotSubscribtion();
+
     //make the changes visible
     client.renderScene();
 
@@ -109,7 +115,6 @@ export default class BaseNodeHighlight extends Highlight {
     const factory = client.scene.lineFactory;
     factory.addFragment({id: client.id, points, highlighted: isSelected});
 
-
     client.scene.highlightingSingleMeshFactory
       .addFragment(client.getNodeAsFragment());
   }
@@ -123,21 +128,19 @@ export default class BaseNodeHighlight extends Highlight {
 
     client.clearConnections();
 
-    //get all connections of this node
-    const connectedSnapshots = client.collectConnections();
-    if(!connectedSnapshots) {
-      return;
-    }
-
-    //show all, incoming and outgoing connections
-    this.setConnectionsWithDirection(connectedSnapshots.outgoing, 'out');
-    this.setConnectionsWithDirection(connectedSnapshots.incoming, 'in');
+    this.disposeWiredSnapshotSubscribtion();
+    this.wiredSnapshotsSubscription = getWiredSnapshots(client.snapshot)
+      .subscribe((wiredSnapshots) => {
+        this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
+        this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
+        client.scene.renderScene();
+      }
+    );
   }
 
   setConnectionsWithDirection(connections, direction) {
     const client = this.client;
-    connections
-    .forEach(otherSnapshot => {
+    connections.forEach(otherSnapshot => {
       const other = client.findNodeBySnapshot(otherSnapshot);
       if(other) {
         client.connectWith(other, direction);
@@ -174,7 +177,16 @@ export default class BaseNodeHighlight extends Highlight {
     client.scene.highlightingSingleMeshFactory.removeFragment(client.id);
   }
 
+  disposeWiredSnapshotSubscribtion() {
+    if(this.wiredSnapshotsSubscription) {
+      this.wiredSnapshotsSubscription.dispose();
+      this.wiredSnapshotsSubscription = null;
+    }
+  }
+
   dispose() {
+    this.disposeWiredSnapshotSubscribtion();
+
     this.client.scene.lineFactory.removeFragment(this.client.id);
     this.client.scene.highlightingSingleMeshFactory
       .removeFragment(this.client.id);
