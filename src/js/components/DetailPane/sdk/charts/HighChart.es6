@@ -5,6 +5,7 @@
 import _ from 'lodash';
 import React from 'react';
 
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {create} from 'instana-ui-services/conveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
@@ -35,7 +36,7 @@ const HighChart = React.createClass({
   },
 
   shouldComponentUpdate(nextProps) {
-    return nextProps.snapshot !== this.props.snapshot ||
+    return !isIdEqual(nextProps.snapshot, this.props.snapshot) ||
       !_.isEqual(nextProps.metrics, this.props.metrics) ||
       nextProps.timeframe !== this.props.timeframe ||
       nextProps.config !== this.props.config;
