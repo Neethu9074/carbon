@@ -64,8 +64,7 @@ export default class Scene {
     this.subscriptions = [eventBus.on('focus').subscribe(e =>this.onFocus(e))];
 
     this.subscriptions.push(
-      eventBus.on('showMetrics').subscribe((e) => this.showMetrics(e)));
-
+      eventBus.on('showMetrics').subscribe((e) => this.showMetrics(e)))
     this.subscriptions.push(
       eventBus.on('hideMetrics').subscribe((e) => this.hideMetrics(e)));
 
@@ -84,6 +83,9 @@ export default class Scene {
       = new SingleMeshFactory({scene: this, renderOrder: 3});
     this.groundSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 2});
+
+    this.highlightingSingleMeshFactory
+      = new SingleMeshFactory({scene: this, renderOrder: 4});
 
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
@@ -270,7 +272,7 @@ export default class Scene {
   }
 
   showMetrics(e) {
-    //this.hideMetricFactoryMesh();
+    this.hideMetricFactoryMesh();
 
     currentMetrics = e ? e.metrics : currentMetrics;
 
@@ -306,14 +308,18 @@ export default class Scene {
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
+    this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
+    this.highlightingSingleMeshFactory.material.transparent =
+      (zoomLevel < maxZoomOut);
+
     //if there is no cube isSelected, fade all cubes by distance
     if(!this.selectedSceneObject) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
       this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
 
       this.groundSingleMeshFactory.material.opacity = normedZoomLevel;
-      this.groundSingleMeshFactory.material.transparent
-        = (zoomLevel < maxZoomOut);
+      this.groundSingleMeshFactory.material.transparent =
+        (zoomLevel < maxZoomOut);
     }
   }
 

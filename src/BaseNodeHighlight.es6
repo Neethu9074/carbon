@@ -108,6 +108,10 @@ export default class BaseNodeHighlight extends Highlight {
 
     const factory = client.scene.lineFactory;
     factory.addFragment({id: client.id, points, highlighted: isSelected});
+
+
+    client.scene.highlightingSingleMeshFactory
+      .addFragment(client.getNodeAsFragment());
   }
 
   clearIndirectHighlight() {
@@ -167,10 +171,13 @@ export default class BaseNodeHighlight extends Highlight {
 
     //remove frame on the ground
     client.scene.lineFactory.removeFragment(client.id);
+    client.scene.highlightingSingleMeshFactory.removeFragment(client.id);
   }
 
   dispose() {
     this.client.scene.lineFactory.removeFragment(this.client.id);
+    this.client.scene.highlightingSingleMeshFactory
+      .removeFragment(this.client.id);
 
     this.subscription.dispose();
     this.subscription = null;
