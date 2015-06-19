@@ -92,6 +92,10 @@ const emptyObservable = ro.create({emitLatestOnSubscribe: true});
 emptyObservable.emit([]);
 
 export function getWiredSnapshots(snapshot) {
+  if (snapshot === null) {
+    return emptyObservable;
+  }
+
   const pluginId = snapshot.get('pluginId');
 
   const finder = wiredSnapshotFinder[pluginId];
