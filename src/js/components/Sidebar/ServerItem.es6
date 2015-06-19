@@ -2,7 +2,7 @@
 
 import React from 'react/addons';
 
-import {select} from 'instana-ui-services/stores/selectedSnapshot';
+import {select, clear} from 'instana-ui-services/stores/selectedSnapshot';
 import classnames from 'instana-ui-services/util/classnames';
 import {getLabel} from 'instana-ui-sdk/snapshot';
 
@@ -34,7 +34,11 @@ const ServerItem = React.createClass({
   },
 
   focus() {
-    select(this.props.snapshot);
+    if (this.props.selected) {
+      clear();
+    } else {
+      select(this.props.snapshot);
+    }
   }
 });
 
