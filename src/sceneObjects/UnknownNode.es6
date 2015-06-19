@@ -21,12 +21,8 @@ export default class Unknownnode extends BaseNode {
     return this.stickyNoteHighlight;
   }
 
-  update(data) {
+  update() {
     super.update();
-
-    if(!data.scene.renderHtmlStuff) {
-      return;
-    }
 
     //if the node is near enough or is in the view frustum
     if(this.isInView()) {

@@ -423,9 +423,8 @@ export default class Scene {
 
   onZoom(event) {
     const zoomLevel = event.zoomLevel;
-    if(zoomLevel > 250) {
-      //this.renderHtmlStuff = false;
 
+    if(zoomLevel > 250) {
       //if there is an active metric, disable metrics.
       //activeMetricFactory is disposed on hideMetrics
       if(this.activeMetricFactory) {
@@ -442,7 +441,6 @@ export default class Scene {
         //call method without arguments will use the last added metrics
         this.showMetrics();
       }
-      this.renderHtmlStuff = true;
     }
 
     //update the css design zoom distance

@@ -106,29 +106,18 @@ export default class Node extends BaseNode {
     return new StickyNoteNodeHighlight(this);
   }
 
-  showMetrics() {
-    // this.addStickyNoteForMetric();
-  }
+  showMetrics() {}
 
-  hideMetrics() {
-    // this.stickyNoteMetric.dispose();
-    // this.stickyNoteMetric = emptyStickyObject;
-  }
+  hideMetrics() {}
 
   setSingleMetricValue(value) {
     this.scene.singleMetricFactory
       .getFragment(this.id)
       .newHeight = value;
-
-    // this.stickyNoteMetric.updateWorldPos();
-    // this.stickyNoteMetric.render(value);
   }
 
   setMultiMetricValue(values) {
     this.newMetricValues = values;
-
-    // this.stickyNoteMetric.updateWorldPos();
-    // this.stickyNoteMetric.render();
   }
 
   updateMetricHeight() {
@@ -162,10 +151,6 @@ export default class Node extends BaseNode {
   update(data) {
     super.update();
 
-    if(!data.scene.renderHtmlStuff) {
-      return;
-    }
-
     //if the node is near enough or is in the view frustum
     if(!this.isInView()) {
       //trigger the hide method just once
@@ -197,10 +182,6 @@ export default class Node extends BaseNode {
   }
 
   showMetric() {
-    // if(this.stickyNoteMetric === emptyStickyObject) {
-    //   this.stickyNoteMetric = new StickyNoteMetric(this);
-    // }
-
     //enable metrics if the node is visible but only if there is no "active"
     //hideMetrics event
     this.snapshotServer.resumeMetrics();
@@ -277,7 +258,6 @@ export default class Node extends BaseNode {
     this.layer.push(layer);
 
     this.arrangeChildren();
-    //this.addStickyNoteForLayer();
   }
 
   arrangeChildren() {
