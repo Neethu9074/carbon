@@ -29,7 +29,9 @@ describe('relatedSnapshots', () => {
     getWiredSnapshots.returns(wiredSnapshotsObservable);
 
     selectedSnapshotStore = {
-      selectedSnapshot: ro.create()
+      selectedSnapshot: ro.create({
+        emitLatestOnSubscribe: true
+      })
     };
 
     wiredSnapshots = proxyquire('./wiredSnapshots', {
@@ -50,6 +52,7 @@ describe('relatedSnapshots', () => {
   });
 
   it('should forward wired snapshots to subscribers', () => {
+    selectedSnapshotStore.selectedSnapshot.emit(null);
     wiredSnapshots.subscribe(onNext);
     wiredSnapshotsObservable.emit('42');
     expect(onNext.callCount).to.equal(1);
