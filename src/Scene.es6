@@ -477,10 +477,10 @@ export default class Scene {
 
     this.onSnapshotCleared();
 
-    this.singleMeshFactory.material.opacity = 0.25;
+    this.singleMeshFactory.material.opacity = 0.4;
     this.singleMeshFactory.material.transparent = true;
 
-    this.groundSingleMeshFactory.material.opacity = 0.25;
+    this.groundSingleMeshFactory.material.opacity = 0.4;
     this.groundSingleMeshFactory.material.transparent = true;
 
     this.setSelectedObject(object);
