@@ -16,7 +16,9 @@
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
     "instana-ui-sdk": "^1.0.0",
-    "invariant": "^1.0.2"
+    "instana-ui-services": "^1.40.0",
+    "invariant": "^1.0.2",
+    "reactive-observables": "^1.7.1"
   },
   "devDependencies": {
     "babel": "^5.0.10",
