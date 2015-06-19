@@ -64,11 +64,10 @@ const SnapshotPane = React.createClass({
   render() {
     return (
       <div className={block}>
-			  <div className={block + '__content'} ref='content'>
+			  <div className={block + '__content'}>
 						{this.state.snapshots ?
 						 <SnapshotsPaneContent snapshots={this.state.snapshots} />
-						 : "LOADING"
-						 }
+						 : "Loading..." }
         </div>
 
       </div>
