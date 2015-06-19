@@ -1,9 +1,10 @@
 'use strict';
 
-import {selectedSnapshot} from './selectedSnapshot';
-import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
-
 import * as ro from 'reactive-observables';
+import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
+import {isIdEqual} from '../util/snapshots';
+
+import {selectedSnapshot} from './selectedSnapshot';
 
 
 // okay the idea is to subscribe to selectedSnapshotStore
@@ -39,6 +40,7 @@ const roSpec = {
   stop() {
     wiredSnapshotsSubscription.dispose();
     wiredSnapshotsSubscription = null;
+    started = false;
   }
 };
 
@@ -47,6 +49,10 @@ export const wiredSnapshots = ro.create(roSpec);
 // get the current selected snapshot and start the wiredSnapshot subscription.
 // if it is started -> restart it so that everybody gets the newest result.
 selectedSnapshot.subscribe((snapshot) => {
+  if (isIdEqual(lastSelectedSnapshot, snapshot)) {
+    return;
+  }
+
   lastSelectedSnapshot = snapshot;
 
   if(started) {
