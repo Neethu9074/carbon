@@ -1,17 +1,25 @@
 'use strict';
 
+import React from 'react/addons';
+
+import {select} from 'instana-ui-services/stores/selectedSnapshot';
+import classnames from 'instana-ui-services/util/classnames';
+import {getLabel} from 'instana-ui-sdk/snapshot';
+
 import './ServerItem.less';
 
-import React from 'react/addons';
-import {select} from 'instana-ui-services/stores/selectedSnapshot';
-import {getLabel} from 'instana-ui-sdk/snapshot';
+const block = 'in-sidebar-server-listing__snapshot';
 
 const ServerItem = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   render() {
     return (
-      <li className='in-sidebar-server-listing__snapshot'
+      <li className={classnames({
+            [block]: true,
+            [block + '--selected']: this.props.selected,
+            [block + '--wired']: this.props.wired
+          })}
           onClick={this.focus}>
         {getLabel(this.props.snapshot)}
       </li>

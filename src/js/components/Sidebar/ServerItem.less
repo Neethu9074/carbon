@@ -1,9 +1,19 @@
 .in-sidebar-server-listing__snapshot {
   list-style: none;
   background: rgba(255, 255, 255, 0.05);
-  color: #ccc;
-  font-size: 13px;
+  color: #fff;
+  font-size: 12px;
   padding: 8px 13px;
   margin-bottom: 3px;
   -webkit-font-smoothing: subpixel-antialiased;
+
+  &--wired {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+
+  &--selected {
+    color: black;
+    background-color: #fff;
+    font-weight: bold;
+  }
 }

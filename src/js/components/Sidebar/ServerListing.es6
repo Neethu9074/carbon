@@ -1,35 +1,55 @@
 'use strict';
 
-import './ServerListing.less';
-
 import React from 'react/addons';
+import {IntlMixin, FormattedHTMLMessage} from 'react-intl';
+import Immutable from 'immutable';
+
 import {getZone} from 'instana-ui-sdk/zones';
 import {getColor} from 'instana-ui-sdk/zones';
-import {getIdString} from 'instana-ui-services/util/snapshots';
+import {sort} from 'instana-ui-sdk/sorting';
+import * as constants from 'instana-ui-forge/constants';
+import {getIdString, isIdEqual} from 'instana-ui-services/util/snapshots';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import * as constants from 'instana-ui-forge/constants';
-import {sort} from 'instana-ui-sdk/sorting';
-import {IntlMixin, FormattedHTMLMessage} from 'react-intl';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as wiredSnapshotsStore from 'instana-ui-services/stores/wiredSnapshots';
 
 import ServerItem from './ServerItem';
 
+import './ServerListing.less';
 
 const ServerListing = React.createClass({
   mixins: [SubscriptionMixin, React.addons.PureRenderMixin, IntlMixin],
 
   getInitialState() {
     return {
-      snapshots: []
+      snapshots: Immutable.List(),
+      selectedSnapshot: null,
+      wiredSnapshots: Immutable.Map({
+        incoming: Immutable.Set(),
+        outgoing: Immutable.Set()
+      })
     };
   },
 
   componentDidMount() {
     this.addSubscription(
       create(SnapshotConveyer, {pluginId: constants.plugins.os})
-      .map(sort)
-      .subscribe(snapshots => this.setState({snapshots}))
+        .map(sort)
+        .subscribe(snapshots => this.setState({snapshots}))
+    );
+
+    this.addSubscription(
+      selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot =>
+        this.setState({selectedSnapshot})
+      )
+    );
+
+    this.addSubscription(
+      wiredSnapshotsStore.wiredSnapshots.subscribe(wiredSnapshots =>
+        this.setState({wiredSnapshots})
+      )
     );
   },
 
@@ -71,7 +91,9 @@ const ServerListing = React.createClass({
               <ul className="in-sidebar-server-listing__snapshots">
                 {snapshots[zone].map(snapshot =>
                   <ServerItem snapshot={snapshot}
-                              key={getIdString(snapshot)}/>
+                              key={getIdString(snapshot)}
+                              selected={this.state.selectedSnapshot === snapshot}
+                              wired={this.isWired(snapshot)}/>
                 )}
               </ul>
             </li>
@@ -79,6 +101,12 @@ const ServerListing = React.createClass({
         </ul>
       </div>
     );
+  },
+
+  isWired(snapshot) {
+    const wiredSnapshots = this.state.wiredSnapshots;
+    return wiredSnapshots.get('incoming').contains(snapshot) ||
+      wiredSnapshots.get('outgoing').contains(snapshot);
   }
 });
 
