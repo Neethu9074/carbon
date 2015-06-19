@@ -76,7 +76,7 @@ export function getIcon(snapshot, fallback='server') {
 
 
 // {
-// (snapshot) => Observerable<List<snapshots>>
+// (snapshot) => Observerable<Map<string, Set<snapshot>>>
 // }
 const wiredSnapshotFinder = {};
 
