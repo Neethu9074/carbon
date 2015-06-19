@@ -1,9 +1,11 @@
 'use strict';
 
+import * as ro from 'reactive-observables';
+
+
 // {
 //   <pluginId: String>: [(snapshot) => <label: String>]
 // }
-
 const labelFinder = {};
 
 export function addLabelFinder(pluginId, finder) {
@@ -42,7 +44,7 @@ export function getLabel(snapshot, fallback) {
 
 
 // {
-  // <pluginId: String>: [(snapshot) => <icon name: String>]
+// <pluginId: String>: [(snapshot) => <icon name: String>]
 // }
 const iconFinder = {};
 
@@ -72,6 +74,37 @@ export function getIcon(snapshot, fallback='server') {
   return fallback;
 }
 
-export function getWiredSnapshots() {
-  return [];
+
+// {
+// (snapshot) => Observerable<List<snapshots>>
+// }
+const wiredSnapshotFinder = {};
+
+export function addWiredSnapshotFinder(pluginId, finder) {
+  if (!(pluginId in wiredSnapshotFinder)) {
+    wiredSnapshotFinder[pluginId] = [];
+  }
+
+  wiredSnapshotFinder[pluginId].push(finder);
+}
+
+const emptyObservable = ro.create({emitLatestOnSubscribe: true});
+emptyObservable.emit([]);
+
+export function getWiredSnapshots(snapshot) {
+  const pluginId = snapshot.get('pluginId');
+
+  const finder = wiredSnapshotFinder[pluginId];
+  if (!finder) {
+    return emptyObservable;
+  }
+
+  for (let i = 0; i < finder.length; i++) {
+    const wiredSnapshots = finder[i](snapshot);
+    if (wiredSnapshots) {
+      return wiredSnapshots;
+    }
+  }
+
+  return emptyObservable;
 }
