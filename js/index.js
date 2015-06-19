@@ -103,7 +103,10 @@ exports.consts = {
           metricColors.teal
         ]
       },
-      metricColors: metricColors
+      metricColors: metricColors,
+      stickyNotes: {
+        nodeHightlightBackgroundColor: colors.darkGrey
+      }
     },
     chart: {
       strokeColors: [
