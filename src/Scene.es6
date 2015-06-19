@@ -64,7 +64,8 @@ export default class Scene {
     this.subscriptions = [eventBus.on('focus').subscribe(e =>this.onFocus(e))];
 
     this.subscriptions.push(
-      eventBus.on('showMetrics').subscribe((e) => this.showMetrics(e)))
+      eventBus.on('showMetrics').subscribe((e) => this.showMetrics(e)));
+
     this.subscriptions.push(
       eventBus.on('hideMetrics').subscribe((e) => this.hideMetrics(e)));
 
@@ -272,6 +273,7 @@ export default class Scene {
   }
 
   showMetrics(e) {
+    //if there is an active metric, dispose it first
     this.hideMetricFactoryMesh();
 
     currentMetrics = e ? e.metrics : currentMetrics;

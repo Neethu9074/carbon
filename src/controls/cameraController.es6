@@ -40,6 +40,8 @@ export default class CameraController {
     //the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
 
+    // this.worldLookAtPos = {x: 0, y: 0, z: 0};
+
     const pitch = -45;
     //transformation helper. need this to move on the ground
     this.camTransformObject = new THREE.Object3D();
@@ -178,6 +180,10 @@ export default class CameraController {
 
     //camera can only move this direction in units/sec (dTime => 1 / sec)
     const delta = direction.clone().multiplyScalar(dTime * this.cameraSpeed);
+
+    // this.worldLookAtPos = new THREE.Vector3()
+    //   .applyMatrix4(this.camTransformObject.matrixWorld)
+    //   .add(direction);
 
     //if the distance after multiplication is bigger than the total distance
     //set it to total distance
