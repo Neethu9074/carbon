@@ -18,8 +18,10 @@ export default (
     <Route handler={DetailPane}
            path='detail-pane/:pluginId/:hostId/:steadyId'
            name='detail-pane'/>
-    <Route handler={SnapshotPane}
-           path='snapshot-pane/'
-           name='snapshot-pane'/>
+    {__DEV__ ?
+      <Route handler={SnapshotPane}
+             path='snapshot-pane/'
+             name='snapshot-pane'/>
+    : null}
   </Route>
 );
