@@ -42,7 +42,6 @@ const emptyStickyObject = {
   show() {}
 };
 
-
 export default class BaseNode extends SceneObject {
 
   constructor({parent, snapshot}) {
@@ -51,11 +50,13 @@ export default class BaseNode extends SceneObject {
     this.scene = parent.getScene();
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
+
     this.connections = [];
     this.incomingConnections = [];
 
     this.stickyNote = emptyStickyObject;
     this.stickyNoteHighlight = emptyStickyObject;
+
     this.render();
 
     //the highlighting object which handles the highlighting stuff
@@ -91,7 +92,9 @@ export default class BaseNode extends SceneObject {
 
   createStickyNoteHighlight() {throw new Error('NOT IMPLEMENTED'); }
 
-  update() {throw new Error('NOT IMPLEMENTED'); }
+  update() {
+    this.updateScreenPosition();
+  }
 
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 
@@ -100,17 +103,6 @@ export default class BaseNode extends SceneObject {
   collectConnections() {throw new Error('NOT IMPLEMENTED'); }
 
   updateStickyNotes() {
-    // const target = this.getPosition().clone();
-    // const worldLookAt = this.scene.controller.worldLookAtPos;
-    // const angle = -51.34;
-    // const screenWidth = this.scene.width;
-    // const camWidth = (this.scene.cameraSize / 2) *
-      // (this.scene.width / this.scene.height);
-    // const aspectX = screenWidth / camWidth;
-    // const dx3D = (target.x - worldLookAt.x + camWidth) / (camWidth * 2);
-    // const dx2D = dx3D * Math.cos(-angle);
-    // const x2D = dx3D * screenWidth;
-
     this.stickyNote.update();
     this.stickyNoteHighlight.update();
   }
@@ -158,6 +150,8 @@ export default class BaseNode extends SceneObject {
     }
 
     super.setPosition(x, y, z);
+    super.setScreenPositionAnchor(x, y + this.cube.scale.y, z);
+
     this.cube.position.set(x, y, z);
 
     this.refreshMesh();
@@ -167,8 +161,6 @@ export default class BaseNode extends SceneObject {
   refreshMesh() {
     this.cube.updateMatrix();
     this.cube.updateMatrixWorld();
-
-    this.stickyNote.updateWorldPos();
 
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();

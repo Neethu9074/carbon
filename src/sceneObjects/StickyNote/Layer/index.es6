@@ -30,7 +30,6 @@ const StickyNoteRC = React.createClass({
 export default class StickyNoteLayer extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note-layer'});
-    this.updateWorldPos();
     this.render();
   }
 

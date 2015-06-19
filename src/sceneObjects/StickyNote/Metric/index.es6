@@ -31,7 +31,6 @@ const StickyNoteRC = React.createClass({
 export default class StickyNoteMetric extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note-metric'});
-    this.updateWorldPos();
     this.render();
   }
 

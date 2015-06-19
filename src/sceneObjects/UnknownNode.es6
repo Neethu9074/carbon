@@ -22,12 +22,14 @@ export default class Unknownnode extends BaseNode {
   }
 
   update(data) {
+    super.update();
+
     if(!data.scene.renderHtmlStuff) {
       return;
     }
 
     //if the node is near enough or is in the view frustum
-    if(data.scene.objectIsVisible(this.cube)) {
+    if(this.isInView()) {
       this.updateStickyNotes();
     } else {
       this.stickyNote.hide();

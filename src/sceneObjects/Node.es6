@@ -160,12 +160,14 @@ export default class Node extends BaseNode {
   }
 
   update(data) {
+    super.update();
+
     if(!data.scene.renderHtmlStuff) {
       return;
     }
 
     //if the node is near enough or is in the view frustum
-    if(!data.scene.objectIsVisible(this.cube)) {
+    if(!this.isInView()) {
       //trigger the hide method just once
       if(!this.outsideViewFrustum) {
         this.hideMetric();
@@ -232,6 +234,9 @@ export default class Node extends BaseNode {
     }
 
     this.cube.scale.y = height;
+
+    const pos = this.getPosition();
+    super.setScreenPositionAnchor(pos.x, pos.y + this.cube.scale.y, pos.z);
 
     this.refreshMesh();
     this.arrangeChildren();

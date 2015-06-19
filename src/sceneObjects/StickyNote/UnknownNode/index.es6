@@ -41,7 +41,6 @@ const StickyNoteRC = React.createClass({
 export default class StickyNoteUnknownNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__unknown__node'});
-    this.updateWorldPos();
     this.render();
   }
 

@@ -27,14 +27,7 @@ const StickyNoteRC = React.createClass({
 export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note-group'});
-    this.updateWorldPos();
     this.render();
-  }
-
-  updateWorldPos() {
-    const worldPos = this.stickyNoteEndPosWorld;
-    worldPos.copy(this.parent.getPosition());
-    worldPos.z += this.parent.size.z / 2;
   }
 
   render() {

@@ -21,17 +21,9 @@ export default class StickyNote {
     }
   }
 
-  updateWorldPos() {}
-
   update() {
-    this.updateWorldPos();
-
-    const scene = this.parent.getScene();
-    const pos = this.stickyNoteEndPosWorld.clone();
-    pos.applyMatrix4(scene.camera.projection);
-
-    const x = ((pos.x + 1) * scene.width / 2) | 0;
-    const y = ((-pos.y + 1) * scene.height / 2) | 0;
+    const x = this.parent.screenPosition.x;
+    const y = this.parent.screenPosition.y;
     const translate = `translate3d(${x}px,${y}px,0)`;
 
     const stickyNoteContainerStyle = this.style;
@@ -41,15 +33,6 @@ export default class StickyNote {
     //set to '' because the display is set by zoom too. If you would set
     //this value to another like '' you would overrite it
     stickyNoteContainerStyle.display = '';
-  }
-
-  updateWorldPos() {
-    const cube = this.parent.cube;
-    const position = this.parent.getPosition();
-    const worldPos = this.stickyNoteEndPosWorld;
-
-    worldPos.copy(position);
-    worldPos.y = cube.scale.y;
   }
 
   dispose() {

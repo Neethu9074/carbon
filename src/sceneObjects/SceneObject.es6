@@ -9,10 +9,17 @@ export default class SceneObject {
     this.position = pos.clone();
     this.parent = parent;
     this.subscriptions = [];
+
+    this.screenPositionAnchor = this.position.clone();
+    this.screenPosition = {x: 0, y: 0};
   }
 
   setPosition(x, y, z) {
     this.position.set(x, y, z);
+  }
+
+  setScreenPositionAnchor(x, y, z) {
+    this.screenPositionAnchor.set(x, y, z);
   }
 
   getPosition() {
@@ -67,6 +74,30 @@ export default class SceneObject {
   }
 
   highlight(/*value*/) {}
+
+  updateScreenPosition() {
+    const scene = this.getScene();
+    const camera = scene.camera;
+    const width = scene.width;
+    const height = scene.height;
+    const screenPosition = this.screenPositionAnchor
+      .clone()
+      .project(camera);
+
+    screenPosition.x = (screenPosition.x + 1) / 2 * width;
+    screenPosition.y = -(screenPosition.y - 1) / 2 * height;
+
+    this.screenPosition.x = screenPosition.x;
+    this.screenPosition.y = screenPosition.y;
+  }
+
+  isInView() {
+    const screenPos = this.screenPosition;
+    const scene = this.getScene();
+
+    return (screenPos.x > 0 && screenPos.x <= scene.width &&
+      screenPos.y > 0 && screenPos.y <= scene.height);
+  }
 
   dispose() {
     this.disposeSubscriptions();

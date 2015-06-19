@@ -21,8 +21,6 @@ import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 
 import _ from 'lodash';
 
-const frustum = new THREE.Frustum();
-const projScreenMatrix = new THREE.Matrix4();
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 let currentMetrics;
@@ -252,10 +250,6 @@ export default class Scene {
 
     //sets the projection matrix
     camera.projection.multiplyMatrices(camProjectionMat, inverse);
-
-    //calculte view frustum
-    projScreenMatrix.multiplyMatrices(camProjectionMat, inverse);
-    frustum.setFromMatrix(projScreenMatrix);
   }
 
   updateMetricHeights() {
@@ -407,11 +401,6 @@ export default class Scene {
 
   getWorldPosition() {
     return new THREE.Vector3();
-  }
-
-  //checks if the object is inside the view frustum
-  objectIsVisible(object) {
-    return frustum.intersectsObject(object);
   }
 
   getHtmlContainer() {

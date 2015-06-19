@@ -26,8 +26,18 @@ export default class Group extends SceneObject {
     this.stickyNote = new StickyNote(this);
 
     this.addSubscription(eventBus.on('endUpdate').subscribe(() => {
-      this.stickyNote.update();
+      this.update();
     }));
+  }
+
+  update() {
+    this.updateScreenPosition();
+
+    if(this.isInView()) {
+      this.stickyNote.update();
+    } else {
+      this.stickyNote.hide();
+    }
   }
 
   addNode({snapshot, unknown=false}) {
@@ -79,11 +89,17 @@ export default class Group extends SceneObject {
 
   setPosition(x, y, z) {
     super.setPosition(x, y, z);
+    super.setScreenPositionAnchor(x, y, z + this.size.z / 2);
+
     this.refreshGroundGeometry();
   }
 
   setScale(x, y, z) {
     this.size = {x, y, z};
+
+    const pos = this.getPosition();
+    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + z / 2);
+
     this.refreshGroundGeometry();
   }
 
