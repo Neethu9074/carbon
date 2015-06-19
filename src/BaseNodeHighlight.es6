@@ -22,6 +22,10 @@ export default class BaseNodeHighlight extends Highlight {
 
   //sets the primary highlight whatever that means
   setHighlight() {
+    if(this.isHighlighted) {
+      return;
+    }
+
     const client = this.client;
 
     //just create one sticky
@@ -29,6 +33,18 @@ export default class BaseNodeHighlight extends Highlight {
       client.stickyNoteHighlight = client.createStickyNoteHighlight();
     }
 
+    this.setupHighlightGroundLines(client);
+
+    //show all connections of the node
+    this.setupConnections();
+
+    //make the changes visible
+    client.renderScene();
+
+    super.setHighlight();
+  }
+
+  setupHighlightGroundLines(client) {
     //create outline effect using lines
     const pos = client.getPosition();
     const height = client.cube.scale.y;
@@ -59,14 +75,6 @@ export default class BaseNodeHighlight extends Highlight {
 
     const factory = client.scene.lineFactory;
     factory.addFragment({id: client.id + '_h', points, highlighted: true});
-
-    //show all connections of the node
-    this.setupConnections();
-
-    //make the changes visible
-    client.renderScene();
-
-    super.setHighlight();
   }
 
   //clears the primary highlighting
