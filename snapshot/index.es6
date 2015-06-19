@@ -89,7 +89,10 @@ export function addWiredSnapshotFinder(pluginId, finder) {
 }
 
 const emptyObservable = ro.create({emitLatestOnSubscribe: true});
-emptyObservable.emit(Immutable.Set());
+emptyObservable.emit(Immutable.Map({
+  incoming: Immutable.Set(),
+  outgoing: Immutable.Set()
+}));
 
 export function getWiredSnapshots(snapshot) {
   if (snapshot === null) {
