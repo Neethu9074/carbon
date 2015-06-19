@@ -1,7 +1,7 @@
 'use strict';
 
+import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
-
 
 // {
 //   <pluginId: String>: [(snapshot) => <label: String>]
@@ -89,7 +89,7 @@ export function addWiredSnapshotFinder(pluginId, finder) {
 }
 
 const emptyObservable = ro.create({emitLatestOnSubscribe: true});
-emptyObservable.emit([]);
+emptyObservable.emit(Immutable.Set());
 
 export function getWiredSnapshots(snapshot) {
   if (snapshot === null) {
