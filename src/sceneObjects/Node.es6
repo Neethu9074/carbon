@@ -148,7 +148,7 @@ export default class Node extends BaseNode {
     }
   }
 
-  update(data) {
+  update() {
     super.update();
 
     //if the node is near enough or is in the view frustum

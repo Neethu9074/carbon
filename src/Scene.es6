@@ -431,16 +431,14 @@ export default class Scene {
         this.hideMetricsOnZoomOut = true;
         eventBus.emit('hideMetrics', {hiddenByZoom: true});
       }
-    } else {
-      //if the metrics where hidden by zooming, resume them if the zoom
-      //has reached the right level again
-      if(this.hideMetricsOnZoomOut) {
-        this.hideMetricsOnZoomOut = false;
-        eventBus.emit('resumeMetrics');
+    //if the metrics where hidden by zooming, resume them if the zoom
+    //has reached the right level again
+    } else if(this.hideMetricsOnZoomOut) {
+      this.hideMetricsOnZoomOut = false;
+      eventBus.emit('resumeMetrics');
 
-        //call method without arguments will use the last added metrics
-        this.showMetrics();
-      }
+      //call method without arguments will use the last added metrics
+      this.showMetrics();
     }
 
     //update the css design zoom distance
