@@ -114,7 +114,7 @@ gulp.task('copyhtml', function() {
 
 
 gulp.task('copyfavicon', function() {
-  gulp.src('src/favicon.ico').pipe(gulp.dest('target/'));
+  gulp.src('src/favicon.png').pipe(gulp.dest('target/'));
 });
 
 
