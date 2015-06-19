@@ -5,24 +5,49 @@
 import Immutable from 'immutable';
 
 import {create} from '../conveyer';
+import {mapSeverityToHealth, health} from '../health';
 import IssueConveyer from '../conveyer/IssueConveyer';
 import {isIdEqual} from '../util/snapshots';
 
 const allIssuesStream = create(IssueConveyer)
   .scan(collectingReducer, Immutable.List());
 
+const openIssuesStream = allIssuesStream.map(issues => {
+  return issues.filter(issue => issue.get('end') === null);
+});
+
+const issueSummary = openIssuesStream.map(issues => {
+  const result = {};
+
+  Object.keys(health).forEach(key => {
+    result[health[key]] = 0;
+  });
+
+  issues.forEach(issue => {
+    const maxSeverity = issue.get('problems').reduce((severity, problem) => {
+      return Math.max(severity, problem.get('severity'));
+    }, 0);
+
+    result[mapSeverityToHealth(maxSeverity)]++;
+  });
+
+  return Immutable.Map(result);
+});
+
 export function getIssues() {
   return allIssuesStream;
 }
 
 export function getOpenIssues() {
-  return allIssuesStream.map(issues => {
-    return issues.filter(issue => issue.get('end') === null);
-  });
+  return openIssuesStream;
+}
+
+export function getIssueSummary() {
+  return issueSummary;
 }
 
 export function getProblemsForSnapshot(snapshotId) {
-  return allIssuesStream.map(issues => {
+  return openIssuesStream.map(issues => {
     issues.reduce((problemsForSnapshot, issue) => {
       return problemsForSnapshot.concat(
         issue.get('problems').filter(isIdEqual.bind(null, snapshotId))

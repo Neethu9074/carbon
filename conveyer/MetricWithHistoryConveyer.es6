@@ -1,7 +1,5 @@
 'use strict';
 
-import * as metrics from 'instana-ui-sdk/metrics';
-
 import * as connection from '../connection/subscriptionAwareConnection';
 
 export default class MetricWithHistoryConveyer {
@@ -19,8 +17,6 @@ export default class MetricWithHistoryConveyer {
   constructor({snapshot, metric, timeframe}) {
     this.id = connection.getSubscriptionId();
     this.timeframe = timeframe;
-    this.max = metrics.getMaxValue(metric, snapshot);
-    this.min = metrics.getMinValue(metric, snapshot);
 
     this.subscribeEvent = {
       id: this.id,
@@ -45,8 +41,6 @@ export default class MetricWithHistoryConveyer {
         aggregate = this.removeTooOldDataPoints(aggregate);
         return aggregate;
       }, {
-        min: this.min,
-        max: this.max,
         values: []
       })
       .subscribe(data => {
