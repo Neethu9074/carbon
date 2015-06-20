@@ -12,6 +12,11 @@ import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getColor} from 'instana-ui-sdk/zones';
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('ui-map.Group');
+
+const collisionGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1, 1, 1);
 
 
 export default class Group extends SceneObject {
@@ -28,6 +33,20 @@ export default class Group extends SceneObject {
     this.addSubscription(eventBus.on('endUpdate').subscribe(() => {
       this.update();
     }));
+
+    this.addCollisionObject();
+  }
+
+  addCollisionObject() {
+    this.collosionPlane = new THREE.Mesh(collisionGeometry);
+    this.collosionPlane.rotation.x = -Math.PI / 2;
+    this.collosionPlane.matrixAutoUpdate = false;
+    this.collosionPlane.rotationAutoUpdate = false;
+
+    this.collosionPlane.parentSceneObject = this;
+
+    //set this flag to add this obj to octree and not to scene!
+    this.collosionPlane.useOnlyForCollisionDetection = true;
   }
 
   update() {
@@ -87,9 +106,16 @@ export default class Group extends SceneObject {
     return {width, depth};
   }
 
+  highlight(highlighted) {
+    logger.debug('highlight group', this.id, highlighted);
+  }
+
   setPosition(x, y, z) {
     super.setPosition(x, y, z);
     super.setScreenPositionAnchor(x, y, z + this.size.z / 2);
+
+    this.collosionPlane.position.set(x, y, z);
+    this.refreshCollisionObject();
 
     this.refreshGroundGeometry();
   }
@@ -100,7 +126,17 @@ export default class Group extends SceneObject {
     const pos = this.getPosition();
     super.setScreenPositionAnchor(pos.x, pos.y, pos.z + z / 2);
 
+    this.collosionPlane.scale.set(x, z, 1);
+    this.refreshCollisionObject();
+
     this.refreshGroundGeometry();
+  }
+
+  refreshCollisionObject() {
+    this.collosionPlane.updateMatrix();
+    this.collosionPlane.updateMatrixWorld();
+    this.removeSceneObject(this.collosionPlane);
+    this.addSceneObject(this.collosionPlane);
   }
 
   refreshGroundGeometry() {

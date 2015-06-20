@@ -4,9 +4,9 @@ import THREE from 'three';
 import SceneObject from './SceneObject';
 import ConnectionGrid from '../connectionGrid';
 import _ from 'lodash';
-import {createLogger} from 'instalog';
 import {theme} from 'instana-ui-services/theme';
 import * as app from '../Scene';
+import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
 let id = 0;

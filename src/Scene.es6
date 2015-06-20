@@ -11,6 +11,7 @@ import {getAllNodes} from './mapStructureUtils';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
+import Node from './sceneObjects/Node';
 import * as time from './timeCalculations';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
@@ -18,6 +19,9 @@ import LineFactory from './factories/LineFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('ui-map.Group');
 
 import _ from 'lodash';
 
@@ -354,7 +358,7 @@ export default class Scene {
     const intersections = raycaster.intersectOctreeObjects(octree2Objects);
     if (intersections.length > 0) {
       //the array is sorted by distance
-      return intersections[0].object;
+      return intersections[intersections.length - 1].object;
     }
     return undefined;
   }
@@ -385,6 +389,7 @@ export default class Scene {
     //add it to the octree and not to scene
     if (obj.useOnlyForCollisionDetection) {
       this.octree.add(obj, {useFaces: false});
+      this.octree.rebuild();
       this.octree.update();
     } else {
       this.scene.add(obj);
@@ -451,19 +456,20 @@ export default class Scene {
   }
 
   onObjectClicked(object, fireExternalEvent = true) {
-    if(fireExternalEvent) {
-      //get the parent scene object, e.g. a node
-      const node = object.parentSceneObject;
+    //get the parent scene object, e.g. a node
+    const sceneObject = object.parentSceneObject;
 
-      //only click on known objects
-      if(node && !node.isUnknown){
-
+    if(fireExternalEvent && sceneObject) {
+      //only click on known nodes
+      if(sceneObject instanceof Node) {
         //unselect selected objects
-        if(node.isSelected) {
+        if(sceneObject.isSelected) {
           snapshotStore.clear();
         } else {
-          snapshotStore.select(node.snapshot);
+          snapshotStore.select(sceneObject.snapshot);
         }
+      } else {
+        logger.debug('you hit an unknown object', sceneObject.id);
       }
     }
   }
