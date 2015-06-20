@@ -67,13 +67,12 @@ export default class BaseNode extends SceneObject {
 
   render() {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check
-    this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-    this.cube.matrixAutoUpdate = false;
-    this.cube.rotationAutoUpdate = false;
+    const cube = this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+    cube.matrixAutoUpdate = false;
+    cube.rotationAutoUpdate = false;
+    cube.parentSceneObject = this;
 
-    this.cube.parentSceneObject = this;
-
-    this.addCollisionObject(this.cube, 1);
+    this.addCollisionObject(cube, 1);
     this.addToGlobalGeometry();
   }
 

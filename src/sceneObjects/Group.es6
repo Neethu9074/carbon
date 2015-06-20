@@ -38,12 +38,12 @@ export default class Group extends SceneObject {
   }
 
   addCollisionPlane() {
-    this.collosionPlane = new THREE.Mesh(collisionGeometry);
-    this.collosionPlane.rotation.x = -Math.PI / 2;
-    this.collosionPlane.matrixAutoUpdate = false;
-    this.collosionPlane.rotationAutoUpdate = false;
+    const plane = this.collosionPlane = new THREE.Mesh(collisionGeometry);
+    plane.rotation.x = -Math.PI / 2;
+    plane.matrixAutoUpdate = false;
+    plane.rotationAutoUpdate = false;
 
-    this.collosionPlane.parentSceneObject = this;
+    plane.parentSceneObject = this;
   }
 
   update() {
@@ -130,10 +130,11 @@ export default class Group extends SceneObject {
   }
 
   refreshCollisionObject() {
-    this.collosionPlane.updateMatrix();
-    this.collosionPlane.updateMatrixWorld();
-    this.removeCollisionObject(this.collosionPlane);
-    this.addCollisionObject(this.collosionPlane);
+    const plane = this.collosionPlane;
+    plane.updateMatrix();
+    plane.updateMatrixWorld();
+    this.removeCollisionObject(plane);
+    this.addCollisionObject(plane);
   }
 
   refreshGroundGeometry() {
