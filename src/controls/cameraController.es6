@@ -61,7 +61,7 @@ export default class CameraController {
     this.maxZoomIn = 20;
 
     //the current Level of zooming
-    this.zoomLevel = 150;
+    this.zoomLevel = 250;
 
     //the wished level of zooming
     this.targetZoomLevel = 100;

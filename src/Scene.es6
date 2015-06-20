@@ -197,7 +197,7 @@ export default class Scene {
     this.controller = new MouseCameraController({scene: this});
 
     //call zoom to trigger camera movemnt to the right position
-    this.controller.zoom(-1);
+    this.controller.zoom(-250);
   }
 
   update() {
