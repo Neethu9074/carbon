@@ -51,31 +51,6 @@ describe('util.snapshots', () => {
     });
   });
 
-  describe('extractConnections', () => {
-    it('should extract connections', () => {
-      const snapshots = getConnectedSnapshots();
-      const connections = extractConnections(snapshots);
-      expect(connections.size).to.equal(4);
-
-      connections.forEach((con, host) => {
-        const hostName = host.get('name');
-        if(hostName === 'a') {
-          expect(con.outgoing.size).to.equal(3);
-          expect(con.incoming.size).to.equal(0);
-        } else if(hostName === 'b') {
-          expect(con.outgoing.size).to.equal(3);
-          expect(con.incoming.size).to.equal(2);
-        } else if(hostName === 'c') {
-          expect(con.outgoing.size).to.equal(0);
-          expect(con.incoming.size).to.equal(1);
-        } else if(hostName === 'd') {
-          expect(con.outgoing.size).to.equal(0);
-          expect(con.incoming.size).to.equal(0);
-        }
-      });
-    });
-  });
-
   describe('only', () => {
     let observable;
     let subscriber;
@@ -110,71 +85,6 @@ describe('util.snapshots', () => {
       pluginId: 'p' + n,
       steadyId: 's' + n,
       hostId: 'h' + n
-    });
-  }
-
-  function getConnectedSnapshots() {
-    return Immutable.fromJS({
-      a: {
-        name: 'a',
-        data: {
-          interfaces: {
-            eth0: {
-              ips: ['1.1.1.1']
-            }
-          },
-          connections: {
-            outgoing: [
-              '1.1.1.2',
-              '1.1.1.3',
-              '1.1.1.6' //unknown
-            ]
-          }
-        }
-      }, b: {
-        name: 'b',
-        data: {
-          interfaces: {
-            eth0: {
-              ips: ['1.1.1.2']
-            }
-          },
-          connections: {
-            incoming: [
-              '1.1.1.1',
-              '1.1.1.3'
-            ],
-            outgoing: [
-              '1.1.1.1',
-              '1.1.1.3',
-              '1.1.1.5' //unknown
-            ]
-          }
-        }
-      }, c: {
-        name: 'c',
-        data: {
-          interfaces: {
-            eth0: {
-              ips: ['1.1.1.3']
-            }
-          },
-          connections: {
-            incoming: [
-              '1.1.1.4'
-            ]
-          }
-        }
-      }, d: {
-        name: 'd',
-        data: {
-          interfaces: {
-            eth0: {
-              ips: ['1.1.1.4']
-            }
-          }
-        }
-      }
     });
   }
 });
