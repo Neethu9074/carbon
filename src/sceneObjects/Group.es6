@@ -34,19 +34,16 @@ export default class Group extends SceneObject {
       this.update();
     }));
 
-    this.addCollisionObject();
+    this.addCollisionPlane();
   }
 
-  addCollisionObject() {
+  addCollisionPlane() {
     this.collosionPlane = new THREE.Mesh(collisionGeometry);
     this.collosionPlane.rotation.x = -Math.PI / 2;
     this.collosionPlane.matrixAutoUpdate = false;
     this.collosionPlane.rotationAutoUpdate = false;
 
     this.collosionPlane.parentSceneObject = this;
-
-    //set this flag to add this obj to octree and not to scene!
-    this.collosionPlane.useOnlyForCollisionDetection = true;
   }
 
   update() {
@@ -135,8 +132,8 @@ export default class Group extends SceneObject {
   refreshCollisionObject() {
     this.collosionPlane.updateMatrix();
     this.collosionPlane.updateMatrixWorld();
-    this.removeSceneObject(this.collosionPlane);
-    this.addSceneObject(this.collosionPlane);
+    this.removeCollisionObject(this.collosionPlane);
+    this.addCollisionObject(this.collosionPlane);
   }
 
   refreshGroundGeometry() {
@@ -182,6 +179,8 @@ export default class Group extends SceneObject {
   dispose() {
     this.children.forEach(node => node.dispose());
     this.getScene().lineFactory.removeFragment(this.id);
+
+    this.removeCollisionObject(this.collosionPlane);
 
     super.dispose();
 

@@ -34,6 +34,14 @@ export default class SceneObject {
     this.parent.removeSceneObject(obj);
   }
 
+  addCollisionObject(obj, layer) {
+    this.parent.addCollisionObject(obj, layer);
+  }
+
+  removeCollisionObject(obj, layer) {
+    this.parent.removeCollisionObject(obj, layer);
+  }
+
   addSubscription(subscription) {
     this.subscriptions.push(subscription);
   }

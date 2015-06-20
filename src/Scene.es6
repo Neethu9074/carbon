@@ -41,7 +41,8 @@ export default class Scene {
     this.height = window.innerHeight;
     this.selectedSceneObject = undefined;
 
-    this.setupOctree();
+    this.octrees = [];
+
     this.setup3D();
     this.setupFactories();
 
@@ -103,9 +104,8 @@ export default class Scene {
     }, 1000);
   }
 
-  setupOctree() {
-    //setup octree
-    this.octree = new THREE.Octree({
+  createOctree() {
+    return new THREE.Octree({
       // uncomment below to see the octree (may kill the fps)
       //scene: this.scene,
       // when undeferred = true, objects are inserted immediately
@@ -349,17 +349,25 @@ export default class Scene {
     raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
     const ray = raycaster.ray;
 
-    const octree2Objects = this.octree.search(
-      ray.origin,
-      ray.far,
-      true, //true -> organized by objects
-      ray.direction);
+    //iterate all octrees backwards from the highest layer to the lowest
+    for (let i = this.octrees.length - 1; i >= 0; i--) {
+      const octree = this.octrees[i];
+      if(!octree) {
+        continue;
+      }
+      const octree2Objects = octree.search(
+        ray.origin,
+        ray.far,
+        true, //true -> organized by objects
+        ray.direction);
 
-    const intersections = raycaster.intersectOctreeObjects(octree2Objects);
-    if (intersections.length > 0) {
-      //the array is sorted by distance
-      return intersections[intersections.length - 1].object;
+      const intersections = raycaster.intersectOctreeObjects(octree2Objects);
+      if (intersections.length > 0) {
+        //the array is sorted by distance
+        return intersections[0].object;
+      }
     }
+
     return undefined;
   }
 
@@ -385,22 +393,29 @@ export default class Scene {
   }
 
   addSceneObject(obj) {
-    //if the object is only used for collision detection ->
-    //add it to the octree and not to scene
-    if (obj.useOnlyForCollisionDetection) {
-      this.octree.add(obj, {useFaces: false});
-      this.octree.rebuild();
-      this.octree.update();
-    } else {
-      this.scene.add(obj);
-    }
+    this.scene.add(obj);
   }
 
   removeSceneObject(obj) {
-    if (obj.useOnlyForCollisionDetection) {
-      this.octree.remove(obj);
-    } else {
-      this.scene.remove(obj);
+    this.scene.remove(obj);
+  }
+
+  addCollisionObject(obj, layer=0) {
+    let octree = this.octrees[layer];
+    if(!octree) {
+      octree = this.octrees[layer] = this.createOctree();
+      logger.info('create octree at layer', layer);
+    }
+
+    octree.add(obj, {useFaces: false});
+    octree.rebuild();
+    octree.update();
+  }
+
+  removeCollisionObject(obj, layer=0) {
+    const octree = this.octrees[layer];
+    if(octree) {
+      octree.remove(obj);
     }
   }
 

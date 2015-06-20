@@ -71,11 +71,9 @@ export default class BaseNode extends SceneObject {
     this.cube.matrixAutoUpdate = false;
     this.cube.rotationAutoUpdate = false;
 
-    //set this flag to add this obj to octree and not to scene!
-    this.cube.useOnlyForCollisionDetection = true;
     this.cube.parentSceneObject = this;
 
-    this.addSceneObject(this.cube);
+    this.addCollisionObject(this.cube, 1);
     this.addToGlobalGeometry();
   }
 
@@ -280,7 +278,7 @@ export default class BaseNode extends SceneObject {
       snapshotStore.clear();
     }
 
-    this.removeSceneObject(this.cube);
+    this.removeCollisionObject(this.cube);
     this.cube = null;
 
     this.disposeStickyNote();
