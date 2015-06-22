@@ -28,11 +28,6 @@ export default class BaseNodeHighlight extends Highlight {
 
     const client = this.client;
 
-    //just create one sticky
-    if(client.stickyNoteHighlight.isEmpty) {
-      client.stickyNoteHighlight = client.createStickyNoteHighlight();
-    }
-
     this.setupHighlightBorderLines(client);
 
     //show all connections of the node
@@ -90,8 +85,6 @@ export default class BaseNodeHighlight extends Highlight {
     client.clearConnections();
 
     client.scene.lineFactory.removeFragment(client.id + '_h');
-
-    client.disposeStickyNoteHighlight();
 
     //make the changes visible
     client.renderScene();
@@ -167,22 +160,32 @@ export default class BaseNodeHighlight extends Highlight {
     client.incomingConnections.forEach(c => c.refresh());
   }
 
-  indirectSelect() {
-    this.setIndirectHighlight(true);
+  mouseOver() {
+    const client = this.client;
+
+    //just create one sticky
+    if(client.stickyNoteHighlight.isEmpty) {
+      client.stickyNoteHighlight = client.createStickyNoteHighlight();
+    }
+
+    this.setHighlight();
   }
 
-  indirectUnselect() {
-    this.clearIndirectHighlight();
+  mouseOff() {
+    const client = this.client;
+
+    client.disposeStickyNoteHighlight();
+
+    //only disable highlighting if the node was not selected (is needed if
+    //the node was selected and mouseoff was fired)
+    if(!client.isSelected) {
+      this.clearHighlight();
+    }
   }
 
   //disposing the indirect highlighting if the counter is 0
   disposeIndirectHighlight() {
     const client = this.client;
-
-    //only dispose sticky if this node isn't selected (e.g. mouseover)
-    if(!client.isSelected) {
-      client.disposeStickyNoteHighlight();
-    }
 
     //remove frame on the ground
     client.scene.lineFactory.removeFragment(client.id);

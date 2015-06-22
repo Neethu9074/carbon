@@ -131,12 +131,9 @@ export default class BaseNode extends SceneObject {
   //is called via mouseover effect
   highlight(value) {
     if(value) {
-      this.highlighting.setHighlight();
-
-    //only disable highlighting if the node was not selected (is needed if
-    //the node was selected and mouseoff was fired)
-    } else if(!this.isSelected) {
-      this.highlighting.clearHighlight();
+      this.highlighting.mouseOver();
+    } else {
+      this.highlighting.mouseOff();
     }
   }
 
