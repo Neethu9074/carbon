@@ -132,7 +132,7 @@ export default class BaseNodeHighlight extends Highlight {
 
   setupConnections() {
     const client = this.client;
-    const wiredSnapshots = client.wiredSnapshots;
+    const wiredSnapshots = client.getWiredSnapshots();
 
     client.clearConnections();
 

@@ -37,6 +37,7 @@ export default class Node extends BaseNode {
     this.health = this.health || health.ok;
 
     this.layer = [];
+    this.wiredSnapshots = undefined;
   }
 
   registerEvents() {
@@ -119,6 +120,19 @@ export default class Node extends BaseNode {
 
   setMultiMetricValue(values) {
     this.newMetricValues = values;
+  }
+
+  setWiredSnapshots(wiredSnapshots) {
+    this.wiredSnapshots = wiredSnapshots;
+    const parent = this.parent;
+
+    wiredSnapshots.get('outgoing').concat(wiredSnapshots.get('outgoing'))
+      .filter(node => node.get('state') === 'unmonitored')
+      .forEach(node => parent.addUnknownNode(node));
+  }
+
+  getWiredSnapshots() {
+    return this.wiredSnapshots;
   }
 
   updateMetricHeight() {
@@ -314,6 +328,7 @@ export default class Node extends BaseNode {
     super.dispose();
 
     this.layer = [];
+    this.wiredSnapshots = undefined;
 
     this.snapshot = null;
     this.health = null;

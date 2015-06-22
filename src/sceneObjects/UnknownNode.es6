@@ -21,6 +21,10 @@ export default class Unknownnode extends BaseNode {
     return this.stickyNoteHighlight;
   }
 
+  getWiredSnapshots() {
+    return undefined;
+  }
+
   update() {
     super.update();
 
