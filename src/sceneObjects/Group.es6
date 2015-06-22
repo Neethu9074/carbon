@@ -56,7 +56,7 @@ export default class Group extends SceneObject {
     }
   }
 
-  addNode({snapshot, unknown=false}) {
+  addNode(snapshot, unknown=false) {
     const nodeId = getIdString(snapshot);
 
     //if there is no nodeId it's an unknown node
@@ -67,11 +67,19 @@ export default class Group extends SceneObject {
       //if the node was created in the past
       if(node) {
         node.onSnapshotUpdate(snapshot);
-      } else if(unknown) {
+      } else if(unknown){
         this.children.push(new UnknownNode({parent: this, snapshot}));
       } else {
         this.children.push(new Node({parent: this, snapshot}));
       }
+    }
+  }
+
+  addUnknownNode(node) {
+    if(this.id === 'unmonitored') {
+      this.addNode(node, true);
+    } else {
+      this.parent.addUnknownNode(node);
     }
   }
 

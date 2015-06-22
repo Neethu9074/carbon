@@ -93,8 +93,6 @@ export default class BaseNodeHighlight extends Highlight {
 
     client.disposeStickyNoteHighlight();
 
-    this.disposeWiredSnapshotSubscribtion();
-
     //make the changes visible
     client.renderScene();
 
@@ -106,18 +104,19 @@ export default class BaseNodeHighlight extends Highlight {
 
     const client = this.client;
     const pos = client.getPosition();
+    const offset = 0.01;
     const points = [
-      {x: pos.x + 0.01, y: 0, z: pos.z - 0.01},
-      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
+      {x: pos.x + offset, y: 0, z: pos.z - offset},
+      {x: pos.x - 1 + offset, y: 0, z: pos.z - offset},
 
-      {x: pos.x - 1.01, y: 0, z: pos.z - 0.01},
-      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
+      {x: pos.x - 1 + offset, y: 0, z: pos.z - offset},
+      {x: pos.x - 1 + offset, y: 0, z: pos.z + 1 + offset},
 
-      {x: pos.x - 1.01, y: 0, z: pos.z + 1.01},
-      {x: pos.x, y: 0, z: pos.z + 1.01},
+      {x: pos.x - 1 + offset, y: 0, z: pos.z + 1 + offset},
+      {x: pos.x, y: 0, z: pos.z + 1 + offset},
 
-      {x: pos.x + 0.01, y: 0, z: pos.z + 1.01},
-      {x: pos.x + 0.01, y: 0, z: pos.z - 0.01}
+      {x: pos.x + offset, y: 0, z: pos.z + 1 + offset},
+      {x: pos.x + offset, y: 0, z: pos.z - offset}
     ];
 
     const factory = client.scene.lineFactory;
@@ -133,17 +132,14 @@ export default class BaseNodeHighlight extends Highlight {
 
   setupConnections() {
     const client = this.client;
+    const wiredSnapshots = client.wiredSnapshots;
 
     client.clearConnections();
 
-    this.disposeWiredSnapshotSubscribtion();
-    this.wiredSnapshotsSubscription = getWiredSnapshots(client.snapshot)
-      .subscribe((wiredSnapshots) => {
-        this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
-        this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
-        client.scene.renderScene();
-      }
-    );
+    if(wiredSnapshots) {
+      this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
+      this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
+    }
   }
 
   setConnectionsWithDirection(connections, direction) {
@@ -193,16 +189,7 @@ export default class BaseNodeHighlight extends Highlight {
     client.scene.highlightingSingleMeshFactory.removeFragment(client.id);
   }
 
-  disposeWiredSnapshotSubscribtion() {
-    if(this.wiredSnapshotsSubscription) {
-      this.wiredSnapshotsSubscription.dispose();
-      this.wiredSnapshotsSubscription = null;
-    }
-  }
-
   dispose() {
-    this.disposeWiredSnapshotSubscribtion();
-
     this.client.scene.lineFactory.removeFragment(this.client.id);
     this.client.scene.highlightingSingleMeshFactory
       .removeFragment(this.client.id);

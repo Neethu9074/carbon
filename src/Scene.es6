@@ -408,7 +408,6 @@ export default class Scene {
     }
 
     octree.add(obj, {useFaces: false});
-    octree.rebuild();
     octree.update();
   }
 

@@ -54,6 +54,8 @@ export default class BaseNode extends SceneObject {
     this.connections = [];
     this.incomingConnections = [];
 
+    this.wiredSnapshots = undefined;
+
     this.stickyNote = emptyStickyObject;
     this.stickyNoteHighlight = emptyStickyObject;
 
@@ -153,6 +155,15 @@ export default class BaseNode extends SceneObject {
 
     this.refreshMesh();
     this.refreshFragment();
+  }
+
+  setWiredSnapshots(wiredSnapshots) {
+    this.wiredSnapshots = wiredSnapshots;
+    const parent = this.parent;
+
+    wiredSnapshots.get('outgoing').concat(wiredSnapshots.get('outgoing'))
+      .filter(node => node.get('state') === 'unmonitored')
+      .forEach(node => parent.addUnknownNode(node));
   }
 
   refreshMesh() {

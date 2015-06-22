@@ -2,16 +2,19 @@
 
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
+import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
+import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
 import {getHealth} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {combineLatest} from 'reactive-observables';
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
-import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
-import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
 
 let currentMetric;
+
 
 export default class NodeSnapshotServer {
 
@@ -23,9 +26,9 @@ export default class NodeSnapshotServer {
       this.showMetrics();
     })];
 
-    this.subscriptions = [eventBus.on('resumeMetrics').subscribe(() =>{
+    this.subscriptions.push(eventBus.on('resumeMetrics').subscribe(() =>{
       this.showMetrics();
-    })];
+    }));
 
     this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() => {
       this.disposeMetricSubscription();
@@ -40,6 +43,9 @@ export default class NodeSnapshotServer {
         client.select();
       }
     }));
+
+    this.subscriptions.push(getWiredSnapshots(client.snapshot)
+      .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots)));
 
     this.subscriptions.push(getHealth(client.snapshot).subscribe(health =>
       client.setHealth(health)));

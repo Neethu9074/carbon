@@ -35,6 +35,7 @@ export default class Node extends BaseNode {
     this.stickyNote = new StickyNoteNode(this);
 
     this.health = this.health || health.ok;
+
     this.layer = [];
   }
 
@@ -311,6 +312,8 @@ export default class Node extends BaseNode {
     this.scene.groundSingleMeshFactory.removeFragment(this.id);
 
     super.dispose();
+
+    this.layer = [];
 
     this.snapshot = null;
     this.health = null;

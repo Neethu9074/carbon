@@ -19,6 +19,9 @@ import groundTexturePath from './ground.png';
 import Group from './Group';
 import Layouter from '../layout';
 
+let layoutCounter = 0;
+const layoutingInterval = 60;
+
 
 export default class PhysicalMap extends SceneObject {
 
@@ -33,6 +36,20 @@ export default class PhysicalMap extends SceneObject {
 
     this.createGroundGrid();
     this.bindToDatasource();
+
+    this.addSubscription(eventBus.on('beginUpdate').subscribe(() =>{
+      if(layoutCounter++ % layoutingInterval) {
+        if(this.refreshLayout) {
+          this.applyLayout();
+          eventBus.emit('layoutChanged');
+
+          this.parent.renderScene();
+          this.refreshLayout = false;
+        }
+
+        layoutCounter = 0;
+      }
+    }));
   }
 
   createGroundGrid() {
@@ -85,21 +102,11 @@ export default class PhysicalMap extends SceneObject {
   }
 
   onInventoryUpdate(snapshots) {
-    const unknownGroup = this.getOrCreateGroup('unmonitored');
     snapshots.forEach(node => this.addNode(node));
 
-    // this.removeVanishedUnknownNodes(unknownGroup);
     this.removeVanishedNodes(snapshots);
 
-    //delete the unknownGroup if there are no nodes in it
-    if(unknownGroup.children.length === 0) {
-      unknownGroup.dispose();
-    }
-
-    this.applyLayout();
-    eventBus.emit('layoutChanged');
-    //this.showWalkableGrid(); //uncomment this to see the walking grid
-    this.parent.renderScene();
+    this.refreshLayout = true;
   }
 
   applyLayout() {
@@ -138,7 +145,7 @@ export default class PhysicalMap extends SceneObject {
     const group = this.getOrCreateGroup(groupId);
 
     //add the node to group (the group handles duplicates)
-    group.addNode({snapshot: node});
+    group.addNode(node);
 
     //if the group has switched,
     //delete the nodes in other groups than the current one
@@ -171,45 +178,12 @@ export default class PhysicalMap extends SceneObject {
     });
   }
 
-  // createAllUnknownNodesFor(snapshot, connections, unknownGroup) {
-  //   const allConnections = connections.outgoing.concat(connections.incoming);
-  //
-  //   allConnections.forEach((connection) => {
-  //     //only create nodes that are unmonitored by agent
-  //     if(connection.get('state') === 'unmonitored') {
-  //       unknownGroup.addNode({
-  //         snapshot: connection,
-  //         unknown: true
-  //       });
-  //     }
-  //   });
-  // }
+  addUnknownNode(node) {
+    //create zone and send the event back
+    this.getOrCreateGroup('unmonitored').addUnknownNode(node);
 
-  // removeVanishedUnknownNodes(unknownGroup) {
-  //   const allUnmonitoredNodes = unknownGroup.children;
-  //   const allAvailableUnmonitoredNodes = [];
-  //
-  //   currentConnections.forEach((nodeCons) => {
-  //     const allConnections = nodeCons.outgoing.concat(nodeCons.incoming);
-  //     allConnections.forEach((connection) => {
-  //       if(connection.get('state') === 'unmonitored') {
-  //         allAvailableUnmonitoredNodes.push(connection);
-  //       }
-  //     });
-  //   });
-  //
-  //   //get all created nodes which are not inside all current nodes collection
-  //   const removed = allUnmonitoredNodes
-  //     .filter(node => {
-  //       const match = _.find(allAvailableUnmonitoredNodes, available => {
-  //         return isIdEqual(available, node.snapshot);
-  //       });
-  //       return !match;
-  //     });
-  //
-  //   //dispose all found nodes
-  //   removed.forEach((node) => node.dispose());
-  // }
+    this.refreshLayout = true;
+  }
 
   showWalkableGrid() {
     if(this.particles) {
