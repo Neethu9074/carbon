@@ -138,6 +138,21 @@ describe('conveyer.MetricWithHistoryConveyer', () => {
     expect(event2.values[1][0]).to.equal(15);
   });
 
+  it('should remove duplicate data points', () => {
+    conveyer = new MetricWithHistoryConveyer(getSubscribeParams());
+    conveyer.start(onNext);
+
+    const data = [[1, 0.5], [2, 0.6], [3, 0.7], [2, 0.6]];
+    emitData({
+      id: conveyer.id,
+      data
+    });
+
+    expect(onNext.callCount).to.equal(1);
+    const event = onNext.getCall(0).args[0];
+    expect(event.values.length).to.equal(3);
+  });
+
   function getSubscribeParams() {
     const pluginId = ec2;
     const steadyId = 's42';

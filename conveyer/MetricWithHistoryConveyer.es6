@@ -39,6 +39,7 @@ export default class MetricWithHistoryConveyer {
         aggregate.values = aggregate.values.concat(event.data);
         aggregate = this.sortByTimestamp(aggregate);
         aggregate = this.removeTooOldDataPoints(aggregate);
+        aggregate = this.removeDuplicateValues(aggregate);
         return aggregate;
       }, {
         values: []
@@ -89,6 +90,20 @@ export default class MetricWithHistoryConveyer {
 
     if (newerDataPointFound) {
       data.values.splice(0, i - 1);
+    }
+
+    return data;
+  }
+
+  removeDuplicateValues(data) {
+    let previous = 0;
+    for (let i = data.values.length - 1; i >= 0; i--) {
+      const current = data.values[i][0];
+      if (current === previous) {
+        data.values.splice(i, 1);
+      } else {
+        previous = current;
+      }
     }
 
     return data;
