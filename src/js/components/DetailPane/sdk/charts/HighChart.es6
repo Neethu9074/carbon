@@ -96,7 +96,8 @@ const HighChart = React.createClass({
             value => value[0] === latestDataPointInPreviousUpdate
           );
 
-          const numberOfPointsToAdd = dataset.values.length - 1 -
+          const lastIndexInCurrentUpdate = dataset.values.length - 1;
+          const numberOfPointsToAdd = lastIndexInCurrentUpdate -
             indexOfLatestDataPointInCurrentUpdate;
           const numberOfPointsToRemove = numberOfDataPointsInPreviousUpdate -
             1 - indexOfLatestDataPointInCurrentUpdate;
@@ -107,18 +108,15 @@ const HighChart = React.createClass({
             this.chart.series[seriesIndex]
               .setData(dataset.values, false, false);
           } else {
-            let numberOfAddedPoints = 0;
             for (let i = indexOfLatestDataPointInCurrentUpdate + 1;
                  i < dataset.values.length;
                  i++) {
-              const shift = numberOfAddedPoints < numberOfPointsToRemove;
               this.chart.series[seriesIndex]
-                .addPoint(dataset.values[i], false, shift);
-              numberOfAddedPoints++;
+                .addPoint(dataset.values[i], false, true);
             }
           }
 
-          const latestValue = dataset.values[dataset.values.length - 1];
+          const latestValue = dataset.values[lastIndexInCurrentUpdate];
           latestDataPointInPreviousUpdate = latestValue[0];
           numberOfDataPointsInPreviousUpdate = dataset.values.length;
 
