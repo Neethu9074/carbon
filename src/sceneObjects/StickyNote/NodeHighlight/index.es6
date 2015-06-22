@@ -28,16 +28,19 @@ const StickyNoteRC = React.createClass({
   },
 
   componentDidMount() {
-    this.subscription = getHealth(this.props.snapshot).subscribe(health =>
-      this.setState({health}));
+    this.healthSubscription = getHealth(this.props.snapshot)
+      .subscribe(health => this.setState({health}));
 
-    this.sub2 = getProblemsForSnapshot(this.props.snapshot)
+    this.issueSubscription = getProblemsForSnapshot(this.props.snapshot)
       .subscribe(issues => this.setState({issues}));
   },
 
   componentWillUnmount() {
-    this.subscription.dispose();
-    this.subscription = null;
+    this.healthSubscription.dispose();
+    this.healthSubscription = null;
+
+    this.issueSubscription.dispose();
+    this.issueSubscription = null;
   },
 
   render() {
@@ -63,17 +66,25 @@ const StickyNoteRC = React.createClass({
       </div>;
     };
 
+    const getProblemText = () => {
+       try {
+        return this.state.issues.get(0).get('problemText');
+      } catch (er) {
+        return '';
+      }
+    };
+
     if(nodeHealth === health.warning) {
       return byContent({
         heading: 'WARNING',
-        content: this.state.issues.get(0).get('problemText'),
+        content: getProblemText(),
         health: 'warning'
       });
 
     } else if(nodeHealth === health.danger) {
       return byContent({
         heading: 'DANGER',
-        content: this.state.issues.get(0).get('problemText'),
+        content: getProblemText(),
         health: 'danger'
       });
     }
