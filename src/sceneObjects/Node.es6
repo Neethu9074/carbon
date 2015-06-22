@@ -168,10 +168,6 @@ export default class Node extends BaseNode {
     }
   }
 
-  collectConnections() {
-    return this.getCurrentConnections().get(this.snapshot);
-  }
-
   hideMetric() {
     //disable sticky note
     this.stickyNote.hide();

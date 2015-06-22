@@ -54,10 +54,6 @@ export default class SceneObject {
     return this.parent.findNodeBySnapshot(snapshot);
   }
 
-  getCurrentConnections() {
-     return this.parent.getCurrentConnections();
-  }
-
   getHtmlContainer() {
     return this.parent.getHtmlContainer();
   }

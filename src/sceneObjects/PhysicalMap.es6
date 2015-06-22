@@ -231,10 +231,6 @@ export default class PhysicalMap extends SceneObject {
     _.remove(this.groups, group => group.id === child.id);
   }
 
-  getCurrentConnections() {
-    return currentConnections;
-  }
-
   findNodeBySnapshot(snapshot) {
     let match;
 

@@ -32,21 +32,6 @@ export default class Unknownnode extends BaseNode {
     }
   }
 
-  collectConnections() {
-    const connections = [];
-    const allConnections = this.getCurrentConnections();
-
-    allConnections.forEach((v, k) => {
-      v.incoming.forEach(incommingSnapshot => {
-        if(isIdEqual(incommingSnapshot, this.snapshot)) {
-          connections.push(k);
-        }
-      });
-    });
-
-    return {outgoing: connections, incoming: []};
-  }
-
   addToGlobalGeometry() {}
 
   removeFromGlobalGeometry() {}
