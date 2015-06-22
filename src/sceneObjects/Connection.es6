@@ -172,13 +172,21 @@ export default class Connection extends SceneObject {
   }
 
   select() {
-    this.getScene().lineFactory.highlightFragment(this.id, true);
-    // this.to.highlighting.indirectSelect();
+    const scene = this.getScene();
+
+    scene.lineFactory.highlightFragment(this.id, true);
+    scene.lineFactory.highlightFragment(this.to.id, true);
+    scene.lineFactory.highlightFragment(this.from.id, true);
+    scene.renderScene();
   }
 
   unSelect() {
-    this.getScene().lineFactory.highlightFragment(this.id, false);
-    // this.to.highlighting.indirectUnselect();
+    const scene = this.getScene();
+
+    scene.lineFactory.highlightFragment(this.id, false);
+    scene.lineFactory.highlightFragment(this.to.id, false);
+    scene.lineFactory.highlightFragment(this.from.id, false);
+    scene.renderScene();
   }
 
   refresh() {
