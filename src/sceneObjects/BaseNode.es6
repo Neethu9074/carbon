@@ -135,6 +135,7 @@ export default class BaseNode extends SceneObject {
     } else {
       this.highlighting.mouseOff();
     }
+    this.getScene().renderScene();
   }
 
   setPosition(x, y, z) {
