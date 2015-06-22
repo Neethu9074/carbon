@@ -22,12 +22,6 @@ if (logging.ConsoleAppender.isPossible()) {
   logging.addAppender(consoleAppender);
 }
 
-if (window.trackJs) {
-  const appender = new TrackerJsAppender();
-  appender.setActivePriority(11);
-  logging.addAppender(appender);
-}
-
 // add a theme css class on the HTML document to allow style overrides
 setThemeOnHtmlDocument();
 
