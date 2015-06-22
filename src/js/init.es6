@@ -12,7 +12,6 @@ import {setThemeOnHtmlDocument} from 'instana-ui-services/theme';
 
 import routes from './routes';
 import i18n from './i18n';
-import TrackerJsAppender from './TrackerJsAppender';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
 // should thus only be added when it can actually log to a browser console.
