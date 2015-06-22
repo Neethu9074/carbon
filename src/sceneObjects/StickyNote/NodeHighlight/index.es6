@@ -5,7 +5,10 @@ import SnapshotIcon from 'instana-ui-components/SnapshotIcon';
 import iconPath from '../icons/default.png';
 import StickyNote from '../StickyNote';
 import {getHealth, health} from 'instana-ui-services/health';
-import {getProblemsForSnapshot} from 'instana-ui-services/notificationCenter';
+import {
+  getProblemsForSnapshot,
+  getOpenIssues
+} from 'instana-ui-services/notificationCenter';
 
 import './index.less';
 
@@ -28,8 +31,8 @@ const StickyNoteRC = React.createClass({
     this.subscription = getHealth(this.props.snapshot).subscribe(health =>
       this.setState({health}));
 
-    this.sub2 = getProblemsForSnapshot(this.props.snapshot).subscribe(issues =>
-      this.setState({issues}));
+    this.sub2 = getProblemsForSnapshot(this.props.snapshot)
+      .subscribe(issues => this.setState({issues}));
   },
 
   componentWillUnmount() {
@@ -63,14 +66,14 @@ const StickyNoteRC = React.createClass({
     if(nodeHealth === health.warning) {
       return byContent({
         heading: 'WARNING',
-        content: this.state.issues[0],
+        content: this.state.issues.get(0).get('problemText'),
         health: 'warning'
       });
 
     } else if(nodeHealth === health.danger) {
       return byContent({
         heading: 'DANGER',
-        content: this.state.issues[0],
+        content: this.state.issues.get(0).get('problemText'),
         health: 'danger'
       });
     }
