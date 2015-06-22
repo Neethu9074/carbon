@@ -137,6 +137,7 @@ export default class BaseNodeHighlight extends Highlight {
     client.clearConnections();
 
     if(wiredSnapshots) {
+      //console.log(wiredSnapshots.toJS());
       this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
       this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
     }

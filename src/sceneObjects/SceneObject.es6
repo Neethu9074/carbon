@@ -50,6 +50,10 @@ export default class SceneObject {
     return this.parent.getScene();
   }
 
+  getAllMapNodes() {
+    return this.parent.getAllMapNodes();
+  }
+
   findNodeBySnapshot(snapshot) {
     return this.parent.findNodeBySnapshot(snapshot);
   }

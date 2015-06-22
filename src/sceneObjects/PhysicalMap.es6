@@ -152,6 +152,10 @@ export default class PhysicalMap extends SceneObject {
     this.removeNodeFromAllGroupsInsteadOf(groupId, node);
   }
 
+  getAllMapNodes() {
+    return getAllNodes(this);
+  }
+
   getOrCreateGroup(groupId) {
     //get find the group with groupId
     let group = _.find(getAllGroups(this), g => g.id === groupId);

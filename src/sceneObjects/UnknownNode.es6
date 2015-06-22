@@ -5,7 +5,7 @@ import THREE from 'three';
 import BaseNode from './BaseNode';
 import StickyNoteUnknownNode from './StickyNote/UnknownNode';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-
+import Immutable from 'immutable';
 
 export default class Unknownnode extends BaseNode {
 
@@ -22,7 +22,31 @@ export default class Unknownnode extends BaseNode {
   }
 
   getWiredSnapshots() {
-    return undefined;
+    const thisSnapShot = this.snapshot;
+    const matches = [];
+    this.getAllMapNodes()
+      .filter(node => !node.isUnknown)
+      .filter(node => !isIdEqual(thisSnapShot, node.snapshot))
+      .forEach((node) => {
+        const wired = node.getWiredSnapshots();
+        if(!wired) {
+          return;
+        }
+
+        wired.get('outgoing').concat(wired.get('incoming'))
+          .forEach(wiredSnapshot => {
+            if(isIdEqual(thisSnapShot, wiredSnapshot)) {
+              matches.push(node.snapshot);
+            }
+          });
+      });
+
+    /* eslint-disable new-cap */
+    const map = Immutable.Map().asMutable();
+    /* eslint-enable new-cap */
+    map.set('outgoing', matches);
+    map.set('incoming', []);
+    return map.asImmutable();
   }
 
   update() {
