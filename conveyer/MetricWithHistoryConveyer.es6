@@ -63,8 +63,14 @@ export default class MetricWithHistoryConveyer {
   }
 
   removeTooOldDataPoints(data) {
+    const oldestDataPoint = data.values[0];
     const newestDataPoint = data.values[data.values.length - 1];
     const since = newestDataPoint[0] - this.timeframe;
+
+    if (oldestDataPoint[0] > since) {
+      // all data points are new enough
+      return data;
+    }
 
     // data.values is sorted by date. This means that we can stop iterating
     // once we have found at least one newer data point to determine the index
@@ -76,12 +82,13 @@ export default class MetricWithHistoryConveyer {
       const dataPoint = data.values[i];
       if (dataPoint[0] > since) {
         newerDataPointFound = true;
+      } else {
+        i++;
       }
-      i++;
     }
 
     if (newerDataPointFound) {
-      data.values.splice(0, i - 1);
+      data.values.splice(0, i);
     }
 
     return data;
