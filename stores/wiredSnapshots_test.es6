@@ -12,7 +12,7 @@ import {create} from 'reactive-observables';
 import * as ro from 'reactive-observables';
 
 
-describe('relatedSnapshots', () => {
+describe('stores.wiredSnapshots', () => {
 
   let wiredSnapshots;
   let getWiredSnapshots;
@@ -91,6 +91,20 @@ describe('relatedSnapshots', () => {
     expect(getWiredSnapshots.getCall(1).args[0]).to.equal(null);
     expect(onNext.callCount).to.equal(2);
     expect(onNext.getCall(1).args[0]).to.equal(noSelectedInitialValue);
+  });
+
+  it('should emit immediately emit when there is a selected snapshot before ' +
+      'a subscription is established', () => {
+    const expected = 'wiredSnapshotsForASelectedSnapshot';
+    wiredSnapshotsObservable.emit(expected);
+    getWiredSnapshots.onCall(0).returns(wiredSnapshotsObservable);
+
+    selectedSnapshotStore.selectedSnapshot.emit(snapshot(1));
+
+    wiredSnapshots.subscribe(onNext);
+
+    expect(onNext.callCount).to.equal(1);
+    expect(onNext.getCall(0).args[0]).to.equal(expected);
   });
 
   function snapshot(id) {
