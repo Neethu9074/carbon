@@ -101,6 +101,7 @@ const HighChart = React.createClass({
             indexOfLatestDataPointInCurrentUpdate;
           const numberOfPointsToRemove = numberOfDataPointsInPreviousUpdate -
             1 - indexOfLatestDataPointInCurrentUpdate;
+          const shift = numberOfPointsToAdd < 10;
 
           // do a big update instead of a broken animation
           if (numberOfPointsToAdd < numberOfPointsToRemove) {
@@ -112,7 +113,7 @@ const HighChart = React.createClass({
                  i < dataset.values.length;
                  i++) {
               this.chart.series[seriesIndex]
-                .addPoint(dataset.values[i], false, true);
+                .addPoint(dataset.values[i], false, shift);
             }
           }
 
