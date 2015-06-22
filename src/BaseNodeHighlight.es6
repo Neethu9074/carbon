@@ -33,7 +33,7 @@ export default class BaseNodeHighlight extends Highlight {
       client.stickyNoteHighlight = client.createStickyNoteHighlight();
     }
 
-    this.setupHighlightGroundLines(client);
+    this.setupHighlightBorderLines(client);
 
     //show all connections of the node
     this.setupConnections();
@@ -44,7 +44,7 @@ export default class BaseNodeHighlight extends Highlight {
     super.setHighlight();
   }
 
-  setupHighlightGroundLines(client) {
+  setupHighlightBorderLines(client) {
     //create outline effect using lines
     const pos = client.getPosition();
     const height = client.cube.scale.y;
@@ -169,6 +169,14 @@ export default class BaseNodeHighlight extends Highlight {
     //client is for unselected nodes which have incoming connections from
     //selected ones. if client position changes -> update the connection too
     client.incomingConnections.forEach(c => c.refresh());
+  }
+
+  indirectSelect() {
+    this.setIndirectHighlight(true);
+  }
+
+  indirectUnselect() {
+    this.clearIndirectHighlight();
   }
 
   //disposing the indirect highlighting if the counter is 0

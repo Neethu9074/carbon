@@ -173,10 +173,12 @@ export default class Connection extends SceneObject {
 
   select() {
     this.getScene().lineFactory.highlightFragment(this.id, true);
+    // this.to.highlighting.indirectSelect();
   }
 
   unSelect() {
     this.getScene().lineFactory.highlightFragment(this.id, false);
+    // this.to.highlighting.indirectUnselect();
   }
 
   refresh() {

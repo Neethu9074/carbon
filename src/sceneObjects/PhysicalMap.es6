@@ -19,8 +19,6 @@ import groundTexturePath from './ground.png';
 import Group from './Group';
 import Layouter from '../layout';
 
-let currentConnections = [];
-
 
 export default class PhysicalMap extends SceneObject {
 
@@ -88,14 +86,13 @@ export default class PhysicalMap extends SceneObject {
 
   onInventoryUpdate(snapshots) {
     const unknownGroup = this.getOrCreateGroup('unmonitored');
-    currentConnections = extractConnections(snapshots);
-    snapshots.forEach(node => this.addNode(node, unknownGroup));
+    snapshots.forEach(node => this.addNode(node));
 
-    this.removeVanishedUnknownNodes(unknownGroup);
+    // this.removeVanishedUnknownNodes(unknownGroup);
     this.removeVanishedNodes(snapshots);
 
     //delete the unknownGroup if there are no nodes in it
-    if(unknownGroup.length === 0) {
+    if(unknownGroup.children.length === 0) {
       unknownGroup.dispose();
     }
 
@@ -136,10 +133,9 @@ export default class PhysicalMap extends SceneObject {
     removedNodes.forEach((node) => node.dispose());
   }
 
-  addNode(node, unknownGroup) {
+  addNode(node) {
     const groupId = getZone(node);
     const group = this.getOrCreateGroup(groupId);
-    const connectedNodes = currentConnections.get(node);
 
     //add the node to group (the group handles duplicates)
     group.addNode({snapshot: node});
@@ -147,10 +143,6 @@ export default class PhysicalMap extends SceneObject {
     //if the group has switched,
     //delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(groupId, node);
-
-    if(connectedNodes) {
-      this.createAllUnknownNodesFor(node, connectedNodes, unknownGroup);
-    }
   }
 
   getOrCreateGroup(groupId) {
@@ -179,45 +171,45 @@ export default class PhysicalMap extends SceneObject {
     });
   }
 
-  createAllUnknownNodesFor(snapshot, connections, unknownGroup) {
-    const allConnections = connections.outgoing.concat(connections.incoming);
+  // createAllUnknownNodesFor(snapshot, connections, unknownGroup) {
+  //   const allConnections = connections.outgoing.concat(connections.incoming);
+  //
+  //   allConnections.forEach((connection) => {
+  //     //only create nodes that are unmonitored by agent
+  //     if(connection.get('state') === 'unmonitored') {
+  //       unknownGroup.addNode({
+  //         snapshot: connection,
+  //         unknown: true
+  //       });
+  //     }
+  //   });
+  // }
 
-    allConnections.forEach((connection) => {
-      //only create nodes that are unmonitored by agent
-      if(connection.get('state') === 'unmonitored') {
-        unknownGroup.addNode({
-          snapshot: connection,
-          unknown: true
-        });
-      }
-    });
-  }
-
-  removeVanishedUnknownNodes(unknownGroup) {
-    const allUnmonitoredNodes = unknownGroup.children;
-    const allAvailableUnmonitoredNodes = [];
-
-    currentConnections.forEach((nodeCons) => {
-      const allConnections = nodeCons.outgoing.concat(nodeCons.incoming);
-      allConnections.forEach((connection) => {
-        if(connection.get('state') === 'unmonitored') {
-          allAvailableUnmonitoredNodes.push(connection);
-        }
-      });
-    });
-
-    //get all created nodes which are not inside all current nodes collection
-    const removed = allUnmonitoredNodes
-      .filter(node => {
-        const match = _.find(allAvailableUnmonitoredNodes, available => {
-          return isIdEqual(available, node.snapshot);
-        });
-        return !match;
-      });
-
-    //dispose all found nodes
-    removed.forEach((node) => node.dispose());
-  }
+  // removeVanishedUnknownNodes(unknownGroup) {
+  //   const allUnmonitoredNodes = unknownGroup.children;
+  //   const allAvailableUnmonitoredNodes = [];
+  //
+  //   currentConnections.forEach((nodeCons) => {
+  //     const allConnections = nodeCons.outgoing.concat(nodeCons.incoming);
+  //     allConnections.forEach((connection) => {
+  //       if(connection.get('state') === 'unmonitored') {
+  //         allAvailableUnmonitoredNodes.push(connection);
+  //       }
+  //     });
+  //   });
+  //
+  //   //get all created nodes which are not inside all current nodes collection
+  //   const removed = allUnmonitoredNodes
+  //     .filter(node => {
+  //       const match = _.find(allAvailableUnmonitoredNodes, available => {
+  //         return isIdEqual(available, node.snapshot);
+  //       });
+  //       return !match;
+  //     });
+  //
+  //   //dispose all found nodes
+  //   removed.forEach((node) => node.dispose());
+  // }
 
   showWalkableGrid() {
     if(this.particles) {
