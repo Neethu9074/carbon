@@ -56,6 +56,7 @@ const StickyNoteRC = React.createClass({
 
   getContentByHealth(nodeHealth) {
     const byContent = ({heading, content, health}) => {
+
       return <div>
         <div className={'in-sticky-note__node__highlight__header__' + health}>
           {heading}

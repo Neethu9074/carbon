@@ -6,6 +6,9 @@ import Highlight from './Highlight';
 import eventBus from 'instana-ui-services/eventbus';
 
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('ui-map.Group');
 
 
 export default class BaseNodeHighlight extends Highlight {
@@ -16,8 +19,6 @@ export default class BaseNodeHighlight extends Highlight {
     this.subscription = eventBus.on('layoutChanged').subscribe(() => {
       this.refreshConnections();
     });
-
-    this.wiredSnapshotsSubscription = null;
   }
 
   //sets the primary highlight whatever that means
@@ -130,8 +131,11 @@ export default class BaseNodeHighlight extends Highlight {
     client.clearConnections();
 
     if(wiredSnapshots) {
+      logger.debug(wiredSnapshots.toJS());
       this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
       this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
+    } else {
+      logger.debug('no wired snapshots', client);
     }
   }
 
