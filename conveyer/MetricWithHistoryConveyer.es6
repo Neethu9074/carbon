@@ -82,13 +82,13 @@ export default class MetricWithHistoryConveyer {
       const dataPoint = data.values[i];
       if (dataPoint[0] > since) {
         newerDataPointFound = true;
-      } else {
-        i++;
       }
+
+      i++;
     }
 
     if (newerDataPointFound) {
-      data.values.splice(0, i);
+      data.values.splice(0, i - 1);
     }
 
     return data;
