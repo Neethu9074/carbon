@@ -46,39 +46,41 @@ const StickyNoteRC = React.createClass({
       </div>
     );
   },
-
-  getContentByHealth(nodeHealth) {
-    if(nodeHealth === health.warning) {
-      return <div>
-        <div className="in-sticky-note__node__highlight__header__warning">
-          Warning
-        </div>
-        <div className="in-sticky-note__node__highlight__content">
-          {this.state.issues[0]}
-        </div>
-      </div>;
-    } else if(nodeHealth === health.danger) {
-      return <div>
-        <div className="in-sticky-note__node__highlight__header__danger">
-          Danger!
-        </div>
-        <div className="in-sticky-note__node__highlight__content">
-          {this.state.issues[0]}
-        </div>
-      </div>;
-    }
-    return <div>
-      <div className="in-sticky-note__node__highlight__header__ok">
-        {this.props.snapshot.get('hostId')}
-      </div>
-      <div className="in-sticky-note__node__highlight__content">
-        this is a great server :)
-      </div>
-    </div>;
-  }
-});
 /*eslint-enable no-unused-vars*/
 
+  getContentByHealth(nodeHealth) {
+    const byContent = ({heading, content, health}) => {
+      return <div>
+        <div className={'in-sticky-note__node__highlight__header__' + health}>
+          {heading}
+        </div>
+        <div className="in-sticky-note__node__highlight__content">
+          {content}
+        </div>
+      </div>;
+    };
+
+    if(nodeHealth === health.warning) {
+      return byContent({
+        heading: 'WARNING',
+        content: this.state.issues[0],
+        health: 'warning'
+      });
+
+    } else if(nodeHealth === health.danger) {
+      return byContent({
+        heading: 'DANGER',
+        content: this.state.issues[0],
+        health: 'danger'
+      });
+    }
+    return byContent({
+      heading: this.props.snapshot.get('hostId').toUpperCase(),
+      content: 'this is a great server :)',
+      health: 'ok'
+    });
+  }
+});
 
 export default class StickyNoteNode extends StickyNote {
   constructor(parent) {

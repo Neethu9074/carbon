@@ -5,12 +5,14 @@
   top: -114px;
   left: -30px;
 
-  width: 250px;
+  width: 200px;
   height: 50px;
 
   background-color: @map__sticky-notes__node-hightlight-background-color;
   border-radius: 5px;
   padding: 10px;
+
+  font-size: 10px;
 
   color: white;
 
@@ -35,7 +37,11 @@
   left: 30px;
   top: 60px;
   border: 10px solid;
-  border-color: @map__sticky-notes__node-hightlight-background-color transparent transparent @map__sticky-notes__node-hightlight-background-color;
+  border-color:
+    @map__sticky-notes__node-hightlight-background-color
+    transparent
+    transparent
+    @map__sticky-notes__node-hightlight-background-color;
 }
 
 .in-sticky-note__node__highlight__header__ok {
@@ -52,6 +58,6 @@
 
 .in-sticky-note__node__highlight__content {
   margin-top: 7px;
-  font-size: 0.85em;
+  font-size: 9px;
   color: #666b6f;
 }
