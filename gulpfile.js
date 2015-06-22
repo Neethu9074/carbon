@@ -14,6 +14,7 @@ var size = require('gulp-size');
 var util = require('util');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
+var fs = require('fs');
 
 var webpackConfig = require('./webpack.config.js');
 
@@ -36,7 +37,7 @@ gulp.task('lint', function() {
 });
 
 
-gulp.task('build', ['webpack:build', 'copyfavicon'], function() {
+gulp.task('build', ['webpack:build', 'copyfavicon', 'writeBuildInfo'], function() {
   var assetFilter = filter('**/*.js');
   var htmlFilter = filter('**/*.html');
 
@@ -91,15 +92,29 @@ function getBanner() {
 
   return util.format(
     'instana ui browser v%s | (c) %s instana Inc. | commit %s',
-    require('./package.json').version,
+    getVersion(),
     (year === 2014 ? 2014 : '2014 - ' + year),
-    shell.exec('git rev-parse HEAD').output.trim()
+    getRevision()
   );
+}
+
+function getVersion() {
+  return require('./package.json').version;
+}
+
+function getRevision() {
+  return shell.exec('git rev-parse HEAD').output.trim();
 }
 
 
 // The development server (the recommended option for development)
-gulp.task('dev', ['copyhtml', 'copyfavicon', 'dev-watches', 'webpack:dev']);
+gulp.task('dev', [
+  'copyhtml',
+  'copyfavicon',
+  'dev-watches',
+  'webpack:dev',
+  'writeBuildInfo'
+]);
 
 
 gulp.task('dev-watches', function() {
@@ -117,6 +132,22 @@ gulp.task('copyfavicon', function() {
   gulp.src('src/favicon.png').pipe(gulp.dest('target/'));
 });
 
+
+gulp.task('writeBuildInfo', function() {
+  var data = {
+    revision: getRevision(),
+    version: getVersion(),
+    buildDate: new Date().toISOString()
+  };
+
+  try {
+    fs.mkdirSync('target')
+  } catch (e) {
+    // ignore when it already exists
+  }
+
+  fs.writeFileSync('target/buildInfo.js', JSON.stringify(data));
+});
 
 gulp.task('webpack:dev', function() {
   // modify some webpack config options
