@@ -13,11 +13,17 @@ export const DescriptionList = React.createClass({
   render() {
     return (
       <dl className={block + '__description-list'}>
-        {this.props.children.map(child =>
-          this.renderItem(child.props)
-        )}
+        {this.renderItems()}
       </dl>
     );
+  },
+
+  renderItems() {
+    if (this.props.children instanceof Array) {
+      return this.props.children.map(child => this.renderItem(child.props));
+    } else {
+      this.renderItem(this.props.children);
+    }
   },
 
   renderItem(descriptionItemProps) {

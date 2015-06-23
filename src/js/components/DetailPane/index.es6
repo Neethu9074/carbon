@@ -59,7 +59,7 @@ const DetailPane = React.createClass({
                 className={block + '__close'}>
           x
         </button>
-        <div className={block + '__content'} ref='content'>
+        <div className={block + '__content'}>
           {this.state.snapshot ?
             <OSDetailPaneContent snapshot={this.state.snapshot}
                                  timeframe={this.state.timeframe} />
