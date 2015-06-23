@@ -2,7 +2,9 @@
 
 import React from 'react/addons';
 
-import {select, clear} from 'instana-ui-services/stores/selectedSnapshot';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
+
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
 import classnames from 'instana-ui-services/util/classnames';
@@ -37,10 +39,12 @@ const ServerItem = React.createClass({
     return (
       <li className={classnames({
             [block]: true,
-            [block + '--selected']: this.props.selected,
+            [block + '--highlighted']: this.props.highlighted,
             [block + '--wired']: this.props.wired
           })}
-          onClick={this.focus}>
+          onMouseEnter={this.onMouseEnter}
+          onMouseLeave={this.onMouseLeave}
+          onClick={this.onClick}>
         {getLabel(this.props.snapshot)}
         {this.renderHealthIcon()}
       </li>
@@ -74,12 +78,16 @@ const ServerItem = React.createClass({
                  className={block + '-health'}/>;
   },
 
-  focus() {
-    if (this.props.selected) {
-      clear();
-    } else {
-      select(this.props.snapshot);
-    }
+  onClick() {
+    selectedSnapshotStore.select(this.props.snapshot);
+  },
+
+  onMouseEnter() {
+    highlightedSnapshotStore.select(this.props.snapshot);
+  },
+
+  onMouseLeave() {
+    highlightedSnapshotStore.clear();
   }
 });
 
