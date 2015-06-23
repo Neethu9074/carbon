@@ -9,8 +9,13 @@ void main() {
     float targetHeight = uv.x;
     float oldHeight = uv.y;
     float delta = targetHeight - oldHeight;
+    float eplison = 0.01;
 
-    height = oldHeight + delta * progress;
+    height = oldHeight + (delta * progress);
+
+    if((targetHeight - height) < eplison) {
+      height -= eplison;
+    }
   }
 
   gl_Position =

@@ -8,6 +8,11 @@ void main() {
   float oldHeight = uv.y;
   float delta = targetHeight - oldHeight;
   float height = oldHeight + (delta * progress);
+  float eplison = 0.01;
+
+  if((targetHeight - height) < eplison) {
+    height -= eplison;
+  }
 
   gl_Position =
     projectionMatrix *
