@@ -141,12 +141,12 @@ gulp.task('writeBuildInfo', function() {
   };
 
   try {
-    fs.mkdirSync('target')
+    fs.mkdirSync('target');
   } catch (e) {
     // ignore when it already exists
   }
 
-  fs.writeFileSync('target/buildInfo.js', JSON.stringify(data));
+  fs.writeFileSync('target/buildInfo.json', JSON.stringify(data));
 });
 
 gulp.task('webpack:dev', function() {
