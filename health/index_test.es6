@@ -24,7 +24,7 @@ describe('health', () => {
     observable = ro.create();
 
     health = proxyquire('./index', {
-      '../notificationCenter': {
+      '../issueTracker': {
         getProblemsForSnapshot: () => observable
       }
     });

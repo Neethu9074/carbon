@@ -4,7 +4,7 @@
   "description": "In-browser, pluggable-independent, service layer",
   "main": "index.es6",
   "scripts": {
-    "test": "eslint --ext .es6 conveyer/ http/ converters/ util/ connection/ notificationCenter/ health/ stores/ && mocha --require mocha-babel-es6 **/*_test.es6"
+    "test": "eslint --ext .es6 conveyer/ http/ converters/ util/ connection/ issueTracker/ health/ stores/ && mocha --require mocha-babel-es6 **/*_test.es6"
   },
   "repository": {
     "type": "git",

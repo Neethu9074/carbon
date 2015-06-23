@@ -1,6 +1,6 @@
 'use strict';
 
-import {getProblemsForSnapshot} from '../notificationCenter';
+import {getProblemsForSnapshot} from '../issueTracker';
 
 export const health = {
   ok: 'ok',
