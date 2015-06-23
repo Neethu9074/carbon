@@ -13,7 +13,6 @@ import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
-import * as wiredSnapshotsStore from 'instana-ui-services/stores/wiredSnapshots';
 
 import ServerItem from './ServerItem';
 
@@ -47,7 +46,7 @@ const ServerListing = React.createClass({
     );
 
     this.addSubscription(
-      wiredSnapshotsStore.wiredSnapshots.subscribe(wiredSnapshots =>
+      selectedSnapshotStore.wiredSnapshots.subscribe(wiredSnapshots =>
         this.setState({wiredSnapshots})
       )
     );
