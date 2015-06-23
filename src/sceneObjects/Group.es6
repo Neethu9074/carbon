@@ -111,7 +111,7 @@ export default class Group extends SceneObject {
     return {width, depth};
   }
 
-  highlight(highlighted) {
+  onHighlight(highlighted) {
     logger.debug('highlight group', this.id, highlighted);
   }
 
