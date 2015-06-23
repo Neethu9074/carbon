@@ -8,7 +8,7 @@ import {getHealth, health} from 'instana-ui-services/health';
 import {
   getProblemsForSnapshot,
   getOpenIssues
-} from 'instana-ui-services/notificationCenter';
+} from 'instana-ui-services/issueTracker';
 
 import './index.less';
 
