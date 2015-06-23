@@ -38,7 +38,8 @@ module.exports = {
     }]
   },
   plugins: [
-    definePlugin
+    definePlugin,
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/)
   ],
   resolve: {
     extensions: ['', '.js', '.es6']
