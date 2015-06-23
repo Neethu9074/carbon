@@ -22,7 +22,7 @@ export const DescriptionList = React.createClass({
     if (this.props.children instanceof Array) {
       return this.props.children.map(child => this.renderItem(child.props));
     } else {
-      return this.renderItem(this.props.children);
+      return this.renderItem(this.props.children.props);
     }
   },
 
