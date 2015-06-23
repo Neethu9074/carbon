@@ -307,6 +307,7 @@ const OSDetailPaneContent = React.createClass({
               <th>Type</th>
               <th>Capacity</th>
               <th>Free</th>
+              <th>Leaked</th>
               <th>iFree</th>
             </tr>
           </thead>
@@ -323,6 +324,12 @@ const OSDetailPaneContent = React.createClass({
                        this.createMetricValueStream.bind(
                          this,
                          'fs.' + name + '.free'
+                       )}
+                     formatter={d => formatBytes(d * 1024)} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'fs.' + name + '.leaked'
                        )}
                      formatter={d => formatBytes(d * 1024)} />
                 <Mtd createMetricValueStream={
