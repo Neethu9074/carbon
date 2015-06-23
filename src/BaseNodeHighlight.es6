@@ -173,6 +173,18 @@ export default class BaseNodeHighlight extends Highlight {
     client.incomingConnections.forEach(c => c.refresh());
   }
 
+  refresh() {
+    if(!this.IndirectHighlightCounter) {
+      return;
+    }
+
+    const client = this.client;
+    const factory = client.scene.highlightingSingleMeshFactory;
+
+    factory.removeFragment(client.id);
+    factory.addFragment(client.getNodeAsFragment());
+  }
+
   onMouseOver() {
     this.setHighlight();
   }
