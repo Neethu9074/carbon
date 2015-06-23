@@ -24,14 +24,6 @@ const StickyNoteRC = React.createClass({
     snapshot: rpt.object.isRequired
   },
 
-  componentWillUnmount() {
-    this.healthSubscription.dispose();
-    this.healthSubscription = null;
-
-    this.issueSubscription.dispose();
-    this.issueSubscription = null;
-  },
-
   getHighlightedContent() {
     const nodeHealth = this.props.health;
 
