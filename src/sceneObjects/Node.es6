@@ -130,13 +130,13 @@ export default class Node extends BaseNode {
     return this.wiredSnapshots;
   }
 
-  containsWired(other) {
+  setWiredStickiesActive() {
     const wiredSnapshots = this.wiredSnapshots;
-    const match = wiredSnapshots.get('outgoing')
-      .concat(wiredSnapshots.get('incoming'))
-        .filter(node => isIdEqual(node, other.snapshot));
-
-    return match.size > 0;
+    wiredSnapshots.get('outgoing').concat(wiredSnapshots.get('incoming'))
+      .forEach((node) => {
+        const other = this.findNodeBySnapshot(node);
+        other.stickyNote.setInactive(false);
+      });
   }
 
   updateMetricHeight() {

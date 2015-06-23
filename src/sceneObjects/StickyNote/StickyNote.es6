@@ -38,10 +38,10 @@ export default class StickyNote {
     stickyNoteContainerStyle.display = '';
   }
 
-  setInactive(incactive) {
+  setInactive(inactive) {
     const sticky = this.stickyNoteContainer;
 
-    if(incactive) {
+    if(inactive) {
       sticky.classList.remove('in-sticky-note__active');
       sticky.classList.add('in-sticky-note__inactive');
     } else {

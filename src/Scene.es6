@@ -528,11 +528,17 @@ export default class Scene {
 
     //set all stickies to opacity: 0.4
     //set selected and wired to opacity: 1
-    this.forEachNode((node) => {
-      if(node === object || node.containsWired(object)) {
-        node.stickyNote.setInactive(false);
-      } else {
+    const allNodes = getAllNodes(this.map);
+    allNodes.forEach((node) => {
+      if(node !== object) {
         node.stickyNote.setInactive(true);
+      }
+    });
+
+    allNodes.forEach((node) => {
+      if(node === object) {
+        node.stickyNote.setInactive(false);
+        node.setWiredStickiesActive();
       }
     });
   }
