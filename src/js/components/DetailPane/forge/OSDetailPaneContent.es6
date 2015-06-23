@@ -322,13 +322,13 @@ const OSDetailPaneContent = React.createClass({
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'fs.' + name + '.free.5000.mean'
+                         'fs.' + name + '.free'
                        )}
                      formatter={d => formatBytes(d * 1024)} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'fs.' + name + '.ifree.5000.mean'
+                         'fs.' + name + '.ifree'
                        )}
                      formatter={commasFormatter} />
               </tr>
@@ -376,49 +376,49 @@ const OSDetailPaneContent = React.createClass({
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'ifs.' + name + '.rx.bytes.5000.mean'
+                         'ifs.' + name + '.rx.bytes'
                        )}
                      formatter={bytesPerSecondFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'ifs.' + name + '.rx.errors.5000.mean'
+                         'ifs.' + name + '.rx.errors'
                        )}
                      formatter={percentFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'ifs.' + name + '.rx.dropped.5000.mean'
+                         'ifs.' + name + '.rx.dropped'
                        )}
                      formatter={percentFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'ifs.' + name + '.rx.overruns.5000.mean'
+                         'ifs.' + name + '.rx.overruns'
                        )}
                      formatter={percentFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'ifs.' + name + '.tx.bytes.5000.mean'
+                         'ifs.' + name + '.tx.bytes'
                        )}
                      formatter={bytesPerSecondFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'ifs.' + name + '.tx.errors.5000.mean'
+                         'ifs.' + name + '.tx.errors'
                        )}
                      formatter={percentFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'ifs.' + name + '.tx.dropped.5000.mean'
+                         'ifs.' + name + '.tx.dropped'
                        )}
                      formatter={percentFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
-                         'ifs.' + name + '.tx.overruns.5000.mean'
+                         'ifs.' + name + '.tx.overruns'
                        )}
                      formatter={percentFormatter} />
               </tr>
@@ -431,7 +431,7 @@ const OSDetailPaneContent = React.createClass({
   },
 
   selectFilesystem(fs) {
-    const metric = 'fs.' + fs + '.free.5000.mean';
+    const metric = 'fs.' + fs + '.free';
     this.setState({
       filesystemMetrics: [metric],
       filesystemUsageChartConfig: {
@@ -484,8 +484,8 @@ const OSDetailPaneContent = React.createClass({
   selectInterface(iface) {
     this.setState({
       interfaceMetrics: [
-        'ifs.' + iface + '.rx.bytes.5000.mean',
-        'ifs.' + iface + '.tx.bytes.5000.mean'
+        'ifs.' + iface + '.rx.bytes',
+        'ifs.' + iface + '.tx.bytes'
       ]
     });
   },
