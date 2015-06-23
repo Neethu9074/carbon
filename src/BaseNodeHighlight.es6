@@ -115,10 +115,25 @@ export default class BaseNodeHighlight extends Highlight {
 
     client.scene.highlightingSingleMeshFactory
       .addFragment(client.getNodeAsFragment());
+
+    client.stickyNote.setInactive(false);
   }
 
   clearIndirectHighlight() {
     super.clearIndirectHighlight();
+  }
+
+  //disposing the indirect highlighting if the counter is 0
+  disposeIndirectHighlight() {
+    const client = this.client;
+
+    //remove frame on the ground
+    client.scene.lineFactory.removeFragment(client.id);
+    client.scene.highlightingSingleMeshFactory.removeFragment(client.id);
+
+    if(client.isAnySnapshotSelected()) {
+      client.stickyNote.setInactive(true);
+    }
   }
 
   setupConnections() {
@@ -170,15 +185,6 @@ export default class BaseNodeHighlight extends Highlight {
     if(!client.isSelected) {
       this.clearHighlight();
     }
-  }
-
-  //disposing the indirect highlighting if the counter is 0
-  disposeIndirectHighlight() {
-    const client = this.client;
-
-    //remove frame on the ground
-    client.scene.lineFactory.removeFragment(client.id);
-    client.scene.highlightingSingleMeshFactory.removeFragment(client.id);
   }
 
   dispose() {

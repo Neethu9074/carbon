@@ -49,6 +49,10 @@ export default class Unknownnode extends BaseNode {
     return map.asImmutable();
   }
 
+  containsWired() {
+    return false;
+  }
+
   update() {
     super.update();
 

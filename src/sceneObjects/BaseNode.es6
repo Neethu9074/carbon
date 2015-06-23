@@ -100,6 +100,8 @@ export default class BaseNode extends SceneObject {
 
   collectConnections() {throw new Error('NOT IMPLEMENTED'); }
 
+  containsWired() {throw new Error('NOT IMPLEMENTED'); }
+
   updateStickyNotes() {
     this.stickyNote.update();
   }

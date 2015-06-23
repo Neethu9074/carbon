@@ -514,12 +514,31 @@ export default class Scene {
 
     this.selectedSceneObject = undefined;
     this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+
+    //set all stickies to opacity: 1
+    this.forEachNode((node) => {
+      node.stickyNote.setInactive(false);
+    });
   }
 
   setSelectedObject(object) {
     //save the new object and select it
     this.selectedSceneObject = object;
     this.controller.flyToObject(object.cube);
+
+    //set all stickies to opacity: 0.4
+    //set selected and wired to opacity: 1
+    this.forEachNode((node) => {
+      if(node === object || node.containsWired(object)) {
+        node.stickyNote.setInactive(false);
+      } else {
+        node.stickyNote.setInactive(true);
+      }
+    });
+  }
+
+  isAnySnapshotSelected() {
+    return this.selectedSceneObject;
   }
 
   onFocus(event) {

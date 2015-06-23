@@ -5,6 +5,7 @@ import THREE from 'three';
 import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 
 import BaseNode from './BaseNode';
@@ -120,13 +121,22 @@ export default class Node extends BaseNode {
     this.wiredSnapshots = wiredSnapshots;
     const parent = this.parent;
 
-    wiredSnapshots.get('outgoing').concat(wiredSnapshots.get('outgoing'))
+    wiredSnapshots.get('outgoing').concat(wiredSnapshots.get('incoming'))
       .filter(node => node.get('state') === 'unmonitored')
       .forEach(node => parent.addUnknownNode(node));
   }
 
   getWiredSnapshots() {
     return this.wiredSnapshots;
+  }
+
+  containsWired(other) {
+    const wiredSnapshots = this.wiredSnapshots;
+    const match = wiredSnapshots.get('outgoing')
+      .concat(wiredSnapshots.get('incoming'))
+        .filter(node => isIdEqual(node, other.snapshot));
+
+    return match.size > 0;
   }
 
   updateMetricHeight() {

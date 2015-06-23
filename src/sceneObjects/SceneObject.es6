@@ -62,6 +62,10 @@ export default class SceneObject {
     return this.parent.getHtmlContainer();
   }
 
+  isAnySnapshotSelected() {
+    return this.parent.isAnySnapshotSelected();
+  }
+
   on(event, cb) {
     return this.parent.on(event, cb);
   }
