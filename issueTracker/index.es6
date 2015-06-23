@@ -47,10 +47,12 @@ export function getIssueSummary() {
 }
 
 export function getProblemsForSnapshot(snapshotId) {
+  const predicate = isIdEqual.bind(null, snapshotId);
+
   return openIssuesStream.map(issues => {
-    issues.reduce((problemsForSnapshot, issue) => {
+    return issues.reduce((problemsForSnapshot, issue) => {
       return problemsForSnapshot.concat(
-        issue.get('problems').filter(isIdEqual.bind(null, snapshotId))
+        issue.get('problems').filter(predicate)
       );
     }, Immutable.List());
   });
