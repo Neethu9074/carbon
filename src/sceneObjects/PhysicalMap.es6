@@ -4,20 +4,23 @@ import THREE from 'three';
 
 import _ from 'lodash';
 import Immutable from 'immutable';
-import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConnectionGrid from '../connectionGrid';
 import eventBus from 'instana-ui-services/eventbus';
+import SceneObject from './SceneObject';
+import groundTexturePath from './ground.png';
+import Group from './Group';
+import Layouter from '../layout';
+import {create} from 'instana-ui-services/conveyer';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getAllNodes, getAllGroups} from '../mapStructureUtils';
 import {
   isIdEqual,
   getIdString,
   extractConnections} from 'instana-ui-services/util/snapshots';
-import SceneObject from './SceneObject';
-import groundTexturePath from './ground.png';
-import Group from './Group';
-import Layouter from '../layout';
+import {createLogger} from 'instalog';
+
+const logger = createLogger('ui-map.Group');
 
 let layoutCounter = 0;
 const layoutingInterval = 60;
@@ -36,20 +39,7 @@ export default class PhysicalMap extends SceneObject {
 
     this.createGroundGrid();
     this.bindToDatasource();
-
-    this.addSubscription(eventBus.on('beginUpdate').subscribe(() =>{
-      if(layoutCounter++ % layoutingInterval) {
-        if(this.refreshLayout) {
-          this.applyLayout();
-          eventBus.emit('layoutChanged');
-
-          this.parent.renderScene();
-          this.refreshLayout = false;
-        }
-
-        layoutCounter = 0;
-      }
-    }));
+    this.registerEvents();
   }
 
   createGroundGrid() {
@@ -99,6 +89,30 @@ export default class PhysicalMap extends SceneObject {
     const observable = create(SnapshotConveyer, {pluginId});
     this.addSubscription(
       observable.subscribe(data => this.onInventoryUpdate(data)));
+  }
+
+  registerEvents() {
+    this.addSubscription(eventBus.on('beginUpdate').subscribe(() =>{
+
+      //throttle layouting calling
+      if(layoutCounter++ % layoutingInterval) {
+
+        //if the flag was set to recalculate the layouting
+        if(this.refreshLayout) {
+          this.applyLayout();
+          eventBus.emit('layoutChanged');
+
+          this.parent.renderScene();
+          this.refreshLayout = false;
+        }
+
+        layoutCounter = 0;
+      }
+    }));
+
+    this.addSubscription(eventBus.on('filter').subscribe((event) => {
+      logger.debug('fitler map:', event.filter);
+    }));
   }
 
   onInventoryUpdate(snapshots) {
