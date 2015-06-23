@@ -8,7 +8,7 @@ import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
-import {getHealth} from 'instana-ui-services/health';
+import {getHealth} from 'instana-ui-services/issueTracker';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {combineLatest} from 'reactive-observables';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';

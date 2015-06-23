@@ -4,7 +4,8 @@ import React from 'react/addons';
 import SnapshotIcon from 'instana-ui-components/SnapshotIcon';
 import iconPath from '../icons/default.png';
 import StickyNote from '../StickyNote';
-import {getHealth, health} from 'instana-ui-services/health';
+import {getHealth} from 'instana-ui-services/issueTracker';
+import {health} from 'instana-ui-services/health';
 import {
   getProblemsForSnapshot,
   getOpenIssues
