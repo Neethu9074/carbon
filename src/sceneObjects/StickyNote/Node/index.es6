@@ -121,4 +121,16 @@ export default class StickyNoteNode extends StickyNote {
       this.stickyNoteContainer
     );
   }
+
+  setInactive(incactive) {
+    const sticky = this.stickyNoteContainer;
+
+    if(incactive) {
+      sticky.classList.remove('in-sticky-note__node__active');
+      sticky.classList.add('in-sticky-note__node__inactive');
+    } else {
+      sticky.classList.remove('in-sticky-note__node__inactive');
+      sticky.classList.add('in-sticky-note__node__active');
+    }
+  }
 }

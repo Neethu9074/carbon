@@ -36,6 +36,9 @@ export default class StickyNote {
     stickyNoteContainerStyle.display = '';
   }
 
+  //implement that in every special stickyNote
+  setInactive() {}
+
   onHighlight(highlighted) {
     this.highlighted = highlighted;
     this.render();

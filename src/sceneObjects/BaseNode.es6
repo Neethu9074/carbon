@@ -40,7 +40,8 @@ const emptyStickyObject = {
   updateWorldPos() {},
   render() {},
   dispose() {},
-  onHighlight() {}
+  onHighlight() {},
+  setInactive() {}
 };
 
 export default class BaseNode extends SceneObject {
@@ -110,9 +111,9 @@ export default class BaseNode extends SceneObject {
     }
 
     this.isSelected = true;
+    this.scene.setSelectedObject(this);
     this.onHighlight(true);
     this.connections.forEach(c => c.select());
-    this.scene.setSelectedObject(this);
   }
 
   //is called when the user hits the node again or the selection was cleared

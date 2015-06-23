@@ -95,12 +95,8 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     //if the fragment is highlighted -> use highlightColor
     if(fragment.highlighted) {
       return highlightColor;
-
-    //if the color is specified (e.g. on the ground) -> use it
-    } else if(fragment.color) {
-      return fragment.color;
     }
-    return defaultColor;
+    return fragment.color || defaultColor;
   }
 
   createGlobalMesh(vertices, colors) {

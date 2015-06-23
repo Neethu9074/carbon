@@ -38,7 +38,7 @@ export default class NodeSnapshotServer {
     this.subscriptions.push(eventBus.on('upateMetricHeights').subscribe(() =>
       client.updateMetricHeight()));
 
-    this.subscriptions.push(snapshotStore.selectedSnapshot.subscribe((s) =>{
+    this.subscriptions.push(snapshotStore.selectedSnapshot.subscribe((s) => {
       if(s && isIdEqual(s, client.snapshot)) {
         client.select();
       }

@@ -1,5 +1,15 @@
 @import "~instana-ui-themes/less/constants.less";
 
+.in-sticky-note__node__active {
+  transparent: false;
+  opacity: 1;
+}
+
+.in-sticky-note__node__inactive {
+  transparent: true;
+  opacity: 0.4;
+}
+
 .in-sticky-note__node {
   position: absolute;
 
@@ -26,13 +36,13 @@
     width: 36px;
     height: 36px;
 
+    //disable icon for a while
+    opacity: 0;
+
     margin-left: -18px;
     margin-top: -18px;
 
     transition: all 0.5s ease;
-
-    transparent: true;
-    opacity: 0;
 
   .in-map--zoom-50 &, .in-map--zoom-100 & {
     width: 64px;
