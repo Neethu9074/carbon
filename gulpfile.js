@@ -111,9 +111,9 @@ function getRevision() {
 gulp.task('dev', [
   'copyhtml',
   'copyfavicon',
+  'writeBuildInfo',
   'dev-watches',
-  'webpack:dev',
-  'writeBuildInfo'
+  'webpack:dev'
 ]);
 
 
@@ -137,7 +137,7 @@ gulp.task('writeBuildInfo', function() {
   var data = {
     revision: getRevision(),
     version: getVersion(),
-    buildDate: new Date().toISOString()
+    date: new Date().toISOString()
   };
 
   try {
@@ -146,7 +146,7 @@ gulp.task('writeBuildInfo', function() {
     // ignore when it already exists
   }
 
-  fs.writeFileSync('target/buildInfo.json', JSON.stringify(data));
+  fs.writeFileSync('target/build.json', JSON.stringify(data));
 });
 
 gulp.task('webpack:dev', function() {
