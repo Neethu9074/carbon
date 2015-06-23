@@ -282,7 +282,6 @@ export default class BaseNode extends SceneObject {
     this.cube = null;
 
     this.disposeStickyNote();
-    this.disposeStickyNoteHighlight();
 
     super.dispose();
 
