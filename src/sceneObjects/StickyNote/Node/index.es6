@@ -24,18 +24,6 @@ const StickyNoteRC = React.createClass({
     snapshot: rpt.object.isRequired
   },
 
-  getInitialState: function() {
-    return {health: health.ok};
-  },
-
-  componentDidMount() {
-    this.healthSubscription = getHealth(this.props.snapshot)
-      .subscribe(health => this.setState({health}));
-
-    this.issueSubscription = getProblemsForSnapshot(this.props.snapshot)
-      .subscribe(issues => this.setState({issues}));
-  },
-
   componentWillUnmount() {
     this.healthSubscription.dispose();
     this.healthSubscription = null;
@@ -45,7 +33,7 @@ const StickyNoteRC = React.createClass({
   },
 
   getHighlightedContent() {
-    const nodeHealth = this.state.health;
+    const nodeHealth = this.props.health;
 
     const byContent = ({heading, content, health}) => {
       return <div className='in-sticky-note__node__highlight'>
@@ -60,7 +48,7 @@ const StickyNoteRC = React.createClass({
 
     const getProblemText = () => {
        try {
-        return this.state.issues.get(0).get('problemText');
+        return this.props.issues.get(0).get('problemText');
       } catch (er) {
         return '';
       }
@@ -111,14 +99,32 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
     this.render();
+
+    this.healthSubscription = getHealth(this.parent.snapshot)
+      .subscribe(h => this.health = h);
+
+    this.issueSubscription = getProblemsForSnapshot(this.parent.snapshot)
+      .subscribe(issues => this.issues = issues);
   }
 
   render() {
     React.render(
       <StickyNoteRC snapshot={this.parent.snapshot}
                     id={this.parent.incrementId}
-                    highlighted={this.highlighted}/>,
+                    highlighted={this.highlighted}
+                    health={this.health}
+                    issues={this.issues}/>,
       this.stickyNoteContainer
     );
+  }
+
+  dispose() {
+    this.healthSubscription.dispose();
+    this.healthSubscription = null;
+
+    this.issueSubscription.dispose();
+    this.issueSubscription = null;
+
+    super.dispose();
   }
 }
