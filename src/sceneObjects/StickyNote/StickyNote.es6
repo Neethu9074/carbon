@@ -3,6 +3,8 @@
 import THREE from 'three';
 import React from 'react';
 
+import './index.less';
+
 
 export default class StickyNote {
   constructor({parent, cssClass}) {
@@ -36,8 +38,17 @@ export default class StickyNote {
     stickyNoteContainerStyle.display = '';
   }
 
-  //implement that in every special stickyNote
-  setInactive() {}
+  setInactive(incactive) {
+    const sticky = this.stickyNoteContainer;
+
+    if(incactive) {
+      sticky.classList.remove('in-sticky-note__active');
+      sticky.classList.add('in-sticky-note__inactive');
+    } else {
+      sticky.classList.remove('in-sticky-note__inactive');
+      sticky.classList.add('in-sticky-note__active');
+    }
+  }
 
   onHighlight(highlighted) {
     this.highlighted = highlighted;
