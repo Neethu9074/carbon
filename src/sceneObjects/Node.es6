@@ -37,7 +37,6 @@ export default class Node extends BaseNode {
     this.health = this.health || health.ok;
 
     this.layer = [];
-    this.wiredSnapshots = undefined;
   }
 
   registerEvents() {
