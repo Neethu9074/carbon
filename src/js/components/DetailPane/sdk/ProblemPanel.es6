@@ -3,7 +3,7 @@
 import Immutable from 'immutable';
 import React from 'react/addons';
 
-import {getProblemsForSnapshot} from 'instana-ui-services/notificationCenter';
+import {getProblemsForSnapshot} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {mapSeverityToHealth, health} from 'instana-ui-services/health';
 import {theme} from 'instana-ui-services/theme';
