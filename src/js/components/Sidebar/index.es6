@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import eventBus from 'instana-ui-services/eventbus';
+import * as metricsStore from 'instana-ui-services/stores/metrics';
 
 import ServerListing from './ServerListing';
 import FloatingFrame from './FloatingFrame';
@@ -35,27 +35,21 @@ const Sidebar = React.createClass({
   },
 
   showCpuUsage() {
-    eventBus.emit('showMetrics', {
-      metrics: [
-        'cpu.total.user',
-        'cpu.total.sys',
-        'cpu.total.wait',
-        'cpu.total.nice',
-        'cpu.total.steal'
-      ]
-    });
+    metricsStore.select([
+      'cpu.total.user',
+      'cpu.total.sys',
+      'cpu.total.wait',
+      'cpu.total.nice',
+      'cpu.total.steal'
+    ]);
   },
 
   showCpuLoad() {
-    eventBus.emit('showMetrics', {
-      metrics: ['load.1min']
-    });
+    metricsStore.select(['load.1min']);
   },
 
   showMemoryUsage() {
-    eventBus.emit('showMetrics', {
-      metrics: ['memory.free']
-    });
+    metricsStore.select(['memory.free']);
   }
 
 });
