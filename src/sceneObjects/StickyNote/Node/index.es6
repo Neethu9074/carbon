@@ -4,6 +4,11 @@ import React from 'react/addons';
 import SnapshotIcon from 'instana-ui-components/SnapshotIcon';
 import iconPath from '../icons/default.png';
 import StickyNote from '../StickyNote';
+import {getHealth, health} from 'instana-ui-services/health';
+import {
+  getProblemsForSnapshot,
+  getOpenIssues
+} from 'instana-ui-services/notificationCenter';
 
 import './index.less';
 
@@ -18,12 +23,82 @@ const StickyNoteRC = React.createClass({
     snapshot: rpt.object.isRequired
   },
 
+  getInitialState: function() {
+    return {health: health.ok};
+  },
+
+  componentDidMount() {
+    this.healthSubscription = getHealth(this.props.snapshot)
+      .subscribe(health => this.setState({health}));
+
+    this.issueSubscription = getProblemsForSnapshot(this.props.snapshot)
+      .subscribe(issues => this.setState({issues}));
+  },
+
+  componentWillUnmount() {
+    this.healthSubscription.dispose();
+    this.healthSubscription = null;
+
+    this.issueSubscription.dispose();
+    this.issueSubscription = null;
+  },
+
+  getHighlightedContent() {
+    const nodeHealth = this.state.health;
+
+    const byContent = ({heading, content, health}) => {
+      return <div className='in-sticky-note__node__highlight'>
+        <div className={'in-sticky-note__node__highlight__header__' + health}>
+          {heading}
+        </div>
+        <div className='in-sticky-note__node__highlight__content'>
+          {content}
+        </div>
+      </div>;
+    };
+
+    const getProblemText = () => {
+       try {
+        return this.state.issues.get(0).get('problemText');
+      } catch (er) {
+        return '';
+      }
+    };
+
+    if(this.props.highlighted) {
+      if(nodeHealth === health.warning) {
+        return byContent({
+          heading: 'WARNING',
+          content: getProblemText(),
+          health: 'warning'
+        });
+
+      } else if(nodeHealth === health.danger) {
+        return byContent({
+          heading: 'DANGER',
+          content: getProblemText(),
+          health: 'danger'
+        });
+      }
+      return byContent({
+        heading: this.props.snapshot.get('hostId').toUpperCase(),
+        content: 'this is a great server :)',
+        health: 'ok'
+      });
+    } else {
+      return '';
+    }
+  },
+
   render() {
     const data = this.props.snapshot.get('data');
+    const highlightedCode = this.getHighlightedContent();
+
     return (
-      <div>
-        <div >
-          <img src={iconPath} className="in-sticky-note__node__icon"/>
+      <div className='in-sticky-note__node'>
+        {highlightedCode}
+        <div>
+          <img src={iconPath} className='in-sticky-note__node__icon'/>
         </div>
       </div>
     );
@@ -40,7 +115,8 @@ export default class StickyNoteNode extends StickyNote {
   render() {
     React.render(
       <StickyNoteRC snapshot={this.parent.snapshot}
-                    id={this.parent.incrementId}/>,
+                    id={this.parent.incrementId}
+                    highlighted={this.highlighted}/>,
       this.stickyNoteContainer
     );
   }

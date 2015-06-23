@@ -55,7 +55,6 @@ export default class BaseNode extends SceneObject {
     this.incomingConnections = [];
 
     this.stickyNote = emptyStickyObject;
-    this.stickyNoteHighlight = emptyStickyObject;
 
     this.render();
 
@@ -101,7 +100,6 @@ export default class BaseNode extends SceneObject {
 
   updateStickyNotes() {
     this.stickyNote.update();
-    this.stickyNoteHighlight.update();
   }
 
   //is called via scene when the user pressed on a node
@@ -111,7 +109,7 @@ export default class BaseNode extends SceneObject {
     }
 
     this.isSelected = true;
-    this.highlight(true);
+    this.onHighlight(true);
     this.connections.forEach(c => c.select());
     this.scene.setSelectedObject(this);
   }
@@ -124,17 +122,19 @@ export default class BaseNode extends SceneObject {
     }
 
     this.isSelected = false;
-    this.highlight(false);
+    this.onHighlight(false);
     this.connections.forEach(c => c.unSelect());
   }
 
   //is called via mouseover effect
-  highlight(value) {
-    if(value) {
-      this.highlighting.mouseOver();
+  onHighlight(highlighted) {
+    if(highlighted) {
+      this.highlighting.onMouseOver();
     } else {
-      this.highlighting.mouseOff();
+      this.highlighting.onMouseOff();
     }
+
+    this.stickyNote.onHighlight(highlighted);
     this.getScene().renderScene();
   }
 
@@ -257,11 +257,6 @@ export default class BaseNode extends SceneObject {
   disposeStickyNote() {
     this.stickyNote.dispose();
     this.stickyNote = emptyStickyObject;
-  }
-
-  disposeStickyNoteHighlight() {
-    this.stickyNoteHighlight.dispose();
-    this.stickyNoteHighlight = emptyStickyObject;
   }
 
   dispose() {

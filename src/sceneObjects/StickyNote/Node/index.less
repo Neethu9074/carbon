@@ -2,8 +2,11 @@
 
 .in-sticky-note__node {
   position: absolute;
-  top: -32px;
-  left: -50px;
+
+  top: 0;
+
+  display: flex;
+  flex-direction: column-reverse;
 
   color: white;
   white-space: nowrap;
@@ -22,7 +25,10 @@
 .in-sticky-note__node__icon {
     width: 36px;
     height: 36px;
-    margin-left: 32px;
+
+    margin-left: -18px;
+    margin-top: -18px;
+
     transition: all 0.5s ease;
 
     transparent: true;
@@ -31,6 +37,62 @@
   .in-map--zoom-50 &, .in-map--zoom-100 & {
     width: 64px;
     height: 64px;
-    margin-left: 16px;
+
+    margin-left: -32px;
+    margin-top: -32px;
   }
+}
+
+.in-sticky-note__node__highlight {
+  margin-top: -120px;
+  margin-left: -30px;
+
+  width: 200px;
+  height: 50px;
+
+  background-color: @map__sticky-notes__node-hightlight-background-color;
+  border-radius: 5px;
+  padding: 10px;
+
+  font-size: 10px;
+
+  color: white;
+
+  white-space: nowrap;
+}
+
+.in-sticky-note__node__highlight:before {
+  content: ' ';
+  position: absolute;
+  width: 0;
+  height: 0;
+
+  margin-top: 50px;
+  margin-left: 30px;
+
+  border: 10px solid;
+  border-color:
+    @map__sticky-notes__node-hightlight-background-color
+    transparent
+    transparent
+    @map__sticky-notes__node-hightlight-background-color;
+}
+
+.in-sticky-note__node__highlight__header__ok {
+  color: white;
+}
+
+.in-sticky-note__node__highlight__header__warning {
+  color: yellow;
+}
+
+.in-sticky-note__node__highlight__header__danger {
+  color: red;
+}
+
+.in-sticky-note__node__highlight__content {
+  margin-top: 7px;
+  font-size: 9px;
+
+  color: #666b6f;
 }

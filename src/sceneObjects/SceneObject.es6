@@ -81,7 +81,7 @@ export default class SceneObject {
     this.hidden = false;
   }
 
-  highlight(/*value*/) {}
+  onHighlight(/*value*/) {}
 
   updateScreenPosition() {
     const scene = this.getScene();

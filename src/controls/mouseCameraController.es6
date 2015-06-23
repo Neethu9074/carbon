@@ -57,15 +57,15 @@ export default class MouseControl extends TouchController {
     if(this.hittenObject) {
       //if this is a new hitten object
       if(hitten !== this.hittenObject) {
-        this.hittenObject.parentSceneObject.highlight(true);
+        this.hittenObject.parentSceneObject.onHighlight(true);
         //if the new differs from the old and the old is valid
         if(hitten) {
-          hitten.parentSceneObject.highlight(false);
+          hitten.parentSceneObject.onHighlight(false);
         }
       }
       //if there is actually not hitten but it was last frame
     } else if(!this.hittenObject && hitten) {
-      hitten.parentSceneObject.highlight(false);
+      hitten.parentSceneObject.onHighlight(false);
     }
 
     this.cursor.x = x;

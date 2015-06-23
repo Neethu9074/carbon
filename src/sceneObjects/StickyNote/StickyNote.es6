@@ -12,7 +12,8 @@ export default class StickyNote {
     this.stickyNoteContainer.classList.add(cssClass);
     parent.getHtmlContainer().appendChild(this.stickyNoteContainer);
     this.style = this.stickyNoteContainer.style;
-    this.stickyNoteEndPosWorld = new THREE.Vector3();
+
+    this.highlighted = false;
   }
 
   hide() {
@@ -33,6 +34,11 @@ export default class StickyNote {
     //set to '' because the display is set by zoom too. If you would set
     //this value to another like '' you would overrite it
     stickyNoteContainerStyle.display = '';
+  }
+
+  onHighlight(highlighted) {
+    this.highlighted = highlighted;
+    this.render();
   }
 
   dispose() {

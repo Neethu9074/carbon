@@ -10,7 +10,6 @@ import eventBus from 'instana-ui-services/eventbus';
 import BaseNode from './BaseNode';
 import Layer from './Layer';
 import NodeSnapshotServer from '../NodeSnapshotServer';
-import StickyNoteNodeHighlight from './StickyNote/NodeHighlight';
 import StickyNoteNode from './StickyNote/Node';
 import StickyNoteLayer from './StickyNote/Layer';
 import StickyNoteMetric from './StickyNote/Metric';
@@ -101,10 +100,6 @@ export default class Node extends BaseNode {
         r: color.r, g: color.g, b: color.b
       })
     });
-  }
-
-  createStickyNoteHighlight() {
-    return new StickyNoteNodeHighlight(this);
   }
 
   showMetrics() {}

@@ -6,9 +6,6 @@ import Highlight from './Highlight';
 import eventBus from 'instana-ui-services/eventbus';
 
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
-import {createLogger} from 'instalog';
-
-const logger = createLogger('ui-map.Group');
 
 
 export default class BaseNodeHighlight extends Highlight {
@@ -161,21 +158,12 @@ export default class BaseNodeHighlight extends Highlight {
     client.incomingConnections.forEach(c => c.refresh());
   }
 
-  mouseOver() {
-    const client = this.client;
-
-    //just create one sticky
-    if(client.stickyNoteHighlight.isEmpty) {
-      client.stickyNoteHighlight = client.createStickyNoteHighlight();
-    }
-
+  onMouseOver() {
     this.setHighlight();
   }
 
-  mouseOff() {
+  onMouseOff() {
     const client = this.client;
-
-    client.disposeStickyNoteHighlight();
 
     //only disable highlighting if the node was not selected (is needed if
     //the node was selected and mouseoff was fired)
