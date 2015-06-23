@@ -71,15 +71,6 @@ export default class Scene {
 
     this.subscriptions.push(
       eventBus.on('hideMetrics').subscribe((e) => this.hideMetrics(e)));
-
-    this.subscriptions.push(snapshotStore.selectedSnapshot.subscribe(
-    (snapshot) => {
-      if(!snapshot) {
-        this.onSnapshotCleared();
-      } else {
-        this.onSnapshotSelected(snapshot);
-      }
-    }));
   }
 
   setupFactories() {
@@ -478,7 +469,7 @@ export default class Scene {
       if(sceneObject instanceof Node) {
         //unselect selected objects
         if(sceneObject.isSelected) {
-          snapshotStore.clear();
+          sceneObject.unSelect(true);
         } else {
           snapshotStore.select(sceneObject.snapshot);
         }
@@ -488,26 +479,8 @@ export default class Scene {
     }
   }
 
-  //is called from snapshotstore event
-  onSnapshotSelected(snapshot) {
-    const object = this.map.findNodeBySnapshot(snapshot);
-    if(!object) {
-      return;
-    }
-
-    this.onSnapshotCleared();
-
-    this.singleMeshFactory.material.opacity = 0.4;
-    this.singleMeshFactory.material.transparent = true;
-
-    this.groundSingleMeshFactory.material.opacity = 0.4;
-    this.groundSingleMeshFactory.material.transparent = true;
-
-    this.setSelectedObject(object);
-  }
-
-  //is called if the snapshotstore emits null
-  onSnapshotCleared() {
+  //is called if the snapshotStore emits null
+  clearSelectedObject() {
     if(this.selectedSceneObject) {
       this.selectedSceneObject.unSelect();
     }
@@ -522,6 +495,14 @@ export default class Scene {
   }
 
   setSelectedObject(object) {
+    this.clearSelectedObject();
+
+    this.singleMeshFactory.material.opacity = 0.4;
+    this.singleMeshFactory.material.transparent = true;
+
+    this.groundSingleMeshFactory.material.opacity = 0.4;
+    this.groundSingleMeshFactory.material.transparent = true;
+
     //save the new object and select it
     this.selectedSceneObject = object;
     this.controller.flyToObject(object.cube);
