@@ -70,3 +70,24 @@ function collectingReducer(existingIssues, issueUpdates) {
   })
   .concat(issueUpdates);
 }
+
+/**
+ * Gets the max severity of all problems and maps them to a health string. This
+ * works by subscribing to all problems that occured for this snapshot and
+ * returning a reactive observable.
+ *
+ * @param {Immutable<Snapshot>} snapshot The snapshot for which the health
+ *   should be determined.
+ * @returns {ReactiveObservable<string>} A stream that emits whenever the health
+ *   changes.
+ */
+export function getHealth(snapshot) {
+  return getProblemsForSnapshot(snapshot)
+    .map(problems => {
+      return problems.reduce((acc, problem) => {
+        return Math.max(problem.get('severity'), acc);
+      }, 0);
+    })
+    .map(mapSeverityToHealth)
+    .distinct();
+}
