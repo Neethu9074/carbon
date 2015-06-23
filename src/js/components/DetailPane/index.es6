@@ -3,11 +3,11 @@
 import React from 'react';
 import {State, Navigation} from 'react-router';
 import Immutable from 'immutable';
-
-import LineChart from 'instana-ui-components/LineChart';
-import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {on} from 'reactive-observables';
+
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as timelineStore from 'instana-ui-services/stores/timeline';
 
 import OSDetailPaneSidebar from './forge/OSDetailPaneSidebar';
 import OSDetailPaneContent from './forge/OSDetailPaneContent';
@@ -33,36 +33,22 @@ const DetailPane = React.createClass({
   getInitialState() {
     return {
       snapshot: null,
-      width: -1
+      timeframe: 0
     };
   },
 
   componentDidMount() {
-    // we need to observe the available size in order to resize the chart
-    this.addSubscription(
-      on(window, 'resize')
-        .debounce(500)
-        .subscribe(() => {
-          this.setState({width: this.calculateChartWidth()});
-        })
-    );
-
     this.addSubscription(
       selectedSnapshotStore.selectedSnapshot.subscribe(snapshot => {
         this.setState({snapshot});
       })
     );
-  },
 
-  componentDidUpdate() {
-    if (this.state.width === -1 && this.state.snapshot) {
-      this.setState({width: this.calculateChartWidth()});
-    }
-  },
-
-  calculateChartWidth() {
-    const domNode = React.findDOMNode(this.refs.content);
-    return parseInt(window.getComputedStyle(domNode).width, 10);
+    this.addSubscription(
+      timelineStore.timeframe.subscribe(timeframe => {
+        this.setState({timeframe});
+      })
+    );
   },
 
   render() {
@@ -76,13 +62,14 @@ const DetailPane = React.createClass({
         <div className={block + '__content'} ref='content'>
           {this.state.snapshot ?
             <OSDetailPaneContent snapshot={this.state.snapshot}
-                                 width={this.state.width === -1 ? 700 : this.state.width}/>
+                                 timeframe={this.state.timeframe} />
           : <div>Loading...</div>}
         </div>
 
         <div className={block + '__sidebar'}>
           {this.state.snapshot ?
-            <OSDetailPaneSidebar snapshot={this.state.snapshot} />
+            <OSDetailPaneSidebar snapshot={this.state.snapshot}
+                                 timeframe={this.state.timeframe} />
           : <div>Loading...</div>}
         </div>
       </div>

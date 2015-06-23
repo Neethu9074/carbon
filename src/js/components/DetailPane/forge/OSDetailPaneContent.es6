@@ -235,7 +235,7 @@ const OSDetailPaneContent = React.createClass({
                           metricValueFormatter={metricValueFormatter} />
 
         <HighChart snapshot={this.props.snapshot}
-                   timeframe={1000 * 60 * 5}
+                   timeframe={this.props.timeframe}
                    metrics={[
                      'cpu.total.user',
                      'cpu.total.sys',
@@ -259,7 +259,7 @@ const OSDetailPaneContent = React.createClass({
                           metricValueFormatter={d => d} />
 
         <HighChart snapshot={this.props.snapshot}
-                   timeframe={1000 * 60 * 5}
+                   timeframe={this.props.timeframe}
                    metrics={[
                     'load.1min'
                    ]}
@@ -279,7 +279,7 @@ const OSDetailPaneContent = React.createClass({
                           metricValueFormatter={d => formatBytes(d)} />
 
         <HighChart snapshot={this.props.snapshot}
-                   timeframe={1000 * 60 * 5}
+                   timeframe={this.props.timeframe}
                    metrics={[
                      'memory.free'
                    ]}
@@ -293,7 +293,7 @@ const OSDetailPaneContent = React.createClass({
 
         {this.state.filesystemMetrics ?
           <HighChart snapshot={this.props.snapshot}
-                     timeframe={1000 * 60 * 5}
+                     timeframe={this.props.timeframe}
                      metrics={this.state.filesystemMetrics}
                      config={this.state.filesystemUsageChartConfig} />
         : null}
@@ -344,7 +344,7 @@ const OSDetailPaneContent = React.createClass({
 
         {this.state.interfaceMetrics ?
           <HighChart snapshot={this.props.snapshot}
-                     timeframe={1000 * 60 * 5}
+                     timeframe={this.props.timeframe}
                      metrics={this.state.interfaceMetrics}
                      config={this.state.interfaceChartConfig} />
         : null}
@@ -493,7 +493,7 @@ const OSDetailPaneContent = React.createClass({
   createMetricWithHistoryStream(metric) {
     return create(MetricWithHistoryConveyer, {
       snapshot: this.props.snapshot,
-      timeframe: 1000 * 60 * 5,
+      timeframe: this.props.timeframe,
       metric
     });
   },
