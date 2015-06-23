@@ -35,11 +35,12 @@ const cubeMaterial = new THREE.MeshBasicMaterial();
 const emptyStickyObject = {
   isEmpty: true,
   hide() {},
+  show() {},
   update() {},
   updateWorldPos() {},
   render() {},
   dispose() {},
-  show() {}
+  onHighlight() {}
 };
 
 export default class BaseNode extends SceneObject {
