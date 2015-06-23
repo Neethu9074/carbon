@@ -3,11 +3,11 @@
 import React from 'react';
 import _ from 'lodash';
 
-import LineChart from 'instana-ui-components/LineChart';
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {theme} from 'instana-ui-services/theme';
+
 import ContentHeading from '../ContentHeading';
 
 import './ChartLegend.less';
