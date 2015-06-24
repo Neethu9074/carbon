@@ -4,30 +4,27 @@ import 'instana-ui-forge';
 import initReact from './react';
 import eventBus from 'instana-ui-services/eventbus';
 
+import {select} from 'instana-ui-services/stores/metrics';
+
+
 window.initReact = initReact;
 
 window.performanceCpu = function() {
-  eventBus.emit('showMetrics', {
-    metrics: [
-      'cpu.total.user',
-      'cpu.total.sys',
-      'cpu.total.wait',
-      'cpu.total.nice',
-      'cpu.total.steal'
-    ]
-  });
+  select([
+    'cpu.total.user',
+    'cpu.total.sys',
+    'cpu.total.wait',
+    'cpu.total.nice',
+    'cpu.total.steal'
+  ]);
 };
 
 window.performanceMemory = function() {
-  eventBus.emit('showMetrics', {
-    metrics: ['memory.free']
-  });
+  select(['memory.free']);
 };
 
 window.performanceLoad = function() {
-  eventBus.emit('showMetrics', {
-    metrics: ['load.1min']
-  });
+  select(['load.1min']);
 };
 
 window.hideMetrics = function() {

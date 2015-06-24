@@ -12,14 +12,15 @@ import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import Node from './sceneObjects/Node';
-import * as time from './timeCalculations';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import LineFactory from './factories/LineFactory';
 import MouseCameraController from './controls/mouseCameraController';
-import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
+import * as time from './timeCalculations';
 import {createLogger} from 'instalog';
+import {select} from 'instana-ui-services/stores/selectedSnapshot';
+import {activeMetrics} from 'instana-ui-services/stores/metrics';
 
 const logger = createLogger('ui-map.Group');
 
@@ -27,7 +28,6 @@ import _ from 'lodash';
 
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
-let currentMetrics;
 
 
 export const scene = {};
@@ -64,10 +64,13 @@ export default class Scene {
   }
 
   setupEvents() {
-    this.subscriptions = [eventBus.on('focus').subscribe(e =>this.onFocus(e))];
+    this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
-    this.subscriptions.push(
-      eventBus.on('showMetrics').subscribe((e) => this.showMetrics(e)));
+    this.subscriptions.push(activeMetrics.subscribe(metrics => {
+      if(metrics.length > 0) {
+        this.showMetrics(metrics);
+      }
+    }));
 
     this.subscriptions.push(
       eventBus.on('hideMetrics').subscribe((e) => this.hideMetrics(e)));
@@ -76,6 +79,7 @@ export default class Scene {
   setupFactories() {
     this.singleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 3});
+
     this.groundSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 2});
 
@@ -261,14 +265,12 @@ export default class Scene {
     }
   }
 
-  showMetrics(e) {
+  showMetrics(metrics) {
     //if there is an active metric, dispose it first
     this.hideMetricFactoryMesh();
 
-    currentMetrics = e ? e.metrics : currentMetrics;
-
     //check if there are multiple metrics to be rendered
-    this.activeMetricFactory = currentMetrics.length > 1 ?
+    this.activeMetricFactory = metrics.length > 1 ?
       this.multiMetricFactory : this.singleMetricFactory;
 
     this.activeMetricFactory.material.visible = true;
@@ -471,7 +473,7 @@ export default class Scene {
         if(sceneObject.isSelected) {
           sceneObject.unSelect(true);
         } else {
-          snapshotStore.select(sceneObject.snapshot);
+          select(sceneObject.snapshot);
         }
       } else {
         logger.debug('you hit an unknown object', sceneObject.id);

@@ -12,6 +12,7 @@ import {getHealth} from 'instana-ui-services/issueTracker';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {combineLatest} from 'reactive-observables';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
+import {activeMetrics} from 'instana-ui-services/stores/metrics';
 
 let currentMetric;
 
@@ -21,10 +22,7 @@ export default class NodeSnapshotServer {
   constructor(client) {
     this.client = client;
 
-    this.subscriptions = [eventBus.on('showMetrics').subscribe(e =>{
-      currentMetric = e.metrics;
-      this.showMetrics();
-    })];
+    this.subscriptions = [];
 
     this.subscriptions.push(eventBus.on('resumeMetrics').subscribe(() =>{
       this.showMetrics();
@@ -50,17 +48,17 @@ export default class NodeSnapshotServer {
     this.subscriptions.push(getHealth(client.snapshot).subscribe(health =>
       client.setHealth(health)));
 
+    this.subscriptions.push(activeMetrics.subscribe(metrics => {
+      currentMetric = metrics;
+      this.showMetrics();
+    }));
+
     // const pluginId = 'com.instana.forge.infrastructure.os.Process';
     // const observable = create(SnapshotConveyer, {pluginId});
     //
     // this.subscriptions.push(
     //   observable.subscribe(data => this.onLayerUpdate(data))
     // );
-
-    //if there is an active metric, subscribe to it
-    if(currentMetric) {
-      this.showMetrics();
-    }
   }
 
   onLayerUpdate(snapshots) {
