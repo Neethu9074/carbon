@@ -1,55 +1,47 @@
 'use strict';
 
-import React from 'react';
-import * as metricsStore from 'instana-ui-services/stores/metrics';
+import React from 'react/addons';
+
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
 import ServerListing from './ServerListing';
+import ServerDetails from './ServerDetails';
+import Metrics from './Metrics';
 import FloatingFrame from './FloatingFrame';
 
 import './index.less';
 
 const Sidebar = React.createClass({
 
+  mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+
+  getInitialState() {
+    return {
+      selectedSnapshot: null
+    };
+  },
+
+  componentDidMount() {
+    selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot => {
+      this.setState({selectedSnapshot});
+    });
+  },
+
   render() {
     return (
       <div className='in-sidebar'>
         <FloatingFrame icon='menue' title='Details'>
-          <ServerListing />
+          {this.state.selectedSnapshot ?
+            <ServerDetails snapshot={this.state.selectedSnapshot} />
+          : <ServerListing />}
         </FloatingFrame>
 
         <FloatingFrame icon='stats' title='Metrics'>
-          <button onClick={this.showCpuUsage}>
-            Show CPU usage
-          </button>
-          <br />
-          <button onClick={this.showCpuLoad}>
-            Show CPU load
-          </button>
-          <br />
-          <button onClick={this.showMemoryUsage}>
-            Show Memory usage
-          </button>
+          <Metrics />
         </FloatingFrame>
       </div>
     );
-  },
-
-  showCpuUsage() {
-    metricsStore.select([
-      'cpu.total.user',
-      'cpu.total.sys',
-      'cpu.total.wait',
-      'cpu.total.nice',
-      'cpu.total.steal'
-    ]);
-  },
-
-  showCpuLoad() {
-    metricsStore.select(['load.1min']);
-  },
-
-  showMemoryUsage() {
-    metricsStore.select(['memory.free']);
   }
 
 });
