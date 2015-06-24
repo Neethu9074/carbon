@@ -1,0 +1,45 @@
+@import "~instana-ui-themes/less/constants.less";
+
+.in-tooltip__frame {
+  position: absolute;
+
+  top: -30px;
+  left: 18px;
+
+  color: white;
+  white-space: nowrap;
+
+  z-index: @z-index__sticky-notes;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+
+  background-color: @map__sticky-notes__node-hightlight-background-color;
+  border-radius: 10px;
+
+  padding: 30px;
+  margin: 0;
+
+  color: white;
+
+  white-space: nowrap;
+}
+
+.in-tooltip__frame:before {
+  content: ' ';
+  position: absolute;
+
+  margin-left: -38px;
+
+  border: 4px solid;
+  border-color:
+    @map__sticky-notes__node-hightlight-background-color
+    @map__sticky-notes__node-hightlight-background-color
+    transparent
+    transparent;
+}

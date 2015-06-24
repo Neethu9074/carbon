@@ -13,7 +13,7 @@ import Layer from './Layer';
 import NodeSnapshotServer from '../NodeSnapshotServer';
 import StickyNoteNode from './StickyNote/Node';
 import StickyNoteLayer from './StickyNote/Layer';
-import StickyNoteMetric from './StickyNote/Metric';
+import TooltipNode from './Tooltips/Node';
 
 /*eslint-disable max-len*/
 import PCP from '../SingleMeshFactory/ContentProvider/PlaneContentProvider';
@@ -101,6 +101,10 @@ export default class Node extends BaseNode {
         r: color.r, g: color.g, b: color.b
       })
     });
+  }
+
+  getToolTipSticky() {
+    return new TooltipNode(this);
   }
 
   showMetrics() {}

@@ -77,8 +77,6 @@ export default class BaseNode extends SceneObject {
     this.addToGlobalGeometry();
   }
 
-  addToGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
-
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
       //update only if this node is visible
@@ -88,11 +86,13 @@ export default class BaseNode extends SceneObject {
     }));
   }
 
-  createStickyNoteHighlight() {throw new Error('NOT IMPLEMENTED'); }
-
   update() {
     this.updateScreenPosition();
   }
+
+  addToGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
+
+  getToolTipSticky() {return emptyStickyObject; }
 
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 

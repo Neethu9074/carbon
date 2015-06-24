@@ -13,6 +13,7 @@ export default class StickyNote {
     this.stickyNoteContainer = document.createElement('div');
     this.stickyNoteContainer.classList.add(cssClass);
     parent.getHtmlContainer().appendChild(this.stickyNoteContainer);
+
     this.style = this.stickyNoteContainer.style;
 
     this.highlighted = false;

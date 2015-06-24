@@ -4,7 +4,6 @@ import THREE from 'three';
 
 import Highlight from './Highlight';
 import eventBus from 'instana-ui-services/eventbus';
-
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
 
 
@@ -16,6 +15,8 @@ export default class BaseNodeHighlight extends Highlight {
     this.subscription = eventBus.on('layoutChanged').subscribe(() => {
       this.refreshConnections();
     });
+
+    this.tooltip = undefined;
   }
 
   //sets the primary highlight whatever that means
@@ -30,6 +31,8 @@ export default class BaseNodeHighlight extends Highlight {
 
     //show all connections of the node
     this.setupConnections();
+
+    this.tooltip = client.getToolTipSticky();
 
     //make the changes visible
     client.renderScene();
@@ -190,12 +193,21 @@ export default class BaseNodeHighlight extends Highlight {
   }
 
   onMouseOff() {
+    this.disposeTooltip();
+
     const client = this.client;
 
     //only disable highlighting if the node was not selected (is needed if
     //the node was selected and mouseoff was fired)
     if(!client.isSelected) {
       this.clearHighlight();
+    }
+  }
+
+  disposeTooltip() {
+    if(this.tooltip) {
+      this.tooltip.dispose();
+      this.tooltip = undefined;
     }
   }
 

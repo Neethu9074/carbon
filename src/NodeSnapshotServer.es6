@@ -24,7 +24,7 @@ export default class NodeSnapshotServer {
 
     this.subscriptions = [];
 
-    this.subscriptions.push(eventBus.on('resumeMetrics').subscribe(() =>{
+    this.subscriptions.push(eventBus.on('resumeMetrics').subscribe(() => {
       this.showMetrics();
     }));
 

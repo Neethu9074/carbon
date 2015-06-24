@@ -17,10 +17,6 @@ export default class Unknownnode extends BaseNode {
     this.isUnknown = true;
   }
 
-  createStickyNoteHighlight() {
-    return this.stickyNoteHighlight;
-  }
-
   getWiredSnapshots() {
     const thisSnapShot = this.snapshot;
     const matches = [];

@@ -3,6 +3,7 @@
 import THREE from 'three';
 
 import TouchController from './touchCameraController';
+import eventBus from 'instana-ui-services/eventbus';
 
 
 export default class MouseControl extends TouchController {
@@ -15,7 +16,10 @@ export default class MouseControl extends TouchController {
     // a consistent range of scroll events.
     canvas.addEventListener('wheel', this.onWheel.bind(this));
 
-    canvas.addEventListener('mousemove', this.onMouseMove.bind(this));
+    canvas.onmousemove = (e) => {
+      eventBus.emit('onCursorMove', {x: e.clientX, y: e.clientY});
+      this.onMouseMove(e);
+    };
   }
 
   onWheel(e) {
