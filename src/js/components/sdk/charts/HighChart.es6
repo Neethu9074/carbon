@@ -2,8 +2,8 @@
 
 'use strict';
 
-import '../../../../libs/highcharts/standalone-framework.src.js';
-import '../../../../libs/highcharts/highcharts.src.js';
+import '../../../libs/highcharts/standalone-framework.src.js';
+import '../../../libs/highcharts/highcharts.src.js';
 
 import _ from 'lodash';
 import React from 'react';

@@ -2,11 +2,11 @@
 
 import React from 'react/addons';
 
-import './ServerDetails.less';
+import './Details.less';
 
 const block = 'in-sidebar-server-details';
 
-const ServerDetails = React.createClass({
+const Details = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   render() {
@@ -18,4 +18,4 @@ const ServerDetails = React.createClass({
   }
 });
 
-export default ServerDetails;
+export default Details;

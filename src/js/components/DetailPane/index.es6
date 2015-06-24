@@ -75,7 +75,7 @@ const DetailPane = React.createClass({
 
   renderDashboard() {
     /*eslint-disable no-unused-vars*/
-    const Dashboard = this.getForgeSpecificComponent('Dashboard');
+    const Dashboard = this.getForgeSpecificComponent('Content');
     return <Dashboard snapshot={this.state.snapshot}
                       timeframe={this.state.timeframe} />;
     /*eslint-enable no-unused-vars*/
@@ -91,7 +91,7 @@ const DetailPane = React.createClass({
 
   getForgeSpecificComponent(name) {
     const snapshot = this.state.snapshot;
-    return require('./forge/' + snapshot.get('pluginId') + '/' + name);
+    return require('../forge/' + snapshot.get('pluginId') + '/Dashboard/' + name);
   },
 
   closeDashboard() {

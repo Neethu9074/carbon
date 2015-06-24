@@ -12,11 +12,11 @@ import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
-import HighChart from '../../sdk/charts/HighChart';
-import ChartLegend from '../../sdk/charts/ChartLegend';
-import Separator from '../../sdk/Separator';
-import Mtd from '../../sdk/Mtd';
-import ContentHeading from '../../sdk/ContentHeading';
+import HighChart from '../../../sdk/charts/HighChart';
+import ChartLegend from '../../../sdk/charts/ChartLegend';
+import Separator from '../../../sdk/Separator';
+import Mtd from '../../../sdk/Mtd';
+import ContentHeading from '../../../sdk/ContentHeading';
 
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';

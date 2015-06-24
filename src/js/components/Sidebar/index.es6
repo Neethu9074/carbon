@@ -1,16 +1,24 @@
 'use strict';
 
+import Immutable from 'immutable';
 import React from 'react/addons';
 
+import {create} from 'instana-ui-services/conveyer';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
+import {sort} from 'instana-ui-sdk/sorting';
 
-import ServerListing from './ServerListing';
-import ServerDetails from './ServerDetails';
 import Metrics from './Metrics';
 import FloatingFrame from './FloatingFrame';
 
 import './index.less';
+
+const noWiredSnapshots = Immutable.Map({
+  incoming: Immutable.Set(),
+  outgoing: Immutable.Set()
+});
 
 const Sidebar = React.createClass({
 
@@ -18,14 +26,39 @@ const Sidebar = React.createClass({
 
   getInitialState() {
     return {
-      selectedSnapshot: null
+      snapshots: Immutable.List(),
+      selectedSnapshot: null,
+      highlightedSnapshot: null,
+      snapshotsWiredToHighlightedSnapshot: noWiredSnapshots
     };
   },
 
   componentDidMount() {
-    selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot => {
-      this.setState({selectedSnapshot});
-    });
+    this.addSubscription(
+      create(SnapshotConveyer, {pluginId: this.props.pluginId})
+        .map(sort)
+        .subscribe(snapshots => this.setState({snapshots}))
+    );
+
+    this.addSubscription(
+      selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot =>
+        this.setState({selectedSnapshot})
+      )
+    );
+
+    this.addSubscription(
+      highlightedSnapshotStore.highlightedSnapshot.subscribe(highlightedSnapshot =>
+        this.setState({highlightedSnapshot})
+      )
+    );
+
+    this.addSubscription(
+      highlightedSnapshotStore.wiredSnapshots.subscribe(wiredSnapshots =>
+        this.setState({
+          snapshotsWiredToHighlightedSnapshot: wiredSnapshots
+        })
+      )
+    );
   },
 
   render() {
@@ -33,8 +66,8 @@ const Sidebar = React.createClass({
       <div className='in-sidebar'>
         <FloatingFrame icon='menue' title='Details'>
           {this.state.selectedSnapshot ?
-            <ServerDetails snapshot={this.state.selectedSnapshot} />
-          : <ServerListing />}
+            this.renderSnapshotDetails()
+          : this.renderSnapshotListing()}
         </FloatingFrame>
 
         <FloatingFrame icon='stats' title='Metrics'>
@@ -42,7 +75,24 @@ const Sidebar = React.createClass({
         </FloatingFrame>
       </div>
     );
-  }
+  },
+
+  renderSnapshotDetails() {
+    const Details = this.getForgeSpecificComponent('Details');
+    return <Details snapshot={this.state.selectedSnapshot} />;
+  },
+
+  renderSnapshotListing() {
+    const Listing = this.getForgeSpecificComponent('Listing');
+    return <Listing snapshots={this.state.snapshots}
+                    snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
+                    selectedSnapshot={this.state.selectedSnapshot}
+                    highlightedSnapshot={this.state.highlightedSnapshot} />;
+  },
+
+  getForgeSpecificComponent(name) {
+    return require('../forge/' + this.props.pluginId + '/Sidebar/' + name);
+  },
 
 });
 

@@ -7,13 +7,13 @@ import {getLabel} from 'instana-ui-sdk/snapshot';
 import {formatBytes} from 'instana-ui-services/converters';
 import * as constants from 'instana-ui-forge/constants';
 
-import {DescriptionList, DescriptionItem} from '../../sdk/DescriptionList';
-import Panel from '../../sdk/Panel';
-import ProblemPanel from '../../sdk/ProblemPanel';
-import SidebarHeading from '../../sdk/SidebarHeading';
-import SidebarSubheading from '../../sdk/SidebarSubheading';
-import EC2Infos from '../com.instana.forge.infrastructure.virtualization.EC2/EC2Infos';
-import HardwareInfo from './HardwareInfo';
+import {DescriptionList, DescriptionItem} from '../../../sdk/DescriptionList';
+import Panel from '../../../sdk/Panel';
+import ProblemPanel from '../../../sdk/ProblemPanel';
+import SidebarHeading from '../../../sdk/SidebarHeading';
+import SidebarSubheading from '../../../sdk/SidebarSubheading';
+import EC2Infos from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Infos';
+import HardwareInfo from '../HardwareInfo';
 
 const Sidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],

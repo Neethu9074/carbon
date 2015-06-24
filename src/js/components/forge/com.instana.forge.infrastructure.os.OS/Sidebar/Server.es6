@@ -13,12 +13,11 @@ import {getLabel} from 'instana-ui-sdk/snapshot';
 import Icon from 'instana-ui-components/Icon';
 import {theme} from 'instana-ui-services/theme';
 
-
-import './ServerItem.less';
+import './Server.less';
 
 const block = 'in-sidebar-server-listing__snapshot';
 
-const ServerItem = React.createClass({
+const Server = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
 
   getInitialState() {
@@ -91,4 +90,4 @@ const ServerItem = React.createClass({
   }
 });
 
-export default ServerItem;
+export default Server;

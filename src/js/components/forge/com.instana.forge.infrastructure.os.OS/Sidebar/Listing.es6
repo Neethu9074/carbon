@@ -6,59 +6,24 @@ import Immutable from 'immutable';
 
 import {getZone} from 'instana-ui-sdk/zones';
 import {getColor} from 'instana-ui-sdk/zones';
-import {sort} from 'instana-ui-sdk/sorting';
 import * as constants from 'instana-ui-forge/constants';
 import {getIdString, isIdEqual} from 'instana-ui-services/util/snapshots';
-import {create} from 'instana-ui-services/conveyer';
-import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
-import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
 
-import ServerItem from './ServerItem';
+import ServerItem from './Server';
 
-import './ServerListing.less';
+import './Listing.less';
 
 const noWiredSnapshots = Immutable.Map({
   incoming: Immutable.Set(),
   outgoing: Immutable.Set()
 });
 
-const ServerListing = React.createClass({
-  mixins: [SubscriptionMixin, React.addons.PureRenderMixin, IntlMixin],
-
-  getInitialState() {
-    return {
-      snapshots: Immutable.List(),
-      selectedSnapshot: null,
-      highlightedSnapshot: null,
-      snapshotsWiredToHighlightedSnapshot: noWiredSnapshots
-    };
-  },
-
-  componentDidMount() {
-    this.addSubscription(
-      create(SnapshotConveyer, {pluginId: constants.plugins.os})
-        .map(sort)
-        .subscribe(snapshots => this.setState({snapshots}))
-    );
-
-    this.addSubscription(
-      highlightedSnapshotStore.highlightedSnapshot.subscribe(highlightedSnapshot =>
-        this.setState({highlightedSnapshot})
-      )
-    );
-    this.addSubscription(
-      highlightedSnapshotStore.wiredSnapshots.subscribe(wiredSnapshots =>
-        this.setState({
-          snapshotsWiredToHighlightedSnapshot: wiredSnapshots
-        })
-      )
-    );
-  },
+const Listing = React.createClass({
+  mixins: [React.addons.PureRenderMixin, IntlMixin],
 
   render() {
     const snapshots = {};
-    this.state.snapshots.forEach(function(snapshot) {
+    this.props.snapshots.forEach(function(snapshot) {
       const zone = getZone(snapshot);
       if (zone in snapshots) {
         snapshots[zone].push(snapshot);
@@ -73,7 +38,7 @@ const ServerListing = React.createClass({
         <h1 className='in-sidebar-server-listing__header'>
           <FormattedHTMLMessage
             message={this.getIntlMessage('map.sidebar.serverListing.heading')}
-            servers={this.state.snapshots.size || 0}
+            servers={this.props.snapshots.size || 0}
             zones={Object.keys(snapshots).length} />
         </h1>
 
@@ -94,7 +59,7 @@ const ServerListing = React.createClass({
                 {snapshots[zone].map(snapshot =>
                   <ServerItem snapshot={snapshot}
                               key={getIdString(snapshot)}
-                              highlighted={this.state.highlightedSnapshot === snapshot}
+                              highlighted={this.props.highlightedSnapshot === snapshot}
                               wired={this.isWired(snapshot)}/>
                 )}
               </ul>
@@ -106,10 +71,10 @@ const ServerListing = React.createClass({
   },
 
   isWired(snapshot) {
-    const snapshotsWiredToHighlightedSnapshot = this.state.snapshotsWiredToHighlightedSnapshot;
+    const snapshotsWiredToHighlightedSnapshot = this.props.snapshotsWiredToHighlightedSnapshot;
     return snapshotsWiredToHighlightedSnapshot.get('incoming').contains(snapshot) ||
       snapshotsWiredToHighlightedSnapshot.get('outgoing').contains(snapshot);
   }
 });
 
-export default ServerListing;
+export default Listing;

@@ -9,6 +9,7 @@ import Issues from './Issues';
 import Lettering from 'instana-ui-components/Lettering';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as constants from 'instana-ui-forge/constants';
 
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
@@ -25,7 +26,8 @@ const App = React.createClass({
 
   getInitialState() {
     return {
-      selectedSnapshot: null
+      selectedSnapshot: null,
+      pluginId: constants.plugins.os
     };
   },
 
@@ -41,14 +43,15 @@ const App = React.createClass({
 
   render() {
     const hasChildren = this.props.state.routes.length > 1;
+
     return (
       <div>
         <Lettering className='in-root-lettering' />
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
-          <Map onClick={this.openDashboard} />
+          <Map pluginId={this.state.pluginId} />
 
-          <Sidebar />
+          <Sidebar pluginId={this.state.pluginId} />
         </div>
 
         {this.state.selectedSnapshot ?
