@@ -29,4 +29,5 @@ window.performanceLoad = function() {
 
 window.hideMetrics = function() {
   eventBus.emit('hideMetrics');
+  select([]);
 };

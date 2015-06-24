@@ -23,6 +23,7 @@ import {select} from 'instana-ui-services/stores/selectedSnapshot';
 import {activeMetrics} from 'instana-ui-services/stores/metrics';
 
 const logger = createLogger('ui-map.Group');
+let currentMetrics = [];
 
 import _ from 'lodash';
 
@@ -67,13 +68,32 @@ export default class Scene {
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
     this.subscriptions.push(activeMetrics.subscribe(metrics => {
+      currentMetrics = metrics;
       if(metrics.length > 0) {
-        this.showMetrics(metrics);
+        eventBus.emit('setHullsInactive', true);
+        this.showMetrics();
+      } else {
+        eventBus.emit('setHullsInactive', false);
       }
     }));
 
     this.subscriptions.push(
       eventBus.on('hideMetrics').subscribe((e) => this.hideMetrics(e)));
+
+    this.subscriptions.push(eventBus.on('setHullsInactive').subscribe((e) => {
+      if(e) {
+        this.singleMeshFactory.material.opacity = 0.4;
+        this.singleMeshFactory.material.transparent = true;
+
+        this.groundSingleMeshFactory.material.opacity = 0.4;
+        this.groundSingleMeshFactory.material.transparent = true;
+        this.hullsAreInactive = true;
+
+      } else if(currentMetrics.length === 0){
+        this.hullsAreInactive = false;
+        this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+      }
+    }));
   }
 
   setupFactories() {
@@ -265,12 +285,12 @@ export default class Scene {
     }
   }
 
-  showMetrics(metrics) {
+  showMetrics() {
     //if there is an active metric, dispose it first
     this.hideMetricFactoryMesh();
 
     //check if there are multiple metrics to be rendered
-    this.activeMetricFactory = metrics.length > 1 ?
+    this.activeMetricFactory = currentMetrics.length > 1 ?
       this.multiMetricFactory : this.singleMetricFactory;
 
     this.activeMetricFactory.material.visible = true;
@@ -306,7 +326,7 @@ export default class Scene {
       (zoomLevel < maxZoomOut);
 
     //if there is no cube isSelected, fade all cubes by distance
-    if(!this.selectedSceneObject) {
+    if(!this.hullsAreInactive) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
       this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
 
@@ -490,6 +510,8 @@ export default class Scene {
     this.selectedSceneObject = undefined;
     this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
 
+    eventBus.emit('setHullsInactive', false);
+
     //set all stickies to opacity: 1
     this.forEachNode((node) => {
       node.stickyNote.setInactive(false);
@@ -499,17 +521,12 @@ export default class Scene {
   setSelectedObject(object) {
     this.clearSelectedObject();
 
-    this.singleMeshFactory.material.opacity = 0.4;
-    this.singleMeshFactory.material.transparent = true;
-
-    this.groundSingleMeshFactory.material.opacity = 0.4;
-    this.groundSingleMeshFactory.material.transparent = true;
-
     //save the new object and select it
     this.selectedSceneObject = object;
     this.controller.flyToObject(object.cube);
 
-    //set all stickies to opacity: 0.4
+    eventBus.emit('setHullsInactive', true);
+
     //set selected and wired to opacity: 1
     const allNodes = getAllNodes(this.map);
     allNodes.forEach((node) => {

@@ -12,9 +12,6 @@ import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getColor} from 'instana-ui-sdk/zones';
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
-import {createLogger} from 'instalog';
-
-const logger = createLogger('ui-map.Group');
 
 const collisionGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1, 1, 1);
 
@@ -111,8 +108,7 @@ export default class Group extends SceneObject {
     return {width, depth};
   }
 
-  onHighlight(highlighted) {
-    logger.debug('highlight group', this.id, highlighted);
+  onHighlight(/*highlighted*/) {
   }
 
   setPosition(x, y, z) {
