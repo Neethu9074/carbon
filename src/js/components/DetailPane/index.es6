@@ -9,9 +9,6 @@ import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import * as timelineStore from 'instana-ui-services/stores/timeline';
 
-import OSDetailPaneSidebar from './forge/OSDetailPaneSidebar';
-import OSDetailPaneContent from './forge/OSDetailPaneContent';
-
 import './index.less';
 
 const block = 'in-detail-pane';
@@ -61,19 +58,34 @@ const DetailPane = React.createClass({
         </button>
         <div className={block + '__content'}>
           {this.state.snapshot ?
-            <OSDetailPaneContent snapshot={this.state.snapshot}
-                                 timeframe={this.state.timeframe} />
+            this.renderDashboard()
           : <div>Loading...</div>}
         </div>
 
         <div className={block + '__sidebar'}>
           {this.state.snapshot ?
-            <OSDetailPaneSidebar snapshot={this.state.snapshot}
-                                 timeframe={this.state.timeframe} />
+            this.renderSidebar()
           : <div>Loading...</div>}
         </div>
       </div>
     );
+  },
+
+  renderDashboard() {
+    const Dashboard = this.getForgeSpecificComponent('Dashboard');
+    return <Dashboard snapshot={this.state.snapshot}
+                      timeframe={this.state.timeframe} />;
+  },
+
+  renderSidebar() {
+    const Sidebar = this.getForgeSpecificComponent('Sidebar');
+    return <Sidebar snapshot={this.state.snapshot}
+                      timeframe={this.state.timeframe} />;
+  },
+
+  getForgeSpecificComponent(name) {
+    const snapshot = this.state.snapshot;
+    return require('./forge/' + snapshot.get('pluginId') + '/' + name);
   },
 
   closeDashboard() {

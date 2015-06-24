@@ -2,6 +2,7 @@
 
 import Immutable from 'immutable';
 import React from 'react/addons';
+import moment from 'moment';
 
 import {getProblemsForSnapshot} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
@@ -51,13 +52,17 @@ const ProblemPanel = React.createClass({
     }
 
     return (
-      <Panel title='Problems'>
+      <Panel title={'Problems (' + this.state.problems.size + ')'}>
         <ul className={block + '__problems'}>
           {this.state.problems.map(problem =>
             <li key={problem.get('id')}>
               <h3 className={block + '__problem-text'}
                   style={{color: this.getColor(problem)}}>
                 {problem.get('problemText')}
+
+                <span className={block + '__problem-start'}>
+                  {moment(problem.get('start')).fromNow()}
+                </span>
               </h3>
               <p className={block + '__problem-fix-suggestion'}>
                 {problem.get('fixSuggestion')}
