@@ -139,8 +139,10 @@ export default class BaseNode extends SceneObject {
   onHighlight(highlighted) {
     if(highlighted) {
       this.highlighting.onMouseOver();
+      this.getHtmlContainer().style.cursor = 'pointer';
     } else {
       this.highlighting.onMouseOff();
+      this.getHtmlContainer().style.cursor = 'default';
     }
 
     this.stickyNote.onHighlight(highlighted);
