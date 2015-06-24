@@ -44,7 +44,13 @@ http {
     ssi                      on;
     ssi_silent_errors        off;
 
+    location ~* \.js.map$ {
+      deny                   all;
+    }
+
     location / {
+      auth_basic "Restricted";
+      auth_basic_user_file /etc/nginx/.htpasswd;
       root                   /opt/www;
       autoindex              off;
       try_files              $uri $uri/index.html $uri/ =404;
@@ -70,3 +76,4 @@ http {
     }
   }
 }
+
