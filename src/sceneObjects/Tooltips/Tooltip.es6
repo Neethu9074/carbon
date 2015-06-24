@@ -18,7 +18,7 @@ export default class Tooltip {
     this.moveSubscribtion = eventBus.on('onCursorMove').subscribe((xy) =>
       this.setScreenPosition(xy));
 
-    this.setScreenPosition({x: -1000, y: 0});
+    this.setScreenPosition({x: -10000, y: 0});
   }
 
   setScreenPosition(xy) {
