@@ -32,8 +32,6 @@ export default class BaseNodeHighlight extends Highlight {
     //show all connections of the node
     this.setupConnections();
 
-    this.tooltip = client.getToolTipSticky();
-
     //make the changes visible
     client.renderScene();
 
@@ -189,6 +187,9 @@ export default class BaseNodeHighlight extends Highlight {
   }
 
   onMouseOver() {
+    this.disposeTooltip();
+    this.tooltip = this.client.getToolTipSticky();
+
     this.setHighlight();
   }
 
