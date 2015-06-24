@@ -34,13 +34,14 @@ const getZoomClass = (level) => 'in-map--zoom-' + level;
 export const scene = {};
 export default class Scene {
 
-  constructor({parent}) {
+  constructor({parent, pluginId}) {
     this.bindMethods();
 
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.selectedSceneObject = undefined;
+    this.pluginId = pluginId;
 
     this.octrees = [];
 
@@ -153,7 +154,10 @@ export default class Scene {
     this.backgroundScene = new THREE.Scene();
     this.backgroundScene.add(backgroundPlane);
 
-    this.map = new PhysicalMap({scene: this});
+    this.map = new PhysicalMap({
+      scene: this,
+      pluginId: this.pluginId
+    });
 
     //set this flag to force a render cycle
     this.shouldRenderScene = true;

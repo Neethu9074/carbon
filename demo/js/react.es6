@@ -15,7 +15,9 @@ const logger = createLogger('react.js');
 
 const App = React.createClass({
   render() {
-    return <Map onClick={this.onClick} ref="map" />;
+    return <Map onClick={this.onClick}
+                ref="map"
+                pluginId='com.instana.forge.infrastructure.os.OS'/>;
   },
 
   componentDidMount() {

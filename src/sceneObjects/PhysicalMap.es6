@@ -28,8 +28,9 @@ const layoutingInterval = 60;
 
 export default class PhysicalMap extends SceneObject {
 
-  constructor({scene}) {
+  constructor({scene, pluginId}) {
     super({parent: scene});
+    this.pluginId = pluginId;
 
     //the size of the map in world units (sizeXsize)
     this.size = 1000;
@@ -85,8 +86,7 @@ export default class PhysicalMap extends SceneObject {
   }
 
   bindToDatasource() {
-    const pluginId = 'com.instana.forge.infrastructure.os.OS';
-    const observable = create(SnapshotConveyer, {pluginId});
+    const observable = create(SnapshotConveyer, {pluginId: this.pluginId});
     this.addSubscription(
       observable.subscribe(data => this.onInventoryUpdate(data)));
   }
