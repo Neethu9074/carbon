@@ -1,11 +1,13 @@
 'use strict';
 
+/*eslint-disable max-len*/
 import THREE from 'three';
 
 import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 import eventBus from 'instana-ui-services/eventbus';
 
 import BaseNode from './BaseNode';
@@ -15,7 +17,6 @@ import StickyNoteNode from './StickyNote/Node';
 import StickyNoteLayer from './StickyNote/Layer';
 import TooltipNode from './Tooltips/Node';
 
-/*eslint-disable max-len*/
 import PCP from '../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import CMCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -43,6 +44,14 @@ export default class Node extends BaseNode {
     super.registerEvents();
 
     this.snapshotServer = new NodeSnapshotServer(this);
+
+    highlightedSnapshot.highlightedSnapshot.subscribe((highlighted) => {
+      if(isIdEqual(highlighted, this.snapshot)) {
+        super.onHighlight(highlighted);
+      } else {
+        super.onHighlight(false);
+      }
+    });
   }
 
   addToGlobalGeometry() {
@@ -105,6 +114,14 @@ export default class Node extends BaseNode {
 
   getToolTipSticky() {
     return new TooltipNode(this);
+  }
+
+  onHighlight(highlighted) {
+    if(highlighted) {
+      highlightedSnapshot.select(this.snapshot);
+    } else {
+      highlightedSnapshot.clear();
+    }
   }
 
   showMetrics() {}

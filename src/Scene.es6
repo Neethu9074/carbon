@@ -89,6 +89,7 @@ export default class Scene {
         this.groundSingleMeshFactory.material.transparent = true;
         this.hullsAreInactive = true;
 
+      //only set hulls to normal state if there is not active metric
       } else if(currentMetrics.length === 0){
         this.hullsAreInactive = false;
         this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
