@@ -1,3 +1,5 @@
+/*global require: false*/
+
 'use strict';
 
 import React from 'react';
@@ -72,15 +74,19 @@ const DetailPane = React.createClass({
   },
 
   renderDashboard() {
+    /*eslint-disable no-unused-vars*/
     const Dashboard = this.getForgeSpecificComponent('Dashboard');
     return <Dashboard snapshot={this.state.snapshot}
                       timeframe={this.state.timeframe} />;
+    /*eslint-enable no-unused-vars*/
   },
 
   renderSidebar() {
+    /*eslint-disable no-unused-vars*/
     const Sidebar = this.getForgeSpecificComponent('Sidebar');
     return <Sidebar snapshot={this.state.snapshot}
                       timeframe={this.state.timeframe} />;
+    /*eslint-enable no-unused-vars*/
   },
 
   getForgeSpecificComponent(name) {
