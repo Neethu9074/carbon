@@ -205,6 +205,44 @@ const OsDashboard = React.createClass({
         exporting: {
           enabled: false
         }
+      },
+      tcpChartConfig: {
+        chart: {
+          type: 'spline',
+          animation: Highcharts.svg,
+          height: 250
+        },
+        title: {
+          text: null
+        },
+        xAxis: {
+          type: 'datetime',
+          tickPixelInterval: 150,
+          tickLength: 0,
+          minPadding: 0,
+          maxPadding: 0,
+          labels: {
+            y: 28
+          }
+        },
+        yAxis: {
+          title: {
+            text: null
+          },
+          tickLength: 0,
+          labels: {
+            x: -10
+          }
+        },
+        tooltip: {
+          enabled: false
+        },
+        legend: {
+          enabled: false
+        },
+        exporting: {
+          enabled: false
+        }
       }
     };
   },
@@ -432,6 +470,53 @@ const OsDashboard = React.createClass({
             ).valueSeq()}
           </tbody>
         </table>
+
+        <Separator />
+
+        <ChartLegend title='TCP Activity'
+                          snapshot={this.props.snapshot}
+                          metrics={[
+                            'tcp.activeOpens',
+                            'tcp.passiveOpens',
+                            'tcp.currEstab',
+                            'tcp.estabRsts',
+                            'tcp.outRsts',
+                            'tcp.inSegs',
+                            'tcp.outSegs',
+                            'tcp.atmptFails',
+                            'tcp.retransSegs',
+                            'tcp.inErrs'
+                          ]}
+                          metricLabels={[
+                            'Active',
+                            'Passive',
+                            'Establishing',
+                            'Establishing Resets',
+                            'Out Resets',
+                            'In Segments',
+                            'Out Segments',
+                            'Attempt Fails',
+                            'Retransmits',
+                            'Errors'
+                          ]}
+                          metricUnit=''
+                          metricValueFormatter={d => d} />
+
+        <HighChart snapshot={this.props.snapshot}
+                   timeframe={this.props.timeframe}
+                   metrics={[
+                     'tcp.activeOpens',
+                     'tcp.passiveOpens',
+                     'tcp.currEstab',
+                     'tcp.estabRsts',
+                     'tcp.outRsts',
+                     'tcp.inSegs',
+                     'tcp.outSegs',
+                     'tcp.atmptFails',
+                     'tcp.retransSegs',
+                     'tcp.inErrs'
+                   ]}
+                   config={this.state.tcpChartConfig} />
 
       </div>
     );
