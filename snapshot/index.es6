@@ -145,3 +145,10 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
   }
   return snapshot;
 }
+
+addLabelFinder(
+  constants.plugins.process,
+  snapshot => snapshot.getIn(['data', 'exec'])
+);
+
+addWiredSnapshotFinder(constants.plugins.process, () => ro.create());

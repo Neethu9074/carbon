@@ -18,3 +18,8 @@ addMapping(
     return zone ? zone.get('availability-zone') : 'undefined';
   }
 );
+
+addMapping(
+  constants.plugins.process,
+  snapshot => snapshot.get('hostId')
+);
