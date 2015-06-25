@@ -9,7 +9,7 @@ import ConnectionGrid from '../connectionGrid';
 import eventBus from 'instana-ui-services/eventbus';
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
-import Group from './Group';
+import Group from './Group/index';
 import Layouter from '../layout';
 import {create} from 'instana-ui-services/conveyer';
 import {getZone} from 'instana-ui-sdk/zones';

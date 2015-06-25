@@ -2,8 +2,8 @@
 
 import THREE from 'three';
 
-import BaseNode from './BaseNode';
-import StickyNoteUnknownNode from './StickyNote/UnknownNode';
+import BaseNode from '../BaseNode/index';
+import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import Immutable from 'immutable';
 

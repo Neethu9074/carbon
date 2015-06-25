@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-
+import State from '../State';
 
 export default class SceneObject {
 
@@ -12,6 +12,23 @@ export default class SceneObject {
 
     this.screenPositionAnchor = this.position.clone();
     this.screenPosition = {x: 0, y: 0};
+
+    this.states = this.initStates();
+    this.state = this.states.initial;
+  }
+
+  initStates() {
+    return {initial: {}};
+  }
+
+  switchStateIfNext(action) {
+    const next = this.state.getNext(action);
+    if(next){
+      this.state.leave();
+      this.state = next;
+      this.state.enter();
+      this.getScene().renderScene();
+    }
   }
 
   setPosition(x, y, z) {

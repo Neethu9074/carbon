@@ -11,7 +11,7 @@ import {getAllNodes} from './mapStructureUtils';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import Node from './sceneObjects/Node';
+import Node from './sceneObjects/Nodes/Node/index';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import LineFactory from './factories/LineFactory';

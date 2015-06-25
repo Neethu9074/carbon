@@ -3,10 +3,11 @@
 import _ from 'lodash';
 import THREE from 'three';
 
-import SceneObject from './SceneObject';
-import Node from './Node';
-import UnknownNode from './UnknownNode';
-import StickyNote from './StickyNote/Ground';
+import SceneObject from '../SceneObject';
+import {setupStates} from './States/index';
+import Node from '../Nodes/Node/index';
+import UnknownNode from '../Nodes/UnknownNode/index';
+import StickyNote from '../StickyNote/Ground';
 
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
@@ -32,6 +33,10 @@ export default class Group extends SceneObject {
     }));
 
     this.addCollisionPlane();
+  }
+
+  initStates() {
+    return setupStates(this);
   }
 
   addCollisionPlane() {
@@ -108,7 +113,8 @@ export default class Group extends SceneObject {
     return {width, depth};
   }
 
-  onHighlight(/*highlighted*/) {
+  onHighlight(highlighted) {
+    this.switchStateIfNext({highlighted});
   }
 
   setPosition(x, y, z) {

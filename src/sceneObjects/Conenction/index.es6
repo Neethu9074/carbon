@@ -1,11 +1,12 @@
 'use strict';
 
 import THREE from 'three';
-import SceneObject from './SceneObject';
-import ConnectionGrid from '../connectionGrid';
+import SceneObject from '../../SceneObject';
+import ConnectionGrid from '../../../connectionGrid';
 import _ from 'lodash';
 import {theme} from 'instana-ui-services/theme';
-import * as app from '../Scene';
+import * as app from '../../Scene';
+import {setupStates} from './States/index';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.stickyNote.Connection');
@@ -28,6 +29,10 @@ export default class Connection extends SceneObject {
     to.addIncomingConnection(this);
 
     this.render();
+  }
+
+  initStates() {
+    return setupStates(this);
   }
 
   render() {

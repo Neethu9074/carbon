@@ -10,17 +10,17 @@ import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 import eventBus from 'instana-ui-services/eventbus';
 
-import BaseNode from './BaseNode';
-import Layer from './Layer';
-import NodeSnapshotServer from '../NodeSnapshotServer';
-import StickyNoteNode from './StickyNote/Node';
-import StickyNoteLayer from './StickyNote/Layer';
-import TooltipNode from './Tooltips/Node';
+import BaseNode from '../BaseNode/index';
+import Layer from '../../Layer';
+import NodeSnapshotServer from '../../../NodeSnapshotServer';
+import StickyNoteNode from '../../StickyNote/Node';
+import StickyNoteLayer from '../../StickyNote/Layer';
+import TooltipNode from '../../Tooltips/Node';
 
-import PCP from '../SingleMeshFactory/ContentProvider/PlaneContentProvider';
-import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import CMCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
+import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 /*eslint-enable max-len*/
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
@@ -139,12 +139,20 @@ export default class Node extends BaseNode {
   }
 
   setWiredSnapshots(wiredSnapshots) {
-    this.wiredSnapshots = wiredSnapshots;
     const parent = this.parent;
-
-    wiredSnapshots.get('outgoing').concat(wiredSnapshots.get('incoming'))
+    this.wiredSnapshots = wiredSnapshots;
+    this.getWiredSnapshotsAsArray()
       .filter(node => node.get('state') === 'unmonitored')
       .forEach(node => parent.addUnknownNode(node));
+  }
+
+  getWiredSnapshotsAsArray() {
+    const wiredSnapshots = this.wiredSnapshots;
+    if(wiredSnapshots) {
+      return wiredSnapshots.get('outgoing')
+        .concat(wiredSnapshots.get('incoming'));
+    }
+    return [];
   }
 
   getWiredSnapshots() {
@@ -152,12 +160,10 @@ export default class Node extends BaseNode {
   }
 
   setWiredStickiesActive() {
-    const wiredSnapshots = this.wiredSnapshots;
-    wiredSnapshots.get('outgoing').concat(wiredSnapshots.get('incoming'))
-      .forEach((node) => {
-        const other = this.findNodeBySnapshot(node);
-        other.stickyNote.setInactive(false);
-      });
+    this.getWiredSnapshotsAsArray().forEach((node) => {
+      const other = this.findNodeBySnapshot(node);
+      other.stickyNote.setInactive(false);
+    });
   }
 
   updateMetricHeight() {

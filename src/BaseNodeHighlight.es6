@@ -187,28 +187,14 @@ export default class BaseNodeHighlight extends Highlight {
   }
 
   onMouseOver() {
-    this.disposeTooltip();
-    this.tooltip = this.client.getToolTipSticky();
-
     this.setHighlight();
   }
 
   onMouseOff() {
-    this.disposeTooltip();
-
-    const client = this.client;
-
     //only disable highlighting if the node was not selected (is needed if
     //the node was selected and mouseoff was fired)
-    if(!client.isSelected) {
+    if(!this.client.isSelected) {
       this.clearHighlight();
-    }
-  }
-
-  disposeTooltip() {
-    if(this.tooltip) {
-      this.tooltip.dispose();
-      this.tooltip = undefined;
     }
   }
 

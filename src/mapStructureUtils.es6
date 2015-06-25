@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import Group from './sceneObjects/Group';
+import Group from './sceneObjects/Group/index';
 
 
 export function getAllNodes(parent) {

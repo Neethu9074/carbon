@@ -6,18 +6,18 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
-
-import Connection from './Connection';
-import SceneObject from './SceneObject';
-import Highlight from '../BaseNodeHighlight';
-
 import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
+import {setupStates} from './States/index';
+import Connection from '../../Connection/index';
+import SceneObject from '../../SceneObject';
+import Highlight from '../../../BaseNodeHighlight';
+
 /*eslint-disable max-len*/
-import CCP from '../SingleMeshFactory/ContentProvider/CubeContentProvider';
-import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import CMCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
+import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 /*eslint-enable max-len*/
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
@@ -66,6 +66,10 @@ export default class BaseNode extends SceneObject {
     this.registerEvents();
   }
 
+  initStates() {
+    return setupStates(this);
+  }
+
   render() {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check
     const cube = this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -106,16 +110,60 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.update();
   }
 
+  //is called via hover event
+  onHighlight(isHighlighted) {
+    this.switchStateIfNext({highlighted: isHighlighted});
+
+    if(isHighlighted) {
+      this.showTooltip();
+    } else {
+      this.hideTooltip();
+    }
+  }
+
+  showTooltip() {
+    this.hideTooltip();
+    this.tooltip = this.getToolTipSticky();
+  }
+
+  hideTooltip() {
+    if(this.tooltip) {
+      this.tooltip.dispose();
+      this.tooltip = undefined;
+    }
+  }
+
+  setHighlight() {
+    this.highlighting.onMouseOver();
+    this.getHtmlContainer().style.cursor = 'pointer';
+    this.stickyNote.onHighlight(true);
+  }
+
+  clearHighlight() {
+    this.highlighting.onMouseOff();
+    this.getHtmlContainer().style.cursor = 'default';
+    this.stickyNote.onHighlight(false);
+  }
+
+  selectNode() {
+    this.isSelected = true;
+    this.scene.setSelectedObject(this);
+    this.connections.forEach(c => c.select());
+  }
+
+  clearNode() {
+    this.isSelected = false;
+    this.scene.clearSelectedObject();
+    this.connections.forEach(c => c.unSelect());
+  }
+
   //is called via scene when the user pressed on a node
   select() {
     if(this.isSelected) {
       return;
     }
 
-    this.isSelected = true;
-    this.scene.setSelectedObject(this);
-    this.onHighlight(true);
-    this.connections.forEach(c => c.select());
+    this.switchStateIfNext({onClick: true});
   }
 
   //is called when the user hits the node again or the selection was cleared
@@ -129,24 +177,10 @@ export default class BaseNode extends SceneObject {
       snapshotStore.clear();
     }
 
-    this.isSelected = false;
-    this.scene.clearSelectedObject();
-    this.onHighlight(false);
-    this.connections.forEach(c => c.unSelect());
-  }
-
-  //is called via mouseover effect
-  onHighlight(highlighted) {
-    if(highlighted) {
-      this.highlighting.onMouseOver();
-      this.getHtmlContainer().style.cursor = 'pointer';
-    } else {
-      this.highlighting.onMouseOff();
-      this.getHtmlContainer().style.cursor = 'default';
-    }
-
-    this.stickyNote.onHighlight(highlighted);
-    this.getScene().renderScene();
+    this.switchStateIfNext({
+      highlighted: this.highlighting.isHighlighted,
+      onClick: true
+    });
   }
 
   setPosition(x, y, z) {
@@ -268,6 +302,7 @@ export default class BaseNode extends SceneObject {
   disposeStickyNote() {
     this.stickyNote.dispose();
     this.stickyNote = emptyStickyObject;
+    this.hideTooltip();
   }
 
   dispose() {
