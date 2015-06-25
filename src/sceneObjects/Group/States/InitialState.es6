@@ -3,7 +3,7 @@
 import State from '../../../State';
 
 
-export default class Highlighted extends State {
+export default class InitialState extends State {
 
   constructor(ground) {
     super(ground);
@@ -18,8 +18,8 @@ export default class Highlighted extends State {
   }
 
   getNext({highlighted}) {
-    if(!highlighted) {
-      return this.owner.states.initial;
+    if(highlighted) {
+      return this.owner.states.highlighted;
     }
     return undefined;
   }

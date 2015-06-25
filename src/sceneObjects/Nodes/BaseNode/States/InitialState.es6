@@ -1,20 +1,18 @@
 'use strict';
 
-import State from '../../../State';
+import State from '../../../../State';
 
 
-export default class Initial extends State {
+export default class InitialState extends State {
 
-  constructor(ground) {
-    super(ground);
+  constructor(baseNode) {
+    super(baseNode);
   }
 
   enter() {
-
   }
 
   leave() {
-
   }
 
   getNext({highlighted}) {

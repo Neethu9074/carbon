@@ -1,8 +1,8 @@
 'use strict';
 
-import InitialState from './Initial';
-import HighlightedState from './Highlighted';
-import SelectedState from './Selected';
+import InitialState from './InitialState';
+import HighlightedState from './HighlightedState';
+import SelectedState from './SelectedState';
 
 
 export function setupStates(owner) {

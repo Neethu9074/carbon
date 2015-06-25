@@ -2,7 +2,7 @@
 
 import State from '../../../../State';
 
-export default class Highlighted extends State {
+export default class HighlightedState extends State {
 
   constructor(baseNode) {
     super(baseNode);
