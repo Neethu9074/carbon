@@ -10,14 +10,14 @@ import React from 'react';
 import {Route} from 'react-router';
 
 import App from './components/App';
-import DetailPane from './components/DetailPane';
+import Dashboard from './components/Dashboard';
 import SnapshotPane from './components/SnapshotPane';
 
 export default (
   <Route name='map' path='/' handler={App}>
-    <Route handler={DetailPane}
-           path='detail-pane/:pluginId/:hostId/:steadyId'
-           name='detail-pane'/>
+    <Route handler={Dashboard}
+           path='dashboard/:pluginId/:hostId/:steadyId'
+           name='dashboard'/>
     {__DEV__ ?
       <Route handler={SnapshotPane}
              path='snapshot-pane/'

@@ -71,7 +71,7 @@ const App = React.createClass({
 
   openDashboard() {
     this.transitionTo(
-      'detail-pane',
+      'dashboard',
       {
         pluginId: this.state.selectedSnapshot.get('pluginId'),
         steadyId: this.state.selectedSnapshot.get('steadyId'),

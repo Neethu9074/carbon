@@ -13,9 +13,9 @@ import * as timelineStore from 'instana-ui-services/stores/timeline';
 
 import './index.less';
 
-const block = 'in-detail-pane';
+const block = 'in-dashboard';
 
-const DetailPane = React.createClass({
+const Dashboard = React.createClass({
   mixins: [SubscriptionMixin, State, Navigation],
 
   statics: {
@@ -100,4 +100,4 @@ const DetailPane = React.createClass({
 
 });
 
-export default DetailPane;
+export default Dashboard;
