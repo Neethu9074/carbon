@@ -53,9 +53,13 @@ const StickyNoteRC = React.createClass({
     const data = this.props.snapshot.get('data');
     if((nodeHealth === health.warning || nodeHealth === health.danger) &&
       this.state.issues && this.state.issues.size > 0) {
-        return <IssueStatusLine
-          hostname={data.get('hostname')}
-          time={this.state.issues.get(0).get('start')} />;
+        try {
+          return <IssueStatusLine
+            hostname={data.get('hostname')}
+            time={this.state.issues.get(0).get('start')} />;
+        } catch (err) {
+          return <IssueStatusLine hostname={data.get('hostname')} />;
+        }
     }
     return null;
   },
