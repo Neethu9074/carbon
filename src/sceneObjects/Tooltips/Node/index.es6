@@ -10,6 +10,7 @@ import {
 } from 'instana-ui-services/issueTracker';
 
 import TooltipFrame from '../index';
+import IssueStatusLine from '../IssueStatusLine';
 import Heading from '../Heading';
 import Content from '../Content';
 
@@ -47,6 +48,18 @@ const StickyNoteRC = React.createClass({
     this.issueSubscription = null;
   },
 
+  getStatusLine() {
+    const nodeHealth = this.state.health;
+    const data = this.props.snapshot.get('data');
+    if((nodeHealth === health.warning || nodeHealth === health.danger) &&
+      this.state.issues && this.state.issues.size > 0) {
+        return <IssueStatusLine
+          hostname={data.get('hostname')}
+          time={this.state.issues.get(0).get('start')} />;
+    }
+    return null;
+  },
+
   getHeading() {
     const nodeHealth = this.state.health;
     const data = this.props.snapshot.get('data');
@@ -78,6 +91,7 @@ const StickyNoteRC = React.createClass({
 
     return (
       <TooltipFrame>
+        {this.getStatusLine()}
         <Heading className={heading.cssClass}>
           {heading.text.toUpperCase()}
         </Heading>
