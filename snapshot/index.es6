@@ -56,12 +56,12 @@ export function addIconFinder(pluginId, finder) {
   iconFinder[pluginId].push(finder);
 }
 
-export function getIcon(snapshot, fallback='server') {
+export function getIcon(snapshot) {
   const pluginId = snapshot.get('pluginId');
 
   const finder = iconFinder[pluginId];
   if (!finder) {
-    return fallback;
+    return undefined;
   }
 
   for (let i = 0; i < finder.length; i++) {
@@ -71,7 +71,7 @@ export function getIcon(snapshot, fallback='server') {
     }
   }
 
-  return fallback;
+  return undefined;
 }
 
 
