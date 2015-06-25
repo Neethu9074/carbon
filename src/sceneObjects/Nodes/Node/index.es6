@@ -45,7 +45,7 @@ export default class Node extends BaseNode {
 
     this.snapshotServer = new NodeSnapshotServer(this);
 
-    highlightedSnapshot.highlightedSnapshot.subscribe((highlighted) => {
+    highlightedSnapshot.highlightedSnapshot.async().subscribe((highlighted) => {
       if(isIdEqual(highlighted, this.snapshot)) {
         super.onHighlight(highlighted);
       } else {
