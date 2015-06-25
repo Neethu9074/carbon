@@ -2,8 +2,8 @@
 
 import React from 'react/addons';
 import SnapshotIcon from 'instana-ui-components/SnapshotIcon';
-import {getIcon} from 'instana-ui-sdk/snapshot';
 import StickyNote from '../StickyNote';
+import {getIcon} from 'instana-ui-sdk/snapshot';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
 import {
@@ -38,7 +38,8 @@ const StickyNoteRC = React.createClass({
       <div className='in-sticky-note__node'>
         {highlightedCode}
         <div>
-          {icon ? <img src={icon} className='in-sticky-note__node__icon'/> : ''}
+          {icon ?
+            <img src={icon} className='in-sticky-note__node__icon'/> : null}
         </div>
       </div>
     );
