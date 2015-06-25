@@ -12,20 +12,24 @@ import * as ro from 'reactive-observables';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 
+import linuxIconPath from './icons/instana_server_linux.svg';
+import windowsIconPath from './icons/instana_server_windows.svg';
+import appleIconPath from './icons/instana_server_apple.svg';
+
 
 addIconFinder(
   constants.plugins.os,
   snapshot => {
     const os = snapshot.getIn(['data', 'os.name']);
     if (os.match(/linux/i)) {
-      return 'linux';
+      return linuxIconPath;
     } else if (os.match(/windows/i)) {
-      return 'windows';
+      return windowsIconPath;
     } else if (os.match(/mac/i)) {
-      return 'apple';
+      return appleIconPath;
     }
 
-    return 'server';
+    return undefined;
   }
 );
 
