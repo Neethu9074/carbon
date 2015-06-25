@@ -1,6 +1,7 @@
 'use strict';
 
 import * as connection from '../connection/subscriptionAwareConnection';
+import _ from 'lodash';
 
 export default class MetricWithHistoryConveyer {
 
@@ -36,10 +37,8 @@ export default class MetricWithHistoryConveyer {
     this.subscription = connection.emitter.on('message')
       .filter(this.dataEventPredicate)
       .scan((aggregate, event) => {
-        aggregate.values = aggregate.values.concat(event.data);
-        aggregate = this.sortByTimestamp(aggregate);
+        aggregate = this.insertSorted(aggregate, event.data);
         aggregate = this.removeTooOldDataPoints(aggregate);
-        aggregate = this.removeDuplicateValues(aggregate);
         return aggregate;
       }, {
         values: []
@@ -51,14 +50,21 @@ export default class MetricWithHistoryConveyer {
     connection.subscribe(this.id, this.subscribeEvent);
   }
 
-  sortByTimestamp(data) {
-    data.values.sort((v1, v2) => {
-      if (v1[0] < v2[0]) {
-        return -1;
-      } else if (v1[0] > v2[0]) {
-        return 1;
+  insertSorted(data, newElements) {
+    _.forEach(newElements, element => {
+      const elementTs = element[0];
+      // we assume the data comes sorted, so searching from the end should
+      // in most cases return the last index.
+      const index = _.findLastIndex(data.values, v => v[0] <= elementTs);
+      if (index === -1) {
+        // if no elements have smaller timestamp, add it to the start
+        data.values.unshift(element);
+      } else {
+        // only insert after that index if this is a not identical timestamp
+        if (data.values[index][0] !== elementTs) {
+          data.values.splice(index + 1, 0, element);
+        }
       }
-      return 0;
     });
     return data;
   }
@@ -68,44 +74,11 @@ export default class MetricWithHistoryConveyer {
     const newestDataPoint = data.values[data.values.length - 1];
     const since = newestDataPoint[0] - this.timeframe;
 
-    if (oldestDataPoint[0] > since) {
-      // all data points are new enough
-      return data;
+    // if all data points are new enough, do not modify data
+    if (oldestDataPoint[0] <= since) {
+      // data.values is sorted by date. drop all elements less than since
+      data.values = _.dropWhile(data.values, v => v[0] <= since);
     }
-
-    // data.values is sorted by date. This means that we can stop iterating
-    // once we have found at least one newer data point to determine the index
-    // of old data points.
-    let newerDataPointFound = false;
-    let i = 0;
-    const len = data.values.length;
-    while (!newerDataPointFound && i < len) {
-      const dataPoint = data.values[i];
-      if (dataPoint[0] > since) {
-        newerDataPointFound = true;
-      }
-
-      i++;
-    }
-
-    if (newerDataPointFound) {
-      data.values.splice(0, i - 1);
-    }
-
-    return data;
-  }
-
-  removeDuplicateValues(data) {
-    let previous = 0;
-    for (let i = data.values.length - 1; i >= 0; i--) {
-      const current = data.values[i][0];
-      if (current === previous) {
-        data.values.splice(i, 1);
-      } else {
-        previous = current;
-      }
-    }
-
     return data;
   }
 
