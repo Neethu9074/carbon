@@ -3,6 +3,6 @@ root: false
 ssi: true
 proxy:
   /: http://127.0.0.1:3000
-  /api/: http://demo.internal.instana.io/api/
+  /api/: http://test.internal.instana.io/api/
 websocketProxy:
-  /api/data: http://demo.internal.instana.io/api/data
+  /api/data: http://test.internal.instana.io/api/data
