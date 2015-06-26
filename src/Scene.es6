@@ -47,14 +47,11 @@ export default class Scene {
 
     this.setup3D();
     this.setupFactories();
-
     this.setupController();
-
     this.setupEvents();
 
     this.update();
 
-    window.addEventListener('resize', this.onWindowResize, false);
     scene.scene = this;
   }
 
@@ -66,6 +63,8 @@ export default class Scene {
   }
 
   setupEvents() {
+    window.addEventListener('resize', this.onWindowResize, false);
+
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
     this.subscriptions.push(activeMetrics.subscribe(metrics => {

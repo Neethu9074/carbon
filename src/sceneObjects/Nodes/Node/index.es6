@@ -16,6 +16,7 @@ import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import StickyNoteLayer from '../../StickyNote/Layer';
 import TooltipNode from '../../Tooltips/Node';
+import TooltipMetric from '../../Tooltips/Metric';
 
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -23,6 +24,13 @@ import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 /*eslint-enable max-len*/
 
+//the basic geometry is a uniformed cube, where the pivot point is at the corner
+const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
+for (let i = 0; i < cubeGeometry.vertices.length; i++) {
+  cubeGeometry.vertices[i].x -= 0.5;
+  cubeGeometry.vertices[i].y += 0.5;
+  cubeGeometry.vertices[i].z += 0.5;
+}
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 let incrementId = 0;
 
@@ -112,7 +120,59 @@ export default class Node extends BaseNode {
     });
   }
 
-  getToolTipSticky() {
+  addMetricCollisionObject() {
+    const parent = this;
+    const cube = this.metricCube = new THREE.Mesh(cubeGeometry);
+    cube.matrixAutoUpdate = false;
+    cube.rotationAutoUpdate = false;
+    cube.position.copy(this.getPosition());
+    cube.updateMatrix();
+    cube.updateMatrixWorld();
+
+    cube.parentSceneObject = {
+      //dummy scene object to serve the mouseover event
+      onHighlight(highlighted) {
+
+        //onmouseover
+        if(highlighted) {
+          this.tooltip = new TooltipMetric({
+            getHtmlContainer() {
+              return parent.getHtmlContainer();
+            },
+            snapshot: parent.snapshot
+          });
+
+        //onmouseoff
+        } else {
+          this.tooltip.dispose();
+          this.tooltip = undefined;
+        }
+      }
+    };
+
+    this.addCollisionObject(cube, 2);
+  }
+
+  disposeMetricCollisionObject() {
+    this.removeCollisionObject(this.metricCube, 2);
+    this.metricCube.material.dispose();
+    this.metricCube = null;
+  }
+
+  updateMetricCollisionObject(newHeight) {
+    if(this.metricCube) {
+      const cube = this.metricCube;
+      cube.position.copy(this.getPosition());
+      cube.scale.y = newHeight * this.height;
+      cube.updateMatrix();
+      cube.updateMatrixWorld();
+
+      this.removeCollisionObject(cube, 2);
+      this.addCollisionObject(cube, 2);
+    }
+  }
+
+  getTooltipSticky() {
     return new TooltipNode(this);
   }
 
@@ -132,10 +192,16 @@ export default class Node extends BaseNode {
     this.scene.singleMetricFactory
       .getFragment(this.id)
       .newHeight = value;
+
+    //scale the collision cube to the max pillar size
+    this.updateMetricCollisionObject(value);
   }
 
   setMultiMetricValue(values) {
     this.newMetricValues = values;
+
+    //set the value to the total node height for better mouseover
+    this.updateMetricCollisionObject(this.height);
   }
 
   setWiredSnapshots(wiredSnapshots) {
@@ -252,14 +318,17 @@ export default class Node extends BaseNode {
   }
 
   setHeight(height) {
-    if(height === this.cube.scale.y) {
+    if(height === this.height) {
       return;
     }
+
+    //save height
+    this.height = height;
 
     this.cube.scale.y = height;
 
     const pos = this.getPosition();
-    super.setScreenPositionAnchor(pos.x, pos.y + this.cube.scale.y, pos.z);
+    super.setScreenPositionAnchor(pos.x, pos.y + height, pos.z);
 
     this.refreshMesh();
     this.arrangeChildren();
@@ -310,7 +379,7 @@ export default class Node extends BaseNode {
 
   arrangeChildren() {
     const layer = this.layer;
-    const heightOfEachChild = this.cube.scale.y / layer.length;
+    const heightOfEachChild = this.height / layer.length;
 
     let index = 0;
 

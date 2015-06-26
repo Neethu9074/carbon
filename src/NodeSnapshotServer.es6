@@ -79,7 +79,17 @@ export default class NodeSnapshotServer {
       this.setupMultiMetric();
     }
 
-    this.client.showMetrics();
+    const client = this.client;
+    client.showMetrics();
+
+    if(currentMetric.length > 0) {
+      client.switchStateIfNext({inactive: true});
+    } else {
+      client.switchStateIfNext({
+        inactive: false,
+        highlighted: client.highlighting.isHighlighted
+      });
+    }
   }
 
   disposeMetricSubscription() {
@@ -112,19 +122,17 @@ export default class NodeSnapshotServer {
   createMetricSource() {}
 
   //this is one of the possible metric creation method for multiple metrics
-  createMultiMetricSource(metrics) {
-    const tempSubscriptions = metrics.map(metric => {
-      return create(MetricConveyer, {
-        metric, frequency: 1000, snapshot: this.client.snapshot
-      });
+  createMultiMetricSource() {
+    const tempSubscriptions = currentMetric.map(metric => {
+      return this.createSingleMetricSource(metric);
     });
 
     return combineLatest(tempSubscriptions).throttle(200);
   }
 
+
   //this is one of the possible metric creation method for single metrics
-  createSingleMetricSource() {
-    const metric = currentMetric[0];
+  createSingleMetricSource(metric) {
     return create(MetricConveyer, {
       metric,
       frequency: 1000,
@@ -136,7 +144,7 @@ export default class NodeSnapshotServer {
   * subscribes to it.
   */
   subscribeToCurrent() {
-    const metricSource = this.createMetricSource(currentMetric);
+    const metricSource = this.createMetricSource(currentMetric[0]);
 
     this.metricSubscription = metricSource.subscribe(value =>
       this.currentMetricFunction(value));

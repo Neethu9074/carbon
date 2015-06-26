@@ -27,7 +27,11 @@ describe('3D map', () => {
         setHighlight() {},
         clearHighlight() {},
         selectNode() {},
-        clearNode() {}
+        clearNode() {},
+        removeCollisionObject() {},
+        addCollisionObject() {},
+        disposeMetricCollisionObject() {},
+        addMetricCollisionObject() {}
       };
       baseNode.states = setupStates(baseNode);
       baseNode.state = baseNode.states.initial;
@@ -35,12 +39,6 @@ describe('3D map', () => {
 
     it('should set to initial', () => {
       expect(baseNode.state).to.equal(baseNode.states.initial);
-    });
-
-    it('should switch to highlighted', () => {
-      expect(baseNode.state).to.equal(baseNode.states.initial);
-      baseNode.switchStateIfNext({highlighted: true});
-      expect(baseNode.state).to.equal(baseNode.states.highlighted);
     });
 
     it('should not switch state', () => {
@@ -51,41 +49,68 @@ describe('3D map', () => {
       expect(baseNode.state).to.equal(baseNode.states.highlighted);
     });
 
-    it('should switch state to initial', () => {
-      expect(baseNode.state).to.equal(baseNode.states.initial);
-      baseNode.switchStateIfNext({highlighted: true});
-      expect(baseNode.state).to.equal(baseNode.states.highlighted);
-      baseNode.switchStateIfNext({highlighted: false});
-      expect(baseNode.state).to.equal(baseNode.states.initial);
+    describe('states.baseNode.initial', () => {
+
+      it('should switch state from initial to highlighted', () => {
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+        baseNode.switchStateIfNext({highlighted: true});
+        expect(baseNode.state).to.equal(baseNode.states.highlighted);
+      });
+
+      it('should switch from initial to inactive', () => {
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+        baseNode.switchStateIfNext({inactive: true});
+        expect(baseNode.state).to.equal(baseNode.states.inactive);
+      });
     });
 
-    it('should switch from highlighted to selected', () => {
-      expect(baseNode.state).to.equal(baseNode.states.initial);
-      baseNode.switchStateIfNext({highlighted: true});
-      expect(baseNode.state).to.equal(baseNode.states.highlighted);
-      baseNode.switchStateIfNext({onClick: true});
-      expect(baseNode.state).to.equal(baseNode.states.selected);
+    describe('states.baseNode.highlighted', () => {
+
+      it('should switch state from highlighted to initial', () => {
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+        baseNode.switchStateIfNext({highlighted: true});
+        expect(baseNode.state).to.equal(baseNode.states.highlighted);
+        baseNode.switchStateIfNext({highlighted: false});
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+      });
+
+      it('should switch from highlighted to selected', () => {
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+        baseNode.switchStateIfNext({highlighted: true});
+        expect(baseNode.state).to.equal(baseNode.states.highlighted);
+        baseNode.switchStateIfNext({onClick: true});
+        expect(baseNode.state).to.equal(baseNode.states.selected);
+      });
+
+      it('should switch from highlighted to inactive', () => {
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+        baseNode.switchStateIfNext({highlighted: true});
+        expect(baseNode.state).to.equal(baseNode.states.highlighted);
+        baseNode.switchStateIfNext({inactive: true, highlighted: false});
+        expect(baseNode.state).to.equal(baseNode.states.inactive);
+      });
     });
 
-    it('should switch from selected to initial', () => {
-      expect(baseNode.state).to.equal(baseNode.states.initial);
-      baseNode.switchStateIfNext({highlighted: true});
-      expect(baseNode.state).to.equal(baseNode.states.highlighted);
-      baseNode.switchStateIfNext({onClick: true});
-      expect(baseNode.state).to.equal(baseNode.states.selected);
-      baseNode.switchStateIfNext({onClick: true});
-      expect(baseNode.state).to.equal(baseNode.states.initial);
-    });
+    describe('states.baseNode.selected', () => {
+      it('should switch from selected to initial', () => {
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+        baseNode.switchStateIfNext({highlighted: true});
+        expect(baseNode.state).to.equal(baseNode.states.highlighted);
+        baseNode.switchStateIfNext({onClick: true});
+        expect(baseNode.state).to.equal(baseNode.states.selected);
+        baseNode.switchStateIfNext({onClick: true});
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+      });
 
-    it('should switch from selected to highlighted', () => {
-      expect(baseNode.state).to.equal(baseNode.states.initial);
-      baseNode.switchStateIfNext({highlighted: true});
-      expect(baseNode.state).to.equal(baseNode.states.highlighted);
-      baseNode.switchStateIfNext({onClick: true});
-      expect(baseNode.state).to.equal(baseNode.states.selected);
-      baseNode.switchStateIfNext({onClick: true, highlighted: true});
-      expect(baseNode.state).to.equal(baseNode.states.highlighted);
+      it('should switch from selected to highlighted', () => {
+        expect(baseNode.state).to.equal(baseNode.states.initial);
+        baseNode.switchStateIfNext({highlighted: true});
+        expect(baseNode.state).to.equal(baseNode.states.highlighted);
+        baseNode.switchStateIfNext({onClick: true});
+        expect(baseNode.state).to.equal(baseNode.states.selected);
+        baseNode.switchStateIfNext({onClick: true, highlighted: true});
+        expect(baseNode.state).to.equal(baseNode.states.highlighted);
+      });
     });
-
   });
 });

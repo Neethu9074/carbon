@@ -96,7 +96,7 @@ export default class BaseNode extends SceneObject {
 
   addToGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
-  getToolTipSticky() {return emptyStickyObject; }
+  getTooltipSticky() {return emptyStickyObject; }
 
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 
@@ -123,7 +123,7 @@ export default class BaseNode extends SceneObject {
 
   showTooltip() {
     this.hideTooltip();
-    this.tooltip = this.getToolTipSticky();
+    this.tooltip = this.getTooltipSticky();
   }
 
   hideTooltip() {

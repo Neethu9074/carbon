@@ -16,7 +16,6 @@ import Content from '../Content';
 
 import './index.less';
 
-
 const rpt = React.PropTypes;
 
 /*eslint-disable no-unused-vars*/

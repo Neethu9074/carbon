@@ -1,10 +1,9 @@
-'use strict';
+ 'use strict';
 
 import React from 'react/addons';
 import {health} from 'instana-ui-services/health';
 
 import './index.less';
-
 
 export default React.createClass({
 
@@ -17,7 +16,7 @@ export default React.createClass({
     }
 
     return (
-      <h2 className={classes}>
+      <h2 className={classes} style={this.props.style}>
         {this.props.children}
       </h2>
     );

@@ -6,7 +6,6 @@
   top: -30px;
   left: 18px;
 
-  color: white;
   white-space: nowrap;
 
   z-index: @z-index__sticky-notes;
@@ -18,13 +17,11 @@
   -ms-user-select: none;
   user-select: none;
 
-  background-color: @map__sticky-notes__node-hightlight-background-color;
+  background-color: @map__tooltips__background;
   border-radius: 10px;
 
   padding: 15px;
   margin: 0;
-
-  color: white;
 
   white-space: nowrap;
 }
@@ -38,8 +35,8 @@
 
   border: 4px solid;
   border-color:
-    @map__sticky-notes__node-hightlight-background-color
-    @map__sticky-notes__node-hightlight-background-color
+    @map__tooltips__background
+    @map__tooltips__background
     transparent
     transparent;
 }
