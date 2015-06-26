@@ -17,7 +17,7 @@ export default React.createClass({
   render() {
     const tags = this.props.tags.map((tag) => {
       return <li key={tag} className='in-tooltip__node__tag-li'>
-        {tag}
+        <Tag tag={tag}/>
       </li>;
     });
 

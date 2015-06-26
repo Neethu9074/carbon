@@ -16,7 +16,7 @@ export default React.createClass({
   render() {
     return (
       <div className="in-sticky-note__tag">
-        Tag
+        {this.props.tag}
       </div>
     );
   }
