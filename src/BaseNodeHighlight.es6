@@ -4,6 +4,7 @@ import THREE from 'three';
 
 import Highlight from './Highlight';
 import eventBus from 'instana-ui-services/eventbus';
+import FCP from './SingleMeshFactory/ContentProvider/FrameContentProvider';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
 
 
@@ -95,23 +96,11 @@ export default class BaseNodeHighlight extends Highlight {
     super.setIndirectHighlight();
 
     const client = this.client;
-    const pos = client.getPosition();
-    const offset = 0.01;
-    const points = [
-      {x: pos.x + offset, y: 0, z: pos.z - offset},
-      {x: pos.x - 1 + offset, y: 0, z: pos.z - offset},
-
-      {x: pos.x - 1 + offset, y: 0, z: pos.z - offset},
-      {x: pos.x - 1 + offset, y: 0, z: pos.z + 1 + offset},
-
-      {x: pos.x - 1 + offset, y: 0, z: pos.z + 1 + offset},
-      {x: pos.x, y: 0, z: pos.z + 1 + offset},
-
-      {x: pos.x + offset, y: 0, z: pos.z + 1 + offset},
-      {x: pos.x + offset, y: 0, z: pos.z - offset}
-    ];
-
+    const pos = client.getPosition().clone().add({x: -0.5, y: 0, z: 0.5});
+    const size = {x: 1.04, y: 1, z: 1.04};
+    const points = new FCP().getVertices({pos, size});
     const factory = client.scene.lineFactory;
+
     factory.addFragment({id: client.id, points, highlighted: isSelected});
 
     client.scene.highlightingSingleMeshFactory

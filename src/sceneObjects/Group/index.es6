@@ -8,6 +8,7 @@ import {setupStates} from './States/index';
 import Node from '../Nodes/Node/index';
 import UnknownNode from '../Nodes/UnknownNode/index';
 import StickyNote from '../StickyNote/Ground';
+import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
@@ -152,24 +153,7 @@ export default class Group extends SceneObject {
     const lineFactory = this.getScene().lineFactory;
     const size = this.size;
     const pos = this.getPosition();
-    const sizeXHalf = size.x / 2;
-    const sizeZHalf = size.z / 2;
-    const posX = pos.x;
-    const posZ = pos.z;
-
-    const points = [
-      {x: posX - sizeXHalf, y: 0, z: posZ - sizeZHalf},
-      {x: posX + sizeXHalf, y: 0, z: posZ - sizeZHalf},
-
-      {x: posX + sizeXHalf, y: 0, z: posZ - sizeZHalf},
-      {x: posX + sizeXHalf, y: 0, z: posZ + sizeZHalf},
-
-      {x: posX + sizeXHalf, y: 0, z: posZ + sizeZHalf},
-      {x: posX - sizeXHalf, y: 0, z: posZ + sizeZHalf},
-
-      {x: posX - sizeXHalf, y: 0, z: posZ + sizeZHalf},
-      {x: posX - sizeXHalf, y: 0, z: posZ - sizeZHalf}
-    ];
+    const points = new FCP().getVertices({pos, size});
 
     lineFactory.removeFragment(this.id);
     lineFactory.addFragment({id: this.id, points, color});
