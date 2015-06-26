@@ -8,7 +8,12 @@ import {setupStates} from './States/index';
 import Node from '../Nodes/Node/index';
 import UnknownNode from '../Nodes/UnknownNode/index';
 import StickyNote from '../StickyNote/Ground';
+/*eslint-disable max-len*/
 import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
+import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import VATOCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
+/*eslint-enable max-len*/
 
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
@@ -153,7 +158,15 @@ export default class Group extends SceneObject {
     const lineFactory = this.getScene().lineFactory;
     const size = this.size;
     const pos = this.getPosition();
-    const points = new FCP().getVertices({pos, size});
+    const points = new VATOCM({
+      contentProvider: new PCM({ //reposition
+        contentProvider: new SCM({ //resize
+          contentProvider: new FCP(), //get frame
+          x: size.x, y: 1, z: size.z
+        }),
+        x: pos.x, y: pos.y, z: pos.z
+      })
+    }).getVertices();
 
     lineFactory.removeFragment(this.id);
     lineFactory.addFragment({id: this.id, points, color});

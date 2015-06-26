@@ -1,12 +1,16 @@
 'use strict';
 
+/*eslint-disable max-len*/
 import THREE from 'three';
 
 import Highlight from './Highlight';
 import eventBus from 'instana-ui-services/eventbus';
 import FCP from './SingleMeshFactory/ContentProvider/FrameContentProvider';
+import PCM from './SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from './SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import VATOCM from './SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
-
+/*eslint-enable max-len*/
 
 export default class BaseNodeHighlight extends Highlight {
 
@@ -98,7 +102,16 @@ export default class BaseNodeHighlight extends Highlight {
     const client = this.client;
     const pos = client.getPosition().clone().add({x: -0.5, y: 0, z: 0.5});
     const size = {x: 1.04, y: 1, z: 1.04};
-    const points = new FCP().getVertices({pos, size});
+    const points = new VATOCM({
+      contentProvider: new PCM({ //reposition
+        contentProvider: new SCM({ //resize
+          contentProvider: new FCP(), //get frame
+          x: size.x, y: 1, z: size.z
+        }),
+        x: pos.x, y: pos.y, z: pos.z
+      })
+    }).getVertices();
+
     const factory = client.scene.lineFactory;
 
     factory.addFragment({id: client.id, points, highlighted: isSelected});
