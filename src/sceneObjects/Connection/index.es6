@@ -92,13 +92,13 @@ export default class Connection extends SceneObject {
   }
 
   addArrow(points, from, to) {
-    const arrowLength = 0.25;
+    const arrowLength = 0.2;
     const dir = this.getDirectionForPoints(from, to);
 
     //because the arrow are laying on the ground, the up-vector is 0 1 0
     const right = new THREE.Vector3(0, 1, 0)
       .cross(dir)
-      .multiplyScalar(arrowLength * 0.75); //shorten to get a angle < 45 degree
+      .multiplyScalar(arrowLength * 5); //shorten to get a angle < 45 degree
     const arrowLineX = (right.x + dir.x) * arrowLength;
     const arrowLineZ = (right.z + dir.z) * arrowLength;
     const arrowLineXLeft = (-right.x + dir.x) * arrowLength;
