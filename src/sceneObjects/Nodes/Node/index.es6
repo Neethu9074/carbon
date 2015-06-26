@@ -98,8 +98,8 @@ export default class Node extends BaseNode {
   //this is not the group where nodes are on!
   //it's the health ground group of each node
   addToGroundFactory(id, pos, dim) {
+    this.removeFromGroundFactory();
     if(!this.health || this.health === health.ok) {
-      this.removeFromGroundFactory();
       return;
     }
 
