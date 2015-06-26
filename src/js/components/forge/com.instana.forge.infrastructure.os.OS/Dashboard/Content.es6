@@ -13,6 +13,7 @@ import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHi
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import HighChart from '../../../sdk/charts/HighChart';
+import StackedHighChart from '../../../sdk/charts/StackedHighChart';
 import ChartLegend from '../../../sdk/charts/ChartLegend';
 import Separator from '../../../sdk/Separator';
 import Mtd from '../../../sdk/Mtd';
@@ -272,16 +273,16 @@ const OsDashboard = React.createClass({
                           metricUnit='%'
                           metricValueFormatter={metricValueFormatter} />
 
-        <HighChart snapshot={this.props.snapshot}
-                   timeframe={this.props.timeframe}
-                   metrics={[
-                     'cpu.total.user',
-                     'cpu.total.sys',
-                     'cpu.total.wait',
-                     'cpu.total.nice',
-                     'cpu.total.steal'
-                   ]}
-                   config={this.state.cpuUsageChartConfig} />
+        <StackedHighChart snapshot={this.props.snapshot}
+                          timeframe={this.props.timeframe}
+                          metrics={[
+                            'cpu.total.user',
+                            'cpu.total.sys',
+                            'cpu.total.wait',
+                            'cpu.total.nice',
+                            'cpu.total.steal'
+                          ]}
+                          config={this.state.cpuUsageChartConfig} />
 
         <Separator />
 
