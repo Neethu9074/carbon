@@ -82,10 +82,9 @@ export default class Connection extends SceneObject {
     }
 
     if(this.direction === 'in') {
-      this.addArrow(points, points[0], points[1]);
+      this.addArrow(points, 0, 1);
     } else {
-      this.addArrow(
-        points, points[points.length - 1], points[points.length - 2]);
+      this.addArrow(points, points.length - 1, points.length - 2);
     }
 
     return points;
@@ -93,7 +92,8 @@ export default class Connection extends SceneObject {
 
   addArrow(points, from, to) {
     const arrowLength = 0.2;
-    const dir = this.getDirectionForPoints(from, to);
+    const fromP = points[from];
+    const dir = this.getDirectionForPoints(points[from], points[to]);
 
     //because the arrow are laying on the ground, the up-vector is 0 1 0
     const right = new THREE.Vector3(0, 1, 0)
@@ -104,14 +104,14 @@ export default class Connection extends SceneObject {
     const arrowLineXLeft = (-right.x + dir.x) * arrowLength;
     const arrowLineZLeft = (-right.z + dir.z) * arrowLength;
 
-    points.push(from);
+    points.push(fromP);
     points.push({
-      x: from.x + arrowLineX, y: from.y, z: from.z + arrowLineZ
+      x: fromP.x + arrowLineX, y: fromP.y, z: fromP.z + arrowLineZ
     });
 
-    points.push(from);
+    points.push(fromP);
     points.push({
-      x: from.x + arrowLineXLeft, y: from.y, z: from.z + arrowLineZLeft
+      x: fromP.x + arrowLineXLeft, y: fromP.y, z: fromP.z + arrowLineZLeft
     });
   }
 
