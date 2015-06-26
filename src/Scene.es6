@@ -4,6 +4,7 @@ import THREE from 'three';
 import Tween from 'tween.js'
 import {isIdEqual, extractId} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
+import immutable from 'immutable';
 
 import './lib/Octree';
 
@@ -20,7 +21,7 @@ import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import * as time from './timeCalculations';
 import {createLogger} from 'instalog';
 import {select} from 'instana-ui-services/stores/selectedSnapshot';
-import {activeMetrics} from 'instana-ui-services/stores/metrics';
+import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 const logger = createLogger('ui-map.Group');
 let currentMetrics = [];
@@ -67,13 +68,13 @@ export default class Scene {
 
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
-    this.subscriptions.push(activeMetrics.subscribe(metrics => {
-      currentMetrics = metrics;
-      if(metrics.length > 0) {
+    this.subscriptions.push(activeMetric.subscribe(metric => {
+      if(!metric) {
+        eventBus.emit('setHullsInactive', false);
+      } else {
+        currentMetrics = metric.get('metrics');
         eventBus.emit('setHullsInactive', true);
         this.showMetrics();
-      } else {
-        eventBus.emit('setHullsInactive', false);
       }
     }));
 

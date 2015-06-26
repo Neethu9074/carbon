@@ -12,7 +12,7 @@ import {getHealth} from 'instana-ui-services/issueTracker';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {combineLatest} from 'reactive-observables';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
-import {activeMetrics} from 'instana-ui-services/stores/metrics';
+import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 let currentMetric;
 
@@ -48,9 +48,11 @@ export default class NodeSnapshotServer {
     this.subscriptions.push(getHealth(client.snapshot).subscribe(health =>
       client.setHealth(health)));
 
-    this.subscriptions.push(activeMetrics.subscribe(metrics => {
-      currentMetric = metrics;
-      this.showMetrics();
+    this.subscriptions.push(activeMetric.subscribe(metric => {
+      if(metric) {
+        currentMetric = metric.get('metrics');
+        this.showMetrics();
+      }
     }));
 
     // const pluginId = 'com.instana.forge.infrastructure.os.Process';

@@ -7,7 +7,7 @@ import TooltipFrame from '../index';
 import Heading from '../Heading';
 import Content from '../Content';
 import {create} from 'instana-ui-services/conveyer';
-import {activeMetrics} from 'instana-ui-services/stores/metrics';
+import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {combineLatest} from 'reactive-observables';
 import {theme} from 'instana-ui-services/theme';
 
@@ -60,10 +60,11 @@ const StickyNoteRC = React.createClass({
   },
 
   componentDidMount() {
-    this.activeMetricsSubscriptions = activeMetrics.subscribe(metrics => {
-      if(metrics.length === 0) {
+    this.activeMetricSubscriptions = activeMetric.subscribe(metric => {
+      if(!metric) {
         return;
       }
+      const metrics = metric.get('metrics');
       this.disposeRxo(this.metricSubscription);
       this.setState({metricNames: metrics});
 
@@ -77,7 +78,7 @@ const StickyNoteRC = React.createClass({
 
   componentWillUnmount() {
     this.disposeRxo(this.metricSubscription);
-    this.disposeRxo(this.activeMetricsSubscriptions);
+    this.disposeRxo(this.activeMetricSubscriptions);
   },
 
   render() {
