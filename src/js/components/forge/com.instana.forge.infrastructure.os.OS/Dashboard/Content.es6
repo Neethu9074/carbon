@@ -472,28 +472,24 @@ const OsDashboard = React.createClass({
         <ChartLegend title='TCP Activity'
                           snapshot={this.props.snapshot}
                           metrics={[
-                            'tcp.activeOpens',
-                            'tcp.passiveOpens',
-                            'tcp.currEstab',
-                            'tcp.estabRsts',
-                            'tcp.outRsts',
+                            'tcp.established',
+                            'tcp.opens',
+                            'tcp.resets',
+                            'tcp.fails',
                             'tcp.inSegs',
                             'tcp.outSegs',
-                            'tcp.atmptFails',
-                            'tcp.retransSegs',
-                            'tcp.inErrs'
+                            'tcp.errors',
+                            'tcp.retrans'
                           ]}
                           metricLabels={[
-                            'Active',
-                            'Passive',
-                            'Establishing',
-                            'Establishing Resets',
-                            'Out Resets',
+                            'Open',
+                            'Connects',
+                            'Reset %',
+                            'Fail %',
                             'In Segments',
                             'Out Segments',
-                            'Attempt Fails',
-                            'Retransmits',
-                            'Errors'
+                            'Error %',
+                            'Retransmission %',
                           ]}
                           metricUnit=''
                           metricValueFormatter={d => d} />
@@ -501,16 +497,14 @@ const OsDashboard = React.createClass({
         <HighChart snapshot={this.props.snapshot}
                    timeframe={this.props.timeframe}
                    metrics={[
-                     'tcp.activeOpens',
-                     'tcp.passiveOpens',
-                     'tcp.currEstab',
-                     'tcp.estabRsts',
-                     'tcp.outRsts',
+                     'tcp.established',
+                     'tcp.opens',
+                     'tcp.resets',
+                     'tcp.fails',
                      'tcp.inSegs',
                      'tcp.outSegs',
-                     'tcp.atmptFails',
-                     'tcp.retransSegs',
-                     'tcp.inErrs'
+                     'tcp.errors',
+                     'tcp.retrans'
                    ]}
                    config={this.state.tcpChartConfig} />
 
