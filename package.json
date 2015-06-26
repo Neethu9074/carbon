@@ -27,6 +27,7 @@
     "instana-ui-themes": "^1.11.1",
     "invariant": "^2.0.0",
     "lodash": "^3.9.0",
+    "moment": "^2.10.3",
     "napa": "^1.2.0",
     "pathfinding": "^0.4.17",
     "react": "^0.13.1",

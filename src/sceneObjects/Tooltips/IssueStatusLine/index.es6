@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import moment from 'moment';
 
 import './index.less';
 
@@ -16,7 +17,7 @@ export default React.createClass({
           {this.props.hostname}
         </h3>
         <p className='in-tooltip__statusline__time'>
-          {this.props.time}
+          {moment(this.props.time).fromNow()}
         </p>
       </div>
     );
