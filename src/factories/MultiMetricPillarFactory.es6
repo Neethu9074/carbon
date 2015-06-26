@@ -24,6 +24,7 @@ const availableColors = (() => {
 
   return colors;
 })();
+
 function fillIn(colors, converter, hex) {
   converter.set(hex);
   colors.push([converter.r, converter.g, converter.b]);
