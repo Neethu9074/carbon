@@ -22,3 +22,4 @@
     yoda: [0]
     no-console: [1]
     curly: [2, "multi-line"]
+    new-cap: [0]

@@ -1,19 +1,34 @@
 'use strict';
 
+import Immutable from 'immutable';
 import invariant from 'invariant';
 import * as ro from 'reactive-observables';
 
 const reemitSpec = {emitLatestOnSubscribe: true};
 
-// no path by default
 export const metricPath = ro.create(reemitSpec);
-metricPath.emit([]);
+metricPath.emit(Immutable.List());
 
-export function setPath(path) {
+export function setMetricPath(path) {
   metricPath.emit(path);
 }
 
+
+export const activeMetric = ro.create(reemitSpec);
+clearActiveMetric();
+
+export function setActiveMetric(metric) {
+  activeMetric.emit(metric);
+}
+
+export function clearActiveMetric() {
+  activeMetric.emit(null);
+}
+
+
+
 // an array of metric names to visualize
+// TODO Ben remove once Map has been refactored
 export const activeMetrics = ro.create(reemitSpec);
 activeMetrics.emit([]);
 
