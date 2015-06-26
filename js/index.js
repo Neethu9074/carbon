@@ -110,6 +110,12 @@ exports.consts = {
       metricColors: metricColors,
       stickyNotes: {
         nodeHightlightBackgroundColor: colors.darkGrey
+      },
+      tooltips: {
+        font: colors.white,
+        background: colors.black,
+        critical: colors.warning,
+        danger: colors.danger
       }
     },
     chart: {
