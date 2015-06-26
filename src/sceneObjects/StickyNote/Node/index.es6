@@ -1,9 +1,8 @@
 'use strict';
 
 import React from 'react/addons';
-import SnapshotIcon from 'instana-ui-components/SnapshotIcon';
+import NodeIcon from '../NodeIcon';
 import StickyNote from '../StickyNote';
-import {getIcon} from 'instana-ui-sdk/snapshot';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
 import {
@@ -32,15 +31,11 @@ const StickyNoteRC = React.createClass({
     const snapshot = this.props.snapshot;
     const data = snapshot.get('data');
     const highlightedCode = this.getHighlightedContent();
-    const icon = getIcon(snapshot);
 
     return (
       <div className='in-sticky-note__node'>
         {highlightedCode}
-        <div className='in-sticky-note__node-bg'>
-          {icon ?
-            <img src={icon} className='in-sticky-note__node-icon'/> : null}
-        </div>
+        <NodeIcon snapshot={snapshot} />
       </div>
     );
   }

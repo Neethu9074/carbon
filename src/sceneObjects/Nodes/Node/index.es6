@@ -22,6 +22,7 @@ import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 /*eslint-enable max-len*/
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner

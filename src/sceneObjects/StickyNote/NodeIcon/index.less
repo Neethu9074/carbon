@@ -1,0 +1,41 @@
+@import "~instana-ui-themes/less/constants.less";
+
+.in-sticky-note__icon {
+  position: absolute;
+  top: 0;
+
+  z-index: @z-index__sticky-notes;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.in-sticky-note__icon-background {
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
+  border-radius: 18px;
+
+  background-color: #FFFFFF;
+  transition: all 0.5s ease;
+
+  .in-map--zoom-50 &, .in-map--zoom-100 & {
+    width: 64px;
+    height: 64px;
+
+    margin-left: -32px;
+    margin-top: -32px;
+
+    border-radius: 32px;
+  }
+}
+
+.in-sticky-note__icon-svg {
+  width: 60%;
+  margin: 20%;
+}
