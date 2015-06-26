@@ -5,6 +5,14 @@ import * as ro from 'reactive-observables';
 
 const reemitSpec = {emitLatestOnSubscribe: true};
 
+// no path by default
+export const metricPath = ro.create(reemitSpec);
+metricPath.emit([]);
+
+export function setPath(path) {
+  metricPath.emit(path);
+}
+
 // an array of metric names to visualize
 export const activeMetrics = ro.create(reemitSpec);
 activeMetrics.emit([]);
