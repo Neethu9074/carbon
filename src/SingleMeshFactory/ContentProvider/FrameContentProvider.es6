@@ -13,6 +13,7 @@ const defaultColor = [
 export default class FrameContentProvider extends ContentProvider {
 
   constructor(faceColors=defaultColor) {
+    super();
     this.faceColors = faceColors;
   }
 

@@ -5,7 +5,9 @@ import ContentProvider from './ContentProvider';
 
 export default class TriangleContentProvider extends ContentProvider {
 
-  constructor() {}
+  constructor() {
+    super();
+  }
 
   getVertices() {
     return [
