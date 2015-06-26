@@ -82,8 +82,10 @@ const StickyNoteRC = React.createClass({
 
   render() {
     let colorIndex = 0;
-    const colors = theme.chart.strokeColors;
-    const listItems = this.state.values.map((value, index) => {
+    const colors = theme.chart.strokeColors.slice().reverse();
+    const names = this.state.metricNames.slice().reverse();
+    const listItems = this.state.values.slice().reverse()
+    .map((value, index) => {
       const color = colors[colorIndex];
       colorIndex++;
       if(colorIndex >= colors.length) {
@@ -95,7 +97,7 @@ const StickyNoteRC = React.createClass({
         <Heading
           className={'in-tooltip__node__li__metric-name'}
           style={style}>
-          {this.state.metricNames[index].toUpperCase()}
+          {names[index].toUpperCase()}
         </Heading>
         <Content className='in-tooltip__node__li__value'>
           {value * 100 + '%'}
