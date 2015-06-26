@@ -1,7 +1,5 @@
 'use strict';
 
-import THREE from 'three';
-
 export default class ContentProvider {
 
   constructor() {}

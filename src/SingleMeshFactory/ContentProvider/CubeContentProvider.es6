@@ -1,7 +1,5 @@
 'use strict';
 
-import THREE from 'three';
-import _ from 'lodash';
 import ContentProvider from './ContentProvider';
 
 /*eslint-disable no-unused-vars*/
