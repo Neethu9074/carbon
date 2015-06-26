@@ -11,7 +11,7 @@ import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import {setupStates} from './States/index';
 import Connection from '../../Connection/index';
 import SceneObject from '../../SceneObject';
-import Highlight from '../../../BaseNodeHighlight';
+import Highlight from '../NodeHighlight';
 
 /*eslint-disable max-len*/
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
