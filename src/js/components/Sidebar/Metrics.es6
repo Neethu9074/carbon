@@ -7,6 +7,8 @@ import Icon from 'instana-ui-components/Icon';
 import * as metricsStore from 'instana-ui-services/stores/metrics';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
+import './Metrics.less';
+
 const block = 'in-sidebar-metrics';
 
 const metricTree = Immutable.fromJS({
@@ -76,8 +78,9 @@ const Metrics = React.createClass({
         {!this.state.path.isEmpty() ?
           <div className={block + '__navigation'}>
             <Icon type='arrow_left'
-                  onClick={this.onBack} />
-            {this.getCurrentlyActiveItem().label}
+                  onClick={this.onBack}
+                  className={block + '__back'}/>
+            {this.getCurrentlyActiveItem().get('label')}
           </div>
         : null}
 
@@ -86,8 +89,11 @@ const Metrics = React.createClass({
             <li key={metricConfig.get('label')}
                 className={block + '__metric-list-item'}
                 onClick={this.onClickMetric.bind(this, metricConfig)}>
-              <Icon type={metricConfig.get('icon')} />
-              {metricConfig.get('label')}
+              <Icon type={metricConfig.get('icon')}
+                    className={block + '__icon'}/>
+              <span className={block + '__label'}>
+                {metricConfig.get('label')}
+              </span>
             </li>
           ).toJS()}
         </ul>
@@ -124,7 +130,7 @@ const Metrics = React.createClass({
 
   onBack() {
     metricsStore.setMetricPath(this.state.path.pop());
-  },
+  }
 
 });
 
