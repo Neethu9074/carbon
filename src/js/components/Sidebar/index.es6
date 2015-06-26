@@ -72,7 +72,7 @@ const Sidebar = React.createClass({
           : this.renderSnapshotListing()}
         </FloatingFrame>
 
-        <FloatingFrame icon='stats' title='Metrics'>
+        <FloatingFrame icon='metrics' title='Metrics'>
           <Metrics />
         </FloatingFrame>
       </div>
