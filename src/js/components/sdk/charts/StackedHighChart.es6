@@ -83,7 +83,7 @@ const StackedHighChart = React.createClass({
 
     const chart = this.chart = new Highcharts.Chart(config);
 
-    ro.combineLatest(datasources)
+    const subscription = ro.combineLatest(datasources)
       .debounce(100)
       .subscribe(rawSeries => {
         // An array of series, where each series in an array of the following
@@ -131,6 +131,8 @@ const StackedHighChart = React.createClass({
           return values;
         }
       });
+
+    this.addSubscription(subscription);
   }
 });
 

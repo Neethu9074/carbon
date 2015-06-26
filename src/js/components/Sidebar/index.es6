@@ -1,3 +1,5 @@
+/*global require:false*/
+
 'use strict';
 
 import Immutable from 'immutable';
@@ -78,21 +80,25 @@ const Sidebar = React.createClass({
   },
 
   renderSnapshotDetails() {
+    /*eslint-disable no-unused-vars*/
     const Details = this.getForgeSpecificComponent('Details');
     return <Details snapshot={this.state.selectedSnapshot} />;
+    /*eslint-enable no-unused-vars*/
   },
 
   renderSnapshotListing() {
+    /*eslint-disable no-unused-vars*/
     const Listing = this.getForgeSpecificComponent('Listing');
     return <Listing snapshots={this.state.snapshots}
                     snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
                     selectedSnapshot={this.state.selectedSnapshot}
                     highlightedSnapshot={this.state.highlightedSnapshot} />;
+    /*eslint-enable no-unused-vars*/
   },
 
   getForgeSpecificComponent(name) {
     return require('../forge/' + this.props.pluginId + '/Sidebar/' + name);
-  },
+  }
 
 });
 

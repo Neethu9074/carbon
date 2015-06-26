@@ -13,11 +13,6 @@ import ServerItem from './Server';
 
 import './Listing.less';
 
-const noWiredSnapshots = Immutable.Map({
-  incoming: Immutable.Set(),
-  outgoing: Immutable.Set()
-});
-
 const Listing = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 

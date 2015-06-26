@@ -75,9 +75,9 @@ const Dashboard = React.createClass({
 
   renderDashboard() {
     /*eslint-disable no-unused-vars*/
-    const Dashboard = this.getForgeSpecificComponent('Content');
-    return <Dashboard snapshot={this.state.snapshot}
-                      timeframe={this.state.timeframe} />;
+    const DashboardImpl = this.getForgeSpecificComponent('Content');
+    return <DashboardImpl snapshot={this.state.snapshot}
+                          timeframe={this.state.timeframe} />;
     /*eslint-enable no-unused-vars*/
   },
 
