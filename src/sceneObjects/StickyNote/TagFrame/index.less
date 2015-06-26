@@ -1,17 +1,8 @@
 @import "~instana-ui-themes/less/constants.less";
 
-.in-sticky-note-metric {
-  .in-map--zoom-0 & {
-    display: none;
-  }
-
-  @img-height: 1.6em;
-
+.in-sticky-note__tag-frame {
   position: absolute;
-  top: 0;
-
-  color: white;
-  white-space: nowrap;
+  top: -70px;
 
   z-index: @z-index__sticky-notes;
 
@@ -21,4 +12,18 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.in-tooltip__node__tag-ul {
+  list-style: none;
+
+  margin: 0;
+  padding: 0;
+}
+
+.in-tooltip__node__tag-li {
+  color: white;
+
+  margin: 0;
+  padding: 0;
 }

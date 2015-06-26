@@ -3,6 +3,7 @@
 import React from 'react/addons';
 import NodeIcon from '../NodeIcon';
 import StickyNote from '../StickyNote';
+import TagFrame from '../TagFrame';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
 import {
@@ -23,18 +24,14 @@ const StickyNoteRC = React.createClass({
     snapshot: rpt.object.isRequired
   },
 
-  getHighlightedContent() {
-    return '';
-  },
-
   render() {
     const snapshot = this.props.snapshot;
     const data = snapshot.get('data');
-    const highlightedCode = this.getHighlightedContent();
+    const tags = this.props.tags;
 
     return (
       <div className='in-sticky-note__node'>
-        {highlightedCode}
+        {tags ? <TagFrame tags={tags} /> : null}
         <NodeIcon snapshot={snapshot} />
       </div>
     );

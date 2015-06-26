@@ -6,7 +6,6 @@ import {getIcon} from 'instana-ui-sdk/snapshot';
 import './index.less';
 
 const rpt = React.PropTypes;
-
 export default React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
