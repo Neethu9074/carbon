@@ -74,6 +74,11 @@ const HighChart = React.createClass({
         data: []
       };
     });
+    config.plotOptions = {
+      area: {
+        fillOpacity: 1
+      }
+    };
 
     const chart = this.chart = new Highcharts.Chart(config);
 

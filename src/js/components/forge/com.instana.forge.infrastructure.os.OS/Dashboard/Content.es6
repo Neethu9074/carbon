@@ -63,11 +63,6 @@ const OsDashboard = React.createClass({
             x: -10
           }
         },
-        plotOptions: {
-          area: {
-            stacking: 'normal'
-          }
-        },
         tooltip: {
           enabled: false
         },

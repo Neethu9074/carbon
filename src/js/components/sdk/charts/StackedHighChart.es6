@@ -75,6 +75,11 @@ const StackedHighChart = React.createClass({
         data: []
       };
     });
+    config.plotOptions = {
+      area: {
+        fillOpacity: 1
+      }
+    };
 
     const chart = this.chart = new Highcharts.Chart(config);
 
@@ -89,15 +94,17 @@ const StackedHighChart = React.createClass({
 
         firstRawSeries.values.forEach(([x]) => {
           const values = getValueFromAllRawSeries(x);
-          // all series need to have a value for that x
+
+          // all series need to have a value for that x. If this is not the
+          // case, we cannot stack them
           if (_.some(values, v => v === undefined)) {
             return;
           }
 
           let sum = 0;
-          for (let i = 0, len = rawSeries.length; i < len; i++) {
+          for (let i = rawSeries.length - 1; i >= 0; i--) {
             sum += values[i];
-            series.push([
+            series[i].push([
               x,
               sum
             ]);
@@ -116,8 +123,10 @@ const StackedHighChart = React.createClass({
           const predicate = dataPoint => dataPoint[0] === x;
           const values = [];
           for (let i = 0, len = rawSeries.length; i < len; i++) {
-            const value = _.find(rawSeries[i], predicate);
-            values[i] = value;
+            const value = _.find(rawSeries[i].values, predicate);
+            if (value !== undefined) {
+              values[i] = value[1];
+            }
           }
           return values;
         }

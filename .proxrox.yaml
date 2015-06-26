@@ -2,12 +2,7 @@ port: 4000
 root: false
 ssi: true
 proxy:
-  # this endpoint is provided by webpack during development
-  '/': http://127.0.0.1:3000
-
-  #service API
-  '/api/': http://test.internal.instana.io/api/ #local backend
-  #'/api/': http://192.168.0.114:8080/ #local backend
+  /: http://127.0.0.1:3000
+  /api/: http://demo.internal.instana.io/api/
 websocketProxy:
-  '/api/data': http://test.internal.instana.io/api/data #dummy backend
-  #'/api/data': http://192.168.0.114:8080/data
+  /api/data: http://demo.internal.instana.io/api/data
