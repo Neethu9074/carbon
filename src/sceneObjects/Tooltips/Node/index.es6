@@ -72,7 +72,7 @@ const StickyNoteRC = React.createClass({
 
     try {
       text = this.state.issues.get(0).get('problemText');
-      cssClass = 'in-tooltip__node__heading__' + nodeHealth;
+      cssClass = 'in-tooltip__node-heading--' + nodeHealth;
     } catch (er) {
       text = data.get('hostname');
       cssClass = '';
