@@ -85,8 +85,6 @@ export default class Scene {
         this.singleMeshFactory.material.opacity = 0.4;
         this.singleMeshFactory.material.transparent = true;
 
-        this.groundSingleMeshFactory.material.opacity = 0.4;
-        this.groundSingleMeshFactory.material.transparent = true;
         this.hullsAreInactive = true;
 
       //only set hulls to normal state if there is not active metric
@@ -103,6 +101,8 @@ export default class Scene {
 
     this.groundSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 2});
+    this.groundSingleMeshFactory.material.transparent = true;
+    this.groundSingleMeshFactory.material.opacity = 0.4;
 
     this.highlightingSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 4});
@@ -333,10 +333,6 @@ export default class Scene {
     if(!this.hullsAreInactive) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
       this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
-
-      this.groundSingleMeshFactory.material.opacity = normedZoomLevel;
-      this.groundSingleMeshFactory.material.transparent =
-        (zoomLevel < maxZoomOut);
     }
   }
 

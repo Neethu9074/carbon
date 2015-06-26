@@ -21,6 +21,7 @@ import TooltipMetric from '../../Tooltips/Metric';
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import VATOCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 /*eslint-enable max-len*/
@@ -98,27 +99,46 @@ export default class Node extends BaseNode {
   //it's the health ground group of each node
   addToGroundFactory(id, pos, dim) {
     if(!this.health || this.health === health.ok) {
-      this.scene.groundSingleMeshFactory.removeFragment(id);
+      this.removeFromGroundFactory();
       return;
     }
 
     //adding a existing fragment will penetrate an update
     const color = this.calculateNodeColor();
     const position = pos;
-    const scale = dim.clone().multiplyScalar(1.5);
+    const size = dim.clone().multiplyScalar(1.5);
     this.scene.groundSingleMeshFactory.addFragment({
       id: id,
       contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
             contentProvider: new PCP(),
-            x: scale.x, y: 1, z: scale.z
+            x: size.x, y: 1, z: size.z
           }),
           x: position.x, y: position.y, z: position.z
         }),
         r: color.r, g: color.g, b: color.b
       })
     });
+
+    const points = new VATOCM({
+      contentProvider: new PCM({ //reposition
+        contentProvider: new SCM({ //resize
+          contentProvider: new FCP(), //get frame
+          x: size.x, y: 1, z: size.z
+        }),
+        x: pos.x, y: pos.y, z: pos.z
+      })
+    }).getVertices();
+
+    this.scene.lineFactory.addFragment({id: this.id + 'ground', points, color});
+  }
+
+  removeFromGroundFactory() {
+    const scene = this.scene;
+    const id = this.id;
+    scene.groundSingleMeshFactory.removeFragment(id);
+    scene.lineFactory.removeFragment(id + 'ground');
   }
 
   addMetricCollisionObject() {
@@ -284,7 +304,6 @@ export default class Node extends BaseNode {
   hideMetric() {
     //disable sticky note
     this.stickyNote.hide();
-    // this.stickyNoteMetric.hide();
 
     //disable metrics if the node isn't visible
     this.snapshotServer.pauseMetrics();
@@ -411,7 +430,7 @@ export default class Node extends BaseNode {
     if(enabled) {
       this.addToGroundFactory();
     } else {
-      this.scene.groundSingleMeshFactory.removeFragment(this.id);
+      this.removeFromGroundFactory();
     }
   }
 
@@ -430,7 +449,7 @@ export default class Node extends BaseNode {
   dispose() {
     this.snapshotServer.dispose();
     this.clearLayer();
-    this.scene.groundSingleMeshFactory.removeFragment(this.id);
+    this.removeFromGroundFactory();
 
     super.dispose();
 
