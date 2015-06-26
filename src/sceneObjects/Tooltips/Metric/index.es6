@@ -92,12 +92,13 @@ const StickyNoteRC = React.createClass({
         colorIndex = 0;
       }
       const style = {color: color};
+      const metricName = names[index];
 
-      return <li className='in-tooltip__node__li'>
+      return <li key={metricName} className='in-tooltip__node__li'>
         <Heading
           className={'in-tooltip__node__li__metric-name'}
           style={style}>
-          {names[index].toUpperCase()}
+          {metricName.toUpperCase()}
         </Heading>
         <Content className='in-tooltip__node__li__value'>
           {value * 100 + '%'}
