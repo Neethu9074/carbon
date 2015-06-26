@@ -3,7 +3,8 @@
 import {theme} from 'instana-ui-services/theme';
 
 const highChartTheme = {
-  colors: ['#5da6da', '#61bd68', '#decf3f', '#c39eff', '#ff57a8'],
+  colors: ['#5da6da', '#61bd68', '#decf3f', '#c39eff', '#ff57a8',
+           '#5da6da', '#61bd68', '#decf3f', '#c39eff', '#ff57a8'],
   chart: {
     backgroundColor: 'transparent',
     style: {
