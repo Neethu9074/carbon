@@ -120,11 +120,11 @@ exports.consts = {
     },
     chart: {
       strokeColors: [
-        'hsl(205, 63%, 61%)',
-        'hsl(125, 41%, 56%)',
-        'hsl(54, 71%, 56%)',
-        'hsl(263, 100%, 81%)',
-        'hsl(331, 100%, 67%)'
+        '#5da6da',
+        '#61bd68',
+        '#decf3f',
+        '#c39eff',
+        '#ff57a8'
       ],
 
       fillColors: [
