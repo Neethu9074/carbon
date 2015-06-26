@@ -10,6 +10,7 @@ import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
+import * as metricsStore from 'instana-ui-services/stores/metrics';
 import {sort} from 'instana-ui-sdk/sorting';
 
 import Metrics from './Metrics';
@@ -29,6 +30,7 @@ const Sidebar = React.createClass({
   getInitialState() {
     return {
       snapshots: Immutable.List(),
+      activeMetric: null,
       selectedSnapshot: null,
       highlightedSnapshot: null,
       snapshotsWiredToHighlightedSnapshot: noWiredSnapshots
@@ -61,9 +63,19 @@ const Sidebar = React.createClass({
         })
       )
     );
+
+    this.addSubscription(
+      metricsStore.activeMetric.subscribe(activeMetric => {
+        if (this.refs && this.refs.metrics) {
+          this.refs.metrics.close();
+        }
+        this.setState({activeMetric});
+      })
+    );
   },
 
   render() {
+    const activeMetric = this.state.activeMetric;
     return (
       <div className='in-sidebar'>
         <FloatingFrame icon='menue' title='Details'>
@@ -72,7 +84,9 @@ const Sidebar = React.createClass({
           : this.renderSnapshotListing()}
         </FloatingFrame>
 
-        <FloatingFrame icon='metrics' title='Metrics'>
+        <FloatingFrame icon={activeMetric ? activeMetric.get('icon') : 'metrics'}
+                       title={activeMetric ? activeMetric.get('longLabel') : 'Metrics'}
+                       ref='metrics'>
           <Metrics />
         </FloatingFrame>
       </div>

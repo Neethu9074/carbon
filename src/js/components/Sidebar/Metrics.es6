@@ -1,49 +1,130 @@
 'use strict';
 
 import React from 'react/addons';
+import Immutable from 'immutable';
 
+import Icon from 'instana-ui-components/Icon';
 import * as metricsStore from 'instana-ui-services/stores/metrics';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 const block = 'in-sidebar-metrics';
 
+const metricTree = Immutable.fromJS({
+  children: [
+    {
+      icon: 'metrics_cpu',
+      label: 'CPU',
+      children: [
+        {
+          icon: 'metrics_cpu',
+          label: 'Load',
+          longLabel: 'CPU Load',
+          metrics: ['load.1min']
+        },
+        {
+          icon: 'metrics_cpu_usage',
+          label: 'Usage',
+          longLabel: 'CPU Usage',
+          metrics: [
+            'cpu.total.user',
+            'cpu.total.sys',
+            'cpu.total.wait',
+            'cpu.total.nice',
+            'cpu.total.steal'
+          ]
+        }
+      ]
+    },
+    {
+      icon: 'metrics_memory',
+      label: 'Memory',
+      longLabel: 'Memory free',
+      metrics: ['memory.free']
+    },
+    {
+      icon: 'metrics_network',
+      label: 'Network',
+      longLabel: 'Network XYZ'
+    },
+    {
+      icon: 'metrics_disc',
+      label: 'Filesystem',
+      longLabel: 'Disc Usage'
+    }
+  ]
+});
+
 const Metrics = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [SubscriptionMixin],
+
+  getInitialState() {
+    return {
+      path: Immutable.List()
+    };
+  },
+
+  componentDidMount() {
+    this.addSubscription(
+      metricsStore.metricPath.subscribe(path => this.setState({path}))
+    );
+  },
 
   render() {
     return (
       <div className={block}>
-        <button onClick={this.showCpuUsage}>
-          Show CPU usage
-        </button>
-        <br />
-        <button onClick={this.showCpuLoad}>
-          Show CPU load
-        </button>
-        <br />
-        <button onClick={this.showMemoryUsage}>
-          Show Memory usage
-        </button>
+
+        {!this.state.path.isEmpty() ?
+          <div className={block + '__navigation'}>
+            <Icon type='arrow_left'
+                  onClick={this.onBack} />
+            {this.getCurrentlyActiveItem().label}
+          </div>
+        : null}
+
+        <ul className={block + '__metric-list'}>
+          {this.getMetricsToShow().map(metricConfig =>
+            <li key={metricConfig.get('label')}
+                className={block + '__metric-list-item'}
+                onClick={this.onClickMetric.bind(this, metricConfig)}>
+              <Icon type={metricConfig.get('icon')} />
+              {metricConfig.get('label')}
+            </li>
+          ).toJS()}
+        </ul>
+
       </div>
     );
   },
 
-  showCpuUsage() {
-    metricsStore.select([
-      'cpu.total.user',
-      'cpu.total.sys',
-      'cpu.total.wait',
-      'cpu.total.nice',
-      'cpu.total.steal'
-    ]);
+  getMetricsToShow() {
+    if (this.state.path.isEmpty()) {
+      return metricTree.get('children');
+    }
+
+    const activeItem = this.getCurrentlyActiveItem();
+    // if currently active item has no children, use the parent
+    if (!activeItem.has('children')) {
+      return this.state.path.get(this.state.path.size - 2).get('children');
+    }
+
+    return activeItem.get('children');
   },
 
-  showCpuLoad() {
-    metricsStore.select(['load.1min']);
+  getCurrentlyActiveItem() {
+    return this.state.path.last();
   },
 
-  showMemoryUsage() {
-    metricsStore.select(['memory.free']);
-  }
+  onClickMetric(metricConfig) {
+    if (metricConfig.has('children')) {
+      metricsStore.setMetricPath(this.state.path.push(metricConfig));
+    } else if (metricConfig.has('metrics')) {
+      metricsStore.setActiveMetric(metricConfig);
+    }
+  },
+
+  onBack() {
+    metricsStore.setMetricPath(this.state.path.pop());
+  },
 
 });
 

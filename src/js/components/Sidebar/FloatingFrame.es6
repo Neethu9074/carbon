@@ -48,6 +48,12 @@ const FloatingFrame = React.createClass({
     this.setState({
       open: !this.state.open
     });
+  },
+
+  close() {
+    this.setState({
+      open: false
+    });
   }
 });
 
