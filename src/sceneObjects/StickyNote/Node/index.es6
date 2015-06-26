@@ -37,9 +37,9 @@ const StickyNoteRC = React.createClass({
     return (
       <div className='in-sticky-note__node'>
         {highlightedCode}
-        <div>
+        <div className='in-sticky-note__node-bg'>
           {icon ?
-            <img src={icon} className='in-sticky-note__node__icon'/> : null}
+            <img src={icon} className='in-sticky-note__node-icon'/> : null}
         </div>
       </div>
     );

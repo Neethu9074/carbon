@@ -2,14 +2,7 @@
 
 .in-sticky-note__node {
   position: absolute;
-
   top: 0;
-
-  display: flex;
-  flex-direction: column-reverse;
-
-  color: white;
-  white-space: nowrap;
 
   z-index: @z-index__sticky-notes;
 
@@ -21,17 +14,16 @@
   user-select: none;
 }
 
-.in-sticky-note__node__icon {
-    width: 36px;
-    height: 36px;
+.in-sticky-note__node-bg {
+  width: 36px;
+  height: 36px;
+  margin-left: -18px;
+  margin-top: -18px;
+  border-radius: 18px;
 
-    //disable icon for a while
-    opacity: 1;
+  background-color: white;
 
-    margin-left: -18px;
-    margin-top: -18px;
-
-    transition: all 0.5s ease;
+  transition: all 0.5s ease;
 
   .in-map--zoom-50 &, .in-map--zoom-100 & {
     width: 64px;
@@ -39,5 +31,12 @@
 
     margin-left: -32px;
     margin-top: -32px;
+
+    border-radius: 32px;
   }
+}
+
+.in-sticky-note__node-icon {
+  width: 60%;
+  margin: 20%;
 }
