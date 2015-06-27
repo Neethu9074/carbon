@@ -12,6 +12,7 @@ import Lettering from '../../Lettering';
 import Icon from '../../Icon';
 import Toast from '../../Toast';
 import SnapshotIconDemo from './SnapshotIconDemo';
+import ChartDemo from './ChartDemo';
 
 import '../less/demo.less';
 
@@ -61,6 +62,9 @@ const Demo = React.createClass({
   render: function() {
     return (
       <Tabs>
+        <Tab title='Stacked Area Chart'>
+          <ChartDemo />
+        </Tab>
         <Tab title='About'>
           <p>
             This Demo shows our various components...

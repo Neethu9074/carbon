@@ -5,7 +5,7 @@
   "main": "index.es6",
   "scripts": {
     "dev": "export BUILD_DEV=true && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:7373/demo && webpack-dev-server --host 0.0.0.0 --port 7272",
-    "test": "eslint $(find . -name \"*.es6\" | grep -v \"./node_modules\")"
+    "test": "eslint $(find . -name \"*.es6\" | grep -v \"./node_modules\") && mocha --require mocha-babel-es6 **/*_test.es6"
   },
   "repository": {
     "type": "git",
@@ -44,10 +44,11 @@
     "instana-ui-forge": "^1.0.0",
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
-    "mocha": "^2.2.4",
-    "mocha-babel-es6": "^1.0.0",
+    "mocha": "^2.2.5",
+    "mocha-babel-es6": "^1.5.0",
     "proxrox": "^1.7.0",
     "raw-loader": "^0.5.1",
+    "sinon": "^1.15.4",
     "style-loader": "^0.8.3",
     "url-loader": "^0.5.5",
     "webpack": "^1.5.3",
