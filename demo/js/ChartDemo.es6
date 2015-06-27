@@ -2,6 +2,8 @@
 
 import React from 'react/addons';
 
+import Chart from '../../Chart';
+
 const ChartDemo = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
@@ -12,9 +14,18 @@ const ChartDemo = React.createClass({
 
   render() {
     return (
-      <div>
-
-      </div>
+      <Chart config={{
+        type: 'stackedArea',
+        width: 700,
+        height: 300,
+        seriesConfig: [
+          {label: 'cpu.total.user'},
+          {label: 'cpu.total.sys'},
+          {label: 'cpu.total.nice'},
+          {label: 'cpu.total.wait'},
+          {label: 'cpu.total.steal'}
+        ]
+      }} />
     );
   }
 });

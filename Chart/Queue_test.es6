@@ -6,7 +6,7 @@ import {expect} from 'chai';
 
 import Queue from './Queue';
 
-describe('Queue', () => {
+describe('Chart.Queue', () => {
 
   let queue;
 
