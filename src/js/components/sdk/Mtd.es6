@@ -7,6 +7,11 @@ import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 const Mtd = React.createClass({
   mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
 
+  propTypes: {
+    createMetricValueStream: React.PropTypes.func.isRequired,
+    formatter: React.PropTypes.func
+  },
+
   getInitialState() {
     return {
       metricValue: undefined

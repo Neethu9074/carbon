@@ -7,6 +7,7 @@ import '../../../libs/highcharts/highcharts.src.js';
 
 import _ from 'lodash';
 import React from 'react';
+import irpt from 'react-immutable-proptypes';
 
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {create} from 'instana-ui-services/conveyer';
@@ -17,9 +18,18 @@ import theme from './highchart_theme';
 
 Highcharts.setOptions(theme);
 
+const rpt = React.PropTypes;
+
 const HighChart = React.createClass({
 
   mixins: [SubscriptionMixin],
+
+  propTypes: {
+    snapshot: irpt.map.isRequired,
+    metrics: rpt.arrayOf(rpt.string).isRequired,
+    timeframe: rpt.number.isRequired,
+    config: rpt.object.isRequired
+  },
 
   render() {
     return (

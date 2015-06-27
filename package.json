@@ -33,11 +33,12 @@
     "intl": "^0.1.4",
     "invariant": "^2.0.0",
     "lodash": "^3.9.0",
+    "moment": "^2.10.3",
     "react": "^0.13.1",
+    "react-immutable-proptypes": "^1.0.0",
     "react-intl": "^1.2.0",
     "react-router": "^0.13.3",
-    "reactive-observables": "^1.2.0",
-    "moment": "^2.10.3"
+    "reactive-observables": "^1.2.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",

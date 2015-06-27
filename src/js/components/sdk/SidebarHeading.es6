@@ -7,6 +7,10 @@ import './SidebarHeading.less';
 const SidebarHeading = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
+  propTypes: {
+    children: React.PropTypes.renderable.isRequired
+  },
+
   render() {
     return (
       <h1 className='in-sidebar__heading'>

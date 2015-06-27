@@ -2,6 +2,7 @@
 
 import React from 'react';
 import _ from 'lodash';
+import irpt from 'react-immutable-proptypes';
 
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
@@ -12,11 +13,20 @@ import ContentHeading from '../ContentHeading';
 
 import './ChartLegend.less';
 
+const rpt = React.PropTypes;
 const block = 'in-detail-pane__chart-legend';
 
 const ChartLegend = React.createClass({
-
   mixins: [SubscriptionMixin],
+
+  propTypes: {
+    title: rpt.string.isRequired,
+    snapshot: irpt.map.isRequired,
+    metrics: rpt.arrayOf(rpt.string).isRequired,
+    metricLabels: rpt.arrayOf(rpt.string).isRequired,
+    metricUnit: rpt.string.isRequired,
+    metricValueFormatter: rpt.func.isRequired
+  },
 
   getInitialState() {
     return {};

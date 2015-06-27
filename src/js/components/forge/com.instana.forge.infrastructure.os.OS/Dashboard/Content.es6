@@ -5,6 +5,7 @@
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import d3 from 'd3';
+import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'instana-ui-services/converters';
 import {create} from 'instana-ui-services/conveyer';
@@ -19,6 +20,7 @@ import Separator from '../../../sdk/Separator';
 import Mtd from '../../../sdk/Mtd';
 import ContentHeading from '../../../sdk/ContentHeading';
 
+const rpt = React.PropTypes;
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
 const metricValueFormatter = d => commasFormatter(d * 100);
@@ -26,6 +28,11 @@ const bytesPerSecondFormatter = d => formatBytes(d) + '/s';
 
 const OsDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
+
+  propTypes: {
+    snapshot: irpt.map.isRequired,
+    timeframe: rpt.number.isRequired
+  },
 
   getInitialState() {
     return {
@@ -489,7 +496,7 @@ const OsDashboard = React.createClass({
                             'In Segments',
                             'Out Segments',
                             'Error %',
-                            'Retransmission %',
+                            'Retransmission %'
                           ]}
                           metricUnit=''
                           metricValueFormatter={d => d} />
