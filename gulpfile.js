@@ -1,8 +1,9 @@
+/*eslint-env node*/
+/*eslint-disable no-var*/
+
 'use strict';
 
-var cache = require('gulp-cached');
 var del = require('del');
-var eslint = require('gulp-eslint');
 var filter = require('gulp-filter');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
@@ -18,22 +19,9 @@ var fs = require('fs');
 
 var webpackConfig = require('./webpack.config.js');
 
-var paths = {
-  js: ['src/js/**/*.es6', 'test/js/**/*.es6']
-};
-
 
 gulp.task('clean', function(cb) {
   del(['./target'], cb);
-});
-
-
-gulp.task('lint', function() {
-  return gulp.src(paths.js)
-    .pipe(cache('linting'))
-    .pipe(eslint())
-    .pipe(eslint.format())
-    .pipe(eslint.failOnError());
 });
 
 
@@ -118,7 +106,6 @@ gulp.task('dev', [
 
 
 gulp.task('dev-watches', function() {
-  // gulp.watch(paths.js, ['lint']);
   gulp.watch('src/index.html', ['copyhtml']);
 });
 

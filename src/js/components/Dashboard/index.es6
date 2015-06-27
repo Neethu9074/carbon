@@ -5,7 +5,6 @@
 import React from 'react';
 import {State, Navigation} from 'react-router';
 import Immutable from 'immutable';
-import {on} from 'reactive-observables';
 
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';

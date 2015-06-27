@@ -2,12 +2,10 @@
 
 import React from 'react/addons';
 import {IntlMixin, FormattedHTMLMessage} from 'react-intl';
-import Immutable from 'immutable';
 
 import {getZone} from 'instana-ui-sdk/zones';
 import {getColor} from 'instana-ui-sdk/zones';
-import * as constants from 'instana-ui-forge/constants';
-import {getIdString, isIdEqual} from 'instana-ui-services/util/snapshots';
+import {getIdString} from 'instana-ui-services/util/snapshots';
 
 import ServerItem from './Server';
 

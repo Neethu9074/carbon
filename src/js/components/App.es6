@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
-import {IntlMixin, FormattedMessage} from 'react-intl';
+import {IntlMixin} from 'react-intl';
 import {RouteHandler, Navigation} from 'react-router';
 
 import Map from 'instana-ui-map';
