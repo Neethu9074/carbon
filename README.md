@@ -1,26 +1,33 @@
-# User Interface
+# UI-Client aka. the stuff that runs in the browser
 
- - browser in the sense of *metrics browser*
+## Getting Started
+You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
+[Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it
+easy to switch between installed Node.js versions and to install global
+modules without super-user privileges. Windows users should follow the
+instructions on the [official website](http://nodejs.org/).
+
+### Node Version Manager installation
+Make sure that you have Git and cURL installed.
+
+```
+# download and install NVM
+curl https://raw.githubusercontent.com/creationix/nvm/v0.22.2/install.sh | bash
+
+# reload bash
+bash
+
+# install Node.js version 0.12
+nvm install 0.12
+# use Node.js version 0.12
+nvm use 0.12
+# and use it by default
+nvm alias default 0.12
+```
+
+### Executing tasks
+Tasks are defined in the `package.json`. They can be executed via `npm run <taskname>`. For instance `npm run test` (or `npm test`) to execute the tests, `npm run dev` to start up a proxy and development server or `npm run build` to build the JavaScript files.
 
 ## Versioning Scheme
  - Major versions are increased after ever sprint. Due to historic reasons the version to be released after sprint 1 is `2.0.0`. After sprint 2 version `3.0.0` is released.
  - After releasing, change the version in `package.json` to `<current version>-POSTRELEASE`, e.g. `2.0.0`. This is necessary in order to avoid overwrites of existing Docker images.
-
-## Theme Variable that need to be extracted
-
- - header height
- - header background color
- - header background opacity
- - header button active / inactive color
- - header box shadow
- - footer height
- - footer background color
- - footer background opacity
- - footer button active / inactive color
- - timeline width
- - sidebar width
- - link color
- - detail pane zIndex
-
- - set common background color to #20272D
- - set theme CSS class on body
