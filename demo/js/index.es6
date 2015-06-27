@@ -61,12 +61,12 @@ const Demo = React.createClass({
   render: function() {
     return (
       <Tabs>
-        <Tab title="About">
+        <Tab title='About'>
           <p>
             This Demo shows our various components...
           </p>
         </Tab>
-        <Tab title="Icon">
+        <Tab title='Icon'>
           {['graph', 'menue', 'grid'].map(type =>
             <div key={type}>
               <h2>Icon: {type}</h2>
@@ -74,17 +74,17 @@ const Demo = React.createClass({
             </div>
           )}
         </Tab>
-        <Tab title="Lettering">
+        <Tab title='Lettering'>
           <Lettering />
         </Tab>
-        <Tab title="Toast">
+        <Tab title='Toast'>
           <button onClick={this.showToast}>Show Toast</button>
 
-          <Toast action="Yo ma pizzle" onClick={this.hideToast}>
+          <Toast action='Yo ma pizzle' onClick={this.hideToast}>
             {this.state.toast}
           </Toast>
         </Tab>
-        <Tab title="SnapshotIcon">
+        <Tab title='SnapshotIcon'>
           <SnapshotIconDemo snapshot={this.state.snapshot} />
         </Tab>
       </Tabs>

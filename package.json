@@ -20,6 +20,7 @@
     "invariant": "^2.0.0",
     "lodash": "^3.9.3",
     "react": "^0.13.1",
+    "react-immutable-proptypes": "^1.0.0",
     "reactive-observables": "^1.2.0"
   },
   "peerDependencies": {
@@ -28,12 +29,14 @@
     "instana-ui-themes": "^1.0.2"
   },
   "devDependencies": {
-    "babel": "^5.1.11",
-    "babel-core": "^4.7.13",
-    "babel-loader": "^4.2.0",
+    "babel": "^5.0.10",
+    "babel-core": "^5.0.0",
+    "babel-loader": "^5.0.0",
     "chai": "^2.2.0",
     "css-loader": "^0.9.1",
-    "eslint": "^0.18.0",
+    "eslint": "^0.24.0",
+    "eslint-config-instana": "^1.1.0",
+    "eslint-plugin-react": "^2.5.2",
     "file-loader": "^0.8.1",
     "image-webpack-loader": "^1.2.0",
     "imagemin": "^3.1.0",

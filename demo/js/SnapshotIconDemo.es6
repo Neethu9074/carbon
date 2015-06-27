@@ -1,10 +1,15 @@
 'use strict';
 
 import React from 'react';
+import irpt from 'react-immutable-proptypes';
 
 import SnapshotIcon from '../../SnapshotIcon';
 
 const SnapshotIconDemo = React.createClass({
+  propTypes: {
+    snapshot: irpt.map.isRequired
+  },
+
   render() {
     return (
       <div>

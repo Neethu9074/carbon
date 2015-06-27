@@ -1,11 +1,26 @@
-'use strict';
+/*eslint-disable react/no-multi-comp*/
 
-import './Tabs.less';
+'use strict';
 
 import React from 'react';
 import classnames from 'instana-ui-services/util/classnames';
 
+import './Tabs.less';
+
+export const Tab = React.createClass({
+  render() {
+    // rendering is handled by the Tabs component
+    return null;
+  }
+});
+
 export const Tabs = React.createClass({
+
+  propTypes: {
+    collapsible: React.PropTypes.bool,
+    blockIdentifier: React.PropTypes.string,
+    children: React.PropTypes.arrayOf(Tab)
+  },
 
   getInitialState() {
     return {
@@ -19,8 +34,6 @@ export const Tabs = React.createClass({
     // component does provide a default theme, but this theme can easily be
     // changed. Styling can be achieved via the `blockIdentifier` property.
     const blockIdentifier = this.props.blockIdentifier || 'in-subtle-tabs';
-
-
 
     const headerNodes = this.props.children.map((tab, i) => {
       let classNames = blockIdentifier + '__tab';
@@ -69,12 +82,5 @@ export const Tabs = React.createClass({
         selectedTab: i
       });
     }
-  }
-});
-
-export const Tab = React.createClass({
-  render() {
-    // rendering is handled by the Tabs component
-    return null;
   }
 });

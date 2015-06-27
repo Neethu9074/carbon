@@ -1,16 +1,23 @@
 'use strict';
 
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
-import Icon from '../Icon';
 import {getHealth, health} from 'instana-ui-services/health';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {theme} from 'instana-ui-services/theme';
+
+import Icon from '../Icon';
 
 import './SnapshotIcon.less';
 
 const SnapshotIcon = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+
+  propTypes: {
+    snapshot: irpt.map.isRequired,
+    className: React.PropTypes.string
+  },
 
   getInitialState() {
     return {
@@ -20,8 +27,9 @@ const SnapshotIcon = React.createClass({
 
   componentDidMount() {
     this.addSubscription(
-      getHealth(this.props.snapshot).subscribe(health =>
-        this.setState({health}))
+      getHealth(this.props.snapshot).subscribe(currentHealth =>
+        this.setState({health: currentHealth})
+      )
     );
   },
 
