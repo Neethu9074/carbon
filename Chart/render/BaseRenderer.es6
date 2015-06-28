@@ -22,13 +22,18 @@ export default class BaseRenderer {
     this.windowSize = windowSize;
 
     this.x = d3.time.scale.utc();
+    this.x.axis = d3.svg.axis()
+      .scale(this.x)
+      .orient('bottom');
     this.y = d3.scale.linear();
+    this.y.axis = d3.svg.axis()
+      .scale(this.y)
+      .orient('left');
     this.queue = new Queue(this.seriesConfig.length);
     this.data = new Data({windowSize});
     this.tween = null;
 
     this.createCanvas();
-
     this.setDimensions({width, height});
 
     this.rendering = false;
@@ -55,9 +60,14 @@ export default class BaseRenderer {
     this.drawingCtx = this.drawingCanvas.getContext('2d');
 
     // the SVG will be used to position the axis
-    this.svg = document.createElement('svg');
+    this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     this.svg.classList.add('in-chart__svg');
     this.container.appendChild(this.svg);
+
+    this.x.axis.element = d3.select(this.svg)
+      .append('g')
+      .attr('class', 'a axis')
+      .call(this.x.axis);
   }
 
   /**
@@ -68,7 +78,7 @@ export default class BaseRenderer {
    * @returns {number} The drawing canvas width
    */
   getDrawingCanvasWidth() {
-    return this.width * 2;
+    return (this.width - this.margins.left - this.margins.right) * 2;
   }
 
   addDataPoint(seriesIndex, dataPoint) {
@@ -145,6 +155,7 @@ export default class BaseRenderer {
       0,
       0
     );
+    this.x.axis.element.call(this.x.axis);
 
     this.rendering = false;
   }
@@ -162,7 +173,8 @@ export default class BaseRenderer {
     const dataColumns = this.data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
     const maxX = dataColumns[numberOfDataColumns - 1][0].x;
-    const animationEndPosition = this.width - this.x(maxX);
+    const animationEndPosition = this.width - this.margins.left -
+      this.margins.right - this.x(maxX);
 
     const imageData = this.drawingCtx.getImageData(
       0,
@@ -177,23 +189,35 @@ export default class BaseRenderer {
       this.updateXDomain();
       this.rendering = false;
 
+      TWEEN.remove(this.tween);
       const newDataColumns = this.queue.get();
       if (newDataColumns.length > 0) {
         this.render(newDataColumns);
       }
     };
 
-    const renderCtx = this.renderCtx;
+    this.x.axis.element.call(this.x.axis);
+
+    const self = this;
+
     this.tween = new TWEEN.Tween({x: 0})
       .to({x: animationEndPosition}, 2000)
       // this cannot be an arrow function as tween.js is passing in x values
       // via the execution context
       .onUpdate(function() {
-        renderCtx.putImageData(
+        self.renderCtx.putImageData(
           imageData,
           this.x,
           0
         );
+        self.x.axis.element.attr(
+          'transform',
+          'translate(' +
+            (self.margins.left + this.x) + ',' +
+            (self.height - self.margins.bottom) +
+          ')'
+        );
+
       })
       .onComplete(onEnd)
       .onStop(onEnd)
@@ -266,11 +290,19 @@ export default class BaseRenderer {
     this.drawingCanvas.setAttribute('width', this.getDrawingCanvasWidth());
     this.drawingCanvas.setAttribute('height', this.height - verticalMargin);
 
-    this.svg.style.width = this.width + 'px';
-    this.svg.style.height = this.height + 'px';
+    this.svg.setAttribute('width', this.width);
+    this.svg.setAttribute('height', this.height);
 
-    this.x.range([0, this.width]);
+    this.x.range([0, this.width - horizontalMargin]);
     this.y.range([this.height - verticalMargin, 0]);
+
+    this.x.axis.element.attr(
+      'transform',
+      'translate(' +
+        this.margins.left + ', ' +
+        (this.height - this.margins.bottom) +
+      ')'
+    );
   }
 
   dispose() {
@@ -282,6 +314,11 @@ export default class BaseRenderer {
   }
 
   clearDrawingCanvas() {
-    this.drawingCtx.clearRect(0, 0, this.getDrawingCanvasWidth(), this.height);
+    this.drawingCtx.clearRect(
+      0,
+      0,
+      this.getDrawingCanvasWidth(),
+      this.height - this.margins.top - this.margins.bottom
+    );
   }
 }
