@@ -22,7 +22,8 @@
     "lodash": "^3.9.3",
     "react": "^0.13.1",
     "react-immutable-proptypes": "^1.0.0",
-    "reactive-observables": "^1.2.0"
+    "reactive-observables": "^1.2.0",
+    "tween.js": "^0.14.0"
   },
   "peerDependencies": {
     "instana-ui-sdk": "^1.7.0",

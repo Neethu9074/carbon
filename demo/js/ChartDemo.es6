@@ -14,18 +14,27 @@ const ChartDemo = React.createClass({
 
   render() {
     return (
-      <Chart config={{
-        type: 'stackedArea',
-        width: 700,
-        height: 300,
-        seriesConfig: [
-          {label: 'cpu.total.user'},
-          {label: 'cpu.total.sys'},
-          {label: 'cpu.total.nice'},
-          {label: 'cpu.total.wait'},
-          {label: 'cpu.total.steal'}
-        ]
-      }} />
+      <div style={{background: 'white', display: 'inline-block'}}>
+        <Chart config={{
+          type: 'stackedArea',
+          width: 700,
+          height: 300,
+          margins: {
+            top: 0,
+            right: 40,
+            bottom: 40,
+            left: 40
+          },
+          seriesConfig: [
+            {label: 'cpu.total.user'},
+            {label: 'cpu.total.sys'},
+            {label: 'cpu.total.nice'},
+            {label: 'cpu.total.wait'},
+            {label: 'cpu.total.steal'}
+          ],
+          windowSize: 30
+        }} />
+      </div>
     );
   }
 });

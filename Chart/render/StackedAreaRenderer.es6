@@ -17,8 +17,11 @@ export default class StackedAreaRenderer extends BaseRenderer {
     this.seriesConfig.forEach((series, seriesIndex) => {
       ctx.beginPath();
 
-      // left to right
-      dataColumns.forEach((dataColumn, columnIndex) => {
+      // going left to right
+      for (let columnIndex = 0, len = dataColumns.length;
+         columnIndex < len;
+         columnIndex++) {
+        const dataColumn = dataColumns[columnIndex];
         const dataRow = dataColumn[seriesIndex];
         const x = this.x(dataRow.x);
         const y1 = this.y(dataRow.y1);
@@ -27,17 +30,24 @@ export default class StackedAreaRenderer extends BaseRenderer {
           ctx.moveTo(x, y1);
         } else {
           ctx.lineTo(x, y1);
-          console.log('line to', x, y1);
         }
-      });
+      }
 
-      // TODO move right to left
+      // going right to left
+      for (let columnIndex = dataColumns.length - 1;
+         columnIndex >= 0;
+         columnIndex--) {
+        const dataColumn = dataColumns[columnIndex];
+        const dataRow = dataColumn[seriesIndex];
+        const x = this.x(dataRow.x);
+        const y0 = this.y(dataRow.y0);
+
+        ctx.lineTo(x, y0);
+      }
 
       ctx.closePath();
       ctx.fillStyle = this.getSeriesColor(seriesIndex);
       ctx.fill();
-      ctx.strokeStyle = 'red';
-      ctx.stroke();
     });
   }
 
