@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import _ from 'lodash';
 
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
@@ -19,7 +20,7 @@ const Chart = React.createClass({
 
     width: rpt.number.isRequired,
     height: rpt.number.isRequired,
-    margins: rpt.object.isRequired,
+    margins: rpt.object,
 
     seriesConfig: rpt.array.isRequired,
     datasources: rpt.array.isRequired,
@@ -31,6 +32,34 @@ const Chart = React.createClass({
   },
 
   componentDidMount() {
+    this.renderChart();
+  },
+
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(this.props.margins, prevProps.margins) ||
+        this.props.type !== prevProps.type ||
+        !_.isEqual(this.props.seriesConfig, prevProps.seriesConfig) ||
+        this.props.windowSize !== prevProps.windowSize ||
+        this.props.datasources !== prevProps.datasources) {
+      console.log('Throw away and rerender');
+      if (this.chart) {
+        this.chart.dispose();
+      }
+      this.disposeSubscriptions();
+      this.renderChart();
+    } else if (this.props.width !== prevProps.width ||
+        this.props.height !== prevProps.height) {
+      if (this.chart) {
+        console.log('Resize');
+        this.chart.onResize({
+          width: this.props.width,
+          height: this.props.height
+        });
+      }
+    }
+  },
+
+  renderChart() {
     const config = {
       container: React.findDOMNode(this),
       width: this.props.width,

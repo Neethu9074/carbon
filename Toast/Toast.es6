@@ -12,7 +12,7 @@ const Toast = React.createClass({
   propTypes: {
     onClick: React.PropTypes.func,
     action: React.PropTypes.string,
-    children: React.PropTypes.node.isRequired
+    children: React.PropTypes.any
   },
 
   getInitialState() {

@@ -281,7 +281,10 @@ export default class BaseRenderer {
 
   onResize({width, height}) {
     this.setDimensions({width, height});
-    // TODO initiate a full redraw?
+    this.stopAnimations();
+    this.rendering = false;
+    this.clearDrawingCanvas();
+    this.renderBigUpdate();
   }
 
   setDimensions({width, height}) {
@@ -327,6 +330,11 @@ export default class BaseRenderer {
 
   dispose() {
     this.container.removeChild(this.renderCanvas);
+    this.container.removeChild(this.svg);
+    this.stopAnimations();
+  }
+
+  stopAnimations() {
     if (this.tween) {
       this.tween.stop();
       TWEEN.remove(this.tween);
