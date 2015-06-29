@@ -1,10 +1,12 @@
 /*global require: false*/
+/*eslint-disable react/no-did-mount-set-state, react/no-did-update-set-state*/
 
 'use strict';
 
 import React from 'react';
 import {State, Navigation} from 'react-router';
 import Immutable from 'immutable';
+import {on} from 'reactive-observables';
 
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
@@ -31,7 +33,8 @@ const Dashboard = React.createClass({
   getInitialState() {
     return {
       snapshot: null,
-      timeframe: 0
+      timeframe: 0,
+      width: -1
     };
   },
 
@@ -47,6 +50,27 @@ const Dashboard = React.createClass({
         this.setState({timeframe});
       })
     );
+
+    this.addSubscription(
+      on(window, 'resize')
+        .debounce(500)
+        .subscribe(() => {
+          this.setState({width: this.calculateChartWidth()});
+        })
+    );
+
+    this.setState({width: this.calculateChartWidth()});
+  },
+
+  componentDidUpdate() {
+    if (this.state.width === -1 && this.state.snapshot) {
+      this.setState({width: this.calculateChartWidth()});
+    }
+  },
+
+  calculateChartWidth() {
+    const domNode = React.findDOMNode(this.refs.content);
+    return parseInt(window.getComputedStyle(domNode).width, 10);
   },
 
   render() {
@@ -57,7 +81,7 @@ const Dashboard = React.createClass({
                 className={block + '__close'}>
           x
         </button>
-        <div className={block + '__content'}>
+        <div className={block + '__content'} ref='content'>
           {this.state.snapshot ?
             this.renderDashboard()
           : <div>Loading...</div>}
@@ -75,16 +99,18 @@ const Dashboard = React.createClass({
   renderDashboard() {
     /*eslint-disable no-unused-vars*/
     const DashboardImpl = this.getForgeSpecificComponent('Content');
-    return <DashboardImpl snapshot={this.state.snapshot}
-                          timeframe={this.state.timeframe} />;
+    return (<DashboardImpl snapshot={this.state.snapshot}
+                           timeframe={this.state.timeframe}
+                           width={this.state.width || 700} />);
     /*eslint-enable no-unused-vars*/
   },
 
   renderSidebar() {
     /*eslint-disable no-unused-vars*/
     const Sidebar = this.getForgeSpecificComponent('Sidebar');
-    return <Sidebar snapshot={this.state.snapshot}
-                      timeframe={this.state.timeframe} />;
+    return (<Sidebar snapshot={this.state.snapshot}
+                     timeframe={this.state.timeframe}
+                     width={this.state.width || 700} />);
     /*eslint-enable no-unused-vars*/
   },
 

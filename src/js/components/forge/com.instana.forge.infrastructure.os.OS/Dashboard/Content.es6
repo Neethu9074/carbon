@@ -31,7 +31,8 @@ const OsDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    width: rpt.number.isRequired
   },
 
   getInitialState() {
@@ -242,7 +243,7 @@ const OsDashboard = React.createClass({
                  'cpu.total.nice',
                  'cpu.total.steal'
                ]}
-               width={700}
+               width={this.props.width}
                height={700} />
 
         <Separator />

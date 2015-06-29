@@ -2,6 +2,7 @@
 
 import Immutable from 'immutable';
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
 import {getLabel} from 'instana-ui-sdk/snapshot';
 import * as constants from 'instana-ui-forge/constants';
@@ -13,8 +14,15 @@ import SidebarSubheading from '../../../sdk/SidebarSubheading';
 import EC2Infos from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Infos';
 import HardwareInfo from '../HardwareInfo';
 
+const rpt = React.PropTypes;
 const Sidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    snapshot: irpt.map.isRequired,
+    timeframe: rpt.number.isRequired,
+    width: rpt.number.isRequired
+  },
 
   render() {
     const data = this.props.snapshot.get('data');

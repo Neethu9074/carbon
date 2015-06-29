@@ -24,9 +24,9 @@ const ChartWrapper = React.createClass({
 
     width: rpt.number.isRequired,
     height: rpt.number.isRequired,
-    margins: rpt.object.isRequired,
+    margins: rpt.object,
 
-    seriesConfig: rpt.array.isRequired,
+    seriesConfig: rpt.array,
     windowSize: rpt.number.isRequired,
     snapshot: irpt.map.isRequired,
     metrics: rpt.arrayOf(rpt.string).isRequired
