@@ -22,12 +22,6 @@ const ChartDemo = React.createClass({
         <Chart type='stackedArea'
                width={1500}
                height={300}
-               margins={{
-                 top: 10,
-                 right: 40,
-                 bottom: 50,
-                 left: 40
-               }}
                seriesConfig={[
                  {label: 'cpu.total.user'},
                  {label: 'cpu.total.sys'},

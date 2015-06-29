@@ -35,7 +35,12 @@ const Chart = React.createClass({
       container: React.findDOMNode(this),
       width: this.props.width,
       height: this.props.height,
-      margins: this.props.margins,
+      margins: this.props.margins || {
+        top: 10,
+        right: 0,
+        bottom: 50,
+        left: 40
+      },
       seriesConfig: this.props.seriesConfig,
       windowSize: this.props.windowSize
     };
