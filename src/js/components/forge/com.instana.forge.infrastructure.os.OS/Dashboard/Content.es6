@@ -13,8 +13,8 @@ import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
+import Chart from '../../../sdk/charts/Chart';
 import HighChart from '../../../sdk/charts/HighChart';
-import StackedHighChart from '../../../sdk/charts/StackedHighChart';
 import ChartLegend from '../../../sdk/charts/ChartLegend';
 import Separator from '../../../sdk/Separator';
 import Mtd from '../../../sdk/Mtd';
@@ -37,49 +37,6 @@ const OsDashboard = React.createClass({
   getInitialState() {
     return {
       interfaceDatasources: null,
-
-      cpuUsageChartConfig: {
-        chart: {
-          type: 'area',
-          // Animations are not functional for stacked charts
-          // animation: Highcharts.svg,
-          animation: false,
-          height: 250
-        },
-        title: {
-          text: null
-        },
-        xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 150,
-          tickLength: 0,
-          minPadding: 0,
-          maxPadding: 0,
-          labels: {
-            y: 28
-          }
-        },
-        yAxis: {
-          title: {
-            text: null
-          },
-          min: 0,
-          max: 1,
-          tickLength: 0,
-          labels: {
-            x: -10
-          }
-        },
-        tooltip: {
-          enabled: false
-        },
-        legend: {
-          enabled: false
-        },
-        exporting: {
-          enabled: false
-        }
-      },
 
       cpuLoadChartConfig: {
         chart: {
@@ -275,16 +232,18 @@ const OsDashboard = React.createClass({
                           metricUnit='%'
                           metricValueFormatter={metricValueFormatter} />
 
-        <StackedHighChart snapshot={this.props.snapshot}
-                          timeframe={this.props.timeframe}
-                          metrics={[
-                            'cpu.total.user',
-                            'cpu.total.sys',
-                            'cpu.total.wait',
-                            'cpu.total.nice',
-                            'cpu.total.steal'
-                          ]}
-                          config={this.state.cpuUsageChartConfig} />
+        <Chart type='stackedArea'
+               snapshot={this.props.snapshot}
+               windowSize={this.props.timeframe}
+               metrics={[
+                 'cpu.total.user',
+                 'cpu.total.sys',
+                 'cpu.total.wait',
+                 'cpu.total.nice',
+                 'cpu.total.steal'
+               ]}
+               width={700}
+               height={700} />
 
         <Separator />
 
