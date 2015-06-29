@@ -17,6 +17,7 @@ import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import LineFactory from './factories/LineFactory';
 import MouseCameraController from './controls/mouseCameraController';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
+// import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import * as time from './timeCalculations';
 import {createLogger} from 'instalog';
 import {select} from 'instana-ui-services/stores/selectedSnapshot';
@@ -100,6 +101,8 @@ export default class Scene {
   setupFactories() {
     this.singleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 3});
+
+    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene: this});
 
     this.groundSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 2});
@@ -278,6 +281,8 @@ export default class Scene {
   }
 
   updateMetricHeights() {
+    // this.singleMeshMetricFactory.updateHeights();
+
     //if there is an active metric to be rendered, update the heights
     if(this.activeMetricFactory) {
       this.activeMetricFactory.updateHeights();

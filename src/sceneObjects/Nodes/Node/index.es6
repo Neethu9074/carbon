@@ -23,6 +23,7 @@ import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/
 import VATOCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
+// import SCCP from '../../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 /*eslint-enable max-len*/
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
@@ -206,6 +207,20 @@ export default class Node extends BaseNode {
 
   showMetrics() {
     this.switchStateIfNext({inactive: true});
+
+    // const position = this.getPosition();
+    // const size = {x: 0.9, y: 0.9, z: 0.9};
+    // const frag = {
+    //   id: this.id,
+    //   contentProvider: new PCM({
+    //     contentProvider: new SCM({
+    //       contentProvider: new SCCP({numSlices: Math.ceil(Math.random() * 5)}),
+    //       x: size.x, y: size.y, z: size.z
+    //     }),
+    //     x: position.x - size.x / 2, y: position.y, z: position.z + size.z / 2
+    //   })
+    // };
+    // this.scene.singleMeshMetricFactory.addFragment(frag);
   }
 
   hideMetrics() {
@@ -213,6 +228,8 @@ export default class Node extends BaseNode {
       highlighted: this.highlighting.isHighlighted,
       inactive: false
     });
+
+    // this.scene.singleMeshMetricFactory.removeFragment(this.id);
   }
 
   setSingleMetricValue(value) {
@@ -222,6 +239,7 @@ export default class Node extends BaseNode {
 
     //scale the collision cube to the max pillar size
     this.updateMetricCollisionObject(value);
+    this.updateFactoryValues([value]);
   }
 
   setMultiMetricValue(values) {
@@ -229,6 +247,11 @@ export default class Node extends BaseNode {
 
     //set the value to the total node height for better mouseover
     this.updateMetricCollisionObject(this.height);
+    this.updateFactoryValues(values);
+  }
+
+  updateFactoryValues() {
+    // this.scene.singleMeshMetricFactory.setMetricValues(this.id, values);
   }
 
   setWiredSnapshots(wiredSnapshots) {
@@ -300,7 +323,7 @@ export default class Node extends BaseNode {
     } else {
       //trigger the show method just once
       if(this.outsideViewFrustum) {
-        this.showMetric();
+        this.snapshotServer.resumeMetrics();
         this.outsideViewFrustum = false;
       }
       this.updateStickyNotes();
@@ -313,12 +336,6 @@ export default class Node extends BaseNode {
 
     //disable metrics if the node isn't visible
     this.snapshotServer.pauseMetrics();
-  }
-
-  showMetric() {
-    //enable metrics if the node is visible but only if there is no "active"
-    //hideMetrics event
-    this.snapshotServer.resumeMetrics();
   }
 
   onSnapshotUpdate(snapshot) {
