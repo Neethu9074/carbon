@@ -22,12 +22,11 @@ export default class SingleMeshFactory {
     });
 
     //a global mesh that stores global geometry
-    const mesh = new THREE.Mesh(this.geometry, this.material);
+    const mesh = this.mesh = new THREE.Mesh(this.geometry, this.material);
     mesh.matrixAutoUpdate = false;
     mesh.rotationAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.renderOrder = renderOrder;
-    this.mesh = mesh;
 
     this.buildGeometry();
     this.scene.addSceneObject(this.mesh);
@@ -113,9 +112,6 @@ export default class SingleMeshFactory {
       colors: new Float32Array(colors),
       vertices: new Float32Array(vertices)
     });
-
-    this.scene.removeSceneObject(this.mesh);
-    this.scene.addSceneObject(this.mesh);
   }
 
   updateGeometry({colors, vertices}) {

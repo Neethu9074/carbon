@@ -419,7 +419,6 @@ export default class Scene {
     let octree = this.octrees[layer];
     if(!octree) {
       octree = this.octrees[layer] = this.createOctree();
-      logger.info('create octree at layer', layer);
     }
 
     octree.add(obj, {useFaces: false});
