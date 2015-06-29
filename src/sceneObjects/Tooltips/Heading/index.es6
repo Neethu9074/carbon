@@ -9,8 +9,8 @@ export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    className: React.PropTypes.string.isRequired,
-    style: React.PropTypes.object.isRequired,
+    className: React.PropTypes.string,
+    style: React.PropTypes.object,
     children: React.PropTypes.any.isRequired
   },
 

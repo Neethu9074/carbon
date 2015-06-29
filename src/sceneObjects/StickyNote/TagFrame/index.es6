@@ -12,8 +12,7 @@ export default React.createClass({
 
   propTypes: {
     sceneObject: rpt.object.isRequired,
-    tags: rpt.array.isRequired,
-    className: rpt.string.isRequired
+    tags: rpt.array.isRequired
   },
 
   render() {
