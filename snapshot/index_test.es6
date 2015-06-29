@@ -57,15 +57,6 @@ describe('snapshot', () => {
       mod.addIconFinder('docker', () => 'container');
       expect(mod.getIcon(snapshot)).to.equal(truck);
     });
-
-    it('should fall back to a default icon', () => {
-      expect(mod.getIcon(snapshot)).to.equal('server');
-    });
-
-    it('should support configurable default icons', () => {
-      expect(mod.getIcon(snapshot, 'wtf')).to.equal('wtf');
-    });
-
   });
 
 });
