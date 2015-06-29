@@ -73,20 +73,20 @@ const Chart = React.createClass({
     // this.chart.start();
 
     // this.props.config.seriesConfig.forEach((seriesConfig, seriesIndex) => {
-    //   for (let i = 0; i <= this.props.config.windowSize; i++) {
-    //     this.chart.addDataPoint(seriesIndex, {
-    //       x: i,
-    //       y: Math.random()
-    //     });
-    //   }
+      // for (let i = 0; i <= this.props.config.windowSize; i++) {
+      //   this.chart.addDataPoint(seriesIndex, {
+      //     x: i,
+      //     y: Math.random()
+      //   });
+      // }
     //
     //   let iterationCount = 1;
-    //   setInterval(() => {
-    //     this.chart.addDataPoint(seriesIndex, {
-    //       x: this.props.config.windowSize + iterationCount++,
-    //       y: Math.random()
-    //     });
-    //   }, 1000);
+      // setInterval(() => {
+      //   this.chart.addDataPoint(seriesIndex, {
+      //     x: this.props.config.windowSize + iterationCount++,
+      //     y: Math.random()
+      //   });
+      // }, 1000);
     // });
     //
     // this.chart.start();
