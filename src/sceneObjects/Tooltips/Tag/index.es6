@@ -25,7 +25,7 @@ const StickyNoteRC = React.createClass({
 
     return (
       <TooltipFrame>
-        <Heading style={{color: getColor(tag)}}
+        <Heading style={{color: getColor(tag.label)}}
                  className='in-tooltip__tag-heading'
          >
           {tag.label}

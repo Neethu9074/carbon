@@ -30,7 +30,7 @@ export default React.createClass({
 
   render() {
      return (
-      <div style={{backgroundColor: getColor(this.props.tag)}}
+      <div style={{backgroundColor: getColor(this.props.tag.label)}}
            className='in-sticky-note__tag'
            onMouseOver={this.mouseOver}
            onMouseOut={this.mouseOut}>
