@@ -71,16 +71,7 @@ export default class SingleMeshFactory {
     this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);
     this.colors.splice(indexInVertices, numElements, ...fragment.colors);
 
-    const geometry = this.geometry;
-
-    geometry.addAttribute('position',
-      new THREE.BufferAttribute(new Float32Array(this.vertices), 3));
-
-    geometry.addAttribute('color',
-      new THREE.BufferAttribute(new Float32Array(this.colors), 3));
-
-    geometry.attributes.color.needsUpdate = true;
-    geometry.attributes.position.needsUpdate = true;
+    this.updateGeometry({vertices: this.vertices, colors: this.colors});
   }
 
   getFragment(id) {
@@ -108,20 +99,17 @@ export default class SingleMeshFactory {
     this.vertices = vertices;
     this.colors = colors;
 
-    this.updateGeometry({
-      colors: new Float32Array(colors),
-      vertices: new Float32Array(vertices)
-    });
+    this.updateGeometry({colors, vertices});
   }
 
   updateGeometry({colors, vertices}) {
     const geometry = this.geometry;
 
     geometry.addAttribute('position',
-      new THREE.BufferAttribute(vertices, 3)); //x, y, z
+      new THREE.BufferAttribute(new Float32Array(vertices), 3));
 
     geometry.addAttribute('color',
-      new THREE.BufferAttribute(colors, 3)); //r, g, b
+      new THREE.BufferAttribute(new Float32Array(colors), 3));
 
     geometry.attributes.color.needsUpdate = true;
     geometry.attributes.position.needsUpdate = true;
