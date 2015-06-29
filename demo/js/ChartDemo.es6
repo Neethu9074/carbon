@@ -14,15 +14,15 @@ const ChartDemo = React.createClass({
 
   render() {
     return (
-      <div style={{background: 'white', display: 'inline-block'}}>
+      <div style={{display: 'inline-block'}}>
         <Chart config={{
           type: 'stackedArea',
-          width: 700,
+          width: 1500,
           height: 300,
           margins: {
-            top: 0,
+            top: 10,
             right: 40,
-            bottom: 40,
+            bottom: 50,
             left: 40
           },
           seriesConfig: [
@@ -32,7 +32,7 @@ const ChartDemo = React.createClass({
             {label: 'cpu.total.wait'},
             {label: 'cpu.total.steal'}
           ],
-          windowSize: 30
+          windowSize: 50
         }} />
       </div>
     );

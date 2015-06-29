@@ -3,6 +3,7 @@
 import React from 'react/addons';
 
 import StackedAreaRenderer from './render/StackedAreaRenderer';
+import LineRenderer from './render/LineRenderer';
 
 import './Chart.less';
 
@@ -24,7 +25,7 @@ const Chart = React.createClass({
   componentDidMount() {
     const container = React.findDOMNode(this);
     this.props.config.container = container;
-    this.chart = new StackedAreaRenderer(this.props.config);
+    this.chart = new LineRenderer(this.props.config);
 
     this.props.config.seriesConfig.forEach((seriesConfig, seriesIndex) => {
       for (let i = 0; i <= this.props.config.windowSize; i++) {

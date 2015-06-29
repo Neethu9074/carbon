@@ -8,8 +8,8 @@ import {theme} from 'instana-ui-services/theme';
 import Queue from '../Queue';
 import Data from '../Data';
 
-const minReducer = (min, dataRow) => Math.Min(dataRow.y, min);
-const maxReducer = (max, dataRow) => Math.Max(dataRow.y, max);
+const minReducer = (min, dataRow) => Math.min(dataRow.y, min);
+const maxReducer = (max, dataRow) => Math.max(dataRow.y, max);
 
 export default class BaseRenderer {
 
@@ -24,11 +24,18 @@ export default class BaseRenderer {
     this.x = d3.time.scale.utc();
     this.x.axis = d3.svg.axis()
       .scale(this.x)
+      .ticks(5)
+      .tickSize(0)
+      .tickPadding(20)
       .orient('bottom');
+
     this.y = d3.scale.linear();
     this.y.axis = d3.svg.axis()
       .scale(this.y)
+      .ticks(5)
+      .tickPadding(20)
       .orient('left');
+
     this.queue = new Queue(this.seriesConfig.length);
     this.data = new Data({windowSize});
     this.tween = null;
@@ -46,6 +53,21 @@ export default class BaseRenderer {
   createCanvas() {
     this.container.classList.add('in-chart');
 
+    // the SVG will be used to position the axis
+    this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    this.svg.classList.add('in-chart__svg');
+    this.container.appendChild(this.svg);
+
+    this.x.axis.element = d3.select(this.svg)
+      .append('g')
+      .attr('class', 'x axis')
+      .call(this.x.axis);
+
+    this.y.axis.element = d3.select(this.svg)
+      .append('g')
+      .attr('class', 'y axis')
+      .call(this.y.axis);
+
     // The render canvas is the user visible paint area that is only populated
     // by this base class. All other classes draw onto the drawingCanvas.
     this.renderCanvas = document.createElement('canvas');
@@ -58,16 +80,6 @@ export default class BaseRenderer {
     // image information in this drawingCanvas and apply it to the renderCanvas.
     this.drawingCanvas = document.createElement('canvas');
     this.drawingCtx = this.drawingCanvas.getContext('2d');
-
-    // the SVG will be used to position the axis
-    this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    this.svg.classList.add('in-chart__svg');
-    this.container.appendChild(this.svg);
-
-    this.x.axis.element = d3.select(this.svg)
-      .append('g')
-      .attr('class', 'a axis')
-      .call(this.x.axis);
   }
 
   /**
@@ -143,19 +155,15 @@ export default class BaseRenderer {
     this.updateXDomain();
     this.updateYDomain();
 
+    this.clearRenderingCanvas();
     this.draw();
-    const imageData = this.drawingCtx.getImageData(
-      0,
-      0,
-      this.getDrawingCanvasWidth(),
-      this.height
-    );
-    this.renderCtx.putImageData(
-      imageData,
+    this.renderCtx.drawImage(
+      this.drawingCanvas,
       0,
       0
     );
     this.x.axis.element.call(this.x.axis);
+    this.y.axis.element.call(this.y.axis);
 
     this.rendering = false;
   }
@@ -176,13 +184,6 @@ export default class BaseRenderer {
     const animationEndPosition = this.width - this.margins.left -
       this.margins.right - this.x(maxX);
 
-    const imageData = this.drawingCtx.getImageData(
-      0,
-      0,
-      this.getDrawingCanvasWidth(),
-      this.height
-    );
-
     const onEnd = () => {
       window.cancelAnimationFrame(this.animationFrameHandle);
       this.data.expireOldDataColumns();
@@ -190,13 +191,24 @@ export default class BaseRenderer {
       this.rendering = false;
 
       TWEEN.remove(this.tween);
+
+      // If new data has arrived while the previous data was being processed,
+      // then we can immediately schedule a new render phase.
       const newDataColumns = this.queue.get();
       if (newDataColumns.length > 0) {
         this.render(newDataColumns);
       }
     };
 
+    this.x.axis.element.attr(
+      'transform',
+      'translate(' +
+        this.margins.left + ',' +
+        (this.height - this.margins.bottom) +
+      ')'
+    );
     this.x.axis.element.call(this.x.axis);
+    this.y.axis.element.call(this.y.axis);
 
     const self = this;
 
@@ -205,8 +217,9 @@ export default class BaseRenderer {
       // this cannot be an arrow function as tween.js is passing in x values
       // via the execution context
       .onUpdate(function() {
-        self.renderCtx.putImageData(
-          imageData,
+        self.clearRenderingCanvas();
+        self.renderCtx.drawImage(
+          self.drawingCanvas,
           this.x,
           0
         );
@@ -217,7 +230,6 @@ export default class BaseRenderer {
             (self.height - self.margins.bottom) +
           ')'
         );
-
       })
       .onComplete(onEnd)
       .onStop(onEnd)
@@ -294,13 +306,21 @@ export default class BaseRenderer {
     this.svg.setAttribute('height', this.height);
 
     this.x.range([0, this.width - horizontalMargin]);
-    this.y.range([this.height - verticalMargin, 0]);
-
     this.x.axis.element.attr(
       'transform',
       'translate(' +
         this.margins.left + ', ' +
         (this.height - this.margins.bottom) +
+      ')'
+    );
+
+    this.y.range([this.height - verticalMargin, 0]);
+    this.y.axis.tickSize(-1 * this.width + horizontalMargin, 0, 0);
+    this.y.axis.element.attr(
+      'transform',
+      'translate(' +
+        this.margins.left + ',' +
+        this.margins.top +
       ')'
     );
   }
@@ -309,8 +329,18 @@ export default class BaseRenderer {
     this.container.removeChild(this.renderCanvas);
     if (this.tween) {
       this.tween.stop();
+      TWEEN.remove(this.tween);
     }
     window.cancelAnimationFrame(this.animationFrameHandle);
+  }
+
+  clearRenderingCanvas() {
+    this.renderCtx.clearRect(
+      0,
+      0,
+      this.width - this.margins.left - this.margins.right,
+      this.height - this.margins.top - this.margins.bottom
+    );
   }
 
   clearDrawingCanvas() {
