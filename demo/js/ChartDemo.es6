@@ -49,8 +49,8 @@ const ChartDemo = React.createClass({
 
   chooseDimensions() {
     this.setState({
-      width: prompt('Width', 700),
-      height: prompt('Height', 300)
+      width: parseInt(prompt('Width', 700), 10),
+      height: parseInt(prompt('Height', 300), 10)
     });
   }
 });
