@@ -33,6 +33,7 @@ export default class LineRenderer extends BaseRenderer {
         }
       }
 
+      ctx.lineWidth = 2;
       ctx.strokeStyle = this.getSeriesColor(seriesIndex);
       ctx.stroke();
     });
