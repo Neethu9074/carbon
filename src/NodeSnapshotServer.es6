@@ -28,11 +28,6 @@ export default class NodeSnapshotServer {
       this.showMetrics();
     }));
 
-    this.subscriptions.push(eventBus.on('hideMetrics').subscribe(() => {
-      this.disposeMetricSubscription();
-      client.hideMetrics();
-    }));
-
     this.subscriptions.push(eventBus.on('upateMetricHeights').subscribe(() =>
       client.updateMetricHeight()));
 
@@ -52,6 +47,9 @@ export default class NodeSnapshotServer {
       if(metric) {
         currentMetric = metric.get('metrics');
         this.showMetrics();
+      } else {
+        this.disposeMetricSubscription();
+        client.hideMetrics();
       }
     }));
 
@@ -81,17 +79,7 @@ export default class NodeSnapshotServer {
       this.setupMultiMetric();
     }
 
-    const client = this.client;
-    client.showMetrics();
-
-    if(currentMetric.length > 0) {
-      client.switchStateIfNext({inactive: true});
-    } else {
-      client.switchStateIfNext({
-        inactive: false,
-        highlighted: client.highlighting.isHighlighted
-      });
-    }
+    this.client.showMetrics();
   }
 
   disposeMetricSubscription() {

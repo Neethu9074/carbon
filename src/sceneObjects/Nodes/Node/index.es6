@@ -205,9 +205,16 @@ export default class Node extends BaseNode {
     }
   }
 
-  showMetrics() {}
+  showMetrics() {
+    this.switchStateIfNext({inactive: true});
+  }
 
-  hideMetrics() {}
+  hideMetrics() {
+    this.switchStateIfNext({
+      highlighted: this.highlighting.isHighlighted,
+      inactive: false
+    });
+  }
 
   setSingleMetricValue(value) {
     this.scene.singleMetricFactory
@@ -326,6 +333,15 @@ export default class Node extends BaseNode {
     this.stickyNote.render();
   }
 
+  updateOfVisualComponents() {
+    super.updateOfVisualComponents();
+
+    const pos = this.getPosition();
+
+    this.cube.scale.y = this.height;
+    this.layer.forEach(p => p.setPosition(pos.x, p.getPosition().y, pos.z));
+  }
+
   setPosition(x, y, z) {
     const position = this.getPosition();
     if(x === position.x && y === position.y && z === position.z) {
@@ -333,8 +349,7 @@ export default class Node extends BaseNode {
     }
 
     super.setPosition(x, y, z);
-
-    this.layer.forEach(p => p.setPosition(x, p.getPosition().y, z));
+    this.updateOfVisualComponents();
   }
 
   setHeight(height) {
@@ -342,17 +357,8 @@ export default class Node extends BaseNode {
       return;
     }
 
-    //save height
-    this.height = height;
-
-    this.cube.scale.y = height;
-
-    const pos = this.getPosition();
-    super.setScreenPositionAnchor(pos.x, pos.y + height, pos.z);
-
-    this.refreshMesh();
-    this.arrangeChildren();
-    this.refreshFragment();
+    super.setHeight(height);
+    this.updateOfVisualComponents();
   }
 
   setHealth(newHealth) {

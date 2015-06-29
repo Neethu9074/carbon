@@ -70,16 +70,20 @@ export default class Scene {
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       if(!metric) {
-        eventBus.emit('setHullsInactive', false);
+        // eventBus.emit('setHullsInactive', false);
+        this.hullsAreInactive = false;
+        this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+        this.hideMetrics();
       } else {
         currentMetrics = metric.get('metrics');
-        eventBus.emit('setHullsInactive', true);
+        // eventBus.emit('setHullsInactive', true);
+        this.singleMeshFactory.material.opacity = 0.4;
+        this.singleMeshFactory.material.transparent = true;
+
+        this.hullsAreInactive = true;
         this.showMetrics();
       }
     }));
-
-    this.subscriptions.push(
-      eventBus.on('hideMetrics').subscribe((e) => this.hideMetrics(e)));
 
     this.subscriptions.push(eventBus.on('setHullsInactive').subscribe((e) => {
       if(e) {
@@ -462,7 +466,7 @@ export default class Scene {
       //activeMetricFactory is disposed on hideMetrics
       if(this.activeMetricFactory) {
         this.hideMetricsOnZoomOut = true;
-        eventBus.emit('hideMetrics', {hiddenByZoom: true});
+        this.hideMetrics({hiddenByZoom: true});
       }
     //if the metrics where hidden by zooming, resume them if the zoom
     //has reached the right level again
