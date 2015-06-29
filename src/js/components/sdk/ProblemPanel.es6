@@ -3,6 +3,7 @@
 import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
+import irpt from 'react-immutable-proptypes';
 
 import {getProblemsForSnapshot} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
@@ -17,6 +18,10 @@ const block = 'in-detail-panel';
 
 const ProblemPanel = React.createClass({
   mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
+
+  propTypes: {
+    snapshot: irpt.map.isRequired
+  },
 
   getInitialState() {
     return {

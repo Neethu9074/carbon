@@ -2,6 +2,7 @@
 
 import React from 'react/addons';
 import {IntlMixin, FormattedHTMLMessage} from 'react-intl';
+import irpt from 'react-immutable-proptypes';
 
 import {getZone} from 'instana-ui-sdk/zones';
 import {getColor} from 'instana-ui-sdk/zones';
@@ -13,6 +14,12 @@ import './Listing.less';
 
 const Listing = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
+
+  propTypes: {
+    snapshots: irpt.seq.isRequired,
+    highlightedSnapshot: irpt.map.isRequired,
+    snapshotsWiredToHighlightedSnapshot: irpt.seq.isRequired
+  },
 
   render() {
     const snapshots = {};
@@ -35,20 +42,20 @@ const Listing = React.createClass({
             zones={Object.keys(snapshots).length} />
         </h1>
 
-        <ul className="in-sidebar-server-listing__zones">
+        <ul className='in-sidebar-server-listing__zones'>
           {zones.map(zone =>
-            <li key={zone} className="in-sidebar-server-listing__zone">
-              <h2 className="in-sidebar-server-listing__zone-label"
+            <li key={zone} className='in-sidebar-server-listing__zone'>
+              <h2 className='in-sidebar-server-listing__zone-label'
                   style={{color: getColor(zone)}}>
                 {zone}
 
-                <span className="in-sidebar-server-listing__server-count"
+                <span className='in-sidebar-server-listing__server-count'
                       style={{backgroundColor: getColor(zone)}}>
                   {snapshots[zone].length}
                 </span>
               </h2>
 
-              <ul className="in-sidebar-server-listing__snapshots">
+              <ul className='in-sidebar-server-listing__snapshots'>
                 {snapshots[zone].map(snapshot =>
                   <ServerItem snapshot={snapshot}
                               key={getIdString(snapshot)}

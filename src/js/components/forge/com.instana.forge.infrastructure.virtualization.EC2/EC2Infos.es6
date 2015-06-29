@@ -1,11 +1,16 @@
 'use strict';
 
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from '../../sdk/DescriptionList';
 
 const EC2Infos = React.createClass({
   mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    data: irpt.map.isRequired
+  },
 
   render() {
     const data = this.props.data;

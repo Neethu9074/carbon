@@ -1,3 +1,5 @@
+/*eslint-disable react/no-multi-comp*/
+
 'use strict';
 
 import React from 'react';
@@ -6,9 +8,15 @@ import classnames from 'instana-ui-services/util/classnames';
 
 import './DescriptionList.less';
 
+const rpt = React.PropTypes;
 const block = 'in-detail-pane';
 
 export const DescriptionList = React.createClass({
+
+  propTypes: {
+    children: rpt.any.isRequired,
+    horizontal: rpt.bool
+  },
 
   render() {
     return (

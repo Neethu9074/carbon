@@ -362,8 +362,8 @@ const OsDashboard = React.createClass({
               <th></th>
               <th></th>
               <th></th>
-              <th colSpan="4">Received (RX)</th>
-              <th colSpan="4">Transmitted (TX)</th>
+              <th colSpan='4'>Received (RX)</th>
+              <th colSpan='4'>Transmitted (TX)</th>
             </tr>
             <tr>
               <th>Interface</th>

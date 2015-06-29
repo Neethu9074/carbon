@@ -4,8 +4,14 @@ import React from 'react/addons';
 
 import './ContentHeading.less';
 
+const rpt = React.PropTypes;
+
 const ContentHeading = React.createClass({
   mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    children: rpt.any.isRequired
+  },
 
   render() {
     return (

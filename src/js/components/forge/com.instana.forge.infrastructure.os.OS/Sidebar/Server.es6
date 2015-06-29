@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
@@ -15,10 +16,17 @@ import {theme} from 'instana-ui-services/theme';
 
 import './Server.less';
 
+const rpt = React.PropTypes;
 const block = 'in-sidebar-server-listing__snapshot';
 
 const Server = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+
+  propTypes: {
+    snapshot: irpt.map.isRequired,
+    highlighted: rpt.bool.isRequired,
+    wired: rpt.bool.isRequired
+  },
 
   getInitialState() {
     return {
@@ -72,9 +80,9 @@ const Server = React.createClass({
         throw new Error('Unrecognized health ' + this.state.health);
     }
 
-    return <Icon style={{color}}
-                 type={type}
-                 className={block + '-health'}/>;
+    return (<Icon style={{color}}
+                  type={type}
+                  className={block + '-health'}/>);
   },
 
   onClick() {
