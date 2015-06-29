@@ -128,6 +128,13 @@ export function calculateIpMap(snapshots) {
         });
       });
     }
+    const ec2 = host.getIn(['data',
+                             constants.rels.describes,
+                             constants.plugins.ec2],
+                            Immutable.Map()).valueSeq().first();
+    if (ec2) {
+      map.set(ec2.get('public-ipv4'), host);
+    }
   });
 
   return map.asImmutable();
