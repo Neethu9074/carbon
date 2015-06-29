@@ -11,7 +11,7 @@ const block = 'in-detail-pane-panel';
 const Panel = React.createClass({
   propTypes: {
     title: React.PropTypes.string.isRequired,
-    children: React.PropTypes.renderable.isRequired
+    children: React.PropTypes.any.isRequired
   },
 
   render() {

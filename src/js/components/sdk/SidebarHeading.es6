@@ -8,7 +8,7 @@ const SidebarHeading = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    children: React.PropTypes.renderable.isRequired
+    children: React.PropTypes.any.isRequired
   },
 
   render() {
