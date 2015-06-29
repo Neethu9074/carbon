@@ -194,8 +194,8 @@ export default class Connection extends SceneObject {
     scene.renderScene();
   }
 
-  refresh() {
-    //render will call setIndirectHighlight, so clear it before
+  updateOfVisualComponents() {
+    //render() will call setIndirectHighlight, so clear it before
     this.from.highlighting.clearIndirectHighlight();
     this.to.highlighting.clearIndirectHighlight();
 

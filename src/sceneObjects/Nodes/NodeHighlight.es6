@@ -173,7 +173,7 @@ export default class NodeHighlight extends Highlight {
 
     //client is for unselected nodes which have incoming connections from
     //selected ones. if client position changes -> update the connection too
-    client.incomingConnections.forEach(c => c.refresh());
+    client.incomingConnections.forEach(c => c.updateOfVisualComponents());
   }
 
   refresh() {

@@ -46,7 +46,7 @@ export default class Group extends SceneObject {
   }
 
   addCollisionPlane() {
-    const plane = this.collosionPlane = new THREE.Mesh(collisionGeometry);
+    const plane = this.collisionPlane = new THREE.Mesh(collisionGeometry);
     plane.rotation.x = -Math.PI / 2;
     plane.matrixAutoUpdate = false;
     plane.rotationAutoUpdate = false;
@@ -123,30 +123,30 @@ export default class Group extends SceneObject {
     this.switchStateIfNext({highlighted});
   }
 
+  updateOfVisualComponents() {
+    const pos = this.getPosition();
+    const size = this.size;
+    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + size.z / 2);
+    this.collisionPlane.scale.set(size.x, size.z, 1);
+
+    this.refreshCollisionObject();
+    this.refreshGroundGeometry();
+  }
+
   setPosition(x, y, z) {
     super.setPosition(x, y, z);
-    super.setScreenPositionAnchor(x, y, z + this.size.z / 2);
 
-    this.collosionPlane.position.set(x, y, z);
-    this.refreshCollisionObject();
-
-    this.refreshGroundGeometry();
+    this.updateOfVisualComponents();
   }
 
   setScale(x, y, z) {
     this.size = {x, y, z};
 
-    const pos = this.getPosition();
-    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + z / 2);
-
-    this.collosionPlane.scale.set(x, z, 1);
-    this.refreshCollisionObject();
-
-    this.refreshGroundGeometry();
+    this.updateOfVisualComponents();
   }
 
   refreshCollisionObject() {
-    const plane = this.collosionPlane;
+    const plane = this.collisionPlane;
     plane.updateMatrix();
     plane.updateMatrixWorld();
     this.removeCollisionObject(plane);
@@ -186,9 +186,9 @@ export default class Group extends SceneObject {
 
   dispose() {
     this.children.forEach(node => node.dispose());
-    this.getScene().lineFactory.removeFragment(this.id);
 
-    this.removeCollisionObject(this.collosionPlane);
+    this.getScene().lineFactory.removeFragment(this.id);
+    this.removeCollisionObject(this.collisionPlane);
 
     super.dispose();
 

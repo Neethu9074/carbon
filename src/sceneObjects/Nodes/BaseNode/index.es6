@@ -52,6 +52,7 @@ export default class BaseNode extends SceneObject {
     this.scene = parent.getScene();
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
+    this.height = 1;
 
     this.connections = [];
     this.incomingConnections = [];
@@ -183,6 +184,16 @@ export default class BaseNode extends SceneObject {
     });
   }
 
+  updateOfVisualComponents() {
+    const pos = this.getPosition();
+    super.setScreenPositionAnchor(pos.x, pos.y + this.height, pos.z);
+
+    this.cube.position.set(pos.x, pos.y, pos.z);
+
+    this.refreshMesh();
+    this.refreshFragment();
+  }
+
   setPosition(x, y, z) {
     const pos = this.getPosition();
     if(pos.x === x && pos.y === y && pos.z === z) {
@@ -190,17 +201,14 @@ export default class BaseNode extends SceneObject {
     }
 
     super.setPosition(x, y, z);
-    super.setScreenPositionAnchor(x, y + this.cube.scale.y, z);
-
-    this.cube.position.set(x, y, z);
-
-    this.refreshMesh();
-    this.refreshFragment();
+    this.updateOfVisualComponents();
   }
 
-  getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
+  setHeight(height) {
+    this.height = height;
 
-  setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
+    this.updateOfVisualComponents();
+  }
 
   refreshMesh() {
     this.cube.updateMatrix();
@@ -238,6 +246,20 @@ export default class BaseNode extends SceneObject {
     };
   }
 
+  enableFragments(enable) {
+    if(enable) {
+      this.refreshFragment();
+    } else {
+      this.scene.singleMeshFactory.removeFragment(this.id);
+    }
+  }
+
+  removeFromGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
+
+  getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
+
+  setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
+
   getDimension() {
     return {width: 1, depth: 1};
   }
@@ -264,16 +286,6 @@ export default class BaseNode extends SceneObject {
     super.hide();
     this.enableFragments(false);
   }
-
-  enableFragments(enable) {
-    if(enable) {
-      this.refreshFragment();
-    } else {
-      this.scene.singleMeshFactory.removeFragment(this.id);
-    }
-  }
-
-  removeFromGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
   clearConnections() {
     this.connections.slice().forEach(c => c.dispose());

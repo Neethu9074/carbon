@@ -63,6 +63,11 @@ export default class SceneObject {
     this.subscriptions.push(subscription);
   }
 
+  //this method is introduced to get a better handling of the hole merged
+  //geometry / factory stuff. each specific sceneObject should implement it and
+  //and do all update stuff here.
+  updateOfVisualComponents() {throw new Error('NOT IMPLEMENTED'); }
+
   getScene() {
     return this.parent.getScene();
   }

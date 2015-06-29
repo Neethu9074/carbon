@@ -235,6 +235,11 @@ export default class PhysicalMap extends SceneObject {
     return match;
   }
 
+  updateOfVisualComponents() {
+    //the map has no visual representation but the ground
+    //and this isn't changing
+  }
+
   onZoom(zoomLevel) {
     const size = this.size;
     if(zoomLevel < 120) {
