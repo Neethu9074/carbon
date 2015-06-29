@@ -21,17 +21,19 @@ const StickyNoteRC = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: rpt.object.isRequired
+    snapshot: rpt.object.isRequired,
+    tags: rpt.array.isRequired
   },
 
   render() {
     const snapshot = this.props.snapshot;
     const data = snapshot.get('data');
     const tags = this.props.tags;
+    const sceneObject = this.props.sceneObject;
 
     return (
       <div className='in-sticky-note__node'>
-        {tags ? <TagFrame tags={tags} /> : null}
+        {tags ? <TagFrame tags={tags} sceneObject={sceneObject} /> : null}
         <NodeIcon snapshot={snapshot} />
       </div>
     );
@@ -42,13 +44,22 @@ const StickyNoteRC = React.createClass({
 export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
+
+    this.tags = []; // this.props.tags;
+    const numElements = 0; // Math.floor(Math.random() * 4);
+    for (let i = 0; i < numElements; i++) {
+      this.tags.push({label: 'tag_' + i});
+    }
+
     this.render();
   }
 
   render() {
     React.render(
       <StickyNoteRC snapshot={this.parent.snapshot}
-                    highlighted={this.highlighted}/>,
+                    highlighted={this.highlighted}
+                    sceneObject={this.parent}
+                    tags={this.tags}/>,
       this.stickyNoteContainer
     );
   }

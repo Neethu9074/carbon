@@ -11,13 +11,13 @@ export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: rpt.object.isRequired
+    sceneObject: rpt.object.isRequired
   },
 
   render() {
     const tags = this.props.tags.map((tag) => {
-      return <li key={tag} className='in-tooltip__node__tag-li'>
-        <Tag tag={tag}/>
+      return <li key={tag.label} className='in-tooltip__node__tag-li'>
+        <Tag tag={tag} sceneObject={this.props.sceneObject}/>
       </li>;
     });
 
