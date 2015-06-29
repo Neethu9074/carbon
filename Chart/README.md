@@ -4,7 +4,6 @@
 ```javascript
 {
   container: <HTML dom element in which the canvas will be placed>,
-  type: 'stackedArea',
   width: <chart width in pixels>,
   height: <chart height in pixels>,
   margins: {
