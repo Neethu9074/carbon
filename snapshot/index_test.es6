@@ -24,19 +24,22 @@ describe('snapshot', () => {
       const snapshots = getConnectedSnapshots();
       snapshots.forEach(snapshot => {
         const connections = extractConnections(snapshot, snapshots);
-
+        const outgoing = connections.get('outgoing');
+        const incoming = connections.get('incoming');
         if(snapshot.get('name') === 'a') {
-          expect(connections.get('outgoing').size).to.equal(3);
-          expect(connections.get('incoming').size).to.equal(0);
+          expect(outgoing.size).to.equal(3);
+          expect(incoming.size).to.equal(0);
         } else if(snapshot.get('name') === 'b') {
-          expect(connections.get('outgoing').size).to.equal(3);
-          expect(connections.get('incoming').size).to.equal(2);
+          expect(outgoing.size).to.equal(3);
+          expect(incoming.size).to.equal(2);
         } else if(snapshot.get('name') === 'c') {
-          expect(connections.get('outgoing').size).to.equal(0);
-          expect(connections.get('incoming').size).to.equal(1);
+          expect(outgoing.size).to.equal(1);
+          expect(incoming.size).to.equal(1);
+          expect(outgoing.get(0).get('name')).to.equal('ec2');
+          expect(incoming.get(0).get('name')).to.equal('d');
         } else if(snapshot.get('name') === 'd') {
-          expect(connections.get('outgoing').size).to.equal(0);
-          expect(connections.get('incoming').size).to.equal(0);
+          expect(outgoing.size).to.equal(0);
+          expect(incoming.size).to.equal(0);
         }
       });
     });
@@ -92,6 +95,9 @@ describe('snapshot', () => {
           connections: {
             incoming: [
               '1.1.1.4'
+            ],
+            outgoing: [
+              '46.137.99.225'
             ]
           }
         }
@@ -101,6 +107,17 @@ describe('snapshot', () => {
           interfaces: {
             eth0: {
               ips: ['1.1.1.4']
+            }
+          }
+        }
+      }, ec2: {
+        name: 'ec2',
+        data: {
+          'com.instana.sdk.annotation.Describes:reverse': {
+            'com.instana.forge.infrastructure.virtualization.EC2': {
+              'i-4f84b70f.ami-5256b825': {
+                'public-ipv4': '46.137.99.225'
+              }
             }
           }
         }
