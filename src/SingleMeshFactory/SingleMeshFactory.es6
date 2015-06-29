@@ -99,7 +99,7 @@ export default class SingleMeshFactory {
     fragment.colors = [];
     this.updateGeometryByFragment(fragment, numElementsToBeDeleted);
 
-    _.remove(this.fragments, fragment => fragment.id === id);
+    _.remove(this.fragments, frag => frag.id === id);
   }
 
   buildGeometry() {

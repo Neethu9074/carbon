@@ -4,12 +4,6 @@ import React from 'react/addons';
 import NodeIcon from '../NodeIcon';
 import StickyNote from '../StickyNote';
 import TagFrame from '../TagFrame';
-import {getHealth} from 'instana-ui-services/issueTracker';
-import {health} from 'instana-ui-services/health';
-import {
-  getProblemsForSnapshot,
-  getOpenIssues
-} from 'instana-ui-services/issueTracker';
 
 import './index.less';
 
@@ -22,6 +16,7 @@ const StickyNoteRC = React.createClass({
 
   propTypes: {
     snapshot: rpt.object.isRequired,
+    sceneObject: rpt.object.isRequired,
     tags: rpt.array.isRequired
   },
 

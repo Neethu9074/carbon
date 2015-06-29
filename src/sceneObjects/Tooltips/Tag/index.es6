@@ -5,21 +5,19 @@ import Tooltip from '../Tooltip';
 
 import TooltipFrame from '../index';
 import Heading from '../Heading';
-import Content from '../Content';
 
 import {getColor} from 'instana-ui-sdk/tags';
 
 import './index.less';
 
 
-const rpt = React.PropTypes;
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    tag: rpt.object.isRequired
+    tag: React.PropTypes.object.isRequired
   },
 
   render() {

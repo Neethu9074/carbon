@@ -3,7 +3,6 @@
 import THREE from 'three';
 
 import _ from 'lodash';
-import Immutable from 'immutable';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConnectionGrid from '../connectionGrid';
 import eventBus from 'instana-ui-services/eventbus';
@@ -14,10 +13,7 @@ import Layouter from '../layout';
 import {create} from 'instana-ui-services/conveyer';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getAllNodes, getAllGroups} from '../mapStructureUtils';
-import {
-  isIdEqual,
-  getIdString,
-  extractConnections} from 'instana-ui-services/util/snapshots';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.Group');
@@ -189,9 +185,9 @@ export default class PhysicalMap extends SceneObject {
     const nodes = getAllNodes(this)
       .filter(n => isIdEqual(n.snapshot, node));
 
-    nodes.forEach(node => {
-      if(node.parent.id !== groupId) {
-        node.dispose();
+    nodes.forEach(n => {
+      if(n.parent.id !== groupId) {
+        n.dispose();
       }
     });
   }

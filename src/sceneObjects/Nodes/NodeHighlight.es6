@@ -1,15 +1,12 @@
 'use strict';
 
 /*eslint-disable max-len*/
-import THREE from 'three';
-
 import Highlight from '../Highlight';
 import eventBus from 'instana-ui-services/eventbus';
 import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import VATOCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
-import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
 /*eslint-enable max-len*/
 
 export default class NodeHighlight extends Highlight {

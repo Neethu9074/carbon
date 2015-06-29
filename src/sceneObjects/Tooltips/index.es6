@@ -9,6 +9,11 @@ export default React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
+  propTypes: {
+    children: React.PropTypes.any.isRequired
+  },
+
+
   render() {
     return (
       <div>

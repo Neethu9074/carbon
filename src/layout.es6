@@ -4,7 +4,6 @@ import THREE from 'three';
 import ConnectionGrid from './connectionGrid';
 import Group from './sceneObjects/Group/index';
 import {getAllNodes, getChildren} from './mapStructureUtils';
-import {getPower} from 'instana-ui-sdk/power';
 
 
 export default class Layouter {

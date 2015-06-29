@@ -12,9 +12,14 @@ const StickyNoteRC = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
+  propTypes: {
+    color: React.PropTypes.string.isRequired,
+    label: React.PropTypes.string.isRequired
+  },
+
   render() {
     return (
-      <div className="in-sticky-note__group__content"
+      <div className='in-sticky-note__group__content'
            style={{backgroundColor: this.props.color}}>
         {this.props.label}
       </div>

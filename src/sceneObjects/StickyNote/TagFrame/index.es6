@@ -11,18 +11,20 @@ export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    sceneObject: rpt.object.isRequired
+    sceneObject: rpt.object.isRequired,
+    tags: rpt.array.isRequired,
+    className: rpt.string.isRequired
   },
 
   render() {
     const tags = this.props.tags.map((tag) => {
-      return <li key={tag.label} className='in-tooltip__node__tag-li'>
+      return (<li key={tag.label} className='in-tooltip__node__tag-li'>
         <Tag tag={tag} sceneObject={this.props.sceneObject}/>
-      </li>;
+      </li>);
     });
 
     return (
-      <div className="in-sticky-note__tag-frame">
+      <div className='in-sticky-note__tag-frame'>
         <ul className='in-tooltip__node__tag-ul'>
           {tags}
         </ul>

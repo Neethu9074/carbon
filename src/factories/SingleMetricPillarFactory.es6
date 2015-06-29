@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import TWEEN from 'tween.js'
+import TWEEN from 'tween.js';
 
 import MeshFactory from './MeshFactory';
 import {theme} from 'instana-ui-services/theme';

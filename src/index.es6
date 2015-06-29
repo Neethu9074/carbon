@@ -5,10 +5,11 @@ import React from 'react/addons';
 import Scene from './Scene';
 
 const UiMap = React.createClass({
+
   mixins: [React.addons.PureRenderMixin],
 
-  render() {
-    return <div className="in-map" ref="parent"/>;
+  propTypes: {
+    pluginId: React.PropTypes.any.isRequired
   },
 
   componentDidMount() {
@@ -25,6 +26,10 @@ const UiMap = React.createClass({
 
   focus(snapshotId) {
     this.scene.focus(snapshotId);
+  },
+
+  render() {
+    return (<div className='in-map' ref='parent'/>);
   }
 
 });

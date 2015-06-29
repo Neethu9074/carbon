@@ -11,6 +11,11 @@ const StickyNoteRC = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
+  propTypes: {
+    style: React.PropTypes.object.isRequired,
+    height: React.PropTypes.any.isRequired
+  },
+
   render() {
     //const numLayer = this.props.numLayer;
     const style = {height: this.props.height};

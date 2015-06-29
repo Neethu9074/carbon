@@ -2,8 +2,6 @@
 
 import THREE from 'three';
 
-import React from 'react';
-
 import SceneObject from './SceneObject';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 

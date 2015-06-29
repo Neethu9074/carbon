@@ -3,7 +3,7 @@
 'use strict';
 
 import THREE from 'three';
-import {expect, assert} from 'chai';
+import {expect} from 'chai';
 import CameraController from './cameraController';
 
 describe('3D map', () => {

@@ -1,6 +1,5 @@
 'use strict';
 
-import THREE from 'three';
 import Hammer from 'hammerjs';
 
 import CameraController from './cameraController';

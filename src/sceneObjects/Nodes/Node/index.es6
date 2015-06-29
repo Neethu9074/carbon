@@ -8,7 +8,6 @@ import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
-import eventBus from 'instana-ui-services/eventbus';
 
 import BaseNode from '../BaseNode/index';
 import Layer from '../../Layer';

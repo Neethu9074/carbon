@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import State from '../State';
+
 
 export default class SceneObject {
 

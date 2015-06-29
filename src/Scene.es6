@@ -1,10 +1,9 @@
 'use strict';
 
 import THREE from 'three';
-import Tween from 'tween.js'
-import {isIdEqual, extractId} from 'instana-ui-services/util/snapshots';
+import Tween from 'tween.js';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
-import immutable from 'immutable';
 
 import './lib/Octree';
 
@@ -25,8 +24,6 @@ import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 const logger = createLogger('ui-map.Group');
 let currentMetrics = [];
-
-import _ from 'lodash';
 
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;

@@ -10,6 +10,11 @@ export default React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
+  propTypes: {
+    hostname: React.PropTypes.string.isRequired,
+    time: React.PropTypes.string.isRequired
+  },
+
   render() {
     return (
       <div className='in-tooltip__statusline'>

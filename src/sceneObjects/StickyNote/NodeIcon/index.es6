@@ -18,7 +18,7 @@ export default React.createClass({
     const icon = getIcon(this.props.snapshot);
 
     return (
-      <div className="in-sticky-note__icon">
+      <div className='in-sticky-note__icon'>
         <div className='in-sticky-note__icon-background'>
           {icon ?
             <img src={icon} className='in-sticky-note__icon-svg'/> : null}

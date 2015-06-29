@@ -1,7 +1,5 @@
 'use strict';
 
-import THREE from 'three';
-
 import TouchController from './touchCameraController';
 import eventBus from 'instana-ui-services/eventbus';
 

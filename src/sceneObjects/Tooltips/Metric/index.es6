@@ -13,7 +13,6 @@ import {theme} from 'instana-ui-services/theme';
 
 import './index.less';
 
-const rpt = React.PropTypes;
 
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
@@ -21,7 +20,7 @@ const StickyNoteRC = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: rpt.object.isRequired
+    snapshot: React.PropTypes.object.isRequired
   },
 
   getInitialState() {
@@ -95,7 +94,7 @@ const StickyNoteRC = React.createClass({
       const style = {color: color};
       const metricName = names[index];
 
-      return <li key={metricName} className='in-tooltip__node__li'>
+      return (<li key={metricName} className='in-tooltip__node__li'>
         <Heading
           className={'in-tooltip__node__li__metric-name'}
           style={style}>
@@ -104,7 +103,7 @@ const StickyNoteRC = React.createClass({
         <Content className='in-tooltip__node__li__value'>
           {value * 100 + '%'}
         </Content>
-      </li>;
+      </li>);
     });
 
     return (

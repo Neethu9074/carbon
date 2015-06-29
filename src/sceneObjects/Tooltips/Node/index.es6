@@ -4,10 +4,8 @@ import React from 'react/addons';
 import Tooltip from '../Tooltip';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
-import {
-  getProblemsForSnapshot,
-  getOpenIssues
-} from 'instana-ui-services/issueTracker';
+import {getProblemsForSnapshot
+  } from 'instana-ui-services/issueTracker';
 
 import TooltipFrame from '../index';
 import IssueStatusLine from '../IssueStatusLine';
@@ -16,7 +14,6 @@ import Content from '../Content';
 
 import './index.less';
 
-const rpt = React.PropTypes;
 
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
@@ -24,7 +21,7 @@ const StickyNoteRC = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: rpt.object.isRequired
+    snapshot: React.PropTypes.object.isRequired
   },
 
   getInitialState() {
@@ -53,9 +50,9 @@ const StickyNoteRC = React.createClass({
     if((nodeHealth === health.warning || nodeHealth === health.danger) &&
       this.state.issues && this.state.issues.size > 0) {
         try {
-          return <IssueStatusLine
+          return (<IssueStatusLine
             hostname={data.get('hostname')}
-            time={this.state.issues.get(0).get('start')} />;
+            time={this.state.issues.get(0).get('start')} />);
         } catch (err) {
           return <IssueStatusLine hostname={data.get('hostname')} />;
         }

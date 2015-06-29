@@ -1,6 +1,5 @@
 'use strict';
 
-import THREE from 'three';
 import React from 'react';
 
 import './index.less';

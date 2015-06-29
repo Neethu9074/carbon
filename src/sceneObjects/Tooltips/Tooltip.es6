@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-import Hammer from 'hammerjs';
 import eventBus from 'instana-ui-services/eventbus';
 
 

@@ -1,9 +1,7 @@
 'use strict';
 
-import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
-import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
