@@ -1,6 +1,6 @@
 {
   "name": "instana-ui-sdk",
-  "version": "1.9.9",
+  "version": "1.9.10",
   "description": "The SDK provides an access point to pluggables",
   "main": "index.es6",
   "scripts": {
