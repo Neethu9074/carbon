@@ -2,7 +2,7 @@
 
 .in-sticky-note__node {
   position: absolute;
-  top: 0;
+  top: 16px;
 
   z-index: @z-index__sticky-notes;
 
@@ -12,4 +12,14 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.in-sticky-note__node-stack-wrapper {
+  background: blue;
+  position: relative;
+}
+
+.in-sticky-note__node-stack-children {
+  position: absolute;
+  bottom: 100%;
 }

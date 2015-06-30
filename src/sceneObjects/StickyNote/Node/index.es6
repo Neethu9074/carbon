@@ -17,6 +17,7 @@ const StickyNoteRC = React.createClass({
   propTypes: {
     snapshot: rpt.object.isRequired,
     sceneObject: rpt.object.isRequired,
+    showMetric: rpt.bool.isRequired,
     tags: rpt.array.isRequired
   },
 
@@ -27,9 +28,14 @@ const StickyNoteRC = React.createClass({
     const sceneObject = this.props.sceneObject;
 
     return (
-      <div className='in-sticky-note__node'>
-        {tags ? <TagFrame tags={tags} sceneObject={sceneObject} /> : null}
-        <NodeIcon snapshot={snapshot} />
+      <div className='in-sticky-note__node-stack-wrapper'>
+        <div className='in-sticky-note__node-stack-children'>
+          {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
+          {this.props.showMetric ?
+            <NodeIcon snapshot={snapshot} /> :
+            <div>42</div>
+          }
+        </div>
       </div>
     );
   }
@@ -40,8 +46,9 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
 
+    this.showMetric = true;
     this.tags = []; // this.props.tags;
-    const numElements = Math.floor(Math.random() * 0);
+    const numElements = Math.floor(Math.random() * 5);
     for (let i = 0; i < numElements; i++) {
       this.tags.push({label: 'tag_' + i});
     }
@@ -54,9 +61,20 @@ export default class StickyNoteNode extends StickyNote {
       <StickyNoteRC snapshot={this.parent.snapshot}
                     highlighted={this.highlighted}
                     sceneObject={this.parent}
+                    showMetric={this.showMetric}
                     tags={this.tags}/>,
       this.stickyNoteContainer
     );
+  }
+
+  switchToMetric() {
+    this.showMetric = true;
+    this.render();
+  }
+
+  switchToIcon() {
+    this.showMetric = false;
+    this.render();
   }
 
   dispose() {
