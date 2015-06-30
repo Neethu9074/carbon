@@ -42,8 +42,8 @@ const StickyNoteRC = React.createClass({
 
   subscribeToMulti(metrics) {
     const tempSubscriptions = metrics.map(metric => {
-      return this.createSingleMetricSource(metric.name);
-    });
+      return this.createSingleMetricSource(metric.get('name'));
+    }).toJS();
 
     this.metricSubscription = combineLatest(tempSubscriptions)
     .throttle(200)
@@ -67,8 +67,8 @@ const StickyNoteRC = React.createClass({
       this.disposeRxo(this.metricSubscription);
       this.setState({metrics});
 
-      if(metrics.length === 1) {
-        this.subscribeToSingle(metrics[0].name);
+      if(metrics.size === 1) {
+        this.subscribeToSingle(metrics.get(0).get('name'));
       } else {
         this.subscribeToMulti(metrics);
       }
@@ -82,7 +82,7 @@ const StickyNoteRC = React.createClass({
 
   render() {
     if(this.state.values.length === 0 ||
-      this.state.metrics.length === 0) {
+      this.state.metrics.size === 0) {
       return <div style={{height: 10}}></div>;
     }
     let colorIndex = 0;
@@ -96,7 +96,7 @@ const StickyNoteRC = React.createClass({
         colorIndex = 0;
       }
       const style = {color: color};
-      const metricName = names[index].label;
+      const metricName = names.get(index).get('label');
 
       return (
         <li key={metricName} className='in-tooltip__node__li'>

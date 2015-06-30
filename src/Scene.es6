@@ -91,7 +91,7 @@ export default class Scene {
         this.hullsAreInactive = true;
 
       //only set hulls to normal state if there is not active metric
-      } else if(currentMetrics.length === 0){
+    } else if(currentMetrics.size === 0){
         this.hullsAreInactive = false;
         this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
       }
@@ -294,7 +294,7 @@ export default class Scene {
     this.hideMetricFactoryMesh();
 
     //check if there are multiple metrics to be rendered
-    this.activeMetricFactory = currentMetrics.length > 1 ?
+    this.activeMetricFactory = currentMetrics.size > 1 ?
       this.multiMetricFactory : this.singleMetricFactory;
 
     this.activeMetricFactory.material.visible = true;

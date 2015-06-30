@@ -29,8 +29,8 @@ export default React.createClass({
       const metrics = metric.get('metrics');
       this.disposeRxo(this.metricSubscription);
 
-      if(metrics.length === 1) {
-        this.subscribeToSingle(metrics[0]);
+      if(metrics.size === 1) {
+        this.subscribeToSingle(metrics.get(0));
       } else {
         // this.subscribeToMulti(metrics);
       }
