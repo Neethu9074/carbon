@@ -52,6 +52,9 @@ export default class BaseRenderer {
 
   createCanvas() {
     this.container.classList.add('in-chart');
+    // hiding the canvas initially to avoid showing broken axes before
+    // anything has been painted
+    this.container.style.display = 'none';
 
     // the SVG will be used to position the axis
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -139,6 +142,11 @@ export default class BaseRenderer {
       this.renderBigUpdate();
     } else {
       this.renderIncrementalUpdate();
+    }
+
+    // the Chart will be hidden until the first successful paint
+    if (initialRendering) {
+      this.container.style.display = 'block';
     }
   }
 
