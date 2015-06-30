@@ -43,6 +43,7 @@ const ChartWrapper = React.createClass({
   },
 
   createDatasources() {
+    console.log('Creating datasources', this.props);
     const datasources = this.props.metrics.map(metric =>
       create(TimeWindowBasedMetricConveyer, {
         snapshot: this.props.snapshot,

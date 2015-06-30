@@ -26,6 +26,8 @@ const percentFormatter = d => commasFormatter(d * 100) + '%';
 const metricValueFormatter = d => commasFormatter(d * 100);
 const bytesPerSecondFormatter = d => formatBytes(d) + '/s';
 
+const chartHeight = 300;
+
 const OsDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
@@ -38,173 +40,8 @@ const OsDashboard = React.createClass({
   getInitialState() {
     return {
       interfaceDatasources: null,
-
-      cpuLoadChartConfig: {
-        chart: {
-          type: 'area',
-          animation: Highcharts.svg,
-          height: 250
-        },
-        title: {
-          text: null
-        },
-        xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 150,
-          tickLength: 0,
-          minPadding: 0,
-          maxPadding: 0,
-          labels: {
-            y: 28
-          }
-        },
-        yAxis: {
-          title: {
-            text: null
-          },
-          tickLength: 0,
-          labels: {
-            x: -10
-          }
-        },
-        tooltip: {
-          enabled: false
-        },
-        legend: {
-          enabled: false
-        },
-        exporting: {
-          enabled: false
-        }
-      },
-
       filesystemMetrics: null,
-      filesystemUsageChartConfig: null,
-
-      memoryFreeChartConfig: {
-        chart: {
-          type: 'area',
-          animation: Highcharts.svg,
-          height: 250
-        },
-        title: {
-          text: null
-        },
-        xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 150,
-          tickLength: 0,
-          minPadding: 0,
-          maxPadding: 0,
-          labels: {
-            y: 28
-          }
-        },
-        yAxis: {
-          title: {
-            text: null
-          },
-          tickLength: 0,
-          min: 0,
-          labels: {
-            x: -10,
-            formatter: function() {
-              return formatBytes(this.value);
-            }
-          }
-        },
-        tooltip: {
-          enabled: false
-        },
-        legend: {
-          enabled: false
-        },
-        exporting: {
-          enabled: false
-        }
-      },
-
-      interfaceMetrics: null,
-      interfaceChartConfig: {
-        chart: {
-          type: 'spline',
-          animation: Highcharts.svg,
-          height: 250
-        },
-        title: {
-          text: null
-        },
-        xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 150,
-          tickLength: 0,
-          minPadding: 0,
-          maxPadding: 0,
-          labels: {
-            y: 28
-          }
-        },
-        yAxis: {
-          title: {
-            text: null
-          },
-          tickLength: 0,
-          min: 0,
-          labels: {
-            x: -10,
-            formatter: function() {
-              return formatBytes(this.value);
-            }
-          }
-        },
-        tooltip: {
-          enabled: false
-        },
-        legend: {
-          enabled: false
-        },
-        exporting: {
-          enabled: false
-        }
-      },
-      tcpChartConfig: {
-        chart: {
-          type: 'spline',
-          animation: Highcharts.svg,
-          height: 250
-        },
-        title: {
-          text: null
-        },
-        xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 150,
-          tickLength: 0,
-          minPadding: 0,
-          maxPadding: 0,
-          labels: {
-            y: 28
-          }
-        },
-        yAxis: {
-          title: {
-            text: null
-          },
-          tickLength: 0,
-          labels: {
-            x: -10
-          }
-        },
-        tooltip: {
-          enabled: false
-        },
-        legend: {
-          enabled: false
-        },
-        exporting: {
-          enabled: false
-        }
-      }
+      interfaceMetrics: null
     };
   },
 
@@ -244,7 +81,7 @@ const OsDashboard = React.createClass({
                  'cpu.total.steal'
                ]}
                width={this.props.width}
-               height={700} />
+               height={chartHeight} />
 
         <Separator />
 
@@ -259,12 +96,14 @@ const OsDashboard = React.createClass({
                           metricUnit=''
                           metricValueFormatter={d => d} />
 
-        <HighChart snapshot={this.props.snapshot}
-                   timeframe={this.props.timeframe}
-                   metrics={[
-                    'load.1min'
-                   ]}
-                   config={this.state.cpuLoadChartConfig} />
+        <Chart type='stackedArea'
+               snapshot={this.props.snapshot}
+               windowSize={this.props.timeframe}
+               metrics={[
+                 'load.1min'
+               ]}
+               width={this.props.width}
+               height={chartHeight} />
 
         <Separator />
 
@@ -279,201 +118,16 @@ const OsDashboard = React.createClass({
                           metricUnit=''
                           metricValueFormatter={d => formatBytes(d)} />
 
-        <HighChart snapshot={this.props.snapshot}
-                   timeframe={this.props.timeframe}
-                   metrics={[
-                     'memory.free'
-                   ]}
-                   config={this.state.memoryFreeChartConfig} />
+        <Chart type='stackedArea'
+               snapshot={this.props.snapshot}
+               windowSize={this.props.timeframe}
+               metrics={[
+                 'memory.free'
+               ]}
+               width={this.props.width}
+               height={chartHeight} />
 
         <Separator />
-
-        <ContentHeading>
-          {this.getIntlMessage('forge.os.filesystems')}
-        </ContentHeading>
-
-        {this.state.filesystemMetrics ?
-          <HighChart snapshot={this.props.snapshot}
-                     timeframe={this.props.timeframe}
-                     metrics={this.state.filesystemMetrics}
-                     config={this.state.filesystemUsageChartConfig} />
-        : null}
-
-        <table className='in-subtle-table'>
-          <thead>
-            <tr>
-              <th>Device</th>
-              <th>Mount</th>
-              <th>Options</th>
-              <th>Type</th>
-              <th>Capacity</th>
-              <th>Free</th>
-              <th>Leaked</th>
-              <th>iFree</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {filesystems.map((data, name) =>
-              <tr key={name} onClick={() => this.selectFilesystem(name)}>
-                <td>{name}</td>
-                <td>{data.get('mount')}</td>
-                <td>{data.get('options')}</td>
-                <td>{data.get('systype')}</td>
-                <td>{formatBytes(data.get('capacity') * 1024)}</td>
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'fs.' + name + '.free'
-                       )}
-                     formatter={d => formatBytes(d * 1024)} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'fs.' + name + '.leaked'
-                       )}
-                     formatter={d => formatBytes(d * 1024)} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'fs.' + name + '.ifree'
-                       )}
-                     formatter={commasFormatter} />
-              </tr>
-            ).valueSeq()}
-          </tbody>
-        </table>
-
-        <Separator />
-
-        <ContentHeading>
-          {this.getIntlMessage('forge.os.networkinterfaces')}
-        </ContentHeading>
-
-        {this.state.interfaceMetrics ?
-          <HighChart snapshot={this.props.snapshot}
-                     timeframe={this.props.timeframe}
-                     metrics={this.state.interfaceMetrics}
-                     config={this.state.interfaceChartConfig} />
-        : null}
-
-        <table className='in-subtle-table'>
-          <thead>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th colSpan='4'>Received (RX)</th>
-              <th colSpan='4'>Transmitted (TX)</th>
-            </tr>
-            <tr>
-              <th>Interface</th>
-              <th>Mac</th>
-              <th>IPs</th>
-              <th>Bytes</th><th>Errors</th><th>Dropped</th><th>Overruns</th>
-              <th>Bytes</th><th>Errors</th><th>Dropped</th><th>Overruns</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {interfaces.map((data, name) =>
-              <tr key={name} onClick={() => this.selectInterface(name)}>
-                <td>{name}</td>
-                <td>{data.get('mac')}</td>
-                <td>{data.get('ips').join(', ')}</td>
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.rx.bytes'
-                       )}
-                     formatter={bytesPerSecondFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.rx.errors'
-                       )}
-                     formatter={percentFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.rx.dropped'
-                       )}
-                     formatter={percentFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.rx.overruns'
-                       )}
-                     formatter={percentFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.tx.bytes'
-                       )}
-                     formatter={bytesPerSecondFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.tx.errors'
-                       )}
-                     formatter={percentFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.tx.dropped'
-                       )}
-                     formatter={percentFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.tx.overruns'
-                       )}
-                     formatter={percentFormatter} />
-              </tr>
-            ).valueSeq()}
-          </tbody>
-        </table>
-
-        <Separator />
-
-        <ChartLegend title='TCP Activity'
-                          snapshot={this.props.snapshot}
-                          metrics={[
-                            'tcp.established',
-                            'tcp.opens',
-                            'tcp.resets',
-                            'tcp.fails',
-                            'tcp.inSegs',
-                            'tcp.outSegs',
-                            'tcp.errors',
-                            'tcp.retrans'
-                          ]}
-                          metricLabels={[
-                            'Open',
-                            'Connects',
-                            'Reset %',
-                            'Fail %',
-                            'In Segments',
-                            'Out Segments',
-                            'Error %',
-                            'Retransmission %'
-                          ]}
-                          metricUnit=''
-                          metricValueFormatter={d => d} />
-
-        <HighChart snapshot={this.props.snapshot}
-                   timeframe={this.props.timeframe}
-                   metrics={[
-                     'tcp.established',
-                     'tcp.opens',
-                     'tcp.resets',
-                     'tcp.fails',
-                     'tcp.inSegs',
-                     'tcp.outSegs',
-                     'tcp.errors',
-                     'tcp.retrans'
-                   ]}
-                   config={this.state.tcpChartConfig} />
 
       </div>
     );
