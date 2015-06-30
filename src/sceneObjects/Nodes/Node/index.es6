@@ -16,6 +16,7 @@ import StickyNoteNode from '../../StickyNote/Node';
 import StickyNoteLayer from '../../StickyNote/Layer';
 import TooltipNode from '../../Tooltips/Node';
 import TooltipMetric from '../../Tooltips/Metric';
+import {setupStates} from './States/index';
 
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -62,6 +63,10 @@ export default class Node extends BaseNode {
         super.onHighlight(false);
       }
     });
+  }
+
+  initStates() {
+    return setupStates(this);
   }
 
   addToGlobalGeometry() {
@@ -377,8 +382,12 @@ export default class Node extends BaseNode {
     this.updateOfVisualComponents();
   }
 
-  setHealth(newHealth) {
-    if(newHealth === this.health) {
+  blockCubeHealth(block) {
+    this.cubeHealthBlocked = block;
+  }
+
+  setHealth(newHealth, force) {
+    if(!force && (newHealth === this.health || this.healthBlocked)) {
       return;
     }
 
@@ -389,7 +398,10 @@ export default class Node extends BaseNode {
     this.health = newHealth;
 
     this.addToGroundFactory(id, pos, dim);
-    this.refreshFragment();
+
+    if(!this.cubeHealthBlocked) {
+      this.refreshFragment();
+    }
   }
 
   refreshFragment() {
