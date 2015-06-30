@@ -48,7 +48,7 @@ const StickyNoteRC = React.createClass({
     this.metricSubscription = combineLatest(tempSubscriptions)
     .throttle(200)
     .subscribe((values) => {
-      this.setState({values});
+      this.setState({values: values.slice()});
     });
   },
 
@@ -85,7 +85,6 @@ const StickyNoteRC = React.createClass({
       this.state.metricNames.length === 0) {
       return <div style={{height: 10}}></div>;
     }
-
     let colorIndex = 0;
     const colors = theme.chart.strokeColors.slice().reverse();
     const names = this.state.metricNames.slice().reverse();
