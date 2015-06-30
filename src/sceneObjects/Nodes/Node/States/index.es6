@@ -3,7 +3,7 @@
 import InitialState from '../../BaseNode/States/InitialState';
 import HighlightedState from '../../BaseNode/States/HighlightedState';
 import SelectedState from '../../BaseNode/States/SelectedState';
-import InactiveState from './InactiveState';
+import InactiveState from './NodeInactiveState';
 
 
 export function setupStates(owner) {

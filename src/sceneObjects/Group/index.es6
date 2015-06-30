@@ -149,8 +149,8 @@ export default class Group extends SceneObject {
     const plane = this.collisionPlane;
     plane.updateMatrix();
     plane.updateMatrixWorld();
-    this.removeCollisionObject(plane);
-    this.addCollisionObject(plane);
+    // this.removeCollisionObject(plane);
+    // this.addCollisionObject(plane);
   }
 
   refreshGroundGeometry() {

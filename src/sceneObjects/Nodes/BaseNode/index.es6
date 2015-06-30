@@ -334,7 +334,7 @@ export default class BaseNode extends SceneObject {
       snapshotStore.clear();
     }
 
-    this.removeCollisionObject(this.cube);
+    this.removeCollisionObject(this.cube, 2);
     this.cube = null;
 
     this.disposeStickyNote();

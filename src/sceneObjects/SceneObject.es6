@@ -15,10 +15,11 @@ export default class SceneObject {
 
     this.states = this.initStates();
     this.state = this.states.initial;
+    this.state.enter();
   }
 
   initStates() {
-    return {initial: {}};
+    return {initial: {enter() {}}};
   }
 
   switchStateIfNext(action) {

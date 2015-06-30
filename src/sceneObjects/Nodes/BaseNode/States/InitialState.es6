@@ -9,11 +9,9 @@ export default class InitialState extends State {
     super(baseNode);
   }
 
-  enter() {
-  }
+  enter() {}
 
-  leave() {
-  }
+  leave() {}
 
   getNext({highlighted, inactive}) {
     if(highlighted) {

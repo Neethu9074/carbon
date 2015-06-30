@@ -176,12 +176,11 @@ export default class Node extends BaseNode {
       }
     };
 
-    this.addCollisionObject(cube, 2);
+    this.addCollisionObject(this.metricCube, 2);
   }
 
   disposeMetricCollisionObject() {
     this.removeCollisionObject(this.metricCube, 2);
-    this.metricCube.material.dispose();
     this.metricCube = null;
   }
 
@@ -193,8 +192,8 @@ export default class Node extends BaseNode {
       cube.updateMatrix();
       cube.updateMatrixWorld();
 
-      this.removeCollisionObject(cube, 2);
-      this.addCollisionObject(cube, 2);
+      this.removeCollisionObject(this.metricCube, 2);
+      this.addCollisionObject(this.metricCube, 2);
     }
   }
 

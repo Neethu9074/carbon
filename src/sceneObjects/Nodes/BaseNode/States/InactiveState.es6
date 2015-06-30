@@ -8,19 +8,9 @@ export default class InactiveState extends State {
     super(baseNode);
   }
 
-  enter() {
-    this.owner.removeCollisionObject(this.owner.cube, 1);
+  enter() {}
 
-    //add metric pillar to octree
-    this.owner.addMetricCollisionObject();
-  }
-
-  leave() {
-    this.owner.addCollisionObject(this.owner.cube, 1);
-
-    //add metric pillar to octree
-    this.owner.disposeMetricCollisionObject();
-  }
+  leave() {}
 
   getNext({inactive, highlighted}) {
     if(inactive === false) {
