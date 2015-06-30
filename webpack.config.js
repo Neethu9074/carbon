@@ -1,4 +1,5 @@
 /*eslint-env node */
+/*eslint-disable no-var*/
 'use strict';
 
 var webpack = require('webpack');

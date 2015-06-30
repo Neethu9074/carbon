@@ -1,5 +1,3 @@
-/*global Highcharts*/
-
 'use strict';
 
 import React from 'react/addons';
@@ -10,11 +8,8 @@ import irpt from 'react-immutable-proptypes';
 import {formatBytes} from 'instana-ui-services/converters';
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
-import MetricWithHistoryConveyer from 'instana-ui-services/conveyer/MetricWithHistoryConveyer';
-import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import Chart from '../../../sdk/charts/Chart';
-import HighChart from '../../../sdk/charts/HighChart';
 import ChartLegend from '../../../sdk/charts/ChartLegend';
 import Separator from '../../../sdk/Separator';
 import Mtd from '../../../sdk/Mtd';
@@ -39,7 +34,6 @@ const OsDashboard = React.createClass({
 
   getInitialState() {
     return {
-      interfaceDatasources: null,
       filesystemMetrics: null,
       interfaceMetrics: null
     };
@@ -52,23 +46,23 @@ const OsDashboard = React.createClass({
     return (
       <div>
         <ChartLegend title='CPU Usage'
-                          snapshot={this.props.snapshot}
-                          metrics={[
-                            'cpu.total.user',
-                            'cpu.total.sys',
-                            'cpu.total.wait',
-                            'cpu.total.nice',
-                            'cpu.total.steal'
-                          ]}
-                          metricLabels={[
-                            'User',
-                            'System',
-                            'Wait',
-                            'Nice',
-                            'Steal'
-                          ]}
-                          metricUnit='%'
-                          metricValueFormatter={metricValueFormatter} />
+                     snapshot={this.props.snapshot}
+                     metrics={[
+                       'cpu.total.user',
+                       'cpu.total.sys',
+                       'cpu.total.wait',
+                       'cpu.total.nice',
+                       'cpu.total.steal'
+                     ]}
+                     metricLabels={[
+                       'User',
+                       'System',
+                       'Wait',
+                       'Nice',
+                       'Steal'
+                     ]}
+                     metricUnit='%'
+                     metricValueFormatter={metricValueFormatter} />
 
         <Chart type='stackedArea'
                snapshot={this.props.snapshot}
@@ -86,15 +80,15 @@ const OsDashboard = React.createClass({
         <Separator />
 
         <ChartLegend title='CPU Load'
-                          snapshot={this.props.snapshot}
-                          metrics={[
-                            'load.1min'
-                          ]}
-                          metricLabels={[
-                            'Load'
-                          ]}
-                          metricUnit=''
-                          metricValueFormatter={d => d} />
+                     snapshot={this.props.snapshot}
+                     metrics={[
+                       'load.1min'
+                     ]}
+                     metricLabels={[
+                       'Load'
+                     ]}
+                     metricUnit=''
+                     metricValueFormatter={d => d} />
 
         <Chart type='stackedArea'
                snapshot={this.props.snapshot}
@@ -108,15 +102,15 @@ const OsDashboard = React.createClass({
         <Separator />
 
         <ChartLegend title='Memory Free'
-                          snapshot={this.props.snapshot}
-                          metrics={[
-                            'memory.free'
-                          ]}
-                          metricLabels={[
-                            'Free'
-                          ]}
-                          metricUnit=''
-                          metricValueFormatter={d => formatBytes(d)} />
+                     snapshot={this.props.snapshot}
+                     metrics={[
+                       'memory.free'
+                     ]}
+                     metricLabels={[
+                       'Free'
+                     ]}
+                     metricUnit=''
+                     metricValueFormatter={d => formatBytes(d)} />
 
         <Chart type='stackedArea'
                snapshot={this.props.snapshot}
@@ -129,58 +123,208 @@ const OsDashboard = React.createClass({
 
         <Separator />
 
+        <ContentHeading>
+          {this.getIntlMessage('forge.os.filesystems')}
+        </ContentHeading>
+
+        {this.state.filesystemMetrics ?
+          <Chart type='line'
+                 snapshot={this.props.snapshot}
+                 windowSize={this.props.timeframe}
+                 metrics={this.state.filesystemMetrics}
+                 width={this.props.width}
+                 height={chartHeight} />
+        : null}
+
+        <table className='in-subtle-table'>
+          <thead>
+            <tr>
+              <th>Device</th>
+              <th>Mount</th>
+              <th>Options</th>
+              <th>Type</th>
+              <th>Capacity</th>
+              <th>Free</th>
+              <th>Leaked</th>
+              <th>iFree</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {filesystems.map((data, name) =>
+              <tr key={name} onClick={() => this.selectFilesystem(name)}>
+                <td>{name}</td>
+                <td>{data.get('mount')}</td>
+                <td>{data.get('options')}</td>
+                <td>{data.get('systype')}</td>
+                <td>{formatBytes(data.get('capacity') * 1024)}</td>
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'fs.' + name + '.free'
+                       )}
+                     formatter={d => formatBytes(d * 1024)} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'fs.' + name + '.leaked'
+                       )}
+                     formatter={d => formatBytes(d * 1024)} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'fs.' + name + '.ifree'
+                       )}
+                     formatter={commasFormatter} />
+              </tr>
+            ).valueSeq()}
+          </tbody>
+        </table>
+
+        <Separator />
+
+        <ContentHeading>
+          {this.getIntlMessage('forge.os.networkinterfaces')}
+        </ContentHeading>
+
+        {this.state.interfaceMetrics ?
+          <Chart type='line'
+                 snapshot={this.props.snapshot}
+                 windowSize={this.props.timeframe}
+                 metrics={this.state.interfaceMetrics}
+                 width={this.props.width}
+                 height={chartHeight} />
+        : null}
+
+        <table className='in-subtle-table'>
+          <thead>
+            <tr>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th colSpan='4'>Received (RX)</th>
+              <th colSpan='4'>Transmitted (TX)</th>
+            </tr>
+            <tr>
+              <th>Interface</th>
+              <th>Mac</th>
+              <th>IPs</th>
+              <th>Bytes</th><th>Errors</th><th>Dropped</th><th>Overruns</th>
+              <th>Bytes</th><th>Errors</th><th>Dropped</th><th>Overruns</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {interfaces.map((data, name) =>
+              <tr key={name} onClick={() => this.selectInterface(name)}>
+                <td>{name}</td>
+                <td>{data.get('mac')}</td>
+                <td>{data.get('ips').join(', ')}</td>
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.rx.bytes'
+                       )}
+                     formatter={bytesPerSecondFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.rx.errors'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.rx.dropped'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.rx.overruns'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.tx.bytes'
+                       )}
+                     formatter={bytesPerSecondFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.tx.errors'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.tx.dropped'
+                       )}
+                     formatter={percentFormatter} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'ifs.' + name + '.tx.overruns'
+                       )}
+                     formatter={percentFormatter} />
+              </tr>
+            ).valueSeq()}
+          </tbody>
+        </table>
+
+        <Separator />
+
+        <ChartLegend title='TCP Activity'
+                     snapshot={this.props.snapshot}
+                     metrics={[
+                       'tcp.established',
+                       'tcp.opens',
+                       'tcp.resets',
+                       'tcp.fails',
+                       'tcp.inSegs',
+                       'tcp.outSegs',
+                       'tcp.errors',
+                       'tcp.retrans'
+                     ]}
+                     metricLabels={[
+                       'Open',
+                       'Connects',
+                       'Reset %',
+                       'Fail %',
+                       'In Segments',
+                       'Out Segments',
+                       'Error %',
+                       'Retransmission %'
+                     ]}
+                     metricUnit=''
+                     metricValueFormatter={d => d} />
+
+
       </div>
     );
   },
 
+// <Chart type='line'
+//        snapshot={this.props.snapshot}
+//        windowSize={this.props.timeframe}
+//        metrics={[
+//          'tcp.established',
+//          'tcp.opens',
+//          'tcp.resets',
+//          'tcp.fails',
+//          'tcp.inSegs',
+//          'tcp.outSegs',
+//          'tcp.errors',
+//          'tcp.retrans'
+//        ]}
+//        width={this.props.width}
+//        height={chartHeight} />
+
   selectFilesystem(fs) {
     const metric = 'fs.' + fs + '.free';
     this.setState({
-      filesystemMetrics: [metric],
-      filesystemUsageChartConfig: {
-        chart: {
-          type: 'spline',
-          animation: Highcharts.svg,
-          height: 250
-        },
-        title: {
-          text: null
-        },
-        xAxis: {
-          type: 'datetime',
-          tickPixelInterval: 150,
-          tickLength: 0,
-          minPadding: 0,
-          maxPadding: 0,
-          labels: {
-            y: 28
-          }
-        },
-        yAxis: {
-          title: {
-            text: null
-          },
-          tickLength: 0,
-          min: 0,
-          max: getMaxValue(metric, this.props.snapshot),
-          endOnTick: false,
-          labels: {
-            x: -10,
-            formatter: function() {
-              return formatBytes(this.value * 1024);
-            }
-          }
-        },
-        tooltip: {
-          enabled: false
-        },
-        legend: {
-          enabled: false
-        },
-        exporting: {
-          enabled: false
-        }
-      }
+      filesystemMetrics: [metric]
     });
   },
 
@@ -190,14 +334,6 @@ const OsDashboard = React.createClass({
         'ifs.' + iface + '.rx.bytes',
         'ifs.' + iface + '.tx.bytes'
       ]
-    });
-  },
-
-  createMetricWithHistoryStream(metric) {
-    return create(MetricWithHistoryConveyer, {
-      snapshot: this.props.snapshot,
-      timeframe: this.props.timeframe,
-      metric
     });
   },
 
