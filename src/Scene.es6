@@ -427,7 +427,7 @@ export default class Scene {
     const octree = this.octrees[layer];
     if(octree) {
       octree.remove(obj);
-      octree.update();
+      octree.rebuild();
     }
   }
 
