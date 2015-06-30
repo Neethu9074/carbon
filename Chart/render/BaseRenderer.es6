@@ -13,13 +13,23 @@ const maxReducer = (max, dataRow) => Math.max(dataRow.y, max);
 
 export default class BaseRenderer {
 
-  constructor({seriesConfig, container, width, height, windowSize, margins}) {
+  constructor(
+      {
+        seriesConfig,
+        container,
+        width,
+        height,
+        windowSize,
+        margins,
+        yAxisConfig
+      }) {
     this.width = width;
     this.height = height;
     this.margins = margins;
     this.seriesConfig = seriesConfig;
     this.container = container;
     this.windowSize = windowSize;
+    this.yAxisConfig = yAxisConfig;
 
     this.x = d3.time.scale.utc();
     this.x.axis = d3.svg.axis()
@@ -34,6 +44,7 @@ export default class BaseRenderer {
       .scale(this.y)
       .ticks(5)
       .tickPadding(20)
+      .tickFormat(this.yAxisConfig.tickFormatter)
       .orient('left');
 
     this.queue = new Queue(this.seriesConfig.length);
@@ -96,6 +107,10 @@ export default class BaseRenderer {
     return (this.width - this.margins.left - this.margins.right) * 2;
   }
 
+  getRenderCanvasWidth() {
+    return this.width - this.margins.left - this.margins.right;
+  }
+
   addDataPoints(seriesIndex, dataPoints) {
     for (let i = 0, len = dataPoints.length; i < len; i++) {
       this.queue.addDataPoint(seriesIndex, dataPoints[i]);
@@ -137,7 +152,6 @@ export default class BaseRenderer {
     this.data.insertSorted(newDataColumns);
 
     const isBigUpdate = newDataColumns.length > 10 || initialRendering;
-    this.clearDrawingCanvas();
     if (isBigUpdate) {
       this.renderBigUpdate();
     } else {
@@ -163,7 +177,7 @@ export default class BaseRenderer {
     this.updateXDomain();
     this.updateYDomain();
 
-    this.clearRenderingCanvas();
+    this.drawingCanvas.setAttribute('width', this.getRenderCanvasWidth());
     this.draw();
     this.renderCtx.drawImage(
       this.drawingCanvas,
@@ -185,12 +199,16 @@ export default class BaseRenderer {
   renderIncrementalUpdate() {
     this.updateYDomain();
 
-    this.draw();
     const dataColumns = this.data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
     const maxX = dataColumns[numberOfDataColumns - 1][0].x;
-    const animationEndPosition = this.width - this.margins.left -
-      this.margins.right - this.x(maxX);
+    const maxXPixels = this.x(maxX);
+    const renderCanvasWidth = this.getRenderCanvasWidth();
+    const animationEndPosition = renderCanvasWidth - maxXPixels;
+
+    this.drawingCanvas.setAttribute('width', renderCanvasWidth + maxXPixels);
+
+    this.draw();
 
     const onEnd = () => {
       window.cancelAnimationFrame(this.animationFrameHandle);
@@ -265,6 +283,12 @@ export default class BaseRenderer {
   }
 
   updateYDomain() {
+    const minFixed = this.yAxisConfig.min !== undefined;
+    const maxFixed = this.yAxisConfig.max !== undefined;
+    if (minFixed && maxFixed) {
+      this.y.domain([this.yAxisConfig.min, this.yAxisConfig.max]);
+      return;
+    }
     const dataColumns = this.data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
 
@@ -272,10 +296,20 @@ export default class BaseRenderer {
     let maxY = Number.MIN_VALUE;
 
     for (let i = 0; i < numberOfDataColumns; i++) {
-      minY = Math.min(this.getMinYFromDataColumn(dataColumns[i]), minY);
-      maxY = Math.max(this.getMaxYFromDataColumn(dataColumns[i]), maxY);
+      if (!minFixed) {
+        minY = Math.min(this.getMinYFromDataColumn(dataColumns[i]), minY);
+      }
+      if (!maxFixed) {
+        maxY = Math.max(this.getMaxYFromDataColumn(dataColumns[i]), maxY);
+      }
     }
 
+    if (minFixed) {
+      minY = this.yAxisConfig.min;
+    }
+    if (maxFixed) {
+      maxY = this.yAxisConfig.max;
+    }
     this.y.domain([minY, maxY]);
   }
 
@@ -291,7 +325,6 @@ export default class BaseRenderer {
     this.setDimensions({width, height});
     this.stopAnimations();
     this.rendering = false;
-    this.clearDrawingCanvas();
     this.renderBigUpdate();
   }
 
@@ -307,7 +340,7 @@ export default class BaseRenderer {
 
     this.renderCanvas.style.top = this.margins.top + 'px';
     this.renderCanvas.style.left = this.margins.left + 'px';
-    this.renderCanvas.setAttribute('width', this.width - horizontalMargin);
+    this.renderCanvas.setAttribute('width', this.getRenderCanvasWidth());
     this.renderCanvas.setAttribute('height', this.height - verticalMargin);
 
     this.drawingCanvas.setAttribute('width', this.getDrawingCanvasWidth());
@@ -359,12 +392,4 @@ export default class BaseRenderer {
     );
   }
 
-  clearDrawingCanvas() {
-    this.drawingCtx.clearRect(
-      0,
-      0,
-      this.getDrawingCanvasWidth(),
-      this.height - this.margins.top - this.margins.bottom
-    );
-  }
 }

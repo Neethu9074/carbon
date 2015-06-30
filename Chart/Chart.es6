@@ -24,7 +24,9 @@ const Chart = React.createClass({
 
     seriesConfig: rpt.array.isRequired,
     datasources: rpt.array.isRequired,
-    windowSize: rpt.number.isRequired
+    windowSize: rpt.number.isRequired,
+
+    yAxis: rpt.object
   },
 
   render() {
@@ -36,11 +38,7 @@ const Chart = React.createClass({
   },
 
   componentDidUpdate(prevProps) {
-    if (!_.isEqual(this.props.margins, prevProps.margins) ||
-        this.props.type !== prevProps.type ||
-        !_.isEqual(this.props.seriesConfig, prevProps.seriesConfig) ||
-        this.props.windowSize !== prevProps.windowSize ||
-        this.props.datasources !== prevProps.datasources) {
+    if (this.doesPropertyChangeRequireFullRedraw(prevProps)) {
       if (this.chart) {
         this.chart.dispose();
       }
@@ -57,6 +55,15 @@ const Chart = React.createClass({
     }
   },
 
+  doesPropertyChangeRequireFullRedraw(prevProps) {
+    return !_.isEqual(this.props.margins, prevProps.margins) ||
+      this.props.type !== prevProps.type ||
+      !_.isEqual(this.props.seriesConfig, prevProps.seriesConfig) ||
+      this.props.windowSize !== prevProps.windowSize ||
+      this.props.datasources !== prevProps.datasources ||
+      this.props.yAxis !== prevProps.yAxis;
+  },
+
   renderChart() {
     const config = {
       container: React.findDOMNode(this),
@@ -67,6 +74,11 @@ const Chart = React.createClass({
         right: 0,
         bottom: 50,
         left: 40
+      },
+      yAxisConfig: this.props.yAxis || {
+        tickFormatter: v => v,
+        min: undefined,
+        max: undefined
       },
       seriesConfig: this.props.seriesConfig,
       windowSize: this.props.windowSize

@@ -42,7 +42,14 @@ const ChartDemo = React.createClass({
                  {label: 'cpu.total.steal'}
                ]}
                windowSize={windowSize}
-               datasources={this.state.datasources} />
+               datasources={this.state.datasources}
+               yAxis={{
+                 tickFormatter(v) {
+                   return v + 'x';
+                 },
+                 min: 0,
+                 max: 5
+               }}/>
       </div>
     );
   },
