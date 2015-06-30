@@ -48,7 +48,7 @@ export default class StickyNoteNode extends StickyNote {
 
     this.showMetric = true;
     this.tags = []; // this.props.tags;
-    const numElements = Math.floor(Math.random() * 0);
+    const numElements = Math.floor(Math.random() * 5);
     for (let i = 0; i < numElements; i++) {
       this.tags.push({label: 'tag_' + i});
     }
