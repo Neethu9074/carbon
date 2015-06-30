@@ -29,7 +29,8 @@ const ChartWrapper = React.createClass({
     seriesConfig: rpt.array,
     windowSize: rpt.number.isRequired,
     snapshot: irpt.map.isRequired,
-    metrics: rpt.arrayOf(rpt.string).isRequired
+    metrics: rpt.arrayOf(rpt.string).isRequired,
+    yAxis: rpt.object
   },
 
   getInitialState() {
@@ -43,7 +44,6 @@ const ChartWrapper = React.createClass({
   },
 
   createDatasources() {
-    console.log('Creating datasources', this.props);
     const datasources = this.props.metrics.map(metric =>
       create(TimeWindowBasedMetricConveyer, {
         snapshot: this.props.snapshot,
@@ -84,7 +84,8 @@ const ChartWrapper = React.createClass({
              margins={this.props.margins}
              seriesConfig={seriesConfig}
              windowSize={this.props.windowSize}
-             datasources={this.state.datasources} />
+             datasources={this.state.datasources}
+             yAxis={this.props.yAxis} />
     );
   }
 });

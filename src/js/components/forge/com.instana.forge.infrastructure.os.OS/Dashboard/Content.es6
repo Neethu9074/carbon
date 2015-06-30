@@ -8,6 +8,7 @@ import irpt from 'react-immutable-proptypes';
 import {formatBytes} from 'instana-ui-services/converters';
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
+import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import Chart from '../../../sdk/charts/Chart';
 import ChartLegend from '../../../sdk/charts/ChartLegend';
@@ -20,6 +21,7 @@ const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
 const metricValueFormatter = d => commasFormatter(d * 100);
 const bytesPerSecondFormatter = d => formatBytes(d) + '/s';
+const kbFormatter = d => formatBytes(d * 1024);
 
 const chartHeight = 300;
 
@@ -75,7 +77,15 @@ const OsDashboard = React.createClass({
                  'cpu.total.steal'
                ]}
                width={this.props.width}
-               height={chartHeight} />
+               height={chartHeight}
+               margins={{
+                 left: 60
+               }}
+               yAxis={{
+                 min: 0,
+                 max: 1,
+                 tickFormatter: percentFormatter
+               }}/>
 
         <Separator />
 
@@ -97,7 +107,10 @@ const OsDashboard = React.createClass({
                  'load.1min'
                ]}
                width={this.props.width}
-               height={chartHeight} />
+               height={chartHeight}
+               yAxis={{
+                 min: 0
+               }}/>
 
         <Separator />
 
@@ -119,7 +132,15 @@ const OsDashboard = React.createClass({
                  'memory.free'
                ]}
                width={this.props.width}
-               height={chartHeight} />
+               height={chartHeight}
+               margins={{
+                 left: 80
+               }}
+               yAxis={{
+                 min: 0,
+                 max: this.props.snapshot.getIn(['data', 'memory.total']),
+                 tickFormatter: formatBytes
+               }}/>
 
         <Separator />
 
@@ -133,7 +154,18 @@ const OsDashboard = React.createClass({
                  windowSize={this.props.timeframe}
                  metrics={this.state.filesystemMetrics}
                  width={this.props.width}
-                 height={chartHeight} />
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 yAxis={{
+                   min: 0,
+                   max: getMaxValue(
+                     this.state.filesystemMetrics[0],
+                     this.props.snapshot
+                   ),
+                   tickFormatter: kbFormatter
+                 }}/>
         : null}
 
         <table className='in-subtle-table'>
@@ -157,19 +189,19 @@ const OsDashboard = React.createClass({
                 <td>{data.get('mount')}</td>
                 <td>{data.get('options')}</td>
                 <td>{data.get('systype')}</td>
-                <td>{formatBytes(data.get('capacity') * 1024)}</td>
+                <td>{kbFormatter(data.get('capacity'))}</td>
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
                          'fs.' + name + '.free'
                        )}
-                     formatter={d => formatBytes(d * 1024)} />
+                     formatter={kbFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
                          'fs.' + name + '.leaked'
                        )}
-                     formatter={d => formatBytes(d * 1024)} />
+                     formatter={kbFormatter} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
@@ -193,7 +225,14 @@ const OsDashboard = React.createClass({
                  windowSize={this.props.timeframe}
                  metrics={this.state.interfaceMetrics}
                  width={this.props.width}
-                 height={chartHeight} />
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 yAxis={{
+                   min: 0,
+                   tickFormatter: formatBytes
+                 }}/>
         : null}
 
         <table className='in-subtle-table'>
@@ -300,26 +339,25 @@ const OsDashboard = React.createClass({
                      metricUnit=''
                      metricValueFormatter={d => d} />
 
+        <Chart type='line'
+               snapshot={this.props.snapshot}
+               windowSize={this.props.timeframe}
+               metrics={[
+                 'tcp.established',
+                 'tcp.opens',
+                 'tcp.resets',
+                 'tcp.fails',
+                 'tcp.inSegs',
+                 'tcp.outSegs',
+                 'tcp.errors',
+                 'tcp.retrans'
+               ]}
+               width={this.props.width}
+               height={chartHeight} />
 
       </div>
     );
   },
-
-// <Chart type='line'
-//        snapshot={this.props.snapshot}
-//        windowSize={this.props.timeframe}
-//        metrics={[
-//          'tcp.established',
-//          'tcp.opens',
-//          'tcp.resets',
-//          'tcp.fails',
-//          'tcp.inSegs',
-//          'tcp.outSegs',
-//          'tcp.errors',
-//          'tcp.retrans'
-//        ]}
-//        width={this.props.width}
-//        height={chartHeight} />
 
   selectFilesystem(fs) {
     const metric = 'fs.' + fs + '.free';
