@@ -2,7 +2,6 @@
 
 import 'instana-ui-forge';
 import initReact from './react';
-import eventBus from 'instana-ui-services/eventbus';
 import Immutable from 'immutable';
 
 import {
@@ -19,11 +18,11 @@ window.performanceCpu = function() {
   metric.set('label', 'Usage');
   metric.set('longLabel', 'Usage');
   metric.set('metrics', [
-    'cpu.total.user',
-    'cpu.total.sys',
-    'cpu.total.wait',
-    'cpu.total.nice',
-    'cpu.total.steal'
+    {name: 'cpu.total.user', label: 'User'},
+    {name: 'cpu.total.sys', label: 'System'},
+    {name: 'cpu.total.wait', label: 'Wait'},
+    {name: 'cpu.total.nice', label: 'Nice'},
+    {name: 'cpu.total.steal', label: 'Steal'}
   ]);
   setActiveMetric(metric);
 };
@@ -33,7 +32,7 @@ window.performanceMemory = function() {
   metric.set('icon', 'metrics_memory_free');
   metric.set('label', 'Memory Free');
   metric.set('longLabel', 'Memory Free');
-  metric.set('metrics', ['memory.free']);
+  metric.set('metrics', [{name: 'memory.free', label: 'Memory free'}]);
   setActiveMetric(metric);
 };
 
@@ -43,7 +42,7 @@ window.performanceLoad = function() {
   metric.set('icon', 'metrics_cpu_load');
   metric.set('label', 'Load');
   metric.set('longLabel', 'CPU Load');
-  metric.set('metrics', ['load.1min']);
+  metric.set('metrics', [{name: 'load.1min', label: 'Load'}]);
   setActiveMetric(metric);
 };
 

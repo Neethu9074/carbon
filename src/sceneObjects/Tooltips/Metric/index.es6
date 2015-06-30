@@ -24,7 +24,7 @@ const StickyNoteRC = React.createClass({
   },
 
   getInitialState() {
-    return {values: [], metricNames: []};
+    return {values: [], metrics: []};
   },
 
   createSingleMetricSource(metric) {
@@ -42,7 +42,7 @@ const StickyNoteRC = React.createClass({
 
   subscribeToMulti(metrics) {
     const tempSubscriptions = metrics.map(metric => {
-      return this.createSingleMetricSource(metric);
+      return this.createSingleMetricSource(metric.name);
     });
 
     this.metricSubscription = combineLatest(tempSubscriptions)
@@ -65,10 +65,10 @@ const StickyNoteRC = React.createClass({
       }
       const metrics = metric.get('metrics');
       this.disposeRxo(this.metricSubscription);
-      this.setState({metricNames: metrics});
+      this.setState({metrics});
 
       if(metrics.length === 1) {
-        this.subscribeToSingle(metrics[0]);
+        this.subscribeToSingle(metrics[0].name);
       } else {
         this.subscribeToMulti(metrics);
       }
@@ -82,12 +82,12 @@ const StickyNoteRC = React.createClass({
 
   render() {
     if(this.state.values.length === 0 ||
-      this.state.metricNames.length === 0) {
+      this.state.metrics.length === 0) {
       return <div style={{height: 10}}></div>;
     }
     let colorIndex = 0;
     const colors = theme.chart.strokeColors.slice().reverse();
-    const names = this.state.metricNames.slice().reverse();
+    const names = this.state.metrics.slice().reverse();
     const listItems = this.state.values.slice().reverse()
     .map((value, index) => {
       const color = colors[colorIndex];
@@ -96,7 +96,7 @@ const StickyNoteRC = React.createClass({
         colorIndex = 0;
       }
       const style = {color: color};
-      const metricName = names[index];
+      const metricName = names[index].label;
 
       return (
         <li key={metricName} className='in-tooltip__node__li'>
