@@ -12,7 +12,7 @@ export default React.createClass({
 
   propTypes: {
     hostname: React.PropTypes.string.isRequired,
-    time: React.PropTypes.string.isRequired
+    time: React.PropTypes.number.isRequired
   },
 
   render() {
