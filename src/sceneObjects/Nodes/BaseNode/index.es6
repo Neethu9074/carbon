@@ -41,7 +41,9 @@ const emptyStickyObject = {
   render() {},
   dispose() {},
   onHighlight() {},
-  setInactive() {}
+  setInactive() {},
+  switchToMetric() {},
+  switchToIcon() {}
 };
 
 export default class BaseNode extends SceneObject {

@@ -2,6 +2,7 @@
 
 import React from 'react/addons';
 import NodeIcon from '../NodeIcon';
+import NodeMetric from '../NodeMetric';
 import StickyNote from '../StickyNote';
 import TagFrame from '../TagFrame';
 
@@ -17,7 +18,7 @@ const StickyNoteRC = React.createClass({
   propTypes: {
     snapshot: rpt.object.isRequired,
     sceneObject: rpt.object.isRequired,
-    showMetric: rpt.bool.isRequired,
+    showMetric: rpt.bool,
     tags: rpt.array.isRequired
   },
 
@@ -32,8 +33,8 @@ const StickyNoteRC = React.createClass({
         <div className='in-sticky-note__node-stack-children'>
           {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
           {this.props.showMetric ?
-            <NodeIcon snapshot={snapshot} /> :
-            <div>42</div>
+            <NodeMetric snapshot={snapshot} /> :
+            <NodeIcon snapshot={snapshot} />
           }
         </div>
       </div>
@@ -46,9 +47,8 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
 
-    this.showMetric = true;
     this.tags = []; // this.props.tags;
-    const numElements = Math.floor(Math.random() * 5);
+    const numElements = Math.floor(Math.random() * 0);
     for (let i = 0; i < numElements; i++) {
       this.tags.push({label: 'tag_' + i});
     }
