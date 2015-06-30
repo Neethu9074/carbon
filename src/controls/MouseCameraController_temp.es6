@@ -1,6 +1,6 @@
 'use strict';
 
-import TouchController from './touchCameraController';
+import TouchController from './TouchCameraController_temp';
 import eventBus from 'instana-ui-services/eventbus';
 
 

@@ -2,14 +2,17 @@
 
 import THREE from 'three';
 import * as time from '../timeCalculations';
-import {zoomLevel} from 'instana-ui-services/stores/zoomLevel';
-
+import {setupStates} from './States/index';
 
 export default class CameraController {
 
   constructor({scene}) {
     this.bindListeners();
     this.init(scene);
+
+    this.setZoomLevel(250);
+    this.states = setupStates(this);
+    this.state = this.states.near;
   }
 
   bindListeners() {
@@ -72,6 +75,15 @@ export default class CameraController {
     this.scrollSpeed = 5;
   }
 
+  switchStateIfNext() {
+    const next = this.state.getNext(this.zoomLevel);
+    if(next){
+      this.state.leave();
+      this.state = next;
+      this.state.enter();
+    }
+  }
+
   zoom(delta) {
     if (delta === 0) {
       return;
@@ -81,7 +93,8 @@ export default class CameraController {
     const nZoomLevel = this.zoomLevel / (min - max);
 
     delta *= nZoomLevel * this.scrollSpeed;
-    zoomLevel.emit(this.zoomLevel / this.normalZoomOut);
+
+    this.switchStateIfNext();
 
     this.targetZoomLevel -= delta;
 

@@ -4,7 +4,7 @@
 
 import THREE from 'three';
 import {expect} from 'chai';
-import CameraController from './cameraController';
+import CameraController from './CameraController_temp';
 
 describe('3D map', () => {
   let scene;

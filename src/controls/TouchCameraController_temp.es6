@@ -2,7 +2,7 @@
 
 import Hammer from 'hammerjs';
 
-import CameraController from './cameraController';
+import CameraController from './CameraController_temp';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.TouchControl');
