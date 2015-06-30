@@ -325,7 +325,12 @@ export default class BaseRenderer {
     this.setDimensions({width, height});
     this.stopAnimations();
     this.rendering = false;
-    this.renderBigUpdate();
+
+    // initiate a complete redrawn when there data has been processed and
+    // painted before
+    if (this.data.getDataColumns().length > 0) {
+      this.renderBigUpdate();
+    }
   }
 
   setDimensions({width, height}) {
