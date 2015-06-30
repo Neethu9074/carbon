@@ -30,7 +30,7 @@ describe('zones', () => {
       'data',
       constants.rels.describes,
       constants.plugins.ec2,
-      'i-8359f079.ami-f9a2b690',
+      'localhost',
       'availability-zone'
     ], 'eu-central');
     expect(getZone(snapshot)).to.equal('eu-central');

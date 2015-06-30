@@ -7,5 +7,5 @@ export const plugins = {
 };
 
 export const rels = {
-  describes: 'com.instana.sdk.annotation.Describes:reverse'
+  describes: 'com.instana.sdk.annotation.Describes'
 };
