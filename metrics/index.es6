@@ -9,6 +9,7 @@ import _ from 'lodash';
 const maxValueLocators = [];
 const minValueLocators = [];
 const normalizedValueLocators = [];
+const formattedValueLocators = [];
 
 export function addMaxValueLocator(metric, locator) {
   maxValueLocators.push({
@@ -30,6 +31,14 @@ export function addNormalizedValueLocator(metric, locator) {
     locator
   });
 }
+
+export function addFormattedValueLocator(metric, locator) {
+  formattedValueLocators.push({
+    metric,
+    locator
+  });
+}
+
 
 export function getMaxValue(metric, snapshot) {
   const locator = _.find(
@@ -66,4 +75,16 @@ export function getNormalizedValue(metric, snapshot, value) {
     throw new Error('No locator found for metric ' + metric);
   }
   return locator.locator(getMaxValue(metric, snapshot), value);
+}
+
+export function getFormattedValue(metric, value) {
+  const locator = _.find(
+    formattedValueLocators,
+    eachLocator => metric.match(eachLocator.metric)
+  );
+
+  if (!locator) {
+    throw new Error('No locator found for metric ' + metric);
+  }
+  return locator.locator(value);
 }
