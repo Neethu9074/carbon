@@ -2,8 +2,6 @@
 
 import THREE from 'three';
 import Tween from 'tween.js';
-import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import eventBus from 'instana-ui-services/eventbus';
 
 import './lib/Octree';
 
@@ -15,13 +13,15 @@ import Node from './sceneObjects/Nodes/Node/index';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import LineFactory from './factories/LineFactory';
-import MouseCameraController from './controls/mouseCameraController';
+import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 // import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import * as time from './timeCalculations';
 import {createLogger} from 'instalog';
 import {select} from 'instana-ui-services/stores/selectedSnapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import eventBus from 'instana-ui-services/eventbus';
 
 const logger = createLogger('ui-map.Group');
 let currentMetrics = [];
@@ -46,7 +46,7 @@ export default class Scene {
 
     this.setup3D();
     this.setupFactories();
-    this.setupController();
+    this.controller = new MouseCameraController({scene: this});
     this.setupEvents();
 
     this.update();
@@ -215,13 +215,6 @@ export default class Scene {
     //set static
     this.backgroundCamera.matrixAutoUpdate = false;
     this.backgroundCamera.rotationAutoUpdate = false;
-  }
-
-  setupController() {
-    this.controller = new MouseCameraController({scene: this});
-
-    //call zoom to trigger camera movemnt to the right position
-    this.controller.zoom(-250);
   }
 
   update() {
