@@ -12,7 +12,7 @@ export default class InactiveState extends State {
 
   enter() {
     const owner = this.owner;
-    // owner.removeCollisionObject(owner.cube, 1);
+    owner.removeCollisionObject(owner.cube, 1);
 
     //add metric pillar to octree
     owner.addMetricCollisionObject();
@@ -27,7 +27,7 @@ export default class InactiveState extends State {
 
   leave() {
     const owner = this.owner;
-    // owner.addCollisionObject(owner.cube, 1);
+    owner.addCollisionObject(owner.cube, 1);
 
     //add metric pillar to octree
     owner.disposeMetricCollisionObject();

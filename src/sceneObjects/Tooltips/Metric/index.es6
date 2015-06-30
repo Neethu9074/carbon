@@ -24,7 +24,7 @@ const StickyNoteRC = React.createClass({
   },
 
   getInitialState() {
-    return {values: [], metricNames: ['']};
+    return {values: [], metricNames: []};
   },
 
   createSingleMetricSource(metric) {
@@ -81,6 +81,11 @@ const StickyNoteRC = React.createClass({
   },
 
   render() {
+    if(this.state.values.length === 0 ||
+      this.state.metricNames.length === 0) {
+      return <div style={{height: 10}}></div>;
+    }
+
     let colorIndex = 0;
     const colors = theme.chart.strokeColors.slice().reverse();
     const names = this.state.metricNames.slice().reverse();
@@ -94,16 +99,17 @@ const StickyNoteRC = React.createClass({
       const style = {color: color};
       const metricName = names[index];
 
-      return (<li key={metricName} className='in-tooltip__node__li'>
-        <Heading
-          className={'in-tooltip__node__li__metric-name'}
-          style={style}>
-          {metricName.toUpperCase()}
-        </Heading>
-        <Content className='in-tooltip__node__li__value'>
-          {value * 100 + '%'}
-        </Content>
-      </li>);
+      return (
+        <li key={metricName} className='in-tooltip__node__li'>
+          <Heading
+            className={'in-tooltip__node__li__metric-name'}
+            style={style}>
+            {metricName.toUpperCase()}
+          </Heading>
+          <Content className='in-tooltip__node__li__value'>
+            {value * 100 + '%'}
+          </Content>
+        </li>);
     });
 
     return (
