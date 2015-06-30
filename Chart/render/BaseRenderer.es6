@@ -93,16 +93,16 @@ export default class BaseRenderer {
     return (this.width - this.margins.left - this.margins.right) * 2;
   }
 
-  addDataPoint(seriesIndex, dataPoint) {
-    this.queue.addDataPoint(seriesIndex, dataPoint);
+  addDataPoints(seriesIndex, dataPoints) {
+    for (let i = 0, len = dataPoints.length; i < len; i++) {
+      this.queue.addDataPoint(seriesIndex, dataPoints[i]);
+    }
+    this.onDataPointAdded();
   }
 
-  start() {
-    this.render(this.queue.get());
-
-    // we use this observable to be informed about incoming data points. These
-    // incoming data points will be used to continously update the chart.
-    this.queue.dataPointAdded.subscribe(this.onDataPointAdded.bind(this));
+  addDataPoint(seriesIndex, dataPoint) {
+    this.queue.addDataPoint(seriesIndex, dataPoint);
+    this.onDataPointAdded();
   }
 
   onDataPointAdded() {
@@ -119,7 +119,7 @@ export default class BaseRenderer {
   render(newDataColumns) {
     // this value is immediately set to true and will be set back to false
     // by either `renderBigUpdate` or `renderIncrementalUpdate` as both
-    // functions render strategies differ.
+    // functions' render strategies differ.
     this.rendering = true;
     const initialRendering = this.data.getDataColumns().length === 0;
 

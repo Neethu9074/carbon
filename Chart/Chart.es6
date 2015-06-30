@@ -41,7 +41,6 @@ const Chart = React.createClass({
         !_.isEqual(this.props.seriesConfig, prevProps.seriesConfig) ||
         this.props.windowSize !== prevProps.windowSize ||
         this.props.datasources !== prevProps.datasources) {
-      console.log('Throw away and rerender');
       if (this.chart) {
         this.chart.dispose();
       }
@@ -50,7 +49,6 @@ const Chart = React.createClass({
     } else if (this.props.width !== prevProps.width ||
         this.props.height !== prevProps.height) {
       if (this.chart) {
-        console.log('Resize');
         this.chart.onResize({
           width: this.props.width,
           height: this.props.height
@@ -87,21 +85,18 @@ const Chart = React.createClass({
     this.chart = new Renderer(config);
 
     this.props.datasources.forEach((datasource, seriesIndex) => {
-      const subscription = datasource.subscribe(newData => {
-        for (let i = 0, len = newData.length; i < len; i++) {
-          const rawNewDataPoint = newData[i];
-          const dataPoint = {
-            x: rawNewDataPoint[0],
-            y: rawNewDataPoint[1]
+      const subscription = datasource.subscribe(rawDataPoints => {
+        const processedDataPoints = rawDataPoints.map(rawDataPoint => {
+          return {
+            x: rawDataPoint[0],
+            y: rawDataPoint[1]
           };
-          this.chart.addDataPoint(seriesIndex, dataPoint);
-        }
+        });
+        this.chart.addDataPoints(seriesIndex, processedDataPoints);
       });
 
       this.addSubscription(subscription);
     });
-
-    this.chart.start();
   },
 
   componentWillUnmount() {

@@ -1,6 +1,5 @@
 'use strict';
 
-import * as ro from 'reactive-observables';
 import invariant from 'invariant';
 import _ from 'lodash';
 
@@ -13,8 +12,6 @@ export default class Queue {
     for (let i = 0; i < numberOfSeries; i++) {
       this.series[i] = [];
     }
-
-    this.dataPointAdded = ro.create();
   }
 
   addDataPoint(seriesIndex, dataPoint) {
@@ -24,9 +21,6 @@ export default class Queue {
     );
 
     this.series[seriesIndex].push(dataPoint);
-    this.dataPointAdded.emit({
-      newDataPoint: dataPoint
-    });
   }
 
   /**
