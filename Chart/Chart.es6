@@ -65,16 +65,22 @@ const Chart = React.createClass({
   },
 
   renderChart() {
+    const margins = {
+      top: 10,
+      right: 0,
+      bottom: 50,
+      left: 40
+    };
+
+    if (this.props.margins) {
+      _.merge(margins, this.props.margins);
+    }
+
     const config = {
       container: React.findDOMNode(this),
       width: this.props.width,
       height: this.props.height,
-      margins: this.props.margins || {
-        top: 10,
-        right: 0,
-        bottom: 50,
-        left: 40
-      },
+      margins,
       yAxisConfig: this.props.yAxis || {
         tickFormatter: v => v,
         min: undefined,
