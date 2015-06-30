@@ -18,6 +18,7 @@ import FloatingFrame from './FloatingFrame';
 
 import './index.less';
 
+const rpt = React.PropTypes;
 const noWiredSnapshots = Immutable.Map({
   incoming: Immutable.Set(),
   outgoing: Immutable.Set()
@@ -26,6 +27,10 @@ const noWiredSnapshots = Immutable.Map({
 const Sidebar = React.createClass({
 
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+
+  propTypes: {
+    pluginId: rpt.string.isRequired
+  },
 
   getInitialState() {
     return {
@@ -103,10 +108,10 @@ const Sidebar = React.createClass({
   renderSnapshotListing() {
     /*eslint-disable no-unused-vars*/
     const Listing = this.getForgeSpecificComponent('Listing');
-    return <Listing snapshots={this.state.snapshots}
-                    snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
-                    selectedSnapshot={this.state.selectedSnapshot}
-                    highlightedSnapshot={this.state.highlightedSnapshot} />;
+    return (<Listing snapshots={this.state.snapshots}
+                     snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
+                     selectedSnapshot={this.state.selectedSnapshot}
+                     highlightedSnapshot={this.state.highlightedSnapshot} />);
     /*eslint-enable no-unused-vars*/
   },
 

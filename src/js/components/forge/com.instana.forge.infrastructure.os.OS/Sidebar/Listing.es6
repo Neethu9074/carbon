@@ -16,9 +16,9 @@ const Listing = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
   propTypes: {
-    snapshots: irpt.seq.isRequired,
-    highlightedSnapshot: irpt.map.isRequired,
-    snapshotsWiredToHighlightedSnapshot: irpt.seq.isRequired
+    snapshots: irpt.list.isRequired,
+    highlightedSnapshot: irpt.map,
+    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired
   },
 
   render() {
