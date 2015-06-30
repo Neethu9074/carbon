@@ -241,6 +241,7 @@ export default class Node extends BaseNode {
   }
 
   setSingleMetricValue(value) {
+    value *= this.height;
     this.scene.singleMetricFactory
       .getFragment(this.id)
       .newHeight = value;
