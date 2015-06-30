@@ -61,7 +61,7 @@ const Chart = React.createClass({
       !_.isEqual(this.props.seriesConfig, prevProps.seriesConfig) ||
       this.props.windowSize !== prevProps.windowSize ||
       this.props.datasources !== prevProps.datasources ||
-      this.props.yAxis !== prevProps.yAxis;
+      !_.isEqual(this.props.yAxis, prevProps.yAxis);
   },
 
   renderChart() {
