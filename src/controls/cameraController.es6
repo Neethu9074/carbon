@@ -2,6 +2,7 @@
 
 import THREE from 'three';
 import * as time from '../timeCalculations';
+import {zoomLevel} from 'instana-ui-services/stores/zoomLevel';
 
 
 export default class CameraController {
@@ -58,6 +59,7 @@ export default class CameraController {
   initZoomField() {
     //zoom fields
     this.maxZoomOut = 1800;
+    this.normalZoomOut = 400; //100%
     this.maxZoomIn = 20;
 
     //the current Level of zooming
@@ -76,9 +78,10 @@ export default class CameraController {
     }
     const min = this.maxZoomOut;
     const max = this.maxZoomIn;
-
     const nZoomLevel = this.zoomLevel / (min - max);
+
     delta *= nZoomLevel * this.scrollSpeed;
+    zoomLevel.emit(this.zoomLevel / this.normalZoomOut);
 
     this.targetZoomLevel -= delta;
 
