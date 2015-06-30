@@ -28,6 +28,12 @@ export default class Queue {
    * @returns {DataPoint[][]}
    */
   get() {
+    // Avoid costly operations when the following holds true. This generally
+    // happens when the chart is being constructed
+    if (!this.isAtLeastOneDataPointInEverySeries()) {
+      return [];
+    }
+
     const firstSeries = this.series[0];
     const newDataPoints = [];
     const xValuesThatAppearedInAllDataPoints = [];
@@ -49,6 +55,15 @@ export default class Queue {
     });
 
     return newDataPoints;
+  }
+
+  isAtLeastOneDataPointInEverySeries() {
+    for (let i = 0, len = this.series.length; i < len; i++) {
+      if (this.series[i].length === 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   getDataPointsFromAllSeries(x) {
