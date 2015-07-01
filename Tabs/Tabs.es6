@@ -28,7 +28,7 @@ export const Tabs = React.createClass({
   propTypes: {
     collapsible: rpt.bool,
     blockIdentifier: rpt.string,
-    children: rpt.arrayOf(Tab).isRequired
+    children: rpt.array.isRequired
   },
 
   getInitialState() {
