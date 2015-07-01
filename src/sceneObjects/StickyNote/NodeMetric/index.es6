@@ -48,6 +48,12 @@ export default React.createClass({
     }));
   },
 
+  componentWillUnmount() {
+    if(this.metricSub) {
+      this.metricSub.dispose();
+    }
+  },
+
   render() {
     const values = this.state.values;
     return (
