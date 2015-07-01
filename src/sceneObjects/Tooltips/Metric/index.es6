@@ -7,6 +7,7 @@ import Heading from '../Heading';
 import Content from '../Content';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {subscribeToMetric} from '../../../metricUtils';
+import {getFormattedValue} from 'instana-ui-sdk/metrics';
 import {theme} from 'instana-ui-services/theme';
 
 import './index.less';
@@ -69,17 +70,18 @@ const StickyNoteRC = React.createClass({
         colorIndex = 0;
       }
       const style = {color};
-      const metricName = metrics.getIn([index, 'label']);
+      const metricName = metrics.getIn([index, 'name']);
+      const metricLabel = metrics.getIn([index, 'label']);
 
       return (
         <li key={metricName} className='in-tooltip__node__li'>
           <Heading
             className={'in-tooltip__node__li__metric-name'}
             style={style}>
-            {metricName.toUpperCase()}
+            {metricLabel.toUpperCase()}
           </Heading>
           <Content className='in-tooltip__node__li__value'>
-            {value * 100 + '%'}
+            {getFormattedValue(metricName, value)}
           </Content>
         </li>);
     });

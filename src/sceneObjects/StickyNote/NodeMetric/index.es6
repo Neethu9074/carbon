@@ -3,6 +3,7 @@
 import React from 'react/addons';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {subscribeToMetric} from '../../../metricUtils';
+import {getFormattedValue} from 'instana-ui-sdk/metrics';
 
 import './index.less';
 
@@ -27,9 +28,12 @@ export default React.createClass({
 
       this.disposeRxo(this.metricSubscription);
 
+      const metrics = metric.get('metrics');
       this.metricSubscription = subscribeToMetric({
-        metrics: metric.get('metrics'), snapshot: this.props.snapshot,
-        fn: (values) => {
+        metrics, snapshot: this.props.snapshot, fn: ( values) => {
+          values = values.map((v, index) => {
+            return getFormattedValue(metrics.getIn([index, 'name']), v);
+          });
           this.setState({values: values.slice()});
         }
       });
