@@ -70,6 +70,26 @@ describe('metrics', () => {
     it('should format normalized to percentage', () => {
       expect(getFormattedValue('cpu.total.wait', 0.25)).to.equal('25%');
     });
+
+    it('should round normalized', () => {
+      expect(getFormattedValue('load', 0.04)).to.equal(0.04);
+    });
+
+    it('should round normalized', () => {
+      expect(getFormattedValue('load', 0.041)).to.equal(0.04);
+    });
+
+    it('should round normalized', () => {
+      expect(getFormattedValue('load', 0.040234542)).to.equal(0.04);
+    });
+
+    it('should round percentages', () => {
+      expect(getFormattedValue('cpu.total.wait', 0.04003123)).to.equal('4%');
+    });
+
+    it('should round percentages', () => {
+      expect(getFormattedValue('cpu.total.wait', 0.041)).to.equal('4.1%');
+    });
   });
 
 });
