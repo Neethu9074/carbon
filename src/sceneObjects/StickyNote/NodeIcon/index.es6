@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import eventBus from 'instana-ui-services/eventbus';
 import {getIcon} from 'instana-ui-sdk/snapshot';
 
 import './index.less';
@@ -14,15 +15,32 @@ export default React.createClass({
     snapshot: rpt.object.isRequired
   },
 
+  getInitialState() {
+    return {size: 50};
+  },
+
+  componentDidMount() {
+    this.subscription = eventBus.on('nodeSizeChanged').subscribe((size) => {
+      this.setState({size});
+    });
+  },
+
+  componentWillUnmount() {
+    if(this.subscription) {
+      this.subscription.dispose();
+      this.subscription = null;
+    }
+  },
+
   render() {
     const icon = getIcon(this.props.snapshot);
+    const size = this.state.size * 0.6 + 'px';
+    const style = {width: size, height: size};
 
     return (
-      <div className='in-sticky-note__icon'>
-        <div className='in-sticky-note__icon-background'>
-          {icon ?
-            <img src={icon} className='in-sticky-note__icon-svg'/> : null}
-        </div>
+      <div style={style} className='in-sticky-note__icon-background'>
+        {icon ?
+          <img src={icon} className='in-sticky-note__icon-svg'/> : null}
       </div>
     );
   }

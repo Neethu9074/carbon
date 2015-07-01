@@ -14,7 +14,6 @@ export default class StickyNote {
     parent.getHtmlContainer().appendChild(this.stickyNoteContainer);
 
     this.style = this.stickyNoteContainer.style;
-
     this.highlighted = false;
   }
 

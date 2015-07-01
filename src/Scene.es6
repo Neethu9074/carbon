@@ -273,6 +273,21 @@ export default class Scene {
     camera.projection.multiplyMatrices(camProjectionMat, inverse);
   }
 
+  updateNodeWidthOnScreen() {
+    //size of the view frustum in worldunits
+    const camSize = this.cameraSize;
+    //each node has width = 1 in worldunits
+    const nodeSize = 1;
+    const aspect = nodeSize / camSize;
+    const nodeSizeInPixel = aspect * this.width;
+
+    if(this.nodeSizeInPixel !== nodeSizeInPixel) {
+      this.nodeSizeInPixel = nodeSizeInPixel;
+      eventBus.emit('nodeSizeChanged', nodeSizeInPixel);
+      this.renderScene();
+    }
+  }
+
   updateMetricHeights() {
     // this.singleMeshMetricFactory.updateHeights();
 
@@ -354,6 +369,9 @@ export default class Scene {
     this.camera.right = camSizeHalf * aspect;
     this.camera.top = camSizeHalf;
     this.camera.bottom = -camSizeHalf;
+
+    //nodes size only changes at camSize or canvas changes
+    this.updateNodeWidthOnScreen();
 
     //projection matrix is updated in update loop
   }
