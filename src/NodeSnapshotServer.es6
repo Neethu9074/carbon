@@ -1,16 +1,14 @@
 'use strict';
 
 import eventBus from 'instana-ui-services/eventbus';
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
-import {getNormalizedValue} from 'instana-ui-sdk/metrics';
-import {create} from 'instana-ui-services/conveyer';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import {combineLatest} from 'reactive-observables';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
+import {subscribeToMetric} from './metricUtils';
+import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 
 let currentMetric;
 
@@ -70,13 +68,7 @@ export default class NodeSnapshotServer {
 
   showMetrics() {
     this.disposeMetricSubscription();
-
-    if(currentMetric.size === 1) {
-      this.setupSingleMetric();
-    } else {
-      this.setupMultiMetric();
-    }
-
+    this.subscribeToCurrentMetric();
     this.client.showMetrics();
   }
 
@@ -87,56 +79,22 @@ export default class NodeSnapshotServer {
     this.metricSubscription = undefined;
   }
 
-  setupSingleMetric() {
-    this.createMetricSource = this.createSingleMetricSource;
+  subscribeToCurrentMetric() {
+    const client = this.client;
+    const snapshot = client.snapshot;
 
-    this.currentMetricFunction = (v) => {
-      this.client.setSingleMetricValue(getNormalizedValue(
-        currentMetric.getIn([0, 'name']), this.client.snapshot, v
-      ));
-    };
-
-    this.subscribeToCurrent();
-  }
-
-  setupMultiMetric() {
-    this.createMetricSource = this.createMultiMetricSource;
-    this.currentMetricFunction = (v) => this.client.setMultiMetricValue(v);
-
-    this.subscribeToCurrent();
-  }
-
-  //reference to once, multi or single metric creator
-  createMetricSource() {}
-
-  //this is one of the possible metric creation method for multiple metrics
-  createMultiMetricSource() {
-    const tempSubscriptions = currentMetric.map(metric => {
-      return this.createSingleMetricSource(metric.get('name'));
-    }).toJS();
-
-    return combineLatest(tempSubscriptions).throttle(200);
-  }
-
-
-  //this is one of the possible metric creation method for single metrics
-  createSingleMetricSource(metric) {
-    return create(MetricConveyer, {
-      metric,
-      frequency: 1000,
-      snapshot: this.client.snapshot
+    this.metricSubscription = subscribeToMetric({
+      metrics: currentMetric, snapshot, fn: (values) => {
+        try{
+          client.setMetricValues(
+            values.map((v, index) => getNormalizedValue(
+              currentMetric.getIn([index, 'name']), snapshot, v))
+          );
+        } catch (err) {
+          client.setMetricValues(values);
+        }
+      }
     });
-  }
-
-  /* takes the current method reference for creating a subscribtion and
-  * subscribes to it.
-  */
-  subscribeToCurrent() {
-    const metricSource = this.createMetricSource(
-      currentMetric.getIn([0, 'name']));
-
-    this.metricSubscription = metricSource.subscribe(value =>
-      this.currentMetricFunction(value));
   }
 
   pauseMetrics() {
@@ -148,7 +106,7 @@ export default class NodeSnapshotServer {
     //if there was an active metric subscribtion which is paused,
     //resubscribe to it but only if there is a active metric
     if(!this.metricSubscription && currentMetric) {
-      this.subscribeToCurrent();
+      this.subscribeToCurrentMetric();
     }
   }
 

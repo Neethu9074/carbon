@@ -2,13 +2,11 @@
 
 import React from 'react/addons';
 import Tooltip from '../Tooltip';
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import TooltipFrame from '../index';
 import Heading from '../Heading';
 import Content from '../Content';
-import {create} from 'instana-ui-services/conveyer';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
-import {combineLatest} from 'reactive-observables';
+import {subscribeToMetric} from '../../../metricUtils';
 import {theme} from 'instana-ui-services/theme';
 
 import './index.less';
@@ -27,31 +25,6 @@ const StickyNoteRC = React.createClass({
     return {values: [], metrics: []};
   },
 
-  createSingleMetricSource(metric) {
-    return create(MetricConveyer, {
-      metric, frequency: 1000, snapshot: this.props.snapshot
-    });
-  },
-
-  subscribeToSingle(metric) {
-    this.metricSubscription = this.createSingleMetricSource(metric)
-    .subscribe((value) => {
-      this.setState({values: [value]});
-    });
-  },
-
-  subscribeToMulti(metrics) {
-    const tempSubscriptions = metrics.map(metric => {
-      return this.createSingleMetricSource(metric.get('name'));
-    }).toJS();
-
-    this.metricSubscription = combineLatest(tempSubscriptions)
-    .throttle(200)
-    .subscribe((values) => {
-      this.setState({values: values.slice()});
-    });
-  },
-
   disposeRxo(rxo) {
     if(rxo) {
       rxo.dispose();
@@ -64,14 +37,14 @@ const StickyNoteRC = React.createClass({
         return;
       }
       const metrics = metric.get('metrics');
-      this.disposeRxo(this.metricSubscription);
       this.setState({metrics});
 
-      if(metrics.size === 1) {
-        this.subscribeToSingle(metrics.getIn([0, 'name']));
-      } else {
-        this.subscribeToMulti(metrics);
-      }
+      this.disposeRxo(this.metricSubscription);
+      this.metricSubscription = subscribeToMetric({
+        metrics, snapshot: this.props.snapshot, fn: (values) => {
+          this.setState({values: values.slice()});
+        }
+      });
     });
   },
 
@@ -95,7 +68,7 @@ const StickyNoteRC = React.createClass({
       if(colorIndex >= colors.length) {
         colorIndex = 0;
       }
-      const style = {color: color};
+      const style = {color};
       const metricName = metrics.getIn([index, 'label']);
 
       return (

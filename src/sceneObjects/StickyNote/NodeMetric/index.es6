@@ -1,10 +1,8 @@
 'use strict';
 
 import React from 'react/addons';
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
-import {create} from 'instana-ui-services/conveyer';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
-// import {combineLatest} from 'reactive-observables';
+import {subscribeToMetric} from '../../../metricUtils';
 
 import './index.less';
 
@@ -26,31 +24,21 @@ export default React.createClass({
       if(!metric) {
         return;
       }
-      const metrics = metric.get('metrics');
+
       this.disposeRxo(this.metricSubscription);
 
-      if(metrics.size === 1) {
-        this.subscribeToSingle(metrics.getIn([0, 'name']));
-      } else {
-        // this.subscribeToMulti(metrics);
-      }
+      this.metricSubscription = subscribeToMetric({
+        metrics: metric.get('metrics'), snapshot: this.props.snapshot,
+        fn: (values) => {
+          this.setState({values: values.slice()});
+        }
+      });
     });
   },
 
   componentWillUnmount() {
     this.disposeRxo(this.activeMetricSubscriptions);
     this.disposeRxo(this.metricSubscription);
-  },
-
-  subscribeToSingle(metric) {
-    this.metricSubscription = this.createSingleMetricSource(metric)
-    .subscribe((value) => {this.setState({value}); });
-  },
-
-  createSingleMetricSource(metric) {
-    return create(MetricConveyer, {
-      metric, frequency: 1000, snapshot: this.props.snapshot
-    });
   },
 
   disposeRxo(rxo) {
@@ -60,9 +48,10 @@ export default React.createClass({
   },
 
   render() {
+    const values = this.state.values;
     return (
       <div className='in-sticky-note__metric'>
-        {this.state.value}
+        {values ? values.join(',') : null}
       </div>
     );
   }

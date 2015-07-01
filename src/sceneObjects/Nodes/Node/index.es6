@@ -239,6 +239,14 @@ export default class Node extends BaseNode {
     // this.scene.singleMeshMetricFactory.removeFragment(this.id);
   }
 
+  setMetricValues(values) {
+    if(values.length === 1) {
+      this.setSingleMetricValue(values[0]);
+    } else {
+      this.setMultiMetricValues(values);
+    }
+  }
+
   setSingleMetricValue(value) {
     value *= this.height;
     this.scene.singleMetricFactory
@@ -250,7 +258,7 @@ export default class Node extends BaseNode {
     this.updateFactoryValues([value]);
   }
 
-  setMultiMetricValue(values) {
+  setMultiMetricValues(values) {
     this.newMetricValues = values;
 
     //set the value to the total node height for better mouseover
