@@ -29,18 +29,18 @@ window.performanceCpu = function() {
 
 window.performanceMemory = function() {
   setActiveMetric(Immutable.fromJS({
-    icon: 'metrics_cpu_usage',
-    label: 'Usage',
-    longLabel: 'Usage',
+    icon: 'metrics_memory_free',
+    label: 'Free',
+    longLabel: 'Memory Free',
     metrics: [{name: 'memory.free', label: 'Memory free'}]
   }));
 };
 
 window.performanceLoad = function() {
   setActiveMetric(Immutable.fromJS({
-    icon: 'metrics_cpu_usage',
-    label: 'Usage',
-    longLabel: 'Usage',
+    icon: 'metrics_cpu_load',
+    label: 'Load',
+    longLabel: 'CPU Load',
     metrics: [{name: 'load.1min', label: 'Load'}]
   }));
 };
