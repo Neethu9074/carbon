@@ -125,10 +125,11 @@ describe('metrics', () => {
       locator.returns(42);
       addFormattedValueLocator(/^memory\.free/, locator);
 
-      const value = getFormattedValue('memory.free', 0.5);
+      const snapshot = 'aSnapshot';
+      const value = getFormattedValue('memory.free', snapshot, 0.5);
       expect(value).to.equal(42);
       expect(locator.calledOnce).to.equal(true);
-      expect(locator.getCall(0).args[0]).to.equal(0.5);
+      expect(locator.getCall(0).args[0]).to.equal(42);
     });
 
   });
