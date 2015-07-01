@@ -56,17 +56,17 @@ addNormalizedValueLocator(
 addFormattedValueLocator(
   /^memory\.free/,
    //translates free -> used -> whateverBytes
-  (max, value) => formatBytes((max - value) / max)
+  (max, value) => formatBytes((max - value))
 );
 
 addFormattedValueLocator(
   /^load/,
 
   // 0.01 => 0.01, 0.01001 => 0.01
-  (max, value) => (((value / max) * 100) | 0) / 100
+  (max, value) => (((value) * 100) | 0) / 100
 );
 
 addFormattedValueLocator(
   /^cpu\.total\.(user|sys|wait|nice|steal|idle)/,
-  (value) => (((value * 10000) | 0) / 100) + '%' // 0.3 => 30%, 0.301 => 30%
+  (max, value) => (((value * 10000) | 0) / 100) + '%' // 0.301 => 30%
 );
