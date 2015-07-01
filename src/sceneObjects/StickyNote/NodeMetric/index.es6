@@ -30,7 +30,7 @@ export default React.createClass({
       this.disposeRxo(this.metricSubscription);
 
       if(metrics.size === 1) {
-        this.subscribeToSingle(metrics.get(0));
+        this.subscribeToSingle(metrics.getIn([0, 'name']));
       } else {
         // this.subscribeToMulti(metrics);
       }

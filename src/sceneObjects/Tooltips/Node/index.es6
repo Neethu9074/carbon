@@ -37,22 +37,28 @@ const StickyNoteRC = React.createClass({
   },
 
   componentWillUnmount() {
-    this.healthSubscription.dispose();
-    this.healthSubscription = null;
+    this.disposeRxo(this.healthSubscription);
+    this.disposeRxo(this.issueSubscription);
+  },
 
-    this.issueSubscription.dispose();
-    this.issueSubscription = null;
+  disposeRxo(rxo) {
+    if(rxo) {
+      rxo.dispose();
+    }
   },
 
   getStatusLine() {
-    const nodeHealth = this.state.health;
+    const state = this.state;
+    const nodeHealth = state.health;
+    const issues = state.issues;
     const data = this.props.snapshot.get('data');
-    if((nodeHealth === health.warning || nodeHealth === health.danger) &&
-      this.state.issues && this.state.issues.size > 0) {
+
+    //only show the status line if there is a "bad" health or some issues
+    if(nodeHealth !== health.ok && this.issuesAvailable()) {
         try {
           return (<IssueStatusLine
             hostname={data.get('hostname')}
-            time={this.state.issues.get(0).get('start')} />);
+            time={issues.get(0).get('start')} />);
         } catch (err) {
           return <IssueStatusLine hostname={data.get('hostname')} />;
         }
@@ -63,27 +69,39 @@ const StickyNoteRC = React.createClass({
   getHeading() {
     const nodeHealth = this.state.health;
     const data = this.props.snapshot.get('data');
+    const issues = this.state.issues;
 
-    let text = '';
+    let text = data.get('hostname');
     let cssClass = '';
 
-    try {
-      text = this.state.issues.get(0).get('problemText');
+    if(this.issuesAvailable()) {
+      text = issues.getIn([0, 'problemText']);
       cssClass = 'in-tooltip__node-heading--' + nodeHealth;
-    } catch (er) {
-      text = data.get('hostname');
-      cssClass = '';
+
+      if(text === undefined) {
+        text = data.get('hostname');
+        cssClass = '';
+      }
     }
 
     return {text, cssClass};
   },
 
+  issuesAvailable() {
+    const issues = this.state.issues;
+    return (issues && issues.size > 0);
+  },
+
   getContent() {
-    try {
-      return this.state.issues.get(0).get('fixSuggestion');
-    } catch (er) {
-      return 'this is a great server';
+    let content = 'this is a great server';
+
+    if(this.issuesAvailable()) {
+      const suggestion = this.state.issues.getIn([0, 'fixSuggestion']);
+      if(suggestion) {
+        content = suggestion;
+      }
     }
+    return content;
   },
 
   render() {

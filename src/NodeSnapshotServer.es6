@@ -92,7 +92,7 @@ export default class NodeSnapshotServer {
 
     this.currentMetricFunction = (v) => {
       this.client.setSingleMetricValue(getNormalizedValue(
-        currentMetric.get(0).get('name'), this.client.snapshot, v
+        currentMetric.getIn([0, 'name']), this.client.snapshot, v
       ));
     };
 
@@ -132,7 +132,8 @@ export default class NodeSnapshotServer {
   * subscribes to it.
   */
   subscribeToCurrent() {
-    const metricSource = this.createMetricSource(currentMetric.get(0).get('name'));
+    const metricSource = this.createMetricSource(
+      currentMetric.getIn([0, 'name']));
 
     this.metricSubscription = metricSource.subscribe(value =>
       this.currentMetricFunction(value));

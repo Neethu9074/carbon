@@ -68,7 +68,7 @@ const StickyNoteRC = React.createClass({
       this.setState({metrics});
 
       if(metrics.size === 1) {
-        this.subscribeToSingle(metrics.get(0).get('name'));
+        this.subscribeToSingle(metrics.getIn([0, 'name']));
       } else {
         this.subscribeToMulti(metrics);
       }
@@ -81,22 +81,22 @@ const StickyNoteRC = React.createClass({
   },
 
   render() {
-    if(this.state.values.length === 0 ||
-      this.state.metrics.size === 0) {
+    const metrics = this.state.metrics.slice().reverse();
+    const values = this.state.values.slice().reverse();
+    if(values.length === 0 || metrics.size === 0) {
       return <div style={{height: 10}}></div>;
     }
+
     let colorIndex = 0;
     const colors = theme.chart.strokeColors.slice().reverse();
-    const names = this.state.metrics.slice().reverse();
-    const listItems = this.state.values.slice().reverse()
-    .map((value, index) => {
+    const listItems = values.map((value, index) => {
       const color = colors[colorIndex];
       colorIndex++;
       if(colorIndex >= colors.length) {
         colorIndex = 0;
       }
       const style = {color: color};
-      const metricName = names.get(index).get('label');
+      const metricName = metrics.getIn([index, 'label']);
 
       return (
         <li key={metricName} className='in-tooltip__node__li'>
