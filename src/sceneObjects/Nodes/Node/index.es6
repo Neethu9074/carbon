@@ -248,7 +248,6 @@ export default class Node extends BaseNode {
   }
 
   setSingleMetricValue(value) {
-    value *= this.height;
     this.scene.singleMetricFactory
       .getFragment(this.id)
       .newHeight = value;
@@ -281,8 +280,8 @@ export default class Node extends BaseNode {
   getWiredSnapshotsAsArray() {
     const wiredSnapshots = this.wiredSnapshots;
     if(wiredSnapshots) {
-      return wiredSnapshots.get('outgoing')
-        .concat(wiredSnapshots.get('incoming'));
+      return wiredSnapshots.get('outgoing');
+        //.concat(wiredSnapshots.get('incoming'));
     }
     return [];
   }
