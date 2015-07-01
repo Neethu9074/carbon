@@ -24,7 +24,7 @@ import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 
 const logger = createLogger('ui-map.Group');
-let currentMetrics = [];
+let currentMetrics;
 
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
@@ -91,7 +91,7 @@ export default class Scene {
         this.hullsAreInactive = true;
 
       //only set hulls to normal state if there is not active metric
-    } else if(currentMetrics.size === 0){
+    } else if(!currentMetrics || currentMetrics.size === 0) {
         this.hullsAreInactive = false;
         this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
       }
