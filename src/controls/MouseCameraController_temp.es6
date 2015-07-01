@@ -38,7 +38,7 @@ export default class MouseControl extends TouchController {
         // mice send stable large ticks.
 
         // scale down
-        let zoom = (deltaY / 6) | 0;
+        let zoom = (deltaY / 4) | 0;
         // clamp to -50 .. 50
         if (zoom < -50) {
           zoom = -50;
