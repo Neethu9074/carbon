@@ -75,20 +75,22 @@ const StickyNoteRC = React.createClass({
 
       return (
         <li key={metricName} className='in-tooltip__node__li'>
-          <Heading
-            className={'in-tooltip__node__li__metric-name'}
-            style={style}>
-            {metricLabel.toUpperCase()}
-          </Heading>
-          <Content className='in-tooltip__node__li__value'>
-            {getFormattedValue(metricName, this.props.snapshot, value)}
-          </Content>
+          <div className='in-tooltip__node-li--wrapper'>
+            <Heading
+              className={'in-tooltip__node-li--metric-name'}
+              style={style}>
+              {metricLabel.toUpperCase()}
+            </Heading>
+            <Content className='in-tooltip__node-li--value'>
+              {getFormattedValue(metricName, this.props.snapshot, value)}
+            </Content>
+          </div>
         </li>);
     });
 
     return (
       <TooltipFrame>
-        <ul className='in-tooltip__node__ul'>
+        <ul className='in-tooltip__node-ul'>
           {listItems}
         </ul>
       </TooltipFrame>
