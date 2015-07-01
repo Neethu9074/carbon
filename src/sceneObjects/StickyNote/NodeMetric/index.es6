@@ -31,7 +31,10 @@ export default React.createClass({
       }
 
       const metrics = metric.get('metrics');
-      this.addSubscription(subscribeToMetric({
+      if(this.metricSub) {
+        this.metricSub.dispose();
+      }
+      this.metricSub = subscribeToMetric({
         metrics, snapshot: this.props.snapshot, fn: ( values) => {
           values = values.map((v, index) => {
             return getFormattedValue(
@@ -41,7 +44,7 @@ export default React.createClass({
           });
           this.setState({values: values.slice()});
         }
-      }));
+      });
     }));
   },
 
