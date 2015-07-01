@@ -77,7 +77,7 @@ export function getNormalizedValue(metric, snapshot, value) {
   return locator.locator(getMaxValue(metric, snapshot), value);
 }
 
-export function getFormattedValue(metric, value) {
+export function getFormattedValue(metric, snapshot, value) {
   const locator = _.find(
     formattedValueLocators,
     eachLocator => metric.match(eachLocator.metric)
@@ -86,5 +86,5 @@ export function getFormattedValue(metric, value) {
   if (!locator) {
     throw new Error('No locator found for metric ' + metric);
   }
-  return locator.locator(value);
+  return locator.locator(getMaxValue(metric, snapshot), value);
 }
