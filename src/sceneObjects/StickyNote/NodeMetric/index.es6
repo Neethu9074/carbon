@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {subscribeToMetric} from '../../../metricUtils';
 import {getFormattedValue} from 'instana-ui-sdk/metrics';
@@ -10,7 +11,10 @@ import './index.less';
 const rpt = React.PropTypes;
 export default React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
 
   propTypes: {
     snapshot: rpt.object.isRequired
@@ -21,15 +25,13 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.activeMetricSubscriptions = activeMetric.subscribe(metric => {
+    this.addSubscription(activeMetric.subscribe(metric => {
       if(!metric) {
         return;
       }
 
-      this.disposeRxo(this.metricSubscription);
-
       const metrics = metric.get('metrics');
-      this.metricSubscription = subscribeToMetric({
+      this.addSubscription(subscribeToMetric({
         metrics, snapshot: this.props.snapshot, fn: ( values) => {
           values = values.map((v, index) => {
             return getFormattedValue(
@@ -39,19 +41,8 @@ export default React.createClass({
           });
           this.setState({values: values.slice()});
         }
-      });
-    });
-  },
-
-  componentWillUnmount() {
-    this.disposeRxo(this.activeMetricSubscriptions);
-    this.disposeRxo(this.metricSubscription);
-  },
-
-  disposeRxo(rxo) {
-    if(rxo) {
-      rxo.dispose();
-    }
+      }));
+    }));
   },
 
   render() {

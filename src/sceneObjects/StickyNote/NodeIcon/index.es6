@@ -2,6 +2,7 @@
 
 import React from 'react/addons';
 import eventBus from 'instana-ui-services/eventbus';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {getIcon} from 'instana-ui-sdk/snapshot';
 
 import './index.less';
@@ -9,7 +10,10 @@ import './index.less';
 const rpt = React.PropTypes;
 export default React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
 
   propTypes: {
     snapshot: rpt.object.isRequired
@@ -20,21 +24,14 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.subscription = eventBus.on('nodeSizeChanged').subscribe((size) => {
+    this.addSubscription(eventBus.on('nodeSizeChanged').subscribe((size) => {
       this.setState({size});
-    });
-  },
-
-  componentWillUnmount() {
-    if(this.subscription) {
-      this.subscription.dispose();
-      this.subscription = null;
-    }
+    }));
   },
 
   render() {
     const icon = getIcon(this.props.snapshot);
-    const size = this.state.size * 0.6 + 'px';
+    const size = this.state.size * 0.4 + 'px';
     const style = {width: size, height: size};
 
     return (

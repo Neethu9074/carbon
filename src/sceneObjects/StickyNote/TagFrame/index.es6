@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import Tag from './Tag';
 import MultiTagToolTip from '../../Tooltips/MultiTag';
 import {level, zoomLevel} from 'instana-ui-services/stores/zoomLevel';
@@ -10,7 +11,10 @@ import './index.less';
 
 export default React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
 
   propTypes: {
     sceneObject: React.PropTypes.object.isRequired,
@@ -22,14 +26,9 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.zoomLevelSubscribtion = zoomLevel.subscribe(l => {
+    this.addSubscription(zoomLevel.subscribe(l => {
       this.setState({zoomLevel: l});
-    });
-  },
-
-  componentWillUnmount() {
-    this.zoomLevelSubscribtion.dispose();
-    this.zoomLevelSubscribtion = null;
+    }));
   },
 
   mouseOver: function () {

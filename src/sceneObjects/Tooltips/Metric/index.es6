@@ -5,6 +5,8 @@ import Tooltip from '../Tooltip';
 import TooltipFrame from '../index';
 import Heading from '../Heading';
 import Content from '../Content';
+
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {subscribeToMetric} from '../../../metricUtils';
 import {getFormattedValue} from 'instana-ui-sdk/metrics';
@@ -16,7 +18,10 @@ import './index.less';
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
 
   propTypes: {
     snapshot: React.PropTypes.object.isRequired
@@ -26,32 +31,20 @@ const StickyNoteRC = React.createClass({
     return {values: [], metrics: []};
   },
 
-  disposeRxo(rxo) {
-    if(rxo) {
-      rxo.dispose();
-    }
-  },
-
   componentDidMount() {
-    this.activeMetricSubscriptions = activeMetric.subscribe(metric => {
+    this.addSubscription(activeMetric.subscribe(metric => {
       if(!metric) {
         return;
       }
       const metrics = metric.get('metrics');
       this.setState({metrics});
 
-      this.disposeRxo(this.metricSubscription);
-      this.metricSubscription = subscribeToMetric({
+      this.addSubscription(subscribeToMetric({
         metrics, snapshot: this.props.snapshot, fn: (values) => {
           this.setState({values: values.slice()});
         }
-      });
-    });
-  },
-
-  componentWillUnmount() {
-    this.disposeRxo(this.metricSubscription);
-    this.disposeRxo(this.activeMetricSubscriptions);
+      }));
+    }));
   },
 
   render() {

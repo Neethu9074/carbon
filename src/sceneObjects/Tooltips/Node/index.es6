@@ -5,6 +5,7 @@ import Tooltip from '../Tooltip';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
 import {getProblemsForSnapshot} from 'instana-ui-services/issueTracker';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 import TooltipFrame from '../index';
 import IssueStatusLine from '../IssueStatusLine';
@@ -17,7 +18,10 @@ import './index.less';
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
 
   propTypes: {
     snapshot: React.PropTypes.object.isRequired
@@ -28,22 +32,11 @@ const StickyNoteRC = React.createClass({
   },
 
   componentDidMount() {
-    this.healthSubscription = getHealth(this.props.snapshot)
-      .subscribe(h => this.setState({health: h}));
+    this.addSubscription(getHealth(this.props.snapshot)
+      .subscribe(h => this.setState({health: h})));
 
-    this.issueSubscription = getProblemsForSnapshot(this.props.snapshot)
-      .subscribe(issues => this.setState({issues}));
-  },
-
-  componentWillUnmount() {
-    this.disposeRxo(this.healthSubscription);
-    this.disposeRxo(this.issueSubscription);
-  },
-
-  disposeRxo(rxo) {
-    if(rxo) {
-      rxo.dispose();
-    }
+    this.addSubscription(getProblemsForSnapshot(this.props.snapshot)
+      .subscribe(issues => this.setState({issues})));
   },
 
   getStatusLine() {
