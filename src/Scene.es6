@@ -68,6 +68,7 @@ export default class Scene {
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       if(!metric) {
+        currentMetrics = undefined;
         // eventBus.emit('setHullsInactive', false);
         this.hullsAreInactive = false;
         this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
