@@ -26,18 +26,26 @@ describe('snapshot', () => {
         const connections = extractConnections(snapshot, snapshots);
         const outgoing = connections.get('outgoing');
         const incoming = connections.get('incoming');
-        if(snapshot.get('name') === 'a') {
+        const name = snapshot.get('name');
+        if(name === 'a') {
           expect(outgoing.size).to.equal(3);
           expect(incoming.size).to.equal(0);
-        } else if(snapshot.get('name') === 'b') {
+
+        } else if(name === 'b') {
           expect(outgoing.size).to.equal(3);
           expect(incoming.size).to.equal(2);
-        } else if(snapshot.get('name') === 'c') {
+
+        } else if(name === 'c') {
           expect(outgoing.size).to.equal(1);
           expect(incoming.size).to.equal(1);
-          expect(outgoing.get(0).get('name')).to.equal('ec2');
-          expect(incoming.get(0).get('name')).to.equal('d');
-        } else if(snapshot.get('name') === 'd') {
+          expect(outgoing.getIn([0, 'steadyId'])).to.equal('46.137.99.225');
+          expect(incoming.getIn([0, 'name'])).to.equal('d');
+
+        } else if(name === 'ec2') {
+          expect(outgoing.size).to.equal(0);
+          expect(incoming.size).to.equal(0);
+
+        } else if(name === 'd') {
           expect(outgoing.size).to.equal(0);
           expect(incoming.size).to.equal(0);
         }
