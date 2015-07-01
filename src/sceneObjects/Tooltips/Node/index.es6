@@ -4,8 +4,7 @@ import React from 'react/addons';
 import Tooltip from '../Tooltip';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
-import {getProblemsForSnapshot
-  } from 'instana-ui-services/issueTracker';
+import {getProblemsForSnapshot} from 'instana-ui-services/issueTracker';
 
 import TooltipFrame from '../index';
 import IssueStatusLine from '../IssueStatusLine';
