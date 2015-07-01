@@ -7,7 +7,7 @@ import Immutable from 'immutable';
 import {create} from '../conveyer';
 import {mapSeverityToHealth, health} from '../health';
 import IssueConveyer from '../conveyer/IssueConveyer';
-import {isIdEqual} from '../util/snapshots';
+import {isIdEqual, getIdString, extractId} from '../util/snapshots';
 
 const allIssuesStream = create(IssueConveyer)
   .scan(collectingReducer, Immutable.List());
@@ -17,22 +17,62 @@ const openIssuesStream = allIssuesStream.map(issues => {
 });
 
 const issueSummary = openIssuesStream.map(issues => {
-  const result = {};
-
-  Object.keys(health).forEach(key => {
-    result[health[key]] = 0;
-  });
+  const warnings = {};
+  const dangers = {};
 
   issues.forEach(issue => {
-    const maxSeverity = issue.get('problems').reduce((severity, problem) => {
-      return Math.max(severity, problem.get('severity'));
-    }, 0);
 
-    result[mapSeverityToHealth(maxSeverity)]++;
+    issue.get('problems').forEach(problem => {
+      const problemHealth = mapSeverityToHealth(problem.get('severity'));
+      if (problemHealth === health.warning) {
+        addProblem(warnings, problem);
+      } else if (problemHealth === health.danger) {
+        addProblem(dangers, problem);
+      }
+    });
   });
 
-  return Immutable.Map(result);
+  const iWarnings = Immutable.Map(
+    Object.keys(warnings).reduce(severityReducer.bind(null, warnings), [])
+  );
+
+  const iDangers = Immutable.Map(
+    Object.keys(dangers).reduce(severityReducer.bind(null, dangers), [])
+  );
+
+  return Immutable.Map([
+    [health.warning, iWarnings],
+    [health.danger, iDangers]
+  ]);
 });
+
+function addProblem(all, problem) {
+  const idString = getIdString(problem);
+  if (!(idString in all)) {
+    all[idString] = {
+      id: extractId(problem),
+      count: 1
+    };
+  } else {
+    all[idString].count++;
+  }
+}
+
+function severityReducer(all, severityArrayMap, key) {
+  const item = all[key];
+  severityArrayMap.push([item.id, item.count]);
+  return severityArrayMap;
+}
+
+
+const issueCountSummary = issueSummary.map(summary => {
+  return summary.map(summaryForHealth => {
+    return summaryForHealth.reduce((count, snapshotIssueCount) => {
+      return count + snapshotIssueCount;
+    }, 0);
+  });
+});
+
 
 export function getIssues() {
   return allIssuesStream;
@@ -44,6 +84,10 @@ export function getOpenIssues() {
 
 export function getIssueSummary() {
   return issueSummary;
+}
+
+export function getIssueCountSummary() {
+  return issueCountSummary;
 }
 
 export function getProblemsForSnapshot(snapshotId) {

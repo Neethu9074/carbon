@@ -51,9 +51,19 @@ export function isIdEqual(id1, id2) {
  * @returns {string} An ID string
  */
 export function getIdString(s) {
-  const hostId = s.get('hostId');
-  const pluginId = s.get('pluginId');
-  const steadyId = s.get('steadyId');
+  let hostId;
+  let pluginId;
+  let steadyId;
+
+  if (Immutable.Map.isMap(s)) {
+    hostId = s.get('hostId');
+    pluginId = s.get('pluginId');
+    steadyId = s.get('steadyId');
+  } else {
+    hostId = s.hostId;
+    pluginId = s.pluginId;
+    steadyId = s.steadyId;
+  }
 
   if(hostId && pluginId && steadyId) {
     return `${hostId}#${pluginId}#${steadyId}`;

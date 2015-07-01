@@ -49,6 +49,15 @@ describe('util.snapshots', () => {
       }));
       expect(id).to.equal(undefined);
     });
+
+    it('should turn a mutable object into an ID string', () => {
+      const snapshot = {
+        steadyId: 's42',
+        hostId: 'h42',
+        pluginId: 'p42'
+      };
+      expect(getIdString(snapshot)).to.equal('h42#p42#s42');
+    });
   });
 
   describe('only', () => {
