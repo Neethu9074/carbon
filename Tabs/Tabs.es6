@@ -7,7 +7,16 @@ import classnames from 'instana-ui-services/util/classnames';
 
 import './Tabs.less';
 
+const rpt = React.PropTypes;
+
 export const Tab = React.createClass({
+
+  propTypes: {
+    title: rpt.string.isRequired,
+    modifier: rpt.string,
+    children: rpt.any.isRequired
+  },
+
   render() {
     // rendering is handled by the Tabs component
     return null;
@@ -17,9 +26,9 @@ export const Tab = React.createClass({
 export const Tabs = React.createClass({
 
   propTypes: {
-    collapsible: React.PropTypes.bool,
-    blockIdentifier: React.PropTypes.string,
-    children: React.PropTypes.arrayOf(Tab)
+    collapsible: rpt.bool,
+    blockIdentifier: rpt.string,
+    children: rpt.arrayOf(Tab).isRequired
   },
 
   getInitialState() {
