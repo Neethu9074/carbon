@@ -3,7 +3,7 @@
 import React from 'react/addons';
 
 import Immutable from 'immutable';
-import {getIssueSummary} from 'instana-ui-services/issueTracker';
+import {getIssueCountSummary} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {health} from 'instana-ui-services/health';
 import {theme} from 'instana-ui-services/theme';
@@ -27,7 +27,7 @@ const Issues = React.createClass({
 
   componentDidMount() {
     this.addSubscription(
-      getIssueSummary().subscribe(issueSummary => this.setState({issueSummary}))
+      getIssueCountSummary().subscribe(issueSummary => this.setState({issueSummary}))
     );
   },
 
