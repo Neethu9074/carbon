@@ -45,6 +45,6 @@ addNormalizedValueLocator(
 );
 
 addNormalizedValueLocator(
-  /^cpu\.total\.(user|sys|io|nice|steal|idle)/,
+  /^cpu\.total\.(user|sys|wait|nice|steal|idle)/,
   (max, value) => value
 );
