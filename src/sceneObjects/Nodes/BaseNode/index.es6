@@ -229,6 +229,7 @@ export default class BaseNode extends SceneObject {
 
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
+    scene.renderScene();
   }
 
   getNodeAsFragment() {
