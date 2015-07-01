@@ -1,5 +1,7 @@
 'use strict';
 
+import * as ro from 'reactive-observables';
+
 import TouchController from './TouchCameraController_temp';
 import eventBus from 'instana-ui-services/eventbus';
 
@@ -8,40 +10,48 @@ export default class MouseControl extends TouchController {
 
   constructor({scene}) {
     super({scene});
-      const canvas = scene.parent;
+    const canvas = scene.parent;
 
     // Wheel event is new (IE10+, Chrome 31+, FF 17+, Safari 7), but produces
     // a consistent range of scroll events.
-    canvas.addEventListener('wheel', this.onWheel.bind(this));
+    ro.on(canvas, 'wheel')
+      .scan((aggregate, e) => {
+        e.preventDefault();
+        aggregate.deltaY += e.deltaY;
+        return aggregate;
+      }, {
+        deltaY: 0
+      })
+      .throttle(50)
+      .subscribe((aggregate) => {
+        const deltaY = aggregate.deltaY;
+        aggregate.deltaY = 0;
+
+        // Because we listen to onwheel, the e.deltaY "should be" in a range of
+        // +/- 0 .. 200, but sometimes is much larger due to "buffering" of scroll
+        // events. Our map prefers values in the range of
+        // +/- 0 .. 50. Because we cannot prevent buffering (browser seems not to)
+        // react to user scroll, we at least prevent zooming way to much by capping
+        // the value.
+
+        // Touchy devices tend to send more frequent smaller scrolls, while "old"
+        // mice send stable large ticks.
+
+        // scale down
+        let zoom = (deltaY / 6) | 0;
+        // clamp to -50 .. 50
+        if (zoom < -50) {
+          zoom = -50;
+        } else if (zoom > 50) {
+          zoom = 50;
+        }
+        this.zoom(zoom);
+      });
 
     canvas.onmousemove = (e) => {
       eventBus.emit('onCursorMove', {x: e.clientX, y: e.clientY});
       this.onMouseMove(e);
     };
-  }
-
-  onWheel(e) {
-    e.preventDefault();
-
-    // Because we listen to onwheel, the e.deltaY "should be" in a range of
-    // +/- 0 .. 200, but sometimes is much larger due to "buffering" of scroll
-    // events. Our map prefers values in the range of
-    // +/- 0 .. 30. Because we cannot prevent buffering (browser seems not to)
-    // react to user scroll, we at least prevent zooming way to much by capping
-    // the value.
-
-    // Touchy devices tend to send more frequent smaller scrolls, while "old"
-    // mice send stable large ticks.
-
-    // scale down
-    let zoom = (e.deltaY / 6) | 0;
-    // clamp to -30 .. 30
-    if (zoom < -30) {
-      zoom = -30;
-    } else if (zoom > 30) {
-      zoom = 30;
-    }
-    this.zoom(zoom);
   }
 
   onMouseMove(e) {
