@@ -31,7 +31,7 @@ export default class BaseRenderer {
     this.windowSize = windowSize;
     this.yAxisConfig = yAxisConfig;
 
-    this.x = d3.time.scale.utc();
+    this.x = d3.time.scale();
     this.x.axis = d3.svg.axis()
       .scale(this.x)
       .ticks(5)
