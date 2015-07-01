@@ -85,11 +85,13 @@ export default class NodeSnapshotServer {
 
     this.metricSubscription = subscribeToMetric({
       metrics: currentMetric, snapshot, fn: (values) => {
-        try{
+        try {
           client.setMetricValues(
-            values.map((v, index) => getNormalizedValue(
-              currentMetric.getIn([index, 'name']), snapshot, v))
-          );
+            values.map((v, index) => {
+              return getNormalizedValue(
+                currentMetric.getIn([index, 'name']), snapshot, v);
+            }
+          ));
         } catch (err) {
           client.setMetricValues(values);
         }
