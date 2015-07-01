@@ -31,30 +31,94 @@ button.icon {
   cursor: pointer;
 }
 
-.icon-arrow_bt:before { content: "\e600"; }
-.icon-arrow_left:before { content: "\e601"; }
-.icon-arrow_right:before { content: "\e602"; }
-.icon-arrow_top:before { content: "\e603"; }
-.icon-close:before { content: "\e604"; }
-.icon-graph:before { content: "\e605"; }
-.icon-grid:before { content: "\e606"; }
-.icon-list:before { content: "\e607"; }
-.icon-menue:before { content: "\e608"; }
-.icon-play:before { content: "\e609"; }
-.icon-plus:before { content: "\e60a"; }
-.icon-search:before { content: "\e60b"; }
-.icon-settings:before { content: "\e60c"; }
-.icon-stats:before { content: "\e60d"; }
-.icon-timeline_warning:before { content: "\e60e"; }
-.icon-timeline_critical:before { content: "\e60f"; }
-.icon-timeline_system:before { content: "\e610"; }
-.icon-timeline:before { content: "\e611"; }
-.icon-open:before { content: "\e612"; }
-.icon-metrics:before { content: "\e613"; }
-.icon-metrics_network:before { content: "\e614"; }
-.icon-metrics_memory:before { content: "\e615"; }
-.icon-metrics_cpu:before { content: "\e616"; }
-.icon-metrics_cpu_usage:before { content: "\e617"; }
-.icon-menue_close:before { content: "\e618"; }
-.icon-delete:before { content: "\e619"; }
-.icon-metrics_disc:before { content: "\e61a"; }
+/*
+ * To update the following section do a regex search and replace of the
+ * following
+ *
+ * Search:
+ * \.icon-([^:]+):before { content: ([^;]+); }
+ *
+ * Replace:
+ * @icon-$1: $2;ABC.icon-$1:before { content: @icon-$1; }
+ */
+
+@icon-arrow_bt: "\e600";
+.icon-arrow_bt:before { content: @icon-arrow_bt; }
+
+@icon-arrow_left: "\e601";
+.icon-arrow_left:before { content: @icon-arrow_left; }
+
+@icon-arrow_right: "\e602";
+.icon-arrow_right:before { content: @icon-arrow_right; }
+
+@icon-arrow_top: "\e603";
+.icon-arrow_top:before { content: @icon-arrow_top; }
+
+@icon-close: "\e604";
+.icon-close:before { content: @icon-close; }
+
+@icon-graph: "\e605";
+.icon-graph:before { content: @icon-graph; }
+
+@icon-grid: "\e606";
+.icon-grid:before { content: @icon-grid; }
+
+@icon-list: "\e607";
+.icon-list:before { content: @icon-list; }
+
+@icon-menue: "\e608";
+.icon-menue:before { content: @icon-menue; }
+
+@icon-play: "\e609";
+.icon-play:before { content: @icon-play; }
+
+@icon-plus: "\e60a";
+.icon-plus:before { content: @icon-plus; }
+
+@icon-search: "\e60b";
+.icon-search:before { content: @icon-search; }
+
+@icon-settings: "\e60c";
+.icon-settings:before { content: @icon-settings; }
+
+@icon-stats: "\e60d";
+.icon-stats:before { content: @icon-stats; }
+
+@icon-timeline_warning: "\e60e";
+.icon-timeline_warning:before { content: @icon-timeline_warning; }
+
+@icon-timeline_critical: "\e60f";
+.icon-timeline_critical:before { content: @icon-timeline_critical; }
+
+@icon-timeline_system: "\e610";
+.icon-timeline_system:before { content: @icon-timeline_system; }
+
+@icon-timeline: "\e611";
+.icon-timeline:before { content: @icon-timeline; }
+
+@icon-open: "\e612";
+.icon-open:before { content: @icon-open; }
+
+@icon-metrics: "\e613";
+.icon-metrics:before { content: @icon-metrics; }
+
+@icon-metrics_network: "\e614";
+.icon-metrics_network:before { content: @icon-metrics_network; }
+
+@icon-metrics_memory: "\e615";
+.icon-metrics_memory:before { content: @icon-metrics_memory; }
+
+@icon-metrics_cpu: "\e616";
+.icon-metrics_cpu:before { content: @icon-metrics_cpu; }
+
+@icon-metrics_cpu_usage: "\e617";
+.icon-metrics_cpu_usage:before { content: @icon-metrics_cpu_usage; }
+
+@icon-menue_close: "\e618";
+.icon-menue_close:before { content: @icon-menue_close; }
+
+@icon-delete: "\e619";
+.icon-delete:before { content: @icon-delete; }
+
+@icon-metrics_disc: "\e61a";
+.icon-metrics_disc:before { content: @icon-metrics_disc; }
