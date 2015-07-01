@@ -53,7 +53,7 @@ export const Tabs = React.createClass({
         classNames += ' ' + blockIdentifier + '__tab--' + tab.props.modifier;
       }
       return (
-        <li key={tab.props.title}
+        <li key={i}
             onClick={this.selectTab.bind(this, i)}
             className={classNames}>
           {tab.props.title}
