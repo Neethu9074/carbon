@@ -1,9 +1,11 @@
 'use strict';
 
+import {formatBytes} from 'instana-ui-services/converters';
 import {
   addMaxValueLocator,
   addMinValueLocator,
-  addNormalizedValueLocator
+  addNormalizedValueLocator,
+  addFormattedValueLocator
 } from 'instana-ui-sdk/metrics';
 
 const zero = () => 0;
@@ -34,6 +36,7 @@ addMaxValueLocator(
 );
 addMinValueLocator(/^fs\.([^\.]+)\.free/, zero);
 
+
 addNormalizedValueLocator(
   /^memory\.free/,
   (max, value) => (max - value) / max //translates free -> used
@@ -47,4 +50,20 @@ addNormalizedValueLocator(
 addNormalizedValueLocator(
   /^cpu\.total\.(user|sys|wait|nice|steal|idle)/,
   (max, value) => value
+);
+
+
+addFormattedValueLocator(
+  /^memory\.free/,
+  (value) => formatBytes(value) // bytes to whateverBytes
+);
+
+addFormattedValueLocator(
+  /^load/,
+  (value) => value * 100 // 0.01 => 1
+);
+
+addFormattedValueLocator(
+  /^cpu\.total\.(user|sys|wait|nice|steal|idle)/,
+  (value) => value * 100 // 0.3 => 30%
 );
