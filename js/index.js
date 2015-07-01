@@ -99,11 +99,14 @@ exports.consts = {
         connection: metricColors.cyan,
         unknownStatus: colors.grey,
         zones: [
+          '#27AF90',
           metricColors.orange,
+          '#7CBEF2',
+          '#BBCE24',
           metricColors.cyan,
           metricColors.slate_blue,
-          metricColors.purple,
           metricColors.lime,
+          metricColors.purple,
           metricColors.teal
         ]
       },
