@@ -59,16 +59,16 @@ describe('metrics', () => {
       expect(getFormattedValue('memory.free', 1024 * 1024)).to.equal('1 MB');
     });
 
-    it('should format normalized to percentage', () => {
-      expect(getFormattedValue('load', 0.5)).to.equal(50);
+    it('should format normalized to normalized', () => {
+      expect(getFormattedValue('load', 0.5)).to.equal(0.5);
     });
 
     it('should format normalized to percentage', () => {
-      expect(getFormattedValue('cpu.total.user', 0.5)).to.equal(50);
+      expect(getFormattedValue('cpu.total.user', 0.5)).to.equal('50%');
     });
 
     it('should format normalized to percentage', () => {
-      expect(getFormattedValue('cpu.total.wait', 0.25)).to.equal(25);
+      expect(getFormattedValue('cpu.total.wait', 0.25)).to.equal('25%');
     });
   });
 

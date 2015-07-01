@@ -60,10 +60,10 @@ addFormattedValueLocator(
 
 addFormattedValueLocator(
   /^load/,
-  (value) => value * 100 // 0.01 => 1
+  (value) => value // 0.01 => 0.01
 );
 
 addFormattedValueLocator(
   /^cpu\.total\.(user|sys|wait|nice|steal|idle)/,
-  (value) => value * 100 // 0.3 => 30%
+  (value) => (value * 100) + '%' // 0.3 => 30%
 );
