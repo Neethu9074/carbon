@@ -81,7 +81,7 @@ const StickyNoteRC = React.createClass({
             {metricLabel.toUpperCase()}
           </Heading>
           <Content className='in-tooltip__node__li__value'>
-            {getFormattedValue(metricName, value)}
+            {getFormattedValue(metricName, this.props.snapshot, value)}
           </Content>
         </li>);
     });

@@ -32,7 +32,10 @@ export default React.createClass({
       this.metricSubscription = subscribeToMetric({
         metrics, snapshot: this.props.snapshot, fn: ( values) => {
           values = values.map((v, index) => {
-            return getFormattedValue(metrics.getIn([index, 'name']), v);
+            return getFormattedValue(
+              metrics.getIn([index, 'name']),
+              this.props.snapshot,
+              v);
           });
           this.setState({values: values.slice()});
         }
