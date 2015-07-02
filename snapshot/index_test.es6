@@ -59,4 +59,13 @@ describe('snapshot', () => {
     });
   });
 
+  describe('ips', () => {
+
+    it('should retrieve ips via a finder', () => {
+      const truck = 'truck';
+      mod.addIpFinder(pluginId, () => truck);
+      expect(mod.getIps(snapshot)).to.equal(truck);
+    });
+  });
+
 });
