@@ -60,7 +60,9 @@ const StickyNoteRC = React.createClass({
     return (
       <TooltipFrame>
         <Heading>
-          {'x connections'.toUpperCase()}
+          {connections.length + ' connection'.toUpperCase() +
+            (connections.length === 1 ? '' : 'S')
+          }
         </Heading>
         <ul className='in-tooltip__connections-ul'>
           {listItems}
