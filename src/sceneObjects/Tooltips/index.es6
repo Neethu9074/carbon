@@ -15,6 +15,11 @@ export default React.createClass({
 
 
   render() {
+    const children = this.props.children;
+    if(!children || children.length === 0) {
+      return null;
+    }
+
     return (
       <div>
         {this.props.children}

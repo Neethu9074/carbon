@@ -80,6 +80,8 @@ export default class MouseControl extends TouchController {
       hitten.parentSceneObject.onHighlight(false);
     }
 
+    this.scene.handleHoveredConnetions(this.raycaster);
+
     this.cursor.x = x;
     this.cursor.y = y;
   }

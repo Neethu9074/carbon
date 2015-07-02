@@ -2,7 +2,6 @@
 
 import State from '../../../State';
 
-
 export default class HighlightedState extends State {
 
   constructor(ground) {
@@ -10,15 +9,13 @@ export default class HighlightedState extends State {
   }
 
   enter() {
-
   }
 
   leave() {
-
   }
 
   getNext({highlighted}) {
-    if(!highlighted) {
+    if(highlighted === false) {
       return this.owner.states.initial;
     }
     return undefined;

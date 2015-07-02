@@ -17,6 +17,8 @@ import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 // import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import * as time from './timeCalculations';
+import Tooltip from './sceneObjects/Tooltips/Connection/index';
+import {allConnections} from './sceneObjects/Connection/index';
 import {createLogger} from 'instalog';
 import {select} from 'instana-ui-services/stores/selectedSnapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
@@ -401,6 +403,39 @@ export default class Scene {
     }
 
     return undefined;
+  }
+
+  handleHoveredConnetions(raycaster) {
+    const hovered = [];
+
+    //get all mouseover connections
+    allConnections.forEach(connection => {
+      if(connection.intersects(raycaster)) {
+        hovered.push(connection);
+      }
+    });
+
+    //highlight all connections that are hovered, unhighlight the rest
+    allConnections.forEach(connection => {
+      if(hovered.indexOf(connection) >= 0) {
+        connection.highlight(true);
+      } else {
+        connection.highlight(false);
+      }
+    });
+
+    if(hovered.length > 0) {
+      if(this.connectionTooltip) {
+        this.connectionTooltip.setHovered(hovered);
+      } else {
+        this.connectionTooltip = new Tooltip(this, hovered);
+      }
+    } else {
+      if(this.connectionTooltip) {
+        this.connectionTooltip.dispose();
+        this.connectionTooltip = null;
+      }
+    }
   }
 
   //set this flag if the scene needs to be redrawn

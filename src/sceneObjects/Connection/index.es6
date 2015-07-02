@@ -1,13 +1,13 @@
 'use strict';
 
 import THREE from 'three';
+import _ from 'lodash';
 import SceneObject from '../SceneObject';
 import ConnectionGrid from '../../connectionGrid';
 import * as app from '../../Scene';
 import {setupStates} from './States/index';
-import {createLogger} from 'instalog';
 
-const logger = createLogger('ui-map.stickyNote.Connection');
+export const allConnections = [];
 let id = 0;
 
 
@@ -27,6 +27,7 @@ export default class Connection extends SceneObject {
     to.addIncomingConnection(this);
 
     this.render();
+    allConnections.push(this);
   }
 
   initStates() {
@@ -57,6 +58,16 @@ export default class Connection extends SceneObject {
     this.visible = true;
   }
 
+  calculateCollisionMesh(points) {
+    const geometry = new THREE.Geometry();
+    for (let i = 0; i < points.length; i++) {
+      geometry.vertices.push(new THREE.Vector3(
+        points[i].x, points[i].y, points[i].z));
+    }
+
+    this.collisionLine = new THREE.Line(geometry);
+  }
+
   calculateVertices(height) {
     const points = [];
 
@@ -65,12 +76,12 @@ export default class Connection extends SceneObject {
     //openGL is drawing the lines in this order
     for (let i = 1; i < this.path.length; i++) {
       const point = this.path[i];
-      const lastPoint = this.path[i - 1];
+      const nextPoint = this.path[i - 1];
 
       points.push({
-        x: lastPoint[0] - 0.5,
+        x: nextPoint[0] - 0.5,
         y: height,
-        z: -lastPoint[1] + 0.5
+        z: -nextPoint[1] + 0.5
       });
       points.push({
         x: point[0] - 0.5,
@@ -78,6 +89,7 @@ export default class Connection extends SceneObject {
         z: -point[1] + 0.5
       });
     }
+    this.calculateCollisionMesh(points);
 
     if(this.direction === 'in') {
       this.addArrow(points, 0, 1);
@@ -174,6 +186,21 @@ export default class Connection extends SceneObject {
     return dir;
   }
 
+  intersects(raycaster) {
+    const path = this.path;
+    if(!path || !this.collisionLine) {
+      return false;
+    }
+
+    raycaster.linePrecision = 0.25;
+    const hit = raycaster.intersectObject(this.collisionLine, false);
+    return hit.length > 0;
+  }
+
+  highlight(highlighted) {
+    this.switchStateIfNext({highlighted});
+  }
+
   select() {
     const scene = this.getScene();
 
@@ -201,7 +228,19 @@ export default class Connection extends SceneObject {
     this.render();
   }
 
+  disposeCollisionLine() {
+    if(this.collisionLine) {
+      this.collisionLine.geometry.dispose();
+      this.collisionLine = null;
+    }
+  }
+
   dispose() {
+    _.remove(allConnections, c => c.id === this.id);
+    this.switchStateIfNext({highlighted: false});
+
+    this.disposeCollisionLine();
+
     //this connection is done with the implicit highlighting so decrease the
     //counter by calling clearIndirectHighlight
     this.from.highlighting.clearIndirectHighlight();
@@ -210,20 +249,7 @@ export default class Connection extends SceneObject {
     this.from.removeConnection(this);
     this.to.removeIncomingConnection(this);
 
-    try{
-      app.scene.scene.lineFactory.removeFragment(this.id);
-    } catch(err) {
-      //if the parent was still disposed and the connection is not bidirectional
-      //(so disposed on the other end) there is something curious
-      if(!this.parent || !this.bidirectional) {
-        logger.error('cant destroy connection', this, err);
-      } else {
-        logger.error('there is something curious',
-          'parent:', this.parent, 'parent.parent:', this.parent.parent,
-          'bidirectional:', this.bidirectional, err);
-      }
-    }
-
+    app.scene.scene.lineFactory.removeFragment(this.id);
     super.dispose();
   }
 }

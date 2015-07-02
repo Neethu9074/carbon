@@ -1,0 +1,41 @@
+@import "~instana-ui-themes/less/constants.less";
+@import '~instana-ui-components/Icon/Icon.less';
+
+.in-tooltip__connections-ul {
+  list-style: none;
+
+  margin: 0 0 -10px;
+  padding: 0;
+}
+
+.in-tooltip__connections-li {
+  padding: 0 0 10px;
+}
+
+.in-tooltip__connections-li--arrow {
+  color: @map__tooltips__font;
+  opacity: 0.4;
+}
+
+.in-tooltip__connections-li:last-child {
+  padding: 0;
+}
+
+.in-tooltip__connections-li--header {
+  font-size: 11px;
+  font-weight: bold;
+
+  margin-right: 5px;
+}
+
+.in-tooltip__connections-li--ip {
+  font-size: 13px;
+  font-weight: bold;
+
+  color: @map__tooltips__font;
+}
+
+.in-tooltip__connections-li--wrapper {
+  display: flex;
+  justify-content: space-between;
+}
