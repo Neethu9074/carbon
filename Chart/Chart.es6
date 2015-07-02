@@ -90,11 +90,11 @@ const Chart = React.createClass({
       width: this.props.width,
       height: this.props.height,
       margins,
-      yAxisConfig: _.merge({
+      y1AxisConfig: _.merge({
         tickFormatter: v => v,
-        renderer
+        renderer,
+        seriesConfig: this.props.seriesConfig
       }, this.props.yAxis),
-      seriesConfig: this.props.seriesConfig,
       windowSize: this.props.windowSize
     };
 

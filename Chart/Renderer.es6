@@ -15,24 +15,24 @@ export default class Renderer {
 
   constructor(
       {
-        seriesConfig,
         container,
         width,
         height,
         windowSize,
         margins,
-        yAxisConfig
+        y1AxisConfig
       }) {
     this.width = width;
     this.height = height;
     this.margins = margins;
-    this.seriesConfig = seriesConfig.map((series, i) => {
-      series.color = theme.chart.strokeColors[i];
-      return series;
-    });
     this.container = container;
     this.windowSize = windowSize;
-    this.yAxisConfig = yAxisConfig;
+    this.y1AxisConfig = y1AxisConfig;
+    this.y1AxisConfig.seriesConfig = this.y1AxisConfig.seriesConfig
+      .map((series, i) => {
+        series.color = theme.chart.strokeColors[i];
+        return series;
+      });
 
     this.x = d3.time.scale();
     this.x.axis = d3.svg.axis()
@@ -42,15 +42,15 @@ export default class Renderer {
       .tickPadding(20)
       .orient('bottom');
 
-    this.y = d3.scale.linear();
-    this.y.axis = d3.svg.axis()
-      .scale(this.y)
+    this.y1 = d3.scale.linear();
+    this.y1.axis = d3.svg.axis()
+      .scale(this.y1)
       .ticks(5)
       .tickPadding(20)
-      .tickFormat(this.yAxisConfig.tickFormatter)
+      .tickFormat(this.y1AxisConfig.tickFormatter)
       .orient('left');
 
-    this.queue = new Queue(this.seriesConfig.length);
+    this.queue = new Queue(this.y1AxisConfig.seriesConfig.length);
     this.data = new Data({windowSize});
     this.tween = null;
 
@@ -76,10 +76,10 @@ export default class Renderer {
       .attr('class', 'x axis')
       .call(this.x.axis);
 
-    this.y.axis.element = d3.select(this.svg)
+    this.y1.axis.element = d3.select(this.svg)
       .append('g')
       .attr('class', 'y axis')
-      .call(this.y.axis);
+      .call(this.y1.axis);
 
     // The render canvas is the user visible paint area that is only populated
     // by this base class. All other classes draw onto the drawingCanvas.
@@ -184,18 +184,18 @@ export default class Renderer {
       0
     );
     this.x.axis.element.call(this.x.axis);
-    this.y.axis.element.call(this.y.axis);
+    this.y1.axis.element.call(this.y1.axis);
 
     this.rendering = false;
   }
 
   draw() {
-    this.yAxisConfig.renderer.draw({
+    this.y1AxisConfig.renderer.draw({
       dataColumns: this.data.getDataColumns(),
-      series: this.seriesConfig,
+      series: this.y1AxisConfig.seriesConfig,
       ctx: this.drawingCtx,
       x: this.x,
-      y: this.y
+      y: this.y1
     });
   }
 
@@ -243,7 +243,7 @@ export default class Renderer {
       ')'
     );
     this.x.axis.element.call(this.x.axis);
-    this.y.axis.element.call(this.y.axis);
+    this.y1.axis.element.call(this.y1.axis);
 
     const self = this;
 
@@ -278,8 +278,8 @@ export default class Renderer {
   }
 
   processNewDataColumns(newDataColumns) {
-    if (this.yAxisConfig.renderer.processNewDataColumns) {
-      this.yAxisConfig.renderer.processNewDataColumns(newDataColumns);
+    if (this.y1AxisConfig.renderer.processNewDataColumns) {
+      this.y1AxisConfig.renderer.processNewDataColumns(newDataColumns);
     }
   }
 
@@ -294,10 +294,10 @@ export default class Renderer {
   }
 
   updateYDomain() {
-    const minFixed = this.yAxisConfig.min !== undefined;
-    const maxFixed = this.yAxisConfig.max !== undefined;
+    const minFixed = this.y1AxisConfig.min !== undefined;
+    const maxFixed = this.y1AxisConfig.max !== undefined;
     if (minFixed && maxFixed) {
-      this.y.domain([this.yAxisConfig.min, this.yAxisConfig.max]);
+      this.y1.domain([this.y1AxisConfig.min, this.y1AxisConfig.max]);
       return;
     }
     const dataColumns = this.data.getDataColumns();
@@ -316,24 +316,24 @@ export default class Renderer {
     }
 
     if (minFixed) {
-      minY = this.yAxisConfig.min;
+      minY = this.y1AxisConfig.min;
     }
     if (maxFixed) {
-      maxY = this.yAxisConfig.max;
+      maxY = this.y1AxisConfig.max;
     }
-    this.y.domain([minY, maxY]);
+    this.y1.domain([minY, maxY]);
   }
 
   getMinYFromDataColumn(dataColumn) {
-    if (this.yAxisConfig.renderer.getMinYFromDataColumn) {
-      return this.yAxisConfig.renderer.getMinYFromDataColumn(dataColumn);
+    if (this.y1AxisConfig.renderer.getMinYFromDataColumn) {
+      return this.y1AxisConfig.renderer.getMinYFromDataColumn(dataColumn);
     }
     return dataColumn.reduce(minReducer, Number.MAX_VALUE);
   }
 
   getMaxYFromDataColumn(dataColumn) {
-    if (this.yAxisConfig.renderer.getMaxYFromDataColumn) {
-      return this.yAxisConfig.renderer.getMaxYFromDataColumn(dataColumn);
+    if (this.y1AxisConfig.renderer.getMaxYFromDataColumn) {
+      return this.y1AxisConfig.renderer.getMaxYFromDataColumn(dataColumn);
     }
     return dataColumn.reduce(maxReducer, Number.MIN_VALUE);
   }
@@ -380,9 +380,9 @@ export default class Renderer {
       ')'
     );
 
-    this.y.range([this.height - verticalMargin, 0]);
-    this.y.axis.tickSize(-1 * this.width + horizontalMargin, 0, 0);
-    this.y.axis.element.attr(
+    this.y1.range([this.height - verticalMargin, 0]);
+    this.y1.axis.tickSize(-1 * this.width + horizontalMargin, 0, 0);
+    this.y1.axis.element.attr(
       'transform',
       'translate(' +
         this.margins.left + ',' +
