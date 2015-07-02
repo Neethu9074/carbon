@@ -5,8 +5,9 @@ import _ from 'lodash';
 
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
-import StackedAreaRenderer from './render/StackedAreaRenderer';
-import LineRenderer from './render/LineRenderer';
+import * as stackedAreaRenderer from './render/stackedAreaRenderer';
+import * as lineRenderer from './render/lineRenderer';
+import Renderer from './Renderer';
 
 import './Chart.less';
 
@@ -71,9 +72,17 @@ const Chart = React.createClass({
       bottom: 50,
       left: 40
     };
-
     if (this.props.margins) {
       _.merge(margins, this.props.margins);
+    }
+
+    let renderer;
+    if (this.props.type === 'line') {
+      renderer = lineRenderer;
+    } else if (this.props.type === 'stackedArea') {
+      renderer = stackedAreaRenderer;
+    } else {
+      throw new Error('Unknown chart type' + this.props.type);
     }
 
     const config = {
@@ -81,23 +90,14 @@ const Chart = React.createClass({
       width: this.props.width,
       height: this.props.height,
       margins,
-      yAxisConfig: this.props.yAxis || {
+      yAxisConfig: _.merge({
         tickFormatter: v => v,
-        min: undefined,
-        max: undefined
-      },
+        renderer
+      }, this.props.yAxis),
       seriesConfig: this.props.seriesConfig,
       windowSize: this.props.windowSize
     };
 
-    let Renderer;
-    if (this.props.type === 'line') {
-      Renderer = LineRenderer;
-    } else if (this.props.type === 'stackedArea') {
-      Renderer = StackedAreaRenderer;
-    } else {
-      throw new Error('Unknown chart type' + this.props.type);
-    }
 
     this.started = false;
     this.chart = new Renderer(config);

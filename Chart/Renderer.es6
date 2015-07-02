@@ -5,13 +5,13 @@ import TWEEN from 'tween.js';
 
 import {theme} from 'instana-ui-services/theme';
 
-import Queue from '../Queue';
-import Data from '../Data';
+import Queue from './Queue';
+import Data from './Data';
 
 const minReducer = (min, dataRow) => Math.min(dataRow.y, min);
 const maxReducer = (max, dataRow) => Math.max(dataRow.y, max);
 
-export default class BaseRenderer {
+export default class Renderer {
 
   constructor(
       {
@@ -26,7 +26,10 @@ export default class BaseRenderer {
     this.width = width;
     this.height = height;
     this.margins = margins;
-    this.seriesConfig = seriesConfig;
+    this.seriesConfig = seriesConfig.map((series, i) => {
+      series.color = theme.chart.strokeColors[i];
+      return series;
+    });
     this.container = container;
     this.windowSize = windowSize;
     this.yAxisConfig = yAxisConfig;
@@ -55,10 +58,6 @@ export default class BaseRenderer {
     this.setDimensions({width, height});
 
     this.rendering = false;
-  }
-
-  getSeriesColor(seriesIndex) {
-    return theme.chart.strokeColors[seriesIndex];
   }
 
   createCanvas() {
@@ -190,6 +189,16 @@ export default class BaseRenderer {
     this.rendering = false;
   }
 
+  draw() {
+    this.yAxisConfig.renderer.draw({
+      dataColumns: this.data.getDataColumns(),
+      series: this.seriesConfig,
+      ctx: this.drawingCtx,
+      x: this.x,
+      y: this.y
+    });
+  }
+
   /**
    * Incremental updates happen when a small number of data points are added,
    * typically at the back of the data columns. Such an update is animated and
@@ -268,8 +277,10 @@ export default class BaseRenderer {
     this.animationFrameHandle = requestAnimationFrame(animate);
   }
 
-  processNewDataColumns() {
-    // noop, but could be overriden to apply stacking and other modifications
+  processNewDataColumns(newDataColumns) {
+    if (this.yAxisConfig.renderer.processNewDataColumns) {
+      this.yAxisConfig.renderer.processNewDataColumns(newDataColumns);
+    }
   }
 
   updateXDomain() {
@@ -314,10 +325,16 @@ export default class BaseRenderer {
   }
 
   getMinYFromDataColumn(dataColumn) {
+    if (this.yAxisConfig.renderer.getMinYFromDataColumn) {
+      return this.yAxisConfig.renderer.getMinYFromDataColumn(dataColumn);
+    }
     return dataColumn.reduce(minReducer, Number.MAX_VALUE);
   }
 
   getMaxYFromDataColumn(dataColumn) {
+    if (this.yAxisConfig.renderer.getMaxYFromDataColumn) {
+      return this.yAxisConfig.renderer.getMaxYFromDataColumn(dataColumn);
+    }
     return dataColumn.reduce(maxReducer, Number.MIN_VALUE);
   }
 
