@@ -3,7 +3,8 @@
 import {
   addIconFinder,
   addLabelFinder,
-  addWiredSnapshotFinder
+  addWiredSnapshotFinder,
+  addIpFinder
 } from 'instana-ui-sdk/snapshot';
 
 import Immutable from 'immutable';
@@ -115,26 +116,9 @@ export function calculateIpMap(snapshots) {
   const map = new Immutable.Map().asMutable();
   //get ips for each host
   snapshots.forEach(host => {
-
-    //get all ethernet interfaces
-    const ethInterfaces = host.getIn(['data', 'interfaces']);
-    if(ethInterfaces) {
-      ethInterfaces.forEach(interf => {
-
-        //get all ips of the interface
-        const ips = interf.get('ips');
-        ips.forEach(ip => {
-          map.set(ip, host);
-        });
-      });
-    }
-    const ec2 = host.getIn(['data',
-                             constants.rels.describes,
-                             constants.plugins.ec2],
-                             Immutable.Map()).valueSeq().first();
-    if (ec2) {
-      map.set(ec2.get('public-ipv4'), host);
-    }
+    getIpBySnapshot(host).forEach(ip => {
+      map.set(ip, host);
+    });
   });
 
   return map.asImmutable();
@@ -159,3 +143,36 @@ addLabelFinder(
 );
 
 addWiredSnapshotFinder(constants.plugins.process, () => ro.create());
+
+
+
+function getIpBySnapshot(snapshot) {
+  const ipArray = [];
+
+  //get all ethernet interfaces
+  const ethInterfaces = snapshot.getIn(['data', 'interfaces']);
+  if(ethInterfaces) {
+    ethInterfaces.forEach(interf => {
+
+      //get all ips of the interface
+      const ips = interf.get('ips');
+      ips.forEach(ip => {
+        ipArray.push(ip);
+      });
+    });
+  }
+  const ec2 = snapshot.getIn(['data',
+                           constants.rels.describes,
+                           constants.plugins.ec2],
+                           Immutable.Map()).valueSeq().first();
+  if (ec2) {
+    ipArray.push(ec2.get('public-ipv4'));
+  }
+
+  return ipArray;
+}
+
+addIpFinder(
+  constants.plugins.os,
+  (snapshot) => {return getIpBySnapshot(snapshot); }
+);
