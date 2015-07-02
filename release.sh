@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 version=`node -e 'console.log(require("./package.json").version)'`
 imageName="registry.internal.instana.io/instana/ui-client"
