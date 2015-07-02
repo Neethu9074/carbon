@@ -3,6 +3,12 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
+
+import SnapshotList from './SnapshotList';
+
+import './SeverityListing.less';
+
 const rpt = React.PropTypes;
 const block = 'in-sidebar-severity-listing';
 
@@ -10,19 +16,40 @@ const SeverityListing = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshotIssueSummary: irpt.map.isRequired,
     snapshots: irpt.list.isRequired,
-    heading: rpt.string.isRequired
+    highlightedSnapshot: irpt.map,
+    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired,
+
+    snapshotIssueSummary: irpt.map.isRequired,
+    heading: rpt.string.isRequired,
+    headingColor: rpt.string.isRequired
   },
 
   render() {
+    const snapshots = this.getAllSnapshotsWithThisSeverity();
+
     return (
       <div className={block}>
-        <h2>{this.props.heading}</h2>
+        <h2 style={{color: this.props.headingColor}}
+            className={block + '__heading'}>
+          {this.props.heading}
+        </h2>
 
-
+        <SnapshotList snapshots={snapshots}
+                      snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
+                      highlightedSnapshot={this.props.highlightedSnapshot}/>
       </div>
     );
+  },
+
+  getAllSnapshotsWithThisSeverity() {
+    return this.props.snapshotIssueSummary.keySeq()
+      .map(this.getSnapshotWithId)
+      .filter(snapshot => snapshot !== null);
+  },
+
+  getSnapshotWithId(snapshotId) {
+    return this.props.snapshots.find(isIdEqual.bind(null, snapshotId), null, null);
   }
 });
 

@@ -13,7 +13,9 @@ import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnaps
 import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
 import {getIssueCountSummary, getIssueSummary} from 'instana-ui-services/issueTracker';
 import {sort} from 'instana-ui-sdk/sorting';
+import {theme} from 'instana-ui-services/theme';
 
+import SeverityListing from './SeverityListing';
 import ZoneList from './ZoneList';
 
 import './Listing.less';
@@ -106,11 +108,27 @@ const SidebarListing = React.createClass({
         </Tab>
         <Tab title={String(dangerCount)}
              modifier='danger'>
-          danger yo!
+          {this.state.issueSummary ?
+            <SeverityListing heading='Critical Problems'
+                             headingColor={theme.health.danger}
+                             snapshots={this.state.snapshots}
+                             snapshotIssueSummary={this.state.issueSummary.get('danger')}
+                             snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
+                             selectedSnapshot={this.state.selectedSnapshot}
+                             highlightedSnapshot={this.state.highlightedSnapshot} />
+          : ' ' }
         </Tab>
         <Tab title={String(warningCount)}
              modifier='warning'>
-          Warnings yo!
+          {this.state.issueSummary ?
+            <SeverityListing heading='Warnings'
+                             headingColor={theme.health.warning}
+                             snapshots={this.state.snapshots}
+                             snapshotIssueSummary={this.state.issueSummary.get('warning')}
+                             snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
+                             selectedSnapshot={this.state.selectedSnapshot}
+                             highlightedSnapshot={this.state.highlightedSnapshot} />
+          : ' ' }
         </Tab>
       </Tabs>
     );

@@ -18,7 +18,7 @@ const SidebarSnapshotList = React.createClass({
 
   propTypes: {
     snapshots: rpt.oneOfType([
-      irpt.list,
+      irpt.seq,
       rpt.array
     ]).isRequired,
     highlightedSnapshot: irpt.map,

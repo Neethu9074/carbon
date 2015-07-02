@@ -1,12 +1,17 @@
 'use strict';
 
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'instana-ui-services/converters';
 import {DescriptionList, DescriptionItem} from '../../sdk/DescriptionList';
 
 const HardwareInfo = React.createClass({
   mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    snapshot: irpt.map.isRequired
+  },
 
   render() {
     const data = this.props.snapshot.get('data');
