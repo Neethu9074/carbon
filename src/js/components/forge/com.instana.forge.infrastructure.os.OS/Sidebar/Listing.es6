@@ -1,9 +1,9 @@
 'use strict';
 
 import React from 'react/addons';
-import {IntlMixin, FormattedHTMLMessage} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
+import Collapsible from 'instana-ui-components/Collapsible';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getColor} from 'instana-ui-sdk/zones';
 import {getIdString} from 'instana-ui-services/util/snapshots';
@@ -12,8 +12,10 @@ import ServerItem from './Server';
 
 import './Listing.less';
 
+const block = 'in-sidebar-server-listing';
+
 const Listing = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
     snapshots: irpt.list.isRequired,
@@ -34,27 +36,20 @@ const Listing = React.createClass({
     const zones = Object.keys(snapshots).sort();
 
     return (
-      <div className='in-sidebar-server-listing'>
-        <h1 className='in-sidebar-server-listing__header'>
-          <FormattedHTMLMessage
-            message={this.getIntlMessage('map.sidebar.serverListing.heading')}
-            servers={this.props.snapshots.size || 0}
-            zones={Object.keys(snapshots).length} />
-        </h1>
+      <div className={block}>
+        {zones.map(zone =>
+          <Collapsible>
+            <Collapsible.Header style={{color: getColor(zone)}}
+                                className={block + '__zone'}>
+              <span className={block + '__server-count'}
+                    style={{backgroundColor: getColor(zone)}}>
+                {snapshots[zone].length}
+              </span>
 
-        <ul className='in-sidebar-server-listing__zones'>
-          {zones.map(zone =>
-            <li key={zone} className='in-sidebar-server-listing__zone'>
-              <h2 className='in-sidebar-server-listing__zone-label'
-                  style={{color: getColor(zone)}}>
-                {zone}
+              {zone}
+            </Collapsible.Header>
 
-                <span className='in-sidebar-server-listing__server-count'
-                      style={{backgroundColor: getColor(zone)}}>
-                  {snapshots[zone].length}
-                </span>
-              </h2>
-
+            <Collapsible.Content>
               <ul className='in-sidebar-server-listing__snapshots'>
                 {snapshots[zone].map(snapshot =>
                   <ServerItem snapshot={snapshot}
@@ -63,9 +58,9 @@ const Listing = React.createClass({
                               wired={this.isWired(snapshot)}/>
                 )}
               </ul>
-            </li>
-          )}
-        </ul>
+            </Collapsible.Content>
+          </Collapsible>
+        )}
       </div>
     );
   },
