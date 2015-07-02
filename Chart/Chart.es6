@@ -21,10 +21,10 @@ const Chart = React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    datasources: rpt.array.isRequired,
     windowSize: rpt.number.isRequired,
 
-    y1: rpt.object
+    y1: rpt.object.isRequired,
+    y2: rpt.object
   },
 
   render() {
@@ -56,8 +56,8 @@ const Chart = React.createClass({
   doesPropertyChangeRequireFullRedraw(prevProps) {
     return !_.isEqual(this.props.margins, prevProps.margins) ||
       this.props.windowSize !== prevProps.windowSize ||
-      this.props.datasources !== prevProps.datasources ||
-      !_.isEqual(this.props.y1, prevProps.y1);
+      !_.isEqual(this.props.y1, prevProps.y1) ||
+      !_.isEqual(this.props.y2, prevProps.y2);
   },
 
   renderChart() {
@@ -76,30 +76,27 @@ const Chart = React.createClass({
       width: this.props.width,
       height: this.props.height,
       margins,
-      y1: _.merge({
-        tickFormatter: v => v,
-        renderer: this.getRenderer(this.props.y1.type)
-      }, this.props.y1),
+      y1: this.extendAxisConfig('y1'),
       windowSize: this.props.windowSize
     };
 
+    if (this.props.y2) {
+      config.y2 = this.extendAxisConfig('y2');
+    }
 
-    this.started = false;
     this.chart = new Renderer(config);
 
-    this.props.datasources.forEach((datasource, seriesIndex) => {
-      const subscription = datasource.subscribe(rawDataPoints => {
-        const processedDataPoints = rawDataPoints.map(rawDataPoint => {
-          return {
-            x: rawDataPoint[0],
-            y: rawDataPoint[1]
-          };
-        });
-        this.chart.addDataPoints(seriesIndex, processedDataPoints);
-      });
+    this.subscribeToDatasources('y1');
+    if (this.props.y2) {
+      this.subscribeToDatasources('y2');
+    }
+  },
 
-      this.addSubscription(subscription);
-    });
+  extendAxisConfig(axis) {
+    return _.merge({
+      tickFormatter: v => v,
+      renderer: this.getRenderer(this.props[axis].type)
+    }, this.props[axis]);
   },
 
   getRenderer(type) {
@@ -110,6 +107,22 @@ const Chart = React.createClass({
     } else {
       throw new Error('Unknown chart type' + type);
     }
+  },
+
+  subscribeToDatasources(axis) {
+    this.props[axis].datasources.forEach((datasource, seriesIndex) => {
+      const subscription = datasource.subscribe(rawDataPoints => {
+        const processedDataPoints = rawDataPoints.map(rawDataPoint => {
+          return {
+            x: rawDataPoint[0],
+            y: rawDataPoint[1]
+          };
+        });
+        this.chart.addDataPoints(axis, seriesIndex, processedDataPoints);
+      });
+
+      this.addSubscription(subscription);
+    });
   },
 
   componentWillUnmount() {

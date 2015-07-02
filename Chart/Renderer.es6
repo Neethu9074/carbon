@@ -130,15 +130,15 @@ export default class Renderer {
     return this.width - this.margins.left - this.margins.right;
   }
 
-  addDataPoints(seriesIndex, dataPoints) {
+  addDataPoints(axis, seriesIndex, dataPoints) {
     for (let i = 0, len = dataPoints.length; i < len; i++) {
-      this.y1.queue.addDataPoint(seriesIndex, dataPoints[i]);
+      this[axis].queue.addDataPoint(seriesIndex, dataPoints[i]);
     }
     this.onDataPointAdded();
   }
 
-  addDataPoint(seriesIndex, dataPoint) {
-    this.y1.queue.addDataPoint(seriesIndex, dataPoint);
+  addDataPoint(axis, seriesIndex, dataPoint) {
+    this[axis].queue.addDataPoint(seriesIndex, dataPoint);
     this.onDataPointAdded();
   }
 

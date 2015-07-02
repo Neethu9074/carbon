@@ -21,6 +21,10 @@ const ChartDemo = React.createClass({
         createRandomDataSource(windowSize),
         createRandomDataSource(windowSize),
         createRandomDataSource(windowSize)
+      ],
+      y2Datasources: [
+        createRandomDataSource(windowSize),
+        createRandomDataSource(windowSize)
       ]
     };
   },
@@ -34,7 +38,6 @@ const ChartDemo = React.createClass({
         <Chart width={this.state.width}
                height={this.state.height}
                windowSize={windowSize}
-               datasources={this.state.datasources}
                y1={{
                  tickFormatter(v) {
                    return v + 'x';
@@ -42,12 +45,24 @@ const ChartDemo = React.createClass({
                  min: 0,
                  max: 5,
                  type: 'stackedArea',
+                 datasources: this.state.datasources,
                  seriesConfig: [
                    {label: 'cpu.total.user'},
                    {label: 'cpu.total.sys'},
                    {label: 'cpu.total.nice'},
                    {label: 'cpu.total.wait'},
                    {label: 'cpu.total.steal'}
+                 ]
+               }}
+               y2={{
+                 tickFormatter(v) {
+                   return v + 'y2';
+                 },
+                 type: 'line',
+                 datasources: this.state.y2Datasources,
+                 seriesConfig: [
+                   {label: 'wtf / second'},
+                   {label: 'omg / second'}
                  ]
                }}/>
       </div>
