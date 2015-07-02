@@ -127,7 +127,10 @@ exports.consts = {
         '#61bd68',
         '#decf3f',
         '#c39eff',
-        '#ff57a8'
+        '#ff57a8',
+        '#ff9800',
+        '#d03035',
+        '#d0e035'
       ],
 
       fillColors: [
