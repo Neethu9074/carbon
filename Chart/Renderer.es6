@@ -50,8 +50,8 @@ export default class Renderer {
       .tickFormat(this.y1AxisConfig.tickFormatter)
       .orient('left');
 
-    this.queue = new Queue(this.y1AxisConfig.seriesConfig.length);
-    this.data = new Data({windowSize});
+    this.y1.queue = new Queue(this.y1AxisConfig.seriesConfig.length);
+    this.y1.data = new Data({windowSize});
     this.tween = null;
 
     this.createCanvas();
@@ -112,19 +112,19 @@ export default class Renderer {
 
   addDataPoints(seriesIndex, dataPoints) {
     for (let i = 0, len = dataPoints.length; i < len; i++) {
-      this.queue.addDataPoint(seriesIndex, dataPoints[i]);
+      this.y1.queue.addDataPoint(seriesIndex, dataPoints[i]);
     }
     this.onDataPointAdded();
   }
 
   addDataPoint(seriesIndex, dataPoint) {
-    this.queue.addDataPoint(seriesIndex, dataPoint);
+    this.y1.queue.addDataPoint(seriesIndex, dataPoint);
     this.onDataPointAdded();
   }
 
   onDataPointAdded() {
     if (!this.rendering) {
-      this.render(this.queue.get());
+      this.render(this.y1.queue.get());
     }
   }
 
@@ -138,7 +138,7 @@ export default class Renderer {
     // by either `renderBigUpdate` or `renderIncrementalUpdate` as both
     // functions' render strategies differ.
     this.rendering = true;
-    const initialRendering = this.data.getDataColumns().length === 0;
+    const initialRendering = this.y1.data.getDataColumns().length === 0;
 
     // this may happen when there are queued data points, but not actually a
     // sufficient amount to animate the chart.
@@ -148,7 +148,7 @@ export default class Renderer {
     }
 
     this.processNewDataColumns(newDataColumns);
-    this.data.insertSorted(newDataColumns);
+    this.y1.data.insertSorted(newDataColumns);
 
     const isBigUpdate = newDataColumns.length > 10 || initialRendering;
     if (isBigUpdate) {
@@ -172,7 +172,7 @@ export default class Renderer {
    * without any animation.
    */
   renderBigUpdate() {
-    this.data.expireOldDataColumns();
+    this.y1.data.expireOldDataColumns();
     this.updateXDomain();
     this.updateYDomain();
 
@@ -191,7 +191,7 @@ export default class Renderer {
 
   draw() {
     this.y1AxisConfig.renderer.draw({
-      dataColumns: this.data.getDataColumns(),
+      dataColumns: this.y1.data.getDataColumns(),
       series: this.y1AxisConfig.seriesConfig,
       ctx: this.drawingCtx,
       x: this.x,
@@ -208,7 +208,7 @@ export default class Renderer {
   renderIncrementalUpdate() {
     this.updateYDomain();
 
-    const dataColumns = this.data.getDataColumns();
+    const dataColumns = this.y1.data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
     const maxX = dataColumns[numberOfDataColumns - 1][0].x;
     const maxXPixels = this.x(maxX);
@@ -221,7 +221,7 @@ export default class Renderer {
 
     const onEnd = () => {
       window.cancelAnimationFrame(this.animationFrameHandle);
-      this.data.expireOldDataColumns();
+      this.y1.data.expireOldDataColumns();
       this.updateXDomain();
       this.rendering = false;
 
@@ -229,7 +229,7 @@ export default class Renderer {
 
       // If new data has arrived while the previous data was being processed,
       // then we can immediately schedule a new render phase.
-      const newDataColumns = this.queue.get();
+      const newDataColumns = this.y1.queue.get();
       if (newDataColumns.length > 0) {
         this.render(newDataColumns);
       }
@@ -284,7 +284,7 @@ export default class Renderer {
   }
 
   updateXDomain() {
-    const dataColumns = this.data.getDataColumns();
+    const dataColumns = this.y1.data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
 
     let maxX = dataColumns[numberOfDataColumns - 1][0].x;
@@ -300,7 +300,7 @@ export default class Renderer {
       this.y1.domain([this.y1AxisConfig.min, this.y1AxisConfig.max]);
       return;
     }
-    const dataColumns = this.data.getDataColumns();
+    const dataColumns = this.y1.data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
 
     let minY = Number.MAX_VALUE;
@@ -345,7 +345,7 @@ export default class Renderer {
 
     // initiate a complete redrawn when there data has been processed and
     // painted before
-    if (this.data.getDataColumns().length > 0) {
+    if (this.y1.data.getDataColumns().length > 0) {
       this.renderBigUpdate();
     }
   }
