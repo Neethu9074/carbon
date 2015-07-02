@@ -66,25 +66,27 @@ const OsDashboard = React.createClass({
                      metricUnit='%'
                      metricValueFormatter={metricValueFormatter} />
 
-        <Chart type='stackedArea'
-               snapshot={this.props.snapshot}
+        <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               metrics={[
-                 'cpu.total.user',
-                 'cpu.total.sys',
-                 'cpu.total.wait',
-                 'cpu.total.nice',
-                 'cpu.total.steal'
-               ]}
+
                width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 60
                }}
-               yAxis={{
+
+               y1={{
                  min: 0,
                  max: 1,
-                 tickFormatter: percentFormatter
+                 tickFormatter: percentFormatter,
+                 metrics: [
+                   'cpu.total.user',
+                   'cpu.total.sys',
+                   'cpu.total.wait',
+                   'cpu.total.nice',
+                   'cpu.total.steal'
+                 ],
+                 type: 'stackedArea'
                }}/>
 
         <Separator />
@@ -100,16 +102,16 @@ const OsDashboard = React.createClass({
                      metricUnit=''
                      metricValueFormatter={d => d} />
 
-        <Chart type='stackedArea'
-               snapshot={this.props.snapshot}
+        <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               metrics={[
-                 'load.1min'
-               ]}
                width={this.props.width}
                height={chartHeight}
-               yAxis={{
-                 min: 0
+               y1={{
+                 min: 0,
+                 type: 'stackedArea',
+                 metrics: [
+                   'load.1min'
+                 ]
                }}/>
 
         <Separator />
@@ -125,21 +127,21 @@ const OsDashboard = React.createClass({
                      metricUnit=''
                      metricValueFormatter={d => formatBytes(d)} />
 
-        <Chart type='stackedArea'
-               snapshot={this.props.snapshot}
+        <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               metrics={[
-                 'memory.free'
-               ]}
                width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 80
                }}
-               yAxis={{
+               y1={{
                  min: 0,
                  max: this.props.snapshot.getIn(['data', 'memory.total']),
-                 tickFormatter: formatBytes
+                 tickFormatter: formatBytes,
+                 metrics: [
+                   'memory.free'
+                 ],
+                 type: 'stackedArea'
                }}/>
 
         <Separator />
@@ -149,22 +151,24 @@ const OsDashboard = React.createClass({
         </ContentHeading>
 
         {this.state.filesystemMetrics ?
-          <Chart type='line'
-                 snapshot={this.props.snapshot}
+          <Chart snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
-                 metrics={this.state.filesystemMetrics}
+
                  width={this.props.width}
                  height={chartHeight}
                  margins={{
                    left: 80
                  }}
-                 yAxis={{
+
+                 y1={{
                    min: 0,
                    max: getMaxValue(
                      this.state.filesystemMetrics[0],
                      this.props.snapshot
                    ),
-                   tickFormatter: kbFormatter
+                   tickFormatter: kbFormatter,
+                   metrics: this.state.filesystemMetrics,
+                   type: 'line'
                  }}/>
         : null}
 
@@ -220,18 +224,20 @@ const OsDashboard = React.createClass({
         </ContentHeading>
 
         {this.state.interfaceMetrics ?
-          <Chart type='line'
-                 snapshot={this.props.snapshot}
+          <Chart snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
-                 metrics={this.state.interfaceMetrics}
+
                  width={this.props.width}
                  height={chartHeight}
                  margins={{
                    left: 80
                  }}
-                 yAxis={{
+
+                 y1={{
                    min: 0,
-                   tickFormatter: formatBytes
+                   tickFormatter: formatBytes,
+                   metrics: this.state.interfaceMetrics,
+                   type: 'line'
                  }}/>
         : null}
 
@@ -319,41 +325,54 @@ const OsDashboard = React.createClass({
                      metrics={[
                        'tcp.established',
                        'tcp.opens',
-                       'tcp.resets',
-                       'tcp.fails',
                        'tcp.inSegs',
                        'tcp.outSegs',
+                       'tcp.resets',
+                       'tcp.fails',
                        'tcp.errors',
                        'tcp.retrans'
                      ]}
                      metricLabels={[
                        'Open',
                        'Connects',
-                       'Reset %',
-                       'Fail %',
                        'In Segments',
                        'Out Segments',
+                       'Reset %',
+                       'Fail %',
                        'Error %',
                        'Retransmission %'
                      ]}
                      metricUnit=''
                      metricValueFormatter={d => d} />
 
-        <Chart type='line'
-               snapshot={this.props.snapshot}
+        <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               metrics={[
-                 'tcp.established',
-                 'tcp.opens',
-                 'tcp.resets',
-                 'tcp.fails',
-                 'tcp.inSegs',
-                 'tcp.outSegs',
-                 'tcp.errors',
-                 'tcp.retrans'
-               ]}
                width={this.props.width}
-               height={chartHeight} />
+               height={chartHeight}
+               y1={{
+                 type: 'line',
+                 metrics: [
+                   'tcp.established',
+                   'tcp.opens',
+                   'tcp.inSegs',
+                   'tcp.outSegs'
+                 ]
+               }}
+               y2={{
+                 type: 'line',
+                 metrics: [
+                   'tcp.resets',
+                   'tcp.fails',
+                   'tcp.errors',
+                   'tcp.retrans'
+                 ],
+                 min: 0,
+                 max: 1,
+                 tickFormatter: percentFormatter
+               }}
+               margins={{
+                 right: 60
+               }}/>
 
       </div>
     );

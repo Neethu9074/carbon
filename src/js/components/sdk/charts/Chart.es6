@@ -7,7 +7,6 @@ import _ from 'lodash';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {create} from 'instana-ui-services/conveyer';
 import TimeWindowBasedMetricConveyer from 'instana-ui-services/conveyer/TimeWindowBasedMetricConveyer';
-import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import Chart from 'instana-ui-components/Chart';
 
 const rpt = React.PropTypes;
@@ -17,75 +16,74 @@ const rpt = React.PropTypes;
  * Data source creation is to complicated as to implement it in each forge.
  */
 const ChartWrapper = React.createClass({
-  mixins: [SubscriptionMixin],
 
   propTypes: {
-    type: rpt.string.isRequired,
-
     width: rpt.number.isRequired,
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    seriesConfig: rpt.array,
     windowSize: rpt.number.isRequired,
     snapshot: irpt.map.isRequired,
-    metrics: rpt.arrayOf(rpt.string).isRequired,
-    yAxis: rpt.object
-  },
-
-  getInitialState() {
-    return {
-      datasources: null
-    };
+    y1: rpt.object.isRequired,
+    y2: rpt.object
   },
 
   componentDidMount() {
-    this.createDatasources();
+    this.initAxis();
   },
 
-  createDatasources() {
-    const datasources = this.props.metrics.map(metric =>
+  initAxis() {
+    this.createDataSources(this.props.y1);
+    this.createDefaultSeriesConfig(this.props.y1);
+
+    if (this.props.y2) {
+      this.createDataSources(this.props.y2);
+      this.createDefaultSeriesConfig(this.props.y2);
+    }
+
+    this.forceUpdate();
+  },
+
+  createDataSources(axis) {
+    axis.datasources = axis.metrics.map(metric =>
       create(TimeWindowBasedMetricConveyer, {
         snapshot: this.props.snapshot,
         metric,
         timeframe: this.props.windowSize
       })
     );
+  },
 
-    this.setState({datasources});
+  createDefaultSeriesConfig(axis) {
+    let seriesConfig = axis.seriesConfig;
+    if (!seriesConfig) {
+      axis.seriesConfig = axis.metrics.map(metric => {
+        return {label: metric};
+      });
+    }
   },
 
   componentDidUpdate(prevProps) {
     if (!isIdEqual(this.props.snapshot, prevProps.snapshot) ||
         this.props.windowSize !== prevProps.windowSize ||
-        !_.isEqual(this.props.metrics, prevProps.metrics)) {
-      this.disposeSubscriptions();
-      this.createDatasources();
+        !_.isEqual(this.props.y1, prevProps.y1) ||
+        !_.isEqual(this.props.y2, prevProps.y2)) {
+      this.initAxis();
     }
   },
 
   render() {
-    if (this.state.datasources === null ||
-        this.state.datasources.length === 0) {
+    if (this.props.y1.datasources === undefined) {
       return null;
     }
 
-    let seriesConfig = this.props.seriesConfig;
-    if (!seriesConfig) {
-      seriesConfig = this.props.metrics.map(metric => {
-        return {label: metric};
-      });
-    }
-
     return (
-      <Chart type={this.props.type}
-             width={this.props.width}
+      <Chart width={this.props.width}
              height={this.props.height}
              margins={this.props.margins}
-             seriesConfig={seriesConfig}
              windowSize={this.props.windowSize}
-             datasources={this.state.datasources}
-             yAxis={this.props.yAxis} />
+             y1={this.props.y1}
+             y2={this.props.y2} />
     );
   }
 });
