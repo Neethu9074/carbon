@@ -246,7 +246,10 @@ export default class Renderer {
 
     this.updateXDomain();
     this.updateYDomain('y1');
-    this.updateYDomain('y2');
+
+    if (this.y2) {
+      this.updateYDomain('y2');
+    }
 
     this.drawingCanvas.setAttribute('width', this.getRenderCanvasWidth());
     this.draw();
