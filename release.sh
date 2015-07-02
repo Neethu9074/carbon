@@ -7,7 +7,11 @@ echo $qualifiedImageName
 
 echo "Building Docker image..."
 sudo docker build -t "$qualifiedImageName" .
-sudo docker tag -f "$qualifiedImageName" "$imageName:latest"
+sudo docker tag -f "$qualifiedImageName" "$imageName:current"
+
+if [[ "$INSTANA_RELEASE_CONTAINERS" == "true" ]]; then
+  sudo docker tag -f "$qualifiedImageName" "$imageName:stable"
+fi
 
 echo "Publishing Docker image..."
 sudo docker push $imageName
