@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import {clear} from 'instana-ui-services/stores/selectedSnapshot';
+// import {clear} from 'instana-ui-services/stores/selectedSnapshot';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 
