@@ -406,6 +406,18 @@ export default class Scene {
   }
 
   handleHoveredConnetions(raycaster) {
+    const disposeConnectionSticky = () => {
+      if(this.connectionTooltip) {
+        this.connectionTooltip.dispose();
+        this.connectionTooltip = null;
+      }
+    };
+
+    if(this.controller.isHoveringObject()) {
+      disposeConnectionSticky();
+      return;
+    }
+
     const hovered = [];
 
     //get all mouseover connections
@@ -431,10 +443,7 @@ export default class Scene {
         this.connectionTooltip = new Tooltip(this, hovered);
       }
     } else {
-      if(this.connectionTooltip) {
-        this.connectionTooltip.dispose();
-        this.connectionTooltip = null;
-      }
+      disposeConnectionSticky();
     }
   }
 
