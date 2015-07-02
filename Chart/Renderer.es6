@@ -20,19 +20,15 @@ export default class Renderer {
         height,
         windowSize,
         margins,
-        y1AxisConfig
+        y1,
+        y2
       }) {
     this.width = width;
     this.height = height;
     this.margins = margins;
     this.container = container;
     this.windowSize = windowSize;
-    this.y1AxisConfig = y1AxisConfig;
-    this.y1AxisConfig.seriesConfig = this.y1AxisConfig.seriesConfig
-      .map((series, i) => {
-        series.color = theme.chart.strokeColors[i];
-        return series;
-      });
+    this.tween = null;
 
     this.x = d3.time.scale();
     this.x.axis = d3.svg.axis()
@@ -43,16 +39,40 @@ export default class Renderer {
       .orient('bottom');
 
     this.y1 = d3.scale.linear();
+    this.y1.config = y1;
+    this.y1.config.seriesConfig = y1.seriesConfig
+      .map((series, i) => {
+        series.color = theme.chart.strokeColors[i];
+        return series;
+      });
     this.y1.axis = d3.svg.axis()
       .scale(this.y1)
       .ticks(5)
       .tickPadding(20)
-      .tickFormat(this.y1AxisConfig.tickFormatter)
+      .tickFormat(this.y1.config.tickFormatter)
       .orient('left');
-
-    this.y1.queue = new Queue(this.y1AxisConfig.seriesConfig.length);
+    this.y1.queue = new Queue(this.y1.config.seriesConfig.length);
     this.y1.data = new Data({windowSize});
-    this.tween = null;
+
+    if (y2) {
+      this.y2 = d3.scale.linear();
+      this.y2.config = y2;
+      this.y2.config.seriesConfig = y2.seriesConfig
+        .map((series, i) => {
+          series.color = theme.chart.strokeColors[
+            i + this.y1.config.seriesConfig.length
+          ];
+          return series;
+        });
+      this.y2.axis = d3.svg.axis()
+        .scale(this.y2)
+        .ticks(5)
+        .tickPadding(20)
+        .tickFormat(this.y2.config.tickFormatter)
+        .orient('right');
+      this.y2.queue = new Queue(this.y2.config.seriesConfig.length);
+      this.y2.data = new Data({windowSize});
+    }
 
     this.createCanvas();
     this.setDimensions({width, height});
@@ -78,7 +98,7 @@ export default class Renderer {
 
     this.y1.axis.element = d3.select(this.svg)
       .append('g')
-      .attr('class', 'y axis')
+      .attr('class', 'y y--1 axis')
       .call(this.y1.axis);
 
     // The render canvas is the user visible paint area that is only populated
@@ -190,9 +210,9 @@ export default class Renderer {
   }
 
   draw() {
-    this.y1AxisConfig.renderer.draw({
+    this.y1.config.renderer.draw({
       dataColumns: this.y1.data.getDataColumns(),
-      series: this.y1AxisConfig.seriesConfig,
+      series: this.y1.config.seriesConfig,
       ctx: this.drawingCtx,
       x: this.x,
       y: this.y1
@@ -278,8 +298,8 @@ export default class Renderer {
   }
 
   processNewDataColumns(newDataColumns) {
-    if (this.y1AxisConfig.renderer.processNewDataColumns) {
-      this.y1AxisConfig.renderer.processNewDataColumns(newDataColumns);
+    if (this.y1.config.renderer.processNewDataColumns) {
+      this.y1.config.renderer.processNewDataColumns(newDataColumns);
     }
   }
 
@@ -294,10 +314,10 @@ export default class Renderer {
   }
 
   updateYDomain() {
-    const minFixed = this.y1AxisConfig.min !== undefined;
-    const maxFixed = this.y1AxisConfig.max !== undefined;
+    const minFixed = this.y1.config.min !== undefined;
+    const maxFixed = this.y1.config.max !== undefined;
     if (minFixed && maxFixed) {
-      this.y1.domain([this.y1AxisConfig.min, this.y1AxisConfig.max]);
+      this.y1.domain([this.y1.config.min, this.y1.config.max]);
       return;
     }
     const dataColumns = this.y1.data.getDataColumns();
@@ -316,24 +336,24 @@ export default class Renderer {
     }
 
     if (minFixed) {
-      minY = this.y1AxisConfig.min;
+      minY = this.y1.config.min;
     }
     if (maxFixed) {
-      maxY = this.y1AxisConfig.max;
+      maxY = this.y1.config.max;
     }
     this.y1.domain([minY, maxY]);
   }
 
   getMinYFromDataColumn(dataColumn) {
-    if (this.y1AxisConfig.renderer.getMinYFromDataColumn) {
-      return this.y1AxisConfig.renderer.getMinYFromDataColumn(dataColumn);
+    if (this.y1.config.renderer.getMinYFromDataColumn) {
+      return this.y1.config.renderer.getMinYFromDataColumn(dataColumn);
     }
     return dataColumn.reduce(minReducer, Number.MAX_VALUE);
   }
 
   getMaxYFromDataColumn(dataColumn) {
-    if (this.y1AxisConfig.renderer.getMaxYFromDataColumn) {
-      return this.y1AxisConfig.renderer.getMaxYFromDataColumn(dataColumn);
+    if (this.y1.config.renderer.getMaxYFromDataColumn) {
+      return this.y1.config.renderer.getMaxYFromDataColumn(dataColumn);
     }
     return dataColumn.reduce(maxReducer, Number.MIN_VALUE);
   }

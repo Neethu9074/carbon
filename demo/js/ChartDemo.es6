@@ -31,24 +31,24 @@ const ChartDemo = React.createClass({
         <div onClick={this.chooseDimensions}>
           <button>Choose dimensions</button>
         </div>
-        <Chart type='stackedArea'
-               width={this.state.width}
+        <Chart width={this.state.width}
                height={this.state.height}
-               seriesConfig={[
-                 {label: 'cpu.total.user'},
-                 {label: 'cpu.total.sys'},
-                 {label: 'cpu.total.nice'},
-                 {label: 'cpu.total.wait'},
-                 {label: 'cpu.total.steal'}
-               ]}
                windowSize={windowSize}
                datasources={this.state.datasources}
-               yAxis={{
+               y1={{
                  tickFormatter(v) {
                    return v + 'x';
                  },
                  min: 0,
-                 max: 5
+                 max: 5,
+                 type: 'stackedArea',
+                 seriesConfig: [
+                   {label: 'cpu.total.user'},
+                   {label: 'cpu.total.sys'},
+                   {label: 'cpu.total.nice'},
+                   {label: 'cpu.total.wait'},
+                   {label: 'cpu.total.steal'}
+                 ]
                }}/>
       </div>
     );

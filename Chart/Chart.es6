@@ -17,17 +17,14 @@ const Chart = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
 
   propTypes: {
-    type: rpt.string.isRequired,
-
     width: rpt.number.isRequired,
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    seriesConfig: rpt.array.isRequired,
     datasources: rpt.array.isRequired,
     windowSize: rpt.number.isRequired,
 
-    yAxis: rpt.object
+    y1: rpt.object
   },
 
   render() {
@@ -58,11 +55,9 @@ const Chart = React.createClass({
 
   doesPropertyChangeRequireFullRedraw(prevProps) {
     return !_.isEqual(this.props.margins, prevProps.margins) ||
-      this.props.type !== prevProps.type ||
-      !_.isEqual(this.props.seriesConfig, prevProps.seriesConfig) ||
       this.props.windowSize !== prevProps.windowSize ||
       this.props.datasources !== prevProps.datasources ||
-      !_.isEqual(this.props.yAxis, prevProps.yAxis);
+      !_.isEqual(this.props.y1, prevProps.y1);
   },
 
   renderChart() {
@@ -76,25 +71,15 @@ const Chart = React.createClass({
       _.merge(margins, this.props.margins);
     }
 
-    let renderer;
-    if (this.props.type === 'line') {
-      renderer = lineRenderer;
-    } else if (this.props.type === 'stackedArea') {
-      renderer = stackedAreaRenderer;
-    } else {
-      throw new Error('Unknown chart type' + this.props.type);
-    }
-
     const config = {
       container: React.findDOMNode(this),
       width: this.props.width,
       height: this.props.height,
       margins,
-      y1AxisConfig: _.merge({
+      y1: _.merge({
         tickFormatter: v => v,
-        renderer,
-        seriesConfig: this.props.seriesConfig
-      }, this.props.yAxis),
+        renderer: this.getRenderer(this.props.y1.type)
+      }, this.props.y1),
       windowSize: this.props.windowSize
     };
 
@@ -115,6 +100,16 @@ const Chart = React.createClass({
 
       this.addSubscription(subscription);
     });
+  },
+
+  getRenderer(type) {
+    if (type === 'line') {
+      return lineRenderer;
+    } else if (type === 'stackedArea') {
+      return stackedAreaRenderer;
+    } else {
+      throw new Error('Unknown chart type' + type);
+    }
   },
 
   componentWillUnmount() {
