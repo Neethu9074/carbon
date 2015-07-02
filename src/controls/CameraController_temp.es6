@@ -1,6 +1,7 @@
 'use strict';
 
 import THREE from 'three';
+import {clear} from 'instana-ui-services/stores/selectedSnapshot';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 
@@ -115,6 +116,9 @@ export default class CameraController {
     //if an object was found via raycasting, inform the scene
     if (this.hittenObject !== undefined) {
       this.scene.onObjectClicked(this.hittenObject);
+    } else {
+      //the use has clicked into nowhere and so clear the snapshot store
+      // clear();
     }
   }
 
@@ -171,6 +175,10 @@ export default class CameraController {
 
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
+  }
+
+  isHoveringObject() {
+    return this.hittenObject;
   }
 
   update() {
