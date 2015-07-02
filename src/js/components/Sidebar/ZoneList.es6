@@ -6,15 +6,15 @@ import irpt from 'react-immutable-proptypes';
 import Collapsible from 'instana-ui-components/Collapsible';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getColor} from 'instana-ui-sdk/zones';
-import {getIdString} from 'instana-ui-services/util/snapshots';
 
-import ServerItem from './Server';
 
-import './Listing.less';
+import SnapshotList from './SnapshotList';
 
-const block = 'in-sidebar-server-listing';
+import './ZoneList.less';
 
-const Listing = React.createClass({
+const block = 'in-sidebar-zone-list';
+
+const ZoneList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
@@ -50,26 +50,15 @@ const Listing = React.createClass({
             </Collapsible.Header>
 
             <Collapsible.Content>
-              <ul className='in-sidebar-server-listing__snapshots'>
-                {snapshots[zone].map(snapshot =>
-                  <ServerItem snapshot={snapshot}
-                              key={getIdString(snapshot)}
-                              highlighted={this.props.highlightedSnapshot === snapshot}
-                              wired={this.isWired(snapshot)}/>
-                )}
-              </ul>
+              <SnapshotList snapshots={snapshots[zone]}
+                            snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
+                            highlightedSnapshot={this.props.highlightedSnapshot}/>
             </Collapsible.Content>
           </Collapsible>
         )}
       </div>
     );
-  },
-
-  isWired(snapshot) {
-    const snapshotsWiredToHighlightedSnapshot = this.props.snapshotsWiredToHighlightedSnapshot;
-    return snapshotsWiredToHighlightedSnapshot.get('incoming').contains(snapshot) ||
-      snapshotsWiredToHighlightedSnapshot.get('outgoing').contains(snapshot);
   }
 });
 
-export default Listing;
+export default ZoneList;

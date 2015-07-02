@@ -14,12 +14,12 @@ import {getLabel} from 'instana-ui-sdk/snapshot';
 import Icon from 'instana-ui-components/Icon';
 import {theme} from 'instana-ui-services/theme';
 
-import './Server.less';
+import './Snapshot.less';
 
 const rpt = React.PropTypes;
-const block = 'in-sidebar-server-listing__snapshot';
+const block = 'in-sidebar-snapshot';
 
-const Server = React.createClass({
+const SidebarSnapshot = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
 
   propTypes: {
@@ -98,4 +98,4 @@ const Server = React.createClass({
   }
 });
 
-export default Server;
+export default SidebarSnapshot;

@@ -11,8 +11,10 @@ import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
-import {getIssueCountSummary} from 'instana-ui-services/issueTracker';
+import {getIssueCountSummary, getIssueSummary} from 'instana-ui-services/issueTracker';
 import {sort} from 'instana-ui-sdk/sorting';
+
+import ZoneList from './ZoneList';
 
 import './Listing.less';
 
@@ -36,7 +38,8 @@ const SidebarListing = React.createClass({
       selectedSnapshot: null,
       highlightedSnapshot: null,
       snapshotsWiredToHighlightedSnapshot: noWiredSnapshots,
-      issueSummary: null
+      issueSummary: null,
+      issueCountSummary: null
     };
   },
 
@@ -68,6 +71,11 @@ const SidebarListing = React.createClass({
     );
 
     this.addSubscription(
+      getIssueSummary()
+        .subscribe(issueSummary => this.setState({issueSummary}))
+    );
+
+    this.addSubscription(
       getIssueCountSummary()
         .subscribe(issueCountSummary => this.setState({issueCountSummary}))
     );
@@ -91,7 +99,10 @@ const SidebarListing = React.createClass({
       <Tabs blockIdentifier={block}>
         <Tab title={String(this.state.snapshots.size)}
              modifier='listing'>
-          {this.renderSnapshotListing()}
+          <ZoneList snapshots={this.state.snapshots}
+                    snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
+                    selectedSnapshot={this.state.selectedSnapshot}
+                    highlightedSnapshot={this.state.highlightedSnapshot} />
         </Tab>
         <Tab title={String(dangerCount)}
              modifier='danger'>
@@ -109,16 +120,6 @@ const SidebarListing = React.createClass({
     /*eslint-disable no-unused-vars*/
     const Details = this.getForgeSpecificComponent('Details');
     return <Details snapshot={this.state.selectedSnapshot} />;
-    /*eslint-enable no-unused-vars*/
-  },
-
-  renderSnapshotListing() {
-    /*eslint-disable no-unused-vars*/
-    const Listing = this.getForgeSpecificComponent('Listing');
-    return (<Listing snapshots={this.state.snapshots}
-                     snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
-                     selectedSnapshot={this.state.selectedSnapshot}
-                     highlightedSnapshot={this.state.highlightedSnapshot} />);
     /*eslint-enable no-unused-vars*/
   },
 
