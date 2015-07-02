@@ -69,11 +69,11 @@ const Server = React.createClass({
 
     switch (this.state.health) {
       case health.warning:
-        type = 'warning';
+        type = 'timeline_warning';
         color = theme.health.warning;
         break;
       case health.danger:
-        type = 'critical';
+        type = 'timeline_critical';
         color = theme.health.danger;
         break;
       default:

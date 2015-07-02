@@ -38,7 +38,7 @@ const Listing = React.createClass({
     return (
       <div className={block}>
         {zones.map(zone =>
-          <Collapsible>
+          <Collapsible key={zone}>
             <Collapsible.Header style={{color: getColor(zone)}}
                                 className={block + '__zone'}>
               <span className={block + '__server-count'}
