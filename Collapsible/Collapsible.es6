@@ -53,7 +53,9 @@ const Collapsible = React.createClass({
         </div>
 
         {this.state.open ?
-          contentProps.children
+          <div className={block + '__content'}>
+            {contentProps.children}
+          </div>
         : null}
       </div>
     );
