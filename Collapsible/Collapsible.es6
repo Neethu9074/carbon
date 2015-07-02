@@ -32,20 +32,26 @@ const Collapsible = React.createClass({
       this.props.children.length === 2,
       'A collapsible must have exactly two child elements: Header and Content'
     );
+
+    const headerProps = this.props.children[0].props;
+    const contentProps = this.props.children[1].props;
+
     return (
       <div className={block}>
         <div onClick={this.toggle}
              className={classnames({
-          [block + '__header']: true,
-          [block + '__header--closed']: !this.state.open
-        })}>
-          {this.props.children[0].props.children}
+               [block + '__header']: true,
+               [block + '__header--closed']: !this.state.open,
+               [headerProps.className]: headerProps.className !== undefined
+             })}
+             style={headerProps.style}>
+          {headerProps.children}
           <Icon type={this.state.open ? 'close' : 'open'}
                 className={block + '__toggle'} />
         </div>
 
         {this.state.open ?
-          this.props.children[1].props.children
+          contentProps.children
         : null}
       </div>
     );
