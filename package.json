@@ -18,17 +18,15 @@
   "dependencies": {
     "d3": "^3.5.5",
     "font-awesome": "^4.3.0",
+    "instana-ui-sdk": "^1.10.7",
+    "instana-ui-services": "^1.52.0",
+    "instana-ui-themes": "^1.18.0",
     "invariant": "^2.0.0",
     "lodash": "^3.9.3",
     "react": "^0.13.1",
     "react-immutable-proptypes": "^1.0.0",
     "reactive-observables": "^1.2.0",
     "tween.js": "^0.14.0"
-  },
-  "peerDependencies": {
-    "instana-ui-sdk": "^1.7.0",
-    "instana-ui-services": "^1.15.0",
-    "instana-ui-themes": "^1.0.2"
   },
   "devDependencies": {
     "babel": "^5.0.10",

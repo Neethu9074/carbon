@@ -1,3 +1,5 @@
+/*eslint complexity:[2, 11] */
+
 'use strict';
 
 import d3 from 'd3';
@@ -48,6 +50,7 @@ export default class Renderer {
     this.y1.axis = d3.svg.axis()
       .scale(this.y1)
       .ticks(5)
+      .tickSize(1)
       .tickPadding(20)
       .tickFormat(this.y1.config.tickFormatter)
       .orient('left');
@@ -67,6 +70,7 @@ export default class Renderer {
       this.y2.axis = d3.svg.axis()
         .scale(this.y2)
         .ticks(5)
+        .tickSize(1)
         .tickPadding(20)
         .tickFormat(this.y2.config.tickFormatter)
         .orient('right');
@@ -91,15 +95,30 @@ export default class Renderer {
     this.svg.classList.add('in-chart__svg');
     this.container.appendChild(this.svg);
 
-    this.x.axis.element = d3.select(this.svg)
+    const $svg = d3.select(this.svg);
+
+    this.topLine = $svg.append('line')
+      .attr('class', 'top-axis');
+
+    this.bottomLine = $svg.append('line')
+      .attr('class', 'bottom-axis');
+
+    this.x.axis.element = $svg
       .append('g')
       .attr('class', 'x axis')
       .call(this.x.axis);
 
-    this.y1.axis.element = d3.select(this.svg)
+    this.y1.axis.element = $svg
       .append('g')
       .attr('class', 'y y--1 axis')
       .call(this.y1.axis);
+
+    if (this.y2) {
+      this.y2.axis.element = $svg
+        .append('g')
+        .attr('class', 'y y--1 axis')
+        .call(this.y2.axis);
+    }
 
     // The render canvas is the user visible paint area that is only populated
     // by this base class. All other classes draw onto the drawingCanvas.
@@ -144,7 +163,7 @@ export default class Renderer {
 
   onDataPointAdded() {
     if (!this.rendering) {
-      this.render(this.y1.queue.get());
+      this.render();
     }
   }
 
@@ -153,24 +172,52 @@ export default class Renderer {
    * concurrently. This means that animations will finished but a new render
    * cycle is initiated.
    */
-  render(newDataColumns) {
+  render() {
+    let newDataColumnsY1 = this.y1.queue.get();
+    let newDataColumnsY2;
+    if (this.y2) {
+      newDataColumnsY2 = this.y2.queue.get();
+    }
+
     // this value is immediately set to true and will be set back to false
     // by either `renderBigUpdate` or `renderIncrementalUpdate` as both
     // functions' render strategies differ.
     this.rendering = true;
-    const initialRendering = this.y1.data.getDataColumns().length === 0;
+    let initialRendering = this.y1.data.getDataColumns().length === 0;
 
-    // this may happen when there are queued data points, but not actually a
-    // sufficient amount to animate the chart.
-    if (newDataColumns.length === 0) {
+    if (this.y2) {
+      initialRendering &= this.y2.data.getDataColumns().length === 0;
+    }
+
+    // The initial draw should only happen when we have adata points for both
+    // axis.
+    if (initialRendering &&
+        this.y2 &&
+        newDataColumnsY1.length === 0 &&
+        newDataColumnsY2.length === 0) {
       this.rendering = false;
       return;
     }
 
-    this.processNewDataColumns(newDataColumns);
-    this.y1.data.insertSorted(newDataColumns);
+    // this may happen when there are queued data points, but not actually a
+    // sufficient amount to animate the chart.
+    if (newDataColumnsY1.length === 0 &&
+        (!this.y2 || this.y2 && newDataColumnsY2.length === 0)) {
+      this.rendering = false;
+      return;
+    }
 
-    const isBigUpdate = newDataColumns.length > 10 || initialRendering;
+    this.processNewDataColumns('y1', newDataColumnsY1);
+    this.y1.data.insertSorted(newDataColumnsY1);
+
+    if (this.y2) {
+      this.processNewDataColumns('y2', newDataColumnsY2);
+      this.y2.data.insertSorted(newDataColumnsY2);
+    }
+
+    const isBigUpdate = newDataColumnsY1.length > 10 ||
+      (this.y2 && newDataColumnsY2.length > 10) ||
+      initialRendering;
     if (isBigUpdate) {
       this.renderBigUpdate();
     } else {
@@ -193,8 +240,13 @@ export default class Renderer {
    */
   renderBigUpdate() {
     this.y1.data.expireOldDataColumns();
+    if (this.y2) {
+      this.y2.data.expireOldDataColumns();
+    }
+
     this.updateXDomain();
-    this.updateYDomain();
+    this.updateYDomain('y1');
+    this.updateYDomain('y2');
 
     this.drawingCanvas.setAttribute('width', this.getRenderCanvasWidth());
     this.draw();
@@ -205,6 +257,10 @@ export default class Renderer {
     );
     this.x.axis.element.call(this.x.axis);
     this.y1.axis.element.call(this.y1.axis);
+
+    if (this.y2) {
+      this.y2.axis.element.call(this.y2.axis);
+    }
 
     this.rendering = false;
   }
@@ -217,6 +273,16 @@ export default class Renderer {
       x: this.x,
       y: this.y1
     });
+
+    if (this.y2) {
+      this.y2.config.renderer.draw({
+        dataColumns: this.y2.data.getDataColumns(),
+        series: this.y2.config.seriesConfig,
+        ctx: this.drawingCtx,
+        x: this.x,
+        y: this.y2
+      });
+    }
   }
 
   /**
@@ -226,11 +292,21 @@ export default class Renderer {
    * the transition has finished.
    */
   renderIncrementalUpdate() {
-    this.updateYDomain();
+    this.updateYDomain('y1');
+    if (this.y2) {
+      this.updateYDomain('y2');
+    }
 
     const dataColumns = this.y1.data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
-    const maxX = dataColumns[numberOfDataColumns - 1][0].x;
+    let maxX = dataColumns[numberOfDataColumns - 1][0].x;
+
+    if (this.y2) {
+      const dataColumnsY2 = this.y2.data.getDataColumns();
+      const numberOfDataColumnsY2 = dataColumnsY2.length;
+      maxX = Math.max(maxX, dataColumnsY2[numberOfDataColumnsY2 - 1][0].x);
+    }
+
     const maxXPixels = this.x(maxX);
     const renderCanvasWidth = this.getRenderCanvasWidth();
     const animationEndPosition = renderCanvasWidth - maxXPixels;
@@ -242,17 +318,17 @@ export default class Renderer {
     const onEnd = () => {
       window.cancelAnimationFrame(this.animationFrameHandle);
       this.y1.data.expireOldDataColumns();
+      if (this.y2) {
+        this.y2.data.expireOldDataColumns();
+      }
       this.updateXDomain();
       this.rendering = false;
 
       TWEEN.remove(this.tween);
 
-      // If new data has arrived while the previous data was being processed,
-      // then we can immediately schedule a new render phase.
-      const newDataColumns = this.y1.queue.get();
-      if (newDataColumns.length > 0) {
-        this.render(newDataColumns);
-      }
+      // We immediately try to schedule a new render phase in order to achieve
+      // a smooth animation. render will abort when no new data is available.
+      this.render();
     };
 
     this.x.axis.element.attr(
@@ -264,6 +340,10 @@ export default class Renderer {
     );
     this.x.axis.element.call(this.x.axis);
     this.y1.axis.element.call(this.y1.axis);
+
+    if (this.y2) {
+      this.y2.axis.element.call(this.y2.axis);
+    }
 
     const self = this;
 
@@ -297,30 +377,43 @@ export default class Renderer {
     this.animationFrameHandle = requestAnimationFrame(animate);
   }
 
-  processNewDataColumns(newDataColumns) {
-    if (this.y1.config.renderer.processNewDataColumns) {
-      this.y1.config.renderer.processNewDataColumns(newDataColumns);
+  processNewDataColumns(axis, newDataColumns) {
+    if (this[axis].config.renderer.processNewDataColumns) {
+      this[axis].config.renderer.processNewDataColumns(newDataColumns);
     }
   }
 
   updateXDomain() {
     const dataColumns = this.y1.data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
+    let maxX = 0;
 
-    let maxX = dataColumns[numberOfDataColumns - 1][0].x;
+    if (numberOfDataColumns > 0) {
+      maxX = dataColumns[numberOfDataColumns - 1][0].x;
+    }
+
+    if (this.y2) {
+      const dataColumnsY2 = this.y2.data.getDataColumns();
+      const numberOfDataColumnsY2 = dataColumnsY2.length;
+
+      if (numberOfDataColumnsY2 > 0) {
+        maxX = Math.max(maxX, dataColumnsY2[numberOfDataColumnsY2 - 1][0].x);
+      }
+    }
+
     let minX = maxX - this.windowSize;
 
     this.x.domain([minX, maxX]);
   }
 
-  updateYDomain() {
-    const minFixed = this.y1.config.min !== undefined;
-    const maxFixed = this.y1.config.max !== undefined;
+  updateYDomain(axis) {
+    const minFixed = this[axis].config.min !== undefined;
+    const maxFixed = this[axis].config.max !== undefined;
     if (minFixed && maxFixed) {
-      this.y1.domain([this.y1.config.min, this.y1.config.max]);
+      this[axis].domain([this[axis].config.min, this[axis].config.max]);
       return;
     }
-    const dataColumns = this.y1.data.getDataColumns();
+    const dataColumns = this[axis].data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
 
     let minY = Number.MAX_VALUE;
@@ -328,32 +421,32 @@ export default class Renderer {
 
     for (let i = 0; i < numberOfDataColumns; i++) {
       if (!minFixed) {
-        minY = Math.min(this.getMinYFromDataColumn(dataColumns[i]), minY);
+        minY = Math.min(this.getMinYFromDataColumn(axis, dataColumns[i]), minY);
       }
       if (!maxFixed) {
-        maxY = Math.max(this.getMaxYFromDataColumn(dataColumns[i]), maxY);
+        maxY = Math.max(this.getMaxYFromDataColumn(axis, dataColumns[i]), maxY);
       }
     }
 
     if (minFixed) {
-      minY = this.y1.config.min;
+      minY = this[axis].config.min;
     }
     if (maxFixed) {
-      maxY = this.y1.config.max;
+      maxY = this[axis].config.max;
     }
-    this.y1.domain([minY, maxY]);
+    this[axis].domain([minY, maxY]);
   }
 
-  getMinYFromDataColumn(dataColumn) {
-    if (this.y1.config.renderer.getMinYFromDataColumn) {
-      return this.y1.config.renderer.getMinYFromDataColumn(dataColumn);
+  getMinYFromDataColumn(axis, dataColumn) {
+    if (this[axis].config.renderer.getMinYFromDataColumn) {
+      return this[axis].config.renderer.getMinYFromDataColumn(dataColumn);
     }
     return dataColumn.reduce(minReducer, Number.MAX_VALUE);
   }
 
-  getMaxYFromDataColumn(dataColumn) {
-    if (this.y1.config.renderer.getMaxYFromDataColumn) {
-      return this.y1.config.renderer.getMaxYFromDataColumn(dataColumn);
+  getMaxYFromDataColumn(axis, dataColumn) {
+    if (this[axis].config.renderer.getMaxYFromDataColumn) {
+      return this[axis].config.renderer.getMaxYFromDataColumn(dataColumn);
     }
     return dataColumn.reduce(maxReducer, Number.MIN_VALUE);
   }
@@ -365,7 +458,8 @@ export default class Renderer {
 
     // initiate a complete redrawn when there data has been processed and
     // painted before
-    if (this.y1.data.getDataColumns().length > 0) {
+    if (this.y1.data.getDataColumns().length > 0 &&
+        (!this.y2 || this.y2.data.getDataColumns().length > 0)) {
       this.renderBigUpdate();
     }
   }
@@ -391,6 +485,18 @@ export default class Renderer {
     this.svg.setAttribute('width', this.width);
     this.svg.setAttribute('height', this.height);
 
+    this.topLine
+      .attr('x1', this.margins.left)
+      .attr('y1', this.margins.top)
+      .attr('x2', this.width - this.margins.right)
+      .attr('y2', this.margins.top);
+
+    this.bottomLine
+      .attr('x1', this.margins.left)
+      .attr('y1', this.height - this.margins.bottom)
+      .attr('x2', this.width - this.margins.right)
+      .attr('y2', this.height - this.margins.bottom);
+
     this.x.range([0, this.width - horizontalMargin]);
     this.x.axis.element.attr(
       'transform',
@@ -401,7 +507,6 @@ export default class Renderer {
     );
 
     this.y1.range([this.height - verticalMargin, 0]);
-    this.y1.axis.tickSize(-1 * this.width + horizontalMargin, 0, 0);
     this.y1.axis.element.attr(
       'transform',
       'translate(' +
@@ -409,6 +514,17 @@ export default class Renderer {
         this.margins.top +
       ')'
     );
+
+    if (this.y2) {
+      this.y2.range([this.height - verticalMargin, 0]);
+      this.y2.axis.element.attr(
+        'transform',
+        'translate(' +
+          (this.width - this.margins.right) + ',' +
+          this.margins.top +
+        ')'
+      );
+    }
   }
 
   dispose() {

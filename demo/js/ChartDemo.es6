@@ -59,11 +59,15 @@ const ChartDemo = React.createClass({
                    return v + 'y2';
                  },
                  type: 'line',
+                 min: -5,
                  datasources: this.state.y2Datasources,
                  seriesConfig: [
                    {label: 'wtf / second'},
                    {label: 'omg / second'}
                  ]
+               }}
+               margins={{
+                 right: 60
                }}/>
       </div>
     );
