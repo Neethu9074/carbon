@@ -158,6 +158,7 @@ export default class BaseNode extends SceneObject {
     this.connections.forEach(c => c.unSelect());
 
     snapshotStore.clear();
+    console.log('clear');
   }
 
   //is called via scene when the user pressed on a node

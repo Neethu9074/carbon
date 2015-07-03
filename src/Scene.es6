@@ -18,7 +18,6 @@ import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import * as time from './timeCalculations';
 import Tooltip from './sceneObjects/Tooltips/Connection/index';
 import {allConnections} from './sceneObjects/Connection/index';
-import {selectedSceneObject as sss} from './stores/selectedSceneObject';
 import {clear} from 'instana-ui-services/stores/selectedSnapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
@@ -548,8 +547,6 @@ export default class Scene {
     const sceneObject = object.parentSceneObject;
 
     if(fireExternalEvent) {
-      sss.emit(sceneObject);
-
       if(!sceneObject.snapshot || sceneObject.isUnknown) {
         clear();
       }
