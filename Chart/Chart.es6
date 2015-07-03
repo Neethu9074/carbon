@@ -5,8 +5,8 @@ import _ from 'lodash';
 
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
-import * as stackedAreaRenderer from './render/stackedAreaRenderer';
-import * as lineRenderer from './render/lineRenderer';
+import * as stackedAreaRenderer from './render/stackedAreaRendererTmp';
+import * as lineRenderer from './render/lineRendererTmp';
 import Renderer from './Renderer';
 
 import './Chart.less';
