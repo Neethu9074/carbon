@@ -161,7 +161,7 @@ export default class BaseNode extends SceneObject {
   //is called via scene when the user pressed on a node
   select() {
     if(this.isSelected) {
-      // this.unSelect();
+      this.unSelect();
       return;
     }
 
@@ -175,6 +175,7 @@ export default class BaseNode extends SceneObject {
       return;
     }
 
+    snapshotStore.clear();
     this.switchStateIfNext({
       highlighted: this.highlighting.isHighlighted,
       onClick: true
@@ -189,6 +190,8 @@ export default class BaseNode extends SceneObject {
 
     this.refreshMesh();
     this.refreshFragment();
+
+    this.highlighting.refresh();
   }
 
   setPosition(x, y, z) {
