@@ -46,7 +46,7 @@ const StickyNoteRC = React.createClass({
 
     return (
       <div className='in-sticky-note__node-stack-wrapper'
-           style={{width: this.state.size}}>
+            style={{width: this.state.size}}>
         <div className='in-sticky-note__node-stack-children'>
           {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
           {this.props.showMetric ?
@@ -65,7 +65,7 @@ export default class StickyNoteNode extends StickyNote {
     super({parent, cssClass: 'in-sticky-note__node'});
 
     this.tags = []; // this.props.tags;
-    const numElements = Math.floor(Math.random() * 10);
+    const numElements = Math.floor(Math.random() * 0);
     for (let i = 0; i < numElements; i++) {
       this.tags.push({label: 'tag_' + i});
     }
