@@ -1,6 +1,6 @@
 {
   "name": "instana-ui-map",
-  "version": "2.22.44",
+  "version": "2.22.45",
   "description": "The 3D visuliaztion of client's infrastructure",
   "main": "src/index.es6",
   "scripts": {
