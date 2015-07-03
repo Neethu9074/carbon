@@ -9,7 +9,11 @@
 }
 
 .in-tooltip__connections-li {
-  padding: 0 0 10px;
+  padding: 0;
+}
+
+.in-tooltip__connections-li:last-child {
+  padding: 0;
 }
 
 .in-tooltip__connections-li--arrow {
@@ -22,10 +26,12 @@
   font-weight: bold;
 
   margin-right: 5px;
+  margin-top: 5px;
 }
 
 .in-tooltip__connections-li--ip {
-  font-size: 13px;
+  font-size: 11px;
+  margin-top: 5px;
   font-weight: bold;
 
   color: @map__tooltips__font;

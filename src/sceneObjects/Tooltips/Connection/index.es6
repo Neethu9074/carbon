@@ -6,6 +6,7 @@ import Tooltip from '../Tooltip';
 import TooltipFrame from '../index';
 import Heading from '../Heading';
 import Content from '../Content';
+import Icon from 'instana-ui-components/Icon';
 
 import {getColor} from 'instana-ui-sdk/zones';
 import {getIps} from 'instana-ui-sdk/snapshot';
@@ -42,10 +43,13 @@ const StickyNoteRC = React.createClass({
       const style = {color: getColor(zoneId)};
 
       return (
-        <li key={connection.id} className='in-tooltip__connections__li'>
+        <li key={connection.id} className='in-tooltip__connections-li'>
           <div className='in-tooltip__connections-li--wrapper'>
             <div className='in-tooltip__connections-li--arrow'>
-              {connection.direction === 'out' ? '<-' : '->'}
+              {connection.direction === 'out' ?
+                <Icon type={'arrow_left'} style={{fontSize: '25px'}}/> :
+                <Icon type={'arrow_right'} style={{fontSize: '25px'}}/>
+              }
             </div>
             <Heading className={'in-tooltip__connections-li--header'}
                      style={style}>
