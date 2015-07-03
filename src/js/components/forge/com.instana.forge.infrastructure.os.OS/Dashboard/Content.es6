@@ -36,8 +36,8 @@ const OsDashboard = React.createClass({
 
   getInitialState() {
     return {
-      filesystemMetrics: null,
-      interfaceMetrics: null
+      filesystemName: null,
+      interfaceName: null
     };
   },
 
@@ -150,29 +150,45 @@ const OsDashboard = React.createClass({
           {this.getIntlMessage('forge.os.filesystems')}
         </ContentHeading>
 
-        {this.state.filesystemMetrics ?
+        {this.state.filesystemName ?
           <Chart snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
 
                  width={this.props.width}
                  height={chartHeight}
                  margins={{
-                   left: 80
+                   left: 80,
+                   right: 80
                  }}
 
                  y1={{
                    min: 0,
                    max: getMaxValue(
-                     this.state.filesystemMetrics[0],
+                     'fs.' + this.state.filesystemName + '.free',
                      this.props.snapshot
                    ),
                    tickFormatter: kbFormatter,
-                   metrics: this.state.filesystemMetrics,
+                   metrics: [
+                     'fs.' + this.state.filesystemName + '.free',
+                     'fs.' + this.state.filesystemName + '.leaked'
+                   ],
+                   type: 'line'
+                 }}
+
+                 y2={{
+                   min: 0,
+                   max: getMaxValue(
+                     'fs.' + this.state.filesystemName + '.ifree',
+                     this.props.snapshot
+                   ),
+                   metrics: [
+                     'fs.' + this.state.filesystemName + '.ifree'
+                   ],
                    type: 'line'
                  }}/>
         : null}
 
-        <table className='in-subtle-table'>
+        <table className='in-subtle-table in-subtle-table--clickable'>
           <thead>
             <tr>
               <th>Device</th>
@@ -223,25 +239,43 @@ const OsDashboard = React.createClass({
           {this.getIntlMessage('forge.os.networkinterfaces')}
         </ContentHeading>
 
-        {this.state.interfaceMetrics ?
+        {this.state.interfaceName ?
           <Chart snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
 
                  width={this.props.width}
                  height={chartHeight}
                  margins={{
-                   left: 80
+                   left: 80,
+                   right: 80
                  }}
 
                  y1={{
                    min: 0,
                    tickFormatter: formatBytes,
-                   metrics: this.state.interfaceMetrics,
+                   metrics: [
+                     'ifs.' + this.state.interfaceName + '.rx.bytes',
+                     'ifs.' + this.state.interfaceName + '.tx.bytes'
+                   ],
+                   type: 'line'
+                 }}
+                 y2={{
+                   min: 0,
+                   max: 1,
+                   metrics: [
+                     'ifs.' + this.state.interfaceName + '.rx.errors',
+                     'ifs.' + this.state.interfaceName + '.rx.dropped',
+                     'ifs.' + this.state.interfaceName + '.rx.overruns',
+                     'ifs.' + this.state.interfaceName + '.tx.errors',
+                     'ifs.' + this.state.interfaceName + '.tx.dropped',
+                     'ifs.' + this.state.interfaceName + '.tx.overruns'
+                   ],
+                   tickFormatter: percentFormatter,
                    type: 'line'
                  }}/>
         : null}
 
-        <table className='in-subtle-table'>
+        <table className='in-subtle-table in-subtle-table--clickable'>
           <thead>
             <tr>
               <th></th>
@@ -254,8 +288,16 @@ const OsDashboard = React.createClass({
               <th>Interface</th>
               <th>Mac</th>
               <th>IPs</th>
-              <th>Bytes</th><th>Errors</th><th>Dropped</th><th>Overruns</th>
-              <th>Bytes</th><th>Errors</th><th>Dropped</th><th>Overruns</th>
+
+              <th style={{width: '10em'}}>Bytes</th>
+              <th style={{width: '4em'}}>Errors</th>
+              <th style={{width: '4em'}}>Dropped</th>
+              <th style={{width: '4em'}}>Overruns</th>
+
+              <th style={{width: '10em'}}>Bytes</th>
+              <th style={{width: '4em'}}>Errors</th>
+              <th style={{width: '4em'}}>Dropped</th>
+              <th style={{width: '4em'}}>Overruns</th>
             </tr>
           </thead>
 
@@ -379,18 +421,14 @@ const OsDashboard = React.createClass({
   },
 
   selectFilesystem(fs) {
-    const metric = 'fs.' + fs + '.free';
     this.setState({
-      filesystemMetrics: [metric]
+      filesystemName: fs
     });
   },
 
   selectInterface(iface) {
     this.setState({
-      interfaceMetrics: [
-        'ifs.' + iface + '.rx.bytes',
-        'ifs.' + iface + '.tx.bytes'
-      ]
+      interfaceName: iface
     });
   },
 
