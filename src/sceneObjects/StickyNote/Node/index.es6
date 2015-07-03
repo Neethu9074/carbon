@@ -1,6 +1,9 @@
 'use strict';
 
 import React from 'react/addons';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import eventBus from 'instana-ui-services/eventbus';
+
 import NodeIcon from '../NodeIcon';
 import NodeMetric from '../NodeMetric';
 import StickyNote from '../StickyNote';
@@ -13,13 +16,26 @@ const rpt = React.PropTypes;
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
 
   propTypes: {
     snapshot: rpt.object.isRequired,
     sceneObject: rpt.object.isRequired,
     showMetric: rpt.bool,
     tags: rpt.array.isRequired
+  },
+
+  getInitialState() {
+    return {size: 50};
+  },
+
+  componentDidMount() {
+    this.addSubscription(eventBus.on('nodeSizeChanged').subscribe((size) => {
+      this.setState({size});
+    }));
   },
 
   render() {
@@ -29,7 +45,8 @@ const StickyNoteRC = React.createClass({
     const sceneObject = this.props.sceneObject;
 
     return (
-      <div className='in-sticky-note__node-stack-wrapper'>
+      <div className='in-sticky-note__node-stack-wrapper'
+           style={{width: this.state.size}}>
         <div className='in-sticky-note__node-stack-children'>
           {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
           {this.props.showMetric ?

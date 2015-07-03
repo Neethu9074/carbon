@@ -186,9 +186,9 @@ export default class BaseNode extends SceneObject {
   updateOfVisualComponents() {
     const pos = this.getPosition();
     super.setScreenPositionAnchor(
-      pos.x - 0.25,
+      pos.x ,
       pos.y + this.height,
-      pos.z + 0.25);
+      pos.z );
 
     this.cube.position.set(pos.x, pos.y, pos.z);
 
