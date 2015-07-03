@@ -429,7 +429,6 @@ export default class Node extends BaseNode {
     super.show();
 
     this.addToGlobalGeometry();
-    this.addCollisionObject(this.cube, 1);
     this.stickyNote.show();
   }
 
@@ -437,7 +436,6 @@ export default class Node extends BaseNode {
     super.hide();
 
     this.removeFromGlobalGeometry();
-    this.removeCollisionObject(this.cube, 1);
     this.stickyNote.hide();
   }
 

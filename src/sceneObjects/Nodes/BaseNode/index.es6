@@ -282,11 +282,15 @@ export default class BaseNode extends SceneObject {
   show() {
     super.show();
     this.enableFragments(true);
+
+    this.addCollisionObject(this.cube, 1);
   }
 
   hide() {
     super.hide();
     this.enableFragments(false);
+
+    this.removeCollisionObject(this.cube, 1);
   }
 
   clearConnections() {
