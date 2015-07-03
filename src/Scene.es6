@@ -550,7 +550,7 @@ export default class Scene {
     if(fireExternalEvent) {
       sss.emit(sceneObject);
 
-      if(!sceneObject.snapshot) {
+      if(!sceneObject.snapshot || sceneObject.isUnknown) {
         clear();
       }
     }

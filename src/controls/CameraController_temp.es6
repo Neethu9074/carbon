@@ -4,6 +4,7 @@ import THREE from 'three';
 import {selectedSceneObject} from '../stores/selectedSceneObject';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
+import {clear} from 'instana-ui-services/stores/selectedSnapshot';
 
 export default class CameraController {
 
@@ -120,6 +121,7 @@ export default class CameraController {
       //the use has clicked into nowhere and so clear the snapshot store
       // clear();
       selectedSceneObject.emit(null);
+      clear();
     }
   }
 
