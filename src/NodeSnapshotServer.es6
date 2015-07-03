@@ -33,6 +33,7 @@ export default class NodeSnapshotServer {
       if(s && isIdEqual(s, client.snapshot)) {
         client.select();
       } else {
+        //clear the selection and the highlighting
         client.unSelect();
         client.onHighlight(false);
       }
