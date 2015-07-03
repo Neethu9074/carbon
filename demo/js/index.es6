@@ -3,6 +3,7 @@
 import 'instana-ui-forge';
 import initReact from './react';
 import Immutable from 'immutable';
+import eventBus from 'instana-ui-services/eventbus';
 
 import {
   setActiveMetric,
@@ -47,4 +48,9 @@ window.performanceLoad = function() {
 
 window.hideMetrics = function() {
   clearActiveMetric();
+};
+
+window.submit = function() {
+  const input = document.getElementById('input').value;
+  eventBus.emit('filter', {filterText: input});
 };

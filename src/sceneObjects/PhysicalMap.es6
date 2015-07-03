@@ -107,7 +107,10 @@ export default class PhysicalMap extends SceneObject {
     }));
 
     this.addSubscription(eventBus.on('filter').subscribe((event) => {
-      logger.debug('fitler map:', event.filter);
+      logger.debug('fitler map:', event.filterText);
+      this.filter((item) => {
+        return (event.filterText in item);
+      });
     }));
   }
 
