@@ -138,13 +138,11 @@ export default class BaseNode extends SceneObject {
 
   setHighlight() {
     this.highlighting.onMouseOver();
-    this.getHtmlContainer().style.cursor = 'pointer';
     this.stickyNote.onHighlight(true);
   }
 
   clearHighlight() {
     this.highlighting.onMouseOff();
-    this.getHtmlContainer().style.cursor = 'default';
     this.stickyNote.onHighlight(false);
   }
 
@@ -163,7 +161,7 @@ export default class BaseNode extends SceneObject {
   //is called via scene when the user pressed on a node
   select() {
     if(this.isSelected) {
-      this.unSelect();
+      // this.unSelect();
       return;
     }
 

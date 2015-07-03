@@ -178,6 +178,12 @@ export default class CameraController {
 
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
+
+    if(this.hittenObject) {
+      this.scene.getHtmlContainer().style.cursor = 'pointer';
+    } else {
+      this.scene.getHtmlContainer().style.cursor = 'default';
+    }
   }
 
   isHoveringObject() {
