@@ -21,11 +21,13 @@ const StickyNoteRC = React.createClass({
   render() {
     const snapshot = this.props.snapshot;
     let formattedBytes;
-    let jsxStructure = (<div></div>);
+    let jsxStructure = null;
     try {
       jsxStructure = (
-        <div>
-          {snapshot.get('steadyId')}
+        <div className='in-sticky-note__note__unknown-node--stack-wrapper'>
+          <div className='in-sticky-note__note__unknown-node--stack-children'>
+            {snapshot.get('steadyId')}
+          </div>
         </div>
       );
     } catch(err) {
@@ -40,7 +42,7 @@ const StickyNoteRC = React.createClass({
 
 export default class StickyNoteUnknownNode extends StickyNote {
   constructor(parent) {
-    super({parent, cssClass: 'in-sticky-note__unknown__node'});
+    super({parent, cssClass: 'in-sticky-note__unknown-node'});
     this.render();
   }
 
