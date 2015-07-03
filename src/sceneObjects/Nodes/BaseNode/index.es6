@@ -156,6 +156,8 @@ export default class BaseNode extends SceneObject {
     this.isSelected = false;
     this.scene.clearSelectedObject();
     this.connections.forEach(c => c.unSelect());
+
+    snapshotStore.clear();
   }
 
   //is called via scene when the user pressed on a node
@@ -175,7 +177,6 @@ export default class BaseNode extends SceneObject {
       return;
     }
 
-    snapshotStore.clear();
     this.switchStateIfNext({
       highlighted: this.highlighting.isHighlighted,
       onClick: true
