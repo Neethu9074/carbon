@@ -4,6 +4,7 @@ import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 
+import {getLabel} from 'instana-ui-sdk/snapshot';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 
 import Snapshot from './Snapshot';
@@ -26,9 +27,15 @@ const SidebarSnapshotList = React.createClass({
   },
 
   render() {
+    const snapshots = this.props.snapshots.sort((s1, s2) => {
+      const l1 = getLabel(s1);
+      const l2 = getLabel(s2);
+      return l1.localeCompare(l2);
+    });
+
     return (
       <ul className={block}>
-        {this.toJs(this.props.snapshots.map(snapshot =>
+        {this.toJs(snapshots.map(snapshot =>
           <Snapshot snapshot={snapshot}
                     key={getIdString(snapshot)}
                     highlighted={this.props.highlightedSnapshot === snapshot}
