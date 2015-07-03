@@ -15,13 +15,18 @@ export default class TouchControl extends CameraController{
 
     const canvas = scene.parent;
     const eventHandler = new Hammer(canvas);
+    const minMovementForPan = 15;
 
-    eventHandler.get('pan').set({direction: Hammer.DIRECTION_ALL});
+    eventHandler.get('pan').set({
+      direction: Hammer.DIRECTION_ALL,
+      threshold: minMovementForPan
+    });
     eventHandler.on('pan', this.onPan.bind(this));
 
     eventHandler.on('panstart', (e) => this.setCursorToEvent(e));
     eventHandler.on('pinch', this.onPinch.bind(this));
 
+    eventHandler.get('tap').set({threshold: minMovementForPan - 1});
     eventHandler.on('tap', this.onTab.bind(this));
   }
 
