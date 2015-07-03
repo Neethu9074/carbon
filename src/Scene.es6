@@ -552,12 +552,7 @@ export default class Scene {
     if(fireExternalEvent && sceneObject) {
       //only click on known nodes
       if(sceneObject instanceof Node) {
-        //unselect selected objects
-        if(sceneObject.isSelected) {
-          sceneObject.unSelect(true);
-        } else {
-          select(sceneObject.snapshot);
-        }
+        select(sceneObject.snapshot);
       } else {
         logger.debug('you hit an unknown object', sceneObject.id);
       }

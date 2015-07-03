@@ -32,6 +32,7 @@ const StickyNoteRC = React.createClass({
   render() {
     const maxCon = 3;
     const connections = this.props.connections;
+    const numConnections = connections.length;
     const listItems = connections.slice(0, maxCon).map((connection, index) => {
       const ips = this.getIpsFromNode(connection.to);
       if(ips.length === 0) {
@@ -58,12 +59,12 @@ const StickyNoteRC = React.createClass({
       );
     });
 
-    if(connections.length > maxCon) {
+    if(numConnections > maxCon) {
       listItems.push(
         <li key={'unique'} className='in-tooltip__connections__li'>
           <div className='in-tooltip__connections-li--wrapper'>
             <Content>
-              {connections.length - maxCon} more
+              {numConnections - maxCon} more
             </Content>
           </div>
         </li>
@@ -73,8 +74,8 @@ const StickyNoteRC = React.createClass({
     return (
       <TooltipFrame>
         <Heading>
-          {connections.length + ' connection'.toUpperCase() +
-            (connections.length === 1 ? '' : 'S')}
+          {numConnections + ' connection'.toUpperCase() +
+            (numConnections === 1 ? '' : 'S')}
         </Heading>
         <ul className='in-tooltip__connections-ul'>
           {listItems}

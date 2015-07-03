@@ -27,9 +27,14 @@ export default class NodeSnapshotServer {
     this.subscriptions.push(eventBus.on('upateMetricHeights').subscribe(() =>
       client.updateMetricHeight()));
 
+    //the store notifies if there was a new snapshot selected
     this.subscriptions.push(snapshotStore.selectedSnapshot.subscribe((s) => {
+      //s is null if clear was called
       if(s && isIdEqual(s, client.snapshot)) {
         client.select();
+      } else {
+        client.unSelect();
+        client.onHighlight(false);
       }
     }));
 

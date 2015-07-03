@@ -163,6 +163,7 @@ export default class BaseNode extends SceneObject {
   //is called via scene when the user pressed on a node
   select() {
     if(this.isSelected) {
+      this.unSelect();
       return;
     }
 
@@ -171,13 +172,9 @@ export default class BaseNode extends SceneObject {
 
   //is called when the user hits the node again or the selection was cleared
   //by another way
-  unSelect(clearStore=false) {
+  unSelect() {
     if(!this.isSelected) {
       return;
-    }
-
-    if(clearStore) {
-      snapshotStore.clear();
     }
 
     this.switchStateIfNext({
