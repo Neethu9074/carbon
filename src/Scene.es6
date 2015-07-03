@@ -9,7 +9,6 @@ import {getAllNodes} from './mapStructureUtils';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import Node from './sceneObjects/Nodes/Node/index';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import LineFactory from './factories/LineFactory';
@@ -19,13 +18,12 @@ import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import * as time from './timeCalculations';
 import Tooltip from './sceneObjects/Tooltips/Connection/index';
 import {allConnections} from './sceneObjects/Connection/index';
-import {createLogger} from 'instalog';
-import {select} from 'instana-ui-services/stores/selectedSnapshot';
+import {selectedSceneObject as sss} from './stores/selectedSceneObject';
+import {clear} from 'instana-ui-services/stores/selectedSnapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 
-const logger = createLogger('ui-map.Group');
 let currentMetrics;
 
 const inverse = new THREE.Matrix4();
@@ -549,12 +547,11 @@ export default class Scene {
     //get the parent scene object, e.g. a node
     const sceneObject = object.parentSceneObject;
 
-    if(fireExternalEvent && sceneObject) {
-      //only click on known nodes
-      if(sceneObject instanceof Node) {
-        select(sceneObject.snapshot);
-      } else {
-        logger.debug('you hit an unknown object', sceneObject.id);
+    if(fireExternalEvent) {
+      sss.emit(sceneObject);
+
+      if(!sceneObject.snapshot) {
+        clear();
       }
     }
   }

@@ -1,10 +1,8 @@
 'use strict';
 
 import eventBus from 'instana-ui-services/eventbus';
-import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
-
+import * as ssos from './stores/selectedSceneObject';
 import {getHealth} from 'instana-ui-services/issueTracker';
-import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {subscribeToMetric} from './metricUtils';
@@ -28,9 +26,8 @@ export default class NodeSnapshotServer {
       client.updateMetricHeight()));
 
     //the store notifies if there was a new snapshot selected
-    this.subscriptions.push(snapshotStore.selectedSnapshot.subscribe((s) => {
-      //s is null if clear was called
-      if(s && isIdEqual(s, client.snapshot)) {
+    this.subscriptions.push(ssos.selectedSceneObject.subscribe((so) => {
+      if(so && so.id === client.id) {
         client.select();
       } else {
         //clear the selection and the highlighting

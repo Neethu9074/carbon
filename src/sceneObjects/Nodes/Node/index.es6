@@ -7,6 +7,7 @@ import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import {select as selectSnapshot} from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 
 import BaseNode from '../BaseNode/index';
@@ -202,11 +203,21 @@ export default class Node extends BaseNode {
   }
 
   onHighlight(highlighted) {
+    super.onHighlight();
     if(highlighted) {
       highlightedSnapshot.select(this.snapshot);
     } else {
       highlightedSnapshot.clear();
     }
+  }
+
+  select() {
+    super.select();
+    selectSnapshot(this.snapshot);
+  }
+
+  unSelect() {
+    super.unSelect();
   }
 
   showMetrics() {
