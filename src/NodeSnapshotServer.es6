@@ -32,7 +32,6 @@ export default class NodeSnapshotServer {
       } else {
         //clear the selection and the highlighting
         client.unSelect();
-        client.onHighlight(false);
       }
     }));
 

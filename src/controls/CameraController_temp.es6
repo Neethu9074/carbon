@@ -114,11 +114,12 @@ export default class CameraController {
   }
 
   doClick() {
+    const hitten = this.hittenObject;
+
     //if an object was found via raycasting, inform the scene
-    if (this.hittenObject !== undefined &&
-      !this.hittenObject.parentSceneObject.isSelected) {
-        this.scene.onObjectClicked(this.hittenObject);
-        selectedSceneObject.emit(this.hittenObject.parentSceneObject);
+    if (hitten !== undefined && !hitten.parentSceneObject.isSelected) {
+      this.scene.onObjectClicked(hitten);
+      selectedSceneObject.emit(hitten.parentSceneObject);
     } else {
       //the use has clicked into nowhere and so clear the snapshot store
       selectedSceneObject.emit(null);
