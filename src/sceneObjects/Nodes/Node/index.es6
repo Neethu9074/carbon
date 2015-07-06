@@ -59,7 +59,7 @@ export default class Node extends BaseNode {
 
     highlightedSnapshot.highlightedSnapshot.async().subscribe((highlighted) => {
       if(isIdEqual(highlighted, this.snapshot)) {
-        super.onHighlight(highlighted);
+        super.onHighlight(true);
       } else {
         super.onHighlight(false);
       }
@@ -203,7 +203,7 @@ export default class Node extends BaseNode {
   }
 
   onHighlight(highlighted) {
-    super.onHighlight();
+    super.onHighlight(highlighted);
     if(highlighted) {
       highlightedSnapshot.select(this.snapshot);
     } else {
@@ -221,7 +221,7 @@ export default class Node extends BaseNode {
   }
 
   showMetrics() {
-    this.switchStateIfNext({inactive: true});
+    this.changeStateProperty('active', false);
 
     this.stickyNote.switchToMetric();
 
@@ -241,10 +241,7 @@ export default class Node extends BaseNode {
   }
 
   hideMetrics() {
-    this.switchStateIfNext({
-      highlighted: this.highlighting.isHighlighted,
-      inactive: false
-    });
+    this.changeStateProperty('active', true);
 
     this.stickyNote.switchToIcon();
     // this.scene.singleMeshMetricFactory.removeFragment(this.id);

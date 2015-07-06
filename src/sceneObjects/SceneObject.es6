@@ -3,6 +3,39 @@
 import THREE from 'three';
 
 
+const stateLUT = {
+  lut: [
+    //mouseOver, selected, active
+    [[false, false, false], 'inactive'],
+    [[false, false, true], 'inital'],
+    [[false, true, false], 'inactive'],
+    [[false, true, true], 'selected'],
+    [[true, false, false], 'inactive'],
+    [[true, false, true], 'highlighted'],
+    [[true, true, false], 'inactive'],
+    [[true, true, true], 'selected']
+  ],
+
+  getStateFromLut({mouseOver, selected, active, states}) {
+    for (let i = 0; i < this.lut.length; i++) {
+      const entry = this.lut[i];
+      if(mouseOver === entry[0][0] && selected === entry[0][1] && active === entry[0][2]) {
+        const match = entry[1];
+        switch (match) {
+          case 'inactive':
+            return states.inactive;
+          case 'selected':
+            return states.selected;
+          case 'highlighted':
+            return states.highlighted;
+          default:
+            return states.initial;
+        }
+      }
+    }
+  }
+};
+
 export default class SceneObject {
 
   constructor({parent, pos = new THREE.Vector3()}) {
@@ -13,23 +46,41 @@ export default class SceneObject {
     this.screenPositionAnchor = this.position.clone();
     this.screenPosition = {x: 0, y: 0};
 
+    this.stateLookUpTable = stateLUT;
     this.states = this.initStates();
-    this.state = this.states.initial;
-    this.state.enter();
+    this.stateProperties = {
+      mouseOver: false,
+      selected: false,
+      active: true
+    };
+    this.stateTemp = this.states.initial;
+    this.stateTemp.enter();
+  }
+
+  changeStateProperty(name, value) {
+    this.stateProperties[name] = value;
+    this.updateState();
+  }
+
+  updateState() {
+    const props = this.stateProperties;
+    const oldState = this.stateTemp;
+    const newState = stateLUT.getStateFromLut({
+      mouseOver: props.mouseOver,
+      selected: props.selected,
+      active: props.active,
+      states: this.states
+    });
+
+    if(oldState !== newState) {
+      oldState.leave();
+      this.stateTemp = newState;
+      newState.enter();
+    }
   }
 
   initStates() {
     return {initial: {enter() {}}};
-  }
-
-  switchStateIfNext(action) {
-    const next = this.state.getNext(action);
-    if(next){
-      this.state.leave();
-      this.state = next;
-      this.state.enter();
-      this.getScene().renderScene();
-    }
   }
 
   setPosition(x, y, z) {

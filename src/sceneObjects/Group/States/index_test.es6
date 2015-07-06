@@ -37,21 +37,5 @@ describe('3D map', () => {
       expect(ground.state).to.equal(ground.states.highlighted);
     });
 
-    it('should not switch state', () => {
-      expect(ground.state).to.equal(ground.states.initial);
-      ground.switchStateIfNext({highlighted: true});
-      expect(ground.state).to.equal(ground.states.highlighted);
-      ground.switchStateIfNext({highlighted: true});
-      expect(ground.state).to.equal(ground.states.highlighted);
-    });
-
-    it('should switch state to initial', () => {
-      expect(ground.state).to.equal(ground.states.initial);
-      ground.switchStateIfNext({highlighted: true});
-      expect(ground.state).to.equal(ground.states.highlighted);
-      ground.switchStateIfNext({highlighted: false});
-      expect(ground.state).to.equal(ground.states.initial);
-    });
-
   });
 });

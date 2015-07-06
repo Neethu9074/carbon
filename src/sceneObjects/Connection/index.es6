@@ -197,8 +197,7 @@ export default class Connection extends SceneObject {
     return hit.length > 0;
   }
 
-  highlight(highlighted) {
-    this.switchStateIfNext({highlighted});
+  highlight() {
   }
 
   select() {
@@ -237,7 +236,7 @@ export default class Connection extends SceneObject {
 
   dispose() {
     _.remove(allConnections, c => c.id === this.id);
-    this.switchStateIfNext({highlighted: false});
+    // this.changeStateProperty('mouseOver', false);
 
     this.disposeCollisionLine();
 

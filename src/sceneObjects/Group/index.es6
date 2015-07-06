@@ -120,7 +120,7 @@ export default class Group extends SceneObject {
   }
 
   onHighlight(highlighted) {
-    this.switchStateIfNext({highlighted});
+    this.changeStateProperty('mouseOver', highlighted);
   }
 
   updateOfVisualComponents() {
@@ -128,6 +128,7 @@ export default class Group extends SceneObject {
     const size = this.size;
     super.setScreenPositionAnchor(pos.x, pos.y, pos.z + size.z / 2);
     this.collisionPlane.scale.set(size.x, size.z, 1);
+    this.collisionPlane.position.copy(pos);
 
     this.refreshCollisionObject();
     this.refreshGroundGeometry();

@@ -114,10 +114,10 @@ export default class BaseNode extends SceneObject {
   }
 
   //is called via hover event
-  onHighlight(isHighlighted) {
-    this.switchStateIfNext({highlighted: isHighlighted});
+  onHighlight(highlighted) {
+    this.changeStateProperty('mouseOver', highlighted);
 
-    if(isHighlighted) {
+    if(highlighted) {
       this.showTooltip();
     } else {
       this.hideTooltip();
@@ -156,7 +156,6 @@ export default class BaseNode extends SceneObject {
     this.isSelected = false;
     this.scene.clearSelectedObject();
     this.connections.forEach(c => c.unSelect());
-    this.onHighlight(false);
 
     snapshotStore.clear();
   }
@@ -167,7 +166,7 @@ export default class BaseNode extends SceneObject {
       return;
     }
 
-    this.switchStateIfNext({onClick: true});
+    this.changeStateProperty('selected', true);
   }
 
   //is called when the user hits the node again or the selection was cleared
@@ -177,10 +176,7 @@ export default class BaseNode extends SceneObject {
       return;
     }
 
-    this.switchStateIfNext({
-      highlighted: this.highlighting.isHighlighted,
-      onClick: true
-    });
+    this.changeStateProperty('selected', false);
   }
 
   updateOfVisualComponents() {
