@@ -1,5 +1,3 @@
-/*global require:false*/
-
 'use strict';
 
 import Immutable from 'immutable';
@@ -15,6 +13,7 @@ import {getIssueCountSummary, getIssueSummary} from 'instana-ui-services/issueTr
 import {sort} from 'instana-ui-sdk/sorting';
 import {theme} from 'instana-ui-services/theme';
 
+import Details from './Details';
 import SeverityListing from './SeverityListing';
 import ZoneList from './ZoneList';
 
@@ -86,7 +85,7 @@ const SidebarListing = React.createClass({
 
   render() {
     if (this.state.selectedSnapshot) {
-      return this.renderSnapshotDetails();
+      return <Details snapshot={this.state.selectedSnapshot} />;
     }
 
     let dangerCount = 0;
@@ -132,17 +131,6 @@ const SidebarListing = React.createClass({
         </Tab>
       </Tabs>
     );
-  },
-
-  renderSnapshotDetails() {
-    /*eslint-disable no-unused-vars*/
-    const Details = this.getForgeSpecificComponent('Details');
-    return <Details snapshot={this.state.selectedSnapshot} />;
-    /*eslint-enable no-unused-vars*/
-  },
-
-  getForgeSpecificComponent(name) {
-    return require('../forge/' + this.props.pluginId + '/Sidebar/' + name);
   }
 });
 
