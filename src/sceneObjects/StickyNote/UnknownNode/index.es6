@@ -2,40 +2,32 @@
 
 import React from 'react/addons';
 import StickyNote from '../StickyNote';
-import {createLogger} from 'instalog';
 
 import './index.less';
 
-const logger = createLogger('ui-map.stickyNote.UnknownNode.index');
-const rpt = React.PropTypes;
 
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin
+  ],
 
   propTypes: {
-    snapshot: rpt.object.isRequired
+    snapshot: React.PropTypes.object.isRequired
   },
 
   render() {
     const snapshot = this.props.snapshot;
     let formattedBytes;
-    let jsxStructure = null;
-    try {
-      jsxStructure = (
-        <div className='in-sticky-note__note__unknown-node--stack-wrapper'>
-          <div className='in-sticky-note__note__unknown-node--stack-children'>
-            {snapshot.get('steadyId')}
-          </div>
+
+    return (
+      <div className='in-sticky-note__note__unknown-node--stack-wrapper'>
+        <div className='in-sticky-note__note__unknown-node--stack-children'>
+          {snapshot.get('steadyId')}
         </div>
-      );
-    } catch(err) {
-      logger.error('there are missing properties inside the snapshot that ' +
-      'avoid rendering correct sticky note');
-    } finally {
-      return jsxStructure;
-    }
+      </div>
+    );
   }
 });
 /*eslint-enable no-unused-vars*/

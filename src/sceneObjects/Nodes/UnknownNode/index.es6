@@ -58,6 +58,11 @@ export default class Unknownnode extends BaseNode {
     }
   }
 
+  getScreenAnchorPosition() {
+    const pos = this.getPosition();
+    return {x: pos.x + 0.25, y: pos.y + this.height, z: pos.z - 0.25};
+  }
+
   addToGlobalGeometry() {}
 
   removeFromGlobalGeometry() {}

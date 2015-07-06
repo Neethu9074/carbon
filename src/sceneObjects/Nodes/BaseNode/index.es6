@@ -108,6 +108,8 @@ export default class BaseNode extends SceneObject {
 
   containsWired() {throw new Error('NOT IMPLEMENTED'); }
 
+  getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
+
   updateStickyNotes() {
     this.stickyNote.update();
   }
@@ -176,7 +178,9 @@ export default class BaseNode extends SceneObject {
 
   updateOfVisualComponents() {
     const pos = this.getPosition();
-    super.setScreenPositionAnchor(pos.x, pos.y + this.height, pos.z);
+
+    const anchor = this.getScreenAnchorPosition();
+    super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
 
     this.cube.position.set(pos.x, pos.y, pos.z);
 

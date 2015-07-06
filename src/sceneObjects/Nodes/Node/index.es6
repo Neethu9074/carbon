@@ -383,6 +383,11 @@ export default class Node extends BaseNode {
     this.layer.forEach(p => p.setPosition(pos.x, p.getPosition().y, pos.z));
   }
 
+  getScreenAnchorPosition() {
+    const pos = this.getPosition();
+    return {x: pos.x - 0.25, y: pos.y + this.height, z: pos.z + 0.25};
+  }
+
   setPosition(x, y, z) {
     const position = this.getPosition();
     if(x === position.x && y === position.y && z === position.z) {
