@@ -72,6 +72,7 @@ export default class Scene {
         this.hullsAreInactive = false;
         this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
         this.hideMetrics();
+
       } else {
         currentMetrics = metric.get('metrics');
         // eventBus.emit('setHullsInactive', true);

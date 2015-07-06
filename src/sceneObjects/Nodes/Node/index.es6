@@ -46,6 +46,7 @@ export default class Node extends BaseNode {
 
     this.incrementId = ++incrementId;
     this.stickyNote = new StickyNoteNode(this);
+    this.createMetricCollisionObject();
 
     this.health = this.health || health.ok;
 
@@ -151,9 +152,10 @@ export default class Node extends BaseNode {
     scene.lineFactory.removeFragment(id + 'ground');
   }
 
-  addMetricCollisionObject() {
+  createMetricCollisionObject() {
     const parent = this;
-    const cube = this.metricCube = new THREE.Mesh(cubeGeometry);
+    let cube;
+    this.metricCube = cube = new THREE.Mesh(cubeGeometry);
     cube.matrixAutoUpdate = false;
     cube.rotationAutoUpdate = false;
     cube.position.copy(this.getPosition());
@@ -180,25 +182,16 @@ export default class Node extends BaseNode {
         }
       }
     };
-
-    this.addCollisionObject(this.metricCube, 2);
-  }
-
-  disposeMetricCollisionObject() {
-    this.removeCollisionObject(this.metricCube, 2);
-    this.metricCube = null;
   }
 
   updateMetricCollisionObject(newHeight) {
     if(this.metricCube) {
       const cube = this.metricCube;
       cube.position.copy(this.getPosition());
-      cube.scale.y = newHeight * this.height;
+      const cubeHeight = newHeight * this.height;
+      cube.scale.y = cubeHeight < 0.0001 ? 0.001 : cubeHeight;
       cube.updateMatrix();
       cube.updateMatrixWorld();
-
-      this.removeCollisionObject(this.metricCube, 2);
-      this.addCollisionObject(this.metricCube, 2);
     }
   }
 
@@ -537,6 +530,7 @@ export default class Node extends BaseNode {
 
     this.snapshot = null;
     this.health = null;
+    this.metricCube = null;
   }
 
   calculateNodeColor() {

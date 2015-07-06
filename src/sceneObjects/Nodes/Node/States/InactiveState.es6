@@ -12,10 +12,9 @@ export default class InactiveState extends State {
 
   enter() {
     const owner = this.owner;
-    owner.removeCollisionObject(owner.cube, 1);
 
-    //add metric pillar to octree
-    owner.addMetricCollisionObject();
+    owner.removeCollisionObject(owner.cube, 1);
+    owner.addCollisionObject(owner.metricCube, 2);
 
     //save the current health, set health to ok, block the coloring for cube
     //and reset to old health
@@ -27,10 +26,9 @@ export default class InactiveState extends State {
 
   leave() {
     const owner = this.owner;
-    owner.addCollisionObject(owner.cube, 1);
 
-    //add metric pillar to octree
-    owner.disposeMetricCollisionObject();
+    owner.removeCollisionObject(owner.metricCube, 2);
+    owner.addCollisionObject(owner.cube, 1);
 
     //unblock the coloring for cube and reset the current health
     owner.blockCubeHealth(false);
