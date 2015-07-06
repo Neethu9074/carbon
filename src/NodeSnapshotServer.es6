@@ -30,7 +30,6 @@ export default class NodeSnapshotServer {
       if(so && so.id === client.id) {
         client.select();
       } else {
-        //clear the selection and the highlighting
         client.unSelect();
       }
     }));

@@ -10,12 +10,10 @@ export default class SelectedState extends State {
   }
 
   enter() {
-    this.owner.setHighlight();
     this.owner.selectNode();
   }
 
   leave() {
-    this.owner.clearHighlight();
     this.owner.clearNode();
   }
 }

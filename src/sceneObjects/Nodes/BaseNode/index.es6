@@ -6,7 +6,6 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
-import * as snapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
 import {setupStates} from './States/index';
 import Connection from '../../Connection/index';
@@ -147,35 +146,31 @@ export default class BaseNode extends SceneObject {
   }
 
   selectNode() {
-    this.isSelected = true;
     this.scene.setSelectedObject(this);
     this.connections.forEach(c => c.select());
+    this.setHighlight();
   }
 
   clearNode() {
-    this.isSelected = false;
     this.scene.clearSelectedObject();
     this.connections.forEach(c => c.unSelect());
-
-    snapshotStore.clear();
+    this.clearHighlight();
   }
 
   //is called via scene when the user pressed on a node
   select() {
-    if(this.isSelected) {
+    if(this.stateProperties.selected === true) {
       return;
     }
-
     this.changeStateProperty('selected', true);
   }
 
   //is called when the user hits the node again or the selection was cleared
   //by another way
   unSelect() {
-    if(!this.isSelected) {
+    if(this.stateProperties.selected === false) {
       return;
     }
-
     this.changeStateProperty('selected', false);
   }
 
@@ -329,10 +324,8 @@ export default class BaseNode extends SceneObject {
 
     this.highlighting.dispose();
 
-    //clear the selected element if it is disposed
-    if(this.isSelected) {
-      snapshotStore.clear();
-    }
+    this.changeStateProperty('mouseOver', false);
+    this.changeStateProperty('selected', false);
 
     this.removeCollisionObject(this.cube, 2);
     this.cube = null;

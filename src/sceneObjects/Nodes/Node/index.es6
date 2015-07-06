@@ -7,7 +7,7 @@ import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import {select as selectSnapshot} from 'instana-ui-services/stores/selectedSnapshot';
+import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 
 import BaseNode from '../BaseNode/index';
@@ -57,13 +57,17 @@ export default class Node extends BaseNode {
 
     this.snapshotServer = new NodeSnapshotServer(this);
 
-    highlightedSnapshot.highlightedSnapshot.async().subscribe((highlighted) => {
-      if(isIdEqual(highlighted, this.snapshot)) {
-        super.onHighlight(true);
-      } else {
-        super.onHighlight(false);
-      }
-    });
+    this.addSubscription(
+      highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
+        this.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
+      )
+    );
+
+    this.addSubscription(
+      selectedSnapshot.selectedSnapshot.async().subscribe(selected =>
+        this.changeStateProperty('selected', isIdEqual(selected, this.snapshot))
+      )
+    );
   }
 
   initStates() {
@@ -212,12 +216,17 @@ export default class Node extends BaseNode {
   }
 
   select() {
+    if(this.stateProperties.selected === true) {return; }
+
     super.select();
-    selectSnapshot(this.snapshot);
+    selectedSnapshot.select(this.snapshot);
   }
 
   unSelect() {
+    if(this.stateProperties.selected === false) {return; }
+
     super.unSelect();
+    selectedSnapshot.clear();
   }
 
   showMetrics() {
@@ -516,6 +525,10 @@ export default class Node extends BaseNode {
     this.snapshotServer.dispose();
     this.clearLayer();
     this.removeFromGroundFactory();
+
+    if(this.stateProperties.selected) {
+      selectedSnapshot.clear();
+    }
 
     super.dispose();
 

@@ -117,7 +117,7 @@ export default class CameraController {
     const hitten = this.hittenObject;
 
     //if an object was found via raycasting, inform the scene
-    if (hitten !== undefined && !hitten.parentSceneObject.isSelected) {
+    if (hitten !== undefined) {
       this.scene.onObjectClicked(hitten);
       selectedSceneObject.emit(hitten.parentSceneObject);
     } else {
@@ -159,9 +159,7 @@ export default class CameraController {
 
     transObj.updateMatrixWorld();
 
-    //clamp the position to avoid overflow of the level area
-    //TODO: calculate the bounding box of all cubes inside the scene
-    //(remember to update it) and set the bounds to that
+    //TODO: clamp the position to avoid overflow of the level area
   }
 
   getObjectOnCursor() {
@@ -181,10 +179,15 @@ export default class CameraController {
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
 
+    const canvasStyle = this.scene.getHtmlContainer().style;
     if(this.hittenObject) {
-      this.scene.getHtmlContainer().style.cursor = 'pointer';
+      if(canvasStyle.cursor !== 'pointer') {
+        canvasStyle.cursor = 'pointer';
+      }
     } else {
-      this.scene.getHtmlContainer().style.cursor = 'default';
+      if(canvasStyle.cursor !== 'default') {
+        canvasStyle.cursor = 'default';
+      }
     }
   }
 
