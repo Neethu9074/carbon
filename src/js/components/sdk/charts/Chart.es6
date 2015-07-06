@@ -28,24 +28,40 @@ const ChartWrapper = React.createClass({
     y2: rpt.object
   },
 
+  getInitialState() {
+    return {
+      y1Datasources: null,
+      y1SeriesConfig: null,
+      y2Datasources: null,
+      y2SeriesConfig: null
+    };
+  },
+
   componentDidMount() {
     this.initAxis();
   },
 
   initAxis() {
-    this.createDataSources(this.props.y1);
-    this.createDefaultSeriesConfig(this.props.y1);
+    const y1Datasources = this.createDataSources(this.props.y1);
+    const y1SeriesConfig = this.createDefaultSeriesConfig(this.props.y1);
 
+    let y2Datasources = null;
+    let y2SeriesConfig = null;
     if (this.props.y2) {
-      this.createDataSources(this.props.y2);
-      this.createDefaultSeriesConfig(this.props.y2);
+      y2Datasources = this.createDataSources(this.props.y2);
+      y2SeriesConfig = this.createDefaultSeriesConfig(this.props.y2);
     }
 
-    this.forceUpdate();
+    this.setState({
+      y1Datasources,
+      y1SeriesConfig,
+      y2Datasources,
+      y2SeriesConfig
+    });
   },
 
   createDataSources(axis) {
-    axis.datasources = axis.metrics.map(metric =>
+    return axis.metrics.map(metric =>
       create(TimeWindowBasedMetricConveyer, {
         snapshot: this.props.snapshot,
         metric,
@@ -57,33 +73,66 @@ const ChartWrapper = React.createClass({
   createDefaultSeriesConfig(axis) {
     let seriesConfig = axis.seriesConfig;
     if (!seriesConfig) {
-      axis.seriesConfig = axis.metrics.map(metric => {
+      seriesConfig = axis.metrics.map(metric => {
         return {label: metric};
       });
     }
+    return seriesConfig;
   },
 
   componentDidUpdate(prevProps) {
+    // isEqual should ignore datasources and seriesConfig
     if (!isIdEqual(this.props.snapshot, prevProps.snapshot) ||
         this.props.windowSize !== prevProps.windowSize ||
-        !_.isEqual(this.props.y1, prevProps.y1) ||
-        !_.isEqual(this.props.y2, prevProps.y2)) {
+        !this.isAxisEqual(this.props.y1, prevProps.y1) ||
+        !this.isAxisEqual(this.props.y2, prevProps.y2)) {
       this.initAxis();
     }
   },
 
+  isAxisEqual(y1, y2) {
+    if (y1 === y2) {
+      return true;
+    } else if (y1 !== null && y2 === null) {
+      return false;
+    } else if (y1 === null && y2 !== null) {
+      return false;
+    }
+
+    const propsToCheck = ['min', 'max', 'metrics', 'tickFormatter', 'type'];
+
+    for (let i = 0; i < propsToCheck.length; i++) {
+      const prop = propsToCheck[i];
+      if (!_.isEqual(y1[prop], y2[prop])) {
+        return false;
+      }
+    }
+    return true;
+  },
+
   render() {
-    if (this.props.y1.datasources === undefined) {
+    if (this.state.y1Datasources === null) {
       return null;
     }
 
+    const y1 = _.merge({}, this.props.y1);
+    y1.datasources = this.state.y1Datasources;
+    y1.seriesConfig = this.state.y1SeriesConfig;
+
+    let y2;
+    if (this.props.y2) {
+      y2 = _.merge({}, this.props.y2);
+      y2.datasources = this.state.y2Datasources;
+      y2.seriesConfig = this.state.y2SeriesConfig;
+    }
+    debugger;
     return (
       <Chart width={this.props.width}
              height={this.props.height}
              margins={this.props.margins}
              windowSize={this.props.windowSize}
-             y1={this.props.y1}
-             y2={this.props.y2} />
+             y1={y1}
+             y2={y2} />
     );
   }
 });
