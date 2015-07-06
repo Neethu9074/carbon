@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react/addons';
-import eventBus from 'instana-ui-services/eventbus';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {getIcon} from 'instana-ui-sdk/snapshot';
 import {iconSizeStore as iss} from '../../../stores/NodeIconStore';
