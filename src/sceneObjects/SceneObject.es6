@@ -153,13 +153,11 @@ export default class SceneObject {
   //hides the visual representation and pauses all live data streaming
   hide() {
     this.hidden = true;
-    console.log('hide');
   }
 
   //show the visual representation and continues all live data streaming
   show() {
     this.hidden = false;
-    console.log('show');
   }
 
   onHighlight(/*value*/) {}
