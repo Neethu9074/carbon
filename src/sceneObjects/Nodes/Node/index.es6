@@ -3,6 +3,7 @@
 /*eslint-disable max-len*/
 import THREE from 'three';
 
+import eventBus from 'instana-ui-services/eventbus';
 import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
@@ -209,7 +210,12 @@ export default class Node extends BaseNode {
   }
 
   select() {
-    if(this.stateProperties.selected === true) {return; }
+    //if the node was clicked and is still selected ->
+    //dont setup state again, but open dashboard
+    if(this.stateProperties.selected === true) {
+      eventBus.emit('openDashboard', this.snapshot);
+      return;
+    }
 
     super.select();
     selectedSnapshot.select(this.snapshot);

@@ -31,6 +31,7 @@
     "napa": "^1.2.0",
     "pathfinding": "^0.4.17",
     "react": "^0.13.1",
+    "react-router": "^0.13.3",
     "reactive-observables": "^1.2.0",
     "three": "^0.71.0",
     "tween.js": "^0.14.0",
