@@ -1,23 +1,25 @@
 .in-detail-pane__description {
+  &-list {
+    margin: 0;
+  }
 
   &-item {
-    display: block;
-    font-size: 13px;
-
-    &--horizontal {
-      width: 33.3%;
-      display: inline-block;
-    }
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 8px;
+    margin: 0 0 2px;
+    border-radius: 2px;
   }
 
   &-title {
-    color: #666;
+    color: #fff;
     text-transform: uppercase;
   }
 
   &-text {
-    margin: 0 0 9px;
-    line-height: 1.5;
+    color: #bbb;
   }
 
 }

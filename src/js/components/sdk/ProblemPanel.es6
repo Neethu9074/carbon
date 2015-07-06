@@ -9,8 +9,7 @@ import {getProblemsForSnapshot} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {mapSeverityToHealth, health} from 'instana-ui-services/health';
 import {theme} from 'instana-ui-services/theme';
-
-import Panel from './Panel';
+import Collapsible from 'instana-ui-components/Collapsible';
 
 import './ProblemPanel.less';
 
@@ -56,29 +55,35 @@ const ProblemPanel = React.createClass({
       return null;
     }
 
-    return (
-      <Panel title={'Problems (' + this.state.problems.size + ')'}>
-        <ul className={block + '__problems'}>
-          {this.state.problems
-            .sortBy(problem => problem.get('severity'))
-            .reverse()
-            .map(problem =>
-            <li key={problem.get('id')}>
-              <h3 className={block + '__problem-text'}
-                  style={{color: this.getColor(problem)}}>
-                {problem.get('problemText')}
+    const orderedProblems = this.state.problems
+      .sortBy(problem => problem.get('severity'))
+      .reverse();
 
-                <span className={block + '__problem-start'}>
-                  {moment(problem.get('start')).fromNow()}
-                </span>
-              </h3>
-              <p className={block + '__problem-fix-suggestion'}>
-                {problem.get('fixSuggestion')}
-              </p>
-            </li>
-          ).toJS()}
-        </ul>
-      </Panel>
+    const maxColor = this.getColor(orderedProblems.first());
+
+    return (
+      <Collapsible>
+        <Collapsible.Header style={{color: maxColor}}>
+          {'Problems (' + this.state.problems.size + ')'}
+        </Collapsible.Header>
+        <Collapsible.Content>
+          <ul className={block + '__problems'}>
+            {orderedProblems.map(problem =>
+              <li key={problem.get('id')}
+                  className={block + '__problem'}>
+                <h3 className={block + '__problem-text'}
+                    style={{color: this.getColor(problem)}}>
+                  {problem.get('problemText')}
+
+                  <span className={block + '__problem-start'}>
+                    {moment(problem.get('start')).fromNow()}
+                  </span>
+                </h3>
+              </li>
+            ).toJS()}
+          </ul>
+        </Collapsible.Content>
+      </Collapsible>
     );
   },
 

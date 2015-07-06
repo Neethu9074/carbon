@@ -2,6 +2,14 @@
 
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import Immutable from 'immutable';
+
+import * as constants from 'instana-ui-forge/constants';
+import Collapsible from 'instana-ui-components/Collapsible';
+
+import EC2Infos from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Infos';
+import HostInfo from '../HostInfo';
+import ProblemPanel from '../../../sdk/ProblemPanel';
 
 import './Details.less';
 
@@ -15,9 +23,32 @@ const Details = React.createClass({
   },
 
   render() {
+    const data = this.props.snapshot.get('data');
+    const ec2s = data.getIn([constants.rels.describes, constants.plugins.ec2],
+                            Immutable.Map());
+    const ec2 = ec2s.valueSeq().first();
+
     return (
       <div className={block}>
-        {this.props.snapshot.get('steadyId')}
+        {data.get('hostname')}
+
+        <ProblemPanel snapshot={this.props.snapshot} />
+
+        <Collapsible>
+          <Collapsible.Header>Host</Collapsible.Header>
+          <Collapsible.Content>
+            <HostInfo snapshot={this.props.snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+
+        {ec2 ?
+          <Collapsible>
+            <Collapsible.Header>Amazon EC2</Collapsible.Header>
+            <Collapsible.Content>
+              <EC2Infos data={ec2} />
+            </Collapsible.Content>
+          </Collapsible>
+        : null}
       </div>
     );
   }

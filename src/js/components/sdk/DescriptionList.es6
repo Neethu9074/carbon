@@ -4,8 +4,6 @@
 
 import React from 'react';
 
-import classnames from 'instana-ui-services/util/classnames';
-
 import './DescriptionList.less';
 
 const rpt = React.PropTypes;
@@ -14,8 +12,7 @@ const block = 'in-detail-pane';
 export const DescriptionList = React.createClass({
 
   propTypes: {
-    children: rpt.any.isRequired,
-    horizontal: rpt.bool
+    children: rpt.any.isRequired
   },
 
   render() {
@@ -41,10 +38,7 @@ export const DescriptionList = React.createClass({
 
     return (
       <div key={descriptionItemProps.title}
-           className={classnames({
-             [block + '__description-item']: true,
-             [block + '__description-item--horizontal']: this.props.horizontal
-           })}>
+           className={block + '__description-item'}>
         <dt className={block + '__description-title'}>
           {descriptionItemProps.title}
         </dt>

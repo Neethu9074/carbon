@@ -12,7 +12,7 @@ import ProblemPanel from '../../../sdk/ProblemPanel';
 import SidebarHeading from '../../../sdk/SidebarHeading';
 import SidebarSubheading from '../../../sdk/SidebarSubheading';
 import EC2Infos from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Infos';
-import HardwareInfo from '../HardwareInfo';
+import HostInfo from '../HostInfo';
 
 const rpt = React.PropTypes;
 const Sidebar = React.createClass({
@@ -40,7 +40,7 @@ const Sidebar = React.createClass({
         </SidebarSubheading>
 
         <Panel title='System'>
-          <HardwareInfo snapshot={this.props.snapshot} />
+          <HostInfo snapshot={this.props.snapshot} />
         </Panel>
 
         {ec2 ?
