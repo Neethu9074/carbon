@@ -29,8 +29,8 @@ export default React.createClass({
 
   render() {
     const icon = getIcon(this.props.snapshot);
-    const size = this.state.size * 0.4 + 'px';
-    const style = {width: size, height: size};
+    const size = Math.max(this.state.size * 0.4, 16);
+    const style = {width: size + 'px', height: size + 'px'};
 
     return (
       <div style={style} className='in-sticky-note__icon-background'>
