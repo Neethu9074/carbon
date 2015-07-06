@@ -22,6 +22,7 @@ import {clear} from 'instana-ui-services/stores/selectedSnapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
+import {iconSizeStore} from './stores/NodeIconStore';
 
 let currentMetrics;
 
@@ -284,7 +285,7 @@ export default class Scene {
 
     if(this.nodeSizeInPixel !== nodeSizeInPixel) {
       this.nodeSizeInPixel = nodeSizeInPixel;
-      eventBus.emit('nodeSizeChanged', nodeSizeInPixel);
+      iconSizeStore.emit(nodeSizeInPixel);
       this.renderScene();
     }
   }
