@@ -236,8 +236,8 @@ export default class CameraController {
 
   updateZoomLevel(dT) {
     const delta = this.targetZoomLevel - this.zoomLevel;
-    this.zoomLevel += delta * dT * this.zoomSpeed;
 
+    this.zoomLevel += delta * dT * this.zoomSpeed;
     this.scene.cameraSize = this.zoomLevel / 10;
     this.scene.setCameraFromSize();
   }

@@ -279,7 +279,7 @@ export default class Scene {
     //each node has width = 1 in worldunits
     const nodeSize = 1;
     const aspect = nodeSize / camSize;
-    const nodeSizeInPixel = aspect * this.width;
+    const nodeSizeInPixel = aspect * 1500;
 
     if(this.nodeSizeInPixel !== nodeSizeInPixel) {
       this.nodeSizeInPixel = nodeSizeInPixel;
