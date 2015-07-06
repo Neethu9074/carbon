@@ -28,8 +28,8 @@ export default React.createClass({
 
     return (
       <img src={iconPath}
-           style={style}
-           className='in-sticky-note__unknown-node--icon'/>
+           className='in-sticky-note__unknown-node--icon'
+           style={style}/>
     );
   }
 });

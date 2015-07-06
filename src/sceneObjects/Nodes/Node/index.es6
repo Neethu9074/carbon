@@ -428,6 +428,11 @@ export default class Node extends BaseNode {
 
     this.health = newHealth;
 
+    //if this node is hidden by filter, dont add the changes to factories
+    if(this.isHidden) {
+      return;
+    }
+
     this.addToGroundFactory(id, pos, dim);
 
     if(!this.cubeHealthBlocked) {
