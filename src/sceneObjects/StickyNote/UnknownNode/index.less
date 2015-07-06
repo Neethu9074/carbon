@@ -10,9 +10,8 @@
   position: absolute;
   top: 0;
 
-  color: @map__tooltips__font;
-
   z-index: @z-index__sticky-notes;
+  color: @map__tooltips__font;
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -22,7 +21,13 @@
   user-select: none;
 }
 
-.in-sticky-note__unknown-node--stack-children {
+.in-sticky-note__note__unknown-node--stack-wrapper {
+  position: relative;
+
+  margin-left: -50%;
+}
+
+.in-sticky-note__note__unknown-node--stack-children {
   display: flex;
   flex-direction: column;
 
@@ -32,10 +37,4 @@
   bottom: 0;
   left: 0;
   right: 0;
-}
-
-.in-sticky-note__note__unknown-node--stack-wrapper {
-  position: relative;
-
-  margin-left: -50%;
 }

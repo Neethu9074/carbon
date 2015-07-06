@@ -2,6 +2,7 @@
 
 import React from 'react/addons';
 import StickyNote from '../StickyNote';
+import Button from '../UnknownNodeButton';
 
 import './index.less';
 
@@ -14,7 +15,8 @@ const StickyNoteRC = React.createClass({
   ],
 
   propTypes: {
-    snapshot: React.PropTypes.object.isRequired
+    snapshot: React.PropTypes.object.isRequired,
+    showIp: React.PropTypes.bool.isRequired
   },
 
   render() {
@@ -24,7 +26,10 @@ const StickyNoteRC = React.createClass({
     return (
       <div className='in-sticky-note__note__unknown-node--stack-wrapper'>
         <div className='in-sticky-note__note__unknown-node--stack-children'>
-          {snapshot.get('steadyId')}
+          {this.props.showIp ?
+            snapshot.get('steadyId') :
+            <Button/>
+          }
         </div>
       </div>
     );
@@ -35,13 +40,23 @@ const StickyNoteRC = React.createClass({
 export default class StickyNoteUnknownNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__unknown-node'});
+
+    this.showIp = true;
+
     this.render();
   }
 
   render() {
     React.render(
-      <StickyNoteRC snapshot={this.parent.snapshot} />,
+      <StickyNoteRC
+        snapshot={this.parent.snapshot}
+        showIp={this.showIp}/>,
       this.stickyNoteContainer
     );
+  }
+
+  showPlus(value=true) {
+    this.showIp = !value;
+    this.render();
   }
 }

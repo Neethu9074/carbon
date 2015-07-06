@@ -1,9 +1,11 @@
 'use strict';
 
 import BaseNode from '../BaseNode/index';
+import * as ssos from '../../../stores/selectedSceneObject';
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import Immutable from 'immutable';
+
 
 export default class Unknownnode extends BaseNode {
 
@@ -11,9 +13,31 @@ export default class Unknownnode extends BaseNode {
     super({parent, snapshot});
 
     this.stickyNote = new StickyNoteUnknownNode(this);
-
     this.isUnknown = true;
+
+    //the store notifies if there was a new snapshot selected
+    this.addSubscription(ssos.selectedSceneObject.subscribe((so) => {
+      if(so && so.id === this.id) {
+        this.select();
+      } else {
+        this.unSelect();
+      }
+    }));
   }
+
+  selectNode() {
+    super.selectNode();
+
+    this.stickyNote.showPlus();
+  }
+
+  clearNode() {
+    this.stickyNote.showPlus(false);
+
+    super.clearNode();
+  }
+
+  setWiredStickiesActive() {}
 
   getWiredSnapshots() {
     const thisSnapShot = this.snapshot;
@@ -60,7 +84,7 @@ export default class Unknownnode extends BaseNode {
 
   getScreenAnchorPosition() {
     const pos = this.getPosition();
-    return {x: pos.x + 0.25, y: pos.y + this.height, z: pos.z - 0.25};
+    return {x: pos.x, y: pos.y + this.height, z: pos.z};
   }
 
   addToGlobalGeometry() {}
