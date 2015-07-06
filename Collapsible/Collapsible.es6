@@ -18,12 +18,13 @@ const Collapsible = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
+    initiallyOpen: rpt.bool,
     children: rpt.array.isRequired
   },
 
   getInitialState() {
     return {
-      open: false
+      open: null
     };
   },
 
@@ -41,7 +42,7 @@ const Collapsible = React.createClass({
         <div onClick={this.toggle}
              className={classnames({
                [block + '__header']: true,
-               [block + '__header--closed']: !this.state.open,
+               [block + '__header--closed']: !this.isOpen(),
                [block + '__header--bordered']: !headerProps.noBorder,
                [headerProps.className]: headerProps.className !== undefined
              })}
@@ -49,11 +50,11 @@ const Collapsible = React.createClass({
           <span>
             {headerProps.children}
           </span>
-          <Icon type={this.state.open ? 'close' : 'open'}
+          <Icon type={this.isOpen() ? 'close' : 'open'}
                 className={block + '__toggle'} />
         </div>
 
-        {this.state.open ?
+        {this.isOpen() ?
           <div className={block + '__content'}>
             {contentProps.children}
           </div>
@@ -64,8 +65,15 @@ const Collapsible = React.createClass({
 
   toggle() {
     this.setState({
-      open: !this.state.open
+      open: !this.isOpen()
     });
+  },
+
+  isOpen() {
+    if (this.state.open !== null) {
+      return this.state.open;
+    }
+    return !!this.props.initiallyOpen;
   }
 });
 

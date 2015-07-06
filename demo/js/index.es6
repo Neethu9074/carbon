@@ -84,9 +84,9 @@ const Demo = React.createClass({
                 Whooop
               </Collapsible.Content>
             </Collapsible>
-            <Collapsible>
+            <Collapsible initiallyOpen={true}>
               <Collapsible.Header>
-                Jo jo jo
+                Open by default
               </Collapsible.Header>
               <Collapsible.Content>
                 Coming at you live
