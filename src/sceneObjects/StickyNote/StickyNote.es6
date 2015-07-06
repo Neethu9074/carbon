@@ -23,6 +23,10 @@ export default class StickyNote {
     }
   }
 
+  show() {
+    this.style.display = '';
+  }
+
   update() {
     const x = this.parent.screenPosition.x;
     const y = this.parent.screenPosition.y;

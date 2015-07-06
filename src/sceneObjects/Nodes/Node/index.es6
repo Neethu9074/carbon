@@ -186,7 +186,7 @@ export default class Node extends BaseNode {
   }
 
   updateMetricCollisionObject(newHeight) {
-    if(this.metricCube) {
+    if(this.metricCube && !this.hidden) {
       const cube = this.metricCube;
       cube.position.copy(this.getPosition());
       const cubeHeight = newHeight * this.height;
@@ -256,6 +256,10 @@ export default class Node extends BaseNode {
   }
 
   setMetricValues(values) {
+    if(this.hidden){
+      return;
+    }
+
     if(values.length === 1) {
       this.setSingleMetricValue(values[0]);
     } else {
@@ -314,6 +318,8 @@ export default class Node extends BaseNode {
   }
 
   updateMetricHeight() {
+    if(this.hidden) {return; }
+
     const frag = this.scene.multiMetricFactory.getFragment(this.id);
     const tiles = frag.tiles;
     let values = [];
@@ -429,29 +435,13 @@ export default class Node extends BaseNode {
     this.health = newHealth;
 
     //if this node is hidden by filter, dont add the changes to factories
-    if(this.isHidden) {
-      return;
-    }
+    if(this.hidden) {return; }
 
     this.addToGroundFactory(id, pos, dim);
 
     if(!this.cubeHealthBlocked) {
       this.refreshFragment();
     }
-  }
-
-  show() {
-    super.show();
-
-    this.addToGlobalGeometry();
-    this.stickyNote.show();
-  }
-
-  hide() {
-    super.hide();
-
-    this.removeFromGlobalGeometry();
-    this.stickyNote.hide();
   }
 
   refreshFragment() {
@@ -508,11 +498,13 @@ export default class Node extends BaseNode {
 
     const scene = this.scene;
     const id = this.id;
+    const pos = this.cube.position.clone().add(cubePosition);
+    const dim = this.cube.scale;
     scene.multiMetricFactory.enableFragment(id, enabled);
     scene.singleMetricFactory.enableFragment(id, enabled);
 
     if(enabled) {
-      this.addToGroundFactory();
+      this.addToGroundFactory(id, pos, dim);
     } else {
       this.removeFromGroundFactory();
     }

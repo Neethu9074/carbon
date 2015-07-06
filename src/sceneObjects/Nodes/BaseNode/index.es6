@@ -279,6 +279,8 @@ export default class BaseNode extends SceneObject {
     this.enableFragments(true);
 
     this.addCollisionObject(this.cube, 1);
+    this.addToGlobalGeometry();
+    this.stickyNote.show();
   }
 
   hide() {
@@ -286,6 +288,8 @@ export default class BaseNode extends SceneObject {
     this.enableFragments(false);
 
     this.removeCollisionObject(this.cube, 1);
+    this.removeFromGlobalGeometry();
+    this.stickyNote.hide();
   }
 
   clearConnections() {

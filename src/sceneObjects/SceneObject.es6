@@ -42,6 +42,7 @@ export default class SceneObject {
     this.position = pos.clone();
     this.parent = parent;
     this.subscriptions = [];
+    this.hidden = false;
 
     this.screenPositionAnchor = this.position.clone();
     this.screenPosition = {x: 0, y: 0};
@@ -152,11 +153,13 @@ export default class SceneObject {
   //hides the visual representation and pauses all live data streaming
   hide() {
     this.hidden = true;
+    console.log('hide');
   }
 
   //show the visual representation and continues all live data streaming
   show() {
     this.hidden = false;
+    console.log('show');
   }
 
   onHighlight(/*value*/) {}
