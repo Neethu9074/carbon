@@ -125,7 +125,7 @@ const ChartWrapper = React.createClass({
       y2.datasources = this.state.y2Datasources;
       y2.seriesConfig = this.state.y2SeriesConfig;
     }
-    debugger;
+
     return (
       <Chart width={this.props.width}
              height={this.props.height}
