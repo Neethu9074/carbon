@@ -42,6 +42,7 @@ const Collapsible = React.createClass({
              className={classnames({
                [block + '__header']: true,
                [block + '__header--closed']: !this.state.open,
+               [block + '__header--bordered']: !headerProps.noBorder,
                [headerProps.className]: headerProps.className !== undefined
              })}
              style={headerProps.style}>
@@ -71,12 +72,23 @@ const Collapsible = React.createClass({
 export default Collapsible;
 
 const Header = React.createClass({
+  propTypes: {
+    className: rpt.string,
+    style: rpt.object,
+    noBorder: rpt.bool,
+    children: rpt.any.isRequired
+  },
+
   // rendering is done by Collapsible
   render() { return null; }
 });
 Collapsible.Header = Header;
 
 const Content = React.createClass({
+  propTypes: {
+    children: rpt.any.isRequired
+  },
+
   // rendering is done by Collapsible
   render() { return null; }
 });
