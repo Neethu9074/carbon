@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import Immutable from 'immutable';
 import Tooltip from '../Tooltip';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
@@ -28,7 +29,7 @@ const StickyNoteRC = React.createClass({
   },
 
   getInitialState() {
-    return {health: health.ok};
+    return {health: health.ok, issues: Immutable.List()};
   },
 
   componentDidMount() {
@@ -42,7 +43,7 @@ const StickyNoteRC = React.createClass({
   getStatusLine() {
     const state = this.state;
     const nodeHealth = state.health;
-    const issues = state.issues;
+    const issues = state.issues.sortBy(problem => problem.get('severity'));
     const data = this.props.snapshot.get('data');
 
     //only show the status line if there is a "bad" health or some issues
@@ -80,8 +81,7 @@ const StickyNoteRC = React.createClass({
   },
 
   issuesAvailable() {
-    const issues = this.state.issues;
-    return (issues && issues.size > 0);
+    return this.state.issues.size > 0;
   },
 
   getContent() {
