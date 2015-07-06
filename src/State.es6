@@ -13,8 +13,4 @@ export default class State {
   leave() {
 
   }
-
-  getNext() {
-    return undefined;
-  }
 }

@@ -16,11 +16,4 @@ export default class InitialState extends State {
   leave() {
 
   }
-
-  getNext({highlighted}) {
-    if(highlighted) {
-      return this.owner.states.highlighted;
-    }
-    return undefined;
-  }
 }

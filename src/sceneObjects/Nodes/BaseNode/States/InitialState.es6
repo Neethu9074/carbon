@@ -12,13 +12,4 @@ export default class InitialState extends State {
   enter() {}
 
   leave() {}
-
-  getNext({highlighted, inactive}) {
-    if(highlighted) {
-      return this.owner.states.highlighted;
-    } else if(inactive) {
-      return this.owner.states.inactive;
-    }
-    return undefined;
-  }
 }

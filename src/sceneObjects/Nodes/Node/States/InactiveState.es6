@@ -36,15 +36,4 @@ export default class InactiveState extends State {
     owner.blockCubeHealth(false);
     owner.setHealth(owner.health, true);
   }
-
-  getNext({inactive, highlighted}) {
-    if(inactive === false) {
-      if(highlighted) {
-        return this.owner.states.highlighted;
-      } else {
-        return this.owner.states.initial;
-      }
-    }
-    return undefined;
-  }
 }

@@ -18,15 +18,4 @@ export default class SelectedState extends State {
     this.owner.clearHighlight();
     this.owner.clearNode();
   }
-
-  getNext({highlighted, onClick}) {
-    if(onClick) {
-      if(highlighted) {
-        return this.owner.states.highlighted;
-      } else {
-        return this.owner.states.initial;
-      }
-    }
-    return undefined;
-  }
 }

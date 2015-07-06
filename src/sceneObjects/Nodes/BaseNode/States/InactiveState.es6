@@ -11,15 +11,4 @@ export default class InactiveState extends State {
   enter() {}
 
   leave() {}
-
-  getNext({inactive, highlighted}) {
-    if(inactive === false) {
-      if(highlighted) {
-        return this.owner.states.highlighted;
-      } else {
-        return this.owner.states.initial;
-      }
-    }
-    return undefined;
-  }
 }
