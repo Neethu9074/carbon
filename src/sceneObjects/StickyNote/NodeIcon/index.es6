@@ -20,7 +20,7 @@ export default React.createClass({
   },
 
   getInitialState() {
-    return {size: 50};
+    return {size: 16};
   },
 
   componentDidMount() {
