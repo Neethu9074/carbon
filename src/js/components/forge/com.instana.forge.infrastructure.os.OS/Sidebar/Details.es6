@@ -34,7 +34,7 @@ const Details = React.createClass({
 
         <ProblemPanel snapshot={this.props.snapshot} />
 
-        <Collapsible>
+        <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Host</Collapsible.Header>
           <Collapsible.Content>
             <HostInfo snapshot={this.props.snapshot} />
@@ -42,7 +42,7 @@ const Details = React.createClass({
         </Collapsible>
 
         {ec2 ?
-          <Collapsible>
+          <Collapsible initiallyOpen={true}>
             <Collapsible.Header>Amazon EC2</Collapsible.Header>
             <Collapsible.Content>
               <EC2Infos data={ec2} />

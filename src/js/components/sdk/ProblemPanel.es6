@@ -62,7 +62,7 @@ const ProblemPanel = React.createClass({
     const maxColor = this.getColor(orderedProblems.first());
 
     return (
-      <Collapsible>
+      <Collapsible initiallyOpen={true}>
         <Collapsible.Header style={{color: maxColor}}>
           {'Problems (' + this.state.problems.size + ')'}
         </Collapsible.Header>
