@@ -1,8 +1,9 @@
 'use strict';
 
 import React from 'react/addons';
-import Tooltip from '../Tooltip';
+import _ from 'lodash';
 
+import Tooltip from '../Tooltip';
 import TooltipFrame from '../index';
 import Heading from '../Heading';
 import Content from '../Content';
@@ -23,11 +24,36 @@ const StickyNoteRC = React.createClass({
     connections: React.PropTypes.array.isRequired
   },
 
-  getIpsFromNode(node) {
-    if(node.isUnknown) {
-      return [node.snapshot.get('steadyId')];
+  getIpBySnapshot(snapshot) {
+    const ipArray = [];
+
+    snapshot.getIn(['data', 'connections', 'outgoing']).forEach(ip =>
+      ipArray.push(ip)
+    );
+
+    snapshot.getIn(['data', 'connections', 'incoming']).forEach(ip =>
+      ipArray.push(ip)
+    );
+
+    return ipArray;
+  },
+
+  getOneOfConnectedIps(from, to) {
+    if(to.isUnknown) {
+      return to.snapshot.get('steadyId');
     }
-    return getIps(node.snapshot);
+
+    //get ips of the target
+    const toIps = getIps(to.snapshot);
+
+    //get connected ips
+    const fromIps = this.getIpBySnapshot(from.snapshot);
+
+    //intersections
+    const matching = _.intersection(fromIps, toIps);
+
+    //one of them
+    return matching[0];
   },
 
   render() {
@@ -35,10 +61,7 @@ const StickyNoteRC = React.createClass({
     const connections = this.props.connections;
     const numConnections = connections.length;
     const listItems = connections.slice(0, maxCon).map((connection, index) => {
-      const ips = this.getIpsFromNode(connection.to);
-      if(ips.length === 0) {
-        return null;
-      }
+      const ip = this.getOneOfConnectedIps(connection.from, connection.to);
       const zoneId = connection.to.parent.id;
       const style = {color: getColor(zoneId)};
 
@@ -56,7 +79,7 @@ const StickyNoteRC = React.createClass({
               {zoneId}
             </Heading>
             <Content className='in-tooltip__connections-li--ip'>
-              {ips[0]}
+              {ip}
             </Content>
           </div>
         </li>
@@ -93,6 +116,9 @@ const StickyNoteRC = React.createClass({
 export default class TooltipConnection extends Tooltip {
   constructor(parent, hovered) {
     super(parent);
+
+    this.hovered = hovered;
+
     this.render(hovered);
   }
 
@@ -103,7 +129,24 @@ export default class TooltipConnection extends Tooltip {
     );
   }
 
+  arraysEqual(arr1, arr2) {
+    if(arr1.length !== arr2.length) {
+      return false;
+    }
+    for(let i = arr1.length; i > 0; i--) {
+      if(arr1[i] !== arr2[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
   setHovered(hovered) {
+    if(this.arraysEqual(hovered, this.hovered)) {
+      return;
+    }
+
+    this.hovered = hovered;
     this.render(hovered);
   }
 
