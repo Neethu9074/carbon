@@ -1,7 +1,6 @@
 'use strict';
 
-import THREE from 'three';
-import PF from 'pathfinding';
+import {gamlib} from './lib/gamlib-ai.es6';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.connectionGrid');
@@ -13,21 +12,16 @@ class ConnectionGrid {
     this.width = 100;
     this.height = 100;
 
-    this.grid = new PF.Grid(this.width, this.height);
-
-    this.finder = new PF.BestFirstFinder({
-      dontCrossCorners: true,
-      allowDiagonal: false,
-      bidirectional: false
-    });
+    // create grid, defaulting to 'walkable'
+    this.grid = new gamlib.AStarArray(this.width, this.height);
   }
 
   clearPosition(position) {
-    this.setWalkableAt(position.x, -position.z, true);
+    this.setWalkableAt(position.x, -position.z, 0);
   }
 
   blockPosition(position) {
-    this.setWalkableAt(position.x, -position.z, false);
+    this.setWalkableAt(position.x, -position.z, -1);
   }
 
   setWalkableAt(x, y, value) {
@@ -36,7 +30,8 @@ class ConnectionGrid {
     }
 
     try {
-      this.grid.setWalkableAt(x, y, value);
+      // set our field, values less then 0 mean 'not walkable' whereas 0 or higher means walkable
+      this.grid.setValue(x, y, value); // make upper left corner not walkable
     } catch(err) {
       logger.debug('cannot set position for:', x, y);
       logger.error(err);
@@ -44,56 +39,20 @@ class ConnectionGrid {
   }
 
   getPath({fromX, fromY, toX, toY}) {
-    this.setWalkableAt(fromX, fromY, true);
-    this.setWalkableAt(toX, toY, true);
+    this.setWalkableAt(fromX, fromY, 0);
+    this.setWalkableAt(toX, toY, 0);
 
-    let path;
-    try{
-      path = this.finder.findPath(fromX, fromY, toX, toY, this.grid.clone());
+    const path = this.grid.find(fromX, fromY, toX, toY);
 
-      //compress path to reduce lines:
-      //[[0, 1], [0, 2], [0, 3], [0, 4]] => [[0, 1], [0, 4]]
-      path = PF.Util.compressPath(path);
-      if(path.length < 2) {
-        return undefined;
-      }
+    this.setWalkableAt(fromX, fromY, -1);
+    this.setWalkableAt(toX, toY, -1);
 
-      this.setWalkableAt(fromX, fromY, false);
-      this.setWalkableAt(toX, toY, false);
+    if(path.length > 1) {
       return path;
-
-    } catch(err) {
-      return undefined;
     }
+
+    return undefined;
   }
-
-  /*eslint-disable max-statements */
-  asVisualObject() {
-    const dimX = this.width;
-    const dimZ = this.height;
-    const geometry = new THREE.BufferGeometry();
-    const geoPos = new Float32Array(dimX * dimZ * 3);
-
-    let index = 0;
-    for(let x = 0; x < dimX; x++) {
-      for(let z = 0; z < dimZ; z++) {
-        if(this.grid.isWalkableAt(x, z)) {
-          geoPos[index] = x - 0.5;
-          geoPos[index + 1] = 0;
-          geoPos[index + 2] = -z + 0.5;
-        } else {
-          geoPos[index] = -0.5;
-          geoPos[index + 2] = 0.5;
-        }
-        index += 3;
-      }
-    }
-    geometry.addAttribute('position', new THREE.BufferAttribute(geoPos, 3));
-    return new THREE.PointCloud(geometry, new THREE.PointCloudMaterial());
-  }
-  /*eslint-enable max-statements */
-
-  dispose() {}
 }
 
 const grid = new ConnectionGrid();

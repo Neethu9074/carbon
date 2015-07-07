@@ -3,7 +3,7 @@
 import THREE from 'three';
 import _ from 'lodash';
 import SceneObject from '../SceneObject';
-import ConnectionGrid from '../../connectionGrid';
+import ConnectionGrid from '../../ConnectionGrid';
 import * as app from '../../Scene';
 import {setupStates} from './States/index';
 
@@ -52,7 +52,7 @@ export default class Connection extends SceneObject {
     });
 
     if(this.path) {
-      this.postProcessPath();
+      // this.postProcessPath();
     }
   }
 
@@ -93,14 +93,14 @@ export default class Connection extends SceneObject {
       const nextPoint = this.path[i - 1];
 
       points.push({
-        x: nextPoint[0] - 0.5,
+        x: nextPoint.position.x - 0.5,
         y: height,
-        z: -nextPoint[1] + 0.5
+        z: -nextPoint.position.y + 0.5
       });
       points.push({
-        x: point[0] - 0.5,
+        x: point.position.x - 0.5,
         y: height,
-        z: -point[1] + 0.5
+        z: -point.position.y + 0.5
       });
     }
     this.calculateCollisionMesh(points);
@@ -142,10 +142,10 @@ export default class Connection extends SceneObject {
   postProcessPath() {
     const path = this.path; //path -> [ [x, y], [x2, y2], ... ]
     const pathLength = path.length;
-    const first = {x: path[0][0], y: path[0][1]};
-    const second = {x: path[1][0], y: path[1][1]};
-    const beforeLast = {x: path[pathLength - 2][0], y: path[pathLength - 2][1]};
-    const last = {x: path[pathLength - 1][0], y: path[pathLength - 1][1]};
+    const first = {x: path[0].position.x, y: path[0].position.x};
+    const second = {x: path[1].position.x, y: path[1].position.y};
+    const beforeLast = {x: path[pathLength - 2].position.x, y: path[pathLength - 2].position.y};
+    const last = {x: path[pathLength - 1].position.x, y: path[pathLength - 1].position.y};
     const dirFirstToSecond = this.getDirectionForPoints(first, second);
     const dirlastToBeforeLast = this.getDirectionForPoints(last, beforeLast);
 
@@ -154,10 +154,10 @@ export default class Connection extends SceneObject {
     //capping it begins on the edge of the first and ends on the edge of the
     //last node. to get the right of the four possible we need the direction
     //directions are normalized so you can multiply with 0.5
-    path[0][0] += dirFirstToSecond.x * 0.5;
-    path[0][1] += dirFirstToSecond.y * 0.5;
-    path[pathLength - 1][0] += dirlastToBeforeLast.x * 0.5;
-    path[pathLength - 1][1] += dirlastToBeforeLast.y * 0.5;
+    path[0].position.x += dirFirstToSecond.x * 0.5;
+    path[0].position.y += dirFirstToSecond.y * 0.5;
+    path[pathLength - 1].position.x += dirlastToBeforeLast.x * 0.5;
+    path[pathLength - 1].position.y += dirlastToBeforeLast.y * 0.5;
   }
 
   getDirectionForPoints(a, b) {

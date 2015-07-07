@@ -4,7 +4,7 @@ import THREE from 'three';
 
 import _ from 'lodash';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
-import ConnectionGrid from '../connectionGrid';
+import ConnectionGrid from '../ConnectionGrid';
 import eventBus from 'instana-ui-services/eventbus';
 import SceneObject from './SceneObject';
 import groundTexturePath from './ground.png';
