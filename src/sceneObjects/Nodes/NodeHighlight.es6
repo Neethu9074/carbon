@@ -40,7 +40,7 @@ export default class NodeHighlight extends Highlight {
   setupHighlightBorderLines(client) {
     //create outline effect using lines
     const pos = client.getPosition();
-    const height = client.cube.scale.y;
+    const height = client.height;
     const fromX = pos.x + 0.01;
     const toX = pos.x - 1.01;
     const fromZ = pos.z - 0.01;
