@@ -4,7 +4,7 @@
 // the SDK is properly configured.
 import 'instana-ui-forge';
 
-import React from 'react';
+import React from 'react/addons';
 import {run, HashLocation} from 'react-router';
 
 import logging from 'instalog';
@@ -28,6 +28,11 @@ logging.addAppender(uiBackendAppender);
 
 // add a theme css class on the HTML document to allow style overrides
 setThemeOnHtmlDocument();
+
+// expose the React global to analyze performance issues
+if (__DEV__) {
+  window.React = React;
+}
 
 run(routes, HashLocation, (Root, state) => {
   React.render(<Root {...i18n} state={state} />, document.body);
