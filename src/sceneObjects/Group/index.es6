@@ -3,8 +3,7 @@
 import _ from 'lodash';
 import THREE from 'three';
 
-import SceneObject from '../SceneObject';
-import {setupStates} from './States/index';
+import SceneObject from '../SceneObject/index';
 import Node from '../Nodes/Node/index';
 import UnknownNode from '../Nodes/UnknownNode/index';
 import StickyNote from '../StickyNote/Ground';
@@ -41,9 +40,9 @@ export default class Group extends SceneObject {
     this.addCollisionPlane();
   }
 
-  initStates() {
-    return setupStates(this);
-  }
+  onInitialEnter() {}
+
+  onInitialLeave() {}
 
   addCollisionPlane() {
     const plane = this.collisionPlane = new THREE.Mesh(collisionGeometry);

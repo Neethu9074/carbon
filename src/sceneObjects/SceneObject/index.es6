@@ -1,7 +1,10 @@
 'use strict';
 
 import THREE from 'three';
+import {setupStates} from './States/index';
+import {createLogger} from 'instalog';
 
+const logger = createLogger('ui-map.sceneObject');
 
 const stateLUT = {
   lut: [
@@ -54,7 +57,7 @@ export default class SceneObject {
     this.screenPosition = {x: 0, y: 0};
 
     this.stateLookUpTable = stateLUT;
-    this.states = this.initStates();
+    this.states = setupStates(this);
     this.stateProperties = {
       mouseOver: false,
       selected: false,
@@ -88,9 +91,14 @@ export default class SceneObject {
     }
   }
 
-  initStates() {
-    return {initial: {enter() {}}};
-  }
+  onInitialEnter() {logger.debug('on initial enter'); }
+  onInitialLeave() {logger.debug('on initial leave'); }
+  onHighlightEnter() {logger.debug('on highlight enter'); }
+  onHighlightLeave() {logger.debug('on highlight leave'); }
+  onSelectedEnter() {logger.debug('on selected enter'); }
+  onSelectedLeave() {logger.debug('on selected leave'); }
+  onInactiveEnter() {logger.debug('on inactive enter'); }
+  onInactiveLeave() {logger.debug('on inactive leave'); }
 
   isSelected() {
     return this.stateProperties.selected;

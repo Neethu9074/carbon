@@ -1,6 +1,6 @@
 'use strict';
 
-import State from '../../State';
+import State from './State';
 import {level, zoomLevel} from 'instana-ui-services/stores/zoomLevel';
 
 export default class NearestState extends State {

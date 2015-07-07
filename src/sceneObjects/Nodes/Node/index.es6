@@ -18,7 +18,6 @@ import StickyNoteNode from '../../StickyNote/Node';
 import StickyNoteLayer from '../../StickyNote/Layer';
 import TooltipNode from '../../Tooltips/Node';
 import TooltipMetric from '../../Tooltips/Metric';
-import {setupStates} from './States/index';
 
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -72,8 +71,25 @@ export default class Node extends BaseNode {
     );
   }
 
-  initStates() {
-    return setupStates(this);
+  onInactiveEnter() {
+    this.removeCollisionObject(this.cube, 1);
+    this.addCollisionObject(this.metricCube, 2);
+
+    //save the current health, set health to ok, block the coloring for cube
+    //and reset to old health
+    const healthBackup = this.health;
+    this.setHealth(health.ok);
+    this.blockCubeHealth(true);
+    this.setHealth(healthBackup);
+  }
+
+  onInactiveLeave() {
+    this.removeCollisionObject(this.metricCube, 2);
+    this.addCollisionObject(this.cube, 1);
+
+    //unblock the coloring for cube and reset the current health
+    this.blockCubeHealth(false);
+    this.setHealth(this.health, true);
   }
 
   addToGlobalGeometry() {

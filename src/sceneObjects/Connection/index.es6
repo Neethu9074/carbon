@@ -2,10 +2,9 @@
 
 import THREE from 'three';
 import _ from 'lodash';
-import SceneObject from '../SceneObject';
+import SceneObject from '../SceneObject/index';
 import ConnectionGrid from '../../ConnectionGrid';
 import * as app from '../../Scene';
-import {setupStates} from './States/index';
 
 export const allConnections = [];
 let id = 0;
@@ -36,9 +35,30 @@ export default class Connection extends SceneObject {
     allConnections.push(this);
   }
 
-  initStates() {
-    return setupStates(this);
+  onInitialEnter() {
+    //TODO: implement
   }
+
+  onInitialLeave() {
+    //TODO: implement
+  }
+
+  onHighlightEnter() {
+    //TODO: implement
+  }
+
+  onHighlightLeave() {
+    //TODO: implement
+  }
+
+  onSelectedEnter() {
+    //TODO: implement
+  }
+
+  onSelectedLeave() {
+    //TODO: implement
+  }
+
 
   calculatePath() {
     const fromPos = this.from.getPosition();
@@ -50,10 +70,6 @@ export default class Connection extends SceneObject {
       toX: toPos.x,
       toY: -toPos.z
     });
-
-    if(this.path) {
-      // this.postProcessPath();
-    }
   }
 
   render() {
@@ -103,6 +119,7 @@ export default class Connection extends SceneObject {
         z: -point.position.y + 0.5
       });
     }
+    this.postProcessPoints(points);
     this.calculateCollisionMesh(points);
 
     if(this.direction === 'in') {
@@ -139,13 +156,12 @@ export default class Connection extends SceneObject {
     });
   }
 
-  postProcessPath() {
-    const path = this.path; //path -> [ [x, y], [x2, y2], ... ]
-    const pathLength = path.length;
-    const first = {x: path[0].position.x, y: path[0].position.x};
-    const second = {x: path[1].position.x, y: path[1].position.y};
-    const beforeLast = {x: path[pathLength - 2].position.x, y: path[pathLength - 2].position.y};
-    const last = {x: path[pathLength - 1].position.x, y: path[pathLength - 1].position.y};
+  postProcessPoints(points) {
+    const pathLength = points.length;
+    const first = points[0];
+    const second = points[1];
+    const beforeLast = points[pathLength - 2];
+    const last = points[pathLength - 1];
     const dirFirstToSecond = this.getDirectionForPoints(first, second);
     const dirlastToBeforeLast = this.getDirectionForPoints(last, beforeLast);
 
@@ -154,10 +170,13 @@ export default class Connection extends SceneObject {
     //capping it begins on the edge of the first and ends on the edge of the
     //last node. to get the right of the four possible we need the direction
     //directions are normalized so you can multiply with 0.5
-    path[0].position.x += dirFirstToSecond.x * 0.5;
-    path[0].position.y += dirFirstToSecond.y * 0.5;
-    path[pathLength - 1].position.x += dirlastToBeforeLast.x * 0.5;
-    path[pathLength - 1].position.y += dirlastToBeforeLast.y * 0.5;
+    first.x += dirFirstToSecond.x * 0.5;
+    first.y += dirFirstToSecond.y * 0.5;
+    first.z += dirFirstToSecond.z * 0.5;
+
+    last.x += dirlastToBeforeLast.x * 0.5;
+    last.y += dirlastToBeforeLast.y * 0.5;
+    last.z += dirlastToBeforeLast.z * 0.5;
   }
 
   getDirectionForPoints(a, b) {
@@ -190,6 +209,7 @@ export default class Connection extends SceneObject {
   }
 
   select() {
+    // this.changeStateProperty('selected', true);
     const scene = this.getScene();
 
     scene.lineFactory.highlightFragment(this.id, true);
@@ -201,6 +221,7 @@ export default class Connection extends SceneObject {
   }
 
   unSelect() {
+    // this.changeStateProperty('selected', false);
     const scene = this.getScene();
 
     scene.lineFactory.highlightFragment(this.id, false);
@@ -212,6 +233,8 @@ export default class Connection extends SceneObject {
   }
 
   show() {
+    // this.changeStateProperty('mouseOver', true);
+
     if(this.hidden) {
       super.show(); //set this.hidden = false
 
@@ -223,6 +246,8 @@ export default class Connection extends SceneObject {
   }
 
   hide() {
+    // this.changeStateProperty('mouseOver', false);
+
     if(!this.hidden && !this.to.isSelected() && !this.from.isSelected()) {
       super.hide(); //set this.hidden = true
 

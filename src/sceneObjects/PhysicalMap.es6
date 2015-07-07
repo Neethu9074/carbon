@@ -6,7 +6,7 @@ import _ from 'lodash';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConnectionGrid from '../ConnectionGrid';
 import eventBus from 'instana-ui-services/eventbus';
-import SceneObject from './SceneObject';
+import SceneObject from './SceneObject/index';
 import groundTexturePath from './ground.png';
 import Group from './Group/index';
 import Layouter from '../layout';

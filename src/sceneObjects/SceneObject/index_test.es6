@@ -5,7 +5,7 @@
 import THREE from 'three';
 import _ from 'lodash';
 import {expect} from 'chai';
-import SceneObject from './SceneObject';
+import SceneObject from './index';
 
 describe('3D map', () => {
 

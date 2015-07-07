@@ -7,9 +7,8 @@ import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 
-import {setupStates} from './States/index';
 import Connection from '../../Connection/index';
-import SceneObject from '../../SceneObject';
+import SceneObject from '../../SceneObject/index';
 import Highlight from '../NodeHighlight';
 
 /*eslint-disable max-len*/
@@ -68,9 +67,26 @@ export default class BaseNode extends SceneObject {
     this.registerEvents();
   }
 
-  initStates() {
-    return setupStates(this);
+  onInitialEnter() {}
+
+  onInitialLeave() {}
+
+  onHighlightEnter() {
+    this.setHighlight();
+
+    this.setupConnections();
+    this.forEachConnection((c) => c.show());
   }
+
+  onHighlightLeave() {
+    this.clearHighlight();
+
+    this.forEachConnection((c) => c.hide());
+  }
+
+  onSelectedEnter() {this.selected(); }
+
+  onSelectedLeave() {this.unSelected(); }
 
   render() {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check

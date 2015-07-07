@@ -1,6 +1,6 @@
 'use strict';
 
-import State from '../../../../State';
+import State from './State';
 
 export default class InactiveState extends State {
 
@@ -8,7 +8,11 @@ export default class InactiveState extends State {
     super(baseNode);
   }
 
-  enter() {}
+  enter() {
+    this.onInactiveEnter();
+  }
 
-  leave() {}
+  leave() {
+    this.onInactiveLeave();
+  }
 }

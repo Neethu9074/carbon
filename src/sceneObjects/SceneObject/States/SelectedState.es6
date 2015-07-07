@@ -1,6 +1,6 @@
 'use strict';
 
-import State from '../../../../State';
+import State from './State';
 
 
 export default class SelectedState extends State {
@@ -10,10 +10,10 @@ export default class SelectedState extends State {
   }
 
   enter() {
-    this.owner.selected();
+    this.owner.onSelectedEnter();
   }
 
   leave() {
-    this.owner.unSelected();
+    this.owner.onSelectedLeave();
   }
 }

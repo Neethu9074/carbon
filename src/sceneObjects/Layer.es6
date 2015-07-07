@@ -2,7 +2,7 @@
 
 import THREE from 'three';
 
-import SceneObject from './SceneObject';
+import SceneObject from './SceneObject/index';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
