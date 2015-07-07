@@ -14,8 +14,11 @@ import Toast from '../../Toast';
 import Collapsible from '../../Collapsible';
 import SnapshotIconDemo from './SnapshotIconDemo';
 import ChartDemo from './ChartDemo';
+import Button from '../../Button';
 
 import '../less/demo.less';
+
+window.React = React;
 
 const Demo = React.createClass({
   getInitialState() {
@@ -102,6 +105,8 @@ const Demo = React.createClass({
             </Collapsible>
           </div>
         </Tab>
+
+
         <Tab title='Icon'>
           {['graph', 'menue', 'grid'].map(type =>
             <div key={type}>
@@ -110,9 +115,20 @@ const Demo = React.createClass({
             </div>
           )}
         </Tab>
+
+
+        <Tab title='Button'>
+          <Button onClick={() => console.log('you clicked a button')}>
+            Hello World
+          </Button>
+        </Tab>
+
+
         <Tab title='Lettering'>
           <Lettering />
         </Tab>
+
+
         <Tab title='Toast'>
           <button onClick={this.showToast}>Show Toast</button>
 
