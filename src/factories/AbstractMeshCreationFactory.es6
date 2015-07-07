@@ -73,8 +73,8 @@ export default class AbstractMeshCreationFactory {
   }
 
   enableFragment(id, enabled = true) {
-    const match = _.find(this.fragments, item => item.id === id);
-    if(match) {
+    const match = this.getFragment(id);
+    if(match && match.enabled !== enabled) {
       match.enabled = enabled;
 
       //set rebuild to true

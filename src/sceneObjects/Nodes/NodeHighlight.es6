@@ -31,9 +31,6 @@ export default class NodeHighlight extends Highlight {
 
     this.setupHighlightBorderLines(client);
 
-    //show all connections of the node
-    this.setupConnections();
-
     //make the changes visible
     client.renderScene();
 
@@ -78,12 +75,7 @@ export default class NodeHighlight extends Highlight {
     const client = this.client;
 
     //don't dispose the highlighting twice
-    if(!this.isHighlighted) {
-      return;
-    }
-
-    //dispose all connections tangents this node
-    client.clearConnections();
+    if(!this.isHighlighted) {return; }
 
     client.scene.lineFactory.removeFragment(client.id + '_h');
 
@@ -136,34 +128,12 @@ export default class NodeHighlight extends Highlight {
     }
   }
 
-  setupConnections() {
-    const client = this.client;
-    const wiredSnapshots = client.getWiredSnapshots();
-
-    client.clearConnections();
-
-    if(wiredSnapshots) {
-      this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
-      this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
-    }
-  }
-
-  setConnectionsWithDirection(connections, direction) {
-    const client = this.client;
-    connections.forEach(otherSnapshot => {
-      const other = client.findNodeBySnapshot(otherSnapshot);
-      if(other) {
-        client.connectWith(other, direction);
-      }
-    });
-  }
-
   refreshConnections() {
     const client = this.client;
 
     //reselect if the host is selected so that all geometry and
     //connections are refreshed
-    if(client.isSelected) {
+    if(client.isSelected()) {
       client.unSelect();
       client.select();
     }
@@ -192,7 +162,7 @@ export default class NodeHighlight extends Highlight {
   onMouseOff() {
     //only disable highlighting if the node was not selected (is needed if
     //the node was selected and mouseoff was fired)
-    if(!this.client.isSelected) {
+    if(!this.client.isSelected()) {
       this.clearHighlight();
     }
   }

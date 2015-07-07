@@ -25,21 +25,22 @@ export default class Unknownnode extends BaseNode {
     }));
   }
 
-  selectNode() {
-    super.selectNode();
+  selected() {
+    super.selected();
 
     this.stickyNote.showPlus();
   }
 
-  clearNode() {
+  unSelected() {
     this.stickyNote.showPlus(false);
 
-    super.clearNode();
+    super.unSelected();
   }
 
   setWiredStickiesActive() {}
 
   getWiredSnapshots() {
+    this.updateOnWiredSnapshots = true;
     const thisSnapShot = this.snapshot;
     const matches = [];
     this.getAllMapNodes()
@@ -65,10 +66,6 @@ export default class Unknownnode extends BaseNode {
     map.set('outgoing', matches);
     map.set('incoming', []);
     return map.asImmutable();
-  }
-
-  containsWired() {
-    return false;
   }
 
   update() {

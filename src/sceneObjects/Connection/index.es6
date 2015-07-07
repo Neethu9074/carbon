@@ -13,8 +13,12 @@ let id = 0;
 
 export default class Connection extends SceneObject {
 
-  constructor({parent, from, to, direction}) {
-    super({parent});
+  constructor({from, to, direction}) {
+    super({parent: from});
+
+    // if(_.find(allConnections, c => (c.from === from && c.to === to))) {
+    //   return;
+    // }
 
     this.id = id++;
     this.from = from;
@@ -27,6 +31,8 @@ export default class Connection extends SceneObject {
     to.addIncomingConnection(this);
 
     this.render();
+    this.hide();
+
     allConnections.push(this);
   }
 
@@ -34,28 +40,36 @@ export default class Connection extends SceneObject {
     return setupStates(this);
   }
 
+  calculatePath() {
+    const fromPos = this.from.getPosition();
+    const toPos = this.to.getPosition();
+
+    this.path = ConnectionGrid.getPath({
+      fromX: fromPos.x,
+      fromY: -fromPos.z, //connectionGrid uses positive z space, so invert
+      toX: toPos.x,
+      toY: -toPos.z
+    });
+
+    if(this.path) {
+      this.postProcessPath();
+    }
+  }
+
   render() {
     if(!this.path) {
       return;
     }
 
-    const points = this.calculateVertices(-0.01);
+    this.points = this.calculateVertices(-0.01);
+
     const factory = this.getScene().lineFactory;
-    const isSelected = this.parent.isSelected;
-
-    factory.removeFragment(this.id);
-    factory.addFragment({
-      id: this.id, points, highlighted: isSelected
-    });
-
-    this.to.highlighting.setIndirectHighlight(isSelected);
-    this.from.highlighting.setIndirectHighlight(isSelected);
+    factory.addFragment({id: this.id, points: this.points});
 
     //hide this if the parent is hidden
-    if(this.parent.hidden) {
+    if(this.from.hidden || this.to.hidden) {
       this.hide();
     }
-    this.visible = true;
   }
 
   calculateCollisionMesh(points) {
@@ -125,32 +139,6 @@ export default class Connection extends SceneObject {
     });
   }
 
-  calculatePath() {
-    const fromPos = this.from.getPosition();
-    const toPos = this.to.getPosition();
-
-    //set the postions of source and dest to walkable, because you want to
-    //find a route between them
-    ConnectionGrid.clearPosition(fromPos);
-    ConnectionGrid.clearPosition(toPos);
-
-    this.path = ConnectionGrid.getPath({
-      fromX: fromPos.x,
-      fromY: -fromPos.z, //connectionGrid uses positive z space, so invert
-      toX: toPos.x,
-      toY: -toPos.z
-    });
-
-    if(this.path) {
-      this.postProcessPath();
-
-      //don't forget to block the positions after calculating the path to avoid
-      //crossing connections. only block if there is a valid path
-      ConnectionGrid.blockPosition(fromPos);
-      ConnectionGrid.blockPosition(toPos);
-    }
-  }
-
   postProcessPath() {
     const path = this.path; //path -> [ [x, y], [x2, y2], ... ]
     const pathLength = path.length;
@@ -187,6 +175,10 @@ export default class Connection extends SceneObject {
   }
 
   intersects(raycaster) {
+    if(this.hidden) {
+      return false;
+    }
+
     const path = this.path;
     if(!path || !this.collisionLine) {
       return false;
@@ -197,15 +189,14 @@ export default class Connection extends SceneObject {
     return hit.length > 0;
   }
 
-  highlight() {
-  }
-
   select() {
     const scene = this.getScene();
 
     scene.lineFactory.highlightFragment(this.id, true);
-    scene.lineFactory.highlightFragment(this.to.id, true);
-    scene.lineFactory.highlightFragment(this.from.id, true);
+
+    // this.to.highlighting.setIndirectHighlight(true);
+    // this.from.highlighting.setIndirectHighlight(true);
+
     scene.renderScene();
   }
 
@@ -213,9 +204,33 @@ export default class Connection extends SceneObject {
     const scene = this.getScene();
 
     scene.lineFactory.highlightFragment(this.id, false);
-    scene.lineFactory.highlightFragment(this.to.id, false);
-    scene.lineFactory.highlightFragment(this.from.id, false);
+
+    // this.from.highlighting.clearIndirectHighlight();
+    // this.to.highlighting.clearIndirectHighlight();
+
     scene.renderScene();
+  }
+
+  show() {
+    if(this.hidden) {
+      super.show(); //set this.hidden = false
+
+      this.getScene().lineFactory.enableFragment(this.id);
+
+      // this.to.highlighting.setIndirectHighlight(false);
+      // this.from.highlighting.setIndirectHighlight(false);
+    }
+  }
+
+  hide() {
+    if(!this.hidden && !this.to.isSelected() && !this.from.isSelected()) {
+      super.hide(); //set this.hidden = true
+
+      this.getScene().lineFactory.enableFragment(this.id, false);
+
+      // this.from.highlighting.clearIndirectHighlight();
+      // this.to.highlighting.clearIndirectHighlight();
+    }
   }
 
   updateOfVisualComponents() {
@@ -236,7 +251,6 @@ export default class Connection extends SceneObject {
 
   dispose() {
     _.remove(allConnections, c => c.id === this.id);
-    // this.changeStateProperty('mouseOver', false);
 
     this.disposeCollisionLine();
 

@@ -7,7 +7,7 @@ const stateLUT = {
   lut: [
     //mouseOver, selected, active
     [[false, false, false], 'inactive'],
-    [[false, false, true], 'inital'],
+    [[false, false, true], 'initial'],
     [[false, true, false], 'inactive'],
     [[false, true, true], 'selected'],
     [[true, false, false], 'inactive'],
@@ -21,16 +21,22 @@ const stateLUT = {
       const entry = this.lut[i];
       if(mouseOver === entry[0][0] && selected === entry[0][1] && active === entry[0][2]) {
         const match = entry[1];
+        let state;
         switch (match) {
           case 'inactive':
-            return states.inactive;
+            state = states.inactive;
+            break;
           case 'selected':
-            return states.selected;
+            state = states.selected;
+            break;
           case 'highlighted':
-            return states.highlighted;
-          default:
-            return states.initial;
+            state = states.highlighted;
+            break;
+          case 'initial':
+            state = states.initial;
+            break;
         }
+        return state;
       }
     }
   }
@@ -54,18 +60,20 @@ export default class SceneObject {
       selected: false,
       active: true
     };
-    this.stateTemp = this.states.initial;
-    this.stateTemp.enter();
+    this.state = this.states.initial;
+    this.state.enter();
   }
 
   changeStateProperty(name, value) {
-    this.stateProperties[name] = value;
-    this.updateState();
+    if(this.stateProperties[name] !== value) {
+      this.stateProperties[name] = value;
+      this.updateState();
+    }
   }
 
   updateState() {
     const props = this.stateProperties;
-    const oldState = this.stateTemp;
+    const oldState = this.state;
     const newState = stateLUT.getStateFromLut({
       mouseOver: props.mouseOver,
       selected: props.selected,
@@ -75,13 +83,25 @@ export default class SceneObject {
 
     if(oldState !== newState) {
       oldState.leave();
-      this.stateTemp = newState;
+      this.state = newState;
       newState.enter();
     }
   }
 
   initStates() {
     return {initial: {enter() {}}};
+  }
+
+  isSelected() {
+    return this.stateProperties.selected;
+  }
+
+  isHighlighted() {
+    return this.stateProperties.mouseOver;
+  }
+
+  isActive() {
+    return this.stateProperties.active;
   }
 
   setPosition(x, y, z) {

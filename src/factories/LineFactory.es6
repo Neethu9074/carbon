@@ -33,17 +33,21 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   }
 
   addFragment({id, points, highlighted, color, enabled = true}) {
-    this.fragments.push({
-      id, //is needed to identify the fragment when deleting
-      points,
-      highlighted,
-      color,
-      enabled
-    });
+    const match = this.getFragment(id);
+    if(match) {
+      match.points = points;
+      match.color = color;
+      match.highlighted = highlighted;
 
-    //set rebuild to true
-    //so that the mesh will be generated on the next event
-    this.rebuildGlobalMesh = true;
+    } else {
+      super.addFragment({
+        id, //is needed to identify the fragment when deleting
+        points,
+        highlighted,
+        color,
+        enabled
+      });
+    }
   }
 
   highlightFragment(id, highlighted) {

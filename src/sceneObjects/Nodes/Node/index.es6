@@ -295,6 +295,8 @@ export default class Node extends BaseNode {
     this.getWiredSnapshotsAsArray()
       .filter(node => node.get('state') === 'unmonitored')
       .forEach(node => parent.addUnknownNode(node));
+
+    this.updateOnWiredSnapshots = true;
   }
 
   getWiredSnapshotsAsArray() {

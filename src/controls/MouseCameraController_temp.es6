@@ -12,6 +12,11 @@ export default class MouseControl extends TouchController {
     super({scene});
     const canvas = scene.parent;
 
+    canvas.onmousemove = (e) => {
+      eventBus.emit('onCursorMove', {x: e.clientX, y: e.clientY});
+      this.onMouseMove(e);
+    };
+
     // Wheel event is new (IE10+, Chrome 31+, FF 17+, Safari 7), but produces
     // a consistent range of scroll events.
     ro.on(canvas, 'wheel')
@@ -47,11 +52,6 @@ export default class MouseControl extends TouchController {
         }
         this.zoom(zoom);
       });
-
-    canvas.onmousemove = (e) => {
-      eventBus.emit('onCursorMove', {x: e.clientX, y: e.clientY});
-      this.onMouseMove(e);
-    };
   }
 
   onMouseMove(e) {
@@ -69,11 +69,11 @@ export default class MouseControl extends TouchController {
     if(this.hittenObject) {
       //if this is a new hitten object
       if(hitten !== this.hittenObject) {
-        this.hittenObject.parentSceneObject.onHighlight(true);
         //if the new differs from the old and the old is valid
         if(hitten) {
           hitten.parentSceneObject.onHighlight(false);
         }
+        this.hittenObject.parentSceneObject.onHighlight(true);
       }
       //if there is actually not hitten but it was last frame
     } else if(!this.hittenObject && hitten) {

@@ -426,15 +426,6 @@ export default class Scene {
       }
     });
 
-    //highlight all connections that are hovered, unhighlight the rest
-    allConnections.forEach(connection => {
-      if(hovered.indexOf(connection) >= 0) {
-        connection.highlight(true);
-      } else {
-        connection.highlight(false);
-      }
-    });
-
     if(hovered.length > 0) {
       if(this.connectionTooltip) {
         this.connectionTooltip.setHovered(hovered);

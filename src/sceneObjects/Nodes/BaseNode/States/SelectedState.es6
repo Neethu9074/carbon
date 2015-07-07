@@ -10,10 +10,10 @@ export default class SelectedState extends State {
   }
 
   enter() {
-    this.owner.selectNode();
+    this.owner.selected();
   }
 
   leave() {
-    this.owner.clearNode();
+    this.owner.unSelected();
   }
 }

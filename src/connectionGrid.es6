@@ -44,6 +44,9 @@ class ConnectionGrid {
   }
 
   getPath({fromX, fromY, toX, toY}) {
+    this.setWalkableAt(fromX, fromY, true);
+    this.setWalkableAt(toX, toY, true);
+
     let path;
     try{
       path = this.finder.findPath(fromX, fromY, toX, toY, this.grid.clone());
@@ -52,14 +55,15 @@ class ConnectionGrid {
       //[[0, 1], [0, 2], [0, 3], [0, 4]] => [[0, 1], [0, 4]]
       path = PF.Util.compressPath(path);
       if(path.length < 2) {
-        path = undefined;
+        return undefined;
       }
+
+      this.setWalkableAt(fromX, fromY, false);
+      this.setWalkableAt(toX, toY, false);
       return path;
 
     } catch(err) {
-      path = undefined;
-    } finally{
-      return path;
+      return undefined;
     }
   }
 
@@ -89,9 +93,7 @@ class ConnectionGrid {
   }
   /*eslint-enable max-statements */
 
-  dispose() {
-
-  }
+  dispose() {}
 }
 
 const grid = new ConnectionGrid();

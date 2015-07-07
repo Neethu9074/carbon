@@ -106,8 +106,6 @@ export default class BaseNode extends SceneObject {
 
   collectConnections() {throw new Error('NOT IMPLEMENTED'); }
 
-  containsWired() {throw new Error('NOT IMPLEMENTED'); }
-
   getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
 
   updateStickyNotes() {
@@ -147,33 +145,26 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.onHighlight(false);
   }
 
-  selectNode() {
-    this.scene.setSelectedObject(this);
-    this.connections.forEach(c => c.select());
-    this.setHighlight();
-  }
-
-  clearNode() {
-    this.scene.clearSelectedObject();
-    this.connections.forEach(c => c.unSelect());
-    this.clearHighlight();
-  }
-
-  //is called via scene when the user pressed on a node
   select() {
-    if(this.stateProperties.selected === true) {
-      return;
-    }
     this.changeStateProperty('selected', true);
   }
 
-  //is called when the user hits the node again or the selection was cleared
-  //by another way
   unSelect() {
-    if(this.stateProperties.selected === false) {
-      return;
-    }
     this.changeStateProperty('selected', false);
+  }
+
+  selected() {
+    this.forEachConnection((c) => {c.show(); c.select(); });
+
+    this.scene.setSelectedObject(this);
+    this.setHighlight();
+  }
+
+  unSelected() {
+    this.scene.clearSelectedObject();
+    this.clearHighlight();
+
+    this.forEachConnection((c) => {c.hide(); c.unSelect(); });
   }
 
   updateOfVisualComponents() {
@@ -197,6 +188,8 @@ export default class BaseNode extends SceneObject {
     }
 
     super.setPosition(x, y, z);
+
+    this.forEachConnection((c) => c.updateOfVisualComponents());
     this.updateOfVisualComponents();
   }
 
@@ -257,44 +250,37 @@ export default class BaseNode extends SceneObject {
 
   setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
-  getDimension() {
-    return {width: 1, depth: 1};
-  }
+  setupConnections() {
+    const wiredSnapshots = this.getWiredSnapshots();
 
-  //connects this node with another one. the connection is stored in a
-  //connections collection
-  connectWith(otherNode, direction) {
-    //don't setup a new connection if it's still alive
-    if(this.connections.indexOf(otherNode) >= 0) {
+    //wiredSnapshots were not updated since last setup
+    if(!wiredSnapshots || !this.updateOnWiredSnapshots) {
       return;
     }
 
-    /*eslint-disable no-new*/
-    new Connection({parent: this, from: this, to: otherNode, direction});
-    /*eslint-enable no-new*/
+    this.clearConnections();
+
+    this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
+    this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
+
+    this.updateOnWiredSnapshots = false;
   }
 
-  show() {
-    super.show();
-    this.enableFragments(true);
-
-    this.addCollisionObject(this.cube, 1);
-    this.addToGlobalGeometry();
-    this.stickyNote.show();
+  setConnectionsWithDirection(connections, direction) {
+    connections.forEach(otherSnapshot => {
+      const other = this.findNodeBySnapshot(otherSnapshot);
+      if(other) {
+        this.connectWith(other, direction);
+      }
+    });
   }
 
-  hide() {
-    super.hide();
-    this.enableFragments(false);
-
-    this.removeCollisionObject(this.cube, 1);
-    this.removeFromGlobalGeometry();
-    this.stickyNote.hide();
+  forEachConnection(fn) {
+    this.getAllConnections().forEach(c => fn(c));
   }
 
-  clearConnections() {
-    this.connections.slice().forEach(c => c.dispose());
-    this.connections = [];
+  getAllConnections() {
+    return this.connections.concat(this.incomingConnections);
   }
 
   //is called from Connection class when creating a new connection
@@ -316,6 +302,47 @@ export default class BaseNode extends SceneObject {
     _.remove(this.incomingConnections, con => con.id === connection.id);
   }
 
+  clearConnections() {
+    this.getAllConnections().slice().forEach(c => c.dispose());
+    this.connections = [];
+    this.incomingConnections = [];
+  }
+
+  getDimension() {
+    return {width: 1, depth: 1};
+  }
+
+  //connects this node with another one. the connection is stored in a
+  //connections collection
+  connectWith(otherNode, direction) {
+    //don't setup a new connection if it's still alive
+    if(this.connections.indexOf(otherNode) >= 0) {
+      return;
+    }
+
+    /*eslint-disable no-new*/
+    new Connection({from: this, to: otherNode, direction});
+    /*eslint-enable no-new*/
+  }
+
+  show() {
+    super.show();
+    this.enableFragments(true);
+
+    this.addCollisionObject(this.cube, 1);
+    this.addToGlobalGeometry();
+    this.stickyNote.show();
+  }
+
+  hide() {
+    super.hide();
+    this.enableFragments(false);
+
+    this.removeCollisionObject(this.cube, 1);
+    this.removeFromGlobalGeometry();
+    this.stickyNote.hide();
+  }
+
   disposeStickyNote() {
     this.stickyNote.dispose();
     this.stickyNote = emptyStickyObject;
@@ -332,8 +359,8 @@ export default class BaseNode extends SceneObject {
 
     this.highlighting.dispose();
 
-    this.changeStateProperty('mouseOver', false);
-    this.changeStateProperty('selected', false);
+    // this.changeStateProperty('mouseOver', false);
+    // this.changeStateProperty('selected', false);
 
     this.removeCollisionObject(this.cube, 2);
     this.cube = null;
