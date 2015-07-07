@@ -44,7 +44,7 @@ const stateLUT = {
 
 export default class SceneObject {
 
-  constructor({parent, pos = new THREE.Vector3()}) {
+  constructor({parent, pos = new THREE.Vector3(0, 0, 0)}) {
     this.position = pos.clone();
     this.parent = parent;
     this.subscriptions = [];
