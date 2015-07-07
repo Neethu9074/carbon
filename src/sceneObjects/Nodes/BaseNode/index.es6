@@ -270,7 +270,7 @@ export default class BaseNode extends SceneObject {
     const wiredSnapshots = this.getWiredSnapshots();
 
     //wiredSnapshots were not updated since last setup
-    if(!wiredSnapshots || !this.updateOnWiredSnapshots) {
+    if(!wiredSnapshots/* || !this.updateOnWiredSnapshots*/) {
       return;
     }
 
@@ -319,9 +319,11 @@ export default class BaseNode extends SceneObject {
   }
 
   clearConnections() {
-    this.getAllConnections().slice().forEach(c => c.dispose());
-    this.connections = [];
-    this.incomingConnections = [];
+    this.getAllConnections().slice().forEach(c => {
+      if(!c.isSelected()) {
+        c.dispose();
+      }
+    });
   }
 
   getDimension() {
