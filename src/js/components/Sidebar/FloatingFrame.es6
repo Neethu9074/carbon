@@ -7,10 +7,18 @@ import Icon from 'instana-ui-components/Icon';
 
 import './FloatingFrame.less';
 
+const rpt = React.PropTypes;
 const block = 'in-floating-frame';
 
 const FloatingFrame = React.createClass({
   mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    title: rpt.string.isRequired,
+    icon: rpt.string.isRequired,
+    content: rpt.func.isRequired,
+    contentProps: rpt.object
+  },
 
   getInitialState() {
     return {
@@ -19,6 +27,8 @@ const FloatingFrame = React.createClass({
   },
 
   render() {
+    const Content = this.props.content;
+
     return (
       <div className={classnames({
         [block]: true,
@@ -37,7 +47,7 @@ const FloatingFrame = React.createClass({
 
         {this.state.open ?
           <div className={block + '__content'}>
-            {this.props.children}
+            <Content {...this.props.contentProps} />
           </div>
         : null}
       </div>

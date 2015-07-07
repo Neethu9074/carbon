@@ -42,15 +42,17 @@ const Sidebar = React.createClass({
     const activeMetric = this.state.activeMetric;
     return (
       <div className='in-sidebar'>
-        <FloatingFrame icon='menue' title='Details'>
-          <Listing pluginId={this.props.pluginId} />
-        </FloatingFrame>
+        <FloatingFrame icon='menue'
+                       title='Details'
+                       content={Listing}
+                       contentProps={{
+                         pluginId: this.props.pluginId
+                       }} />
 
         <FloatingFrame icon={activeMetric ? activeMetric.get('icon') : 'metrics'}
                        title={activeMetric ? activeMetric.get('longLabel') : 'Metrics'}
-                       ref='metrics'>
-          <Metrics />
-        </FloatingFrame>
+                       ref='metrics'
+                       content={Metrics} />
       </div>
     );
   }
