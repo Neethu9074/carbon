@@ -26,14 +26,10 @@ const StickyNoteRC = React.createClass({
 
   getIpBySnapshot(snapshot) {
     const ipArray = [];
+    const outgoing = snapshot.getIn(['data', 'connections', 'outgoing']) || [];
+    const incoming = snapshot.getIn(['data', 'connections', 'incoming']) || [];
 
-    snapshot.getIn(['data', 'connections', 'outgoing']).forEach(ip =>
-      ipArray.push(ip)
-    );
-
-    snapshot.getIn(['data', 'connections', 'incoming']).forEach(ip =>
-      ipArray.push(ip)
-    );
+    outgoing.concat(incoming).forEach(ip => ipArray.push(ip));
 
     return ipArray;
   },

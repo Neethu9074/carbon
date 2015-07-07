@@ -30,13 +30,12 @@ export default class Connection extends SceneObject {
     to.addIncomingConnection(this);
 
     this.render();
-    this.hide();
 
     allConnections.push(this);
   }
 
   onInitialEnter() {
-    //TODO: implement
+    this.getScene().lineFactory.enableFragment(this.id, false);
   }
 
   onInitialLeave() {
@@ -44,19 +43,41 @@ export default class Connection extends SceneObject {
   }
 
   onHighlightEnter() {
-    //TODO: implement
+    this.getScene().lineFactory.enableFragment(this.id);
+
+    // this.to.highlighting.setIndirectHighlight(false);
+    // this.from.highlighting.setIndirectHighlight(false);
   }
 
   onHighlightLeave() {
-    //TODO: implement
+    if(!this.to.isSelected() && !this.from.isSelected()) {
+      this.getScene().lineFactory.enableFragment(this.id, false);
+
+      // this.from.highlighting.clearIndirectHighlight();
+      // this.to.highlighting.clearIndirectHighlight();
+    }
   }
 
   onSelectedEnter() {
-    //TODO: implement
+    const scene = this.getScene();
+
+    scene.lineFactory.highlightFragment(this.id, true);
+
+    // this.to.highlighting.setIndirectHighlight(true);
+    // this.from.highlighting.setIndirectHighlight(true);
+
+    scene.renderScene();
   }
 
   onSelectedLeave() {
-    //TODO: implement
+    const scene = this.getScene();
+
+    scene.lineFactory.highlightFragment(this.id, false);
+
+    // this.from.highlighting.clearIndirectHighlight();
+    // this.to.highlighting.clearIndirectHighlight();
+
+    scene.renderScene();
   }
 
 
@@ -194,7 +215,8 @@ export default class Connection extends SceneObject {
   }
 
   intersects(raycaster) {
-    if(this.hidden) {
+    if(this.state === this.states.initial ||
+      this.state === this.states.inactive) {
       return false;
     }
 
@@ -209,53 +231,19 @@ export default class Connection extends SceneObject {
   }
 
   select() {
-    // this.changeStateProperty('selected', true);
-    const scene = this.getScene();
-
-    scene.lineFactory.highlightFragment(this.id, true);
-
-    // this.to.highlighting.setIndirectHighlight(true);
-    // this.from.highlighting.setIndirectHighlight(true);
-
-    scene.renderScene();
+    this.changeStateProperty('selected', true);
   }
 
   unSelect() {
-    // this.changeStateProperty('selected', false);
-    const scene = this.getScene();
-
-    scene.lineFactory.highlightFragment(this.id, false);
-
-    // this.from.highlighting.clearIndirectHighlight();
-    // this.to.highlighting.clearIndirectHighlight();
-
-    scene.renderScene();
+    this.changeStateProperty('selected', false);
   }
 
   show() {
-    // this.changeStateProperty('mouseOver', true);
-
-    if(this.hidden) {
-      super.show(); //set this.hidden = false
-
-      this.getScene().lineFactory.enableFragment(this.id);
-
-      // this.to.highlighting.setIndirectHighlight(false);
-      // this.from.highlighting.setIndirectHighlight(false);
-    }
+    this.changeStateProperty('mouseOver', true);
   }
 
   hide() {
-    // this.changeStateProperty('mouseOver', false);
-
-    if(!this.hidden && !this.to.isSelected() && !this.from.isSelected()) {
-      super.hide(); //set this.hidden = true
-
-      this.getScene().lineFactory.enableFragment(this.id, false);
-
-      // this.from.highlighting.clearIndirectHighlight();
-      // this.to.highlighting.clearIndirectHighlight();
-    }
+    this.changeStateProperty('mouseOver', false);
   }
 
   updateOfVisualComponents() {
