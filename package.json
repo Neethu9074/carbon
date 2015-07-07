@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "install": "proxrox install",
-    "clean": "gulp clean",
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
+    "clean": "gulp clean",
     "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
+    "install": "proxrox install",
     "prod": "export BUILD_DEV='false' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
     "test": "eslint --ext .es6 src/ gulpfile.js"
   },
@@ -64,6 +64,7 @@
     "less-loader": "^2.0.0",
     "mocha": "^2.2.4",
     "napa": "^1.2.0",
+    "node-libs-browser": "^0.5.2",
     "proxrox": "^1.4.0",
     "proxyquire": "^1.4.0",
     "raw-loader": "^0.5.1",
