@@ -34,6 +34,9 @@ module.exports = {
       test: /\.es6$/i,
       loader: 'babel'
     }, {
+      test: /\.djs$/,
+      loader: 'dogescript'
+    }, {
       test: /\.woff?$/,
       loader: 'url?limit=3000&mimetype=application/font-woff'
     }]

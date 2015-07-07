@@ -1,3 +1,5 @@
+/*global require:false*/
+
 'use strict';
 
 /*eslint-disable no-unused-vars*/
@@ -13,6 +15,8 @@ import App from './components/App';
 import Dashboard from './components/Dashboard';
 import SnapshotPane from './components/SnapshotPane';
 
+const DogePane = require('./components/DogePane/index.djs');
+
 export default (
   <Route name='map' path='/' handler={App}>
     <Route handler={Dashboard}
@@ -23,5 +27,8 @@ export default (
              path='snapshot-pane/'
              name='snapshot-pane'/>
     : null}
+    <Route handler={DogePane}
+           path='suchWow'
+           name='suchWow' />
   </Route>
 );
