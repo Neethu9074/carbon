@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import Immutable from 'immutable';
 
 import TooltipFrame from '../Frame';
 import Heading from '../Heading';
@@ -31,7 +32,7 @@ export default React.createClass({
     }
 
     let colorIndex = 0;
-    const colors = theme.chart.strokeColors.slice().reverse();
+    const colors = theme.chart.strokeColors;
     const listItems = values.map((value, index) => {
       const color = colors[colorIndex];
       colorIndex++;
