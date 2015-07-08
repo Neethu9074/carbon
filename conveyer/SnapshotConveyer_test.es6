@@ -40,6 +40,7 @@ describe('conveyer.SnapshotConveyer', () => {
   it('should subscribe via WebSocket connection', () => {
     conveyer = new SnapshotConveyer({pluginId: ec2});
     conveyer.start(onNext);
+    // once for snapshots and once for presence
     expect(connection.subscribe.calledTwice).to.equal(true);
     expect(connection.subscribe.getCall(0).args[0]).to.equal(conveyer.snapshotId);
     expect(connection.subscribe.getCall(0).args[1]).to.deep.equal({

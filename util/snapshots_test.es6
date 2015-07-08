@@ -32,6 +32,17 @@ describe('util.snapshots', () => {
       expect(Immutable.is(id1, extractId(newSnapshot(1)))).to.equal(true);
       expect(Immutable.is(id1, extractId(newSnapshot(2)))).to.equal(false);
     });
+
+    it('should extract IDs from standard JS objects', () => {
+      const id = extractId({
+        pluginId: 'p2',
+        hostId: 'h2',
+        steadyId: 's2'
+      });
+      expect(id.get('pluginId')).to.equal('p2');
+      expect(id.get('steadyId')).to.equal('s2');
+      expect(id.get('hostId')).to.equal('h2');
+    });
   });
 
   describe('isIdEqual', () => {

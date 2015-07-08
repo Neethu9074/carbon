@@ -12,18 +12,31 @@ import Immutable from 'immutable';
  * @returns {Immutable.Map} A map only with the three aforementioed properties.
  */
 export function extractId(snapshot) {
+  let id;
   /* eslint-disable new-cap */
-  const id = Immutable.Map({
-    hostId: snapshot.get('hostId'),
-    pluginId: snapshot.get('pluginId'),
-    steadyId: snapshot.get('steadyId')
-  });
+  if (Immutable.Map.isMap(snapshot)) {
+    id = Immutable.Map({
+      hostId: snapshot.get('hostId'),
+      pluginId: snapshot.get('pluginId'),
+      steadyId: snapshot.get('steadyId')
+    });
+  } else {
+    id = Immutable.Map({
+      hostId: snapshot.hostId,
+      pluginId: snapshot.pluginId,
+      steadyId: snapshot.steadyId
+    });
+  }
   /* eslint-enable new-cap */
 
+  /* eslint-disable max-len */
   // Snapshot IDs are considered equal when they have the same
   // hostId, pluginId and steadyId. By adding this equal function
   // we can make use Immutable.is' special behavior: It will use
   // an `equal` method on immutable objects when this method exists!
+  // See:
+  // https://github.com/facebook/immutable-js/blob/944187e9b4537968f4b688447c55f3af7b0dfd73/src/is.js#L82-L86
+  /* eslint-enable max-len */
   id.equal = isIdEqual.bind(null, id);
 
   return id;
