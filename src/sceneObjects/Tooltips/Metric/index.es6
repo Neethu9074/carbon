@@ -9,8 +9,6 @@ import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {subscribeToMetric} from '../../../metricUtils';
 import {getFormattedValue} from 'instana-ui-sdk/metrics';
 
-import './index.less';
-
 
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
