@@ -26,12 +26,16 @@ import MetricTooltip from '../../Tooltips/Metric';
 
 import '../less/demo.less';
 
-const metrics = Immutable.fromJS([
+const multiMetrics = Immutable.fromJS([
   {name: 'cpu.total.user', label: 'User'},
   {name: 'cpu.total.sys', label: 'System'},
   {name: 'cpu.total.wait', label: 'Wait'},
   {name: 'cpu.total.nice', label: 'Nice'},
   {name: 'cpu.total.steal', label: 'Steal'}
+]);
+
+const singleMetric = Immutable.fromJS([
+  {name: 'cpu.load', label: 'Load'}
 ]);
 
 window.React = React;
@@ -184,9 +188,13 @@ const Demo = React.createClass({
 
           <br/><br/>
 
-          <MetricTooltip metrics={metrics} values={[
+          <MetricTooltip metrics={multiMetrics} values={[
             0.1, 0.4, 0.3, 0.2, 0.0
           ]}/>
+
+          <br/><br/>
+          
+          <MetricTooltip metrics={singleMetric} values={[4.5]}/>
 
         </Tab>
 
