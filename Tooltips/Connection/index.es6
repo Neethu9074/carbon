@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react/addons';
-import _ from 'lodash';
 
 import TooltipFrame from '../Frame';
 import Heading from '../Heading';
@@ -9,7 +8,6 @@ import Content from '../Content';
 import Icon from '../../Icon';
 
 import {getColor} from 'instana-ui-sdk/zones';
-import {getIps} from 'instana-ui-sdk/snapshot';
 
 import './index.less';
 
@@ -33,7 +31,7 @@ export default React.createClass({
       const style = {color: getColor(zoneId)};
 
       return (
-        <li key={connection.id}>
+        <li key={connection.id} className='in-tooltip__connection-li'>
           <div className='in-tooltip__connections-li--wrapper'>
             <div className='in-tooltip__connections-li--arrow'>
               {connection.direction === 'out' ?

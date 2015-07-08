@@ -44,7 +44,7 @@ export default React.createClass({
       const metricLabel = metrics.getIn([index, 'label']);
 
       return (
-        <li key={metricName}>
+        <li key={metricName} className='in-tooltip__metric-li'>
           <div className='in-tooltip__metric-li--wrapper'>
             <Heading className={'in-tooltip__metric-li--name'} style={style}>
               {metricLabel}
