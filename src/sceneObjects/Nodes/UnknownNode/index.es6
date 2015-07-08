@@ -47,7 +47,8 @@ export default class Unknownnode extends BaseNode {
   getWiredSnapshots() {
     this.updateOnWiredSnapshots = true;
     const thisSnapShot = this.snapshot;
-    const matches = [];
+    const outgoing = [];
+    const incoming = [];
     this.getAllMapNodes()
       .filter(node => !node.isUnknown)
       .filter(node => !isIdEqual(thisSnapShot, node.snapshot))
@@ -57,19 +58,24 @@ export default class Unknownnode extends BaseNode {
           return;
         }
 
-        wired.get('outgoing').concat(wired.get('incoming'))
-          .forEach(wiredSnapshot => {
-            if(isIdEqual(thisSnapShot, wiredSnapshot)) {
-              matches.push(node.snapshot);
-            }
-          });
+        wired.get('outgoing').forEach(wiredSnapshot => {
+          if(isIdEqual(thisSnapShot, wiredSnapshot)) {
+            outgoing.push(node.snapshot);
+          }
+        });
+
+        wired.get('incoming').forEach(wiredSnapshot => {
+          if(isIdEqual(thisSnapShot, wiredSnapshot)) {
+            incoming.push(node.snapshot);
+          }
+        });
       });
 
     /* eslint-disable new-cap */
     const map = Immutable.Map().asMutable();
     /* eslint-enable new-cap */
-    map.set('outgoing', matches);
-    map.set('incoming', []);
+    map.set('outgoing', outgoing);
+    map.set('incoming', incoming);
     return map.asImmutable();
   }
 
