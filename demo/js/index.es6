@@ -16,6 +16,14 @@ import SnapshotIconDemo from './SnapshotIconDemo';
 import ChartDemo from './ChartDemo';
 import Button from '../../Button';
 
+//tooltips
+import TooltipFrame from '../../Tooltips/Frame';
+import Heading from '../../Tooltips/Heading';
+import Content from '../../Tooltips/Content';
+import StatusLine from '../../Tooltips/StatusLine';
+
+//stickynotes
+
 import '../less/demo.less';
 
 window.React = React;
@@ -128,6 +136,36 @@ const Demo = React.createClass({
           <Lettering />
         </Tab>
 
+        <Tab title='Tooltips'>
+
+          <TooltipFrame>
+            Hallo Tooltip
+          </TooltipFrame>
+
+          <br/><br/>
+
+          <TooltipFrame>
+            <Heading>with header</Heading>
+            <Content>and content</Content>
+          </TooltipFrame>
+
+          <br/><br/>
+
+          <TooltipFrame>
+            <StatusLine left={'192.168.0.1'} right={'few sec ago'}/>
+            <Heading>
+              your machine is going to explode
+            </Heading>
+            <Content>
+              throw your hands in the air, start crying and run in circles.
+            </Content>
+          </TooltipFrame>
+
+        </Tab>
+
+        <Tab title='StickyNotes'>
+          Wat geht
+        </Tab>
 
         <Tab title='Toast'>
           <button onClick={this.showToast}>Show Toast</button>
