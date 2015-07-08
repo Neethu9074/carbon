@@ -1,0 +1,81 @@
+'use strict';
+
+import React from 'react/addons';
+import _ from 'lodash';
+
+import TooltipFrame from '../Frame';
+import Heading from '../Heading';
+import Content from '../Content';
+import Icon from '../../Icon';
+
+import {getColor} from 'instana-ui-sdk/zones';
+import {getIps} from 'instana-ui-sdk/snapshot';
+
+import './index.less';
+
+
+/*eslint-disable no-unused-vars*/
+export default React.createClass({
+
+  mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    connections: React.PropTypes.array.isRequired
+  },
+
+  render() {
+    const maxCon = 3;
+    const connections = this.props.connections;
+    const numConnections = connections.length;
+    const listItems = connections.slice(0, maxCon).map((connection, index) => {
+      const ip = connection.to.ip;
+      const zoneId = connection.to.zone;
+      const style = {color: getColor(zoneId)};
+
+      return (
+        <li key={connection.id}>
+          <div className='in-tooltip__connections-li--wrapper'>
+            <div className='in-tooltip__connections-li--arrow'>
+              {connection.direction === 'out' ?
+                <Icon type={'arrow_left'} style={{fontSize: '25px'}}/> :
+                <Icon type={'arrow_right'} style={{fontSize: '25px'}}/>
+              }
+            </div>
+            <Heading className={'in-tooltip__connections-li--header'}
+                     style={style}>
+              {zoneId}
+            </Heading>
+            <Content className='in-tooltip__connections-li--ip'>
+              {ip}
+            </Content>
+          </div>
+        </li>
+      );
+    });
+
+    if(numConnections > maxCon) {
+      listItems.push(
+        <li key={'unique'} className='in-tooltip__connections__li'>
+          <div className='in-tooltip__connections-li--wrapper'>
+            <Content>
+              {numConnections - maxCon} more
+            </Content>
+          </div>
+        </li>
+      );
+    }
+
+    return (
+      <TooltipFrame>
+        <Heading>
+          {numConnections + ' connection'.toUpperCase() +
+            (numConnections === 1 ? '' : 'S')}
+        </Heading>
+        <ul className='in-tooltip__connections-ul'>
+          {listItems}
+        </ul>
+      </TooltipFrame>
+    );
+  }
+});
+/*eslint-enable no-unused-vars*/

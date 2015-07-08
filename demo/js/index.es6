@@ -21,10 +21,18 @@ import TooltipFrame from '../../Tooltips/Frame';
 import Heading from '../../Tooltips/Heading';
 import Content from '../../Tooltips/Content';
 import StatusLine from '../../Tooltips/StatusLine';
-
-//stickynotes
+import ConnectionTooltip from '../../Tooltips/Connection';
+import MetricTooltip from '../../Tooltips/Metric';
 
 import '../less/demo.less';
+
+const metrics = Immutable.fromJS([
+  {name: 'cpu.total.user', label: 'User'},
+  {name: 'cpu.total.sys', label: 'System'},
+  {name: 'cpu.total.wait', label: 'Wait'},
+  {name: 'cpu.total.nice', label: 'Nice'},
+  {name: 'cpu.total.steal', label: 'Steal'}
+]);
 
 window.React = React;
 
@@ -69,7 +77,6 @@ const Demo = React.createClass({
       })
     };
   },
-
 
   render: function() {
     return (
@@ -160,6 +167,28 @@ const Demo = React.createClass({
               throw your hands in the air, start crying and run in circles.
             </Content>
           </TooltipFrame>
+
+          <br/><br/>
+
+          <ConnectionTooltip connections={
+            [
+              {id:0, direction:'out', to:{ip:'192.168.0.1', zone:'unknown'}},
+              {id:1, direction:'in', to:{ip:'192.168.0.2', zone:'zone 2'}}
+            ]
+          }/>
+
+          <ConnectionTooltip connections={[
+            {id:0, direction:'out', to:{ip:'192.168.0.1', zone:'unknown'}},
+            {id:1, direction:'in', to:{ip:'192.168.0.2', zone:'zone 2'}},
+            {id:2, direction:'in', to:{ip:'192.168.0.3', zone:'zone 3'}},
+            {id:3, direction:'in', to:{ip:'192.168.0.4', zone:'zone 3'}}
+          ]}/>
+
+          <br/><br/>
+
+          <MetricTooltip metrics={metrics} values={[
+            0.1, 0.4, 0.3, 0.2, 0.0
+          ]}/>
 
         </Tab>
 
