@@ -5,6 +5,7 @@ import * as ssos from '../../../stores/selectedSceneObject';
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import Immutable from 'immutable';
+import TooltipUnknownNode from '../../Tooltips/UnknownNode';
 
 
 export default class Unknownnode extends BaseNode {
@@ -35,6 +36,10 @@ export default class Unknownnode extends BaseNode {
     this.stickyNote.showPlus(false);
 
     super.unSelected();
+  }
+
+  getTooltipSticky() {
+    return new TooltipUnknownNode(this);
   }
 
   setWiredStickiesActive() {}
