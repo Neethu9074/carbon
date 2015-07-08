@@ -51,16 +51,12 @@ export default React.createClass({
       );
     });
 
+    let footer = null;
     if(numConnections > maxCon) {
-      listItems.push(
-        <li key={'unique'} className='in-tooltip__connections__li'>
-          <div className='in-tooltip__connections-li--wrapper'>
-            <Content>
-              {numConnections - maxCon} more
-            </Content>
-          </div>
-        </li>
-      );
+      footer = (
+        <Content className='in-tooltip__connections-footer'>
+          {numConnections - maxCon} more
+        </Content>);
     }
 
     return (
@@ -72,6 +68,7 @@ export default React.createClass({
         <ul className='in-tooltip__connections-ul'>
           {listItems}
         </ul>
+        {footer}
       </TooltipFrame>
     );
   }

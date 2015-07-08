@@ -170,18 +170,16 @@ const Demo = React.createClass({
 
           <br/><br/>
 
-          <ConnectionTooltip connections={
-            [
-              {id:0, direction:'out', to:{ip:'192.168.0.1', zone:'unknown'}},
-              {id:1, direction:'in', to:{ip:'192.168.0.2', zone:'zone 2'}}
-            ]
-          }/>
+          <ConnectionTooltip connections={[
+            {id: 0, direction: 'out', to: {ip: '192.168.0.1', zone: 'unknown'}},
+            {id: 1, direction: 'in', to: {ip: '192.168.0.2', zone: 'zone 2'}}
+          ]}/>
 
           <ConnectionTooltip connections={[
-            {id:0, direction:'out', to:{ip:'192.168.0.1', zone:'unknown'}},
-            {id:1, direction:'in', to:{ip:'192.168.0.2', zone:'zone 2'}},
-            {id:2, direction:'in', to:{ip:'192.168.0.3', zone:'zone 3'}},
-            {id:3, direction:'in', to:{ip:'192.168.0.4', zone:'zone 3'}}
+            {id: 0, direction: 'out', to: {ip: '192.168.0.1', zone: 'unknown'}},
+            {id: 1, direction: 'in', to: {ip: '192.168.0.2', zone: 'zone 2'}},
+            {id: 2, direction: 'in', to: {ip: '192.168.0.3', zone: 'zone 3'}},
+            {id: 3, direction: 'in', to: {ip: '192.168.0.4', zone: 'zone 3'}}
           ]}/>
 
           <br/><br/>
