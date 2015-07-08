@@ -7,8 +7,6 @@ import Tooltip from '../Tooltip';
 import ConnectionTooltip from 'instana-ui-components/Tooltips/Connection';
 import {getIps} from 'instana-ui-sdk/snapshot';
 
-import './index.less';
-
 
 /*eslint-disable no-unused-vars*/
 const StickyNoteRC = React.createClass({
