@@ -47,40 +47,20 @@ export default class Connection extends SceneObject {
 
   onHighlightEnter() {
     this.getScene().lineFactory.enableFragment(this.id);
-
-    // this.to.highlighting.setIndirectHighlight(false);
-    // this.from.highlighting.setIndirectHighlight(false);
   }
 
   onHighlightLeave() {
     if(!this.to.isSelected() && !this.from.isSelected()) {
       this.getScene().lineFactory.enableFragment(this.id, false);
-
-      // this.from.highlighting.clearIndirectHighlight();
-      // this.to.highlighting.clearIndirectHighlight();
     }
   }
 
   onSelectedEnter() {
-    const scene = this.getScene();
-
-    scene.lineFactory.highlightFragment(this.id, true);
-
-    // this.to.highlighting.setIndirectHighlight(true);
-    // this.from.highlighting.setIndirectHighlight(true);
-
-    scene.renderScene();
+    this.getScene().lineFactory.highlightFragment(this.id, true);
   }
 
   onSelectedLeave() {
-    const scene = this.getScene();
-
-    scene.lineFactory.highlightFragment(this.id, false);
-
-    // this.from.highlighting.clearIndirectHighlight();
-    // this.to.highlighting.clearIndirectHighlight();
-
-    scene.renderScene();
+    this.getScene().lineFactory.highlightFragment(this.id, false);
   }
 
 

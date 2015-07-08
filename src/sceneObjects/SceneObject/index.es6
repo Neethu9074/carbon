@@ -90,6 +90,9 @@ export default class SceneObject {
       oldState.leave();
       this.state = newState;
       newState.enter();
+
+      //to show changes on the state, render scene
+      this.getScene().renderScene();
     }
   }
 

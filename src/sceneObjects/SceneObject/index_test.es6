@@ -30,6 +30,7 @@ class SpecificSceneObject extends SceneObject {
   onSelectedLeave() {this.getOrCreateStub('onSelectedLeaveStub')(); }
   onInactiveEnter() {this.getOrCreateStub('onInactiveEnterStub')(); }
   onInactiveLeave() {this.getOrCreateStub('onInactiveLeaveStub')(); }
+  getScene() {return {renderScene() {}}; }
 }
 
 describe('3D map', () => {
