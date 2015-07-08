@@ -193,7 +193,7 @@ const Demo = React.createClass({
           ]}/>
 
           <br/><br/>
-          
+
           <MetricTooltip metrics={singleMetric} values={[4.5]}/>
 
         </Tab>
