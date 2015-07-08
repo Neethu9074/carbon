@@ -76,18 +76,14 @@ export default class Scene {
 
       } else {
         currentMetrics = metric.get('metrics');
-        // eventBus.emit('setHullsInactive', true);
-        this.singleMeshFactory.material.opacity = 0.4;
-        this.singleMeshFactory.material.transparent = true;
-
-        this.hullsAreInactive = true;
+        eventBus.emit('setHullsInactive', true);
         this.showMetrics();
       }
     }));
 
     this.subscriptions.push(eventBus.on('setHullsInactive').subscribe((e) => {
       if(e) {
-        this.singleMeshFactory.material.opacity = 0.4;
+        this.singleMeshFactory.material.opacity = 0.2;
         this.singleMeshFactory.material.transparent = true;
 
         this.hullsAreInactive = true;
@@ -109,7 +105,7 @@ export default class Scene {
     this.groundSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 2});
     this.groundSingleMeshFactory.material.transparent = true;
-    this.groundSingleMeshFactory.material.opacity = 0.4;
+    this.groundSingleMeshFactory.material.opacity = 0.2;
 
     this.highlightingSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 4});
@@ -342,14 +338,15 @@ export default class Scene {
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
 
-    this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
-    this.highlightingSingleMeshFactory.material.transparent =
-      (zoomLevel < maxZoomOut);
+    this.highlightingSingleMeshFactory.material.opacity = Math.min(0.9, normedZoomLevel);
+    this.highlightingSingleMeshFactory.material.transparent = true;
 
     //if there is no cube isSelected, fade all cubes by distance
     if(!this.hullsAreInactive) {
-      this.singleMeshFactory.material.opacity = normedZoomLevel;
-      this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
+      this.singleMeshFactory.material.opacity = Math.min(0.9, normedZoomLevel);
+      this.singleMeshFactory.material.transparent = true;
+
+      // this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
     }
   }
 

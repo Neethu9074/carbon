@@ -2,16 +2,17 @@
 
 import React from 'react/addons';
 import Immutable from 'immutable';
+import moment from 'moment';
 import Tooltip from '../Tooltip';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {health} from 'instana-ui-services/health';
 import {getProblemsForSnapshot} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
-import TooltipFrame from '../index';
-import IssueStatusLine from '../IssueStatusLine';
-import Heading from '../Heading';
-import Content from '../Content';
+import TooltipFrame from 'instana-ui-components/Tooltips/Frame';
+import IssueStatusLine from 'instana-ui-components/Tooltips/StatusLine';
+import Heading from 'instana-ui-components/Tooltips/Heading';
+import Content from 'instana-ui-components/Tooltips/Content';
 
 import './index.less';
 
@@ -43,17 +44,19 @@ const StickyNoteRC = React.createClass({
   getStatusLine() {
     const state = this.state;
     const nodeHealth = state.health;
-    const issues = state.issues.sortBy(problem => problem.get('severity'));
+    const issues = state.issues
+      .sortBy(problem => problem.get('severity'))
+      .reverse();
     const data = this.props.snapshot.get('data');
 
     //only show the status line if there is a "bad" health or some issues
     if(nodeHealth !== health.ok && this.issuesAvailable()) {
         try {
           return (<IssueStatusLine
-            hostname={data.get('hostname')}
-            time={issues.get(0).get('start')} />);
+            left={data.get('hostname')}
+            right={moment(issues.get(0).get('start')).fromNow()}/>);
         } catch (err) {
-          return <IssueStatusLine hostname={data.get('hostname')} />;
+          return <IssueStatusLine left={data.get('hostname')} />;
         }
     }
     return null;

@@ -4,8 +4,12 @@
   position: absolute;
   top: 0;
 
+  margin: 0;
+  padding: 0;
+
   color: white;
-  white-space: nowrap;
+
+  opacity: 0.75;
 
   z-index: @z-index__sticky-notes;
 
@@ -18,12 +22,17 @@
 }
 
 .in-sticky-note__group__content {
-  margin-left: 10px;
-  margin-top: 10px;
+  margin: 7px;
+
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+
+  opacity: 0.75;
 
   color: #2d454c;
 
   border-radius: 2px;
 
-  padding: 5px;
+  padding: 3px 5px 2px 5px;
 }

@@ -174,6 +174,9 @@ export default class BaseNode extends SceneObject {
 
     this.scene.setSelectedObject(this);
     this.setHighlight();
+
+    this.scene.highlightingSingleMeshFactory
+      .addFragment(this.getNodeAsFragment());
   }
 
   unSelected() {
@@ -181,6 +184,9 @@ export default class BaseNode extends SceneObject {
     this.clearHighlight();
 
     this.forEachConnection((c) => {c.hide(); c.unSelect(); });
+
+    this.scene.highlightingSingleMeshFactory
+      .removeFragment(this.id);
   }
 
   updateOfVisualComponents() {

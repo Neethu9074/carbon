@@ -3,8 +3,8 @@
 import React from 'react/addons';
 import Tooltip from '../Tooltip';
 
-import TooltipFrame from '../index';
-import Heading from '../Heading';
+import TooltipFrame from 'instana-ui-components/Tooltips/Frame';
+import Heading from 'instana-ui-components/Tooltips/Heading';
 
 import {getColor} from 'instana-ui-sdk/tags';
 

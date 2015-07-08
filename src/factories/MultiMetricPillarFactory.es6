@@ -15,11 +15,11 @@ const availableColors = (() => {
   const colors = [];
   const converter = new THREE.Color();
 
-  fillIn(colors, converter, theme.chart.strokeColors[0]);
-  fillIn(colors, converter, theme.chart.strokeColors[1]);
-  fillIn(colors, converter, theme.chart.strokeColors[2]);
-  fillIn(colors, converter, theme.chart.strokeColors[3]);
   fillIn(colors, converter, theme.chart.strokeColors[4]);
+  fillIn(colors, converter, theme.chart.strokeColors[3]);
+  fillIn(colors, converter, theme.chart.strokeColors[2]);
+  fillIn(colors, converter, theme.chart.strokeColors[1]);
+  fillIn(colors, converter, theme.chart.strokeColors[0]);
 
   return colors;
 })();

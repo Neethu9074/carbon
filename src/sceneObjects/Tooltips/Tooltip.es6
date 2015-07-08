@@ -9,7 +9,7 @@ export default class Tooltip {
     this.parent = parent;
 
     this.stickyNoteContainer = document.createElement('div');
-    this.stickyNoteContainer.classList.add('in-tooltip__frame');
+    this.stickyNoteContainer.classList.add('fix');
     parent.getHtmlContainer().appendChild(this.stickyNoteContainer);
 
     this.style = this.stickyNoteContainer.style;

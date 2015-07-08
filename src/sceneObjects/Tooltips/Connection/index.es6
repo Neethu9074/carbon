@@ -4,12 +4,7 @@ import React from 'react/addons';
 import _ from 'lodash';
 
 import Tooltip from '../Tooltip';
-import TooltipFrame from '../index';
-import Heading from '../Heading';
-import Content from '../Content';
-import Icon from 'instana-ui-components/Icon';
-
-import {getColor} from 'instana-ui-sdk/zones';
+import ConnectionTooltip from 'instana-ui-components/Tooltips/Connection';
 import {getIps} from 'instana-ui-sdk/snapshot';
 
 import './index.less';
@@ -53,58 +48,18 @@ const StickyNoteRC = React.createClass({
   },
 
   render() {
-    const maxCon = 3;
-    const connections = this.props.connections;
-    const numConnections = connections.length;
-    const listItems = connections.slice(0, maxCon).map((connection, index) => {
-      const ip = this.getOneOfConnectedIps(connection.from, connection.to);
-      const zoneId = connection.to.parent.id;
-      const style = {color: getColor(zoneId)};
-
-      return (
-        <li key={connection.id} className='in-tooltip__connections-li'>
-          <div className='in-tooltip__connections-li--wrapper'>
-            <div className='in-tooltip__connections-li--arrow'>
-              {connection.direction === 'out' ?
-                <Icon type={'arrow_left'} style={{fontSize: '25px'}}/> :
-                <Icon type={'arrow_right'} style={{fontSize: '25px'}}/>
-              }
-            </div>
-            <Heading className={'in-tooltip__connections-li--header'}
-                     style={style}>
-              {zoneId}
-            </Heading>
-            <Content className='in-tooltip__connections-li--ip'>
-              {ip}
-            </Content>
-          </div>
-        </li>
-      );
+    const listItems = this.props.connections.map((connection, index) => {
+      return {
+        id: connection.id,
+        direction: connection.direction,
+        to: {
+          ip: this.getOneOfConnectedIps(connection.from, connection.to),
+          zone: connection.to.parent.id
+        }
+      };
     });
 
-    if(numConnections > maxCon) {
-      listItems.push(
-        <li key={'unique'} className='in-tooltip__connections__li'>
-          <div className='in-tooltip__connections-li--wrapper'>
-            <Content>
-              {numConnections - maxCon} more
-            </Content>
-          </div>
-        </li>
-      );
-    }
-
-    return (
-      <TooltipFrame>
-        <Heading>
-          {numConnections + ' connection'.toUpperCase() +
-            (numConnections === 1 ? '' : 'S')}
-        </Heading>
-        <ul className='in-tooltip__connections-ul'>
-          {listItems}
-        </ul>
-      </TooltipFrame>
-    );
+    return (<ConnectionTooltip connections={listItems}/>);
   }
 });
 /*eslint-enable no-unused-vars*/
@@ -114,7 +69,6 @@ export default class TooltipConnection extends Tooltip {
     super(parent);
 
     this.hovered = hovered;
-
     this.render(hovered);
   }
 

@@ -53,6 +53,12 @@ export default class NodeHighlight extends Highlight {
       {x: toX, y: 0, z: toZ},
       {x: fromX, y: 0, z: toZ},
 
+      {x: fromX, y: 0, z: toZ},
+      {x: fromX, y: 0, z: fromZ},
+
+      {x: fromX, y: 0, z: fromZ},
+      {x: toX, y: 0, z: fromZ},
+
       {x: toX, y: 0, z: fromZ},
       {x: toX, y: height, z: fromZ},
 
@@ -105,8 +111,8 @@ export default class NodeHighlight extends Highlight {
 
     factory.addFragment({id: client.id, points, highlighted: isSelected});
 
-    client.scene.highlightingSingleMeshFactory
-      .addFragment(client.getNodeAsFragment());
+    // client.scene.highlightingSingleMeshFactory
+    //   .addFragment(client.getNodeAsFragment());
 
     client.stickyNote.setInactive(false);
   }
@@ -121,11 +127,11 @@ export default class NodeHighlight extends Highlight {
 
     //remove frame on the ground
     client.scene.lineFactory.removeFragment(client.id);
-    client.scene.highlightingSingleMeshFactory.removeFragment(client.id);
+    // client.scene.highlightingSingleMeshFactory.removeFragment(client.id);
 
-    if(client.isAnySnapshotSelected()) {
-      client.stickyNote.setInactive(true);
-    }
+    // if(client.isAnySnapshotSelected()) {
+    //   client.stickyNote.setInactive(true);
+    // }
   }
 
   refreshConnections() {
