@@ -24,6 +24,14 @@ describe('util.snapshots', () => {
       expect(id.get('steadyId')).to.equal('s1');
       expect(id.get('hostId')).to.equal('h1');
     });
+
+    it('should expose an equal function on snapshot ids', () => {
+      const id1 = extractId(newSnapshot(1));
+      expect(id1.equal).to.be.a('function');
+
+      expect(Immutable.is(id1, extractId(newSnapshot(1)))).to.equal(true);
+      expect(Immutable.is(id1, extractId(newSnapshot(2)))).to.equal(false);
+    });
   });
 
   describe('isIdEqual', () => {
