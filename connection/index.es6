@@ -80,6 +80,12 @@ function ping() {
     // if this ever gets called, then the pong message was not received in
     // time and we just try to reconnect.
     if (isOpen()) {
+      try {
+        connection.close();
+      } catch (_) {
+        // any errors can be safely ignored since the connection is broken
+        // anyway
+      }
       onClose();
     }
   }, pingTimeout);
