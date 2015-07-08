@@ -57,32 +57,7 @@ export default class MouseControl extends TouchController {
   onMouseMove(e) {
     e.preventDefault();
 
-    const x = this.cursor.x;
-    const y = this.cursor.y;
-    this.cursor.x = e.clientX;
-    this.cursor.y = e.clientY;
-
-    const hitten = this.hittenObject;
-    this.getObjectOnCursor();
-
-    //if there is a hitten object
-    if(this.hittenObject) {
-      //if this is a new hitten object
-      if(hitten !== this.hittenObject) {
-        //if the new differs from the old and the old is valid
-        if(hitten) {
-          hitten.parentSceneObject.onHighlight(false);
-        }
-        this.hittenObject.parentSceneObject.onHighlight(true);
-      }
-      //if there is actually not hitten but it was last frame
-    } else if(!this.hittenObject && hitten) {
-      hitten.parentSceneObject.onHighlight(false);
-    }
-
-    this.scene.handleHoveredConnetions(this.raycaster);
-
-    this.cursor.x = x;
-    this.cursor.y = y;
+    this.lastMousePosition = {x: e.clientX, y: e.clientY};
+    this.handleRayCasting();
   }
 }

@@ -162,12 +162,34 @@ export default class CameraController {
     //TODO: clamp the position to avoid overflow of the level area
   }
 
+  handleRayCasting() {
+    const hitten = this.hittenObject;
+    this.getObjectOnCursor();
+
+    //if there is a hitten object
+    if(this.hittenObject) {
+      //if this is a new hitten object
+      if(hitten !== this.hittenObject) {
+        //if the new differs from the old and the old is valid
+        if(hitten) {
+          hitten.parentSceneObject.onHighlight(false);
+        }
+        this.hittenObject.parentSceneObject.onHighlight(true);
+      }
+      //if there is actually not hitten but it was last frame
+    } else if(!this.hittenObject && hitten) {
+      hitten.parentSceneObject.onHighlight(false);
+    }
+
+    this.scene.handleHoveredConnetions(this.raycaster);
+  }
+
   getObjectOnCursor() {
     const scene = this.scene;
 
     //get the mouse/touch position in pixel coords
-    const x = this.cursor.x;
-    const y = this.cursor.y;
+    const x = this.lastMousePosition.x;
+    const y = this.lastMousePosition.y;
 
     //transform into screen space
     this.cursorForRay.x = (x / scene.width) * 2 - 1;
