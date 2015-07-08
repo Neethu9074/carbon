@@ -27,7 +27,7 @@ const StickyNoteRC = React.createClass({
       <div className='in-sticky-note__note__unknown-node--stack-wrapper'>
         <div className='in-sticky-note__note__unknown-node--stack-children'>
           {this.props.showIp ?
-            snapshot.get('steadyId') :
+            null :
             <Button/>
           }
         </div>
