@@ -420,6 +420,9 @@ export default class Scene {
     allConnections.forEach(connection => {
       if(connection.intersects(raycaster)) {
         hovered.push(connection);
+        connection.onHighlight(true);
+      } else {
+        connection.onHighlight(false);
       }
     });
 

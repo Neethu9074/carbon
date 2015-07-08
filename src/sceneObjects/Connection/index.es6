@@ -4,8 +4,11 @@ import THREE from 'three';
 import _ from 'lodash';
 import SceneObject from '../SceneObject/index';
 import ConnectionGrid from '../../ConnectionGrid';
+import {hexToRGBNormalized} from 'instana-ui-services/converters';
 import * as app from '../../Scene';
 
+const highlightColor = hexToRGBNormalized('#BFBFBF');
+const mouseOverColor = hexToRGBNormalized('#FFFFFF');
 export const allConnections = [];
 let id = 0;
 
@@ -39,7 +42,7 @@ export default class Connection extends SceneObject {
   }
 
   onInitialLeave() {
-    //TODO: implement
+    //TODO: implement if there is something to do
   }
 
   onHighlightEnter() {
@@ -99,9 +102,11 @@ export default class Connection extends SceneObject {
     }
 
     this.points = this.calculateVertices(-0.01);
-
-    const factory = this.getScene().lineFactory;
-    factory.addFragment({id: this.id, points: this.points});
+    this.getScene().lineFactory.addFragment({
+      id: this.id,
+      points: this.points,
+      highlightColor
+    });
 
     //hide this if the parent is hidden
     if(this.from.hidden || this.to.hidden) {
@@ -244,6 +249,21 @@ export default class Connection extends SceneObject {
 
   hide() {
     this.changeStateProperty('mouseOver', false);
+  }
+
+  onHighlight(highlighted) {
+    if(highlighted && !this.isMouseOver) {
+      const scene = this.getScene();
+      this.isMouseOver = true;
+      scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
+      scene.renderScene();
+
+    } else if(!highlighted && this.isMouseOver) {
+      const scene = this.getScene();
+      this.isMouseOver = false;
+      scene.lineFactory.addFragment({id: this.id, highlightColor});
+      scene.renderScene();
+    }
   }
 
   updateOfVisualComponents() {

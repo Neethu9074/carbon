@@ -6,7 +6,7 @@ import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
 
 const defaultColor = hexToRGBNormalized('#6c7b83');
-const highlightColor = hexToRGBNormalized('#FFFFFF');
+const defaultHighlightColor = hexToRGBNormalized('#FFFFFF');
 
 let index = 0;
 
@@ -32,18 +32,23 @@ export default class LineFactory extends AbstractMeshCreationFactory {
     this.globalMesh.frustumCulled = false;
   }
 
-  addFragment({id, points, highlighted, color, enabled = true}) {
+  addFragment({id, points, highlighted, highlightColor, color, enabled = true}) {
     const match = this.getFragment(id);
     if(match) {
-      match.points = points;
-      match.color = color;
-      match.highlighted = highlighted;
+      match.points = points || match.points;
+      match.color = color || match.color;
+      match.highlighted = highlighted || match.highlighted;
+      match.highlightColor = highlightColor || match.highlightColor;
+
+      //rebuild on property change
+      this.rebuild();
 
     } else {
       super.addFragment({
         id, //is needed to identify the fragment when deleting
         points,
         highlighted,
+        highlightColor,
         color,
         enabled
       });
@@ -98,7 +103,7 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   getFragmentColor(fragment) {
     //if the fragment is highlighted -> use highlightColor
     if(fragment.highlighted) {
-      return highlightColor;
+      return fragment.highlightColor || defaultHighlightColor;
     }
     return fragment.color || defaultColor;
   }
