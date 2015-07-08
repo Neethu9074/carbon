@@ -8,15 +8,15 @@ const logger = createLogger('ui-map.sceneObject');
 
 const stateLUT = {
   lut: [
-    //mouseOver, selected, active
-    [[false, false, false], 'inactive'],
-    [[false, false, true], 'initial'],
-    [[false, true, false], 'inactive'],
-    [[false, true, true], 'selected'],
-    [[true, false, false], 'inactive'],
-    [[true, false, true], 'highlighted'],
-    [[true, true, false], 'inactive'],
-    [[true, true, true], 'selected']
+    //mouseOver,  selected,   active       result state
+    [[false, /**/ false, /**/ true], /* */ 'initial'],
+    [[false, /**/ true, /* */ true], /* */ 'selected'],
+    [[true, /* */ false, /**/ true], /* */ 'highlighted'],
+    [[true, /* */ true, /* */ true], /* */ 'selected'],
+    [[false, /**/ true, /* */ false], /**/ 'inactive'],
+    [[true, /* */ false, /**/ false], /**/ 'inactive'],
+    [[true, /* */ true, /* */ false], /**/ 'inactive'],
+    [[false, /**/ false, /**/ false], /**/ 'inactive']
   ],
 
   getStateFromLut({mouseOver, selected, active, states}) {

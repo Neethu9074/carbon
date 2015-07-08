@@ -9,10 +9,10 @@ export default class InactiveState extends State {
   }
 
   enter() {
-    this.onInactiveEnter();
+    this.owner.onInactiveEnter();
   }
 
   leave() {
-    this.onInactiveLeave();
+    this.owner.onInactiveLeave();
   }
 }
