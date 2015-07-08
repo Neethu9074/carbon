@@ -62,8 +62,7 @@ export default React.createClass({
     return (
       <TooltipFrame>
         <Heading>
-          {numConnections + ' connection'.toUpperCase() +
-            (numConnections === 1 ? '' : 'S')}
+          {numConnections + ' connection' + (numConnections === 1 ? '' : 'S')}
         </Heading>
         <ul className='in-tooltip__connections-ul'>
           {listItems}
