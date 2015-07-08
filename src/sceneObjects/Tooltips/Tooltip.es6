@@ -3,13 +3,15 @@
 import React from 'react';
 import eventBus from 'instana-ui-services/eventbus';
 
+import './Tooltip.less';
+
 
 export default class Tooltip {
   constructor(parent) {
     this.parent = parent;
 
     this.stickyNoteContainer = document.createElement('div');
-    this.stickyNoteContainer.classList.add('fix');
+    this.stickyNoteContainer.classList.add('in-tooltip');
     parent.getHtmlContainer().appendChild(this.stickyNoteContainer);
 
     this.style = this.stickyNoteContainer.style;
