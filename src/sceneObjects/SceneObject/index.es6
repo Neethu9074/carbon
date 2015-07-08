@@ -7,17 +7,19 @@ import {createLogger} from 'instalog';
 const logger = createLogger('ui-map.sceneObject');
 
 const stateLUT = {
+/*eslint-disable no-multi-spaces*/
   lut: [
-    //mouseOver,  selected,   active       result state
-    [[false, /**/ false, /**/ true], /* */ 'initial'],
-    [[false, /**/ true, /* */ true], /* */ 'selected'],
-    [[true, /* */ false, /**/ true], /* */ 'highlighted'],
-    [[true, /* */ true, /* */ true], /* */ 'selected'],
-    [[false, /**/ true, /* */ false], /**/ 'inactive'],
-    [[true, /* */ false, /**/ false], /**/ 'inactive'],
-    [[true, /* */ true, /* */ false], /**/ 'inactive'],
-    [[false, /**/ false, /**/ false], /**/ 'inactive']
+    //mouseOver,  selected,   active    result state
+    [[false,      false,      true],    'initial'],
+    [[false,      true,       true],    'selected'],
+    [[true,       false,      true],    'highlighted'],
+    [[true,       true,       true],    'selected'],
+    [[false,      true,       false],   'inactive'],
+    [[true,       false,      false],   'inactive'],
+    [[true,       true,       false],   'inactive'],
+    [[false,      false,      false],   'inactive']
   ],
+/*eslint-enable no-multi-spaces*/
 
   getStateFromLut({mouseOver, selected, active, states}) {
     for (let i = 0; i < this.lut.length; i++) {
