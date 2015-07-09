@@ -4,7 +4,6 @@ import _ from 'lodash';
 import THREE from 'three';
 
 import SceneObject from '../SceneObject/index';
-import {getScene} from '../../Scene';
 import Node from '../Nodes/Node/index';
 import UnknownNode from '../Nodes/UnknownNode/index';
 import StickyNote from '../StickyNote/Ground';
@@ -156,7 +155,7 @@ export default class Group extends SceneObject {
 
   refreshGroundGeometry() {
     const color = hexToRGBNormalized(getColor(this.id) || 0xFFFFFF);
-    const lineFactory = getScene().lineFactory;
+    const lineFactory = this.scene.lineFactory;
     const size = this.size;
     const pos = this.getPosition();
     const points = new VATOCM({
@@ -188,7 +187,7 @@ export default class Group extends SceneObject {
   dispose() {
     this.children.forEach(node => node.dispose());
 
-    getScene().lineFactory.removeFragment(this.id);
+    this.scene.lineFactory.removeFragment(this.id);
     this.removeCollisionObject(this.collisionPlane);
 
     super.dispose();

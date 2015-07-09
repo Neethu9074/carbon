@@ -5,7 +5,6 @@ import _ from 'lodash';
 import SceneObject from '../SceneObject';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
-import {getScene} from '../../Scene';
 import eventBus from 'instana-ui-services/eventbus';
 
 const highlightColor = hexToRGBNormalized('#BFBFBF');
@@ -42,7 +41,7 @@ export default class Connection extends SceneObject {
   }
 
   onInitialEnter() {
-    getScene().lineFactory.enableFragment(this.id, false);
+    this.scene.lineFactory.enableFragment(this.id, false);
   }
 
   onInitialLeave() {
@@ -77,11 +76,11 @@ export default class Connection extends SceneObject {
 
 
   enableFragment(enabled=true) {
-    getScene().lineFactory.enableFragment(this.id, enabled);
+    this.scene.lineFactory.enableFragment(this.id, enabled);
   }
 
   highlightFragment(highlighted=true) {
-    getScene().lineFactory.highlightFragment(this.id, highlighted);
+    this.scene.lineFactory.highlightFragment(this.id, highlighted);
   }
 
   calculatePath() {
@@ -102,14 +101,14 @@ export default class Connection extends SceneObject {
   }
 
   render() {
-    getScene().lineFactory.removeFragment(this.id);
+    this.scene.lineFactory.removeFragment(this.id);
 
     if(!this.path) {
       return;
     }
 
     this.points = this.calculateVertices(-0.01);
-    getScene().lineFactory.addFragment({
+    this.scene.lineFactory.addFragment({
       id: this.id,
       points: this.points,
       highlightColor
@@ -261,13 +260,13 @@ export default class Connection extends SceneObject {
   onHighlight(highlighted) {
     if(highlighted && !this.isMouseOver) {
       this.isMouseOver = true;
-      getScene().lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
-      getScene().renderScene();
+      this.scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
+      this.scene.renderScene();
 
     } else if(!highlighted && this.isMouseOver) {
       this.isMouseOver = false;
-      getScene().lineFactory.addFragment({id: this.id, highlightColor});
-      getScene().renderScene();
+      this.scene.lineFactory.addFragment({id: this.id, highlightColor});
+      this.scene.renderScene();
     }
   }
 
@@ -294,7 +293,7 @@ export default class Connection extends SceneObject {
     this.from.removeConnection(this);
     this.to.removeIncomingConnection(this);
 
-    getScene().lineFactory.removeFragment(this.id);
+    this.scene.lineFactory.removeFragment(this.id);
     super.dispose();
   }
 }

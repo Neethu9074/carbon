@@ -11,7 +11,6 @@ import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 import Connection from '../../Connection/index';
 import SceneObject from '../../SceneObject/index';
-import {getScene} from '../../../Scene';
 import Highlight from '../NodeHighlight';
 
 /*eslint-disable max-len*/
@@ -52,7 +51,7 @@ export default class BaseNode extends SceneObject {
   constructor({parent, snapshot}) {
     super({parent});
 
-    this.scene = getScene();
+    this.scene = this.scene;
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
     this.height = 1;

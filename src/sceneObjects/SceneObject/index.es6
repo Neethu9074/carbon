@@ -2,7 +2,7 @@
 
 import THREE from 'three';
 import {setupStates} from './States/index';
-import {getScene} from '../../Scene';
+import {currentScene} from '../../stores/sceneStore';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.sceneObject');
@@ -59,6 +59,10 @@ export default class SceneObject {
     this.screenPositionAnchor = this.position.clone();
     this.screenPosition = {x: 0, y: 0};
 
+    this.addSubscription(currentScene.subscribe((scene) => {
+      this.scene = scene;
+    }));
+
     this.stateLookUpTable = stateLUT;
     this.states = setupStates(this);
     this.stateProperties = {
@@ -93,7 +97,7 @@ export default class SceneObject {
       newState.enter();
 
       //to show changes on the state, render scene
-      getScene().renderScene();
+      this.scene.renderScene();
     }
   }
 
@@ -194,7 +198,7 @@ export default class SceneObject {
   onHighlight(/*value*/) {}
 
   updateScreenPosition() {
-    const scene = getScene();
+    const scene = this.scene;
     const camera = scene.camera;
     const width = scene.width;
     const height = scene.height;
@@ -211,7 +215,7 @@ export default class SceneObject {
 
   isInView() {
     const screenPos = this.screenPosition;
-    const scene = getScene();
+    const scene = this.scene;
 
     return (screenPos.x > 0 && screenPos.x <= scene.width &&
       screenPos.y > 0 && screenPos.y <= scene.height);

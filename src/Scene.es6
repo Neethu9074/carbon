@@ -7,6 +7,7 @@ import './lib/Octree';
 
 import {getAllNodes} from './mapStructureUtils';
 import {selectedSceneObject} from './stores/selectedSceneObject';
+import {currentScene} from './stores/sceneStore';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
@@ -29,15 +30,15 @@ const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 
 let currentMetrics;
-let scene;
 
 
-class Scene {
+export default class Scene {
 
   constructor({parent, pluginId}) {
     this.bindMethods();
 
-    scene = this;
+    //set this scene to store
+    currentScene.emit(this);
 
     this.parent = parent;
     this.width = window.innerWidth;
@@ -450,10 +451,6 @@ class Scene {
     this.animationInProgress = false;
   }
 
-  getScene() {
-    return this;
-  }
-
   addSceneObject(obj) {
     this.scene.add(obj);
   }
@@ -580,6 +577,3 @@ class Scene {
     this.disposed = true;
   }
 }
-
-export function getScene() {return scene; }
-export default Scene;
