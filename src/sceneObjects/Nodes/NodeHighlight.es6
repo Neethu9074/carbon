@@ -75,6 +75,11 @@ export default class NodeHighlight extends Highlight {
     factory.addFragment({id: client.id + '_h', points, highlighted: true});
   }
 
+  clearHighlightBorderLines() {
+    const client = this.client;
+    client.scene.lineFactory.removeFragment(client.id + '_h');
+  }
+
   //clears the primary highlighting
   clearHighlight() {
     const client = this.client;
@@ -82,7 +87,7 @@ export default class NodeHighlight extends Highlight {
     //don't dispose the highlighting twice
     if(!this.isHighlighted) {return; }
 
-    client.scene.lineFactory.removeFragment(client.id + '_h');
+    this.clearHighlightBorderLines();
 
     //make the changes visible
     client.renderScene();
@@ -90,7 +95,12 @@ export default class NodeHighlight extends Highlight {
     super.clearHighlight();
   }
 
-  refresh(){}
+  refresh() {
+    if(this.isHighlighted) {
+      this.clearHighlightBorderLines();
+      this.setupHighlightBorderLines(this.client);
+    }
+  }
 
   refreshConnections() {
     const client = this.client;
@@ -113,7 +123,7 @@ export default class NodeHighlight extends Highlight {
   }
 
   dispose() {
-    this.client.scene.lineFactory.removeFragment(this.client.id);
+    this.clearHighlightBorderLines();
 
     this.subscription.dispose();
     this.subscription = null;

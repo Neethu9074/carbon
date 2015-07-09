@@ -228,6 +228,7 @@ export default class BaseNode extends SceneObject {
     this.addCollisionObject(cube, 1);
 
     this.makeSolidGeometry(this.isSelected());
+    this.highlighting.refresh();
   }
 
   setPosition(x, y, z) {
