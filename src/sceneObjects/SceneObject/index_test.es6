@@ -14,6 +14,8 @@ import SceneObject from './index';
 class SpecificSceneObject extends SceneObject {
   constructor(params) {
     super(params);
+
+    this.scene = {renderScene() {} };
   }
 
   getOrCreateStub(name) {
