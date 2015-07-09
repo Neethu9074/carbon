@@ -225,23 +225,17 @@ export default class Node extends BaseNode {
     }
   }
 
-  select() {
-    //if the node was clicked and is still selected ->
-    //dont setup state again, but open dashboard
-    if(this.stateProperties.selected === true) {
+  onSceneObjectSelected(obj) {
+    if(obj && obj.id === this.id && this.isSelected()) {
+      //if the node was clicked and is still selected ->
+      //dont setup state again, but open dashboard
       eventBus.emit('openDashboard', this.snapshot);
-      return;
+
+      // selectedSnapshot.select(this.snapshot);
     }
 
-    super.select();
-    selectedSnapshot.select(this.snapshot);
-  }
-
-  unSelect() {
-    if(this.stateProperties.selected === false) {return; }
-
-    super.unSelect();
-    selectedSnapshot.clear();
+    super.onSceneObjectSelected(obj);
+    // selectedSnapshot.clear();
   }
 
   showMetrics() {

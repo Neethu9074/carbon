@@ -6,6 +6,8 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
+import * as ssos from '../../../stores/selectedSceneObject';
+import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 import Connection from '../../Connection/index';
 import SceneObject from '../../SceneObject/index';
@@ -89,6 +91,55 @@ export default class BaseNode extends SceneObject {
   onSelectedLeave() {this.unSelected(); }
 
 
+  selected() {
+    this.forEachConnection((c) => {c.show(); c.select(); });
+
+    this.setHighlight();
+    this.makeSolidGeometry();
+  }
+
+  unSelected() {
+    this.clearHighlight();
+    this.makeSolidGeometry(false);
+
+    this.forEachConnection((c) => {c.hide(); c.unSelect(); });
+  }
+
+  registerEvents() {
+    this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
+      //update only if this node is visible
+      if(!this.hidden) {
+        this.update(data);
+      }
+    }));
+
+    this.addSubscription(activeMetric.subscribe(metric =>
+      this.onActiveMetric(metric)));
+
+    this.addSubscription(ssos.selectedSceneObject.subscribe((so) =>
+      this.onSceneObjectSelected(so)));
+  }
+
+  onActiveMetric(metric) {
+    if(metric) {
+      // this hide hull
+      // this show metric pillar
+
+    } else {
+      // this hide metric pillar
+      // this show hull
+
+    }
+  }
+
+  onSceneObjectSelected(obj) {
+    if(obj && obj.id === this.id) {
+      this.changeStateProperty('selected', true);
+    } else {
+      this.changeStateProperty('selected', false);
+    }
+  }
+
   render() {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check
     const cube = this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -100,19 +151,10 @@ export default class BaseNode extends SceneObject {
     this.addToGlobalGeometry();
   }
 
-  registerEvents() {
-    this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
-      //update only if this node is visible
-      if(!this.hidden) {
-        this.update(data);
-      }
-    }));
-  }
-
   makeSolidGeometry(solid=true) {
     if(solid) {
       this.scene.highlightingSingleMeshFactory
-          .addFragment(this.getNodeAsFragment());
+        .addFragment(this.getNodeAsFragment());
     } else {
       this.scene.highlightingSingleMeshFactory.removeFragment(this.id);
     }
@@ -169,30 +211,6 @@ export default class BaseNode extends SceneObject {
   clearHighlight() {
     this.highlighting.onMouseOff();
     this.stickyNote.onHighlight(false);
-  }
-
-  select() {
-    this.changeStateProperty('selected', true);
-  }
-
-  unSelect() {
-    this.changeStateProperty('selected', false);
-  }
-
-  selected() {
-    this.forEachConnection((c) => {c.show(); c.select(); });
-
-    this.scene.setSelectedObject(this);
-    this.setHighlight();
-    this.makeSolidGeometry();
-  }
-
-  unSelected() {
-    this.scene.clearSelectedObject();
-    this.clearHighlight();
-    this.makeSolidGeometry(false);
-
-    this.forEachConnection((c) => {c.hide(); c.unSelect(); });
   }
 
   updateOfVisualComponents() {

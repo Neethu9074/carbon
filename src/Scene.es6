@@ -6,6 +6,7 @@ import Tween from 'tween.js';
 import './lib/Octree';
 
 import {getAllNodes} from './mapStructureUtils';
+import {selectedSceneObject} from './stores/selectedSceneObject';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
@@ -39,7 +40,6 @@ export default class Scene {
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    this.selectedSceneObject = undefined;
     this.pluginId = pluginId;
 
     this.octrees = [];
@@ -92,6 +92,12 @@ export default class Scene {
     } else if(!currentMetrics || currentMetrics.size === 0) {
         this.hullsAreInactive = false;
         this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+      }
+    }));
+
+    this.subscriptions.push(selectedSceneObject.subscribe((obj) => {
+      if(obj) {
+        this.controller.flyToObject(obj);
       }
     }));
   }
@@ -544,52 +550,6 @@ export default class Scene {
         clear();
       }
     }
-  }
-
-  //is called if the snapshotStore emits null
-  clearSelectedObject() {
-    if(this.selectedSceneObject) {
-      this.selectedSceneObject.unSelect();
-    }
-
-    this.selectedSceneObject = undefined;
-    this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
-
-    eventBus.emit('setHullsInactive', false);
-
-    //set all stickies to opacity: 1
-    this.forEachNode((node) => {
-      node.stickyNote.setInactive(false);
-    });
-  }
-
-  setSelectedObject(object) {
-    this.clearSelectedObject();
-
-    //save the new object and select it
-    this.selectedSceneObject = object;
-    this.controller.flyToObject(object.cube);
-
-    eventBus.emit('setHullsInactive', true);
-
-    //set selected and wired to opacity: 1
-    const allNodes = getAllNodes(this.map);
-    allNodes.forEach((node) => {
-      if(node !== object) {
-        node.stickyNote.setInactive(true);
-      }
-    });
-
-    allNodes.forEach((node) => {
-      if(node === object) {
-        node.stickyNote.setInactive(false);
-        node.setWiredStickiesActive();
-      }
-    });
-  }
-
-  isAnySnapshotSelected() {
-    return this.selectedSceneObject;
   }
 
   onFocus(event) {

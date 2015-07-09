@@ -1,7 +1,6 @@
 'use strict';
 
 import eventBus from 'instana-ui-services/eventbus';
-import * as ssos from './stores/selectedSceneObject';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
@@ -24,15 +23,6 @@ export default class NodeSnapshotServer {
 
     this.subscriptions.push(eventBus.on('upateMetricHeights').subscribe(() =>
       client.updateMetricHeight()));
-
-    //the store notifies if there was a new snapshot selected
-    this.subscriptions.push(ssos.selectedSceneObject.subscribe((so) => {
-      if(so && so.id === client.id) {
-        client.select();
-      } else {
-        client.unSelect();
-      }
-    }));
 
     this.subscriptions.push(getWiredSnapshots(client.snapshot)
       .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots)));

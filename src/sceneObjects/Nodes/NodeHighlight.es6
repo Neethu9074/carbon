@@ -1,13 +1,8 @@
 'use strict';
 
-/*eslint-disable max-len*/
 import Highlight from '../Highlight';
 import eventBus from 'instana-ui-services/eventbus';
-import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
-import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import VATOCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
-/*eslint-enable max-len*/
+
 
 export default class NodeHighlight extends Highlight {
 
@@ -91,58 +86,8 @@ export default class NodeHighlight extends Highlight {
     super.clearHighlight();
   }
 
-  setIndirectHighlight(isSelected) {
-    super.setIndirectHighlight();
-
-    const client = this.client;
-    const pos = client.getPosition().clone().add({x: -0.5, y: 0, z: 0.5});
-    const size = {x: 1.04, y: 1, z: 1.04};
-    const points = new VATOCM({
-      contentProvider: new PCM({ //reposition
-        contentProvider: new SCM({ //resize
-          contentProvider: new FCP(), //get frame
-          x: size.x, y: 1, z: size.z
-        }),
-        x: pos.x, y: pos.y, z: pos.z
-      })
-    }).getVertices();
-
-    const factory = client.scene.lineFactory;
-
-    factory.addFragment({id: client.id, points, highlighted: isSelected});
-
-    // client.scene.highlightingSingleMeshFactory
-    //   .addFragment(client.getNodeAsFragment());
-
-    client.stickyNote.setInactive(false);
-  }
-
-  clearIndirectHighlight() {
-    super.clearIndirectHighlight();
-  }
-
-  //disposing the indirect highlighting if the counter is 0
-  disposeIndirectHighlight() {
-    const client = this.client;
-
-    //remove frame on the ground
-    client.scene.lineFactory.removeFragment(client.id);
-    // client.scene.highlightingSingleMeshFactory.removeFragment(client.id);
-
-    // if(client.isAnySnapshotSelected()) {
-    //   client.stickyNote.setInactive(true);
-    // }
-  }
-
   refreshConnections() {
     const client = this.client;
-
-    //reselect if the host is selected so that all geometry and
-    //connections are refreshed
-    if(client.isSelected()) {
-      client.unSelect();
-      client.select();
-    }
 
     //client is for unselected nodes which have incoming connections from
     //selected ones. if client position changes -> update the connection too
@@ -150,10 +95,6 @@ export default class NodeHighlight extends Highlight {
   }
 
   refresh() {
-    if(!this.IndirectHighlightCounter) {
-      return;
-    }
-
     const client = this.client;
     const factory = client.scene.highlightingSingleMeshFactory;
 

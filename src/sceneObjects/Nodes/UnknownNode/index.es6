@@ -1,7 +1,6 @@
 'use strict';
 
 import BaseNode from '../BaseNode/index';
-import * as ssos from '../../../stores/selectedSceneObject';
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import Immutable from 'immutable';
@@ -15,15 +14,6 @@ export default class Unknownnode extends BaseNode {
 
     this.stickyNote = new StickyNoteUnknownNode(this);
     this.isUnknown = true;
-
-    //the store notifies if there was a new snapshot selected
-    this.addSubscription(ssos.selectedSceneObject.subscribe((so) => {
-      if(so && so.id === this.id) {
-        this.select();
-      } else {
-        this.unSelect();
-      }
-    }));
   }
 
   selected() {

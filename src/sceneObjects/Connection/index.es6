@@ -264,9 +264,7 @@ export default class Connection extends SceneObject {
   }
 
   updateOfVisualComponents() {
-    //render() will call setIndirectHighlight, so clear it before
-    this.from.highlighting.clearIndirectHighlight();
-    this.to.highlighting.clearIndirectHighlight();
+    // update highlighting
 
     this.calculatePath();
     this.render();
@@ -283,11 +281,6 @@ export default class Connection extends SceneObject {
     _.remove(allConnections, c => c.id === this.id);
 
     this.disposeCollisionLine();
-
-    //this connection is done with the implicit highlighting so decrease the
-    //counter by calling clearIndirectHighlight
-    this.from.highlighting.clearIndirectHighlight();
-    this.to.highlighting.clearIndirectHighlight();
 
     this.from.removeConnection(this);
     this.to.removeIncomingConnection(this);

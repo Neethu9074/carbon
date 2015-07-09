@@ -128,13 +128,11 @@ export default class CameraController {
   }
 
   flyToObject(obj) {
-    obj.updateMatrixWorld();
-
-    const targetPosition = new THREE.Vector3().applyMatrix4(obj.matrixWorld);
     const transObj = this.camTransformObject;
+    const pos = obj.getPosition();
 
-    transObj.position.x = targetPosition.x;
-    transObj.position.z = targetPosition.z;
+    transObj.position.x = pos.x;
+    transObj.position.z = pos.z;
     transObj.updateMatrixWorld();
   }
 
