@@ -20,7 +20,7 @@ export function getWiring(pluginId) {
   // function is overloaded and optionally accepts a snapshot a parameter
   const sourceSnapshotId = extractId(pluginId);
 
-  return create(WiringConveyer, {pluginId})
+  return create(WiringConveyer, {pluginId: sourceSnapshotId.get('pluginId')})
     .map(wiring => {
       // we are only interest in the wiring of the source snapshot
       return wiring.get(sourceSnapshotId, emptySet);
