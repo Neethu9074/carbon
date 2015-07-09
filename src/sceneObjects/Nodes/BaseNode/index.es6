@@ -11,6 +11,7 @@ import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 import Connection from '../../Connection/index';
 import SceneObject from '../../SceneObject/index';
+import {getScene} from '../../../Scene';
 import Highlight from '../NodeHighlight';
 
 /*eslint-disable max-len*/
@@ -51,7 +52,7 @@ export default class BaseNode extends SceneObject {
   constructor({parent, snapshot}) {
     super({parent});
 
-    this.scene = parent.getScene();
+    this.scene = getScene();
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
     this.height = 1;
@@ -408,6 +409,7 @@ export default class BaseNode extends SceneObject {
 
     this.scene.singleMeshFactory.removeFragment(this.id);
     this.scene.lineFactory.removeFragment(this.id);
+    this.makeSolidGeometry(false);
 
     this.highlighting.dispose();
 

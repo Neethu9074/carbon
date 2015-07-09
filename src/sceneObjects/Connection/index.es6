@@ -5,7 +5,8 @@ import _ from 'lodash';
 import SceneObject from '../SceneObject/index';
 import ConnectionGrid from '../../ConnectionGrid';
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
-import * as app from '../../Scene';
+import {getScene} from '../../Scene';
+import eventBus from 'instana-ui-services/eventbus';
 
 const highlightColor = hexToRGBNormalized('#BFBFBF');
 const mouseOverColor = hexToRGBNormalized('#FFFFFF');
@@ -35,11 +36,14 @@ export default class Connection extends SceneObject {
     this.render();
 
     allConnections.push(this);
+
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
+      this.updateOfVisualComponents();
+    }));
   }
 
   onInitialEnter() {
-    const scene = this.getScene();
-    scene.lineFactory.enableFragment(this.id, false);
+    getScene().lineFactory.enableFragment(this.id, false);
   }
 
   onInitialLeave() {
@@ -60,46 +64,53 @@ export default class Connection extends SceneObject {
     this.highlightFragment();
 
     // show hide connected nodes on highlighting factory
-    this.from.makeSolidGeometry();
-    this.to.makeSolidGeometry();
+    // this.from.makeSolidGeometry();
+    // this.to.makeSolidGeometry();
   }
 
   onSelectedLeave() {
     this.highlightFragment(false);
 
     // hide connected nodes on highlighting factory
-    this.from.makeSolidGeometry(false);
-    this.to.makeSolidGeometry(false);
+    // this.from.makeSolidGeometry(false);
+    // this.to.makeSolidGeometry(false);
   }
 
 
   enableFragment(enabled=true) {
-    this.getScene().lineFactory.enableFragment(this.id, enabled);
+    getScene().lineFactory.enableFragment(this.id, enabled);
   }
 
   highlightFragment(highlighted=true) {
-    this.getScene().lineFactory.highlightFragment(this.id, highlighted);
+    getScene().lineFactory.highlightFragment(this.id, highlighted);
   }
 
   calculatePath() {
     const fromPos = this.from.getPosition();
     const toPos = this.to.getPosition();
 
-    this.path = ConnectionGrid.getPath({
-      fromX: fromPos.x,
-      fromY: -fromPos.z, //connectionGrid uses positive z space, so invert
-      toX: toPos.x,
-      toY: -toPos.z
-    });
+    if(!fromPos || !toPos) {
+      this.path = undefined;
+
+    } else {
+      this.path = ConnectionGrid.getPath({
+        fromX: fromPos.x,
+        fromY: -fromPos.z, //connectionGrid uses positive z space, so invert
+        toX: toPos.x,
+        toY: -toPos.z
+      });
+    }
   }
 
   render() {
+    getScene().lineFactory.removeFragment(this.id);
+
     if(!this.path) {
       return;
     }
 
     this.points = this.calculateVertices(-0.01);
-    this.getScene().lineFactory.addFragment({
+    getScene().lineFactory.addFragment({
       id: this.id,
       points: this.points,
       highlightColor
@@ -250,24 +261,23 @@ export default class Connection extends SceneObject {
 
   onHighlight(highlighted) {
     if(highlighted && !this.isMouseOver) {
-      const scene = this.getScene();
       this.isMouseOver = true;
-      scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
-      scene.renderScene();
+      getScene().lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
+      getScene().renderScene();
 
     } else if(!highlighted && this.isMouseOver) {
-      const scene = this.getScene();
       this.isMouseOver = false;
-      scene.lineFactory.addFragment({id: this.id, highlightColor});
-      scene.renderScene();
+      getScene().lineFactory.addFragment({id: this.id, highlightColor});
+      getScene().renderScene();
     }
   }
 
   updateOfVisualComponents() {
-    // update highlighting
-
-    this.calculatePath();
-    this.render();
+    if(this.isSelected() || this.isHighlighted()) {
+      this.calculatePath();
+      this.render();
+      this.reEnterState();
+    }
   }
 
   disposeCollisionLine() {
@@ -285,7 +295,7 @@ export default class Connection extends SceneObject {
     this.from.removeConnection(this);
     this.to.removeIncomingConnection(this);
 
-    app.scene.scene.lineFactory.removeFragment(this.id);
+    getScene().lineFactory.removeFragment(this.id);
     super.dispose();
   }
 }

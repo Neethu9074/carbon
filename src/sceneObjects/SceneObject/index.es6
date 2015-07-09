@@ -2,6 +2,7 @@
 
 import THREE from 'three';
 import {setupStates} from './States/index';
+import {getScene} from '../../Scene';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.sceneObject');
@@ -92,8 +93,13 @@ export default class SceneObject {
       newState.enter();
 
       //to show changes on the state, render scene
-      this.getScene().renderScene();
+      getScene().renderScene();
     }
+  }
+
+  reEnterState() {
+    this.state.leave();
+    this.state.enter();
   }
 
   onInitialEnter() {logger.debug('on initial enter'); }
@@ -154,10 +160,6 @@ export default class SceneObject {
   //and do all update stuff here.
   updateOfVisualComponents() {throw new Error('NOT IMPLEMENTED'); }
 
-  getScene() {
-    return this.parent.getScene();
-  }
-
   getAllMapNodes() {
     return this.parent.getAllMapNodes();
   }
@@ -192,7 +194,7 @@ export default class SceneObject {
   onHighlight(/*value*/) {}
 
   updateScreenPosition() {
-    const scene = this.getScene();
+    const scene = getScene();
     const camera = scene.camera;
     const width = scene.width;
     const height = scene.height;
@@ -209,7 +211,7 @@ export default class SceneObject {
 
   isInView() {
     const screenPos = this.screenPosition;
-    const scene = this.getScene();
+    const scene = getScene();
 
     return (screenPos.x > 0 && screenPos.x <= scene.width &&
       screenPos.y > 0 && screenPos.y <= scene.height);
@@ -229,7 +231,6 @@ export default class SceneObject {
   disposeSubscriptions() {
     this.subscriptions.forEach(subscription => {
       subscription.dispose();
-      subscription = null;
     });
     this.subscriptions = [];
   }

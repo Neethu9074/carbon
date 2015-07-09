@@ -3,6 +3,7 @@
 import THREE from 'three';
 
 import SceneObject from './SceneObject/index';
+import {getScene} from '../Scene';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
@@ -20,7 +21,7 @@ export default class Layer extends SceneObject {
     super({parent});
 
     this.id = getIdString(snapshot);
-    this.scene = this.getScene();
+    this.scene = getScene();
     this.snapshot = snapshot;
     this.layerIndex = 0; //see this.setLayerIndex
 

@@ -1,17 +1,12 @@
 'use strict';
 
 import Highlight from '../Highlight';
-import eventBus from 'instana-ui-services/eventbus';
 
 
 export default class NodeHighlight extends Highlight {
 
   constructor({client}) {
     super({client});
-
-    this.subscription = eventBus.on('layoutChanged').subscribe(() => {
-      this.refreshConnections();
-    });
 
     this.tooltip = undefined;
   }
@@ -102,14 +97,6 @@ export default class NodeHighlight extends Highlight {
     }
   }
 
-  refreshConnections() {
-    const client = this.client;
-
-    //client is for unselected nodes which have incoming connections from
-    //selected ones. if client position changes -> update the connection too
-    // client.incomingConnections.forEach(c => c.updateOfVisualComponents());
-  }
-
   onMouseOver() {
     this.setHighlight();
   }
@@ -124,8 +111,5 @@ export default class NodeHighlight extends Highlight {
 
   dispose() {
     this.clearHighlightBorderLines();
-
-    this.subscription.dispose();
-    this.subscription = null;
   }
 }

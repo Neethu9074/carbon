@@ -25,17 +25,19 @@ import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
 import {iconSizeStore} from './stores/NodeIconStore';
 
-let currentMetrics;
-
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 
+let currentMetrics;
+let scene;
 
-export const scene = {};
-export default class Scene {
+
+class Scene {
 
   constructor({parent, pluginId}) {
     this.bindMethods();
+
+    scene = this;
 
     this.parent = parent;
     this.width = window.innerWidth;
@@ -50,8 +52,6 @@ export default class Scene {
     this.setupEvents();
 
     this.update();
-
-    scene.scene = this;
   }
 
   bindMethods() {
@@ -580,3 +580,6 @@ export default class Scene {
     this.disposed = true;
   }
 }
+
+export function getScene() {return scene; }
+export default Scene;
