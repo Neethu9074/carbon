@@ -1,7 +1,7 @@
 'use strict';
 
 import THREE from 'three';
-import ConnectionGrid from './ConnectionGrid';
+import ConnectionGrid from './ConnectionGrid_Temp';
 import Group from './sceneObjects/Group/index';
 import {getAllNodes, getChildren} from './mapStructureUtils';
 
