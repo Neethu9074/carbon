@@ -107,8 +107,10 @@ export default class WiringConveyer {
 
       if (edge.type === 'addition') {
         this.addEdge(source, destination, edge.relation);
+        this.addEdge(destination, source, edge.relation);
       } else {
         this.removeEdge(source, destination, edge.relation);
+        this.removeEdge(destination, source, edge.relation);
       }
     });
   }
@@ -127,7 +129,11 @@ export default class WiringConveyer {
     let edges = this.graph.get(source);
     if (edges) {
       edges = edges.remove(destination);
-      this.graph = this.graph.set(source, edges);
+      if (edges.size === 0) {
+        this.graph = this.graph.remove(source);
+      } else {
+        this.graph = this.graph.set(source, edges);
+      }
     }
   }
 }

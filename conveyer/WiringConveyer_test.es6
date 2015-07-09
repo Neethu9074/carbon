@@ -62,13 +62,20 @@ describe('conveyer.WiringConveyer', () => {
     conveyer = new WiringConveyer({pluginId: ec2});
     conveyer.start(onNext);
 
-    emitSimpleGraph();
+    const graphNetworkStructure = getGraphNetworkStructure();
+    graphNetworkStructure.edges.push({
+      source: 0,
+      destination: 1,
+      relation: 'runs on',
+      type: 'addition'
+    });
+    emitGraph(graphNetworkStructure);
 
     expect(onNext).to.have.callCount(1);
 
     const graph = onNext.getCall(0).args[0];
     expect(Immutable.Map.isMap(graph)).to.equal(true);
-    expect(graph.size).to.equal(1);
+    expect(graph.size).to.equal(2);
 
     const key = graph.keySeq().first();
     expect(Immutable.Map.isMap(key)).to.equal(true);
@@ -82,16 +89,100 @@ describe('conveyer.WiringConveyer', () => {
     expect(destination.get('steadyId')).to.equal('sB');
   });
 
-  function emitSimpleGraph() {
-    const graph = getGraphNetworkStructure();
-    graph.edges.push({
+  it('should set up bidirectional edges', () => {
+    conveyer = new WiringConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+
+    const graphNetworkStructure = getGraphNetworkStructure();
+    graphNetworkStructure.edges.push({
       source: 0,
       destination: 1,
       relation: 'runs on',
       type: 'addition'
     });
-    emitGraph(graph);
-  }
+    emitGraph(graphNetworkStructure);
+
+    expect(onNext).to.have.callCount(1);
+
+    const graph = onNext.getCall(0).args[0];
+    expect(Immutable.Map.isMap(graph)).to.equal(true);
+    expect(graph.size).to.equal(2);
+
+    const steadyIds = [
+      graph.keySeq().first().get('steadyId'),
+      graph.keySeq().last().get('steadyId')
+    ];
+    expect(steadyIds.indexOf('sA') !== -1).to.equal(true);
+    expect(steadyIds.indexOf('sB') !== -1).to.equal(true);
+  });
+
+  it('should process multiple edges per node', () => {
+    conveyer = new WiringConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+
+    const graphNetworkStructure = getGraphNetworkStructure();
+    graphNetworkStructure.edges.push({
+      source: 0,
+      destination: 1,
+      relation: 'runs on',
+      type: 'addition'
+    }, {
+      source: 0,
+      destination: 2,
+      relation: 'runs on',
+      type: 'addition'
+    });
+    emitGraph(graphNetworkStructure);
+
+    expect(onNext).to.have.callCount(1);
+    const graph = onNext.getCall(0).args[0];
+    expect(graph.size).to.equal(3);
+
+    const edges = graph.first();
+    expect(edges.size).to.equal(2);
+
+    const steadyIds = [
+      edges.first().get('steadyId'),
+      edges.last().get('steadyId')
+    ];
+    expect(steadyIds.indexOf('sB') !== -1).to.equal(true);
+    expect(steadyIds.indexOf('sC') !== -1).to.equal(true);
+  });
+
+  it('should remove edges', () => {
+    conveyer = new WiringConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+
+    const graphNetworkStructure = getGraphNetworkStructure();
+    graphNetworkStructure.edges.push({
+      source: 0,
+      destination: 1,
+      relation: 'runs on',
+      type: 'addition'
+    }, {
+      source: 0,
+      destination: 2,
+      relation: 'runs on',
+      type: 'addition'
+    });
+    emitGraph(graphNetworkStructure);
+
+    graphNetworkStructure.edges.push({
+      source: 0,
+      destination: 1,
+      relation: 'runs on',
+      type: 'removal'
+    });
+    emitGraph(graphNetworkStructure);
+
+    expect(onNext).to.have.callCount(2);
+    const graph = onNext.getCall(1).args[0];
+
+    const edges = graph.first();
+    expect(edges.size).to.equal(1);
+
+    expect(edges.first().get('steadyId')).to.equal('sC');
+  });
 
   function getGraphNetworkStructure() {
     return {
