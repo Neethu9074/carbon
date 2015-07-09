@@ -112,16 +112,22 @@ export default class BaseNode extends SceneObject {
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
       //update only if this node is visible
-      if(!this.hidden) {
+      if(!this.hidden && this.isDisposing) {
         this.update(data);
       }
     }));
 
-    this.addSubscription(activeMetric.subscribe(metric =>
-      this.onActiveMetric(metric)));
+    this.addSubscription(activeMetric.subscribe(metric => {
+      if(!this.isDisposing) {
+        this.onActiveMetric(metric);
+      }
+    }));
 
-    this.addSubscription(ssos.selectedSceneObject.subscribe((so) =>
-      this.onSceneObjectSelected(so)));
+    this.addSubscription(ssos.selectedSceneObject.subscribe((so) => {
+      if(!this.isDisposing) {
+        this.onSceneObjectSelected(so);
+      }
+    }));
   }
 
   onActiveMetric(metric) {
@@ -158,8 +164,10 @@ export default class BaseNode extends SceneObject {
 
   makeSolidGeometry(solid=true) {
     if(solid) {
-      this.scene.highlightingSingleMeshFactory
-        .addFragment(this.getNodeAsFragment());
+      const nodeAsFragment = this.getNodeAsFragment();
+      if(nodeAsFragment) {
+        this.scene.highlightingSingleMeshFactory.addFragment(nodeAsFragment);
+      }
 
     } else {
       this.scene.highlightingSingleMeshFactory.removeFragment(this.id);
@@ -281,7 +289,12 @@ export default class BaseNode extends SceneObject {
 
   getNodeAsFragment() {
     const color = this.calculateNodeColor();
-    const position = this.getPosition();
+    const position = this.getPosition().clone();
+
+    if(!position) {
+      console.log(position);
+      return undefined;
+    }
 
     return {
       id: this.id,
@@ -425,6 +438,8 @@ export default class BaseNode extends SceneObject {
   }
 
   dispose() {
+    this.isDisposing = true;
+
     this.clearConnections();
 
     this.removeFromGlobalGeometry();
@@ -435,16 +450,12 @@ export default class BaseNode extends SceneObject {
 
     this.highlighting.dispose();
 
-    // this.changeStateProperty('mouseOver', false);
-    // this.changeStateProperty('selected', false);
-
     this.removeCollisionObject(this.cube, 1);
-    this.cube = null;
 
     this.disposeStickyNote();
-
     super.dispose();
 
+    this.cube = null;
     this.id = null;
   }
 
