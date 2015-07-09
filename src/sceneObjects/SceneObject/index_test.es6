@@ -10,6 +10,7 @@ import sinon from 'sinon';
 
 import SceneObject from './index';
 
+
 class SpecificSceneObject extends SceneObject {
   constructor(params) {
     super(params);
@@ -30,7 +31,6 @@ class SpecificSceneObject extends SceneObject {
   onSelectedLeave() {this.getOrCreateStub('onSelectedLeaveStub')(); }
   onInactiveEnter() {this.getOrCreateStub('onInactiveEnterStub')(); }
   onInactiveLeave() {this.getOrCreateStub('onInactiveLeaveStub')(); }
-  getScene() {return {renderScene() {}}; }
 }
 
 describe('3D map', () => {

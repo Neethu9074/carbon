@@ -2,7 +2,7 @@
 
 import THREE from 'three';
 import _ from 'lodash';
-import SceneObject from '../SceneObject/index';
+import SceneObject from '../SceneObject';
 import ConnectionGrid from '../../ConnectionGrid';
 import {hexToRGBNormalized} from 'instana-ui-services/converters';
 import {getScene} from '../../Scene';
@@ -12,7 +12,6 @@ const highlightColor = hexToRGBNormalized('#BFBFBF');
 const mouseOverColor = hexToRGBNormalized('#FFFFFF');
 export const allConnections = [];
 let id = 0;
-
 
 export default class Connection extends SceneObject {
 
