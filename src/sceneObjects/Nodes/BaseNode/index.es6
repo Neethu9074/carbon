@@ -410,7 +410,7 @@ export default class BaseNode extends SceneObject {
     // this.changeStateProperty('mouseOver', false);
     // this.changeStateProperty('selected', false);
 
-    this.removeCollisionObject(this.cube, 2);
+    this.removeCollisionObject(this.cube, 1);
     this.cube = null;
 
     this.disposeStickyNote();
