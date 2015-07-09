@@ -38,7 +38,8 @@ export default class Connection extends SceneObject {
   }
 
   onInitialEnter() {
-    this.getScene().lineFactory.enableFragment(this.id, false);
+    const scene = this.getScene();
+    scene.lineFactory.enableFragment(this.id, false);
   }
 
   onInitialLeave() {
@@ -46,23 +47,39 @@ export default class Connection extends SceneObject {
   }
 
   onHighlightEnter() {
-    this.getScene().lineFactory.enableFragment(this.id);
+    this.enableFragment();
   }
 
   onHighlightLeave() {
     if(!this.to.isSelected() && !this.from.isSelected()) {
-      this.getScene().lineFactory.enableFragment(this.id, false);
+      this.enableFragment(false);
     }
   }
 
   onSelectedEnter() {
-    this.getScene().lineFactory.highlightFragment(this.id, true);
+    this.highlightFragment();
+
+    // show hide connected nodes on highlighting factory
+    this.from.makeSolidGeometry();
+    this.to.makeSolidGeometry();
   }
 
   onSelectedLeave() {
-    this.getScene().lineFactory.highlightFragment(this.id, false);
+    this.highlightFragment(false);
+
+    // hide connected nodes on highlighting factory
+    this.from.makeSolidGeometry(false);
+    this.to.makeSolidGeometry(false);
   }
 
+
+  enableFragment(enabled=true) {
+    this.getScene().lineFactory.enableFragment(this.id, enabled);
+  }
+
+  highlightFragment(highlighted=true) {
+    this.getScene().lineFactory.highlightFragment(this.id, highlighted);
+  }
 
   calculatePath() {
     const fromPos = this.from.getPosition();

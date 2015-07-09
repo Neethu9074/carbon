@@ -88,6 +88,7 @@ export default class BaseNode extends SceneObject {
 
   onSelectedLeave() {this.unSelected(); }
 
+
   render() {
     //the cube needs a mesh to calculate the inside/outside viewfrustum check
     const cube = this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
@@ -106,6 +107,15 @@ export default class BaseNode extends SceneObject {
         this.update(data);
       }
     }));
+  }
+
+  makeSolidGeometry(solid=true) {
+    if(solid) {
+      this.scene.highlightingSingleMeshFactory
+          .addFragment(this.getNodeAsFragment());
+    } else {
+      this.scene.highlightingSingleMeshFactory.removeFragment(this.id);
+    }
   }
 
   update() {
@@ -174,19 +184,15 @@ export default class BaseNode extends SceneObject {
 
     this.scene.setSelectedObject(this);
     this.setHighlight();
-
-    this.scene.highlightingSingleMeshFactory
-      .addFragment(this.getNodeAsFragment());
+    this.makeSolidGeometry();
   }
 
   unSelected() {
     this.scene.clearSelectedObject();
     this.clearHighlight();
+    this.makeSolidGeometry(false);
 
     this.forEachConnection((c) => {c.hide(); c.unSelect(); });
-
-    this.scene.highlightingSingleMeshFactory
-      .removeFragment(this.id);
   }
 
   updateOfVisualComponents() {
