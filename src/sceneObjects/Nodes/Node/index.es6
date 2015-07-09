@@ -230,12 +230,9 @@ export default class Node extends BaseNode {
       //if the node was clicked and is still selected ->
       //dont setup state again, but open dashboard
       eventBus.emit('openDashboard', this.snapshot);
-
-      // selectedSnapshot.select(this.snapshot);
     }
 
     super.onSceneObjectSelected(obj);
-    // selectedSnapshot.clear();
   }
 
   showMetrics() {
@@ -538,10 +535,6 @@ export default class Node extends BaseNode {
     this.snapshotServer.dispose();
     this.clearLayer();
     this.removeFromGroundFactory();
-
-    if(this.stateProperties.selected) {
-      selectedSnapshot.clear();
-    }
 
     super.dispose();
 
