@@ -275,13 +275,14 @@ export default class Node extends BaseNode {
   }
 
   setSingleMetricValue(value) {
-    this.scene.singleMetricFactory
-      .getFragment(this.id)
-      .newHeight = value;
+    const fragment = this.scene.singleMetricFactory.getFragment(this.id );
+    if(fragment) {
+      fragment.newHeight = value;
 
-    //scale the collision cube to the max pillar size
-    this.updateMetricCollisionObject(value);
-    this.updateFactoryValues([value]);
+      //scale the collision cube to the max pillar size
+      this.updateMetricCollisionObject(value);
+      this.updateFactoryValues([value]);
+    }
   }
 
   setMultiMetricValues(values) {
@@ -327,9 +328,9 @@ export default class Node extends BaseNode {
   }
 
   updateMetricHeight() {
-    if(this.hidden) {return; }
-
     const frag = this.scene.multiMetricFactory.getFragment(this.id);
+    if(this.hidden || !frag) {return; }
+
     const tiles = frag.tiles;
     let values = [];
 
