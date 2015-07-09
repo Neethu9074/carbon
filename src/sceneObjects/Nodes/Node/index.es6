@@ -236,8 +236,6 @@ export default class Node extends BaseNode {
   }
 
   showMetrics() {
-    this.changeStateProperty('active', false);
-
     this.stickyNote.switchToMetric();
 
     // const position = this.getPosition();
@@ -256,8 +254,6 @@ export default class Node extends BaseNode {
   }
 
   hideMetrics() {
-    this.changeStateProperty('active', true);
-
     this.stickyNote.switchToIcon();
     // this.scene.singleMeshMetricFactory.removeFragment(this.id);
   }

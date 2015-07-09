@@ -70,12 +70,12 @@ export default class Scene {
     this.subscriptions.push(activeMetric.subscribe(metric => {
       if(!metric) {
         currentMetrics = undefined;
-        // this.hullsAreInactive = false;
-        // this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+        this.showHulls();
         this.hideMetrics();
 
       } else {
         currentMetrics = metric.get('metrics');
+        this.hideHulls();
         this.showMetrics();
       }
     }));
@@ -83,16 +83,25 @@ export default class Scene {
     this.subscriptions.push(selectedSceneObject.subscribe((obj) => {
       if(obj) {
         this.controller.flyToObject(obj);
-
-        this.singleMeshFactory.material.opacity = 0.2;
-        this.hullsAreInactive = true;
+        this.hideHulls();
 
       } else {
-        this.hullsAreInactive = false;
-        this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+        this.showHulls();
 
       }
     }));
+  }
+
+  hideHulls() {
+    this.singleMeshFactory.material.opacity = 0.2;
+    this.hullsAreInactive = true;
+  }
+
+  showHulls() {
+    if(!currentMetrics) {
+      this.hullsAreInactive = false;
+      this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+    }
   }
 
   setupFactories() {

@@ -90,6 +90,10 @@ export default class BaseNode extends SceneObject {
 
   onSelectedLeave() {this.unSelected(); }
 
+  onInactiveEnter() { }
+
+  onInactiveLeave() { }
+
 
   selected() {
     this.forEachConnection((c) => {c.show(); c.select(); });
@@ -122,13 +126,14 @@ export default class BaseNode extends SceneObject {
 
   onActiveMetric(metric) {
     if(metric) {
-      // this hide hull
+      this.changeStateProperty('active', false);
+
       // this show metric pillar
 
     } else {
-      // this hide metric pillar
-      // this show hull
+      this.changeStateProperty('active', true);
 
+      // this hide metric pillar
     }
   }
 
