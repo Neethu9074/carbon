@@ -11,6 +11,7 @@ import Panel from '../../../sdk/Panel';
 import ProblemPanel from '../../../sdk/ProblemPanel';
 import SidebarHeading from '../../../sdk/SidebarHeading';
 import SidebarSubheading from '../../../sdk/SidebarSubheading';
+import WiringList from '../../../sdk/WiringList';
 import EC2Infos from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Infos';
 import HostInfo from '../HostInfo';
 
@@ -50,6 +51,9 @@ const Sidebar = React.createClass({
         : null}
 
         <ProblemPanel snapshot={this.props.snapshot} />
+
+        <WiringList snapshot={this.props.snapshot}
+                    targetPluginId={'com.instana.forge.infrastructure.os.Process'}/>
       </div>
     );
   }

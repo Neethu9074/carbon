@@ -1,0 +1,60 @@
+'use strict';
+
+import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
+
+import {getLabel} from 'instana-ui-sdk/snapshot';
+import {getIdString} from 'instana-ui-services/util/snapshots';
+import {getWiringWithFullSnapshots} from 'instana-ui-services/wiring';
+import Collapsible from 'instana-ui-components/Collapsible';
+
+import enhance from '../enhance';
+
+
+const rpt = React.PropTypes;
+const block = 'in-wiring-list';
+
+const WiringList = React.createClass({
+  mixins: [
+    React.addons.PureRenderMixin
+  ],
+
+  propTypes: {
+    snapshot: irpt.map.isRequired,
+    targetPluginId: rpt.string.isRequired,
+    wiring: irpt.set
+  },
+
+  statics: {
+    createObservables(props) {
+      return {
+        wiring: getWiringWithFullSnapshots(props.snapshot)
+      };
+    }
+  },
+
+  render() {
+    if (this.props.wiring == null || this.props.wiring.size === 0) {
+      return null;
+    }
+
+    return (
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>
+          Related components
+        </Collapsible.Header>
+        <Collapsible.Content>
+          <ul className={block}>
+            {this.props.wiring.map(snapshot =>
+              <li key={getIdString(snapshot)}>
+                {getLabel(snapshot)}
+              </li>
+            )}
+          </ul>
+        </Collapsible.Content>
+      </Collapsible>
+    );
+  }
+});
+
+export default enhance(WiringList);
