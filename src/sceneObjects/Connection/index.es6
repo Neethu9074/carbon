@@ -286,8 +286,10 @@ export default class Connection extends SceneObject {
   }
 
   dispose() {
-    this.layoutSubscribtion.dispose();
-    this.layoutSubscribtion = null;
+    if(this.layoutSubscribtion) {
+      this.layoutSubscribtion.dispose();
+      this.layoutSubscribtion = null;
+    }
 
     _.remove(allConnections, c => c.id === this.id);
 
