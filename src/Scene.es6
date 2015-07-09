@@ -20,7 +20,7 @@ import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import * as time from './timeCalculations';
 import Tooltip from './sceneObjects/Tooltips/Connection/index';
 import {allConnections} from './sceneObjects/Connection/index';
-import {clear} from 'instana-ui-services/stores/selectedSnapshot';
+import {clear, select} from 'instana-ui-services/stores/selectedSnapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
@@ -327,6 +327,7 @@ export default class Scene {
 
     if(e && e.hiddenByZoom) {
       this.hideMetricsOnZoomOut = true;
+      // disable tooltips on metrics here
     } else {
       this.hideMetricsOnZoomOut = false;
     }
@@ -547,6 +548,8 @@ export default class Scene {
     if(fireExternalEvent) {
       if(!sceneObject.snapshot || sceneObject.isUnknown) {
         clear();
+      } else if(sceneObject.snapshot && !sceneObject.isUnknown) {
+        select(sceneObject.snapshot);
       }
     }
   }
