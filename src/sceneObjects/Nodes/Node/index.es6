@@ -447,6 +447,7 @@ export default class Node extends BaseNode {
     if(this.hidden) {return; }
 
     this.addToGroundFactory(id, pos, dim);
+    this.updateSolidGeometry();
 
     if(!this.cubeHealthBlocked) {
       this.refreshFragment();

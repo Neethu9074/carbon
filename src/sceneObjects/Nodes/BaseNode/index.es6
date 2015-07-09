@@ -155,6 +155,7 @@ export default class BaseNode extends SceneObject {
     if(solid) {
       this.scene.highlightingSingleMeshFactory
         .addFragment(this.getNodeAsFragment());
+
     } else {
       this.scene.highlightingSingleMeshFactory.removeFragment(this.id);
     }
@@ -227,8 +228,15 @@ export default class BaseNode extends SceneObject {
     this.removeCollisionObject(cube, 1);
     this.addCollisionObject(cube, 1);
 
-    this.makeSolidGeometry(this.isSelected());
+    this.updateSolidGeometry();
+
     this.highlighting.refresh();
+  }
+
+  updateSolidGeometry() {
+    if(this.isSelected() || this.isConnectedToSelected()) {
+      this.makeSolidGeometry(true);
+    }
   }
 
   setPosition(x, y, z) {
@@ -327,6 +335,18 @@ export default class BaseNode extends SceneObject {
 
   forEachConnection(fn) {
     this.getAllConnections().forEach(c => fn(c));
+  }
+
+  isConnectedToSelected() {
+    let is = false;
+
+    this.forEachConnection((c) => {
+      if(c.isSelected()) {
+        is = true;
+        return;
+      }
+    });
+    return is;
   }
 
   getAllConnections() {

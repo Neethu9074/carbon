@@ -62,16 +62,16 @@ export default class Connection extends SceneObject {
     this.highlightFragment();
 
     // show hide connected nodes on highlighting factory
-    // this.from.makeSolidGeometry();
-    // this.to.makeSolidGeometry();
+    this.from.makeSolidGeometry();
+    this.to.makeSolidGeometry();
   }
 
   onSelectedLeave() {
     this.highlightFragment(false);
 
     // hide connected nodes on highlighting factory
-    // this.from.makeSolidGeometry(false);
-    // this.to.makeSolidGeometry(false);
+    this.from.makeSolidGeometry(false);
+    this.to.makeSolidGeometry(false);
   }
 
 
