@@ -54,18 +54,23 @@ export default class WiringConveyer {
 
     // snapshotIdString => snapshotId
     //
-    // TODO How is responsible for clearing this node cache?
+    // TODO Who is responsible for clearing this node cache?
     // This is a memory leak, but it is one which can possibly be
     // ignored as it only exists as long as there is at least one
-    // subscriber.
+    // subscriber. Cleaning this nodeCache can be quite a costly
+    // operation.
     this.nodeCache = {};
 
     const nodeMapping = this.buildUpNodeMapping(graph);
     this.processEdges(nodeMapping, graph);
 
-    // TODO
-    // the mapped nodes should all have the given pluginId
-    // { snapshotIdWithDesiredPluginId: [snapshotId] }
+    this.onNext(this.graph);
+  }
+
+  processUpdate(graph) {
+    const nodeMapping = this.buildUpNodeMapping(graph);
+    this.processEdges(nodeMapping, graph);
+    this.onNext(this.graph);
   }
 
   /**
