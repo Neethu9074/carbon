@@ -277,7 +277,6 @@ export default class BaseNode extends SceneObject {
   getNodeAsFragment() {
     const color = this.calculateNodeColor();
     const position = this.getPosition();
-    const scale = this.cube.scale;
 
     return {
       id: this.id,
@@ -285,7 +284,7 @@ export default class BaseNode extends SceneObject {
         contentProvider: new PCM({
           contentProvider: new SCM({
             contentProvider: new CCP(),
-            x: scale.x, y: scale.y, z: scale.z
+            x: 1, y: this.height, z: 1
           }),
           x: position.x - 0.5, y: position.y, z: position.z + 0.5
         }),

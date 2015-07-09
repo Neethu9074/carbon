@@ -460,11 +460,14 @@ export default class Scene {
   }
 
   addCollisionObject(obj, layer=0) {
+    if(!obj) {
+      return;
+    }
+
     let octree = this.octrees[layer];
     if(!octree) {
       this.octrees[layer] = octree = this.createOctree();
     }
-
     octree.add(obj, {useFaces: false});
     octree.update();
   }
