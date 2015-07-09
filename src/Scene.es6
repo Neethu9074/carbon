@@ -69,35 +69,27 @@ export default class Scene {
     this.subscriptions.push(activeMetric.subscribe(metric => {
       if(!metric) {
         currentMetrics = undefined;
-        // eventBus.emit('setHullsInactive', false);
-        this.hullsAreInactive = false;
-        this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+        // this.hullsAreInactive = false;
+        // this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
         this.hideMetrics();
 
       } else {
         currentMetrics = metric.get('metrics');
-        eventBus.emit('setHullsInactive', true);
         this.showMetrics();
-      }
-    }));
-
-    this.subscriptions.push(eventBus.on('setHullsInactive').subscribe((e) => {
-      if(e) {
-        this.singleMeshFactory.material.opacity = 0.2;
-        this.singleMeshFactory.material.transparent = true;
-
-        this.hullsAreInactive = true;
-
-      //only set hulls to normal state if there is not active metric
-    } else if(!currentMetrics || currentMetrics.size === 0) {
-        this.hullsAreInactive = false;
-        this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
       }
     }));
 
     this.subscriptions.push(selectedSceneObject.subscribe((obj) => {
       if(obj) {
         this.controller.flyToObject(obj);
+
+        this.singleMeshFactory.material.opacity = 0.2;
+        this.hullsAreInactive = true;
+
+      } else {
+        this.hullsAreInactive = false;
+        this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+
       }
     }));
   }
@@ -342,15 +334,13 @@ export default class Scene {
 
     //[1 - max out, 0 - max in]
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
-    normedZoomLevel = Math.min(1, Math.max(0.1, normedZoomLevel));
+    normedZoomLevel = Math.min(0.9, Math.max(0.1, normedZoomLevel));
 
-    this.highlightingSingleMeshFactory.material.opacity = Math.min(0.9, normedZoomLevel);
-    this.highlightingSingleMeshFactory.material.transparent = true;
+    this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
 
     //if there is no cube isSelected, fade all cubes by distance
     if(!this.hullsAreInactive) {
-      this.singleMeshFactory.material.opacity = Math.min(0.9, normedZoomLevel);
-      this.singleMeshFactory.material.transparent = true;
+      this.singleMeshFactory.material.opacity = normedZoomLevel;
 
       // this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
     }

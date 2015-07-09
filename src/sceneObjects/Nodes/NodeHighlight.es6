@@ -35,6 +35,10 @@ export default class NodeHighlight extends Highlight {
   setupHighlightBorderLines(client) {
     //create outline effect using lines
     const pos = client.getPosition();
+    if(!pos) {
+      return;
+    }
+
     const height = client.height;
     const fromX = pos.x + 0.01;
     const toX = pos.x - 1.01;
@@ -86,20 +90,14 @@ export default class NodeHighlight extends Highlight {
     super.clearHighlight();
   }
 
+  refresh(){}
+
   refreshConnections() {
     const client = this.client;
 
     //client is for unselected nodes which have incoming connections from
     //selected ones. if client position changes -> update the connection too
     client.incomingConnections.forEach(c => c.updateOfVisualComponents());
-  }
-
-  refresh() {
-    const client = this.client;
-    const factory = client.scene.highlightingSingleMeshFactory;
-
-    factory.removeFragment(client.id);
-    factory.addFragment(client.getNodeAsFragment());
   }
 
   onMouseOver() {
@@ -116,8 +114,6 @@ export default class NodeHighlight extends Highlight {
 
   dispose() {
     this.client.scene.lineFactory.removeFragment(this.client.id);
-    this.client.scene.highlightingSingleMeshFactory
-      .removeFragment(this.client.id);
 
     this.subscription.dispose();
     this.subscription = null;
