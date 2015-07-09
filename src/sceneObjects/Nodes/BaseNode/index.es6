@@ -214,17 +214,20 @@ export default class BaseNode extends SceneObject {
   }
 
   updateOfVisualComponents() {
-    const pos = this.getPosition();
-
     const anchor = this.getScreenAnchorPosition();
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
 
-    this.cube.position.set(pos.x, pos.y, pos.z);
+    const pos = this.getPosition();
+    const cube = this.cube;
+    cube.position.set(pos.x, pos.y, pos.z);
 
     this.refreshMesh();
     this.refreshFragment();
 
-    this.highlighting.refresh();
+    this.removeCollisionObject(cube, 1);
+    this.addCollisionObject(cube, 1);
+
+    this.makeSolidGeometry(this.isSelected());
   }
 
   setPosition(x, y, z) {
