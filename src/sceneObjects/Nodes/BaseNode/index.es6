@@ -315,8 +315,7 @@ export default class BaseNode extends SceneObject {
   setupConnections() {
     const wiredSnapshots = this.getWiredSnapshots();
 
-    //wiredSnapshots were not updated since last setup
-    if(!wiredSnapshots/* || !this.updateOnWiredSnapshots*/) {
+    if(!wiredSnapshots) {
       return;
     }
 

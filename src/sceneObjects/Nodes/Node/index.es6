@@ -316,13 +316,6 @@ export default class Node extends BaseNode {
     return this.wiredSnapshots;
   }
 
-  setWiredStickiesActive() {
-    this.getWiredSnapshotsAsArray().forEach((node) => {
-      const other = this.findNodeBySnapshot(node);
-      other.stickyNote.setInactive(false);
-    });
-  }
-
   updateMetricHeight() {
     const frag = this.scene.multiMetricFactory.getFragment(this.id);
     if(this.hidden || !frag) {return; }

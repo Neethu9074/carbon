@@ -32,8 +32,6 @@ export default class Unknownnode extends BaseNode {
     return new TooltipUnknownNode(this);
   }
 
-  setWiredStickiesActive() {}
-
   getWiredSnapshots() {
     this.updateOnWiredSnapshots = true;
     const thisSnapShot = this.snapshot;
