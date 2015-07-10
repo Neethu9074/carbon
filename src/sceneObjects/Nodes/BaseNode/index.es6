@@ -103,10 +103,9 @@ export default class BaseNode extends SceneObject {
   }
 
   unSelected() {
-    this.clearHighlight();
-    this.makeSolidGeometry(false);
+    this.forEachConnection((c) => {c.unSelect(); c.hide(); });
 
-    this.forEachConnection((c) => {c.hide(); c.unSelect(); });
+    this.clearHighlight();
   }
 
   registerEvents() {

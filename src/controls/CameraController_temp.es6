@@ -164,8 +164,12 @@ export default class CameraController {
     const hitten = this.hittenObject;
     this.getObjectOnCursor();
 
-    //if there is a hitten object
-    if(this.hittenObject) {
+    //if there is actually not hitten but it was last frame
+    if(!this.hittenObject && hitten) {
+      hitten.parentSceneObject.onHighlight(false);
+
+      //if there is a hitten object
+    } else if(this.hittenObject) {
       //if this is a new hitten object
       if(hitten !== this.hittenObject) {
         //if the new differs from the old and the old is valid
@@ -174,9 +178,6 @@ export default class CameraController {
         }
         this.hittenObject.parentSceneObject.onHighlight(true);
       }
-      //if there is actually not hitten but it was last frame
-    } else if(!this.hittenObject && hitten) {
-      hitten.parentSceneObject.onHighlight(false);
     }
 
     this.scene.handleHoveredConnetions(this.raycaster);

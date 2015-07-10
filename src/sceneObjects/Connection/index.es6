@@ -53,7 +53,7 @@ export default class Connection extends SceneObject {
   }
 
   onHighlightLeave() {
-    if(!this.to.isSelected() && !this.from.isSelected()) {
+    if(!this.oneEndpointIsSelected()) {
       this.enableFragment(false);
     }
   }
@@ -70,8 +70,12 @@ export default class Connection extends SceneObject {
     this.highlightFragment(false);
 
     // hide connected nodes on highlighting factory
-    this.from.makeSolidGeometry(false);
-    this.to.makeSolidGeometry(false);
+    if(!this.oneEndpointIsSelected()) {
+
+      if(!this.toIsConnectedToSelected()) {
+        this.to.makeSolidGeometry(false);
+      }
+    }
   }
 
 
@@ -246,7 +250,9 @@ export default class Connection extends SceneObject {
   }
 
   unSelect() {
-    this.changeStateProperty('selected', false);
+    if(!this.oneEndpointIsSelected()) {
+      this.changeStateProperty('selected', false);
+    }
   }
 
   show() {
@@ -276,6 +282,23 @@ export default class Connection extends SceneObject {
       this.render();
       this.reEnterState();
     }
+  }
+
+  //checks weather one of the endpoints (from and to) is in the selected state
+  oneEndpointIsSelected() {
+    return (this.from.isSelected() || this.to.isSelected());
+  }
+
+  //checks weather one of the endpoints (from and to) is connected to another
+  //node which is in the selected state
+  toIsConnectedToSelected() {
+    let isConnectedToSelected = false;
+    this.to.forEachConnection((c) => {
+      if(c.oneEndpointIsSelected()) {
+        isConnectedToSelected = true;
+      }
+    });
+    return isConnectedToSelected;
   }
 
   disposeCollisionLine() {
