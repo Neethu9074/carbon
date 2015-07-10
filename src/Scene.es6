@@ -300,7 +300,11 @@ export default class Scene {
 
     if(currentMetrics) {
       eventBus.emit('upateMetricHeights');
-      this.singleMetricFactory.updateHeights();
+      if(currentMetrics.size === 1) {
+        this.singleMetricFactory.updateHeights();
+      } else {
+        this.multiMetricFactory.updateHeights();
+      }
     }
   }
 

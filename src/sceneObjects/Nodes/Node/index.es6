@@ -206,9 +206,9 @@ export default class Node extends BaseNode {
     }
 
     if(values.length === 1) {
-      this.singleMetricPillar.setSingleMetricValue(values[0]);
+      this.singleMetricPillar.setMetricValue(values[0]);
     } else {
-      this.multiMetricPillar.setMultiMetricValues(values);
+      this.multiMetricPillar.setMetricValue(values);
     }
   }
 
