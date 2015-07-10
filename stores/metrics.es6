@@ -6,11 +6,17 @@ import * as ro from 'reactive-observables';
 
 const reemitSpec = {emitLatestOnSubscribe: true};
 
+const emptyList = Immutable.List();
+
 export const metricPath = ro.create(reemitSpec);
-metricPath.emit(Immutable.List());
+metricPath.emit(emptyList);
 
 export function setMetricPath(path) {
   metricPath.emit(path);
+}
+
+export function clearMetricPath() {
+  metricPath.emit(emptyList);
 }
 
 
