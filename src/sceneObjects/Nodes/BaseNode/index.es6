@@ -112,21 +112,17 @@ export default class BaseNode extends SceneObject {
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
       //update only if this node is visible
-      if(!this.hidden && this.isDisposing) {
+      if(!this.hidden) {
         this.update(data);
       }
     }));
 
     this.addSubscription(activeMetric.subscribe(metric => {
-      if(!this.isDisposing) {
-        this.onActiveMetric(metric);
-      }
+      this.onActiveMetric(metric);
     }));
 
     this.addSubscription(ssos.selectedSceneObject.subscribe((so) => {
-      if(!this.isDisposing) {
-        this.onSceneObjectSelected(so);
-      }
+      this.onSceneObjectSelected(so);
     }));
   }
 
@@ -292,7 +288,6 @@ export default class BaseNode extends SceneObject {
     const position = this.getPosition().clone();
 
     if(!position) {
-      console.log(position);
       return undefined;
     }
 
@@ -438,7 +433,7 @@ export default class BaseNode extends SceneObject {
   }
 
   dispose() {
-    this.isDisposing = true;
+    this.disposeSubscriptions();
 
     this.clearConnections();
 

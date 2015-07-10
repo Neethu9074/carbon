@@ -92,6 +92,8 @@ export default class Unknownnode extends BaseNode {
   setHeight() {}
 
   dispose() {
+    this.disposeSubscriptions();
+
     super.dispose();
   }
 

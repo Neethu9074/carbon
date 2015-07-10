@@ -523,6 +523,8 @@ export default class Node extends BaseNode {
   }
 
   dispose() {
+    this.disposeSubscriptions();
+
     this.snapshotServer.dispose();
     this.clearLayer();
     this.removeFromGroundFactory();

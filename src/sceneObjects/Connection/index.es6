@@ -35,9 +35,9 @@ export default class Connection extends SceneObject {
 
     allConnections.push(this);
 
-    this.layoutSubscribtion = eventBus.on('layoutChanged').subscribe(() => {
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
       this.updateOfVisualComponents();
-    });
+    }));
   }
 
   onInitialEnter() {
@@ -286,10 +286,7 @@ export default class Connection extends SceneObject {
   }
 
   dispose() {
-    if(this.layoutSubscribtion) {
-      this.layoutSubscribtion.dispose();
-      this.layoutSubscribtion = null;
-    }
+    this.disposeSubscriptions();
 
     _.remove(allConnections, c => c.id === this.id);
 
