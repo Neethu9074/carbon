@@ -61,13 +61,19 @@ const Metrics = React.createClass({
 
   getInitialState() {
     return {
-      path: Immutable.List()
+      path: Immutable.List(),
+      activeMetric: null
     };
   },
 
   componentDidMount() {
     this.addSubscription(
       metricsStore.metricPath.subscribe(path => this.setState({path}))
+    );
+
+    this.addSubscription(
+      metricsStore.activeMetric
+        .subscribe(activeMetric => this.setState({activeMetric}))
     );
   },
 
@@ -96,14 +102,17 @@ const Metrics = React.createClass({
               </span>
             </li>
           ).toJS()}
-          <li className={block + '__metric-list-item'}
-              onClick={this.clearMetrics}>
-            <Icon type='delete'
-                  className={block + '__icon'}/>
-            <span className={block + '__label'}>
-              Clear
-            </span>
-          </li>
+
+          {this.state.activeMetric ?
+            <li className={block + '__metric-list-item'}
+                onClick={this.clearMetrics}>
+              <Icon type='delete'
+                    className={block + '__icon'}/>
+              <span className={block + '__label'}>
+                Clear
+              </span>
+            </li>
+          : null}
         </ul>
 
       </div>
