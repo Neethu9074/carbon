@@ -12,12 +12,13 @@ import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 
 import BaseNode from '../BaseNode/index';
+import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
+import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
 import Layer from '../../Layer';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import StickyNoteLayer from '../../StickyNote/Layer';
 import TooltipNode from '../../Tooltips/Node';
-import TooltipMetric from '../../Tooltips/Metric';
 
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -28,13 +29,6 @@ import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider
 // import SCCP from '../../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 /*eslint-enable max-len*/
 
-//the basic geometry is a uniformed cube, where the pivot point is at the corner
-const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
-for (let i = 0; i < cubeGeometry.vertices.length; i++) {
-  cubeGeometry.vertices[i].x -= 0.5;
-  cubeGeometry.vertices[i].y += 0.5;
-  cubeGeometry.vertices[i].z += 0.5;
-}
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 let incrementId = 0;
 
@@ -46,15 +40,16 @@ export default class Node extends BaseNode {
 
     this.incrementId = ++incrementId;
     this.stickyNote = new StickyNoteNode(this);
-    this.createMetricCollisionObject();
 
     this.health = this.health || health.ok;
-
     this.layer = [];
   }
 
   registerEvents() {
     super.registerEvents();
+
+    this.singleMetricPillar = new SingleMetricPillar({parent: this});
+    this.multiMetricPillar = new MultiMetricPillar({parent: this});
 
     this.snapshotServer = new NodeSnapshotServer(this);
 
@@ -73,7 +68,6 @@ export default class Node extends BaseNode {
 
   onInactiveEnter() {
     this.removeCollisionObject(this.cube, 1);
-    this.addCollisionObject(this.metricCube, 2);
 
     //save the current health, set health to ok, block the coloring for cube
     //and reset to old health
@@ -84,7 +78,6 @@ export default class Node extends BaseNode {
   }
 
   onInactiveLeave() {
-    this.removeCollisionObject(this.metricCube, 2);
     this.addCollisionObject(this.cube, 1);
 
     //unblock the coloring for cube and reset the current health
@@ -98,29 +91,11 @@ export default class Node extends BaseNode {
     const dim = this.cube.scale;
 
     this.addToGroundFactory(id, pos, dim);
-    this.addToMultiMetricFactory(id, pos, dim);
-    this.addToSingleMetricFactory(id, pos, dim);
   }
 
-  //for the multi metric pillars
-  addToMultiMetricFactory(id, pos, dim) {
-    const tiles = [];
-    for (let i = 0; i < this.scene.numTiles; i++) {
-      tiles[i] = {
-        old: {from: 0, to: 0},
-        new: {from: 0, to: 0}
-      };
-    }
-    const fragment = {id, pos, dim, tiles};
 
-    this.scene.multiMetricFactory.addFragment(fragment);
-  }
-
-  //for the single metric pillar
-  addToSingleMetricFactory(id, pos, dim) {
-    this.scene.singleMetricFactory.addFragment({
-      id, pos, dim, newHeight: 0
-    });
+  removeFromGlobalGeometry() {
+    this.removeFromGroundFactory();
   }
 
   //this is not the group where nodes are on!
@@ -169,49 +144,6 @@ export default class Node extends BaseNode {
     scene.lineFactory.removeFragment(id + 'ground');
   }
 
-  createMetricCollisionObject() {
-    const parent = this;
-    let cube;
-    this.metricCube = cube = new THREE.Mesh(cubeGeometry);
-    cube.matrixAutoUpdate = false;
-    cube.rotationAutoUpdate = false;
-    cube.position.copy(this.getPosition());
-    cube.updateMatrix();
-    cube.updateMatrixWorld();
-
-    cube.parentSceneObject = {
-      //dummy scene object to serve the mouseover event
-      onHighlight(highlighted) {
-
-        //onmouseover
-        if(highlighted) {
-          this.tooltip = new TooltipMetric({
-            getHtmlContainer() {
-              return parent.getHtmlContainer();
-            },
-            snapshot: parent.snapshot
-          });
-
-        //onmouseoff
-        } else {
-          this.tooltip.dispose();
-          this.tooltip = undefined;
-        }
-      }
-    };
-  }
-
-  updateMetricCollisionObject(newHeight) {
-    if(this.metricCube && !this.hidden) {
-      const cube = this.metricCube;
-      cube.position.copy(this.getPosition());
-      const cubeHeight = newHeight * this.height;
-      cube.scale.y = cubeHeight < 0.0001 ? 0.001 : cubeHeight;
-      cube.updateMatrix();
-      cube.updateMatrixWorld();
-    }
-  }
-
   getTooltipSticky() {
     return new TooltipNode(this);
   }
@@ -235,8 +167,16 @@ export default class Node extends BaseNode {
     super.onSceneObjectSelected(obj);
   }
 
-  showMetrics() {
+  showMetrics(currentMetric) {
     this.stickyNote.switchToMetric();
+
+    if(currentMetric.size === 1) {
+      this.singleMetricPillar.changeStateProperty('active', true);
+      this.multiMetricPillar.changeStateProperty('active', false);
+    } else {
+      this.singleMetricPillar.changeStateProperty('active', false);
+      this.multiMetricPillar.changeStateProperty('active', true);
+    }
 
     // const position = this.getPosition();
     // const size = {x: 0.9, y: 0.9, z: 0.9};
@@ -255,7 +195,9 @@ export default class Node extends BaseNode {
 
   hideMetrics() {
     this.stickyNote.switchToIcon();
-    // this.scene.singleMeshMetricFactory.removeFragment(this.id);
+
+    this.singleMetricPillar.changeStateProperty('active', false);
+    this.multiMetricPillar.changeStateProperty('active', false);
   }
 
   setMetricValues(values) {
@@ -264,33 +206,10 @@ export default class Node extends BaseNode {
     }
 
     if(values.length === 1) {
-      this.setSingleMetricValue(values[0]);
+      this.singleMetricPillar.setSingleMetricValue(values[0]);
     } else {
-      this.setMultiMetricValues(values);
+      this.multiMetricPillar.setMultiMetricValues(values);
     }
-  }
-
-  setSingleMetricValue(value) {
-    const fragment = this.scene.singleMetricFactory.getFragment(this.id );
-    if(fragment) {
-      fragment.newHeight = value;
-
-      //scale the collision cube to the max pillar size
-      this.updateMetricCollisionObject(value);
-      this.updateFactoryValues([value]);
-    }
-  }
-
-  setMultiMetricValues(values) {
-    this.newMetricValues = values;
-
-    //set the value to the total node height for better mouseover
-    this.updateMetricCollisionObject(this.height);
-    this.updateFactoryValues(values);
-  }
-
-  updateFactoryValues() {
-    // this.scene.singleMeshMetricFactory.setMetricValues(this.id, values);
   }
 
   setWiredSnapshots(wiredSnapshots) {
@@ -314,36 +233,6 @@ export default class Node extends BaseNode {
 
   getWiredSnapshots() {
     return this.wiredSnapshots;
-  }
-
-  updateMetricHeight() {
-    const frag = this.scene.multiMetricFactory.getFragment(this.id);
-    if(this.hidden || !frag) {return; }
-
-    const tiles = frag.tiles;
-    let values = [];
-
-    //if there are no new metric values available
-    let useOldPos = (this.newMetricValues === undefined);
-    if(!useOldPos) {
-      values = this.newMetricValues;
-      this.newMetricValues = undefined;
-    } else {
-      //use the "old" to value as the new to value
-      values = tiles.map((t) => { return t.new.to; });
-    }
-
-    tiles[0] = {
-      old: {from: tiles[0].new.from, to: tiles[0].new.to},
-      new: {from: 0, to: values[0]}
-    };
-    for (let i = 1; i < values.length; i++) {
-      tiles[i] = {
-        old: {from: tiles[i].new.from, to: tiles[i].new.to},
-        new: {from: tiles[i - 1].new.to,
-          to: useOldPos ? values[i] : tiles[i - 1].new.to + values[i]}
-      };
-    }
   }
 
   update() {
@@ -392,6 +281,9 @@ export default class Node extends BaseNode {
 
     this.cube.scale.y = this.height;
     this.layer.forEach(p => p.setPosition(pos.x, p.getPosition().y, pos.z));
+
+    this.singleMetricPillar.updateOfVisualComponents(pos);
+    this.multiMetricPillar.updateOfVisualComponents(pos);
   }
 
   getScreenAnchorPosition() {
@@ -496,25 +388,15 @@ export default class Node extends BaseNode {
   enableFragments(enabled) {
     super.enableFragments(enabled);
 
-    const scene = this.scene;
     const id = this.id;
     const pos = this.cube.position.clone().add(cubePosition);
     const dim = this.cube.scale;
-    scene.multiMetricFactory.enableFragment(id, enabled);
-    scene.singleMetricFactory.enableFragment(id, enabled);
 
     if(enabled) {
       this.addToGroundFactory(id, pos, dim);
     } else {
       this.removeFromGroundFactory();
     }
-  }
-
-  removeFromGlobalGeometry() {
-    const id = this.id;
-    const scene = this.scene;
-    scene.multiMetricFactory.removeFragment(id);
-    scene.singleMetricFactory.removeFragment(id);
   }
 
   clearLayer() {
@@ -524,6 +406,9 @@ export default class Node extends BaseNode {
 
   dispose() {
     this.disposeSubscriptions();
+
+    this.singleMetricPillar.dispose();
+    this.multiMetricPillar.dispose();
 
     this.snapshotServer.dispose();
     this.clearLayer();
@@ -536,18 +421,18 @@ export default class Node extends BaseNode {
 
     this.snapshot = null;
     this.health = null;
-    this.metricCube = null;
   }
 
   calculateNodeColor() {
     const hostHealth = this.health;
+    const colors = theme.map.colors;
     let color;
     if(hostHealth === health.warning) {
-      color = new THREE.Color(theme.map.colors.warning);
+      color = new THREE.Color(colors.warning);
     } else if(hostHealth === health.danger) {
-      color = new THREE.Color(theme.map.colors.critical);
+      color = new THREE.Color(colors.critical);
     } else {
-      color = new THREE.Color(theme.map.colors.default);
+      color = new THREE.Color(colors.default);
     }
     return {r: color.r, g: color.g, b: color.b};
   }

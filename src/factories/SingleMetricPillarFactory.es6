@@ -34,8 +34,7 @@ export default class SingleMetricPillarFactory extends MeshFactory {
       },
       vertexShader: vertexShader,
       fragmentShader: fragmentShader,
-      vertexColors: THREE.VertexColors,
-      visible: false
+      vertexColors: THREE.VertexColors
     }));
 
     this.vertexPos = [

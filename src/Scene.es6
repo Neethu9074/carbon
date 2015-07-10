@@ -297,34 +297,17 @@ export default class Scene {
   updateMetricHeights() {
     // this.singleMeshMetricFactory.updateHeights();
 
-    //if there is an active metric to be rendered, update the heights
-    if(this.activeMetricFactory) {
-      this.activeMetricFactory.updateHeights();
+    if(currentMetrics) {
       eventBus.emit('upateMetricHeights');
-    }
-  }
-
-  hideMetricFactoryMesh() {
-    if(this.activeMetricFactory) {
-      this.activeMetricFactory.material.visible = false;
+      this.singleMetricFactory.updateHeights();
     }
   }
 
   showMetrics() {
-    //if there is an active metric, dispose it first
-    this.hideMetricFactoryMesh();
-
-    //check if there are multiple metrics to be rendered
-    this.activeMetricFactory = currentMetrics.size > 1 ?
-      this.multiMetricFactory : this.singleMetricFactory;
-
-    this.activeMetricFactory.material.visible = true;
     this.renderScene();
   }
 
   hideMetrics(e) {
-    this.hideMetricFactoryMesh();
-
     if(e && e.hiddenByZoom) {
       this.hideMetricsOnZoomOut = true;
       // disable tooltips on metrics here

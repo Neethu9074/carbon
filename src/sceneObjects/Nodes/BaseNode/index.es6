@@ -12,6 +12,7 @@ import {activeMetric} from 'instana-ui-services/stores/metrics';
 import Connection from '../../Connection/index';
 import SceneObject from '../../SceneObject/index';
 import Highlight from '../NodeHighlight';
+import {cubeGeometry} from '../../geometries';
 
 /*eslint-disable max-len*/
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
@@ -20,13 +21,6 @@ import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 /*eslint-enable max-len*/
 
-//the basic geometry is a uniformed cube, where the pivot point is at the corner
-const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
-for (let i = 0; i < cubeGeometry.vertices.length; i++) {
-  cubeGeometry.vertices[i].x -= 0.5;
-  cubeGeometry.vertices[i].y += 0.5;
-  cubeGeometry.vertices[i].z += 0.5;
-}
 //global cube material to reduce object creation
 const cubeMaterial = new THREE.MeshBasicMaterial();
 

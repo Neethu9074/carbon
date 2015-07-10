@@ -21,9 +21,6 @@ export default class NodeSnapshotServer {
       this.showMetrics();
     }));
 
-    this.subscriptions.push(eventBus.on('upateMetricHeights').subscribe(() =>
-      client.updateMetricHeight()));
-
     this.subscriptions.push(getWiredSnapshots(client.snapshot)
       .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots)));
 
@@ -35,6 +32,7 @@ export default class NodeSnapshotServer {
         currentMetric = metric.get('metrics');
         this.showMetrics();
       } else {
+        currentMetric = undefined;
         this.disposeMetricSubscription();
         client.hideMetrics();
       }
@@ -60,7 +58,7 @@ export default class NodeSnapshotServer {
   showMetrics() {
     this.disposeMetricSubscription();
     this.subscribeToCurrentMetric();
-    this.client.showMetrics();
+    this.client.showMetrics(currentMetric);
   }
 
   disposeMetricSubscription() {
