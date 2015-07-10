@@ -10,6 +10,7 @@ import {run, HashLocation} from 'react-router';
 import logging from 'instalog';
 import {setThemeOnHtmlDocument} from 'instana-ui-services/theme';
 
+import './subscriptionInfoPrinter';
 import routes from './routes';
 import i18n from './i18n';
 import UiBackendLogAppender from './UiBackendLogAppender';
