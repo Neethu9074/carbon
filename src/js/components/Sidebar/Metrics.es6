@@ -96,6 +96,14 @@ const Metrics = React.createClass({
               </span>
             </li>
           ).toJS()}
+          <li className={block + '__metric-list-item'}
+              onClick={this.clearMetrics}>
+            <Icon type='delete'
+                  className={block + '__icon'}/>
+            <span className={block + '__label'}>
+              Clear
+            </span>
+          </li>
         </ul>
 
       </div>
@@ -130,6 +138,11 @@ const Metrics = React.createClass({
 
   onBack() {
     metricsStore.setMetricPath(this.state.path.pop());
+  },
+
+  clearMetrics() {
+    metricsStore.clearActiveMetric();
+    metricsStore.clearMetricPath();
   }
 
 });
