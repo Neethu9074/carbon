@@ -58,3 +58,13 @@ export function unsubscribe(id) {
 export function getSubscriptionId() {
   return idCounter++;
 }
+
+/**
+ * Provides information about all currently active subscriptions.
+ *
+ * @returns {object} A copy of all active subscriptions
+ */
+export function getActiveSubscriptions() {
+  // better safe than sorry: Protect against mutations by doing a deep copy
+  return JSON.parse(JSON.stringify(subscriptions));
+}
