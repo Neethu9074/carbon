@@ -279,7 +279,7 @@ export default class BaseNode extends SceneObject {
 
   getNodeAsFragment() {
     const color = this.calculateNodeColor();
-    const position = this.getPosition().clone();
+    const position = this.getPosition();
 
     if(!position) {
       return undefined;

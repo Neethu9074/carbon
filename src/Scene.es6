@@ -89,7 +89,6 @@ export default class Scene {
 
       } else {
         this.showHulls();
-
       }
     }));
   }
