@@ -43,6 +43,22 @@ export default class Node extends BaseNode {
 
     this.health = this.health || health.ok;
     this.layer = [];
+
+    this.geometryProviderGroundLine = new VATOCM({
+      contentProvider: new PCM({ //reposition
+        contentProvider: new SCM({ //resize
+          contentProvider: new FCP()
+        })
+      })
+    });
+
+    this.geometryProviderGround = new CMCM({
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: new PCP()
+        })
+      })
+    });
   }
 
   registerEvents() {
@@ -110,29 +126,25 @@ export default class Node extends BaseNode {
     const color = this.calculateNodeColor();
     const position = pos;
     const size = dim.clone().multiplyScalar(1.5);
+    const cmcmGround = this.geometryProviderGround;
+    const pcmGround = cmcmGround.contentProvider;
+
+    pcmGround.position = {x: position.x, y: position.y, z: position.z};
+    pcmGround.contentProvider.scale = {x: size.x, y: 1, z: size.z};
+    cmcmGround.color = {r: color.r, g: color.g, b: color.b};
+
     this.scene.groundSingleMeshFactory.addFragment({
       id: id,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new PCP(),
-            x: size.x, y: 1, z: size.z
-          }),
-          x: position.x, y: position.y, z: position.z
-        }),
-        r: color.r, g: color.g, b: color.b
-      })
+      contentProvider: cmcmGround
     });
 
-    const points = new VATOCM({
-      contentProvider: new PCM({ //reposition
-        contentProvider: new SCM({ //resize
-          contentProvider: new FCP(), //get frame
-          x: size.x, y: 1, z: size.z
-        }),
-        x: pos.x, y: pos.y + 0.025, z: pos.z
-      })
-    }).getVertices();
+    const vatocmGroundLine = this.geometryProviderGroundLine;
+    const pcmGroundLine = vatocmGroundLine.contentProvider;
+    pcmGroundLine.contentProvider.scale = pcmGround.contentProvider.scale;
+    pcmGround.position = {x: pos.x, y: pos.y + 0.025, z: pos.z};
+    pcmGround.contentProvider.scale = {x: size.x, y: 1, z: size.z};
+
+    const points = vatocmGroundLine.getVertices();
 
     this.scene.lineFactory.addFragment({id: this.id + 'ground', points, color});
   }
