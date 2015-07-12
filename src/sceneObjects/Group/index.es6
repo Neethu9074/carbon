@@ -38,6 +38,14 @@ export default class Group extends SceneObject {
     }));
 
     this.addCollisionPlane();
+
+    this.geometryProvider = new VATOCM({
+      contentProvider: new PCM({ //reposition
+        contentProvider: new SCM({ //resize
+          contentProvider: new FCP()
+        })
+      })
+    });
   }
 
   onInitialEnter() {}
@@ -158,15 +166,13 @@ export default class Group extends SceneObject {
     const lineFactory = this.scene.lineFactory;
     const size = this.size;
     const pos = this.getPosition();
-    const points = new VATOCM({
-      contentProvider: new PCM({ //reposition
-        contentProvider: new SCM({ //resize
-          contentProvider: new FCP(), //get frame
-          x: size.x, y: 1, z: size.z
-        }),
-        x: pos.x, y: pos.y, z: pos.z
-      })
-    }).getVertices();
+    const pcm = this.geometryProvider.contentProvider;
+    const scm = pcm.contentProvider;
+
+    pcm.position = {x: pos.x, y: pos.y, z: pos.z};
+    scm.scale = {x: size.x, y: 1, z: size.z};
+
+    const points = this.geometryProvider.getVertices();
 
     lineFactory.removeFragment(this.id);
     lineFactory.addFragment({id: this.id, points, color});
