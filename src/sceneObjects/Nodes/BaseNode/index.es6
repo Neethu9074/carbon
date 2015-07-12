@@ -53,6 +53,14 @@ export default class BaseNode extends SceneObject {
     this.connections = [];
     this.incomingConnections = [];
 
+    this.geometryProvider = new CMCM({
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: new CCP()
+        })
+      })
+    });
+
     this.stickyNote = emptyStickyObject;
 
     this.render();
@@ -154,9 +162,8 @@ export default class BaseNode extends SceneObject {
 
   makeSolidGeometry(solid=true) {
     if(solid) {
-      const nodeAsFragment = this.getNodeAsFragment();
-      if(nodeAsFragment) {
-        this.scene.highlightingSingleMeshFactory.addFragment(nodeAsFragment);
+      if(this.fragment) {
+        this.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
       }
 
     } else {
@@ -269,35 +276,29 @@ export default class BaseNode extends SceneObject {
   }
 
   refreshFragment() {
-    const fragment = this.getNodeAsFragment();
+    const position = this.getPosition();
+    if(!position) {
+      return undefined;
+    }
+
+    const color = this.calculateNodeColor();
+    const pcm = this.geometryProvider.contentProvider;
+    const scm = pcm.contentProvider;
+
+    pcm.position = {x: position.x - 0.5, y: position.y, z: position.z + 0.5};
+    scm.scale = {x: 1, y: this.height, z: 1};
+    this.geometryProvider.color = {r: color.r, g: color.g, b: color.b};
+
+    const fragment = this.fragment = {
+      id: this.id,
+      contentProvider: this.geometryProvider
+    };
+
     const scene = this.scene;
 
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
     scene.renderScene();
-  }
-
-  getNodeAsFragment() {
-    const color = this.calculateNodeColor();
-    const position = this.getPosition();
-
-    if(!position) {
-      return undefined;
-    }
-
-    return {
-      id: this.id,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new CCP(),
-            x: 1, y: this.height, z: 1
-          }),
-          x: position.x - 0.5, y: position.y, z: position.z + 0.5
-        }),
-        r: color.r, g: color.g, b: color.b
-      })
-    };
   }
 
   enableFragments(enable) {
