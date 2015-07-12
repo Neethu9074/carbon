@@ -9,8 +9,8 @@ const logger = createLogger('ui-map.connectionGrid');
 class ConnectionGrid {
 
   constructor() {
-    this.width = 100;
-    this.height = 100;
+    this.width = 300;
+    this.height = 150;
 
     // create grid, defaulting to 'walkable'
     this.grid = new gamlib.AStarArray(this.width, this.height);
