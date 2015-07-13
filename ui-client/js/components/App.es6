@@ -58,7 +58,6 @@ const App = React.createClass({
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginId={this.state.pluginId} />
 
-          <SearchBar />
           <Sidebar pluginId={this.state.pluginId} />
         </div>
 
