@@ -6,7 +6,9 @@ import Tween from 'tween.js';
 import './lib/Octree';
 
 import {getAllNodes} from './mapStructureUtils';
-import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
+import {iconSizeStore} from './stores/NodeIconStore';
 import {selectedSceneObject} from './stores/selectedSceneObject';
 import {currentScene} from './stores/sceneStore';
 import * as zoom from './zoom';
@@ -24,7 +26,6 @@ import {allConnections} from './sceneObjects/Connection/index';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
-import {iconSizeStore} from './stores/NodeIconStore';
 
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
@@ -81,7 +82,7 @@ export default class Scene {
     }));
 
     this.subscriptions.push(
-      selectedSnapshot.selectedSnapshot.async().subscribe((selected) => {
+      selectedSnapshotStore.selectedSnapshot.async().subscribe((selected) => {
         this.onObjectClicked(this.map.findNodeBySnapshot(selected), false);
       })
     );
@@ -97,14 +98,14 @@ export default class Scene {
         if(obj.calledByMap) {
           //if the object exists but has no snapshot or is unknown
           if(!sceneObject.snapshot || sceneObject.isUnknown) {
-            selectedSnapshot.clear();
+            selectedSnapshotStore.clear();
           } else {
-            selectedSnapshot.select(sceneObject.snapshot);
+            selectedSnapshotStore.select(sceneObject.snapshot);
           }
         }
       } else {
         this.showHulls();
-        selectedSnapshot.clear();
+        selectedSnapshotStore.clear();
       }
     }));
   }
@@ -551,6 +552,7 @@ export default class Scene {
       selectedSceneObject.emit({sceneObject, calledByMap});
     } else {
       selectedSceneObject.emit(null);
+      highlightedSnapshot.clear();
     }
   }
 
