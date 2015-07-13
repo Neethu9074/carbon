@@ -14,6 +14,9 @@ export default {
     map: {
       sidebar: {
         switchToDashboard: 'Switch to dashboard'
+      },
+      searchbar: {
+        submit: 'Submit'
       }
     }
   }

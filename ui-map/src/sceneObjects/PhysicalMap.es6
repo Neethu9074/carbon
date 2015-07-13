@@ -213,11 +213,12 @@ export default class PhysicalMap extends SceneObject {
   filter(validationFunction) {
     const allNodes = getAllNodes(this);
 
-    const unMatched = allNodes.filter(node => !validationFunction(node));
-    unMatched.forEach((node) => node.hide());
-
     const matched = allNodes.filter(node => validationFunction(node));
+    const unMatched = _.xor(allNodes, matched);
+
     matched.forEach((node) => node.show());
+    unMatched.forEach((node) => node.hide());
+    this.scene.renderScene();
   }
 
   //is called from group if it has no nodes anymore
