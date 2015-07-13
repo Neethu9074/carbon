@@ -5,19 +5,5 @@
   "main": "js/index.js",
   "author": "Ben Ripkens <ben@instana.com>",
   "license": "proprietary",
-  "scripts": {
-    "installHook": "echo '#!/bin/sh\nnpm run build\ngit add less/constants.less' >.git/hooks/pre-commit && chmod a+x .git/hooks/pre-commit",
-    "build": "node bin/",
-    "testLessCompilation": "npm run build && lessc less/common.less"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/instana/ui-themes.git"
-  },
-  "publishConfig": {
-    "registry": "http://54.204.9.148/nexus/content/repositories/instana-npm-releases/"
-  },
-  "devDependencies": {
-    "less": "^2.5.0"
-  }
+  "private": true
 }

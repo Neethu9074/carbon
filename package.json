@@ -7,9 +7,9 @@
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
     "clean": "gulp clean",
     "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
-    "install": "proxrox install",
+    "install": "proxrox install && rm node_modules/instana-ui-* && ln -s ../ui-services node_modules/instana-ui-services && ln -s ../ui-sdk node_modules/instana-ui-sdk && ln -s ../ui-forge node_modules/instana-ui-forge && ln -s ../ui-map node_modules/instana-ui-map && ln -s ../ui-themes node_modules/instana-ui-themes && ln -s ../ui-components node_modules/instana-ui-components",
     "prod": "export BUILD_DEV='false' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
-    "test": "eslint --ext .es6 ui-map/src/ && mocha --require mocha-babel-es6 ui-map/src/*_test.es6 ui-map/src/**/*_test.es6 ui-map/src/**/**/*_test.es6 ui-map/src/**/**/**/*_test.es6"
+    "test": "./node_modules/.bin/eslint --ext .es6 ui-* gulpfile.js && mocha --require mocha-babel-es6 **/*_test.es6"
   },
   "repository": {
     "type": "git",
@@ -27,7 +27,7 @@
     "invariant": "^2.0.0",
     "lodash": "^3.9.0",
     "moment": "^2.10.3",
-    "pretty-bytes": "^2.0.1",
+    "pretty-bytes": "bripkens/pretty-bytes#4c7116245e466d0836577fb504e3f44ab16877f3",
     "react": "^0.13.1",
     "react-immutable-proptypes": "^1.0.0",
     "react-intl": "^1.2.0",
@@ -43,7 +43,7 @@
     "babel-core": "^5.0.0",
     "babel-loader": "^5.0.0",
     "bluebird": "^2.9.6",
-    "chai": "^2.2.0",
+    "chai": "^3.0.0",
     "css-loader": "^0.9.1",
     "del": "^1.1.1",
     "dogescript-loader": "^0.1.3",

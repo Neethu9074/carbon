@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react/addons';
-import Immutable from 'immutable';
 
 import TooltipFrame from '../Frame';
 import Heading from '../Heading';

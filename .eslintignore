@@ -1,4 +1,3 @@
-
-gulpfile.js
-webpack.config.js
 ui-map/src/lib
+ui-map/demo/js/lib/rStats.extras.js
+ui-map/demo/js/lib/rStats.js

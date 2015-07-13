@@ -1,57 +1,8 @@
 {
   "name": "instana-ui-components",
-  "version": "1.51.11",
+  "version": "1.0.0",
   "description": "All reusable base UI components such as buttons, charts, icons, tabs... Will supersede all ui-*-charts repos and parts of ui-client",
   "main": "index.es6",
-  "scripts": {
-    "dev": "export BUILD_DEV=true && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:7373/demo && webpack-dev-server --host 0.0.0.0 --port 7272",
-    "test": "eslint $(find . -name \"*.es6\" | grep -v \"./node_modules\") && mocha --require mocha-babel-es6 **/*_test.es6"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/instana/ui-components.git"
-  },
-  "publishConfig": {
-    "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"
-  },
-  "author": "Ben Ripkens <ben@instana.com>",
-  "dependencies": {
-    "d3": "^3.5.5",
-    "font-awesome": "^4.3.0",
-    "instana-ui-sdk": "^1.10.7",
-    "instana-ui-services": "^1.52.0",
-    "instana-ui-themes": "^1.18.0",
-    "invariant": "^2.0.0",
-    "lodash": "^3.9.3",
-    "react": "^0.13.1",
-    "react-immutable-proptypes": "^1.0.0",
-    "reactive-observables": "^1.2.0",
-    "tween.js": "^0.14.0"
-  },
-  "devDependencies": {
-    "babel": "^5.0.10",
-    "babel-core": "^5.0.0",
-    "babel-loader": "^5.0.0",
-    "chai": "^2.2.0",
-    "css-loader": "^0.9.1",
-    "eslint": "^0.24.0",
-    "eslint-config-instana": "^1.1.0",
-    "eslint-plugin-react": "^2.5.2",
-    "file-loader": "^0.8.1",
-    "image-webpack-loader": "^1.2.0",
-    "imagemin": "^3.1.0",
-    "immutable": "^3.7.2",
-    "instana-ui-forge": "^1.0.0",
-    "less": "^2.3.1",
-    "less-loader": "^2.0.0",
-    "mocha": "^2.2.5",
-    "mocha-babel-es6": "^1.5.0",
-    "proxrox": "^1.7.0",
-    "raw-loader": "^0.5.1",
-    "sinon": "^1.15.4",
-    "style-loader": "^0.8.3",
-    "url-loader": "^0.5.5",
-    "webpack": "^1.5.3",
-    "webpack-dev-server": "^1.7.0"
-  }
+  "license": "proprietary",
+  "private": true
 }
