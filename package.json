@@ -1,6 +1,6 @@
 {
   "name": "instana-ui-client",
-  "version": "1.0.0",
+  "version": "1.0.0-prerelease",
   "description": "Instana core frontend",
   "main": "index.js",
   "license": "UNLICENSED",
@@ -10,7 +10,7 @@
     "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
     "install": "proxrox install && rm -f node_modules/instana-ui-* && ln -s ../ui-services node_modules/instana-ui-services && ln -s ../ui-sdk node_modules/instana-ui-sdk && ln -s ../ui-forge node_modules/instana-ui-forge && ln -s ../ui-map node_modules/instana-ui-map && ln -s ../ui-themes node_modules/instana-ui-themes && ln -s ../ui-components node_modules/instana-ui-components",
     "prod": "export BUILD_DEV='false' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
-    "test": "./node_modules/.bin/eslint --ext .es6 ui-* gulpfile.js && mocha --require ./build/testHarness **/*_test.es6"
+    "test": "./node_modules/.bin/eslint --ext .es6 ui-* gulpfile.js && mocha --require ./build/testHarness ui-*/**/*_test.es6"
   },
   "repository": {
     "type": "git",
