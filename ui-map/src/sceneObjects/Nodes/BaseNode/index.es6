@@ -6,7 +6,7 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
-import * as ssos from '../../../stores/selectedSceneObject';
+import {selectedSceneObject} from '../../../stores/selectedSceneObject';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 import Connection from '../../Connection/index';
@@ -123,7 +123,7 @@ export default class BaseNode extends SceneObject {
       this.onActiveMetric(metric);
     }));
 
-    this.addSubscription(ssos.selectedSceneObject.subscribe((so) => {
+    this.addSubscription(selectedSceneObject.subscribe((so) => {
       this.onSceneObjectSelected(so);
     }));
   }

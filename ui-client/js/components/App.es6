@@ -13,7 +13,7 @@ import * as constants from 'instana-ui-forge/constants';
 
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
-import SearchBar from './SearchBar';
+// import SearchBar from './SearchBar';
 
 import './App.less';
 

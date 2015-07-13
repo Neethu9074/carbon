@@ -4,6 +4,9 @@ import Hammer from 'hammerjs';
 
 import CameraController from './CameraController_temp';
 import {createLogger} from 'instalog';
+import {longClickedSceneObject} from '../stores/selectedSceneObject';
+import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
+import eventBus from 'instana-ui-services/eventbus';
 
 const logger = createLogger('ui-map.TouchControl');
 
@@ -28,9 +31,36 @@ export default class TouchControl extends CameraController{
 
     eventHandler.get('tap').set({threshold: minMovementForPan - 1});
     eventHandler.on('tap', this.onTab.bind(this));
+
+
+    eventHandler.get('press').set({
+      time: 300, // minimal press time in ms
+      threshold: minMovementForPan - 1
+    });
+    eventHandler.on('press', () => {
+      this.tooltip = new ProgressTooltip(this.scene);
+    });
+
+    eventHandler.on('panend pressup', this.cancelPressing.bind(this));
+
+    eventBus.on('longClicked').subscribe(() => {
+      this.cancelPressing();
+      if(this.hittenObject) {
+        longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
+      }
+    });
+  }
+
+  cancelPressing() {
+    if(this.tooltip) {
+      this.tooltip.dispose();
+      this.tooltip = null;
+    }
   }
 
   onPan(e) {
+    this.cancelPressing();
+
     const dx = (e.pointers[0].clientX - this.cursor.x);
     const dy = (e.pointers[0].clientY - this.cursor.y);
 

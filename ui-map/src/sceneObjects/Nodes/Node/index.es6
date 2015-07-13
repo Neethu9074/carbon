@@ -8,6 +8,7 @@ import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
+import {longClickedSceneObject} from '../../../stores/selectedSceneObject';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 
 import BaseNode from '../BaseNode/index';
@@ -75,6 +76,14 @@ export default class Node extends BaseNode {
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
         this.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
       )
+    );
+
+    this.addSubscription(
+      longClickedSceneObject.subscribe((so) => {
+        if(so && so.id === this.id) {
+          eventBus.emit('openDashboard', this.snapshot);
+        }
+      })
     );
   }
 
@@ -163,16 +172,6 @@ export default class Node extends BaseNode {
     } else {
       highlightedSnapshot.clear();
     }
-  }
-
-  onSceneObjectSelected(obj) {
-    if(obj && obj.id === this.id && this.isSelected()) {
-      //if the node was clicked and is still selected ->
-      //dont setup state again, but open dashboard
-      eventBus.emit('openDashboard', this.snapshot);
-    }
-
-    super.onSceneObjectSelected(obj);
   }
 
   showMetrics(currentMetric) {
