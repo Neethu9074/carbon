@@ -41,7 +41,7 @@ export default class LineFactory extends AbstractMeshCreationFactory {
       match.highlightColor = highlightColor || match.highlightColor;
 
       //rebuild on property change
-      this.rebuild();
+      this.rebuildGlobalMesh = true;
 
     } else {
       super.addFragment({
