@@ -59,6 +59,8 @@ export default class SceneObject {
     this.screenPositionAnchor = this.position.clone();
     this.screenPosition = {x: 0, y: 0};
 
+    this.init();
+
     this.addSubscription(currentScene.subscribe((scene) => {
       this.scene = scene;
     }));
@@ -72,6 +74,10 @@ export default class SceneObject {
     };
     this.state = this.states.initial;
     this.state.enter();
+  }
+
+  init() {
+
   }
 
   changeStateProperty(name, value) {
