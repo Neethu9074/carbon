@@ -4,7 +4,7 @@ import React from 'react/addons';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import eventBus from 'instana-ui-services/eventbus';
 
-import NodeIcon from '../nodeIcon';
+import NodeIcon from '../NodeIcon';
 import NodeMetric from '../NodeMetric';
 import StickyNote from '../StickyNote';
 import TagFrame from '../TagFrame';
