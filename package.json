@@ -9,7 +9,7 @@
     "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
     "install": "proxrox install",
     "prod": "export BUILD_DEV='false' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
-    "test": "eslint --ext .es6 src/ gulpfile.js"
+    "test": "eslint --ext .es6 ui-map/src/ && mocha --require mocha-babel-es6 ui-map/src/*_test.es6 ui-map/src/**/*_test.es6 ui-map/src/**/**/*_test.es6 ui-map/src/**/**/**/*_test.es6"
   },
   "repository": {
     "type": "git",
@@ -61,6 +61,7 @@
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
     "mocha": "^2.2.4",
+    "mocha-babel-es6": "^1.5.0",
     "napa": "^1.2.0",
     "node-libs-browser": "^0.5.2",
     "proxrox": "^1.4.0",
