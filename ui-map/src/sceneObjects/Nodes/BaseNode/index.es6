@@ -142,7 +142,7 @@ export default class BaseNode extends SceneObject {
   }
 
   onSceneObjectSelected(obj) {
-    if(obj && obj.id === this.id) {
+    if(obj && obj.sceneObject.id === this.id) {
       this.changeStateProperty('selected', true);
 
     } else if(this.isSelected()){

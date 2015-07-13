@@ -6,7 +6,7 @@ import Tween from 'tween.js';
 import './lib/Octree';
 
 import {getAllNodes} from './mapStructureUtils';
-// import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
+import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import {selectedSceneObject} from './stores/selectedSceneObject';
 import {currentScene} from './stores/sceneStore';
 import * as zoom from './zoom';
@@ -21,7 +21,6 @@ import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import * as time from './timeCalculations';
 import Tooltip from './sceneObjects/Tooltips/Connection/index';
 import {allConnections} from './sceneObjects/Connection/index';
-import {clear, select} from 'instana-ui-services/stores/selectedSnapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import eventBus from 'instana-ui-services/eventbus';
@@ -81,29 +80,31 @@ export default class Scene {
       }
     }));
 
-    // this.subscriptions.push(
-    //   selectedSnapshot.selectedSnapshot.async().subscribe((selected) => {
-    //     // selectedSceneObject.emit(this.map.findNodeBySnapshot(selected));
-    //   })
-    // );
+    this.subscriptions.push(
+      selectedSnapshot.selectedSnapshot.async().subscribe((selected) => {
+        this.onObjectClicked(this.map.findNodeBySnapshot(selected), false);
+      })
+    );
 
     this.subscriptions.push(selectedSceneObject.subscribe((obj) => {
       //clear the selectedSnapshot store if there was a click into nowhere
       //or on a sceneObject without a snapshot or unknown sceneObject
       if(obj) {
-        this.controller.flyToObject(obj);
+        const sceneObject = obj.sceneObject;
+        this.controller.flyToObject(sceneObject);
         this.hideHulls();
 
-        //if the object exists but has no snapshot or is unknown
-        if(!obj.snapshot || obj.isUnknown) {
-          clear();
-        } else {
-          select(obj.snapshot);
+        if(obj.calledByMap) {
+          //if the object exists but has no snapshot or is unknown
+          if(!sceneObject.snapshot || sceneObject.isUnknown) {
+            selectedSnapshot.clear();
+          } else {
+            selectedSnapshot.select(sceneObject.snapshot);
+          }
         }
-
       } else {
         this.showHulls();
-        clear();
+        selectedSnapshot.clear();
       }
     }));
   }
@@ -544,9 +545,10 @@ export default class Scene {
     this.renderScene();
   }
 
-  onObjectClicked(object) {
-    if(object && object.parentSceneObject) {
-      selectedSceneObject.emit(object.parentSceneObject);
+  onObjectClicked(object, calledByMap=true) {
+    if(object) {
+      const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
+      selectedSceneObject.emit({sceneObject, calledByMap});
     } else {
       selectedSceneObject.emit(null);
     }
