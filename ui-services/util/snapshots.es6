@@ -1,0 +1,113 @@
+'use strict';
+
+import Immutable from 'immutable';
+
+
+/**
+ * Extract an ID triplet from a snapshot. This method encapsulates what it
+ * means to uniquely identify a snapshot.
+ *
+ * @param {Immutable.Map} snapshot An immutable snapshot from which the ID
+ *   part should be extracted, i.e. hostId, pluginId and steadyId.
+ * @returns {Immutable.Map} A map only with the three aforementioed properties.
+ */
+export function extractId(snapshot) {
+  let id;
+  /* eslint-disable new-cap */
+  if (Immutable.Map.isMap(snapshot)) {
+    id = Immutable.Map({
+      hostId: snapshot.get('hostId'),
+      pluginId: snapshot.get('pluginId'),
+      steadyId: snapshot.get('steadyId')
+    });
+  } else {
+    id = Immutable.Map({
+      hostId: snapshot.hostId,
+      pluginId: snapshot.pluginId,
+      steadyId: snapshot.steadyId
+    });
+  }
+  /* eslint-enable new-cap */
+
+  /* eslint-disable max-len */
+  // Snapshot IDs are considered equal when they have the same
+  // hostId, pluginId and steadyId. By adding this equal function
+  // we can make use Immutable.is' special behavior: It will use
+  // an `equal` method on immutable objects when this method exists!
+  // See:
+  // https://github.com/facebook/immutable-js/blob/944187e9b4537968f4b688447c55f3af7b0dfd73/src/is.js#L82-L86
+  /* eslint-enable max-len */
+  id.equal = isIdEqual.bind(null, id);
+
+  return id;
+}
+
+/**
+ * Determines whether both IDs are equal.
+ *
+ * @param {Immutable.Map} id1
+ * @param {Immutable.Map} id2
+ * @return {boolean} true when both IDs describe the same snapshot, i.e.
+ *  the hostId, pluginId and steadyId property are the same.
+ */
+export function isIdEqual(id1, id2) {
+  if(id1 === id2) {
+    return true;
+  } else if (id1 !== null && id2 === null) {
+    return false;
+  } else if (id1 === null && id2 !== null) {
+    return false;
+  }
+
+  return id1.get('hostId') === id2.get('hostId') &&
+    id1.get('pluginId') === id2.get('pluginId') &&
+    id1.get('steadyId') === id2.get('steadyId');
+}
+
+/**
+ * Turns the snapshot into an ID string which can be used as a key in
+ * Objects.
+ *
+ * @param {Immutable.Map} s The snapshot
+ * @returns {string} An ID string
+ */
+export function getIdString(s) {
+  let hostId;
+  let pluginId;
+  let steadyId;
+
+  if (Immutable.Map.isMap(s)) {
+    hostId = s.get('hostId');
+    pluginId = s.get('pluginId');
+    steadyId = s.get('steadyId');
+  } else {
+    hostId = s.hostId;
+    pluginId = s.pluginId;
+    steadyId = s.steadyId;
+  }
+
+  if(hostId && pluginId && steadyId) {
+    return `${hostId}#${pluginId}#${steadyId}`;
+  }
+  return undefined;
+}
+
+/**
+ * Look for a snapshot in an reactive observable. Commonly used to extract a
+ * single snapshot out of a conveyer.
+ *
+ * @param {ReactiveObservable<Collection<ImmutableSnapshot>>} observable
+ *   The data in which to look for the snapshotId
+ * @param {ImmutableSnapshotId} snapshotId The snapshot for which to look
+ * @param {ReactiveObservable<ImmutableSnapshot>} An observable which only
+ *   emits when the snapshot is found and when the snapshot changed.
+ */
+export function only(observable, snapshotId) {
+  const predicate = isIdEqual.bind(null, snapshotId);
+
+  return observable.map(snapshots => {
+    return snapshots.find(predicate, null, undefined);
+  })
+  .filter(v => v !== undefined)
+  .distinct();
+}
