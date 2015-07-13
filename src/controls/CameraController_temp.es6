@@ -1,10 +1,8 @@
 'use strict';
 
 import THREE from 'three';
-import {selectedSceneObject} from '../stores/selectedSceneObject';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
-import {clear} from 'instana-ui-services/stores/selectedSnapshot';
 
 export default class CameraController {
 
@@ -114,17 +112,8 @@ export default class CameraController {
   }
 
   doClick() {
-    const hitten = this.hittenObject;
-
     //if an object was found via raycasting, inform the scene
-    if (hitten !== undefined) {
-      this.scene.onObjectClicked(hitten);
-      selectedSceneObject.emit(hitten.parentSceneObject);
-    } else {
-      //the use has clicked into nowhere and so clear the snapshot store
-      selectedSceneObject.emit(null);
-      clear();
-    }
+    this.scene.onObjectClicked(this.hittenObject);
   }
 
   flyToObject(obj) {

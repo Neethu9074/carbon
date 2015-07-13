@@ -8,7 +8,6 @@ import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 
 import BaseNode from '../BaseNode/index';
@@ -72,12 +71,6 @@ export default class Node extends BaseNode {
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
         this.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
-      )
-    );
-
-    this.addSubscription(
-      selectedSnapshot.selectedSnapshot.async().subscribe(selected =>
-        this.changeStateProperty('selected', isIdEqual(selected, this.snapshot))
       )
     );
   }

@@ -6,6 +6,7 @@ import Tween from 'tween.js';
 import './lib/Octree';
 
 import {getAllNodes} from './mapStructureUtils';
+// import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import {selectedSceneObject} from './stores/selectedSceneObject';
 import {currentScene} from './stores/sceneStore';
 import * as zoom from './zoom';
@@ -75,20 +76,34 @@ export default class Scene {
 
       } else {
         currentMetrics = metric.get('metrics');
-        this.hideHulls();
         this.showMetrics();
-        selectedSceneObject.emit(null);
-        clear();
+        this.onObjectClicked(null);
       }
     }));
 
+    // this.subscriptions.push(
+    //   selectedSnapshot.selectedSnapshot.async().subscribe((selected) => {
+    //     // selectedSceneObject.emit(this.map.findNodeBySnapshot(selected));
+    //   })
+    // );
+
     this.subscriptions.push(selectedSceneObject.subscribe((obj) => {
+      //clear the selectedSnapshot store if there was a click into nowhere
+      //or on a sceneObject without a snapshot or unknown sceneObject
       if(obj) {
         this.controller.flyToObject(obj);
         this.hideHulls();
 
+        //if the object exists but has no snapshot or is unknown
+        if(!obj.snapshot || obj.isUnknown) {
+          clear();
+        } else {
+          select(obj.snapshot);
+        }
+
       } else {
         this.showHulls();
+        clear();
       }
     }));
   }
@@ -529,16 +544,11 @@ export default class Scene {
     this.renderScene();
   }
 
-  onObjectClicked(object, fireExternalEvent = true) {
-    //get the parent scene object, e.g. a node
-    const sceneObject = object.parentSceneObject;
-
-    if(fireExternalEvent) {
-      if(!sceneObject.snapshot || sceneObject.isUnknown) {
-        clear();
-      } else if(sceneObject.snapshot && !sceneObject.isUnknown) {
-        select(sceneObject.snapshot);
-      }
+  onObjectClicked(object) {
+    if(object && object.parentSceneObject) {
+      selectedSceneObject.emit(object.parentSceneObject);
+    } else {
+      selectedSceneObject.emit(null);
     }
   }
 
@@ -552,7 +562,7 @@ export default class Scene {
           this.controller.cameraSpeed = 4;
           this.controller.setZoomLevel(200);
           setTimeout(() => {
-            this.onObjectClicked(node.cube, false);
+            // this.onObjectClicked(node.cube, false);
             setTimeout(() => {
               this.controller.setZoomLevel(50);
               setTimeout(() => {
@@ -562,7 +572,7 @@ export default class Scene {
             }, 600);
           }, 10);
         } else {
-          this.onObjectClicked(node.cube, false);
+          // this.onObjectClicked(node.cube, false);
         }
       }
     });
