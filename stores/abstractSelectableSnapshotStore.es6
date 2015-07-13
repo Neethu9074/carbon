@@ -59,9 +59,11 @@ export default function createStore() {
   }
 
   function clear() {
-    subscribedSnapshotId = null;
-    disposeSnapshotSubscription();
-    selectedSnapshot.emit(null);
+    if(subscribedSnapshotId !== null) {
+      subscribedSnapshotId = null;
+      disposeSnapshotSubscription();
+      selectedSnapshot.emit(null);
+    }
   }
 
   function disposeSnapshotSubscription() {

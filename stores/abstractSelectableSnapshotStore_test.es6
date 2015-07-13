@@ -109,6 +109,16 @@ describe('stores.abstractSelectableSnapshotStore', () => {
       expect(onNext.getCall(1).args[0]).to.equal(noSelectedInitialValue);
     });
 
+    it('should not call clear twice', () => {
+      const onNext = sinon.stub();
+      store.selectedSnapshot.subscribe(onNext);
+      store.clear();
+      store.clear();
+      store.clear();
+
+      expect(onNext.callCount).to.equal(1);
+    });
+
     it('should emit immediately emit when there is a selected snapshot before ' +
         'a subscription is established', () => {
       const expected = 'wiredSnapshotsForASelectedSnapshot';
