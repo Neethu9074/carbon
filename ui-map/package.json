@@ -1,0 +1,65 @@
+{
+  "name": "instana-ui-map",
+  "version": "2.22.69",
+  "description": "The 3D visuliaztion of client's infrastructure",
+  "main": "src/index.es6",
+  "scripts": {
+    "build": "webpack",
+    "dev": "export BUILD_DEV=true && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000/demo/react.html && webpack-dev-server --host 0.0.0.0 --port 7272",
+    "clean": "rm -rf target/",
+    "test": "eslint --ext .es6 src/ && mocha --require mocha-babel-es6 src/*_test.es6 src/**/*_test.es6 src/**/**/*_test.es6 src/**/**/**/*_test.es6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/instana/ui-map"
+  },
+  "publishConfig": {
+    "registry": "http://54.204.9.148/nexus/content/repositories/instana-npm-releases/"
+  },
+  "author": "Simon Thiele <simon@instana.com>",
+  "dependencies": {
+    "easystarjs": "^0.2.1",
+    "hammerjs": "^2.0.4",
+    "immutable": "^3.7.2",
+    "instalog": "^1.0.0",
+    "instana-ui-components": "^1.0.0",
+    "instana-ui-sdk": "^1.0.0",
+    "instana-ui-services": "^1.1.0",
+    "instana-ui-themes": "^1.11.1",
+    "invariant": "^2.0.0",
+    "lodash": "^3.9.0",
+    "moment": "^2.10.3",
+    "napa": "^1.2.0",
+    "react": "^0.13.1",
+    "react-router": "^0.13.3",
+    "reactive-observables": "^1.2.0",
+    "three": "^0.71.0",
+    "tween.js": "^0.14.0",
+    "url-loader": "^0.5.5"
+  },
+  "devDependencies": {
+    "babel": "^5.1.11",
+    "babel-core": "^4.7.13",
+    "babel-loader": "^4.2.0",
+    "chai": "^2.2.0",
+    "css-loader": "^0.9.1",
+    "eslint": "^0.24.0",
+    "eslint-config-instana": "^1.1.0",
+    "eslint-plugin-react": "^2.6.2",
+    "file-loader": "^0.8.1",
+    "image-webpack-loader": "^1.2.0",
+    "imagemin": "^3.1.0",
+    "instana-ui-forge": "^1.0.0",
+    "less": "^2.3.1",
+    "less-loader": "^2.0.0",
+    "mocha": "^2.2.4",
+    "mocha-babel-es6": "^1.0.0",
+    "proxrox": "^1.7.0",
+    "proxyquire": "^1.4.0",
+    "raw-loader": "^0.5.1",
+    "sinon": "^1.14.1",
+    "style-loader": "^0.8.3",
+    "webpack": "^1.5.3",
+    "webpack-dev-server": "^1.7.0"
+  }
+}

@@ -1,0 +1,83 @@
+'use strict';
+
+import React from 'react/addons';
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import Tag from './Tag';
+import MultiTagToolTip from '../../Tooltips/MultiTag';
+import {level, zoomLevel} from 'instana-ui-services/stores/zoomLevel';
+
+import './index.less';
+
+
+export default React.createClass({
+
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
+
+  propTypes: {
+    sceneObject: React.PropTypes.object.isRequired,
+    tags: React.PropTypes.array.isRequired
+  },
+
+  getInitialState() {
+    return {zoomLevel: level.near};
+  },
+
+  componentDidMount() {
+    this.addSubscription(zoomLevel.subscribe(l => {
+      this.setState({zoomLevel: l});
+    }));
+  },
+
+  mouseOver: function () {
+    this.tooltip = new MultiTagToolTip({
+      parent: this.props.sceneObject,
+      tags: this.props.tags
+    });
+  },
+
+  mouseOut: function () {
+    this.tooltip.dispose();
+    this.tooltip = null;
+  },
+
+  render() {
+    if(this.props.tags.length === 0) {
+      return null;
+    }
+
+    const zoom = this.state.zoomLevel;
+    let content = null;
+
+    if(zoom === level.near || zoom === level.nearest) {
+      content = (
+        <ul className='in-tooltip__tag-frame--ul'>
+          {this.props.tags.map((tag) => {
+            return (
+              <li key={tag.label} className='in-tooltip__tag-frame--li'>
+                <Tag tag={tag} sceneObject={this.props.sceneObject}/>
+              </li>
+            );
+          })}
+        </ul>
+      );
+
+    } else {
+      content = (
+        <div className='in-tooltip__tag-frame--bubble'
+          onMouseOver={this.mouseOver}
+          onMouseOut={this.mouseOut}>
+        </div>
+      );
+    }
+
+    // const l = this.props.tags.length;
+    return (
+      <div className='in-sticky-note__tag-frame'>
+        {content}
+      </div>
+    );
+  }
+});
