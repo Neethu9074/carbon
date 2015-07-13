@@ -1,0 +1,6 @@
+{
+  "name": "SnapshotIcon",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SnapshotIcon.es6"
+}

@@ -1,0 +1,36 @@
+.in-collapsible {
+  @color: #AAFFFF;
+
+  &:last-child &__header {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+
+  &__header {
+    cursor: pointer;
+    color: @color;
+    font-weight: 300;
+    font-size: 13px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 0 5px;
+    margin-top: 5px;
+
+    &--bordered&--closed {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  &__toggle {
+    font-size: 38px;
+    color: @color;
+  }
+
+  &__content {
+    margin-bottom: 10px;
+  }
+}

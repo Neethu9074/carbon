@@ -1,0 +1,36 @@
+.in-chart {
+  position: relative;
+
+  &__canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    text {
+      fill: #777;
+      font-size: 13px;
+    }
+
+    .y.axis text {
+      fill: #fff;
+    }
+
+    .y.axis .domain, .top-axis, .bottom-axis {
+      stroke: rgba(255, 255, 255, 0.3);
+    }
+
+    x.axis .domain {
+      display: none;
+    }
+
+  }
+}
