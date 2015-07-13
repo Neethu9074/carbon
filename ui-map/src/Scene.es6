@@ -77,6 +77,7 @@ export default class Scene {
       } else {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
+        this.hideHulls();
         this.onObjectClicked(null);
       }
     }));
