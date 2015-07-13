@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Instana core frontend",
   "main": "index.js",
-  "license": "proprietary",
+  "license": "UNLICENSED",
   "scripts": {
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
     "clean": "gulp clean",
