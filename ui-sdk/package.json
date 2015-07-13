@@ -1,0 +1,37 @@
+{
+  "name": "instana-ui-sdk",
+  "version": "1.10.8",
+  "description": "The SDK provides an access point to pluggables",
+  "main": "index.es6",
+  "scripts": {
+    "test": "eslint --ext .es6 power/ zones/ sorting/ metrics/ snapshot/ && mocha --require mocha-babel-es6 **/*_test.es6"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/instana/ui-sdk.git"
+  },
+  "author": "Ben Ripkens <ben@instana.com>",
+  "license": "proprietary",
+  "dependencies": {
+    "immutable": "^3.7.1",
+    "instalog": "^1.0.0",
+    "instana-ui-themes": "^1.4.0",
+    "invariant": "^1.0.2",
+    "lodash": "^3.8.0",
+    "reactive-observables": "^1.7.1"
+  },
+  "devDependencies": {
+    "babel": "^5.0.10",
+    "babel-core": "^4.7.13",
+    "bluebird": "^2.9.6",
+    "chai": "^2.2.0",
+    "eslint": "^0.19.0",
+    "mocha": "^2.2.4",
+    "mocha-babel-es6": "^1.3.0",
+    "proxyquire": "^1.4.0",
+    "sinon": "^1.14.1"
+  },
+  "publishConfig": {
+    "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"
+  }
+}
