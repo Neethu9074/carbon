@@ -98,11 +98,7 @@ export default class Node extends BaseNode {
   }
 
   addToGlobalGeometry() {
-    const id = this.id;
-    const pos = this.cube.position.clone().add(cubePosition);
-    const dim = this.cube.scale;
-
-    this.addToGroundFactory(id, pos, dim);
+    this.addToGroundFactory();
   }
 
 
@@ -112,11 +108,15 @@ export default class Node extends BaseNode {
 
   //this is not the group where nodes are on!
   //it's the health ground group of each node
-  addToGroundFactory(id, pos, dim) {
+  addToGroundFactory() {
     this.removeFromGroundFactory();
     if(!this.health || this.health === health.ok) {
       return;
     }
+
+    const id = this.id;
+    const pos = this.cube.position.clone().add(cubePosition);
+    const dim = this.cube.scale;
 
     //adding a existing fragment will penetrate an update
     const color = this.calculateNodeColor();
@@ -292,6 +292,9 @@ export default class Node extends BaseNode {
 
     this.singleMetricPillar.updateOfVisualComponents(pos);
     this.multiMetricPillar.updateOfVisualComponents(pos);
+
+    this.removeFromGroundFactory();
+    this.addToGroundFactory();
   }
 
   getScreenAnchorPosition() {
@@ -327,16 +330,12 @@ export default class Node extends BaseNode {
       return;
     }
 
-    const id = this.id;
-    const pos = this.cube.position.clone().add(cubePosition);
-    const dim = this.cube.scale;
-
     this.health = newHealth;
 
     //if this node is hidden by filter, dont add the changes to factories
     if(this.hidden) {return; }
 
-    this.addToGroundFactory(id, pos, dim);
+    this.addToGroundFactory();
     this.updateSolidGeometry();
 
     if(!this.cubeHealthBlocked) {
@@ -396,12 +395,8 @@ export default class Node extends BaseNode {
   enableFragments(enabled) {
     super.enableFragments(enabled);
 
-    const id = this.id;
-    const pos = this.cube.position.clone().add(cubePosition);
-    const dim = this.cube.scale;
-
     if(enabled) {
-      this.addToGroundFactory(id, pos, dim);
+      this.addToGroundFactory();
     } else {
       this.removeFromGroundFactory();
     }
