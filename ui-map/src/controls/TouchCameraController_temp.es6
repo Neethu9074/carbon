@@ -34,7 +34,6 @@ export default class TouchControl extends CameraController{
     eventHandler.get('tap').set({threshold: minMovementForPan - 1});
     eventHandler.on('tap', this.onTab.bind(this));
 
-
     eventHandler.get('press').set({
       time: 300, // minimal press time in ms
       threshold: minMovementForPan - 1
