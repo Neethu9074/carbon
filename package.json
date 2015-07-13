@@ -1,6 +1,6 @@
 {
   "name": "instana-ui-client",
-  "version": "1.0.0",
+  "version": "1.0.0-prerelease",
   "description": "Instana core frontend",
   "main": "index.js",
   "license": "UNLICENSED",
