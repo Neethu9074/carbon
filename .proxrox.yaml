@@ -1,8 +1,0 @@
-port: 7373
-root: false
-ssi: true
-proxy:
-  '/': http://127.0.0.1:7272
-  '/api/': http://test.internal.instana.io/api/
-websocketProxy:
-  '/api/data': http://test.internal.instana.io/api/data
