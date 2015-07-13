@@ -13,7 +13,7 @@ var definePlugin = new webpack.DefinePlugin({
 });
 
 module.exports = {
-  entry: './src/js/index.es6',
+  entry: './ui-client/js/index.es6',
   output: {
     path: path.join(__dirname, 'target/bundle/'),
     publicPath: 'bundle/',

@@ -29,7 +29,7 @@ gulp.task('build', ['webpack:build', 'copyfavicon', 'writeBuildInfo'], function(
   var assetFilter = filter('**/*.js');
   var htmlFilter = filter('**/*.html');
 
-  return gulp.src(['target/bundle/index.js', 'src/index.html'])
+  return gulp.src(['target/bundle/index.js', 'ui-client/index.html'])
     .pipe(assetFilter)
     .pipe(rev())
     .pipe(gulp.dest('target/bundle'))
@@ -106,17 +106,17 @@ gulp.task('dev', [
 
 
 gulp.task('dev-watches', function() {
-  gulp.watch('src/index.html', ['copyhtml']);
+  gulp.watch('ui-client/index.html', ['copyhtml']);
 });
 
 
 gulp.task('copyhtml', function() {
-  gulp.src('src/index.html').pipe(gulp.dest('target/'));
+  gulp.src('ui-client/index.html').pipe(gulp.dest('target/'));
 });
 
 
 gulp.task('copyfavicon', function() {
-  gulp.src('src/favicon.png').pipe(gulp.dest('target/'));
+  gulp.src('ui-client/favicon.png').pipe(gulp.dest('target/'));
 });
 
 
