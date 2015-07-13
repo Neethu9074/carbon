@@ -3,7 +3,7 @@
 import * as ro from 'reactive-observables';
 
 import TouchController from './TouchCameraController_temp';
-import eventBus from 'instana-ui-services/eventbus';
+import {cursorPositionStore} from '../stores/cursorPosition';
 
 
 export default class MouseControl extends TouchController {
@@ -13,7 +13,7 @@ export default class MouseControl extends TouchController {
     const canvas = scene.parent;
 
     canvas.onmousemove = (e) => {
-      eventBus.emit('onCursorMove', {x: e.clientX, y: e.clientY});
+      cursorPositionStore.emit({x: e.clientX, y: e.clientY});
       this.onMouseMove(e);
     };
 

@@ -3,7 +3,7 @@
 import React from 'react/addons';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {getIcon} from 'instana-ui-sdk/snapshot';
-import {iconSizeStore as iss} from '../../../stores/NodeIconStore';
+import {iconSizeStore as iss} from '../../../stores/nodeIconStore';
 
 import './index.less';
 

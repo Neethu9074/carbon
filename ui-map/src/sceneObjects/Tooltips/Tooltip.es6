@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import eventBus from 'instana-ui-services/eventbus';
+import {cursorPositionStore} from '../../stores/cursorPosition';
 
 import './Tooltip.less';
 
@@ -16,10 +16,8 @@ export default class Tooltip {
 
     this.style = this.stickyNoteContainer.style;
 
-    this.moveSubscribtion = eventBus.on('onCursorMove').subscribe((xy) =>
+    this.moveSubscribtion = cursorPositionStore.subscribe((xy) =>
       this.setScreenPosition(xy));
-
-    this.setScreenPosition({x: -10000, y: 0});
   }
 
   setScreenPosition(xy) {

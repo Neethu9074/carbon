@@ -8,7 +8,7 @@ import './lib/Octree';
 import {getAllNodes} from './mapStructureUtils';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
-import {iconSizeStore} from './stores/NodeIconStore';
+import {iconSizeStore} from './stores/nodeIconStore';
 import {selectedSceneObject} from './stores/selectedSceneObject';
 import {currentScene} from './stores/sceneStore';
 import * as zoom from './zoom';
