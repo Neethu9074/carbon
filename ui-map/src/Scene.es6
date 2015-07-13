@@ -99,14 +99,14 @@ export default class Scene {
         if(obj.calledByMap) {
           //if the object exists but has no snapshot or is unknown
           if(!sceneObject.snapshot || sceneObject.isUnknown) {
-            // selectedSnapshotStore.clear();
+            selectedSnapshotStore.clear();
           } else {
-            // selectedSnapshotStore.select(sceneObject.snapshot);
+            selectedSnapshotStore.select(sceneObject.snapshot);
           }
         }
       } else {
         this.showHulls();
-        // selectedSnapshotStore.clear();
+        selectedSnapshotStore.clear();
       }
     }));
   }
