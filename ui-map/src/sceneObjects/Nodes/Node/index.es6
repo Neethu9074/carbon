@@ -42,7 +42,10 @@ export default class Node extends BaseNode {
 
     this.health = this.health || health.ok;
     this.layer = [];
+  }
 
+  //will be called in super contructor at beginning
+  init() {
     this.geometryProviderGroundLine = new VATOCM({
       contentProvider: new PCM({ //reposition
         contentProvider: new SCM({ //resize
@@ -134,8 +137,8 @@ export default class Node extends BaseNode {
     const vatocmGroundLine = this.geometryProviderGroundLine;
     const pcmGroundLine = vatocmGroundLine.contentProvider;
     pcmGroundLine.contentProvider.scale = pcmGround.contentProvider.scale;
-    pcmGround.position = {x: pos.x, y: pos.y + 0.025, z: pos.z};
-    pcmGround.contentProvider.scale = {x: size.x, y: 1, z: size.z};
+    pcmGroundLine.position = {x: pos.x, y: pos.y + 0.025, z: pos.z};
+    pcmGroundLine.contentProvider.scale = {x: size.x, y: 1, z: size.z};
 
     const points = vatocmGroundLine.getVertices();
 
