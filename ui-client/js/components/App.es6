@@ -55,11 +55,10 @@ const App = React.createClass({
       <div>
         <Lettering className='in-root-lettering' />
 
-        <SearchBar />
-
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginId={this.state.pluginId} />
 
+          <SearchBar />
           <Sidebar pluginId={this.state.pluginId} />
         </div>
 
