@@ -16,6 +16,8 @@ export default class TouchControl extends CameraController{
   constructor({scene}) {
     super({scene});
 
+    this.timeSinceLastTap = Date.now();
+
     const canvas = scene.parent;
     const eventHandler = new Hammer(canvas);
     const minMovementForPan = 15;
@@ -45,10 +47,24 @@ export default class TouchControl extends CameraController{
 
     eventBus.on('longClicked').subscribe(() => {
       this.cancelPressing();
-      if(this.hittenObject) {
-        longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
-      }
+      this.emitLongClick();
     });
+  }
+
+  emitLongClick() {
+    if(this.hittenObject) {
+      longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
+    }
+  }
+
+  checkDoubleClick() {
+    const now = Date.now();
+    const deltaTime = (now - this.timeSinceLastTap);
+    this.timeSinceLastTap = now;
+    if(deltaTime < 300) {
+      return true;
+    }
+    return false;
   }
 
   cancelPressing() {
@@ -70,6 +86,10 @@ export default class TouchControl extends CameraController{
   }
 
   onTab(e) {
+    if(this.checkDoubleClick()) {
+      this.emitLongClick();
+    }
+
     this.setCursorToEvent(e);
 
     this.getObjectOnCursor();
