@@ -6,6 +6,13 @@ import {expect} from 'chai';
 import * as converter from './index';
 
 describe('converters', () => {
+  describe('formatNumberShort', () => {
+    it('should format numbers', () => {
+      expect(converter.formatNumberShort(3200)).to.equal('3,200');
+      expect(converter.formatNumberShort(3200.75)).to.equal('3,201');
+    });
+  });
+
   describe('formatBytes', () => {
     it('should format bytes', () => {
       expect(converter.formatBytes(1024)).to.equal('1 kB');
@@ -15,6 +22,14 @@ describe('converters', () => {
       expect(() => converter.formatBytes(null)).to.throw(Error);
       expect(() => converter.formatBytes(NaN)).to.throw(Error);
       expect(() => converter.formatBytes('')).to.throw(Error);
+    });
+  });
+
+  describe('formatPercentageShort', () => {
+    it('should format percentages', () => {
+      expect(converter.formatPercentageShort(0)).to.equal('0%');
+      expect(converter.formatPercentageShort(1)).to.equal('100%');
+      expect(converter.formatPercentageShort(0.7854)).to.equal('79%');
     });
   });
 

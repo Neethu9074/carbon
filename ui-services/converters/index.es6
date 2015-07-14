@@ -1,17 +1,74 @@
 'use strict';
 
-import prettyBytes from 'pretty-bytes';
+import d3 from 'd3';
+
+const commaWithoutDecimalPlacesFormatter = d3.format(',.0f');
+
+/**
+ * Convenience function that can be used to format numbers without decimal
+ * places and separators for large numbers.
+ *
+ * @param {number} num - The number to format
+ * @returns {string} Human readable number without decimal places and
+ *  thousand separators.
+ */
+export const formatNumberShort = commaWithoutDecimalPlacesFormatter;
 
 /**
  * Format a number of bytes to improve readability for humans. Turn a raw
  * number to something like 10 Mb or 834.5 Gb.
  *
- * @param {number} bytes - The amount on bytes that should be formatted.
+ * @param {number} num - The amount on bytes that should be formatted.
+ * @param {number} numberOfDecimalPlaces - The desired number of decimal places
  * @returns {string} Human readable amount of bytes, e.g. 10 Mb
  * @throws An error when the bytes are NaN
  */
-export function formatBytes(bytes) {
-  return prettyBytes(bytes, 1024);
+export function formatBytes(num, numberOfDecimalPlaces=2) {
+  const base = 1024;
+  if (typeof num !== 'number' || isNaN(num)) {
+    throw new TypeError('Expected a number');
+  }
+
+  let exponent;
+  let unit;
+  let neg = num < 0;
+  let units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+  if (neg) {
+    num = -num;
+  }
+
+  if (num < 1) {
+    return (neg ? '-' : '') + num + ' B';
+  }
+
+  exponent = Math.min(Math.floor(Math.log(num) / Math.log(base)), units.length - 1);
+  num = (num / Math.pow(base, exponent)).toFixed(numberOfDecimalPlaces) * 1;
+  unit = units[exponent];
+
+  return (neg ? '-' : '') + num + ' ' + unit;
+}
+
+
+/**
+ * Convenience function that can be used to format bytes without decimal
+ * places. Exposed to avoid currying in dashboard implementations
+ *
+ * @param {number} num - The amount on bytes that should be formatted.
+ * @returns {string} Human readable amount of bytes, e.g. 10 Mb
+ */
+export function formatBytesShort(num) {
+  return formatBytes(num, 0);
+}
+
+/**
+ * Formats a percentage value (generally 0 - 1) including percent character
+ * without decimal places.
+ * @param {number} v A number
+ * @returns {string} The number in percentage with a percent character
+ */
+export function formatPercentageShort(v) {
+  return commaWithoutDecimalPlacesFormatter(v * 100) + '%';
 }
 
 /**

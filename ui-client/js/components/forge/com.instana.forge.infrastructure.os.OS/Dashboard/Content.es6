@@ -2,10 +2,14 @@
 
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
-import d3 from 'd3';
 import irpt from 'react-immutable-proptypes';
 
-import {formatBytes} from 'instana-ui-services/converters';
+import {
+  formatBytes,
+  formatBytesShort,
+  formatPercentageShort,
+  formatNumberShort
+} from 'instana-ui-services/converters';
 import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
@@ -17,10 +21,10 @@ import Mtd from '../../../sdk/Mtd';
 import ContentHeading from '../../../sdk/ContentHeading';
 
 const rpt = React.PropTypes;
-const commasFormatter = d3.format(',.0f');
-const percentFormatter = d => commasFormatter(d * 100) + '%';
-const bytesPerSecondFormatter = d => formatBytes(d) + '/s';
+
+const bytesPerSecondFormatter = d => formatBytesShort(d) + '/s';
 const kbFormatter = d => formatBytes(d * 1024);
+const kbFormatterShort = d => formatBytesShort(d * 1024);
 
 const chartHeight = 300;
 
@@ -62,7 +66,7 @@ const OsDashboard = React.createClass({
                        'Nice',
                        'Steal'
                      ]}
-                     metricValueFormatter={percentFormatter} />
+                     metricValueFormatter={formatPercentageShort} />
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
@@ -76,7 +80,7 @@ const OsDashboard = React.createClass({
                y1={{
                  min: 0,
                  max: 1,
-                 tickFormatter: percentFormatter,
+                 tickFormatter: formatPercentageShort,
                  metrics: [
                    'cpu.total.user',
                    'cpu.total.sys',
@@ -120,7 +124,7 @@ const OsDashboard = React.createClass({
                      metricLabels={[
                        'Free'
                      ]}
-                     metricValueFormatter={d => formatBytes(d)} />
+                     metricValueFormatter={formatBytesShort} />
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
@@ -132,7 +136,7 @@ const OsDashboard = React.createClass({
                y1={{
                  min: 0,
                  max: this.props.snapshot.getIn(['data', 'memory.total']),
-                 tickFormatter: formatBytes,
+                 tickFormatter: formatBytesShort,
                  metrics: [
                    'memory.free'
                  ],
@@ -162,7 +166,7 @@ const OsDashboard = React.createClass({
                      'fs.' + this.state.filesystemName + '.free',
                      this.props.snapshot
                    ),
-                   tickFormatter: kbFormatter,
+                   tickFormatter: kbFormatterShort,
                    metrics: [
                      'fs.' + this.state.filesystemName + '.free',
                      'fs.' + this.state.filesystemName + '.leaked'
@@ -179,7 +183,8 @@ const OsDashboard = React.createClass({
                    metrics: [
                      'fs.' + this.state.filesystemName + '.ifree'
                    ],
-                   type: 'line'
+                   type: 'line',
+                   tickFormatter: formatNumberShort
                  }}/>
         : null}
 
@@ -222,7 +227,7 @@ const OsDashboard = React.createClass({
                          this,
                          'fs.' + name + '.ifree'
                        )}
-                     formatter={commasFormatter} />
+                     formatter={formatNumberShort} />
               </tr>
             ).valueSeq()}
           </tbody>
@@ -247,7 +252,7 @@ const OsDashboard = React.createClass({
 
                  y1={{
                    min: 0,
-                   tickFormatter: formatBytes,
+                   tickFormatter: formatBytesShort,
                    metrics: [
                      'ifs.' + this.state.interfaceName + '.rx.bytes',
                      'ifs.' + this.state.interfaceName + '.tx.bytes'
@@ -265,7 +270,7 @@ const OsDashboard = React.createClass({
                      'ifs.' + this.state.interfaceName + '.tx.dropped',
                      'ifs.' + this.state.interfaceName + '.tx.overruns'
                    ],
-                   tickFormatter: percentFormatter,
+                   tickFormatter: formatPercentageShort,
                    type: 'line'
                  }}/>
         : null}
@@ -313,19 +318,19 @@ const OsDashboard = React.createClass({
                          this,
                          'ifs.' + name + '.rx.errors'
                        )}
-                     formatter={percentFormatter} />
+                     formatter={formatPercentageShort} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
                          'ifs.' + name + '.rx.dropped'
                        )}
-                     formatter={percentFormatter} />
+                     formatter={formatPercentageShort} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
                          'ifs.' + name + '.rx.overruns'
                        )}
-                     formatter={percentFormatter} />
+                     formatter={formatPercentageShort} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
@@ -337,19 +342,19 @@ const OsDashboard = React.createClass({
                          this,
                          'ifs.' + name + '.tx.errors'
                        )}
-                     formatter={percentFormatter} />
+                     formatter={formatPercentageShort} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
                          'ifs.' + name + '.tx.dropped'
                        )}
-                     formatter={percentFormatter} />
+                     formatter={formatPercentageShort} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
                          'ifs.' + name + '.tx.overruns'
                        )}
-                     formatter={percentFormatter} />
+                     formatter={formatPercentageShort} />
               </tr>
             ).valueSeq()}
           </tbody>
@@ -403,7 +408,7 @@ const OsDashboard = React.createClass({
                  ],
                  min: 0,
                  max: 1,
-                 tickFormatter: percentFormatter
+                 tickFormatter: formatPercentageShort
                }}
                margins={{
                  right: 60
