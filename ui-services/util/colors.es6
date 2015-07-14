@@ -1,5 +1,10 @@
 'use strict';
 
+import THREE from 'three';
+
+
+const colorService = new THREE.Color(0, 0, 0);
+
 export default class ColorGenerator {
   constructor(seed) {
     this.seed = seed;
@@ -27,10 +32,15 @@ export default class ColorGenerator {
   }
 
   getNextColor() {
+    const h = this.minHue + ((this.maxHue - this.minHue) * this.progress);
+    const s = this.minSat + ((this.maxSat - this.minSat) * this.progress);
+    const l = this.minLum + ((this.maxLum - this.minLum) * this.progress);
+
+    colorService.setHSL(h / 360, s / 100, l / 100);
+    const hex = '#' + colorService.getHexString();
     const color = {
-      h: this.minHue + ((this.maxHue - this.minHue) * this.progress),
-      s: this.minSat + ((this.maxSat - this.minSat) * this.progress),
-      l: this.minLum + ((this.maxLum - this.minLum) * this.progress)
+      h, s, l,
+      hex
     };
 
     this.progress += this.stepsPerGenerate;
