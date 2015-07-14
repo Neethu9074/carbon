@@ -7,7 +7,7 @@ import Immutable from 'immutable';
 import * as constants from 'instana-ui-forge/constants';
 import Collapsible from 'instana-ui-components/Collapsible';
 
-import EC2Infos from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Infos';
+import EC2Info from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Info';
 import HostInfo from '../HostInfo';
 import ProblemPanel from '../../../sdk/ProblemPanel';
 
@@ -45,7 +45,7 @@ const Details = React.createClass({
           <Collapsible initiallyOpen={true}>
             <Collapsible.Header>Amazon EC2</Collapsible.Header>
             <Collapsible.Content>
-              <EC2Infos data={ec2} />
+              <EC2Info data={ec2} />
             </Collapsible.Content>
           </Collapsible>
         : null}

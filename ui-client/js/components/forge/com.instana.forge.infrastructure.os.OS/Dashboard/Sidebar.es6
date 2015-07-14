@@ -12,7 +12,7 @@ import ProblemPanel from '../../../sdk/ProblemPanel';
 import SidebarHeading from '../../../sdk/SidebarHeading';
 import SidebarSubheading from '../../../sdk/SidebarSubheading';
 import WiringList from '../../../sdk/WiringList';
-import EC2Infos from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Infos';
+import EC2Info from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Info';
 import HostInfo from '../HostInfo';
 
 const rpt = React.PropTypes;
@@ -46,7 +46,7 @@ const Sidebar = React.createClass({
 
         {ec2 ?
           <Panel title='Amazon'>
-            <EC2Infos data={ec2} />
+            <EC2Info data={ec2} />
           </Panel>
         : null}
 
