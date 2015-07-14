@@ -1,4 +1,4 @@
-FROM registry.internal.instana.io/instana/base:0.2.1
+FROM registry.internal.instana.io/instana/base:1.0.0
 
 MAINTAINER Ben Ripkens "ben@instana.com"
 
