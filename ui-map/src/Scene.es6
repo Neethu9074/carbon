@@ -89,10 +89,10 @@ export default class Scene {
     );
 
     this.subscriptions.push(selectedSceneObject.subscribe((obj) => {
+      const sceneObject = obj.sceneObject;
       //clear the selectedSnapshot store if there was a click into nowhere
       //or on a sceneObject without a snapshot or unknown sceneObject
-      if(obj) {
-        const sceneObject = obj.sceneObject;
+      if(sceneObject) {
         this.controller.flyToObject(sceneObject);
         this.hideHulls();
 
@@ -106,7 +106,9 @@ export default class Scene {
         }
       } else {
         this.showHulls();
-        selectedSnapshotStore.clear();
+        if(obj.calledByMap) {
+          selectedSnapshotStore.clear();
+        }
       }
     }));
   }
@@ -552,7 +554,7 @@ export default class Scene {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
       selectedSceneObject.emit({sceneObject, calledByMap});
     } else {
-      selectedSceneObject.emit(null);
+      selectedSceneObject.emit({sceneObject: null, calledByMap});
       highlightedSnapshot.clear();
     }
   }
