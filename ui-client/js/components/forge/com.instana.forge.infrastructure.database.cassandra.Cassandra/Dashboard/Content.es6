@@ -49,7 +49,6 @@ const CassandraDashboard = React.createClass({
                }}
                y1={{
                  min: 0,
-                 max: this.props.snapshot.getIn(['data', 'storage.load']),
                  tickFormatter: formatBytes,
                  metrics: [
                    'storage.load'
