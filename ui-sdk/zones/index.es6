@@ -1,8 +1,10 @@
 'use strict';
 
 import pbst from '../util/pluginBasedSnapshotTransformation';
-import {consts} from 'instana-ui-themes';
+import ColorGenerator from 'instana-ui-services/util/colors';
+// import {consts} from 'instana-ui-themes';
 
+const colorGenerator = new ColorGenerator(10);
 const zoneColorCache = {};
 
 const transformer = pbst('zones');
@@ -15,8 +17,10 @@ export const getColor = (zone) => {
     return zoneColorCache[zone];
   }
 
-  const colorIndex = Object.keys(zoneColorCache).length;
-  const color = consts.night.map.colors.zones[colorIndex];
+  // const colorIndex = Object.keys(zoneColorCache).length;
+  // const color = consts.night.map.colors.zones[colorIndex];
+
+  const color = colorGenerator.getNextColor().hex;
   zoneColorCache[zone] = color;
   return color;
 };
