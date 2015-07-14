@@ -4,8 +4,10 @@
 
 import d3 from 'd3';
 import TWEEN from 'tween.js';
+import * as ro from 'reactive-observables';
 
 import {theme} from 'instana-ui-services/theme';
+import * as timelineStore from 'instana-ui-services/stores/timeline';
 
 import Queue from './Queue';
 import Data from './Data';
@@ -80,6 +82,22 @@ export default class Renderer {
 
     this.createCanvas();
     this.setDimensions({width, height});
+
+    this.focusedMoment = null;
+    this.focusedMomentSubscription = timelineStore.focusedMoment
+      .subscribe(focusedMoment => {
+        this.focusedMoment = focusedMoment;
+        // TODO Ben schedule rerender?
+      });
+
+    ro.on(this.renderCanvas, 'mousemove')
+      .throttle(50)
+      .subscribe(e => {
+        timelineStore.setFocusedMoment(this.x.invert(e.offsetX).getTime());
+      });
+
+    ro.on(this.renderCanvas, 'mouseleave')
+      .subscribe(timelineStore.clearFocusedMoment);
 
     this.rendering = false;
   }
@@ -210,6 +228,22 @@ export default class Renderer {
     if (initialRendering) {
       this.container.style.display = 'block';
     }
+  }
+
+  renderTooltip() {
+    // no need to render anything when there is no focused moment
+    if (!this.focusedMoment) {
+      return;
+    }
+
+    console.log('Render tooltip for', this.focusedMoment);
+    // search for data series using
+    // _.sortedIndex(array, value, [iteratee=_.identity], [thisArg])
+    // call formatter function with this data series and put data into dom
+    // render a line onto render canvas at this.x(this.focusedMoment)
+    // SUCCESS! We got fricking tooltips, yay!
+    // I am tired
+    // stopping now...
   }
 
   /**
@@ -515,6 +549,7 @@ export default class Renderer {
   dispose() {
     this.container.removeChild(this.renderCanvas);
     this.container.removeChild(this.svg);
+    this.focusedMomentSubscription();
     this.stopAnimations();
   }
 
