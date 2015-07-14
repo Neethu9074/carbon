@@ -191,10 +191,9 @@ export default class Renderer {
 
     // The initial draw should only happen when we have adata points for both
     // axis.
+    const dataPointsForY2Available = !this.y2 || newDataColumnsY2.length > 0;
     if (initialRendering &&
-        this.y2 &&
-        newDataColumnsY1.length === 0 &&
-        newDataColumnsY2.length === 0) {
+        (newDataColumnsY1.length === 0 || !dataPointsForY2Available)) {
       this.rendering = false;
       return;
     }
