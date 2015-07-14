@@ -6,7 +6,7 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
-import {selectedSceneObject} from '../../../stores/mapStore';
+import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 import Connection from '../../Connection/index';
@@ -193,23 +193,7 @@ export default class BaseNode extends SceneObject {
   onHighlight(highlighted) {
     this.changeStateProperty('mouseOver', highlighted);
 
-    if(highlighted) {
-      this.showTooltip();
-    } else {
-      this.hideTooltip();
-    }
-  }
-
-  showTooltip() {
-    this.hideTooltip();
-    this.tooltip = this.getTooltipSticky();
-  }
-
-  hideTooltip() {
-    if(this.tooltip) {
-      this.tooltip.dispose();
-      this.tooltip = undefined;
-    }
+    currentTooltip.emit(this.getTooltipSticky());
   }
 
   setHighlight() {
@@ -422,7 +406,6 @@ export default class BaseNode extends SceneObject {
   disposeStickyNote() {
     this.stickyNote.dispose();
     this.stickyNote = emptyStickyObject;
-    this.hideTooltip();
   }
 
   dispose() {

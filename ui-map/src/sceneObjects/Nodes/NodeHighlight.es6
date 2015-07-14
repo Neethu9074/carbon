@@ -7,8 +7,6 @@ export default class NodeHighlight extends Highlight {
 
   constructor({client}) {
     super({client});
-
-    this.tooltip = undefined;
   }
 
   //sets the primary highlight whatever that means

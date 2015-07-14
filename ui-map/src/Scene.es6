@@ -8,7 +8,12 @@ import './lib/Octree';
 import {getAllNodes} from './mapStructureUtils';
 import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
-import {iconSize, selectedSceneObject, currentScene} from './stores/mapStore';
+import {
+  iconSize,
+  selectedSceneObject,
+  currentScene,
+  currentTooltip
+}from './stores/mapStore';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
@@ -65,6 +70,13 @@ export default class Scene {
     window.addEventListener('resize', this.onWindowResize, false);
 
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
+
+    this.subscriptions.push(currentTooltip.subscribe(tooltip => {
+      if(this.tooltip) {
+        this.tooltip.dispose();
+      }
+      this.tooltip = tooltip;
+    }));
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       //if there is an active metric, deselect the current selected obj and
@@ -417,15 +429,7 @@ export default class Scene {
   }
 
   handleHoveredConnetions(raycaster) {
-    const disposeConnectionSticky = () => {
-      if(this.connectionTooltip) {
-        this.connectionTooltip.dispose();
-        this.connectionTooltip = null;
-      }
-    };
-
     if(this.controller.isHoveringObject()) {
-      disposeConnectionSticky();
       return;
     }
 
@@ -442,13 +446,7 @@ export default class Scene {
     });
 
     if(hovered.length > 0) {
-      if(this.connectionTooltip) {
-        this.connectionTooltip.setHovered(hovered);
-      } else {
-        this.connectionTooltip = new Tooltip(this, hovered);
-      }
-    } else {
-      disposeConnectionSticky();
+      currentTooltip.emit(new Tooltip(this, hovered));
     }
   }
 

@@ -4,7 +4,7 @@ import Hammer from 'hammerjs';
 
 import CameraController from './CameraController_temp';
 import {createLogger} from 'instalog';
-import {longClickedSceneObject} from '../stores/mapStore';
+import {longClickedSceneObject, currentTooltip} from '../stores/mapStore';
 import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
 import eventBus from 'instana-ui-services/eventbus';
 
@@ -39,7 +39,7 @@ export default class TouchControl extends CameraController{
       threshold: minMovementForPan - 1
     });
     eventHandler.on('press', () => {
-      this.tooltip = new ProgressTooltip(this.scene);
+      currentTooltip.emit(new ProgressTooltip(this.scene));
     });
 
     eventHandler.on('panend pressup', this.cancelPressing.bind(this));
@@ -70,10 +70,7 @@ export default class TouchControl extends CameraController{
   }
 
   cancelPressing() {
-    if(this.tooltip) {
-      this.tooltip.dispose();
-      this.tooltip = null;
-    }
+    currentTooltip.emit(null);
   }
 
   onPan(e) {

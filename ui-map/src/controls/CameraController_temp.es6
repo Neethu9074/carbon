@@ -3,6 +3,7 @@
 import THREE from 'three';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
+import {currentTooltip} from '../stores/mapStore';
 
 export default class CameraController {
 
@@ -152,6 +153,10 @@ export default class CameraController {
   handleRayCasting() {
     const hitten = this.hittenObject;
     this.getObjectOnCursor();
+
+    if(!this.hittenObject) {
+      currentTooltip.emit(null);
+    }
 
     //if there is actually not hitten but it was last frame
     if(!this.hittenObject && hitten) {
