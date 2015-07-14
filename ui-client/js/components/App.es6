@@ -6,6 +6,7 @@ import {RouteHandler, Navigation} from 'react-router';
 
 import Map from 'instana-ui-map';
 import Issues from './Issues';
+import Timeline from './Timeline';
 import Lettering from 'instana-ui-components/Lettering';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
@@ -54,7 +55,7 @@ const App = React.createClass({
     return (
       <div>
         <Lettering className='in-root-lettering' />
-
+        <Timeline />
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginId={this.state.pluginId} />
 

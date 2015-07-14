@@ -1,17 +1,31 @@
 .in-timeline {
-  width: 58px;
-  height: auto;
+  position: absolute;
+  left: 10px;
+  top: 100px;
+  bottom: 100px;
 
-  background-color: #1f2226;
+  width: 100px;
 
-  overflow: hidden;
-  padding: 5px;
-}
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 
-.in-timeline__range-picker {
+  &__line {
+    width: 2px;
+    height: 90%;
+    margin: 10px 0;
+    background: gray;
+    position: relative;
+  }
 
-}
+  &__from, &__until {
+    font-size: 13px;
+  }
 
-.in-timeline__line {
-
+  &__problem {
+    position: absolute;
+    font-size: 32px;
+    left: -15px;
+  }
 }
