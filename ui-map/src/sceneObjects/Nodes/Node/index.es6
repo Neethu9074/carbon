@@ -8,7 +8,7 @@ import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import {longClickedSceneObject} from '../../../stores/selectedSceneObject';
+import {longClickedSceneObject} from '../../../stores/selectedSceneObjectStore';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 
 import BaseNode from '../BaseNode/index';
@@ -328,17 +328,17 @@ export default class Node extends BaseNode {
     if(!force && (newHealth === this.health || this.healthBlocked)) {
       return;
     }
-
     this.health = newHealth;
 
     //if this node is hidden by filter, dont add the changes to factories
     if(this.hidden) {return; }
 
+    //the ground plate is always updated
     this.addToGroundFactory();
-    this.updateSolidGeometry();
 
     if(!this.cubeHealthBlocked) {
       this.refreshFragment();
+      this.updateSolidGeometry();
     }
   }
 

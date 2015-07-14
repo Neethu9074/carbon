@@ -6,7 +6,7 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
-import {selectedSceneObject} from '../../../stores/selectedSceneObject';
+import {selectedSceneObject} from '../../../stores/selectedSceneObjectStore';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 import Connection from '../../Connection/index';
@@ -162,11 +162,8 @@ export default class BaseNode extends SceneObject {
   }
 
   makeSolidGeometry(solid=true) {
-    if(solid) {
-      if(this.fragment) {
-        this.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
-      }
-
+    if(solid && this.fragment) {
+      this.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
     } else {
       this.scene.highlightingSingleMeshFactory.removeFragment(this.id);
     }
@@ -246,6 +243,7 @@ export default class BaseNode extends SceneObject {
 
   updateSolidGeometry() {
     if(this.isSelected() || this.isConnectedToSelected()) {
+      console.log('update', this.id);
       this.makeSolidGeometry(true);
     }
   }
