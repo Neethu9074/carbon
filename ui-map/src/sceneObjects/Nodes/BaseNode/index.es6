@@ -243,7 +243,6 @@ export default class BaseNode extends SceneObject {
 
   updateSolidGeometry() {
     if(this.isSelected() || this.isConnectedToSelected()) {
-      console.log('update', this.id);
       this.makeSolidGeometry(true);
     }
   }
