@@ -53,6 +53,9 @@ export default class TouchControl extends CameraController{
   emitLongClick() {
     if(this.hittenObject) {
       longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
+
+      //also perform a simple click
+      this.doClick();
     }
   }
 
