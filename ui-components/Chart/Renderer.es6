@@ -1,4 +1,4 @@
-/*eslint complexity:[2, 11] */
+/*eslint complexity:[2, 13] */
 
 'use strict';
 
