@@ -38,7 +38,7 @@ const CassandraDashboard = React.createClass({
                        'Load'
                      ]}
                      metricUnit=''
-                     metricValueFormatter={d => d} />
+                     metricValueFormatter={formatBytes} />
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
@@ -69,7 +69,7 @@ const CassandraDashboard = React.createClass({
                        'Write'
                      ]}
                      metricUnit=''
-                     metricValueFormatter={percentFormatter} />
+                     metricValueFormatter={d => d} />
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}

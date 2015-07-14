@@ -3,6 +3,7 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
+import {formatBytes} from 'instana-ui-services/converters';
 import {DescriptionList, DescriptionItem} from '../../sdk/DescriptionList';
 
 const JVMInfo = React.createClass({
@@ -27,8 +28,8 @@ const JVMInfo = React.createClass({
           {data.get('jvm.name')}
         </DescriptionItem>
 
-        <DescriptionItem title='Xmx'>
-          {data.get('memory.max')}
+        <DescriptionItem title='Maximum Heap'>
+          {formatBytes(data.get('memory.max'))}
         </DescriptionItem>
       </DescriptionList>
     );

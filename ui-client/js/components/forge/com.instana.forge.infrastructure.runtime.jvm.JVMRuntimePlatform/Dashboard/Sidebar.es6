@@ -24,7 +24,7 @@ const Sidebar = React.createClass({
     return (
       <div>
         <SidebarHeading>
-          Cassandra Details
+          JVM Details
         </SidebarHeading>
         <SidebarSubheading>
           {getLabel(this.props.snapshot)}

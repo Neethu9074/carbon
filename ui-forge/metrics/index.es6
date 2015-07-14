@@ -44,6 +44,14 @@ addMaxValueLocator(
 );
 addMinValueLocator(/^fs\.([^\.]+)\.ifree/, zero);
 
+addMaxValueLocator(
+  /^pools\.([^\.]+)/,
+  (snapshot, matches) => snapshot.getIn([
+    'data', 'jvm', 'pools', matches[1], 'max'
+  ])
+);
+addMinValueLocator(/^pools\.([^\.]+)/, zero);
+
 addNormalizedValueLocator(
   /^memory\.free/,
   (max, value) => (max - value) / max //translates free -> used

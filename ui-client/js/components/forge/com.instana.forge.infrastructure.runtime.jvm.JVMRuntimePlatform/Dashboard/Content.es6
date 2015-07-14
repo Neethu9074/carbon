@@ -19,7 +19,7 @@ const rpt = React.PropTypes;
 
 const chartHeight = 300;
 
-const CassandraDashboard = React.createClass({
+const JVMDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
   propTypes: {
@@ -43,7 +43,7 @@ const CassandraDashboard = React.createClass({
                      metrics={[
                        'threads.new',
                        'threads.runnable',
-                       'threads.timed-wait',
+                       'threads.timed-waiting',
                        'threads.waiting',
                        'threads.blocked',
                        'threads.terminated'
@@ -51,7 +51,7 @@ const CassandraDashboard = React.createClass({
                      metricLabels={[
                        'New',
                        'Runnable',
-                       'Timed-Wait',
+                       'Timed-Waiting',
                        'Waiting',
                        'Blocked',
                        'Terminated'
@@ -72,7 +72,7 @@ const CassandraDashboard = React.createClass({
                  metrics: [
                    'threads.new',
                    'threads.runnable',
-                   'threads.timed-wait',
+                   'threads.timed-waiting',
                    'threads.waiting',
                    'threads.blocked',
                    'threads.terminated'
@@ -130,10 +130,10 @@ const CassandraDashboard = React.createClass({
                  y1={{
                    min: 0,
                    max: getMaxValue(
-                     'jvm.pools.' + this.state.poolName + '.max',
+                     'pools.' + this.state.poolName,
                      this.props.snapshot
                    ),
-                   tickFormatter: formatBytes(),
+                   tickFormatter: formatBytes,
                    metrics: [
                      'pools.' + this.state.poolName
                    ],
@@ -155,8 +155,8 @@ const CassandraDashboard = React.createClass({
             {pools.map((data, name) =>
               <tr key={name} onClick={() => this.selectPool(name)}>
                 <td>{name}</td>
-                <td>{data.get('initial')}</td>
-                <td>{data.get('max')}</td>
+                <td>{formatBytes(data.get('initial'))}</td>
+                <td>{formatBytes(data.get('max'))}</td>
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
@@ -185,4 +185,4 @@ const CassandraDashboard = React.createClass({
   }
 });
 
-export default CassandraDashboard;
+export default JVMDashboard;
