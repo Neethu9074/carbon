@@ -2,6 +2,7 @@
 
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import {Navigation} from 'react-router';
 
 import {getLabel} from 'instana-ui-sdk/snapshot';
 import {getIdString} from 'instana-ui-services/util/snapshots';
@@ -16,7 +17,8 @@ const block = 'in-wiring-list';
 
 const WiringList = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    React.addons.PureRenderMixin,
+    Navigation
   ],
 
   propTypes: {
@@ -46,13 +48,25 @@ const WiringList = React.createClass({
         <Collapsible.Content>
           <ul className={block}>
             {this.props.wiring.map(snapshot =>
-              <li key={getIdString(snapshot)}>
+              <li key={getIdString(snapshot)}
+                  onClick={() => this.navigateToSnapshot(snapshot)}>
                 {getLabel(snapshot)}
               </li>
             )}
           </ul>
         </Collapsible.Content>
       </Collapsible>
+    );
+  },
+
+  navigateToSnapshot(snapshot) {
+    this.transitionTo(
+      'dashboard',
+      {
+        pluginId: snapshot.get('pluginId'),
+        steadyId: snapshot.get('steadyId'),
+        hostId: snapshot.get('hostId')
+      }
     );
   }
 });
