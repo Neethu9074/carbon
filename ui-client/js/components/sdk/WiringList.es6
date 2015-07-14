@@ -49,7 +49,7 @@ const WiringList = React.createClass({
           <ul className={block}>
             {this.props.wiring.map(snapshot =>
               <li key={getIdString(snapshot)}
-                  onClick={() => this.navigateToSnapshot(snapshot)}>
+                  onClick={() => this.navigateToDashboard(snapshot)}>
                 {getLabel(snapshot)}
               </li>
             )}
@@ -59,7 +59,7 @@ const WiringList = React.createClass({
     );
   },
 
-  navigateToSnapshot(snapshot) {
+  navigateToDashboard(snapshot) {
     this.transitionTo(
       'dashboard',
       {

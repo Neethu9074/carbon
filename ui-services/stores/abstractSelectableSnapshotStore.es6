@@ -9,12 +9,17 @@ import SnapshotConveyer from '../conveyer/SnapshotConveyer';
 import {only, isIdEqual} from '../util/snapshots';
 
 
-export default function createStore() {
+export default function createStore(name='???') {
   const roSpec = {emitLatestOnSubscribe: true};
 
   let subscribedSnapshotId = null;
   let selectedSnapshotSubscription = null;
   const selectedSnapshot = ro.create(roSpec);
+
+  // we are writing this value to some object so that we can inspect this
+  // prop for debugging purposes
+  selectedSnapshot.storeName = name;
+
   // initialize it with a default value so that subscribers will get an
   // initial value
   selectedSnapshot.emit(null);

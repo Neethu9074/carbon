@@ -2,7 +2,7 @@
 
 import create from './abstractSelectableSnapshotStore';
 
-const store = create();
+const store = create('selected snapshot');
 
 export const selectedSnapshot = store.selectedSnapshot;
 export const wiredSnapshots = store.wiredSnapshots;
