@@ -549,7 +549,7 @@ export default class Renderer {
   dispose() {
     this.container.removeChild(this.renderCanvas);
     this.container.removeChild(this.svg);
-    this.focusedMomentSubscription();
+    this.focusedMomentSubscription.dispose();
     this.stopAnimations();
   }
 
