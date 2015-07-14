@@ -69,16 +69,18 @@ export default class Scene {
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
-      if(!metric) {
-        currentMetrics = undefined;
-        this.showHulls();
-        this.hideMetrics();
-
-      } else {
+      //if there is an active metric, deselect the current selected obj and
+      //show the metric pillars
+      if(metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
-        this.hideHulls();
         this.onObjectClicked(null);
+        this.hideHulls();
+
+      } else {
+        currentMetrics = undefined;
+        this.hideMetrics();
+        this.showHulls();
       }
     }));
 
