@@ -4,6 +4,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as metricsStore from 'instana-ui-services/stores/metrics';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 
 import Metrics from './Metrics';
 import FloatingFrame from './FloatingFrame';
@@ -36,6 +37,15 @@ const Sidebar = React.createClass({
         this.setState({activeMetric});
       })
     );
+
+    this.addSubscription(
+      selectedSnapshotStore.selectedSnapshot
+        .subscribe(snapshot => {
+          if (snapshot) {
+            this.refs.details.open();
+          }
+        })
+    );
   },
 
   render() {
@@ -47,7 +57,8 @@ const Sidebar = React.createClass({
                        content={Listing}
                        contentProps={{
                          pluginId: this.props.pluginId
-                       }} />
+                       }}
+                       ref='details'/>
 
         <FloatingFrame icon={activeMetric ? activeMetric.get('icon') : 'metrics'}
                        title={activeMetric ? activeMetric.get('longLabel') : 'Metrics'}
