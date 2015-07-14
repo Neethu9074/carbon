@@ -63,9 +63,9 @@ const WiringList = React.createClass({
     this.transitionTo(
       'dashboard',
       {
-        pluginId: snapshot.get('pluginId'),
-        steadyId: snapshot.get('steadyId'),
-        hostId: snapshot.get('hostId')
+        pluginId: encodeURIComponent(snapshot.get('pluginId')),
+        steadyId: encodeURIComponent(snapshot.get('steadyId')),
+        hostId: encodeURIComponent(snapshot.get('hostId'))
       }
     );
   }

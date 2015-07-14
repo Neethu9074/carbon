@@ -69,9 +69,9 @@ const Details = React.createClass({
     this.transitionTo(
       'dashboard',
       {
-        pluginId: this.props.snapshot.get('pluginId'),
-        steadyId: this.props.snapshot.get('steadyId'),
-        hostId: this.props.snapshot.get('hostId')
+        pluginId: encodeURIComponent(snapshot.get('pluginId')),
+        steadyId: encodeURIComponent(snapshot.get('steadyId')),
+        hostId: encodeURIComponent(snapshot.get('hostId'))
       }
     );
   }
