@@ -6,4 +6,4 @@ const reemitSpec = {emitLatestOnSubscribe: true};
 
 // value in milliseconds
 export const timeframe = ro.create(reemitSpec);
-timeframe.emit(1000 * 60 * 10);
+timeframe.emit(1000 * 60 * 60 * 6);

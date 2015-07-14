@@ -9,7 +9,9 @@ const Icon = React.createClass({
     className: React.PropTypes.string,
     type: React.PropTypes.string.isRequired,
     style: React.PropTypes.object,
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func,
+    onMouseEnter: React.PropTypes.func,
+    onMouseLeave: React.PropTypes.func
   },
 
   render() {
@@ -23,10 +25,17 @@ const Icon = React.createClass({
         <button type='button'
                 className={classes}
                 style={this.props.style}
-                onClick={this.props.onClick} />
+                onClick={this.props.onClick}
+                onMouseEnter={this.props.onMouseEnter}
+                onMouseLeave={this.props.onMouseLeave}/>
       );
     } else {
-      return <i className={classes} style={this.props.style} />;
+      return (
+        <i className={classes}
+           style={this.props.style}
+           onMouseEnter={this.props.onMouseEnter}
+           onMouseLeave={this.props.onMouseLeave}/>
+      );
     }
   }
 });
