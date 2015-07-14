@@ -173,51 +173,34 @@ export default class Renderer {
    * cycle is initiated.
    */
   render() {
-    let newDataColumnsY1 = this.y1.queue.get();
-    let newDataColumnsY2;
-    if (this.y2) {
-      newDataColumnsY2 = this.y2.queue.get();
-    }
-
     // this value is immediately set to true and will be set back to false
     // by either `renderBigUpdate` or `renderIncrementalUpdate` as both
     // functions' render strategies differ.
     this.rendering = true;
-    let initialRendering = this.y1.data.getDataColumns().length === 0;
 
-    if (this.y2) {
-      initialRendering &= this.y2.data.getDataColumns().length === 0;
-    }
+    const initialRendering = this.y1.data.getDataColumns().length === 0 ||
+      (this.y2 && this.y2.data.getDataColumns().length === 0);
 
-    // The initial draw should only happen when we have adata points for both
-    // axis.
-    const dataPointsForY2Available = !this.y2 || newDataColumnsY2.length > 0;
-    if (initialRendering &&
-        (newDataColumnsY1.length === 0 || !dataPointsForY2Available)) {
-      this.rendering = false;
-      return;
-    }
-
-    // this may happen when there are queued data points, but not actually a
-    // sufficient amount to animate the chart.
-    if (newDataColumnsY1.length === 0 &&
-        (!this.y2 || this.y2 && newDataColumnsY2.length === 0)) {
-      this.rendering = false;
-      return;
-    }
-
+    let newDataColumnsY1 = this.y1.queue.get();
     this.processNewDataColumns('y1', newDataColumnsY1);
     this.y1.data.insertSorted(newDataColumnsY1);
 
+    let newDataColumnsY2;
     if (this.y2) {
+      newDataColumnsY2 = this.y2.queue.get();
       this.processNewDataColumns('y2', newDataColumnsY2);
       this.y2.data.insertSorted(newDataColumnsY2);
     }
 
-    const isBigUpdate = newDataColumnsY1.length > 10 ||
-      (this.y2 && newDataColumnsY2.length > 10) ||
-      initialRendering;
-    if (isBigUpdate) {
+    // The initial draw should only happen when we have adata points for both
+    // axis.
+    const dataPointsForY2Available = !this.y2 || this.y2.data.getDataColumns().length > 0;
+    if (this.y1.data.getDataColumns().length === 0 || !dataPointsForY2Available) {
+      this.rendering = false;
+      return;
+    }
+
+    if (initialRendering) {
       this.renderBigUpdate();
     } else {
       this.renderIncrementalUpdate();
