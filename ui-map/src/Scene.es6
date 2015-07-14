@@ -9,7 +9,7 @@ import {getAllNodes} from './mapStructureUtils';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 import {iconSizeStore} from './stores/NodeIconStore';
-import {selectedSceneObject} from './stores/selectedSceneObject';
+import {selectedSceneObject} from './stores/selectedSceneObjectStore';
 import {currentScene} from './stores/sceneStore';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';

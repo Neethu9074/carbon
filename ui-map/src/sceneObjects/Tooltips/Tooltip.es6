@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {cursorPositionStore} from '../../stores/cursorPosition';
+import {cursorPositionStore} from '../../stores/cursorPositionStore';
 
 import './Tooltip.less';
 

@@ -3,7 +3,7 @@
 import * as ro from 'reactive-observables';
 
 import TouchController from './TouchCameraController_temp';
-import {cursorPositionStore} from '../stores/cursorPosition';
+import {cursorPositionStore} from '../stores/cursorPositionStore';
 
 
 export default class MouseControl extends TouchController {
