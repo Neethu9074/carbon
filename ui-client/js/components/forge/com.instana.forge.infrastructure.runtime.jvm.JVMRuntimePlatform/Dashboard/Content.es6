@@ -5,6 +5,8 @@ import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'instana-ui-services/converters';
+import {create} from 'instana-ui-services/conveyer';
+import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import Chart from '../../../sdk/charts/Chart';
@@ -33,8 +35,7 @@ const CassandraDashboard = React.createClass({
   },
 
   render() {
-    const pools = this.props.snapshot.getIn(['data', 'jvm', 'pools']);
-
+    const pools = this.props.snapshot.getIn(['data', 'jvm.pools']);
     return (
       <div>
         <ChartLegend title='Threads'
@@ -84,10 +85,10 @@ const CassandraDashboard = React.createClass({
         <ChartLegend title='Memory Free'
                      snapshot={this.props.snapshot}
                      metrics={[
-                       'storage.load'
+                       'memory.free'
                      ]}
                      metricLabels={[
-                       'memory.free'
+                       'free'
                      ]}
                      metricUnit=''
                      metricValueFormatter={formatBytes} />
@@ -173,6 +174,13 @@ const CassandraDashboard = React.createClass({
   selectPool(pool) {
     this.setState({
       poolName: pool
+    });
+  },
+
+  createMetricValueStream(metric) {
+    return create(MetricConveyer, {
+      snapshot: this.props.snapshot,
+      metric
     });
   }
 });
