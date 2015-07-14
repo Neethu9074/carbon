@@ -6,11 +6,9 @@ import Tween from 'tween.js';
 import './lib/Octree';
 
 import {getAllNodes} from './mapStructureUtils';
-import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
-import {iconSizeStore} from './stores/NodeIconStore';
-import {selectedSceneObject} from './stores/selectedSceneObjectStore';
-import {currentScene} from './stores/sceneStore';
+import {iconSize, selectedSceneObject, currentScene} from './stores/mapStore';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
@@ -85,7 +83,7 @@ export default class Scene {
     }));
 
     this.subscriptions.push(
-      selectedSnapshotStore.selectedSnapshot.async().subscribe((selected) => {
+      selectedSnapshot.selectedSnapshot.async().subscribe((selected) => {
         this.onObjectClicked(this.map.findNodeBySnapshot(selected), false);
       })
     );
@@ -101,15 +99,15 @@ export default class Scene {
         if(obj.calledByMap) {
           //if the object exists but has no snapshot or is unknown
           if(!sceneObject.snapshot || sceneObject.isUnknown) {
-            selectedSnapshotStore.clear();
+            selectedSnapshot.clear();
           } else {
-            selectedSnapshotStore.select(sceneObject.snapshot);
+            selectedSnapshot.select(sceneObject.snapshot);
           }
         }
       } else {
         this.showHulls();
         if(obj.calledByMap) {
-          selectedSnapshotStore.clear();
+          selectedSnapshot.clear();
         }
       }
     }));
@@ -312,7 +310,7 @@ export default class Scene {
 
     if(this.nodeSizeInPixel !== nodeSizeInPixel) {
       this.nodeSizeInPixel = nodeSizeInPixel;
-      iconSizeStore.emit(nodeSizeInPixel);
+      iconSize.emit(nodeSizeInPixel);
       this.renderScene();
     }
   }

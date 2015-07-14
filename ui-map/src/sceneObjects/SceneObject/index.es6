@@ -2,7 +2,7 @@
 
 import THREE from 'three';
 import {setupStates} from './States/index';
-import {currentScene} from '../../stores/sceneStore';
+import {currentScene} from '../../stores/mapStore';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('ui-map.sceneObject');

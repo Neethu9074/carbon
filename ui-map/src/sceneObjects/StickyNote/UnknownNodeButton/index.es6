@@ -2,7 +2,7 @@
 
 import React from 'react/addons';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import {iconSizeStore as iss} from '../../../stores/NodeIconStore';
+import {iconSizeStore as iss} from '../../../stores/mapStore';
 import iconPath from './plusIcon.svg';
 
 import './index.less';

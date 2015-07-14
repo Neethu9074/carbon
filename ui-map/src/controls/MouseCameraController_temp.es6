@@ -3,7 +3,7 @@
 import * as ro from 'reactive-observables';
 
 import TouchController from './TouchCameraController_temp';
-import {cursorPositionStore} from '../stores/cursorPositionStore';
+import {cursorPosition} from '../stores/mapStore';
 
 
 export default class MouseControl extends TouchController {
@@ -13,7 +13,7 @@ export default class MouseControl extends TouchController {
     const canvas = scene.parent;
 
     canvas.onmousemove = (e) => {
-      cursorPositionStore.emit({x: e.clientX, y: e.clientY});
+      cursorPosition.emit({x: e.clientX, y: e.clientY});
       this.onMouseMove(e);
     };
 

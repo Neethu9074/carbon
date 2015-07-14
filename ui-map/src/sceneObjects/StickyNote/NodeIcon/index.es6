@@ -3,7 +3,7 @@
 import React from 'react/addons';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {getIcon} from 'instana-ui-sdk/snapshot';
-import {iconSizeStore as iss} from '../../../stores/NodeIconStore';
+import {iconSize} from '../../../stores/mapStore';
 
 import './index.less';
 
@@ -24,7 +24,7 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(iss.subscribe(size => this.setState({size})));
+    this.addSubscription(iconSize.subscribe(size => this.setState({size})));
   },
 
   render() {

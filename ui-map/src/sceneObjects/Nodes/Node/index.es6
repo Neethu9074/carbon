@@ -8,7 +8,7 @@ import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
 import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import {longClickedSceneObject} from '../../../stores/selectedSceneObjectStore';
+import {longClickedSceneObject} from '../../../stores/mapStore';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 
 import BaseNode from '../BaseNode/index';

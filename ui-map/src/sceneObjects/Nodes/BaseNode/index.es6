@@ -6,7 +6,7 @@ import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
-import {selectedSceneObject} from '../../../stores/selectedSceneObjectStore';
+import {selectedSceneObject} from '../../../stores/mapStore';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 
 import Connection from '../../Connection/index';

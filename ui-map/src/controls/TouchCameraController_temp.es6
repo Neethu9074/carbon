@@ -4,7 +4,7 @@ import Hammer from 'hammerjs';
 
 import CameraController from './CameraController_temp';
 import {createLogger} from 'instalog';
-import {longClickedSceneObject} from '../stores/selectedSceneObjectStore';
+import {longClickedSceneObject} from '../stores/mapStore';
 import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
 import eventBus from 'instana-ui-services/eventbus';
 

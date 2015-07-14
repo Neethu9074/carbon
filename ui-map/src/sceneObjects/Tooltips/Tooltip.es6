@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import {cursorPositionStore} from '../../stores/cursorPositionStore';
+import {cursorPosition} from '../../stores/mapStore';
 
 import './Tooltip.less';
 
@@ -16,7 +16,7 @@ export default class Tooltip {
 
     this.style = this.stickyNoteContainer.style;
 
-    this.moveSubscribtion = cursorPositionStore.subscribe((xy) =>
+    this.moveSubscribtion = cursorPosition.subscribe((xy) =>
       this.setScreenPosition(xy));
   }
 
