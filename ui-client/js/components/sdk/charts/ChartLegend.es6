@@ -24,8 +24,7 @@ const ChartLegend = React.createClass({
     snapshot: irpt.map.isRequired,
     metrics: rpt.arrayOf(rpt.string).isRequired,
     metricLabels: rpt.arrayOf(rpt.string).isRequired,
-    metricUnit: rpt.string.isRequired,
-    metricValueFormatter: rpt.func.isRequired
+    metricValueFormatter: rpt.func
   },
 
   getInitialState() {
@@ -82,16 +81,21 @@ const ChartLegend = React.createClass({
               <dt className={block + '-metric-value'}>
                 {this.state[metric] === undefined ?
                   -1
-                : this.props.metricValueFormatter(this.state[metric])}
-                <span className={block + '-metric-unit'}>
-                  {this.props.metricUnit}
-                </span>
+                : this.formatValue(this.state[metric])}
               </dt>
             </div>
           )}
         </dl>
       </div>
     );
+  },
+
+  formatValue(d) {
+    if (this.props.metricValueFormatter) {
+      return this.props.metricValueFormatter(d);
+    } else {
+      return d;
+    }
   }
 });
 

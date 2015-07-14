@@ -19,7 +19,6 @@ import ContentHeading from '../../../sdk/ContentHeading';
 const rpt = React.PropTypes;
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
-const metricValueFormatter = d => commasFormatter(d * 100);
 const bytesPerSecondFormatter = d => formatBytes(d) + '/s';
 const kbFormatter = d => formatBytes(d * 1024);
 
@@ -63,8 +62,7 @@ const OsDashboard = React.createClass({
                        'Nice',
                        'Steal'
                      ]}
-                     metricUnit='%'
-                     metricValueFormatter={metricValueFormatter} />
+                     metricValueFormatter={percentFormatter} />
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
@@ -98,9 +96,7 @@ const OsDashboard = React.createClass({
                      ]}
                      metricLabels={[
                        'Load'
-                     ]}
-                     metricUnit=''
-                     metricValueFormatter={d => d} />
+                     ]}/>
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
@@ -124,7 +120,6 @@ const OsDashboard = React.createClass({
                      metricLabels={[
                        'Free'
                      ]}
-                     metricUnit=''
                      metricValueFormatter={d => formatBytes(d)} />
 
         <Chart snapshot={this.props.snapshot}
@@ -383,9 +378,7 @@ const OsDashboard = React.createClass({
                        'Fail %',
                        'Error %',
                        'Retransmission %'
-                     ]}
-                     metricUnit=''
-                     metricValueFormatter={d => d} />
+                     ]}/>
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
