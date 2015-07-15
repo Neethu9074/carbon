@@ -16,7 +16,10 @@ export default {
         switchToDashboard: 'Switch to dashboard'
       },
       searchbar: {
-        submit: 'Submit'
+        text: 'Submit'
+      },
+      logout: {
+        text: 'Logout'
       }
     }
   }

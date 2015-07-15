@@ -56,19 +56,34 @@ const Timeline = React.createClass({
   },
 
   render() {
+    const iconConfig = {
+      type: 'timeline_warning',
+      color: theme.health.warning
+    };
+
     return (
-      <div>
+      <div className={block + '__wrapper'}>
         {this.renderTooltip()}
         <div className={block}>
-          <span className={block + '__from'}>Today</span>
+          <button type='button'
+                  className={block + '__button-to'}
+                  onClick={(e) => {console.log(e); }}>
+
+            <Icon className={block + '__icon'} type={iconConfig.type} />
+            {this.getUntil()}
+          </button>
 
           <div className={block + '__line'}>
             {this.renderProblems()}
           </div>
 
-          <span className={block + '__until'}>
-            {this.getUntil()}
-          </span>
+          <button type='button'
+                  className={block + '__button-from'}
+                  onClick={(e) => {console.log(e); }}>
+
+            Today
+            <Icon className={block + '__icon'} type={iconConfig.type} />
+          </button>
         </div>
       </div>
     );
@@ -84,8 +99,8 @@ const Timeline = React.createClass({
     }
 
     const maxOldestPermittedProblem = Date.now() - this.props.timeframe;
-
     const problems = [];
+
     this.props.openIssues.forEach(issue => {
       issue.get('problems')
         .filter(problem => problem.get('start') > maxOldestPermittedProblem)
@@ -99,7 +114,7 @@ const Timeline = React.createClass({
               type={iconConfig.type}
               className={block + '__problem'}
               style={{
-                top: this.getPosition(problem) + '%',
+                left: this.getPosition(problem) + '%',
                 color: iconConfig.color
               }}
               onMouseEnter={this.mouseIn.bind(this, problem)}
@@ -132,7 +147,7 @@ const Timeline = React.createClass({
 
     const scale = d3.scale.linear();
     scale.domain([top, bottom]);
-    scale.range([0, 100]);
+    scale.range([100, 0]);
 
     return scale(start);
   },
@@ -167,8 +182,8 @@ const Timeline = React.createClass({
   mouseIn(problem, event) {
     this.setState({
       hoveredProblem: problem,
-      tooltipX: 75, //event.pageX,
-      tooltipY: event.pageY
+      tooltipX: event.pageX,
+      tooltipY: -150// event.pageY // window.outerHeightY - 500
     });
 
     this.addSubscription(

@@ -37,7 +37,7 @@ export default React.createClass({
         <button type='button'
                 className={'in-searchbar__button'}
                 onClick={this.submit}>
-          {this.getIntlMessage('map.searchbar.submit')}
+          {this.getIntlMessage('map.searchbar.text')}
         </button>
       </div>
     );

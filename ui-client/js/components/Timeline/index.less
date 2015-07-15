@@ -1,36 +1,66 @@
 .in-timeline {
-  position: absolute;
-  left: 10px;
-  top: 100px;
-  bottom: 100px;
-
-  width: 100px;
+  height: 75px;
+  width: 100%;
 
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex-direction: column;
+  flex-direction: row;
 
-  &__line {
-    width: 2px;
-    height: 90%;
-    margin: 10px 0;
-    background: gray;
-    position: relative;
+  &__wrapper {
+    width: 100%;
   }
 
-  &__from, &__until {
-    font-size: 13px;
+  &__line {
+    position: relative;
+    height: 2px;
+    background: gray;
+    width: 100%;
+    margin: 5px;
+  }
+
+  &__button-from, &__button-to {
+    font-size: 11px;
+
+    min-width: 100px;
+
+    border: 0;
+    border-radius: 2px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #2e373e;
+    color: white;
+
+    cursor: pointer;
+  }
+
+  &__button-from {
+    padding: 5px 5px 5px 20px;
+  }
+
+  &__button-to {
+    padding: 5px 20px 5px 5px;
+  }
+
+  &__icon {
+    font-size: 24px;
+    color: #99F4F5;
+    margin: 0;
+    padding: 0;
   }
 
   &__problem {
     position: absolute;
     font-size: 32px;
-    left: -15px;
+    display: block;
+    bottom: -15px;
   }
 
   &__tooltip {
     position: absolute;
-    margin: -15px 0 0 12px;
+    margin: 0, 0, -15px 0;
   }
 }

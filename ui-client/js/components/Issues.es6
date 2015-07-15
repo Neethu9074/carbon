@@ -35,9 +35,6 @@ const Issues = React.createClass({
     const summary = this.state.issueSummary;
     const errorAndWarningCounts = summary.get(health.warning) +
       summary.get(health.danger);
-    if (errorAndWarningCounts === 0) {
-      return null;
-    }
 
     const color = this.getColor();
     return (
@@ -60,9 +57,11 @@ const Issues = React.createClass({
 
     if (summary.get(health.danger) > 0) {
       return theme.health.danger;
+    } else if (summary.get(health.warning) > 0) {
+      return theme.health.warning;
     }
 
-    return theme.health.warning;
+    return theme.health.ok;
   }
 });
 
