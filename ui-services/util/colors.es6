@@ -10,7 +10,7 @@ export default class ColorGenerator {
     this.seed = seed;
     this.progress = 0;
     this.colorIndex = 0;
-    this.stepsPerGenerate = 1 / (seed - 1);
+    this.stepsPerGenerate = 1 / (seed);
 
     this.setHueRange(25, 360);
     this.setSatRange(85, 100);
@@ -20,7 +20,7 @@ export default class ColorGenerator {
     for (let i = 0; i < seed; i++) {
       colors.push(this.createColor());
     }
-    this.colors = this.shuffle(colors);
+    this.colors = this.reOrder(colors);
   }
 
   setHueRange(min, max) {
@@ -38,22 +38,40 @@ export default class ColorGenerator {
     this.maxLum = Math.min(max, 100);
   }
 
-  shuffle(array) {
-    return array;
+  reOrder(array) {
 
-    // var m = array.length, t, i;
-    //
-    // // While there remain elements to shuffle…
-    // while (m) {
-    //   // Pick a remaining element…
-    //   i = Math.floor(Math.random() * m--);
-    //
-    //   // And swap it with the current element.
-    //   t = array[m];
-    //   array[m] = array[i];
-    //   array[i] = t;
-    // }
-    // return array;
+    const resultArray = [array[0]]; //add first
+    this.addRange(array, resultArray, 0, array.length - 1);
+    resultArray.push(array[array.length - 1]); //add last
+
+    const final = [];
+    const middle = Math.ceil(resultArray.length / 2);
+    for (let i = 0; i < middle; i++) {
+      final.push(resultArray[i]);
+      final.push(resultArray[i + middle]);
+    }
+
+    return final;
+  }
+
+  addRange(fromArray, toArray, fromIndex, toIndex) {
+    const middle = this.getMiddle(fromIndex, toIndex);
+    if(middle === -1) {
+      return;
+    }
+
+    toArray.push(fromArray[middle]);
+    this.addRange(fromArray, toArray, fromIndex, middle);
+    this.addRange(fromArray, toArray, middle, toIndex);
+  }
+
+  getMiddle(from, to) {
+    const index = Math.floor((from + to) / 2);
+    if(index === from || index === to) {
+      return -1;
+    }
+
+    return index;
   }
 
   createColor() {

@@ -3,7 +3,7 @@
 import ColorGenerator from 'instana-ui-services/util/colors';
 
 
-const colorGenerator = new ColorGenerator(50);
+const colorGenerator = new ColorGenerator(100);
 const tagColorCache = {};
 
 export const getColor = (tag) => {

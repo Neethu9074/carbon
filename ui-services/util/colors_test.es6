@@ -24,8 +24,8 @@ describe('util.colors', () => {
     expect(color1.l).not.to.equal(color2.l);
   });
 
-  it('should return only 3 colors', () => {
-    const c = new colors(3);
+  it('should return 4 colors', () => {
+    const c = new colors(4);
 
     const color1 = c.getNextColor();
     const color2 = c.getNextColor();
@@ -40,9 +40,9 @@ describe('util.colors', () => {
     expect(color1.s).not.to.equal(color2.s);
     expect(color1.l).not.to.equal(color2.l);
 
-    expect(color1.h).to.equal(color4.h);
-    expect(color1.s).to.equal(color4.s);
-    expect(color1.l).to.equal(color4.l);
+    expect(color1.h).not.to.equal(color4.h);
+    expect(color1.s).not.to.equal(color4.s);
+    expect(color1.l).not.to.equal(color4.l);
   });
 
 });

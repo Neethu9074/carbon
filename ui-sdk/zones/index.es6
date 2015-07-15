@@ -4,7 +4,7 @@ import pbst from '../util/pluginBasedSnapshotTransformation';
 import ColorGenerator from 'instana-ui-services/util/colors';
 // import {consts} from 'instana-ui-themes';
 
-const colorGenerator = new ColorGenerator(10);
+const colorGenerator = new ColorGenerator(20);
 const zoneColorCache = {};
 
 const transformer = pbst('zones');
