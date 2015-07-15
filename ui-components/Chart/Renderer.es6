@@ -91,7 +91,6 @@ export default class Renderer {
       });
 
     ro.on(this.renderCanvas, 'mousemove')
-      .throttle(50)
       .subscribe(e => {
         timelineStore.setFocusedMoment(this.x.invert(e.offsetX).getTime());
       });
@@ -224,6 +223,8 @@ export default class Renderer {
       this.renderIncrementalUpdate();
     }
 
+    this.renderTooltip();
+
     // the Chart will be hidden until the first successful paint
     if (initialRendering) {
       this.container.style.display = 'block';
@@ -236,7 +237,15 @@ export default class Renderer {
       return;
     }
 
-    console.log('Render tooltip for', this.focusedMoment);
+    const height = this.height - this.margins.top - this.margins.bottom;
+    const x = this.x(this.focusedMoment);
+    this.renderCtx.beginPath();
+    this.renderCtx.moveTo(x, 0);
+    this.renderCtx.lineTo(x, height);
+    this.renderCtx.strokeStyle = 'red';
+    this.renderCtx.stroke();
+    this.renderCtx.closePath();
+
     // search for data series using
     // _.sortedIndex(array, value, [iteratee=_.identity], [thisArg])
     // call formatter function with this data series and put data into dom
@@ -269,6 +278,7 @@ export default class Renderer {
 
     this.drawingCanvas.setAttribute('width', this.getRenderCanvasWidth());
     this.draw();
+    this.clearRenderingCanvas();
     this.renderCtx.drawImage(
       this.drawingCanvas,
       0,
@@ -280,6 +290,8 @@ export default class Renderer {
     if (this.y2) {
       this.y2.axis.element.call(this.y2.axis);
     }
+
+    this.renderTooltip();
 
     this.rendering = false;
   }
@@ -384,6 +396,7 @@ export default class Renderer {
             (self.height - self.margins.bottom) +
           ')'
         );
+        self.renderTooltip();
       })
       .onComplete(onEnd)
       .onStop(onEnd)
