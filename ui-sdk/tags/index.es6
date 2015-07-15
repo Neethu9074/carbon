@@ -1,5 +1,9 @@
 'use strict';
 
+import ColorGenerator from 'instana-ui-services/util/colors';
+
+
+const colorGenerator = new ColorGenerator(10);
 const tagColorCache = {};
 
 export const getColor = (tag) => {
@@ -7,7 +11,8 @@ export const getColor = (tag) => {
     return tagColorCache[tag];
   }
 
-  const color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+  // const color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+  const color = colorGenerator.getNextColor().hex;
   tagColorCache[tag] = color;
   return color;
 };
