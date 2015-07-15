@@ -66,8 +66,8 @@ const Timeline = React.createClass({
         {this.renderTooltip()}
         <div className={block}>
           <button type='button'
-                  className={block + '__button-to'}
-                  onClick={(e) => {console.log(e); }}>
+                  className={block + '__button-from'}
+                  onClick={() => this.openTimeSelectionWindow('fromTime')}>
 
             <Icon className={block + '__icon'} type={iconConfig.type} />
             {this.getUntil()}
@@ -78,8 +78,8 @@ const Timeline = React.createClass({
           </div>
 
           <button type='button'
-                  className={block + '__button-from'}
-                  onClick={(e) => {console.log(e); }}>
+                  className={block + '__button-to'}
+                  onClick={() => this.openTimeSelectionWindow('toTime')}>
 
             Today
             <Icon className={block + '__icon'} type={iconConfig.type} />
@@ -87,6 +87,11 @@ const Timeline = React.createClass({
         </div>
       </div>
     );
+  },
+
+  openTimeSelectionWindow(propertyName) {
+    // open get time dialog
+    //set state (propertyName, choosed time) || cancel
   },
 
   getUntil() {
