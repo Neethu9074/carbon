@@ -167,7 +167,7 @@ const Timeline = React.createClass({
   mouseIn(problem, event) {
     this.setState({
       hoveredProblem: problem,
-      tooltipX: event.pageX,
+      tooltipX: 75, //event.pageX,
       tooltipY: event.pageY
     });
 
