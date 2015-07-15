@@ -8,7 +8,7 @@ import {getLabel} from 'instana-ui-sdk/snapshot';
 import Panel from '../../../sdk/Panel';
 import SidebarHeading from '../../../sdk/SidebarHeading';
 import SidebarSubheading from '../../../sdk/SidebarSubheading';
-import ProcessInfo from '../ProcessInfo';
+import DockerInfo from '../DockerInfo';
 
 const rpt = React.PropTypes;
 const Sidebar = React.createClass({
@@ -24,14 +24,14 @@ const Sidebar = React.createClass({
     return (
       <div>
         <SidebarHeading>
-          Cassandra Details
+          Docker Details
         </SidebarHeading>
         <SidebarSubheading>
           {getLabel(this.props.snapshot)}
         </SidebarSubheading>
 
         <Panel title='Process'>
-          <ProcessInfo snapshot={this.props.snapshot} />
+          <DockerInfo snapshot={this.props.snapshot} />
         </Panel>
       </div>
     );
