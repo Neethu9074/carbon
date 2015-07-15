@@ -61,25 +61,24 @@ export default class ColorGenerator {
     const s = this.minSat + ((this.maxSat - this.minSat) * this.progress);
     const l = this.minLum + ((this.maxLum - this.minLum) * this.progress);
 
-    colorService.setHSL(h / 360, s / 100, l / 100);
-    const hex = '#' + colorService.getHexString();
-    const color = {
-      h, s, l,
-      hex
-    };
-
     this.progress += this.stepsPerGenerate;
     if(this.progress > 1) {
       this.progress = 0;
     }
 
-    return color;
+    colorService.setHSL(h / 360, s / 100, l / 100);
+    const hex = '#' + colorService.getHexString();
+
+    return {
+      h, s, l,
+      hex
+    };
   }
 
   getNextColor() {
     const color = this.colors[this.colorIndex++];
 
-    if(this.colorIndex > this.colors.length) {
+    if(this.colorIndex > this.colors.length - 1) {
       this.colorIndex = 0;
     }
 
