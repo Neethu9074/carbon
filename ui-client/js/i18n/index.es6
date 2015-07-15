@@ -20,6 +20,11 @@ export default {
       },
       logout: {
         text: 'Logout'
+      },
+      timepicker: {
+        buttons: {
+          set: 'Set'
+        }
       }
     }
   }

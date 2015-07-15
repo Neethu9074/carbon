@@ -16,6 +16,7 @@ import {theme} from 'instana-ui-services/theme';
 import * as timelineStore from 'instana-ui-services/stores/timeline';
 import {getOpenIssues} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import {IntlMixin} from 'react-intl';
 import {only} from 'instana-ui-services/util/snapshots';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
@@ -30,7 +31,11 @@ const rpt = React.PropTypes;
 const block = 'in-timeline';
 
 const Timeline = React.createClass({
-  mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin,
+    IntlMixin
+  ],
 
   propTypes: {
     timeframe: rpt.number.isRequired,
@@ -50,6 +55,7 @@ const Timeline = React.createClass({
     return {
       hoveredProblem: null,
       hoveredSnapshot: null,
+      timePickerProperty: null,
       tooltipX: -1,
       tooltipY: -1
     };
@@ -63,12 +69,12 @@ const Timeline = React.createClass({
 
     return (
       <div className={block + '__wrapper'}>
+        {this.renderTimePicker()}
         {this.renderTooltip()}
         <div className={block}>
           <button type='button'
                   className={block + '__button-from'}
                   onClick={() => this.openTimeSelectionWindow('fromTime')}>
-
             <Icon className={block + '__icon'} type={iconConfig.type} />
             {this.getUntil()}
           </button>
@@ -80,7 +86,6 @@ const Timeline = React.createClass({
           <button type='button'
                   className={block + '__button-to'}
                   onClick={() => this.openTimeSelectionWindow('toTime')}>
-
             Today
             <Icon className={block + '__icon'} type={iconConfig.type} />
           </button>
@@ -90,8 +95,7 @@ const Timeline = React.createClass({
   },
 
   openTimeSelectionWindow(propertyName) {
-    // open get time dialog
-    //set state (propertyName, choosed time) || cancel
+    this.setState({timePickerProperty: propertyName});
   },
 
   getUntil() {
@@ -155,6 +159,26 @@ const Timeline = React.createClass({
     scale.range([100, 0]);
 
     return scale(start);
+  },
+
+  renderTimePicker() {
+    const property = this.state.timePickerProperty;
+    if(!property) {
+      return null;
+    }
+
+    return null;
+    //
+    // return (
+    //   <div className={block + '__timepicker'}>
+    //     <button type='button'
+    //             className={block + '__timepicker-button--set'}
+    //             onClick={() => {/*TODO: set time to property*/}}>
+    //
+    //       {this.getIntlMessage('map.timepicker.buttons.set')}
+    //     </button>
+    //   </div>
+    // );
   },
 
   renderTooltip() {
