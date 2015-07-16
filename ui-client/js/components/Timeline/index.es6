@@ -5,7 +5,7 @@ import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
 import d3 from 'd3';
 
-import TooltipFrame from 'instana-ui-components/Tooltips/Frame';
+import TooltipFrame from 'instana-ui-components/Tooltips/VerticalFrame';
 import Heading from 'instana-ui-components/Tooltips/Heading';
 import Content from 'instana-ui-components/Tooltips/Content';
 import StatusLine from 'instana-ui-components/Tooltips/StatusLine';
@@ -197,16 +197,18 @@ const Timeline = React.createClass({
              top: this.state.tooltipY + 'px',
              left: this.state.tooltipX + 'px'
            }}>
-        <TooltipFrame>
-          <StatusLine left={this.state.hoveredSnapshot ? getLabel(this.state.hoveredSnapshot) : 'Loading...'}
-                      right={moment(problem.get('start')).fromNow()}/>
-          <Heading style={{color: iconConfig.color}}>
-            {problem.get('problemText')}
-          </Heading>
-          <Content>
-            {problem.get('fixSuggestion')}
-          </Content>
-        </TooltipFrame>
+         <div className={block + '__tooltip-wrapper'}>
+          <TooltipFrame>
+            <StatusLine left={this.state.hoveredSnapshot ? getLabel(this.state.hoveredSnapshot) : 'Loading...'}
+                        right={moment(problem.get('start')).fromNow()}/>
+            <Heading style={{color: iconConfig.color}}>
+              {problem.get('problemText')}
+            </Heading>
+            <Content>
+              {problem.get('fixSuggestion')}
+            </Content>
+          </TooltipFrame>
+        </div>
       </div>
     );
   },
@@ -215,7 +217,7 @@ const Timeline = React.createClass({
     this.setState({
       hoveredProblem: problem,
       tooltipX: event.pageX,
-      tooltipY: -150// event.pageY // window.outerHeightY - 500
+      tooltipY: -10
     });
 
     this.addSubscription(
