@@ -10,7 +10,8 @@ import Heading from 'instana-ui-components/Tooltips/Heading';
 import Content from 'instana-ui-components/Tooltips/Content';
 import StatusLine from 'instana-ui-components/Tooltips/StatusLine';
 import Icon from 'instana-ui-components/Icon';
-import DropUp from 'instana-ui-components/DropUp';
+import TimePicker from 'instana-ui-components/TimePicker';
+import Button from 'instana-ui-components/Button';
 
 import {health, mapSeverityToHealth} from 'instana-ui-services/health';
 import {theme} from 'instana-ui-services/theme';
@@ -57,6 +58,7 @@ const Timeline = React.createClass({
       hoveredProblem: null,
       hoveredSnapshot: null,
       timePickerProperty: null,
+      timePicker: false,
       tooltipX: -1,
       tooltipY: -1
     };
@@ -73,11 +75,11 @@ const Timeline = React.createClass({
         {this.renderTimePicker()}
         {this.renderTooltip()}
         <div className={block}>
-          <DropUp header={'header 1'} onClick={this.onDropUpItemClicked}>
-            {'item 1'}
-            {'item 2'}
-            {'item 3'}
-          </DropUp>
+          <Button className={block + '__button-from'}
+                  onClick={this.onShowTimePickerClicked}>
+             <Icon className={block + '__icon'} type={iconConfig.type} />
+             {this.getUntil()}
+          </Button>
 
           <div className={block + '__line'}>
             {this.renderProblems()}
@@ -92,8 +94,15 @@ const Timeline = React.createClass({
     );
   },
 
-  onDropUpItemClicked(itemName) {
-    console.log(itemName);
+  onShowTimePickerClicked() {
+    if(this.showTimePicker) {
+      this.setState({timePicker: false});
+    } else {
+      this.setState({timePicker: true});
+    }
+
+    //toggle
+    this.showTimePicker = !this.showTimePicker;
   },
 
   getUntil() {
@@ -160,23 +169,21 @@ const Timeline = React.createClass({
   },
 
   renderTimePicker() {
-    const property = this.state.timePickerProperty;
-    if(!property) {
+    if(!this.state.timePicker) {
       return null;
     }
 
-    return null;
-    //
-    // return (
-    //   <div className={block + '__timepicker'}>
-    //     <button type='button'
-    //             className={block + '__timepicker-button--set'}
-    //             onClick={() => {/*TODO: set time to property*/}}>
-    //
-    //       {this.getIntlMessage('map.timepicker.buttons.set')}
-    //     </button>
-    //   </div>
-    // );
+    return (
+      <div className={block + '__timepicker'}>
+        <TimePicker onClick={this.onTimePickerItemClicked}/>
+      </div>
+    );
+  },
+
+  onTimePickerItemClicked(item) {
+    console.log(item);
+
+    this.onShowTimePickerClicked();
   },
 
   renderTooltip() {
