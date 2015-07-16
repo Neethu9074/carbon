@@ -1,0 +1,41 @@
+.in-dropup * {
+  padding:5px;
+  list-style-type:none;
+  position:relative;
+
+  font-size: 11px;
+  border-radius: 2px;
+
+  white-space: nowrap;
+  flex-shrink: 0;
+
+  background: #2e373e;
+  color: white;
+
+  &ul, &li {
+    border: none;
+  }
+}
+
+.in-dropup__icon {
+  font-size: 24px;
+  color: #99F4F5;
+  padding: 0;
+}
+
+.in-dropup ul li ul, .in-dropup:hover ul li ul, .in-dropup:hover ul li:hover ul li ul {
+  display:none;
+  list-style-type:none;
+}
+.in-dropup:hover ul, .in-dropup:hover ul li:hover ul, .in-dropup:hover ul li:hover ul li:hover ul {
+  display:block;
+}
+
+.in-dropup:hover ul li:hover ul {
+  position: absolute;
+}
+
+.in-dropup>ul>li:hover>ul {
+  bottom:100%;
+  margin-left: -10px;
+}

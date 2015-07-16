@@ -10,7 +10,7 @@ import Heading from 'instana-ui-components/Tooltips/Heading';
 import Content from 'instana-ui-components/Tooltips/Content';
 import StatusLine from 'instana-ui-components/Tooltips/StatusLine';
 import Icon from 'instana-ui-components/Icon';
-import Button from 'instana-ui-components/Button';
+import DropUp from 'instana-ui-components/DropUp';
 
 import {health, mapSeverityToHealth} from 'instana-ui-services/health';
 import {theme} from 'instana-ui-services/theme';
@@ -73,32 +73,27 @@ const Timeline = React.createClass({
         {this.renderTimePicker()}
         {this.renderTooltip()}
         <div className={block}>
-          <Button className={block + '__button-from'}
-                  onClick={this.openTimeSelectionWindowFrom}>
-            <Icon className={block + '__icon'} type={iconConfig.type} />
-            {this.getUntil()}
-          </Button>
+          <DropUp header={'header 1'} onClick={this.onDropUpItemClicked}>
+            {'item 1'}
+            {'item 2'}
+            {'item 3'}
+          </DropUp>
 
           <div className={block + '__line'}>
             {this.renderProblems()}
           </div>
 
-          <Button className={block + '__button-to'}
-                  onClick={this.openTimeSelectionWindowTo}>
+          <div className={block + '__button-to'}>
             Today
             <Icon className={block + '__icon'} type={iconConfig.type} />
-          </Button>
+          </div>
         </div>
       </div>
     );
   },
 
-  openTimeSelectionWindowFrom() {
-    this.setState({timePickerProperty: 'fromTime'});
-  },
-
-  openTimeSelectionWindowTo() {
-    this.setState({timePickerProperty: 'toTime'});
+  onDropUpItemClicked(itemName) {
+    console.log(itemName);
   },
 
   getUntil() {
