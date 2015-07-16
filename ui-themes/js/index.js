@@ -84,7 +84,8 @@ exports.consts = {
       footer: 3,
       notificationCenter: 5,
       detailPane: 5,
-      flyOutNotifications: 6
+      flyOutNotifications: 6,
+      tooltips: 100
     },
     health: {
       danger: colors.danger,
