@@ -23,7 +23,6 @@ RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 COPY deployment/nginx.conf.j2 /etc/nginx/nginx.conf.j2
 COPY deployment/mime.types /etc/nginx/mime.types
-COPY deployment/.htpasswd /etc/nginx/.htpasswd
 COPY target /opt/www
 
 RUN pip install j2cli
