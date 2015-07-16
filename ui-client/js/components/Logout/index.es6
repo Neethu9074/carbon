@@ -12,11 +12,15 @@ const Logout = React.createClass({
     IntlMixin
   ],
 
+  logout() {
+    console.log('LO');
+  },
+
   render() {
     return (
       <button type='button'
               className={block}
-              onClick={(e) => {console.log(e); }}>
+              onClick={this.logout}>
         {this.getIntlMessage('map.logout.text')}
       </button>
     );
