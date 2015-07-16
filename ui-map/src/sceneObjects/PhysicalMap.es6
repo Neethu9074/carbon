@@ -6,6 +6,7 @@ import _ from 'lodash';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import ConnectionGrid from '../ConnectionGrid_Temp';
 import eventBus from 'instana-ui-services/eventbus';
+import {filters} from 'instana-ui-services/stores/mapFilters';
 import SceneObject from './SceneObject/index';
 import groundTexturePath from './ground.png';
 import Group from './Group/index';
@@ -106,11 +107,8 @@ export default class PhysicalMap extends SceneObject {
       }
     }));
 
-    this.addSubscription(eventBus.on('filter').subscribe((event) => {
-      logger.debug('fitler map:', event.filterText);
-      this.filter((item) => {
-        return (event.filterText in item);
-      });
+    this.addSubscription(filters.subscribe(filterArray => {
+      this.filter(filterArray);
     }));
   }
 
@@ -210,10 +208,22 @@ export default class PhysicalMap extends SceneObject {
     this.addSceneObject(this.particles);
   }
 
-  filter(validationFunction) {
+  filter(filterArray) {
     const allNodes = getAllNodes(this);
+    const matched = [];
 
-    const matched = allNodes.filter(node => validationFunction(node));
+    allNodes.forEach(node => {
+      let unmatchesOne = false;
+      filterArray.forEach(filter => {
+        if(!filter.get('predicate')(node.snapshot)) {
+          unmatchesOne = true;
+        }
+      });
+      if(!unmatchesOne) {
+        matched.push(node);
+      }
+    });
+
     const unMatched = _.xor(allNodes, matched);
 
     matched.forEach((node) => node.show());

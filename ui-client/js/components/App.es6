@@ -55,7 +55,7 @@ const App = React.createClass({
       <div>
         <Lettering className='in-root-lettering' />
         {__DEV__ ? <Search /> : null}
-
+        
         <Footer />
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>

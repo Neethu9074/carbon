@@ -98,6 +98,10 @@ const SidebarListing = React.createClass({
 
     return (
       <Tabs blockIdentifier={block}>
+        <Tab title='metrics'
+             modifier='listing'>
+          hallo
+        </Tab>
         <Tab title={String(this.state.snapshots.size)}
              modifier='listing'>
           <ZoneList snapshots={this.state.snapshots}
