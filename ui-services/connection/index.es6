@@ -54,7 +54,7 @@ function connect() {
   emitter.emit('connecting');
 
   logger.debug('Attempting to connect to WebSocket URL', endpoint);
-  connection = new window.WebSocket(endpoint);
+  connection = window.connection = new window.WebSocket(endpoint);
   connection.onopen = onOpen;
   connection.onclose = onClose;
   connection.onerror = onError;
@@ -77,6 +77,7 @@ function onOpen() {
 function ping() {
   connection.send('ping');
   pingTimeoutHandle = setTimeout(() => {
+    logger.debug('Pong was not received in time. Attempting reconnect.');
     // if this ever gets called, then the pong message was not received in
     // time and we just try to reconnect.
     if (isOpen()) {
