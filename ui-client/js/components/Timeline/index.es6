@@ -74,7 +74,7 @@ const Timeline = React.createClass({
         {this.renderTooltip()}
         <div className={block}>
           <Button className={block + '__button-from'}
-                  onClick={this.onShowTimePickerClicked}>
+                  onClick={this.toggle}>
              <Icon className={block + '__icon'} type={iconConfig.type} />
              {this.getUntil()}
           </Button>
@@ -92,15 +92,10 @@ const Timeline = React.createClass({
     );
   },
 
-  onShowTimePickerClicked() {
-    if(this.showTimePicker) {
-      this.setState({timePicker: false});
-    } else {
-      this.setState({timePicker: true});
-    }
-
-    //toggle
-    this.showTimePicker = !this.showTimePicker;
+  toggle() {
+    this.setState({
+      open: !this.state.open
+    });
   },
 
   getUntil() {
@@ -167,7 +162,7 @@ const Timeline = React.createClass({
   },
 
   renderTimePicker() {
-    if(!this.state.timePicker) {
+    if(!this.state.open) {
       return null;
     }
 
@@ -180,7 +175,7 @@ const Timeline = React.createClass({
 
   onTimePickerItemClicked(newTime) {
     timelineStore.timeframe.emit(newTime);
-    this.onShowTimePickerClicked();
+    this.toggle();
   },
 
   renderTooltip() {

@@ -18,18 +18,14 @@ const Menu = React.createClass({
     return {showMenu: false};
   },
 
-  toggleMenu() {
-    if(!this.showMenu) {
-      this.setState({showMenu: true});
-    } else {
-      this.setState({showMenu: false});
-    }
-
-    this.showMenu = !this.showMenu;
+  toggle() {
+    this.setState({
+      open: !this.state.open
+    });
   },
 
   renderMenu() {
-    if(!this.showMenu) {
+    if(!this.open) {
       return null;
     }
 
@@ -49,7 +45,7 @@ const Menu = React.createClass({
       <div className={block}>
         {this.renderMenu()}
         <Button className={block + '__toggle-button'}
-                onClick={this.toggleMenu}>
+                onClick={this.toggle}>
            Menu
            <Icon className={block + '__icon'} type={iconConfig.type} />
         </Button>

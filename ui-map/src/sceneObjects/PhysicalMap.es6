@@ -15,9 +15,6 @@ import {create} from 'instana-ui-services/conveyer';
 import {getZone} from 'instana-ui-sdk/zones';
 import {getAllNodes, getAllGroups} from '../mapStructureUtils';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
-import {createLogger} from 'instalog';
-
-const logger = createLogger('ui-map.Group');
 
 let layoutCounter = 0;
 const layoutingInterval = 60;
