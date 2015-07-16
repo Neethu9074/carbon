@@ -2,8 +2,13 @@
 
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
+import irpt from 'react-immutable-proptypes';
+import Immutable from 'immutable';
 
 import Icon from 'instana-ui-components/Icon';
+import * as mapFilters from 'instana-ui-services/stores/mapFilters';
+
+import enhance from '../enhance';
 
 const block = 'in-search';
 import './index.less';
@@ -19,7 +24,7 @@ const tags = [
   'groundskeeper',
   'issue-tracker',
   'processor',
-  'accept',
+  'acceptor',
   'hadoop',
   'kafka',
   'redis',
@@ -30,9 +35,20 @@ const tags = [
 const Search = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
+  propTypes: {
+    predicates: irpt.list.isRequired
+  },
+
+  statics: {
+    createObservables: () => {
+      return {
+        predicates: mapFilters.filters
+      };
+    }
+  },
+
   getInitialState() {
     return {
-      predicates: [],
       input: ''
     };
   },
@@ -41,12 +57,13 @@ const Search = React.createClass({
     return (
       <div className={block}>
         <ul>
-          {this.state.predicates.map(predicate =>
-            <li key={predicate.label}
+          {this.props.predicates.map(predicate =>
+            <li key={predicate.get('label')}
                 onClick={() => this.removePredicate(predicate)}>
-              {predicate.label}
+              <Icon type={predicate.get('icon')}/>
+              {predicate.get('label')}
             </li>
-          )}
+          ).toArray()}
         </ul>
 
         <input type='text'
@@ -54,7 +71,7 @@ const Search = React.createClass({
                onKeyUp={this.onKeyUp}
                onChange={this.onChange}/>
 
-        {this.state.predicates.length > 0 || this.state.input.length > 0 ?
+        {this.props.predicates.size > 0 || this.state.input.length > 0 ?
           <Icon type='x' onClick={this.clear}/>
         : null}
 
@@ -77,7 +94,8 @@ const Search = React.createClass({
     return (
       <ul>
         {completions.map(completion =>
-          <li onClick={() => this.addNewTagPredicate(completion)}>
+          <li onClick={() => this.addNewTagPredicate(completion)}
+              key={completion}>
             {completion}
           </li>
         )}
@@ -106,31 +124,26 @@ const Search = React.createClass({
   },
 
   addNewPredicate(predicate) {
-    this.setState({
-      predicates: this.state.predicates.concat(predicate)
-    });
+    mapFilters.set(this.props.predicates.push(predicate));
   },
 
   removePredicate(predicate) {
-    const newPredicates = this.state.predicates.slice();
-    newPredicates.splice(newPredicates.indexOf(predicate), 1);
-    this.setState({
-      predicates: newPredicates
-    });
+    const newPredicates = this.props.predicates.filter(p => p !== predicate);
+    mapFilters.set(newPredicates);
   },
 
   clear() {
+    mapFilters.clear();
     this.setState({
-      predicates: [],
       input: ''
     });
   }
 });
 
-export default Search;
+export default enhance(Search);
 
 function buildTagPredicate(tag) {
-  return {
+  return Immutable.Map({
     label: tag,
     icon: 'timeline',
     predicate: snapshot => {
@@ -139,5 +152,5 @@ function buildTagPredicate(tag) {
       }
       return false;
     }
-  };
+  });
 }
