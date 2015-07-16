@@ -18,14 +18,14 @@ export default {
       searchbar: {
         text: 'Submit'
       },
-      logout: {
-        text: 'Logout'
-      },
       timepicker: {
         buttons: {
           set: 'Set'
         }
       }
+    },
+    footer: {
+      signOut: 'Sign Out'
     }
   }
 };
