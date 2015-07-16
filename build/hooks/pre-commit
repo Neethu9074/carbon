@@ -1,0 +1,9 @@
+#!/bin/sh
+
+# Update the theme file
+node build/translateTheme.js
+git add ui-themes/less/constants.less
+
+
+# Execute tests to be on the safe side
+npm test

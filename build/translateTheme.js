@@ -1,8 +1,11 @@
+/*eslint-env node*/
+/*eslint-disable no-var*/
+
 'use strict';
 
 var fs = require('fs');
 var path = require('path');
-var themes = require('../js');
+var themes = require('../ui-themes/js');
 
 var stylesheet = '';
 Object.keys(themes.consts).forEach(function(theme) {
@@ -10,24 +13,24 @@ Object.keys(themes.consts).forEach(function(theme) {
 });
 stylesheet = stylesheet.trim();
 fs.writeFileSync(
-  path.join(__dirname, '../less/constants.less'),
+  path.join(__dirname, '../ui-themes/less/constants.less'),
   stylesheet
 );
 
-function walkConstants(path, obj) {
+function walkConstants(pathToWalk, obj) {
   Object.keys(obj).forEach(function(key) {
     var value = obj[key];
     if (typeof value === 'string' || typeof value === 'number') {
-      addConstant(path.concat(key), value);
+      addConstant(pathToWalk.concat(key), value);
     } else if (typeof value === 'object' && !(value instanceof Array)) {
-      walkConstants(path.concat(key), value);
+      walkConstants(pathToWalk.concat(key), value);
       stylesheet += '\n';
     }
   });
 }
 
-function addConstant(path, value) {
-  var key = toSpinalCase(path.join('__'));
+function addConstant(targetPath, value) {
+  var key = toSpinalCase(targetPath.join('__'));
   stylesheet += '@' + key + ': ' + value + ';\n';
 }
 

@@ -79,6 +79,7 @@ exports.consts = {
     zIndex: {
       stickyNotes: 1,
       sidebar: 2,
+      search: 2,
       header: 3,
       footer: 3,
       notificationCenter: 5,
