@@ -237,6 +237,8 @@ export default class Renderer {
       return;
     }
 
+    // TODO adapt to animation. Render using SVG?
+    // render line as part of DOM? We could save one transition
     const height = this.height - this.margins.top - this.margins.bottom;
     const x = this.x(this.focusedMoment);
     this.renderCtx.beginPath();
