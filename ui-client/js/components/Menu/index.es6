@@ -15,7 +15,7 @@ const Menu = React.createClass({
   ],
 
   getInitialState() {
-    return {showMenu: false};
+    return {open: false};
   },
 
   toggle() {
@@ -25,7 +25,7 @@ const Menu = React.createClass({
   },
 
   renderMenu() {
-    if(!this.open) {
+    if(!this.state.open) {
       return null;
     }
 

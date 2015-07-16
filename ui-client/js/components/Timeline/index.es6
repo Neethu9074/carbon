@@ -56,7 +56,7 @@ const Timeline = React.createClass({
       hoveredProblem: null,
       hoveredSnapshot: null,
       timePickerProperty: null,
-      timePicker: false,
+      open: false,
       tooltipX: -1,
       tooltipY: -1
     };
