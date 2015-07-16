@@ -3,7 +3,7 @@
 import React from 'react/addons';
 import Issues from '../Issues';
 import Timeline from '../Timeline';
-import SignOut from '../SignOut';
+import Menu from '../Menu';
 
 import './index.less';
 
@@ -19,7 +19,7 @@ const Footer = React.createClass({
       <div className={block}>
         <Issues />
         <Timeline />
-        <SignOut />
+        <Menu />
       </div>
     );
   }

@@ -1,0 +1,51 @@
+.in-menu {
+  margin: 0 10px 0 5px;
+  white-space: nowrap;
+
+  &__toggle-button {
+    background: #2d3c43;
+    margin: 5px;
+    padding: 0 0 0 10px;
+
+    color: #868f94;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  &__icon {
+    font-size: 32px;
+    color: #99F4F5;
+  }
+
+  &__panel {
+    position: absolute;
+
+    bottom: 100%;
+    right: 10px;
+    width: 250px;
+
+    margin-bottom: 5px;
+    padding: 10px;
+
+    background: #232f38;
+  }
+
+  &__panel:before {
+    content: ' ';
+    position: absolute;
+
+    bottom: -12px;
+    right: 0;
+    margin-right: 15px;
+    padding: 0;
+
+    border: 6px solid;
+    border-color:
+      #232f38
+      #232f38
+      transparent
+      transparent;
+  }
+}
