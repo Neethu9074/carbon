@@ -26,15 +26,19 @@ const TimePicker = React.createClass({
       <div className={block}>
       <Button className={block + '__button'}
               onClick={() => this.props.onClick('item 1')}>
-         item 1
+         10 minutes
       </Button>
       <Button className={block + '__button'}
               onClick={() => this.props.onClick('item 2')}>
-         item 2
+         1 hour
       </Button>
       <Button className={block + '__button'}
               onClick={() => this.props.onClick('item 3')}>
-         item 3
+         12 hours
+      </Button>
+      <Button className={block + '__button'}
+              onClick={() => this.props.onClick('item 4')}>
+         24 hours
       </Button>
       </div>
     );
