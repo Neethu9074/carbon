@@ -13,7 +13,7 @@ import * as constants from 'instana-ui-forge/constants';
 
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
-// import SearchBar from './SearchBar';
+import Search from './Search';
 
 import './App.less';
 
@@ -54,6 +54,8 @@ const App = React.createClass({
     return (
       <div>
         <Lettering className='in-root-lettering' />
+        {__DEV__ ? <Search /> : null}
+
         <Footer />
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
