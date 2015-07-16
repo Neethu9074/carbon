@@ -17,12 +17,13 @@ export default {
       },
       searchbar: {
         text: 'Submit'
-      },
-      timepicker: {
-        buttons: {
-          set: 'Set'
-        }
       }
+    },
+    timePicker: {
+      time1: '10 minutes',
+      time2: '1 hour',
+      time3: '12 hours',
+      time4: '24 hours'
     },
     footer: {
       signOut: 'Sign Out'

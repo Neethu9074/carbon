@@ -18,7 +18,6 @@ import {theme} from 'instana-ui-services/theme';
 import * as timelineStore from 'instana-ui-services/stores/timeline';
 import {getOpenIssues} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import {IntlMixin} from 'react-intl';
 import {only} from 'instana-ui-services/util/snapshots';
 import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
@@ -35,8 +34,7 @@ const block = 'in-timeline';
 const Timeline = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
-    SubscriptionMixin,
-    IntlMixin
+    SubscriptionMixin
   ],
 
   propTypes: {
@@ -180,9 +178,8 @@ const Timeline = React.createClass({
     );
   },
 
-  onTimePickerItemClicked(item) {
-    console.log(item);
-
+  onTimePickerItemClicked(newTime) {
+    timelineStore.timeframe.emit(newTime);
     this.onShowTimePickerClicked();
   },
 

@@ -2,6 +2,7 @@
 
 import React from 'react/addons';
 import Button from '../Button';
+import {IntlMixin} from 'react-intl';
 
 import './TimePicker.less';
 
@@ -9,7 +10,10 @@ const rpt = React.PropTypes;
 const block = 'in-timepicker';
 
 const TimePicker = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    IntlMixin
+  ],
 
   propTypes: {
     className: rpt.any,
@@ -25,20 +29,20 @@ const TimePicker = React.createClass({
     return (
       <div className={block}>
       <Button className={block + '__button'}
-              onClick={() => this.props.onClick('item 1')}>
-         10 minutes
+              onClick={() => this.props.onClick(1000 * 60 * 10)}>
+         {this.getIntlMessage('timePicker.time1')}
       </Button>
       <Button className={block + '__button'}
-              onClick={() => this.props.onClick('item 2')}>
-         1 hour
+              onClick={() => this.props.onClick(1000 * 60 * 60)}>
+         {this.getIntlMessage('timePicker.time2')}
       </Button>
       <Button className={block + '__button'}
-              onClick={() => this.props.onClick('item 3')}>
-         12 hours
+              onClick={() => this.props.onClick(1000 * 60 * 60 * 12)}>
+         {this.getIntlMessage('timePicker.time3')}
       </Button>
       <Button className={block + '__button'}
-              onClick={() => this.props.onClick('item 4')}>
-         24 hours
+              onClick={() => this.props.onClick(1000 * 60 * 60 * 24)}>
+         {this.getIntlMessage('timePicker.time4')}
       </Button>
       </div>
     );
