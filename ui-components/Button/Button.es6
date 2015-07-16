@@ -16,7 +16,7 @@ const Button = React.createClass({
     children: rpt.any.isRequired,
     type: rpt.oneOf(['button', 'submit']),
     kind: rpt.oneOf(['default']),
-    onClick: rpt.function
+    onClick: rpt.func
   },
 
   render() {
