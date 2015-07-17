@@ -10,22 +10,34 @@ const logger = createLogger('ui-map.sceneObject');
 const stateLUT = {
 /*eslint-disable no-multi-spaces*/
   lut: [
-    //mouseOver,  selected,   active    result state
-    [[false,      false,      true],    'initial'],
-    [[false,      true,       true],    'selected'],
-    [[true,       false,      true],    'highlighted'],
-    [[true,       true,       true],    'selected'],
-    [[false,      true,       false],   'inactive'],
-    [[true,       false,      false],   'inactive'],
-    [[true,       true,       false],   'inactive'],
-    [[false,      false,      false],   'inactive']
+    //mouseOver,  selected,   active  hidden    result state
+    [[false,      false,      true,   false],   'initial'],
+    [[false,      true,       true,   false],   'selected'],
+    [[true,       false,      true,   false],   'highlighted'],
+    [[true,       true,       true,   false],   'selected'],
+    [[false,      true,       false,  false],   'inactive'],
+    [[true,       false,      false,  false],   'inactive'],
+    [[true,       true,       false,  false],   'inactive'],
+    [[false,      false,      false,  false],   'inactive'],
+    [[false,      false,      true,   true],    'hidden'],
+    [[false,      true,       true,   true],    'hidden'],
+    [[true,       false,      true,   true],    'hidden'],
+    [[true,       true,       true,   true],    'hidden'],
+    [[false,      true,       false,  true],    'hidden'],
+    [[true,       false,      false,  true],    'hidden'],
+    [[true,       true,       false,  true],    'hidden'],
+    [[false,      false,      false,  true],    'hidden']
   ],
 /*eslint-enable no-multi-spaces*/
 
-  getStateFromLut({mouseOver, selected, active, states}) {
+  getStateFromLut({mouseOver, selected, active, hidden, states}) {
     for (let i = 0; i < this.lut.length; i++) {
       const entry = this.lut[i];
-      if(mouseOver === entry[0][0] && selected === entry[0][1] && active === entry[0][2]) {
+      if(mouseOver === entry[0][0] &&
+         selected === entry[0][1] &&
+         active === entry[0][2] &&
+         hidden === entry[0][3]
+      ) {
         const match = entry[1];
         let state;
         switch (match) {
@@ -37,6 +49,9 @@ const stateLUT = {
             break;
           case 'highlighted':
             state = states.highlighted;
+            break;
+          case 'hidden':
+            state = states.hidden;
             break;
           case 'initial':
             state = states.initial;
@@ -70,7 +85,8 @@ export default class SceneObject {
     this.stateProperties = {
       mouseOver: false,
       selected: false,
-      active: true
+      active: true,
+      hidden: false
     };
     this.state = this.states.initial;
     this.state.enter();
@@ -94,6 +110,7 @@ export default class SceneObject {
       mouseOver: props.mouseOver,
       selected: props.selected,
       active: props.active,
+      hidden: props.hidden,
       states: this.states
     });
 
@@ -120,6 +137,8 @@ export default class SceneObject {
   onSelectedLeave() {logger.debug('on selected leave'); }
   onInactiveEnter() {logger.debug('on inactive enter'); }
   onInactiveLeave() {logger.debug('on inactive leave'); }
+  onHiddenEnter() {logger.debug('on hidden enter'); }
+  onHiddenLeave() {logger.debug('on hidden leave'); }
 
   isSelected() {
     return this.stateProperties.selected;

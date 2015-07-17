@@ -96,6 +96,24 @@ export default class BaseNode extends SceneObject {
 
   onInactiveLeave() { }
 
+  onHiddenEnter() {
+    super.hide();
+    this.enableFragments(false);
+
+    this.removeCollisionObject(this.cube, 1);
+    this.removeFromGlobalGeometry();
+    this.stickyNote.hide();
+  }
+
+  onHiddenLeave() {
+    super.show();
+    this.enableFragments(true);
+
+    this.addCollisionObject(this.cube, 1);
+    this.addToGlobalGeometry();
+    this.stickyNote.show();
+  }
+
 
   selected() {
     this.forEachConnection((c) => {c.show(); c.select(); });
@@ -386,21 +404,13 @@ export default class BaseNode extends SceneObject {
   }
 
   show() {
-    super.show();
-    this.enableFragments(true);
-
-    this.addCollisionObject(this.cube, 1);
-    this.addToGlobalGeometry();
-    this.stickyNote.show();
+    this.changeStateProperty('hidden', false);
+    console.log('show');
   }
 
   hide() {
-    super.hide();
-    this.enableFragments(false);
-
-    this.removeCollisionObject(this.cube, 1);
-    this.removeFromGlobalGeometry();
-    this.stickyNote.hide();
+    this.changeStateProperty('hidden', true);
+    console.log('hide');
   }
 
   disposeStickyNote() {
