@@ -2,7 +2,6 @@
 
 import React from 'react/addons';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import eventBus from 'instana-ui-services/eventbus';
 
 import NodeIcon from '../NodeIcon';
 import NodeMetric from '../NodeMetric';
@@ -33,9 +32,7 @@ const StickyNoteRC = React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(eventBus.on('nodeSizeChanged').subscribe((size) => {
-      this.setState({size});
-    }));
+
   },
 
   render() {
@@ -45,8 +42,7 @@ const StickyNoteRC = React.createClass({
     const sceneObject = this.props.sceneObject;
 
     return (
-      <div className='in-sticky-note__node-stack-wrapper'
-            style={{width: this.state.size}}>
+      <div className='in-sticky-note__node-stack-wrapper'>
         <div className='in-sticky-note__node-stack-children'>
           {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
           {this.props.showMetric ?
@@ -69,6 +65,8 @@ export default class StickyNoteNode extends StickyNote {
     for (let i = 0; i < numElements; i++) {
       this.tags.push({label: 'tag_' + i});
     }
+
+    console.log(parent.snapshot.toJS());
 
     this.render();
   }

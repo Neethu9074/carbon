@@ -79,11 +79,13 @@ export default class Connection extends SceneObject {
   }
 
   onHiddenEnter() {
-    this.changeStateProperty('mouseOver', false);
+    this.enableFragment();
   }
 
   onHiddenLeave() {
-    this.changeStateProperty('mouseOver', true);
+    if(!this.oneEndpointIsSelected()) {
+      this.enableFragment(false);
+    }
   }
 
 
