@@ -97,7 +97,6 @@ export default class BaseNode extends SceneObject {
   onInactiveLeave() { }
 
   onHiddenEnter() {
-    super.hide();
     this.enableFragments(false);
 
     this.removeCollisionObject(this.cube, 1);
@@ -106,7 +105,6 @@ export default class BaseNode extends SceneObject {
   }
 
   onHiddenLeave() {
-    super.show();
     this.enableFragments(true);
 
     this.addCollisionObject(this.cube, 1);
@@ -132,7 +130,7 @@ export default class BaseNode extends SceneObject {
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
       //update only if this node is visible
-      if(!this.hidden) {
+      if(!this.isHidden()) {
         this.update(data);
       }
     }));
@@ -401,16 +399,6 @@ export default class BaseNode extends SceneObject {
     /*eslint-disable no-new*/
     new Connection({from: this, to: otherNode, direction});
     /*eslint-enable no-new*/
-  }
-
-  show() {
-    this.changeStateProperty('hidden', false);
-    console.log('show');
-  }
-
-  hide() {
-    this.changeStateProperty('hidden', true);
-    console.log('hide');
   }
 
   disposeStickyNote() {

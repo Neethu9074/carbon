@@ -208,7 +208,7 @@ export default class Node extends BaseNode {
   }
 
   setMetricValues(values) {
-    if(this.hidden){
+    if(this.isHidden()){
       return;
     }
 
@@ -331,7 +331,7 @@ export default class Node extends BaseNode {
     this.health = newHealth;
 
     //if this node is hidden by filter, dont add the changes to factories
-    if(this.hidden) {return; }
+    if(this.isHidden()) {return; }
 
     //the ground plate is always updated
     this.addToGroundFactory();

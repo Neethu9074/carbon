@@ -8,6 +8,7 @@
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
     "clean": "gulp clean",
     "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
+    "dev-simulator": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox-simulator.yaml && open http://localhost:4000 && gulp dev",
     "postinstall": "./build/postInstall",
     "prod": "export BUILD_DEV='false' && proxrox stop && proxrox start .proxrox.yaml && open http://localhost:4000 && gulp dev",
     "test": "eslint --ext .es6 ui-* gulpfile.js ui-themes/js/index.js && mocha --require ./build/testHarness ui-*/**/*_test.es6"

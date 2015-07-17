@@ -79,7 +79,7 @@ export default class MetricPillar extends SceneObject {
 
   updateMetricHeight() {
     const frag = this.scene.multiMetricFactory.getFragment(this.id);
-    if(this.hidden || !frag) {return; }
+    if(this.isHidden() || !frag) {return; }
 
     const tiles = frag.tiles;
     let values = [];

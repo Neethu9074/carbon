@@ -78,6 +78,14 @@ export default class Connection extends SceneObject {
     }
   }
 
+  onHiddenEnter() {
+    this.changeStateProperty('mouseOver', false);
+  }
+
+  onHiddenLeave() {
+    this.changeStateProperty('mouseOver', true);
+  }
+
 
   enableFragment(enabled=true) {
     this.scene.lineFactory.enableFragment(this.id, enabled);
@@ -119,7 +127,7 @@ export default class Connection extends SceneObject {
     });
 
     //hide this if the parent is hidden
-    if(this.from.hidden || this.to.hidden) {
+    if(this.from.isHidden() || this.to.isHidden()) {
       this.hide();
     }
   }
@@ -253,14 +261,6 @@ export default class Connection extends SceneObject {
     if(!this.oneEndpointIsSelected()) {
       this.changeStateProperty('selected', false);
     }
-  }
-
-  show() {
-    this.changeStateProperty('mouseOver', true);
-  }
-
-  hide() {
-    this.changeStateProperty('mouseOver', false);
   }
 
   onHighlight(highlighted) {

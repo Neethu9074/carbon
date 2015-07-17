@@ -152,6 +152,19 @@ export default class SceneObject {
     return this.stateProperties.active;
   }
 
+  isHidden() {
+    return this.stateProperties.hidden;
+  }
+
+  show() {
+    this.changeStateProperty('hidden', false);
+  }
+
+  hide() {
+    this.changeStateProperty('hidden', true);
+  }
+
+
   setPosition(x, y, z) {
     this.position.set(x, y, z);
   }
@@ -208,16 +221,6 @@ export default class SceneObject {
   //each object can tell that the scene should be redrawn
   renderScene() {
     this.parent.renderScene();
-  }
-
-  //hides the visual representation and pauses all live data streaming
-  hide() {
-    this.hidden = true;
-  }
-
-  //show the visual representation and continues all live data streaming
-  show() {
-    this.hidden = false;
   }
 
   onHighlight(/*value*/) {}
