@@ -4,7 +4,6 @@ import React from 'react/addons';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 import NodeIcon from '../NodeIcon';
-import NodeMetric from '../NodeMetric';
 import StickyNote from '../StickyNote';
 import TagFrame from '../TagFrame';
 
@@ -46,7 +45,7 @@ const StickyNoteRC = React.createClass({
         <div className='in-sticky-note__node-stack-children'>
           {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
           {this.props.showMetric ?
-            <NodeMetric snapshot={snapshot} /> :
+            null :
             <NodeIcon snapshot={snapshot} />
           }
         </div>
