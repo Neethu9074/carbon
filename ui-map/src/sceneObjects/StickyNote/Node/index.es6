@@ -6,6 +6,7 @@ import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import NodeIcon from '../NodeIcon';
 import StickyNote from '../StickyNote';
 import TagFrame from '../TagFrame';
+import {iconSize} from '../../../stores/mapStore';
 
 import './index.less';
 
@@ -31,7 +32,7 @@ const StickyNoteRC = React.createClass({
   },
 
   componentDidMount() {
-
+    this.addSubscription(iconSize.subscribe(size => this.setState({size})));
   },
 
   render() {

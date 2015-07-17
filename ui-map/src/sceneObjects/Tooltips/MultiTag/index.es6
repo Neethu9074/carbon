@@ -26,10 +26,10 @@ const StickyNoteRC = React.createClass({
         <ul className='in-tooltip__multitag-frame--ul'>
           {this.props.tags.map((tag) => {
             return (
-              <li key={tag.label} className='in-tooltip__multitag-frame--li'>
-                <Heading style={{color: getColor(tag.label)}}
+              <li key={tag} className='in-tooltip__multitag-frame--li'>
+                <Heading style={{color: getColor(tag)}}
                          className='in-tooltip__multitag-heading'>
-                  {tag.label}
+                  {tag}
                 </Heading>
               </li>
             );
