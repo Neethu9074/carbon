@@ -1,3 +1,6 @@
+/*eslint-disable no-var*/
+/*eslint-env node*/
+
 'use strict';
 
 var colors = {
