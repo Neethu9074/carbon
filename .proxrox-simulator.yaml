@@ -1,0 +1,15 @@
+port: 4000
+root: false
+ssi: true
+proxy:
+  /: http://127.0.0.1:3000
+  /api/: http://test.internal.instana.io/api/
+  #'/api/': http://127.0.0.1:5000/api
+
+  /auth/signIn: http://127.0.0.1:5000/auth/signIn
+  /auth/signOut: http://127.0.0.1:5000/auth/signOut
+  /auth/users/current: http://127.0.0.1:5000/auth/users/current
+
+websocketProxy:
+  /api/data: http://127.0.0.1:5000/data
+  #'/api/data': http://127.0.0.1:5000/api/data
