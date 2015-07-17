@@ -45,15 +45,19 @@ connect();
 
 
 function connect() {
+  logger.debug('Attempting to connect to WebSocket URL', endpoint);
+
   // If there is a previous connection, we make sure that we are always closing
   // it.
   if (connection && connection.readyState <= readyState.open) {
+    logger.debug(
+      'Closing existing WebSocket connection in ready State',
+      connection.readyState
+    );
     connection.close();
   }
 
   emitter.emit('connecting');
-
-  logger.debug('Attempting to connect to WebSocket URL', endpoint);
   connection = window.connection = new window.WebSocket(endpoint);
   connection.onopen = onOpen;
   connection.onclose = onClose;
