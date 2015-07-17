@@ -1,11 +1,14 @@
 'use strict';
 
+import _ from 'lodash';
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 
 import Icon from 'instana-ui-components/Icon';
+import {create} from 'instana-ui-services/conveyer';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import * as mapFilters from 'instana-ui-services/stores/mapFilters';
 
 import enhance from '../enhance';
@@ -18,42 +21,21 @@ const enter = 13;
 
 const addFilterControls = [enter, comma];
 
-const tags = [
-  'ip-10-51-146-75',
-  'ip-10-150-101-83',
-  'ip-10-142-235-78',
-  'ip-10-99-178-51',
-  'ip-10-145-17-52',
-  'ip-10-79-132-103',
-  'ip-10-67-178-153',
-  'ip-10-203-199-82'
-];
-
-// const tags = [
-//   'ui-backend',
-//   'ui-client',
-//   'groundskeeper',
-//   'issue-tracker',
-//   'processor',
-//   'acceptor',
-//   'hadoop',
-//   'kafka',
-//   'redis',
-//   'cassandra',
-//   'nginx'
-// ];
-
 const Search = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
   propTypes: {
-    predicates: irpt.list.isRequired
+    predicates: irpt.list.isRequired,
+    snapshots: irpt.list
   },
 
   statics: {
     createObservables: () => {
       return {
-        predicates: mapFilters.filters
+        predicates: mapFilters.filters,
+        snapshots: create(SnapshotConveyer, {
+          pluginId: 'com.instana.forge.infrastructure.os.OS'
+        })
       };
     }
   },
@@ -96,7 +78,8 @@ const Search = React.createClass({
       return null;
     }
 
-    const completions = tags.filter(tag => tag.indexOf(this.state.input) !== -1);
+    const completions = this.getAllTags()
+      .filter(tag => tag.indexOf(this.state.input) !== -1);
 
     if (completions.length === 0) {
       return null;
@@ -112,6 +95,23 @@ const Search = React.createClass({
         )}
       </ul>
     );
+  },
+
+  getAllTags() {
+    if (!this.props.snapshots) {
+      return [];
+    }
+
+    let tags = [];
+
+    this.props.snapshots.forEach(snapshot => {
+      const t = snapshot.get('tags');
+      if (t) {
+        tags = tags.concat(t.toArray());
+      }
+    });
+
+    return _.uniq(tags);
   },
 
   onKeyUp(e) {
@@ -158,16 +158,11 @@ function buildTagPredicate(tag) {
     label: tag,
     icon: 'timeline',
     predicate: snapshot => {
-      // if (snapshot.contains('tags')) {
-      //   return snapshot.get('tags').contains(tag);
-      // }
-      // return false;
-
-      // temporary solution to test filtering in map while the backend does
-      // not yet support tagging.
-      const hostname = snapshot.getIn(['data', 'hostname']);
-      return hostname === tag;
-      // return hostname.indexOf(tag);
+      const tags = snapshot.get('tags');
+      if (tags) {
+        return tags.some(t => t.indexOf(tag) !== -1);
+      }
+      return false;
     }
   });
 }
