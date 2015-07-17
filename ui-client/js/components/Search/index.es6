@@ -147,10 +147,15 @@ function buildTagPredicate(tag) {
     label: tag,
     icon: 'timeline',
     predicate: snapshot => {
-      if (snapshot.contains('tags')) {
-        return snapshot.get('tags').contains(tag);
-      }
-      return false;
+      // if (snapshot.contains('tags')) {
+      //   return snapshot.get('tags').contains(tag);
+      // }
+      // return false;
+
+      // temporary solution to test filtering in map while the backend does
+      // not yet support tagging.
+      const hostname = snapshot.getIn(['data', '']);
+      return hostname.indexOf(tag);
     }
   });
 }
