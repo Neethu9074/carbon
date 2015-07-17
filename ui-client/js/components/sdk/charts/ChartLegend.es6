@@ -80,7 +80,7 @@ const ChartLegend = React.createClass({
               </dt>
               <dt className={block + '-metric-value'}>
                 {this.state[metric] === undefined ?
-                  -1
+                  '?'
                 : this.formatValue(this.state[metric])}
               </dt>
             </div>
