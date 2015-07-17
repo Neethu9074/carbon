@@ -48,11 +48,19 @@ export default class Connection extends SceneObject {
     //TODO: implement if there is something to do
   }
 
-  onHighlightEnter() {
+  onHighlightEnter() {}
+
+  onHighlightLeave() {}
+
+  show() {
+    super.show();
+
     this.enableFragment();
   }
 
-  onHighlightLeave() {
+  hide() {
+    super.hide();
+
     if(!this.oneEndpointIsSelected()) {
       this.enableFragment(false);
     }
