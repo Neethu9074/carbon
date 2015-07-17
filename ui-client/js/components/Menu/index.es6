@@ -31,6 +31,9 @@ const Menu = React.createClass({
 
     return (
       <div className={block + '__panel'}>
+        <Icon type={'menue_close'}
+              className={block + '__icon-close'}
+              onClick={this.toggle}/>
         <SignOut />
       </div>
     );
@@ -49,6 +52,7 @@ const Menu = React.createClass({
            Menu
            <Icon className={block + '__icon'} type={iconConfig.type} />
         </Button>
+
       </div>
     );
   }
