@@ -9,16 +9,6 @@ export default class SingleMetricPillar extends MetricPillar {
     super({parent});
   }
 
-  onInactiveEnter() {
-    this.scene.removeCollisionObject(this.metricCube, 2);
-    this.removeFromMetricFactory();
-  }
-
-  onInactiveLeave() {
-    this.addToMetricFactory();
-    this.scene.addCollisionObject(this.metricCube, 2);
-  }
-
   //for the single metric pillar
   addToMetricFactory() {
     const pos = this.getPosition();

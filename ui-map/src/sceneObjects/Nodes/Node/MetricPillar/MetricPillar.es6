@@ -44,9 +44,31 @@ export default class MetricPillar extends SceneObject {
     this.tooltip = undefined;
   }
 
-  onInactiveEnter() { throw new Error('NOT IMPLEMENTED'); }
+  onInactiveEnter() {
+    this.hidePillar();
+  }
 
-  onInactiveLeave() { throw new Error('NOT IMPLEMENTED'); }
+  onInactiveLeave() {
+    this.showPillar();
+  }
+
+  onHiddenEnter() {
+    this.hidePillar();
+  }
+
+  onHiddenLeave() {
+    this.showPillar();
+  }
+
+  showPillar() {
+    this.addToMetricFactory();
+    this.scene.addCollisionObject(this.metricCube, 2);
+  }
+
+  hidePillar() {
+    this.scene.removeCollisionObject(this.metricCube, 2);
+    this.removeFromMetricFactory();
+  }
 
   addToMetricFactory() { throw new Error('NOT IMPLEMENTED'); }
   removeFromMetricFactory() { throw new Error('NOT IMPLEMENTED'); }

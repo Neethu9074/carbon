@@ -45,6 +45,40 @@ export default class Node extends BaseNode {
     this.layer = [];
   }
 
+  onInactiveEnter() {
+    this.removeCollisionObject(this.cube, 1);
+
+    //save the current health, set health to ok, block the coloring for cube
+    //and reset to old health
+    const healthBackup = this.health;
+    this.setHealth(health.ok);
+    this.blockCubeHealth(true);
+    this.setHealth(healthBackup);
+  }
+
+  onInactiveLeave() {
+    this.addCollisionObject(this.cube, 1);
+
+    //unblock the coloring for cube and reset the current health
+    this.blockCubeHealth(false);
+    this.setHealth(this.health, true);
+  }
+
+  onHiddenEnter() {
+    super.onHiddenEnter();
+
+    this.singleMetricPillar.hide();
+    // this.multiMetricPillar.hide();
+  }
+
+  onHiddenLeave() {
+    super.onHiddenLeave();
+
+    this.singleMetricPillar.show();
+    // this.multiMetricPillar.show();
+  }
+
+
   //will be called in super contructor at beginning
   init() {
     this.geometryProviderGroundLine = new VATOCM({
@@ -87,29 +121,9 @@ export default class Node extends BaseNode {
     );
   }
 
-  onInactiveEnter() {
-    this.removeCollisionObject(this.cube, 1);
-
-    //save the current health, set health to ok, block the coloring for cube
-    //and reset to old health
-    const healthBackup = this.health;
-    this.setHealth(health.ok);
-    this.blockCubeHealth(true);
-    this.setHealth(healthBackup);
-  }
-
-  onInactiveLeave() {
-    this.addCollisionObject(this.cube, 1);
-
-    //unblock the coloring for cube and reset the current health
-    this.blockCubeHealth(false);
-    this.setHealth(this.health, true);
-  }
-
   addToGlobalGeometry() {
     this.addToGroundFactory();
   }
-
 
   removeFromGlobalGeometry() {
     this.removeFromGroundFactory();

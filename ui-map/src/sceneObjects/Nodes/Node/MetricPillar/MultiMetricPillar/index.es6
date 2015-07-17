@@ -9,17 +9,6 @@ export default class MultiMetricPillar extends MetricPillar {
     super({parent});
   }
 
-  onInactiveEnter() {
-    this.scene.removeCollisionObject(this.metricCube, 2);
-    this.removeFromMetricFactory();
-  }
-
-  onInactiveLeave() {
-    this.addToMetricFactory();
-    this.scene.addCollisionObject(this.metricCube, 2);
-  }
-
-
   //for the multi metric pillars
   addToMetricFactory() {
     const pos = this.getPosition();
