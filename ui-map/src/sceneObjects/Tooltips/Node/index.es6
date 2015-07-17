@@ -88,7 +88,7 @@ const StickyNoteRC = React.createClass({
   },
 
   getContent() {
-    let content = 'this is a great server';
+    let content = '';
 
     if(this.issuesAvailable()) {
       const suggestion = this.state.issues.getIn([0, 'fixSuggestion']);
@@ -102,17 +102,27 @@ const StickyNoteRC = React.createClass({
   render() {
     const heading = this.getHeading();
 
-    return (
-      <TooltipFrame>
-        {this.getStatusLine()}
-        <Heading className={heading.cssClass}>
-          {heading.text.toUpperCase()}
-        </Heading>
-        <Content>
-          {this.getContent()}
-        </Content>
-      </TooltipFrame>
-    );
+    if(this.issuesAvailable()) {
+      return (
+        <TooltipFrame>
+          {this.getStatusLine()}
+          <Heading className={heading.cssClass}>
+            {heading.text.toUpperCase()}
+          </Heading>
+          <Content>
+            {this.getContent()}
+          </Content>
+        </TooltipFrame>
+      );
+    } else {
+      return (
+        <TooltipFrame>
+          <Content className={heading.cssClass}>
+            {heading.text.toUpperCase()}
+          </Content>
+        </TooltipFrame>
+      );
+    }
   }
 });
 /*eslint-enable no-unused-vars*/
