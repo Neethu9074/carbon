@@ -17,7 +17,7 @@ const StickyNoteRC = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    tags: React.PropTypes.array.isRequired
+    tags: React.PropTypes.any.isRequired
   },
 
   render() {
