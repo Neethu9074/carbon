@@ -18,7 +18,7 @@ export default React.createClass({
 
   propTypes: {
     sceneObject: React.PropTypes.object.isRequired,
-    tags: React.PropTypes.array.isRequired
+    tags: React.PropTypes.any.isRequired
   },
 
   getInitialState() {
@@ -44,7 +44,7 @@ export default React.createClass({
   },
 
   render() {
-    if(this.props.tags.length === 0) {
+    if(this.props.tags.size === 0) {
       return null;
     }
 
@@ -56,7 +56,7 @@ export default React.createClass({
         <ul className='in-tooltip__tag-frame--ul'>
           {this.props.tags.map((tag) => {
             return (
-              <li key={tag.label} className='in-tooltip__tag-frame--li'>
+              <li key={tag} className='in-tooltip__tag-frame--li'>
                 <Tag tag={tag} sceneObject={this.props.sceneObject}/>
               </li>
             );

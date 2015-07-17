@@ -12,7 +12,7 @@ export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    tag: rpt.object.isRequired,
+    tag: rpt.string.isRequired,
     sceneObject: rpt.object.isRequired
   },
 
@@ -30,7 +30,7 @@ export default React.createClass({
 
   render() {
      return (
-      <div style={{backgroundColor: getColor(this.props.tag.label)}}
+      <div style={{backgroundColor: getColor(this.props.tag)}}
            className='in-sticky-note__tag'
            onMouseOver={this.mouseOver}
            onMouseOut={this.mouseOut}>

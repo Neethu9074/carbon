@@ -23,7 +23,7 @@ const StickyNoteRC = React.createClass({
     snapshot: rpt.object.isRequired,
     sceneObject: rpt.object.isRequired,
     showMetric: rpt.bool,
-    tags: rpt.array.isRequired
+    tags: rpt.any.isRequired
   },
 
   getInitialState() {
@@ -59,14 +59,7 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
 
-    this.tags = []; // this.props.tags;
-    const numElements = Math.floor(Math.random() * 0);
-    for (let i = 0; i < numElements; i++) {
-      this.tags.push({label: 'tag_' + i});
-    }
-
-    console.log(parent.snapshot.toJS());
-
+    this.tags = parent.snapshot.get('tags') || [];
     this.render();
   }
 

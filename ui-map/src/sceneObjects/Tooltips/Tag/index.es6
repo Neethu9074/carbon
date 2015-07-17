@@ -17,7 +17,7 @@ const StickyNoteRC = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    tag: React.PropTypes.object.isRequired
+    tag: React.PropTypes.string.isRequired
   },
 
   render() {
@@ -25,10 +25,10 @@ const StickyNoteRC = React.createClass({
 
     return (
       <TooltipFrame>
-        <Heading style={{color: getColor(tag.label)}}
+        <Heading style={{color: getColor(tag)}}
                  className='in-tooltip__tag-heading'
          >
-          {tag.label}
+          {tag}
         </Heading>
       </TooltipFrame>
     );
