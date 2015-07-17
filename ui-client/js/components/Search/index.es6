@@ -19,18 +19,29 @@ const enter = 13;
 const addFilterControls = [enter, comma];
 
 const tags = [
-  'ui-backend',
-  'ui-client',
-  'groundskeeper',
-  'issue-tracker',
-  'processor',
-  'acceptor',
-  'hadoop',
-  'kafka',
-  'redis',
-  'cassandra',
-  'nginx'
+  'ip-10-51-146-75',
+  'ip-10-150-101-83',
+  'ip-10-142-235-78',
+  'ip-10-99-178-51',
+  'ip-10-145-17-52',
+  'ip-10-79-132-103',
+  'ip-10-67-178-153',
+  'ip-10-203-199-82'
 ];
+
+// const tags = [
+//   'ui-backend',
+//   'ui-client',
+//   'groundskeeper',
+//   'issue-tracker',
+//   'processor',
+//   'acceptor',
+//   'hadoop',
+//   'kafka',
+//   'redis',
+//   'cassandra',
+//   'nginx'
+// ];
 
 const Search = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
@@ -154,8 +165,9 @@ function buildTagPredicate(tag) {
 
       // temporary solution to test filtering in map while the backend does
       // not yet support tagging.
-      const hostname = snapshot.getIn(['data', '']);
-      return hostname.indexOf(tag);
+      const hostname = snapshot.getIn(['data', 'hostname']);
+      return hostname === tag;
+      // return hostname.indexOf(tag);
     }
   });
 }

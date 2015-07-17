@@ -206,7 +206,8 @@ export default class PhysicalMap extends SceneObject {
   }
 
   filter(filterArray) {
-    const allNodes = getAllNodes(this);
+    const allNodes = getAllNodes(this)
+      .filter(node => !node.isUnknown);
     const matched = [];
 
     allNodes.forEach(node => {
