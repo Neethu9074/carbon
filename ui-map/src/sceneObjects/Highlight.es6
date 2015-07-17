@@ -19,4 +19,8 @@ export default class Highlight {
   clearHighlight() {
     this.isHighlighted = false;
   }
+
+  show() {}
+
+  hide() {}
 }

@@ -102,6 +102,7 @@ export default class BaseNode extends SceneObject {
     this.removeCollisionObject(this.cube, 1);
     this.removeFromGlobalGeometry();
     this.stickyNote.hide();
+    this.highlighting.hide();
   }
 
   onHiddenLeave() {
@@ -110,6 +111,7 @@ export default class BaseNode extends SceneObject {
     this.addCollisionObject(this.cube, 1);
     this.addToGlobalGeometry();
     this.stickyNote.show();
+    this.highlighting.show();
   }
 
 

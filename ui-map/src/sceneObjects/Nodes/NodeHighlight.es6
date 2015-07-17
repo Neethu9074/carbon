@@ -68,6 +68,10 @@ export default class NodeHighlight extends Highlight {
     factory.addFragment({id: client.id + '_h', points, highlighted: true});
   }
 
+  hide() {
+    this.client.scene.lineFactory.removeFragment(this.client.id + '_h');
+  }
+
   clearHighlightBorderLines() {
     const client = this.client;
     client.scene.lineFactory.removeFragment(client.id + '_h');
