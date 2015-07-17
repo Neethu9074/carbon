@@ -52,6 +52,10 @@ const EC2Infos = React.createClass({
             {data.get('security-groups', []).join(', ')}
           </DescriptionItem>
 
+          <DescriptionItem title='Public Keys'>
+            {data.get('public-keys', []).join(', ')}
+          </DescriptionItem>
+
           <DescriptionItem title='VPC'>
             {data.get('vpc-ids', []).join(', ')}
           </DescriptionItem>
