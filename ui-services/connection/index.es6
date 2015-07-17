@@ -50,6 +50,16 @@ function connect() {
   // If there is a previous connection, we make sure that we are always closing
   // it.
   if (connection && connection.readyState <= readyState.open) {
+    if (connection.readyState === readyState.open) {
+      // multiple connects? Whoops, short circuit this one.
+      logger.debug(
+        'We are trying to reconnect while out current connection is open. ',
+        'This should not happen. Ready State:',
+        connection.readyState
+      );
+      return;
+    }
+
     logger.debug(
       'Closing existing WebSocket connection in ready State',
       connection.readyState
@@ -84,15 +94,13 @@ function ping() {
     logger.debug('Pong was not received in time. Attempting reconnect.');
     // if this ever gets called, then the pong message was not received in
     // time and we just try to reconnect.
-    if (isOpen()) {
-      try {
-        connection.close();
-      } catch (_) {
-        // any errors can be safely ignored since the connection is broken
-        // anyway
-      }
-      onClose();
+    try {
+      if (connection) connection.close();
+    } catch (_) {
+      // any errors can be safely ignored since the connection is broken
+      // anyway
     }
+    onClose();
   }, pingTimeout);
 }
 

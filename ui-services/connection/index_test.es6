@@ -121,6 +121,7 @@ describe('connection.connection', () => {
     // force the ping timeout to be invoked
     clock.tick(10000);
     expect(onClose.calledOnce).to.equal(true);
+    connection.readyState = 3;
 
     // it tries to reconnect after 1s. Expect a new WS connection to be
     // established
