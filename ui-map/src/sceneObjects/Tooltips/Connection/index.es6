@@ -9,7 +9,7 @@ import {getIps} from 'instana-ui-sdk/snapshot';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const ConnectionsTooltipRC = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
@@ -72,7 +72,7 @@ export default class TooltipConnection extends Tooltip {
 
   render(connections) {
     React.render(
-      <StickyNoteRC connections={connections}/>,
+      <ConnectionsTooltipRC connections={connections}/>,
       this.stickyNoteContainer
     );
   }

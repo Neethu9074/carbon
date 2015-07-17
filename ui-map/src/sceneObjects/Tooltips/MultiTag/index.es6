@@ -12,12 +12,12 @@ import './index.less';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const MultiTagRC = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    tags: React.PropTypes.any.isRequired
+    tags: React.PropTypes.object.isRequired
   },
 
   render() {
@@ -51,7 +51,7 @@ export default class TooltipMultiTag extends Tooltip {
 
   render() {
     React.render(
-      <StickyNoteRC
+      <MultiTagRC
         snapshot={this.parent.snapshot}
         tags={this.tags}/>,
       this.stickyNoteContainer

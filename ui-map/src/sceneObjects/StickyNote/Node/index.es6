@@ -13,7 +13,7 @@ import './index.less';
 const rpt = React.PropTypes;
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const NodeStickyNoteRC = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin,
@@ -24,7 +24,7 @@ const StickyNoteRC = React.createClass({
     snapshot: rpt.object.isRequired,
     sceneObject: rpt.object.isRequired,
     showMetric: rpt.bool,
-    tags: rpt.any.isRequired
+    tags: rpt.object.isRequired
   },
 
   getInitialState() {
@@ -60,13 +60,13 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
 
-    this.tags = parent.snapshot.get('tags') || [];
+    this.tags = parent.snapshot.get('tags');
     this.render();
   }
 
   render() {
     React.render(
-      <StickyNoteRC snapshot={this.parent.snapshot}
+      <NodeStickyNoteRC snapshot={this.parent.snapshot}
                     highlighted={this.highlighted}
                     sceneObject={this.parent}
                     showMetric={this.showMetric}

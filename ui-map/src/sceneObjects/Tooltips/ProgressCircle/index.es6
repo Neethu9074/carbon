@@ -9,7 +9,7 @@ import './index.less';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const ProgressCircle = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin
@@ -56,7 +56,7 @@ export default class TooltipProgressCircle extends Tooltip {
 
   render() {
     React.render(
-      <StickyNoteRC/>,
+      <ProgressCircle/>,
       this.stickyNoteContainer
     );
   }

@@ -7,7 +7,7 @@ import './index.less';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const LayerStickyNoteRC = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
@@ -40,7 +40,7 @@ export default class StickyNoteLayer extends StickyNote {
 
   render() {
     React.render(
-      <StickyNoteRC snapshot={this.parent.snapshot} />,
+      <LayerStickyNoteRC snapshot={this.parent.snapshot} />,
       this.stickyNoteContainer
     );
   }

@@ -11,7 +11,7 @@ import {getFormattedValue} from 'instana-ui-sdk/metrics';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const MetricRC = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin,
@@ -67,7 +67,7 @@ export default class TooltipMetric extends Tooltip {
 
   render() {
     React.render(
-      <StickyNoteRC
+      <MetricRC
         snapshot={this.parent.snapshot}
       />,
       this.stickyNoteContainer

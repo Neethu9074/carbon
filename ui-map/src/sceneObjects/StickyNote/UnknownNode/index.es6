@@ -8,7 +8,7 @@ import './index.less';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const UnknownNodeStickyRC = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin
@@ -48,7 +48,7 @@ export default class StickyNoteUnknownNode extends StickyNote {
 
   render() {
     React.render(
-      <StickyNoteRC
+      <UnknownNodeStickyRC
         snapshot={this.parent.snapshot}
         showIp={this.showIp}/>,
       this.stickyNoteContainer

@@ -8,7 +8,7 @@ import './index.less';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const GroundStickyNoteRC = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
@@ -37,7 +37,7 @@ export default class StickyNoteNode extends StickyNote {
 
   render() {
     React.render(
-      <StickyNoteRC label={this.parent.id}
+      <GroundStickyNoteRC label={this.parent.id}
                     color={getColor(this.parent.id) || '#0F0F0F'} />,
       this.stickyNoteContainer
     );

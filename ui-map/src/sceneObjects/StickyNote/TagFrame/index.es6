@@ -18,7 +18,7 @@ export default React.createClass({
 
   propTypes: {
     sceneObject: React.PropTypes.object.isRequired,
-    tags: React.PropTypes.any.isRequired
+    tags: React.PropTypes.object.isRequired
   },
 
   getInitialState() {

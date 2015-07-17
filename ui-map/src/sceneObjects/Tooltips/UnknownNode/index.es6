@@ -8,7 +8,7 @@ import Content from 'instana-ui-components/Tooltips/Content';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const UnknownNode = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin
@@ -41,7 +41,7 @@ export default class TooltipNode extends Tooltip {
 
   render() {
     React.render(
-      <StickyNoteRC
+      <UnknownNode
         snapshot={this.parent.snapshot}
         ip={'192.168.0.1'}
       />,

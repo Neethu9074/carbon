@@ -12,7 +12,7 @@ import './index.less';
 
 
 /*eslint-disable no-unused-vars*/
-const StickyNoteRC = React.createClass({
+const TagStickyNote = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
@@ -46,7 +46,7 @@ export default class TooltipTag extends Tooltip {
 
   render() {
     React.render(
-      <StickyNoteRC
+      <TagStickyNote
         snapshot={this.parent.snapshot}
         tag={this.tag}/>,
       this.stickyNoteContainer
