@@ -81,10 +81,12 @@ exports.consts = {
       sidebar: 2,
       search: 2,
       header: 3,
-      footer: 3,
       notificationCenter: 5,
-      detailPane: 5,
-      flyOutNotifications: 6,
+      dashboard: 5,
+      footer: 6,
+      flyOutNotifications: 7,
+      timepicker: 8,
+      menuPopup: 8,
       tooltips: 100
     },
     health: {

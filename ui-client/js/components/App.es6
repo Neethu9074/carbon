@@ -56,13 +56,13 @@ const App = React.createClass({
         <Lettering className='in-root-lettering' />
         {__DEV__ ? <Search /> : null}
 
-        <Footer />
-
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginId={this.state.pluginId} />
 
           <Sidebar pluginId={this.state.pluginId} />
         </div>
+
+        <Footer />
 
         <RouteHandler/>
         <ConnectionStatus />
