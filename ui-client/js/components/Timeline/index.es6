@@ -53,6 +53,7 @@ const Timeline = React.createClass({
 
   getInitialState() {
     return {
+      renderedForTimestamp: Date.now(),
       hoveredProblem: null,
       hoveredSnapshot: null,
       timePickerProperty: null,
@@ -60,6 +61,20 @@ const Timeline = React.createClass({
       tooltipX: -1,
       tooltipY: -1
     };
+  },
+
+  componentWillMount() {
+    // force a redraw of this component every few seconds to animate the
+    // timeline
+    this.interval = setInterval(() => {
+      this.setState({
+        renderedForTimestamp: Date.now()
+      });
+    }, 2000);
+  },
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
   },
 
   render() {
