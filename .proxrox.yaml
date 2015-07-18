@@ -6,9 +6,9 @@ proxy:
   /api/: http://test.internal.instana.io/api/
   #'/api/': http://127.0.0.1:5000/api
 
-  /auth/signIn: http://54.237.57.45:8280/signIn
-  /auth/signOut: http://54.237.57.45:8280/signOut
-  /auth/users/current: http://54.237.57.45:8280/users/current
+  /auth/signIn: http://test.internal.instana.io/auth/signIn
+  /auth/signOut: http://test.internal.instana.io/auth/signOut
+  /auth/users/current: http://test.internal.instana.io/auth/users/current
 
 websocketProxy:
   /api/data: http://test.internal.instana.io/api/data
