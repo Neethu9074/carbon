@@ -54,7 +54,11 @@ export default class Renderer {
       .ticks(5)
       .tickSize(1)
       .tickPadding(20)
-      .tickFormat(this.y1.config.tickFormatter)
+      // tickFormat function will get two parameters: value and tick index.
+      // Our formatter contract is only one parameter, so we need to swallow
+      // the index parameter. (Our formatters sometimes use precision as
+      // second parameter)
+      .tickFormat((v) => this.y1.config.tickFormatter(v))
       .orient('left');
     this.y1.queue = new Queue(this.y1.config.seriesConfig.length);
     this.y1.data = new Data({windowSize});
@@ -74,7 +78,11 @@ export default class Renderer {
         .ticks(5)
         .tickSize(1)
         .tickPadding(20)
-        .tickFormat(this.y2.config.tickFormatter)
+        // tickFormat function will get two parameters: value and tick index.
+        // Our formatter contract is only one parameter, so we need to swallow
+        // the index parameter. (Our formatters sometimes use precision as
+        // second parameter)
+        .tickFormat((v) => this.y2.config.tickFormatter(v))
         .orient('right');
       this.y2.queue = new Queue(this.y2.config.seriesConfig.length);
       this.y2.data = new Data({windowSize});
