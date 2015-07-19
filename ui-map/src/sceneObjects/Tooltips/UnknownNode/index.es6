@@ -43,7 +43,7 @@ export default class TooltipNode extends Tooltip {
     React.render(
       <UnknownNode
         snapshot={this.parent.snapshot}
-        ip={'192.168.0.1'}
+        ip={this.parent.snapshot.get('steadyId')}
       />,
       this.stickyNoteContainer
     );
