@@ -470,9 +470,15 @@ export default class Renderer {
       .onStop(onEnd)
       .start();
 
+    // Reduce the number of frames to reduce the CPU usage of the dashboard.
+    // Using this code we only animate every second frame
+    let counter = 0;
     const animate = (time) => {
       this.animationFrameHandle = requestAnimationFrame(animate);
-      this.tween.update(time);
+      if (counter % 2 === 0) {
+        this.tween.update(time);
+      }
+      counter++;
     };
     this.animationFrameHandle = requestAnimationFrame(animate);
   }
