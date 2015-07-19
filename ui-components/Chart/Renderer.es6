@@ -123,9 +123,6 @@ export default class Renderer {
       this.tooltipLine.style('display', 'block');
     }
 
-    // TODO Ben binary search through datasets and look for the closest
-    // focusedMoment
-
     this.focusedMoment = newFocusedMoment;
 
     if (newFocusedMoment) {
@@ -163,7 +160,43 @@ export default class Renderer {
   }
 
   fillTooltip() {
-
+    // const dl = document.createElement('dl');
+    //
+    // this.focusedY1.forEach((dataPoint, i) => {
+    //   const wrapper = document.createElement('div');
+    //   dl.appendChild(wrapper);
+    //
+    //   const label = document.createElement('dt');
+    //   label.style.color = theme.chart.strokeColors[i];
+    //   label.textContent = this.y1.config.seriesConfig[i].label;
+    //   wrapper.appendChild(label);
+    //
+    //   const value = document.createElement('dd');
+    //   value.style.color = theme.chart.strokeColors[i];
+    //   value.textContent = this.y1.config.tickFormatter(dataPoint.y);
+    //   wrapper.appendChild(value);
+    // });
+    //
+    // if (this.focusedY2) {
+    //   this.focusedY2.forEach((dataPoint, i) => {
+    //     const wrapper = document.createElement('div');
+    //     dl.appendChild(wrapper);
+    //
+    //     const label = document.createElement('dt');
+    //     label.style.color = theme.chart.strokeColors[i];
+    //     label.textContent = this.y2.config.seriesConfig[i].label;
+    //     wrapper.appendChild(label);
+    //
+    //     const value = document.createElement('dd');
+    //     value.style.color = theme.chart.strokeColors[
+    //       i + this.y1.config.seriesConfig.length
+    //     ];
+    //     value.textContent = this.y2.config.tickFormatter(dataPoint.y);
+    //     wrapper.appendChild(value);
+    //   });
+    // }
+    //
+    // document.body.appendChild(dl);
   }
 
   createCanvas() {
