@@ -15,8 +15,7 @@ import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import Chart from '../../../sdk/charts/Chart';
-import ChartLegend from '../../../sdk/charts/ChartLegend';
-import ChartLegendV2 from '../../../sdk/charts/ChartLegendV2';
+import ChartLegend from '../../../sdk/charts/ChartLegendV2';
 import Separator from '../../../sdk/Separator';
 import Mtd from '../../../sdk/Mtd';
 import ContentHeading from '../../../sdk/ContentHeading';
@@ -51,23 +50,26 @@ const OsDashboard = React.createClass({
 
     return (
       <div>
-        <ChartLegend title='CPU Usage'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'cpu.total.user',
-                       'cpu.total.sys',
-                       'cpu.total.wait',
-                       'cpu.total.nice',
-                       'cpu.total.steal'
-                     ]}
-                     metricLabels={[
-                       'User',
-                       'System',
-                       'Wait',
-                       'Nice',
-                       'Steal'
-                     ]}
-                     metricValueFormatter={formatPercentageShort} />
+        <ContentHeading>CPU Usage</ContentHeading>
+
+        <ChartLegend snapshot={this.props.snapshot}
+                       y1={{
+                         metrics: [
+                           'cpu.total.user',
+                           'cpu.total.sys',
+                           'cpu.total.wait',
+                           'cpu.total.nice',
+                           'cpu.total.steal'
+                         ],
+                         labels: [
+                           'User',
+                           'System',
+                           'Wait',
+                           'Nice',
+                           'Steal'
+                         ],
+                         formatted: formatPercentageShort
+                       }} />
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
@@ -94,15 +96,12 @@ const OsDashboard = React.createClass({
 
         <Separator />
 
-        <ChartLegend title='CPU Load'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'load.1min'
-                     ]}
-                     metricLabels={[
-                       'Load'
-                     ]}/>
-
+        <ContentHeading>CPU Load</ContentHeading>
+        <ChartLegend snapshot={this.props.snapshot}
+                       y1={{
+                         metrics: ['load.1min'],
+                         labels: ['Load']
+                       }}/>
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
                width={this.props.width}
@@ -117,15 +116,13 @@ const OsDashboard = React.createClass({
 
         <Separator />
 
-        <ChartLegend title='Memory Free'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'memory.free'
-                     ]}
-                     metricLabels={[
-                       'Free'
-                     ]}
-                     metricValueFormatter={formatBytesShort} />
+        <ContentHeading>Memory Free</ContentHeading>
+        <ChartLegend snapshot={this.props.snapshot}
+                       y1={{
+                         metrics: ['memory.free'],
+                         labels: ['Free'],
+                         formatter: formatBytes
+                       }}/>
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
@@ -152,7 +149,7 @@ const OsDashboard = React.createClass({
 
         {this.state.filesystemName ?
           <div>
-            <ChartLegendV2 snapshot={this.props.snapshot}
+            <ChartLegend snapshot={this.props.snapshot}
                            y1={{
                              formatter: kbFormatter,
                              metrics: [
@@ -261,7 +258,7 @@ const OsDashboard = React.createClass({
 
         {this.state.interfaceName ?
           <div>
-            <ChartLegendV2 snapshot={this.props.snapshot}
+            <ChartLegend snapshot={this.props.snapshot}
                            y1={{
                              metrics: [
                                'ifs.' + this.state.interfaceName + '.rx.bytes',
@@ -416,28 +413,38 @@ const OsDashboard = React.createClass({
 
         <Separator />
 
-        <ChartLegend title='TCP Activity'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'tcp.established',
-                       'tcp.opens',
-                       'tcp.inSegs',
-                       'tcp.outSegs',
-                       'tcp.resets',
-                       'tcp.fails',
-                       'tcp.errors',
-                       'tcp.retrans'
-                     ]}
-                     metricLabels={[
-                       'Open',
-                       'Connects',
-                       'In Segments',
-                       'Out Segments',
-                       'Reset %',
-                       'Fail %',
-                       'Error %',
-                       'Retransmission %'
-                     ]}/>
+        <ContentHeading>TCP Activity</ContentHeading>
+        <ChartLegend snapshot={this.props.snapshot}
+                       y1={{
+                         metrics: [
+                           'tcp.established',
+                           'tcp.opens',
+                           'tcp.inSegs',
+                           'tcp.outSegs'
+                         ],
+                         labels: [
+                           'Established',
+                           'Opens',
+                           'In Segments',
+                           'Out Segments'
+                         ],
+                         formatter: formatNumberShort
+                       }}
+                       y2={{
+                         metrics: [
+                           'tcp.resets',
+                           'tcp.fails',
+                           'tcp.errors',
+                           'tcp.retrans'
+                         ],
+                         labels: [
+                           'Reset',
+                           'Fail',
+                           'Error',
+                           'Retransmission'
+                         ],
+                         formatter: formatPercentageShort
+                       }}/>
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
