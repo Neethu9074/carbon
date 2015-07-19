@@ -16,6 +16,9 @@ import Data from './Data';
 const minReducer = (min, dataRow) => Math.min(dataRow.y, min);
 const maxReducer = (max, dataRow) => Math.max(dataRow.y, max);
 
+const desiredFps = 24;
+const timeBetweenUpdatesInMillis = 1000 / desiredFps;
+
 export default class Renderer {
 
   constructor(
@@ -503,15 +506,17 @@ export default class Renderer {
       .onStop(onEnd)
       .start();
 
-    // Reduce the number of frames to reduce the CPU usage of the dashboard.
-    // Using this code we only animate every second frame
-    let counter = 0;
-    const animate = (time) => {
+    // Reduce the number of frames to reduce the CPU usage of the charts.
+    // Using this code we only animate every second to third frame. This is
+    // something that the user probably cannot recognize given the number of
+    // data points that we are presenting in our charts.
+    let lastAnimatedTime = 0;
+    const animate = time => {
       this.animationFrameHandle = requestAnimationFrame(animate);
-      if (counter % 2 === 0) {
+      if ((time - timeBetweenUpdatesInMillis) >= lastAnimatedTime) {
         this.tween.update(time);
+        lastAnimatedTime = time;
       }
-      counter++;
     };
     this.animationFrameHandle = requestAnimationFrame(animate);
   }
