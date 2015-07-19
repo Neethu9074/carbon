@@ -1,4 +1,14 @@
+@import "~instana-ui-themes/less/constants.less";
+
 .in-floating-frame {
+  position: absolute;
+  top: 40px;
+  left: 40px;
+  max-height: ~"calc(100% - 150px)";
+  overflow: hidden;
+
+  z-index: @z-index__sidebar;
+
   display: flex;
   flex-direction: column;
   margin-top: 20px;

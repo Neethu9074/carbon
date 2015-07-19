@@ -13,6 +13,7 @@ import {getIssueCountSummary, getIssueSummary} from 'instana-ui-services/issueTr
 import {sort} from 'instana-ui-sdk/sorting';
 import {theme} from 'instana-ui-services/theme';
 
+import Metrics from './Metrics';
 import Details from './Details';
 import SeverityListing from './SeverityListing';
 import ZoneList from './ZoneList';
@@ -100,7 +101,7 @@ const SidebarListing = React.createClass({
       <Tabs blockIdentifier={block}>
         <Tab title='metrics'
              modifier='listing'>
-          hallo
+          <Metrics />
         </Tab>
         <Tab title={String(this.state.snapshots.size)}
              modifier='listing'>
