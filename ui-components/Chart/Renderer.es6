@@ -97,12 +97,19 @@ export default class Renderer {
       .throttle(20)
       .subscribe(focusedMoment => this.onFocusChange(focusedMoment));
 
-    ro.on(this.renderCanvas, 'mousemove')
+    ro.on(this.svg, 'mousemove')
       .subscribe(e => {
-        timelineStore.setFocusedMoment(this.x.invert(e.offsetX).getTime());
+        if (e.target === this.svg &&
+            e.offsetX >= this.margins.left &&
+            e.offsetY < (this.height - this.margins.bottom)) {
+          const x = e.offsetX - this.margins.left;
+          timelineStore.setFocusedMoment(this.x.invert(x).getTime());
+        } else {
+          timelineStore.clearFocusedMoment();
+        }
       });
 
-    ro.on(this.renderCanvas, 'mouseleave')
+    ro.on(this.svg, 'mouseleave')
       .subscribe(timelineStore.clearFocusedMoment);
 
     this.rendering = false;
@@ -165,6 +172,19 @@ export default class Renderer {
     // anything has been painted
     this.container.style.visibl = 'none';
 
+    // The render canvas is the user visible paint area that is only populated
+    // by this base class. All other classes draw onto the drawingCanvas.
+    this.renderCanvas = document.createElement('canvas');
+    this.renderCanvas.classList.add('in-chart__canvas');
+    this.renderCtx = this.renderCanvas.getContext('2d');
+    this.container.appendChild(this.renderCanvas);
+
+    // Subsclasses will draw the complete chart without any notion of an
+    // animation to the drawingCanvas. This base class will pick up
+    // image information in this drawingCanvas and apply it to the renderCanvas.
+    this.drawingCanvas = document.createElement('canvas');
+    this.drawingCtx = this.drawingCanvas.getContext('2d');
+
     // the SVG will be used to position the axis
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     this.svg.classList.add('in-chart__svg');
@@ -201,19 +221,6 @@ export default class Renderer {
       .append('line')
       .attr('class', 'tooltip-note')
       .style('display', 'none');
-
-    // The render canvas is the user visible paint area that is only populated
-    // by this base class. All other classes draw onto the drawingCanvas.
-    this.renderCanvas = document.createElement('canvas');
-    this.renderCanvas.classList.add('in-chart__canvas');
-    this.renderCtx = this.renderCanvas.getContext('2d');
-    this.container.appendChild(this.renderCanvas);
-
-    // Subsclasses will draw the complete chart without any notion of an
-    // animation to the drawingCanvas. This base class will pick up
-    // image information in this drawingCanvas and apply it to the renderCanvas.
-    this.drawingCanvas = document.createElement('canvas');
-    this.drawingCtx = this.drawingCanvas.getContext('2d');
   }
 
   /**
