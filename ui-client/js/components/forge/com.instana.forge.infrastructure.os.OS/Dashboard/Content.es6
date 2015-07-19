@@ -16,6 +16,7 @@ import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import Chart from '../../../sdk/charts/Chart';
 import ChartLegend from '../../../sdk/charts/ChartLegend';
+import ChartLegendV2 from '../../../sdk/charts/ChartLegendV2';
 import Separator from '../../../sdk/Separator';
 import Mtd from '../../../sdk/Mtd';
 import ContentHeading from '../../../sdk/ContentHeading';
@@ -150,42 +151,61 @@ const OsDashboard = React.createClass({
         </ContentHeading>
 
         {this.state.filesystemName ?
-          <Chart snapshot={this.props.snapshot}
-                 windowSize={this.props.timeframe}
+          <div>
+            <ChartLegendV2 snapshot={this.props.snapshot}
+                           y1={{
+                             formatter: kbFormatter,
+                             metrics: [
+                               'fs.' + this.state.filesystemName + '.free',
+                               'fs.' + this.state.filesystemName + '.leaked'
+                             ],
+                             labels: ['Free', 'Leaked']
+                           }}
+                           y2={{
+                             metrics: [
+                               'fs.' + this.state.filesystemName + '.ifree'
+                             ],
+                             labels: ['iFree'],
+                             formatter: formatNumberShort
+                           }}/>
 
-                 width={this.props.width}
-                 height={chartHeight}
-                 margins={{
-                   left: 80,
-                   right: 80
-                 }}
+            <Chart snapshot={this.props.snapshot}
+                   windowSize={this.props.timeframe}
 
-                 y1={{
-                   min: 0,
-                   max: getMaxValue(
-                     'fs.' + this.state.filesystemName + '.free',
-                     this.props.snapshot
-                   ),
-                   tickFormatter: kbFormatterShort,
-                   metrics: [
-                     'fs.' + this.state.filesystemName + '.free',
-                     'fs.' + this.state.filesystemName + '.leaked'
-                   ],
-                   type: 'line'
-                 }}
+                   width={this.props.width}
+                   height={chartHeight}
+                   margins={{
+                     left: 80,
+                     right: 80
+                   }}
 
-                 y2={{
-                   min: 0,
-                   max: getMaxValue(
-                     'fs.' + this.state.filesystemName + '.ifree',
-                     this.props.snapshot
-                   ),
-                   metrics: [
-                     'fs.' + this.state.filesystemName + '.ifree'
-                   ],
-                   type: 'line',
-                   tickFormatter: formatNumberShort
-                 }}/>
+                   y1={{
+                     min: 0,
+                     max: getMaxValue(
+                       'fs.' + this.state.filesystemName + '.free',
+                       this.props.snapshot
+                     ),
+                     tickFormatter: kbFormatterShort,
+                     metrics: [
+                       'fs.' + this.state.filesystemName + '.free',
+                       'fs.' + this.state.filesystemName + '.leaked'
+                     ],
+                     type: 'line'
+                   }}
+
+                   y2={{
+                     min: 0,
+                     max: getMaxValue(
+                       'fs.' + this.state.filesystemName + '.ifree',
+                       this.props.snapshot
+                     ),
+                     metrics: [
+                       'fs.' + this.state.filesystemName + '.ifree'
+                     ],
+                     type: 'line',
+                     tickFormatter: formatNumberShort
+                   }}/>
+          </div>
         : null}
 
         <table className='in-subtle-table in-subtle-table--clickable'>
@@ -240,39 +260,73 @@ const OsDashboard = React.createClass({
         </ContentHeading>
 
         {this.state.interfaceName ?
-          <Chart snapshot={this.props.snapshot}
-                 windowSize={this.props.timeframe}
+          <div>
+            <ChartLegendV2 snapshot={this.props.snapshot}
+                           y1={{
+                             metrics: [
+                               'ifs.' + this.state.interfaceName + '.rx.bytes',
+                               'ifs.' + this.state.interfaceName + '.tx.bytes'
+                             ],
+                             labels: [
+                               'Received',
+                               'Transmitted'
+                             ],
+                             formatter: formatBytes
+                           }}
+                           y2={{
+                             metrics: [
+                               'ifs.' + this.state.interfaceName + '.rx.errors',
+                               'ifs.' + this.state.interfaceName + '.rx.dropped',
+                               'ifs.' + this.state.interfaceName + '.rx.overruns',
+                               'ifs.' + this.state.interfaceName + '.tx.errors',
+                               'ifs.' + this.state.interfaceName + '.tx.dropped',
+                               'ifs.' + this.state.interfaceName + '.tx.overruns'
+                             ],
+                             labels: [
+                               'RX Errors',
+                               'RX Dropped',
+                               'RX Overruns',
+                               'TX Errors',
+                               'TX Dropped',
+                               'TX Overruns'
+                             ],
+                             formatter: formatPercentageShort
+                           }}/>
 
-                 width={this.props.width}
-                 height={chartHeight}
-                 margins={{
-                   left: 80,
-                   right: 80
-                 }}
+            <Chart snapshot={this.props.snapshot}
+                   windowSize={this.props.timeframe}
 
-                 y1={{
-                   min: 0,
-                   tickFormatter: formatBytesShort,
-                   metrics: [
-                     'ifs.' + this.state.interfaceName + '.rx.bytes',
-                     'ifs.' + this.state.interfaceName + '.tx.bytes'
-                   ],
-                   type: 'line'
-                 }}
-                 y2={{
-                   min: 0,
-                   max: 1,
-                   metrics: [
-                     'ifs.' + this.state.interfaceName + '.rx.errors',
-                     'ifs.' + this.state.interfaceName + '.rx.dropped',
-                     'ifs.' + this.state.interfaceName + '.rx.overruns',
-                     'ifs.' + this.state.interfaceName + '.tx.errors',
-                     'ifs.' + this.state.interfaceName + '.tx.dropped',
-                     'ifs.' + this.state.interfaceName + '.tx.overruns'
-                   ],
-                   tickFormatter: formatPercentageShort,
-                   type: 'line'
-                 }}/>
+                   width={this.props.width}
+                   height={chartHeight}
+                   margins={{
+                     left: 80,
+                     right: 80
+                   }}
+
+                   y1={{
+                     min: 0,
+                     tickFormatter: formatBytesShort,
+                     metrics: [
+                       'ifs.' + this.state.interfaceName + '.rx.bytes',
+                       'ifs.' + this.state.interfaceName + '.tx.bytes'
+                     ],
+                     type: 'line'
+                   }}
+                   y2={{
+                     min: 0,
+                     max: 1,
+                     metrics: [
+                       'ifs.' + this.state.interfaceName + '.rx.errors',
+                       'ifs.' + this.state.interfaceName + '.rx.dropped',
+                       'ifs.' + this.state.interfaceName + '.rx.overruns',
+                       'ifs.' + this.state.interfaceName + '.tx.errors',
+                       'ifs.' + this.state.interfaceName + '.tx.dropped',
+                       'ifs.' + this.state.interfaceName + '.tx.overruns'
+                     ],
+                     tickFormatter: formatPercentageShort,
+                     type: 'line'
+                   }}/>
+          </div>
         : null}
 
         <table className='in-subtle-table in-subtle-table--clickable'>

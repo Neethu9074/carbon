@@ -1,0 +1,57 @@
+.in-chart-legend {
+  display: flex;
+  justify-content: space-between;
+
+  &__metrics {
+    @background: #2E393F;
+
+    background: @background;
+    padding: 5px 10px;
+    position: relative;
+
+    &:after {
+      // size of the downward pointing triangle
+      @size: 8px;
+
+      content: "";
+      width: 0;
+      height: 0;
+      position: absolute;
+      bottom: @size * -1;
+
+      border-left: @size solid transparent;
+      border-right: @size solid transparent;
+      border-top: @size solid @background;
+    }
+
+    &--y1:after {
+      left: 15px;
+    }
+
+    &--y2:after {
+      right: 15px;
+    }
+  }
+
+  &__metric {
+    display: inline-block;
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    &-label {
+      display: inline;
+
+      &:after {
+        content: " ";
+      }
+    }
+
+    &-value {
+      display: inline;
+    }
+  }
+
+}
