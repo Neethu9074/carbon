@@ -2,6 +2,7 @@
 
 'use strict';
 
+import _ from 'lodash';
 import d3 from 'd3';
 import TWEEN from 'tween.js';
 import * as ro from 'reactive-observables';
@@ -93,10 +94,8 @@ export default class Renderer {
 
     this.focusedMoment = null;
     this.focusedMomentSubscription = timelineStore.focusedMoment
-      .subscribe(focusedMoment => {
-        this.focusedMoment = focusedMoment;
-        // TODO Ben schedule rerender?
-      });
+      .throttle(20)
+      .subscribe(focusedMoment => this.onFocusChange(focusedMoment));
 
     ro.on(this.renderCanvas, 'mousemove')
       .subscribe(e => {
@@ -109,11 +108,62 @@ export default class Renderer {
     this.rendering = false;
   }
 
+  onFocusChange(newFocusedMoment) {
+    // only update the visibility when actually necessary
+    if (this.focusedMoment && !newFocusedMoment) {
+      this.tooltipLine.style('display', 'none');
+    } else if (!this.focusedMoment && newFocusedMoment) {
+      this.tooltipLine.style('display', 'block');
+    }
+
+    // TODO Ben binary search through datasets and look for the closest
+    // focusedMoment
+
+    this.focusedMoment = newFocusedMoment;
+
+    if (newFocusedMoment) {
+      const dataY1 = this.lookForDataPoint(this.y1, newFocusedMoment);
+      let dataY2;
+      if (this.y2) {
+        dataY2 = this.lookForDataPoint(this.y2, newFocusedMoment);
+      }
+
+      if (dataY1) {
+        this.focusedMoment = dataY1[0].x;
+        this.focusedY1 = dataY1;
+        this.focusedY2 = dataY2;
+        this.fillTooltip();
+      }
+    } else {
+      this.focusedMoment = null;
+    }
+  }
+
+  lookForDataPoint(axis, x) {
+    const data = axis.data.getDataColumns();
+    const i = _.sortedIndex(
+      data,
+      x,
+      column => {
+        if (column[0]) {
+          return column[0].x;
+        }
+        // this iteratee function will be called for the search value as well
+        return column;
+      }
+    );
+    return data[i];
+  }
+
+  fillTooltip() {
+
+  }
+
   createCanvas() {
     this.container.classList.add('in-chart');
     // hiding the canvas initially to avoid showing broken axes before
     // anything has been painted
-    this.container.style.display = 'none';
+    this.container.style.visibl = 'none';
 
     // the SVG will be used to position the axis
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -146,6 +196,11 @@ export default class Renderer {
         .attr('class', 'y y--1 axis')
         .call(this.y2.axis);
     }
+
+    this.tooltipLine = this.slidingSection
+      .append('line')
+      .attr('class', 'tooltip-note')
+      .style('display', 'none');
 
     // The render canvas is the user visible paint area that is only populated
     // by this base class. All other classes draw onto the drawingCanvas.
@@ -249,14 +304,8 @@ export default class Renderer {
 
     // TODO adapt to animation. Render using SVG?
     // render line as part of DOM? We could save one transition
-    const height = this.height - this.margins.top - this.margins.bottom;
     const x = this.x(this.focusedMoment);
-    this.renderCtx.beginPath();
-    this.renderCtx.moveTo(x, 0);
-    this.renderCtx.lineTo(x, height);
-    this.renderCtx.strokeStyle = 'red';
-    this.renderCtx.stroke();
-    this.renderCtx.closePath();
+    this.tooltipLine.attr('x1', x).attr('x2', x);
 
     // search for data series using
     // _.sortedIndex(array, value, [iteratee=_.identity], [thisArg])
@@ -542,6 +591,7 @@ export default class Renderer {
       .attr('y2', this.height - this.margins.bottom);
 
     this.x.range([0, this.width - horizontalMargin]);
+    const slidingSectionOffsetY = this.height - this.margins.bottom;
     this.slidingSection.attr(
       'transform',
       'translate(' +
@@ -569,6 +619,9 @@ export default class Renderer {
         ')'
       );
     }
+
+    this.tooltipLine.attr('y1', slidingSectionOffsetY * -1 + this.margins.top)
+      .attr('y2', 0);
   }
 
   dispose() {
