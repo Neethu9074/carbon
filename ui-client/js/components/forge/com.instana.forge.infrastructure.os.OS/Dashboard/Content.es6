@@ -27,7 +27,7 @@ const bytesPerSecondFormatter = d => formatBytesShort(d) + '/s';
 const kbFormatter = d => formatBytes(d * 1024);
 const kbFormatterShort = d => formatBytesShort(d * 1024);
 
-const chartHeight = 300;
+const chartHeight = 200;
 
 const OsDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
