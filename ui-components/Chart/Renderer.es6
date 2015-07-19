@@ -128,7 +128,9 @@ export default class Renderer {
     this.bottomLine = $svg.append('line')
       .attr('class', 'bottom-axis');
 
-    this.x.axis.element = $svg
+    this.slidingSection = $svg.append('g');
+
+    this.x.axis.element = this.slidingSection
       .append('g')
       .attr('class', 'x axis')
       .call(this.x.axis);
@@ -372,7 +374,7 @@ export default class Renderer {
       this.render();
     };
 
-    this.x.axis.element.attr(
+    this.slidingSection.attr(
       'transform',
       'translate(' +
         this.margins.left + ',' +
@@ -399,7 +401,7 @@ export default class Renderer {
           this.x,
           0
         );
-        self.x.axis.element.attr(
+        self.slidingSection.attr(
           'transform',
           'translate(' +
             (self.margins.left + this.x) + ',' +
@@ -540,7 +542,7 @@ export default class Renderer {
       .attr('y2', this.height - this.margins.bottom);
 
     this.x.range([0, this.width - horizontalMargin]);
-    this.x.axis.element.attr(
+    this.slidingSection.attr(
       'transform',
       'translate(' +
         this.margins.left + ', ' +
