@@ -52,13 +52,13 @@ http {
       deny                   all;
     }
 
-    location /bundle {
-      expires                max;
-    }
+    #location /bundle {
+    #  expires                max;
+    #}
 
-    location ~* ^(?/|/index\.html)$ {
-      add_header             Cache-Control "private, no-cache, must-revalidate";
-    }
+    #location ~* ^(?/|/index\.html)$ {
+    #  add_header             Cache-Control "private, no-cache, must-revalidate";
+    #}
 
     location / {
       root                   /opt/www;
