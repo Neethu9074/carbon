@@ -1,13 +1,16 @@
 'use strict';
 
 import React from 'react/addons';
-import TagToolTip from '../../../Tooltips/Tag';
+
 import {getColor} from 'instana-ui-sdk/tags';
+import * as mapFilters from 'instana-ui-services/stores/mapFilters';
+
+import TagToolTip from '../../../Tooltips/Tag';
 
 import './index.less';
 
 const rpt = React.PropTypes;
-export default React.createClass({
+const TagStickyNote = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
@@ -16,16 +19,20 @@ export default React.createClass({
     sceneObject: rpt.object.isRequired
   },
 
-  mouseOver: function () {
+  mouseOver() {
     this.tooltip = new TagToolTip({
       parent: this.props.sceneObject,
       tag: this.props.tag
     });
   },
 
-  mouseOut: function () {
+  mouseOut() {
     this.tooltip.dispose();
     this.tooltip = null;
+  },
+
+  click() {
+    mapFilters.addTagFilter(this.props.tag);
   },
 
   render() {
@@ -33,8 +40,11 @@ export default React.createClass({
       <div style={{backgroundColor: getColor(this.props.tag)}}
            className='in-sticky-note__tag'
            onMouseOver={this.mouseOver}
-           onMouseOut={this.mouseOut}>
+           onMouseOut={this.mouseOut}
+           onClick={this.click}>
       </div>
     );
   }
 });
+
+export default TagStickyNote;
