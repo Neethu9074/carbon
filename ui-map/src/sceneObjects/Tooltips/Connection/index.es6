@@ -31,6 +31,10 @@ const ConnectionsTooltipRC = React.createClass({
       return to.snapshot.get('steadyId');
     }
 
+    if(from.isUnknown) {
+      return to.snapshot.getIn(['data', 'hostname']);
+    }
+
     //get ips of the target
     const toIps = getIps(to.snapshot);
 
