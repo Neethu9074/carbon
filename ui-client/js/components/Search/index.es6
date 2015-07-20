@@ -138,8 +138,7 @@ const Search = React.createClass({
   },
 
   removePredicate(predicate) {
-    const newPredicates = this.props.predicates.filter(p => p !== predicate);
-    mapFilters.set(newPredicates);
+    mapFilters.remove(predicate);
   },
 
   clear() {

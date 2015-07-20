@@ -17,6 +17,11 @@ export function set(t) {
   filters.emit(t);
 }
 
+export function remove(filter) {
+  const newFilters = latestFilters.filter(f => f !== filter);
+  set(newFilters);
+}
+
 export function clear() {
   filters.emit(emptyList);
 }

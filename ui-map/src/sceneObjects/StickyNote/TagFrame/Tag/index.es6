@@ -2,7 +2,7 @@
 
 import React from 'react/addons';
 
-import {getColor} from 'instana-ui-sdk/tags';
+import {getColor} from 'instana-ui-services/tags';
 import * as mapFilters from 'instana-ui-services/stores/mapFilters';
 
 import TagToolTip from '../../../Tooltips/Tag';

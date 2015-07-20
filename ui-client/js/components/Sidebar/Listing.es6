@@ -13,6 +13,7 @@ import {getIssueCountSummary, getIssueSummary} from 'instana-ui-services/issueTr
 import {sort} from 'instana-ui-sdk/sorting';
 import {theme} from 'instana-ui-services/theme';
 
+import Tags from './Tags';
 import Metrics from './Metrics';
 import Details from './Details';
 import SeverityListing from './SeverityListing';
@@ -110,6 +111,10 @@ const SidebarListing = React.createClass({
           <Tab title='metrics'
                modifier='listing'>
             <Metrics />
+          </Tab>
+          <Tab title='tags'
+               modifier='listing'>
+            <Tags snapshots={this.state.snapshots} />
           </Tab>
           <Tab title={String(dangerCount)}
                modifier='danger'>
