@@ -100,19 +100,13 @@ export default class Renderer {
       .throttle(20)
       .subscribe(focusedMoment => this.onFocusChange(focusedMoment));
 
-    ro.on(this.svg, 'mousemove')
+    ro.on(this.glassPane.node(), 'mousemove')
       .subscribe(e => {
-        if (e.target === this.svg &&
-            e.offsetX >= this.margins.left &&
-            e.offsetY < (this.height - this.margins.bottom)) {
-          const x = e.offsetX - this.margins.left;
-          timelineStore.setFocusedMoment(this.x.invert(x).getTime());
-        } else {
-          timelineStore.clearFocusedMoment();
-        }
+        const x = e.offsetX - this.margins.left;
+        timelineStore.setFocusedMoment(this.x.invert(x).getTime());
       });
 
-    ro.on(this.svg, 'mouseleave')
+    ro.on(this.glassPane.node(), 'mouseleave')
       .subscribe(timelineStore.clearFocusedMoment);
 
     this.rendering = false;
@@ -257,6 +251,9 @@ export default class Renderer {
       .append('line')
       .attr('class', 'tooltip-note')
       .style('display', 'none');
+
+    this.glassPane = $svg.append('rect')
+      .attr('fill', 'transparent');
   }
 
   /**
@@ -673,6 +670,11 @@ export default class Renderer {
 
     this.tooltipLine.attr('y1', slidingSectionOffsetY * -1 + this.margins.top)
       .attr('y2', 0);
+
+    this.glassPane.attr('x', this.margins.left)
+      .attr('y', this.margins.top)
+      .attr('width', this.width - verticalMargin)
+      .attr('height', this.height - verticalMargin);
   }
 
   dispose() {
