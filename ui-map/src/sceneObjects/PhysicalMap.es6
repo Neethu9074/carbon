@@ -222,10 +222,12 @@ export default class PhysicalMap extends SceneObject {
       }
     });
 
-    const unMatched = _.xor(allNodes, matched);
+    this.scene.resetClicked();
 
+    const unMatched = _.xor(allNodes, matched);
     matched.forEach((node) => node.show());
     unMatched.forEach((node) => node.hide());
+
     this.scene.renderScene();
   }
 

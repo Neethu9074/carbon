@@ -13,7 +13,7 @@ import {
   selectedSceneObject,
   currentScene,
   currentTooltip
-}from './stores/mapStore';
+} from './stores/mapStore';
 import * as zoom from './zoom';
 import backgroundPlane from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
@@ -528,9 +528,13 @@ export default class Scene {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
       selectedSceneObject.emit({sceneObject, calledByMap});
     } else {
-      selectedSceneObject.emit({sceneObject: null, calledByMap});
-      highlightedSnapshot.clear();
+      this.resetClicked();
     }
+  }
+
+  resetClicked() {
+    selectedSceneObject.emit({sceneObject: null, calledByMap: true});
+    highlightedSnapshot.clear();
   }
 
   onFocus(event) {

@@ -88,9 +88,7 @@ export default class TouchControl extends CameraController{
     if(this.checkDoubleClick()) {
       this.emitLongClick();
     }
-
     this.setCursorToEvent(e);
-
     this.getObjectOnCursor();
     this.doClick();
   }
