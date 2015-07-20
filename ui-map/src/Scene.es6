@@ -436,7 +436,9 @@ export default class Scene {
     const hovered = [];
 
     //get all mouseover connections
-    allConnections.forEach(connection => {
+    allConnections
+      .filter(connection => connection.isSelected())
+      .forEach(connection => {
       if(connection.intersects(raycaster)) {
         hovered.push(connection);
         connection.onHighlight(true);
