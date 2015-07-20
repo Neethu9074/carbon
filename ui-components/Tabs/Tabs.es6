@@ -28,7 +28,8 @@ export const Tabs = React.createClass({
   propTypes: {
     collapsible: rpt.bool,
     blockIdentifier: rpt.string,
-    children: rpt.array.isRequired
+    children: rpt.array.isRequired,
+    style: rpt.object
   },
 
   getInitialState() {
@@ -68,7 +69,8 @@ export const Tabs = React.createClass({
     });
 
     return (
-      <div className={blockClassNames}>
+      <div className={blockClassNames}
+           style={this.props.style}>
         <ul className={blockIdentifier + '__tabs'}>
           {headerNodes}
         </ul>

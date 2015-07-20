@@ -85,10 +85,6 @@ const SidebarListing = React.createClass({
 
 
   render() {
-    if (this.state.selectedSnapshot) {
-      return <Details snapshot={this.state.selectedSnapshot} />;
-    }
-
     let dangerCount = 0;
     let warningCount = 0;
 
@@ -98,43 +94,49 @@ const SidebarListing = React.createClass({
     }
 
     return (
-      <Tabs blockIdentifier={block}>
-        <Tab title='metrics'
-             modifier='listing'>
-          <Metrics />
-        </Tab>
-        <Tab title={String(this.state.snapshots.size)}
-             modifier='listing'>
-          <ZoneList snapshots={this.state.snapshots}
-                    snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
-                    selectedSnapshot={this.state.selectedSnapshot}
-                    highlightedSnapshot={this.state.highlightedSnapshot} />
-        </Tab>
-        <Tab title={String(dangerCount)}
-             modifier='danger'>
-          {this.state.issueSummary ?
-            <SeverityListing heading='Critical Problems'
-                             headingColor={theme.health.danger}
-                             snapshots={this.state.snapshots}
-                             snapshotIssueSummary={this.state.issueSummary.get('danger')}
-                             snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
-                             selectedSnapshot={this.state.selectedSnapshot}
-                             highlightedSnapshot={this.state.highlightedSnapshot} />
-          : ' ' }
-        </Tab>
-        <Tab title={String(warningCount)}
-             modifier='warning'>
-          {this.state.issueSummary ?
-            <SeverityListing heading='Warnings'
-                             headingColor={theme.health.warning}
-                             snapshots={this.state.snapshots}
-                             snapshotIssueSummary={this.state.issueSummary.get('warning')}
-                             snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
-                             selectedSnapshot={this.state.selectedSnapshot}
-                             highlightedSnapshot={this.state.highlightedSnapshot} />
-          : ' ' }
-        </Tab>
-      </Tabs>
+      <div>
+        {this.state.selectedSnapshot ?
+          <Details snapshot={this.state.selectedSnapshot} />
+        : null}
+        <Tabs blockIdentifier={block}
+              style={{display: this.state.selectedSnapshot ? 'none' : 'block'}}>
+          <Tab title='metrics'
+               modifier='listing'>
+            <Metrics />
+          </Tab>
+          <Tab title={String(this.state.snapshots.size)}
+               modifier='listing'>
+            <ZoneList snapshots={this.state.snapshots}
+                      snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
+                      selectedSnapshot={this.state.selectedSnapshot}
+                      highlightedSnapshot={this.state.highlightedSnapshot} />
+          </Tab>
+          <Tab title={String(dangerCount)}
+               modifier='danger'>
+            {this.state.issueSummary ?
+              <SeverityListing heading='Critical Problems'
+                               headingColor={theme.health.danger}
+                               snapshots={this.state.snapshots}
+                               snapshotIssueSummary={this.state.issueSummary.get('danger')}
+                               snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
+                               selectedSnapshot={this.state.selectedSnapshot}
+                               highlightedSnapshot={this.state.highlightedSnapshot} />
+            : ' ' }
+          </Tab>
+          <Tab title={String(warningCount)}
+               modifier='warning'>
+            {this.state.issueSummary ?
+              <SeverityListing heading='Warnings'
+                               headingColor={theme.health.warning}
+                               snapshots={this.state.snapshots}
+                               snapshotIssueSummary={this.state.issueSummary.get('warning')}
+                               snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
+                               selectedSnapshot={this.state.selectedSnapshot}
+                               highlightedSnapshot={this.state.highlightedSnapshot} />
+            : ' ' }
+          </Tab>
+        </Tabs>
+      </div>
     );
   }
 });
