@@ -28,18 +28,18 @@ const ProblemPanel = React.createClass({
     };
   },
 
-  componentDidMount() {
-    this.subscribeToProblems();
+  componentWillMount() {
+    this.subscribeToProblems(this.props);
   },
 
-  subscribeToProblems() {
+  subscribeToProblems(props) {
     this.addSubscription(
-      getProblemsForSnapshot(this.props.snapshot)
+      getProblemsForSnapshot(props.snapshot)
         .subscribe(problems => this.setState({problems}))
     );
   },
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     this.disposeSubscriptions();
 
     // reset problems of previous snapshot
@@ -47,7 +47,7 @@ const ProblemPanel = React.createClass({
       problems: Immutable.List()
     });
 
-    this.subscribeToProblems();
+    this.subscribeToProblems(nextProps);
   },
 
   render() {
