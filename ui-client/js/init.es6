@@ -10,10 +10,12 @@ import {run, HashLocation} from 'react-router';
 import logging from 'instalog';
 import {setThemeOnHtmlDocument} from 'instana-ui-services/theme';
 
-import './subscriptionInfoPrinter';
 import routes from './routes';
 import i18n from './i18n';
 import UiBackendLogAppender from './UiBackendLogAppender';
+
+import './subscriptionInfoPrinter';
+import './i18n/momentOverwrites';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
 // should thus only be added when it can actually log to a browser console.
