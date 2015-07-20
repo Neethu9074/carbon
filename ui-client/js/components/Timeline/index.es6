@@ -16,6 +16,7 @@ import Button from 'instana-ui-components/Button';
 import {health, mapSeverityToHealth} from 'instana-ui-services/health';
 import {theme} from 'instana-ui-services/theme';
 import * as timelineStore from 'instana-ui-services/stores/timeline';
+import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import {getOpenIssues} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {only} from 'instana-ui-services/util/snapshots';
@@ -142,7 +143,8 @@ const Timeline = React.createClass({
                 color: iconConfig.color
               }}
               onMouseEnter={this.mouseIn.bind(this, problem)}
-              onMouseLeave={this.mouseOut}/>
+              onMouseLeave={this.mouseOut}
+              onClick={() => this.focusSnapshot(problem)}/>
       );
     });
   },
@@ -246,6 +248,10 @@ const Timeline = React.createClass({
       tooltipY: -1
     });
     this.disposeSubscriptions();
+  },
+
+  focusSnapshot(problem) {
+    selectedSnapshotStore.select(problem);
   }
 });
 
