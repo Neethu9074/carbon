@@ -70,6 +70,10 @@ export default class Scene {
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
     this.subscriptions.push(currentTooltip.subscribe(tooltip => {
+      if(this.tooltip === tooltip) {
+        return;
+      }
+
       if(this.tooltip) {
         this.tooltip.dispose();
       }
