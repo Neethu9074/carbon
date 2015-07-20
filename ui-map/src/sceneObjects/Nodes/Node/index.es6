@@ -19,6 +19,7 @@ import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import StickyNoteLayer from '../../StickyNote/Layer';
 import TooltipNode from '../../Tooltips/Node';
+import TooltipMetric from '../../Tooltips/Metric';
 
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -169,10 +170,6 @@ export default class Node extends BaseNode {
     scene.lineFactory.removeFragment(id + 'ground');
   }
 
-  getTooltipSticky() {
-    return new TooltipNode(this);
-  }
-
   onHighlight(highlighted) {
     super.onHighlight(highlighted);
     if(highlighted) {
@@ -182,12 +179,25 @@ export default class Node extends BaseNode {
     }
   }
 
+  getTooltipSticky() {
+    return this.getNodeTooltip();
+  }
+
+  getNodeTooltip() {
+    return new TooltipNode(this);
+  }
+
+  getNodeMetricTooltip() {
+    return new TooltipMetric(this);
+  }
+
   showMetrics(currentMetric) {
     this.stickyNote.switchToMetric();
 
     if(currentMetric.size === 1) {
       this.singleMetricPillar.changeStateProperty('active', true);
       this.multiMetricPillar.changeStateProperty('active', false);
+      this.getTooltipSticky = this.getNodeMetricTooltip;
     } else {
       this.multiMetricPillar.changeStateProperty('active', true);
       this.singleMetricPillar.changeStateProperty('active', false);
@@ -214,6 +224,8 @@ export default class Node extends BaseNode {
 
     this.singleMetricPillar.changeStateProperty('active', false);
     this.multiMetricPillar.changeStateProperty('active', false);
+
+    this.getTooltipSticky = this.getNodeTooltip;
   }
 
   setMetricValues(values) {

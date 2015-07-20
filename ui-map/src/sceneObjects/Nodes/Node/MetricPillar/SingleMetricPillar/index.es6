@@ -15,7 +15,7 @@ export default class SingleMetricPillar extends MetricPillar {
     const dim = this.metricCube.scale;
 
     this.scene.singleMetricFactory.addFragment({
-      id: this.id, pos, dim, newHeight: 1
+      id: this.id, pos, dim, newHeight: 0
     });
   }
 

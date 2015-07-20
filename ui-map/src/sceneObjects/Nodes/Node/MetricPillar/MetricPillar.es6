@@ -4,8 +4,6 @@ import THREE from 'three';
 
 import SceneObject from '../../../SceneObject/index';
 import {cubeGeometry} from '../../../geometries';
-import TooltipMetric from '../../../Tooltips/Metric';
-import {selectedSceneObject, currentTooltip} from '../../../../stores/mapStore';
 
 import eventBus from 'instana-ui-services/eventbus';
 
@@ -29,33 +27,12 @@ export default class MetricPillar extends SceneObject {
       }
     }));
 
-    this.addSubscription(selectedSceneObject.subscribe(obj => {
-      const isThisClicked = (obj.sceneObject && obj.sceneObject.id === this.id) ?
-        true : false;
-
-      this.changeStateProperty('selected', isThisClicked);
-    }));
-
     this.changeStateProperty('active', false);
   }
 
   onInitialEnter() {}
 
   onInitialLeave() {}
-
-  onHighlightEnter() {
-    currentTooltip.emit(new TooltipMetric(this.parent));
-  }
-
-  onHighlightLeave() {
-    currentTooltip.emit(null);
-  }
-
-  onSelectedEnter() {
-    selectedSceneObject.emit({sceneObject: this.parent, calledByMap: true});
-  }
-
-  onSelectedLeave() {}
 
   onInactiveEnter() {
     this.hidePillar();
@@ -98,10 +75,10 @@ export default class MetricPillar extends SceneObject {
     this.metricCube = cube = new THREE.Mesh(cubeGeometry);
     cube.matrixAutoUpdate = false;
     cube.rotationAutoUpdate = false;
-    cube.position.copy(this.getPosition());
+    cube.position.set(Infinity, 0, 0);
     cube.updateMatrix();
     cube.updateMatrixWorld();
-    cube.parentSceneObject = this;
+    cube.parentSceneObject = this.parent;
   }
 
   updateMetricCollisionObject(newHeight) {
