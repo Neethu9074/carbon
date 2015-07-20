@@ -79,13 +79,13 @@ export default class BaseNode extends SceneObject {
     this.setHighlight();
 
     this.setupConnections();
-    this.forEachConnection((c) => c.show());
+    this.forEachConnection((c) => c.changeStateProperty('mouseOver', true));
   }
 
   onHighlightLeave() {
     this.clearHighlight();
 
-    this.forEachConnection((c) => c.hide());
+    this.forEachConnection((c) => c.changeStateProperty('mouseOver', false));
   }
 
   onSelectedEnter() {this.selected(); }

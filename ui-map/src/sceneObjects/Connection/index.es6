@@ -41,7 +41,7 @@ export default class Connection extends SceneObject {
   }
 
   onInitialEnter() {
-    this.scene.lineFactory.enableFragment(this.id, false);
+    this.enableFragment(false);
   }
 
   onInitialLeave() {
@@ -53,7 +53,7 @@ export default class Connection extends SceneObject {
   }
 
   onHighlightLeave() {
-    this.scene.lineFactory.addFragment({id: this.id, highlightColor});
+    this.enableFragment(false);
   }
 
   onSelectedEnter() {
@@ -102,7 +102,14 @@ export default class Connection extends SceneObject {
   }
 
   onHighlight(highlighted) {
-    this.changeStateProperty('mouseOver', highlighted);
+    if(highlighted && !this.highlighted) {
+      this.highlighted = true;
+      this.scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
+
+    } else if(!highlighted && this.highlighted){
+      this.highlighted = false;
+      this.scene.lineFactory.addFragment({id: this.id, highlightColor});
+    }
   }
 
   enableFragment(enabled=true) {
