@@ -24,7 +24,7 @@
     background: gray;
   }
 
-  &__button-from, &__button-to {
+   &__button-to, &__button-from {
     font-size: 11px;
 
     border: 0;
@@ -38,26 +38,29 @@
     flex-shrink: 0;
 
     background: #2e373e;
-    color: grey;
+    color: white;
+    font-weight: bold;
+    text-transform: none;
   }
 
   &__button-from {
     cursor: pointer;
+    padding: 0px 10px 0px 0px;
   }
 
   &__button-to {
-    padding: 0px 5px 0px 10px;
-    text-transform: uppercase;
+    padding: 0px 0px 0px 10px;
   }
 
-  &__button-from {
-    padding: 0px 10px 0px 5px;
+  &__button-text {
+    display: inline-block;
+    line-height: 34px;
+    height: 35px;
   }
 
   &__icon {
     font-size: 24px;
     color: #99F4F5;
-    margin: 5px;
     padding: 0;
   }
 
@@ -65,7 +68,7 @@
     position: absolute;
     font-size: 32px;
     display: block;
-    bottom: -15px;
+    bottom: -18px;
     margin-left: -32px;
   }
 

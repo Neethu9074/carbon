@@ -86,8 +86,10 @@ const Timeline = React.createClass({
         <div className={block}>
           <Button className={block + '__button-from'}
                   onClick={this.toggle}>
-             <Icon className={block + '__icon'} type='timeline' />
-             {this.getUntil()}
+            <Icon className={block + '__icon'} type='timeline' />
+            <span className={block + '__button-text'}>
+              {this.getUntil()}
+            </span>
           </Button>
 
           <div className={block + '__line'}>
@@ -95,7 +97,9 @@ const Timeline = React.createClass({
           </div>
 
           <div className={block + '__button-to'}>
-            Now
+            <span className={block + '__button-text'}>
+              Now
+            </span>
             <Icon className={block + '__icon'} type='timeline' />
           </div>
         </div>
