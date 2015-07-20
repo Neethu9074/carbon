@@ -23,6 +23,7 @@ export function clear() {
 
 export const addTagFilter = createTagAdder(tag => {
   return Immutable.Map({
+    type: 'tag',
     label: tag,
     icon: 'timeline',
     predicate: snapshot => {

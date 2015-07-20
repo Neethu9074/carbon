@@ -79,11 +79,6 @@ const Timeline = React.createClass({
   },
 
   render() {
-    const iconConfig = {
-      type: 'timeline_warning',
-      color: theme.health.warning
-    };
-
     return (
       <div className={block + '__wrapper'}>
         {this.renderTimePicker()}
@@ -91,7 +86,7 @@ const Timeline = React.createClass({
         <div className={block}>
           <Button className={block + '__button-from'}
                   onClick={this.toggle}>
-             <Icon className={block + '__icon'} type={iconConfig.type} />
+             <Icon className={block + '__icon'} type='timeline' />
              {this.getUntil()}
           </Button>
 
@@ -101,7 +96,7 @@ const Timeline = React.createClass({
 
           <div className={block + '__button-to'}>
             Now
-            <Icon className={block + '__icon'} type={iconConfig.type} />
+            <Icon className={block + '__icon'} type='timeline' />
           </div>
         </div>
       </div>
