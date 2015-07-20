@@ -17,10 +17,6 @@ export default class Connection extends SceneObject {
   constructor({from, to, direction}) {
     super({parent: from});
 
-    // if(_.find(allConnections, c => (c.from === from && c.to === to))) {
-    //   return;
-    // }
-
     this.id = id++;
     this.from = from;
     this.to = to;
@@ -44,12 +40,10 @@ export default class Connection extends SceneObject {
     this.enableFragment(false);
   }
 
-  onInitialLeave() {
-    //TODO: implement if there is something to do
-  }
+  onInitialLeave() {}
 
   onHighlightEnter() {
-    this.scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
+    this.enableFragment();
   }
 
   onHighlightLeave() {
@@ -105,10 +99,12 @@ export default class Connection extends SceneObject {
     if(highlighted && !this.highlighted) {
       this.highlighted = true;
       this.scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
+      this.scene.renderScene();
 
     } else if(!highlighted && this.highlighted){
       this.highlighted = false;
       this.scene.lineFactory.addFragment({id: this.id, highlightColor});
+      this.scene.renderScene();
     }
   }
 
