@@ -3,7 +3,9 @@
 import THREE from 'three';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
+import {allConnections} from '../sceneObjects/Connection/index';
 import {currentTooltip} from '../stores/mapStore';
+import ConnectionTooltip from '../sceneObjects/Tooltips/Connection';
 
 export default class CameraController {
 
@@ -41,6 +43,9 @@ export default class CameraController {
 
     //holds the last hitten object from raycasting on click or mouseover
     this.hittenObject = undefined;
+
+    //holds the last hitten connections from raycasting on mouseover
+    this.hoveredConnections = [];
 
     //the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
@@ -151,30 +156,35 @@ export default class CameraController {
   }
 
   handleRayCasting() {
-    const hitten = this.hittenObject;
+    const hittenOld = this.hittenObject;
+    const hoveredConnections = this.hoveredConnections;
     this.getObjectOnCursor();
+    const hittenNew = this.hittenObject;
 
-    if(!this.hittenObject) {
+    if(!hittenNew && hoveredConnections.length === 0) {
       currentTooltip.emit(null);
     }
 
-    //if there is actually not hitten but it was last frame
-    if(!this.hittenObject && hitten) {
-      hitten.parentSceneObject.onHighlight(false);
+    //if there is actually not hittenOld but it was last frame
+    if(!hittenNew && hittenOld) {
+      hittenOld.parentSceneObject.onHighlight(false);
 
-      //if there is a hitten object
-    } else if(this.hittenObject) {
-      //if this is a new hitten object
-      if(hitten !== this.hittenObject) {
+      //if there is a hittenOld object
+    } else if(hittenNew) {
+      //if this is a new hittenOld object
+      if(hittenOld !== hittenNew) {
         //if the new differs from the old and the old is valid
-        if(hitten) {
-          hitten.parentSceneObject.onHighlight(false);
+        if(hittenOld) {
+          hittenOld.parentSceneObject.onHighlight(false);
         }
-        this.hittenObject.parentSceneObject.onHighlight(true);
+        hittenNew.parentSceneObject.onHighlight(true);
       }
     }
 
-    this.scene.handleHoveredConnetions(this.raycaster);
+    if(hoveredConnections.length > 0) {
+      const tooltip = new ConnectionTooltip(this.scene, hoveredConnections);
+      currentTooltip.emit(tooltip);
+    }
   }
 
   getObjectOnCursor() {
@@ -193,6 +203,12 @@ export default class CameraController {
 
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
+
+    if(!this.hittenObject) {
+      this.hoveredConnections = allConnections
+        .filter(connection => connection.isSelected())
+        .filter(connection => connection.intersects(this.raycaster));
+    }
 
     const canvasStyle = this.scene.getHtmlContainer().style;
     if(this.hittenObject) {
