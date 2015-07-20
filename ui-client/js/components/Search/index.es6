@@ -4,7 +4,6 @@ import _ from 'lodash';
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
-import Immutable from 'immutable';
 
 import Icon from 'instana-ui-components/Icon';
 import {create} from 'instana-ui-services/conveyer';
@@ -128,7 +127,7 @@ const Search = React.createClass({
   },
 
   addNewTagPredicate(text) {
-    this.addNewPredicate(buildTagPredicate(text));
+    mapFilters.addTagFilter(text);
     this.setState({
       input: ''
     });
@@ -152,17 +151,3 @@ const Search = React.createClass({
 });
 
 export default enhance(Search);
-
-function buildTagPredicate(tag) {
-  return Immutable.Map({
-    label: tag,
-    icon: 'timeline',
-    predicate: snapshot => {
-      const tags = snapshot.get('tags');
-      if (tags) {
-        return tags.some(t => t.indexOf(tag) !== -1);
-      }
-      return false;
-    }
-  });
-}
