@@ -5,6 +5,7 @@ import THREE from 'three';
 import SceneObject from '../../../SceneObject/index';
 import {cubeGeometry} from '../../../geometries';
 import TooltipMetric from '../../../Tooltips/Metric';
+import {currentTooltip} from '../../../../stores/mapStore';
 
 import eventBus from 'instana-ui-services/eventbus';
 
@@ -36,12 +37,11 @@ export default class MetricPillar extends SceneObject {
   onInitialLeave() {}
 
   onHighlightEnter() {
-    this.tooltip = new TooltipMetric(this.parent);
+    currentTooltip.emit(new TooltipMetric(this.parent));
   }
 
   onHighlightLeave() {
-    this.tooltip.dispose();
-    this.tooltip = undefined;
+    currentTooltip.emit(null);
   }
 
   onInactiveEnter() {
