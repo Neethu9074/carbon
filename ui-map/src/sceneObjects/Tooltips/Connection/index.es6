@@ -8,7 +8,6 @@ import ConnectionTooltip from 'instana-ui-components/Tooltips/Connection';
 import {getIps} from 'instana-ui-sdk/snapshot';
 
 
-/*eslint-disable no-unused-vars*/
 const ConnectionsTooltipRC = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
@@ -46,7 +45,7 @@ const ConnectionsTooltipRC = React.createClass({
   },
 
   render() {
-    const listItems = this.props.connections.map((connection, index) => {
+    const listItems = this.props.connections.map(connection => {
       return {
         id: connection.id,
         direction: connection.direction,

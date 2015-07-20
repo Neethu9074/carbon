@@ -11,9 +11,7 @@ import {getColor} from 'instana-ui-sdk/zones';
 
 import './index.less';
 
-
-/*eslint-disable no-unused-vars*/
-export default React.createClass({
+const ConnectionTooltip = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
@@ -25,7 +23,7 @@ export default React.createClass({
     const maxCon = 3;
     const connections = this.props.connections;
     const numConnections = connections.length;
-    const listItems = connections.slice(0, maxCon).map((connection, index) => {
+    const listItems = connections.slice(0, maxCon).map(connection => {
       const ip = connection.to.ip;
       const zoneId = connection.to.zone;
       const style = {color: getColor(zoneId)};
@@ -72,4 +70,5 @@ export default React.createClass({
     );
   }
 });
-/*eslint-enable no-unused-vars*/
+
+export default ConnectionTooltip;
