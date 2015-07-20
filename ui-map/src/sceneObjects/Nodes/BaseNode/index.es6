@@ -147,25 +147,18 @@ export default class BaseNode extends SceneObject {
   }
 
   onActiveMetric(metric) {
-    if(metric) {
-      this.changeStateProperty('active', false);
-
-      // this show metric pillar
-
-    } else {
-      this.changeStateProperty('active', true);
-
-      // this hide metric pillar
-    }
+    const isActive = metric ? false : true;
+    this.changeStateProperty('active', isActive);
   }
 
   onSceneObjectSelected(obj) {
-    if(obj.sceneObject && obj.sceneObject.id === this.id) {
-      this.changeStateProperty('selected', true);
-
-    } else if(this.isSelected()){
-      this.changeStateProperty('selected', false);
+    if(!obj.calledByMap) {
+      return;
     }
+    const isThisSelected = (obj.sceneObject && obj.sceneObject.id === this.id) ?
+      true : false;
+
+    this.changeStateProperty('selected', isThisSelected);
   }
 
   render() {
