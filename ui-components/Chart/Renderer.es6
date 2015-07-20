@@ -3,6 +3,7 @@
 'use strict';
 
 import _ from 'lodash';
+import moment from 'moment';
 import d3 from 'd3';
 import TWEEN from 'tween.js';
 import * as ro from 'reactive-observables';
@@ -12,6 +13,8 @@ import * as timelineStore from 'instana-ui-services/stores/timeline';
 
 import Queue from './Queue';
 import Data from './Data';
+
+const block = 'in-chart';
 
 const minReducer = (min, dataRow) => Math.min(dataRow.y, min);
 const maxReducer = (max, dataRow) => Math.max(dataRow.y, max);
@@ -116,8 +119,10 @@ export default class Renderer {
     // only update the visibility when actually necessary
     if (this.focusedMoment && !newFocusedMoment) {
       this.tooltipLine.style('display', 'none');
+      this.tooltipElement.style.display = 'none';
     } else if (!this.focusedMoment && newFocusedMoment) {
       this.tooltipLine.style('display', 'block');
+      this.tooltipElement.style.display = 'block';
     }
 
     this.focusedMoment = newFocusedMoment;
@@ -157,43 +162,21 @@ export default class Renderer {
   }
 
   fillTooltip() {
-    // const dl = document.createElement('dl');
-    //
-    // this.focusedY1.forEach((dataPoint, i) => {
-    //   const wrapper = document.createElement('div');
-    //   dl.appendChild(wrapper);
-    //
-    //   const label = document.createElement('dt');
-    //   label.style.color = theme.chart.strokeColors[i];
-    //   label.textContent = this.y1.config.seriesConfig[i].label;
-    //   wrapper.appendChild(label);
-    //
-    //   const value = document.createElement('dd');
-    //   value.style.color = theme.chart.strokeColors[i];
-    //   value.textContent = this.y1.config.tickFormatter(dataPoint.y);
-    //   wrapper.appendChild(value);
-    // });
-    //
-    // if (this.focusedY2) {
-    //   this.focusedY2.forEach((dataPoint, i) => {
-    //     const wrapper = document.createElement('div');
-    //     dl.appendChild(wrapper);
-    //
-    //     const label = document.createElement('dt');
-    //     label.style.color = theme.chart.strokeColors[i];
-    //     label.textContent = this.y2.config.seriesConfig[i].label;
-    //     wrapper.appendChild(label);
-    //
-    //     const value = document.createElement('dd');
-    //     value.style.color = theme.chart.strokeColors[
-    //       i + this.y1.config.seriesConfig.length
-    //     ];
-    //     value.textContent = this.y2.config.tickFormatter(dataPoint.y);
-    //     wrapper.appendChild(value);
-    //   });
-    // }
-    //
-    // document.body.appendChild(dl);
+    this.tooltipTime.textContent = moment(this.focusedY1[0].x).calendar();
+
+    const elements = this.tooltipValueElements;
+
+    this.focusedY1.forEach((dataPoint, i) => {
+      const v = this.y1.config.tickFormatter(dataPoint.y);
+      elements[i].textContent = v;
+    });
+
+    if (this.focusedY2) {
+      this.focusedY2.forEach((dataPoint, i) => {
+        const v = this.y2.config.tickFormatter(dataPoint.y);
+        elements[i + this.focusedY1.length].textContent = v;
+      });
+    }
   }
 
   createCanvas() {
@@ -254,6 +237,60 @@ export default class Renderer {
 
     this.glassPane = $svg.append('rect')
       .attr('fill', 'transparent');
+
+    this.createTooltip();
+  }
+
+  createTooltip() {
+    const tooltip = this.tooltipElement = document.createElement('div');
+    tooltip.classList.add(block + '__tooltip');
+    tooltip.style.display = 'none';
+    this.container.appendChild(tooltip);
+
+    const p = this.tooltipTime = document.createElement('p');
+    p.classList.add(block + '__tooltip-time');
+    tooltip.appendChild(p);
+
+    const dl = document.createElement('dl');
+    dl.classList.add(block + '__tooltip-metrics');
+    tooltip.appendChild(dl);
+
+    const valueElements = this.tooltipValueElements = [];
+    this.y1.config.seriesConfig.forEach(series => {
+      const wrapper = document.createElement('div');
+      wrapper.classList.add(block + '__tooltip-metric');
+      dl.appendChild(wrapper);
+
+      const label = document.createElement('dt');
+      label.classList.add(block + '__tooltip-label');
+      label.style.color = series.color;
+      label.textContent = series.label;
+      wrapper.appendChild(label);
+
+      const value = document.createElement('dd');
+      value.classList.add(block + '__tooltip-value');
+      wrapper.appendChild(value);
+      valueElements.push(value);
+    });
+
+    if (this.y2) {
+      this.y2.config.seriesConfig.forEach(series => {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add(block + '__tooltip-metric');
+        dl.appendChild(wrapper);
+
+        const label = document.createElement('dt');
+        label.classList.add(block + '__tooltip-label');
+        label.style.color = series.color;
+        label.textContent = series.label;
+        wrapper.appendChild(label);
+
+        const value = document.createElement('dd');
+        value.classList.add(block + '__tooltip-value');
+        wrapper.appendChild(value);
+        valueElements.push(value);
+      });
+    }
   }
 
   /**
@@ -346,6 +383,7 @@ export default class Renderer {
     // render line as part of DOM? We could save one transition
     const x = this.x(this.focusedMoment);
     this.tooltipLine.attr('x1', x).attr('x2', x);
+    this.tooltipElement.style.left = (x + this.margins.left + 30) + 'px';
 
     // search for data series using
     // _.sortedIndex(array, value, [iteratee=_.identity], [thisArg])
@@ -680,6 +718,7 @@ export default class Renderer {
   dispose() {
     this.container.removeChild(this.renderCanvas);
     this.container.removeChild(this.svg);
+    this.container.removeChild(this.tooltipElement);
     this.focusedMomentSubscription.dispose();
     this.stopAnimations();
   }

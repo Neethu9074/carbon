@@ -457,7 +457,8 @@ const OsDashboard = React.createClass({
                    'tcp.opens',
                    'tcp.inSegs',
                    'tcp.outSegs'
-                 ]
+                 ],
+                 tickFormatter: formatNumberShort
                }}
                y2={{
                  type: 'line',

@@ -38,4 +38,37 @@
       stroke: red;
     }
   }
+
+  &__tooltip {
+    position: absolute;
+    top: 0;
+    padding: 7px;
+
+    background: #21282E;
+    border-radius: 3px;
+    font-size: 13px;
+
+    &-time {
+      margin: 0;
+      color: #6C7275;
+    }
+
+    &-metrics {
+      margin-bottom: 0;
+    }
+
+    &-metric {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &-label {
+      display: inline-block;
+      margin-right: 5px;
+    }
+
+    &-value {
+      display: inline-block;
+    }
+  }
 }
