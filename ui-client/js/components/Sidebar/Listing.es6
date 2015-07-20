@@ -100,16 +100,16 @@ const SidebarListing = React.createClass({
         : null}
         <Tabs blockIdentifier={block}
               style={{display: this.state.selectedSnapshot ? 'none' : 'block'}}>
-          <Tab title='metrics'
-               modifier='listing'>
-            <Metrics />
-          </Tab>
           <Tab title={String(this.state.snapshots.size)}
                modifier='listing'>
             <ZoneList snapshots={this.state.snapshots}
                       snapshotsWiredToHighlightedSnapshot={this.state.snapshotsWiredToHighlightedSnapshot}
                       selectedSnapshot={this.state.selectedSnapshot}
                       highlightedSnapshot={this.state.highlightedSnapshot} />
+          </Tab>
+          <Tab title='metrics'
+               modifier='listing'>
+            <Metrics />
           </Tab>
           <Tab title={String(dangerCount)}
                modifier='danger'>
