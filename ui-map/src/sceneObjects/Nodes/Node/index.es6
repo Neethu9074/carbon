@@ -66,16 +66,10 @@ export default class Node extends BaseNode {
 
   onHiddenEnter() {
     super.onHiddenEnter();
-
-    this.singleMetricPillar.hide();
-    // this.multiMetricPillar.hide();
   }
 
   onHiddenLeave() {
     super.onHiddenLeave();
-
-    this.singleMetricPillar.show();
-    // this.multiMetricPillar.show();
   }
 
 
@@ -195,8 +189,9 @@ export default class Node extends BaseNode {
       this.singleMetricPillar.changeStateProperty('active', true);
       this.multiMetricPillar.changeStateProperty('active', false);
     } else {
-      this.singleMetricPillar.changeStateProperty('active', false);
       this.multiMetricPillar.changeStateProperty('active', true);
+      this.singleMetricPillar.changeStateProperty('active', false);
+
     }
 
     // const position = this.getPosition();

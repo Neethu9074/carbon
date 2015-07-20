@@ -5,7 +5,7 @@ import THREE from 'three';
 import SceneObject from '../../../SceneObject/index';
 import {cubeGeometry} from '../../../geometries';
 import TooltipMetric from '../../../Tooltips/Metric';
-import {currentTooltip} from '../../../../stores/mapStore';
+import {selectedSceneObject, currentTooltip} from '../../../../stores/mapStore';
 
 import eventBus from 'instana-ui-services/eventbus';
 
@@ -29,6 +29,13 @@ export default class MetricPillar extends SceneObject {
       }
     }));
 
+    this.addSubscription(selectedSceneObject.subscribe(obj => {
+      const isThisClicked = (obj.sceneObject && obj.sceneObject.id === this.id) ?
+        true : false;
+
+      this.changeStateProperty('selected', isThisClicked);
+    }));
+
     this.changeStateProperty('active', false);
   }
 
@@ -43,6 +50,12 @@ export default class MetricPillar extends SceneObject {
   onHighlightLeave() {
     currentTooltip.emit(null);
   }
+
+  onSelectedEnter() {
+    selectedSceneObject.emit({sceneObject: this.parent, calledByMap: true});
+  }
+
+  onSelectedLeave() {}
 
   onInactiveEnter() {
     this.hidePillar();
