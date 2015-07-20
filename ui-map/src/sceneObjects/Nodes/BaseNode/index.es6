@@ -289,6 +289,11 @@ export default class BaseNode extends SceneObject {
 
     const scene = this.scene;
 
+    const highlightingFragment = scene.highlightingSingleMeshFactory.getFragment(this.id);
+    if(highlightingFragment) {
+      this.makeSolidGeometry();
+    }
+
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
     scene.renderScene();
