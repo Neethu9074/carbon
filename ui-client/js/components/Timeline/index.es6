@@ -99,7 +99,7 @@ const Timeline = React.createClass({
           </div>
 
           <div className={block + '__button-to'}>
-            Today
+            Now
             <Icon className={block + '__icon'} type={iconConfig.type} />
           </div>
         </div>
