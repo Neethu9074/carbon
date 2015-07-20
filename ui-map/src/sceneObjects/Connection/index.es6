@@ -48,22 +48,12 @@ export default class Connection extends SceneObject {
     //TODO: implement if there is something to do
   }
 
-  onHighlightEnter() {}
-
-  onHighlightLeave() {}
-
-  show() {
-    super.show();
-
-    this.enableFragment();
+  onHighlightEnter() {
+    this.scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
   }
 
-  hide() {
-    super.hide();
-
-    if(!this.oneEndpointIsSelected()) {
-      this.enableFragment(false);
-    }
+  onHighlightLeave() {
+    this.scene.lineFactory.addFragment({id: this.id, highlightColor});
   }
 
   onSelectedEnter() {
@@ -96,6 +86,24 @@ export default class Connection extends SceneObject {
     }
   }
 
+
+  show() {
+    super.show();
+
+    this.enableFragment();
+  }
+
+  hide() {
+    super.hide();
+
+    if(!this.oneEndpointIsSelected()) {
+      this.enableFragment(false);
+    }
+  }
+
+  onHighlight(highlighted) {
+    this.changeStateProperty('mouseOver', highlighted);
+  }
 
   enableFragment(enabled=true) {
     this.scene.lineFactory.enableFragment(this.id, enabled);
@@ -270,19 +278,6 @@ export default class Connection extends SceneObject {
   unSelect() {
     if(!this.oneEndpointIsSelected()) {
       this.changeStateProperty('selected', false);
-    }
-  }
-
-  onHighlight(highlighted) {
-    if(highlighted && !this.isMouseOver) {
-      this.isMouseOver = true;
-      this.scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
-      this.scene.renderScene();
-
-    } else if(!highlighted && this.isMouseOver) {
-      this.isMouseOver = false;
-      this.scene.lineFactory.addFragment({id: this.id, highlightColor});
-      this.scene.renderScene();
     }
   }
 
