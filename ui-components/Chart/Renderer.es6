@@ -715,7 +715,7 @@ export default class Renderer {
 
     this.glassPane.style.left = this.margins.left + 'px';
     this.glassPane.style.top = this.margins.top + 'px';
-    this.glassPane.style.width = (this.width - verticalMargin) + 'px';
+    this.glassPane.style.width = (this.width - horizontalMargin) + 'px';
     this.glassPane.style.height = (this.height - verticalMargin) + 'px';
   }
 
