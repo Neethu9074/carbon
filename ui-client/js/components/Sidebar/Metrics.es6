@@ -3,13 +3,13 @@
 import React from 'react/addons';
 import Immutable from 'immutable';
 
-import Icon from 'instana-ui-components/Icon';
+import MetricTree from './MetricTree';
+import MetricTreeLeaf from './MetricTreeLeaf';
 import * as metricsStore from 'instana-ui-services/stores/metrics';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 import './Metrics.less';
 
-const block = 'in-sidebar-metrics';
 
 const metricTree = Immutable.fromJS({
   children: [
@@ -46,12 +46,14 @@ const metricTree = Immutable.fromJS({
     {
       icon: 'metrics_network',
       label: 'Network',
-      longLabel: 'Network XYZ'
-    },
-    {
-      icon: 'metrics_disc',
-      label: 'Filesystem',
-      longLabel: 'Disc Usage'
+      children: [
+        {
+          icon: '',
+          label: 'Established',
+          longLabel: 'TCP Established',
+          metrics: [{name: 'tcp.established', label: 'Established'}]
+        }
+      ]
     }
   ]
 });
@@ -79,81 +81,26 @@ const Metrics = React.createClass({
 
   render() {
     return (
-      <div className={block}>
-
-        {!this.state.path.isEmpty() ?
-          <div className={block + '__navigation'}>
-            <Icon type='arrow_left'
-                  onClick={this.onBack}
-                  className={block + '__back'}/>
-            {this.getCurrentlyActiveItem().get('label')}
-          </div>
-        : null}
-
-        <ul className={block + '__metric-list'}>
-          {this.getMetricsToShow().map(metricConfig =>
-            <li key={metricConfig.get('label')}
-                className={block + '__metric-list-item'}
-                onClick={this.onClickMetric.bind(this, metricConfig)}>
-              <Icon type={metricConfig.get('icon')}
-                    className={block + '__icon'}/>
-              <span className={block + '__label'}>
-                {metricConfig.get('label')}
-              </span>
-            </li>
-          ).toJS()}
-
-          {this.state.activeMetric ?
-            <li className={block + '__metric-list-item'}
-                onClick={this.clearMetrics}>
-              <Icon type='delete'
-                    className={block + '__icon'}/>
-              <span className={block + '__label'}>
-                Clear
-              </span>
-            </li>
-          : null}
-        </ul>
-
+      <div>
+        {metricTree.get('children').map(child => this.getMetricsToShow(child))}
       </div>
     );
   },
 
-  getMetricsToShow() {
-    if (this.state.path.isEmpty()) {
-      return metricTree.get('children');
+  getMetricsToShow(root) {
+    const children = root.get('children');
+    const label = root.get('label');
+
+    if(!children) {
+      return <MetricTreeLeaf key={label} metricObject={root} />;
     }
 
-    const activeItem = this.getCurrentlyActiveItem();
-    // if currently active item has no children, use the parent
-    if (!activeItem.has('children')) {
-      return this.state.path.get(this.state.path.size - 2).get('children');
-    }
-
-    return activeItem.get('children');
-  },
-
-  getCurrentlyActiveItem() {
-    return this.state.path.last();
-  },
-
-  onClickMetric(metricConfig) {
-    if (metricConfig.has('children')) {
-      metricsStore.setMetricPath(this.state.path.push(metricConfig));
-    } else if (metricConfig.has('metrics')) {
-      metricsStore.setActiveMetric(metricConfig);
-    }
-  },
-
-  onBack() {
-    metricsStore.setMetricPath(this.state.path.pop());
-  },
-
-  clearMetrics() {
-    metricsStore.clearActiveMetric();
-    metricsStore.clearMetricPath();
+    return (
+      <MetricTree key={label} header={label}>
+        {root.get('children').map(child => this.getMetricsToShow(child))}
+      </MetricTree>
+    );
   }
-
 });
 
 export default Metrics;

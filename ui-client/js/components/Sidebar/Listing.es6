@@ -12,10 +12,8 @@ import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlighte
 import {getIssueCountSummary, getIssueSummary} from 'instana-ui-services/issueTracker';
 import {sort} from 'instana-ui-sdk/sorting';
 import {theme} from 'instana-ui-services/theme';
-
-import Tags from './Tags';
 import Metrics from './Metrics';
-import Details from './Details';
+import Tags from './Tags';
 import SeverityListing from './SeverityListing';
 import ZoneList from './ZoneList';
 
@@ -108,9 +106,8 @@ const SidebarListing = React.createClass({
                       selectedSnapshot={this.state.selectedSnapshot}
                       highlightedSnapshot={this.state.highlightedSnapshot} />
           </Tab>
-          <Tab title='metrics'
-               modifier='listing'>
-            <Metrics />
+          <Tab title='metrics' modifier='listing'>
+            <Metrics/>
           </Tab>
           <Tab title='tags'
                modifier='listing'>
