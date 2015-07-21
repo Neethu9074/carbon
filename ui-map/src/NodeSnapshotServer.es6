@@ -9,6 +9,8 @@ import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
 import {level, zoomLevel} from 'instana-ui-services/stores/zoomLevel';
 import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
+import {selectedSceneObject} from './stores/mapStore';
+import {isIdEqual} from 'instana-ui-services/util/snapshots';
 
 let currentMetric;
 
@@ -48,8 +50,10 @@ export default class NodeSnapshotServer {
 
     this.subscriptions.push(
       selectedSnapshot.selectedSnapshot.async().subscribe((selected) => {
-        console.log('selected:', selected);
-        // this.onObjectClicked(this.map.findNodeBySnapshot(selected), false);
+        if(isIdEqual(this.client.snapshot, selected) &&
+           !this.client.isSelected()) {
+          selectedSceneObject.emit(this.client);
+        }
       })
     );
 

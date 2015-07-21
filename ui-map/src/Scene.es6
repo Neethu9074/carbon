@@ -6,6 +6,7 @@ import Tween from 'tween.js';
 import './lib/Octree';
 
 import {getAllNodes} from './mapStructureUtils';
+import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 import {
   iconSize,
@@ -21,6 +22,7 @@ import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import LineFactory from './factories/LineFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
+import Node from './sceneObjects/Nodes/Node';
 // import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import * as time from './timeCalculations';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
@@ -88,7 +90,7 @@ export default class Scene {
       if(metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
-        this.onObjectClicked(null);
+        selectedSceneObject.emit(null);
         this.hideHulls();
 
       } else {
@@ -501,6 +503,10 @@ export default class Scene {
     if(object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
       selectedSceneObject.emit(sceneObject);
+
+      if(!(sceneObject instanceof Node)) {
+        selectedSnapshot.clear();
+      }
     } else {
       this.resetClicked();
     }
@@ -509,6 +515,7 @@ export default class Scene {
   resetClicked() {
     selectedSceneObject.emit(null);
     highlightedSnapshot.clear();
+    selectedSnapshot.clear();
   }
 
   onFocus(event) {

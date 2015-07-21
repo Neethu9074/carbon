@@ -11,6 +11,7 @@ import {health} from 'instana-ui-services/health';
 import {isIdEqual} from 'instana-ui-services/util/snapshots';
 import {longClickedSceneObject} from '../../../stores/mapStore';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
+import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 
 import BaseNode from '../BaseNode/index';
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
@@ -78,6 +79,11 @@ export default class Node extends BaseNode {
   onHiddenLeave() {
     super.onHiddenLeave();
     this.layer.forEach(layer => layer.changeStateProperty('hidden', false));
+  }
+
+  onSelectedEnter() {
+    selectedSnapshot.select(this.snapshot);
+    super.onSelectedEnter();
   }
 
 
