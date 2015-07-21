@@ -473,7 +473,8 @@ const OsDashboard = React.createClass({
                  tickFormatter: formatPercentageShort
                }}
                margins={{
-                 right: 60
+                 right: 60,
+                 left: 80
                }}/>
 
       </div>
