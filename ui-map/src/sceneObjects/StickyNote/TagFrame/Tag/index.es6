@@ -24,10 +24,11 @@ const TagStickyNote = React.createClass({
       parent: this.props.sceneObject,
       tag: this.props.tag
     });
+    this.tooltip.mount();
   },
 
   mouseOut() {
-    this.tooltip.dispose();
+    this.tooltip.unMount();
     this.tooltip = null;
   },
 
