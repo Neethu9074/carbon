@@ -30,10 +30,7 @@ export default class SingleMetricPillar extends MetricPillar {
   setMetricValue(value) {
     const fragment = this.getFragment();
     if(fragment) {
-      fragment.newHeight = 1;
-
-      //scale the collision cube to the max pillar size
-      this.updateMetricCollisionObject(value * this.parent.height);
+      fragment.newHeight = value * this.parent.height;
     }
   }
 
