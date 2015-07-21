@@ -6,7 +6,6 @@ import Tween from 'tween.js';
 import './lib/Octree';
 
 import {getAllNodes} from './mapStructureUtils';
-import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnapshot';
 import {
   iconSize,
@@ -99,33 +98,15 @@ export default class Scene {
       }
     }));
 
-    this.subscriptions.push(
-      selectedSnapshot.selectedSnapshot.async().subscribe((selected) => {
-        this.onObjectClicked(this.map.findNodeBySnapshot(selected), false);
-      })
-    );
-
     this.subscriptions.push(selectedSceneObject.subscribe((obj) => {
-      const sceneObject = obj.sceneObject;
+      const sceneObject = obj;
       //clear the selectedSnapshot store if there was a click into nowhere
       //or on a sceneObject without a snapshot or unknown sceneObject
       if(sceneObject) {
         this.controller.flyToObject(sceneObject);
         this.hideHulls();
-
-        if(obj.calledByMap) {
-          //if the object exists but has no snapshot or is unknown
-          if(!sceneObject.snapshot || sceneObject.isUnknown) {
-            selectedSnapshot.clear();
-          } else {
-            selectedSnapshot.select(sceneObject.snapshot);
-          }
-        }
       } else {
         this.showHulls();
-        if(obj.calledByMap) {
-          selectedSnapshot.clear();
-        }
       }
     }));
   }
@@ -516,17 +497,17 @@ export default class Scene {
     this.renderScene();
   }
 
-  onObjectClicked(object, calledByMap=true) {
+  onObjectClicked(object) {
     if(object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
-      selectedSceneObject.emit({sceneObject, calledByMap});
+      selectedSceneObject.emit(sceneObject);
     } else {
       this.resetClicked();
     }
   }
 
   resetClicked() {
-    selectedSceneObject.emit({sceneObject: null, calledByMap: true});
+    selectedSceneObject.emit(null);
     highlightedSnapshot.clear();
   }
 

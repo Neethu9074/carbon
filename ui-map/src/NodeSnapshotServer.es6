@@ -8,6 +8,7 @@ import {subscribeToMetric} from './metricUtils';
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
 import {level, zoomLevel} from 'instana-ui-services/stores/zoomLevel';
+import * as selectedSnapshot from 'instana-ui-services/stores/selectedSnapshot';
 
 let currentMetric;
 
@@ -44,6 +45,13 @@ export default class NodeSnapshotServer {
         this.resumeMetrics();
       }
     }));
+
+    this.subscriptions.push(
+      selectedSnapshot.selectedSnapshot.async().subscribe((selected) => {
+        console.log('selected:', selected);
+        // this.onObjectClicked(this.map.findNodeBySnapshot(selected), false);
+      })
+    );
 
     const pluginId = 'com.instana.forge.infrastructure.os.Process';
     const observable = create(SnapshotConveyer, {pluginId});

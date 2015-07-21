@@ -170,10 +170,7 @@ export default class BaseNode extends SceneObject {
   }
 
   onSceneObjectSelected(obj) {
-    if(!obj.calledByMap) {
-      return;
-    }
-    const isThisSelected = (obj.sceneObject && obj.sceneObject.id === this.id) ?
+    const isThisSelected = (obj && obj.id === this.id) ?
       true : false;
 
     this.changeStateProperty('selected', isThisSelected);
