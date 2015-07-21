@@ -14,6 +14,7 @@ import {sort} from 'instana-ui-sdk/sorting';
 import {theme} from 'instana-ui-services/theme';
 import Metrics from './Metrics';
 import Tags from './Tags';
+import Details from './Details';
 import SeverityListing from './SeverityListing';
 import ZoneList from './ZoneList';
 
