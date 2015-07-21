@@ -68,7 +68,7 @@ const OsDashboard = React.createClass({
                            'Nice',
                            'Steal'
                          ],
-                         formatted: formatPercentageShort
+                         formatter: formatPercentageShort
                        }} />
 
         <Chart snapshot={this.props.snapshot}
