@@ -94,7 +94,8 @@ exports.consts = {
     },
     health: {
       danger: colors.danger,
-      warning: colors.warning
+      warning: colors.warning,
+      ok: colors.default
     },
     map: {
       colors: {

@@ -163,6 +163,11 @@ const Timeline = React.createClass({
           type: 'timeline_critical',
           color: theme.health.danger
         };
+      case health.ok:
+        return {
+          type: 'timeline',
+          color: theme.health.ok
+        };
       default:
         throw new Error('Unrecognized health ' + this.state.health);
     }
