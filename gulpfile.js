@@ -48,6 +48,10 @@ gulp.task('build', ['webpack:build', 'copyfavicon', 'writeBuildInfo'], function(
 gulp.task('webpack:build', ['clean'], function(callback) {
   // modify some webpack config options
   var config = Object.create(webpackConfig);
+
+  // Report the first error as a hard error instead of tolerating it.
+  config.bail = true;
+
   config.plugins = config.plugins.concat(
     new webpack.DefinePlugin({
       'process.env': {
