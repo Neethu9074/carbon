@@ -49,7 +49,7 @@ const ProcessDashboard = React.createClass({
                }}
                y1={{
                  min: 0,
-                 tickFormatter: formatBytes,
+                 formatter: formatBytes,
                  metrics: [
                    'mem.virtual',
                    'mem.resident',

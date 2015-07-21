@@ -51,8 +51,10 @@ export default class Renderer {
 
     this.y1 = d3.scale.linear();
     this.y1.config = y1;
-    this.y1.config.seriesConfig = y1.seriesConfig
-      .map((series, i) => {
+    this.y1.config.seriesConfig = y1.labels
+      .map((label, i) => {
+        const series = {};
+        series.label = label;
         series.color = theme.chart.strokeColors[i];
         return series;
       });
@@ -65,7 +67,7 @@ export default class Renderer {
       // Our formatter contract is only one parameter, so we need to swallow
       // the index parameter. (Our formatters sometimes use precision as
       // second parameter)
-      .tickFormat((v) => this.y1.config.tickFormatter(v))
+      .tickFormat((v) => this.y1.config.formatter(v))
       .orient('left');
     this.y1.queue = new Queue(this.y1.config.seriesConfig.length);
     this.y1.data = new Data({windowSize});
@@ -73,8 +75,10 @@ export default class Renderer {
     if (y2) {
       this.y2 = d3.scale.linear();
       this.y2.config = y2;
-      this.y2.config.seriesConfig = y2.seriesConfig
-        .map((series, i) => {
+      this.y2.config.seriesConfig = y2.labels
+        .map((label, i) => {
+          const series = {};
+          series.label = label;
           series.color = theme.chart.strokeColors[
             i + this.y1.config.seriesConfig.length
           ];
@@ -89,7 +93,7 @@ export default class Renderer {
         // Our formatter contract is only one parameter, so we need to swallow
         // the index parameter. (Our formatters sometimes use precision as
         // second parameter)
-        .tickFormat((v) => this.y2.config.tickFormatter(v))
+        .tickFormat((v) => this.y2.config.formatter(v))
         .orient('right');
       this.y2.queue = new Queue(this.y2.config.seriesConfig.length);
       this.y2.data = new Data({windowSize});
@@ -166,13 +170,13 @@ export default class Renderer {
     const elements = this.tooltipValueElements;
 
     this.focusedY1.forEach((dataPoint, i) => {
-      const v = this.y1.config.tickFormatter(dataPoint.y);
+      const v = this.y1.config.formatter(dataPoint.y);
       elements[i].textContent = v;
     });
 
     if (this.focusedY2) {
       this.focusedY2.forEach((dataPoint, i) => {
-        const v = this.y2.config.tickFormatter(dataPoint.y);
+        const v = this.y2.config.formatter(dataPoint.y);
         elements[i + this.focusedY1.length].textContent = v;
       });
     }

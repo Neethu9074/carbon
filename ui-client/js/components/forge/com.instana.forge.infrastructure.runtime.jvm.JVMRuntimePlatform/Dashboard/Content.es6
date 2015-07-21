@@ -103,7 +103,7 @@ const JVMDashboard = React.createClass({
                y1={{
                  min: 0,
                  max: this.props.snapshot.getIn(['data', 'memory.max']),
-                 tickFormatter: formatBytes,
+                 formatter: formatBytes,
                  metrics: [
                    'memory.free'
                  ],
@@ -133,7 +133,7 @@ const JVMDashboard = React.createClass({
                      'pools.' + this.state.poolName,
                      this.props.snapshot
                    ),
-                   tickFormatter: formatBytes,
+                   formatter: formatBytes,
                    metrics: [
                      'pools.' + this.state.poolName
                    ],

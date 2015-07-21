@@ -94,7 +94,7 @@ const Chart = React.createClass({
 
   extendAxisConfig(axis) {
     return _.merge({
-      tickFormatter: v => v,
+      formatter: v => v,
       renderer: this.getRenderer(this.props[axis].type)
     }, this.props[axis]);
   },

@@ -49,7 +49,7 @@ const CassandraDashboard = React.createClass({
                }}
                y1={{
                  min: 0,
-                 tickFormatter: formatBytes,
+                 formatter: formatBytes,
                  metrics: [
                    'storage.load'
                  ],
@@ -114,7 +114,7 @@ const CassandraDashboard = React.createClass({
                y1={{
                  min: 0,
                  max: 1,
-                 tickFormatter: percentFormatter,
+                 formatter: percentFormatter,
                  metrics: [
                    'cache.counter.hit',
                    'cache.key.hit',
@@ -186,7 +186,7 @@ const CassandraDashboard = React.createClass({
                y1={{
                  min: 0,
                  max: 1,
-                 tickFormatter: percentFormatter,
+                 formatter: percentFormatter,
                  metrics: [
                    'bloomFilterFalse'
                  ],

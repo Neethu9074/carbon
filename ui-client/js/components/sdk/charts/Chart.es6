@@ -31,9 +31,9 @@ const ChartWrapper = React.createClass({
   getInitialState() {
     return {
       y1Datasources: null,
-      y1SeriesConfig: null,
+      y1Labels: null,
       y2Datasources: null,
-      y2SeriesConfig: null
+      y2Labels: null
     };
   },
 
@@ -43,20 +43,20 @@ const ChartWrapper = React.createClass({
 
   initAxis() {
     const y1Datasources = this.createDataSources(this.props.y1);
-    const y1SeriesConfig = this.createDefaultSeriesConfig(this.props.y1);
+    const y1Labels = this.createMetricBasedLabels(this.props.y1);
 
     let y2Datasources = null;
-    let y2SeriesConfig = null;
+    let y2Labels = null;
     if (this.props.y2) {
       y2Datasources = this.createDataSources(this.props.y2);
-      y2SeriesConfig = this.createDefaultSeriesConfig(this.props.y2);
+      y2Labels = this.createMetricBasedLabels(this.props.y2);
     }
 
     this.setState({
       y1Datasources,
-      y1SeriesConfig,
+      y1Labels,
       y2Datasources,
-      y2SeriesConfig
+      y2Labels
     });
   },
 
@@ -70,18 +70,16 @@ const ChartWrapper = React.createClass({
     );
   },
 
-  createDefaultSeriesConfig(axis) {
-    let seriesConfig = axis.seriesConfig;
-    if (!seriesConfig) {
-      seriesConfig = axis.metrics.map(metric => {
-        return {label: metric};
-      });
+  createMetricBasedLabels(axis) {
+    let labels = axis.labels;
+    if (!labels) {
+      labels = axis.metrics.slice();
     }
-    return seriesConfig;
+    return labels;
   },
 
   componentDidUpdate(prevProps) {
-    // isEqual should ignore datasources and seriesConfig
+    // isEqual should ignore datasources and labels
     if (!isIdEqual(this.props.snapshot, prevProps.snapshot) ||
         this.props.windowSize !== prevProps.windowSize ||
         !this.isAxisEqual(this.props.y1, prevProps.y1) ||
@@ -99,7 +97,7 @@ const ChartWrapper = React.createClass({
       return false;
     }
 
-    const propsToCheck = ['min', 'max', 'metrics', 'tickFormatter', 'type'];
+    const propsToCheck = ['min', 'max', 'metrics', 'formatter', 'type'];
 
     for (let i = 0; i < propsToCheck.length; i++) {
       const prop = propsToCheck[i];
@@ -117,13 +115,13 @@ const ChartWrapper = React.createClass({
 
     const y1 = _.merge({}, this.props.y1);
     y1.datasources = this.state.y1Datasources;
-    y1.seriesConfig = this.state.y1SeriesConfig;
+    y1.labels = this.state.y1Labels;
 
     let y2;
     if (this.props.y2) {
       y2 = _.merge({}, this.props.y2);
       y2.datasources = this.state.y2Datasources;
-      y2.seriesConfig = this.state.y2SeriesConfig;
+      y2.labels = this.state.y2Labels;
     }
 
     return (

@@ -80,7 +80,7 @@ const RedisDashboard = React.createClass({
                }}
                y1={{
                  min: 0,
-                 tickFormatter: formatBytes,
+                 formatter: formatBytes,
                  metrics: [
                    'used_memory'
                  ],
@@ -110,7 +110,7 @@ const RedisDashboard = React.createClass({
                y1={{
                  min: 0,
                  max: 1,
-                 tickFormatter: formatPercentageShort,
+                 formatter: formatPercentageShort,
                  metrics: [
                    'hit_rate'
                  ],

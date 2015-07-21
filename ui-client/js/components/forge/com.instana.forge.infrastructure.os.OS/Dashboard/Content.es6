@@ -83,7 +83,7 @@ const OsDashboard = React.createClass({
                y1={{
                  min: 0,
                  max: 1,
-                 tickFormatter: formatPercentageShort,
+                 formatter: formatPercentageShort,
                  metrics: [
                    'cpu.total.user',
                    'cpu.total.sys',
@@ -134,7 +134,7 @@ const OsDashboard = React.createClass({
                y1={{
                  min: 0,
                  max: this.props.snapshot.getIn(['data', 'memory.total']),
-                 tickFormatter: formatBytesShort,
+                 formatter: formatBytesShort,
                  metrics: [
                    'memory.free'
                  ],
@@ -182,7 +182,7 @@ const OsDashboard = React.createClass({
                        'fs.' + this.state.filesystemName + '.free',
                        this.props.snapshot
                      ),
-                     tickFormatter: kbFormatterShort,
+                     formatter: kbFormatterShort,
                      metrics: [
                        'fs.' + this.state.filesystemName + '.free',
                        'fs.' + this.state.filesystemName + '.leaked'
@@ -200,7 +200,7 @@ const OsDashboard = React.createClass({
                        'fs.' + this.state.filesystemName + '.ifree'
                      ],
                      type: 'line',
-                     tickFormatter: formatNumberShort
+                     formatter: formatNumberShort
                    }}/>
           </div>
         : null}
@@ -302,7 +302,7 @@ const OsDashboard = React.createClass({
 
                    y1={{
                      min: 0,
-                     tickFormatter: formatBytesShort,
+                     formatter: formatBytesShort,
                      metrics: [
                        'ifs.' + this.state.interfaceName + '.rx.bytes',
                        'ifs.' + this.state.interfaceName + '.tx.bytes'
@@ -320,7 +320,7 @@ const OsDashboard = React.createClass({
                        'ifs.' + this.state.interfaceName + '.tx.dropped',
                        'ifs.' + this.state.interfaceName + '.tx.overruns'
                      ],
-                     tickFormatter: formatPercentageShort,
+                     formatter: formatPercentageShort,
                      type: 'line'
                    }}/>
           </div>
@@ -458,7 +458,13 @@ const OsDashboard = React.createClass({
                    'tcp.inSegs',
                    'tcp.outSegs'
                  ],
-                 tickFormatter: formatNumberShort
+                 labels: [
+                   'Established',
+                   'Opens',
+                   'In Segments',
+                   'Out Segments'
+                 ],
+                 formatter: formatNumberShort
                }}
                y2={{
                  type: 'line',
@@ -468,9 +474,15 @@ const OsDashboard = React.createClass({
                    'tcp.errors',
                    'tcp.retrans'
                  ],
+                 labels: [
+                   'Reset',
+                   'Fail',
+                   'Error',
+                   'Retransmission'
+                 ],
                  min: 0,
                  max: 1,
-                 tickFormatter: formatPercentageShort
+                 formatter: formatPercentageShort
                }}
                margins={{
                  right: 60,
