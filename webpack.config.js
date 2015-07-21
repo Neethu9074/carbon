@@ -37,6 +37,9 @@ module.exports = {
       test: /\.djs$/,
       loader: 'dogescript'
     }, {
+      test: /\.md$/,
+      loader: 'html!markdown'
+    }, {
       test: /\.woff?$/,
       loader: 'url?limit=3000&mimetype=application/font-woff'
     }]

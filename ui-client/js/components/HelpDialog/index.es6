@@ -1,3 +1,5 @@
+/*global require:false*/
+
 'use strict';
 
 import React from 'react/addons';
@@ -14,10 +16,42 @@ const HelpDialog = React.createClass({
     id: rpt.string.isRequired
   },
 
+  getInitialState() {
+    return {
+      content: null
+    };
+  },
+
+  componentDidMount() {
+    this.loadContent();
+  },
+
+  loadContent() {
+    // this needs to be assigned to a variable as the following require
+    // statement will be changed significantly by webpack.
+    //
+    // TODO Handle errors where the required file would not exist
+    const id = this.props.id;
+    require(
+      ['../../../help/' + id + '.md'],
+      content => this.setState({content})
+    );
+  },
+
+  componentDidUpdate() {
+    this.loadContent();
+  },
+
   render() {
+    if (!this.state.content) {
+      // TODO Show Loading animation
+      return null;
+    }
+
+    const html = {__html: this.state.content};
     return (
       <Dialog onClose={this.onClose}>
-        {this.props.id}
+        <div dangerouslySetInnerHTML={html} />
       </Dialog>
     );
   },
