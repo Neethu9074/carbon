@@ -180,8 +180,8 @@ export default class CameraController {
 
     if(!hittenNew) {
       if(hoveredConnections.length > 0) {
-        this.connectionTooltip.setHovered(hoveredConnections);
         currentTooltip.emit(this.connectionTooltip);
+        this.connectionTooltip.setHovered(hoveredConnections);
       } else {
         currentTooltip.emit(null);
       }
