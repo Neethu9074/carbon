@@ -1,6 +1,5 @@
 'use strict';
 
-import eventBus from 'instana-ui-services/eventbus';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
@@ -8,6 +7,7 @@ import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {subscribeToMetric} from './metricUtils';
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
 import {create} from 'instana-ui-services/conveyer';
+import {level, zoomLevel} from 'instana-ui-services/stores/zoomLevel';
 
 let currentMetric;
 
@@ -18,10 +18,6 @@ export default class NodeSnapshotServer {
     this.client = client;
 
     this.subscriptions = [];
-
-    this.subscriptions.push(eventBus.on('resumeMetrics').subscribe(() => {
-      this.showMetrics();
-    }));
 
     this.subscriptions.push(getWiredSnapshots(client.snapshot)
       .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots)));
@@ -37,6 +33,15 @@ export default class NodeSnapshotServer {
         currentMetric = undefined;
         this.disposeMetricSubscription();
         client.hideMetrics();
+      }
+    }));
+
+    this.subscriptions.push(zoomLevel.subscribe(zl => {
+      this.zoomLevel = zl;
+      if(zl === level.mid) {
+        this.pauseMetrics();
+      } else {
+        this.resumeMetrics();
       }
     }));
 
@@ -95,7 +100,9 @@ export default class NodeSnapshotServer {
   resumeMetrics() {
     //if there was an active metric subscribtion which is paused,
     //resubscribe to it but only if there is a active metric
-    if(!this.metricSubscription && currentMetric) {
+    if(!this.metricSubscription &&
+      currentMetric &&
+      (this.zoomLevel === level.near || this.zoomLevel === level.nearest)) {
       this.subscribeToCurrentMetric();
     }
   }

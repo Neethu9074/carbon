@@ -51,7 +51,6 @@ const ProgressCircle = React.createClass({
 export default class TooltipProgressCircle extends Tooltip {
   constructor(parent) {
     super(parent);
-    this.render();
   }
 
   render() {

@@ -162,10 +162,6 @@ export default class CameraController {
     this.getObjectOnCursor();
     const hittenNew = this.hittenObject;
 
-    if(!hittenNew) {
-      currentTooltip.emit(null);
-    }
-
     //if there is actually not hittenOld but it was last frame
     if(!hittenNew && hittenOld) {
       hittenOld.parentSceneObject.onHighlight(false);

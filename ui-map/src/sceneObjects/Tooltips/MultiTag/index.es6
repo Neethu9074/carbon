@@ -46,7 +46,6 @@ export default class TooltipMultiTag extends Tooltip {
     super(parent);
 
     this.tags = tags;
-    this.render();
   }
 
   render() {

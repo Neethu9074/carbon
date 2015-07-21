@@ -9,11 +9,6 @@ import './Tooltip.less';
 export default class Tooltip {
   constructor(parent) {
     this.parent = parent;
-
-    this.stickyNoteContainer = document.createElement('div');
-    this.stickyNoteContainer.classList.add('in-tooltip');
-
-    this.style = this.stickyNoteContainer.style;
   }
 
   setScreenPosition(xy) {
@@ -31,6 +26,10 @@ export default class Tooltip {
   }
 
   mount() {
+    this.stickyNoteContainer = document.createElement('div');
+    this.stickyNoteContainer.classList.add('in-tooltip');
+
+    this.style = this.stickyNoteContainer.style;
     this.parent.getHtmlContainer().appendChild(this.stickyNoteContainer);
 
     this.moveSubscribtion = cursorPosition.subscribe((xy) =>
@@ -43,8 +42,8 @@ export default class Tooltip {
     this.moveSubscribtion.dispose();
     this.moveSubscribtion = null;
 
-    React.unmountComponentAtNode(this.stickyNoteContainer);
     const container = this.stickyNoteContainer;
+    React.unmountComponentAtNode(container);
     container.parentNode.removeChild(container);
   }
 }

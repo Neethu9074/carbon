@@ -62,14 +62,11 @@ const MetricRC = React.createClass({
 export default class TooltipMetric extends Tooltip {
   constructor(parent) {
     super(parent);
-    this.render();
   }
 
   render() {
     React.render(
-      <MetricRC
-        snapshot={this.parent.snapshot}
-      />,
+      <MetricRC snapshot={this.parent.snapshot} />,
       this.stickyNoteContainer
     );
   }

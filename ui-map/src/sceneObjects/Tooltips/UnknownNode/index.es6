@@ -36,7 +36,6 @@ const UnknownNode = React.createClass({
 export default class TooltipNode extends Tooltip {
   constructor(parent) {
     super(parent);
-    this.render();
   }
 
   render() {

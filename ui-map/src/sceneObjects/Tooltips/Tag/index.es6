@@ -41,7 +41,6 @@ export default class TooltipTag extends Tooltip {
     super(parent);
 
     this.tag = tag;
-    this.render();
   }
 
   render() {

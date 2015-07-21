@@ -32,7 +32,6 @@ const LayerTooltipRC = React.createClass({
 export default class TooltipLayer extends Tooltip {
   constructor(parent) {
     super(parent);
-    this.render();
   }
 
   render() {

@@ -70,7 +70,6 @@ export default class TooltipConnection extends Tooltip {
     super(parent);
 
     this.hovered = hovered;
-    this.render();
   }
 
   render() {
