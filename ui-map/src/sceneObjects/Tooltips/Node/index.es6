@@ -84,7 +84,7 @@ const NodeTooltipRC = React.createClass({
   },
 
   issuesAvailable() {
-    return this.state.issues.size > 0;
+    return this.state.issues.filter(problem => problem.get('severity') > 0).size > 0;
   },
 
   getContent() {
