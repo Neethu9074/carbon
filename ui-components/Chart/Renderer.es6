@@ -379,19 +379,19 @@ export default class Renderer {
       return;
     }
 
-    // TODO adapt to animation. Render using SVG?
-    // render line as part of DOM? We could save one transition
     const x = this.x(this.focusedMoment);
     this.tooltipLine.attr('x1', x).attr('x2', x);
-    this.tooltipElement.style.left = (x + this.margins.left + 30) + 'px';
 
-    // search for data series using
-    // _.sortedIndex(array, value, [iteratee=_.identity], [thisArg])
-    // call formatter function with this data series and put data into dom
-    // render a line onto render canvas at this.x(this.focusedMoment)
-    // SUCCESS! We got fricking tooltips, yay!
-    // I am tired
-    // stopping now...
+    const availableWidth = this.width - this.margins.left - this.margins.right;
+    if (x > (availableWidth / 2)) {
+      const tooltipX = availableWidth - x + 50;
+      this.tooltipElement.style.left = null;
+      this.tooltipElement.style.right = tooltipX + 'px';
+    } else {
+      const tooltipX = x + this.margins.left + 50;
+      this.tooltipElement.style.right = null;
+      this.tooltipElement.style.left = tooltipX + 'px';
+    }
   }
 
   /**
