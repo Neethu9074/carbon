@@ -14,7 +14,7 @@ import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
-import helpify from '../../../hoc/helpify';
+import HelpLink from 'instana-ui-components/HelpLink';
 import ChartWithLegend from '../../../sdk/charts/ChartWithLegend';
 import Separator from '../../../sdk/Separator';
 import Mtd from '../../../sdk/Mtd';
@@ -34,8 +34,7 @@ const OsDashboard = React.createClass({
   propTypes: {
     snapshot: irpt.map.isRequired,
     timeframe: rpt.number.isRequired,
-    width: rpt.number.isRequired,
-    showHelp: rpt.func.isRequired
+    width: rpt.number.isRequired
   },
 
   getInitialState() {
@@ -175,8 +174,10 @@ const OsDashboard = React.createClass({
               <th>Type</th>
               <th>Capacity</th>
               <th>Free</th>
-              <th onClick={() => this.props.showHelp('os.fs-leaked-metric')}>
-                Leaked
+              <th>
+                <HelpLink helpId='os.fs-leaked-metric'>
+                  Leaked
+                </HelpLink>
               </th>
               <th>iFree</th>
             </tr>
@@ -425,4 +426,4 @@ const OsDashboard = React.createClass({
 
 });
 
-export default helpify(OsDashboard);
+export default OsDashboard;
