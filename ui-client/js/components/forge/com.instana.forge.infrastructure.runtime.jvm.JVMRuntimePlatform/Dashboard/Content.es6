@@ -9,8 +9,7 @@ import {create} from 'instana-ui-services/conveyer';
 import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
-import Chart from '../../../sdk/charts/Chart';
-import ChartLegend from '../../../sdk/charts/ChartLegend';
+import ChartWithLegend from '../../../sdk/charts/ChartWithLegend';
 import Separator from '../../../sdk/Separator';
 import ContentHeading from '../../../sdk/ContentHeading';
 import Mtd from '../../../sdk/Mtd';
@@ -30,94 +29,78 @@ const JVMDashboard = React.createClass({
 
   getInitialState() {
     return {
-      poolName: null
+      poolName: null,
+      collectorName: null
     };
   },
 
   render() {
     const pools = this.props.snapshot.getIn(['data', 'jvm.pools']);
+    const collectors = this.props.snapshot.getIn(['data', 'jvm.collectors']);
     return (
       <div>
-        <ChartLegend title='Threads'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'threads.new',
-                       'threads.runnable',
-                       'threads.timed-waiting',
-                       'threads.waiting',
-                       'threads.blocked',
-                       'threads.terminated'
-                     ]}
-                     metricLabels={[
-                       'New',
-                       'Runnable',
-                       'Timed-Waiting',
-                       'Waiting',
-                       'Blocked',
-                       'Terminated'
-                     ]}
-                     metricValueFormatter={d => d} />
+        <ContentHeading>Threads</ContentHeading>
 
-        <Chart snapshot={this.props.snapshot}
-               windowSize={this.props.timeframe}
+        <ChartWithLegend snapshot={this.props.snapshot}
+                         windowSize={this.props.timeframe}
 
-               width={this.props.width}
-               height={chartHeight}
-               margins={{
-                 left: 60
-               }}
+                         width={this.props.width}
+                         height={chartHeight}
+                         margins={{
+                           left: 60
+                         }}
 
-               y1={{
-                 min: 0,
-                 metrics: [
-                   'threads.new',
-                   'threads.runnable',
-                   'threads.timed-waiting',
-                   'threads.waiting',
-                   'threads.blocked',
-                   'threads.terminated'
-                 ],
-                 type: 'stackedArea'
-               }}/>
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'threads.new',
+                             'threads.runnable',
+                             'threads.timed-waiting',
+                             'threads.waiting',
+                             'threads.blocked',
+                             'threads.terminated'
+                           ],
+                           labels: [
+                             'New',
+                             'Runnable',
+                             'Timed-Waiting',
+                             'Waiting',
+                             'Blocked',
+                             'Terminated'
+                           ],
+                           type: 'stackedArea'
+                         }}/>
 
         <Separator />
 
-        <ChartLegend title='Memory Free'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'memory.free'
-                     ]}
-                     metricLabels={[
-                       'free'
-                     ]}
-                     metricUnit=''
-                     metricValueFormatter={formatBytes} />
+        <ContentHeading>Memory</ContentHeading>
 
-        <Chart snapshot={this.props.snapshot}
-               windowSize={this.props.timeframe}
-               width={this.props.width}
-               height={chartHeight}
-               margins={{
-                 left: 80
-               }}
-               y1={{
-                 min: 0,
-                 max: this.props.snapshot.getIn(['data', 'memory.max']),
-                 formatter: formatBytes,
-                 metrics: [
-                   'memory.free'
-                 ],
-                 type: 'stackedArea'
-               }}/>
+        <ChartWithLegend snapshot={this.props.snapshot}
+                         windowSize={this.props.timeframe}
+                         width={this.props.width}
+                         height={chartHeight}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           max: this.props.snapshot.getIn(['data', 'memory.max']),
+                           formatter: formatBytes,
+                           metrics: [
+                             'memory.free'
+                           ],
+                           labels: [
+                             'Free'
+                           ],
+                           type: 'stackedArea'
+                         }}/>
 
         <Separator />
 
-        <ContentHeading>
-          Memory Pools
-        </ContentHeading>
+        <ContentHeading>Memory Pools</ContentHeading>
 
         {this.state.poolName ?
-          <Chart snapshot={this.props.snapshot}
+          <ChartWithLegend snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
 
                  width={this.props.width}
@@ -135,6 +118,9 @@ const JVMDashboard = React.createClass({
                    formatter: formatBytes,
                    metrics: [
                      'pools.' + this.state.poolName
+                   ],
+                   labels: [
+                     this.state.poolName + ' Usage'
                    ],
                    type: 'line'
                  }}/>
@@ -166,6 +152,74 @@ const JVMDashboard = React.createClass({
             ).valueSeq()}
           </tbody>
         </table>
+
+        <Separator />
+
+        <ContentHeading>Garbage Collection</ContentHeading>
+
+        {this.state.collectorName ?
+          <ChartWithLegend snapshot={this.props.snapshot}
+                 windowSize={this.props.timeframe}
+
+                 width={this.props.width}
+                 height={chartHeight}
+                 margins={{
+                   left: 80,
+                   right: 80
+                 }}
+
+                 y1={{
+                   min: 0,
+                   metrics: [
+                     'gc.' + this.state.collectorName + '.time'
+                   ],
+                   labels: [
+                     this.state.collectorName + ' Time'
+                   ],
+                   type: 'line'
+                   }}
+
+                 y2={{
+                   min: 0,
+                   metrics: [
+                     'gc.' + this.state.collectorName + '.inv'
+                   ],
+                   labels: [
+                     this.state.collectorName + ' Invocations'
+                   ],
+                   type: 'line'
+                 }}/>
+        : null}
+
+        <table className='in-subtle-table in-subtle-table--clickable'>
+          <thead>
+            <tr>
+              <th>Collector</th>
+              <th>Invocations</th>
+              <th>Time spent</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {collectors.map((name) =>
+              <tr key={name} onClick={() => this.selectCollector(name)}>
+                <td>{name}</td>
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'gc.' + name + '.inv'
+                       )}
+                     formatter={d => d} />
+                <Mtd createMetricValueStream={
+                       this.createMetricValueStream.bind(
+                         this,
+                         'gc.' + name + '.time'
+                       )}
+                     formatter={d => d} />
+              </tr>
+            ).valueSeq()}
+          </tbody>
+        </table>
       </div>
     );
   },
@@ -173,6 +227,12 @@ const JVMDashboard = React.createClass({
   selectPool(pool) {
     this.setState({
       poolName: pool
+    });
+  },
+
+  selectCollector(collector) {
+    this.setState({
+      collectorName: collector
     });
   },
 
