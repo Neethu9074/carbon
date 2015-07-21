@@ -103,13 +103,12 @@ export default class Renderer {
       .throttle(20)
       .subscribe(focusedMoment => this.onFocusChange(focusedMoment));
 
-    ro.on(this.glassPane.node(), 'mousemove')
+    ro.on(this.glassPane, 'mousemove')
       .subscribe(e => {
-        const x = e.offsetX - this.margins.left;
-        timelineStore.setFocusedMoment(this.x.invert(x).getTime());
+        timelineStore.setFocusedMoment(this.x.invert(e.offsetX).getTime());
       });
 
-    ro.on(this.glassPane.node(), 'mouseleave')
+    ro.on(this.glassPane, 'mouseleave')
       .subscribe(timelineStore.clearFocusedMoment);
 
     this.rendering = false;
@@ -235,10 +234,11 @@ export default class Renderer {
       .attr('class', 'tooltip-note')
       .style('display', 'none');
 
-    this.glassPane = $svg.append('rect')
-      .attr('fill', 'transparent');
-
     this.createTooltip();
+
+    this.glassPane = document.createElement('div');
+    this.glassPane.style.position = 'absolute';
+    this.container.appendChild(this.glassPane);
   }
 
   createTooltip() {
@@ -384,7 +384,7 @@ export default class Renderer {
 
     const availableWidth = this.width - this.margins.left - this.margins.right;
     if (x > (availableWidth / 2)) {
-      const tooltipX = availableWidth - x + 50;
+      const tooltipX = availableWidth - x + 50 + this.margins.right;
       this.tooltipElement.style.left = null;
       this.tooltipElement.style.right = tooltipX + 'px';
     } else {
@@ -709,10 +709,10 @@ export default class Renderer {
     this.tooltipLine.attr('y1', slidingSectionOffsetY * -1 + this.margins.top)
       .attr('y2', 0);
 
-    this.glassPane.attr('x', this.margins.left)
-      .attr('y', this.margins.top)
-      .attr('width', this.width - verticalMargin)
-      .attr('height', this.height - verticalMargin);
+    this.glassPane.style.left = this.margins.left + 'px';
+    this.glassPane.style.top = this.margins.top + 'px';
+    this.glassPane.style.width = (this.width - verticalMargin) + 'px';
+    this.glassPane.style.height = (this.height - verticalMargin) + 'px';
   }
 
   dispose() {
