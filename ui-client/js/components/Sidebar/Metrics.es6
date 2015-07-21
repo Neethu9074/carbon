@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 
 import MetricTree from './MetricTree';
 import MetricTreeLeaf from './MetricTreeLeaf';
+import Icon from 'instana-ui-components/Icon';
 import * as metricsStore from 'instana-ui-services/stores/metrics';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
@@ -58,6 +59,8 @@ const metricTree = Immutable.fromJS({
   ]
 });
 
+const block = 'in-sidebar-metrics';
+
 const Metrics = React.createClass({
   mixins: [SubscriptionMixin],
 
@@ -81,8 +84,24 @@ const Metrics = React.createClass({
 
   render() {
     return (
-      <div>
+      <div className={block}>
+        {this.renderHeader()}
         {metricTree.get('children').map(child => this.getMetricsToShow(child))}
+      </div>
+    );
+  },
+
+  renderHeader() {
+    const style = this.state.activeMetric ? {opacity: 1} : {opacity: 0.25};
+
+    return (
+      <div className={block + '__header'}>
+        <div className={block + '__clear-button'}
+             style={style}
+             onClick={() => metricsStore.activeMetric.emit(null)}>
+          CLEAR
+          <Icon className={block + '__icon'} type='delete' />
+        </div>
       </div>
     );
   },

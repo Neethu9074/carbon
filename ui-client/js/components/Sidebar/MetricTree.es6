@@ -45,10 +45,10 @@ const MetricTree = React.createClass({
       [this.props.children];
 
     return (
-      <ul>
+      <ul className={block + '__ul'}>
         {children.map((child, i) => {
           return (
-            <li key={i}>
+            <li key={i} className={block + '__li'}>
               {child}
             </li>
           );
@@ -66,7 +66,7 @@ const MetricTree = React.createClass({
       <div className={classes}
            style={this.props.style}>
         <MetricTreeHeader onClick={this.toggle}
-                      content={this.props.header}/>
+                      content={this.props.header + ' (' + this.props.children.size + ')'}/>
         {this.renderChildren()}
       </div>
     );
