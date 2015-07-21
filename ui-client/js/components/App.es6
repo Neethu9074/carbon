@@ -11,6 +11,7 @@ import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import * as constants from 'instana-ui-forge/constants';
 
+import HelpDialog from './HelpDialog';
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
 import Search from './Search';
@@ -65,6 +66,11 @@ const App = React.createClass({
         <Footer />
 
         <RouteHandler/>
+
+        {this.props.state.query.help ?
+          <HelpDialog id={this.props.state.query.help} />
+        : null}
+
         <ConnectionStatus />
       </div>
     );

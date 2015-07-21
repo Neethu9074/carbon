@@ -90,7 +90,9 @@ exports.consts = {
       flyOutNotifications: 7,
       timepicker: 8,
       menuPopup: 8,
-      tooltips: 100
+      tooltips: 100,
+      backdrop: 200,
+      dialog: 201
     },
     health: {
       danger: colors.danger,
