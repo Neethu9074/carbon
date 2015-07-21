@@ -36,10 +36,11 @@ export default React.createClass({
       parent: this.props.sceneObject,
       tags: this.props.tags
     });
+    this.tooltip.mount();
   },
 
   mouseOut: function () {
-    this.tooltip.dispose();
+    this.tooltip.unMount();
     this.tooltip = null;
   },
 
