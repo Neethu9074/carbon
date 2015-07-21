@@ -123,8 +123,7 @@ const JVMDashboard = React.createClass({
                  width={this.props.width}
                  height={chartHeight}
                  margins={{
-                   left: 80,
-                   right: 80
+                   left: 80
                  }}
 
                  y1={{
