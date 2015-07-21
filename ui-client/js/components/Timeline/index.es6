@@ -40,14 +40,16 @@ const Timeline = React.createClass({
 
   propTypes: {
     timeframe: rpt.number.isRequired,
-    openIssues: irpt.list
+    openIssues: irpt.list,
+    focusedMoment: rpt.number
   },
 
   statics: {
     createObservables() {
       return {
         timeframe: timelineStore.timeframe,
-        openIssues: getOpenIssues()
+        openIssues: getOpenIssues(),
+        focusedMoment: timelineStore.focusedMoment
       };
     }
   },
@@ -94,6 +96,7 @@ const Timeline = React.createClass({
 
           <div className={block + '__line'}>
             {this.renderProblems()}
+            {this.renderFocusedMoment()}
           </div>
 
           <div className={block + '__button-to'}>
@@ -138,7 +141,7 @@ const Timeline = React.createClass({
               type={iconConfig.type}
               className={block + '__problem'}
               style={{
-                left: this.getPosition(problem) + '%',
+                left: this.getPosition(problem.get('start')) + '%',
                 color: iconConfig.color
               }}
               onMouseEnter={this.mouseIn.bind(this, problem)}
@@ -165,8 +168,7 @@ const Timeline = React.createClass({
     }
   },
 
-  getPosition(problem) {
-    const start = problem.get('start');
+  getPosition(time) {
     const top = Date.now();
     const bottom = top - this.props.timeframe;
 
@@ -174,7 +176,7 @@ const Timeline = React.createClass({
     scale.domain([top, bottom]);
     scale.range([100, 0]);
 
-    return scale(start);
+    return scale(time);
   },
 
   renderTimePicker() {
@@ -220,6 +222,19 @@ const Timeline = React.createClass({
           </TooltipFrame>
         </div>
       </div>
+    );
+  },
+
+  renderFocusedMoment() {
+    if (!this.props.focusedMoment) {
+      return null;
+    }
+
+    return (
+      <div className={block + '__focused-moment'}
+           style={{
+             left: this.getPosition(this.props.focusedMoment) + '%'
+           }}/>
     );
   },
 
