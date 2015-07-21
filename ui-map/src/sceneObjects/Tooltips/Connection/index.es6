@@ -70,12 +70,12 @@ export default class TooltipConnection extends Tooltip {
     super(parent);
 
     this.hovered = hovered;
-    this.render(hovered);
+    this.render();
   }
 
-  render(connections) {
+  render() {
     React.render(
-      <ConnectionsTooltipRC connections={connections}/>,
+      <ConnectionsTooltipRC connections={this.hovered}/>,
       this.stickyNoteContainer
     );
   }
@@ -98,7 +98,7 @@ export default class TooltipConnection extends Tooltip {
     }
 
     this.hovered = hovered;
-    this.render(hovered);
+    this.render();
   }
 
   dispose() {

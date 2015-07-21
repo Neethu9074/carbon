@@ -223,7 +223,9 @@ export default class SceneObject {
     this.parent.renderScene();
   }
 
-  onHighlight(/*value*/) {}
+  onHighlight(highlighted) {
+    this.changeStateProperty('mouseOver', highlighted);
+  }
 
   updateScreenPosition() {
     const scene = this.scene;

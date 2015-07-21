@@ -35,33 +35,35 @@ export default class NodeHighlight extends Highlight {
     const height = client.height;
     const fromX = pos.x + 0.01;
     const toX = pos.x - 1.01;
+    const fromY = pos.y - 0.01;
+    const toY = fromY + height + 0.02;
     const fromZ = pos.z - 0.01;
     const toZ = pos.z + 1.01;
 
     const points = [
-      {x: toX, y: 0, z: fromZ},
-      {x: toX, y: 0, z: toZ},
+      {x: toX, y: fromY, z: fromZ},
+      {x: toX, y: fromY, z: toZ},
 
-      {x: toX, y: 0, z: toZ},
-      {x: fromX, y: 0, z: toZ},
+      {x: toX, y: fromY, z: toZ},
+      {x: fromX, y: fromY, z: toZ},
 
-      {x: fromX, y: 0, z: toZ},
-      {x: fromX, y: 0, z: fromZ},
+      {x: fromX, y: fromY, z: toZ},
+      {x: fromX, y: fromY, z: fromZ},
 
-      {x: fromX, y: 0, z: fromZ},
-      {x: toX, y: 0, z: fromZ},
+      {x: fromX, y: fromY, z: fromZ},
+      {x: toX, y: fromY, z: fromZ},
 
-      {x: toX, y: 0, z: fromZ},
-      {x: toX, y: height, z: fromZ},
+      {x: toX, y: fromY, z: fromZ},
+      {x: toX, y: toY, z: fromZ},
 
-      {x: fromX, y: 0, z: toZ},
-      {x: fromX, y: height, z: toZ},
+      {x: fromX, y: fromY, z: toZ},
+      {x: fromX, y: toY, z: toZ},
 
-      {x: toX, y: height, z: fromZ},
-      {x: fromX, y: height, z: fromZ},
+      {x: toX, y: toY, z: fromZ},
+      {x: fromX, y: toY, z: fromZ},
 
-      {x: fromX, y: height, z: fromZ},
-      {x: fromX, y: height, z: toZ}
+      {x: fromX, y: toY, z: fromZ},
+      {x: fromX, y: toY, z: toZ}
     ];
 
     const factory = client.scene.lineFactory;

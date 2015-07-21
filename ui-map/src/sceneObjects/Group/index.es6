@@ -126,10 +126,6 @@ export default class Group extends SceneObject {
     return {width, depth};
   }
 
-  onHighlight(highlighted) {
-    this.changeStateProperty('mouseOver', highlighted);
-  }
-
   updateOfVisualComponents() {
     const pos = this.getPosition();
     const size = this.size;

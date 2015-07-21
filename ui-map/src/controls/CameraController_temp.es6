@@ -16,6 +16,7 @@ export default class CameraController {
     this.setZoomLevel(250);
     this.states = setupStates(this);
     this.state = this.states.near;
+    this.connectionTooltip = new ConnectionTooltip(scene, []);
   }
 
   bindListeners() {
@@ -161,7 +162,7 @@ export default class CameraController {
     this.getObjectOnCursor();
     const hittenNew = this.hittenObject;
 
-    if(!hittenNew && hoveredConnections.length === 0) {
+    if(!hittenNew) {
       currentTooltip.emit(null);
     }
 
@@ -181,9 +182,13 @@ export default class CameraController {
       }
     }
 
-    if(hoveredConnections.length > 0) {
-      const tooltip = new ConnectionTooltip(this.scene, hoveredConnections);
-      currentTooltip.emit(tooltip);
+    if(!hittenNew) {
+      if(hoveredConnections.length > 0) {
+        this.connectionTooltip.setHovered(hoveredConnections);
+        currentTooltip.emit(this.connectionTooltip);
+      } else {
+        currentTooltip.emit(null);
+      }
     }
   }
 

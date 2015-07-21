@@ -8,18 +8,17 @@ import eventBus from 'instana-ui-services/eventbus';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
+import {level, zoomLevel} from 'instana-ui-services/stores/zoomLevel';
 
 import Connection from '../../Connection/index';
 import SceneObject from '../../SceneObject/index';
 import Highlight from '../NodeHighlight';
 import {cubeGeometry} from '../../geometries';
 
-/*eslint-disable max-len*/
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-/*eslint-enable max-len*/
 
 //global cube material to reduce object creation
 const cubeMaterial = new THREE.MeshBasicMaterial();
@@ -49,6 +48,8 @@ export default class BaseNode extends SceneObject {
     this.id = getIdString(snapshot);
     this.snapshot = snapshot;
     this.height = 1;
+
+    this.tooltip = this.getTooltipSticky();
 
     this.connections = [];
     this.incomingConnections = [];
@@ -92,14 +93,14 @@ export default class BaseNode extends SceneObject {
 
   onSelectedLeave() {this.unSelected(); }
 
-  onInactiveEnter() { }
+  onInactiveEnter() {}
 
-  onInactiveLeave() { }
+  onInactiveLeave() {}
 
   onHiddenEnter() {
     this.enableFragments(false);
 
-    this.removeCollisionObject(this.cube, 1);
+    this.removeCollisionObject(this.cube, 2);
     this.removeFromGlobalGeometry();
     this.stickyNote.hide();
     this.highlighting.hide();
@@ -108,7 +109,7 @@ export default class BaseNode extends SceneObject {
   onHiddenLeave() {
     this.enableFragments(true);
 
-    this.addCollisionObject(this.cube, 1);
+    this.addCollisionObject(this.cube, 2);
     this.addToGlobalGeometry();
     this.stickyNote.show();
     this.highlighting.show();
@@ -137,6 +138,15 @@ export default class BaseNode extends SceneObject {
       }
     }));
 
+    this.addSubscription(zoomLevel.subscribe(zL => {
+      this.zoomLevel = zL;
+      if(zL === level.nearest) {
+        this.removeCollisionObject(this.cube, 2);
+      } else {
+        this.addCollisionObject(this.cube, 2);
+      }
+    }));
+
     this.addSubscription(activeMetric.subscribe(metric => {
       this.onActiveMetric(metric);
     }));
@@ -144,6 +154,14 @@ export default class BaseNode extends SceneObject {
     this.addSubscription(selectedSceneObject.subscribe((so) => {
       this.onSceneObjectSelected(so);
     }));
+  }
+
+  addCollisionObject(object, layer) {
+    //only add the collision object if the object is active, visible and not
+    //near the screen
+    if(!this.isHidden() && this.isActive() && this.zoomLevel !== level.nearest) {
+      super.addCollisionObject(object, layer);
+    }
   }
 
   onActiveMetric(metric) {
@@ -168,7 +186,7 @@ export default class BaseNode extends SceneObject {
     cube.rotationAutoUpdate = false;
     cube.parentSceneObject = this;
 
-    this.addCollisionObject(cube, 1);
+    this.addCollisionObject(cube, 2);
     this.addToGlobalGeometry();
   }
 
@@ -202,9 +220,9 @@ export default class BaseNode extends SceneObject {
 
   //is called via hover event
   onHighlight(highlighted) {
-    this.changeStateProperty('mouseOver', highlighted);
+    super.onHighlight(highlighted);
 
-    currentTooltip.emit(this.getTooltipSticky());
+    currentTooltip.emit(this.tooltip);
   }
 
   setHighlight() {
@@ -228,8 +246,8 @@ export default class BaseNode extends SceneObject {
     this.refreshMesh();
     this.refreshFragment();
 
-    this.removeCollisionObject(cube, 1);
-    this.addCollisionObject(cube, 1);
+    this.removeCollisionObject(cube, 2);
+    this.addCollisionObject(cube, 2);
 
     this.updateSolidGeometry();
 
@@ -250,7 +268,7 @@ export default class BaseNode extends SceneObject {
 
     super.setPosition(x, y, z);
 
-    this.forEachConnection((c) => c.updateOfVisualComponents());
+    this.forEachConnection(c => c.updateOfVisualComponents());
     this.updateOfVisualComponents();
   }
 
@@ -419,7 +437,7 @@ export default class BaseNode extends SceneObject {
 
     this.highlighting.dispose();
 
-    this.removeCollisionObject(this.cube, 1);
+    this.removeCollisionObject(this.cube, 2);
 
     this.disposeStickyNote();
     super.dispose();

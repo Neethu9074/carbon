@@ -102,7 +102,8 @@ exports.consts = {
         renderClearGradient2: '#2B3F46', //top right
         warning: colors.warning,
         critical: colors.danger,
-        'default': colors.default,
+        default: colors.default,
+        layer: '#8ea2ad',
         connection: metricColors.cyan,
         unknownStatus: colors.grey,
         zones: [

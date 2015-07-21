@@ -3,6 +3,7 @@
 /*eslint-disable max-len*/
 import THREE from 'three';
 
+import _ from 'lodash';
 import eventBus from 'instana-ui-services/eventbus';
 import {theme} from 'instana-ui-services/theme';
 import {getPower} from 'instana-ui-sdk/power';
@@ -14,7 +15,7 @@ import * as highlightedSnapshot from 'instana-ui-services/stores/highlightedSnap
 import BaseNode from '../BaseNode/index';
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
-import Layer from '../../Layer';
+import Layer from '../../Layer/index';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import StickyNoteLayer from '../../StickyNote/Layer';
@@ -55,6 +56,8 @@ export default class Node extends BaseNode {
     this.setHealth(health.ok);
     this.blockCubeHealth(true);
     this.setHealth(healthBackup);
+
+    this.layer.forEach(layer => layer.changeStateProperty('active', false));
   }
 
   onInactiveLeave() {
@@ -63,14 +66,18 @@ export default class Node extends BaseNode {
     //unblock the coloring for cube and reset the current health
     this.blockCubeHealth(false);
     this.setHealth(this.health, true);
+
+    this.layer.forEach(layer => layer.changeStateProperty('active', true));
   }
 
   onHiddenEnter() {
     super.onHiddenEnter();
+    this.layer.forEach(layer => layer.changeStateProperty('hidden', true));
   }
 
   onHiddenLeave() {
     super.onHiddenLeave();
+    this.layer.forEach(layer => layer.changeStateProperty('hidden', false));
   }
 
 
@@ -193,15 +200,14 @@ export default class Node extends BaseNode {
 
   showMetrics(currentMetric) {
     this.stickyNote.switchToMetric();
+    this.tooltip = this.getNodeMetricTooltip();
 
     if(currentMetric.size === 1) {
       this.singleMetricPillar.changeStateProperty('active', true);
       this.multiMetricPillar.changeStateProperty('active', false);
-      this.getTooltipSticky = this.getNodeMetricTooltip;
     } else {
       this.multiMetricPillar.changeStateProperty('active', true);
       this.singleMetricPillar.changeStateProperty('active', false);
-
     }
 
     // const position = this.getPosition();
@@ -225,7 +231,7 @@ export default class Node extends BaseNode {
     this.singleMetricPillar.changeStateProperty('active', false);
     this.multiMetricPillar.changeStateProperty('active', false);
 
-    this.getTooltipSticky = this.getNodeTooltip;
+    this.tooltip = this.getNodeTooltip();
   }
 
   setMetricValues(values) {
@@ -330,6 +336,7 @@ export default class Node extends BaseNode {
 
     super.setPosition(x, y, z);
     this.updateOfVisualComponents();
+    this.layer.forEach(layer => layer.setPosition(x, y, z));
   }
 
   setHeight(height) {
@@ -339,6 +346,7 @@ export default class Node extends BaseNode {
 
     super.setHeight(height);
     this.updateOfVisualComponents();
+    this.arrangeChildren();
   }
 
   blockCubeHealth(block) {
@@ -378,8 +386,11 @@ export default class Node extends BaseNode {
   }
 
   addLayer(snapshot) {
-    //dont create a layer if its still there
-    if(this.layer.indexOf(layer => snapshot === layer.snapshot) >= 0) {
+    //don't create a layer if its still there
+    const match = _.find(this.layer, layer => isIdEqual(layer.snapshot, snapshot));
+
+    if(match) {
+      match.updateSnapshot(snapshot);
       return;
     }
 

@@ -65,11 +65,6 @@ export default class MetricPillar extends SceneObject {
   setMetricValue() { throw new Error('NOT IMPLEMENTED'); }
   getFragment() { throw new Error('NOT IMPLEMENTED'); }
 
-
-  onHighlight(highlighted) {
-    this.changeStateProperty('mouseOver', highlighted);
-  }
-
   createMetricCollisionObject() {
     let cube;
     this.metricCube = cube = new THREE.Mesh(cubeGeometry);

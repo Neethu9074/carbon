@@ -1,11 +1,13 @@
 'use strict';
 
 import eventBus from 'instana-ui-services/eventbus';
+import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import {getHealth} from 'instana-ui-services/issueTracker';
 import {getWiredSnapshots} from 'instana-ui-sdk/snapshot';
 import {activeMetric} from 'instana-ui-services/stores/metrics';
 import {subscribeToMetric} from './metricUtils';
 import {getNormalizedValue} from 'instana-ui-sdk/metrics';
+import {create} from 'instana-ui-services/conveyer';
 
 let currentMetric;
 
@@ -38,19 +40,16 @@ export default class NodeSnapshotServer {
       }
     }));
 
-    // const pluginId = 'com.instana.forge.infrastructure.os.Process';
-    // const observable = create(SnapshotConveyer, {pluginId});
-    //
-    // this.subscriptions.push(
-    //   observable.subscribe(data => this.onLayerUpdate(data))
-    // );
+    const pluginId = 'com.instana.forge.infrastructure.os.Process';
+    const observable = create(SnapshotConveyer, {pluginId});
+    this.subscriptions.push(observable.subscribe(data =>
+      this.onLayerUpdate(data)));
   }
 
   onLayerUpdate(snapshots) {
     snapshots.forEach(layer => {
-      const nodeId = layer.get('hostId');
-      if(nodeId === this.client.snapshot.get('hostId')) {
-        this.client.addLayer(layer);
+      if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
+        // this.client.addLayer(layer);
       }
     });
   }

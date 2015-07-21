@@ -75,9 +75,12 @@ export default class Scene {
       }
 
       if(this.tooltip) {
-        this.tooltip.dispose();
+        this.tooltip.unMount();
       }
       this.tooltip = tooltip;
+      if(tooltip) {
+        tooltip.mount();
+      }
     }));
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
@@ -152,6 +155,9 @@ export default class Scene {
 
     this.highlightingSingleMeshFactory
       = new SingleMeshFactory({scene: this, renderOrder: 4});
+
+    this.layerSingleMeshFactory
+      = new SingleMeshFactory({scene: this, renderOrder: 2});
 
     this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
     this.lineFactory = new LineFactory({scene: this});
@@ -422,8 +428,8 @@ export default class Scene {
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {
-        //the array is sorted by distance
-        return intersections[0].object;
+        //the array is sorted by distance desc
+        return intersections.reverse()[0].object;
       }
     }
 
