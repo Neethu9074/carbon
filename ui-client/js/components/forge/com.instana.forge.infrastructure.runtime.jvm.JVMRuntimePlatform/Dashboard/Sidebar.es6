@@ -8,6 +8,7 @@ import {getLabel} from 'instana-ui-sdk/snapshot';
 import Panel from '../../../sdk/Panel';
 import SidebarHeading from '../../../sdk/SidebarHeading';
 import SidebarSubheading from '../../../sdk/SidebarSubheading';
+import {DescriptionList, DescriptionItem} from '../../../sdk/DescriptionList';
 import JVMInfo from '../JVMInfo';
 
 const rpt = React.PropTypes;
@@ -21,6 +22,7 @@ const Sidebar = React.createClass({
   },
 
   render() {
+    const xargs = this.props.snapshot.getIn(['data', 'jvm.args']);
     return (
       <div>
         <SidebarHeading>
@@ -32,6 +34,13 @@ const Sidebar = React.createClass({
 
         <Panel title='Java'>
           <JVMInfo snapshot={this.props.snapshot} />
+        </Panel>
+        <Panel title='X Args'>
+          <ul>
+            {xargs.map((arg) =>
+              <li style={{'whiteSpace': 'nowrap'}}>{arg}</li>
+            ).toArray()}
+          </ul>
         </Panel>
       </div>
     );

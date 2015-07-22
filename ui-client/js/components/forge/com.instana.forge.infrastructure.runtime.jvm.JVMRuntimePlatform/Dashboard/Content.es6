@@ -169,18 +169,17 @@ const JVMDashboard = React.createClass({
                  }}
 
                  y1={{
-                   min: 0,
                    metrics: [
                      'gc.' + this.state.collectorName + '.time'
                    ],
                    labels: [
                      this.state.collectorName + ' Time'
                    ],
-                   type: 'line'
+                   type: 'line',
+                   formatter: (d) => d / 1000 + ' s'
                    }}
 
                  y2={{
-                   min: 0,
                    metrics: [
                      'gc.' + this.state.collectorName + '.inv'
                    ],
@@ -208,14 +207,12 @@ const JVMDashboard = React.createClass({
                        this.createMetricValueStream.bind(
                          this,
                          'gc.' + name + '.inv'
-                       )}
-                     formatter={d => d} />
+                       )} />
                 <Mtd createMetricValueStream={
                        this.createMetricValueStream.bind(
                          this,
                          'gc.' + name + '.time'
-                       )}
-                     formatter={d => d} />
+                       )} />
               </tr>
             ).valueSeq()}
           </tbody>
