@@ -116,8 +116,8 @@ export default class Connection extends SceneObject {
   }
 
   calculatePath() {
-    const fromPos = this.from.getPosition();
-    const toPos = this.to.getPosition();
+    const fromPos = this.from.getComponent('position').getPosition();
+    const toPos = this.to.getComponent('position').getPosition();
 
     if(!fromPos || !toPos) {
       this.path = undefined;

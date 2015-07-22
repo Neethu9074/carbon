@@ -112,8 +112,6 @@ export default class MetricPillar extends SceneObject {
   }
 
   updateOfVisualComponents(pos) {
-    super.setPosition(pos.x - 0.5, pos.y, pos.z + 0.5);
-
     const cube = this.metricCube;
     cube.position.copy(pos);
 

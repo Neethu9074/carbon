@@ -1,11 +1,26 @@
 'use strict';
 
+import _ from 'lodash';
+
+
 let timeOfLastFrameUpdate = Date.now();
 let deltaTime = 0;
 let timeSinceFirstFrame = 0;
 let fps = 0;
 let secondCounter = 0;
 let fpsCounter = 0;
+let timeCounter30Fps = 0;
+let timeCounter60Fps = 0;
+
+const timeEventListener = [];
+
+export function addTimeEventListener(listener) {
+  timeEventListener.push(listener);
+}
+
+export function removeTimeEventListener(listener) {
+  _.remove(timeEventListener, list => list === listener);
+}
 
 export function update(highResTimestamp) {
   const timeNow = highResTimestamp;
@@ -23,13 +38,26 @@ export function update(highResTimestamp) {
 
   timeOfLastFrameUpdate = timeNow;
   timeSinceFirstFrame += deltaTime;
-  fpsCounter++;
   secondCounter += deltaTime;
+
+  timeCounter30Fps++;
+  timeCounter60Fps++;
+  fpsCounter++;
 
   if(secondCounter >= 1) {
     secondCounter = 0;
     fps = fpsCounter;
     fpsCounter = 0;
+  }
+
+  if(timeCounter30Fps >= 30) {
+    timeCounter30Fps = 0;
+    timeEventListener.forEach(l => l.handleTimeEvent30Fps());
+  }
+
+  if(timeCounter60Fps >= 60) {
+    timeCounter60Fps = 0;
+    timeEventListener.forEach(l => l.handleTimeEvent60Fps());
   }
 }
 

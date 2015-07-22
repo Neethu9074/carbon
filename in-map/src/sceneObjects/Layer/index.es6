@@ -2,8 +2,11 @@
 
 import THREE from 'three';
 
+//components
+import CollisionComponent from '../../components/CollisionObjectComponent';
+
 import SceneObject from '../SceneObject/index';
-import {cubeGeometry} from '../geometries';
+import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import {currentTooltip} from '../../stores/mapStore';
 import Tooltip from '../Tooltips/Layer';
 import NodeHighlighting from '../Nodes/NodeHighlight';
@@ -35,17 +38,6 @@ export default class Layer extends SceneObject {
     this.tooltip = new Tooltip(this);
     this.highlighting = new NodeHighlighting({client: this});
     this.render();
-
-    const parentPos = parent.getPosition();
-    this.setPosition(parentPos.x, parentPos.y, parentPos.z);
-  }
-
-  onInitialEnter() {
-
-  }
-
-  onInitialLeave() {
-
   }
 
   onHighlightEnter() {
@@ -58,41 +50,37 @@ export default class Layer extends SceneObject {
   }
 
   onInactiveEnter() {
+    super.onInactiveEnter();
     this.scene.layerSingleMeshFactory.removeFragment(this.id);
-    this.removeCollisionObject();
   }
 
   onInactiveLeave() {
+    super.onInactiveLeave();
     this.scene.layerSingleMeshFactory.addFragment(this.fragment);
-    this.scene.addCollisionObject(this.cube, 1);
   }
 
   onHiddenEnter() {
+    super.onHiddenEnter();
     this.scene.layerSingleMeshFactory.removeFragment(this.id);
-    this.removeCollisionObject();
   }
 
   onHiddenLeave() {
+    super.onHiddenLeave();
     this.scene.layerSingleMeshFactory.addFragment(this.fragment);
-    this.scene.addCollisionObject(this.cube, 1);
   }
 
+
+  initComponents() {
+    super.initComponents();
+    this.components.collision = new CollisionComponent({
+      sceneObject: this,
+      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
+      layer: 1
+    });
+  }
 
   render() {
-    this.addCollisionObject();
     this.refreshFragment();
-  }
-
-  addCollisionObject() {
-    const cube = this.cube = new THREE.Mesh(cubeGeometry);
-    cube.matrixAutoUpdate = false;
-    cube.rotationAutoUpdate = false;
-    cube.parentSceneObject = this;
-    this.scene.addCollisionObject(cube, 1);
-  }
-
-  removeCollisionObject() {
-    this.scene.removeCollisionObject(this.cube, 1);
   }
 
   removeFromGlobalGeometry() {
@@ -103,22 +91,14 @@ export default class Layer extends SceneObject {
     this.snapshot = snapshot;
   }
 
-  setPosition(x, y, z) {
-    const pos = this.getPosition();
-    if(pos.x === x && pos.y === pos.y && pos.z === z) {
-      return;
-    }
-
-    super.setPosition(x, y, z);
-
-    this.cube.position.set(x, y, z);
+  positionChanged(x, y, z) {
+    this.getComponent('collision').positionChanged(x, y, z);
     this.refreshFragment();
   }
 
   setHeight(height) {
     this.height = height;
-    this.cube.scale.y = height;
-    this.updateYPosition();
+    this.getComponent('collision').sizeChanged(1, height, 1);
     this.refreshFragment();
   }
 
@@ -129,20 +109,12 @@ export default class Layer extends SceneObject {
   // -----   layer 0 (bottom layer)
   setLayerIndex(index) {
     this.layerIndex = index;
-    this.updateYPosition();
     this.refreshFragment();
   }
 
-  updateYPosition() {
-    this.position.y = this.layerIndex * this.height;
-  }
-
   refreshFragment() {
-    this.cube.updateMatrix();
-    this.cube.updateMatrixWorld();
-
     const scene = this.scene;
-    const position = this.getPosition();
+    const position = this.getComponent('position').getPosition();
     const pcm = this.geometryProvider.contentProvider;
     const scm = pcm.contentProvider;
 
@@ -169,8 +141,6 @@ export default class Layer extends SceneObject {
     super.dispose();
 
     this.highlighting.dispose();
-
-    this.removeCollisionObject();
     this.removeFromGlobalGeometry();
 
     this.snapshot = null;

@@ -12,7 +12,6 @@ export default class SingleMetricPillar extends MetricPillar {
   //for the single metric pillar
   addToMetricFactory() {
     const pos = this.getPosition();
-
     this.scene.singleMetricFactory.addFragment({
       id: this.id, pos, dim: {x: 1, y: 1, z: 1}, newHeight: 0
     });

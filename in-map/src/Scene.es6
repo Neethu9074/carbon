@@ -275,10 +275,6 @@ export default class Scene {
     eventBus.emit('endUpdate', {scene: this});
 
     this.render();
-    this.shouldRenderScene = false;
-
-    //rendering is done
-    eventBus.emit('endRender', {scene: this});
   }
 
   updateCamera() {
@@ -427,7 +423,8 @@ export default class Scene {
         ray.origin,
         ray.far,
         true, //true -> organized by objects
-        ray.direction);
+        ray.direction)
+        .filter(object => object.object.isEnabled);
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {

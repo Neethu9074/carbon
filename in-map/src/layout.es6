@@ -49,12 +49,12 @@ export default class Layouter {
         child.setScale(width, 1, depth);
 
         if(vertical) {
-          child.setPosition(x + width / 2, 0, -depth / 2);
+          child.getComponent('position').setPosition(x + width / 2, 0, -depth / 2);
           this.applyLayout({parent: child, xOffset: x, vertical: false});
           x += margin + width;
 
         } else {
-          child.setPosition(
+          child.getComponent('position').setPosition(
             x + margin + width / 2,
             0,
             -(y + margin + depth / 2));
@@ -79,10 +79,10 @@ export default class Layouter {
   }
 
   setNodeToPos({node, x=0, y=0, z=0}) {
-    const oldPos = node.getPosition().clone();
+    const oldPos = node.getComponent('position').getPosition().clone();
     const newPos = {x, y, z};
 
-    node.setPosition(x, y, z);
+    node.getComponent('position').setPosition(x, y, z);
 
     ConnectionGrid.clearPosition(oldPos);
     ConnectionGrid.blockPosition(newPos);
@@ -112,7 +112,7 @@ export default class Layouter {
 
       // add respectively subtract 0.5 to accomodate for central positioning of
       // nodes.
-      group.setPosition(
+      group.getComponent('position').setPosition(
         groupPosition.x + groupPosition.width / 2 - 1,
         0,
         (groupPosition.y + groupPosition.height / 2) * -1 + 1
@@ -120,9 +120,9 @@ export default class Layouter {
       group.setScale(groupPosition.width, 1, groupPosition.height);
 
       group.children.forEach((node, nodeIndex) => {
-        const oldPosition = node.getPosition().clone();
+        const oldPosition = node.getComponent('position').getPosition().clone();
         const newPosition = this.getCubePosition(groupIndex, nodeIndex);
-        node.setPosition(newPosition.x, newPosition.y, newPosition.z);
+        node.getComponent('position').setPosition(newPosition.x, newPosition.y, newPosition.z);
 
         ConnectionGrid.clearPosition(oldPosition);
         ConnectionGrid.blockPosition(newPosition);

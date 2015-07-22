@@ -3,6 +3,9 @@
 /*eslint-disable max-len*/
 import THREE from 'three';
 
+//components
+import HealthComponent from '../../../components/HealthComponent';
+
 import _ from 'lodash';
 import eventBus from 'in-services/eventbus';
 import {theme} from 'in-services/theme';
@@ -33,7 +36,6 @@ import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider
 /*eslint-enable max-len*/
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
-let incrementId = 0;
 
 
 export default class Node extends BaseNode {
@@ -41,22 +43,15 @@ export default class Node extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.incrementId = ++incrementId;
+    this.components.health = new HealthComponent({sceneObject: this});
     this.stickyNote = new StickyNoteNode(this);
 
-    this.health = this.health || health.ok;
+    this.health = health.ok;
     this.layer = [];
   }
 
   onInactiveEnter() {
-    this.removeCollisionObject(this.cube, 1);
-
-    //save the current health, set health to ok, block the coloring for cube
-    //and reset to old health
-    const healthBackup = this.health;
-    this.setHealth(health.ok);
-    this.blockCubeHealth(true);
-    this.setHealth(healthBackup);
+    super.onInactiveEnter();
 
     if(this.layer) {
       this.layer.forEach(layer => layer.changeStateProperty('active', false));
@@ -64,11 +59,7 @@ export default class Node extends BaseNode {
   }
 
   onInactiveLeave() {
-    this.addCollisionObject(this.cube, 1);
-
-    //unblock the coloring for cube and reset the current health
-    this.blockCubeHealth(false);
-    this.setHealth(this.health, true);
+    super.onInactiveLeave();
 
     if(this.layer) {
       this.layer.forEach(layer => layer.changeStateProperty('active', true));
@@ -151,18 +142,18 @@ export default class Node extends BaseNode {
     }
 
     const id = this.id;
-    const pos = this.cube.position.clone().add(cubePosition);
-    const dim = this.cube.scale;
+    const pos = this.getComponent('position')
+      .getPosition()
+      .clone()
+      .add(cubePosition);
 
     //adding a existing fragment will penetrate an update
     const color = this.calculateNodeColor();
-    const position = pos;
-    const size = dim.clone().multiplyScalar(1.5);
     const cmcmGround = this.geometryProviderGround;
     const pcmGround = cmcmGround.contentProvider;
 
-    pcmGround.position = {x: position.x, y: position.y, z: position.z};
-    pcmGround.contentProvider.scale = {x: size.x, y: 1, z: size.z};
+    pcmGround.position = {x: pos.x, y: pos.y, z: pos.z};
+    pcmGround.contentProvider.scale = {x: 1.5, y: 1, z: 1.5};
     cmcmGround.color = {r: color.r, g: color.g, b: color.b};
 
     this.scene.groundSingleMeshFactory.addFragment({
@@ -174,7 +165,7 @@ export default class Node extends BaseNode {
     const pcmGroundLine = vatocmGroundLine.contentProvider;
     pcmGroundLine.contentProvider.scale = pcmGround.contentProvider.scale;
     pcmGroundLine.position = {x: pos.x, y: pos.y + 0.025, z: pos.z};
-    pcmGroundLine.contentProvider.scale = {x: size.x, y: 1, z: size.z};
+    pcmGroundLine.contentProvider.scale = {x: 1.5, y: 1, z: 1.5};
 
     const points = vatocmGroundLine.getVertices();
 
@@ -322,10 +313,10 @@ export default class Node extends BaseNode {
   updateOfVisualComponents() {
     super.updateOfVisualComponents();
 
-    const pos = this.getPosition();
+    const pos = this.getComponent('position').getPosition();
 
-    this.cube.scale.y = this.height;
-    this.layer.forEach(p => p.setPosition(pos.x, p.getPosition().y, pos.z));
+    this.layer.forEach(p =>
+      p.getComponent('position').setPosition(pos.x, p.getComponent('position').getPosition().y, pos.z));
 
     this.singleMetricPillar.updateOfVisualComponents(pos);
     this.multiMetricPillar.updateOfVisualComponents(pos);
@@ -335,19 +326,15 @@ export default class Node extends BaseNode {
   }
 
   getScreenAnchorPosition() {
-    const pos = this.getPosition();
+    const pos = this.getComponent('position').getPosition();
     return {x: pos.x - 0.25, y: pos.y + this.height, z: pos.z + 0.25};
   }
 
-  setPosition(x, y, z) {
-    const position = this.getPosition();
-    if(x === position.x && y === position.y && z === position.z) {
-      return;
-    }
+  positionChanged(x, y, z) {
+    super.positionChanged(x, y, z);
 
-    super.setPosition(x, y, z);
     this.updateOfVisualComponents();
-    this.layer.forEach(layer => layer.setPosition(x, y, z));
+    this.arrangeChildren();
   }
 
   setHeight(height) {
@@ -356,30 +343,17 @@ export default class Node extends BaseNode {
     }
 
     super.setHeight(height);
-    this.updateOfVisualComponents();
     this.arrangeChildren();
   }
 
-  blockCubeHealth(block) {
-    this.cubeHealthBlocked = block;
-  }
-
-  setHealth(newHealth, force) {
-    if(!force && (newHealth === this.health || this.healthBlocked)) {
-      return;
-    }
+  healthChanged(newHealth) {
     this.health = newHealth;
-
-    //if this node is hidden by filter, dont add the changes to factories
-    if(this.isHidden()) {return; }
 
     //the ground plate is always updated
     this.addToGroundFactory();
 
-    if(!this.cubeHealthBlocked) {
-      this.refreshFragment();
-      this.updateSolidGeometry();
-    }
+    this.refreshFragment();
+    this.updateSolidGeometry();
   }
 
   refreshFragment() {
@@ -416,12 +390,11 @@ export default class Node extends BaseNode {
     const layer = this.layer;
     const heightOfEachChild = this.height / layer.length;
 
-    let index = 0;
-
-    layer.forEach(child => {
-      const pos = child.getPosition();
-      child.setPosition(pos.x, index++ * heightOfEachChild, pos.z);
+    layer.forEach((child, index) => {
       child.setHeight(heightOfEachChild);
+      const positionComponent = child.getComponent('position');
+      const pos = positionComponent.getPosition();
+      positionComponent.setPosition(pos.x, index * heightOfEachChild, pos.z);
     });
   }
 

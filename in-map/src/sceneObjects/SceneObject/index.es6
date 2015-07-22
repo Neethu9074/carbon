@@ -1,11 +1,10 @@
 'use strict';
 
-import THREE from 'three';
+//components
+import PositionComponent from '../../components/PositionComponent';
+
 import {setupStates} from './States/index';
 import {currentScene} from '../../stores/mapStore';
-import {createLogger} from 'instalog';
-
-const logger = createLogger('in-map.sceneObject');
 
 const stateLUT = {
 /*eslint-disable no-multi-spaces*/
@@ -64,13 +63,19 @@ const stateLUT = {
 };
 
 export default class SceneObject {
+<<<<<<< HEAD
   constructor({parent, id}) {
     this.id = id;
+=======
+  constructor({parent}) {
+>>>>>>> add first bunch of components (position, health and collision)
     this.parent = parent;
     this.position = new THREE.Vector3(0, 0, 0);
     this.subscriptions = [];
 
-    this.screenPositionAnchor = this.position.clone();
+    this.initComponents();
+
+    this.screenPositionAnchor = this.getComponent('position').getPosition().clone();
     this.screenPosition = {x: 0, y: 0};
 
     this.init();
@@ -89,6 +94,26 @@ export default class SceneObject {
     };
     this.state = this.states.initial;
     this.state.enter();
+  }
+
+<<<<<<< HEAD
+  init() {}
+=======
+  initComponents() {
+    this.components = {
+      position: new PositionComponent({sceneObject: this})
+    };
+  }
+
+  getComponent(name) {
+    return this.components[name];
+  }
+>>>>>>> add first bunch of components (position, health and collision)
+
+  forEachComponent(fn) {
+    for(const key in this.components) {
+      fn(this.components[key]);
+    }
   }
 
   init() {}
@@ -127,15 +152,31 @@ export default class SceneObject {
   }
 
   onInitialEnter() {}
-  onInitialLeave() {logger.debug('on initial leave'); }
-  onHighlightEnter() {logger.debug('on highlight enter'); }
-  onHighlightLeave() {logger.debug('on highlight leave'); }
-  onSelectedEnter() {logger.debug('on selected enter'); }
-  onSelectedLeave() {logger.debug('on selected leave'); }
-  onInactiveEnter() {logger.debug('on inactive enter'); }
-  onInactiveLeave() {logger.debug('on inactive leave'); }
-  onHiddenEnter() {logger.debug('on hidden enter'); }
-  onHiddenLeave() {logger.debug('on hidden leave'); }
+  onInitialLeave() {}
+  onHighlightEnter() {}
+  onHighlightLeave() {}
+  onSelectedEnter() {}
+  onSelectedLeave() {}
+
+  onInactiveEnter() {
+    this.forEachComponent((component) =>
+      component.stateMachine.changeStateProperty('active', false));
+  }
+
+  onInactiveLeave() {
+    this.forEachComponent((component) =>
+      component.stateMachine.changeStateProperty('active', true));
+  }
+
+  onHiddenEnter() {
+    this.forEachComponent((component) =>
+      component.stateMachine.changeStateProperty('active', false));
+  }
+
+  onHiddenLeave() {
+    this.forEachComponent((component) =>
+      component.stateMachine.changeStateProperty('active', true));
+  }
 
   isSelected() {
     return this.stateProperties.selected;
@@ -161,16 +202,16 @@ export default class SceneObject {
     this.changeStateProperty('hidden', true);
   }
 
+<<<<<<< HEAD
   setPosition(x, y, z) {
     this.position.set(x, y, z);
   }
+=======
+  positionChanged() {throw new Error('NOT IMPLEMENTED'); }
+>>>>>>> add first bunch of components (position, health and collision)
 
   setScreenPositionAnchor(x, y, z) {
     this.screenPositionAnchor.set(x, y, z);
-  }
-
-  getPosition() {
-    return this.position;
   }
 
   addSceneObject(obj) {
@@ -259,5 +300,16 @@ export default class SceneObject {
     if(this.parent) {
       this.parent.removeChild(this);
     }
+<<<<<<< HEAD
+=======
+    this.parent = null;
+  }
+
+  disposeSubscriptions() {
+    this.subscriptions.forEach(subscription => subscription.dispose());
+    this.subscriptions = [];
+
+    this.forEachComponent((component) => component.dispose());
+>>>>>>> add first bunch of components (position, health and collision)
   }
 }

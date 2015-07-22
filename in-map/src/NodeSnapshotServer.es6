@@ -1,7 +1,6 @@
 'use strict';
 
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
-import {getHealth} from 'in-services/issueTracker';
 import {getWiredSnapshots} from 'in-sdk/snapshot';
 import {activeMetric} from 'in-services/stores/metrics';
 import {subscribeToMetric} from './metricUtils';
@@ -24,9 +23,6 @@ export default class NodeSnapshotServer {
 
     this.subscriptions.push(getWiredSnapshots(client.snapshot)
       .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots)));
-
-    this.subscriptions.push(getHealth(client.snapshot).subscribe(health =>
-      client.setHealth(health)));
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       if(metric) {
@@ -66,7 +62,7 @@ export default class NodeSnapshotServer {
   onLayerUpdate(snapshots) {
     snapshots.forEach(layer => {
       if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
-        // this.client.addLayer(layer);
+        this.client.addLayer(layer);
       }
     });
   }

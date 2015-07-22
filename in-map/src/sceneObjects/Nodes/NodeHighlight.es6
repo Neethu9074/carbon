@@ -4,7 +4,6 @@ import Highlight from '../Highlight';
 
 
 export default class NodeHighlight extends Highlight {
-
   constructor({client}) {
     super({client});
   }
@@ -18,16 +17,15 @@ export default class NodeHighlight extends Highlight {
     const client = this.client;
 
     this.setupHighlightBorderLines(client);
+    super.setHighlight();
 
     //make the changes visible
     client.renderScene();
-
-    super.setHighlight();
   }
 
   setupHighlightBorderLines(client) {
     //create outline effect using lines
-    const pos = client.getPosition();
+    const pos = client.getComponent('position').getPosition();
     if(!pos) {
       return;
     }

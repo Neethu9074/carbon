@@ -2,26 +2,27 @@
 
 import THREE from 'three';
 
-import {theme} from 'in-services/theme';
+//components
+import CollisionComponent from '../../../components/CollisionObjectComponent';
+
+import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
 import eventBus from 'in-services/eventbus';
 import {getIdString} from 'in-services/util/snapshots';
 import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {activeMetric} from 'in-services/stores/metrics';
-import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+
 
 import Connection from '../../Connection/index';
 import SceneObject from '../../SceneObject/index';
 import Highlight from '../NodeHighlight';
-import {cubeGeometry} from '../../geometries';
+import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 
-//global cube material to reduce object creation
-const cubeMaterial = new THREE.MeshBasicMaterial();
 
 //if unavailable, the StickyNote-Metric / Layer will not be undefined but this
 //to avoid all these if(available) {do something} stuff
@@ -71,10 +72,6 @@ export default class BaseNode extends SceneObject {
     this.registerEvents();
   }
 
-  onInitialEnter() {}
-
-  onInitialLeave() {}
-
   onHighlightEnter() {
     this.setHighlight();
 
@@ -92,23 +89,21 @@ export default class BaseNode extends SceneObject {
 
   onSelectedLeave() {this.unSelected(); }
 
-  onInactiveEnter() {}
-
-  onInactiveLeave() {}
-
   onHiddenEnter() {
+    super.onHiddenEnter();
+
     this.enableFragments(false);
 
-    this.removeCollisionObject(this.cube, 2);
     this.removeFromGlobalGeometry();
     this.stickyNote.hide();
     this.highlighting.hide();
   }
 
   onHiddenLeave() {
+    super.onHiddenLeave();
+
     this.enableFragments(true);
 
-    this.addCollisionObject(this.cube, 2);
     this.addToGlobalGeometry();
     this.stickyNote.show();
     this.highlighting.show();
@@ -129,20 +124,20 @@ export default class BaseNode extends SceneObject {
     this.makeSolidGeometry(false);
   }
 
+  initComponents() {
+    super.initComponents();
+    this.components.collision = new CollisionComponent({
+      sceneObject: this,
+      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
+      layer: 2
+    });
+  }
+
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
       //update only if this node is visible
       if(!this.isHidden()) {
         this.update(data);
-      }
-    }));
-
-    this.addSubscription(zoomLevel.subscribe(zL => {
-      this.zoomLevel = zL;
-      if(zL === level.nearest) {
-        this.removeCollisionObject(this.cube, 2);
-      } else {
-        this.addCollisionObject(this.cube, 2);
       }
     }));
 
@@ -153,14 +148,6 @@ export default class BaseNode extends SceneObject {
     this.addSubscription(selectedSceneObject.subscribe(so => {
       this.onSceneObjectSelected(so);
     }));
-  }
-
-  addCollisionObject(object, layer) {
-    //only add the collision object if the object is active, visible and not
-    //near the screen
-    if(!this.isHidden() && this.isActive() && this.zoomLevel !== level.nearest) {
-      super.addCollisionObject(object, layer);
-    }
   }
 
   onActiveMetric(metric) {
@@ -176,13 +163,6 @@ export default class BaseNode extends SceneObject {
   }
 
   render() {
-    //the cube needs a mesh to calculate the inside/outside viewfrustum check
-    const cube = this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-    cube.matrixAutoUpdate = false;
-    cube.rotationAutoUpdate = false;
-    cube.parentSceneObject = this;
-
-    this.addCollisionObject(cube, 2);
     this.addToGlobalGeometry();
   }
 
@@ -235,15 +215,8 @@ export default class BaseNode extends SceneObject {
     const anchor = this.getScreenAnchorPosition();
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
 
-    const pos = this.getPosition();
-    const cube = this.cube;
-    cube.position.set(pos.x, pos.y, pos.z);
-
     this.refreshMesh();
     this.refreshFragment();
-
-    this.removeCollisionObject(cube, 2);
-    this.addCollisionObject(cube, 2);
 
     this.updateSolidGeometry();
 
@@ -256,34 +229,28 @@ export default class BaseNode extends SceneObject {
     }
   }
 
-  setPosition(x, y, z) {
-    const pos = this.getPosition();
-    if(pos.x === x && pos.y === y && pos.z === z) {
-      return;
-    }
-
-    super.setPosition(x, y, z);
-
+  positionChanged(x, y, z) {
     this.forEachConnection(c => c.updateOfVisualComponents());
+
+    // console.log(x, y, z);
+    this.getComponent('collision').positionChanged(x, y, z);
     this.updateOfVisualComponents();
   }
 
   setHeight(height) {
     this.height = height;
 
+    this.getComponent('collision').sizeChanged(1, height, 1);
     this.updateOfVisualComponents();
   }
 
   refreshMesh() {
-    this.cube.updateMatrix();
-    this.cube.updateMatrixWorld();
-
     this.removeFromGlobalGeometry();
     this.addToGlobalGeometry();
   }
 
   refreshFragment() {
-    const position = this.getPosition();
+    const position = this.getComponent('position').getPosition();
     if(!position) {
       return undefined;
     }
@@ -433,11 +400,8 @@ export default class BaseNode extends SceneObject {
 
     this.highlighting.dispose();
 
-    this.removeCollisionObject(this.cube, 2);
-
     this.disposeStickyNote();
 
-    this.cube = null;
     this.id = null;
   }
 

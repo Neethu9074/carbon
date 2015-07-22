@@ -79,7 +79,7 @@ export default class Unknownnode extends BaseNode {
   }
 
   getScreenAnchorPosition() {
-    const pos = this.getPosition();
+    const pos = this.getComponent('position').getPosition();
     return {x: pos.x, y: pos.y + this.height, z: pos.z};
   }
 
