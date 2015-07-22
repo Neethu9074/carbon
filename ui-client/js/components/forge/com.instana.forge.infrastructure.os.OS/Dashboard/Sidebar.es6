@@ -6,8 +6,8 @@ import irpt from 'react-immutable-proptypes';
 
 import {getLabel} from 'instana-ui-sdk/snapshot';
 import * as constants from 'instana-ui-forge/constants';
+import Collapsible from 'instana-ui-components/Collapsible';
 
-import Panel from '../../../sdk/Panel';
 import ProblemPanel from '../../../sdk/ProblemPanel';
 import SidebarHeading from '../../../sdk/SidebarHeading';
 import SidebarSubheading from '../../../sdk/SidebarSubheading';
@@ -40,14 +40,20 @@ const Sidebar = React.createClass({
           {getLabel(this.props.snapshot)}
         </SidebarSubheading>
 
-        <Panel title='System'>
-          <HostInfo snapshot={this.props.snapshot} />
-        </Panel>
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>System</Collapsible.Header>
+          <Collapsible.Content>
+            <HostInfo snapshot={this.props.snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
 
         {ec2 ?
-          <Panel title='Amazon'>
-            <EC2Info data={ec2} />
-          </Panel>
+          <Collapsible initiallyOpen={true}>
+            <Collapsible.Header>Amazon</Collapsible.Header>
+            <Collapsible.Content>
+              <EC2Info data={ec2} />
+            </Collapsible.Content>
+          </Collapsible>
         : null}
 
         <ProblemPanel snapshot={this.props.snapshot} />
