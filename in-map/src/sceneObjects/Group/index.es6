@@ -19,7 +19,6 @@ import {getIdString} from 'in-services/util/snapshots';
 import {getColor} from 'in-sdk/zones';
 import {hexToRGBNormalized} from 'in-services/converters';
 
-
 export default class Group extends SceneObject {
 
   constructor({parent, id}) {

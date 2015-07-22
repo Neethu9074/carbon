@@ -413,6 +413,7 @@ export default class Scene {
     raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
     const ray = raycaster.ray;
 
+    /*eslint-disable no-loop-func*/
     //iterate all octrees backwards from the highest layer to the lowest
     for (let i = this.octrees.length - 1; i >= 0; i--) {
       const octree = this.octrees[i];
@@ -432,6 +433,7 @@ export default class Scene {
         return intersections.reverse()[0].object;
       }
     }
+    /*eslint-enable no-loop-func*/
 
     return undefined;
   }
