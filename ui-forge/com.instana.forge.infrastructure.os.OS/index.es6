@@ -9,6 +9,7 @@ import {
 import * as power from 'instana-ui-sdk/power';
 import * as sorting from 'instana-ui-sdk/sorting';
 import * as zones from 'instana-ui-sdk/zones';
+import * as pluginName from 'instana-ui-sdk/pluginName';
 
 import * as constants from '../constants';
 import linuxIconPath from './icons/instana_server_linux.svg';
@@ -17,6 +18,12 @@ import appleIconPath from './icons/instana_server_apple.svg';
 
 import './metrics';
 import './wiring';
+
+pluginName.setHumanReadablePluginName(
+  constants.plugins.os,
+  'Operating System',
+  'Operating Systems'
+);
 
 addIconFinder(
   constants.plugins.os,

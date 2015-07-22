@@ -2,6 +2,7 @@
 
 import * as ro from 'reactive-observables';
 
+import * as pluginName from 'instana-ui-sdk/pluginName';
 import * as zones from 'instana-ui-sdk/zones';
 
 import {
@@ -10,6 +11,12 @@ import {
 } from 'instana-ui-sdk/snapshot';
 
 import * as constants from '../constants';
+
+pluginName.setHumanReadablePluginName(
+  constants.plugins.process,
+  'Process',
+  'Processes'
+);
 
 addLabelFinder(
   constants.plugins.process,
