@@ -8,7 +8,6 @@ import {getLabel} from 'instana-ui-sdk/snapshot';
 import Panel from '../../../sdk/Panel';
 import SidebarHeading from '../../../sdk/SidebarHeading';
 import SidebarSubheading from '../../../sdk/SidebarSubheading';
-import {DescriptionList, DescriptionItem} from '../../../sdk/DescriptionList';
 import JVMInfo from '../JVMInfo';
 
 const rpt = React.PropTypes;
