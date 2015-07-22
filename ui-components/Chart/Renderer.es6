@@ -613,9 +613,13 @@ export default class Renderer {
 
     if (minFixed) {
       minY = this[axis].config.min;
+    } else {
+      minY = minY * 0.9;
     }
     if (maxFixed) {
       maxY = this[axis].config.max;
+    } else {
+      maxY = maxY * 1.1;
     }
     this[axis].domain([minY, maxY]);
   }
