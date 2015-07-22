@@ -10,7 +10,7 @@ import {create} from 'instana-ui-services/conveyer';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import * as mapFilters from 'instana-ui-services/stores/mapFilters';
 
-import enhance from '../enhance';
+import enhance from 'instana-ui-components/hoc/enhance';
 
 const block = 'in-search';
 import './index.less';

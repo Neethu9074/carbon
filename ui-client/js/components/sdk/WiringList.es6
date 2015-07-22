@@ -9,7 +9,7 @@ import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getWiringWithFullSnapshots} from 'instana-ui-services/wiring';
 import Collapsible from 'instana-ui-components/Collapsible';
 
-import enhance from '../enhance';
+import enhance from 'instana-ui-components/hoc/enhance';
 
 
 const rpt = React.PropTypes;

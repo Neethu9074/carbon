@@ -25,7 +25,7 @@ import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 
 import {getLabel} from 'instana-ui-sdk/snapshot';
 
-import enhance from '../enhance';
+import enhance from 'instana-ui-components/hoc/enhance';
 
 import './index.less';
 

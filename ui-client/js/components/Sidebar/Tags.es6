@@ -8,7 +8,7 @@ import {getColor} from 'instana-ui-services/tags';
 import classnames from 'instana-ui-services/util/classnames';
 import * as mapFilters from 'instana-ui-services/stores/mapFilters';
 
-import enhance from '../enhance';
+import enhance from 'instana-ui-components/hoc/enhance';
 
 import './Tags.less';
 
