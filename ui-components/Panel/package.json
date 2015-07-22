@@ -1,6 +1,6 @@
 {
-  "name": "Chart",
+  "name": "Panel",
   "version": "0.0.0",
   "private": true,
-  "main": "./index.es6"
+  "main": "./Panel.es6"
 }

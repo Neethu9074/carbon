@@ -1,0 +1,6 @@
+{
+  "name": "SidebarSubheading",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SidebarSubheading.es6"
+}

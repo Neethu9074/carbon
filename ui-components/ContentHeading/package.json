@@ -1,0 +1,6 @@
+{
+  "name": "ContentHeading",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ContentHeading.es6"
+}
