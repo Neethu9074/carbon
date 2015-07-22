@@ -40,22 +40,27 @@ const WiringList = React.createClass({
       return null;
     }
 
+    const groups = this.getSnapshotsGroupedByPluginId();
     return (
-      <Collapsible initiallyOpen={true}>
-        <Collapsible.Header>
-          Related components
-        </Collapsible.Header>
-        <Collapsible.Content>
-          <ul className={block}>
-            {this.props.wiring.map(snapshot =>
-              <li key={getIdString(snapshot)}
-                  onClick={() => this.navigateToDashboard(snapshot)}>
-                {getLabel(snapshot)}
-              </li>
-            )}
-          </ul>
-        </Collapsible.Content>
-      </Collapsible>
+      <div>
+        {Object.keys(groups).map(groupName =>
+          <Collapsible key={groupName}>
+            <Collapsible.Header>
+              {groupName}
+            </Collapsible.Header>
+            <Collapsible.Content>
+              <ul className={block}>
+                {groups[groupName].map(snapshot =>
+                  <li key={getIdString(snapshot)}
+                      onClick={() => this.navigateToDashboard(snapshot)}>
+                    {getLabel(snapshot)}
+                  </li>
+                )}
+              </ul>
+            </Collapsible.Content>
+          </Collapsible>
+        )}
+      </div>
     );
   },
 
@@ -68,6 +73,21 @@ const WiringList = React.createClass({
         hostId: encodeURIComponent(snapshot.get('hostId'))
       }
     );
+  },
+
+  getSnapshotsGroupedByPluginId() {
+    const grouping = {};
+
+    this.props.wiring.forEach(snapshot => {
+      const pluginId = snapshot.get('pluginId');
+      if (!(pluginId in grouping)) {
+        grouping[pluginId] = [];
+      }
+
+      grouping[pluginId].push(snapshot);
+    });
+
+    return grouping;
   }
 });
 
