@@ -7,6 +7,7 @@ import {Navigation} from 'react-router';
 import {getLabel} from 'instana-ui-sdk/snapshot';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getWiringWithFullSnapshots} from 'instana-ui-services/wiring';
+import {getPlural} from 'instana-ui-sdk/pluginName';
 
 import Collapsible from './Collapsible';
 import enhance from './hoc/enhance';
@@ -43,14 +44,14 @@ const WiringList = React.createClass({
     const groups = this.getSnapshotsGroupedByPluginId();
     return (
       <div>
-        {Object.keys(groups).map(groupName =>
-          <Collapsible key={groupName}>
+        {Object.keys(groups).map(pluginId =>
+          <Collapsible key={pluginId}>
             <Collapsible.Header>
-              {groupName}
+              {getPlural(pluginId)}
             </Collapsible.Header>
             <Collapsible.Content>
               <ul className={block}>
-                {groups[groupName].map(snapshot =>
+                {groups[pluginId].map(snapshot =>
                   <li key={getIdString(snapshot)}
                       onClick={() => this.navigateToDashboard(snapshot)}>
                     {getLabel(snapshot)}

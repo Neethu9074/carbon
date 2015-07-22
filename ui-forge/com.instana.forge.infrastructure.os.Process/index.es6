@@ -2,14 +2,15 @@
 
 import * as ro from 'reactive-observables';
 
+import {
+  addLabelFinder,
+  addIconFinder,
+  addWiredSnapshotFinder
+} from 'instana-ui-sdk/snapshot';
 import * as pluginName from 'instana-ui-sdk/pluginName';
 import * as zones from 'instana-ui-sdk/zones';
 
-import {
-  addLabelFinder,
-  addWiredSnapshotFinder
-} from 'instana-ui-sdk/snapshot';
-
+import iconPath from './icon.svg';
 import * as constants from '../constants';
 
 pluginName.setHumanReadablePluginName(
@@ -21,6 +22,11 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.process,
   snapshot => snapshot.getIn(['data', 'exec'])
+);
+
+addIconFinder(
+  constants.plugins.process,
+  () => iconPath
 );
 
 addWiredSnapshotFinder(constants.plugins.process, () => ro.create());
