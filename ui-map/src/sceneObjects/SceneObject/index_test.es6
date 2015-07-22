@@ -68,7 +68,8 @@ describe('3D map', () => {
       return _.find(handled, pair2 =>
         (pair[0][0] === pair2[0][0] &&
         pair[0][1] === pair2[0][1] &&
-        pair[0][2] === pair2[0][2])
+        pair[0][2] === pair2[0][2] &&
+        pair[0][3] === pair2[0][3])
       );
     }
 
