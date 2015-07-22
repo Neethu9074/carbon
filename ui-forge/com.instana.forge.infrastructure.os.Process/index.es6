@@ -2,8 +2,9 @@
 
 import * as ro from 'reactive-observables';
 
+import * as zones from 'instana-ui-sdk/zones';
+
 import {
-  // addIconFinder,
   addLabelFinder,
   addWiredSnapshotFinder
 } from 'instana-ui-sdk/snapshot';
@@ -16,3 +17,8 @@ addLabelFinder(
 );
 
 addWiredSnapshotFinder(constants.plugins.process, () => ro.create());
+
+zones.addMapping(
+  constants.plugins.process,
+  snapshot => snapshot.get('hostId')
+);

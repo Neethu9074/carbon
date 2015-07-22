@@ -5,9 +5,4 @@
 
 import './com.instana.forge.infrastructure.os.OS';
 import './com.instana.forge.infrastructure.os.Process';
-
-import './metrics';
-import './power';
-import './sorting';
-import './snapshot';
-import './zones';
+import './com.instana.forge.infrastructure.runtime.jvm.JVMRuntimePlatform';

@@ -4,7 +4,9 @@ import {
   addLabelFinder
 } from 'instana-ui-sdk/snapshot';
 
-import * as constants from '../../constants';
+import * as constants from '../constants';
+
+import './metrics.es6';
 
 addLabelFinder(
   constants.plugins.jvm,
