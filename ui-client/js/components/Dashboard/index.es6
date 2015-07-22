@@ -116,7 +116,13 @@ const Dashboard = React.createClass({
 
   getForgeSpecificComponent(name) {
     const snapshot = this.state.snapshot;
-    return require('instana-ui-forge/' + snapshot.get('pluginId') + '/Dashboard/' + name + '.es6');
+    return require(
+      'instana-ui-forge/' +
+      snapshot.get('pluginId') +
+      '/Dashboard/' +
+      name +
+      '.es6'
+    );
   },
 
   closeDashboard() {

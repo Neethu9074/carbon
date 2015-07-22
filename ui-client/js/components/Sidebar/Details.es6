@@ -62,7 +62,13 @@ const Details = React.createClass({
 
   getForgeSpecificComponent(name) {
     const pluginId = this.props.snapshot.get('pluginId');
-    return require('instana-ui-forge/' + pluginId + '/Sidebar/' + name + '.es6');
+    return require(
+      'instana-ui-forge/' +
+      pluginId +
+      '/Sidebar/' +
+      name +
+      '.es6'
+    );
   },
 
   openDashboard() {
