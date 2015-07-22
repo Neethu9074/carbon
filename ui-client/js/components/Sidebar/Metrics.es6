@@ -15,19 +15,14 @@ import './Metrics.less';
 const metricTree = Immutable.fromJS({
   children: [
     {
-      icon: 'metrics_cpu',
       label: 'CPU',
       children: [
         {
-          icon: 'metrics_cpu',
           label: 'Load',
-          longLabel: 'CPU Load',
           metrics: [{name: 'load.1min', label: 'Load'}]
         },
         {
-          icon: 'metrics_cpu_usage',
           label: 'Usage',
-          longLabel: 'CPU Usage',
           metrics: [
             {name: 'cpu.total.user', label: 'User'},
             {name: 'cpu.total.sys', label: 'System'},
@@ -39,20 +34,30 @@ const metricTree = Immutable.fromJS({
       ]
     },
     {
-      icon: 'metrics_memory',
       label: 'Memory',
-      longLabel: 'Memory free',
-      metrics: [{name: 'memory.free', label: 'Memory free'}]
+      children: [
+        {
+          label: 'Free',
+          metrics: [{name: 'memory.free', label: 'Memory free'}]
+        }
+      ]
+
     },
     {
-      icon: 'metrics_network',
       label: 'Network',
       children: [
         {
-          icon: '',
-          label: 'Established',
-          longLabel: 'TCP Established',
-          metrics: [{name: 'tcp.established', label: 'Established'}]
+          label: 'Network 2',
+          children: [
+            {
+              label: 'Established',
+              metrics: [{name: 'tcp.established', label: 'Established'}]
+            },
+            {
+              label: 'Test 2',
+              metrics: [{name: 'm', label: 'Test 2  '}]
+            }
+          ]
         }
       ]
     }
@@ -86,7 +91,8 @@ const Metrics = React.createClass({
     return (
       <div className={block}>
         {this.renderHeader()}
-        {metricTree.get('children').map(child => this.getMetricsToShow(child))}
+        {metricTree.get('children').map(child =>
+          this.getMetricsToShow(child, 0))}
       </div>
     );
   },
@@ -106,7 +112,7 @@ const Metrics = React.createClass({
     );
   },
 
-  getMetricsToShow(root) {
+  getMetricsToShow(root, level) {
     const children = root.get('children');
     const label = root.get('label');
 
@@ -115,8 +121,8 @@ const Metrics = React.createClass({
     }
 
     return (
-      <MetricTree key={label} header={label}>
-        {root.get('children').map(child => this.getMetricsToShow(child))}
+      <MetricTree key={label} header={{text: label, level}}>
+        {root.get('children').map(child => this.getMetricsToShow(child, level + 1))}
       </MetricTree>
     );
   }

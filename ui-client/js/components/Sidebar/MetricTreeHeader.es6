@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
+import Icon from 'instana-ui-components/Icon';
 
 import './MetricTreeHeader.less';
 
@@ -17,12 +18,13 @@ const MetricTreeHeader = React.createClass({
     content: rpt.string.isRequired,
     onClick: rpt.func.isRequired,
     style: rpt.object,
-    className: rpt.string
+    className: rpt.string,
+    iconType: rpt.string.isRequired
   },
 
   render() {
     let classes = this.props.className ?
-      block + ' ' + this.props.className :
+      block + ' ' + block + '--' + this.props.className :
       block;
 
     return (
@@ -30,6 +32,7 @@ const MetricTreeHeader = React.createClass({
            style={this.props.style}
            onClick={this.props.onClick}>
         {this.props.content}
+        <Icon className={block + '__icon'} type={this.props.iconType} />
       </div>
     );
   }

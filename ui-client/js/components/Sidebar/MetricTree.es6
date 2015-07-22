@@ -16,7 +16,7 @@ const MetricTree = React.createClass({
   ],
 
   propTypes: {
-    header: rpt.string.isRequired,
+    header: rpt.object.isRequired,
     children: rpt.oneOfType([
       MetricTree,
       MetricTreeLeaf
@@ -66,7 +66,9 @@ const MetricTree = React.createClass({
       <div className={classes}
            style={this.props.style}>
         <MetricTreeHeader onClick={this.toggle}
-                      content={this.props.header + ' (' + this.props.children.size + ')'}/>
+                          content={this.props.header.text + ' (' + this.props.children.size + ')'}
+                          iconType={this.state.open ? 'close' : 'open'}
+                          className={String(this.props.header.level)}/>
         {this.renderChildren()}
       </div>
     );
