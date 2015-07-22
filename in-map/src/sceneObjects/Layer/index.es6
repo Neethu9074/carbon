@@ -34,6 +34,7 @@ export default class Layer extends SceneObject {
         })
       })
     });
+    this.getComponent('position').setPosition(Infinity, 0, 0);
 
     this.tooltip = new Tooltip(this);
     this.highlighting = new NodeHighlighting({client: this});
