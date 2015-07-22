@@ -611,15 +611,23 @@ export default class Renderer {
       }
     }
 
-    if (minFixed) {
-      minY = this[axis].config.min;
+    if (!minFixed && !maxFixed) {
+      const rangeY = maxY - minY;
+      if (rangeY === 0) {
+        // add 10% to generate a chartable value range
+        minY = minY * 0.9;
+        maxY = maxY * 1.1;
+      } else {
+        minY -= rangeY * 0.05;
+        maxY += rangeY * 0.05;
+      }
     } else {
-      minY = minY * 0.9;
-    }
-    if (maxFixed) {
-      maxY = this[axis].config.max;
-    } else {
-      maxY = maxY * 1.1;
+      if (minFixed) {
+        minY = this[axis].config.min;
+      }
+      if (maxFixed) {
+        maxY = this[axis].config.max;
+      }
     }
     this[axis].domain([minY, maxY]);
   }
