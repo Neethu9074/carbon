@@ -349,11 +349,11 @@ export default class Node extends BaseNode {
   healthChanged(newHealth) {
     this.health = newHealth;
 
-    //the ground plate is always updated
-    this.addToGroundFactory();
-
     this.refreshFragment();
     this.updateSolidGeometry();
+
+    //the ground plate is always updated
+    this.addToGroundFactory();
   }
 
   refreshFragment() {
