@@ -84,7 +84,7 @@ export default class Component {
   onInactiveLeave() {}
 
   isActive() {
-    return !this.stateMachine.stateProperties.inactive;
+    return this.stateMachine.stateProperties.active;
   }
 
   handleTimeEvent60Fps() {}
