@@ -4,7 +4,7 @@ import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
 
-import {getLabel} from 'instana-ui-sdk/snapshot';
+import {getLabel, getIcon} from 'instana-ui-sdk/snapshot';
 import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getWiringWithFullSnapshots} from 'instana-ui-services/wiring';
 import {getPlural} from 'instana-ui-sdk/pluginName';
@@ -47,6 +47,7 @@ const WiringList = React.createClass({
         {Object.keys(groups).map(pluginId =>
           <Collapsible key={pluginId}>
             <Collapsible.Header>
+              <img src={getIcon(pluginId)} alt='plugin icon' />
               {getPlural(pluginId)}
             </Collapsible.Header>
             <Collapsible.Content>
