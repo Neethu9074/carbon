@@ -22,9 +22,9 @@ const Dashboard = React.createClass({
   statics: {
     willTransitionTo(transition, params) {
       const snapshotId = Immutable.Map({
-        steadyId: params.steadyId,
-        pluginId: params.pluginId,
-        hostId: params.hostId
+        steadyId: decodeURIComponent(params.steadyId),
+        pluginId: decodeURIComponent(params.pluginId),
+        hostId: decodeURIComponent(params.hostId)
       });
       selectedSnapshotStore.select(snapshotId);
     }
