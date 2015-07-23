@@ -69,11 +69,11 @@ const SidebarSnapshot = React.createClass({
 
     switch (this.state.health) {
       case health.warning:
-        type = 'timeline_warning';
+        type = 'warning';
         color = theme.health.warning;
         break;
       case health.danger:
-        type = 'timeline_critical';
+        type = 'critical';
         color = theme.health.danger;
         break;
       default:

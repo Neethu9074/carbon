@@ -89,7 +89,7 @@ const Timeline = React.createClass({
         <div className={block}>
           <Button className={block + '__button-from'}
                   onClick={this.toggle}>
-            <Icon className={block + '__icon'} type='timeline' />
+            <Icon className={block + '__icon'} type='dot' />
             <span className={block + '__button-text'}>
               {this.getUntil()}
             </span>
@@ -104,7 +104,7 @@ const Timeline = React.createClass({
             <span className={block + '__button-text'}>
               {this.getNowLabel()}
             </span>
-            <Icon className={block + '__icon'} type='timeline' />
+            <Icon className={block + '__icon'} type='dot' />
           </div>
         </div>
       </div>
@@ -160,12 +160,12 @@ const Timeline = React.createClass({
     switch (mapSeverityToHealth(problem.get('severity'))) {
       case health.warning:
         return {
-          type: 'timeline_warning',
+          type: 'warning',
           color: theme.health.warning
         };
       case health.danger:
         return {
-          type: 'timeline_critical',
+          type: 'critical',
           color: theme.health.danger
         };
       case health.ok:
