@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 import * as constants from 'instana-ui-forge/constants';
 import Collapsible from 'instana-ui-components/Collapsible';
 
+import TagList from 'instana-ui-components/TagList/TagList';
 import EC2Info from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Info';
 import HostInfo from '../HostInfo';
 import ProblemPanel from 'instana-ui-components/ProblemPanel';
@@ -38,6 +39,8 @@ const OsDetails = React.createClass({
             <HostInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
+
+        <TagList snapshot={this.props.snapshot} />
 
         {ec2 ?
           <Collapsible initiallyOpen={true}>
