@@ -56,8 +56,12 @@ export function addIconFinder(pluginId, finder) {
   iconFinder[pluginId].push(finder);
 }
 
-export function getIcon(snapshot) {
-  const pluginId = snapshot.get('pluginId');
+export function getIcon(pluginId) {
+  let snapshot;
+  if (typeof pluginId === 'object') {
+    snapshot = pluginId;
+    pluginId = snapshot.get('pluginId');
+  }
 
   const finder = iconFinder[pluginId];
   if (!finder) {

@@ -57,6 +57,12 @@ describe('snapshot', () => {
       mod.addIconFinder('docker', () => 'container');
       expect(mod.getIcon(snapshot)).to.equal(truck);
     });
+
+    it('should allow pluginId to be specified as string as param', () => {
+      const truck = 'truck';
+      mod.addIconFinder(pluginId, () => truck);
+      expect(mod.getIcon(pluginId)).to.equal(truck);
+    });
   });
 
   describe('ips', () => {
