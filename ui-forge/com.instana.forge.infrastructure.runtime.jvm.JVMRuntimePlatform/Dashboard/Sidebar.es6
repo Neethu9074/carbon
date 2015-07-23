@@ -36,8 +36,11 @@ const Sidebar = React.createClass({
         </Panel>
         <Panel title='X Args'>
           <ul>
-            {xargs.map((arg) =>
-              <li style={{'whiteSpace': 'nowrap'}}>{arg}</li>
+            {xargs.map((arg, i) =>
+              <li style={{'whiteSpace': 'nowrap'}}
+                  key={i}>
+                {arg}
+              </li>
             ).toArray()}
           </ul>
         </Panel>
