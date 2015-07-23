@@ -1,15 +1,21 @@
 'use strict';
 
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
+import {create} from 'instana-ui-services/conveyer';
+import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
+const rpt = React.PropTypes;
 const Mtd = React.createClass({
   mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
 
   propTypes: {
-    createMetricValueStream: React.PropTypes.func.isRequired,
-    formatter: React.PropTypes.func
+    snapshot: irpt.map,
+    metric: rpt.string,
+    createMetricValueStream: rpt.func,
+    formatter: rpt.func
   },
 
   getInitialState() {
@@ -19,7 +25,18 @@ const Mtd = React.createClass({
   },
 
   componentDidMount() {
-    this.establishSubscription(this.props.createMetricValueStream());
+    this.establishSubscription(this.getStream(this.props));
+  },
+
+  getStream(props) {
+    if (props.createMetricValueStream) {
+      return props.createMetricValueStream();
+    } else {
+      return create(MetricConveyer, {
+        snapshot: props.snapshot,
+        metric: props.metric
+      });
+    }
   },
 
   establishSubscription(stream) {
@@ -30,7 +47,7 @@ const Mtd = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    const nextStream = nextProps.createMetricValueStream();
+    const nextStream = this.getStream(nextProps);
     if (this.stream !== nextStream) {
       this.setState(this.getInitialState());
       this.disposeSubscriptions();

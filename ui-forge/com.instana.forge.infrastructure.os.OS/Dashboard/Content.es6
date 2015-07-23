@@ -10,8 +10,6 @@ import {
   formatPercentageShort,
   formatNumberShort
 } from 'instana-ui-services/converters';
-import {create} from 'instana-ui-services/conveyer';
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import HelpLink from 'instana-ui-components/HelpLink';
@@ -191,24 +189,15 @@ const OsDashboard = React.createClass({
                 <td>{data.get('options')}</td>
                 <td>{data.get('systype')}</td>
                 <td>{kbFormatter(data.get('capacity'))}</td>
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'fs.' + name + '.free'
-                       )}
+                <Mtd metric={'fs.' + name + '.free'}
+                     snapshot={this.props.snapshot}
                      formatter={kbFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'fs.' + name + '.leaked'
-                       )}
+                <Mtd metric={'fs.' + name + '.leaked'}
+                     snapshot={this.props.snapshot}
                      formatter={kbFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'fs.' + name + '.ifree'
-                       )}
-                     formatter={formatNumberShort} />
+                <Mtd metric={'fs.' + name + '.ifree'}
+                     snapshot={this.props.snapshot}
+                     formatter={kbFormatter} />
               </tr>
             ).valueSeq()}
           </tbody>
@@ -302,53 +291,29 @@ const OsDashboard = React.createClass({
                 <td>{name}</td>
                 <td>{data.get('mac')}</td>
                 <td>{data.get('ips').join(', ')}</td>
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.rx.bytes'
-                       )}
+                <Mtd metric={'ifs.' + name + '.rx.bytes'}
+                     snapshot={this.props.snapshot}
                      formatter={bytesPerSecondFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.rx.errors'
-                       )}
+                <Mtd metric={'ifs.' + name + '.rx.errors'}
+                     snapshot={this.props.snapshot}
                      formatter={formatPercentageShort} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.rx.dropped'
-                       )}
+                <Mtd metric={'ifs.' + name + '.rx.dropped'}
+                     snapshot={this.props.snapshot}
                      formatter={formatPercentageShort} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.rx.overruns'
-                       )}
+                <Mtd metric={'ifs.' + name + '.rx.overruns'}
+                     snapshot={this.props.snapshot}
                      formatter={formatPercentageShort} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.tx.bytes'
-                       )}
+                <Mtd metric={'ifs.' + name + '.tx.bytes'}
+                     snapshot={this.props.snapshot}
                      formatter={bytesPerSecondFormatter} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.tx.errors'
-                       )}
+                <Mtd metric={'ifs.' + name + '.tx.errors'}
+                     snapshot={this.props.snapshot}
                      formatter={formatPercentageShort} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.tx.dropped'
-                       )}
+                <Mtd metric={'ifs.' + name + '.tx.dropped'}
+                     snapshot={this.props.snapshot}
                      formatter={formatPercentageShort} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'ifs.' + name + '.tx.overruns'
-                       )}
+                <Mtd metric={'ifs.' + name + '.tx.overruns'}
+                     snapshot={this.props.snapshot}
                      formatter={formatPercentageShort} />
               </tr>
             ).valueSeq()}
@@ -414,13 +379,6 @@ const OsDashboard = React.createClass({
   selectInterface(iface) {
     this.setState({
       interfaceName: iface
-    });
-  },
-
-  createMetricValueStream(metric) {
-    return create(MetricConveyer, {
-      snapshot: this.props.snapshot,
-      metric
     });
   }
 
