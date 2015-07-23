@@ -26,6 +26,7 @@
       font-family: instana;
       font-size: 32px;
       -webkit-font-smoothing: antialiased;
+      padding-right: 6px;
     }
 
     &--active, &:hover {
@@ -36,8 +37,15 @@
       content: @icon-dot;
     }
 
+    &--metrics:before {
+      content: @icon-metrics;
+      font-size: 26px;
+      padding-right: 0;
+    }
+
     &--tags:before {
-      content: @icon-dot;
+      content: @icon-tags;
+      padding-right: 0;
     }
 
     &--danger:before {

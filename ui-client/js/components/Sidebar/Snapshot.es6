@@ -24,8 +24,7 @@ const SidebarSnapshot = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    highlighted: rpt.bool.isRequired,
-    wired: rpt.bool.isRequired
+    highlighted: rpt.bool.isRequired
   },
 
   getInitialState() {
@@ -46,8 +45,7 @@ const SidebarSnapshot = React.createClass({
     return (
       <li className={classnames({
             [block]: true,
-            [block + '--highlighted']: this.props.highlighted,
-            [block + '--wired']: this.props.wired
+            [block + '--highlighted']: this.props.highlighted
           })}
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}

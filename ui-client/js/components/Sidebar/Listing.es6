@@ -107,11 +107,10 @@ const SidebarListing = React.createClass({
                       selectedSnapshot={this.state.selectedSnapshot}
                       highlightedSnapshot={this.state.highlightedSnapshot} />
           </Tab>
-          <Tab title='metrics' modifier='listing'>
+          <Tab title='' modifier='metrics'>
             <Metrics/>
           </Tab>
-          <Tab title='tags'
-               modifier='listing'>
+          <Tab title='' modifier='tags'>
             <Tags snapshots={this.state.snapshots} />
           </Tab>
           <Tab title={String(dangerCount)}
