@@ -7,6 +7,8 @@ import {
   emitter
 } from 'instana-ui-services/connection/subscriptionAwareConnection';
 
+window.instana.dev = window.instana.dev || {};
+
 // subscription id => {
 //   firstMessage,
 //   lastMessage,
@@ -16,13 +18,13 @@ const messageCounter = {};
 
 startCountingMessages();
 
-window.instana.printSubscriptionStats = () => {
+window.instana.dev.printSubscriptionStats = () => {
   setActiveState();
   console.log('Subscription Infos:');
   console.table(messageCounter);
 };
 
-window.instana.removeInactiveSubscriptionStats = () => {
+window.instana.dev.removeInactiveSubscriptionStats = () => {
   setActiveState();
   Object.keys(messageCounter).forEach(key => {
     if (!messageCounter[key].active) {

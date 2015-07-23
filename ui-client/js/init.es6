@@ -14,8 +14,12 @@ import routes from './routes';
 import i18n from './i18n';
 import UiBackendLogAppender from './UiBackendLogAppender';
 
-import './subscriptionInfoPrinter';
+// initiate time offset calculation. Module initialization has side effects.
+import 'instana-ui-services/time';
 import './i18n/momentOverwrites';
+
+import './devtools/subscriptionInfoPrinter';
+import './devtools/timeOffsetProvider';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
 // should thus only be added when it can actually log to a browser console.
