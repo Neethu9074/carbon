@@ -13,7 +13,6 @@ import Collapsible from './Collapsible';
 import enhance from './hoc/enhance';
 
 
-const rpt = React.PropTypes;
 const block = 'in-wiring-list';
 
 const WiringList = React.createClass({
@@ -24,7 +23,6 @@ const WiringList = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    targetPluginId: rpt.string.isRequired,
     wiring: irpt.set
   },
 

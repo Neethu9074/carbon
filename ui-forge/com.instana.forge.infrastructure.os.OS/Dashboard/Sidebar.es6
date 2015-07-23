@@ -58,8 +58,7 @@ const Sidebar = React.createClass({
 
         <ProblemPanel snapshot={this.props.snapshot} />
 
-        <WiringList snapshot={this.props.snapshot}
-                    targetPluginId={'com.instana.forge.infrastructure.os.Process'}/>
+        <WiringList snapshot={this.props.snapshot} />
       </div>
     );
   }
