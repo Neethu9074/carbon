@@ -70,7 +70,7 @@ export default class MetricPillar extends SceneObject {
     this.metricCube = cube = new THREE.Mesh(cubeGeometry);
     cube.matrixAutoUpdate = false;
     cube.rotationAutoUpdate = false;
-    cube.position.set(Infinity, 0, 0);
+    cube.position.set(0, -10, 0);
     cube.updateMatrix();
     cube.updateMatrixWorld();
     cube.parentSceneObject = this.parent;
