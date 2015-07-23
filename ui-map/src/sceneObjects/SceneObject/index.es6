@@ -129,7 +129,7 @@ export default class SceneObject {
     this.state.enter();
   }
 
-  onInitialEnter() {logger.debug('on initial enter'); }
+  onInitialEnter() {}
   onInitialLeave() {logger.debug('on initial leave'); }
   onHighlightEnter() {logger.debug('on highlight enter'); }
   onHighlightLeave() {logger.debug('on highlight leave'); }
