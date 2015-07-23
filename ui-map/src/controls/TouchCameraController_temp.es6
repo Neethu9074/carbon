@@ -3,12 +3,9 @@
 import Hammer from 'hammerjs';
 
 import CameraController from './CameraController_temp';
-import {createLogger} from 'instalog';
 import {longClickedSceneObject, currentTooltip} from '../stores/mapStore';
 import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
 import eventBus from 'instana-ui-services/eventbus';
-
-const logger = createLogger('ui-map.TouchControl');
 
 
 export default class TouchControl extends CameraController{
@@ -17,6 +14,7 @@ export default class TouchControl extends CameraController{
     super({scene});
 
     this.timeSinceLastTap = Date.now();
+    this.pinchDistance = 0;
 
     const canvas = scene.parent;
     const eventHandler = new Hammer(canvas);
@@ -30,6 +28,7 @@ export default class TouchControl extends CameraController{
 
     eventHandler.on('panstart', (e) => this.setCursorToEvent(e));
     eventHandler.on('pinch', this.onPinch.bind(this));
+    eventHandler.on('pinchstart', () => this.pinchDistance = 0);
 
     eventHandler.get('tap').set({threshold: minMovementForPan - 1});
     eventHandler.on('tap', this.onTab.bind(this));
@@ -93,9 +92,15 @@ export default class TouchControl extends CameraController{
     this.doClick();
   }
 
-  onPinch() {
-    //TODO: implement
-    logger.debug('implement pinch event');
+  onPinch(e) {
+    const oldDistance = this.pinchDistance;
+    const newDistance = e.distance;
+
+    const delta = newDistance - oldDistance;
+
+    this.zoom(delta);
+
+    this.pinchDistance = newDistance;
   }
 
   setCursorToEvent(event) {
