@@ -9,8 +9,8 @@ import {
   formatPercentageShort
 } from 'instana-ui-services/converters';
 
-import Chart from 'instana-ui-components/Chart';
-import ChartLegend from 'instana-ui-components/ChartLegend';
+import ContentHeading from 'instana-ui-components/ContentHeading';
+import ChartWithLegend from 'instana-ui-components/ChartWithLegend';
 import Separator from 'instana-ui-components/Separator';
 
 const rpt = React.PropTypes;
@@ -29,20 +29,9 @@ const RedisDashboard = React.createClass({
   render() {
     return (
       <div>
-        <ChartLegend title='Clients'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'connected_clients',
-                       'blocked_clients'
-                     ]}
-                     metricLabels={[
-                       'Connected',
-                       'Blocked'
-                     ]}
-                     metricUnit=''
-                     metricValueFormatter={d => d} />
+        <ContentHeading>Clients</ContentHeading>
 
-        <Chart snapshot={this.props.snapshot}
+        <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
                width={this.props.width}
                height={chartHeight}
@@ -55,23 +44,18 @@ const RedisDashboard = React.createClass({
                    'connected_clients',
                    'blocked_clients'
                  ],
+                 labels: [
+                   'Connected',
+                   'Blocked'
+                 ],
                  type: 'line'
                }}/>
 
         <Separator/>
 
-        <ChartLegend title='Memory'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'used_memory'
-                     ]}
-                     metricLabels={[
-                       'Used'
-                     ]}
-                     metricUnit=''
-                     metricValueFormatter={formatBytes} />
+        <ContentHeading>Memory</ContentHeading>
 
-        <Chart snapshot={this.props.snapshot}
+        <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
                width={this.props.width}
                height={chartHeight}
@@ -84,23 +68,17 @@ const RedisDashboard = React.createClass({
                  metrics: [
                    'used_memory'
                  ],
+                 labels: [
+                   'Used'
+                 ],
                  type: 'stackedArea'
                }}/>
 
         <Separator/>
 
-        <ChartLegend title='Cache'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'hit_rate'
-                     ]}
-                     metricLabels={[
-                       'Hit Rate'
-                     ]}
-                     metricUnit=''
-                     metricValueFormatter={formatPercentageShort} />
+        <ContentHeading>Cache</ContentHeading>
 
-        <Chart snapshot={this.props.snapshot}
+        <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
                width={this.props.width}
                height={chartHeight}
@@ -113,6 +91,9 @@ const RedisDashboard = React.createClass({
                  formatter: formatPercentageShort,
                  metrics: [
                    'hit_rate'
+                 ],
+                 labels: [
+                   'Hit Rate'
                  ],
                  type: 'stackedArea'
                }}/>
