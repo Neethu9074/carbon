@@ -114,6 +114,7 @@ export default class PhysicalMap extends SceneObject {
     snapshots.forEach(node => this.addNode(node));
 
     this.removeVanishedNodes(snapshots);
+    this.removeAllUnknownNodesWithoutConnections();
 
     this.refreshLayout = true;
   }
@@ -145,6 +146,17 @@ export default class PhysicalMap extends SceneObject {
           isIdEqual(snapshot, node.snapshot));
         return !foundSnapshot;
       });
+
+    removedNodes.forEach((node) => node.dispose());
+  }
+
+  removeAllUnknownNodesWithoutConnections() {
+    // identify removed nodes: nodes that are not inside the snapshot update
+    const removedNodes = getAllNodes(this)
+      //only the monitored
+      .filter(node => node.isUnknown)
+      //only the ones that are not in snapshots anymore
+      .filter(node => node.getWiredSnapshots().size === 0);
 
     removedNodes.forEach((node) => node.dispose());
   }
