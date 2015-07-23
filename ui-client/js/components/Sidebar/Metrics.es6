@@ -62,16 +62,11 @@ const Metrics = React.createClass({
 
   getInitialState() {
     return {
-      path: Immutable.List(),
       activeMetric: null
     };
   },
 
   componentDidMount() {
-    this.addSubscription(
-      metricsStore.metricPath.subscribe(path => this.setState({path}))
-    );
-
     this.addSubscription(
       metricsStore.activeMetric
         .subscribe(activeMetric => this.setState({activeMetric}))

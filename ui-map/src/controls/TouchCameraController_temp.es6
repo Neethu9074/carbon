@@ -95,12 +95,10 @@ export default class TouchControl extends CameraController{
   onPinch(e) {
     const oldDistance = this.pinchDistance;
     const newDistance = e.distance;
-
     const delta = newDistance - oldDistance;
+    this.pinchDistance = newDistance;
 
     this.zoom(delta);
-
-    this.pinchDistance = newDistance;
   }
 
   setCursorToEvent(event) {
