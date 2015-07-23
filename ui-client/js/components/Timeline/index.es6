@@ -18,6 +18,7 @@ import {health, mapSeverityToHealth} from 'instana-ui-services/health';
 import {theme} from 'instana-ui-services/theme';
 import * as timelineStore from 'instana-ui-services/stores/timeline';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
+import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
 import {getOpenIssues} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {only} from 'instana-ui-services/util/snapshots';
@@ -262,6 +263,7 @@ const Timeline = React.createClass({
       )
       .subscribe(hoveredSnapshot => this.setState({hoveredSnapshot}))
     );
+    highlightedSnapshotStore.select(problem);
   },
 
   mouseOut() {
@@ -272,6 +274,7 @@ const Timeline = React.createClass({
       tooltipY: -1
     });
     this.disposeSubscriptions();
+    highlightedSnapshotStore.clear();
   },
 
   focusSnapshot(problem) {
