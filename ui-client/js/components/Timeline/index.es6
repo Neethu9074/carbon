@@ -13,6 +13,7 @@ import Icon from 'instana-ui-components/Icon';
 import TimePicker from 'instana-ui-components/TimePicker';
 import Button from 'instana-ui-components/Button';
 
+import * as time from 'instana-ui-services/time';
 import {health, mapSeverityToHealth} from 'instana-ui-services/health';
 import {theme} from 'instana-ui-services/theme';
 import * as timelineStore from 'instana-ui-services/stores/timeline';
@@ -73,7 +74,7 @@ const Timeline = React.createClass({
       this.setState({
         renderedForTimestamp: Date.now()
       });
-    }, 2000);
+    }, 1000);
   },
 
   componentWillUnmount() {
@@ -101,13 +102,17 @@ const Timeline = React.createClass({
 
           <div className={block + '__button-to'}>
             <span className={block + '__button-text'}>
-              Now
+              {this.getNowLabel()}
             </span>
             <Icon className={block + '__icon'} type='timeline' />
           </div>
         </div>
       </div>
     );
+  },
+
+  getNowLabel() {
+    return 'Now, ' + moment(time.getServerTime()).format('HH:mm:ss');
   },
 
   toggle() {
@@ -173,7 +178,7 @@ const Timeline = React.createClass({
     }
   },
 
-  getPosition(time) {
+  getPosition(t) {
     const top = Date.now();
     const bottom = top - this.props.timeframe;
 
@@ -181,7 +186,7 @@ const Timeline = React.createClass({
     scale.domain([top, bottom]);
     scale.range([100, 0]);
 
-    return scale(time);
+    return scale(t);
   },
 
   renderTimePicker() {
