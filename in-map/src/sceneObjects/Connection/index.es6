@@ -23,8 +23,8 @@ export default class Connection extends SceneObject {
 
     this.calculatePath();
 
-    from.addConnection(this);
-    to.addIncomingConnection(this);
+    from.getComponent('connection').addOutgoingConnection(this);
+    to.getComponent('connection').addIncomingConnection(this);
 
     this.render();
 
@@ -61,11 +61,8 @@ export default class Connection extends SceneObject {
     this.highlightFragment(false);
 
     // hide connected nodes on highlighting factory
-    if(!this.oneEndpointIsSelected()) {
-
-      if(!this.toIsConnectedToSelected()) {
-        this.to.makeSolidGeometry(false);
-      }
+    if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
+      this.to.makeSolidGeometry(false);
     }
   }
 
@@ -300,7 +297,7 @@ export default class Connection extends SceneObject {
   //node which is in the selected state
   toIsConnectedToSelected() {
     let isConnectedToSelected = false;
-    this.to.getAllConnections().forEach((c) => {
+    this.to.getComponent('connection').getAllConnections().forEach((c) => {
       if(c.oneEndpointIsSelected()) {
         isConnectedToSelected = true;
       }
@@ -322,8 +319,8 @@ export default class Connection extends SceneObject {
 
     this.disposeCollisionLine();
 
-    this.from.removeConnection(this);
-    this.to.removeIncomingConnection(this);
+    this.from.getComponent('connection').removeOutgoingConnection(this);
+    this.to.getComponent('connection').removeIncomingConnection(this);
 
     this.scene.lineFactory.removeFragment(this.id);
   }

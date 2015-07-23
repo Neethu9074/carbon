@@ -1,5 +1,6 @@
 'use strict';
 
+import _ from 'lodash';
 import Component from './Component';
 import Connection from '../sceneObjects/Connection/index';
 
@@ -8,8 +9,8 @@ export default class ConnectionComponent extends Component{
   constructor({sceneObject}) {
     super(sceneObject);
 
-    // this.connections = [];
-    // this.incomingConnections = [];
+    this.outgoingConnections = [];
+    this.incomingConnections = [];
 
     this.initialized();
   }
@@ -44,6 +45,10 @@ export default class ConnectionComponent extends Component{
     this.selected = selected;
   }
 
+  positionChanged() {
+    this.getAllConnections().forEach(c => c.updateOfVisualComponents());
+  }
+
   setupConnections() {
     const wiredSnapshots = this.sceneObject.getWiredSnapshots();
     if(!wiredSnapshots) {
@@ -63,7 +68,7 @@ export default class ConnectionComponent extends Component{
   }
 
   getAllConnections() {
-    return this.sceneObject.connections.concat(this.sceneObject.incomingConnections);
+    return this.outgoingConnections.concat(this.incomingConnections);
   }
 
   setConnectionsWithDirection(connections, direction) {
@@ -79,13 +84,44 @@ export default class ConnectionComponent extends Component{
   //connections collection
   connectWith(otherNode, direction) {
     //don't setup a new connection if it's still alive
-    if(this.sceneObject.connections.indexOf(otherNode) >= 0) {
+    if(this.outgoingConnections.indexOf(otherNode) >= 0) {
       return;
     }
 
     /*eslint-disable no-new*/
     new Connection({from: this.sceneObject, to: otherNode, direction});
     /*eslint-enable no-new*/
+  }
+
+  //is called from Connection class when creating a new connection
+  addOutgoingConnection(connection) {
+    this.outgoingConnections.push(connection);
+  }
+
+  addIncomingConnection(connection) {
+    this.incomingConnections.push(connection);
+  }
+
+  //is called from Connection class on disposing
+  removeOutgoingConnection(connection) {
+    _.remove(this.outgoingConnections, con => con.id === connection.id);
+  }
+
+  //is called from Connection class on disposing
+  removeIncomingConnection(connection) {
+    _.remove(this.incomingConnections, con => con.id === connection.id);
+  }
+
+  isConnectedToSelected() {
+    let is = false;
+
+    this.getAllConnections().forEach((c) => {
+      if(c.isSelected()) {
+        is = true;
+        return;
+      }
+    });
+    return is;
   }
 
   dispose() {

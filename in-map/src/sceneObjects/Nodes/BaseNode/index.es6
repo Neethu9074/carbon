@@ -7,7 +7,6 @@ import CollisionComponent from '../../../components/CollisionObjectComponent';
 import ConnectionComponent from '../../../components/ConnectionComponent';
 
 import {theme} from 'instana-ui-services/theme';
-import _ from 'lodash';
 import eventBus from 'in-services/eventbus';
 import {getIdString} from 'in-services/util/snapshots';
 import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
@@ -50,9 +49,6 @@ export default class BaseNode extends SceneObject {
     this.height = 1;
 
     this.tooltip = this.getTooltipSticky();
-
-    this.connections = [];
-    this.incomingConnections = [];
 
     this.geometryProvider = new CMCM({
       contentProvider: new PCM({
@@ -186,8 +182,6 @@ export default class BaseNode extends SceneObject {
 
   setHeight() {throw new Error('NOT IMPLEMENTED'); }
 
-  collectConnections() {throw new Error('NOT IMPLEMENTED'); }
-
   getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
 
   updateStickyNotes() {
@@ -224,16 +218,14 @@ export default class BaseNode extends SceneObject {
   }
 
   updateSolidGeometry() {
-    if(this.isSelected() || this.isConnectedToSelected()) {
+    if(this.isSelected() || this.getComponent('connection').isConnectedToSelected()) {
       this.makeSolidGeometry(true);
     }
   }
 
   positionChanged(x, y, z) {
-    this.getAllConnections().forEach(c => c.updateOfVisualComponents());
-
-    // console.log(x, y, z);
     this.getComponent('collision').positionChanged(x, y, z);
+    this.getComponent('connection').positionChanged();
     this.updateOfVisualComponents();
   }
 
@@ -298,41 +290,6 @@ export default class BaseNode extends SceneObject {
 
   setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
-  isConnectedToSelected() {
-    let is = false;
-
-    this.getAllConnections().forEach((c) => {
-      if(c.isSelected()) {
-        is = true;
-        return;
-      }
-    });
-    return is;
-  }
-
-  getAllConnections() {
-    return this.connections.concat(this.incomingConnections);
-  }
-
-  //is called from Connection class when creating a new connection
-  addConnection(connection) {
-    this.connections.push(connection);
-  }
-
-  addIncomingConnection(connection) {
-    this.incomingConnections.push(connection);
-  }
-
-  //is called from Connection class on disposing
-  removeConnection(connection) {
-    _.remove(this.connections, con => con.id === connection.id);
-  }
-
-  //is called from Connection class on disposing
-  removeIncomingConnection(connection) {
-    _.remove(this.incomingConnections, con => con.id === connection.id);
-  }
-
   getDimension() {
     return {width: 1, depth: 1};
   }
@@ -345,7 +302,6 @@ export default class BaseNode extends SceneObject {
   dispose() {
     super.dispose();
 
-    this.clearConnections();
     this.removeFromGlobalGeometry();
 
     this.highlighting.dispose();
