@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react/addons';
-import MetricTreeLeaf from './MetricTreeLeaf';
 import MetricTreeHeader from './MetricTreeHeader';
 
 import './MetricTree.less';
@@ -17,10 +16,7 @@ const MetricTree = React.createClass({
 
   propTypes: {
     header: rpt.object.isRequired,
-    children: rpt.oneOfType([
-      MetricTree,
-      MetricTreeLeaf
-    ]),
+    children: rpt.any,
     style: rpt.object,
     className: rpt.string
   },
