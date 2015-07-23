@@ -1,9 +1,12 @@
-# Leaked Memory
+# Leaked Disc Space
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+The difference between the total capacity of a disc/volume and the space occupied
+by files is available for new files an thus considered to be free. However most
+operating systems allow files to continue to exist after they have been deleted
+if they are still accessed by applications.
+Those files do not show up when calculating disc usage (e.g. with `du` on Linux),
+but also do not show when looking at free disc space (e.g. with `df` on Linux).
 
- - first point
- - second point
- - third point
+The disc space occupied by these files is called _leaked_. On Linux you can find the files leaking disc space by calling `lsof | grep deleted`.
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Leaked disc space is usually not a problem, especially log files that have been rotated can cause this. However if leaked disc space continues to increase, this indicates a problem, usually originated by application code not closing file handles.
