@@ -4,6 +4,7 @@ import THREE from 'three';
 
 //components
 import CollisionComponent from '../../../components/CollisionObjectComponent';
+import ConnectionComponent from '../../../components/ConnectionComponent';
 
 import {theme} from 'instana-ui-services/theme';
 import _ from 'lodash';
@@ -13,7 +14,6 @@ import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {activeMetric} from 'in-services/stores/metrics';
 
 
-import Connection from '../../Connection/index';
 import SceneObject from '../../SceneObject/index';
 import Highlight from '../NodeHighlight';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
@@ -73,16 +73,15 @@ export default class BaseNode extends SceneObject {
   }
 
   onHighlightEnter() {
-    this.setHighlight();
+    this.getComponent('connection').highlightChanged(true);
 
-    this.setupConnections();
-    this.forEachConnection((c) => c.changeStateProperty('mouseOver', true));
+    this.setHighlight();
   }
 
   onHighlightLeave() {
-    this.clearHighlight();
+    this.getComponent('connection').highlightChanged(false);
 
-    this.forEachConnection((c) => c.changeStateProperty('mouseOver', false));
+    this.clearHighlight();
   }
 
   onSelectedEnter() {this.selected(); }
@@ -111,14 +110,14 @@ export default class BaseNode extends SceneObject {
 
 
   selected() {
-    this.forEachConnection((c) => {c.show(); c.select(); });
+    this.getComponent('connection').selectionChanged(true);
 
     this.setHighlight();
     this.makeSolidGeometry();
   }
 
   unSelected() {
-    this.forEachConnection((c) => {c.unSelect(); c.hide(); });
+    this.getComponent('connection').selectionChanged(false);
 
     this.clearHighlight();
     this.makeSolidGeometry(false);
@@ -131,6 +130,7 @@ export default class BaseNode extends SceneObject {
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
+    this.components.connection = new ConnectionComponent({sceneObject: this});
   }
 
   registerEvents() {
@@ -230,7 +230,7 @@ export default class BaseNode extends SceneObject {
   }
 
   positionChanged(x, y, z) {
-    this.forEachConnection(c => c.updateOfVisualComponents());
+    this.getAllConnections().forEach(c => c.updateOfVisualComponents());
 
     // console.log(x, y, z);
     this.getComponent('collision').positionChanged(x, y, z);
@@ -277,7 +277,6 @@ export default class BaseNode extends SceneObject {
 
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
-    scene.renderScene();
   }
 
   enableFragments(enable) {
@@ -299,38 +298,10 @@ export default class BaseNode extends SceneObject {
 
   setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
-  setupConnections() {
-    const wiredSnapshots = this.getWiredSnapshots();
-
-    if(!wiredSnapshots) {
-      return;
-    }
-
-    this.clearConnections();
-
-    this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
-    this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
-
-    this.updateOnWiredSnapshots = false;
-  }
-
-  setConnectionsWithDirection(connections, direction) {
-    connections.forEach(otherSnapshot => {
-      const other = this.findNodeBySnapshot(otherSnapshot);
-      if(other) {
-        this.connectWith(other, direction);
-      }
-    });
-  }
-
-  forEachConnection(fn) {
-    this.getAllConnections().forEach(c => fn(c));
-  }
-
   isConnectedToSelected() {
     let is = false;
 
-    this.forEachConnection((c) => {
+    this.getAllConnections().forEach((c) => {
       if(c.isSelected()) {
         is = true;
         return;
@@ -362,29 +333,8 @@ export default class BaseNode extends SceneObject {
     _.remove(this.incomingConnections, con => con.id === connection.id);
   }
 
-  clearConnections() {
-    this.getAllConnections().slice().forEach(c => {
-      if(!c.isSelected()) {
-        c.dispose();
-      }
-    });
-  }
-
   getDimension() {
     return {width: 1, depth: 1};
-  }
-
-  //connects this node with another one. the connection is stored in a
-  //connections collection
-  connectWith(otherNode, direction) {
-    //don't setup a new connection if it's still alive
-    if(this.connections.indexOf(otherNode) >= 0) {
-      return;
-    }
-
-    /*eslint-disable no-new*/
-    new Connection({from: this, to: otherNode, direction});
-    /*eslint-enable no-new*/
   }
 
   disposeStickyNote() {

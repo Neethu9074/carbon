@@ -33,7 +33,6 @@ export default class Unknownnode extends BaseNode {
   }
 
   getWiredSnapshots() {
-    this.updateOnWiredSnapshots = true;
     const thisSnapShot = this.snapshot;
     const outgoing = [];
     const incoming = [];

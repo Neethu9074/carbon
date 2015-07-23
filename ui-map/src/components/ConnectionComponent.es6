@@ -1,0 +1,96 @@
+'use strict';
+
+import Component from './Component';
+import Connection from '../sceneObjects/Connection/index';
+
+
+export default class ConnectionComponent extends Component{
+  constructor({sceneObject}) {
+    super(sceneObject);
+
+    // this.connections = [];
+    // this.incomingConnections = [];
+
+    this.initialized();
+  }
+
+
+  highlightChanged(highlighted) {
+    if(this.highlighted === highlighted) {
+      return;
+    }
+
+    if(highlighted) {
+      this.setupConnections();
+    }
+
+    this.getAllConnections()
+      .forEach(c => c.changeStateProperty('mouseOver', highlighted));
+
+    this.highlighted = highlighted;
+  }
+
+  selectionChanged(selected) {
+    if(this.selected === selected) {
+      return;
+    }
+
+    if(selected) {
+      this.getAllConnections().forEach((c) => {c.show(); c.select(); });
+    } else {
+      this.getAllConnections().forEach((c) => {c.unSelect(); c.hide(); });
+    }
+
+    this.selected = selected;
+  }
+
+  setupConnections() {
+    const wiredSnapshots = this.sceneObject.getWiredSnapshots();
+    if(!wiredSnapshots) {
+      return;
+    }
+
+    this.clearConnections();
+
+    this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
+    this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
+  }
+
+  clearConnections() {
+    this.getAllConnections().slice()
+      .filter(c => !c.isSelected())
+      .forEach(c => c.dispose());
+  }
+
+  getAllConnections() {
+    return this.sceneObject.connections.concat(this.sceneObject.incomingConnections);
+  }
+
+  setConnectionsWithDirection(connections, direction) {
+    connections.forEach(otherSnapshot => {
+      const other = this.sceneObject.findNodeBySnapshot(otherSnapshot);
+      if(other) {
+        this.connectWith(other, direction);
+      }
+    });
+  }
+
+  //connects this node with another one. the connection is stored in a
+  //connections collection
+  connectWith(otherNode, direction) {
+    //don't setup a new connection if it's still alive
+    if(this.sceneObject.connections.indexOf(otherNode) >= 0) {
+      return;
+    }
+
+    /*eslint-disable no-new*/
+    new Connection({from: this.sceneObject, to: otherNode, direction});
+    /*eslint-enable no-new*/
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.clearConnections();
+  }
+}

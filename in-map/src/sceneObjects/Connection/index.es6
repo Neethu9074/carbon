@@ -300,7 +300,7 @@ export default class Connection extends SceneObject {
   //node which is in the selected state
   toIsConnectedToSelected() {
     let isConnectedToSelected = false;
-    this.to.forEachConnection((c) => {
+    this.to.getAllConnections().forEach((c) => {
       if(c.oneEndpointIsSelected()) {
         isConnectedToSelected = true;
       }
