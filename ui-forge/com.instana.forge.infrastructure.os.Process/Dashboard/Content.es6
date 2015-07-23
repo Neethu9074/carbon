@@ -6,8 +6,8 @@ import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'instana-ui-services/converters';
 
-import Chart from 'instana-ui-components/Chart';
-import ChartLegend from 'instana-ui-components/ChartLegend';
+import ChartWithLegend from 'instana-ui-components/ChartWithLegend';
+import ContentHeading from 'instana-ui-components/ContentHeading';
 
 const rpt = React.PropTypes;
 
@@ -25,22 +25,8 @@ const ProcessDashboard = React.createClass({
   render() {
     return (
       <div>
-        <ChartLegend title='Memory'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'mem.virtual',
-                       'mem.resident',
-                       'mem.share'
-                     ]}
-                     metricLabels={[
-                       'Virtual',
-                       'Resident',
-                       'Share'
-                     ]}
-                     metricUnit=''
-                     metricValueFormatter={formatBytes} />
-
-        <Chart snapshot={this.props.snapshot}
+        <ContentHeading>Memory</ContentHeading>
+        <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
                width={this.props.width}
                height={chartHeight}
@@ -54,6 +40,11 @@ const ProcessDashboard = React.createClass({
                    'mem.virtual',
                    'mem.resident',
                    'mem.share'
+                 ],
+                 labels: [
+                   'Virtual',
+                   'Resident',
+                   'Share'
                  ],
                  type: 'line'
                }}/>

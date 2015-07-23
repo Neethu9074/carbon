@@ -4,8 +4,9 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
-import Chart from 'instana-ui-components/Chart';
-import ChartLegend from 'instana-ui-components/ChartLegend';
+import {formatBytes} from 'instana-ui-services/converters';
+import ContentHeading from 'instana-ui-components/ContentHeading';
+import ChartWithLegend from 'instana-ui-components/ChartWithLegend';
 
 const rpt = React.PropTypes;
 
@@ -23,40 +24,32 @@ const DockerDashboard = React.createClass({
   render() {
     return (
       <div>
-        <ChartLegend title='Memory'
-                     snapshot={this.props.snapshot}
-                     metrics={[
-                       'memory.active_anon',
-                       'memory.active_file',
-                       'memory.inactive_anon',
-                       'memory.inactive_file'
-                     ]}
-                     metricLabels={[
-                       'active_anon',
-                       'active_file',
-                       'inactive_anon',
-                       'inactive_file'
-                     ]}
-                     metricUnit=''
-                     metricValueFormatter={d => d} />
+        <ContentHeading>Memory</ContentHeading>
 
-        <Chart snapshot={this.props.snapshot}
-               windowSize={this.props.timeframe}
-               width={this.props.width}
-               height={chartHeight}
-               margins={{
-                 left: 80
-               }}
-               y1={{
-                 min: 0,
-                 metrics: [
-                   'memory.active_anon',
-                   'memory.active_file',
-                   'memory.inactive_anon',
-                   'memory.inactive_file'
-                 ],
-                 type: 'line'
-               }}/>
+        <ChartWithLegend snapshot={this.props.snapshot}
+                         windowSize={this.props.timeframe}
+                         width={this.props.width}
+                         height={chartHeight}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'memory.active_anon',
+                             'memory.active_file',
+                             'memory.inactive_anon',
+                             'memory.inactive_file'
+                           ],
+                           labels: [
+                             'active_anon',
+                             'active_file',
+                             'inactive_anon',
+                             'inactive_file'
+                           ],
+                           formatter: formatBytes,
+                           type: 'line'
+                         }}/>
 
       </div>
     );
