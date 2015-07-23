@@ -11,7 +11,7 @@ import SidebarSubheading from 'instana-ui-components/SidebarSubheading';
 import RedisInfo from '../RedisInfo';
 
 const rpt = React.PropTypes;
-const Sidebar = React.createClass({
+const RedisSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
@@ -39,4 +39,4 @@ const Sidebar = React.createClass({
 
 });
 
-export default Sidebar;
+export default RedisSidebar;

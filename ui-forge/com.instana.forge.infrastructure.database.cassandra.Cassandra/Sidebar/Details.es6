@@ -10,7 +10,7 @@ import ProblemPanel from 'instana-ui-components/ProblemPanel';
 
 const block = 'in-sidebar-server-details';
 
-const Details = React.createClass({
+const CassandraDetails = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
@@ -37,4 +37,4 @@ const Details = React.createClass({
   }
 });
 
-export default Details;
+export default CassandraDetails;
