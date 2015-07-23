@@ -365,12 +365,14 @@ export default class Scene {
 
   hideHulls() {
     this.singleMeshFactory.material.opacity = 0.2;
+    this.layerSingleMeshFactory.material.opacity = 0.2;
     this.hullsAreInactive = true;
   }
 
   showHulls() {
     if(!currentMetrics) {
       this.hullsAreInactive = false;
+      this.layerSingleMeshFactory.material.opacity = 1;
       this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
     }
   }
