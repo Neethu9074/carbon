@@ -8,11 +8,9 @@ import Collapsible from 'instana-ui-components/Collapsible';
 import MongoDBInfo from '../MongoDBInfo';
 import ProblemPanel from 'instana-ui-components/ProblemPanel';
 
-import './Details.less';
-
 const block = 'in-sidebar-server-details';
 
-const Details = React.createClass({
+const MongoDBDetails = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
@@ -39,4 +37,4 @@ const Details = React.createClass({
   }
 });
 
-export default Details;
+export default MongoDBDetails;

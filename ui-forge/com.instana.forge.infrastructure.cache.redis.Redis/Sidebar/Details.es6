@@ -8,8 +8,6 @@ import Collapsible from 'instana-ui-components/Collapsible';
 import RedisInfo from '../RedisInfo';
 import ProblemPanel from 'instana-ui-components/ProblemPanel';
 
-import './Details.less';
-
 const block = 'in-sidebar-server-details';
 
 const Details = React.createClass({

@@ -11,8 +11,6 @@ import EC2Info from '../../com.instana.forge.infrastructure.virtualization.EC2/E
 import HostInfo from '../HostInfo';
 import ProblemPanel from 'instana-ui-components/ProblemPanel';
 
-import './Details.less';
-
 const block = 'in-sidebar-server-details';
 
 const Details = React.createClass({
