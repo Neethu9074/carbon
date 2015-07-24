@@ -43,17 +43,7 @@ const metricTree = Immutable.fromJS({
           metrics: [{name: 'memory.free', label: 'Memory free'}]
         }
       ]
-
-    }//,
-    // {
-    //   label: 'Network',
-    //   children: [
-    //     {
-    //       label: 'Established',
-    //       metrics: [{name: 'tcp.established', label: 'Established'}]
-    //     }
-    //   ]
-    // }
+    }
   ]
 });
 
