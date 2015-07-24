@@ -78,8 +78,7 @@ export default class MetricPillar extends SceneObject {
 
   updateMetricCollisionObject(newHeight) {
     const cube = this.metricCube;
-    const cubeHeight = newHeight;
-    cube.scale.y = cubeHeight < 0.001 ? 0.001 : cubeHeight;
+    cube.scale.y = newHeight < 0.001 ? 0.001 : newHeight;
     cube.updateMatrix();
     cube.updateMatrixWorld();
   }

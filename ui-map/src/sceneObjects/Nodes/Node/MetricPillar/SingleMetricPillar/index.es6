@@ -12,10 +12,9 @@ export default class SingleMetricPillar extends MetricPillar {
   //for the single metric pillar
   addToMetricFactory() {
     const pos = this.getPosition();
-    const dim = this.metricCube.scale;
 
     this.scene.singleMetricFactory.addFragment({
-      id: this.id, pos, dim, newHeight: 0
+      id: this.id, pos, dim: {x: 1, y: 1, z: 1}, newHeight: 0
     });
   }
 
@@ -31,6 +30,8 @@ export default class SingleMetricPillar extends MetricPillar {
     const fragment = this.getFragment();
     if(fragment) {
       fragment.newHeight = value * this.parent.height;
+
+      this.updateMetricCollisionObject(value * this.parent.height);
     }
   }
 
