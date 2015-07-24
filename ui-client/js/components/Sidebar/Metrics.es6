@@ -42,16 +42,16 @@ const metricTree = Immutable.fromJS({
         }
       ]
 
-    },
-    {
-      label: 'Network',
-      children: [
-        {
-          label: 'Established',
-          metrics: [{name: 'tcp.established', label: 'Established'}]
-        }
-      ]
-    }
+    }//,
+    // {
+    //   label: 'Network',
+    //   children: [
+    //     {
+    //       label: 'Established',
+    //       metrics: [{name: 'tcp.established', label: 'Established'}]
+    //     }
+    //   ]
+    // }
   ]
 });
 
