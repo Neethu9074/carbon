@@ -37,7 +37,7 @@ const Menu = React.createClass({
               className={block + '__icon-close'}
               onClick={this.toggle}/>
 
-        <StanExplainsThings header={this.getIntlMessage('menu.stan.header')}
+        <StanExplainsThings header={''}
                             className={block + '__stan-explains'}>
           <SignOut />
         </StanExplainsThings>

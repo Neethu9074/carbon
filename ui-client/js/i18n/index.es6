@@ -14,11 +14,6 @@ export default {
     noNodesDialog: {
       header: 'Menu'
     },
-    menu: {
-      stan: {
-        header: 'Menu'
-      }
-    },
     map: {
       sidebar: {
         switchToDashboard: 'Switch to dashboard'
