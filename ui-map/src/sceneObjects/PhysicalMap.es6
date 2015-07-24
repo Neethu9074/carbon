@@ -156,7 +156,11 @@ export default class PhysicalMap extends SceneObject {
       //only the monitored
       .filter(node => node.isUnknown)
       //only the ones that are not in snapshots anymore
-      .filter(node => node.getWiredSnapshots().size === 0);
+      .filter(node => {
+        const wired = node.getWiredSnapshots();
+        return (wired.get('outgoing').length === 0 &&
+                wired.get('incoming').length === 0);
+      });
 
     removedNodes.forEach((node) => node.dispose());
   }
