@@ -17,7 +17,7 @@ const StanExplainsThings = React.createClass({
     style: rpt.object,
     className: rpt.string,
     header: rpt.string.isRequired,
-    children: rpt.string.isRequired
+    children: rpt.any.isRequired
   },
 
   render() {
