@@ -16,8 +16,7 @@ export default {
     },
     menu: {
       stan: {
-        header: 'Metrics',
-        content: 'metrics are: '
+        header: 'Menu'
       }
     },
     map: {
