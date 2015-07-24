@@ -2,22 +2,29 @@
 
 import React from 'react/addons';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import StanExplainsThings from '../StanExplainsThings';
-// import Icon from 'instana-ui-components/Icon';
+import Stan from 'instana-ui-components/Stan';
 
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import {create} from 'instana-ui-services/conveyer';
 import {plugins} from 'instana-ui-forge/constants';
-import {IntlMixin} from 'react-intl';
 
 import './index.less';
 
-const NoNodesDialog = React.createClass({
+const block = 'in-stan-explains';
+const rpt = React.PropTypes;
+
+const StanExplainsThings = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
-    SubscriptionMixin,
-    IntlMixin
+    SubscriptionMixin
   ],
+
+  propTypes: {
+    style: rpt.object,
+    className: rpt.string,
+    header: rpt.string.isRequired,
+    children: rpt.string.isRequired
+  },
 
   getInitialState() {
     return {open: false};
@@ -37,18 +44,22 @@ const NoNodesDialog = React.createClass({
   },
 
   render() {
-    if(!this.state.open) {
-      return null;
-    }
+    let classes = this.props.className ?
+      block + ' ' + this.props.className :
+      block;
 
     return (
-      <div className={'in-no-nodes-dialog'}>
-        <StanExplainsThings header={this.getIntlMessage('noNodesDialog.header')}>
-          {this.getIntlMessage('noNodesDialog.content')}
-        </StanExplainsThings>
+      <div className={classes} style={this.props.style}>
+        <span className={block + '__header'}>
+          {this.props.header}
+        </span>
+        <span className={block + '__content'}>
+          {this.props.children}
+        </span>
+        <Stan />
       </div>
     );
   }
 });
 
-export default NoNodesDialog;
+export default StanExplainsThings;

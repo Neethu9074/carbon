@@ -5,9 +5,11 @@ import Immutable from 'immutable';
 
 import MetricTree from './MetricTree';
 import MetricTreeLeaf from './MetricTreeLeaf';
+import StanExplainsThings from '../StanExplainsThings';
 import Icon from 'instana-ui-components/Icon';
 import * as metricsStore from 'instana-ui-services/stores/metrics';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
+import {IntlMixin} from 'react-intl';
 
 import './Metrics.less';
 
@@ -58,7 +60,10 @@ const metricTree = Immutable.fromJS({
 const block = 'in-sidebar-metrics';
 
 const Metrics = React.createClass({
-  mixins: [SubscriptionMixin],
+  mixins: [
+    SubscriptionMixin,
+    IntlMixin
+  ],
 
   getInitialState() {
     return {
@@ -70,16 +75,6 @@ const Metrics = React.createClass({
     this.addSubscription(
       metricsStore.activeMetric
         .subscribe(activeMetric => this.setState({activeMetric}))
-    );
-  },
-
-  render() {
-    return (
-      <div className={block}>
-        {this.renderHeader()}
-        {metricTree.get('children').map(child =>
-          this.getMetricsToShow(child, 0))}
-      </div>
     );
   },
 
@@ -110,6 +105,21 @@ const Metrics = React.createClass({
       <MetricTree key={label} header={{text: label, level}}>
         {root.get('children').map(child => this.getMetricsToShow(child, level + 1))}
       </MetricTree>
+    );
+  },
+
+  render() {
+    return (
+      <div className={block}>
+        {this.renderHeader()}
+        {metricTree.get('children').map(child =>
+          this.getMetricsToShow(child, 0))}
+
+        <StanExplainsThings header={this.getIntlMessage('metricSidebar.header')}
+                            className={block + '__stan-explains'}>
+          {this.getIntlMessage('metricSidebar.header')}
+        </StanExplainsThings>
+      </div>
     );
   }
 });

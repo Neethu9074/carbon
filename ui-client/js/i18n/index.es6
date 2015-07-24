@@ -15,6 +15,10 @@ export default {
       header: 'header',
       content: 'lalala'
     },
+    metricSidebar: {
+      header: 'Metrics',
+      content: 'metrics are: '
+    },
     map: {
       sidebar: {
         switchToDashboard: 'Switch to dashboard'

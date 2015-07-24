@@ -66,7 +66,7 @@ const App = React.createClass({
 
         <Footer />
 
-        <RouteHandler/>
+        <RouteHandler />
 
         <NoNodesDialog />
 
