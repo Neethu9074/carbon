@@ -316,9 +316,6 @@ export default class Node extends BaseNode {
     this.layer.forEach(p =>
       p.getComponent('position').setPosition(pos.x, p.getComponent('position').getPosition().y, pos.z));
 
-    this.singleMetricPillar.updateOfVisualComponents(pos);
-    this.multiMetricPillar.updateOfVisualComponents(pos);
-
     this.removeFromGroundFactory();
     this.addToGroundFactory();
   }
@@ -330,6 +327,9 @@ export default class Node extends BaseNode {
 
   positionChanged(x, y, z) {
     super.positionChanged(x, y, z);
+
+    this.singleMetricPillar.getComponent('position').setPosition(x, y, z);
+    this.multiMetricPillar.getComponent('position').setPosition(x, y, z);
 
     this.updateOfVisualComponents();
     this.arrangeChildren();

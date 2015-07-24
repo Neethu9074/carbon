@@ -3,7 +3,7 @@
 import THREE from 'three';
 
 import SceneObject from '../../../SceneObject/index';
-import {cubeGeometry} from '../../../geometries';
+import {cubeGeometry, defaultGeometryMaterial} from '../../../geometries';
 
 import eventBus from 'in-services/eventbus';
 
@@ -28,10 +28,6 @@ export default class MetricPillar extends SceneObject {
     this.changeStateProperty('active', false);
   }
 
-  onInitialEnter() {}
-
-  onInitialLeave() {}
-
   onInactiveEnter() {
     this.hidePillar();
   }
@@ -50,11 +46,11 @@ export default class MetricPillar extends SceneObject {
 
   showPillar() {
     this.addToMetricFactory();
-    this.addCollisionObject(this.metricCube, 2);
+    this.metricCube.isEnabled = true;
   }
 
   hidePillar() {
-    this.removeCollisionObject(this.metricCube, 2);
+    this.metricCube.isEnabled = false;
     this.removeFromMetricFactory();
   }
 
@@ -65,13 +61,15 @@ export default class MetricPillar extends SceneObject {
 
   createMetricCollisionObject() {
     let cube;
-    this.metricCube = cube = new THREE.Mesh(cubeGeometry);
+    this.metricCube = cube = new THREE.Mesh(cubeGeometry, defaultGeometryMaterial);
     cube.matrixAutoUpdate = false;
     cube.rotationAutoUpdate = false;
-    cube.position.set(0, -10, 0);
+    cube.isEnabled = false;
     cube.updateMatrix();
     cube.updateMatrixWorld();
     cube.parentSceneObject = this.parent;
+
+    this.scene.addCollisionObject(cube, 2);
   }
 
   updateMetricCollisionObject(newHeight) {
@@ -111,14 +109,10 @@ export default class MetricPillar extends SceneObject {
     }
   }
 
-  updateOfVisualComponents(pos) {
-    const cube = this.metricCube;
-    cube.position.copy(pos);
+  positionChanged(x, y, z) {
+    this.metricCube.position.copy({x, y, z});
 
     if(this.isActive()) {
-      this.removeCollisionObject(cube, 2);
-      this.addCollisionObject(cube, 2);
-
       this.removeFromMetricFactory();
       this.addToMetricFactory();
     }
@@ -127,6 +121,7 @@ export default class MetricPillar extends SceneObject {
   dispose() {
     super.dispose();
 
+    this.metricCube.isEnabled = false;
     this.removeCollisionObject(this.metricCube, 2);
     this.removeFromMetricFactory();
   }

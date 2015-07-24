@@ -11,7 +11,10 @@ export default class MultiMetricPillar extends MetricPillar {
 
   //for the multi metric pillars
   addToMetricFactory() {
-    const pos = this.getComponent('position').getPosition();
+    const pos = this.getComponent('position')
+      .getPosition()
+      .clone()
+      .add({x: -0.5, y: 0, z: 0.5});
     const dim = this.metricCube.scale;
     const tiles = [];
     for (let i = 0; i < this.scene.numTiles; i++) {
