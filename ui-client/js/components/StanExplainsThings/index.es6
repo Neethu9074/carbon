@@ -1,12 +1,7 @@
 'use strict';
 
 import React from 'react/addons';
-import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import Stan from 'instana-ui-components/Stan';
-
-import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
-import {create} from 'instana-ui-services/conveyer';
-import {plugins} from 'instana-ui-forge/constants';
 
 import './index.less';
 
@@ -15,8 +10,7 @@ const rpt = React.PropTypes;
 
 const StanExplainsThings = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
-    SubscriptionMixin
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
@@ -24,23 +18,6 @@ const StanExplainsThings = React.createClass({
     className: rpt.string,
     header: rpt.string.isRequired,
     children: rpt.string.isRequired
-  },
-
-  getInitialState() {
-    return {open: false};
-  },
-
-  componentDidMount() {
-    const observable = create(SnapshotConveyer, {pluginId: plugins.os});
-    this.addSubscription(observable.subscribe(data => {
-      if(data.size === 0) {
-        this.setState({open: true});
-      } else {
-        if(this.state.open) {
-          this.setState({open: false});
-        }
-      }
-    }));
   },
 
   render() {
