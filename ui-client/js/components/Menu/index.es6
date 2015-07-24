@@ -3,6 +3,8 @@
 import React from 'react/addons';
 import Icon from 'instana-ui-components/Icon';
 import SignOut from '../SignOut';
+import StanExplainsThings from '../StanExplainsThings';
+import {IntlMixin} from 'react-intl';
 
 import './index.less';
 
@@ -10,7 +12,8 @@ const block = 'in-menu';
 
 const Menu = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    React.addons.PureRenderMixin,
+    IntlMixin
   ],
 
   getInitialState() {
@@ -33,7 +36,11 @@ const Menu = React.createClass({
         <Icon type='delete'
               className={block + '__icon-close'}
               onClick={this.toggle}/>
-        <SignOut />
+
+        <StanExplainsThings header={this.getIntlMessage('menu.stan.header')}
+                            className={block + '__stan-explains'}>
+          <SignOut />
+        </StanExplainsThings>
       </div>
     );
   },

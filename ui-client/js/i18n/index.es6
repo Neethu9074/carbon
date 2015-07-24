@@ -12,12 +12,13 @@ export default {
       }
     },
     noNodesDialog: {
-      header: 'header',
-      content: 'lalala'
+      header: 'Menu'
     },
-    metricSidebar: {
-      header: 'Metrics',
-      content: 'metrics are: '
+    menu: {
+      stan: {
+        header: 'Metrics',
+        content: 'metrics are: '
+      }
     },
     map: {
       sidebar: {
