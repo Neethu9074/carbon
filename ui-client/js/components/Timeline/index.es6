@@ -171,7 +171,7 @@ const Timeline = React.createClass({
         };
       case health.ok:
         return {
-          type: 'timeline',
+          type: 'dot',
           color: theme.health.ok
         };
       default:
