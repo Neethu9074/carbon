@@ -19,7 +19,7 @@ import {theme} from 'instana-ui-services/theme';
 import * as timelineStore from 'instana-ui-services/stores/timeline';
 import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnapshot';
 import * as highlightedSnapshotStore from 'instana-ui-services/stores/highlightedSnapshot';
-import {getOpenIssues} from 'instana-ui-services/issueTracker';
+import {getIssues} from 'instana-ui-services/issueTracker';
 import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import {only} from 'instana-ui-services/util/snapshots';
 import {create} from 'instana-ui-services/conveyer';
@@ -50,7 +50,7 @@ const Timeline = React.createClass({
     createObservables() {
       return {
         timeframe: timelineStore.timeframe,
-        openIssues: getOpenIssues(),
+        openIssues: getIssues(),
         focusedMoment: timelineStore.focusedMoment
       };
     }
