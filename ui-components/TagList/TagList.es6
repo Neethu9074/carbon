@@ -2,10 +2,11 @@
 
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+
+import * as filters from 'instana-ui-services/stores/mapFilters';
+
 import Collapsible from '../Collapsible';
 import Tag from '../Tag';
-
-import './TagList.less';
 
 const block = 'in-tag-list';
 
@@ -26,7 +27,7 @@ const TagList = React.createClass({
 
     return (
       <div>
-        <Collapsible key={'tags'}>
+        <Collapsible key={'tags'} initiallyOpen={true}>
           <Collapsible.Header>
             Tags
           </Collapsible.Header>
@@ -35,7 +36,7 @@ const TagList = React.createClass({
               {tags.map(tag =>
                 <Tag key={tag}
                      tag={tag}
-                     onClick={() => console.log('filter')}/>
+                     onClick={() => filters.addTagFilter(tag)}/>
               )}
             </div>
           </Collapsible.Content>
