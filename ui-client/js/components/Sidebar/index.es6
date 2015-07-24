@@ -31,7 +31,7 @@ const Sidebar = React.createClass({
 
   render() {
     return (
-      <FloatingFrame icon='menue'
+      <FloatingFrame icon='sidebar'
                      title='Details'
                      content={Listing}
                      contentProps={{

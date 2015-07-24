@@ -41,7 +41,7 @@ const FloatingFrame = React.createClass({
             onClick={this.toggle}>
           {this.props.title}
 
-          <Icon type={this.state.open ? 'menue_close' : this.props.icon}
+          <Icon type={this.state.open ? 'delete' : this.props.icon}
                 className={block + '__icon'}/>
         </h1>
 
