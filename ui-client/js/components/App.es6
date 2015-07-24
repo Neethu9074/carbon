@@ -12,6 +12,7 @@ import * as selectedSnapshotStore from 'instana-ui-services/stores/selectedSnaps
 import * as constants from 'instana-ui-forge/constants';
 
 import HelpDialog from './HelpDialog';
+import NoNodesDialog from './NoNodesDialog';
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
 import Search from './Search';
@@ -66,6 +67,8 @@ const App = React.createClass({
         <Footer />
 
         <RouteHandler/>
+
+        <NoNodesDialog />
 
         {this.props.state.query.help ?
           <HelpDialog id={this.props.state.query.help} />

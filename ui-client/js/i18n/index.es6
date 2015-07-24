@@ -11,6 +11,10 @@ export default {
         filesystems: 'Filesystems'
       }
     },
+    noNodesDialog: {
+      header: 'header',
+      content: 'lalala'
+    },
     map: {
       sidebar: {
         switchToDashboard: 'Switch to dashboard'
