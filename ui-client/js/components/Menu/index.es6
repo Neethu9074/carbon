@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react/addons';
-import Button from 'instana-ui-components/Button';
 import Icon from 'instana-ui-components/Icon';
 import SignOut from '../SignOut';
 
@@ -43,11 +42,11 @@ const Menu = React.createClass({
     return (
       <div className={block}>
         {this.renderMenu()}
-        <Button className={block + '__toggle-button'}
+        <div className={block + '__toggle-button'}
                 onClick={this.toggle}>
            Menu
            <Icon className={block + '__icon'} type='menue' />
-        </Button>
+        </div>
 
       </div>
     );

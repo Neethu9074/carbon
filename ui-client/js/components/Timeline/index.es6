@@ -11,7 +11,6 @@ import Content from 'instana-ui-components/Tooltips/Content';
 import StatusLine from 'instana-ui-components/Tooltips/StatusLine';
 import Icon from 'instana-ui-components/Icon';
 import TimePicker from 'instana-ui-components/TimePicker';
-import Button from 'instana-ui-components/Button';
 
 import * as time from 'instana-ui-services/time';
 import {health, mapSeverityToHealth} from 'instana-ui-services/health';
@@ -88,13 +87,13 @@ const Timeline = React.createClass({
         {this.renderTimePicker()}
         {this.renderTooltip()}
         <div className={block}>
-          <Button className={block + '__button-from'}
+          <div className={block + '__button-from'}
                   onClick={this.toggle}>
             <Icon className={block + '__icon'} type='dot' />
             <span className={block + '__button-text'}>
               {this.getUntil()}
             </span>
-          </Button>
+          </div>
 
           <div className={block + '__line'}>
             {this.renderProblems()}
