@@ -8,6 +8,7 @@ import {getLabel} from 'instana-ui-sdk/snapshot';
 import * as constants from 'instana-ui-forge/constants';
 import Collapsible from 'instana-ui-components/Collapsible';
 
+import TagList from 'instana-ui-components/TagList/TagList';
 import ProblemPanel from 'instana-ui-components/ProblemPanel';
 import SidebarHeading from 'instana-ui-components/SidebarHeading';
 import SidebarSubheading from 'instana-ui-components/SidebarSubheading';
@@ -57,7 +58,7 @@ const Sidebar = React.createClass({
         : null}
 
         <ProblemPanel snapshot={this.props.snapshot} />
-
+        <TagList snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
     );
