@@ -186,7 +186,7 @@ export default class Renderer {
     this.container.classList.add('in-chart');
     // hiding the canvas initially to avoid showing broken axes before
     // anything has been painted
-    this.container.style.visibl = 'none';
+    this.container.style.visibility = 'hidden';
 
     // The render canvas is the user visible paint area that is only populated
     // by this base class. All other classes draw onto the drawingCanvas.
@@ -373,7 +373,7 @@ export default class Renderer {
 
     // the Chart will be hidden until the first successful paint
     if (initialRendering) {
-      this.container.style.display = 'block';
+      this.container.style.visibility = 'visible';
     }
   }
 
