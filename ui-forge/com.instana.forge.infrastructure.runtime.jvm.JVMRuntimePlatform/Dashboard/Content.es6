@@ -110,7 +110,6 @@ const JVMDashboard = React.createClass({
                  }}
 
                  y1={{
-                   min: 0,
                    max: getMaxValue(
                      'pools.' + this.state.poolName,
                      this.props.snapshot
