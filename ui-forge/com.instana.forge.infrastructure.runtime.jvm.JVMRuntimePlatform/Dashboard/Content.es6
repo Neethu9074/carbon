@@ -5,8 +5,6 @@ import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'instana-ui-services/converters';
-import {create} from 'instana-ui-services/conveyer';
-import MetricConveyer from 'instana-ui-services/conveyer/MetricConveyer';
 import {getMaxValue} from 'instana-ui-sdk/metrics';
 
 import ChartWithLegend from 'instana-ui-components/ChartWithLegend';
@@ -29,8 +27,7 @@ const JVMDashboard = React.createClass({
 
   getInitialState() {
     return {
-      poolName: null,
-      collectorName: null
+      poolName: null
     };
   },
 
@@ -141,11 +138,8 @@ const JVMDashboard = React.createClass({
                 <td>{name}</td>
                 <td>{formatBytes(data.get('initial'))}</td>
                 <td>{formatBytes(data.get('max'))}</td>
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'pools.' + name
-                       )}
+                <Mtd metric={'pools.' + name}
+                     snapshot={this.props.snapshot}
                      formatter={formatBytes} />
               </tr>
             ).valueSeq()}
@@ -156,66 +150,40 @@ const JVMDashboard = React.createClass({
 
         <ContentHeading>Garbage Collection</ContentHeading>
 
-        {this.state.collectorName ?
-          <ChartWithLegend snapshot={this.props.snapshot}
-                 windowSize={this.props.timeframe}
+        <ChartWithLegend snapshot={this.props.snapshot}
+               windowSize={this.props.timeframe}
 
-                 width={this.props.width}
-                 height={chartHeight}
-                 margins={{
-                   left: 80,
-                   right: 80
+               width={this.props.width}
+               height={chartHeight}
+               margins={{
+                 left: 80,
+                 right: 80
+               }}
+
+               y1={{
+                 metrics: collectors.map((name) =>
+                            'gc.' + name + '.time'
+                          ).toArray()
+                 ,
+                 labels: collectors.map((name) =>
+                            name + ' Time'
+                          ).toArray()
+                 ,
+                 type: 'line',
+                 formatter: (d) => d / 1000 + ' s'
                  }}
 
-                 y1={{
-                   metrics: [
-                     'gc.' + this.state.collectorName + '.time'
-                   ],
-                   labels: [
-                     this.state.collectorName + ' Time'
-                   ],
-                   type: 'line',
-                   formatter: (d) => d / 1000 + ' s'
-                   }}
-
-                 y2={{
-                   metrics: [
-                     'gc.' + this.state.collectorName + '.inv'
-                   ],
-                   labels: [
-                     this.state.collectorName + ' Invocations'
-                   ],
-                   type: 'line'
-                 }}/>
-        : null}
-
-        <table className='in-subtle-table in-subtle-table--clickable'>
-          <thead>
-            <tr>
-              <th>Collector</th>
-              <th>Invocations</th>
-              <th>Time spent</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {collectors.map((name) =>
-              <tr key={name} onClick={() => this.selectCollector(name)}>
-                <td>{name}</td>
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'gc.' + name + '.inv'
-                       )} />
-                <Mtd createMetricValueStream={
-                       this.createMetricValueStream.bind(
-                         this,
-                         'gc.' + name + '.time'
-                       )} />
-              </tr>
-            ).valueSeq()}
-          </tbody>
-        </table>
+               y2={{
+                 metrics: collectors.map((name) =>
+                            'gc.' + name + '.inv'
+                          ).toArray()
+                 ,
+                 labels: collectors.map((name) =>
+                            name + ' Invocations'
+                          ).toArray()
+                 ,
+                 type: 'line'
+               }}/>
       </div>
     );
   },
@@ -224,20 +192,8 @@ const JVMDashboard = React.createClass({
     this.setState({
       poolName: pool
     });
-  },
-
-  selectCollector(collector) {
-    this.setState({
-      collectorName: collector
-    });
-  },
-
-  createMetricValueStream(metric) {
-    return create(MetricConveyer, {
-      snapshot: this.props.snapshot,
-      metric
-    });
   }
+
 });
 
 export default JVMDashboard;
