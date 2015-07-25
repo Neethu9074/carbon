@@ -7,6 +7,7 @@ import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 
 import * as stackedAreaRenderer from './render/stackedAreaRendererTmp';
 import * as lineRenderer from './render/lineRendererTmp';
+import * as pointRenderer from './render/pointRendererTmp';
 import Renderer from './Renderer';
 
 import './Chart.less';
@@ -104,6 +105,8 @@ const Chart = React.createClass({
       return lineRenderer;
     } else if (type === 'stackedArea') {
       return stackedAreaRenderer;
+    } else if (type === 'point') {
+      return pointRenderer;
     } else {
       throw new Error('Unknown chart type' + type);
     }

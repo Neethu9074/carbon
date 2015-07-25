@@ -182,7 +182,7 @@ const JVMDashboard = React.createClass({
                             name + ' Invocations'
                           ).toArray()
                  ,
-                 type: 'line'
+                 type: 'point'
                }}/>
       </div>
     );
