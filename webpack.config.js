@@ -8,6 +8,8 @@ var path = require('path');
 var definePlugin = new webpack.DefinePlugin({
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
 
+  __DEMO__: JSON.stringify(JSON.parse(process.env.TARGET_ENVIRONMENT === 'demo')),
+
   // this is necessary for the React and Invariant modules
   'process.env.NODE_ENV': process.env.BUILD_DEV === 'true' ? '"development"' : '"production"'
 });

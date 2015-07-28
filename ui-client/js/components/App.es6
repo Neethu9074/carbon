@@ -1,3 +1,5 @@
+/*global require:false*/
+
 'use strict';
 
 import React from 'react/addons';
@@ -74,9 +76,16 @@ const App = React.createClass({
           <HelpDialog id={this.props.state.query.help} />
         : null}
 
+        {__DEMO__ ? this.renderDemoDialog() : null}
+
         <ConnectionStatus />
       </div>
     );
+  },
+
+  renderDemoDialog() {
+    const DemoDialog = require('./DemoDialog');
+    return <DemoDialog />;
   }
 
 });

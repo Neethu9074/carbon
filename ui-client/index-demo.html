@@ -14,6 +14,55 @@
   <script>
     window.instana = {};
   </script>
+  <script>
+    window.instana.user = <!--#include virtual="/auth/users/current" -->;
+    window.instana.build = <!--#include virtual="build.json" -->;
+  </script>
+  <script>
+    if (!window.instana.user || window.instana.user.error) {
+      window.location.href = '/auth/signIn?returnUrl=' +
+        encodeURIComponent(window.location.href);
+    }
+  </script>
+
+  <script type="text/javascript" src="//platform.linkedin.com/in.js">
+    api_key: 77k38emu8xnsrk
+    authorize: true
+  </script>
+
+  <script type="text/javascript">
+
+    // Setup an event listener to make an API call once auth is complete
+    // function onLinkedInLoad() {
+    //  IN.Event.on(IN, "auth", getProfileData);
+    //
+    //    if (!IN.User.isAuthorized()) {
+    //     setTimeout(function() {
+    //       IN.User.authorize(function(a) {
+    //         console.log(a);
+    //       });
+    //       // body...
+    //     }, 100);
+    //   }
+    // }
+    //
+    // // Handle the successful return from the API call
+    // function onSuccess(data) {
+    //     console.log(data);
+    // }
+    //
+    // // Handle an error response from the API call
+    // function onError(error) {
+    //     console.log(error);
+    // }
+    //
+    // // Use the API call wrapper to request the member's basic profile data
+    // function getProfileData() {
+    //   var url = '/people/~:(id,first-name,last-name,formatted-name,headline,location,industry,summary,specialties,positions,public-profile-url,email-address,picture-url)'
+    //     IN.API.Raw(url).result(onSuccess).error(onError);
+    // }
+
+</script>
 </head>
 <body>
 
