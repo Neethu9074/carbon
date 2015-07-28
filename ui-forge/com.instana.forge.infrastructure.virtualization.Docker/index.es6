@@ -1,7 +1,8 @@
 'use strict';
 
 import {
-  addIconFinder
+  addIconFinder,
+  addLabelFinder
 } from 'instana-ui-sdk/snapshot';
 import * as pluginName from 'instana-ui-sdk/pluginName';
 
@@ -12,6 +13,11 @@ pluginName.setHumanReadablePluginName(
   constants.plugins.docker,
   'Docker Container',
   'Docker Container'
+);
+
+addLabelFinder(
+  constants.plugins.docker,
+  s => s.getIn(['data', 'Names'])
 );
 
 addIconFinder(
