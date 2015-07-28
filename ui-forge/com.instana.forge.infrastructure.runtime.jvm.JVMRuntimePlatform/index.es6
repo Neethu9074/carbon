@@ -1,11 +1,13 @@
 'use strict';
 
 import {
-  addLabelFinder
+  addLabelFinder,
+  addIconFinder
 } from 'instana-ui-sdk/snapshot';
 import * as pluginName from 'instana-ui-sdk/pluginName';
 
 import * as constants from '../constants';
+import iconPath from './icon.svg';
 
 import './metrics.es6';
 
@@ -18,4 +20,9 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.jvm,
   snapshot => snapshot.get('steadyId')
+);
+
+addIconFinder(
+  constants.plugins.jvm,
+  () => iconPath
 );
