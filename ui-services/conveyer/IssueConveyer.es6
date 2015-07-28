@@ -5,16 +5,17 @@ import * as connection from '../connection/subscriptionAwareConnection';
 
 export default class IssueConveyer {
 
-  static getUniqueId() {
-    return 'issue';
+  static getUniqueId({timeframe}) {
+    return 'issue,' + timeframe;
   }
 
-  constructor() {
+  constructor({timeframe}) {
     this.id = connection.getSubscriptionId();
     this.subscribeEvent = {
       id: this.id,
       event: 'subscribe',
-      type: 'issue'
+      type: 'issue',
+      timeframe
     };
   }
 

@@ -8,9 +8,20 @@ import {create} from '../conveyer';
 import {mapSeverityToHealth, health} from '../health';
 import IssueConveyer from '../conveyer/IssueConveyer';
 import {isIdEqual, getIdString, extractId} from '../util/snapshots';
+import * as timelineStore from '../stores/timeline';
 
-const allIssuesStream = create(IssueConveyer)
-  .scan(collectingReducer, Immutable.List());
+const allIssuesStream = timelineStore.timeframe.transform({
+  emitLatestOnSubscribe: true,
+
+  transform(timeframe) {
+    return create(IssueConveyer, {timeframe})
+      .scan(collectingReducer, Immutable.List());
+  },
+
+  shouldRetransform(previousTimeframe, nextTimeframe) {
+    return previousTimeframe !== nextTimeframe;
+  }
+});
 
 const openIssuesStream = allIssuesStream.map(issues => {
   return issues.filter(issue => issue.get('end') === null);
