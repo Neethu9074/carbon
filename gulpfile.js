@@ -7,6 +7,7 @@ var del = require('del');
 var filter = require('gulp-filter');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var rename = require('gulp-rename');
 var Promise = require('bluebird');
 var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
@@ -19,6 +20,12 @@ var fs = require('fs');
 
 var webpackConfig = require('./webpack.config.js');
 
+var htmlFile;
+if (process.env.TARGET_ENVIRONMENT === 'demo') {
+  htmlFile = 'index-demo.html';
+} else {
+  htmlFile = 'index.html';
+}
 
 gulp.task('clean', function(cb) {
   del(['./target'], cb);
@@ -29,7 +36,7 @@ gulp.task('build', ['webpack:build', 'copyfavicon', 'writeBuildInfo'], function(
   var assetFilter = filter('**/*.js');
   var htmlFilter = filter('**/*.html');
 
-  return gulp.src(['target/bundle/index.js', 'ui-client/index.html'])
+  return gulp.src(['target/bundle/index.js', 'ui-client/' + htmlFile])
     .pipe(assetFilter)
     .pipe(rev())
     .pipe(gulp.dest('target/bundle'))
@@ -110,12 +117,17 @@ gulp.task('dev', [
 
 
 gulp.task('dev-watches', function() {
-  gulp.watch('ui-client/index.html', ['copyhtml']);
+  gulp.watch('ui-client/' + htmlFile, ['copyhtml']);
 });
 
 
 gulp.task('copyhtml', function() {
-  gulp.src('ui-client/index.html').pipe(gulp.dest('target/'));
+  gulp.src('ui-client/' + htmlFile)
+    .pipe(rename({
+      basename: 'index',
+      extname: '.html'
+    }))
+    .pipe(gulp.dest('target/'));
 });
 
 
