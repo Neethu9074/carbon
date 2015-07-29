@@ -45,9 +45,12 @@ const Collapsible = React.createClass({
                [block + '__header--closed']: !this.isOpen(),
                [block + '__header--bordered']: !headerProps.noBorder,
                [headerProps.className]: headerProps.className !== undefined
-             })}
-             style={headerProps.style}>
-          <div className={block + '__header-contents'}>
+             })}>
+          <div className={classnames({
+                 [block + '__header-contents']: true,
+                 [headerProps.className]: headerProps.className !== undefined
+               })}
+               style={headerProps.style}>
             {headerProps.children}
           </div>
           <Icon type={this.isOpen() ? 'close' : 'open'}
