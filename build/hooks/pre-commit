@@ -2,7 +2,7 @@
 
 # Update the theme file
 node build/translateTheme.js
-git add ui-themes/less/constants.less
+git add in-themes/less/constants.less
 
 
 # Execute tests to be on the safe side

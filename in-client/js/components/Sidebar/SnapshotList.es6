@@ -1,0 +1,63 @@
+'use strict';
+
+import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
+import Immutable from 'immutable';
+
+import {getLabel} from 'in-sdk/snapshot';
+import {getIdString} from 'in-services/util/snapshots';
+
+import Snapshot from './Snapshot';
+
+import './SnapshotList.less';
+
+const rpt = React.PropTypes;
+const block = 'in-sidebar-snapshot-list';
+
+const SidebarSnapshotList = React.createClass({
+  mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    snapshots: rpt.oneOfType([
+      irpt.seq,
+      rpt.array
+    ]).isRequired,
+    highlightedSnapshot: irpt.map,
+    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired
+  },
+
+  render() {
+    const snapshots = this.props.snapshots.sort((s1, s2) => {
+      const l1 = getLabel(s1);
+      const l2 = getLabel(s2);
+      return l1.localeCompare(l2);
+    });
+
+    return (
+      <ul className={block}>
+        {this.toJs(snapshots.map(snapshot =>
+          <Snapshot snapshot={snapshot}
+                    key={getIdString(snapshot)}
+                    highlighted={this.props.highlightedSnapshot === snapshot}
+                    wired={this.isWired(snapshot)}/>
+        ))}
+      </ul>
+    );
+  },
+
+  isWired(snapshot) {
+    const snapshotsWiredToHighlightedSnapshot = this.props.snapshotsWiredToHighlightedSnapshot;
+    return snapshotsWiredToHighlightedSnapshot.get('incoming').contains(snapshot) ||
+      snapshotsWiredToHighlightedSnapshot.get('outgoing').contains(snapshot);
+  },
+
+  toJs(list) {
+    if (Immutable.List.isList(list)) {
+      return list.toArray();
+    }
+
+    return list;
+  }
+});
+
+export default SidebarSnapshotList;

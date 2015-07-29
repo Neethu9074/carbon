@@ -1,5 +1,5 @@
 *.log
 /node_modules/*
-!/node_modules/instana-ui-*
+!/node_modules/in-*
 /target
 .npmrc

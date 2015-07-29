@@ -1,0 +1,8 @@
+{
+  "name": "in-map",
+  "version": "1.0.0",
+  "description": "The 3D visuliaztion of client's infrastructure",
+  "main": "src/index.es6",
+  "license": "UNLICENSED",
+  "private": true
+}

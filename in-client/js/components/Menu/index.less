@@ -1,0 +1,73 @@
+@import '~in-themes/less/constants.less';
+
+.in-menu {
+  margin: 0 10px 0 5px;
+  white-space: nowrap;
+
+  &__toggle-button {
+    background: transparent;
+    margin: 5px;
+    padding: 0 0 0 10px;
+
+    color: #868f94;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    cursor: pointer;
+  }
+
+  &__icon, &__icon-close {
+    font-size: 32px;
+    color: #99F4F5;
+    margin: 0 5px 0 10px;
+  }
+
+  &__icon:hover, &__icon-close:hover {
+    color: #fff;
+  }
+
+  &__icon-close {
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    cursor: pointer;
+  }
+
+  &__panel {
+    position: absolute;
+
+    bottom: 100%;
+    right: 10px;
+    width: 250px;
+    z-index: @z-index__menu-popup;
+
+    margin-bottom: 5px;
+    padding: 10px;
+
+    background: #232f38;
+  }
+
+  &__panel:before {
+    content: ' ';
+    position: absolute;
+
+    bottom: -12px;
+    right: 0;
+    margin-right: 15px;
+    padding: 0;
+
+    border: 6px solid;
+    border-color:
+      #232f38
+      #232f38
+      transparent
+      transparent;
+  }
+
+   &__stan-explains {
+     margin: 10px -10px -10px -10px;
+   }
+}

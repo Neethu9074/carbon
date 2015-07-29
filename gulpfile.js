@@ -39,7 +39,7 @@ gulp.task(
     var assetFilter = filter('**/*.js');
     var htmlFilter = filter('**/*.html');
 
-    return gulp.src(['target/bundle/index.js', 'ui-client/' + htmlFile])
+    return gulp.src(['target/bundle/index.js', 'in-client/' + htmlFile])
       .pipe(assetFilter)
       .pipe(rev())
       .pipe(gulp.dest('target/bundle'))
@@ -121,12 +121,12 @@ gulp.task('dev', [
 
 
 gulp.task('dev-watches', function() {
-  gulp.watch('ui-client/' + htmlFile, ['copyhtml']);
+  gulp.watch('in-client/' + htmlFile, ['copyhtml']);
 });
 
 
 gulp.task('copyhtml', function() {
-  gulp.src('ui-client/' + htmlFile)
+  gulp.src('in-client/' + htmlFile)
     .pipe(rename({
       basename: 'index',
       extname: '.html'
@@ -136,11 +136,11 @@ gulp.task('copyhtml', function() {
 
 
 gulp.task('copyfavicon', function() {
-  gulp.src('ui-client/favicon.png').pipe(gulp.dest('target/'));
+  gulp.src('in-client/favicon.png').pipe(gulp.dest('target/'));
 });
 
 gulp.task('copyconfig', function() {
-  gulp.src('ui-client/config.json').pipe(gulp.dest('target/'));
+  gulp.src('in-client/config.json').pipe(gulp.dest('target/'));
 });
 
 gulp.task('writeBuildInfo', function() {

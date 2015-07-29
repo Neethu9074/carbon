@@ -1,8 +1,0 @@
-{
-  "name": "instana-ui-forge",
-  "version": "1.0.0",
-  "description": "plugin specific logic",
-  "main": "index.es6",
-  "license": "UNLICENSED",
-  "private": true
-}

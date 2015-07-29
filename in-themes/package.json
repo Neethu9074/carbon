@@ -1,0 +1,9 @@
+{
+  "name": "in-themes",
+  "version": "1.18.2",
+  "description": "The instana themes",
+  "main": "js/index.js",
+  "author": "Ben Ripkens <ben@instana.com>",
+  "license": "UNLICENSED",
+  "private": true
+}

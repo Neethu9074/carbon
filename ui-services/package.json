@@ -1,8 +1,0 @@
-{
-  "name": "instana-ui-services",
-  "version": "1.58.1",
-  "description": "In-browser, pluggable-independent, service layer",
-  "main": "index.es6",
-  "license": "UNLICENSED",
-  "private": true
-}

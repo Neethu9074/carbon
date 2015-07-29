@@ -1,4 +1,4 @@
-# UI-Client aka. the stuff that runs in the browser
+# in-client aka. the stuff that runs in the browser
 
 ## Getting Started
 You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the

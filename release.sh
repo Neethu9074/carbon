@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION=$1
-IMAGE=ui-client
+IMAGE=in-client
 
 if [ -z "$IMAGE" ]; then echo "no image provided"; exit 1; fi
 if [ -z "$VERSION" ]; then echo "no version provided"; exit 2; fi

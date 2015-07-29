@@ -5,13 +5,13 @@ rm -f .git/hooks/pre-commit
 ln -s ../../build/hooks/pre-commit .git/hooks/pre-commit
 
 echo "Symlinking node modules to node_modules to enable shorter require paths"
-rm -f node_modules/instana-ui-*
-ln -s ../ui-services node_modules/instana-ui-services
-ln -s ../ui-sdk node_modules/instana-ui-sdk
-ln -s ../ui-forge node_modules/instana-ui-forge
-ln -s ../ui-map node_modules/instana-ui-map
-ln -s ../ui-themes node_modules/instana-ui-themes
-ln -s ../ui-components node_modules/instana-ui-components
+rm -f node_modules/in-*
+ln -s ../in-services node_modules/in-services
+ln -s ../in-sdk node_modules/in-sdk
+ln -s ../in-forge node_modules/in-forge
+ln -s ../in-map node_modules/in-map
+ln -s ../in-themes node_modules/in-themes
+ln -s ../in-components node_modules/in-components
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"

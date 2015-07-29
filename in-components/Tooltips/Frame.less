@@ -1,0 +1,37 @@
+@import "~in-themes/less/constants.less";
+
+.in-tooltip__frame {
+  top: -15px;
+  left: 18px;
+
+  max-width: 300px;
+  min-height: 10px;
+  border-radius: 10px;
+
+  padding: 10px;
+  margin: 0;
+
+  opacity: 0.85;
+
+  display: inline-block;
+
+  z-index: @z-index__tooltips;
+  background-color: @map__tooltips__background;
+}
+
+.in-tooltip__frame:before {
+  content: ' ';
+  position: absolute;
+
+  margin-top: 5px;
+  margin-left: -17px;
+
+  padding: 0;
+
+  border: 4px solid;
+  border-color:
+    @map__tooltips__background
+    @map__tooltips__background
+    transparent
+    transparent;
+}

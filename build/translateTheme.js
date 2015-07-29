@@ -5,7 +5,7 @@
 
 var fs = require('fs');
 var path = require('path');
-var themes = require('../ui-themes/js');
+var themes = require('../in-themes/js');
 
 var stylesheet = '';
 Object.keys(themes.consts).forEach(function(theme) {
@@ -13,7 +13,7 @@ Object.keys(themes.consts).forEach(function(theme) {
 });
 stylesheet = stylesheet.trim();
 fs.writeFileSync(
-  path.join(__dirname, '../ui-themes/less/constants.less'),
+  path.join(__dirname, '../in-themes/less/constants.less'),
   stylesheet
 );
 
