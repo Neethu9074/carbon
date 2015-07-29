@@ -10,9 +10,6 @@ const rpt = React.PropTypes;
 
 const logger = createLogger('ui-client.SignInWithLinkedIn');
 
-// TODO Make configurable
-const apiKey = '77k38emu8xnsrk';
-
 // From Linkedin to HubSpot
 const propMapping = [
   {from: ['id'], to: 'linkedinid'},
@@ -49,6 +46,7 @@ const SignInWithLinkedIn = React.createClass({
     linkedInButtonElement.type = 'in/Login';
     domNode.appendChild(linkedInButtonElement);
 
+    const apiKey = window.instana.config.keys.linkedin;
     const linkedInScriptElement = document.createElement('script');
     linkedInScriptElement.src = '//platform.linkedin.com/in.js';
     linkedInScriptElement.innerHTML = 'api_key: ' + apiKey + '\n' +

@@ -32,23 +32,26 @@ gulp.task('clean', function(cb) {
 });
 
 
-gulp.task('build', ['webpack:build', 'copyfavicon', 'writeBuildInfo'], function() {
-  var assetFilter = filter('**/*.js');
-  var htmlFilter = filter('**/*.html');
+gulp.task(
+  'build',
+  ['webpack:build', 'copyfavicon', 'copyconfig', 'writeBuildInfo'],
+  function() {
+    var assetFilter = filter('**/*.js');
+    var htmlFilter = filter('**/*.html');
 
-  return gulp.src(['target/bundle/index.js', 'ui-client/' + htmlFile])
-    .pipe(assetFilter)
-    .pipe(rev())
-    .pipe(gulp.dest('target/bundle'))
-    .pipe(assetFilter.restore())
-    .pipe(revReplace())
-    .pipe(htmlFilter)
-    .pipe(gulp.dest('target'))
-    .pipe(htmlFilter.restore())
-    .pipe(size({
-      showFiles: true,
-      gzip: true
-    }));
+    return gulp.src(['target/bundle/index.js', 'ui-client/' + htmlFile])
+      .pipe(assetFilter)
+      .pipe(rev())
+      .pipe(gulp.dest('target/bundle'))
+      .pipe(assetFilter.restore())
+      .pipe(revReplace())
+      .pipe(htmlFilter)
+      .pipe(gulp.dest('target'))
+      .pipe(htmlFilter.restore())
+      .pipe(size({
+        showFiles: true,
+        gzip: true
+      }));
 });
 
 
@@ -110,6 +113,7 @@ function getRevision() {
 gulp.task('dev', [
   'copyhtml',
   'copyfavicon',
+  'copyconfig',
   'writeBuildInfo',
   'dev-watches',
   'webpack:dev'
@@ -135,6 +139,9 @@ gulp.task('copyfavicon', function() {
   gulp.src('ui-client/favicon.png').pipe(gulp.dest('target/'));
 });
 
+gulp.task('copyconfig', function() {
+  gulp.src('ui-client/config.json').pipe(gulp.dest('target/'));
+});
 
 gulp.task('writeBuildInfo', function() {
   var data = {

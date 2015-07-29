@@ -8,9 +8,6 @@ const logger = createLogger('ui-client.SignInWithXing');
 
 const rpt = React.PropTypes;
 
-// TODO Make configurable
-const apiKey = '5247fff043bff6b7e0d1';
-
 // From Xing to HubSpot
 const propMapping = [
   {from: ['id'], to: 'xingid'},
@@ -47,7 +44,7 @@ const SignInWithXing = React.createClass({
     const xingButtonElement = document.createElement('script');
     xingButtonElement.type = 'xing/login';
     xingButtonElement.innerHTML = JSON.stringify({
-      'consumer_key': apiKey
+      'consumer_key': window.instana.config.keys.xing
     });
     domNode.appendChild(xingButtonElement);
 
