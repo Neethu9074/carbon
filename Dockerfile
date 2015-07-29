@@ -25,9 +25,12 @@ COPY deployment/nginx.conf.j2 /etc/nginx/nginx.conf.j2
 COPY deployment/mime.types /etc/nginx/mime.types
 COPY deployment/.htpasswd /etc/nginx/.htpasswd
 COPY target /opt/www
+COPY deployment/config.json.j2 /opt/www/config.json.j2
 
 RUN pip install j2cli
 
-CMD j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf && nginx -g "daemon off;"
+CMD j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf && \
+  j2 /opt/www/config.json.j2 > /opt/www/config.json && \
+  nginx -g "daemon off;"
 
 EXPOSE 80 443
