@@ -70,7 +70,7 @@ const App = React.createClass({
 
         <RouteHandler />
 
-        <NoNodesDialog />
+        <NoNodesDialog pluginId={this.state.pluginId} />
 
         {this.props.state.query.help ?
           <HelpDialog id={this.props.state.query.help} />

@@ -1,16 +1,14 @@
 'use strict';
 
 import React from 'react/addons';
-import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
-import StanExplainsThings from '../StanExplainsThings';
-// import Icon from 'instana-ui-components/Icon';
 
+import SubscriptionMixin from 'instana-ui-services/util/SubscriptionMixin';
 import SnapshotConveyer from 'instana-ui-services/conveyer/SnapshotConveyer';
 import {create} from 'instana-ui-services/conveyer';
-import {plugins} from 'instana-ui-forge/constants';
 import {IntlMixin} from 'react-intl';
 
-import './index.less';
+import Dialog from '../Dialog';
+import StanExplainsThings from '../StanExplainsThings';
 
 const NoNodesDialog = React.createClass({
   mixins: [
@@ -19,21 +17,19 @@ const NoNodesDialog = React.createClass({
     IntlMixin
   ],
 
+  propTypes: {
+    pluginId: React.PropTypes.string.isRequired
+  },
+
   getInitialState() {
     return {open: false};
   },
 
   componentDidMount() {
-    const observable = create(SnapshotConveyer, {pluginId: plugins.os});
-    this.addSubscription(observable.subscribe(data => {
-      if(data.size === 0) {
-        this.setState({open: true});
-      } else {
-        if(this.state.open) {
-          this.setState({open: false});
-        }
-      }
-    }));
+    this.addSubscription(
+      create(SnapshotConveyer, {pluginId: this.props.pluginId})
+        .subscribe(data => this.setState({open: data.size === 0}))
+    );
   },
 
   render() {
@@ -42,11 +38,11 @@ const NoNodesDialog = React.createClass({
     }
 
     return (
-      <div className={'in-no-nodes-dialog'}>
+      <Dialog>
         <StanExplainsThings header={this.getIntlMessage('noNodesDialog.header')}>
           {this.getIntlMessage('noNodesDialog.content')}
         </StanExplainsThings>
-      </div>
+      </Dialog>
     );
   }
 });

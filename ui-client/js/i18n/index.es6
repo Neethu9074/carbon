@@ -12,7 +12,8 @@ export default {
       }
     },
     noNodesDialog: {
-      header: 'Menu'
+      header: 'Menu',
+      content: 'It seems that you are not yet monitoring any systems...'
     },
     map: {
       sidebar: {
