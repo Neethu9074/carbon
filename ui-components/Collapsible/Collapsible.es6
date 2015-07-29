@@ -47,9 +47,9 @@ const Collapsible = React.createClass({
                [headerProps.className]: headerProps.className !== undefined
              })}
              style={headerProps.style}>
-          <span>
+          <div className={block + '__header-contents'}>
             {headerProps.children}
-          </span>
+          </div>
           <Icon type={this.isOpen() ? 'close' : 'open'}
                 className={block + '__toggle'} />
         </div>
