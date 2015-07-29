@@ -115,6 +115,12 @@ function ping() {
 
 function onClose() {
   logger.debug('WebSocket connection was closed.');
+
+  // we are seeing issues where the connection emits a closed event, but the
+  // ready state is not changed! Explicitly closing the connection in the hope
+  // of changing the ready state and getting the reconnect logic to work.
+  connection.close();
+
   emitter.emit('closed');
   if (pingTimeoutHandle) {
     clearTimeout(pingTimeoutHandle);
