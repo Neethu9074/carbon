@@ -9,9 +9,10 @@ import {getIdString} from 'instana-ui-services/util/snapshots';
 import {getWiringWithFullSnapshots} from 'instana-ui-services/wiring';
 import {getPlural} from 'instana-ui-sdk/pluginName';
 
-import Collapsible from './Collapsible';
-import enhance from './hoc/enhance';
+import Collapsible from '../Collapsible';
+import enhance from '../hoc/enhance';
 
+import './WiringList.less';
 
 const block = 'in-wiring-list';
 
@@ -45,7 +46,9 @@ const WiringList = React.createClass({
         {Object.keys(groups).map(pluginId =>
           <Collapsible key={pluginId}>
             <Collapsible.Header>
-              <img src={getIcon(pluginId)} alt='plugin icon' />
+              <img src={getIcon(pluginId)}
+                   alt='plugin icon'
+                   className={block + '__plugin-icon'}/>
               {getPlural(pluginId)}
             </Collapsible.Header>
             <Collapsible.Content>

@@ -1,0 +1,6 @@
+{
+  "name": "WiringList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./WiringList.es6"
+}
