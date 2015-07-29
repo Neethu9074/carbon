@@ -77,17 +77,36 @@ const DemoDialog = React.createClass({
   },
 
   sendUserDataToServer(data) {
-    const result = {};
+    const props = {};
+    const context = {};
 
     propMapping.forEach(mapping => {
       const value = _.get(data, mapping.from, '');
-      result[mapping.to] = value;
+      props[mapping.to] = value;
     });
+
+    context.hutk = this.getHubspotTrackingCookie();
+    context.pageUrl = window.location.href;
+    context.pageName = window.title;
 
     connection.send({
       event: 'createLead',
-      data: result
+      props,
+      context
     });
+  },
+
+  getHubspotTrackingCookie() {
+    const matchingCookies = document.cookie.split(';')
+      .map(s => s.trim())
+      .filter(s => s.indexOf('hubspotutk') === 0);
+
+    if (matchingCookies.length !== 1) {
+      return undefined;
+    }
+
+    // remove the cookie name
+    return matchingCookies[0].replace(/^[^=]+=/, '');
   },
 
   render() {

@@ -30,39 +30,12 @@
     authorize: true
   </script>
 
-  <script type="text/javascript">
-
-    // Setup an event listener to make an API call once auth is complete
-    // function onLinkedInLoad() {
-    //  IN.Event.on(IN, "auth", getProfileData);
-    //
-    //    if (!IN.User.isAuthorized()) {
-    //     setTimeout(function() {
-    //       IN.User.authorize(function(a) {
-    //         console.log(a);
-    //       });
-    //       // body...
-    //     }, 100);
-    //   }
-    // }
-    //
-    // // Handle the successful return from the API call
-    // function onSuccess(data) {
-    //     console.log(data);
-    // }
-    //
-    // // Handle an error response from the API call
-    // function onError(error) {
-    //     console.log(error);
-    // }
-    //
-    // // Use the API call wrapper to request the member's basic profile data
-    // function getProfileData() {
-    //   var url = '/people/~:(id,first-name,last-name,formatted-name,headline,location,industry,summary,specialties,positions,public-profile-url,email-address,picture-url)'
-    //     IN.API.Raw(url).result(onSuccess).error(onError);
-    // }
-
-</script>
+  <script type="xing/login">
+    {
+      "consumer_key": "5247fff043bff6b7e0d1"
+    }
+  </script>
+  <script src="https://www.xing-share.com/plugins/login.js"></script>
 </head>
 <body>
 
