@@ -15,14 +15,7 @@
     window.instana = {};
   </script>
   <script>
-    window.instana.user = <!--#include virtual="/auth/users/current" -->;
     window.instana.build = <!--#include virtual="build.json" -->;
-  </script>
-  <script>
-    if (!window.instana.user || window.instana.user.error) {
-      window.location.href = '/auth/signIn?returnUrl=' +
-        encodeURIComponent(window.location.href);
-    }
   </script>
 
   <script type="text/javascript" src="//platform.linkedin.com/in.js">
