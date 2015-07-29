@@ -39,11 +39,10 @@ const MongoDBDashboard = React.createClass({
                          y1={{
                            min: 0,
                            metrics: [
-                             'connected'
+                             'connections'
                            ],
                            labels: [
-                             'Connections',
-                             'Blocked'
+                             'Connections'
                            ],
                            type: 'line'
                          }}/>
@@ -64,6 +63,9 @@ const MongoDBDashboard = React.createClass({
                            formatter: formatPercentageShort,
                            metrics: [
                              'index'
+                           ],
+                           labels: [
+                             'Hit Rate'
                            ],
                            type: 'stackedArea'
                          }}/>
