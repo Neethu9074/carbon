@@ -6,7 +6,7 @@ import * as ro from 'reactive-observables';
 import classnames from 'in-services/util/classnames';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
-import './index.less';
+import './Dialog.less';
 
 const rpt = React.PropTypes;
 const block = 'in-dialog';
