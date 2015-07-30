@@ -3,7 +3,7 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-// import {getColor, getZone} from 'in-sdk/zones';
+import {getColor, getZone} from 'in-sdk/zones';
 
 import './ZoneTag.less';
 
@@ -20,8 +20,9 @@ const ZoneTag = React.createClass({
 
   render() {
     return (
-      <div className={block}>
-
+      <div className={block}
+           style={{color: getColor(this.props.snapshot)}}>
+        {getZone(this.props.snapshot)}
       </div>
     );
   }

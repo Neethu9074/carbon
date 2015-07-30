@@ -17,7 +17,6 @@ import HelpDialog from './HelpDialog';
 import NoNodesDialog from './NoNodesDialog';
 import ConnectionStatus from './ConnectionStatus';
 import Sidebar from './Sidebar';
-import Search from './Search';
 
 import './App.less';
 
@@ -60,7 +59,6 @@ const App = React.createClass({
         <Lettering className='in-root-lettering' />
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
-          {__DEV__ ? <Search /> : null}
           <Map pluginId={this.state.pluginId} />
 
           <Sidebar pluginId={this.state.pluginId} />

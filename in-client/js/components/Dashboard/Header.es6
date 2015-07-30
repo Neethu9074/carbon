@@ -9,6 +9,7 @@ import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
 import HealthIcon from 'in-components/HealthIcon';
+import ZoneTag from 'in-components/ZoneTag';
 
 import './Header.less';
 
@@ -40,6 +41,7 @@ const DashboardHeader = React.createClass({
 
             <HealthIcon snapshot={snapshot}
                         className={block + '__health'}/>
+            <ZoneTag snapshot={snapshot} />
           </h1>
           <p className={block + '__plugin-type'}>
             {getSingular(snapshot.get('pluginId'))}
