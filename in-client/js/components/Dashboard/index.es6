@@ -8,6 +8,7 @@ import {State, Navigation} from 'react-router';
 import Immutable from 'immutable';
 import {on} from 'reactive-observables';
 
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as timelineStore from 'in-services/stores/timeline';
@@ -81,16 +82,21 @@ const Dashboard = React.createClass({
                 className={block + '__close'}>
           x
         </button>
-        <div className={block + '__content'} ref='content'>
-          {this.state.snapshot ?
-            this.renderDashboard()
-          : <div>Loading...</div>}
+        <div className={block + '__heading'}>
+          dsadas
         </div>
+        <div className={block + '__content-wrapper'}>
+          <div className={block + '__content'} ref='content'>
+            {this.state.snapshot ?
+              this.renderDashboard()
+            : <LoadingIndicator />}
+          </div>
 
-        <div className={block + '__sidebar'}>
-          {this.state.snapshot ?
-            this.renderSidebar()
-          : <div>Loading...</div>}
+          <div className={block + '__sidebar'}>
+            {this.state.snapshot ?
+              this.renderSidebar()
+            : <LoadingIndicator />}
+          </div>
         </div>
       </div>
     );
