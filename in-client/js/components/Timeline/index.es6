@@ -46,6 +46,8 @@ const HEALTH_DANGER = {
   color: theme.health.danger
 };
 
+const scaleFormat = d3.format('.2f');
+
 const Timeline = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
@@ -76,7 +78,8 @@ const Timeline = React.createClass({
       timePickerProperty: null,
       open: false,
       tooltipX: -1,
-      tooltipY: -1
+      tooltipY: -1,
+      scale: d3.scale.linear().range([100, 0])
     };
   },
 
@@ -152,8 +155,7 @@ const Timeline = React.createClass({
         .filter(problem => problem.get('start') > maxOldestPermittedProblem)
         .forEach(problem => problems.push(problem));
     });
-
-    const scale = this.getScale(now, maxOldestPermittedProblem);
+    const scale = this.state.scale.domain([now, maxOldestPermittedProblem]);
     return problems.map(problem => {
       const iconConfig = this.getIconConfig(problem);
       return (
@@ -161,7 +163,7 @@ const Timeline = React.createClass({
               type={iconConfig.type}
               className={block + '__problem'}
               style={{
-                left: scale(problem.get('start')) + '%',
+                left: scaleFormat(scale(problem.get('start'))) + '%',
                 color: iconConfig.color
               }}
               onMouseEnter={this.mouseIn.bind(this, problem)}
@@ -169,13 +171,6 @@ const Timeline = React.createClass({
               onClick={() => this.focusSnapshot(problem)}/>
       );
     });
-  },
-
-  getScale(top, bottom) {
-    const scale = d3.scale.linear();
-    scale.domain([top, bottom]);
-    scale.range([100, 0]);
-    return scale;
   },
 
   getIconConfig(problem) {
@@ -242,10 +237,14 @@ const Timeline = React.createClass({
       return null;
     }
 
+    const now = Date.now();
+    const maxOldestPermittedProblem = now - this.props.timeframe;
+    const scale = this.state.scale.domain([now, maxOldestPermittedProblem]);
+
     return (
       <div className={block + '__focused-moment'}
            style={{
-             left: this.getPosition(this.props.focusedMoment) + '%'
+             left: scaleFormat(scale(this.props.focusedMoment)) + '%'
            }}/>
     );
   },
