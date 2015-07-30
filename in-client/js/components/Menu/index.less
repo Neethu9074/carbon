@@ -1,27 +1,26 @@
 @import '~in-themes/less/constants.less';
 
 .in-menu {
-  margin: 0 10px 0 5px;
+  margin: 0 17px 0 19px;
   white-space: nowrap;
+  flex-shrink: 0;
 
   &__toggle-button {
-    background: transparent;
-    margin: 5px;
-    padding: 0 0 0 10px;
-
-    color: #868f94;
-
     display: flex;
     justify-content: flex-start;
     align-items: center;
 
     cursor: pointer;
+
+    background: transparent;
+    color: #868f94;
+    font-size: 13px;
   }
 
   &__icon, &__icon-close {
     font-size: 32px;
     color: #99F4F5;
-    margin: 0 5px 0 10px;
+    margin: 0 0 0 10px;
   }
 
   &__icon:hover, &__icon-close:hover {

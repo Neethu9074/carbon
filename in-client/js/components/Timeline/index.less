@@ -16,7 +16,7 @@
   &__line {
     height: 2px;
     width: 100%;
-    margin: 0 10px;
+    margin: 0 6px;
 
     position: relative;
     flex-shrink: 1;
@@ -38,7 +38,7 @@
     flex-shrink: 0;
     height: 32px;
 
-    background: #2e373e;
+    background-color: rgba(255, 255, 255, 0.1);
     color: white;
     font-weight: bold;
     text-transform: none;
@@ -47,6 +47,10 @@
   &__button-from {
     cursor: pointer;
     padding: 0px 10px 0px 0px;
+
+    &:hover, &:active {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
   }
 
   &__button-to {
@@ -61,6 +65,8 @@
     font-size: 26px;
     color: #99F4F5;
     padding: 0 8px;
+    position: relative;
+    top: 1px;
   }
 
   &__problem {
