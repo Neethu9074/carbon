@@ -1,13 +1,13 @@
 'use strict';
 
 import React from 'react/addons';
+import {IntlMixin} from 'react-intl';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {create} from 'in-services/conveyer';
-import {IntlMixin} from 'react-intl';
+import Dialog from 'in-components/Dialog';
 
-import Dialog from '../Dialog';
 import StanExplainsThings from '../StanExplainsThings';
 
 const NoNodesDialog = React.createClass({

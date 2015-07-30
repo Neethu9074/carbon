@@ -5,7 +5,7 @@
 import React from 'react/addons';
 import {Navigation, State} from 'react-router';
 
-import Dialog from '../Dialog';
+import Dialog from 'in-components/Dialog';
 
 const rpt = React.PropTypes;
 

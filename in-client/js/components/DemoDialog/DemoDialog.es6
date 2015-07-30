@@ -5,10 +5,11 @@
 import React from 'react/addons';
 
 import * as connection from 'in-services/connection';
+import Dialog from 'in-components/Dialog';
+
 import SignInWithXing from './SignInWithXing';
 import SignInWithLinkedIn from './SignInWithLinkedIn';
 
-import Dialog from '../Dialog';
 
 const DemoDialog = React.createClass({
   mixins: [React.addons.PureRenderMixin],
