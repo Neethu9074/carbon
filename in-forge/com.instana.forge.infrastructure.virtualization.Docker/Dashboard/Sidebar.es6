@@ -3,11 +3,7 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import {getLabel} from 'in-sdk/snapshot';
-
 import Panel from 'in-components/Panel';
-import SidebarHeading from 'in-components/SidebarHeading';
-import SidebarSubheading from 'in-components/SidebarSubheading';
 import DockerInfo from '../DockerInfo';
 
 const rpt = React.PropTypes;
@@ -23,13 +19,6 @@ const Sidebar = React.createClass({
   render() {
     return (
       <div>
-        <SidebarHeading>
-          Docker Details
-        </SidebarHeading>
-        <SidebarSubheading>
-          {getLabel(this.props.snapshot)}
-        </SidebarSubheading>
-
         <Panel title='Process'>
           <DockerInfo snapshot={this.props.snapshot} />
         </Panel>

@@ -4,14 +4,11 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import {getLabel} from 'in-sdk/snapshot';
 import * as constants from 'in-forge/constants';
 import Collapsible from 'in-components/Collapsible';
 
 import TagList from 'in-components/TagList/TagList';
 import ProblemPanel from 'in-components/ProblemPanel';
-import SidebarHeading from 'in-components/SidebarHeading';
-import SidebarSubheading from 'in-components/SidebarSubheading';
 import WiringList from 'in-components/WiringList';
 import EC2Info from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Info';
 import HostInfo from '../HostInfo';
@@ -34,13 +31,6 @@ const Sidebar = React.createClass({
 
     return (
       <div>
-        <SidebarHeading>
-          Server Details
-        </SidebarHeading>
-        <SidebarSubheading>
-          {getLabel(this.props.snapshot)}
-        </SidebarSubheading>
-
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>System</Collapsible.Header>
           <Collapsible.Content>
