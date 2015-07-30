@@ -13,7 +13,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as timelineStore from 'in-services/stores/timeline';
 
-import './index.less';
+import './Dashboard.less';
 
 const block = 'in-dashboard';
 
