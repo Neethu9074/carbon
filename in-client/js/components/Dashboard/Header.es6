@@ -33,11 +33,11 @@ const DashboardHeader = React.createClass({
              alt='Snapshot icon'
              className={block + '__icon'}/>
 
-        <div className={block + '__description'}>
-          <h1>
+        <div>
+          <h1 className={block + '__label'}>
             {getLabel(snapshot)}
           </h1>
-          <p>
+          <p className={block + '__plugin-type'}>
             {getSingular(snapshot.get('pluginId'))}
           </p>
         </div>
