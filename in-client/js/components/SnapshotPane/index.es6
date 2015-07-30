@@ -1,19 +1,25 @@
+/*eslint-disable react/no-multi-comp*/
+
 'use strict';
 
 import React from 'react';
 import {State, Navigation} from 'react-router';
+import moment from 'moment';
+import irpt from 'react-immutable-proptypes';
+
+
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {create} from 'in-services/conveyer';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
-import moment from 'moment';
-
 const block = 'in-snapshot-pane';
 
 import './index.less';
 
-/*eslint-disable no-unused-vars*/
 const SnapshotsPaneContent = React.createClass({
-/*eslint-enable no-unused-vars*/
+  propTypes: {
+    snapshots: irpt.list.isRequired
+  },
+
   render() {
     const snapshots = this.props.snapshots;
 
