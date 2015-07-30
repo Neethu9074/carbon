@@ -85,6 +85,9 @@ const OsDashboard = React.createClass({
                windowSize={this.props.timeframe}
                width={this.props.width}
                height={chartHeight}
+               margins={{
+                 left: 60
+               }}
                y1={{
                  min: 0,
                  type: 'stackedArea',
