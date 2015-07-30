@@ -4,7 +4,6 @@
 'use strict';
 
 import React from 'react';
-import {State, Navigation} from 'react-router';
 import Immutable from 'immutable';
 import {on} from 'reactive-observables';
 
@@ -13,12 +12,14 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as timelineStore from 'in-services/stores/timeline';
 
+import Header from './Header';
+
 import './Dashboard.less';
 
 const block = 'in-dashboard';
 
 const Dashboard = React.createClass({
-  mixins: [SubscriptionMixin, State, Navigation],
+  mixins: [SubscriptionMixin],
 
   statics: {
     willTransitionTo(transition, params) {
@@ -77,14 +78,8 @@ const Dashboard = React.createClass({
   render() {
     return (
       <div className={block}>
-        <button type='button'
-                onClick={this.closeDashboard}
-                className={block + '__close'}>
-          x
-        </button>
-        <div className={block + '__heading'}>
-          dsadas
-        </div>
+        <Header snapshot={this.state.snapshot}/>
+
         <div className={block + '__content-wrapper'}>
           <div className={block + '__content'} ref='content'>
             {this.state.snapshot ?
@@ -129,10 +124,6 @@ const Dashboard = React.createClass({
       name +
       '.es6'
     );
-  },
-
-  closeDashboard() {
-    this.transitionTo('map');
   }
 
 });
