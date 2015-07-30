@@ -12,6 +12,7 @@ import {
 } from 'in-services/converters';
 import {getMaxValue} from 'in-sdk/metrics';
 
+import classnames from 'in-services/util/classnames';
 import HelpLink from 'in-components/HelpLink';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import Separator from 'in-components/Separator';
@@ -183,7 +184,11 @@ const OsDashboard = React.createClass({
 
           <tbody>
             {filesystems.map((data, name) =>
-              <tr key={name} onClick={() => this.selectFilesystem(name)}>
+              <tr key={name}
+                  onClick={() => this.selectFilesystem(name)}
+                  className={classnames({
+                    'active': name === this.state.filesystemName
+                  })}>
                 <td>{name}</td>
                 <td>{data.get('mount')}</td>
                 <td>{data.get('options')}</td>
@@ -287,7 +292,11 @@ const OsDashboard = React.createClass({
 
           <tbody>
             {interfaces.map((data, name) =>
-              <tr key={name} onClick={() => this.selectInterface(name)}>
+              <tr key={name}
+                  onClick={() => this.selectInterface(name)}
+                  className={classnames({
+                    'active': name === this.state.interfaceName
+                  })}>
                 <td>{name}</td>
                 <td>{data.get('mac')}</td>
                 <td>{data.get('ips').join(', ')}</td>

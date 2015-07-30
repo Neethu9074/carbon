@@ -7,11 +7,10 @@
   max-height: ~"calc(100% - 100px)";
   overflow: hidden;
 
-  z-index: @z-index__sidebar;
-
   display: flex;
   flex-direction: column;
-  min-height: 50px;
+
+  z-index: @z-index__sidebar;
 
   &:first-child {
     margin-top: 0;
@@ -37,6 +36,8 @@
     // is more important. We only wish to put the header visually above the
     // content in order to make the box-shadow visible.
     z-index: 1;
+
+    flex-shrink: 0;
 
     font-size: 16px;
     font-weight: 400;

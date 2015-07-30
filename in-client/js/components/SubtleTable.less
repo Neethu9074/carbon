@@ -15,12 +15,16 @@
   }
 
   td {
-    background: #2B3238;
+    background: rgba(255, 255, 255, 0.04);
     font-size: 14px;
   }
 
+  tr.active td {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
   &--clickable tr:hover td {
-    background: #444;
+    background: rgba(255, 255, 255, 0.2);
     cursor: pointer;
   }
 

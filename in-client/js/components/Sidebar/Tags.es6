@@ -34,24 +34,27 @@ const SidebarTagListing = React.createClass({
     const tags = this.getAllTags().sort();
 
     return (
-      <ol className={block}>
-        {tags.map(tag => {
-          const activeFilter = this.getActiveFilter(tag);
-          return (
-            <li className={classnames({
-                  [block + '__tag']: true,
-                  [block + '__tag--active']: !!activeFilter
-                })}
-                key={tag}
-                onClick={() => this.toggleFilter(tag, activeFilter)}>
-              <div style={{background: getColor(tag)}}
-                   className={block + '__bubble'}>
-              </div>
-              {tag}
-            </li>
-          );
-        })}
-      </ol>
+      <div>
+        <h1 className={block + '__label'}>Tags</h1>
+        <ol className={block}>
+          {tags.map(tag => {
+            const activeFilter = this.getActiveFilter(tag);
+            return (
+              <li className={classnames({
+                    [block + '__tag']: true,
+                    [block + '__tag--active']: !!activeFilter
+                  })}
+                  key={tag}
+                  onClick={() => this.toggleFilter(tag, activeFilter)}>
+                <div style={{background: getColor(tag)}}
+                     className={block + '__bubble'}>
+                </div>
+                {tag}
+              </li>
+            );
+          })}
+        </ol>
+      </div>
     );
   },
 
