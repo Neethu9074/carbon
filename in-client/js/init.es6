@@ -34,8 +34,11 @@ uiBackendAppender.setActivePriority(30);
 logging.addAppender(uiBackendAppender);
 
 const unhandledLogger = logging.createLogger('in-client.unhandled');
-window.onerror = error => {
-  unhandledLogger.error(error);
+window.onerror = function() {
+  unhandledLogger.error.apply(unhandledLogger, arguments);
+
+  // let the default error handler run as well
+  return false;
 };
 
 // add a theme css class on the HTML document to allow style overrides

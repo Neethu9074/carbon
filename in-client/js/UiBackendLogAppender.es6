@@ -11,7 +11,13 @@ export default class UiBackendLogAppender {
   append(opts) {
     const formattedPayload = opts.params
       .map(part => {
-        if (typeof part === 'object') {
+        if (part instanceof Error) {
+          return JSON.stringify({
+            type: 'error',
+            message: part.message,
+            stack: part.stack
+          }, 0, 2);
+        } else if (typeof part === 'object') {
           return JSON.stringify(part, 0, 2);
         } else {
           return part;
