@@ -3,6 +3,7 @@
 import React from 'react/addons';
 import * as ro from 'reactive-observables';
 
+import classnames from 'in-services/util/classnames';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
 import './index.less';
@@ -23,7 +24,7 @@ const Dialog = React.createClass({
     this.addSubscription(
       ro.on(window, 'keyup')
         .subscribe(e => {
-          if (e.keyCode === escapeKeycode) {
+          if (e.keyCode === escapeKeycode && this.props.onClose) {
             this.props.onClose();
           }
         })
@@ -33,7 +34,10 @@ const Dialog = React.createClass({
   render() {
     return (
       <div>
-        <div className={block + '__backdrop'}
+        <div className={classnames({
+               [block + '__backdrop']: true,
+               [block + '__backdrop--clickable']: !!this.props.onClose
+             })}
              onClick={this.props.onClose}/>
         <div className={block + '__content'}>
           {this.props.children}
