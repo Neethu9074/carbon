@@ -3,7 +3,8 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import Panel from 'in-components/Panel';
+import Collapsible from 'in-components/Collapsible';
+import ProblemPanel from 'in-components/ProblemPanel';
 import RedisInfo from '../RedisInfo';
 
 const rpt = React.PropTypes;
@@ -19,9 +20,13 @@ const RedisSidebar = React.createClass({
   render() {
     return (
       <div>
-        <Panel title='Redis'>
-          <RedisInfo snapshot={this.props.snapshot} />
-        </Panel>
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>Redis</Collapsible.Header>
+          <Collapsible.Content>
+            <RedisInfo snapshot={this.props.snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+        <ProblemPanel snapshot={this.props.snapshot} />
       </div>
     );
   }

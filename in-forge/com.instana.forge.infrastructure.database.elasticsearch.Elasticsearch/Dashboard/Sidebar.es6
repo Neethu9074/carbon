@@ -3,7 +3,8 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import Panel from 'in-components/Panel';
+import Collapsible from 'in-components/Collapsible';
+import ProblemPanel from 'in-components/ProblemPanel';
 import ElasticsearchInfo from '../ElasticsearchInfo';
 
 const rpt = React.PropTypes;
@@ -19,9 +20,13 @@ const ElasticsearchSidebar = React.createClass({
   render() {
     return (
       <div>
-        <Panel title='Elasticsearch'>
-          <ElasticsearchInfo snapshot={this.props.snapshot} />
-        </Panel>
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>Elasticsearch</Collapsible.Header>
+          <Collapsible.Content>
+            <ElasticsearchInfo snapshot={this.props.snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+        <ProblemPanel snapshot={this.props.snapshot} />
       </div>
     );
   }

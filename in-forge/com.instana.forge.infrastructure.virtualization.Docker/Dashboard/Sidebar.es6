@@ -3,7 +3,8 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import Panel from 'in-components/Panel';
+import Collapsible from 'in-components/Collapsible';
+import ProblemPanel from 'in-components/ProblemPanel';
 import DockerInfo from '../DockerInfo';
 
 const rpt = React.PropTypes;
@@ -19,9 +20,13 @@ const Sidebar = React.createClass({
   render() {
     return (
       <div>
-        <Panel title='Process'>
-          <DockerInfo snapshot={this.props.snapshot} />
-        </Panel>
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>Docker</Collapsible.Header>
+          <Collapsible.Content>
+            <DockerInfo snapshot={this.props.snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+        <ProblemPanel snapshot={this.props.snapshot} />
       </div>
     );
   }

@@ -3,7 +3,8 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import Panel from 'in-components/Panel';
+import Collapsible from 'in-components/Collapsible';
+import ProblemPanel from 'in-components/ProblemPanel';
 import MongoDBInfo from '../MongoDBInfo';
 
 const rpt = React.PropTypes;
@@ -19,9 +20,13 @@ const MongoDBSidebar = React.createClass({
   render() {
     return (
       <div>
-        <Panel title='MongoDB'>
-          <MongoDBInfo snapshot={this.props.snapshot} />
-        </Panel>
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>MongoDB</Collapsible.Header>
+          <Collapsible.Content>
+            <MongoDBInfo snapshot={this.props.snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+        <ProblemPanel snapshot={this.props.snapshot} />
       </div>
     );
   }
