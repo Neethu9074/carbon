@@ -20,8 +20,12 @@ const ZoneTag = React.createClass({
 
   render() {
     const zone = getZone(this.props.snapshot);
+    let classes = block;
+    if (this.props.className) {
+      classes += ' ' + this.props.className;
+    }
     return (
-      <div className={block}
+      <div className={classes}
            style={{background: getColor(zone)}}>
         {zone}
       </div>

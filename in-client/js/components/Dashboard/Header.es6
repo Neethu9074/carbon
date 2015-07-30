@@ -38,10 +38,10 @@ const DashboardHeader = React.createClass({
         <div>
           <h1 className={block + '__label'}>
             {getLabel(snapshot)}
-
             <HealthIcon snapshot={snapshot}
                         className={block + '__health'}/>
-            <ZoneTag snapshot={snapshot} />
+            <ZoneTag snapshot={snapshot}
+                     className={block + '__zone'}/>
           </h1>
           <p className={block + '__plugin-type'}>
             {getSingular(snapshot.get('pluginId'))}
