@@ -130,7 +130,8 @@ const Timeline = React.createClass({
       return null;
     }
 
-    const maxOldestPermittedProblem = Date.now() - this.props.timeframe;
+    const now = Date.now();
+    const maxOldestPermittedProblem = now - this.props.timeframe;
     const problems = [];
 
     this.props.openIssues.forEach(issue => {
@@ -139,6 +140,7 @@ const Timeline = React.createClass({
         .forEach(problem => problems.push(problem));
     });
 
+    const scale = this.getScale(now, maxOldestPermittedProblem);
     return problems.map(problem => {
       const iconConfig = this.getIconConfig(problem);
       return (
@@ -146,7 +148,7 @@ const Timeline = React.createClass({
               type={iconConfig.type}
               className={block + '__problem'}
               style={{
-                left: this.getPosition(problem.get('start')) + '%',
+                left: scale(problem.get('start')) + '%',
                 color: iconConfig.color
               }}
               onMouseEnter={this.mouseIn.bind(this, problem)}
@@ -154,6 +156,13 @@ const Timeline = React.createClass({
               onClick={() => this.focusSnapshot(problem)}/>
       );
     });
+  },
+
+  getScale(top, bottom) {
+    const scale = d3.scale.linear();
+    scale.domain([top, bottom]);
+    scale.range([100, 0]);
+    return scale;
   },
 
   getIconConfig(problem) {
@@ -176,17 +185,6 @@ const Timeline = React.createClass({
       default:
         throw new Error('Unrecognized health ' + this.state.health);
     }
-  },
-
-  getPosition(t) {
-    const top = Date.now();
-    const bottom = top - this.props.timeframe;
-
-    const scale = d3.scale.linear();
-    scale.domain([top, bottom]);
-    scale.range([100, 0]);
-
-    return scale(t);
   },
 
   renderTimePicker() {
