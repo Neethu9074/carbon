@@ -33,6 +33,11 @@ const uiBackendAppender = new UiBackendLogAppender();
 uiBackendAppender.setActivePriority(30);
 logging.addAppender(uiBackendAppender);
 
+const unhandledLogger = logging.createLogger('in-client.unhandled');
+window.onerror = error => {
+  unhandledLogger.error(error);
+};
+
 // add a theme css class on the HTML document to allow style overrides
 setThemeOnHtmlDocument();
 
