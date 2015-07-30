@@ -107,12 +107,6 @@ const SidebarListing = React.createClass({
                       selectedSnapshot={this.state.selectedSnapshot}
                       highlightedSnapshot={this.state.highlightedSnapshot} />
           </Tab>
-          <Tab title='' modifier='metrics'>
-            <Metrics/>
-          </Tab>
-          <Tab title='' modifier='tags'>
-            <Tags snapshots={this.state.snapshots} />
-          </Tab>
           <Tab title={String(dangerCount)}
                modifier='danger'>
             {this.state.issueSummary ?
@@ -136,6 +130,12 @@ const SidebarListing = React.createClass({
                                selectedSnapshot={this.state.selectedSnapshot}
                                highlightedSnapshot={this.state.highlightedSnapshot} />
             : ' ' }
+          </Tab>
+          <Tab title='' modifier='metrics'>
+            <Metrics/>
+          </Tab>
+          <Tab title='' modifier='tags'>
+            <Tags snapshots={this.state.snapshots} />
           </Tab>
         </Tabs>
       </div>

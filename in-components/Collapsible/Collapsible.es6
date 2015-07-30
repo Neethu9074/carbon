@@ -44,7 +44,8 @@ const Collapsible = React.createClass({
                [block + '__header']: true,
                [block + '__header--closed']: !this.isOpen(),
                [block + '__header--bordered']: !headerProps.noBorder,
-               [headerProps.className]: headerProps.className !== undefined
+               [headerProps.className]: headerProps.className !== undefined,
+               [headerProps.className + '--closed']: headerProps.className !== undefined && !this.isOpen()
              })}>
           <div className={classnames({
                  [block + '__header-contents']: true,

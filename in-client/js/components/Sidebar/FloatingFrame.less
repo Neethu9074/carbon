@@ -32,6 +32,11 @@
 
     background: #20272D;
     cursor: pointer;
+    box-shadow: 0 -2px 20px #000;
+    // z-index is relative to the floating frame only as the parent's z-index
+    // is more important. We only wish to put the header visually above the
+    // content in order to make the box-shadow visible.
+    z-index: 1;
 
     font-size: 16px;
     font-weight: 400;
@@ -55,7 +60,7 @@
 
   &__content {
     background: #2F434C;
-    padding: 20px 20px 10px;
+    padding: 0 20px;
     width: 300px;
     overflow-y: auto;
   }
