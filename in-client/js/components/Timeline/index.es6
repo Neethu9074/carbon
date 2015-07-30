@@ -152,8 +152,11 @@ const Timeline = React.createClass({
 
     this.props.openIssues.forEach(issue => {
       issue.get('problems')
-        .filter(problem => problem.get('start') > maxOldestPermittedProblem)
-        .forEach(problem => problems.push(problem));
+        .forEach(problem => {
+          if (problem.get('start') > maxOldestPermittedProblem) {
+            problems.push(problem);
+          }
+        });
     });
     const scale = this.state.scale.domain([now, maxOldestPermittedProblem]);
     return problems.map(problem => {
