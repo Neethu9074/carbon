@@ -19,10 +19,11 @@ const ZoneTag = React.createClass({
   },
 
   render() {
+    const zone = getZone(this.props.snapshot);
     return (
       <div className={block}
-           style={{color: getColor(this.props.snapshot)}}>
-        {getZone(this.props.snapshot)}
+           style={{background: getColor(zone)}}>
+        {zone}
       </div>
     );
   }
