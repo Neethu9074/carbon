@@ -33,6 +33,19 @@ import './index.less';
 const rpt = React.PropTypes;
 const block = 'in-timeline';
 
+const HEALTH_OK = {
+  type: 'dot',
+  color: theme.health.ok
+};
+const HEALTH_WARNING = {
+  type: 'warning',
+  color: theme.health.warning
+};
+const HEALTH_DANGER = {
+  type: 'critical',
+  color: theme.health.danger
+};
+
 const Timeline = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
@@ -168,20 +181,11 @@ const Timeline = React.createClass({
   getIconConfig(problem) {
     switch (mapSeverityToHealth(problem.get('severity'))) {
       case health.warning:
-        return {
-          type: 'warning',
-          color: theme.health.warning
-        };
+        return HEALTH_WARNING;
       case health.danger:
-        return {
-          type: 'critical',
-          color: theme.health.danger
-        };
+        return HEALTH_DANGER;
       case health.ok:
-        return {
-          type: 'dot',
-          color: theme.health.ok
-        };
+        return HEALTH_OK;
       default:
         throw new Error('Unrecognized health ' + this.state.health);
     }
