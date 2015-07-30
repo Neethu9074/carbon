@@ -3,7 +3,7 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import {getColor, getZone} from 'in-sdk/zones';
+// import {getColor, getZone} from 'in-sdk/zones';
 
 import './ZoneTag.less';
 
