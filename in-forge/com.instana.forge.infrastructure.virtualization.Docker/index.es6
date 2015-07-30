@@ -5,6 +5,7 @@ import {
   addLabelFinder
 } from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
+import * as zones from 'in-sdk/zones';
 
 import iconPath from './icon.svg';
 import * as constants from '../constants';
@@ -23,4 +24,9 @@ addLabelFinder(
 addIconFinder(
   constants.plugins.docker,
   () => iconPath
+);
+
+zones.addMapping(
+  constants.plugins.docker,
+  snapshot => snapshot.get('hostId')
 );
