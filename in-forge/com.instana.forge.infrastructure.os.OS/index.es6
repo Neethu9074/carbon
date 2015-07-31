@@ -21,8 +21,8 @@ import './wiring';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.os,
-  'Operating System',
-  'Operating Systems'
+  'Host',
+  'Hosts'
 );
 
 addIconFinder(
