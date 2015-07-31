@@ -8,6 +8,11 @@ events {
   worker_connections         1024;
 }
 
+server {
+    listen 80;
+    return 301 https://$host$request_uri;
+}
+
 http {
   include                    mime.types;
   default_type               application/octet-stream;
@@ -30,7 +35,7 @@ http {
   }
 
   server {
-    listen                   80;
+    listen                   443 ssl spdy;
     server_name              example;
 
     access_log               /var/log/nginx/access.log standard_format buffer=32k;
@@ -47,6 +52,15 @@ http {
 
     ssi                      on;
     ssi_silent_errors        off;
+
+    ssl on;
+    ssl_certificate /etc/ssl/certs/star_instana_io.crt;
+    ssl_certificate_key /etc/ssl/private/star_instana_io.key;
+
+    ssl_session_cache  builtin:1000  shared:SSL:10m;
+    ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
+    ssl_prefer_server_ciphers on;
 
     location ~* \.js\.map$ {
       auth_basic             "Restricted";
