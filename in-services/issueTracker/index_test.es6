@@ -17,6 +17,9 @@ describe('issueTracker', () => {
 
   beforeEach(() => {
     observable = ro.create();
+    /*eslint-disable camelcase, no-underscore-dangle, no-undef*/
+    global.__DEV__ = false;
+    /*eslint-enable camelcase, no-underscore-dangle, no-undef*/
 
     const create = sinon.stub();
     create.returns(observable);

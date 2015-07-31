@@ -3,6 +3,7 @@
 'use strict';
 
 import Immutable from 'immutable';
+import * as ro from 'reactive-observables';
 
 import {create} from '../conveyer';
 import {mapSeverityToHealth, health} from '../health';
@@ -14,6 +15,9 @@ const allIssuesStream = timelineStore.timeframe.transform({
   emitLatestOnSubscribe: true,
 
   transform(timeframe) {
+    if (__DEV__) {
+      return ro.create();
+    }
     return create(IssueConveyer, {timeframe})
       .scan(collectingReducer, Immutable.List());
   },
