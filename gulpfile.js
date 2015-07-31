@@ -20,12 +20,7 @@ var fs = require('fs');
 
 var webpackConfig = require('./webpack.config.js');
 
-var htmlFile;
-if (process.env.TARGET_ENVIRONMENT === 'demo') {
-  htmlFile = 'index-demo.html';
-} else {
-  htmlFile = 'index.html';
-}
+var htmlFile = 'index.html';
 
 gulp.task('clean', function(cb) {
   del(['./target'], cb);
