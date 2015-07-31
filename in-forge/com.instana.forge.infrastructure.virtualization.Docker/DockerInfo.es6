@@ -24,15 +24,31 @@ const DockerInfo = React.createClass({
           {data.get('Command')}
         </DescriptionItem>
         <DescriptionItem title='Id'>
-          {data.get('Id').substring(0, 12)}{'...'}
+          {data.get('Id').substring(0, 12)}{'…'}
         </DescriptionItem>
         <DescriptionItem title='Names'>
-          {data.get('Names')}
+          {data.get('Names').join(', ')}
         </DescriptionItem>
-        <DescriptionItem title='Labels'>
-          {data.get('Labels')}
+        <DescriptionItem title='Ports'>
+          {this.renderPorts(data)}
         </DescriptionItem>
       </DescriptionList>
+    );
+  },
+
+  renderPorts(data) {
+    const ports = data.get('Ports');
+    if (ports == null || ports.size === 0) {
+      return null;
+    }
+
+    // TODO how do we show the public port?
+    return (
+      <span>
+        {ports.map(port =>
+          <span>{port.get('PrivatePort')}/{port.get('Type')}</span>
+        )}
+      </span>
     );
   }
 });
