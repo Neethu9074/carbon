@@ -57,9 +57,6 @@ const SignInWithLinkedIn = React.createClass({
 
   onLinkedInAuthLoaded() {
     IN.Event.on(IN, 'auth', this.requestUserData);
-    if (IN.User.isAuthorized()) {
-      this.requestUserData();
-    }
   },
 
   requestUserData() {
