@@ -46,8 +46,6 @@ const HEALTH_DANGER = {
   color: theme.health.danger
 };
 
-const scaleFormat = d3.format('.2f');
-
 const Timeline = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
@@ -166,7 +164,7 @@ const Timeline = React.createClass({
               type={iconConfig.type}
               className={block + '__problem'}
               style={{
-                left: scaleFormat(scale(problem.get('start'))) + '%',
+                left: scale(problem.get('start')).toFixed(2) + '%',
                 color: iconConfig.color
               }}
               onMouseEnter={this.mouseIn.bind(this, problem)}
@@ -247,7 +245,7 @@ const Timeline = React.createClass({
     return (
       <div className={block + '__focused-moment'}
            style={{
-             left: scaleFormat(scale(this.props.focusedMoment)) + '%'
+             left: scale(this.props.focusedMoment).toFixed(2) + '%'
            }}/>
     );
   },
