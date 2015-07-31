@@ -17,7 +17,7 @@ export default {
     },
     map: {
       sidebar: {
-        switchToDashboard: 'Switch to dashboard'
+        switchToDashboard: 'Open Dashboard'
       },
       searchbar: {
         text: 'Submit'
