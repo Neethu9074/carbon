@@ -33,7 +33,7 @@ const DemoDialog = React.createClass({
       <div className={block}>
         <Lettering />
         <p className={block + '__msg'}>
-          Use your LinkedIn or Xing accout to try our Demo.
+          Use your LinkedIn or Xing account to try our demo.
         </p>
         <div className={block + '__social'}>
           <SignInWithLinkedIn onSignIn={this.onSignIn}
