@@ -2,6 +2,7 @@ serverName: local.internal.instana.io
 port: 4000
 root: false
 ssi: true
+tls: true
 proxy:
   /: http://127.0.0.1:3000
   /api/: http://test.internal.instana.io/api/
