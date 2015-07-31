@@ -18,12 +18,8 @@ const Details = React.createClass({
   },
 
   render() {
-    const data = this.props.snapshot.get('data');
-
     return (
       <div className={block}>
-        {data.get('exec')}
-
         <ProblemPanel snapshot={this.props.snapshot} />
 
         <Collapsible initiallyOpen={true}>

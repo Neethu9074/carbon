@@ -29,8 +29,6 @@ const OsDetails = React.createClass({
 
     return (
       <div className={block}>
-        {data.get('hostname')}
-
         <ProblemPanel snapshot={this.props.snapshot} />
 
         <Collapsible initiallyOpen={true}>

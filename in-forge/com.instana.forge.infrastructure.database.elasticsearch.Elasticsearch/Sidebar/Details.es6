@@ -18,12 +18,8 @@ const ElasticsearchDetails = React.createClass({
   },
 
   render() {
-    const data = this.props.snapshot.get('data');
-
     return (
       <div className={block}>
-        {data.get('cluster.name')}
-
         <ProblemPanel snapshot={this.props.snapshot} />
 
         <Collapsible initiallyOpen={true}>

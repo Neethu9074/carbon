@@ -7,6 +7,10 @@ import irpt from 'react-immutable-proptypes';
 import {IntlMixin} from 'react-intl';
 import {Navigation} from 'react-router';
 
+import {getLabel} from 'in-sdk/snapshot';
+import {getSingular} from 'in-sdk/pluginName';
+import HealthIcon from 'in-components/HealthIcon';
+import ZoneTag from 'in-components/ZoneTag';
 import {clear} from 'in-services/stores/selectedSnapshot';
 import Icon from 'in-components/Icon';
 
@@ -26,6 +30,8 @@ const Details = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+
     return (
       <div className={block}>
         <div className={block + '__navigation'}>
@@ -34,9 +40,20 @@ const Details = React.createClass({
                 className={block + '__back'}/>
 
           <h2 className={block + '__title'}>
-            Server Details
+            {getSingular(snapshot.get('pluginId'))}
           </h2>
         </div>
+
+        <div className={block + '__heading'}>
+          <h1 className={block + '__label'}>
+            {getLabel(snapshot)}
+            <HealthIcon snapshot={snapshot}
+                        className={block + '__health'}/>
+          </h1>
+          <ZoneTag snapshot={snapshot}
+                   className={block + '__zone'}/>
+        </div>
+
 
         <div className={block + '__content'}>
           {this.renderSnapshotDetails()}

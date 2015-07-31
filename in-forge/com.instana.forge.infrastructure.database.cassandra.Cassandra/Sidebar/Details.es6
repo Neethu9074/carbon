@@ -18,12 +18,8 @@ const CassandraDetails = React.createClass({
   },
 
   render() {
-    const data = this.props.snapshot.get('data');
-
     return (
       <div className={block}>
-        {data.get('clusterName')}
-
         <ProblemPanel snapshot={this.props.snapshot} />
 
         <Collapsible initiallyOpen={true}>
