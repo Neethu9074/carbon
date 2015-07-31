@@ -74,7 +74,9 @@ const App = React.createClass({
           <HelpDialog id={this.props.state.query.help} />
         : null}
 
-        {__DEMO__ ? this.renderDemoDialog() : null}
+        {window.instana.config.environment === 'demo' ?
+          this.renderDemoDialog()
+        : null}
 
         <ConnectionStatus />
       </div>
