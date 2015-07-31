@@ -26,6 +26,8 @@ COPY deployment/mime.types /etc/nginx/mime.types
 COPY deployment/.htpasswd /etc/nginx/.htpasswd
 COPY target /opt/www
 COPY deployment/config.json.j2 /opt/www/config.json.j2
+COPY deployment/start_instana_io.crt /etc/ssl/certs/star_instana_io.crt
+COPY deployment/star_instana_io.key /opt/www/star_instana_io.key.j2
 
 RUN pip install j2cli
 
