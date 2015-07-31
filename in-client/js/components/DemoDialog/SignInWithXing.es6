@@ -26,7 +26,8 @@ const SignInWithXing = React.createClass({
 
   propTypes: {
     onSignIn: rpt.func.isRequired,
-    onError: rpt.func.isRequired
+    onError: rpt.func.isRequired,
+    className: rpt.string
   },
 
   shouldComponentUpdate() {
@@ -44,7 +45,8 @@ const SignInWithXing = React.createClass({
     const xingButtonElement = document.createElement('script');
     xingButtonElement.type = 'xing/login';
     xingButtonElement.innerHTML = JSON.stringify({
-      'consumer_key': window.instana.config.keys.xing
+      'consumer_key': window.instana.config.keys.xing,
+      size: 'xlarge'
     });
     domNode.appendChild(xingButtonElement);
 
@@ -72,7 +74,7 @@ const SignInWithXing = React.createClass({
 
   render() {
     return (
-      <div></div>
+      <div className={this.props.className}></div>
     );
   }
 });

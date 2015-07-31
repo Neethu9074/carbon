@@ -1,0 +1,45 @@
+@import "~in-themes/less/constants.less";
+
+.in-demo-sign-in-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  background: rgba(0, 0, 0, .7);
+  z-index: @z-index__backdrop;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &:before {
+    content: "";
+    width: 383px;
+    height: 509px;
+
+    position: fixed;
+    top: ~"calc(50% - 254px)";
+    left: ~"calc(50% + 12em)";
+    background: url('./img/stan.png');
+  }
+
+  &__msg {
+    font-size: 42px;
+    font-weight: 100;
+    max-width: 14em;
+    text-align: center;
+  }
+
+  &__social {
+    margin: 10px 0 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  &__linkedin, &__xing {
+    margin: 0 10px;
+  }
+}

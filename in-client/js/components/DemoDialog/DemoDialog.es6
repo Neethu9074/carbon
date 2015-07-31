@@ -4,12 +4,15 @@
 
 import React from 'react/addons';
 
+import Lettering from 'in-components/Lettering';
 import * as connection from 'in-services/connection';
-import Dialog from 'in-components/Dialog';
 
 import SignInWithXing from './SignInWithXing';
 import SignInWithLinkedIn from './SignInWithLinkedIn';
 
+import './DemoDialog.less';
+
+const block = 'in-demo-sign-in-overlay';
 
 const DemoDialog = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -27,13 +30,20 @@ const DemoDialog = React.createClass({
     }
 
     return (
-      <Dialog>
-        Sign in with linked in
-        <SignInWithLinkedIn onSignIn={this.onSignIn}
-                            onError={this.onError} />
-        <SignInWithXing onSignIn={this.onSignIn}
-                        onError={this.onError} />
-      </Dialog>
+      <div className={block}>
+        <Lettering />
+        <p className={block + '__msg'}>
+          Use your LinkedIn or Xing accout to try our Demo.
+        </p>
+        <div className={block + '__social'}>
+          <SignInWithLinkedIn onSignIn={this.onSignIn}
+                              onError={this.onError}
+                              className={block + '__linkedin'}/>
+          <SignInWithXing onSignIn={this.onSignIn}
+                          onError={this.onError}
+                          className={block + '__xing'}/>
+        </div>
+      </div>
     );
   },
 

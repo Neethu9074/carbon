@@ -6,8 +6,10 @@ import _ from 'lodash';
 import React from 'react/addons';
 import {createLogger} from 'instalog';
 
-const rpt = React.PropTypes;
+import './SignInWithLinkedIn.less';
 
+const rpt = React.PropTypes;
+const block = 'in-sign-with-linked-in';
 const logger = createLogger('in-client.SignInWithLinkedIn');
 
 // From Linkedin to HubSpot
@@ -27,7 +29,8 @@ const propMapping = [
 const SignInWithLinkedIn = React.createClass({
   propTypes: {
     onSignIn: rpt.func.isRequired,
-    onError: rpt.func.isRequired
+    onError: rpt.func.isRequired,
+    className: rpt.string
   },
 
   shouldComponentUpdate() {
@@ -41,10 +44,6 @@ const SignInWithLinkedIn = React.createClass({
     window.onLinkedInAuthLoaded = this.onLinkedInAuthLoaded;
 
     const domNode = React.findDOMNode(this);
-
-    const linkedInButtonElement = document.createElement('script');
-    linkedInButtonElement.type = 'in/Login';
-    domNode.appendChild(linkedInButtonElement);
 
     const apiKey = window.instana.config.keys.linkedin;
     const linkedInScriptElement = document.createElement('script');
@@ -84,8 +83,15 @@ const SignInWithLinkedIn = React.createClass({
   },
 
   render() {
+    let classes = block;
+    if (this.props.className) {
+      classes += ' ' + this.props.className;
+    }
     return (
-      <div></div>
+      <button className={classes}
+              onClick={() => IN.User.authorize()}>
+        Sign in with LinkedIn
+      </button>
     );
   }
 });
