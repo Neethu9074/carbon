@@ -57,7 +57,10 @@ const SignInWithXing = React.createClass({
   },
 
   onSignIn({error, user}) {
-    if (error) {
+    if (error === 'USER_LOGGED_OUT') {
+      // ignore this error. It is okay for users not to be signed into xing
+      return;
+    } else if (error) {
       const msg = 'Failed to authenticate using Xing';
       logger.error(msg, error);
       this.props.onError(msg);
