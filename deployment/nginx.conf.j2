@@ -30,8 +30,9 @@ http {
   }
 
   server {
-    listen 80;
-    return 301 https://$host$request_uri;
+    listen                   80;
+    return                   301 https://$host$request_uri;
+    add_header               Strict-Transport-Security "max-age=10886400; includeSubDomains; preload";
   }
 
   server {
@@ -53,13 +54,13 @@ http {
     ssi                      on;
     ssi_silent_errors        off;
 
-    ssl on;
-    ssl_certificate /etc/ssl/certs/star_instana_io.crt;
-    ssl_certificate_key /etc/ssl/private/star_instana_io.key;
+    ssl                      on;
+    ssl_certificate          /etc/ssl/certs/star_instana_io.crt;
+    ssl_certificate_key      /etc/ssl/private/star_instana_io.key;
 
-    ssl_session_cache  builtin:1000  shared:SSL:10m;
-    ssl_protocols  TLSv1 TLSv1.1 TLSv1.2;
-    ssl_ciphers HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
+    ssl_session_cache        builtin:1000  shared:SSL:10m;
+    ssl_protocols            TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers              HIGH:!aNULL:!eNULL:!EXPORT:!CAMELLIA:!DES:!MD5:!PSK:!RC4;
     ssl_prefer_server_ciphers on;
 
     location ~* \.js\.map$ {
@@ -80,10 +81,9 @@ http {
       add_header             X-Content-Type-Options nosniff;
       add_header             X-XSS-Protection "1; mode=block";
 
-      # TODO enable once we have TLS setup
       # TODO submit application to https://hstspreload.appspot.com/
       # once properly configured and live on instana.io
-      #add_header             Strict-Transport-Security "max-age=10886400; includeSubDomains; preload";
+      add_header             Strict-Transport-Security "max-age=10886400; includeSubDomains; preload";
     }
 
     location / {
