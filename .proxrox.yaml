@@ -4,13 +4,13 @@ root: false
 ssi: true
 proxy:
   /: http://127.0.0.1:3000
-  /api/: http://test.internal.instana.io/api/
+  /api/: https://test-instana.instana.io/api/
   #'/api/': http://127.0.0.1:5000/api
 
-  /auth/signIn: http://test.internal.instana.io/auth/signIn
-  /auth/signOut: http://test.internal.instana.io/auth/signOut
-  /auth/users/current: http://test.internal.instana.io/auth/users/current
+  /auth/signIn: https://test-instana.instana.io/auth/signIn
+  /auth/signOut: https://test-instana.instana.io/auth/signOut
+  /auth/users/current: https://test-instana.instana.io/auth/users/current
 
 websocketProxy:
-  /api/data: http://test.internal.instana.io/api/data
+  /api/data: https://test-instana.instana.io/api/data
   #'/api/data': http://127.0.0.1:5000/api/data
