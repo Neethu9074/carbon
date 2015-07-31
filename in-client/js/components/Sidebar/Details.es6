@@ -42,6 +42,12 @@ const Details = React.createClass({
           <h2 className={block + '__title'}>
             {getSingular(snapshot.get('pluginId'))}
           </h2>
+
+          <button type='button'
+                  className={block + '__open-dashboard'}
+                  onClick={this.openDashboard}>
+            {this.getIntlMessage('map.sidebar.switchToDashboard')}
+          </button>
         </div>
 
         <div className={block + '__heading'}>
@@ -57,14 +63,6 @@ const Details = React.createClass({
 
         <div className={block + '__content'}>
           {this.renderSnapshotDetails()}
-        </div>
-
-        <div className={block + '__open-dashboard-wrapper'}>
-          <button type='button'
-                  className={block + '__open-dashboard'}
-                  onClick={this.openDashboard}>
-            {this.getIntlMessage('map.sidebar.switchToDashboard')}
-          </button>
         </div>
       </div>
     );
