@@ -5,6 +5,7 @@ import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
 import {
+  formatBytes,
   formatPercentageShort
 } from 'in-services/converters';
 
@@ -26,30 +27,35 @@ const MongoDBDashboard = React.createClass({
   },
 
   render() {
+    const dbs = this.props.snapshot.getIn(['data', 'databases']);
+
     return (
       <div>
-        <ContentHeading>Clients</ContentHeading>
+        <ContentHeading>Database Size</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
+
                          width={this.props.width}
                          height={chartHeight}
                          margins={{
                            left: 80
                          }}
+
                          y1={{
-                           min: 0,
-                           metrics: [
-                             'connections'
-                           ],
-                           labels: [
-                             'Connections'
-                           ],
-                           type: 'line'
+                           metrics: dbs.map((name) =>
+                                      'dbs.' + name
+                                    ).toArray()
+                           ,
+                           labels: dbs.map((name) =>
+                                      name
+                                    ).toArray()
+                           ,
+                           type: 'line',
+                           formatter: formatBytes
                          }}/>
 
-        <Separator/>
+        <Separator />
         <ContentHeading>Index Cache</ContentHeading>
-
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
                          width={this.props.width}
@@ -72,7 +78,6 @@ const MongoDBDashboard = React.createClass({
 
         <Separator/>
         <ContentHeading>Document Counter</ContentHeading>
-
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
                          width={this.props.width}
@@ -95,6 +100,26 @@ const MongoDBDashboard = React.createClass({
                            ],
                            type: 'line'
                          }}/>
+
+        <Separator/>
+        <ContentHeading>Clients</ContentHeading>
+        <ChartWithLegend snapshot={this.props.snapshot}
+                         windowSize={this.props.timeframe}
+                         width={this.props.width}
+                         height={chartHeight}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           min: 0,
+                           metrics: [
+                             'connections'
+                           ],
+                           labels: [
+                             'Connections'
+                           ],
+                           type: 'line'
+                       }}/>
 
       </div>
     );
