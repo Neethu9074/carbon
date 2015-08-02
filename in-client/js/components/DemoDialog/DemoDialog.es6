@@ -6,20 +6,11 @@ import React from 'react/addons';
 
 import Lettering from 'in-components/Lettering';
 import * as connection from 'in-services/connection';
-import prefetch from 'in-services/util/prefetch';
 
 import SignInWithXing from './SignInWithXing';
 import SignInWithLinkedIn from './SignInWithLinkedIn';
 
-import hoverImageUrl from './img/Sign-in-Large---Active.png';
-import activeImageUrl from './img/Sign-in-Large---Hover.png';
-
 import './DemoDialog.less';
-
-prefetch(
-  hoverImageUrl,
-  activeImageUrl
-);
 
 const block = 'in-demo-sign-in-overlay';
 
