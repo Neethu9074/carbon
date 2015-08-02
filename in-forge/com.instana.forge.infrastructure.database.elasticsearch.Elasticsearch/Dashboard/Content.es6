@@ -59,8 +59,6 @@ const ElasticsearchDashboard = React.createClass({
           <div>
             <ChartWithLegend snapshot={this.props.snapshot}
                    windowSize={this.props.timeframe}
-
-                   width={this.props.width}
                    height={chartHeight}
                    margins={{
                      left: 80,
