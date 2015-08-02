@@ -28,6 +28,7 @@ COPY target /opt/www
 COPY deployment/config.json.j2 /opt/www/config.json.j2
 COPY deployment/star_instana_io.crt /etc/ssl/certs/star_instana_io.crt
 COPY deployment/star_instana_io.key /opt/www/star_instana_io.key.j2
+COPY deployment/dhgroup.pem /etc/ssl/dhgroup.pem
 
 RUN pip install j2cli
 
