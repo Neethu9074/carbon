@@ -751,8 +751,8 @@ export default class Renderer {
   }
 
   dispose() {
-    this.container.removeChild(this.renderCanvas);
-    this.container.removeChild(this.svg);
+    this.container.removeChild(this.widthCalculationElement);
+    this.container.removeChild(this.chartContentContainer);
     this.container.removeChild(this.tooltipElement);
     this.focusedMomentSubscription.dispose();
     this.stopAnimations();
