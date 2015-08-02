@@ -33,8 +33,6 @@ export default class Renderer {
         y1,
         y2
       }) {
-    this.width = container.clientWidth;
-    this.height = height;
     this.margins = margins;
     this.container = container;
     this.windowSize = windowSize;
@@ -99,7 +97,7 @@ export default class Renderer {
     }
 
     this.createCanvas();
-    this.setDimensions({width: this.width, height: this.height});
+    this.setDimensions({width: container.clientWidth, height: height});
 
     this.focusedMoment = null;
     this.focusedMomentSubscription = timelineStore.focusedMoment
@@ -679,6 +677,11 @@ export default class Renderer {
   }
 
   setDimensions({width, height}) {
+    // avoid dimension updates when nothing changes
+    if (this.height === height && this.width === width) {
+      return;
+    }
+
     const horizontalMargin = this.margins.left + this.margins.right;
     const verticalMargin = this.margins.top + this.margins.bottom;
 
