@@ -5,13 +5,13 @@ ssi: true
 tls: true
 proxy:
   /: http://127.0.0.1:3000
-  /api/: https://demo-instana.instana.io/api/
+  /api/: https://test-instana.instana.io/api/
   #'/api/': http://127.0.0.1:5000/api
 
-  /auth/signIn: https://demo-instana.instana.io/auth/signIn
-  /auth/signOut: https://demo-instana.instana.io/auth/signOut
-  /auth/users/current: https://demo-instana.instana.io/auth/users/current
+  /auth/signIn: https://test-instana.instana.io/auth/signIn
+  /auth/signOut: https://test-instana.instana.io/auth/signOut
+  /auth/users/current: https://test-instana.instana.io/auth/users/current
 
 websocketProxy:
-  /api/data: https://demo-instana.instana.io/api/data
+  /api/data: https://test-instana.instana.io/api/data
   #'/api/data': http://127.0.0.1:5000/api/data
