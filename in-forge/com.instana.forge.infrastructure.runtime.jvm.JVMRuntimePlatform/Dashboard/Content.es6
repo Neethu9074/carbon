@@ -21,8 +21,7 @@ const JVMDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired,
-    width: rpt.number.isRequired
+    timeframe: rpt.number.isRequired
   },
 
   getInitialState() {
@@ -40,8 +39,6 @@ const JVMDashboard = React.createClass({
 
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
-
-                         width={this.props.width}
                          height={chartHeight}
                          margins={{
                            left: 60
@@ -74,7 +71,6 @@ const JVMDashboard = React.createClass({
 
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
-                         width={this.props.width}
                          height={chartHeight}
                          margins={{
                            left: 80
@@ -99,8 +95,6 @@ const JVMDashboard = React.createClass({
         {this.state.poolName ?
           <ChartWithLegend snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
-
-                 width={this.props.width}
                  height={chartHeight}
                  margins={{
                    left: 80
@@ -152,8 +146,6 @@ const JVMDashboard = React.createClass({
 
         <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-
-               width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 80,

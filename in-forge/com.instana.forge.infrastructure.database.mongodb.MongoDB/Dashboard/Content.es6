@@ -22,8 +22,7 @@ const MongoDBDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired,
-    width: rpt.number.isRequired
+    timeframe: rpt.number.isRequired
   },
 
   render() {
@@ -34,8 +33,6 @@ const MongoDBDashboard = React.createClass({
         <ContentHeading>Database Size</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
-
-                         width={this.props.width}
                          height={chartHeight}
                          margins={{
                            left: 80
@@ -58,7 +55,6 @@ const MongoDBDashboard = React.createClass({
         <ContentHeading>Index Cache</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
-                         width={this.props.width}
                          height={chartHeight}
                          margins={{
                            left: 80
@@ -80,7 +76,6 @@ const MongoDBDashboard = React.createClass({
         <ContentHeading>Document Counter</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
-                         width={this.props.width}
                          height={chartHeight}
                          margins={{
                            left: 80
@@ -105,7 +100,6 @@ const MongoDBDashboard = React.createClass({
         <ContentHeading>Clients</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
-                         width={this.props.width}
                          height={chartHeight}
                          margins={{
                            left: 80

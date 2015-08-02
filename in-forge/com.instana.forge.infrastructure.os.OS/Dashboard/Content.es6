@@ -32,8 +32,7 @@ const OsDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired,
-    width: rpt.number.isRequired
+    timeframe: rpt.number.isRequired
   },
 
   getInitialState() {
@@ -52,7 +51,6 @@ const OsDashboard = React.createClass({
         <ContentHeading>CPU Usage</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 60
@@ -83,7 +81,6 @@ const OsDashboard = React.createClass({
         <ContentHeading>CPU Load</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 60
@@ -102,7 +99,6 @@ const OsDashboard = React.createClass({
         <ContentHeading>Memory Free</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 80
@@ -128,8 +124,6 @@ const OsDashboard = React.createClass({
           <div>
             <ChartWithLegend snapshot={this.props.snapshot}
                    windowSize={this.props.timeframe}
-
-                   width={this.props.width}
                    height={chartHeight}
                    margins={{
                      left: 80,
@@ -221,8 +215,6 @@ const OsDashboard = React.createClass({
           <div>
             <ChartWithLegend snapshot={this.props.snapshot}
                    windowSize={this.props.timeframe}
-
-                   width={this.props.width}
                    height={chartHeight}
                    margins={{
                      left: 80,
@@ -337,7 +329,6 @@ const OsDashboard = React.createClass({
         <ContentHeading>TCP Activity</ContentHeading>
         <ChartWithLegend snapshot={this.props.snapshot}
                          windowSize={this.props.timeframe}
-                         width={this.props.width}
                          height={chartHeight}
                          y1={{
                            type: 'line',

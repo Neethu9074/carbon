@@ -18,7 +18,6 @@ const Chart = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
 
   propTypes: {
-    width: rpt.number.isRequired,
     height: rpt.number.isRequired,
     margins: rpt.object,
 
@@ -43,11 +42,9 @@ const Chart = React.createClass({
       }
       this.disposeSubscriptions();
       this.renderChart();
-    } else if (this.props.width !== prevProps.width ||
-        this.props.height !== prevProps.height) {
+    } else if (this.props.height !== prevProps.height) {
       if (this.chart) {
         this.chart.onResize({
-          width: this.props.width,
           height: this.props.height
         });
       }
@@ -74,7 +71,6 @@ const Chart = React.createClass({
 
     const config = {
       container: React.findDOMNode(this),
-      width: this.props.width,
       height: this.props.height,
       margins,
       y1: this.extendAxisConfig('y1'),

@@ -19,8 +19,7 @@ const Sidebar = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired,
-    width: rpt.number.isRequired
+    timeframe: rpt.number.isRequired
   },
 
   render() {

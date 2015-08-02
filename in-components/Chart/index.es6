@@ -18,7 +18,6 @@ const rpt = React.PropTypes;
 const ChartWrapper = React.createClass({
 
   propTypes: {
-    width: rpt.number.isRequired,
     height: rpt.number.isRequired,
     margins: rpt.object,
 
@@ -125,8 +124,7 @@ const ChartWrapper = React.createClass({
     }
 
     return (
-      <Chart width={this.props.width}
-             height={this.props.height}
+      <Chart height={this.props.height}
              margins={this.props.margins}
              windowSize={this.props.windowSize}
              y1={y1}

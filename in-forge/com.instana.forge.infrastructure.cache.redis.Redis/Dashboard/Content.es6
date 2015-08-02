@@ -22,8 +22,7 @@ const RedisDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired,
-    width: rpt.number.isRequired
+    timeframe: rpt.number.isRequired
   },
 
   render() {
@@ -33,7 +32,6 @@ const RedisDashboard = React.createClass({
 
         <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 80
@@ -57,7 +55,6 @@ const RedisDashboard = React.createClass({
 
         <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 80
@@ -80,7 +77,6 @@ const RedisDashboard = React.createClass({
 
         <ChartWithLegend snapshot={this.props.snapshot}
                windowSize={this.props.timeframe}
-               width={this.props.width}
                height={chartHeight}
                margins={{
                  left: 80

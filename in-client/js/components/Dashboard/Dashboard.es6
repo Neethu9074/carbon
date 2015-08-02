@@ -5,7 +5,6 @@
 
 import React from 'react';
 import Immutable from 'immutable';
-import {on} from 'reactive-observables';
 
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -35,8 +34,7 @@ const Dashboard = React.createClass({
   getInitialState() {
     return {
       snapshot: null,
-      timeframe: 0,
-      width: -1
+      timeframe: 0
     };
   },
 
@@ -52,27 +50,6 @@ const Dashboard = React.createClass({
         this.setState({timeframe});
       })
     );
-
-    this.addSubscription(
-      on(window, 'resize')
-        .debounce(500)
-        .subscribe(() => {
-          this.setState({width: this.calculateChartWidth()});
-        })
-    );
-
-    this.setState({width: this.calculateChartWidth()});
-  },
-
-  componentDidUpdate() {
-    if (this.state.width === -1 && this.state.snapshot) {
-      this.setState({width: this.calculateChartWidth()});
-    }
-  },
-
-  calculateChartWidth() {
-    const domNode = React.findDOMNode(this.refs.content);
-    return parseInt(window.getComputedStyle(domNode).width, 10);
   },
 
   render() {
@@ -101,8 +78,7 @@ const Dashboard = React.createClass({
     /*eslint-disable no-unused-vars*/
     const DashboardImpl = this.getForgeSpecificComponent('Content');
     return (<DashboardImpl snapshot={this.state.snapshot}
-                           timeframe={this.state.timeframe}
-                           width={this.state.width || 700} />);
+                           timeframe={this.state.timeframe}/>);
     /*eslint-enable no-unused-vars*/
   },
 
@@ -110,8 +86,7 @@ const Dashboard = React.createClass({
     /*eslint-disable no-unused-vars*/
     const Sidebar = this.getForgeSpecificComponent('Sidebar');
     return (<Sidebar snapshot={this.state.snapshot}
-                     timeframe={this.state.timeframe}
-                     width={this.state.width || 700} />);
+                     timeframe={this.state.timeframe} />);
     /*eslint-enable no-unused-vars*/
   },
 

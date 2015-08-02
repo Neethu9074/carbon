@@ -27,14 +27,13 @@ export default class Renderer {
   constructor(
       {
         container,
-        width,
         height,
         windowSize,
         margins,
         y1,
         y2
       }) {
-    this.width = width;
+    this.width = container.clientWidth;
     this.height = height;
     this.margins = margins;
     this.container = container;
@@ -100,7 +99,7 @@ export default class Renderer {
     }
 
     this.createCanvas();
-    this.setDimensions({width, height});
+    this.setDimensions({width: this.width, height: this.height});
 
     this.focusedMoment = null;
     this.focusedMomentSubscription = timelineStore.focusedMoment
@@ -114,6 +113,17 @@ export default class Renderer {
 
     ro.on(this.glassPane, 'mouseleave')
       .subscribe(timelineStore.clearFocusedMoment);
+
+    ro.on(window, 'resize')
+      .debounce(500)
+      .subscribe(() => {
+        // TODO yak! Improve width calculation after alpha
+        this.chartContentContainer.style.display = 'none';
+        this.setDimensions({
+          width: this.widthCalculationElement.clientWidth, height
+        });
+        this.chartContentContainer.style.display = 'block';
+      });
 
     this.rendering = false;
   }
@@ -188,12 +198,21 @@ export default class Renderer {
     // anything has been painted
     this.container.style.visibility = 'hidden';
 
+    this.widthCalculationElement = document.createElement('div');
+    this.container.appendChild(this.widthCalculationElement);
+
+    // content needs to be treated in a specific way in order to make sure
+    // that dimension calculation is functional.
+    this.chartContentContainer = document.createElement('div');
+    this.chartContentContainer.classList.add('in-chart__content');
+    this.container.appendChild(this.chartContentContainer);
+
     // The render canvas is the user visible paint area that is only populated
     // by this base class. All other classes draw onto the drawingCanvas.
     this.renderCanvas = document.createElement('canvas');
     this.renderCanvas.classList.add('in-chart__canvas');
     this.renderCtx = this.renderCanvas.getContext('2d');
-    this.container.appendChild(this.renderCanvas);
+    this.chartContentContainer.appendChild(this.renderCanvas);
 
     // Subsclasses will draw the complete chart without any notion of an
     // animation to the drawingCanvas. This base class will pick up
@@ -204,7 +223,7 @@ export default class Renderer {
     // the SVG will be used to position the axis
     this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     this.svg.classList.add('in-chart__svg');
-    this.container.appendChild(this.svg);
+    this.chartContentContainer.appendChild(this.svg);
 
     const $svg = d3.select(this.svg);
 
@@ -242,7 +261,7 @@ export default class Renderer {
 
     this.glassPane = document.createElement('div');
     this.glassPane.style.position = 'absolute';
-    this.container.appendChild(this.glassPane);
+    this.chartContentContainer.appendChild(this.glassPane);
   }
 
   createTooltip() {
@@ -646,8 +665,8 @@ export default class Renderer {
     return dataColumn.reduce(maxReducer, Number.MIN_VALUE);
   }
 
-  onResize({width, height}) {
-    this.setDimensions({width, height});
+  onResize({height}) {
+    this.setDimensions({width: this.width, height});
     this.stopAnimations();
     this.rendering = false;
 
@@ -666,8 +685,8 @@ export default class Renderer {
     this.width = width;
     this.height = height;
 
-    this.container.style.width = this.width + 'px';
-    this.container.style.height = this.height + 'px';
+    this.chartContentContainer.style.width = this.width + 'px';
+    this.chartContentContainer.style.height = this.height + 'px';
 
     this.renderCanvas.style.top = this.margins.top + 'px';
     this.renderCanvas.style.left = this.margins.left + 'px';

@@ -11,7 +11,6 @@ const rpt = React.PropTypes;
 const ChartWithLegend = React.createClass({
 
   propTypes: {
-    width: rpt.number.isRequired,
     height: rpt.number.isRequired,
     margins: rpt.object,
 
@@ -30,7 +29,6 @@ const ChartWithLegend = React.createClass({
 
         <Chart snapshot={this.props.snapshot}
                windowSize={this.props.windowSize}
-               width={this.props.width}
                height={this.props.height}
                y1={this.props.y1}
                y2={this.props.y2}
