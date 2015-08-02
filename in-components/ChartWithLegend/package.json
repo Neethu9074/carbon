@@ -1,0 +1,6 @@
+{
+  "name": "ChartWithLegend",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ChartWithLegend.es6"
+}
