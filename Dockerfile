@@ -30,8 +30,6 @@ COPY deployment/star_instana_io.crt /etc/ssl/certs/star_instana_io.crt
 COPY deployment/star_instana_io.key /opt/www/star_instana_io.key.j2
 COPY deployment/dhgroup.pem /etc/ssl/dhgroup.pem
 
-RUN pip install j2cli
-
 CMD j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf && \
   j2 /opt/www/config.json.j2 > /opt/www/config.json && \
   j2 /opt/www/star_instana_io.key.j2 > /etc/ssl/private/star_instana_io.key && \
