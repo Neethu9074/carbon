@@ -266,7 +266,7 @@ export default class Renderer {
     const tooltip = this.tooltipElement = document.createElement('div');
     tooltip.classList.add(block + '__tooltip');
     tooltip.style.display = 'none';
-    this.container.appendChild(tooltip);
+    this.chartContentContainer.appendChild(tooltip);
 
     const p = this.tooltipTime = document.createElement('p');
     p.classList.add(block + '__tooltip-time');
@@ -756,7 +756,6 @@ export default class Renderer {
   dispose() {
     this.container.removeChild(this.widthCalculationElement);
     this.container.removeChild(this.chartContentContainer);
-    this.container.removeChild(this.tooltipElement);
     this.focusedMomentSubscription.dispose();
     this.stopAnimations();
   }
