@@ -1,8 +1,8 @@
 'use strict';
 
 import Component from './Component';
-import {getHealth} from 'instana-ui-services/issueTracker';
-import {health} from 'instana-ui-services/health';
+import {getHealth} from 'in-services/issueTracker';
+import {health} from 'in-services/health';
 
 
 export default class HealthComponent extends Component{

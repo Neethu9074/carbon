@@ -3,7 +3,7 @@
 'use strict';
 
 import {expect} from 'chai';
-import {health} from 'instana-ui-services/health';
+import {health} from 'in-services/health';
 import sinon from 'sinon';
 
 import HealthComponent from './HealthComponent';

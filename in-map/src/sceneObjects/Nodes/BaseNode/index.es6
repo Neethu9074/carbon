@@ -6,7 +6,7 @@ import THREE from 'three';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import ConnectionComponent from '../../../components/ConnectionComponent';
 
-import {theme} from 'instana-ui-services/theme';
+import {theme} from 'in-services/theme';
 import eventBus from 'in-services/eventbus';
 import {getIdString} from 'in-services/util/snapshots';
 import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
