@@ -98,6 +98,10 @@ const NodeTooltipRC = React.createClass({
   },
 
   render() {
+    if(!this.props.snapshot) {
+      return null;
+    }
+
     const heading = this.getHeading();
 
     if(this.issuesAvailable()) {

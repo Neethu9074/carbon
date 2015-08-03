@@ -19,6 +19,12 @@ const TagStickyNote = React.createClass({
     sceneObject: rpt.object.isRequired
   },
 
+  componentWillUnmount() {
+    if(this.tooltip) {
+      this.mouseOut();
+    }
+  },
+
   mouseOver() {
     this.tooltip = new TagToolTip({
       parent: this.props.sceneObject,
