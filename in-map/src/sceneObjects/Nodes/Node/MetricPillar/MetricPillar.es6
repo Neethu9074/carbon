@@ -52,11 +52,11 @@ export default class MetricPillar extends SceneObject {
 
   showPillar() {
     this.addToMetricFactory();
-    this.scene.addCollisionObject(this.metricCube, 2);
+    this.addCollisionObject(this.metricCube, 2);
   }
 
   hidePillar() {
-    this.scene.removeCollisionObject(this.metricCube, 2);
+    this.removeCollisionObject(this.metricCube, 2);
     this.removeFromMetricFactory();
   }
 
@@ -120,8 +120,8 @@ export default class MetricPillar extends SceneObject {
     cube.position.copy(pos);
 
     if(this.isActive()) {
-      this.scene.removeCollisionObject(cube, 2);
-      this.scene.addCollisionObject(cube, 2);
+      this.removeCollisionObject(cube, 2);
+      this.addCollisionObject(cube, 2);
 
       this.removeFromMetricFactory();
       this.addToMetricFactory();

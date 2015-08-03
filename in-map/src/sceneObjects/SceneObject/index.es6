@@ -175,19 +175,19 @@ export default class SceneObject {
   }
 
   addSceneObject(obj) {
-    this.parent.addSceneObject(obj);
+    this.scene.addSceneObject(obj);
   }
 
   removeSceneObject(obj) {
-    this.parent.removeSceneObject(obj);
+    this.scene.removeSceneObject(obj);
   }
 
   addCollisionObject(obj, layer) {
-    this.parent.addCollisionObject(obj, layer);
+    this.scene.addCollisionObject(obj, layer);
   }
 
   removeCollisionObject(obj, layer) {
-    this.parent.removeCollisionObject(obj, layer);
+    this.scene.removeCollisionObject(obj, layer);
   }
 
   addSubscription(subscription) {
@@ -213,7 +213,7 @@ export default class SceneObject {
   }
 
   getHtmlContainer() {
-    return this.parent.getHtmlContainer();
+    return this.scene.getHtmlContainer();
   }
 
   on(event, cb) {
@@ -249,8 +249,9 @@ export default class SceneObject {
   }
 
   dispose() {
-    this.disposeSubscriptions();
+    this.changeStateProperty('hidden', true);
 
+    this.disposeSubscriptions();
     this.position = null;
 
     if(this.parent) {
