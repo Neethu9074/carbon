@@ -55,6 +55,8 @@ export default class CollisionObjectComponent extends Component{
     object.updateMatrix();
     object.updateMatrixWorld();
 
+    this.sceneObject.scene.octrees[this.layer].rebuild();
+
     this.needsUpdate = false;
   }
 

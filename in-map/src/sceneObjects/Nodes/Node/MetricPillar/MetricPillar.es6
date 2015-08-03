@@ -2,6 +2,9 @@
 
 import THREE from 'three';
 
+//components
+import CollisionComponent from '../../../../components/CollisionObjectComponent';
+
 import SceneObject from '../../../SceneObject/index';
 import {cubeGeometry, defaultGeometryMaterial} from '../../../geometries';
 
@@ -15,8 +18,6 @@ export default class MetricPillar extends SceneObject {
   constructor({parent}) {
     super({parent, id: id++});
 
-    this.createMetricCollisionObject();
-
     this.addSubscription(eventBus.on('upateMetricHeights')
       .throttle(1000)
       .subscribe(() => {
@@ -26,6 +27,15 @@ export default class MetricPillar extends SceneObject {
     }));
 
     this.stateMachine.changeStateProperty('active', false);
+  }
+
+  initComponents() {
+    super.initComponents();
+    this.components.collision = new CollisionComponent({
+      sceneObject: this.parent,
+      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
+      layer: 2
+    });
   }
 
   onInactiveEnter() {
@@ -46,12 +56,12 @@ export default class MetricPillar extends SceneObject {
 
   showPillar() {
     this.addToMetricFactory();
-    this.metricCube.isEnabled = true;
+    this.getComponent('collision').stateMachine.changeStateProperty('active', true);
   }
 
   hidePillar() {
-    this.metricCube.isEnabled = false;
     this.removeFromMetricFactory();
+    this.getComponent('collision').stateMachine.changeStateProperty('active', false);
   }
 
   addToMetricFactory() { throw new Error('NOT IMPLEMENTED'); }
@@ -59,24 +69,8 @@ export default class MetricPillar extends SceneObject {
   setMetricValue() { throw new Error('NOT IMPLEMENTED'); }
   getFragment() { throw new Error('NOT IMPLEMENTED'); }
 
-  createMetricCollisionObject() {
-    let cube;
-    this.metricCube = cube = new THREE.Mesh(cubeGeometry, defaultGeometryMaterial);
-    cube.matrixAutoUpdate = false;
-    cube.rotationAutoUpdate = false;
-    cube.isEnabled = false;
-    cube.updateMatrix();
-    cube.updateMatrixWorld();
-    cube.parentSceneObject = this.parent;
-
-    this.scene.addCollisionObject(cube, 2);
-  }
-
   updateMetricCollisionObject(newHeight) {
-    const cube = this.metricCube;
-    cube.scale.y = newHeight < 0.001 ? 0.001 : newHeight;
-    cube.updateMatrix();
-    cube.updateMatrixWorld();
+    this.getComponent('collision').sizeChanged(1, newHeight < 0.001 ? 0.001 : newHeight, 1);
   }
 
   updateMetricHeight() {
@@ -110,7 +104,7 @@ export default class MetricPillar extends SceneObject {
   }
 
   positionChanged(x, y, z) {
-    this.metricCube.position.copy({x, y, z});
+    this.getComponent('collision').positionChanged(x, y, z);
 
     if(this.isActive()) {
       this.removeFromMetricFactory();

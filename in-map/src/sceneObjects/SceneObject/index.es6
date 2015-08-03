@@ -1,6 +1,7 @@
 'use strict';
 
 //components
+import THREE from 'three';
 import PositionComponent from '../../components/PositionComponent';
 
 import {setupStates} from './States/index';
@@ -104,15 +105,15 @@ class StateMachine {
 }
 
 export default class SceneObject {
-<<<<<<< HEAD
   constructor({parent, id}) {
-    this.id = id;
-=======
-  constructor({parent}) {
->>>>>>> add first bunch of components (position, health and collision)
     this.parent = parent;
+    this.id = id;
     this.position = new THREE.Vector3(0, 0, 0);
     this.subscriptions = [];
+
+    this.addSubscription(currentScene.subscribe((scene) => {
+      this.scene = scene;
+    }));
 
     this.initComponents();
 
@@ -121,17 +122,10 @@ export default class SceneObject {
 
     this.init();
 
-    this.addSubscription(currentScene.subscribe((scene) => {
-      this.scene = scene;
-    }));
-
     this.stateMachine = new StateMachine(setupStates(this));
     this.stateMachine.state.enter();
   }
 
-<<<<<<< HEAD
-  init() {}
-=======
   initComponents() {
     this.components = {
       position: new PositionComponent({sceneObject: this})
@@ -141,7 +135,6 @@ export default class SceneObject {
   getComponent(name) {
     return this.components[name];
   }
->>>>>>> add first bunch of components (position, health and collision)
 
   forEachComponent(fn) {
     for(const key in this.components) {
@@ -207,13 +200,7 @@ export default class SceneObject {
     this.stateMachine.changeStateProperty('hidden', true);
   }
 
-<<<<<<< HEAD
-  setPosition(x, y, z) {
-    this.position.set(x, y, z);
-  }
-=======
   positionChanged() {throw new Error('NOT IMPLEMENTED'); }
->>>>>>> add first bunch of components (position, health and collision)
 
   setScreenPositionAnchor(x, y, z) {
     this.screenPositionAnchor.set(x, y, z);
@@ -296,7 +283,7 @@ export default class SceneObject {
   removeChild() {}
 
   dispose() {
-    this.changeStateProperty('hidden', true);
+    this.stateMachine.changeStateProperty('hidden', true);
 
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];
@@ -305,16 +292,5 @@ export default class SceneObject {
     if(this.parent) {
       this.parent.removeChild(this);
     }
-<<<<<<< HEAD
-=======
-    this.parent = null;
-  }
-
-  disposeSubscriptions() {
-    this.subscriptions.forEach(subscription => subscription.dispose());
-    this.subscriptions = [];
-
-    this.forEachComponent((component) => component.dispose());
->>>>>>> add first bunch of components (position, health and collision)
   }
 }

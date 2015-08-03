@@ -17,7 +17,14 @@ describe('3D map', () => {
   beforeEach(() => {
     sceneObject = {
       positionChanged: sinon.stub(),
-      addCollisionObject: sinon.stub()
+      addCollisionObject: sinon.stub(),
+      scene: {
+        octrees: [
+          {rebuild: sinon.stub()},
+          {rebuild: sinon.stub()},
+          {rebuild: sinon.stub()}
+        ]
+      }
     };
     collisionObject = new THREE.Mesh(new THREE.BoxGeometry());
     component = new CollisionObjectComponent({

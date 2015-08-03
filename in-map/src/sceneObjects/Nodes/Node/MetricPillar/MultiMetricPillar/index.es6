@@ -15,7 +15,6 @@ export default class MultiMetricPillar extends MetricPillar {
       .getPosition()
       .clone()
       .add({x: -0.5, y: 0, z: 0.5});
-    const dim = this.metricCube.scale;
     const tiles = [];
     for (let i = 0; i < this.scene.numTiles; i++) {
       tiles[i] = {
@@ -24,7 +23,12 @@ export default class MultiMetricPillar extends MetricPillar {
       };
     }
 
-    this.scene.multiMetricFactory.addFragment({id: this.id, pos, dim, tiles});
+    this.scene.multiMetricFactory.addFragment({
+      id: this.id,
+      pos,
+      dim: {x: 1, y: 1, z: 1},
+      tiles
+    });
   }
 
   removeFromMetricFactory() {
