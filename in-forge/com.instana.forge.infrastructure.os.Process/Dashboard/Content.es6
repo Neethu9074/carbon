@@ -6,8 +6,8 @@ import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'in-services/converters';
 
+import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ContentHeading from 'in-components/ContentHeading';
 
 const rpt = React.PropTypes;
 
@@ -24,29 +24,29 @@ const ProcessDashboard = React.createClass({
   render() {
     return (
       <div>
-        <ContentHeading>Memory</ContentHeading>
-        <ChartWithLegend snapshot={this.props.snapshot}
-               windowSize={this.props.timeframe}
-               height={chartHeight}
-               margins={{
-                 left: 80
-               }}
-               y1={{
-                 min: 0,
-                 formatter: formatBytes,
-                 metrics: [
-                   'mem.virtual',
-                   'mem.resident',
-                   'mem.share'
-                 ],
-                 labels: [
-                   'Virtual',
-                   'Resident',
-                   'Share'
-                 ],
-                 type: 'line'
-               }}/>
-
+        <DashboardSection title='Memory'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                 windowSize={this.props.timeframe}
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 y1={{
+                   min: 0,
+                   formatter: formatBytes,
+                   metrics: [
+                     'mem.virtual',
+                     'mem.resident',
+                     'mem.share'
+                   ],
+                   labels: [
+                     'Virtual',
+                     'Resident',
+                     'Share'
+                   ],
+                   type: 'line'
+                 }}/>
+        </DashboardSection>
       </div>
     );
   }
