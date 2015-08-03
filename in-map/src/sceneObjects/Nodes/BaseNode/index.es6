@@ -428,9 +428,13 @@ export default class BaseNode extends SceneObject {
 
     this.removeFromGlobalGeometry();
 
+    console.log('before');
+    this.scene.highlightingSingleMeshFactory.fragments.forEach(f => console.log(f));
+    this.scene.highlightingSingleMeshFactory.removeFragment(this.id);
+    console.log('after');
+    this.scene.highlightingSingleMeshFactory.fragments.forEach(f => console.log(f));
     this.scene.singleMeshFactory.removeFragment(this.id);
     this.scene.lineFactory.removeFragment(this.id);
-    this.makeSolidGeometry(false);
 
     this.highlighting.dispose();
 
