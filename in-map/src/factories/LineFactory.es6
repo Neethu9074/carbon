@@ -20,7 +20,7 @@ export default class LineFactory extends AbstractMeshCreationFactory {
       vertexColors: THREE.VertexColors
     }));
 
-    if(navigator.platform.indexOf('win') < 0) {
+    if(navigator.platform.indexOf('Win') < 0) {
       this.material.linewidth = 2;
     }
 
