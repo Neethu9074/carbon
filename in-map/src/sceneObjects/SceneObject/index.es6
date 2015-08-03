@@ -6,32 +6,44 @@ import PositionComponent from '../../components/PositionComponent';
 import {setupStates} from './States/index';
 import {currentScene} from '../../stores/mapStore';
 
-const stateLUT = {
 /*eslint-disable no-multi-spaces*/
-  lut: [
-    //mouseOver,  selected,   active  hidden    result state
-    [[false,      false,      true,   false],   'initial'],
-    [[false,      true,       true,   false],   'selected'],
-    [[true,       false,      true,   false],   'highlighted'],
-    [[true,       true,       true,   false],   'selected'],
-    [[false,      true,       false,  false],   'inactive'],
-    [[true,       false,      false,  false],   'inactive'],
-    [[true,       true,       false,  false],   'inactive'],
-    [[false,      false,      false,  false],   'inactive'],
-    [[false,      false,      true,   true],    'hidden'],
-    [[false,      true,       true,   true],    'hidden'],
-    [[true,       false,      true,   true],    'hidden'],
-    [[true,       true,       true,   true],    'hidden'],
-    [[false,      true,       false,  true],    'hidden'],
-    [[true,       false,      false,  true],    'hidden'],
-    [[true,       true,       false,  true],    'hidden'],
-    [[false,      false,      false,  true],    'hidden']
-  ],
+const stateLUT = [
+  //mouseOver,  selected,   active  hidden    result state
+  [[false,      false,      true,   false],   'initial'],
+  [[false,      true,       true,   false],   'selected'],
+  [[true,       false,      true,   false],   'highlighted'],
+  [[true,       true,       true,   false],   'selected'],
+  [[false,      true,       false,  false],   'inactive'],
+  [[true,       false,      false,  false],   'inactive'],
+  [[true,       true,       false,  false],   'inactive'],
+  [[false,      false,      false,  false],   'inactive'],
+  [[false,      false,      true,   true],    'hidden'],
+  [[false,      true,       true,   true],    'hidden'],
+  [[true,       false,      true,   true],    'hidden'],
+  [[true,       true,       true,   true],    'hidden'],
+  [[false,      true,       false,  true],    'hidden'],
+  [[true,       false,      false,  true],    'hidden'],
+  [[true,       true,       false,  true],    'hidden'],
+  [[false,      false,      false,  true],    'hidden']
+];
 /*eslint-enable no-multi-spaces*/
 
+class StateMachine {
+  constructor(states) {
+    this.stateLookUpTable = stateLUT;
+    this.states = states;
+    this.stateProperties = {
+      mouseOver: false,
+      selected: false,
+      active: true,
+      hidden: false
+    };
+    this.state = this.states.initial;
+  }
+
   getStateFromLut({mouseOver, selected, active, hidden, states}) {
-    for (let i = 0; i < this.lut.length; i++) {
-      const entry = this.lut[i];
+    for (let i = 0; i < stateLUT.length; i++) {
+      const entry = stateLUT[i];
       if(mouseOver === entry[0][0] &&
          selected === entry[0][1] &&
          active === entry[0][2] &&
@@ -60,7 +72,36 @@ const stateLUT = {
       }
     }
   }
-};
+
+  changeStateProperty(name, value) {
+    if(this.stateProperties[name] !== value) {
+      this.stateProperties[name] = value;
+      this.updateState();
+    }
+  }
+
+  updateState() {
+    const props = this.stateProperties;
+    const oldState = this.state;
+    const newState = this.getStateFromLut({
+      mouseOver: props.mouseOver,
+      selected: props.selected,
+      active: props.active,
+      hidden: props.hidden,
+      states: this.states
+    });
+
+    if(oldState !== newState) {
+      oldState.leave();
+      this.state = newState;
+      newState.enter();
+    }
+  }
+
+  getLookUpTable() {
+    return stateLUT;
+  }
+}
 
 export default class SceneObject {
 <<<<<<< HEAD
@@ -84,16 +125,8 @@ export default class SceneObject {
       this.scene = scene;
     }));
 
-    this.stateLookUpTable = stateLUT;
-    this.states = setupStates(this);
-    this.stateProperties = {
-      mouseOver: false,
-      selected: false,
-      active: true,
-      hidden: false
-    };
-    this.state = this.states.initial;
-    this.state.enter();
+    this.stateMachine = new StateMachine(setupStates(this));
+    this.stateMachine.state.enter();
   }
 
 <<<<<<< HEAD
@@ -118,37 +151,9 @@ export default class SceneObject {
 
   init() {}
 
-  changeStateProperty(name, value) {
-    if(this.stateProperties[name] !== value) {
-      this.stateProperties[name] = value;
-      this.updateState();
-    }
-  }
-
-  updateState() {
-    const props = this.stateProperties;
-    const oldState = this.state;
-    const newState = stateLUT.getStateFromLut({
-      mouseOver: props.mouseOver,
-      selected: props.selected,
-      active: props.active,
-      hidden: props.hidden,
-      states: this.states
-    });
-
-    if(oldState !== newState) {
-      oldState.leave();
-      this.state = newState;
-      newState.enter();
-
-      //to show changes on the state, render scene
-      this.scene.renderScene();
-    }
-  }
-
   reEnterState() {
-    this.state.leave();
-    this.state.enter();
+    this.stateMachine.state.leave();
+    this.stateMachine.state.enter();
   }
 
   onInitialEnter() {}
@@ -179,27 +184,27 @@ export default class SceneObject {
   }
 
   isSelected() {
-    return this.stateProperties.selected;
+    return this.stateMachine.stateProperties.selected;
   }
 
   isHighlighted() {
-    return this.stateProperties.mouseOver;
+    return this.stateMachine.stateProperties.mouseOver;
   }
 
   isActive() {
-    return this.stateProperties.active;
+    return this.stateMachine.stateProperties.active;
   }
 
   isHidden() {
-    return this.stateProperties.hidden;
+    return this.stateMachine.stateProperties.hidden;
   }
 
   show() {
-    this.changeStateProperty('hidden', false);
+    this.stateMachine.changeStateProperty('hidden', false);
   }
 
   hide() {
-    this.changeStateProperty('hidden', true);
+    this.stateMachine.changeStateProperty('hidden', true);
   }
 
 <<<<<<< HEAD
@@ -261,7 +266,7 @@ export default class SceneObject {
   }
 
   onHighlight(highlighted) {
-    this.changeStateProperty('mouseOver', highlighted);
+    this.stateMachine.changeStateProperty('mouseOver', highlighted);
   }
 
   updateScreenPosition() {

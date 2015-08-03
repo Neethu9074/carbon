@@ -25,7 +25,7 @@ export default class MetricPillar extends SceneObject {
       }
     }));
 
-    this.changeStateProperty('active', false);
+    this.stateMachine.changeStateProperty('active', false);
   }
 
   onInactiveEnter() {

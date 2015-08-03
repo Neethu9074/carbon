@@ -26,7 +26,7 @@ export default class ConnectionComponent extends Component{
     }
 
     this.getAllConnections()
-      .forEach(c => c.changeStateProperty('mouseOver', highlighted));
+      .forEach(c => c.stateMachine.changeStateProperty('mouseOver', highlighted));
 
     this.highlighted = highlighted;
   }

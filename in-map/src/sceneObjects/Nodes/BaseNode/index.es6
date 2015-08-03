@@ -148,14 +148,14 @@ export default class BaseNode extends SceneObject {
 
   onActiveMetric(metric) {
     const isActive = metric ? false : true;
-    this.changeStateProperty('active', isActive);
+    this.stateMachine.changeStateProperty('active', isActive);
   }
 
   onSceneObjectSelected(obj) {
     const isThisSelected = (obj && obj.id === this.id) ?
       true : false;
 
-    this.changeStateProperty('selected', isThisSelected);
+    this.stateMachine.changeStateProperty('selected', isThisSelected);
   }
 
   render() {

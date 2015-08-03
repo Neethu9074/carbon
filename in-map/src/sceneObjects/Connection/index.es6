@@ -255,8 +255,9 @@ export default class Connection extends SceneObject {
   }
 
   intersects(raycaster) {
-    if(this.state === this.states.initial ||
-      this.state === this.states.inactive) {
+    const state = this.stateMachine.state;
+    const states = this.stateMachine.states;
+    if(state === states.initial || state === states.inactive) {
       return false;
     }
 
@@ -271,12 +272,12 @@ export default class Connection extends SceneObject {
   }
 
   select() {
-    this.changeStateProperty('selected', true);
+    this.stateMachine.changeStateProperty('selected', true);
   }
 
   unSelect() {
     if(!this.oneEndpointIsSelected()) {
-      this.changeStateProperty('selected', false);
+      this.stateMachine.changeStateProperty('selected', false);
     }
   }
 

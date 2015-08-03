@@ -68,12 +68,12 @@ export default class Node extends BaseNode {
 
   onHiddenEnter() {
     super.onHiddenEnter();
-    this.layer.forEach(layer => layer.changeStateProperty('hidden', true));
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('hidden', true));
   }
 
   onHiddenLeave() {
     super.onHiddenLeave();
-    this.layer.forEach(layer => layer.changeStateProperty('hidden', false));
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('hidden', false));
   }
 
   onSelectedEnter() {
@@ -111,7 +111,7 @@ export default class Node extends BaseNode {
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
-        this.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
+        this.stateMachine.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
       )
     );
 
@@ -205,11 +205,11 @@ export default class Node extends BaseNode {
     this.tooltip = this.getNodeMetricTooltip();
 
     if(currentMetric.size === 1) {
-      this.singleMetricPillar.changeStateProperty('active', true);
-      this.multiMetricPillar.changeStateProperty('active', false);
+      this.singleMetricPillar.stateMachine.changeStateProperty('active', true);
+      this.multiMetricPillar.stateMachine.changeStateProperty('active', false);
     } else {
-      this.multiMetricPillar.changeStateProperty('active', true);
-      this.singleMetricPillar.changeStateProperty('active', false);
+      this.multiMetricPillar.stateMachine.changeStateProperty('active', true);
+      this.singleMetricPillar.stateMachine.changeStateProperty('active', false);
     }
 
     // const position = this.getPosition();
@@ -230,8 +230,8 @@ export default class Node extends BaseNode {
   hideMetrics() {
     this.stickyNote.switchToIcon();
 
-    this.singleMetricPillar.changeStateProperty('active', false);
-    this.multiMetricPillar.changeStateProperty('active', false);
+    this.singleMetricPillar.stateMachine.changeStateProperty('active', false);
+    this.multiMetricPillar.stateMachine.changeStateProperty('active', false);
 
     this.tooltip = this.getNodeTooltip();
   }
@@ -377,9 +377,9 @@ export default class Node extends BaseNode {
       return;
     }
 
-    const layer = new Layer({parent: this, snapshot});
-    layer.setLayerIndex(this.layer.length);
-    this.layer.push(layer);
+    const newLayer = new Layer({parent: this, snapshot});
+    newLayer.setLayerIndex(this.layer.length);
+    this.layer.push(newLayer);
 
     this.arrangeChildren();
   }
