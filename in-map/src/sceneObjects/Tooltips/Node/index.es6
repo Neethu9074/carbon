@@ -6,6 +6,8 @@ import moment from 'moment';
 import Tooltip from '../Tooltip';
 import {getHealth} from 'in-services/issueTracker';
 import {health} from 'in-services/health';
+import {getLabel} from 'in-sdk/snapshot';
+import {getSingular} from 'in-sdk/pluginName';
 import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
@@ -64,20 +66,16 @@ const NodeTooltipRC = React.createClass({
 
   getHeading() {
     const nodeHealth = this.state.health;
-    const data = this.props.snapshot.get('data');
+    const snapshot = this.props.snapshot;
+    const data = snapshot.get('data');
     const issues = this.state.issues;
 
-    let text = data.get('hostname');
+    let text = getSingular(snapshot.get('pluginId')) + ': ' + getLabel(snapshot);
     let cssClass = '';
 
     if(this.issuesAvailable()) {
       text = issues.getIn([0, 'problemText']);
       cssClass = 'in-tooltip__node-heading--' + nodeHealth;
-
-      if(text === undefined) {
-        text = data.get('hostname');
-        cssClass = '';
-      }
     }
 
     return {text, cssClass};

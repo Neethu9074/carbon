@@ -121,10 +121,6 @@ export function getWiredSnapshots(snapshot) {
 }
 
 
-
-
-
-
 // {
 // <pluginId: String>: [(snapshot) => <icon name: String>]
 // }
