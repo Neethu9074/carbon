@@ -97,7 +97,7 @@ export default class PhysicalMap extends SceneObject {
           this.applyLayout();
           eventBus.emit('layoutChanged');
 
-          this.parent.renderScene();
+          this.scene.renderScene();
           this.refreshLayout = false;
         }
 

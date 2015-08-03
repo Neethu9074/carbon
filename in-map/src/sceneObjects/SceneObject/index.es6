@@ -64,7 +64,6 @@ const stateLUT = {
 };
 
 export default class SceneObject {
-
   constructor({parent, pos = new THREE.Vector3(0, 0, 0)}) {
     this.position = pos.clone();
     this.parent = parent;
@@ -92,9 +91,7 @@ export default class SceneObject {
     this.state.enter();
   }
 
-  init() {
-
-  }
+  init() {}
 
   changeStateProperty(name, value) {
     if(this.stateProperties[name] !== value) {
@@ -197,6 +194,11 @@ export default class SceneObject {
     this.subscriptions.push(subscription);
   }
 
+  //each object can tell that the scene should be redrawn
+  renderScene() {
+    this.scene.renderScene();
+  }
+
   //this method is introduced to get a better handling of the hole merged
   //geometry / factory stuff. each specific sceneObject should implement it and
   //and do all update stuff here.
@@ -216,11 +218,6 @@ export default class SceneObject {
 
   on(event, cb) {
     return this.parent.on(event, cb);
-  }
-
-  //each object can tell that the scene should be redrawn
-  renderScene() {
-    this.parent.renderScene();
   }
 
   onHighlight(highlighted) {
