@@ -10,6 +10,7 @@ import {Navigation} from 'react-router';
 import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import HealthIcon from 'in-components/HealthIcon';
+import Button from 'in-components/Button';
 import ZoneTag from 'in-components/ZoneTag';
 import {clear} from 'in-services/stores/selectedSnapshot';
 import Icon from 'in-components/Icon';
@@ -43,11 +44,11 @@ const Details = React.createClass({
             {getSingular(snapshot.get('pluginId'))}
           </h2>
 
-          <button type='button'
+          <Button type='button'
                   className={block + '__open-dashboard'}
                   onClick={this.openDashboard}>
             {this.getIntlMessage('map.sidebar.switchToDashboard')}
-          </button>
+          </Button>
         </div>
 
         <div className={block + '__heading'}>

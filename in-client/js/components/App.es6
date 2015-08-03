@@ -12,6 +12,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as constants from 'in-forge/constants';
 
+import FeedbackBadge from './FeedbackBadge';
 import Footer from './Footer';
 import HelpDialog from './HelpDialog';
 import NoNodesDialog from './NoNodesDialog';
@@ -69,6 +70,7 @@ const App = React.createClass({
         <RouteHandler />
 
         <NoNodesDialog pluginId={this.state.pluginId} />
+        <FeedbackBadge />
 
         {this.props.state.query.help ?
           <HelpDialog id={this.props.state.query.help} />

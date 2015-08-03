@@ -1,0 +1,30 @@
+.in-feedback-badge {
+  @width: 160px;
+  @height: 30px;
+
+  background: #94eced;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: black;
+  font-weight: bold;
+  letter-spacing: 1px;
+  cursor: pointer;
+  text-decoration: none;
+
+  width: @width;
+  height: @height;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: fixed;
+  top: 50%;
+  margin-top: @height / -2;
+  right: (@width / 2 - @height / 2) * -1;
+
+  transform: rotate(-90deg);
+
+  &:hover {
+    background: #9fffff;
+  }
+}

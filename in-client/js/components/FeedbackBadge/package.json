@@ -1,0 +1,6 @@
+{
+  "name": "FeedbackBadge",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./FeedbackBadge.es6"
+}
