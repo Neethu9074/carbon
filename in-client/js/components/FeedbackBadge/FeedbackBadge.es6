@@ -14,7 +14,7 @@ const FeedbackBadge = React.createClass({
   render() {
     return (
       <a className={block}
-         href='https://instana.zendesk.com'
+         href='https://instana.zendesk.com/hc/en-us/requests/new'
          target='_blank'>
         Send Us Feedback
       </a>
