@@ -7,9 +7,8 @@ import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'in-services/converters';
 
-import ContentHeading from 'in-components/ContentHeading';
+import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import Separator from 'in-components/Separator';
 
 const rpt = React.PropTypes;
 
@@ -28,148 +27,138 @@ const CassandraDashboard = React.createClass({
   render() {
     return (
       <div>
-        <ContentHeading>Storage Load</ContentHeading>
+        <DashboardSection title='Storage Load'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: formatBytes,
+                             metrics: [
+                               'storage.load'
+                             ],
+                             labels: [
+                               'Load'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
 
-        <ChartWithLegend snapshot={this.props.snapshot}
-                         windowSize={this.props.timeframe}
-                         height={chartHeight}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           formatter: formatBytes,
-                           metrics: [
-                             'storage.load'
-                           ],
-                           labels: [
-                             'Load'
-                           ],
-                           type: 'stackedArea'
-                         }}/>
+        <DashboardSection title='Requests'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'requests.read',
+                               'requests.write'
+                             ],
+                             lables: [
+                               'Read',
+                               'Write'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
 
-        <Separator />
+        <DashboardSection title='Cache Hits'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             max: 1,
+                             formatter: percentFormatter,
+                             metrics: [
+                               'cache.counter.hit',
+                               'cache.key.hit',
+                               'cache.row.hit'
+                             ],
+                             labels: [
+                               'Counter',
+                               'Key',
+                               'Row'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
 
-        <ContentHeading>Requests</ContentHeading>
+        <DashboardSection title='Pending Requests'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'requests.countermutation.pending',
+                               'requests.mutation.pending',
+                               'requests.readrepair.pending',
+                               'requests.read.pending',
+                               'requests.requestresponse.pending'
+                             ],
+                             labels: [
+                               'Counter Mutation',
+                               'Mutation',
+                               'Read Repair',
+                               'Read',
+                               'RequestResponse'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
 
-        <ChartWithLegend snapshot={this.props.snapshot}
-                         windowSize={this.props.timeframe}
-                         height={chartHeight}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           metrics: [
-                             'requests.read',
-                             'requests.write'
-                           ],
-                           lables: [
-                             'Read',
-                             'Write'
-                           ],
-                           type: 'line'
-                         }}/>
+        <DashboardSection title='Bloom Filter'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             max: 1,
+                             formatter: percentFormatter,
+                             metrics: [
+                               'bloomFilterFalse'
+                             ],
+                             labels: [
+                               'Miss Rate'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
 
-        <Separator />
-
-        <ContentHeading>Cache Hits</ContentHeading>
-
-        <ChartWithLegend snapshot={this.props.snapshot}
-                         windowSize={this.props.timeframe}
-                         height={chartHeight}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           max: 1,
-                           formatter: percentFormatter,
-                           metrics: [
-                             'cache.counter.hit',
-                             'cache.key.hit',
-                             'cache.row.hit'
-                           ],
-                           labels: [
-                             'Counter',
-                             'Key',
-                             'Row'
-                           ],
-                           type: 'line'
-                         }}/>
-
-        <Separator />
-
-        <ContentHeading>Pending Requests</ContentHeading>
-
-        <ChartWithLegend snapshot={this.props.snapshot}
-                         windowSize={this.props.timeframe}
-                         height={chartHeight}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           metrics: [
-                             'requests.countermutation.pending',
-                             'requests.mutation.pending',
-                             'requests.readrepair.pending',
-                             'requests.read.pending',
-                             'requests.requestresponse.pending'
-                           ],
-                           labels: [
-                             'Counter Mutation',
-                             'Mutation',
-                             'Read Repair',
-                             'Read',
-                             'RequestResponse'
-                           ],
-                           type: 'line'
-                         }}/>
-
-        <Separator />
-
-        <ContentHeading>Bloom Filter</ContentHeading>
-
-        <ChartWithLegend snapshot={this.props.snapshot}
-                         windowSize={this.props.timeframe}
-                         height={chartHeight}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           max: 1,
-                           formatter: percentFormatter,
-                           metrics: [
-                             'bloomFilterFalse'
-                           ],
-                           labels: [
-                             'Miss Rate'
-                           ],
-                           type: 'stackedArea'
-                         }}/>
-
-        <Separator />
-
-        <ContentHeading>Sorted Strings Tables</ContentHeading>
-
-        <ChartWithLegend snapshot={this.props.snapshot}
-                         windowSize={this.props.timeframe}
-                         height={chartHeight}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           metrics: [
-                             'sstables'
-                           ],
-                           labels: [
-                             'Tables'
-                           ],
-                           type: 'stackedArea'
-                         }}/>
+        <DashboardSection title='Sorted Strings Tables'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'sstables'
+                             ],
+                             labels: [
+                               'Tables'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
       </div>
     );
   }
