@@ -165,7 +165,7 @@ const OsDashboard = React.createClass({
                 <th>Capacity</th>
                 <th>Free</th>
                 <th>
-                  <HelpLink helpId='os.fs-leaked-metric'>
+                  <HelpLink helpId='203876231'>
                     Leaked
                   </HelpLink>
                 </th>
