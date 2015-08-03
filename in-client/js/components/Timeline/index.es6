@@ -159,13 +159,16 @@ const Timeline = React.createClass({
     const scale = this.state.scale.domain([now, maxOldestPermittedProblem]);
     return problems.map(problem => {
       const iconConfig = this.getIconConfig(problem);
+      // closed problems should like regular events as far as the color is
+      // concerned
+      const color = problem.get('end') == null ? iconConfig.color : HEALTH_OK.color;
       return (
         <Icon key={problem.get('id')}
               type={iconConfig.type}
               className={block + '__problem'}
               style={{
                 left: scale(problem.get('start')).toFixed(2) + '%',
-                color: iconConfig.color
+                color
               }}
               onMouseEnter={this.mouseIn.bind(this, problem)}
               onMouseLeave={this.mouseOut}
