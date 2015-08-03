@@ -17,7 +17,8 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'target/bundle/'),
     publicPath: 'bundle/',
-    filename: 'index.js'
+    filename: 'index.js',
+    chunkFilename: '[id].[hash].js'
   },
   devtool: 'source-map',
   module: {
