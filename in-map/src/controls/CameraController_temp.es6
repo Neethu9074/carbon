@@ -5,6 +5,7 @@ import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 import {allConnections} from '../sceneObjects/Connection/index';
 import {currentTooltip} from '../stores/mapStore';
+import eventBus from 'in-services/eventbus';
 import ConnectionTooltip from '../sceneObjects/Tooltips/Connection';
 
 export default class CameraController {
@@ -17,6 +18,10 @@ export default class CameraController {
     this.states = setupStates(this);
     this.state = this.states.near;
     this.connectionTooltip = new ConnectionTooltip(scene, []);
+
+    eventBus.on('layoutChanged').subscribe(() => {
+      this.handleRayCasting();
+    });
   }
 
   bindListeners() {
