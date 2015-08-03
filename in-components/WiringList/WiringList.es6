@@ -9,6 +9,7 @@ import {getIdString} from 'in-services/util/snapshots';
 import {getWiringWithFullSnapshots} from 'in-services/wiring';
 import {getPlural} from 'in-sdk/pluginName';
 
+import List from '../List';
 import Collapsible from '../Collapsible';
 import enhance from '../hoc/enhance';
 
@@ -52,14 +53,14 @@ const WiringList = React.createClass({
               {getPlural(pluginId)}
             </Collapsible.Header>
             <Collapsible.Content>
-              <ul className={block}>
+              <List>
                 {groups[pluginId].map(snapshot =>
-                  <li key={getIdString(snapshot)}
-                      onClick={() => this.navigateToDashboard(snapshot)}>
+                  <List.Item key={getIdString(snapshot)}
+                             onClick={() => this.navigateToDashboard(snapshot)}>
                     {getLabel(snapshot)}
-                  </li>
+                  </List.Item>
                 )}
-              </ul>
+              </List>
             </Collapsible.Content>
           </Collapsible>
         )}

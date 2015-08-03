@@ -85,8 +85,6 @@ export default class Unknownnode extends BaseNode {
 
   addToGlobalGeometry() {}
 
-  removeFromGlobalGeometry() {}
-
   onSnapshotUpdate() {}
 
   setHeight() {}

@@ -117,8 +117,7 @@ import THREE from 'three';
     if ( this.scene ) {
 
       this.visualGeometry = new THREE.BoxGeometry( 1, 1, 1 );
-      this.visualMaterial = new THREE.MeshBasicMaterial( { color: 0xFF0066, wireframe: true, wireframeLinewidth: 1 } );
-
+      this.visualMaterial = new THREE.MeshBasicMaterial( { color: 0xFF0066, wireframe: true } );
     }
 
     // properties

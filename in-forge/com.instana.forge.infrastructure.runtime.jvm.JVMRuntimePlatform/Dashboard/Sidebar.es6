@@ -5,6 +5,8 @@ import irpt from 'react-immutable-proptypes';
 
 import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
+import List from 'in-components/List';
+
 import JVMInfo from '../JVMInfo';
 
 const rpt = React.PropTypes;
@@ -29,14 +31,11 @@ const Sidebar = React.createClass({
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>X Args</Collapsible.Header>
           <Collapsible.Content>
-            <ul>
+            <List>
               {xargs.map((arg, i) =>
-                <li style={{'whiteSpace': 'nowrap'}}
-                    key={i}>
-                  {arg}
-                </li>
+                <List.Item key={i}>{arg}</List.Item>
               ).toArray()}
-            </ul>
+            </List>
           </Collapsible.Content>
         </Collapsible>
         <ProblemPanel snapshot={this.props.snapshot} />

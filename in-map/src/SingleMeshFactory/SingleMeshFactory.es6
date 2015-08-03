@@ -91,6 +91,7 @@ export default class SingleMeshFactory {
     this.updateGeometryByFragment(fragment, numElementsToBeDeleted);
 
     _.remove(this.fragments, frag => frag.id === id);
+    this.fragments.forEach((frag, index) => {frag.index = index; });
   }
 
   buildGeometry() {

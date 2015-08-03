@@ -74,7 +74,10 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     animation.easing(TWEEN.Easing.Cubic.InOut);
     animation.onStart(() => scene.startAnimation());
     animation.onComplete(() => scene.stopAnimation());
-    animation.onUpdate((v) => progress.value = v);
+    animation.onUpdate((v) => {
+      progress.value = v;
+      this.scene.renderScene();
+    });
     this.animation = animation;
   }
 

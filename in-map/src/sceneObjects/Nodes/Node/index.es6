@@ -58,7 +58,9 @@ export default class Node extends BaseNode {
     this.blockCubeHealth(true);
     this.setHealth(healthBackup);
 
-    this.layer.forEach(layer => layer.changeStateProperty('active', false));
+    if(this.layer) {
+      this.layer.forEach(layer => layer.changeStateProperty('active', false));
+    }
   }
 
   onInactiveLeave() {
@@ -68,7 +70,9 @@ export default class Node extends BaseNode {
     this.blockCubeHealth(false);
     this.setHealth(this.health, true);
 
-    this.layer.forEach(layer => layer.changeStateProperty('active', true));
+    if(this.layer) {
+      this.layer.forEach(layer => layer.changeStateProperty('active', true));
+    }
   }
 
   onHiddenEnter() {
@@ -134,6 +138,7 @@ export default class Node extends BaseNode {
   }
 
   removeFromGlobalGeometry() {
+    super.removeFromGlobalGeometry();
     this.removeFromGroundFactory();
   }
 

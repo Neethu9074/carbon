@@ -20,16 +20,6 @@ const ProcessInfo = React.createClass({
         <DescriptionItem title='Executable'>
           {data.get('exec')}
         </DescriptionItem>
-        <DescriptionItem title='Arguments'>
-          <ul>
-            {data.get('args').map((arg, i) =>
-              <li style={{'whiteSpace': 'nowrap'}}
-                  key={i}>
-                {arg}
-              </li>
-            ).toArray()}
-          </ul>
-        </DescriptionItem>
       </DescriptionList>
     );
   }

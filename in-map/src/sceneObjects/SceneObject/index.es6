@@ -64,7 +64,6 @@ const stateLUT = {
 };
 
 export default class SceneObject {
-
   constructor({parent, pos = new THREE.Vector3(0, 0, 0)}) {
     this.position = pos.clone();
     this.parent = parent;
@@ -92,9 +91,7 @@ export default class SceneObject {
     this.state.enter();
   }
 
-  init() {
-
-  }
+  init() {}
 
   changeStateProperty(name, value) {
     if(this.stateProperties[name] !== value) {
@@ -178,23 +175,28 @@ export default class SceneObject {
   }
 
   addSceneObject(obj) {
-    this.parent.addSceneObject(obj);
+    this.scene.addSceneObject(obj);
   }
 
   removeSceneObject(obj) {
-    this.parent.removeSceneObject(obj);
+    this.scene.removeSceneObject(obj);
   }
 
   addCollisionObject(obj, layer) {
-    this.parent.addCollisionObject(obj, layer);
+    this.scene.addCollisionObject(obj, layer);
   }
 
   removeCollisionObject(obj, layer) {
-    this.parent.removeCollisionObject(obj, layer);
+    this.scene.removeCollisionObject(obj, layer);
   }
 
   addSubscription(subscription) {
     this.subscriptions.push(subscription);
+  }
+
+  //each object can tell that the scene should be redrawn
+  renderScene() {
+    this.scene.renderScene();
   }
 
   //this method is introduced to get a better handling of the hole merged
@@ -211,16 +213,11 @@ export default class SceneObject {
   }
 
   getHtmlContainer() {
-    return this.parent.getHtmlContainer();
+    return this.scene.getHtmlContainer();
   }
 
   on(event, cb) {
     return this.parent.on(event, cb);
-  }
-
-  //each object can tell that the scene should be redrawn
-  renderScene() {
-    this.parent.renderScene();
   }
 
   onHighlight(highlighted) {
@@ -252,8 +249,9 @@ export default class SceneObject {
   }
 
   dispose() {
-    this.disposeSubscriptions();
+    this.changeStateProperty('hidden', true);
 
+    this.disposeSubscriptions();
     this.position = null;
 
     if(this.parent) {

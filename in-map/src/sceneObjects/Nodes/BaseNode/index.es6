@@ -151,7 +151,7 @@ export default class BaseNode extends SceneObject {
       this.onActiveMetric(metric);
     }));
 
-    this.addSubscription(selectedSceneObject.subscribe((so) => {
+    this.addSubscription(selectedSceneObject.subscribe(so => {
       this.onSceneObjectSelected(so);
     }));
   }
@@ -322,7 +322,12 @@ export default class BaseNode extends SceneObject {
     }
   }
 
-  removeFromGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
+  removeFromGlobalGeometry() {
+    const id = this.id;
+    this.scene.highlightingSingleMeshFactory.removeFragment(id);
+    this.scene.singleMeshFactory.removeFragment(id);
+    this.scene.lineFactory.removeFragment(id);
+  }
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
@@ -422,22 +427,16 @@ export default class BaseNode extends SceneObject {
   }
 
   dispose() {
-    this.disposeSubscriptions();
+    super.dispose();
 
     this.clearConnections();
-
     this.removeFromGlobalGeometry();
-
-    this.scene.singleMeshFactory.removeFragment(this.id);
-    this.scene.lineFactory.removeFragment(this.id);
-    this.makeSolidGeometry(false);
 
     this.highlighting.dispose();
 
     this.removeCollisionObject(this.cube, 2);
 
     this.disposeStickyNote();
-    super.dispose();
 
     this.cube = null;
     this.id = null;

@@ -9,9 +9,8 @@ import {
   formatPercentageShort
 } from 'in-services/converters';
 
-import ContentHeading from 'in-components/ContentHeading';
+import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import Separator from 'in-components/Separator';
 
 const rpt = React.PropTypes;
 
@@ -28,72 +27,67 @@ const RedisDashboard = React.createClass({
   render() {
     return (
       <div>
-        <ContentHeading>Clients</ContentHeading>
+        <DashboardSection title='Clients'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'connected_clients',
+                               'blocked_clients'
+                             ],
+                             labels: [
+                               'Connected',
+                               'Blocked'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
 
-        <ChartWithLegend snapshot={this.props.snapshot}
-               windowSize={this.props.timeframe}
-               height={chartHeight}
-               margins={{
-                 left: 80
-               }}
-               y1={{
-                 min: 0,
-                 metrics: [
-                   'connected_clients',
-                   'blocked_clients'
-                 ],
-                 labels: [
-                   'Connected',
-                   'Blocked'
-                 ],
-                 type: 'line'
-               }}/>
+        <DashboardSection title='Memory'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: formatBytes,
+                             metrics: [
+                               'used_memory'
+                             ],
+                             labels: [
+                               'Used'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
 
-        <Separator/>
-
-        <ContentHeading>Memory</ContentHeading>
-
-        <ChartWithLegend snapshot={this.props.snapshot}
-               windowSize={this.props.timeframe}
-               height={chartHeight}
-               margins={{
-                 left: 80
-               }}
-               y1={{
-                 min: 0,
-                 formatter: formatBytes,
-                 metrics: [
-                   'used_memory'
-                 ],
-                 labels: [
-                   'Used'
-                 ],
-                 type: 'stackedArea'
-               }}/>
-
-        <Separator/>
-
-        <ContentHeading>Cache</ContentHeading>
-
-        <ChartWithLegend snapshot={this.props.snapshot}
-               windowSize={this.props.timeframe}
-               height={chartHeight}
-               margins={{
-                 left: 80
-               }}
-               y1={{
-                 min: 0,
-                 max: 1,
-                 formatter: formatPercentageShort,
-                 metrics: [
-                   'hit_rate'
-                 ],
-                 labels: [
-                   'Hit Rate'
-                 ],
-                 type: 'stackedArea'
-               }}/>
-
+        <DashboardSection title='Cache'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             max: 1,
+                             formatter: formatPercentageShort,
+                             metrics: [
+                               'hit_rate'
+                             ],
+                             labels: [
+                               'Hit Rate'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
       </div>
     );
   }

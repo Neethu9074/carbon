@@ -100,7 +100,16 @@ export default class Scene {
       }
     }));
 
-    this.subscriptions.push(selectedSceneObject.subscribe((obj) => {
+    this.subscriptions.push(
+      selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
+        //if the store was cleared and this client is selected -> unselect it
+        if(!selected) {
+          selectedSceneObject.emit(null);
+        }
+      })
+    );
+
+    this.subscriptions.push(selectedSceneObject.subscribe(obj => {
       const sceneObject = obj;
       //clear the selectedSnapshot store if there was a click into nowhere
       //or on a sceneObject without a snapshot or unknown sceneObject

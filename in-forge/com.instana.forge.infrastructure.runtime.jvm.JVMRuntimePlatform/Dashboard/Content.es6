@@ -7,9 +7,8 @@ import irpt from 'react-immutable-proptypes';
 import {formatBytes} from 'in-services/converters';
 import {getMaxValue} from 'in-sdk/metrics';
 
+import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import Separator from 'in-components/Separator';
-import ContentHeading from 'in-components/ContentHeading';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
@@ -35,147 +34,143 @@ const JVMDashboard = React.createClass({
     const collectors = this.props.snapshot.getIn(['data', 'jvm.collectors']);
     return (
       <div>
-        <ContentHeading>Threads</ContentHeading>
 
-        <ChartWithLegend snapshot={this.props.snapshot}
-                         windowSize={this.props.timeframe}
-                         height={chartHeight}
-                         margins={{
-                           left: 60
-                         }}
+        <DashboardSection title='Threads'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 60
+                           }}
 
-                         y1={{
-                           min: 0,
-                           metrics: [
-                             'threads.new',
-                             'threads.runnable',
-                             'threads.timed-waiting',
-                             'threads.waiting',
-                             'threads.blocked',
-                             'threads.terminated'
-                           ],
-                           labels: [
-                             'New',
-                             'Runnable',
-                             'Timed-Waiting',
-                             'Waiting',
-                             'Blocked',
-                             'Terminated'
-                           ],
-                           type: 'stackedArea'
-                         }}/>
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'threads.new',
+                               'threads.runnable',
+                               'threads.timed-waiting',
+                               'threads.waiting',
+                               'threads.blocked',
+                               'threads.terminated'
+                             ],
+                             labels: [
+                               'New',
+                               'Runnable',
+                               'Timed-Waiting',
+                               'Waiting',
+                               'Blocked',
+                               'Terminated'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
 
-        <Separator />
+        <DashboardSection title='Memory'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             max: this.props.snapshot.getIn(['data', 'memory.max']),
+                             formatter: formatBytes,
+                             metrics: [
+                               'memory.free'
+                             ],
+                             labels: [
+                               'Free'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
 
-        <ContentHeading>Memory</ContentHeading>
+        <DashboardSection title='Memory Pools'>
+          {this.state.poolName ?
+            <ChartWithLegend snapshot={this.props.snapshot}
+                   windowSize={this.props.timeframe}
+                   height={chartHeight}
+                   margins={{
+                     left: 80
+                   }}
 
-        <ChartWithLegend snapshot={this.props.snapshot}
-                         windowSize={this.props.timeframe}
-                         height={chartHeight}
-                         margins={{
-                           left: 80
-                         }}
-                         y1={{
-                           min: 0,
-                           max: this.props.snapshot.getIn(['data', 'memory.max']),
-                           formatter: formatBytes,
-                           metrics: [
-                             'memory.free'
-                           ],
-                           labels: [
-                             'Free'
-                           ],
-                           type: 'stackedArea'
-                         }}/>
+                   y1={{
+                     max: getMaxValue(
+                       'pools.' + this.state.poolName,
+                       this.props.snapshot
+                     ),
+                     formatter: formatBytes,
+                     metrics: [
+                       'pools.' + this.state.poolName
+                     ],
+                     labels: [
+                       this.state.poolName + ' Usage'
+                     ],
+                     type: 'line'
+                   }}/>
+          : null}
 
-        <Separator />
+          <table className='in-subtle-table in-subtle-table--clickable'>
+            <thead>
+              <tr>
+                <th>Pool</th>
+                <th>Initial</th>
+                <th>Max</th>
+                <th>Used</th>
+              </tr>
+            </thead>
 
-        <ContentHeading>Memory Pools</ContentHeading>
+            <tbody>
+              {pools.map((data, name) =>
+                <tr key={name} onClick={() => this.selectPool(name)}>
+                  <td>{name}</td>
+                  <td>{formatBytes(data.get('initial'))}</td>
+                  <td>{formatBytes(data.get('max'))}</td>
+                  <Mtd metric={'pools.' + name}
+                       snapshot={this.props.snapshot}
+                       formatter={formatBytes} />
+                </tr>
+              ).valueSeq()}
+            </tbody>
+          </table>
+        </DashboardSection>
 
-        {this.state.poolName ?
+
+        <DashboardSection title='Garbage Collection'>
           <ChartWithLegend snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
                  height={chartHeight}
                  margins={{
-                   left: 80
+                   left: 80,
+                   right: 80
                  }}
 
                  y1={{
-                   max: getMaxValue(
-                     'pools.' + this.state.poolName,
-                     this.props.snapshot
-                   ),
-                   formatter: formatBytes,
-                   metrics: [
-                     'pools.' + this.state.poolName
-                   ],
-                   labels: [
-                     this.state.poolName + ' Usage'
-                   ],
-                   type: 'line'
+                   metrics: collectors.map((name) =>
+                              'gc.' + name + '.time'
+                            ).toArray()
+                   ,
+                   labels: collectors.map((name) =>
+                              name + ' Time'
+                            ).toArray()
+                   ,
+                   type: 'line',
+                   formatter: (d) => d / 1000 + ' s'
+                   }}
+
+                 y2={{
+                   metrics: collectors.map((name) =>
+                              'gc.' + name + '.inv'
+                            ).toArray()
+                   ,
+                   labels: collectors.map((name) =>
+                              name + ' Invocations'
+                            ).toArray()
+                   ,
+                   type: 'point'
                  }}/>
-        : null}
-
-        <table className='in-subtle-table in-subtle-table--clickable'>
-          <thead>
-            <tr>
-              <th>Pool</th>
-              <th>Initial</th>
-              <th>Max</th>
-              <th>Used</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {pools.map((data, name) =>
-              <tr key={name} onClick={() => this.selectPool(name)}>
-                <td>{name}</td>
-                <td>{formatBytes(data.get('initial'))}</td>
-                <td>{formatBytes(data.get('max'))}</td>
-                <Mtd metric={'pools.' + name}
-                     snapshot={this.props.snapshot}
-                     formatter={formatBytes} />
-              </tr>
-            ).valueSeq()}
-          </tbody>
-        </table>
-
-        <Separator />
-
-        <ContentHeading>Garbage Collection</ContentHeading>
-
-        <ChartWithLegend snapshot={this.props.snapshot}
-               windowSize={this.props.timeframe}
-               height={chartHeight}
-               margins={{
-                 left: 80,
-                 right: 80
-               }}
-
-               y1={{
-                 metrics: collectors.map((name) =>
-                            'gc.' + name + '.time'
-                          ).toArray()
-                 ,
-                 labels: collectors.map((name) =>
-                            name + ' Time'
-                          ).toArray()
-                 ,
-                 type: 'line',
-                 formatter: (d) => d / 1000 + ' s'
-                 }}
-
-               y2={{
-                 metrics: collectors.map((name) =>
-                            'gc.' + name + '.inv'
-                          ).toArray()
-                 ,
-                 labels: collectors.map((name) =>
-                            name + ' Invocations'
-                          ).toArray()
-                 ,
-                 type: 'point'
-               }}/>
+        </DashboardSection>
       </div>
     );
   },
