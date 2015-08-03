@@ -4,7 +4,7 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
-import formatBytes from 'in-services/converters';
+import {formatBytes} from 'in-services/converters';
 import classnames from 'in-services/util/classnames';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -124,14 +124,15 @@ const ElasticsearchDashboard = React.createClass({
                            windowSize={this.props.timeframe}
                            height={chartHeight}
                            margins={{
-                             left: 80
+                             left: 80,
+                             right: 80
                            }}
                            y1={{
                              metrics: [
                                'indices.refresh_count',
                                'indices.flush_count'
                              ],
-                             lables: [
+                             labels: [
                                'Refresh Count',
                                'Flush Count'
                              ],
@@ -142,7 +143,7 @@ const ElasticsearchDashboard = React.createClass({
                                'indices.refresh_time',
                                'indices.flush_time'
                              ],
-                             lables: [
+                             labels: [
                                'Refresh Time',
                                'Flush Time'
                              ],
