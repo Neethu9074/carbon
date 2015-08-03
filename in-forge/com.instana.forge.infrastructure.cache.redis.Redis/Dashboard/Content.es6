@@ -25,8 +25,31 @@ const RedisDashboard = React.createClass({
   },
 
   render() {
+    const dbs = this.props.snapshot.getIn(['data', 'dbs']);
+
     return (
       <div>
+        <DashboardSection title='Database Size'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+
+                           y1={{
+                             metrics: dbs.map((name) =>
+                                        'db.' + name
+                                      ).toArray()
+                             ,
+                             labels: dbs.map((name) =>
+                                        name
+                                      ).toArray()
+                             ,
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+
         <DashboardSection title='Clients'>
           <ChartWithLegend snapshot={this.props.snapshot}
                            windowSize={this.props.timeframe}
