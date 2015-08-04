@@ -65,6 +65,10 @@ const SignInWithXing = React.createClass({
       logger.error(msg, error);
       this.props.onError(msg);
       return;
+    } else if (!user) {
+      // this means that the user did not grant us the necessary access rights.
+      // We can just ignore this as the popup will continue to stay open.
+      return;
     }
 
     const props = {};
