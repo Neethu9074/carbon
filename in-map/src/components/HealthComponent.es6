@@ -44,11 +44,11 @@ export default class HealthComponent extends Component{
   }
 
   dispose() {
+    super.dispose();
+
     if(this.healthSubscribtion) {
       this.healthSubscribtion.dispose();
       this.healthSubscribtion = null;
     }
-
-    super.dispose();
   }
 }

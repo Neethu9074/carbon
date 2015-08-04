@@ -104,4 +104,10 @@ export default class HighlightingComponent extends Component{
   getID() {
     return this.sceneObject.id + '_highlight';
   }
+
+  dispose() {
+    super.dispose();
+
+    this.hide();
+  }
 }

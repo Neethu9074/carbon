@@ -29,11 +29,11 @@ export default class SolidMeshComponent extends Component{
   }
 
   onInitialEnter() {
-    this.sceneObject.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
+    this.getFactory().addFragment(this.fragment);
   }
 
   onInactiveEnter() {
-    this.sceneObject.scene.highlightingSingleMeshFactory.removeFragment(this.getID());
+    this.getFactory().removeFragment(this.getID());
   }
 
 
@@ -61,7 +61,7 @@ export default class SolidMeshComponent extends Component{
     this.setupFragment();
 
     if(this.isActive()) {
-      this.sceneObject.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
+      this.getFactory().addFragment(this.fragment);
     }
 
     this.needsUpdate = false;
@@ -79,5 +79,15 @@ export default class SolidMeshComponent extends Component{
 
   getID() {
     return this.sceneObject.id + '_solidMesh';
+  }
+
+  getFactory() {
+    return this.sceneObject.scene.highlightingSingleMeshFactory;
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.getFactory().removeFragment(this.getID());
   }
 }
