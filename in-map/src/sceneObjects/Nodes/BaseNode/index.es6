@@ -70,20 +70,73 @@ export default class BaseNode extends SceneObject {
   }
 
   onHighlightEnter() {
-    this.getComponent('connection').highlightChanged(true);
+    //setup the border highlight
+    this.highlighting.show();
 
-    this.setHighlight();
+    //show all connections as grey lines
+    this.getComponent('connection').highlightChanged(true);
   }
 
   onHighlightLeave() {
-    this.getComponent('connection').highlightChanged(false);
+    //hide the border highlighting stuff
+    this.highlighting.hide();
 
-    this.clearHighlight();
+    //hide the grey connection lines
+    this.getComponent('connection').highlightChanged(false);
   }
 
-  onSelectedEnter() {this.selected(); }
+  onSelectedEnter() {
+    //setup the border highlight
+    this.highlighting.show();
 
-  onSelectedLeave() {this.unSelected(); }
+    //surounds the node with a white hull
+    this.showSolidMesh();
+
+    //show all connections as white lines
+    this.getComponent('connection').selectionChanged(true);
+  }
+
+  onSelectedLeave() {
+    //setup the border highlight
+    this.highlighting.hide();
+
+    //dispose the white hull
+    this.showSolidMesh(false);
+
+    //hide the white connection lines
+    this.getComponent('connection').selectionChanged(false);
+  }
+
+  onSelectedHighlightEnter() {
+    //setup the border highlight
+    this.highlighting.show();
+
+    //surounds the node with a white hull
+    this.showSolidMesh();
+
+    //show all connections as white lines
+    this.getComponent('connection').selectionChanged(true);
+  }
+
+  onSelectedHighlightLeave() {
+    //hide the border highlighting stuff
+    this.highlighting.hide();
+
+    //dispose the white hull
+    this.showSolidMesh(false);
+
+    //hide the white connection lines
+    this.getComponent('connection').selectionChanged(false);
+  }
+
+  onSelectedHighlightInactiveEnter() {}
+
+  onSelectedHighlightInactiveLeave() {}
+
+  onHighlightInactiveEnter() {}
+
+  onHighlightInactiveLeave() {}
+
 
   onHiddenEnter() {
     super.onHiddenEnter();
@@ -103,21 +156,6 @@ export default class BaseNode extends SceneObject {
     this.addToGlobalGeometry();
     this.stickyNote.show();
     this.highlighting.show();
-  }
-
-
-  selected() {
-    this.getComponent('connection').selectionChanged(true);
-
-    this.setHighlight();
-    this.showSolidMesh();
-  }
-
-  unSelected() {
-    this.getComponent('connection').selectionChanged(false);
-
-    this.clearHighlight();
-    this.showSolidMesh(false);
   }
 
   initComponents() {
@@ -192,16 +230,6 @@ export default class BaseNode extends SceneObject {
     super.onHighlight(highlighted);
 
     currentTooltip.emit(this.tooltip);
-  }
-
-  setHighlight() {
-    this.highlighting.onMouseOver();
-    this.stickyNote.onHighlight(true);
-  }
-
-  clearHighlight() {
-    this.highlighting.onMouseOff();
-    this.stickyNote.onHighlight(false);
   }
 
   updateOfVisualComponents() {

@@ -67,7 +67,6 @@ export default class StickyNoteNode extends StickyNote {
   render() {
     React.render(
       <NodeStickyNoteRC snapshot={this.parent.snapshot}
-                    highlighted={this.highlighted}
                     sceneObject={this.parent}
                     showMetric={this.showMetric}
                     tags={this.tags}/>,

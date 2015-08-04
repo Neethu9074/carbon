@@ -8,22 +8,23 @@ export default class NodeHighlight extends Highlight {
     super({client});
   }
 
-  //sets the primary highlight whatever that means
-  setHighlight() {
-    if(this.isHighlighted) {
-      return;
-    }
-
-    const client = this.client;
-
-    this.setupHighlightBorderLines(client);
-    super.setHighlight();
+  show() {
+    this.setupHighlightBorderLines();
 
     //make the changes visible
-    client.renderScene();
+    this.client.renderScene();
   }
 
-  setupHighlightBorderLines(client) {
+  hide() {
+    this.clearHighlightBorderLines();
+
+    //make the changes visible
+    this.client.renderScene();
+  }
+
+  setupHighlightBorderLines() {
+    const client = this.client;
+
     //create outline effect using lines
     const pos = client.getComponent('position').getPosition();
     if(!pos) {
@@ -68,46 +69,15 @@ export default class NodeHighlight extends Highlight {
     factory.addFragment({id: client.id + '_h', points, highlighted: true});
   }
 
-  hide() {
-    this.client.scene.lineFactory.removeFragment(this.client.id + '_h');
-  }
-
   clearHighlightBorderLines() {
     const client = this.client;
     client.scene.lineFactory.removeFragment(client.id + '_h');
   }
 
-  //clears the primary highlighting
-  clearHighlight() {
-    const client = this.client;
-
-    //don't dispose the highlighting twice
-    if(!this.isHighlighted) {return; }
-
-    this.clearHighlightBorderLines();
-
-    //make the changes visible
-    client.renderScene();
-
-    super.clearHighlight();
-  }
-
   refresh() {
     if(this.isHighlighted) {
       this.clearHighlightBorderLines();
-      this.setupHighlightBorderLines(this.client);
-    }
-  }
-
-  onMouseOver() {
-    this.setHighlight();
-  }
-
-  onMouseOff() {
-    //only disable highlighting if the node was not selected (is needed if
-    //the node was selected and mouseoff was fired)
-    if(!this.client.isSelected()) {
-      this.clearHighlight();
+      this.setupHighlightBorderLines();
     }
   }
 

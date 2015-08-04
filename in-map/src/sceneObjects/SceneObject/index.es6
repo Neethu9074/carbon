@@ -13,10 +13,10 @@ const stateLUT = [
   [[false,      false,      true,   false],   'initial'],
   [[false,      true,       true,   false],   'selected'],
   [[true,       false,      true,   false],   'highlighted'],
-  [[true,       true,       true,   false],   'selected'],
-  [[false,      true,       false,  false],   'inactive'],
-  [[true,       false,      false,  false],   'inactive'],
-  [[true,       true,       false,  false],   'inactive'],
+  [[true,       true,       true,   false],   'selectedHighlighted'],
+  [[false,      true,       false,  false],   'selectedInactive'],
+  [[true,       false,      false,  false],   'highlightedInactive'],
+  [[true,       true,       false,  false],   'selectedHighlightedInactive'],
   [[false,      false,      false,  false],   'inactive'],
   [[false,      false,      true,   true],    'hidden'],
   [[false,      true,       true,   true],    'hidden'],
@@ -50,26 +50,7 @@ class StateMachine {
          active === entry[0][2] &&
          hidden === entry[0][3]
       ) {
-        const match = entry[1];
-        let state;
-        switch (match) {
-          case 'inactive':
-            state = states.inactive;
-            break;
-          case 'selected':
-            state = states.selected;
-            break;
-          case 'highlighted':
-            state = states.highlighted;
-            break;
-          case 'hidden':
-            state = states.hidden;
-            break;
-          case 'initial':
-            state = states.initial;
-            break;
-        }
-        return state;
+        return states[entry[1]];
       }
     }
   }
@@ -137,7 +118,7 @@ export default class SceneObject {
   }
 
   forEachComponent(fn) {
-    for(const key in this.components) {
+    for(let key in this.components) {
       fn(this.components[key]);
     }
   }
@@ -155,6 +136,14 @@ export default class SceneObject {
   onHighlightLeave() {}
   onSelectedEnter() {}
   onSelectedLeave() {}
+  onSelectedHighlightEnter() {}
+  onSelectedHighlightLeave() {}
+  onSelectedHighlightInactiveEnter() {}
+  onSelectedHighlightInactiveLeave() {}
+  onHighlightInactiveEnter() {}
+  onHighlightInactiveLeave() {}
+  onSelectedInactiveEnter() { this.onInactiveEnter(); }
+  onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   onInactiveEnter() {
     this.forEachComponent((component) =>

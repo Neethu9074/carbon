@@ -11,16 +11,8 @@ export default class Highlight {
   }
 
   //sets the primary highlight whatever that means
-  setHighlight() {
-    this.isHighlighted = true;
-  }
-
-  //clears the primary highlighting
-  clearHighlight() {
-    this.isHighlighted = false;
-  }
-
   show() {}
 
+  //clears the primary highlighting
   hide() {}
 }

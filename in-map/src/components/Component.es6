@@ -27,17 +27,7 @@ class StateMachine {
     for (let i = 0; i < stateLUT.length; i++) {
       const entry = stateLUT[i];
       if(active === entry[0][0]) {
-        const match = entry[1];
-        let state;
-        switch (match) {
-          case 'inactive':
-            state = states.inactive;
-            break;
-          case 'initial':
-            state = states.initial;
-            break;
-        }
-        return state;
+        return states[entry[1]];
       }
     }
   }
