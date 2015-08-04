@@ -19,7 +19,7 @@ const NotificationDialog = React.createClass({
     title: rpt.string.isRequired,
     children: rpt.any.isRequired,
     onClose: rpt.func,
-    closeButtonVisible: rpt.boolean
+    closeButtonVisible: rpt.bool
   },
 
   render() {
