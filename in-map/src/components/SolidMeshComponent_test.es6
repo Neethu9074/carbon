@@ -29,14 +29,29 @@ describe('3D map', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(1);
     });
 
     it('dont call external method until time event was handled', () => {
-
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(1);
+      component.positionChanged(1, 2, 3);
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(1);
+      component.sizeChanged(4, 5, 6);
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(1);
+      component.handleTimeEvent30Fps();
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(2);
     });
 
     it('should do nothing if there is no change', () => {
+      component.positionChanged(1, 2, 3);
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(1);
+      component.handleTimeEvent30Fps();
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(2);
 
+      component.positionChanged(1, 2, 3);
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(2);
+      component.handleTimeEvent30Fps();
+      expect(sceneObject.scene.highlightingSingleMeshFactory.addFragment.callCount).to.equal(2);
     });
 
   });

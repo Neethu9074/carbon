@@ -38,11 +38,21 @@ export default class SolidMeshComponent extends Component{
 
 
   positionChanged(x, y, z) {
+    const pos = this.positionToSet;
+    if(pos.x === x && pos.y === y && pos.z === z) {
+      return;
+    }
+
     this.positionToSet = {x, y, z};
     this.needsUpdate = true;
   }
 
   sizeChanged(x, y, z) {
+    const scale = this.scaleToSet;
+    if(scale.x === x && scale.y === y && scale.z === z) {
+      return;
+    }
+
     this.scaleToSet = {x, y, z};
     this.needsUpdate = true;
   }

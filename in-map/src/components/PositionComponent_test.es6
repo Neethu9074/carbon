@@ -43,7 +43,6 @@ describe('3D map', () => {
       component.handleTimeEvent30Fps();
       expect(sceneObject.positionChanged.callCount).to.equal(1);
 
-
       component.setPosition(1, 2, 3);
       expect(sceneObject.positionChanged.callCount).to.equal(1);
       component.handleTimeEvent30Fps();
