@@ -16,17 +16,24 @@ export default class Unknownnode extends BaseNode {
     this.isUnknown = true;
   }
 
-  selected() {
-    super.selected();
-
+  onSelectedEnter() {
+    super.onSelectedEnter();
     this.stickyNote.showPlus();
   }
 
-  unSelected() {
+  onSelectedLeave() {
+    super.onSelectedLeave();
     this.stickyNote.showPlus(false);
-
-    super.unSelected();
   }
+
+  onSelectedHighlightEnter() {
+    this.onSelectedEnter();
+  }
+
+  onSelectedHighlightLeave() {
+    this.onSelectedLeave();
+  }
+
 
   getTooltipSticky() {
     return new TooltipUnknownNode(this);
