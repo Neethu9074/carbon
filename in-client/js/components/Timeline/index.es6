@@ -71,7 +71,7 @@ const Timeline = React.createClass({
   getInitialState() {
     return {
       renderedForTimestamp: Date.now(),
-      hoveredProblem: null,
+      hoveredIssue: null,
       hoveredSnapshot: null,
       timePickerProperty: null,
       open: false,
@@ -110,7 +110,7 @@ const Timeline = React.createClass({
           </div>
 
           <div className={block + '__line'}>
-            {this.renderProblems()}
+            {this.renderIssues()}
             {this.renderFocusedMoment()}
           </div>
 
@@ -139,46 +139,43 @@ const Timeline = React.createClass({
     return moment(time.getServerTime() - this.props.timeframe).fromNow();
   },
 
-  renderProblems() {
+  renderIssues() {
     if (!this.props.openIssues) {
       return null;
     }
 
     const now = time.getServerTime();
-    const maxOldestPermittedProblem = now - this.props.timeframe;
-    const problems = [];
+    const maxOldestPermittedIssue = now - this.props.timeframe;
+    const issues = [];
 
     this.props.openIssues.forEach(issue => {
-      issue.get('problems')
-        .forEach(problem => {
-          if (problem.get('start') > maxOldestPermittedProblem) {
-            problems.push(problem);
-          }
-        });
+      if (issue.get('start') > maxOldestPermittedIssue) {
+        issues.push(issue);
+      }
     });
-    const scale = this.state.scale.domain([now, maxOldestPermittedProblem]);
-    return problems.map(problem => {
-      const iconConfig = this.getIconConfig(problem);
-      // closed problems should like regular events as far as the color is
+    const scale = this.state.scale.domain([now, maxOldestPermittedIssue]);
+    return issues.map(issue => {
+      const iconConfig = this.getIconConfig(issue);
+      // closed issues should like regular events as far as the color is
       // concerned
-      const color = problem.get('end') == null ? iconConfig.color : HEALTH_OK.color;
+      const color = issue.get('state') === 'OPEN' ? iconConfig.color : HEALTH_OK.color;
       return (
-        <Icon key={problem.get('id')}
+        <Icon key={issue.get('id')}
               type={iconConfig.type}
               className={block + '__problem'}
               style={{
-                left: scale(problem.get('start')).toFixed(2) + '%',
+                left: scale(issue.get('start')).toFixed(2) + '%',
                 color
               }}
-              onMouseEnter={this.mouseIn.bind(this, problem)}
+              onMouseEnter={this.mouseIn.bind(this, issue)}
               onMouseLeave={this.mouseOut}
-              onClick={() => this.focusSnapshot(problem)}/>
+              onClick={() => this.focusSnapshot(issue)}/>
       );
     });
   },
 
-  getIconConfig(problem) {
-    switch (mapSeverityToHealth(problem.get('severity'))) {
+  getIconConfig(issue) {
+    switch (mapSeverityToHealth(issue.getIn(['problem', 'severity']))) {
       case health.warning:
         return HEALTH_WARNING;
       case health.danger:
@@ -208,12 +205,12 @@ const Timeline = React.createClass({
   },
 
   renderTooltip() {
-    if (!this.state.hoveredProblem) {
+    if (!this.state.hoveredIssue) {
       return null;
     }
 
-    const problem = this.state.hoveredProblem;
-    const iconConfig = this.getIconConfig(problem);
+    const issue = this.state.hoveredIssue;
+    const iconConfig = this.getIconConfig(issue);
     return (
       <div className={block + '__tooltip'}
            style={{
@@ -223,12 +220,12 @@ const Timeline = React.createClass({
          <div className={block + '__tooltip-wrapper'}>
           <TooltipFrame>
             <StatusLine left={this.state.hoveredSnapshot ? getLabel(this.state.hoveredSnapshot) : 'Loading...'}
-                        right={moment(problem.get('start')).fromNow()}/>
+                        right={moment(issue.get('start')).fromNow()}/>
             <Heading style={{color: iconConfig.color}}>
-              {problem.get('problemText')}
+              {issue.getIn(['problem', 'problemText'])}
             </Heading>
             <Content>
-              {problem.get('fixSuggestion')}
+              {issue.getIn(['problem', 'fixSuggestion'])}
             </Content>
           </TooltipFrame>
         </div>
@@ -242,8 +239,8 @@ const Timeline = React.createClass({
     }
 
     const now = time.getServerTime();
-    const maxOldestPermittedProblem = now - this.props.timeframe;
-    const scale = this.state.scale.domain([now, maxOldestPermittedProblem]);
+    const maxOldestPermittedIssue = now - this.props.timeframe;
+    const scale = this.state.scale.domain([now, maxOldestPermittedIssue]);
 
     return (
       <div className={block + '__focused-moment'}
@@ -253,13 +250,13 @@ const Timeline = React.createClass({
     );
   },
 
-  mouseIn(problem, event) {
+  mouseIn(issue, event) {
     this.setState({
-      hoveredProblem: problem,
+      hoveredIssue: issue,
       tooltipX: event.pageX,
       tooltipY: -10
     });
-
+    const problem = issue.get('problem');
     this.addSubscription(
       only(
         create(SnapshotConveyer, {pluginId: problem.get('pluginId')}),
@@ -267,12 +264,12 @@ const Timeline = React.createClass({
       )
       .subscribe(hoveredSnapshot => this.setState({hoveredSnapshot}))
     );
-    highlightedSnapshotStore.select(problem);
+    highlightedSnapshotStore.select(issue);
   },
 
   mouseOut() {
     this.setState({
-      hoveredProblem: null,
+      hoveredIssue: null,
       hoveredSnapshot: null,
       tooltipX: -1,
       tooltipY: -1
@@ -281,8 +278,8 @@ const Timeline = React.createClass({
     highlightedSnapshotStore.clear();
   },
 
-  focusSnapshot(problem) {
-    selectedSnapshotStore.select(problem);
+  focusSnapshot(issue) {
+    selectedSnapshotStore.select(issue.get('problem'));
   }
 });
 

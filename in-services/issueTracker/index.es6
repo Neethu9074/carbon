@@ -3,7 +3,6 @@
 'use strict';
 
 import Immutable from 'immutable';
-import * as ro from 'reactive-observables';
 
 import {create} from '../conveyer';
 import {mapSeverityToHealth, health} from '../health';
@@ -15,9 +14,6 @@ const allIssuesStream = timelineStore.timeframe.transform({
   emitLatestOnSubscribe: true,
 
   transform(timeframe) {
-    if (window.instana.config.environment === 'demo' || __DEV__) {
-      return ro.create();
-    }
     return create(IssueConveyer, {timeframe})
       .scan(collectingReducer, Immutable.List());
   },
@@ -28,7 +24,7 @@ const allIssuesStream = timelineStore.timeframe.transform({
 });
 
 const openIssuesStream = allIssuesStream.map(issues => {
-  return issues.filter(issue => issue.get('end') === null);
+  return issues.filter(issue => issue.get('state') === 'OPEN');
 });
 
 const issueSummary = openIssuesStream.map(issues => {
@@ -36,15 +32,13 @@ const issueSummary = openIssuesStream.map(issues => {
   const dangers = {};
 
   issues.forEach(issue => {
-
-    issue.get('problems').forEach(problem => {
-      const problemHealth = mapSeverityToHealth(problem.get('severity'));
-      if (problemHealth === health.warning) {
-        addProblem(warnings, problem);
-      } else if (problemHealth === health.danger) {
-        addProblem(dangers, problem);
-      }
-    });
+    let problem = issue.get('problem');
+    const problemHealth = mapSeverityToHealth(problem.get('severity'));
+    if (problemHealth === health.warning) {
+      addProblem(warnings, problem);
+    } else if (problemHealth === health.danger) {
+      addProblem(dangers, problem);
+    }
   });
 
   const iWarnings = Immutable.Map(
@@ -105,20 +99,17 @@ export function getIssueCountSummary() {
   return issueCountSummary;
 }
 
-export function getProblemsForSnapshot(snapshotId) {
-  const predicate = isIdEqual.bind(null, snapshotId);
-
+export function getProblemsForSnapshot(snapshot) {
+  const predicate = isIdEqual.bind(null, snapshot);
   return openIssuesStream.map(issues => {
     let size = 0;
     const result = Immutable.List().asMutable();
 
     issues.forEach(issue => {
-      issue.get('problems')
-        .forEach(problem => {
-          if (predicate(problem)) {
-            result.set(size++, problem);
-          }
-        });
+      let problem = issue.get('problem');
+      if (predicate(problem)) {
+        result.set(size++, problem);
+      }
     });
 
     return result.asImmutable();
