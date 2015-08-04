@@ -5,7 +5,7 @@ import THREE from 'three';
 //components
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import ConnectionComponent from '../../../components/ConnectionComponent';
-import SolidMeshComponent from '../../../components/SolidMeshComponent';
+import MeshComponent from '../../../components/MeshComponent';
 import HighlightingComponent from '../../../components/HighlightingComponent';
 
 import {theme} from 'in-services/theme';
@@ -50,14 +50,6 @@ export default class BaseNode extends SceneObject {
     this.height = 1;
 
     this.tooltip = this.getTooltipSticky();
-
-    this.geometryProvider = new CMCM({
-      contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: new CCP()
-        })
-      })
-    });
 
     this.stickyNote = emptyStickyObject;
 
@@ -168,8 +160,27 @@ export default class BaseNode extends SceneObject {
     //add the connection component to handle all the visual connection lines
     components.connection = new ConnectionComponent({sceneObject: this});
 
+    const pcm = new PCM({
+      contentProvider: new SCM({
+        contentProvider: new CCP()
+      })
+    });
+
+    //add the mesh component to handle visual representation of the node
+    components.mesh = new MeshComponent({
+      sceneObject: this,
+      contentProvider: new CMCM({contentProvider: pcm}),
+      id: this.id + '_mesh',
+      factory: this.scene.singleMeshFactory
+    });
+
     //add the solidMesh component to handle the solid fill color of a node
-    components.solidMesh = new SolidMeshComponent({sceneObject: this});
+    components.solidMesh = new MeshComponent({
+      sceneObject: this,
+      contentProvider: new CMCM({contentProvider: pcm}),
+      id: this.id + '_solidMesh',
+      factory: this.scene.highlightingSingleMeshFactory
+    });
     components.solidMesh.stateMachine.changeStateProperty('active', false);
 
     //add the highlighting component to handle the highlighting of a node
@@ -252,6 +263,7 @@ export default class BaseNode extends SceneObject {
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('connection').positionChanged();
     this.getComponent('solidMesh').positionChanged(x, y, z);
+    this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
     this.updateOfVisualComponents();
   }
@@ -261,6 +273,7 @@ export default class BaseNode extends SceneObject {
 
     this.getComponent('collision').sizeChanged(1, height, 1);
     this.getComponent('solidMesh').sizeChanged(1, height, 1);
+    this.getComponent('mesh').sizeChanged(1, height, 1);
     this.getComponent('highlighting').sizeChanged(1, height, 1);
     this.updateOfVisualComponents();
   }
@@ -271,41 +284,15 @@ export default class BaseNode extends SceneObject {
   }
 
   refreshFragment() {
-    const position = this.getComponent('position').getPosition();
-    if(!position) {
-      return undefined;
-    }
-
     const color = this.calculateNodeColor();
-    const pcm = this.geometryProvider.contentProvider;
-    const scm = pcm.contentProvider;
-
-    pcm.position = {x: position.x - 0.5, y: position.y, z: position.z + 0.5};
-    scm.scale = {x: 1, y: this.height, z: 1};
-    this.geometryProvider.color = {r: color.r, g: color.g, b: color.b};
-
-    const fragment = this.fragment = {
-      id: this.id,
-      contentProvider: this.geometryProvider
-    };
-
-    const scene = this.scene;
-
-    //adding a existing fragment will penetrate an update
-    scene.singleMeshFactory.addFragment(fragment);
+    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
   }
 
   enableFragments(enable) {
-    if(enable) {
-      this.refreshFragment();
-    } else {
-      this.scene.singleMeshFactory.removeFragment(this.id);
-    }
+    this.getComponent('mesh').stateMachine.changeStateProperty('active', enable);
   }
 
-  removeFromGlobalGeometry() {
-    this.scene.singleMeshFactory.removeFragment(this.id);
-  }
+  removeFromGlobalGeometry() {}
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 

@@ -2,38 +2,30 @@
 
 import Component from './Component';
 
-import CCP from '../SingleMeshFactory/ContentProvider/CubeContentProvider';
-import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 
-
-export default class SolidMeshComponent extends Component{
-  constructor({sceneObject}) {
+export default class MeshComponent extends Component {
+  constructor({sceneObject, contentProvider, id, factory}) {
     super(sceneObject);
 
-    this.geometryProvider = new PCM({
-      contentProvider: new SCM({
-        contentProvider: new CCP()
-      })
-    });
-    this.fragment = {
-      id: this.getID(),
-      contentProvider: this.geometryProvider
-    };
+    this.id = id;
+    this.contentProvider = contentProvider;
+    this.factory = factory;
+    this.fragment = {id: this.id, contentProvider};
 
-    this.scaleToSet = {x: 1, y: 1, z: 1};
+    this.colorToSet = {r: 1, g: 1, b: 1};
     this.positionToSet = {x: -1000, y: 0, z: 0};
+    this.scaleToSet = {x: 1, y: 1, z: 1};
     this.setupFragment();
 
     this.initialized();
   }
 
   onInitialEnter() {
-    this.getFactory().addFragment(this.fragment);
+    this.factory.addFragment(this.fragment);
   }
 
   onInactiveEnter() {
-    this.getFactory().removeFragment(this.getID());
+    this.factory.removeFragment(this.id);
   }
 
 
@@ -57,37 +49,42 @@ export default class SolidMeshComponent extends Component{
     this.needsUpdate = true;
   }
 
+  colorChanged(r, g, b) {
+    const color = this.colorToSet;
+    if(color.r === r && color.g === g && color.b === b) {
+      return;
+    }
+
+    this.colorToSet = {r, g, b};
+    this.needsUpdate = true;
+  }
+
   update30Fps() {
     this.setupFragment();
 
     if(this.isActive()) {
-      this.getFactory().addFragment(this.fragment);
+      this.factory.addFragment(this.fragment);
     }
 
     this.needsUpdate = false;
   }
 
   setupFragment() {
-    const pcm = this.geometryProvider;
+    const cmcm = this.contentProvider;
+    const pcm = cmcm.contentProvider;
     const scm = pcm.contentProvider;
     const pos = this.positionToSet;
     const scale = this.scaleToSet;
+    const color = this.colorToSet;
 
+    cmcm.color = {r: color.r, g: color.g, b: color.b};
     pcm.position = {x: pos.x - 0.5, y: pos.y, z: pos.z + 0.5};
     scm.scale = {x: 1, y: scale.y, z: 1};
-  }
-
-  getID() {
-    return this.sceneObject.id + '_solidMesh';
-  }
-
-  getFactory() {
-    return this.sceneObject.scene.highlightingSingleMeshFactory;
   }
 
   dispose() {
     super.dispose();
 
-    this.getFactory().removeFragment(this.getID());
+    this.factory.removeFragment(this.id);
   }
 }
