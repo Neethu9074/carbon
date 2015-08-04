@@ -56,7 +56,8 @@ export default class CameraController {
     //the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
 
-    // this.worldLookAtPos = {x: 0, y: 0, z: 0};
+    //is needed to calculate delta
+    this.lastMousePosition = {x: 0, y: 0};
 
     const pitch = -45;
     //transformation helper. need this to move on the ground

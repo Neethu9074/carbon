@@ -187,19 +187,17 @@ export default class Group extends SceneObject {
   }
 
   dispose() {
-    this.disposeSubscriptions();
+    super.dispose();
 
     this.children.forEach(node => node.dispose());
+    this.children = [];
 
     this.scene.lineFactory.removeFragment(this.id);
     this.removeCollisionObject(this.collisionPlane);
-
-    super.dispose();
 
     this.stickyNote.dispose();
     this.stickyNote = null;
 
     this.id = null;
-    this.children = [];
   }
 }
