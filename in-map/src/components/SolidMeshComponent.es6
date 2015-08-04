@@ -1,7 +1,6 @@
 'use strict';
 
 import Component from './Component';
-// import THREE from 'three';
 
 import CCP from '../SingleMeshFactory/ContentProvider/CubeContentProvider';
 import PCM from '../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';

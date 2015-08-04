@@ -6,6 +6,7 @@ import THREE from 'three';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import ConnectionComponent from '../../../components/ConnectionComponent';
 import SolidMeshComponent from '../../../components/SolidMeshComponent';
+import HighlightingComponent from '../../../components/HighlightingComponent';
 
 import {theme} from 'in-services/theme';
 import eventBus from 'in-services/eventbus';
@@ -15,7 +16,6 @@ import {activeMetric} from 'in-services/stores/metrics';
 
 
 import SceneObject from '../../SceneObject/index';
-import Highlight from '../NodeHighlight';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
@@ -63,15 +63,12 @@ export default class BaseNode extends SceneObject {
 
     this.render();
 
-    //the highlighting object which handles the highlighting stuff
-    this.highlighting = new Highlight({client: this});
-
     this.registerEvents();
   }
 
   onHighlightEnter() {
     //setup the border highlight
-    this.highlighting.show();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
 
     //show all connections as grey lines
     this.getComponent('connection').highlightChanged(true);
@@ -79,7 +76,7 @@ export default class BaseNode extends SceneObject {
 
   onHighlightLeave() {
     //hide the border highlighting stuff
-    this.highlighting.hide();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
 
     //hide the grey connection lines
     this.getComponent('connection').highlightChanged(false);
@@ -87,7 +84,7 @@ export default class BaseNode extends SceneObject {
 
   onSelectedEnter() {
     //setup the border highlight
-    this.highlighting.show();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
 
     //surounds the node with a white hull
     this.showSolidMesh();
@@ -98,7 +95,7 @@ export default class BaseNode extends SceneObject {
 
   onSelectedLeave() {
     //setup the border highlight
-    this.highlighting.hide();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
 
     //dispose the white hull
     this.showSolidMesh(false);
@@ -109,7 +106,7 @@ export default class BaseNode extends SceneObject {
 
   onSelectedHighlightEnter() {
     //setup the border highlight
-    this.highlighting.show();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
 
     //surounds the node with a white hull
     this.showSolidMesh();
@@ -120,7 +117,7 @@ export default class BaseNode extends SceneObject {
 
   onSelectedHighlightLeave() {
     //hide the border highlighting stuff
-    this.highlighting.hide();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
 
     //dispose the white hull
     this.showSolidMesh(false);
@@ -145,7 +142,6 @@ export default class BaseNode extends SceneObject {
 
     this.removeFromGlobalGeometry();
     this.stickyNote.hide();
-    this.highlighting.hide();
   }
 
   onHiddenLeave() {
@@ -155,19 +151,31 @@ export default class BaseNode extends SceneObject {
 
     this.addToGlobalGeometry();
     this.stickyNote.show();
-    this.highlighting.show();
   }
 
   initComponents() {
     super.initComponents();
-    this.components.collision = new CollisionComponent({
+
+    const components = this.components;
+
+    //add the collision component to handle the collision box
+    components.collision = new CollisionComponent({
       sceneObject: this,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
-    this.components.connection = new ConnectionComponent({sceneObject: this});
-    this.components.solidMesh = new SolidMeshComponent({sceneObject: this});
-    this.components.solidMesh.stateMachine.changeStateProperty('active', false);
+
+    //add the connection component to handle all the visual connection lines
+    components.connection = new ConnectionComponent({sceneObject: this});
+
+    //add the solidMesh component to handle the solid fill color of a node
+    components.solidMesh = new SolidMeshComponent({sceneObject: this});
+    components.solidMesh.stateMachine.changeStateProperty('active', false);
+
+    //add the highlighting component to handle the highlighting of a node
+    //this is different to solidMesh since the highlighting is like a mouseOver effect
+    components.highlighting = new HighlightingComponent({sceneObject: this});
+    components.highlighting.stateMachine.changeStateProperty('active', false);
   }
 
   registerEvents() {
@@ -238,14 +246,13 @@ export default class BaseNode extends SceneObject {
 
     this.refreshMesh();
     this.refreshFragment();
-
-    this.highlighting.refresh();
   }
 
   positionChanged(x, y, z) {
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('connection').positionChanged();
     this.getComponent('solidMesh').positionChanged(x, y, z);
+    this.getComponent('highlighting').positionChanged(x, y, z);
     this.updateOfVisualComponents();
   }
 
@@ -254,6 +261,7 @@ export default class BaseNode extends SceneObject {
 
     this.getComponent('collision').sizeChanged(1, height, 1);
     this.getComponent('solidMesh').sizeChanged(1, height, 1);
+    this.getComponent('highlighting').sizeChanged(1, height, 1);
     this.updateOfVisualComponents();
   }
 
@@ -322,8 +330,6 @@ export default class BaseNode extends SceneObject {
     super.dispose();
 
     this.removeFromGlobalGeometry();
-
-    this.highlighting.dispose();
 
     this.disposeStickyNote();
 

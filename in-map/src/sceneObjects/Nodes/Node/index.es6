@@ -353,12 +353,6 @@ export default class Node extends BaseNode {
     this.addToGroundFactory();
   }
 
-  refreshFragment() {
-    this.highlighting.refresh();
-
-    super.refreshFragment();
-  }
-
   changeColorInFactory(id, newHealth, factory) {
     const fragment = factory.getFragment(this.id);
     fragment.health = newHealth;
