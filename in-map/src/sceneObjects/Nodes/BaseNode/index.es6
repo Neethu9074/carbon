@@ -304,9 +304,7 @@ export default class BaseNode extends SceneObject {
   }
 
   removeFromGlobalGeometry() {
-    const id = this.id;
-    this.scene.singleMeshFactory.removeFragment(id);
-    this.scene.lineFactory.removeFragment(id);
+    this.scene.singleMeshFactory.removeFragment(this.id);
   }
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
@@ -323,6 +321,8 @@ export default class BaseNode extends SceneObject {
   }
 
   dispose() {
+    //do that first to get connections deleted. they only dispose
+    //themselves if both endpoints are not selected
     if(this.isSelected()) {
       selectedSceneObject.emit(null);
     }
@@ -330,10 +330,7 @@ export default class BaseNode extends SceneObject {
     super.dispose();
 
     this.removeFromGlobalGeometry();
-
     this.disposeStickyNote();
-
-    this.id = null;
   }
 
   calculateNodeColor() {

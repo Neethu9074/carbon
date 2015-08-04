@@ -423,9 +423,7 @@ export default class Node extends BaseNode {
     this.clearLayer();
     this.removeFromGroundFactory();
 
-    this.layer = [];
     this.wiredSnapshots = undefined;
-
     this.snapshot = null;
     this.health = null;
   }
