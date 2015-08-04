@@ -12,7 +12,7 @@ export default {
       }
     },
     noNodesDialog: {
-      header: 'Menu',
+      header: 'No monitored systems',
       content: 'It seems that you are not yet monitoring any systems...'
     },
     map: {
