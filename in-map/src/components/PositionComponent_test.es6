@@ -19,7 +19,7 @@ describe('3D map', () => {
     component = new PositionComponent({sceneObject});
   });
 
-  describe('Component', () => {
+  describe('PositionComponent', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);

@@ -5,6 +5,7 @@ import THREE from 'three';
 //components
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import ConnectionComponent from '../../../components/ConnectionComponent';
+import SolidMeshComponent from '../../../components/SolidMeshComponent';
 
 import {theme} from 'in-services/theme';
 import eventBus from 'in-services/eventbus';
@@ -127,6 +128,8 @@ export default class BaseNode extends SceneObject {
       layer: 2
     });
     this.components.connection = new ConnectionComponent({sceneObject: this});
+    this.components.solidMesh = new SolidMeshComponent({sceneObject: this});
+    this.components.solidMesh.stateMachine.changeStateProperty('active', false);
   }
 
   registerEvents() {
@@ -163,11 +166,7 @@ export default class BaseNode extends SceneObject {
   }
 
   makeSolidGeometry(solid=true) {
-    if(solid && this.fragment) {
-      this.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
-    } else {
-      this.scene.highlightingSingleMeshFactory.removeFragment(this.id);
-    }
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', solid);
   }
 
   update() {
@@ -226,6 +225,7 @@ export default class BaseNode extends SceneObject {
   positionChanged(x, y, z) {
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('connection').positionChanged();
+    this.getComponent('solidMesh').positionChanged(x, y, z);
     this.updateOfVisualComponents();
   }
 
@@ -233,6 +233,7 @@ export default class BaseNode extends SceneObject {
     this.height = height;
 
     this.getComponent('collision').sizeChanged(1, height, 1);
+    this.getComponent('solidMesh').sizeChanged(1, height, 1);
     this.updateOfVisualComponents();
   }
 

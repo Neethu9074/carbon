@@ -20,7 +20,7 @@ describe('3D map', () => {
     component = new ConnectionComponent({sceneObject});
   });
 
-  describe('Component', () => {
+  describe('ConnectionComponent', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);

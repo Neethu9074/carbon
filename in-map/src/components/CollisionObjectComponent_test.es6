@@ -34,7 +34,7 @@ describe('3D map', () => {
     });
   });
 
-  describe('Component', () => {
+  describe('CollisionObjectComponent', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);

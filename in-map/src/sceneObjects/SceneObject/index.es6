@@ -283,7 +283,7 @@ export default class SceneObject {
   removeChild() {}
 
   dispose() {
-    this.stateMachine.changeStateProperty('hidden', true);
+    this.stateMachine.changeStateProperty('active', false);
 
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];

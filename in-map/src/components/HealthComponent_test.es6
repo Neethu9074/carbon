@@ -20,7 +20,7 @@ describe('3D map', () => {
     component = new HealthComponent({sceneObject});
   });
 
-  describe('Component', () => {
+  describe('HealthComponent', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);

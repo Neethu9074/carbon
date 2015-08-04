@@ -272,6 +272,7 @@ export default class Scene {
     this.updateCamera();
 
     //updating is done
+    this.controller.handleRayCasting();
     eventBus.emit('endUpdate', {scene: this});
 
     this.render();
