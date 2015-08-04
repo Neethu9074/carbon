@@ -49,13 +49,6 @@ describe('3D map', () => {
       expect(obj.position.z).to.equal(0);
     });
 
-    it('can change position', () => {
-      obj.setPosition(3, 2, 1);
-      expect(obj.position.x).to.equal(3);
-      expect(obj.position.y).to.equal(2);
-      expect(obj.position.z).to.equal(1);
-    });
-
     it('can be disposed', () => {
       obj.dispose();
       expect(obj.position).to.equal(null);

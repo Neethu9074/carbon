@@ -45,8 +45,4 @@ export default class MultiMetricPillar extends MetricPillar {
     //set the value to the total node height for better mouseover
     this.updateMetricCollisionObject(this.parent.height);
   }
-
-  dispose() {
-    super.dispose();
-  }
 }

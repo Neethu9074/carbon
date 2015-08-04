@@ -115,8 +115,6 @@ export default class MetricPillar extends SceneObject {
   dispose() {
     super.dispose();
 
-    this.metricCube.isEnabled = false;
-    this.removeCollisionObject(this.metricCube, 2);
     this.removeFromMetricFactory();
   }
 }

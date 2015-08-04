@@ -37,8 +37,4 @@ export default class SingleMetricPillar extends MetricPillar {
       this.updateMetricCollisionObject(value * this.parent.height);
     }
   }
-
-  dispose() {
-    super.dispose();
-  }
 }
