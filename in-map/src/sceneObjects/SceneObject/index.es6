@@ -284,6 +284,7 @@ export default class SceneObject {
 
   dispose() {
     this.stateMachine.changeStateProperty('active', false);
+    this.forEachComponent(component => component.dispose());
 
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];
