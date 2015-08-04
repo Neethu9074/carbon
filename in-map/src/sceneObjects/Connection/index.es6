@@ -15,9 +15,8 @@ let id = 0;
 export default class Connection extends SceneObject {
 
   constructor({from, to, direction}) {
-    super({parent: from});
+    super({parent: from, id: id++});
 
-    this.id = id++;
     this.from = from;
     this.to = to;
     this.direction = direction;

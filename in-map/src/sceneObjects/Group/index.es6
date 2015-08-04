@@ -25,9 +25,8 @@ const collisionGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1, 1, 1);
 export default class Group extends SceneObject {
 
   constructor({parent, id}) {
-    super({parent});
+    super({parent, id});
 
-    this.id = id;
     this.children = [];
     this.size = {x: 1, y: 1, z: 1};
 

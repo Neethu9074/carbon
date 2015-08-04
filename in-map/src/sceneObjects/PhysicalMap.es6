@@ -24,13 +24,12 @@ const layoutingInterval = 60;
 export default class PhysicalMap extends SceneObject {
 
   constructor({scene, pluginId}) {
-    super({parent: scene});
-    this.pluginId = pluginId;
+    super({parent: scene, id: 'physicalMap'});
 
     //the size of the map in world units (sizeXsize)
     this.size = 1000;
 
-    this.scene = scene;
+    this.pluginId = pluginId;
     this.groups = [];
 
     this.createGroundGrid();

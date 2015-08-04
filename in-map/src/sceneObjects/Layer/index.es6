@@ -19,9 +19,8 @@ import {getIdString} from 'in-services/util/snapshots';
 export default class Layer extends SceneObject {
 
   constructor({parent, snapshot}) {
-    super({parent});
+    super({parent, id: getIdString(snapshot)});
 
-    this.id = getIdString(snapshot);
     this.snapshot = snapshot;
     this.layerIndex = 0; //see this.setLayerIndex
 

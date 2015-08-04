@@ -64,11 +64,11 @@ const stateLUT = {
 };
 
 export default class SceneObject {
-  constructor({parent, pos = new THREE.Vector3(0, 0, 0)}) {
-    this.position = pos.clone();
+  constructor({parent, id}) {
+    this.id = id;
     this.parent = parent;
+    this.position = new THREE.Vector3(0, 0, 0);
     this.subscriptions = [];
-    this.hidden = false;
 
     this.screenPositionAnchor = this.position.clone();
     this.screenPosition = {x: 0, y: 0};

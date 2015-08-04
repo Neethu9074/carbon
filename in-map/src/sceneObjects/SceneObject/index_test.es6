@@ -2,7 +2,6 @@
 /*eslint-disable no-unused-expressions */
 'use strict';
 
-import THREE from 'three';
 import _ from 'lodash';
 
 import {expect} from 'chai';
@@ -39,15 +38,15 @@ describe('3D map', () => {
 
   let obj;
   beforeEach(() => {
-    obj = new SpecificSceneObject({pos: new THREE.Vector3(1, 2, 3)});
+    obj = new SpecificSceneObject({id: 0});
   });
 
   describe('SceneObject', () => {
 
     it('can be created', () => {
-      expect(obj.position.x).to.equal(1);
-      expect(obj.position.y).to.equal(2);
-      expect(obj.position.z).to.equal(3);
+      expect(obj.position.x).to.equal(0);
+      expect(obj.position.y).to.equal(0);
+      expect(obj.position.z).to.equal(0);
     });
 
     it('can change position', () => {

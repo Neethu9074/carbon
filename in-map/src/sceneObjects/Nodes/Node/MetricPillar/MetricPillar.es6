@@ -13,9 +13,7 @@ let id = 0;
 export default class MetricPillar extends SceneObject {
 
   constructor({parent}) {
-    super({parent});
-
-    this.id = id++;
+    super({parent, id: id++});
 
     this.createMetricCollisionObject();
 

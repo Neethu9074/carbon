@@ -42,10 +42,9 @@ const emptyStickyObject = {
 export default class BaseNode extends SceneObject {
 
   constructor({parent, snapshot}) {
-    super({parent});
+    super({parent, id: getIdString(snapshot)});
 
     this.scene = this.scene;
-    this.id = getIdString(snapshot);
     this.snapshot = snapshot;
     this.height = 1;
 
