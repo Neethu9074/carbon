@@ -9,7 +9,7 @@ import SceneObject from '../SceneObject/index';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import {currentTooltip} from '../../stores/mapStore';
 import Tooltip from '../Tooltips/Layer';
-import NodeHighlighting from '../Nodes/NodeHighlight';
+
 import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -37,7 +37,6 @@ export default class Layer extends SceneObject {
     this.getComponent('position').setPosition(Infinity, 0, 0);
 
     this.tooltip = new Tooltip(this);
-    this.highlighting = new NodeHighlighting({client: this});
     this.render();
   }
 
