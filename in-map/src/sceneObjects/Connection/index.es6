@@ -53,8 +53,8 @@ export default class Connection extends SceneObject {
     this.highlightFragment();
 
     // show hide connected nodes on highlighting factory
-    this.from.makeSolidGeometry();
-    this.to.makeSolidGeometry();
+    this.from.showSolidMesh();
+    this.to.showSolidMesh();
   }
 
   onSelectedLeave() {
@@ -62,7 +62,7 @@ export default class Connection extends SceneObject {
 
     // hide connected nodes on highlighting factory
     if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
-      this.to.makeSolidGeometry(false);
+      this.to.showSolidMesh(false);
     }
   }
 

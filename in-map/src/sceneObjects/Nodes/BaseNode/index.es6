@@ -110,14 +110,14 @@ export default class BaseNode extends SceneObject {
     this.getComponent('connection').selectionChanged(true);
 
     this.setHighlight();
-    this.makeSolidGeometry();
+    this.showSolidMesh();
   }
 
   unSelected() {
     this.getComponent('connection').selectionChanged(false);
 
     this.clearHighlight();
-    this.makeSolidGeometry(false);
+    this.showSolidMesh(false);
   }
 
   initComponents() {
@@ -165,7 +165,7 @@ export default class BaseNode extends SceneObject {
     this.addToGlobalGeometry();
   }
 
-  makeSolidGeometry(solid=true) {
+  showSolidMesh(solid=true) {
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', solid);
   }
 
@@ -211,15 +211,7 @@ export default class BaseNode extends SceneObject {
     this.refreshMesh();
     this.refreshFragment();
 
-    this.updateSolidGeometry();
-
     this.highlighting.refresh();
-  }
-
-  updateSolidGeometry() {
-    if(this.isSelected() || this.getComponent('connection').isConnectedToSelected()) {
-      this.makeSolidGeometry(true);
-    }
   }
 
   positionChanged(x, y, z) {
@@ -263,11 +255,6 @@ export default class BaseNode extends SceneObject {
 
     const scene = this.scene;
 
-    const highlightingFragment = scene.highlightingSingleMeshFactory.getFragment(this.id);
-    if(highlightingFragment) {
-      this.makeSolidGeometry();
-    }
-
     //adding a existing fragment will penetrate an update
     scene.singleMeshFactory.addFragment(fragment);
   }
@@ -282,7 +269,6 @@ export default class BaseNode extends SceneObject {
 
   removeFromGlobalGeometry() {
     const id = this.id;
-    this.scene.highlightingSingleMeshFactory.removeFragment(id);
     this.scene.singleMeshFactory.removeFragment(id);
     this.scene.lineFactory.removeFragment(id);
   }

@@ -56,6 +56,10 @@ export default class SolidMeshComponent extends Component{
     pcm.position = {x: pos.x - 0.5, y: pos.y, z: pos.z + 0.5};
     scm.scale = {x: 1, y: scale.y, z: 1};
 
+    if(this.isActive()) {
+      this.sceneObject.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
+    }
+
     this.needsUpdate = false;
   }
 
