@@ -450,7 +450,7 @@ export default class Node extends BaseNode {
   }
 
   dispose() {
-    this.disposeSubscriptions();
+    super.dispose();
 
     this.singleMetricPillar.dispose();
     this.multiMetricPillar.dispose();
@@ -458,8 +458,6 @@ export default class Node extends BaseNode {
     this.snapshotServer.dispose();
     this.clearLayer();
     this.removeFromGroundFactory();
-
-    super.dispose();
 
     this.layer = [];
     this.wiredSnapshots = undefined;

@@ -161,7 +161,6 @@ export default class SceneObject {
     this.changeStateProperty('hidden', true);
   }
 
-
   setPosition(x, y, z) {
     this.position.set(x, y, z);
   }
@@ -248,24 +247,17 @@ export default class SceneObject {
       screenPos.y > 0 && screenPos.y <= scene.height);
   }
 
+  removeChild() {}
+
   dispose() {
     this.changeStateProperty('hidden', true);
 
-    this.disposeSubscriptions();
+    this.subscriptions.forEach(subscription => subscription.dispose());
+    this.subscriptions = [];
     this.position = null;
 
     if(this.parent) {
       this.parent.removeChild(this);
     }
-    this.parent = null;
   }
-
-  disposeSubscriptions() {
-    this.subscriptions.forEach(subscription => {
-      subscription.dispose();
-    });
-    this.subscriptions = [];
-  }
-
-  removeChild() {}
 }

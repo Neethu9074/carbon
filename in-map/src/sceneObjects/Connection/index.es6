@@ -316,7 +316,7 @@ export default class Connection extends SceneObject {
   }
 
   dispose() {
-    this.disposeSubscriptions();
+    super.dispose();
 
     _.remove(allConnections, c => c.id === this.id);
 
@@ -326,6 +326,5 @@ export default class Connection extends SceneObject {
     this.to.removeIncomingConnection(this);
 
     this.scene.lineFactory.removeFragment(this.id);
-    super.dispose();
   }
 }

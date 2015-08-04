@@ -7,6 +7,7 @@ import SceneObject from '../SceneObject/index';
 import Node from '../Nodes/Node/index';
 import UnknownNode from '../Nodes/UnknownNode/index';
 import StickyNote from '../StickyNote/Ground';
+
 /*eslint-disable max-len*/
 import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';

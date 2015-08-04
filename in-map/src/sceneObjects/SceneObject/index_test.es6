@@ -59,7 +59,6 @@ describe('3D map', () => {
     it('can be disposed', () => {
       obj.dispose();
       expect(obj.position).to.equal(null);
-      expect(obj.parent).to.equal(null);
       expect(obj.subscriptions.length).to.equal(0);
     });
 
