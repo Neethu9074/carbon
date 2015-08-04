@@ -9,6 +9,7 @@ import {Navigation} from 'react-router';
 
 import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
+import Jail from 'in-components/Jail';
 import HealthIcon from 'in-components/HealthIcon';
 import Button from 'in-components/Button';
 import ZoneTag from 'in-components/ZoneTag';
@@ -70,10 +71,12 @@ const Details = React.createClass({
   },
 
   renderSnapshotDetails() {
-    /*eslint-disable no-unused-vars*/
     const DetailsFromForge = this.getForgeSpecificComponent('Details');
-    return <DetailsFromForge snapshot={this.props.snapshot} />;
-    /*eslint-enable no-unused-vars*/
+    return (
+      <Jail component={DetailsFromForge} props={{
+        snapshot: this.props.snapshot
+      }} />
+    );
   },
 
   getForgeSpecificComponent(name) {

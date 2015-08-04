@@ -1,0 +1,6 @@
+{
+  "name": "Jail",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Jail.es6"
+}

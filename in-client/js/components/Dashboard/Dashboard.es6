@@ -6,6 +6,7 @@
 import React from 'react';
 import Immutable from 'immutable';
 
+import Jail from 'in-components/Jail';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
@@ -75,19 +76,23 @@ const Dashboard = React.createClass({
   },
 
   renderDashboard() {
-    /*eslint-disable no-unused-vars*/
     const DashboardImpl = this.getForgeSpecificComponent('Content');
-    return (<DashboardImpl snapshot={this.state.snapshot}
-                           timeframe={this.state.timeframe}/>);
-    /*eslint-enable no-unused-vars*/
+    return (
+      <Jail component={DashboardImpl} props={{
+        snapshot: this.state.snapshot,
+        timeframe: this.state.timeframe
+      }} />
+    );
   },
 
   renderSidebar() {
-    /*eslint-disable no-unused-vars*/
     const Sidebar = this.getForgeSpecificComponent('Sidebar');
-    return (<Sidebar snapshot={this.state.snapshot}
-                     timeframe={this.state.timeframe} />);
-    /*eslint-enable no-unused-vars*/
+    return (
+      <Jail component={Sidebar} props={{
+        snapshot: this.state.snapshot,
+        timeframe: this.state.timeframe
+      }} />
+    );
   },
 
   getForgeSpecificComponent(name) {
