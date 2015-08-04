@@ -1,35 +1,20 @@
 @import "~in-themes/less/constants.less";
 
 .in-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 
-  &__backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+  background: rgba(0, 0, 0, .8);
+  z-index: @z-index__dialog;
 
-    background: rgba(0, 0, 0, .6);
-    z-index: @z-index__backdrop;
-
-    &--clickable {
-      cursor: pointer;
-    }
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &__content {
-    position: fixed;
-    top: 10%;
-    left: 50%;
-    width: 50%;
-    margin-left: -25%;
-    padding: 30px 40px;
-    box-sizing: border-box;
-
-    background: #2B3238;
-    border-radius: 3px;
-    box-shadow: 0 3px 3px black;
-
-    z-index: @z-index__dialog;
+    max-width: 46rem;
   }
 }

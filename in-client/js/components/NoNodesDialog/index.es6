@@ -6,9 +6,7 @@ import {IntlMixin} from 'react-intl';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {create} from 'in-services/conveyer';
-import Dialog from 'in-components/Dialog';
-
-import StanExplainsThings from '../StanExplainsThings';
+import NotificationDialog from 'in-components/NotificationDialog';
 
 const NoNodesDialog = React.createClass({
   mixins: [
@@ -38,11 +36,10 @@ const NoNodesDialog = React.createClass({
     }
 
     return (
-      <Dialog>
-        <StanExplainsThings header={this.getIntlMessage('noNodesDialog.header')}>
-          {this.getIntlMessage('noNodesDialog.content')}
-        </StanExplainsThings>
-      </Dialog>
+      <NotificationDialog title={this.getIntlMessage('noNodesDialog.header')}
+                          closeButtonVisible={false}>
+        {this.getIntlMessage('noNodesDialog.content')}
+      </NotificationDialog>
     );
   }
 });

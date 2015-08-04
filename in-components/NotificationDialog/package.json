@@ -1,0 +1,6 @@
+{
+  "name": "NotificationDialog",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./NotificationDialog.es6"
+}

@@ -6,7 +6,7 @@ import {createLogger} from 'instalog';
 
 import http from 'in-services/http';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import Dialog from 'in-components/Dialog';
+import NotificationDialog from 'in-components/NotificationDialog';
 
 const logger = createLogger('in-client.HelpDialog');
 
@@ -58,22 +58,28 @@ const HelpDialog = React.createClass({
     let content;
     if (this.state.article) {
       content = (
-        <div>
-          <h1>{this.state.article.title}</h1>
+        <NotificationDialog title={this.state.article.title}
+                            onClose={this.onClose}>
           <div dangerouslySetInnerHTML={{__html: this.state.article.body}}></div>
-        </div>
+        </NotificationDialog>
       );
     } else if (this.state.error) {
-      content = <p>Failed to retrieve the given help article, sorry :(.</p>;
+      content = (
+        <NotificationDialog title='Failed to load help text'
+                            onClose={this.onClose}>
+          <p>Failed to retrieve the given help article, sorry :(.</p>
+        </NotificationDialog>
+      );
     } else {
-      content = <LoadingIndicator />;
+      content = (
+        <NotificationDialog title='Loading help text...'
+                            onClose={this.onClose}>
+          <LoadingIndicator />
+        </NotificationDialog>
+      );
     }
 
-    return (
-      <Dialog onClose={this.onClose}>
-        {content}
-      </Dialog>
-    );
+    return content;
   },
 
   onClose() {
