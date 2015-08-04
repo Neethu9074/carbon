@@ -42,9 +42,12 @@ const WiringList = React.createClass({
     }
 
     const groups = this.getSnapshotsGroupedByPluginId();
+    const groupPluginIds = Object.keys(groups)
+      .sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
+
     return (
       <div>
-        {Object.keys(groups).map(pluginId =>
+        {groupPluginIds.map(pluginId =>
           <Collapsible key={pluginId}>
             <Collapsible.Header className={block + '__header'}>
               <img src={getIcon(pluginId)}
