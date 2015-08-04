@@ -63,6 +63,7 @@ const App = React.createClass({
           <Map pluginId={this.state.pluginId} />
 
           <Sidebar pluginId={this.state.pluginId} />
+          <FeedbackBadge />
         </div>
 
         <Footer />
@@ -70,7 +71,6 @@ const App = React.createClass({
         <RouteHandler />
 
         <NoNodesDialog pluginId={this.state.pluginId} />
-        <FeedbackBadge />
 
         {this.props.state.query.help ?
           <HelpDialog id={this.props.state.query.help} />
