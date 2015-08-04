@@ -136,7 +136,7 @@ const Timeline = React.createClass({
   },
 
   getUntil() {
-    return moment(Date.now() - this.props.timeframe).fromNow();
+    return moment(time.getServerTime() - this.props.timeframe).fromNow();
   },
 
   renderProblems() {
@@ -144,7 +144,7 @@ const Timeline = React.createClass({
       return null;
     }
 
-    const now = Date.now();
+    const now = time.getServerTime();
     const maxOldestPermittedProblem = now - this.props.timeframe;
     const problems = [];
 
@@ -241,7 +241,7 @@ const Timeline = React.createClass({
       return null;
     }
 
-    const now = Date.now();
+    const now = time.getServerTime();
     const maxOldestPermittedProblem = now - this.props.timeframe;
     const scale = this.state.scale.domain([now, maxOldestPermittedProblem]);
 
