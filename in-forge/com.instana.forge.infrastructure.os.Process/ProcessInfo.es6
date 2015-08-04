@@ -20,6 +20,12 @@ const ProcessInfo = React.createClass({
         <DescriptionItem title='Executable'>
           {data.get('exec')}
         </DescriptionItem>
+        <DescriptionItem title='User'>
+          {data.get('user')}
+        </DescriptionItem>
+        <DescriptionItem title='Group'>
+          {data.get('group')}
+        </DescriptionItem>
       </DescriptionList>
     );
   }
