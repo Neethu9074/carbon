@@ -320,8 +320,9 @@ export default class Connection extends SceneObject {
 
     this.disposeCollisionLine();
 
-    this.from.getComponent('connection').removeOutgoingConnection(this);
-    this.to.getComponent('connection').removeIncomingConnection(this);
+    const connectionComponent = this.from.getComponent('connection');
+    connectionComponent.removeOutgoingConnection(this);
+    connectionComponent.removeIncomingConnection(this);
 
     this.scene.lineFactory.removeFragment(this.id);
   }

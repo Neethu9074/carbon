@@ -61,10 +61,15 @@ export default class ConnectionComponent extends Component{
     this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
   }
 
-  clearConnections() {
-    this.getAllConnections().slice()
-      .filter(c => !c.isSelected())
-      .forEach(c => c.dispose());
+  clearConnections(force=false) {
+    if(force) {
+      this.getAllConnections().slice().forEach(c => c.dispose());
+
+    } else {
+      this.getAllConnections().slice()
+        .filter(c => !c.isSelected())
+        .forEach(c => c.dispose());
+    }
   }
 
   getAllConnections() {
@@ -127,6 +132,6 @@ export default class ConnectionComponent extends Component{
   dispose() {
     super.dispose();
 
-    this.clearConnections();
+    this.clearConnections(true);
   }
 }

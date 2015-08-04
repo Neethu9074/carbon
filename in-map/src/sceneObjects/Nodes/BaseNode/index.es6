@@ -287,6 +287,10 @@ export default class BaseNode extends SceneObject {
   }
 
   dispose() {
+    if(this.isSelected()) {
+      selectedSceneObject.emit(null);
+    }
+
     super.dispose();
 
     this.removeFromGlobalGeometry();

@@ -27,6 +27,10 @@ const ConnectionsTooltipRC = React.createClass({
   },
 
   getOneOfConnectedIps(from, to) {
+    if(!from || !to) {
+      return null;
+    }
+
     if(to.isUnknown) {
       return to.snapshot.get('steadyId');
     }
@@ -49,7 +53,9 @@ const ConnectionsTooltipRC = React.createClass({
   },
 
   render() {
-    const listItems = this.props.connections.map(connection => {
+    const listItems = this.props.connections
+      .filter(connection => connection.from.snapshot && connection.to.snapshot)
+      .map(connection => {
       return {
         id: connection.id,
         direction: connection.direction,
