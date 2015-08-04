@@ -22,7 +22,8 @@ export default class SolidMeshComponent extends Component{
     };
 
     this.scaleToSet = {x: 1, y: 1, z: 1};
-    this.positionToSet = {x: 0, y: 0, z: 0};
+    this.positionToSet = {x: -1000, y: 0, z: 0};
+    this.setupFragment();
 
     this.initialized();
   }
@@ -57,13 +58,7 @@ export default class SolidMeshComponent extends Component{
   }
 
   update30Fps() {
-    const pcm = this.geometryProvider;
-    const scm = pcm.contentProvider;
-    const pos = this.positionToSet;
-    const scale = this.scaleToSet;
-
-    pcm.position = {x: pos.x - 0.5, y: pos.y, z: pos.z + 0.5};
-    scm.scale = {x: 1, y: scale.y, z: 1};
+    this.setupFragment();
 
     if(this.isActive()) {
       this.sceneObject.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
@@ -72,7 +67,17 @@ export default class SolidMeshComponent extends Component{
     this.needsUpdate = false;
   }
 
+  setupFragment() {
+    const pcm = this.geometryProvider;
+    const scm = pcm.contentProvider;
+    const pos = this.positionToSet;
+    const scale = this.scaleToSet;
+
+    pcm.position = {x: pos.x - 0.5, y: pos.y, z: pos.z + 0.5};
+    scm.scale = {x: 1, y: scale.y, z: 1};
+  }
+
   getID() {
-    return this.sceneObject.id + '_h';
+    return this.sceneObject.id + '_solidMesh';
   }
 }

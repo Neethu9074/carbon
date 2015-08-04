@@ -8,7 +8,7 @@ export default class HighlightingComponent extends Component{
     super(sceneObject);
 
     this.scaleToSet = {x: 1, y: 1, z: 1};
-    this.positionToSet = {x: 0, y: 0, z: 0};
+    this.positionToSet = {x: -1000, y: 0, z: 0};
     this.setupHighlightBorderLines();
 
     this.initialized();
