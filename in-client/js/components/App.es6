@@ -61,7 +61,6 @@ const App = React.createClass({
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginId={this.state.pluginId} />
-
           <Sidebar pluginId={this.state.pluginId} />
           <FeedbackBadge />
         </div>
@@ -89,7 +88,6 @@ const App = React.createClass({
     const DemoDialog = require('./DemoDialog');
     return <DemoDialog />;
   }
-
 });
 
 export default App;
