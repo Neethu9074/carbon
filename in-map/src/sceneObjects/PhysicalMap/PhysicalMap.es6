@@ -166,18 +166,21 @@ export default class PhysicalMap extends SceneObject {
     removedNodes.forEach((node) => node.dispose());
   }
 
-  addNode(node) {
-    const groupId = getZone(node);
+  addNode(snapshot) {
+    const groupId = getZone(snapshot);
     const group = this.getOrCreateGroup(groupId);
 
     //add the node to group (the group handles duplicates)
-    group.addNode(node);
+    const newNode = group.addNode(snapshot);
+    if(!newNode) {
+      return;
+    }
 
     //if the group has switched,
     //delete the nodes in other groups than the current one
-    this.removeNodeFromAllGroupsInsteadOf(groupId, node);
+    this.removeNodeFromAllGroupsInsteadOf(groupId, snapshot);
 
-    this.filterNode(this.findNodeBySnapshot(node));
+    this.filterNode(newNode);
   }
 
   getAllMapNodes() {
