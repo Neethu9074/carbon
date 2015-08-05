@@ -26,6 +26,7 @@ import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 
 import {getLabel} from 'in-sdk/snapshot';
 
+import ServerTime from 'in-components/ServerTime';
 import enhance from 'in-components/hoc/enhance';
 
 import './index.less';
@@ -116,17 +117,14 @@ const Timeline = React.createClass({
 
           <div className={block + '__button-to'}>
             <span className={block + '__button-text'}>
-              {this.getNowLabel()}
+              Now,&nbsp;
+              <ServerTime />
             </span>
             <Icon className={block + '__icon'} type='dot' />
           </div>
         </div>
       </div>
     );
-  },
-
-  getNowLabel() {
-    return 'Now, ' + moment(time.getServerTime()).format('HH:mm:ss');
   },
 
   toggle() {

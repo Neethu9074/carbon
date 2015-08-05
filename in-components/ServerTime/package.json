@@ -1,0 +1,6 @@
+{
+  "name": "ServerTime",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ServerTime.es6"
+}
