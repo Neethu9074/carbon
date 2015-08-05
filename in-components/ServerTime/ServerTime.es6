@@ -14,9 +14,12 @@ const ServerTime = React.createClass({
 
   componentDidMount() {
     const node = React.findDOMNode(this);
-    this.interval = setInterval(() => {
+    setNow();
+    this.interval = setInterval(setNow, 1000);
+
+    function setNow() {
       node.innerHTML = moment(time.getServerTime()).format('HH:mm:ss');
-    }, 1000);
+    }
   },
 
   componentWillUnmount() {
