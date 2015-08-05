@@ -10,11 +10,21 @@ export default class MouseControl extends TouchController {
 
   constructor({scene}) {
     super({scene});
-    const canvas = scene.parent;
+    this.lastMousePosition = {x: 0, y: 0};
 
+    const canvas = scene.parent;
     canvas.onmousemove = (e) => {
-      cursorPosition.emit({x: e.clientX, y: e.clientY});
-      this.onMouseMove(e);
+      e.preventDefault();
+
+      const roundedX = e.clientX | 0;
+      const roundedY = e.clientY | 0;
+      if (this.lastMousePosition.x !== roundedX ||
+          this.lastMousePosition.y !== roundedY) {
+        this.lastMousePosition.x = roundedX;
+        this.lastMousePosition.y = roundedY;
+        cursorPosition.emit(this.lastMousePosition);
+        this.handleRayCasting();
+      }
     };
 
     // Wheel event is new (IE10+, Chrome 31+, FF 17+, Safari 7), but produces
@@ -52,12 +62,5 @@ export default class MouseControl extends TouchController {
         }
         this.zoom(zoom);
       });
-  }
-
-  onMouseMove(e) {
-    e.preventDefault();
-
-    this.lastMousePosition = {x: e.clientX, y: e.clientY};
-    this.handleRayCasting();
   }
 }
