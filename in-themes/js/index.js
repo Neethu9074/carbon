@@ -92,7 +92,8 @@ exports.consts = {
       menuPopup: 8,
       tooltips: 100,
       backdrop: 200,
-      dialog: 201
+      dialog: 201,
+      demoSignIn: 300
     },
     health: {
       danger: colors.danger,
