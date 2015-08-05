@@ -2,9 +2,10 @@
 
 import BaseNode from '../BaseNode/index';
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
-import {isIdEqual} from 'in-services/util/snapshots';
-import Immutable from 'immutable';
 import TooltipUnknownNode from '../../Tooltips/UnknownNode';
+
+import Immutable from 'immutable';
+import {isIdEqual} from 'in-services/util/snapshots';
 
 
 export default class Unknownnode extends BaseNode {
@@ -12,18 +13,20 @@ export default class Unknownnode extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.stickyNote = new StickyNoteUnknownNode(this);
     this.isUnknown = true;
+    this.stickyNote = new StickyNoteUnknownNode(this);
   }
 
   onSelectedEnter() {
     super.onSelectedEnter();
+
     this.stickyNote.showPlus();
   }
 
   onSelectedLeave() {
     super.onSelectedLeave();
-    this.stickyNote.showPlus(false);
+
+    this.stickyNote.hidePlus();
   }
 
   onSelectedHighlightEnter() {
@@ -90,9 +93,7 @@ export default class Unknownnode extends BaseNode {
   }
 
   addToGlobalGeometry() {}
-
   onSnapshotUpdate() {}
-
   setHeight() {}
 
   calculatePower() {
