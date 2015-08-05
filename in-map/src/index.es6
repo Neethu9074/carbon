@@ -35,7 +35,7 @@ const MapRC = React.createClass({
 
   componentWillMount() {
     this.loadArticle();
-    this.setState({isWebGLSupported: !this.isWebGLSupported()});
+    this.setState({isWebGLSupported: this.isWebGLSupported()});
   },
 
   componentDidMount() {
