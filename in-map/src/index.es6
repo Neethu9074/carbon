@@ -2,20 +2,14 @@
 
 import React from 'react/addons';
 import {Navigation} from 'react-router';
+import helpify from 'in-components/hoc/helpify';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import eventBus from 'in-services/eventbus';
-import http from 'in-services/http';
-
-import NotificationDialog from 'in-components/NotificationDialog';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import {createLogger} from 'instalog';
 import Scene from './Scene';
 
 import './index.less';
 
-
-const logger = createLogger('in-map.MapRC');
 
 const MapRC = React.createClass({
 
@@ -26,7 +20,8 @@ const MapRC = React.createClass({
   ],
 
   propTypes: {
-    pluginId: React.PropTypes.any.isRequired
+    pluginId: React.PropTypes.any.isRequired,
+    showHelp: React.PropTypes.func.isRequired
   },
 
   getInitialState() {
@@ -34,8 +29,12 @@ const MapRC = React.createClass({
   },
 
   componentWillMount() {
-    this.loadArticle();
-    this.setState({isWebGLSupported: this.isWebGLSupported()});
+    const supportsWebGL = this.isWebGLSupported();
+    this.setState({isWebGLSupported: supportsWebGL});
+
+    if(!supportsWebGL) {
+      this.props.showHelp(203889331);
+    }
   },
 
   componentDidMount() {
@@ -73,65 +72,14 @@ const MapRC = React.createClass({
     );
   },
 
-  loadArticle() {
-    const id = 203889331;
-    const url = 'https://instana.zendesk.com//api/v2/help_center/articles/' +
-      id + '.json';
-    http({method: 'GET', url})
-    .then(response => {
-      this.setState({
-        article: response.body.article,
-        error: null
-      });
-    }, err => {
-      logger.error('Failed to retrieve article with id', id, 'from ZenDesk', err);
-      this.setState({
-        article: null,
-        error: err
-      });
-    });
-  },
-
-  onNotificationDialogClosed() {
-    this.setState({notificationDialogClosed: true});
-  },
-
   render() {
     // if WebGL is supported, render the MapRC
     // else show a notification with a zendesk help text.
     // if this dialog was closed show nothing but the deepest darkness.
-
     if(this.state.isWebGLSupported) {
       return (<div className='in-map' ref='parent'/>);
     }
-
-    if(this.state.notificationDialogClosed) {
-      return null;
-    }
-
-    const article = this.state.article;
-    if(article) {
-    return (
-      <NotificationDialog title={article.title}
-                          onClose={this.onNotificationDialogClosed}>
-        <div dangerouslySetInnerHTML={{__html: article.body}}></div>
-      </NotificationDialog>);
-
-    } else if (this.state.error) {
-      return (
-        <NotificationDialog title='Failed to load help text'
-                            onClose={this.onNotificationDialogClosed}>
-          <p>Failed to retrieve the given help article, sorry :(.</p>
-        </NotificationDialog>
-      );
-
-    } else {
-      return (<NotificationDialog title='Loading help text...'
-                            onClose={this.onNotificationDialogClosed}>
-          <LoadingIndicator />
-        </NotificationDialog>
-      );
-    }
+    return null;
   },
 
   // https://www.khronos.org/webgl/wiki/FAQ
@@ -154,16 +102,20 @@ const MapRC = React.createClass({
   },
 
   getWebGLCanvasContext(canvas) {
-    //iterate the different WebGL context names and return the first hit, null if none
     const names = ['webgl', 'experimental-webgl', 'webkit-3d', 'moz-webgl'];
-    for (let i = 0; i < names.length; i++) {
-      const context = canvas.getContext(names[i]);
-      if(context) {
-        return context;
+    let context = null;
+    for (let ii = 0; ii < names.length; ++ii) {
+      try {
+        context = canvas.getContext(names[ii]);
+      } catch(e) {
+        continue;
+      }
+      if (context) {
+        break;
       }
     }
-    return null;
+    return context;
   }
 });
 
-export default MapRC;
+export default helpify(MapRC);
