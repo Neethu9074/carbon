@@ -28,16 +28,8 @@ import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/S
 //to avoid all these if(available) {do something} stuff
 const emptyStickyObject = {
   isEmpty: true,
-  hide() {},
-  show() {},
-  update() {},
-  updateWorldPos() {},
-  render() {},
-  dispose() {},
-  onHighlight() {},
-  setInactive() {},
-  switchToMetric() {},
-  switchToIcon() {}
+  hide() {}, show() {}, update() {}, updateWorldPos() {}, render() {},
+  dispose() {}, setInactive() {}, switchToMetric() {}, switchToIcon() {}
 };
 
 export default class BaseNode extends SceneObject {
@@ -50,11 +42,9 @@ export default class BaseNode extends SceneObject {
     this.height = 1;
 
     this.tooltip = this.getTooltipSticky();
-
     this.stickyNote = emptyStickyObject;
 
     this.render();
-
     this.registerEvents();
   }
 
@@ -118,32 +108,30 @@ export default class BaseNode extends SceneObject {
     this.getComponent('connection').selectionChanged(false);
   }
 
-  onSelectedHighlightInactiveEnter() {}
-
-  onSelectedHighlightInactiveLeave() {}
-
-  onHighlightInactiveEnter() {}
-
-  onHighlightInactiveLeave() {}
-
-
   onHiddenEnter() {
+    //disables all components
     super.onHiddenEnter();
-
-    this.enableFragments(false);
 
     this.removeFromGlobalGeometry();
     this.stickyNote.hide();
   }
 
   onHiddenLeave() {
+    //enables all components
     super.onHiddenLeave();
 
-    this.enableFragments(true);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
 
     this.addToGlobalGeometry();
     this.stickyNote.show();
   }
+
+  onSelectedHighlightInactiveEnter() {}
+  onSelectedHighlightInactiveLeave() {}
+  onHighlightInactiveEnter() {}
+  onHighlightInactiveLeave() {}
+
 
   initComponents() {
     super.initComponents();
@@ -286,10 +274,6 @@ export default class BaseNode extends SceneObject {
   refreshFragment() {
     const color = this.calculateNodeColor();
     this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
-  }
-
-  enableFragments(enable) {
-    this.getComponent('mesh').stateMachine.changeStateProperty('active', enable);
   }
 
   removeFromGlobalGeometry() {}
