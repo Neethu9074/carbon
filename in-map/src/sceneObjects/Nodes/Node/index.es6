@@ -1,39 +1,39 @@
 'use strict';
 
-/*eslint-disable max-len*/
 import THREE from 'three';
+import _ from 'lodash';
 
 //components
 import HealthComponent from '../../../components/HealthComponent';
 
-import _ from 'lodash';
-import eventBus from 'in-services/eventbus';
-import {theme} from 'in-services/theme';
-import {getPower} from 'in-sdk/power';
-import {health} from 'in-services/health';
-import {isIdEqual} from 'in-services/util/snapshots';
-import {longClickedSceneObject} from '../../../stores/mapStore';
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-
-import BaseNode from '../BaseNode/index';
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
-import Layer from '../../Layer/index';
+import {longClickedSceneObject} from '../../../stores/mapStore';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
-import StickyNoteNode from '../../StickyNote/Node';
 import StickyNoteLayer from '../../StickyNote/Layer';
-import TooltipNode from '../../Tooltips/Node';
+import StickyNoteNode from '../../StickyNote/Node';
 import TooltipMetric from '../../Tooltips/Metric';
+import TooltipNode from '../../Tooltips/Node';
+import BaseNode from '../BaseNode/index';
+import Layer from '../../Layer/index';
 
-import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
-import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+/*eslint-disable max-len*/
 import VATOCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
+import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 // import SCCP from '../../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 /*eslint-enable max-len*/
+
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {isIdEqual} from 'in-services/util/snapshots';
+import eventBus from 'in-services/eventbus';
+import {health} from 'in-services/health';
+import {theme} from 'in-services/theme';
+import {getPower} from 'in-sdk/power';
 
 const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
 
