@@ -32,6 +32,8 @@
     background: url('./img/stan.png');
 
     animation: FLYING_STAN_DEMO 7s infinite ease-in-out;
+
+    z-index: @z-index__backdrop + 1;
   }
 
   &__msg {
@@ -49,5 +51,20 @@
 
   &__linkedin, &__xing {
     margin: 0 10px;
+  }
+
+  &__terms {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.8rem;
+    margin: 2rem 0 0;
+    z-index: @z-index__backdrop + 2;
+
+    a {
+      color: #94eced;
+
+      &:hover, &:active {
+        color: #fff;
+      }
+    }
   }
 }

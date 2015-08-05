@@ -43,6 +43,18 @@ const DemoDialog = React.createClass({
                           onError={this.onError}
                           className={block + '__xing'}/>
         </div>
+        <p className={block + '__terms'}>
+          By signing in with LinkedIn or Xing you are agreeing to our&nbsp;
+          <a href='http://www.instana.com/website_terms_of_use'
+             target='__blank'>
+            Terms of Use
+          </a>
+          &nbsp;and&nbsp;
+          <a href='http://www.instana.com/privacy_policy'
+             target='__blank'>
+            Privacy Policy
+          </a>.
+        </p>
       </div>
     );
   },
