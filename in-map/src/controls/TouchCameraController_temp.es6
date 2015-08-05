@@ -84,7 +84,6 @@ export default class TouchControl extends CameraController{
   }
 
   onTab(e) {
-    console.log('DOIT');
     if(this.checkDoubleClick()) {
       this.emitLongClick();
     }
