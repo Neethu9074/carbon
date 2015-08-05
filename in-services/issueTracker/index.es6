@@ -15,7 +15,7 @@ const allIssuesStream = timelineStore.timeframe.transform({
   emitLatestOnSubscribe: true,
 
   transform(timeframe) {
-    if (__DEV__) {
+    if (window.instana.config.environment === 'demo' || __DEV__) {
       return ro.create();
     }
     return create(IssueConveyer, {timeframe})
