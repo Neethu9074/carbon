@@ -5,27 +5,19 @@ import _ from 'lodash';
 
 //components
 import HealthComponent from '../../../components/HealthComponent';
+import NodeGroundComponent from '../../../components/NodeGroundComponent';
 
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
 import {longClickedSceneObject} from '../../../stores/mapStore';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
-import StickyNoteLayer from '../../StickyNote/Layer';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipMetric from '../../Tooltips/Metric';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode/index';
 import Layer from '../../Layer/index';
 
-/*eslint-disable max-len*/
-import VATOCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
-import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
-import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 // import SCCP from '../../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
-/*eslint-enable max-len*/
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
@@ -35,18 +27,17 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import {getPower} from 'in-sdk/power';
 
-const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
-
 
 export default class Node extends BaseNode {
 
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.health = health.ok;
     this.layer = [];
 
+    this.components.ground = new NodeGroundComponent({sceneObject: this});
     this.components.health = new HealthComponent({sceneObject: this});
+
     this.stickyNote = new StickyNoteNode(this);
   }
 
@@ -81,26 +72,6 @@ export default class Node extends BaseNode {
     selectedSnapshot.select(this.snapshot);
   }
 
-
-  //will be called in super contructor at beginning
-  init() {
-    this.geometryProviderGroundLine = new VATOCM({
-      contentProvider: new PCM({ //reposition
-        contentProvider: new SCM({ //resize
-          contentProvider: new FCP()
-        })
-      })
-    });
-
-    this.geometryProviderGround = new CMCM({
-      contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: new PCP()
-        })
-      })
-    });
-  }
-
   registerEvents() {
     super.registerEvents();
 
@@ -122,61 +93,6 @@ export default class Node extends BaseNode {
         }
       })
     );
-  }
-
-  addToGlobalGeometry() {
-    this.addToGroundFactory();
-  }
-
-  removeFromGlobalGeometry() {
-    super.removeFromGlobalGeometry();
-    this.removeFromGroundFactory();
-  }
-
-  //this is not the group where nodes are on!
-  //it's the health ground group of each node
-  addToGroundFactory() {
-    this.removeFromGroundFactory();
-    if(!this.health || this.health === health.ok) {
-      return;
-    }
-
-    const id = this.id;
-    const pos = this.getComponent('position')
-      .getPosition()
-      .clone()
-      .add(cubePosition);
-
-    //adding a existing fragment will penetrate an update
-    const color = this.calculateNodeColor();
-    const cmcmGround = this.geometryProviderGround;
-    const pcmGround = cmcmGround.contentProvider;
-
-    pcmGround.position = {x: pos.x, y: pos.y, z: pos.z};
-    pcmGround.contentProvider.scale = {x: 1.5, y: 1, z: 1.5};
-    cmcmGround.color = {r: color.r, g: color.g, b: color.b};
-
-    this.scene.groundSingleMeshFactory.addFragment({
-      id: id,
-      contentProvider: cmcmGround
-    });
-
-    const vatocmGroundLine = this.geometryProviderGroundLine;
-    const pcmGroundLine = vatocmGroundLine.contentProvider;
-    pcmGroundLine.contentProvider.scale = pcmGround.contentProvider.scale;
-    pcmGroundLine.position = {x: pos.x, y: pos.y + 0.025, z: pos.z};
-    pcmGroundLine.contentProvider.scale = {x: 1.5, y: 1, z: 1.5};
-
-    const points = vatocmGroundLine.getVertices();
-
-    this.scene.lineFactory.addFragment({id: this.id + 'ground', points, color});
-  }
-
-  removeFromGroundFactory() {
-    const scene = this.scene;
-    const id = this.id;
-    scene.groundSingleMeshFactory.removeFragment(id);
-    scene.lineFactory.removeFragment(id + 'ground');
   }
 
   onHighlight(highlighted) {
@@ -315,9 +231,6 @@ export default class Node extends BaseNode {
 
     this.layer.forEach(p =>
       p.getComponent('position').setPosition(pos.x, p.getComponent('position').getPosition().y, pos.z));
-
-    this.removeFromGroundFactory();
-    this.addToGroundFactory();
   }
 
   getScreenAnchorPosition() {
@@ -330,6 +243,7 @@ export default class Node extends BaseNode {
 
     this.singleMetricPillar.getComponent('position').setPosition(x, y, z);
     this.multiMetricPillar.getComponent('position').setPosition(x, y, z);
+    this.getComponent('ground').positionChanged(x, y, z);
 
     this.updateOfVisualComponents();
     this.arrangeChildren();
@@ -345,22 +259,9 @@ export default class Node extends BaseNode {
   }
 
   healthChanged(newHealth) {
-    this.health = newHealth;
-
-    this.refreshFragment();
-  }
-
-  colorChanged() {
-    //the ground plate is always updated by this callback to get them in sync
-    this.addToGroundFactory();
-  }
-
-  changeColorInFactory(id, newHealth, factory) {
-    const fragment = factory.getFragment(this.id);
-    fragment.health = newHealth;
-
-    factory.changeColorOfFragment(fragment,
-      factory.getColorArrayForFragment(fragment));
+    const color = this.calculateNodeColor(newHealth);
+    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
+    this.getComponent('ground').healthChanged(newHealth);
   }
 
   addLayer(snapshot) {
@@ -391,25 +292,6 @@ export default class Node extends BaseNode {
     });
   }
 
-  addStickyNoteForLayer() {
-    //only one sticky layer sticky for each node
-    if(this.stickyNoteLayer) {
-      return;
-    }
-
-    this.stickyNoteLayer = new StickyNoteLayer(this);
-  }
-
-  enableFragments(enabled) {
-    super.enableFragments(enabled);
-
-    if(enabled) {
-      this.addToGroundFactory();
-    } else {
-      this.removeFromGroundFactory();
-    }
-  }
-
   clearLayer() {
     this.layer.forEach(p => p.dispose());
     this.layer = [];
@@ -423,15 +305,12 @@ export default class Node extends BaseNode {
 
     this.snapshotServer.dispose();
     this.clearLayer();
-    this.removeFromGroundFactory();
 
     this.wiredSnapshots = undefined;
     this.snapshot = null;
-    this.health = null;
   }
 
-  calculateNodeColor() {
-    const hostHealth = this.health;
+  calculateNodeColor(hostHealth) {
     const colors = theme.map.colors;
     let color;
     if(hostHealth === health.warning) {

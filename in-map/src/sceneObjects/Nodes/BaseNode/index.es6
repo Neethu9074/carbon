@@ -44,7 +44,6 @@ export default class BaseNode extends SceneObject {
     this.tooltip = this.getTooltipSticky();
     this.stickyNote = emptyStickyObject;
 
-    this.render();
     this.registerEvents();
   }
 
@@ -112,7 +111,6 @@ export default class BaseNode extends SceneObject {
     //disables all components
     super.onHiddenEnter();
 
-    this.removeFromGlobalGeometry();
     this.stickyNote.hide();
   }
 
@@ -123,7 +121,6 @@ export default class BaseNode extends SceneObject {
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
 
-    this.addToGlobalGeometry();
     this.stickyNote.show();
   }
 
@@ -206,10 +203,6 @@ export default class BaseNode extends SceneObject {
     this.stateMachine.changeStateProperty('selected', isThisSelected);
   }
 
-  render() {
-    this.addToGlobalGeometry();
-  }
-
   showSolidMesh(solid=true) {
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', solid);
   }
@@ -217,8 +210,6 @@ export default class BaseNode extends SceneObject {
   update() {
     this.updateScreenPosition();
   }
-
-  addToGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
 
   getTooltipSticky() {return emptyStickyObject; }
 
@@ -243,7 +234,6 @@ export default class BaseNode extends SceneObject {
     const anchor = this.getScreenAnchorPosition();
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
 
-    this.refreshMesh();
     this.refreshFragment();
   }
 
@@ -266,17 +256,10 @@ export default class BaseNode extends SceneObject {
     this.updateOfVisualComponents();
   }
 
-  refreshMesh() {
-    this.removeFromGlobalGeometry();
-    this.addToGlobalGeometry();
-  }
-
   refreshFragment() {
     const color = this.calculateNodeColor();
     this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
   }
-
-  removeFromGlobalGeometry() {}
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
@@ -300,7 +283,6 @@ export default class BaseNode extends SceneObject {
 
     super.dispose();
 
-    this.removeFromGlobalGeometry();
     this.disposeStickyNote();
   }
 
