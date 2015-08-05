@@ -220,6 +220,8 @@ export default class SceneObject {
     this.scene.renderScene();
   }
 
+  colorChanged() {}
+
   //this method is introduced to get a better handling of the hole merged
   //geometry / factory stuff. each specific sceneObject should implement it and
   //and do all update stuff here.

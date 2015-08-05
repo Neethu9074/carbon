@@ -80,6 +80,8 @@ export default class MeshComponent extends Component {
     cmcm.color = {r: color.r, g: color.g, b: color.b};
     pcm.position = {x: pos.x - 0.5, y: pos.y, z: pos.z + 0.5};
     scm.scale = {x: 1, y: scale.y, z: 1};
+
+    this.sceneObject.colorChanged(color.r, color.g, color.b);
   }
 
   dispose() {

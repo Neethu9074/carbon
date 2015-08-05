@@ -43,11 +43,11 @@ export default class Node extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.components.health = new HealthComponent({sceneObject: this});
-    this.stickyNote = new StickyNoteNode(this);
-
     this.health = health.ok;
     this.layer = [];
+
+    this.components.health = new HealthComponent({sceneObject: this});
+    this.stickyNote = new StickyNoteNode(this);
   }
 
   onInactiveEnter() {
@@ -77,8 +77,8 @@ export default class Node extends BaseNode {
   }
 
   onSelectedEnter() {
-    selectedSnapshot.select(this.snapshot);
     super.onSelectedEnter();
+    selectedSnapshot.select(this.snapshot);
   }
 
 
@@ -348,8 +348,10 @@ export default class Node extends BaseNode {
     this.health = newHealth;
 
     this.refreshFragment();
+  }
 
-    //the ground plate is always updated
+  colorChanged() {
+    //the ground plate is always updated by this callback to get them in sync
     this.addToGroundFactory();
   }
 

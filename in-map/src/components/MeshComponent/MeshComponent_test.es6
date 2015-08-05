@@ -13,7 +13,7 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
-    sceneObject = { positionChanged: sinon.stub() };
+    sceneObject = { positionChanged: sinon.stub(), colorChanged: sinon.stub() };
     component = new MeshComponent({
       sceneObject,
       contentProvider: {
