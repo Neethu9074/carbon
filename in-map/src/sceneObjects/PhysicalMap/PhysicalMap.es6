@@ -4,17 +4,17 @@ import THREE from 'three';
 
 import _ from 'lodash';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
-import ConnectionGrid from '../ConnectionGrid_Temp';
+import ConnectionGrid from '../../ConnectionGrid_Temp';
 import eventBus from 'in-services/eventbus';
 import {filters} from 'in-services/stores/mapFilters';
-import {selectedSceneObject} from '../stores/mapStore';
-import SceneObject from './SceneObject/index';
+import {selectedSceneObject} from '../../stores/mapStore';
+import SceneObject from '../SceneObject/index';
 import groundTexturePath from './ground.png';
-import Group from './Group/index';
-import Layouter from '../layout';
+import Group from '../Group/index';
+import Layouter from '../../layout';
 import {create} from 'in-services/conveyer';
 import {getZone} from 'in-sdk/zones';
-import {getAllNodes, getAllGroups} from '../mapStructureUtils';
+import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import {isIdEqual} from 'in-services/util/snapshots';
 
 let layoutCounter = 0;
