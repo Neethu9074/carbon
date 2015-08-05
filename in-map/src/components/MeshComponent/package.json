@@ -1,0 +1,6 @@
+{
+  "name": "MeshComponent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MeshComponent.es6"
+}
