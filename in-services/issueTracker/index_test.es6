@@ -45,6 +45,7 @@ describe('issueTracker', () => {
        'explanation': 'Determined through linear regression',
        'severity': 5
      },
+     'state': 'OPEN',
      'start': 1433251409977,
      'end': null
    }]);
@@ -94,7 +95,8 @@ describe('issueTracker', () => {
         });
 
       observable.emit(issuesStubData);
-      observable.emit(issuesStubData.setIn([0, 'end'], 42));
+      observable.emit(issuesStubData.setIn([0, 'end'], 42)
+        .setIn([0, 'state'], 'CLOSED'));
     });
   });
 
@@ -113,7 +115,8 @@ describe('issueTracker', () => {
           }
         });
 
-      observable.emit(issuesStubData.setIn([0, 'end'], 42));
+      observable.emit(issuesStubData.setIn([0, 'state'], 'CLOSED')
+        .setIn([0, 'end'], 42));
       observable.emit(issuesStubData.setIn([0, 'id'], 'i2'));
     });
 
@@ -132,7 +135,7 @@ describe('issueTracker', () => {
       expect(summary.get('danger').size).to.equal(0);
 
       observable.emit(issuesStubData.setIn([0, 'id'], 'i2')
-        .setIn([0, 'problems', 0, 'severity'], 10));
+        .setIn([0, 'problem', 'severity'], 10));
       expect(stub.callCount).to.equal(2);
       summary = stub.getCall(1).args[0];
       expect(summary.get('warning').size).to.equal(1);
@@ -168,7 +171,7 @@ describe('issueTracker', () => {
       expect(summary.get('danger')).to.equal(0);
 
       observable.emit(issuesStubData.setIn([0, 'id'], 'i2')
-        .setIn([0, 'problem', 0, 'severity'], 10));
+        .setIn([0, 'problem', 'severity'], 10));
       expect(stub.callCount).to.equal(2);
       summary = stub.getCall(1).args[0];
       expect(summary.get('warning')).to.equal(1);
