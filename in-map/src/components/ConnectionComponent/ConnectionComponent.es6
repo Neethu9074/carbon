@@ -1,8 +1,8 @@
 'use strict';
 
 import _ from 'lodash';
-import Component from './Component';
-import Connection from '../sceneObjects/Connection/index';
+import Component from '../Component';
+import Connection from '../../sceneObjects/Connection/index';
 
 
 export default class ConnectionComponent extends Component{

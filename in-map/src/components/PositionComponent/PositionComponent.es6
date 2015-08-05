@@ -1,7 +1,8 @@
 'use strict';
 
-import Component from './Component';
 import THREE from 'three';
+import Component from '../Component';
+
 
 export default class PositionComponent extends Component{
   constructor({sceneObject}) {
