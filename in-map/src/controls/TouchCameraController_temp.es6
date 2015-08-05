@@ -16,7 +16,7 @@ export default class TouchControl extends CameraController{
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
 
-    const canvas = scene.parent;
+    const canvas = scene.renderer.domElement;
     const eventHandler = new Hammer(canvas);
     const minMovementForPan = 15;
 
@@ -84,6 +84,7 @@ export default class TouchControl extends CameraController{
   }
 
   onTab(e) {
+    console.log('DOIT');
     if(this.checkDoubleClick()) {
       this.emitLongClick();
     }
