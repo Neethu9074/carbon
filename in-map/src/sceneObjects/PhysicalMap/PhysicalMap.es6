@@ -1,21 +1,22 @@
 'use strict';
 
 import THREE from 'three';
-
 import _ from 'lodash';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+
 import ConnectionGrid from '../../ConnectionGrid_Temp';
-import eventBus from 'in-services/eventbus';
-import {filters} from 'in-services/stores/mapFilters';
-import {selectedSceneObject} from '../../stores/mapStore';
 import SceneObject from '../SceneObject/index';
 import groundTexturePath from './ground.png';
-import Group from '../Group/index';
 import Layouter from '../../layout';
-import {create} from 'in-services/conveyer';
-import {getZone} from 'in-sdk/zones';
+import Group from '../Group/index';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
+import {selectedSceneObject} from '../../stores/mapStore';
+import {getZone} from 'in-sdk/zones';
+
+import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import {filters} from 'in-services/stores/mapFilters';
 import {isIdEqual} from 'in-services/util/snapshots';
+import eventBus from 'in-services/eventbus';
+import {create} from 'in-services/conveyer';
 
 let layoutCounter = 0;
 const layoutingInterval = 60;
@@ -31,6 +32,7 @@ export default class PhysicalMap extends SceneObject {
 
     this.pluginId = pluginId;
     this.groups = [];
+    this.filterArray = [];
 
     this.createGroundGrid();
     this.bindToDatasource();
@@ -81,8 +83,7 @@ export default class PhysicalMap extends SceneObject {
 
   bindToDatasource() {
     const observable = create(SnapshotConveyer, {pluginId: this.pluginId});
-    this.addSubscription(
-      observable.subscribe(data => this.onInventoryUpdate(data)));
+    this.addSubscription(observable.subscribe(data => this.onInventoryUpdate(data)));
   }
 
   registerEvents() {
@@ -105,7 +106,8 @@ export default class PhysicalMap extends SceneObject {
     }));
 
     this.addSubscription(filters.subscribe(filterArray => {
-      this.filter(filterArray);
+      this.filterArray = filterArray;
+      this.filter();
     }));
   }
 
@@ -174,6 +176,8 @@ export default class PhysicalMap extends SceneObject {
     //if the group has switched,
     //delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(groupId, node);
+
+    this.filterNode(this.findNodeBySnapshot(node));
   }
 
   getAllMapNodes() {
@@ -221,30 +225,27 @@ export default class PhysicalMap extends SceneObject {
     this.addSceneObject(this.particles);
   }
 
-  filter(filterArray) {
-    const allNodes = getAllNodes(this)
-      .filter(node => !node.isUnknown);
-    const matched = [];
-
-    allNodes.forEach(node => {
-      let unmatchesOne = false;
-      filterArray.forEach(filter => {
-        if(!filter.get('predicate')(node.snapshot)) {
-          unmatchesOne = true;
-        }
-      });
-      if(!unmatchesOne) {
-        matched.push(node);
-      }
-    });
+  filter() {
+    getAllNodes(this)
+      .filter(node => !node.isUnknown)
+      .forEach(node => this.filterNode(node));
 
     selectedSceneObject.emit(null);
-
-    const unMatched = _.xor(allNodes, matched);
-    matched.forEach((node) => node.show());
-    unMatched.forEach((node) => node.hide());
-
     this.scene.renderScene();
+  }
+
+  filterNode(node) {
+    let unmatchesOne = false;
+    this.filterArray.forEach(filter => {
+      if(!filter.get('predicate')(node.snapshot)) {
+        unmatchesOne = true;
+      }
+    });
+    if(!unmatchesOne) {
+      node.show();
+    } else {
+      node.hide();
+    }
   }
 
   //is called from group if it has no nodes anymore
@@ -290,6 +291,7 @@ export default class PhysicalMap extends SceneObject {
 
     this.size = null;
     this.groups = [];
+    this.filters = [];
     this.scene = null;
     this.parent = null;
   }
