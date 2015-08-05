@@ -12,7 +12,7 @@ export default class MouseControl extends TouchController {
     super({scene});
     this.lastMousePosition = {x: 0, y: 0};
 
-    const canvas = scene.renderer.domElement;
+    const canvas = scene.parent;
     canvas.onmousemove = (e) => {
       e.preventDefault();
 
