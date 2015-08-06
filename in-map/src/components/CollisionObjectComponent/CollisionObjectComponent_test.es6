@@ -23,7 +23,8 @@ describe('3D map', () => {
           {rebuild: sinon.stub()},
           {rebuild: sinon.stub()},
           {rebuild: sinon.stub()}
-        ]
+        ],
+        renderScene: sinon.stub()
       }
     };
     collisionObject = new THREE.Mesh(new THREE.BoxGeometry());
@@ -48,7 +49,7 @@ describe('3D map', () => {
       expect(collisionObject.position.y).to.equal(0);
       expect(collisionObject.position.z).to.equal(0);
 
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(collisionObject.position.x).to.equal(1);
       expect(collisionObject.position.y).to.equal(2);
       expect(collisionObject.position.z).to.equal(3);
@@ -63,7 +64,7 @@ describe('3D map', () => {
       expect(collisionObject.position.y).to.equal(0);
       expect(collisionObject.position.z).to.equal(0);
 
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(collisionObject.position.x).to.equal(1);
       expect(collisionObject.position.y).to.equal(2);
       expect(collisionObject.position.z).to.equal(3);
@@ -72,7 +73,7 @@ describe('3D map', () => {
       expect(collisionObject.scale.z).to.equal(1);
 
       component.sizeChanged(4, 5, 6);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(collisionObject.position.x).to.equal(1);
       expect(collisionObject.position.y).to.equal(2);
       expect(collisionObject.position.z).to.equal(3);
@@ -84,12 +85,12 @@ describe('3D map', () => {
     it('should do nothing if there is no change', () => {
       // component.setPosition(1, 2, 3);
       // expect(sceneObject.positionChanged.callCount).to.equal(0);
-      // component.handleTimeEvent30Fps();
+      // component.handleComponentTimeEvent();
       // expect(sceneObject.positionChanged.callCount).to.equal(1);
 
       // component.setPosition(1, 2, 3);
       // expect(sceneObject.positionChanged.callCount).to.equal(1);
-      // component.handleTimeEvent30Fps();
+      // component.handleComponentTimeEvent();
       // expect(sceneObject.positionChanged.callCount).to.equal(1);
     });
 

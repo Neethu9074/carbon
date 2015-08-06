@@ -84,7 +84,7 @@ export default class NodeGroundComponent extends Component {
     this.needsUpdate = true;
   }
 
-  update30Fps() {
+  update() {
     this.updateProvider();
 
     if(this.isActive()) {

@@ -21,7 +21,9 @@ describe('3D map', () => {
   let component;
 
   beforeEach(() => {
-    const so = {};
+    const so = {scene: {
+      renderScene: sinon.stub()
+    }};
 
     component = new Component(so);
     component.onInactiveEnter = sinon.stub();

@@ -14,7 +14,8 @@ describe('3D map', () => {
 
   beforeEach(() => {
     sceneObject = {
-      positionChanged: sinon.stub()
+      positionChanged: sinon.stub(),
+      scene: {renderScene: sinon.stub()}
     };
     component = new PositionComponent({sceneObject});
   });
@@ -28,7 +29,7 @@ describe('3D map', () => {
     it('dont call external method until time event was handled', () => {
       component.setPosition(1, 2, 3);
       expect(sceneObject.positionChanged.callCount).to.equal(0);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(sceneObject.positionChanged.callCount).to.equal(1);
 
       const pos = component.getPosition();
@@ -40,12 +41,12 @@ describe('3D map', () => {
     it('should do nothing if there is no change', () => {
       component.setPosition(1, 2, 3);
       expect(sceneObject.positionChanged.callCount).to.equal(0);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(sceneObject.positionChanged.callCount).to.equal(1);
 
       component.setPosition(1, 2, 3);
       expect(sceneObject.positionChanged.callCount).to.equal(1);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(sceneObject.positionChanged.callCount).to.equal(1);
     });
 

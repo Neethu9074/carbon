@@ -13,7 +13,10 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
-    sceneObject = { positionChanged: sinon.stub() };
+    sceneObject = {
+      positionChanged: sinon.stub(),
+      scene: {renderScene: sinon.stub()}
+    };
     component = new MeshComponent({
       sceneObject,
       contentProvider: {
@@ -45,19 +48,19 @@ describe('3D map', () => {
       expect(component.factory.addFragment.callCount).to.equal(1);
       component.sizeChanged(4, 5, 6);
       expect(component.factory.addFragment.callCount).to.equal(1);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(component.factory.addFragment.callCount).to.equal(2);
     });
 
     it('should do nothing if there is no change', () => {
       component.positionChanged(1, 2, 3);
       expect(component.factory.addFragment.callCount).to.equal(1);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(component.factory.addFragment.callCount).to.equal(2);
 
       component.positionChanged(1, 2, 3);
       expect(component.factory.addFragment.callCount).to.equal(2);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(component.factory.addFragment.callCount).to.equal(2);
     });
 

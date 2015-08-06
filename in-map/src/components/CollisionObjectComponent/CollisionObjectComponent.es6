@@ -47,7 +47,7 @@ export default class CollisionObjectComponent extends Component{
     object.z = z;
   }
 
-  update30Fps() {
+  update() {
     const object = this.collisionObject;
     const pos = this.positionToSet;
     const scale = this.scaleToSet;

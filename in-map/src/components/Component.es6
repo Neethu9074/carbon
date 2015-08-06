@@ -77,17 +77,14 @@ export default class Component {
     return this.stateMachine.stateProperties.active;
   }
 
-  handleTimeEvent60Fps() {}
-
-  handleTimeEvent30Fps() {
+  handleComponentTimeEvent() {
     if(this.needsUpdate) {
-      this.update30Fps();
+      this.update();
+      this.sceneObject.scene.renderScene();
     }
   }
 
-  update60Fps() {}
-
-  update30Fps() {}
+  update() {}
 
   dispose() {
     time.removeTimeEventListener(this);

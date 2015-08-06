@@ -23,7 +23,7 @@ export default class PositionComponent extends Component{
     this.needsUpdate = true;
   }
 
-  update30Fps() {
+  update() {
     const pos = this.position;
     this.sceneObject.positionChanged(pos.x, pos.y, pos.z);
 

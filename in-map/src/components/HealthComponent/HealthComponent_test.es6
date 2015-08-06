@@ -15,7 +15,8 @@ describe('3D map', () => {
 
   beforeEach(() => {
     sceneObject = {
-      healthChanged: sinon.stub()
+      healthChanged: sinon.stub(),
+      scene: {renderScene: sinon.stub()}
     };
     component = new HealthComponent({sceneObject});
   });
@@ -30,7 +31,7 @@ describe('3D map', () => {
     it('dont call external method until time event was handled', () => {
       component.setHealth(health.warning);
       expect(sceneObject.healthChanged.callCount).to.equal(0);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(sceneObject.healthChanged.callCount).to.equal(1);
     });
 
@@ -41,7 +42,7 @@ describe('3D map', () => {
       expect(sceneObject.healthChanged.callCount).to.equal(1);
 
       component.setHealth(health.warning);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
 
       expect(sceneObject.healthChanged.callCount).to.equal(1);
       expect(component.healthToSet).to.equal(health.warning);
@@ -49,7 +50,7 @@ describe('3D map', () => {
       component.stateMachine.changeStateProperty('active', true);
 
       expect(sceneObject.healthChanged.callCount).to.equal(1);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(sceneObject.healthChanged.callCount).to.equal(2);
     });
 

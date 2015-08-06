@@ -19,7 +19,8 @@ describe('3D map', () => {
         lineFactory: {
           addFragment: sinon.stub(),
           removeFragment: sinon.stub()
-        }
+        },
+        renderScene: sinon.stub()
       }
     };
     component = new HighlightingComponent({sceneObject});
@@ -38,19 +39,19 @@ describe('3D map', () => {
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
       component.sizeChanged(4, 5, 6);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(2);
     });
 
     it('should do nothing if there is no change', () => {
       component.positionChanged(1, 2, 3);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(2);
 
       component.positionChanged(1, 2, 3);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(2);
-      component.handleTimeEvent30Fps();
+      component.handleComponentTimeEvent();
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(2);
     });
 

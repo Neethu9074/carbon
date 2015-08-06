@@ -9,8 +9,8 @@ let timeSinceFirstFrame = 0;
 let fps = 0;
 let secondCounter = 0;
 let fpsCounter = 0;
-let timeCounter30Fps = 0;
-let timeCounter60Fps = 0;
+let timeCounterForComponentUpdate = 0;
+const framesWatingForComponentUpdate = 30;
 
 const timeEventListener = [];
 
@@ -40,8 +40,7 @@ export function update(highResTimestamp) {
   timeSinceFirstFrame += deltaTime;
   secondCounter += deltaTime;
 
-  timeCounter30Fps++;
-  timeCounter60Fps++;
+  timeCounterForComponentUpdate++;
   fpsCounter++;
 
   if(secondCounter >= 1) {
@@ -50,14 +49,9 @@ export function update(highResTimestamp) {
     fpsCounter = 0;
   }
 
-  if(timeCounter30Fps >= 30) {
-    timeCounter30Fps = 0;
-    timeEventListener.forEach(l => l.handleTimeEvent30Fps());
-  }
-
-  if(timeCounter60Fps >= 60) {
-    timeCounter60Fps = 0;
-    timeEventListener.forEach(l => l.handleTimeEvent60Fps());
+  if(timeCounterForComponentUpdate >= framesWatingForComponentUpdate) {
+    timeCounterForComponentUpdate = 0;
+    timeEventListener.forEach(l => l.handleComponentTimeEvent());
   }
 }
 

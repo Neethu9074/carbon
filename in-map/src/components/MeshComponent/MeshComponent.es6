@@ -59,7 +59,7 @@ export default class MeshComponent extends Component {
     this.needsUpdate = true;
   }
 
-  update30Fps() {
+  update() {
     this.setupFragment();
 
     if(this.isActive()) {

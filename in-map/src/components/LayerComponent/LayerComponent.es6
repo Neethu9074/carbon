@@ -63,7 +63,7 @@ export default class LayerComponent extends Component {
     this.needsUpdate = true;
   }
 
-  update30Fps() {
+  update() {
     this.arrangeChildren();
     this.needsUpdate = false;
   }

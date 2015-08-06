@@ -43,7 +43,7 @@ export default class HighlightingComponent extends Component{
     this.needsUpdate = true;
   }
 
-  update30Fps() {
+  update() {
     this.setupHighlightBorderLines();
 
     this.hide();
