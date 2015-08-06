@@ -51,6 +51,7 @@ export default class Scene {
     this.setupFactories();
     this.controller = new MouseCameraController({scene: this});
     this.setupEvents();
+    this.handleLostContext();
 
     this.update();
   }
@@ -228,6 +229,24 @@ export default class Scene {
         this.showHulls();
       }
     }));
+  }
+
+  // the GPU is a shared resource and as such there are times when it might be taken away from the app.
+  // examples: another page does something that takes the GPU too long and the browser
+  // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
+  handleLostContext() {
+    const canvas = this.renderer.domElement;
+    canvas.addEventListener('webglcontextlost', (event) => {
+      event.preventDefault();
+    }, false);
+
+    canvas.addEventListener('webglcontextrestored', () => {
+      // at the point that this method is called the browser has reset all state
+      // to the default WebGL state and all previously allocated resources are invalid.
+      // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
+      // and setup your state (clearColor, blendFunc, depthFunc, etc...)
+      // to make it short... reload the page
+    }, false);
   }
 
 
