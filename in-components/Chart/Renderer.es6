@@ -568,13 +568,13 @@ export default class Renderer {
     // data points that we are presenting in our charts.
     let lastAnimatedTime = 0;
     const animate = time => {
-      this.animationFrameHandle = requestAnimationFrame(animate);
+      this.animationFrameHandle = window.requestAnimationFrame(animate);
       if ((time - timeBetweenUpdatesInMillis) >= lastAnimatedTime) {
         this.tween.update(time);
         lastAnimatedTime = time;
       }
     };
-    this.animationFrameHandle = requestAnimationFrame(animate);
+    this.animationFrameHandle = window.requestAnimationFrame(animate);
   }
 
   processNewDataColumns(axis, newDataColumns) {
