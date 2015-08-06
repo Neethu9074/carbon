@@ -30,7 +30,7 @@ describe('issueTracker', () => {
     const create = sinon.stub();
     create.returns(observable);
 
-    issueTracker = proxyquire('./index', {
+    issueTracker = proxyquire('./issueTracker', {
       '../conveyer': {create}
     });
 
