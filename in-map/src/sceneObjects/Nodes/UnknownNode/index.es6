@@ -2,9 +2,10 @@
 
 import BaseNode from '../BaseNode/index';
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
-import {isIdEqual} from 'in-services/util/snapshots';
-import Immutable from 'immutable';
 import TooltipUnknownNode from '../../Tooltips/UnknownNode';
+
+import Immutable from 'immutable';
+import {isIdEqual} from 'in-services/util/snapshots';
 
 
 export default class Unknownnode extends BaseNode {
@@ -12,28 +13,36 @@ export default class Unknownnode extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.stickyNote = new StickyNoteUnknownNode(this);
     this.isUnknown = true;
+    this.stickyNote = new StickyNoteUnknownNode(this);
   }
 
-  selected() {
-    super.selected();
+  onSelectedEnter() {
+    super.onSelectedEnter();
 
     this.stickyNote.showPlus();
   }
 
-  unSelected() {
-    this.stickyNote.showPlus(false);
+  onSelectedLeave() {
+    super.onSelectedLeave();
 
-    super.unSelected();
+    this.stickyNote.hidePlus();
   }
+
+  onSelectedHighlightEnter() {
+    this.onSelectedEnter();
+  }
+
+  onSelectedHighlightLeave() {
+    this.onSelectedLeave();
+  }
+
 
   getTooltipSticky() {
     return new TooltipUnknownNode(this);
   }
 
   getWiredSnapshots() {
-    this.updateOnWiredSnapshots = true;
     const thisSnapShot = this.snapshot;
     const outgoing = [];
     const incoming = [];
@@ -79,14 +88,11 @@ export default class Unknownnode extends BaseNode {
   }
 
   getScreenAnchorPosition() {
-    const pos = this.getPosition();
+    const pos = this.getComponent('position').getPosition();
     return {x: pos.x, y: pos.y + this.height, z: pos.z};
   }
 
-  addToGlobalGeometry() {}
-
   onSnapshotUpdate() {}
-
   setHeight() {}
 
   calculatePower() {

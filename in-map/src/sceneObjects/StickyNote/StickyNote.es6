@@ -14,7 +14,6 @@ export default class StickyNote {
     parent.getHtmlContainer().appendChild(this.stickyNoteContainer);
 
     this.style = this.stickyNoteContainer.style;
-    this.highlighted = false;
   }
 
   hide() {
@@ -51,11 +50,6 @@ export default class StickyNote {
       sticky.classList.remove('in-sticky-note__inactive');
       sticky.classList.add('in-sticky-note__active');
     }
-  }
-
-  onHighlight(highlighted) {
-    this.highlighted = highlighted;
-    this.render();
   }
 
   dispose() {

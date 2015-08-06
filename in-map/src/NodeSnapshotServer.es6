@@ -1,16 +1,17 @@
 'use strict';
 
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
-import {getHealth} from 'in-services/issueTracker';
-import {getWiredSnapshots} from 'in-sdk/snapshot';
-import {activeMetric} from 'in-services/stores/metrics';
-import {subscribeToMetric} from './metricUtils';
-import {getNormalizedValue} from 'in-sdk/metrics';
-import {create} from 'in-services/conveyer';
-import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {selectedSceneObject} from './stores/mapStore';
+import {subscribeToMetric} from './metricUtils';
+
+import {getWiredSnapshots} from 'in-sdk/snapshot';
+import {getNormalizedValue} from 'in-sdk/metrics';
+
+// import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+import {activeMetric} from 'in-services/stores/metrics';
 import {isIdEqual} from 'in-services/util/snapshots';
+// import {create} from 'in-services/conveyer';
 
 let currentMetric;
 
@@ -24,9 +25,6 @@ export default class NodeSnapshotServer {
 
     this.subscriptions.push(getWiredSnapshots(client.snapshot)
       .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots)));
-
-    this.subscriptions.push(getHealth(client.snapshot).subscribe(health =>
-      client.setHealth(health)));
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       if(metric) {
@@ -57,16 +55,16 @@ export default class NodeSnapshotServer {
       })
     );
 
-    const pluginId = 'com.instana.forge.infrastructure.os.Process';
-    const observable = create(SnapshotConveyer, {pluginId});
-    this.subscriptions.push(observable.subscribe(data =>
-      this.onLayerUpdate(data)));
+    // const pluginId = 'com.instana.forge.infrastructure.os.Process';
+    // const observable = create(SnapshotConveyer, {pluginId});
+    // this.subscriptions.push(observable.subscribe(data =>
+    //   this.onLayerUpdate(data)));
   }
 
   onLayerUpdate(snapshots) {
     snapshots.forEach(layer => {
       if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
-        // this.client.addLayer(layer);
+        this.client.getComponent('layer').addLayer(layer);
       }
     });
   }

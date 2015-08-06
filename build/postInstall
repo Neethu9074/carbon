@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -eo pipefail
+
 echo "Installing git commit hooks..."
 rm -f .git/hooks/pre-commit
 ln -s ../../build/hooks/pre-commit .git/hooks/pre-commit
@@ -12,6 +14,7 @@ ln -s ../in-forge node_modules/in-forge
 ln -s ../in-map node_modules/in-map
 ln -s ../in-themes node_modules/in-themes
 ln -s ../in-components node_modules/in-components
+ln -s ../in-test node_modules/in-test
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"

@@ -8,6 +8,7 @@ import {RouteHandler, Navigation} from 'react-router';
 
 import Map from 'in-map';
 import Lettering from 'in-components/Lettering';
+import QueryBuilder from 'in-components/QueryBuilder';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as constants from 'in-forge/constants';
@@ -58,6 +59,10 @@ const App = React.createClass({
     return (
       <div>
         <Lettering className='in-root-lettering' />
+
+        {__DEV__ ?
+          <QueryBuilder />
+        : null}
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginId={this.state.pluginId} />

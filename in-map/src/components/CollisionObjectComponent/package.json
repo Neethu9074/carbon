@@ -1,0 +1,6 @@
+{
+  "name": "CollisionObjectComponent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./CollisionObjectComponent.es6"
+}
