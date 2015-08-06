@@ -7,7 +7,7 @@
   "scripts": {
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
     "clean": "gulp clean",
-    "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox.yaml && open https://local.internal.instana.io:4000 && gulp dev",
+    "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox-monitoring.yaml && open https://local.internal.instana.io:4000 && gulp dev",
     "dev-simulator": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox-simulator.yaml && open https://local.internal.instana.io:4000 && gulp dev",
     "postinstall": "./build/postInstall",
     "prod": "export BUILD_DEV='false' && proxrox stop && proxrox start .proxrox.yaml && open https://local.internal.instana.io:4000 && gulp dev",

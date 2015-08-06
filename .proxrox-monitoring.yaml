@@ -5,7 +5,6 @@ ssi: true
 tls: true
 proxy:
   /: http://127.0.0.1:3000
-  /api/: https://monitoring-instana.instana.io/api/
 
   /auth/signIn: https://monitoring-instana.instana.io/auth/signIn
   /auth/signOut: https://monitoring-instana.instana.io/auth/signOut
