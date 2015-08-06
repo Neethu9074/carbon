@@ -7,6 +7,8 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
 
+import jsdom from 'in-test/jsdom';
+
 describe('connection.connection', () => {
 
   let WebSocket;
@@ -16,6 +18,8 @@ describe('connection.connection', () => {
   let send;
 
   let clock;
+
+  jsdom();
 
   beforeEach(() => {
     connection = {

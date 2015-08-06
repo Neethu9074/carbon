@@ -1,8 +1,13 @@
 /*eslint-env mocha,node*/
+/*eslint-disable no-var*/
+
 'use strict';
 
-var jsdom = require('jsdom');
+// Set our default time zone so that tests with date formatting are predictable.
+process.env.TZ = 'Europe/Berlin';
+
 var chai = require('chai');
+var setupWebSocketGlobals = require('../in-test/setupWebSocketGlobals');
 
 chai.use(require('chai-string'));
 chai.use(require('chai-subset'));
@@ -21,26 +26,6 @@ require('babel/register')({
   ignore: '^$'
 });
 
-// support a HTML5-like environment
-global.document = jsdom.jsdom('<html><head></head><body></body></html>');
-global.window = global.document.defaultView;
-global.navigator = global.window.navigator;
-global.window.location = {
-  origin: 'http://demo.internal.instana.io'
-};
-global.window.WebSocket = function() {
-  this.send = function() {};
-  this.close = function() {};
-};
-
-['localStorage', 'sessionStorage'].forEach(function(type) {
-  var storage = {};
-  global.window[type] = {
-    setItem: function(k, v) {
-      storage[k] = v + '';
-    },
-    getItem: function(k) {
-      return storage[k];
-    }
-  };
-});
+// many tests import a whole bunch of modules and at some point this always
+// ends up in in-services/connection (which requirs WebSocket globals).
+setupWebSocketGlobals();
