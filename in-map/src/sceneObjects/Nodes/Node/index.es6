@@ -72,19 +72,6 @@ export default class Node extends BaseNode {
     selectedSnapshot.select(this.snapshot);
   }
 
-  onHighlightEnter() {
-    super.onHighlightEnter();
-
-    highlightedSnapshot.select(this.snapshot);
-  }
-
-  onHighlightLeave() {
-    super.onHighlightLeave();
-
-    highlightedSnapshot.clear();
-  }
-
-
   registerEvents() {
     super.registerEvents();
 
@@ -106,6 +93,15 @@ export default class Node extends BaseNode {
         }
       })
     );
+  }
+
+  onHighlight(highlighted) {
+    super.onHighlight(highlighted);
+    if(highlighted) {
+      highlightedSnapshot.select(this.snapshot);
+    } else {
+      highlightedSnapshot.clear();
+    }
   }
 
   getTooltipSticky() {
