@@ -215,8 +215,6 @@ export default class BaseNode extends SceneObject {
 
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 
-  setHeight() {throw new Error('NOT IMPLEMENTED'); }
-
   getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
 
   updateStickyNotes() {

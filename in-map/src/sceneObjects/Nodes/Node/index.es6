@@ -1,11 +1,11 @@
 'use strict';
 
 import THREE from 'three';
-import _ from 'lodash';
 
 //components
 import HealthComponent from '../../../components/HealthComponent';
 import NodeGroundComponent from '../../../components/NodeGroundComponent';
+import LayerComponent from '../../../components/LayerComponent';
 
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
@@ -15,7 +15,6 @@ import StickyNoteNode from '../../StickyNote/Node';
 import TooltipMetric from '../../Tooltips/Metric';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode/index';
-import Layer from '../../Layer/index';
 
 // import SCCP from '../../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 
@@ -33,38 +32,11 @@ export default class Node extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.layer = [];
-
     this.components.ground = new NodeGroundComponent({sceneObject: this});
     this.components.health = new HealthComponent({sceneObject: this});
+    this.components.layer = new LayerComponent({sceneObject: this});
 
     this.stickyNote = new StickyNoteNode(this);
-  }
-
-  onInactiveEnter() {
-    super.onInactiveEnter();
-
-    if(this.layer) {
-      this.layer.forEach(layer => layer.changeStateProperty('active', false));
-    }
-  }
-
-  onInactiveLeave() {
-    super.onInactiveLeave();
-
-    if(this.layer) {
-      this.layer.forEach(layer => layer.changeStateProperty('active', true));
-    }
-  }
-
-  onHiddenEnter() {
-    super.onHiddenEnter();
-    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('hidden', true));
-  }
-
-  onHiddenLeave() {
-    super.onHiddenLeave();
-    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('hidden', false));
   }
 
   onSelectedEnter() {
@@ -224,15 +196,6 @@ export default class Node extends BaseNode {
     this.stickyNote.render();
   }
 
-  updateOfVisualComponents() {
-    super.updateOfVisualComponents();
-
-    const pos = this.getComponent('position').getPosition();
-
-    this.layer.forEach(p =>
-      p.getComponent('position').setPosition(pos.x, p.getComponent('position').getPosition().y, pos.z));
-  }
-
   getScreenAnchorPosition() {
     const pos = this.getComponent('position').getPosition();
     return {x: pos.x - 0.25, y: pos.y + this.height, z: pos.z + 0.25};
@@ -244,57 +207,20 @@ export default class Node extends BaseNode {
     this.singleMetricPillar.getComponent('position').setPosition(x, y, z);
     this.multiMetricPillar.getComponent('position').setPosition(x, y, z);
     this.getComponent('ground').positionChanged(x, y, z);
+    this.getComponent('layer').positionChanged(x, y, z);
 
     this.updateOfVisualComponents();
-    this.arrangeChildren();
   }
 
   setHeight(height) {
-    if(height === this.height) {
-      return;
-    }
-
     super.setHeight(height);
-    this.arrangeChildren();
+    this.getComponent('layer').heightChanged(height);
   }
 
   healthChanged(newHealth) {
     const color = this.calculateNodeColor(newHealth);
     this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
     this.getComponent('ground').healthChanged(newHealth);
-  }
-
-  addLayer(snapshot) {
-    //don't create a layer if its still there
-    const match = _.find(this.layer, layer => isIdEqual(layer.snapshot, snapshot));
-
-    if(match) {
-      match.updateSnapshot(snapshot);
-      return;
-    }
-
-    const newLayer = new Layer({parent: this, snapshot});
-    newLayer.setLayerIndex(this.layer.length);
-    this.layer.push(newLayer);
-
-    this.arrangeChildren();
-  }
-
-  arrangeChildren() {
-    const layer = this.layer;
-    const heightOfEachChild = this.height / layer.length;
-
-    layer.forEach((child, index) => {
-      child.setHeight(heightOfEachChild);
-      const positionComponent = child.getComponent('position');
-      const pos = positionComponent.getPosition();
-      positionComponent.setPosition(pos.x, index * heightOfEachChild, pos.z);
-    });
-  }
-
-  clearLayer() {
-    this.layer.forEach(p => p.dispose());
-    this.layer = [];
   }
 
   dispose() {
@@ -304,7 +230,6 @@ export default class Node extends BaseNode {
     this.multiMetricPillar.dispose();
 
     this.snapshotServer.dispose();
-    this.clearLayer();
 
     this.wiredSnapshots = undefined;
     this.snapshot = null;
