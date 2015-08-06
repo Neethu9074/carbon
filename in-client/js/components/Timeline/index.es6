@@ -6,23 +6,23 @@ import irpt from 'react-immutable-proptypes';
 import d3 from 'd3';
 
 import TooltipFrame from 'in-components/Tooltips/VerticalFrame';
+import StatusLine from 'in-components/Tooltips/StatusLine';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
-import StatusLine from 'in-components/Tooltips/StatusLine';
-import Icon from 'in-components/Icon';
 import TimePicker from 'in-components/TimePicker';
+import Icon from 'in-components/Icon';
 
-import * as time from 'in-services/time';
-import {health, mapSeverityToHealth} from 'in-services/health';
-import {theme} from 'in-services/theme';
-import * as timelineStore from 'in-services/stores/timeline';
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
-import {getIssues} from 'in-services/issueTracker';
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {health, mapSeverityToHealth} from 'in-services/health';
+import * as timelineStore from 'in-services/stores/timeline';
+import {getIssues} from 'in-services/issueTracker';
 import {only} from 'in-services/util/snapshots';
 import {create} from 'in-services/conveyer';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import {theme} from 'in-services/theme';
+import * as time from 'in-services/time';
 
 import {getLabel} from 'in-sdk/snapshot';
 
