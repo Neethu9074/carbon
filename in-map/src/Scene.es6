@@ -169,7 +169,7 @@ export default class Scene {
       numTiles: this.numTiles
     });
 
-    setInterval(() => {
+    this.metricUpdateInterval = setInterval(() => {
       this.updateMetricHeights();
     }, 1000);
   }
@@ -567,6 +567,7 @@ export default class Scene {
 
   //set this flag if the update loop should be stoped
   dispose() {
+    clearInterval(this.metricUpdateInterval);
     this.subscriptions.forEach(sub => sub.dispose());
     this.disposed = true;
   }
