@@ -52,7 +52,7 @@ describe('3D map', () => {
       expect(component.factory.addFragment.callCount).to.equal(2);
     });
 
-    it('should do nothing if there is no change', () => {
+    it('should do force update even if there is no change', () => {
       component.positionChanged(1, 2, 3);
       expect(component.factory.addFragment.callCount).to.equal(1);
       component.handleComponentTimeEvent();
@@ -61,7 +61,7 @@ describe('3D map', () => {
       component.positionChanged(1, 2, 3);
       expect(component.factory.addFragment.callCount).to.equal(2);
       component.handleComponentTimeEvent();
-      expect(component.factory.addFragment.callCount).to.equal(2);
+      expect(component.factory.addFragment.callCount).to.equal(3);
     });
 
   });

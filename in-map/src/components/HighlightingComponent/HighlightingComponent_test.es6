@@ -33,7 +33,7 @@ describe('3D map', () => {
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
     });
 
-    it('dont call external method until time event was handled', () => {
+    it('should call external method', () => {
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
       component.positionChanged(1, 2, 3);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
@@ -43,7 +43,7 @@ describe('3D map', () => {
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(2);
     });
 
-    it('should do nothing if there is no change', () => {
+    it('should do force update even if there is no change', () => {
       component.positionChanged(1, 2, 3);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
       component.handleComponentTimeEvent();
@@ -52,7 +52,7 @@ describe('3D map', () => {
       component.positionChanged(1, 2, 3);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(2);
       component.handleComponentTimeEvent();
-      expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(2);
+      expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(3);
     });
 
   });

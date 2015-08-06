@@ -44,14 +44,10 @@ export default class LayerComponent extends Component {
   }
 
   positionChanged(x, y, z) {
-    const pos = this.positionToSet;
-    if(pos.x === x && pos.y === y && pos.z === z) {
-      return;
-    }
-
     this.positionToSet.x = x;
     this.positionToSet.y = y;
     this.positionToSet.z = z;
+
     this.needsUpdate = true;
   }
 

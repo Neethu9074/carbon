@@ -30,11 +30,6 @@ export default class MeshComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    const pos = this.positionToSet;
-    if(pos.x === x && pos.y === y && pos.z === z) {
-      return;
-    }
-
     this.changeXyzOf(this.positionToSet, x, y, z);
     this.needsUpdate = true;
   }
