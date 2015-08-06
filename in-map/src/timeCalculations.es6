@@ -7,8 +7,8 @@ let fps = 0;
 let secondCounter = 0;
 let fpsCounter = 0;
 
-export function update() {
-  const timeNow = Date.now();
+export function update(highResTimestamp) {
+  const timeNow = highResTimestamp;
   deltaTime = (timeNow - timeOfLastFrameUpdate) / 1000; //in ms
 
   // clamp the deltaTime to a max of 0.5 seconds. If the map is laggy because of

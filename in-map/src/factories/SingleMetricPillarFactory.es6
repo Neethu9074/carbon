@@ -5,6 +5,7 @@ import TWEEN from 'tween.js';
 
 import MeshFactory from './MeshFactory';
 import {theme} from 'in-services/theme';
+import eventBus from 'in-services/eventbus';
 
 //import shader
 import fragmentShader from './singleMetricFragmentShader.glsl';
@@ -79,6 +80,10 @@ export default class SingleMetricPillarFactory extends MeshFactory {
       this.scene.renderScene();
     });
     this.animation = animation;
+
+    this.updateSubscribtion = eventBus.on('beginUpdate').subscribe((time) => {
+      this.animation.update(time);
+    });
   }
 
   rebuild() {

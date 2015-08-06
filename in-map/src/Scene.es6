@@ -1,7 +1,6 @@
 'use strict';
 
 import THREE from 'three';
-import Tween from 'tween.js';
 
 import './lib/Octree';
 
@@ -53,7 +52,7 @@ export default class Scene {
     this.setupEvents();
     this.handleLostContext();
 
-    this.update();
+    this.update(Date.now());
   }
 
   setup3D() {
@@ -251,7 +250,7 @@ export default class Scene {
   }
 
 
-  update() {
+  update(highResTimestamp) {
     //break the requestAnimationFrame loop if disposed
     if (this.disposed) {
       return;
@@ -260,10 +259,9 @@ export default class Scene {
     requestAnimationFrame(this.update.bind(this));
 
     //fire event for updating stats
-    eventBus.emit('beginUpdate');
+    eventBus.emit('beginUpdate', highResTimestamp);
 
-    time.update();
-    Tween.update();
+    time.update(highResTimestamp);
     this.controller.update();
 
     //don't render scene if it is not needed

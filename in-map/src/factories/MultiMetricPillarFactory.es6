@@ -10,6 +10,7 @@ import fragmentShader from './multiMetricFragmentShader.glsl';
 import vertexShader from './multiMetricVertexShader.glsl';
 
 import {theme} from 'in-services/theme';
+import eventBus from 'in-services/eventbus';
 
 const availableColors = (() => {
   const colors = [];
@@ -58,6 +59,10 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     animation.onComplete(() => scene.stopAnimation());
     animation.onUpdate((v) => progress.value = v);
     this.animation = animation;
+
+    this.updateSubscribtion = eventBus.on('beginUpdate').subscribe((time) => {
+      this.animation.update(time);
+    });
   }
 
   setupMaterial(progress) {

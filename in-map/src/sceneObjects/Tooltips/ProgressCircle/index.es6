@@ -29,10 +29,14 @@ const ProgressCircle = React.createClass({
     animation.onComplete(() => eventBus.emit('longClicked'));
     animation.start();
     this.animation = animation;
+
+    this.updateSubscribtion = eventBus.on('beginUpdate').subscribe((time) => this.animation.update(time));
   },
 
   componentWillUnmount() {
     this.animation.stop();
+    this.updateSubscribtion.dispose();
+    this.updateSubscribtion = null;
   },
 
   render() {
