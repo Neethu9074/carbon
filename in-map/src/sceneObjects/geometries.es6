@@ -9,3 +9,5 @@ for (let i = 0; i < cubeGeometry.vertices.length; i++) {
   cubeGeometry.vertices[i].y += 0.5;
   cubeGeometry.vertices[i].z += 0.5;
 }
+
+export const defaultGeometryMaterial = new THREE.MeshBasicMaterial();

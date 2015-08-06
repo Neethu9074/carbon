@@ -40,6 +40,8 @@ export default class AbstractMeshCreationFactory {
     if (this.rebuildGlobalMesh) {
       this.rebuild();
       this.rebuildGlobalMesh = false;
+
+      this.scene.renderScene();
     }
   }
 

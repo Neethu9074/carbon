@@ -272,13 +272,10 @@ export default class Scene {
     this.updateCamera();
 
     //updating is done
+    this.controller.handleRayCasting();
     eventBus.emit('endUpdate', {scene: this});
 
     this.render();
-    this.shouldRenderScene = false;
-
-    //rendering is done
-    eventBus.emit('endRender', {scene: this});
   }
 
   updateCamera() {
@@ -369,12 +366,14 @@ export default class Scene {
 
   hideHulls() {
     this.singleMeshFactory.material.opacity = 0.2;
+    this.layerSingleMeshFactory.material.opacity = 0.2;
     this.hullsAreInactive = true;
   }
 
   showHulls() {
     if(!currentMetrics) {
       this.hullsAreInactive = false;
+      this.layerSingleMeshFactory.material.opacity = 1;
       this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
     }
   }
@@ -417,6 +416,7 @@ export default class Scene {
     raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
     const ray = raycaster.ray;
 
+    /*eslint-disable no-loop-func*/
     //iterate all octrees backwards from the highest layer to the lowest
     for (let i = this.octrees.length - 1; i >= 0; i--) {
       const octree = this.octrees[i];
@@ -427,7 +427,8 @@ export default class Scene {
         ray.origin,
         ray.far,
         true, //true -> organized by objects
-        ray.direction);
+        ray.direction)
+        .filter(object => object.object.isEnabled);
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {
@@ -435,6 +436,7 @@ export default class Scene {
         return intersections.reverse()[0].object;
       }
     }
+    /*eslint-enable no-loop-func*/
 
     return undefined;
   }

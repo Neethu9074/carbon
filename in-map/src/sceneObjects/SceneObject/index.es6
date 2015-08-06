@@ -1,86 +1,38 @@
 'use strict';
 
+//components
 import THREE from 'three';
+import PositionComponent from '../../components/PositionComponent';
+
 import {setupStates} from './States/index';
 import {currentScene} from '../../stores/mapStore';
-import {createLogger} from 'instalog';
 
-const logger = createLogger('in-map.sceneObject');
-
-const stateLUT = {
 /*eslint-disable no-multi-spaces*/
-  lut: [
-    //mouseOver,  selected,   active  hidden    result state
-    [[false,      false,      true,   false],   'initial'],
-    [[false,      true,       true,   false],   'selected'],
-    [[true,       false,      true,   false],   'highlighted'],
-    [[true,       true,       true,   false],   'selected'],
-    [[false,      true,       false,  false],   'inactive'],
-    [[true,       false,      false,  false],   'inactive'],
-    [[true,       true,       false,  false],   'inactive'],
-    [[false,      false,      false,  false],   'inactive'],
-    [[false,      false,      true,   true],    'hidden'],
-    [[false,      true,       true,   true],    'hidden'],
-    [[true,       false,      true,   true],    'hidden'],
-    [[true,       true,       true,   true],    'hidden'],
-    [[false,      true,       false,  true],    'hidden'],
-    [[true,       false,      false,  true],    'hidden'],
-    [[true,       true,       false,  true],    'hidden'],
-    [[false,      false,      false,  true],    'hidden']
-  ],
+const stateLUT = [
+  //mouseOver,  selected,   active  hidden    result state
+  [[false,      false,      true,   false],   'initial'],
+  [[false,      true,       true,   false],   'selected'],
+  [[true,       false,      true,   false],   'highlighted'],
+  [[true,       true,       true,   false],   'selectedHighlighted'],
+  [[false,      true,       false,  false],   'selectedInactive'],
+  [[true,       false,      false,  false],   'highlightedInactive'],
+  [[true,       true,       false,  false],   'selectedHighlightedInactive'],
+  [[false,      false,      false,  false],   'inactive'],
+  [[false,      false,      true,   true],    'hidden'],
+  [[false,      true,       true,   true],    'hidden'],
+  [[true,       false,      true,   true],    'hidden'],
+  [[true,       true,       true,   true],    'hidden'],
+  [[false,      true,       false,  true],    'hidden'],
+  [[true,       false,      false,  true],    'hidden'],
+  [[true,       true,       false,  true],    'hidden'],
+  [[false,      false,      false,  true],    'hidden']
+];
 /*eslint-enable no-multi-spaces*/
 
-  getStateFromLut({mouseOver, selected, active, hidden, states}) {
-    for (let i = 0; i < this.lut.length; i++) {
-      const entry = this.lut[i];
-      if(mouseOver === entry[0][0] &&
-         selected === entry[0][1] &&
-         active === entry[0][2] &&
-         hidden === entry[0][3]
-      ) {
-        const match = entry[1];
-        let state;
-        switch (match) {
-          case 'inactive':
-            state = states.inactive;
-            break;
-          case 'selected':
-            state = states.selected;
-            break;
-          case 'highlighted':
-            state = states.highlighted;
-            break;
-          case 'hidden':
-            state = states.hidden;
-            break;
-          case 'initial':
-            state = states.initial;
-            break;
-        }
-        return state;
-      }
-    }
-  }
-};
-
-export default class SceneObject {
-  constructor({parent, id}) {
-    this.id = id;
-    this.parent = parent;
-    this.position = new THREE.Vector3(0, 0, 0);
-    this.subscriptions = [];
-
-    this.screenPositionAnchor = this.position.clone();
-    this.screenPosition = {x: 0, y: 0};
-
-    this.init();
-
-    this.addSubscription(currentScene.subscribe((scene) => {
-      this.scene = scene;
-    }));
-
+class StateMachine {
+  constructor(states) {
     this.stateLookUpTable = stateLUT;
-    this.states = setupStates(this);
+    this.states = states;
     this.stateProperties = {
       mouseOver: false,
       selected: false,
@@ -88,10 +40,20 @@ export default class SceneObject {
       hidden: false
     };
     this.state = this.states.initial;
-    this.state.enter();
   }
 
-  init() {}
+  getStateFromLut({mouseOver, selected, active, hidden, states}) {
+    for (let i = 0; i < stateLUT.length; i++) {
+      const entry = stateLUT[i];
+      if(mouseOver === entry[0][0] &&
+         selected === entry[0][1] &&
+         active === entry[0][2] &&
+         hidden === entry[0][3]
+      ) {
+        return states[entry[1]];
+      }
+    }
+  }
 
   changeStateProperty(name, value) {
     if(this.stateProperties[name] !== value) {
@@ -103,7 +65,7 @@ export default class SceneObject {
   updateState() {
     const props = this.stateProperties;
     const oldState = this.state;
-    const newState = stateLUT.getStateFromLut({
+    const newState = this.getStateFromLut({
       mouseOver: props.mouseOver,
       selected: props.selected,
       active: props.active,
@@ -115,62 +77,122 @@ export default class SceneObject {
       oldState.leave();
       this.state = newState;
       newState.enter();
-
-      //to show changes on the state, render scene
-      this.scene.renderScene();
     }
   }
 
+  getLookUpTable() {
+    return stateLUT;
+  }
+}
+
+export default class SceneObject {
+  constructor({parent, id}) {
+    this.parent = parent;
+    this.id = id;
+    this.position = new THREE.Vector3(0, 0, 0);
+    this.subscriptions = [];
+
+    this.addSubscription(currentScene.subscribe((scene) => {
+      this.scene = scene;
+    }));
+
+    this.initComponents();
+
+    this.screenPositionAnchor = this.getComponent('position').getPosition().clone();
+    this.screenPosition = {x: 0, y: 0};
+
+    this.init();
+
+    this.stateMachine = new StateMachine(setupStates(this));
+    this.stateMachine.state.enter();
+  }
+
+  initComponents() {
+    this.components = {
+      position: new PositionComponent({sceneObject: this})
+    };
+  }
+
+  getComponent(name) {
+    return this.components[name];
+  }
+
+  forEachComponent(fn) {
+    for(let key in this.components) {
+      fn(this.components[key]);
+    }
+  }
+
+  init() {}
+
   reEnterState() {
-    this.state.leave();
-    this.state.enter();
+    this.stateMachine.state.leave();
+    this.stateMachine.state.enter();
   }
 
   onInitialEnter() {}
-  onInitialLeave() {logger.debug('on initial leave'); }
-  onHighlightEnter() {logger.debug('on highlight enter'); }
-  onHighlightLeave() {logger.debug('on highlight leave'); }
-  onSelectedEnter() {logger.debug('on selected enter'); }
-  onSelectedLeave() {logger.debug('on selected leave'); }
-  onInactiveEnter() {logger.debug('on inactive enter'); }
-  onInactiveLeave() {logger.debug('on inactive leave'); }
-  onHiddenEnter() {logger.debug('on hidden enter'); }
-  onHiddenLeave() {logger.debug('on hidden leave'); }
+  onInitialLeave() {}
+  onHighlightEnter() {}
+  onHighlightLeave() {}
+  onSelectedEnter() {}
+  onSelectedLeave() {}
+  onSelectedHighlightEnter() {}
+  onSelectedHighlightLeave() {}
+  onSelectedHighlightInactiveEnter() {}
+  onSelectedHighlightInactiveLeave() {}
+  onHighlightInactiveEnter() {}
+  onHighlightInactiveLeave() {}
+  onSelectedInactiveEnter() { this.onInactiveEnter(); }
+  onSelectedInactiveLeave() { this.onInactiveLeave(); }
+
+  onInactiveEnter() {
+    this.forEachComponent((component) =>
+      component.stateMachine.changeStateProperty('active', false));
+  }
+
+  onInactiveLeave() {
+    this.forEachComponent((component) =>
+      component.stateMachine.changeStateProperty('active', true));
+  }
+
+  onHiddenEnter() {
+    this.forEachComponent((component) =>
+      component.stateMachine.changeStateProperty('active', false));
+  }
+
+  onHiddenLeave() {
+    this.forEachComponent((component) =>
+      component.stateMachine.changeStateProperty('active', true));
+  }
 
   isSelected() {
-    return this.stateProperties.selected;
+    return this.stateMachine.stateProperties.selected;
   }
 
   isHighlighted() {
-    return this.stateProperties.mouseOver;
+    return this.stateMachine.stateProperties.mouseOver;
   }
 
   isActive() {
-    return this.stateProperties.active;
+    return this.stateMachine.stateProperties.active;
   }
 
   isHidden() {
-    return this.stateProperties.hidden;
+    return this.stateMachine.stateProperties.hidden;
   }
 
   show() {
-    this.changeStateProperty('hidden', false);
+    this.stateMachine.changeStateProperty('hidden', false);
   }
 
   hide() {
-    this.changeStateProperty('hidden', true);
+    this.stateMachine.changeStateProperty('hidden', true);
   }
 
-  setPosition(x, y, z) {
-    this.position.set(x, y, z);
-  }
+  positionChanged() {throw new Error('NOT IMPLEMENTED'); }
 
   setScreenPositionAnchor(x, y, z) {
     this.screenPositionAnchor.set(x, y, z);
-  }
-
-  getPosition() {
-    return this.position;
   }
 
   addSceneObject(obj) {
@@ -198,6 +220,8 @@ export default class SceneObject {
     this.scene.renderScene();
   }
 
+  colorChanged() {}
+
   //this method is introduced to get a better handling of the hole merged
   //geometry / factory stuff. each specific sceneObject should implement it and
   //and do all update stuff here.
@@ -220,7 +244,7 @@ export default class SceneObject {
   }
 
   onHighlight(highlighted) {
-    this.changeStateProperty('mouseOver', highlighted);
+    this.stateMachine.changeStateProperty('mouseOver', highlighted);
   }
 
   updateScreenPosition() {
@@ -250,7 +274,8 @@ export default class SceneObject {
   removeChild() {}
 
   dispose() {
-    this.changeStateProperty('hidden', true);
+    this.stateMachine.changeStateProperty('active', false);
+    this.forEachComponent(component => component.dispose());
 
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];

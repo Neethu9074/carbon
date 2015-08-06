@@ -1,0 +1,98 @@
+/*eslint-env mocha, node */
+/*eslint-disable no-unused-expressions */
+'use strict';
+
+import THREE from 'three';
+import {expect} from 'chai';
+import sinon from 'sinon';
+
+import CollisionObjectComponent from './CollisionObjectComponent';
+
+
+describe('3D map', () => {
+  let component;
+  let sceneObject;
+  let collisionObject;
+
+  beforeEach(() => {
+    sceneObject = {
+      positionChanged: sinon.stub(),
+      addCollisionObject: sinon.stub(),
+      scene: {
+        octrees: [
+          {rebuild: sinon.stub()},
+          {rebuild: sinon.stub()},
+          {rebuild: sinon.stub()}
+        ],
+        renderScene: sinon.stub()
+      }
+    };
+    collisionObject = new THREE.Mesh(new THREE.BoxGeometry());
+    component = new CollisionObjectComponent({
+      sceneObject,
+      collisionObject,
+      layer: 1
+    });
+  });
+
+  describe('CollisionObjectComponent', () => {
+
+    it('can be created', () => {
+      expect(component.isActive()).to.equal(true);
+      expect(sceneObject.addCollisionObject.callCount).to.equal(1);
+    });
+
+    it('dont call external method until time event was handled', () => {
+      component.positionChanged(1, 2, 3);
+      component.sizeChanged(4, 5, 6);
+      expect(collisionObject.position.x).to.equal(0);
+      expect(collisionObject.position.y).to.equal(0);
+      expect(collisionObject.position.z).to.equal(0);
+
+      component.handleComponentTimeEvent();
+      expect(collisionObject.position.x).to.equal(1);
+      expect(collisionObject.position.y).to.equal(2);
+      expect(collisionObject.position.z).to.equal(3);
+      expect(collisionObject.scale.x).to.equal(4);
+      expect(collisionObject.scale.y).to.equal(5);
+      expect(collisionObject.scale.z).to.equal(6);
+    });
+
+    it('should keep the old state on multiple updates of different properties', () => {
+      component.positionChanged(1, 2, 3);
+      expect(collisionObject.position.x).to.equal(0);
+      expect(collisionObject.position.y).to.equal(0);
+      expect(collisionObject.position.z).to.equal(0);
+
+      component.handleComponentTimeEvent();
+      expect(collisionObject.position.x).to.equal(1);
+      expect(collisionObject.position.y).to.equal(2);
+      expect(collisionObject.position.z).to.equal(3);
+      expect(collisionObject.scale.x).to.equal(1);
+      expect(collisionObject.scale.y).to.equal(1);
+      expect(collisionObject.scale.z).to.equal(1);
+
+      component.sizeChanged(4, 5, 6);
+      component.handleComponentTimeEvent();
+      expect(collisionObject.position.x).to.equal(1);
+      expect(collisionObject.position.y).to.equal(2);
+      expect(collisionObject.position.z).to.equal(3);
+      expect(collisionObject.scale.x).to.equal(4);
+      expect(collisionObject.scale.y).to.equal(5);
+      expect(collisionObject.scale.z).to.equal(6);
+    });
+
+    it('should do nothing if there is no change', () => {
+      // component.setPosition(1, 2, 3);
+      // expect(sceneObject.positionChanged.callCount).to.equal(0);
+      // component.handleComponentTimeEvent();
+      // expect(sceneObject.positionChanged.callCount).to.equal(1);
+
+      // component.setPosition(1, 2, 3);
+      // expect(sceneObject.positionChanged.callCount).to.equal(1);
+      // component.handleComponentTimeEvent();
+      // expect(sceneObject.positionChanged.callCount).to.equal(1);
+    });
+
+  });
+});

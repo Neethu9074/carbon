@@ -77,7 +77,6 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     animation.onComplete(() => scene.stopAnimation());
     animation.onUpdate((v) => {
       progress.value = v;
-      this.scene.renderScene();
     });
     this.animation = animation;
 

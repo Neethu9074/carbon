@@ -1,7 +1,6 @@
 'use strict';
 
 import _ from 'lodash';
-import THREE from 'three';
 
 import SceneObject from '../SceneObject/index';
 import Node from '../Nodes/Node/index';
@@ -20,9 +19,6 @@ import {getIdString} from 'in-services/util/snapshots';
 import {getColor} from 'in-sdk/zones';
 import {hexToRGBNormalized} from 'in-services/converters';
 
-const collisionGeometry = new THREE.PlaneBufferGeometry(1, 1, 1, 1, 1, 1);
-
-
 export default class Group extends SceneObject {
 
   constructor({parent, id}) {
@@ -37,8 +33,6 @@ export default class Group extends SceneObject {
       this.update();
     }));
 
-    this.addCollisionPlane();
-
     this.geometryProvider = new VATOCM({
       contentProvider: new PCM({ //reposition
         contentProvider: new SCM({ //resize
@@ -46,19 +40,6 @@ export default class Group extends SceneObject {
         })
       })
     });
-  }
-
-  onInitialEnter() {}
-
-  onInitialLeave() {}
-
-  addCollisionPlane() {
-    const plane = this.collisionPlane = new THREE.Mesh(collisionGeometry);
-    plane.rotation.x = -Math.PI / 2;
-    plane.matrixAutoUpdate = false;
-    plane.rotationAutoUpdate = false;
-
-    plane.parentSceneObject = this;
   }
 
   update() {
@@ -73,6 +54,7 @@ export default class Group extends SceneObject {
 
   addNode(snapshot, unknown=false) {
     const nodeId = getIdString(snapshot);
+    let newNode;
 
     //if there is no nodeId it's an unknown node
     if(nodeId) {
@@ -82,12 +64,14 @@ export default class Group extends SceneObject {
       //if the node was created in the past
       if(matchedNode) {
         matchedNode.onSnapshotUpdate(snapshot);
-      } else if(unknown){
-        this.children.push(new UnknownNode({parent: this, snapshot}));
+        newNode = matchedNode;
       } else {
-        this.children.push(new Node({parent: this, snapshot}));
+        newNode = unknown ? new UnknownNode({parent: this, snapshot}) :
+                            new Node({parent: this, snapshot});
+        this.children.push(newNode);
       }
     }
+    return newNode;
   }
 
   addUnknownNode(node) {
@@ -127,19 +111,14 @@ export default class Group extends SceneObject {
   }
 
   updateOfVisualComponents() {
-    const pos = this.getPosition();
+    const pos = this.getComponent('position').getPosition();
     const size = this.size;
     super.setScreenPositionAnchor(pos.x, pos.y, pos.z + size.z / 2);
-    this.collisionPlane.scale.set(size.x, size.z, 1);
-    this.collisionPlane.position.copy(pos);
 
-    this.refreshCollisionObject();
     this.refreshGroundGeometry();
   }
 
-  setPosition(x, y, z) {
-    super.setPosition(x, y, z);
-
+  positionChanged() {
     this.updateOfVisualComponents();
   }
 
@@ -149,19 +128,11 @@ export default class Group extends SceneObject {
     this.updateOfVisualComponents();
   }
 
-  refreshCollisionObject() {
-    const plane = this.collisionPlane;
-    plane.updateMatrix();
-    plane.updateMatrixWorld();
-    // this.removeCollisionObject(plane);
-    // this.addCollisionObject(plane);
-  }
-
   refreshGroundGeometry() {
     const color = hexToRGBNormalized(getColor(this.id) || 0xFFFFFF);
     const lineFactory = this.scene.lineFactory;
     const size = this.size;
-    const pos = this.getPosition();
+    const pos = this.getComponent('position').getPosition();
     const pcm = this.geometryProvider.contentProvider;
     const scm = pcm.contentProvider;
 
@@ -193,7 +164,6 @@ export default class Group extends SceneObject {
     this.children = [];
 
     this.scene.lineFactory.removeFragment(this.id);
-    this.removeCollisionObject(this.collisionPlane);
 
     this.stickyNote.dispose();
     this.stickyNote = null;

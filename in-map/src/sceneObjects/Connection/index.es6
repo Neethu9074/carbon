@@ -23,8 +23,8 @@ export default class Connection extends SceneObject {
 
     this.calculatePath();
 
-    from.addConnection(this);
-    to.addIncomingConnection(this);
+    from.getComponent('connection').addOutgoingConnection(this);
+    to.getComponent('connection').addIncomingConnection(this);
 
     this.render();
 
@@ -53,19 +53,16 @@ export default class Connection extends SceneObject {
     this.highlightFragment();
 
     // show hide connected nodes on highlighting factory
-    this.from.makeSolidGeometry();
-    this.to.makeSolidGeometry();
+    this.from.showSolidMesh();
+    this.to.showSolidMesh();
   }
 
   onSelectedLeave() {
     this.highlightFragment(false);
 
     // hide connected nodes on highlighting factory
-    if(!this.oneEndpointIsSelected()) {
-
-      if(!this.toIsConnectedToSelected()) {
-        this.to.makeSolidGeometry(false);
-      }
+    if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
+      this.to.showSolidMesh(false);
     }
   }
 
@@ -116,8 +113,8 @@ export default class Connection extends SceneObject {
   }
 
   calculatePath() {
-    const fromPos = this.from.getPosition();
-    const toPos = this.to.getPosition();
+    const fromPos = this.from.getComponent('position').getPosition();
+    const toPos = this.to.getComponent('position').getPosition();
 
     if(!fromPos || !toPos) {
       this.path = undefined;
@@ -258,8 +255,9 @@ export default class Connection extends SceneObject {
   }
 
   intersects(raycaster) {
-    if(this.state === this.states.initial ||
-      this.state === this.states.inactive) {
+    const state = this.stateMachine.state;
+    const states = this.stateMachine.states;
+    if(state === states.initial || state === states.inactive) {
       return false;
     }
 
@@ -274,12 +272,12 @@ export default class Connection extends SceneObject {
   }
 
   select() {
-    this.changeStateProperty('selected', true);
+    this.stateMachine.changeStateProperty('selected', true);
   }
 
   unSelect() {
     if(!this.oneEndpointIsSelected()) {
-      this.changeStateProperty('selected', false);
+      this.stateMachine.changeStateProperty('selected', false);
     }
   }
 
@@ -300,7 +298,7 @@ export default class Connection extends SceneObject {
   //node which is in the selected state
   toIsConnectedToSelected() {
     let isConnectedToSelected = false;
-    this.to.forEachConnection((c) => {
+    this.to.getComponent('connection').getAllConnections().forEach((c) => {
       if(c.oneEndpointIsSelected()) {
         isConnectedToSelected = true;
       }
@@ -322,8 +320,9 @@ export default class Connection extends SceneObject {
 
     this.disposeCollisionLine();
 
-    this.from.removeConnection(this);
-    this.to.removeIncomingConnection(this);
+    const connectionComponent = this.from.getComponent('connection');
+    connectionComponent.removeOutgoingConnection(this);
+    connectionComponent.removeIncomingConnection(this);
 
     this.scene.lineFactory.removeFragment(this.id);
   }

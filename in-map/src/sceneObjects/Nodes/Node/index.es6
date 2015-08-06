@@ -1,39 +1,30 @@
 'use strict';
 
-/*eslint-disable max-len*/
 import THREE from 'three';
 
-import _ from 'lodash';
-import eventBus from 'in-services/eventbus';
-import {theme} from 'in-services/theme';
-import {getPower} from 'in-sdk/power';
-import {health} from 'in-services/health';
-import {isIdEqual} from 'in-services/util/snapshots';
-import {longClickedSceneObject} from '../../../stores/mapStore';
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+//components
+import HealthComponent from '../../../components/HealthComponent';
+import NodeGroundComponent from '../../../components/NodeGroundComponent';
+import LayerComponent from '../../../components/LayerComponent';
 
-import BaseNode from '../BaseNode/index';
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
-import Layer from '../../Layer/index';
+import {longClickedSceneObject} from '../../../stores/mapStore';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
-import StickyNoteLayer from '../../StickyNote/Layer';
-import TooltipNode from '../../Tooltips/Node';
 import TooltipMetric from '../../Tooltips/Metric';
+import TooltipNode from '../../Tooltips/Node';
+import BaseNode from '../BaseNode/index';
 
-import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
-import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import VATOCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
-import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 // import SCCP from '../../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
-/*eslint-enable max-len*/
 
-const cubePosition = new THREE.Vector3(-0.5, 0, 0.5);
-let incrementId = 0;
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {isIdEqual} from 'in-services/util/snapshots';
+import eventBus from 'in-services/eventbus';
+import {health} from 'in-services/health';
+import {theme} from 'in-services/theme';
+import {getPower} from 'in-sdk/power';
 
 
 export default class Node extends BaseNode {
@@ -41,73 +32,16 @@ export default class Node extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.incrementId = ++incrementId;
+    this.components.ground = new NodeGroundComponent({sceneObject: this});
+    this.components.health = new HealthComponent({sceneObject: this});
+    this.components.layer = new LayerComponent({sceneObject: this});
+
     this.stickyNote = new StickyNoteNode(this);
-
-    this.health = this.health || health.ok;
-    this.layer = [];
-  }
-
-  onInactiveEnter() {
-    this.removeCollisionObject(this.cube, 1);
-
-    //save the current health, set health to ok, block the coloring for cube
-    //and reset to old health
-    const healthBackup = this.health;
-    this.setHealth(health.ok);
-    this.blockCubeHealth(true);
-    this.setHealth(healthBackup);
-
-    if(this.layer) {
-      this.layer.forEach(layer => layer.changeStateProperty('active', false));
-    }
-  }
-
-  onInactiveLeave() {
-    this.addCollisionObject(this.cube, 1);
-
-    //unblock the coloring for cube and reset the current health
-    this.blockCubeHealth(false);
-    this.setHealth(this.health, true);
-
-    if(this.layer) {
-      this.layer.forEach(layer => layer.changeStateProperty('active', true));
-    }
-  }
-
-  onHiddenEnter() {
-    super.onHiddenEnter();
-    this.layer.forEach(layer => layer.changeStateProperty('hidden', true));
-  }
-
-  onHiddenLeave() {
-    super.onHiddenLeave();
-    this.layer.forEach(layer => layer.changeStateProperty('hidden', false));
   }
 
   onSelectedEnter() {
-    selectedSnapshot.select(this.snapshot);
     super.onSelectedEnter();
-  }
-
-
-  //will be called in super contructor at beginning
-  init() {
-    this.geometryProviderGroundLine = new VATOCM({
-      contentProvider: new PCM({ //reposition
-        contentProvider: new SCM({ //resize
-          contentProvider: new FCP()
-        })
-      })
-    });
-
-    this.geometryProviderGround = new CMCM({
-      contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: new PCP()
-        })
-      })
-    });
+    selectedSnapshot.select(this.snapshot);
   }
 
   registerEvents() {
@@ -120,7 +54,7 @@ export default class Node extends BaseNode {
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
-        this.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
+        this.stateMachine.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
       )
     );
 
@@ -131,61 +65,6 @@ export default class Node extends BaseNode {
         }
       })
     );
-  }
-
-  addToGlobalGeometry() {
-    this.addToGroundFactory();
-  }
-
-  removeFromGlobalGeometry() {
-    super.removeFromGlobalGeometry();
-    this.removeFromGroundFactory();
-  }
-
-  //this is not the group where nodes are on!
-  //it's the health ground group of each node
-  addToGroundFactory() {
-    this.removeFromGroundFactory();
-    if(!this.health || this.health === health.ok) {
-      return;
-    }
-
-    const id = this.id;
-    const pos = this.cube.position.clone().add(cubePosition);
-    const dim = this.cube.scale;
-
-    //adding a existing fragment will penetrate an update
-    const color = this.calculateNodeColor();
-    const position = pos;
-    const size = dim.clone().multiplyScalar(1.5);
-    const cmcmGround = this.geometryProviderGround;
-    const pcmGround = cmcmGround.contentProvider;
-
-    pcmGround.position = {x: position.x, y: position.y, z: position.z};
-    pcmGround.contentProvider.scale = {x: size.x, y: 1, z: size.z};
-    cmcmGround.color = {r: color.r, g: color.g, b: color.b};
-
-    this.scene.groundSingleMeshFactory.addFragment({
-      id: id,
-      contentProvider: cmcmGround
-    });
-
-    const vatocmGroundLine = this.geometryProviderGroundLine;
-    const pcmGroundLine = vatocmGroundLine.contentProvider;
-    pcmGroundLine.contentProvider.scale = pcmGround.contentProvider.scale;
-    pcmGroundLine.position = {x: pos.x, y: pos.y + 0.025, z: pos.z};
-    pcmGroundLine.contentProvider.scale = {x: size.x, y: 1, z: size.z};
-
-    const points = vatocmGroundLine.getVertices();
-
-    this.scene.lineFactory.addFragment({id: this.id + 'ground', points, color});
-  }
-
-  removeFromGroundFactory() {
-    const scene = this.scene;
-    const id = this.id;
-    scene.groundSingleMeshFactory.removeFragment(id);
-    scene.lineFactory.removeFragment(id + 'ground');
   }
 
   onHighlight(highlighted) {
@@ -214,11 +93,11 @@ export default class Node extends BaseNode {
     this.tooltip = this.getNodeMetricTooltip();
 
     if(currentMetric.size === 1) {
-      this.singleMetricPillar.changeStateProperty('active', true);
-      this.multiMetricPillar.changeStateProperty('active', false);
+      this.singleMetricPillar.stateMachine.changeStateProperty('active', true);
+      this.multiMetricPillar.stateMachine.changeStateProperty('active', false);
     } else {
-      this.multiMetricPillar.changeStateProperty('active', true);
-      this.singleMetricPillar.changeStateProperty('active', false);
+      this.multiMetricPillar.stateMachine.changeStateProperty('active', true);
+      this.singleMetricPillar.stateMachine.changeStateProperty('active', false);
     }
 
     // const position = this.getPosition();
@@ -239,8 +118,8 @@ export default class Node extends BaseNode {
   hideMetrics() {
     this.stickyNote.switchToIcon();
 
-    this.singleMetricPillar.changeStateProperty('active', false);
-    this.multiMetricPillar.changeStateProperty('active', false);
+    this.singleMetricPillar.stateMachine.changeStateProperty('active', false);
+    this.multiMetricPillar.stateMachine.changeStateProperty('active', false);
 
     this.tooltip = this.getNodeTooltip();
   }
@@ -263,8 +142,6 @@ export default class Node extends BaseNode {
     this.getWiredSnapshotsAsArray()
       .filter(node => node.get('state') === 'unmonitored')
       .forEach(node => parent.addUnknownNode(node));
-
-    this.updateOnWiredSnapshots = true;
   }
 
   getWiredSnapshotsAsArray() {
@@ -319,134 +196,31 @@ export default class Node extends BaseNode {
     this.stickyNote.render();
   }
 
-  updateOfVisualComponents() {
-    super.updateOfVisualComponents();
-
-    const pos = this.getPosition();
-
-    this.cube.scale.y = this.height;
-    this.layer.forEach(p => p.setPosition(pos.x, p.getPosition().y, pos.z));
-
-    this.singleMetricPillar.updateOfVisualComponents(pos);
-    this.multiMetricPillar.updateOfVisualComponents(pos);
-
-    this.removeFromGroundFactory();
-    this.addToGroundFactory();
-  }
-
   getScreenAnchorPosition() {
-    const pos = this.getPosition();
+    const pos = this.getComponent('position').getPosition();
     return {x: pos.x - 0.25, y: pos.y + this.height, z: pos.z + 0.25};
   }
 
-  setPosition(x, y, z) {
-    const position = this.getPosition();
-    if(x === position.x && y === position.y && z === position.z) {
-      return;
-    }
+  positionChanged(x, y, z) {
+    super.positionChanged(x, y, z);
 
-    super.setPosition(x, y, z);
+    this.singleMetricPillar.getComponent('position').setPosition(x, y, z);
+    this.multiMetricPillar.getComponent('position').setPosition(x, y, z);
+    this.getComponent('ground').positionChanged(x, y, z);
+    this.getComponent('layer').positionChanged(x, y, z);
+
     this.updateOfVisualComponents();
-    this.layer.forEach(layer => layer.setPosition(x, y, z));
   }
 
   setHeight(height) {
-    if(height === this.height) {
-      return;
-    }
-
     super.setHeight(height);
-    this.updateOfVisualComponents();
-    this.arrangeChildren();
+    this.getComponent('layer').heightChanged(height);
   }
 
-  blockCubeHealth(block) {
-    this.cubeHealthBlocked = block;
-  }
-
-  setHealth(newHealth, force) {
-    if(!force && (newHealth === this.health || this.healthBlocked)) {
-      return;
-    }
-    this.health = newHealth;
-
-    //if this node is hidden by filter, dont add the changes to factories
-    if(this.isHidden()) {return; }
-
-    //the ground plate is always updated
-    this.addToGroundFactory();
-
-    if(!this.cubeHealthBlocked) {
-      this.refreshFragment();
-      this.updateSolidGeometry();
-    }
-  }
-
-  refreshFragment() {
-    this.highlighting.refresh();
-
-    super.refreshFragment();
-  }
-
-  changeColorInFactory(id, newHealth, factory) {
-    const fragment = factory.getFragment(this.id);
-    fragment.health = newHealth;
-
-    factory.changeColorOfFragment(fragment,
-      factory.getColorArrayForFragment(fragment));
-  }
-
-  addLayer(snapshot) {
-    //don't create a layer if its still there
-    const match = _.find(this.layer, layer => isIdEqual(layer.snapshot, snapshot));
-
-    if(match) {
-      match.updateSnapshot(snapshot);
-      return;
-    }
-
-    const layer = new Layer({parent: this, snapshot});
-    layer.setLayerIndex(this.layer.length);
-    this.layer.push(layer);
-
-    this.arrangeChildren();
-  }
-
-  arrangeChildren() {
-    const layer = this.layer;
-    const heightOfEachChild = this.height / layer.length;
-
-    let index = 0;
-
-    layer.forEach(child => {
-      const pos = child.getPosition();
-      child.setPosition(pos.x, index++ * heightOfEachChild, pos.z);
-      child.setHeight(heightOfEachChild);
-    });
-  }
-
-  addStickyNoteForLayer() {
-    //only one sticky layer sticky for each node
-    if(this.stickyNoteLayer) {
-      return;
-    }
-
-    this.stickyNoteLayer = new StickyNoteLayer(this);
-  }
-
-  enableFragments(enabled) {
-    super.enableFragments(enabled);
-
-    if(enabled) {
-      this.addToGroundFactory();
-    } else {
-      this.removeFromGroundFactory();
-    }
-  }
-
-  clearLayer() {
-    this.layer.forEach(p => p.dispose());
-    this.layer = [];
+  healthChanged(newHealth) {
+    const color = this.calculateNodeColor(newHealth);
+    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
+    this.getComponent('ground').healthChanged(newHealth);
   }
 
   dispose() {
@@ -456,20 +230,20 @@ export default class Node extends BaseNode {
     this.multiMetricPillar.dispose();
 
     this.snapshotServer.dispose();
-    this.clearLayer();
-    this.removeFromGroundFactory();
 
-    this.layer = [];
     this.wiredSnapshots = undefined;
-
     this.snapshot = null;
-    this.health = null;
   }
 
-  calculateNodeColor() {
-    const hostHealth = this.health;
+  calculateNodeColor(hostHealth) {
+
     const colors = theme.map.colors;
     let color;
+    if(!hostHealth) {
+      color = new THREE.Color(colors.default);
+      return {r: color.r, g: color.g, b: color.b};
+    }
+
     if(hostHealth === health.warning) {
       color = new THREE.Color(colors.warning);
     } else if(hostHealth === health.danger) {

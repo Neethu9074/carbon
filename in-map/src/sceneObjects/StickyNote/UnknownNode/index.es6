@@ -2,12 +2,10 @@
 
 import React from 'react/addons';
 import StickyNote from '../StickyNote';
-import Button from '../UnknownNodeButton';
+import UnknownNodeButton from '../UnknownNodeButton';
 
 import './index.less';
 
-
-/*eslint-disable no-unused-vars*/
 const UnknownNodeStickyRC = React.createClass({
 
   mixins: [
@@ -20,22 +18,18 @@ const UnknownNodeStickyRC = React.createClass({
   },
 
   render() {
-    const snapshot = this.props.snapshot;
-    let formattedBytes;
-
     return (
       <div className='in-sticky-note__note__unknown-node--stack-wrapper'>
         <div className='in-sticky-note__note__unknown-node--stack-children'>
           {this.props.showIp ?
             null :
-            <Button/>
+            <UnknownNodeButton />
           }
         </div>
       </div>
     );
   }
 });
-/*eslint-enable no-unused-vars*/
 
 export default class StickyNoteUnknownNode extends StickyNote {
   constructor(parent) {
@@ -55,8 +49,13 @@ export default class StickyNoteUnknownNode extends StickyNote {
     );
   }
 
-  showPlus(value=true) {
-    this.showIp = !value;
+  showPlus() {
+    this.showIp = false;
+    this.render();
+  }
+
+  hidePlus() {
+    this.showIp = true;
     this.render();
   }
 }

@@ -2,41 +2,34 @@
 
 import THREE from 'three';
 
+//components
+import CollisionComponent from '../../../components/CollisionObjectComponent';
+import ConnectionComponent from '../../../components/ConnectionComponent';
+import MeshComponent from '../../../components/MeshComponent';
+import HighlightingComponent from '../../../components/HighlightingComponent';
+
 import {theme} from 'in-services/theme';
-import _ from 'lodash';
 import eventBus from 'in-services/eventbus';
 import {getIdString} from 'in-services/util/snapshots';
 import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {activeMetric} from 'in-services/stores/metrics';
-import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 
-import Connection from '../../Connection/index';
+
 import SceneObject from '../../SceneObject/index';
-import Highlight from '../NodeHighlight';
-import {cubeGeometry} from '../../geometries';
+import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 
-//global cube material to reduce object creation
-const cubeMaterial = new THREE.MeshBasicMaterial();
 
 //if unavailable, the StickyNote-Metric / Layer will not be undefined but this
 //to avoid all these if(available) {do something} stuff
 const emptyStickyObject = {
   isEmpty: true,
-  hide() {},
-  show() {},
-  update() {},
-  updateWorldPos() {},
-  render() {},
-  dispose() {},
-  onHighlight() {},
-  setInactive() {},
-  switchToMetric() {},
-  switchToIcon() {}
+  hide() {}, show() {}, update() {}, updateWorldPos() {}, render() {},
+  dispose() {}, setInactive() {}, switchToMetric() {}, switchToIcon() {}
 };
 
 export default class BaseNode extends SceneObject {
@@ -49,84 +42,138 @@ export default class BaseNode extends SceneObject {
     this.height = 1;
 
     this.tooltip = this.getTooltipSticky();
-
-    this.connections = [];
-    this.incomingConnections = [];
-
-    this.geometryProvider = new CMCM({
-      contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: new CCP()
-        })
-      })
-    });
-
     this.stickyNote = emptyStickyObject;
-
-    this.render();
-
-    //the highlighting object which handles the highlighting stuff
-    this.highlighting = new Highlight({client: this});
 
     this.registerEvents();
   }
 
-  onInitialEnter() {}
-
-  onInitialLeave() {}
-
   onHighlightEnter() {
-    this.setHighlight();
+    //setup the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
 
-    this.setupConnections();
-    this.forEachConnection((c) => c.changeStateProperty('mouseOver', true));
+    //show all connections as grey lines
+    this.getComponent('connection').highlightChanged(true);
   }
 
   onHighlightLeave() {
-    this.clearHighlight();
+    //hide the border highlighting stuff
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
 
-    this.forEachConnection((c) => c.changeStateProperty('mouseOver', false));
+    //hide the grey connection lines
+    this.getComponent('connection').highlightChanged(false);
   }
 
-  onSelectedEnter() {this.selected(); }
+  onSelectedEnter() {
+    //setup the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
 
-  onSelectedLeave() {this.unSelected(); }
+    //surounds the node with a white hull
+    this.showSolidMesh();
 
-  onInactiveEnter() {}
+    //show all connections as white lines
+    this.getComponent('connection').selectionChanged(true);
+  }
 
-  onInactiveLeave() {}
+  onSelectedLeave() {
+    //setup the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+
+    //dispose the white hull
+    this.showSolidMesh(false);
+
+    //hide the white connection lines
+    this.getComponent('connection').selectionChanged(false);
+  }
+
+  onSelectedHighlightEnter() {
+    //setup the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+
+    //surounds the node with a white hull
+    this.showSolidMesh();
+
+    //show all connections as white lines
+    this.getComponent('connection').selectionChanged(true);
+  }
+
+  onSelectedHighlightLeave() {
+    //hide the border highlighting stuff
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+
+    //dispose the white hull
+    this.showSolidMesh(false);
+
+    //hide the white connection lines
+    this.getComponent('connection').selectionChanged(false);
+  }
 
   onHiddenEnter() {
-    this.enableFragments(false);
+    //disables all components
+    super.onHiddenEnter();
 
-    this.removeCollisionObject(this.cube, 2);
-    this.removeFromGlobalGeometry();
     this.stickyNote.hide();
-    this.highlighting.hide();
   }
 
   onHiddenLeave() {
-    this.enableFragments(true);
+    //enables all components
+    super.onHiddenLeave();
 
-    this.addCollisionObject(this.cube, 2);
-    this.addToGlobalGeometry();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+
     this.stickyNote.show();
-    this.highlighting.show();
   }
 
+  onSelectedHighlightInactiveEnter() {}
+  onSelectedHighlightInactiveLeave() {}
+  onHighlightInactiveEnter() {}
+  onHighlightInactiveLeave() {}
 
-  selected() {
-    this.forEachConnection((c) => {c.show(); c.select(); });
 
-    this.setHighlight();
-    this.makeSolidGeometry();
-  }
+  initComponents() {
+    super.initComponents();
 
-  unSelected() {
-    this.forEachConnection((c) => {c.unSelect(); c.hide(); });
+    const components = this.components;
 
-    this.clearHighlight();
-    this.makeSolidGeometry(false);
+    //add the collision component to handle the collision box
+    components.collision = new CollisionComponent({
+      sceneObject: this,
+      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
+      layer: 2
+    });
+
+    //add the connection component to handle all the visual connection lines
+    components.connection = new ConnectionComponent({sceneObject: this});
+
+    const pcm = new PCM({
+      contentProvider: new SCM({
+        contentProvider: new CCP()
+      })
+    });
+
+    //add the mesh component to handle visual representation of the node
+    components.mesh = new MeshComponent({
+      sceneObject: this,
+      contentProvider: new CMCM({contentProvider: pcm}),
+      id: this.id + '_mesh',
+      factory: this.scene.singleMeshFactory
+    });
+    const color = this.calculateNodeColor();
+    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
+
+    //add the solidMesh component to handle the solid fill color of a node
+    components.solidMesh = new MeshComponent({
+      sceneObject: this,
+      contentProvider: new CMCM({contentProvider: pcm}),
+      id: this.id + '_solidMesh',
+      factory: this.scene.highlightingSingleMeshFactory
+    });
+    components.solidMesh.stateMachine.changeStateProperty('active', false);
+
+    //add the highlighting component to handle the highlighting of a node
+    //this is different to solidMesh since the highlighting is like a mouseOver effect
+    components.highlighting = new HighlightingComponent({sceneObject: this});
+    components.highlighting.stateMachine.changeStateProperty('active', false);
   }
 
   registerEvents() {
@@ -134,15 +181,6 @@ export default class BaseNode extends SceneObject {
       //update only if this node is visible
       if(!this.isHidden()) {
         this.update(data);
-      }
-    }));
-
-    this.addSubscription(zoomLevel.subscribe(zL => {
-      this.zoomLevel = zL;
-      if(zL === level.nearest) {
-        this.removeCollisionObject(this.cube, 2);
-      } else {
-        this.addCollisionObject(this.cube, 2);
       }
     }));
 
@@ -155,58 +193,29 @@ export default class BaseNode extends SceneObject {
     }));
   }
 
-  addCollisionObject(object, layer) {
-    //only add the collision object if the object is active, visible and not
-    //near the screen
-    if(!this.isHidden() && this.isActive() && this.zoomLevel !== level.nearest) {
-      super.addCollisionObject(object, layer);
-    }
-  }
-
   onActiveMetric(metric) {
     const isActive = metric ? false : true;
-    this.changeStateProperty('active', isActive);
+    this.stateMachine.changeStateProperty('active', isActive);
   }
 
   onSceneObjectSelected(obj) {
     const isThisSelected = (obj && obj.id === this.id) ?
       true : false;
 
-    this.changeStateProperty('selected', isThisSelected);
+    this.stateMachine.changeStateProperty('selected', isThisSelected);
   }
 
-  render() {
-    //the cube needs a mesh to calculate the inside/outside viewfrustum check
-    const cube = this.cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
-    cube.matrixAutoUpdate = false;
-    cube.rotationAutoUpdate = false;
-    cube.parentSceneObject = this;
-
-    this.addCollisionObject(cube, 2);
-    this.addToGlobalGeometry();
-  }
-
-  makeSolidGeometry(solid=true) {
-    if(solid && this.fragment) {
-      this.scene.highlightingSingleMeshFactory.addFragment(this.fragment);
-    } else {
-      this.scene.highlightingSingleMeshFactory.removeFragment(this.id);
-    }
+  showSolidMesh(solid=true) {
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', solid);
   }
 
   update() {
     this.updateScreenPosition();
   }
 
-  addToGlobalGeometry() {throw new Error('NOT IMPLEMENTED'); }
-
   getTooltipSticky() {return emptyStickyObject; }
 
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
-
-  setHeight() {throw new Error('NOT IMPLEMENTED'); }
-
-  collectConnections() {throw new Error('NOT IMPLEMENTED'); }
 
   getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
 
@@ -221,203 +230,36 @@ export default class BaseNode extends SceneObject {
     currentTooltip.emit(this.tooltip);
   }
 
-  setHighlight() {
-    this.highlighting.onMouseOver();
-    this.stickyNote.onHighlight(true);
-  }
-
-  clearHighlight() {
-    this.highlighting.onMouseOff();
-    this.stickyNote.onHighlight(false);
-  }
-
   updateOfVisualComponents() {
     const anchor = this.getScreenAnchorPosition();
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
-
-    const pos = this.getPosition();
-    const cube = this.cube;
-    cube.position.set(pos.x, pos.y, pos.z);
-
-    this.refreshMesh();
-    this.refreshFragment();
-
-    this.removeCollisionObject(cube, 2);
-    this.addCollisionObject(cube, 2);
-
-    this.updateSolidGeometry();
-
-    this.highlighting.refresh();
   }
 
-  updateSolidGeometry() {
-    if(this.isSelected() || this.isConnectedToSelected()) {
-      this.makeSolidGeometry(true);
-    }
-  }
-
-  setPosition(x, y, z) {
-    const pos = this.getPosition();
-    if(pos.x === x && pos.y === y && pos.z === z) {
-      return;
-    }
-
-    super.setPosition(x, y, z);
-
-    this.forEachConnection(c => c.updateOfVisualComponents());
+  positionChanged(x, y, z) {
+    this.getComponent('collision').positionChanged(x, y, z);
+    this.getComponent('connection').positionChanged();
+    this.getComponent('solidMesh').positionChanged(x, y, z);
+    this.getComponent('mesh').positionChanged(x, y, z);
+    this.getComponent('highlighting').positionChanged(x, y, z);
     this.updateOfVisualComponents();
   }
 
   setHeight(height) {
     this.height = height;
 
+    this.getComponent('collision').sizeChanged(1, height, 1);
+    this.getComponent('solidMesh').sizeChanged(1, height, 1);
+    this.getComponent('mesh').sizeChanged(1, height, 1);
+    this.getComponent('highlighting').sizeChanged(1, height, 1);
     this.updateOfVisualComponents();
-  }
-
-  refreshMesh() {
-    this.cube.updateMatrix();
-    this.cube.updateMatrixWorld();
-
-    this.removeFromGlobalGeometry();
-    this.addToGlobalGeometry();
-  }
-
-  refreshFragment() {
-    const position = this.getPosition();
-    if(!position) {
-      return undefined;
-    }
-
-    const color = this.calculateNodeColor();
-    const pcm = this.geometryProvider.contentProvider;
-    const scm = pcm.contentProvider;
-
-    pcm.position = {x: position.x - 0.5, y: position.y, z: position.z + 0.5};
-    scm.scale = {x: 1, y: this.height, z: 1};
-    this.geometryProvider.color = {r: color.r, g: color.g, b: color.b};
-
-    const fragment = this.fragment = {
-      id: this.id,
-      contentProvider: this.geometryProvider
-    };
-
-    const scene = this.scene;
-
-    const highlightingFragment = scene.highlightingSingleMeshFactory.getFragment(this.id);
-    if(highlightingFragment) {
-      this.makeSolidGeometry();
-    }
-
-    //adding a existing fragment will penetrate an update
-    scene.singleMeshFactory.addFragment(fragment);
-    scene.renderScene();
-  }
-
-  enableFragments(enable) {
-    if(enable) {
-      this.refreshFragment();
-    } else {
-      this.scene.singleMeshFactory.removeFragment(this.id);
-    }
-  }
-
-  removeFromGlobalGeometry() {
-    const id = this.id;
-    this.scene.highlightingSingleMeshFactory.removeFragment(id);
-    this.scene.singleMeshFactory.removeFragment(id);
-    this.scene.lineFactory.removeFragment(id);
   }
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
   setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
-  setupConnections() {
-    const wiredSnapshots = this.getWiredSnapshots();
-
-    if(!wiredSnapshots) {
-      return;
-    }
-
-    this.clearConnections();
-
-    this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
-    this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
-
-    this.updateOnWiredSnapshots = false;
-  }
-
-  setConnectionsWithDirection(connections, direction) {
-    connections.forEach(otherSnapshot => {
-      const other = this.findNodeBySnapshot(otherSnapshot);
-      if(other) {
-        this.connectWith(other, direction);
-      }
-    });
-  }
-
-  forEachConnection(fn) {
-    this.getAllConnections().forEach(c => fn(c));
-  }
-
-  isConnectedToSelected() {
-    let is = false;
-
-    this.forEachConnection((c) => {
-      if(c.isSelected()) {
-        is = true;
-        return;
-      }
-    });
-    return is;
-  }
-
-  getAllConnections() {
-    return this.connections.concat(this.incomingConnections);
-  }
-
-  //is called from Connection class when creating a new connection
-  addConnection(connection) {
-    this.connections.push(connection);
-  }
-
-  addIncomingConnection(connection) {
-    this.incomingConnections.push(connection);
-  }
-
-  //is called from Connection class on disposing
-  removeConnection(connection) {
-    _.remove(this.connections, con => con.id === connection.id);
-  }
-
-  //is called from Connection class on disposing
-  removeIncomingConnection(connection) {
-    _.remove(this.incomingConnections, con => con.id === connection.id);
-  }
-
-  clearConnections() {
-    this.getAllConnections().slice().forEach(c => {
-      if(!c.isSelected()) {
-        c.dispose();
-      }
-    });
-  }
-
   getDimension() {
     return {width: 1, depth: 1};
-  }
-
-  //connects this node with another one. the connection is stored in a
-  //connections collection
-  connectWith(otherNode, direction) {
-    //don't setup a new connection if it's still alive
-    if(this.connections.indexOf(otherNode) >= 0) {
-      return;
-    }
-
-    /*eslint-disable no-new*/
-    new Connection({from: this, to: otherNode, direction});
-    /*eslint-enable no-new*/
   }
 
   disposeStickyNote() {
@@ -426,19 +268,15 @@ export default class BaseNode extends SceneObject {
   }
 
   dispose() {
+    //do that first to get connections deleted. they only dispose
+    //themselves if both endpoints are not selected
+    if(this.isSelected()) {
+      selectedSceneObject.emit(null);
+    }
+
     super.dispose();
 
-    this.clearConnections();
-    this.removeFromGlobalGeometry();
-
-    this.highlighting.dispose();
-
-    this.removeCollisionObject(this.cube, 2);
-
     this.disposeStickyNote();
-
-    this.cube = null;
-    this.id = null;
   }
 
   calculateNodeColor() {
