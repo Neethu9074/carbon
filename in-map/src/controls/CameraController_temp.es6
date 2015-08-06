@@ -196,6 +196,7 @@ export default class CameraController {
 
   getObjectOnCursor() {
     const scene = this.scene;
+    const canvasStyle = scene.getHtmlContainer().style;
 
     //get the mouse/touch position in pixel coords
     const x = this.lastMousePosition.x;
@@ -211,18 +212,14 @@ export default class CameraController {
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
 
-    if(!this.hittenObject) {
-      this.hoveredConnections = allConnections
-        .filter(connection => connection.isSelected())
-        .filter(connection => connection.intersects(this.raycaster));
-    }
-
-    const canvasStyle = this.scene.getHtmlContainer().style;
     if(this.hittenObject) {
       if(canvasStyle.cursor !== 'pointer') {
         canvasStyle.cursor = 'pointer';
       }
     } else {
+      this.hoveredConnections = allConnections
+            .filter(connection => connection.isSelected())
+            .filter(connection => connection.intersects(this.raycaster));
       if(canvasStyle.cursor !== 'default') {
         canvasStyle.cursor = 'default';
       }
