@@ -236,8 +236,14 @@ export default class Node extends BaseNode {
   }
 
   calculateNodeColor(hostHealth) {
+
     const colors = theme.map.colors;
     let color;
+    if(!hostHealth) {
+      color = new THREE.Color(colors.default);
+      return {r: color.r, g: color.g, b: color.b};
+    }
+
     if(hostHealth === health.warning) {
       color = new THREE.Color(colors.warning);
     } else if(hostHealth === health.danger) {

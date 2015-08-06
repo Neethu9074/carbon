@@ -158,6 +158,8 @@ export default class BaseNode extends SceneObject {
       id: this.id + '_mesh',
       factory: this.scene.singleMeshFactory
     });
+    const color = this.calculateNodeColor();
+    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
 
     //add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
@@ -231,8 +233,6 @@ export default class BaseNode extends SceneObject {
   updateOfVisualComponents() {
     const anchor = this.getScreenAnchorPosition();
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
-
-    this.refreshFragment();
   }
 
   positionChanged(x, y, z) {
@@ -252,11 +252,6 @@ export default class BaseNode extends SceneObject {
     this.getComponent('mesh').sizeChanged(1, height, 1);
     this.getComponent('highlighting').sizeChanged(1, height, 1);
     this.updateOfVisualComponents();
-  }
-
-  refreshFragment() {
-    const color = this.calculateNodeColor();
-    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
   }
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
