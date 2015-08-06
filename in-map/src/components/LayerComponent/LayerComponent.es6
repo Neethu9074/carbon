@@ -49,7 +49,9 @@ export default class LayerComponent extends Component {
       return;
     }
 
-    this.positionToSet = {x, y, z};
+    this.positionToSet.x = x;
+    this.positionToSet.y = y;
+    this.positionToSet.z = z;
     this.needsUpdate = true;
   }
 

@@ -35,7 +35,7 @@ export default class MeshComponent extends Component {
       return;
     }
 
-    this.positionToSet = {x, y, z};
+    this.changeXyzOf(this.positionToSet, x, y, z);
     this.needsUpdate = true;
   }
 
@@ -45,8 +45,14 @@ export default class MeshComponent extends Component {
       return;
     }
 
-    this.scaleToSet = {x, y, z};
+    this.changeXyzOf(this.scaleToSet, x, y, z);
     this.needsUpdate = true;
+  }
+
+  changeXyzOf(object, x, y, z) {
+    object.x = x;
+    object.y = y;
+    object.z = z;
   }
 
   colorChanged(r, g, b) {
