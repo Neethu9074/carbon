@@ -63,7 +63,7 @@ const Timeline = React.createClass({
     createObservables() {
       return {
         timeframe: timelineStore.timeframe,
-        openIssues: getIssues(),
+        openIssues: getIssues().debounce(500),
         focusedMoment: timelineStore.focusedMoment
       };
     }
