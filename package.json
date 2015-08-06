@@ -36,7 +36,7 @@
     "reactive-observables": "^1.2.0",
     "roemitter": "^2.0.0",
     "three": "^0.71.0",
-    "tween.js": "^0.14.0"
+    "tween.js": "^15.0.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "^2.0.0",
