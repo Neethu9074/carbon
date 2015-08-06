@@ -55,6 +55,124 @@ export default class Scene {
     this.update();
   }
 
+  setup3D() {
+    const width = this.width;
+    const height = this.height;
+
+    this.setupRenderer(width, height);
+    this.setupCamera(width, height);
+
+    //this is the main scene for all scene objects like nodes or metrics
+    this.scene = new THREE.Scene();
+
+    //this is a scene just for the background rect to create a gradient instead
+    //of a solid color
+    this.backgroundScene = new THREE.Scene();
+    this.backgroundScene.add(backgroundPlane);
+
+    this.map = new PhysicalMap({
+      scene: this,
+      pluginId: this.pluginId
+    });
+
+    //set this flag to force a render cycle
+    this.shouldRenderScene = true;
+
+    //set this flag to keep the render cycle alive
+    this.animationInProgress = false;
+  }
+
+  createOctree() {
+    return new THREE.Octree({
+      // uncomment below to see the octree (may kill the fps)
+      //scene: this.scene,
+      // when undeferred = true, objects are inserted immediately
+      // instead of being deferred until next octree.update() call
+      // this may decrease performance as it forces a matrix update
+      undeferred: false,
+      // set the max depth of tree
+      depthMax: Infinity,
+      // max number of objects before nodes split or merge
+      objectsThreshold: 8,
+      // percent between 0 and 1 that nodes will overlap each other
+      // helps insert objects that lie over more than one node
+      overlapPct: 0
+    });
+  }
+
+  setupRenderer(width, height) {
+    this.renderer = new THREE.WebGLRenderer({antialias: true});
+    this.renderer.setSize(width, height);
+
+    //since the app doesn't use any shadows, set this flag to shorten internal
+    //three.js code
+    this.renderer.shadowMapEnabled = false;
+
+    //don't need to clear the buffer because it's filled with a gradient
+    this.renderer.autoClearColor = false;
+
+    //add webGLRenderer to dom element
+    this.parent.appendChild(this.renderer.domElement);
+  }
+
+  setupCamera(width, height) {
+    //a multiplicator for a homogenious viewport * aspect
+    this.cameraSize = 30;
+
+    const aspect = width / height;
+    const left = -this.cameraSize / 2 * aspect;
+    const top = this.cameraSize / 2;
+    this.camera = new THREE.OrthographicCamera(
+      left, -left, top, -top,
+      0.1, //near
+      2000 //far
+    );
+
+    this.camera.position.set(-0.8, 1, 1);
+    this.camera.lookAt(new THREE.Vector3());
+    this.camera.projection = new THREE.Matrix4();
+    //set static
+    this.camera.matrixAutoUpdate = false;
+    this.camera.rotationAutoUpdate = false;
+    this.camera.updateMatrix();
+
+    //this is a camera just for the background scene to render
+    this.backgroundCamera = new THREE.OrthographicCamera(
+      1, -1, 1, -1,
+      0.1, //near
+      10 //far
+    );
+    //set static
+    this.backgroundCamera.matrixAutoUpdate = false;
+    this.backgroundCamera.rotationAutoUpdate = false;
+  }
+
+  setupFactories() {
+    this.singleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 3});
+
+    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene: this});
+
+    this.groundSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
+    this.groundSingleMeshFactory.material.transparent = true;
+    this.groundSingleMeshFactory.material.opacity = 0.2;
+
+    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 4});
+
+    this.layerSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
+
+    this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
+    this.lineFactory = new LineFactory({scene: this});
+    this.numTiles = 5;
+    this.multiMetricFactory = new MultiMetricPillarFactory({
+      scene: this,
+      numTiles: this.numTiles
+    });
+
+    setInterval(() => {
+      this.updateMetricHeights();
+    }, 1000);
+  }
+
   setupEvents() {
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
 
@@ -112,139 +230,6 @@ export default class Scene {
     }));
   }
 
-  hideHulls() {
-    this.singleMeshFactory.material.opacity = 0.2;
-    this.hullsAreInactive = true;
-  }
-
-  showHulls() {
-    if(!currentMetrics) {
-      this.hullsAreInactive = false;
-      this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
-    }
-  }
-
-  setupFactories() {
-    this.singleMeshFactory
-      = new SingleMeshFactory({scene: this, renderOrder: 3});
-
-    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene: this});
-
-    this.groundSingleMeshFactory
-      = new SingleMeshFactory({scene: this, renderOrder: 2});
-    this.groundSingleMeshFactory.material.transparent = true;
-    this.groundSingleMeshFactory.material.opacity = 0.2;
-
-    this.highlightingSingleMeshFactory
-      = new SingleMeshFactory({scene: this, renderOrder: 4});
-
-    this.layerSingleMeshFactory
-      = new SingleMeshFactory({scene: this, renderOrder: 2});
-
-    this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
-    this.lineFactory = new LineFactory({scene: this});
-    this.numTiles = 5;
-    this.multiMetricFactory = new MultiMetricPillarFactory({
-      scene: this,
-      numTiles: this.numTiles
-    });
-
-    setInterval(() => {
-      this.updateMetricHeights();
-    }, 1000);
-  }
-
-  createOctree() {
-    return new THREE.Octree({
-      // uncomment below to see the octree (may kill the fps)
-      //scene: this.scene,
-      // when undeferred = true, objects are inserted immediately
-      // instead of being deferred until next octree.update() call
-      // this may decrease performance as it forces a matrix update
-      undeferred: false,
-      // set the max depth of tree
-      depthMax: Infinity,
-      // max number of objects before nodes split or merge
-      objectsThreshold: 8,
-      // percent between 0 and 1 that nodes will overlap each other
-      // helps insert objects that lie over more than one node
-      overlapPct: 0
-    });
-  }
-
-  setup3D() {
-    const width = this.width;
-    const height = this.height;
-
-    this.setupRenderer(width, height);
-    this.setupCamera(width, height);
-
-    //this is the main scene for all scene objects like nodes or metrics
-    this.scene = new THREE.Scene();
-
-    //this is a scene just for the background rect to create a gradient instead
-    //of a solid color
-    this.backgroundScene = new THREE.Scene();
-    this.backgroundScene.add(backgroundPlane);
-
-    this.map = new PhysicalMap({
-      scene: this,
-      pluginId: this.pluginId
-    });
-
-    //set this flag to force a render cycle
-    this.shouldRenderScene = true;
-
-    //set this flag to keep the render cycle alive
-    this.animationInProgress = false;
-  }
-
-  setupRenderer(width, height) {
-    this.renderer = new THREE.WebGLRenderer({antialias: true});
-    this.renderer.setSize(width, height);
-
-    //since the app doesn't use any shadows, set this flag to shorten internal
-    //three.js code
-    this.renderer.shadowMapEnabled = false;
-
-    //don't need to clear the buffer because it's filled with a gradient
-    this.renderer.autoClearColor = false;
-
-    //add webGLRenderer to dom element
-    this.parent.appendChild(this.renderer.domElement);
-  }
-
-  setupCamera(width, height) {
-    //a multiplicator for a homogenious viewport * aspect
-    this.cameraSize = 30;
-
-    const aspect = width / height;
-    const left = -this.cameraSize / 2 * aspect;
-    const top = this.cameraSize / 2;
-    this.camera = new THREE.OrthographicCamera(
-      left, -left, top, -top,
-      0.1, //near
-      2000 //far
-    );
-
-    this.camera.position.set(-0.8, 1, 1);
-    this.camera.lookAt(new THREE.Vector3());
-    this.camera.projection = new THREE.Matrix4();
-    //set static
-    this.camera.matrixAutoUpdate = false;
-    this.camera.rotationAutoUpdate = false;
-    this.camera.updateMatrix();
-
-    //this is a camera just for the background scene to render
-    this.backgroundCamera = new THREE.OrthographicCamera(
-      1, -1, 1, -1,
-      0.1, //near
-      10 //far
-    );
-    //set static
-    this.backgroundCamera.matrixAutoUpdate = false;
-    this.backgroundCamera.rotationAutoUpdate = false;
-  }
 
   update() {
     //break the requestAnimationFrame loop if disposed
@@ -276,15 +261,6 @@ export default class Scene {
 
     //rendering is done
     eventBus.emit('endRender', {scene: this});
-  }
-
-  render() {
-    //first render the background
-    const renderer = this.renderer;
-    renderer.render(this.backgroundScene, this.backgroundCamera);
-
-    //after rendering the background, render the hole scene
-    renderer.render(this.scene, this.camera);
   }
 
   updateCamera() {
@@ -330,26 +306,7 @@ export default class Scene {
     }
   }
 
-  showMetrics() {
-    this.renderScene();
-  }
-
-  hideMetrics(e) {
-    if(e && e.hiddenByZoom) {
-      this.hideMetricsOnZoomOut = true;
-      // disable tooltips on metrics here
-    } else {
-      this.hideMetricsOnZoomOut = false;
-    }
-
-    //set this to undefined will not trigger any factory to update heights
-    this.activeMetricFactory = undefined;
-
-    this.renderScene();
-  }
-
   updateMaterialsByZoomLevel(zoomLevel) {
-    //TODO: set this values globally
     const maxZoomIn = 60;
     const maxZoomOut = 250;
 
@@ -374,6 +331,52 @@ export default class Scene {
       parentClasses.remove(getZoomClass(level));
     });
     parentClasses.add(getZoomClass(zoom.getZoomLevel(zoomUnits)));
+  }
+
+
+  render() {
+    //first render the background
+    const renderer = this.renderer;
+    renderer.render(this.backgroundScene, this.backgroundCamera);
+
+    //after rendering the background, render the hole scene
+    renderer.render(this.scene, this.camera);
+  }
+
+  //set this flag if the scene needs to be redrawn
+  renderScene() {
+    this.shouldRenderScene = true;
+  }
+
+
+  hideHulls() {
+    this.singleMeshFactory.material.opacity = 0.2;
+    this.hullsAreInactive = true;
+  }
+
+  showHulls() {
+    if(!currentMetrics) {
+      this.hullsAreInactive = false;
+      this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+    }
+  }
+
+  showMetrics() {
+    this.renderScene();
+  }
+
+  hideMetrics(e) {
+    if(e && e.hiddenByZoom) {
+      this.hideMetricsOnZoomOut = true;
+      // disable tooltips on metrics here
+    } else {
+      this.hideMetricsOnZoomOut = false;
+    }
+
+    //set this to undefined will not trigger any factory to update heights
+    this.activeMetricFactory = undefined;
+
+    this.renderScene();
   }
 
   setCameraFromSize() {
@@ -418,19 +421,12 @@ export default class Scene {
     return undefined;
   }
 
-  //set this flag if the scene needs to be redrawn
-  renderScene() {
-    this.shouldRenderScene = true;
-  }
-
-  //set this flag if a animation is in progress so the render loop
-  //keeps updated
+  //set this flag if a animation is in progress so the render loop keeps updated
   startAnimation() {
     this.animationInProgress = true;
   }
 
-  //set this flag if your animations has finished and the render loop
-  //could be paused
+  //set this flag if your animations has finished and the render loop could be paused
   stopAnimation() {
     this.animationInProgress = false;
   }
