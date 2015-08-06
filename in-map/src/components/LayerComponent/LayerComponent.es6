@@ -20,11 +20,11 @@ export default class LayerComponent extends Component {
   }
 
   onInitialEnter() {
-
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', true));
   }
 
   onInactiveEnter() {
-
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', false));
   }
 
 
