@@ -29,11 +29,10 @@ import {getLabel} from 'in-sdk/snapshot';
 import ServerTime from 'in-components/ServerTime';
 import enhance from 'in-components/hoc/enhance';
 
-import './index.less';
+import './Timeline.less';
 
 const rpt = React.PropTypes;
 const block = 'in-timeline';
-let idInc = 0;
 
 const HEALTH_OK = {
   type: 'dot',
@@ -161,7 +160,7 @@ const Timeline = React.createClass({
         // concerned
         const color = issue.get('state') === 'OPEN' ? iconConfig.color : HEALTH_OK.color;
         return (
-          <Icon key={issue.get('id') + idInc++}
+          <Icon key={issue.get('id')}
                 type={iconConfig.type}
                 className={block + '__problem'}
                 style={{
