@@ -40,17 +40,18 @@ function startCountingMessages() {
     }
 
     const id = String(event.id);
+    const dateObject = new Date();
     if (!(id in messageCounter)) {
       const counter = {
-        firstMessage: new Date().toISOString(),
-        lastMessage: new Date().toISOString(),
+        firstMessage: dateObject.toISOString(),
+        lastMessage: dateObject.toISOString(),
         messageCount: 1,
         active: true
       };
       messageCounter[id] = counter;
     } else {
       messageCounter[id].messageCount++;
-      messageCounter[id].lastMessage = new Date().toISOString();
+      messageCounter[id].lastMessage = dateObject.toISOString();
     }
 
     messageCounter[id].lastMessageContent = JSON.stringify(event);
