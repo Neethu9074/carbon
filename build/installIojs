@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -eo pipefail
-
 VERSION="iojs-v2.5.0"
 
 # make sure to delete the old node modules first before changing the node

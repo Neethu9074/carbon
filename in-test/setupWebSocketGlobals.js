@@ -1,4 +1,5 @@
 /*eslint-env node*/
+/*eslint-disable no-var*/
 
 'use strict';
 
@@ -13,7 +14,7 @@ module.exports = function() {
   };
 
   ['localStorage', 'sessionStorage'].forEach(function(type) {
-    const storage = {};
+    var storage = {};
     global.window[type] = {
       setItem: function(k, v) {
         storage[k] = v + '';

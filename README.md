@@ -1,11 +1,10 @@
 # ui-client aka. the stuff that runs in the browser
 
 ## Getting Started
-You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
+You need to have io.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install io.js via the
 [Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it
-easy to switch between installed Node.js versions and to install global
-modules without super-user privileges. Windows users should follow the
-instructions on the [official website](http://nodejs.org/).
+easy to switch between installed Node.js and io.js versions and to install global
+modules without super-user privileges.
 
 ### Node Version Manager installation
 Make sure that you have Git and cURL installed.
@@ -17,12 +16,11 @@ curl https://raw.githubusercontent.com/creationix/nvm/v0.22.2/install.sh | bash
 # reload bash
 bash
 
-# install Node.js version 0.12
-nvm install 0.12
-# use Node.js version 0.12
-nvm use 0.12
-# and use it by default
-nvm alias default 0.12
+# install and use iojs
+VERSION="iojs-v2.5.0"
+nvm install "$VERSION"
+nvm use "$VERSION"
+nvm alias default $VERSION
 ```
 
 ### Executing tasks
