@@ -53,7 +53,7 @@ export default class Scene {
     this.setupEvents();
     this.handleLostContext();
 
-    this.update(Date.now());
+    this.update(0);
   }
 
   setup3D() {
@@ -237,7 +237,7 @@ export default class Scene {
 
   sendRenderStatistics() {
     renderStatisticsStore.emit({
-      fps: 60
+      fps: time.getFPS()
     });
   }
 

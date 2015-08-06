@@ -3,7 +3,7 @@
 import _ from 'lodash';
 
 
-let timeOfLastFrameUpdate = Date.now();
+let timeOfLastFrameUpdate = 0;
 let deltaTime = 0;
 let timeSinceFirstFrame = 0;
 let fps = 0;
@@ -33,7 +33,7 @@ export function update(highResTimestamp) {
   // the camera would make a huge jump if moving while the map is laggy. to
   // avoid that clamp the time to a max of x ms/sec. you can also implement a
   // matrix or max payne slowmotion effect with that by setting max to something
-  // around .0001
+  // around .001
   deltaTime = Math.min(deltaTime, 0.5);
 
   timeOfLastFrameUpdate = timeNow;

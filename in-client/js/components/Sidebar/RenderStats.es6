@@ -5,7 +5,7 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {renderStatisticsStore} from 'in-services/stores/renderStatistics';
 
-import './Metrics.less';
+import './RenderStats.less';
 
 const block = 'in-sidebar-render-stats';
 
@@ -32,7 +32,11 @@ const RenderStats = React.createClass({
 
     return (
       <div className={block}>
-        {stats.fps}
+        <ul className={block + '__ul'}>
+          <li className={block + '__li'}>
+            {'fps: ' + stats.fps}
+          </li>
+        </ul>
       </div>
     );
   }
