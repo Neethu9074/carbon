@@ -7,6 +7,7 @@ import './lib/Octree';
 import {getAllNodes} from './mapStructureUtils';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import {renderStatisticsStore} from 'in-services/stores/renderStatistics';
 import {
   iconSize,
   selectedSceneObject,
@@ -228,6 +229,16 @@ export default class Scene {
         this.showHulls();
       }
     }));
+
+    if(__DEV__) {
+      setInterval(this.sendRenderStatistics, 1000);
+    }
+  }
+
+  sendRenderStatistics() {
+    renderStatisticsStore.emit({
+      fps: 60
+    });
   }
 
   // the GPU is a shared resource and as such there are times when it might be taken away from the app.

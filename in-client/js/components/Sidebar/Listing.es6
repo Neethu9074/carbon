@@ -13,6 +13,7 @@ import {getIssueCountSummary, getIssueSummary} from 'in-services/issueTracker';
 import {sort} from 'in-sdk/sorting';
 import {theme} from 'in-services/theme';
 import Metrics from './Metrics';
+import RenderStats from './RenderStats';
 import Tags from './Tags';
 import Details from './Details';
 import SeverityListing from './SeverityListing';
@@ -134,6 +135,10 @@ const SidebarListing = React.createClass({
           <Tab title='' modifier='metrics'>
             <Metrics/>
           </Tab>
+          {__DEV__ ?
+            <Tab title='render statistics' modifier='renderStats'>
+              <RenderStats />
+            </Tab> : null}
           <Tab title='' modifier='tags'>
             <Tags snapshots={this.state.snapshots} />
           </Tab>
