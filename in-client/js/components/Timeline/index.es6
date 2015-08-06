@@ -33,6 +33,7 @@ import './index.less';
 
 const rpt = React.PropTypes;
 const block = 'in-timeline';
+let idInc = 0;
 
 const HEALTH_OK = {
   type: 'dot',
@@ -151,25 +152,27 @@ const Timeline = React.createClass({
         issues.push(issue);
       }
     });
+
     const scale = this.state.scale.domain([now, maxOldestPermittedIssue]);
-    return issues.map(issue => {
-      const iconConfig = this.getIconConfig(issue);
-      // closed issues should like regular events as far as the color is
-      // concerned
-      const color = issue.get('state') === 'OPEN' ? iconConfig.color : HEALTH_OK.color;
-      return (
-        <Icon key={issue.get('id')}
-              type={iconConfig.type}
-              className={block + '__problem'}
-              style={{
-                left: scale(issue.get('start')).toFixed(2) + '%',
-                color
-              }}
-              onMouseEnter={this.mouseIn.bind(this, issue)}
-              onMouseLeave={this.mouseOut}
-              onClick={() => this.focusSnapshot(issue)}/>
-      );
-    });
+    return issues
+      .map(issue => {
+        const iconConfig = this.getIconConfig(issue);
+        // closed issues should like regular events as far as the color is
+        // concerned
+        const color = issue.get('state') === 'OPEN' ? iconConfig.color : HEALTH_OK.color;
+        return (
+          <Icon key={issue.get('id') + idInc++}
+                type={iconConfig.type}
+                className={block + '__problem'}
+                style={{
+                  left: scale(issue.get('start')).toFixed(2) + '%',
+                  color
+                }}
+                onMouseEnter={this.mouseIn.bind(this, issue)}
+                onMouseLeave={this.mouseOut}
+                onClick={() => this.focusSnapshot(issue)}/>
+        );
+      });
   },
 
   getIconConfig(issue) {
