@@ -10,7 +10,7 @@ let fps = 0;
 let secondCounter = 0;
 let fpsCounter = 0;
 let timeCounterForComponentUpdate = 0;
-const framesWatingForComponentUpdate = 30;
+const framesWatingForComponentUpdate = 10;
 
 const timeEventListener = [];
 
