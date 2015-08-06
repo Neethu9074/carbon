@@ -1,0 +1,6 @@
+{
+  "name": "filterSuggester",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./filterSuggester.es6"
+}
