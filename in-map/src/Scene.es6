@@ -38,10 +38,7 @@ let currentMetrics;
 export default class Scene {
 
   constructor({parent, pluginId}) {
-    this.bindMethods();
-
-    //set this scene to store
-    currentScene.emit(this);
+    currentScene.emit(this); // set this scene to store
 
     this.parent = parent;
     this.width = window.innerWidth;
@@ -58,15 +55,8 @@ export default class Scene {
     this.update();
   }
 
-  bindMethods() {
-    this.onWindowResize = this.onWindowResize.bind(this);
-    this.update = this.update.bind(this);
-    this.updateMaterialsByZoomLevel =
-      this.updateMaterialsByZoomLevel.bind(this);
-  }
-
   setupEvents() {
-    window.addEventListener('resize', this.onWindowResize, false);
+    window.addEventListener('resize', this.onWindowResize.bind(this), false);
 
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
@@ -262,7 +252,7 @@ export default class Scene {
       return;
     }
 
-    requestAnimationFrame(this.update);
+    requestAnimationFrame(this.update.bind(this));
 
     //fire event for updating stats
     eventBus.emit('beginUpdate');
