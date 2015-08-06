@@ -63,6 +63,7 @@ export default class Connection extends SceneObject {
     // hide connected nodes on highlighting factory
     if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
       this.to.showSolidMesh(false);
+      this.from.showSolidMesh(false);
     }
   }
 
