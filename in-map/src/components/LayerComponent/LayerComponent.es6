@@ -75,7 +75,7 @@ export default class LayerComponent extends Component {
     const heightOfEachChild = height / layer.length;
 
     layer.forEach((child, index) => {
-      child.setHeight(heightOfEachChild);
+      child.setHeight(heightOfEachChild * 0.9);
       const positionComponent = child.getComponent('position');
       positionComponent.setPosition(pos.x, index * heightOfEachChild, pos.z);
     });

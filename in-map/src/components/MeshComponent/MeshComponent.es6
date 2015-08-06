@@ -79,7 +79,7 @@ export default class MeshComponent extends Component {
 
     cmcm.color = {r: color.r, g: color.g, b: color.b};
     pcm.position = {x: pos.x - 0.5, y: pos.y, z: pos.z + 0.5};
-    scm.scale = {x: 1, y: scale.y, z: 1};
+    scm.scale = {x: scale.x, y: scale.y, z: scale.z};
   }
 
   dispose() {
