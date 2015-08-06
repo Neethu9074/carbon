@@ -63,6 +63,7 @@ export default class MeshComponent extends Component {
     this.setupFragment();
 
     if(this.isActive()) {
+      this.factory.removeFragment(this.id);
       this.factory.addFragment(this.fragment);
     }
 
