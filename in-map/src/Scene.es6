@@ -246,6 +246,7 @@ export default class Scene {
       // so you need to re-create textures, buffers, framebuffers, renderbuffers, shaders, programs
       // and setup your state (clearColor, blendFunc, depthFunc, etc...)
       // to make it short... reload the page
+      window.location.reload();
     }, false);
   }
 
