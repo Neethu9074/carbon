@@ -62,3 +62,7 @@ export function getFPS() {
 export function getDeltaTime() {
   return deltaTime;
 }
+
+export function getBigBangTime() {
+  return timeSinceFirstFrame;
+}

@@ -18,6 +18,7 @@ export function getMapStatistics(scene) {
   update(scene);
 
   return {
+    seconds: time.getBigBangTime() | 0,
     renderStats: {
       FPS: {
         FPS: String(time.getFPS() + ' (' + minFPS + '/' + maxFPS + ')'),
