@@ -24,7 +24,7 @@ export function getMapStatistics(scene) {
         FPS: String(time.getFPS() + ' (' + minFPS + '/' + maxFPS + ')'),
         average: (((fpsCounter / tickCounter) * 100) | 0) / 100
       },
-      framesRendered: scene.framesRendered,
+      framesRendered: scene.framesRendered + ' (avg. ' + (scene.framesRendered / time.getBigBangTime() | 0) + '/sec)',
       geometries: memoryInfo.geometries,
       textures: memoryInfo.textures,
       programs: memoryInfo.programs,
