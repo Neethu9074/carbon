@@ -34,13 +34,14 @@ let currentMetrics;
 
 export default class Scene {
 
-  constructor({parent, pluginId}) {
+  constructor({parent, pluginId, onPlusClicked}) {
     currentScene.emit(this); // set this scene to store
 
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.pluginId = pluginId;
+    this.onPlusClicked = onPlusClicked;
 
     if(__DEV__) {
       this.framesRendered = 0;

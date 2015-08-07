@@ -7,14 +7,14 @@ import UnknownNodeButton from '../UnknownNodeButton';
 import './index.less';
 
 const UnknownNodeStickyRC = React.createClass({
-
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
     snapshot: React.PropTypes.object.isRequired,
-    showIp: React.PropTypes.bool.isRequired
+    showIp: React.PropTypes.bool.isRequired,
+    onPlusClicked: React.PropTypes.func.isRequired
   },
 
   render() {
@@ -23,7 +23,7 @@ const UnknownNodeStickyRC = React.createClass({
         <div className='in-sticky-note__note__unknown-node--stack-children'>
           {this.props.showIp ?
             null :
-            <UnknownNodeButton />
+            <UnknownNodeButton onPlusClicked={this.props.onPlusClicked} />
           }
         </div>
       </div>
@@ -44,9 +44,14 @@ export default class StickyNoteUnknownNode extends StickyNote {
     React.render(
       <UnknownNodeStickyRC
         snapshot={this.parent.snapshot}
-        showIp={this.showIp}/>,
+        showIp={this.showIp}
+        onPlusClicked={this.onPlusClicked.bind(this)}/>,
       this.stickyNoteContainer
     );
+  }
+
+  onPlusClicked() {
+    this.parent.scene.onPlusClicked();
   }
 
   showPlus() {

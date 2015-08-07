@@ -1,12 +1,14 @@
 'use strict';
 
+import React from 'react/addons';
+
 import {iconSize} from '../../../stores/mapStore';
 import iconPath from './plusIcon.svg';
 
-import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
 import './index.less';
+
 
 const defaultIconSize = 16;
 
@@ -15,6 +17,10 @@ const UnknownNodeButton = React.createClass({
     React.addons.PureRenderMixin,
     SubscriptionMixin
   ],
+
+  propTypes: {
+    onPlusClicked: React.PropTypes.func.isRequired
+  },
 
   getInitialState() {
     return {size: defaultIconSize};
@@ -32,7 +38,7 @@ const UnknownNodeButton = React.createClass({
       <img src={iconPath}
            className='in-sticky-note__unknown-node--icon'
            style={style}
-           onClick={() => {}}
+           onClick={this.props.onPlusClicked}
       />
     );
   }

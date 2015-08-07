@@ -12,7 +12,6 @@ import './index.less';
 
 
 const MapRC = React.createClass({
-
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin,
@@ -45,7 +44,8 @@ const MapRC = React.createClass({
     const parent = React.findDOMNode(this.refs.parent);
     this.scene = new Scene({
       parent,
-      pluginId: this.props.pluginId
+      pluginId: this.props.pluginId,
+      onPlusClicked: this.onPlusClicked
     });
 
     this.addSubscription(eventBus.on('openDashboard').subscribe((snapshot) => {
@@ -55,6 +55,20 @@ const MapRC = React.createClass({
 
   componentWillUnmount() {
     this.scene.dispose();
+  },
+
+  render() {
+    // if WebGL is supported, render the MapRC
+    // else show a notification with a zendesk help text.
+    // if this dialog was closed show nothing but the deepest darkness.
+    if(this.state.isWebGLSupported) {
+      return (<div className='in-map' ref='parent'/>);
+    }
+    return null;
+  },
+
+  onPlusClicked() {
+    this.props.showHelp(203906681);
   },
 
   focus(snapshotId) {
@@ -70,16 +84,6 @@ const MapRC = React.createClass({
         hostId: encodeURIComponent(snapshot.get('hostId'))
       }
     );
-  },
-
-  render() {
-    // if WebGL is supported, render the MapRC
-    // else show a notification with a zendesk help text.
-    // if this dialog was closed show nothing but the deepest darkness.
-    if(this.state.isWebGLSupported) {
-      return (<div className='in-map' ref='parent'/>);
-    }
-    return null;
   },
 
   // https://www.khronos.org/webgl/wiki/FAQ
