@@ -124,6 +124,13 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.show();
   }
 
+  onInactiveLeave() {
+    super.onInactiveLeave();
+
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+  }
+
   onSelectedHighlightInactiveEnter() {}
   onSelectedHighlightInactiveLeave() {}
   onHighlightInactiveEnter() {}
