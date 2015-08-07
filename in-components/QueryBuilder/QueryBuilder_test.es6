@@ -43,6 +43,8 @@ describe('in-components.QueryBuilder', () => {
   it('should render an empty QueryBuilder', () => {
     render({activeFilters: Immutable.List()});
     expect(getInput().value).to.equal('');
+    expect(getSuggestions().length).to.equal(0);
+    expect(getActiveFilters().length).to.equal(0);
   });
 
   function render(props) {
@@ -54,5 +56,13 @@ describe('in-components.QueryBuilder', () => {
 
   function getInput() {
     return node.querySelector('input');
+  }
+
+  function getSuggestions() {
+    return node.querySelectorAll('.in-query-builder__suggestion-panel li');
+  }
+
+  function getActiveFilters() {
+    return node.querySelectorAll('.in-query-builder__filter-badge');
   }
 });
