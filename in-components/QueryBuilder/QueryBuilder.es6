@@ -47,7 +47,8 @@ const QueryBuilder = React.createClass({
     if (this.props.activeFilters) {
       activeFilters = this.props.activeFilters.toArray().map(filter =>
         <FilterBadge filter={filter}
-                     key={filter.get('label') + filter.get('type')}/>
+                     key={filter.get('label') + filter.get('type')}
+                     onRemove={mapFilters.remove}/>
       );
     }
     return (

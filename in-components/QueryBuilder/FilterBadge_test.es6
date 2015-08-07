@@ -24,17 +24,13 @@ describe('in-components.FilterBadge', () => {
 
   jsdom();
 
-  let mapFilterModule;
+  let onRemove;
   let FilterBadge;
 
   beforeEach(() => {
-    mapFilterModule = {
-      remove: sinon.stub()
-    };
+    onRemove = sinon.stub();
 
-    FilterBadge = proxyquire('./FilterBadge.es6', {
-      'in-services/stores/mapFilters': mapFilterModule
-    });
+    FilterBadge = proxyquire('./FilterBadge.es6', {});
   });
 
   it('should hold a React component', () => {
@@ -55,10 +51,11 @@ describe('in-components.FilterBadge', () => {
   it('should remove the filter upon remove click', () => {
     const removeButton = render({filter}).querySelector('[class$=remove]');
     TestUtils.Simulate.click(removeButton);
-    expect(mapFilterModule.remove).to.have.callCount(1);
+    expect(onRemove).to.have.callCount(1);
   });
 
   function render(props) {
+    props.onRemove = onRemove;
     const comp = TestUtils.renderIntoDocument(
       <FilterBadge {...props} />
     );

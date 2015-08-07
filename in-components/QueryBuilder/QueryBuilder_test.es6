@@ -57,7 +57,8 @@ describe('in-components.QueryBuilder', () => {
       getSuggestions: sinon.stub()
     };
     mapFiltersModule = {
-      add: sinon.stub()
+      add: sinon.stub(),
+      remove: sinon.stub()
     };
 
     suggestionObservable = ro.create(reemitSpec);
@@ -105,6 +106,13 @@ describe('in-components.QueryBuilder', () => {
     expect(activeFilters[0].textContent).to.contain('Database');
     expect(activeFilters[1].textContent).to.contain('Datastore');
     expect(activeFilters[2].textContent).to.contain('Cassandra');
+  });
+
+  it('should remove active filters when filter badge is clicked', () => {
+    render({activeFilters: tagFilterSuggestions});
+    const removeButton = getActiveFilters()[1].querySelector('[class$=remove]');
+    TestUtils.Simulate.click(removeButton);
+    expect(mapFiltersModule.remove).to.have.callCount(1);
   });
 
   function render(props) {

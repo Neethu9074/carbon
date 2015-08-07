@@ -4,17 +4,18 @@ import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
 import Icon from 'in-components/Icon';
-import * as mapFilters from 'in-services/stores/mapFilters';
 
 import './FilterBadge.less';
 
+const rpt = React.PropTypes;
 const block = 'in-query-builder__filter-badge';
 
 const FilterBadge = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    filter: irpt.map.isRequired
+    filter: irpt.map.isRequired,
+    onRemove: rpt.func.isRequired
   },
 
   render() {
@@ -34,7 +35,7 @@ const FilterBadge = React.createClass({
   },
 
   remove() {
-    mapFilters.remove(this.props.filter);
+    this.props.onRemove(this.props.filter);
   }
 });
 
