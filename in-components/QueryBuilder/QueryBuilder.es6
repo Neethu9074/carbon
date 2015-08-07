@@ -59,7 +59,8 @@ const QueryBuilder = React.createClass({
                       onChange={this.onInputChange}
                       onConfirm={this.onConfirm}
                       onNextSuggestion={this.onNextSuggestion}
-                      onPreviousSuggestion={this.onPreviousSuggestion}/>
+                      onPreviousSuggestion={this.onPreviousSuggestion}
+                      onClear={this.onClear}/>
         </div>
 
         <SuggestionPanel suggestions={this.state.suggestions}
@@ -156,6 +157,15 @@ const QueryBuilder = React.createClass({
     this.setState({
       selectedSuggestion: nextIndex
     });
+  },
+
+  onClear() {
+    this.setState({
+      selectedSuggestion: -1,
+      currentTypedInValue: '',
+      suggestions: noSuggestions
+    });
+    this.disposeSuggestions();
   }
 });
 

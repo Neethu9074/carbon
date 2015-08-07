@@ -204,6 +204,18 @@ describe('in-components.QueryBuilder', () => {
       .to.have.been.calledWith(tagFilterSuggestions.get(2));
   });
 
+  it('should clear the input field on escape', () => {
+    render({activeFilters: Immutable.List()});
+    const query = 'data';
+    sendInputChange(query);
+    suggestionObservable.emit(tagFilterSuggestions);
+
+    sendEscapeKeyCode();
+
+    expect(getInput().value).to.equal('');
+    expect(getSuggestions().length).to.equal(0);
+  });
+
   function render(props) {
     const comp = TestUtils.renderIntoDocument(
       <QueryBuilder {...props} />
@@ -223,6 +235,10 @@ describe('in-components.QueryBuilder', () => {
 
   function sendEnterKeyCode() {
     sendKeyCode(13);
+  }
+
+  function sendEscapeKeyCode() {
+    sendKeyCode(27);
   }
 
   function sendUpKeyCode() {

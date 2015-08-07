@@ -8,6 +8,7 @@ const rpt = React.PropTypes;
 const block = 'in-query-builder__query-input';
 const keyCodes = {
   enter: 13,
+  escape: 27,
   up: 38,
   down: 40
 };
@@ -21,7 +22,8 @@ const QueryInput = React.createClass({
     onChange: rpt.func.isRequired,
     onConfirm: rpt.func.isRequired,
     onNextSuggestion: rpt.func.isRequired,
-    onPreviousSuggestion: rpt.func.isRequired
+    onPreviousSuggestion: rpt.func.isRequired,
+    onClear: rpt.func.isRequired
   },
 
   render() {
@@ -47,6 +49,9 @@ const QueryInput = React.createClass({
       e.preventDefault();
     } else if (e.keyCode === keyCodes.down) {
       this.props.onNextSuggestion();
+      e.preventDefault();
+    } else if (e.keyCode === keyCodes.escape) {
+      this.props.onClear();
       e.preventDefault();
     }
   }
