@@ -128,6 +128,19 @@ describe('in-components.QueryBuilder', () => {
       .to.have.been.calledWith(tagFilterSuggestions.get(1));
   });
 
+  it('should add first suggestion when hitting enter', () => {
+    render({activeFilters: Immutable.List()});
+    const query = 'data';
+    sendInputChange(query);
+    suggestionObservable.emit(tagFilterSuggestions);
+
+    sendEnterKeyCode();
+
+    expect(mapFiltersModule.add).to.have.callCount(1);
+    expect(mapFiltersModule.add)
+      .to.have.been.calledWith(tagFilterSuggestions.get(0));
+  });
+
   function render(props) {
     const comp = TestUtils.renderIntoDocument(
       <QueryBuilder {...props} />
@@ -143,6 +156,14 @@ describe('in-components.QueryBuilder', () => {
     TestUtils.Simulate.change(getInput(), {
       target: {value: newValue}
     });
+  }
+
+  function sendEnterKeyCode() {
+    sendKeyCode(13);
+  }
+
+  function sendKeyCode(keyCode) {
+    TestUtils.Simulate.keyUp(getInput(), {keyCode});
   }
 
   function getSuggestions() {
