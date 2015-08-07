@@ -7,7 +7,7 @@ import './lib/Octree';
 import {getAllNodes} from './mapStructureUtils';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import {renderStatisticsStore} from 'in-services/stores/renderStatistics';
+import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {
   iconSize,
   selectedSceneObject,
@@ -236,7 +236,7 @@ export default class Scene {
   }
 
   sendRenderStatistics() {
-    renderStatisticsStore.emit({
+    mapStatisticsStore.emit({
       fps: time.getFPS()
     });
   }
