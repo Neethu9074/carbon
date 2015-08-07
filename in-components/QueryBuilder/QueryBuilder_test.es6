@@ -141,6 +141,69 @@ describe('in-components.QueryBuilder', () => {
       .to.have.been.calledWith(tagFilterSuggestions.get(0));
   });
 
+  it('should allow navigation in suggestions via arrow keys', () => {
+    render({activeFilters: Immutable.List()});
+    const query = 'data';
+    sendInputChange(query);
+    suggestionObservable.emit(tagFilterSuggestions);
+
+    const suggestions = getSuggestions();
+    sendDownKeyCode();
+    expect(isActive(suggestions[0])).to.equal(true);
+    expect(isActive(suggestions[1])).to.equal(false);
+    expect(isActive(suggestions[2])).to.equal(false);
+
+    sendDownKeyCode();
+    expect(isActive(suggestions[0])).to.equal(false);
+    expect(isActive(suggestions[1])).to.equal(true);
+    expect(isActive(suggestions[2])).to.equal(false);
+
+    sendDownKeyCode();
+    expect(isActive(suggestions[0])).to.equal(false);
+    expect(isActive(suggestions[1])).to.equal(false);
+    expect(isActive(suggestions[2])).to.equal(true);
+
+    sendDownKeyCode();
+    expect(isActive(suggestions[0])).to.equal(false);
+    expect(isActive(suggestions[1])).to.equal(false);
+    expect(isActive(suggestions[2])).to.equal(true);
+
+    sendUpKeyCode();
+    expect(isActive(suggestions[0])).to.equal(false);
+    expect(isActive(suggestions[1])).to.equal(true);
+    expect(isActive(suggestions[2])).to.equal(false);
+
+    sendUpKeyCode();
+    expect(isActive(suggestions[0])).to.equal(true);
+    expect(isActive(suggestions[1])).to.equal(false);
+    expect(isActive(suggestions[2])).to.equal(false);
+
+    sendUpKeyCode();
+    expect(isActive(suggestions[0])).to.equal(true);
+    expect(isActive(suggestions[1])).to.equal(false);
+    expect(isActive(suggestions[2])).to.equal(false);
+
+    function isActive(suggestion) {
+      return suggestion.className.indexOf('active') !== -1;
+    }
+  });
+
+  it('should choose selected suggestion upon hitting enter', () => {
+    render({activeFilters: Immutable.List()});
+    const query = 'data';
+    sendInputChange(query);
+    suggestionObservable.emit(tagFilterSuggestions);
+
+    sendDownKeyCode(); // 0
+    sendDownKeyCode(); // 1
+    sendDownKeyCode(); // 2
+    sendEnterKeyCode();
+
+    expect(mapFiltersModule.add).to.have.callCount(1);
+    expect(mapFiltersModule.add)
+      .to.have.been.calledWith(tagFilterSuggestions.get(2));
+  });
+
   function render(props) {
     const comp = TestUtils.renderIntoDocument(
       <QueryBuilder {...props} />
@@ -160,6 +223,14 @@ describe('in-components.QueryBuilder', () => {
 
   function sendEnterKeyCode() {
     sendKeyCode(13);
+  }
+
+  function sendUpKeyCode() {
+    sendKeyCode(38);
+  }
+
+  function sendDownKeyCode() {
+    sendKeyCode(40);
   }
 
   function sendKeyCode(keyCode) {
