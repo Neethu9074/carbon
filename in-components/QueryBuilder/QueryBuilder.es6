@@ -9,8 +9,8 @@ import * as filtering from 'in-services/filterSuggester';
 
 import enhance from '../hoc/enhance';
 import FilterBadge from './FilterBadge';
-import QueryInput from './QueryInput';
-import SuggestionPanel from './SuggestionPanel';
+import QueryInput from './QueryInput.es6';
+import SuggestionPanel from './SuggestionPanel.es6';
 
 import './QueryBuilder.less';
 

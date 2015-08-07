@@ -22,7 +22,7 @@ const SuggestionPanel = React.createClass({
   render() {
     const suggestions = this.props.suggestions;
     return (
-      <ul>
+      <ul className={block}>
         {suggestions.map((suggestion, i) =>
           <li key={suggestion.get('type') + suggestion.get('label')}
               onClick={this.props.onSuggestionClick.bind(null, suggestion)}
