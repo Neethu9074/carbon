@@ -115,6 +115,19 @@ describe('in-components.QueryBuilder', () => {
     expect(mapFiltersModule.remove).to.have.callCount(1);
   });
 
+  it('should add filter when clicking on suggestion', () => {
+    render({activeFilters: Immutable.List()});
+    const query = 'data';
+    sendInputChange(query);
+    suggestionObservable.emit(tagFilterSuggestions);
+
+    TestUtils.Simulate.click(getSuggestions()[1]);
+
+    expect(mapFiltersModule.add).to.have.callCount(1);
+    expect(mapFiltersModule.add)
+      .to.have.been.calledWith(tagFilterSuggestions.get(1));
+  });
+
   function render(props) {
     const comp = TestUtils.renderIntoDocument(
       <QueryBuilder {...props} />
