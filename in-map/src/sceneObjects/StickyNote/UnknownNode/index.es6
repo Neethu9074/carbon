@@ -36,7 +36,6 @@ export default class StickyNoteUnknownNode extends StickyNote {
     super({parent, cssClass: 'in-sticky-note__unknown-node'});
 
     this.showIp = true;
-
     this.render();
   }
 
