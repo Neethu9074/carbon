@@ -11,7 +11,7 @@
     "dev-simulator": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox-simulator.yaml && open https://local-instana.instana.io:4000 && gulp dev",
     "postinstall": "./build/postInstall",
     "prod": "export BUILD_DEV='false' && proxrox stop && proxrox start .proxrox.yaml && open https://local-instana.instana.io:4000 && gulp dev",
-    "test": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js && mocha --require ./build/testHarness $(find in-* -name '*_test.es6')"
+    "test": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')"
   },
   "repository": {
     "type": "git",
