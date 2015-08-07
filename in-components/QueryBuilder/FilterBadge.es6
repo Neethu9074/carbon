@@ -21,9 +21,14 @@ const FilterBadge = React.createClass({
     const filter = this.props.filter;
     return (
       <div className={block}>
-        <Icon type={filter.get('type')}/>
-        <span>{filter.get('label')}</span>
-        <span onClick={this.remove}>x</span>
+        <Icon type={filter.get('icon')}/>
+        <span className={block + '__label'}>
+          {filter.get('label')}
+        </span>
+        <span onClick={this.remove}
+              className={block + '__remove'}>
+          x
+        </span>
       </div>
     );
   },
