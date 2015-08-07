@@ -3,10 +3,13 @@
 /*eslint-disable react/no-multi-comp */
 import React from 'react/addons';
 
+import Collapsible from 'in-components/Collapsible';
+
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 
 import './MapStats.less';
+
 
 const block = 'in-sidebar-map-stats';
 
@@ -41,6 +44,25 @@ const MapStats = React.createClass({
     }));
   },
 
+  renderStat(stats, key) {
+    const stat = stats[key];
+    const statChildren = Object.keys(stat);
+    if(statChildren.length === 0) {
+      return <MapStat key={key} name={key} value={stats[key]} />;
+    } else {
+      return (
+        <Collapsible key={key}>
+          <Collapsible.Header>
+            {key}
+          </Collapsible.Header>
+          <Collapsible.Content>
+            {statChildren.map(child => this.renderStat(stat, child))}
+          </Collapsible.Content>
+        </Collapsible>
+      );
+    }
+  },
+
   render() {
     const stats = this.state.stats;
     if(!stats) {
@@ -49,9 +71,7 @@ const MapStats = React.createClass({
 
     return (
       <div className={block}>
-        {Object.keys(stats).map((key) => {
-          return <MapStat key={key} name={key} value={stats[key]} />;
-        })}
+        {Object.keys(stats).map(key => this.renderStat(stats, key))}
       </div>
     );
   }

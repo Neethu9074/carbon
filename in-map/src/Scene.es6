@@ -4,27 +4,24 @@ import THREE from 'three';
 
 import './lib/Octree';
 
-import {getAllNodes} from './mapStructureUtils';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
-import {
-  iconSize,
-  selectedSceneObject,
-  currentScene,
-  currentTooltip
-} from './stores/mapStore';
-import * as zoom from './zoom';
-import backgroundPlane from './lib/backgroundPlane';
-import PhysicalMap from './sceneObjects/PhysicalMap';
+import {iconSize, selectedSceneObject, currentScene, currentTooltip} from './stores/mapStore';
+// import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
-import LineFactory from './factories/LineFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
+import PhysicalMap from './sceneObjects/PhysicalMap';
+import backgroundPlane from './lib/backgroundPlane';
+import LineFactory from './factories/LineFactory';
+import {getMapStatistics} from './mapStatistics';
+import {getAllNodes} from './mapStructureUtils';
 import Node from './sceneObjects/Nodes/Node';
-// import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import * as time from './timeCalculations';
+import * as zoom from './zoom';
+
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {activeMetric} from 'in-services/stores/metrics';
 import {isIdEqual} from 'in-services/util/snapshots';
 import eventBus from 'in-services/eventbus';
@@ -231,14 +228,8 @@ export default class Scene {
     }));
 
     if(__DEV__) {
-      setInterval(this.sendRenderStatistics, 1000);
+      setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);
     }
-  }
-
-  sendRenderStatistics() {
-    mapStatisticsStore.emit({
-      fps: time.getFPS()
-    });
   }
 
   // the GPU is a shared resource and as such there are times when it might be taken away from the app.
