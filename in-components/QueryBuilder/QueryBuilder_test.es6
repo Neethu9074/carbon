@@ -15,6 +15,27 @@ import jsdom from 'in-test/jsdom';
 const reemitSpec = {emitLatestOnSubscribe: true};
 const TestUtils = React.addons.TestUtils;
 
+const tagFilterSuggestions = Immutable.fromJS([
+  {
+    type: 'tag',
+    label: 'Database',
+    icon: 'timeline',
+    predicate: () => {}
+  },
+  {
+    type: 'tag',
+    label: 'Datastore',
+    icon: 'timeline',
+    predicate: () => {}
+  },
+  {
+    type: 'tag',
+    label: 'Cassandra',
+    icon: 'timeline',
+    predicate: () => {}
+  }
+]);
+
 describe('in-components.QueryBuilder', () => {
 
   jsdom();
@@ -62,6 +83,19 @@ describe('in-components.QueryBuilder', () => {
     sendInputChange(query);
     expect(filterSuggesterModule.getSuggestions).to.have.callCount(1);
     expect(filterSuggesterModule.getSuggestions).to.have.been.calledWith(query);
+  });
+
+  it('should render suggestions', () => {
+    const query = 'data';
+    render({activeFilters: Immutable.List()});
+    sendInputChange(query);
+
+    suggestionObservable.emit(tagFilterSuggestions);
+    const suggestions = getSuggestions();
+    expect(suggestions.length).to.equal(tagFilterSuggestions.size);
+    expect(suggestions[0].textContent).to.contain('Database');
+    expect(suggestions[1].textContent).to.contain('Datastore');
+    expect(suggestions[2].textContent).to.contain('Cassandra');
   });
 
   function render(props) {
