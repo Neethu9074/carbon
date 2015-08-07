@@ -27,8 +27,8 @@ nvm alias default $VERSION
 Tasks are defined in the `package.json`. They can be executed via `npm run <taskname>`. For instance `npm run test` (or `npm test`) to execute the tests, `npm run dev` to start up a proxy and development server or `npm run build` to build the JavaScript files.
 
 ### Setting up local domains
-In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local.internal.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.
+In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.
 
 ```
-127.0.0.1 local.internal.instana.io
+127.0.0.1 local-instana.instana.io
 ```

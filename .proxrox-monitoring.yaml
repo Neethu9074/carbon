@@ -1,4 +1,4 @@
-serverName: local.internal.instana.io
+serverName: local-instana.instana.io
 port: 4000
 root: false
 ssi: true
