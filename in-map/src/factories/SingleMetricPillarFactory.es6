@@ -80,7 +80,7 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     });
     this.animation = animation;
 
-    this.updateSubscribtion = eventBus.on('beginUpdate').subscribe((time) => {
+    this.updateSubscribtion = eventBus.on('updateTween').subscribe((time) => {
       this.animation.update(time);
     });
   }

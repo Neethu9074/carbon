@@ -16,7 +16,7 @@ const block = 'in-sidebar-map-stats';
 const MapStat = React.createClass({
   propTypes: {
     name: React.PropTypes.string.isRequired,
-    value: React.PropTypes.number.isRequired
+    value: React.PropTypes.any.isRequired
   },
 
   render() {
@@ -47,7 +47,7 @@ const MapStats = React.createClass({
   renderStat(stats, key) {
     const stat = stats[key];
     const statChildren = Object.keys(stat);
-    if(statChildren.length === 0) {
+    if(typeof stat === 'string' || statChildren.length === 0) {
       return <MapStat key={key} name={key} value={stats[key]} />;
     } else {
       return (

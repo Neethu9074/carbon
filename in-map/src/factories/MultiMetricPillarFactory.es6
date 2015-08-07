@@ -60,7 +60,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     animation.onUpdate((v) => progress.value = v);
     this.animation = animation;
 
-    this.updateSubscribtion = eventBus.on('beginUpdate').subscribe((time) => {
+    this.updateSubscribtion = eventBus.on('updateTween').subscribe((time) => {
       this.animation.update(time);
     });
   }

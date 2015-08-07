@@ -42,6 +42,10 @@ export default class Scene {
     this.height = window.innerHeight;
     this.pluginId = pluginId;
 
+    if(__DEV__) {
+      this.framesRendered = 0;
+    }
+
     this.octrees = [];
 
     this.setup3D();
@@ -167,7 +171,9 @@ export default class Scene {
     });
 
     this.metricUpdateInterval = setInterval(() => {
-      this.updateMetricHeights();
+      if(currentMetrics) {
+        this.updateMetricHeights();
+      }
     }, 1000);
   }
 
@@ -262,6 +268,10 @@ export default class Scene {
 
     //fire event for updating stats
     eventBus.emit('beginUpdate', highResTimestamp);
+
+    if(currentMetrics) {
+      eventBus.emit('updateTween', highResTimestamp);
+    }
 
     time.update(highResTimestamp);
     this.controller.update();
@@ -358,6 +368,13 @@ export default class Scene {
 
     //after rendering the background, render the hole scene
     renderer.render(this.scene, this.camera);
+
+    //reset the flag to disable rendering if there is no update
+    this.shouldRenderScene = false;
+
+    if(__DEV__) {
+      this.framesRendered++;
+    }
   }
 
   //set this flag if the scene needs to be redrawn

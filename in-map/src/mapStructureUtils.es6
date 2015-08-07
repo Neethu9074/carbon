@@ -36,14 +36,14 @@ export function getAllGroups(parent) {
   return groups;
 }
 
-function getGroups(parent, nodes) {
+function getGroups(parent, groups) {
   let col = getChildren(parent);
   if(!col) {return; }
 
   col.forEach((child) => {
     if(child instanceof Group) {
-      nodes.push(child);
-      getNodes(child, nodes);
+      groups.push(child);
+      getGroups(child, groups);
     }
   });
 }
