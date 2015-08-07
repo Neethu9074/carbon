@@ -8,7 +8,7 @@ import * as mapFilters from 'in-services/stores/mapFilters';
 import * as filtering from 'in-services/filterSuggester';
 
 import enhance from '../hoc/enhance';
-import FilterBadge from './FilterBadge';
+import FilterBadge from './FilterBadge.es6';
 import QueryInput from './QueryInput.es6';
 import SuggestionPanel from './SuggestionPanel.es6';
 

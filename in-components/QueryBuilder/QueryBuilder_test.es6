@@ -98,6 +98,15 @@ describe('in-components.QueryBuilder', () => {
     expect(suggestions[2].textContent).to.contain('Cassandra');
   });
 
+  it('should render active filters', () => {
+    render({activeFilters: tagFilterSuggestions});
+    const activeFilters = getActiveFilters();
+    expect(activeFilters.length).to.equal(tagFilterSuggestions.size);
+    expect(activeFilters[0].textContent).to.contain('Database');
+    expect(activeFilters[1].textContent).to.contain('Datastore');
+    expect(activeFilters[2].textContent).to.contain('Cassandra');
+  });
+
   function render(props) {
     const comp = TestUtils.renderIntoDocument(
       <QueryBuilder {...props} />
