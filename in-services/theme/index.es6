@@ -1,7 +1,8 @@
 'use strict';
 
-import {consts} from 'in-themes';
 import _ from 'lodash';
+
+import {consts} from 'in-themes';
 
 const defaultTheme = 'night';
 

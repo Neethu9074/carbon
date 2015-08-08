@@ -2,9 +2,10 @@
 
 'use strict';
 
-import SubscriptionMixin from './SubscriptionMixin';
 import sinon from 'sinon';
 import {expect} from 'chai';
+
+import SubscriptionMixin from './SubscriptionMixin';
 
 describe('SubscriptionMixin', () => {
   let instance;
