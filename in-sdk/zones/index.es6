@@ -1,8 +1,8 @@
 'use strict';
 
-import pbst from '../util/pluginBasedSnapshotTransformation';
 import ColorGenerator from 'in-services/util/colors';
-// import {consts} from 'in-themes';
+
+import pbst from '../util/pluginBasedSnapshotTransformation';
 
 const colorGenerator = new ColorGenerator(20);
 const zoneColorCache = {};

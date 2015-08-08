@@ -3,6 +3,7 @@
 'use strict';
 
 import {expect} from 'chai';
+
 import {getColor} from './index';
 
 describe('zones', () => {

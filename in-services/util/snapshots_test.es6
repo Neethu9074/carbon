@@ -7,6 +7,7 @@ import {expect} from 'chai';
 import Immutable from 'immutable';
 import sinon from 'sinon';
 import {create} from 'reactive-observables';
+
 import {
   getIdString,
   extractId,
