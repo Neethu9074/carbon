@@ -1,6 +1,6 @@
 /*global require:false*/
 
-'use strict';
+
 
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';

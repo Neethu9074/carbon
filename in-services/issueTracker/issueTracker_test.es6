@@ -1,7 +1,7 @@
 /*eslint-env mocha*/
 /*eslint-disable max-len*/
 
-'use strict';
+
 
 import {expect} from 'chai';
 import sinon from 'sinon';

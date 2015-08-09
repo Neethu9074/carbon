@@ -1,4 +1,4 @@
-'use strict';
+
 
 const CIRCLE_ARC = 2 * Math.PI;
 

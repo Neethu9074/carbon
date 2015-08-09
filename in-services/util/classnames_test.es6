@@ -1,6 +1,6 @@
 /*eslint-env mocha*/
 
-'use strict';
+
 
 import {expect} from 'chai';
 

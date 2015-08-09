@@ -1,6 +1,6 @@
 /*global require:false */
 
-'use strict';
+
 
 runWithPolyfills(() => {
   require('./init');

@@ -1,4 +1,4 @@
-'use strict';
+
 
 import ContentManipulator from './ContentManipulator';
 

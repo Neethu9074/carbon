@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React from 'react/addons';
 import {getColor} from 'in-services/tags';

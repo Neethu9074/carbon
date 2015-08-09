@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React from 'react/addons';
 import * as metricsStore from 'in-services/stores/metrics';

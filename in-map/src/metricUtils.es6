@@ -1,4 +1,4 @@
-'use strict';
+
 
 import MetricConveyer from 'in-services/conveyer/MetricConveyer';
 import {create} from 'in-services/conveyer';

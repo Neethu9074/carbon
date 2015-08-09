@@ -1,4 +1,4 @@
-'use strict';
+
 
 import {send} from 'in-services/connection';
 

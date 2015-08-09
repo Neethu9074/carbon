@@ -1,4 +1,4 @@
-'use strict';
+
 
 import THREE from 'three';
 import * as time from '../timeCalculations';

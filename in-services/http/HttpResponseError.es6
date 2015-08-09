@@ -1,4 +1,4 @@
-'use strict';
+
 
 export default class HttpResponseError extends Error {
   constructor(response) {

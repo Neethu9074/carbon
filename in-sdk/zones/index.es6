@@ -1,4 +1,4 @@
-'use strict';
+
 
 import ColorGenerator from 'in-services/util/colors';
 

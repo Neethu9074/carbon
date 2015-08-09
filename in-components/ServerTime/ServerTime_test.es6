@@ -1,6 +1,6 @@
 /*eslint-env mocha*/
 
-'use strict';
+
 
 import React from 'react/addons';
 import proxyquire from 'proxyquire';

@@ -1,4 +1,4 @@
-'use strict';
+
 
 //components
 import THREE from 'three';

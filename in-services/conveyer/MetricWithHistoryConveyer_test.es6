@@ -1,7 +1,7 @@
 /* eslint-env mocha*/
 /*eslint max-len:[2, 120] */
 
-'use strict';
+
 
 import 'in-forge';
 

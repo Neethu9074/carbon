@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Component from '../Component';
 import {getHealth} from 'in-services/issueTracker';

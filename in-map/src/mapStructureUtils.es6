@@ -1,4 +1,4 @@
-'use strict';
+
 
 import Group from './sceneObjects/Group/index';
 

@@ -1,4 +1,4 @@
-'use strict';
+
 
 import * as time from './timeCalculations';
 import {getAllNodes, getAllGroups} from './mapStructureUtils';

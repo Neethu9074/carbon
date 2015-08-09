@@ -1,6 +1,6 @@
 /*eslint complexity:[2, 13] */
 
-'use strict';
+
 
 import _ from 'lodash';
 import moment from 'moment';

@@ -1,6 +1,6 @@
 /*eslint-env mocha, node*/
 
-'use strict';
+
 
 import {expect} from 'chai';
 import {getColor} from './index';

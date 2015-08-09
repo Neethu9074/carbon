@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React from 'react/addons';
 import * as ro from 'reactive-observables';

@@ -1,4 +1,4 @@
-'use strict';
+
 
 import {formatBytes} from 'in-services/converters';
 import {

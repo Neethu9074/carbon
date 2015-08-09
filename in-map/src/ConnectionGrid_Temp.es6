@@ -1,4 +1,4 @@
-'use strict';
+
 
 import {gamlib} from './lib/gamlib-ai.es6';
 import {createLogger} from 'instalog';

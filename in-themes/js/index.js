@@ -1,4 +1,4 @@
-/*eslint-disable no-var*/
+/*eslint-disable no-var,strict*/
 /*eslint-env node*/
 
 'use strict';

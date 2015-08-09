@@ -1,6 +1,6 @@
 /*eslint-disable react/no-multi-comp, react/prop-types*/
 
-'use strict';
+
 
 import React from 'react/addons';
 import invariant from 'invariant';

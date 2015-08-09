@@ -1,4 +1,4 @@
-'use strict';
+
 
 import HttpRequestTimeoutError from './HttpRequestTimeoutError';
 import HttpResponseError from './HttpResponseError';

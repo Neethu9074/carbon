@@ -1,4 +1,4 @@
-'use strict';
+
 
 import invariant from 'invariant';
 import * as connection from './index';

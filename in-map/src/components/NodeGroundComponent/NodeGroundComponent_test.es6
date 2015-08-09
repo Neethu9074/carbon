@@ -1,6 +1,6 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-'use strict';
+
 
 import {expect} from 'chai';
 import sinon from 'sinon';

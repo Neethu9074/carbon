@@ -1,4 +1,4 @@
-'use strict';
+
 
 import create from './abstractSelectableSnapshotStore';
 

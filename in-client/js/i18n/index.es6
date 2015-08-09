@@ -1,6 +1,6 @@
 /*eslint-disable max-len*/
 
-'use strict';
+
 
 export default {
   locales: ['en-US'],

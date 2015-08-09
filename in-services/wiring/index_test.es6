@@ -1,6 +1,6 @@
 /*eslint-env mocha*/
 
-'use strict';
+
 
 import Immutable from 'immutable';
 import sinon from 'sinon';

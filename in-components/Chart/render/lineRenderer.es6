@@ -1,4 +1,4 @@
-'use strict';
+
 
 export function draw({dataColumns, ctx, series, x, y}) {
   series.forEach((s, seriesIndex) => {

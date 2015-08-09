@@ -1,7 +1,7 @@
 /*global require: false*/
 /*eslint-disable react/no-did-mount-set-state, react/no-did-update-set-state*/
 
-'use strict';
+
 
 import React from 'react';
 import Immutable from 'immutable';

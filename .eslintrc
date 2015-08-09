@@ -1,5 +1,3 @@
 ---
   extends: instana
   plugins: ["import-order"]
-  rules:
-    import-order/import-order: 1

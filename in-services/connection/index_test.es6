@@ -1,7 +1,7 @@
 /*eslint-env mocha,node*/
 /*eslint-disable max-len*/
 
-'use strict';
+
 
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';

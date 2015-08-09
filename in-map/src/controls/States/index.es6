@@ -1,4 +1,4 @@
-'use strict';
+
 
 import NearestState from './NearestState';
 import NearState from './NearState';

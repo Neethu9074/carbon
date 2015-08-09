@@ -1,4 +1,4 @@
-'use strict';
+
 
 import THREE from 'three';
 import ConnectionGrid from './ConnectionGrid_Temp';

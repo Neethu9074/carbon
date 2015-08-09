@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * Adapted from https://github.com/JedWatson/classnames, but only supports the

@@ -1,4 +1,4 @@
-'use strict';
+
 
 import pbst from '../util/pluginBasedSnapshotTransformation';
 

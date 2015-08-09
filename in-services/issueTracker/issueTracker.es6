@@ -1,6 +1,6 @@
 /*eslint-disable new-cap*/
 
-'use strict';
+
 
 import Immutable from 'immutable';
 

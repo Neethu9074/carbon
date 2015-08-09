@@ -1,6 +1,6 @@
 /*global require:false*/
 
-'use strict';
+
 
 /*eslint-disable no-unused-vars*/
 // While this variable seems unused, it is required after the JSX transpilation.

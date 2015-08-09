@@ -1,7 +1,7 @@
 /*eslint-env mocha*/
 /*eslint-disable no-unused-vars, new-cap, max-len */
 
-'use strict';
+
 
 import {expect} from 'chai';
 import Immutable from 'immutable';

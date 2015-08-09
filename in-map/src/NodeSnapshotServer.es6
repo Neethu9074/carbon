@@ -1,4 +1,4 @@
-'use strict';
+
 
 import {selectedSceneObject} from './stores/mapStore';
 import {subscribeToMetric} from './metricUtils';

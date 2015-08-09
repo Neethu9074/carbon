@@ -1,4 +1,4 @@
-'use strict';
+
 
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.

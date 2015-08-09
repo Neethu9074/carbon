@@ -1,4 +1,4 @@
-'use strict';
+
 
 import State from './State';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';

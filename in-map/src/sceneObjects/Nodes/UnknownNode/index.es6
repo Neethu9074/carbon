@@ -1,4 +1,4 @@
-'use strict';
+
 
 import BaseNode from '../BaseNode/index';
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';

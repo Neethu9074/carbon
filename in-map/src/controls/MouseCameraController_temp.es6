@@ -1,4 +1,4 @@
-'use strict';
+
 
 import * as ro from 'reactive-observables';
 
