@@ -5,13 +5,11 @@
   "main": "index.js",
   "license": "UNLICENSED",
   "scripts": {
-    "build": "export BUILD_DEV='false' && gulp clean && gulp build",
-    "clean": "gulp clean",
-    "dev": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox-monitoring.yaml && open https://local-instana.instana.io:4000 && gulp dev",
-    "dev-simulator": "export BUILD_DEV='true' && proxrox stop && proxrox start .proxrox-simulator.yaml && open https://local-instana.instana.io:4000 && gulp dev",
     "postinstall": "./build/postInstall",
-    "prod": "export BUILD_DEV='false' && proxrox stop && proxrox start .proxrox.yaml && open https://local-instana.instana.io:4000 && gulp dev",
-    "test": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')"
+    "clean": "gulp clean",
+    "build": "export BUILD_DEV='false' && gulp clean && gulp build",
+    "test": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
+    "dev": "./build/run-dev.js"
   },
   "repository": {
     "type": "git",
@@ -62,6 +60,7 @@
     "gulp-size": "^1.2.0",
     "gulp-util": "^3.0.3",
     "html-loader": "^0.3.0",
+    "inquirer": "^0.9.0",
     "jsdom": "^2.0.0",
     "less": "^2.3.1",
     "less-loader": "^2.0.0",
