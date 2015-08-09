@@ -12,13 +12,15 @@ export function draw({dataColumns, ctx, series, x, y}) {
       const dataRow = dataColumn[seriesIndex];
 
       if (columnIndex === 0) {
-        ctx.moveTo(x(dataRow.x), y(dataRow.y1));
+        // subtract one to ensure that the line is always visible
+        ctx.moveTo(x(dataRow.x), y(dataRow.y1) - 1);
       } else {
-        ctx.lineTo(x(dataRow.x), y(dataRow.y1));
+        // subtract one to ensure that the line is always visible
+        ctx.lineTo(x(dataRow.x), y(dataRow.y1) - 1);
       }
     }
 
-    // going right to left
+    // going right to left to draw the bottom line
     for (let columnIndex = dataColumns.length - 1;
        columnIndex >= 0;
        columnIndex--) {
