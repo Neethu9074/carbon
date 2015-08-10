@@ -15,7 +15,6 @@ import Map from 'in-map';
 
 import ConnectionStatus from './ConnectionStatus';
 import FeedbackBadge from './FeedbackBadge';
-import NoNodesDialog from './NoNodesDialog';
 import HelpDialog from './HelpDialog';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
@@ -82,8 +81,6 @@ const App = React.createClass({
         <Footer />
 
         <RouteHandler />
-
-        <NoNodesDialog pluginId={this.state.pluginId} />
 
         {this.props.state.query.help ?
           <HelpDialog id={this.props.state.query.help} />
