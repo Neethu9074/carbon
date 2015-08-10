@@ -67,7 +67,7 @@ export default class Group extends SceneObject {
     //if there is no nodeId it's an unknown node
     if(nodeId) {
       //check if the node was already created and only needs an update
-      let matchedNode = _.find(this.children, node => node.id === nodeId);
+      const matchedNode = _.find(this.children, node => node.id === nodeId);
 
       //if the node was created in the past
       if(matchedNode) {

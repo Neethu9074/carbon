@@ -1,5 +1,3 @@
-
-
 import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
 
@@ -23,9 +21,8 @@ export function getLabel(snapshot, fallback) {
   if (!finder) {
     if (fallback) {
       return fallback;
-    } else {
-      return snapshot.get('steadyId');
     }
+    return snapshot.get('steadyId');
   }
 
   for (let i = 0; i < finder.length; i++) {
@@ -37,9 +34,8 @@ export function getLabel(snapshot, fallback) {
 
   if (fallback) {
     return fallback;
-  } else {
-    return snapshot.get('steadyId');
   }
+  return snapshot.get('steadyId');
 }
 
 

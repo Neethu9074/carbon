@@ -1,13 +1,11 @@
-
-
 import React from 'react/addons';
+
+import {getColor} from 'in-sdk/zones';
 
 import TooltipFrame from '../Frame';
 import Heading from '../Heading';
 import Content from '../Content';
 import Icon from '../../Icon';
-
-import {getColor} from 'in-sdk/zones';
 
 import './index.less';
 

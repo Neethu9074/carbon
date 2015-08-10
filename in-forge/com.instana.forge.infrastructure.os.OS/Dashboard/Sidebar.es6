@@ -1,15 +1,13 @@
-
-
+import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
-import irpt from 'react-immutable-proptypes';
 
-import * as constants from 'in-forge/constants';
-import Collapsible from 'in-components/Collapsible';
-
-import TagList from 'in-components/TagList/TagList';
 import ProblemPanel from 'in-components/ProblemPanel';
+import Collapsible from 'in-components/Collapsible';
+import TagList from 'in-components/TagList/TagList';
 import WiringList from 'in-components/WiringList';
+import * as constants from 'in-forge/constants';
+
 import EC2Info from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Info';
 import HostInfo from '../HostInfo';
 

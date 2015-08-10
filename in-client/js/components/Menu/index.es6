@@ -1,10 +1,10 @@
-
-
-import React from 'react/addons';
-import Icon from 'in-components/Icon';
-import SignOut from '../SignOut';
-import StanExplainsThings from '../StanExplainsThings';
 import {IntlMixin} from 'react-intl';
+import React from 'react/addons';
+
+import Icon from 'in-components/Icon';
+
+import StanExplainsThings from '../StanExplainsThings';
+import SignOut from '../SignOut';
 
 import './index.less';
 

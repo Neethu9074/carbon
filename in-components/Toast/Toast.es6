@@ -22,7 +22,7 @@ const Toast = React.createClass({
       return null;
     }
 
-    let classes = 'in-toast';
+    const classes = 'in-toast';
 
     return (
       <div className={classes} key='toast'>

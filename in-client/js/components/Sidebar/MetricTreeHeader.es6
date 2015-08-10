@@ -1,6 +1,5 @@
-
-
 import React from 'react/addons';
+
 import Icon from 'in-components/Icon';
 
 import './MetricTreeHeader.less';
@@ -23,7 +22,7 @@ const MetricTreeHeader = React.createClass({
   },
 
   render() {
-    let classes = this.props.className ?
+    const classes = this.props.className ?
       block + ' ' + block + '--' + this.props.className :
       block;
 

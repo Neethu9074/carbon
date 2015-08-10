@@ -1,23 +1,22 @@
-
-
 import Immutable from 'immutable';
 import React from 'react/addons';
 
-import {Tabs, Tab} from 'in-components/Tabs';
-import {create} from 'in-services/conveyer';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import {getIssueCountSummary, getIssueSummary} from 'in-services/issueTracker';
-import {sort} from 'in-sdk/sorting';
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {Tabs, Tab} from 'in-components/Tabs';
+import {create} from 'in-services/conveyer';
 import {theme} from 'in-services/theme';
-import Metrics from './Metrics';
-import MapStats from './MapStats';
-import Tags from './Tags';
-import Details from './Details';
+import {sort} from 'in-sdk/sorting';
+
 import SeverityListing from './SeverityListing';
+import MapStats from './MapStats';
 import ZoneList from './ZoneList';
+import Metrics from './Metrics';
+import Details from './Details';
+import Tags from './Tags';
 
 import './Listing.less';
 

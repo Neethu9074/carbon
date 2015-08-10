@@ -116,9 +116,7 @@ export default class SceneObject {
   }
 
   forEachComponent(fn) {
-    for(let key in this.components) {
-      fn(this.components[key]);
-    }
+    Object.keys(this.components).forEach(key => fn(this.components[key]));
   }
 
   init() {}

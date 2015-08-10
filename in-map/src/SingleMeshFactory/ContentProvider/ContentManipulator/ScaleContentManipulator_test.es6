@@ -6,7 +6,7 @@ import SCM from './ScaleContentManipulator';
 
 
 describe('3D map', () => {
-  let contentProvider = {
+  const contentProvider = {
     getVertices() { return [4, 5, 6]; },
     getColors() { return [7, 8, 9]; }
   };

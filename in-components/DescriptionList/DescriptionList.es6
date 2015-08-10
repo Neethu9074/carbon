@@ -1,7 +1,4 @@
 /*eslint-disable react/no-multi-comp*/
-
-
-
 import React from 'react';
 
 import './DescriptionList.less';
@@ -26,9 +23,9 @@ export const DescriptionList = React.createClass({
   renderItems() {
     if (this.props.children instanceof Array) {
       return this.props.children.map(child => this.renderItem(child.props));
-    } else {
-      return this.renderItem(this.props.children.props);
     }
+
+    return this.renderItem(this.props.children.props);
   },
 
   renderItem(descriptionItemProps) {

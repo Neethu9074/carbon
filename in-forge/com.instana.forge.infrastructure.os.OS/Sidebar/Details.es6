@@ -1,16 +1,14 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 
-import * as constants from 'in-forge/constants';
+import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
-
 import TagList from 'in-components/TagList/TagList';
+import * as constants from 'in-forge/constants';
+
 import EC2Info from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Info';
 import HostInfo from '../HostInfo';
-import ProblemPanel from 'in-components/ProblemPanel';
 
 const block = 'in-sidebar-server-details';
 

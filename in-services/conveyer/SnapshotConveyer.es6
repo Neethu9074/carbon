@@ -1,7 +1,6 @@
-
-
 import _ from 'lodash';
 import Immutable from 'immutable';
+
 import * as connection from '../connection/subscriptionAwareConnection';
 
 export default class SnapshotConveyer {

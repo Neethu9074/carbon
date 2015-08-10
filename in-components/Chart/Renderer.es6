@@ -1,15 +1,12 @@
 /*eslint complexity:[2, 13] */
-
-
-
-import _ from 'lodash';
-import moment from 'moment';
-import d3 from 'd3';
-import TWEEN from 'tween.js';
 import * as ro from 'reactive-observables';
+import TWEEN from 'tween.js';
+import moment from 'moment';
+import _ from 'lodash';
+import d3 from 'd3';
 
-import {theme} from 'in-services/theme';
 import * as timelineStore from 'in-services/stores/timeline';
+import {theme} from 'in-services/theme';
 
 import Queue from './Queue';
 import Data from './Data';
@@ -361,7 +358,7 @@ export default class Renderer {
     const initialRendering = this.y1.data.getDataColumns().length === 0 ||
       (this.y2 && this.y2.data.getDataColumns().length === 0);
 
-    let newDataColumnsY1 = this.y1.queue.get();
+    const newDataColumnsY1 = this.y1.queue.get();
     this.processNewDataColumns('y1', newDataColumnsY1);
     this.y1.data.insertSorted(newDataColumnsY1);
 
@@ -601,7 +598,7 @@ export default class Renderer {
       }
     }
 
-    let minX = maxX - this.windowSize;
+    const minX = maxX - this.windowSize;
 
     this.x.domain([minX, maxX]);
   }

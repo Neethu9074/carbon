@@ -1,15 +1,12 @@
 /* eslint-env mocha*/
 /*eslint max-len:[2, 120] */
-
-
-
-import 'in-forge';
-
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';
 import RoEmitter from 'roemitter';
 import Immutable from 'immutable';
+
+import 'in-forge';
 
 const ec2 = 'com.instana.forge.infrastructure.virtualization.EC2';
 

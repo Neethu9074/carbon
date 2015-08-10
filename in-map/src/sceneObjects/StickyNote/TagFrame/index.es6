@@ -31,7 +31,7 @@ export default React.createClass({
     }));
   },
 
-  mouseOver: function () {
+  mouseOver: function() {
     this.tooltip = new MultiTagToolTip({
       parent: this.props.sceneObject,
       tags: this.props.tags
@@ -39,7 +39,7 @@ export default React.createClass({
     this.tooltip.mount();
   },
 
-  mouseOut: function () {
+  mouseOut: function() {
     this.tooltip.unMount();
     this.tooltip = null;
   },

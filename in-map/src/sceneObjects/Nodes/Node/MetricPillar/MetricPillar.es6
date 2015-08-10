@@ -78,7 +78,7 @@ export default class MetricPillar extends SceneObject {
     let values = [];
 
     //if there are no new metric values available
-    let useOldPos = (this.newMetricValues === undefined);
+    const useOldPos = (this.newMetricValues === undefined);
     if(!useOldPos) {
       values = this.newMetricValues;
       this.newMetricValues = undefined;

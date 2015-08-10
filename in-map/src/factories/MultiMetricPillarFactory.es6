@@ -80,7 +80,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     if(fragment.tiles === undefined ||
       fragment.tiles.length < this.numTiles) {
 
-      throw {error: 'argument exception'};
+      throw new Error('argument exception');
     }
 
     super.addFragment(fragment);

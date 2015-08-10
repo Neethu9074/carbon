@@ -1,19 +1,14 @@
-
-
 import Immutable from 'immutable';
 
-import {
-  addIconFinder,
-  addLabelFinder
-} from 'in-sdk/snapshot';
-import * as power from 'in-sdk/power';
-import * as sorting from 'in-sdk/sorting';
-import * as zones from 'in-sdk/zones';
+import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
+import * as sorting from 'in-sdk/sorting';
+import * as power from 'in-sdk/power';
+import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';
-import linuxIconPath from './icons/instana_server_linux.svg';
 import windowsIconPath from './icons/instana_server_windows.svg';
+import linuxIconPath from './icons/instana_server_linux.svg';
 import appleIconPath from './icons/instana_server_apple.svg';
 
 import './metrics';
@@ -63,12 +58,12 @@ sorting.addMapping(
 zones.addMapping(
   constants.plugins.os,
   snapshot => {
-    let steadyIdToZone = snapshot.getIn([
+    const steadyIdToZone = snapshot.getIn([
       'data',
       constants.rels.describes,
       constants.plugins.ec2
     ], Immutable.Map());
-    let zone = steadyIdToZone.valueSeq().first();
+    const zone = steadyIdToZone.valueSeq().first();
     return zone ? zone.get('availability-zone') : 'undefined';
   }
 );

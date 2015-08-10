@@ -1,10 +1,9 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
+import Collapsible from 'in-components/Collapsible';
+
 import CassandraInfo from '../CassandraInfo';
 
 const rpt = React.PropTypes;

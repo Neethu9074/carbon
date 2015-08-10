@@ -1,12 +1,10 @@
-
-
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 import _ from 'lodash';
-import irpt from 'react-immutable-proptypes';
 
-import {create} from 'in-services/conveyer';
-import MetricConveyer from 'in-services/conveyer/MetricConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import MetricConveyer from 'in-services/conveyer/MetricConveyer';
+import {create} from 'in-services/conveyer';
 import {theme} from 'in-services/theme';
 
 import ContentHeading from '../ContentHeading';
@@ -93,9 +91,8 @@ const ChartLegend = React.createClass({
   formatValue(d) {
     if (this.props.metricValueFormatter) {
       return this.props.metricValueFormatter(d);
-    } else {
-      return d;
     }
+    return d;
   }
 });
 

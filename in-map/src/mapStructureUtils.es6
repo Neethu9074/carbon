@@ -8,7 +8,7 @@ export function getAllNodes(parent) {
 }
 
 function getNodes(parent, nodes) {
-  let col = getChildren(parent);
+  const col = getChildren(parent);
   if(!col) {return; }
 
   col.forEach((child) => {
@@ -23,9 +23,8 @@ function getNodes(parent, nodes) {
 export function getChildren(parent) {
   if(parent instanceof Group){
     return parent.children;
-  } else {
-    return parent.groups;
   }
+  return parent.groups;
 }
 
 export function getAllGroups(parent) {
@@ -35,7 +34,7 @@ export function getAllGroups(parent) {
 }
 
 function getGroups(parent, groups) {
-  let col = getChildren(parent);
+  const col = getChildren(parent);
   if(!col) {return; }
 
   col.forEach((child) => {

@@ -64,7 +64,7 @@ export default class AbstractMeshCreationFactory {
 
   //abstract rebuild method has to be implemented
   rebuild() {
-    throw {message: 'NOT IMPLEMENTED EXCEPTION'};
+    throw new Error('NOT IMPLEMENTED EXCEPTION');
   }
 
   //returns all registered objects which are enabled

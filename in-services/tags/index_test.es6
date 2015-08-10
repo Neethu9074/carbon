@@ -1,8 +1,6 @@
 /*eslint-env mocha, node*/
-
-
-
 import {expect} from 'chai';
+
 import {getColor} from './index';
 
 describe('tags', () => {

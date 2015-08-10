@@ -1,6 +1,5 @@
-
-
 import React from 'react/addons';
+
 import MetricTreeHeader from './MetricTreeHeader';
 
 import './MetricTree.less';
@@ -54,7 +53,7 @@ const MetricTree = React.createClass({
   },
 
   render() {
-    let classes = this.props.className ?
+    const classes = this.props.className ?
       block + ' ' + this.props.className :
       block;
 

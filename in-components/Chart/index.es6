@@ -1,12 +1,11 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 import _ from 'lodash';
 
+import TimeWindowBasedMetricConveyer from 'in-services/conveyer/TimeWindowBasedMetricConveyer';
 import {isIdEqual} from 'in-services/util/snapshots';
 import {create} from 'in-services/conveyer';
-import TimeWindowBasedMetricConveyer from 'in-services/conveyer/TimeWindowBasedMetricConveyer';
+
 import Chart from './Chart';
 
 const rpt = React.PropTypes;

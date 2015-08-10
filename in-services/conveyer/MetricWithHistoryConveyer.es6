@@ -1,7 +1,6 @@
-
+import _ from 'lodash';
 
 import * as connection from '../connection/subscriptionAwareConnection';
-import _ from 'lodash';
 
 export default class MetricWithHistoryConveyer {
 

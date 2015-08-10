@@ -1,11 +1,9 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import {create} from 'in-services/conveyer';
-import MetricConveyer from 'in-services/conveyer/MetricConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import MetricConveyer from 'in-services/conveyer/MetricConveyer';
+import {create} from 'in-services/conveyer';
 
 const rpt = React.PropTypes;
 const Mtd = React.createClass({
@@ -31,12 +29,13 @@ const Mtd = React.createClass({
   getStream(props) {
     if (props.createMetricValueStream) {
       return props.createMetricValueStream();
-    } else {
-      return create(MetricConveyer, {
-        snapshot: props.snapshot,
-        metric: props.metric
-      });
     }
+
+    return create(MetricConveyer, {
+      snapshot: props.snapshot,
+      metric: props.metric
+    });
+
   },
 
   establishSubscription(stream) {

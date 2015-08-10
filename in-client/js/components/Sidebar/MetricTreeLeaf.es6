@@ -1,6 +1,5 @@
-
-
 import React from 'react/addons';
+
 import * as metricsStore from 'in-services/stores/metrics';
 
 import './MetricTreeLeaf.less';
@@ -25,7 +24,7 @@ const MetricTreeLeaf = React.createClass({
   },
 
   render() {
-    let classes = this.props.className ?
+    const classes = this.props.className ?
       block + ' ' + this.props.className :
       block;
 

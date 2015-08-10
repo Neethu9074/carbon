@@ -103,9 +103,8 @@ const Chart = React.createClass({
       return stackedAreaRenderer;
     } else if (type === 'point') {
       return pointRenderer;
-    } else {
-      throw new Error('Unknown chart type' + type);
     }
+    throw new Error('Unknown chart type' + type);
   },
 
   subscribeToDatasources(axis) {

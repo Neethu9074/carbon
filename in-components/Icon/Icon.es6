@@ -29,14 +29,14 @@ const Icon = React.createClass({
                 onMouseEnter={this.props.onMouseEnter}
                 onMouseLeave={this.props.onMouseLeave}/>
       );
-    } else {
-      return (
-        <i className={classes}
-           style={this.props.style}
-           onMouseEnter={this.props.onMouseEnter}
-           onMouseLeave={this.props.onMouseLeave}/>
-      );
     }
+
+      return (
+      <i className={classes}
+         style={this.props.style}
+         onMouseEnter={this.props.onMouseEnter}
+         onMouseLeave={this.props.onMouseLeave}/>
+    );
   }
 });
 

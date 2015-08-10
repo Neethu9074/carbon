@@ -1,21 +1,18 @@
-
-
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.
+import {run, HashLocation} from 'react-router';
+import React from 'react/addons';
+import logging from 'instalog';
+
+import {setThemeOnHtmlDocument} from 'in-services/theme';
+import 'in-services/time';
 import 'in-forge';
 
-import React from 'react/addons';
-import {run, HashLocation} from 'react-router';
-
-import logging from 'instalog';
-import {setThemeOnHtmlDocument} from 'in-services/theme';
-
+import UiBackendLogAppender from './UiBackendLogAppender';
 import routes from './routes';
 import i18n from './i18n';
-import UiBackendLogAppender from './UiBackendLogAppender';
 
 // initiate time offset calculation. Module initialization has side effects.
-import 'in-services/time';
 import './i18n/momentOverwrites';
 
 import './devtools/subscriptionInfoPrinter';

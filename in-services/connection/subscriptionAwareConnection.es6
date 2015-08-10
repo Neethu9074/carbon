@@ -1,6 +1,5 @@
-
-
 import invariant from 'invariant';
+
 import * as connection from './index';
 
 // we are exposing the emitter of the connection to maintain the interface of
@@ -10,7 +9,7 @@ export const emitter = connection.emitter;
 // {
 //   <id>: <data to be send to establish subscription>
 // }
-let subscriptions = {};
+const subscriptions = {};
 
 // automatically try to resend the subscriptions once the connection is closed
 // (for whatever reason that may happen).

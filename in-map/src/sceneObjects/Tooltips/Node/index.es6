@@ -115,15 +115,15 @@ const NodeTooltipRC = React.createClass({
           </Content>
         </TooltipFrame>
       );
-    } else {
-      return (
-        <TooltipFrame>
-          <Content className={heading.cssClass}>
-            {heading.text.toUpperCase()}
-          </Content>
-        </TooltipFrame>
-      );
     }
+
+    return (
+      <TooltipFrame>
+        <Content className={heading.cssClass}>
+          {heading.text.toUpperCase()}
+        </Content>
+      </TooltipFrame>
+    );
   }
 });
 /*eslint-enable no-unused-vars*/

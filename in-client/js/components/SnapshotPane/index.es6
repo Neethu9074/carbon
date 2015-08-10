@@ -1,19 +1,16 @@
 /*eslint-disable react/no-multi-comp*/
-
-
-
-import React from 'react';
 import {State, Navigation} from 'react-router';
-import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
+import moment from 'moment';
+import React from 'react';
 
-
+import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {create} from 'in-services/conveyer';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
-const block = 'in-snapshot-pane';
 
 import './index.less';
+
+const block = 'in-snapshot-pane';
 
 const SnapshotsPaneContent = React.createClass({
   propTypes: {

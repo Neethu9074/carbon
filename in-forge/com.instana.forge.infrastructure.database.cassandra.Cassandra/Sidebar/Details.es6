@@ -1,12 +1,10 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
+import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 
 import CassandraInfo from '../CassandraInfo';
-import ProblemPanel from 'in-components/ProblemPanel';
 
 const block = 'in-sidebar-server-details';
 

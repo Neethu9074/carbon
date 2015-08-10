@@ -1,8 +1,5 @@
 /*eslint-env mocha*/
 /*eslint-disable max-len*/
-
-
-
 import {expect} from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
@@ -148,7 +145,7 @@ describe('issueTracker', () => {
 
       observable.emit(issuesStubData);
 
-      let summary = stub.getCall(0).args[0];
+      const summary = stub.getCall(0).args[0];
       expect(summary.get('warning').size).to.equal(1);
       const snapshotId = summary.get('warning').keys().next().value;
       expect(snapshotId.get('pluginId')).to.equal('p1');

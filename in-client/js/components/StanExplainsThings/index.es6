@@ -1,6 +1,5 @@
-
-
 import React from 'react/addons';
+
 import Stan from 'in-components/Stan';
 
 import './index.less';
@@ -21,7 +20,7 @@ const StanExplainsThings = React.createClass({
   },
 
   render() {
-    let classes = this.props.className ?
+    const classes = this.props.className ?
       block + ' ' + this.props.className :
       block;
 

@@ -6,7 +6,7 @@ import CMCM from './ColorMultiplierContentManipulator';
 
 
 describe('3D map', () => {
-  let contentProvider = {
+  const contentProvider = {
     getColors() { return [0, 1, 0.5]; }
   };
 

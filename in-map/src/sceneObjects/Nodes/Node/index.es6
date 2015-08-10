@@ -62,7 +62,7 @@ export default class Node extends BaseNode {
     components.layer = new LayerComponent({sceneObject: this});
     components.ground.sizeChanged(1.5, 1, 1.5);
     components.groundLine.sizeChanged(1.5, 1, 1.5);
-    
+
     this.stickyNote = new StickyNoteNode(this);
   }
 
