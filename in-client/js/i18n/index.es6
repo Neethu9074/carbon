@@ -1,7 +1,3 @@
-/*eslint-disable max-len*/
-
-
-
 export default {
   locales: ['en-US'],
   messages: {
@@ -10,10 +6,6 @@ export default {
         networkinterfaces: 'Network Interfaces',
         filesystems: 'Filesystems'
       }
-    },
-    noNodesDialog: {
-      header: 'No monitored systems',
-      content: 'It seems that you are not yet monitoring any systems...'
     },
     map: {
       sidebar: {

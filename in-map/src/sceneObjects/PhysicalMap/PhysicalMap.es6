@@ -1,12 +1,12 @@
 import THREE from 'three';
 import _ from 'lodash';
 
-import {getZone} from 'in-sdk/zones';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {filters} from 'in-services/stores/mapFilters';
 import {isIdEqual} from 'in-services/util/snapshots';
 import eventBus from 'in-services/eventbus';
 import {create} from 'in-services/conveyer';
+import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import {selectedSceneObject} from '../../stores/mapStore';
