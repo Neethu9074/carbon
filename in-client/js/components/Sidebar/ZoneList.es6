@@ -1,12 +1,9 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
-import {getZone} from 'in-sdk/zones';
 import {getColor} from 'in-sdk/zones';
-
+import {getZone} from 'in-sdk/zones';
 
 import SnapshotList from './SnapshotList';
 

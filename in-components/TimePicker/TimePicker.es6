@@ -1,8 +1,7 @@
-
-
 import React from 'react/addons';
-import Button from '../Button';
 import {IntlMixin} from 'react-intl';
+
+import Button from '../Button';
 
 import './TimePicker.less';
 

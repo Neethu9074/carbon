@@ -1,24 +1,23 @@
 /*global require:false*/
-
-
-
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import {RouteHandler, Navigation} from 'react-router';
 
-import Map from 'in-map';
-import Lettering from 'in-components/Lettering';
-import QueryBuilder from 'in-components/QueryBuilder';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import QueryBuilder from 'in-components/QueryBuilder';
 import * as constants from 'in-forge/constants';
+import Lettering from 'in-components/Lettering';
+import helpify from 'in-components/hoc/helpify';
+import {create} from 'in-services/conveyer';
+import Map from 'in-map';
 
-import FeedbackBadge from './FeedbackBadge';
-import Footer from './Footer';
-import HelpDialog from './HelpDialog';
-import NoNodesDialog from './NoNodesDialog';
 import ConnectionStatus from './ConnectionStatus';
+import FeedbackBadge from './FeedbackBadge';
+import HelpDialog from './HelpDialog';
 import Sidebar from './Sidebar';
+import Footer from './Footer';
 
 import './App.less';
 
@@ -33,7 +32,8 @@ const App = React.createClass({
   ],
 
   propTypes: {
-    state: rpt.object.isRequired
+    state: rpt.object.isRequired,
+    showHelp: rpt.func.isRequired
   },
 
   getInitialState() {
@@ -49,6 +49,14 @@ const App = React.createClass({
         this.setState({
           selectedSnapshot
         });
+      })
+    );
+
+    this.addSubscription(create(SnapshotConveyer, {pluginId: this.state.pluginId})
+      .subscribe(data => {
+        if(data.size === 0) {
+          this.props.showHelp(203860032);
+        }
       })
     );
   },
@@ -74,8 +82,6 @@ const App = React.createClass({
 
         <RouteHandler />
 
-        <NoNodesDialog pluginId={this.state.pluginId} />
-
         {this.props.state.query.help ?
           <HelpDialog id={this.props.state.query.help} />
         : null}
@@ -95,4 +101,4 @@ const App = React.createClass({
   }
 });
 
-export default App;
+export default helpify(App);

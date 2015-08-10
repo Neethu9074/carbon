@@ -1,11 +1,10 @@
+import Immutable from 'immutable';
 
+import {isIdEqual} from 'in-services/util/snapshots';
 
-import BaseNode from '../BaseNode/index';
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
 import TooltipUnknownNode from '../../Tooltips/UnknownNode';
-
-import Immutable from 'immutable';
-import {isIdEqual} from 'in-services/util/snapshots';
+import BaseNode from '../BaseNode/index';
 
 
 export default class Unknownnode extends BaseNode {

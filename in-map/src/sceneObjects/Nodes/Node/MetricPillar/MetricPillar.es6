@@ -1,14 +1,11 @@
-
-
 import THREE from 'three';
 
-//components
+import eventBus from 'in-services/eventbus';
+
 import CollisionComponent from '../../../../components/CollisionObjectComponent';
 
-import SceneObject from '../../../SceneObject/index';
 import {cubeGeometry, defaultGeometryMaterial} from '../../../geometries';
-
-import eventBus from 'in-services/eventbus';
+import SceneObject from '../../../SceneObject/index';
 
 let id = 0;
 
@@ -81,7 +78,7 @@ export default class MetricPillar extends SceneObject {
     let values = [];
 
     //if there are no new metric values available
-    let useOldPos = (this.newMetricValues === undefined);
+    const useOldPos = (this.newMetricValues === undefined);
     if(!useOldPos) {
       values = this.newMetricValues;
       this.newMetricValues = undefined;

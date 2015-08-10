@@ -1,10 +1,9 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-
-
 import {expect} from 'chai';
-import {health} from 'in-services/health';
 import sinon from 'sinon';
+
+import {health} from 'in-services/health';
 
 import HealthComponent from './HealthComponent';
 
@@ -25,7 +24,7 @@ describe('3D map', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);
-      expect(component.healthToSet).to.equal(health.ok);
+      expect(component.healthToSet).to.equal(undefined);
     });
 
     it('dont call external method until time event was handled', () => {

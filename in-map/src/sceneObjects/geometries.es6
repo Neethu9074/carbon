@@ -1,5 +1,3 @@
-
-
 import THREE from 'three';
 
 //the basic geometry is a uniformed cube, where the pivot point is at the corner

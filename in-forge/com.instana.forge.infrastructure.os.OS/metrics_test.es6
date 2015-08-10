@@ -1,14 +1,10 @@
 /*eslint-env mocha*/
-
-
 import Immutable from 'immutable';
 import {expect} from 'chai';
 
+import {getNormalizedValue, getFormattedValue} from 'in-sdk/metrics';
+
 import './index';
-import {
-  getNormalizedValue,
-  getFormattedValue
-  } from 'in-sdk/metrics';
 
 describe('metrics', () => {
 

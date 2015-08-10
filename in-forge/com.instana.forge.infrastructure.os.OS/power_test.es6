@@ -1,11 +1,10 @@
 /*eslint-env mocha*/
-
-
 import Immutable from 'immutable';
 import {expect} from 'chai';
 
-import './index';
 import {getPower} from 'in-sdk/power';
+
+import './index';
 
 describe('power', () => {
   const osPlugin = 'com.instana.forge.infrastructure.os.OS';

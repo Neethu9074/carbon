@@ -1,12 +1,10 @@
-
-
 import React from 'react/addons';
+
+import {theme} from 'in-services/theme';
 
 import TooltipFrame from '../Frame';
 import Heading from '../Heading';
 import Content from '../Content';
-
-import {theme} from 'in-services/theme';
 
 import './index.less';
 

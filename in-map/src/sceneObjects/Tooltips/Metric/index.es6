@@ -1,13 +1,12 @@
-
-
 import React from 'react/addons';
-import Tooltip from '../Tooltip';
-import MetricTooltip from 'in-components/Tooltips/Metric';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import MetricTooltip from 'in-components/Tooltips/Metric';
 import {activeMetric} from 'in-services/stores/metrics';
-import {subscribeToMetric} from '../../../metricUtils';
 import {getFormattedValue} from 'in-sdk/metrics';
+
+import {subscribeToMetric} from '../../../metricUtils';
+import Tooltip from '../Tooltip';
 
 
 /*eslint-disable no-unused-vars*/

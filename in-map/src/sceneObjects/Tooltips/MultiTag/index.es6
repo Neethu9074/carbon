@@ -1,12 +1,10 @@
-
-
 import React from 'react/addons';
-import Tooltip from '../Tooltip';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
-
 import {getColor} from 'in-services/tags';
+
+import Tooltip from '../Tooltip';
 
 import './index.less';
 

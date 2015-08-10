@@ -1,11 +1,17 @@
-
-
 import THREE from 'three';
 
-//components
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {isIdEqual} from 'in-services/util/snapshots';
+import eventBus from 'in-services/eventbus';
+import {health} from 'in-services/health';
+import {theme} from 'in-services/theme';
+import {getPower} from 'in-sdk/power';
+
 import HealthComponent from '../../../components/HealthComponent';
-import NodeGroundComponent from '../../../components/NodeGroundComponent';
 import LayerComponent from '../../../components/LayerComponent';
+import MeshComponent from '../../../components/MeshComponent';
+import LineMeshComponent from '../../../components/LineMeshComponent';
 
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
@@ -16,15 +22,11 @@ import TooltipMetric from '../../Tooltips/Metric';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode/index';
 
-// import SCCP from '../../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
-
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isIdEqual} from 'in-services/util/snapshots';
-import eventBus from 'in-services/eventbus';
-import {health} from 'in-services/health';
-import {theme} from 'in-services/theme';
-import {getPower} from 'in-sdk/power';
+import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
+import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 
 export default class Node extends BaseNode {
@@ -32,9 +34,34 @@ export default class Node extends BaseNode {
   constructor({parent, snapshot}) {
     super({parent, snapshot});
 
-    this.components.ground = new NodeGroundComponent({sceneObject: this});
-    this.components.health = new HealthComponent({sceneObject: this});
-    this.components.layer = new LayerComponent({sceneObject: this});
+    const id = this.id + '_ground';
+    const components = this.components;
+    components.ground = new MeshComponent({
+      id,
+      sceneObject: this,
+      factory: this.scene.groundSingleMeshFactory,
+      contentProvider: new CMCM({
+        contentProvider: new PCM({
+          contentProvider: new SCM({
+            contentProvider: new PCP()
+          })
+        })
+      })
+    });
+    components.groundLine = new LineMeshComponent({
+      id,
+      sceneObject: this,
+      factory: this.scene.lineFactory,
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: new FCP()
+        })
+      })
+    });
+    components.health = new HealthComponent({sceneObject: this});
+    components.layer = new LayerComponent({sceneObject: this});
+    components.ground.sizeChanged(1.5, 1, 1.5);
+    components.groundLine.sizeChanged(1.5, 1, 1.5);
 
     this.stickyNote = new StickyNoteNode(this);
   }
@@ -207,6 +234,7 @@ export default class Node extends BaseNode {
     this.singleMetricPillar.getComponent('position').setPosition(x, y, z);
     this.multiMetricPillar.getComponent('position').setPosition(x, y, z);
     this.getComponent('ground').positionChanged(x, y, z);
+    this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
     this.getComponent('layer').positionChanged(x, y, z);
 
     this.updateOfVisualComponents();
@@ -218,9 +246,25 @@ export default class Node extends BaseNode {
   }
 
   healthChanged(newHealth) {
+    const groundLine = this.getComponent('groundLine');
+    const ground = this.getComponent('ground');
     const color = this.calculateNodeColor(newHealth);
-    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
-    this.getComponent('ground').healthChanged(newHealth);
+    const r = color.r;
+    const g = color.g;
+    const b = color.b;
+
+    ground.colorChanged(r, g, b);
+    groundLine.colorChanged(r, g, b);
+    this.getComponent('mesh').colorChanged(r, g, b);
+
+    if(newHealth === health.ok) {
+      ground.stateMachine.changeStateProperty('active', false);
+      groundLine.stateMachine.changeStateProperty('active', false);
+
+    } else {
+      ground.stateMachine.changeStateProperty('active', true);
+      groundLine.stateMachine.changeStateProperty('active', true);
+    }
   }
 
   dispose() {

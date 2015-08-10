@@ -1,8 +1,7 @@
-
-
 import React from 'react/addons';
-import StickyNote from '../StickyNote';
+
 import UnknownNodeButton from '../UnknownNodeButton';
+import StickyNote from '../StickyNote';
 
 import './index.less';
 

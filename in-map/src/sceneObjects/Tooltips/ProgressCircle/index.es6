@@ -1,9 +1,9 @@
-
-
 import React from 'react/addons';
-import Tooltip from '../Tooltip';
 import TWEEN from 'tween.js';
+
 import eventBus from 'in-services/eventbus';
+
+import Tooltip from '../Tooltip';
 
 import './index.less';
 

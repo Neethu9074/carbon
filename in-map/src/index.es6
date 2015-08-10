@@ -1,11 +1,10 @@
-
-
 import React from 'react/addons';
 import {Navigation} from 'react-router';
-import helpify from 'in-components/hoc/helpify';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import helpify from 'in-components/hoc/helpify';
 import eventBus from 'in-services/eventbus';
+
 import Scene from './Scene';
 
 import './index.less';

@@ -31,8 +31,8 @@ export function formatBytes(num, numberOfDecimalPlaces=2) {
 
   let exponent;
   let unit;
-  let neg = num < 0;
-  let units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+  const neg = num < 0;
+  const units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
   if (neg) {
     num = -num;

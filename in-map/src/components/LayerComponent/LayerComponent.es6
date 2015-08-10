@@ -1,11 +1,9 @@
-
-
 import _ from 'lodash';
 
-import Component from '../Component';
-import Layer from '../../sceneObjects/Layer/index';
-
 import {isIdEqual} from 'in-services/util/snapshots';
+
+import Layer from '../../sceneObjects/Layer/index';
+import Component from '../Component';
 
 
 export default class LayerComponent extends Component {

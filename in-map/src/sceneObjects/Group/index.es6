@@ -1,23 +1,21 @@
-
-
 import _ from 'lodash';
 
-import SceneObject from '../SceneObject/index';
-import Node from '../Nodes/Node/index';
-import UnknownNode from '../Nodes/UnknownNode/index';
-import StickyNote from '../StickyNote/Ground';
+import {hexToRGBNormalized} from 'in-services/converters';
+import {getIdString} from 'in-services/util/snapshots';
+import eventBus from 'in-services/eventbus';
+import {getColor} from 'in-sdk/zones';
 
-/*eslint-disable max-len*/
-import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
+import LineMeshComponent from '../../components/LineMeshComponent';
+
+import UnknownNode from '../Nodes/UnknownNode/index';
+import SceneObject from '../SceneObject/index';
+import StickyNote from '../StickyNote/Ground';
+import Node from '../Nodes/Node/index';
+
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import VATOCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
-/*eslint-enable max-len*/
+import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
-import eventBus from 'in-services/eventbus';
-import {getIdString} from 'in-services/util/snapshots';
-import {getColor} from 'in-sdk/zones';
-import {hexToRGBNormalized} from 'in-services/converters';
 
 export default class Group extends SceneObject {
 
@@ -25,21 +23,31 @@ export default class Group extends SceneObject {
     super({parent, id});
 
     this.children = [];
-    this.size = {x: 1, y: 1, z: 1};
+    this.zSize = 1;
 
     this.stickyNote = new StickyNote(this);
 
-    this.addSubscription(eventBus.on('endUpdate').subscribe(() => {
-      this.update();
-    }));
+    this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
+  }
 
-    this.geometryProvider = new VATOCM({
-      contentProvider: new PCM({ //reposition
-        contentProvider: new SCM({ //resize
+  initComponents() {
+    super.initComponents();
+
+    const id = this.id;
+    const color = hexToRGBNormalized(getColor(id) || 0xFFFFFF);
+
+    //add the mesh component to handle visual representation of the node
+    this.components.mesh = new LineMeshComponent({
+      id,
+      sceneObject: this,
+      factory: this.scene.lineFactory,
+      contentProvider: new PCM({
+        contentProvider: new SCM({
           contentProvider: new FCP()
         })
       })
     });
+    this.components.mesh.colorChanged(color.r, color.g, color.b);
   }
 
   update() {
@@ -59,7 +67,7 @@ export default class Group extends SceneObject {
     //if there is no nodeId it's an unknown node
     if(nodeId) {
       //check if the node was already created and only needs an update
-      let matchedNode = _.find(this.children, node => node.id === nodeId);
+      const matchedNode = _.find(this.children, node => node.id === nodeId);
 
       //if the node was created in the past
       if(matchedNode) {
@@ -110,39 +118,20 @@ export default class Group extends SceneObject {
     return {width, depth};
   }
 
-  updateOfVisualComponents() {
+  updateScreenAnchorPosition() {
     const pos = this.getComponent('position').getPosition();
-    const size = this.size;
-    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + size.z / 2);
-
-    this.refreshGroundGeometry();
+    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + this.zSize / 2);
   }
 
-  positionChanged() {
-    this.updateOfVisualComponents();
+  positionChanged(x, y, z) {
+    this.getComponent('mesh').positionChanged(x, y, z);
+    this.updateScreenAnchorPosition();
   }
 
   setScale(x, y, z) {
-    this.size = {x, y, z};
-
-    this.updateOfVisualComponents();
-  }
-
-  refreshGroundGeometry() {
-    const color = hexToRGBNormalized(getColor(this.id) || 0xFFFFFF);
-    const lineFactory = this.scene.lineFactory;
-    const size = this.size;
-    const pos = this.getComponent('position').getPosition();
-    const pcm = this.geometryProvider.contentProvider;
-    const scm = pcm.contentProvider;
-
-    pcm.position = {x: pos.x, y: pos.y, z: pos.z};
-    scm.scale = {x: size.x, y: 1, z: size.z};
-
-    const points = this.geometryProvider.getVertices();
-
-    lineFactory.removeFragment(this.id);
-    lineFactory.addFragment({id: this.id, points, color});
+    this.zSize = z;
+    this.getComponent('mesh').sizeChanged(x, y, z);
+    this.updateScreenAnchorPosition();
   }
 
   removeChild(child) {
@@ -162,8 +151,6 @@ export default class Group extends SceneObject {
 
     this.children.forEach(node => node.dispose());
     this.children = [];
-
-    this.scene.lineFactory.removeFragment(this.id);
 
     this.stickyNote.dispose();
     this.stickyNote = null;

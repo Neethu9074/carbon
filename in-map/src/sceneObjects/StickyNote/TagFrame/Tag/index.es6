@@ -1,9 +1,7 @@
-
-
 import React from 'react/addons';
 
-import {getColor} from 'in-services/tags';
 import * as mapFilters from 'in-services/stores/mapFilters';
+import {getColor} from 'in-services/tags';
 
 import TagToolTip from '../../../Tooltips/Tag';
 

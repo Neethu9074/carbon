@@ -1,7 +1,6 @@
-
+import {createLogger} from 'instalog';
 
 import {gamlib} from './lib/gamlib-ai.es6';
-import {createLogger} from 'instalog';
 
 const logger = createLogger('in-map.connectionGrid');
 

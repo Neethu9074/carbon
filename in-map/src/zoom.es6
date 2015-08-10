@@ -1,5 +1,3 @@
-
-
 // max zoom units in the 3D map => design zoom levels
 export const zoomUnitToLevel = {
   70: 100,

@@ -1,7 +1,5 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-
-
 import _ from 'lodash';
 
 import {expect} from 'chai';

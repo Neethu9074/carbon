@@ -1,5 +1,3 @@
-
-
 import InitialState from './InitialState';
 import InactiveState from './InactiveState';
 

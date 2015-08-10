@@ -1,12 +1,11 @@
 /*eslint-env mocha*/
-
-
 import Immutable from 'immutable';
 import {expect} from 'chai';
 
-import './index';
 import {sort} from 'in-sdk/sorting';
+
 import * as constants from '../constants';
+import './index';
 
 describe('zones', () => {
   let snapshots;

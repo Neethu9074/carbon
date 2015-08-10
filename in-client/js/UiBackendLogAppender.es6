@@ -1,5 +1,3 @@
-
-
 import {send} from 'in-services/connection';
 
 export default class UiBackendLogAppender {
@@ -19,9 +17,9 @@ export default class UiBackendLogAppender {
           }, 0, 2);
         } else if (typeof part === 'object') {
           return JSON.stringify(part, 0, 2);
-        } else {
-          return part;
         }
+
+        return part;
       })
       .join('\n');
 

@@ -1,8 +1,7 @@
-
+import {combineLatest} from 'reactive-observables';
 
 import MetricConveyer from 'in-services/conveyer/MetricConveyer';
 import {create} from 'in-services/conveyer';
-import {combineLatest} from 'reactive-observables';
 
 export function subscribeToMetric({metrics, snapshot, fn}) {
   const tempSubscriptions = metrics.map(metric => {

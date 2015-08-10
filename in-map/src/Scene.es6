@@ -1,6 +1,11 @@
-
-
 import THREE from 'three';
+
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
+import {activeMetric} from 'in-services/stores/metrics';
+import {isIdEqual} from 'in-services/util/snapshots';
+import eventBus from 'in-services/eventbus';
 
 import './lib/Octree';
 
@@ -18,13 +23,6 @@ import {getAllNodes} from './mapStructureUtils';
 import Node from './sceneObjects/Nodes/Node';
 import * as time from './timeCalculations';
 import * as zoom from './zoom';
-
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
-import {activeMetric} from 'in-services/stores/metrics';
-import {isIdEqual} from 'in-services/util/snapshots';
-import eventBus from 'in-services/eventbus';
 
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;

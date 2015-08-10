@@ -1,5 +1,3 @@
-
-
 /*eslint-disable react/no-multi-comp */
 import React from 'react/addons';
 
@@ -49,18 +47,18 @@ const MapStats = React.createClass({
     const statChildren = Object.keys(stat);
     if(typeof stat === 'string' || statChildren.length === 0) {
       return <MapStat key={key} name={key} value={stats[key]} />;
-    } else {
-      return (
-        <Collapsible key={key}>
-          <Collapsible.Header>
-            {key}
-          </Collapsible.Header>
-          <Collapsible.Content>
-            {statChildren.map(child => this.renderStat(stat, child))}
-          </Collapsible.Content>
-        </Collapsible>
-      );
     }
+
+    return (
+      <Collapsible key={key}>
+        <Collapsible.Header>
+          {key}
+        </Collapsible.Header>
+        <Collapsible.Content>
+          {statChildren.map(child => this.renderStat(stat, child))}
+        </Collapsible.Content>
+      </Collapsible>
+    );
   },
 
   render() {

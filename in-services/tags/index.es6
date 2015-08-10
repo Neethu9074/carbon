@@ -1,5 +1,3 @@
-
-
 import ColorGenerator from 'in-services/util/colors';
 
 

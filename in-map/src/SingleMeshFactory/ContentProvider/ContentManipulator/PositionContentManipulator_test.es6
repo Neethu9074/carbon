@@ -1,14 +1,12 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-
-
 import {expect} from 'chai';
 
 import PCM from './PositionContentManipulator';
 
 
 describe('3D map', () => {
-  let contentProvider = {
+  const contentProvider = {
     getVertices() { return [4, 5, 6]; }
   };
 

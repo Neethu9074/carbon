@@ -1,13 +1,11 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 import _ from 'lodash';
 
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import MetricConveyer from 'in-services/conveyer/MetricConveyer';
 import {isIdEqual} from 'in-services/util/snapshots';
 import {create} from 'in-services/conveyer';
-import MetricConveyer from 'in-services/conveyer/MetricConveyer';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {theme} from 'in-services/theme';
 
 import './ChartLegendV2.less';
@@ -116,9 +114,8 @@ const ChartLegend = React.createClass({
   formatValue(axis, d) {
     if (axis.formatter) {
       return axis.formatter(d);
-    } else {
-      return d;
     }
+    return d;
   }
 });
 

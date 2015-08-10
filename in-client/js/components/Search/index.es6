@@ -1,19 +1,18 @@
-
-
-import _ from 'lodash';
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import {IntlMixin} from 'react-intl';
+import React from 'react/addons';
+import _ from 'lodash';
 
-import Icon from 'in-components/Icon';
-import {create} from 'in-services/conveyer';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import * as mapFilters from 'in-services/stores/mapFilters';
+import {create} from 'in-services/conveyer';
+import Icon from 'in-components/Icon';
 
 import enhance from 'in-components/hoc/enhance';
 
-const block = 'in-search';
 import './index.less';
+
+const block = 'in-search';
 
 const comma = 188;
 const enter = 13;

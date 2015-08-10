@@ -1,12 +1,11 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
-import DockerInfo from '../DockerInfo';
+
 import DockerLabels from '../DockerLabels';
+import DockerInfo from '../DockerInfo';
 
 const rpt = React.PropTypes;
 const Sidebar = React.createClass({

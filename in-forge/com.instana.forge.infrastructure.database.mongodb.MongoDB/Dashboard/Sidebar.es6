@@ -1,10 +1,9 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
+import Collapsible from 'in-components/Collapsible';
+
 import MongoDBInfo from '../MongoDBInfo';
 
 const rpt = React.PropTypes;

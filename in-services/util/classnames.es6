@@ -1,5 +1,3 @@
-
-
 /**
  * Adapted from https://github.com/JedWatson/classnames, but only supports the
  * most common parameter type and assumes that we don't extend the prototype
@@ -11,7 +9,7 @@
  */
 export default function classnames(definition) {
   let classes = '';
-  for (let key in definition) {
+  for (const key in definition) {
     if (definition[key]) {
       classes += ' ' + key;
     }

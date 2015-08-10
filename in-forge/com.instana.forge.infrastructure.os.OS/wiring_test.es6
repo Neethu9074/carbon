@@ -1,22 +1,11 @@
 /*eslint-env mocha, node*/
-
-
-
-import {expect} from 'chai';
 import Immutable from 'immutable';
-// import proxyquire from 'proxyquire';
-// import sinon from 'sinon';
+import {expect} from 'chai';
 
 import {extractConnections} from './wiring';
 
 
 describe('snapshot', () => {
-
-  // let onNext;
-
-  beforeEach(() => {
-    // onNext = sinon.stub();
-  });
 
   describe('extractConnections', () => {
 

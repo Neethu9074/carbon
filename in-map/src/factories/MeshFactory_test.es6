@@ -1,9 +1,8 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-
-
 import THREE from 'three';
 import {expect} from 'chai';
+
 import MeshFactory from './MeshFactory';
 
 

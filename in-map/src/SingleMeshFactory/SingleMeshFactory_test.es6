@@ -1,14 +1,12 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-
-
 import {expect} from 'chai';
 
 import SMF from './SingleMeshFactory';
 
 
 describe('3D map', () => {
-  let contentProvider = {
+  const contentProvider = {
     getVertices() { return [4, 5, 6]; },
     getColors() { return [7, 8, 9]; }
   };

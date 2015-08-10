@@ -1,12 +1,6 @@
-
-
 import THREE from 'three';
+
 import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
-
-import {hexToRGBNormalized} from 'in-services/converters';
-
-const defaultColor = hexToRGBNormalized('#6c7b83');
-const defaultHighlightColor = hexToRGBNormalized('#FFFFFF');
 
 let index = 0;
 
@@ -16,6 +10,8 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   constructor({scene}) {
     super({scene});
 
+    this.numElementPerVertex = 3; //x, y, z
+
     this.setMaterial(new THREE.LineBasicMaterial({
       vertexColors: THREE.VertexColors
     }));
@@ -24,56 +20,32 @@ export default class LineFactory extends AbstractMeshCreationFactory {
       this.material.linewidth = 2;
     }
 
-    this.numElementPerVertex = 3; //x, y, z
-    this.globalMesh = new THREE.Line(
+    const mesh = this.globalMesh = new THREE.Line(
       this.globalGeometry,
       this.material,
       THREE.LinePieces
     );
-    this.globalMesh.matrixAutoUpdate = false;
-    this.globalMesh.renderOrder = 2;
-    this.globalMesh.frustumCulled = false;
+    mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
+    mesh.renderOrder = 2;
   }
 
-  addFragment({id, points, highlighted, highlightColor, color, enabled = true}) {
+  addFragment({id, contentProvider, enabled=true}) {
     const match = this.getFragment(id);
     if(match) {
-      match.points = points || match.points;
-      match.color = color || match.color;
-      match.highlighted = highlighted || match.highlighted;
-      match.highlightColor = highlightColor || match.highlightColor;
-
-      //rebuild on property change
-      this.rebuildGlobalMesh = true;
+      match.contentProvider = contentProvider;
 
     } else {
-      super.addFragment({
-        id, //is needed to identify the fragment when deleting
-        points,
-        highlighted,
-        highlightColor,
-        color,
-        enabled
-      });
-    }
-  }
-
-  highlightFragment(id, highlighted) {
-    const match = this.getFragment(id);
-    if(!match) {
-      return;
+      super.addFragment({id, contentProvider, enabled});
     }
 
-    match.highlighted = highlighted;
+    //rebuild on property change
     this.rebuildGlobalMesh = true;
   }
 
   rebuild() {
     //reset index
     index = 0;
-
-    //remove the current global mesh from the scene
-    this.scene.removeSceneObject(this.globalMesh);
 
     //get all fragments that are enabled
     const frags = this.getLegalFragments();
@@ -89,26 +61,13 @@ export default class LineFactory extends AbstractMeshCreationFactory {
   }
 
   copyLineAttributesToGlobalArray(vertices, colors, fragment){
-    let color = this.getFragmentColor(fragment);
-    const yManipulator = fragment.highlighted ? 0 : -0.025;
+    const points = fragment.contentProvider.getVertices();
+    const color = fragment.contentProvider.getColors();
 
-    for (let i = 0; i < fragment.points.length; i++) {
-      const point = fragment.points[i];
-      colors[index] = color.r;
-      vertices[index++] = point.x;
-      colors[index] = color.g;
-      vertices[index++] = point.y + yManipulator;
-      colors[index] = color.b;
-      vertices[index++] = point.z;
+    for (let i = 0; i < points.length; i++) {
+      colors[index] = color[i];
+      vertices[index++] = points[i];
     }
-  }
-
-  getFragmentColor(fragment) {
-    //if the fragment is highlighted -> use highlightColor
-    if(fragment.highlighted) {
-      return fragment.highlightColor || defaultHighlightColor;
-    }
-    return fragment.color || defaultColor;
   }
 
   createGlobalMesh(vertices, colors) {

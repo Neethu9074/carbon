@@ -1,8 +1,7 @@
-
-
 import React from 'react/addons';
-import Issues from '../Issues';
+
 import Timeline from '../Timeline';
+import Issues from '../Issues';
 import Menu from '../Menu';
 
 import './index.less';

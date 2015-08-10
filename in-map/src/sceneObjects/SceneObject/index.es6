@@ -1,11 +1,9 @@
-
-
-//components
 import THREE from 'three';
+
 import PositionComponent from '../../components/PositionComponent';
 
-import {setupStates} from './States/index';
 import {currentScene} from '../../stores/mapStore';
+import {setupStates} from './States/index';
 
 /*eslint-disable no-multi-spaces*/
 const stateLUT = [
@@ -118,9 +116,7 @@ export default class SceneObject {
   }
 
   forEachComponent(fn) {
-    for(let key in this.components) {
-      fn(this.components[key]);
-    }
+    Object.keys(this.components).forEach(key => fn(this.components[key]));
   }
 
   init() {}

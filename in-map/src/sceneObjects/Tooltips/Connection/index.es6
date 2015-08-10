@@ -1,11 +1,10 @@
-
-
 import React from 'react/addons';
 import _ from 'lodash';
 
-import Tooltip from '../Tooltip';
 import ConnectionTooltip from 'in-components/Tooltips/Connection';
 import {getIps} from 'in-sdk/snapshot';
+
+import Tooltip from '../Tooltip';
 
 
 const ConnectionsTooltipRC = React.createClass({

@@ -1,5 +1,3 @@
-
-
 import ContentManipulator from './ContentManipulator';
 
 

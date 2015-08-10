@@ -1,10 +1,10 @@
-
-
 import React from 'react/addons';
-import Tooltip from '../Tooltip';
+
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
+
+import Tooltip from '../Tooltip';
 
 
 /*eslint-disable no-unused-vars*/

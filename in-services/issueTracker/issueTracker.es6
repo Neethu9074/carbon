@@ -1,7 +1,4 @@
 /*eslint-disable new-cap*/
-
-
-
 import Immutable from 'immutable';
 
 import {create} from '../conveyer';
@@ -32,7 +29,7 @@ const issueSummary = openIssuesStream.map(issues => {
   const dangers = {};
 
   issues.forEach(issue => {
-    let problem = issue.get('problem');
+    const problem = issue.get('problem');
     const problemHealth = mapSeverityToHealth(problem.get('severity'));
     if (problemHealth === health.warning) {
       addProblem(warnings, problem);
@@ -106,7 +103,7 @@ export function getProblemsForSnapshot(snapshot) {
     const result = Immutable.List().asMutable();
 
     issues.forEach(issue => {
-      let problem = issue.get('problem');
+      const problem = issue.get('problem');
       if (predicate(problem)) {
         result.set(size++, problem);
       }

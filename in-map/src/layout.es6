@@ -1,9 +1,8 @@
-
-
 import THREE from 'three';
+
+import {getAllNodes, getChildren} from './mapStructureUtils';
 import ConnectionGrid from './ConnectionGrid_Temp';
 import Group from './sceneObjects/Group/index';
-import {getAllNodes, getChildren} from './mapStructureUtils';
 
 
 export default class Layouter {
@@ -33,7 +32,7 @@ export default class Layouter {
   }
 
   applyLayout({parent, xOffset=0, yOffset=0, vertical=true}) {
-    let col = getChildren(parent);
+    const col = getChildren(parent);
     if(!col) {return; }
 
     let x = 0;

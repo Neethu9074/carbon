@@ -1,9 +1,8 @@
 /*eslint-env mocha*/
-
-
-
 import {expect} from 'chai';
+
 import * as converter from './index';
+
 
 describe('converters', () => {
   describe('formatNumberShort', () => {
@@ -43,12 +42,12 @@ describe('converters', () => {
     });
 
     it('should return hex as rgb', () => {
-      let rgb = converter.hexToRGB('#4cccbb');
+      const rgb = converter.hexToRGB('#4cccbb');
       expect(rgb.r).to.equal(76);
     });
 
     it('should return hex as rgb between [0, 1]', () => {
-      let rgb = converter.hexToRGBNormalized('#4cccbb');
+      const rgb = converter.hexToRGBNormalized('#4cccbb');
       expect(rgb.r).to.equal(76 / 255);
     });
   });

@@ -1,10 +1,10 @@
-
-
 import React from 'react/addons';
+
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import Tag from './Tag';
-import MultiTagToolTip from '../../Tooltips/MultiTag';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+
+import MultiTagToolTip from '../../Tooltips/MultiTag';
+import Tag from './Tag';
 
 import './index.less';
 
@@ -31,7 +31,7 @@ export default React.createClass({
     }));
   },
 
-  mouseOver: function () {
+  mouseOver: function() {
     this.tooltip = new MultiTagToolTip({
       parent: this.props.sceneObject,
       tags: this.props.tags
@@ -39,7 +39,7 @@ export default React.createClass({
     this.tooltip.mount();
   },
 
-  mouseOut: function () {
+  mouseOut: function() {
     this.tooltip.unMount();
     this.tooltip = null;
   },

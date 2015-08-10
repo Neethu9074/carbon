@@ -1,14 +1,12 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-
-
 import {expect} from 'chai';
 
 import CMCM from './ColorMultiplierContentManipulator';
 
 
 describe('3D map', () => {
-  let contentProvider = {
+  const contentProvider = {
     getColors() { return [0, 1, 0.5]; }
   };
 

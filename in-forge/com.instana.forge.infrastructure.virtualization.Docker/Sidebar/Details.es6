@@ -1,13 +1,11 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
+import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 
-import DockerInfo from '../DockerInfo';
 import DockerLabels from '../DockerLabels';
-import ProblemPanel from 'in-components/ProblemPanel';
+import DockerInfo from '../DockerInfo';
 
 const block = 'in-sidebar-server-details';
 

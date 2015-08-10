@@ -1,7 +1,5 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-
-
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -15,15 +13,16 @@ describe('3D map', () => {
   beforeEach(() => {
     sceneObject = {
       positionChanged: sinon.stub(),
-      scene: {renderScene: sinon.stub()}
+      scene: { renderScene: sinon.stub() }
     };
     component = new MeshComponent({
       sceneObject,
       contentProvider: {
         r: 1, g: 1, b: 1,
         contentProvider: {
-          x: 0, y: 0, z: 0, contentProvider: {
-            x: 1, y: 1, z: 1
+          x: 0, y: 0, z: 0, position: {},
+          contentProvider: {
+            x: 1, y: 1, z: 1, scale: {}
           }
         }
       },

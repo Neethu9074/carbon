@@ -1,11 +1,9 @@
-
-
 import React from 'react/addons';
+
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
 import {iconSize} from '../../../stores/mapStore';
 import iconPath from './plusIcon.svg';
-
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
 import './index.less';
 

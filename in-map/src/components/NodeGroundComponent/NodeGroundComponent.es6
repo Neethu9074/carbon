@@ -1,4 +1,4 @@
-
+import {health} from 'in-services/health';
 
 import Component from '../Component';
 
@@ -10,8 +10,6 @@ import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Scal
 import PCP from '../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 /*eslint-enable max-len*/
-
-import {health} from 'in-services/health';
 
 
 export default class NodeGroundComponent extends Component {
@@ -49,8 +47,8 @@ export default class NodeGroundComponent extends Component {
   }
 
   onInactiveEnter() {
-    this.sceneObject.scene.groundSingleMeshFactory.removeFragment(this.getID());
-    this.sceneObject.scene.lineFactory.removeFragment(this.getID());
+    // this.sceneObject.scene.groundSingleMeshFactory.removeFragment(this.getID());
+    // this.sceneObject.scene.lineFactory.removeFragment(this.getID());
   }
 
 
@@ -125,7 +123,7 @@ export default class NodeGroundComponent extends Component {
 
     } else {
       const color = this.sceneObject.calculateNodeColor(this.healthToSet);
-      groundFactory.addFragment({id, contentProvider: this.geometryProviderGround});
+      // groundFactory.addFragment({id, contentProvider: this.geometryProviderGround});
 
       lineFactory.addFragment({
         id,
