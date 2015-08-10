@@ -1,5 +1,6 @@
 import {getWiredSnapshots} from 'in-sdk/snapshot';
 import {getNormalizedValue} from 'in-sdk/metrics';
+import {plugins} from 'in-forge/constants';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
@@ -51,18 +52,18 @@ export default class NodeSnapshotServer {
       })
     );
 
-    // const pluginId = 'com.instana.forge.infrastructure.os.Process';
-    // const observable = create(SnapshotConveyer, {pluginId});
-    // this.subscriptions.push(observable.subscribe(data =>
-    //   this.onLayerUpdate(data)));
+    const pluginId = plugins.process;
+    const observable = create(SnapshotConveyer, {pluginId});
+    this.subscriptions.push(observable.subscribe(data =>
+      this.onLayerUpdate(data)));
   }
 
-  onLayerUpdate(snapshots) {
-    snapshots.forEach(layer => {
-      if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
-        this.client.getComponent('layer').addLayer(layer);
-      }
-    });
+  onLayerUpdate(/*snapshots*/) {
+    // snapshots.forEach(layer => {
+    //   if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
+    //     this.client.getComponent('layer').addLayer(layer);
+    //   }
+    // });
   }
 
   showMetrics() {
