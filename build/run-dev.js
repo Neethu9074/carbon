@@ -16,7 +16,7 @@ var environments = {
   monitoring: {
     user: 'stan@instana.com',
     pw: '4711',
-    baseUrl: 'https://monitoring-instana.instana.io'
+    baseUrl: 'https://monitoring-instana.instana.io',
   },
   demo: {
     user: 'stan@instana.com',
@@ -110,6 +110,7 @@ function writeProxroxConfigForEnvironment(env, envConfig) {
 
 function buildProxroxConfig(envConfig) {
   var baseUrl = envConfig.baseUrl;
+  var instagrafanaUrl = "https://monitoring-instana.instana.io/api/internal";
   return {
     serverName: 'local-instana.instana.io',
     port: 4000,
@@ -120,7 +121,8 @@ function buildProxroxConfig(envConfig) {
       '/': 'http://127.0.0.1:3000',
       '/auth/signIn': baseUrl + '/auth/signIn',
       '/auth/signOut': baseUrl + '/auth/signOut',
-      '/auth/users/current': baseUrl + '/auth/users/current'
+      '/auth/users/current': baseUrl + '/auth/users/current',
+      '/internal/api': instagrafanaUrl + 'api'
     },
 
     websocketProxy: {
