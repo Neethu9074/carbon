@@ -1,5 +1,5 @@
 {
-  "environment": "production",
+  "environment": "demo",
   "keys": {
     "xing": "1de1b0325af52d9c90d1",
     "linkedin": "77k38emu8xnsrk"

@@ -1,11 +1,9 @@
-
-
-//components
 import THREE from 'three';
+
 import PositionComponent from '../../components/PositionComponent';
 
-import {setupStates} from './States/index';
 import {currentScene} from '../../stores/mapStore';
+import {setupStates} from './States/index';
 
 /*eslint-disable no-multi-spaces*/
 const stateLUT = [

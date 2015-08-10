@@ -1,10 +1,15 @@
-
-
 import THREE from 'three';
 
-//components
-import HealthComponent from '../../../components/HealthComponent';
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {isIdEqual} from 'in-services/util/snapshots';
+import eventBus from 'in-services/eventbus';
+import {health} from 'in-services/health';
+import {theme} from 'in-services/theme';
+import {getPower} from 'in-sdk/power';
+
 import NodeGroundComponent from '../../../components/NodeGroundComponent';
+import HealthComponent from '../../../components/HealthComponent';
 import LayerComponent from '../../../components/LayerComponent';
 
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
@@ -15,16 +20,6 @@ import StickyNoteNode from '../../StickyNote/Node';
 import TooltipMetric from '../../Tooltips/Metric';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode/index';
-
-// import SCCP from '../../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
-
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isIdEqual} from 'in-services/util/snapshots';
-import eventBus from 'in-services/eventbus';
-import {health} from 'in-services/health';
-import {theme} from 'in-services/theme';
-import {getPower} from 'in-sdk/power';
 
 
 export default class Node extends BaseNode {

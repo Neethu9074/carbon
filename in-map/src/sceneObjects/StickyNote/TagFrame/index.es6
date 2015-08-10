@@ -1,10 +1,10 @@
-
-
 import React from 'react/addons';
+
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import Tag from './Tag';
-import MultiTagToolTip from '../../Tooltips/MultiTag';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+
+import MultiTagToolTip from '../../Tooltips/MultiTag';
+import Tag from './Tag';
 
 import './index.less';
 

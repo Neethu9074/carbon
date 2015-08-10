@@ -1,11 +1,10 @@
-
-
 import Hammer from 'hammerjs';
 
-import CameraController from './CameraController_temp';
+import eventBus from 'in-services/eventbus';
+
 import {longClickedSceneObject, currentTooltip} from '../stores/mapStore';
 import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
-import eventBus from 'in-services/eventbus';
+import CameraController from './CameraController_temp';
 
 
 export default class TouchControl extends CameraController{

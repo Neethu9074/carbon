@@ -1,8 +1,7 @@
-
-
 import THREE from 'three';
-import eventBus from 'in-services/eventbus';
 import _ from 'lodash';
+
+import eventBus from 'in-services/eventbus';
 
 
 export default class AbstractMeshCreationFactory {

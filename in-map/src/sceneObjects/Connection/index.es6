@@ -1,16 +1,17 @@
-
-
 import THREE from 'three';
 import _ from 'lodash';
-import SceneObject from '../SceneObject';
-import ConnectionGrid from '../../ConnectionGrid_Temp';
+
 import {hexToRGBNormalized} from 'in-services/converters';
 import eventBus from 'in-services/eventbus';
+
+import ConnectionGrid from '../../ConnectionGrid_Temp';
+import SceneObject from '../SceneObject';
 
 const highlightColor = hexToRGBNormalized('#BFBFBF');
 const mouseOverColor = hexToRGBNormalized('#FFFFFF');
 export const allConnections = [];
 let id = 0;
+
 
 export default class Connection extends SceneObject {
 

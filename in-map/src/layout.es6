@@ -1,9 +1,8 @@
-
-
 import THREE from 'three';
+
+import {getAllNodes, getChildren} from './mapStructureUtils';
 import ConnectionGrid from './ConnectionGrid_Temp';
 import Group from './sceneObjects/Group/index';
-import {getAllNodes, getChildren} from './mapStructureUtils';
 
 
 export default class Layouter {

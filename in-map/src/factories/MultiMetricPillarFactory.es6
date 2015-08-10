@@ -1,7 +1,8 @@
-
-
 import THREE from 'three';
 import TWEEN from 'tween.js';
+
+import {theme} from 'in-services/theme';
+import eventBus from 'in-services/eventbus';
 
 import MeshFactory from './MeshFactory';
 
@@ -9,8 +10,6 @@ import MeshFactory from './MeshFactory';
 import fragmentShader from './multiMetricFragmentShader.glsl';
 import vertexShader from './multiMetricVertexShader.glsl';
 
-import {theme} from 'in-services/theme';
-import eventBus from 'in-services/eventbus';
 
 const availableColors = (() => {
   const colors = [];

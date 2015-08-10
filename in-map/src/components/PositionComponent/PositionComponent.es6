@@ -1,6 +1,5 @@
-
-
 import THREE from 'three';
+
 import Component from '../Component';
 
 

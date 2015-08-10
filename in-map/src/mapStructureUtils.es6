@@ -1,5 +1,3 @@
-
-
 import Group from './sceneObjects/Group/index';
 
 

@@ -1,5 +1,3 @@
-
-
 import State from './State';
 
 export default class HighlightedState extends State {

@@ -1,22 +1,16 @@
-
-
 import THREE from 'three';
 
-//components
-import CollisionComponent from '../../components/CollisionObjectComponent';
-import MeshComponent from '../../components/MeshComponent';
-
-import SceneObject from '../SceneObject/index';
-import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
-// import {currentTooltip} from '../../stores/mapStore';
-// import Tooltip from '../Tooltips/Layer';
-
-import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
-import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-
 import {getIdString} from 'in-services/util/snapshots';
+
+import CollisionComponent from '../../components/CollisionObjectComponent';
+import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
+import MeshComponent from '../../components/MeshComponent';
+import SceneObject from '../SceneObject/index';
+
+import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 
 export default class Layer extends SceneObject {

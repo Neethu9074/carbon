@@ -1,11 +1,10 @@
-
-
 import THREE from 'three';
 import TWEEN from 'tween.js';
 
-import MeshFactory from './MeshFactory';
 import {theme} from 'in-services/theme';
 import eventBus from 'in-services/eventbus';
+
+import MeshFactory from './MeshFactory';
 
 //import shader
 import fragmentShader from './singleMetricFragmentShader.glsl';

@@ -1,12 +1,13 @@
 
 
 import React from 'react/addons';
+
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
-import NodeIcon from '../NodeIcon';
-import StickyNote from '../StickyNote';
-import TagFrame from '../TagFrame';
 import {iconSize} from '../../../stores/mapStore';
+import StickyNote from '../StickyNote';
+import NodeIcon from '../NodeIcon';
+import TagFrame from '../TagFrame';
 
 import './index.less';
 

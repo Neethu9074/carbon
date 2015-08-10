@@ -1,6 +1,3 @@
-
-
-
 import THREE from 'three';
 
 /*!

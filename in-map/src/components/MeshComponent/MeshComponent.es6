@@ -1,9 +1,9 @@
-
-
 import THREE from 'three';
-import Component from '../Component';
 
 import {theme} from 'in-services/theme';
+
+import Component from '../Component';
+
 
 export default class MeshComponent extends Component {
   constructor({sceneObject, contentProvider, id, factory}) {

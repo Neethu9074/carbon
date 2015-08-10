@@ -1,7 +1,7 @@
-
+import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 
 import State from './State';
-import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+
 
 export default class NearestState extends State {
 

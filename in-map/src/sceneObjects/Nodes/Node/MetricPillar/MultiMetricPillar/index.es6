@@ -1,5 +1,3 @@
-
-
 import MetricPillar from '../MetricPillar';
 
 

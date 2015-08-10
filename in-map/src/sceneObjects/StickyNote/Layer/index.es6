@@ -1,6 +1,5 @@
-
-
 import React from 'react/addons';
+
 import StickyNote from '../StickyNote';
 
 import './index.less';

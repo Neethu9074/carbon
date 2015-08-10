@@ -1,9 +1,8 @@
-
-
 import THREE from 'three';
-import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 
 import {hexToRGBNormalized} from 'in-services/converters';
+
+import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 
 const defaultColor = hexToRGBNormalized('#6c7b83');
 const defaultHighlightColor = hexToRGBNormalized('#FFFFFF');

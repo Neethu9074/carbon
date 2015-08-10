@@ -1,6 +1,5 @@
-'use strict'
-
 import THREE from 'three';
+
 import {theme} from 'in-services/theme';
 import {hexToRGBNormalized} from 'in-services/converters';
 

@@ -1,20 +1,19 @@
-
-
-import React from 'react/addons';
 import Immutable from 'immutable';
+import React from 'react/addons';
 import moment from 'moment';
-import Tooltip from '../Tooltip';
-import {getHealth} from 'in-services/issueTracker';
-import {health} from 'in-services/health';
-import {getLabel} from 'in-sdk/snapshot';
-import {getSingular} from 'in-sdk/pluginName';
-import {getProblemsForSnapshot} from 'in-services/issueTracker';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
-import TooltipFrame from 'in-components/Tooltips/Frame';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
+import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
+import {getHealth} from 'in-services/issueTracker';
+import {getSingular} from 'in-sdk/pluginName';
+import {health} from 'in-services/health';
+import {getLabel} from 'in-sdk/snapshot';
+
+import Tooltip from '../Tooltip';
 
 import './index.less';
 

@@ -1,7 +1,5 @@
-
-
-import * as time from './timeCalculations';
 import {getAllNodes, getAllGroups} from './mapStructureUtils';
+import * as time from './timeCalculations';
 
 
 let minFPS = 1000;

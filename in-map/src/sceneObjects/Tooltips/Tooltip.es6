@@ -1,6 +1,5 @@
-
-
 import React from 'react';
+
 import {cursorPosition} from '../../stores/mapStore';
 
 import './Tooltip.less';

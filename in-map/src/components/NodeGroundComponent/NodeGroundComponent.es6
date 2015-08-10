@@ -1,4 +1,4 @@
-
+import {health} from 'in-services/health';
 
 import Component from '../Component';
 
@@ -10,8 +10,6 @@ import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Scal
 import PCP from '../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 /*eslint-enable max-len*/
-
-import {health} from 'in-services/health';
 
 
 export default class NodeGroundComponent extends Component {

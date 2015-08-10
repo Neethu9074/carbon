@@ -1,23 +1,22 @@
-
-
 import _ from 'lodash';
 
-import SceneObject from '../SceneObject/index';
-import Node from '../Nodes/Node/index';
+import {hexToRGBNormalized} from 'in-services/converters';
+import {getIdString} from 'in-services/util/snapshots';
+import eventBus from 'in-services/eventbus';
+import {getColor} from 'in-sdk/zones';
+
 import UnknownNode from '../Nodes/UnknownNode/index';
+import SceneObject from '../SceneObject/index';
 import StickyNote from '../StickyNote/Ground';
+import Node from '../Nodes/Node/index';
 
 /*eslint-disable max-len*/
-import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
+import VATOCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import VATOCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/VertexArrayToObjectContentManipulator';
+import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 /*eslint-enable max-len*/
 
-import eventBus from 'in-services/eventbus';
-import {getIdString} from 'in-services/util/snapshots';
-import {getColor} from 'in-sdk/zones';
-import {hexToRGBNormalized} from 'in-services/converters';
 
 export default class Group extends SceneObject {
 

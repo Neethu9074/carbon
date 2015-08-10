@@ -1,27 +1,22 @@
-
-
 import THREE from 'three';
-
-//components
-import CollisionComponent from '../../../components/CollisionObjectComponent';
-import ConnectionComponent from '../../../components/ConnectionComponent';
-import MeshComponent from '../../../components/MeshComponent';
-import HighlightingComponent from '../../../components/HighlightingComponent';
 
 import {theme} from 'in-services/theme';
 import eventBus from 'in-services/eventbus';
 import {getIdString} from 'in-services/util/snapshots';
-import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {activeMetric} from 'in-services/stores/metrics';
 
-
-import SceneObject from '../../SceneObject/index';
+import HighlightingComponent from '../../../components/HighlightingComponent';
+import CollisionComponent from '../../../components/CollisionObjectComponent';
+import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
+import ConnectionComponent from '../../../components/ConnectionComponent';
+import MeshComponent from '../../../components/MeshComponent';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
+import SceneObject from '../../SceneObject/index';
 
-import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
-import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 
 //if unavailable, the StickyNote-Metric / Layer will not be undefined but this

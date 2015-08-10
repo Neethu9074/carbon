@@ -1,8 +1,7 @@
-
-
-import Component from '../Component';
 import {getHealth} from 'in-services/issueTracker';
 import {health} from 'in-services/health';
+
+import Component from '../Component';
 
 
 export default class HealthComponent extends Component{

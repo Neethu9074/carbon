@@ -1,6 +1,3 @@
-
-
-// import THREE from 'three';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 

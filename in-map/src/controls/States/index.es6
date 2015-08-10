@@ -1,5 +1,3 @@
-
-
 import NearestState from './NearestState';
 import NearState from './NearState';
 import MidState from './MidState';

@@ -1,5 +1,3 @@
-
-
 import THREE from 'three';
 
 import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';

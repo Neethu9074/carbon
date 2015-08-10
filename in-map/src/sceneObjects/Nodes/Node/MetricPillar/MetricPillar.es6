@@ -1,14 +1,11 @@
-
-
 import THREE from 'three';
 
-//components
+import eventBus from 'in-services/eventbus';
+
 import CollisionComponent from '../../../../components/CollisionObjectComponent';
 
-import SceneObject from '../../../SceneObject/index';
 import {cubeGeometry, defaultGeometryMaterial} from '../../../geometries';
-
-import eventBus from 'in-services/eventbus';
+import SceneObject from '../../../SceneObject/index';
 
 let id = 0;
 

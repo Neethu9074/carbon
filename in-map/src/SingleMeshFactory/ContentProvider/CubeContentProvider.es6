@@ -1,5 +1,3 @@
-
-
 import ContentProvider from './ContentProvider';
 
 /*eslint-disable no-unused-vars*/

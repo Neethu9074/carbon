@@ -1,10 +1,9 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
-
-
 import {expect} from 'chai';
-import {health} from 'in-services/health';
 import sinon from 'sinon';
+
+import {health} from 'in-services/health';
 
 import HealthComponent from './HealthComponent';
 
