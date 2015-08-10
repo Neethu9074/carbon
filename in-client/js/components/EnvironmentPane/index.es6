@@ -1,14 +1,11 @@
 /*eslint-disable react/no-multi-comp react/prop-types*/
-
-import './index.less';
-
 import React from 'react';
-import moment from 'moment';
-
 import irpt from 'react-immutable-proptypes';
+import {State, Navigation} from 'react-router';
+
 import http from 'in-services/http';
 
-import {State, Navigation} from 'react-router';
+import './index.less';
 
 const block = 'in-dashboard';
 

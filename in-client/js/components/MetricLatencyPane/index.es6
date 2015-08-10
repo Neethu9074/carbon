@@ -1,13 +1,11 @@
 /*eslint-disable react/no-multi-comp*/
-
 import React from 'react';
-
 import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
-import http from 'in-services/http';
-
 import {State, Navigation} from 'react-router';
 import {createLogger} from 'instalog';
+
+import http from 'in-services/http';
 
 const block = 'in-dashboard';
 
@@ -58,8 +56,7 @@ const MetricLatencyPane = React.createClass({
       hostId: irpt.list.isRequired,
       pluginId: irpt.list.isRequired,
       steadyId: irpt.list.isRequired
-    }),
-
+    })
   },
 
   bindToDatasource() {

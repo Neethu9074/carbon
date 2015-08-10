@@ -1,5 +1,4 @@
 /*eslint-disable react/no-multi-comp*/
-
 import React from 'react';
 import {State, Navigation} from 'react-router';
 import moment from 'moment';
@@ -7,9 +6,9 @@ import irpt from 'react-immutable-proptypes';
 
 import http from 'in-services/http';
 
-const block = 'in-dashboard';
-
 import './index.less';
+
+const block = 'in-dashboard';
 
 const SnapshotsPaneContent = React.createClass({
   mixins: [Navigation],
@@ -17,7 +16,7 @@ const SnapshotsPaneContent = React.createClass({
     snapshots: irpt.list.isRequired,
     env: irpt.list.isRequired,
     unit: irpt.list.isRequired,
-    tenant: irpt.list.isRequired,
+    tenant: irpt.list.isRequired
   },
 
   render() {
@@ -114,7 +113,7 @@ const SnapshotPane = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
 });
 
