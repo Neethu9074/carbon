@@ -1,12 +1,26 @@
 import Component from '../Component';
 
+import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
 
-export default class HighlightingComponent extends Component{
+export default class HighlightingComponent extends Component {
+
   constructor({sceneObject}) {
     super(sceneObject);
 
     this.scaleToSet = {x: 1, y: 1, z: 1};
     this.positionToSet = {x: -1000, y: 0, z: 0};
+
+    this.lineContentProvider = new LCP();
+    this.fragment = {
+      id: this.getID(),
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: this.lineContentProvider
+        })
+      })
+    };
     this.setupHighlightBorderLines();
 
     this.initialized();
@@ -63,33 +77,31 @@ export default class HighlightingComponent extends Component{
     const fromZ = pos.z - 0.01;
     const toZ = pos.z + 1.01;
 
-    const points = [
-      {x: toX, y: fromY, z: fromZ},
-      {x: toX, y: fromY, z: toZ},
+    this.lineContentProvider.setLines([
+      toX, fromY, fromZ,
+      toX, fromY, toZ,
 
-      {x: toX, y: fromY, z: toZ},
-      {x: fromX, y: fromY, z: toZ},
+      toX, fromY, toZ,
+      fromX, fromY, toZ,
 
-      {x: fromX, y: fromY, z: toZ},
-      {x: fromX, y: fromY, z: fromZ},
+      fromX, fromY, toZ,
+      fromX, fromY, fromZ,
 
-      {x: fromX, y: fromY, z: fromZ},
-      {x: toX, y: fromY, z: fromZ},
+      fromX, fromY, fromZ,
+      toX, fromY, fromZ,
 
-      {x: toX, y: fromY, z: fromZ},
-      {x: toX, y: toY, z: fromZ},
+      toX, fromY, fromZ,
+      toX, toY, fromZ,
 
-      {x: fromX, y: fromY, z: toZ},
-      {x: fromX, y: toY, z: toZ},
+      fromX, fromY, toZ,
+      fromX, toY, toZ,
 
-      {x: toX, y: toY, z: fromZ},
-      {x: fromX, y: toY, z: fromZ},
+      toX, toY, fromZ,
+      fromX, toY, fromZ,
 
-      {x: fromX, y: toY, z: fromZ},
-      {x: fromX, y: toY, z: toZ}
-    ];
-
-    this.fragment = {id: this.getID(), points, highlighted: true};
+      fromX, toY, fromZ,
+      fromX, toY, toZ
+    ]);
   }
 
   show() {

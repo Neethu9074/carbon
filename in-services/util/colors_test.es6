@@ -1,15 +1,12 @@
 /*eslint-env mocha*/
-
-
-
 import {expect} from 'chai';
 
-import colors from './colors';
+import Colors from './colors';
 
 describe('util.colors', () => {
 
   it('should return only 2 colors', () => {
-    const c = new colors(2);
+    const c = new Colors(2);
 
     const color1 = c.getNextColor();
     const color2 = c.getNextColor();
@@ -25,7 +22,7 @@ describe('util.colors', () => {
   });
 
   it('should return 4 colors', () => {
-    const c = new colors(4);
+    const c = new Colors(4);
 
     const color1 = c.getNextColor();
     const color2 = c.getNextColor();

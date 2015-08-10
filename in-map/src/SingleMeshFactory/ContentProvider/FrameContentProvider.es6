@@ -1,37 +1,28 @@
-import ContentProvider from './ContentProvider';
+import LineContentProvider from './LineContentProvider';
 
-/*eslint-disable no-unused-vars*/
-const defaultColor = [
-  0.8, 0.8, 0.8, //front
-  0.9, 0.9, 0.9, //top
-  1, 1, 1 //left
+const lines = [
+  -0.5, 0, -0.5,
+  0.5, 0, -0.5,
+
+  0.5, 0, -0.5,
+  0.5, 0, 0.5,
+
+  0.5, 0, 0.5,
+  -0.5, 0, 0.5,
+
+  -0.5, 0, 0.5,
+  -0.5, 0, -0.5
 ];
-/*eslint-enable no-unused-vars*/
 
-export default class FrameContentProvider extends ContentProvider {
 
-  constructor(faceColors=defaultColor) {
-    super();
-    this.faceColors = faceColors;
+export default class FrameContentProvider extends LineContentProvider {
+
+  constructor(color) {
+    super(color);
   }
 
   getVertices() {
-    return [
-      -0.5, 0, -0.5,
-      0.5, 0, -0.5,
-
-      0.5, 0, -0.5,
-      0.5, 0, 0.5,
-
-      0.5, 0, 0.5,
-      -0.5, 0, 0.5,
-
-      -0.5, 0, 0.5,
-      -0.5, 0, -0.5
-    ];
-  }
-
-  getColors() {
-    return defaultColor;
+    this.setLines(lines.slice());
+    return super.getVertices();
   }
 }

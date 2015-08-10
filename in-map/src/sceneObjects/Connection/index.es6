@@ -1,14 +1,18 @@
 import THREE from 'three';
 import _ from 'lodash';
 
-import {hexToRGBNormalized} from 'in-services/converters';
 import eventBus from 'in-services/eventbus';
 
 import ConnectionGrid from '../../ConnectionGrid_Temp';
 import SceneObject from '../SceneObject';
 
-const highlightColor = hexToRGBNormalized('#BFBFBF');
-const mouseOverColor = hexToRGBNormalized('#FFFFFF');
+import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
+
+// import {hexToRGBNormalized} from 'in-services/converters';
+// const highlightColor = hexToRGBNormalized('#BFBFBF');
+// const mouseOverColor = hexToRGBNormalized('#FFFFFF');
 export const allConnections = [];
 let id = 0;
 
@@ -22,6 +26,16 @@ export default class Connection extends SceneObject {
     this.to = to;
     this.direction = direction;
 
+    this.lineContentProvider = new LCP();
+    this.fragment = {
+      id: this.id,
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: this.lineContentProvider
+        })
+      })
+    };
+
     this.calculatePath();
 
     from.getComponent('connection').addOutgoingConnection(this);
@@ -31,9 +45,8 @@ export default class Connection extends SceneObject {
 
     allConnections.push(this);
 
-    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
-      this.updateOfVisualComponents();
-    }));
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() =>
+      this.updateOfVisualComponents()));
   }
 
   onInitialEnter() {
@@ -94,15 +107,17 @@ export default class Connection extends SceneObject {
   }
 
   onHighlight(highlighted) {
+    const scene = this.scene;
+
     if(highlighted && !this.highlighted) {
       this.highlighted = true;
-      this.scene.lineFactory.addFragment({id: this.id, highlightColor: mouseOverColor});
-      this.scene.renderScene();
+      scene.lineFactory.addFragment(this.fragment);
+      scene.renderScene();
 
     } else if(!highlighted && this.highlighted){
       this.highlighted = false;
-      this.scene.lineFactory.addFragment({id: this.id, highlightColor});
-      this.scene.renderScene();
+      scene.lineFactory.addFragment(this.fragment);
+      scene.renderScene();
     }
   }
 
@@ -110,8 +125,8 @@ export default class Connection extends SceneObject {
     this.scene.lineFactory.enableFragment(this.id, enabled);
   }
 
-  highlightFragment(highlighted=true) {
-    this.scene.lineFactory.highlightFragment(this.id, highlighted);
+  highlightFragment(/*highlighted=true*/) {
+    // this.scene.lineFactory.highlightFragment(this.id, highlighted);
   }
 
   calculatePath() {
@@ -131,19 +146,24 @@ export default class Connection extends SceneObject {
     }
   }
 
-  render() {
-    this.scene.lineFactory.removeFragment(this.id);
+  toVertexArray(points) {
+    const va = [];
+    points.forEach(position => {
+      va.push(position.x);
+      va.push(position.y);
+      va.push(position.z);
+    });
+    return va;
+  }
 
+  render() {
     if(!this.path) {
       return;
     }
 
     this.points = this.calculateVertices(-0.01);
-    this.scene.lineFactory.addFragment({
-      id: this.id,
-      points: this.points,
-      highlightColor
-    });
+    this.lineContentProvider.setLines(this.toVertexArray(this.points));
+    this.scene.lineFactory.addFragment(this.fragment);
 
     //hide this if the parent is hidden
     if(this.from.isHidden() || this.to.isHidden()) {

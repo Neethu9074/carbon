@@ -47,8 +47,8 @@ export default class NodeGroundComponent extends Component {
   }
 
   onInactiveEnter() {
-    this.sceneObject.scene.groundSingleMeshFactory.removeFragment(this.getID());
-    this.sceneObject.scene.lineFactory.removeFragment(this.getID());
+    // this.sceneObject.scene.groundSingleMeshFactory.removeFragment(this.getID());
+    // this.sceneObject.scene.lineFactory.removeFragment(this.getID());
   }
 
 
@@ -123,7 +123,7 @@ export default class NodeGroundComponent extends Component {
 
     } else {
       const color = this.sceneObject.calculateNodeColor(this.healthToSet);
-      groundFactory.addFragment({id, contentProvider: this.geometryProviderGround});
+      // groundFactory.addFragment({id, contentProvider: this.geometryProviderGround});
 
       lineFactory.addFragment({
         id,
