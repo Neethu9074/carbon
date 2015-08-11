@@ -5,7 +5,7 @@ import Content from 'in-components/Tooltips/Content';
 
 import {getLabel} from 'in-sdk/snapshot';
 
-import Tooltip from '../Tooltip';
+import Tooltip from '../Tooltip.es6';
 
 
 /*eslint-disable no-unused-vars*/

@@ -11,7 +11,7 @@ import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import MeshComponent from '../../components/MeshComponent';
 import {selectedSceneObject, currentTooltip} from '../../stores/mapStore';
 import SceneObject from '../SceneObject/index';
-// import TooltipLayer from '../Tooltips/Layer';
+import TooltipLayer from '../Tooltips/Layer';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -34,7 +34,7 @@ export default class Layer extends SceneObject {
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
 
-    // this.tooltip = new TooltipLayer(this);
+    this.tooltip = new TooltipLayer(this);
 
     this.addSubscription(selectedSceneObject.subscribe(so =>
       this.onSceneObjectSelected(so)
@@ -43,7 +43,7 @@ export default class Layer extends SceneObject {
 
   onHighlightEnter() {
     //show the tooltip on hover
-    currentTooltip.emit(null);
+    currentTooltip.emit(this.tooltip);
 
     //setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
