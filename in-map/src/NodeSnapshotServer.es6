@@ -54,18 +54,21 @@ export default class NodeSnapshotServer {
       })
     );
 
-    const pluginId = plugins.process;
-    const observable = create(SnapshotConveyer, {pluginId});
-    this.subscriptions.push(observable.subscribe(data =>
-      this.onLayerUpdate(data)));
+    this.subscriptions
+      .push(create(SnapshotConveyer, {pluginId: plugins.process})
+      .subscribe(data => this.onLayerUpdate(data)));
+
+    this.subscriptions
+      .push(create(SnapshotConveyer, {pluginId: plugins.docker})
+      .subscribe(data => this.onLayerUpdate(data)));
   }
 
-  onLayerUpdate(/*snapshots*/) {
-    // snapshots.forEach(layer => {
-    //   if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
-    //     this.client.getComponent('layer').addLayer(layer);
-    //   }
-    // });
+  onLayerUpdate(snapshots) {
+    snapshots.forEach(layer => {
+      if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
+        this.client.getComponent('layer').addLayer(layer);
+      }
+    });
   }
 
   showMetrics() {
