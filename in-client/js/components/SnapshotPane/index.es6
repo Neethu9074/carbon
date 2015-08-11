@@ -22,7 +22,7 @@ const SnapshotsPaneContent = React.createClass({
   render() {
     const snapshots = this.props.snapshots;
     return (
-      <table className='in-subtle-table in-subtle-table--clickable in-subtle-table--snapshots'>
+      <table className='in-subtle-table in-subtle-table--clickable in-snapshots-table'>
         <thead>
           <tr>
             <th>Host</th>
