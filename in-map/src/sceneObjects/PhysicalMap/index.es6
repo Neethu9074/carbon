@@ -229,7 +229,7 @@ export default class PhysicalMap extends SceneObject {
       .filter(node => !node.isUnknown)
       .forEach(node => this.filterNode(node));
 
-    selectedSceneObject.emit(null);
+    selectedSceneObject.emit({sceneObject: null});
     this.scene.renderScene();
   }
 

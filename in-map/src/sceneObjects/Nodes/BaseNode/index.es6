@@ -191,8 +191,8 @@ export default class BaseNode extends SceneObject {
       this.onActiveMetric(metric);
     }));
 
-    this.addSubscription(selectedSceneObject.subscribe(so => {
-      this.onSceneObjectSelected(so);
+    this.addSubscription(selectedSceneObject.subscribe(event => {
+      this.onSceneObjectSelected(event.sceneObject);
     }));
   }
 
@@ -270,7 +270,7 @@ export default class BaseNode extends SceneObject {
     //do that first to get connections deleted. they only dispose
     //themselves if both endpoints are not selected
     if(this.isSelected()) {
-      selectedSceneObject.emit(null);
+      selectedSceneObject.emit({sceneObject: null});
     }
 
     super.dispose();

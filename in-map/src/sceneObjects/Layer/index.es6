@@ -36,8 +36,8 @@ export default class Layer extends SceneObject {
 
     this.tooltip = new TooltipLayer(this);
 
-    this.addSubscription(selectedSceneObject.subscribe(so =>
-      this.onSceneObjectSelected(so)
+    this.addSubscription(selectedSceneObject.subscribe(event =>
+      this.onSceneObjectSelected(event.sceneObject)
     ));
   }
 

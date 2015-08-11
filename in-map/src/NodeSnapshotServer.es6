@@ -49,7 +49,7 @@ export default class NodeSnapshotServer {
       selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
         if(isIdEqual(this.client.snapshot, selected) &&
            !this.client.isSelected()) {
-          selectedSceneObject.emit(this.client);
+          selectedSceneObject.emit({sceneObject: this.client});
         }
       })
     );

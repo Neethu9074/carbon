@@ -200,7 +200,7 @@ export default class Scene {
       if(metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
-        selectedSceneObject.emit(null);
+        selectedSceneObject.emit({sceneObject: null});
         this.hideHulls();
 
       } else {
@@ -214,17 +214,19 @@ export default class Scene {
       selectedSnapshot.selectedSnapshot.subscribe(selected => {
         //if the store was cleared and this client is selected -> unselect it
         if(!selected) {
-          selectedSceneObject.emit(null);
+          selectedSceneObject.emit({sceneObject: null});
         }
       })
     );
 
-    this.subscriptions.push(selectedSceneObject.subscribe(obj => {
-      const sceneObject = obj;
+    this.subscriptions.push(selectedSceneObject.subscribe(event => {
+      const sceneObject = event.sceneObject;
       //clear the selectedSnapshot store if there was a click into nowhere
       //or on a sceneObject without a snapshot or unknown sceneObject
       if(sceneObject) {
-        // this.controller.flyToObject(sceneObject);
+        if(!event.calledByMap) {
+          this.controller.flyToObject(sceneObject);
+        }
         this.hideHulls();
       } else {
         this.showHulls();
@@ -539,7 +541,7 @@ export default class Scene {
         selectedSnapshot.clear();
       }
 
-      selectedSceneObject.emit(sceneObject);
+      selectedSceneObject.emit({sceneObject, calledByMap: true});
 
     // dont reset the click if you clicken on connections
     } else if(hoveredConnections.length === 0) {
@@ -548,7 +550,7 @@ export default class Scene {
   }
 
   resetClicked() {
-    selectedSceneObject.emit(null);
+    selectedSceneObject.emit({sceneObject: null});
     highlightedSnapshot.clear();
     selectedSnapshot.clear();
   }
