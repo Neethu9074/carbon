@@ -211,7 +211,7 @@ export default class Scene {
     }));
 
     this.subscriptions.push(
-      selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
+      selectedSnapshot.selectedSnapshot.subscribe(selected => {
         //if the store was cleared and this client is selected -> unselect it
         if(!selected) {
           selectedSceneObject.emit(null);
@@ -534,12 +534,13 @@ export default class Scene {
   onObjectClicked(object, hoveredConnections) {
     if(object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
-      selectedSceneObject.emit(sceneObject);
-
       // only clear the store if there is no snapshot available or the object is unknown
       if(!sceneObject.snapshot || sceneObject.isUnknown) {
         selectedSnapshot.clear();
       }
+
+      selectedSceneObject.emit(sceneObject);
+
     // dont reset the click if you clicken on connections
     } else if(hoveredConnections.length === 0) {
       this.resetClicked();
