@@ -83,6 +83,22 @@ export default class Layer extends SceneObject {
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
   }
 
+  onHiddenLeave() {
+    //enables all components
+    super.onHiddenLeave();
+
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+  }
+
+  onInactiveLeave() {
+    //enables all components
+    super.onInactiveLeave();
+
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+  }
+
 
   initComponents() {
     super.initComponents();
