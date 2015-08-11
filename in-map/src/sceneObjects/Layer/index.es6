@@ -1,5 +1,6 @@
 import THREE from 'three';
 
+import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {getIdString} from 'in-services/util/snapshots';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
@@ -23,6 +24,11 @@ export default class Layer extends SceneObject {
 
     this.getComponent('position').setPosition(Infinity, 0, 0);
 
+    this.temp = zoomLevel.subscribe(newLevel => {
+      const activateCollisions = newLevel === level.nearest && this.isActive();
+      this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
+    });
+
     // this.tooltip = new Tooltip(this);
   }
 
@@ -32,8 +38,9 @@ export default class Layer extends SceneObject {
     this.components.collision = new CollisionComponent({
       sceneObject: this,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
-      layer: 1
+      layer: 3
     });
+    this.components.collision.stateMachine.changeStateProperty('active', false);
 
     //add the mesh component to handle visual representation of the node
     this.components.mesh = new MeshComponent({
