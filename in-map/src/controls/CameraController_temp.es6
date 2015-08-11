@@ -211,9 +211,14 @@ export default class CameraController {
         canvasStyle.cursor = 'pointer';
       }
     } else {
+      const oldHoveredConnections = this.hoveredConnections;
       this.hoveredConnections = allConnections
             .filter(connection => connection.isSelected())
             .filter(connection => connection.intersects(this.raycaster));
+
+      oldHoveredConnections.forEach(c => c.onHighlight(false));
+      this.hoveredConnections.forEach(c => c.onHighlight(true));
+
       if(canvasStyle.cursor !== 'default') {
         canvasStyle.cursor = 'default';
       }

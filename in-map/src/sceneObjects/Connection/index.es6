@@ -10,9 +10,9 @@ import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Posi
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
 
-// import {hexToRGBNormalized} from 'in-services/converters';
-// const highlightColor = hexToRGBNormalized('#BFBFBF');
-// const mouseOverColor = hexToRGBNormalized('#FFFFFF');
+const darkGrey = {r: 0.5, g: 0.5, b: 0.5};
+const lightGrey = {r: 0.7, g: 0.7, b: 0.7};
+const fullWhite = {r: 1, g: 1, b: 1};
 export const allConnections = [];
 let id = 0;
 
@@ -22,9 +22,9 @@ export default class Connection extends SceneObject {
   constructor({from, to, direction}) {
     super({parent: from, id: id++});
 
+    this.direction = direction;
     this.from = from;
     this.to = to;
-    this.direction = direction;
 
     this.lineContentProvider = new LCP();
     this.fragment = {
@@ -57,6 +57,7 @@ export default class Connection extends SceneObject {
 
   onHighlightEnter() {
     this.enableFragment();
+    this.lineContentProvider.setColor(darkGrey);
   }
 
   onHighlightLeave() {
@@ -64,7 +65,8 @@ export default class Connection extends SceneObject {
   }
 
   onSelectedEnter() {
-    this.highlightFragment();
+    this.enableFragment();
+    this.lineContentProvider.setColor(lightGrey);
 
     // show hide connected nodes on highlighting factory
     this.from.showSolidMesh();
@@ -72,7 +74,7 @@ export default class Connection extends SceneObject {
   }
 
   onSelectedLeave() {
-    this.highlightFragment(false);
+    this.enableFragment(false);
 
     // hide connected nodes on highlighting factory
     if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
@@ -81,52 +83,27 @@ export default class Connection extends SceneObject {
     }
   }
 
-  onHiddenEnter() {
+  onSelectedHighlightEnter() {
     this.enableFragment();
+    this.lineContentProvider.setColor(fullWhite);
+  }
+
+  onSelectedHighlightLeave() {
+    this.enableFragment(false);
+  }
+
+  onHiddenEnter() {
+    this.enableFragment(false);
   }
 
   onHiddenLeave() {
     if(!this.oneEndpointIsSelected()) {
-      this.enableFragment(false);
-    }
-  }
-
-
-  show() {
-    super.show();
-
-    this.enableFragment();
-  }
-
-  hide() {
-    super.hide();
-
-    if(!this.oneEndpointIsSelected()) {
-      this.enableFragment(false);
-    }
-  }
-
-  onHighlight(highlighted) {
-    const scene = this.scene;
-
-    if(highlighted && !this.highlighted) {
-      this.highlighted = true;
-      scene.lineFactory.addFragment(this.fragment);
-      scene.renderScene();
-
-    } else if(!highlighted && this.highlighted){
-      this.highlighted = false;
-      scene.lineFactory.addFragment(this.fragment);
-      scene.renderScene();
+      this.enableFragment();
     }
   }
 
   enableFragment(enabled=true) {
     this.scene.lineFactory.enableFragment(this.id, enabled);
-  }
-
-  highlightFragment(/*highlighted=true*/) {
-    // this.scene.lineFactory.highlightFragment(this.id, highlighted);
   }
 
   calculatePath() {

@@ -13,21 +13,18 @@ export default class AbstractMeshCreationFactory {
     this.globalGeometry = new THREE.BufferGeometry();
 
     //a global mesh that stores global geometry
-    this.globalMesh = new THREE.Mesh(this.globalGeometry);
-    this.globalMesh.matrixAutoUpdate = false;
-    this.globalMesh.renderOrder = 2;
-    this.globalMesh.frustumCulled = false;
+    const mesh = this.globalMesh = new THREE.Mesh(this.globalGeometry);
+    mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
+    mesh.renderOrder = 2;
 
     //stores all added fragments to create the global geometry
     this.fragments = [];
 
-    this.registerEvents();
-    this.rebuildGlobalMesh = false;
-  }
-
-  registerEvents() {
     this.subscription = eventBus.on('beginUpdate').subscribe(
       this.update.bind(this));
+
+    this.rebuildGlobalMesh = false;
   }
 
   setMaterial(material) {
