@@ -4,9 +4,13 @@ import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {getIdString} from 'in-services/util/snapshots';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
+import HighlightingComponent from '../../components/HighlightingComponent';
+
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import MeshComponent from '../../components/MeshComponent';
+// import {currentTooltip} from '../../stores/mapStore';
 import SceneObject from '../SceneObject/index';
+// import TooltipLayer from '../Tooltips/Layer';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -29,8 +33,32 @@ export default class Layer extends SceneObject {
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
 
-    // this.tooltip = new Tooltip(this);
+    // this.tooltip = new TooltipLayer(this);
   }
+
+  onHighlightEnter() {
+    //show the tooltip on hover
+    // currentTooltip.emit(this.tooltip);
+
+    //setup the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+  }
+
+  onHighlightLeave() {
+    //dispose the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+  }
+
+  onSelectedEnter() {
+    //setup the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+  }
+
+  onSelectedLeave() {
+    //setup the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+  }
+
 
   initComponents() {
     super.initComponents();
@@ -40,6 +68,9 @@ export default class Layer extends SceneObject {
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 3
     });
+    // the default state for collisions on layer is inactive. collisions are only
+    // active, if the layer is active and the zoomLevel is nearest so that you are
+    // close to the layer with the camera
     this.components.collision.stateMachine.changeStateProperty('active', false);
 
     //add the mesh component to handle visual representation of the node
@@ -55,6 +86,11 @@ export default class Layer extends SceneObject {
       id: this.id,
       factory: this.scene.layerSingleMeshFactory
     });
+
+    //add the highlighting component to handle the highlighting of a node
+    //this is different to solidMesh since the highlighting is like a mouseOver effect
+    this.components.highlighting = new HighlightingComponent({sceneObject: this});
+    this.components.highlighting.stateMachine.changeStateProperty('active', false);
   }
 
   updateSnapshot(snapshot) {
@@ -64,12 +100,14 @@ export default class Layer extends SceneObject {
   positionChanged(x, y, z) {
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('mesh').positionChanged(x, y, z);
+    this.getComponent('highlighting').positionChanged(x, y, z);
   }
 
   setHeight(height) {
     this.height = height;
-    this.getComponent('collision').sizeChanged(1, height, 1);
+    this.getComponent('collision').sizeChanged(0.9, height, 0.9);
     this.getComponent('mesh').sizeChanged(0.9, height, 0.9);
+    this.getComponent('highlighting').sizeChanged(0.9, height, 0.9);
   }
 
   //this value is used to store the information of the layer of this layer

@@ -3,6 +3,8 @@ import React from 'react/addons';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Content from 'in-components/Tooltips/Content';
 
+import {getLabel} from 'in-sdk/snapshot';
+
 import Tooltip from '../Tooltip';
 
 
@@ -18,10 +20,11 @@ const LayerTooltipRC = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
     return (
       <TooltipFrame>
         <Content>
-          {this.props.snapshot.get('steadyId')}
+          {getLabel(snapshot) + ': ' + snapshot.get('steadyId')}
         </Content>
       </TooltipFrame>
     );
@@ -39,9 +42,5 @@ export default class TooltipLayer extends Tooltip {
       <LayerTooltipRC snapshot={this.parent.snapshot} />,
       this.stickyNoteContainer
     );
-  }
-
-  dispose() {
-    super.dispose();
   }
 }
