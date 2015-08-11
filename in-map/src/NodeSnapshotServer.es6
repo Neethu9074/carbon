@@ -66,7 +66,7 @@ export default class NodeSnapshotServer {
   onLayerUpdate(snapshots) {
     snapshots.forEach(layer => {
       if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
-        this.client.getComponent('layer').addLayer(layer);
+        this.client.addLayer(layer);
       }
     });
   }
