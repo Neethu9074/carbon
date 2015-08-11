@@ -28,9 +28,9 @@ export default class PhysicalMap extends SceneObject {
     //the size of the map in world units (sizeXsize)
     this.size = 1000;
 
-    this.pluginId = pluginId;
     this.groups = [];
     this.filterArray = [];
+    this.pluginId = pluginId;
 
     this.createGroundGrid();
     this.bindToDatasource();
@@ -46,7 +46,7 @@ export default class PhysicalMap extends SceneObject {
       depthWrite: false
     });
 
-    const ground = new THREE.Mesh(geo, mat);
+    const ground = this.ground = new THREE.Mesh(geo, mat);
     // turn the group around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
     ground.rotation.x = -90 * Math.PI / 180;
@@ -281,6 +281,9 @@ export default class PhysicalMap extends SceneObject {
   dispose() {
     super.dispose();
 
+    this.groups.slice().forEach(group => group.dispose());
+    this.groups = [];
+
     this.removeSceneObject(this.ground);
 
     //clear three.js cache trough disposing
@@ -288,10 +291,9 @@ export default class PhysicalMap extends SceneObject {
     this.ground.material.dispose();
     this.ground = null;
 
-    this.size = null;
-    this.groups = [];
     this.filters = [];
-    this.scene = null;
     this.parent = null;
+    this.scene = null;
+    this.size = null;
   }
 }

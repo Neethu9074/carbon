@@ -132,8 +132,10 @@ export default class Group extends SceneObject {
     this.children.forEach(node => node.dispose());
     this.children = [];
 
-    this.stickyNote.dispose();
-    this.stickyNote = null;
+    if(this.stickyNote) {
+      this.stickyNote.dispose();
+      this.stickyNote = null;
+    }
 
     this.id = null;
   }

@@ -261,7 +261,7 @@ export default class Scene {
       return;
     }
 
-    requestAnimationFrame(this.update.bind(this));
+    requestAnimationFrame(() => this.update());
 
     //fire event for updating stats
     eventBus.emit('beginUpdate', highResTimestamp);
@@ -572,10 +572,19 @@ export default class Scene {
     });
   }
 
+  removeChild() {
+    this.map = null;
+  }
+
   //set this flag if the update loop should be stoped
   dispose() {
+    this.disposed = true;
+
     clearInterval(this.metricUpdateInterval);
     this.subscriptions.forEach(sub => sub.dispose());
-    this.disposed = true;
+
+    this.map.dispose();
+
+    this.parent.removeChild(this.renderer.domElement);
   }
 }

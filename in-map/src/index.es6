@@ -3,12 +3,12 @@ import {Navigation} from 'react-router';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import helpify from 'in-components/hoc/helpify';
+import * as constants from 'in-forge/constants';
 import eventBus from 'in-services/eventbus';
 
 import Scene from './Scene';
 
 import './index.less';
-
 
 const MapRC = React.createClass({
   mixins: [
@@ -23,10 +23,15 @@ const MapRC = React.createClass({
   },
 
   getInitialState() {
-    return {isWebGLSupported: false, article: null};
+    return {
+      isWebGLSupported: false,
+      article: null
+    };
   },
 
   componentWillMount() {
+    this.pluginId = constants.plugins.os;
+
     const supportsWebGL = this.isWebGLSupported();
     this.setState({isWebGLSupported: supportsWebGL});
 
@@ -40,12 +45,7 @@ const MapRC = React.createClass({
       return;
     }
 
-    const parent = React.findDOMNode(this.refs.parent);
-    this.scene = new Scene({
-      parent,
-      pluginId: this.props.pluginId,
-      onPlusClicked: this.onPlusClicked
-    });
+    this.loadScene(this.props.pluginId);
 
     this.addSubscription(eventBus.on('openDashboard').subscribe((snapshot) => {
       this.openDashboard(snapshot);
@@ -56,6 +56,13 @@ const MapRC = React.createClass({
     this.scene.dispose();
   },
 
+  componentDidUpdate() {
+    if(this.pluginId !== this.props.pluginId) {
+      this.pluginId = this.props.pluginId;
+      this.loadScene(this.pluginId);
+    }
+  },
+
   render() {
     // if WebGL is supported, render the MapRC
     // else show a notification with a zendesk help text.
@@ -64,6 +71,20 @@ const MapRC = React.createClass({
       return (<div className='in-map' ref='parent'/>);
     }
     return null;
+  },
+
+  loadScene(pluginId) {
+    if(this.scene) {
+      this.scene.dispose();
+      this.scene = null;
+    }
+
+    const parent = React.findDOMNode(this.refs.parent);
+    this.scene = new Scene({
+      parent,
+      pluginId,
+      onPlusClicked: this.onPlusClicked
+    });
   },
 
   onPlusClicked() {
