@@ -16,7 +16,7 @@ var environments = {
   monitoring: {
     user: 'stan@instana.com',
     pw: '4711',
-    baseUrl: 'https://monitoring-instana.instana.io',
+    baseUrl: 'https://monitoring-instana.instana.io'
   },
   demo: {
     user: 'stan@instana.com',
@@ -90,6 +90,8 @@ function runForEnvironment(runConfig) {
 
   var processEnvironment = process.env;
   processEnvironment.BUILD_DEV = buildMode === 'development';
+  processEnvironment.BUILD_MONITORING = buildMode === 'development';
+
   spawn('./node_modules/.bin/gulp', ['dev'], {
     env: processEnvironment,
     stdio: 'inherit'
@@ -110,7 +112,8 @@ function writeProxroxConfigForEnvironment(env, envConfig) {
 
 function buildProxroxConfig(envConfig) {
   var baseUrl = envConfig.baseUrl;
-  var instagrafanaUrl = "https://monitoring-instana.instana.io/api/internal";
+  var instagrafanaUrl = 'https://monitoring-instana.instana.io/api/internal';
+
   return {
     serverName: 'local-instana.instana.io',
     port: 4000,
