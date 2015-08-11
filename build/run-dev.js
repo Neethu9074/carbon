@@ -90,7 +90,7 @@ function runForEnvironment(runConfig) {
 
   var processEnvironment = process.env;
   processEnvironment.BUILD_DEV = buildMode === 'development';
-  processEnvironment.BUILD_MONITORING = buildMode === 'development';
+  processEnvironment.BUILD_INTERNAL = buildMode === 'development';
 
   spawn('./node_modules/.bin/gulp', ['dev'], {
     env: processEnvironment,
