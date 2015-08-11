@@ -1,11 +1,11 @@
 import THREE from 'three';
 
-import {getAllNodes, getChildren} from './mapStructureUtils';
 import ConnectionGrid from './ConnectionGrid_Temp';
-import Group from './sceneObjects/Group/index';
+import {getAllNodes} from './mapStructureUtils';
 
 
 export default class Layouter {
+
   constructor({
     nodeSize = 1,
     maxNodeHeight = 3,
@@ -29,52 +29,6 @@ export default class Layouter {
       (maxNodesPerRow - 1) * nodePadding +
       // Before the first and after the last node we have group padding.
       groupPadding * 2;
-  }
-
-  applyLayout({parent, xOffset=0, yOffset=0, vertical=true}) {
-    const col = getChildren(parent);
-    if(!col) {return; }
-
-    let x = 0;
-    let y = 0;
-    const margin = this.groupMargin;
-
-    col.forEach((child) => {
-      if(child instanceof Group) {
-        const dimension = child.getDimension();
-        const width = dimension.width;
-        const depth = dimension.depth;
-
-        child.setScale(width, 1, depth);
-
-        if(vertical) {
-          child.getComponent('position').setPosition(x + width / 2, 0, -depth / 2);
-          this.applyLayout({parent: child, xOffset: x, vertical: false});
-          x += margin + width;
-
-        } else {
-          child.getComponent('position').setPosition(
-            x + margin + width / 2,
-            0,
-            -(y + margin + depth / 2));
-            this.applyLayout({
-              parent: child,
-              xOffset: x + margin,
-              yOffset: y + margin,
-              vertical: false});
-            y += depth + margin;
-        }
-
-      //it's a node
-      } else {
-        this.setNodeToPos({
-          node: child,
-          x: xOffset + margin + 1,
-          z: -(y + margin + 1) - yOffset
-        });
-        y += 1 + margin;
-      }
-    });
   }
 
   setNodeToPos({node, x=0, y=0, z=0}) {
@@ -104,7 +58,7 @@ export default class Layouter {
     }, 0);
   }
 
-  applyLayout2(map) {
+  applyLayout(map) {
     map.groups.forEach((group, groupIndex) => {
       const groupPosition =
         this.getGroupPosition(groupIndex, group.children.length);
@@ -129,8 +83,6 @@ export default class Layouter {
     });
     this.updateHeight(map);
   }
-
-
 
   getCubePosition(groupIndex, nodeIndex) {
     // Each group means that we need to advance one group horizontally.

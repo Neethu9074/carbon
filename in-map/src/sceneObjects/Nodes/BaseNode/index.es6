@@ -260,10 +260,6 @@ export default class BaseNode extends SceneObject {
 
   setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
-  getDimension() {
-    return {width: 1, depth: 1};
-  }
-
   disposeStickyNote() {
     this.stickyNote.dispose();
     this.stickyNote = emptyStickyObject;
