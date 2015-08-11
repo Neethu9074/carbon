@@ -33,7 +33,8 @@ const App = React.createClass({
 
   propTypes: {
     state: rpt.object.isRequired,
-    showHelp: rpt.func.isRequired
+    showHelp: rpt.func.isRequired,
+    closeHelpIfOpen: rpt.func.isRequired
   },
 
   getInitialState() {
@@ -56,6 +57,8 @@ const App = React.createClass({
       .subscribe(data => {
         if(data.size === 0) {
           this.props.showHelp(203860032);
+        } else {
+          this.props.closeHelpIfOpen();
         }
       })
     );
