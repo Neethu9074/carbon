@@ -4,7 +4,11 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
-import {formatBytes} from 'in-services/converters';
+import {
+  formatBytes,
+  formatBytesShort,
+  formatPercentageShort
+} from 'in-services/converters';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -47,6 +51,49 @@ const DockerDashboard = React.createClass({
                              formatter: formatBytes,
                              type: 'line'
                            }}/>
+        </DashboardSection>
+        <DashboardSection title='Network'>
+          <div>
+            <ChartWithLegend snapshot={this.props.snapshot}
+                   windowSize={this.props.timeframe}
+                   height={chartHeight}
+                   margins={{
+                     left: 80,
+                     right: 80
+                   }}
+
+                   y1={{
+                     min: 0,
+                     formatter: formatBytesShort,
+                     metrics: [
+                       'network.rx.bytes',
+                       'network.tx.bytes'
+                     ],
+                     labels: [
+                       'Received',
+                       'Transmitted'
+                     ],
+                     type: 'line'
+                   }}
+                   y2={{
+                     min: 0,
+                     max: 1,
+                     metrics: [
+                       'network.rx.errors',
+                       'network.rx.dropped',
+                       'network.tx.errors',
+                       'network.tx.dropped'
+                     ],
+                     labels: [
+                       'RX Errors',
+                       'RX Dropped',
+                       'TX Errors',
+                       'TX Dropped'
+                     ],
+                     formatter: formatPercentageShort,
+                     type: 'line'
+                   }}/>
+          </div>
         </DashboardSection>
       </div>
     );

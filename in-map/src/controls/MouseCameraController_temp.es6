@@ -58,7 +58,7 @@ export default class MouseControl extends TouchController {
         } else if (zoom > 50) {
           zoom = 50;
         }
-        this.zoom(zoom);
+        this.zoom(-zoom);
       });
   }
 }

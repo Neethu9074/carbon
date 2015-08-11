@@ -77,6 +77,12 @@ export default class LayerComponent extends Component {
     });
   }
 
+  //is called if a layer was disposed
+  removeChild(toBeRemoved) {
+    _.remove(this.layer, layer => isIdEqual(toBeRemoved.snapshot, layer.snapshot));
+    this.needsUpdate = true;
+  }
+
   dispose() {
     super.dispose();
 

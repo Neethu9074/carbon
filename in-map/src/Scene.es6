@@ -21,6 +21,7 @@ import LineFactory from './factories/LineFactory';
 import {getMapStatistics} from './mapStatistics';
 import {getAllNodes} from './mapStructureUtils';
 import Node from './sceneObjects/Nodes/Node';
+import Layer from './sceneObjects/Layer';
 import * as time from './timeCalculations';
 import * as zoom from './zoom';
 
@@ -157,7 +158,7 @@ export default class Scene {
     this.groundSingleMeshFactory.material.transparent = true;
     this.groundSingleMeshFactory.material.opacity = 0.2;
 
-    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 4});
+    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
 
     this.layerSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
 
@@ -537,7 +538,7 @@ export default class Scene {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
       selectedSceneObject.emit(sceneObject);
 
-      if(!(sceneObject instanceof Node)) {
+      if(!(sceneObject instanceof Node || sceneObject instanceof Layer)) {
         selectedSnapshot.clear();
       }
     } else {

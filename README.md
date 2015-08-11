@@ -11,7 +11,7 @@ Make sure that you have Git and cURL installed.
 
 ```
 # download and install NVM
-curl https://raw.githubusercontent.com/creationix/nvm/v0.22.2/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | bash
 
 # reload bash
 bash

@@ -98,26 +98,6 @@ export default class Group extends SceneObject {
     this.children.push(group);
   }
 
-  getDimension() {
-    let width = 1;
-    let depth = 1;
-
-    this.children.forEach(child => {
-      const w = child.getDimension().width;
-      if(w > width) {
-        width = w;
-      }
-    });
-
-    width += 2;
-
-    this.children.forEach(child => {
-      depth += 1 + child.getDimension().depth;
-    });
-
-    return {width, depth};
-  }
-
   updateScreenAnchorPosition() {
     const pos = this.getComponent('position').getPosition();
     super.setScreenPositionAnchor(pos.x, pos.y, pos.z + this.zSize / 2);

@@ -7,9 +7,10 @@ import {activeMetric} from 'in-services/stores/metrics';
 
 import HighlightingComponent from '../../../components/HighlightingComponent';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
-import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import ConnectionComponent from '../../../components/ConnectionComponent';
 import MeshComponent from '../../../components/MeshComponent';
+
+import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObject from '../../SceneObject/index';
 
@@ -155,9 +156,9 @@ export default class BaseNode extends SceneObject {
 
     //add the mesh component to handle visual representation of the node
     components.mesh = new MeshComponent({
+      id: this.id + '_mesh',
       sceneObject: this,
       contentProvider: new CMCM({contentProvider: pcm}),
-      id: this.id + '_mesh',
       factory: this.scene.singleMeshFactory
     });
     const color = this.calculateNodeColor();
@@ -165,9 +166,9 @@ export default class BaseNode extends SceneObject {
 
     //add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
+      id: this.id + '_solidMesh',
       sceneObject: this,
       contentProvider: new CMCM({contentProvider: pcm}),
-      id: this.id + '_solidMesh',
       factory: this.scene.highlightingSingleMeshFactory
     });
     components.solidMesh.stateMachine.changeStateProperty('active', false);
@@ -259,10 +260,6 @@ export default class BaseNode extends SceneObject {
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
   setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
-
-  getDimension() {
-    return {width: 1, depth: 1};
-  }
 
   disposeStickyNote() {
     this.stickyNote.dispose();

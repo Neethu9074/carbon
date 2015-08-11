@@ -125,7 +125,8 @@ function buildProxroxConfig(envConfig) {
       '/auth/signIn': baseUrl + '/auth/signIn',
       '/auth/signOut': baseUrl + '/auth/signOut',
       '/auth/users/current': baseUrl + '/auth/users/current',
-      '/internal/api': instagrafanaUrl + 'api'
+      '/internal/api': instagrafanaUrl + 'api',
+      '/uiTracker/': 'http://127.0.0.1:8484/'
     },
 
     websocketProxy: {

@@ -8,7 +8,7 @@ import {setThemeOnHtmlDocument} from 'in-services/theme';
 import 'in-services/time';
 import 'in-forge';
 
-import UiBackendLogAppender from './UiBackendLogAppender';
+import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
 import i18n from './i18n';
 
@@ -26,9 +26,9 @@ if (logging.ConsoleAppender.isPossible()) {
   logging.addAppender(consoleAppender);
 }
 
-const uiBackendAppender = new UiBackendLogAppender();
-uiBackendAppender.setActivePriority(30);
-logging.addAppender(uiBackendAppender);
+const uiTrackerAppender = new UiTrackerLogAppender();
+uiTrackerAppender.setActivePriority(30);
+logging.addAppender(uiTrackerAppender);
 
 const unhandledLogger = logging.createLogger('in-client.unhandled');
 window.onerror = function() {
