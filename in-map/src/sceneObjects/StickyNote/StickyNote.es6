@@ -54,6 +54,6 @@ export default class StickyNote {
     const container = this.stickyNoteContainer;
 
     React.unmountComponentAtNode(container);
-    container.parentNode.removeChild(container);
+    this.parent.getHtmlContainer().removeChild(container);
   }
 }

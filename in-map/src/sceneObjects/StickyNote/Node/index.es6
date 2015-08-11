@@ -84,8 +84,4 @@ export default class StickyNoteNode extends StickyNote {
     this.showMetric = false;
     this.render();
   }
-
-  dispose() {
-    super.dispose();
-  }
 }

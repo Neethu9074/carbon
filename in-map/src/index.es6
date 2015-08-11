@@ -76,7 +76,6 @@ const MapRC = React.createClass({
   loadScene(pluginId) {
     if(this.scene) {
       this.scene.dispose();
-      this.scene = null;
     }
 
     const parent = React.findDOMNode(this.refs.parent);

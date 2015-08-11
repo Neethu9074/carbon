@@ -119,19 +119,19 @@ export default class Scene {
     const aspect = width / height;
     const left = -this.cameraSize / 2 * aspect;
     const top = this.cameraSize / 2;
-    this.camera = new THREE.OrthographicCamera(
+    const camera = this.camera = new THREE.OrthographicCamera(
       left, -left, top, -top,
       0.1, //near
       2000 //far
     );
 
-    this.camera.position.set(-0.8, 1, 1);
-    this.camera.lookAt(new THREE.Vector3());
-    this.camera.projection = new THREE.Matrix4();
+    camera.position.set(-0.8, 1, 1);
+    camera.lookAt(new THREE.Vector3());
+    camera.projection = new THREE.Matrix4();
     //set static
-    this.camera.matrixAutoUpdate = false;
-    this.camera.rotationAutoUpdate = false;
-    this.camera.updateMatrix();
+    camera.matrixAutoUpdate = false;
+    camera.rotationAutoUpdate = false;
+    camera.updateMatrix();
 
     //this is a camera just for the background scene to render
     this.backgroundCamera = new THREE.OrthographicCamera(
@@ -261,7 +261,7 @@ export default class Scene {
       return;
     }
 
-    requestAnimationFrame(() => this.update());
+    requestAnimationFrame(this.update.bind(this));
 
     //fire event for updating stats
     eventBus.emit('beginUpdate', highResTimestamp);
@@ -586,5 +586,6 @@ export default class Scene {
     this.map.dispose();
 
     this.parent.removeChild(this.renderer.domElement);
+    currentScene.emit(null);
   }
 }

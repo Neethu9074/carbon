@@ -264,7 +264,7 @@ export default class BaseNode extends SceneObject {
 
   disposeStickyNote() {
     this.stickyNote.dispose();
-    this.stickyNote = emptyStickyObject;
+    this.stickyNote = null;
   }
 
   dispose() {
