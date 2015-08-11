@@ -21,10 +21,12 @@ const LayerTooltipRC = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
+    const id = snapshot.get('steadyId');
+    const text = id.length > 20 ? id.substring(0, 20) + '...' : id;
     return (
       <TooltipFrame>
         <Content>
-          {getLabel(snapshot) + ': ' + snapshot.get('steadyId')}
+          {getLabel(snapshot) + ': ' + text}
         </Content>
       </TooltipFrame>
     );

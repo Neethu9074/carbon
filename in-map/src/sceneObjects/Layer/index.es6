@@ -7,9 +7,9 @@ import {getIdString} from 'in-services/util/snapshots';
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import HighlightingComponent from '../../components/HighlightingComponent';
 
+import {selectedSceneObject, currentTooltip} from '../../stores/mapStore';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import MeshComponent from '../../components/MeshComponent';
-import {selectedSceneObject, currentTooltip} from '../../stores/mapStore';
 import SceneObject from '../SceneObject/index';
 import TooltipLayer from '../Tooltips/Layer';
 
