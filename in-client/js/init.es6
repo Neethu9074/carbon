@@ -26,9 +26,11 @@ if (logging.ConsoleAppender.isPossible()) {
   logging.addAppender(consoleAppender);
 }
 
-const uiTrackerAppender = new UiTrackerLogAppender();
-uiTrackerAppender.setActivePriority(30);
-logging.addAppender(uiTrackerAppender);
+if (!__DEV__) {
+  const uiTrackerAppender = new UiTrackerLogAppender();
+  uiTrackerAppender.setActivePriority(30);
+  logging.addAppender(uiTrackerAppender);
+}
 
 const unhandledLogger = logging.createLogger('in-client.unhandled');
 window.onerror = function() {

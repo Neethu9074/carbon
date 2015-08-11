@@ -120,8 +120,7 @@ function buildProxroxConfig(envConfig) {
       '/': 'http://127.0.0.1:3000',
       '/auth/signIn': baseUrl + '/auth/signIn',
       '/auth/signOut': baseUrl + '/auth/signOut',
-      '/auth/users/current': baseUrl + '/auth/users/current',
-      '/uiTracker/': 'http://127.0.0.1:8484/'
+      '/auth/users/current': baseUrl + '/auth/users/current'
     },
 
     websocketProxy: {
