@@ -1,7 +1,8 @@
 import Component from '../Component';
 
 
-export default class CollisionObjectComponent extends Component{
+export default class CollisionObjectComponent extends Component {
+
   constructor({sceneObject, collisionObject, layer}) {
     super(sceneObject);
 
