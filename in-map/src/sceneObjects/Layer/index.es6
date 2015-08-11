@@ -42,11 +42,6 @@ export default class Layer extends SceneObject {
   }
 
   onHighlightEnter() {
-
-    //set the selected snapshot store
-    if(this.isThisSelected) {
-      selectedSnapshot.select(this.snapshot);
-    }
     //show the tooltip on hover
     currentTooltip.emit(null);
 
@@ -62,28 +57,43 @@ export default class Layer extends SceneObject {
   onSelectedEnter() {
     //setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+
+    //surounds the node with a white hull
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', true);
   }
 
   onSelectedHighlightEnter() {
     //setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+
+    //surounds the node with a white hull
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', true);
   }
 
   onSelectedHighlightLeave() {
     //hide the border highlighting stuff
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+
+    //dispose the white hull
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
   }
 
   onSelectedLeave() {
     //setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+
+    //dispose the white hull
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
   }
 
 
   initComponents() {
     super.initComponents();
 
-    this.components.collision = new CollisionComponent({
+    const id = this.id;
+    const components = this.components;
+
+    components.collision = new CollisionComponent({
       sceneObject: this,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 3
@@ -91,26 +101,35 @@ export default class Layer extends SceneObject {
     // the default state for collisions on layer is inactive. collisions are only
     // active, if the layer is active and the zoomLevel is nearest so that you are
     // close to the layer with the camera
-    this.components.collision.stateMachine.changeStateProperty('active', false);
+    components.collision.stateMachine.changeStateProperty('active', false);
+
+    const pcm = new PCM({
+      contentProvider: new SCM({
+        contentProvider: new CCP()
+      })
+    });
 
     //add the mesh component to handle visual representation of the node
-    this.components.mesh = new MeshComponent({
+    components.mesh = new MeshComponent({
       sceneObject: this,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new CCP()
-          })
-        })
-      }),
-      id: this.id,
+      contentProvider: new CMCM({ contentProvider: pcm }),
+      id,
       factory: this.scene.layerSingleMeshFactory
     });
 
+    //add the solidMesh component to handle the solid fill color of a node
+    components.solidMesh = new MeshComponent({
+      id: id + '_solidMesh',
+      sceneObject: this,
+      contentProvider: new CMCM({ contentProvider: pcm }),
+      factory: this.scene.highlightingSingleMeshFactory
+    });
+    components.solidMesh.stateMachine.changeStateProperty('active', false);
+
     //add the highlighting component to handle the highlighting of a node
     //this is different to solidMesh since the highlighting is like a mouseOver effect
-    this.components.highlighting = new HighlightingComponent({sceneObject: this});
-    this.components.highlighting.stateMachine.changeStateProperty('active', false);
+    components.highlighting = new HighlightingComponent({sceneObject: this});
+    components.highlighting.stateMachine.changeStateProperty('active', false);
   }
 
   onSceneObjectSelected(obj) {
@@ -130,15 +149,17 @@ export default class Layer extends SceneObject {
   }
 
   positionChanged(x, y, z) {
-    this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('mesh').positionChanged(x, y, z);
+    this.getComponent('solidMesh').positionChanged(x, y, z);
+    this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
   }
 
   setHeight(height) {
     this.height = height;
-    this.getComponent('collision').sizeChanged(0.9, height, 0.9);
     this.getComponent('mesh').sizeChanged(0.9, height, 0.9);
+    this.getComponent('solidMesh').sizeChanged(0.9, height, 0.9);
+    this.getComponent('collision').sizeChanged(0.9, height, 0.9);
     this.getComponent('highlighting').sizeChanged(0.9, height, 0.9);
   }
 

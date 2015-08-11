@@ -7,9 +7,10 @@ import {activeMetric} from 'in-services/stores/metrics';
 
 import HighlightingComponent from '../../../components/HighlightingComponent';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
-import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import ConnectionComponent from '../../../components/ConnectionComponent';
 import MeshComponent from '../../../components/MeshComponent';
+
+import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObject from '../../SceneObject/index';
 
