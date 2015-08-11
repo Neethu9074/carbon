@@ -70,12 +70,12 @@ export default class HighlightingComponent extends Component {
   setupHighlightBorderLines() {
     const pos = this.positionToSet;
     const scale = this.scaleToSet;
-    const fromX = pos.x + 0.01;
-    const toX = pos.x - 1.01;
+    const fromX = pos.x - ((1 - scale.x) / 2) + 0.01;
+    const toX = fromX - scale.x - 0.02;
     const fromY = pos.y - 0.01;
     const toY = fromY + scale.y + 0.02;
-    const fromZ = pos.z - 0.01;
-    const toZ = pos.z + 1.01;
+    const fromZ = pos.z - 0.01 + ((1 - scale.z) / 2);
+    const toZ = fromZ + scale.z + 0.02;
 
     this.lineContentProvider.setLines([
       toX, fromY, fromZ,
