@@ -94,6 +94,13 @@ export default class Node extends BaseNode {
     );
   }
 
+  addLayer(layer) {
+    const layerComponent = this.getComponent('layer');
+    if(layerComponent) {
+      layerComponent.addLayer(layer);
+    }
+  }
+
   onHighlight(highlighted) {
     super.onHighlight(highlighted);
     if(highlighted) {
@@ -268,12 +275,12 @@ export default class Node extends BaseNode {
   }
 
   dispose() {
+    this.snapshotServer.dispose();
+
     super.dispose();
 
     this.singleMetricPillar.dispose();
     this.multiMetricPillar.dispose();
-
-    this.snapshotServer.dispose();
 
     this.wiredSnapshots = undefined;
     this.snapshot = null;
