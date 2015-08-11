@@ -120,7 +120,7 @@ export default class CameraController {
 
   doClick() {
     //if an object was found via raycasting, inform the scene
-    this.scene.onObjectClicked(this.hittenObject);
+    this.scene.onObjectClicked(this.hittenObject, this.hoveredConnections);
   }
 
   flyToObject(obj) {

@@ -20,8 +20,6 @@ import backgroundPlane from './lib/backgroundPlane';
 import LineFactory from './factories/LineFactory';
 import {getMapStatistics} from './mapStatistics';
 import {getAllNodes} from './mapStructureUtils';
-import Node from './sceneObjects/Nodes/Node';
-import Layer from './sceneObjects/Layer';
 import * as time from './timeCalculations';
 import * as zoom from './zoom';
 
@@ -533,15 +531,17 @@ export default class Scene {
     this.renderScene();
   }
 
-  onObjectClicked(object) {
+  onObjectClicked(object, hoveredConnections) {
     if(object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
       selectedSceneObject.emit(sceneObject);
 
-      if(!(sceneObject instanceof Node || sceneObject instanceof Layer)) {
+      // only clear the store if there is no snapshot available or the object is unknown
+      if(!sceneObject.snapshot || sceneObject.isUnknown) {
         selectedSnapshot.clear();
       }
-    } else {
+    // dont reset the click if you clicken on connections
+    } else if(hoveredConnections.length === 0) {
       this.resetClicked();
     }
   }
