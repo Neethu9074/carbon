@@ -7,6 +7,7 @@ import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import QueryBuilder from 'in-components/QueryBuilder';
+import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
@@ -64,6 +65,14 @@ const App = React.createClass({
     );
   },
 
+  togglePlugin() {
+    if(this.state.pluginId === constants.plugins.os) {
+      this.setState({pluginId: constants.plugins.process});
+    } else {
+      this.setState({pluginId: constants.plugins.os});
+    }
+  },
+
   render() {
     const hasChildren = this.props.state.routes.length > 1;
 
@@ -73,6 +82,10 @@ const App = React.createClass({
 
         {__DEV__ ?
           <QueryBuilder />
+        : null}
+
+        {__DEV__ ?
+          <ChoosePluginButton onClick={this.togglePlugin}/>
         : null}
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
