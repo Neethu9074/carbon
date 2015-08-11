@@ -226,7 +226,7 @@ export default class Scene {
       //clear the selectedSnapshot store if there was a click into nowhere
       //or on a sceneObject without a snapshot or unknown sceneObject
       if(sceneObject) {
-        this.controller.flyToObject(sceneObject);
+        // this.controller.flyToObject(sceneObject);
         this.hideHulls();
       } else {
         this.showHulls();
