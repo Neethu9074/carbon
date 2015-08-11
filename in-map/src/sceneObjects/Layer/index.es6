@@ -1,5 +1,6 @@
 import THREE from 'three';
 
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {getIdString} from 'in-services/util/snapshots';
 
@@ -8,7 +9,7 @@ import HighlightingComponent from '../../components/HighlightingComponent';
 
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import MeshComponent from '../../components/MeshComponent';
-// import {currentTooltip} from '../../stores/mapStore';
+import {selectedSceneObject, currentTooltip} from '../../stores/mapStore';
 import SceneObject from '../SceneObject/index';
 // import TooltipLayer from '../Tooltips/Layer';
 
@@ -34,11 +35,20 @@ export default class Layer extends SceneObject {
     });
 
     // this.tooltip = new TooltipLayer(this);
+
+    this.addSubscription(selectedSceneObject.subscribe(so =>
+      this.onSceneObjectSelected(so)
+    ));
   }
 
   onHighlightEnter() {
+
+    //set the selected snapshot store
+    if(this.isThisSelected) {
+      selectedSnapshot.select(this.snapshot);
+    }
     //show the tooltip on hover
-    // currentTooltip.emit(this.tooltip);
+    currentTooltip.emit(null);
 
     //setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
@@ -52,6 +62,16 @@ export default class Layer extends SceneObject {
   onSelectedEnter() {
     //setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+  }
+
+  onSelectedHighlightEnter() {
+    //setup the border highlight
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+  }
+
+  onSelectedHighlightLeave() {
+    //hide the border highlighting stuff
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
   }
 
   onSelectedLeave() {
@@ -91,6 +111,18 @@ export default class Layer extends SceneObject {
     //this is different to solidMesh since the highlighting is like a mouseOver effect
     this.components.highlighting = new HighlightingComponent({sceneObject: this});
     this.components.highlighting.stateMachine.changeStateProperty('active', false);
+  }
+
+  onSceneObjectSelected(obj) {
+    const isThisSelected = (obj && obj.id === this.id) ?
+      true : false;
+
+    this.stateMachine.changeStateProperty('selected', isThisSelected);
+
+    //set the selected snapshot store
+    if(isThisSelected) {
+      selectedSnapshot.select(this.snapshot);
+    }
   }
 
   updateSnapshot(snapshot) {

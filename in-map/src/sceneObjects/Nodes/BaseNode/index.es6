@@ -155,9 +155,9 @@ export default class BaseNode extends SceneObject {
 
     //add the mesh component to handle visual representation of the node
     components.mesh = new MeshComponent({
+      id: this.id + '_mesh',
       sceneObject: this,
       contentProvider: new CMCM({contentProvider: pcm}),
-      id: this.id + '_mesh',
       factory: this.scene.singleMeshFactory
     });
     const color = this.calculateNodeColor();
@@ -165,9 +165,9 @@ export default class BaseNode extends SceneObject {
 
     //add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
+      id: this.id + '_solidMesh',
       sceneObject: this,
       contentProvider: new CMCM({contentProvider: pcm}),
-      id: this.id + '_solidMesh',
       factory: this.scene.highlightingSingleMeshFactory
     });
     components.solidMesh.stateMachine.changeStateProperty('active', false);
