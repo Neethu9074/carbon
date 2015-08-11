@@ -77,9 +77,6 @@ export default class Scene {
 
     //set this flag to force a render cycle
     this.shouldRenderScene = true;
-
-    //set this flag to keep the render cycle alive
-    this.animationInProgress = false;
   }
 
   createOctree() {
@@ -277,7 +274,7 @@ export default class Scene {
     this.controller.update();
 
     //don't render scene if it is not needed
-    if(!this.shouldRenderScene && !this.animationInProgress) {
+    if(!this.shouldRenderScene && !currentMetrics) {
       return;
     }
 
@@ -456,16 +453,6 @@ export default class Scene {
     /*eslint-enable no-loop-func*/
 
     return undefined;
-  }
-
-  //set this flag if a animation is in progress so the render loop keeps updated
-  startAnimation() {
-    this.animationInProgress = true;
-  }
-
-  //set this flag if your animations has finished and the render loop could be paused
-  stopAnimation() {
-    this.animationInProgress = false;
   }
 
   addSceneObject(obj) {
