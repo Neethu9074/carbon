@@ -142,7 +142,8 @@ gulp.task('writeBuildInfo', function() {
   var data = {
     revision: getRevision(),
     version: getVersion(),
-    date: new Date().toISOString()
+    date: new Date().toISOString(),
+    containerTag: process.env.INSTANA_CONTAINER_TAG || 'unknown'
   };
 
   try {
