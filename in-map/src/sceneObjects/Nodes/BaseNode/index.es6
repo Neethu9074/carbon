@@ -136,6 +136,7 @@ export default class BaseNode extends SceneObject {
   initComponents() {
     super.initComponents();
 
+    const id = this.id;
     const components = this.components;
 
     //add the collision component to handle the collision box
@@ -156,7 +157,7 @@ export default class BaseNode extends SceneObject {
 
     //add the mesh component to handle visual representation of the node
     components.mesh = new MeshComponent({
-      id: this.id + '_mesh',
+      id: id + '_mesh',
       sceneObject: this,
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.singleMeshFactory
@@ -166,7 +167,7 @@ export default class BaseNode extends SceneObject {
 
     //add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
-      id: this.id + '_solidMesh',
+      id: id + '_solidMesh',
       sceneObject: this,
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.highlightingSingleMeshFactory

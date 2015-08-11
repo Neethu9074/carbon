@@ -42,9 +42,6 @@ export default class Layer extends SceneObject {
   }
 
   onHighlightEnter() {
-    //show the tooltip on hover
-    currentTooltip.emit(this.tooltip);
-
     //setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
   }
@@ -130,6 +127,13 @@ export default class Layer extends SceneObject {
     //this is different to solidMesh since the highlighting is like a mouseOver effect
     components.highlighting = new HighlightingComponent({sceneObject: this});
     components.highlighting.stateMachine.changeStateProperty('active', false);
+  }
+
+  //is called via hover event
+  onHighlight(highlighted) {
+    super.onHighlight(highlighted);
+
+    currentTooltip.emit(this.tooltip);
   }
 
   onSceneObjectSelected(obj) {
