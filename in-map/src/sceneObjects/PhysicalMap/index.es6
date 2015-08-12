@@ -136,21 +136,19 @@ export default class PhysicalMap extends SceneObject {
     const snapshotIds = snapshots.map(snapshot => getIdString(snapshot));
 
     // identify removed nodes: nodes that are not inside the snapshot update
-    const removedNodes = getAllNodes(this)
+    getAllNodes(this)
       // only the monitored
       .filter(node => !node.isUnknown)
       // only the ones that are not in snapshots anymore
       .filter(node => {
         const foundSnapshot = snapshotIds.find(id => getIdString(node.snapshot) === id);
         return !foundSnapshot;
-      });
-
-    removedNodes.forEach((node) => node.dispose());
+      }).forEach((node) => node.dispose());
   }
 
   removeAllUnknownNodesWithoutConnections() {
     // identify removed nodes: nodes that are not inside the snapshot update
-    const removedNodes = getAllNodes(this)
+    getAllNodes(this)
       //only the monitored
       .filter(node => node.isUnknown)
       //only the ones that are not in snapshots anymore
@@ -158,9 +156,8 @@ export default class PhysicalMap extends SceneObject {
         const wired = node.getWiredSnapshots();
         return (wired.get('outgoing').length === 0 &&
                 wired.get('incoming').length === 0);
-      });
-
-    removedNodes.forEach((node) => node.dispose());
+      })
+      .forEach((node) => node.dispose());
   }
 
   addNode(snapshot) {
