@@ -86,21 +86,21 @@ function extractConnectionsFromMap(connections, ipSnapshotMap) {
  * @returns {Immutable.Map<string, Immutable.Map>}
  */
 export function calculateIpMap(snapshots) {
-  const map = new Immutable.Map().asMutable();
+  const map = {};
   //get ips for each host
   snapshots.forEach(host => {
     getIpBySnapshot(host).forEach(ip => {
-      map.set(ip, host);
+      map[ip] = host;
     });
   });
 
-  return map.asImmutable();
+  return map;
 }
 
 function getSnapshotByIp(ip, ipSnapshotMap) {
-  let snapshot = ipSnapshotMap.get(ip);
+  let snapshot = ipSnapshotMap[ip];
   if(!snapshot) {
-    snapshot = Immutable.fromJS({
+    snapshot = Immutable.Map({
       state: 'unmonitored',
       hostId: 'unknown',
       pluginId: 'com.instana.forge.infrastructure.os.OS',
