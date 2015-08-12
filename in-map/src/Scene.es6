@@ -32,7 +32,6 @@ let currentMetrics;
 export default class Scene {
 
   constructor({parent, pluginId, onPlusClicked}) {
-    console.log('create');
     stores.currentScene.emit(this); // set this scene to store
 
     this.parent = parent;
@@ -607,6 +606,5 @@ export default class Scene {
     this.parent.removeChild(this.renderer.domElement);
 
     this.clearStores();
-    console.log('destroy');
   }
 }
