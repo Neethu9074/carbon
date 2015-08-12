@@ -16,7 +16,7 @@ import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import backgroundPlane from './lib/backgroundPlane';
+import {getBackgroundPlane} from './lib/backgroundPlane';
 import LineFactory from './factories/LineFactory';
 import {getMapStatistics} from './mapStatistics';
 import {getAllNodes} from './mapStructureUtils';
@@ -64,10 +64,10 @@ export default class Scene {
     this.setupRenderer(width, height);
     this.setupCamera(width, height);
 
-    //this is a scene just for the background rect to create a gradient instead
-    //of a solid color
+    this.backgroundPlane = getBackgroundPlane();
+    // this is a scene just for the background rect to create a gradient instead of a solid color
     this.backgroundScene = new THREE.Scene();
-    this.backgroundScene.add(backgroundPlane);
+    this.backgroundScene.add(this.backgroundPlane);
 
     this.map = new PhysicalMap({
       scene: this,
@@ -600,7 +600,11 @@ export default class Scene {
     this.map.dispose();
 
     //remove the gradient background from scene
-    this.backgroundScene.remove(backgroundPlane);
+    this.backgroundScene.remove(this.backgroundPlane);
+
+    //dispose the background plane to get rid of WebGL context
+    this.backgroundPlane.geometry.dispose();
+    this.backgroundPlane.material.dispose();
 
     //remove the canvas and clear the parent div
     this.parent.removeChild(this.renderer.domElement);
