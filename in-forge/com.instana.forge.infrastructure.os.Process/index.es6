@@ -9,6 +9,8 @@ import {
 } from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
 import * as zones from 'in-sdk/zones';
+import * as power from 'in-sdk/power';
+import * as sorting from 'in-sdk/sorting';
 
 import iconPath from './icon.svg';
 import * as constants from '../constants';
@@ -19,10 +21,7 @@ pluginName.setHumanReadablePluginName(
   'Processes'
 );
 
-addLabelFinder(
-  constants.plugins.process,
-  snapshot => snapshot.getIn(['data', 'exec'])
-);
+addLabelFinder(constants.plugins.process, getLabel);
 
 addIconFinder(
   constants.plugins.process,
@@ -35,3 +34,17 @@ zones.addMapping(
   constants.plugins.process,
   snapshot => snapshot.get('hostId')
 );
+
+power.addMapping(
+  constants.plugins.process,
+  () => 1
+);
+
+sorting.addMapping(
+  constants.plugins.process,
+  (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
+);
+
+function getLabel(snapshot) {
+  return snapshot.getIn(['data', 'exec']);
+}
