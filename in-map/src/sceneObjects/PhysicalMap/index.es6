@@ -22,8 +22,8 @@ const layoutingInterval = 60;
 
 export default class PhysicalMap extends SceneObject {
 
-  constructor({scene, pluginId}) {
-    super({parent: scene, id: 'physicalMap'});
+  constructor({parent, pluginId}) {
+    super({parent, id: 'physicalMap_' + pluginId});
 
     //the size of the map in world units (sizeXsize)
     this.size = 1000;

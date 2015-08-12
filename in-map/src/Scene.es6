@@ -70,7 +70,7 @@ export default class Scene {
     this.backgroundScene.add(this.backgroundPlane);
 
     this.map = new PhysicalMap({
-      scene: this,
+      parent: this,
       pluginId: this.pluginId
     });
 
@@ -568,9 +568,7 @@ export default class Scene {
   }
 
   //is called by map
-  removeChild() {
-    this.map = null;
-  }
+  removeChild() {}
 
   clearStores() {
     stores.longClickedSceneObject.emit(null);
