@@ -132,14 +132,16 @@ export default class PhysicalMap extends SceneObject {
   }
 
   removeVanishedNodes(snapshots) {
+    // calculate the ids of each snapshot only once and save them to collection
+    const snapshotIds = snapshots.map(snapshot => getIdString(snapshot));
+
     // identify removed nodes: nodes that are not inside the snapshot update
     const removedNodes = getAllNodes(this)
-      //only the monitored
+      // only the monitored
       .filter(node => !node.isUnknown)
-      //only the ones that are not in snapshots anymore
+      // only the ones that are not in snapshots anymore
       .filter(node => {
-        const nodeID = getIdString(node.snapshot);
-        const foundSnapshot = snapshots.find(snapshot => nodeID === getIdString(snapshot));
+        const foundSnapshot = snapshotIds.find(id => getIdString(node.snapshot) === id);
         return !foundSnapshot;
       });
 
