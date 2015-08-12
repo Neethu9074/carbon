@@ -233,7 +233,7 @@ export default class Node extends BaseNode {
     }
 
     this.snapshot = snapshot;
-    this.stickyNote.render();
+    this.snapshotServer.onSnapshotUpdate();
   }
 
   getScreenAnchorPosition() {

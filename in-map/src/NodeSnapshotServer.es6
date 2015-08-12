@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 import {getWiredSnapshots} from 'in-sdk/snapshot';
 import {getNormalizedValue} from 'in-sdk/metrics';
 import {plugins} from 'in-forge/constants';
@@ -22,8 +24,9 @@ export default class NodeSnapshotServer {
 
     this.subscriptions = [];
 
-    this.subscriptions.push(getWiredSnapshots(client.snapshot)
-      .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots)));
+    this.wiredSnapshotsSubscription = getWiredSnapshots(client.snapshot)
+      .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots));
+    this.subscriptions.push(this.wiredSnapshotsSubscription);
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       if(metric) {
@@ -60,6 +63,17 @@ export default class NodeSnapshotServer {
     this.subscriptions
       .push(create(SnapshotConveyer, {pluginId: plugins.docker})
       .subscribe(data => this.onLayerUpdate(data)));
+  }
+
+  onSnapshotUpdate() {
+    const client = this.client;
+    _.remove(this.subscriptions, sub => sub === this.wiredSnapshotsSubscription);
+
+    this.wiredSnapshotsSubscription.dispose();
+    this.wiredSnapshotsSubscription = getWiredSnapshots(client.snapshot)
+      .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots));
+
+    this.subscriptions.push(this.wiredSnapshotsSubscription);
   }
 
   onLayerUpdate(snapshots) {
