@@ -9,7 +9,7 @@ import eventBus from 'in-services/eventbus';
 
 import './lib/Octree';
 
-import {iconSize, selectedSceneObject, currentScene, currentTooltip} from './stores/mapStore';
+import * as stores from './stores/mapStore';
 // import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
@@ -32,7 +32,8 @@ let currentMetrics;
 export default class Scene {
 
   constructor({parent, pluginId, onPlusClicked}) {
-    currentScene.emit(this); // set this scene to store
+    console.log('create');
+    stores.currentScene.emit(this); // set this scene to store
 
     this.parent = parent;
     this.width = window.innerWidth;
@@ -145,25 +146,22 @@ export default class Scene {
   }
 
   setupFactories() {
-    this.singleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 3});
+    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
 
-    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene: this});
+    const scene = this;
 
-    this.groundSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
+    this.groundSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
     this.groundSingleMeshFactory.material.transparent = true;
     this.groundSingleMeshFactory.material.opacity = 0.2;
 
-    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
+    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
+    this.layerSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
+    this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
+    this.singleMetricFactory = new SingleMetricPillarFactory({scene});
+    this.lineFactory = new LineFactory({scene});
 
-    this.layerSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
-
-    this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
-    this.lineFactory = new LineFactory({scene: this});
     this.numTiles = 5;
-    this.multiMetricFactory = new MultiMetricPillarFactory({
-      scene: this,
-      numTiles: this.numTiles
-    });
+    this.multiMetricFactory = new MultiMetricPillarFactory({scene, numTiles: this.numTiles});
 
     this.metricUpdateInterval = setInterval(() => {
       if(currentMetrics) {
@@ -177,7 +175,7 @@ export default class Scene {
 
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
-    this.subscriptions.push(currentTooltip.subscribe(tooltip => {
+    this.subscriptions.push(stores.currentTooltip.subscribe(tooltip => {
       if(this.tooltip === tooltip) {
         return;
       }
@@ -197,7 +195,7 @@ export default class Scene {
       if(metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
-        selectedSceneObject.emit({sceneObject: null});
+        stores.selectedSceneObject.emit({sceneObject: null});
         this.hideHulls();
 
       } else {
@@ -211,12 +209,12 @@ export default class Scene {
       selectedSnapshot.selectedSnapshot.subscribe(selected => {
         //if the store was cleared and this client is selected -> unselect it
         if(!selected) {
-          selectedSceneObject.emit({sceneObject: null});
+          stores.selectedSceneObject.emit({sceneObject: null});
         }
       })
     );
 
-    this.subscriptions.push(selectedSceneObject.subscribe(event => {
+    this.subscriptions.push(stores.selectedSceneObject.subscribe(event => {
       const sceneObject = event.sceneObject;
       //clear the selectedSnapshot store if there was a click into nowhere
       //or on a sceneObject without a snapshot or unknown sceneObject
@@ -309,7 +307,7 @@ export default class Scene {
 
     if(this.nodeSizeInPixel !== nodeSizeInPixel) {
       this.nodeSizeInPixel = nodeSizeInPixel;
-      iconSize.emit(nodeSizeInPixel);
+      stores.iconSize.emit(nodeSizeInPixel);
       this.renderScene();
     }
   }
@@ -525,7 +523,7 @@ export default class Scene {
         selectedSnapshot.clear();
       }
 
-      selectedSceneObject.emit({sceneObject, calledByMap: true});
+      stores.selectedSceneObject.emit({sceneObject, calledByMap: true});
 
     // dont reset the click if you clicken on connections
     } else if(hoveredConnections.length === 0) {
@@ -534,7 +532,7 @@ export default class Scene {
   }
 
   resetClicked() {
-    selectedSceneObject.emit({sceneObject: null});
+    stores.selectedSceneObject.emit({sceneObject: null});
     highlightedSnapshot.clear();
     selectedSnapshot.clear();
   }
@@ -576,6 +574,15 @@ export default class Scene {
     this.map = null;
   }
 
+  clearStores() {
+    stores.longClickedSceneObject.emit(null);
+    stores.selectedSceneObject.emit(null);
+    stores.currentTooltip.emit(null);
+    stores.cursorPosition.emit(null);
+    stores.currentScene.emit(null);
+    stores.iconSize.emit(null);
+  }
+
   //set this flag if the update loop should be stoped
   dispose() {
     this.disposed = true;
@@ -599,7 +606,7 @@ export default class Scene {
     //remove the canvas and clear the parent div
     this.parent.removeChild(this.renderer.domElement);
 
-    //the current scene is null so no sceneObject has access to this anymore
-    currentScene.emit(null);
+    this.clearStores();
+    console.log('destroy');
   }
 }
