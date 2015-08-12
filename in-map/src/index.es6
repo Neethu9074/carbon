@@ -60,7 +60,7 @@ const MapRC = React.createClass({
   componentDidUpdate() {
     if(this.pluginId !== this.props.pluginId) {
       this.pluginId = this.props.pluginId;
-      this.loadScene(constants.plugins.os);//this.pluginId);
+      this.loadScene(this.pluginId);
     }
   },
 
