@@ -47,8 +47,7 @@ export default class NodeSnapshotServer {
 
     this.subscriptions.push(
       selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
-        if(isIdEqual(this.client.snapshot, selected) &&
-           !this.client.isSelected()) {
+        if(isIdEqual(this.client.snapshot, selected) && !this.client.isSelected()) {
           selectedSceneObject.emit({sceneObject: this.client});
         }
       })

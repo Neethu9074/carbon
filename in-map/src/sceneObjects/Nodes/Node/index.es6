@@ -71,6 +71,12 @@ export default class Node extends BaseNode {
     selectedSnapshot.select(this.snapshot);
   }
 
+  onSelectedHighlightEnter() {
+    super.onSelectedHighlightEnter();
+    selectedSnapshot.select(this.snapshot);
+  }
+
+
   registerEvents() {
     super.registerEvents();
 
