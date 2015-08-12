@@ -9,8 +9,8 @@ export default class HighlightingComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject);
 
-    this.scaleToSet = {x: 1, y: 1, z: 1};
     this.positionToSet = {x: -1000, y: 0, z: 0};
+    this.scaleToSet = {x: 1, y: 1, z: 1};
 
     this.lineContentProvider = new LCP();
     this.fragment = {
@@ -119,6 +119,9 @@ export default class HighlightingComponent extends Component {
   dispose() {
     super.dispose();
 
-    this.hide();
+    this.lineContentProvider = null;
+    this.positionToSet = null;
+    this.scaleToSet = null;
+    this.fragment = null;
   }
 }

@@ -2,13 +2,14 @@ import Component from '../Component';
 
 
 export default class LineMeshComponent extends Component {
+
   constructor({sceneObject, contentProvider, id, factory}) {
     super(sceneObject);
 
-    this.id = id;
     this.contentProvider = contentProvider;
-    this.factory = factory;
     this.fragment = {id, contentProvider};
+    this.factory = factory;
+    this.id = id;
 
     this.positionToSet = {x: -1000, y: 0, z: 0};
     this.scaleToSet = {x: 1, y: 1, z: 1};
@@ -87,6 +88,12 @@ export default class LineMeshComponent extends Component {
   dispose() {
     super.dispose();
 
-    this.factory.removeFragment(this.id);
+    this.contentProvider = null;
+    this.positionToSet = null;
+    this.scaleToSet = null;
+    this.colorToSet = null;
+    this.fragment = null;
+    this.factory = null;
+    this.id = null;
   }
 }

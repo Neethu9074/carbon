@@ -11,6 +11,7 @@ const stateLUT = [
 /*eslint-enable no-multi-spaces*/
 
 class StateMachine {
+
   constructor(states) {
     this.stateLookUpTable = stateLUT;
     this.states = states;
@@ -84,6 +85,9 @@ export default class Component {
   update() {}
 
   dispose() {
+    this.needsUpdate = false;
     time.removeTimeEventListener(this);
+
+    this.stateMachine.changeStateProperty('active', false);
   }
 }

@@ -122,5 +122,9 @@ export default class NodeSnapshotServer {
   dispose() {
     this.subscriptions.forEach(sub => sub.dispose());
     this.subscriptions = null;
+
+    this.disposeMetricSubscription();
+
+    this.client = null;
   }
 }

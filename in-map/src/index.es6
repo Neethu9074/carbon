@@ -1,5 +1,5 @@
-import React from 'react/addons';
 import {Navigation} from 'react-router';
+import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import helpify from 'in-components/hoc/helpify';
@@ -11,6 +11,7 @@ import Scene from './Scene';
 import './index.less';
 
 const MapRC = React.createClass({
+
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin,
@@ -59,7 +60,7 @@ const MapRC = React.createClass({
   componentDidUpdate() {
     if(this.pluginId !== this.props.pluginId) {
       this.pluginId = this.props.pluginId;
-      this.loadScene(this.pluginId);
+      this.loadScene(constants.plugins.os);//this.pluginId);
     }
   },
 

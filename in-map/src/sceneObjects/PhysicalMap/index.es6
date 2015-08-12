@@ -126,8 +126,7 @@ export default class PhysicalMap extends SceneObject {
       });
     });
 
-    const maxNodesPerRow = Math.floor(
-      Math.sqrt(numElementsOnMap / this.groups.length));
+    const maxNodesPerRow = Math.floor(Math.sqrt(numElementsOnMap / this.groups.length));
     const layouter = new Layouter({maxNodesPerRow});
     layouter.applyLayout(this);
   }
@@ -279,23 +278,25 @@ export default class PhysicalMap extends SceneObject {
   }
 
   dispose() {
+    //disposing all subscriptions, so that no update is fired anymore
     super.dispose();
 
-    getAllNodes(this).forEach(node => node.dispose());
+    //destory all known and unknown nodes
+    getAllNodes(this).slice().forEach(node => node.dispose());
 
-    //groups are dispose themselves if there is no cube inside
+    //groups are disposing themselves if there is no cube inside anymore
     this.groups = [];
 
+    //remove this ground from the parents scene
     this.removeSceneObject(this.ground);
 
     //clear three.js cache trough disposing
-    this.ground.geometry.dispose();
     this.ground.material.dispose();
+    this.ground.geometry.dispose();
     this.ground = null;
 
     this.filters = [];
     this.parent = null;
-    this.scene = null;
     this.size = null;
   }
 }

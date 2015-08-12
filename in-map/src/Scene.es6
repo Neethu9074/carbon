@@ -572,6 +572,7 @@ export default class Scene {
     });
   }
 
+  //is called by map
   removeChild() {
     this.map = null;
   }
@@ -580,12 +581,26 @@ export default class Scene {
   dispose() {
     this.disposed = true;
 
+    //reset the time and clear all listeners
+    time.reset();
+
+    //make shure that there is no update incoming until disposing
     clearInterval(this.metricUpdateInterval);
+    this.metricUpdateInterval = null;
+
+    //dispose all subscriptions
     this.subscriptions.forEach(sub => sub.dispose());
 
+    //destory the map which will destroy all groups and nodes
     this.map.dispose();
 
+    //remove the gradient background from scene
+    this.backgroundScene.remove(backgroundPlane);
+
+    //remove the canvas and clear the parent div
     this.parent.removeChild(this.renderer.domElement);
+
+    //the current scene is null so no sceneObject has access to this anymore
     currentScene.emit(null);
   }
 }

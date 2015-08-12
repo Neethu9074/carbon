@@ -262,21 +262,27 @@ export default class BaseNode extends SceneObject {
 
   setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
-  disposeStickyNote() {
-    this.stickyNote.dispose();
-    this.stickyNote = null;
-  }
-
   dispose() {
-    //do that first to get connections deleted. they only dispose
-    //themselves if both endpoints are not selected
+    // do that first to get connections deleted. they only dispose
+    // themselves if both endpoints are not selected
     if(this.isSelected()) {
       selectedSceneObject.emit({sceneObject: null});
     }
 
+    // dispose subscriptions so that no update fires anymore
     super.dispose();
 
-    this.disposeStickyNote();
+    this.stickyNote.dispose();
+    this.stickyNote = null;
+
+    try {
+      this.tooltip.unMount();
+    } catch(er) {
+      // the tooltip is already unmounted
+      this.tooltip = null;
+    }
+
+    this.snapshot = null;
   }
 
   calculateNodeColor() {

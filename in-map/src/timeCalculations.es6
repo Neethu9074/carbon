@@ -2,11 +2,11 @@ import _ from 'lodash';
 
 
 let timeOfLastFrameUpdate = 0;
-let deltaTime = 0;
 let timeSinceFirstFrame = 0;
-let fps = 0;
 let secondCounter = 0;
 let fpsCounter = 0;
+let deltaTime = 0;
+let fps = 0;
 let timeCounterForComponentUpdate = 0;
 const framesWatingForComponentUpdate = 10;
 
@@ -63,4 +63,18 @@ export function getDeltaTime() {
 
 export function getBigBangTime() {
   return timeSinceFirstFrame;
+}
+
+export function reset() {
+  timeCounterForComponentUpdate = 0;
+  timeOfLastFrameUpdate = 0;
+  timeSinceFirstFrame = 0;
+  secondCounter = 0;
+  fpsCounter = 0;
+  deltaTime = 0;
+  fps = 0;
+
+  timeEventListener
+    .slice()
+    .forEach(listener => this.removeTimeEventListener(listener));
 }

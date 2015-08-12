@@ -49,5 +49,6 @@ export default class HealthComponent extends Component{
       this.healthSubscribtion.dispose();
       this.healthSubscribtion = null;
     }
+    this.healthToSet = null;
   }
 }

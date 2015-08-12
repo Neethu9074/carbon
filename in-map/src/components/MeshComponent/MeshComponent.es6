@@ -70,7 +70,6 @@ export default class MeshComponent extends Component {
     this.updateContentProvider();
 
     if(this.isActive()) {
-      this.factory.removeFragment(this.id);
       this.factory.addFragment(this.fragment);
     }
   }
@@ -92,6 +91,12 @@ export default class MeshComponent extends Component {
   dispose() {
     super.dispose();
 
-    this.factory.removeFragment(this.id);
+    this.contentProvider = null;
+    this.positionToSet = null;
+    this.colorToSet = null;
+    this.scaleToSet = null;
+    this.fragment = null;
+    this.factory = null;
+    this.id = null;
   }
 }

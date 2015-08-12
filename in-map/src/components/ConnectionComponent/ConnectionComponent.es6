@@ -14,6 +14,10 @@ export default class ConnectionComponent extends Component{
     this.initialized();
   }
 
+  onInactiveEnter() {
+    this.clearConnections(true);
+  }
+
 
   highlightChanged(highlighted) {
     if(this.highlighted === highlighted) {
@@ -131,6 +135,9 @@ export default class ConnectionComponent extends Component{
   dispose() {
     super.dispose();
 
-    this.clearConnections(true);
+    this.outgoingConnections = null;
+    this.incomingConnections = null;
+
+    this.highlighted = null;
   }
 }

@@ -8,10 +8,10 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import {getPower} from 'in-sdk/power';
 
+import LineMeshComponent from '../../../components/LineMeshComponent';
 import HealthComponent from '../../../components/HealthComponent';
 import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
-import LineMeshComponent from '../../../components/LineMeshComponent';
 
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
@@ -275,15 +275,16 @@ export default class Node extends BaseNode {
   }
 
   dispose() {
+    // dispose the event server to prevent updates
     this.snapshotServer.dispose();
 
+    //dispose other subscriptions
     super.dispose();
 
     this.singleMetricPillar.dispose();
     this.multiMetricPillar.dispose();
 
     this.wiredSnapshots = undefined;
-    this.snapshot = null;
   }
 
   calculateNodeColor(hostHealth) {
