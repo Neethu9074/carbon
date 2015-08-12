@@ -65,12 +65,8 @@ const App = React.createClass({
     );
   },
 
-  togglePlugin() {
-    if(this.state.pluginId === constants.plugins.os) {
-      this.setState({pluginId: constants.plugins.process});
-    } else {
-      this.setState({pluginId: constants.plugins.os});
-    }
+  togglePlugin(pluginId) {
+    this.setState({pluginId});
   },
 
   render() {
