@@ -28,7 +28,7 @@ if (logging.ConsoleAppender.isPossible()) {
 
 if (!__DEV__) {
   const uiTrackerAppender = new UiTrackerLogAppender();
-  uiTrackerAppender.setActivePriority(30);
+  uiTrackerAppender.setActivePriority(31);
   logging.addAppender(uiTrackerAppender);
 }
 
