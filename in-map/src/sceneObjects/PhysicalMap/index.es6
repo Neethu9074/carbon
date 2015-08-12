@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {filters} from 'in-services/stores/mapFilters';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {getIdString, isIdEqual} from 'in-services/util/snapshots';
 import eventBus from 'in-services/eventbus';
 import {create} from 'in-services/conveyer';
 import {getZone} from 'in-sdk/zones';
@@ -138,8 +138,8 @@ export default class PhysicalMap extends SceneObject {
       .filter(node => !node.isUnknown)
       //only the ones that are not in snapshots anymore
       .filter(node => {
-        const foundSnapshot = snapshots.find(snapshot =>
-          isIdEqual(snapshot, node.snapshot));
+        const nodeID = getIdString(node.snapshot);
+        const foundSnapshot = snapshots.find(snapshot => nodeID === getIdString(snapshot));
         return !foundSnapshot;
       });
 
