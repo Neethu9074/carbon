@@ -108,6 +108,7 @@ export default class CameraController {
     //[min, max]
     this.targetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel)));
     this.scene.onZoom({zoomLevel: this.targetZoomLevel});
+    this.handleRayCasting();
   }
 
   setZoomLevel(zL) {
