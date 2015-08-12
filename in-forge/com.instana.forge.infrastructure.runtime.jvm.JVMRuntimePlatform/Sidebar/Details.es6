@@ -21,7 +21,7 @@ const Details = React.createClass({
         <ProblemPanel snapshot={this.props.snapshot} />
 
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Host</Collapsible.Header>
+          <Collapsible.Header>JVM</Collapsible.Header>
           <Collapsible.Content>
             <JVMInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
