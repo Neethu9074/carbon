@@ -112,6 +112,11 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
 
 
 function getIpBySnapshot(snapshot) {
+  const cachedIps = snapshot._cachedIps;
+  if(cachedIps) {
+    return cachedIps;
+  }
+
   const ipArray = [];
 
   //get all ethernet interfaces
@@ -133,6 +138,8 @@ function getIpBySnapshot(snapshot) {
   if (ec2) {
     ipArray.push(ec2.get('public-ipv4'));
   }
+
+  snapshot._cachedIps = ipArray;
 
   return ipArray;
 }
