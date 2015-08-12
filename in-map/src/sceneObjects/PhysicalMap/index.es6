@@ -112,8 +112,9 @@ export default class PhysicalMap extends SceneObject {
   onInventoryUpdate(snapshots) {
     snapshots.forEach(node => this.addNode(node));
 
-    this.removeVanishedNodes(snapshots);
-    this.removeAllUnknownNodesWithoutConnections();
+    const allNodes = getAllNodes(this);
+    this.removeVanishedNodes(snapshots, allNodes);
+    this.removeAllUnknownNodesWithoutConnections(allNodes);
 
     this.refreshLayout = true;
   }
@@ -131,12 +132,12 @@ export default class PhysicalMap extends SceneObject {
     layouter.applyLayout(this);
   }
 
-  removeVanishedNodes(snapshots) {
+  removeVanishedNodes(snapshots, allNodes) {
     // calculate the ids of each snapshot only once and save them to collection
     const snapshotIds = snapshots.map(snapshot => getIdString(snapshot));
 
     // identify removed nodes: nodes that are not inside the snapshot update
-    const removedNodes = getAllNodes(this)
+    const removedNodes = allNodes
       // only the monitored
       .filter(node => !node.isUnknown)
       // only the ones that are not in snapshots anymore
@@ -150,10 +151,10 @@ export default class PhysicalMap extends SceneObject {
 
   removeAllUnknownNodesWithoutConnections() {
     // identify removed nodes: nodes that are not inside the snapshot update
-    const removedNodes = getAllNodes(this)
-      //only the monitored
+    const removedNodes = allNodes
+      // only the monitored
       .filter(node => node.isUnknown)
-      //only the ones that are not in snapshots anymore
+      // only the ones that are not in snapshots anymore
       .filter(node => {
         const wired = node.getWiredSnapshots();
         return (wired.get('outgoing').length === 0 &&
