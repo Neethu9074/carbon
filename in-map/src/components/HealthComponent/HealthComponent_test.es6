@@ -24,7 +24,7 @@ describe('3D map', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);
-      expect(component.healthToSet).to.equal(undefined);
+      expect(component.healthToSet).to.equal('ok');
     });
 
     it('dont call external method until time event was handled', () => {

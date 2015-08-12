@@ -13,6 +13,8 @@ export default class HealthComponent extends Component{
       getHealth(sceneObject.snapshot).subscribe(newHealth =>
         this.setHealth(newHealth));
 
+    this.setHealth(health.ok);
+
     this.initialized();
   }
 
