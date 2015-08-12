@@ -193,7 +193,9 @@ export default class BaseNode extends SceneObject {
     }));
 
     this.addSubscription(selectedSceneObject.subscribe(event => {
-      this.onSceneObjectSelected(event.sceneObject);
+      if(event) {
+        this.onSceneObjectSelected(event.sceneObject);
+      }
     }));
   }
 

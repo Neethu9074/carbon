@@ -37,7 +37,6 @@ export default class Group extends SceneObject {
     const color = hexToRGBNormalized(getColor(id) || 0xFFFFFF);
     const components = this.components;
 
-    console.log('create new line component', this.scene.lineFactory);
     //add the mesh component to handle visual representation of the node
     components.mesh = new LineMeshComponent({
       id,
