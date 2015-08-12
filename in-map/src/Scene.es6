@@ -47,8 +47,10 @@ export default class Scene {
 
     this.octrees = [];
 
-    this.setup3D();
+    //this is the main scene for all scene objects like nodes or metrics
+    this.scene = new THREE.Scene();
     this.setupFactories();
+    this.setup3D();
     this.controller = new MouseCameraController({scene: this});
     this.setupEvents();
     this.handleLostContext();
@@ -62,9 +64,6 @@ export default class Scene {
 
     this.setupRenderer(width, height);
     this.setupCamera(width, height);
-
-    //this is the main scene for all scene objects like nodes or metrics
-    this.scene = new THREE.Scene();
 
     //this is a scene just for the background rect to create a gradient instead
     //of a solid color
@@ -581,6 +580,7 @@ export default class Scene {
     stores.cursorPosition.emit(null);
     stores.currentScene.emit(null);
     stores.iconSize.emit(null);
+    selectedSnapshot.clear();
   }
 
   //set this flag if the update loop should be stoped
