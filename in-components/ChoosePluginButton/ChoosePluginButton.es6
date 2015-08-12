@@ -8,8 +8,13 @@ const rpt = React.PropTypes;
 const block = 'in-choose-plugin-button';
 
 const plugins = [
-  {label: 'Process', id: constants.plugins.process},
-  {label: 'OS', id: constants.plugins.os}
+  {label: 'Process/Docker', ids: [
+    constants.plugins.process,
+    constants.plugins.docker
+  ]},
+  {label: 'OS', ids: [
+    constants.plugins.os
+  ]}
 ];
 
 const ChoosePluginButton = React.createClass({
@@ -31,8 +36,8 @@ const ChoosePluginButton = React.createClass({
   },
 
   clicked() {
-    const id = plugins[this.state.pluginIndex].id;
-    this.props.onClick(id);
+    const ids = plugins[this.state.pluginIndex].ids;
+    this.props.onClick(ids);
 
     let index = this.state.pluginIndex + 1;
     if(index >= plugins.length) {

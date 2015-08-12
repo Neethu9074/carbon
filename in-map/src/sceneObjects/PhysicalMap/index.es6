@@ -22,15 +22,15 @@ const layoutingInterval = 60;
 
 export default class PhysicalMap extends SceneObject {
 
-  constructor({parent, pluginId}) {
-    super({parent, id: 'physicalMap_' + pluginId});
+  constructor({parent, pluginIds}) {
+    super({parent, id: 'physicalMap_' + pluginIds.join('-')});
 
     //the size of the map in world units (sizeXsize)
     this.size = 1000;
 
     this.groups = [];
     this.filterArray = [];
-    this.pluginId = pluginId;
+    this.pluginIds = pluginIds;
 
     this.createGroundGrid();
     this.bindToDatasource();
@@ -80,8 +80,10 @@ export default class PhysicalMap extends SceneObject {
   }
 
   bindToDatasource() {
-    const observable = create(SnapshotConveyer, {pluginId: this.pluginId});
-    this.addSubscription(observable.subscribe(data => this.onInventoryUpdate(data)));
+    this.pluginIds.forEach(pluginId => {
+      const observable = create(SnapshotConveyer, {pluginId});
+      this.addSubscription(observable.subscribe(data => this.onInventoryUpdate(data)));
+    });
   }
 
   registerEvents() {

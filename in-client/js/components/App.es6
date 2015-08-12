@@ -41,7 +41,7 @@ const App = React.createClass({
   getInitialState() {
     return {
       selectedSnapshot: null,
-      pluginId: constants.plugins.os
+      pluginIds: [constants.plugins.os]
     };
   },
 
@@ -54,7 +54,7 @@ const App = React.createClass({
       })
     );
 
-    this.addSubscription(create(SnapshotConveyer, {pluginId: this.state.pluginId})
+    this.addSubscription(create(SnapshotConveyer, {pluginId: this.state.pluginIds[0]})
       .subscribe(data => {
         if(data.size === 0) {
           this.props.showHelp(203860032);
@@ -65,8 +65,8 @@ const App = React.createClass({
     );
   },
 
-  togglePlugin(pluginId) {
-    this.setState({pluginId});
+  togglePlugin(pluginIds) {
+    this.setState({pluginIds});
   },
 
   render() {
@@ -85,8 +85,8 @@ const App = React.createClass({
         : null}
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
-          <Map pluginId={this.state.pluginId} />
-          <Sidebar pluginId={this.state.pluginId} />
+          <Map pluginIds={this.state.pluginIds} />
+          <Sidebar pluginId={this.state.pluginIds[0]} />
           <FeedbackBadge />
         </div>
 

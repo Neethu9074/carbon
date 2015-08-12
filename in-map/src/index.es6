@@ -3,7 +3,6 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import helpify from 'in-components/hoc/helpify';
-import * as constants from 'in-forge/constants';
 import eventBus from 'in-services/eventbus';
 
 import Scene from './Scene';
@@ -19,7 +18,7 @@ const MapRC = React.createClass({
   ],
 
   propTypes: {
-    pluginId: React.PropTypes.any.isRequired,
+    pluginIds: React.PropTypes.any.isRequired,
     showHelp: React.PropTypes.func.isRequired
   },
 
@@ -31,8 +30,6 @@ const MapRC = React.createClass({
   },
 
   componentWillMount() {
-    this.pluginId = constants.plugins.os;
-
     const supportsWebGL = this.isWebGLSupported();
     this.setState({isWebGLSupported: supportsWebGL});
 
@@ -46,7 +43,7 @@ const MapRC = React.createClass({
       return;
     }
 
-    this.loadScene(this.props.pluginId);
+    this.loadScene(this.props.pluginIds);
 
     this.addSubscription(eventBus.on('openDashboard').subscribe((snapshot) => {
       this.openDashboard(snapshot);
@@ -58,10 +55,7 @@ const MapRC = React.createClass({
   },
 
   componentDidUpdate() {
-    if(this.pluginId !== this.props.pluginId) {
-      this.pluginId = this.props.pluginId;
-      this.loadScene(this.pluginId);
-    }
+    this.loadScene(this.props.pluginIds);
   },
 
   render() {
@@ -74,7 +68,7 @@ const MapRC = React.createClass({
     return null;
   },
 
-  loadScene(pluginId) {
+  loadScene(pluginIds) {
     if(this.scene) {
       this.scene.dispose();
     }
@@ -82,7 +76,7 @@ const MapRC = React.createClass({
     const parent = React.findDOMNode(this.refs.parent);
     this.scene = new Scene({
       parent,
-      pluginId,
+      pluginIds,
       onPlusClicked: this.onPlusClicked
     });
   },

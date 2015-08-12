@@ -31,13 +31,13 @@ let currentMetrics;
 
 export default class Scene {
 
-  constructor({parent, pluginId, onPlusClicked}) {
+  constructor({parent, pluginIds, onPlusClicked}) {
     stores.currentScene.emit(this); // set this scene to store
 
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    this.pluginId = pluginId;
+    this.pluginIds = pluginIds;
     this.onPlusClicked = onPlusClicked;
 
     if(__DEV__) {
@@ -71,7 +71,7 @@ export default class Scene {
 
     this.map = new PhysicalMap({
       parent: this,
-      pluginId: this.pluginId
+      pluginIds: this.pluginIds
     });
 
     //set this flag to force a render cycle
