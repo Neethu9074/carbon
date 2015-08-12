@@ -4,6 +4,7 @@ import './index.less';
 
 
 export default class StickyNote {
+
   constructor({parent, cssClass}) {
     this.parent = parent;
 

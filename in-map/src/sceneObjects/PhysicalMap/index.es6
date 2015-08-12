@@ -42,8 +42,8 @@ export default class PhysicalMap extends SceneObject {
     const mat = new THREE.MeshBasicMaterial({
       map: this.getGroundTexture(),
       transparent: true,
-      opacity: 0.5,
-      depthWrite: false
+      depthWrite: false,
+      opacity: 0.5
     });
 
     const ground = this.ground = new THREE.Mesh(geo, mat);
@@ -57,7 +57,7 @@ export default class PhysicalMap extends SceneObject {
     ground.rotationAutoUpdate = false;
     ground.updateMatrix();
 
-    this.scene.addSceneObject(ground);
+    this.addSceneObject(ground);
   }
 
   getGroundTexture() {
@@ -281,7 +281,9 @@ export default class PhysicalMap extends SceneObject {
   dispose() {
     super.dispose();
 
-    this.groups.slice().forEach(group => group.dispose());
+    getAllNodes(this).forEach(node => node.dispose());
+
+    //groups are dispose themselves if there is no cube inside
     this.groups = [];
 
     this.removeSceneObject(this.ground);
