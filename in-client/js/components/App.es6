@@ -99,7 +99,9 @@ const App = React.createClass({
         : null}
 
         {window.instana.config.environment === 'demo' ?
-          this.renderDemoDialog()
+          <div>
+            this.renderDemoDialog()
+          </div>
         : null}
 
         <ConnectionStatus />

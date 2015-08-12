@@ -1,0 +1,26 @@
+.in-guided-tour {
+  @z-index: 999999999;
+
+  &__overlay {
+    z-index: @z-index;
+  }
+
+  &__blocker {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: @z-index - 2;
+  }
+
+  &__overlay-fragment {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: @z-index - 1;
+
+    transition: all .5s linear;
+  }
+
+
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Tour",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Tour.es6"
+}
