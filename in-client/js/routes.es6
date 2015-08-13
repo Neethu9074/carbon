@@ -16,6 +16,7 @@ import Dashboard from './components/Dashboard';
 import SnapshotPane from './components/SnapshotPane';
 import EnvironmentPane from './components/EnvironmentPane';
 import MetricLatencyPane from './components/MetricLatencyPane';
+import MetricPane from './components/MetricPane';
 
 const DogePane = require('./components/DogePane/index.djs');
 
@@ -37,7 +38,12 @@ export default (
     {__INTERNAL__ ?
       <Route handler={MetricLatencyPane}
              path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/metrics'
-						 name='metric-latency-pane'/>
+		         name='metric-latency-pane'/>
+     : null}
+    {__INTERNAL__ ?
+      <Route handler={MetricPane}
+             path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/:metric'
+						 name='metric-pane'/>
     : null}
     <Route handler={DogePane}
            path='suchWow'

@@ -12,12 +12,17 @@ const block = 'in-dashboard';
 const logger = createLogger('in-client.MetricLatencyPane');
 
 const MetricLatencyPaneContent = React.createClass({
+  mixins: [Navigation],
+
   propTypes: {
-    metrics: irpt.list.isRequired
+    metrics: irpt.list.isRequired,
+    snapshot: irpt.list.isRequired
   },
 
   render() {
     const metrics = this.props.metrics;
+    const snapshot = this.props.snapshot;
+
     return (
       <table className='in-subtle-table in-subtle-table--clickable'>
         <thead>
@@ -30,7 +35,14 @@ const MetricLatencyPaneContent = React.createClass({
         </thead>
         <tbody>
         {metrics.map((metric) =>
-          <tr>
+          <tr onClick={ () => this.transitionTo('metric-pane',
+                                                {env: snapshot.env,
+                                                 tenant: snapshot.tenant,
+                                                 unit: snapshot.unit,
+                                                 hostId: snapshot.hostId,
+                                                 steadyId: snapshot.steadyId,
+                                                 pluginId: snapshot.pluginId,
+                                                 metric: metric.metric_name})}>
             <td>{metric.metric_name}</td>
             <td>{moment(metric.raw_original_timestamp).fromNow('dddd')} ago
                 ({moment(metric.raw_original_timestamp).format('HH:mm:ss')})</td>
@@ -46,7 +58,7 @@ const MetricLatencyPaneContent = React.createClass({
 });
 
 const MetricLatencyPane = React.createClass({
-  mixins: [State, Navigation],
+  mixins: [State],
 
   propTypes: {
     params: React.PropTypes.shape({
@@ -98,7 +110,7 @@ const MetricLatencyPane = React.createClass({
         <div className={block + '__content-wrapper'}>
           <div className={block + '__content'} ref='content'>
             {this.state.metrics ?
-              <MetricLatencyPaneContent metrics={this.state.metrics} />
+              <MetricLatencyPaneContent metrics={this.state.metrics} snapshot={this.props.params} />
             : 'Loading...' }
           </div>
         </div>
