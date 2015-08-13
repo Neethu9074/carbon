@@ -15,7 +15,7 @@ const FloatingFrame = React.createClass({
     title: rpt.string.isRequired,
     icon: rpt.string.isRequired,
     content: rpt.func.isRequired,
-    contentProps: rpt.array
+    contentProps: rpt.object
   },
 
   getInitialState() {
