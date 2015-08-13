@@ -44,60 +44,42 @@ export default class BaseNode extends SceneObject {
   }
 
   onHighlightEnter() {
-    //setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+    this.highlight();
 
     //show all connections as grey lines
     this.getComponent('connection').highlightChanged(true);
   }
 
   onHighlightLeave() {
-    //hide the border highlighting stuff
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.highlight(false);
 
     //hide the grey connection lines
     this.getComponent('connection').highlightChanged(false);
   }
 
   onSelectedEnter() {
-    //setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
-
-    //surounds the node with a white hull
-    this.showSolidMesh();
+    this.highlight();
 
     //show all connections as white lines
     this.getComponent('connection').selectionChanged(true);
   }
 
   onSelectedLeave() {
-    //setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
-
-    //dispose the white hull
-    this.showSolidMesh(false);
+    this.highlight(false);
 
     //hide the white connection lines
     this.getComponent('connection').selectionChanged(false);
   }
 
   onSelectedHighlightEnter() {
-    //setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
-
-    //surounds the node with a white hull
-    this.showSolidMesh();
+    this.highlight();
 
     //show all connections as white lines
     this.getComponent('connection').selectionChanged(true);
   }
 
   onSelectedHighlightLeave() {
-    //hide the border highlighting stuff
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
-
-    //dispose the white hull
-    this.showSolidMesh(false);
+    this.highlight(false);
 
     //hide the white connection lines
     this.getComponent('connection').selectionChanged(false);
@@ -114,8 +96,7 @@ export default class BaseNode extends SceneObject {
     //enables all components
     super.onHiddenLeave();
 
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+    this.highlight(false);
 
     this.stickyNote.show();
   }
@@ -123,14 +104,18 @@ export default class BaseNode extends SceneObject {
   onInactiveLeave() {
     super.onInactiveLeave();
 
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+    this.highlight(false);
   }
 
   onSelectedHighlightInactiveEnter() {}
   onSelectedHighlightInactiveLeave() {}
   onHighlightInactiveEnter() {}
   onHighlightInactiveLeave() {}
+
+  highlight(solid=true) {
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', solid);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', solid);
+  }
 
 
   initComponents() {
@@ -209,10 +194,6 @@ export default class BaseNode extends SceneObject {
       true : false;
 
     this.stateMachine.changeStateProperty('selected', isThisSelected);
-  }
-
-  showSolidMesh(solid=true) {
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', solid);
   }
 
   update() {

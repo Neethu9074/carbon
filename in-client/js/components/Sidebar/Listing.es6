@@ -1,3 +1,4 @@
+import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 import React from 'react/addons';
 
@@ -31,7 +32,7 @@ const SidebarListing = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
 
   propTypes: {
-    pluginId: rpt.string.isRequired
+    pluginIds: rpt.array.isRequired
   },
 
   getInitialState() {
@@ -46,10 +47,14 @@ const SidebarListing = React.createClass({
   },
 
   componentDidMount() {
+    const subscriptions = this.props.pluginIds.map(pluginId => {
+      return create(SnapshotConveyer, {pluginId}).map(sort);
+    });
+
     this.addSubscription(
-      create(SnapshotConveyer, {pluginId: this.props.pluginId})
-        .map(sort)
-        .subscribe(snapshots => this.setState({snapshots}))
+      combineLatest(subscriptions).subscribe(snapshotArray => {
+        this.setState({snapshots: snapshotArray.reduce((a, b) => a.concat(b), Immutable.List())});
+      })
     );
 
     this.addSubscription(

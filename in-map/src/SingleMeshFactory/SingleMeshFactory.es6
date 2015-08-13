@@ -1,6 +1,9 @@
 import THREE from 'three';
 import _ from 'lodash';
 
+const ADD = 1;
+const REMOVE = 0;
+
 
 export default class SingleMeshFactory {
 
@@ -13,12 +16,12 @@ export default class SingleMeshFactory {
     //stores all added fragments that needs an update on global geometry
     this.fragmentQueue = {};
 
-    this.vertices = [];
-    this.colors = [];
-
     //represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
     this.geometry.dynamic = true;
+
+    this.vertices = [];
+    this.colors = [];
 
     this.material = new THREE.MeshBasicMaterial({
       vertexColors: THREE.VertexColors,
@@ -28,8 +31,8 @@ export default class SingleMeshFactory {
 
     //a global mesh that stores global geometry
     const mesh = this.mesh = new THREE.Mesh(this.geometry, this.material);
-    mesh.matrixAutoUpdate = false;
     mesh.rotationAutoUpdate = false;
+    mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.renderOrder = renderOrder;
 
@@ -46,13 +49,17 @@ export default class SingleMeshFactory {
     this.mesh.material = material;
   }
 
+  getFragment(id) {
+    return _.find(this.fragments, fragment => fragment.id === id);
+  }
+
   addFragment({id, contentProvider}) {
     const match = this.getFragment(id);
     if(match) {
       match.vertices = contentProvider.getVertices();
       match.colors = contentProvider.getColors();
 
-      this.queueFragment(match, match.vertices.length);
+      this.queueFragment(match, match.vertices.length, ADD);
 
     } else {
       const fragment = {
@@ -62,16 +69,8 @@ export default class SingleMeshFactory {
       };
 
       this.fragments.push(fragment);
-
-      //calculate the index of the fragment where it was inserted
-      fragment.index = this.fragments.indexOf(fragment);
-
-      this.queueFragment(fragment, 0);
+      this.queueFragment(fragment, 0, ADD);
     }
-  }
-
-  getFragment(id) {
-    return _.find(this.fragments, fragment => fragment.id === id);
   }
 
   removeFragment(id) {
@@ -80,14 +79,42 @@ export default class SingleMeshFactory {
       return;
     }
 
-    const numElementsToBeDeleted = fragment.vertices.length;
-    fragment.vertices = [];
-    fragment.colors = [];
-    this.updateGeometryByFragment(fragment, numElementsToBeDeleted);
-    this.updateGeometry();
+    this.queueFragment(fragment, fragment.vertices.length, REMOVE);
+  }
 
-    _.remove(this.fragments, frag => frag.id === id);
+  queueFragment(fragment, itemsToBeDeleted, mode) {
+    this.fragmentQueue[fragment.id] = {fragment, itemsToBeDeleted, mode};
+  }
+
+  rebuild() {
+    const keys = Object.keys(this.fragmentQueue);
+    if(keys.length === 0) {
+      return;
+    }
+
+    //update indices
     this.fragments.forEach((frag, index) => {frag.index = index; });
+
+    keys.forEach(id => {
+      const item = this.fragmentQueue[id];
+      const fragment = item.fragment;
+
+      if(item.mode === ADD) {
+        this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
+
+      } else {
+        fragment.vertices = [];
+        fragment.colors = [];
+
+        this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
+        _.remove(this.fragments, frag => frag.id === fragment.id);
+        this.fragments.forEach((frag, index) => {frag.index = index; });
+      }
+      this.updateGeometry();
+    });
+
+    //to clear the hole queue just create an empty object
+    this.fragmentQueue = {};
   }
 
   updateGeometryByFragment(fragment, numElements=0) {
@@ -101,29 +128,6 @@ export default class SingleMeshFactory {
 
     vertices.splice(indexInVertices, numElements, ...fragment.vertices);
     colors.splice(indexInVertices, numElements, ...fragment.colors);
-  }
-
-  queueFragment(fragment, itemsToBeDeleted) {
-    this.fragmentQueue[fragment.id] = {fragment, itemsToBeDeleted};
-  }
-
-  rebuild() {
-    const keys = Object.keys(this.fragmentQueue);
-    if(keys.length === 0) {
-      return;
-    }
-
-    keys.forEach(id => {
-      const item = this.fragmentQueue[id];
-      const fragment = item.fragment;
-
-      this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
-    });
-
-    //to clear the hole queue just create an empty object
-    this.fragmentQueue = {};
-
-    this.updateGeometry();
   }
 
   updateGeometry() {

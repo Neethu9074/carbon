@@ -6,6 +6,7 @@ import irpt from 'react-immutable-proptypes';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import classnames from 'in-services/util/classnames';
+import * as tracking from 'in-services/tracking';
 import {getLabel} from 'in-sdk/snapshot';
 import HealthIcon from 'in-components/HealthIcon';
 
@@ -40,6 +41,7 @@ const SidebarSnapshot = React.createClass({
   },
 
   onClick() {
+    tracking.trackEvent(tracking.events.clickOnServerInSidebar);
     selectedSnapshotStore.select(this.props.snapshot);
   },
 

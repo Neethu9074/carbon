@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 
 import classnames from 'in-services/util/classnames';

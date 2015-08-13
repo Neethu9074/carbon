@@ -1,6 +1,8 @@
 /*global require:false*/
 import React from 'react/addons';
+import Immutable from 'immutable';
 import {IntlMixin} from 'react-intl';
+import {combineLatest} from 'reactive-observables';
 import {RouteHandler, Navigation} from 'react-router';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
@@ -54,9 +56,14 @@ const App = React.createClass({
       })
     );
 
-    this.addSubscription(create(SnapshotConveyer, {pluginId: this.state.pluginIds[0]})
-      .subscribe(data => {
-        if(data.size === 0) {
+    const subscriptions = this.state.pluginIds.map(pluginId => {
+      return create(SnapshotConveyer, {pluginId});
+    });
+
+    this.addSubscription(
+      combineLatest(subscriptions).subscribe(snapshotArray => {
+        const snapshots = snapshotArray.reduce((a, b) => a.concat(b), Immutable.List());
+        if(snapshots.size === 0) {
           this.props.showHelp(203860032);
         } else {
           this.props.closeHelpIfOpen();
@@ -86,7 +93,7 @@ const App = React.createClass({
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginIds={this.state.pluginIds} />
-          <Sidebar pluginId={this.state.pluginIds[0]} />
+          <Sidebar pluginIds={this.state.pluginIds} />
           <FeedbackBadge />
         </div>
 

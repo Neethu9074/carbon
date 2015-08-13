@@ -1,11 +1,9 @@
 /*global IN:false*/
-
-
-
 import React from 'react/addons';
 
 import Lettering from 'in-components/Lettering';
 import * as connection from 'in-services/connection';
+import * as tracking from 'in-services/tracking';
 
 import SignInWithXing from './SignInWithXing';
 import SignInWithLinkedIn from './SignInWithLinkedIn';
@@ -74,6 +72,14 @@ const DemoDialog = React.createClass({
     this.setState({
       userData: props
     });
+
+    window.instana.user = {
+      id: null,
+      email: props.email,
+      fullName: props.firstName + ' ' + props.lastName,
+      preferredName: props.firstName
+    };
+    tracking.identify();
   },
 
   getHubspotTrackingCookie() {

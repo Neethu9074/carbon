@@ -69,8 +69,8 @@ export default class Connection extends SceneObject {
     this.lineContentProvider.setColor(lightGrey);
 
     // show hide connected nodes on highlighting factory
-    this.from.showSolidMesh();
-    this.to.showSolidMesh();
+    this.from.highlight();
+    this.to.highlight();
   }
 
   onSelectedLeave() {
@@ -78,8 +78,8 @@ export default class Connection extends SceneObject {
 
     // hide connected nodes on highlighting factory
     if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
-      this.to.showSolidMesh(false);
-      this.from.showSolidMesh(false);
+      this.to.highlight(false);
+      this.from.highlight(false);
     }
   }
 

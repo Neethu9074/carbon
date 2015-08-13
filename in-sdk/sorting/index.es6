@@ -1,5 +1,3 @@
-
-
 import {createLogger} from 'instalog';
 
 const logger = createLogger('in-sdk.sorting');

@@ -1,12 +1,15 @@
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.
+/*eslint-disable import-order/import-order*/
+import 'in-forge';
+
 import {run, HashLocation} from 'react-router';
 import React from 'react/addons';
 import logging from 'instalog';
 
+import * as tracking from 'in-services/tracking';
 import {setThemeOnHtmlDocument} from 'in-services/theme';
 import 'in-services/time';
-import 'in-forge';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -58,6 +61,10 @@ if (window.location.href.indexOf('instana.instana.io') === -1) {
   script.id = 'hs-analytics';
   script.src = '//js.hs-analytics.net/analytics/' + cacheBreakingPath + '/719302.js';
   document.head.appendChild(script);
+}
+
+if (window.instana.user) {
+  tracking.identify();
 }
 
 run(routes, HashLocation, (Root, state) => {

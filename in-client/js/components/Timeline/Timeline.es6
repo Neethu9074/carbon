@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
@@ -23,6 +21,7 @@ import {only} from 'in-services/util/snapshots';
 import {create} from 'in-services/conveyer';
 import {theme} from 'in-services/theme';
 import * as time from 'in-services/time';
+import * as tracking from 'in-services/tracking';
 
 import {getLabel} from 'in-sdk/snapshot';
 
@@ -279,6 +278,7 @@ const Timeline = React.createClass({
   },
 
   focusSnapshot(issue) {
+    tracking.trackEvent(tracking.events.changingTimeWindowUsingTimeline);
     selectedSnapshotStore.select(issue.get('problem'));
   }
 });
