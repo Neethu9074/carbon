@@ -79,7 +79,11 @@ export default class Node extends BaseNode {
 
   onSceneObjectSelected(obj) {
     super.onSceneObjectSelected(obj);
-    tracking.trackEvent(tracking.events.clickOnServerIn3DMap);
+
+    if (obj && obj.id === this.id) {
+      tracking.trackEvent(tracking.events.clickOnServerIn3DMap);
+      console.log('send node');
+    }
   }
 
   registerEvents() {

@@ -40,7 +40,11 @@ export default class Unknownnode extends BaseNode {
 
   onSceneObjectSelected(obj) {
     super.onSceneObjectSelected(obj);
-    tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
+
+    if (obj && obj.id === this.id) {
+      tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
+      console.log('send u node');
+    }
   }
 
   getTooltipSticky() {
