@@ -82,7 +82,6 @@ export default class Node extends BaseNode {
 
     if (obj && obj.id === this.id) {
       tracking.trackEvent(tracking.events.clickOnServerIn3DMap);
-      console.log('send node');
     }
   }
 

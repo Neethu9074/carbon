@@ -43,7 +43,6 @@ export default class Unknownnode extends BaseNode {
 
     if (obj && obj.id === this.id) {
       tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
-      console.log('send u node');
     }
   }
 
