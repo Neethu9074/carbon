@@ -60,7 +60,7 @@ const CassandraDashboard = React.createClass({
                                'requests.read',
                                'requests.write'
                              ],
-                             lables: [
+                             labels: [
                                'Read',
                                'Write'
                              ],
