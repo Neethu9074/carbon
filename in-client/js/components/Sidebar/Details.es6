@@ -15,6 +15,7 @@ import Button from 'in-components/Button';
 import ZoneTag from 'in-components/ZoneTag';
 import {clear} from 'in-services/stores/selectedSnapshot';
 import Icon from 'in-components/Icon';
+import * as tracking from 'in-services/tracking';
 
 import './Details.less';
 
@@ -91,6 +92,7 @@ const Details = React.createClass({
   },
 
   openDashboard() {
+    tracking.trackEvent(tracking.events.openingADashboard);
     this.transitionTo(
       'dashboard',
       {

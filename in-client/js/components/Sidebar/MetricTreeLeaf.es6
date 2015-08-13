@@ -1,9 +1,9 @@
 import React from 'react/addons';
 
 import * as metricsStore from 'in-services/stores/metrics';
+import * as tracking from 'in-services/tracking';
 
 import './MetricTreeLeaf.less';
-
 
 const block = 'in-sidebar-metric-tree--leaf';
 const rpt = React.PropTypes;
@@ -20,6 +20,7 @@ const MetricTreeLeaf = React.createClass({
   },
 
   onClickMetric() {
+    tracking.trackEvent(tracking.events.showMetricIn3dMap);
     metricsStore.setActiveMetric(this.props.metricObject);
   },
 
