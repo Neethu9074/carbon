@@ -113,6 +113,13 @@ export default class SingleMeshFactory {
 
     geometry.attributes.color.needsUpdate = true;
     geometry.attributes.position.needsUpdate = true;
+
+    // if(__DEV__) {
+      if(!this.numberUpdates) {
+        this.numberUpdates = 0;
+      }
+      this.numberUpdates++;
+    // }
   }
 
   dispose() {

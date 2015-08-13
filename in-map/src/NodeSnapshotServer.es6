@@ -56,10 +56,12 @@ export default class NodeSnapshotServer {
       })
     );
 
+    // TODO: GET NEXT SMALLER IDS FOR THIS IDS VIA WIRING
     this.subscriptions
       .push(create(SnapshotConveyer, {pluginId: plugins.process})
       .subscribe(data => this.onLayerUpdate(data)));
 
+    // TODO: GET NEXT SMALLER IDS FOR THIS IDS VIA WIRING
     this.subscriptions
       .push(create(SnapshotConveyer, {pluginId: plugins.docker})
       .subscribe(data => this.onLayerUpdate(data)));

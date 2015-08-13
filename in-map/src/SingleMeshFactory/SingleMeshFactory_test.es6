@@ -13,10 +13,12 @@ describe('3D map', () => {
   let factory;
 
   beforeEach(() => {
-    factory = new SMF({scene: {
-      addSceneObject() {},
-      removeSceneObject() {}
-    }});
+    factory = new SMF({
+      scene: {
+        addSceneObject() {},
+        removeSceneObject() {}
+      }
+    });
   });
 
   describe('SingleMeshFactory', () => {

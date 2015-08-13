@@ -37,10 +37,17 @@ export function getMapStatistics(scene) {
     },
     mapObjects: {
       '#groups': getAllGroups(map).length,
-      '#nodes': getAllNodes(map).length
+      '#nodes': getAllNodes(map).length,
+      factories: {
+        SMF_updates: scene.singleMeshFactory.numberUpdates | 0,
+        ground: scene.groundSingleMeshFactory.numberUpdates | 0,
+        highlight: scene.highlightingSingleMeshFactory.numberUpdates | 0,
+        layer: scene.layerSingleMeshFactory.numberUpdates | 0
+      }
     }
   };
 }
+
 
 function update(scene) {
   const fps = time.getFPS();
