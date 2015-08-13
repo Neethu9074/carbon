@@ -166,6 +166,18 @@ export default class Scene {
         this.updateMetricHeights();
       }
     }, 1000);
+
+    const updateFactories = () => {
+      this.groundSingleMeshFactory.rebuild();
+      this.highlightingSingleMeshFactory.rebuild();
+      this.layerSingleMeshFactory.rebuild();
+      this.singleMeshFactory.rebuild();
+      this.renderScene();
+    };
+
+    time.addTimeEventListener({
+      handleComponentTimeEvent: updateFactories.bind(this)
+    });
   }
 
   setupEvents() {
@@ -276,13 +288,6 @@ export default class Scene {
 
     this.updateCamera();
     eventBus.emit('endUpdate', {scene: this});
-
-
-    this.groundSingleMeshFactory.rebuild();
-    this.highlightingSingleMeshFactory.rebuild();
-    this.layerSingleMeshFactory.rebuild();
-    this.singleMeshFactory.rebuild();
-
 
     this.render();
   }

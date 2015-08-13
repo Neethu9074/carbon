@@ -131,14 +131,11 @@ export default class SingleMeshFactory {
     const vertices = this.vertices;
     const geometry = this.geometry;
 
-    geometry.addAttribute('position',
-      new THREE.BufferAttribute(new Float32Array(vertices), 3));
+    geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
+    geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
 
-    geometry.addAttribute('color',
-      new THREE.BufferAttribute(new Float32Array(colors), 3));
-
-    geometry.attributes.color.needsUpdate = true;
     geometry.attributes.position.needsUpdate = true;
+    geometry.attributes.color.needsUpdate = true;
 
     if(__DEV__) {
       this.numberUpdates++;
