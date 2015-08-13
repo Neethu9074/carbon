@@ -1,5 +1,3 @@
-
-
 import {
   addIconFinder,
   addLabelFinder
@@ -7,6 +5,7 @@ import {
 import * as pluginName from 'in-sdk/pluginName';
 import * as zones from 'in-sdk/zones';
 import * as power from 'in-sdk/power';
+import * as sorting from 'in-sdk/sorting';
 
 import iconPath from './icon.svg';
 import * as constants from '../constants';
@@ -35,4 +34,9 @@ zones.addMapping(
 power.addMapping(
   constants.plugins.docker,
   () => 1
+);
+
+sorting.addMapping(
+  constants.plugins.docker,
+  (s1, s2) => s1.get('hostId') > s2.get('hostId')
 );
