@@ -251,7 +251,7 @@ export default class CameraController {
     //get the total distance from the camera position to target position
     const distance = direction.length();
 
-    //camera can only move this direction in units/sec (dTime => 1 / sec)
+    //camera can only move this direction in units/sec (dTime = 1 / sec)
     const delta = direction.clone().multiplyScalar(dTime * this.cameraSpeed);
 
     // this.worldLookAtPos = new THREE.Vector3()

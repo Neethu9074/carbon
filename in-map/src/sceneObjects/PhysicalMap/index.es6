@@ -112,7 +112,7 @@ export default class PhysicalMap extends SceneObject {
   }
 
   onInventoryUpdate(snapshots) {
-    snapshots.forEach(node => this.addNode(node));
+    snapshots.forEach(snapshot => this.addNode(snapshot));
 
     this.removeVanishedNodes(snapshots);
     this.removeAllUnknownNodesWithoutConnections();
