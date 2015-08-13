@@ -46,7 +46,11 @@ const OsDashboard = React.createClass({
     const cpuCount = this.props.snapshot.getIn(['data', 'cpu.count']);
     const filesystems = this.props.snapshot.getIn(['data', 'filesystems']);
     const interfaces = this.props.snapshot.getIn(['data', 'interfaces']);
+
+    /*eslint-disable new-cap*/
     const cpus = Immutable.Range(1, cpuCount + 1);
+    /*eslint-enable new-cap*/
+
     return (
       <div>
         <DashboardSection title='CPU Usage'>
