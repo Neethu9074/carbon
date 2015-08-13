@@ -3,6 +3,7 @@ import THREE from 'three';
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {isIdEqual} from 'in-services/util/snapshots';
+import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
@@ -76,6 +77,10 @@ export default class Node extends BaseNode {
     selectedSnapshot.select(this.snapshot);
   }
 
+  onSceneObjectSelected(obj) {
+    super.onSceneObjectSelected(obj);
+    tracking.trackEvent(tracking.events.clickOnServerIn3DMap);
+  }
 
   registerEvents() {
     super.registerEvents();

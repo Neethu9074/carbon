@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 
 import {isIdEqual} from 'in-services/util/snapshots';
+import * as tracking from 'in-services/tracking';
 
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
 import TooltipUnknownNode from '../../Tooltips/UnknownNode';
@@ -36,6 +37,11 @@ export default class Unknownnode extends BaseNode {
     this.onSelectedLeave();
   }
 
+
+  onSceneObjectSelected(obj) {
+    super.onSceneObjectSelected(obj);
+    tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
+  }
 
   getTooltipSticky() {
     return new TooltipUnknownNode(this);

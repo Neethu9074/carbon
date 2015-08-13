@@ -5,6 +5,7 @@ import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {activeMetric} from 'in-services/stores/metrics';
 import {isIdEqual} from 'in-services/util/snapshots';
+import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 
 import './lib/Octree';
@@ -538,6 +539,8 @@ export default class Scene {
     // dont reset the click if you clicken on connections
     } else if(hoveredConnections.length === 0) {
       this.resetClicked();
+    } else {
+      tracking.trackEvent(tracking.events.clickOnConnectionBetweenCubes);
     }
   }
 
