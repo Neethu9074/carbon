@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 
 import classnames from 'in-services/util/classnames';
@@ -17,7 +15,7 @@ const FloatingFrame = React.createClass({
     title: rpt.string.isRequired,
     icon: rpt.string.isRequired,
     content: rpt.func.isRequired,
-    contentProps: rpt.object
+    contentProps: rpt.array
   },
 
   getInitialState() {

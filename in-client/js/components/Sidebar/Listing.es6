@@ -31,7 +31,7 @@ const SidebarListing = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
 
   propTypes: {
-    pluginId: rpt.string.isRequired
+    pluginIds: rpt.array.isRequired
   },
 
   getInitialState() {
@@ -46,11 +46,13 @@ const SidebarListing = React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(
-      create(SnapshotConveyer, {pluginId: this.props.pluginId})
-        .map(sort)
-        .subscribe(snapshots => this.setState({snapshots}))
-    );
+    this.props.pluginIds.forEach(pluginId => {
+      this.addSubscription(
+        create(SnapshotConveyer, {pluginId})
+          .map(sort)
+          .subscribe(snapshots => this.setState({snapshots}))
+      );
+    });
 
     this.addSubscription(
       selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot =>

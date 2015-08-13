@@ -86,7 +86,7 @@ const App = React.createClass({
 
         <div style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginIds={this.state.pluginIds} />
-          <Sidebar pluginId={this.state.pluginIds[0]} />
+          <Sidebar pluginIds={this.state.pluginIds} />
           <FeedbackBadge />
         </div>
 

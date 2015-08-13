@@ -15,7 +15,7 @@ const Sidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
 
   propTypes: {
-    pluginId: rpt.string.isRequired
+    pluginIds: rpt.array.isRequired
   },
 
   componentDidMount() {
@@ -35,7 +35,7 @@ const Sidebar = React.createClass({
                      title='Details'
                      content={Listing}
                      contentProps={{
-                       pluginId: this.props.pluginId
+                       pluginIds: this.props.pluginIds
                      }}
                      ref='details'/>
     );
