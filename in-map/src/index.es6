@@ -1,5 +1,5 @@
-import React from 'react/addons';
 import {Navigation} from 'react-router';
+import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import helpify from 'in-components/hoc/helpify';
@@ -9,8 +9,8 @@ import Scene from './Scene';
 
 import './index.less';
 
-
 const MapRC = React.createClass({
+
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin,
@@ -18,12 +18,15 @@ const MapRC = React.createClass({
   ],
 
   propTypes: {
-    pluginId: React.PropTypes.any.isRequired,
+    pluginIds: React.PropTypes.any.isRequired,
     showHelp: React.PropTypes.func.isRequired
   },
 
   getInitialState() {
-    return {isWebGLSupported: false, article: null};
+    return {
+      isWebGLSupported: false,
+      article: null
+    };
   },
 
   componentWillMount() {
@@ -40,12 +43,7 @@ const MapRC = React.createClass({
       return;
     }
 
-    const parent = React.findDOMNode(this.refs.parent);
-    this.scene = new Scene({
-      parent,
-      pluginId: this.props.pluginId,
-      onPlusClicked: this.onPlusClicked
-    });
+    this.loadScene(this.props.pluginIds);
 
     this.addSubscription(eventBus.on('openDashboard').subscribe((snapshot) => {
       this.openDashboard(snapshot);
@@ -56,6 +54,10 @@ const MapRC = React.createClass({
     this.scene.dispose();
   },
 
+  componentDidUpdate() {
+    this.loadScene(this.props.pluginIds);
+  },
+
   render() {
     // if WebGL is supported, render the MapRC
     // else show a notification with a zendesk help text.
@@ -64,6 +66,19 @@ const MapRC = React.createClass({
       return (<div className='in-map' ref='parent'/>);
     }
     return null;
+  },
+
+  loadScene(pluginIds) {
+    if(this.scene) {
+      this.scene.dispose();
+    }
+
+    const parent = React.findDOMNode(this.refs.parent);
+    this.scene = new Scene({
+      parent,
+      pluginIds,
+      onPlusClicked: this.onPlusClicked
+    });
   },
 
   onPlusClicked() {

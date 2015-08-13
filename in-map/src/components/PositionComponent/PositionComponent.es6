@@ -3,7 +3,8 @@ import THREE from 'three';
 import Component from '../Component';
 
 
-export default class PositionComponent extends Component{
+export default class PositionComponent extends Component {
+
   constructor({sceneObject}) {
     super(sceneObject);
 
@@ -31,5 +32,11 @@ export default class PositionComponent extends Component{
 
   getPosition() {
     return this.position;
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.position = null;
   }
 }

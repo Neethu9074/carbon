@@ -159,7 +159,7 @@ function onMessage(msg) {
 
 
 function onError(error) {
-  logger.error('Retrieved error for WebSocket connection', error);
+  logger.info('Retrieved error for WebSocket connection', error);
   emitter.emit('error', error);
 }
 

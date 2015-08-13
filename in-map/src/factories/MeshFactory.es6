@@ -4,6 +4,7 @@ import AbstractMeshCreationFactory from './AbstractMeshCreationFactory';
 
 
 export default class MeshFactory extends AbstractMeshCreationFactory {
+
   constructor({scene}) {
     super({scene});
 

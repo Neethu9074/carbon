@@ -38,6 +38,10 @@ export default class Tooltip {
   }
 
   unMount() {
+    if(!this.moveSubscribtion) {
+      return;
+    }
+
     this.moveSubscribtion.dispose();
     this.moveSubscribtion = null;
 

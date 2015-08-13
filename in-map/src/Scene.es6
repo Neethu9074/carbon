@@ -9,19 +9,17 @@ import eventBus from 'in-services/eventbus';
 
 import './lib/Octree';
 
-import {iconSize, selectedSceneObject, currentScene, currentTooltip} from './stores/mapStore';
+import * as stores from './stores/mapStore';
 // import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import PhysicalMap from './sceneObjects/PhysicalMap';
-import backgroundPlane from './lib/backgroundPlane';
+import {getBackgroundPlane} from './lib/backgroundPlane';
 import LineFactory from './factories/LineFactory';
 import {getMapStatistics} from './mapStatistics';
 import {getAllNodes} from './mapStructureUtils';
-import Node from './sceneObjects/Nodes/Node';
-import Layer from './sceneObjects/Layer';
 import * as time from './timeCalculations';
 import * as zoom from './zoom';
 
@@ -33,13 +31,13 @@ let currentMetrics;
 
 export default class Scene {
 
-  constructor({parent, pluginId, onPlusClicked}) {
-    currentScene.emit(this); // set this scene to store
+  constructor({parent, pluginIds, onPlusClicked}) {
+    stores.currentScene.emit(this); // set this scene to store
 
     this.parent = parent;
     this.width = window.innerWidth;
     this.height = window.innerHeight;
-    this.pluginId = pluginId;
+    this.pluginIds = pluginIds;
     this.onPlusClicked = onPlusClicked;
 
     if(__DEV__) {
@@ -48,8 +46,10 @@ export default class Scene {
 
     this.octrees = [];
 
-    this.setup3D();
+    //this is the main scene for all scene objects like nodes or metrics
+    this.scene = new THREE.Scene();
     this.setupFactories();
+    this.setup3D();
     this.controller = new MouseCameraController({scene: this});
     this.setupEvents();
     this.handleLostContext();
@@ -64,24 +64,18 @@ export default class Scene {
     this.setupRenderer(width, height);
     this.setupCamera(width, height);
 
-    //this is the main scene for all scene objects like nodes or metrics
-    this.scene = new THREE.Scene();
-
-    //this is a scene just for the background rect to create a gradient instead
-    //of a solid color
+    this.backgroundPlane = getBackgroundPlane();
+    // this is a scene just for the background rect to create a gradient instead of a solid color
     this.backgroundScene = new THREE.Scene();
-    this.backgroundScene.add(backgroundPlane);
+    this.backgroundScene.add(this.backgroundPlane);
 
     this.map = new PhysicalMap({
-      scene: this,
-      pluginId: this.pluginId
+      parent: this,
+      pluginIds: this.pluginIds
     });
 
     //set this flag to force a render cycle
     this.shouldRenderScene = true;
-
-    //set this flag to keep the render cycle alive
-    this.animationInProgress = false;
   }
 
   createOctree() {
@@ -124,19 +118,19 @@ export default class Scene {
     const aspect = width / height;
     const left = -this.cameraSize / 2 * aspect;
     const top = this.cameraSize / 2;
-    this.camera = new THREE.OrthographicCamera(
+    const camera = this.camera = new THREE.OrthographicCamera(
       left, -left, top, -top,
       0.1, //near
       2000 //far
     );
 
-    this.camera.position.set(-0.8, 1, 1);
-    this.camera.lookAt(new THREE.Vector3());
-    this.camera.projection = new THREE.Matrix4();
+    camera.position.set(-0.8, 1, 1);
+    camera.lookAt(new THREE.Vector3());
+    camera.projection = new THREE.Matrix4();
     //set static
-    this.camera.matrixAutoUpdate = false;
-    this.camera.rotationAutoUpdate = false;
-    this.camera.updateMatrix();
+    camera.matrixAutoUpdate = false;
+    camera.rotationAutoUpdate = false;
+    camera.updateMatrix();
 
     //this is a camera just for the background scene to render
     this.backgroundCamera = new THREE.OrthographicCamera(
@@ -150,31 +144,40 @@ export default class Scene {
   }
 
   setupFactories() {
-    this.singleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 3});
+    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
 
-    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene: this});
+    const scene = this;
 
-    this.groundSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
+    this.groundSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
     this.groundSingleMeshFactory.material.transparent = true;
     this.groundSingleMeshFactory.material.opacity = 0.2;
 
-    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
+    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
+    this.layerSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
+    this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
+    this.singleMetricFactory = new SingleMetricPillarFactory({scene});
+    this.lineFactory = new LineFactory({scene});
 
-    this.layerSingleMeshFactory = new SingleMeshFactory({scene: this, renderOrder: 2});
-
-    this.singleMetricFactory = new SingleMetricPillarFactory({scene: this});
-    this.lineFactory = new LineFactory({scene: this});
     this.numTiles = 5;
-    this.multiMetricFactory = new MultiMetricPillarFactory({
-      scene: this,
-      numTiles: this.numTiles
-    });
+    this.multiMetricFactory = new MultiMetricPillarFactory({scene, numTiles: this.numTiles});
 
     this.metricUpdateInterval = setInterval(() => {
       if(currentMetrics) {
         this.updateMetricHeights();
       }
     }, 1000);
+
+    const updateFactories = () => {
+      this.groundSingleMeshFactory.rebuild();
+      this.highlightingSingleMeshFactory.rebuild();
+      this.layerSingleMeshFactory.rebuild();
+      this.singleMeshFactory.rebuild();
+      this.renderScene();
+    };
+
+    time.addTimeEventListener({
+      handleComponentTimeEvent: updateFactories.bind(this)
+    });
   }
 
   setupEvents() {
@@ -182,7 +185,7 @@ export default class Scene {
 
     this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
 
-    this.subscriptions.push(currentTooltip.subscribe(tooltip => {
+    this.subscriptions.push(stores.currentTooltip.subscribe(tooltip => {
       if(this.tooltip === tooltip) {
         return;
       }
@@ -202,7 +205,7 @@ export default class Scene {
       if(metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
-        selectedSceneObject.emit(null);
+        stores.selectedSceneObject.emit({sceneObject: null});
         this.hideHulls();
 
       } else {
@@ -213,20 +216,22 @@ export default class Scene {
     }));
 
     this.subscriptions.push(
-      selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
+      selectedSnapshot.selectedSnapshot.subscribe(selected => {
         //if the store was cleared and this client is selected -> unselect it
         if(!selected) {
-          selectedSceneObject.emit(null);
+          stores.selectedSceneObject.emit({sceneObject: null});
         }
       })
     );
 
-    this.subscriptions.push(selectedSceneObject.subscribe(obj => {
-      const sceneObject = obj;
+    this.subscriptions.push(stores.selectedSceneObject.subscribe(event => {
+      const sceneObject = event.sceneObject;
       //clear the selectedSnapshot store if there was a click into nowhere
       //or on a sceneObject without a snapshot or unknown sceneObject
       if(sceneObject) {
-        this.controller.flyToObject(sceneObject);
+        if(!event.calledByMap) {
+          this.controller.flyToObject(sceneObject);
+        }
         this.hideHulls();
       } else {
         this.showHulls();
@@ -277,14 +282,11 @@ export default class Scene {
     this.controller.update();
 
     //don't render scene if it is not needed
-    if(!this.shouldRenderScene && !this.animationInProgress) {
+    if(!this.shouldRenderScene && !currentMetrics) {
       return;
     }
 
     this.updateCamera();
-
-    //updating is done
-    this.controller.handleRayCasting();
     eventBus.emit('endUpdate', {scene: this});
 
     this.render();
@@ -315,7 +317,7 @@ export default class Scene {
 
     if(this.nodeSizeInPixel !== nodeSizeInPixel) {
       this.nodeSizeInPixel = nodeSizeInPixel;
-      iconSize.emit(nodeSizeInPixel);
+      stores.iconSize.emit(nodeSizeInPixel);
       this.renderScene();
     }
   }
@@ -460,16 +462,6 @@ export default class Scene {
     return undefined;
   }
 
-  //set this flag if a animation is in progress so the render loop keeps updated
-  startAnimation() {
-    this.animationInProgress = true;
-  }
-
-  //set this flag if your animations has finished and the render loop could be paused
-  stopAnimation() {
-    this.animationInProgress = false;
-  }
-
   addSceneObject(obj) {
     this.scene.add(obj);
   }
@@ -533,21 +525,24 @@ export default class Scene {
     this.renderScene();
   }
 
-  onObjectClicked(object) {
+  onObjectClicked(object, hoveredConnections) {
     if(object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
-      selectedSceneObject.emit(sceneObject);
-
-      if(!(sceneObject instanceof Node || sceneObject instanceof Layer)) {
+      // only clear the store if there is no snapshot available or the object is unknown
+      if(!sceneObject.snapshot || sceneObject.isUnknown) {
         selectedSnapshot.clear();
       }
-    } else {
+
+      stores.selectedSceneObject.emit({sceneObject, calledByMap: true});
+
+    // dont reset the click if you clicken on connections
+    } else if(hoveredConnections.length === 0) {
       this.resetClicked();
     }
   }
 
   resetClicked() {
-    selectedSceneObject.emit(null);
+    stores.selectedSceneObject.emit({sceneObject: null});
     highlightedSnapshot.clear();
     selectedSnapshot.clear();
   }
@@ -584,10 +579,46 @@ export default class Scene {
     });
   }
 
+  //is called by map
+  removeChild() {}
+
+  clearStores() {
+    stores.longClickedSceneObject.emit(null);
+    stores.selectedSceneObject.emit(null);
+    stores.currentTooltip.emit(null);
+    stores.cursorPosition.emit(null);
+    stores.currentScene.emit(null);
+    stores.iconSize.emit(null);
+    selectedSnapshot.clear();
+  }
+
   //set this flag if the update loop should be stoped
   dispose() {
-    clearInterval(this.metricUpdateInterval);
-    this.subscriptions.forEach(sub => sub.dispose());
     this.disposed = true;
+
+    //reset the time and clear all listeners
+    time.reset();
+
+    //make shure that there is no update incoming until disposing
+    clearInterval(this.metricUpdateInterval);
+    this.metricUpdateInterval = null;
+
+    //dispose all subscriptions
+    this.subscriptions.forEach(sub => sub.dispose());
+
+    //destory the map which will destroy all groups and nodes
+    this.map.dispose();
+
+    //remove the gradient background from scene
+    this.backgroundScene.remove(this.backgroundPlane);
+
+    //dispose the background plane to get rid of WebGL context
+    this.backgroundPlane.geometry.dispose();
+    this.backgroundPlane.material.dispose();
+
+    //remove the canvas and clear the parent div
+    this.parent.removeChild(this.renderer.domElement);
+
+    this.clearStores();
   }
 }

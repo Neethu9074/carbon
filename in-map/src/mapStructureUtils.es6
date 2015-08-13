@@ -21,6 +21,9 @@ function getNodes(parent, nodes) {
 }
 
 export function getChildren(parent) {
+  if(!parent) {
+    return null;
+  }
   if(parent instanceof Group){
     return parent.children;
   }

@@ -108,6 +108,7 @@ export default class CameraController {
     //[min, max]
     this.targetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel)));
     this.scene.onZoom({zoomLevel: this.targetZoomLevel});
+    this.handleRayCasting();
   }
 
   setZoomLevel(zL) {
@@ -120,7 +121,7 @@ export default class CameraController {
 
   doClick() {
     //if an object was found via raycasting, inform the scene
-    this.scene.onObjectClicked(this.hittenObject);
+    this.scene.onObjectClicked(this.hittenObject, this.hoveredConnections);
   }
 
   flyToObject(obj) {
@@ -211,9 +212,14 @@ export default class CameraController {
         canvasStyle.cursor = 'pointer';
       }
     } else {
+      const oldHoveredConnections = this.hoveredConnections;
       this.hoveredConnections = allConnections
             .filter(connection => connection.isSelected())
             .filter(connection => connection.intersects(this.raycaster));
+
+      oldHoveredConnections.forEach(c => c.onHighlight(false));
+      this.hoveredConnections.forEach(c => c.onHighlight(true));
+
       if(canvasStyle.cursor !== 'default') {
         canvasStyle.cursor = 'default';
       }

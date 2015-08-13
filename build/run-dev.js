@@ -33,6 +33,11 @@ var environments = {
     pw: '34johan12',
     baseUrl: 'https://johan.instana.io'
   },
+  betquest: {
+    user: 'markus.bonsch@codecentric.de',
+    pw: 'Horst67',
+    baseUrl: 'https://betquest.instana.io'
+  },
   simulator: {
     user: '<none>',
     pw: '<none>',

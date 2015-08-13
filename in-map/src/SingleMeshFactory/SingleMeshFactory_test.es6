@@ -13,13 +13,17 @@ describe('3D map', () => {
   let factory;
 
   beforeEach(() => {
-    factory = new SMF({scene: {
-      addSceneObject() {},
-      removeSceneObject() {}
-    }});
+    global.__DEV__ = true;
+    factory = new SMF({
+      scene: {
+        addSceneObject() {},
+        removeSceneObject() {}
+      }
+    });
   });
 
   describe('SingleMeshFactory', () => {
+
     it('can add a fragment', () => {
       factory.addFragment({id: 123, contentProvider});
 
@@ -61,6 +65,8 @@ describe('3D map', () => {
         getVertices() { return [4, 5, 6]; },
         getColors() { return [10, 11, 12]; }
       }});
+
+      factory.rebuild();
 
       expect(factory.geometry.attributes.position.array.length).to.equal(6);
       expect(factory.geometry.attributes.color.array.length).to.equal(6);

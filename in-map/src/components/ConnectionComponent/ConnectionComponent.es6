@@ -14,6 +14,10 @@ export default class ConnectionComponent extends Component{
     this.initialized();
   }
 
+  onInactiveEnter() {
+    this.clearConnections(true);
+  }
+
 
   highlightChanged(highlighted) {
     if(this.highlighted === highlighted) {
@@ -24,8 +28,8 @@ export default class ConnectionComponent extends Component{
       this.setupConnections();
     }
 
-    this.getAllConnections()
-      .forEach(c => c.stateMachine.changeStateProperty('mouseOver', highlighted));
+    this.getAllConnections().forEach(c =>
+      c.stateMachine.changeStateProperty('mouseOver', highlighted));
 
     this.highlighted = highlighted;
   }
@@ -54,7 +58,7 @@ export default class ConnectionComponent extends Component{
       return;
     }
 
-    this.clearConnections();
+    this.clearConnections(true);
 
     this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
     this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
@@ -131,6 +135,9 @@ export default class ConnectionComponent extends Component{
   dispose() {
     super.dispose();
 
-    this.clearConnections(true);
+    this.outgoingConnections = null;
+    this.incomingConnections = null;
+
+    this.highlighted = null;
   }
 }

@@ -31,19 +31,21 @@ tc[0] = colorInBetween.r; tc[1] = colorInBetween.g; tc[2] = colorInBetween.b;
 tc[6] = colorInBetween.r; tc[7] = colorInBetween.g; tc[8] = colorInBetween.b;
 tc[9] = color1.r; tc[10] = color1.g; tc[11] = color1.b; //top right
 
-const geometry = new THREE.BufferGeometry();
-geometry.addAttribute('index', new THREE.BufferAttribute(ti, 1));
-geometry.addAttribute('position', new THREE.BufferAttribute(tp, 3));
-geometry.addAttribute('color', new THREE.BufferAttribute(tc, 3));
-geometry.computeVertexNormals();
+export function getBackgroundPlane() {
+  const geometry = new THREE.BufferGeometry();
+  geometry.addAttribute('index', new THREE.BufferAttribute(ti, 1));
+  geometry.addAttribute('position', new THREE.BufferAttribute(tp, 3));
+  geometry.addAttribute('color', new THREE.BufferAttribute(tc, 3));
+  geometry.computeVertexNormals();
 
-const material = new THREE.MeshBasicMaterial({
-  vertexColors: THREE.VertexColors,
-  side: THREE.DoubleSide
-});
+  const material = new THREE.MeshBasicMaterial({
+    vertexColors: THREE.VertexColors,
+    side: THREE.DoubleSide
+  });
 
-const plane = new THREE.Mesh(geometry, material);
-plane.matrixAutoUpdate = false;
-plane.rotationAutoUpdate = false;
+  const plane = new THREE.Mesh(geometry, material);
+  plane.matrixAutoUpdate = false;
+  plane.rotationAutoUpdate = false;
 
-export default plane;
+  return plane;
+};

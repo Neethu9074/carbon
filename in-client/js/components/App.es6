@@ -7,6 +7,7 @@ import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import QueryBuilder from 'in-components/QueryBuilder';
+import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
@@ -33,13 +34,14 @@ const App = React.createClass({
 
   propTypes: {
     state: rpt.object.isRequired,
-    showHelp: rpt.func.isRequired
+    showHelp: rpt.func.isRequired,
+    closeHelpIfOpen: rpt.func.isRequired
   },
 
   getInitialState() {
     return {
       selectedSnapshot: null,
-      pluginId: constants.plugins.os
+      pluginIds: [constants.plugins.os]
     };
   },
 
@@ -52,13 +54,19 @@ const App = React.createClass({
       })
     );
 
-    this.addSubscription(create(SnapshotConveyer, {pluginId: this.state.pluginId})
+    this.addSubscription(create(SnapshotConveyer, {pluginId: this.state.pluginIds[0]})
       .subscribe(data => {
         if(data.size === 0) {
           this.props.showHelp(203860032);
+        } else {
+          this.props.closeHelpIfOpen();
         }
       })
     );
+  },
+
+  togglePlugin(pluginIds) {
+    this.setState({pluginIds});
   },
 
   render() {
@@ -72,9 +80,13 @@ const App = React.createClass({
           <QueryBuilder />
         : null}
 
+        {__DEV__ ?
+          <ChoosePluginButton onClick={this.togglePlugin}/>
+        : null}
+
         <div style={{display: hasChildren ? 'none' : 'block'}}>
-          <Map pluginId={this.state.pluginId} />
-          <Sidebar pluginId={this.state.pluginId} />
+          <Map pluginIds={this.state.pluginIds} />
+          <Sidebar pluginId={this.state.pluginIds[0]} />
           <FeedbackBadge />
         </div>
 
@@ -87,7 +99,9 @@ const App = React.createClass({
         : null}
 
         {window.instana.config.environment === 'demo' ?
-          this.renderDemoDialog()
+          <div>
+            this.renderDemoDialog()
+          </div>
         : null}
 
         <ConnectionStatus />

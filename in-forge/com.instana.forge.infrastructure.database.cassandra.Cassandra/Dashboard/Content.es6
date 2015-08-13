@@ -60,7 +60,7 @@ const CassandraDashboard = React.createClass({
                                'requests.read',
                                'requests.write'
                              ],
-                             lables: [
+                             labels: [
                                'Read',
                                'Write'
                              ],
@@ -103,11 +103,11 @@ const CassandraDashboard = React.createClass({
                            y1={{
                              min: 0,
                              metrics: [
-                               'requests.countermutation.pending',
-                               'requests.mutation.pending',
-                               'requests.readrepair.pending',
-                               'requests.read.pending',
-                               'requests.requestresponse.pending'
+                               'stage.countermutation.pending',
+                               'stage.mutation.pending',
+                               'stage.readrepair.pending',
+                               'stage.read.pending',
+                               'stage.requestresponse.pending'
                              ],
                              labels: [
                                'Counter Mutation',

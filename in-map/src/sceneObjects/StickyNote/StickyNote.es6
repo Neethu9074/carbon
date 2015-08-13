@@ -4,6 +4,7 @@ import './index.less';
 
 
 export default class StickyNote {
+
   constructor({parent, cssClass}) {
     this.parent = parent;
 
@@ -54,6 +55,6 @@ export default class StickyNote {
     const container = this.stickyNoteContainer;
 
     React.unmountComponentAtNode(container);
-    container.parentNode.removeChild(container);
+    this.parent.getHtmlContainer().removeChild(container);
   }
 }

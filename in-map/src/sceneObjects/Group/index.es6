@@ -35,9 +35,10 @@ export default class Group extends SceneObject {
 
     const id = this.id;
     const color = hexToRGBNormalized(getColor(id) || 0xFFFFFF);
+    const components = this.components;
 
     //add the mesh component to handle visual representation of the node
-    this.components.mesh = new LineMeshComponent({
+    components.mesh = new LineMeshComponent({
       id,
       sceneObject: this,
       factory: this.scene.lineFactory,
@@ -47,7 +48,7 @@ export default class Group extends SceneObject {
         })
       })
     });
-    this.components.mesh.colorChanged(color.r, color.g, color.b);
+    components.mesh.colorChanged(color.r, color.g, color.b);
   }
 
   update() {
@@ -132,8 +133,10 @@ export default class Group extends SceneObject {
     this.children.forEach(node => node.dispose());
     this.children = [];
 
-    this.stickyNote.dispose();
-    this.stickyNote = null;
+    if(this.stickyNote) {
+      this.stickyNote.dispose();
+      this.stickyNote = null;
+    }
 
     this.id = null;
   }

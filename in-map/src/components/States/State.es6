@@ -4,11 +4,7 @@ export default class State {
     this.owner = owner;
   }
 
-  enter() {
+  enter() {}
 
-  }
-
-  leave() {
-
-  }
+  leave() {}
 }

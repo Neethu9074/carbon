@@ -1,5 +1,3 @@
-import THREE from 'three';
-
 import PositionComponent from '../../components/PositionComponent';
 
 import {currentScene} from '../../stores/mapStore';
@@ -28,6 +26,7 @@ const stateLUT = [
 /*eslint-enable no-multi-spaces*/
 
 class StateMachine {
+
   constructor(states) {
     this.stateLookUpTable = stateLUT;
     this.states = states;
@@ -87,7 +86,6 @@ export default class SceneObject {
   constructor({parent, id}) {
     this.parent = parent;
     this.id = id;
-    this.position = new THREE.Vector3(0, 0, 0);
     this.subscriptions = [];
 
     this.addSubscription(currentScene.subscribe((scene) => {
@@ -270,12 +268,16 @@ export default class SceneObject {
   removeChild() {}
 
   dispose() {
-    this.stateMachine.changeStateProperty('active', false);
-    this.forEachComponent(component => component.dispose());
-
+    //dispose subscriptions first so that no update fires into disposed component
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];
-    this.position = null;
+
+    //reset states so that inactive state is taken
+    this.stateMachine.changeStateProperty('mouseOver', false);
+    this.stateMachine.changeStateProperty('selected', false);
+    this.stateMachine.changeStateProperty('active', false);
+
+    this.forEachComponent(component => component.dispose());
 
     if(this.parent) {
       this.parent.removeChild(this);

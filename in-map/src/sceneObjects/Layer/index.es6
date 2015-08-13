@@ -7,11 +7,11 @@ import {getIdString} from 'in-services/util/snapshots';
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import HighlightingComponent from '../../components/HighlightingComponent';
 
+import {selectedSceneObject, currentTooltip} from '../../stores/mapStore';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import MeshComponent from '../../components/MeshComponent';
-import {selectedSceneObject, currentTooltip} from '../../stores/mapStore';
 import SceneObject from '../SceneObject/index';
-// import TooltipLayer from '../Tooltips/Layer';
+import TooltipLayer from '../Tooltips/Layer';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -34,17 +34,14 @@ export default class Layer extends SceneObject {
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
 
-    // this.tooltip = new TooltipLayer(this);
+    this.tooltip = new TooltipLayer(this);
 
-    this.addSubscription(selectedSceneObject.subscribe(so =>
-      this.onSceneObjectSelected(so)
+    this.addSubscription(selectedSceneObject.subscribe(event =>
+      this.onSceneObjectSelected(event.sceneObject)
     ));
   }
 
   onHighlightEnter() {
-    //show the tooltip on hover
-    currentTooltip.emit(null);
-
     //setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
   }
@@ -83,6 +80,22 @@ export default class Layer extends SceneObject {
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
 
     //dispose the white hull
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+  }
+
+  onHiddenLeave() {
+    //enables all components
+    super.onHiddenLeave();
+
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+  }
+
+  onInactiveLeave() {
+    //enables all components
+    super.onInactiveLeave();
+
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
   }
 
@@ -130,6 +143,13 @@ export default class Layer extends SceneObject {
     //this is different to solidMesh since the highlighting is like a mouseOver effect
     components.highlighting = new HighlightingComponent({sceneObject: this});
     components.highlighting.stateMachine.changeStateProperty('active', false);
+  }
+
+  //is called via hover event
+  onHighlight(highlighted) {
+    super.onHighlight(highlighted);
+
+    currentTooltip.emit(this.tooltip);
   }
 
   onSceneObjectSelected(obj) {

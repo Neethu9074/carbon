@@ -41,15 +41,8 @@ describe('3D map', () => {
 
   describe('SceneObject', () => {
 
-    it('can be created', () => {
-      expect(obj.position.x).to.equal(0);
-      expect(obj.position.y).to.equal(0);
-      expect(obj.position.z).to.equal(0);
-    });
-
     it('can be disposed', () => {
       obj.dispose();
-      expect(obj.position).to.equal(null);
       expect(obj.subscriptions.length).to.equal(0);
     });
 

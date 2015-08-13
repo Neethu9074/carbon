@@ -54,8 +54,6 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     const to = {v: 1.0};
     const animation = new TWEEN.Tween(from).to(to, 500);
     animation.easing(TWEEN.Easing.Cubic.InOut);
-    animation.onStart(() => scene.startAnimation());
-    animation.onComplete(() => scene.stopAnimation());
     animation.onUpdate((v) => progress.value = v);
     this.animation = animation;
 

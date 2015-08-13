@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {filters} from 'in-services/stores/mapFilters';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {getIdString, isIdEqual} from 'in-services/util/snapshots';
 import eventBus from 'in-services/eventbus';
 import {create} from 'in-services/conveyer';
 import {getZone} from 'in-sdk/zones';
@@ -22,15 +22,15 @@ const layoutingInterval = 60;
 
 export default class PhysicalMap extends SceneObject {
 
-  constructor({scene, pluginId}) {
-    super({parent: scene, id: 'physicalMap'});
+  constructor({parent, pluginIds}) {
+    super({parent, id: 'physicalMap_' + pluginIds.join('-')});
 
     //the size of the map in world units (sizeXsize)
     this.size = 1000;
 
-    this.pluginId = pluginId;
     this.groups = [];
     this.filterArray = [];
+    this.pluginIds = pluginIds;
 
     this.createGroundGrid();
     this.bindToDatasource();
@@ -42,11 +42,11 @@ export default class PhysicalMap extends SceneObject {
     const mat = new THREE.MeshBasicMaterial({
       map: this.getGroundTexture(),
       transparent: true,
-      opacity: 0.5,
-      depthWrite: false
+      depthWrite: false,
+      opacity: 0.5
     });
 
-    const ground = new THREE.Mesh(geo, mat);
+    const ground = this.ground = new THREE.Mesh(geo, mat);
     // turn the group around to make it visible. If we wouldn't be doing this,
     // then backface culling would make it invisible.
     ground.rotation.x = -90 * Math.PI / 180;
@@ -57,7 +57,7 @@ export default class PhysicalMap extends SceneObject {
     ground.rotationAutoUpdate = false;
     ground.updateMatrix();
 
-    this.scene.addSceneObject(ground);
+    this.addSceneObject(ground);
   }
 
   getGroundTexture() {
@@ -80,8 +80,10 @@ export default class PhysicalMap extends SceneObject {
   }
 
   bindToDatasource() {
-    const observable = create(SnapshotConveyer, {pluginId: this.pluginId});
-    this.addSubscription(observable.subscribe(data => this.onInventoryUpdate(data)));
+    this.pluginIds.forEach(pluginId => {
+      const observable = create(SnapshotConveyer, {pluginId});
+      this.addSubscription(observable.subscribe(data => this.onInventoryUpdate(data)));
+    });
   }
 
   registerEvents() {
@@ -126,30 +128,29 @@ export default class PhysicalMap extends SceneObject {
       });
     });
 
-    const maxNodesPerRow = Math.floor(
-      Math.sqrt(numElementsOnMap / this.groups.length));
+    const maxNodesPerRow = Math.floor(Math.sqrt(numElementsOnMap / this.groups.length));
     const layouter = new Layouter({maxNodesPerRow});
     layouter.applyLayout(this);
   }
 
   removeVanishedNodes(snapshots) {
-    // identify removed nodes: nodes that are not inside the snapshot update
-    const removedNodes = getAllNodes(this)
-      //only the monitored
-      .filter(node => !node.isUnknown)
-      //only the ones that are not in snapshots anymore
-      .filter(node => {
-        const foundSnapshot = snapshots.find(snapshot =>
-          isIdEqual(snapshot, node.snapshot));
-        return !foundSnapshot;
-      });
+    // calculate the ids of each snapshot only once and save them to collection
+    const snapshotIds = snapshots.map(snapshot => getIdString(snapshot));
 
-    removedNodes.forEach((node) => node.dispose());
+    // identify removed nodes: nodes that are not inside the snapshot update
+    getAllNodes(this)
+      // only the monitored
+      .filter(node => !node.isUnknown)
+      // only the ones that are not in snapshots anymore
+      .filter(node => {
+        const foundSnapshot = snapshotIds.find(id => getIdString(node.snapshot) === id);
+        return !foundSnapshot;
+      }).forEach((node) => node.dispose());
   }
 
   removeAllUnknownNodesWithoutConnections() {
     // identify removed nodes: nodes that are not inside the snapshot update
-    const removedNodes = getAllNodes(this)
+    getAllNodes(this)
       //only the monitored
       .filter(node => node.isUnknown)
       //only the ones that are not in snapshots anymore
@@ -157,9 +158,8 @@ export default class PhysicalMap extends SceneObject {
         const wired = node.getWiredSnapshots();
         return (wired.get('outgoing').length === 0 &&
                 wired.get('incoming').length === 0);
-      });
-
-    removedNodes.forEach((node) => node.dispose());
+      })
+      .forEach((node) => node.dispose());
   }
 
   addNode(snapshot) {
@@ -229,7 +229,7 @@ export default class PhysicalMap extends SceneObject {
       .filter(node => !node.isUnknown)
       .forEach(node => this.filterNode(node));
 
-    selectedSceneObject.emit(null);
+    selectedSceneObject.emit({sceneObject: null});
     this.scene.renderScene();
   }
 
@@ -279,19 +279,25 @@ export default class PhysicalMap extends SceneObject {
   }
 
   dispose() {
+    //disposing all subscriptions, so that no update is fired anymore
     super.dispose();
 
+    //destory all known and unknown nodes
+    getAllNodes(this).slice().forEach(node => node.dispose());
+
+    //groups are disposing themselves if there is no cube inside anymore
+    this.groups = [];
+
+    //remove this ground from the parents scene
     this.removeSceneObject(this.ground);
 
     //clear three.js cache trough disposing
-    this.ground.geometry.dispose();
     this.ground.material.dispose();
+    this.ground.geometry.dispose();
     this.ground = null;
 
-    this.size = null;
-    this.groups = [];
     this.filters = [];
-    this.scene = null;
     this.parent = null;
+    this.size = null;
   }
 }

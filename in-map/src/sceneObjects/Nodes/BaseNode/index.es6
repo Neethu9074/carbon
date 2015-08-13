@@ -136,6 +136,7 @@ export default class BaseNode extends SceneObject {
   initComponents() {
     super.initComponents();
 
+    const id = this.id;
     const components = this.components;
 
     //add the collision component to handle the collision box
@@ -156,7 +157,7 @@ export default class BaseNode extends SceneObject {
 
     //add the mesh component to handle visual representation of the node
     components.mesh = new MeshComponent({
-      id: this.id + '_mesh',
+      id: id + '_mesh',
       sceneObject: this,
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.singleMeshFactory
@@ -166,7 +167,7 @@ export default class BaseNode extends SceneObject {
 
     //add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
-      id: this.id + '_solidMesh',
+      id: id + '_solidMesh',
       sceneObject: this,
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.highlightingSingleMeshFactory
@@ -191,8 +192,10 @@ export default class BaseNode extends SceneObject {
       this.onActiveMetric(metric);
     }));
 
-    this.addSubscription(selectedSceneObject.subscribe(so => {
-      this.onSceneObjectSelected(so);
+    this.addSubscription(selectedSceneObject.subscribe(event => {
+      if(event) {
+        this.onSceneObjectSelected(event.sceneObject);
+      }
     }));
   }
 
@@ -261,21 +264,27 @@ export default class BaseNode extends SceneObject {
 
   setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
-  disposeStickyNote() {
-    this.stickyNote.dispose();
-    this.stickyNote = emptyStickyObject;
-  }
-
   dispose() {
-    //do that first to get connections deleted. they only dispose
-    //themselves if both endpoints are not selected
+    // do that first to get connections deleted. they only dispose
+    // themselves if both endpoints are not selected
     if(this.isSelected()) {
-      selectedSceneObject.emit(null);
+      selectedSceneObject.emit({sceneObject: null});
     }
 
+    // dispose subscriptions so that no update fires anymore
     super.dispose();
 
-    this.disposeStickyNote();
+    this.stickyNote.dispose();
+    this.stickyNote = null;
+
+    try {
+      this.tooltip.unMount();
+    } catch(er) {
+      // the tooltip is already unmounted
+      this.tooltip = null;
+    }
+
+    this.snapshot = null;
   }
 
   calculateNodeColor() {

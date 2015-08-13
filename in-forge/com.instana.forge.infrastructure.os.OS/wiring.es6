@@ -86,21 +86,21 @@ function extractConnectionsFromMap(connections, ipSnapshotMap) {
  * @returns {Immutable.Map<string, Immutable.Map>}
  */
 export function calculateIpMap(snapshots) {
-  const map = new Immutable.Map().asMutable();
+  const map = {};
   //get ips for each host
   snapshots.forEach(host => {
     getIpBySnapshot(host).forEach(ip => {
-      map.set(ip, host);
+      map[ip] = host;
     });
   });
 
-  return map.asImmutable();
+  return map;
 }
 
 function getSnapshotByIp(ip, ipSnapshotMap) {
-  let snapshot = ipSnapshotMap.get(ip);
+  let snapshot = ipSnapshotMap[ip];
   if(!snapshot) {
-    snapshot = Immutable.fromJS({
+    snapshot = Immutable.Map({
       state: 'unmonitored',
       hostId: 'unknown',
       pluginId: 'com.instana.forge.infrastructure.os.OS',
@@ -112,6 +112,11 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
 
 
 function getIpBySnapshot(snapshot) {
+  const cachedIps = snapshot._cachedIps;
+  if(cachedIps) {
+    return cachedIps;
+  }
+
   const ipArray = [];
 
   //get all ethernet interfaces
@@ -133,6 +138,8 @@ function getIpBySnapshot(snapshot) {
   if (ec2) {
     ipArray.push(ec2.get('public-ipv4'));
   }
+
+  snapshot._cachedIps = ipArray;
 
   return ipArray;
 }
