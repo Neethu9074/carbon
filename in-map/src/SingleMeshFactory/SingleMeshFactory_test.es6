@@ -50,9 +50,12 @@ describe('3D map', () => {
 
     it('can remove an existing fragment', () => {
       factory.addFragment({id: 123, contentProvider});
+
+      factory.rebuild();
       expect(factory.fragments.length).to.equal(1);
 
       factory.removeFragment(123);
+      factory.rebuild();
       expect(factory.fragments.length).to.equal(0);
     });
 
@@ -72,6 +75,7 @@ describe('3D map', () => {
       expect(factory.geometry.attributes.color.array.length).to.equal(6);
 
       factory.removeFragment(1);
+      factory.rebuild();
       expect(factory.geometry.attributes.position.array.length).to.equal(3);
       expect(factory.geometry.attributes.color.array.length).to.equal(3);
     });
