@@ -87,10 +87,6 @@ const MapRC = React.createClass({
     this.props.showHelp(203906681);
   },
 
-  focus(snapshotId) {
-    this.scene.focus(snapshotId);
-  },
-
   openDashboard(snapshot) {
     this.transitionTo(
       'dashboard',

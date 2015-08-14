@@ -4,23 +4,21 @@ import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {activeMetric} from 'in-services/stores/metrics';
-import {isIdEqual} from 'in-services/util/snapshots';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 
 import './lib/Octree';
 
-import * as stores from './stores/mapStore';
 // import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
-import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
+import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import PhysicalMap from './sceneObjects/PhysicalMap';
 import {getBackgroundPlane} from './lib/backgroundPlane';
+import PhysicalMap from './sceneObjects/PhysicalMap';
 import {getMapStatistics} from './mapStatistics';
-import {getAllNodes} from './mapStructureUtils';
+import * as stores from './stores/mapStore';
 import * as time from './timeCalculations';
 import * as zoom from './zoom';
 
@@ -35,9 +33,9 @@ export default class Scene {
   constructor({parent, pluginIds, onPlusClicked}) {
     stores.currentScene.emit(this); // set this scene to store
 
-    this.parent = parent;
-    this.width = window.innerWidth;
     this.height = window.innerHeight;
+    this.width = window.innerWidth;
+    this.parent = parent;
     this.pluginIds = pluginIds;
     this.onPlusClicked = onPlusClicked;
 
@@ -59,20 +57,21 @@ export default class Scene {
   }
 
   setup3D() {
-    const width = this.width;
     const height = this.height;
+    const width = this.width;
 
     this.setupRenderer(width, height);
     this.setupCamera(width, height);
 
     this.backgroundPlane = getBackgroundPlane();
+
     // this is a scene just for the background rect to create a gradient instead of a solid color
     this.backgroundScene = new THREE.Scene();
     this.backgroundScene.add(this.backgroundPlane);
 
     this.map = new PhysicalMap({
-      parent: this,
-      pluginIds: this.pluginIds
+      pluginIds: this.pluginIds,
+      parent: this
     });
 
     //set this flag to force a render cycle
@@ -98,18 +97,17 @@ export default class Scene {
   }
 
   setupRenderer(width, height) {
-    this.renderer = new THREE.WebGLRenderer({antialias: true});
-    this.renderer.setSize(width, height);
+    const renderer = this.renderer = new THREE.WebGLRenderer({antialias: true});
+    renderer.setSize(width, height);
 
-    //since the app doesn't use any shadows, set this flag to shorten internal
-    //three.js code
-    this.renderer.shadowMapEnabled = false;
+    // don't need to clear the buffer because it's filled with a gradient
+    renderer.autoClearColor = false;
 
-    //don't need to clear the buffer because it's filled with a gradient
-    this.renderer.autoClearColor = false;
+    // objects organize matrix updat by themselves
+    renderer.autoUpdateObjects = false;
 
-    //add webGLRenderer to dom element
-    this.parent.appendChild(this.renderer.domElement);
+    // add webGLRenderer to dom element
+    this.parent.appendChild(renderer.domElement);
   }
 
   setupCamera(width, height) {
@@ -121,27 +119,28 @@ export default class Scene {
     const top = this.cameraSize / 2;
     const camera = this.camera = new THREE.OrthographicCamera(
       left, -left, top, -top,
-      0.1, //near
-      2000 //far
+      0.1, // near
+      2000 // far
     );
 
     camera.position.set(-0.8, 1, 1);
     camera.lookAt(new THREE.Vector3());
     camera.projection = new THREE.Matrix4();
-    //set static
-    camera.matrixAutoUpdate = false;
+    // set static
     camera.rotationAutoUpdate = false;
+    camera.matrixAutoUpdate = false;
     camera.updateMatrix();
 
-    //this is a camera just for the background scene to render
-    this.backgroundCamera = new THREE.OrthographicCamera(
+    // this is a camera just for the background scene to render
+    const bgCamera = this.backgroundCamera = new THREE.OrthographicCamera(
       1, -1, 1, -1,
-      0.1, //near
-      10 //far
+      0.1, // near
+      10 // far
     );
-    //set static
-    this.backgroundCamera.matrixAutoUpdate = false;
-    this.backgroundCamera.rotationAutoUpdate = false;
+
+    // set static
+    bgCamera.rotationAutoUpdate = false;
+    bgCamera.matrixAutoUpdate = false;
   }
 
   setupFactories() {
@@ -154,8 +153,8 @@ export default class Scene {
     this.groundSingleMeshFactory.material.opacity = 0.2;
 
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
-    this.singleMetricFactory = new SingleMetricPillarFactory({scene});
     this.highlightingSingleMeshFactory = new SingleMeshFactory({scene});
+    this.singleMetricFactory = new SingleMetricPillarFactory({scene});
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
     this.lineFactory = new SingleMeshLineFactory({scene});
 
@@ -185,7 +184,7 @@ export default class Scene {
   setupEvents() {
     window.addEventListener('resize', this.onWindowResize.bind(this), false);
 
-    this.subscriptions = [eventBus.on('focus').subscribe(e => this.onFocus(e))];
+    this.subscriptions = [];
 
     this.subscriptions.push(stores.currentTooltip.subscribe(tooltip => {
       if(this.tooltip === tooltip) {
@@ -276,16 +275,16 @@ export default class Scene {
     //fire event for updating stats
     eventBus.emit('beginUpdate', highResTimestamp);
 
-    if(currentMetrics) {
-      eventBus.emit('updateTween', highResTimestamp);
-    }
-
     time.update(highResTimestamp);
     this.controller.update();
 
     //don't render scene if it is not needed
     if(!this.shouldRenderScene && !currentMetrics) {
       return;
+    }
+
+    if(currentMetrics) {
+      eventBus.emit('updateTween', highResTimestamp);
     }
 
     this.updateCamera();
@@ -388,9 +387,9 @@ export default class Scene {
 
 
   hideHulls() {
+    this.hullsAreInactive = true;
     this.singleMeshFactory.material.opacity = 0.2;
     this.layerSingleMeshFactory.material.opacity = 0.2;
-    this.hullsAreInactive = true;
   }
 
   showHulls() {
@@ -408,7 +407,6 @@ export default class Scene {
   hideMetrics(e) {
     if(e && e.hiddenByZoom) {
       this.hideMetricsOnZoomOut = true;
-      // disable tooltips on metrics here
     } else {
       this.hideMetricsOnZoomOut = false;
     }
@@ -426,8 +424,8 @@ export default class Scene {
 
     this.camera.left = -camSizeHalf * aspect;
     this.camera.right = camSizeHalf * aspect;
-    this.camera.top = camSizeHalf;
     this.camera.bottom = -camSizeHalf;
+    this.camera.top = camSizeHalf;
 
     //nodes size only changes at camSize or canvas changes
     this.updateNodeWidthOnScreen();
@@ -439,13 +437,15 @@ export default class Scene {
     raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
     const ray = raycaster.ray;
 
-    /*eslint-disable no-loop-func*/
     //iterate all octrees backwards from the highest layer to the lowest
     for (let i = this.octrees.length - 1; i >= 0; i--) {
       const octree = this.octrees[i];
+
+      //because there can be an octree on layer 7 and 5 but not on 6, check it's presence
       if(!octree) {
         continue;
       }
+
       const octree2Objects = octree.search(
         ray.origin,
         ray.far,
@@ -455,11 +455,10 @@ export default class Scene {
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {
-        //the array is sorted by distance desc
-        return intersections.reverse()[0].object;
+        //the array is sorted by distance desc so take last item
+        return intersections[intersections.length - 1].object;
       }
     }
-    /*eslint-enable no-loop-func*/
 
     return undefined;
   }
@@ -479,7 +478,7 @@ export default class Scene {
 
     let octree = this.octrees[layer];
     if(!octree) {
-      this.octrees[layer] = octree = this.createOctree();
+      octree = this.octrees[layer] = this.createOctree();
     }
     octree.add(obj, {useFaces: false});
     octree.update();
@@ -493,37 +492,32 @@ export default class Scene {
     }
   }
 
-  getWorldPosition() {
-    return new THREE.Vector3();
-  }
-
   getHtmlContainer() {
     return this.parent;
   }
 
   onWindowResize() {
-    this.width = window.innerWidth;
     this.height = window.innerHeight;
+    this.width = window.innerWidth;
 
     this.renderer.setSize(this.width, this.height);
-
     this.setCameraFromSize();
-    this.renderScene();
-  }
 
-  on(event, cb) {
-    return eventBus.on(event, cb);
+    // refresh to show the current state
+    this.renderScene();
   }
 
   onZoom(event) {
     const zoomLevel = event.zoomLevel;
 
-    //update the css design zoom distance
+    // update the css design zoom distance
     this.updateZoomLevelInCss(zoomLevel);
 
-    //update the opacity for the 3D elements
+    // update the opacity for the 3D elements
     this.updateMaterialsByZoomLevel(zoomLevel);
     this.map.onZoom(zoomLevel);
+
+    // refresh to show the current state
     this.renderScene();
   }
 
@@ -549,38 +543,6 @@ export default class Scene {
     stores.selectedSceneObject.emit({sceneObject: null});
     highlightedSnapshot.clear();
     selectedSnapshot.clear();
-  }
-
-  onFocus(event) {
-    this.forEachNode((node) => {
-      if (isIdEqual(node.snapshot, event.snapshot)) {
-        if(event.zoom) {
-          const zoomSpeed = this.controller.zoomSpeed;
-          const camSpeed = this.controller.cameraSpeed;
-          this.controller.zoomSpeed = 5;
-          this.controller.cameraSpeed = 4;
-          this.controller.setZoomLevel(200);
-          setTimeout(() => {
-            // this.onObjectClicked(node.cube, false);
-            setTimeout(() => {
-              this.controller.setZoomLevel(50);
-              setTimeout(() => {
-                this.controller.zoomSpeed = zoomSpeed;
-                this.controller.cameraSpeed = camSpeed;
-              }, 1000);
-            }, 600);
-          }, 10);
-        } else {
-          // this.onObjectClicked(node.cube, false);
-        }
-      }
-    });
-  }
-
-  forEachNode(func) {
-    getAllNodes(this.map).forEach(node => {
-      func(node);
-    });
   }
 
   //is called by map
