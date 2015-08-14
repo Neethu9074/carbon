@@ -4,7 +4,8 @@ import Connection from '../../sceneObjects/Connection/index';
 import Component from '../Component';
 
 
-export default class ConnectionComponent extends Component{
+export default class ConnectionComponent extends Component {
+
   constructor({sceneObject}) {
     super(sceneObject);
 

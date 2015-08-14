@@ -188,6 +188,14 @@ export default class BaseNode extends SceneObject {
       }
     }));
 
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
+      if(this.isSelected()) {
+        this.getComponent('connection').selectionChanged(false);
+        this.getComponent('connection').setupConnections();
+        this.getComponent('connection').selectionChanged(true);
+      }
+    }));
+
     this.addSubscription(activeMetric.subscribe(metric => {
       this.onActiveMetric(metric);
     }));

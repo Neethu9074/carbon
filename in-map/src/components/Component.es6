@@ -37,6 +37,11 @@ class StateMachine {
     }
   }
 
+  reEnterState() {
+    this.state.leave();
+    this.state.enter();
+  }
+
   updateState() {
     const props = this.stateProperties;
     const oldState = this.state;
