@@ -1,9 +1,11 @@
 import THREE from 'three';
 import _ from 'lodash';
 
-const ADD = 1;
-const REMOVE = 0;
 
+const UPDATE_FLAGS = {
+  ADD: 1,
+  REMOVE: 0
+};
 
 export default class SingleMeshFactory {
 
@@ -13,15 +15,16 @@ export default class SingleMeshFactory {
     //stores all added fragments to create the global geometry
     this.fragments = [];
 
+    //the global arrays containing the combined stream data
+    this.vertices = [];
+    this.colors = [];
+
     //stores all added fragments that needs an update on global geometry
     this.fragmentQueue = {};
 
     //represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
     this.geometry.dynamic = true;
-
-    this.vertices = [];
-    this.colors = [];
 
     this.material = this.getMaterial();
 
@@ -37,16 +40,12 @@ export default class SingleMeshFactory {
     }
 
     this.updateGeometry();
-    this.scene.addSceneObject(mesh);
+    scene.addSceneObject(mesh);
   }
 
-  getMesh() { throw new Error('NOT IMPLEMENTED YET'); }
+  // must be implemented by extending classes
   getMaterial() { throw new Error('NOT IMPLEMENTED YET'); }
-
-  setMaterial(material) {
-    this.material = material;
-    this.mesh.material = material;
-  }
+  getMesh() { throw new Error('NOT IMPLEMENTED YET'); }
 
   getFragment(id) {
     return _.find(this.fragments, fragment => fragment.id === id);
@@ -58,7 +57,7 @@ export default class SingleMeshFactory {
       match.vertices = contentProvider.getVertices();
       match.colors = contentProvider.getColors();
 
-      this.queueFragment(match, match.vertices.length, ADD);
+      this.queueFragment(match, match.vertices.length, UPDATE_FLAGS.ADD);
 
     } else {
       const fragment = {
@@ -68,7 +67,7 @@ export default class SingleMeshFactory {
       };
 
       this.fragments.push(fragment);
-      this.queueFragment(fragment, 0, ADD);
+      this.queueFragment(fragment, 0, UPDATE_FLAGS.ADD);
     }
   }
 
@@ -78,7 +77,7 @@ export default class SingleMeshFactory {
       return;
     }
 
-    this.queueFragment(fragment, fragment.vertices.length, REMOVE);
+    this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.REMOVE);
   }
 
   queueFragment(fragment, itemsToBeDeleted, mode) {
@@ -97,21 +96,17 @@ export default class SingleMeshFactory {
     keys.forEach(id => {
       const item = this.fragmentQueue[id];
 
-      if(item.mode === ADD) {
-        this.updateFragmentInGeometry(item);
+      if(item.mode === UPDATE_FLAGS.ADD) {
+        this.updateGeometryByFragment(item.fragment, item.itemsToBeDeleted);
       } else {
         this.removeFragmentFromGeometry(item);
       }
     });
 
     this.updateGeometry();
+
     //to clear the hole queue just create an empty object
     this.fragmentQueue = {};
-  }
-
-  updateFragmentInGeometry(item) {
-    const fragment = item.fragment;
-    this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
   }
 
   removeFragmentFromGeometry(item) {
@@ -125,25 +120,20 @@ export default class SingleMeshFactory {
   }
 
   updateGeometryByFragment(fragment, numElements=0) {
-    const vertices = this.vertices;
-    const colors = this.colors;
-
     let indexInVertices = 0;
     for (let i = 0; i < fragment.index; i++) {
       indexInVertices += this.fragments[i].vertices.length;
     }
 
-    vertices.splice(indexInVertices, numElements, ...fragment.vertices);
-    colors.splice(indexInVertices, numElements, ...fragment.colors);
+    this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);
+    this.colors.splice(indexInVertices, numElements, ...fragment.colors);
   }
 
   updateGeometry() {
-    const colors = this.colors;
-    const vertices = this.vertices;
     const geometry = this.geometry;
 
-    geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(vertices), 3));
-    geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+    geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(this.vertices), 3));
+    geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(this.colors), 3));
 
     geometry.attributes.position.needsUpdate = true;
     geometry.attributes.color.needsUpdate = true;
@@ -154,6 +144,8 @@ export default class SingleMeshFactory {
   }
 
   dispose() {
+    this.scene.removeSceneObject(this.mesh);
+
     this.fragments = null;
   }
 }
