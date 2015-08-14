@@ -1,5 +1,3 @@
-'use strict';
-
 export function getSortedIndex(arr: number[], searchValue: number) {
   let lowerBound = 0;
   let upperBound = arr.length - 1;

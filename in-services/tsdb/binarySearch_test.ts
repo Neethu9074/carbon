@@ -1,9 +1,5 @@
 /// <reference path="../../typings/tsd.d.ts" />
 
-/*eslint-env mocha*/
-
-'use strict';
-
 import {expect} from 'chai';
 import {getSortedIndex} from './binarySearch';
 

@@ -1,0 +1,37 @@
+/// <reference path="../../typings/tsd.d.ts" />
+
+import {expect} from 'chai';
+import TimeSeries from './TimeSeries';
+
+describe('worker.TimeSeries', () => {
+
+  const name = 'testTimeSeriesName';
+  let ts: TimeSeries;
+
+  beforeEach(() => {
+    ts = new TimeSeries(name);
+  });
+
+  describe('name', () => {
+    it('should expose name property', () => {
+      expect(ts.name).to.equal(name);
+    });
+  });
+
+  describe('data points', () => {
+    it('should add points', () => {
+      ts.addPoint(42, 5);
+      expect(ts.times).to.deep.equal([42]);
+      expect(ts.values).to.deep.equal([5]);
+    });
+
+    it('should use insertion sort', () => {
+      ts.addPoint(42, 2);
+      ts.addPoint(41, 3);
+      ts.addPoint(43, 1);
+      expect(ts.times).to.deep.equal([41, 42, 43]);
+      expect(ts.values).to.deep.equal([3, 2, 1]);
+    });
+  });
+
+});

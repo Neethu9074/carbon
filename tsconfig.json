@@ -21,6 +21,8 @@
         "!./node_modules/**/*"
     ],
     "files": [
+        "./in-services/tsdb/TimeSeries.ts",
+        "./in-services/tsdb/TimeSeries_test.ts",
         "./in-services/tsdb/binarySearch.ts",
         "./in-services/tsdb/binarySearch_test.ts",
         "./in-services/tsdb/tsdb.ts",
