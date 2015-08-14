@@ -107,7 +107,7 @@ const App = React.createClass({
 
         {window.instana.config.environment === 'demo' ?
           <div>
-            this.renderDemoDialog()
+            {this.renderDemoDialog()}
           </div>
         : null}
 
