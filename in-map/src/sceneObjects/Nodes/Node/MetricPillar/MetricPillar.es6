@@ -29,7 +29,7 @@ export default class MetricPillar extends SceneObject {
   initComponents() {
     super.initComponents();
     this.components.collision = new CollisionComponent({
-      sceneObject: this.parent,
+      sceneObject: this,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });

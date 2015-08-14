@@ -101,6 +101,14 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.show();
   }
 
+  onIndirectHighlightEnter() {
+    this.highlight();
+  }
+
+  onIndirectHighlightLeave() {
+    this.highlight(false);
+  }
+
   onInactiveEnter() {
     super.onInactiveEnter();
 
@@ -110,14 +118,6 @@ export default class BaseNode extends SceneObject {
   onInactiveLeave() {
     super.onInactiveLeave();
 
-    this.highlight(false);
-  }
-
-  onIndirectHighlightEnter() {
-    this.highlight();
-  }
-
-  onIndirectHighlightLeave() {
     this.highlight(false);
   }
 

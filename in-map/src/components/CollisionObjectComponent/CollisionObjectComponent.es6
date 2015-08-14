@@ -10,9 +10,9 @@ export default class CollisionObjectComponent extends Component {
     this.positionToSet = {x: 0, y: 0, z: 0};
     this.scaleToSet = {x: 1, y: 1, z: 1};
 
-    collisionObject.matrixAutoUpdate = false;
-    collisionObject.rotationAutoUpdate = false;
     collisionObject.parentSceneObject = sceneObject;
+    collisionObject.rotationAutoUpdate = false;
+    collisionObject.matrixAutoUpdate = false;
     collisionObject.isEnabled = true;
     this.collisionObject = collisionObject;
 
