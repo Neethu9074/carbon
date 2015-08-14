@@ -169,8 +169,8 @@ export default class Scene {
     }, 1000);
 
     const updateFactories = () => {
-      this.groundSingleMeshFactory.rebuild();
       this.highlightingSingleMeshFactory.rebuild();
+      this.groundSingleMeshFactory.rebuild();
       this.layerSingleMeshFactory.rebuild();
       this.singleMeshFactory.rebuild();
       this.renderScene();

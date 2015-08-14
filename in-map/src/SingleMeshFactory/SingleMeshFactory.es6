@@ -97,24 +97,32 @@ export default class SingleMeshFactory {
 
     keys.forEach(id => {
       const item = this.fragmentQueue[id];
-      const fragment = item.fragment;
 
       if(item.mode === ADD) {
-        this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
-
+        this.updateFragmentInGeometry(item);
       } else {
-        fragment.vertices = [];
-        fragment.colors = [];
-
-        this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
-        _.remove(this.fragments, frag => frag.id === fragment.id);
-        this.fragments.forEach((frag, index) => {frag.index = index; });
+        this.removeFragmentFromGeometry(item);
       }
-      this.updateGeometry();
     });
 
+    this.updateGeometry();
     //to clear the hole queue just create an empty object
     this.fragmentQueue = {};
+  }
+
+  updateFragmentInGeometry(item) {
+    const fragment = item.fragment;
+    this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
+  }
+
+  removeFragmentFromGeometry(item) {
+    const fragment = item.fragment;
+    fragment.vertices = [];
+    fragment.colors = [];
+
+    this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
+    _.remove(this.fragments, frag => frag.id === fragment.id);
+    this.fragments.forEach((frag, index) => {frag.index = index; });
   }
 
   updateGeometryByFragment(fragment, numElements=0) {
