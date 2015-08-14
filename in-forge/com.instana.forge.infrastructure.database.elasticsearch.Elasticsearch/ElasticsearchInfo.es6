@@ -33,6 +33,10 @@ const ElasticsearchInfo = React.createClass({
           {data.get('node.type')}
         </DescriptionItem>
 
+        <DescriptionItem title='Master Eligible'>
+          {data.get('node.master')}
+        </DescriptionItem>
+
         <DescriptionItem title='Transport'>
           {data.get('transport')}
         </DescriptionItem>
