@@ -134,6 +134,7 @@ const OsDashboard = React.createClass({
               <thead>
                 <tr>
                   <th></th>
+                  <th>User</th>
                   <th>System</th>
                   <th>Wait</th>
                   <th>Nice</th>
@@ -149,19 +150,19 @@ const OsDashboard = React.createClass({
                         'active': name === this.state.cpuNo
                       })}>
                     <td>CPU {index}</td>
-                    <Mtd metric={'cpu.individual.' + this.state.cpuNo + '.user'}
+                    <Mtd metric={'cpu.individual.' + index + '.user'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
-                    <Mtd metric={'cpu.individual.' + this.state.cpuNo + '.sys'}
+                    <Mtd metric={'cpu.individual.' + index + '.sys'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
-                    <Mtd metric={'cpu.individual.' + this.state.cpuNo + '.wait'}
+                    <Mtd metric={'cpu.individual.' + index + '.wait'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
-                    <Mtd metric={'cpu.individual.' + this.state.cpuNo + '.nice'}
+                    <Mtd metric={'cpu.individual.' + index + '.nice'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
-                    <Mtd metric={'cpu.individual.' + this.state.cpuNo + '.steal'}
+                    <Mtd metric={'cpu.individual.' + index + '.steal'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
                   </tr>
