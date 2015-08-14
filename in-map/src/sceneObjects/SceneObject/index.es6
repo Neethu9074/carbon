@@ -5,23 +5,39 @@ import {setupStates} from './States/index';
 
 /*eslint-disable no-multi-spaces*/
 const stateLUT = [
-  //mouseOver,  selected,   active  hidden    result state
-  [[false,      false,      true,   false],   'initial'],
-  [[false,      true,       true,   false],   'selected'],
-  [[true,       false,      true,   false],   'highlighted'],
-  [[true,       true,       true,   false],   'selectedHighlighted'],
-  [[false,      true,       false,  false],   'selectedInactive'],
-  [[true,       false,      false,  false],   'highlightedInactive'],
-  [[true,       true,       false,  false],   'selectedHighlightedInactive'],
-  [[false,      false,      false,  false],   'inactive'],
-  [[false,      false,      true,   true],    'hidden'],
-  [[false,      true,       true,   true],    'hidden'],
-  [[true,       false,      true,   true],    'hidden'],
-  [[true,       true,       true,   true],    'hidden'],
-  [[false,      true,       false,  true],    'hidden'],
-  [[true,       false,      false,  true],    'hidden'],
-  [[true,       true,       false,  true],    'hidden'],
-  [[false,      false,      false,  true],    'hidden']
+  //mouseOver,  selected,   active    hidden    indirect  result state
+  [[false,      false,      true,     false,    false],   'initial'],
+  [[false,      true,       true,     false,    false],   'selected'],
+  [[true,       false,      true,     false,    false],   'highlighted'],
+  [[true,       true,       true,     false,    false],   'selectedHighlighted'],
+  [[false,      true,       false,    false,    false],   'selectedInactive'],
+  [[true,       false,      false,    false,    false],   'highlightedInactive'],
+  [[true,       true,       false,    false,    false],   'selectedHighlightedInactive'],
+  [[false,      false,      false,    false,    false],   'inactive'],
+  [[false,      false,      true,     true,     false],   'hidden'],
+  [[false,      true,       true,     true,     false],   'hidden'],
+  [[true,       false,      true,     true,     false],   'hidden'],
+  [[true,       true,       true,     true,     false],   'hidden'],
+  [[false,      true,       false,    true,     false],   'hidden'],
+  [[true,       false,      false,    true,     false],   'hidden'],
+  [[true,       true,       false,    true,     false],   'hidden'],
+  [[false,      false,      false,    true,     false],   'hidden'],
+  [[false,      false,      true,     false,    true],    'indirect'],
+  [[false,      true,       true,     false,    true],    'selected'],
+  [[true,       false,      true,     false,    true],    'highlighted'],
+  [[true,       true,       true,     false,    true],    'selectedHighlighted'],
+  [[false,      true,       false,    false,    true],    'selectedInactive'],
+  [[true,       false,      false,    false,    true],    'highlightedInactive'],
+  [[true,       true,       false,    false,    true],    'selectedHighlightedInactive'],
+  [[false,      false,      false,    false,    true],    'inactive'],
+  [[false,      false,      true,     true,     true],    'hidden'],
+  [[false,      true,       true,     true,     true],    'hidden'],
+  [[true,       false,      true,     true,     true],    'hidden'],
+  [[true,       true,       true,     true,     true],    'hidden'],
+  [[false,      true,       false,    true,     true],    'hidden'],
+  [[true,       false,      false,    true,     true],    'hidden'],
+  [[true,       true,       false,    true,     true],    'hidden'],
+  [[false,      false,      false,    true,     true],    'hidden']
 ];
 /*eslint-enable no-multi-spaces*/
 
@@ -33,19 +49,21 @@ class StateMachine {
     this.stateProperties = {
       mouseOver: false,
       selected: false,
-      active: true,
-      hidden: false
+      indirect: false,
+      hidden: false,
+      active: true
     };
     this.state = this.states.initial;
   }
 
-  getStateFromLut({mouseOver, selected, active, hidden, states}) {
+  getStateFromLut({mouseOver, selected, active, hidden, indirect, states}) {
     for (let i = 0; i < stateLUT.length; i++) {
       const entry = stateLUT[i];
       if(mouseOver === entry[0][0] &&
          selected === entry[0][1] &&
          active === entry[0][2] &&
-         hidden === entry[0][3]
+         hidden === entry[0][3] &&
+         indirect === entry[0][4]
       ) {
         return states[entry[1]];
       }
@@ -65,6 +83,7 @@ class StateMachine {
     const newState = this.getStateFromLut({
       mouseOver: props.mouseOver,
       selected: props.selected,
+      indirect: props.indirect,
       active: props.active,
       hidden: props.hidden,
       states: this.states
@@ -83,6 +102,7 @@ class StateMachine {
 }
 
 export default class SceneObject {
+
   constructor({parent, id}) {
     this.parent = parent;
     this.id = id;
@@ -134,6 +154,8 @@ export default class SceneObject {
   onSelectedHighlightLeave() {}
   onSelectedHighlightInactiveEnter() {}
   onSelectedHighlightInactiveLeave() {}
+  onIndirectHighlightEnter() {}
+  onIndirectHighlightLeave() {}
   onHighlightInactiveEnter() {}
   onHighlightInactiveLeave() {}
   onSelectedInactiveEnter() { this.onInactiveEnter(); }

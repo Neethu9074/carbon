@@ -8,7 +8,7 @@ export default class ConnectionComponent extends Component{
   constructor({sceneObject}) {
     super(sceneObject);
 
-    this.outgoingConnections = [];
+    this.connections = [];
     this.incomingConnections = [];
 
     this.initialized();
@@ -76,7 +76,7 @@ export default class ConnectionComponent extends Component{
   }
 
   getAllConnections() {
-    return this.outgoingConnections.concat(this.incomingConnections);
+    return this.connections;
   }
 
   setConnectionsWithDirection(connections, direction) {
@@ -92,7 +92,7 @@ export default class ConnectionComponent extends Component{
   //connections collection
   connectWith(otherNode, direction) {
     //don't setup a new connection if it's still alive
-    if(this.outgoingConnections.indexOf(otherNode) >= 0) {
+    if(this.connections.indexOf(otherNode) >= 0) {
       return;
     }
 
@@ -102,22 +102,13 @@ export default class ConnectionComponent extends Component{
   }
 
   //is called from Connection class when creating a new connection
-  addOutgoingConnection(connection) {
-    this.outgoingConnections.push(connection);
-  }
-
-  addIncomingConnection(connection) {
-    this.incomingConnections.push(connection);
+  addConnection(connection) {
+    this.connections.push(connection);
   }
 
   //is called from Connection class on disposing
-  removeOutgoingConnection(connection) {
-    _.remove(this.outgoingConnections, con => con.id === connection.id);
-  }
-
-  //is called from Connection class on disposing
-  removeIncomingConnection(connection) {
-    _.remove(this.incomingConnections, con => con.id === connection.id);
+  removeConnection(connection) {
+    _.remove(this.connections, con => con.id === connection.id);
   }
 
   isConnectedToSelected() {
@@ -135,9 +126,7 @@ export default class ConnectionComponent extends Component{
   dispose() {
     super.dispose();
 
-    this.outgoingConnections = null;
-    this.incomingConnections = null;
-
+    this.connections = null;
     this.highlighted = null;
   }
 }

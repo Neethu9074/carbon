@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import THREE from 'three';
 import _ from 'lodash';
 
@@ -35,6 +36,27 @@ export default class PhysicalMap extends SceneObject {
     this.createGroundGrid();
     this.bindToDatasource();
     this.registerEvents();
+
+
+
+    this.counter = 0;
+    for (let i = 0; i < 0; i++) {
+      this.addNode(Immutable.fromJS({
+        hostId: this.counter++,
+        steadyId: 's',
+        pluginId: 'com.instana.forge.infrastructure.os.OS',
+        data: {
+          hostname: this.hostId,
+          'cpu.count': 4,
+          'cpu.model': 'Intel',
+          'os.version': 'v',
+          'os.arch': '',
+          'os.name': 'Linux',
+          'memory.total': 2132456,
+          'swap.total': ''
+        }
+      }));
+    }
   }
 
   createGroundGrid() {

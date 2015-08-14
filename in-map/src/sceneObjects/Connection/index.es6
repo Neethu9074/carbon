@@ -38,8 +38,7 @@ export default class Connection extends SceneObject {
 
     this.calculatePath();
 
-    from.getComponent('connection').addOutgoingConnection(this);
-    to.getComponent('connection').addIncomingConnection(this);
+    from.getComponent('connection').addConnection(this);
 
     this.render();
 
@@ -69,27 +68,35 @@ export default class Connection extends SceneObject {
     this.lineContentProvider.setColor(lightGrey);
 
     // show hide connected nodes on highlighting factory
-    this.from.highlight();
-    this.to.highlight();
+    this.to.stateMachine.changeStateProperty('indirect', true);
+    // this.from.highlight();
+    // this.to.highlight();
   }
 
   onSelectedLeave() {
     this.enableFragment(false);
 
+    this.to.stateMachine.changeStateProperty('indirect', false);
+
     // hide connected nodes on highlighting factory
-    if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
-      this.to.highlight(false);
-      this.from.highlight(false);
-    }
+    // if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
+    //   this.to.highlight(false);
+    //   this.from.highlight(false);
+    // }
   }
 
   onSelectedHighlightEnter() {
     this.enableFragment();
+
     this.lineContentProvider.setColor(fullWhite);
+
+    this.to.stateMachine.changeStateProperty('indirect', true);
   }
 
   onSelectedHighlightLeave() {
     this.enableFragment(false);
+
+    this.to.stateMachine.changeStateProperty('indirect', false);
   }
 
   onHiddenEnter() {
@@ -319,9 +326,7 @@ export default class Connection extends SceneObject {
 
     this.disposeCollisionLine();
 
-    const connectionComponent = this.from.getComponent('connection');
-    connectionComponent.removeOutgoingConnection(this);
-    connectionComponent.removeIncomingConnection(this);
+    this.from.getComponent('connection').removeConnection(this);
 
     this.scene.lineFactory.removeFragment(this.id);
   }
