@@ -19,7 +19,6 @@ import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
 import {longClickedSceneObject} from '../../../stores/mapStore';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
-import TooltipMetric from '../../Tooltips/Metric';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode/index';
 
@@ -132,13 +131,8 @@ export default class Node extends BaseNode {
     return new TooltipNode(this);
   }
 
-  getNodeMetricTooltip() {
-    return new TooltipMetric(this);
-  }
-
   showMetrics(currentMetric) {
     this.stickyNote.switchToMetric();
-    this.tooltip = this.getNodeMetricTooltip();
 
     if(currentMetric.size === 1) {
       this.singleMetricPillar.stateMachine.changeStateProperty('active', true);
