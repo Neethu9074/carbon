@@ -100,6 +100,9 @@ exports.consts = {
       warning: colors.warning,
       ok: colors.default
     },
+    footer: {
+      height: 50
+    },
     map: {
       colors: {
         renderClearGradient1: '#435964', //left bottom
