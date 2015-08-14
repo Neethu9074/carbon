@@ -21,11 +21,14 @@
         "!./node_modules/**/*"
     ],
     "files": [
+        "./in-services/tsdb/Database.ts",
+        "./in-services/tsdb/Database_test.ts",
         "./in-services/tsdb/TimeSeries.ts",
         "./in-services/tsdb/TimeSeries_test.ts",
         "./in-services/tsdb/binarySearch.ts",
         "./in-services/tsdb/binarySearch_test.ts",
         "./in-services/tsdb/tsdb.ts",
+        "./in-services/tsdb/types.ts",
         "./typings/chai/chai.d.ts",
         "./typings/mocha/mocha.d.ts",
         "./typings/tsd.d.ts"
