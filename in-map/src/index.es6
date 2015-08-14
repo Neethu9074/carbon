@@ -9,6 +9,8 @@ import Scene from './Scene';
 
 import './index.less';
 
+const block = 'in-map';
+
 const MapRC = React.createClass({
 
   mixins: [
@@ -63,7 +65,7 @@ const MapRC = React.createClass({
     // else show a notification with a zendesk help text.
     // if this dialog was closed show nothing but the deepest darkness.
     if(this.state.isWebGLSupported) {
-      return (<div className='in-map' ref='parent'/>);
+      return (<div className={block} ref='parent'/>);
     }
     return null;
   },
