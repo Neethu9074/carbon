@@ -76,8 +76,8 @@ const DemoDialog = React.createClass({
     window.instana.user = {
       id: null,
       email: props.email,
-      fullName: props.firstName + ' ' + props.lastName,
-      preferredName: props.firstName
+      fullName: props.firstname + ' ' + props.lastname,
+      preferredName: props.firstname
     };
     tracking.identify();
   },
