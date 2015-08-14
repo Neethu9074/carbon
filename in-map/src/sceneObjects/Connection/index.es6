@@ -38,8 +38,6 @@ export default class Connection extends SceneObject {
 
     this.calculatePath();
 
-    from.getComponent('connection').addConnection(this);
-
     this.render();
 
     allConnections.push(this);

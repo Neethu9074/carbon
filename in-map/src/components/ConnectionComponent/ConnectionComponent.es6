@@ -96,9 +96,7 @@ export default class ConnectionComponent extends Component{
       return;
     }
 
-    /*eslint-disable no-new*/
-    new Connection({from: this.sceneObject, to: otherNode, direction});
-    /*eslint-enable no-new*/
+    this.connections.push(new Connection({from: this.sceneObject, to: otherNode, direction}));
   }
 
   //is called from Connection class when creating a new connection
