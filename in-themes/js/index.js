@@ -79,7 +79,9 @@ exports.consts = {
     common: {
       fontFamily: '\'Open Sans\', sans-serif',
       fontColor: '#fcfcfc',
-      backgroundColor: '#0D1217'
+      backgroundColor: '#0D1217',
+      highlightColor: '#94eced',
+      subtleText: '#ccc'
     },
     zIndex: {
       map: zIndex,
@@ -95,6 +97,12 @@ exports.consts = {
       timepicker: zIndex++,
       menuPopup: zIndex++,
       tooltips: zIndex++,
+      tour: {
+        inputBlocker: zIndex++,
+        fragment: zIndex++,
+        overlay: zIndex++,
+        dialog: zIndex++
+      },
       backdrop: zIndex++,
       dialog: zIndex++,
       demoSignIn: zIndex++

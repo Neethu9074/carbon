@@ -1,6 +1,7 @@
 import React from 'react/addons';
 import * as ro from 'reactive-observables';
 
+import Button from 'in-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
@@ -115,10 +116,7 @@ const GuidedTour = React.createClass({
   render() {
     if (this.state.tourHasBeenSeen) return null;
 
-    // this component is only responsible for controlling intro.js. Intro.js
-    // itself is responsible for rendering
-    // return null;
-
+    const step = tourDefinition.steps[this.state.activeStep];
     return (
       <div className={block + '__overlay'}>
         <div className={block + '__overlay-fragment'}></div>
@@ -127,6 +125,46 @@ const GuidedTour = React.createClass({
         <div className={block + '__overlay-fragment'} ref='right'></div>
         <div className={block + '__overlay-fragment'} ref='bottom'></div>
         <div className={block + '__overlay-fragment'} ref='left'></div>
+
+        <section className={block + '__dialog'}>
+          <header className={block + '__dialog-header'}>
+            <div className={block + '__progress'}>
+              Hint {this.state.activeStep + 1} / {tourDefinition.steps.length}
+            </div>
+            <div className={block + '__skip'}
+                 onClick={this.stopTour}>
+              Skip this tour
+            </div>
+          </header>
+
+          <main>
+            <h1 className={block + '__title'}>{step.title}</h1>
+            <p className={block + '__text'}>{step.text}</p>
+          </main>
+
+          <nav className={block + '__navigation'}>
+            {this.state.activeStep > 0 ?
+              <span>
+                <Button onClick={this.previousStep}>
+                  Previous
+                </Button>
+                &nbsp;
+              </span>
+            : null }
+
+            {this.state.activeStep < tourDefinition.steps.length - 1 ?
+              <Button onClick={this.nextStep}>
+                Next
+              </Button>
+            : null }
+            {this.state.activeStep === tourDefinition.steps.length - 1 ?
+              <Button onClick={this.stopTour}>
+                Finish
+              </Button>
+            : null }
+          </nav>
+
+        </section>
       </div>
     );
   }
@@ -136,7 +174,7 @@ export default GuidedTour;
 
 function toPx(v) {
   // handle cases where the DOM style attribute is translating negative to
-  // positive pixels values, e.g. left: -10px is translated to left: 10px.
+  // positive pixel values, e.g. left: -10px is translated to left: 10px.
   if (v < 0) return 0;
   return v + 'px';
 }
