@@ -33,7 +33,7 @@
     left: 0;
     z-index: @z-index__tour__dialog;
 
-    transition: transform @transition-duration linear;
+    transition: transform @transition-duration * 1.5 ease-in-out;
 
     width: 20rem;
     background: #4C5D65;
@@ -67,5 +67,9 @@
     font-weight: 400;
     font-size: @header-text-size;
     cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }
