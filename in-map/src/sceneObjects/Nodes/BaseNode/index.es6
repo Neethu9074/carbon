@@ -101,6 +101,12 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.show();
   }
 
+  onInactiveEnter() {
+    super.onInactiveEnter();
+
+    this.getComponent('mesh').stateMachine.changeStateProperty('active', true);
+  }
+
   onInactiveLeave() {
     super.onInactiveLeave();
 
