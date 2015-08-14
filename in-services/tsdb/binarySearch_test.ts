@@ -3,7 +3,7 @@
 import {expect} from 'chai';
 import {getSortedIndex} from './binarySearch';
 
-describe('worker.binarySearch', () => {
+describe('tsdb.binarySearch', () => {
 
   let arr: number[];
 

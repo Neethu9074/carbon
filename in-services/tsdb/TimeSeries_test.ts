@@ -3,7 +3,7 @@
 import {expect} from 'chai';
 import TimeSeries from './TimeSeries';
 
-describe('worker.TimeSeries', () => {
+describe('tsdb.TimeSeries', () => {
 
   const name = 'testTimeSeriesName';
   let ts: TimeSeries;

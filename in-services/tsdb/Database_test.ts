@@ -3,7 +3,7 @@
 import {expect} from 'chai';
 import Database from './Database';
 
-describe('worker.Database', () => {
+describe('tsdb.Database', () => {
 
   let db: Database;
 
