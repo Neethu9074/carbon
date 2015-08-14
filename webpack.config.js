@@ -1,5 +1,5 @@
 /*eslint-env node */
-/*eslint-disable no-var*/
+/*eslint-disable no-var, strict*/
 'use strict';
 
 var webpack = require('webpack');
@@ -38,6 +38,9 @@ module.exports = {
       test: /\.djs$/,
       loader: 'dogescript'
     }, {
+      test: /\.ts$/i,
+      loader: 'ts'
+    }, {
       test: /\.md$/,
       loader: 'html!markdown'
     }, {
@@ -50,6 +53,6 @@ module.exports = {
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/)
   ],
   resolve: {
-    extensions: ['', '.js', '.es6']
+    extensions: ['', '.js', '.es6', '.ts']
   }
 };

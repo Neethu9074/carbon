@@ -5,7 +5,7 @@ import Database from './Database';
 
 describe('worker.Database', () => {
 
-  let db;
+  let db: Database;
 
   beforeEach(() => {
     db = new Database();
@@ -62,7 +62,7 @@ describe('worker.Database', () => {
     });
   });
 
-  function addPoints(n) {
+  function addPoints(n: number) {
     for (let i = 0; i < n; i++) {
       db.addPoint('a', i, i * 10);
       db.addPoint('b', i, i * 11);
