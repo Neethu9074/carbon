@@ -9,7 +9,6 @@ export default class ConnectionComponent extends Component{
     super(sceneObject);
 
     this.connections = [];
-    this.incomingConnections = [];
 
     this.initialized();
   }
@@ -88,18 +87,20 @@ export default class ConnectionComponent extends Component{
     });
   }
 
-  //connects this node with another one. the connection is stored in a
-  //connections collection
   connectWith(otherNode, direction) {
-    //don't setup a new connection if it's still alive
+    // don't setup a new connection if it's still alive
     if(this.connections.indexOf(otherNode) >= 0) {
       return;
     }
 
-    this.connections.push(new Connection({from: this.sceneObject, to: otherNode, direction}));
+    this.connections.push(new Connection({
+      from: this.sceneObject,
+      to: otherNode,
+      direction
+    }));
   }
 
-  //is called from Connection class when creating a new connection
+  // is called from Connection class when creating a new connection
   addConnection(connection) {
     this.connections.push(connection);
   }

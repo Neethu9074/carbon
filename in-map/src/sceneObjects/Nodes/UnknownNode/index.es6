@@ -65,13 +65,13 @@ export default class Unknownnode extends BaseNode {
 
         wired.get('outgoing').forEach(wiredSnapshot => {
           if(isIdEqual(thisSnapShot, wiredSnapshot)) {
-            outgoing.push(node.snapshot);
+            incoming.push(node.snapshot);
           }
         });
 
         wired.get('incoming').forEach(wiredSnapshot => {
           if(isIdEqual(thisSnapShot, wiredSnapshot)) {
-            incoming.push(node.snapshot);
+            outgoing.push(node.snapshot);
           }
         });
       });
