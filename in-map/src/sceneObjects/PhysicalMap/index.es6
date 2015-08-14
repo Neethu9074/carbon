@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {filters} from 'in-services/stores/mapFilters';
-import {getIdString, isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqual} from 'in-services/util/snapshots';
 import eventBus from 'in-services/eventbus';
 import {create} from 'in-services/conveyer';
 import {getZone} from 'in-sdk/zones';
@@ -156,18 +156,19 @@ export default class PhysicalMap extends SceneObject {
   }
 
   removeVanishedNodes(snapshots) {
-    // calculate the ids of each snapshot only once and save them to collection
-    const snapshotIds = snapshots.map(snapshot => getIdString(snapshot));
-
     // identify removed nodes: nodes that are not inside the snapshot update
     getAllNodes(this)
-      // only the monitored
-      .filter(node => !node.isUnknown)
       // only the ones that are not in snapshots anymore
-      .filter(node => {
-        const foundSnapshot = snapshotIds.find(id => getIdString(node.snapshot) === id);
-        return !foundSnapshot;
-      }).forEach((node) => node.dispose());
+      .forEach(node => {
+        if (node.isUnknown) {
+          return;
+        }
+        const nodeSnapshot = node.snapshot;
+        const snapshotExistsInUpdate = snapshots.some(snapshot => isIdEqual(snapshot, nodeSnapshot));
+        if (!snapshotExistsInUpdate) {
+          node.dispose();
+        }
+      });
   }
 
   removeAllUnknownNodesWithoutConnections() {
