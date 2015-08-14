@@ -3,6 +3,8 @@
 
 'use strict';
 
+var zIndex = 1;
+
 var colors = {
   white: '#FFFFFF',
   black: '#121416',
@@ -80,20 +82,22 @@ exports.consts = {
       backgroundColor: '#0D1217'
     },
     zIndex: {
-      stickyNotes: 1,
-      sidebar: 2,
-      search: 2,
-      header: 3,
-      notificationCenter: 5,
-      dashboard: 5,
-      footer: 6,
-      flyOutNotifications: 7,
-      timepicker: 8,
-      menuPopup: 8,
-      tooltips: 100,
-      backdrop: 200,
-      dialog: 201,
-      demoSignIn: 300
+      map: zIndex,
+      lettering: zIndex++,
+      stickyNotes: zIndex++,
+      sidebar: zIndex++,
+      search: zIndex++,
+      header: zIndex++,
+      notificationCenter: zIndex++,
+      dashboard: zIndex++,
+      footer: zIndex++,
+      flyOutNotifications: zIndex++,
+      timepicker: zIndex++,
+      menuPopup: zIndex++,
+      tooltips: zIndex++,
+      backdrop: zIndex++,
+      dialog: zIndex++,
+      demoSignIn: zIndex++
     },
     health: {
       danger: colors.danger,
