@@ -96,6 +96,7 @@ exports.consts = {
       flyOutNotifications: zIndex++,
       timepicker: zIndex++,
       menuPopup: zIndex++,
+      toast: zIndex++,
       tooltips: zIndex++,
       tour: {
         inputBlocker: zIndex++,
