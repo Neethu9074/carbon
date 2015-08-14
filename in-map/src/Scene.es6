@@ -13,12 +13,12 @@ import './lib/Octree';
 import * as stores from './stores/mapStore';
 // import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
+import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import {getBackgroundPlane} from './lib/backgroundPlane';
-import LineFactory from './factories/LineFactory';
 import {getMapStatistics} from './mapStatistics';
 import {getAllNodes} from './mapStructureUtils';
 import * as time from './timeCalculations';
@@ -149,15 +149,15 @@ export default class Scene {
 
     const scene = this;
 
-    this.groundSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
+    this.groundSingleMeshFactory = new SingleMeshFactory({scene});
     this.groundSingleMeshFactory.material.transparent = true;
     this.groundSingleMeshFactory.material.opacity = 0.2;
 
-    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
-    this.layerSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 2});
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
     this.singleMetricFactory = new SingleMetricPillarFactory({scene});
-    this.lineFactory = new LineFactory({scene});
+    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene});
+    this.layerSingleMeshFactory = new SingleMeshFactory({scene});
+    this.lineFactory = new SingleMeshLineFactory({scene});
 
     this.numTiles = 5;
     this.multiMetricFactory = new MultiMetricPillarFactory({scene, numTiles: this.numTiles});
@@ -173,6 +173,7 @@ export default class Scene {
       this.groundSingleMeshFactory.rebuild();
       this.layerSingleMeshFactory.rebuild();
       this.singleMeshFactory.rebuild();
+      this.lineFactory.rebuild();
       this.renderScene();
     };
 

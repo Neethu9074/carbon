@@ -108,7 +108,11 @@ export default class Connection extends SceneObject {
   }
 
   enableFragment(enabled=true) {
-    this.scene.lineFactory.enableFragment(this.id, enabled);
+    if(enabled) {
+      this.scene.lineFactory.addFragment(this.fragment);
+    } else {
+      this.scene.lineFactory.removeFragment(this.id);
+    }
   }
 
   calculatePath() {
