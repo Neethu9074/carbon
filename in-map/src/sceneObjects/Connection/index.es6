@@ -10,12 +10,14 @@ import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Posi
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
 
+
 const darkGrey = {r: 0.5, g: 0.5, b: 0.5};
 const lightGrey = {r: 0.7, g: 0.7, b: 0.7};
 const fullWhite = {r: 1, g: 1, b: 1};
-export const allConnections = [];
-let id = 0;
 
+export const allConnections = [];
+
+let id = 0;
 
 export default class Connection extends SceneObject {
 
@@ -53,8 +55,8 @@ export default class Connection extends SceneObject {
   onInitialLeave() {}
 
   onHighlightEnter() {
-    this.enableFragment();
     this.lineContentProvider.setColor(darkGrey);
+    this.enableFragment();
   }
 
   onHighlightLeave() {
@@ -62,31 +64,23 @@ export default class Connection extends SceneObject {
   }
 
   onSelectedEnter() {
-    this.enableFragment();
     this.lineContentProvider.setColor(lightGrey);
+    this.enableFragment();
 
     // show hide connected nodes on highlighting factory
     this.to.stateMachine.changeStateProperty('indirect', true);
-    // this.from.highlight();
-    // this.to.highlight();
   }
 
   onSelectedLeave() {
     this.enableFragment(false);
 
     this.to.stateMachine.changeStateProperty('indirect', false);
-
-    // hide connected nodes on highlighting factory
-    // if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
-    //   this.to.highlight(false);
-    //   this.from.highlight(false);
-    // }
   }
 
   onSelectedHighlightEnter() {
-    this.enableFragment();
-
     this.lineContentProvider.setColor(fullWhite);
+
+    this.enableFragment();
 
     this.to.stateMachine.changeStateProperty('indirect', true);
   }
@@ -300,18 +294,6 @@ export default class Connection extends SceneObject {
   //checks weather one of the endpoints (from and to) is in the selected state
   oneEndpointIsSelected() {
     return (this.from.isSelected() || this.to.isSelected());
-  }
-
-  //checks weather one of the endpoints (from and to) is connected to another
-  //node which is in the selected state
-  toIsConnectedToSelected() {
-    let isConnectedToSelected = false;
-    this.to.getComponent('connection').getAllConnections().forEach((c) => {
-      if(c.oneEndpointIsSelected()) {
-        isConnectedToSelected = true;
-      }
-    });
-    return isConnectedToSelected;
   }
 
   disposeCollisionLine() {
