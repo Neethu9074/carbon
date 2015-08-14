@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react/addons';
 import * as ro from 'reactive-observables';
 
 import keyCodes from 'in-components/keyCodes';
@@ -13,24 +13,36 @@ const margin = 10;
 const block = 'in-guided-tour';
 
 const GuidedTour = React.createClass({
-  mixins: [SubscriptionMixin],
+  mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
 
-  shouldComponentUpdate() {
-    return false;
+  getInitialState() {
+    const tourId = String(tourDefinition.id);
+    const tourHasBeenSeen = window.localStorage.getItem(tourViewedLocalStorageKey) === tourId;
+    return {
+      activeStep: 0,
+      tourHasBeenSeen
+    };
   },
 
   componentDidMount() {
-    if (this.hasTourBeenSeenBefore()) {
-      return;
-    }
-
-    this.activeStep = 0;
-    this.createOverlay();
+    if (this.state.tourHasBeenSeen) return;
 
     this.addSubscription(ro.on(window, 'resize').subscribe(this.onResize));
     this.addSubscription(ro.on(window, 'keyup').subscribe(this.onKeyUp));
 
     this.onResize();
+  },
+
+  componentDidUpdate() {
+    if (this.state.tourHasBeenSeen) {
+      this.stopTour();
+    } else {
+      this.onResize();
+    }
+  },
+
+  onResize() {
+    this.positionOverlay(tourDefinition.steps[this.state.activeStep].element);
   },
 
   positionOverlay(focusedElement) {
@@ -39,29 +51,29 @@ const GuidedTour = React.createClass({
     }
     const clientRect = focusedElement.getBoundingClientRect();
 
-    this.overlays.top.style.top = 0;
-    this.overlays.top.style.left = toPx(clientRect.left - margin);
-    this.overlays.top.style.width = toPx(clientRect.width + 2 * margin);
-    this.overlays.top.style.height = toPx(clientRect.top - margin);
+    const top = React.findDOMNode(this.refs.top);
+    top.style.top = 0;
+    top.style.left = toPx(clientRect.left - margin);
+    top.style.width = toPx(clientRect.width + 2 * margin);
+    top.style.height = toPx(clientRect.top - margin);
 
-    this.overlays.left.style.top = 0;
-    this.overlays.left.style.left = 0;
-    this.overlays.left.style.bottom = 0;
-    this.overlays.left.style.width = toPx(clientRect.left - margin);
+    const left = React.findDOMNode(this.refs.left);
+    left.style.top = 0;
+    left.style.left = 0;
+    left.style.bottom = 0;
+    left.style.width = toPx(clientRect.left - margin);
 
-    this.overlays.bottom.style.top = toPx(clientRect.top + clientRect.height + margin);
-    this.overlays.bottom.style.left = toPx(clientRect.left - margin);
-    this.overlays.bottom.style.width = toPx(clientRect.width + margin * 2);
-    this.overlays.bottom.style.bottom = 0;
+    const bottom = React.findDOMNode(this.refs.bottom);
+    bottom.style.top = toPx(clientRect.top + clientRect.height + margin);
+    bottom.style.left = toPx(clientRect.left - margin);
+    bottom.style.width = toPx(clientRect.width + margin * 2);
+    bottom.style.bottom = 0;
 
-    this.overlays.right.style.top = 0;
-    this.overlays.right.style.left = toPx(clientRect.left + clientRect.width + margin);
-    this.overlays.right.style.right = 0;
-    this.overlays.right.style.bottom = 0;
-  },
-
-  onResize() {
-    this.positionOverlay(tourDefinition.steps[this.activeStep].element);
+    const right = React.findDOMNode(this.refs.right);
+    right.style.top = 0;
+    right.style.left = toPx(clientRect.left + clientRect.width + margin);
+    right.style.right = 0;
+    right.style.bottom = 0;
   },
 
   onKeyUp(e) {
@@ -78,37 +90,31 @@ const GuidedTour = React.createClass({
 
   stopTour() {
     this.disposeSubscriptions();
-    this.markTourAsViewed();
-    document.body.removeChild(this.overlay);
+    window.localStorage.setItem(tourViewedLocalStorageKey, String(tourDefinition.id));
+    this.setState({
+      tourHasBeenSeen: true
+    });
   },
 
   nextStep() {
-    if (this.activeStep + 1 >= tourDefinition.steps.length) {
+    if (this.state.activeStep + 1 >= tourDefinition.steps.length) {
       this.stopTour();
     } else {
-      this.activeStep++;
-      this.onStepChanged();
+      this.setState({
+        activeStep: this.state.activeStep + 1
+      });
     }
   },
 
   previousStep() {
-    this.activeStep = Math.max(this.activeStep - 1, 0);
-    this.onStepChanged();
-  },
-
-  onStepChanged() {
-    this.positionOverlay(tourDefinition.steps[this.activeStep].element);
-  },
-
-  markTourAsViewed() {
-    window.localStorage.setItem(tourViewedLocalStorageKey, String(tourDefinition.id));
-  },
-
-  hasTourBeenSeenBefore() {
-    return window.localStorage.getItem(tourViewedLocalStorageKey) === String(tourDefinition.id);
+    this.setState({
+      activeStep: Math.max(this.state.activeStep - 1, 0)
+    });
   },
 
   render() {
+    if (this.state.tourHasBeenSeen) return null;
+
     // this component is only responsible for controlling intro.js. Intro.js
     // itself is responsible for rendering
     // return null;
