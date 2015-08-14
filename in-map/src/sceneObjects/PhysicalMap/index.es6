@@ -157,32 +157,30 @@ export default class PhysicalMap extends SceneObject {
 
   removeVanishedNodes(snapshots) {
     // identify removed nodes: nodes that are not inside the snapshot update
-    getAllNodes(this)
-      // only the ones that are not in snapshots anymore
-      .forEach(node => {
-        if (node.isUnknown) {
-          return;
-        }
-        const nodeSnapshot = node.snapshot;
-        const snapshotExistsInUpdate = snapshots.some(snapshot => isIdEqual(snapshot, nodeSnapshot));
-        if (!snapshotExistsInUpdate) {
-          node.dispose();
-        }
-      });
+    getAllNodes(this).forEach(node => {
+      if (node.isUnknown) {
+        return;
+      }
+      const nodeSnapshot = node.snapshot;
+      const snapshotExistsInUpdate = snapshots.some(snapshot => isIdEqual(snapshot, nodeSnapshot));
+      if (!snapshotExistsInUpdate) {
+        node.dispose();
+      }
+    });
   }
 
   removeAllUnknownNodesWithoutConnections() {
     // identify removed nodes: nodes that are not inside the snapshot update
-    getAllNodes(this)
-      //only the monitored
-      .filter(node => node.isUnknown)
-      //only the ones that are not in snapshots anymore
-      .filter(node => {
-        const wired = node.getWiredSnapshots();
-        return (wired.get('outgoing').length === 0 &&
-                wired.get('incoming').length === 0);
-      })
-      .forEach((node) => node.dispose());
+    getAllNodes(this).forEach(node => {
+      if (node.isUnknown) {
+        return;
+      }
+
+      const wired = node.getWiredSnapshots();
+      if (wired.get('incoming').size === 0 && wired.get('outgoing').size === 0) {
+        node.dispose();
+      }
+    });
   }
 
   addNode(snapshot) {
@@ -195,8 +193,7 @@ export default class PhysicalMap extends SceneObject {
       return;
     }
 
-    //if the group has switched,
-    //delete the nodes in other groups than the current one
+    // if the group has switched delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(groupId, snapshot);
 
     this.filterNode(newNode);
