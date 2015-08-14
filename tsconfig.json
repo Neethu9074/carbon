@@ -1,5 +1,6 @@
 {
     "version": "1.5.3",
+    "compileOnSave": false,
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
@@ -12,8 +13,7 @@
         "noLib": false,
         "noEmit": true,
         "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true,
-        "compileOnSave": false
+        "suppressImplicitAnyIndexErrors": true
     },
     "filesGlob": [
         "./**/*.ts",
