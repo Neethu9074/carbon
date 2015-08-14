@@ -12,6 +12,7 @@ export default class ScaleContentManipulator extends ContentManipulator {
   getVertices() {
     const scale = this.scale;
     const vertices = this.contentProvider.getVertices();
+
     for (let i = 0; i < vertices.length; i += 3) {
       vertices[i] *= scale.x;
       vertices[i + 1] *= scale.y;

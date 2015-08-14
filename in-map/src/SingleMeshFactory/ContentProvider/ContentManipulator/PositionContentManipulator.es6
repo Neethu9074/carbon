@@ -12,6 +12,7 @@ export default class PositionContentManipulator extends ContentManipulator {
   getVertices() {
     const position = this.position;
     const vertices = this.contentProvider.getVertices();
+
     for (let i = 0; i < vertices.length; i += 3) {
       vertices[i] += position.x;
       vertices[i + 1] += position.y;

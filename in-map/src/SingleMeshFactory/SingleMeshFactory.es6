@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import ASingleMeshFactory from './ASingleMeshFactory';
 
-export default class SingleMeshFactory extends ASingleMeshFactory  {
+export default class SingleMeshFactory extends ASingleMeshFactory {
 
   constructor({scene, renderOrder=2}) {
     super({scene, renderOrder});

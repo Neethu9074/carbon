@@ -1,24 +1,19 @@
 import ContentProvider from './ContentProvider';
 
-/*eslint-disable no-unused-vars*/
 const defaultColor = [
   0.8, 0.8, 0.8, //front
   0.9, 0.9, 0.9, //top
   1, 1, 1 //left
 ];
-/*eslint-enable no-unused-vars*/
 
 export default class CubeContentProvider extends ContentProvider {
 
   constructor({numSlices = 1, faceColors=defaultColor}) {
     super();
-    this.faceColors = faceColors;
-    this.numSlices = numSlices;
-  }
 
-  getVertices() {
+    this.faceColors = faceColors;
+
     const totalHeight = 1;
-    const numSlices = this.numSlices;
     const heightPerSlice = totalHeight / numSlices;
 
     let vertices = [];
@@ -55,8 +50,11 @@ export default class CubeContentProvider extends ContentProvider {
       ];
       vertices = vertices.concat(slice);
     }
+    this.vertices = vertices;
+  }
 
-    return vertices;
+  getVertices() {
+    return this.vertices.slice();
   }
 
   getColors() {
