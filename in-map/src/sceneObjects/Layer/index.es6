@@ -30,6 +30,7 @@ export default class Layer extends SceneObject {
     this.getComponent('position').setPosition(Infinity, 0, 0);
 
     this.temp = zoomLevel.subscribe(newLevel => {
+      this.currentZoomLevel = newLevel;
       const activateCollisions = newLevel === level.nearest && this.isActive();
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
@@ -97,6 +98,9 @@ export default class Layer extends SceneObject {
 
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+
+    const activateCollisions = this.currentZoomLevel === level.nearest;
+    this.getComponent('collision').stateMachine.changeStateProperty('active', activateCollisions);
   }
 
 
