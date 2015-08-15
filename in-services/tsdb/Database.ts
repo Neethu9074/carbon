@@ -4,7 +4,7 @@ import {Point} from './types';
 
 interface TimeSeriesIterationState {
   name: string;
-  timeSeries: TimeSeries;
+  timeSeries: TimeSeries<number>;
   current: number;
   from: number;
   to: number;
@@ -12,7 +12,7 @@ interface TimeSeriesIterationState {
 
 export default class Database {
 
-  series: {[name: string]: TimeSeries};
+  series: {[name: string]: TimeSeries<number>};
 
   constructor() {
     this.series = {};
@@ -26,7 +26,7 @@ export default class Database {
   getSeries(timeSeriesName: string) {
     let timeSeries = this.series[timeSeriesName];
     if (!timeSeries) {
-      timeSeries = new TimeSeries(timeSeriesName);
+      timeSeries = new TimeSeries<number>(timeSeriesName);
       this.series[timeSeriesName] = timeSeries;
     }
     return timeSeries;

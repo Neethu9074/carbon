@@ -6,10 +6,10 @@ import TimeSeries from './TimeSeries';
 describe('tsdb.TimeSeries', () => {
 
   const name = 'testTimeSeriesName';
-  let ts: TimeSeries;
+  let ts: TimeSeries<number>;
 
   beforeEach(() => {
-    ts = new TimeSeries(name);
+    ts = new TimeSeries<number>(name);
   });
 
   describe('name', () => {
