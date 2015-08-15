@@ -2,5 +2,8 @@
 /node_modules/*
 !/node_modules/in-*
 /target
-/typings
+/typings/*
+!/typings/all.d.ts
+!/typings/test.d.ts
+!/typings/runtime.d.ts
 .npmrc
