@@ -23,6 +23,8 @@
     "files": [
         "./in-services/tsdb/Database.ts",
         "./in-services/tsdb/Database_test.ts",
+        "./in-services/tsdb/MetricTimeSeries.ts",
+        "./in-services/tsdb/MetricTimeSeries_test.ts",
         "./in-services/tsdb/SnapshotTimeSeries.ts",
         "./in-services/tsdb/TimeSeries.ts",
         "./in-services/tsdb/TimeSeries_test.ts",
