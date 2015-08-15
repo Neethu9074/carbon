@@ -14,9 +14,6 @@ ln -s ../in-themes node_modules/in-themes
 ln -s ../in-components node_modules/in-components
 ln -s ../in-test node_modules/in-test
 
-# reinstall TypeScript type definitions
-tsd reinstall
-
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"
 proxrox install
