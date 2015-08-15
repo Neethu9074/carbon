@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 
 import * as connection from '../connection/subscriptionAwareConnection';
+import {getIdString} from '../util/snapshots';
 
 export default class SnapshotConveyer {
 
@@ -53,6 +54,10 @@ export default class SnapshotConveyer {
   }
 
   handleSnapshotMessage(message) {
+    message.data.forEach(mutableSnapshot => {
+      mutableSnapshot.id = getIdString(mutableSnapshot);
+    });
+
     if (this.snapshots === null) {
       this.snapshots = Immutable.fromJS(message.data);
       this.onNext(this.snapshots);
