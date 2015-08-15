@@ -3,12 +3,12 @@ import {Timestamp} from './types';
 
 export default class TimeSeries<TYPE_OF_VALUE> {
 
-  name: string;
+  id: string;
   times: Timestamp[];
   values: TYPE_OF_VALUE[];
 
-  constructor(name: string) {
-    this.name = name;
+  constructor(id: string) {
+    this.id = id;
 
     this.times = [];
     this.values = [];

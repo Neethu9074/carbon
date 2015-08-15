@@ -61,7 +61,7 @@ export default class Database {
       });
 
     let processing = true;
-    const result: Point[][] = [];
+    const result: Point<number>[][] = [];
 
     while (processing) {
       const smallest = this.getSmallestFromTimeSeries(seriesIterationState);
@@ -84,7 +84,7 @@ export default class Database {
   }
 
   getValueFromAllTimeSeries(timeSeries: TimeSeriesIterationState[], x: number) {
-    const values: Point[] = [];
+    const values: Point<number>[] = [];
 
     timeSeries.forEach(series => {
       let y: number;

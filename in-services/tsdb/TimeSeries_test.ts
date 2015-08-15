@@ -5,16 +5,16 @@ import TimeSeries from './TimeSeries';
 
 describe('tsdb.TimeSeries', () => {
 
-  const name = 'testTimeSeriesName';
+  const id = 'testTimeSeriesId';
   let ts: TimeSeries<number>;
 
   beforeEach(() => {
-    ts = new TimeSeries<number>(name);
+    ts = new TimeSeries<number>(id);
   });
 
-  describe('name', () => {
-    it('should expose name property', () => {
-      expect(ts.name).to.equal(name);
+  describe('id', () => {
+    it('should expose an id property', () => {
+      expect(ts.id).to.equal(id);
     });
   });
 
