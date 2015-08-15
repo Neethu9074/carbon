@@ -5,7 +5,6 @@ import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 
 import {getLabel} from 'in-sdk/snapshot';
-import {getIdString} from 'in-services/util/snapshots';
 
 import Snapshot from './Snapshot';
 
@@ -37,7 +36,7 @@ const SidebarSnapshotList = React.createClass({
       <ul className={block}>
         {this.toJs(snapshots.map(snapshot =>
           <Snapshot snapshot={snapshot}
-                    key={getIdString(snapshot)}
+                    key={snapshot.get('id')}
                     highlighted={this.props.highlightedSnapshot === snapshot}
                     wired={this.isWired(snapshot)}/>
         ))}

@@ -103,8 +103,9 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
     snapshot = Immutable.Map({
       state: 'unmonitored',
       hostId: 'unknown',
-      pluginId: 'com.instana.forge.infrastructure.os.OS',
-      steadyId: ip
+      pluginId: constants.plugins.os,
+      steadyId: ip,
+      id: 'unknown#' + constants.plugins.os + '#' + ip
     });
   }
   return snapshot;

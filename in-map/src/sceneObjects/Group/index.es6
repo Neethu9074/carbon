@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import {hexToRGBNormalized} from 'in-services/converters';
-import {getIdString} from 'in-services/util/snapshots';
 import eventBus from 'in-services/eventbus';
 import {getColor} from 'in-sdk/zones';
 
@@ -62,7 +61,7 @@ export default class Group extends SceneObject {
   }
 
   addNode(snapshot, unknown=false) {
-    const nodeId = getIdString(snapshot);
+    const nodeId = snapshot.get('id');
     let newNode;
 
     //if there is no nodeId it's an unknown node

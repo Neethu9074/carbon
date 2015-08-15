@@ -2,7 +2,6 @@ import THREE from 'three';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import {getIdString} from 'in-services/util/snapshots';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import HighlightingComponent from '../../components/HighlightingComponent';
@@ -22,7 +21,7 @@ import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 export default class Layer extends SceneObject {
 
   constructor({parent, snapshot}) {
-    super({parent, id: getIdString(snapshot)});
+    super({parent, id: snapshot.get('id')});
 
     this.snapshot = snapshot;
     this.layerIndex = 0; //see this.setLayerIndex

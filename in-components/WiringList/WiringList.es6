@@ -5,7 +5,6 @@ import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
 
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import {getIdString} from 'in-services/util/snapshots';
 import {getWiringWithFullSnapshots} from 'in-services/wiring';
 import {getPlural} from 'in-sdk/pluginName';
 
@@ -58,7 +57,7 @@ const WiringList = React.createClass({
             <Collapsible.Content>
               <List>
                 {groups[pluginId].map(snapshot =>
-                  <List.Item key={getIdString(snapshot)}
+                  <List.Item key={snapshot.get('id')}
                              onClick={() => this.navigateToDashboard(snapshot)}>
                     {getLabel(snapshot)}
                   </List.Item>

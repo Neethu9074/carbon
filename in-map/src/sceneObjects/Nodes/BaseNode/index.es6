@@ -2,7 +2,6 @@ import THREE from 'three';
 
 import {theme} from 'in-services/theme';
 import eventBus from 'in-services/eventbus';
-import {getIdString} from 'in-services/util/snapshots';
 import {activeMetric} from 'in-services/stores/metrics';
 
 import HighlightingComponent from '../../../components/HighlightingComponent';
@@ -31,7 +30,7 @@ const emptyStickyObject = {
 export default class BaseNode extends SceneObject {
 
   constructor({parent, snapshot}) {
-    super({parent, id: getIdString(snapshot)});
+    super({parent, id: snapshot.get('id')});
 
     this.scene = this.scene;
     this.snapshot = snapshot;
