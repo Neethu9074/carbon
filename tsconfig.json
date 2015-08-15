@@ -21,6 +21,7 @@
         "!./node_modules/**/*"
     ],
     "files": [
+        "./in-services/time/time.d.ts",
         "./in-services/tsdb/Database.ts",
         "./in-services/tsdb/Database_test.ts",
         "./in-services/tsdb/MetricTimeSeries.ts",
