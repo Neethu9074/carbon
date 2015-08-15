@@ -26,4 +26,12 @@ describe('tsdb.MetricTimeSeries', () => {
     });
   });
 
+  it('should expose an ID property with the unique id', () => {
+    let timeSeries = new MetricTimeSeries({
+      snapshot,
+      metric
+    });
+    expect(timeSeries.id).to.equal('foobar#cpu.total.sys');
+  });
+
 });
