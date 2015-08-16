@@ -56,6 +56,7 @@ export default class Connection extends SceneObject {
 
   onHighlightEnter() {
     this.lineContentProvider.setColor(darkGrey);
+
     this.enableFragment();
   }
 
@@ -65,6 +66,7 @@ export default class Connection extends SceneObject {
 
   onSelectedEnter() {
     this.lineContentProvider.setColor(lightGrey);
+
     this.enableFragment();
 
     // show hide connected nodes on highlighting factory

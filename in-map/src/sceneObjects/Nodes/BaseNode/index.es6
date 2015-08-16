@@ -189,9 +189,10 @@ export default class BaseNode extends SceneObject {
 
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
       if(this.isSelected()) {
-        this.getComponent('connection').selectionChanged(false);
-        this.getComponent('connection').setupConnections();
-        this.getComponent('connection').selectionChanged(true);
+        const connectionComponent = this.getComponent('connection');
+        connectionComponent.selectionChanged(false);
+        connectionComponent.setupConnections();
+        connectionComponent.selectionChanged(true);
       }
     }));
 
