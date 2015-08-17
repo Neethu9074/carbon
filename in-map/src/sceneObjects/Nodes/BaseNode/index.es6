@@ -46,14 +46,18 @@ export default class BaseNode extends SceneObject {
     this.highlight();
 
     //show all connections as grey lines
-    this.getComponent('connection').stateMachine.changeStateProperty('active', true);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('highlight', true);
+    connectionComponent.stateMachine.changeStateProperty('active', true);
   }
 
   onHighlightLeave() {
     this.highlight(false);
 
     //hide the grey connection lines
-    this.getComponent('connection').stateMachine.changeStateProperty('active', false);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', false);
+    connectionComponent.stateMachine.changeStateProperty('highlight', false);
   }
 
   onSelectedEnter() {

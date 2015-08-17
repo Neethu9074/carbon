@@ -18,6 +18,11 @@ export default class ConnectionComponent extends Component {
     this.stateMachine.changeStateProperty('active', false);
   }
 
+  onHighlightEnter() {
+    this.setupConnections();
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', true));
+  }
+
   onSelectedEnter() {
     this.setupConnections();
     this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
