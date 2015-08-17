@@ -46,42 +46,52 @@ export default class BaseNode extends SceneObject {
     this.highlight();
 
     //show all connections as grey lines
-    this.getComponent('connection').highlightChanged(true);
+    this.getComponent('connection').stateMachine.changeStateProperty('active', true);
+    // this.getComponent('connection').highlightChanged(true);
   }
 
   onHighlightLeave() {
     this.highlight(false);
 
     //hide the grey connection lines
-    this.getComponent('connection').highlightChanged(false);
+    this.getComponent('connection').stateMachine.changeStateProperty('active', false);
+    // this.getComponent('connection').highlightChanged(false);
   }
 
   onSelectedEnter() {
     this.highlight();
 
     //show all connections as white lines
-    this.getComponent('connection').selectionChanged(true);
+    this.getComponent('connection').stateMachine.changeStateProperty('active', true);
+    this.getComponent('connection').stateMachine.changeStateProperty('selected', true);
+    // this.getComponent('connection').selectionChanged(true);
   }
 
   onSelectedLeave() {
     this.highlight(false);
 
     //hide the white connection lines
-    this.getComponent('connection').selectionChanged(false);
+    this.getComponent('connection').stateMachine.changeStateProperty('active', false);
+    this.getComponent('connection').stateMachine.changeStateProperty('selected', false);
+    // this.getComponent('connection').selectionChanged(false);
   }
 
   onSelectedHighlightEnter() {
     this.highlight();
 
     //show all connections as white lines
-    this.getComponent('connection').selectionChanged(true);
+    this.getComponent('connection').stateMachine.changeStateProperty('active', true);
+    this.getComponent('connection').stateMachine.changeStateProperty('selected', true);
+    // this.getComponent('connection').selectionChanged(true);
   }
 
   onSelectedHighlightLeave() {
     this.highlight(false);
 
     //hide the white connection lines
-    this.getComponent('connection').selectionChanged(false);
+    this.getComponent('connection').stateMachine.changeStateProperty('active', false);
+    this.getComponent('connection').stateMachine.changeStateProperty('selected', false);
+    // this.getComponent('connection').selectionChanged(false);
   }
 
   onHiddenEnter() {
@@ -147,6 +157,7 @@ export default class BaseNode extends SceneObject {
 
     //add the connection component to handle all the visual connection lines
     components.connection = new ConnectionComponent({sceneObject: this});
+    components.connection.stateMachine.changeStateProperty('active', false);
 
     const pcm = new PCM({
       contentProvider: new SCM({
@@ -189,10 +200,11 @@ export default class BaseNode extends SceneObject {
 
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
       if(this.isSelected()) {
-        const connectionComponent = this.getComponent('connection');
-        connectionComponent.selectionChanged(false);
-        connectionComponent.setupConnections();
-        connectionComponent.selectionChanged(true);
+        // TODO: REBUILD CONNECTIONS
+        // const connectionComponent = this.getComponent('connection');
+        // connectionComponent.selectionChanged(false);
+        // connectionComponent.setupConnections();
+        // connectionComponent.selectionChanged(true);
       }
     }));
 

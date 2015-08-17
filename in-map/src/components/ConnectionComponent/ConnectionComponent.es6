@@ -14,25 +14,35 @@ export default class ConnectionComponent extends Component {
     this.initialized();
   }
 
+  onInitialEnter() {
+    console.log('i e');
+  }
+
+  onInitialLeave() {
+    console.log('i l');
+  }
+
+  onHighlightEnter() {
+    console.log('h e');
+  }
+
+  onHighlightLeave() {
+    console.log('h l');
+  }
+
+  onSelectedEnter() {
+    console.log('s e');
+  }
+
+  onSelectedLeave() {
+    console.log('s l');
+  }
+
   onInactiveEnter() {
     this.clearConnections(true);
   }
 
-  onHighlightEnter() {
-    // console.log('h e');
-  }
-
-  onHighlightLeave() {
-    // console.log('h l');
-  }
-
-  onSelectedEnter() {
-    // console.log('s e');
-  }
-
-  onSelectedLeave() {
-    // console.log('s l');
-  }
+  onInactiveLeave() {}
 
 
   highlightChanged(highlighted) {
