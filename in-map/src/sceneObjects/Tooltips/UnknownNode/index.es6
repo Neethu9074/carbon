@@ -25,7 +25,7 @@ const UnknownNode = React.createClass({
           {this.props.ip}
         </Heading>
         <Content>
-          {'this host is unknown'}
+          {'This host is not monitored.'}
         </Content>
       </TooltipFrame>
     );

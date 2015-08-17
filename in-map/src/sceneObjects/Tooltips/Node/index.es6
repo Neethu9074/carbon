@@ -69,7 +69,7 @@ const NodeTooltipRC = React.createClass({
     const data = snapshot.get('data');
     const issues = this.state.issues;
 
-    let text = getSingular(snapshot.get('pluginId')) + ': ' + getLabel(snapshot);
+    let text = getSingular(snapshot.get('pluginId'));
     let cssClass = '';
 
     if(this.issuesAvailable()) {
@@ -85,7 +85,7 @@ const NodeTooltipRC = React.createClass({
   },
 
   getContent() {
-    let content = '';
+    let content = getLabel(this.props.snapshot);
 
     if(this.issuesAvailable()) {
       const suggestion = this.state.issues.getIn([0, 'fixSuggestion']);
@@ -103,24 +103,16 @@ const NodeTooltipRC = React.createClass({
 
     const heading = this.getHeading();
 
-    if(this.issuesAvailable()) {
-      return (
-        <TooltipFrame>
-          {this.getStatusLine()}
-          <Heading className={heading.cssClass}>
-            {heading.text.toUpperCase()}
-          </Heading>
-          <Content>
-            {this.getContent()}
-          </Content>
-        </TooltipFrame>
-      );
-    }
-
     return (
       <TooltipFrame>
-        <Content className={heading.cssClass}>
+        {this.issuesAvailable() ?
+        this.getStatusLine() :
+        null}
+        <Heading className={heading.cssClass}>
           {heading.text.toUpperCase()}
+        </Heading>
+        <Content>
+          {this.getContent()}
         </Content>
       </TooltipFrame>
     );
