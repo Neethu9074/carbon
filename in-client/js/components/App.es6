@@ -14,6 +14,7 @@ import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
 import Sidebar from 'in-components/Sidebar';
+import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import {create} from 'in-services/conveyer';
 import Map from 'in-map';
 
@@ -109,6 +110,8 @@ const App = React.createClass({
         {window.instana.config.environment === 'demo' ?
           <DemoDialog />
         : null}
+
+        <TooltipPresenter />
 
         <ConnectionStatus />
       </div>

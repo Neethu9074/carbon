@@ -4,6 +4,7 @@ import * as ro from 'reactive-observables';
 import Button from 'in-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import toPx from 'in-services/converters/toPx';
 
 import tourDefinition from './tours/001_instana_demo';
 
@@ -247,10 +248,3 @@ const GuidedTour = React.createClass({
 });
 
 export default GuidedTour;
-
-function toPx(v) {
-  // handle cases where the DOM style attribute is translating negative to
-  // positive pixel values, e.g. left: -10px is translated to left: 10px.
-  if (v < 0) return '0px';
-  return (v | 0) + 'px';
-}

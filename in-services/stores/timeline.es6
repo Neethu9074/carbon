@@ -1,5 +1,3 @@
-
-
 import * as ro from 'reactive-observables';
 
 const reemitSpec = {emitLatestOnSubscribe: true};
