@@ -93,17 +93,13 @@ export default class BaseNode extends SceneObject {
   }
 
   onHiddenEnter() {
-    //disables all components
     super.onHiddenEnter();
 
     this.stickyNote.hide();
   }
 
   onHiddenLeave() {
-    //enables all components
     super.onHiddenLeave();
-
-    this.highlight(false);
 
     this.stickyNote.show();
   }

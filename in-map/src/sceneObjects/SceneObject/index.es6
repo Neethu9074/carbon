@@ -68,23 +68,22 @@ export default class SceneObject {
   onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   onInactiveEnter() {
-    this.forEachComponent((component) =>
+    this.forEachComponent(component =>
       component.stateMachine.changeStateProperty('active', false));
   }
 
   onInactiveLeave() {
-    this.forEachComponent((component) =>
+    this.forEachComponent(component =>
       component.stateMachine.changeStateProperty('active', true));
   }
 
   onHiddenEnter() {
-    this.forEachComponent((component) =>
+    this.forEachComponent(component =>
       component.stateMachine.changeStateProperty('active', false));
   }
 
   onHiddenLeave() {
-    this.forEachComponent((component) =>
-      component.stateMachine.changeStateProperty('active', true));
+    this.forEachComponent(component => component.setStartingStateProperties());
   }
 
   isSelected() {
@@ -143,7 +142,6 @@ export default class SceneObject {
   }
 
   colorChanged() {}
-
 
   getAllMapNodes() {
     return this.parent.getAllMapNodes();

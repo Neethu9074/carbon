@@ -18,11 +18,6 @@ export default class ConnectionComponent extends Component {
     this.stateMachine.changeStateProperty('active', false);
   }
 
-  onInitialEnter() {
-    this.setupConnections();
-    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', true));
-  }
-
   onSelectedEnter() {
     this.setupConnections();
     this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
@@ -35,36 +30,6 @@ export default class ConnectionComponent extends Component {
 
   onInactiveEnter() {
     this.clearConnections(true);
-  }
-
-
-  highlightChanged(highlighted) {
-    if(this.highlighted === highlighted) {
-      return;
-    }
-
-    if(highlighted) {
-      this.setupConnections();
-    }
-
-    this.getAllConnections().forEach(c =>
-      c.stateMachine.changeStateProperty('highlight', highlighted));
-
-    this.highlighted = highlighted;
-  }
-
-  selectionChanged(selected) {
-    if(this.selected === selected) {
-      return;
-    }
-
-    if(selected) {
-      this.getAllConnections().forEach((c) => {c.show(); c.select(); });
-    } else {
-      this.getAllConnections().forEach((c) => {c.unSelect(); c.hide(); });
-    }
-
-    this.selected = selected;
   }
 
   positionChanged() {}
