@@ -252,7 +252,7 @@ export default class Node extends BaseNode {
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
     this.getComponent('layer').positionChanged(x, y, z);
 
-    this.updateOfVisualComponents();
+    this.updateScreenAnchorPosition();
   }
 
   setHeight(height) {

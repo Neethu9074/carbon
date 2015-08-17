@@ -247,7 +247,7 @@ export default class BaseNode extends SceneObject {
     currentTooltip.emit(this.tooltip);
   }
 
-  updateOfVisualComponents() {
+  updateScreenAnchorPosition() {
     const anchor = this.getScreenAnchorPosition();
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
   }
@@ -258,7 +258,7 @@ export default class BaseNode extends SceneObject {
     this.getComponent('solidMesh').positionChanged(x, y, z);
     this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
-    this.updateOfVisualComponents();
+    this.updateScreenAnchorPosition();
   }
 
   setHeight(height) {
@@ -268,7 +268,7 @@ export default class BaseNode extends SceneObject {
     this.getComponent('solidMesh').sizeChanged(1, height, 1);
     this.getComponent('mesh').sizeChanged(1, height, 1);
     this.getComponent('highlighting').sizeChanged(1, height, 1);
-    this.updateOfVisualComponents();
+    this.updateScreenAnchorPosition();
   }
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
