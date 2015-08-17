@@ -9,7 +9,7 @@ import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import {getHealth} from 'in-services/issueTracker';
-import {getSingular} from 'in-sdk/pluginName';
+import {getSingular, getPlural} from 'in-sdk/pluginName';
 import {health} from 'in-services/health';
 import {getLabel} from 'in-sdk/snapshot';
 
@@ -95,9 +95,10 @@ const NodeTooltipRC = React.createClass({
       }
 
     } else if (layer.length > 2) {
-      const types = {};
+      const types = {}; // maps type -> counter
       layer.forEach(item => {
-        const type = getSingular(item.snapshot.get('pluginId'));
+        const pluginId = item.snapshot.get('pluginId');
+        const type = pluginId;
         if(!types[type]) {
           types[type] = 0;
         }
@@ -105,14 +106,18 @@ const NodeTooltipRC = React.createClass({
       });
 
       const listItems = Object.keys(types).map(type => {
+        const counter = types[type];
         return (
           <li key={type} className={block + '__li'}>
             <div className={block + '__li-wrapper'}>
               <Heading className={block + '__li-header'}>
-                {types[type]}
+                {counter}
               </Heading>
               <Content className={block + '__li-content'}>
-                {type}
+                {counter > 1 ?
+                  getPlural(type) :
+                  getSingular(type)
+                }
               </Content>
             </div>
           </li>
