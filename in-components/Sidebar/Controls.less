@@ -28,6 +28,7 @@
     list-style: none;
 
     background: #263238;
+    color: @common__highlight-color;
     transition: background @focus-transition-duration ease-in-out;
 
     @border-radius: 0.35rem;
@@ -38,35 +39,30 @@
       background: #1E2629;
     }
 
+    &--active {
+      color: #1E2629;
+      background: @common__highlight-color;
+
+      &:hover {
+        background: @common__highlight-color;
+      }
+    }
+
     &--start-of-group {
       margin-top: 1rem;
     }
   }
 
-  &__multi-control {
-    margin: 0;
-    padding: 0;
-    // max-width: @control-icon-width + @control-icon-padding * 2 /*left and right padding*/;
-
-    // display: flex;
-
-    // &--open {
-    //   // just use something large so that opening it will be animated
-    //   max-width: 100rem;
-    //   flex-direction: row-reverse;
-    // }
-  }
-
   &__control-icon {
     min-width: @control-icon-width;
     font-size: @control-icon-width;
+    box-sizing: content-box;
 
     display: inline-block;
+    color: inherit;
     padding: @control-icon-padding;
 
-    color: @common__highlight-color;
     text-align: center;
-    cursor: pointer;
 
     opacity: 0.6;
     transition: opacity @focus-transition-duration ease-in-out;
@@ -74,6 +70,7 @@
     &:hover, &--active {
       opacity: 1;
     }
+
   }
 
 }

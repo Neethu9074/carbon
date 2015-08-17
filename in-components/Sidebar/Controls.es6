@@ -1,51 +1,71 @@
 import React from 'react/addons';
 
+import classnames from 'in-services/util/classnames';
 import {theme} from 'in-services/theme';
 
 import Icon from '../Icon';
 
 import './Controls.less';
 
-// const rpt = React.PropTypes;
+const rpt = React.PropTypes;
 const block = 'in-sidebar-controls';
 
 const Controls = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    // onClick: rpt.func.isRequired
+    activeControl: rpt.string,
+    onChangeActiveControl: rpt.func.isRequired,
+
+    activeHealthFilter: rpt.string,
+    onChangeActiveHealthFilter: rpt.func.isRequired
   },
 
   render() {
     return (
       <nav className={block}>
         <ul className={block + '__control-list'}>
-          <li className={block + '__control-item'}>
-            <Icon type='metrics'
-                  className={block + '__control-icon'}/>
-          </li>
-          <li className={block + '__control-item'}>
-            <Icon type='tags'
-                  className={block + '__control-icon'}/>
-          </li>
-          <li className={block + '__control-item'}>
-            <Icon type='zones'
-                  className={block + '__control-icon'}/>
-          </li>
+          {this.renderControlIcon('metrics', 'metrics')}
+          {this.renderControlIcon('tags', 'tags')}
+          {this.renderControlIcon('zones', 'snapshotList')}
+
           <li className={block + '__control-item ' + block + '__control-item--start-of-group'}>
-            <ul className={block + '__multi-control'}>
-              <Icon type='warning'
-                    className={block + '__control-icon'}
-                    style={{color: theme.health.warning}}/>
-              <Icon type='critical'
-                    className={block + '__control-icon'}
-                    style={{color: theme.health.danger}} />
+              {this.renderHealthFilterIcon('warning', 'warning')}
+              {this.renderHealthFilterIcon('critical', 'danger')}
               <Icon type='system'
                     className={block + '__control-icon'}/>
-            </ul>
           </li>
         </ul>
       </nav>
+    );
+  },
+
+  renderControlIcon(icon, controlName) {
+    return (
+      <li className={classnames({
+        [block + '__control-item']: true,
+        [block + '__control-item--active']: this.props.activeControl === controlName
+      })}>
+        <Icon type={icon}
+              className={classnames({
+                [block + '__control-icon']: true,
+                [block + '__control-icon--active']: this.props.activeControl === controlName
+              })}
+              onClick={() => this.props.onChangeActiveControl(controlName)}/>
+      </li>
+    );
+  },
+
+  renderHealthFilterIcon(icon, healthName) {
+    return (
+      <Icon type={icon}
+            className={classnames({
+              [block + '__control-icon']: true,
+              [block + '__control-icon--active']: this.props.activeHealthFilter === healthName,
+              [block + '__control-icon--inactive']: this.props.activeHealthFilter !== healthName
+            })}
+            style={{color: theme.health[healthName]}}
+            onClick={() => this.props.onChangeActiveHealthFilter(healthName)}/>
     );
   }
 });

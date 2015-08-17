@@ -20,6 +20,13 @@ const Sidebar = React.createClass({
     snapshots: irpt.list
   },
 
+  getInitialState() {
+    return {
+      activeControl: null,
+      activeHealthFilter: null
+    };
+  },
+
   statics: {
     createObservables(props) {
       const snapshotSources = props.pluginIds.map(pluginId =>
@@ -54,9 +61,24 @@ const Sidebar = React.createClass({
     }
     return (
       <div className={block}>
-        <Controls />
+        <Controls activeControl={this.state.activeControl}
+                  onChangeActiveControl={this.onChangeActiveControl}
+                  activeHealthFilter={this.state.activeHealthFilter}
+                  onChangeActiveHealthFilter={this.onChangeActiveHealthFilter} />
       </div>
     );
+  },
+
+  onChangeActiveControl(activeControl) {
+    this.setState({
+      activeControl
+    });
+  },
+
+  onChangeActiveHealthFilter(activeHealthFilter) {
+    this.setState({
+      activeHealthFilter
+    });
   }
 });
 
