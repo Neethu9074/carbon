@@ -9,6 +9,7 @@ import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {create} from 'in-services/conveyer';
 
+import Details from './Details';
 import Tags from './Tags';
 import ZoneList from './ZoneList';
 import Controls from './Controls';
@@ -73,20 +74,19 @@ const Sidebar = React.createClass({
   },
 
   render() {
-    if (!this.props.snapshots) {
-      return null;
-    }
+    const open = this.state.activeControl || this.props.selectedSnapshot;
+
     return (
       <div className={block}>
         <Controls className={classnames({
                     [block + '__controls']: true,
-                    [block + '__controls--open']: !!this.state.activeControl
+                    [block + '__controls--open']: open
                   })}
                   activeControl={this.state.activeControl}
                   onChangeActiveControl={this.onChangeActiveControl} />
         <div className={classnames({
           [block + '__content']: true,
-          [block + '__content--open']: !!this.state.activeControl
+          [block + '__content--open']: open
         })}>
           {this.renderContent()}
         </div>
@@ -95,6 +95,10 @@ const Sidebar = React.createClass({
   },
 
   renderContent() {
+    if (this.props.selectedSnapshot) {
+      return <Details snapshot={this.props.selectedSnapshot} />;
+    }
+
     if (!this.state.activeControl) {
       return null;
     }
