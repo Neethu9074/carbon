@@ -3,8 +3,8 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as metricsStore from 'in-services/stores/metrics';
-import Icon from 'in-components/Icon';
 
+import Icon from '../Icon';
 import MetricTreeLeaf from './MetricTreeLeaf';
 import MetricTree from './MetricTree';
 

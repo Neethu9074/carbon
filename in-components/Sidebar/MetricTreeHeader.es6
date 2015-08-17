@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import Icon from 'in-components/Icon';
+import Icon from '../Icon';
 
 import './MetricTreeHeader.less';
 

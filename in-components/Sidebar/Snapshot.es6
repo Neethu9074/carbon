@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
@@ -8,7 +6,8 @@ import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapsho
 import classnames from 'in-services/util/classnames';
 import * as tracking from 'in-services/tracking';
 import {getLabel} from 'in-sdk/snapshot';
-import HealthIcon from 'in-components/HealthIcon';
+
+import HealthIcon from '../HealthIcon';
 
 import './Snapshot.less';
 

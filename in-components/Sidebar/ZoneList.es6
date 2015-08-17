@@ -1,10 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import Collapsible from 'in-components/Collapsible';
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
 
+import Collapsible from '../Collapsible';
 import SnapshotList from './SnapshotList';
 
 import './ZoneList.less';

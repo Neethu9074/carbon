@@ -30,6 +30,9 @@ const Controls = React.createClass({
           {this.renderControlIcon('metrics', 'metrics', 'Show Metrics')}
           {this.renderControlIcon('tags', 'tags', 'Show Tags')}
           {this.renderControlIcon('zones', 'snapshotList', 'Show Component List')}
+          {__DEV__ ?
+            this.renderControlIcon('system', 'mapStats', 'Show Map Rendering Stats')
+          : null}
         </ul>
       </nav>
     );

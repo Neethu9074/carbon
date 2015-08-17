@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
