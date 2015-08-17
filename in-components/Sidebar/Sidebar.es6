@@ -3,11 +3,14 @@ import irpt from 'react-immutable-proptypes';
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
+import classnames from 'in-services/util/classnames';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {create} from 'in-services/conveyer';
 
 import Controls from './Controls';
 import enhance from '../hoc/enhance';
+
+import './Sidebar.less';
 
 const rpt = React.PropTypes;
 const block = 'in-sidebar';
@@ -61,23 +64,29 @@ const Sidebar = React.createClass({
     }
     return (
       <div className={block}>
-        <Controls activeControl={this.state.activeControl}
+        <Controls className={classnames({
+                    [block + '__controls']: true,
+                    [block + '__controls--open']: !!this.state.activeControl
+                  })}
+                  activeControl={this.state.activeControl}
                   onChangeActiveControl={this.onChangeActiveControl} />
+        <div className={classnames({
+          [block + '__content']: true,
+          [block + '__content--open']: !!this.state.activeControl
+        })}>
+
+        </div>
       </div>
     );
   },
 
   onChangeActiveControl(activeControl) {
     this.setState({
-      activeControl
-    });
-  },
-
-  onChangeActiveHealthFilter(activeHealthFilter) {
-    this.setState({
-      activeHealthFilter
+      // close when it is already active
+      activeControl: activeControl === this.state.activeControl ? null : activeControl
     });
   }
+
 });
 
 export default enhance(Sidebar);

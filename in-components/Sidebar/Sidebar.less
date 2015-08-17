@@ -1,10 +1,33 @@
-// @import "~in-themes/less/constants.less";
+@import "~in-themes/less/constants.less";
 
 .in-sidebar {
-  // position: absolute;
-  // top: 0;
-  // right: 0;
-  // bottom: 0;
+  @content-width: 21rem;
+  @transition-duration: .5s;
+  @transition-easing: ease-in-out;
 
-  // z-index: @z-index__sidebar;
+  &__controls {
+    right: 0;
+    transition: right @transition-duration @transition-easing;
+
+    &--open {
+      right: @content-width;
+    }
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    right: @content-width * -1;
+    bottom: @footer__height * 1px;
+    width: @content-width;
+
+    z-index: @z-index__sidebar;
+    transition: right @transition-duration @transition-easing;
+
+    background: hsla(199, 24%, 24%, 0.95);
+
+    &--open {
+      right: 0;
+    }
+  }
 }

@@ -14,13 +14,18 @@ const Controls = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
+    className: rpt.string,
     activeControl: rpt.string,
     onChangeActiveControl: rpt.func.isRequired
   },
 
   render() {
+    let rootClasses = block;
+    if (this.props.className) {
+      rootClasses += ' ' + this.props.className;
+    }
     return (
-      <nav className={block}>
+      <nav className={rootClasses}>
         <ul className={block + '__control-list'}>
           {this.renderControlIcon('metrics', 'metrics', 'Show Metrics')}
           {this.renderControlIcon('tags', 'tags', 'Show Tags')}
