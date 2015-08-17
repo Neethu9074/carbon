@@ -1,8 +1,6 @@
 import THREE from 'three';
 import _ from 'lodash';
 
-import eventBus from 'in-services/eventbus';
-
 import ConnectionGrid from '../../ConnectionGrid_Temp';
 import SceneObject from '../SceneObject';
 
@@ -10,12 +8,14 @@ import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Posi
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
 
+
 const darkGrey = {r: 0.5, g: 0.5, b: 0.5};
 const lightGrey = {r: 0.7, g: 0.7, b: 0.7};
 const fullWhite = {r: 1, g: 1, b: 1};
-export const allConnections = [];
-let id = 0;
 
+export const allConnections = [];
+
+let id = 0;
 
 export default class Connection extends SceneObject {
 
@@ -38,15 +38,9 @@ export default class Connection extends SceneObject {
 
     this.calculatePath();
 
-    from.getComponent('connection').addOutgoingConnection(this);
-    to.getComponent('connection').addIncomingConnection(this);
-
     this.render();
 
     allConnections.push(this);
-
-    this.addSubscription(eventBus.on('layoutChanged').subscribe(() =>
-      this.updateOfVisualComponents()));
   }
 
   onInitialEnter() {
@@ -56,8 +50,9 @@ export default class Connection extends SceneObject {
   onInitialLeave() {}
 
   onHighlightEnter() {
-    this.enableFragment();
     this.lineContentProvider.setColor(darkGrey);
+
+    this.enableFragment();
   }
 
   onHighlightLeave() {
@@ -65,31 +60,32 @@ export default class Connection extends SceneObject {
   }
 
   onSelectedEnter() {
-    this.enableFragment();
     this.lineContentProvider.setColor(lightGrey);
 
+    this.enableFragment();
+
     // show hide connected nodes on highlighting factory
-    this.from.highlight();
-    this.to.highlight();
+    this.to.stateMachine.changeStateProperty('indirect', true);
   }
 
   onSelectedLeave() {
     this.enableFragment(false);
 
-    // hide connected nodes on highlighting factory
-    if(!this.oneEndpointIsSelected() && !this.toIsConnectedToSelected()) {
-      this.to.highlight(false);
-      this.from.highlight(false);
-    }
+    this.to.stateMachine.changeStateProperty('indirect', false);
   }
 
   onSelectedHighlightEnter() {
-    this.enableFragment();
     this.lineContentProvider.setColor(fullWhite);
+
+    this.enableFragment();
+
+    this.to.stateMachine.changeStateProperty('indirect', true);
   }
 
   onSelectedHighlightLeave() {
     this.enableFragment(false);
+
+    this.to.stateMachine.changeStateProperty('indirect', false);
   }
 
   onHiddenEnter() {
@@ -103,7 +99,11 @@ export default class Connection extends SceneObject {
   }
 
   enableFragment(enabled=true) {
-    this.scene.lineFactory.enableFragment(this.id, enabled);
+    if(enabled) {
+      this.scene.lineFactory.addFragment(this.fragment);
+    } else {
+      this.scene.lineFactory.removeFragment(this.id);
+    }
   }
 
   calculatePath() {
@@ -280,29 +280,9 @@ export default class Connection extends SceneObject {
     }
   }
 
-  updateOfVisualComponents() {
-    if(this.isSelected() || this.isHighlighted()) {
-      this.calculatePath();
-      this.render();
-      this.reEnterState();
-    }
-  }
-
   //checks weather one of the endpoints (from and to) is in the selected state
   oneEndpointIsSelected() {
     return (this.from.isSelected() || this.to.isSelected());
-  }
-
-  //checks weather one of the endpoints (from and to) is connected to another
-  //node which is in the selected state
-  toIsConnectedToSelected() {
-    let isConnectedToSelected = false;
-    this.to.getComponent('connection').getAllConnections().forEach((c) => {
-      if(c.oneEndpointIsSelected()) {
-        isConnectedToSelected = true;
-      }
-    });
-    return isConnectedToSelected;
   }
 
   disposeCollisionLine() {
@@ -319,9 +299,7 @@ export default class Connection extends SceneObject {
 
     this.disposeCollisionLine();
 
-    const connectionComponent = this.from.getComponent('connection');
-    connectionComponent.removeOutgoingConnection(this);
-    connectionComponent.removeIncomingConnection(this);
+    this.from.getComponent('connection').removeConnection(this);
 
     this.scene.lineFactory.removeFragment(this.id);
   }

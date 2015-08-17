@@ -1,5 +1,4 @@
-
-
+import Immutable from 'immutable';
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
@@ -36,14 +35,18 @@ const OsDashboard = React.createClass({
 
   getInitialState() {
     return {
+      cpuNo: null,
       filesystemName: null,
       interfaceName: null
     };
   },
 
   render() {
+    const cpuCount = this.props.snapshot.getIn(['data', 'cpu.count']);
     const filesystems = this.props.snapshot.getIn(['data', 'filesystems']);
     const interfaces = this.props.snapshot.getIn(['data', 'interfaces']);
+
+    const cpus = Immutable.Range(1, cpuCount + 1);
 
     return (
       <div>
@@ -92,6 +95,82 @@ const OsDashboard = React.createClass({
                    labels: ['Load']
                  }}/>
         </DashboardSection>
+
+        {cpuCount > 1 ?
+
+          <DashboardSection title='Individual CPU Usage'>
+            {this.state.cpuNo ?
+              <div>
+                <ChartWithLegend snapshot={this.props.snapshot}
+                       windowSize={this.props.timeframe}
+                       height={chartHeight}
+                       margins={{
+                         left: 60
+                       }}
+                       y1={{
+                         min: 0,
+                         max: 1,
+                         formatter: formatPercentageShort,
+                         metrics: [
+                           'cpu.individual.' + this.state.cpuNo + '.user',
+                           'cpu.individual.' + this.state.cpuNo + '.sys',
+                           'cpu.individual.' + this.state.cpuNo + '.wait',
+                           'cpu.individual.' + this.state.cpuNo + '.nice',
+                           'cpu.individual.' + this.state.cpuNo + '.steal'
+                         ],
+                         labels: [
+                           'User',
+                           'System',
+                           'Wait',
+                           'Nice',
+                           'Steal'
+                         ],
+                         type: 'stackedArea'
+                       }}/>
+              </div>
+            : null}
+
+            <table className='in-subtle-table in-subtle-table--clickable'>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>User</th>
+                  <th>System</th>
+                  <th>Wait</th>
+                  <th>Nice</th>
+                  <th>Steal</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {cpus.map((index) =>
+                  <tr key={'cpu-' + index}
+                      onClick={() => this.selectCpu(index)}
+                      className={classnames({
+                        'active': name === this.state.cpuNo
+                      })}>
+                    <td>CPU {index}</td>
+                    <Mtd metric={'cpu.individual.' + index + '.user'}
+                         snapshot={this.props.snapshot}
+                         formatter={formatPercentageShort} />
+                    <Mtd metric={'cpu.individual.' + index + '.sys'}
+                         snapshot={this.props.snapshot}
+                         formatter={formatPercentageShort} />
+                    <Mtd metric={'cpu.individual.' + index + '.wait'}
+                         snapshot={this.props.snapshot}
+                         formatter={formatPercentageShort} />
+                    <Mtd metric={'cpu.individual.' + index + '.nice'}
+                         snapshot={this.props.snapshot}
+                         formatter={formatPercentageShort} />
+                    <Mtd metric={'cpu.individual.' + index + '.steal'}
+                         snapshot={this.props.snapshot}
+                         formatter={formatPercentageShort} />
+                  </tr>
+                ).valueSeq()}
+              </tbody>
+            </table>
+          </DashboardSection>
+        : null}
 
         <DashboardSection title='Memory Free'>
           <ChartWithLegend snapshot={this.props.snapshot}
@@ -361,6 +440,12 @@ const OsDashboard = React.createClass({
 
       </div>
     );
+  },
+
+  selectCpu(cpu) {
+    this.setState({
+      cpuNo: cpu
+    });
   },
 
   selectFilesystem(fs) {

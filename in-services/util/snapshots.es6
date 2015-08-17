@@ -1,5 +1,3 @@
-
-
 import Immutable from 'immutable';
 
 
@@ -62,6 +60,25 @@ export function isIdEqual(id1, id2) {
   return id1.get('hostId') === id2.get('hostId') &&
     id1.get('pluginId') === id2.get('pluginId') &&
     id1.get('steadyId') === id2.get('steadyId');
+}
+
+/**
+ * Determines whether both IDs are equal. Extracts only id
+ *
+ * @param {Immutable.Map} snapshot1
+ * @param {Immutable.Map} snapshot2
+ * @return {boolean} true when both IDs describe the same snapshot
+ */
+export function isIdEqualShort(snapshot1, snapshot2) {
+  if(snapshot1 === snapshot2) {
+    return true;
+  } else if (snapshot1 !== null && snapshot2 === null) {
+    return false;
+  } else if (snapshot1 === null && snapshot2 !== null) {
+    return false;
+  }
+
+  return snapshot1.get('id') === snapshot2.get('id');
 }
 
 /**

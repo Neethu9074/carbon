@@ -1,3 +1,5 @@
+@import "~in-themes/less/constants.less";
+
 .in-toast {
   border-top-left-radius: .3rem;
   border-top-right-radius: .3rem;
@@ -10,6 +12,8 @@
   width: 30rem;
   padding: 0.9rem 1.3rem 0.6rem;
   background: #323232;
+
+  z-index: @z-index__toast;
 
   &__action {
     float: right;

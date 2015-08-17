@@ -1,0 +1,42 @@
+{
+    "version": "1.5.3",
+    "compileOnSave": false,
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "isolatedModules": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "declaration": false,
+        "noImplicitAny": true,
+        "removeComments": false,
+        "noLib": false,
+        "noEmit": true,
+        "preserveConstEnums": true,
+        "suppressImplicitAnyIndexErrors": true
+    },
+    "filesGlob": [
+        "./**/*.ts",
+        "./**/*.tsx",
+        "!./node_modules/**/*"
+    ],
+    "files": [
+        "./in-services/time/time.d.ts",
+        "./in-services/tsdb/Database.ts",
+        "./in-services/tsdb/Database_test.ts",
+        "./in-services/tsdb/MetricTimeSeries.ts",
+        "./in-services/tsdb/MetricTimeSeries_test.ts",
+        "./in-services/tsdb/SnapshotTimeSeries.ts",
+        "./in-services/tsdb/TimeSeries.ts",
+        "./in-services/tsdb/TimeSeries_test.ts",
+        "./in-services/tsdb/binarySearch.ts",
+        "./in-services/tsdb/binarySearch_test.ts",
+        "./in-services/tsdb/tsdb.ts",
+        "./in-services/tsdb/types.ts",
+        "./typings/all.d.ts",
+        "./typings/chai/chai.d.ts",
+        "./typings/mocha/mocha.d.ts",
+        "./typings/runtime.d.ts",
+        "./typings/test.d.ts"
+    ]
+}

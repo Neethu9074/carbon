@@ -1,16 +1,17 @@
 import ContentProvider from './ContentProvider';
 
-const defaultColor = {r: 0.8, g: 0.8, b: 0.8};
 
+const defaultColor = [1, 1, 1]; // white color as default
 
 export default class LineContentProvider extends ContentProvider {
 
   constructor(faceColors=defaultColor) {
     super();
+
     this.lines = [];
     this.colors = [];
 
-    this.setColor(faceColors);
+    this.faceColor = faceColors.slice();
   }
 
   setLines(lines) {
@@ -19,7 +20,11 @@ export default class LineContentProvider extends ContentProvider {
   }
 
   setColor(color) {
-    this.faceColor = [color.r, color.g, color.b];
+    const faceColor = this.faceColor;
+    faceColor[0] = color.r;
+    faceColor[1] = color.g;
+    faceColor[2] = color.b;
+
     this.updateColorArray();
   }
 

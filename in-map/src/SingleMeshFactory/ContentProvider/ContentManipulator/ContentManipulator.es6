@@ -1,7 +1,7 @@
 import ContentProvider from '../ContentProvider';
 
 
-export default class ContentManipulator extends ContentProvider{
+export default class ContentManipulator extends ContentProvider {
 
   constructor({contentProvider}) {
     super();

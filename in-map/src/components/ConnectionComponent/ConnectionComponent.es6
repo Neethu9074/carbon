@@ -4,14 +4,33 @@ import Connection from '../../sceneObjects/Connection/index';
 import Component from '../Component';
 
 
-export default class ConnectionComponent extends Component{
+export default class ConnectionComponent extends Component {
+
   constructor({sceneObject}) {
     super(sceneObject);
 
-    this.outgoingConnections = [];
-    this.incomingConnections = [];
+    this.connections = [];
 
     this.initialized();
+  }
+
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', false);
+  }
+
+  onInitialEnter() {
+    this.setupConnections();
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', true));
+  }
+
+  onSelectedEnter() {
+    this.setupConnections();
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
+  }
+
+  onSelectedHighlightEnter() {
+    this.setupConnections();
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
   }
 
   onInactiveEnter() {
@@ -29,7 +48,7 @@ export default class ConnectionComponent extends Component{
     }
 
     this.getAllConnections().forEach(c =>
-      c.stateMachine.changeStateProperty('mouseOver', highlighted));
+      c.stateMachine.changeStateProperty('highlight', highlighted));
 
     this.highlighted = highlighted;
   }
@@ -48,9 +67,7 @@ export default class ConnectionComponent extends Component{
     this.selected = selected;
   }
 
-  positionChanged() {
-    this.getAllConnections().forEach(c => c.updateOfVisualComponents());
-  }
+  positionChanged() {}
 
   setupConnections() {
     const wiredSnapshots = this.sceneObject.getWiredSnapshots();
@@ -76,7 +93,7 @@ export default class ConnectionComponent extends Component{
   }
 
   getAllConnections() {
-    return this.outgoingConnections.concat(this.incomingConnections);
+    return this.connections;
   }
 
   setConnectionsWithDirection(connections, direction) {
@@ -88,36 +105,27 @@ export default class ConnectionComponent extends Component{
     });
   }
 
-  //connects this node with another one. the connection is stored in a
-  //connections collection
   connectWith(otherNode, direction) {
-    //don't setup a new connection if it's still alive
-    if(this.outgoingConnections.indexOf(otherNode) >= 0) {
+    // don't setup a new connection if it's still alive
+    if(this.connections.indexOf(otherNode) >= 0) {
       return;
     }
 
-    /*eslint-disable no-new*/
-    new Connection({from: this.sceneObject, to: otherNode, direction});
-    /*eslint-enable no-new*/
+    this.connections.push(new Connection({
+      from: this.sceneObject,
+      to: otherNode,
+      direction
+    }));
   }
 
-  //is called from Connection class when creating a new connection
-  addOutgoingConnection(connection) {
-    this.outgoingConnections.push(connection);
-  }
-
-  addIncomingConnection(connection) {
-    this.incomingConnections.push(connection);
-  }
-
-  //is called from Connection class on disposing
-  removeOutgoingConnection(connection) {
-    _.remove(this.outgoingConnections, con => con.id === connection.id);
+  // is called from Connection class when creating a new connection
+  addConnection(connection) {
+    this.connections.push(connection);
   }
 
   //is called from Connection class on disposing
-  removeIncomingConnection(connection) {
-    _.remove(this.incomingConnections, con => con.id === connection.id);
+  removeConnection(connection) {
+    _.remove(this.connections, con => con.id === connection.id);
   }
 
   isConnectedToSelected() {
@@ -135,9 +143,7 @@ export default class ConnectionComponent extends Component{
   dispose() {
     super.dispose();
 
-    this.outgoingConnections = null;
-    this.incomingConnections = null;
-
+    this.connections = null;
     this.highlighted = null;
   }
 }

@@ -199,6 +199,7 @@ const Timeline = React.createClass({
   },
 
   onTimePickerItemClicked(newTime) {
+    tracking.trackEvent(tracking.events.changingTimeWindowUsingTimeline);
     timelineStore.timeframe.emit(newTime);
     this.toggle();
   },
@@ -278,7 +279,6 @@ const Timeline = React.createClass({
   },
 
   focusSnapshot(issue) {
-    tracking.trackEvent(tracking.events.changingTimeWindowUsingTimeline);
     selectedSnapshotStore.select(issue.get('problem'));
   }
 });

@@ -5,7 +5,9 @@ import eventBus from 'in-services/eventbus';
 import CollisionComponent from '../../../../components/CollisionObjectComponent';
 
 import {cubeGeometry, defaultGeometryMaterial} from '../../../geometries';
+import {currentTooltip} from '../../../../stores/mapStore';
 import SceneObject from '../../../SceneObject/index';
+import TooltipMetric from '../../../Tooltips/Metric';
 
 let id = 0;
 
@@ -23,16 +25,22 @@ export default class MetricPillar extends SceneObject {
       }
     }));
 
+    this.tooltip = new TooltipMetric(parent);
+
     this.stateMachine.changeStateProperty('active', false);
   }
 
   initComponents() {
     super.initComponents();
     this.components.collision = new CollisionComponent({
-      sceneObject: this.parent,
+      sceneObject: this,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
+  }
+
+  onHighlightEnter() {
+    currentTooltip.emit(this.tooltip);
   }
 
   onInactiveEnter() {

@@ -1,5 +1,3 @@
-
-
 import RoEmitter from 'roemitter';
 import {createLogger} from 'instalog';
 

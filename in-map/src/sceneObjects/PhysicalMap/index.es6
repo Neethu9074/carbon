@@ -1,9 +1,10 @@
+// import Immutable from 'immutable';
 import THREE from 'three';
 import _ from 'lodash';
 
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {filters} from 'in-services/stores/mapFilters';
-import {getIdString, isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 import eventBus from 'in-services/eventbus';
 import {create} from 'in-services/conveyer';
 import {getZone} from 'in-sdk/zones';
@@ -35,6 +36,25 @@ export default class PhysicalMap extends SceneObject {
     this.createGroundGrid();
     this.bindToDatasource();
     this.registerEvents();
+
+    // this.counter = 0;
+    // for (let i = 0; i < 0; i++) {
+    //   this.addNode(Immutable.fromJS({
+    //     hostId: this.counter++,
+    //     steadyId: 's',
+    //     pluginId: 'com.instana.forge.infrastructure.os.OS',
+    //     data: {
+    //       hostname: this.hostId,
+    //       'cpu.count': 4,
+    //       'cpu.model': 'Intel',
+    //       'os.version': 'v',
+    //       'os.arch': '',
+    //       'os.name': 'Linux',
+    //       'memory.total': 2132456,
+    //       'swap.total': ''
+    //     }
+    //   }));
+    // }
   }
 
   createGroundGrid() {
@@ -134,32 +154,30 @@ export default class PhysicalMap extends SceneObject {
   }
 
   removeVanishedNodes(snapshots) {
-    // calculate the ids of each snapshot only once and save them to collection
-    const snapshotIds = snapshots.map(snapshot => getIdString(snapshot));
-
     // identify removed nodes: nodes that are not inside the snapshot update
-    getAllNodes(this)
-      // only the monitored
-      .filter(node => !node.isUnknown)
-      // only the ones that are not in snapshots anymore
-      .filter(node => {
-        const foundSnapshot = snapshotIds.find(id => getIdString(node.snapshot) === id);
-        return !foundSnapshot;
-      }).forEach((node) => node.dispose());
+    getAllNodes(this).forEach(node => {
+      if (node.isUnknown) {
+        return;
+      }
+      const snapshotExistsInUpdate = snapshots.some(snapshot => isIdEqual(node.snapshot, snapshot));
+      if (!snapshotExistsInUpdate) {
+        node.dispose();
+      }
+    });
   }
 
   removeAllUnknownNodesWithoutConnections() {
     // identify removed nodes: nodes that are not inside the snapshot update
-    getAllNodes(this)
-      //only the monitored
-      .filter(node => node.isUnknown)
-      //only the ones that are not in snapshots anymore
-      .filter(node => {
-        const wired = node.getWiredSnapshots();
-        return (wired.get('outgoing').length === 0 &&
-                wired.get('incoming').length === 0);
-      })
-      .forEach((node) => node.dispose());
+    getAllNodes(this).forEach(node => {
+      if (!node.isUnknown) {
+        return;
+      }
+
+      const wired = node.getWiredSnapshots();
+      if (wired.get('incoming').size === 0 && wired.get('outgoing').size === 0) {
+        node.dispose();
+      }
+    });
   }
 
   addNode(snapshot) {
@@ -172,8 +190,7 @@ export default class PhysicalMap extends SceneObject {
       return;
     }
 
-    //if the group has switched,
-    //delete the nodes in other groups than the current one
+    // if the group has switched delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(groupId, snapshot);
 
     this.filterNode(newNode);
@@ -262,11 +279,6 @@ export default class PhysicalMap extends SceneObject {
     });
 
     return match;
-  }
-
-  updateOfVisualComponents() {
-    //the map has no visual representation but the ground
-    //and this isn't changing
   }
 
   onZoom(zoomLevel) {

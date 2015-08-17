@@ -2,7 +2,6 @@ import THREE from 'three';
 
 import {theme} from 'in-services/theme';
 import eventBus from 'in-services/eventbus';
-import {getIdString} from 'in-services/util/snapshots';
 import {activeMetric} from 'in-services/stores/metrics';
 
 import HighlightingComponent from '../../../components/HighlightingComponent';
@@ -31,10 +30,10 @@ const emptyStickyObject = {
 export default class BaseNode extends SceneObject {
 
   constructor({parent, snapshot}) {
-    super({parent, id: getIdString(snapshot)});
+    super({parent, id: snapshot.get('id')});
 
-    this.scene = this.scene;
     this.snapshot = snapshot;
+    this.scene = this.scene;
     this.height = 1;
 
     this.tooltip = this.getTooltipSticky();
@@ -47,42 +46,50 @@ export default class BaseNode extends SceneObject {
     this.highlight();
 
     //show all connections as grey lines
-    this.getComponent('connection').highlightChanged(true);
+    this.getComponent('connection').stateMachine.changeStateProperty('active', true);
   }
 
   onHighlightLeave() {
     this.highlight(false);
 
     //hide the grey connection lines
-    this.getComponent('connection').highlightChanged(false);
+    this.getComponent('connection').stateMachine.changeStateProperty('active', false);
   }
 
   onSelectedEnter() {
     this.highlight();
 
     //show all connections as white lines
-    this.getComponent('connection').selectionChanged(true);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', true);
+    connectionComponent.stateMachine.changeStateProperty('selected', true);
   }
 
   onSelectedLeave() {
     this.highlight(false);
 
     //hide the white connection lines
-    this.getComponent('connection').selectionChanged(false);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', false);
+    connectionComponent.stateMachine.changeStateProperty('selected', false);
   }
 
   onSelectedHighlightEnter() {
     this.highlight();
 
     //show all connections as white lines
-    this.getComponent('connection').selectionChanged(true);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', true);
+    connectionComponent.stateMachine.changeStateProperty('selected', true);
   }
 
   onSelectedHighlightLeave() {
     this.highlight(false);
 
     //hide the white connection lines
-    this.getComponent('connection').selectionChanged(false);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', false);
+    connectionComponent.stateMachine.changeStateProperty('selected', false);
   }
 
   onHiddenEnter() {
@@ -101,6 +108,20 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.show();
   }
 
+  onIndirectHighlightEnter() {
+    this.highlight();
+  }
+
+  onIndirectHighlightLeave() {
+    this.highlight(false);
+  }
+
+  onInactiveEnter() {
+    super.onInactiveEnter();
+
+    this.getComponent('mesh').stateMachine.changeStateProperty('active', true);
+  }
+
   onInactiveLeave() {
     super.onInactiveLeave();
 
@@ -112,6 +133,7 @@ export default class BaseNode extends SceneObject {
   onHighlightInactiveEnter() {}
   onHighlightInactiveLeave() {}
 
+
   highlight(solid=true) {
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', solid);
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', solid);
@@ -122,17 +144,18 @@ export default class BaseNode extends SceneObject {
     super.initComponents();
 
     const id = this.id;
+    const sceneObject = this;
     const components = this.components;
 
     //add the collision component to handle the collision box
     components.collision = new CollisionComponent({
-      sceneObject: this,
+      sceneObject,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
 
     //add the connection component to handle all the visual connection lines
-    components.connection = new ConnectionComponent({sceneObject: this});
+    components.connection = new ConnectionComponent({sceneObject});
 
     const pcm = new PCM({
       contentProvider: new SCM({
@@ -143,7 +166,7 @@ export default class BaseNode extends SceneObject {
     //add the mesh component to handle visual representation of the node
     components.mesh = new MeshComponent({
       id: id + '_mesh',
-      sceneObject: this,
+      sceneObject,
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.singleMeshFactory
     });
@@ -153,7 +176,7 @@ export default class BaseNode extends SceneObject {
     //add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
       id: id + '_solidMesh',
-      sceneObject: this,
+      sceneObject,
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.highlightingSingleMeshFactory
     });
@@ -161,8 +184,7 @@ export default class BaseNode extends SceneObject {
 
     //add the highlighting component to handle the highlighting of a node
     //this is different to solidMesh since the highlighting is like a mouseOver effect
-    components.highlighting = new HighlightingComponent({sceneObject: this});
-    components.highlighting.stateMachine.changeStateProperty('active', false);
+    components.highlighting = new HighlightingComponent({sceneObject});
   }
 
   registerEvents() {
@@ -170,6 +192,14 @@ export default class BaseNode extends SceneObject {
       //update only if this node is visible
       if(!this.isHidden()) {
         this.update(data);
+      }
+    }));
+
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
+      if(this.isSelected()) {
+        const stateMachine = this.getComponent('connection').stateMachine;
+        stateMachine.changeStateProperty('active', false);
+        stateMachine.changeStateProperty('active', true);
       }
     }));
 
@@ -217,7 +247,7 @@ export default class BaseNode extends SceneObject {
     currentTooltip.emit(this.tooltip);
   }
 
-  updateOfVisualComponents() {
+  updateScreenAnchorPosition() {
     const anchor = this.getScreenAnchorPosition();
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
   }
@@ -228,7 +258,7 @@ export default class BaseNode extends SceneObject {
     this.getComponent('solidMesh').positionChanged(x, y, z);
     this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
-    this.updateOfVisualComponents();
+    this.updateScreenAnchorPosition();
   }
 
   setHeight(height) {
@@ -238,7 +268,7 @@ export default class BaseNode extends SceneObject {
     this.getComponent('solidMesh').sizeChanged(1, height, 1);
     this.getComponent('mesh').sizeChanged(1, height, 1);
     this.getComponent('highlighting').sizeChanged(1, height, 1);
-    this.updateOfVisualComponents();
+    this.updateScreenAnchorPosition();
   }
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }

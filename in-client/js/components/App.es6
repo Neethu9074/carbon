@@ -21,6 +21,7 @@ import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
+import DemoDialog from './DemoDialog';
 
 import './App.less';
 
@@ -106,20 +107,14 @@ const App = React.createClass({
         : null}
 
         {window.instana.config.environment === 'demo' ?
-          <div>
-            this.renderDemoDialog()
-          </div>
+          <DemoDialog />
         : null}
 
         <ConnectionStatus />
       </div>
     );
-  },
-
-  renderDemoDialog() {
-    const DemoDialog = require('./DemoDialog');
-    return <DemoDialog />;
   }
+
 });
 
 export default helpify(App);

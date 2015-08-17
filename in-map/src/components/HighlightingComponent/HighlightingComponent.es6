@@ -26,6 +26,10 @@ export default class HighlightingComponent extends Component {
     this.initialized();
   }
 
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', false);
+  }
+
   onInitialEnter() {
     this.show();
   }

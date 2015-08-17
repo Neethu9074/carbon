@@ -2,7 +2,6 @@ import THREE from 'three';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import {getIdString} from 'in-services/util/snapshots';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import HighlightingComponent from '../../components/HighlightingComponent';
@@ -22,7 +21,7 @@ import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 export default class Layer extends SceneObject {
 
   constructor({parent, snapshot}) {
-    super({parent, id: getIdString(snapshot)});
+    super({parent, id: snapshot.get('id')});
 
     this.snapshot = snapshot;
     this.layerIndex = 0; //see this.setLayerIndex
@@ -30,6 +29,7 @@ export default class Layer extends SceneObject {
     this.getComponent('position').setPosition(Infinity, 0, 0);
 
     this.temp = zoomLevel.subscribe(newLevel => {
+      this.currentZoomLevel = newLevel;
       const activateCollisions = newLevel === level.nearest && this.isActive();
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
@@ -97,6 +97,9 @@ export default class Layer extends SceneObject {
 
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+
+    const activateCollisions = this.currentZoomLevel === level.nearest;
+    this.getComponent('collision').stateMachine.changeStateProperty('active', activateCollisions);
   }
 
 
@@ -142,7 +145,6 @@ export default class Layer extends SceneObject {
     //add the highlighting component to handle the highlighting of a node
     //this is different to solidMesh since the highlighting is like a mouseOver effect
     components.highlighting = new HighlightingComponent({sceneObject: this});
-    components.highlighting.stateMachine.changeStateProperty('active', false);
   }
 
   //is called via hover event

@@ -64,14 +64,14 @@ describe('conveyer.SnapshotConveyer', () => {
     emitData({
       id: conveyer.snapshotId,
       data: [
-        {id: 1},
-        {id: 2}
+        {steadyId: 's1', pluginId: 'p1', hostId: 'h1'},
+        {steadyId: 's2', pluginId: 'p2', hostId: 'h2'}
       ]
     });
     expect(onNext.calledOnce).to.equal(true);
     expect(onNext.getCall(0).args[0].toJS()).to.deep.equal([
-      {id: 1},
-      {id: 2}
+      {steadyId: 's1', pluginId: 'p1', hostId: 'h1', id: 'h1#p1#s1'},
+      {steadyId: 's2', pluginId: 'p2', hostId: 'h2', id: 'h2#p2#s2'}
     ]);
   });
 

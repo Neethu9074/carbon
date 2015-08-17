@@ -1,5 +1,5 @@
 /*eslint-env mocha,node*/
-/*eslint-disable no-var*/
+/*eslint-disable no-var, vars-on-top, strict*/
 
 'use strict';
 
@@ -26,6 +26,9 @@ require('babel/register')({
   only: /es6/,
   ignore: '^$'
 });
+
+// support TypeScript
+require('typescript-require');
 
 // Ensuring a browser environment is simulated before React is loaded to avoid
 // "Error: Invariant Violation: Markup wrapping node not initialized"

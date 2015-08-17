@@ -1,6 +1,7 @@
 import Immutable from 'immutable';
 
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
+import * as tracking from 'in-services/tracking';
 
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
 import TooltipUnknownNode from '../../Tooltips/UnknownNode';
@@ -37,6 +38,14 @@ export default class Unknownnode extends BaseNode {
   }
 
 
+  onSceneObjectSelected(obj) {
+    super.onSceneObjectSelected(obj);
+
+    if (obj && obj.id === this.id) {
+      tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
+    }
+  }
+
   getTooltipSticky() {
     return new TooltipUnknownNode(this);
   }
@@ -56,13 +65,13 @@ export default class Unknownnode extends BaseNode {
 
         wired.get('outgoing').forEach(wiredSnapshot => {
           if(isIdEqual(thisSnapShot, wiredSnapshot)) {
-            outgoing.push(node.snapshot);
+            incoming.push(node.snapshot);
           }
         });
 
         wired.get('incoming').forEach(wiredSnapshot => {
           if(isIdEqual(thisSnapShot, wiredSnapshot)) {
-            incoming.push(node.snapshot);
+            outgoing.push(node.snapshot);
           }
         });
       });

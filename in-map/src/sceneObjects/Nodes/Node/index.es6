@@ -2,7 +2,8 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
+import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
@@ -18,7 +19,6 @@ import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
 import {longClickedSceneObject} from '../../../stores/mapStore';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
-import TooltipMetric from '../../Tooltips/Metric';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode/index';
 
@@ -76,6 +76,13 @@ export default class Node extends BaseNode {
     selectedSnapshot.select(this.snapshot);
   }
 
+  onSceneObjectSelected(obj) {
+    super.onSceneObjectSelected(obj);
+
+    if (obj && obj.id === this.id) {
+      tracking.trackEvent(tracking.events.clickOnServerIn3DMap);
+    }
+  }
 
   registerEvents() {
     super.registerEvents();
@@ -87,7 +94,7 @@ export default class Node extends BaseNode {
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
-        this.stateMachine.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
+        this.stateMachine.changeStateProperty('highlight', isIdEqual(highlighted, this.snapshot))
       )
     );
 
@@ -124,13 +131,8 @@ export default class Node extends BaseNode {
     return new TooltipNode(this);
   }
 
-  getNodeMetricTooltip() {
-    return new TooltipMetric(this);
-  }
-
   showMetrics(currentMetric) {
     this.stickyNote.switchToMetric();
-    this.tooltip = this.getNodeMetricTooltip();
 
     if(currentMetric.size === 1) {
       this.singleMetricPillar.stateMachine.changeStateProperty('active', true);
@@ -250,7 +252,7 @@ export default class Node extends BaseNode {
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
     this.getComponent('layer').positionChanged(x, y, z);
 
-    this.updateOfVisualComponents();
+    this.updateScreenAnchorPosition();
   }
 
   setHeight(height) {

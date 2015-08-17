@@ -27,11 +27,13 @@ describe('3D map', () => {
   describe('HighlightingComponent', () => {
 
     it('can be created', () => {
-      expect(component.isActive()).to.equal(true);
-      expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
+      expect(component.isActive()).to.equal(false);
+      expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(0);
     });
 
     it('should call external method', () => {
+      component.stateMachine.changeStateProperty('active', true);
+
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
       component.positionChanged(1, 2, 3);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
@@ -42,6 +44,8 @@ describe('3D map', () => {
     });
 
     it('should do force update even if there is no change', () => {
+      component.stateMachine.changeStateProperty('active', true);
+
       component.positionChanged(1, 2, 3);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
       component.handleComponentTimeEvent();

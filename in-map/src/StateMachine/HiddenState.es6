@@ -1,6 +1,7 @@
-import State from './State';
+import AState from './AState';
 
-export default class HiddenState extends State {
+
+export default class HiddenState extends AState {
 
   constructor(baseNode) {
     super(baseNode);

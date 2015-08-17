@@ -6,7 +6,8 @@ export const events = {
   openingADashboard: '000000370614',
   showMetricIn3dMap: '000000370623',
   clickOnConnectionBetweenCubes: '000000370625',
-  changingTimeWindowUsingTimeline: '000000370627'
+  changingTimeWindowUsingTimeline: '000000370627',
+  clickOnUnMonitoredIn3dMap: '000000370835'
 };
 
 export function identify() {

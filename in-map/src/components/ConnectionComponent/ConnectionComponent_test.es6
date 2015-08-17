@@ -21,7 +21,7 @@ describe('3D map', () => {
   describe('ConnectionComponent', () => {
 
     it('can be created', () => {
-      expect(component.isActive()).to.equal(true);
+      expect(component.isActive()).to.equal(false);
     });
 
   });

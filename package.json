@@ -10,7 +10,7 @@
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
     "eslint": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js" ,
     "eslintOne": "eslint --ext .es6 ",
-    "test": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
+    "test": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.ts' -o -name '*_test.es6')",
     "dev": "./build/run-dev.js"
   },
   "repository": {
@@ -78,6 +78,9 @@
     "sinon": "^1.14.1",
     "sinon-chai": "^2.8.0",
     "style-loader": "^0.8.3",
+    "ts-loader": "^0.5.0",
+    "tsd": "^0.6.3",
+    "typescript-require": "^0.2.9",
     "url-loader": "^0.5.5",
     "webpack": "^1.5.3",
     "webpack-dev-server": "^1.7.0"

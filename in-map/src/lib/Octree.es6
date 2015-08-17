@@ -473,8 +473,7 @@ import THREE from 'three';
         directionPct;
 
       // add root objects
-
-      objects = [].concat( this.root.objects );
+      objects = this.root.objects;
 
       // ensure radius (i.e. distance of ray) is a number
 

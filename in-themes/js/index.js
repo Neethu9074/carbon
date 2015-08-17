@@ -3,6 +3,8 @@
 
 'use strict';
 
+var zIndex = 1;
+
 var colors = {
   white: '#FFFFFF',
   black: '#121416',
@@ -77,28 +79,42 @@ exports.consts = {
     common: {
       fontFamily: '\'Open Sans\', sans-serif',
       fontColor: '#fcfcfc',
-      backgroundColor: '#0D1217'
+      backgroundColor: '#0D1217',
+      highlightColor: '#94eced',
+      subtleText: '#ccc'
     },
     zIndex: {
-      stickyNotes: 1,
-      sidebar: 2,
-      search: 2,
-      header: 3,
-      notificationCenter: 5,
-      dashboard: 5,
-      footer: 6,
-      flyOutNotifications: 7,
-      timepicker: 8,
-      menuPopup: 8,
-      tooltips: 100,
-      backdrop: 200,
-      dialog: 201,
-      demoSignIn: 300
+      map: zIndex,
+      lettering: zIndex++,
+      stickyNotes: zIndex++,
+      sidebar: zIndex++,
+      search: zIndex++,
+      header: zIndex++,
+      notificationCenter: zIndex++,
+      dashboard: zIndex++,
+      footer: zIndex++,
+      flyOutNotifications: zIndex++,
+      timepicker: zIndex++,
+      menuPopup: zIndex++,
+      toast: zIndex++,
+      tooltips: zIndex++,
+      tour: {
+        inputBlocker: zIndex++,
+        fragment: zIndex++,
+        overlay: zIndex++,
+        dialog: zIndex++
+      },
+      backdrop: zIndex++,
+      dialog: zIndex++,
+      demoSignIn: zIndex++
     },
     health: {
       danger: colors.danger,
       warning: colors.warning,
       ok: colors.default
+    },
+    footer: {
+      height: 50
     },
     map: {
       colors: {

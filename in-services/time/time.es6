@@ -1,5 +1,3 @@
-
-
 import * as connection from '../connection';
 
 // This is an attempt to "synchronize" the time between client (browser) and
