@@ -94,7 +94,7 @@ const NodeTooltipRC = React.createClass({
         content = <Content>{suggestion}</Content>;
       }
 
-    } else if (layer.length > 2) {
+    } else if (layer.length > 0) {
       const types = {}; // maps type -> counter
       layer.forEach(item => {
         const pluginId = item.snapshot.get('pluginId');
