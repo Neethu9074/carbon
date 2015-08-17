@@ -62,9 +62,7 @@ const Sidebar = React.createClass({
     return (
       <div className={block}>
         <Controls activeControl={this.state.activeControl}
-                  onChangeActiveControl={this.onChangeActiveControl}
-                  activeHealthFilter={this.state.activeHealthFilter}
-                  onChangeActiveHealthFilter={this.onChangeActiveHealthFilter} />
+                  onChangeActiveControl={this.onChangeActiveControl} />
       </div>
     );
   },
