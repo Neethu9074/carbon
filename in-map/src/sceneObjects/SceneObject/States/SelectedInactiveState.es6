@@ -1,7 +1,7 @@
-import State from './State';
+import AState from '../../../StateMachine/AState';
 
 
-export default class SelectedInactiveState extends State {
+export default class SelectedInactiveState extends AState {
 
   constructor(baseNode) {
     super(baseNode);

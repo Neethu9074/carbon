@@ -62,8 +62,8 @@ describe('3D map', () => {
 
       it('should contain unique pairs', () => {
         const handled = [];
-        for (let i = 0; i < obj.stateMachine.getLookUpTable().length; i++) {
-          const pair = obj.stateMachine.getLookUpTable()[i];
+        for (let i = 0; i < obj.stateMachine.stateLookUpTable.length; i++) {
+          const pair = obj.stateMachine.stateLookUpTable[i];
           const match = matches(pair, handled);
           handled.push(pair);
           expect(match).to.equal(void 0);

@@ -1,5 +1,6 @@
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
+import AStateMachine from '../StateMachine/AStateMachine';
 
 
 /*eslint-disable no-multi-spaces*/
@@ -10,46 +11,20 @@ const stateLUT = [
 ];
 /*eslint-enable no-multi-spaces*/
 
-class StateMachine {
+class StateMachine extends AStateMachine {
 
   constructor(states) {
-    this.stateLookUpTable = stateLUT;
-    this.states = states;
-    this.stateProperties = {
-      active: true
-    };
-    this.state = this.states.initial;
+    super({
+      states,
+      stateProperties: { active: true },
+      stateLUT});
   }
 
-  getStateFromLut({active, states}) {
-    for (let i = 0; i < stateLUT.length; i++) {
-      const entry = stateLUT[i];
-      if(active === entry[0][0]) {
-        return states[entry[1]];
-      }
+  checkAgainstCurrentProperties(flags) {
+    if(this.stateProperties.active === flags[0]) {
+      return true;
     }
-  }
-
-  changeStateProperty(name, value) {
-    if(this.stateProperties[name] !== value) {
-      this.stateProperties[name] = value;
-      this.updateState();
-    }
-  }
-
-  updateState() {
-    const props = this.stateProperties;
-    const oldState = this.state;
-    const newState = this.getStateFromLut({
-      active: props.active,
-      states: this.states
-    });
-
-    if(oldState !== newState) {
-      oldState.leave();
-      this.state = newState;
-      newState.enter();
-    }
+    return false;
   }
 }
 

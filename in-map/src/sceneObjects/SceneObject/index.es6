@@ -1,4 +1,5 @@
 import PositionComponent from '../../components/PositionComponent';
+import AStateMachine from '../../StateMachine/AStateMachine';
 
 import {currentScene} from '../../stores/mapStore';
 import {setupStates} from './States/index';
@@ -41,63 +42,32 @@ const stateLUT = [
 ];
 /*eslint-enable no-multi-spaces*/
 
-class StateMachine {
+class StateMachine extends AStateMachine {
 
   constructor(states) {
-    this.stateLookUpTable = stateLUT;
-    this.states = states;
-    this.stateProperties = {
-      mouseOver: false,
-      selected: false,
-      indirect: false,
-      hidden: false,
-      active: true
-    };
-    this.state = this.states.initial;
+    super({
+      states,
+      stateProperties: {
+        mouseOver: false,
+        selected: false,
+        indirect: false,
+        hidden: false,
+        active: true
+      },
+      stateLUT});
   }
 
-  getStateFromLut({mouseOver, selected, active, hidden, indirect, states}) {
-    for (let i = 0; i < stateLUT.length; i++) {
-      const entry = stateLUT[i];
-      if(mouseOver === entry[0][0] &&
-         selected === entry[0][1] &&
-         active === entry[0][2] &&
-         hidden === entry[0][3] &&
-         indirect === entry[0][4]
-      ) {
-        return states[entry[1]];
-      }
+  checkAgainstCurrentProperties(flags) {
+    const stateProps = this.stateProperties;
+    if(stateProps.mouseOver === flags[0] &&
+       stateProps.selected === flags[1] &&
+       stateProps.active === flags[2] &&
+       stateProps.hidden === flags[3] &&
+       stateProps.indirect === flags[4]
+    ) {
+      return true;
     }
-  }
-
-  changeStateProperty(name, value) {
-    if(this.stateProperties[name] !== value) {
-      this.stateProperties[name] = value;
-      this.updateState();
-    }
-  }
-
-  updateState() {
-    const props = this.stateProperties;
-    const oldState = this.state;
-    const newState = this.getStateFromLut({
-      mouseOver: props.mouseOver,
-      selected: props.selected,
-      indirect: props.indirect,
-      active: props.active,
-      hidden: props.hidden,
-      states: this.states
-    });
-
-    if(oldState !== newState) {
-      oldState.leave();
-      this.state = newState;
-      newState.enter();
-    }
-  }
-
-  getLookUpTable() {
-    return stateLUT;
+    return false;
   }
 }
 

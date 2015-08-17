@@ -1,6 +1,6 @@
-import State from './State';
+import AState from '../../../StateMachine/AState';
 
-export default class IndirectHighlightedState extends State {
+export default class IndirectHighlightedState extends AState {
 
   constructor(baseNode) {
     super(baseNode);
