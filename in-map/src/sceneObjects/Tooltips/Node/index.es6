@@ -17,8 +17,8 @@ import Tooltip from '../Tooltip';
 
 import './index.less';
 
+const block = 'in-tooltip__node';
 
-/*eslint-disable no-unused-vars*/
 const NodeTooltipRC = React.createClass({
 
   mixins: [
@@ -27,7 +27,8 @@ const NodeTooltipRC = React.createClass({
   ],
 
   propTypes: {
-    snapshot: React.PropTypes.object.isRequired
+    snapshot: React.PropTypes.object.isRequired,
+    layer: React.PropTypes.array.isRequired
   },
 
   getInitialState() {
@@ -51,7 +52,7 @@ const NodeTooltipRC = React.createClass({
     const data = this.props.snapshot.get('data');
 
     //only show the status line if there is a "bad" health or some issues
-    if(nodeHealth !== health.ok && this.issuesAvailable()) {
+    if (nodeHealth !== health.ok && this.issuesAvailable()) {
         try {
           return (<IssueStatusLine
             left={data.get('hostname')}
@@ -66,15 +67,14 @@ const NodeTooltipRC = React.createClass({
   getHeading() {
     const nodeHealth = this.state.health;
     const snapshot = this.props.snapshot;
-    const data = snapshot.get('data');
     const issues = this.state.issues;
 
-    let text = getSingular(snapshot.get('pluginId'));
+    let text = getSingular(snapshot.get('pluginId')) + ': ' + getLabel(this.props.snapshot);
     let cssClass = '';
 
-    if(this.issuesAvailable()) {
+    if (this.issuesAvailable()) {
       text = issues.getIn([0, 'problemText']);
-      cssClass = 'in-tooltip__node-heading--' + nodeHealth;
+      cssClass = block + '-heading--' + nodeHealth;
     }
 
     return {text, cssClass};
@@ -85,23 +85,52 @@ const NodeTooltipRC = React.createClass({
   },
 
   getContent() {
-    let content = getLabel(this.props.snapshot);
+    let content = <Content>{this.props.snapshot.get('hostId')}</Content>;
+    const layer = this.props.layer;
 
-    if(this.issuesAvailable()) {
+    if (this.issuesAvailable()) {
       const suggestion = this.state.issues.getIn([0, 'fixSuggestion']);
-      if(suggestion) {
-        content = suggestion;
+      if (suggestion) {
+        content = <Content>{suggestion}</Content>;
       }
+
+    } else if (layer.length > 2) {
+      const types = {};
+      layer.forEach(item => {
+        const type = getSingular(item.snapshot.get('pluginId'));
+        if(!types[type]) {
+          types[type] = 0;
+        }
+        types[type]++;
+      });
+
+      const listItems = Object.keys(types).map(type => {
+        return (
+          <li key={type} className={block + '__li'}>
+            <div className={block + '__li-wrapper'}>
+              <Heading className={block + '__li-header'}>
+                {types[type]}
+              </Heading>
+              <Content className={block + '__li-content'}>
+                {type}
+              </Content>
+            </div>
+          </li>
+        );
+      });
+
+      content = <ul className={block + '__ul'}> {listItems} </ul>;
     }
     return content;
   },
 
   render() {
-    if(!this.props.snapshot) {
+    if (!this.props.snapshot) {
       return null;
     }
 
     const heading = this.getHeading();
+    const content = this.getContent();
 
     return (
       <TooltipFrame>
@@ -111,14 +140,11 @@ const NodeTooltipRC = React.createClass({
         <Heading className={heading.cssClass}>
           {heading.text.toUpperCase()}
         </Heading>
-        <Content>
-          {this.getContent()}
-        </Content>
+        {content}
       </TooltipFrame>
     );
   }
 });
-/*eslint-enable no-unused-vars*/
 
 export default class TooltipNode extends Tooltip {
   constructor(parent) {
@@ -129,6 +155,7 @@ export default class TooltipNode extends Tooltip {
     React.render(
       <NodeTooltipRC
         snapshot={this.parent.snapshot}
+        layer={this.parent.getComponent('layer').layer}
       />,
       this.stickyNoteContainer
     );
