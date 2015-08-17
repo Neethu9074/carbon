@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {filters} from 'in-services/stores/mapFilters';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 import eventBus from 'in-services/eventbus';
 import {create} from 'in-services/conveyer';
 import {getZone} from 'in-sdk/zones';
@@ -159,8 +159,7 @@ export default class PhysicalMap extends SceneObject {
       if (node.isUnknown) {
         return;
       }
-      const nodeSnapshotId = node.snapshot.get('id');
-      const snapshotExistsInUpdate = snapshots.some(snapshot => nodeSnapshotId === snapshot.get('id'));
+      const snapshotExistsInUpdate = snapshots.some(snapshot => isIdEqual(node.snapshot, snapshot));
       if (!snapshotExistsInUpdate) {
         node.dispose();
       }

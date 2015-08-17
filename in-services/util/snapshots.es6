@@ -63,6 +63,25 @@ export function isIdEqual(id1, id2) {
 }
 
 /**
+ * Determines whether both IDs are equal. Extracts only id
+ *
+ * @param {Immutable.Map} snapshot1
+ * @param {Immutable.Map} snapshot2
+ * @return {boolean} true when both IDs describe the same snapshot
+ */
+export function isIdEqualShort(snapshot1, snapshot2) {
+  if(snapshot1 === snapshot2) {
+    return true;
+  } else if (snapshot1 !== null && snapshot2 === null) {
+    return false;
+  } else if (snapshot1 === null && snapshot2 !== null) {
+    return false;
+  }
+
+  return snapshot1.get('id') === snapshot2.get('id');
+}
+
+/**
  * Turns the snapshot into an ID string which can be used as a key in
  * Objects.
  *
