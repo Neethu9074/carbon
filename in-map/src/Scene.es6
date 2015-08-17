@@ -74,7 +74,7 @@ export default class Scene {
       parent: this
     });
 
-    //set this flag to force a render cycle
+    // set this flag to force a render cycle
     this.shouldRenderScene = true;
   }
 
@@ -173,7 +173,6 @@ export default class Scene {
       this.layerSingleMeshFactory.rebuild();
       this.singleMeshFactory.rebuild();
       this.lineFactory.rebuild();
-      this.renderScene();
     };
 
     time.addTimeEventListener({
