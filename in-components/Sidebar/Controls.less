@@ -1,0 +1,79 @@
+@import "~in-themes/less/constants.less";
+
+.in-sidebar-controls {
+  @focus-transition-duration: 0.2s;
+  @control-icon-width: 1.8rem;
+  @control-icon-padding: 0.35rem;
+
+  position: fixed;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+
+  &__control-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    margin: 0;
+    padding: 0;
+
+    z-index: @z-index__sidebar-controls;
+  }
+
+  &__control-item {
+    display: block;
+    margin: 0.1rem 0;
+
+    list-style: none;
+
+    background: #263238;
+    transition: background @focus-transition-duration ease-in-out;
+
+    @border-radius: 0.35rem;
+    border-top-left-radius: @border-radius;
+    border-bottom-left-radius: @border-radius;
+
+    &:hover {
+      background: #1E2629;
+    }
+
+    &--start-of-group {
+      margin-top: 1rem;
+    }
+  }
+
+  &__multi-control {
+    margin: 0;
+    padding: 0;
+    // max-width: @control-icon-width + @control-icon-padding * 2 /*left and right padding*/;
+
+    // display: flex;
+
+    // &--open {
+    //   // just use something large so that opening it will be animated
+    //   max-width: 100rem;
+    //   flex-direction: row-reverse;
+    // }
+  }
+
+  &__control-icon {
+    min-width: @control-icon-width;
+    font-size: @control-icon-width;
+
+    display: inline-block;
+    padding: @control-icon-padding;
+
+    color: @common__highlight-color;
+    text-align: center;
+    cursor: pointer;
+
+    opacity: 0.6;
+    transition: opacity @focus-transition-duration ease-in-out;
+
+    &:hover, &--active {
+      opacity: 1;
+    }
+  }
+
+}

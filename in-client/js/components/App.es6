@@ -13,13 +13,13 @@ import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
+import Sidebar from 'in-components/Sidebar';
 import {create} from 'in-services/conveyer';
 import Map from 'in-map';
 
 import ConnectionStatus from './ConnectionStatus';
 import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
-import Sidebar from './Sidebar';
 import Footer from './Footer';
 import DemoDialog from './DemoDialog';
 
@@ -92,11 +92,11 @@ const App = React.createClass({
           <ChoosePluginButton onClick={this.togglePlugin}/>
         : null}
 
-        <div style={{display: hasChildren ? 'none' : 'block'}}>
+        <section style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginIds={this.state.pluginIds} />
           <Sidebar pluginIds={this.state.pluginIds} />
           <FeedbackBadge />
-        </div>
+        </section>
 
         <Footer />
 
