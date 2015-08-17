@@ -1,5 +1,7 @@
 import * as ro from 'reactive-observables';
 
+import {theme} from 'in-services/theme';
+
 import TouchController from './TouchCameraController_temp';
 import {cursorPosition} from '../stores/mapStore';
 
@@ -15,7 +17,7 @@ export default class MouseControl extends TouchController {
       e.preventDefault();
 
       const roundedX = e.clientX | 0;
-      const roundedY = e.clientY | 0;
+      const roundedY = (e.clientY | 0) + theme.footer.height;
       if (this.lastMousePosition.x !== roundedX ||
           this.lastMousePosition.y !== roundedY) {
         this.lastMousePosition.x = roundedX;
