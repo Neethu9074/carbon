@@ -22,7 +22,7 @@ export default class HealthComponent extends Component {
   }
 
   onInactiveLeave() {
-    this.needsUpdate = true;
+    this.sceneObject.healthChanged(this.healthToSet);
   }
 
 
