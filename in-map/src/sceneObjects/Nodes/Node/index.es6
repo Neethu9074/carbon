@@ -94,7 +94,7 @@ export default class Node extends BaseNode {
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
-        this.stateMachine.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
+        this.stateMachine.changeStateProperty('highlight', isIdEqual(highlighted, this.snapshot))
       )
     );
 

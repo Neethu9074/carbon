@@ -92,7 +92,7 @@ export default class SceneObject {
   }
 
   isHighlighted() {
-    return this.stateMachine.stateProperties.mouseOver;
+    return this.stateMachine.stateProperties.highlight;
   }
 
   isActive() {
@@ -166,7 +166,7 @@ export default class SceneObject {
   }
 
   onHighlight(highlighted) {
-    this.stateMachine.changeStateProperty('mouseOver', highlighted);
+    this.stateMachine.changeStateProperty('highlight', highlighted);
   }
 
   updateScreenPosition() {
@@ -201,7 +201,7 @@ export default class SceneObject {
     this.subscriptions = [];
 
     //reset states so that inactive state is taken
-    this.stateMachine.changeStateProperty('mouseOver', false);
+    this.stateMachine.changeStateProperty('highlight', false);
     this.stateMachine.changeStateProperty('selected', false);
     this.stateMachine.changeStateProperty('active', false);
 

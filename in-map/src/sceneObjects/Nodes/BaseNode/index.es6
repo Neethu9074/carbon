@@ -55,7 +55,6 @@ export default class BaseNode extends SceneObject {
 
     //hide the grey connection lines
     this.getComponent('connection').stateMachine.changeStateProperty('active', false);
-    // this.getComponent('connection').highlightChanged(false);
   }
 
   onSelectedEnter() {
@@ -64,7 +63,6 @@ export default class BaseNode extends SceneObject {
     //show all connections as white lines
     this.getComponent('connection').stateMachine.changeStateProperty('active', true);
     this.getComponent('connection').stateMachine.changeStateProperty('selected', true);
-    // this.getComponent('connection').selectionChanged(true);
   }
 
   onSelectedLeave() {
@@ -73,7 +71,6 @@ export default class BaseNode extends SceneObject {
     //hide the white connection lines
     this.getComponent('connection').stateMachine.changeStateProperty('active', false);
     this.getComponent('connection').stateMachine.changeStateProperty('selected', false);
-    // this.getComponent('connection').selectionChanged(false);
   }
 
   onSelectedHighlightEnter() {
@@ -82,7 +79,6 @@ export default class BaseNode extends SceneObject {
     //show all connections as white lines
     this.getComponent('connection').stateMachine.changeStateProperty('active', true);
     this.getComponent('connection').stateMachine.changeStateProperty('selected', true);
-    // this.getComponent('connection').selectionChanged(true);
   }
 
   onSelectedHighlightLeave() {
@@ -91,7 +87,6 @@ export default class BaseNode extends SceneObject {
     //hide the white connection lines
     this.getComponent('connection').stateMachine.changeStateProperty('active', false);
     this.getComponent('connection').stateMachine.changeStateProperty('selected', false);
-    // this.getComponent('connection').selectionChanged(false);
   }
 
   onHiddenEnter() {

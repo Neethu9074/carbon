@@ -93,19 +93,19 @@ describe('3D map', () => {
       it('should not do anything if there is no update on state', () => {
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        //mouseOver is false by default so there shouldn't be any update
-        stateMachine.changeStateProperty('mouseOver', false);
+        //highlight is false by default so there shouldn't be any update
+        stateMachine.changeStateProperty('highlight', false);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
       });
 
-      it('should update to highlighted on mouseOver', () => {
+      it('should update to highlighted on highlight', () => {
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
 
-        stateMachine.changeStateProperty('mouseOver', true);
+        stateMachine.changeStateProperty('highlight', true);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
 
         //no update on double set
-        stateMachine.changeStateProperty('mouseOver', true);
+        stateMachine.changeStateProperty('highlight', true);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
       });
 
@@ -124,12 +124,12 @@ describe('3D map', () => {
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('mouseOver', true);
+        stateMachine.changeStateProperty('highlight', true);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('mouseOver', false);
+        stateMachine.changeStateProperty('highlight', false);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
         expect(sceneObject.onHighlightLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
@@ -193,7 +193,7 @@ describe('3D map', () => {
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('mouseOver', true);
+        stateMachine.changeStateProperty('highlight', true);
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
 
@@ -233,7 +233,7 @@ describe('3D map', () => {
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onInactiveEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('mouseOver', true);
+        stateMachine.changeStateProperty('highlight', true);
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onInactiveEnterStub.callCount).to.equal(1);

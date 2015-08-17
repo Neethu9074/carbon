@@ -19,7 +19,9 @@ export default class ConnectionComponent extends Component {
   }
 
   onInitialEnter() {
-    console.log('i e');
+    this.setupConnections();
+
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', true));
   }
 
   onInitialLeave() {
@@ -59,7 +61,7 @@ export default class ConnectionComponent extends Component {
     }
 
     this.getAllConnections().forEach(c =>
-      c.stateMachine.changeStateProperty('mouseOver', highlighted));
+      c.stateMachine.changeStateProperty('highlight', highlighted));
 
     this.highlighted = highlighted;
   }

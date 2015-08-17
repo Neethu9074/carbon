@@ -14,7 +14,7 @@ import HiddenState from './HiddenState';
 
 /*eslint-disable no-multi-spaces*/
 const stateLUT = [
-  //mouseOver,  selected,   active    hidden    indirect  result state
+  //highlight,  selected,   active    hidden    indirect  result state
   [[false,      false,      true,     false,    false],   'initial'],
   [[false,      true,       true,     false,    false],   'selected'],
   [[true,       false,      true,     false,    false],   'highlighted'],
@@ -55,7 +55,7 @@ export default class StateMachine extends AStateMachine {
   constructor(owner) {
     super({
       stateProperties: {
-        mouseOver: false,
+        highlight: false,
         selected: false,
         indirect: false,
         hidden: false,
@@ -83,7 +83,7 @@ export default class StateMachine extends AStateMachine {
 
   checkAgainstCurrentProperties(flags) {
     const stateProps = this.stateProperties;
-    if(stateProps.mouseOver === flags[0] &&
+    if(stateProps.highlight === flags[0] &&
        stateProps.selected === flags[1] &&
        stateProps.active === flags[2] &&
        stateProps.hidden === flags[3] &&
