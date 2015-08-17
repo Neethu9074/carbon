@@ -1,64 +1,13 @@
 import _ from 'lodash';
 
-import HighlightedState from '../../StateMachine/HighlightedState';
-import SelectedState from '../../StateMachine/SelectedState';
-import InactiveState from '../../StateMachine/InactiveState';
-import InitialState from '../../StateMachine/InitialState';
-
-import AStateMachine from '../../StateMachine/AStateMachine';
 import Connection from '../../sceneObjects/Connection/index';
 import Component from '../Component';
 
 
-/*eslint-disable no-multi-spaces*/
-const stateLUT = [
-  //mouseOver,  selected,   active  result state
-  [[false,      false,      true],  'initial'],
-  [[false,      false,      false], 'inactive'],
-  [[false,      true,       false], 'inactive'],
-  [[false,      true,       true],  'selected'],
-  [[true,       false,      false], 'inactive'],
-  [[true,       false,      true],  'highlighted'],
-  [[true,       true,       false], 'inactive'],
-  [[true,       true,       true],  'selected']
-];
-/*eslint-enable no-multi-spaces*/
-
-class StateMachine extends AStateMachine {
-
-  constructor(owner) {
-    super({
-      stateProperties: { active: true, highlight: false, selected: false },
-      stateLUT,
-      owner
-    });
-  }
-
-  setupStates(owner) {
-    return {
-      highlighted: new HighlightedState(owner),
-      selected: new SelectedState(owner),
-      inactive: new InactiveState(owner),
-      initial: new InitialState(owner)
-    };
-  }
-
-  checkAgainstCurrentProperties(flags) {
-    const stateProps = this.stateProperties;
-    if(stateProps.highlight === flags[0] &&
-       stateProps.selected === flags[1] &&
-       stateProps.active === flags[2]
-    ) {
-      return true;
-    }
-    return false;
-  }
-}
-
 export default class ConnectionComponent extends Component {
 
   constructor({sceneObject}) {
-    super(sceneObject, StateMachine);
+    super(sceneObject);
 
     this.connections = [];
 
