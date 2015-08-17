@@ -13,8 +13,9 @@ export default class Component {
   }
 
   initialized() {
-    this.stateMachine.state.enter();
+    this.stateMachine.initialized();
   }
+
 
   onInitialEnter() {}
   onInitialLeave() {}

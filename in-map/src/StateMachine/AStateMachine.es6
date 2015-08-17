@@ -9,6 +9,10 @@ export default class AStateMachine {
     this.state = this.states.initial;
   }
 
+  initialized() {
+    this.state.enter();
+  }
+
   setupStates() {
     throw new Error('NOT IMPLEMENTED YET');
   }

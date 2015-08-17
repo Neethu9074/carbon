@@ -12,7 +12,6 @@ export default class PositionComponent extends Component {
     this.initialized();
   }
 
-
   setPosition(x, y, z) {
     const pos = this.position;
     if(pos.x === x && pos.y === y && pos.z === z) {
