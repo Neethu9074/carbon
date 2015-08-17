@@ -158,8 +158,8 @@ export default class CameraController {
   }
 
   handleRayCasting() {
-    const hittenOld = this.hittenObject;
     const hoveredConnections = this.hoveredConnections;
+    const hittenOld = this.hittenObject;
     this.getObjectOnCursor();
     const hittenNew = this.hittenObject;
 

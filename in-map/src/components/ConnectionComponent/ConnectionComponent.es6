@@ -20,28 +20,17 @@ export default class ConnectionComponent extends Component {
 
   onInitialEnter() {
     this.setupConnections();
-
     this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', true));
   }
 
-  onInitialLeave() {
-    console.log('i l');
-  }
-
-  onHighlightEnter() {
-    console.log('h e');
-  }
-
-  onHighlightLeave() {
-    console.log('h l');
-  }
-
   onSelectedEnter() {
-    console.log('s e');
+    this.setupConnections();
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
   }
 
-  onSelectedLeave() {
-    console.log('s l');
+  onSelectedHighlightEnter() {
+    this.setupConnections();
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
   }
 
   onInactiveEnter() {

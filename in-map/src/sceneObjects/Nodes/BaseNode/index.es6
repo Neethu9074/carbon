@@ -47,7 +47,6 @@ export default class BaseNode extends SceneObject {
 
     //show all connections as grey lines
     this.getComponent('connection').stateMachine.changeStateProperty('active', true);
-    // this.getComponent('connection').highlightChanged(true);
   }
 
   onHighlightLeave() {
@@ -61,32 +60,36 @@ export default class BaseNode extends SceneObject {
     this.highlight();
 
     //show all connections as white lines
-    this.getComponent('connection').stateMachine.changeStateProperty('active', true);
-    this.getComponent('connection').stateMachine.changeStateProperty('selected', true);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', true);
+    connectionComponent.stateMachine.changeStateProperty('selected', true);
   }
 
   onSelectedLeave() {
     this.highlight(false);
 
     //hide the white connection lines
-    this.getComponent('connection').stateMachine.changeStateProperty('active', false);
-    this.getComponent('connection').stateMachine.changeStateProperty('selected', false);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', false);
+    connectionComponent.stateMachine.changeStateProperty('selected', false);
   }
 
   onSelectedHighlightEnter() {
     this.highlight();
 
     //show all connections as white lines
-    this.getComponent('connection').stateMachine.changeStateProperty('active', true);
-    this.getComponent('connection').stateMachine.changeStateProperty('selected', true);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', true);
+    connectionComponent.stateMachine.changeStateProperty('selected', true);
   }
 
   onSelectedHighlightLeave() {
     this.highlight(false);
 
     //hide the white connection lines
-    this.getComponent('connection').stateMachine.changeStateProperty('active', false);
-    this.getComponent('connection').stateMachine.changeStateProperty('selected', false);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', false);
+    connectionComponent.stateMachine.changeStateProperty('selected', false);
   }
 
   onHiddenEnter() {

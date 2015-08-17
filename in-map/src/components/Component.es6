@@ -21,10 +21,24 @@ export default class Component {
   }
 
 
-  onInitialEnter() {}
-  onInitialLeave() {}
   onInactiveEnter() {}
   onInactiveLeave() {}
+  onInitialEnter() {}
+  onInitialLeave() {}
+  onHighlightEnter() {}
+  onHighlightLeave() {}
+  onSelectedEnter() {}
+  onSelectedLeave() {}
+  onSelectedHighlightEnter() {}
+  onSelectedHighlightLeave() {}
+  onSelectedHighlightInactiveEnter() {}
+  onSelectedHighlightInactiveLeave() {}
+  onIndirectHighlightEnter() {}
+  onIndirectHighlightLeave() {}
+  onHighlightInactiveEnter() {}
+  onHighlightInactiveLeave() {}
+  onSelectedInactiveEnter() { this.onInactiveEnter(); }
+  onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   isActive() {
     return this.stateMachine.stateProperties.active;
