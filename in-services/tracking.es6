@@ -7,7 +7,11 @@ export const events = {
   showMetricIn3dMap: '000000370623',
   clickOnConnectionBetweenCubes: '000000370625',
   changingTimeWindowUsingTimeline: '000000370627',
-  clickOnUnMonitoredIn3dMap: '000000370835'
+  clickOnUnMonitoredIn3dMap: '000000370835',
+  finishATour: '000000374837',
+  skipATour: '000000374839',
+  nextStepInTour: '000000374840',
+  previousStepInTour: '000000374841'
 };
 
 export function identify() {

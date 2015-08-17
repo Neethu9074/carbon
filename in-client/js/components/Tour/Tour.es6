@@ -1,6 +1,7 @@
 import React from 'react/addons';
 import * as ro from 'reactive-observables';
 
+import * as tracking from 'in-services/tracking';
 import Button from 'in-components/Button';
 import keyCodes from 'in-components/keyCodes';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -152,7 +153,7 @@ const GuidedTour = React.createClass({
     const keyCode = e.keyCode;
 
     if (keyCode === keyCodes.escape) {
-      this.stopTour();
+      this.skipTour();
     } else if (keyCode === keyCodes.arrows.right) {
       this.nextStep();
     } else if (keyCode === keyCodes.arrows.left) {
@@ -168,10 +169,17 @@ const GuidedTour = React.createClass({
     });
   },
 
+  skipTour() {
+    tracking.trackEvent(tracking.events.skipATour);
+    this.stopTour();
+  },
+
   nextStep() {
     if (this.state.activeStep + 1 >= tourDefinition.steps.length) {
+      tracking.trackEvent(tracking.events.finishATour);
       this.stopTour();
     } else {
+      tracking.trackEvent(tracking.events.nextStepInTour);
       const nextStepIndex = this.state.activeStep + 1;
       const step = tourDefinition.steps[nextStepIndex];
       if (step.before && !step.beforeExecuted) {
@@ -185,6 +193,7 @@ const GuidedTour = React.createClass({
   },
 
   previousStep() {
+    tracking.trackEvent(tracking.events.previousStepInTour);
     this.setState({
       activeStep: Math.max(this.state.activeStep - 1, 0)
     });
@@ -209,7 +218,7 @@ const GuidedTour = React.createClass({
               Hint {this.state.activeStep + 1} / {tourDefinition.steps.length}
             </div>
             <div className={block + '__skip'}
-                 onClick={this.stopTour}>
+                 onClick={this.skipTour}>
               Skip this tour
             </div>
           </header>
