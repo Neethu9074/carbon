@@ -16,8 +16,8 @@ export default class Component {
     this.stateMachine.initialized();
   }
 
-  getStartingState(states) {
-    return states.initial;
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', true);
   }
 
 

@@ -11,10 +11,12 @@ class SpecificSceneObject {
   constructor(params) {
     this.id = params.id;
     this.scene = {renderScene() {} };
+    this.stateMachine = new StateMachine(this);
+    this.stateMachine.initialized();
   }
 
-  getStartingState(states) {
-    return states.initial;
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', true);
   }
 
   getOrCreateStub(name) {
@@ -58,8 +60,7 @@ describe('3D map', () => {
 
   beforeEach(() => {
     sceneObject = new SpecificSceneObject({id: 0});
-    stateMachine = new StateMachine(sceneObject);
-    stateMachine.initialized();
+    stateMachine = sceneObject.stateMachine;
   });
 
   describe('StateMachine', () => {

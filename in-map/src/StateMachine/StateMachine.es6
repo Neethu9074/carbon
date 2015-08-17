@@ -59,7 +59,7 @@ export default class StateMachine extends AStateMachine {
         selected: false,
         indirect: false,
         hidden: false,
-        active: true
+        active: false
       },
       stateLUT,
       owner

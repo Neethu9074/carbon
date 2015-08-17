@@ -25,8 +25,8 @@ export default class SceneObject {
     this.stateMachine.initialized();
   }
 
-  getStartingState(states) {
-    return states.initial;
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', true);
   }
 
   initComponents() {

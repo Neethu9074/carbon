@@ -23,6 +23,7 @@ describe('3D map', () => {
   describe('Component', () => {
 
     it('can be created', () => {
+      component.initialized();
       expect(component.isActive()).to.equal(true);
     });
 

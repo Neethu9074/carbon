@@ -32,8 +32,8 @@ export default class BaseNode extends SceneObject {
   constructor({parent, snapshot}) {
     super({parent, id: snapshot.get('id')});
 
-    this.scene = this.scene;
     this.snapshot = snapshot;
+    this.scene = this.scene;
     this.height = 1;
 
     this.tooltip = this.getTooltipSticky();
@@ -144,18 +144,18 @@ export default class BaseNode extends SceneObject {
     super.initComponents();
 
     const id = this.id;
+    const sceneObject = this;
     const components = this.components;
 
     //add the collision component to handle the collision box
     components.collision = new CollisionComponent({
-      sceneObject: this,
+      sceneObject,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
 
     //add the connection component to handle all the visual connection lines
-    components.connection = new ConnectionComponent({sceneObject: this});
-    components.connection.stateMachine.changeStateProperty('active', false);
+    components.connection = new ConnectionComponent({sceneObject});
 
     const pcm = new PCM({
       contentProvider: new SCM({
@@ -166,7 +166,7 @@ export default class BaseNode extends SceneObject {
     //add the mesh component to handle visual representation of the node
     components.mesh = new MeshComponent({
       id: id + '_mesh',
-      sceneObject: this,
+      sceneObject,
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.singleMeshFactory
     });
@@ -176,7 +176,7 @@ export default class BaseNode extends SceneObject {
     //add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
       id: id + '_solidMesh',
-      sceneObject: this,
+      sceneObject,
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.highlightingSingleMeshFactory
     });
@@ -184,8 +184,7 @@ export default class BaseNode extends SceneObject {
 
     //add the highlighting component to handle the highlighting of a node
     //this is different to solidMesh since the highlighting is like a mouseOver effect
-    components.highlighting = new HighlightingComponent({sceneObject: this});
-    components.highlighting.stateMachine.changeStateProperty('active', false);
+    components.highlighting = new HighlightingComponent({sceneObject});
   }
 
   registerEvents() {
@@ -201,7 +200,6 @@ export default class BaseNode extends SceneObject {
         const stateMachine = this.getComponent('connection').stateMachine;
         stateMachine.changeStateProperty('active', false);
         stateMachine.changeStateProperty('active', true);
-        stateMachine.changeStateProperty('selected', true);
       }
     }));
 

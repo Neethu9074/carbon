@@ -5,12 +5,10 @@ export default class AStateMachine {
     this.stateLookUpTable = stateLUT;
     this.states = this.setupStates(owner);
     this.owner = owner;
-
-    this.state = owner.getStartingState(this.states);
   }
 
   initialized() {
-    this.state.enter();
+    this.owner.setStartingStateProperties();
   }
 
   setupStates() {
@@ -43,7 +41,9 @@ export default class AStateMachine {
     const newState = this.getStateFromLut();
 
     if(oldState !== newState) {
-      oldState.leave();
+      if(oldState) {
+        oldState.leave();
+      }
       this.state = newState;
       newState.enter();
     }

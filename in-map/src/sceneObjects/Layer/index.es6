@@ -145,7 +145,6 @@ export default class Layer extends SceneObject {
     //add the highlighting component to handle the highlighting of a node
     //this is different to solidMesh since the highlighting is like a mouseOver effect
     components.highlighting = new HighlightingComponent({sceneObject: this});
-    components.highlighting.stateMachine.changeStateProperty('active', false);
   }
 
   //is called via hover event

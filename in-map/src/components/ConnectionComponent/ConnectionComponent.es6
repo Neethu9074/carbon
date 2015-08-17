@@ -14,8 +14,8 @@ export default class ConnectionComponent extends Component {
     this.initialized();
   }
 
-  getStartingState(states) {
-    return states.inactive;
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', false);
   }
 
   onInitialEnter() {
@@ -36,8 +36,6 @@ export default class ConnectionComponent extends Component {
   onInactiveEnter() {
     this.clearConnections(true);
   }
-
-  onInactiveLeave() {}
 
 
   highlightChanged(highlighted) {
@@ -69,9 +67,7 @@ export default class ConnectionComponent extends Component {
     this.selected = selected;
   }
 
-  positionChanged() {
-    this.getAllConnections().forEach(c => c.updateOfVisualComponents());
-  }
+  positionChanged() {}
 
   setupConnections() {
     const wiredSnapshots = this.sceneObject.getWiredSnapshots();
