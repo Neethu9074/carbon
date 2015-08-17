@@ -1,75 +1,44 @@
 import * as time from '../timeCalculations';
-import {setupStates} from './States/index';
+import StateMachine from '../StateMachine/StateMachine';
 
-
-/*eslint-disable no-multi-spaces*/
-const stateLUT = [
-  //active  resulting state
-  [[true],  'initial'],
-  [[false], 'inactive']
-];
-/*eslint-enable no-multi-spaces*/
-
-class StateMachine {
-
-  constructor(states) {
-    this.stateLookUpTable = stateLUT;
-    this.states = states;
-    this.stateProperties = {
-      active: true
-    };
-    this.state = this.states.initial;
-  }
-
-  getStateFromLut({active, states}) {
-    for (let i = 0; i < stateLUT.length; i++) {
-      const entry = stateLUT[i];
-      if(active === entry[0][0]) {
-        return states[entry[1]];
-      }
-    }
-  }
-
-  changeStateProperty(name, value) {
-    if(this.stateProperties[name] !== value) {
-      this.stateProperties[name] = value;
-      this.updateState();
-    }
-  }
-
-  updateState() {
-    const props = this.stateProperties;
-    const oldState = this.state;
-    const newState = this.getStateFromLut({
-      active: props.active,
-      states: this.states
-    });
-
-    if(oldState !== newState) {
-      oldState.leave();
-      this.state = newState;
-      newState.enter();
-    }
-  }
-}
 
 export default class Component {
+
   constructor(sceneObject) {
+    this.stateMachine = new StateMachine(this);
     this.sceneObject = sceneObject;
-    this.stateMachine = new StateMachine(setupStates(this));
+    this.needsUpdate = false;
 
     time.addTimeEventListener(this);
-    this.needsUpdate = false;
   }
 
   initialized() {
-    this.stateMachine.state.enter();
+    this.stateMachine.initialized();
   }
 
-  onInitialEnter() {}
-  onInitialLeave() {}
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', true);
+  }
+
+
   onInactiveEnter() {}
   onInactiveLeave() {}
+  onInitialEnter() {}
+  onInitialLeave() {}
+  onHighlightEnter() {}
+  onHighlightLeave() {}
+  onSelectedEnter() {}
+  onSelectedLeave() {}
+  onSelectedHighlightEnter() {}
+  onSelectedHighlightLeave() {}
+  onSelectedHighlightInactiveEnter() {}
+  onSelectedHighlightInactiveLeave() {}
+  onIndirectHighlightEnter() {}
+  onIndirectHighlightLeave() {}
+  onHighlightInactiveEnter() {}
+  onHighlightInactiveLeave() {}
+  onSelectedInactiveEnter() { this.onInactiveEnter(); }
+  onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   isActive() {
     return this.stateMachine.stateProperties.active;
@@ -87,7 +56,5 @@ export default class Component {
   dispose() {
     this.needsUpdate = false;
     time.removeTimeEventListener(this);
-
-    this.stateMachine.changeStateProperty('active', false);
   }
 }

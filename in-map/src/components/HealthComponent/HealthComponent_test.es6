@@ -48,9 +48,9 @@ describe('3D map', () => {
 
       component.stateMachine.changeStateProperty('active', true);
 
-      expect(sceneObject.healthChanged.callCount).to.equal(1);
-      component.handleComponentTimeEvent();
       expect(sceneObject.healthChanged.callCount).to.equal(2);
+      component.handleComponentTimeEvent();
+      expect(sceneObject.healthChanged.callCount).to.equal(3);
     });
 
   });

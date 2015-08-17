@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -94,7 +94,7 @@ export default class Node extends BaseNode {
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
-        this.stateMachine.changeStateProperty('mouseOver', isIdEqual(highlighted, this.snapshot))
+        this.stateMachine.changeStateProperty('highlight', isIdEqual(highlighted, this.snapshot))
       )
     );
 
@@ -252,7 +252,7 @@ export default class Node extends BaseNode {
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
     this.getComponent('layer').positionChanged(x, y, z);
 
-    this.updateOfVisualComponents();
+    this.updateScreenAnchorPosition();
   }
 
   setHeight(height) {

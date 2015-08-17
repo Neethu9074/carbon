@@ -63,11 +63,12 @@ export default class CollisionObjectComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.collisionObject.isEnabled = false;
     this.sceneObject.removeCollisionObject(this.collisionObject, this.layer);
-    this.collisionObject = null;
-    this.layer = null;
 
+    this.collisionObject = null;
     this.positionToSet = null;
     this.scaleToSet = null;
+    this.layer = null;
   }
 }

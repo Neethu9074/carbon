@@ -26,6 +26,10 @@ export default class HighlightingComponent extends Component {
     this.initialized();
   }
 
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', false);
+  }
+
   onInitialEnter() {
     this.show();
   }
@@ -118,6 +122,8 @@ export default class HighlightingComponent extends Component {
 
   dispose() {
     super.dispose();
+
+    this.hide();
 
     this.lineContentProvider = null;
     this.positionToSet = null;

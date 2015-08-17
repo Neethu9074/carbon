@@ -1,105 +1,7 @@
 import PositionComponent from '../../components/PositionComponent';
+import StateMachine from '../../StateMachine/StateMachine';
 
 import {currentScene} from '../../stores/mapStore';
-import {setupStates} from './States/index';
-
-/*eslint-disable no-multi-spaces*/
-const stateLUT = [
-  //mouseOver,  selected,   active    hidden    indirect  result state
-  [[false,      false,      true,     false,    false],   'initial'],
-  [[false,      true,       true,     false,    false],   'selected'],
-  [[true,       false,      true,     false,    false],   'highlighted'],
-  [[true,       true,       true,     false,    false],   'selectedHighlighted'],
-  [[false,      true,       false,    false,    false],   'selectedInactive'],
-  [[true,       false,      false,    false,    false],   'highlightedInactive'],
-  [[true,       true,       false,    false,    false],   'selectedHighlightedInactive'],
-  [[false,      false,      false,    false,    false],   'inactive'],
-  [[false,      false,      true,     true,     false],   'hidden'],
-  [[false,      true,       true,     true,     false],   'hidden'],
-  [[true,       false,      true,     true,     false],   'hidden'],
-  [[true,       true,       true,     true,     false],   'hidden'],
-  [[false,      true,       false,    true,     false],   'hidden'],
-  [[true,       false,      false,    true,     false],   'hidden'],
-  [[true,       true,       false,    true,     false],   'hidden'],
-  [[false,      false,      false,    true,     false],   'hidden'],
-  [[false,      false,      true,     false,    true],    'indirect'],
-  [[false,      true,       true,     false,    true],    'selected'],
-  [[true,       false,      true,     false,    true],    'highlighted'],
-  [[true,       true,       true,     false,    true],    'selectedHighlighted'],
-  [[false,      true,       false,    false,    true],    'selectedInactive'],
-  [[true,       false,      false,    false,    true],    'highlightedInactive'],
-  [[true,       true,       false,    false,    true],    'selectedHighlightedInactive'],
-  [[false,      false,      false,    false,    true],    'inactive'],
-  [[false,      false,      true,     true,     true],    'hidden'],
-  [[false,      true,       true,     true,     true],    'hidden'],
-  [[true,       false,      true,     true,     true],    'hidden'],
-  [[true,       true,       true,     true,     true],    'hidden'],
-  [[false,      true,       false,    true,     true],    'hidden'],
-  [[true,       false,      false,    true,     true],    'hidden'],
-  [[true,       true,       false,    true,     true],    'hidden'],
-  [[false,      false,      false,    true,     true],    'hidden']
-];
-/*eslint-enable no-multi-spaces*/
-
-class StateMachine {
-
-  constructor(states) {
-    this.stateLookUpTable = stateLUT;
-    this.states = states;
-    this.stateProperties = {
-      mouseOver: false,
-      selected: false,
-      indirect: false,
-      hidden: false,
-      active: true
-    };
-    this.state = this.states.initial;
-  }
-
-  getStateFromLut({mouseOver, selected, active, hidden, indirect, states}) {
-    for (let i = 0; i < stateLUT.length; i++) {
-      const entry = stateLUT[i];
-      if(mouseOver === entry[0][0] &&
-         selected === entry[0][1] &&
-         active === entry[0][2] &&
-         hidden === entry[0][3] &&
-         indirect === entry[0][4]
-      ) {
-        return states[entry[1]];
-      }
-    }
-  }
-
-  changeStateProperty(name, value) {
-    if(this.stateProperties[name] !== value) {
-      this.stateProperties[name] = value;
-      this.updateState();
-    }
-  }
-
-  updateState() {
-    const props = this.stateProperties;
-    const oldState = this.state;
-    const newState = this.getStateFromLut({
-      mouseOver: props.mouseOver,
-      selected: props.selected,
-      indirect: props.indirect,
-      active: props.active,
-      hidden: props.hidden,
-      states: this.states
-    });
-
-    if(oldState !== newState) {
-      oldState.leave();
-      this.state = newState;
-      newState.enter();
-    }
-  }
-
-  getLookUpTable() {
-    return stateLUT;
-  }
-}
 
 export default class SceneObject {
 
@@ -119,8 +21,12 @@ export default class SceneObject {
 
     this.init();
 
-    this.stateMachine = new StateMachine(setupStates(this));
-    this.stateMachine.state.enter();
+    this.stateMachine = new StateMachine(this);
+    this.stateMachine.initialized();
+  }
+
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', true);
   }
 
   initComponents() {
@@ -162,23 +68,22 @@ export default class SceneObject {
   onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   onInactiveEnter() {
-    this.forEachComponent((component) =>
+    this.forEachComponent(component =>
       component.stateMachine.changeStateProperty('active', false));
   }
 
   onInactiveLeave() {
-    this.forEachComponent((component) =>
+    this.forEachComponent(component =>
       component.stateMachine.changeStateProperty('active', true));
   }
 
   onHiddenEnter() {
-    this.forEachComponent((component) =>
+    this.forEachComponent(component =>
       component.stateMachine.changeStateProperty('active', false));
   }
 
   onHiddenLeave() {
-    this.forEachComponent((component) =>
-      component.stateMachine.changeStateProperty('active', true));
+    this.forEachComponent(component => component.setStartingStateProperties());
   }
 
   isSelected() {
@@ -186,7 +91,7 @@ export default class SceneObject {
   }
 
   isHighlighted() {
-    return this.stateMachine.stateProperties.mouseOver;
+    return this.stateMachine.stateProperties.highlight;
   }
 
   isActive() {
@@ -238,11 +143,6 @@ export default class SceneObject {
 
   colorChanged() {}
 
-  //this method is introduced to get a better handling of the hole merged
-  //geometry / factory stuff. each specific sceneObject should implement it and
-  //and do all update stuff here.
-  updateOfVisualComponents() {throw new Error('NOT IMPLEMENTED'); }
-
   getAllMapNodes() {
     return this.parent.getAllMapNodes();
   }
@@ -260,7 +160,7 @@ export default class SceneObject {
   }
 
   onHighlight(highlighted) {
-    this.stateMachine.changeStateProperty('mouseOver', highlighted);
+    this.stateMachine.changeStateProperty('highlight', highlighted);
   }
 
   updateScreenPosition() {
@@ -295,7 +195,7 @@ export default class SceneObject {
     this.subscriptions = [];
 
     //reset states so that inactive state is taken
-    this.stateMachine.changeStateProperty('mouseOver', false);
+    this.stateMachine.changeStateProperty('highlight', false);
     this.stateMachine.changeStateProperty('selected', false);
     this.stateMachine.changeStateProperty('active', false);
 

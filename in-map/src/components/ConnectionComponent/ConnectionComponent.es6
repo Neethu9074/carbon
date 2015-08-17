@@ -14,43 +14,25 @@ export default class ConnectionComponent extends Component {
     this.initialized();
   }
 
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', false);
+  }
+
+  onSelectedEnter() {
+    this.setupConnections();
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
+  }
+
+  onSelectedHighlightEnter() {
+    this.setupConnections();
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
+  }
+
   onInactiveEnter() {
     this.clearConnections(true);
   }
 
-
-  highlightChanged(highlighted) {
-    if(this.highlighted === highlighted) {
-      return;
-    }
-
-    if(highlighted) {
-      this.setupConnections();
-    }
-
-    this.getAllConnections().forEach(c =>
-      c.stateMachine.changeStateProperty('mouseOver', highlighted));
-
-    this.highlighted = highlighted;
-  }
-
-  selectionChanged(selected) {
-    if(this.selected === selected) {
-      return;
-    }
-
-    if(selected) {
-      this.getAllConnections().forEach((c) => {c.show(); c.select(); });
-    } else {
-      this.getAllConnections().forEach((c) => {c.unSelect(); c.hide(); });
-    }
-
-    this.selected = selected;
-  }
-
-  positionChanged() {
-    this.getAllConnections().forEach(c => c.updateOfVisualComponents());
-  }
+  positionChanged() {}
 
   setupConnections() {
     const wiredSnapshots = this.sceneObject.getWiredSnapshots();
@@ -126,6 +108,7 @@ export default class ConnectionComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.clearConnections(true);
     this.connections = null;
     this.highlighted = null;
   }

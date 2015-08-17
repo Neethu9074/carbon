@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 
 import Layer from '../../sceneObjects/Layer/index';
 import Component from '../Component';
@@ -34,9 +34,9 @@ export default class LayerComponent extends Component {
       match.updateSnapshot(snapshot);
     } else {
       const newLayer = new Layer({parent: this, snapshot});
-      newLayer.setLayerIndex(this.layer.indexOf(layer => isIdEqual(layer.snapshot, snapshot)));
-
       this.layer.push(newLayer);
+      this.layer.forEach((layer, index )=> layer.index = index);
+
       this.needsUpdate = true;
     }
   }
@@ -79,7 +79,7 @@ export default class LayerComponent extends Component {
 
   //is called if a layer was disposed
   removeChild(toBeRemoved) {
-    _.remove(this.layer, layer => isIdEqual(toBeRemoved.snapshot, layer.snapshot));
+    _.remove(this.layer, layer => isIdEqual(layer.snapshot, toBeRemoved.snapshot));
     this.needsUpdate = true;
   }
 
@@ -87,9 +87,9 @@ export default class LayerComponent extends Component {
     super.dispose();
 
     this.layer.slice().forEach(layer => layer.dispose());
-    this.layer = null;
 
     this.positionToSet = null;
     this.heightToSet = null;
+    this.layer = null;
   }
 }

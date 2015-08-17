@@ -1,8 +1,6 @@
 import THREE from 'three';
 import _ from 'lodash';
 
-import eventBus from 'in-services/eventbus';
-
 import ConnectionGrid from '../../ConnectionGrid_Temp';
 import SceneObject from '../SceneObject';
 
@@ -43,9 +41,6 @@ export default class Connection extends SceneObject {
     this.render();
 
     allConnections.push(this);
-
-    this.addSubscription(eventBus.on('layoutChanged').subscribe(() =>
-      this.updateOfVisualComponents()));
   }
 
   onInitialEnter() {
@@ -282,14 +277,6 @@ export default class Connection extends SceneObject {
   unSelect() {
     if(!this.oneEndpointIsSelected()) {
       this.stateMachine.changeStateProperty('selected', false);
-    }
-  }
-
-  updateOfVisualComponents() {
-    if(this.isSelected() || this.isHighlighted()) {
-      this.calculatePath();
-      this.render();
-      this.reEnterState();
     }
   }
 
