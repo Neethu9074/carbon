@@ -1,8 +1,18 @@
 import PositionComponent from '../../components/PositionComponent';
 import AStateMachine from '../../StateMachine/AStateMachine';
 
+import SelectedHighlightedInactiveState from '../../StateMachine/SelectedHighlightedInactiveState';
+import HighlightedInactiveState from '../../StateMachine/HighlightedInactiveState';
+import SelectedHighlightedState from '../../StateMachine/SelectedHighlightedState';
+import IndirectHighlightedState from '../../StateMachine/IndirectHighlightedState';
+import SelectedInactiveState from '../../StateMachine/SelectedInactiveState';
+import HighlightedState from '../../StateMachine/HighlightedState';
+import SelectedState from '../../StateMachine/SelectedState';
+import InactiveState from '../../StateMachine/InactiveState';
+import InitialState from '../../StateMachine/InitialState';
+import HiddenState from '../../StateMachine/HiddenState';
+
 import {currentScene} from '../../stores/mapStore';
-import {setupStates} from './States/index';
 
 /*eslint-disable no-multi-spaces*/
 const stateLUT = [
@@ -44,9 +54,8 @@ const stateLUT = [
 
 class StateMachine extends AStateMachine {
 
-  constructor(states) {
+  constructor(owner) {
     super({
-      states,
       stateProperties: {
         mouseOver: false,
         selected: false,
@@ -54,7 +63,24 @@ class StateMachine extends AStateMachine {
         hidden: false,
         active: true
       },
-      stateLUT});
+      stateLUT,
+      owner
+    });
+  }
+
+  setupStates(owner) {
+    return {
+      selectedHighlightedInactive: new SelectedHighlightedInactiveState(owner),
+      selectedHighlighted: new SelectedHighlightedState(owner),
+      highlightedInactive: new HighlightedInactiveState(owner),
+      selectedInactive: new SelectedInactiveState(owner),
+      indirect: new IndirectHighlightedState(owner),
+      highlighted: new HighlightedState(owner),
+      selected: new SelectedState(owner),
+      inactive: new InactiveState(owner),
+      initial: new InitialState(owner),
+      hidden: new HiddenState(owner)
+    };
   }
 
   checkAgainstCurrentProperties(flags) {
@@ -89,7 +115,7 @@ export default class SceneObject {
 
     this.init();
 
-    this.stateMachine = new StateMachine(setupStates(this));
+    this.stateMachine = new StateMachine(this);
     this.stateMachine.state.enter();
   }
 

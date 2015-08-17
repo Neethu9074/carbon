@@ -1,6 +1,8 @@
 import * as time from '../timeCalculations';
-import {setupStates} from './States/index';
 import AStateMachine from '../StateMachine/AStateMachine';
+
+import InactiveState from '../StateMachine/InactiveState';
+import InitialState from '../StateMachine/InitialState';
 
 
 /*eslint-disable no-multi-spaces*/
@@ -13,12 +15,21 @@ const stateLUT = [
 
 class StateMachine extends AStateMachine {
 
-  constructor(states) {
+  constructor(owner) {
     super({
-      states,
       stateProperties: { active: true },
-      stateLUT});
+      stateLUT,
+      owner
+    });
   }
+
+  setupStates(owner) {
+    return {
+      initial: new InitialState(owner),
+      inactive: new InactiveState(owner)
+    };
+  }
+
 
   checkAgainstCurrentProperties(flags) {
     if(this.stateProperties.active === flags[0]) {
@@ -29,12 +40,13 @@ class StateMachine extends AStateMachine {
 }
 
 export default class Component {
-  constructor(sceneObject) {
+
+  constructor(sceneObject, StateMachineClass=StateMachine) {
+    this.stateMachine = new StateMachineClass(this);
     this.sceneObject = sceneObject;
-    this.stateMachine = new StateMachine(setupStates(this));
+    this.needsUpdate = false;
 
     time.addTimeEventListener(this);
-    this.needsUpdate = false;
   }
 
   initialized() {

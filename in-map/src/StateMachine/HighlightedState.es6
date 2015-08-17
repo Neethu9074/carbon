@@ -1,4 +1,4 @@
-import AState from '../../../StateMachine/AState';
+import AState from './AState';
 
 export default class HighlightedState extends AState {
 

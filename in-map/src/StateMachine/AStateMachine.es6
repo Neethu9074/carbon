@@ -1,11 +1,16 @@
 export default class AStateMachine {
 
-  constructor({states, stateProperties, stateLUT}) {
+  constructor({owner, stateProperties, stateLUT}) {
     this.stateProperties = stateProperties;
     this.stateLookUpTable = stateLUT;
-    this.states = states;
+    this.states = this.setupStates(owner);
+    this.owner = owner;
 
-    this.state = states.initial;
+    this.state = this.states.initial;
+  }
+
+  setupStates() {
+    throw new Error('NOT IMPLEMENTED YET');
   }
 
   checkAgainstCurrentProperties() {
