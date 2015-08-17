@@ -6,7 +6,7 @@ export default class AStateMachine {
     this.states = this.setupStates(owner);
     this.owner = owner;
 
-    this.state = this.states.initial;
+    this.state = owner.getStartingState(this.states);
   }
 
   initialized() {

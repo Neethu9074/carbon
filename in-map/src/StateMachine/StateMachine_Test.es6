@@ -13,6 +13,10 @@ class SpecificSceneObject {
     this.scene = {renderScene() {} };
   }
 
+  getStartingState(states) {
+    return states.initial;
+  }
+
   getOrCreateStub(name) {
     if(!this[name]) {
       this[name] = sinon.stub();

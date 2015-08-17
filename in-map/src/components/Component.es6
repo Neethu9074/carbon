@@ -16,6 +16,10 @@ export default class Component {
     this.stateMachine.initialized();
   }
 
+  getStartingState(states) {
+    return states.initial;
+  }
+
 
   onInitialEnter() {}
   onInitialLeave() {}

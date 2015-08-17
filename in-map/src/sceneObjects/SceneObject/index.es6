@@ -22,7 +22,11 @@ export default class SceneObject {
     this.init();
 
     this.stateMachine = new StateMachine(this);
-    this.stateMachine.state.enter();
+    this.stateMachine.initialized();
+  }
+
+  getStartingState(states) {
+    return states.initial;
   }
 
   initComponents() {

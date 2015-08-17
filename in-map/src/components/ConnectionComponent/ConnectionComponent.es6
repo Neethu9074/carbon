@@ -14,6 +14,10 @@ export default class ConnectionComponent extends Component {
     this.initialized();
   }
 
+  getStartingState(states) {
+    return states.inactive;
+  }
+
   onInitialEnter() {
     console.log('i e');
   }
