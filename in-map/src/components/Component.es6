@@ -56,7 +56,5 @@ export default class Component {
   dispose() {
     this.needsUpdate = false;
     time.removeTimeEventListener(this);
-
-    this.stateMachine.changeStateProperty('active', false);
   }
 }

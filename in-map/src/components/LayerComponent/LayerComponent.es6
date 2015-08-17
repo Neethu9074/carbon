@@ -87,9 +87,9 @@ export default class LayerComponent extends Component {
     super.dispose();
 
     this.layer.slice().forEach(layer => layer.dispose());
-    this.layer = null;
 
     this.positionToSet = null;
     this.heightToSet = null;
+    this.layer = null;
   }
 }

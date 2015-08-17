@@ -123,6 +123,8 @@ export default class HighlightingComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.hide();
+
     this.lineContentProvider = null;
     this.positionToSet = null;
     this.scaleToSet = null;

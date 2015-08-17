@@ -108,6 +108,7 @@ export default class ConnectionComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.clearConnections(true);
     this.connections = null;
     this.highlighted = null;
   }
