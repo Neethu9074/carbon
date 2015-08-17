@@ -102,6 +102,9 @@ export default class Node extends BaseNode {
       longClickedSceneObject.subscribe((so) => {
         if(so && so.id === this.id) {
           eventBus.emit('openDashboard', this.snapshot);
+
+          //double or long clicked
+          tracking.trackEvent(tracking.events.openingADashboard);
         }
       })
     );

@@ -4,7 +4,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import _ from 'lodash';
 
-import StateMachine from './StateMachine';
+import {StateMachine} from './StateMachine';
 
 
 class SpecificSceneObject {

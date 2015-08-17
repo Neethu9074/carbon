@@ -1,5 +1,5 @@
 import * as time from '../timeCalculations';
-import StateMachine from '../StateMachine/StateMachine';
+import {StateMachine} from '../StateMachine/StateMachine';
 
 
 export default class Component {

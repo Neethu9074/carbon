@@ -1,5 +1,5 @@
 import PositionComponent from '../../components/PositionComponent';
-import StateMachine from '../../StateMachine/StateMachine';
+import {StateMachine} from '../../StateMachine/StateMachine';
 
 import {currentScene} from '../../stores/mapStore';
 
