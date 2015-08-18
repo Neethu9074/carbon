@@ -16,22 +16,38 @@ const ON = 1;
 const OFF = 0;
 
 const stateLUT =
-[ [ [ [ ['inactive', 'inactive'],                                       // 0 0 0 0
-        ['hidden', 'hidden'] ],                                         // 0 0 0 1
-      [ ['initial', 'indirect'],                                        // 0 0 1 0
-        ['hidden', 'hidden'] ] ],                                       // 0 0 1 1
-    [ [ ['selectedInactive', 'selectedInactive'],                       // 0 1 0 0
-        ['hidden', 'hidden'] ],                                         // 0 1 0 1
-      [ ['selected', 'selected'],                                       // 0 1 1 0
-        ['hidden', 'hidden'] ] ] ],                                     // 0 1 1 1
-  [ [ [ ['highlightedInactive', 'highlightedInactive'],                 // 1 0 0 0
-        ['hidden', 'hidden'] ],                                         // 1 0 0 1
-      [ ['highlighted', 'highlighted'],                                 // 1 0 1 0
-        ['hidden', 'hidden'] ] ],                                       // 1 0 1 1
-    [ [ ['selectedHighlightedInactive', 'selectedHighlightedInactive'], // 1 1 0 0
-        ['hidden', 'hidden'] ],                                         // 1 1 0 1
-      [ ['selectedHighlighted', 'selectedHighlighted'],                 // 1 1 1 0
-        ['hidden', 'hidden'] ] ] ]                                      // 1 1 1 1
+[ [ [ [ [ 'inactive',                     // 0 0 0 0 0
+          'inactive'],                    // 0 0 0 0 1
+        [ 'hidden',                       // 0 0 0 1 0
+          'hidden'] ],                    // 0 0 0 1 1
+      [ [ 'initial',                      // 0 0 1 0 0
+          'indirect'],                    // 0 0 1 0 1
+        [ 'hidden',                       // 0 0 1 1 0
+          'hidden'] ] ],                  // 0 0 1 1 1
+    [ [ [ 'selectedInactive',             // 0 1 0 0 0
+          'selectedInactive'],            // 0 1 0 0 1
+        [ 'hidden',                       // 0 1 0 1 0
+          'hidden'] ],                    // 0 1 0 1 1
+      [ [ 'selected',                     // 0 1 1 0 0
+          'selected'],                    // 0 1 1 0 1
+        [ 'hidden',                       // 0 1 1 1 0
+          'hidden'] ] ] ],                // 0 1 1 1 1
+  [ [ [ [ 'highlightedInactive',          // 1 0 0 0 0
+          'highlightedInactive'],         // 1 0 0 0 1
+        [ 'hidden',                       // 1 0 0 1 0
+          'hidden'] ],                    // 1 0 0 1 1
+      [ [ 'highlighted',                  // 1 0 1 0 0
+          'highlighted'],                 // 1 0 1 0 1
+        [ 'hidden',                       // 1 0 1 1 0
+          'hidden'] ] ],                  // 1 0 1 1 1
+    [ [ [ 'selectedHighlightedInactive',  // 1 1 0 0 0
+          'selectedHighlightedInactive'], // 1 1 0 0 1
+        [ 'hidden',                       // 1 1 0 1 0
+          'hidden'] ],                    // 1 1 0 1 1
+      [ [ 'selectedHighlighted',          // 1 1 1 0 0
+          'selectedHighlighted'],         // 1 1 1 0 1
+        [ 'hidden',                       // 1 1 1 1 0
+          'hidden'] ] ] ]                 // 1 1 1 1 1
 ];
 
 //   //highlight   selected  active    hidden    indirect  result state
