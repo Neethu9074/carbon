@@ -9,6 +9,8 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
 
+import enhance from '../hoc/enhance';
+
 const rpt = React.PropTypes;
 
 const HealthIcon = React.createClass({
@@ -16,32 +18,27 @@ const HealthIcon = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    className: rpt.string
+    className: rpt.string,
+    health: rpt.string
   },
 
-  getInitialState() {
-    return {
-      health: health.ok
-    };
-  },
-
-  componentDidMount() {
-    this.addSubscription(
-      getHealth(this.props.snapshot).subscribe(snapshotHealth => {
-        this.setState({health: snapshotHealth});
-      })
-    );
+  statics: {
+    createObservables(props) {
+      return {
+        health: getHealth(props.snapshot)
+      };
+    }
   },
 
   render() {
-    if (this.state.health === health.ok) {
+    if (this.props.health === health.ok) {
       return null;
     }
 
     let color;
     let type;
 
-    switch (this.state.health) {
+    switch (this.props.health) {
       case health.warning:
         type = 'warning';
         color = theme.health.warning;
@@ -51,7 +48,7 @@ const HealthIcon = React.createClass({
         color = theme.health.danger;
         break;
       default:
-        throw new Error('Unrecognized health ' + this.state.health);
+        throw new Error('Unrecognized health ' + this.props.health);
     }
 
     return (<Icon style={{color}}
@@ -60,4 +57,4 @@ const HealthIcon = React.createClass({
   }
 });
 
-export default HealthIcon;
+export default enhance(HealthIcon);
