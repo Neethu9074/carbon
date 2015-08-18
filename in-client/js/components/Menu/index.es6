@@ -50,9 +50,10 @@ const Menu = React.createClass({
       <div className={block}>
         {this.renderMenu()}
         <div className={block + '__toggle-button'}
-                onClick={this.toggle}>
-           Menu
-           <Icon className={block + '__icon'} type='menue' />
+             onClick={this.toggle}>
+           {'Menu'}
+           <Icon className={block + '__icon'}
+                 type='menue' />
         </div>
 
       </div>

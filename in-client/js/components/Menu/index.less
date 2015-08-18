@@ -17,14 +17,18 @@
     font-size: 13px;
   }
 
+  &__toggle-button:hover {
+    color: #fff;
+
+    .in-menu__icon, .in-menu__icon-close {
+      color: #fff;
+    }
+  }
+
   &__icon, &__icon-close {
     font-size: 32px;
     color: #99F4F5;
     margin: 0 0 0 10px;
-  }
-
-  &__icon:hover, &__icon-close:hover {
-    color: #fff;
   }
 
   &__icon-close {
@@ -33,6 +37,10 @@
     top: 0;
 
     cursor: pointer;
+  }
+
+  &__icon-close:hover {
+    color: #fff;
   }
 
   &__panel {
