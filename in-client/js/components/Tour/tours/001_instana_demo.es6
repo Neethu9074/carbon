@@ -73,7 +73,7 @@ export const tourDefinition = {
     {
       title: 'Look at the real-time dashboard',
       text: 'Double click a host or use the Open Dashboard button in the sidebar to get a ' +
-            'comprehensive view of host details with 1 second resolution metrics.’,
+            'comprehensive view of host details with 1 second resolution metrics.',
       nextStepLabel: 'Open the dashboard',
       element: '.in-sidebar-details__open-dashboard',
       after(tour) {
@@ -84,7 +84,7 @@ export const tourDefinition = {
       title: 'Real-time Charts',
       text: 'Dashboards contain real-time, 1 second resolution metrics and charts along with ' +
             'environmental information, e.g. Amazon Web-Service data and applications that are ' +
-            'running on this host.’,
+            'running on this host.',
       element: 'ALL',
       undo(tour) {
         tour.transitionTo('map');
@@ -150,7 +150,7 @@ export const tourDefinition = {
     },
     {
       title: 'End of Tour',
-      text: 'Thank you for checking out our tour. Time for you to try Instana yourself!’,
+      text: 'Thank you for checking out our tour. Time for you to try Instana yourself!',
       nextStepLabel: 'Finish tour and unlock user interface',
       undo() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
