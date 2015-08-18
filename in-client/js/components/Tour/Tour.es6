@@ -1,4 +1,5 @@
 import * as ro from 'reactive-observables';
+import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -17,10 +18,14 @@ const dialogMargin = 30;
 const margin = 10;
 
 const GuidedTour = React.createClass({
-  mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin,
+    Navigation
+  ],
 
   getInitialState() {
-    // const tourId = String(tourDefinition.id);
+    const tourId = String(tourDefinition.id);
     const tourHasBeenSeen = window.localStorage.getItem(tourViewedLocalStorageKey) === tourId;
     return {
       activeStep: 0,
@@ -30,6 +35,8 @@ const GuidedTour = React.createClass({
 
   componentDidMount() {
     if (this.state.tourHasBeenSeen) return;
+
+    tracking.trackEvent(tracking.events.startATour);
 
     this.addSubscription(ro.on(window, 'resize').subscribe(this.onResize));
     this.addSubscription(ro.on(window, 'keyup').subscribe(this.onKeyUp));
@@ -153,9 +160,8 @@ const GuidedTour = React.createClass({
 
     this.disposeSubscriptions();
     window.localStorage.setItem(tourViewedLocalStorageKey, String(tourDefinition.id));
-    this.setState({
-      tourHasBeenSeen: true
-    });
+
+    this.setState({ tourHasBeenSeen: true });
   },
 
   skipTour() {
@@ -166,7 +172,7 @@ const GuidedTour = React.createClass({
   nextStep() {
     const currentStep = tourDefinition.steps[this.state.activeStep];
     if(currentStep && currentStep.after) {
-      currentStep.after();
+      currentStep.after(this);
     }
 
     if (this.state.activeStep + 1 >= tourDefinition.steps.length) {
@@ -188,9 +194,22 @@ const GuidedTour = React.createClass({
 
   previousStep() {
     tracking.trackEvent(tracking.events.previousStepInTour);
-    this.setState({
-      activeStep: Math.max(this.state.activeStep - 1, 0)
-    });
+
+    const currentStep = this.state.activeStep;
+    const step = tourDefinition.steps[currentStep];
+
+    //undo the current step
+    if(step && step.undo) {
+      step.undo(this);
+    }
+
+    this.setState({ activeStep: Math.max(currentStep - 1, 0) });
+  },
+
+  tourFinished() {
+    tourDefinition.steps[this.state.activeStep].after();
+
+    this.stopTour();
   },
 
   render() {
@@ -241,7 +260,7 @@ const GuidedTour = React.createClass({
               </Button>
             : null }
             {this.state.activeStep === tourDefinition.steps.length - 1 ?
-              <Button onClick={this.stopTour}>
+              <Button onClick={this.tourFinished}>
                 Finish
               </Button>
             : null }

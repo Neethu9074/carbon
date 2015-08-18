@@ -9,6 +9,7 @@ export const events = {
   clickOnConnectionBetweenCubes: '000000370625',
   changingTimeWindowUsingTimeline: '000000370627',
   clickOnUnMonitoredIn3dMap: '000000370835',
+  startATour: '000000375707',
   finishATour: '000000374837',
   skipATour: '000000374839',
   nextStepInTour: '000000374840',
