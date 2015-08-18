@@ -1,0 +1,29 @@
+@import "~in-themes/less/constants.less";
+
+.in-tooltip-presenter {
+  @background: #252e34;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  z-index: @z-index__tooltips;
+
+  background: @background;
+  color: white;
+  font-size: 0.8rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: 0.4rem;
+
+  &:after {
+    @size: 6px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-bottom: @size solid transparent;
+    border-left: @size solid @background;
+
+    position: absolute;
+    right: @size * -1;
+  }
+}

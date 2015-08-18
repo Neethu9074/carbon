@@ -1,0 +1,79 @@
+import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
+
+import classnames from 'in-services/util/classnames';
+
+import Tooltip from '../Tooltip';
+import Icon from '../Icon';
+
+import './Controls.less';
+
+const rpt = React.PropTypes;
+const block = 'in-sidebar-controls';
+
+const Controls = React.createClass({
+  mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    className: rpt.string,
+    activeControl: rpt.string,
+    onChangeActiveControl: rpt.func.isRequired,
+    selectedSnapshot: irpt.map
+  },
+
+  render() {
+    let rootClasses = block;
+    if (this.props.className) {
+      rootClasses += ' ' + this.props.className;
+    }
+    return (
+      <nav className={rootClasses}>
+        <ul className={block + '__control-list'}>
+
+          {this.renderControlIcon('metrics', 'metrics', 'Show metrics.', true)}
+          {this.renderControlIcon('tags', 'tags', 'Show Tags', true)}
+          {this.renderControlIcon('zones', 'snapshotList', 'Show list of components.', true)}
+          {this.renderControlIcon(
+            'dot',
+            'details',
+            this.props.selectedSnapshot ?
+              'Show details for selected component.'
+              : 'Select a component to view details.',
+            !!this.props.selectedSnapshot)
+          }
+          {__DEV__ ?
+            this.renderControlIcon('system', 'mapStats', 'Show map rendering stats.', true)
+          : null}
+        </ul>
+      </nav>
+    );
+  },
+
+  renderControlIcon(icon, controlName, tooltip, enabled) {
+    // Assign the click handler only when enabled to ensure that the Icon component
+    // is automatically switching between a <button> and an simple <i> element.
+    let clickHandler;
+    if (enabled) {
+      clickHandler = () => this.props.onChangeActiveControl(controlName);
+    }
+    return (
+      <li className={classnames({
+        [block + '__control-item']: true,
+        [block + '__control-item--active']: this.props.activeControl === controlName,
+        [block + '__control-item--enabled']: enabled
+      })}>
+        <Tooltip content={tooltip}>
+          <Icon type={icon}
+                className={classnames({
+                  [block + '__control-icon']: true,
+                  [block + '__control-icon--active']: this.props.activeControl === controlName,
+                  [block + '__control-icon--enabled']: enabled
+                })}
+                onClick={clickHandler}/>
+        </Tooltip>
+      </li>
+    );
+  }
+});
+
+export default Controls;

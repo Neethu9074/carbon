@@ -4,10 +4,9 @@ import {health} from 'in-services/health';
 import Component from '../Component';
 
 
-export default class HealthComponent extends Component{
+export default class HealthComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject);
-
 
     this.healthToSet = undefined;
     this.setHealth(health.ok);
@@ -23,7 +22,7 @@ export default class HealthComponent extends Component{
   }
 
   onInactiveLeave() {
-    this.needsUpdate = true;
+    this.sceneObject.healthChanged(this.healthToSet);
   }
 
 

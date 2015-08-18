@@ -11,6 +11,7 @@ import MeshComponent from '../../../components/MeshComponent';
 
 import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
+import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import SceneObject from '../../SceneObject/index';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -46,14 +47,18 @@ export default class BaseNode extends SceneObject {
     this.highlight();
 
     //show all connections as grey lines
-    this.getComponent('connection').stateMachine.changeStateProperty('active', true);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onHighlightLeave() {
     this.highlight(false);
 
     //hide the grey connection lines
-    this.getComponent('connection').stateMachine.changeStateProperty('active', false);
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
   }
 
   onSelectedEnter() {
@@ -61,8 +66,8 @@ export default class BaseNode extends SceneObject {
 
     //show all connections as white lines
     const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', true);
-    connectionComponent.stateMachine.changeStateProperty('selected', true);
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
   }
 
   onSelectedLeave() {
@@ -70,8 +75,8 @@ export default class BaseNode extends SceneObject {
 
     //hide the white connection lines
     const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', false);
-    connectionComponent.stateMachine.changeStateProperty('selected', false);
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
   }
 
   onSelectedHighlightEnter() {
@@ -79,8 +84,8 @@ export default class BaseNode extends SceneObject {
 
     //show all connections as white lines
     const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', true);
-    connectionComponent.stateMachine.changeStateProperty('selected', true);
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightLeave() {
@@ -88,22 +93,18 @@ export default class BaseNode extends SceneObject {
 
     //hide the white connection lines
     const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', false);
-    connectionComponent.stateMachine.changeStateProperty('selected', false);
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
   }
 
   onHiddenEnter() {
-    //disables all components
     super.onHiddenEnter();
 
     this.stickyNote.hide();
   }
 
   onHiddenLeave() {
-    //enables all components
     super.onHiddenLeave();
-
-    this.highlight(false);
 
     this.stickyNote.show();
   }
@@ -119,7 +120,7 @@ export default class BaseNode extends SceneObject {
   onInactiveEnter() {
     super.onInactiveEnter();
 
-    this.getComponent('mesh').stateMachine.changeStateProperty('active', true);
+    this.getComponent('mesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onInactiveLeave() {
@@ -135,8 +136,9 @@ export default class BaseNode extends SceneObject {
 
 
   highlight(solid=true) {
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', solid);
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', solid);
+    const value = solid ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', value);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', value);
   }
 
 
@@ -180,7 +182,7 @@ export default class BaseNode extends SceneObject {
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.highlightingSingleMeshFactory
     });
-    components.solidMesh.stateMachine.changeStateProperty('active', false);
+    components.solidMesh.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     //add the highlighting component to handle the highlighting of a node
     //this is different to solidMesh since the highlighting is like a mouseOver effect
@@ -198,8 +200,8 @@ export default class BaseNode extends SceneObject {
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
       if(this.isSelected()) {
         const stateMachine = this.getComponent('connection').stateMachine;
-        stateMachine.changeStateProperty('active', false);
-        stateMachine.changeStateProperty('active', true);
+        stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+        stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
       }
     }));
 
@@ -215,15 +217,15 @@ export default class BaseNode extends SceneObject {
   }
 
   onActiveMetric(metric) {
-    const isActive = metric ? false : true;
-    this.stateMachine.changeStateProperty('active', isActive);
+    const value = metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
+    this.stateMachine.changeStateProperty('active', value);
   }
 
   onSceneObjectSelected(obj) {
-    const isThisSelected = (obj && obj.id === this.id) ?
-      true : false;
+    const value = (obj && obj.id === this.id) ?
+      PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
 
-    this.stateMachine.changeStateProperty('selected', isThisSelected);
+    this.stateMachine.changeStateProperty('selected', value);
   }
 
   update() {

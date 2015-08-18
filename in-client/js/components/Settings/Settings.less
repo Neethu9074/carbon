@@ -1,0 +1,60 @@
+@import "~in-themes/less/constants.less";
+
+.in-settings {
+
+  &__wrapper {
+    position: absolute;
+
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    z-index: @z-index__demo-sign-in;
+
+    background: black;
+    opacity: 0.95;
+  }
+
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+
+  top: 10%;
+  bottom: 10%;
+  left: 5%;
+  right: 5%;
+
+  padding: 10px;
+
+  background: #20272D;
+
+  &__icon-close {
+    font-size: 32px;
+    color: #99F4F5;
+
+    position: absolute;
+    right: 10px;
+    top: 0;
+
+    cursor: pointer;
+  }
+
+  &__icon-close:hover {
+    color: #fff;
+  }
+
+  &__heading {
+    font-size: 32px;
+    color: #99F4F5;
+    text-transform: uppercase;
+
+    margin: 0 15px 15px 0;
+  }
+
+  &__checkbox {
+    margin: 5px;
+  }
+}

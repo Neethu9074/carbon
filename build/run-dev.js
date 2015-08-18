@@ -43,6 +43,11 @@ var environments = {
     pw: 'crackme42',
     baseUrl: 'https://codecentric.instana.io'
   },
+  centerdevice: {
+    user: 'daniel.schneller@centerdevice.de',
+    pw: '543centerdevice345',
+    baseUrl: 'https://centerdevice.instana.io'
+  },
   simulator: {
     user: '<none>',
     pw: '<none>',

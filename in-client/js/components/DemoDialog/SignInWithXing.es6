@@ -1,5 +1,3 @@
-
-
 import _ from 'lodash';
 import React from 'react/addons';
 import {createLogger} from 'instalog';
@@ -57,7 +55,7 @@ const SignInWithXing = React.createClass({
   },
 
   onSignIn({error, user}) {
-    if (error === 'USER_LOGGED_OUT') {
+    if (error === 'USER_LOGGED_OUT' || error === 'INVALID_CONSUMER') {
       // ignore this error. It is okay for users not to be signed into xing
       return;
     } else if (error) {

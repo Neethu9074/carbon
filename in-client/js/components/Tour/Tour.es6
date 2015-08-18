@@ -1,21 +1,28 @@
-import React from 'react/addons';
 import * as ro from 'reactive-observables';
+import {Navigation} from 'react-router';
+import React from 'react/addons';
 
-import Button from 'in-components/Button';
-import keyCodes from 'in-components/keyCodes';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import * as tracking from 'in-services/tracking';
+import toPx from 'in-services/converters/toPx';
+import keyCodes from 'in-components/keyCodes';
+import Button from 'in-components/Button';
 
-import tourDefinition from './tours/001_instana_demo';
+import {tourDefinition, observable} from './tours/001_instana_demo';
 
 import './Tour.less';
 
 const tourViewedLocalStorageKey = 'in-tour-viewed';
-const margin = 10;
-const dialogMargin = 30;
 const block = 'in-guided-tour';
+const dialogMargin = 30;
+const margin = 10;
 
 const GuidedTour = React.createClass({
-  mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin,
+    Navigation
+  ],
 
   getInitialState() {
     const tourId = String(tourDefinition.id);
@@ -28,6 +35,8 @@ const GuidedTour = React.createClass({
 
   componentDidMount() {
     if (this.state.tourHasBeenSeen) return;
+
+    tracking.trackEvent(tracking.events.startATour);
 
     this.addSubscription(ro.on(window, 'resize').subscribe(this.onResize));
     this.addSubscription(ro.on(window, 'keyup').subscribe(this.onKeyUp));
@@ -44,75 +53,73 @@ const GuidedTour = React.createClass({
   },
 
   onResize() {
+    const step = tourDefinition.steps[this.state.activeStep];
     let focusedElement = tourDefinition.steps[this.state.activeStep].element;
     let clientRect = null;
+
+    if (step.visited) {
+      focusedElement = '.in-guided-tour__blocker';
+    }
+
     if (focusedElement) {
       if (typeof focusedElement === 'string') {
         focusedElement = document.querySelector(focusedElement);
+        if(!focusedElement) {
+          focusedElement = document.querySelector('.in-guided-tour__blocker');
+        }
       }
       clientRect = focusedElement.getBoundingClientRect();
     }
+
     this.positionOverlay(clientRect);
     this.positionDialog(clientRect);
+    step.visited = true;
   },
 
   positionOverlay(clientRect) {
-    const top = React.findDOMNode(this.refs.top);
-    const right = React.findDOMNode(this.refs.right);
-    const bottom = React.findDOMNode(this.refs.bottom);
-    const left = React.findDOMNode(this.refs.left);
+    const bottomStyle = React.findDOMNode(this.refs.bottom).style;
+    const rightStyle = React.findDOMNode(this.refs.right).style;
+    const leftStyle = React.findDOMNode(this.refs.left).style;
+    const topStyle = React.findDOMNode(this.refs.top).style;
+
+    topStyle.top = leftStyle.top = leftStyle.left = leftStyle.bottom =
+    bottomStyle.bottom = rightStyle.top = rightStyle.right = rightStyle.bottom =
+    0;
 
     if (clientRect) {
-      top.style.top = 0;
-      top.style.left = toPx(clientRect.left - margin);
-      top.style.width = toPx(clientRect.width + 2 * margin);
-      top.style.height = toPx(clientRect.top - margin);
+      topStyle.left = toPx(clientRect.left - margin);
+      topStyle.width = toPx(clientRect.width + 2 * margin);
+      topStyle.height = toPx(clientRect.top - margin);
+      leftStyle.width = toPx(clientRect.left - margin);
 
-      left.style.top = 0;
-      left.style.left = 0;
-      left.style.bottom = 0;
-      left.style.width = toPx(clientRect.left - margin);
+      bottomStyle.top = toPx(clientRect.top + clientRect.height + margin);
+      bottomStyle.left = toPx(clientRect.left - margin);
+      bottomStyle.width = toPx(clientRect.width + margin * 2);
 
-      bottom.style.top = toPx(clientRect.top + clientRect.height + margin);
-      bottom.style.left = toPx(clientRect.left - margin);
-      bottom.style.width = toPx(clientRect.width + margin * 2);
-      bottom.style.bottom = 0;
-
-      right.style.top = 0;
-      right.style.left = toPx(clientRect.left + clientRect.width + margin);
-      right.style.right = 0;
-      right.style.bottom = 0;
+      rightStyle.left = toPx(clientRect.left + clientRect.width + margin);
     } else {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      top.style.top = 0;
-      top.style.left = toPx(windowWidth / 2);
-      top.style.width = toPx(0);
-      top.style.height = toPx(windowHeight / 2);
+      topStyle.left = toPx(windowWidth / 2);
+      topStyle.width = toPx(0);
+      topStyle.height = toPx(windowHeight / 2);
 
-      right.style.top = 0;
-      right.style.left = toPx(windowWidth / 2);
-      right.style.right = 0;
-      right.style.bottom = 0;
+      leftStyle.width = toPx(windowWidth / 2);
 
-      bottom.style.top = toPx(windowHeight / 2);
-      bottom.style.left = toPx(windowWidth / 2);
-      bottom.style.width = 0;
-      bottom.style.bottom = 0;
+      bottomStyle.top = toPx(windowHeight / 2);
+      bottomStyle.left = toPx(windowWidth / 2);
+      bottomStyle.width = 0;
 
-      left.style.top = 0;
-      left.style.left = 0;
-      left.style.bottom = 0;
-      left.style.width = toPx(windowWidth / 2);
+      rightStyle.left = toPx(windowWidth / 2);
     }
   },
 
   positionDialog(clientRect) {
     const dialog = React.findDOMNode(this.refs.dialog);
     const dialogDimensions = dialog.getBoundingClientRect();
-    const windowWidth = window.innerWidth;
     const windowHeight = window.innerHeight;
+    const windowWidth = window.innerWidth;
 
     let x;
     let y;
@@ -151,7 +158,7 @@ const GuidedTour = React.createClass({
     const keyCode = e.keyCode;
 
     if (keyCode === keyCodes.escape) {
-      this.stopTour();
+      this.skipTour();
     } else if (keyCode === keyCodes.arrows.right) {
       this.nextStep();
     } else if (keyCode === keyCodes.arrows.left) {
@@ -160,22 +167,36 @@ const GuidedTour = React.createClass({
   },
 
   stopTour() {
+    observable.dispose();
+
     this.disposeSubscriptions();
     window.localStorage.setItem(tourViewedLocalStorageKey, String(tourDefinition.id));
-    this.setState({
-      tourHasBeenSeen: true
-    });
+
+    this.setState({ tourHasBeenSeen: true });
+  },
+
+  skipTour() {
+    tracking.trackEvent(tracking.events.skipATour);
+    this.stopTour();
   },
 
   nextStep() {
+    const currentStep = tourDefinition.steps[this.state.activeStep];
+    if (currentStep && currentStep.after) {
+      currentStep.after(this);
+    }
+
     if (this.state.activeStep + 1 >= tourDefinition.steps.length) {
+      tracking.trackEvent(tracking.events.finishATour);
       this.stopTour();
+
     } else {
+      tracking.trackEvent(tracking.events.nextStepInTour);
       const nextStepIndex = this.state.activeStep + 1;
       const step = tourDefinition.steps[nextStepIndex];
       if (step.before && !step.beforeExecuted) {
         step.beforeExecuted = true;
-        step.before();
+        step.before(this);
       }
       this.setState({
         activeStep: nextStepIndex
@@ -184,9 +205,23 @@ const GuidedTour = React.createClass({
   },
 
   previousStep() {
-    this.setState({
-      activeStep: Math.max(this.state.activeStep - 1, 0)
-    });
+    tracking.trackEvent(tracking.events.previousStepInTour);
+
+    const currentStep = this.state.activeStep;
+    const step = tourDefinition.steps[currentStep];
+
+    //undo the current step
+    if(step && step.undo) {
+      step.undo(this);
+    }
+
+    this.setState({ activeStep: Math.max(currentStep - 1, 0) });
+  },
+
+  tourFinished() {
+    tourDefinition.steps[this.state.activeStep].after();
+
+    this.stopTour();
   },
 
   render() {
@@ -195,12 +230,13 @@ const GuidedTour = React.createClass({
     const step = tourDefinition.steps[this.state.activeStep];
     return (
       <div className={block + '__overlay'}>
-        <div className={block + '__overlay-fragment'}></div>
 
         <div className={block + '__overlay-fragment'} ref='top'></div>
         <div className={block + '__overlay-fragment'} ref='right'></div>
         <div className={block + '__overlay-fragment'} ref='bottom'></div>
         <div className={block + '__overlay-fragment'} ref='left'></div>
+
+        <div className={block + '__blocker'}></div>
 
         <section className={block + '__dialog'} ref='dialog'>
           <header className={block + '__dialog-header'}>
@@ -208,7 +244,7 @@ const GuidedTour = React.createClass({
               Hint {this.state.activeStep + 1} / {tourDefinition.steps.length}
             </div>
             <div className={block + '__skip'}
-                 onClick={this.stopTour}>
+                 onClick={this.skipTour}>
               Skip this tour
             </div>
           </header>
@@ -230,12 +266,16 @@ const GuidedTour = React.createClass({
 
             {this.state.activeStep < tourDefinition.steps.length - 1 ?
               <Button onClick={this.nextStep}>
-                Next
+                {tourDefinition.steps[this.state.activeStep].nextStepLabel ?
+                tourDefinition.steps[this.state.activeStep].nextStepLabel :
+                'Next'}
               </Button>
             : null }
             {this.state.activeStep === tourDefinition.steps.length - 1 ?
-              <Button onClick={this.stopTour}>
-                Finish
+              <Button onClick={this.tourFinished}>
+                {tourDefinition.steps[this.state.activeStep].nextStepLabel ?
+                tourDefinition.steps[this.state.activeStep].nextStepLabel :
+                'Finish'}
               </Button>
             : null }
           </nav>
@@ -247,10 +287,3 @@ const GuidedTour = React.createClass({
 });
 
 export default GuidedTour;
-
-function toPx(v) {
-  // handle cases where the DOM style attribute is translating negative to
-  // positive pixel values, e.g. left: -10px is translated to left: 10px.
-  if (v < 0) return '0px';
-  return (v | 0) + 'px';
-}

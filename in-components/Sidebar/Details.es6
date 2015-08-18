@@ -1,7 +1,4 @@
 /*global require:false*/
-
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {IntlMixin} from 'react-intl';
@@ -9,13 +6,12 @@ import {Navigation} from 'react-router';
 
 import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
-import Jail from 'in-components/Jail';
-import HealthIcon from 'in-components/HealthIcon';
-import Button from 'in-components/Button';
-import ZoneTag from 'in-components/ZoneTag';
-import {clear} from 'in-services/stores/selectedSnapshot';
-import Icon from 'in-components/Icon';
 import * as tracking from 'in-services/tracking';
+
+import Jail from '../Jail';
+import HealthIcon from '../HealthIcon';
+import Button from '../Button';
+import ZoneTag from '../ZoneTag';
 
 import './Details.less';
 
@@ -38,10 +34,6 @@ const Details = React.createClass({
     return (
       <div className={block}>
         <div className={block + '__navigation'}>
-          <Icon type='arrow_left'
-                onClick={clear}
-                className={block + '__back'}/>
-
           <h2 className={block + '__title'}>
             {getSingular(snapshot.get('pluginId'))}
           </h2>
@@ -92,7 +84,7 @@ const Details = React.createClass({
   },
 
   openDashboard() {
-    tracking.trackEvent(tracking.events.openingADashboard);
+    tracking.trackEvent(tracking.events.openingADashboardUsingTheSidebar);
     this.transitionTo(
       'dashboard',
       {

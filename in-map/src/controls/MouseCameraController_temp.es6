@@ -1,5 +1,8 @@
 import * as ro from 'reactive-observables';
 
+import {settings} from 'in-services/settings';
+import {theme} from 'in-services/theme';
+
 import TouchController from './TouchCameraController_temp';
 import {cursorPosition} from '../stores/mapStore';
 
@@ -15,7 +18,7 @@ export default class MouseControl extends TouchController {
       e.preventDefault();
 
       const roundedX = e.clientX | 0;
-      const roundedY = e.clientY | 0;
+      const roundedY = (e.clientY | 0) + theme.footer.height;
       if (this.lastMousePosition.x !== roundedX ||
           this.lastMousePosition.y !== roundedY) {
         this.lastMousePosition.x = roundedX;
@@ -58,7 +61,7 @@ export default class MouseControl extends TouchController {
         } else if (zoom > 50) {
           zoom = 50;
         }
-        this.zoom(-zoom);
+        this.zoom(-zoom * settings.scrollDirection * settings.scrollSpeed);
       });
   }
 }

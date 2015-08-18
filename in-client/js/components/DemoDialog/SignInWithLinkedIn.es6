@@ -33,9 +33,10 @@ const SignInWithLinkedIn = React.createClass({
     className: rpt.string
   },
 
-  shouldComponentUpdate() {
-    // we do not permit updates as we do not want to trip up linkedin
-    return false;
+  getInitialState() {
+    return {
+      linkedInApiLoaded: false
+    };
   },
 
   componentDidMount() {
@@ -43,18 +44,19 @@ const SignInWithLinkedIn = React.createClass({
     // https://dev.xing.com/plugins/login_with/docs#get-started
     window.onLinkedInAuthLoaded = this.onLinkedInAuthLoaded;
 
-    const domNode = React.findDOMNode(this);
-
     const apiKey = window.instana.config.keys.linkedin;
     const linkedInScriptElement = document.createElement('script');
     linkedInScriptElement.src = '//platform.linkedin.com/in.js';
     linkedInScriptElement.innerHTML = 'api_key: ' + apiKey + '\n' +
       'authorize: true\n' +
       'onLoad: onLinkedInAuthLoaded';
-    domNode.appendChild(linkedInScriptElement);
+    document.head.appendChild(linkedInScriptElement);
   },
 
   onLinkedInAuthLoaded() {
+    this.setState({
+      linkedInApiLoaded: true
+    });
     IN.Event.on(IN, 'auth', this.requestUserData);
   },
 
@@ -83,6 +85,10 @@ const SignInWithLinkedIn = React.createClass({
   },
 
   render() {
+    if (!this.state.linkedInApiLoaded) {
+      return null;
+    }
+
     let classes = block;
     if (this.props.className) {
       classes += ' ' + this.props.className;

@@ -4,7 +4,6 @@ import MetricTreeHeader from './MetricTreeHeader';
 
 import './MetricTree.less';
 
-
 const block = 'in-sidebar-metric-tree';
 const rpt = React.PropTypes;
 const MetricTree = React.createClass({

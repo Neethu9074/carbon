@@ -1,6 +1,7 @@
 import THREE from 'three';
 import _ from 'lodash';
 
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
 import SceneObject from '../SceneObject';
 
@@ -65,13 +66,13 @@ export default class Connection extends SceneObject {
     this.enableFragment();
 
     // show hide connected nodes on highlighting factory
-    this.to.stateMachine.changeStateProperty('indirect', true);
+    this.to.stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
   }
 
   onSelectedLeave() {
     this.enableFragment(false);
 
-    this.to.stateMachine.changeStateProperty('indirect', false);
+    this.to.stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.OFF);
   }
 
   onSelectedHighlightEnter() {
@@ -79,13 +80,13 @@ export default class Connection extends SceneObject {
 
     this.enableFragment();
 
-    this.to.stateMachine.changeStateProperty('indirect', true);
+    this.to.stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightLeave() {
     this.enableFragment(false);
 
-    this.to.stateMachine.changeStateProperty('indirect', false);
+    this.to.stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.OFF);
   }
 
   onHiddenEnter() {
@@ -271,12 +272,12 @@ export default class Connection extends SceneObject {
   }
 
   select() {
-    this.stateMachine.changeStateProperty('selected', true);
+    this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
   }
 
   unSelect() {
     if(!this.oneEndpointIsSelected()) {
-      this.stateMachine.changeStateProperty('selected', false);
+      this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
     }
   }
 

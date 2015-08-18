@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer/index';
 import Component from '../Component';
 
@@ -18,11 +19,11 @@ export default class LayerComponent extends Component {
   }
 
   onInitialEnter() {
-    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', true));
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {
-    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', false));
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
 
@@ -87,9 +88,9 @@ export default class LayerComponent extends Component {
     super.dispose();
 
     this.layer.slice().forEach(layer => layer.dispose());
-    this.layer = null;
 
     this.positionToSet = null;
     this.heightToSet = null;
+    this.layer = null;
   }
 }

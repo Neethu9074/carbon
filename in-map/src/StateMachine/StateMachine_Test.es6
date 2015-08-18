@@ -2,9 +2,8 @@
 /*eslint-disable no-unused-expressions */
 import {expect} from 'chai';
 import sinon from 'sinon';
-import _ from 'lodash';
 
-import StateMachine from './StateMachine';
+import {StateMachine, PROPERTY_VALUES} from './StateMachine';
 
 
 class SpecificSceneObject {
@@ -16,7 +15,7 @@ class SpecificSceneObject {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', true);
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   getOrCreateStub(name) {
@@ -44,16 +43,6 @@ class SpecificSceneObject {
   onSelectedHighlightInactiveLeave() {this.getOrCreateStub('onSelectedHighlightInactiveLeaveStub')(); }
 }
 
-function matches(pair, handled) {
-  return _.find(handled, pair2 =>
-    (pair[0][0] === pair2[0][0] &&
-    pair[0][1] === pair2[0][1] &&
-    pair[0][2] === pair2[0][2] &&
-    pair[0][3] === pair2[0][3] &&
-    pair[0][4] === pair2[0][4])
-  );
-}
-
 describe('3D map', () => {
   let stateMachine;
   let sceneObject;
@@ -67,15 +56,28 @@ describe('3D map', () => {
 
     describe('states', () => {
 
-      it('should contain unique pairs', () => {
-        const handled = [];
+      it('should cover all possible paths', () => {
+        const maxDepth = 5;
+        let numChecks = 1;
+
+        const check01 = (lut, depth) => {
+          expect(lut[0]).to.not.equal(void 0);
+          expect(lut[1]).to.not.equal(void 0);
+
+          if(depth === maxDepth) {
+            return;
+          }
+
+          numChecks += 1;
+          const nextDepth = depth + 1;
+          check01(lut[0], nextDepth);
+          check01(lut[1], nextDepth);
+        };
+
         const lut = stateMachine.stateLookUpTable;
-        for (let i = 0; i < lut.length; i++) {
-          const pair = lut[i];
-          const match = matches(pair, handled);
-          handled.push(pair);
-          expect(match).to.equal(void 0);
-        }
+        check01(lut, 0);
+
+        expect(numChecks).to.equal(Math.pow(2, maxDepth));
       });
 
       it('should be initial by default', () => {
@@ -95,29 +97,29 @@ describe('3D map', () => {
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
         //highlight is false by default so there shouldn't be any update
-        stateMachine.changeStateProperty('highlight', false);
+        stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
       });
 
       it('should update to highlighted on highlight', () => {
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
 
-        stateMachine.changeStateProperty('highlight', true);
+        stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
 
         //no update on double set
-        stateMachine.changeStateProperty('highlight', true);
+        stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
       });
 
       it('should update to inital on indirect', () => {
         expect(sceneObject.onIndirectHighlightEnterStub).to.equal(void 0);
 
-        stateMachine.changeStateProperty('indirect', true);
+        stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
         expect(sceneObject.onIndirectHighlightEnterStub.callCount).to.equal(1);
 
         //no update on double set
-        stateMachine.changeStateProperty('indirect', true);
+        stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
         expect(sceneObject.onIndirectHighlightEnterStub.callCount).to.equal(1);
       });
 
@@ -125,12 +127,12 @@ describe('3D map', () => {
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('highlight', true);
+        stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('highlight', false);
+        stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
         expect(sceneObject.onHighlightLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
@@ -141,12 +143,12 @@ describe('3D map', () => {
         expect(sceneObject.onIndirectHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('indirect', true);
+        stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
         expect(sceneObject.onIndirectHighlightEnterStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('indirect', false);
+        stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.OFF);
         expect(sceneObject.onIndirectHighlightEnterStub.callCount).to.equal(1);
         expect(sceneObject.onIndirectHighlightLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
@@ -157,12 +159,12 @@ describe('3D map', () => {
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('selected', true);
+        stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('selected', false);
+        stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
         expect(sceneObject.onSelectedLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
@@ -173,12 +175,12 @@ describe('3D map', () => {
         expect(sceneObject.onInactiveEnterStub).to.equal(void 0);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('active', false);
+        stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
         expect(sceneObject.onInactiveEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('active', true);
+        stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
         expect(sceneObject.onInactiveEnterStub.callCount).to.equal(1);
         expect(sceneObject.onInactiveLeaveStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub.callCount).to.equal(1);
@@ -190,15 +192,15 @@ describe('3D map', () => {
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
 
-        stateMachine.changeStateProperty('selected', true);
+        stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('highlight', true);
+        stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('selected', false);
+        stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
         expect(sceneObject.onSelectedLeaveStub.callCount).to.equal(1);
@@ -209,15 +211,15 @@ describe('3D map', () => {
         expect(sceneObject.onIndirectHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
 
-        stateMachine.changeStateProperty('selected', true);
+        stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
         expect(sceneObject.onIndirectHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('indirect', true);
+        stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
         expect(sceneObject.onIndirectHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('selected', false);
+        stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
         expect(sceneObject.onIndirectHighlightEnterStub.callCount).to.equal(1);
         expect(sceneObject.onSelectedEnterStub.callCount).to.equal(1);
         expect(sceneObject.onSelectedLeaveStub.callCount).to.equal(1);
@@ -229,22 +231,22 @@ describe('3D map', () => {
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onInactiveEnterStub).to.equal(void 0);
 
-        stateMachine.changeStateProperty('active', false);
+        stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onInactiveEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('highlight', true);
+        stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onInactiveEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('selected', true);
+        stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onInactiveEnterStub.callCount).to.equal(1);
 
-        stateMachine.changeStateProperty('indirect', true);
+        stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onInactiveEnterStub.callCount).to.equal(1);

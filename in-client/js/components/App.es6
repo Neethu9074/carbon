@@ -13,15 +13,17 @@ import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
+import Sidebar from 'in-components/Sidebar';
+import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import {create} from 'in-services/conveyer';
 import Map from 'in-map';
 
 import ConnectionStatus from './ConnectionStatus';
 import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
-import Sidebar from './Sidebar';
-import Footer from './Footer';
 import DemoDialog from './DemoDialog';
+import Settings from './Settings';
+import Footer from './Footer';
 
 import './App.less';
 
@@ -44,7 +46,8 @@ const App = React.createClass({
   getInitialState() {
     return {
       selectedSnapshot: null,
-      pluginIds: [constants.plugins.os]
+      pluginIds: [constants.plugins.os],
+      showSettings: false
     };
   },
 
@@ -74,7 +77,11 @@ const App = React.createClass({
   },
 
   togglePlugin(pluginIds) {
-    this.setState({pluginIds});
+    this.setState({ pluginIds });
+  },
+
+  showMenu(show=true) {
+    this.setState({ showSettings: show });
   },
 
   render() {
@@ -82,6 +89,11 @@ const App = React.createClass({
 
     return (
       <div>
+        {this.state.showSettings ?
+          <Settings showMenu={this.showMenu}/> :
+          null
+        }
+
         <Lettering className='in-root-lettering' />
 
         {__DEV__ ?
@@ -92,13 +104,13 @@ const App = React.createClass({
           <ChoosePluginButton onClick={this.togglePlugin}/>
         : null}
 
-        <div style={{display: hasChildren ? 'none' : 'block'}}>
+        <section style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginIds={this.state.pluginIds} />
           <Sidebar pluginIds={this.state.pluginIds} />
           <FeedbackBadge />
-        </div>
+        </section>
 
-        <Footer />
+        <Footer showMenu={this.showMenu}/>
 
         <RouteHandler />
 
@@ -109,6 +121,8 @@ const App = React.createClass({
         {window.instana.config.environment === 'demo' ?
           <DemoDialog />
         : null}
+
+        <TooltipPresenter />
 
         <ConnectionStatus />
       </div>

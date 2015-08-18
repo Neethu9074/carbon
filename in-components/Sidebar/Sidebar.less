@@ -1,0 +1,37 @@
+@import "~in-themes/less/constants.less";
+
+.in-sidebar {
+  @content-width: 21rem;
+  @transition-duration: .5s;
+  @transition-easing: ease-in-out;
+
+  &__controls {
+    right: 0;
+    transition: right @transition-duration @transition-easing;
+
+    &--open {
+      right: @content-width;
+    }
+  }
+
+  &__content {
+    position: absolute;
+    top: 0;
+    right: @content-width * -1;
+    bottom: @footer__height * 1px;
+    width: @content-width;
+    padding: 1rem;
+    box-sizing: border-box;
+
+    z-index: @z-index__sidebar;
+    transition: right @transition-duration @transition-easing;
+
+    background: hsla(199, 24%, 24%, 0.95);
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    &--open {
+      right: 0;
+    }
+  }
+}

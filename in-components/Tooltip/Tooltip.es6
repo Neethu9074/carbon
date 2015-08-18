@@ -1,0 +1,58 @@
+import React from 'react/addons';
+
+import * as tooltipStore from 'in-services/stores/tooltip';
+
+const rpt = React.PropTypes;
+
+const Tooltip = React.createClass({
+  mixins: [React.addons.PureRenderMixin],
+
+  propTypes: {
+    content: rpt.string.isRequired,
+    children: rpt.any.isRequired
+  },
+
+  componentDidMount() {
+    this.addListeners();
+  },
+
+  componentDidUpdate() {
+    this.removeListeners();
+    this.addListeners();
+  },
+
+  removeListeners() {
+    if (this.domNode) {
+      this.domNode.removeEventListener('mouseenter', this.onMouseIn, false);
+      this.domNode.removeEventListener('mouseleave', this.onMouseOut, false);
+      this.domNode = null;
+    }
+  },
+
+  addListeners() {
+    this.domNode = React.findDOMNode(this);
+    this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
+    this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
+  },
+
+  componentWillUnmount() {
+    this.removeListeners();
+  },
+
+  onMouseIn() {
+    tooltipStore.setActiveTooltip({
+      content: this.props.content,
+      focusedElement: this.domNode
+    });
+  },
+
+  onMouseOut() {
+    tooltipStore.clearActiveTooltip();
+  },
+
+  render() {
+    return this.props.children;
+  }
+});
+
+export default Tooltip;

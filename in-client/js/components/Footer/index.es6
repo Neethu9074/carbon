@@ -13,12 +13,16 @@ const Footer = React.createClass({
     React.addons.PureRenderMixin
   ],
 
+  propTypes: {
+    showMenu: React.PropTypes.func
+  },
+
   render() {
     return (
       <div className={block}>
         <Issues />
         <Timeline />
-        <Menu />
+        <Menu showMenu={this.props.showMenu}/>
       </div>
     );
   }

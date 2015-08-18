@@ -88,6 +88,8 @@ export default class LineMeshComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.factory.removeFragment(this.id);
+
     this.contentProvider = null;
     this.positionToSet = null;
     this.scaleToSet = null;

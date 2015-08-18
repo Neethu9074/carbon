@@ -15,6 +15,7 @@ import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
 import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
+import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
 import {longClickedSceneObject} from '../../../stores/mapStore';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
@@ -93,15 +94,20 @@ export default class Node extends BaseNode {
     this.snapshotServer = new NodeSnapshotServer(this);
 
     this.addSubscription(
-      highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted =>
-        this.stateMachine.changeStateProperty('highlight', isIdEqual(highlighted, this.snapshot))
-      )
+      highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
+        const value = isIdEqual(highlighted, this.snapshot) ?
+          PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+        this.stateMachine.changeStateProperty('highlight', value);
+      })
     );
 
     this.addSubscription(
       longClickedSceneObject.subscribe((so) => {
         if(so && so.id === this.id) {
           eventBus.emit('openDashboard', this.snapshot);
+
+          //double or long clicked
+          tracking.trackEvent(tracking.events.openingADashboardUsingTheMap);
         }
       })
     );
@@ -135,11 +141,11 @@ export default class Node extends BaseNode {
     this.stickyNote.switchToMetric();
 
     if(currentMetric.size === 1) {
-      this.singleMetricPillar.stateMachine.changeStateProperty('active', true);
-      this.multiMetricPillar.stateMachine.changeStateProperty('active', false);
+      this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     } else {
-      this.multiMetricPillar.stateMachine.changeStateProperty('active', true);
-      this.singleMetricPillar.stateMachine.changeStateProperty('active', false);
+      this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     }
 
     // const position = this.getPosition();
@@ -160,8 +166,8 @@ export default class Node extends BaseNode {
   hideMetrics() {
     this.stickyNote.switchToIcon();
 
-    this.singleMetricPillar.stateMachine.changeStateProperty('active', false);
-    this.multiMetricPillar.stateMachine.changeStateProperty('active', false);
+    this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     this.tooltip = this.getNodeTooltip();
   }
@@ -273,12 +279,12 @@ export default class Node extends BaseNode {
     this.getComponent('mesh').colorChanged(r, g, b);
 
     if(newHealth === health.ok) {
-      ground.stateMachine.changeStateProperty('active', false);
-      groundLine.stateMachine.changeStateProperty('active', false);
+      ground.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+      groundLine.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     } else {
-      ground.stateMachine.changeStateProperty('active', true);
-      groundLine.stateMachine.changeStateProperty('active', true);
+      ground.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      groundLine.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     }
   }
 

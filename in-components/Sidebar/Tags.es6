@@ -1,5 +1,3 @@
-
-
 import _ from 'lodash';
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
@@ -8,8 +6,7 @@ import {getColor} from 'in-services/tags';
 import classnames from 'in-services/util/classnames';
 import * as mapFilters from 'in-services/stores/mapFilters';
 
-import enhance from 'in-components/hoc/enhance';
-
+import enhance from '../hoc/enhance';
 import './Tags.less';
 
 const block = 'in-sidebar-tag-listing';

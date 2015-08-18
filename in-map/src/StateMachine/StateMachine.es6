@@ -12,54 +12,93 @@ import InitialState from './InitialState';
 import HiddenState from './HiddenState';
 
 
-/*eslint-disable no-multi-spaces*/
-const stateLUT = [
-  //highlight,  selected,   active    hidden    indirect  result state
-  [[false,      false,      true,     false,    false],   'initial'],
-  [[false,      true,       true,     false,    false],   'selected'],
-  [[true,       false,      true,     false,    false],   'highlighted'],
-  [[true,       true,       true,     false,    false],   'selectedHighlighted'],
-  [[false,      true,       false,    false,    false],   'selectedInactive'],
-  [[true,       false,      false,    false,    false],   'highlightedInactive'],
-  [[true,       true,       false,    false,    false],   'selectedHighlightedInactive'],
-  [[false,      false,      false,    false,    false],   'inactive'],
-  [[false,      false,      true,     true,     false],   'hidden'],
-  [[false,      true,       true,     true,     false],   'hidden'],
-  [[true,       false,      true,     true,     false],   'hidden'],
-  [[true,       true,       true,     true,     false],   'hidden'],
-  [[false,      true,       false,    true,     false],   'hidden'],
-  [[true,       false,      false,    true,     false],   'hidden'],
-  [[true,       true,       false,    true,     false],   'hidden'],
-  [[false,      false,      false,    true,     false],   'hidden'],
-  [[false,      false,      true,     false,    true],    'indirect'],
-  [[false,      true,       true,     false,    true],    'selected'],
-  [[true,       false,      true,     false,    true],    'highlighted'],
-  [[true,       true,       true,     false,    true],    'selectedHighlighted'],
-  [[false,      true,       false,    false,    true],    'selectedInactive'],
-  [[true,       false,      false,    false,    true],    'highlightedInactive'],
-  [[true,       true,       false,    false,    true],    'selectedHighlightedInactive'],
-  [[false,      false,      false,    false,    true],    'inactive'],
-  [[false,      false,      true,     true,     true],    'hidden'],
-  [[false,      true,       true,     true,     true],    'hidden'],
-  [[true,       false,      true,     true,     true],    'hidden'],
-  [[true,       true,       true,     true,     true],    'hidden'],
-  [[false,      true,       false,    true,     true],    'hidden'],
-  [[true,       false,      false,    true,     true],    'hidden'],
-  [[true,       true,       false,    true,     true],    'hidden'],
-  [[false,      false,      false,    true,     true],    'hidden']
-];
-/*eslint-enable no-multi-spaces*/
+const ON = 1;
+const OFF = 0;
 
-export default class StateMachine extends AStateMachine {
+const stateLUT =
+[ [ [ [ [ 'inactive',                     // 0 0 0 0 0
+          'inactive'],                    // 0 0 0 0 1
+        [ 'hidden',                       // 0 0 0 1 0
+          'hidden'] ],                    // 0 0 0 1 1
+      [ [ 'initial',                      // 0 0 1 0 0
+          'indirect'],                    // 0 0 1 0 1
+        [ 'hidden',                       // 0 0 1 1 0
+          'hidden'] ] ],                  // 0 0 1 1 1
+    [ [ [ 'selectedInactive',             // 0 1 0 0 0
+          'selectedInactive'],            // 0 1 0 0 1
+        [ 'hidden',                       // 0 1 0 1 0
+          'hidden'] ],                    // 0 1 0 1 1
+      [ [ 'selected',                     // 0 1 1 0 0
+          'selected'],                    // 0 1 1 0 1
+        [ 'hidden',                       // 0 1 1 1 0
+          'hidden'] ] ] ],                // 0 1 1 1 1
+  [ [ [ [ 'highlightedInactive',          // 1 0 0 0 0
+          'highlightedInactive'],         // 1 0 0 0 1
+        [ 'hidden',                       // 1 0 0 1 0
+          'hidden'] ],                    // 1 0 0 1 1
+      [ [ 'highlighted',                  // 1 0 1 0 0
+          'highlighted'],                 // 1 0 1 0 1
+        [ 'hidden',                       // 1 0 1 1 0
+          'hidden'] ] ],                  // 1 0 1 1 1
+    [ [ [ 'selectedHighlightedInactive',  // 1 1 0 0 0
+          'selectedHighlightedInactive'], // 1 1 0 0 1
+        [ 'hidden',                       // 1 1 0 1 0
+          'hidden'] ],                    // 1 1 0 1 1
+      [ [ 'selectedHighlighted',          // 1 1 1 0 0
+          'selectedHighlighted'],         // 1 1 1 0 1
+        [ 'hidden',                       // 1 1 1 1 0
+          'hidden'] ] ] ]                 // 1 1 1 1 1
+];
+
+//   //highlight   selected  active    hidden    indirect  result state
+//   [OFF,        OFF,      ON,        OFF,     OFF],     'initial',
+//   [OFF,        ON,       ON,        OFF,     OFF],     'selected',
+//   [ON,         OFF,      ON,        OFF,     OFF],     'highlighted',
+//   [ON,         ON,       ON,        OFF,     OFF],     'selectedHighlighted',
+//   [OFF,        ON,       OFF,       OFF,     OFF],     'selectedInactive',
+//   [ON,         OFF,      OFF,       OFF,     OFF],     'highlightedInactive',
+//   [ON,         ON,       OFF,       OFF,     OFF],     'selectedHighlightedInactive',
+//   [OFF,        OFF,      OFF,       OFF,     OFF],     'inactive',
+//   [OFF,        OFF,      ON,        ON,      OFF],     'hidden',
+//   [OFF,        ON,       ON,        ON,      OFF],     'hidden',
+//   [ON,         OFF,      ON,        ON,      OFF],     'hidden',
+//   [ON,         ON,       ON,        ON,      OFF],     'hidden',
+//   [OFF,        ON,       OFF,       ON,      OFF],     'hidden',
+//   [ON,         OFF,      OFF,       ON,      OFF],     'hidden',
+//   [ON,         ON,       OFF,       ON,      OFF],     'hidden',
+//   [OFF,        OFF,      OFF,       ON,      OFF],     'hidden',
+//   [OFF,        OFF,      ON,        OFF,     ON],      'indirect',
+//   [OFF,        ON,       ON,        OFF,     ON],      'selected',
+//   [ON,         OFF,      ON,        OFF,     ON],      'highlighted',
+//   [ON,         ON,       ON,        OFF,     ON],      'selectedHighlighted',
+//   [OFF,        ON,       OFF,       OFF,     ON],      'selectedInactive',
+//   [ON,         OFF,      OFF,       OFF,     ON],      'highlightedInactive',
+//   [ON,         ON,       OFF,       OFF,     ON],      'selectedHighlightedInactive',
+//   [OFF,        OFF,      OFF,       OFF,     ON],      'inactive',
+//   [OFF,        OFF,      ON,        ON,      ON],      'hidden',
+//   [OFF,        ON,       ON,        ON,      ON],      'hidden',
+//   [ON,         OFF,      ON,        ON,      ON],      'hidden',
+//   [ON,         ON,       ON,        ON,      ON],      'hidden',
+//   [OFF,        ON,       OFF,       ON,      ON],      'hidden',
+//   [ON,         OFF,      OFF,       ON,      ON],      'hidden',
+//   [ON,         ON,       OFF,       ON,      ON],      'hidden',
+//   [OFF,        OFF,      OFF,       ON,      ON],      'hidden'
+
+export const PROPERTY_VALUES = {
+  ON,
+  OFF
+};
+
+export class StateMachine extends AStateMachine {
 
   constructor(owner) {
     super({
       stateProperties: {
-        highlight: false,
-        selected: false,
-        indirect: false,
-        hidden: false,
-        active: false
+        highlight: OFF,
+        selected: OFF,
+        indirect: OFF,
+        hidden: OFF,
+        active: OFF
       },
       stateLUT,
       owner
@@ -81,16 +120,12 @@ export default class StateMachine extends AStateMachine {
     };
   }
 
-  checkAgainstCurrentProperties(flags) {
-    const stateProps = this.stateProperties;
-    if(stateProps.highlight === flags[0] &&
-       stateProps.selected === flags[1] &&
-       stateProps.active === flags[2] &&
-       stateProps.hidden === flags[3] &&
-       stateProps.indirect === flags[4]
-    ) {
-      return true;
-    }
-    return false;
+  checkLUTAgainstCurrentProperties(LUT, stateProps) {
+    const a = stateProps.highlight;
+    const b = stateProps.selected;
+    const c = stateProps.active;
+    const d = stateProps.hidden;
+    const e = stateProps.indirect;
+    return LUT[a][b][c][d][e];
   }
 }

@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Connection from '../../sceneObjects/Connection/index';
 import Component from '../Component';
 
@@ -15,56 +16,26 @@ export default class ConnectionComponent extends Component {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', false);
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
-  onInitialEnter() {
+  onHighlightEnter() {
     this.setupConnections();
-    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', true));
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON));
   }
 
   onSelectedEnter() {
     this.setupConnections();
-    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON));
   }
 
   onSelectedHighlightEnter() {
     this.setupConnections();
-    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {
     this.clearConnections(true);
-  }
-
-
-  highlightChanged(highlighted) {
-    if(this.highlighted === highlighted) {
-      return;
-    }
-
-    if(highlighted) {
-      this.setupConnections();
-    }
-
-    this.getAllConnections().forEach(c =>
-      c.stateMachine.changeStateProperty('highlight', highlighted));
-
-    this.highlighted = highlighted;
-  }
-
-  selectionChanged(selected) {
-    if(this.selected === selected) {
-      return;
-    }
-
-    if(selected) {
-      this.getAllConnections().forEach((c) => {c.show(); c.select(); });
-    } else {
-      this.getAllConnections().forEach((c) => {c.unSelect(); c.hide(); });
-    }
-
-    this.selected = selected;
   }
 
   positionChanged() {}
@@ -143,6 +114,7 @@ export default class ConnectionComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.clearConnections(true);
     this.connections = null;
     this.highlighted = null;
   }

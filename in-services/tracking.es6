@@ -3,11 +3,18 @@ let hubspotQueue = [];
 export const events = {
   clickOnServerIn3DMap: '000000370470',
   clickOnServerInSidebar: '000000370626',
-  openingADashboard: '000000370614',
+  openingADashboardUsingTheSidebar: '000000370614',
+  openingADashboardUsingTheMap: '000000375622',
   showMetricIn3dMap: '000000370623',
   clickOnConnectionBetweenCubes: '000000370625',
   changingTimeWindowUsingTimeline: '000000370627',
-  clickOnUnMonitoredIn3dMap: '000000370835'
+  clickOnUnMonitoredIn3dMap: '000000370835',
+  startATour: '000000375707',
+  finishATour: '000000374837',
+  skipATour: '000000374839',
+  nextStepInTour: '000000374840',
+  previousStepInTour: '000000374841',
+  navigateToAWiredComponentFromTheDashboard: '000000375623'
 };
 
 export function identify() {

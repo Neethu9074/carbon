@@ -1,10 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import Collapsible from 'in-components/Collapsible';
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
 
+import Collapsible from '../Collapsible';
 import SnapshotList from './SnapshotList';
 
 import './ZoneList.less';
@@ -34,6 +34,7 @@ const ZoneList = React.createClass({
 
     return (
       <div className={block}>
+        <h1 className={block + '__label'}>Zones</h1>
         {zones.map(zone =>
           <Collapsible key={zone}>
             <Collapsible.Header style={{color: getColor(zone)}}

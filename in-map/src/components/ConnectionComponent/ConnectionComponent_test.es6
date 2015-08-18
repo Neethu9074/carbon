@@ -1,7 +1,6 @@
 /*eslint-env mocha, node */
 /*eslint-disable no-unused-expressions */
 import {expect} from 'chai';
-import sinon from 'sinon';
 
 import ConnectionComponent from './ConnectionComponent';
 
@@ -11,10 +10,7 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
-    sceneObject = {
-      highlightChanged: sinon.stub(),
-      selectionChanged: sinon.stub()
-    };
+    sceneObject = {};
     component = new ConnectionComponent({sceneObject});
   });
 

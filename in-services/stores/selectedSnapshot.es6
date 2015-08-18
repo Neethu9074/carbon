@@ -1,5 +1,3 @@
-
-
 import create from './abstractSelectableSnapshotStore';
 
 const store = create('selected snapshot');

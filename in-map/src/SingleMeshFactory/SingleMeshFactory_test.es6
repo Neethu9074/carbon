@@ -17,7 +17,8 @@ describe('3D map', () => {
     factory = new SMF({
       scene: {
         addSceneObject() {},
-        removeSceneObject() {}
+        removeSceneObject() {},
+        renderScene() {}
       }
     });
   });

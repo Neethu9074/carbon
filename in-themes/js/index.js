@@ -88,6 +88,7 @@ exports.consts = {
       lettering: zIndex++,
       stickyNotes: zIndex++,
       sidebar: zIndex++,
+      sidebarControls: zIndex++,
       search: zIndex++,
       header: zIndex++,
       notificationCenter: zIndex++,
