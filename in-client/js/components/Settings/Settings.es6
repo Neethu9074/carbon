@@ -3,7 +3,7 @@ import React from 'react/addons';
 import Icon from 'in-components/Icon';
 import {settings as globalSettings, save} from 'in-services/settings';
 
-import './index.less';
+import './Settings.less';
 
 const block = 'in-settings';
 
