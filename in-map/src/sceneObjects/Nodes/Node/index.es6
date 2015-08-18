@@ -107,7 +107,7 @@ export default class Node extends BaseNode {
           eventBus.emit('openDashboard', this.snapshot);
 
           //double or long clicked
-          tracking.trackEvent(tracking.events.openingADashboard);
+          tracking.trackEvent(tracking.events.openingADashboardUsingTheMap);
         }
       })
     );
