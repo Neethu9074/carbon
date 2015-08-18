@@ -8,6 +8,8 @@
     "postinstall": "./build/postInstall",
     "clean": "gulp clean",
     "build": "export BUILD_DEV='false' && gulp clean && gulp build",
+    "eslint": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js" ,
+    "eslintOne": "eslint --ext .es6 ",
     "test": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.ts' -o -name '*_test.es6')",
     "dev": "./build/run-dev.js"
   },

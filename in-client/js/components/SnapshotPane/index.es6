@@ -1,42 +1,54 @@
 /*eslint-disable react/no-multi-comp*/
-import {State, Navigation} from 'react-router';
-import irpt from 'react-immutable-proptypes';
-import moment from 'moment';
 import React from 'react';
+import {State, Navigation} from 'react-router';
+import moment from 'moment';
+import irpt from 'react-immutable-proptypes';
 
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {create} from 'in-services/conveyer';
+import http from 'in-services/http';
 
 import './index.less';
 
-const block = 'in-snapshot-pane';
+const block = 'in-dashboard';
 
 const SnapshotsPaneContent = React.createClass({
+  mixins: [Navigation],
   propTypes: {
-    snapshots: irpt.list.isRequired
+    snapshots: irpt.list.isRequired,
+    env: irpt.list.isRequired,
+    unit: irpt.list.isRequired,
+    tenant: irpt.list.isRequired
   },
 
   render() {
     const snapshots = this.props.snapshots;
-
     return (
-      <table>
+      <table className='in-subtle-table in-subtle-table--clickable in-snapshots-table'>
         <thead>
           <tr>
             <th>Host</th>
             <th>Steady Id</th>
             <th>Snapshot</th>
             <th>Last Seen</th>
+            <th>Online</th>
           </tr>
         </thead>
         <tbody>
         {snapshots.map((snapshot) =>
-          <tr>
-            <td>{snapshot.get('hostId')}</td>
-            <td>{snapshot.get('steadyId')}</td>
-            <td><pre>{JSON.stringify(snapshot.get('data'), null, 2)}</pre></td>
-            <td>{moment(snapshot.get('timestamp')).fromNow('dddd')} ago</td>
+          <tr onClick={() =>
+              this.transitionTo('metric-latency-pane',
+                                {env: this.props.env,
+                                 tenant: this.props.tenant,
+                                 unit: this.props.unit,
+                                 hostId: snapshot.host_id,
+                                 pluginId: snapshot.plugin_id,
+                                 steadyId: snapshot.steady_id})}>
+            <td>{snapshot.host_id}</td>
+            <td>{snapshot.steady_id}</td>
+            <td>
+               <pre>{JSON.stringify(JSON.parse(snapshot.snapshot), null, 2)}</pre>
+            </td>
+            <td>{moment(snapshot.timestamp).fromNow('dddd')} ago</td>
+            <td>{snapshot.online ? 'online' : 'offline'}</td>
           </tr>
         )}
         </tbody>
@@ -46,14 +58,33 @@ const SnapshotsPaneContent = React.createClass({
 });
 
 const SnapshotPane = React.createClass({
-  mixins: [SubscriptionMixin, State, Navigation],
+  mixins: [State, Navigation],
+
+  propTypes: {
+    params: React.PropTypes.shape({
+      env: irpt.list.isRequired,
+      tenant: irpt.list.isRequired,
+      unit: irpt.list.isRequired
+    })
+  },
 
   bindToDatasource() {
-    const pluginId = 'com.instana.forge.infrastructure.os.OS';
-    const observable = create(SnapshotConveyer, {pluginId});
-    this.addSubscription(observable.subscribe(snapshots =>
-      this.setState({snapshots}))
-    );
+    http({method: 'GET', url: '/internal/api/' +
+                              this.props.params.env + '/' +
+                              this.props.params.tenant + '/' +
+                              this.props.params.unit + '/hosts'})
+      .then(response => {
+        this.setState({
+          snapshots: response.body,
+          error: null
+        });
+      }, err => {
+        logger.error('Failed to load snapshots', err);
+        this.setState({
+          snapshots: null,
+          error: err
+        });
+      });
   },
 
   componentDidMount() {
@@ -70,18 +101,18 @@ const SnapshotPane = React.createClass({
   render() {
     return (
       <div className={block}>
-        <div className={block + '__content'}>
+        <div className={block + '__content-wrapper'}>
+          <div className={block + '__content'} ref='content'>
             {this.state.snapshots ?
-              <SnapshotsPaneContent snapshots={this.state.snapshots} />
+             <SnapshotsPaneContent snapshots={this.state.snapshots}
+                                   env={this.props.params.env}
+                                   tenant={this.props.params.tenant}
+                                   unit={this.props.params.unit} />
             : 'Loading...' }
+          </div>
         </div>
-
       </div>
     );
-  },
-
-  closeDashboard() {
-    this.transitionTo('map');
   }
 
 });

@@ -29,6 +29,12 @@ http {
     server                   {{GROUNDSKEEPER_PORT_8280_TCP_ADDR}}:{{GROUNDSKEEPER_PORT_8280_TCP_PORT}};
   }
 
+  {% if INSTANA_TENANT == 'instana' and INSTANA_TENANT_UNIT == 'monitoring' %}
+  upstream instagrafana {
+    server                   {{INSTAGRAFANA_PORT_9090_TCP_ADDR}}:{{INSTAGRAFANA_PORT_9090_TCP_PORT}};
+  }
+  {% endif %}
+
   upstream uiTracker {
     server                   {{UI_TRACKER_PORT_8484_TCP_ADDR}}:{{UI_TRACKER_PORT_8484_TCP_PORT}};
   }
@@ -132,6 +138,15 @@ http {
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
+
+    {% if INSTANA_TENANT == 'instana' and INSTANA_TENANT_UNIT == 'monitoring' %}
+    location /internal/api {
+      proxy_pass             http://instagrafana/api;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    {% endif %}
 
     error_page               500 502 503 504 /50x.html;
     location = /50x.html {

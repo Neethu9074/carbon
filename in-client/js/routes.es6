@@ -14,6 +14,9 @@ import {Route} from 'react-router';
 import App from './components/App';
 import Dashboard from './components/Dashboard';
 import SnapshotPane from './components/SnapshotPane';
+import EnvironmentPane from './components/EnvironmentPane';
+import MetricLatencyPane from './components/MetricLatencyPane';
+import MetricPane from './components/MetricPane';
 
 const DogePane = require('./components/DogePane/index.djs');
 
@@ -22,10 +25,25 @@ export default (
     <Route handler={Dashboard}
            path='dashboard/:pluginId/:hostId/:steadyId'
            name='dashboard'/>
-    {__DEV__ ?
+    {__INTERNAL__ ?
       <Route handler={SnapshotPane}
-             path='snapshot-pane/'
+             path='internal/:env/:tenant/:unit/hosts'
              name='snapshot-pane'/>
+    : null}
+    {__INTERNAL__ ?
+      <Route handler={EnvironmentPane}
+             path='internal/environments/'
+             name='environments-pane'/>
+    : null}
+    {__INTERNAL__ ?
+      <Route handler={MetricLatencyPane}
+             path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/metrics'
+		         name='metric-latency-pane'/>
+     : null}
+    {__INTERNAL__ ?
+      <Route handler={MetricPane}
+             path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/:metric'
+						 name='metric-pane'/>
     : null}
     <Route handler={DogePane}
            path='suchWow'
