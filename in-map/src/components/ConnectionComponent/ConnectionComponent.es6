@@ -1,5 +1,6 @@
 import _ from 'lodash';
 
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Connection from '../../sceneObjects/Connection/index';
 import Component from '../Component';
 
@@ -15,22 +16,22 @@ export default class ConnectionComponent extends Component {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', false);
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onHighlightEnter() {
     this.setupConnections();
-    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', true));
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON));
   }
 
   onSelectedEnter() {
     this.setupConnections();
-    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON));
   }
 
   onSelectedHighlightEnter() {
     this.setupConnections();
-    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', true));
+    this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {

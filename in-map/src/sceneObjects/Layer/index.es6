@@ -8,6 +8,7 @@ import HighlightingComponent from '../../components/HighlightingComponent';
 
 import {selectedSceneObject, currentTooltip} from '../../stores/mapStore';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import MeshComponent from '../../components/MeshComponent';
 import SceneObject from '../SceneObject/index';
 import TooltipLayer from '../Tooltips/Layer';
@@ -30,7 +31,8 @@ export default class Layer extends SceneObject {
 
     this.temp = zoomLevel.subscribe(newLevel => {
       this.currentZoomLevel = newLevel;
-      const activateCollisions = newLevel === level.nearest && this.isActive();
+      const activateCollisions = (newLevel === level.nearest && this.isActive()) ?
+        PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
 
@@ -43,62 +45,63 @@ export default class Layer extends SceneObject {
 
   onHighlightEnter() {
     //setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onHighlightLeave() {
     //dispose the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onSelectedEnter() {
     //setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
 
     //surounds the node with a white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', true);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightEnter() {
     //setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', true);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
 
     //surounds the node with a white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', true);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightLeave() {
     //hide the border highlighting stuff
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     //dispose the white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onSelectedLeave() {
     //setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     //dispose the white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onHiddenLeave() {
     //enables all components
     super.onHiddenLeave();
 
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onInactiveLeave() {
     //enables all components
     super.onInactiveLeave();
 
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', false);
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', false);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
-    const activateCollisions = this.currentZoomLevel === level.nearest;
+    const activateCollisions = (this.currentZoomLevel === level.nearest) ?
+      PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
     this.getComponent('collision').stateMachine.changeStateProperty('active', activateCollisions);
   }
 
@@ -117,7 +120,7 @@ export default class Layer extends SceneObject {
     // the default state for collisions on layer is inactive. collisions are only
     // active, if the layer is active and the zoomLevel is nearest so that you are
     // close to the layer with the camera
-    components.collision.stateMachine.changeStateProperty('active', false);
+    components.collision.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     const pcm = new PCM({
       contentProvider: new SCM({
@@ -140,7 +143,7 @@ export default class Layer extends SceneObject {
       contentProvider: new CMCM({ contentProvider: pcm }),
       factory: this.scene.highlightingSingleMeshFactory
     });
-    components.solidMesh.stateMachine.changeStateProperty('active', false);
+    components.solidMesh.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     //add the highlighting component to handle the highlighting of a node
     //this is different to solidMesh since the highlighting is like a mouseOver effect
@@ -156,7 +159,7 @@ export default class Layer extends SceneObject {
 
   onSceneObjectSelected(obj) {
     const isThisSelected = (obj && obj.id === this.id) ?
-      true : false;
+      PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
 
     this.stateMachine.changeStateProperty('selected', isThisSelected);
 

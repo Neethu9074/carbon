@@ -1,4 +1,5 @@
 import PositionComponent from '../../components/PositionComponent';
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {StateMachine} from '../../StateMachine/StateMachine';
 
 import {currentScene} from '../../stores/mapStore';
@@ -26,7 +27,7 @@ export default class SceneObject {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', true);
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   initComponents() {
@@ -69,17 +70,17 @@ export default class SceneObject {
 
   onInactiveEnter() {
     this.forEachComponent(component =>
-      component.stateMachine.changeStateProperty('active', false));
+      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
   onInactiveLeave() {
     this.forEachComponent(component =>
-      component.stateMachine.changeStateProperty('active', true));
+      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
   }
 
   onHiddenEnter() {
     this.forEachComponent(component =>
-      component.stateMachine.changeStateProperty('active', false));
+      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
   onHiddenLeave() {
@@ -87,27 +88,27 @@ export default class SceneObject {
   }
 
   isSelected() {
-    return this.stateMachine.stateProperties.selected;
+    return this.stateMachine.stateProperties.selected === PROPERTY_VALUES.ON;
   }
 
   isHighlighted() {
-    return this.stateMachine.stateProperties.highlight;
+    return this.stateMachine.stateProperties.highlight === PROPERTY_VALUES.ON;
   }
 
   isActive() {
-    return this.stateMachine.stateProperties.active;
+    return this.stateMachine.stateProperties.active === PROPERTY_VALUES.ON;
   }
 
   isHidden() {
-    return this.stateMachine.stateProperties.hidden;
+    return this.stateMachine.stateProperties.hidden === PROPERTY_VALUES.ON;
   }
 
   show() {
-    this.stateMachine.changeStateProperty('hidden', false);
+    this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.OFF);
   }
 
   hide() {
-    this.stateMachine.changeStateProperty('hidden', true);
+    this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.ON);
   }
 
   positionChanged() {throw new Error('NOT IMPLEMENTED'); }
@@ -160,7 +161,8 @@ export default class SceneObject {
   }
 
   onHighlight(highlighted) {
-    this.stateMachine.changeStateProperty('highlight', highlighted);
+    const value =  highlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+    this.stateMachine.changeStateProperty('highlight', value);
   }
 
   updateScreenPosition() {
@@ -195,9 +197,9 @@ export default class SceneObject {
     this.subscriptions = [];
 
     //reset states so that inactive state is taken
-    this.stateMachine.changeStateProperty('highlight', false);
-    this.stateMachine.changeStateProperty('selected', false);
-    this.stateMachine.changeStateProperty('active', false);
+    this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     this.forEachComponent(component => component.dispose());
 

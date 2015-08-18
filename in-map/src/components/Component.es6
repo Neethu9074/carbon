@@ -1,5 +1,5 @@
+import {StateMachine, PROPERTY_VALUES} from '../StateMachine/StateMachine';
 import * as time from '../timeCalculations';
-import {StateMachine} from '../StateMachine/StateMachine';
 
 
 export default class Component {
@@ -17,7 +17,7 @@ export default class Component {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', true);
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
 
@@ -41,7 +41,7 @@ export default class Component {
   onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   isActive() {
-    return this.stateMachine.stateProperties.active;
+    return this.stateMachine.stateProperties.active === PROPERTY_VALUES.ON;
   }
 
   handleComponentTimeEvent() {

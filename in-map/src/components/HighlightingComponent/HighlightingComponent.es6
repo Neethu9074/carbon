@@ -1,5 +1,7 @@
 import Component from '../Component';
 
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
@@ -27,7 +29,7 @@ export default class HighlightingComponent extends Component {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', false);
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onInitialEnter() {

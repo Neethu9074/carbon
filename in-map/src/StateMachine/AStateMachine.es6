@@ -19,14 +19,11 @@ export default class AStateMachine {
     throw new Error('NOT IMPLEMENTED YET');
   }
 
-  getStateFromLut() {
+  getStateFromLUT() {
     const stateLUT = this.stateLookUpTable;
-    for (let i = 0; i < stateLUT.length; i++) {
-      const entry = stateLUT[i];
-      if(this.checkAgainstCurrentProperties(entry[0])) {
-        return this.states[entry[1]];
-      }
-    }
+    const stateProps = this.stateProperties;
+
+    return this.states[this.checkLUTAgainstCurrentProperties(stateLUT, stateProps)];
   }
 
   changeStateProperty(name, value) {
@@ -38,7 +35,7 @@ export default class AStateMachine {
 
   updateState() {
     const oldState = this.state;
-    const newState = this.getStateFromLut();
+    const newState = this.getStateFromLUT();
 
     if(oldState !== newState) {
       if(oldState) {

@@ -5,6 +5,7 @@ import eventBus from 'in-services/eventbus';
 import CollisionComponent from '../../../../components/CollisionObjectComponent';
 
 import {cubeGeometry, defaultGeometryMaterial} from '../../../geometries';
+import {PROPERTY_VALUES} from '../../../../StateMachine/StateMachine';
 import {currentTooltip} from '../../../../stores/mapStore';
 import SceneObject from '../../../SceneObject/index';
 import TooltipMetric from '../../../Tooltips/Metric';
@@ -27,7 +28,7 @@ export default class MetricPillar extends SceneObject {
 
     this.tooltip = new TooltipMetric(parent);
 
-    this.stateMachine.changeStateProperty('active', false);
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   initComponents() {
@@ -61,12 +62,12 @@ export default class MetricPillar extends SceneObject {
 
   showPillar() {
     this.addToMetricFactory();
-    this.getComponent('collision').stateMachine.changeStateProperty('active', true);
+    this.getComponent('collision').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   hidePillar() {
     this.removeFromMetricFactory();
-    this.getComponent('collision').stateMachine.changeStateProperty('active', false);
+    this.getComponent('collision').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   addToMetricFactory() { throw new Error('NOT IMPLEMENTED'); }
