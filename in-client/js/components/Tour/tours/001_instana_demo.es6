@@ -36,8 +36,8 @@ export const tourDefinition = {
   steps: [
     {
       title: 'Welcome to the Instana Demo',
-      text: 'This tour will guide you through the Instana demo and its features. This tour is ' +
-            'guided and you cannot interact with the application during the tour as the ' +
+      text: 'This tour will guide you through Instana and its features. During the tour ' +
+            'you cannot interact with the application as the ' +
             'user interface will be locked.',
       nextStepLabel: 'Start the tour'
     },
@@ -71,9 +71,9 @@ export const tourDefinition = {
       }
     },
     {
-      title: 'Get a look at the real-time dashboard',
-      text: 'Double click a box or use the Open Dashboard button in the sidebar to get a ' +
-            'comprehensive view of host details.',
+      title: 'Look at the real-time dashboard',
+      text: 'Double click a host or use the Open Dashboard button in the sidebar to get a ' +
+            'comprehensive view of host details with 1 second resolution metrics.’,
       nextStepLabel: 'Open the dashboard',
       element: '.in-sidebar-details__open-dashboard',
       after(tour) {
@@ -84,7 +84,7 @@ export const tourDefinition = {
       title: 'Real-time Charts',
       text: 'Dashboards contain real-time, 1 second resolution metrics and charts along with ' +
             'environmental information, e.g. Amazon Web-Service data and applications that are ' +
-            'running on hosts.',
+            'running on this host.’,
       element: 'ALL',
       undo(tour) {
         tour.transitionTo('map');
@@ -108,8 +108,7 @@ export const tourDefinition = {
     },
     {
       title: 'Metrics for the Whole Application Landscape',
-      text: 'Seeing real-time metrics on a dashboard for a single host is awesome. What is even ' +
-            'better though: Seeing real-time metrics in 3D for a whole application landscape!',
+      text: ‘Visualize real-time metrics in 3D for a whole application landscape!',
       nextStepLabel: 'Show me how to do this',
       undo(tour) {
         openDashboard(tour);
@@ -117,7 +116,7 @@ export const tourDefinition = {
     },
     {
       title: 'Opening the Metric Selector',
-      text: 'The sidebar can be controlled via buttons at the right side of the screen. ' +
+      text: 'The sidebar can be controlled via buttons on the right side of the screen. ' +
             'The metric selector is part of the sidebar.',
       nextStepLabel: 'Show the metric selector',
       element: '.icon-metrics.in-sidebar-controls__control-icon',
@@ -139,7 +138,7 @@ export const tourDefinition = {
     },
     {
       title: 'Stopping Real-Time Metrics',
-      text: 'To stop real-time metric visualization, you can use the clear button in the sidebar.',
+      text: 'To stop real-time metric visualization, use the clear button in the sidebar.',
       element: '.in-sidebar-metrics__clear-button',
       nextStepLabel: 'Stop Real-Time Metrics',
       after() {
@@ -151,7 +150,7 @@ export const tourDefinition = {
     },
     {
       title: 'End of Tour',
-      text: 'Thank you for checking out our tour. Now it is time for you to try out Instana yourself.',
+      text: 'Thank you for checking out our tour. Time for you to try Instana yourself!’,
       nextStepLabel: 'Finish tour and unlock user interface',
       undo() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
