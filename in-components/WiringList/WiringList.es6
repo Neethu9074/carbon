@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
@@ -7,6 +5,7 @@ import {Navigation} from 'react-router';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getWiringWithFullSnapshots} from 'in-services/wiring';
 import {getPlural} from 'in-sdk/pluginName';
+import * as tracking from 'in-services/tracking';
 
 import List from '../List';
 import Collapsible from '../Collapsible';
@@ -71,6 +70,7 @@ const WiringList = React.createClass({
   },
 
   navigateToDashboard(snapshot) {
+    tracking.trackEvent(tracking.events.navigateToAWiredComponentFromTheDashboard);
     this.transitionTo(
       'dashboard',
       {

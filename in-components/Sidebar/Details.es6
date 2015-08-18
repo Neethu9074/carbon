@@ -90,7 +90,7 @@ const Details = React.createClass({
   },
 
   openDashboard() {
-    tracking.trackEvent(tracking.events.openingADashboard);
+    tracking.trackEvent(tracking.events.openingADashboardUsingTheSidebar);
     this.transitionTo(
       'dashboard',
       {
