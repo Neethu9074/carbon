@@ -108,7 +108,7 @@ export const tourDefinition = {
     },
     {
       title: 'Metrics for the Whole Application Landscape',
-      text: ‘Visualize real-time metrics in 3D for a whole application landscape!',
+      text: 'Visualize real-time metrics in 3D for a whole application landscape!',
       nextStepLabel: 'Show me how to do this',
       undo(tour) {
         openDashboard(tour);
