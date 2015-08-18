@@ -53,8 +53,14 @@ const GuidedTour = React.createClass({
   },
 
   onResize() {
+    const step = tourDefinition.steps[this.state.activeStep];
     let focusedElement = tourDefinition.steps[this.state.activeStep].element;
     let clientRect = null;
+
+    if (step.visited) {
+      focusedElement = '.in-guided-tour__blocker';
+    }
+
     if (focusedElement) {
       if (typeof focusedElement === 'string') {
         focusedElement = document.querySelector(focusedElement);
@@ -64,8 +70,10 @@ const GuidedTour = React.createClass({
       }
       clientRect = focusedElement.getBoundingClientRect();
     }
+
     this.positionOverlay(clientRect);
     this.positionDialog(clientRect);
+    step.visited = true;
   },
 
   positionOverlay(clientRect) {
@@ -188,7 +196,7 @@ const GuidedTour = React.createClass({
       const step = tourDefinition.steps[nextStepIndex];
       if (step.before && !step.beforeExecuted) {
         step.beforeExecuted = true;
-        step.before();
+        step.before(this);
       }
       this.setState({
         activeStep: nextStepIndex
@@ -265,7 +273,9 @@ const GuidedTour = React.createClass({
             : null }
             {this.state.activeStep === tourDefinition.steps.length - 1 ?
               <Button onClick={this.tourFinished}>
-                Finish
+                {tourDefinition.steps[this.state.activeStep].nextStepLabel ?
+                tourDefinition.steps[this.state.activeStep].nextStepLabel :
+                'Finish'}
               </Button>
             : null }
           </nav>

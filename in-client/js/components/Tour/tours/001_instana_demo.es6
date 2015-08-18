@@ -1,7 +1,11 @@
+import {createLogger} from 'instalog';
+
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {create} from 'in-services/conveyer';
 import {plugins} from 'in-forge/constants';
+
+const logger = createLogger('tour.001');
 
 let snapshots;
 export const observable = create(SnapshotConveyer, {pluginId: plugins.os})
@@ -20,113 +24,138 @@ function openDashboard(tour) {
 }
 
 function clickOnCssItem(tag) {
-  document.querySelector(tag).click();
+  try {
+    document.querySelector(tag).click();
+  } catch (e) {
+    logger.error('Cannot click on', tag, e);
+  }
 }
 
 export const tourDefinition = {
   id: '1',
   steps: [
     {
-      title: 'Welcome to your server and application landscape',
-      text: 'The set of boxes are the hosts that have been discovered grouped into data centers.',
-      nextStepLabel: 'Start the tour!'
+      title: 'Welcome to the Instana Demo',
+      text: 'This tour will guide you through the Instana demo and its features. This tour is ' +
+            'guided and you cannot interact with the application during the tour as the ' +
+            'user interface will be locked.',
+      nextStepLabel: 'Start the tour'
+    },
+    {
+      title: 'Server and Application Landscape',
+      text: 'The set of boxes represents the hosts that have been discovered, grouped into data centers.',
+      element: 'ALL',
+      nextStepLabel: 'Tell me more'
     },
     {
       title: 'Each box is a host - you can click it!',
-      text: 'Single click to see a side dashboard of details about that host ' +
-            'and notice the lines indicating TCP connections to other hosts.',
+      text: 'Single click a box to select it and reveal a sidebar containing details ' +
+            'about a host. ',
       nextStepLabel: 'Click on a box',
       element: 'ALL',
       after() {
-        selectedSnapshot.select(snapshots.get(0));
+        let indexToClick = 0;
+        if (snapshots.size > 1) {
+          indexToClick = Math.floor(snapshots.size / 2);
+        }
+        selectedSnapshot.select(snapshots.get(indexToClick));
+      }
+    },
+    {
+      title: 'The Sidebar',
+      text: 'An overview about a selected host is presented in the sidebar. Also notice the ' +
+            'lines indicating TCP connections to other hosts.',
+      element: 'ALL',
+      undo() {
+        selectedSnapshot.clear();
       }
     },
     {
       title: 'Get a look at the real-time dashboard',
-      text: 'Double click a box or use the Open Dashboard button to get a comprehensive view of real-time, ' +
-            '1 second resolution metric details along with environmental details.',
+      text: 'Double click a box or use the Open Dashboard button in the sidebar to get a ' +
+            'comprehensive view of host details.',
       nextStepLabel: 'Open the dashboard',
-      element: 'ALL',
+      element: '.in-sidebar-details__open-dashboard',
       after(tour) {
         openDashboard(tour);
-      },
-      undo() {
-        selectedSnapshot.clear();
       }
     },
     {
-      title: 'Such dashboard',
-      text: '',
+      title: 'Real-time Charts',
+      text: 'Dashboards contain real-time, 1 second resolution metrics and charts along with ' +
+            'environmental information, e.g. Amazon Web-Service data and applications that are ' +
+            'running on hosts.',
       element: 'ALL',
-      undo() {
-        clickOnCssItem('.in-dashboard-header__close');
+      undo(tour) {
+        tour.transitionTo('map');
       }
     },
     {
-      title: 'Back to map',
-      text: 'close the dashboard and go back to 3D map.',
+      title: 'Timeshift Investigation',
+      text: 'Configure chart time windows to inspect interesting situations, e.g. when an ' +
+            'application was deployed or issues were detected.',
+      element: '.in-timeline'
+    },
+    {
+      title: 'Back to the 3D Map',
+      text: 'Close the dashboard and go back to the 3D map using this button.',
       element: '.in-dashboard-header__close',
-      nextStepLabel: 'Click it',
+      nextStepLabel: 'Back to the 3D Map',
       after() {
         clickOnCssItem('.in-dashboard-header__close');
         selectedSnapshot.clear();
       }
     },
     {
-      title: 'Welcome back to map',
-      text: 'Would\'t it be great to get live metrics from dashboard inside each box?',
-      nextStepLabel: 'I shit in my pants if that\'s true!',
+      title: 'Metrics for the Whole Application Landscape',
+      text: 'Seeing real-time metrics on a dashboard for a single host is awesome. What is even ' +
+            'better though: Seeing real-time metrics in 3D for a whole application landscape!',
+      nextStepLabel: 'Show me how to do this',
       undo(tour) {
         openDashboard(tour);
-      },
-      after() {
-        clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
       }
     },
     {
-      title: 'Select the metrics view',
-      text: 'There is a set of metrics to Visualize in the map.',
-      element: 'ALL',
-      nextStepLabel: 'Expand the CPU metrics',
+      title: 'Opening the Metric Selector',
+      text: 'The sidebar can be controlled via buttons at the right side of the screen. ' +
+            'The metric selector is part of the sidebar.',
+      nextStepLabel: 'Show the metric selector',
+      element: '.icon-metrics.in-sidebar-controls__control-icon',
       after() {
-        clickOnCssItem('.icon-open.in-sidebar-metric-header__icon');
-      },
-      undo() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
-      }
-    },
-    {
-      title: 'Select metrics for viewing across all hosts',
-      text: 'Visualize how a specific metric is behaving in real-time across all hosts, ' +
-            'for example, CPU Load, or Memory Consumption.',
-      nextStepLabel: 'Choose CPU Load',
-      element: 'ALL',
-      after() {
+        clickOnCssItem('.in-sidebar-metric-header--0');
         clickOnCssItem('.in-sidebar-metric-tree--leaf');
-      },
-      undo() {
-        clickOnCssItem('.icon-close.in-sidebar-metric-header__icon');
       }
     },
     {
-      title: 'watch metrics',
-      text: '',
+      title: 'CPU Load for All Hosts',
+      text: 'Instana can visualize the real-time CPU load of all hosts in the application ' +
+            'landscape. This information can be used to easily identify overloaded hosts.',
       element: 'ALL',
-      nextStepLabel: 'Awesome stuff!',
-      after() {
-        clickOnCssItem('.in-sidebar-metrics__clear-button');
-      },
       undo() {
         clickOnCssItem('.in-sidebar-metrics__clear-button');
+        clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
       }
     },
     {
-      title: 'this is the end',
-      text: 'my only friend',
+      title: 'Stopping Real-Time Metrics',
+      text: 'To stop real-time metric visualization, you can use the clear button in the sidebar.',
+      element: '.in-sidebar-metrics__clear-button',
+      nextStepLabel: 'Stop Real-Time Metrics',
       after() {
+        // stop metrics from flowing
+        clickOnCssItem('.in-sidebar-metrics__clear-button');
+        // close sidebar
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
-      },
+      }
+    },
+    {
+      title: 'End of Tour',
+      text: 'Thank you for checking out our tour. Now it is time for you to try out Instana yourself.',
+      nextStepLabel: 'Finish tour and unlock user interface',
       undo() {
+        clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
+        clickOnCssItem('.in-sidebar-metric-header--0');
         clickOnCssItem('.in-sidebar-metric-tree--leaf');
       }
     }
