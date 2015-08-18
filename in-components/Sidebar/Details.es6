@@ -6,14 +6,12 @@ import {Navigation} from 'react-router';
 
 import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
-import {clear} from 'in-services/stores/selectedSnapshot';
 import * as tracking from 'in-services/tracking';
 
 import Jail from '../Jail';
 import HealthIcon from '../HealthIcon';
 import Button from '../Button';
 import ZoneTag from '../ZoneTag';
-import Icon from '../Icon';
 
 import './Details.less';
 
@@ -36,10 +34,6 @@ const Details = React.createClass({
     return (
       <div className={block}>
         <div className={block + '__navigation'}>
-          <Icon type='arrow_left'
-                onClick={clear}
-                className={block + '__back'}/>
-
           <h2 className={block + '__title'}>
             {getSingular(snapshot.get('pluginId'))}
           </h2>

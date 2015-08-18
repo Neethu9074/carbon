@@ -27,16 +27,21 @@
 
     list-style: none;
 
-    background: #263238;
-    color: @common__highlight-color;
+    background: #2d3c43;
+    color: #597582;
     transition: background @focus-transition-duration ease-in-out;
 
     @border-radius: 0.35rem;
     border-top-left-radius: @border-radius;
     border-bottom-left-radius: @border-radius;
 
-    &:hover {
-      background: #1E2629;
+    &--enabled {
+      background: #263238;
+      color: @common__highlight-color;
+
+      &:hover {
+        background: #263238;
+      }
     }
 
     &--active {
@@ -67,7 +72,7 @@
     opacity: 0.6;
     transition: opacity @focus-transition-duration ease-in-out;
 
-    &:hover, &--active {
+    &--enabled:hover, &--active {
       opacity: 1;
     }
 

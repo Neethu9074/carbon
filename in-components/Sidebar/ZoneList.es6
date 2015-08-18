@@ -34,6 +34,7 @@ const ZoneList = React.createClass({
 
     return (
       <div className={block}>
+        <h1 className={block + '__label'}>Zones</h1>
         {zones.map(zone =>
           <Collapsible key={zone}>
             <Collapsible.Header style={{color: getColor(zone)}}

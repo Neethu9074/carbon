@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
 import classnames from 'in-services/util/classnames';
 
@@ -16,7 +17,8 @@ const Controls = React.createClass({
   propTypes: {
     className: rpt.string,
     activeControl: rpt.string,
-    onChangeActiveControl: rpt.func.isRequired
+    onChangeActiveControl: rpt.func.isRequired,
+    selectedSnapshot: irpt.map
   },
 
   render() {
@@ -27,30 +29,47 @@ const Controls = React.createClass({
     return (
       <nav className={rootClasses}>
         <ul className={block + '__control-list'}>
-          {this.renderControlIcon('metrics', 'metrics', 'Show Metrics')}
-          {this.renderControlIcon('tags', 'tags', 'Show Tags')}
-          {this.renderControlIcon('zones', 'snapshotList', 'Show Component List')}
+
+          {this.renderControlIcon('metrics', 'metrics', 'Show metrics.', true)}
+          {this.renderControlIcon('tags', 'tags', 'Show Tags', true)}
+          {this.renderControlIcon('zones', 'snapshotList', 'Show list of components.', true)}
+          {this.renderControlIcon(
+            'dot',
+            'details',
+            this.props.selectedSnapshot ?
+              'Show details for selected component.'
+              : 'Select a component to view details.',
+            !!this.props.selectedSnapshot)
+          }
           {__DEV__ ?
-            this.renderControlIcon('system', 'mapStats', 'Show Map Rendering Stats')
+            this.renderControlIcon('system', 'mapStats', 'Show map rendering stats.', true)
           : null}
         </ul>
       </nav>
     );
   },
 
-  renderControlIcon(icon, controlName, tooltip) {
+  renderControlIcon(icon, controlName, tooltip, enabled) {
+    // Assign the click handler only when enabled to ensure that the Icon component
+    // is automatically switching between a <button> and an simple <i> element.
+    let clickHandler;
+    if (enabled) {
+      clickHandler = () => this.props.onChangeActiveControl(controlName);
+    }
     return (
       <li className={classnames({
         [block + '__control-item']: true,
-        [block + '__control-item--active']: this.props.activeControl === controlName
+        [block + '__control-item--active']: this.props.activeControl === controlName,
+        [block + '__control-item--enabled']: enabled
       })}>
         <Tooltip content={tooltip}>
           <Icon type={icon}
                 className={classnames({
                   [block + '__control-icon']: true,
-                  [block + '__control-icon--active']: this.props.activeControl === controlName
+                  [block + '__control-icon--active']: this.props.activeControl === controlName,
+                  [block + '__control-icon--enabled']: enabled
                 })}
-                onClick={() => this.props.onChangeActiveControl(controlName)}/>
+                onClick={clickHandler}/>
         </Tooltip>
       </li>
     );

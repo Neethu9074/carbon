@@ -6,9 +6,11 @@ import Immutable from 'immutable';
 import classnames from 'in-services/util/classnames';
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {isIdEqual} from 'in-services/util/snapshots';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {create} from 'in-services/conveyer';
 
+import CloseSidebarButton from './CloseSidebarButton';
 import Details from './Details';
 import Tags from './Tags';
 import ZoneList from './ZoneList';
@@ -40,6 +42,20 @@ const Sidebar = React.createClass({
   shouldComponentUpdate(newProps, newState) {
     return this.props.snapshots !== newProps.snapshots ||
       this.state.activeControl !== newState.activeControl;
+  },
+
+  componentWillReceiveProps(newProps) {
+    // automatically switch to the details view when a snapshot is selected
+    if (!isIdEqual(this.props.selectedSnapshot, newProps.selectedSnapshot) &&
+        newProps.selectedSnapshot != null) {
+      this.setState({
+        activeControl: 'details'
+      });
+    } else if (newProps.selectedSnapshot === null && this.state.activeControl === 'details') {
+      this.setState({
+        activeControl: null
+      });
+    }
   },
 
   statics: {
@@ -74,7 +90,7 @@ const Sidebar = React.createClass({
   },
 
   render() {
-    const open = this.state.activeControl || this.props.selectedSnapshot;
+    const open = !!this.state.activeControl;
 
     return (
       <div className={block}>
@@ -83,11 +99,13 @@ const Sidebar = React.createClass({
                     [block + '__controls--open']: open
                   })}
                   activeControl={this.state.activeControl}
-                  onChangeActiveControl={this.onChangeActiveControl} />
+                  onChangeActiveControl={this.onChangeActiveControl}
+                  selectedSnapshot={this.props.selectedSnapshot} />
         <div className={classnames({
           [block + '__content']: true,
           [block + '__content--open']: open
         })}>
+          <CloseSidebarButton closeSidebar={this.closeSidebar} />
           {this.renderContent()}
         </div>
       </div>
@@ -95,14 +113,11 @@ const Sidebar = React.createClass({
   },
 
   renderContent() {
-    if (this.props.selectedSnapshot) {
-      return <Details snapshot={this.props.selectedSnapshot} />;
-    }
-
     if (!this.state.activeControl) {
       return null;
     }
 
+    // special case mapstats so that it will not be part of the compiled artifact
     if (__DEV__ && this.state.activeControl === 'mapStats') {
       return <MapStats />;
     }
@@ -115,11 +130,12 @@ const Sidebar = React.createClass({
           <ZoneList snapshots={this.props.snapshots}
                     snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
                     selectedSnapshot={this.props.selectedSnapshot}
-                    highlightedSnapshot={this.props.highlightedSnapshot}
-                    closeSidebar={this.closeSidebar}/>
+                    highlightedSnapshot={this.props.highlightedSnapshot} />
         );
       case 'metrics':
         return <Metrics />;
+      case 'details':
+        return <Details snapshot={this.props.selectedSnapshot} />;
       default:
         throw new Error('Unknown content control', this.state.activeControl);
     }
