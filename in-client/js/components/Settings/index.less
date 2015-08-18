@@ -18,17 +18,22 @@
 
   position: absolute;
 
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+
   top: 10%;
   bottom: 10%;
   left: 5%;
   right: 5%;
+
+  padding: 10px;
 
   background: #20272D;
 
   &__icon-close {
     font-size: 32px;
     color: #99F4F5;
-    margin: 0 0 0 10px;
 
     position: absolute;
     right: 10px;
@@ -39,5 +44,17 @@
 
   &__icon-close:hover {
     color: #fff;
+  }
+
+  &__heading {
+    font-size: 32px;
+    color: #99F4F5;
+    text-transform: uppercase;
+
+    margin: 0 15px 15px 0;
+  }
+
+  &__checkbox {
+    margin: 5px;
   }
 }

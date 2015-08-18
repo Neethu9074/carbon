@@ -1,5 +1,6 @@
 import * as ro from 'reactive-observables';
 
+import {settings} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
 import TouchController from './TouchCameraController_temp';
@@ -60,7 +61,7 @@ export default class MouseControl extends TouchController {
         } else if (zoom > 50) {
           zoom = 50;
         }
-        this.zoom(-zoom);
+        this.zoom(-zoom * settings.scrollDirection * settings.scrollSpeed);
       });
   }
 }
