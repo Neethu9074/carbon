@@ -36,7 +36,7 @@ export const tourDefinition = {
       text: 'Single click to see a side dashboard of details about that host ' +
             'and notice the lines indicating TCP connections to other hosts.',
       nextStepLabel: 'Click on a box',
-      element: '.in-guided-tour__blocker',
+      element: 'ALL',
       after() {
         selectedSnapshot.select(snapshots.get(0));
       }
@@ -46,7 +46,7 @@ export const tourDefinition = {
       text: 'Double click a box or use the Open Dashboard button to get a comprehensive view of real-time, ' +
             '1 second resolution metric details along with environmental details.',
       nextStepLabel: 'Open the dashboard',
-      element: '.in-guided-tour__blocker',
+      element: 'ALL',
       after(tour) {
         openDashboard(tour);
       },
@@ -57,7 +57,7 @@ export const tourDefinition = {
     {
       title: 'Such dashboard',
       text: '',
-      element: '.in-guided-tour__blocker',
+      element: 'ALL',
       undo() {
         clickOnCssItem('.in-dashboard-header__close');
       }
@@ -86,7 +86,7 @@ export const tourDefinition = {
     {
       title: 'Select the metrics view',
       text: 'There is a set of metrics to Visualize in the map.',
-      element: '.in-guided-tour__blocker',
+      element: 'ALL',
       nextStepLabel: 'Expand the CPU metrics',
       after() {
         clickOnCssItem('.icon-open.in-sidebar-metric-header__icon');
@@ -100,7 +100,7 @@ export const tourDefinition = {
       text: 'Visualize how a specific metric is behaving in real-time across all hosts, ' +
             'for example, CPU Load, or Memory Consumption.',
       nextStepLabel: 'Choose CPU Load',
-      element: '.in-guided-tour__blocker',
+      element: 'ALL',
       after() {
         clickOnCssItem('.in-sidebar-metric-tree--leaf');
       },
@@ -111,7 +111,7 @@ export const tourDefinition = {
     {
       title: 'watch metrics',
       text: '',
-      element: '.in-guided-tour__blocker',
+      element: 'ALL',
       nextStepLabel: 'Awesome stuff!',
       after() {
         clickOnCssItem('.in-sidebar-metrics__clear-button');

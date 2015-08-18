@@ -25,8 +25,8 @@ const GuidedTour = React.createClass({
   ],
 
   getInitialState() {
-    const tourId = String(tourDefinition.id);
-    const tourHasBeenSeen = window.localStorage.getItem(tourViewedLocalStorageKey) === tourId;
+    // const tourId = String(tourDefinition.id);
+    const tourHasBeenSeen = false; // window.localStorage.getItem(tourViewedLocalStorageKey) === tourId;
     return {
       activeStep: 0,
       tourHasBeenSeen
@@ -58,6 +58,9 @@ const GuidedTour = React.createClass({
     if (focusedElement) {
       if (typeof focusedElement === 'string') {
         focusedElement = document.querySelector(focusedElement);
+        if(!focusedElement) {
+          focusedElement = document.querySelector('.in-guided-tour__blocker');
+        }
       }
       clientRect = focusedElement.getBoundingClientRect();
     }
@@ -171,13 +174,14 @@ const GuidedTour = React.createClass({
 
   nextStep() {
     const currentStep = tourDefinition.steps[this.state.activeStep];
-    if(currentStep && currentStep.after) {
+    if (currentStep && currentStep.after) {
       currentStep.after(this);
     }
 
     if (this.state.activeStep + 1 >= tourDefinition.steps.length) {
       tracking.trackEvent(tracking.events.finishATour);
       this.stopTour();
+
     } else {
       tracking.trackEvent(tracking.events.nextStepInTour);
       const nextStepIndex = this.state.activeStep + 1;
