@@ -7,7 +7,7 @@ import * as tracking from 'in-services/tracking';
 
 import SignInWithXing from './SignInWithXing';
 import SignInWithLinkedIn from './SignInWithLinkedIn';
-// import Tour from '../Tour';
+import Tour from '../Tour';
 
 import './DemoDialog.less';
 
@@ -25,8 +25,8 @@ const DemoDialog = React.createClass({
 
   render() {
     if (this.state.userData) {
-      // return <Tour />;
-      return null;
+      return <Tour />;
+      // return null;
     }
 
     return (

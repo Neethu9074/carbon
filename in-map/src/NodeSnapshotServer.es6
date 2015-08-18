@@ -4,8 +4,8 @@ import {getWiredSnapshots} from 'in-sdk/snapshot';
 import {getNormalizedValue} from 'in-sdk/metrics';
 import {plugins} from 'in-forge/constants';
 
-import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
