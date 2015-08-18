@@ -1,8 +1,4 @@
 /*global require: false*/
-/*eslint-disable react/no-did-mount-set-state, react/no-did-update-set-state*/
-
-
-
 import React from 'react';
 import Immutable from 'immutable';
 
@@ -39,7 +35,7 @@ const Dashboard = React.createClass({
     };
   },
 
-  componentDidMount() {
+  componentWillMount() {
     this.addSubscription(
       selectedSnapshotStore.selectedSnapshot.subscribe(snapshot => {
         this.setState({snapshot});
