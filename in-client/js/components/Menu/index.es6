@@ -2,9 +2,9 @@ import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
 import Icon from 'in-components/Icon';
+import Button from 'in-components/Button';
 
 import StanExplainsThings from '../StanExplainsThings';
-import SignOut from '../SignOut';
 
 import './index.less';
 
@@ -16,8 +16,15 @@ const Menu = React.createClass({
     IntlMixin
   ],
 
+  propTypes: {
+    showMenu: React.PropTypes.func
+  },
+
   getInitialState() {
-    return {open: false};
+    return {
+      open: false,
+      showSettings: false
+    };
   },
 
   toggle() {
@@ -37,9 +44,18 @@ const Menu = React.createClass({
               className={block + '__icon-close'}
               onClick={this.toggle}/>
 
-        <StanExplainsThings header={''}
-                            className={block + '__stan-explains'}>
-          <SignOut />
+        <StanExplainsThings header={''} className={block + '__stan-explains'}>
+
+          <Button onClick={this.props.showMenu}>
+            Settings
+          </Button>
+
+          <form action='/auth/signOut' method='post' className={block}>
+            <Button type='submit' className={block + '__button'}>
+              {this.getIntlMessage('footer.signOut')}
+            </Button>
+          </form>
+
         </StanExplainsThings>
       </div>
     );

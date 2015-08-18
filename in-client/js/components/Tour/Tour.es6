@@ -25,8 +25,8 @@ const GuidedTour = React.createClass({
   ],
 
   getInitialState() {
-    // const tourId = String(tourDefinition.id);
-    const tourHasBeenSeen = false; // window.localStorage.getItem(tourViewedLocalStorageKey) === tourId;
+    const tourId = String(tourDefinition.id);
+    const tourHasBeenSeen = window.localStorage.getItem(tourViewedLocalStorageKey) === tourId;
     return {
       activeStep: 0,
       tourHasBeenSeen
