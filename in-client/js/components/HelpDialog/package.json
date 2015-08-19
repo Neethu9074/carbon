@@ -1,0 +1,6 @@
+{
+  "name": "HelpDialog",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HelpDialog.es6"
+}

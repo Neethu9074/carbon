@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './index.less';
+import './StickyNote.less';
 
 
 export default class StickyNote {

@@ -1,0 +1,6 @@
+{
+  "name": "UnknownNode",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./UnknownNode.es6"
+}

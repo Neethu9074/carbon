@@ -1,6 +1,6 @@
 import invariant from 'invariant';
 
-import * as connection from './index';
+import * as connection from './connection';
 
 // we are exposing the emitter of the connection to maintain the interface of
 // connection/index

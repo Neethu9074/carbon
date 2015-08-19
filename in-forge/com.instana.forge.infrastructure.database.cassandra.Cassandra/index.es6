@@ -1,9 +1,5 @@
-
-
-import {
-  addIconFinder
-} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
+import {addIconFinder} from 'in-sdk/snapshot';
 import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';

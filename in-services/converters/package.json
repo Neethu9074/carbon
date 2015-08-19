@@ -1,0 +1,6 @@
+{
+  "name": "converter",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./converter.es6"
+}

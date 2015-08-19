@@ -1,0 +1,6 @@
+{
+  "name": "MetricLatencyPane",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MetricLatencyPane.es6"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "MultiTag",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MultiTag.es6"
+}

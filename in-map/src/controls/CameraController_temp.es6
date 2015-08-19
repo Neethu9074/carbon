@@ -1,10 +1,10 @@
 import THREE from 'three';
 
+import ConnectionTooltip from '../sceneObjects/Tooltips/Connection';
+import {allConnections} from '../sceneObjects/Connection';
+import {currentTooltip} from '../stores/mapStore';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
-import {allConnections} from '../sceneObjects/Connection/index';
-import {currentTooltip} from '../stores/mapStore';
-import ConnectionTooltip from '../sceneObjects/Tooltips/Connection';
 
 export default class CameraController {
 

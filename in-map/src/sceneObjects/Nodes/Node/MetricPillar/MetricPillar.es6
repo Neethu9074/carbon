@@ -7,11 +7,11 @@ import CollisionComponent from '../../../../components/CollisionObjectComponent'
 import {cubeGeometry, defaultGeometryMaterial} from '../../../geometries';
 import {PROPERTY_VALUES} from '../../../../StateMachine/StateMachine';
 import {currentTooltip} from '../../../../stores/mapStore';
-import SceneObject from '../../../SceneObject/index';
 import TooltipMetric from '../../../Tooltips/Metric';
+import SceneObject from '../../../SceneObject';
+
 
 let id = 0;
-
 
 export default class MetricPillar extends SceneObject {
 

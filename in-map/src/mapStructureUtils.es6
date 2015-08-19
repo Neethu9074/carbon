@@ -1,5 +1,4 @@
-import Group from './sceneObjects/Group/index';
-
+import Group from './sceneObjects/Group';
 
 export function getAllNodes(parent) {
   const nodes = [];

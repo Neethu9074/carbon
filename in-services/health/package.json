@@ -1,0 +1,6 @@
+{
+  "name": "health",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./health.es6"
+}

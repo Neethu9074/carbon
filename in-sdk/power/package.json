@@ -1,0 +1,6 @@
+{
+  "name": "power",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./power.es6"
+}

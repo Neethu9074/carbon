@@ -1,0 +1,6 @@
+{
+  "name": "SingleMetricPillar",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SingleMetricPillar.es6"
+}

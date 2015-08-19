@@ -1,8 +1,5 @@
 /*eslint-env mocha,node*/
 /*eslint max-len:[2, 120] */
-
-
-
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
@@ -30,9 +27,9 @@ describe('connection.subscriptionAwareConnection', () => {
       }
     };
 
-    const connection = proxyquire('./index', {});
+    const connection = proxyquire('./connection', {});
     sac = proxyquire('./subscriptionAwareConnection', {
-      './index': connection
+      './connection': connection
     });
   });
 

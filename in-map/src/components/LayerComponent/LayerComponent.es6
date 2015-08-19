@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import Layer from '../../sceneObjects/Layer/index';
+import Layer from '../../sceneObjects/Layer';
 import Component from '../Component';
 
 

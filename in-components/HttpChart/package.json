@@ -1,0 +1,6 @@
+{
+  "name": "HttpChart",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./HttpChart.es6"
+}

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import Connection from '../../sceneObjects/Connection/index';
+import Connection from '../../sceneObjects/Connection';
 import Component from '../Component';
 
 

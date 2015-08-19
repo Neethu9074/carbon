@@ -1,0 +1,6 @@
+{
+  "name": "SnapshotPane",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SnapshotPane.es6"
+}

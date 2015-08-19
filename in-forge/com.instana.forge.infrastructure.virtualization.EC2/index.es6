@@ -1,5 +1,3 @@
-
-
 import * as pluginName from 'in-sdk/pluginName';
 
 import * as constants from '../constants';
