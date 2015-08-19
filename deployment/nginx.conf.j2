@@ -21,7 +21,7 @@ http {
                              '"$request" $status $bytes_sent '
                              '"$http_referer" "$http_user_agent" "$gzip_ratio"';
 
-  limit_req_zone         $binary_remote_addr zone=onePerSecond:10m rate=1r/s;
+  limit_req_zone             $binary_remote_addr zone=onePerSecond:10m rate=1r/s;
 
   upstream api {
     server                   {{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}};
