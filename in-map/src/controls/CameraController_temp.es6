@@ -193,28 +193,29 @@ export default class CameraController {
     const scene = this.scene;
     const canvasStyle = scene.getHtmlContainer().style;
 
-    //get the mouse/touch position in pixel coords
+    // get the mouse/touch position in pixel coords
     const x = this.lastMousePosition.x;
     const y = this.lastMousePosition.y;
 
-    //transform into screen space
+    // transform into screen space
     this.cursorForRay.x = (x / scene.width) * 2 - 1;
     this.cursorForRay.y = -(y / scene.height) * 2 + 1;
 
-    //update raycaster
+    // update raycaster
     this.raycaster.setFromCamera(this.cursorForRay, scene.camera);
 
-    //find the hitten object
+    // find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
+
+    // reset highlight for all hovered connections
+    this.hoveredConnections.forEach(c => c.onHighlight(false));
 
     if (this.hittenObject) {
       if (canvasStyle.cursor !== 'pointer') {
         canvasStyle.cursor = 'pointer';
       }
-    } else {
-      const oldHoveredConnections = this.hoveredConnections;
-      oldHoveredConnections.forEach(c => c.onHighlight(false));
 
+    } else {
       this.hoveredConnections = allConnections
         .filter(connection => {
           const intersected = connection.intersects(this.raycaster);
