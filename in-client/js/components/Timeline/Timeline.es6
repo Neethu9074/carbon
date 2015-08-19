@@ -34,7 +34,7 @@ const rpt = React.PropTypes;
 const block = 'in-timeline';
 
 const HEALTH_OK = {
-  type: 'dot',
+  type: 'system',
   color: theme.health.ok
 };
 const HEALTH_WARNING = {
