@@ -66,8 +66,7 @@ export default class AbstractMeshCreationFactory {
 
   //returns all registered objects which are enabled
   getLegalFragments() {
-    return this.fragments.filter(item =>
-      item.enabled || item.enabled === undefined);
+    return this.fragments.filter(item => item.enabled || item.enabled === undefined);
   }
 
   enableFragment(id, enabled = true) {

@@ -35,7 +35,7 @@ export default class ConnectionComponent extends Component {
   }
 
   onInactiveEnter() {
-    this.clearConnections(true);
+    this.clearConnections();
   }
 
   positionChanged() {}
@@ -46,21 +46,15 @@ export default class ConnectionComponent extends Component {
       return;
     }
 
-    this.clearConnections(true);
+    this.clearConnections();
 
     this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
     this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
   }
 
-  clearConnections(force=false) {
-    if(force) {
-      this.getAllConnections().slice().forEach(c => c.dispose());
-
-    } else {
-      this.getAllConnections().slice()
-        .filter(c => !c.isSelected())
-        .forEach(c => c.dispose());
-    }
+  clearConnections() {
+    this.getAllConnections().forEach(connection => connection.dispose());
+    this.connections = [];
   }
 
   getAllConnections() {
@@ -114,7 +108,7 @@ export default class ConnectionComponent extends Component {
   dispose() {
     super.dispose();
 
-    this.clearConnections(true);
+    this.clearConnections();
     this.connections = null;
     this.highlighted = null;
   }
