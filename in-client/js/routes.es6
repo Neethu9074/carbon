@@ -38,12 +38,12 @@ export default (
     {__INTERNAL__ ?
       <Route handler={MetricLatencyPane}
              path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/metrics'
-		         name='metric-latency-pane'/>
+             name='metric-latency-pane'/>
      : null}
     {__INTERNAL__ ?
       <Route handler={MetricPane}
              path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/:metric'
-						 name='metric-pane'/>
+            name='metric-pane'/>
     : null}
     <Route handler={DogePane}
            path='suchWow'
