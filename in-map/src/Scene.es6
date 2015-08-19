@@ -15,6 +15,7 @@ import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
+import AdaptiveDetailHandler from './AdaptiveDetailHandler';
 import {getBackgroundPlane} from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import {getMapStatistics} from './mapStatistics';
@@ -50,6 +51,9 @@ export default class Scene {
     this.setupFactories();
     this.setup3D();
     this.controller = new MouseCameraController({scene: this});
+
+    this.adaptiveDetailHandler = new AdaptiveDetailHandler(this);
+
     this.setupEvents();
     this.handleLostContext();
 
@@ -560,6 +564,8 @@ export default class Scene {
   //set this flag if the update loop should be stoped
   dispose() {
     this.disposed = true;
+
+    this.adaptiveDetailHandler.dispose();
 
     //reset the time and clear all listeners
     time.reset();

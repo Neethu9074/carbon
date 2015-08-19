@@ -1,0 +1,6 @@
+{
+  "name": "AdaptiveDetailHandler",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./AdaptiveDetailHandler.es6"
+}
