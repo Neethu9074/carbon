@@ -1,5 +1,3 @@
-
-
 import Immutable from 'immutable';
 import {combineLatest} from 'reactive-observables';
 
@@ -7,19 +5,17 @@ import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import SnapshotConveyer from '../conveyer/SnapshotConveyer';
 
-import {only, extractId} from '../util/snapshots';
+import {getIdString, only} from '../util/snapshots';
 
-// default value when there are no wirings for a cetain snapshot
-const emptySet = Immutable.Set();
+const completeWiring = create(WiringConveyer);
 
-export function getWiring(pluginId) {
-  // function is overloaded and optionally accepts a snapshot as parameter
-  const sourceSnapshotId = extractId(pluginId);
+export function getWiring(snapshot) {
+  const idString = getIdString(snapshot);
 
-  return create(WiringConveyer, {pluginId: sourceSnapshotId.get('pluginId')})
-    .map(wiring => {
-      // we are only interest in the wiring of the source snapshot
-      return wiring.get(sourceSnapshotId, emptySet);
+  return completeWiring.map(wiringGraph => {
+      const outgoingConnections = wiringGraph.edges.filter(edge => edge.source === idString)
+        .map(edge => wiringGraph.nodes[edge.destination]);
+      return Immutable.List(outgoingConnections);
     });
 }
 

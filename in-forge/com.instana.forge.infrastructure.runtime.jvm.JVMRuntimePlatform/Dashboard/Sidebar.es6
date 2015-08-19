@@ -1,10 +1,9 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
 import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
+import WiringList from 'in-components/WiringList';
 import List from 'in-components/List';
 
 import JVMInfo from '../JVMInfo';
@@ -39,6 +38,7 @@ const Sidebar = React.createClass({
           </Collapsible.Content>
         </Collapsible>
         <ProblemPanel snapshot={this.props.snapshot} />
+        <WiringList snapshot={this.props.snapshot} />
       </div>
     );
   }
