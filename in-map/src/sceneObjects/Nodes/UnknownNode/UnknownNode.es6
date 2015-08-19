@@ -1,6 +1,5 @@
 import Immutable from 'immutable';
 
-import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
 import * as tracking from 'in-services/tracking';
 
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
@@ -51,34 +50,34 @@ export default class Unknownnode extends BaseNode {
   }
 
   getWiredSnapshots() {
-    const thisSnapShot = this.snapshot;
+    const thisSnapShotId = this.snapshot.get('id');
     const outgoing = [];
     const incoming = [];
-    this.getAllMapNodes()
-      .filter(node => !node.isUnknown)
-      .filter(node => !isIdEqual(thisSnapShot, node.snapshot))
-      .forEach((node) => {
+    this.getAllMapNodes().forEach((node) => {
+        //filter all unknown nodes and this
+        if(node.isUnknown || thisSnapShotId === node.snapshot.get('id')) {
+          return;
+        }
+
         const wired = node.getWiredSnapshots();
         if(!wired) {
           return;
         }
 
         wired.get('outgoing').forEach(wiredSnapshot => {
-          if(isIdEqual(thisSnapShot, wiredSnapshot)) {
+          if(thisSnapShotId === wiredSnapshot.get('id')) {
             incoming.push(node.snapshot);
           }
         });
 
         wired.get('incoming').forEach(wiredSnapshot => {
-          if(isIdEqual(thisSnapShot, wiredSnapshot)) {
+          if(thisSnapShotId === wiredSnapshot.get('id')) {
             outgoing.push(node.snapshot);
           }
         });
       });
 
-    /* eslint-disable new-cap */
     const map = Immutable.Map().asMutable();
-    /* eslint-enable new-cap */
     map.set('outgoing', outgoing);
     map.set('incoming', incoming);
     return map.asImmutable();
