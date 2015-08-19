@@ -1,7 +1,8 @@
 import React from 'react/addons';
 
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {setIn, settingsStore} from 'in-services/settings';
 import Icon from 'in-components/Icon';
-import {settings as globalSettings, save} from 'in-services/settings';
 
 import './Settings.less';
 
@@ -9,7 +10,8 @@ const block = 'in-settings';
 
 const Settings = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
   ],
 
   propTypes: {
@@ -17,14 +19,14 @@ const Settings = React.createClass({
   },
 
   getInitialState() {
-    return {
-      inverseCheckboxChecked: globalSettings.scrollDirection === 1 ? false : true
-    };
+    return { inverseCheckboxChecked: false };
   },
 
-  closeSettings() {
-    save();
-    this.props.showMenu(false);
+  componentWillMount() {
+    this.addSubscription(settingsStore.subscribe(data => {
+      const direction = data.getIn(['map', 'scrollDirection']);
+      this.setState({inverseCheckboxChecked: direction === 1 ? false : true});
+    }));
   },
 
   render() {
@@ -41,13 +43,19 @@ const Settings = React.createClass({
             <input type='checkbox'
                    defaultChecked={this.state.inverseCheckboxChecked}
                    className={block + '__checkbox'}
-                   onClick={(e) => { globalSettings.scrollDirection = e.target.checked ? -1 : 1; }}/>
+                   onClick={(e) => {
+                     setIn(['map', 'scrollDirection'], e.target.checked ? -1 : 1);
+                   }}/>
             {'Inverse scroll direction'}
           </div>
 
         </div>
       </div>
     );
+  },
+
+  closeSettings() {
+    this.props.showMenu(false);
   }
 });
 
