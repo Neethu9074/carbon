@@ -55,20 +55,20 @@ const ConnectionsTooltipRC = React.createClass({
     const listItems = this.props.connections
       .filter(connection => connection.from.snapshot && connection.to.snapshot)
       .map(connection => {
-      return {
-        id: connection.id,
-        direction: connection.direction,
-        to: {
-          ip: this.getOneOfConnectedIps(connection.from, connection.to),
-          zone: connection.to.parent.id
-        }
-      };
-    });
+        return {
+          id: connection.id,
+          direction: connection.direction,
+          to: {
+            ip: this.getOneOfConnectedIps(connection.from, connection.to),
+            zone: connection.to.parent.id
+          }
+        };
+      });
 
     return (<ConnectionTooltip connections={listItems}/>);
   }
 });
-/*eslint-enable no-unused-vars*/
+
 
 export default class TooltipConnection extends Tooltip {
   constructor(parent, hovered) {
