@@ -7,6 +7,34 @@ import SnapshotConveyer from '../conveyer/SnapshotConveyer';
 
 import {getIdString, only} from '../util/snapshots';
 
+/*
+  This is what the wiring graph looks like as far as the runs-on relation
+  is concerned. While this structure can be displayed to the user, we
+  are not doing it in the 3D map. Instead we are showing the following items
+  in the physical map: HostHardware, Host and Leaf nodes. Leaf nodes are special
+  in this case and harder to identify. Leaf nodes in the example below: App 1-4
+  and MySQL.
+
+         ┌────────────────┐        ┌────────────────┐
+         │ HostHardware 1 │        │ HostHardware 2 │
+         └─▲───────────▲──┘        └────────▲───────┘
+    ┌──────┴────┐  ┌───┴───────┐      ┌─────┴─────┐
+    │  Host 1   │  │  Host 2   │      │  Host 3   │
+    └─────▲─────┘  └─────▲─────┘      └─────▲─────┘
+    ┌─────┴─────┐  ┌─────┴─────┐      ┌─────┴─────┐
+    │ Process 1 │  │ Process 2 │      │ Process 3 │
+    └─────▲─────┘  └─────▲─────┘      └─────▲─────┘
+    ┌─────┴─────┐  ┌─────┴─────┐      ┌─────┴─────┐
+    │   JVM 1   │  │   MySQL   │      │   JVM 2   │
+    └─────▲─────┘  └───────────┘      └─────▲─────┘
+    ┌─────┴─────┐                     ┌─────┴─────┐
+    │ Tomcat 1  │                     │ Tomcat 2  │
+    └──▲─────▲──┘                     └─▲──────▲──┘
+ ┌─────┴─┐ ┌─┴─────┐               ┌────┴──┐ ┌─┴─────┐
+ │ App 1 │ │ App 2 │               │ App 3 │ │ App 4 │
+ └───────┘ └───────┘               └───────┘ └───────┘
+*/
+
 const completeWiring = create(WiringConveyer);
 
 export function getWiring(snapshot) {
