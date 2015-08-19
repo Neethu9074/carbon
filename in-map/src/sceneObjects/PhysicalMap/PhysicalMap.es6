@@ -215,11 +215,9 @@ export default class PhysicalMap extends SceneObject {
   //runs through all groups instead of the current one and searches for the
   //node added to the current one. if found -> delete it from old groups
   removeNodeFromAllGroupsInsteadOf(groupId, node) {
-    const nodes = getAllNodes(this)
-      .filter(n => isIdEqual(n.snapshot, node));
-
-    nodes.forEach(n => {
-      if(n.parent.id !== groupId) {
+    const nodeId = node.get('id');
+    getAllNodes(this).forEach(n => {
+      if(n.snapshot.get('id') === nodeId && n.parent.id !== groupId) {
         n.dispose();
       }
     });
@@ -241,9 +239,12 @@ export default class PhysicalMap extends SceneObject {
   }
 
   filter() {
-    getAllNodes(this)
-      .filter(node => !node.isUnknown)
-      .forEach(node => this.filterNode(node));
+    getAllNodes(this).forEach(node => {
+      if (node.isUnknown) {
+        return;
+      }
+      this.filterNode(node);
+    });
 
     selectedSceneObject.emit({sceneObject: null});
     this.scene.renderScene();
@@ -252,11 +253,11 @@ export default class PhysicalMap extends SceneObject {
   filterNode(node) {
     let unmatchesOne = false;
     this.filterArray.forEach(filter => {
-      if(!filter.get('predicate')(node.snapshot)) {
+      if (!filter.get('predicate')(node.snapshot)) {
         unmatchesOne = true;
       }
     });
-    if(!unmatchesOne) {
+    if (!unmatchesOne) {
       node.show();
     } else {
       node.hide();
