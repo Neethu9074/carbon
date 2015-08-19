@@ -10,7 +10,7 @@ import * as constants from '../constants';
 pluginName.setHumanReadablePluginName(
   constants.plugins.docker,
   'Docker Container',
-  'Docker Container'
+  'Docker Containers'
 );
 
 addLabelFinder(
