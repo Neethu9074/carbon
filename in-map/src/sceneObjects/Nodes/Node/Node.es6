@@ -187,18 +187,13 @@ export default class Node extends BaseNode {
   setWiredSnapshots(wiredSnapshots) {
     const parent = this.parent;
     this.wiredSnapshots = wiredSnapshots;
-    this.getWiredSnapshotsAsArray()
-      .filter(node => node.get('state') === 'unmonitored')
-      .forEach(node => parent.addUnknownNode(node));
-  }
 
-  getWiredSnapshotsAsArray() {
-    const wiredSnapshots = this.wiredSnapshots;
-    if(wiredSnapshots) {
-      return wiredSnapshots.get('outgoing');
-        //.concat(wiredSnapshots.get('incoming'));
-    }
-    return [];
+    wiredSnapshots.get('outgoing').forEach(wired => {
+      if (wired.get('state') !== 'unmonitored') {
+        return;
+      }
+      parent.addUnknownNode(wired);
+    });
   }
 
   getWiredSnapshots() {
