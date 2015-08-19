@@ -13,11 +13,7 @@ import {only, extractId} from '../util/snapshots';
 const emptySet = Immutable.Set();
 
 export function getWiring(pluginId) {
-  if (typeof pluginId === 'string') {
-    return create(WiringConveyer, {pluginId});
-  }
-
-  // function is overloaded and optionally accepts a snapshot a parameter
+  // function is overloaded and optionally accepts a snapshot as parameter
   const sourceSnapshotId = extractId(pluginId);
 
   return create(WiringConveyer, {pluginId: sourceSnapshotId.get('pluginId')})

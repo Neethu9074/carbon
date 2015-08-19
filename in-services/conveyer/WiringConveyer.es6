@@ -1,24 +1,19 @@
-
-
-import Immutable from 'immutable';
-
 import * as connection from '../connection/subscriptionAwareConnection';
 import {getIdString, extractId} from '../util/snapshots';
 
 export default class WiringConveyer {
 
-  static getUniqueId({pluginId}) {
-    return pluginId;
+  static getUniqueId() {
+    return 'wiring';
   }
 
-  constructor({pluginId}) {
+  constructor() {
     this.id = connection.getSubscriptionId();
 
     this.subscribeEvent = {
       id: this.id,
       type: 'wiring',
-      event: 'subscribe',
-      pluginId
+      event: 'subscribe'
     };
 
     this.dataEventPredicate = e => e.id === this.id;
@@ -30,110 +25,114 @@ export default class WiringConveyer {
     this.subscription = connection.emitter.on('message')
       .filter(this.dataEventPredicate)
       .subscribe(e => {
-        if (this.graph) {
-          this.processUpdate(e.data[0]);
-        } else {
-          this.processInitial(e.data[0]);
-        }
+        this.process(e.data[0]);
       });
 
     connection.subscribe(this.id, this.subscribeEvent);
   }
 
   stop() {
-    this.graph = null;
-    this.nodeCache = null;
+    this.graph = this.nodes = this.edges = this.nodeOccurrenceCounter = this.nodeCache = null;
 
     this.subscription.dispose();
     connection.unsubscribe(this.id);
   }
 
-  processInitial(graph) {
-    // snapshotId => ImmutableSet<SnapshotId>
-    this.graph = Immutable.Map();
+  process(graphUpdate) {
+    // a graph looks like this
+    // {
+    //   nodes: {
+    //     <snapshotStringId>: Immutable{id, hostId, pluginId, steadyId}
+    //   },
+    //   edges: [
+    //     {relation: String, source: snapshotStringId, target: snapshotStringId}
+    //   ]
+    // }
+    if (!this.graph) {
+      this.graph = {};
+      this.nodes = this.graph.nodes = {};
+      this.edges = this.graph.edges = [];
 
-    // snapshotIdString => snapshotId
-    //
-    // TODO Who is responsible for clearing this node cache?
-    // This is a memory leak, but it is one which can possibly be
-    // ignored as it only exists as long as there is at least one
-    // subscriber. Cleaning this nodeCache can be quite a costly
-    // operation.
-    this.nodeCache = {};
+      // used to count the number of edges a node is involved in. Is used to remove a node from
+      // the graph once it is involved in 0 edges. Basically reference counting to avoid leaking
+      // node instances.
+      this.nodeOccurrenceCounter = {};
+    }
 
-    const nodeMapping = this.buildUpNodeMapping(graph);
-    this.processEdges(nodeMapping, graph);
+    // add new nodes to the graph and build up a mapping object so that we can
+    // translate short IDs to long snapshot IDs
+    const updateLocalNodeMapping = this.addNewNodes(graphUpdate);
+
+    // add / remove edges
+    graphUpdate.edges.forEach(edgeUpdate => {
+      if (edgeUpdate.type === 'addition') {
+        this.addEdge(edgeUpdate, updateLocalNodeMapping);
+      } else {
+        this.removeEdge(edgeUpdate, updateLocalNodeMapping);
+      }
+    });
+
+    this.removeUnferencedNodes();
 
     this.onNext(this.graph);
   }
 
-  processUpdate(graph) {
-    const nodeMapping = this.buildUpNodeMapping(graph);
-    this.processEdges(nodeMapping, graph);
-    this.onNext(this.graph);
-  }
+  addNewNodes(graphUpdate) {
+    // maps shortKeyInGraphUpdate => snapshotIdString
+    const updateLocalNodeMapping = {};
 
-  /**
-   * Add all nodes from this graph to the node cache. This is necessary
-   * in order for the following logic to use the same. Additionally
-   * creates an update-local node mapping from shortId to snapshot ID string
-   *
-   * @param {object} graph The graph as received from the backend
-   * @returns {object} An update-local node mapping from short id to
-   *   snapshot ID string.
-   */
-  buildUpNodeMapping(graph) {
-    const nodeMapping = {};
+    Object.keys(graphUpdate.nodes).map(shortKey => {
+      const nodeUpdate = graphUpdate.nodes[shortKey];
+      const idString = getIdString(nodeUpdate);
 
-    Object.keys(graph.nodes).forEach(shortId => {
-      const wiringNode = graph.nodes[shortId];
-      const idString = getIdString(wiringNode);
-      nodeMapping[shortId] = idString;
+      updateLocalNodeMapping[shortKey] = idString;
 
-      if (!(idString in this.nodeCache)) {
-        this.nodeCache[idString] = extractId(wiringNode);
+      if (!(idString in this.nodes)) {
+        const snapshotId = extractId(nodeUpdate);
+        this.nodes[idString] = snapshotId;
+        this.nodeOccurrenceCounter[idString] = 0;
       }
     });
 
-    return nodeMapping;
+    return updateLocalNodeMapping;
   }
 
-  processEdges(nodeMapping, graphUpdate) {
-    graphUpdate.edges.forEach(edge => {
-      const sourceIdString = nodeMapping[edge.source];
-      const source = this.nodeCache[sourceIdString];
-      const destinationIdString = nodeMapping[edge.destination];
-      const destination = this.nodeCache[destinationIdString];
+  addEdge(edgeUpdate, updateLocalNodeMapping) {
+    const source = updateLocalNodeMapping[edgeUpdate.source];
+    const destination = updateLocalNodeMapping[edgeUpdate.destination];
 
-      if (edge.type === 'addition') {
-        this.addEdge(source, destination, edge.relation);
-        this.addEdge(destination, source, edge.relation);
-      } else {
-        this.removeEdge(source, destination, edge.relation);
-        this.removeEdge(destination, source, edge.relation);
-      }
+    this.nodeOccurrenceCounter[source]++;
+    this.nodeOccurrenceCounter[destination]++;
+
+    const edge = {
+      source,
+      destination,
+      relation: edgeUpdate.relation
+    };
+    this.edges.push(edge);
+  }
+
+  removeEdge(edgeUpdate, updateLocalNodeMapping) {
+    const source = updateLocalNodeMapping[edgeUpdate.source];
+    const destination = updateLocalNodeMapping[edgeUpdate.destination];
+
+    this.nodeOccurrenceCounter[source]--;
+    this.nodeOccurrenceCounter[destination]--;
+
+    this.edges = this.edges.filter(edge => {
+      return !(edge.source === source &&
+        edge.destination === destination &&
+        edge.relation === edgeUpdate.relation);
     });
   }
 
-  addEdge(source, destination) {
-    let edges = this.graph.get(source);
-    if (!edges) {
-      edges = Immutable.Set([destination]);
-    } else {
-      edges = edges.add(destination);
-    }
-    this.graph = this.graph.set(source, edges);
-  }
+  removeUnferencedNodes() {
+    const nodesToRemove = Object.keys(this.nodeOccurrenceCounter)
+      .filter(strId => this.nodeOccurrenceCounter[strId] <= 0);
 
-  removeEdge(source, destination) {
-    let edges = this.graph.get(source);
-    if (edges) {
-      edges = edges.remove(destination);
-      if (edges.size === 0) {
-        this.graph = this.graph.remove(source);
-      } else {
-        this.graph = this.graph.set(source, edges);
-      }
-    }
+    nodesToRemove.forEach(strId => {
+      delete this.nodeOccurrenceCounter[strId];
+      delete this.nodes[strId];
+    });
   }
 }

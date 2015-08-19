@@ -14,12 +14,14 @@ export function extractId(snapshot) {
   /* eslint-disable new-cap */
   if (Immutable.Map.isMap(snapshot)) {
     id = Immutable.Map({
+      id: getIdString(snapshot),
       hostId: snapshot.get('hostId'),
       pluginId: snapshot.get('pluginId'),
       steadyId: snapshot.get('steadyId')
     });
   } else {
     id = Immutable.Map({
+      id: getIdString(snapshot),
       hostId: snapshot.hostId,
       pluginId: snapshot.pluginId,
       steadyId: snapshot.steadyId
