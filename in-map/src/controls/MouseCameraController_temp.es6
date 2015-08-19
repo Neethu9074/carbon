@@ -18,8 +18,8 @@ export default class MouseControl extends TouchController {
         return;
       }
 
-      this.mouseScrollSpeed = data.getIn(['map', 'scrollSpeed']) | 1;
-      this.mouseScrollDirection = data.getIn(['map', 'scrollDirection']) | 1;
+      this.mouseScrollSpeed = data.getIn(['map', 'scrollSpeed']);
+      this.mouseScrollDirection = data.getIn(['map', 'scrollDirection']);
     });
 
     const canvas = scene.parent;

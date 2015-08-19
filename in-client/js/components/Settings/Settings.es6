@@ -19,13 +19,19 @@ const Settings = React.createClass({
   },
 
   getInitialState() {
-    return { inverseCheckboxChecked: false };
+    return {
+      inverseCheckboxChecked: false,
+      speedSliderValue: 1
+    };
   },
 
   componentWillMount() {
     this.addSubscription(settingsStore.subscribe(data => {
       const direction = data.getIn(['map', 'scrollDirection']);
-      this.setState({inverseCheckboxChecked: direction === 1 ? false : true});
+      this.setState({
+        inverseCheckboxChecked: direction === 1 ? false : true,
+        speedSliderValue: data.getIn(['map', 'scrollSpeed'])
+      });
     }));
   },
 
@@ -39,7 +45,7 @@ const Settings = React.createClass({
 
           <span className={block + '__heading'}>settings</span>
 
-          <div>
+          <div className={block + '__setting'}>
             <input type='checkbox'
                    defaultChecked={this.state.inverseCheckboxChecked}
                    className={block + '__checkbox'}
@@ -47,6 +53,17 @@ const Settings = React.createClass({
                      setIn(['map', 'scrollDirection'], e.target.checked ? -1 : 1);
                    }}/>
             {'Inverse scroll direction'}
+          </div>
+
+          <div className={block + '__setting'}>
+            <input type='range'
+                   className={block + '__range'}
+                   min={0.1}
+                   max={20}
+                   step={0.1}
+                   defaultValue={this.state.speedSliderValue}
+                   onChange={(e) => setIn(['map', 'scrollSpeed'], e.target.value)}/>
+            {' Scroll speed: ' + this.state.speedSliderValue}
           </div>
 
         </div>
