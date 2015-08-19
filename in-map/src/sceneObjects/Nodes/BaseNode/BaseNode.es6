@@ -110,11 +110,11 @@ export default class BaseNode extends SceneObject {
   }
 
   onIndirectHighlightEnter() {
-    this.highlight();
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onIndirectHighlightLeave() {
-    this.highlight(false);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onInactiveEnter() {
