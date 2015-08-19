@@ -167,14 +167,13 @@ export default class PhysicalMap extends SceneObject {
   }
 
   removeAllUnknownNodesWithoutConnections() {
-    // identify removed nodes: nodes that are not inside the snapshot update
     getAllNodes(this).forEach(node => {
       if (!node.isUnknown) {
         return;
       }
 
       const wired = node.getWiredSnapshots();
-      if (wired.get('incoming').size === 0 && wired.get('outgoing').size === 0) {
+      if (wired.get('incoming').length === 0 && wired.get('outgoing').length === 0) {
         node.dispose();
       }
     });
