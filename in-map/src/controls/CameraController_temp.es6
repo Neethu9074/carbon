@@ -207,18 +207,22 @@ export default class CameraController {
     //find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
 
-    if(this.hittenObject) {
-      if(canvasStyle.cursor !== 'pointer') {
+    if (this.hittenObject) {
+      if (canvasStyle.cursor !== 'pointer') {
         canvasStyle.cursor = 'pointer';
       }
     } else {
       const oldHoveredConnections = this.hoveredConnections;
-      this.hoveredConnections = allConnections
-            .filter(connection => connection.isSelected())
-            .filter(connection => connection.intersects(this.raycaster));
-
       oldHoveredConnections.forEach(c => c.onHighlight(false));
-      this.hoveredConnections.forEach(c => c.onHighlight(true));
+
+      this.hoveredConnections = allConnections
+        .filter(connection => {
+          const intersected = connection.intersects(this.raycaster);
+          if(intersected) {
+            connection.onHighlight(true);
+          }
+          return intersected;
+        });
 
       if(canvasStyle.cursor !== 'default') {
         canvasStyle.cursor = 'default';
