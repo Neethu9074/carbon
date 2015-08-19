@@ -83,6 +83,15 @@ http {
     }
     {% endif %}
 
+    location /nginx_status {
+      stub_status on;
+      access_log   off;
+
+      # only allow local access
+      allow 127.0.0.1;
+      deny all;
+   }
+
     location /bundle {
       root                   /opt/www;
       expires                max;
