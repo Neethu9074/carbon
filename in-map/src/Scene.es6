@@ -15,7 +15,7 @@ import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import AdaptiveDetailHandler from './AdaptiveDetailHandler';
+import * as Handler from './AdaptiveDetailHandler';
 import {getBackgroundPlane} from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import {getMapStatistics} from './mapStatistics';
@@ -52,7 +52,7 @@ export default class Scene {
     this.setup3D();
     this.controller = new MouseCameraController({scene: this});
 
-    this.adaptiveDetailHandler = new AdaptiveDetailHandler(this);
+    this.adaptiveDetailHandler = new Handler.AdaptiveDetailHandler(this);
 
     this.setupEvents();
     this.handleLostContext();
@@ -64,7 +64,8 @@ export default class Scene {
     const height = this.height;
     const width = this.width;
 
-    this.setupRenderer(width, height);
+    this.setupCanvas();
+    this.setupRenderer();
     this.setupCamera(width, height);
 
     this.backgroundPlane = getBackgroundPlane();
@@ -100,18 +101,25 @@ export default class Scene {
     });
   }
 
-  setupRenderer(width, height) {
-    const renderer = this.renderer = new THREE.WebGLRenderer({antialias: true});
-    renderer.setSize(width, height);
+  setupCanvas() {
+    const canvas = this.canvas = document.createElement('canvas');
+    canvas.width = this.width;
+    canvas.height = this.height;
+    this.parent.appendChild(canvas);
+  }
+
+  setupRenderer(antialias=true) {
+    const renderer = this.renderer = new THREE.WebGLRenderer({
+      canvas: this.canvas,
+      antialias
+    });
+    renderer.setSize(this.width, this.height);
 
     // don't need to clear the buffer because it's filled with a gradient
     renderer.autoClearColor = false;
 
     // objects organize matrix updat by themselves
     renderer.autoUpdateObjects = false;
-
-    // add webGLRenderer to dom element
-    this.parent.appendChild(renderer.domElement);
   }
 
   setupCamera(width, height) {
@@ -503,6 +511,8 @@ export default class Scene {
     this.height = window.innerHeight;
     this.width = window.innerWidth;
 
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
     this.renderer.setSize(this.width, this.height);
     this.setCameraFromSize();
 
@@ -588,7 +598,8 @@ export default class Scene {
     this.backgroundPlane.material.dispose();
 
     //remove the canvas and clear the parent div
-    this.parent.removeChild(this.renderer.domElement);
+    this.parent.removeChild(this.canvas);
+    this.canvas = null;
 
     this.clearStores();
   }

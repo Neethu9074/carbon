@@ -216,14 +216,13 @@ export default class CameraController {
       }
 
     } else {
-      this.hoveredConnections = allConnections
-        .filter(connection => {
-          const intersected = connection.intersects(this.raycaster);
-          if(intersected) {
-            connection.onHighlight(true);
-          }
-          return intersected;
-        });
+      this.hoveredConnections = allConnections.filter(connection => {
+        const intersected = connection.intersects(this.raycaster);
+        if (intersected) {
+          connection.onHighlight(true);
+        }
+        return intersected;
+      });
 
       if(canvasStyle.cursor !== 'default') {
         canvasStyle.cursor = 'default';

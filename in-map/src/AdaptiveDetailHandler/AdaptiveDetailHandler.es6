@@ -1,13 +1,83 @@
-// import * as time from '../timeCalculations';
+import * as time from '../timeCalculations';
 
-export default class AdaptiveDetailHandler {
 
-  constructor() {
+export const lowState = {
+  enter() {
+    console.log('e low');
+  },
+
+  leave(){
+    console.log('l low');
+  }
+};
+
+export const midState = {
+  enter() {
+    console.log('e mid');
+  },
+
+  leave(){
+    console.log('l mid');
+  }
+};
+
+export const maxState = {
+  enter() {
+    console.log('e max');
+  },
+
+  leave(){
+    console.log('l max');
+  }
+};
+
+const ranges = [
+  [-Infinity, 30, lowState],
+  [30, 45, midState],
+  [45, Infinity, maxState]
+];
+
+export class AdaptiveDetailHandler {
+
+  constructor(scene) {
+    this.scene = scene;
+    this.state = maxState;
+
+    this.state.enter();
+
+    const fpsArray = [60, 60, 60, 60, 60];
+    let fpsArrayIndex = 0;
+
     this.checkInterval = setInterval(() => {
-      // const fps = time.getFPS();
-      // console.log(fps);
+      const fps = time.getFPS();
+
+      fpsArray[fpsArrayIndex] = fps;
+      if (++fpsArrayIndex >= fpsArray.length) {
+        fpsArrayIndex = 0;
+      }
+
+      const average = this.getAverage(fpsArray);
+      const newState = this.getState(average);
+      if (newState !== this.state) {
+        this.state.leave(scene);
+        newState.enter(scene);
+        this.state = newState;
+      }
     },
     1000);
+  }
+
+  getState(value) {
+    for (let i = 0; i < ranges.length; i++) {
+      const range = ranges[i];
+      if (value >= range[0] && value < range[1]) {
+        return range[2];
+      }
+    }
+  }
+
+  getAverage(fpsArray) {
+    return fpsArray.reduce((a, b) => a + b, 0) / (fpsArray.length);
   }
 
   dispose() {
