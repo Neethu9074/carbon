@@ -125,7 +125,7 @@ http {
     }
 
     location /auth/signIn {
-      limit_req              zone=onePerSecond burst=3;
+      limit_req              zone=onePerSecond burst=10;
 
       proxy_pass             http://groundskeeper/signIn;
       proxy_set_header       X-Real-IP $remote_addr;
