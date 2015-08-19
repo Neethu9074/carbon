@@ -72,7 +72,7 @@ export default class WiringConveyer {
       }
     });
 
-    this.removeUnferencedNodes();
+    this.removeUnreferencedNodes();
 
     this.onNext(this.graph);
   }
@@ -119,14 +119,14 @@ export default class WiringConveyer {
     this.nodeOccurrenceCounter[source]--;
     this.nodeOccurrenceCounter[destination]--;
 
-    this.edges = this.edges.filter(edge => {
+    this.graph.edges = this.edges = this.edges.filter(edge => {
       return !(edge.source === source &&
         edge.destination === destination &&
         edge.relation === edgeUpdate.relation);
     });
   }
 
-  removeUnferencedNodes() {
+  removeUnreferencedNodes() {
     const nodesToRemove = Object.keys(this.nodeOccurrenceCounter)
       .filter(strId => this.nodeOccurrenceCounter[strId] <= 0);
 

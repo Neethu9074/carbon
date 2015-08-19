@@ -116,6 +116,74 @@ describe('conveyer.WiringConveyer', () => {
     ]);
   });
 
+  it('should process graph updates', () => {
+    conveyer = new WiringConveyer();
+    conveyer.start(onNext);
+
+    const initialGraph = getGraphNetworkStructure();
+    initialGraph.edges.push({
+      source: 0,
+      destination: 1,
+      relation: 'runs on',
+      type: 'addition'
+    }, {
+      source: 1,
+      destination: 2,
+      relation: 'runs on',
+      type: 'addition'
+    }, {
+      source: 0,
+      destination: 3,
+      relation: 'runs on',
+      type: 'addition'
+    });
+    emitGraph(initialGraph);
+
+    const graphUpdate = getGraphNetworkStructure();
+    graphUpdate.edges.push({
+      source: 1,
+      destination: 2,
+      relation: 'runs on',
+      type: 'removal'
+    }, {
+      source: 1,
+      destination: 3,
+      relation: 'runs on',
+      type: 'addition'
+    });
+    emitGraph(graphUpdate);
+
+    expect(onNext).to.have.callCount(2);
+    const processedGraph = onNext.getCall(1).args[0];
+    expect(Object.keys(processedGraph.nodes).length).to.equal(3);
+
+    const nodeAStrId = getIdString(initialGraph.nodes[0]);
+    const nodeBStrId = getIdString(initialGraph.nodes[1]);
+    const nodeDStrId = getIdString(initialGraph.nodes[3]);
+    expect(nodeAStrId in processedGraph.nodes).to.equal(true);
+    expect(nodeBStrId in processedGraph.nodes).to.equal(true);
+    expect(nodeDStrId in processedGraph.nodes).to.equal(true);
+
+    expect(processedGraph.edges.length).to.equal(3);
+    expect(processedGraph.edges).to.deep.equal([
+      {
+        source: nodeAStrId,
+        destination: nodeBStrId,
+        relation: 'runs on'
+      },
+      {
+        source: nodeAStrId,
+        destination: nodeDStrId,
+        relation: 'runs on'
+      },
+      {
+        source: nodeBStrId,
+        destination: nodeDStrId,
+        relation: 'runs on'
+      }
+    ]);
+  });
+
   function getGraphNetworkStructure() {
     return {
       nodes: {
