@@ -78,7 +78,7 @@ export default class SnapshotConveyer {
   }
 
   handlePresenceMessage(message) {
-    if (!message.data.online) {
+    if (!message.data.online && this.snapshots) {
       message.data.forEach(presenceMessage => {
         this.snapshots = this.snapshots.filter(snapshot => {
           return !(snapshot.get('hostId') === presenceMessage.hostId &&
