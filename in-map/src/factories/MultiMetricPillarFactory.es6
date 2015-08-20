@@ -89,7 +89,6 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     this.updateHeights();
   }
 
-/*eslint-disable max-statements */
   calculateVertices(numTiles) {
     const vertices = [];
     const normalCubeWidthHalf = (1.0 / 2.0);
@@ -130,7 +129,6 @@ export default class MultiMetricPillarFactory extends MeshFactory {
 
     return vertices;
   }
-/*eslint-enable max-statements */
 
   //creates a gradient from black to white
   calculateColorItems(numTiles) {
@@ -172,7 +170,6 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     this.animation.start();
   }
 
-/*eslint-disable max-statements */
   setHeightToUvs({uvs, iCube, fragment}) {
     const tiles = fragment.tiles;
     const numVertices = this.vertexPos.length;
@@ -248,5 +245,4 @@ export default class MultiMetricPillarFactory extends MeshFactory {
       uvs[cursorPosition + 34] = toNew;
     }
   }
-/*eslint-enable max-statements */
 }

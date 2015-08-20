@@ -72,9 +72,7 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     const to = {v: 1.0};
     const animation = new TWEEN.Tween(from).to(to, 500);
     animation.easing(TWEEN.Easing.Cubic.InOut);
-    animation.onUpdate((v) => {
-      progress.value = v;
-    });
+    animation.onUpdate(v => progress.value = v);
     this.animation = animation;
 
     this.updateSubscribtion = eventBus.on('updateTween').subscribe((time) => {
@@ -139,5 +137,4 @@ export default class SingleMetricPillarFactory extends MeshFactory {
       }
     }
   }
-
 }
