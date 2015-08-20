@@ -16,42 +16,56 @@ var environments = {
   monitoring: {
     user: 'stan@instana.com',
     pw: '4711',
-    baseUrl: 'https://monitoring-instana.instana.io'
+    uiBackendUrl: 'https://monitoring-instana.instana.io/api',
+    groundskeeperUrl: 'https://monitoring-instana.instana.io/auth'
   },
   demo: {
     user: 'stan@instana.com',
     pw: '4711',
-    baseUrl: 'https://demo.instana.io'
+    uiBackendUrl: 'https://demo.instana.io/api',
+    groundskeeperUrl: 'https://demo.instana.io/auth'
   },
   test: {
     user: 'stan@instana.com',
     pw: '4711',
-    baseUrl: 'https://test-instana.instana.io'
+    uiBackendUrl: 'https://test-instana.instana.io/api',
+    groundskeeperUrl: 'https://test-instana.instana.io/auth'
   },
   johan: {
     user: 'fromutome@yahoo.com',
     pw: '34johan12',
-    baseUrl: 'https://johan.instana.io'
+    uiBackendUrl: 'https://johan.instana.io/api',
+    groundskeeperUrl: 'https://johan.instana.io/auth'
   },
   betquest: {
     user: 'markus.bonsch@codecentric.de',
     pw: 'Horst67',
-    baseUrl: 'https://betquest.instana.io'
+    uiBackendUrl: 'https://betquest.instana.io/api',
+    groundskeeperUrl: 'https://betquest.instana.io/auth'
   },
   codecentric: {
     user: 'tobias.knierim@codecentric.de',
     pw: 'crackme42',
-    baseUrl: 'https://codecentric.instana.io'
+    uiBackendUrl: 'https://codecentric.instana.io/api',
+    groundskeeperUrl: 'https://codecentric.instana.io/auth'
   },
   centerdevice: {
     user: 'daniel.schneller@centerdevice.de',
     pw: '543centerdevice345',
-    baseUrl: 'https://centerdevice.instana.io'
+    uiBackendUrl: 'https://centerdevice.instana.io/api',
+    groundskeeperUrl: 'https://centerdevice.instana.io/auth'
+  },
+  local: {
+    user: 'stan@instana.com',
+    pw: '4711',
+    uiBackendUrl: 'http://localhost:8080',
+    groundskeeperUrl: 'http://workstation:8280'
   },
   simulator: {
     user: '<none>',
     pw: '<none>',
-    baseUrl: 'http://localhost:5000'
+    uiBackendUrl: 'http://localhost:5000',
+    groundskeeperUrl: 'https://localhost:5000'
   }
 };
 
@@ -126,7 +140,8 @@ function writeProxroxConfigForEnvironment(env, envConfig) {
 }
 
 function buildProxroxConfig(envConfig) {
-  var baseUrl = envConfig.baseUrl;
+  var uiBackendUrl = envConfig.uiBackendUrl;
+  var groundskeeperUrl = envConfig.groundskeeperUrl;
   var instagrafanaUrl = 'https://monitoring-instana.instana.io/api/internal';
 
   return {
@@ -137,15 +152,15 @@ function buildProxroxConfig(envConfig) {
     tls: true,
     proxy: {
       '/': 'http://127.0.0.1:3000',
-      '/auth/signIn': baseUrl + '/auth/signIn',
-      '/auth/signOut': baseUrl + '/auth/signOut',
-      '/auth/users/current': baseUrl + '/auth/users/current',
+      '/auth/signIn': groundskeeperUrl + '/signIn',
+      '/auth/signOut': groundskeeperUrl + '/signOut',
+      '/auth/users/current': groundskeeperUrl + '/users/current',
       '/internal/api': instagrafanaUrl + 'api',
       '/uiTracker/': 'http://127.0.0.1:8484/'
     },
 
     websocketProxy: {
-      '/api/data': baseUrl + '/api/data'
+      '/api/data': uiBackendUrl + '/data'
     }
   };
 }
