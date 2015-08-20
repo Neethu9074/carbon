@@ -11,7 +11,7 @@ import fragmentShader from './singleMetricFragmentShader.glsl';
 import vertexShader from './singleMetricVertexShader.glsl';
 
 
-const cyan = new THREE.Color(theme.map.metricColors.cyan);
+const cyan = new THREE.Color(theme.chart.strokeColors[0]);
 const colorItemsOk = [
   [cyan.r - 0.1, cyan.g - 0.1, cyan.b - 0.1], //front
   [cyan.r, cyan.g, cyan.b], //top
