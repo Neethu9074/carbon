@@ -182,10 +182,11 @@ export default class Layer extends SceneObject {
 
   setHeight(height) {
     this.height = height;
-    this.getComponent('mesh').sizeChanged(0.9, height, 0.9);
-    this.getComponent('solidMesh').sizeChanged(0.9, height, 0.9);
-    this.getComponent('collision').sizeChanged(0.9, height, 0.9);
-    this.getComponent('highlighting').sizeChanged(0.9, height, 0.9);
+    const margin = 0.8;
+    this.getComponent('mesh').sizeChanged(margin, height, margin);
+    this.getComponent('solidMesh').sizeChanged(margin, height, margin);
+    this.getComponent('collision').sizeChanged(margin, height, margin);
+    this.getComponent('highlighting').sizeChanged(margin, height, margin);
   }
 
   //this value is used to store the information of the layer of this layer
