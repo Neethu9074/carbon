@@ -10,8 +10,8 @@ import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Scal
 import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
 
 
-const darkGrey = {r: 0.5, g: 0.5, b: 0.5};
-const lightGrey = {r: 0.7, g: 0.7, b: 0.7};
+const darkGrey = {r: 0.41, g: 0.47, b: 0.5};
+const lightGrey = {r: 0.72, g: 0.75, b: 0.76};
 const fullWhite = {r: 1, g: 1, b: 1};
 
 export const allConnections = [];
