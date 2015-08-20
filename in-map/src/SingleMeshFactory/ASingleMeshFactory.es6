@@ -20,7 +20,7 @@ export default class SingleMeshFactory {
     this.colors = [];
 
     //stores all added fragments that needs an update on global geometry
-    this.fragmentQueue = {};
+    this.fragmentQueue = Object.create(null);
 
     //represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
@@ -107,7 +107,7 @@ export default class SingleMeshFactory {
     this.scene.renderScene();
 
     //to clear the hole queue just create an empty object
-    this.fragmentQueue = {};
+    this.fragmentQueue = Object.create(null);
   }
 
   removeFragmentFromGeometry(item) {
