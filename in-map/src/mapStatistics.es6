@@ -1,6 +1,6 @@
 import {getAllNodes, getAllGroups} from './mapStructureUtils';
 import * as time from './timeCalculations';
-
+import {lowState, midState, maxState} from './AdaptiveDetailHandler';
 
 let minFPS = 1000;
 let maxFPS = 0;
@@ -11,6 +11,8 @@ const fpsArray = [];
 let fpsArrayIndex = 0;
 let framesRenderedInSecond = 0;
 
+const detailLevels = { low: 0, mid: 0, max: 0 };
+
 export function getMapStatistics(scene) {
   const renderer = scene.renderer;
   const renderInfo = renderer.info.render;
@@ -19,6 +21,7 @@ export function getMapStatistics(scene) {
 
   update(scene);
 
+  const allDetailSec = detailLevels.low + detailLevels.mid + detailLevels.max;
   return {
     seconds: time.getBigBangTime() | 0,
     renderStats: {
@@ -43,6 +46,11 @@ export function getMapStatistics(scene) {
         ground: scene.groundSingleMeshFactory.numberUpdates | 0,
         highlight: scene.highlightingSingleMeshFactory.numberUpdates | 0,
         layer: scene.layerSingleMeshFactory.numberUpdates | 0
+      },
+      details: {
+        low: String(((detailLevels.low / allDetailSec) * 100) | 0) + '%',
+        mid: String(((detailLevels.mid / allDetailSec) * 100) | 0) + '%',
+        max: String(((detailLevels.max / allDetailSec) * 100) | 0) + '%'
       }
     }
   };
@@ -61,6 +69,16 @@ function update(scene) {
 
   tickCounter++;
   fpsCounter += fps;
+
+  //
+  const adaptiveDetailHandler = scene.adaptiveDetailHandler;
+  if (adaptiveDetailHandler.state === lowState) {
+    detailLevels.low++;
+  } else if (adaptiveDetailHandler.state === midState) {
+    detailLevels.mid++;
+  } else if (adaptiveDetailHandler.state === maxState) {
+    detailLevels.max++;
+  }
 }
 
 function round(t) {
