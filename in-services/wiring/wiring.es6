@@ -1,8 +1,6 @@
 import Immutable from 'immutable';
 import {combineLatest} from 'reactive-observables';
 
-import * as forgeConsts from 'in-forge/constants';
-
 import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import SnapshotConveyer from '../conveyer/SnapshotConveyer';
@@ -83,34 +81,34 @@ export const views = {
   }
 };
 
-export function getGroups(view) {
-  if (view === views.physical.hosts) {
-    return getGroupsForPhysicalHostView();
-  }
+// export function getGroups(view) {
+//   if (view === views.physical.hosts) {
+//     return getGroupsForPhysicalHostView();
+//   }
+//
+//   throw new Error('Unsupported view type ' + view);
+// }
+//
+// function getGroupsForPhysicalHostView() {
+//   return completeWiring.map(wiringGraph => {
+//     const osNodes = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os);
+//
+//   });
+// }
 
-  throw new Error('Unsupported view type ' + view);
-}
+// function getNodesWithPluginId(wiringGraph, pluginId) {
+//   // Caution, this solution depends on the way snapshot string IDs
+//   // are generated. It has the benefit of being very fast, but it is also
+//   // fragile and needs to be adapted when the snapshot ID generation
+//   // strategy changes (which should be never)!
+//   const query = pluginId + '#';
+//   return Object.keys(wiringGraph.nodes)
+//     .filter(strId => strId.indexOf(query) === 0);
+// }
 
-function getGroupsForPhysicalHostView() {
-  return completeWiring.map(wiringGraph => {
-    const osNodes = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os);
-
-  });
-}
-
-function getNodesWithPluginId(wiringGraph, pluginId) {
-  // Caution, this solution depends on the way snapshot string IDs
-  // are generated. It has the benefit of being very fast, but it is also
-  // fragile and needs to be adapted when the snapshot ID generation
-  // strategy changes (which should be never)!
-  const query = pluginId + '#';
-  return Object.keys(wiringGraph.nodes)
-    .filter(strId => strId.indexOf(query) === 0);
-}
-
-function getRelatedNodesOnSourceSide(nodes, relation) {
-  // body...
-}
+// function getRelatedNodesOnSourceSide(nodes, relation) {
+//   // body...
+// }
 
 // export function getNodesForGroup(view, groupSnapshot) {
   // body...
