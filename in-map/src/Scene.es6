@@ -513,7 +513,6 @@ export default class Scene {
     this.height = window.innerHeight;
     this.width = window.innerWidth;
 
-    console.log(this.canvas.width, this.canvas.height);
     this.canvas.width = this.width;
     this.canvas.height = this.height;
 
