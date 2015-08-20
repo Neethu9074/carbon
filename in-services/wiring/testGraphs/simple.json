@@ -17,6 +17,12 @@
       "hostId": "h1",
       "pluginId": "com.instana.forge.infrastructure.virtualization.Docker",
       "steadyId": "sDocker"
+    },
+    "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra": {
+      "id": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
+      "hostId": "h1",
+      "pluginId": "com.instana.forge.infrastructure.database.cassandra.Cassandra",
+      "steadyId": "sCassandra"
     }
   },
   "edges": [{
@@ -26,6 +32,10 @@
   }, {
     "source": "com.instana.forge.infrastructure.os.OS#h1#sOS",
     "destination": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
+    "relation": "com.instana.sdk.annotation.RunsOn"
+  }, {
+    "source": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
+    "destination": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }]
 }
