@@ -3,7 +3,9 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import helpify from 'in-components/hoc/helpify';
+import enhance from 'in-components/hoc/enhance';
 import eventBus from 'in-services/eventbus';
+import {getIn} from 'in-services/settings';
 
 import Scene from './Scene';
 
@@ -21,7 +23,16 @@ const MapRC = React.createClass({
 
   propTypes: {
     pluginIds: React.PropTypes.any.isRequired,
-    showHelp: React.PropTypes.func.isRequired
+    showHelp: React.PropTypes.func.isRequired,
+    antialias: React.PropTypes.bool.isRequired
+  },
+
+  statics: {
+    createObservables() {
+      return {
+        antialias: getIn(['map', 'antialias'])
+      };
+    }
   },
 
   getInitialState() {
@@ -79,6 +90,7 @@ const MapRC = React.createClass({
     this.scene = new Scene({
       parent,
       pluginIds,
+      antialias: this.props.antialias,
       onPlusClicked: this.onPlusClicked
     });
   },
@@ -134,4 +146,4 @@ const MapRC = React.createClass({
   }
 });
 
-export default helpify(MapRC);
+export default helpify(enhance(MapRC));

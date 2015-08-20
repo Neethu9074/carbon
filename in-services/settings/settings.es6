@@ -9,15 +9,24 @@ let settings = getFromStorage();
 //load defaults if the storage emits null
 if (!settings) {
   settings = new Immutable.Map();
-  loadDefault();
 }
+
+loadDefault();
 
 settingsStore.emit(settings);
 
 function loadDefault() {
-  setIn(['map', 'scrollSpeed'], 1);
-  setIn(['map', 'scrollDirection'], 1);
+  setDefaultConfigValue(['map', 'scrollSpeed'], 1);
+  setDefaultConfigValue(['map', 'scrollDirection'], 1);
+  setDefaultConfigValue(['map', 'antialias'], true);
+
   setIn(['dataSource'], 'defaults');
+}
+
+function setDefaultConfigValue(path, defaultValue) {
+  if(settings.getIn(path) === undefined) {
+    setIn(path, defaultValue);
+  }
 }
 
 export function setIn(path, value) {
@@ -25,6 +34,12 @@ export function setIn(path, value) {
   settingsStore.emit(settings);
 
   setToStorage();
+}
+
+export function getIn(path, defaultValue) {
+  return settingsStore.map(set => {
+    return set.getIn(path, defaultValue);
+  }).distinct();
 }
 
 function setToStorage() {

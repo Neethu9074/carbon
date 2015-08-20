@@ -3,38 +3,32 @@ import * as time from '../timeCalculations';
 
 export const lowState = {
   enter() {
-    console.log('e low');
   },
 
   leave(){
-    console.log('l low');
   }
 };
 
 export const midState = {
   enter() {
-    console.log('e mid');
   },
 
   leave(){
-    console.log('l mid');
   }
 };
 
 export const maxState = {
   enter() {
-    console.log('e max');
-  },
+    },
 
   leave(){
-    console.log('l max');
   }
 };
 
 const ranges = [
   [-Infinity, 30, lowState],
-  [30, 45, midState],
-  [45, Infinity, maxState]
+  [30, 55, midState],
+  [55, Infinity, maxState]
 ];
 
 export class AdaptiveDetailHandler {
@@ -43,7 +37,7 @@ export class AdaptiveDetailHandler {
     this.scene = scene;
     this.state = maxState;
 
-    this.state.enter();
+    this.state.enter(scene);
 
     const fpsArray = [60, 60, 60, 60, 60];
     let fpsArrayIndex = 0;

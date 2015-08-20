@@ -15,7 +15,7 @@ export default class TouchControl extends CameraController{
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
 
-    const canvas = scene.renderer.domElement;
+    const canvas = scene.canvas;
     const eventHandler = new Hammer(canvas);
     const minMovementForPan = 15;
 

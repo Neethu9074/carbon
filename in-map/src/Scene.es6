@@ -15,9 +15,9 @@ import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import * as Handler from './AdaptiveDetailHandler';
 import {getBackgroundPlane} from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
+import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import * as stores from './stores/mapStore';
 import * as time from './timeCalculations';
@@ -31,11 +31,12 @@ let currentMetrics;
 
 export default class Scene {
 
-  constructor({parent, pluginIds, onPlusClicked}) {
+  constructor({parent, pluginIds, onPlusClicked, antialias}) {
     stores.currentScene.emit(this); // set this scene to store
 
     this.height = window.innerHeight;
     this.width = window.innerWidth;
+    this.antialias = antialias;
     this.parent = parent;
     this.pluginIds = pluginIds;
     this.onPlusClicked = onPlusClicked;
@@ -108,10 +109,10 @@ export default class Scene {
     this.parent.appendChild(canvas);
   }
 
-  setupRenderer(antialias=true) {
+  setupRenderer() {
     const renderer = this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias
+      antialias: this.antialias
     });
     renderer.setSize(this.width, this.height);
 
