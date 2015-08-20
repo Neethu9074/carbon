@@ -13,9 +13,9 @@ import vertexShader from './singleMetricVertexShader.glsl';
 
 const cyan = new THREE.Color(theme.chart.strokeColors[0]);
 const colorItemsOk = [
-  [cyan.r - 0.1, cyan.g - 0.1, cyan.b - 0.1], //front
-  [cyan.r, cyan.g, cyan.b], //top
-  [cyan.r + 0.1, cyan.g + 0.1, cyan.b + 0.1] //left
+  [cyan.r - 0.1, cyan.g - 0.1, cyan.b - 0.1], // front
+  [cyan.r, cyan.g, cyan.b],                   // top
+  [cyan.r + 0.1, cyan.g + 0.1, cyan.b + 0.1]  // left
 ];
 
 

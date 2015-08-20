@@ -24,7 +24,7 @@ export default class MultiMetricPillar extends MetricPillar {
     this.scene.multiMetricFactory.addFragment({
       id: this.id,
       pos,
-      dim: {x: 1, y: 1, z: 1},
+      dim: {x: 1, y: this.parent.height, z: 1},
       tiles
     });
   }
