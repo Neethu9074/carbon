@@ -8,7 +8,7 @@ let fpsCounter = 0;
 let deltaTime = 0;
 let fps = 0;
 let timeCounterForComponentUpdate = 0;
-const framesWatingForComponentUpdate = 10;
+let millisWatingForComponentUpdate = 200;
 
 const timeEventListener = [];
 
@@ -22,7 +22,8 @@ export function removeTimeEventListener(listener) {
 
 export function update(highResTimestamp) {
   const timeNow = highResTimestamp;
-  deltaTime = (timeNow - timeOfLastFrameUpdate) / 1000; //in ms
+  const deltaTimeInMs = (timeNow - timeOfLastFrameUpdate);
+  deltaTime = deltaTimeInMs / 1000; //in ms
 
   // clamp the deltaTime to a max of 0.5 seconds. If the map is laggy because of
   // any reason or you are switching tabs, the calculation is stoppend and the
@@ -38,7 +39,7 @@ export function update(highResTimestamp) {
   timeSinceFirstFrame += deltaTime;
   secondCounter += deltaTime;
 
-  timeCounterForComponentUpdate++;
+  timeCounterForComponentUpdate += deltaTimeInMs;
   fpsCounter++;
 
   if(secondCounter >= 1) {
@@ -47,7 +48,7 @@ export function update(highResTimestamp) {
     fpsCounter = 0;
   }
 
-  if(timeCounterForComponentUpdate >= framesWatingForComponentUpdate) {
+  if(timeCounterForComponentUpdate >= millisWatingForComponentUpdate) {
     timeCounterForComponentUpdate = 0;
     timeEventListener.forEach(l => l.handleComponentTimeEvent());
   }
@@ -63,6 +64,10 @@ export function getDeltaTime() {
 
 export function getBigBangTime() {
   return timeSinceFirstFrame;
+}
+
+export function setFramesWatingForComponentUpdate(numFrames) {
+  millisWatingForComponentUpdate = Math.max(1, numFrames); // [1, #]
 }
 
 export function reset() {

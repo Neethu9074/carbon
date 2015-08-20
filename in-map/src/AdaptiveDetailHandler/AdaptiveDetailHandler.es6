@@ -3,6 +3,7 @@ import * as time from '../timeCalculations';
 
 export const lowState = {
   enter() {
+    time.setFramesWatingForComponentUpdate(1000);
   },
 
   leave(){
@@ -11,6 +12,7 @@ export const lowState = {
 
 export const midState = {
   enter() {
+    time.setFramesWatingForComponentUpdate(500);
   },
 
   leave(){
@@ -19,7 +21,8 @@ export const midState = {
 
 export const maxState = {
   enter() {
-    },
+    time.setFramesWatingForComponentUpdate(200);
+  },
 
   leave(){
   }
