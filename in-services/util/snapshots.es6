@@ -11,7 +11,6 @@ import Immutable from 'immutable';
  */
 export function extractId(snapshot) {
   let id;
-  /* eslint-disable new-cap */
   if (Immutable.Map.isMap(snapshot)) {
     id = Immutable.Map({
       id: getIdString(snapshot),
@@ -27,7 +26,6 @@ export function extractId(snapshot) {
       steadyId: snapshot.steadyId
     });
   }
-  /* eslint-enable new-cap */
 
   /* eslint-disable max-len */
   // Snapshot IDs are considered equal when they have the same
