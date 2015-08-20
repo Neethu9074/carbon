@@ -3,7 +3,7 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
 // import * as tracking from 'in-services/tracking';
-import Icon from 'in-components/Icon';
+import Button from 'in-components/Button';
 
 import './Settings.less';
 
@@ -43,11 +43,14 @@ const Settings = React.createClass({
     return (
       <div className={block + '__wrapper'}>
         <div className={block}>
-          <Icon type='delete'
-                className={block + '__icon-close'}
-                onClick={this.closeSettings}/>
+          <div className={block + '__heading'}>
+            <span className={block + '__heading-text'}>settings</span>
 
-          <span className={block + '__heading'}>settings</span>
+            <Button onClick={this.closeSettings}
+                    className={block + '__button-close'}>
+              Close
+            </Button>
+          </div>
 
           <div className={block + '__setting'}>
             <input type='checkbox'
