@@ -106,7 +106,7 @@ export function getIdString(s) {
   }
 
   if(hostId && pluginId && steadyId) {
-    return `${hostId}#${pluginId}#${steadyId}`;
+    return `${pluginId}#${hostId}#${steadyId}`;
   }
   return undefined;
 }

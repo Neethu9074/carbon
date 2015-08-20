@@ -9,7 +9,7 @@ const UPDATE_FLAGS = {
 
 export default class SingleMeshFactory {
 
-  constructor({scene, renderOrder=2}) {
+  constructor({scene, renderOrder = 2}) {
     this.scene = scene;
 
     //stores all added fragments to create the global geometry
@@ -120,7 +120,7 @@ export default class SingleMeshFactory {
     this.fragments.forEach((frag, index) => {frag.index = index; });
   }
 
-  updateGeometryByFragment(fragment, numElements=0) {
+  updateGeometryByFragment(fragment, numElements = 0) {
     let indexInVertices = 0;
     for (let i = 0; i < fragment.index; i++) {
       indexInVertices += this.fragments[i].vertices.length;

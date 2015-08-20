@@ -80,7 +80,7 @@ const App = React.createClass({
     this.setState({ pluginIds });
   },
 
-  showMenu(show=true) {
+  showMenu(show = true) {
     this.setState({ showSettings: show });
   },
 

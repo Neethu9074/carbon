@@ -59,7 +59,7 @@ describe('util.snapshots', () => {
   describe('getIdString', () => {
     it('should turn an immutable snapshot into an ID string', () => {
       expect(getIdString(newSnapshot(42)))
-        .to.equal('h42#p42#s42');
+        .to.equal('p42#h42#s42');
     });
 
     it('should extract undefined', () => {
@@ -76,7 +76,7 @@ describe('util.snapshots', () => {
         hostId: 'h42',
         pluginId: 'p42'
       };
-      expect(getIdString(snapshot)).to.equal('h42#p42#s42');
+      expect(getIdString(snapshot)).to.equal('p42#h42#s42');
     });
   });
 

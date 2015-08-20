@@ -31,7 +31,7 @@ export default class Layouter {
       groupPadding * 2;
   }
 
-  setNodeToPos({node, x=0, y=0, z=0}) {
+  setNodeToPos({node, x = 0, y = 0, z = 0}) {
     const oldPos = node.getComponent('position').getPosition().clone();
     const newPos = {x, y, z};
 

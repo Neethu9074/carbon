@@ -8,7 +8,7 @@ const defaultColor = [
 
 export default class CubeContentProvider extends ContentProvider {
 
-  constructor(faceColors=defaultColor) {
+  constructor(faceColors = defaultColor) {
     super();
 
     const colors = [];

@@ -3,7 +3,7 @@ import ContentManipulator from './ContentManipulator';
 
 export default class ScaleContentManipulator extends ContentManipulator {
 
-  constructor({contentProvider, x=1, y=1, z=1}) {
+  constructor({contentProvider, x = 1, y = 1, z = 1}) {
     super({contentProvider});
 
     this.scale = {x, y, z};

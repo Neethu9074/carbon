@@ -135,7 +135,7 @@ export default class BaseNode extends SceneObject {
   onHighlightInactiveLeave() {}
 
 
-  highlight(solid=true) {
+  highlight(solid = true) {
     const value = solid ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', value);
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', value);

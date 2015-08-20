@@ -23,7 +23,7 @@ export const formatNumberShort = commaWithoutDecimalPlacesFormatter;
  * @returns {string} Human readable amount of bytes, e.g. 10 Mb
  * @throws An error when the bytes are NaN
  */
-export function formatBytes(num, numberOfDecimalPlaces=2) {
+export function formatBytes(num, numberOfDecimalPlaces = 2) {
   const base = 1024;
   if (typeof num !== 'number' || isNaN(num)) {
     throw new TypeError('Expected a number');

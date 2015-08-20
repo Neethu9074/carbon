@@ -70,8 +70,8 @@ describe('conveyer.SnapshotConveyer', () => {
     });
     expect(onNext.calledOnce).to.equal(true);
     expect(onNext.getCall(0).args[0].toJS()).to.deep.equal([
-      {steadyId: 's1', pluginId: 'p1', hostId: 'h1', id: 'h1#p1#s1'},
-      {steadyId: 's2', pluginId: 'p2', hostId: 'h2', id: 'h2#p2#s2'}
+      {steadyId: 's1', pluginId: 'p1', hostId: 'h1', id: 'p1#h1#s1'},
+      {steadyId: 's2', pluginId: 'p2', hostId: 'h2', id: 'p2#h2#s2'}
     ]);
   });
 

@@ -99,7 +99,7 @@ export default class Connection extends SceneObject {
     }
   }
 
-  enableFragment(enabled=true) {
+  enableFragment(enabled = true) {
     if(enabled) {
       this.scene.lineFactory.addFragment(this.fragment);
     } else {

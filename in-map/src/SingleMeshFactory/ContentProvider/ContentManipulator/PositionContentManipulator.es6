@@ -3,7 +3,7 @@ import ContentManipulator from './ContentManipulator';
 
 export default class PositionContentManipulator extends ContentManipulator {
 
-  constructor({contentProvider, x=0, y=0, z=0}) {
+  constructor({contentProvider, x = 0, y = 0, z = 0}) {
     super({contentProvider});
 
     this.position = {x, y, z};

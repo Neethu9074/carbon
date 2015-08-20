@@ -4,8 +4,8 @@ import {combineLatest} from 'reactive-observables';
 import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import SnapshotConveyer from '../conveyer/SnapshotConveyer';
-
 import {getIdString, only} from '../util/snapshots';
+
 
 /*
   This is what the wiring graph looks like as far as the runs-on relation
@@ -73,3 +73,47 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
       }
     });
 }
+
+export const views = {
+  physical: {
+    hosts: 0,
+    processes: 1
+  }
+};
+
+// export function getGroups(view) {
+//   if (view === views.physical.hosts) {
+//     return getGroupsForPhysicalHostView();
+//   }
+//
+//   throw new Error('Unsupported view type ' + view);
+// }
+//
+// function getGroupsForPhysicalHostView() {
+//   return completeWiring.map(wiringGraph => {
+//     const osNodes = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os);
+//
+//   });
+// }
+//
+// function getNodesWithPluginId(wiringGraph, pluginId) {
+//   // Caution, this solution depends on the way snapshot string IDs
+//   // are generated. It has the benefit of being very fast, but it is also
+//   // fragile and needs to be adapted when the snapshot ID generation
+//   // strategy changes (which should be never)!
+//   const query = pluginId + '#';
+//   return Object.keys(wiringGraph.nodes)
+//     .filter(strId => strId.indexOf(query) === 0);
+// }
+
+// function getRelatedNodesOnSourceSide(nodes, relation) {
+//   // body...
+// }
+
+// export function getNodesForGroup(view, groupSnapshot) {
+  // body...
+// }
+
+// export function getLayerForNode(view, nodeSnapshot) {
+  // body...
+// }

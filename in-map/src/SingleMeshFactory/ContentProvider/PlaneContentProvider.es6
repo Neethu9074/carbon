@@ -4,7 +4,7 @@ const defaultColor = [1, 1, 1];
 
 export default class PlaneContentProvider extends ContentProvider {
 
-  constructor(faceColors=defaultColor) {
+  constructor(faceColors = defaultColor) {
     super();
     this.faceColors = faceColors;
 

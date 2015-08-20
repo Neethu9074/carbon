@@ -60,7 +60,7 @@ export default class Group extends SceneObject {
     }
   }
 
-  addNode(snapshot, unknown=false) {
+  addNode(snapshot, unknown = false) {
     const nodeId = snapshot.get('id');
     let newNode;
 

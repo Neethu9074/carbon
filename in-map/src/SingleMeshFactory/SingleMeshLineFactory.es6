@@ -4,7 +4,7 @@ import ASingleMeshFactory from './ASingleMeshFactory';
 
 export default class SingleMeshLineFactory extends ASingleMeshFactory {
 
-  constructor({scene, renderOrder=2}) {
+  constructor({scene, renderOrder = 2}) {
     super({scene, renderOrder});
   }
 

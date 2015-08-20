@@ -9,7 +9,7 @@ import SnapshotConveyer from '../conveyer/SnapshotConveyer';
 import {only, isIdEqual} from '../util/snapshots';
 
 
-export default function createStore(name='???') {
+export default function createStore(name = '???') {
   const roSpec = {emitLatestOnSubscribe: true};
 
   let subscribedSnapshotId = null;

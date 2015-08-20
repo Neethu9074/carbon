@@ -5,7 +5,7 @@ const defaultColor = [1, 1, 1]; // white color as default
 
 export default class LineContentProvider extends ContentProvider {
 
-  constructor(faceColors=defaultColor) {
+  constructor(faceColors = defaultColor) {
     super();
 
     this.lines = [];

@@ -3,7 +3,7 @@ import ContentManipulator from './ContentManipulator';
 
 export default class ColorMultiplierContentManipulator extends ContentManipulator {
 
-  constructor({contentProvider, r=1, g=1, b=1}) {
+  constructor({contentProvider, r = 1, g = 1, b = 1}) {
     super({contentProvider});
 
     this.color = {r, g, b};

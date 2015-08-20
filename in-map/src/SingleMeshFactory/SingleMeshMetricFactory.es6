@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 export default class SingleMeshMetricFactory {
 
-  constructor({scene, renderOrder=2}) {
+  constructor({scene, renderOrder = 2}) {
     this.scene = scene;
 
     //stores all added fragments to create the global geometry
