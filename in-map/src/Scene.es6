@@ -165,11 +165,13 @@ export default class Scene {
     this.groundSingleMeshFactory.material.transparent = true;
     this.groundSingleMeshFactory.material.opacity = 0.2;
 
+    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 4});
+    this.layerHighlightingSingleMeshFactory = new SingleMeshFactory({scene});
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
-    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene});
     this.singleMetricFactory = new SingleMetricPillarFactory({scene});
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
     this.lineFactory = new SingleMeshLineFactory({scene});
+
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;
 
@@ -183,6 +185,7 @@ export default class Scene {
     }, 1000);
 
     const updateFactories = () => {
+      this.layerHighlightingSingleMeshFactory.rebuild();
       this.highlightingSingleMeshFactory.rebuild();
       this.groundSingleMeshFactory.rebuild();
       this.layerSingleMeshFactory.rebuild();

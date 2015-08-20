@@ -141,7 +141,7 @@ export default class Layer extends SceneObject {
       id: id + '_solidMesh',
       sceneObject: this,
       contentProvider: new CMCM({ contentProvider: pcm }),
-      factory: this.scene.highlightingSingleMeshFactory
+      factory: this.scene.layerHighlightingSingleMeshFactory
     });
     components.solidMesh.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
