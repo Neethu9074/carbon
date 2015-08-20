@@ -175,6 +175,8 @@ export default class Scene {
     this.layerSingleMeshFactory.material.opacity = 0.9;
 
     this.lineFactory = new SingleMeshLineFactory({scene});
+    this.lineFactory.material.transparent = true;
+    this.lineFactory.material.opacity = 0.7;
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;
