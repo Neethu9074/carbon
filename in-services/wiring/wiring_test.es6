@@ -30,35 +30,41 @@ describe('wiring', () => {
   });
 
   describe('physical view', () => {
-    describe('getGroups', () => {
+    describe('hosts views', () => {
 
-      it('should return an empty immutable set for empty graphs', () => {
+      it('should return an empty array for empty graphs', () => {
         emitGraph(getGraph('empty'));
 
-        mod.getGroups(mod.views.physical.hosts)
+        mod.getStructure(mod.views.physical.hosts)
           .subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
-        const groups = onNext.getCall(0).args[0];
-        expect(Immutable.Set.isSet(groups)).to.equal(true);
-        expect(groups.size).to.equal(0);
+        const structure = onNext.getCall(0).args[0];
+        expect(structure).to.be.instanceOf(Array);
+        expect(structure.length).to.equal(0);
       });
 
-      it('should traverse the graph and identify groups for OS snapshots', () => {
+      it('should traverse the graph and identify structure for OS snapshots', () => {
         emitGraph(getGraph('simple'));
 
-        mod.getGroups(mod.views.physical.hosts)
+        mod.getStructure(mod.views.physical.hosts)
           .subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
-        const groups = onNext.getCall(0).args[0];
-        expect(groups.size).to.equal(1);
-        const group = groups.first();
-        expect(group.toJS()).to.deep.equal({
+        const structure = onNext.getCall(0).args[0];
+        expect(structure.length).to.equal(1);
+        const hostInfo = structure[0];
+        expect(hostInfo.group.toJS()).to.deep.equal({
           id: 'com.instana.forge.hardware.virtual.EC2#h1#sEC2',
           hostId: 'h1',
           pluginId: 'com.instana.forge.hardware.virtual.EC2',
           steadyId: 'sEC2'
+        });
+        expect(hostInfo.node.toJS()).to.deep.equal({
+          id: 'com.instana.forge.infrastructure.os.OS#h1#sOS',
+          hostId: 'h1',
+          pluginId: 'com.instana.forge.infrastructure.os.OS',
+          steadyId: 'sOS'
         });
       });
 

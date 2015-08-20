@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Immutable from 'immutable';
 import {combineLatest} from 'reactive-observables';
 
@@ -84,26 +83,29 @@ export const views = {
   }
 };
 
-export function getGroups(view) {
+export function getStructure(view) {
   if (view === views.physical.hosts) {
-    return getGroupsForPhysicalHostView();
+    return getStructureForPhysicalHostsView();
   }
 
   throw new Error('Unsupported view type ' + view);
 }
 
-function getGroupsForPhysicalHostView() {
+function getStructureForPhysicalHostsView() {
   return completeWiring.map(wiringGraph => {
-    const osNodes = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os);
-
-    // sort so that we can use binarySearch in the following steps to identify
-    // whether edges are part of a group relationship.
-    osNodes.sort();
-
-    return Immutable.Set(
-      getConnectedSourceNodes(wiringGraph, osNodes, forgeConsts.rels.runsOn)
-        .map(strId => wiringGraph.nodes[strId])
-    );
+    return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
+      .map(osNodeStrId => {
+        // TODO swap with getDestinationNode once fixed in backend
+        let group = getSourceNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
+        if (group) {
+          group = wiringGraph.nodes[group];
+        }
+        return {
+          group,
+          node: wiringGraph.nodes[osNodeStrId],
+          layer: []
+        };
+      });
   });
 }
 
@@ -117,22 +119,13 @@ function getNodesWithPluginId(wiringGraph, pluginId) {
     .filter(strId => strId.indexOf(query) === 0);
 }
 
-function getConnectedSourceNodes(wiringGraph, destinationNodeIds, relation) {
-  return wiringGraph.edges.filter(edge => {
-      return edge.relation === relation &&
-        // TODO this should be replaced with edge.direction once source / destionation is
-        // fixed on server side.
-        _.indexOf(destinationNodeIds, edge.destination, true) >= 0;
-    })
-    // TODO this should be replaced with edge.source once source / destionation is
-    // fixed on server side.
-    .map(edge => edge.source);
+
+function getSourceNode(wiringGraph, destination, relation) {
+  for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {
+    const edge = wiringGraph.edges[i];
+    if (edge.destination === destination && edge.relation === relation) {
+      return edge.source;
+    }
+  }
+  return null;
 }
-
-// export function getNodesForGroup(view, groupSnapshot) {
-  // body...
-// }
-
-// export function getLayerForNode(view, nodeSnapshot) {
-  // body...
-// }
