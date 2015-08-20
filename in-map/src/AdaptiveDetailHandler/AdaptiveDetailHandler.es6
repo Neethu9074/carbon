@@ -6,8 +6,7 @@ export const lowState = {
     time.setFramesWatingForComponentUpdate(1000);
   },
 
-  leave(){
-  }
+  leave() {}
 };
 
 export const midState = {
@@ -15,8 +14,7 @@ export const midState = {
     time.setFramesWatingForComponentUpdate(500);
   },
 
-  leave(){
-  }
+  leave() {}
 };
 
 export const maxState = {
@@ -24,14 +22,13 @@ export const maxState = {
     time.setFramesWatingForComponentUpdate(200);
   },
 
-  leave(){
-  }
+  leave() {}
 };
 
 const ranges = [
-  [-Infinity, 30, lowState],
-  [30, 45, midState],
-  [45, Infinity, maxState]
+  [-Infinity, 30, lowState], // from ]-00 - 30]FPS  use low details
+  [30, 45, midState],        // from ]30  - 30]FPS  use medium details
+  [45, Infinity, maxState]   // from ]45  - +00]FPS use maximum details
 ];
 
 export class AdaptiveDetailHandler {
