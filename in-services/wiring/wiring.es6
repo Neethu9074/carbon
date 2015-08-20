@@ -1,5 +1,8 @@
+import _ from 'lodash';
 import Immutable from 'immutable';
 import {combineLatest} from 'reactive-observables';
+
+import * as forgeConsts from 'in-forge/constants';
 
 import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
@@ -81,34 +84,46 @@ export const views = {
   }
 };
 
-// export function getGroups(view) {
-//   if (view === views.physical.hosts) {
-//     return getGroupsForPhysicalHostView();
-//   }
-//
-//   throw new Error('Unsupported view type ' + view);
-// }
-//
-// function getGroupsForPhysicalHostView() {
-//   return completeWiring.map(wiringGraph => {
-//     const osNodes = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os);
-//
-//   });
-// }
+export function getGroups(view) {
+  if (view === views.physical.hosts) {
+    return getGroupsForPhysicalHostView();
+  }
 
-// function getNodesWithPluginId(wiringGraph, pluginId) {
-//   // Caution, this solution depends on the way snapshot string IDs
-//   // are generated. It has the benefit of being very fast, but it is also
-//   // fragile and needs to be adapted when the snapshot ID generation
-//   // strategy changes (which should be never)!
-//   const query = pluginId + '#';
-//   return Object.keys(wiringGraph.nodes)
-//     .filter(strId => strId.indexOf(query) === 0);
-// }
+  throw new Error('Unsupported view type ' + view);
+}
 
-// function getRelatedNodesOnSourceSide(nodes, relation) {
-//   // body...
-// }
+function getGroupsForPhysicalHostView() {
+  return completeWiring.map(wiringGraph => {
+    const osNodes = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os);
+
+    // sort so that we can use binarySearch in the following steps to identify
+    // whether edges are part of a group relationship.
+    osNodes.sort();
+
+    return Immutable.Set(
+      getConnectedSourceNodes(wiringGraph, osNodes, forgeConsts.rels.runsOn)
+        .map(strId => wiringGraph.nodes[strId])
+    );
+  });
+}
+
+function getNodesWithPluginId(wiringGraph, pluginId) {
+  // Caution, this solution depends on the way snapshot string IDs
+  // are generated. It has the benefit of being very fast, but it is also
+  // fragile and needs to be adapted when the snapshot ID generation
+  // strategy changes (which should be never)!
+  const query = pluginId + '#';
+  return Object.keys(wiringGraph.nodes)
+    .filter(strId => strId.indexOf(query) === 0);
+}
+
+function getConnectedSourceNodes(wiringGraph, destinationNodeIds, relation) {
+  return wiringGraph.edges.filter(edge => {
+      return edge.relation === relation &&
+        _.indexOf(destinationNodeIds, edge.destination, true) >= 0;
+    })
+    .map(edge => edge.destination);
+}
 
 // export function getNodesForGroup(view, groupSnapshot) {
   // body...
