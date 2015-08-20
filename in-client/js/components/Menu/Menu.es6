@@ -2,9 +2,6 @@ import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
 import Icon from 'in-components/Icon';
-import Button from 'in-components/Button';
-
-import StanExplainsThings from '../StanExplainsThings';
 
 import './Menu.less';
 
@@ -40,23 +37,24 @@ const Menu = React.createClass({
 
     return (
       <div className={block + '__panel'}>
-        <Icon type='delete'
-              className={block + '__icon-close'}
-              onClick={this.toggle}/>
 
-        <StanExplainsThings header={''} className={block + '__stan-explains'}>
+        <div className={block + '__menu-entry'}
+             onClick={this.props.showMenu}>
+          <span className={block + '__menu-entry--text'}>Settings</span>
+        </div>
 
-          <Button onClick={this.props.showMenu}>
-            Settings
-          </Button>
+        <div className={block + '__menu-entry'}
+             onClick={() => {}}>
+          <span className={block + '__menu-entry--text'}>About Instana</span>
+        </div>
 
-          <form action='/auth/signOut' method='post' className={block}>
-            <Button type='submit' className={block + '__button'}>
-              {this.getIntlMessage('footer.signOut')}
-            </Button>
+        <div className={block + '__menu-entry__last'}>
+          <form action='/auth/signOut' method='post'>
+            <span type='text'
+                  className={block + '__menu-entry--signout'}>Sign Out</span>
           </form>
+        </div>
 
-        </StanExplainsThings>
       </div>
     );
   },

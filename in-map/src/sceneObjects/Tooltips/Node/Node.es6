@@ -5,11 +5,11 @@ import moment from 'moment';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
+import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import {getHealth} from 'in-services/issueTracker';
-import {getSingular, getPlural} from 'in-sdk/pluginName';
 import {health} from 'in-services/health';
 import {getLabel} from 'in-sdk/snapshot';
 
