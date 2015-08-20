@@ -1,4 +1,3 @@
-// import Immutable from 'immutable';
 import THREE from 'three';
 import _ from 'lodash';
 
@@ -12,13 +11,11 @@ import {getZone} from 'in-sdk/zones';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import {selectedSceneObject} from '../../stores/mapStore';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
+import * as time from '../../timeCalculations';
 import groundTexturePath from './ground.png';
 import SceneObject from '../SceneObject';
 import Layouter from '../../layout';
 import Group from '../Group';
-
-let layoutCounter = 0;
-const layoutingInterval = 60;
 
 
 export default class PhysicalMap extends SceneObject {
@@ -106,24 +103,22 @@ export default class PhysicalMap extends SceneObject {
     });
   }
 
+  handleTimeEventFunction() {
+    //if the flag was set to recalculate the layouting
+    if(this.refreshLayout) {
+      this.applyLayout();
+      eventBus.emit('layoutChanged');
+
+      this.scene.renderScene();
+      this.refreshLayout = false;
+    }
+  }
+
   registerEvents() {
-    this.addSubscription(eventBus.on('beginUpdate').subscribe(() =>{
-
-      //throttle layouting calling
-      if(layoutCounter++ % layoutingInterval) {
-
-        //if the flag was set to recalculate the layouting
-        if(this.refreshLayout) {
-          this.applyLayout();
-          eventBus.emit('layoutChanged');
-
-          this.scene.renderScene();
-          this.refreshLayout = false;
-        }
-
-        layoutCounter = 0;
-      }
-    }));
+    this.handleTimeEvent = this.handleTimeEventFunction.bind(this);
+    time.addTimeEventListener({
+      handleComponentTimeEvent: this.handleTimeEvent
+    });
 
     this.addSubscription(filters.subscribe(filterArray => {
       this.filterArray = filterArray;
@@ -293,6 +288,9 @@ export default class PhysicalMap extends SceneObject {
   dispose() {
     //disposing all subscriptions, so that no update is fired anymore
     super.dispose();
+
+    time.removeTimeEventListener(this.handleTimeEvent);
+    this.handleTimeEvent = null;
 
     //destory all known and unknown nodes
     getAllNodes(this).slice().forEach(node => node.dispose());
