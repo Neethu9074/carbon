@@ -52,7 +52,7 @@ export default class Node extends BaseNode {
     components.groundLine = new LineMeshComponent({
       id,
       sceneObject: this,
-      factory: this.scene.lineFactory,
+      factory: this.scene.baselineFactory,
       contentProvider: new PCM({
         contentProvider: new SCM({
           contentProvider: new FCP()
@@ -69,11 +69,13 @@ export default class Node extends BaseNode {
 
   onSelectedEnter() {
     super.onSelectedEnter();
+
     selectedSnapshot.select(this.snapshot);
   }
 
   onSelectedHighlightEnter() {
     super.onSelectedHighlightEnter();
+
     selectedSnapshot.select(this.snapshot);
   }
 
@@ -84,6 +86,26 @@ export default class Node extends BaseNode {
       tracking.trackEvent(tracking.events.clickOnServerIn3DMap);
     }
   }
+
+  onIndirectHighlightEnter() {
+    super.onIndirectHighlightEnter();
+
+    this.getComponent('groundLine').stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
+  }
+
+  onIndirectHighlightLeave() {
+    super.onIndirectHighlightLeave();
+
+    this.getComponent('groundLine').stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
+  }
+
+  highlight(solid = true) {
+    super.highlight(solid);
+
+    const value = solid ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+    this.getComponent('groundLine').stateMachine.changeStateProperty('selected', value);
+  }
+
 
   registerEvents() {
     super.registerEvents();

@@ -170,6 +170,8 @@ export default class Scene {
     this.singleMetricFactory = new SingleMetricPillarFactory({scene});
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
     this.lineFactory = new SingleMeshLineFactory({scene});
+    this.baselineFactory = new SingleMeshLineFactory({scene});
+    this.baselineFactory.material.transparent = true;
 
     this.numTiles = 5;
     this.multiMetricFactory = new MultiMetricPillarFactory({scene, numTiles: this.numTiles});
@@ -185,6 +187,7 @@ export default class Scene {
       this.groundSingleMeshFactory.rebuild();
       this.layerSingleMeshFactory.rebuild();
       this.singleMeshFactory.rebuild();
+      this.baselineFactory.rebuild();
       this.lineFactory.rebuild();
     };
 
@@ -403,12 +406,14 @@ export default class Scene {
     this.hullsAreInactive = true;
     this.singleMeshFactory.material.opacity = 0.2;
     this.layerSingleMeshFactory.material.opacity = 0.2;
+    this.baselineFactory.material.opacity = 0.2;
   }
 
   showHulls() {
     if(!currentMetrics) {
       this.hullsAreInactive = false;
       this.layerSingleMeshFactory.material.opacity = 1;
+      this.baselineFactory.material.opacity = 1;
       this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
     }
   }

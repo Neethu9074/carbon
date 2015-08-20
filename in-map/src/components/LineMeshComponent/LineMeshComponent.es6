@@ -9,6 +9,7 @@ export default class LineMeshComponent extends Component {
     this.contentProvider = contentProvider;
     this.fragment = {id, contentProvider};
     this.factory = factory;
+    this.highlightingSingleMeshFactory = sceneObject.scene.lineFactory;
     this.id = id;
 
     this.positionToSet = {x: -1000, y: 0, z: 0};
@@ -26,6 +27,14 @@ export default class LineMeshComponent extends Component {
 
   onInactiveEnter() {
     this.factory.removeFragment(this.id);
+  }
+
+  onSelectedEnter() {
+    this.highlightingSingleMeshFactory.addFragment(this.fragment);
+  }
+
+  onSelectedLeave() {
+    this.highlightingSingleMeshFactory.removeFragment(this.id);
   }
 
 
