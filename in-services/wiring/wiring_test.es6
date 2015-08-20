@@ -41,6 +41,25 @@ describe('wiring', () => {
         expect(onNext).to.have.callCount(1);
         const groups = onNext.getCall(0).args[0];
         expect(Immutable.Set.isSet(groups)).to.equal(true);
+        expect(groups.size).to.equal(0);
+      });
+
+      it('should traverse the graph and identify grounds for OS snapshots', () => {
+        emitGraph(getGraph('simple'));
+
+        mod.getGroups(mod.views.physical.hosts)
+          .subscribe(onNext);
+
+        expect(onNext).to.have.callCount(1);
+        const groups = onNext.getCall(0).args[0];
+        expect(groups.size).to.equal(1);
+        const group = groups.first();
+        expect(group.toJS()).to.deep.equal({
+          id: 'com.instana.forge.hardware.virtual.EC2#h1#sEC2',
+          hostId: 'h1',
+          pluginId: 'com.instana.forge.hardware.virtual.EC2',
+          steadyId: 'sEC2'
+        });
       });
 
     });

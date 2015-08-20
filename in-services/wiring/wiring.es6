@@ -120,9 +120,13 @@ function getNodesWithPluginId(wiringGraph, pluginId) {
 function getConnectedSourceNodes(wiringGraph, destinationNodeIds, relation) {
   return wiringGraph.edges.filter(edge => {
       return edge.relation === relation &&
+        // TODO this should be replaced with edge.direction once source / destionation is
+        // fixed on server side.
         _.indexOf(destinationNodeIds, edge.destination, true) >= 0;
     })
-    .map(edge => edge.destination);
+    // TODO this should be replaced with edge.source once source / destionation is
+    // fixed on server side.
+    .map(edge => edge.source);
 }
 
 // export function getNodesForGroup(view, groupSnapshot) {

@@ -1,30 +1,31 @@
 {
   "nodes": {
-    "68": {
-      "hostId": "internal_kafka",
+    "com.instana.forge.hardware.virtual.EC2#h1#sEC2": {
+      "id": "com.instana.forge.hardware.virtual.EC2#h1#sEC2",
+      "hostId": "h1",
       "pluginId": "com.instana.forge.hardware.virtual.EC2",
-      "steadyId": "i-2e6b6afd"
+      "steadyId": "sEC2"
     },
-    "69": {
-      "hostId": "internal_kafka",
+    "com.instana.forge.infrastructure.os.OS#h1#sOS": {
+      "id": "com.instana.forge.infrastructure.os.OS#h1#sOS",
+      "hostId": "h1",
       "pluginId": "com.instana.forge.infrastructure.os.OS",
-      "steadyId": "Linux.3.13.0-55-generic"
+      "steadyId": "sOS"
     },
-    "71": {
-      "hostId": "internal_kafka",
+    "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker": {
+      "id": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
+      "hostId": "h1",
       "pluginId": "com.instana.forge.infrastructure.virtualization.Docker",
-      "steadyId": "5459009cd5b09749c190df74a80564136d1ed09f24bec5c0fcb8be343ce88e47"
+      "steadyId": "sDocker"
     }
   },
   "edges": [{
-    "source": 68,
-    "destination": 69,
-    "relation": "",
-    "type": "addition"
+    "source": "com.instana.forge.hardware.virtual.EC2#h1#sEC2",
+    "destination": "com.instana.forge.infrastructure.os.OS#h1#sOS",
+    "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
-    "source": 69,
-    "destination": 71,
-    "relation": "com.instana.sdk.annotation.RunsOn",
-    "type": "addition"
+    "source": "com.instana.forge.infrastructure.os.OS#h1#sOS",
+    "destination": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
+    "relation": "com.instana.sdk.annotation.RunsOn"
   }]
 }
