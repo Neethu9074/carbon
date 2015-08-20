@@ -11,5 +11,6 @@ export const plugins = {
 };
 
 export const rels = {
-  describes: 'com.instana.sdk.annotation.Describes'
+  describes: 'com.instana.sdk.annotation.Describes',
+  runsOn: 'com.instana.sdk.annotation.RunsOn'
 };
