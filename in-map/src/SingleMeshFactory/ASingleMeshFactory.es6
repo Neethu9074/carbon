@@ -126,8 +126,14 @@ export default class SingleMeshFactory {
       indexInVertices += this.fragments[i].vertices.length;
     }
 
-    this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);
-    this.colors.splice(indexInVertices, numElements, ...fragment.colors);
+    const args = [indexInVertices, numElements].concat(fragment.vertices);
+    Array.prototype.splice.apply(this.vertices, args);
+
+    const args2 = [indexInVertices, numElements].concat(fragment.colors);
+    Array.prototype.splice.apply(this.colors, args2);
+    //
+    // this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);
+    // this.colors.splice(indexInVertices, numElements, ...fragment.colors);
   }
 
   updateGeometry() {
