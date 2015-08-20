@@ -44,7 +44,7 @@ describe('wiring', () => {
         expect(groups.size).to.equal(0);
       });
 
-      it('should traverse the graph and identify grounds for OS snapshots', () => {
+      it('should traverse the graph and identify groups for OS snapshots', () => {
         emitGraph(getGraph('simple'));
 
         mod.getGroups(mod.views.physical.hosts)
