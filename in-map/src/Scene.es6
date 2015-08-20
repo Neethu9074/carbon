@@ -194,7 +194,8 @@ export default class Scene {
   }
 
   setupEvents() {
-    window.addEventListener('resize', this.onWindowResize.bind(this), false);
+    this.onWindowResizeHandler = this.onWindowResize.bind(this);
+    window.addEventListener('resize', this.onWindowResizeHandler, false);
 
     this.subscriptions = [];
 
@@ -512,8 +513,10 @@ export default class Scene {
     this.height = window.innerHeight;
     this.width = window.innerWidth;
 
+    console.log(this.canvas.width, this.canvas.height);
     this.canvas.width = this.width;
     this.canvas.height = this.height;
+
     this.renderer.setSize(this.width, this.height);
     this.setCameraFromSize();
 
@@ -599,6 +602,7 @@ export default class Scene {
     this.backgroundPlane.material.dispose();
 
     //remove the canvas and clear the parent div
+    window.removeEventListener('resize', this.onWindowResizeHandler, false);
     this.parent.removeChild(this.canvas);
     this.canvas = null;
 
