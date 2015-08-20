@@ -27,8 +27,8 @@ export const maxState = {
 
 const ranges = [
   [-Infinity, 30, lowState],
-  [30, 55, midState],
-  [55, Infinity, maxState]
+  [30, 45, midState],
+  [45, Infinity, maxState]
 ];
 
 export class AdaptiveDetailHandler {
