@@ -31,7 +31,7 @@ const HealthIcon = React.createClass({
   },
 
   render() {
-    if (this.props.health === health.ok) {
+    if (!this.props.health || this.props.health === health.ok) {
       return null;
     }
 
