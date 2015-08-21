@@ -93,6 +93,13 @@ export function isIdEqualShort(snapshot1, snapshot2) {
   return snapshot1.get('id') === snapshot2.get('id');
 }
 
+/**
+ * Retrieve a full snapshot and updates for it
+ *
+ * @param {Immutable.Map} coordinates Coordinates of the snapshot
+ *   which should be retrieved
+ * @return {ReactiveObservable<ImmutableSnapshot>}
+ */
 export function getFullSnapshot(coordinates) {
   return create(SnapshotConveyer, {coordinates});
 }
