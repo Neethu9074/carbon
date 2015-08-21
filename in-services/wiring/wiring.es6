@@ -100,10 +100,14 @@ function getStructureForPhysicalHostsView() {
         if (group) {
           group = wiringGraph.nodes[group];
         }
+
+        const layers = getLeafNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn)
+          .map(strId => wiringGraph.nodes[strId]);
+
         return {
           group,
           node: wiringGraph.nodes[osNodeStrId],
-          layer: []
+          layers
         };
       });
   });
@@ -128,4 +132,35 @@ function getSourceNode(wiringGraph, destination, relation) {
     }
   }
   return null;
+}
+
+
+function getDestinationNodes(wiringGraph, source, relation) {
+  const destinations = [];
+
+  for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {
+    const edge = wiringGraph.edges[i];
+    if (edge.source === source && edge.relation === relation) {
+      destinations.push(edge.destination);
+    }
+  }
+
+  return destinations;
+}
+
+
+function getLeafNodes(wiringGraph, origin, relation) {
+  let nodesToCheck = getDestinationNodes(wiringGraph, origin, relation);
+  const leafNodes = [];
+
+  for (let currentNode = nodesToCheck.pop(); currentNode; currentNode = nodesToCheck.pop()) {
+    const destinations = getDestinationNodes(wiringGraph, currentNode, relation);
+    if (destinations.length === 0) {
+      leafNodes.push(currentNode);
+    } else {
+      nodesToCheck = nodesToCheck.concat(destinations);
+    }
+  }
+
+  return leafNodes;
 }

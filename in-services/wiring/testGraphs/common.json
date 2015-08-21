@@ -27,11 +27,11 @@
 
 
 
-    "com.instana.forge.hardware.virtual.EC2#h2#sEC2": {
-      "id": "com.instana.forge.hardware.virtual.EC2#h2#sEC2",
+    "com.instana.forge.hardware.virtual.AIX#h2#sAIX": {
+      "id": "com.instana.forge.hardware.virtual.AIX#h2#sAIX",
       "hostId": "h2",
-      "pluginId": "com.instana.forge.hardware.virtual.EC2",
-      "steadyId": "sEC2"
+      "pluginId": "com.instana.forge.hardware.virtual.AIX",
+      "steadyId": "sAIX"
     },
     "com.instana.forge.infrastructure.os.OS#h2#sOS": {
       "id": "com.instana.forge.infrastructure.os.OS#h2#sOS",
@@ -79,7 +79,7 @@
   },
 
   {
-    "source": "com.instana.forge.hardware.virtual.EC2#h2#sEC2",
+    "source": "com.instana.forge.hardware.virtual.AIX#h2#sAIX",
     "destination": "com.instana.forge.infrastructure.os.OS#h2#sOS",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {

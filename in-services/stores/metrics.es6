@@ -1,5 +1,3 @@
-
-
 import Immutable from 'immutable';
 import invariant from 'invariant';
 import * as ro from 'reactive-observables';
