@@ -4,6 +4,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
 // import * as tracking from 'in-services/tracking';
 import Button from 'in-components/Button';
+import Dialog from 'in-components/Dialog';
 
 import './Settings.less';
 
@@ -41,14 +42,16 @@ const Settings = React.createClass({
 
   render() {
     return (
-      <div className={block + '__wrapper'}>
+      <Dialog>
         <div className={block}>
           <div className={block + '__heading'}>
-            <span className={block + '__heading-text'}>settings</span>
+            <span className={block + '__heading-text'}>
+              {'Settings'}
+            </span>
 
             <Button onClick={this.closeSettings}
                     className={block + '__button-close'}>
-              Close
+              {'Close'}
             </Button>
           </div>
 
@@ -103,7 +106,7 @@ const Settings = React.createClass({
           </div>
 
         </div>
-      </div>
+      </Dialog>
     );
   },
 
