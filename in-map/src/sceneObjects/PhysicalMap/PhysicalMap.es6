@@ -1,3 +1,4 @@
+import THREE from 'three';
 import _ from 'lodash';
 
 import {viewStructure} from 'in-services/stores/view';

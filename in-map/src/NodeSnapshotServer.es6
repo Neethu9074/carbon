@@ -4,7 +4,6 @@ import {getWiredSnapshots} from 'in-sdk/snapshot';
 import {getNormalizedValue} from 'in-sdk/metrics';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
 
@@ -49,19 +48,6 @@ export default class NodeSnapshotServer {
         }
       })
     );
-<<<<<<< HEAD
-
-    // TODO: GET NEXT SMALLER IDS FOR THIS IDS VIA WIRING
-    this.subscriptions
-      .push(create(SnapshotsConveyer, {pluginId: plugins.process})
-      .subscribe(data => this.onLayerUpdate(data)));
-
-    // TODO: GET NEXT SMALLER IDS FOR THIS IDS VIA WIRING
-    this.subscriptions
-      .push(create(SnapshotsConveyer, {pluginId: plugins.docker})
-      .subscribe(data => this.onLayerUpdate(data)));
-=======
->>>>>>> use new wiring structure
   }
 
   onSnapshotUpdate() {
