@@ -92,10 +92,10 @@ export default class SingleMeshFactory {
     }
 
     //update indices
+    this.fragments.forEach((frag, index) => {frag.index = index; });
 
     keys.forEach(id => {
       const item = this.fragmentQueue[id];
-      this.fragments.forEach((frag, index) => {frag.index = index; });
 
       if(item.mode === UPDATE_FLAGS.ADD) {
         this.updateGeometryByFragment(item.fragment, item.itemsToBeDeleted);

@@ -21,8 +21,8 @@ export default class SingleMeshMetricFactory {
     this.fragments = [];
 
     //the global arrays containing the combined stream data
-    this.vertices = [];
     this.colors = [];
+    this.vertices = [];
     this.oldHeights = [];
     this.newHeights = [];
 
@@ -93,11 +93,10 @@ export default class SingleMeshMetricFactory {
   }
 
   addFragment(fragment = {id, contentProvider, values}) {
-    const vertices = fragment.contentProvider.getVertices();
     const colors = fragment.contentProvider.getColors();
-    const heights = this.getHeightsForFragment(fragment);
-    const oldHeights = heights.oldHeights;
-    const newHeights = heights.newHeights;
+    const vertices = fragment.contentProvider.getVertices();
+    const oldHeights = fragment.contentProvider.contentProvider.getSliceIndices().map(() => 0);
+    const newHeights = fragment.contentProvider.contentProvider.getSliceIndices().map(() => 0);
 
     const match = this.getFragment(fragment.id);
     if(match) {

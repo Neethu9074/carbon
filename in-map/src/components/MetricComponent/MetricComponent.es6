@@ -18,9 +18,8 @@ export default class MetricComponent extends Component {
     });
 
     this.fragment = {
-      contentProvider: this.contentProvider,
       id: this.id,
-      values: [1]
+      contentProvider: this.contentProvider
     };
 
     this.positionToSet = {x: -1000, y: 0, z: 0};
@@ -44,6 +43,8 @@ export default class MetricComponent extends Component {
 
   setValues(values) {
     this.fragment.values = values;
+
+    // set values to to factory fragment and refresh arrays
 
     if(values.length !== this.numSlices) {
       this.numSlices = values.length;
