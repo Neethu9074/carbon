@@ -39,7 +39,7 @@ const GuidedTour = React.createClass({
     tracking.trackEvent(tracking.events.startATour);
 
     this.addSubscription(ro.on(window, 'resize').subscribe(this.onResize));
-    this.addSubscription(ro.on(window, 'keyup').subscribe(this.onKeyUp));
+    this.addSubscription(ro.on(window, 'keydown').subscribe(this.onKeyDown));
 
     this.onResize();
   },
@@ -154,15 +154,24 @@ const GuidedTour = React.createClass({
     dialog.style.transform = `translate(${toPx(x)}, ${toPx(y)})`;
   },
 
-  onKeyUp(e) {
+  onKeyDown(e) {
     const keyCode = e.keyCode;
 
     if (keyCode === keyCodes.escape) {
       this.skipTour();
+
+      // prevent Firefox scrolling via arrow keys
+      e.preventDefault();
     } else if (keyCode === keyCodes.arrows.right) {
       this.nextStep();
+
+      // prevent Firefox scrolling via arrow keys
+      e.preventDefault();
     } else if (keyCode === keyCodes.arrows.left) {
       this.previousStep();
+
+      // prevent Firefox scrolling via arrow keys
+      e.preventDefault();
     }
   },
 
