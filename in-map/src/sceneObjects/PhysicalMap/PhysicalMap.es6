@@ -122,8 +122,6 @@ export default class PhysicalMap extends SceneObject {
 
     this.removeVanishedNodes(structures);
     this.removeAllUnknownNodesWithoutConnections();
-
-    this.refreshLayout = true;
   }
 
   applyLayout() {
@@ -166,19 +164,28 @@ export default class PhysicalMap extends SceneObject {
   }
 
   addNode(triple) {
-    const groupId = getZone(triple.group);
-    const group = this.getOrCreateGroup(groupId);
-
-    //add the node to group (the group handles duplicates)
-    const newNode = group.addNode(triple.node);
-    if(!newNode) {
+    if(!triple.group) {
       return;
     }
 
-    // if the group has switched delete the nodes in other groups than the current one
-    // this.removeNodeFromAllGroupsInsteadOf(groupId, triple.node);
+    const callback = (groupId) => {
+      const group = this.getOrCreateGroup(groupId);
 
-    this.filterNode(newNode);
+      //add the node to group (the group handles duplicates)
+      const newNode = group.addNode(triple.node);
+      if(!newNode) {
+        return;
+      }
+
+      // if the group has switched delete the nodes in other groups than the current one
+      // this.removeNodeFromAllGroupsInsteadOf(groupId, triple.node);
+
+      this.filterNode(newNode);
+
+      this.refreshLayout = true;
+    };
+
+    getZone(triple.group, callback);
   }
 
   getAllMapNodes() {
