@@ -8,7 +8,7 @@ import {
   addIpFinder
 } from 'in-sdk/snapshot';
 import {create} from 'in-services/conveyer';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 
 import * as constants from '../constants';
 
@@ -21,7 +21,7 @@ addWiredSnapshotFinder(
 
       start(observerable) {
         snapshotsSubscribtion =
-          create(SnapshotConveyer, {pluginId: snapshot.get('pluginId')})
+          create(SnapshotsConveyer, {pluginId: snapshot.get('pluginId')})
           .subscribe(snapshots =>
             observerable.emit(extractConnections(snapshot, snapshots))
            );

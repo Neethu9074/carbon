@@ -6,7 +6,7 @@ import {plugins} from 'in-forge/constants';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
 import {create} from 'in-services/conveyer';
@@ -58,12 +58,12 @@ export default class NodeSnapshotServer {
 
     // TODO: GET NEXT SMALLER IDS FOR THIS IDS VIA WIRING
     this.subscriptions
-      .push(create(SnapshotConveyer, {pluginId: plugins.process})
+      .push(create(SnapshotsConveyer, {pluginId: plugins.process})
       .subscribe(data => this.onLayerUpdate(data)));
 
     // TODO: GET NEXT SMALLER IDS FOR THIS IDS VIA WIRING
     this.subscriptions
-      .push(create(SnapshotConveyer, {pluginId: plugins.docker})
+      .push(create(SnapshotsConveyer, {pluginId: plugins.docker})
       .subscribe(data => this.onLayerUpdate(data)));
   }
 

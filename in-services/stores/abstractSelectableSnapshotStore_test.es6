@@ -14,13 +14,13 @@ import * as ro from 'reactive-observables';
 
 describe('stores.abstractSelectableSnapshotStore', () => {
 
-  let snapshotConveyer;
+  let SnapshotsConveyer;
   let getWiredSnapshots;
   let wiredSnapshotsObservable;
   let store;
 
   beforeEach(() => {
-    snapshotConveyer = ro.create({
+    SnapshotsConveyer = ro.create({
       emitLatestOnSubscribe: true
     });
 
@@ -32,7 +32,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
 
     store = proxyquire('./abstractSelectableSnapshotStore', {
       '../conveyer': {
-        create: () => snapshotConveyer
+        create: () => SnapshotsConveyer
       },
       'in-sdk/snapshot': {
         getWiredSnapshots
@@ -48,7 +48,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
 
       const selectedSnapshot = snapshot(1);
       store.select(selectedSnapshot);
-      snapshotConveyer.emit(Immutable.List([selectedSnapshot]));
+      SnapshotsConveyer.emit(Immutable.List([selectedSnapshot]));
       store.wiredSnapshots.subscribe(onNext);
 
       expect(getWiredSnapshots.callCount).to.equal(1);
@@ -71,7 +71,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
       const s1 = snapshot(1);
       const s2 = snapshot(2);
       store.select(s1);
-      snapshotConveyer.emit(Immutable.List([s1, s2]));
+      SnapshotsConveyer.emit(Immutable.List([s1, s2]));
       const onNext = sinon.stub();
       store.wiredSnapshots.subscribe(onNext);
 
@@ -96,7 +96,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
 
       const onNext = sinon.stub();
       store.select(snap);
-      snapshotConveyer.emit(Immutable.List([snapshot(2), snap]));
+      SnapshotsConveyer.emit(Immutable.List([snapshot(2), snap]));
       store.wiredSnapshots.subscribe(onNext);
       expect(onNext.callCount).to.equal(2);
 
@@ -126,7 +126,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
 
       const snap = snapshot(1);
       store.select(snap);
-      snapshotConveyer.emit(Immutable.List([snap]));
+      SnapshotsConveyer.emit(Immutable.List([snap]));
 
       const onNext = sinon.stub();
       store.wiredSnapshots.subscribe(onNext);

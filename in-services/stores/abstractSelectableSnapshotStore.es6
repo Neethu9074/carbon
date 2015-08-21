@@ -5,7 +5,7 @@ import * as ro from 'reactive-observables';
 import {getWiredSnapshots} from 'in-sdk/snapshot';
 
 import {create} from '../conveyer';
-import SnapshotConveyer from '../conveyer/SnapshotConveyer';
+import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
 import {only, isIdEqual} from '../util/snapshots';
 
 
@@ -53,7 +53,7 @@ export default function createStore(name = '???') {
 
     selectedSnapshotSubscription = only(
       create(
-        SnapshotConveyer,
+        SnapshotsConveyer,
         {pluginId: snapshotId.get('pluginId')}
       ),
       snapshotId

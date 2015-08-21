@@ -6,7 +6,7 @@ import * as forgeConsts from 'in-forge/constants';
 import * as views from '../views';
 import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
-import SnapshotConveyer from '../conveyer/SnapshotConveyer';
+import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
 import {getIdString, only} from '../util/snapshots';
 
 
@@ -64,7 +64,7 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
         const datasources = wiredSnapshotIds.map(wiredSnapshotId => {
           return only(
             create(
-              SnapshotConveyer,
+              SnapshotsConveyer,
               {pluginId: wiredSnapshotId.get('pluginId')}
             ),
             wiredSnapshotId

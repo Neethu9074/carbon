@@ -12,7 +12,7 @@ import Icon from 'in-components/Icon';
 
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {health, mapSeverityToHealth} from 'in-services/health';
 import * as timelineStore from 'in-services/stores/timeline';
@@ -259,7 +259,7 @@ const Timeline = React.createClass({
     const problem = issue.get('problem');
     this.addSubscription(
       only(
-        create(SnapshotConveyer, {pluginId: problem.get('pluginId')}),
+        create(SnapshotsConveyer, {pluginId: problem.get('pluginId')}),
         problem
       )
       .subscribe(hoveredSnapshot => this.setState({hoveredSnapshot}))

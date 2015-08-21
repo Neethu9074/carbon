@@ -6,7 +6,7 @@ import {combineLatest} from 'reactive-observables';
 import {RouteHandler, Navigation} from 'react-router';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import QueryBuilder from 'in-components/QueryBuilder';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
@@ -61,7 +61,7 @@ const App = React.createClass({
     );
 
     const subscriptions = this.state.pluginIds.map(pluginId => {
-      return create(SnapshotConveyer, {pluginId});
+      return create(SnapshotsConveyer, {pluginId});
     });
 
     this.addSubscription(

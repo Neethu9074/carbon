@@ -3,7 +3,7 @@ import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 import _ from 'lodash';
 
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import * as mapFilters from 'in-services/stores/mapFilters';
 import {create} from 'in-services/conveyer';
 import Icon from 'in-components/Icon';
@@ -31,7 +31,7 @@ const Search = React.createClass({
     createObservables: () => {
       return {
         predicates: mapFilters.filters,
-        snapshots: create(SnapshotConveyer, {
+        snapshots: create(SnapshotsConveyer, {
           pluginId: 'com.instana.forge.infrastructure.os.OS'
         })
       };

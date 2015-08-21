@@ -2,7 +2,7 @@ import THREE from 'three';
 import _ from 'lodash';
 
 import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
-import SnapshotConveyer from 'in-services/conveyer/SnapshotConveyer';
+import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {filters} from 'in-services/stores/mapFilters';
 import eventBus from 'in-services/eventbus';
 import {create} from 'in-services/conveyer';
@@ -98,7 +98,7 @@ export default class PhysicalMap extends SceneObject {
 
   bindToDatasource() {
     this.pluginIds.forEach(pluginId => {
-      const observable = create(SnapshotConveyer, {pluginId});
+      const observable = create(SnapshotsConveyer, {pluginId});
       this.addSubscription(observable.subscribe(data => this.onInventoryUpdate(data)));
     });
   }

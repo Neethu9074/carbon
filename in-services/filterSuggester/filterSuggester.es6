@@ -8,7 +8,7 @@ import * as constants from 'in-forge/constants';
 
 import * as mapFilters from '../stores/mapFilters';
 import {create} from '../conveyer';
-import SnapshotConveyer from '../conveyer/SnapshotConveyer';
+import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
 
 const maxSuggestionsPerGroup = 5;
 
@@ -42,7 +42,7 @@ export function getSuggestions(query) {
 function getTagSuggestions(query) {
   const lowerCaseQuery = query.toLowerCase();
 
-  return create(SnapshotConveyer, {pluginId: constants.plugins.os})
+  return create(SnapshotsConveyer, {pluginId: constants.plugins.os})
 
     // snapshots => tags
     .map(snapshots => {

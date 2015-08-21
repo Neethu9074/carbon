@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import * as connection from '../connection/subscriptionAwareConnection';
 import {getIdString} from '../util/snapshots';
 
-export default class SnapshotConveyer {
+export default class SnapshotsConveyer {
 
   static getUniqueId({pluginId}) {
     return 'snapshot:' + pluginId;
