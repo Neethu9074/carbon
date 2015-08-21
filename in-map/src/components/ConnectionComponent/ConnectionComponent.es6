@@ -63,7 +63,7 @@ export default class ConnectionComponent extends Component {
 
   setConnectionsWithDirection(connections, direction) {
     connections.forEach(otherSnapshot => {
-      const other = this.sceneObject.findNodeBySnapshot(otherSnapshot);
+      const other = this.sceneObject.findNodeById(otherSnapshot.get('id'));
       if(other) {
         this.connectWith(other, direction);
       }

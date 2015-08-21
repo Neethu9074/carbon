@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-import {isIdEqualShort as isIdEqual} from 'in-services/snapshots';
-
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer';
 import Component from '../Component';
@@ -27,16 +25,17 @@ export default class LayerComponent extends Component {
   }
 
 
-  addLayer(snapshot) {
+  addLayer(coordinates) {
+    const layerId = coordinates.get('id');
     //don't create a layer if its still there
-    const match = _.find(this.layer, layer => isIdEqual(layer.snapshot, snapshot));
+    const match = _.find(this.layer, layer => layer.id === layerId);
 
     if(match) {
       match.updateSnapshot(snapshot);
     } else {
-      const newLayer = new Layer({parent: this, snapshot});
+      const newLayer = new Layer({parent: this, coordinates, id: layerId});
       this.layer.push(newLayer);
-      this.layer.forEach((layer, index )=> layer.index = index);
+      this.layer.forEach((layer, index) => layer.index = index);
 
       this.needsUpdate = true;
     }
@@ -80,7 +79,7 @@ export default class LayerComponent extends Component {
 
   //is called if a layer was disposed
   removeChild(toBeRemoved) {
-    _.remove(this.layer, layer => isIdEqual(layer.snapshot, toBeRemoved.snapshot));
+    _.remove(this.layer, layer => toBeRemoved.id === layer.id);
     this.needsUpdate = true;
   }
 

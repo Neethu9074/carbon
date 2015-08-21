@@ -30,14 +30,13 @@ const emptyStickyObject = {
 
 export default class BaseNode extends SceneObject {
 
-  constructor({parent, snapshot}) {
-    super({parent, id: snapshot.get('id')});
+  constructor({parent, id}) {
+    super({parent, id});
 
-    this.snapshot = snapshot;
     this.scene = this.scene;
     this.height = 1;
 
-    this.tooltip = this.getTooltipSticky();
+    this.tooltip = this.getTooltip();
     this.stickyNote = emptyStickyObject;
 
     this.registerEvents();
@@ -232,7 +231,7 @@ export default class BaseNode extends SceneObject {
     this.updateScreenPosition();
   }
 
-  getTooltipSticky() {return emptyStickyObject; }
+  getTooltip() {return null; }
 
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 

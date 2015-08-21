@@ -1,12 +1,8 @@
-import THREE from 'three';
 import _ from 'lodash';
 
-import {isIdEqualShort as isIdEqual} from 'in-services/snapshots';
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
+import {viewStructure} from 'in-services/stores/view';
 import {filters} from 'in-services/stores/mapFilters';
 import eventBus from 'in-services/eventbus';
-import {create} from 'in-services/conveyer';
-import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import {selectedSceneObject} from '../../stores/mapStore';
@@ -20,18 +16,16 @@ import Group from '../Group';
 
 export default class PhysicalMap extends SceneObject {
 
-  constructor({parent, pluginIds}) {
-    super({parent, id: 'physicalMap_' + pluginIds.join('-')});
+  constructor({parent}) {
+    super({parent, id: 'physicalMap'});
 
     //the size of the map in world units (sizeXsize)
     this.size = 1000;
 
     this.groups = [];
     this.filterArray = [];
-    this.pluginIds = pluginIds;
 
     this.createGroundGrid();
-    this.bindToDatasource();
     this.registerEvents();
 
     // this.counter = 0;
@@ -96,13 +90,6 @@ export default class PhysicalMap extends SceneObject {
     return texture;
   }
 
-  bindToDatasource() {
-    this.pluginIds.forEach(pluginId => {
-      const observable = create(SnapshotsConveyer, {pluginId});
-      this.addSubscription(observable.subscribe(data => this.onInventoryUpdate(data)));
-    });
-  }
-
   handleTimeEventFunction() {
     //if the flag was set to recalculate the layouting
     if(this.refreshLayout) {
@@ -115,6 +102,8 @@ export default class PhysicalMap extends SceneObject {
   }
 
   registerEvents() {
+    this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
+
     this.handleTimeEvent = this.handleTimeEventFunction.bind(this);
     time.addTimeEventListener({
       handleComponentTimeEvent: this.handleTimeEvent
@@ -126,10 +115,10 @@ export default class PhysicalMap extends SceneObject {
     }));
   }
 
-  onInventoryUpdate(snapshots) {
-    snapshots.forEach(snapshot => this.addNode(snapshot));
+  onInventoryUpdate(structures) {
+    structures.forEach(triple => this.addNode(triple));
 
-    this.removeVanishedNodes(snapshots);
+    this.removeVanishedNodes(structures);
     this.removeAllUnknownNodesWithoutConnections();
 
     this.refreshLayout = true;
@@ -148,13 +137,13 @@ export default class PhysicalMap extends SceneObject {
     layouter.applyLayout(this);
   }
 
-  removeVanishedNodes(snapshots) {
+  removeVanishedNodes(structures) {
     // identify removed nodes: nodes that are not inside the snapshot update
     getAllNodes(this).forEach(node => {
       if (node.isUnknown) {
         return;
       }
-      const snapshotExistsInUpdate = snapshots.some(snapshot => isIdEqual(node.snapshot, snapshot));
+      const snapshotExistsInUpdate = structures.some(triple => triple.node.get('id') === node.id);
       if (!snapshotExistsInUpdate) {
         node.dispose();
       }
@@ -174,18 +163,18 @@ export default class PhysicalMap extends SceneObject {
     });
   }
 
-  addNode(snapshot) {
-    const groupId = getZone(snapshot);
+  addNode(triple) {
+    const groupId = 'undefined'; // getZone(triple.group);
     const group = this.getOrCreateGroup(groupId);
 
     //add the node to group (the group handles duplicates)
-    const newNode = group.addNode(snapshot);
+    const newNode = group.addNode(triple.node);
     if(!newNode) {
       return;
     }
 
     // if the group has switched delete the nodes in other groups than the current one
-    this.removeNodeFromAllGroupsInsteadOf(groupId, snapshot);
+    // this.removeNodeFromAllGroupsInsteadOf(groupId, triple.node);
 
     this.filterNode(newNode);
   }
@@ -264,16 +253,14 @@ export default class PhysicalMap extends SceneObject {
     _.remove(this.groups, group => group.id === child.id);
   }
 
-  findNodeBySnapshot(snapshot) {
-    let match;
-
-    getAllNodes(this).forEach(node => {
-      if(isIdEqual(node.snapshot, snapshot)) {
-        match = node;
+  findNodeById(id) {
+    const allNodes = getAllNodes(this);
+    for (let i = 0; i < allNodes.length; i++) {
+      const node = allNodes[i];
+      if (node.id === id) {
+        return node;
       }
-    });
-
-    return match;
+    }
   }
 
   onZoom(zoomLevel) {
