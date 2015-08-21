@@ -1,5 +1,5 @@
 export const plugins = {
-  ec2: 'com.instana.forge.infrastructure.virtualization.EC2',
+  ec2: 'com.instana.forge.hardware.virtual.EC2',
   elasticsearch: 'com.instana.forge.infrastructure.database.elasticsearch.Elasticsearch',
   os: 'com.instana.forge.infrastructure.os.OS',
   process: 'com.instana.forge.infrastructure.os.Process',

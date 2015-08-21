@@ -3,6 +3,7 @@ import _ from 'lodash';
 import {viewStructure} from 'in-services/stores/view';
 import {filters} from 'in-services/stores/mapFilters';
 import eventBus from 'in-services/eventbus';
+import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import {selectedSceneObject} from '../../stores/mapStore';
@@ -164,7 +165,7 @@ export default class PhysicalMap extends SceneObject {
   }
 
   addNode(triple) {
-    const groupId = 'undefined'; // getZone(triple.group);
+    const groupId = getZone(triple.group);
     const group = this.getOrCreateGroup(groupId);
 
     //add the node to group (the group handles duplicates)

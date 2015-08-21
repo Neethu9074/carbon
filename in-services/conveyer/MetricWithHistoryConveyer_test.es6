@@ -8,7 +8,7 @@ import Immutable from 'immutable';
 
 import 'in-forge';
 
-const ec2 = 'com.instana.forge.infrastructure.virtualization.EC2';
+const ec2 = 'com.instana.forge.hardware.virtual.EC2';
 
 describe('conveyer.MetricWithHistoryConveyer', () => {
 

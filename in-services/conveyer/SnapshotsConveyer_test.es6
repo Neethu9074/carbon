@@ -1,14 +1,11 @@
 /* eslint-env mocha*/
 /*eslint max-len:[2, 120] */
-
-
-
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';
 import RoEmitter from 'roemitter';
 
-const ec2 = 'com.instana.forge.infrastructure.virtualization.EC2';
+const ec2 = 'com.instana.forge.hardware.virtual.EC2';
 
 describe('conveyer.SnapshotsConveyer', () => {
 

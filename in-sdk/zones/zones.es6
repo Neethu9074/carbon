@@ -1,5 +1,3 @@
-
-
 import ColorGenerator from 'in-services/util/colors';
 
 import pbst from '../util/pluginBasedSnapshotTransformation';

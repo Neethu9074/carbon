@@ -8,7 +8,7 @@ import TagList from 'in-components/TagList/TagList';
 import WiringList from 'in-components/WiringList';
 import * as constants from 'in-forge/constants';
 
-import EC2Info from '../../com.instana.forge.infrastructure.virtualization.EC2/EC2Info';
+import EC2Info from '../../com.instana.forge.hardware.virtual.EC2/EC2Info';
 import HostInfo from '../HostInfo';
 
 const rpt = React.PropTypes;
