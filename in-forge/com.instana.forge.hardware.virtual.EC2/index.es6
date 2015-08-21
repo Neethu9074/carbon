@@ -15,12 +15,10 @@ pluginName.setHumanReadablePluginName(
 zones.addMapping(
   constants.plugins.ec2,
   (coordinates, callback) => {
-    only(
-        create(SnapshotsConveyer, {pluginId: coordinates.get('pluginId')}),
-        coordinates)
-        .subscribe(snapshot => {
-          callback(snapshot.getIn(['data', 'availability-zone']));
-        }
-      );
+    const sub = only(create(SnapshotsConveyer, {pluginId: coordinates.get('pluginId')}), coordinates);
+    sub.subscribe(snapshot => {
+      callback(snapshot.getIn(['data', 'availability-zone']));
+      sub.dispose();
+    });
   }
 );
