@@ -11,4 +11,4 @@ import './com.instana.forge.infrastructure.os.OS';
 import './com.instana.forge.infrastructure.os.Process';
 import './com.instana.forge.infrastructure.runtime.jvm.JVMRuntimePlatform';
 import './com.instana.forge.infrastructure.virtualization.Docker';
-import './com.instana.forge.infrastructure.virtualization.EC2';
+import './com.instana.forge.hardware.virtual.EC2';
