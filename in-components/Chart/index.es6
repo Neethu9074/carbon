@@ -3,7 +3,7 @@ import React from 'react/addons';
 import _ from 'lodash';
 
 import TimeWindowBasedMetricConveyer from 'in-services/conveyer/TimeWindowBasedMetricConveyer';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqual} from 'in-services/snapshots';
 import {create} from 'in-services/conveyer';
 
 import Chart from './Chart';

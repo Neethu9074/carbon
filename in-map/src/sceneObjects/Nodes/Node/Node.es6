@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';

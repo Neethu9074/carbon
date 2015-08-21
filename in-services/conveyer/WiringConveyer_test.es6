@@ -6,7 +6,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import RoEmitter from 'roemitter';
 
-import {getIdString} from '../util/snapshots';
+import {getIdString} from '../snapshots';
 
 describe('conveyer.WiringConveyer', () => {
 

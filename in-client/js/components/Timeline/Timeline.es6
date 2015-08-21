@@ -17,7 +17,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {health, mapSeverityToHealth} from 'in-services/health';
 import * as timelineStore from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
-import {only} from 'in-services/util/snapshots';
+import {only} from 'in-services/snapshots';
 import {create} from 'in-services/conveyer';
 import {theme} from 'in-services/theme';
 import * as time from 'in-services/time';

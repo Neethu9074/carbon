@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import MetricConveyer from 'in-services/conveyer/MetricConveyer';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqual} from 'in-services/snapshots';
 import {create} from 'in-services/conveyer';
 import {theme} from 'in-services/theme';
 

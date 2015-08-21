@@ -6,7 +6,7 @@ import Immutable from 'immutable';
 import classnames from 'in-services/util/classnames';
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqual} from 'in-services/snapshots';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {create} from 'in-services/conveyer';
 

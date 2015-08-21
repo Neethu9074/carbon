@@ -1,5 +1,5 @@
 import * as connection from '../connection/subscriptionAwareConnection';
-import {getIdString, extractId} from '../util/snapshots';
+import {getIdString, extractId} from '../snapshots';
 
 export default class WiringConveyer {
 

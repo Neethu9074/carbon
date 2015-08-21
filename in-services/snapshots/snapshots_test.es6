@@ -1,8 +1,5 @@
 /*eslint-env mocha*/
 /*eslint-disable no-unused-vars, new-cap */
-
-
-
 import {expect} from 'chai';
 import Immutable from 'immutable';
 import sinon from 'sinon';

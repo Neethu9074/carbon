@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/snapshots';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer';

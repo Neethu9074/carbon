@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 
 import * as connection from '../connection/subscriptionAwareConnection';
-import {getIdString} from '../util/snapshots';
+import {getIdString} from '../snapshots';
 
 export default class SnapshotsConveyer {
 

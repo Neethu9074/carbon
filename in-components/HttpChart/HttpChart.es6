@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import _ from 'lodash';
 
 import XhrTimeWindowBasedMetricConveyer from 'in-services/conveyer/XhrTimeWindowBasedMetricConveyer';
-import {isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqual} from 'in-services/snapshots';
 import {create} from 'in-services/conveyer';
 
 import Chart from './../Chart/Chart.es6';

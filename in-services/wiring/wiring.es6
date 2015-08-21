@@ -7,7 +7,7 @@ import * as views from '../views';
 import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
-import {getIdString, only} from '../util/snapshots';
+import {getIdString, only} from '../snapshots';
 
 
 /*

@@ -1,7 +1,7 @@
 import THREE from 'three';
 import _ from 'lodash';
 
-import {isIdEqualShort as isIdEqual} from 'in-services/util/snapshots';
+import {isIdEqualShort as isIdEqual} from 'in-services/snapshots';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {filters} from 'in-services/stores/mapFilters';
 import eventBus from 'in-services/eventbus';

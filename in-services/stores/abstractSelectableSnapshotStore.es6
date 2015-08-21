@@ -6,7 +6,7 @@ import {getWiredSnapshots} from 'in-sdk/snapshot';
 
 import {create} from '../conveyer';
 import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
-import {only, isIdEqual} from '../util/snapshots';
+import {only, isIdEqual} from '../snapshots';
 
 
 export default function createStore(name = '???') {

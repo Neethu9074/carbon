@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import {create} from '../conveyer';
 import {mapSeverityToHealth, health} from '../health';
 import IssueConveyer from '../conveyer/IssueConveyer';
-import {isIdEqual, getIdString, extractId} from '../util/snapshots';
+import {isIdEqual, getIdString, extractId} from '../snapshots';
 import * as timelineStore from '../stores/timeline';
 
 const allIssuesStream = timelineStore.timeframe.transform({
