@@ -178,7 +178,7 @@ export default class PhysicalMap extends SceneObject {
       }
 
       // if the group has switched delete the nodes in other groups than the current one
-      // this.removeNodeFromAllGroupsInsteadOf(groupId, triple.node);
+      this.removeNodeFromAllGroupsInsteadOf(groupId, newNode);
 
       this.filterNode(newNode);
 
@@ -207,11 +207,11 @@ export default class PhysicalMap extends SceneObject {
 
   //runs through all groups instead of the current one and searches for the
   //node added to the current one. if found -> delete it from old groups
-  removeNodeFromAllGroupsInsteadOf(groupId, node) {
-    const nodeId = node.get('id');
-    getAllNodes(this).forEach(n => {
-      if(n.snapshot.get('id') === nodeId && n.parent.id !== groupId) {
-        n.dispose();
+  removeNodeFromAllGroupsInsteadOf(groupId, newNode) {
+    const nodeId = newNode.id;
+    getAllNodes(this).forEach(node => {
+      if(node.id === nodeId && node.parent.id !== groupId) {
+        node.dispose();
       }
     });
   }
