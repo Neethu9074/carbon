@@ -11,9 +11,9 @@ const UnknownNodeStickyRC = React.createClass({
   ],
 
   propTypes: {
+    onPlusClicked: React.PropTypes.func.isRequired,
     snapshot: React.PropTypes.object.isRequired,
-    showIp: React.PropTypes.bool.isRequired,
-    onPlusClicked: React.PropTypes.func.isRequired
+    showIp: React.PropTypes.bool.isRequired
   },
 
   render() {

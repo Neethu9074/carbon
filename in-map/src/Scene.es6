@@ -31,14 +31,13 @@ let currentMetrics;
 
 export default class Scene {
 
-  constructor({parent, pluginIds, onPlusClicked, antialias}) {
+  constructor({parent, onPlusClicked, antialias}) {
     stores.currentScene.emit(this); // set this scene to store
 
     this.height = window.innerHeight;
     this.width = window.innerWidth;
     this.antialias = antialias;
     this.parent = parent;
-    this.pluginIds = pluginIds;
     this.onPlusClicked = onPlusClicked;
 
     if(__DEV__) {
@@ -76,7 +75,6 @@ export default class Scene {
     this.backgroundScene.add(this.backgroundPlane);
 
     this.map = new PhysicalMap({
-      pluginIds: this.pluginIds,
       parent: this
     });
 

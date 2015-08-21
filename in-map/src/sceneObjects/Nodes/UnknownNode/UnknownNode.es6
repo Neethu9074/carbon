@@ -9,10 +9,11 @@ import BaseNode from '../BaseNode';
 
 export default class Unknownnode extends BaseNode {
 
-  constructor({parent, snapshot}) {
-    super({parent, snapshot});
+  constructor({parent, coordinates, id}) {
+    super({parent, id});
 
     this.isUnknown = true;
+    this.snapshot = coordinates;
     this.stickyNote = new StickyNoteUnknownNode(this);
   }
 
@@ -45,37 +46,37 @@ export default class Unknownnode extends BaseNode {
     }
   }
 
-  getTooltipSticky() {
+  getTooltip() {
     return new TooltipUnknownNode(this);
   }
 
   getWiredSnapshots() {
-    const thisSnapShotId = this.snapshot.get('id');
+    const id = this.id;
     const outgoing = [];
     const incoming = [];
-    this.getAllMapNodes().forEach((node) => {
-        //filter all unknown nodes and this
-        if(node.isUnknown || thisSnapShotId === node.snapshot.get('id')) {
-          return;
+    this.getAllMapNodes().forEach(node => {
+      //filter all unknown nodes and this
+      if(node.isUnknown || id === node.id) {
+        return;
+      }
+
+      const wired = node.getWiredSnapshots();
+      if(!wired) {
+        return;
+      }
+
+      wired.get('outgoing').forEach(wiredSnapshot => {
+        if(id === wiredSnapshot.get('id')) {
+          incoming.push(node.snapshot);
         }
-
-        const wired = node.getWiredSnapshots();
-        if(!wired) {
-          return;
-        }
-
-        wired.get('outgoing').forEach(wiredSnapshot => {
-          if(thisSnapShotId === wiredSnapshot.get('id')) {
-            incoming.push(node.snapshot);
-          }
-        });
-
-        wired.get('incoming').forEach(wiredSnapshot => {
-          if(thisSnapShotId === wiredSnapshot.get('id')) {
-            outgoing.push(node.snapshot);
-          }
-        });
       });
+
+      wired.get('incoming').forEach(wiredSnapshot => {
+        if(id === wiredSnapshot.get('id')) {
+          outgoing.push(node.snapshot);
+        }
+      });
+    });
 
     const map = Immutable.Map().asMutable();
     map.set('outgoing', outgoing);
