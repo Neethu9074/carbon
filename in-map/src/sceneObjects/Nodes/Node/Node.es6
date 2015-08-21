@@ -11,6 +11,7 @@ import {getPower} from 'in-sdk/power';
 
 import LineMeshComponent from '../../../components/LineMeshComponent';
 import HealthComponent from '../../../components/HealthComponent';
+import MetricComponent from '../../../components/MetricComponent';
 import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
@@ -37,6 +38,7 @@ export default class Node extends BaseNode {
 
     const id = this.id + '_ground';
     const components = this.components;
+    components.metric = new MetricComponent({sceneObject: this});
     components.ground = new MeshComponent({
       id,
       sceneObject: this,
@@ -65,6 +67,7 @@ export default class Node extends BaseNode {
     components.groundLine.sizeChanged(1.5, 1, 1.5);
 
     this.stickyNote = new StickyNoteNode(this);
+    this.snapshotServer = new NodeSnapshotServer(this);
   }
 
   onSelectedEnter() {
@@ -112,8 +115,6 @@ export default class Node extends BaseNode {
 
     this.singleMetricPillar = new SingleMetricPillar({parent: this});
     this.multiMetricPillar = new MultiMetricPillar({parent: this});
-
-    this.snapshotServer = new NodeSnapshotServer(this);
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
@@ -170,19 +171,7 @@ export default class Node extends BaseNode {
       this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     }
 
-    // const position = this.getPosition();
-    // const size = {x: 0.9, y: 0.9, z: 0.9};
-    // const frag = {
-    //   id: this.id,
-    //   contentProvider: new PCM({
-    //     contentProvider: new SCM({
-    //       contentProvider: new SCCP({numSlices: Math.ceil(Math.random() * 5)}),
-    //       x: size.x, y: size.y, z: size.z
-    //     }),
-    //     x: position.x - size.x / 2, y: position.y, z: position.z + size.z / 2
-    //   })
-    // };
-    // this.scene.singleMeshMetricFactory.addFragment(frag);
+    this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   hideMetrics() {
@@ -192,12 +181,16 @@ export default class Node extends BaseNode {
     this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     this.tooltip = this.getNodeTooltip();
+
+    this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   setMetricValues(values) {
     if(this.isHidden()){
       return;
     }
+
+    this.getComponent('metric').setValues(values);
 
     if(values.length === 1) {
       this.singleMetricPillar.setMetricValue(values[0]);
@@ -274,6 +267,7 @@ export default class Node extends BaseNode {
     this.getComponent('ground').positionChanged(x, y, z);
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
     this.getComponent('layer').positionChanged(x, y, z);
+    this.getComponent('metric').positionChanged(x, y, z);
 
     this.updateScreenAnchorPosition();
   }

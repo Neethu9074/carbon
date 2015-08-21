@@ -23,7 +23,7 @@ export default class SlicedCubeContentProvider extends ContentProvider {
     const faceColors = this.faceColors;
     let offset = 0;
     const colors = [];
-    for (let iSlice = 0; iSlice < numSlices; iSlice++) {
+    for (let iSlice = 0; iSlice < this.numSlices; iSlice++) {
       //front
       for (let i = 0; i < 18; i += 3) {
         colors[i + offset] = faceColors[0];
@@ -54,7 +54,7 @@ export default class SlicedCubeContentProvider extends ContentProvider {
     const heightPerSlice = totalHeight / this.numSlices;
 
     let vertices = [];
-    for (let i = 0; i < numSlices; i++) {
+    for (let i = 0; i < this.numSlices; i++) {
       const from = i * heightPerSlice;
       const to = (i + 1) * heightPerSlice;
       const slice = [
@@ -127,6 +127,7 @@ export default class SlicedCubeContentProvider extends ContentProvider {
 
     this.cachedIndices = indices;
   }
+
 
   getVertices() {
     return this.cachedVertices.slice();

@@ -9,7 +9,7 @@ import eventBus from 'in-services/eventbus';
 
 import './lib/Octree';
 
-// import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
+import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
 import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
@@ -157,9 +157,9 @@ export default class Scene {
   }
 
   setupFactories() {
-    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
-
     const scene = this;
+
+    this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
 
     this.groundSingleMeshFactory = new SingleMeshFactory({scene});
     this.groundSingleMeshFactory.material.transparent = true;
@@ -194,6 +194,7 @@ export default class Scene {
       this.layerHighlightingSingleMeshFactory.rebuild();
       this.highlightingSingleMeshFactory.rebuild();
       this.groundSingleMeshFactory.rebuild();
+      this.singleMeshMetricFactory.rebuild();
       this.layerSingleMeshFactory.rebuild();
       this.singleMeshFactory.rebuild();
       this.baselineFactory.rebuild();
@@ -356,10 +357,10 @@ export default class Scene {
   }
 
   updateMetricHeights() {
-    // this.singleMeshMetricFactory.updateHeights();
-
     if(currentMetrics) {
       eventBus.emit('upateMetricHeights');
+      this.singleMeshMetricFactory.updateHeights();
+
       if(currentMetrics.size === 1) {
         this.singleMetricFactory.updateHeights();
       } else {

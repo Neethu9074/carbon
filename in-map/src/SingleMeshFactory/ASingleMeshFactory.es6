@@ -63,7 +63,8 @@ export default class SingleMeshFactory {
       const fragment = {
         id,
         vertices: contentProvider.getVertices(),
-        colors: contentProvider.getColors()
+        colors: contentProvider.getColors(),
+        contentProvider
       };
 
       this.fragments.push(fragment);
@@ -91,10 +92,10 @@ export default class SingleMeshFactory {
     }
 
     //update indices
-    this.fragments.forEach((frag, index) => {frag.index = index; });
 
     keys.forEach(id => {
       const item = this.fragmentQueue[id];
+      this.fragments.forEach((frag, index) => {frag.index = index; });
 
       if(item.mode === UPDATE_FLAGS.ADD) {
         this.updateGeometryByFragment(item.fragment, item.itemsToBeDeleted);
@@ -131,7 +132,7 @@ export default class SingleMeshFactory {
 
     const args2 = [indexInVertices, numElements].concat(fragment.colors);
     Array.prototype.splice.apply(this.colors, args2);
-    //
+
     // this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);
     // this.colors.splice(indexInVertices, numElements, ...fragment.colors);
   }
