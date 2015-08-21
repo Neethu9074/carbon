@@ -23,7 +23,8 @@ export default class SingleMeshMetricFactory {
     //the global arrays containing the combined stream data
     this.vertices = [];
     this.colors = [];
-    this.customAttr = [];
+    this.oldHeights = [];
+    this.newHeights = [];
 
     //stores all added fragments that needs an update on global geometry
     this.fragmentQueue = {};
@@ -70,7 +71,8 @@ export default class SingleMeshMetricFactory {
       value: 0.0
     };
     const attributes = this.attributes = {
-      custAttr: {	type: 'f', value: 1.0 }
+      oldHeight: {	type: 'f', value: 0.0 },
+      newHeight: {	type: 'f', value: 1.0 }
     };
     const material = new THREE.ShaderMaterial({
       uniforms: {
@@ -90,26 +92,34 @@ export default class SingleMeshMetricFactory {
     return _.find(this.fragments, fragment => fragment.id === id);
   }
 
-  addFragment({id, contentProvider}) {
-    const match = this.getFragment(id);
+  addFragment(fragment = {id, contentProvider, values}) {
+    const vertices = fragment.contentProvider.getVertices();
+    const colors = fragment.contentProvider.getColors();
+    const heights = this.getHeightsForFragment(fragment);
+    const oldHeights = heights.oldHeights;
+    const newHeights = heights.newHeights;
+
+    const match = this.getFragment(fragment.id);
     if(match) {
-      match.vertices = contentProvider.getVertices();
-      match.colors = contentProvider.getColors();
-      match.slicedIndices = contentProvider.contentProvider.getSliceIndices();
+      match.oldHeights = oldHeights;
+      match.newHeights = newHeights;
+      match.vertices = vertices;
+      match.colors = colors;
 
       this.queueFragment(match, match.vertices.length, UPDATE_FLAGS.ADD);
 
     } else {
-      const fragment = {
-        id,
-        vertices: contentProvider.getVertices(),
-        colors: contentProvider.getColors(),
-        slicedIndices: contentProvider.contentProvider.getSliceIndices(),
-        contentProvider
+      const newFragment = {
+        id: fragment.id,
+        contentProvider: fragment.contentProvider,
+        oldHeights,
+        newHeights,
+        vertices,
+        colors
       };
 
-      this.fragments.push(fragment);
-      this.queueFragment(fragment, 0, UPDATE_FLAGS.ADD);
+      this.fragments.push(newFragment);
+      this.queueFragment(newFragment, 0, UPDATE_FLAGS.ADD);
     }
   }
 
@@ -154,6 +164,8 @@ export default class SingleMeshMetricFactory {
 
   removeFragmentFromGeometry(item) {
     const fragment = item.fragment;
+    fragment.oldHeights = [];
+    fragment.newHeights = [];
     fragment.vertices = [];
     fragment.colors = [];
 
@@ -164,29 +176,39 @@ export default class SingleMeshMetricFactory {
 
   updateGeometryByFragment(fragment, numElements = 0) {
     let indexInVertices = 0;
+    let indexInHeights = 0;
     for (let i = 0; i < fragment.index; i++) {
       indexInVertices += this.fragments[i].vertices.length;
+      indexInHeights += this.fragments[i].oldHeights.length;
     }
 
-    const customAttributes = fragment.slicedIndices;
+    Array.prototype.splice.apply(
+      this.oldHeights,
+      [indexInHeights, numElements / 3].concat(fragment.oldHeights));
 
-    this.replacePartInArray(this.customAttr, [indexInVertices, numElements].concat(customAttributes));
-    this.replacePartInArray(this.vertices, [indexInVertices, numElements].concat(fragment.vertices));
-    this.replacePartInArray(this.colors, [indexInVertices, numElements].concat(fragment.colors));
-  }
+    Array.prototype.splice.apply(
+      this.newHeights,
+      [indexInHeights, numElements / 3].concat(fragment.newHeights));
 
-  replacePartInArray(array, args) {
-    Array.prototype.splice.apply(array, args);
+    Array.prototype.splice.apply(
+      this.vertices,
+      [indexInVertices, numElements].concat(fragment.vertices));
+
+    Array.prototype.splice.apply(
+      this.colors,
+      [indexInVertices, numElements].concat(fragment.colors));
   }
 
   updateGeometry() {
     const geometry = this.geometry;
 
-    geometry.addAttribute('custAttr', new THREE.BufferAttribute(new Float32Array(this.customAttr), 2));
+    geometry.addAttribute('oldHeight', new THREE.BufferAttribute(new Float32Array(this.oldHeights), 1));
+    geometry.addAttribute('newHeight', new THREE.BufferAttribute(new Float32Array(this.newHeights), 1));
     geometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(this.vertices), 3));
     geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(this.colors), 3));
 
-    geometry.attributes.custAttr.needsUpdate = true;
+    geometry.attributes.oldHeight.needsUpdate = true;
+    geometry.attributes.newHeight.needsUpdate = true;
     geometry.attributes.position.needsUpdate = true;
     geometry.attributes.color.needsUpdate = true;
 
@@ -199,9 +221,32 @@ export default class SingleMeshMetricFactory {
     this.animation.stop();
 
     // swap new to old height
+
     // get new and set as new
 
     this.animation.start();
+  }
+
+  getHeightsForFragment(fragment) {
+    const oldHeights = [];
+    const newHeights = [];
+    const values = [0].concat(fragment.values);
+
+    const indices = fragment.contentProvider.contentProvider.getSliceIndices();
+    indices.forEach(index => {
+      const lastValue = index === 0 ? 0 : values[index - 1];
+
+      let summed = 0;
+      for (let i = 0; i < index; i++) {
+        summed += values[i];
+      }
+      const newValue = summed + values[index];
+
+      oldHeights.push(lastValue); // old value
+      newHeights.push(newValue); // new value
+    });
+
+    return {oldHeights, newHeights};
   }
 
   dispose() {

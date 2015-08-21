@@ -14,9 +14,9 @@ export default class SlicedCubeContentProvider extends ContentProvider {
     this.numSlices = numSlices;
     this.faceColors = faceColors;
 
+    this.calculateSliceIndices();
     this.calculatePositions();
     this.calculateColors();
-    this.calculateSliceIndices();
   }
 
   calculateColors() {
@@ -96,31 +96,31 @@ export default class SlicedCubeContentProvider extends ContentProvider {
     for (let i = 0; i < this.numSlices; i++) {
       const slice = [
         // front
-        0, 0,
-        0, 0,
-        0, 0,
+        i,
+        i,
+        i + 1,
 
-        0, 0,
-        0, 0,
-        0, 0,
+        i,
+        i + 1,
+        i + 1,
 
         // top
-        0, 0,
-        0, 0,
-        0, 0,
+        i + 1,
+        i + 1,
+        i + 1,
 
-        0, 0,
-        0, 0,
-        0, 0,
+        i + 1,
+        i + 1,
+        i + 1,
 
         // left
-        0, 0,
-        0, 0,
-        0, 0,
+        i,
+        i,
+        i + 1,
 
-        0, 0,
-        0, 0,
-        0, 0
+        i,
+        i + 1,
+        i + 1
       ];
       indices = indices.concat(slice);
     }

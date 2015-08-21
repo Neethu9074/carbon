@@ -20,7 +20,7 @@ export default class MetricComponent extends Component {
     this.fragment = {
       contentProvider: this.contentProvider,
       id: this.id,
-      values: [0]
+      values: [1]
     };
 
     this.positionToSet = {x: -1000, y: 0, z: 0};
@@ -43,6 +43,8 @@ export default class MetricComponent extends Component {
 
 
   setValues(values) {
+    this.fragment.values = values;
+
     if(values.length !== this.numSlices) {
       this.numSlices = values.length;
       this.fragment.contentProvider.contentProvider = new SCCP({numSlices: this.numSlices});
@@ -52,8 +54,6 @@ export default class MetricComponent extends Component {
       this.factory.rebuild();
       this.factory.addFragment(this.fragment);
     }
-
-    this.fragment.values = values;
   }
 
   positionChanged(x, y, z) {
