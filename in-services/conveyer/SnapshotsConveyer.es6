@@ -80,10 +80,9 @@ export default class SnapshotsConveyer {
   handlePresenceMessage(message) {
     if (!message.data.online && this.snapshots) {
       message.data.forEach(presenceMessage => {
+        const id = getIdString(presenceMessage);
         this.snapshots = this.snapshots.filter(snapshot => {
-          return !(snapshot.get('hostId') === presenceMessage.hostId &&
-            snapshot.get('steadyId') === presenceMessage.steadyId &&
-            snapshot.get('pluginId') === presenceMessage.pluginId);
+          return snapshot.get('id') !== id;
         });
       });
       this.onNext(this.snapshots);
@@ -103,11 +102,10 @@ export default class SnapshotsConveyer {
 
 
 function containsSnapshot(immutableSnapshot, mutableSnapshots) {
+  const id = immutableSnapshot.get('id');
   for (let i = 0, len = mutableSnapshots.length; i < len; i++) {
     const mutableSnapshot = mutableSnapshots[i];
-    if (immutableSnapshot.get('hostId') === mutableSnapshot.hostId &&
-        immutableSnapshot.get('pluginId') === mutableSnapshot.pluginId &&
-        immutableSnapshot.get('steadyId') === mutableSnapshot.steadyId) {
+    if (id === mutableSnapshot.id) {
       return true;
     }
   }
