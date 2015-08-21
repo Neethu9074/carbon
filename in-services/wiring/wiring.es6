@@ -3,6 +3,7 @@ import {combineLatest} from 'reactive-observables';
 
 import * as forgeConsts from 'in-forge/constants';
 
+import * as views from '../views';
 import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import SnapshotConveyer from '../conveyer/SnapshotConveyer';
@@ -38,6 +39,7 @@ import {getIdString, only} from '../util/snapshots';
 */
 
 const completeWiring = create(WiringConveyer);
+const physicalHostsViewWiring = completeWiring.map(mapWiringGraphToPhysicalHostsViewGraph);
 
 export function getWiring(snapshot) {
   const idString = getIdString(snapshot);
@@ -76,41 +78,32 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
     });
 }
 
-export const views = {
-  physical: {
-    hosts: 0,
-    processes: 1
-  }
-};
-
 export function getStructure(view) {
   if (view === views.physical.hosts) {
-    return getStructureForPhysicalHostsView();
+    return physicalHostsViewWiring;
   }
 
   throw new Error('Unsupported view type ' + view);
 }
 
-function getStructureForPhysicalHostsView() {
-  return completeWiring.map(wiringGraph => {
-    return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
-      .map(osNodeStrId => {
-        // TODO swap with getDestinationNode once fixed in backend
-        let group = getSourceNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
-        if (group) {
-          group = wiringGraph.nodes[group];
-        }
+function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
+  return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
+    .map(osNodeStrId => {
+      // TODO swap with getDestinationNode once fixed in backend
+      let group = getSourceNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
+      if (group) {
+        group = wiringGraph.nodes[group];
+      }
 
-        const layers = getLeafNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn)
-          .map(strId => wiringGraph.nodes[strId]);
+      const layers = getLeafNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn)
+        .map(strId => wiringGraph.nodes[strId]);
 
-        return {
-          group,
-          node: wiringGraph.nodes[osNodeStrId],
-          layers
-        };
-      });
-  });
+      return {
+        group,
+        node: wiringGraph.nodes[osNodeStrId],
+        layers
+      };
+    });
 }
 
 function getNodesWithPluginId(wiringGraph, pluginId) {

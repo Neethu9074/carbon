@@ -7,6 +7,7 @@ import {expect} from 'chai';
 import proxyquire from 'proxyquire';
 import * as ro from 'reactive-observables';
 
+import * as views from '../views';
 import WiringConveyer from '../conveyer/WiringConveyer';
 
 describe('wiring', () => {
@@ -35,7 +36,7 @@ describe('wiring', () => {
       it('should return an empty array for empty graphs', () => {
         emitGraph(getGraph('empty'));
 
-        mod.getStructure(mod.views.physical.hosts)
+        mod.getStructure(views.physical.hosts)
           .subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
@@ -47,7 +48,7 @@ describe('wiring', () => {
       it('should traverse the graph and identify groups for OS snapshots', () => {
         emitGraph(getGraph('simple'));
 
-        mod.getStructure(mod.views.physical.hosts)
+        mod.getStructure(views.physical.hosts)
           .subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
@@ -71,7 +72,7 @@ describe('wiring', () => {
       it('should find layers for OS snapshots', () => {
         emitGraph(getGraph('common'));
 
-        mod.getStructure(mod.views.physical.hosts)
+        mod.getStructure(views.physical.hosts)
           .subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
