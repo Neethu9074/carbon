@@ -2,12 +2,12 @@ import _ from 'lodash';
 import Immutable from 'immutable';
 
 import * as connection from '../connection/subscriptionAwareConnection';
-import {getIdString} from '../snapshots';
+import getIdString from '../snapshots/getIdString';
 
 export default class SnapshotsConveyer {
 
   static getUniqueId({pluginId}) {
-    return 'snapshot:' + pluginId;
+    return 'snapshots:' + pluginId;
   }
 
   constructor({pluginId}) {

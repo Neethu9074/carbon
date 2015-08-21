@@ -1,5 +1,17 @@
 import Immutable from 'immutable';
 
+import {create} from '../conveyer';
+import SnapshotConveyer from '../conveyer/SnapshotConveyer';
+import _getIdString from './getIdString';
+
+/**
+ * Turns the snapshot into an ID string which can be used as a key in
+ * Objects.
+ *
+ * @param {Immutable.Map} s The snapshot
+ * @returns {string} An ID string
+ */
+export const getIdString = _getIdString;
 
 /**
  * Extract an ID triplet from a snapshot. This method encapsulates what it
@@ -81,32 +93,8 @@ export function isIdEqualShort(snapshot1, snapshot2) {
   return snapshot1.get('id') === snapshot2.get('id');
 }
 
-/**
- * Turns the snapshot into an ID string which can be used as a key in
- * Objects.
- *
- * @param {Immutable.Map} s The snapshot
- * @returns {string} An ID string
- */
-export function getIdString(s) {
-  let hostId;
-  let pluginId;
-  let steadyId;
-
-  if (Immutable.Map.isMap(s)) {
-    hostId = s.get('hostId');
-    pluginId = s.get('pluginId');
-    steadyId = s.get('steadyId');
-  } else {
-    hostId = s.hostId;
-    pluginId = s.pluginId;
-    steadyId = s.steadyId;
-  }
-
-  if(hostId && pluginId && steadyId) {
-    return `${pluginId}#${hostId}#${steadyId}`;
-  }
-  return undefined;
+export function getFullSnapshot(coordinates) {
+  return create(SnapshotConveyer, {coordinates});
 }
 
 /**

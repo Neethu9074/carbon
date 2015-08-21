@@ -34,7 +34,7 @@ describe('conveyer.SnapshotsConveyer', () => {
 
   it('should calculate unique id', () => {
     expect(SnapshotsConveyer.getUniqueId({pluginId: ec2}))
-      .to.equal('snapshot:' + ec2);
+      .to.equal('snapshots:' + ec2);
   });
 
   it('should subscribe via WebSocket connection', () => {
