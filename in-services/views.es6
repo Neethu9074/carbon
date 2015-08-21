@@ -1,6 +1,8 @@
+let enumValue = 0;
+
 export default {
   physical: {
-    hosts: 0,
-    processes: 1
+    hosts: enumValue++,
+    processes: enumValue++
   }
 };
