@@ -26,16 +26,16 @@
     }
   },
   "edges": [{
-    "source": "com.instana.forge.hardware.virtual.EC2#h1#sEC2",
-    "destination": "com.instana.forge.infrastructure.os.OS#h1#sOS",
-    "relation": "com.instana.sdk.annotation.RunsOn"
-  }, {
+    "destination": "com.instana.forge.hardware.virtual.EC2#h1#sEC2",
     "source": "com.instana.forge.infrastructure.os.OS#h1#sOS",
-    "destination": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
+    "destination": "com.instana.forge.infrastructure.os.OS#h1#sOS",
     "source": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
-    "destination": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
+    "relation": "com.instana.sdk.annotation.RunsOn"
+  }, {
+    "destination": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
+    "source": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }]
 }

@@ -45,8 +45,8 @@ export function getWiring(snapshot) {
   const idString = getIdString(snapshot);
 
   return completeWiring.map(wiringGraph => {
-      const outgoingConnections = wiringGraph.edges.filter(edge => edge.source === idString)
-        .map(edge => wiringGraph.nodes[edge.destination]);
+      const outgoingConnections = wiringGraph.edges.filter(edge => edge.destination === idString)
+        .map(edge => wiringGraph.nodes[edge.source]);
       return Immutable.List(outgoingConnections);
     });
 }
@@ -89,8 +89,7 @@ export function getStructure(view) {
 function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
   return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
     .map(osNodeStrId => {
-      // TODO swap with getDestinationNode once fixed in backend
-      let group = getSourceNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
+      let group = getDestinationNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
       if (group) {
         group = wiringGraph.nodes[group];
       }
@@ -117,41 +116,41 @@ function getNodesWithPluginId(wiringGraph, pluginId) {
 }
 
 
-function getSourceNode(wiringGraph, destination, relation) {
+function getDestinationNode(wiringGraph, source, relation) {
   for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {
     const edge = wiringGraph.edges[i];
-    if (edge.destination === destination && edge.relation === relation) {
-      return edge.source;
+    if (edge.source === source && edge.relation === relation) {
+      return edge.destination;
     }
   }
   return null;
 }
 
 
-function getDestinationNodes(wiringGraph, source, relation) {
-  const destinations = [];
+function getSourceNodes(wiringGraph, destination, relation) {
+  const sourceNodes = [];
 
   for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {
     const edge = wiringGraph.edges[i];
-    if (edge.source === source && edge.relation === relation) {
-      destinations.push(edge.destination);
+    if (edge.destination === destination && edge.relation === relation) {
+      sourceNodes.push(edge.source);
     }
   }
 
-  return destinations;
+  return sourceNodes;
 }
 
 
 function getLeafNodes(wiringGraph, origin, relation) {
-  let nodesToCheck = getDestinationNodes(wiringGraph, origin, relation);
+  let nodesToCheck = getSourceNodes(wiringGraph, origin, relation);
   const leafNodes = [];
 
   for (let currentNode = nodesToCheck.pop(); currentNode; currentNode = nodesToCheck.pop()) {
-    const destinations = getDestinationNodes(wiringGraph, currentNode, relation);
-    if (destinations.length === 0) {
+    const sources = getSourceNodes(wiringGraph, currentNode, relation);
+    if (sources.length === 0) {
       leafNodes.push(currentNode);
     } else {
-      nodesToCheck = nodesToCheck.concat(destinations);
+      nodesToCheck = nodesToCheck.concat(sources);
     }
   }
 

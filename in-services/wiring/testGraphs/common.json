@@ -65,38 +65,38 @@
     }
   },
   "edges": [{
-    "source": "com.instana.forge.hardware.virtual.EC2#h1#sEC2",
-    "destination": "com.instana.forge.infrastructure.os.OS#h1#sOS",
-    "relation": "com.instana.sdk.annotation.RunsOn"
-  }, {
+    "destination": "com.instana.forge.hardware.virtual.EC2#h1#sEC2",
     "source": "com.instana.forge.infrastructure.os.OS#h1#sOS",
-    "destination": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
+    "destination": "com.instana.forge.infrastructure.os.OS#h1#sOS",
     "source": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
-    "destination": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
+    "relation": "com.instana.sdk.annotation.RunsOn"
+  }, {
+    "destination": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
+    "source": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
     "relation": "com.instana.sdk.annotation.RunsOn"
   },
 
   {
-    "source": "com.instana.forge.hardware.virtual.AIX#h2#sAIX",
+    "destination": "com.instana.forge.hardware.virtual.AIX#h2#sAIX",
+    "source": "com.instana.forge.infrastructure.os.OS#h2#sOS",
+    "relation": "com.instana.sdk.annotation.RunsOn"
+  }, {
     "destination": "com.instana.forge.infrastructure.os.OS#h2#sOS",
-    "relation": "com.instana.sdk.annotation.RunsOn"
-  }, {
-    "source": "com.instana.forge.infrastructure.os.OS#h2#sOS",
-    "destination": "com.instana.forge.infrastructure.virtualization.Docker#h2#sDocker",
-    "relation": "com.instana.sdk.annotation.RunsOn"
-  }, {
     "source": "com.instana.forge.infrastructure.virtualization.Docker#h2#sDocker",
-    "destination": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h2#sCassandra",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
-    "source": "com.instana.forge.infrastructure.os.OS#h2#sOS",
-    "destination": "com.instana.forge.infrastructure.os.Process#h2#sProcess",
+    "destination": "com.instana.forge.infrastructure.virtualization.Docker#h2#sDocker",
+    "source": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h2#sCassandra",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
+    "destination": "com.instana.forge.infrastructure.os.OS#h2#sOS",
     "source": "com.instana.forge.infrastructure.os.Process#h2#sProcess",
-    "destination": "com.instana.forge.infrastructure.database.mysql.MySQL#h2#sMySQL",
+    "relation": "com.instana.sdk.annotation.RunsOn"
+  }, {
+    "destination": "com.instana.forge.infrastructure.os.Process#h2#sProcess",
+    "source": "com.instana.forge.infrastructure.database.mysql.MySQL#h2#sMySQL",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }]
 }
