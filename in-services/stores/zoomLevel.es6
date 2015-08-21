@@ -1,5 +1,3 @@
-
-
 import * as ro from 'reactive-observables';
 
 export const level = {
