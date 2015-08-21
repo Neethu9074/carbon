@@ -228,7 +228,9 @@ const GuidedTour = React.createClass({
   },
 
   tourFinished() {
-    tourDefinition.steps[this.state.activeStep].after();
+    if (tourDefinition.steps[this.state.activeStep].after) {
+      tourDefinition.steps[this.state.activeStep].after();
+    }
 
     this.stopTour();
   },

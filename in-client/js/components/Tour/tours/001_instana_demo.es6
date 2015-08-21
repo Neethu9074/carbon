@@ -122,8 +122,9 @@ export const tourDefinition = {
       element: '.icon-metrics.in-sidebar-controls__control-icon',
       after() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
-        clickOnCssItem('.in-sidebar-metric-header--0');
-        clickOnCssItem('.in-sidebar-metric-tree--leaf');
+
+        setTimeout(() => clickOnCssItem('.in-sidebar-metric-header--0'), 50);
+        setTimeout(() => clickOnCssItem('.in-sidebar-metric-tree--leaf'), 50);
       }
     },
     {
