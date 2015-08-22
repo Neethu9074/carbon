@@ -54,33 +54,28 @@
     width: 100%;
 
     padding-top: 8px;
+    font-size: 12px;
+    color: #91e1df;
 
     border-bottom: 1px solid #333a3e;
-  }
-
-  &__menu-entry__last {
-    height: 30px;
-    width: 100%;
-
-    padding-top: 10px;
-  }
-
-  &__menu-entry:hover, &__menu-entry__last:hover {
     cursor: pointer;
 
-    .in-menu__menu-entry--text, .in-menu__menu-entry--signout {
+    &:hover {
       color: #fff;
+    }
+
+    &:last-child {
+      border-bottom: 0;
     }
   }
 
-  &__menu-entry--text {
-    font-size: 12px;
-    color: #91e1df;
-  }
-
-  &__menu-entry--signout {
-    font-size: 10px;
-    color: #787d81;
+  &__signout {
+    font-size: inherit;
+    color: inherit;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
   }
 
    &__button {

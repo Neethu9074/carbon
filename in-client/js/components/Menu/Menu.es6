@@ -2,6 +2,7 @@ import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
 import Icon from 'in-components/Icon';
+import {isProductionEnvironment} from 'in-services/config';
 
 import './Menu.less';
 
@@ -40,21 +41,19 @@ const Menu = React.createClass({
 
         <div className={block + '__menu-entry'}
              onClick={this.props.showMenu}>
-          <span className={block + '__menu-entry--text'}>Settings</span>
+          Settings
         </div>
 
-        <div className={block + '__menu-entry'}
-             onClick={() => {}}>
-          <span className={block + '__menu-entry--text'}>About Instana</span>
-        </div>
-
-        <div className={block + '__menu-entry__last'}>
-          <form action='/auth/signOut' method='post'>
-            <span type='text'
-                  className={block + '__menu-entry--signout'}>Sign Out</span>
-          </form>
-        </div>
-
+        {isProductionEnvironment() ?
+          <div className={block + '__menu-entry'}>
+            <form action='/auth/signOut' method='post'>
+              <button type='submit'
+                      className={block + '__signout'}>
+                Sign Out
+              </button>
+            </form>
+          </div>
+        : null}
       </div>
     );
   },
