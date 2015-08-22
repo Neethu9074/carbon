@@ -216,12 +216,39 @@ export default class SingleMeshMetricFactory {
     }
   }
 
+  setValuesOfFragment(id, values) {
+    const fragment = this.getFragment(id);
+    fragment.values = values;
+  }
+
   updateHeights() {
     this.animation.stop();
 
-    // swap new to old height
+    this.fragments.forEach(fragment => {
+      if(!fragment.values) {
+        return;
+      }
+      fragment.oldHeights = fragment.newHeights;
+      fragment.newHeights = this.getHeightsForFragment(fragment).newHeights;
 
-    // get new and set as new
+      let indexInHeights = 0;
+      for (let i = 0; i < fragment.index; i++) {
+        indexInHeights += this.fragments[i].oldHeights.length;
+      }
+
+      Array.prototype.splice.apply(
+        this.oldHeights, [indexInHeights, fragment.vertices.length / 3].concat(fragment.oldHeights));
+
+      Array.prototype.splice.apply(
+        this.newHeights, [indexInHeights, fragment.vertices.length / 3].concat(fragment.newHeights));
+    });
+
+
+    this.geometry.addAttribute('oldHeight', new THREE.BufferAttribute(new Float32Array(this.oldHeights), 1));
+    this.geometry.addAttribute('newHeight', new THREE.BufferAttribute(new Float32Array(this.newHeights), 1));
+
+    this.geometry.attributes.oldHeight.needsUpdate = true;
+    this.geometry.attributes.newHeight.needsUpdate = true;
 
     this.animation.start();
   }

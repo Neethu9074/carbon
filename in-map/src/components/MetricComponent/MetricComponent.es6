@@ -42,10 +42,6 @@ export default class MetricComponent extends Component {
 
 
   setValues(values) {
-    this.fragment.values = values;
-
-    // set values to to factory fragment and refresh arrays
-
     if(values.length !== this.numSlices) {
       this.numSlices = values.length;
       this.fragment.contentProvider.contentProvider = new SCCP({numSlices: this.numSlices});
@@ -55,6 +51,10 @@ export default class MetricComponent extends Component {
       this.factory.rebuild();
       this.factory.addFragment(this.fragment);
     }
+
+    values = values.map(x => x * this.sceneObject.height);
+    // set values to to factory fragment and refresh arrays
+    this.factory.setValuesOfFragment(this.fragment.id, values);
   }
 
   positionChanged(x, y, z) {
