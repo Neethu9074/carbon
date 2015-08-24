@@ -26,6 +26,7 @@ export default class TouchControl extends CameraController{
     eventHandler.on('pan', this.onPan.bind(this));
 
     eventHandler.on('panstart', (e) => this.setCursorToEvent(e));
+    eventHandler.get('pinch').set({enable: true});
     eventHandler.on('pinch', this.onPinch.bind(this));
     eventHandler.on('pinchstart', () => this.pinchDistance = 0);
 
