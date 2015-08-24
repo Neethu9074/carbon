@@ -32,7 +32,8 @@ const DockerDashboard = React.createClass({
                            windowSize={this.props.timeframe}
                            height={chartHeight}
                            margins={{
-                             left: 80
+                             left: 80,
+                             right: 10
                            }}
                            y1={{
                              min: 0,
