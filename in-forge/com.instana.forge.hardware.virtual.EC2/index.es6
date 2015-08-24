@@ -1,5 +1,5 @@
-import * as pluginName from 'in-sdk/pluginName';
 import {getFullSnapshot} from 'in-services/snapshots';
+import * as pluginName from 'in-sdk/pluginName';
 import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';

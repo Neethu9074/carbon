@@ -169,6 +169,7 @@ export default class PhysicalMap extends SceneObject {
     }
 
     getZone(triple.group).once(groupId => {
+
       const group = this.getOrCreateGroup(groupId);
 
       //add the node to group (the group handles duplicates)
