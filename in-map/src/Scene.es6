@@ -198,6 +198,13 @@ export default class Scene {
       this.singleMeshFactory.rebuild();
       this.baselineFactory.rebuild();
       this.lineFactory.rebuild();
+
+      for (let i = this.octrees.length - 1; i >= 0; i--) {
+        const octree = this.octrees[i];
+        if(octree) {
+          octree.update();
+        }
+      }
     };
 
     time.addTimeEventListener({
@@ -374,8 +381,6 @@ export default class Scene {
     //if there is no cube isSelected, fade all cubes by distance
     if(!this.hullsAreInactive) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
-
-      // this.singleMeshFactory.material.transparent = (zoomLevel < maxZoomOut);
     }
   }
 
@@ -508,14 +513,12 @@ export default class Scene {
       octree = this.octrees[layer] = this.createOctree();
     }
     octree.add(obj, {useFaces: false});
-    octree.update();
   }
 
   removeCollisionObject(obj, layer = 0) {
     const octree = this.octrees[layer];
     if(octree) {
       octree.remove(obj);
-      octree.rebuild();
     }
   }
 
