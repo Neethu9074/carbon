@@ -2108,7 +2108,6 @@ import THREE from 'three';
     }
 
     return intersects;
-
   };
 
 }( THREE ) );
