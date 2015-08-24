@@ -1,7 +1,5 @@
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import * as pluginName from 'in-sdk/pluginName';
-import {create} from 'in-services/conveyer';
-import {only} from 'in-services/snapshots';
+import {getFullSnapshot} from 'in-services/snapshots';
 import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';
@@ -14,11 +12,8 @@ pluginName.setHumanReadablePluginName(
 
 zones.addMapping(
   constants.plugins.ec2,
-  (coordinates, callback) => {
-    const sub = only(create(SnapshotsConveyer, {pluginId: coordinates.get('pluginId')}), coordinates);
-    sub.subscribe(snapshot => {
-      callback(snapshot.getIn(['data', 'availability-zone']));
-      sub.dispose();
-    });
+  coordinates => {
+    return getFullSnapshot(coordinates).map(snapshot =>
+      snapshot.getIn(['data', 'availability-zone']));
   }
 );

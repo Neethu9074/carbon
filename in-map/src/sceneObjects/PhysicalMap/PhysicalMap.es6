@@ -168,7 +168,7 @@ export default class PhysicalMap extends SceneObject {
       return;
     }
 
-    const callback = (groupId) => {
+    getZone(triple.group).once(groupId => {
       const group = this.getOrCreateGroup(groupId);
 
       //add the node to group (the group handles duplicates)
@@ -183,9 +183,7 @@ export default class PhysicalMap extends SceneObject {
       this.filterNode(newNode);
 
       this.refreshLayout = true;
-    };
-
-    getZone(triple.group, callback);
+    });
   }
 
   getAllMapNodes() {

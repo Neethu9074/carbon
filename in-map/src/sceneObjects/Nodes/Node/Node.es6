@@ -2,11 +2,9 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
+import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
-import {create} from 'in-services/conveyer';
-import {only} from 'in-services/snapshots';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import {getPower} from 'in-sdk/power';
@@ -66,14 +64,8 @@ export default class Node extends BaseNode {
     components.ground.sizeChanged(1.5, 1, 1.5);
     components.groundLine.sizeChanged(1.5, 1, 1.5);
 
-    this.addSubscription(
-      only(
-        create(SnapshotsConveyer, {pluginId: coordinates.get('pluginId')}),
-        coordinates)
-        .subscribe(snapshot => {
-          this.onSnapshotUpdate(snapshot);
-        }
-      )
+    this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
+      this.onSnapshotUpdate(snapshot))
     );
   }
 

@@ -19,7 +19,7 @@ export default function generatePluginBasedSnapshotTransformation(label) {
       mappings[pluginId] = provider;
     },
 
-    get(snapshot, params) {
+    get(snapshot) {
       const pluginId = snapshot.get('pluginId');
       const mapping = mappings[pluginId];
       if (!mapping) {
@@ -28,7 +28,7 @@ export default function generatePluginBasedSnapshotTransformation(label) {
         logger.error(msg);
         throw new Error(msg);
       }
-      return mapping(snapshot, params);
+      return mapping(snapshot);
     }
   };
 }
