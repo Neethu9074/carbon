@@ -487,8 +487,7 @@ export default class Scene {
 
       const intersections = raycaster.intersectOctreeObjects(octree2Objects);
       if (intersections.length > 0) {
-        //the array is sorted by distance desc so take last item
-        return intersections[intersections.length - 1].object;
+        return intersections.sort((i1, i2) => i1.distance - i2.distance)[0].object;
       }
     }
 
