@@ -26,23 +26,25 @@ export default class LayerComponent extends Component {
 
 
   addLayer(coordinates) {
-    const layerId = coordinates.get('id');
-    //don't create a layer if its still there
-    const match = _.find(this.layer, layer => layer.id === layerId);
+    coordinates.forEach(layerCoordinates => {
+      const layerId = layerCoordinates.get('id');
 
-    if(match) {
-      match.updateSnapshot(snapshot);
-    } else {
-      const newLayer = new Layer({parent: this, coordinates, id: layerId});
-      this.layer.push(newLayer);
-      this.layer.forEach((layer, index) => layer.index = index);
+      //don't create a layer if its still there
+      const match = _.find(this.layer, layer => layer.id === layerId);
 
-      if(!this.isActive()) {
-        newLayer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+      if(!match) {
+        const newLayer = new Layer({
+          coordinates: layerCoordinates,
+          parent: this,
+          id: layerId
+        });
+
+        this.layer.push(newLayer);
+        this.layer.forEach((layer, index) => layer.index = index);
+
+        this.needsUpdate = true;
       }
-
-      this.needsUpdate = true;
-    }
+    });
   }
 
   positionChanged(x, y, z) {
