@@ -4,6 +4,7 @@ import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Component from '../Component';
 
 export default class MetricComponent extends Component {
+
   constructor({sceneObject}) {
     super(sceneObject);
 
@@ -19,7 +20,8 @@ export default class MetricComponent extends Component {
 
     this.fragment = {
       id: this.id,
-      contentProvider: this.contentProvider
+      contentProvider: this.contentProvider,
+      factoryData: {}
     };
 
     this.positionToSet = {x: -1000, y: 0, z: 0};

@@ -17,26 +17,26 @@ export default class SingleMeshMetricFactory {
   constructor({scene, renderOrder = 2}) {
     this.scene = scene;
 
-    //stores all added fragments to create the global geometry
+    // stores all added fragments to create the global geometry
     this.fragments = [];
 
-    //the global arrays containing the combined stream data
+    // the global arrays containing the combined stream data
     this.colors = [];
     this.vertices = [];
     this.oldHeights = [];
     this.newHeights = [];
 
-    //stores all added fragments that needs an update on global geometry
+    // stores all added fragments that needs an update on global geometry
     this.fragmentQueue = {};
 
-    //represents the geometry for all combined fragments
+    // represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
     this.geometry.dynamic = true;
 
     this.material = this.getMaterial();
 
-    //a global mesh that stores global geometry
-    const mesh = this.mesh = this.getMesh();
+    // a global mesh that stores global geometry
+    const mesh = this.mesh = new THREE.Mesh(this.geometry, this.material);
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
@@ -49,6 +49,10 @@ export default class SingleMeshMetricFactory {
     this.updateGeometry();
     scene.addSceneObject(mesh);
 
+    this.setupAnimation();
+  }
+
+  setupAnimation() {
     const from = {v: 0.0};
     const to = {v: 1.0};
     const animation = new TWEEN.Tween(from).to(to, 500);
@@ -56,32 +60,25 @@ export default class SingleMeshMetricFactory {
     animation.onUpdate(v => this.progress.value = v);
     this.animation = animation;
 
-    this.updateSubscribtion = eventBus.on('updateTween').subscribe((time) => {
-      this.animation.update(time);
-    });
-  }
-
-  getMesh() {
-    return new THREE.Mesh(this.geometry, this.material);
+    this.updateSubscribtion = eventBus.on('updateTween').subscribe(time =>
+      this.animation.update(time)
+    );
   }
 
   getMaterial() {
-    const progress = this.progress = {
-      type: 'f',
-      value: 0.0
-    };
+    const progress = this.progress = { type: 'f', value: 0.0 };
+
     const attributes = this.attributes = {
-      oldHeight: {	type: 'f', value: 0.0 },
-      newHeight: {	type: 'f', value: 1.0 }
+      oldHeight: { type: 'f', value: 0.0 },
+      newHeight: { type: 'f', value: 1.0 }
     };
+
     const material = new THREE.ShaderMaterial({
-      uniforms: {
-        progress: progress
-      },
-      attributes: attributes,
       vertexColors: THREE.VertexColors,
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
+      attributes: attributes,
+      uniforms: { progress },
       wireframe: true
     });
 
