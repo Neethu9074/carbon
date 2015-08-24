@@ -3,6 +3,7 @@ import React from 'react/addons';
 
 import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
+import WiringList from 'in-components/WiringList';
 
 import DockerLabels from '../DockerLabels';
 import DockerInfo from '../DockerInfo';
@@ -40,6 +41,8 @@ const Details = React.createClass({
             </Collapsible.Content>
           </Collapsible>
         : null}
+
+        <WiringList snapshot={this.props.snapshot} />
       </div>
     );
   }
