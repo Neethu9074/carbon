@@ -50,7 +50,8 @@ export default class CollisionObjectComponent extends Component {
     const object = this.collisionObject;
     const pos = this.positionToSet;
     const scale = this.scaleToSet;
-    object.position.set(pos.x, pos.y, pos.z);
+
+    object.position.set(pos.x - 0.5 + scale.x * 0.5, pos.y, pos.z + 0.5 - scale.z * 0.5);
     object.scale.set(scale.x, scale.y, scale.z);
     object.updateMatrix();
     object.updateMatrixWorld();

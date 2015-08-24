@@ -61,6 +61,12 @@ var environments = {
     uiBackendUrl: 'http://localhost:8080',
     groundskeeperUrl: 'http://workstation:8280'
   },
+  staging: {
+    user: '<none>',
+    pw: '<none>',
+    uiBackendUrl: 'https://staging-instana.instana.io/api',
+    groundskeeperUrl: 'https://staging-instana.instana.io/auth'
+  },
   simulator: {
     user: '<none>',
     pw: '<none>',

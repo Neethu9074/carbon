@@ -19,6 +19,8 @@ import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Scal
 import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 
+const margin = 0.9;
+
 export default class Layer extends SceneObject {
 
   constructor({parent, snapshot}) {
@@ -182,7 +184,6 @@ export default class Layer extends SceneObject {
 
   setHeight(height) {
     this.height = height;
-    const margin = 0.8;
     this.getComponent('mesh').sizeChanged(margin, height, margin);
     this.getComponent('solidMesh').sizeChanged(margin, height, margin);
     this.getComponent('collision').sizeChanged(margin, height, margin);
