@@ -14,7 +14,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 
 const rpt = React.PropTypes;
 
-const chartHeight = 300;
+const chartHeight = 200;
 
 const DockerDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
@@ -32,7 +32,8 @@ const DockerDashboard = React.createClass({
                            windowSize={this.props.timeframe}
                            height={chartHeight}
                            margins={{
-                             left: 80
+                             left: 80,
+                             right: 10
                            }}
                            y1={{
                              min: 0,

@@ -1,10 +1,9 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
 import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
+import WiringList from 'in-components/WiringList';
 
 import ProcessInfo from '../ProcessInfo';
 import ArgList from '../ArgList';
@@ -35,6 +34,8 @@ const Details = React.createClass({
             <ArgList snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
+
+        <WiringList snapshot={this.props.snapshot} />
       </div>
     );
   }

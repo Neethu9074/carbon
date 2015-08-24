@@ -3,6 +3,7 @@ import React from 'react/addons';
 
 import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
+import WiringList from 'in-components/WiringList';
 
 import JVMInfo from '../JVMInfo';
 
@@ -26,6 +27,8 @@ const Details = React.createClass({
             <JVMInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
+
+        <WiringList snapshot={this.props.snapshot} />
       </div>
     );
   }

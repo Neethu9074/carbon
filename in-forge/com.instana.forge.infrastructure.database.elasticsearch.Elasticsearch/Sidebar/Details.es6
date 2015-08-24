@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
+import WiringList from 'in-components/WiringList';
 import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 
@@ -26,6 +27,8 @@ const ElasticsearchDetails = React.createClass({
             <ElasticsearchInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
+
+        <WiringList snapshot={this.props.snapshot} />
       </div>
     );
   }

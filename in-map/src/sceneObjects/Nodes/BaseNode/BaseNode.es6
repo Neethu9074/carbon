@@ -128,11 +128,6 @@ export default class BaseNode extends SceneObject {
     this.highlight(false);
   }
 
-  onSelectedHighlightInactiveEnter() {}
-  onSelectedHighlightInactiveLeave() {}
-  onHighlightInactiveEnter() {}
-  onHighlightInactiveLeave() {}
-
 
   highlight(solid = true) {
     const value = solid ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
@@ -216,6 +211,8 @@ export default class BaseNode extends SceneObject {
   }
 
   onActiveMetric(metric) {
+    this.currentMetric = metric;
+
     const value = metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
     this.stateMachine.changeStateProperty('active', value);
   }

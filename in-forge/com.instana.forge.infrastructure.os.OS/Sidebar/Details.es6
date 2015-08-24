@@ -5,6 +5,7 @@ import Immutable from 'immutable';
 import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 import TagList from 'in-components/TagList/TagList';
+import WiringList from 'in-components/WiringList';
 import * as constants from 'in-forge/constants';
 
 import EC2Info from '../../com.instana.forge.hardware.virtual.EC2/EC2Info';
@@ -46,6 +47,8 @@ const OsDetails = React.createClass({
             </Collapsible.Content>
           </Collapsible>
         : null}
+
+        <WiringList snapshot={this.props.snapshot} />
       </div>
     );
   }
