@@ -38,6 +38,10 @@ export default class LayerComponent extends Component {
       this.layer.push(newLayer);
       this.layer.forEach((layer, index )=> layer.index = index);
 
+      if(!this.isActive()) {
+        newLayer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+      }
+
       this.needsUpdate = true;
     }
   }
