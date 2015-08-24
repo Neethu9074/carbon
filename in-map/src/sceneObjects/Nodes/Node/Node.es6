@@ -35,35 +35,6 @@ export default class Node extends BaseNode {
   constructor({parent, coordinates, id, layer}) {
     super({parent, id});
 
-    const postId = '_ground';
-    const components = this.components;
-    components.ground = new MeshComponent({
-      id: this.id + postId,
-      sceneObject: this,
-      factory: this.scene.groundSingleMeshFactory,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new PCP()
-          })
-        })
-      })
-    });
-    components.groundLine = new LineMeshComponent({
-      id: this.id + postId,
-      sceneObject: this,
-      factory: this.scene.baselineFactory,
-      contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: new FCP()
-        })
-      })
-    });
-    // components.health = new HealthComponent({sceneObject: this});
-    components.layer = new LayerComponent({sceneObject: this});
-    components.ground.sizeChanged(1.5, 1, 1.5);
-    components.groundLine.sizeChanged(1.5, 1, 1.5);
-
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
     );
@@ -110,6 +81,38 @@ export default class Node extends BaseNode {
     this.getComponent('groundLine').stateMachine.changeStateProperty('selected', value);
   }
 
+
+  initComponents() {
+    super.initComponents();
+
+    const postId = '_ground';
+    const components = this.components;
+    components.ground = new MeshComponent({
+      id: this.id + postId,
+      sceneObject: this,
+      factory: this.scene.groundSingleMeshFactory,
+      contentProvider: new CMCM({
+        contentProvider: new PCM({
+          contentProvider: new SCM({
+            contentProvider: new PCP()
+          })
+        })
+      })
+    });
+    components.groundLine = new LineMeshComponent({
+      id: this.id + postId,
+      sceneObject: this,
+      factory: this.scene.baselineFactory,
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: new FCP()
+        })
+      })
+    });
+    components.layer = new LayerComponent({sceneObject: this});
+    components.ground.sizeChanged(1.5, 1, 1.5);
+    components.groundLine.sizeChanged(1.5, 1, 1.5);
+  }
 
   registerEvents() {
     super.registerEvents();
@@ -241,6 +244,10 @@ export default class Node extends BaseNode {
     }
 
     this.snapshot = snapshot;
+
+    if(!this.components.health) {
+      this.components.health = new HealthComponent({sceneObject: this});
+    }
 
     if(this.stickyNote.isEmpty) {
       this.stickyNote = new StickyNoteNode(this);
