@@ -6,12 +6,10 @@ import Immutable from 'immutable';
 import classnames from 'in-services/util/classnames';
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import {isIdEqual} from 'in-services/snapshots';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {create} from 'in-services/conveyer';
 
 import CloseSidebarButton from './CloseSidebarButton';
-import Details from './Details';
 import Tags from './Tags';
 import ZoneList from './ZoneList';
 import Controls from './Controls';
@@ -42,20 +40,6 @@ const Sidebar = React.createClass({
   shouldComponentUpdate(newProps, newState) {
     return this.props.snapshots !== newProps.snapshots ||
       this.state.activeControl !== newState.activeControl;
-  },
-
-  componentWillReceiveProps(newProps) {
-    // automatically switch to the details view when a snapshot is selected
-    if (!isIdEqual(this.props.selectedSnapshot, newProps.selectedSnapshot) &&
-        newProps.selectedSnapshot != null) {
-      this.setState({
-        activeControl: 'details'
-      });
-    } else if (newProps.selectedSnapshot === null && this.state.activeControl === 'details') {
-      this.setState({
-        activeControl: null
-      });
-    }
   },
 
   statics: {
@@ -134,8 +118,6 @@ const Sidebar = React.createClass({
         );
       case 'metrics':
         return <Metrics />;
-      case 'details':
-        return <Details snapshot={this.props.selectedSnapshot} />;
       default:
         throw new Error('Unknown content control', this.state.activeControl);
     }
