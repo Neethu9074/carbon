@@ -27,7 +27,8 @@ export default class TouchControl extends CameraController{
 
     eventHandler.on('panstart', (e) => this.setCursorToEvent(e));
     eventHandler.get('pinch').set({enable: true});
-    eventHandler.on('pinch', this.onPinch.bind(this));
+    eventHandler.on('pinchin', this.onPinchIn.bind(this));
+    eventHandler.on('pinchout', this.onPinchOut.bind(this));
     eventHandler.on('pinchstart', () => this.pinchDistance = 0);
 
     eventHandler.get('tap').set({threshold: minMovementForPan - 1});
@@ -92,9 +93,16 @@ export default class TouchControl extends CameraController{
     this.doClick();
   }
 
-  onPinch(e) {
+  onPinchIn(e) {
+    this.onPinch(e.distance);
+  }
+
+  onPinchOut(e) {
+    this.onPinch(e.distance * -1);
+  }
+
+  onPinch(newDistance) {
     const oldDistance = this.pinchDistance;
-    const newDistance = e.distance;
     const delta = newDistance - oldDistance;
     this.pinchDistance = newDistance;
 
