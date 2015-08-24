@@ -145,31 +145,30 @@ export default class PhysicalMap extends SceneObject {
   }
 
   addNode(triple) {
-    if(!triple.group) {
+    if (!triple.group) {
+      this.addNodeToGroup(triple, 'undefined');
+    } else {
+      getZone(triple.group).once(groupId => this.addNodeToGroup(triple, groupId));
+    }
+  }
+
+  addNodeToGroup(triple, groupId) {
+    const group = this.getOrCreateGroup(groupId);
+
+    //add the node to group (the group handles duplicates)
+    const newNode = group.addNode({
+      coordinates: triple.node,
+      layer: triple.layers
+    });
+
+    if(!newNode) {
       return;
     }
 
-    getZone(triple.group).once(groupId => {
-
-      const group = this.getOrCreateGroup(groupId);
-
-      //add the node to group (the group handles duplicates)
-      const newNode = group.addNode({
-        coordinates: triple.node,
-        layer: triple.layers
-      });
-
-      if(!newNode) {
-        return;
-      }
-
-      // if the group has switched delete the nodes in other groups than the current one
-      this.removeNodeFromAllGroupsInsteadOf(groupId, newNode);
-
-      this.filterNode(newNode);
-
-      this.refreshLayout = true;
-    });
+    // if the group has switched delete the nodes in other groups than the current one
+    this.removeNodeFromAllGroupsInsteadOf(groupId, newNode);
+    this.filterNode(newNode);
+    this.refreshLayout = true;
   }
 
   getAllMapNodes() {
