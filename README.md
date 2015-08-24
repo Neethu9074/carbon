@@ -1,5 +1,8 @@
 # ui-client aka. the stuff that runs in the browser
 
+## Branching Model
+We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
+
 ## Getting Started
 You need to have io.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install io.js via the
 [Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it
