@@ -32,7 +32,7 @@ import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider
 
 export default class Node extends BaseNode {
 
-  constructor({parent, coordinates, id}) {
+  constructor({parent, coordinates, id, layer}) {
     super({parent, id});
 
     const postId = '_ground';
@@ -59,7 +59,7 @@ export default class Node extends BaseNode {
         })
       })
     });
-    components.health = new HealthComponent({sceneObject: this});
+    // components.health = new HealthComponent({sceneObject: this});
     components.layer = new LayerComponent({sceneObject: this});
     components.ground.sizeChanged(1.5, 1, 1.5);
     components.groundLine.sizeChanged(1.5, 1, 1.5);
@@ -67,6 +67,8 @@ export default class Node extends BaseNode {
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
     );
+
+    this.addLayer(layer);
   }
 
   onSelectedEnter() {

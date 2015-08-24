@@ -29,25 +29,6 @@ export default class PhysicalMap extends SceneObject {
 
     this.createGroundGrid();
     this.registerEvents();
-
-    // this.counter = 0;
-    // for (let i = 0; i < 0; i++) {
-    //   this.addNode(Immutable.fromJS({
-    //     hostId: this.counter++,
-    //     steadyId: 's',
-    //     pluginId: 'com.instana.forge.infrastructure.os.OS',
-    //     data: {
-    //       hostname: this.hostId,
-    //       'cpu.count': 4,
-    //       'cpu.model': 'Intel',
-    //       'os.version': 'v',
-    //       'os.arch': '',
-    //       'os.name': 'Linux',
-    //       'memory.total': 2132456,
-    //       'swap.total': ''
-    //     }
-    //   }));
-    // }
   }
 
   createGroundGrid() {
@@ -173,7 +154,11 @@ export default class PhysicalMap extends SceneObject {
       const group = this.getOrCreateGroup(groupId);
 
       //add the node to group (the group handles duplicates)
-      const newNode = group.addNode(triple.node);
+      const newNode = group.addNode({
+        coordinates: triple.node,
+        layer: triple.layers
+      });
+
       if(!newNode) {
         return;
       }

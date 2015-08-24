@@ -2,6 +2,7 @@ import THREE from 'three';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+import {getFullSnapshot} from 'in-services/snapshots';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import HighlightingComponent from '../../components/HighlightingComponent';
@@ -23,10 +24,10 @@ const margin = 0.9;
 
 export default class Layer extends SceneObject {
 
-  constructor({parent, snapshot}) {
-    super({parent, id: snapshot.get('id')});
+  constructor({parent, id, coordinates}) {
+    super({parent, id});
 
-    this.snapshot = snapshot;
+    this.snapshot = undefined;
     this.layerIndex = 0; //see this.setLayerIndex
 
     this.getComponent('position').setPosition(Infinity, 0, 0);
@@ -38,19 +39,13 @@ export default class Layer extends SceneObject {
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
 
-    this.tooltip = new TooltipLayer(this);
-
-    this.subscriptions.push(
-      selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
-        if(selected && this.snapshot.get('id') === selected.get('id') && !this.isSelected()) {
-          selectedSceneObject.emit({sceneObject: this});
-        }
-      })
-    );
-
     this.addSubscription(selectedSceneObject.subscribe(event =>
       this.onSceneObjectSelected(event.sceneObject)
     ));
+
+    this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
+      this.onSnapshotUpdate(snapshot))
+    );
   }
 
   onHighlightEnter() {
@@ -179,8 +174,31 @@ export default class Layer extends SceneObject {
     }
   }
 
-  updateSnapshot(snapshot) {
+  onSnapshotUpdate(snapshot) {
+    // if the reference is equal, don't update. the reference is always equal
+    // on the same snapshots because they are immutable
+    if(this.snapshot === snapshot) {
+      return;
+    }
+
     this.snapshot = snapshot;
+
+    if(!this.tooltip) {
+      this.tooltip = new TooltipLayer(this);
+    }
+
+    if (this.selectedSnapshotSubscribtion) {
+      this.selectedSnapshotSubscribtion.dispose();
+    }
+    this.selectedSnapshotSubscribtion = selectedSnapshot.selectedSnapshot
+      .async()
+      .subscribe(selected => {
+        if(selected && this.snapshot.get('id') === selected.get('id') && !this.isSelected()) {
+          selectedSceneObject.emit({sceneObject: this});
+        }
+      }
+    );
+    this.addSubscription(this.selectedSnapshotSubscribtion);
   }
 
   positionChanged(x, y, z) {
