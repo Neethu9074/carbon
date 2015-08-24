@@ -141,7 +141,6 @@ export default class Connection extends SceneObject {
 
     this.points = this.calculateVertices(-0.01);
     this.lineContentProvider.setLines(this.toVertexArray(this.points));
-    this.scene.lineFactory.addFragment(this.fragment);
 
     //hide this if the parent is hidden
     if(this.from.isHidden() || this.to.isHidden()) {

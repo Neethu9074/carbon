@@ -31,15 +31,6 @@ export default class MetricPillar extends SceneObject {
     this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
-  initComponents() {
-    super.initComponents();
-    this.components.collision = new CollisionComponent({
-      sceneObject: this,
-      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
-      layer: 2
-    });
-  }
-
   onHighlightEnter() {
     currentTooltip.emit(this.tooltip);
   }
@@ -58,6 +49,16 @@ export default class MetricPillar extends SceneObject {
 
   onHiddenLeave() {
     this.showPillar();
+  }
+
+
+  initComponents() {
+    super.initComponents();
+    this.components.collision = new CollisionComponent({
+      sceneObject: this,
+      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
+      layer: 1
+    });
   }
 
   showPillar() {
