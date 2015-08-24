@@ -3,6 +3,7 @@ import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {applyTransform} from 'in-services/util/dom';
 import * as tracking from 'in-services/tracking';
 import toPx from 'in-services/converters/toPx';
 import keyCodes from 'in-components/keyCodes';
@@ -151,7 +152,7 @@ const GuidedTour = React.createClass({
       }
     }
 
-    dialog.style.transform = `translate(${toPx(x)}, ${toPx(y)})`;
+    applyTransform(dialog, `translate(${toPx(x)}, ${toPx(y)})`);
   },
 
   onKeyDown(e) {

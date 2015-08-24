@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {applyTransform} from 'in-services/util/dom';
+
 import './StickyNote.less';
 
 
@@ -28,15 +30,12 @@ export default class StickyNote {
   update() {
     const x = this.parent.screenPosition.x;
     const y = this.parent.screenPosition.y;
-    const translate = `translate3d(${x}px,${y}px,0)`;
 
-    const stickyNoteContainerStyle = this.style;
-    stickyNoteContainerStyle.transform = translate;
-    stickyNoteContainerStyle['-webkit-transform'] = translate;
+    applyTransform(this.stickyNoteContainer, `translate3d(${x}px,${y}px,0)`);
 
     //set to '' because the display is set by zoom too. If you would set
     //this value to another like '' you would overrite it
-    stickyNoteContainerStyle.display = '';
+    this.style.display = '';
   }
 
   setInactive(inactive) {
