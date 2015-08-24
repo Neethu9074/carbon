@@ -1,5 +1,4 @@
 /*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions */
 import THREE from 'three';
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -48,9 +47,9 @@ describe('3D map', () => {
       expect(collisionObject.position.z).to.equal(0);
 
       component.handleComponentTimeEvent();
-      expect(collisionObject.position.x).to.equal(1);
+      expect(collisionObject.position.x).to.equal(1 - 0.5 + 4 / 2);
       expect(collisionObject.position.y).to.equal(2);
-      expect(collisionObject.position.z).to.equal(3);
+      expect(collisionObject.position.z).to.equal(3 + 0.5 - 6 / 2);
       expect(collisionObject.scale.x).to.equal(4);
       expect(collisionObject.scale.y).to.equal(5);
       expect(collisionObject.scale.z).to.equal(6);
@@ -72,24 +71,12 @@ describe('3D map', () => {
 
       component.sizeChanged(4, 5, 6);
       component.handleComponentTimeEvent();
-      expect(collisionObject.position.x).to.equal(1);
+      expect(collisionObject.position.x).to.equal(1 - 0.5 + 4 / 2);
       expect(collisionObject.position.y).to.equal(2);
-      expect(collisionObject.position.z).to.equal(3);
+      expect(collisionObject.position.z).to.equal(3 + 0.5 - 6 / 2);
       expect(collisionObject.scale.x).to.equal(4);
       expect(collisionObject.scale.y).to.equal(5);
       expect(collisionObject.scale.z).to.equal(6);
-    });
-
-    it('should do nothing if there is no change', () => {
-      // component.setPosition(1, 2, 3);
-      // expect(sceneObject.positionChanged.callCount).to.equal(0);
-      // component.handleComponentTimeEvent();
-      // expect(sceneObject.positionChanged.callCount).to.equal(1);
-
-      // component.setPosition(1, 2, 3);
-      // expect(sceneObject.positionChanged.callCount).to.equal(1);
-      // component.handleComponentTimeEvent();
-      // expect(sceneObject.positionChanged.callCount).to.equal(1);
     });
 
   });
