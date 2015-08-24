@@ -40,6 +40,14 @@ export default class Layer extends SceneObject {
 
     this.tooltip = new TooltipLayer(this);
 
+    this.subscriptions.push(
+      selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
+        if(selected && this.snapshot.get('id') === selected.get('id') && !this.isSelected()) {
+          selectedSceneObject.emit({sceneObject: this});
+        }
+      })
+    );
+
     this.addSubscription(selectedSceneObject.subscribe(event =>
       this.onSceneObjectSelected(event.sceneObject)
     ));
