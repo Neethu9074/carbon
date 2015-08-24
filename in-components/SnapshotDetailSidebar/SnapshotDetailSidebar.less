@@ -1,0 +1,58 @@
+@import "~in-themes/less/constants.less";
+
+.in-snapshot-detail-sidebar {
+  position: fixed;
+  top: 1rem;
+  left: 0.8rem;
+
+  width: 19rem;
+  max-height: ~"calc(100% - 7rem)";
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: @sidebar__background;
+  z-index: @z-index__sidebar;
+
+  &__navigation {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #40545D;
+    margin: -7px 0 20px;
+    padding: 0 0 7px;
+
+    position: relative;
+  }
+
+  &__title {
+    display: inline-block;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 300;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin: 0;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  &__health {
+    font-size: 32px;
+  }
+
+  &__zone {
+    margin: 15px 0;
+  }
+
+  &__open-dashboard {
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+}

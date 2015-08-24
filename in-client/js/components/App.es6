@@ -15,6 +15,7 @@ import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
 import Sidebar from 'in-components/Sidebar';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
+import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import {create} from 'in-services/conveyer';
 import Map from 'in-map';
 
@@ -107,6 +108,7 @@ const App = React.createClass({
         <section style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginIds={this.state.pluginIds} />
           <Sidebar pluginIds={this.state.pluginIds} />
+          <SnapshotDetailSidebar />
           <FeedbackBadge />
         </section>
 

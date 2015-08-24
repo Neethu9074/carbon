@@ -114,6 +114,9 @@ exports.consts = {
       warning: colors.warning,
       ok: colors.default
     },
+    sidebar: {
+      background: 'rgba(47, 67, 76, 0.95)'
+    },
     footer: {
       height: 50
     },
