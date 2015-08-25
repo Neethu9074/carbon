@@ -1,8 +1,10 @@
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import SCCP from '../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Component from '../Component';
 
+const thicknessOfCubes = 0.9;
 
 export default class MetricComponent extends Component {
 
@@ -16,7 +18,12 @@ export default class MetricComponent extends Component {
     this.factory = scene.singleMeshMetricFactory;
 
     this.contentProvider = new PCM({
-      contentProvider: new SCCP({numSlices: this.numSlices})
+      contentProvider: new SCM({
+        x: thicknessOfCubes, y: 1, z: thicknessOfCubes,
+        contentProvider: new SCCP({
+          numSlices: this.numSlices
+        })
+      })
     });
 
     this.fragment = {
@@ -46,7 +53,10 @@ export default class MetricComponent extends Component {
   setValues(values) {
     if(values.length !== this.numSlices) {
       this.numSlices = values.length;
-      this.fragment.contentProvider.contentProvider = new SCCP({ numSlices: this.numSlices });
+      this.fragment
+        .contentProvider // SCM
+        .contentProvider // PCM
+        .contentProvider = new SCCP({ numSlices: this.numSlices });
       this.removeFromFactory();
       this.factory.rebuild();
       this.addToFactory();

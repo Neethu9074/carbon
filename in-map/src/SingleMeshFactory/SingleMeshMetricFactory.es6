@@ -98,7 +98,10 @@ export default class SingleMeshMetricFactory {
       this.queueFragment(fragment, 0, UPDATE_FLAGS.ADD);
     }
 
-    fragment.oldHeights = contentProvider.contentProvider.getSliceIndices().map(() => 0);
+    fragment.oldHeights =
+      contentProvider // SCM
+      .contentProvider // PCM
+      .contentProvider.getSliceIndices().map(() => 0);
     fragment.newHeights = fragment.oldHeights.slice();
     fragment.vertices = contentProvider.getVertices();
     fragment.colors = contentProvider.getColors();
@@ -232,7 +235,11 @@ export default class SingleMeshMetricFactory {
       sum += values[index];
     });
 
-    fragment.contentProvider.contentProvider.getSliceIndices()
+    fragment
+      .contentProvider // SCM
+      .contentProvider // PCM
+      .contentProvider // SCCP
+      .getSliceIndices()
       .forEach((sliceIndex, index) => {
         fragment.newHeights[index] = summedA[sliceIndex] + values[sliceIndex];
       }

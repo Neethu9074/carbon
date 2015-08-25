@@ -1,14 +1,35 @@
+import THREE from 'three';
+
+import {theme} from 'in-services/theme';
+
 import ContentProvider from './ContentProvider';
 
-const defaultColor = [
-  0.8, 0.8, 0.8, //front
-  0.9, 0.9, 0.9, //top
-  1, 1, 1 //left
-];
+
+const defaultColors = (() => {
+  const colors = [];
+  const converter = new THREE.Color();
+
+  fillIn(colors, converter, theme.chart.strokeColors[4]);
+  fillIn(colors, converter, theme.chart.strokeColors[3]);
+  fillIn(colors, converter, theme.chart.strokeColors[2]);
+  fillIn(colors, converter, theme.chart.strokeColors[1]);
+  fillIn(colors, converter, theme.chart.strokeColors[0]);
+
+  return colors;
+})();
+
+function fillIn(colors, converter, hex) {
+  converter.set(hex);
+  colors.push([
+    converter.r, converter.g, converter.b,
+    converter.r - 0.1, converter.g - 0.1, converter.b - 0.1,
+    converter.r - 0.2, converter.g - 0.2, converter.b - 0.2
+  ]);
+}
 
 export default class SlicedCubeContentProvider extends ContentProvider {
 
-  constructor({numSlices = 1, faceColors = defaultColor}) {
+  constructor({numSlices = 1, faceColors = defaultColors}) {
     super();
 
     this.numSlices = numSlices;
@@ -22,27 +43,33 @@ export default class SlicedCubeContentProvider extends ContentProvider {
   calculateColors() {
     const faceColors = this.faceColors;
     let offset = 0;
+    let indexInColors = 0;
     const colors = [];
     for (let iSlice = 0; iSlice < this.numSlices; iSlice++) {
+      const colorArray = faceColors[indexInColors++];
+      if (indexInColors >= faceColors.length) {
+        indexInColors = 0;
+      }
+
       //front
       for (let i = 0; i < 18; i += 3) {
-        colors[i + offset] = faceColors[0] - (iSlice * 0.1);
-        colors[i + offset + 1] = faceColors[1] - (iSlice * 0.1);
-        colors[i + offset + 2] = faceColors[2] - (iSlice * 0.1);
+        colors[i + offset] = colorArray[0];
+        colors[i + offset + 1] = colorArray[1];
+        colors[i + offset + 2] = colorArray[2];
       }
 
       //top
       for (let i = 18; i < 36; i += 3) {
-        colors[i + offset] = faceColors[3] - (iSlice * 0.1);
-        colors[i + offset + 1] = faceColors[4] - (iSlice * 0.1);
-        colors[i + offset + 2] = faceColors[5] - (iSlice * 0.1);
+        colors[i + offset] = colorArray[3];
+        colors[i + offset + 1] = colorArray[4];
+        colors[i + offset + 2] = colorArray[5];
       }
 
       //left
       for (let i = 36; i < 54; i += 3) {
-        colors[i + offset] = faceColors[6] - (iSlice * 0.1);
-        colors[i + offset + 1] = faceColors[7] - (iSlice * 0.1);
-        colors[i + offset + 2] = faceColors[8] - (iSlice * 0.1);
+        colors[i + offset] = colorArray[6];
+        colors[i + offset + 1] = colorArray[7];
+        colors[i + offset + 2] = colorArray[8];
       }
       offset += 54;
     }
@@ -127,7 +154,6 @@ export default class SlicedCubeContentProvider extends ContentProvider {
 
     this.cachedIndices = indices;
   }
-
 
   getVertices() {
     return this.cachedVertices.slice();
