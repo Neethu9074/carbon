@@ -446,7 +446,6 @@ export default class Scene {
 
     //set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
-
     this.renderScene();
   }
 

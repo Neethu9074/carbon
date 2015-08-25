@@ -3,7 +3,6 @@ import SCCP from '../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvi
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Component from '../Component';
 
-let id = 0;
 
 export default class MetricComponent extends Component {
 
@@ -11,8 +10,6 @@ export default class MetricComponent extends Component {
     super(sceneObject);
 
     const scene = sceneObject.scene;
-
-    this.uid = id++;
 
     this.numSlices = 1;
     this.id = sceneObject.id + '_metricPillarTemp';
@@ -50,6 +47,8 @@ export default class MetricComponent extends Component {
     if(values.length !== this.numSlices) {
       this.numSlices = values.length;
       this.fragment.contentProvider.contentProvider = new SCCP({ numSlices: this.numSlices });
+      this.removeFromFactory();
+      this.factory.rebuild();
       this.addToFactory();
     }
 
