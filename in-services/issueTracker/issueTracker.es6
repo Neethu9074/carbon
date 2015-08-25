@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import {create} from '../conveyer';
 import {mapSeverityToHealth, health} from '../health';
 import IssueConveyer from '../conveyer/IssueConveyer';
-import {isIdEqual, getIdString, extractId} from '../snapshots';
+import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
 import * as timelineStore from '../stores/timeline';
 
 const allIssuesStream = timelineStore.timeframe.transform({
@@ -56,7 +56,7 @@ function addProblem(all, problem) {
   const idString = getIdString(problem);
   if (!(idString in all)) {
     all[idString] = {
-      id: extractId(problem),
+      id: extractCoordinates(problem),
       count: 1
     };
   } else {

@@ -1,3 +1,4 @@
+/*global require:false*/
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';

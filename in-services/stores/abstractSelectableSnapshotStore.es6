@@ -4,15 +4,13 @@ import * as ro from 'reactive-observables';
 
 import {getWiredSnapshots} from 'in-sdk/snapshot';
 
-import {create} from '../conveyer';
-import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
-import {only, isIdEqual} from '../snapshots';
+import {isIdEqual, getFullSnapshot} from '../snapshots';
 
 
 export default function createStore(name = '???') {
   const roSpec = {emitLatestOnSubscribe: true};
 
-  let subscribedSnapshotId = null;
+  let subscribedSnapshotCoordinates = null;
   let selectedSnapshotSubscription = null;
   const selectedSnapshot = ro.create(roSpec);
 
@@ -44,28 +42,22 @@ export default function createStore(name = '???') {
   };
 
   function select(snapshotId) {
-    if (isIdEqual(subscribedSnapshotId, snapshotId)) {
+    if (isIdEqual(subscribedSnapshotCoordinates, snapshotId)) {
       return;
     }
 
-    subscribedSnapshotId = snapshotId;
+    subscribedSnapshotCoordinates = snapshotId;
     disposeSnapshotSubscription();
 
-    selectedSnapshotSubscription = only(
-      create(
-        SnapshotsConveyer,
-        {pluginId: snapshotId.get('pluginId')}
-      ),
-      snapshotId
-    )
-    .subscribe(snapshot => {
-      selectedSnapshot.emit(snapshot);
-    });
+    selectedSnapshotSubscription = getFullSnapshot(snapshotId)
+      .subscribe(snapshot => {
+        selectedSnapshot.emit(snapshot);
+      });
   }
 
   function clear() {
-    if(subscribedSnapshotId !== null) {
-      subscribedSnapshotId = null;
+    if(subscribedSnapshotCoordinates !== null) {
+      subscribedSnapshotCoordinates = null;
       disposeSnapshotSubscription();
       selectedSnapshot.emit(null);
     }

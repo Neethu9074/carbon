@@ -1,7 +1,4 @@
 /*global IN:false*/
-
-
-
 import _ from 'lodash';
 import React from 'react/addons';
 import {createLogger} from 'instalog';

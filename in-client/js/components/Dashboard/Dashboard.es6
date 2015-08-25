@@ -1,12 +1,12 @@
 /*global require: false*/
 import React from 'react';
-import Immutable from 'immutable';
 
 import Jail from 'in-components/Jail';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as timelineStore from 'in-services/stores/timeline';
+import {extractCoordinates} from 'in-services/snapshots';
 
 import Header from './Header';
 
@@ -19,12 +19,8 @@ const Dashboard = React.createClass({
 
   statics: {
     willTransitionTo(transition, params) {
-      const snapshotId = Immutable.Map({
-        steadyId: decodeURIComponent(params.steadyId),
-        pluginId: decodeURIComponent(params.pluginId),
-        hostId: decodeURIComponent(params.hostId)
-      });
-      selectedSnapshotStore.select(snapshotId);
+      const snapshotCoordinates = extractCoordinates(params);
+      selectedSnapshotStore.select(snapshotCoordinates);
     }
   },
 
