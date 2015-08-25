@@ -185,6 +185,7 @@ export default class Scene {
       this.highlightingSingleMeshFactory.rebuild();
       this.groundSingleMeshFactory.rebuild();
       this.layerSingleMeshFactory.rebuild();
+      this.singleMeshMetricFactory.rebuild();
       this.singleMeshFactory.rebuild();
       this.baselineFactory.rebuild();
       this.lineFactory.rebuild();
@@ -236,7 +237,6 @@ export default class Scene {
         this.hideMetrics();
         this.showHulls();
       }
-      this.singleMeshMetricFactory.rebuild();
     }));
 
     this.subscriptions.push(
@@ -348,7 +348,6 @@ export default class Scene {
 
   updateMetricHeights() {
     if(currentMetrics) {
-      this.singleMeshMetricFactory.rebuild();
       this.singleMeshMetricFactory.updateHeights();
     }
   }
