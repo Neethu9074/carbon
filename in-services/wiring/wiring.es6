@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import {combineLatest} from 'reactive-observables';
+import * as ro from 'reactive-observables';
 
 import * as forgeConsts from 'in-forge/constants';
 
@@ -8,6 +8,9 @@ import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {getFullSnapshot} from '../snapshots';
 
+// This observable can be used for cases where we want to emit always null.
+const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
+alwaysNullObservable.emit(null);
 
 /*
   This is what the wiring graph looks like as far as the runs-on relation
@@ -39,6 +42,13 @@ import {getFullSnapshot} from '../snapshots';
 
 const completeWiring = create(WiringConveyer);
 const physicalHostsViewWiring = completeWiring.map(mapWiringGraphToPhysicalHostsViewGraph);
+const fullPhysicalHostsViewWiring = physicalHostsViewWiring.transform({
+  emitLatestOnSubscribe: true,
+
+  transform(viewStructure) {
+    return ro.combineLatest(viewStructure.map(loadFullSnapshotsForNodeStructure));
+  }
+});
 
 export function getWiring(snapshot) {
   const idString = snapshot.get('id');
@@ -67,7 +77,7 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
           return getFullSnapshot(wiredSnapshotCoord);
         });
 
-        return combineLatest(datasources)
+        return ro.combineLatest(datasources)
           // let the whole result be immutable for consistency sake
           .map(a => Immutable.Set(a));
       }
@@ -76,7 +86,7 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
 
 export function getStructure(view) {
   if (view === views.physical.hosts) {
-    return physicalHostsViewWiring;
+    return fullPhysicalHostsViewWiring;
   }
 
   throw new Error('Unsupported view type ' + view);
@@ -151,4 +161,32 @@ function getLeafNodes(wiringGraph, origin, relation) {
   }
 
   return leafNodes;
+}
+
+
+function loadFullSnapshotsForNodeStructure(nodeStructure) {
+  const subObservables = [];
+
+  // index 0: group data
+  if (nodeStructure.group) {
+    subObservables.push(getFullSnapshot(nodeStructure.group));
+  } else {
+    subObservables.push(alwaysNullObservable);
+  }
+
+  // index 1: node data
+  subObservables.push(getFullSnapshot(nodeStructure.node));
+
+  // index 2: layer data
+  subObservables.push(ro.combineLatest(nodeStructure.layers.map(getFullSnapshot)));
+
+  // now combine all these observables back to a single observable.
+  return ro.combineLatest(subObservables)
+    .map(vals => {
+      return {
+        group: vals[0],
+        node: vals[1],
+        layers: vals[2]
+      };
+    });
 }
