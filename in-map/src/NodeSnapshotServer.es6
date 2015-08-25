@@ -2,14 +2,10 @@ import _ from 'lodash';
 
 import {getWiredSnapshots} from 'in-sdk/snapshot';
 import {getNormalizedValue} from 'in-sdk/metrics';
-import {plugins} from 'in-forge/constants';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isIdEqualShort as isIdEqual} from 'in-services/snapshots';
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
-import {create} from 'in-services/conveyer';
 
 import {selectedSceneObject} from './stores/mapStore';
 import {subscribeToMetric} from './metricUtils';
@@ -23,10 +19,6 @@ export default class NodeSnapshotServer {
     this.client = client;
 
     this.subscriptions = [];
-
-    this.wiredSnapshotsSubscription = getWiredSnapshots(client.snapshot)
-      .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots));
-    this.subscriptions.push(this.wiredSnapshotsSubscription);
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       if(metric) {
@@ -48,42 +40,27 @@ export default class NodeSnapshotServer {
       }
     }));
 
-    this.subscriptions.push(
-      selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
-        if(isIdEqual(this.client.snapshot, selected) && !this.client.isSelected()) {
+    this.subscriptions.push(selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
+        if(selected &&
+          this.client.id === selected.get('id') &&
+          !this.client.isSelected()) {
           selectedSceneObject.emit({sceneObject: this.client});
         }
       })
     );
-
-    // TODO: GET NEXT SMALLER IDS FOR THIS IDS VIA WIRING
-    this.subscriptions
-      .push(create(SnapshotsConveyer, {pluginId: plugins.process})
-      .subscribe(data => this.onLayerUpdate(data)));
-
-    // TODO: GET NEXT SMALLER IDS FOR THIS IDS VIA WIRING
-    this.subscriptions
-      .push(create(SnapshotsConveyer, {pluginId: plugins.docker})
-      .subscribe(data => this.onLayerUpdate(data)));
   }
 
   onSnapshotUpdate() {
     const client = this.client;
-    _.remove(this.subscriptions, sub => sub === this.wiredSnapshotsSubscription);
 
-    this.wiredSnapshotsSubscription.dispose();
+    if(this.wiredSnapshotsSubscription) {
+      this.wiredSnapshotsSubscription.dispose();
+      _.remove(this.subscriptions, sub => sub === this.wiredSnapshotsSubscription);
+    }
+
     this.wiredSnapshotsSubscription = getWiredSnapshots(client.snapshot)
       .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots));
-
     this.subscriptions.push(this.wiredSnapshotsSubscription);
-  }
-
-  onLayerUpdate(snapshots) {
-    snapshots.forEach(layer => {
-      if(layer.get('hostId') === this.client.snapshot.get('hostId')) {
-        this.client.addLayer(layer);
-      }
-    });
   }
 
   showMetrics() {

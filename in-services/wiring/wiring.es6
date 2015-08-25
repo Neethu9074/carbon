@@ -6,8 +6,7 @@ import * as forgeConsts from 'in-forge/constants';
 import * as views from '../views';
 import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
-import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
-import {getIdString, only} from '../snapshots';
+import {getFullSnapshot} from '../snapshots';
 
 
 /*
@@ -42,10 +41,13 @@ const completeWiring = create(WiringConveyer);
 const physicalHostsViewWiring = completeWiring.map(mapWiringGraphToPhysicalHostsViewGraph);
 
 export function getWiring(snapshot) {
-  const idString = getIdString(snapshot);
+  const idString = snapshot.get('id');
 
   return completeWiring.map(wiringGraph => {
-      const outgoingConnections = wiringGraph.edges.filter(edge => edge.destination === idString)
+      const outgoingConnections = wiringGraph.edges.filter(edge => {
+          return edge.destination === idString &&
+            edge.relation === forgeConsts.rels.runsOn;
+        })
         .map(edge => wiringGraph.nodes[edge.source]);
       return Immutable.List(outgoingConnections);
     });
@@ -56,22 +58,16 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
     .transform({
       emitLatestOnSubscribe: true,
 
-      shouldRetransform(previousWiredSnapshotIds, currentWiredSnapshotIds) {
-        return !Immutable.is(previousWiredSnapshotIds, currentWiredSnapshotIds);
+      shouldRetransform(previousWiredSnapshotCoords, currentWiredSnapshotCoords) {
+        return !Immutable.is(previousWiredSnapshotCoords, currentWiredSnapshotCoords);
       },
 
-      transform(wiredSnapshotIds) {
-        const datasources = wiredSnapshotIds.map(wiredSnapshotId => {
-          return only(
-            create(
-              SnapshotsConveyer,
-              {pluginId: wiredSnapshotId.get('pluginId')}
-            ),
-            wiredSnapshotId
-          );
+      transform(wiredSnapshotCoords) {
+        const datasources = wiredSnapshotCoords.toArray().map(wiredSnapshotCoord => {
+          return getFullSnapshot(wiredSnapshotCoord);
         });
 
-        return combineLatest(datasources.toArray())
+        return combineLatest(datasources)
           // let the whole result be immutable for consistency sake
           .map(a => Immutable.Set(a));
       }

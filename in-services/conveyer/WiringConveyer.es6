@@ -1,5 +1,5 @@
 import * as connection from '../connection/subscriptionAwareConnection';
-import {getIdString, extractId} from '../snapshots';
+import {getIdString, extractCoordinates} from '../snapshots';
 
 export default class WiringConveyer {
 
@@ -88,7 +88,7 @@ export default class WiringConveyer {
       updateLocalNodeMapping[shortKey] = idString;
 
       if (!(idString in this.nodes)) {
-        const snapshotId = extractId(nodeUpdate);
+        const snapshotId = extractCoordinates(nodeUpdate);
         this.nodes[idString] = snapshotId;
         this.nodeOccurrenceCounter[idString] = 0;
       }

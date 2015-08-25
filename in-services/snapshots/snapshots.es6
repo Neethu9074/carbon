@@ -21,7 +21,7 @@ export const getIdString = _getIdString;
  *   part should be extracted, i.e. hostId, pluginId and steadyId.
  * @returns {Immutable.Map} A map only with the three aforementioed properties.
  */
-export function extractId(snapshot) {
+export function extractCoordinates(snapshot) {
   let id;
   if (Immutable.Map.isMap(snapshot)) {
     id = Immutable.Map({
@@ -94,7 +94,8 @@ export function isIdEqualShort(snapshot1, snapshot2) {
 }
 
 /**
- * Retrieve a full snapshot and updates for it
+ * Retrieve a full snapshot and updates for it. Use this function to look for a
+ * single snapshot instead instead of filtering sequences yourself.
  *
  * @param {Immutable.Map} coordinates Coordinates of the snapshot
  *   which should be retrieved
@@ -102,24 +103,4 @@ export function isIdEqualShort(snapshot1, snapshot2) {
  */
 export function getFullSnapshot(coordinates) {
   return create(SnapshotConveyer, {coordinates});
-}
-
-/**
- * Look for a snapshot in an reactive observable. Commonly used to extract a
- * single snapshot out of a conveyer.
- *
- * @param {ReactiveObservable<Collection<ImmutableSnapshot>>} observable
- *   The data in which to look for the snapshotId
- * @param {ImmutableSnapshotId} snapshotId The snapshot for which to look
- * @param {ReactiveObservable<ImmutableSnapshot>} An observable which only
- *   emits when the snapshot is found and when the snapshot changed.
- */
-export function only(observable, snapshotId) {
-  const predicate = isIdEqual.bind(null, snapshotId);
-
-  return observable.map(snapshots => {
-    return snapshots.find(predicate, null, undefined);
-  })
-  .filter(v => v !== undefined)
-  .distinct();
 }

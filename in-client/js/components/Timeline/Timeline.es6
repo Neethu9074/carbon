@@ -12,13 +12,11 @@ import Icon from 'in-components/Icon';
 
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {health, mapSeverityToHealth} from 'in-services/health';
 import * as timelineStore from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
-import {only} from 'in-services/snapshots';
-import {create} from 'in-services/conveyer';
+import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
 import {theme} from 'in-services/theme';
 import * as time from 'in-services/time';
 import * as tracking from 'in-services/tracking';
@@ -258,10 +256,7 @@ const Timeline = React.createClass({
     });
     const problem = issue.get('problem');
     this.addSubscription(
-      only(
-        create(SnapshotsConveyer, {pluginId: problem.get('pluginId')}),
-        problem
-      )
+      getFullSnapshot(extractCoordinates(problem))
       .subscribe(hoveredSnapshot => this.setState({hoveredSnapshot}))
     );
     highlightedSnapshotStore.select(issue);

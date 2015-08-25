@@ -2,6 +2,7 @@ import React from 'react/addons';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
 import toPx from 'in-services/converters/toPx';
+import {applyTransform} from 'in-services/util/dom';
 
 import enhance from '../hoc/enhance';
 
@@ -40,7 +41,7 @@ const TooltipPresenter = React.createClass({
     const x = focusedElementBox.left - tooltipBox.width - horizontalMargin;
     const y = focusedElementBox.top + focusedElementBox.height / 2 - tooltipBox.height / 2;
 
-    tooltipElement.style.transform = 'translate(' + toPx(x) + ',' + toPx(y) + ')';
+    applyTransform(tooltipElement, 'translate(' + toPx(x) + ',' + toPx(y) + ')');
   },
 
   render() {

@@ -1,35 +1,44 @@
 /*global require:false*/
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
-import {IntlMixin} from 'react-intl';
 import {Navigation} from 'react-router';
 
 import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import * as tracking from 'in-services/tracking';
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 
 import Jail from '../Jail';
 import HealthIcon from '../HealthIcon';
 import Button from '../Button';
 import ZoneTag from '../ZoneTag';
+import enhance from '../hoc/enhance';
 
-import './Details.less';
+import './SnapshotDetailSidebar.less';
 
-const block = 'in-sidebar-details';
+const block = 'in-snapshot-detail-sidebar';
 
-const Details = React.createClass({
-  mixins: [
-    IntlMixin,
-    React.addons.PureRenderMixin,
-    Navigation
-  ],
+const SnapshotDetailSidebar = React.createClass({
+  mixins: [React.addons.PureRenderMixin, Navigation],
 
   propTypes: {
-    snapshot: irpt.map.isRequired
+    snapshot: irpt.map
+  },
+
+  statics: {
+    createObservables() {
+      return {
+        snapshot: selectedSnapshotStore.selectedSnapshot
+      };
+    }
   },
 
   render() {
     const snapshot = this.props.snapshot;
+
+    if (!snapshot) {
+      return null;
+    }
 
     return (
       <div className={block}>
@@ -41,7 +50,7 @@ const Details = React.createClass({
           <Button type='button'
                   className={block + '__open-dashboard'}
                   onClick={this.openDashboard}>
-            {this.getIntlMessage('map.sidebar.switchToDashboard')}
+            View Dashboard
           </Button>
         </div>
 
@@ -55,10 +64,7 @@ const Details = React.createClass({
                    className={block + '__zone'}/>
         </div>
 
-
-        <div className={block + '__content'}>
-          {this.renderSnapshotDetails()}
-        </div>
+        {this.renderSnapshotDetails()}
       </div>
     );
   },
@@ -96,4 +102,4 @@ const Details = React.createClass({
   }
 });
 
-export default Details;
+export default enhance(SnapshotDetailSidebar);

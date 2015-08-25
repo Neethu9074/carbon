@@ -19,8 +19,8 @@ const NodeStickyNoteRC = React.createClass({
   ],
 
   propTypes: {
-    snapshot: rpt.object.isRequired,
     sceneObject: rpt.object.isRequired,
+    snapshot: rpt.object.isRequired,
     showMetric: rpt.bool,
     tags: rpt.object
   },

@@ -23,6 +23,8 @@ pluginName.setHumanReadablePluginName(
 addIconFinder(
   constants.plugins.os,
   snapshot => {
+    if (!snapshot) return linuxIconPath;
+
     const os = snapshot.getIn(['data', 'os.name']);
     if (os.match(/linux/i)) {
       return linuxIconPath;

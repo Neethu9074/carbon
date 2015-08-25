@@ -12,7 +12,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 
 const rpt = React.PropTypes;
 
-const chartHeight = 300;
+const chartHeight = 200;
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
 

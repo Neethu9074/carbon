@@ -148,8 +148,8 @@ export default class SceneObject {
     return this.parent.getAllMapNodes();
   }
 
-  findNodeBySnapshot(snapshot) {
-    return this.parent.findNodeBySnapshot(snapshot);
+  findNodeById(id) {
+    return this.parent.findNodeById(id);
   }
 
   getHtmlContainer() {

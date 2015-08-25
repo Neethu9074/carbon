@@ -30,14 +30,13 @@ const emptyStickyObject = {
 
 export default class BaseNode extends SceneObject {
 
-  constructor({parent, snapshot}) {
-    super({parent, id: snapshot.get('id')});
+  constructor({parent, id}) {
+    super({parent, id});
 
-    this.snapshot = snapshot;
     this.scene = this.scene;
     this.height = 1;
 
-    this.tooltip = this.getTooltipSticky();
+    this.tooltip = this.getTooltip();
     this.stickyNote = emptyStickyObject;
 
     this.registerEvents();
@@ -129,11 +128,6 @@ export default class BaseNode extends SceneObject {
     this.highlight(false);
   }
 
-  onSelectedHighlightInactiveEnter() {}
-  onSelectedHighlightInactiveLeave() {}
-  onHighlightInactiveEnter() {}
-  onHighlightInactiveLeave() {}
-
 
   highlight(solid = true) {
     const value = solid ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
@@ -217,6 +211,8 @@ export default class BaseNode extends SceneObject {
   }
 
   onActiveMetric(metric) {
+    this.currentMetric = metric;
+
     const value = metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
     this.stateMachine.changeStateProperty('active', value);
   }
@@ -232,7 +228,7 @@ export default class BaseNode extends SceneObject {
     this.updateScreenPosition();
   }
 
-  getTooltipSticky() {return emptyStickyObject; }
+  getTooltip() {return null; }
 
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 

@@ -12,7 +12,7 @@ import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
 
-const chartHeight = 300;
+const chartHeight = 200;
 
 const ElasticsearchDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],

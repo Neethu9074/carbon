@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isIdEqualShort as isIdEqual} from 'in-services/snapshots';
+import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -31,41 +31,16 @@ import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider
 
 export default class Node extends BaseNode {
 
-  constructor({parent, snapshot}) {
-    super({parent, snapshot});
+  constructor({parent, coordinates, id, layer}) {
+    super({parent, id});
 
-    const id = this.id + '_ground';
-    const components = this.components;
-    components.metric = new MetricComponent({sceneObject: this});
-    components.ground = new MeshComponent({
-      id,
-      sceneObject: this,
-      factory: this.scene.groundSingleMeshFactory,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new PCP()
-          })
-        })
-      })
-    });
-    components.groundLine = new LineMeshComponent({
-      id,
-      sceneObject: this,
-      factory: this.scene.baselineFactory,
-      contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: new FCP()
-        })
-      })
-    });
-    components.health = new HealthComponent({sceneObject: this});
-    components.layer = new LayerComponent({sceneObject: this});
-    components.ground.sizeChanged(1.5, 1, 1.5);
-    components.groundLine.sizeChanged(1.5, 1, 1.5);
-
-    this.stickyNote = new StickyNoteNode(this);
     this.snapshotServer = new NodeSnapshotServer(this);
+
+    this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
+      this.onSnapshotUpdate(snapshot))
+    );
+
+    this.addLayer(layer);
   }
 
   onSelectedEnter() {
@@ -108,12 +83,48 @@ export default class Node extends BaseNode {
   }
 
 
+  initComponents() {
+    super.initComponents();
+
+    const postId = '_ground';
+    const components = this.components;
+    components.ground = new MeshComponent({
+      id: this.id + postId,
+      sceneObject: this,
+      factory: this.scene.groundSingleMeshFactory,
+      contentProvider: new CMCM({
+        contentProvider: new PCM({
+          contentProvider: new SCM({
+            contentProvider: new PCP()
+          })
+        })
+      })
+    });
+    components.groundLine = new LineMeshComponent({
+      id: this.id + postId,
+      sceneObject: this,
+      factory: this.scene.baselineFactory,
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: new FCP()
+        })
+      })
+    });
+    components.metric = new MetricComponent({sceneObject: this});
+    components.layer = new LayerComponent({sceneObject: this});
+    components.ground.sizeChanged(1.5, 1, 1.5);
+    components.groundLine.sizeChanged(1.5, 1, 1.5);
+  }
+
   registerEvents() {
     super.registerEvents();
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
-        const value = isIdEqual(highlighted, this.snapshot) ?
+        if (!highlighted) {
+          return;
+        }
+        const value = highlighted.get('id')  === this.id ?
           PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
         this.stateMachine.changeStateProperty('highlight', value);
       })
@@ -213,22 +224,36 @@ export default class Node extends BaseNode {
   }
 
   hideMetric() {
-    //disable sticky note
+    // disable sticky note
     this.stickyNote.hide();
 
-    //disable metrics if the node isn't visible
+    // disable metrics if the node isn't visible
     this.snapshotServer.pauseMetrics();
   }
 
   onSnapshotUpdate(snapshot) {
-    //if the reference is equal, don't update. the reference is always equal
-    //on the same snapshots because they are immutable
+    // if the reference is equal, don't update. the reference is always equal
+    // on the same snapshots because they are immutable
     if(this.snapshot === snapshot) {
       return;
     }
 
     this.snapshot = snapshot;
+
+    if(!this.components.health) {
+      this.components.health = new HealthComponent({sceneObject: this});
+    }
+
+    if(this.stickyNote.isEmpty) {
+      this.stickyNote = new StickyNoteNode(this);
+    }
+
+    if(!this.tooltip) {
+      this.tooltip = new TooltipNode(this);
+    }
+
     this.snapshotServer.onSnapshotUpdate();
+
   }
 
   getScreenAnchorPosition() {
@@ -279,6 +304,7 @@ export default class Node extends BaseNode {
   dispose() {
     // dispose the event server to prevent updates
     this.snapshotServer.dispose();
+
 
     //dispose other subscriptions
     super.dispose();

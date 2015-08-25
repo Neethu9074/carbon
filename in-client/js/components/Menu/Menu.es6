@@ -31,6 +31,11 @@ const Menu = React.createClass({
     });
   },
 
+  showMenu(event) {
+    this.setState({ open: false });
+    this.props.showMenu(event);
+  },
+
   renderMenu() {
     if(!this.state.open) {
       return null;
@@ -40,7 +45,7 @@ const Menu = React.createClass({
       <div className={block + '__panel'}>
 
         <div className={block + '__menu-entry'}
-             onClick={this.props.showMenu}>
+             onClick={this.showMenu}>
           Settings
         </div>
 

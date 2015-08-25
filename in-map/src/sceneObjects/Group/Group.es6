@@ -60,22 +60,19 @@ export default class Group extends SceneObject {
     }
   }
 
-  addNode(snapshot, unknown = false) {
-    const nodeId = snapshot.get('id');
+  addNode({coordinates, layer, unknown = false}) {
+    const nodeId = coordinates.get('id');
     let newNode;
 
     //if there is no nodeId it's an unknown node
     if(nodeId) {
       //check if the node was already created and only needs an update
-      const matchedNode = _.find(this.children, node => node.id === nodeId);
+      newNode = _.find(this.children, child => child.id === nodeId);
 
       //if the node was created in the past
-      if(matchedNode) {
-        matchedNode.onSnapshotUpdate(snapshot);
-        newNode = matchedNode;
-      } else {
-        newNode = unknown ? new UnknownNode({parent: this, snapshot}) :
-                            new Node({parent: this, snapshot});
+      if(!newNode) {
+        newNode = unknown ? new UnknownNode({parent: this, coordinates, id: nodeId}) :
+                         new Node({parent: this, coordinates, id: nodeId, layer});
         this.children.push(newNode);
       }
     }
@@ -84,7 +81,7 @@ export default class Group extends SceneObject {
 
   addUnknownNode(node) {
     if(this.id === 'unmonitored') {
-      this.addNode(node, true);
+      this.addNode({coordinates: node, unknown: true});
     } else {
       this.parent.addUnknownNode(node);
     }

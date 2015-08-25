@@ -1,26 +1,23 @@
 /*eslint-env mocha*/
 /*eslint-disable no-unused-vars, new-cap, max-len */
-
-
-
 import {expect} from 'chai';
 import Immutable from 'immutable';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
-import {create} from 'reactive-observables';
-
 import * as ro from 'reactive-observables';
+
+import {extractCoordinates, isIdEqual} from '../snapshots';
 
 
 describe('stores.abstractSelectableSnapshotStore', () => {
 
-  let SnapshotsConveyer;
+  let snapshotConveyer;
   let getWiredSnapshots;
   let wiredSnapshotsObservable;
   let store;
 
   beforeEach(() => {
-    SnapshotsConveyer = ro.create({
+    snapshotConveyer = ro.create({
       emitLatestOnSubscribe: true
     });
 
@@ -31,8 +28,9 @@ describe('stores.abstractSelectableSnapshotStore', () => {
     getWiredSnapshots.returns(wiredSnapshotsObservable);
 
     store = proxyquire('./abstractSelectableSnapshotStore', {
-      '../conveyer': {
-        create: () => SnapshotsConveyer
+      '../snapshots': {
+        getFullSnapshot: () => snapshotConveyer,
+        isIdEqual
       },
       'in-sdk/snapshot': {
         getWiredSnapshots
@@ -48,7 +46,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
 
       const selectedSnapshot = snapshot(1);
       store.select(selectedSnapshot);
-      SnapshotsConveyer.emit(Immutable.List([selectedSnapshot]));
+      snapshotConveyer.emit(selectedSnapshot);
       store.wiredSnapshots.subscribe(onNext);
 
       expect(getWiredSnapshots.callCount).to.equal(1);
@@ -71,11 +69,12 @@ describe('stores.abstractSelectableSnapshotStore', () => {
       const s1 = snapshot(1);
       const s2 = snapshot(2);
       store.select(s1);
-      SnapshotsConveyer.emit(Immutable.List([s1, s2]));
+      snapshotConveyer.emit(s1);
       const onNext = sinon.stub();
       store.wiredSnapshots.subscribe(onNext);
 
       store.select(s2);
+      snapshotConveyer.emit(s2);
       expect(getWiredSnapshots.callCount).to.equal(2);
       expect(getWiredSnapshots.getCall(0).args[0]).to.equal(s1);
       expect(getWiredSnapshots.getCall(1).args[0]).to.equal(s2);
@@ -96,7 +95,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
 
       const onNext = sinon.stub();
       store.select(snap);
-      SnapshotsConveyer.emit(Immutable.List([snapshot(2), snap]));
+      snapshotConveyer.emit(snap);
       store.wiredSnapshots.subscribe(onNext);
       expect(onNext.callCount).to.equal(2);
 
@@ -126,7 +125,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
 
       const snap = snapshot(1);
       store.select(snap);
-      SnapshotsConveyer.emit(Immutable.List([snap]));
+      snapshotConveyer.emit(snap);
 
       const onNext = sinon.stub();
       store.wiredSnapshots.subscribe(onNext);
@@ -138,7 +137,7 @@ describe('stores.abstractSelectableSnapshotStore', () => {
   });
 
   function snapshot(id) {
-    return Immutable.Map({
+    return extractCoordinates({
       steadyId: 's' + id,
       pluginId: 'p' + id,
       hostId: 'h' + id

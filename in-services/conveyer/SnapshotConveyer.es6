@@ -18,7 +18,7 @@ export default class SnapshotConveyer {
   start(onNext) {
     this.snapshotsSubscription = create(SnapshotsConveyer, {pluginId: this.pluginId})
       .subscribe(snapshots => {
-        const snapshot = snapshots.find(predicate, null, undefined);
+        const snapshot = snapshots.find(this.predicate, null, undefined);
         if (snapshot !== undefined) {
           onNext(snapshot);
         }
