@@ -1,7 +1,13 @@
+import THREE from 'three';
+
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import SCCP from '../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
+import {cubeGeometry, defaultGeometryMaterial} from '../../SceneObjects/geometries';
+import CollisionComponent from '../../components/CollisionObjectComponent';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import TooltipMetric from '../../SceneObjects/Tooltips/Metric';
+import {currentTooltip} from '../../stores/mapStore';
 import Component from '../Component';
 
 const thicknessOfCubes = 0.9;
@@ -13,9 +19,11 @@ export default class MetricComponent extends Component {
 
     const scene = sceneObject.scene;
 
-    this.numSlices = 1;
     this.id = sceneObject.id + '_metricPillarTemp';
     this.factory = scene.singleMeshMetricFactory;
+    this.scene = sceneObject.scene;
+    this.numSlices = 1;
+    this.tooltip = new TooltipMetric(sceneObject);
 
     this.contentProvider = new PCM({
       contentProvider: new SCM({
@@ -34,6 +42,13 @@ export default class MetricComponent extends Component {
     this.positionToSet = {x: -1000, y: 0, z: 0};
     this.updateContentProvider();
 
+    this.collisionComponent = new CollisionComponent({
+      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
+      sceneObject: this,
+      layer: 3
+    });
+    this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+
     this.initialized();
   }
 
@@ -43,12 +58,23 @@ export default class MetricComponent extends Component {
 
   onInitialEnter() {
     this.addToFactory();
+
+    this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onInactiveEnter() {
     this.removeFromFactory();
+
+    this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
+  addCollisionObject(obj, layer) {
+    this.sceneObject.addCollisionObject(obj, layer);
+  }
+
+  onHighlight() {
+    currentTooltip.emit(this.tooltip);
+  }
 
   setValues(values) {
     if(values.length !== this.numSlices) {
@@ -65,9 +91,16 @@ export default class MetricComponent extends Component {
 
     // set values to to factory fragment and refresh arrays
     this.factoryFragment.values = values;
+
+    this.collisionComponent.sizeChanged(
+      thicknessOfCubes,
+      values.reduce((a, b) => a + b, 0),
+      thicknessOfCubes);
   }
 
   positionChanged(x, y, z) {
+    this.collisionComponent.positionChanged(x, y, z);
+
     this.changeXyzOf(this.positionToSet, x, y, z);
     this.needsUpdate = true;
   }
