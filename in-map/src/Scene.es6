@@ -188,7 +188,6 @@ export default class Scene {
       this.layerHighlightingSingleMeshFactory.rebuild();
       this.highlightingSingleMeshFactory.rebuild();
       this.groundSingleMeshFactory.rebuild();
-      this.singleMeshMetricFactory.rebuild();
       this.layerSingleMeshFactory.rebuild();
       this.singleMeshFactory.rebuild();
       this.baselineFactory.rebuild();
@@ -352,7 +351,7 @@ export default class Scene {
 
   updateMetricHeights() {
     if(currentMetrics) {
-      eventBus.emit('upateMetricHeights');
+      this.singleMeshMetricFactory.rebuild();
       this.singleMeshMetricFactory.updateHeights();
     }
   }
