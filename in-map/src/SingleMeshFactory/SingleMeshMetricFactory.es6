@@ -225,13 +225,18 @@ export default class SingleMeshMetricFactory {
 
     // 0, 1, 2, 1, 5 -> 0, 1, 3, 4, 9
     values.forEach((value, index) => {
+      if (!value) {
+        values[index] = 0.01;
+      }
       summedA[index] = sum;
       sum += values[index];
     });
 
     fragment.contentProvider.contentProvider.getSliceIndices()
-      .forEach((sliceIndex, index) =>
-        fragment.newHeights[index] = summedA[sliceIndex] + values[sliceIndex]); // new height
+      .forEach((sliceIndex, index) => {
+        fragment.newHeights[index] = summedA[sliceIndex] + values[sliceIndex];
+      }
+    );
   }
 
   dispose() {
