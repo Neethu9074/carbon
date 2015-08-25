@@ -45,7 +45,10 @@ export function getWiring(snapshot) {
   const idString = getIdString(snapshot);
 
   return completeWiring.map(wiringGraph => {
-      const outgoingConnections = wiringGraph.edges.filter(edge => edge.destination === idString)
+      const outgoingConnections = wiringGraph.edges.filter(edge => {
+          return edge.destination === idString &&
+            edge.relation === forgeConsts.rels.runsOn;
+        })
         .map(edge => wiringGraph.nodes[edge.source]);
       return Immutable.List(outgoingConnections);
     });
