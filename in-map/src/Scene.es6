@@ -31,15 +31,14 @@ let currentMetrics;
 
 export default class Scene {
 
-  constructor({parent, pluginIds, onPlusClicked, antialias}) {
+  constructor({parent, onPlusClicked, antialias}) {
     stores.currentScene.emit(this); // set this scene to store
 
+    this.onPlusClicked = onPlusClicked;
     this.height = window.innerHeight;
     this.width = window.innerWidth;
     this.antialias = antialias;
     this.parent = parent;
-    this.pluginIds = pluginIds;
-    this.onPlusClicked = onPlusClicked;
 
     if(__DEV__) {
       this.framesRendered = 0;
@@ -76,7 +75,6 @@ export default class Scene {
     this.backgroundScene.add(this.backgroundPlane);
 
     this.map = new PhysicalMap({
-      pluginIds: this.pluginIds,
       parent: this
     });
 
@@ -175,8 +173,6 @@ export default class Scene {
     this.layerSingleMeshFactory.material.opacity = 0.9;
 
     this.lineFactory = new SingleMeshLineFactory({scene});
-    this.lineFactory.material.transparent = true;
-    this.lineFactory.material.opacity = 0.7;
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;

@@ -2,11 +2,13 @@
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 import {State, Navigation} from 'react-router';
+import {createLogger} from 'instalog';
 
 import http from 'in-services/http';
 
 import './EnvironmentPane.less';
 
+const logger = createLogger('in-client.EnvironmentPane');
 const block = 'in-dashboard';
 
 const EnvironmentPane = React.createClass({

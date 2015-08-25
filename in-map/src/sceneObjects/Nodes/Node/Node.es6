@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isIdEqualShort as isIdEqual} from 'in-services/snapshots';
+import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -32,39 +32,14 @@ import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider
 
 export default class Node extends BaseNode {
 
-  constructor({parent, snapshot}) {
-    super({parent, snapshot});
+  constructor({parent, coordinates, id, layer}) {
+    super({parent, id});
 
-    const id = this.id + '_ground';
-    const components = this.components;
-    components.ground = new MeshComponent({
-      id,
-      sceneObject: this,
-      factory: this.scene.groundSingleMeshFactory,
-      contentProvider: new CMCM({
-        contentProvider: new PCM({
-          contentProvider: new SCM({
-            contentProvider: new PCP()
-          })
-        })
-      })
-    });
-    components.groundLine = new LineMeshComponent({
-      id,
-      sceneObject: this,
-      factory: this.scene.baselineFactory,
-      contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: new FCP()
-        })
-      })
-    });
-    components.health = new HealthComponent({sceneObject: this});
-    components.layer = new LayerComponent({sceneObject: this});
-    components.ground.sizeChanged(1.5, 1, 1.5);
-    components.groundLine.sizeChanged(1.5, 1, 1.5);
+    this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
+      this.onSnapshotUpdate(snapshot))
+    );
 
-    this.stickyNote = new StickyNoteNode(this);
+    this.addLayer(layer);
   }
 
   onSelectedEnter() {
@@ -107,6 +82,38 @@ export default class Node extends BaseNode {
   }
 
 
+  initComponents() {
+    super.initComponents();
+
+    const postId = '_ground';
+    const components = this.components;
+    components.ground = new MeshComponent({
+      id: this.id + postId,
+      sceneObject: this,
+      factory: this.scene.groundSingleMeshFactory,
+      contentProvider: new CMCM({
+        contentProvider: new PCM({
+          contentProvider: new SCM({
+            contentProvider: new PCP()
+          })
+        })
+      })
+    });
+    components.groundLine = new LineMeshComponent({
+      id: this.id + postId,
+      sceneObject: this,
+      factory: this.scene.baselineFactory,
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: new FCP()
+        })
+      })
+    });
+    components.layer = new LayerComponent({sceneObject: this});
+    components.ground.sizeChanged(1.5, 1, 1.5);
+    components.groundLine.sizeChanged(1.5, 1, 1.5);
+  }
+
   registerEvents() {
     super.registerEvents();
 
@@ -117,7 +124,10 @@ export default class Node extends BaseNode {
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
-        const value = isIdEqual(highlighted, this.snapshot) ?
+        if (!highlighted) {
+          return;
+        }
+        const value = highlighted.get('id')  === this.id ?
           PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
         this.stateMachine.changeStateProperty('highlight', value);
       })
@@ -151,14 +161,6 @@ export default class Node extends BaseNode {
     }
   }
 
-  getTooltipSticky() {
-    return this.getNodeTooltip();
-  }
-
-  getNodeTooltip() {
-    return new TooltipNode(this);
-  }
-
   showMetrics(currentMetric) {
     this.stickyNote.switchToMetric();
 
@@ -169,20 +171,6 @@ export default class Node extends BaseNode {
       this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
       this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     }
-
-    // const position = this.getPosition();
-    // const size = {x: 0.9, y: 0.9, z: 0.9};
-    // const frag = {
-    //   id: this.id,
-    //   contentProvider: new PCM({
-    //     contentProvider: new SCM({
-    //       contentProvider: new SCCP({numSlices: Math.ceil(Math.random() * 5)}),
-    //       x: size.x, y: size.y, z: size.z
-    //     }),
-    //     x: position.x - size.x / 2, y: position.y, z: position.z + size.z / 2
-    //   })
-    // };
-    // this.scene.singleMeshMetricFactory.addFragment(frag);
   }
 
   hideMetrics() {
@@ -190,8 +178,6 @@ export default class Node extends BaseNode {
 
     this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-
-    this.tooltip = this.getNodeTooltip();
   }
 
   setMetricValues(values) {
@@ -243,21 +229,34 @@ export default class Node extends BaseNode {
   }
 
   hideMetric() {
-    //disable sticky note
+    // disable sticky note
     this.stickyNote.hide();
 
-    //disable metrics if the node isn't visible
+    // disable metrics if the node isn't visible
     this.snapshotServer.pauseMetrics();
   }
 
   onSnapshotUpdate(snapshot) {
-    //if the reference is equal, don't update. the reference is always equal
-    //on the same snapshots because they are immutable
+    // if the reference is equal, don't update. the reference is always equal
+    // on the same snapshots because they are immutable
     if(this.snapshot === snapshot) {
       return;
     }
 
     this.snapshot = snapshot;
+
+    if(!this.components.health) {
+      this.components.health = new HealthComponent({sceneObject: this});
+    }
+
+    if(this.stickyNote.isEmpty) {
+      this.stickyNote = new StickyNoteNode(this);
+    }
+
+    if(!this.tooltip) {
+      this.tooltip = new TooltipNode(this);
+    }
+
     this.snapshotServer.onSnapshotUpdate();
   }
 

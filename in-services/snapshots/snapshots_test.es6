@@ -7,32 +7,31 @@ import {create} from 'reactive-observables';
 
 import {
   getIdString,
-  extractId,
+  extractCoordinates,
   isIdEqual,
   extractConnections,
-  calculateIpMap,
-  only} from './snapshots';
+  calculateIpMap} from './snapshots';
 
 describe('util.snapshots', () => {
 
-  describe('extractId', () => {
-    it('should extract IDs', () => {
-      const id = extractId(newSnapshot(1));
+  describe('extractCoordinates', () => {
+    it('should extract Coordinates', () => {
+      const id = extractCoordinates(newSnapshot(1));
       expect(id.get('pluginId')).to.equal('p1');
       expect(id.get('steadyId')).to.equal('s1');
       expect(id.get('hostId')).to.equal('h1');
     });
 
     it('should expose an equal function on snapshot ids', () => {
-      const id1 = extractId(newSnapshot(1));
+      const id1 = extractCoordinates(newSnapshot(1));
       expect(id1.equal).to.be.a('function');
 
-      expect(Immutable.is(id1, extractId(newSnapshot(1)))).to.equal(true);
-      expect(Immutable.is(id1, extractId(newSnapshot(2)))).to.equal(false);
+      expect(Immutable.is(id1, extractCoordinates(newSnapshot(1)))).to.equal(true);
+      expect(Immutable.is(id1, extractCoordinates(newSnapshot(2)))).to.equal(false);
     });
 
-    it('should extract IDs from standard JS objects', () => {
-      const id = extractId({
+    it('should extract coordinates from standard JS objects', () => {
+      const id = extractCoordinates({
         pluginId: 'p2',
         hostId: 'h2',
         steadyId: 's2'
@@ -74,35 +73,6 @@ describe('util.snapshots', () => {
         pluginId: 'p42'
       };
       expect(getIdString(snapshot)).to.equal('p42#h42#s42');
-    });
-  });
-
-  describe('only', () => {
-    let observable;
-    let subscriber;
-
-    beforeEach(() => {
-      subscriber = sinon.stub();
-      observable = create();
-      only(observable, newSnapshot(2)).subscribe(subscriber);
-    });
-
-    it('should restrict to the desired snapshots', () => {
-      expect(subscriber.callCount).to.equal(0);
-
-      observable.emit(Immutable.List([newSnapshot(1)]));
-      expect(subscriber.callCount).to.equal(0);
-
-      observable.emit(Immutable.List([newSnapshot(1), newSnapshot(2)]));
-      expect(subscriber.callCount).to.equal(1);
-      expect(subscriber.getCall(0).args[0].get('hostId')).to.equal('h2');
-    });
-
-    it('should not emit when the snapshots is missing', () => {
-      observable.emit(Immutable.List([newSnapshot(1)]));
-      observable.emit(Immutable.List([newSnapshot(2)]));
-      observable.emit(Immutable.List());
-      expect(subscriber.callCount).to.equal(1);
     });
   });
 

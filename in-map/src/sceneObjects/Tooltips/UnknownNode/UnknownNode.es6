@@ -7,7 +7,6 @@ import Content from 'in-components/Tooltips/Content';
 import Tooltip from '../Tooltip';
 
 
-/*eslint-disable no-unused-vars*/
 const UnknownNode = React.createClass({
 
   mixins: [
@@ -31,7 +30,7 @@ const UnknownNode = React.createClass({
     );
   }
 });
-/*eslint-enable no-unused-vars*/
+
 
 export default class TooltipNode extends Tooltip {
   constructor(parent) {

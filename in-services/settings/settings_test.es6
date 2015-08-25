@@ -1,4 +1,4 @@
-/*eslint-env mocha*/
+/*eslint-env mocha,node*/
 import {expect} from 'chai';
 
 import {setIn, settingsStore} from './settings.es6';

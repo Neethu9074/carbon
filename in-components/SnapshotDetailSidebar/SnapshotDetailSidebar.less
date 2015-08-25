@@ -1,6 +1,18 @@
-.in-sidebar-details {
+@import "~in-themes/less/constants.less";
 
-  margin: 20px 0;
+.in-snapshot-detail-sidebar {
+  position: fixed;
+  top: 1rem;
+  left: 0.8rem;
+
+  width: 19rem;
+  max-height: ~"calc(100% - 7rem)";
+  padding: 1rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  background: @sidebar__background;
+  z-index: @z-index__sidebar;
 
   &__navigation {
     display: flex;

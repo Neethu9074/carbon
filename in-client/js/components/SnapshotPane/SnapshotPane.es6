@@ -3,11 +3,13 @@ import React from 'react';
 import {State, Navigation} from 'react-router';
 import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
+import {createLogger} from 'instalog';
 
 import http from 'in-services/http';
 
 import './SnapshotPane.less';
 
+const logger = createLogger('in-client.SnapshotPane');
 const block = 'in-dashboard';
 
 const SnapshotsPaneContent = React.createClass({

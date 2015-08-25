@@ -35,22 +35,20 @@ export default class XhrTimeWindowBasedMetricConveyer {
   }
 
   start(onNext) {
-    http({method: 'GET', url: '/internal/api/' +
-                              this.subscribeEvent.env + '/' +
-                              this.subscribeEvent.tenant + '/' +
-                              this.subscribeEvent.unit + '/' +
-                              this.subscribeEvent.hostId + '/' +
-                              this.subscribeEvent.pluginId + '/' +
-                              this.subscribeEvent.steadyId + '/' +
-                              this.subscribeEvent.metric + '/' +
-                              this.subscribeEvent.timeframe})
-                                  .then(response => {
-                                    onNext(response.body);
-                                  });
+    const path = [
+      this.subscribeEvent.env + '/' +
+      this.subscribeEvent.tenant + '/' +
+      this.subscribeEvent.unit + '/' +
+      this.subscribeEvent.hostId + '/' +
+      this.subscribeEvent.pluginId + '/' +
+      this.subscribeEvent.steadyId + '/' +
+      this.subscribeEvent.metric + '/' +
+      this.subscribeEvent.timeframe
+    ].map(encodeURIComponent).join('/');
+    http({method: 'GET', url: '/internal/api/' + path})
+      .then(response => {
+        onNext(response.body);
+      });
   }
 
-  stop() {
-    this.subscription.dispose();
-    connection.unsubscribe(this.id);
-  }
 }

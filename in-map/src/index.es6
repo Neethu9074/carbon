@@ -22,7 +22,6 @@ const MapRC = React.createClass({
   ],
 
   propTypes: {
-    pluginIds: React.PropTypes.any.isRequired,
     showHelp: React.PropTypes.func.isRequired,
     antialias: React.PropTypes.bool.isRequired
   },
@@ -56,11 +55,11 @@ const MapRC = React.createClass({
       return;
     }
 
-    this.loadScene(this.props.pluginIds);
+    this.loadScene();
 
-    this.addSubscription(eventBus.on('openDashboard').subscribe((snapshot) => {
-      this.openDashboard(snapshot);
-    }));
+    this.addSubscription(eventBus.on('openDashboard').subscribe(snapshot =>
+      this.openDashboard(snapshot)
+    ));
   },
 
   componentWillUnmount() {
@@ -68,7 +67,8 @@ const MapRC = React.createClass({
   },
 
   componentDidUpdate() {
-    this.loadScene(this.props.pluginIds);
+
+    this.loadScene();
   },
 
   render() {
@@ -81,7 +81,7 @@ const MapRC = React.createClass({
     return null;
   },
 
-  loadScene(pluginIds) {
+  loadScene() {
     if(this.scene) {
       this.scene.dispose();
     }
@@ -89,7 +89,6 @@ const MapRC = React.createClass({
     const parent = React.findDOMNode(this.refs.parent);
     this.scene = new Scene({
       parent,
-      pluginIds,
       antialias: this.props.antialias,
       onPlusClicked: this.onPlusClicked
     });
