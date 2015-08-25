@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 import {combineLatest} from 'reactive-observables';
@@ -5,13 +6,14 @@ import {combineLatest} from 'reactive-observables';
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
 import * as viewStore from 'in-services/stores/view';
-import {getFullSnapshot} from 'in-services/snapshots';
 
+import enhance from '../hoc/enhance';
 import Collapsible from '../Collapsible';
 import SnapshotList from './SnapshotList';
 
 import './ZoneList.less';
 
+const rpt = React.PropTypes;
 const block = 'in-sidebar-zone-list';
 
 const ZoneList = React.createClass({
@@ -20,46 +22,77 @@ const ZoneList = React.createClass({
   propTypes: {
     snapshots: irpt.list.isRequired,
     highlightedSnapshot: irpt.map,
-    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired
+    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired,
+
+    viewStructure: rpt.array,
+    groupIds: rpt.array,
+    groups: rpt.array,
+    zones: rpt.array
   },
 
   statics: {
     createObservables() {
       const groups = viewStore.viewStructure.map(structure => {
           return structure.map(s => s.group).filter(s => !!s);
-        })
-        .transform({
+        });
+
+      const groupIds = groups.map(groupCoordinates => {
+        return groupCoordinates.map(g => g.get('id'));
+      });
+
+      const zones = groups.transform({
           emitLatestOnSubscribe: true,
 
           transform(groupCoordinates) {
-            return combineLatest(groupCoordinates.map(getFullSnapshot));
+            return combineLatest(groupCoordinates.map(getZone));
           }
-        })
-        .map(groupSnapshots => {
-          const groupingResult = {};
-          groupSnapshots.forEach(s => groupingResult[s.get('id')] = s);
-          return groupingResult;
         });
-
-      const zones = groups.map(grouping => {
-        const zonesResult = {};
-
-        Object.keys(grouping).forEach(snapshotId => {
-          zonesResult[snapshotId] = getZone(grouping[snapshotId]);
-        });
-
-        return zonesResult;
-      });
 
       return {
         viewStructure: viewStore.viewStructure,
-        groupIdToGroupMapping: groups,
-        groupIdToZoneMapping: zones
+        groupIds,
+        groups,
+        zones
       };
     }
   },
 
   render() {
+    console.log('Groups', this.props.groups);
+    console.log('Group IDs', this.props.groupIds);
+    console.log('Zones', this.props.zones);
+
+    const groupIdToZoneMapping = {};
+    this.props.groupIds.forEach((groupId, i) => {
+      groupIdToZoneMapping[groupId] = this.props.zones[i];
+    });
+
+    const zoneToSnapshotMapping = {};
+    this.props.viewStructure.forEach(nodeStructure => {
+      let zone;
+      if (nodeStructure.group) {
+        const groupId = nodeStructure.group.get('id');
+        zone = groupIdToZoneMapping[groupId];
+      } else {
+        zone = 'undefined';
+      }
+
+      if (zone in zoneToSnapshotMapping) {
+        zoneToSnapshotMapping[zone].push(nodeStructure);
+      } else {
+        zoneToSnapshotMapping[zone] = [nodeStructure];
+      }
+    });
+
+    let zones = this.props.zones.slice();
+    if ('undefined' in zoneToSnapshotMapping) {
+      zones.push('undefined');
+    }
+    zones = _.uniq(zones.sort(), true);
+    console.log(zoneToSnapshotMapping);
+
+    console.log(zones);
+
     const snapshots = {};
     this.props.snapshots.forEach(function(snapshot) {
       const zone = getZone(snapshot);
@@ -69,7 +102,7 @@ const ZoneList = React.createClass({
         snapshots[zone] = [snapshot];
       }
     });
-    const zones = Object.keys(snapshots).sort();
+    // const zones = this.props.zones.sort();
 
     return (
       <div className={block}>
@@ -98,4 +131,4 @@ const ZoneList = React.createClass({
   }
 });
 
-export default ZoneList;
+export default enhance(ZoneList);
