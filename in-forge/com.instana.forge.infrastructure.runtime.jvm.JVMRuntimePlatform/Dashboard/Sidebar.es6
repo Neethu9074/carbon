@@ -27,16 +27,19 @@ const Sidebar = React.createClass({
             <JVMInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>X Args</Collapsible.Header>
-          <Collapsible.Content>
-            <List>
-              {xargs.map((arg, i) =>
-                <List.Item key={i}>{arg}</List.Item>
-              ).toArray()}
-            </List>
-          </Collapsible.Content>
-        </Collapsible>
+
+        {xargs ?
+          <Collapsible initiallyOpen={true}>
+            <Collapsible.Header>X Args</Collapsible.Header>
+            <Collapsible.Content>
+              <List>
+                {xargs.map((arg, i) =>
+                  <List.Item key={i}>{arg}</List.Item>
+                ).toArray()}
+              </List>
+            </Collapsible.Content>
+          </Collapsible>
+        : null}
         <ProblemPanel snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
