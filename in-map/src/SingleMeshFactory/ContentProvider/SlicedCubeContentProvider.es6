@@ -29,11 +29,11 @@ function fillIn(colors, converter, hex) {
 
 export default class SlicedCubeContentProvider extends ContentProvider {
 
-  constructor({numSlices = 1, faceColors = defaultColors}) {
+  constructor({numSlices = 1}) {
     super();
 
     this.numSlices = numSlices;
-    this.faceColors = faceColors;
+    this.faceColors = numSlices === 1 ? defaultColors.slice().reverse() : defaultColors;
 
     this.calculateSliceIndices();
     this.calculatePositions();
@@ -42,9 +42,10 @@ export default class SlicedCubeContentProvider extends ContentProvider {
 
   calculateColors() {
     const faceColors = this.faceColors;
-    let offset = 0;
     let indexInColors = 0;
     const colors = [];
+    let offset = 0;
+
     for (let iSlice = 0; iSlice < this.numSlices; iSlice++) {
       const colorArray = faceColors[indexInColors++];
       if (indexInColors >= faceColors.length) {
