@@ -4,6 +4,7 @@ import _ from 'lodash';
 import {viewStructure} from 'in-services/stores/view';
 import {filters} from 'in-services/stores/mapFilters';
 import eventBus from 'in-services/eventbus';
+import {getFullSnapshot} from 'in-services/snapshots';
 import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
@@ -148,7 +149,11 @@ export default class PhysicalMap extends SceneObject {
     if (!triple.group) {
       this.addNodeToGroup(triple, 'undefined');
     } else {
-      getZone(triple.group).once(groupId => this.addNodeToGroup(triple, groupId));
+      getFullSnapshot(triple.group)
+        .once(groupSnapshot => {
+          const groupId = getZone(groupSnapshot);
+          this.addNodeToGroup(triple, groupId);
+        });
     }
   }
 

@@ -1,7 +1,5 @@
-import _ from 'lodash';
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
-import {combineLatest} from 'reactive-observables';
 
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
@@ -20,100 +18,61 @@ const ZoneList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshots: irpt.list.isRequired,
     highlightedSnapshot: irpt.map,
     snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired,
 
-    viewStructure: rpt.array,
-    groupIds: rpt.array,
-    groups: rpt.array,
-    zones: rpt.array
+    groups: rpt.object
   },
 
   statics: {
     createObservables() {
-      const groups = viewStore.viewStructure.map(structure => {
-          return structure.map(s => s.group).filter(s => !!s);
-        });
+      const groups = viewStore.viewStructure.map(viewStructure => {
+        const grouppedNodes = {};
 
-      const groupIds = groups.map(groupCoordinates => {
-        return groupCoordinates.map(g => g.get('id'));
-      });
+        viewStructure.forEach(nodeStructure => {
+          let zone;
+          if (nodeStructure.group) {
+            zone = getZone(nodeStructure.group);
+          } else {
+            zone = 'undefined';
+          }
 
-      const zones = groups.transform({
-          emitLatestOnSubscribe: true,
-
-          transform(groupCoordinates) {
-            return combineLatest(groupCoordinates.map(getZone));
+          if (zone in grouppedNodes) {
+            grouppedNodes[zone].push(nodeStructure);
+          } else {
+            grouppedNodes[zone] = [nodeStructure];
           }
         });
 
+        return grouppedNodes;
+      });
+
       return {
         viewStructure: viewStore.viewStructure,
-        groupIds,
-        groups,
-        zones
+        groups
       };
     }
   },
 
   render() {
-    const groupIdToZoneMapping = {};
-    this.props.groupIds.forEach((groupId, i) => {
-      groupIdToZoneMapping[groupId] = this.props.zones[i];
-    });
-
-    const zoneToSnapshotMapping = {};
-    this.props.viewStructure.forEach(nodeStructure => {
-      let zone;
-      if (nodeStructure.group) {
-        const groupId = nodeStructure.group.get('id');
-        zone = groupIdToZoneMapping[groupId];
-      } else {
-        zone = 'undefined';
-      }
-
-      if (zone in zoneToSnapshotMapping) {
-        zoneToSnapshotMapping[zone].push(nodeStructure);
-      } else {
-        zoneToSnapshotMapping[zone] = [nodeStructure];
-      }
-    });
-
-    let zones = this.props.zones.slice();
-    if ('undefined' in zoneToSnapshotMapping) {
-      zones.push('undefined');
-    }
-    zones = _.uniq(zones.sort(), true);
-
-    const snapshots = {};
-    this.props.snapshots.forEach(function(snapshot) {
-      const zone = getZone(snapshot);
-      if (zone in snapshots) {
-        snapshots[zone].push(snapshot);
-      } else {
-        snapshots[zone] = [snapshot];
-      }
-    });
-    // const zones = this.props.zones.sort();
-
+    const groups = Object.keys(this.props.groups).sort();
     return (
       <div className={block}>
         <h1 className={block + '__label'}>Zones</h1>
-        {zones.map(zone =>
-          <Collapsible key={zone}>
-            <Collapsible.Header style={{color: getColor(zone)}}
+        {groups.map(group =>
+          <Collapsible key={group}>
+            <Collapsible.Header style={{color: getColor(group)}}
                                 className={block + '__zone'}>
               <span className={block + '__server-count'}
-                    style={{backgroundColor: getColor(zone)}}>
-                {snapshots[zone].length}
+                    style={{backgroundColor: getColor(group)}}>
+                {this.props.groups[group].length}
               </span>
 
-              {zone}
+              {group}
             </Collapsible.Header>
 
             <Collapsible.Content>
-              <SnapshotList snapshots={snapshots[zone]}
+              <SnapshotList snapshots={this.props.groups[group].map(n => n.node)}
                             snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
                             highlightedSnapshot={this.props.highlightedSnapshot}/>
             </Collapsible.Content>

@@ -84,9 +84,9 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
     });
 }
 
-export function getStructure(view) {
+export function getStructure(view, full = false) {
   if (view === views.physical.hosts) {
-    return fullPhysicalHostsViewWiring;
+    return full ? fullPhysicalHostsViewWiring : physicalHostsViewWiring;
   }
 
   throw new Error('Unsupported view type ' + view);
