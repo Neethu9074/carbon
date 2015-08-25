@@ -253,7 +253,7 @@ export default class Node extends BaseNode {
       this.stickyNote = new StickyNoteNode(this);
     }
 
-    if(!this.tooltip) {
+    if(this.tooltip.isEmpty) {
       this.tooltip = new TooltipNode(this);
     }
 
