@@ -57,9 +57,8 @@ export default class MetricComponent extends Component {
         .contentProvider // SCM
         .contentProvider // PCM
         .contentProvider = new SCCP({ numSlices: this.numSlices });
-      this.removeFromFactory();
-      this.factory.rebuild();
       this.addToFactory();
+      this.factory.rebuild();
     }
 
     values = values.map(x => x * this.sceneObject.height);

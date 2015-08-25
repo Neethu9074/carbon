@@ -1,5 +1,6 @@
-import THREE from 'three';
 import TWEEN from 'tween.js';
+import THREE from 'three';
+import _ from 'lodash';
 
 import eventBus from 'in-services/eventbus';
 
@@ -84,29 +85,32 @@ export default class SingleMeshMetricFactory {
     return material;
   }
 
-  getFragment(id) {
-    return _.find(this.fragments, fragment => fragment.id === id);
-  }
-
   addFragment({id, contentProvider}) {
     let fragment = this.getFragment(id);
+
     if(fragment) {
       this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
+
     } else {
       fragment = { id, contentProvider };
       this.fragments.push(fragment);
       this.queueFragment(fragment, 0, UPDATE_FLAGS.ADD);
     }
 
-    fragment.oldHeights =
+    fragment.sliceIndices =
       contentProvider // SCM
       .contentProvider // PCM
-      .contentProvider.getSliceIndices().map(() => 0);
+      .contentProvider.getSliceIndices();
+    fragment.oldHeights = fragment.sliceIndices.map(() => 0);
     fragment.newHeights = fragment.oldHeights.slice();
     fragment.vertices = contentProvider.getVertices();
     fragment.colors = contentProvider.getColors();
 
     return fragment;
+  }
+
+  getFragment(id) {
+    return _.find(this.fragments, fragment => fragment.id === id);
   }
 
   removeFragment(fragment) {
@@ -124,9 +128,6 @@ export default class SingleMeshMetricFactory {
     }
 
     keys.forEach(id => {
-      // update indices
-      this.fragments.forEach((frag, index) => { frag.index = index; });
-
       const item = this.fragmentQueue[id];
       if(item.mode === UPDATE_FLAGS.ADD) {
         this.updateGeometryByFragment(item.fragment, item.itemsToBeDeleted);
@@ -155,11 +156,17 @@ export default class SingleMeshMetricFactory {
 
   updateGeometryByFragment(fragment, numElements = 0) {
     const numElementsForHeights = numElements / 3;
+    const fragments = this.fragments;
 
     let indexInVertices = 0;
     let indexInHeights = 0;
-    for (let i = 0; i < fragment.index; i++) {
-      const frag = this.fragments[i];
+
+    for (let i = 0; i < fragments.length; i++) {
+      const frag = fragments[i];
+      if (frag.id === fragment.id) {
+        break;
+      }
+
       indexInVertices += frag.vertices.length;
       indexInHeights += frag.oldHeights.length;
     }
@@ -228,18 +235,14 @@ export default class SingleMeshMetricFactory {
 
     // 0, 1, 2, 1, 5 -> 0, 1, 3, 4, 9
     values.forEach((value, index) => {
-      if (!value) {
+      if (value === undefined) {
         values[index] = 0.01;
       }
       summedA[index] = sum;
       sum += values[index];
     });
 
-    fragment
-      .contentProvider // SCM
-      .contentProvider // PCM
-      .contentProvider // SCCP
-      .getSliceIndices()
+    fragment.sliceIndices
       .forEach((sliceIndex, index) => {
         fragment.newHeights[index] = summedA[sliceIndex] + values[sliceIndex];
       }

@@ -1,5 +1,4 @@
 /*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions */
 import {expect} from 'chai';
 
 import SMF from './SingleMeshFactory';
