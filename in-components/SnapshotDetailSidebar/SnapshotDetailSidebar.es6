@@ -1,5 +1,6 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import {Navigation} from 'react-router';
 
 import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
@@ -17,7 +18,7 @@ import './SnapshotDetailSidebar.less';
 const block = 'in-snapshot-detail-sidebar';
 
 const SnapshotDetailSidebar = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [React.addons.PureRenderMixin, Navigation],
 
   propTypes: {
     snapshot: irpt.map
