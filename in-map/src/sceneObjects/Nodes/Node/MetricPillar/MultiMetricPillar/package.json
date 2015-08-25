@@ -1,6 +1,0 @@
-{
-  "name": "MultiMetricPillar",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./MultiMetricPillar.es6"
-}

@@ -15,9 +15,7 @@ import MetricComponent from '../../../components/MetricComponent';
 import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
-import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
-import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
 import {longClickedSceneObject} from '../../../stores/mapStore';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
@@ -113,9 +111,6 @@ export default class Node extends BaseNode {
   registerEvents() {
     super.registerEvents();
 
-    this.singleMetricPillar = new SingleMetricPillar({parent: this});
-    this.multiMetricPillar = new MultiMetricPillar({parent: this});
-
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
         const value = isIdEqual(highlighted, this.snapshot) ?
@@ -160,26 +155,14 @@ export default class Node extends BaseNode {
     return new TooltipNode(this);
   }
 
-  showMetrics(currentMetric) {
+  showMetrics() {
     this.stickyNote.switchToMetric();
-
-    if(currentMetric.size === 1) {
-      this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-      this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    } else {
-      this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-      this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    }
 
     this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   hideMetrics() {
     this.stickyNote.switchToIcon();
-
-    this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-
     this.tooltip = this.getNodeTooltip();
 
     this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
@@ -191,12 +174,6 @@ export default class Node extends BaseNode {
     }
 
     this.getComponent('metric').setValues(values);
-
-    if(values.length === 1) {
-      this.singleMetricPillar.setMetricValue(values[0]);
-    } else {
-      this.multiMetricPillar.setMetricValue(values);
-    }
   }
 
   setWiredSnapshots(wiredSnapshots) {
@@ -262,8 +239,6 @@ export default class Node extends BaseNode {
   positionChanged(x, y, z) {
     super.positionChanged(x, y, z);
 
-    this.singleMetricPillar.getComponent('position').setPosition(x, y, z);
-    this.multiMetricPillar.getComponent('position').setPosition(x, y, z);
     this.getComponent('ground').positionChanged(x, y, z);
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
     this.getComponent('layer').positionChanged(x, y, z);
@@ -307,9 +282,6 @@ export default class Node extends BaseNode {
 
     //dispose other subscriptions
     super.dispose();
-
-    this.singleMetricPillar.dispose();
-    this.multiMetricPillar.dispose();
 
     this.wiredSnapshots = undefined;
   }
