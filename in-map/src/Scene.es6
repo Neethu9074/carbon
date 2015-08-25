@@ -236,6 +236,7 @@ export default class Scene {
         this.hideMetrics();
         this.showHulls();
       }
+      this.singleMeshMetricFactory.rebuild();
     }));
 
     this.subscriptions.push(

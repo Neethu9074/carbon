@@ -63,9 +63,9 @@ export default class MetricComponent extends Component {
   }
 
   onInactiveEnter() {
-    this.removeFromFactory();
-
     this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+
+    this.removeFromFactory();
   }
 
   addCollisionObject(obj, layer) {

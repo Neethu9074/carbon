@@ -8,6 +8,7 @@ import fragmentShader from './metricFragmentShader.glsl';
 import vertexShader from './metricVertexShader.glsl';
 
 
+// the flags mark in the fragmentsQueue weather a fragment should be added/updated or deleted
 const UPDATE_FLAGS = {
   ADD: 1,
   REMOVE: 0
@@ -24,8 +25,8 @@ export default class SingleMeshMetricFactory {
     // the global arrays containing the combined stream data
     this.colors = [];
     this.vertices = [];
-    this.oldHeights = [];
-    this.newHeights = [];
+    this.oldHeights = []; // storing the old heights so the graphics card knows the origin
+    this.newHeights = []; // storing the old heights so the graphics card knows where to animate to
 
     // stores all added fragments that needs an update on global geometry
     this.fragmentQueue = {};
@@ -50,12 +51,15 @@ export default class SingleMeshMetricFactory {
     this.updateGeometry();
     scene.addSceneObject(mesh);
 
+    // setup the tween animation for updating the progress
     this.setupAnimation();
   }
 
   setupAnimation() {
-    const from = {v: 0.0};
-    const to = {v: 1.0};
+    const from = {v: 0.0}; // 0%
+    const to = {v: 1.0}; // 100%
+
+    // updating from 0 to 1 in 500 ms
     const animation = new TWEEN.Tween(from).to(to, 500);
     animation.easing(TWEEN.Easing.Cubic.InOut);
     animation.onUpdate(v => this.progress.value = v);
@@ -67,11 +71,13 @@ export default class SingleMeshMetricFactory {
   }
 
   getMaterial() {
+    // the global used progress for all vertices in the vertex shader
     const progress = this.progress = { type: 'f', value: 0.0 };
 
+    // the old and new y positions for each vertex in the vertex shader
     const attributes = this.attributes = {
       oldHeight: { type: 'f', value: 0.0 },
-      newHeight: { type: 'f', value: 1.0 }
+      newHeight: { type: 'f', value: 0.0 }
     };
 
     const material = new THREE.ShaderMaterial({
@@ -86,9 +92,11 @@ export default class SingleMeshMetricFactory {
   }
 
   addFragment({id, contentProvider}) {
+    // the fragment is either a new one or an updated if it was found inside the fragments
     let fragment = this.getFragment(id);
 
     if(fragment) {
+      // update the old array data and replace with the new
       this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
 
     } else {
@@ -101,8 +109,11 @@ export default class SingleMeshMetricFactory {
       contentProvider // SCM
       .contentProvider // PCM
       .contentProvider.getSliceIndices();
+
+    // old and new heights are 0 for each vertex at the beginning
     fragment.oldHeights = fragment.sliceIndices.map(() => 0);
     fragment.newHeights = fragment.oldHeights.slice();
+
     fragment.vertices = contentProvider.getVertices();
     fragment.colors = contentProvider.getColors();
 
@@ -114,6 +125,7 @@ export default class SingleMeshMetricFactory {
   }
 
   removeFragment(fragment) {
+    // store the fragment in the queue with a REMOVE flag
     this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.REMOVE);
   }
 
@@ -122,6 +134,7 @@ export default class SingleMeshMetricFactory {
   }
 
   rebuild() {
+    // iterate over all items inside the queue, items = keys of object
     const keys = Object.keys(this.fragmentQueue);
     if(keys.length === 0) {
       return;
@@ -144,6 +157,7 @@ export default class SingleMeshMetricFactory {
   }
 
   removeFragmentFromGeometry(item) {
+    // clear all array data and remove the element from the global array
     const fragment = item.fragment;
     fragment.oldHeights = [];
     fragment.newHeights = [];
@@ -155,9 +169,12 @@ export default class SingleMeshMetricFactory {
   }
 
   updateGeometryByFragment(fragment, numElements = 0) {
+    // numElements are the number of vertices * 3 because each vertex has 3 components
+    // x, y and z but only one height informaion so 1 / 3
     const numElementsForHeights = numElements / 3;
     const fragments = this.fragments;
 
+    // since the arrays doesnt have the same size we need two cursor storing the index
     let indexInVertices = 0;
     let indexInHeights = 0;
 
@@ -170,6 +187,8 @@ export default class SingleMeshMetricFactory {
       indexInVertices += frag.vertices.length;
       indexInHeights += frag.oldHeights.length;
     }
+
+    // this is the most performant way to splice an array
 
     const headingForHeights = [indexInHeights, numElementsForHeights];
     const headingForVertices = [indexInVertices, numElements];
@@ -199,6 +218,7 @@ export default class SingleMeshMetricFactory {
   }
 
   updateHeights() {
+    // first stop the animation and do all array calculation stuff before restarting
     this.animation.stop();
 
     const geometry = this.geometry;
@@ -206,7 +226,7 @@ export default class SingleMeshMetricFactory {
     const allNew = [];
 
     this.fragments.forEach(fragment => {
-      // swap heights arrays new -> old
+      // swap heights arrays so new became old
       fragment.oldHeights = fragment.newHeights;
       this.setHeightsForFragment(fragment);
 
@@ -214,6 +234,8 @@ export default class SingleMeshMetricFactory {
       allNew.push(fragment.newHeights);
     });
 
+    // this is the most performant way to cancat n arrays
+    // http://jsperf.com/multi-array-concat/7
     this.oldHeights = [].concat.apply([], allOld);
     this.newHeights = [].concat.apply([], allNew);
 
@@ -229,11 +251,15 @@ export default class SingleMeshMetricFactory {
   setHeightsForFragment(fragment) {
     fragment.newHeights = [];
 
-    const values = [0].concat(fragment.values); // first element begins at 0
+    // first element begins at 0 but that values is not inside the values from metrics
+    // array send from websocket, so add it manually
+    const values = [0].concat(fragment.values);
+
+    // this array should contain all summed information to get a correct stacked cube
+    // 0, 1, 2, 1, 5 -> 0, 1, 3, 4, 9
     const summedA = [];
     let sum = 0;
 
-    // 0, 1, 2, 1, 5 -> 0, 1, 3, 4, 9
     values.forEach((value, index) => {
       if (value === undefined) {
         values[index] = 0.01;
