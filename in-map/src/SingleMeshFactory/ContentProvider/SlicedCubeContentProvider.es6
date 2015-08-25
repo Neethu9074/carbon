@@ -26,23 +26,23 @@ export default class SlicedCubeContentProvider extends ContentProvider {
     for (let iSlice = 0; iSlice < this.numSlices; iSlice++) {
       //front
       for (let i = 0; i < 18; i += 3) {
-        colors[i + offset] = faceColors[0];
-        colors[i + offset + 1] = faceColors[1];
-        colors[i + offset + 2] = faceColors[2];
+        colors[i + offset] = faceColors[0] - (iSlice * 0.1);
+        colors[i + offset + 1] = faceColors[1] - (iSlice * 0.1);
+        colors[i + offset + 2] = faceColors[2] - (iSlice * 0.1);
       }
 
       //top
       for (let i = 18; i < 36; i += 3) {
-        colors[i + offset] = faceColors[3];
-        colors[i + offset + 1] = faceColors[4];
-        colors[i + offset + 2] = faceColors[5];
+        colors[i + offset] = faceColors[3] - (iSlice * 0.1);
+        colors[i + offset + 1] = faceColors[4] - (iSlice * 0.1);
+        colors[i + offset + 2] = faceColors[5] - (iSlice * 0.1);
       }
 
       //left
       for (let i = 36; i < 54; i += 3) {
-        colors[i + offset] = faceColors[6];
-        colors[i + offset + 1] = faceColors[7];
-        colors[i + offset + 2] = faceColors[8];
+        colors[i + offset] = faceColors[6] - (iSlice * 0.1);
+        colors[i + offset + 1] = faceColors[7] - (iSlice * 0.1);
+        colors[i + offset + 2] = faceColors[8] - (iSlice * 0.1);
       }
       offset += 54;
     }

@@ -3,12 +3,16 @@ import SCCP from '../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvi
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Component from '../Component';
 
+let id = 0;
+
 export default class MetricComponent extends Component {
 
   constructor({sceneObject}) {
     super(sceneObject);
 
     const scene = sceneObject.scene;
+
+    this.uid = id++;
 
     this.numSlices = 1;
     this.id = sceneObject.id + '_metricPillarTemp';
@@ -20,8 +24,7 @@ export default class MetricComponent extends Component {
 
     this.fragment = {
       id: this.id,
-      contentProvider: this.contentProvider,
-      factoryData: {}
+      contentProvider: this.contentProvider
     };
 
     this.positionToSet = {x: -1000, y: 0, z: 0};
@@ -35,28 +38,25 @@ export default class MetricComponent extends Component {
   }
 
   onInitialEnter() {
-    this.factory.addFragment(this.fragment);
+    this.addToFactory();
   }
 
   onInactiveEnter() {
-    this.factory.removeFragment(this.id);
+    this.removeFromFactory();
   }
 
 
   setValues(values) {
     if(values.length !== this.numSlices) {
       this.numSlices = values.length;
-      this.fragment.contentProvider.contentProvider = new SCCP({numSlices: this.numSlices});
-
-      //TODO: this is extrem ugly and imperformant but I don't find another good way yet
-      this.factory.removeFragment(this.id);
-      this.factory.rebuild();
-      this.factory.addFragment(this.fragment);
+      this.fragment.contentProvider.contentProvider = new SCCP({ numSlices: this.numSlices });
+      this.addToFactory();
     }
 
     values = values.map(x => x * this.sceneObject.height);
+
     // set values to to factory fragment and refresh arrays
-    this.factory.setValuesOfFragment(this.fragment.id, values);
+    this.factoryFragment.values = values;
   }
 
   positionChanged(x, y, z) {
@@ -75,8 +75,16 @@ export default class MetricComponent extends Component {
     this.updateContentProvider();
 
     if(this.isActive()) {
-      this.factory.addFragment(this.fragment);
+      this.addToFactory();
     }
+  }
+
+  addToFactory() {
+    this.factoryFragment = this.factory.addFragment(this.fragment);
+  }
+
+  removeFromFactory() {
+    this.factory.removeFragment(this.factoryFragment);
   }
 
   updateContentProvider() {
@@ -89,7 +97,7 @@ export default class MetricComponent extends Component {
   dispose() {
     super.dispose();
 
-    this.factory.removeFragment(this.id);
+    this.removeFromFactory();
 
     this.contentProvider = null;
     this.positionToSet = null;

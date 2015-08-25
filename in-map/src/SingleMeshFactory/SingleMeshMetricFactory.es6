@@ -14,7 +14,7 @@ const UPDATE_FLAGS = {
 
 export default class SingleMeshMetricFactory {
 
-  constructor({scene, renderOrder = 2}) {
+  constructor({scene}) {
     this.scene = scene;
 
     // stores all added fragments to create the global geometry
@@ -40,7 +40,7 @@ export default class SingleMeshMetricFactory {
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
-    mesh.renderOrder = renderOrder;
+    mesh.renderOrder = 2;
 
     if(__DEV__) {
       this.numberUpdates = 0;
@@ -78,8 +78,7 @@ export default class SingleMeshMetricFactory {
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
       attributes: attributes,
-      uniforms: { progress },
-      wireframe: true
+      uniforms: { progress }
     });
 
     return material;
@@ -89,47 +88,30 @@ export default class SingleMeshMetricFactory {
     return _.find(this.fragments, fragment => fragment.id === id);
   }
 
-  addFragment(fragment = {id, contentProvider, values}) {
-    const colors = fragment.contentProvider.getColors();
-    const vertices = fragment.contentProvider.getVertices();
-    const oldHeights = fragment.contentProvider.contentProvider.getSliceIndices().map(() => 0);
-    const newHeights = fragment.contentProvider.contentProvider.getSliceIndices().map(() => 0);
-
-    const match = this.getFragment(fragment.id);
-    if(match) {
-      match.oldHeights = oldHeights;
-      match.newHeights = newHeights;
-      match.vertices = vertices;
-      match.colors = colors;
-
-      this.queueFragment(match, match.vertices.length, UPDATE_FLAGS.ADD);
-
+  addFragment({id, contentProvider}) {
+    let fragment = this.getFragment(id);
+    if(fragment) {
+      this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
     } else {
-      const newFragment = {
-        id: fragment.id,
-        contentProvider: fragment.contentProvider,
-        oldHeights,
-        newHeights,
-        vertices,
-        colors
-      };
-
-      this.fragments.push(newFragment);
-      this.queueFragment(newFragment, 0, UPDATE_FLAGS.ADD);
+      fragment = { id, contentProvider };
+      this.fragments.push(fragment);
+      this.queueFragment(fragment, 0, UPDATE_FLAGS.ADD);
     }
+
+    fragment.oldHeights = contentProvider.contentProvider.getSliceIndices().map(() => 0);
+    fragment.newHeights = fragment.oldHeights.slice();
+    fragment.vertices = contentProvider.getVertices();
+    fragment.colors = contentProvider.getColors();
+
+    return fragment;
   }
 
-  removeFragment(id) {
-    const fragment = this.getFragment(id);
-    if(!fragment) {
-      return;
-    }
-
+  removeFragment(fragment) {
     this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.REMOVE);
   }
 
   queueFragment(fragment, itemsToBeDeleted, mode) {
-    this.fragmentQueue[fragment.id] = {fragment, itemsToBeDeleted, mode};
+    this.fragmentQueue[fragment.id] = { fragment, itemsToBeDeleted, mode };
   }
 
   rebuild() {
@@ -138,12 +120,11 @@ export default class SingleMeshMetricFactory {
       return;
     }
 
-    //update indices
-
     keys.forEach(id => {
-      const item = this.fragmentQueue[id];
-      this.fragments.forEach((frag, index) => {frag.index = index; });
+      // update indices
+      this.fragments.forEach((frag, index) => { frag.index = index; });
 
+      const item = this.fragmentQueue[id];
       if(item.mode === UPDATE_FLAGS.ADD) {
         this.updateGeometryByFragment(item.fragment, item.itemsToBeDeleted);
       } else {
@@ -154,7 +135,7 @@ export default class SingleMeshMetricFactory {
     this.updateGeometry();
     this.scene.renderScene();
 
-    //to clear the hole queue just create an empty object
+    // to clear the hole queue just create an empty object
     this.fragmentQueue = {};
   }
 
@@ -167,32 +148,26 @@ export default class SingleMeshMetricFactory {
 
     this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
     _.remove(this.fragments, frag => frag.id === fragment.id);
-    this.fragments.forEach((frag, index) => {frag.index = index; });
   }
 
   updateGeometryByFragment(fragment, numElements = 0) {
+    const numElementsForHeights = numElements / 3;
+
     let indexInVertices = 0;
     let indexInHeights = 0;
     for (let i = 0; i < fragment.index; i++) {
-      indexInVertices += this.fragments[i].vertices.length;
-      indexInHeights += this.fragments[i].oldHeights.length;
+      const frag = this.fragments[i];
+      indexInVertices += frag.vertices.length;
+      indexInHeights += frag.oldHeights.length;
     }
 
-    Array.prototype.splice.apply(
-      this.oldHeights,
-      [indexInHeights, numElements / 3].concat(fragment.oldHeights));
+    const headingForHeights = [indexInHeights, numElementsForHeights];
+    const headingForVertices = [indexInVertices, numElements];
 
-    Array.prototype.splice.apply(
-      this.newHeights,
-      [indexInHeights, numElements / 3].concat(fragment.newHeights));
-
-    Array.prototype.splice.apply(
-      this.vertices,
-      [indexInVertices, numElements].concat(fragment.vertices));
-
-    Array.prototype.splice.apply(
-      this.colors,
-      [indexInVertices, numElements].concat(fragment.colors));
+    Array.prototype.splice.apply(this.oldHeights, headingForHeights.slice().concat(fragment.oldHeights));
+    Array.prototype.splice.apply(this.newHeights, headingForHeights.slice().concat(fragment.newHeights));
+    Array.prototype.splice.apply(this.vertices, headingForVertices.slice().concat(fragment.vertices));
+    Array.prototype.splice.apply(this.colors, headingForVertices.slice().concat(fragment.colors));
   }
 
   updateGeometry() {
@@ -213,63 +188,50 @@ export default class SingleMeshMetricFactory {
     }
   }
 
-  setValuesOfFragment(id, values) {
-    const fragment = this.getFragment(id);
-    fragment.values = values;
-  }
-
   updateHeights() {
     this.animation.stop();
 
+    const geometry = this.geometry;
+    const allOld = [];
+    const allNew = [];
+
     this.fragments.forEach(fragment => {
-      if(!fragment.values) {
-        return;
-      }
+      // swap heights arrays new -> old
       fragment.oldHeights = fragment.newHeights;
-      fragment.newHeights = this.getHeightsForFragment(fragment).newHeights;
+      this.setHeightsForFragment(fragment);
 
-      let indexInHeights = 0;
-      for (let i = 0; i < fragment.index; i++) {
-        indexInHeights += this.fragments[i].oldHeights.length;
-      }
-
-      Array.prototype.splice.apply(
-        this.oldHeights, [indexInHeights, fragment.vertices.length / 3].concat(fragment.oldHeights));
-
-      Array.prototype.splice.apply(
-        this.newHeights, [indexInHeights, fragment.vertices.length / 3].concat(fragment.newHeights));
+      allOld.push(fragment.oldHeights);
+      allNew.push(fragment.newHeights);
     });
 
+    this.oldHeights = [].concat.apply([], allOld);
+    this.newHeights = [].concat.apply([], allNew);
 
-    this.geometry.addAttribute('oldHeight', new THREE.BufferAttribute(new Float32Array(this.oldHeights), 1));
-    this.geometry.addAttribute('newHeight', new THREE.BufferAttribute(new Float32Array(this.newHeights), 1));
+    geometry.addAttribute('oldHeight', new THREE.BufferAttribute(new Float32Array(this.oldHeights), 1));
+    geometry.addAttribute('newHeight', new THREE.BufferAttribute(new Float32Array(this.newHeights), 1));
 
-    this.geometry.attributes.oldHeight.needsUpdate = true;
-    this.geometry.attributes.newHeight.needsUpdate = true;
+    geometry.attributes.oldHeight.needsUpdate = true;
+    geometry.attributes.newHeight.needsUpdate = true;
 
     this.animation.start();
   }
 
-  getHeightsForFragment(fragment) {
-    const oldHeights = [];
-    const newHeights = [];
-    const values = [0].concat(fragment.values);
+  setHeightsForFragment(fragment) {
+    fragment.newHeights = [];
 
-    const indices = fragment.contentProvider.contentProvider.getSliceIndices();
-    indices.forEach(index => {
-      const lastValue = index === 0 ? 0 : values[index - 1];
+    const values = [0].concat(fragment.values); // first element begins at 0
+    const summedA = [];
+    let sum = 0;
 
-      let summed = 0;
-      for (let i = 0; i < index; i++) {
-        summed += values[i];
-      }
-      const newValue = summed + values[index];
-
-      oldHeights.push(lastValue); // old value
-      newHeights.push(newValue); // new value
+    // 0, 1, 2, 1, 5 -> 0, 1, 3, 4, 9
+    values.forEach((value, index) => {
+      summedA[index] = sum;
+      sum += values[index];
     });
 
-    return {oldHeights, newHeights};
+    fragment.contentProvider.contentProvider.getSliceIndices()
+      .forEach((sliceIndex, index) =>
+        fragment.newHeights[index] = summedA[sliceIndex] + values[sliceIndex]); // new height
   }
 
   dispose() {
