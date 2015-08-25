@@ -92,9 +92,14 @@ export default class MetricComponent extends Component {
     // set values to to factory fragment and refresh arrays
     this.factoryFragment.values = values;
 
+    let heightOfBox = values.reduce((a, b) => a + b, 0);
+    if(heightOfBox <= 0) {
+      heightOfBox = 0.01;
+    }
+
     this.collisionComponent.sizeChanged(
       thicknessOfCubes,
-      values.reduce((a, b) => a + b, 0),
+      heightOfBox,
       thicknessOfCubes);
   }
 
