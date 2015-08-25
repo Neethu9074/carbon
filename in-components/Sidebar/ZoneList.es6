@@ -58,10 +58,6 @@ const ZoneList = React.createClass({
   },
 
   render() {
-    console.log('Groups', this.props.groups);
-    console.log('Group IDs', this.props.groupIds);
-    console.log('Zones', this.props.zones);
-
     const groupIdToZoneMapping = {};
     this.props.groupIds.forEach((groupId, i) => {
       groupIdToZoneMapping[groupId] = this.props.zones[i];
@@ -89,9 +85,6 @@ const ZoneList = React.createClass({
       zones.push('undefined');
     }
     zones = _.uniq(zones.sort(), true);
-    console.log(zoneToSnapshotMapping);
-
-    console.log(zones);
 
     const snapshots = {};
     this.props.snapshots.forEach(function(snapshot) {
