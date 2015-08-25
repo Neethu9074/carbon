@@ -47,20 +47,14 @@ export default class SingleMeshFactory {
   getMaterial() { throw new Error('NOT IMPLEMENTED YET'); }
   getMesh() { throw new Error('NOT IMPLEMENTED YET'); }
 
-  getFragment(id) {
-    return _.find(this.fragments, fragment => fragment.id === id);
-  }
-
   addFragment({id, contentProvider}) {
-    const match = this.getFragment(id);
-    if(match) {
-      match.vertices = contentProvider.getVertices();
-      match.colors = contentProvider.getColors();
+    let fragment = this.getFragment(id);
 
-      this.queueFragment(match, match.vertices.length, UPDATE_FLAGS.ADD);
+    if(fragment) {
+      this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
 
     } else {
-      const fragment = {
+      fragment = {
         id,
         vertices: contentProvider.getVertices(),
         colors: contentProvider.getColors()
@@ -69,6 +63,13 @@ export default class SingleMeshFactory {
       this.fragments.push(fragment);
       this.queueFragment(fragment, 0, UPDATE_FLAGS.ADD);
     }
+
+    fragment.vertices = contentProvider.getVertices();
+    fragment.colors = contentProvider.getColors();
+  }
+
+  getFragment(id) {
+    return _.find(this.fragments, fragment => fragment.id === id);
   }
 
   removeFragment(id) {
@@ -89,9 +90,6 @@ export default class SingleMeshFactory {
     if(keys.length === 0) {
       return;
     }
-
-    //update indices
-    this.fragments.forEach((frag, index) => {frag.index = index; });
 
     keys.forEach(id => {
       const item = this.fragmentQueue[id];
@@ -117,13 +115,16 @@ export default class SingleMeshFactory {
 
     this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
     _.remove(this.fragments, frag => frag.id === fragment.id);
-    this.fragments.forEach((frag, index) => {frag.index = index; });
   }
 
   updateGeometryByFragment(fragment, numElements = 0) {
     let indexInVertices = 0;
-    for (let i = 0; i < fragment.index; i++) {
-      indexInVertices += this.fragments[i].vertices.length;
+    for (let i = 0; i < this.fragments.length; i++) {
+      const frag = this.fragments[i];
+      if(frag.id === fragment.id) {
+        break;
+      }
+      indexInVertices += frag.vertices.length;
     }
 
     this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);

@@ -15,6 +15,7 @@ export default class Unknownnode extends BaseNode {
     this.isUnknown = true;
     this.snapshot = coordinates;
     this.stickyNote = new StickyNoteUnknownNode(this);
+    this.tooltip = new TooltipUnknownNode(this);
   }
 
   onSelectedEnter() {
@@ -44,10 +45,6 @@ export default class Unknownnode extends BaseNode {
     if (obj && obj.id === this.id) {
       tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
     }
-  }
-
-  getTooltip() {
-    return new TooltipUnknownNode(this);
   }
 
   getWiredSnapshots() {
