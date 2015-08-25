@@ -1,8 +1,11 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
+import {combineLatest} from 'reactive-observables';
 
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
+import * as viewStore from 'in-services/stores/view';
+import {getFullSnapshot} from 'in-services/snapshots';
 
 import Collapsible from '../Collapsible';
 import SnapshotList from './SnapshotList';
@@ -18,6 +21,42 @@ const ZoneList = React.createClass({
     snapshots: irpt.list.isRequired,
     highlightedSnapshot: irpt.map,
     snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired
+  },
+
+  statics: {
+    createObservables() {
+      const groups = viewStore.viewStructure.map(structure => {
+          return structure.map(s => s.group).filter(s => !!s);
+        })
+        .transform({
+          emitLatestOnSubscribe: true,
+
+          transform(groupCoordinates) {
+            return combineLatest(groupCoordinates.map(getFullSnapshot));
+          }
+        })
+        .map(groupSnapshots => {
+          const groupingResult = {};
+          groupSnapshots.forEach(s => groupingResult[s.get('id')] = s);
+          return groupingResult;
+        });
+
+      const zones = groups.map(grouping => {
+        const zonesResult = {};
+
+        Object.keys(grouping).forEach(snapshotId => {
+          zonesResult[snapshotId] = getZone(grouping[snapshotId]);
+        });
+
+        return zonesResult;
+      });
+
+      return {
+        viewStructure: viewStore.viewStructure,
+        groupIdToGroupMapping: groups,
+        groupIdToZoneMapping: zones
+      };
+    }
   },
 
   render() {
