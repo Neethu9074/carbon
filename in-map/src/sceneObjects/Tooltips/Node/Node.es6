@@ -97,6 +97,9 @@ const NodeTooltipRC = React.createClass({
     } else if (layer.length > 0) {
       const types = {}; // maps type -> counter
       layer.forEach(item => {
+        if(!item.snapshot) {
+          return;
+        }
         const pluginId = item.snapshot.get('pluginId');
         const type = pluginId;
         if(!types[type]) {

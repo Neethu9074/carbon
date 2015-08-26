@@ -27,6 +27,10 @@ const emptyStickyObject = {
   hide() {}, show() {}, update() {}, updateWorldPos() {}, render() {},
   dispose() {}, setInactive() {}, switchToMetric() {}, switchToIcon() {}
 };
+const emptyTooltipObject = {
+  isEmpty: true,
+  mount() {}, unMount() {}
+};
 
 export default class BaseNode extends SceneObject {
 
@@ -36,7 +40,7 @@ export default class BaseNode extends SceneObject {
     this.scene = this.scene;
     this.height = 1;
 
-    this.tooltip = this.getTooltip();
+    this.tooltip = emptyTooltipObject;
     this.stickyNote = emptyStickyObject;
 
     this.registerEvents();
@@ -227,8 +231,6 @@ export default class BaseNode extends SceneObject {
   update() {
     this.updateScreenPosition();
   }
-
-  getTooltip() {return null; }
 
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 

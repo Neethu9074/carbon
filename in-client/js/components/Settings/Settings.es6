@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
-// import * as tracking from 'in-services/tracking';
+import * as tracking from 'in-services/tracking';
 import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
 
@@ -22,8 +22,8 @@ const Settings = React.createClass({
 
   getInitialState() {
     return {
-      antialiasValue: 'none',
       inverseCheckboxChecked: false,
+      antialiasValue: 'off',
       speedSliderValue: 1
     };
   },
@@ -35,7 +35,7 @@ const Settings = React.createClass({
       this.setState({
         inverseCheckboxChecked: direction === 1 ? false : true,
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
-        antialiasValue: antialias ? 'simple' : 'none'
+        antialiasValue: antialias ? antialias : 'off'
       });
     }));
   },
@@ -81,27 +81,9 @@ const Settings = React.createClass({
             <select className={block + '__select'}
                     onChange={this.antialiasChanged}
                     defaultValue={this.state.antialiasValue}>
-              <option value='none'>none</option>
-              <option value='simple'>simple</option>
-              <option value='2x SSAA'>2x SSAA</option>
-              <option value='4x SSAA'>4x SSAA</option>
-              <option value='8x SSAA'>8x SSAA</option>
-              <option value='2x MSAA'>2x MSAA</option>
-              <option value='4x MSAA'>4x MSAA</option>
-              <option value='4x MSAA + 2x SSAA'>4x MSAA + 2x SSAA</option>
-              <option value='8x MSAA'>8x MSAA</option>
-              <option value='16x MSAA'>16x MSAA</option>
-              <option value='4x CSAA'>4x CSAA</option>
-              <option value='8x CSAA'>8x CSAA</option>
-              <option value='16x CSAA'>16x CSAA</option>
-              <option value='32x CSAA'>32x CSAA</option>
-              <option value='4x MSAA + 8x CSAA'>4x MSAA + 8x CSAA</option>
-              <option value='8x MSAA + 8x CSAA'>8x MSAA + 8x CSAA</option>
-              <option value='4x MSAA + 16x CSAA'>4x MSAA + 16x CSAA</option>
-              <option value='16x MSAA + 4x SSAA'>16x MSAA + 4x SSAA</option>
-              <option value='8x MSAA + 16x CSAA'>8x MSAA + 16x CSAA</option>
-              <option value='8x MSAA + 32x CSAA'>8x MSAA + 32x CSAA</option>
-              <option value='32 MSAA + 4x SSAA'>32 MSAA + 4x SSAA</option>
+              <option value='off'>off</option>
+              <option value='browserAA'>browserAA</option>
+              <option value='FXAA'>FXAA</option>
             </select>
           </div>
 
@@ -114,9 +96,10 @@ const Settings = React.createClass({
     const value = event.target.value;
 
     // sets AA true if on value other than 'none' was chosen
-    setIn(['map', 'antialias'], value !== 'none');
+    setIn(['map', 'antialias'], value);
 
-    // tracking.trackEvent(tracking.events.antialiasWasChosenInSettings);
+    //track the event
+    tracking.trackEvent(tracking.events.antialiasWasChosenInSettings);
   },
 
   closeSettings() {

@@ -124,7 +124,7 @@ export const tourDefinition = {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
 
         setTimeout(() => clickOnCssItem('.in-sidebar-metric-header--0'), 50);
-        setTimeout(() => clickOnCssItem('.in-sidebar-metric-tree--leaf'), 50);
+        setTimeout(() => document.querySelectorAll('.in-sidebar-metric-tree--leaf')[1].click(), 50);
       }
     },
     {
@@ -156,7 +156,7 @@ export const tourDefinition = {
       undo() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
         clickOnCssItem('.in-sidebar-metric-header--0');
-        clickOnCssItem('.in-sidebar-metric-tree--leaf');
+        document.querySelectorAll('.in-sidebar-metric-tree--leaf')[1].click();
       }
     }
   ]

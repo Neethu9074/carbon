@@ -8,6 +8,10 @@ import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 
 import './lib/Octree';
+import './lib/EffectComposer';
+import './lib/ShaderExtras';
+import './lib/ShaderPass';
+import './lib/RenderPass';
 
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
@@ -72,6 +76,8 @@ export default class Scene {
     this.backgroundScene = new THREE.Scene();
     this.backgroundScene.add(this.backgroundPlane);
 
+    this.setupFXAARenderPass();
+
     this.map = new PhysicalMap({
       parent: this
     });
@@ -108,7 +114,7 @@ export default class Scene {
   setupRenderer() {
     const renderer = this.renderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
-      antialias: this.antialias
+      antialias: this.antialias === 'browserAA' ? true : false
     });
     renderer.setSize(this.width, this.height);
 
@@ -151,6 +157,28 @@ export default class Scene {
     bgCamera.rotationAutoUpdate = false;
     bgCamera.matrixAutoUpdate = false;
   }
+
+  setupFXAARenderPass() {
+    const renderer = this.renderer;
+    const camera = this.camera;
+    const height = this.height;
+    const width = this.width;
+    const scene = this.scene;
+
+    const effectFXAA = this.fxaaEffect = new THREE.ShaderPass(THREE.ShaderExtras.fxaa);
+    effectFXAA.uniforms.resolution.value.set(1 / width, 1 / height);
+    effectFXAA.renderToScreen = true;
+
+    const renderTarget = this.renderTarget = new THREE.WebGLRenderTarget(width, height, {
+      minFilter: THREE.LinearFilter
+    });
+    const composer = this.effectComposer = new THREE.EffectComposer(renderer, renderTarget);
+
+    composer.addPass(new THREE.RenderPass(this.backgroundScene, this.backgroundCamera));
+    composer.addPass(new THREE.RenderPass(scene, camera));
+    composer.addPass(effectFXAA);
+  }
+
 
   setupFactories() {
     const scene = this;
@@ -380,11 +408,16 @@ export default class Scene {
 
   render() {
     //first render the background
-    const renderer = this.renderer;
-    renderer.render(this.backgroundScene, this.backgroundCamera);
+    if(this.antialias === 'FXAA') {
+      this.effectComposer.render();
 
-    //after rendering the background, render the hole scene
-    renderer.render(this.scene, this.camera);
+    } else {
+      const renderer = this.renderer;
+      renderer.render(this.backgroundScene, this.backgroundCamera);
+
+      //after rendering the background, render the hole scene
+      renderer.render(this.scene, this.camera);
+    }
 
     //reset the flag to disable rendering if there is no update
     this.shouldRenderScene = false;
@@ -509,13 +542,16 @@ export default class Scene {
   }
 
   onWindowResize() {
-    this.height = window.innerHeight;
-    this.width = window.innerWidth;
+    const height = this.height = window.innerHeight;
+    const width = this.width = window.innerWidth;
 
-    this.canvas.width = this.width;
-    this.canvas.height = this.height;
+    this.canvas.width = width;
+    this.canvas.height = height;
 
-    this.renderer.setSize(this.width, this.height);
+    this.renderer.setSize(width, height);
+    this.fxaaEffect.uniforms.resolution.value.set(1 / width, 1 / height);
+    this.renderTarget.setSize(width, height);
+
     this.setCameraFromSize();
 
     // refresh to show the current state
@@ -578,6 +614,8 @@ export default class Scene {
     this.disposed = true;
 
     this.adaptiveDetailHandler.dispose();
+
+    this.controller.dispose();
 
     //reset the time and clear all listeners
     time.reset();

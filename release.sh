@@ -2,6 +2,9 @@
 
 VERSION=$1
 IMAGE="ui-client"
+if [ ! -z $2 ]; then
+  IMAGE="$IMAGE-$2"
+fi
 
 if [ -z "$IMAGE" ]; then echo "no image provided"; exit 1; fi
 if [ -z "$VERSION" ]; then echo "no version provided"; exit 2; fi

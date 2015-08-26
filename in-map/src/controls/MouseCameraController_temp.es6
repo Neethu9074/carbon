@@ -1,6 +1,6 @@
 import * as ro from 'reactive-observables';
 
-import {settingsStore} from 'in-services/settings';
+import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
 import TouchController from './TouchCameraController_temp';
@@ -13,14 +13,11 @@ export default class MouseControl extends TouchController {
     super({scene});
     this.lastMousePosition = {x: 0, y: 0};
 
-    this.settingsSubscribtion = settingsStore.subscribe(data => {
-      if(!data) {
-        return;
-      }
+    this.mouseScrollSpeedSubscribtion = getIn(['map', 'scrollSpeed'])
+      .subscribe(data => this.mouseScrollSpeed = data);
 
-      this.mouseScrollSpeed = data.getIn(['map', 'scrollSpeed']);
-      this.mouseScrollDirection = data.getIn(['map', 'scrollDirection']);
-    });
+    this.mouseScrollDirectionSubscribtion = getIn(['map', 'scrollDirection'])
+      .subscribe(data => this.mouseScrollDirection = data);
 
     const canvas = scene.parent;
     canvas.onmousemove = (e) => {
@@ -64,14 +61,21 @@ export default class MouseControl extends TouchController {
 
         // scale down
         let zoom = (deltaY / 4) | 0;
-        // clamp to -50 .. 50
-        if (zoom < -50) {
-          zoom = -50;
-        } else if (zoom > 50) {
-          zoom = 50;
+
+        if(deltaY < 0) {
+          zoom = Math.max(-50, Math.min(-1, zoom));
+        } else {
+          zoom = Math.min(50, Math.max(1, zoom));
         }
 
         this.zoom(-zoom * this.mouseScrollDirection * this.mouseScrollSpeed);
       });
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.mouseScrollDirectionSubscribtion.dispose();
+    this.mouseScrollSpeedSubscribtion.dispose();
   }
 }

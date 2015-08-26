@@ -19,6 +19,6 @@ export const viewStructure = view.transform({
   },
 
   transform(theView) {
-    return getStructure(theView);
+    return getStructure(theView, true);
   }
 });
