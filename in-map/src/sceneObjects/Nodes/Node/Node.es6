@@ -211,8 +211,17 @@ export default class Node extends BaseNode {
     //if the node is in the view frustum
     if(!this.isInView()) {
         this.setStateForMetricActivity({ isOutOfView: true });
+
+        if (!this.stickyIsHidden) {
+          this.stickyNote.hide();
+          this.stickyIsHidden = true;
+        }
     } else {
       this.setStateForMetricActivity({ isOutOfView: false });
+
+      if (this.stickyIsHidden) {
+        this.stickyIsHidden = false;
+      }
       this.updateStickyNotes();
     }
   }
@@ -225,7 +234,7 @@ export default class Node extends BaseNode {
       this.isToFarAway = params.isToFarAway;
     }
 
-    if(!this.isToFarAway && !this.isOutOfView) {
+    if(!this.isToFarAway && !this.isOutOfView && this.snapshotServer.currentMetric) {
       if(!this.canShowMetrics) {
         this.canShowMetrics = true;
         this.snapshotServer.resumeMetrics();

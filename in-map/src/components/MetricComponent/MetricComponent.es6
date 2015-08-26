@@ -34,6 +34,7 @@ export default class MetricComponent extends Component {
       sceneObject: this,
       layer: 3
     });
+    this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     this.initialized();
   }

@@ -10,27 +10,24 @@ import {activeMetric} from 'in-services/stores/metrics';
 import {selectedSceneObject} from './stores/mapStore';
 import {subscribeToMetric} from './metricUtils';
 
-let currentMetric;
-
 
 export default class NodeSnapshotServer {
 
   constructor(client) {
     this.client = client;
-
     this.subscriptions = [];
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       this.disposeMetricSubscription();
       if(metric) {
-        currentMetric = metric.get('metrics');
+        this.currentMetric = metric.get('metrics');
 
         if(this.client.canShowMetrics) {
           this.subscribeToCurrentMetric();
-          this.client.showMetrics(currentMetric);
+          this.client.showMetrics(this.currentMetric);
         }
       } else {
-        currentMetric = undefined;
+        this.currentMetric = undefined;
         this.client.hideMetrics();
       }
     }));
@@ -79,12 +76,12 @@ export default class NodeSnapshotServer {
     const snapshot = client.snapshot;
 
     this.metricSubscription = subscribeToMetric({
-      metrics: currentMetric, snapshot, fn: (values) => {
+      metrics: this.currentMetric, snapshot, fn: (values) => {
         try {
           client.setMetricValues(
             values.map((v, index) => {
               return getNormalizedValue(
-                currentMetric.getIn([index, 'name']), snapshot, v);
+                this.currentMetric.getIn([index, 'name']), snapshot, v);
             }
           ));
         } catch (err) {
@@ -102,7 +99,7 @@ export default class NodeSnapshotServer {
   resumeMetrics() {
     //if there was an active metric subscribtion which is paused,
     //resubscribe to it but only if there is a active metric
-    if(!this.metricSubscription && currentMetric) {
+    if(!this.metricSubscription && this.currentMetric) {
       this.subscribeToCurrentMetric();
     }
   }
