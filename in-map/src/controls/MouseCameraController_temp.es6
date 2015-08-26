@@ -1,6 +1,6 @@
 import * as ro from 'reactive-observables';
 
-import {settingsStore} from 'in-services/settings';
+import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
 import TouchController from './TouchCameraController_temp';
@@ -13,14 +13,8 @@ export default class MouseControl extends TouchController {
     super({scene});
     this.lastMousePosition = {x: 0, y: 0};
 
-    this.settingsSubscribtion = settingsStore.subscribe(data => {
-      if(!data) {
-        return;
-      }
-
-      this.mouseScrollSpeed = data.getIn(['map', 'scrollSpeed']);
-      this.mouseScrollDirection = data.getIn(['map', 'scrollDirection']);
-    });
+    getIn(['map', 'scrollSpeed']).subscribe(data => this.mouseScrollSpeed = data);
+    getIn(['map', 'scrollDirection']).subscribe(data => this.mouseScrollDirection = data);
 
     const canvas = scene.parent;
     canvas.onmousemove = (e) => {
