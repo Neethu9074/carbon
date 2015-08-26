@@ -11,6 +11,7 @@ export default class ConnectionComponent extends Component {
     super(sceneObject);
 
     this.connections = [];
+    this.lineFactory = sceneObject.scene.lineFactory;
 
     this.initialized();
   }
@@ -22,16 +23,22 @@ export default class ConnectionComponent extends Component {
   onHighlightEnter() {
     this.setupConnections();
     this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON));
+
+    this.lineFactory.rebuild();
   }
 
   onSelectedEnter() {
     this.setupConnections();
     this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON));
+
+    this.lineFactory.rebuild();
   }
 
   onSelectedHighlightEnter() {
     this.setupConnections();
     this.getAllConnections().forEach(c => c.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON));
+
+    this.lineFactory.rebuild();
   }
 
   onInactiveEnter() {
