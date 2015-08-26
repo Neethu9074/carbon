@@ -2,6 +2,7 @@ import _ from 'lodash';
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
+import * as viewStore from 'in-services/stores/view';
 import {getColor} from 'in-services/tags';
 import classnames from 'in-services/util/classnames';
 import * as mapFilters from 'in-services/stores/mapFilters';
@@ -9,19 +10,23 @@ import * as mapFilters from 'in-services/stores/mapFilters';
 import enhance from '../hoc/enhance';
 import './Tags.less';
 
+const rpt = React.PropTypes;
 const block = 'in-sidebar-tag-listing';
 
 const SidebarTagListing = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshots: irpt.list.isRequired,
+    snapshots: rpt.array.isRequired,
     activeFilters: irpt.list.isRequired
   },
 
   statics: {
     createObservables() {
       return {
+        snapshots: viewStore.viewStructure.map(viewStructure => {
+          return viewStructure.map(nodeStructure => nodeStructure.node);
+        }),
         activeFilters: mapFilters.filters
       };
     }

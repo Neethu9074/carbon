@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import {getColor} from 'in-sdk/zones';
@@ -18,9 +17,6 @@ const ZoneList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    highlightedSnapshot: irpt.map,
-    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired,
-
     groups: rpt.object
   },
 
@@ -72,9 +68,7 @@ const ZoneList = React.createClass({
             </Collapsible.Header>
 
             <Collapsible.Content>
-              <SnapshotList snapshots={this.props.groups[group].map(n => n.node)}
-                            snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
-                            highlightedSnapshot={this.props.highlightedSnapshot}/>
+              <SnapshotList snapshots={this.props.groups[group].map(n => n.node)}/>
             </Collapsible.Content>
           </Collapsible>
         )}
