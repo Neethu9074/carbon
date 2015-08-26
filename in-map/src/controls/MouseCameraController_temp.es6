@@ -13,8 +13,11 @@ export default class MouseControl extends TouchController {
     super({scene});
     this.lastMousePosition = {x: 0, y: 0};
 
-    getIn(['map', 'scrollSpeed']).subscribe(data => this.mouseScrollSpeed = data);
-    getIn(['map', 'scrollDirection']).subscribe(data => this.mouseScrollDirection = data);
+    this.mouseScrollSpeedSubscribtion = getIn(['map', 'scrollSpeed'])
+      .subscribe(data => this.mouseScrollSpeed = data);
+
+    this.mouseScrollDirectionSubscribtion = getIn(['map', 'scrollDirection'])
+      .subscribe(data => this.mouseScrollDirection = data);
 
     const canvas = scene.parent;
     canvas.onmousemove = (e) => {
@@ -58,14 +61,21 @@ export default class MouseControl extends TouchController {
 
         // scale down
         let zoom = (deltaY / 4) | 0;
-        // clamp to -50 .. 50
-        if (zoom < -50) {
-          zoom = -50;
-        } else if (zoom > 50) {
-          zoom = 50;
+
+        if(deltaY < 0) {
+          zoom = Math.max(-50, Math.min(-1, zoom));
+        } else {
+          zoom = Math.min(50, Math.max(1, zoom));
         }
 
         this.zoom(-zoom * this.mouseScrollDirection * this.mouseScrollSpeed);
       });
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.mouseScrollDirectionSubscribtion.dispose();
+    this.mouseScrollSpeedSubscribtion.dispose();
   }
 }

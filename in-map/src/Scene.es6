@@ -628,6 +628,8 @@ export default class Scene {
 
     this.adaptiveDetailHandler.dispose();
 
+    this.controller.dispose();
+
     //reset the time and clear all listeners
     time.reset();
 
