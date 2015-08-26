@@ -11,5 +11,5 @@ void main() {
   gl_Position =
     projectionMatrix *
     modelViewMatrix *
-    vec4(position.x, oldHeight + deltaHeights * progress, position.z, 1.0);
+    vec4(position.x, oldHeight + (deltaHeights * progress), position.z, 1.0);
 }

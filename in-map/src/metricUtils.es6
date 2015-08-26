@@ -7,13 +7,12 @@ export function subscribeToMetric({metrics, snapshot, fn}) {
   const tempSubscriptions = metrics.map(metric => {
     return create(MetricConveyer, {
       metric: metric.get('name'),
-      frequency: 1000,
       snapshot: snapshot
     });
   }).toJS();
 
   const metricSubscription = combineLatest(tempSubscriptions)
-  .throttle(200)
+  .throttle(1000)
   .subscribe((values) => {
     fn(values);
   });

@@ -76,8 +76,8 @@ export default class SingleMeshMetricFactory {
 
     // the old and new y positions for each vertex in the vertex shader
     const attributes = this.attributes = {
-      oldHeight: { type: 'f', value: 0.0 },
-      newHeight: { type: 'f', value: 0.0 }
+      oldHeight: { type: 'f' },
+      newHeight: { type: 'f' }
     };
 
     const material = new THREE.ShaderMaterial({
