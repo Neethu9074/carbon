@@ -220,6 +220,7 @@ export default class SingleMeshMetricFactory {
   updateHeights() {
     // first stop the animation and do all array calculation stuff before restarting
     this.animation.stop();
+    this.progress.value = 0;
 
     const geometry = this.geometry;
     const allOld = [];
