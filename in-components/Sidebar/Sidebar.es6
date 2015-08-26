@@ -83,8 +83,7 @@ const Sidebar = React.createClass({
                     [block + '__controls--open']: open
                   })}
                   activeControl={this.state.activeControl}
-                  onChangeActiveControl={this.onChangeActiveControl}
-                  selectedSnapshot={this.props.selectedSnapshot} />
+                  onChangeActiveControl={this.onChangeActiveControl} />
         <div className={classnames({
           [block + '__content']: true,
           [block + '__content--open']: open
@@ -111,8 +110,7 @@ const Sidebar = React.createClass({
         return <Tags snapshots={this.props.snapshots} />;
       case 'snapshotList':
         return (
-          <ZoneList snapshots={this.props.snapshots}
-                    snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
+          <ZoneList snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
                     selectedSnapshot={this.props.selectedSnapshot}
                     highlightedSnapshot={this.props.highlightedSnapshot} />
         );

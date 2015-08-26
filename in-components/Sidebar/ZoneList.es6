@@ -1,93 +1,78 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
-import {combineLatest} from 'reactive-observables';
 
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
 import * as viewStore from 'in-services/stores/view';
-import {getFullSnapshot} from 'in-services/snapshots';
 
+import enhance from '../hoc/enhance';
 import Collapsible from '../Collapsible';
 import SnapshotList from './SnapshotList';
 
 import './ZoneList.less';
 
+const rpt = React.PropTypes;
 const block = 'in-sidebar-zone-list';
 
 const ZoneList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshots: irpt.list.isRequired,
     highlightedSnapshot: irpt.map,
-    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired
+    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired,
+
+    groups: rpt.object
   },
 
   statics: {
     createObservables() {
-      const groups = viewStore.viewStructure.map(structure => {
-          return structure.map(s => s.group).filter(s => !!s);
-        })
-        .transform({
-          emitLatestOnSubscribe: true,
+      const groups = viewStore.viewStructure.map(viewStructure => {
+        const grouppedNodes = {};
 
-          transform(groupCoordinates) {
-            return combineLatest(groupCoordinates.map(getFullSnapshot));
+        viewStructure.forEach(nodeStructure => {
+          let zone;
+          if (nodeStructure.group) {
+            zone = getZone(nodeStructure.group);
+          } else {
+            zone = 'undefined';
           }
-        })
-        .map(groupSnapshots => {
-          const groupingResult = {};
-          groupSnapshots.forEach(s => groupingResult[s.get('id')] = s);
-          return groupingResult;
+
+          if (zone in grouppedNodes) {
+            grouppedNodes[zone].push(nodeStructure);
+          } else {
+            grouppedNodes[zone] = [nodeStructure];
+          }
         });
 
-      const zones = groups.map(grouping => {
-        const zonesResult = {};
-
-        Object.keys(grouping).forEach(snapshotId => {
-          zonesResult[snapshotId] = getZone(grouping[snapshotId]);
-        });
-
-        return zonesResult;
+        return grouppedNodes;
       });
 
       return {
         viewStructure: viewStore.viewStructure,
-        groupIdToGroupMapping: groups,
-        groupIdToZoneMapping: zones
+        groups
       };
     }
   },
 
   render() {
-    const snapshots = {};
-    this.props.snapshots.forEach(function(snapshot) {
-      const zone = getZone(snapshot);
-      if (zone in snapshots) {
-        snapshots[zone].push(snapshot);
-      } else {
-        snapshots[zone] = [snapshot];
-      }
-    });
-    const zones = Object.keys(snapshots).sort();
-
+    const groups = Object.keys(this.props.groups).sort();
     return (
       <div className={block}>
         <h1 className={block + '__label'}>Zones</h1>
-        {zones.map(zone =>
-          <Collapsible key={zone}>
-            <Collapsible.Header style={{color: getColor(zone)}}
+        {groups.map(group =>
+          <Collapsible key={group}>
+            <Collapsible.Header style={{color: getColor(group)}}
                                 className={block + '__zone'}>
               <span className={block + '__server-count'}
-                    style={{backgroundColor: getColor(zone)}}>
-                {snapshots[zone].length}
+                    style={{backgroundColor: getColor(group)}}>
+                {this.props.groups[group].length}
               </span>
 
-              {zone}
+              {group}
             </Collapsible.Header>
 
             <Collapsible.Content>
-              <SnapshotList snapshots={snapshots[zone]}
+              <SnapshotList snapshots={this.props.groups[group].map(n => n.node)}
                             snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
                             highlightedSnapshot={this.props.highlightedSnapshot}/>
             </Collapsible.Content>
@@ -98,4 +83,4 @@ const ZoneList = React.createClass({
   }
 });
 
-export default ZoneList;
+export default enhance(ZoneList);
