@@ -16,9 +16,16 @@ loadDefault();
 settingsStore.emit(settings);
 
 function loadDefault() {
+  const aa = settings.getIn(['map', 'antialias']);
+  if (aa === true) {
+    setIn(['map', 'antialias'], 'browserAA');
+  } else if (aa === false) {
+    setIn(['map', 'antialias'], 'off');
+  }
+
   setDefaultConfigValue(['map', 'scrollSpeed'], 1);
   setDefaultConfigValue(['map', 'scrollDirection'], 1);
-  setDefaultConfigValue(['map', 'antialias'], true);
+  setDefaultConfigValue(['map', 'antialias'], 'browserAA');
 
   setIn(['dataSource'], 'defaults');
 }

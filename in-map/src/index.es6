@@ -23,7 +23,7 @@ const MapRC = React.createClass({
 
   propTypes: {
     showHelp: React.PropTypes.func.isRequired,
-    antialias: React.PropTypes.bool.isRequired
+    antialias: React.PropTypes.string.isRequired
   },
 
   statics: {
@@ -67,7 +67,6 @@ const MapRC = React.createClass({
   },
 
   componentDidUpdate() {
-
     this.loadScene();
   },
 
