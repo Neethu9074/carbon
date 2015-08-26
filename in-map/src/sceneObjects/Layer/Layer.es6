@@ -3,11 +3,13 @@ import THREE from 'three';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {getFullSnapshot} from 'in-services/snapshots';
+import * as tracking from 'in-services/tracking';
+import eventBus from 'in-services/eventbus';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import HighlightingComponent from '../../components/HighlightingComponent';
 
-import {selectedSceneObject, currentTooltip} from '../../stores/mapStore';
+import {selectedSceneObject, longClickedSceneObject, currentTooltip} from '../../stores/mapStore';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import MeshComponent from '../../components/MeshComponent';
@@ -46,6 +48,13 @@ export default class Layer extends SceneObject {
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
     );
+
+    this.addSubscription(longClickedSceneObject.subscribe(so => {
+      if(so && this.snapshot && so.id === this.id) {
+        eventBus.emit('openDashboard', this.snapshot);
+        tracking.trackEvent(tracking.events.openingADashboardUsingTheMap);
+      }
+    }));
   }
 
   onHighlightEnter() {

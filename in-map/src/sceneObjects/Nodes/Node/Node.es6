@@ -133,16 +133,12 @@ export default class Node extends BaseNode {
       })
     );
 
-    this.addSubscription(
-      longClickedSceneObject.subscribe((so) => {
-        if(so && so.id === this.id) {
-          eventBus.emit('openDashboard', this.snapshot);
-
-          //double or long clicked
-          tracking.trackEvent(tracking.events.openingADashboardUsingTheMap);
-        }
-      })
-    );
+    this.addSubscription(longClickedSceneObject.subscribe(so => {
+      if(so && this.snapshot && so.id === this.id) {
+        eventBus.emit('openDashboard', this.snapshot);
+        tracking.trackEvent(tracking.events.openingADashboardUsingTheMap);
+      }
+    }));
   }
 
   addLayer(layer) {
