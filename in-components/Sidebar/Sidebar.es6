@@ -1,13 +1,6 @@
 import React from 'react';
-import irpt from 'react-immutable-proptypes';
-import {combineLatest} from 'reactive-observables';
-import Immutable from 'immutable';
 
 import classnames from 'in-services/util/classnames';
-import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
-import {create} from 'in-services/conveyer';
 
 import CloseSidebarButton from './CloseSidebarButton';
 import Tags from './Tags';
@@ -15,21 +8,12 @@ import ZoneList from './ZoneList';
 import Controls from './Controls';
 import MapStats from './MapStats';
 import Metrics from './Metrics';
-import enhance from '../hoc/enhance';
 
 import './Sidebar.less';
 
-const rpt = React.PropTypes;
 const block = 'in-sidebar';
 
 const Sidebar = React.createClass({
-  propTypes: {
-    pluginIds: rpt.arrayOf(rpt.string).isRequired,
-    snapshots: irpt.list,
-    selectedSnapshot: irpt.map,
-    highlightedSnapshot: irpt.map,
-    snapshotsWiredToHighlightedSnapshot: irpt.map
-  },
 
   getInitialState() {
     return {
@@ -38,39 +22,7 @@ const Sidebar = React.createClass({
   },
 
   shouldComponentUpdate(newProps, newState) {
-    return this.props.snapshots !== newProps.snapshots ||
-      this.state.activeControl !== newState.activeControl;
-  },
-
-  statics: {
-    createObservables(props) {
-      const snapshotSources = props.pluginIds.map(pluginId =>
-        create(SnapshotsConveyer, {pluginId})
-      );
-
-      // turn the list of snapshots list to a snapshot list, i.e.
-      // flatten it the immutable way
-      const singleSnapshotSource = combineLatest(snapshotSources)
-        .map(snapshotLists => {
-          const result = Immutable.List().asMutable();
-          let i = 0;
-
-          snapshotLists.forEach(snapshots => {
-            snapshots.forEach(snapshot => {
-              result.set(i++, snapshot);
-            });
-          });
-
-          return result.asImmutable();
-        });
-
-      return {
-        snapshots: singleSnapshotSource,
-        selectedSnapshot: selectedSnapshotStore.selectedSnapshot,
-        highlightedSnapshot: highlightedSnapshotStore.highlightedSnapshot,
-        snapshotsWiredToHighlightedSnapshot: highlightedSnapshotStore.wiredSnapshots
-      };
-    }
+    return this.state.activeControl !== newState.activeControl;
   },
 
   render() {
@@ -107,13 +59,9 @@ const Sidebar = React.createClass({
 
     switch (this.state.activeControl) {
       case 'tags':
-        return <Tags snapshots={this.props.snapshots} />;
+        return <Tags />;
       case 'snapshotList':
-        return (
-          <ZoneList snapshotsWiredToHighlightedSnapshot={this.props.snapshotsWiredToHighlightedSnapshot}
-                    selectedSnapshot={this.props.selectedSnapshot}
-                    highlightedSnapshot={this.props.highlightedSnapshot} />
-        );
+        return <ZoneList />;
       case 'metrics':
         return <Metrics />;
       default:
@@ -136,4 +84,4 @@ const Sidebar = React.createClass({
 
 });
 
-export default enhance(Sidebar);
+export default Sidebar;

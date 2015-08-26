@@ -3,7 +3,9 @@ import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 
 import {getLabel} from 'in-sdk/snapshot';
+import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 
+import enhance from '../hoc/enhance';
 import Snapshot from './Snapshot';
 
 import './SnapshotList.less';
@@ -19,8 +21,16 @@ const SidebarSnapshotList = React.createClass({
       irpt.seq,
       rpt.array
     ]).isRequired,
-    highlightedSnapshot: irpt.map,
-    snapshotsWiredToHighlightedSnapshot: irpt.map.isRequired
+
+    highlightedSnapshot: irpt.map
+  },
+
+  statics: {
+    createObservables() {
+      return {
+        highlightedSnapshot: highlightedSnapshotStore.highlightedSnapshot
+      };
+    }
   },
 
   render() {
@@ -35,17 +45,10 @@ const SidebarSnapshotList = React.createClass({
         {this.toJs(snapshots.map(snapshot =>
           <Snapshot snapshot={snapshot}
                     key={snapshot.get('id')}
-                    highlighted={this.props.highlightedSnapshot === snapshot}
-                    wired={this.isWired(snapshot)}/>
+                    highlighted={this.props.highlightedSnapshot === snapshot} />
         ))}
       </ul>
     );
-  },
-
-  isWired(snapshot) {
-    const snapshotsWiredToHighlightedSnapshot = this.props.snapshotsWiredToHighlightedSnapshot;
-    return snapshotsWiredToHighlightedSnapshot.get('incoming').contains(snapshot) ||
-      snapshotsWiredToHighlightedSnapshot.get('outgoing').contains(snapshot);
   },
 
   toJs(list) {
@@ -57,4 +60,4 @@ const SidebarSnapshotList = React.createClass({
   }
 });
 
-export default SidebarSnapshotList;
+export default enhance(SidebarSnapshotList);
