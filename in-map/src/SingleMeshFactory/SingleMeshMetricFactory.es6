@@ -193,10 +193,10 @@ export default class SingleMeshMetricFactory {
     const headingForHeights = [indexInHeights, numElementsForHeights];
     const headingForVertices = [indexInVertices, numElements];
 
-    Array.prototype.splice.apply(this.oldHeights, headingForHeights.slice().concat(fragment.oldHeights));
-    Array.prototype.splice.apply(this.newHeights, headingForHeights.slice().concat(fragment.newHeights));
-    Array.prototype.splice.apply(this.vertices, headingForVertices.slice().concat(fragment.vertices));
-    Array.prototype.splice.apply(this.colors, headingForVertices.slice().concat(fragment.colors));
+    Array.prototype.splice.apply(this.oldHeights, headingForHeights.concat(fragment.oldHeights));
+    Array.prototype.splice.apply(this.newHeights, headingForHeights.concat(fragment.newHeights));
+    Array.prototype.splice.apply(this.vertices, headingForVertices.concat(fragment.vertices));
+    Array.prototype.splice.apply(this.colors, headingForVertices.concat(fragment.colors));
   }
 
   updateGeometry() {
