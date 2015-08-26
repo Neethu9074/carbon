@@ -15,7 +15,7 @@ export const events = {
   nextStepInTour: '000000374840',
   previousStepInTour: '000000374841',
   navigateToAWiredComponentFromTheDashboard: '000000375623',
-  antialiasWasChosenInSettings: '666'
+  antialiasWasChosenInSettings: '000000384375'
 };
 
 export function identify() {

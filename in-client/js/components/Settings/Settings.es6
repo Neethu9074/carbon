@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
-// import * as tracking from 'in-services/tracking';
+import * as tracking from 'in-services/tracking';
 import Button from 'in-components/Button';
 import Dialog from 'in-components/Dialog';
 
@@ -98,7 +98,8 @@ const Settings = React.createClass({
     // sets AA true if on value other than 'none' was chosen
     setIn(['map', 'antialias'], value);
 
-    // tracking.trackEvent(tracking.events.antialiasWasChosenInSettings);
+    //track the event
+    tracking.trackEvent(tracking.events.antialiasWasChosenInSettings);
   },
 
   closeSettings() {
