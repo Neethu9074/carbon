@@ -13,10 +13,8 @@ import './lib/ShaderExtras';
 import './lib/ShaderPass';
 import './lib/RenderPass';
 
-// import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
+import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
-import SingleMetricPillarFactory from './factories/SingleMetricPillarFactory';
-import MultiMetricPillarFactory from './factories/MultiMetricPillarFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import {getBackgroundPlane} from './lib/backgroundPlane';
@@ -183,9 +181,9 @@ export default class Scene {
 
 
   setupFactories() {
-    // this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
-
     const scene = this;
+
+    this.singleMeshMetricFactory = new SingleMeshMetricFactory({scene});
 
     this.groundSingleMeshFactory = new SingleMeshFactory({scene});
     this.groundSingleMeshFactory.material.transparent = true;
@@ -194,7 +192,6 @@ export default class Scene {
     this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 4});
     this.layerHighlightingSingleMeshFactory = new SingleMeshFactory({scene});
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
-    this.singleMetricFactory = new SingleMetricPillarFactory({scene});
 
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
     this.layerSingleMeshFactory.material.transparent = true;
@@ -204,9 +201,6 @@ export default class Scene {
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;
-
-    this.numTiles = 5;
-    this.multiMetricFactory = new MultiMetricPillarFactory({scene, numTiles: this.numTiles});
 
     this.metricUpdateInterval = setInterval(() => {
       if(currentMetrics) {
@@ -219,6 +213,7 @@ export default class Scene {
       this.highlightingSingleMeshFactory.rebuild();
       this.groundSingleMeshFactory.rebuild();
       this.layerSingleMeshFactory.rebuild();
+      this.singleMeshMetricFactory.rebuild();
       this.singleMeshFactory.rebuild();
       this.baselineFactory.rebuild();
       this.lineFactory.rebuild();
@@ -380,15 +375,8 @@ export default class Scene {
   }
 
   updateMetricHeights() {
-    // this.singleMeshMetricFactory.updateHeights();
-
     if(currentMetrics) {
-      eventBus.emit('upateMetricHeights');
-      if(currentMetrics.size === 1) {
-        this.singleMetricFactory.updateHeights();
-      } else {
-        this.multiMetricFactory.updateHeights();
-      }
+      this.singleMeshMetricFactory.updateHeights();
     }
   }
 
@@ -474,7 +462,6 @@ export default class Scene {
 
     //set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
-
     this.renderScene();
   }
 

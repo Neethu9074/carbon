@@ -1,5 +1,3 @@
-
-
 import * as connection from '../connection/subscriptionAwareConnection';
 
 export default class MetricConveyer {

@@ -11,12 +11,11 @@ import {getPower} from 'in-sdk/power';
 
 import LineMeshComponent from '../../../components/LineMeshComponent';
 import HealthComponent from '../../../components/HealthComponent';
+import MetricComponent from '../../../components/MetricComponent';
 import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
-import SingleMetricPillar from './MetricPillar/SingleMetricPillar';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
-import MultiMetricPillar from './MetricPillar/MultiMetricPillar';
 import {longClickedSceneObject} from '../../../stores/mapStore';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
@@ -34,6 +33,10 @@ export default class Node extends BaseNode {
 
   constructor({parent, coordinates, id, layer}) {
     super({parent, id});
+
+    this.isOutOfView = false;
+    this.isToFarAway = false;
+    this.snapshotServer = new NodeSnapshotServer(this);
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
@@ -109,6 +112,7 @@ export default class Node extends BaseNode {
         })
       })
     });
+    components.metric = new MetricComponent({sceneObject: this});
     components.layer = new LayerComponent({sceneObject: this});
     components.ground.sizeChanged(1.5, 1, 1.5);
     components.groundLine.sizeChanged(1.5, 1, 1.5);
@@ -116,11 +120,6 @@ export default class Node extends BaseNode {
 
   registerEvents() {
     super.registerEvents();
-
-    this.singleMetricPillar = new SingleMetricPillar({parent: this});
-    this.multiMetricPillar = new MultiMetricPillar({parent: this});
-
-    this.snapshotServer = new NodeSnapshotServer(this);
 
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
@@ -157,23 +156,25 @@ export default class Node extends BaseNode {
     }
   }
 
-  showMetrics(currentMetric) {
+  getTooltipSticky() {
+    return this.getNodeTooltip();
+  }
+
+  getNodeTooltip() {
+    return new TooltipNode(this);
+  }
+
+  showMetrics() {
     this.stickyNote.switchToMetric();
 
-    if(currentMetric.size === 1) {
-      this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-      this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    } else {
-      this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-      this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    }
+    this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   hideMetrics() {
     this.stickyNote.switchToIcon();
+    this.tooltip = this.getNodeTooltip();
 
-    this.singleMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    this.multiMetricPillar.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   setMetricValues(values) {
@@ -181,11 +182,7 @@ export default class Node extends BaseNode {
       return;
     }
 
-    if(values.length === 1) {
-      this.singleMetricPillar.setMetricValue(values[0]);
-    } else {
-      this.multiMetricPillar.setMetricValue(values);
-    }
+    this.getComponent('metric').setValues(values);
   }
 
   setWiredSnapshots(wiredSnapshots) {
@@ -207,20 +204,44 @@ export default class Node extends BaseNode {
   update() {
     super.update();
 
-    //if the node is near enough or is in the view frustum
+    //if the node is in the view frustum
     if(!this.isInView()) {
-      //trigger the hide method just once
-      if(!this.outsideViewFrustum) {
-        this.hideMetric();
-        this.outsideViewFrustum = true;
-      }
+        this.setStateForMetricActivity({ isOutOfView: true });
+
+        if (!this.stickyIsHidden) {
+          this.stickyNote.hide();
+          this.stickyIsHidden = true;
+        }
     } else {
-      //trigger the show method just once
-      if(this.outsideViewFrustum) {
-        this.snapshotServer.resumeMetrics();
-        this.outsideViewFrustum = false;
+      this.setStateForMetricActivity({ isOutOfView: false });
+
+      if (this.stickyIsHidden) {
+        this.stickyIsHidden = false;
       }
       this.updateStickyNotes();
+    }
+  }
+
+  setStateForMetricActivity(params) {
+    if(params.isOutOfView !== undefined) {
+      this.isOutOfView = params.isOutOfView;
+    }
+    if(params.isToFarAway !== undefined) {
+      this.isToFarAway = params.isToFarAway;
+    }
+
+    if(!this.isToFarAway && !this.isOutOfView && this.snapshotServer.currentMetric) {
+      if(!this.canShowMetrics) {
+        this.canShowMetrics = true;
+        this.snapshotServer.resumeMetrics();
+        this.showMetrics();
+      }
+    } else {
+      if(this.canShowMetrics) {
+        this.canShowMetrics = false;
+        this.snapshotServer.pauseMetrics();
+        this.hideMetric();
+      }
     }
   }
 
@@ -254,6 +275,7 @@ export default class Node extends BaseNode {
     }
 
     this.snapshotServer.onSnapshotUpdate();
+
   }
 
   getScreenAnchorPosition() {
@@ -264,11 +286,10 @@ export default class Node extends BaseNode {
   positionChanged(x, y, z) {
     super.positionChanged(x, y, z);
 
-    this.singleMetricPillar.getComponent('position').setPosition(x, y, z);
-    this.multiMetricPillar.getComponent('position').setPosition(x, y, z);
     this.getComponent('ground').positionChanged(x, y, z);
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
     this.getComponent('layer').positionChanged(x, y, z);
+    this.getComponent('metric').positionChanged(x, y, z);
 
     this.updateScreenAnchorPosition();
   }
@@ -306,11 +327,9 @@ export default class Node extends BaseNode {
     // dispose the event server to prevent updates
     this.snapshotServer.dispose();
 
+
     //dispose other subscriptions
     super.dispose();
-
-    this.singleMetricPillar.dispose();
-    this.multiMetricPillar.dispose();
 
     this.wiredSnapshots = undefined;
   }

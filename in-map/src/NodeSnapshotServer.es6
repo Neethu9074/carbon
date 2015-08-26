@@ -10,33 +10,34 @@ import {activeMetric} from 'in-services/stores/metrics';
 import {selectedSceneObject} from './stores/mapStore';
 import {subscribeToMetric} from './metricUtils';
 
-let currentMetric;
-
 
 export default class NodeSnapshotServer {
 
   constructor(client) {
     this.client = client;
-
     this.subscriptions = [];
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
+      this.disposeMetricSubscription();
       if(metric) {
-        currentMetric = metric.get('metrics');
-        this.showMetrics();
+        this.currentMetric = metric.get('metrics');
+
+        if(this.client.canShowMetrics) {
+          this.subscribeToCurrentMetric();
+          this.client.showMetrics(this.currentMetric);
+        }
       } else {
-        currentMetric = undefined;
-        this.disposeMetricSubscription();
-        client.hideMetrics();
+        this.currentMetric = undefined;
+        this.client.hideMetrics();
       }
     }));
 
     this.subscriptions.push(zoomLevel.subscribe(zl => {
       this.zoomLevel = zl;
       if(zl === level.mid) {
-        this.pauseMetrics();
+        client.setStateForMetricActivity({ isToFarAway: true });
       } else {
-        this.resumeMetrics();
+        client.setStateForMetricActivity({ isToFarAway: false });
       }
     }));
 
@@ -63,12 +64,6 @@ export default class NodeSnapshotServer {
     this.subscriptions.push(this.wiredSnapshotsSubscription);
   }
 
-  showMetrics() {
-    this.disposeMetricSubscription();
-    this.subscribeToCurrentMetric();
-    this.client.showMetrics(currentMetric);
-  }
-
   disposeMetricSubscription() {
     if(this.metricSubscription) {
       this.metricSubscription.dispose();
@@ -81,12 +76,12 @@ export default class NodeSnapshotServer {
     const snapshot = client.snapshot;
 
     this.metricSubscription = subscribeToMetric({
-      metrics: currentMetric, snapshot, fn: (values) => {
+      metrics: this.currentMetric, snapshot, fn: (values) => {
         try {
           client.setMetricValues(
             values.map((v, index) => {
               return getNormalizedValue(
-                currentMetric.getIn([index, 'name']), snapshot, v);
+                this.currentMetric.getIn([index, 'name']), snapshot, v);
             }
           ));
         } catch (err) {
@@ -104,9 +99,7 @@ export default class NodeSnapshotServer {
   resumeMetrics() {
     //if there was an active metric subscribtion which is paused,
     //resubscribe to it but only if there is a active metric
-    if(!this.metricSubscription &&
-      currentMetric &&
-      (this.zoomLevel === level.near || this.zoomLevel === level.nearest)) {
+    if(!this.metricSubscription && this.currentMetric) {
       this.subscribeToCurrentMetric();
     }
   }
