@@ -19,27 +19,14 @@ export default class MetricComponent extends Component {
 
     const scene = sceneObject.scene;
 
-    this.id = sceneObject.id + '_metricPillarTemp';
-    this.factory = scene.singleMeshMetricFactory;
+    this.id = sceneObject.id + '_metricPillar';
     this.scene = sceneObject.scene;
-    this.numSlices = 1;
     this.tooltip = new TooltipMetric(sceneObject);
-
-    this.contentProvider = new PCM({
-      contentProvider: new SCM({
-        x: thicknessOfCubes, y: 1, z: thicknessOfCubes,
-        contentProvider: new SCCP({
-          numSlices: this.numSlices
-        })
-      })
-    });
-
-    this.fragment = {
-      id: this.id,
-      contentProvider: this.contentProvider
-    };
-
+    this.factory = scene.singleMeshMetricFactory;
+    this.numSlices = 1;
     this.positionToSet = {x: -1000, y: 0, z: 0};
+
+    this.setupFragment();
     this.updateContentProvider();
 
     this.collisionComponent = new CollisionComponent({
@@ -47,7 +34,6 @@ export default class MetricComponent extends Component {
       sceneObject: this,
       layer: 3
     });
-    this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     this.initialized();
   }
@@ -70,6 +56,23 @@ export default class MetricComponent extends Component {
 
   addCollisionObject(obj, layer) {
     this.sceneObject.addCollisionObject(obj, layer);
+  }
+
+
+  setupFragment() {
+    this.contentProvider = new PCM({
+      contentProvider: new SCM({
+        x: thicknessOfCubes, y: 1, z: thicknessOfCubes,
+        contentProvider: new SCCP({
+          numSlices: this.numSlices
+        })
+      })
+    });
+
+    this.fragment = {
+      id: this.id,
+      contentProvider: this.contentProvider
+    };
   }
 
   onHighlight() {
