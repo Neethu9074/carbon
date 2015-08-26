@@ -21,22 +21,26 @@ export default class NodeSnapshotServer {
     this.subscriptions = [];
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
+      this.disposeMetricSubscription();
       if(metric) {
         currentMetric = metric.get('metrics');
-        this.showMetrics();
+
+        if(this.client.canShowMetrics) {
+          this.subscribeToCurrentMetric();
+          this.client.showMetrics(currentMetric);
+        }
       } else {
         currentMetric = undefined;
-        this.disposeMetricSubscription();
-        client.hideMetrics();
+        this.client.hideMetrics();
       }
     }));
 
     this.subscriptions.push(zoomLevel.subscribe(zl => {
       this.zoomLevel = zl;
       if(zl === level.mid) {
-        this.pauseMetrics();
+        client.setStateForMetricActivity({ isToFarAway: true });
       } else {
-        this.resumeMetrics();
+        client.setStateForMetricActivity({ isToFarAway: false });
       }
     }));
 
@@ -61,12 +65,6 @@ export default class NodeSnapshotServer {
     this.wiredSnapshotsSubscription = getWiredSnapshots(client.snapshot)
       .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots));
     this.subscriptions.push(this.wiredSnapshotsSubscription);
-  }
-
-  showMetrics() {
-    this.disposeMetricSubscription();
-    this.subscribeToCurrentMetric();
-    this.client.showMetrics(currentMetric);
   }
 
   disposeMetricSubscription() {
@@ -104,9 +102,7 @@ export default class NodeSnapshotServer {
   resumeMetrics() {
     //if there was an active metric subscribtion which is paused,
     //resubscribe to it but only if there is a active metric
-    if(!this.metricSubscription &&
-      currentMetric &&
-      (this.zoomLevel === level.near || this.zoomLevel === level.nearest)) {
+    if(!this.metricSubscription && currentMetric) {
       this.subscribeToCurrentMetric();
     }
   }

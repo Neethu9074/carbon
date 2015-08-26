@@ -34,6 +34,8 @@ export default class Node extends BaseNode {
   constructor({parent, coordinates, id, layer}) {
     super({parent, id});
 
+    this.isOutOfView = false;
+    this.isToFarAway = false;
     this.snapshotServer = new NodeSnapshotServer(this);
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
@@ -206,20 +208,35 @@ export default class Node extends BaseNode {
   update() {
     super.update();
 
-    //if the node is near enough or is in the view frustum
+    //if the node is in the view frustum
     if(!this.isInView()) {
-      //trigger the hide method just once
-      if(!this.outsideViewFrustum) {
-        this.hideMetric();
-        this.outsideViewFrustum = true;
+        this.setStateForMetricActivity({ isOutOfView: true });
+    } else {
+      this.setStateForMetricActivity({ isOutOfView: false });
+      this.updateStickyNotes();
+    }
+  }
+
+  setStateForMetricActivity(params) {
+    if(params.isOutOfView !== undefined) {
+      this.isOutOfView = params.isOutOfView;
+    }
+    if(params.isToFarAway !== undefined) {
+      this.isToFarAway = params.isToFarAway;
+    }
+
+    if(!this.isToFarAway && !this.isOutOfView) {
+      if(!this.canShowMetrics) {
+        this.canShowMetrics = true;
+        this.snapshotServer.resumeMetrics();
+        this.showMetrics();
       }
     } else {
-      //trigger the show method just once
-      if(this.outsideViewFrustum) {
-        this.snapshotServer.resumeMetrics();
-        this.outsideViewFrustum = false;
+      if(this.canShowMetrics) {
+        this.canShowMetrics = false;
+        this.snapshotServer.pauseMetrics();
+        this.hideMetric();
       }
-      this.updateStickyNotes();
     }
   }
 
