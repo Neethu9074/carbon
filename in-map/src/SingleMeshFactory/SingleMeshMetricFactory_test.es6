@@ -196,7 +196,7 @@ describe('3D map', () => {
       const fragment = createFragment2();
       const vertices = factory.vertices;
 
-      const factoryFragment = factory.addFragment(fragment);
+      factory.addFragment(fragment);
 
         expect(factory.fragments.length).to.equal(1);
         expect(factory.getFragment(fragment.id)).to.not.equal(void 0);
@@ -221,7 +221,7 @@ describe('3D map', () => {
         expect(newHeights.length).to.equal(3);
         expect(newHeights[0]).to.equal(0); expect(newHeights[1]).to.equal(0); expect(newHeights[2]).to.equal(0);
 
-      factory.removeFragment(factoryFragment);
+      factory.removeFragment(fragment.id);
 
         expect(vertices.length).to.equal(3 * 3);
         expect(vertices[0]).to.equal(0); expect(vertices[1]).to.equal(0); expect(vertices[2]).to.equal(0);
@@ -246,8 +246,8 @@ describe('3D map', () => {
     it('can remove fragments without any rebuild step inside', () => {
         const fragment = createFragment2();
 
-      const factoryFragment = factory.addFragment(fragment);
-      factory.removeFragment(factoryFragment);
+      factory.addFragment(fragment);
+      factory.removeFragment(fragment.id);
 
         expect(factory.vertices.length).to.equal(0);
         expect(factory.oldHeights.length).to.equal(0);

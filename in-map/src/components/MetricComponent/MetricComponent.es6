@@ -134,7 +134,7 @@ export default class MetricComponent extends Component {
   }
 
   removeFromFactory() {
-    this.factory.removeFragment(this.factoryFragment);
+    this.factory.removeFragment(this.fragment.id);
   }
 
   updateContentProvider() {
@@ -149,6 +149,7 @@ export default class MetricComponent extends Component {
 
     this.removeFromFactory();
 
+    this.factoryFragment = null;
     this.contentProvider = null;
     this.positionToSet = null;
     this.fragment = null;

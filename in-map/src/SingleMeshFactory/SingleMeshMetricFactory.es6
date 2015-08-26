@@ -124,7 +124,12 @@ export default class SingleMeshMetricFactory {
     return _.find(this.fragments, fragment => fragment.id === id);
   }
 
-  removeFragment(fragment) {
+  removeFragment(id) {
+    const fragment = this.getFragment(id);
+    if(!fragment) {
+      return;
+    }
+
     // store the fragment in the queue with a REMOVE flag
     this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.REMOVE);
   }
