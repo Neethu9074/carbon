@@ -1,5 +1,7 @@
 import http from 'in-services/http';
 
+let totalNumberOfReportedErrors = 0;
+
 export default class UiTrackerLogAppender {
 
   constructor() {
@@ -7,6 +9,10 @@ export default class UiTrackerLogAppender {
   }
 
   append(opts) {
+    // lots of stuff seems to go wrong, stop polluting our logs
+    if (totalNumberOfReportedErrors > 10) {
+      return;
+    }
     const formattedPayload = opts.params
       .map(part => {
         if (part instanceof Error) {
@@ -51,6 +57,8 @@ export default class UiTrackerLogAppender {
     })
     // ignore all errors
     .then(null, () => {});
+
+    totalNumberOfReportedErrors++;
   }
 
   getActivePriority() {
