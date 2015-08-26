@@ -255,11 +255,12 @@ const Timeline = React.createClass({
       tooltipY: -10
     });
     const problem = issue.get('problem');
+    const problemCoordinates = extractCoordinates(problem);
     this.addSubscription(
-      getFullSnapshot(extractCoordinates(problem))
+      getFullSnapshot(problemCoordinates)
       .subscribe(hoveredSnapshot => this.setState({hoveredSnapshot}))
     );
-    highlightedSnapshotStore.select(issue);
+    highlightedSnapshotStore.select(problemCoordinates);
   },
 
   mouseOut() {
@@ -274,7 +275,8 @@ const Timeline = React.createClass({
   },
 
   focusSnapshot(issue) {
-    selectedSnapshotStore.select(issue.get('problem'));
+    const problemCoordinates = extractCoordinates(issue.get('problem'));
+    selectedSnapshotStore.select(problemCoordinates);
   }
 });
 
