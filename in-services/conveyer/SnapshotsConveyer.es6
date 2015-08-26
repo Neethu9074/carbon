@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import Immutable from 'immutable';
+import invariant from 'invariant';
 
 import * as connection from '../connection/subscriptionAwareConnection';
 import getIdString from '../snapshots/getIdString';
@@ -11,6 +12,8 @@ export default class SnapshotsConveyer {
   }
 
   constructor({pluginId}) {
+    invariant(pluginId, 'A pluginId is required in order to retrieve snapshots');
+
     this.snapshotId = connection.getSubscriptionId();
     this.presenceId = connection.getSubscriptionId();
 
