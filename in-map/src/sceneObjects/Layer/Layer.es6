@@ -41,9 +41,11 @@ export default class Layer extends SceneObject {
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
 
-    this.addSubscription(selectedSceneObject.subscribe(event =>
-      this.onSceneObjectSelected(event.sceneObject)
-    ));
+    this.addSubscription(selectedSceneObject.subscribe(event => {
+      if (event) {
+        this.onSceneObjectSelected(event.sceneObject);
+      }
+    }));
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
