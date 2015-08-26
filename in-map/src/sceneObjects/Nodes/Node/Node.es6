@@ -230,7 +230,8 @@ export default class Node extends BaseNode {
       this.isToFarAway = params.isToFarAway;
     }
 
-    if(!this.isToFarAway && !this.isOutOfView && this.snapshotServer.currentMetric) {
+    if(!this.isToFarAway && !this.isOutOfView &&
+        this.snapshotServer && this.snapshotServer.currentMetric) {
       if(!this.canShowMetrics) {
         this.canShowMetrics = true;
         this.snapshotServer.resumeMetrics();
@@ -326,7 +327,6 @@ export default class Node extends BaseNode {
   dispose() {
     // dispose the event server to prevent updates
     this.snapshotServer.dispose();
-
 
     //dispose other subscriptions
     super.dispose();
