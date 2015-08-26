@@ -10,7 +10,13 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
-    sceneObject = {};
+    sceneObject = {
+      scene: {
+        lineFactory: {
+          rebuild() {}
+        }
+      }
+    };
     component = new ConnectionComponent({sceneObject});
   });
 

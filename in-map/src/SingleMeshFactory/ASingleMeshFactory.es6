@@ -54,11 +54,7 @@ export default class SingleMeshFactory {
       this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
 
     } else {
-      fragment = {
-        id,
-        vertices: contentProvider.getVertices(),
-        colors: contentProvider.getColors()
-      };
+      fragment = { id };
 
       this.fragments.push(fragment);
       this.queueFragment(fragment, 0, UPDATE_FLAGS.ADD);
@@ -127,8 +123,14 @@ export default class SingleMeshFactory {
       indexInVertices += frag.vertices.length;
     }
 
-    this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);
-    this.colors.splice(indexInVertices, numElements, ...fragment.colors);
+    const args = [indexInVertices, numElements].concat(fragment.vertices);
+    Array.prototype.splice.apply(this.vertices, args);
+
+    const args2 = [indexInVertices, numElements].concat(fragment.colors);
+    Array.prototype.splice.apply(this.colors, args2);
+
+    // this.vertices.splice(indexInVertices, numElements, ...fragment.vertices);
+    // this.colors.splice(indexInVertices, numElements, ...fragment.colors);
   }
 
   updateGeometry() {
