@@ -54,11 +54,7 @@ export default class SingleMeshFactory {
       this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
 
     } else {
-      fragment = {
-        id,
-        vertices: contentProvider.getVertices(),
-        colors: contentProvider.getColors()
-      };
+      fragment = { id };
 
       this.fragments.push(fragment);
       this.queueFragment(fragment, 0, UPDATE_FLAGS.ADD);
