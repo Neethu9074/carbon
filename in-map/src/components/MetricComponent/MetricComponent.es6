@@ -3,10 +3,10 @@ import THREE from 'three';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import SCCP from '../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
-import {cubeGeometry, defaultGeometryMaterial} from '../../SceneObjects/geometries';
+import {cubeGeometry, defaultGeometryMaterial} from '../../sceneObjects/geometries';
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import TooltipMetric from '../../SceneObjects/Tooltips/Metric';
+import TooltipMetric from '../../sceneObjects/Tooltips/Metric';
 import {currentTooltip} from '../../stores/mapStore';
 import Component from '../Component';
 
