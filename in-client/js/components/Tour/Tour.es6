@@ -234,6 +234,7 @@ const GuidedTour = React.createClass({
     }
 
     this.stopTour();
+    tracking.trackEvent(tracking.events.finishATour);
   },
 
   render() {
