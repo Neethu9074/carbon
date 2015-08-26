@@ -22,8 +22,8 @@ const Settings = React.createClass({
 
   getInitialState() {
     return {
-      antialiasValue: 'none',
       inverseCheckboxChecked: false,
+      antialiasValue: 'off',
       speedSliderValue: 1
     };
   },
@@ -35,7 +35,7 @@ const Settings = React.createClass({
       this.setState({
         inverseCheckboxChecked: direction === 1 ? false : true,
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
-        antialiasValue: antialias ? 'on' : 'off'
+        antialiasValue: antialias ? antialias : 'off'
       });
     }));
   },
@@ -82,7 +82,8 @@ const Settings = React.createClass({
                     onChange={this.antialiasChanged}
                     defaultValue={this.state.antialiasValue}>
               <option value='off'>off</option>
-              <option value='on'>on</option>
+              <option value='browserAA'>browserAA</option>
+              <option value='FXAA'>FXAA</option>
             </select>
           </div>
 
@@ -95,7 +96,7 @@ const Settings = React.createClass({
     const value = event.target.value;
 
     // sets AA true if on value other than 'none' was chosen
-    setIn(['map', 'antialias'], value !== 'off');
+    setIn(['map', 'antialias'], value);
 
     // tracking.trackEvent(tracking.events.antialiasWasChosenInSettings);
   },
