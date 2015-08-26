@@ -9,7 +9,6 @@ import {subscribeToMetric} from '../../../metricUtils';
 import Tooltip from '../Tooltip';
 
 
-/*eslint-disable no-unused-vars*/
 const MetricRC = React.createClass({
 
   mixins: [
@@ -56,7 +55,7 @@ const MetricRC = React.createClass({
     );
   }
 });
-/*eslint-enable no-unused-vars*/
+
 
 export default class TooltipMetric extends Tooltip {
   constructor(parent) {

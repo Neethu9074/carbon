@@ -9,11 +9,11 @@ const defaultColors = (() => {
   const colors = [];
   const converter = new THREE.Color();
 
-  fillIn(colors, converter, theme.chart.strokeColors[4]);
-  fillIn(colors, converter, theme.chart.strokeColors[3]);
-  fillIn(colors, converter, theme.chart.strokeColors[2]);
-  fillIn(colors, converter, theme.chart.strokeColors[1]);
   fillIn(colors, converter, theme.chart.strokeColors[0]);
+  fillIn(colors, converter, theme.chart.strokeColors[1]);
+  fillIn(colors, converter, theme.chart.strokeColors[2]);
+  fillIn(colors, converter, theme.chart.strokeColors[3]);
+  fillIn(colors, converter, theme.chart.strokeColors[4]);
 
   return colors;
 })();
@@ -33,7 +33,7 @@ export default class SlicedCubeContentProvider extends ContentProvider {
     super();
 
     this.numSlices = numSlices;
-    this.faceColors = numSlices === 1 ? defaultColors.slice().reverse() : defaultColors;
+    this.faceColors = defaultColors;
 
     this.calculateSliceIndices();
     this.calculatePositions();

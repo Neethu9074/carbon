@@ -26,11 +26,11 @@ export default React.createClass({
       return null;
     }
 
+    const colors = theme.chart.strokeColors.slice(0, values.length).reverse();
     let colorIndex = 0;
-    const colors = theme.chart.strokeColors;
+
     const listItems = values.map((value, index) => {
-      const color = colors[colorIndex];
-      colorIndex++;
+      const color = colors[colorIndex++];
       if(colorIndex >= colors.length) {
         colorIndex = 0;
       }
