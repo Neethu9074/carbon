@@ -24,7 +24,7 @@ export default class SingleMetricPillarFactory extends MeshFactory {
   constructor({scene}) {
     super({scene});
 
-    const progress = {
+    const progress = this.progress = {
       type: 'f',
       value: 0.0
     };
@@ -90,6 +90,9 @@ export default class SingleMetricPillarFactory extends MeshFactory {
   }
 
   updateHeights() {
+    this.animation.stop();
+    this.progress.value = 0;
+
     //get all enabled fragments
     const frags = this.getLegalFragments();
     const numCubes = frags.length;
@@ -115,7 +118,6 @@ export default class SingleMetricPillarFactory extends MeshFactory {
     this.globalGeometry.addAttribute('uv',
       new THREE.BufferAttribute(uvs, numElementsPerUv));
 
-    this.animation.stop();
     this.animation.start();
   }
 

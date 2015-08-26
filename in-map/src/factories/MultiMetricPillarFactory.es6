@@ -38,7 +38,7 @@ export default class MultiMetricPillarFactory extends MeshFactory {
 
     this.numTiles = numTiles;
 
-    const progress = {type: 'f', value: 0.0};
+    const progress = this.progress = {type: 'f', value: 0.0};
     this.setupMaterial(progress);
 
     //for each tile there is a part of the geometry added
@@ -152,6 +152,9 @@ export default class MultiMetricPillarFactory extends MeshFactory {
   }
 
   updateHeights() {
+    this.animation.stop();
+    this.progress.value = 0;
+
     //get all enabled fragments
     const frags = this.getLegalFragments();
     const numCubes = frags.length;
@@ -166,7 +169,6 @@ export default class MultiMetricPillarFactory extends MeshFactory {
     this.globalGeometry.addAttribute('uv',
       new THREE.BufferAttribute(uvs, numElementsPerUv));
 
-    this.animation.stop();
     this.animation.start();
   }
 
