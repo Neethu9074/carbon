@@ -69,11 +69,13 @@ const Metrics = React.createClass({
 
     return (
       <div className={block + '__header'}>
-        <h2 className={block + '__label'}>Metrics</h2>
+        <h2 className={block + '__label'}>
+          {'Metrics'}
+        </h2>
         <div className={block + '__clear-button'}
              style={style}
              onClick={() => metricsStore.activeMetric.emit(null)}>
-          CLEAR
+          {'Reset'}
           <Icon className={block + '__icon'} type='x' />
         </div>
       </div>

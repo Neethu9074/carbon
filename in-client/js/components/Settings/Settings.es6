@@ -3,7 +3,10 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
 import * as tracking from 'in-services/tracking';
+import CheckBox from 'in-components/CheckBox';
+import ComboBox from 'in-components/ComboBox';
 import Button from 'in-components/Button';
+import Slider from 'in-components/Slider';
 import Dialog from 'in-components/Dialog';
 
 import './Settings.less';
@@ -55,37 +58,26 @@ const Settings = React.createClass({
             </Button>
           </div>
 
-          <div className={block + '__setting'}>
-            <input type='checkbox'
-                   defaultChecked={this.state.inverseCheckboxChecked}
-                   className={block + '__checkbox'}
-                   onClick={(e) => {
+
+          <CheckBox label={'Inverse scroll direction'}
+                    onClick={(e) => {
                      setIn(['map', 'scrollDirection'], e.target.checked ? -1 : 1);
-                   }}/>
-            {'Inverse scroll direction'}
-          </div>
+                    }}
+                    defaultChecked={this.state.inverseCheckboxChecked}/>
 
-          <div className={block + '__setting'}>
-            <input type='range'
-                   className={block + '__range'}
-                   min={0.1}
-                   max={20}
-                   step={0.1}
-                   defaultValue={this.state.speedSliderValue}
-                   onChange={(e) => setIn(['map', 'scrollSpeed'], e.target.value)}/>
-            {' Scroll speed: ' + this.state.speedSliderValue}
-          </div>
+          <Slider label={' Scroll speed: ' + this.state.speedSliderValue}
+                  onChange={(e) => setIn(['map', 'scrollSpeed'], e.target.value)}
+                  min={0.1}
+                  max={20}
+                  defaultValue={this.state.speedSliderValue}/>
 
-          <div className={block + '__setting'}>
-            {'Antialias'}
-            <select className={block + '__select'}
+          <ComboBox label={'Antialias'}
                     onChange={this.antialiasChanged}
                     defaultValue={this.state.antialiasValue}>
-              <option value='off'>off</option>
-              <option value='browserAA'>browserAA</option>
-              <option value='FXAA'>FXAA</option>
-            </select>
-          </div>
+            {'off'}
+            {'browserAA'}
+            {'FXAA'}
+          </ComboBox>
 
         </div>
       </Dialog>

@@ -6,18 +6,23 @@
   margin: 5px;
   padding: 5px;
 
-  background: #223038;
+  background: #22292e;
 
   &__button {
-    background: #2d3c43;
+    background-color: rgba(255, 255, 255, 0.1);
     margin: 5px;
 
-    color: #868f94;
+    text-transform: none;
+    color: white;
+  }
+
+  &__button:hover {
+    background-color: rgba(255, 255, 255, 0.2);
   }
 }
 
 .in-timepicker:before {
-  content: ' ';
+  content: '';
   position: absolute;
 
   bottom: -7px;
@@ -26,8 +31,8 @@
 
   border: 6px solid;
   border-color:
-    #232f38
+    #22292e
     transparent
     transparent
-    #232f38;
+    #22292e;
 }

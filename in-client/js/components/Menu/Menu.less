@@ -5,7 +5,7 @@
   white-space: nowrap;
   flex-shrink: 0;
 
-  &__toggle-button {
+  &__toggle-button-closed, &__toggle-button-opened {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -17,9 +17,15 @@
     font-size: 13px;
   }
 
-  &__toggle-button:hover {
+  &__toggle-button-opened {
     color: #fff;
 
+    .in-menu__icon, .in-menu__icon-close {
+      color: #fff;
+    }
+  }
+
+  &__toggle-button-closed:hover {
     .in-menu__icon, .in-menu__icon-close {
       color: #fff;
     }
