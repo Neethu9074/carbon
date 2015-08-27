@@ -39,26 +39,29 @@ export class AdaptiveDetailHandler {
 
     this.state.enter(scene);
 
-    const fpsArray = [60, 60, 60, 60, 60];
-    let fpsArrayIndex = 0;
+    this.fpsArray = [60, 60, 60, 60, 60];
+    this.fpsArrayIndex = 0;
 
-    this.checkInterval = setInterval(() => {
-      const fps = time.getFPS();
+    this.checkInterval = setInterval(this.tick.bind(this), 1000);
+  }
 
-      fpsArray[fpsArrayIndex] = fps;
-      if (++fpsArrayIndex >= fpsArray.length) {
-        fpsArrayIndex = 0;
-      }
+  tick() {
+    const fps = time.getFPS();
+    const scene = this.scene;
+    const fpsArray = this.fpsArray;
 
-      const average = this.getAverage(fpsArray);
-      const newState = this.getState(average);
-      if (newState !== this.state) {
-        this.state.leave(scene);
-        newState.enter(scene);
-        this.state = newState;
-      }
-    },
-    1000);
+    fpsArray[this.fpsArrayIndex] = fps;
+    if (++this.fpsArrayIndex >= fpsArray.length) {
+      this.fpsArrayIndex = 0;
+    }
+
+    const average = this.getAverage(fpsArray);
+    const newState = this.getState(average);
+    if (newState !== this.state) {
+      this.state.leave(scene);
+      newState.enter(scene);
+      this.state = newState;
+    }
   }
 
   getState(value) {
