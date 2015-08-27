@@ -106,6 +106,10 @@ http {
       add_header             X-Content-Type-Options nosniff;
       add_header             X-XSS-Protection "1; mode=block";
 
+      # tell browsers to preconnect google for downloading webfonts
+      add_header             Link: "<https://fonts.googleapis.com>; rel=preconnect; crossorigin";
+      add_header             Link: "<https://fonts.gstatic.com>; rel=preconnect; crossorigin";
+
       # TODO submit application to https://hstspreload.appspot.com/
       # once properly configured and live on instana.io
       add_header             Strict-Transport-Security "max-age=10886400; includeSubDomains; preload";
