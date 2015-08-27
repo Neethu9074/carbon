@@ -1,16 +1,15 @@
 import _ from 'lodash';
 
 
+let millisWatingForComponentUpdate = 200;
+let timeCounterForComponentUpdate = 0;
 let timeOfLastFrameUpdate = 0;
 let timeSinceFirstFrame = 0;
 let secondCounter = 0;
 let fpsCounter = 0;
 let deltaTime = 0;
 let fps = 0;
-let timeCounterForComponentUpdate = 0;
-let millisWatingForComponentUpdate = 200;
-
-const timeEventListener = [];
+let timeEventListener = [];
 
 export function addTimeEventListener(listener) {
   timeEventListener.push(listener);
@@ -71,6 +70,8 @@ export function setFramesWatingForComponentUpdate(numFrames) {
 }
 
 export function reset() {
+  timeEventListener = [];
+
   timeCounterForComponentUpdate = 0;
   timeOfLastFrameUpdate = 0;
   timeSinceFirstFrame = 0;
@@ -78,8 +79,4 @@ export function reset() {
   fpsCounter = 0;
   deltaTime = 0;
   fps = 0;
-
-  timeEventListener
-    .slice()
-    .forEach(listener => this.removeTimeEventListener(listener));
 }
