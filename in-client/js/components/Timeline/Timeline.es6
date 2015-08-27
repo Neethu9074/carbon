@@ -153,7 +153,13 @@ const Timeline = React.createClass({
     }
 
     const scale = this.getScale();
-    const right = Math.max(scale(issue.get('end')).toFixed(2), 0) + '%';
+    let right = scale(issue.get('end')).toFixed(2);
+    if (right < 0) {
+      right = 0 + '%';
+    } else {
+      right = (100 - right) + '%';
+    }
+
     return (
       <div  className={block + '__issue-line'}
             style={{
