@@ -7,6 +7,7 @@ import * as tracking from 'in-services/tracking';
 
 import SignInWithXing from './SignInWithXing';
 import SignInWithLinkedIn from './SignInWithLinkedIn';
+import SignInWithGoogle from './SignInWithGoogle';
 import Tour from '../Tour';
 
 import './DemoDialog.less';
@@ -42,6 +43,9 @@ const DemoDialog = React.createClass({
           <SignInWithXing onSignIn={this.onSignIn}
                           onError={this.onError}
                           className={block + '__xing'}/>
+          <SignInWithGoogle onSignIn={this.onSignIn}
+                            onError={this.onError}
+                            className={block + '__google'}/>
         </div>
         <p className={block + '__terms'}>
           By signing in with LinkedIn or Xing you are agreeing to our&nbsp;
