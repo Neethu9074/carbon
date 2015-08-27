@@ -12,14 +12,14 @@ import Icon from 'in-components/Icon';
 
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {health, mapSeverityToHealth} from 'in-services/health';
 import * as timelineStore from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
-import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
-import {theme} from 'in-services/theme';
-import * as time from 'in-services/time';
 import * as tracking from 'in-services/tracking';
+import * as time from 'in-services/time';
+import {theme} from 'in-services/theme';
 
 import {getLabel} from 'in-sdk/snapshot';
 
