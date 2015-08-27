@@ -165,7 +165,6 @@ const Timeline = React.createClass({
     );
   },
 
-
   renderIssues() {
     if (!this.props.openIssues) {
       return null;
