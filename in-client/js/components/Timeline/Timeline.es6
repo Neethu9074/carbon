@@ -108,6 +108,7 @@ const Timeline = React.createClass({
           </div>
 
           <div className={block + '__line'}>
+            {this.renderIssueLine()}
             {this.renderIssues()}
             {this.renderFocusedMoment()}
           </div>
@@ -134,6 +135,37 @@ const Timeline = React.createClass({
     return moment(time.getServerTime() - this.props.timeframe).fromNow();
   },
 
+  getScale() {
+    const now = time.getServerTime();
+    const maxOldestPermittedIssue = now - this.props.timeframe;
+    return this.state.scale.domain([now, maxOldestPermittedIssue]);
+  },
+
+  getIssueColor(issue) {
+    const iconConfig = this.getIconConfig(issue);
+    return issue.get('state') === 'OPEN' ? iconConfig.color : HEALTH_OK.color;
+  },
+
+  renderIssueLine() {
+    const issue = this.state.hoveredIssue;
+    if (!issue) {
+      return null;
+    }
+
+    const scale = this.getScale();
+    const right = Math.max(scale(issue.get('end')).toFixed(2), 0) + '%';
+    return (
+      <div  className={block + '__issue-line'}
+            style={{
+              left: scale(issue.get('start')).toFixed(2) + '%',
+              right,
+              borderColor: this.getIssueColor(issue)
+            }}>
+      </div>
+    );
+  },
+
+
   renderIssues() {
     if (!this.props.openIssues) {
       return null;
@@ -153,16 +185,13 @@ const Timeline = React.createClass({
     return issues
       .map(issue => {
         const iconConfig = this.getIconConfig(issue);
-        // closed issues should like regular events as far as the color is
-        // concerned
-        const color = issue.get('state') === 'OPEN' ? iconConfig.color : HEALTH_OK.color;
         return (
           <Icon key={issue.get('id')}
                 type={iconConfig.type}
                 className={block + '__problem'}
                 style={{
                   left: scale(issue.get('start')).toFixed(2) + '%',
-                  color
+                  color: this.getIssueColor(issue)
                 }}
                 onMouseEnter={this.mouseIn.bind(this, issue)}
                 onMouseLeave={this.mouseOut}

@@ -52,16 +52,16 @@
     padding: 10px 20px 0px 20px;
     border-radius: 4px 4px 0 0;
 
-    background: #22292e;
+    background: #20292f;
   }
 
-  &__menu-entry {
+  &__menu-entry, &__menu-entry-signout {
     height: 30px;
     width: 100%;
 
     padding-top: 8px;
     font-size: 12px;
-    color: #91e1df;
+    color: #a1fefc;
 
     border-bottom: 1px solid #333a3e;
     cursor: pointer;
@@ -73,6 +73,11 @@
     &:last-child {
       border-bottom: 0;
     }
+  }
+
+  &__menu-entry-signout {
+    font-size: 10px;
+    color: #7f878b;
   }
 
   &__signout {

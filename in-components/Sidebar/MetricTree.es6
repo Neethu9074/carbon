@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import MetricTreeHeader from './MetricTreeHeader';
+import Collapsible from '../Collapsible';
 
 import './MetricTree.less';
 
@@ -19,21 +19,7 @@ const MetricTree = React.createClass({
     className: rpt.string
   },
 
-  getInitialState() {
-    return {open: false};
-  },
-
-  toggle() {
-    this.setState({
-      open: !this.state.open
-    });
-  },
-
   renderChildren() {
-    if(!this.state.open) {
-      return null;
-    }
-
     const children = this.props.children.size > 1 ?
       this.props.children :
       [this.props.children];
@@ -59,11 +45,17 @@ const MetricTree = React.createClass({
     return (
       <div className={classes}
            style={this.props.style}>
-        <MetricTreeHeader onClick={this.toggle}
-                          content={this.props.header.text + ' (' + this.props.children.size + ')'}
-                          iconType={this.state.open ? 'close' : 'open'}
-                          className={String(this.props.header.level)}/>
-        {this.renderChildren()}
+
+        <Collapsible>
+         <Collapsible.Header>
+           {this.props.header.text + ' (' + this.props.children.size + ')'}
+         </Collapsible.Header>
+
+         <Collapsible.Content>
+           {this.renderChildren()}
+         </Collapsible.Content>
+        </Collapsible>
+
       </div>
     );
   }
