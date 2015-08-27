@@ -91,6 +91,10 @@ export default class MetricComponent extends Component {
       this.factory.rebuild();
     }
 
+    if (!this.factoryFragment) {
+      return;
+    }
+
     values = values.map(x => x * this.sceneObject.height);
 
     // set values to to factory fragment and refresh arrays
