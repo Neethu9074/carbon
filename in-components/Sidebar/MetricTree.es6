@@ -38,25 +38,16 @@ const MetricTree = React.createClass({
   },
 
   render() {
-    const classes = this.props.className ?
-      block + ' ' + this.props.className :
-      block;
-
     return (
-      <div className={classes}
-           style={this.props.style}>
+      <Collapsible>
+       <Collapsible.Header>
+         {this.props.header.text + ' (' + this.props.children.size + ')'}
+       </Collapsible.Header>
 
-        <Collapsible>
-         <Collapsible.Header>
-           {this.props.header.text + ' (' + this.props.children.size + ')'}
-         </Collapsible.Header>
-
-         <Collapsible.Content>
-           {this.renderChildren()}
-         </Collapsible.Content>
-        </Collapsible>
-
-      </div>
+       <Collapsible.Content>
+         {this.renderChildren()}
+       </Collapsible.Content>
+      </Collapsible>
     );
   }
 });
