@@ -51,6 +51,10 @@ const ZoneList = React.createClass({
   },
 
   render() {
+    if (!this.props.groups) {
+      return null;
+    }
+
     const groups = Object.keys(this.props.groups).sort();
     return (
       <div className={block}>
