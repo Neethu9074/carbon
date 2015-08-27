@@ -42,9 +42,10 @@ export function getMapStatistics(scene) {
       '#groups': getAllGroups(map).length,
       '#nodes': getAllNodes(map).length,
       factories: {
-        SMF_updates: scene.singleMeshFactory.numberUpdates | 0,
-        ground: scene.groundSingleMeshFactory.numberUpdates | 0,
         highlight: scene.highlightingSingleMeshFactory.numberUpdates | 0,
+        metrics: scene.singleMeshMetricFactory.numberUpdates | 0,
+        ground: scene.groundSingleMeshFactory.numberUpdates | 0,
+        SMF_updates: scene.singleMeshFactory.numberUpdates | 0,
         layer: scene.layerSingleMeshFactory.numberUpdates | 0
       },
       details: {
