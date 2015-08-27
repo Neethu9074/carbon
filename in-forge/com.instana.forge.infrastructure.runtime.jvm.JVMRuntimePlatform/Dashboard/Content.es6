@@ -86,91 +86,94 @@ const JVMDashboard = React.createClass({
                            }}/>
         </DashboardSection>
 
-        <DashboardSection title='Memory Pools'>
-          {this.state.poolName ?
+        { pools ?
+          <DashboardSection title='Memory Pools'>
+            {this.state.poolName ?
+              <ChartWithLegend snapshot={this.props.snapshot}
+                     windowSize={this.props.timeframe}
+                     height={chartHeight}
+                     margins={{
+                       left: 80
+                     }}
+
+                     y1={{
+                       max: getMaxValue(
+                         'pools.' + this.state.poolName,
+                         this.props.snapshot
+                       ),
+                       formatter: formatBytes,
+                       metrics: [
+                         'pools.' + this.state.poolName
+                       ],
+                       labels: [
+                         this.state.poolName + ' Usage'
+                       ],
+                       type: 'line'
+                     }}/>
+            : null}
+
+            <table className='in-subtle-table in-subtle-table--clickable'>
+              <thead>
+                <tr>
+                  <th>Pool</th>
+                  <th>Initial</th>
+                  <th>Max</th>
+                  <th>Used</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {pools.map((data, name) =>
+                  <tr key={name} onClick={() => this.selectPool(name)}>
+                    <td>{name}</td>
+                    <td>{formatBytes(data.get('initial'))}</td>
+                    <td>{formatBytes(data.get('max'))}</td>
+                    <Mtd metric={'pools.' + name}
+                         snapshot={this.props.snapshot}
+                         formatter={formatBytes} />
+                  </tr>
+                ).valueSeq()}
+              </tbody>
+            </table>
+          </DashboardSection>
+        : null}
+
+        {collectors ?
+          <DashboardSection title='Garbage Collection'>
             <ChartWithLegend snapshot={this.props.snapshot}
                    windowSize={this.props.timeframe}
                    height={chartHeight}
                    margins={{
-                     left: 80
+                     left: 80,
+                     right: 80
                    }}
 
                    y1={{
-                     max: getMaxValue(
-                       'pools.' + this.state.poolName,
-                       this.props.snapshot
-                     ),
-                     formatter: formatBytes,
-                     metrics: [
-                       'pools.' + this.state.poolName
-                     ],
-                     labels: [
-                       this.state.poolName + ' Usage'
-                     ],
-                     type: 'line'
+                     metrics: collectors.map((name) =>
+                                'gc.' + name + '.time'
+                              ).toArray()
+                     ,
+                     labels: collectors.map((name) =>
+                                name + ' Time'
+                              ).toArray()
+                     ,
+                     type: 'line',
+                     formatter: (d) => d / 1000 + ' s'
+                     }}
+
+                   y2={{
+                     metrics: collectors.map((name) =>
+                                'gc.' + name + '.inv'
+                              ).toArray()
+                     ,
+                     labels: collectors.map((name) =>
+                                name + ' Invocations'
+                              ).toArray()
+                     ,
+                     type: 'point'
                    }}/>
-          : null}
-
-          <table className='in-subtle-table in-subtle-table--clickable'>
-            <thead>
-              <tr>
-                <th>Pool</th>
-                <th>Initial</th>
-                <th>Max</th>
-                <th>Used</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {pools.map((data, name) =>
-                <tr key={name} onClick={() => this.selectPool(name)}>
-                  <td>{name}</td>
-                  <td>{formatBytes(data.get('initial'))}</td>
-                  <td>{formatBytes(data.get('max'))}</td>
-                  <Mtd metric={'pools.' + name}
-                       snapshot={this.props.snapshot}
-                       formatter={formatBytes} />
-                </tr>
-              ).valueSeq()}
-            </tbody>
-          </table>
-        </DashboardSection>
-
-
-        <DashboardSection title='Garbage Collection'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                 windowSize={this.props.timeframe}
-                 height={chartHeight}
-                 margins={{
-                   left: 80,
-                   right: 80
-                 }}
-
-                 y1={{
-                   metrics: collectors.map((name) =>
-                              'gc.' + name + '.time'
-                            ).toArray()
-                   ,
-                   labels: collectors.map((name) =>
-                              name + ' Time'
-                            ).toArray()
-                   ,
-                   type: 'line',
-                   formatter: (d) => d / 1000 + ' s'
-                   }}
-
-                 y2={{
-                   metrics: collectors.map((name) =>
-                              'gc.' + name + '.inv'
-                            ).toArray()
-                   ,
-                   labels: collectors.map((name) =>
-                              name + ' Invocations'
-                            ).toArray()
-                   ,
-                   type: 'point'
-                 }}/>
-        </DashboardSection>
+          </DashboardSection>
+        : null}
       </div>
     );
   },
