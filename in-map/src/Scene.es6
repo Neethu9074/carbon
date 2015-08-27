@@ -9,9 +9,12 @@ import eventBus from 'in-services/eventbus';
 
 import './lib/Octree';
 import './lib/EffectComposer';
+import './lib/Projector';
 import './lib/ShaderExtras';
 import './lib/ShaderPass';
 import './lib/RenderPass';
+import './lib/CanvasRenderer';
+import './lib/AsciiEffect';
 
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
@@ -52,7 +55,10 @@ export default class Scene {
     this.scene = new THREE.Scene();
     this.setupFactories();
     this.setup3D();
-    this.controller = new MouseCameraController({scene: this});
+    this.controller = new MouseCameraController({
+      canvas: this.canvas,
+      scene: this
+    });
 
     this.adaptiveDetailHandler = new Handler.AdaptiveDetailHandler(this);
 
@@ -67,7 +73,6 @@ export default class Scene {
     const width = this.width;
 
     this.setupCanvas();
-    this.setupRenderer();
     this.setupCamera(width, height);
 
     this.backgroundPlane = getBackgroundPlane();
@@ -76,11 +81,11 @@ export default class Scene {
     this.backgroundScene = new THREE.Scene();
     this.backgroundScene.add(this.backgroundPlane);
 
+    // needs the scene, camera and renderer so do it last
+    this.setupRenderer();
     this.setupFXAARenderPass();
 
-    this.map = new PhysicalMap({
-      parent: this
-    });
+    this.map = new PhysicalMap({ parent: this });
 
     // set this flag to force a render cycle
     this.shouldRenderScene = true;
@@ -112,7 +117,7 @@ export default class Scene {
   }
 
   setupRenderer() {
-    const renderer = this.renderer = new THREE.WebGLRenderer({
+    const renderer = this.webGLRenderer = new THREE.WebGLRenderer({
       canvas: this.canvas,
       antialias: this.antialias === 'browserAA' ? true : false
     });
@@ -159,26 +164,28 @@ export default class Scene {
   }
 
   setupFXAARenderPass() {
-    const renderer = this.renderer;
-    const camera = this.camera;
+    if(this.antialias !== 'FXAA') {
+      return;
+    }
+
     const height = this.height;
     const width = this.width;
-    const scene = this.scene;
+
+    const renderTarget = this.renderTarget = new THREE.WebGLRenderTarget(width, height, {
+      minFilter: THREE.LinearFilter
+    });
 
     const effectFXAA = this.fxaaEffect = new THREE.ShaderPass(THREE.ShaderExtras.fxaa);
     effectFXAA.uniforms.resolution.value.set(1 / width, 1 / height);
     effectFXAA.renderToScreen = true;
 
-    const renderTarget = this.renderTarget = new THREE.WebGLRenderTarget(width, height, {
-      minFilter: THREE.LinearFilter
-    });
-    const composer = this.effectComposer = new THREE.EffectComposer(renderer, renderTarget);
-
+    const composer = new THREE.EffectComposer(this.webGLRenderer, renderTarget);
     composer.addPass(new THREE.RenderPass(this.backgroundScene, this.backgroundCamera));
-    composer.addPass(new THREE.RenderPass(scene, camera));
+    composer.addPass(new THREE.RenderPass(this.scene, this.camera));
     composer.addPass(effectFXAA);
-  }
 
+    this.composer = composer;
+  }
 
   setupFactories() {
     const scene = this;
@@ -236,6 +243,31 @@ export default class Scene {
     window.addEventListener('resize', this.onWindowResizeHandler, false);
 
     this.subscriptions = [];
+
+    window.addEventListener('keydown', (e) => {
+      const char = String.fromCharCode(e.keyCode);
+      if (!this.secretWord) {
+        this.secretWord = '';
+      }
+      this.secretWord += char;
+      if (this.secretWord.toLowerCase().match(/instana/i) && !this.doneMagic) {
+        this.webGLRenderer.autoClearColor = true;
+        this.asciiEffect = new THREE.AsciiEffect(this.webGLRenderer);
+        this.asciiEffect.setSize(this.width, this.height);
+
+        this.parent.removeChild(this.canvas);
+        this.parent.appendChild(this.asciiEffect.domElement);
+
+        this.controller.dispose();
+        this.controller = new MouseCameraController({
+          canvas: this.asciiEffect.domElement,
+          scene: this
+        });
+
+        this.renderScene();
+        this.doneMagic = true;
+      }
+    }, false);
 
     this.subscriptions.push(stores.currentTooltip.subscribe(tooltip => {
       if(this.tooltip === tooltip) {
@@ -299,7 +331,7 @@ export default class Scene {
   // examples: another page does something that takes the GPU too long and the browser
   // or the OS decides to reset the GPU to get control back. the event is called >>webglcontextlost<<
   handleLostContext() {
-    const canvas = this.renderer.domElement;
+    const canvas = this.webGLRenderer.domElement;
     canvas.addEventListener('webglcontextlost', (event) => {
       event.preventDefault();
     }, false);
@@ -407,16 +439,15 @@ export default class Scene {
 
 
   render() {
-    //first render the background
-    if(this.antialias === 'FXAA') {
-      this.effectComposer.render();
-
+    if (this.doneMagic) {
+      this.asciiEffect.render(this.scene, this.camera);
     } else {
-      const renderer = this.renderer;
-      renderer.render(this.backgroundScene, this.backgroundCamera);
-
-      //after rendering the background, render the hole scene
-      renderer.render(this.scene, this.camera);
+      if(this.antialias === 'FXAA') {
+        this.composer.render();
+      } else {
+        this.webGLRenderer.render(this.backgroundScene, this.backgroundCamera);
+        this.webGLRenderer.render(this.scene, this.camera);
+      }
     }
 
     //reset the flag to disable rendering if there is no update
@@ -545,12 +576,18 @@ export default class Scene {
     const height = this.height = window.innerHeight;
     const width = this.width = window.innerWidth;
 
-    this.canvas.width = width;
     this.canvas.height = height;
+    this.canvas.width = width;
 
-    this.renderer.setSize(width, height);
-    this.fxaaEffect.uniforms.resolution.value.set(1 / width, 1 / height);
-    this.renderTarget.setSize(width, height);
+    if (this.fxaaEffect) {
+      this.fxaaEffect.uniforms.resolution.value.set(1 / width, 1 / height);
+      this.renderTarget.setSize(width, height);
+      this.composer.setSize(width, height);
+    }
+    if (this.asciiEffect) {
+      this.asciiEffect.setSize(width, height);
+    }
+    this.webGLRenderer.setSize(width, height);
 
     this.setCameraFromSize();
 
@@ -639,8 +676,13 @@ export default class Scene {
 
     //remove the canvas and clear the parent div
     window.removeEventListener('resize', this.onWindowResizeHandler, false);
-    this.parent.removeChild(this.canvas);
-    this.canvas = null;
+    window.removeEventListener('keydown', this.onWindowResizeHandler, false);
+
+    try {
+      this.parent.removeChild(this.canvas);
+    } finally {
+      this.canvas = null;
+    }
 
     this.clearStores();
   }

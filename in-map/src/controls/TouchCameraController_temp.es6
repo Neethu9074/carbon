@@ -9,13 +9,12 @@ import CameraController from './CameraController_temp';
 
 export default class TouchControl extends CameraController{
 
-  constructor({scene}) {
+  constructor({scene, canvas}) {
     super({scene});
 
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
 
-    const canvas = scene.canvas;
     const eventHandler = new Hammer(canvas);
     const minMovementForPan = 15;
 

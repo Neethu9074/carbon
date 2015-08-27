@@ -14,7 +14,7 @@ let framesRenderedInSecond = 0;
 const detailLevels = { low: 0, mid: 0, max: 0 };
 
 export function getMapStatistics(scene) {
-  const renderer = scene.renderer;
+  const renderer = scene.webGLRenderer;
   const renderInfo = renderer.info.render;
   const memoryInfo = renderer.info.memory;
   const map = scene.map;

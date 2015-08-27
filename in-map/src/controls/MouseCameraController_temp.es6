@@ -9,8 +9,8 @@ import {cursorPosition} from '../stores/mapStore';
 
 export default class MouseControl extends TouchController {
 
-  constructor({scene}) {
-    super({scene});
+  constructor({scene, canvas}) {
+    super({scene, canvas});
     this.lastMousePosition = {x: 0, y: 0};
 
     this.mouseScrollSpeedSubscribtion = getIn(['map', 'scrollSpeed'])
@@ -19,8 +19,8 @@ export default class MouseControl extends TouchController {
     this.mouseScrollDirectionSubscribtion = getIn(['map', 'scrollDirection'])
       .subscribe(data => this.mouseScrollDirection = data);
 
-    const canvas = scene.parent;
-    canvas.onmousemove = (e) => {
+    const div = scene.parent;
+    div.onmousemove = (e) => {
       e.preventDefault();
 
       const roundedX = e.clientX | 0;
@@ -36,7 +36,7 @@ export default class MouseControl extends TouchController {
 
     // Wheel event is new (IE10+, Chrome 31+, FF 17+, Safari 7), but produces
     // a consistent range of scroll events.
-    ro.on(canvas, 'wheel')
+    ro.on(div, 'wheel')
       .scan((aggregate, e) => {
         e.preventDefault();
         aggregate.deltaY += e.deltaY;
@@ -73,8 +73,6 @@ export default class MouseControl extends TouchController {
   }
 
   dispose() {
-    super.dispose();
-
     this.mouseScrollDirectionSubscribtion.dispose();
     this.mouseScrollSpeedSubscribtion.dispose();
   }

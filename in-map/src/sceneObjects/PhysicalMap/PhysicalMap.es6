@@ -68,7 +68,7 @@ export default class PhysicalMap extends SceneObject {
 
     //set the ground anisotropy to the max because it's a huge ground always
     //seen and it needs to be as sharp as possible
-    texture.anisotropy = this.scene.renderer.getMaxAnisotropy();
+    texture.anisotropy = this.scene.webGLRenderer.getMaxAnisotropy();
 
     this.groundtexture = texture;
     return texture;
