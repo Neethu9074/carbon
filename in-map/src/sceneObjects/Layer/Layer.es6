@@ -22,7 +22,7 @@ import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Scal
 import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 
-const margin = 0.9;
+const margin = 0.8;
 
 export default class Layer extends SceneObject {
 
@@ -30,7 +30,7 @@ export default class Layer extends SceneObject {
     super({parent, id});
 
     this.snapshot = undefined;
-    this.layerIndex = 0; //see this.setLayerIndex
+    this.layerIndex = undefined; //see this.setLayerIndex
 
     this.getComponent('position').setPosition(Infinity, 0, 0);
 
