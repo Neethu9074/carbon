@@ -64,10 +64,12 @@ const Menu = React.createClass({
   },
 
   render() {
+    const postFix = this.state.open ? 'opened' : 'closed';
+
     return (
       <div className={block}>
         {this.renderMenu()}
-        <div className={block + '__toggle-button'}
+        <div className={block + '__toggle-button-' + postFix}
              onClick={this.toggle}>
            {'Menu'}
            <Icon className={block + '__icon'}
