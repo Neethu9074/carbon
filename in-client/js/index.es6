@@ -1,3 +1,5 @@
+import './perfNowPolyfill';
+
 /*global require:false */
 runWithPolyfills(() => {
   require('./init');
