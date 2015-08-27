@@ -19,7 +19,11 @@ const Dashboard = React.createClass({
 
   statics: {
     willTransitionTo(transition, params) {
-      const snapshotCoordinates = extractCoordinates(params);
+      const snapshotCoordinates = extractCoordinates({
+        pluginId: decodeURIComponent(params.pluginId),
+        hostId: decodeURIComponent(params.hostId),
+        steadyId: decodeURIComponent(params.steadyId)
+      });
       selectedSnapshotStore.select(snapshotCoordinates);
     }
   },
