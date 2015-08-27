@@ -50,7 +50,7 @@ const Menu = React.createClass({
         </div>
 
         {isProductionEnvironment() ?
-          <div className={block + '__menu-entry'}>
+          <div className={block + '__menu-entry-signout'}>
             <form action='/auth/signOut' method='post'>
               <button type='submit'
                       className={block + '__signout'}>
