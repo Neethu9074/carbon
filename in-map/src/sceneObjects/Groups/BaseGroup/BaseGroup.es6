@@ -1,8 +1,17 @@
 import _ from 'lodash';
 
+import eventBus from 'in-services/eventbus';
+
+import LineMeshComponent from '../../../components/LineMeshComponent';
+
 import UnknownNode from '../../Nodes/UnknownNode';
+import StickyNote from '../../StickyNote/Ground';
 import SceneObject from '../../SceneObject';
 import Node from '../../Nodes/Node';
+
+import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 
 export default class BaseGroup extends SceneObject {
@@ -12,6 +21,58 @@ export default class BaseGroup extends SceneObject {
 
     this.children = [];
     this.zSize = 1;
+
+    this.stickyNote = new StickyNote(this);
+
+    this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
+  }
+
+  initComponents() {
+    super.initComponents();
+
+    const id = this.id;
+    const color = this.getColor();
+    const components = this.components;
+
+    //add the mesh component to handle visual representation of the node
+    components.mesh = new LineMeshComponent({
+      id,
+      sceneObject: this,
+      factory: this.scene.lineFactory,
+      contentProvider: new PCM({
+        contentProvider: new SCM({
+          contentProvider: new FCP()
+        })
+      })
+    });
+    components.mesh.colorChanged(color.r, color.g, color.b);
+  }
+
+  update() {
+    this.updateScreenPosition();
+
+    if(this.isInView()) {
+      this.stickyNote.update();
+    } else {
+      this.stickyNote.hide();
+    }
+  }
+
+  updateScreenAnchorPosition() {
+    const pos = this.getComponent('position').getPosition();
+    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + this.zSize / 2);
+  }
+
+  positionChanged(x, y, z) {
+    this.getComponent('mesh').positionChanged(x, y, z);
+    this.updateScreenAnchorPosition();
+  }
+
+  setScale(x, y, z) {
+    this.zSize = z;
+
+    this.getComponent('mesh').sizeChanged(x, y, z);
+    this.updateScreenAnchorPosition();
   }
 
   addNode({coordinates, layer, unknown = false}) {
@@ -49,10 +110,6 @@ export default class BaseGroup extends SceneObject {
     this.children.push(group);
   }
 
-  setScale(x, y, z) {
-    this.zSize = z;
-  }
-
   removeChild(child) {
     _.remove(this.children, node => node.id === child.id);
 
@@ -70,6 +127,11 @@ export default class BaseGroup extends SceneObject {
 
     this.children.forEach(node => node.dispose());
     this.children = [];
+
+    if(this.stickyNote) {
+      this.stickyNote.dispose();
+      this.stickyNote = null;
+    }
 
     this.id = null;
   }

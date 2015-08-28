@@ -1,7 +1,5 @@
 import React from 'react/addons';
 
-import {getColor} from 'in-sdk/zones';
-
 import StickyNote from '../StickyNote';
 
 import './Ground.less';
@@ -11,14 +9,17 @@ const GroundStickyNoteRC = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    color: React.PropTypes.string.isRequired,
+    color: React.PropTypes.object.isRequired,
     label: React.PropTypes.string.isRequired
   },
 
   render() {
+    const c = this.props.color;
+    const backgroundColor = 'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
+
     return (
       <div className='in-sticky-note__group__content'
-           style={{backgroundColor: this.props.color}}>
+           style={{backgroundColor}}>
         {this.props.label}
       </div>
     );
@@ -35,7 +36,7 @@ export default class StickyNoteNode extends StickyNote {
   render() {
     React.render(
       <GroundStickyNoteRC label={this.parent.id}
-                    color={getColor(this.parent.id) || '#0F0F0F'} />,
+                    color={this.parent.getColor()} />,
       this.stickyNoteContainer
     );
   }
