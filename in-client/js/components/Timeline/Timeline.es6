@@ -232,7 +232,7 @@ const Timeline = React.createClass({
 
   onTimePickerItemClicked(newTime) {
     tracking.trackEvent(tracking.events.changingTimeWindowUsingTimeline);
-    timelineStore.timeframe.emit(newTime);
+    timelineStore.setTimeframe(newTime);
     this.toggle();
   },
 

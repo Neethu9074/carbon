@@ -1,19 +1,28 @@
-import * as ro from 'reactive-observables';
-
-const reemitSpec = {emitLatestOnSubscribe: true};
+import {createStore} from './store';
 
 // value in milliseconds
-export const timeframe = ro.create(reemitSpec);
-timeframe.emit(1000 * 60 * 10);
+const timeframeStore = createStore({
+  name: 'timeline',
+  initialValue: 1000 * 60 * 10
+});
 
-// a timestamp as a number
-export const focusedMoment = ro.create(reemitSpec);
-focusedMoment.emit(null);
+export const timeframe = timeframeStore.observable;
+
+export function setTimeframe(newTimeframe) {
+  timeframeStore.applyStateMutation(() => newTimeframe);
+}
+
+
+const focusedMomentStore = createStore({
+  name: 'focusedMoment',
+  initialValue: null
+});
+export const focusedMoment = focusedMomentStore.observable;
 
 export function setFocusedMoment(t) {
-  focusedMoment.emit(t);
+  focusedMomentStore.applyStateMutation(() => t);
 }
 
 export function clearFocusedMoment() {
-  focusedMoment.emit(null);
+  focusedMomentStore.applyStateMutation(() => null);
 }
