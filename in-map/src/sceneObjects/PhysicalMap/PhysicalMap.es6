@@ -10,11 +10,12 @@ import {getZone} from 'in-sdk/zones';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import {selectedSceneObject} from '../../stores/mapStore';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
+import UnknownGroup from '../Groups/UnknownGroup';
 import * as time from '../../timeCalculations';
 import groundTexturePath from './ground.png';
 import SceneObject from '../SceneObject';
 import Layouter from '../../layout';
-import Group from '../Group';
+import Group from '../Groups/Group';
 
 
 export default class PhysicalMap extends SceneObject {
@@ -186,7 +187,8 @@ export default class PhysicalMap extends SceneObject {
 
     //if the nodes group doesn't exist, create it
     if (!group) {
-      group = new Group({parent: this, id: groupId});
+      group = groupId !== 'undefined' ? new Group({parent: this, id: groupId}) :
+                                        new UnknownGroup({parent: this, id: groupId});
       this.groups.push(group);
     }
 
