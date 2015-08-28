@@ -30,7 +30,7 @@ const ZoneList = React.createClass({
           if (nodeStructure.group) {
             zone = getZone(nodeStructure.group);
           } else {
-            zone = 'undefined';
+            zone = 'undefined zone';
           }
 
           if (zone in grouppedNodes) {
