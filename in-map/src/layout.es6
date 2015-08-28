@@ -6,14 +6,12 @@ export default class Layouter {
 
   constructor({
     nodeSize = 1,
-    maxNodeHeight = 3,
     groupPadding = 1,
     groupMargin = 1,
     maxNodesPerRow = 3,
     nodePadding = 2} = {}) {
 
     this.nodeSize = nodeSize;
-    this.maxNodeHeight = maxNodeHeight;
     this.groupPadding = groupPadding;
     this.groupMargin = groupMargin;
     this.maxNodesPerRow = maxNodesPerRow;
@@ -39,16 +37,6 @@ export default class Layouter {
     // block the new position so it cannot be used in pathfinding
     posComponent.setPosition(x, y, z);
     ConnectionGrid.blockPosition({x, y, z});
-  }
-
-  updateHeight(map, nodes, nodePowerMap) {
-    const maxPower = nodes.reduce((power, node) => Math.max(power, nodePowerMap[node.id]), 0);
-    const baseHeight = this.nodeSize;
-    const growthRange = this.maxNodeHeight - this.nodeSize;
-    nodes.forEach(node => {
-      const weightedHeight = growthRange * (nodePowerMap[node.id] / maxPower);
-      node.setHeight(baseHeight + weightedHeight);
-    });
   }
 
   getMaxPower(nodes) {
@@ -95,7 +83,6 @@ export default class Layouter {
 
       nodePowerMap[node.id] = node.calculatePower();
     });
-    this.updateHeight(map, allNodes, nodePowerMap);
   }
 
   getCubePosition(groupIndex, nodeIndex) {

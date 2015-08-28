@@ -1,5 +1,3 @@
-
-
 import pbst from '../util/pluginBasedSnapshotTransformation';
 
 const transformer = pbst('power');
