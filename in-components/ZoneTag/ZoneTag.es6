@@ -31,7 +31,7 @@ const ZoneTag = React.createClass({
           if (nodeStructure && nodeStructure.group) {
             return getZone(nodeStructure.group);
           }
-          return 'undefined';
+          return null;
         })
       };
     }
