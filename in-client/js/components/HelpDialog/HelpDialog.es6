@@ -65,9 +65,15 @@ const HelpDialog = React.createClass({
       );
     } else if (this.state.error) {
       content = (
-        <NotificationDialog title='Failed to load help text'
+        <NotificationDialog title='Sorry, we failed to retrieve the given help article :('
                             onClose={this.onClose}>
-          <p>Failed to retrieve the given help article, sorry :(.</p>
+          <p>
+            You can still access the article, though a bit less convenient, via our&nbsp;
+            <a href={'https://instana.zendesk.com/hc/en-us/articles/' + this.props.id}
+               target='_blank'>
+              help system
+            </a>.
+          </p>
         </NotificationDialog>
       );
     } else {
