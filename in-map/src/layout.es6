@@ -23,12 +23,6 @@ export default class Layouter {
       groupPadding * 2;
   }
 
-  getMaxPower(nodes) {
-    return nodes.reduce((power, node) => {
-      return Math.max(power, node.calculatePower());
-    }, 0);
-  }
-
   applyLayout(map) {
     // update groups
     map.groups.forEach((group, groupIndex) => {
