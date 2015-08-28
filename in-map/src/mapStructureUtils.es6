@@ -1,4 +1,5 @@
-import Group from './sceneObjects/Group';
+import Group from './sceneObjects/Groups/Group';
+import UnknownGroup from './sceneObjects/Groups/UnknownGroup';
 
 export function getAllNodes(parent) {
   const nodes = [];
@@ -11,7 +12,7 @@ function getNodes(parent, nodes) {
   if(!col) {return; }
 
   col.forEach((child) => {
-    if(child instanceof Group) {
+    if(child instanceof Group || child instanceof UnknownGroup) {
       getNodes(child, nodes);
     } else {
       nodes.push(child);
@@ -23,7 +24,7 @@ export function getChildren(parent) {
   if(!parent) {
     return null;
   }
-  if(parent instanceof Group){
+  if(parent instanceof Group || parent instanceof UnknownGroup){
     return parent.children;
   }
   return parent.groups;
@@ -40,7 +41,7 @@ function getGroups(parent, groups) {
   if(!col) {return; }
 
   col.forEach((child) => {
-    if(child instanceof Group) {
+    if(child instanceof Group || child instanceof UnknownGroup) {
       groups.push(child);
       getGroups(child, groups);
     }
