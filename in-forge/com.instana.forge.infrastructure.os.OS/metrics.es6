@@ -23,10 +23,10 @@ addMaxValueLocator(
 addMinValueLocator(/^load/, zero);
 
 addMaxValueLocator(
-  /^cpu\.total\.(user|sys|wait|nice|steal|idle)/,
+  /^cpu\.(user|sys|wait|nice|steal|idle)/,
   () => 1
 );
-addMinValueLocator(/^cpu\.total\.(user|sys|wait|nice|steal|idle)/, zero);
+addMinValueLocator(/^cpu\.(user|sys|wait|nice|steal|idle)/, zero);
 
 addMaxValueLocator(
   /^fs\.([^\.]+)\.free/,
@@ -55,7 +55,7 @@ addNormalizedValueLocator(
 );
 
 addNormalizedValueLocator(
-  /^cpu\.total\.(user|sys|wait|nice|steal|idle)/,
+  /^cpu\.(user|sys|wait|nice|steal|idle)/,
   (max, value) => value
 );
 
@@ -74,6 +74,6 @@ addFormattedValueLocator(
 );
 
 addFormattedValueLocator(
-  /^cpu\.total\.(user|sys|wait|nice|steal|idle)/,
+  /^cpu\.(user|sys|wait|nice|steal|idle)/,
   (max, value) => (((value * 10000) | 0) / 100) + '%' // 0.301 => 30%
 );

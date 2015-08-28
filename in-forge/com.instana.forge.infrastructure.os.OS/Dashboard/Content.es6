@@ -62,11 +62,11 @@ const OsDashboard = React.createClass({
                    max: 1,
                    formatter: formatPercentageShort,
                    metrics: [
-                     'cpu.total.user',
-                     'cpu.total.sys',
-                     'cpu.total.wait',
-                     'cpu.total.nice',
-                     'cpu.total.steal'
+                     'cpu.user',
+                     'cpu.sys',
+                     'cpu.wait',
+                     'cpu.nice',
+                     'cpu.steal'
                    ],
                    labels: [
                      'User',

@@ -34,7 +34,7 @@ describe('metrics', () => {
       });
 
       it('should calculate v for cpu', () => {
-        expect(getNormalizedValue('cpu.total.user', snapshot, 2))
+        expect(getNormalizedValue('cpu.user', snapshot, 2))
           .to.equal(2);
       });
     });
@@ -73,12 +73,12 @@ describe('metrics', () => {
     });
 
     it('should format normalized to percentage', () => {
-      expect(getFormattedValue('cpu.total.user', snapshot, 0.5))
+      expect(getFormattedValue('cpu.user', snapshot, 0.5))
       .to.equal('50%');
     });
 
     it('should format normalized to percentage', () => {
-      expect(getFormattedValue('cpu.total.wait', snapshot, 0.25))
+      expect(getFormattedValue('cpu.wait', snapshot, 0.25))
       .to.equal('25%');
     });
 
@@ -95,12 +95,12 @@ describe('metrics', () => {
     });
 
     it('should round percentages', () => {
-      expect(getFormattedValue('cpu.total.wait', snapshot, 0.04003123))
+      expect(getFormattedValue('cpu.wait', snapshot, 0.04003123))
       .to.equal('4%');
     });
 
     it('should round percentages', () => {
-      expect(getFormattedValue('cpu.total.wait', snapshot, 0.041))
+      expect(getFormattedValue('cpu.wait', snapshot, 0.041))
       .to.equal('4.1%');
     });
   });
