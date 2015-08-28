@@ -62,11 +62,11 @@ const OsDashboard = React.createClass({
                    max: 1,
                    formatter: formatPercentageShort,
                    metrics: [
-                     'cpu.total.user',
-                     'cpu.total.sys',
-                     'cpu.total.wait',
-                     'cpu.total.nice',
-                     'cpu.total.steal'
+                     'cpu.user',
+                     'cpu.sys',
+                     'cpu.wait',
+                     'cpu.nice',
+                     'cpu.steal'
                    ],
                    labels: [
                      'User',
@@ -112,11 +112,11 @@ const OsDashboard = React.createClass({
                          max: 1,
                          formatter: formatPercentageShort,
                          metrics: [
-                           'cpu.individual.' + this.state.cpuNo + '.user',
-                           'cpu.individual.' + this.state.cpuNo + '.sys',
-                           'cpu.individual.' + this.state.cpuNo + '.wait',
-                           'cpu.individual.' + this.state.cpuNo + '.nice',
-                           'cpu.individual.' + this.state.cpuNo + '.steal'
+                           'cpus.' + this.state.cpuNo + '.user',
+                           'cpus.' + this.state.cpuNo + '.sys',
+                           'cpus.' + this.state.cpuNo + '.wait',
+                           'cpus.' + this.state.cpuNo + '.nice',
+                           'cpus.' + this.state.cpuNo + '.steal'
                          ],
                          labels: [
                            'User',
@@ -150,19 +150,19 @@ const OsDashboard = React.createClass({
                         'active': name === this.state.cpuNo
                       })}>
                     <td>CPU {index}</td>
-                    <Mtd metric={'cpu.individual.' + index + '.user'}
+                    <Mtd metric={'cpus.' + index + '.user'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
-                    <Mtd metric={'cpu.individual.' + index + '.sys'}
+                    <Mtd metric={'cpus.' + index + '.sys'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
-                    <Mtd metric={'cpu.individual.' + index + '.wait'}
+                    <Mtd metric={'cpus.' + index + '.wait'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
-                    <Mtd metric={'cpu.individual.' + index + '.nice'}
+                    <Mtd metric={'cpus.' + index + '.nice'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
-                    <Mtd metric={'cpu.individual.' + index + '.steal'}
+                    <Mtd metric={'cpus.' + index + '.steal'}
                          snapshot={this.props.snapshot}
                          formatter={formatPercentageShort} />
                   </tr>

@@ -13,7 +13,7 @@ describe('tsdb.MetricTimeSeries', () => {
 
   beforeEach(() => {
     snapshot = Map({id: 'foobar'});
-    metric = 'cpu.total.sys';
+    metric = 'cpu.sys';
   });
 
   describe('getUniqueId', () => {
@@ -22,7 +22,7 @@ describe('tsdb.MetricTimeSeries', () => {
         snapshot,
         metric
       });
-      expect(id).to.equal('foobar#cpu.total.sys');
+      expect(id).to.equal('foobar#cpu.sys');
     });
   });
 
@@ -31,7 +31,7 @@ describe('tsdb.MetricTimeSeries', () => {
       snapshot,
       metric
     });
-    expect(timeSeries.id).to.equal('foobar#cpu.total.sys');
+    expect(timeSeries.id).to.equal('foobar#cpu.sys');
   });
 
 });

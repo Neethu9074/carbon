@@ -7,7 +7,7 @@ import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
 
-import {selectedSceneObject} from './stores/mapStore';
+import {selectedSceneObject, nodeMaxPower} from './stores/mapStore';
 import {subscribeToMetric} from './metricUtils';
 
 
@@ -54,14 +54,30 @@ export default class NodeSnapshotServer {
   onSnapshotUpdate() {
     const client = this.client;
 
-    if(this.wiredSnapshotsSubscription) {
-      this.wiredSnapshotsSubscription.dispose();
-      _.remove(this.subscriptions, sub => sub === this.wiredSnapshotsSubscription);
-    }
-
+    this.disposeSubscription(this.wiredSnapshotsSubscription);
     this.wiredSnapshotsSubscription = getWiredSnapshots(client.snapshot)
       .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots));
     this.subscriptions.push(this.wiredSnapshotsSubscription);
+
+    this.disposeSubscription(this.maxHeightSubscribtion);
+    this.maxHeightSubscribtion = nodeMaxPower.subscribe(maxPower => {
+      if (maxPower) {
+        const clientPower = this.client.calculatePower();
+        if (clientPower > maxPower) {
+          nodeMaxPower.emit(clientPower);
+          return;
+        }
+        this.client.updateHeight(maxPower);
+      }
+    });
+    this.subscriptions.push(this.maxHeightSubscribtion);
+  }
+
+  disposeSubscription(subscribtion) {
+    if(subscribtion) {
+      subscribtion.dispose();
+      _.remove(this.subscriptions, sub => sub === subscribtion);
+    }
   }
 
   disposeMetricSubscription() {

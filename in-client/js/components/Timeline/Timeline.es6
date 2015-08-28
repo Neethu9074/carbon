@@ -157,7 +157,7 @@ const Timeline = React.createClass({
     if (right < 0) {
       right = 0 + '%';
     } else {
-      right = (100 - right) + '%';
+      right = (100 - Math.min(100, right)) + '%';
     }
 
     return (

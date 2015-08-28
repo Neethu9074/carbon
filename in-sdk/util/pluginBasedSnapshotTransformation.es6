@@ -1,5 +1,3 @@
-
-
 import {createLogger} from 'instalog';
 
 export default function generatePluginBasedSnapshotTransformation(label) {
@@ -19,16 +17,15 @@ export default function generatePluginBasedSnapshotTransformation(label) {
       mappings[pluginId] = provider;
     },
 
-    get(snapshot, params) {
+    get(snapshot) {
       const pluginId = snapshot.get('pluginId');
       const mapping = mappings[pluginId];
       if (!mapping) {
-        const msg = 'No ' + label + 'Provider for pluginId ' + pluginId +
-          ' found.';
+        const msg = 'No ' + label + 'Provider for pluginId ' + pluginId + ' found.';
         logger.error(msg);
         throw new Error(msg);
       }
-      return mapping(snapshot, params);
+      return mapping(snapshot);
     }
   };
 }

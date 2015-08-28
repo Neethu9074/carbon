@@ -29,11 +29,15 @@ import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 
+const maxNodeHeight = 3;
+const nodeBaseHeight = 1;
+
 export default class Node extends BaseNode {
 
   constructor({parent, coordinates, id, layer}) {
     super({parent, id});
 
+    this._cachedPower = 1;
     this.isOutOfView = false;
     this.isToFarAway = false;
     this.snapshotServer = new NodeSnapshotServer(this);
@@ -262,6 +266,7 @@ export default class Node extends BaseNode {
     }
 
     this.snapshot = snapshot;
+    this._cachedPower = getPower(snapshot);
 
     if(!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
@@ -276,7 +281,12 @@ export default class Node extends BaseNode {
     }
 
     this.snapshotServer.onSnapshotUpdate();
+  }
 
+  updateHeight(maxPower) {
+    this._cachedPower = getPower(this.snapshot);
+    const weightedHeight = (maxNodeHeight - nodeBaseHeight) * (this._cachedPower / maxPower);
+    this.setHeight(nodeBaseHeight + weightedHeight);
   }
 
   getScreenAnchorPosition() {
@@ -354,10 +364,6 @@ export default class Node extends BaseNode {
   }
 
   calculatePower() {
-    try {
-      return getPower(this.snapshot);
-    } catch (err) {
-      return super.calculatePower();
-    }
+    return this._cachedPower;
   }
 }

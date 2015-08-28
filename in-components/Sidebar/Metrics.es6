@@ -23,11 +23,11 @@ const metricTree = Immutable.fromJS({
         {
           label: 'Usage',
           metrics: [
-            {name: 'cpu.total.user', label: 'User'},
-            {name: 'cpu.total.sys', label: 'System'},
-            {name: 'cpu.total.wait', label: 'Wait'},
-            {name: 'cpu.total.nice', label: 'Nice'},
-            {name: 'cpu.total.steal', label: 'Steal'}
+            {name: 'cpu.user', label: 'User'},
+            {name: 'cpu.sys', label: 'System'},
+            {name: 'cpu.wait', label: 'Wait'},
+            {name: 'cpu.nice', label: 'Nice'},
+            {name: 'cpu.steal', label: 'Steal'}
           ]
         }
       ]
