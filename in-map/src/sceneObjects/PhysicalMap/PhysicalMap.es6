@@ -181,22 +181,22 @@ export default class PhysicalMap extends SceneObject {
     return getAllNodes(this);
   }
 
-  getOrCreateGroup(groupId) {
-    //get find the group with groupId
-    let group = _.find(getAllGroups(this), g => g.id === groupId);
+  getOrCreateGroup(id) {
+    // get find the group with id
+    let group = _.find(getAllGroups(this), g => g.id === id);
 
-    //if the nodes group doesn't exist, create it
+    // if the nodes group doesn't exist, create it
     if (!group) {
-      group = groupId !== 'undefined' ? new Group({parent: this, id: groupId}) :
-                                        new UnknownGroup({parent: this, id: groupId});
+      group = id !== 'undefined' ? new Group({id, parent: this}) :
+                                   new UnknownGroup({id, parent: this});
       this.groups.push(group);
     }
 
     return group;
   }
 
-  //runs through all groups instead of the current one and searches for the
-  //node added to the current one. if found -> delete it from old groups
+  // runs through all groups instead of the current one and searches for the
+  // node added to the current one. if found -> delete it from old groups
   removeNodeFromAllGroupsInsteadOf(groupId, newNode) {
     const nodeId = newNode.id;
     getAllNodes(this).forEach(node => {

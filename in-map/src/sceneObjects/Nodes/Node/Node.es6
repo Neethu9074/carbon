@@ -294,8 +294,8 @@ export default class Node extends BaseNode {
     return {x: pos.x - 0.25, y: pos.y + this.height, z: pos.z + 0.25};
   }
 
-  positionChanged(x, y, z) {
-    super.positionChanged(x, y, z);
+  positionChanged(x, y, z, oldPosition) {
+    super.positionChanged(x, y, z, oldPosition);
 
     this.getComponent('ground').positionChanged(x, y, z);
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);

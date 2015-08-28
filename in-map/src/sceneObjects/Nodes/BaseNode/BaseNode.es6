@@ -12,6 +12,7 @@ import MeshComponent from '../../../components/MeshComponent';
 import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
+import ConnectionGrid from '../../../ConnectionGrid_Temp';
 import SceneObject from '../../SceneObject';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -252,13 +253,16 @@ export default class BaseNode extends SceneObject {
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
   }
 
-  positionChanged(x, y, z) {
+  positionChanged(x, y, z, oldPosition) {
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('connection').positionChanged();
     this.getComponent('solidMesh').positionChanged(x, y, z);
     this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
     this.updateScreenAnchorPosition();
+
+    ConnectionGrid.clearPosition(oldPosition);
+    ConnectionGrid.blockPosition({x, y, z});
   }
 
   setHeight(height) {

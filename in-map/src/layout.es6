@@ -1,7 +1,3 @@
-import ConnectionGrid from './ConnectionGrid_Temp';
-import {getAllNodes} from './mapStructureUtils';
-
-
 export default class Layouter {
 
   constructor({
@@ -27,18 +23,6 @@ export default class Layouter {
       groupPadding * 2;
   }
 
-  setNodeToPos({node, x = 0, y = 0, z = 0}) {
-    const posComponent = node.getComponent('position');
-
-    // clear the old position so it can be used in pathfinding again
-    const oldPos = posComponent.getPosition();
-    ConnectionGrid.clearPosition(oldPos);
-
-    // block the new position so it cannot be used in pathfinding
-    posComponent.setPosition(x, y, z);
-    ConnectionGrid.blockPosition({x, y, z});
-  }
-
   getMaxPower(nodes) {
     return nodes.reduce((power, node) => {
       return Math.max(power, node.calculatePower());
@@ -46,42 +30,24 @@ export default class Layouter {
   }
 
   applyLayout(map) {
-    const groupIndexMap = {};
-    this.layoutGroups(map, groupIndexMap);
-    this.layoutNodes(map, groupIndexMap);
-  }
-
-  layoutGroups(map, groupIndexMap) {
     // update groups
     map.groups.forEach((group, groupIndex) => {
       const groupPosition = this.getGroupPosition(groupIndex, group.children.length);
-      groupIndexMap[group.id] = groupIndex;
       const dim = {
         x: groupPosition.x,
         y: groupPosition.y,
         width: groupPosition.width,
         height: groupPosition.height
       };
+
       // add respectively subtract 0.5 to accomodate for central positioning of nodes
       group.getComponent('position').setPosition(
         dim.x + dim.width / 2 - 1, 0, (dim.y + dim.height / 2) * -1 + 1);
       group.setScale(dim.width, 1, dim.height);
-
       group.children.forEach((node, nodeIndex) => {
         const pos = this.getCubePosition(groupIndex, nodeIndex);
-        this.setNodeToPos({node, x: pos.x, y: pos.y, z: pos.z});
+        node.getComponent('position').setPosition(pos.x, pos.y, pos.z);
       });
-    });
-  }
-
-  layoutNodes(map, groupIndexMap) {
-    const allNodes = getAllNodes(this);
-    const nodePowerMap = {};
-    allNodes.forEach((node, nodeIndex) => {
-      const pos = this.getCubePosition(groupIndexMap[node.parent.id], nodeIndex);
-      this.setNodeToPos({node, x: pos.x, y: pos.y, z: pos.z});
-
-      nodePowerMap[node.id] = node.calculatePower();
     });
   }
 
