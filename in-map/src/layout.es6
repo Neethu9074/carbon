@@ -1,5 +1,3 @@
-import THREE from 'three';
-
 import ConnectionGrid from './ConnectionGrid_Temp';
 import {getAllNodes} from './mapStructureUtils';
 
@@ -32,22 +30,23 @@ export default class Layouter {
   }
 
   setNodeToPos({node, x = 0, y = 0, z = 0}) {
-    const oldPos = node.getComponent('position').getPosition().clone();
-    const newPos = {x, y, z};
+    const posComponent = node.getComponent('position');
 
-    node.getComponent('position').setPosition(x, y, z);
-
+    // clear the old position so it can be used in pathfinding again
+    const oldPos = posComponent.getPosition();
     ConnectionGrid.clearPosition(oldPos);
-    ConnectionGrid.blockPosition(newPos);
+
+    // block the new position so it cannot be used in pathfinding
+    posComponent.setPosition(x, y, z);
+    ConnectionGrid.blockPosition({x, y, z});
   }
 
-  updateHeight(map) {
-    const nodes = getAllNodes(map);
-    const maxPower = this.getMaxPower(nodes);
+  updateHeight(map, nodes, nodePowerMap) {
+    const maxPower = nodes.reduce((power, node) => Math.max(power, nodePowerMap[node.id]), 0);
     const baseHeight = this.nodeSize;
     const growthRange = this.maxNodeHeight - this.nodeSize;
     nodes.forEach(node => {
-      const weightedHeight = growthRange * (node.calculatePower() / maxPower);
+      const weightedHeight = growthRange * (nodePowerMap[node.id] / maxPower);
       node.setHeight(baseHeight + weightedHeight);
     });
   }
@@ -59,29 +58,44 @@ export default class Layouter {
   }
 
   applyLayout(map) {
-    map.groups.forEach((group, groupIndex) => {
-      const groupPosition =
-        this.getGroupPosition(groupIndex, group.children.length);
+    const groupIndexMap = {};
+    this.layoutGroups(map, groupIndexMap);
+    this.layoutNodes(map, groupIndexMap);
+  }
 
-      // add respectively subtract 0.5 to accomodate for central positioning of
-      // nodes.
+  layoutGroups(map, groupIndexMap) {
+    // update groups
+    map.groups.forEach((group, groupIndex) => {
+      const groupPosition = this.getGroupPosition(groupIndex, group.children.length);
+      groupIndexMap[group.id] = groupIndex;
+      const dim = {
+        x: groupPosition.x,
+        y: groupPosition.y,
+        width: groupPosition.width,
+        height: groupPosition.height
+      };
+      // add respectively subtract 0.5 to accomodate for central positioning of nodes
       group.getComponent('position').setPosition(
-        groupPosition.x + groupPosition.width / 2 - 1,
-        0,
-        (groupPosition.y + groupPosition.height / 2) * -1 + 1
-      );
-      group.setScale(groupPosition.width, 1, groupPosition.height);
+        dim.x + dim.width / 2 - 1, 0, (dim.y + dim.height / 2) * -1 + 1);
+      group.setScale(dim.width, 1, dim.height);
 
       group.children.forEach((node, nodeIndex) => {
-        const oldPosition = node.getComponent('position').getPosition().clone();
-        const newPosition = this.getCubePosition(groupIndex, nodeIndex);
-        node.getComponent('position').setPosition(newPosition.x, newPosition.y, newPosition.z);
-
-        ConnectionGrid.clearPosition(oldPosition);
-        ConnectionGrid.blockPosition(newPosition);
+        const pos = this.getCubePosition(groupIndex, nodeIndex);
+        this.setNodeToPos({node, x: pos.x, y: pos.y, z: pos.z});
       });
     });
-    this.updateHeight(map);
+  }
+
+  layoutNodes(map, groupIndexMap) {
+    const allNodes = getAllNodes(this);
+    const nodePowerMap = {};
+    allNodes.forEach((node, nodeIndex) => {
+      const pos = this.getCubePosition(groupIndexMap[node.parent.id], nodeIndex);
+      this.setNodeToPos({node, x: pos.x, y: pos.y, z: pos.z});
+
+      nodePowerMap[node.id] = node.calculatePower();
+    });
+    this.updateHeight(map, allNodes, nodePowerMap);
   }
 
   getCubePosition(groupIndex, nodeIndex) {
@@ -96,7 +110,7 @@ export default class Layouter {
     // one unit downwards, where unit means node size + padding
     const y = Math.floor(nodeIndex / this.maxNodesPerRow) *
         (this.nodeSize + this.nodePadding) + this.groupPadding;
-    return new THREE.Vector3(x, 0, -y);
+    return {x, y: 0, z: -y};
   }
 
   getGroupPosition(groupIndex, numberOfNodes) {
