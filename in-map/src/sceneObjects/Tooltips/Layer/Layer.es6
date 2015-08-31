@@ -8,7 +8,6 @@ import {getLabel} from 'in-sdk/snapshot';
 import Tooltip from '../Tooltip.es6';
 
 
-/*eslint-disable no-unused-vars*/
 const LayerTooltipRC = React.createClass({
 
   mixins: [
@@ -32,7 +31,7 @@ const LayerTooltipRC = React.createClass({
     );
   }
 });
-/*eslint-enable no-unused-vars*/
+
 
 export default class TooltipLayer extends Tooltip {
   constructor(parent) {

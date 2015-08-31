@@ -108,27 +108,24 @@ const SnapshotDetailSidebar = React.createClass({
   },
 
   renderTabs() {
-    console.log(wiring);
-
     return (
       <Tabs className={block + '__tabs'}
             onItemChanged={this.onItemChanged}>
-        {'wat'}
-        {'geht'}
+        {this.getStructure()}
       </Tabs>
     );
   },
 
+  getStructure() {
+    return [
+      {id: '1', type: 'Process'},
+      {id: '2', type: 'JVM'},
+      {id: '3', type: 'Tomcat'}
+    ];
+  },
+
   onItemChanged(item) {
-    switch (item) {
-      case 'wat':
-        console.log('EY WAT EY');
-        break;
-      case 'geht':
-        console.log('NIX');
-        break;
-      default:
-    }
+    console.log(item);
   }
 });
 

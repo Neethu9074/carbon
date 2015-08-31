@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import Tab from './Tab';
+
 import './Tabs.less';
 
 const block = 'in-snapshot-sidebar-tabs';
@@ -18,15 +20,14 @@ const SidebarTabs = React.createClass({
                       block + ' ' + this.props.className :
                       block;
 
+    let key = 0;
     return (
       <div className={className}>
         {this.props.children.map(child => {
           return (
-            <div key={child}
-                 className={block + '__tab'}
-                 onClick={() => this.props.onItemChanged(child)}>
-              {child}
-            </div>
+            <Tab key={key++}
+                 onClick={this.props.onItemChanged}
+                 item={child}/>
           );
         })}
       </div>
