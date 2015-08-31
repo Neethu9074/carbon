@@ -14,7 +14,7 @@ import * as time from '../../timeCalculations';
 import groundTexturePath from './ground.png';
 import SceneObject from '../SceneObject';
 import Layouter from '../../layout';
-import Group from '../Groups/Group';
+import Group from '../Group';
 
 
 export default class PhysicalMap extends SceneObject {
