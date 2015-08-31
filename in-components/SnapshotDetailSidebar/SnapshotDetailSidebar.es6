@@ -1,18 +1,20 @@
 /*global require:false*/
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
+import React from 'react/addons';
 
-import {getLabel} from 'in-sdk/snapshot';
-import {getSingular} from 'in-sdk/pluginName';
-import * as tracking from 'in-services/tracking';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import * as tracking from 'in-services/tracking';
+import * as wiring from 'in-services/wiring';
+import {getSingular} from 'in-sdk/pluginName';
+import {getLabel} from 'in-sdk/snapshot';
 
-import Jail from '../Jail';
 import HealthIcon from '../HealthIcon';
-import Button from '../Button';
-import ZoneTag from '../ZoneTag';
 import enhance from '../hoc/enhance';
+import ZoneTag from '../ZoneTag';
+import Button from '../Button';
+import Jail from '../Jail';
+import Tabs from './Tabs';
 
 import './SnapshotDetailSidebar.less';
 
@@ -42,29 +44,33 @@ const SnapshotDetailSidebar = React.createClass({
 
     return (
       <div className={block}>
-        <div className={block + '__navigation'}>
-          <h2 className={block + '__title'}>
-            {getSingular(snapshot.get('pluginId'))}
-          </h2>
+        {this.renderTabs()}
 
-          <Button type='button'
-                  className={block + '__open-dashboard'}
-                  onClick={this.openDashboard}>
-            View Dashboard
-          </Button>
+        <div className={block + '__content'}>
+          <div className={block + '__navigation'}>
+            <h2 className={block + '__title'}>
+              {getSingular(snapshot.get('pluginId'))}
+            </h2>
+
+            <Button type='button'
+                    className={block + '__open-dashboard'}
+                    onClick={this.openDashboard}>
+              View Dashboard
+            </Button>
+          </div>
+
+          <div className={block + '__heading'}>
+            <h1 className={block + '__label'}>
+              {getLabel(snapshot)}
+              <HealthIcon snapshot={snapshot}
+                          className={block + '__health'}/>
+            </h1>
+            <ZoneTag snapshot={snapshot}
+                     className={block + '__zone'}/>
+          </div>
+
+          {this.renderSnapshotDetails()}
         </div>
-
-        <div className={block + '__heading'}>
-          <h1 className={block + '__label'}>
-            {getLabel(snapshot)}
-            <HealthIcon snapshot={snapshot}
-                        className={block + '__health'}/>
-          </h1>
-          <ZoneTag snapshot={snapshot}
-                   className={block + '__zone'}/>
-        </div>
-
-        {this.renderSnapshotDetails()}
       </div>
     );
   },
@@ -99,6 +105,30 @@ const SnapshotDetailSidebar = React.createClass({
         hostId: encodeURIComponent(this.props.snapshot.get('hostId'))
       }
     );
+  },
+
+  renderTabs() {
+    console.log(wiring);
+
+    return (
+      <Tabs className={block + '__tabs'}
+            onItemChanged={this.onItemChanged}>
+        {'wat'}
+        {'geht'}
+      </Tabs>
+    );
+  },
+
+  onItemChanged(item) {
+    switch (item) {
+      case 'wat':
+        console.log('EY WAT EY');
+        break;
+      case 'geht':
+        console.log('NIX');
+        break;
+      default:
+    }
   }
 });
 

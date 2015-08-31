@@ -5,14 +5,18 @@
   top: 1rem;
   left: 0.8rem;
 
-  width: 19rem;
+  width: ~"calc(21rem + 80px)";
   max-height: ~"calc(100% - 7rem)";
-  padding: 1rem;
-  overflow-y: auto;
-  overflow-x: hidden;
 
-  background: @sidebar__background;
   z-index: @z-index__sidebar;
+
+  &__content {
+    width: 19rem;
+    padding: 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: @sidebar__background;
+  }
 
   &__navigation {
     display: flex;
@@ -54,5 +58,10 @@
   &__open-dashboard {
     padding: 5px 10px;
     font-size: 11px;
+  }
+
+  &__tabs {
+    position: absolute;
+    left: ~"calc(100% - 80px)";
   }
 }
