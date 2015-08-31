@@ -35,8 +35,7 @@ const ConnectionStatus = React.createClass({
 
   render() {
     return (
-      <Toast action='Dismiss'
-             onClick={() => this.setState({systemMessage: null})}>
+      <Toast>
         {this.state.systemMessage}
       </Toast>
     );
