@@ -10,7 +10,6 @@ import {getZone} from 'in-sdk/zones';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import {selectedSceneObject} from '../../stores/mapStore';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
-import UnknownGroup from '../Groups/UnknownGroup';
 import * as time from '../../timeCalculations';
 import groundTexturePath from './ground.png';
 import SceneObject from '../SceneObject';
@@ -148,7 +147,7 @@ export default class PhysicalMap extends SceneObject {
 
   addNode(triple) {
     if (!triple.group) {
-      this.addNodeToGroup(triple, 'undefined');
+      this.addNodeToGroup(triple, getZone());
     } else {
       getFullSnapshot(triple.group)
         .once(groupSnapshot => {
@@ -187,8 +186,7 @@ export default class PhysicalMap extends SceneObject {
 
     // if the nodes group doesn't exist, create it
     if (!group) {
-      group = id !== 'undefined' ? new Group({id, parent: this}) :
-                                   new UnknownGroup({id, parent: this});
+      group = new Group({id, parent: this});
       this.groups.push(group);
     }
 

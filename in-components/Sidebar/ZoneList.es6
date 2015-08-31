@@ -26,13 +26,7 @@ const ZoneList = React.createClass({
         const grouppedNodes = {};
 
         viewStructure.forEach(nodeStructure => {
-          let zone;
-          if (nodeStructure.group) {
-            zone = getZone(nodeStructure.group);
-          } else {
-            zone = 'undefined zone';
-          }
-
+          const zone = getZone(nodeStructure.group);
           if (zone in grouppedNodes) {
             grouppedNodes[zone].push(nodeStructure);
           } else {

@@ -66,6 +66,6 @@ zones.addMapping(
       constants.plugins.ec2
     ], Immutable.Map());
     const zone = steadyIdToZone.valueSeq().first();
-    return zone ? zone.get('availability-zone') : 'undefined';
+    return zone ? zone.get('availability-zone') : 'undefined zone';
   }
 );
