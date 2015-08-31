@@ -45,7 +45,7 @@ const Settings = React.createClass({
 
   render() {
     return (
-      <Dialog>
+      <Dialog onClose={this.closeSettings}>
         <div className={block}>
           <div className={block + '__heading'}>
             <span className={block + '__heading-text'}>
