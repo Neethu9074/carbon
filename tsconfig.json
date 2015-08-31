@@ -33,6 +33,7 @@
         "./in-services/tsdb/binarySearch_test.ts",
         "./in-services/tsdb/tsdb.ts",
         "./in-services/tsdb/types.ts",
+        "./in-services/wiring/types.d.ts",
         "./typings/all.d.ts",
         "./typings/chai/chai.d.ts",
         "./typings/mocha/mocha.d.ts",
