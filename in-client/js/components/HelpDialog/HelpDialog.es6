@@ -78,7 +78,7 @@ const HelpDialog = React.createClass({
       );
     } else {
       content = (
-        <NotificationDialog title='Loading help text...'
+        <NotificationDialog title='Loading help text…'
                             onClose={this.onClose}>
           <LoadingIndicator />
         </NotificationDialog>

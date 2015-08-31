@@ -251,7 +251,7 @@ const Timeline = React.createClass({
            }}>
          <div className={block + '__tooltip-wrapper'}>
           <TooltipFrame>
-            <StatusLine left={this.state.hoveredSnapshot ? getLabel(this.state.hoveredSnapshot) : 'Loading...'}
+            <StatusLine left={this.state.hoveredSnapshot ? getLabel(this.state.hoveredSnapshot) : 'Loading…'}
                         right={moment(issue.get('start')).fromNow()}/>
             <Heading style={{color: iconConfig.color}}>
               {issue.getIn(['problem', 'problemText'])}
