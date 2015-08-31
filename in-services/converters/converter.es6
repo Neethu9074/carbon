@@ -15,6 +15,17 @@ const commaWithoutDecimalPlacesFormatter = d3.format(',.0f');
 export const formatNumberShort = commaWithoutDecimalPlacesFormatter;
 
 /**
+ * Convenience function that can be used to format numbers with SI suffix.
+ *
+ * @param {number} num - The number to format
+ * @returns {string} Human readable number with the repective SI suffix.
+ */
+export function formatNumberSI(num) {
+  const prefix = d3.formatPrefix(num);
+  return prefix.scale(num) + prefix.symbol;
+}
+
+/**
  * Format a number of bytes to improve readability for humans. Turn a raw
  * number to something like 10 Mb or 834.5 Gb.
  *
