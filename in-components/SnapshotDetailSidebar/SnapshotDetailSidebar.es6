@@ -145,7 +145,7 @@ const SnapshotDetailSidebar = React.createClass({
   },
 
   onItemChanged(item) {
-    console.log(item);
+    selectedSnapshotStore.select(item);
   }
 });
 

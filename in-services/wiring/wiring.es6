@@ -197,6 +197,10 @@ export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
   }
 
   const originId = snapshotCoordinates.get('id');
+  if (originId.indexOf(forgeConsts.plugins.os) === 0) {
+    return completeWiring.map(() => []);
+  }
+
   return completeWiring.map(wiringGraph => {
     const leafs = getLeafNodes(wiringGraph, originId, forgeConsts.rels.runsOn);
     const leafId = leafs.length === 0 ? originId : leafs[0];

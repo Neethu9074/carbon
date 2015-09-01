@@ -11,6 +11,7 @@ const SidebarTab = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
+    isSelected: React.PropTypes.bool.isRequired,
     onClick: React.PropTypes.func.isRequired,
     item: irpt.map.isRequired
   },
@@ -18,10 +19,13 @@ const SidebarTab = React.createClass({
   render() {
     const item = this.props.item;
     const id = item.get('id');
+    const className = this.props.isSelected ?
+      block + ' ' + block + '__selected' :
+      block;
 
     return (
       <div key={id}
-           className={block}
+           className={className}
            onClick={() => this.props.onClick(item)}>
 
         <img src={getIcon(item)}
