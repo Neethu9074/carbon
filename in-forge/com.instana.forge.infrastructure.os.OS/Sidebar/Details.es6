@@ -1,15 +1,13 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
-import Immutable from 'immutable';
 
 import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 import TagList from 'in-components/TagList/TagList';
 import WiringList from 'in-components/WiringList';
-import * as constants from 'in-forge/constants';
 
-import EC2Info from '../../com.instana.forge.hardware.virtual.EC2/EC2Info';
 import HostInfo from '../HostInfo';
+import HostHardware from '../HostHardware';
 
 const block = 'in-sidebar-server-details';
 
@@ -21,16 +19,6 @@ const OsDetails = React.createClass({
   },
 
   render() {
-    const data = this.props.snapshot.get('data');
-    const ec2s = data.getIn(
-      [
-        constants.rels.describes,
-        'com.instana.forge.infrastructure.virtualization.EC2'
-      ],
-      Immutable.Map()
-    );
-    const ec2 = ec2s.valueSeq().first();
-
     return (
       <div className={block}>
         <ProblemPanel snapshot={this.props.snapshot} />
@@ -43,16 +31,7 @@ const OsDetails = React.createClass({
         </Collapsible>
 
         <TagList snapshot={this.props.snapshot} />
-
-        {ec2 ?
-          <Collapsible initiallyOpen={true}>
-            <Collapsible.Header>Amazon EC2</Collapsible.Header>
-            <Collapsible.Content>
-              <EC2Info data={ec2} />
-            </Collapsible.Content>
-          </Collapsible>
-        : null}
-
+        <HostHardware snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
     );

@@ -31,6 +31,10 @@ const JVMInfo = React.createClass({
         <DescriptionItem title='Maximum Heap'>
           {formatBytes(data.get('memory.max'))}
         </DescriptionItem>
+
+        <DescriptionItem title='Classpath'>
+          {data.get('jvm.cp')}
+        </DescriptionItem>
       </DescriptionList>
     );
   }

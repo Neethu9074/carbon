@@ -38,7 +38,7 @@ describe('issueTracker', () => {
        'steadyId': 's1',
        'hostId': 'h1',
        'problemText': 'You will run out of main memory just within next 2 hours',
-       'fixSuggestion': 'Analyse running processes for eventual memory...',
+       'fixSuggestion': 'Analyse running processes for eventual memory…',
        'explanation': 'Determined through linear regression',
        'severity': 5
      },

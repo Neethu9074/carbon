@@ -175,14 +175,15 @@ export default class Renderer {
     const elements = this.tooltipValueElements;
 
     this.focusedY1.forEach((dataPoint, i) => {
-      const v = this.y1.config.formatter(dataPoint.y);
-      elements[i].textContent = v;
+      const f = this.y1.config.tooltipFormatter || this.y1.config.formatter;
+      elements[i].textContent = f(dataPoint.y);
     });
 
     if (this.focusedY2) {
+      const offset = this.focusedY1.length;
+      const f = this.y2.config.tooltipFormatter || this.y2.config.formatter;
       this.focusedY2.forEach((dataPoint, i) => {
-        const v = this.y2.config.formatter(dataPoint.y);
-        elements[i + this.focusedY1.length].textContent = v;
+        elements[i + offset].textContent = f(dataPoint.y);
       });
     }
   }

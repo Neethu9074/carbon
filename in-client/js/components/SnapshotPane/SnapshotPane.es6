@@ -110,7 +110,7 @@ const SnapshotPane = React.createClass({
                                    env={this.props.params.env}
                                    tenant={this.props.params.tenant}
                                    unit={this.props.params.unit} />
-            : 'Loading...' }
+            : 'Loading…' }
           </div>
         </div>
       </div>

@@ -12,6 +12,13 @@ describe('converters', () => {
     });
   });
 
+  describe('formatNumberSI', () => {
+    it('should format numbers', () => {
+      expect(converter.formatNumberSI(3200)).to.equal('3.2k');
+      expect(converter.formatNumberSI(0.0002)).to.equal('200µ');
+    });
+  });
+
   describe('formatBytes', () => {
     it('should format bytes', () => {
       expect(converter.formatBytes(1024)).to.equal('1 kB');

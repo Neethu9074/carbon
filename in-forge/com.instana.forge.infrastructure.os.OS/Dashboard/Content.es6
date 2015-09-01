@@ -7,7 +7,8 @@ import {
   formatBytes,
   formatBytesShort,
   formatPercentageShort,
-  formatNumberShort
+  formatNumberShort,
+  formatNumberSI
 } from 'in-services/converters';
 import {getMaxValue} from 'in-sdk/metrics';
 
@@ -229,7 +230,7 @@ const OsDashboard = React.createClass({
                        ],
                        labels: ['iFree'],
                        type: 'line',
-                       formatter: formatNumberShort
+                       formatter: formatNumberSI
                      }}/>
             </div>
           : null}
@@ -272,7 +273,7 @@ const OsDashboard = React.createClass({
                        formatter={kbFormatter} />
                   <Mtd metric={'fs.' + name + '.ifree'}
                        snapshot={this.props.snapshot}
-                       formatter={kbFormatter} />
+                       formatter={formatNumberSI} />
                 </tr>
               ).valueSeq()}
             </tbody>

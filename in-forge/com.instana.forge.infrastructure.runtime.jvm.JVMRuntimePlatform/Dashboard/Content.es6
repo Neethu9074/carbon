@@ -4,7 +4,10 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
-import {formatBytes} from 'in-services/converters';
+import {
+  formatBytes,
+  formatBytesShort
+} from 'in-services/converters';
 import {getMaxValue} from 'in-sdk/metrics';
 
 import DashboardSection from 'in-components/DashboardSection';
@@ -75,7 +78,8 @@ const JVMDashboard = React.createClass({
                            y1={{
                              min: 0,
                              max: this.props.snapshot.getIn(['data', 'memory.max']),
-                             formatter: formatBytes,
+                             formatter: formatBytesShort,
+                             tooltipFormatter: formatBytes,
                              metrics: [
                                'memory.free'
                              ],
@@ -101,7 +105,8 @@ const JVMDashboard = React.createClass({
                          'pools.' + this.state.poolName,
                          this.props.snapshot
                        ),
-                       formatter: formatBytes,
+                       formatter: formatBytesShort,
+                       tooltipFormatter: formatBytes,
                        metrics: [
                          'pools.' + this.state.poolName
                        ],

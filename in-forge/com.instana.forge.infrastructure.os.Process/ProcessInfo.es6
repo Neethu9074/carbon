@@ -14,9 +14,11 @@ const ProcessInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
-
     return (
       <DescriptionList>
+        <DescriptionItem title='Process ID'>
+          {data.get('pid')}
+        </DescriptionItem>
         <DescriptionItem title='Executable'>
           {data.get('exec')}
         </DescriptionItem>
