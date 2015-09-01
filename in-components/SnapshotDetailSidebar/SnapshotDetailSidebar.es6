@@ -1,10 +1,10 @@
 /*global require:false*/
 import irpt from 'react-immutable-proptypes';
+import * as ro from 'reactive-observables';
 import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import {extractCoordinates} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
 import {getSingular} from 'in-sdk/pluginName';
 import * as wiring from 'in-services/wiring';
@@ -22,6 +22,9 @@ import './SnapshotDetailSidebar.less';
 
 const block = 'in-snapshot-detail-sidebar';
 
+const alwaysEmptyArrayObservable = ro.create({emitLatestOnSubscribe: true});
+alwaysEmptyArrayObservable.emit([]);
+
 const SnapshotDetailSidebar = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
@@ -36,25 +39,23 @@ const SnapshotDetailSidebar = React.createClass({
   statics: {
     createObservables() {
       return {
-        snapshot: selectedSnapshotStore.selectedSnapshot
+        snapshot: selectedSnapshotStore.selectedSnapshot,
+        hierarchy: selectedSnapshotStore.selectedSnapshot.transform({
+          emitLatestOnSubscribe: true,
+
+          transform(snapshot) {
+            if (!snapshot) {
+              return alwaysEmptyArrayObservable;
+            }
+            return wiring.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, snapshot);
+          },
+
+          shouldRetransform(prevSnapshot, snapshot) {
+            return prevSnapshot !== snapshot;
+          }
+        })
       };
     }
-  },
-
-  componentDidUpdate() {
-    const snappi = this.props.snapshot;
-    if(!snappi) {
-      return;
-    }
-
-    if(this.subscription) {
-      this.subscription.dispose();
-    }
-    this.subscription = wiring
-      .getAllStepsBetweenNodeAndLeaf(views.physical.hosts, extractCoordinates(snappi))
-      .subscribe(hierarchy => {
-        this.props.hierarchy = hierarchy.slice();
-      });
   },
 
   render() {
@@ -138,7 +139,7 @@ const SnapshotDetailSidebar = React.createClass({
     return (
       <Tabs className={block + '__tabs'}
             onItemChanged={this.onItemChanged}>
-        {this.getStructure()}
+        {hierarchy}
       </Tabs>
     );
   },

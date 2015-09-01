@@ -3,10 +3,10 @@ import * as ro from 'reactive-observables';
 
 import * as forgeConsts from 'in-forge/constants';
 
-import * as views from '../views';
-import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {getFullSnapshot} from '../snapshots';
+import {create} from '../conveyer';
+import * as views from '../views';
 
 // This observable can be used for cases where we want to emit always null.
 const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
@@ -214,10 +214,13 @@ function getAllNodesTillRoot(wiringGraph, leafId) {
       break;
     }
 
-    nodes.push(current);
+    // id -> coords
+    nodes.push(wiringGraph.nodes[current]);
     current = getDestinationNode(wiringGraph, current, forgeConsts.rels.runsOn);
   }
 
+  // if the array contains only one element, it's the selected and so the array
+  // can be cleared. Otherwise it is nessessary to collect all nodes in their correct order
   if (nodes.length === 1) {
     return [];
   }

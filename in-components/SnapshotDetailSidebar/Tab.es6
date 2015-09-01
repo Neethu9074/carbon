@@ -1,4 +1,7 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
+
+import {getIcon} from 'in-sdk/snapshot';
 
 import './Tab.less';
 
@@ -9,17 +12,21 @@ const SidebarTab = React.createClass({
 
   propTypes: {
     onClick: React.PropTypes.func.isRequired,
-    item: React.PropTypes.object.isRequired
+    item: irpt.map.isRequired
   },
 
   render() {
     const item = this.props.item;
+    const id = item.get('id');
 
     return (
-      <div key={item.id}
+      <div key={id}
            className={block}
            onClick={() => this.props.onClick(item)}>
-        {item.type}
+
+        <img src={getIcon(item)}
+             alt='Snapshot icon'
+             className={block + '__icon'}/>
       </div>
     );
   }

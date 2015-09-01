@@ -154,8 +154,8 @@ describe('wiring', () => {
           expect(onNext).to.have.callCount(1);
 
           const nodes = onNext.getCall(0).args[0];
-          expect(nodes[0]).to.equal(cassandraCoords.get('id'));
-          expect(nodes[1]).to.equal(dockerCoords.get('id'));
+          expect(nodes[0].get('id')).to.equal(cassandraCoords.get('id'));
+          expect(nodes[1].get('id')).to.equal(dockerCoords.get('id'));
         });
 
         it('should return a sorted list of coords for cassandra on simple', () => {
@@ -177,8 +177,8 @@ describe('wiring', () => {
 
           expect(onNext).to.have.callCount(1);
           const nodes = onNext.getCall(0).args[0];
-          expect(nodes[0]).to.equal(cassandraCoords.get('id'));
-          expect(nodes[1]).to.equal(dockerCoords.get('id'));
+          expect(nodes[0].get('id')).to.equal(cassandraCoords.get('id'));
+          expect(nodes[1].get('id')).to.equal(dockerCoords.get('id'));
         });
 
         it('should return a sorted list of coords for MySQL on common', () => {
@@ -202,8 +202,8 @@ describe('wiring', () => {
 
           expect(onNext).to.have.callCount(1);
           const nodes = onNext.getCall(0).args[0];
-          expect(nodes[0]).to.equal(mysqlCoords.get('id'));
-          expect(nodes[1]).to.equal(processCoords.get('id'));
+          expect(nodes[0].get('id')).to.equal(mysqlCoords.get('id'));
+          expect(nodes[1].get('id')).to.equal(processCoords.get('id'));
         });
 
       });
