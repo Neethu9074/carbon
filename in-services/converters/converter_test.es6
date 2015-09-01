@@ -16,6 +16,7 @@ describe('converters', () => {
     it('should format numbers', () => {
       expect(converter.formatNumberSI(3200)).to.equal('3.2k');
       expect(converter.formatNumberSI(0.0002)).to.equal('200µ');
+      expect(converter.formatNumberSI(314475603)).to.equal('314.48M');
     });
   });
 

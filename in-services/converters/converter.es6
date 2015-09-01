@@ -18,11 +18,12 @@ export const formatNumberShort = commaWithoutDecimalPlacesFormatter;
  * Convenience function that can be used to format numbers with SI suffix.
  *
  * @param {number} num - The number to format
+ * @param {number} numberOfDecimalPlaces - The desired number of decimal places
  * @returns {string} Human readable number with the repective SI suffix.
  */
-export function formatNumberSI(num) {
+export function formatNumberSI(num, numberOfDecimalPlaces = 2) {
   const prefix = d3.formatPrefix(num);
-  return prefix.scale(num) + prefix.symbol;
+  return d3.round(prefix.scale(num), numberOfDecimalPlaces) + prefix.symbol;
 }
 
 /**
