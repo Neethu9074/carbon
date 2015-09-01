@@ -218,7 +218,6 @@ function getAllNodesTillRoot(wiringGraph, leafId) {
     current = getDestinationNode(wiringGraph, current, forgeConsts.rels.runsOn);
   }
 
-  console.log(leafId);
   if (nodes.length === 1) {
     return [];
   }
