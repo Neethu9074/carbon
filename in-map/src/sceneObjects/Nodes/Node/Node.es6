@@ -128,6 +128,7 @@ export default class Node extends BaseNode {
     this.addSubscription(
       highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
         if (!highlighted) {
+          this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
           return;
         }
         const value = highlighted.get('id')  === this.id ?

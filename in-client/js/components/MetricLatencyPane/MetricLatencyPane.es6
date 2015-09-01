@@ -111,7 +111,7 @@ const MetricLatencyPane = React.createClass({
           <div className={block + '__content'} ref='content'>
             {this.state.metrics ?
               <MetricLatencyPaneContent metrics={this.state.metrics} snapshot={this.props.params} />
-            : 'Loading...' }
+            : 'Loading…' }
           </div>
         </div>
       </div>

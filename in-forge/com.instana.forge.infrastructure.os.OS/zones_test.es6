@@ -21,7 +21,7 @@ describe('zones', () => {
   });
 
   it('should return undefined due to missing EC2 information', () => {
-    expect(getZone(snapshot)).to.equal('undefined');
+    expect(getZone(snapshot)).to.equal('undefined zone');
   });
 
   it('should return EC2 availability zone information', () => {

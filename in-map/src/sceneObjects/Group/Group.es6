@@ -1,20 +1,22 @@
 import _ from 'lodash';
 
+import {hexToRGBNormalized} from 'in-services/converters';
 import eventBus from 'in-services/eventbus';
+import {getColor} from 'in-sdk/zones';
 
-import LineMeshComponent from '../../../components/LineMeshComponent';
+import LineMeshComponent from '../../components/LineMeshComponent';
 
-import UnknownNode from '../../Nodes/UnknownNode';
-import StickyNote from '../../StickyNote/Ground';
-import SceneObject from '../../SceneObject';
-import Node from '../../Nodes/Node';
+import UnknownNode from '../Nodes/UnknownNode';
+import StickyNote from '../StickyNote/Ground';
+import SceneObject from '../SceneObject';
+import Node from '../Nodes/Node';
 
-import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
+import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 
-export default class BaseGroup extends SceneObject {
+export default class Group extends SceneObject {
 
   constructor({parent, id}) {
     super({parent, id});
@@ -46,6 +48,10 @@ export default class BaseGroup extends SceneObject {
       })
     });
     components.mesh.colorChanged(color.r, color.g, color.b);
+  }
+
+  getColor() {
+    return hexToRGBNormalized(getColor(this.id));
   }
 
   update() {

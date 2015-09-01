@@ -1,19 +1,17 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
-const EC2Infos = React.createClass({
+const EC2SidebarDetails = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    data: irpt.map.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {
-    const data = this.props.data;
+    const data = this.props.snapshot.get('data');
 
     return (
       <div>
@@ -65,4 +63,4 @@ const EC2Infos = React.createClass({
   }
 });
 
-export default EC2Infos;
+export default EC2SidebarDetails;
