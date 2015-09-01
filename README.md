@@ -26,12 +26,21 @@ nvm use "$VERSION"
 nvm alias default $VERSION
 ```
 
-### Executing tasks
-Tasks are defined in the `package.json`. They can be executed via `npm run <taskname>`. For instance `npm run test` (or `npm test`) to execute the tests, `npm run dev` to start up a proxy and development server or `npm run build` to build the JavaScript files.
-
 ### Setting up local domains
 In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.
 
 ```
 127.0.0.1 local-instana.instana.io
 ```
+
+### Accessing our artifact repository via NPM
+To access our artifact repository (NEXUS) and retrieve dependencies via NPM, you need to add a local `.npmrc` configuration file to the `ui-client` directory. You do so via…
+
+```
+cp .npmrc.sample .npmrc
+```
+
+You need to edit the `.npmrc` file according to the comments contained within that file. Since the file contains sensitive information, you would not add it to the repository. For your convenience, the file is ignored by default.
+
+### Executing tasks
+Tasks are defined in the `package.json`. They can be executed via `npm run <taskname>`. For instance `npm run test` (or `npm test`) to execute the tests, `npm run dev` to start up a proxy and development server or `npm run build` to build the JavaScript files.
