@@ -25,8 +25,8 @@ export const DescriptionList = React.createClass({
       return this.props.children
         .filter(children => children)
         .map(child => {
-        return this.renderItem(child.props);
-      });
+          return this.renderItem(child.props);
+        });
     }
 
     return this.renderItem(this.props.children.props);
