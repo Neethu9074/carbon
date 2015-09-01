@@ -46,7 +46,7 @@ const DockerInfo = React.createClass({
     return (
       <span>
         {ports.map(port =>
-          <span>{port.get('PrivatePort')}/{port.get('Type')}</span>
+          <span key={port}>{port.get('PrivatePort')}/{port.get('Type')}</span>
         )}
       </span>
     );
