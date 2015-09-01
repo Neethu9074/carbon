@@ -15,6 +15,7 @@ const JVMInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
+    const maxMemory = data.get('memory.max');
 
     return (
       <DescriptionList>
@@ -28,9 +29,13 @@ const JVMInfo = React.createClass({
           {data.get('jvm.name')}
         </DescriptionItem>
 
-        <DescriptionItem title='Maximum Heap'>
-          {formatBytes(data.get('memory.max'))}
-        </DescriptionItem>
+        {maxMemory ?
+          <DescriptionItem title='Maximum Heap'>
+            {formatBytes(maxMemory)}
+          </DescriptionItem> :
+          null
+        }
+
 
         <DescriptionItem title='Classpath'>
           {data.get('jvm.cp')}
