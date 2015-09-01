@@ -2,11 +2,12 @@
 
 .in-snapshot-sidebar-tab {
   margin: 0 0 10px 10px;
-  width: 70px;
-  height: 70px;
+  width: 50px;
+  height: 50px;
 
   border-radius: 4px;
   background: @sidebar__background;
+  text-align: center;
 
   &__selected {
     background: #9fffff;
@@ -14,12 +15,14 @@
 
   &:hover {
     cursor: pointer;
+    border: 2px solid white;
+    margin: -2px 0 8px 8px;
   }
 
   &__icon {
-    height: 40px;
-    width: 40px;
+    height: 24px;
+    min-width: 50px;
 
-    margin: 15px;
+    margin-top: 13px;
   }
 }
