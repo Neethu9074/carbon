@@ -4,9 +4,11 @@ import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {extractCoordinates} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
-import * as wiring from 'in-services/wiring';
 import {getSingular} from 'in-sdk/pluginName';
+import * as wiring from 'in-services/wiring';
+import * as views from 'in-services/views';
 import {getLabel} from 'in-sdk/snapshot';
 
 import HealthIcon from '../HealthIcon';
@@ -21,10 +23,14 @@ import './SnapshotDetailSidebar.less';
 const block = 'in-snapshot-detail-sidebar';
 
 const SnapshotDetailSidebar = React.createClass({
-  mixins: [React.addons.PureRenderMixin, Navigation],
+  mixins: [
+    React.addons.PureRenderMixin,
+    Navigation
+  ],
 
   propTypes: {
-    snapshot: irpt.map
+    snapshot: irpt.map,
+    hierarchy: React.PropTypes.array
   },
 
   statics: {
@@ -33,6 +39,22 @@ const SnapshotDetailSidebar = React.createClass({
         snapshot: selectedSnapshotStore.selectedSnapshot
       };
     }
+  },
+
+  componentDidUpdate() {
+    const snappi = this.props.snapshot;
+    if(!snappi) {
+      return;
+    }
+
+    if(this.subscription) {
+      this.subscription.dispose();
+    }
+    this.subscription = wiring
+      .getAllStepsBetweenNodeAndLeaf(views.physical.hosts, extractCoordinates(snappi))
+      .subscribe(hierarchy => {
+        this.props.hierarchy = hierarchy.slice();
+      });
   },
 
   render() {
@@ -108,20 +130,17 @@ const SnapshotDetailSidebar = React.createClass({
   },
 
   renderTabs() {
+    const hierarchy = this.props.hierarchy;
+    if(!hierarchy) {
+      return null;
+    }
+
     return (
       <Tabs className={block + '__tabs'}
             onItemChanged={this.onItemChanged}>
         {this.getStructure()}
       </Tabs>
     );
-  },
-
-  getStructure() {
-    return [
-      {id: '1', type: 'Process'},
-      {id: '2', type: 'JVM'},
-      {id: '3', type: 'Tomcat'}
-    ];
   },
 
   onItemChanged(item) {

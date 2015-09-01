@@ -190,3 +190,38 @@ function loadFullSnapshotsForNodeStructure(nodeStructure) {
       };
     });
 }
+
+export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
+  if (view !== views.physical.hosts) {
+    throw new Error('Unsupported view!', view, snapshotCoordinates);
+  }
+
+  const originId = snapshotCoordinates.get('id');
+  return completeWiring.map(wiringGraph => {
+    const leafs = getLeafNodes(wiringGraph, originId, forgeConsts.rels.runsOn);
+    const leafId = leafs.length === 0 ? originId : leafs[0];
+
+    return getAllNodesTillRoot(wiringGraph, leafId);
+  });
+}
+
+function getAllNodesTillRoot(wiringGraph, leafId) {
+  const nodes = [];
+
+  let current = leafId;
+  while(current) {
+    if (current.indexOf(forgeConsts.plugins.os) === 0) {
+      break;
+    }
+
+    nodes.push(current);
+    current = getDestinationNode(wiringGraph, current, forgeConsts.rels.runsOn);
+  }
+
+  console.log(leafId);
+  if (nodes.length === 1) {
+    return [];
+  }
+
+  return nodes;
+}
