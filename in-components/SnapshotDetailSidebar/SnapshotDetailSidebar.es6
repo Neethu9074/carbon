@@ -60,7 +60,6 @@ const SnapshotDetailSidebar = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
-
     if (!snapshot) {
       return null;
     }
@@ -119,13 +118,14 @@ const SnapshotDetailSidebar = React.createClass({
   },
 
   openDashboard() {
+    const snapshot = this.props.snapshot;
     tracking.trackEvent(tracking.events.openingADashboardUsingTheSidebar);
     this.transitionTo(
       'dashboard',
       {
-        pluginId: encodeURIComponent(this.props.snapshot.get('pluginId')),
-        steadyId: encodeURIComponent(this.props.snapshot.get('steadyId')),
-        hostId: encodeURIComponent(this.props.snapshot.get('hostId'))
+        pluginId: encodeURIComponent(snapshot.get('pluginId')),
+        steadyId: encodeURIComponent(snapshot.get('steadyId')),
+        hostId: encodeURIComponent(snapshot.get('hostId'))
       }
     );
   },
