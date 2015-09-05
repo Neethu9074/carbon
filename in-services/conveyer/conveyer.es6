@@ -11,20 +11,35 @@ export function create(Conveyer, params) {
     return cachedConveyer;
   }
 
+  let running = false;
+  let stopTimeoutHandle;
   const conveyer = new Conveyer(params);
 
   const observable = ro.create({
+    emitLatestOnSubscribe: true,
+
     start() {
-      conveyer.start(observable.emit.bind(observable));
+      if (stopTimeoutHandle) {
+        clearTimeout(stopTimeoutHandle);
+        stopTimeoutHandle = null;
+      }
+      if (!running) {
+        running = true;
+        conveyer.start(observable.emit.bind(observable));
+      }
     },
 
     stop() {
-      // TODO Ben evict stopped converyers from cache after a certain amount of time
-      // has passed.
-      conveyer.stop();
-    },
-
-    emitLatestOnSubscribe: true
+      // Evict stopped conveyers from cache after a small
+      // amount of time has passed.
+      stopTimeoutHandle = setTimeout(() => {
+        running = false;
+        if (!running) {
+          conveyer.stop();
+          delete conveyerCache[uniqueId];
+        }
+      }, 1000);
+    }
   });
 
   conveyerCache[uniqueId] = observable;

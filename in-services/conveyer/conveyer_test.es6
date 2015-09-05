@@ -7,17 +7,24 @@ import {create} from './conveyer';
 
 
 describe('conveyer', () => {
+  let clock;
   let Conveyer;
   let conveyerInstance;
 
   beforeEach(() => {
+    clock = sinon.useFakeTimers();
+
     Conveyer = sinon.stub();
-    Conveyer.getUniqueId = (opts) => JSON.stringify(opts);
+    Conveyer.getUniqueId = opts => JSON.stringify(opts);
     conveyerInstance = {
       start: sinon.stub(),
       stop: sinon.stub()
     };
     Conveyer.onFirstCall().returns(conveyerInstance);
+  });
+
+  afterEach(() => {
+    clock.restore();
   });
 
   it('should return observable instances', () => {
@@ -62,22 +69,20 @@ describe('conveyer', () => {
     expect(conveyerInstance.stop.callCount).to.equal(0);
     subscription1.dispose();
     expect(conveyerInstance.stop.callCount).to.equal(0);
+
+    // let time progress 5s to force a timeout tick. Since there is still
+    // one subscriber, stop should not be invoked
+    clock.tick(5000);
+    expect(conveyerInstance.stop.callCount).to.equal(0);
+
     subscription2.dispose();
+    // Conveyers should only be stopped after a small amount of time to avoid
+    // rapid conveyer restarts.
+    expect(conveyerInstance.stop.callCount).to.equal(0);
+
+    clock.tick(1000);
     expect(conveyerInstance.stop.callCount).to.equal(1);
   });
-
-  // it('should forbid to reuse disposed observables', () => {
-  //   const observable = create(Conveyer);
-  //   observable.subscribe(() => {}).dispose();
-  //   expect(() => observable.subscribe(() => {})).to.throw(Error);
-  // });
-  //
-  // it('should create new observable instances once all previous subscribers disposed', () => {
-  //   const observable1 = create(Conveyer);
-  //   observable1.subscribe(() => {}).dispose();
-  //   const observable2 = create(Conveyer);
-  //   expect(observable1).not.to.equal(observable2);
-  // });
 
   it('should make published values available via the observable', (done) => {
     create(Conveyer).subscribe(e => {
@@ -86,5 +91,26 @@ describe('conveyer', () => {
     });
     const onNext = conveyerInstance.start.getCall(0).args[0];
     onNext('foo');
+  });
+
+  it('should restart conveyer in pending stop', () => {
+    let subscriber = sinon.stub();
+    let subscription = create(Conveyer).subscribe(subscriber);
+    const onNext = conveyerInstance.start.getCall(0).args[0];
+    onNext('A');
+    expect(subscriber).to.have.callCount(1);
+    expect(subscriber).to.have.been.calledWith('A');
+
+    subscription.dispose();
+    clock.tick(500);
+    subscriber = sinon.stub();
+    subscription = create(Conveyer).subscribe(subscriber);
+    expect(conveyerInstance.start).to.have.callCount(1);
+    expect(conveyerInstance.stop).to.have.callCount(0);
+    expect(subscriber).to.have.callCount(1);
+    expect(subscriber).to.have.been.calledWith('A');
+
+    clock.tick(5000);
+    expect(conveyerInstance.stop).to.have.callCount(0);
   });
 });
