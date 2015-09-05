@@ -42,7 +42,6 @@ const DockerInfo = React.createClass({
       return null;
     }
 
-    // TODO how do we show the public port?
     return (
       <span>
         {ports.map(port =>
