@@ -1,13 +1,13 @@
-
-
 import React from 'react/addons';
 import {createLogger} from 'instalog';
 
 import ContextWrapper from './ContextWrapper';
 
-const logger = createLogger('in-component.Jail');
+import './Jail.less';
 
+const logger = createLogger('in-component.Jail');
 const rpt = React.PropTypes;
+const block = 'in-jail';
 
 const Jail = React.createClass({
   propTypes: {
@@ -64,7 +64,10 @@ const Jail = React.createClass({
         e
       );
       React.render(
-        <p>An unexpected error occured: {e.message}</p>,
+        <p className={block + '__error'}>
+          An unexpected error occured:&nbsp;
+          <span className={block + '__error-reason'}>{e.message}</span>
+        </p>,
         domNode
       );
     }
@@ -78,7 +81,7 @@ const Jail = React.createClass({
 
   render() {
     return (
-      <div className='jail'></div>
+      <div className={block}></div>
     );
   }
 });
