@@ -24,14 +24,13 @@ const SidebarTabs = React.createClass({
                       block + ' ' + this.props.className :
                       block;
 
-    let key = 0;
     return (
       <div className={className}>
-        {this.props.children.map(child => {
+        {this.props.children.map((child, index) => {
           const isSelected = (this.state.selectedCoords && this.state.selectedCoords === child) ?
             true : false;
           return (
-            <Tab key={key++}
+            <Tab key={index}
                  onClick={this.onClick}
                  isSelected={isSelected}
                  item={child}/>
