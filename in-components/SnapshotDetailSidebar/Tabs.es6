@@ -27,7 +27,8 @@ const SidebarTabs = React.createClass({
     return (
       <div className={className}>
         {this.props.children.map((child, index) => {
-          const isSelected = (this.state.selectedCoords && this.state.selectedCoords === child) ?
+          const isSelected = (this.state.selectedCoords &&
+            this.state.selectedCoords.get('id') === child.get('id')) ?
             true : false;
           return (
             <Tab key={index}
