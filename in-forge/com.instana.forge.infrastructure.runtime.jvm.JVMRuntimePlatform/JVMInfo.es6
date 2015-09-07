@@ -37,9 +37,25 @@ const JVMInfo = React.createClass({
         }
 
         <DescriptionItem title='Classpath'>
-          {data.get('jvm.cp')}
+          {this.formatClasspath(data.get('jvm.cp'))}
         </DescriptionItem>
       </DescriptionList>
+    );
+  },
+
+  formatClasspath(cp) {
+    if (!cp) return null;
+
+    const cpEntries = cp.split(/:|;/);
+    return (
+      <span>
+        {cpEntries.map((cpEntry, i) =>
+          <span key={cpEntry}>
+            {i > 0 ? <span><br/><br/></span> : null}
+            {cpEntry}
+          </span>
+        )}
+      </span>
     );
   }
 });
