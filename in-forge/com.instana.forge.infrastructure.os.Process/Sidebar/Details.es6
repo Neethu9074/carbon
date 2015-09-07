@@ -28,7 +28,7 @@ const Details = React.createClass({
             <ProcessInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <Collapsible initiallyOpen={true}>
+        <Collapsible initiallyOpen={false}>
           <Collapsible.Header>Arguments</Collapsible.Header>
           <Collapsible.Content>
             <ArgList snapshot={this.props.snapshot} />

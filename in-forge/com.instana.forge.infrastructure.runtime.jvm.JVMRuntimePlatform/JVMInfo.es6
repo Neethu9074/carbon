@@ -36,7 +36,6 @@ const JVMInfo = React.createClass({
           null
         }
 
-
         <DescriptionItem title='Classpath'>
           {data.get('jvm.cp')}
         </DescriptionItem>
