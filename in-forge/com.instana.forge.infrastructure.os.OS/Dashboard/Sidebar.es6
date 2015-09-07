@@ -6,6 +6,7 @@ import Collapsible from 'in-components/Collapsible';
 import TagList from 'in-components/TagList/TagList';
 import WiringList from 'in-components/WiringList';
 
+import InterfaceList from '../InterfaceList';
 import HostInfo from '../HostInfo';
 import HostHardware from '../HostHardware';
 
@@ -25,6 +26,12 @@ const Sidebar = React.createClass({
           <Collapsible.Header>System</Collapsible.Header>
           <Collapsible.Content>
             <HostInfo snapshot={this.props.snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>Interfaces</Collapsible.Header>
+          <Collapsible.Content>
+            <InterfaceList snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
