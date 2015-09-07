@@ -3,10 +3,10 @@ import * as ro from 'reactive-observables';
 
 import * as forgeConsts from 'in-forge/constants';
 
-import * as views from '../views';
-import {create} from '../conveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {getFullSnapshot} from '../snapshots';
+import {create} from '../conveyer';
+import * as views from '../views';
 
 // This observable can be used for cases where we want to emit always null.
 const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
@@ -189,4 +189,45 @@ function loadFullSnapshotsForNodeStructure(nodeStructure) {
         layers: vals[2]
       };
     });
+}
+
+export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
+  if (view !== views.physical.hosts) {
+    throw new Error('Unsupported view!', view, snapshotCoordinates);
+  }
+
+  const originId = snapshotCoordinates.get('id');
+  if (originId.indexOf(forgeConsts.plugins.os) === 0) {
+    return completeWiring.map(() => []);
+  }
+
+  return completeWiring.map(wiringGraph => {
+    const leafs = getLeafNodes(wiringGraph, originId, forgeConsts.rels.runsOn);
+    const leafId = leafs.length === 0 ? originId : leafs[0];
+
+    return getAllNodesTillRoot(wiringGraph, leafId);
+  });
+}
+
+function getAllNodesTillRoot(wiringGraph, leafId) {
+  const nodes = [];
+
+  let current = leafId;
+  while(current) {
+    if (current.indexOf(forgeConsts.plugins.os) === 0) {
+      break;
+    }
+
+    // id -> coords
+    nodes.push(wiringGraph.nodes[current]);
+    current = getDestinationNode(wiringGraph, current, forgeConsts.rels.runsOn);
+  }
+
+  // if the array contains only one element, it's the selected and so the array
+  // can be cleared. Otherwise it is nessessary to collect all nodes in their correct order
+  if (nodes.length === 1) {
+    return [];
+  }
+
+  return nodes;
 }

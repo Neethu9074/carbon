@@ -1,0 +1,25 @@
+@import "~in-themes/less/constants.less";
+
+.in-snapshot-sidebar-tab {
+  @height: 3rem;
+  margin: 0 0 0.5rem 0.5rem;
+  width: 3rem;
+  height: @height;
+
+  border-radius: 0.25rem;
+  border: 0.1rem solid transparent;
+  background: @sidebar__background;
+  text-align: center;
+
+  &:hover, &__selected {
+    cursor: pointer;
+    border-color: white;
+  }
+
+  &__icon {
+    @icon-height: 1.5rem;
+    height: @icon-height;
+    min-width: 3rem;
+    margin-top: (@height - @icon-height) / 2;
+  }
+}
