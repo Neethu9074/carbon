@@ -58,7 +58,6 @@ export default class CameraController {
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.position.set(10, 0, -10);
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
-    scene.addSceneObject(this.camTransformObject);
 
     this.directionToCam = scene.camera.position
       .clone()
@@ -97,18 +96,61 @@ export default class CameraController {
     }
     const min = this.maxZoomOut;
     const max = this.maxZoomIn;
-    const nZoomLevel = this.zoomLevel / (min - max);
+    const nZoomLevel = this.zoomLevel / (min - max); // [0 nearest, 1 farest]
 
     delta *= nZoomLevel * this.scrollSpeed;
 
     this.switchStateIfNext();
 
+    const oldTargetZoomLevel = this.targetZoomLevel;
     this.targetZoomLevel -= delta;
 
-    //[min, max]
-    this.targetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel)));
+    const newTargetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel))); // [min, max]
+
+    // the direction is always positive if you zoom in, negative otherwise
+    this.shiftTargetLookAtBasedOnZoomLevel(nZoomLevel, oldTargetZoomLevel - newTargetZoomLevel);
+
+    this.targetZoomLevel = newTargetZoomLevel;
     this.scene.onZoom({zoomLevel: this.targetZoomLevel});
     this.handleRayCasting();
+  }
+
+  shiftTargetLookAtBasedOnZoomLevel(normalizedZoomLevel, direction) {
+    // dont to the shifting effect on zoom out
+    if (direction <= 0) {
+      return;
+    }
+
+
+    const scene = this.scene;
+    const x = this.lastMousePosition.x;
+    const y = this.lastMousePosition.y;
+    const mousePos = {
+      x: (x / scene.width) * 2 - 1,
+      y: -(y / scene.height) * 2 + 1
+    };
+    const raycaster = new THREE.Raycaster();
+
+    // update the picking ray with the camera and mouse position
+    raycaster.setFromCamera(mousePos, scene.camera);
+
+    // calculate objects intersecting the picking ray
+    const transObj = this.camTransformObject;
+    const intersects = raycaster.intersectObjects([scene.map.ground]);
+    if(intersects && intersects.length === 1) {
+      const pointOfImpact = intersects[0].point;
+      const pointOfCurrentLookingAt = transObj.position;
+
+      const dx = pointOfImpact.x - pointOfCurrentLookingAt.x;
+      const dz = pointOfImpact.z - pointOfCurrentLookingAt.z;
+
+      const factor = Math.min(0.9 - normalizedZoomLevel, 0.2);
+
+      transObj.position.x += dx * factor;
+      transObj.position.z += dz * factor;
+
+      transObj.updateMatrixWorld();
+    }
   }
 
   setZoomLevel(zL) {

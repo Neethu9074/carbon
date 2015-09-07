@@ -3,8 +3,8 @@ import _ from 'lodash';
 
 import {viewStructure} from 'in-services/stores/view';
 import {filters} from 'in-services/stores/mapFilters';
-import eventBus from 'in-services/eventbus';
 import {getFullSnapshot} from 'in-services/snapshots';
+import eventBus from 'in-services/eventbus';
 import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
