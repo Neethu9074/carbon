@@ -4,8 +4,6 @@ import Tab from './Tab';
 
 import './Tabs.less';
 
-const block = 'in-snapshot-sidebar-tabs';
-
 const SidebarTabs = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
@@ -20,9 +18,7 @@ const SidebarTabs = React.createClass({
   },
 
   render() {
-    const className = this.props.className ?
-                      block + ' ' + this.props.className :
-                      block;
+    const className = this.props.className ? this.props.className : '';
 
     return (
       <div className={className}>
