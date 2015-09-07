@@ -9,6 +9,17 @@
     text-transform: uppercase;
     margin: 2px 0 4px;
 
+    &:hover {
+      // important because color is set via style attribute
+      color: white !important;
+
+      .in-sidebar-zone-list__server-count {
+        // important because color is set via style attribute
+        color: #000 !important;
+        background: #fff !important;
+      }
+    }
+
     &--closed {
       margin: 2px 0 10px;
       padding-bottom: 10px;
