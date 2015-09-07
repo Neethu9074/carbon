@@ -31,8 +31,8 @@ const TagList = React.createClass({
           </Collapsible.Header>
           <Collapsible.Content>
             <div className={block}>
-              {tags.map((tag, index) =>
-                <Tag key={index}
+              {tags.map((tag) =>
+                <Tag key={tag}
                      tag={tag}
                      onClick={() => filters.addTagFilter(tag)}/>
               )}

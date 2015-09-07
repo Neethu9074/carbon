@@ -9,7 +9,8 @@ const Tooltip = React.createClass({
 
   propTypes: {
     content: rpt.string.isRequired,
-    children: rpt.any.isRequired
+    children: rpt.any.isRequired,
+    align: rpt.string
   },
 
   componentDidMount() {
@@ -41,8 +42,9 @@ const Tooltip = React.createClass({
 
   onMouseIn() {
     tooltipStore.setActiveTooltip({
+      focusedElement: this.domNode,
       content: this.props.content,
-      focusedElement: this.domNode
+      align: this.props.align ? this.props.align : 'left'
     });
   },
 

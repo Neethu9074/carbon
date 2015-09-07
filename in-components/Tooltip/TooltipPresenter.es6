@@ -26,8 +26,10 @@ const TooltipPresenter = React.createClass({
   },
 
   componentDidUpdate() {
+    const activeTooltip = this.props.activeTooltip;
+
     // nothing to do if there is no active tooltip
-    if (!this.props.activeTooltip) {
+    if (!activeTooltip) {
       return;
     }
 
@@ -35,23 +37,28 @@ const TooltipPresenter = React.createClass({
     // each box has width, height, top, left properties
     const tooltipBox = tooltipElement.getBoundingClientRect();
 
-    const focusedElement = this.props.activeTooltip.focusedElement;
+    const focusedElement = activeTooltip.focusedElement;
     const focusedElementBox = focusedElement.getBoundingClientRect();
 
-    const x = focusedElementBox.left - tooltipBox.width - horizontalMargin;
+    const x = activeTooltip.align === 'left' ?
+      focusedElementBox.left - tooltipBox.width - horizontalMargin :
+      focusedElementBox.right + horizontalMargin;
+
     const y = focusedElementBox.top + focusedElementBox.height / 2 - tooltipBox.height / 2;
 
     applyTransform(tooltipElement, 'translate(' + toPx(x) + ',' + toPx(y) + ')');
   },
 
   render() {
-    if (!this.props.activeTooltip) {
+    const activeTooltip = this.props.activeTooltip;
+
+    if (!activeTooltip) {
       return null;
     }
 
     return (
-      <div className={block}>
-        {this.props.activeTooltip.content}
+      <div className={block + ' ' + block + '__' + activeTooltip.align}>
+        {activeTooltip.content}
       </div>
     );
   }

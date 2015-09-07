@@ -15,7 +15,8 @@
   padding: 0.3rem 0.5rem;
   border-radius: 0.4rem;
 
-  &:after {
+
+  &__left:after {
     @size: 6px;
     content: "";
     width: 0;
@@ -25,5 +26,17 @@
 
     position: absolute;
     right: @size * -1;
+  }
+
+  &__right:after {
+    @size: 6px;
+    content: "";
+    width: 0;
+    height: 0;
+    border-bottom: @size solid transparent;
+    border-right: @size solid @background;
+
+    position: absolute;
+    left: @size * -1;
   }
 }

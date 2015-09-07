@@ -27,16 +27,19 @@ const SidebarTab = React.createClass({
       block;
 
     return (
-      <div key={id}
-           className={className}
-           onClick={() => this.props.onClick(item)}>
+      <Tooltip content={getSingular(item.get('pluginId'))}
+               align={'right'}>
 
-        <Tooltip content={getSingular(item.get('pluginId'))}>
+        <div key={id}
+             className={className}
+             onClick={() => this.props.onClick(item)}>
+
           <img src={getIcon(item)}
-               alt='Snapshot icon'
-               className={block + '__icon'}/>
-        </Tooltip>
-      </div>
+              alt='Snapshot icon'
+              className={block + '__icon'}/>
+
+        </div>
+      </Tooltip>
     );
   }
 });
