@@ -20,7 +20,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.jvm,
-  snapshot => snapshot.get('name') || snapshot.get('steadyId')
+  snapshot => snapshot.getIn(['data', 'name'])
 );
 
 addIconFinder(

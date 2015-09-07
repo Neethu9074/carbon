@@ -18,7 +18,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.mongodb,
-  snapshot => 'MongoDB @' + snapshot.get('port')
+  snapshot => 'MongoDB @' + snapshot.getIn(['data', 'port'])
 );
 
 addIconFinder(
