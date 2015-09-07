@@ -138,7 +138,8 @@ const SnapshotDetailSidebar = React.createClass({
 
     return (
       <Tabs className={block + '__tabs'}
-            onItemChanged={this.onItemChanged}>
+            onItemChanged={this.onItemChanged}
+            snapshot={this.props.snapshot}>
         {hierarchy}
       </Tabs>
     );

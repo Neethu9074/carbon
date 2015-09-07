@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
 import Tab from './Tab';
 
@@ -10,11 +11,8 @@ const SidebarTabs = React.createClass({
   propTypes: {
     onItemChanged: React.PropTypes.func.isRequired,
     children: React.PropTypes.array.isRequired,
-    className: React.PropTypes.string
-  },
-
-  getInitialState() {
-    return { selectedCoords: undefined };
+    className: React.PropTypes.string,
+    snapshot: irpt.map
   },
 
   render() {
@@ -23,9 +21,8 @@ const SidebarTabs = React.createClass({
     return (
       <div className={className}>
         {this.props.children.map((child, index) => {
-          const isSelected = (this.state.selectedCoords &&
-            this.state.selectedCoords.get('id') === child.get('id')) ?
-            true : false;
+          const isSelected = this.props.snapshot &&
+            this.props.snapshot.get('id') === child.get('id');
           return (
             <Tab key={index}
                  onClick={this.onClick}
@@ -38,7 +35,6 @@ const SidebarTabs = React.createClass({
   },
 
   onClick(e) {
-    this.setState({selectedCoords: e});
     this.props.onItemChanged(e);
   }
 });
