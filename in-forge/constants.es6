@@ -3,11 +3,13 @@ export const plugins = {
   elasticsearch: 'com.instana.forge.infrastructure.database.elasticsearch.Elasticsearch',
   os: 'com.instana.forge.infrastructure.os.OS',
   process: 'com.instana.forge.infrastructure.os.Process',
+  jira: 'com.instana.forge.infrastructure.application.jira.JIRAApplication',
   jvm: 'com.instana.forge.infrastructure.runtime.jvm.JVMRuntimePlatform',
   docker: 'com.instana.forge.infrastructure.virtualization.Docker',
   cassandra: 'com.instana.forge.infrastructure.database.cassandra.Cassandra',
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
-  mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDB'
+  mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDB',
+  tomcat: 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer'
 };
 
 export const rels = {
