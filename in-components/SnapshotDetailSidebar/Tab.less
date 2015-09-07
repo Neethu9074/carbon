@@ -13,7 +13,11 @@
 
   &:hover, &__selected {
     cursor: pointer;
-    border-color: white;
+    background: @common__highlight-color;
+
+    .in-snapshot-sidebar-tab__icon {
+      filter: invert(100%);
+    }
   }
 
   &__icon {
