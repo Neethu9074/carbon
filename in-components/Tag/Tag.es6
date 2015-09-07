@@ -7,7 +7,7 @@ import './Tag.less';
 
 const block = 'in-tag';
 
-const TagList = React.createClass({
+const Tag = React.createClass({
   mixins: [
     React.addons.PureRenderMixin
   ],
@@ -20,12 +20,17 @@ const TagList = React.createClass({
   render() {
     return (
       <div className={block}
-           onClick={this.props.onClick}
-           style={{borderColor: String(getColor(this.props.tag))}}>
-        {this.props.tag}
+           onClick={this.props.onClick}>
+        <div className={block + '__wrapper'}>
+          <div className={block + '__point'}
+               style={{background: String(getColor(this.props.tag))}} />
+          <span className={block + '__label'}>
+            {this.props.tag}
+          </span>
+        </div>
       </div>
     );
   }
 });
 
-export default TagList;
+export default Tag;
