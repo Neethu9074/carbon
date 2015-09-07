@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
@@ -21,7 +19,7 @@ const InterfaceList = React.createClass({
     return (
       <DescriptionList>
         {ifaces.map((iface, ifaceName) =>
-          <DescriptionItem title={ifaceName}>
+          <DescriptionItem key={ifaceName} title={ifaceName}>
             {iface.get('ips')}
           </DescriptionItem>
         ).toArray()}
