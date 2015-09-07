@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
@@ -33,8 +31,8 @@ const TagList = React.createClass({
           </Collapsible.Header>
           <Collapsible.Content>
             <div className={block}>
-              {tags.map(tag =>
-                <Tag key={tag}
+              {tags.map((tag, index) =>
+                <Tag key={index}
                      tag={tag}
                      onClick={() => filters.addTagFilter(tag)}/>
               )}
