@@ -18,7 +18,5 @@ declare module 'reactive-observables' {
     emit(value: T): void;
   }
 
-  export function create(parameter: any) : {
-    emit(params: Object) : any;
-  }
+  export function create<T>(config: any): RootObservable<T>;
 }
