@@ -116,7 +116,9 @@ const App = React.createClass({
           <SnapshotDetailSidebar />
           <FeedbackBadge />
 
-          {this.state.showNotificationCenter ? <NotificationCenter /> : null}
+          {this.state.showNotificationCenter ?
+            <NotificationCenter toggleNotificationCenter={this.toggleNotificationCenter} />
+            : null}
 
         </section>
 

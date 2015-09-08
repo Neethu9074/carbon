@@ -1,0 +1,31 @@
+@import "~in-themes/less/constants.less";
+
+.in-notificationcenter-filter {
+
+  margin: 0 1rem 0 1rem;
+
+  &__icon--critical {
+    font-size: 2rem;
+    color: @health__danger;
+  }
+
+  &__icon--warning {
+    font-size: 2rem;
+    color: @health__warning;
+  }
+
+  &__icon--system {
+    font-size: 2rem;
+    color: @common__highlight-color;
+  }
+
+  &:hover {
+    cursor: pointer;
+
+    .in-notificationcenter-filter__icon--critical,
+    .in-notificationcenter-filter__icon--warning,
+    .in-notificationcenter-filter__icon--system {
+      color: white;
+    }
+  }
+}
