@@ -1,3 +1,5 @@
+@import "~in-themes/less/constants.less";
+
 .in-dashboard-header {
   position: relative;
 
@@ -5,6 +7,21 @@
   align-items: center;
 
   padding: 20px 20px 10px;
+
+  background-color: rgba(255, 255, 255, 0.04);
+
+  &__close {
+    font-size: 2rem;
+    padding: 0.4rem 0.7rem;
+
+    color: @common__highlight-color;
+    border-radius: 4px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgba(32, 39, 44, 0.8);
+    }
+  }
 
   &__icon {
     height: 28px;
@@ -37,7 +54,7 @@
     margin: 0 0 0 10px;
   }
 
-  &__close {
+  &__back-to-map {
     position: absolute;
     top: 20px;
     right: 20px;
