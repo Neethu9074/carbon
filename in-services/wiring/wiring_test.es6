@@ -221,6 +221,12 @@ describe('wiring', () => {
           steadyId: 'sOS'
         });
 
+        it('should throw an exception for unsupported views', () => {
+          expect(() => {
+            mod.getParentNode(views.physical.processes, cassandra);
+          }).to.throw();
+        });
+
         it('should return null for empty graphs', () => {
           emitGraph(getGraph('empty'));
 
