@@ -205,11 +205,11 @@ export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
     const leafs = getLeafNodes(wiringGraph, originId, forgeConsts.rels.runsOn);
     const leafId = leafs.length === 0 ? originId : leafs[0];
 
-    return getAllNodesTillRoot(wiringGraph, leafId);
+    return getAllNodesTillOsNode(wiringGraph, leafId);
   });
 }
 
-function getAllNodesTillRoot(wiringGraph, leafId) {
+function getAllNodesTillOsNode(wiringGraph, leafId) {
   const nodes = [];
 
   let current = leafId;
@@ -230,4 +230,34 @@ function getAllNodesTillRoot(wiringGraph, leafId) {
   }
 
   return nodes;
+}
+
+
+export function getParentNode(view, childCoordinates) {
+  if (view !== views.physical.hosts) {
+    throw new Error('Unsupported view!', view);
+  }
+
+  // It is a common use case in the physical view to click on OS. OS nodes do not have a
+  // parent node as far as this contract is concerned. The contract being that groups are not
+  // considered nodes, but groups (see view- and node strcture).
+  if (childCoordinates.get('pluginId') === forgeConsts.plugins.os) {
+    return alwaysNullObservable;
+  }
+
+  const leafId = childCoordinates.get('id');
+
+  return completeWiring.map(wiringGraph => {
+    let currentNodeId = leafId;
+
+    while(currentNodeId) {
+      if (currentNodeId.indexOf(forgeConsts.plugins.os) === 0) {
+        return wiringGraph.nodes[currentNodeId];
+      }
+
+      currentNodeId = getDestinationNode(wiringGraph, currentNodeId, forgeConsts.rels.runsOn);
+    }
+
+    return null;
+  });
 }

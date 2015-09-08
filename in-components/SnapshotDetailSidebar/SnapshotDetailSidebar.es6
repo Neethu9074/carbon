@@ -9,13 +9,14 @@ import * as tracking from 'in-services/tracking';
 import {getSingular} from 'in-sdk/pluginName';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
-import {getLabel} from 'in-sdk/snapshot';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
 
 import HealthIcon from '../HealthIcon';
 import enhance from '../hoc/enhance';
 import ZoneTag from '../ZoneTag';
 import HoverButton from '../HoverButton';
 import Jail from '../Jail';
+import Icon from '../Icon';
 import Tabs from './Tabs';
 
 import './SnapshotDetailSidebar.less';
@@ -25,6 +26,9 @@ const block = 'in-snapshot-detail-sidebar';
 const alwaysEmptyArrayObservable = ro.create({emitLatestOnSubscribe: true});
 alwaysEmptyArrayObservable.emit([]);
 
+const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
+alwaysNullObservable.emit(null);
+
 const SnapshotDetailSidebar = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
@@ -33,6 +37,7 @@ const SnapshotDetailSidebar = React.createClass({
 
   propTypes: {
     snapshot: irpt.map,
+    parentCoordinates: irpt.map,
     hierarchy: React.PropTypes.array
   },
 
@@ -48,6 +53,20 @@ const SnapshotDetailSidebar = React.createClass({
               return alwaysEmptyArrayObservable;
             }
             return wiring.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, snapshot);
+          },
+
+          shouldRetransform(prevSnapshot, snapshot) {
+            return prevSnapshot !== snapshot;
+          }
+        }),
+        parentCoordinates: selectedSnapshotStore.selectedSnapshot.transform({
+          emitLatestOnSubscribe: true,
+
+          transform(snapshot) {
+            if (!snapshot) {
+              return alwaysNullObservable;
+            }
+            return wiring.getParentNode(views.physical.hosts, snapshot);
           },
 
           shouldRetransform(prevSnapshot, snapshot) {
@@ -69,6 +88,8 @@ const SnapshotDetailSidebar = React.createClass({
         {this.renderTabs()}
 
         <div className={block + '__content'}>
+          {this.renderNavigation()}
+
           <h1 className={block + '__label'}>
             {getLabel(snapshot)}
             <HealthIcon snapshot={snapshot}
@@ -123,6 +144,28 @@ const SnapshotDetailSidebar = React.createClass({
         hostId: encodeURIComponent(snapshot.get('hostId'))
       }
     );
+  },
+
+  renderNavigation() {
+    if (this.props.parentCoordinates) {
+      return (
+        <div className={block + '__navigation'}>
+          <Icon type='close'
+                className={block + '__close'}
+                onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}/>
+        </div>
+      );
+    } else if (this.props.snapshot) {
+      return (
+        <div className={block + '__navigation'}>
+          <img src={getIcon(this.props.snapshot)}
+               alt='Component icon'
+               className={block + '__icon'}/>
+        </div>
+      );
+    }
+
+    return null;
   },
 
   renderTabs() {
