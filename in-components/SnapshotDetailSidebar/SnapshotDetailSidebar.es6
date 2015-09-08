@@ -69,27 +69,16 @@ const SnapshotDetailSidebar = React.createClass({
         {this.renderTabs()}
 
         <div className={block + '__content'}>
-          <div className={block + '__navigation'}>
-            <h2 className={block + '__title'}>
-              {getSingular(snapshot.get('pluginId'))}
-            </h2>
-
-            <Button type='button'
-                    className={block + '__open-dashboard'}
-                    onClick={this.openDashboard}>
-              View Dashboard
-            </Button>
-          </div>
-
-          <div className={block + '__heading'}>
-            <h1 className={block + '__label'}>
-              {getLabel(snapshot)}
-              <HealthIcon snapshot={snapshot}
-                          className={block + '__health'}/>
-            </h1>
+          <h1 className={block + '__label'}>
+            {getLabel(snapshot)}
+            <HealthIcon snapshot={snapshot}
+                        className={block + '__health'}/>
             <ZoneTag snapshot={snapshot}
                      className={block + '__zone'}/>
-          </div>
+          </h1>
+          <p className={block + '__plugin-type'}>
+            {getSingular(snapshot.get('pluginId'))}
+          </p>
 
           {this.renderSnapshotDetails()}
         </div>
