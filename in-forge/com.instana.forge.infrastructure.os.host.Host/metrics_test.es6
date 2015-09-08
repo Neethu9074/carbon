@@ -9,7 +9,7 @@ import './index';
 describe('metrics', () => {
 
   describe('normalized value', () => {
-    const osPlugin = 'com.instana.forge.infrastructure.os.host.Host;
+    const osPlugin = 'com.instana.forge.infrastructure.os.host.Host';
 
     describe(osPlugin, () => {
       let snapshot;

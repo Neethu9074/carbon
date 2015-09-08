@@ -5,7 +5,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import RoEmitter from 'roemitter';
 
-const ec2 = 'com.instana.forge.hardware.virtual.EC2';
+const ec2 = 'com.instana.forge.hardware.virtual.ec2.Ec2';
 
 describe('conveyer.SnapshotsConveyer', () => {
 

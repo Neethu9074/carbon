@@ -57,15 +57,15 @@ describe('wiring', () => {
         expect(structure.length).to.equal(1);
         const hostInfo = structure[0];
         expect(hostInfo.group.toJS()).to.deep.equal({
-          id: 'com.instana.forge.hardware.virtual.EC2#h1#sEC2',
+          id: 'com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2',
           hostId: 'h1',
-          pluginId: 'com.instana.forge.hardware.virtual.EC2',
+          pluginId: 'com.instana.forge.hardware.virtual.ec2.Ec2',
           steadyId: 'sEC2'
         });
         expect(hostInfo.node.toJS()).to.deep.equal({
-          id: 'com.instana.forge.infrastructure.os.OS#h1#sOS',
+          id: 'com.instana.forge.infrastructure.os.host.Host#h1#sOS',
           hostId: 'h1',
-          pluginId: 'com.instana.forge.infrastructure.os.OS',
+          pluginId: 'com.instana.forge.infrastructure.os.host.Host',
           steadyId: 'sOS'
         });
       });
@@ -217,7 +217,7 @@ describe('wiring', () => {
 
         const os = extractCoordinates({
           hostId: 'h2',
-          pluginId: 'com.instana.forge.infrastructure.os.OS',
+          pluginId: 'com.instana.forge.infrastructure.os.host.Host',
           steadyId: 'sOS'
         });
 
