@@ -7,6 +7,7 @@ import enhance from 'in-components/hoc/enhance';
 import * as time from 'in-services/time';
 import Icon from 'in-components/Icon';
 
+import IssueItem from './IssueItem';
 import Filter from './Filter';
 
 import './NotificationCenter.less';
@@ -32,6 +33,12 @@ const NotificationCenter = React.createClass({
         openIssues: getIssues().debounce(500)
       };
     }
+  },
+
+  getInitialState() {
+    return {
+      filterPredicate: () => true
+    };
   },
 
   render() {
@@ -61,7 +68,7 @@ const NotificationCenter = React.createClass({
   },
 
   setFilter(predicate) {
-    console.log('set filter with', predicate);
+    this.setState({ filterPredicate: predicate });
   },
 
   renderIssues() {
@@ -70,24 +77,19 @@ const NotificationCenter = React.createClass({
       return null;
     }
 
+    const filter = this.state.filterPredicate;
     const now = time.getServerTime();
     const maxOldestPermittedIssue = now - this.props.timeframe;
-    const issues = [];
-
-    openIssues.forEach(issue => {
-      if (issue.get('start') > maxOldestPermittedIssue) {
-        issues.push(issue);
-      }
-    });
+    const issues = openIssues
+      .filter(issue => (issue.get('start') > maxOldestPermittedIssue && filter(issue)));
 
     return (
       <ul>
         {issues.map((issue, index) => {
-          const problem = issue.get('problem');
           return (
             <li key={index}
                 className={block + '__list-item'}>
-              {problem.get('explanation')}
+              <IssueItem issue={issue}/>
             </li>
           );
         })}
