@@ -6,19 +6,20 @@ import {combineLatest} from 'reactive-observables';
 import {RouteHandler, Navigation} from 'react-router';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
+import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import QueryBuilder from 'in-components/QueryBuilder';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
+import QueryBuilder from 'in-components/QueryBuilder';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
 import Sidebar from 'in-components/Sidebar';
-import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import {create} from 'in-services/conveyer';
 import Map from 'in-map';
 
+import NotificationCenter from './NotificationCenter';
 import ConnectionStatus from './ConnectionStatus';
 import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
@@ -81,6 +82,10 @@ const App = React.createClass({
     this.setState({ pluginIds });
   },
 
+  toggleNotificationCenter() {
+    this.setState({ showNotificationCenter: !this.state.showNotificationCenter });
+  },
+
   showMenu(show = true) {
     this.setState({ showSettings: show });
   },
@@ -110,9 +115,13 @@ const App = React.createClass({
           <Sidebar pluginIds={this.state.pluginIds} />
           <SnapshotDetailSidebar />
           <FeedbackBadge />
+
+          {this.state.showNotificationCenter ? <NotificationCenter /> : null}
+
         </section>
 
-        <Footer showMenu={this.showMenu}/>
+        <Footer showMenu={this.showMenu}
+                toggleNotificationCenter={this.toggleNotificationCenter}/>
 
         <RouteHandler />
 

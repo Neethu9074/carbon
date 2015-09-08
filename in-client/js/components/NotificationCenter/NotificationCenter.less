@@ -2,7 +2,30 @@
 
 .in-notificationcenter {
   position: absolute;
-  left: 0;
-  right: 0;
   bottom: @footer__height * 1px;
+  left: 0;
+  top: 0;
+
+  height: 100%;
+  width: 23rem;
+
+  background: #233038;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    background: #20272d;
+  }
+
+  &__status-bar {
+    display: flex;
+    justify-content: center;
+
+    background: #222f37;
+  }
+
+  &__list {
+
+  }
 }
