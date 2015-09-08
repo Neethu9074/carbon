@@ -1,7 +1,8 @@
 import React from 'react/addons';
 
+import NotificationCenter from '../NotificationCenter';
 import Timeline from '../Timeline';
-import Issues from '../Issues';
+import Issues from './Issues';
 import Menu from '../Menu';
 
 import './Footer.less';
@@ -17,14 +18,27 @@ const Footer = React.createClass({
     showMenu: React.PropTypes.func
   },
 
+  getInitialState() {
+    return { toggleNotificationCenter: false };
+  },
+
   render() {
     return (
       <div className={block}>
-        <Issues />
+        {this.state.toggleNotificationCenter ?
+          <NotificationCenter /> :
+          null}
+        <Issues onIssuesClicked={this.onIssuesClicked}/>
         <Timeline />
         <Menu showMenu={this.props.showMenu}/>
       </div>
     );
+  },
+
+  onIssuesClicked() {
+    this.setState({
+      toggleNotificationCenter: !this.state.toggleNotificationCenter
+    });
   }
 });
 
