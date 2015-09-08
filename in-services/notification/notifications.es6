@@ -40,7 +40,8 @@ function stopTracking() {
 
 function showMessage(title, problem) {
   if (Notification.permission === 'granted') {
-    //if (document.hidden != null && document.hidden) {
+    //show messages only if Browser Window is currently not visible
+    if (document.hidden != null && document.hidden) {
 
       //a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
       /*eslint-disable */
@@ -50,7 +51,7 @@ function showMessage(title, problem) {
         });
         /*eslint-enable */
     }
-  //}
+  }
 }
 
 function isDesktopNotificationAvailable() {
