@@ -4,6 +4,7 @@ import {getLabel} from 'in-sdk/snapshot';
 import {extractCoordinates, getFullSnapshot} from 'in-services/snapshots/snapshots';
 
 let disposal;
+let previousIssues = null;
 
 settingsStore.subscribe(data => {
   const desktopNotification = data.getIn(['map', 'desktopNotification']);
@@ -18,25 +19,32 @@ settingsStore.subscribe(data => {
 
 
 function startTracking() {
-  let now = Date.now();
-  //compare lists
   disposal = getOpenIssues().subscribe((issues) => {
-    issues.forEach(issue => {
-      if (issue.get('start') > now) {
-        const coordinates = extractCoordinates(issue.get('problem'));
-        const snapShotObservable = getFullSnapshot(coordinates);
-        /*eslint-disable */
-        now = Date.now();
-        console.log("1");
-        snapShotObservable.once(snapShot => {
-            //const groupId = getZone(groupSnapshot);
-            //this.addNodeToGroup(triple, groupId);
-          console.log("2", getLabel(snapShot));
-          showMessage(getLabel(snapShot), issue.get('problem').get('problemText'));
-          });
-        /*eslint-enable */
+
+    //show messages only if Browser Window is currently not visible
+    if (document.hidden != null && !document.hidden) {
+
+      //recreate the list of previous issues if first start or if an issue has been removed
+      if (previousIssues === null || Object.keys(previousIssues).length > issues.size) {
+        previousIssues = {};
+        issues.forEach(issue => {
+          previousIssues[issue.get('id')] = 1;
+        });
       }
-    });
+
+      issues.forEach(issue => {
+
+        if (previousIssues[issue.get('id')] !== 1) {
+          previousIssues[issue.get('id')] = 1;
+
+          const coordinates = extractCoordinates(issue.get('problem'));
+          const snapShotObservable = getFullSnapshot(coordinates);
+          snapShotObservable.once(snapShot => {
+               showMessage(getLabel(snapShot), issue.get('problem').get('problemText'));
+          });
+        }
+      });
+    }
   });
 }
 
@@ -49,17 +57,14 @@ function stopTracking() {
 
 function showMessage(title, problem) {
   if (Notification.permission === 'granted') {
-    //show messages only if Browser Window is currently not visible
-    //if (document.hidden != null && document.hidden) {
-      //a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
-      /*eslint-disable */
-      new Notification(title, {
-          icon: location.origin + '/favicon.png',
-          body: problem
-        });
-        /*eslint-enable */
-    }
-  //}
+    //a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
+    /*eslint-disable */
+    new Notification(title, {
+      icon: location.origin + '/favicon.png',
+      body: problem
+    });
+    /*eslint-enable */
+  }
 }
 
 function isDesktopNotificationAvailable() {
