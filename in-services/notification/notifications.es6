@@ -19,13 +19,22 @@ settingsStore.subscribe(data => {
 
 function startTracking() {
   let now = Date.now();
+  //compare lists
   disposal = getOpenIssues().subscribe((issues) => {
     issues.forEach(issue => {
       if (issue.get('start') > now) {
+        const coordinates = extractCoordinates(issue.get('problem'));
+        const snapShotObservable = getFullSnapshot(coordinates);
+        /*eslint-disable */
         now = Date.now();
-        getFullSnapshot(extractCoordinates(issue.get('problem'))).once(function(snapShot) {
+        console.log("1");
+        snapShotObservable.once(snapShot => {
+            //const groupId = getZone(groupSnapshot);
+            //this.addNodeToGroup(triple, groupId);
+          console.log("2", getLabel(snapShot));
           showMessage(getLabel(snapShot), issue.get('problem').get('problemText'));
-        });
+          });
+        /*eslint-enable */
       }
     });
   });
@@ -41,7 +50,7 @@ function stopTracking() {
 function showMessage(title, problem) {
   if (Notification.permission === 'granted') {
     //show messages only if Browser Window is currently not visible
-    if (document.hidden != null && document.hidden) {
+    //if (document.hidden != null && document.hidden) {
       //a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
       /*eslint-disable */
       new Notification(title, {
@@ -50,7 +59,7 @@ function showMessage(title, problem) {
         });
         /*eslint-enable */
     }
-  }
+  //}
 }
 
 function isDesktopNotificationAvailable() {
