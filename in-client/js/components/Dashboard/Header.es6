@@ -1,15 +1,24 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
+import * as ro from 'reactive-observables';
 
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import * as wiring from 'in-services/wiring';
+import * as views from 'in-services/views';
 import {getIcon} from 'in-sdk/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import Button from 'in-components/Button';
+import Icon from 'in-components/Icon';
 import HealthIcon from 'in-components/HealthIcon';
 import ZoneTag from 'in-components/ZoneTag';
+import enhance from 'in-components/hoc/enhance';
 
 import './Header.less';
+
+const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
+alwaysNullObservable.emit(null);
 
 const block = 'in-dashboard-header';
 
@@ -17,7 +26,22 @@ const DashboardHeader = React.createClass({
   mixins: [React.addons.PureRenderMixin, Navigation],
 
   propTypes: {
-    snapshot: irpt.map
+    snapshot: irpt.map,
+    parentCoordinates: irpt.map
+  },
+
+  statics: {
+    createObservables(props) {
+      if (!props.snapshot) {
+        return {
+          parentCoordinates: alwaysNullObservable
+        };
+      }
+
+      return {
+        parentCoordinates: wiring.getParentNode(views.physical.hosts, props.snapshot)
+      };
+    }
   },
 
   render() {
@@ -29,6 +53,11 @@ const DashboardHeader = React.createClass({
 
     return (
       <div className={block}>
+        {this.props.parentCoordinates ?
+          <Icon type='close'
+                className={block + '__close'}
+                onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}/>
+        : null}
         <img src={getIcon(snapshot)}
              alt='Snapshot icon'
              className={block + '__icon'}/>
@@ -49,7 +78,7 @@ const DashboardHeader = React.createClass({
         <Button type='button'
                 kind='default'
                 onClick={this.closeDashboard}
-                className={block + '__close'}>
+                className={block + '__back-to-map'}>
           Back to map
         </Button>
       </div>
@@ -61,4 +90,4 @@ const DashboardHeader = React.createClass({
   }
 });
 
-export default DashboardHeader;
+export default enhance(DashboardHeader);
