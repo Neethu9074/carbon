@@ -25,9 +25,6 @@ export default class CameraController {
   }
 
   init(scene) {
-    this.lastMovedX = 0;
-    this.lastMovedY = 0;
-
     this.scene = scene;
 
     //holds the mouse/touch position in pixel coordinates
@@ -250,30 +247,26 @@ export default class CameraController {
         .clone()
         .multiplyScalar(this.zoomLevel));
 
-    //calculate the delta between wanted position and current position
+    // calculate the delta between wanted position and current position
     const direction = cam.position
       .clone()
       .sub(targetWorldPos);
 
-    //get the total distance from the camera position to target position
+    // get the total distance from the camera position to target position
     const distance = direction.length();
 
-    //camera can only move this direction in units/sec (dTime = 1 / sec)
+    // camera can only move this direction in units/sec (dTime = 1 / sec)
     const delta = direction.clone().multiplyScalar(dTime * this.cameraSpeed);
 
-    // this.worldLookAtPos = new THREE.Vector3()
-    //   .applyMatrix4(this.camTransformObject.matrixWorld)
-    //   .add(direction);
-
-    //if the distance after multiplication is bigger than the total distance
-    //set it to total distance
+    // if the distance after multiplication is bigger than the total distance
+    // set it to total distance
     if(delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
     } else if(delta.length() < 0.0001) {
       return;
     }
 
-    //move to target position with cameraspeed in units/sec
+    // move to target position with cameraspeed in units/sec
     cam.position.sub(delta);
     cam.updateMatrix();
     this.scene.renderScene();
@@ -284,6 +277,7 @@ export default class CameraController {
     const delta = this.targetZoomLevel - this.zoomLevel;
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
+
     scene.cameraSize = this.zoomLevel / 10;
     scene.setCameraFromSize();
   }
