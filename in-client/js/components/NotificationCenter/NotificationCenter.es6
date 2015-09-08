@@ -4,10 +4,9 @@ import React from 'react/addons';
 import * as timelineStore from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
 import enhance from 'in-components/hoc/enhance';
-import * as time from 'in-services/time';
 import Icon from 'in-components/Icon';
 
-import IssueItem from './IssueItem';
+import IssueItemList from './IssueItemList';
 import Filter from './Filter';
 
 import './NotificationCenter.less';
@@ -23,14 +22,14 @@ const NotificationCenter = React.createClass({
   propTypes: {
     toggleNotificationCenter: rpt.func.isRequired,
     timeframe: rpt.number.isRequired,
-    openIssues: irpt.list
+    allIssues: irpt.list
   },
 
   statics: {
     createObservables() {
       return {
         timeframe: timelineStore.timeframe,
-        openIssues: getIssues().debounce(500)
+        allIssues: getIssues()
       };
     }
   },
@@ -59,10 +58,7 @@ const NotificationCenter = React.createClass({
           <Filter setFilter={this.setFilter} count={1} type={'system'} />
         </div>
 
-        <div className={block + '__list'}>
-          {this.renderIssues()}
-        </div>
-
+        {this.renderIssues()}
       </div>
     );
   },
@@ -72,29 +68,15 @@ const NotificationCenter = React.createClass({
   },
 
   renderIssues() {
-    const openIssues = this.props.openIssues;
-    if (!openIssues) {
+    const allIssues = this.props.allIssues;
+    if (!allIssues) {
       return null;
     }
 
     const filter = this.state.filterPredicate;
-    const now = time.getServerTime();
-    const maxOldestPermittedIssue = now - this.props.timeframe;
-    const issues = openIssues
-      .filter(issue => (issue.get('start') > maxOldestPermittedIssue && filter(issue)));
+    const issues = allIssues.filter(issue => filter(issue));
 
-    return (
-      <ul>
-        {issues.map((issue, index) => {
-          return (
-            <li key={index}
-                className={block + '__list-item'}>
-              <IssueItem issue={issue}/>
-            </li>
-          );
-        })}
-     </ul>
-   );
+    return <IssueItemList issues={issues} />;
   }
 });
 
