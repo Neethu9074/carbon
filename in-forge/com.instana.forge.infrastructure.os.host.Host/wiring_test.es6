@@ -111,7 +111,7 @@ describe('snapshot', () => {
         name: 'ec2',
         data: {
           'com.instana.sdk.annotation.Describes:reverse': {
-            'com.instana.forge.hardware.virtual.EC2': {
+            'com.instana.forge.hardware.virtual.ec2.Ec2': {
               'i-4f84b70f.ami-5256b825': {
                 'public-ipv4': '46.137.99.225'
               }
