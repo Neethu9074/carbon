@@ -14,7 +14,7 @@ import {getLabel} from 'in-sdk/snapshot';
 import HealthIcon from '../HealthIcon';
 import enhance from '../hoc/enhance';
 import ZoneTag from '../ZoneTag';
-import Button from '../Button';
+import HoverButton from '../HoverButton';
 import Jail from '../Jail';
 import Tabs from './Tabs';
 
@@ -79,6 +79,12 @@ const SnapshotDetailSidebar = React.createClass({
           <p className={block + '__plugin-type'}>
             {getSingular(snapshot.get('pluginId'))}
           </p>
+
+          <HoverButton icon='dashboard'
+                       onClick={this.openDashboard}
+                       className={block + '__open-dashboard'}>
+            View Dashboard
+          </HoverButton>
 
           {this.renderSnapshotDetails()}
         </div>
