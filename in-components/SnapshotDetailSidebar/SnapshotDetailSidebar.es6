@@ -14,7 +14,7 @@ import {getLabel} from 'in-sdk/snapshot';
 import HealthIcon from '../HealthIcon';
 import enhance from '../hoc/enhance';
 import ZoneTag from '../ZoneTag';
-import Button from '../Button';
+import HoverButton from '../HoverButton';
 import Jail from '../Jail';
 import Tabs from './Tabs';
 
@@ -69,27 +69,22 @@ const SnapshotDetailSidebar = React.createClass({
         {this.renderTabs()}
 
         <div className={block + '__content'}>
-          <div className={block + '__navigation'}>
-            <h2 className={block + '__title'}>
-              {getSingular(snapshot.get('pluginId'))}
-            </h2>
-
-            <Button type='button'
-                    className={block + '__open-dashboard'}
-                    onClick={this.openDashboard}>
-              View Dashboard
-            </Button>
-          </div>
-
-          <div className={block + '__heading'}>
-            <h1 className={block + '__label'}>
-              {getLabel(snapshot)}
-              <HealthIcon snapshot={snapshot}
-                          className={block + '__health'}/>
-            </h1>
+          <h1 className={block + '__label'}>
+            {getLabel(snapshot)}
+            <HealthIcon snapshot={snapshot}
+                        className={block + '__health'}/>
             <ZoneTag snapshot={snapshot}
                      className={block + '__zone'}/>
-          </div>
+          </h1>
+          <p className={block + '__plugin-type'}>
+            {getSingular(snapshot.get('pluginId'))}
+          </p>
+
+          <HoverButton icon='dashboard'
+                       onClick={this.openDashboard}
+                       className={block + '__open-dashboard'}>
+            View Dashboard
+          </HoverButton>
 
           {this.renderSnapshotDetails()}
         </div>
