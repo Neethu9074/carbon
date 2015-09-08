@@ -23,7 +23,6 @@ function startTracking() {
     issues.forEach(issue => {
       if (issue.get('start') > now) {
         now = Date.now();
-
         getFullSnapshot(extractCoordinates(issue.get('problem'))).once(function(snapShot) {
           showMessage(getLabel(snapShot), issue.get('problem').get('problemText'));
         });
@@ -41,17 +40,17 @@ function stopTracking() {
 
 function showMessage(title, problem) {
   if (Notification.permission === 'granted') {
-    if (document.hidden != null && document.hidden) {
+    //if (document.hidden != null && document.hidden) {
+
       //a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
       /*eslint-disable */
       new Notification(title, {
-        //interesting: /favicon.png doesn't work in every case...
-        icon: 'https://pbs.twimg.com/profile_images/628597970473197570/bbTby2mS_400x400.jpg',
-        body: problem
-      });
-      /*eslint-enable */
+          icon: "https://local-instana.instana.io:4000/favicon.png",
+          body: problem
+        });
+        /*eslint-enable */
     }
-  }
+  //}
 }
 
 function isDesktopNotificationAvailable() {
@@ -77,8 +76,9 @@ export function askPermission() {
             }
           });
           break;
-        default: reject();
-              break;
+        default:
+          reject();
+          break;
       }
     }
   });
