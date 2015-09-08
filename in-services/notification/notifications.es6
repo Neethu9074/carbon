@@ -42,11 +42,10 @@ function showMessage(title, problem) {
   if (Notification.permission === 'granted') {
     //show messages only if Browser Window is currently not visible
     if (document.hidden != null && document.hidden) {
-
       //a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
       /*eslint-disable */
       new Notification(title, {
-          icon: "https://local-instana.instana.io:4000/favicon.png",
+          icon: location.origin + '/favicon.png',
           body: problem
         });
         /*eslint-enable */
