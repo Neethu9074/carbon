@@ -208,6 +208,49 @@ describe('wiring', () => {
 
       });
 
+      describe('getParentNode', () => {
+        const cassandra = extractCoordinates({
+          hostId: 'h2',
+          pluginId: 'com.instana.forge.infrastructure.database.cassandra.Cassandra',
+          steadyId: 'sCassandra'
+        });
+
+        const os = extractCoordinates({
+          hostId: 'h2',
+          pluginId: 'com.instana.forge.infrastructure.os.OS',
+          steadyId: 'sOS'
+        });
+
+        it('should return null for empty graphs', () => {
+          emitGraph(getGraph('empty'));
+
+          mod.getParentNode(views.physical.hosts, cassandra)
+            .subscribe(onNext);
+
+          expect(onNext).to.have.callCount(1);
+          expect(onNext).to.have.been.calledWith(null);
+        });
+
+        it('should return null for snapshots that have no view specific parent', () => {
+          emitGraph(getGraph('common'));
+
+          mod.getParentNode(views.physical.hosts, os)
+            .subscribe(onNext);
+
+          expect(onNext).to.have.callCount(1);
+          expect(onNext).to.have.been.calledWith(null);
+        });
+
+        it('should traverse the graph and return the os coordinates as parent', () => {
+          emitGraph(getGraph('common'));
+
+          mod.getParentNode(views.physical.hosts, cassandra)
+            .subscribe(onNext);
+
+          expect(onNext).to.have.callCount(1);
+          expect(onNext.getCall(0).args[0].toJS()).to.deep.equal(os.toJS());
+        });
+      });
     });
   });
 
@@ -230,4 +273,5 @@ describe('wiring', () => {
   function emitGraph(graph) {
     wiringConveyer.emit(graph);
   }
+
 });
