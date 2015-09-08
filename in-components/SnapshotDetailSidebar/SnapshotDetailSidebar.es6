@@ -150,7 +150,7 @@ const SnapshotDetailSidebar = React.createClass({
     if (this.props.parentCoordinates) {
       return (
         <div className={block + '__navigation'}>
-          <Icon type='close'
+          <Icon type='back'
                 className={block + '__close'}
                 onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}/>
         </div>

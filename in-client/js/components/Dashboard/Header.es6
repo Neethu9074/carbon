@@ -54,7 +54,7 @@ const DashboardHeader = React.createClass({
     return (
       <div className={block}>
         {this.props.parentCoordinates ?
-          <Icon type='close'
+          <Icon type='back'
                 className={block + '__close'}
                 onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}/>
         : null}
