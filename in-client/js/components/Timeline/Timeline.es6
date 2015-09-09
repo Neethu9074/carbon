@@ -13,13 +13,12 @@ import Icon from 'in-components/Icon';
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
+import {getIssues, getColorForIssue} from 'in-services/issueTracker';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {health, mapSeverityToHealth} from 'in-services/health';
 import * as timelineStore from 'in-services/stores/timeline';
-import {getIssues} from 'in-services/issueTracker';
+import {mapSeverityToHealth} from 'in-services/health';
 import * as tracking from 'in-services/tracking';
 import * as time from 'in-services/time';
-import {theme} from 'in-services/theme';
 
 import {getLabel} from 'in-sdk/snapshot';
 
@@ -30,19 +29,6 @@ import './Timeline.less';
 
 const rpt = React.PropTypes;
 const block = 'in-timeline';
-
-const HEALTH_OK = {
-  type: 'system',
-  color: theme.health.ok
-};
-const HEALTH_WARNING = {
-  type: 'warning',
-  color: theme.health.warning
-};
-const HEALTH_DANGER = {
-  type: 'critical',
-  color: theme.health.danger
-};
 
 const Timeline = React.createClass({
   mixins: [
@@ -141,11 +127,6 @@ const Timeline = React.createClass({
     return this.state.scale.domain([now, maxOldestPermittedIssue]);
   },
 
-  getIssueColor(issue) {
-    const iconConfig = this.getIconConfig(issue);
-    return issue.get('state') === 'OPEN' ? iconConfig.color : HEALTH_OK.color;
-  },
-
   renderIssueLine() {
     const issue = this.state.hoveredIssue;
     if (!issue) {
@@ -165,7 +146,7 @@ const Timeline = React.createClass({
             style={{
               left: scale(issue.get('start')).toFixed(2) + '%',
               right,
-              borderColor: this.getIssueColor(issue)
+              borderColor: getColorForIssue(issue)
             }}>
       </div>
     );
@@ -189,33 +170,19 @@ const Timeline = React.createClass({
     const scale = this.state.scale.domain([now, maxOldestPermittedIssue]);
     return issues
       .map(issue => {
-        const iconConfig = this.getIconConfig(issue);
         return (
           <Icon key={issue.get('id')}
-                type={iconConfig.type}
+                type={mapSeverityToHealth(issue.getIn(['problem', 'severity']))}
                 className={block + '__problem'}
                 style={{
                   left: scale(issue.get('start')).toFixed(2) + '%',
-                  color: this.getIssueColor(issue)
+                  color: getColorForIssue(issue)
                 }}
                 onMouseEnter={this.mouseIn.bind(this, issue)}
                 onMouseLeave={this.mouseOut}
                 onClick={() => this.focusSnapshot(issue)}/>
         );
       });
-  },
-
-  getIconConfig(issue) {
-    switch (mapSeverityToHealth(issue.getIn(['problem', 'severity']))) {
-      case health.warning:
-        return HEALTH_WARNING;
-      case health.danger:
-        return HEALTH_DANGER;
-      case health.ok:
-        return HEALTH_OK;
-      default:
-        throw new Error('Unrecognized health ' + this.state.health);
-    }
   },
 
   renderTimePicker() {
@@ -242,7 +209,7 @@ const Timeline = React.createClass({
     }
 
     const issue = this.state.hoveredIssue;
-    const iconConfig = this.getIconConfig(issue);
+    const color = getColorForIssue(issue);
     return (
       <div className={block + '__tooltip'}
            style={{
@@ -253,7 +220,7 @@ const Timeline = React.createClass({
           <TooltipFrame>
             <StatusLine left={this.state.hoveredSnapshot ? getLabel(this.state.hoveredSnapshot) : 'Loading…'}
                         right={moment(issue.get('start')).fromNow()}/>
-            <Heading style={{color: iconConfig.color}}>
+            <Heading style={{color}}>
               {issue.getIn(['problem', 'problemText'])}
             </Heading>
             <Content>

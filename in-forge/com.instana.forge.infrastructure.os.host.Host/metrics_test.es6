@@ -9,7 +9,7 @@ import './index';
 describe('metrics', () => {
 
   describe('normalized value', () => {
-    const osPlugin = 'com.instana.forge.infrastructure.os.OS';
+    const osPlugin = 'com.instana.forge.infrastructure.os.host.Host';
 
     describe(osPlugin, () => {
       let snapshot;
@@ -43,7 +43,7 @@ describe('metrics', () => {
 
   describe('format value', () => {
     let snapshot;
-    const osPlugin = 'com.instana.forge.infrastructure.os.OS';
+    const osPlugin = 'com.instana.forge.infrastructure.os.host.Host';
 
     beforeEach(() => {
       snapshot = Immutable.fromJS({

@@ -2,6 +2,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
+import {askPermission} from 'in-services/notification';
 import * as tracking from 'in-services/tracking';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
@@ -35,10 +36,12 @@ const Settings = React.createClass({
     this.addSubscription(settingsStore.subscribe(data => {
       const direction = data.getIn(['map', 'scrollDirection']);
       const antialias = data.getIn(['map', 'antialias']);
+      const desktopNotification = data.getIn(['desktopNotification']);
       this.setState({
         inverseCheckboxChecked: direction === 1 ? false : true,
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
-        antialiasValue: antialias ? antialias : 'off'
+        antialiasValue: antialias ? antialias : 'off',
+        desktopNotification: desktopNotification
       });
     }));
   },
@@ -79,6 +82,13 @@ const Settings = React.createClass({
             {'FXAA'}
           </ComboBox>
 
+          <div>
+            <Button onClick={this.toggleDesktopNotifications}
+                    className={block + '__button-notifications'}>
+              {this.state.desktopNotification ? 'Disable Desktop Notifications' : 'Enable Desktop Notifications'}
+            </Button>
+          </div>
+
         </div>
       </Dialog>
     );
@@ -96,6 +106,20 @@ const Settings = React.createClass({
 
   closeSettings() {
     this.props.showMenu(false);
+  },
+
+  toggleDesktopNotifications(){
+    const isDesktopNotificationEnabled = this.state.desktopNotification;
+
+    if (!isDesktopNotificationEnabled) {
+      askPermission(allowed => {
+        if (allowed) {
+          setIn(['desktopNotification'], true);
+        }
+      });
+    } else {
+      setIn(['desktopNotification'], false);
+    }
   }
 });
 
