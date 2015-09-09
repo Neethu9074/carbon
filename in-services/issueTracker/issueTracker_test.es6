@@ -6,6 +6,8 @@ import proxyquire from 'proxyquire';
 import * as ro from 'reactive-observables';
 import Immutable from 'immutable';
 
+import {theme} from 'in-services/theme';
+
 describe('issueTracker', () => {
 
   let issuesStubData;
@@ -174,5 +176,57 @@ describe('issueTracker', () => {
       expect(summary.get('warning')).to.equal(1);
       expect(summary.get('danger')).to.equal(1);
     });
+  });
+
+  describe('getColorForIssue', () => {
+
+    it('should throw an error if there is no given issue', () => {
+      expect(() => issueTracker.getColorForIssue(undefined)).to.throw(Error);
+    });
+
+    it('should throw an error if the structure is incorrect', () => {
+      const issueWithoutState = Immutable.fromJS({
+        problem: {
+          severity: 5
+        }
+      });
+      expect(() => issueTracker.getColorForIssue(issueWithoutState)).to.throw(Error);
+
+      const issueWithoutProblem = Immutable.fromJS({ state: 'OPEN' });
+      expect(() => issueTracker.getColorForIssue(issueWithoutProblem)).to.throw(Error);
+    });
+
+    it('should return ok color on closed issues', () => {
+      let issue = Immutable.fromJS({
+        state: 'CLOSED',
+        problem: {
+          severity: 0
+        }
+      });
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.ok);
+
+      issue = issue.setIn(['problem', 'severity'], 5);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.ok);
+
+      issue = issue.setIn(['problem', 'severity'], 10);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.ok);
+    });
+
+    it('should return color based on severity', () => {
+      let issue = Immutable.fromJS({
+        state: 'OPEN',
+        problem: {
+          severity: 0
+        }
+      });
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.ok);
+
+      issue = issue.setIn(['problem', 'severity'], 5);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.warning);
+
+      issue = issue.setIn(['problem', 'severity'], 10);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.danger);
+    });
+
   });
 });
