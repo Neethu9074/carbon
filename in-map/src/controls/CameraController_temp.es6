@@ -6,8 +6,6 @@ import {currentTooltip} from '../stores/mapStore';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 
-let zoomCalls = 0;
-
 export default class CameraController {
 
   constructor({scene}) {
@@ -28,6 +26,8 @@ export default class CameraController {
 
   init(scene) {
     this.scene = scene;
+
+    this.zoomCalls = 0;
 
     //holds the mouse/touch position in pixel coordinates
     this.cursor = new THREE.Vector2();
@@ -114,13 +114,13 @@ export default class CameraController {
     this.handleRayCasting();
 
     this.cameraSpeed = 1000;
-    zoomCalls++;
+    this.zoomCalls++;
     setTimeout(() => {
-      zoomCalls--;
-      if (zoomCalls === 0) {
+      this.zoomCalls--;
+      if (this.zoomCalls === 0) {
         this.cameraSpeed = this.defaultCameraSpeed;
       }
-    }, 300);
+    }, 1000);
   }
 
   setZoomLevel(zL) {
