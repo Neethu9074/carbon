@@ -17,7 +17,10 @@ const IssueItemList = React.createClass({
   },
 
   render() {
-    const days = this.getIssuesPerDay(this.props.issues);
+    const sortedIssue = this.props.issues.sort((a, b) => {
+      return b.get('start') - a.get('start');
+    });
+    const days = this.getIssuesPerDay(sortedIssue);
     const dailyIssues = Object.keys(days);
     return (
       <ul className={block}>
@@ -28,7 +31,7 @@ const IssueItemList = React.createClass({
                 className={block + '__list-item'}>
 
               <span className={block + '__header-label'}>
-                {key}
+                {this.getDayStringForDate(key)}
               </span>
 
               {issues.map(issue => <IssueItem issue={issue}/>)}
@@ -40,17 +43,25 @@ const IssueItemList = React.createClass({
     );
   },
 
+  getDayStringForDate(dateString) {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+
+    if (dateString === this.getDateString(today)) {
+      return 'Today';
+    } else if (dateString === this.getDateString(yesterday)) {
+      return 'Yesterday';
+    }
+    return dateString;
+  },
+
   getIssuesPerDay(issues) {
     const days = {};
 
     issues.forEach(issue => {
       const issueStartingDate = new Date(issue.get('start'));
-
-      const day = issueStartingDate.getDate();
-      const month = issueStartingDate.getMonth();
-      const year = issueStartingDate.getFullYear();
-
-      const dateString = day + '-' + month + '-' + year;
+      const dateString = this.getDateString(issueStartingDate);
       if (!days[dateString]) {
         days[dateString] = [];
       }
@@ -58,6 +69,13 @@ const IssueItemList = React.createClass({
     });
 
     return days;
+  },
+
+  getDateString(date) {
+    const day = date.getDate();
+    const month = date.getMonth();
+    const year = date.getFullYear();
+    return day + '-' + month + '-' + year;
   }
 });
 
