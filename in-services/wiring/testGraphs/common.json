@@ -1,15 +1,15 @@
 {
   "nodes": {
-    "com.instana.forge.hardware.virtual.EC2#h1#sEC2": {
-      "id": "com.instana.forge.hardware.virtual.EC2#h1#sEC2",
+    "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2": {
+      "id": "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2",
       "hostId": "h1",
-      "pluginId": "com.instana.forge.hardware.virtual.EC2",
+      "pluginId": "com.instana.forge.hardware.virtual.ec2.Ec2",
       "steadyId": "sEC2"
     },
-    "com.instana.forge.infrastructure.os.OS#h1#sOS": {
-      "id": "com.instana.forge.infrastructure.os.OS#h1#sOS",
+    "com.instana.forge.infrastructure.os.host.Host#h1#sOS": {
+      "id": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
       "hostId": "h1",
-      "pluginId": "com.instana.forge.infrastructure.os.OS",
+      "pluginId": "com.instana.forge.infrastructure.os.host.Host",
       "steadyId": "sOS"
     },
     "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker": {
@@ -33,10 +33,10 @@
       "pluginId": "com.instana.forge.hardware.virtual.AIX",
       "steadyId": "sAIX"
     },
-    "com.instana.forge.infrastructure.os.OS#h2#sOS": {
-      "id": "com.instana.forge.infrastructure.os.OS#h2#sOS",
+    "com.instana.forge.infrastructure.os.host.Host#h2#sOS": {
+      "id": "com.instana.forge.infrastructure.os.host.Host#h2#sOS",
       "hostId": "h2",
-      "pluginId": "com.instana.forge.infrastructure.os.OS",
+      "pluginId": "com.instana.forge.infrastructure.os.host.Host",
       "steadyId": "sOS"
     },
     "com.instana.forge.infrastructure.os.Process#h2#sProcess": {
@@ -65,11 +65,11 @@
     }
   },
   "edges": [{
-    "destination": "com.instana.forge.hardware.virtual.EC2#h1#sEC2",
-    "source": "com.instana.forge.infrastructure.os.OS#h1#sOS",
+    "destination": "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2",
+    "source": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
-    "destination": "com.instana.forge.infrastructure.os.OS#h1#sOS",
+    "destination": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
     "source": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
@@ -80,10 +80,10 @@
 
   {
     "destination": "com.instana.forge.hardware.virtual.AIX#h2#sAIX",
-    "source": "com.instana.forge.infrastructure.os.OS#h2#sOS",
+    "source": "com.instana.forge.infrastructure.os.host.Host#h2#sOS",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
-    "destination": "com.instana.forge.infrastructure.os.OS#h2#sOS",
+    "destination": "com.instana.forge.infrastructure.os.host.Host#h2#sOS",
     "source": "com.instana.forge.infrastructure.virtualization.Docker#h2#sDocker",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
@@ -91,7 +91,7 @@
     "source": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h2#sCassandra",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
-    "destination": "com.instana.forge.infrastructure.os.OS#h2#sOS",
+    "destination": "com.instana.forge.infrastructure.os.host.Host#h2#sOS",
     "source": "com.instana.forge.infrastructure.os.Process#h2#sProcess",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
