@@ -2,8 +2,8 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
 
+import {getProblemsForSnapshot, getColorForProblem} from 'in-services/issueTracker';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
@@ -65,19 +65,18 @@ const NodeTooltipRC = React.createClass({
   },
 
   getHeading() {
-    const nodeHealth = this.state.health;
     const snapshot = this.props.snapshot;
-    const issues = this.state.issues;
 
-    let text = getSingular(snapshot.get('pluginId')) + ': ' + getLabel(this.props.snapshot);
-    let cssClass = '';
+    let text = getSingular(snapshot.get('pluginId')) + ': ' + getLabel(snapshot);
+    const style = {};
 
     if (this.issuesAvailable()) {
-      text = issues.getIn([0, 'problemText']);
-      cssClass = block + '-heading--' + nodeHealth;
+      const mostImportantProblem = this.state.issues.get(0);
+      text = mostImportantProblem.get('problemText');
+      style.color = getColorForProblem(mostImportantProblem);
     }
 
-    return {text, cssClass};
+    return {text, style};
   },
 
   issuesAvailable() {
@@ -145,7 +144,7 @@ const NodeTooltipRC = React.createClass({
         {this.issuesAvailable() ?
         this.getStatusLine() :
         null}
-        <Heading className={heading.cssClass}>
+        <Heading style={heading.style}>
           {heading.text.toUpperCase()}
         </Heading>
         {content}
