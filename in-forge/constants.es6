@@ -1,13 +1,15 @@
 export const plugins = {
-  ec2: 'com.instana.forge.hardware.virtual.EC2',
+  ec2: 'com.instana.forge.hardware.virtual.ec2.Ec2',
   elasticsearch: 'com.instana.forge.infrastructure.database.elasticsearch.Elasticsearch',
-  os: 'com.instana.forge.infrastructure.os.OS',
-  process: 'com.instana.forge.infrastructure.os.Process',
-  jvm: 'com.instana.forge.infrastructure.runtime.jvm.JVMRuntimePlatform',
-  docker: 'com.instana.forge.infrastructure.virtualization.Docker',
+  os: 'com.instana.forge.infrastructure.os.host.Host',
+  process: 'com.instana.forge.infrastructure.os.process.Process',
+  jira: 'com.instana.forge.infrastructure.application.jira.JiraApplication',
+  jvm: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
+  docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
   cassandra: 'com.instana.forge.infrastructure.database.cassandra.Cassandra',
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
-  mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDB'
+  mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
+  tomcat: 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer'
 };
 
 export const rels = {

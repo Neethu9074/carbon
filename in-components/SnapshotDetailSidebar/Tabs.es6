@@ -3,8 +3,6 @@ import irpt from 'react-immutable-proptypes';
 
 import Tab from './Tab';
 
-import './Tabs.less';
-
 const SidebarTabs = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 

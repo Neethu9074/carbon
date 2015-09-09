@@ -8,7 +8,6 @@ import {RouteHandler, Navigation} from 'react-router';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import QueryBuilder from 'in-components/QueryBuilder';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
@@ -96,10 +95,6 @@ const App = React.createClass({
         }
 
         <Lettering className='in-root-lettering' />
-
-        {__DEV__ ?
-          <QueryBuilder />
-        : null}
 
         {__DEV__ ?
           <ChoosePluginButton onClick={this.togglePlugin}/>

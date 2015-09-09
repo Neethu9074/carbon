@@ -58,7 +58,6 @@ export default class CameraController {
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.position.set(10, 0, -10);
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
-    scene.addSceneObject(this.camTransformObject);
 
     this.directionToCam = scene.camera.position
       .clone()
@@ -97,17 +96,18 @@ export default class CameraController {
     }
     const min = this.maxZoomOut;
     const max = this.maxZoomIn;
-    const nZoomLevel = this.zoomLevel / (min - max);
+    const nZoomLevel = this.zoomLevel / (min - max); // [0 nearest, 1 farest]
 
     delta *= nZoomLevel * this.scrollSpeed;
 
     this.switchStateIfNext();
 
     this.targetZoomLevel -= delta;
+    const newTargetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel))); // [min, max]
 
-    //[min, max]
-    this.targetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel)));
-    this.scene.onZoom({zoomLevel: this.targetZoomLevel});
+    this.scene.onZoom({zoomLevel: newTargetZoomLevel});
+    this.targetZoomLevel = newTargetZoomLevel;
+
     this.handleRayCasting();
   }
 
@@ -247,40 +247,38 @@ export default class CameraController {
         .clone()
         .multiplyScalar(this.zoomLevel));
 
-    //calculate the delta between wanted position and current position
+    // calculate the delta between wanted position and current position
     const direction = cam.position
       .clone()
       .sub(targetWorldPos);
 
-    //get the total distance from the camera position to target position
+    // get the total distance from the camera position to target position
     const distance = direction.length();
 
-    //camera can only move this direction in units/sec (dTime = 1 / sec)
+    // camera can only move this direction in units/sec (dTime = 1 / sec)
     const delta = direction.clone().multiplyScalar(dTime * this.cameraSpeed);
 
-    // this.worldLookAtPos = new THREE.Vector3()
-    //   .applyMatrix4(this.camTransformObject.matrixWorld)
-    //   .add(direction);
-
-    //if the distance after multiplication is bigger than the total distance
-    //set it to total distance
+    // if the distance after multiplication is bigger than the total distance
+    // set it to total distance
     if(delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
     } else if(delta.length() < 0.0001) {
       return;
     }
 
-    //move to target position with cameraspeed in units/sec
+    // move to target position with cameraspeed in units/sec
     cam.position.sub(delta);
     cam.updateMatrix();
     this.scene.renderScene();
   }
 
   updateZoomLevel(dT) {
+    const scene = this.scene;
     const delta = this.targetZoomLevel - this.zoomLevel;
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
-    this.scene.cameraSize = this.zoomLevel / 10;
-    this.scene.setCameraFromSize();
+
+    scene.cameraSize = this.zoomLevel / 10;
+    scene.setCameraFromSize();
   }
 }
