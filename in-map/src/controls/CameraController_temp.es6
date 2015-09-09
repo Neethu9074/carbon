@@ -6,6 +6,8 @@ import {currentTooltip} from '../stores/mapStore';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 
+let zoomCalls = 0;
+
 export default class CameraController {
 
   constructor({scene}) {
@@ -30,7 +32,8 @@ export default class CameraController {
     //holds the mouse/touch position in pixel coordinates
     this.cursor = new THREE.Vector2();
 
-    this.cameraSpeed = 10; //camera fly speed
+    this.defaultCameraSpeed = 10; //camera fly speed
+    this.cameraSpeed = this.defaultCameraSpeed; //camera fly speed
     this.moveSpeed = 0.01; //distance moved per pixel
 
     this.initZoomField();
@@ -109,6 +112,15 @@ export default class CameraController {
     this.scene.onZoom({zoomLevel: newTargetZoomLevel});
 
     this.handleRayCasting();
+
+    this.cameraSpeed = 1000;
+    zoomCalls++;
+    setTimeout(() => {
+      zoomCalls--;
+      if (zoomCalls === 0) {
+        this.cameraSpeed = this.defaultCameraSpeed;
+      }
+    }, 300);
   }
 
   setZoomLevel(zL) {
