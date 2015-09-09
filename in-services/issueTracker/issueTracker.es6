@@ -1,11 +1,13 @@
 /*eslint-disable new-cap*/
 import Immutable from 'immutable';
 
-import {create} from '../conveyer';
+import {theme} from 'in-services/theme';
+
+import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
 import {mapSeverityToHealth, health} from '../health';
 import IssueConveyer from '../conveyer/IssueConveyer';
-import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
 import * as timelineStore from '../stores/timeline';
+import {create} from '../conveyer';
 
 const allIssuesStream = timelineStore.timeframe.transform({
   emitLatestOnSubscribe: true,
@@ -147,4 +149,40 @@ export function getHealth(snapshot) {
     })
     .map(mapSeverityToHealth)
     .distinct();
+}
+
+/**
+ * Gets the color for an issue. If an issue is closed it should be some kind
+ * grey, if it's open and critical it has a danger color and so on.
+ *
+ * @param {Immutable<Issue>} Issue The issue for which the color should be determined.
+ * @returns {string} The color string in hex (e.g. #F03249)
+ */
+export function getColorForIssue(issue) {
+  throwExceptionIfUndefined(issue);
+
+  const state = issue.get('state');
+  throwExceptionIfUndefined(state);
+
+  const getColor = (i) => {
+    const severity = i.getIn(['problem', 'severity']);
+    throwExceptionIfUndefined(severity);
+
+    switch (mapSeverityToHealth(severity)) {
+      case health.warning:
+        return theme.health.warning;
+      case health.danger:
+        return theme.health.danger;
+      default:
+        return theme.health.ok;
+    }
+  };
+
+  return state === 'OPEN' ? getColor(issue) : theme.health.ok;
+}
+
+function throwExceptionIfUndefined(property) {
+  if (property === undefined) {
+    throw new Error('Missing argument:', property);
+  }
 }
