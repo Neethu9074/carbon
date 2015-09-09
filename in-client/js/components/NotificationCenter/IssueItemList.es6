@@ -20,16 +20,19 @@ const IssueItemList = React.createClass({
     const days = this.getIssuesPerDay(this.props.issues);
     const dailyIssues = Object.keys(days);
     return (
-      <ul className={block + '__list'}>
+      <ul className={block}>
         {dailyIssues.map(key => {
           const issues = days[key];
           return (
             <li key={key}
-                className={block}>
-              <span className={block + '__header-label'}>{key}</span>
-              {issues.map(issue => {
-                return (<IssueItem issue={issue}/>);
-              })}
+                className={block + '__list-item'}>
+
+              <span className={block + '__header-label'}>
+                {key}
+              </span>
+
+              {issues.map(issue => <IssueItem issue={issue}/>)}
+
             </li>
           );
         })}

@@ -142,8 +142,7 @@ const Timeline = React.createClass({
   },
 
   getIssueColor(issue) {
-    const iconConfig = this.getIconConfig(issue);
-    return issue.get('state') === 'OPEN' ? iconConfig.color : HEALTH_OK.color;
+    return issue.get('state') === 'OPEN' ? this.getIconConfig(issue).color : HEALTH_OK.color;
   },
 
   renderIssueLine() {
