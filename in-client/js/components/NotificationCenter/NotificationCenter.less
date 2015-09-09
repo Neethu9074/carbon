@@ -1,15 +1,17 @@
 @import "~in-themes/less/constants.less";
 
 .in-notificationcenter {
+  @notification-center-width: 23rem;
+  @transition-easing: ease-in-out;
+  @transition-duration: .5s;
+
   position: absolute;
   bottom: @footer__height * 1px;
-  left: -23rem;
+  left: -@notification-center-width;
   top: 0;
-  width: 23rem;
+  width: @notification-center-width;
   background: #233038;
 
-  @transition-duration: .5s;
-  @transition-easing: ease-in-out;
   transition: left @transition-duration @transition-easing;
 
   &__open {
