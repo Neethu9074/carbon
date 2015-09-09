@@ -1,12 +1,13 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
+import moment from 'moment';
 
 import {getColorForIssue} from 'in-services/issueTracker';
+import Icon from 'in-components/Icon';
 
 import './IssueItem.less';
 
 const block = 'in-notificationcenter-issueitem';
-
 
 const IssueItem = React.createClass({
   mixins: [
@@ -25,15 +26,19 @@ const IssueItem = React.createClass({
 
         <div className={block + '__header'}
              style={{color: getColorForIssue(issue)}}>
+
+          <Icon type={'warning'}
+                className={block + '__icon'}/>
           {issue.get('problem').get('problemText')}
+
         </div>
 
         <div className={block + '__suggestion'}>
-          suggestion
+          {issue.get('problem').get('fixSuggestion')}
         </div>
 
         <div className={block + '__time'}>
-          {'17m ago'}
+          {moment(issue.get('start')).fromNow()}
         </div>
 
         <div className={block + '__breakingline'}/>

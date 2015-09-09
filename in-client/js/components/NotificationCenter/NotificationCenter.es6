@@ -22,6 +22,7 @@ const NotificationCenter = React.createClass({
   propTypes: {
     toggleNotificationCenter: rpt.func.isRequired,
     timeframe: rpt.number.isRequired,
+    open: rpt.bool.isRequired,
     allIssues: irpt.list
   },
 
@@ -41,8 +42,12 @@ const NotificationCenter = React.createClass({
   },
 
   render() {
+    const className = this.props.open ?
+      block + ' ' + block + '__open' :
+      block;
+
     return (
-      <div className={block}>
+      <div className={className}>
 
         <div className={block + '__header'}>
           {'Notifications'}

@@ -34,7 +34,7 @@ const IssueItemList = React.createClass({
                 {this.getDayStringForDate(key)}
               </span>
 
-              {issues.map(issue => <IssueItem issue={issue}/>)}
+              {issues.map(issue => <IssueItem key={issue.get('id')} issue={issue}/>)}
 
             </li>
           );

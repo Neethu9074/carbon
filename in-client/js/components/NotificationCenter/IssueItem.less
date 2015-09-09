@@ -1,30 +1,48 @@
 @import "~in-themes/less/constants.less";
 
 .in-notificationcenter-issueitem {
+  padding: 20px 10px 0 10px;
+
+  &:hover {
+    cursor: pointer;
+    background: #2a3a44;
+  }
 
   &__header {
+    display: flex;
+
     font-size: 0.7rem;
+    font-weight: bold;
     text-transform: uppercase;
 
-    margin: 20px 0 20px 0;
+    margin-bottom: 10px;
   }
 
   &__suggestion {
     font-size: 0.7rem;
     color: #818a8f;
 
-    margin: 20px 0 20px 0;
+    margin: 10px 0 10px 35px;
   }
 
   &__time {
     font-size: 0.7rem;
     color: #cdd3d5;
 
-    margin: 20px 0 20px 0;
+    margin: 10px 0 25px 35px;
   }
 
   &__breakingline {
     border-bottom: 1px solid #374349;
-    margin: 0 20px 0 0;
+
+    margin-top: 20px;
+  }
+
+  &__icon {
+    font-size: 2rem;
+    width: 38px;
+
+    margin-top: -5px;
+    margin-bottom: -10px;
   }
 }
