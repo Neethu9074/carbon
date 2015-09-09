@@ -36,7 +36,7 @@ const Settings = React.createClass({
     this.addSubscription(settingsStore.subscribe(data => {
       const direction = data.getIn(['map', 'scrollDirection']);
       const antialias = data.getIn(['map', 'antialias']);
-      const desktopNotification = data.getIn(['map', 'desktopNotification']);
+      const desktopNotification = data.getIn(['desktopNotification']);
       this.setState({
         inverseCheckboxChecked: direction === 1 ? false : true,
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
@@ -114,11 +114,11 @@ const Settings = React.createClass({
     if (!isDesktopNotificationEnabled) {
       askPermission(allowed => {
         if (allowed) {
-          setIn(['map', 'desktopNotification'], true);
+          setIn(['desktopNotification'], true);
         }
       });
     } else {
-      setIn(['map', 'desktopNotification'], false);
+      setIn(['desktopNotification'], false);
     }
   }
 });

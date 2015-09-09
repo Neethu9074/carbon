@@ -1,14 +1,13 @@
 import {getOpenIssues} from 'in-services/issueTracker';
 import {settingsStore} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
-import {extractCoordinates, getFullSnapshot} from 'in-services/snapshots/snapshots';
+import {extractCoordinates, getFullSnapshot} from 'in-services/snapshots';
 
 let disposable;
 let previousIssues = null;
 
 settingsStore.subscribe(data => {
-  const desktopNotification = data.getIn(['map', 'desktopNotification']);
-
+  const desktopNotification = data.getIn(['desktopNotification']);
   if (desktopNotification) {
     startTracking();
   } else {
@@ -22,10 +21,9 @@ function startTracking() {
   disposable = getOpenIssues().subscribe((issues) => {
 
     //show messages only if Browser Window is currently not visible
-    if (document.hidden == null || document.hidden) {
+    if (document.hidden == null || !document.hidden) {
       return;
     }
-
     //recreate the list of previous issues if first start or if an issue has been removed
     if (previousIssues === null || Object.keys(previousIssues).length > issues.size) {
       previousIssues = {};
@@ -38,10 +36,9 @@ function startTracking() {
 
       if (previousIssues[issue.get('id')] !== 1) {
         previousIssues[issue.get('id')] = 1;
-
         const coordinates = extractCoordinates(issue.get('problem'));
         getFullSnapshot(coordinates).once(snapShot => {
-          showMessage(getLabel(snapShot), issue.get('problem').get('problemText'));
+          showMessage(getLabel(snapShot), issue.getIn(['problem', 'problemText']));
         });
       }
     });
