@@ -22,8 +22,8 @@ const NotificationCenter = React.createClass({
   propTypes: {
     toggleNotificationCenter: rpt.func.isRequired,
     timeframe: rpt.number.isRequired,
-    open: rpt.bool.isRequired,
-    allIssues: irpt.list
+    allIssues: irpt.list,
+    open: rpt.bool
   },
 
   statics: {
