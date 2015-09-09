@@ -1,5 +1,6 @@
 import React from 'react/addons';
 
+import {mapSeverityToHealth, health} from 'in-services/health';
 import Icon from 'in-components/Icon';
 
 import './Filter.less';
@@ -14,17 +15,23 @@ const contentTypes = {
   },
   critical: {
     getContent(count) { return getIconWithCount('critical', count); },
-    predicate: () => { return false; }
+    predicate: (issue) => isIssueHealth(issue, health.danger)
   },
   warning: {
     getContent(count) { return getIconWithCount('warning', count); },
-    predicate: () => { return true; }
+    predicate: (issue) => isIssueHealth(issue, health.warning)
   },
   system: {
     getContent(count) { return getIconWithCount('system', count); },
-    predicate: () => { return false; }
+    predicate: (issue) => isIssueHealth(issue, health.ok)
   }
 };
+
+function isIssueHealth(issue, healthToCheck) {
+  const severity = issue.getIn(['problem', 'severity']);
+  const issueHealth = mapSeverityToHealth(severity);
+  return issueHealth === healthToCheck;
+}
 
 function getIconWithCount(type, count) {
   return (
