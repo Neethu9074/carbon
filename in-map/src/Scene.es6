@@ -392,9 +392,9 @@ export default class Scene {
   }
 
   updateNodeWidthOnScreen() {
-    //size of the view frustum in worldunits
+    // size of the view frustum in worldunits
     const camSize = this.cameraSize;
-    //each node has width = 1 in worldunits
+    // each node has width = 1 in worldunits
     const nodeSize = 1;
     const aspect = nodeSize / camSize;
     const nodeSizeInPixel = aspect * 1500;
@@ -633,7 +633,7 @@ export default class Scene {
     selectedSnapshot.clear();
   }
 
-  //is called by map
+  // is called by map
   removeChild() {}
 
   clearStores() {
@@ -646,7 +646,7 @@ export default class Scene {
     selectedSnapshot.clear();
   }
 
-  //set this flag if the update loop should be stoped
+  // set this flag if the update loop should be stoped
   dispose() {
     this.disposed = true;
 
@@ -654,7 +654,7 @@ export default class Scene {
 
     this.controller.dispose();
 
-    //reset the time and clear all listeners
+    // reset the time and clear all listeners
     time.reset();
 
     //make shure that there is no update incoming until disposing

@@ -278,7 +278,41 @@ export default class CameraController {
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
 
+    // get the position of the point in world space where the mouse is pointing at
+    // and before the camera zoomed in
+    const mousePos = {
+      x: (this.lastMousePosition.x / scene.width) * 2 - 1, // [-1, 1]
+      y: -(this.lastMousePosition.y / scene.height) * 2 + 1 // [-1, 1]
+    };
+    const pointOfImpact = this.getPointOfImpact(mousePos, scene);
+
+    // change camera size for zoom effect
     scene.cameraSize = this.zoomLevel / 10;
     scene.setCameraFromSize();
+
+    if (!pointOfImpact) {
+      return;
+    }
+
+    scene.camera.updateProjectionMatrix();
+
+    // get the new screenPosition of the impact point so that you can calculate the delta in screen space
+    const pointOfImpactNew = this.getPointOfImpact(mousePos, scene);
+    const transObj = this.camTransformObject;
+    transObj.position.x += pointOfImpact.x - pointOfImpactNew.x;
+    transObj.position.z += pointOfImpact.z - pointOfImpactNew.z;
+    transObj.updateMatrixWorld();
+  }
+
+  getPointOfImpact(mousePos, scene) {
+    // update the picking ray with the camera and mouse position
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mousePos, scene.camera);
+
+    // calculate objects intersecting the picking ray
+    const intersects = raycaster.intersectObjects([scene.map.ground]);
+    if(intersects && intersects.length === 1) {
+      return intersects[0].point;
+    }
   }
 }
