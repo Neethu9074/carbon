@@ -11,6 +11,7 @@ var rename = require('gulp-rename');
 var Promise = require('bluebird');
 var rev = require('gulp-rev');
 var revReplace = require('gulp-rev-replace');
+var minifyCss = require('gulp-minify-css');
 var shell = require('shelljs');
 var size = require('gulp-size');
 var util = require('util');
@@ -32,9 +33,14 @@ gulp.task(
   ['webpack:build', 'copyfavicon', 'copyconfig', 'writeBuildInfo'],
   function() {
     var assetFilter = filter(['**/*.js', '**/*.css']);
+    var cssFilter = filter('**/*.css');
     var htmlFilter = filter('**/*.html');
 
     return gulp.src(['target/bundle/index.js', 'target/bundle/index.css', 'in-client/' + htmlFile])
+      .pipe(cssFilter)
+      .pipe(minifyCss())
+      .pipe(gulp.dest('target/bundle'))
+      .pipe(cssFilter.restore())
       .pipe(assetFilter)
       .pipe(rev())
       .pipe(gulp.dest('target/bundle'))
