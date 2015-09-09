@@ -164,21 +164,21 @@ export function getColorForIssue(issue) {
   const state = issue.get('state');
   throwExceptionIfUndefined(state);
 
-  const getColor = (i) => {
-    const severity = i.getIn(['problem', 'severity']);
-    throwExceptionIfUndefined(severity);
+  return state === 'OPEN' ? getColorForProblem(issue.get('problem')) : theme.health.ok;
+}
 
-    switch (mapSeverityToHealth(severity)) {
-      case health.warning:
-        return theme.health.warning;
-      case health.danger:
-        return theme.health.danger;
-      default:
-        return theme.health.ok;
-    }
-  };
+export function getColorForProblem(problem) {
+  const severity = problem.get('severity');
+  throwExceptionIfUndefined(severity);
 
-  return state === 'OPEN' ? getColor(issue) : theme.health.ok;
+  switch (mapSeverityToHealth(severity)) {
+    case health.warning:
+      return theme.health.warning;
+    case health.danger:
+      return theme.health.danger;
+    default:
+      return theme.health.ok;
+  }
 }
 
 function throwExceptionIfUndefined(property) {
