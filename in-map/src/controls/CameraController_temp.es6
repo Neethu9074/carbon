@@ -120,7 +120,7 @@ export default class CameraController {
       if (this.zoomCalls === 0) {
         this.cameraSpeed = this.defaultCameraSpeed;
       }
-    }, 1000);
+    }, 500);
   }
 
   setZoomLevel(zL) {
