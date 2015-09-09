@@ -31,10 +31,10 @@ gulp.task(
   'build',
   ['webpack:build', 'copyfavicon', 'copyconfig', 'writeBuildInfo'],
   function() {
-    var assetFilter = filter('**/*.js');
+    var assetFilter = filter(['**/*.js', '**/*.css']);
     var htmlFilter = filter('**/*.html');
 
-    return gulp.src(['target/bundle/index.js', 'in-client/' + htmlFile])
+    return gulp.src(['target/bundle/index.js', 'target/bundle/index.css', 'in-client/' + htmlFile])
       .pipe(assetFilter)
       .pipe(rev())
       .pipe(gulp.dest('target/bundle'))
@@ -88,7 +88,7 @@ function getBanner() {
   var year = new Date().getFullYear();
 
   return util.format(
-    'instana ui browser v%s | (c) %s instana Inc. | commit %s',
+    'instana ui-client v%s | (c) %s instana Inc. | commit %s',
     getVersion(),
     (year === 2014 ? 2014 : '2014 - ' + year),
     getRevision()

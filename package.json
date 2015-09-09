@@ -53,6 +53,7 @@
     "eslint-config-instana": "^3.0.0",
     "eslint-plugin-import-order": "^1.0.0",
     "eslint-plugin-react": "^2.5.2",
+    "extract-text-webpack-plugin": "^0.8.2",
     "file-loader": "^0.8.1",
     "gulp": "^3.8.10",
     "gulp-cached": "^1.0.2",

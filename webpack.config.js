@@ -4,6 +4,7 @@
 
 var webpack = require('webpack');
 var path = require('path');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var definePlugin = new webpack.DefinePlugin({
   __INTERNAL__: JSON.stringify(JSON.parse(process.env.BUILD_INTERNAL || 'false')),
@@ -25,7 +26,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.less$/i,
-      loader: 'style!css!autoprefixer?browsers=last 2 version!less'
+      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!less')
     }, {
       test: /\.(jpe?g|gif|png|svg|ttf|eot|obj)$/i,
       loader: 'url?limit=3000'
@@ -51,7 +52,8 @@ module.exports = {
   },
   plugins: [
     definePlugin,
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/)
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /^$/),
+    new ExtractTextPlugin('index.css')
   ],
   resolve: {
     extensions: ['', '.js', '.es6', '.ts']
