@@ -12,7 +12,15 @@ import Filter from './Filter';
 
 import './NotificationCenter.less';
 
+const FILTER_TYPES = {
+  ALL: 'all',
+  CRITICAL: 'critical',
+  WARNING: 'warning',
+  SYSTEM: 'system'
+};
+
 const block = 'in-notificationcenter';
+
 const rpt = React.PropTypes;
 
 const NotificationCenter = React.createClass({
@@ -39,7 +47,7 @@ const NotificationCenter = React.createClass({
   getInitialState() {
     return {
       filterPredicate: () => true,
-      selectedType: null
+      selectedType: FILTER_TYPES.ALL
     };
   },
 
@@ -63,23 +71,23 @@ const NotificationCenter = React.createClass({
 
         <div className={block + '__status-bar'}>
           <Filter onFilterSelected = {this.onFilterSelected}
-                  isSelected = {selectedType === 'all'}
-                  type = {'all'} />
+                  isSelected = {selectedType === FILTER_TYPES.ALL}
+                  type = {FILTER_TYPES.ALL} />
 
           <Filter onFilterSelected={this.onFilterSelected}
-                  isSelected = {selectedType === 'critical'}
+                  isSelected = {selectedType === FILTER_TYPES.CRITICAL}
                   count={counter.errors}
-                  type={'critical'} />
+                  type={FILTER_TYPES.CRITICAL} />
 
           <Filter onFilterSelected={this.onFilterSelected}
-                  isSelected = {selectedType === 'warning'}
+                  isSelected = {selectedType === FILTER_TYPES.WARNING}
                   count={counter.warnings}
-                  type={'warning'} />
+                  type={FILTER_TYPES.WARNING} />
 
           <Filter onFilterSelected={this.onFilterSelected}
-                  isSelected = {selectedType === 'system'}
+                  isSelected = {selectedType === FILTER_TYPES.SYSTEM}
                   count={counter.commons}
-                  type={'system'} />
+                  type={FILTER_TYPES.SYSTEM} />
         </div>
 
         {this.renderIssues()}
