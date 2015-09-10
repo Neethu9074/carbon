@@ -3,6 +3,9 @@
 
 'use strict';
 
+var fs = require('fs');
+var childProcess = require('child_process');
+var path = require('path');
 var del = require('del');
 var filter = require('gulp-filter');
 var gulp = require('gulp');
@@ -18,45 +21,78 @@ var util = require('util');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var fs = require('fs');
+var buildTheme = require('instana-ui-theme/build/translateTheme');
 
 var webpackConfig = require('./webpack.config.js');
 
 var htmlFile = 'index.html';
 
-gulp.task('clean', function(cb) {
-  del(['./target'], cb);
+
+gulp.task('removeTemporaryBuildArtifacts', ['performCacheBustingOptimizations'], function() {
+  del.sync([
+    'target/bundle/index.js',
+    'target/bundle/theme-day.css',
+    'target/bundle/theme-night.css'
+  ]);
 });
 
 
-gulp.task(
-  'build',
-  ['webpack:build', 'copyfavicon', 'copyconfig', 'writeBuildInfo'],
-  function() {
-    var assetFilter = filter(['**/*.js', '**/*.css']);
-    var cssFilter = filter('**/*.css');
-    var htmlFilter = filter('**/*.html');
+gulp.task('performCacheBustingOptimizations', ['webpack:build'], function() {
+  var assetFilter = filter(['**/*.js', '**/*.css']);
+  var cssFilter = filter('**/*.css');
+  var htmlFilter = filter('**/*.html');
 
-    return gulp.src(['target/bundle/index.js', 'target/bundle/index.css', 'in-client/' + htmlFile])
-      .pipe(cssFilter)
-      .pipe(minifyCss())
-      .pipe(gulp.dest('target/bundle'))
-      .pipe(cssFilter.restore())
-      .pipe(assetFilter)
-      .pipe(rev())
-      .pipe(gulp.dest('target/bundle'))
-      .pipe(assetFilter.restore())
-      .pipe(revReplace())
-      .pipe(htmlFilter)
-      .pipe(gulp.dest('target'))
-      .pipe(htmlFilter.restore())
-      .pipe(size({
-        showFiles: true,
-        gzip: true
-      }));
+  return gulp.src(['target/bundle/index.js', 'target/bundle/theme-*.css', 'in-client/' + htmlFile])
+    .pipe(cssFilter)
+    .pipe(minifyCss())
+    .pipe(cssFilter.restore())
+    .pipe(assetFilter)
+    .pipe(rev())
+    .pipe(gulp.dest('target/bundle'))
+    .pipe(assetFilter.restore())
+    .pipe(revReplace())
+    .pipe(htmlFilter)
+    .pipe(gulp.dest('target'))
+    .pipe(htmlFilter.restore())
+    .pipe(size({
+      showFiles: true,
+      gzip: true
+    }));
 });
 
 
-gulp.task('webpack:build', ['clean'], function(callback) {
+gulp.task('build', [
+  'webpack:build',
+  'performCacheBustingOptimizations',
+  'removeTemporaryBuildArtifacts',
+  'copyfavicon',
+  'copyconfig',
+  'writeThemeIndex',
+  'writeBuildInfo'
+]);
+
+
+gulp.task('translateThemeConfigs', function() {
+  buildTheme('day', path.resolve('./in-themes'), 'target/bundle');
+  buildTheme('night', path.resolve('./in-themes'), 'target/bundle');
+});
+
+
+gulp.task('writeThemeIndex', ['removeTemporaryBuildArtifacts'], function() {
+  const themeIndex = fs.readdirSync('target/bundle')
+    .reduce(function(themes, fileName) {
+      const match = fileName.match(/theme-(\w+)-[^\.]+\.css/);
+      if (match) {
+        themes[match[1]] = fileName;
+      }
+      return themes;
+    }, {});
+
+  fs.writeFileSync('target/themes.json', JSON.stringify(themeIndex));
+});
+
+
+gulp.task('webpack:build', ['translateThemeConfigs'], function(callback) {
   // modify some webpack config options
   var config = Object.create(webpackConfig);
 
@@ -77,17 +113,34 @@ gulp.task('webpack:build', ['clean'], function(callback) {
     new webpack.BannerPlugin(getBanner())
   );
 
-  // run webpack
-  webpack(config, function(err, stats) {
-    if(err) {
-      throw new gutil.PluginError('webpack:build', err);
-    }
-    gutil.log('[webpack:build]', stats.toString({
-      colors: true
-    }));
-    callback();
+  buildForTheme('day', function() {
+    buildForTheme('night', function() {
+      callback();
+    });
   });
+
+  function buildForTheme(themeName, cb) {
+    setActiveTheme(themeName);
+    webpack(config, function(err, stats) {
+      if(err) {
+        throw new gutil.PluginError('webpack:build', err);
+      }
+      gutil.log('[webpack:build]', stats.toString({
+        colors: true
+      }));
+      childProcess.execSync('mv target/bundle/index.css target/bundle/theme-' + themeName + '.css');
+      cb();
+    });
+  }
 });
+
+
+function setActiveTheme(themeName) {
+  childProcess.execSync('rm -f in-themes/active.json');
+  childProcess.execSync('rm -f in-themes/active.less');
+  childProcess.execSync('ln -s ../target/bundle/' + themeName + '/config.json in-themes/active.json');
+  childProcess.execSync('ln -s ../target/bundle/' + themeName + '/config.less in-themes/active.less');
+}
 
 
 function getBanner() {
@@ -101,9 +154,11 @@ function getBanner() {
   );
 }
 
+
 function getVersion() {
   return require('./package.json').version;
 }
+
 
 function getRevision() {
   return shell.exec('git rev-parse HEAD').output.trim();
@@ -140,9 +195,11 @@ gulp.task('copyfavicon', function() {
   gulp.src('in-client/favicon.png').pipe(gulp.dest('target/'));
 });
 
+
 gulp.task('copyconfig', function() {
   gulp.src('in-client/config.json').pipe(gulp.dest('target/'));
 });
+
 
 gulp.task('writeBuildInfo', function() {
   var data = {
@@ -160,6 +217,7 @@ gulp.task('writeBuildInfo', function() {
 
   fs.writeFileSync('target/build.json', JSON.stringify(data));
 });
+
 
 gulp.task('webpack:dev', function() {
   // modify some webpack config options

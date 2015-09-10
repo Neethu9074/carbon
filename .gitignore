@@ -4,3 +4,4 @@
 /target
 .npmrc
 /tmp
+/in-themes/active*
