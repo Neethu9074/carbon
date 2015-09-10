@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import {mapSeverityToHealth, health} from 'in-services/health';
+import {mapSeverityToHealth} from 'in-services/health';
 import Icon from 'in-components/Icon';
 
 import './Filter.less';
@@ -17,67 +17,48 @@ const Filter = React.createClass({
   propTypes: {
     onFilterSelected: rpt.func.isRequired,
     isSelected: rpt.bool.isRequired,
+    predicate: rpt.func.isRequired,
+    color: rpt.string.isRequired,
     type: rpt.string.isRequired,
     count: rpt.number
   },
 
-  getIconWithCount(type, count, typeObject) {
-    const iconBlock = block + '__icon' + ' ' + block + '__icon' + '--' + type;
+  getIconWithCount(type, count) {
+    const iconBlock = block + '__icon';
     const className = this.props.isSelected ?
       block + ' ' + block + '__selected' :
       block;
 
     return (
       <div className={className}
-           onClick={() => this.props.onFilterSelected(type, typeObject.predicate)}>
+           onClick={() => this.props.onFilterSelected(type, this.props.predicate)}>
 
-        <Icon type={type} className={iconBlock}/>
+        <Icon type={type}
+              className={iconBlock}
+              style={{ color: this.props.color }}/>
         <span>{count}</span>
 
       </div>
     );
   },
 
-  getContentType(isSelected) {
+  getContent(isSelected, count) {
     const getIconWithCount = this.getIconWithCount;
-    const isIssueHealth = this.isIssueHealth;
     const select = this.props.onFilterSelected;
     const type = this.props.type;
 
-    switch (type) {
-      case 'all':
-        return {
-          getContent() {
-            const className = isSelected ?
-              block + ' ' + block + '__selected' :
-              block;
-            return (<span className={className}
-                         onClick={() => select('all', () => { return true; })}>
-                     All
-                   </span>);
-          }
-        };
+    if (type === 'all') {
+      const className = isSelected ?
+        block + ' ' + block + '__selected' :
+        block;
 
-      case 'critical':
-        return {
-          getContent(count) { return getIconWithCount('critical', count, this); },
-          predicate: (issue) => isIssueHealth(issue, health.danger)
-        };
-
-      case 'warning':
-        return {
-          getContent(count) { return getIconWithCount('warning', count, this); },
-          predicate: (issue) => isIssueHealth(issue, health.warning)
-        };
-
-      case 'system':
-        return {
-          getContent(count) { return getIconWithCount('system', count, this); },
-          predicate: (issue) => isIssueHealth(issue, health.ok)
-        };
-      default:
-        return null;
+      return (<span className={className}
+                   onClick={() => select('all', () => { return true; })}>
+               All
+             </span>);
     }
+
+    return getIconWithCount(type, count);
   },
 
   isIssueHealth(issue, healthToCheck) {
@@ -88,8 +69,7 @@ const Filter = React.createClass({
 
   render() {
     const props = this.props;
-    const type = this.getContentType(props.isSelected);
-    return type.getContent(props.count);
+    return this.getContent(props.isSelected, this.props.count);
   }
 });
 

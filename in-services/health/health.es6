@@ -1,4 +1,4 @@
-
+import {theme} from '../theme';
 
 export const health = {
   ok: 'ok',
@@ -19,4 +19,21 @@ export function mapSeverityToHealth(severity) {
     return health.warning;
   }
   return health.ok;
+}
+
+/**
+ * Turns a health value into a color string (hex)
+ *
+ * @param {string} healthToMap A health to map
+ * @returns {string} the mapped color string
+ */
+export function mapHealthToColor(healthToMap) {
+  switch (healthToMap) {
+    case health.warning:
+      return theme.health.warning;
+    case health.danger:
+      return theme.health.danger;
+    default:
+      return theme.health.ok;
+  }
 }

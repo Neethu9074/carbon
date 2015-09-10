@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {mapSeverityToHealth, health} from 'in-services/health';
+import {mapSeverityToHealth, mapHealthToColor, health} from 'in-services/health';
 import * as timelineStore from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
 import enhance from 'in-components/hoc/enhance';
@@ -72,27 +72,41 @@ const NotificationCenter = React.createClass({
         <div className={block + '__status-bar'}>
           <Filter onFilterSelected = {this.onFilterSelected}
                   isSelected = {selectedType === FILTER_TYPES.ALL}
-                  type = {FILTER_TYPES.ALL} />
+                  type = {FILTER_TYPES.ALL}
+                  color={'#FFFFFF'}
+                  predicate={() => true}/>
 
           <Filter onFilterSelected={this.onFilterSelected}
                   isSelected = {selectedType === FILTER_TYPES.CRITICAL}
                   count={counter.errors}
-                  type={FILTER_TYPES.CRITICAL} />
+                  type={FILTER_TYPES.CRITICAL}
+                  color={mapHealthToColor(health.danger)}
+                  predicate={issue => this.isIssueHealth(issue, health.danger)}/>
 
           <Filter onFilterSelected={this.onFilterSelected}
                   isSelected = {selectedType === FILTER_TYPES.WARNING}
                   count={counter.warnings}
-                  type={FILTER_TYPES.WARNING} />
+                  type={FILTER_TYPES.WARNING}
+                  color={mapHealthToColor(health.warning)}
+                  predicate={issue => this.isIssueHealth(issue, health.warning)}/>
 
           <Filter onFilterSelected={this.onFilterSelected}
                   isSelected = {selectedType === FILTER_TYPES.SYSTEM}
                   count={counter.commons}
-                  type={FILTER_TYPES.SYSTEM} />
+                  type={FILTER_TYPES.SYSTEM}
+                  color={mapHealthToColor(health.ok)}
+                  predicate={issue => this.isIssueHealth(issue, health.ok)}/>
         </div>
 
         {this.renderIssues()}
       </div>
     );
+  },
+
+  isIssueHealth(issue, healthToCheck) {
+    const severity = issue.getIn(['problem', 'severity']);
+    const issueHealth = mapSeverityToHealth(severity);
+    return issueHealth === healthToCheck;
   },
 
   onFilterSelected(type, predicate) {
