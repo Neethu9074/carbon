@@ -6,14 +6,10 @@
 var fs = require('fs');
 var childProcess = require('child_process');
 var path = require('path');
-var del = require('del');
-var filter = require('gulp-filter');
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var rename = require('gulp-rename');
 var Promise = require('bluebird');
-var rev = require('gulp-rev');
-var revReplace = require('gulp-rev-replace');
 var minifyCss = require('gulp-minify-css');
 var shell = require('shelljs');
 var size = require('gulp-size');
@@ -28,32 +24,15 @@ var webpackConfig = require('./webpack.config.js');
 var htmlFile = 'index.html';
 
 
-gulp.task('removeTemporaryBuildArtifacts', ['performCacheBustingOptimizations'], function() {
-  del.sync([
-    'target/bundle/index.js',
-    'target/bundle/theme-day.css',
-    'target/bundle/theme-night.css'
-  ]);
+gulp.task('minifyCss', ['webpack:build'], function() {
+  return gulp.src(['target/assets/bundle/theme-*.css'])
+    .pipe(minifyCss())
+    .pipe(gulp.dest('target/assets/bundle'));
 });
 
 
-gulp.task('performCacheBustingOptimizations', ['webpack:build'], function() {
-  var assetFilter = filter(['**/*.js', '**/*.css']);
-  var cssFilter = filter('**/*.css');
-  var htmlFilter = filter('**/*.html');
-
-  return gulp.src(['target/bundle/index.js', 'target/bundle/theme-*.css', 'in-client/' + htmlFile])
-    .pipe(cssFilter)
-    .pipe(minifyCss())
-    .pipe(cssFilter.restore())
-    .pipe(assetFilter)
-    .pipe(rev())
-    .pipe(gulp.dest('target/bundle'))
-    .pipe(assetFilter.restore())
-    .pipe(revReplace())
-    .pipe(htmlFilter)
-    .pipe(gulp.dest('target'))
-    .pipe(htmlFilter.restore())
+gulp.task('printFileStatistics', ['webpack:build', 'minifyCss'], function() {
+  return gulp.src(['target/assets/bundle/theme-*.css', 'target/assets/bundle/index.js'])
     .pipe(size({
       showFiles: true,
       gzip: true
@@ -63,32 +42,23 @@ gulp.task('performCacheBustingOptimizations', ['webpack:build'], function() {
 
 gulp.task('build', [
   'webpack:build',
-  'performCacheBustingOptimizations',
-  'removeTemporaryBuildArtifacts',
+  'minifyCss',
+  'printFileStatistics',
   'copyfavicon',
   'copyconfig',
-  'writeThemeIndex',
-  'writeBuildInfo'
+  'writeBuildInfo',
+  'copyServerSources'
 ]);
 
 
-gulp.task('translateThemeConfigs', function() {
-  buildTheme('day', path.resolve('./in-themes'), 'target/bundle');
-  buildTheme('night', path.resolve('./in-themes'), 'target/bundle');
+gulp.task('copyServerSources', function() {
+  gulp.src('in-server/**/*').pipe(gulp.dest('target/'));
 });
 
 
-gulp.task('writeThemeIndex', ['removeTemporaryBuildArtifacts'], function() {
-  const themeIndex = fs.readdirSync('target/bundle')
-    .reduce(function(themes, fileName) {
-      const match = fileName.match(/theme-(\w+)-[^\.]+\.css/);
-      if (match) {
-        themes[match[1]] = fileName;
-      }
-      return themes;
-    }, {});
-
-  fs.writeFileSync('target/themes.json', JSON.stringify(themeIndex));
+gulp.task('translateThemeConfigs', function() {
+  buildTheme('day', path.resolve('./in-themes'), 'target/assets/bundle');
+  buildTheme('night', path.resolve('./in-themes'), 'target/assets/bundle');
 });
 
 
@@ -128,7 +98,7 @@ gulp.task('webpack:build', ['translateThemeConfigs'], function(callback) {
       gutil.log('[webpack:build]', stats.toString({
         colors: true
       }));
-      childProcess.execSync('mv target/bundle/index.css target/bundle/theme-' + themeName + '.css');
+      childProcess.execSync('mv target/assets/bundle/index.css target/assets/bundle/theme-' + themeName + '.css');
       cb();
     });
   }
@@ -138,8 +108,8 @@ gulp.task('webpack:build', ['translateThemeConfigs'], function(callback) {
 function setActiveTheme(themeName) {
   childProcess.execSync('rm -f in-themes/active.json');
   childProcess.execSync('rm -f in-themes/active.less');
-  childProcess.execSync('ln -s ../target/bundle/' + themeName + '/config.json in-themes/active.json');
-  childProcess.execSync('ln -s ../target/bundle/' + themeName + '/config.less in-themes/active.less');
+  childProcess.execSync('ln -s ../target/assets/bundle/' + themeName + '/config.json in-themes/active.json');
+  childProcess.execSync('ln -s ../target/assets/bundle/' + themeName + '/config.less in-themes/active.less');
 }
 
 
@@ -187,17 +157,17 @@ gulp.task('copyhtml', function() {
       basename: 'index',
       extname: '.html'
     }))
-    .pipe(gulp.dest('target/'));
+    .pipe(gulp.dest('target/assets/'));
 });
 
 
 gulp.task('copyfavicon', function() {
-  gulp.src('in-client/favicon.png').pipe(gulp.dest('target/'));
+  gulp.src('in-client/favicon.png').pipe(gulp.dest('target/assets/'));
 });
 
 
 gulp.task('copyconfig', function() {
-  gulp.src('in-client/config.json').pipe(gulp.dest('target/'));
+  gulp.src('in-client/config.json').pipe(gulp.dest('target/assets/'));
 });
 
 
@@ -215,7 +185,7 @@ gulp.task('writeBuildInfo', function() {
     // ignore when it already exists
   }
 
-  fs.writeFileSync('target/build.json', JSON.stringify(data));
+  fs.writeFileSync('target/assets/build.json', JSON.stringify(data));
 });
 
 
@@ -228,7 +198,7 @@ gulp.task('webpack:dev', function() {
   // Start a webpack-dev-server
   new WebpackDevServer(webpack(config), {
     publicPath: '/bundle',
-    contentBase: 'target/',
+    contentBase: 'target/assets/',
     inline: true,
     stats: {
       colors: true
