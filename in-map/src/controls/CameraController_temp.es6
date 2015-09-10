@@ -27,9 +27,10 @@ export default class CameraController {
   init(scene) {
     this.scene = scene;
 
+    // this counter is used to check if the cameraSpeed can be resetted
     this.zoomCalls = 0;
 
-    //holds the mouse/touch position in pixel coordinates
+    // holds the mouse/touch position in pixel coordinates
     this.cursor = new THREE.Vector2();
 
     this.defaultCameraSpeed = 10; //camera fly speed
@@ -38,26 +39,26 @@ export default class CameraController {
 
     this.initZoomField();
 
-    //raytracing fields
+    // raytracing fields
     this.raycaster = new THREE.Raycaster();
 
-    //holds the mouse/touch position in screen coordinates (x,y) => [-1, 1]
+    // holds the mouse/touch position in screen coordinates (x,y) => [-1, 1]
     this.cursorForRay = new THREE.Vector2();
 
-    //holds the last hitten object from raycasting on click or mouseover
+    // holds the last hitten object from raycasting on click or mouseover
     this.hittenObject = undefined;
 
-    //holds the last hitten connections from raycasting on mouseover
+    // holds the last hitten connections from raycasting on mouseover
     this.hoveredConnections = [];
 
-    //the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
+    // the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
 
-    //is needed to calculate delta
+    // is needed to calculate delta
     this.lastMousePosition = {x: 0, y: 0};
 
     const pitch = -45;
-    //transformation helper. need this to move on the ground
+    // transformation helper. need this to move on the ground
     this.camTransformObject = new THREE.Object3D();
     this.camTransformObject.position.set(10, 0, -10);
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
@@ -69,15 +70,15 @@ export default class CameraController {
   }
 
   initZoomField() {
-    //zoom fields
+    // zoom fields
     this.maxZoomOut = 1800;
     this.normalZoomOut = 400; //100%
     this.maxZoomIn = 20;
 
-    //the current Level of zooming
+    // the current Level of zooming
     this.zoomLevel = 250;
 
-    //the wished level of zooming
+    // the wished level of zooming
     this.targetZoomLevel = 100;
 
     this.zoomSpeed = 10;
@@ -132,7 +133,7 @@ export default class CameraController {
   }
 
   doClick() {
-    //if an object was found via raycasting, inform the scene
+    // if an object was found via raycasting, inform the scene
     this.scene.onObjectClicked(this.hittenObject, this.hoveredConnections);
   }
 
@@ -146,8 +147,8 @@ export default class CameraController {
   }
 
   move(dx, dy) {
-    //the pixels moved until last mouseDown / touchDown
-    //set this before dx and dy gets manipulated
+    // the pixels moved until last mouseDown / touchDown
+    // set this before dx and dy gets manipulated
     this.unitsMoved += Math.sqrt(
       Math.pow(dx, 2) +
       Math.pow(dy, 2));
@@ -155,7 +156,7 @@ export default class CameraController {
     const min = this.maxZoomOut;
     const max = this.maxZoomIn;
 
-    //[0, 1] => [1, 11]
+    // [0, 1] => [1, 11]
     const nZoomLevel = (this.zoomLevel / (min - max) * 10) + 1;
     dx *= nZoomLevel;
     dy *= nZoomLevel;
@@ -166,7 +167,7 @@ export default class CameraController {
 
     transObj.updateMatrixWorld();
 
-    //TODO: clamp the position to avoid overflow of the level area
+    // TODO: clamp the position to avoid overflow of the level area
   }
 
   handleRayCasting() {
@@ -175,24 +176,24 @@ export default class CameraController {
     this.getObjectOnCursor();
     const hittenNew = this.hittenObject;
 
-    //if there is actually not hittenOld but it was last frame
-    if(!hittenNew && hittenOld) {
+    // if there is actually not hittenOld but it was last frame
+    if (!hittenNew && hittenOld) {
       hittenOld.parentSceneObject.onHighlight(false);
 
-      //if there is a hittenOld object
-    } else if(hittenNew) {
-      //if this is a new hittenOld object
-      if(hittenOld !== hittenNew) {
-        //if the new differs from the old and the old is valid
-        if(hittenOld) {
+      // if there is a hittenOld object
+    } else if (hittenNew) {
+      // if this is a new hittenOld object
+      if (hittenOld !== hittenNew) {
+        // if the new differs from the old and the old is valid
+        if (hittenOld) {
           hittenOld.parentSceneObject.onHighlight(false);
         }
         hittenNew.parentSceneObject.onHighlight(true);
       }
     }
 
-    if(!hittenNew) {
-      if(hoveredConnections.length > 0) {
+    if (!hittenNew) {
+      if (hoveredConnections.length > 0) {
         currentTooltip.emit(this.connectionTooltip);
         this.connectionTooltip.setHovered(hoveredConnections);
       } else {
@@ -286,17 +287,16 @@ export default class CameraController {
 
   updateZoomLevel(dT) {
     const scene = this.scene;
+    const cursorPosition = this.cursorForRay;
     const delta = this.targetZoomLevel - this.zoomLevel;
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
 
     // get the position of the point in world space where the mouse is pointing at
     // and before the camera zoomed in
-    const mousePos = {
-      x: (this.lastMousePosition.x / scene.width) * 2 - 1, // [-1, 1]
-      y: -(this.lastMousePosition.y / scene.height) * 2 + 1 // [-1, 1]
-    };
-    const pointOfImpact = this.getPointOfImpact(mousePos, scene);
+    cursorPosition.x = (this.lastMousePosition.x / scene.width) * 2 - 1; // [-1, 1]
+    cursorPosition.y = -(this.lastMousePosition.y / scene.height) * 2 + 1; // [-1, 1]
+    const pointOfImpact = this.getPointOfImpact(cursorPosition, scene);
 
     // change camera size for zoom effect
     scene.cameraSize = this.zoomLevel / 10;
@@ -309,7 +309,7 @@ export default class CameraController {
     scene.camera.updateProjectionMatrix();
 
     // get the new screenPosition of the impact point so that you can calculate the delta in screen space
-    const pointOfImpactNew = this.getPointOfImpact(mousePos, scene);
+    const pointOfImpactNew = this.getPointOfImpact(cursorPosition, scene);
     const transObj = this.camTransformObject;
     transObj.position.x += pointOfImpact.x - pointOfImpactNew.x;
     transObj.position.z += pointOfImpact.z - pointOfImpactNew.z;
@@ -318,12 +318,11 @@ export default class CameraController {
 
   getPointOfImpact(mousePos, scene) {
     // update the picking ray with the camera and mouse position
-    const raycaster = new THREE.Raycaster();
-    raycaster.setFromCamera(mousePos, scene.camera);
+    this.raycaster.setFromCamera(mousePos, scene.camera);
 
     // calculate objects intersecting the picking ray
-    const intersects = raycaster.intersectObjects([scene.map.ground]);
-    if(intersects && intersects.length === 1) {
+    const intersects = this.raycaster.intersectObjects([scene.map.ground]);
+    if(intersects.length >= 1) {
       return intersects[0].point;
     }
   }
