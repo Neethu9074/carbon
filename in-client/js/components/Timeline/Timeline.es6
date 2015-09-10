@@ -153,19 +153,14 @@ const Timeline = React.createClass({
   },
 
   renderIssues() {
-    if (!this.props.openIssues) {
+    const openIssues = this.props.openIssues;
+    if (!openIssues) {
       return null;
     }
 
     const now = time.getServerTime();
     const maxOldestPermittedIssue = now - this.props.timeframe;
-    const issues = [];
-
-    this.props.openIssues.forEach(issue => {
-      if (issue.get('start') > maxOldestPermittedIssue) {
-        issues.push(issue);
-      }
-    });
+    const issues = openIssues.filter(issue => issue.get('start') > maxOldestPermittedIssue);
 
     const scale = this.state.scale.domain([now, maxOldestPermittedIssue]);
     return issues

@@ -1,0 +1,29 @@
+@import "~in-themes/less/constants.less";
+
+.in-notificationcenter-filter {
+
+  display: flex;
+  align-items: center;
+  margin: 0 1rem 0 1rem;
+  color: #aeb3b7;
+  opacity: 0.5;
+
+  &__selected {
+    opacity: 1;
+    color: white;
+  }
+
+  &:hover {
+    cursor: pointer;
+    color: white;
+
+    .in-notificationcenter-filter__icon {
+      color: white;
+    }
+  }
+
+  &__icon {
+    margin-right: 0.5rem;
+    font-size: 2rem;
+  }
+}

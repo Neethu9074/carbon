@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import Immutable from 'immutable';
 
@@ -13,7 +11,14 @@ import './Issues.less';
 const block = 'in-issue-count';
 
 const Issues = React.createClass({
-  mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
+
+  propTypes: {
+    onIssuesClicked: React.PropTypes.func
+  },
 
   getInitialState() {
     return {
@@ -39,7 +44,8 @@ const Issues = React.createClass({
     const color = this.getColor();
     return (
       <div className={block}
-           style={{color: color, borderColor: color}}>
+           style={{color: color, borderColor: color}}
+           onClick={this.props.onIssuesClicked}>
         <div className={block + '__count'}>
           {errorAndWarningCounts}
         </div>
