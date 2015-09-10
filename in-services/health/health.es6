@@ -28,12 +28,10 @@ export function mapSeverityToHealth(severity) {
  * @returns {string} the mapped color string
  */
 export function mapHealthToColor(healthToMap) {
-  switch (healthToMap) {
-    case health.warning:
-      return theme.health.warning;
-    case health.danger:
-      return theme.health.danger;
-    default:
-      return theme.health.ok;
+  if (healthToMap === health.danger) {
+    return theme.health.danger;
+  } else if (healthToMap === health.warning) {
+    return theme.health.warning;
   }
+  return theme.health.ok;
 }
