@@ -1,11 +1,37 @@
 import THREE from 'three';
 
+const frontFaceCubeVertices = [
+  //front
+  -1, 0, 1,
+  0, 0, 1,
+  0, 1, 1,
+
+  -1, 0, 1,
+  0, 1, 1,
+  -1, 1, 1,
+
+  //top
+  -1, 1, 1,
+  0, 1, 1,
+  0, 1, 0,
+
+  -1, 1, 1,
+  0, 1, 0,
+  -1, 1, 0,
+
+  //left
+  -1, 0, 0,
+  -1, 0, 1,
+  -1, 1, 0,
+
+  -1, 0, 1,
+  -1, 1, 1,
+  -1, 1, 0
+];
+
 //the basic geometry is a uniformed cube, where the pivot point is at the corner
-export const cubeGeometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
-for (let i = 0; i < cubeGeometry.vertices.length; i++) {
-  cubeGeometry.vertices[i].x -= 0.5;
-  cubeGeometry.vertices[i].y += 0.5;
-  cubeGeometry.vertices[i].z += 0.5;
-}
+export const cubeGeometry = new THREE.BufferGeometry();
+cubeGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(frontFaceCubeVertices), 3));
+cubeGeometry.attributes.position.needsUpdate = true;
 
 export const defaultGeometryMaterial = new THREE.MeshBasicMaterial();
