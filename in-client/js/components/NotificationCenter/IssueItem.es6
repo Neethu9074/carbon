@@ -2,6 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 import moment from 'moment';
 
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {extractCoordinates} from 'in-services/snapshots';
 import {getColorForIssue} from 'in-services/issueTracker';
 import Icon from 'in-components/Icon';
 
@@ -22,7 +24,8 @@ const IssueItem = React.createClass({
     const issue = this.props.issue;
 
     return (
-      <div className={block}>
+      <div className={block}
+           onClick={() => this.focusSnapshot(issue)}>
 
         <div className={block + '__header'}
              style={{color: getColorForIssue(issue)}}>
@@ -45,6 +48,11 @@ const IssueItem = React.createClass({
 
       </div>
     );
+  },
+
+  focusSnapshot(issue) {
+    const problemCoordinates = extractCoordinates(issue.get('problem'));
+    selectedSnapshotStore.select(problemCoordinates);
   }
 });
 
