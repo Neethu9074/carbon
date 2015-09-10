@@ -2,33 +2,41 @@
 
 .in-notificationcenter-filter {
 
+  display: flex;
+  align-items: center;
   margin: 0 1rem 0 1rem;
+  color: #aeb3b7;
+  opacity: 0.5;
 
-  &__icon--critical {
-    font-size: 2rem;
-    margin: 0 8px 0 0;
-    color: @health__danger;
-  }
-
-  &__icon--warning {
-    font-size: 2rem;
-    margin: 0 8px 0 0;
-    color: @health__warning;
-  }
-
-  &__icon--system {
-    font-size: 2rem;
-    margin: 0 8px 0 0;
-    color: @common__highlight-color;
+  &__selected {
+    opacity: 1;
   }
 
   &:hover {
     cursor: pointer;
+    color: white;
 
     .in-notificationcenter-filter__icon--critical,
     .in-notificationcenter-filter__icon--warning,
     .in-notificationcenter-filter__icon--system {
       color: white;
     }
+  }
+
+  &__icon {
+    margin-right: 0.5rem;
+    font-size: 2rem;
+  }
+
+  &__icon--critical {
+    color: @health__danger;
+  }
+
+  &__icon--warning {
+    color: @health__warning;
+  }
+
+  &__icon--system {
+    color: @common__highlight-color;
   }
 }

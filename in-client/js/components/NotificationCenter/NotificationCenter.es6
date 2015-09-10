@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
+import {mapSeverityToHealth, health} from 'in-services/health';
 import * as timelineStore from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
 import enhance from 'in-components/hoc/enhance';
@@ -37,7 +38,8 @@ const NotificationCenter = React.createClass({
 
   getInitialState() {
     return {
-      filterPredicate: () => true
+      filterPredicate: () => true,
+      selectedType: null
     };
   },
 
@@ -45,6 +47,9 @@ const NotificationCenter = React.createClass({
     const className = this.props.open ?
       block + ' ' + block + '__open' :
       block;
+
+    const selectedType = this.state.selectedType;
+    const counter = this.getIssuesCounter();
 
     return (
       <div className={className}>
@@ -57,10 +62,24 @@ const NotificationCenter = React.createClass({
         </div>
 
         <div className={block + '__status-bar'}>
-          <Filter setFilter={this.setFilter} type={'all'} />
-          <Filter setFilter={this.setFilter} count={1} type={'critical'} />
-          <Filter setFilter={this.setFilter} count={1} type={'warning'} />
-          <Filter setFilter={this.setFilter} count={1} type={'system'} />
+          <Filter onFilterSelected = {this.onFilterSelected}
+                  isSelected = {selectedType === 'all'}
+                  type = {'all'} />
+
+          <Filter onFilterSelected={this.onFilterSelected}
+                  isSelected = {selectedType === 'critical'}
+                  count={counter.errors}
+                  type={'critical'} />
+
+          <Filter onFilterSelected={this.onFilterSelected}
+                  isSelected = {selectedType === 'warning'}
+                  count={counter.warnings}
+                  type={'warning'} />
+
+          <Filter onFilterSelected={this.onFilterSelected}
+                  isSelected = {selectedType === 'system'}
+                  count={counter.commons}
+                  type={'system'} />
         </div>
 
         {this.renderIssues()}
@@ -68,8 +87,11 @@ const NotificationCenter = React.createClass({
     );
   },
 
-  setFilter(predicate) {
-    this.setState({ filterPredicate: predicate });
+  onFilterSelected(type, predicate) {
+    this.setState({
+      filterPredicate: predicate,
+      selectedType: type
+    });
   },
 
   renderIssues() {
@@ -81,7 +103,38 @@ const NotificationCenter = React.createClass({
     const filter = this.state.filterPredicate;
     const issues = allIssues.filter(issue => filter(issue));
 
-    return <IssueItemList issues={issues} />;
+    return (<IssueItemList issues={issues} />);
+  },
+
+  getIssuesCounter() {
+    const allIssues = this.props.allIssues;
+
+    let errors = 0;
+    let warnings = 0;
+    let commons = 0;
+    if (!allIssues) {
+      return { errors, warnings, commons };
+    }
+
+    allIssues.forEach(issue => {
+      const issueHealth = mapSeverityToHealth(issue.getIn(['problem', 'severity']));
+      if (!issueHealth) {
+        return;
+      }
+
+      switch (issueHealth) {
+        case health.danger:
+          errors++;
+          break;
+        case health.warning:
+          warnings++;
+          break;
+        default:
+          commons++;
+      }
+    });
+
+    return { errors, warnings, commons };
   }
 });
 
