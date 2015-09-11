@@ -36,6 +36,8 @@ gulp.task('dev', function(cb) {
     ],
     'startDevBackendServer',
     'enableDevWatches',
+    // TODO Start proxy server and make sure dev backend server requests index js via proxy
+    // and supports theme from index.css - no matter the chosen css.
     'webpack:dev',
     cb
   );
