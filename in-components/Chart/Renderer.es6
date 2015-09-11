@@ -18,6 +18,7 @@ const maxReducer = (max, dataRow) => Math.max(dataRow.y, max);
 
 const desiredFps = 24;
 const timeBetweenUpdatesInMillis = 1000 / desiredFps;
+const maxWidth = 1250;//px
 
 export default class Renderer {
 
@@ -115,7 +116,7 @@ export default class Renderer {
         // TODO yak! Improve width calculation after alpha
         this.chartContentContainer.style.display = 'none';
         this.setDimensions({
-          width: this.widthCalculationElement.clientWidth, height
+          width: window.innerWidth < maxWidth ? maxWidth : this.widthCalculationElement.clientWidth, height
         });
         this.chartContentContainer.style.display = 'block';
       });
