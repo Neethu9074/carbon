@@ -11,8 +11,7 @@
     "eslint": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js",
     "eslintOne": "eslint --ext .es6 ",
     "test": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.ts' -o -name '*_test.es6')",
-    "dev": "export BUILD_DEV='false' && export NODE_ENV='development' && gulp dev",
-    "dev-server": "nodemon --exec babel-node --watch in-server in-server"
+    "dev": "export BUILD_DEV='false' && export NODE_ENV='development' && gulp dev"
   },
   "repository": {
     "type": "git",
