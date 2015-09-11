@@ -3,6 +3,8 @@
 
 'use strict';
 
+var fs = require('fs');
+var os = require('os');
 var util = require('util');
 var path = require('path');
 var execSync = require('child_process').execSync;
@@ -38,4 +40,23 @@ exports.setActiveTheme = function setActiveTheme(themeName) {
   const themeBaseName = path.join(paths.assetDir, themeName, 'config');
   execSync('ln -s ' + themeBaseName + '.json ' + paths.activeThemeJsonFile);
   execSync('ln -s ' + themeBaseName + '.less ' + paths.activeThemeLessFile);
+};
+
+
+exports.startProxrox = function startProxrox(config) {
+  var configLocation = path.join(os.tmpdir(), '.proxrox.json');
+  fs.writeFileSync(configLocation, JSON.stringify(config, 0, 2));
+
+  var executable = path.join(paths.rootDir, 'node_modules', '.bin', 'proxrox');
+  execSync(executable + ' stop', {
+    stdio: 'inherit'
+  });
+  execSync(executable + ' start ' + configLocation, {
+    stdio: 'inherit'
+  });
+};
+
+
+exports.openBrowser = function openBrowser(url) {
+  execSync('open ' + url);
 };

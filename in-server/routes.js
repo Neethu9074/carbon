@@ -3,7 +3,7 @@ import Handlebars from 'handlebars';
 import fs from 'fs';
 import path from 'path';
 
-// import {getChecksumForFile} from './checksum';
+import {getChecksumForFile} from './checksum';
 
 const router = express.Router();
 export default router;
@@ -18,20 +18,18 @@ const compiledTemplate = Handlebars.compile(rawTemplate);
 const assetDir = path.join(__dirname, 'assets');
 const bundleDir = path.join(assetDir, 'bundle');
 
-// const indexJsChecksum = getChecksumForFile(path.join(bundleDir, 'index.js'));
-// const themes = fs.readdirSync(bundleDir)
-//   .reduce((themeHashes, fileName) => {
-//     const match = fileName.match(/^theme-(\w+)\.css$/);
-//     if (match) {
-//       themeHashes[match[1]] = {
-//         fileName,
-//         checksum: getChecksumForFile(path.join(bundleDir, fileName))
-//       };
-//     }
-//     return themeHashes;
-//   }, {});
-
-// console.log(themes);
+const indexJsChecksum = getChecksumForFile(path.join(bundleDir, 'index.js'));
+const themes = fs.readdirSync(bundleDir)
+  .reduce((themeHashes, fileName) => {
+    const match = fileName.match(/^theme-(\w+)\.css$/);
+    if (match) {
+      themeHashes[match[1]] = {
+        fileName,
+        checksum: getChecksumForFile(path.join(bundleDir, fileName))
+      };
+    }
+    return themeHashes;
+  }, {});
 
 // assets directory will be populated with generated JavaScript during the build process.
 router.use(express.static(assetDir));
@@ -40,8 +38,8 @@ router.use(express.static(assetDir));
 router.get('/', (req, res) => {
   // TODO determine active theme based on cookie and set active theme in response
   res.send(compiledTemplate({
-    // indexJsChecksum,
-    // themes
+    indexJsChecksum,
+    themes
   }));
 });
 

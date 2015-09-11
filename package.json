@@ -6,7 +6,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "postinstall": "./build/postInstall",
-    "clean": "rm -rf target",
+    "clean": "gulp clean",
     "build": "export BUILD_DEV='false' && gulp build",
     "eslint": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js",
     "eslintOne": "eslint --ext .es6 ",

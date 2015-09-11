@@ -5,8 +5,9 @@
 
 var path = require('path');
 var gulp = require('gulp');
-var gutil = require('gulp-util');
+var nodemon = require('nodemon');
 var size = require('gulp-size');
+var gutil = require('gulp-util');
 var webpack = require('webpack');
 var runSequence = require('run-sequence');
 var minifyCss = require('gulp-minify-css');
@@ -27,6 +28,12 @@ gulp.task('build', function(cb) {
     cb
   );
 });
+
+
+gulp.task('copyServerSources', function() {
+  return gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest(paths.targetDir));
+});
+
 
 
 gulp.task('minifyCss', function() {
@@ -89,4 +96,17 @@ gulp.task('webpack:build', function(callback) {
       cb();
     });
   }
+});
+
+
+gulp.task('startDevBackendServer', function() {
+  nodemon({
+    script: path.join(paths.targetDir, 'index.js'),
+    execMap: {
+      js: path.join(paths.rootDir, 'node_modules', '.bin', 'babel-node')
+    },
+    watch: [
+      paths.targetDir
+    ]
+  });
 });

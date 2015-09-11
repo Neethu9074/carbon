@@ -13,10 +13,12 @@ paths.assetDir = path.join(paths.targetDir, 'assets');
 paths.bundleDir = path.join(paths.assetDir, 'bundle');
 
 // ## Source Files:
+paths.devIndexHtmlSrc = path.join(paths.rootDir, 'in-client', 'index.html');
 paths.faviconSrc = path.join(paths.rootDir, 'in-client', 'favicon.png');
 paths.allServerSourcesSelector = path.join(paths.rootDir, 'in-server', '**/*');
 
 // ## Target Files:
+paths.devIndexHtmlTarget = path.join(paths.assetDir, 'index.html');
 paths.activeThemeJsonFile = path.join(paths.rootDir, 'in-themes', 'active.json');
 paths.activeThemeLessFile = path.join(paths.rootDir, 'in-themes', 'active.less');
 paths.buildInfoFileLocation = path.join(paths.assetDir, 'build.json');

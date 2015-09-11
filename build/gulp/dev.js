@@ -6,7 +6,6 @@
 var fs = require('fs');
 var gulp = require('gulp');
 var path = require('path');
-var nodemon = require('nodemon');
 var runSequence = require('run-sequence');
 var inquirer = require('inquirer');
 var webpack = require('webpack');
@@ -29,15 +28,14 @@ gulp.task('dev', function(cb) {
     [
       'copyFavicon',
       'writeBuildInfo',
-      'copyServerSources',
       'translateThemeConfigs',
       'setActiveThemeForDevMode',
-      'writeDevConfigFile'
+      'copyDevIndexHtml',
+      'writeDevConfigFile',
+      'startDevProxy',
+      'openDevUrlInBrowser'
     ],
-    'startDevBackendServer',
     'enableDevWatches',
-    // TODO Start proxy server and make sure dev backend server requests index js via proxy
-    // and supports theme from index.css - no matter the chosen css.
     'webpack:dev',
     cb
   );
@@ -115,6 +113,12 @@ gulp.task('writeDevConfigFile', function() {
 });
 
 
+gulp.task('copyDevIndexHtml', function() {
+  return gulp.src(paths.devIndexHtmlSrc)
+    .pipe(gulp.dest(paths.assetDir));
+});
+
+
 gulp.task('setActiveThemeForDevMode', function() {
   buildUtil.setActiveTheme(devModeOptions.activeTheme);
 });
@@ -129,21 +133,44 @@ gulp.task('enableDevWatches', function() {
     path.join(paths.rootDir, 'node_modules/instana-ui-theme/dist/**/*')
   ];
   gulp.watch(themeFiles, ['translateThemeConfigs']);
+
+  gulp.watch(paths.devIndexHtmlSrc, ['copyDevIndexHtml']);
   gulp.watch(paths.faviconSrc, ['copyFavicon']);
-  gulp.watch(paths.allServerSourcesSelector, ['copyServerSources']);
 });
 
 
-gulp.task('startDevBackendServer', function() {
-  nodemon({
-    script: path.join(paths.targetDir, 'index.js'),
-    execMap: {
-      js: path.join(paths.rootDir, 'node_modules', '.bin', 'babel-node')
+gulp.task('startDevProxy', function() {
+  var envConfig = environments[devModeOptions.environment];
+  var uiBackendUrl = envConfig.uiBackendUrl;
+  var groundskeeperUrl = envConfig.groundskeeperUrl;
+  var instagrafanaUrl = 'https://monitoring-instana.instana.io/api/internal';
+
+  var config = {
+    serverName: 'local-instana.instana.io',
+    port: 4000,
+    root: paths.assetDir,
+    ssi: true,
+    tls: true,
+    proxy: {
+      '/': 'http://127.0.0.1:3000',
+      '/auth/signIn': groundskeeperUrl + '/signIn',
+      '/auth/signOut': groundskeeperUrl + '/signOut',
+      '/auth/users/current': groundskeeperUrl + '/users/current',
+      '/internal/api': instagrafanaUrl + 'api',
+      '/uiTracker/': 'http://127.0.0.1:8484/'
     },
-    watch: [
-      paths.targetDir
-    ]
-  });
+
+    websocketProxy: {
+      '/api/data': uiBackendUrl + '/data'
+    }
+  };
+
+  buildUtil.startProxrox(config);
+});
+
+
+gulp.task('openDevUrlInBrowser', function() {
+  buildUtil.openBrowser('https://local-instana.instana.io:4000');
 });
 
 
