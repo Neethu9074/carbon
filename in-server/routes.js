@@ -36,9 +36,15 @@ router.use(express.static(assetDir));
 
 
 router.get('/', (req, res) => {
-  // TODO determine active theme based on cookie and set active theme in response
-  const theme = 'night';
+  // extract enabled theme from cookie. Might move to a backend component at some
+  // point in the future.
+  const enabledTheme = req.cookies['in-theme'];
+  let theme = 'night';
+  if (enabledTheme in themes) {
+    theme = enabledTheme;
+  }
   const themeChecksum = themes[theme].checksum;
+
   res.send(compiledTemplate({
     indexJsChecksum,
     theme,
