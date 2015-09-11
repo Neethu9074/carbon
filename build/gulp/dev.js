@@ -21,6 +21,18 @@ var environments = require('./environments');
 // will be populated with data using the askForDevOptions task
 var devModeOptions;
 
+
+gulp.task('prepareTestExecution', function(cb) {
+  runSequence(
+    'clean',
+    'ensureTargetDirStructureExists',
+    'translateThemeConfigs',
+    'setActiveThemeForTestExecution',
+    cb
+  );
+});
+
+
 gulp.task('dev', function(cb) {
   runSequence(
     'askForDevOptions',
@@ -105,6 +117,11 @@ gulp.task('writeDevConfigFile', function() {
 gulp.task('copyDevIndexHtml', function() {
   return gulp.src(paths.devIndexHtmlSrc)
     .pipe(gulp.dest(paths.assetDir));
+});
+
+
+gulp.task('setActiveThemeForTestExecution', function() {
+  buildUtil.setActiveTheme('night');
 });
 
 
