@@ -129,7 +129,7 @@ gulp.task('setActiveThemeForDevMode', function() {
   buildUtil.setActiveTheme(devModeOptions.activeTheme);
 
   var activeThemeConfig = path.join(paths.assetDir, 'activeTheme.json');
-  execSync('ln -s ' + paths.activeThemeJsonFile + ' ' + activeThemeConfig);
+  execSync('ln -s "' + paths.activeThemeJsonFile + '" "' + activeThemeConfig + '"');
   fs.writeFileSync(
     path.join(paths.assetDir, 'activeTheme.name'),
     devModeOptions.activeTheme

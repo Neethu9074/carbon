@@ -113,7 +113,7 @@ gulp.task('webpack:build', function(callback) {
 
       const generatedCssFile = path.join(paths.bundleDir, 'index.css');
       const renamedThemeFile = path.join(paths.bundleDir, 'theme-' + themeName + '.css');
-      execSync('mv ' + generatedCssFile + ' ' + renamedThemeFile);
+      execSync('mv "' + generatedCssFile + '" "' + renamedThemeFile + '"');
       cb();
     });
   }
@@ -160,7 +160,12 @@ gulp.task('writeTryBuildConfigFile', function() {
 
 
 gulp.task('startTryBuildServer', function() {
-  execSync(path.join(paths.binDir, 'babel-node') + ' ' + path.join(paths.targetDir, 'index.js'));
+  execSync(
+    '"' + path.join(paths.binDir, 'babel-node') +
+    '" "' +
+    path.join(paths.targetDir, 'index.js') +
+    '"'
+  );
 });
 
 

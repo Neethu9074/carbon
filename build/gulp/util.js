@@ -34,12 +34,12 @@ exports.getRevision = function getRevision() {
 
 
 exports.setActiveTheme = function setActiveTheme(themeName) {
-  execSync('rm -f ' + paths.activeThemeLessFile);
-  execSync('rm -f ' + paths.activeThemeJsonFile);
+  execSync('rm -f "' + paths.activeThemeLessFile + '"');
+  execSync('rm -f "' + paths.activeThemeJsonFile + '"');
 
   const themeBaseName = path.join(paths.assetDir, themeName, 'config');
-  execSync('ln -s ' + themeBaseName + '.json ' + paths.activeThemeJsonFile);
-  execSync('ln -s ' + themeBaseName + '.less ' + paths.activeThemeLessFile);
+  execSync('ln -s "' + themeBaseName + '.json" "' + paths.activeThemeJsonFile + '"');
+  execSync('ln -s "' + themeBaseName + '.less" "' + paths.activeThemeLessFile + '"');
 };
 
 
@@ -48,17 +48,17 @@ exports.startProxrox = function startProxrox(config) {
   fs.writeFileSync(configLocation, JSON.stringify(config, 0, 2));
 
   var executable = path.join(paths.rootDir, 'node_modules', '.bin', 'proxrox');
-  execSync(executable + ' stop', {
+  execSync('"' + executable + '" stop', {
     stdio: 'inherit'
   });
-  execSync(executable + ' start ' + configLocation, {
+  execSync('"' + executable + '" start "' + configLocation + '"', {
     stdio: 'inherit'
   });
 };
 
 
 exports.openBrowser = function openBrowser(url) {
-  execSync('open ' + url);
+  execSync('open "' + url + '"');
 };
 
 
