@@ -23,6 +23,10 @@ http {
 
   limit_req_zone             $binary_remote_addr zone=onePerSecond:10m rate=1r/s;
 
+  upstream localNodeInstance {
+    server                   127.0.0.1:3131;
+  }
+
   upstream api {
     server                   {{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}};
   }
@@ -100,7 +104,11 @@ http {
     }
 
     location ~* ^(/|/index\.html)$ {
-      root                   /opt/www;
+      proxy_pass             http://localNodeInstance;
+      proxy_http_version     1.1;
+      proxy_set_header       Upgrade $http_upgrade;
+      proxy_set_header       Connection "upgrade";
+
       add_header             Cache-Control "private, no-cache, no-store, must-revalidate, max-age=0";
       add_header             X-Frame-Options deny;
       add_header             X-Content-Type-Options nosniff;
@@ -113,9 +121,10 @@ http {
     }
 
     location / {
-      root                   /opt/www;
-      autoindex              off;
-      try_files              $uri $uri/index.html $uri/ =404;
+      proxy_pass             http://localNodeInstance;
+      proxy_http_version     1.1;
+      proxy_set_header       Upgrade $http_upgrade;
+      proxy_set_header       Connection "upgrade";
     }
 
     location /api/data {
