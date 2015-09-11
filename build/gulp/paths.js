@@ -11,6 +11,7 @@ paths.rootDir = path.join(__dirname, '..', '..');
 paths.targetDir = path.join(paths.rootDir, 'target');
 paths.assetDir = path.join(paths.targetDir, 'assets');
 paths.bundleDir = path.join(paths.assetDir, 'bundle');
+paths.binDir = path.join(paths.rootDir, 'node_modules', '.bin');
 
 // ## Source Files:
 paths.devIndexHtmlSrc = path.join(paths.rootDir, 'in-client', 'index.html');

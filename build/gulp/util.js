@@ -60,3 +60,19 @@ exports.startProxrox = function startProxrox(config) {
 exports.openBrowser = function openBrowser(url) {
   execSync('open ' + url);
 };
+
+
+exports.writeDevModeConfig = function writeDevModeConfig(environment) {
+  var devConfig = {
+    environment: environment,
+    keys: {
+      xing: 'ecf760e609c548a8293d',
+      linkedin: '77k38emu8xnsrk',
+      google: '904562349505-fs9mmg5crd9kdk2v0fbmv6oc79jj3djv.apps.googleusercontent.com'
+    }
+  };
+  fs.writeFileSync(
+    path.join(paths.assetDir, 'config.json'),
+    JSON.stringify(devConfig)
+  );
+};

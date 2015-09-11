@@ -5,17 +5,23 @@
 
 var path = require('path');
 var gulp = require('gulp');
-var nodemon = require('nodemon');
 var size = require('gulp-size');
 var gutil = require('gulp-util');
 var webpack = require('webpack');
+var inquirer = require('inquirer');
 var runSequence = require('run-sequence');
 var minifyCss = require('gulp-minify-css');
 var execSync = require('child_process').execSync;
 
 var webpackConfig = require('../../webpack.config.js');
+var environments = require('./environments');
 var buildUtil = require('./util');
 var paths = require('./paths');
+
+
+// will be populated with data using the identifyTryBuildTargetEnvironment task
+var tryBuildModeOptions;
+
 
 gulp.task('build', function(cb) {
   runSequence(
@@ -25,6 +31,21 @@ gulp.task('build', function(cb) {
     'webpack:build',
     'minifyCss',
     'printFileStatistics',
+    cb
+  );
+});
+
+
+gulp.task('try-build', function(cb) {
+  runSequence(
+    'identifyTryBuildTargetEnvironment',
+    'build',
+    [
+      'startTryBuildProxy',
+      'openTryBuildUrlInBrowser',
+      'writeTryBuildConfigFile'
+    ],
+    'startTryBuildServer',
     cb
   );
 });
@@ -99,14 +120,80 @@ gulp.task('webpack:build', function(callback) {
 });
 
 
-gulp.task('startDevBackendServer', function() {
-  nodemon({
-    script: path.join(paths.targetDir, 'index.js'),
-    execMap: {
-      js: path.join(paths.rootDir, 'node_modules', '.bin', 'babel-node')
+gulp.task('identifyTryBuildTargetEnvironment', function(cb) {
+  var questions = [
+    {
+      type: 'list',
+      name: 'environment',
+      message: 'Which environment would you like to run against?',
+      choices: Object.keys(environments).map(function(env) {
+        var config = environments[env];
+        return env + ' (' + config.user + ' / ' + config.pw + ')';
+      }),
+      filter: function(env) {
+        // extract environment name
+        return env.match(/(\w+)/)[1];
+      }
     },
-    watch: [
-      paths.targetDir
-    ]
+    {
+      type: 'list',
+      name: 'uiMode',
+      message: 'Mode of the UI?',
+      choices: [
+        'saas',
+        'demo'
+      ],
+      default: 'saas'
+    }
+  ];
+
+  inquirer.prompt(questions, function(selectedOptions) {
+    tryBuildModeOptions = selectedOptions;
+    cb();
   });
+});
+
+
+gulp.task('writeTryBuildConfigFile', function() {
+  buildUtil.writeDevModeConfig(tryBuildModeOptions.uiMode === 'saas' ? 'production' : 'demo');
+});
+
+
+gulp.task('startTryBuildServer', function() {
+  execSync(path.join(paths.binDir, 'babel-node') + ' ' + path.join(paths.targetDir, 'index.js'));
+});
+
+
+gulp.task('startTryBuildProxy', function() {
+  var envConfig = environments[tryBuildModeOptions.environment];
+  var uiBackendUrl = envConfig.uiBackendUrl;
+  var groundskeeperUrl = envConfig.groundskeeperUrl;
+  var instagrafanaUrl = 'https://monitoring-instana.instana.io/api/internal';
+
+  var config = {
+    serverName: 'local-instana.instana.io',
+    port: 4000,
+    root: false,
+    ssi: true,
+    tls: true,
+    proxy: {
+      '/': 'http://127.0.0.1:3131',
+      '/auth/signIn': groundskeeperUrl + '/signIn',
+      '/auth/signOut': groundskeeperUrl + '/signOut',
+      '/auth/users/current': groundskeeperUrl + '/users/current',
+      '/internal/api': instagrafanaUrl + 'api',
+      '/uiTracker/': 'http://127.0.0.1:8484/'
+    },
+
+    websocketProxy: {
+      '/api/data': uiBackendUrl + '/data'
+    }
+  };
+
+  buildUtil.startProxrox(config);
+});
+
+
+gulp.task('openTryBuildUrlInBrowser', function() {
+  buildUtil.openBrowser('https://local-instana.instana.io:4000');
 });
