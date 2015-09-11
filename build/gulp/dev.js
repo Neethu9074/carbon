@@ -6,6 +6,7 @@
 var fs = require('fs');
 var gulp = require('gulp');
 var path = require('path');
+var nodemon = require('nodemon');
 var runSequence = require('run-sequence');
 var inquirer = require('inquirer');
 
@@ -26,9 +27,11 @@ gulp.task('dev', function(cb) {
       'writeBuildInfo',
       'copyServerSources',
       'translateThemeConfigs',
-      'setActiveThemeForDevMode'
+      'setActiveThemeForDevMode',
+      'writeDevConfigFile'
     ],
-    'writeDevConfigFile',
+    'startDevBackendServer',
+    'enableDevWatches',
     cb
   );
 });
@@ -107,4 +110,31 @@ gulp.task('writeDevConfigFile', function() {
 
 gulp.task('setActiveThemeForDevMode', function() {
   buildUtil.setActiveTheme(devModeOptions.activeTheme);
+});
+
+
+gulp.task('enableDevWatches', function() {
+  const themeBase = path.join(paths.rootDir, 'in-themes');
+  const themeFiles = [
+    path.join(themeBase, 'common.js'),
+    path.join(themeBase, 'day.js'),
+    path.join(themeBase, 'night.js'),
+    path.join(paths.rootDir, 'node_modules/instana-ui-theme/dist/**/*')
+  ];
+  gulp.watch(themeFiles, ['translateThemeConfigs']);
+  gulp.watch(paths.faviconSrc, ['copyFavicon']);
+  gulp.watch(paths.allServerSourcesSelector, ['copyServerSources']);
+});
+
+
+gulp.task('startDevBackendServer', function() {
+  nodemon({
+    script: path.join(paths.targetDir, 'index.js'),
+    execMap: {
+      js: path.join(paths.rootDir, 'node_modules', '.bin', 'babel-node')
+    },
+    watch: [
+      paths.targetDir
+    ]
+  });
 });

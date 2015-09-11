@@ -14,6 +14,7 @@ paths.bundleDir = path.join(paths.assetDir, 'bundle');
 
 // ## Source Files:
 paths.faviconSrc = path.join(paths.rootDir, 'in-client', 'favicon.png');
+paths.allServerSourcesSelector = path.join(paths.rootDir, 'in-server', '**/*');
 
 // ## Target Files:
 paths.activeThemeJsonFile = path.join(paths.rootDir, 'in-themes', 'active.json');

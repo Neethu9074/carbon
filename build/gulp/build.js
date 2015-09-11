@@ -45,11 +45,6 @@ gulp.task('printFileStatistics', function() {
 });
 
 
-gulp.task('copyServerSources', function() {
-  gulp.src(path.join(paths.rootDir, 'in-server', '**/*')).pipe(gulp.dest('target/'));
-});
-
-
 gulp.task('webpack:build', function(callback) {
   // modify some webpack config options
   var config = Object.create(webpackConfig);

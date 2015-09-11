@@ -48,3 +48,8 @@ gulp.task('translateThemeConfigs', function() {
   buildTheme('day', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
   buildTheme('night', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
 });
+
+
+gulp.task('copyServerSources', function() {
+  gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest('target/'));
+});
