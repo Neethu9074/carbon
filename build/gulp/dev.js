@@ -3,6 +3,7 @@
 
 'use strict';
 
+var fs = require('fs');
 var gulp = require('gulp');
 var path = require('path');
 var runSequence = require('run-sequence');
@@ -10,6 +11,7 @@ var inquirer = require('inquirer');
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var gutil = require('gulp-util');
+var execSync = require('child_process').execSync;
 
 var webpackConfig = require('../../webpack.config.js');
 var paths = require('./paths');
@@ -108,6 +110,13 @@ gulp.task('copyDevIndexHtml', function() {
 
 gulp.task('setActiveThemeForDevMode', function() {
   buildUtil.setActiveTheme(devModeOptions.activeTheme);
+
+  var activeThemeConfig = path.join(paths.assetDir, 'activeTheme.json');
+  execSync('ln -s ' + paths.activeThemeJsonFile + ' ' + activeThemeConfig);
+  fs.writeFileSync(
+    path.join(paths.assetDir, 'activeTheme.name'),
+    devModeOptions.activeTheme
+  );
 });
 
 
