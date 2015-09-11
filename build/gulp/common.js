@@ -28,7 +28,7 @@ gulp.task('ensureTargetDirStructureExists', function() {
 
 
 gulp.task('copyFavicon', function() {
-  gulp.src(paths.faviconSrc).pipe(gulp.dest(paths.assetDir));
+  return gulp.src(paths.faviconSrc).pipe(gulp.dest(paths.assetDir));
 });
 
 
@@ -51,5 +51,5 @@ gulp.task('translateThemeConfigs', function() {
 
 
 gulp.task('copyServerSources', function() {
-  gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest('target/'));
+  return gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest(paths.targetDir));
 });

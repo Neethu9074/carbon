@@ -9,7 +9,11 @@ var path = require('path');
 var nodemon = require('nodemon');
 var runSequence = require('run-sequence');
 var inquirer = require('inquirer');
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var gutil = require('gulp-util');
 
+var webpackConfig = require('../../webpack.config.js');
 var paths = require('./paths');
 var buildUtil = require('./util');
 var environments = require('./environments');
@@ -32,6 +36,7 @@ gulp.task('dev', function(cb) {
     ],
     'startDevBackendServer',
     'enableDevWatches',
+    'webpack:dev',
     cb
   );
 });
@@ -137,4 +142,32 @@ gulp.task('startDevBackendServer', function() {
       paths.targetDir
     ]
   });
+});
+
+
+gulp.task('webpack:dev', function() {
+  // modify some webpack config options
+  var config = Object.create(webpackConfig);
+  config.devtool = 'eval';
+  config.debug = true;
+
+  // Start a webpack-dev-server
+  new WebpackDevServer(webpack(config), {
+    publicPath: '/bundle',
+    contentBase: 'target/assets/',
+    inline: true,
+    stats: {
+      colors: true
+    }
+  })
+  .listen(3000, 'localhost', function(err) {
+    if(err) {
+      throw new gutil.PluginError('webpack-dev-server', err);
+    }
+    gutil.log('[webpack:dev]', 'http://localhost:3000/');
+  });
+
+  // return a Promise so that Gulp knows that this task is going to
+  // continue to run asynchronously
+  return new Promise(function(){});
 });
