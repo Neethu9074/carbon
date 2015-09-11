@@ -83,8 +83,8 @@ module.exports = _.defaultsDeep({
   },
   map: {
     colors: {
-      renderClearGradient1: '#435964', //left bottom
-      renderClearGradient2: '#2B3F46', //top right
+      renderClearGradient1: '#eeeeee', //left bottom
+      renderClearGradient2: '#dddddd', //top right
       warning: colors.warning,
       critical: colors.danger,
       default: colors.default,
