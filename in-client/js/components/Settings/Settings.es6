@@ -4,6 +4,11 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
 import {askPermission} from 'in-services/notification';
 import * as tracking from 'in-services/tracking';
+import {
+  activeTheme as activeThemeObservable,
+  availableThemes,
+  setActiveTheme
+} from 'in-services/theme';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
 import Button from 'in-components/Button';
@@ -28,7 +33,8 @@ const Settings = React.createClass({
     return {
       inverseCheckboxChecked: false,
       antialiasValue: 'off',
-      speedSliderValue: 1
+      speedSliderValue: 1,
+      activeTheme: null
     };
   },
 
@@ -43,6 +49,10 @@ const Settings = React.createClass({
         antialiasValue: antialias ? antialias : 'off',
         desktopNotification: desktopNotification
       });
+    }));
+
+    this.addSubscription(activeThemeObservable.subscribe(activeTheme => {
+      this.setState({activeTheme});
     }));
   },
 
@@ -82,12 +92,16 @@ const Settings = React.createClass({
             {'FXAA'}
           </ComboBox>
 
-          <div>
-            <Button onClick={this.toggleDesktopNotifications}
-                    className={block + '__button-notifications'}>
-              {this.state.desktopNotification ? 'Disable Desktop Notifications' : 'Enable Desktop Notifications'}
-            </Button>
-          </div>
+          <ComboBox label={'Theme'}
+                    onChange={e => setActiveTheme(e.target.value)}
+                    defaultValue={this.state.activeTheme}>
+            {availableThemes.toArray()}
+          </ComboBox>
+
+          <Button onClick={this.toggleDesktopNotifications}
+                  className={block + '__button-notifications'}>
+            {this.state.desktopNotification ? 'Disable Desktop Notifications' : 'Enable Desktop Notifications'}
+          </Button>
 
         </div>
       </Dialog>
