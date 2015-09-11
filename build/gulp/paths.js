@@ -1,0 +1,23 @@
+/*eslint-env node*/
+/*eslint-disable no-var, strict, vars-on-top */
+
+'use strict';
+
+var path = require('path');
+
+var paths = module.exports = {};
+
+paths.rootDir = path.join(__dirname, '..', '..');
+paths.targetDir = path.join(paths.rootDir, 'target');
+paths.assetDir = path.join(paths.targetDir, 'assets');
+paths.bundleDir = path.join(paths.assetDir, 'bundle');
+
+// ## Source Files:
+paths.faviconSrc = path.join(paths.rootDir, 'in-client', 'favicon.png');
+
+// ## Target Files:
+paths.activeThemeJsonFile = path.join(paths.rootDir, 'in-themes', 'active.json');
+paths.activeThemeLessFile = path.join(paths.rootDir, 'in-themes', 'active.less');
+paths.buildInfoFileLocation = path.join(paths.assetDir, 'build.json');
+paths.generatedCssFileSelector = path.join(paths.bundleDir, 'theme-*.css');
+paths.javascriptEntryPointFile = path.join(paths.bundleDir, 'index.js');
