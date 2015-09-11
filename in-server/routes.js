@@ -23,9 +23,17 @@ const themes = fs.readdirSync(bundleDir)
   .reduce((themeHashes, fileName) => {
     const match = fileName.match(/^theme-(\w+)\.css$/);
     if (match) {
-      themeHashes[match[1]] = {
+      const themeName = match[1];
+      const config = fs.readFileSync(
+        path.join(__dirname, 'assets', themeName, 'config.json'),
+        {encoding: 'utf8'}
+      );
+      themeHashes[themeName] = {
         fileName,
-        checksum: getChecksumForFile(path.join(bundleDir, fileName))
+        checksum: getChecksumForFile(path.join(bundleDir, fileName)),
+        // parse & stringify to remove all extra whitespace. Basically "minify"
+        // the JSON.
+        config: JSON.stringify(JSON.parse(config))
       };
     }
     return themeHashes;
@@ -44,11 +52,13 @@ router.get('/', (req, res) => {
     theme = enabledTheme;
   }
   const themeChecksum = themes[theme].checksum;
+  const themeConfig = themes[theme].config;
 
   res.send(compiledTemplate({
     indexJsChecksum,
     theme,
-    themeChecksum
+    themeChecksum,
+    themeConfig
   }));
 });
 

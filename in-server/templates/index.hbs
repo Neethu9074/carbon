@@ -20,8 +20,9 @@
   <script>
     window.instana.build = <!--#include virtual="build.json" -->;
     window.instana.config = <!--#include virtual="config.json" -->;
+    window.instana.activeTheme = '{{theme}}';
+    window.instana.activeThemeConfig = {{{themeConfig}}};
   </script>
-
   <script>
     if (!window.instana.user || window.instana.user.error) {
       window.instana.user = null;
