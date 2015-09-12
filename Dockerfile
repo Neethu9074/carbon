@@ -55,7 +55,6 @@ COPY deployment/nginx.conf.j2 /etc/nginx/nginx.conf.j2
 COPY deployment/mime.types /etc/nginx/mime.types
 COPY deployment/.htpasswd /etc/nginx/.htpasswd
 COPY target /opt/www
-COPY node_modules /opt/www/node_modules
 COPY deployment/config.json.j2 /opt/www/config.json.j2
 COPY deployment/star_instana_io.crt /etc/ssl/certs/star_instana_io.crt
 COPY deployment/star_instana_io.key /opt/www/star_instana_io.key.j2

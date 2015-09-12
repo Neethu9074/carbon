@@ -5,3 +5,4 @@
 .npmrc
 /tmp
 /in-themes/active*
+/in-server/node_modules
