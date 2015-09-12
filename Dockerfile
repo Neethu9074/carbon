@@ -63,6 +63,6 @@ COPY deployment/dhgroup.pem /etc/ssl/dhgroup.pem
 CMD j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf && \
   j2 /opt/www/config.json.j2 > /opt/www/config.json && \
   j2 /opt/www/star_instana_io.key.j2 > /etc/ssl/private/star_instana_io.key && \
-  nginx && /opt/www/node_modules/.bin/babel-node /opt/www/index.js
+  nginx && /opt/www/node_modules/babel/bin/babel-node.js /opt/www/index.js
 
 EXPOSE 80 443
