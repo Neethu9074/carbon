@@ -1,6 +1,12 @@
 /*eslint-env node*/
 
 module.exports = {
+  test: {
+    user: 'stan@instana.com',
+    pw: '4711',
+    uiBackendUrl: 'https://test-instana.instana.io/api',
+    groundskeeperUrl: 'https://test-instana.instana.io/auth'
+  },
   monitoring: {
     user: 'stan@instana.com',
     pw: '4711',
@@ -12,12 +18,6 @@ module.exports = {
     pw: '4711',
     uiBackendUrl: 'https://demo.instana.io/api',
     groundskeeperUrl: 'https://demo.instana.io/auth'
-  },
-  test: {
-    user: 'stan@instana.com',
-    pw: '4711',
-    uiBackendUrl: 'https://test-instana.instana.io/api',
-    groundskeeperUrl: 'https://test-instana.instana.io/auth'
   },
   johan: {
     user: 'fromutome@yahoo.com',
