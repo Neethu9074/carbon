@@ -2,7 +2,9 @@ import express from 'express';
 import Handlebars from 'handlebars';
 import fs from 'fs';
 import path from 'path';
+import uuid from 'node-uuid';
 
+import config from './assets/config.json';
 import {getChecksumForFile} from './checksum';
 
 const router = express.Router();
@@ -24,7 +26,7 @@ const themes = fs.readdirSync(bundleDir)
     const match = fileName.match(/^theme-(\w+)\.css$/);
     if (match) {
       const themeName = match[1];
-      const config = fs.readFileSync(
+      const themeConfig = fs.readFileSync(
         path.join(__dirname, 'assets', themeName, 'config.json'),
         {encoding: 'utf8'}
       );
@@ -33,7 +35,7 @@ const themes = fs.readdirSync(bundleDir)
         checksum: getChecksumForFile(path.join(bundleDir, fileName)),
         // parse & stringify to remove all extra whitespace. Basically "minify"
         // the JSON.
-        config: JSON.stringify(JSON.parse(config))
+        config: JSON.stringify(JSON.parse(themeConfig))
       };
     }
     return themeHashes;
@@ -54,11 +56,29 @@ router.get('/', (req, res) => {
   const themeChecksum = themes[theme].checksum;
   const themeConfig = themes[theme].config;
 
+  // doing this exactly four times as the template requires four nonces
+  const nonces = [
+    uuid.v4(),
+    uuid.v4(),
+    uuid.v4(),
+    uuid.v4()
+  ];
+
+  // in demo mode we are relying on Google, Facebook and Xing sign in scripts.
+  // They wreak all kinds of havoc, have inline scripts, JavaScript URLs and
+  // more stuff that is just totally incompatible with CSP :-(
+  if (config.environment !== 'demo') {
+    res.set(
+      'Content-Security-Policy',
+      "script-src 'self' " + nonces.map(n => "'nonce-" + n + "'").join(' ')
+    );
+  }
   res.send(compiledTemplate({
     indexJsChecksum,
     theme,
     themeChecksum,
-    themeConfig
+    themeConfig,
+    nonces
   }));
 });
 

@@ -11,19 +11,19 @@
 
   <title>Instana</title>
 
-  <script>
+  <script nonce="{{nonces.[0]}}">
     window.instana = {};
   </script>
-  <script>
+  <script nonce="{{nonces.[1]}}">
     window.instana.user = <!--#include virtual="/auth/users/current" -->;
   </script>
-  <script>
+  <script nonce="{{nonces.[2]}}">
     window.instana.build = <!--#include virtual="build.json" -->;
     window.instana.config = <!--#include virtual="config.json" -->;
     window.instana.activeTheme = '{{theme}}';
     window.instana.activeThemeConfig = {{{themeConfig}}};
   </script>
-  <script>
+  <script nonce="{{nonces.[3]}}">
     if (!window.instana.user || window.instana.user.error) {
       window.instana.user = null;
     }
