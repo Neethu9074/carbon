@@ -24,7 +24,6 @@ var devModeOptions;
 
 gulp.task('prepareTestExecution', function(cb) {
   runSequence(
-    'clean',
     'ensureTargetDirStructureExists',
     'translateThemeConfigs',
     'setActiveThemeForTestExecution',
