@@ -84,7 +84,7 @@ const Settings = React.createClass({
                   max={20}
                   defaultValue={this.state.speedSliderValue}/>
 
-          <ComboBox label={'Antialias'}
+          <ComboBox label='Antialias'
                     onChange={this.antialiasChanged}
                     defaultValue={this.state.antialiasValue}>
             {'off'}
@@ -92,7 +92,7 @@ const Settings = React.createClass({
             {'FXAA'}
           </ComboBox>
 
-          <ComboBox label={'Theme'}
+          <ComboBox label='Theme (requires browser refresh)'
                     onChange={e => setActiveTheme(e.target.value)}
                     defaultValue={this.state.activeTheme}>
             {availableThemes.toArray()}
