@@ -12,7 +12,7 @@
     "eslint": "eslint --ext .es6 in-* gulpfile.js in-themes/js/index.js",
     "eslintOne": "eslint --ext .es6 ",
     "test": "gulp prepareTestExecution && eslint --ext .es6 in-* gulpfile.js && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.ts' -o -name '*_test.es6')",
-    "dev": "export BUILD_DEV='false' && export NODE_ENV='development' && gulp dev"
+    "dev": "export BUILD_DEV='true' && export NODE_ENV='development' && gulp dev"
   },
   "repository": {
     "type": "git",
