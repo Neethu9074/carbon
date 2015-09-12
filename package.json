@@ -60,7 +60,7 @@
     "gulp-cached": "^1.0.2",
     "gulp-minify-css": "^1.2.1",
     "gulp-rename": "^1.2.2",
-    "gulp-size": "^1.2.0",
+    "gulp-size": "^2.0.0",
     "gulp-util": "^3.0.3",
     "html-loader": "^0.3.0",
     "inquirer": "^0.9.0",
