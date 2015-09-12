@@ -85,7 +85,11 @@ http {
     location ~* \.js\.map$ {
       auth_basic             "Restricted";
       auth_basic_user_file   .htpasswd;
-      root                   /opt/www;
+
+      proxy_pass             http://localNodeInstance;
+      proxy_http_version     1.1;
+      proxy_set_header       Upgrade $http_upgrade;
+      proxy_set_header       Connection "upgrade";
     }
     {% endif %}
 
@@ -99,7 +103,11 @@ http {
    }
 
     location /bundle {
-      root                   /opt/www;
+      proxy_pass             http://localNodeInstance;
+      proxy_http_version     1.1;
+      proxy_set_header       Upgrade $http_upgrade;
+      proxy_set_header       Connection "upgrade";
+
       expires                max;
     }
 
