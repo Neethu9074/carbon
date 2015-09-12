@@ -8,7 +8,7 @@ var path = require('path');
 var gulp = require('gulp');
 var del = require('del');
 var mkdirp = require('mkdirp');
-var buildTheme = require('instana-ui-theme/build/translateTheme');
+var execSync = require('child_process').execSync;
 
 var buildUtil = require('./util');
 
@@ -48,3 +48,16 @@ gulp.task('translateThemeConfigs', function() {
   buildTheme('day', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
   buildTheme('night', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
 });
+
+
+function buildTheme(themeName, sourceDir, targetDir) {
+  var script = path.join(
+    paths.rootDir,
+    'node_modules',
+    'instana-ui-theme',
+    'build',
+    'translateTheme.js'
+  );
+
+  execSync('node "' + script + '" "' + themeName + '" "' + sourceDir + '" "' + targetDir + '"');
+}
