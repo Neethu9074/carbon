@@ -9,6 +9,7 @@ process.env.TZ = 'Europe/Berlin';
 var chai = require('chai');
 var jsdom = require('jsdom');
 var setupWebSocketGlobals = require('../in-test/setupWebSocketGlobals');
+var setupThemeGlobals = require('../in-test/setupThemeGlobals');
 
 chai.use(require('chai-string'));
 chai.use(require('chai-subset'));
@@ -37,6 +38,9 @@ require('typescript-require');
 global.document = jsdom.jsdom('<html><head></head><body></body></html>');
 global.window = global.document.defaultView;
 global.navigator = global.window.navigator;
+
+// ensure that the theme information is defined
+setupThemeGlobals();
 
 // many tests import a whole bunch of modules and at some point this always
 // ends up in in-services/connection (which requirs WebSocket globals).
