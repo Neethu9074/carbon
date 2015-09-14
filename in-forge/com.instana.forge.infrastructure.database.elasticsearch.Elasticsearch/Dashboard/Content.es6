@@ -4,6 +4,8 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
+import ResponsiveTable from 'in-components/ResponsiveTable';
+
 import {formatBytes} from 'in-services/converters';
 import classnames from 'in-services/util/classnames';
 import DashboardSection from 'in-components/DashboardSection';
@@ -88,7 +90,7 @@ const ElasticsearchDashboard = React.createClass({
             </div>
           : null}
 
-          <table className='in-subtle-table in-subtle-table--clickable'>
+          <ResponsiveTable isClickable={true}>
             <thead>
               <tr>
                 <th>Index</th>
@@ -116,7 +118,7 @@ const ElasticsearchDashboard = React.createClass({
                 </tr>
               ).valueSeq()}
             </tbody>
-          </table>
+          </ResponsiveTable>
         </DashboardSection>
 
         <DashboardSection title='Refresh and Flush'>

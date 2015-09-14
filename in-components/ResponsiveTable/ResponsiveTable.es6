@@ -10,14 +10,23 @@ const Button = React.createClass({
 
   propTypes: {
     className: rpt.string,
-    style: rpt.object,
+    isClickable: rpt.bool,
     children: rpt.any.isRequired
   },
 
   render() {
+    let classes = block + '__table';
+
+    if (this.props.className) {
+      classes += ' ' + this.props.className;
+    }
+
+    if(this.props.isClickable){
+      classes += ' ' + block + '__table__clickable';
+    }
     return (
       <div className={block}>
-        <table className={block + '__table ' + block + '__clickable'}>
+        <table className={classes}>
           {this.props.children}
         </table>
       </div>

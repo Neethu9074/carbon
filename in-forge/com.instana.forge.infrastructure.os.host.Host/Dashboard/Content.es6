@@ -132,7 +132,7 @@ const OsDashboard = React.createClass({
                        }}/>
               </div>
             : null}
-            <ResponsiveTable>
+            <ResponsiveTable isClickable={true}>
               <thead>
                 <tr>
                   <th></th>
@@ -236,7 +236,7 @@ const OsDashboard = React.createClass({
             </div>
           : null}
 
-          <ResponsiveTable>
+          <ResponsiveTable isClickable={true}>
             <thead>
               <tr>
                 <th>Device</th>
@@ -330,7 +330,7 @@ const OsDashboard = React.createClass({
             </div>
           : null}
 
-          <ResponsiveTable>
+          <ResponsiveTable isClickable={true}>
             <thead>
               <tr>
                 <th></th>
