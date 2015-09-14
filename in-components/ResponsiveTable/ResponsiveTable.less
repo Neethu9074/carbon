@@ -1,36 +1,39 @@
 .in-responsive-table {
-  width: 100%;
 
-  border-spacing: 0 2px;
-
-  th, td {
-    padding: 7px;
+  /** currently, 1250px is exactly the point where the first table needs to be scrollable **/
+  @media only screen and (max-width: 1250px)  {
+    overflow-x: scroll;
   }
 
-  th {
-    color: #84a0ae;
-    font-size: 11px;
-    text-align: left;
-    text-transform: uppercase;
-  }
+  &__table {
+    width: 100%;
 
-  td {
-    background: rgba(255, 255, 255, 0.04);
-    font-size: 14px;
-  }
+    border-spacing: 0 2px;
 
-  tr.active td {
-    background: rgba(255, 255, 255, 0.2);
-  }
+    th, td {
+      padding: 7px;
+    }
 
-  &--clickable tr:hover td {
-    background: rgba(255, 255, 255, 0.2);
-    cursor: pointer;
-  }
+    th {
+      color: #84a0ae;
+      font-size: 11px;
+      text-align: left;
+      text-transform: uppercase;
+    }
 
+    td {
+      background: rgba(255, 255, 255, 0.04);
+      font-size: 14px;
+    }
+
+    tr.active td {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &__clickable tr:hover td {
+      background: rgba(255, 255, 255, 0.2);
+      cursor: pointer;
+    }
+  }
 }
 
-/** currently, 1250px is exactly the point where the first table needs to be scrollable **/
-@media only screen and (max-width: 1250px)  {
-  .in-responsive-table-wrapper { overflow-x: scroll; }
-}

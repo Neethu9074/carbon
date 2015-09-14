@@ -3,7 +3,7 @@ import React from 'react/addons';
 import './ResponsiveTable.less';
 
 const rpt = React.PropTypes;
-const block = 'in-responsive-table-wrapper';
+const block = 'in-responsive-table';
 
 const Button = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -17,7 +17,7 @@ const Button = React.createClass({
   render() {
     return (
       <div className={block}>
-        <table className='in-responsive-table in-responsive-table--clickable'>
+        <table className={block + '__table ' + block + '__clickable'}>
           {this.props.children}
         </table>
       </div>
