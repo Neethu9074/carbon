@@ -20,7 +20,7 @@ const JVMInfo = React.createClass({
     return (
       <DescriptionList>
         <DescriptionItem title='Java Version'>
-          {data.get('jvm.version')}{'.'}
+          {data.get('jvm.version')}{' '}
           {data.get('jvm.build')}
         </DescriptionItem>
 
