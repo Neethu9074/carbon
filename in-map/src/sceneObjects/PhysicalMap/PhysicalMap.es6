@@ -38,7 +38,7 @@ export default class PhysicalMap extends SceneObject {
       map: this.getGroundTexture(),
       transparent: true,
       depthWrite: false,
-      color: new THREE.Color(50, 50, 50)
+      color: new THREE.Color(0.5, 0.57, 0.6)
     });
 
     const ground = this.ground = new THREE.Mesh(geo, mat);

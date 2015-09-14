@@ -83,11 +83,11 @@ module.exports = _.defaultsDeep({
   },
   map: {
     colors: {
-      renderClearGradient1: '#475b63', //left bottom
-      renderClearGradient2: '#475b63', //top right
+      renderClearGradient1: '#3d5864', //left bottom
+      renderClearGradient2: '#3d5864', //top right
       warning: colors.warning,
       critical: colors.danger,
-      default: colors.default,
+      default: '#97aeba',
       layer: '#8ea2ad',
       connection: metricColors.cyan,
       unknownStatus: colors.grey,

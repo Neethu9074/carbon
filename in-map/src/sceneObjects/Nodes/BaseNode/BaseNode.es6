@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import {activeMetric} from 'in-services/stores/metrics';
 import eventBus from 'in-services/eventbus';
-import {theme} from 'in-services/theme';
+import theme from 'in-services/theme';
 
 import HighlightingComponent from '../../../components/HighlightingComponent';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
