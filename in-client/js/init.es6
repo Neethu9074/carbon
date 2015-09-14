@@ -8,7 +8,6 @@ import React from 'react/addons';
 import logging from 'instalog';
 
 import * as tracking from 'in-services/tracking';
-import {setThemeOnHtmlDocument} from 'in-services/theme';
 import 'in-services/time';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
@@ -43,9 +42,6 @@ window.onerror = function() {
   // let the default error handler run as well
   return false;
 };
-
-// add a theme css class on the HTML document to allow style overrides
-setThemeOnHtmlDocument();
 
 // expose the React global to analyze performance issues
 if (__DEV__) {

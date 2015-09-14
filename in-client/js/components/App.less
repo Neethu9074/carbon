@@ -1,12 +1,23 @@
-@import "~in-themes/less/common.less";
-@import "~in-themes/less/constants.less";
+@import "~in-themes/active.less";
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:700,400,300&subset=latin,greek,vietnamese,latin-ext,cyrillic,cyrillic-ext);
 
 body {
+  font-family: @common__font-family;
+  // We are expecting that this always stays at 16px and that other components
+  // are not interested in the exact font size. The remaining parts of the
+  // application should be layouted using the rem unit to scale relative to
+  // the base font size and the users' zoom levels.
+  font-size: 16px;
+  color: @common__font-color;
+  background: @common__background-color;
+
   // we are a fullscreen app and have dedicated scrollable areas
   margin: 0;
   overflow: hidden;
   -webkit-font-smoothing: subpixel-antialiased;
 }
+
 
 a {
   color: #8c969a;

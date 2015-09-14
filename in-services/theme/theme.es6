@@ -1,23 +1,29 @@
+import Immutable from 'immutable';
+
+import {createStore} from '../stores/store';
+
+const store = createStore({
+  name: 'theme',
+  initialValue: window.instana.activeTheme
+});
+export const activeTheme = store.observable;
+
+// make sure that the active theme is set as part of the cookie so that
+// theme changes are recognized by the backend.
+activeTheme.subscribe(theme => {
+  document.cookie = 'in-theme=' + encodeURIComponent(theme);
+});
+
+export const theme = window.instana.activeThemeConfig;
+export default theme;
 
 
-import _ from 'lodash';
+export const availableThemes = Immutable.List([
+  'day',
+  'night'
+]);
 
-import {consts} from 'in-themes';
 
-const defaultTheme = 'night';
-
-// we expect the user's current theme to be set as a global variable via
-// server-side includes or a similar mechanism. This will allow us to show
-// the correct color scheme immediately, i.e. without switching during runtime
-// or after an initial paint
-export const themeName = _.get(
-  window,
-  ['instana', 'settings', 'theme'],
-  defaultTheme
-);
-
-export const theme = consts[themeName];
-
-export function setThemeOnHtmlDocument() {
-  document.documentElement.classList.add('in-theme-' + themeName);
+export function setActiveTheme(newActiveTheme) {
+  store.applyStateMutation(() => newActiveTheme);
 }
