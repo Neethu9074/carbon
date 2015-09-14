@@ -1,4 +1,4 @@
-.in-subtle-table {
+.in-responsive-table {
   width: 100%;
 
   border-spacing: 0 2px;
@@ -28,4 +28,9 @@
     cursor: pointer;
   }
 
+}
+
+/** currently, 1250px is exactly the point where the first table needs to be scrollable **/
+@media only screen and (max-width: 1250px)  {
+  .in-responsive-table-wrapper { overflow-x: scroll; }
 }
