@@ -59,6 +59,9 @@ export default class SnapshotsConveyer {
   handleSnapshotMessage(message) {
     message.data.forEach(mutableSnapshot => {
       mutableSnapshot.id = getIdString(mutableSnapshot);
+
+      mutableSnapshot.tags = mutableSnapshot.processorTags || [];
+      delete mutableSnapshot.processorTags;
     });
 
     if (this.snapshots === null) {
