@@ -1,5 +1,8 @@
+import {
+  addLabelFinder,
+  addIconFinder
+} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
-import {addIconFinder} from 'in-sdk/snapshot';
 import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';
@@ -9,6 +12,11 @@ pluginName.setHumanReadablePluginName(
   constants.plugins.tomcat,
   'Tomcat Server',
   'Tomcat Servers'
+);
+
+addLabelFinder(
+  constants.plugins.jvm,
+  snapshot => snapshot.getIn(['data', 'version'])
 );
 
 addIconFinder(
