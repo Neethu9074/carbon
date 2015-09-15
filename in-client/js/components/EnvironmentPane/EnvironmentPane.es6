@@ -4,6 +4,8 @@ import irpt from 'react-immutable-proptypes';
 import {State, Navigation} from 'react-router';
 import {createLogger} from 'instalog';
 
+import ResponsiveTable from 'in-components/ResponsiveTable';
+
 import http from 'in-services/http';
 
 import './EnvironmentPane.less';
@@ -50,7 +52,7 @@ const EnvironmentPane = React.createClass({
         <div className={block}>
           <div className={block + '__content-wrapper'}>
             <div className={block + '__content'} ref='content'>
-              <table className='in-subtle-table in-subtle-table--clickable'>
+              <ResponsiveTable isClickable={true}>
                 <thead>
                 <tr>
                   <th>Environment</th>
@@ -68,7 +70,7 @@ const EnvironmentPane = React.createClass({
                      <td>{environment[2]}</td>
                    </tr>)}
                 </tbody>
-              </table>
+              </ResponsiveTable>
             </div>
           </div>
         </div>
