@@ -40,7 +40,7 @@ export default class Group extends SceneObject {
     components.mesh = new LineMeshComponent({
       id,
       sceneObject: this,
-      factory: this.scene.lineFactory,
+      factory: this.scene.groundLineFactory,
       contentProvider: new PCM({
         contentProvider: new SCM({
           contentProvider: new FCP()

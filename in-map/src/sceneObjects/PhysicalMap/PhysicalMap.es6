@@ -1,10 +1,12 @@
 import THREE from 'three';
 import _ from 'lodash';
 
+import {hexToRGBNormalized} from 'in-services/converters';
 import {viewStructure} from 'in-services/stores/view';
 import {filters} from 'in-services/stores/mapFilters';
 import {getFullSnapshot} from 'in-services/snapshots';
 import eventBus from 'in-services/eventbus';
+import theme from 'in-services/theme';
 import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
@@ -22,7 +24,7 @@ export default class PhysicalMap extends SceneObject {
   constructor({parent}) {
     super({parent, id: 'physicalMap'});
 
-    //the size of the map in world units (sizeXsize)
+    // the size of the map in world units (sizeXsize)
     this.size = 1000;
 
     this.groups = [];
@@ -33,12 +35,14 @@ export default class PhysicalMap extends SceneObject {
   }
 
   createGroundGrid() {
+    const color = hexToRGBNormalized(theme.map.colors.groundDots);
+
     const geo = new THREE.PlaneBufferGeometry(this.size, this.size, 1, 1);
     const mat = new THREE.MeshBasicMaterial({
       map: this.getGroundTexture(),
       transparent: true,
       depthWrite: false,
-      opacity: 0.5
+      color: new THREE.Color(color.r, color.g, color.b)
     });
 
     const ground = this.ground = new THREE.Mesh(geo, mat);
@@ -47,7 +51,7 @@ export default class PhysicalMap extends SceneObject {
     ground.rotation.x = -90 * Math.PI / 180;
     ground.position.y = -0.02;
 
-    //set static
+    // set static
     ground.matrixAutoUpdate = false;
     ground.rotationAutoUpdate = false;
     ground.updateMatrix();
@@ -160,7 +164,7 @@ export default class PhysicalMap extends SceneObject {
   addNodeToGroup(triple, groupId) {
     const group = this.getOrCreateGroup(groupId);
 
-    //add the node to group (the group handles duplicates)
+    // add the node to group (the group handles duplicates)
     const newNode = group.addNode({
       coordinates: triple.node,
       layer: triple.layers

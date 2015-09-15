@@ -15,7 +15,7 @@ export default class MeshComponent extends Component {
     this.fragment = {id, contentProvider};
 
     const color = new THREE.Color(theme.map.colors.default);
-    this.colorToSet = {r: color.r + 0.2, g: color.g + 0.2, b: color.b + 0.2};
+    this.colorToSet = {r: color.r, g: color.g, b: color.b};
     this.positionToSet = {x: -1000, y: 0, z: 0};
     this.scaleToSet = {x: 1, y: 1, z: 1};
     this.updateContentProvider();

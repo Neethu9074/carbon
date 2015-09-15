@@ -3,9 +3,11 @@ import THREE from 'three';
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
+import {hexToRGBNormalized} from 'in-services/converters';
 import {activeMetric} from 'in-services/stores/metrics';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
+import {theme} from 'in-services/theme';
 
 import './lib/Octree';
 import './lib/EffectComposer';
@@ -20,7 +22,6 @@ import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import {getBackgroundPlane} from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
@@ -30,6 +31,9 @@ import * as zoom from './zoom';
 
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
+
+const maxLayerOpacity = 0.7;
+const maxNodeOpacity = 0.6;
 
 let currentMetrics;
 
@@ -75,12 +79,6 @@ export default class Scene {
     this.setupCanvas();
     this.setupCamera(width, height);
 
-    this.backgroundPlane = getBackgroundPlane();
-
-    // this is a scene just for the background rect to create a gradient instead of a solid color
-    this.backgroundScene = new THREE.Scene();
-    this.backgroundScene.add(this.backgroundPlane);
-
     // needs the scene, camera and renderer so do it last
     this.setupRenderer();
     this.setupFXAARenderPass();
@@ -122,9 +120,8 @@ export default class Scene {
       antialias: this.antialias === 'browserAA' ? true : false
     });
     renderer.setSize(this.width, this.height);
-
-    // don't need to clear the buffer because it's filled with a gradient
-    renderer.autoClearColor = false;
+    const clearColor = hexToRGBNormalized(theme.map.colors.clearColor);
+    renderer.setClearColor(new THREE.Color(clearColor.r, clearColor.g, clearColor.b));
 
     // objects organize matrix updat by themselves
     renderer.autoUpdateObjects = false;
@@ -150,17 +147,6 @@ export default class Scene {
     camera.rotationAutoUpdate = false;
     camera.matrixAutoUpdate = false;
     camera.updateMatrix();
-
-    // this is a camera just for the background scene to render
-    const bgCamera = this.backgroundCamera = new THREE.OrthographicCamera(
-      1, -1, 1, -1,
-      0.1, // near
-      10 // far
-    );
-
-    // set static
-    bgCamera.rotationAutoUpdate = false;
-    bgCamera.matrixAutoUpdate = false;
   }
 
   setupFXAARenderPass() {
@@ -194,17 +180,22 @@ export default class Scene {
 
     this.groundSingleMeshFactory = new SingleMeshFactory({scene});
     this.groundSingleMeshFactory.material.transparent = true;
-    this.groundSingleMeshFactory.material.opacity = 0.2;
+    this.groundSingleMeshFactory.material.opacity = 0.3;
 
     this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 4});
     this.layerHighlightingSingleMeshFactory = new SingleMeshFactory({scene});
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
 
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
-    this.layerSingleMeshFactory.material.transparent = true;
-    this.layerSingleMeshFactory.material.opacity = 0.9;
+    this.layerSingleMeshFactory.material.opacity = maxLayerOpacity;
+    // this.layerSingleMeshFactory.material.color = new THREE.Color(0.75, 0.75, 0.75);
 
     this.lineFactory = new SingleMeshLineFactory({scene});
+
+    this.groundLineFactory = new SingleMeshLineFactory({scene});
+    this.groundLineFactory.material.opacity = 0.9;
+    this.groundLineFactory.material.transparent = true;
+
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;
@@ -224,6 +215,7 @@ export default class Scene {
       this.singleMeshFactory.rebuild();
       this.baselineFactory.rebuild();
       this.lineFactory.rebuild();
+      this.groundLineFactory.rebuild();
 
       for (let i = this.octrees.length - 1; i >= 0; i--) {
         const octree = this.octrees[i];
@@ -418,7 +410,7 @@ export default class Scene {
 
     //[1 - max out, 0 - max in]
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
-    normedZoomLevel = Math.min(0.9, Math.max(0.1, normedZoomLevel));
+    normedZoomLevel = Math.min(maxNodeOpacity, Math.max(0.1, normedZoomLevel));
 
     this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
 
@@ -445,7 +437,6 @@ export default class Scene {
       if(this.antialias === 'FXAA') {
         this.composer.render();
       } else {
-        this.webGLRenderer.render(this.backgroundScene, this.backgroundCamera);
         this.webGLRenderer.render(this.scene, this.camera);
       }
     }
@@ -466,15 +457,15 @@ export default class Scene {
 
   hideHulls() {
     this.hullsAreInactive = true;
-    this.singleMeshFactory.material.opacity = 0.2;
-    this.layerSingleMeshFactory.material.opacity = 0.2;
-    this.baselineFactory.material.opacity = 0.2;
+    this.singleMeshFactory.material.opacity = 0.3;
+    this.layerSingleMeshFactory.material.opacity = 0.3;
+    this.baselineFactory.material.opacity = 0.3;
   }
 
   showHulls() {
     if(!currentMetrics) {
       this.hullsAreInactive = false;
-      this.layerSingleMeshFactory.material.opacity = 0.9;
+      this.layerSingleMeshFactory.material.opacity = maxLayerOpacity;
       this.baselineFactory.material.opacity = 1;
       this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
     }
