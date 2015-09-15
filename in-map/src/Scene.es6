@@ -24,6 +24,7 @@ import {getBackgroundPlane} from './lib/backgroundPlane';
 import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
+import TooltipHandler from './TooltipHandler';
 import * as stores from './stores/mapStore';
 import * as time from './timeCalculations';
 import * as zoom from './zoom';
@@ -239,6 +240,8 @@ export default class Scene {
   }
 
   setupEvents() {
+    this.tooltipHandler = new TooltipHandler();
+
     this.onWindowResizeHandler = this.onWindowResize.bind(this);
     window.addEventListener('resize', this.onWindowResizeHandler, false);
 
@@ -268,20 +271,6 @@ export default class Scene {
         this.doneMagic = true;
       }
     }, false);
-
-    this.subscriptions.push(stores.currentTooltip.subscribe(tooltip => {
-      if(this.tooltip === tooltip) {
-        return;
-      }
-
-      if(this.tooltip) {
-        this.tooltip.unMount();
-      }
-      this.tooltip = tooltip;
-      if(tooltip) {
-        tooltip.mount();
-      }
-    }));
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       //if there is an active metric, deselect the current selected obj and
@@ -651,6 +640,8 @@ export default class Scene {
     this.disposed = true;
 
     this.adaptiveDetailHandler.dispose();
+
+    this.tooltipHandler.dispose();
 
     this.controller.dispose();
 
