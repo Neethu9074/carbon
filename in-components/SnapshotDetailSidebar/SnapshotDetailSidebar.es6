@@ -1,4 +1,3 @@
-/*global require:false*/
 import irpt from 'react-immutable-proptypes';
 import * as ro from 'reactive-observables';
 import {Navigation} from 'react-router';
@@ -9,6 +8,7 @@ import * as tracking from 'in-services/tracking';
 import {getSingular} from 'in-sdk/pluginName';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
+import getForgeComponent from 'in-services/getForgeComponent';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 
 import HealthIcon from '../HealthIcon';
@@ -124,8 +124,8 @@ const SnapshotDetailSidebar = React.createClass({
 
   getForgeSpecificComponent(name) {
     const pluginId = this.props.snapshot.get('pluginId');
-    return require(
-      'in-forge/' +
+    return getForgeComponent(
+      './' +
       pluginId +
       '/Sidebar/' +
       name +

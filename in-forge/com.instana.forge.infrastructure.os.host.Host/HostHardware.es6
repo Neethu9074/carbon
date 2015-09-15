@@ -1,5 +1,3 @@
-/*global require:false*/
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
@@ -7,6 +5,7 @@ import enhance from 'in-components/hoc/enhance';
 import Collapsible from 'in-components/Collapsible';
 import * as views from 'in-services/views';
 import {getStructure} from 'in-services/wiring';
+import getForgeComponent from 'in-services/getForgeComponent';
 import {getSingular} from 'in-sdk/pluginName';
 
 const HostHardware = React.createClass({
@@ -51,8 +50,8 @@ const HostHardware = React.createClass({
 
   getForgeSpecificComponent() {
     const snapshot = this.props.group;
-    return require(
-      'in-forge/' +
+    return getForgeComponent(
+      './' +
       snapshot.get('pluginId') +
       '/Sidebar/Details.es6'
     );

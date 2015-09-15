@@ -1,7 +1,3 @@
-/*global require:false*/
-
-
-
 /*eslint-disable no-unused-vars*/
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully
@@ -17,8 +13,7 @@ import SnapshotPane from './components/SnapshotPane';
 import EnvironmentPane from './components/EnvironmentPane';
 import MetricLatencyPane from './components/MetricLatencyPane';
 import MetricPane from './components/MetricPane';
-
-const DogePane = require('./components/DogePane/index.djs');
+import DogePane from './components/DogePane/index.djs';
 
 export default (
   <Route name='map' path='/' handler={App}>

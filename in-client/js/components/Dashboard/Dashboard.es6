@@ -1,4 +1,3 @@
-/*global require: false*/
 import React from 'react';
 
 import Jail from 'in-components/Jail';
@@ -7,6 +6,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as timelineStore from 'in-services/stores/timeline';
 import {extractCoordinates} from 'in-services/snapshots';
+import getForgeComponent from 'in-services/getForgeComponent';
 
 import Header from './Header';
 
@@ -93,8 +93,8 @@ const Dashboard = React.createClass({
 
   getForgeSpecificComponent(name) {
     const snapshot = this.state.snapshot;
-    return require(
-      'in-forge/' +
+    return getForgeComponent(
+      './' +
       snapshot.get('pluginId') +
       '/Dashboard/' +
       name +

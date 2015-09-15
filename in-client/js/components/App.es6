@@ -1,4 +1,3 @@
-/*global require:false*/
 import React from 'react/addons';
 import Immutable from 'immutable';
 import {IntlMixin} from 'react-intl';
