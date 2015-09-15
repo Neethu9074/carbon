@@ -1,0 +1,94 @@
+/*eslint-env mocha*/
+
+import Immutable from 'immutable';
+import {expect} from 'chai';
+import sinon from 'sinon';
+import proxyquire from 'proxyquire';
+
+describe('in-services/stores/filters', () => {
+
+  let subscriber;
+  let mod;
+
+  beforeEach(() => {
+    subscriber = sinon.stub();
+    mod = proxyquire('./filters.es6', {
+      // reinitialise the store on every test run to clear the store cache
+      './store': proxyquire('./store', {})
+    });
+  });
+
+  it('should be empty initially', () => {
+    mod.activeFilters.subscribe(subscriber);
+
+    expect(subscriber).to.have.callCount(1);
+    expect(subscriber.getCall(0).args[0].toJS()).to.deep.equal([]);
+  });
+
+  it('should add filters', () => {
+    mod.activeFilters.subscribe(subscriber);
+
+    mod.addFilter(newTagFilter('Java'));
+    expect(subscriber).to.have.callCount(2);
+    expect(subscriber.getCall(1).args[0].toJS()).to.deep.equal([{
+      type: 'tag',
+      label: 'Java'
+    }]);
+  });
+
+  it('should not add the same filter twice', () => {
+    mod.addFilter(newTagFilter('Java'));
+    mod.addFilter(newTagFilter('Java'));
+
+    mod.activeFilters.subscribe(subscriber);
+    expect(subscriber).to.have.callCount(1);
+    expect(subscriber.getCall(0).args[0].toJS()).to.deep.equal([{
+      type: 'tag',
+      label: 'Java'
+    }]);
+
+    mod.addFilter(newTagFilter('JavaScript'));
+    expect(subscriber).to.have.callCount(2);
+    expect(subscriber.getCall(1).args[0].toJS()).to.deep.equal([{
+      type: 'tag',
+      label: 'Java'
+    },
+    {
+      type: 'tag',
+      label: 'JavaScript'
+    }]);
+  });
+
+  it('should remove filters', () => {
+    mod.addFilter(newTagFilter('Ham&Cheese'));
+    mod.addFilter(newTagFilter('Chicken Teriyaki'));
+    mod.addFilter(newTagFilter('Steak&Cheese'));
+    mod.addFilter(newTagFilter('Salami'));
+
+    mod.activeFilters.subscribe(subscriber);
+    expect(subscriber).to.have.callCount(1);
+    expect(subscriber.getCall(0).args[0].size).to.equal(4);
+
+    mod.removeFilter(newTagFilter('Salami'));
+    expect(subscriber).to.have.callCount(2);
+    expect(subscriber.getCall(1).args[0].toJS()).to.deep.equal([{
+      type: 'tag',
+      label: 'Ham&Cheese'
+    },
+    {
+      type: 'tag',
+      label: 'Chicken Teriyaki'
+    },
+    {
+      type: 'tag',
+      label: 'Steak&Cheese'
+    }]);
+  });
+
+  function newTagFilter(label) {
+    return Immutable.Map({
+      type: 'tag',
+      label
+    });
+  }
+});
