@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
-import * as mapFilters from 'in-services/stores/mapFilters';
+import {createTagFilter} from 'in-services/filtering';
+import * as filters from 'in-services/stores/filters';
 import {getColor} from 'in-services/tags';
 
 import TagToolTip from '../../../Tooltips/Tag';
@@ -39,8 +40,8 @@ const TagStickyNote = React.createClass({
     this.tooltip = null;
   },
 
-  click() {
-    mapFilters.addTagFilter(this.props.tag);
+  onClick() {
+    filters.addFilter(createTagFilter(this.props.tag));
   },
 
   render() {
@@ -49,7 +50,7 @@ const TagStickyNote = React.createClass({
            className='in-sticky-note__tag'
            onMouseOver={this.mouseOver}
            onMouseOut={this.mouseOut}
-           onClick={this.click}>
+           onClick={this.onClick}>
       </div>
     );
   }
