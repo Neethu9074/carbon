@@ -4,6 +4,7 @@ import * as mapFilters from 'in-services/stores/mapFilters';
 import {getColor} from 'in-services/tags';
 
 import TagToolTip from '../../../Tooltips/Tag';
+import {currentTooltip2D} from '../../../../mapStores';
 
 import './Tag.less';
 
@@ -29,9 +30,11 @@ const TagStickyNote = React.createClass({
       tag: this.props.tag
     });
     this.tooltip.mount();
+    currentTooltip2D.emit(this.tooltip);
   },
 
   mouseOut() {
+    currentTooltip2D.emit(null);
     this.tooltip.unMount();
     this.tooltip = null;
   },

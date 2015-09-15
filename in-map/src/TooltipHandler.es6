@@ -1,4 +1,4 @@
-import * as stores from './stores/mapStore';
+import * as stores from './mapStores';
 
 export default class TooltipHandler {
 
@@ -8,11 +8,11 @@ export default class TooltipHandler {
         return;
       }
 
-      if(this.tooltip) {
+      if (this.tooltip) {
         this.tooltip.unMount();
       }
       this.tooltip = tooltip;
-      if(tooltip) {
+      if (tooltip) {
         tooltip.mount();
       }
     });

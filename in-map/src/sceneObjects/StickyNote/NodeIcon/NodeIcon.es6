@@ -3,7 +3,7 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getIcon} from 'in-sdk/snapshot';
 
-import {iconSize} from '../../../stores/mapStore';
+import {iconSize} from '../../../mapStores';
 
 import './NodeIcon.less';
 

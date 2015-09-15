@@ -7,7 +7,7 @@ import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
 
-import {selectedSceneObject, nodeMaxPower} from './stores/mapStore';
+import {selectedSceneObject, nodeMaxPower} from './mapStores';
 import {subscribeToMetric} from './metricUtils';
 
 

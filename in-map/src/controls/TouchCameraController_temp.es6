@@ -2,7 +2,7 @@ import Hammer from 'hammerjs';
 
 import eventBus from 'in-services/eventbus';
 
-import {longClickedSceneObject, currentTooltip} from '../stores/mapStore';
+import {longClickedSceneObject, currentTooltip} from '../mapStores';
 import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
 import CameraController from './CameraController_temp';
 

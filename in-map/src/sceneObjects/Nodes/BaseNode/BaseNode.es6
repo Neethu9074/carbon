@@ -9,7 +9,7 @@ import CollisionComponent from '../../../components/CollisionObjectComponent';
 import ConnectionComponent from '../../../components/ConnectionComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
-import {selectedSceneObject, currentTooltip} from '../../../stores/mapStore';
+import {selectedSceneObject, currentTooltip} from '../../../mapStores';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import ConnectionGrid from '../../../ConnectionGrid_Temp';

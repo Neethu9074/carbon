@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
-import {iconSize} from '../../../stores/mapStore';
+import {iconSize} from '../../../mapStores';
 import iconPath from './plusIcon.svg';
 
 import './UnknownNodeButton.less';

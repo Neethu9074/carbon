@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
-import {iconSize} from '../../../stores/mapStore';
+import {iconSize} from '../../../mapStores';
 import StickyNote from '../StickyNote';
 import NodeIcon from '../NodeIcon';
 import TagFrame from '../TagFrame';

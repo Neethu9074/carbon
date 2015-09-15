@@ -4,7 +4,7 @@ import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
 import TouchController from './TouchCameraController_temp';
-import {cursorPosition} from '../stores/mapStore';
+import {cursorPosition} from '../mapStores';
 
 
 export default class MouseControl extends TouchController {
@@ -73,6 +73,8 @@ export default class MouseControl extends TouchController {
   }
 
   dispose() {
+    super.dispose();
+
     this.mouseScrollDirectionSubscribtion.dispose();
     this.mouseScrollSpeedSubscribtion.dispose();
   }

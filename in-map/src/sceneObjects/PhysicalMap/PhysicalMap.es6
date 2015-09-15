@@ -8,7 +8,7 @@ import eventBus from 'in-services/eventbus';
 import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
-import {selectedSceneObject} from '../../stores/mapStore';
+import {selectedSceneObject} from '../../mapStores';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
 import * as time from '../../timeCalculations';
 import groundTexturePath from './ground.png';

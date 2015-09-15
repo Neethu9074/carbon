@@ -7,7 +7,7 @@ import {cubeGeometry, defaultGeometryMaterial} from '../../sceneObjects/geometri
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import TooltipMetric from '../../sceneObjects/Tooltips/Metric';
-import {currentTooltip} from '../../stores/mapStore';
+import {currentTooltip} from '../../mapStores';
 import Component from '../Component';
 
 const thicknessOfCubes = 0.9;

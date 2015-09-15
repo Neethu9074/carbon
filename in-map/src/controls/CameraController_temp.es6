@@ -1,10 +1,11 @@
 import THREE from 'three';
 
 import ConnectionTooltip from '../sceneObjects/Tooltips/Connection';
+import {currentTooltip, currentTooltip2D} from '../mapStores';
 import {allConnections} from '../sceneObjects/Connection';
-import {currentTooltip} from '../stores/mapStore';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
+
 
 export default class CameraController {
 
@@ -67,6 +68,10 @@ export default class CameraController {
       .clone()
       .sub(new THREE.Vector3())
       .normalize();
+
+    this.tooltip2DSubscribtion = currentTooltip2D.subscribe(tooltip => {
+      this.tooltip2DIsActive = tooltip ? true : false;
+    });
   }
 
   initZoomField() {
@@ -171,6 +176,12 @@ export default class CameraController {
   }
 
   handleRayCasting() {
+    if (this.tooltip2DIsActive) {
+      currentTooltip.emit(null);
+      this.hittenObject = null;
+      return;
+    }
+
     const hoveredConnections = this.hoveredConnections;
     const hittenOld = this.hittenObject;
     this.getObjectOnCursor();
@@ -325,5 +336,10 @@ export default class CameraController {
     if(intersects.length >= 1) {
       return intersects[0].point;
     }
+  }
+
+  dispose() {
+    this.tooltip2DSubscribtion.dispose();
+    this.tooltip2DSubscribtion = null;
   }
 }
