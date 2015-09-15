@@ -1,9 +1,10 @@
 /*eslint-env mocha*/
-import Immutable from 'immutable';
 import React from 'react/addons';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
+
+import {createTagFilter} from 'in-services/filtering';
 
 import jsdom from 'in-test/jsdom';
 
@@ -11,13 +12,7 @@ const TestUtils = React.addons.TestUtils;
 
 describe('in-components.FilterBadge', () => {
 
-  const filter = Immutable.Map({
-    type: 'tag',
-    label: 'MongoDB',
-    icon: 'timeline',
-    predicate: () => {}
-  });
-
+  const filter = createTagFilter('MongoDB');
 
   jsdom();
 

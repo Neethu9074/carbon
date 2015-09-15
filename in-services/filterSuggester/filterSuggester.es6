@@ -6,7 +6,8 @@ import * as ro from 'reactive-observables';
 
 import * as constants from 'in-forge/constants';
 
-import * as mapFilters from '../stores/mapFilters';
+import {createTagFilter} from '../filtering';
+import * as filters from '../stores/filters';
 import {create} from '../conveyer';
 import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
 
@@ -21,7 +22,7 @@ export function getSuggestions(query) {
     getTagSuggestions(query)
   ];
 
-  suggestionObservables.unshift(mapFilters.filters);
+  suggestionObservables.unshift(filters.activeFilters);
 
   return ro.combineLatest(suggestionObservables)
     .map(values => {
@@ -71,20 +72,4 @@ function getTagSuggestions(query) {
 
     // tags => filter predicate builders
     .map(tags => tags.map(tag => createTagFilter(tag)));
-}
-
-function createTagFilter(tag) {
-  return Immutable.Map({
-    type: 'tag',
-    label: tag,
-    icon: 'timeline',
-    tooltip: 'Filter components for the tag ' + tag,
-    predicate: snapshot => {
-      const tags = snapshot.get('tags');
-      if (tags) {
-        return tags.some(t => t.indexOf(tag) !== -1);
-      }
-      return false;
-    }
-  });
 }

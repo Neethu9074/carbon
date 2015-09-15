@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import {expect} from 'chai';
 import * as ro from 'reactive-observables';
 
+import {createTagFilter} from 'in-services/filtering';
 import enhanceMock from 'in-test/mocks/enhance';
 import jsdom from 'in-test/jsdom';
 
@@ -13,24 +14,9 @@ const reemitSpec = {emitLatestOnSubscribe: true};
 const TestUtils = React.addons.TestUtils;
 
 const tagFilterSuggestions = Immutable.fromJS([
-  {
-    type: 'tag',
-    label: 'Database',
-    icon: 'timeline',
-    predicate: () => {}
-  },
-  {
-    type: 'tag',
-    label: 'Datastore',
-    icon: 'timeline',
-    predicate: () => {}
-  },
-  {
-    type: 'tag',
-    label: 'Cassandra',
-    icon: 'timeline',
-    predicate: () => {}
-  }
+  createTagFilter('Database'),
+  createTagFilter('Datastore'),
+  createTagFilter('Cassandra')
 ]);
 
 describe('in-components.QueryBuilder', () => {
@@ -38,7 +24,7 @@ describe('in-components.QueryBuilder', () => {
   jsdom();
 
   let filterSuggesterModule;
-  let mapFiltersModule;
+  let filtersModule;
 
   // this is where the place in which the component will be rendered
   let node;
@@ -53,9 +39,9 @@ describe('in-components.QueryBuilder', () => {
     filterSuggesterModule = {
       getSuggestions: sinon.stub()
     };
-    mapFiltersModule = {
-      add: sinon.stub(),
-      remove: sinon.stub()
+    filtersModule = {
+      addFilter: sinon.stub(),
+      removeFilter: sinon.stub()
     };
 
     suggestionObservable = ro.create(reemitSpec);
@@ -63,7 +49,7 @@ describe('in-components.QueryBuilder', () => {
 
     QueryBuilder = proxyquire('./QueryBuilder.es6', {
       '../hoc/enhance': enhanceMock,
-      'in-services/stores/mapFilters': mapFiltersModule,
+      'in-services/stores/filters': filtersModule,
       'in-services/filterSuggester': filterSuggesterModule
     });
   });
@@ -109,7 +95,7 @@ describe('in-components.QueryBuilder', () => {
     render({activeFilters: tagFilterSuggestions});
     const removeButton = getActiveFilters()[1].querySelector('[class$=remove]');
     TestUtils.Simulate.click(removeButton);
-    expect(mapFiltersModule.remove).to.have.callCount(1);
+    expect(filtersModule.removeFilter).to.have.callCount(1);
   });
 
   it('should add filter when clicking on suggestion', () => {
@@ -120,8 +106,8 @@ describe('in-components.QueryBuilder', () => {
 
     TestUtils.Simulate.click(getSuggestions()[1]);
 
-    expect(mapFiltersModule.add).to.have.callCount(1);
-    expect(mapFiltersModule.add)
+    expect(filtersModule.addFilter).to.have.callCount(1);
+    expect(filtersModule.addFilter)
       .to.have.been.calledWith(tagFilterSuggestions.get(1));
   });
 
@@ -133,8 +119,8 @@ describe('in-components.QueryBuilder', () => {
 
     sendEnterKeyCode();
 
-    expect(mapFiltersModule.add).to.have.callCount(1);
-    expect(mapFiltersModule.add)
+    expect(filtersModule.addFilter).to.have.callCount(1);
+    expect(filtersModule.addFilter)
       .to.have.been.calledWith(tagFilterSuggestions.get(0));
   });
 
@@ -196,8 +182,8 @@ describe('in-components.QueryBuilder', () => {
     sendDownKeyCode(); // 2
     sendEnterKeyCode();
 
-    expect(mapFiltersModule.add).to.have.callCount(1);
-    expect(mapFiltersModule.add)
+    expect(filtersModule.addFilter).to.have.callCount(1);
+    expect(filtersModule.addFilter)
       .to.have.been.calledWith(tagFilterSuggestions.get(2));
   });
 

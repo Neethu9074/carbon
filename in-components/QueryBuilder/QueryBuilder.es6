@@ -4,7 +4,7 @@ import React from 'react/addons';
 import Immutable from 'immutable';
 import irpt from 'react-immutable-proptypes';
 
-import * as mapFilters from 'in-services/stores/mapFilters';
+import * as filters from 'in-services/stores/filters';
 import * as filtering from 'in-services/filterSuggester';
 
 import enhance from '../hoc/enhance';
@@ -29,7 +29,7 @@ const QueryBuilder = React.createClass({
   statics: {
     createObservables: () => {
       return {
-        activeFilters: mapFilters.filters
+        activeFilters: filters.activeFilters
       };
     }
   },
@@ -48,7 +48,7 @@ const QueryBuilder = React.createClass({
       activeFilters = this.props.activeFilters.toArray().map(filter =>
         <FilterBadge filter={filter}
                      key={filter.get('label') + filter.get('type')}
-                     onRemove={mapFilters.remove}/>
+                     onRemove={filters.removeFilter}/>
       );
     }
     return (
@@ -118,7 +118,7 @@ const QueryBuilder = React.createClass({
   },
 
   onSuggestionClick(suggestion) {
-    mapFilters.add(suggestion);
+    filters.addFilter(suggestion);
     this.setState({
       selectedSuggestion: -1,
       currentTypedInValue: '',

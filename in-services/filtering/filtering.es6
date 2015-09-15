@@ -5,6 +5,7 @@ export function createTagFilter(tag) {
     type: 'tag',
     label: tag,
     icon: 'timeline',
+    tooltip: 'Filter components for the tag ' + tag,
     predicate: snapshot => {
       const tags = snapshot.get('tags');
       if (tags) {

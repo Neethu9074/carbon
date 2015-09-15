@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 import {hexToRGBNormalized} from 'in-services/converters';
 import {viewStructure} from 'in-services/stores/view';
-import {filters} from 'in-services/stores/mapFilters';
+import {activeFilters} from 'in-services/stores/filters';
 import {getFullSnapshot} from 'in-services/snapshots';
 import eventBus from 'in-services/eventbus';
 import theme from 'in-services/theme';
@@ -97,7 +97,7 @@ export default class PhysicalMap extends SceneObject {
       handleComponentTimeEvent: this.handleTimeEvent
     });
 
-    this.addSubscription(filters.subscribe(filterArray => {
+    this.addSubscription(activeFilters.subscribe(filterArray => {
       this.filterArray = filterArray;
       this.filter();
     }));

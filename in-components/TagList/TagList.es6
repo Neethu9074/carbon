@@ -1,7 +1,8 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import * as filters from 'in-services/stores/mapFilters';
+import {createTagFilter} from 'in-services/filtering';
+import * as filters from 'in-services/stores/filters';
 
 import Collapsible from '../Collapsible';
 import Tag from '../Tag';
@@ -34,7 +35,7 @@ const TagList = React.createClass({
               {tags.map((tag) =>
                 <Tag key={tag}
                      tag={tag}
-                     onClick={() => filters.addTagFilter(tag)}/>
+                     onClick={() => filters.addFilter(createTagFilter(tag))}/>
               )}
             </div>
           </Collapsible.Content>
