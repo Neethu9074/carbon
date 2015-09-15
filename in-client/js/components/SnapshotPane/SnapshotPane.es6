@@ -26,7 +26,7 @@ const SnapshotsPaneContent = React.createClass({
   render() {
     const snapshots = this.props.snapshots;
     return (
-      <ResponsiveTable isClickable={true} className='in-snapshots-table'>
+      <ResponsiveTable clickable={true} className='in-snapshots-table'>
         <thead>
           <tr>
             <th>Host</th>

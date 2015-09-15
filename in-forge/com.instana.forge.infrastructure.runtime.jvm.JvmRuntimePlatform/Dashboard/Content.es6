@@ -119,7 +119,7 @@ const JVMDashboard = React.createClass({
                      }}/>
             : null}
 
-            <ResponsiveTable isClickable={true}>
+            <ResponsiveTable clickable={true}>
               <thead>
                 <tr>
                   <th>Pool</th>

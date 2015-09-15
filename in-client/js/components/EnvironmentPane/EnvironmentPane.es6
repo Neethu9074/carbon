@@ -52,7 +52,7 @@ const EnvironmentPane = React.createClass({
         <div className={block}>
           <div className={block + '__content-wrapper'}>
             <div className={block + '__content'} ref='content'>
-              <ResponsiveTable isClickable={true}>
+              <ResponsiveTable clickable={true}>
                 <thead>
                 <tr>
                   <th>Environment</th>

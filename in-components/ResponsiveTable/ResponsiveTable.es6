@@ -10,7 +10,7 @@ const Button = React.createClass({
 
   propTypes: {
     className: rpt.string,
-    isClickable: rpt.bool,
+    clickable: rpt.bool,
     children: rpt.any.isRequired
   },
 
@@ -21,8 +21,8 @@ const Button = React.createClass({
       classes += ' ' + this.props.className;
     }
 
-    if(this.props.isClickable){
-      classes += ' ' + block + '__table__clickable';
+    if (this.props.clickable) {
+      classes += ' ' + block + '__table--clickable';
     }
     return (
       <div className={block}>

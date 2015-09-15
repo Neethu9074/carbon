@@ -26,7 +26,7 @@ const MetricLatencyPaneContent = React.createClass({
     const snapshot = this.props.snapshot;
 
     return (
-      <ResponsiveTable isClickable={true}>
+      <ResponsiveTable clickable={true}>
         <thead>
           <tr>
             <th>Path</th>

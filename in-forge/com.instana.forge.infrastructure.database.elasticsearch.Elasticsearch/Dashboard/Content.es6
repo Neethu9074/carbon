@@ -90,7 +90,7 @@ const ElasticsearchDashboard = React.createClass({
             </div>
           : null}
 
-          <ResponsiveTable isClickable={true}>
+          <ResponsiveTable clickable={true}>
             <thead>
               <tr>
                 <th>Index</th>
