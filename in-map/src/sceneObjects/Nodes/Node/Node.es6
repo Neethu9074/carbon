@@ -326,7 +326,7 @@ export default class Node extends BaseNode {
     if(newHealth === health.ok) {
       ground.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
       groundLine.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-      this.getComponent('solidMesh').colorChanged(r + 0.2, g + 0.2, b + 0.2);
+      this.getComponent('solidMesh').colorChanged(r + 0.1, g + 0.1, b + 0.1);
 
     } else {
       this.getComponent('solidMesh').colorChanged(r, g, b);
@@ -350,7 +350,7 @@ export default class Node extends BaseNode {
     let color;
 
     if(!hostHealth) {
-      color = new THREE.Color(colors.default);
+      color = new THREE.Color(colors.cubeBasicColor);
       return {r: color.r, g: color.g, b: color.b};
     }
 
@@ -359,7 +359,7 @@ export default class Node extends BaseNode {
     } else if(hostHealth === health.danger) {
       color = new THREE.Color(colors.critical);
     } else {
-      color = new THREE.Color(colors.default);
+      color = new THREE.Color(colors.cubeBasicColor);
     }
     return {r: color.r, g: color.g, b: color.b};
   }

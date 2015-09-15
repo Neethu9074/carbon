@@ -5,6 +5,8 @@ import irpt from 'react-immutable-proptypes';
 import {State, Navigation} from 'react-router';
 import {createLogger} from 'instalog';
 
+import ResponsiveTable from 'in-components/ResponsiveTable';
+
 import http from 'in-services/http';
 
 const block = 'in-dashboard';
@@ -24,7 +26,7 @@ const MetricLatencyPaneContent = React.createClass({
     const snapshot = this.props.snapshot;
 
     return (
-      <table className='in-subtle-table in-subtle-table--clickable'>
+      <ResponsiveTable clickable={true}>
         <thead>
           <tr>
             <th>Path</th>
@@ -52,7 +54,7 @@ const MetricLatencyPaneContent = React.createClass({
           </tr>
         )}
         </tbody>
-      </table>
+      </ResponsiveTable>
     );
   }
 });

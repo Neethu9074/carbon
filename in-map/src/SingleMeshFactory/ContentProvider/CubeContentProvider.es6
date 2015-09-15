@@ -1,10 +1,19 @@
+import {theme} from 'in-services/theme';
+
 import ContentProvider from './ContentProvider';
 
-const defaultColor = [
-  0.8, 0.8, 0.8, //front
-  0.9, 0.9, 0.9, //top
-  1, 1, 1 //left
-];
+const defaultColor = (() => {
+  const cubeColorFalloffValues = theme.map.colors.cubeColorFalloffValues;
+  const right = cubeColorFalloffValues.right;
+  const top = cubeColorFalloffValues.top;
+
+  return [
+    right.r, right.g, right.b,
+    top.r, top.g, top.b,
+    1, 1, 1
+  ];
+})();
+
 
 export default class CubeContentProvider extends ContentProvider {
 

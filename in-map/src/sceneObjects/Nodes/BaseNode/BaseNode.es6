@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import {activeMetric} from 'in-services/stores/metrics';
 import eventBus from 'in-services/eventbus';
-import {theme} from 'in-services/theme';
+import theme from 'in-services/theme';
 
 import HighlightingComponent from '../../../components/HighlightingComponent';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
@@ -303,7 +303,7 @@ export default class BaseNode extends SceneObject {
   }
 
   calculateNodeColor() {
-    const ok = new THREE.Color(theme.map.colors.default);
+    const ok = new THREE.Color(theme.map.colors.cubeBasicColor);
     return {r: ok.r, g: ok.g, b: ok.b};
   }
 

@@ -5,6 +5,8 @@ import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
 import {createLogger} from 'instalog';
 
+import ResponsiveTable from 'in-components/ResponsiveTable';
+
 import http from 'in-services/http';
 
 import './SnapshotPane.less';
@@ -24,7 +26,7 @@ const SnapshotsPaneContent = React.createClass({
   render() {
     const snapshots = this.props.snapshots;
     return (
-      <table className='in-subtle-table in-subtle-table--clickable in-snapshots-table'>
+      <ResponsiveTable clickable={true} className='in-snapshots-table'>
         <thead>
           <tr>
             <th>Host</th>
@@ -54,7 +56,7 @@ const SnapshotsPaneContent = React.createClass({
           </tr>
         )}
         </tbody>
-      </table>
+      </ResponsiveTable>
     );
   }
 });

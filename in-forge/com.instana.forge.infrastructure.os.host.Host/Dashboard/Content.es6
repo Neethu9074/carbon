@@ -18,6 +18,8 @@ import HelpLink from 'in-components/HelpLink';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
 
+import ResponsiveTable from 'in-components/ResponsiveTable';
+
 const rpt = React.PropTypes;
 
 const bytesPerSecondFormatter = d => formatBytesShort(d) + '/s';
@@ -130,8 +132,7 @@ const OsDashboard = React.createClass({
                        }}/>
               </div>
             : null}
-
-            <table className='in-subtle-table in-subtle-table--clickable'>
+            <ResponsiveTable clickable={true}>
               <thead>
                 <tr>
                   <th></th>
@@ -169,7 +170,7 @@ const OsDashboard = React.createClass({
                   </tr>
                 ).valueSeq()}
               </tbody>
-            </table>
+            </ResponsiveTable>
           </DashboardSection>
         : null}
 
@@ -235,7 +236,7 @@ const OsDashboard = React.createClass({
             </div>
           : null}
 
-          <table className='in-subtle-table in-subtle-table--clickable'>
+          <ResponsiveTable clickable={true}>
             <thead>
               <tr>
                 <th>Device</th>
@@ -277,7 +278,7 @@ const OsDashboard = React.createClass({
                 </tr>
               ).valueSeq()}
             </tbody>
-          </table>
+          </ResponsiveTable>
         </DashboardSection>
 
         <DashboardSection title={this.getIntlMessage('forge.os.networkinterfaces')}>
@@ -329,7 +330,7 @@ const OsDashboard = React.createClass({
             </div>
           : null}
 
-          <table className='in-subtle-table in-subtle-table--clickable'>
+          <ResponsiveTable clickable={true}>
             <thead>
               <tr>
                 <th></th>
@@ -392,7 +393,7 @@ const OsDashboard = React.createClass({
                 </tr>
               ).valueSeq()}
             </tbody>
-          </table>
+          </ResponsiveTable>
         </DashboardSection>
 
         <DashboardSection title='TCP Activity'>

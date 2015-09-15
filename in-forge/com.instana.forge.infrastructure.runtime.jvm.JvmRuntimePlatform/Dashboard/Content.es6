@@ -4,6 +4,8 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
+import ResponsiveTable from 'in-components/ResponsiveTable';
+
 import {
   formatBytes,
   formatBytesShort
@@ -117,7 +119,7 @@ const JVMDashboard = React.createClass({
                      }}/>
             : null}
 
-            <table className='in-subtle-table in-subtle-table--clickable'>
+            <ResponsiveTable clickable={true}>
               <thead>
                 <tr>
                   <th>Pool</th>
@@ -139,7 +141,7 @@ const JVMDashboard = React.createClass({
                   </tr>
                 ).valueSeq()}
               </tbody>
-            </table>
+            </ResponsiveTable>
           </DashboardSection>
         : null}
 

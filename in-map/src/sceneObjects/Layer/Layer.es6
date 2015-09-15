@@ -8,11 +8,11 @@ import eventBus from 'in-services/eventbus';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import HighlightingComponent from '../../components/HighlightingComponent';
+import MeshComponent from '../../components/MeshComponent';
 
 import {selectedSceneObject, longClickedSceneObject, currentTooltip} from '../../mapStores';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import MeshComponent from '../../components/MeshComponent';
 import TooltipLayer from '../Tooltips/Layer';
 import SceneObject from '../SceneObject';
 
