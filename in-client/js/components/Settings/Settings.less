@@ -5,10 +5,15 @@
   flex-direction: column;
   align-items: left;
 
-  width: 480px;
+  width: 600px;
+  padding: 0 0 10px 0;
   background: #52626a;
 
-  border-radius: 10px;
+  &__header {
+    background: #4d5c64;
+    height: 69px;
+    border-bottom: 1px solid grey;
+  }
 
   &__wrapper {
     position: absolute;
@@ -26,8 +31,25 @@
     z-index: @z-index__demo-sign-in;
   }
 
+  &__section {
+    width: ~"calc(100% - 60px)";
+    margin: 5px 30px 5px 30px;
+    border-bottom: 1px solid grey;
+  }
+
+  &__section-end {
+    width: 100%;
+    border-bottom: 1px solid grey;
+  }
+
+  &__button-close--wrapper {
+    padding-left: ~"calc(100% - 120px)";
+  }
+
   &__button-close {
     height: 35px;
+    width: 100px;
+    margin: 10px 10px 0 10px;
   }
 
   &__button-close:hover {
@@ -38,20 +60,5 @@
   &__button-notifications {
     height: 35px;
     margin: 5px;
-  }
-
-  &__heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    padding: 10px 10px 10px 20px;
-    border-radius: 10px 10px 0 0;
-    background: #4d5c64;
-  }
-
-  &__heading-text {
-    font-size: 20px;
-    color: white;
   }
 }

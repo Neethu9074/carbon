@@ -15,6 +15,8 @@ import Button from 'in-components/Button';
 import Slider from 'in-components/Slider';
 import Dialog from 'in-components/Dialog';
 
+import SettingEntry from './SettingEntry';
+
 import './Settings.less';
 
 const block = 'in-settings';
@@ -60,48 +62,72 @@ const Settings = React.createClass({
     return (
       <Dialog onClose={this.closeSettings}>
         <div className={block}>
-          <div className={block + '__heading'}>
-            <span className={block + '__heading-text'}>
-              {'Settings'}
-            </span>
 
+        <div className={block + '__header'} />
+
+          <SettingEntry>
+            <SettingEntry.Header text={'Inverse scroll direction'} />
+            <SettingEntry.Content>
+              <CheckBox onClick={(e) => {
+                         setIn(['map', 'scrollDirection'], e.target.checked ? -1 : 1);
+                        }}
+                        defaultChecked={this.state.inverseCheckboxChecked}/>
+            </SettingEntry.Content>
+          </SettingEntry>
+
+          <SettingEntry>
+            <SettingEntry.Header text={'Scroll speed'} />
+            <SettingEntry.Content>
+              <Slider onChange={(e) => setIn(['map', 'scrollSpeed'], e.target.value)}
+                      min={0.1}
+                      max={20}
+                      defaultValue={this.state.speedSliderValue}/>
+            </SettingEntry.Content>
+          </SettingEntry>
+
+          <SettingEntry>
+            <SettingEntry.Header text={'Antialias'} />
+            <SettingEntry.Content>
+              <ComboBox label='Antialias'
+                        onChange={this.antialiasChanged}
+                        defaultValue={this.state.antialiasValue}>
+                {'off'}
+                {'browserAA'}
+                {'FXAA'}
+              </ComboBox>
+            </SettingEntry.Content>
+          </SettingEntry>
+
+          <div className={block + '__section'}/>
+
+          <SettingEntry>
+            <SettingEntry.Header text={'Theme (requires browser refresh)'} />
+            <SettingEntry.Content>
+              <ComboBox onChange={e => setActiveTheme(e.target.value)}
+                        defaultValue={this.state.activeTheme}>
+                {availableThemes.toArray()}
+              </ComboBox>
+            </SettingEntry.Content>
+          </SettingEntry>
+
+          <div className={block + '__section'}/>
+
+          <SettingEntry>
+            <SettingEntry.Header text={'Enable Desktop Notifications'} />
+            <SettingEntry.Content>
+              <CheckBox onClick={this.toggleDesktopNotifications}
+                        defaultChecked={this.state.desktopNotification}/>
+            </SettingEntry.Content>
+          </SettingEntry>
+
+          <div className={block + '__section-end'}/>
+
+          <div className={block + '__button-close--wrapper'}>
             <Button onClick={this.closeSettings}
                     className={block + '__button-close'}>
               {'Close'}
             </Button>
           </div>
-
-
-          <CheckBox label={'Inverse scroll direction'}
-                    onClick={(e) => {
-                     setIn(['map', 'scrollDirection'], e.target.checked ? -1 : 1);
-                    }}
-                    defaultChecked={this.state.inverseCheckboxChecked}/>
-
-          <Slider label={' Scroll speed: ' + this.state.speedSliderValue}
-                  onChange={(e) => setIn(['map', 'scrollSpeed'], e.target.value)}
-                  min={0.1}
-                  max={20}
-                  defaultValue={this.state.speedSliderValue}/>
-
-          <ComboBox label='Antialias'
-                    onChange={this.antialiasChanged}
-                    defaultValue={this.state.antialiasValue}>
-            {'off'}
-            {'browserAA'}
-            {'FXAA'}
-          </ComboBox>
-
-          <ComboBox label='Theme (requires browser refresh)'
-                    onChange={e => setActiveTheme(e.target.value)}
-                    defaultValue={this.state.activeTheme}>
-            {availableThemes.toArray()}
-          </ComboBox>
-
-          <Button onClick={this.toggleDesktopNotifications}
-                  className={block + '__button-notifications'}>
-            {this.state.desktopNotification ? 'Disable Desktop Notifications' : 'Enable Desktop Notifications'}
-          </Button>
 
         </div>
       </Dialog>
