@@ -129,7 +129,7 @@ export default class Scene {
   }
 
   setupCamera(width, height) {
-    //a multiplicator for a homogenious viewport * aspect
+    // a multiplicator for a homogenious viewport * aspect
     this.cameraSize = 30;
 
     const aspect = width / height;

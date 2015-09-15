@@ -1,4 +1,5 @@
 import Immutable from 'immutable';
+import * as ro from 'reactive-observables';
 
 import {createStore} from './store';
 
@@ -36,4 +37,35 @@ function containsFilter(allFilters, filter) {
 
 function isFilterEqual(a, b) {
   return a.get('type') === b.get('type') && a.get('label') === b.get('label');
+}
+
+/*
+ *
+**/
+export function isMatchingAllActiveFilters(coordinates) {
+  if (!coordinates) {
+    throw new Error('Invalid argument exception: coordinates');
+  }
+
+  return activeFilters.transform({
+    emitLatestOnSubscribe: true,
+
+    transform(filters) {
+      const filterToBoolObservables = filters.toArray().map(filter => {
+        return filter.get('predicate')(coordinates);
+      });
+      return ro.combineLatest(filterToBoolObservables).map(boolResults => {
+         for (let i = 0; i < boolResults.length; i++) {
+          if (!boolResults[i]) {
+            return false;
+          }
+        }
+        return true;
+      });
+    },
+
+    shouldRetransform(previousfilters, nextFilters) {
+      return previousfilters !== nextFilters;
+    }
+  });
 }

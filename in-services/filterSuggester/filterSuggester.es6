@@ -1,5 +1,3 @@
-
-
 import _ from 'lodash';
 import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
