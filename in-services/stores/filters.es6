@@ -26,6 +26,10 @@ export function removeFilter(filter) {
   });
 }
 
+export function clearFilters() {
+  store.applyStateMutation(() => emptyList);
+}
+
 function containsFilter(allFilters, filter) {
   return allFilters.some(eachFilter => isFilterEqual(eachFilter, filter));
 }

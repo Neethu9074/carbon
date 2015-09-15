@@ -85,6 +85,17 @@ describe('in-services/stores/filters', () => {
     }]);
   });
 
+  it('should clear filters', () => {
+    mod.addFilter(newTagFilter('Ham&Cheese'));
+    mod.addFilter(newTagFilter('Chicken Teriyaki'));
+    mod.activeFilters.subscribe(subscriber);
+
+    mod.clearFilters();
+
+    expect(subscriber).to.have.callCount(2);
+    expect(subscriber.getCall(1).args[0].size).to.equal(0);
+  });
+
   function newTagFilter(label) {
     return Immutable.Map({
       type: 'tag',
