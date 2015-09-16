@@ -68,7 +68,7 @@ export function isMatchingAllActiveFilters(coordinates) {
       // combine (reduce) all observables to one observable
       return ro.combineLatest(filterToBoolObservables).map(boolResults =>
         // become false if the array contains a false, true if not
-        !(boolResults.indexOf(false) >= 0)
+        boolResults.indexOf(false) === -1
       );
     },
 
