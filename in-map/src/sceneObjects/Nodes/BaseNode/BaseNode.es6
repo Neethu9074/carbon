@@ -303,8 +303,8 @@ export default class BaseNode extends SceneObject {
   }
 
   calculateNodeColor() {
-    const ok = new THREE.Color(theme.map.colors.cubeBasicColor);
-    return {r: ok.r, g: ok.g, b: ok.b};
+    const cubeColor = new THREE.Color(theme.map.colors.cubeBasicColor);
+    return {r: cubeColor.r, g: cubeColor.g, b: cubeColor.b};
   }
 
   calculatePower() {

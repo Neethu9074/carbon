@@ -97,10 +97,6 @@ export default class Unknownnode extends BaseNode {
     return {x: pos.x - 0.5, y: pos.y + this.height, z: pos.z + 0.5};
   }
 
-  onSnapshotUpdate() {}
-
-  setHeight() {}
-
   calculatePower() {
     return 1;
   }
