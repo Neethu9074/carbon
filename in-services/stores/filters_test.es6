@@ -167,5 +167,28 @@ describe('in-services/stores/filters', () => {
       expect(subscriber.getCall(0).args[0]).to.equal(false);
     });
 
+    it('should return true if the coords passing all filter', () => {
+      mod.addFilter(newTagFilterWithPredicate('tag1'));
+      mod.addFilter(newTagFilterWithPredicate('tag2'));
+
+      mod.isMatchingAllActiveFilters(coordinates).subscribe(subscriber);
+      expect(subscriber).to.have.callCount(2);
+      expect(subscriber.getCall(0).args[0]).to.equal(true);
+    });
+
+    it('should filter the coords if a filter was added after subscribing', () => {
+      mod.isMatchingAllActiveFilters(coordinates).subscribe(subscriber);
+      expect(subscriber).to.have.callCount(2);
+
+      mod.addFilter(newTagFilterWithPredicate('tag1'));
+      expect(subscriber).to.have.callCount(4);
+
+      mod.addFilter(newTagFilterWithPredicate('tag2'));
+      expect(subscriber).to.have.callCount(5);
+
+      mod.removeFilter(newTagFilterWithPredicate('tag2'));
+      expect(subscriber).to.have.callCount(6);
+    });
+
   });
 });
