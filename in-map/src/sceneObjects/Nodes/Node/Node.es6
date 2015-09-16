@@ -49,10 +49,8 @@ export default class Node extends BaseNode {
 
     this.addSubscription(isMatchingAllActiveFilters(coordinates).subscribe(isVisible => {
       if (isVisible) {
-        console.log('show it');
         this.show();
       } else {
-        console.log('hide it');
         this.hide();
       }
     }));
