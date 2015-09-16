@@ -17,9 +17,7 @@ function getFullFakeSnapshotForCoordinates(coordinates) {
 
 describe('in-services/stores/filters', () => {
 
-  let coordinates;
   let subscriber;
-  let snapshots;
   let mod;
 
   beforeEach(() => {
@@ -27,21 +25,6 @@ describe('in-services/stores/filters', () => {
     mod = proxyquire('./filters.es6', {
       // reinitialise the store on every test run to clear the store cache
       './store': proxyquire('./store', {})
-    });
-    snapshots = proxyquire('../snapshots', {
-      // reinitialise the store on every test run to clear the store cache
-      '../conveyer/SnapshotConveyer': (params) => {
-        return {
-          start(onNext) {
-            onNext(getFullFakeSnapshotForCoordinates(params.coordinates));
-          }
-        };
-      }
-    });
-    coordinates = snapshots.extractCoordinates({
-      hostId: 'h1',
-      pluginId: 'com.instana.forge.infrastructure.database.cassandra.Cassandra',
-      steadyId: 'sCassandra'
     });
   });
 
@@ -130,23 +113,29 @@ describe('in-services/stores/filters', () => {
     });
   }
 
-  function newTagFilterWithPredicate(label) {
-    return Immutable.Map({
-      type: 'tag',
-      label,
-      predicate: (coords) => {
-        return snapshots.getFullSnapshot(coords).map(snapshot => {
-          const tags = snapshot.get('tags');
-          if (tags) {
-            return tags.some(t => t.indexOf(label) !== -1);
-          }
-          return false;
-        });
-      }
-    });
-  }
-
   describe('isMatchingAllActiveFilters', () => {
+
+    let coordinates;
+    let snapshots;
+
+    beforeEach(() => {
+      snapshots = proxyquire('../snapshots', {
+        // reinitialise the store on every test run to clear the store cache
+        '../conveyer/SnapshotConveyer': (params) => {
+          return {
+            start(onNext) {
+              onNext(getFullFakeSnapshotForCoordinates(params.coordinates));
+            }
+          };
+        }
+      });
+
+      coordinates = snapshots.extractCoordinates({
+        hostId: 'h1',
+        pluginId: 'com.instana.forge.infrastructure.database.cassandra.Cassandra',
+        steadyId: 'sCassandra'
+      });
+    });
 
     it('should throw error on undefined coords', () => {
       expect(() => mod.isMatchingAllActiveFilters(undefined)).to.throw(Error);
@@ -154,7 +143,7 @@ describe('in-services/stores/filters', () => {
 
     it('should return true if no filters are set', () => {
       mod.isMatchingAllActiveFilters(coordinates).subscribe(subscriber);
-      expect(subscriber).to.have.callCount(2);
+      expect(subscriber).to.have.callCount(1);
       expect(subscriber.getCall(0).args[0]).to.equal(true);
     });
 
@@ -163,7 +152,7 @@ describe('in-services/stores/filters', () => {
       mod.addFilter(newTagFilterWithPredicate('CantBeFoundTagReloaded'));
 
       mod.isMatchingAllActiveFilters(coordinates).subscribe(subscriber);
-      expect(subscriber).to.have.callCount(2);
+      expect(subscriber).to.have.callCount(1);
       expect(subscriber.getCall(0).args[0]).to.equal(false);
     });
 
@@ -172,23 +161,36 @@ describe('in-services/stores/filters', () => {
       mod.addFilter(newTagFilterWithPredicate('tag2'));
 
       mod.isMatchingAllActiveFilters(coordinates).subscribe(subscriber);
-      expect(subscriber).to.have.callCount(2);
+      expect(subscriber).to.have.callCount(1);
       expect(subscriber.getCall(0).args[0]).to.equal(true);
     });
 
     it('should filter the coords if a filter was added after subscribing', () => {
       mod.isMatchingAllActiveFilters(coordinates).subscribe(subscriber);
-      expect(subscriber).to.have.callCount(2);
+      expect(subscriber).to.have.callCount(1);
 
       mod.addFilter(newTagFilterWithPredicate('tag1'));
-      expect(subscriber).to.have.callCount(4);
+      expect(subscriber).to.have.callCount(2);
 
       mod.addFilter(newTagFilterWithPredicate('tag2'));
-      expect(subscriber).to.have.callCount(5);
+      expect(subscriber).to.have.callCount(3);
 
       mod.removeFilter(newTagFilterWithPredicate('tag2'));
-      expect(subscriber).to.have.callCount(6);
+      expect(subscriber).to.have.callCount(4);
     });
+
+    function newTagFilterWithPredicate(label) {
+      return newTagFilter(label)
+        .set('predicate', coords => {
+          return snapshots.getFullSnapshot(coords).map(snapshot => {
+            const tags = snapshot.get('tags');
+            if (tags) {
+              return tags.some(t => t.indexOf(label) !== -1);
+            }
+            return false;
+          });
+        });
+    }
 
   });
 });

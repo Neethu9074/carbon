@@ -97,15 +97,15 @@ describe('stores.abstractSelectableSnapshotStore', () => {
       store.select(snap);
       snapshotConveyer.emit(snap);
       store.wiredSnapshots.subscribe(onNext);
-      expect(onNext.callCount).to.equal(2);
+      expect(onNext.callCount).to.equal(1);
 
       store.clear();
 
       expect(getWiredSnapshots.callCount).to.equal(2);
       expect(getWiredSnapshots.getCall(0).args[0]).to.equal(snap);
       expect(getWiredSnapshots.getCall(1).args[0]).to.equal(null);
-      expect(onNext.callCount).to.equal(3);
-      expect(onNext.getCall(2).args[0]).to.equal(noSelectedInitialValue);
+      expect(onNext.callCount).to.equal(2);
+      expect(onNext.getCall(1).args[0]).to.equal(noSelectedInitialValue);
     });
 
     it('should not call clear twice', () => {
@@ -130,8 +130,8 @@ describe('stores.abstractSelectableSnapshotStore', () => {
       const onNext = sinon.stub();
       store.wiredSnapshots.subscribe(onNext);
 
-      expect(onNext.callCount).to.equal(2);
-      expect(onNext.getCall(1).args[0]).to.equal(expected);
+      expect(onNext.callCount).to.equal(1);
+      expect(onNext.getCall(0).args[0]).to.equal(expected);
       expect(getWiredSnapshots.getCall(0).args[0]).to.equal(snap);
     });
   });
