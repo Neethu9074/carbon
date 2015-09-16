@@ -65,14 +65,11 @@ export function isMatchingAllActiveFilters(coordinates) {
         return filter.get('predicate')(coordinates);
       });
 
-      return ro.combineLatest(filterToBoolObservables).map(boolResults => {
-         for (let i = 0; i < boolResults.length; i++) {
-          if (!boolResults[i]) {
-            return false;
-          }
-        }
-        return true;
-      });
+      // combine (reduce) all observables to one observable
+      return ro.combineLatest(filterToBoolObservables).map(boolResults =>
+        // become false if the array contains a false, true if not
+        !(boolResults.indexOf(false) >= 0)
+      );
     },
 
     shouldRetransform(previousfilters, nextFilters) {
