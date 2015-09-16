@@ -1,5 +1,10 @@
+
+
+import {
+  addLabelFinder,
+  addIconFinder
+} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
-import {addIconFinder} from 'in-sdk/snapshot';
 import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';
@@ -9,6 +14,11 @@ pluginName.setHumanReadablePluginName(
   constants.plugins.redis,
   'Redis Node',
   'Redis Nodes'
+);
+
+addLabelFinder(
+  constants.plugins.mongodb,
+  snapshot => 'Redis @' + snapshot.getIn(['data', 'port'])
 );
 
 addIconFinder(
