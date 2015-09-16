@@ -22,7 +22,7 @@ function startTracking() {
   disposable = getOpenIssues().subscribe((issues) => {
 
     //show messages only if Browser Window is currently not visible
-    if (document.hidden == null || document.hidden) {
+    if (document.hidden == null || !document.hidden) {
       return;
     }
     //recreate the list of previous issues if first start or if an issue has been removed
