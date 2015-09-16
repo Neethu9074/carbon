@@ -5,12 +5,21 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 
-import {extractCoordinates, getFullSnapshot} from '../snapshots';
+function getFullFakeSnapshotForCoordinates(coordinates) {
+  return Immutable.fromJS({
+    hostId: coordinates.get('hostId'),
+    pluginId: coordinates.get('pluginId'),
+    steadyId: coordinates.get('steadyId'),
+    data: {},
+    tags: ['tag1', 'tag2']
+  });
+}
 
 describe('in-services/stores/filters', () => {
 
   let coordinates;
   let subscriber;
+  let snapshots;
   let mod;
 
   beforeEach(() => {
@@ -19,7 +28,17 @@ describe('in-services/stores/filters', () => {
       // reinitialise the store on every test run to clear the store cache
       './store': proxyquire('./store', {})
     });
-    coordinates = extractCoordinates({
+    snapshots = proxyquire('../snapshots', {
+      // reinitialise the store on every test run to clear the store cache
+      '../conveyer/SnapshotConveyer': (params) => {
+        return {
+          start(onNext) {
+            onNext(getFullFakeSnapshotForCoordinates(params.coordinates));
+          }
+        };
+      }
+    });
+    coordinates = snapshots.extractCoordinates({
       hostId: 'h1',
       pluginId: 'com.instana.forge.infrastructure.database.cassandra.Cassandra',
       steadyId: 'sCassandra'
@@ -116,7 +135,7 @@ describe('in-services/stores/filters', () => {
       type: 'tag',
       label,
       predicate: (coords) => {
-        return getFullSnapshot(coords).map(snapshot => {
+        return snapshots.getFullSnapshot(coords).map(snapshot => {
           const tags = snapshot.get('tags');
           if (tags) {
             return tags.some(t => t.indexOf(label) !== -1);
