@@ -3,14 +3,12 @@ import _ from 'lodash';
 
 import {hexToRGBNormalized} from 'in-services/converters';
 import {viewStructure} from 'in-services/stores/view';
-import {activeFilters} from 'in-services/stores/filters';
 import {getFullSnapshot} from 'in-services/snapshots';
 import eventBus from 'in-services/eventbus';
 import theme from 'in-services/theme';
 import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
-import {selectedSceneObject} from '../../mapStores';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
 import * as time from '../../timeCalculations';
 import groundTexturePath from './ground.png';
@@ -28,7 +26,6 @@ export default class PhysicalMap extends SceneObject {
     this.size = 1000;
 
     this.groups = [];
-    this.filterArray = [];
 
     this.createGroundGrid();
     this.registerEvents();
@@ -96,11 +93,6 @@ export default class PhysicalMap extends SceneObject {
     time.addTimeEventListener({
       handleComponentTimeEvent: this.handleTimeEvent
     });
-
-    this.addSubscription(activeFilters.subscribe(filterArray => {
-      this.filterArray = filterArray;
-      this.filter();
-    }));
   }
 
   onInventoryUpdate(structures) {
@@ -176,7 +168,6 @@ export default class PhysicalMap extends SceneObject {
 
     // if the group has switched delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(groupId, newNode);
-    this.filterNode(newNode);
     this.refreshLayout = true;
   }
 
@@ -221,32 +212,6 @@ export default class PhysicalMap extends SceneObject {
     }
     this.particles = ConnectionGrid.asVisualObject();
     this.addSceneObject(this.particles);
-  }
-
-  filter() {
-    getAllNodes(this).forEach(node => {
-      if (node.isUnknown) {
-        return;
-      }
-      this.filterNode(node);
-    });
-
-    selectedSceneObject.emit({sceneObject: null});
-    this.scene.renderScene();
-  }
-
-  filterNode(node) {
-    let unmatchesOne = false;
-    this.filterArray.forEach(filter => {
-      if (!filter.get('predicate')(node.snapshot)) {
-        unmatchesOne = true;
-      }
-    });
-    if (!unmatchesOne) {
-      node.show();
-    } else {
-      node.hide();
-    }
   }
 
   //is called from group if it has no nodes anymore
@@ -294,7 +259,6 @@ export default class PhysicalMap extends SceneObject {
     this.ground.geometry.dispose();
     this.ground = null;
 
-    this.filters = [];
     this.parent = null;
     this.size = null;
   }

@@ -2,6 +2,7 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {isMatchingAllActiveFilters} from 'in-services/stores/filters';
 import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
@@ -45,6 +46,16 @@ export default class Node extends BaseNode {
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
     );
+
+    this.addSubscription(isMatchingAllActiveFilters(coordinates).subscribe(isVisible => {
+      if (isVisible) {
+        console.log('show it');
+        this.show();
+      } else {
+        console.log('hide it');
+        this.hide();
+      }
+    }));
 
     this.addLayer(layer);
   }
