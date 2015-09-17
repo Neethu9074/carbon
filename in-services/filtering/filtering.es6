@@ -1,6 +1,8 @@
 import Immutable from 'immutable';
 
 import {getFullSnapshot} from '../snapshots';
+import {getHealth} from '../issueTracker';
+import {health} from '../health';
 
 export function createTagFilter(tag) {
   return Immutable.Map({
@@ -19,3 +21,27 @@ export function createTagFilter(tag) {
     }
   });
 }
+
+export const warningFilter = Immutable.Map({
+  type: 'issue',
+  label: 'only components with warnings',
+  icon: 'warning',
+  tooltip: 'Filter components that have warning',
+  predicate: (coords) => {
+    return getFullSnapshot(coords).map(snapshot => {
+      return getHealth(snapshot) === health.warning;
+    });
+  }
+});
+
+export const dangerFilter = Immutable.Map({
+  type: 'issue',
+  label: 'only components with errors',
+  icon: 'critical',
+  tooltip: 'Filter components that have errors',
+  predicate: (coords) => {
+    return getFullSnapshot(coords).map(snapshot => {
+      return getHealth(snapshot) === health.danger;
+    });
+  }
+});
