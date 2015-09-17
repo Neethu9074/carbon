@@ -2,6 +2,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+import Tooltip from 'in-components/Tooltip';
 
 import MultiTagToolTip from '../../Tooltips/MultiTag';
 import Tag from './Tag';
@@ -30,19 +31,6 @@ export default React.createClass({
     }));
   },
 
-  mouseOver: function() {
-    this.tooltip = new MultiTagToolTip({
-      parent: this.props.sceneObject,
-      tags: this.props.tags
-    });
-    this.tooltip.mount();
-  },
-
-  mouseOut: function() {
-    this.tooltip.unMount();
-    this.tooltip = null;
-  },
-
   render() {
     if(this.props.tags.size === 0) {
       return null;
@@ -66,14 +54,15 @@ export default React.createClass({
 
     } else {
       content = (
-        <div className='in-tooltip__tag-frame--bubble'
-          onMouseOver={this.mouseOver}
-          onMouseOut={this.mouseOut}>
-        </div>
+        <Tooltip content={<MultiTagToolTip tags={this.props.tags} />}
+                 align={'right'}>
+
+          <div className='in-tooltip__tag-frame--bubble' />
+
+        </Tooltip>
       );
     }
 
-    // const l = this.props.tags.length;
     return (
       <div className='in-sticky-note__tag-frame'>
         {content}
