@@ -21,8 +21,8 @@ import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/S
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 
-//if unavailable, the StickyNote-Metric / Layer will not be undefined but this
-//to avoid all these if(available) {do something} stuff
+// if unavailable, the StickyNote-Metric / Layer will not be undefined but this
+// to avoid all these if(available) {do something} stuff
 const emptyStickyObject = {
   isEmpty: true,
   hide() {}, show() {}, update() {}, updateWorldPos() {}, render() {},
@@ -50,7 +50,7 @@ export default class BaseNode extends SceneObject {
   onHighlightEnter() {
     this.highlight();
 
-    //show all connections as grey lines
+    // show all connections as grey lines
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
@@ -59,7 +59,7 @@ export default class BaseNode extends SceneObject {
   onHighlightLeave() {
     this.highlight(false);
 
-    //hide the grey connection lines
+    // hide the grey connection lines
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
@@ -68,7 +68,7 @@ export default class BaseNode extends SceneObject {
   onSelectedEnter() {
     this.highlight();
 
-    //show all connections as white lines
+    // show all connections as white lines
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
@@ -77,7 +77,7 @@ export default class BaseNode extends SceneObject {
   onSelectedLeave() {
     this.highlight(false);
 
-    //hide the white connection lines
+    // hide the white connection lines
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
@@ -86,7 +86,7 @@ export default class BaseNode extends SceneObject {
   onSelectedHighlightEnter() {
     this.highlight();
 
-    //show all connections as white lines
+    // show all connections as white lines
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
@@ -95,7 +95,7 @@ export default class BaseNode extends SceneObject {
   onSelectedHighlightLeave() {
     this.highlight(false);
 
-    //hide the white connection lines
+    // hide the white connection lines
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
@@ -241,7 +241,7 @@ export default class BaseNode extends SceneObject {
     this.stickyNote.update();
   }
 
-  //is called via hover event
+  // is called via hover event
   onHighlight(highlighted) {
     super.onHighlight(highlighted);
 

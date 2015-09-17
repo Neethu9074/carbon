@@ -26,15 +26,27 @@ const TooltipPresenter = React.createClass({
   },
 
   componentDidUpdate() {
-    this.translateAlign();
     const activeTooltip = this.props.activeTooltip;
-
     // nothing to do if there is no active tooltip
     if (!activeTooltip) {
       return;
     }
 
+    let xy;
     const tooltipElement = React.findDOMNode(this);
+
+    if (activeTooltip.focusedElement) {
+      xy = this.getXYFromHtmlElement(tooltipElement);
+    } else if(activeTooltip.focusedPoint) {
+      xy = activeTooltip.focusedPoint;
+    }
+
+    applyTransform(tooltipElement, 'translate(' + toPx(xy.x) + ',' + toPx(xy.y) + ')');
+  },
+
+  getXYFromHtmlElement(tooltipElement) {
+    this.translateAlign();
+    const activeTooltip = this.props.activeTooltip;
 
     // each box has width, height, top, left properties
     const tooltipBox = tooltipElement.getBoundingClientRect();
@@ -45,7 +57,7 @@ const TooltipPresenter = React.createClass({
     const x = this.getX(activeTooltip.align, focusedElementBox, tooltipBox);
     const y = focusedElementBox.top + focusedElementBox.height / 2 - tooltipBox.height / 2;
 
-    applyTransform(tooltipElement, 'translate(' + toPx(x) + ',' + toPx(y) + ')');
+    return {x, y};
   },
 
   translateAlign() {
