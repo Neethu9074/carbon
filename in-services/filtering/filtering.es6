@@ -28,9 +28,7 @@ export const warningFilter = Immutable.Map({
   icon: 'warning',
   tooltip: 'Filter components that have warning',
   predicate: (coords) => {
-    return getFullSnapshot(coords).map(snapshot => {
-      return getHealth(snapshot) === health.warning;
-    });
+    return getHealth(coords).map(h => h === health.warning);
   }
 });
 
@@ -40,8 +38,6 @@ export const dangerFilter = Immutable.Map({
   icon: 'critical',
   tooltip: 'Filter components that have errors',
   predicate: (coords) => {
-    return getFullSnapshot(coords).map(snapshot => {
-      return getHealth(snapshot) === health.danger;
-    });
+    return getHealth(coords).map(h => h === health.danger);
   }
 });
