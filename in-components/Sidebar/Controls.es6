@@ -20,13 +20,6 @@ const Controls = React.createClass({
     onChangeActiveControl: rpt.func.isRequired
   },
 
-  getInitialState() {
-    return {
-      expandEventControl: false,
-      activeEvent: 'system'
-    };
-  },
-
   render() {
     let rootClasses = block;
     if (this.props.className) {
