@@ -112,6 +112,7 @@ export default class Scene {
     const canvas = this.canvas = document.createElement('canvas');
     canvas.width = this.width;
     canvas.height = this.height;
+
     this.parent.appendChild(canvas);
   }
 
@@ -121,6 +122,7 @@ export default class Scene {
       antialias: this.antialias === 'browserAA' ? true : false
     });
     renderer.setSize(this.width, this.height);
+
     const clearColor = hexToRGBNormalized(theme.map.colors.clearColor);
     renderer.setClearColor(new THREE.Color(clearColor.r, clearColor.g, clearColor.b));
 
