@@ -4,7 +4,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
 export default function enhance(ComposedComponent) {
   return React.createClass({
-    displayName: 'EnhancedComponent',
+    displayName: 'EnhancedComponent for ' + ComposedComponent.displayName,
 
     mixins: [SubscriptionMixin],
 
