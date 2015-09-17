@@ -2,6 +2,7 @@ import React from 'react/addons';
 
 import classnames from 'in-services/util/classnames';
 
+import EventControl from './EventControl';
 import Tooltip from '../Tooltip';
 import Icon from '../Icon';
 
@@ -31,6 +32,8 @@ const Controls = React.createClass({
           {this.renderControlIcon('metrics', 'metrics', 'Show metrics.', true)}
           {this.renderControlIcon('tags', 'tags', 'Show Tags', true)}
           {this.renderControlIcon('zones', 'snapshotList', 'Show list of components.', true)}
+          {this.renderEventControl() }
+
           {__DEV__ ?
             this.renderControlIcon('system', 'mapStats', 'Show map rendering stats.', true)
           : null}
@@ -61,6 +64,17 @@ const Controls = React.createClass({
                 })}
                 onClick={clickHandler}/>
         </Tooltip>
+      </li>
+    );
+  },
+
+  renderEventControl() {
+    return (
+      <li className={classnames({
+          [block + '__control-item']: true,
+          [block + '__control-item--enabled']: true
+        })}>
+        <EventControl />
       </li>
     );
   }
