@@ -47,7 +47,7 @@ const Tooltip = React.createClass({
     tooltipStore.setActiveTooltip({
       focusedElement: this.domNode,
       content: this.props.content,
-      align: this.props.align ? this.props.align : 'left'
+      align: this.props.align ? this.props.align : 'auto'
     });
   },
 

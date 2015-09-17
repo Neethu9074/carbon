@@ -26,7 +26,7 @@ const TagStickyNote = React.createClass({
   render() {
      return (
        <Tooltip content={<TagToolTip tag={this.props.tag}/>}
-                align={'right'}>
+                align={'auto'}>
 
         <div style={{backgroundColor: getColor(this.props.tag)}}
              className='in-sticky-note__tag'
