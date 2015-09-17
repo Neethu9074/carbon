@@ -8,7 +8,10 @@ const Tooltip = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    content: rpt.string.isRequired,
+    content: rpt.oneOfType([
+      rpt.element.isRequired,
+      rpt.string.isRequired
+    ]),
     children: rpt.any.isRequired,
     align: rpt.string
   },

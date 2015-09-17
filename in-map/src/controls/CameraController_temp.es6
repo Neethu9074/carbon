@@ -1,7 +1,9 @@
 import THREE from 'three';
 
+import * as tooltipStore from 'in-services/stores/tooltip';
+
 import ConnectionTooltip from '../sceneObjects/Tooltips/Connection';
-import {currentTooltip, currentTooltip2D} from '../mapStores';
+import {currentTooltip} from '../mapStores';
 import {allConnections} from '../sceneObjects/Connection';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
@@ -69,7 +71,7 @@ export default class CameraController {
       .sub(new THREE.Vector3())
       .normalize();
 
-    this.tooltip2DSubscribtion = currentTooltip2D.subscribe(tooltip => {
+    this.tooltip2DSubscribtion = tooltipStore.activeTooltip.subscribe(tooltip => {
       this.tooltip2DIsActive = tooltip ? true : false;
     });
   }

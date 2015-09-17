@@ -5,7 +5,10 @@ const rpt = React.PropTypes;
 const reemitSpec = {emitLatestOnSubscribe: true};
 
 export const TooltipShape = rpt.shape({
-  content: rpt.string.isRequired,
+  content: rpt.oneOfType([
+    rpt.element.isRequired,
+    rpt.string.isRequired
+  ]),
   focusedElement: rpt.instanceOf(HTMLElement),
   focusedPoint: rpt.shape({
     x: rpt.number,

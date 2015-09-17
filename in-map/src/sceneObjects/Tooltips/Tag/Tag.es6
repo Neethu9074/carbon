@@ -1,14 +1,11 @@
 import React from 'react/addons';
 
-import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import {getColor} from 'in-services/tags';
 
-import Tooltip from '../Tooltip';
-
 import './Tag.less';
 
-const TagStickyNote = React.createClass({
+const TagTooltip = React.createClass({
 
   mixins: [React.addons.PureRenderMixin],
 
@@ -20,35 +17,12 @@ const TagStickyNote = React.createClass({
     const tag = this.props.tag;
 
     return (
-      <TooltipFrame>
-        <Heading style={{color: getColor(tag)}}
-                 className='in-tooltip__tag-heading'
-         >
-          {tag}
-        </Heading>
-      </TooltipFrame>
+      <Heading style={{color: getColor(tag)}}
+               className='in-tooltip__tag-heading'>
+        {tag}
+      </Heading>
     );
   }
 });
 
-
-export default class TooltipTag extends Tooltip {
-  constructor({parent, tag}) {
-    super(parent);
-
-    this.tag = tag;
-  }
-
-  render() {
-    React.render(
-      <TagStickyNote
-        snapshot={this.parent.snapshot}
-        tag={this.tag}/>,
-      this.stickyNoteContainer
-    );
-  }
-
-  dispose() {
-    super.dispose();
-  }
-}
+export default TagTooltip;
