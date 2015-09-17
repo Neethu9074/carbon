@@ -77,9 +77,11 @@ export default class LayerComponent extends Component {
     const heightOfEachChild = height / layer.length;
 
     layer.forEach((child, index) => {
-      // set the gap between layer to 75% of their own height but a max of 0.1 units
-      const gap = Math.min(0.1, height - heightOfEachChild * 0.75);
-      child.setHeight(heightOfEachChild - gap);
+      let heightOfSlice = heightOfEachChild - 0.1;
+      if (heightOfSlice <= 0) {
+        heightOfSlice = heightOfEachChild * 0.75;
+      }
+      child.setHeight(heightOfSlice);
 
       const positionComponent = child.getComponent('position');
       positionComponent.setPosition(pos.x, index * heightOfEachChild, pos.z);
