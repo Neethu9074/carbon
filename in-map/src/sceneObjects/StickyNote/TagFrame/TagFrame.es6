@@ -54,8 +54,7 @@ export default React.createClass({
 
     } else {
       content = (
-        <Tooltip content={<MultiTagToolTip tags={this.props.tags} />}
-                 align={'right'}>
+        <Tooltip content={<MultiTagToolTip tags={this.props.tags} />}>
 
           <div className='in-tooltip__tag-frame--bubble' />
 

@@ -27,8 +27,7 @@ const SidebarTab = React.createClass({
       block;
 
     return (
-      <Tooltip content={getSingular(item.get('pluginId'))}
-               align={'right'}>
+      <Tooltip content={getSingular(item.get('pluginId'))}>
 
         <div key={id}
              className={className}
