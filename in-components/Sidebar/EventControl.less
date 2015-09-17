@@ -1,0 +1,29 @@
+@import "~in-themes/active.less";
+
+.in-sidebar-event-control {
+
+  &__icon {
+    @focus-transition-duration: 0.2s;
+    @control-icon-width: 2rem;
+    @control-icon-padding: 0.35rem;
+
+    width: @control-icon-width;
+    font-size: @control-icon-width;
+    box-sizing: content-box;
+
+    display: inline-block;
+    color: inherit;
+    padding: @control-icon-padding;
+
+    text-align: center;
+
+    opacity: 0.6;
+    transition: opacity @focus-transition-duration ease-in-out;
+
+    cursor: pointer;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

@@ -4,10 +4,7 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
-import {
-  formatBytes,
-  formatPercentageShort
-} from 'in-services/converters';
+import formatBytes from 'in-services/converters';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -48,27 +45,6 @@ const MongoDBDashboard = React.createClass({
                              ,
                              type: 'line',
                              formatter: formatBytes
-                           }}/>
-        </DashboardSection>
-
-        <DashboardSection title='Index Cache'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             max: 1,
-                             formatter: formatPercentageShort,
-                             metrics: [
-                               'index'
-                             ],
-                             labels: [
-                               'Hit Rate'
-                             ],
-                             type: 'stackedArea'
                            }}/>
         </DashboardSection>
 

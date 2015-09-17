@@ -32,8 +32,11 @@ module.exports = {
         publicPath: './'
       })
     }, {
-      test: /\.(jpe?g|gif|png|svg|ttf|eot|obj)$/i,
+      test: /\.(ttf|eot|obj)$/i,
       loader: 'url?limit=3000'
+    }, {
+      test: /\.(jpe?g|gif|png|svg)$/i,
+      loader: 'url?limit=3000!image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
     }, {
       test: /\.glsl$/i,
       loader: 'raw'
