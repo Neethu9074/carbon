@@ -3,6 +3,7 @@ import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
+import WiringList from 'in-components/WiringList';
 
 import DockerLabels from '../DockerLabels';
 import DockerInfo from '../DockerInfo';
@@ -37,6 +38,7 @@ const Sidebar = React.createClass({
         : null}
 
         <ProblemPanel snapshot={this.props.snapshot} />
+        <WiringList snapshot={this.props.snapshot} />
       </div>
     );
   }
