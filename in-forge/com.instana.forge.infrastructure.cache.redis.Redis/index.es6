@@ -17,7 +17,7 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(
-  constants.plugins.mongodb,
+  constants.plugins.redis,
   snapshot => 'Redis @' + snapshot.getIn(['data', 'port'])
 );
 
