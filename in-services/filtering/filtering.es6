@@ -26,7 +26,7 @@ export const warningFilter = Immutable.Map({
   type: 'issue',
   label: 'only components with warnings',
   icon: 'warning',
-  tooltip: 'Filter components that have warning',
+  tooltip: 'Filter components that have warnings',
   predicate: (coords) => {
     return getHealth(coords).map(h => h === health.warning);
   }
