@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
+import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
 import WiringList from 'in-components/WiringList';
@@ -17,6 +18,9 @@ const TomcatSidebar = React.createClass({
   },
 
   render() {
+    const webapps = this.props.snapshot.getIn(['data', 'webapps']);
+    const connectors = this.props.snapshot.getIn(['data', 'connector-config']);
+
     return (
       <div>
         <Collapsible initiallyOpen={true}>
@@ -25,7 +29,55 @@ const TomcatSidebar = React.createClass({
             <TomcatInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>Webapps</Collapsible.Header>
+          <Collapsible.Content>
+            {webapps.map((data, name) =>
+              <Collapsible initiallyOpen={false}>
+                <Collapsible.Header>{data.get('name')}</Collapsible.Header>
+                <Collapsible.Content>
+                  <DescriptionList>
+                    <DescriptionItem title='Context'>
+                      {name}
+                    </DescriptionItem>
+                    <DescriptionItem title='Session Timeout'>
+                      {data.get('session-timeout')}
+                    </DescriptionItem>
+                  </DescriptionList>
+                </Collapsible.Content>
+              </Collapsible>
+            ).valueSeq()}
+          </Collapsible.Content>
+        </Collapsible>
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>Connectors</Collapsible.Header>
+          <Collapsible.Content>
+            {connectors.map((data, name) =>
+              <Collapsible initiallyOpen={false}>
+                <Collapsible.Header>{name}</Collapsible.Header>
+                <Collapsible.Content>
+                  <DescriptionList>
+                    <DescriptionItem title='Port'>
+                      {data.get('port')}
+                    </DescriptionItem>
+                    <DescriptionItem title='Max Threads'>
+                      {data.get('threads').get('max')}
+                    </DescriptionItem>
+                    <DescriptionItem title='Max Connections'>
+                      {data.get('connections').get('max')}
+                    </DescriptionItem>
+                    <DescriptionItem title='Connect Timeout'>
+                      {data.get('connect-timeout')}
+                    </DescriptionItem>
+                    <DescriptionItem title='Keepalive Timeout'>
+                      {data.get('keepalive-timeout')}
+                    </DescriptionItem>
+                  </DescriptionList>
+                </Collapsible.Content>
+              </Collapsible>
+            ).valueSeq()}
+          </Collapsible.Content>
+        </Collapsible>
         <ProblemPanel snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>

@@ -20,6 +20,9 @@ const TomcatInfo = React.createClass({
         <DescriptionItem title='Version'>
           {data.get('version')}
         </DescriptionItem>
+        <DescriptionItem title='Home'>
+          {data.get('home-dir')}
+        </DescriptionItem>
       </DescriptionList>
     );
   }
