@@ -57,18 +57,23 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
 
-    this.tags = parent.snapshot.get('tags');
     this.render();
   }
 
   render() {
+    const snapshot = this.parent.snapshot;
+
     React.render(
-      <NodeStickyNoteRC snapshot={this.parent.snapshot}
+      <NodeStickyNoteRC snapshot={snapshot}
                     sceneObject={this.parent}
                     showMetric={this.showMetric}
-                    tags={this.tags}/>,
+                    tags={snapshot.get('tags')}/>,
       this.stickyNoteContainer
     );
+  }
+
+  onSnapshotUpdate() {
+    this.render();
   }
 
   switchToMetric() {
