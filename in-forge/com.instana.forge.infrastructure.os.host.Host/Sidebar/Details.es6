@@ -7,8 +7,8 @@ import TagList from 'in-components/TagList/TagList';
 import WiringList from 'in-components/WiringList';
 
 import InterfaceList from '../InterfaceList';
-import HostInfo from '../HostInfo';
 import HostHardware from '../HostHardware';
+import HostInfo from '../HostInfo';
 
 const block = 'in-sidebar-server-details';
 

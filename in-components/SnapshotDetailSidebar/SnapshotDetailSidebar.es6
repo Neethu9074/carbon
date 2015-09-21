@@ -4,17 +4,18 @@ import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import getForgeComponent from 'in-services/getForgeComponent';
 import * as tracking from 'in-services/tracking';
 import {getSingular} from 'in-sdk/pluginName';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
-import getForgeComponent from 'in-services/getForgeComponent';
-import {getLabel, getIcon} from 'in-sdk/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 
+import HoverButton from '../HoverButton';
 import HealthIcon from '../HealthIcon';
 import enhance from '../hoc/enhance';
 import ZoneTag from '../ZoneTag';
-import HoverButton from '../HoverButton';
+import Header from './Header';
 import Jail from '../Jail';
 import Icon from '../Icon';
 import Tabs from './Tabs';
@@ -86,10 +87,9 @@ const SnapshotDetailSidebar = React.createClass({
     return (
       <div className={block}>
         {this.renderTabs()}
+        {this.renderNavigation()}
 
-        <div className={block + '__content'}>
-          {this.renderNavigation()}
-
+        <Header>
           <h1 className={block + '__label'}>
             {getLabel(snapshot)}
             <HealthIcon snapshot={snapshot}
@@ -100,13 +100,15 @@ const SnapshotDetailSidebar = React.createClass({
           <p className={block + '__plugin-type'}>
             {getSingular(snapshot.get('pluginId'))}
           </p>
+        </Header>
 
-          <HoverButton icon='dashboard'
-                       onClick={this.openDashboard}
-                       className={block + '__open-dashboard'}>
-            View Dashboard
-          </HoverButton>
+        <HoverButton icon='dashboard'
+                     onClick={this.openDashboard}
+                     className={block + '__open-dashboard'}>
+          View Dashboard
+        </HoverButton>
 
+        <div className={block + '__content'}>
           {this.renderSnapshotDetails()}
         </div>
       </div>
@@ -155,16 +157,7 @@ const SnapshotDetailSidebar = React.createClass({
                 onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}/>
         </div>
       );
-    } else if (this.props.snapshot) {
-      return (
-        <div className={block + '__navigation'}>
-          <img src={getIcon(this.props.snapshot)}
-               alt='Component icon'
-               className={block + '__icon'}/>
-        </div>
-      );
     }
-
     return null;
   },
 

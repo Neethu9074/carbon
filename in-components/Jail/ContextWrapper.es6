@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 
 const rpt = React.PropTypes;
