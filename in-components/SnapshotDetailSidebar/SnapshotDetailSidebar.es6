@@ -18,7 +18,6 @@ import ZoneTag from '../ZoneTag';
 import Button from '../Button';
 import Header from './Header';
 import Jail from '../Jail';
-import Icon from '../Icon';
 import Tabs from './Tabs';
 
 import './SnapshotDetailSidebar.less';
