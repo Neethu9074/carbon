@@ -6,8 +6,8 @@ var zIndex = 1;
 module.exports = {
   zIndex: {
     map: zIndex++,
-    lettering: zIndex++,
     stickyNotes: zIndex++,
+    lettering: zIndex++,
     notificationCenter: zIndex++,
     sidebar: zIndex++,
     sidebarControls: zIndex++,
