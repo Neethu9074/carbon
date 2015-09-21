@@ -40,6 +40,10 @@ const Tooltip = React.createClass({
   },
 
   componentWillUnmount() {
+    if (this.isActive) {
+      tooltipStore.clearActiveTooltip();
+    }
+
     this.removeListeners();
   },
 
@@ -49,10 +53,12 @@ const Tooltip = React.createClass({
       content: this.props.content,
       align: this.props.align ? this.props.align : 'auto'
     });
+    this.isActive = true;
   },
 
   onMouseOut() {
     tooltipStore.clearActiveTooltip();
+    this.isActive = false;
   },
 
   render() {
