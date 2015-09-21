@@ -15,6 +15,7 @@ import HoverButton from '../HoverButton';
 import HealthIcon from '../HealthIcon';
 import enhance from '../hoc/enhance';
 import ZoneTag from '../ZoneTag';
+import Button from '../Button';
 import Header from './Header';
 import Jail from '../Jail';
 import Icon from '../Icon';
@@ -86,8 +87,8 @@ const SnapshotDetailSidebar = React.createClass({
 
     return (
       <div className={block}>
-        {this.renderTabs()}
         {this.renderNavigation()}
+        {this.renderTabs()}
 
         <Header>
           <h1 className={block + '__label'}>
@@ -152,9 +153,10 @@ const SnapshotDetailSidebar = React.createClass({
     if (this.props.parentCoordinates) {
       return (
         <div className={block + '__navigation'}>
-          <Icon type='back'
-                className={block + '__close'}
-                onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}/>
+          <Button onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}
+                  className={block + '__close'}>
+            back to host
+          </Button>
         </div>
       );
     }

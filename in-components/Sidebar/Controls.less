@@ -27,8 +27,6 @@
 
     list-style: none;
 
-    background: #2d3c43;
-    color: #597582;
     transition: background @focus-transition-duration ease-in-out;
 
     @border-radius: 0.35rem;
@@ -36,20 +34,16 @@
     border-bottom-left-radius: @border-radius;
 
     &--enabled {
-      background: #263238;
-      color: @common__highlight-color;
-
-      &:hover {
-        background: #263238;
-      }
+      background: @sidebar__background;
+      color: white;
     }
 
     &--active {
-      color: #1E2629;
-      background: @common__highlight-color;
+      color: black;
+      background: white;
 
       &:hover {
-        background: @common__highlight-color;
+        background: silver;
       }
     }
 
@@ -69,11 +63,11 @@
 
     text-align: center;
 
-    opacity: 0.6;
+    opacity: 1;
     transition: opacity @focus-transition-duration ease-in-out;
 
     &--enabled:hover, &--active {
-      opacity: 1;
+      opacity: 0.6;
     }
 
   }
