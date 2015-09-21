@@ -110,7 +110,9 @@ export default class BaseNode extends SceneObject {
   onHiddenLeave() {
     super.onHiddenLeave();
 
-    this.stickyNote.show();
+    if (this.isInView()) {
+      this.stickyNote.show();
+    }
   }
 
   onIndirectHighlightEnter() {
