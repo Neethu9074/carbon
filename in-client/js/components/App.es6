@@ -10,6 +10,7 @@ import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
+import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
@@ -99,6 +100,7 @@ const App = React.createClass({
         }
 
         <Lettering className='in-root-lettering' />
+        <AccountMenu className='in-root-menu' showMenu={this.showMenu}/>
 
         {__DEV__ ?
           <ChoosePluginButton onClick={this.togglePlugin}/>
@@ -115,8 +117,7 @@ const App = React.createClass({
 
         </section>
 
-        <Footer showMenu={this.showMenu}
-                toggleNotificationCenter={this.toggleNotificationCenter}/>
+        <Footer toggleNotificationCenter={this.toggleNotificationCenter}/>
 
         <RouteHandler />
 
