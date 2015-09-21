@@ -47,6 +47,11 @@ export default class BaseNode extends SceneObject {
     this.registerEvents();
   }
 
+  onInitialEnter() {
+    // the default state for the solid hull is off
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+  }
+
   onHighlightEnter() {
     this.highlight();
 

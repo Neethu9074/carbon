@@ -432,7 +432,7 @@ export default class Scene {
       }
     }
 
-    //reset the flag to disable rendering if there is no update
+    // reset the flag to disable rendering if there is no update
     this.shouldRenderScene = false;
 
     if(__DEV__) {
@@ -440,7 +440,7 @@ export default class Scene {
     }
   }
 
-  //set this flag if the scene needs to be redrawn
+  // set this flag if the scene needs to be redrawn
   renderScene() {
     this.shouldRenderScene = true;
   }
