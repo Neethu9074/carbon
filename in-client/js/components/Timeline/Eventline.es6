@@ -99,11 +99,8 @@ const Eventline = React.createClass({
   },
 
   mouseIn(issue) {
-    this.setState({
-      hoveredIssue: issue,
-      tooltipX: event.pageX,
-      tooltipY: -10
-    });
+    this.setState({ hoveredIssue: issue });
+
     const problem = issue.get('problem');
     const problemCoordinates = extractCoordinates(problem);
     this.addSubscription(
@@ -116,9 +113,7 @@ const Eventline = React.createClass({
   mouseOut() {
     this.setState({
       hoveredIssue: null,
-      hoveredSnapshot: null,
-      tooltipX: -1,
-      tooltipY: -1
+      hoveredSnapshot: null
     });
     this.disposeSubscriptions();
     highlightedSnapshotStore.clear();

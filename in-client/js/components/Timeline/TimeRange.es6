@@ -14,7 +14,7 @@ const TimeRange = React.createClass({
   ],
 
   propTypes: {
-    open: React.PropTypes.bool.isRequired
+    renderedForTimestamp: React.PropTypes.number
   },
 
   render() {

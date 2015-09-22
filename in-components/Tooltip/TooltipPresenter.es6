@@ -55,7 +55,7 @@ const TooltipPresenter = React.createClass({
     const focusedElementBox = focusedElement.getBoundingClientRect();
 
     const x = this.getX(activeTooltip.align, focusedElementBox, tooltipBox);
-    const y = focusedElementBox.top + focusedElementBox.height / 2 - tooltipBox.height / 2;
+    const y = this.getY(activeTooltip.align, focusedElementBox, tooltipBox);
 
     return {x, y};
   },
@@ -75,6 +75,14 @@ const TooltipPresenter = React.createClass({
     } else if (align === 'right') {
       return focusedElementBox.right + horizontalMargin;
     }
+    return focusedElementBox.left + 10;
+  },
+
+  getY(align, focusedElementBox, tooltipBox) {
+    if (align === 'top') {
+      return focusedElementBox.top - tooltipBox.height - 6;
+    }
+    return focusedElementBox.top + focusedElementBox.height / 2 - tooltipBox.height / 2;
   },
 
   render() {

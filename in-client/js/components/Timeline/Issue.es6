@@ -6,6 +6,7 @@ import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {extractCoordinates} from 'in-services/snapshots';
 import {mapSeverityToHealth} from 'in-services/health';
+import Tooltip from 'in-components/Tooltip';
 import Icon from 'in-components/Icon';
 
 import './Issue.less';
@@ -34,12 +35,25 @@ const Issue = React.createClass({
     style.color = getColorForIssue(issue);
 
     return (
-      <Icon type={mapSeverityToHealth(issue.getIn(['problem', 'severity']))}
-            className={'in-timeline-issue'}
-            style = {style}
-            onMouseEnter={() =>this.props.mouseIn(issue)}
-            onMouseLeave={this.props.mouseOut}
-            onClick={() => this.focusSnapshot(issue)}/>
+      <Tooltip content={this.getTooltipContent()} align={'top'}>
+        <Icon type={mapSeverityToHealth(issue.getIn(['problem', 'severity']))}
+              className={'in-timeline-issue'}
+              style = {style}
+              onMouseEnter={() =>this.props.mouseIn(issue)}
+              onMouseLeave={this.props.mouseOut}
+              onClick={() => this.focusSnapshot(issue)}/>
+      </Tooltip>
+    );
+  },
+
+  getTooltipContent() {
+    return (
+      <div>
+        <div>{'Hier'}</div>
+        <div>{'kommt'}</div>
+        <div>{'die'}</div>
+        <div>{'Maus'}</div>
+      </div>
     );
   },
 
