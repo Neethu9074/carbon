@@ -1,0 +1,6 @@
+{
+  "name": "IssueDiscription",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./IssueDiscription.es6"
+}

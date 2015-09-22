@@ -3,6 +3,7 @@ import React from 'react/addons';
 import d3 from 'd3';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import IssueDiscription from 'in-components/IssueDiscription';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {extractCoordinates} from 'in-services/snapshots';
 import {mapSeverityToHealth} from 'in-services/health';
@@ -17,10 +18,10 @@ const Issue = React.createClass({
   ],
 
   propTypes: {
-    issue: irpt.map.isRequired,
-    style: React.PropTypes.object,
+    mouseOut: React.PropTypes.func.isRequired,
     mouseIn: React.PropTypes.func.isRequired,
-    mouseOut: React.PropTypes.func.isRequired
+    style: React.PropTypes.object,
+    issue: irpt.map.isRequired
   },
 
   getInitialState() {
@@ -35,25 +36,19 @@ const Issue = React.createClass({
     style.color = getColorForIssue(issue);
 
     return (
-      <Tooltip content={this.getTooltipContent()} align={'top'}>
-        <Icon type={mapSeverityToHealth(issue.getIn(['problem', 'severity']))}
-              className={'in-timeline-issue'}
-              style = {style}
-              onMouseEnter={() =>this.props.mouseIn(issue)}
-              onMouseLeave={this.props.mouseOut}
-              onClick={() => this.focusSnapshot(issue)}/>
-      </Tooltip>
-    );
-  },
+      <Tooltip  align={'top'}
+                content={<IssueDiscription key={issue.get('id')}
+                                           issue={issue}/>}>
 
-  getTooltipContent() {
-    return (
-      <div>
-        <div>{'Hier'}</div>
-        <div>{'kommt'}</div>
-        <div>{'die'}</div>
-        <div>{'Maus'}</div>
-      </div>
+        <Icon type={mapSeverityToHealth(issue.getIn(['problem', 'severity']))}
+              onMouseEnter={() =>this.props.mouseIn(issue)}
+              onClick={() => this.focusSnapshot(issue)}
+              onMouseLeave={this.props.mouseOut}
+              className={'in-timeline-issue'}
+              style={style}
+        />
+
+      </Tooltip>
     );
   },
 
