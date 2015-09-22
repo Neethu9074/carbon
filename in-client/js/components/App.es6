@@ -23,7 +23,7 @@ import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
 import DemoDialog from './DemoDialog';
 import Settings from './Settings';
-import Footer from './Footer';
+import Timeline from './Timeline';
 
 import './App.less';
 
@@ -115,8 +115,7 @@ const App = React.createClass({
 
         </section>
 
-        <Footer showMenu={this.showMenu}
-                toggleNotificationCenter={this.toggleNotificationCenter}/>
+        <Timeline />
 
         <RouteHandler />
 

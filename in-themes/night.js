@@ -19,7 +19,7 @@ module.exports = _.defaultsDeep({
     background: 'rgba(47, 67, 76, 0.95)'
   },
   footer: {
-    height: 50
+    height: 20
   },
   map: {
     colors: {

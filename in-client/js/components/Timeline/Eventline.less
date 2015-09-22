@@ -1,0 +1,21 @@
+.in-timeline-eventline {
+  position: relative;
+  flex-shrink: 1;
+
+  width: 100%;
+  height: 2px;
+  margin: 0 6px;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  &__focused-moment {
+    @size: 20px;
+    position: absolute;
+    top: @size / -2;
+
+    width: 1px;
+    height: @size;
+
+    background: red;
+  }
+}

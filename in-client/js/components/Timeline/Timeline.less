@@ -1,129 +1,33 @@
 @import "~in-themes/active.less";
 
 .in-timeline {
-  width: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: @footer__height * 1px;
 
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;
 
-  &__wrapper {
-    width: 100%;
-  }
-
-  &__line {
-    height: 2px;
-    width: 100%;
-    margin: 0 6px;
-
-    position: relative;
-    flex-shrink: 1;
-
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-   &__button-to, &__button-from {
-    font-size: 11px;
-
-    border: 0;
-    border-radius: 2px;
-
-    white-space: nowrap;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    height: 32px;
-
-    background-color: rgba(255, 255, 255, 0.1);
-    color: white;
-    font-weight: bold;
-    text-transform: none;
-  }
-
-  &__button-from {
-    cursor: pointer;
-    padding: 0px 10px 0px 0px;
-
-    &:hover, &:active {
-      background-color: rgba(255, 255, 255, 0.2);
-    }
-  }
-
-  &__button-to {
-    padding: 0px 0px 0px 10px;
-  }
-
-  &__button-text {
-    display: inline-block;
-  }
-
-  &__icon {
-    font-size: 26px;
-    color: #99F4F5;
-    padding: 0 8px;
-    position: relative;
-    top: 1px;
-  }
-
-  &__problem {
-    position: absolute;
-    font-size: 23px;
-    display: block;
-    bottom: -13px;
-    min-width: 32px;
-    margin-left: -16px;
-  }
-
-  &__tooltip {
-    position: absolute;
-    top: 0;
-  }
-
-  &__tooltip-wrapper {
-    position: relative;
-    margin-left: -15px;
-  }
+  background: #2e4149;
 
   &__timepicker {
     position: absolute;
+    left: 0;
     bottom: 100%;
     z-index: @z-index__timepicker;
   }
 
-  &__timepicker-button--set {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  &__servertime {
+    height: @footer__height * 1px;
 
-    font-size: 11px;
-    border: 0;
-    border-radius: 2px;
-    min-width: 100px;
+    color: #6d828a;
+    font-size: 9px;
 
-    background: #2e373e;
-    color: white;
-
-    cursor: pointer;
-  }
-
-  &__focused-moment {
-    @size: 20px;
-    position: absolute;
-    top: @size / -2;
-
-    width: 1px;
-    height: @size;
-
-    background: red;
-  }
-
-  &__issue-line {
-    position: absolute;
-    display: block;
-
-    border-bottom: 2px solid;
+    margin: 0 5px 0 5px;
+    padding-top: 7px;
   }
 }
