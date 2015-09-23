@@ -31,6 +31,10 @@ http {
     server                   {{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}};
   }
 
+  upstream ump {
+    server                   {{USERMANAGEMENT_PORTAL_PORT_8380_TCP_ADDR}}:{{USERMANAGEMENT_PORTAL_PORT_8380_TCP_PORT}};
+  }
+
   upstream groundskeeper {
     server                   {{GROUNDSKEEPER_PORT_8280_TCP_ADDR}}:{{GROUNDSKEEPER_PORT_8280_TCP_PORT}};
   }
@@ -160,6 +164,20 @@ http {
 
     location /auth/users/current {
       proxy_pass             http://groundskeeper/users/current;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /ump {
+      proxy_pass             http://ump;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    location /ump/internal/ {
+      proxy_pass             http://ump/internal;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
