@@ -15,7 +15,7 @@ ENV NGINX_VERSION 1.9.5-1~trusty
 
 # TODO: eventually remove first 2 rms after source lists are consistent in base image on server
 RUN rm /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_trusty-security_universe_source_Sources.gz && \
-    rm /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_trusty-security_multiverse_source_Sources.gz
+    rm /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_trusty-security_multiverse_source_Sources.gz && \
     apt-get update && \
     apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
     rm -rf /var/lib/apt/lists/*
