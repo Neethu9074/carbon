@@ -24,8 +24,9 @@ const Button = React.createClass({
     if (this.props.clickable) {
       classes += ' ' + block + '__clickable';
     }
+
     return (
-      <table className={block}>
+      <table className={classes}>
         {this.props.children}
       </table>
     );
