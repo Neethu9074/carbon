@@ -1,61 +1,36 @@
 import irpt from 'react-immutable-proptypes';
 import * as ro from 'reactive-observables';
-import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import getForgeComponent from 'in-services/getForgeComponent';
-import * as tracking from 'in-services/tracking';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
 
-import HoverButton from '../HoverButton';
+import SnapshotDetailContent from '../SnapshotDetailContent';
 import enhance from '../hoc/enhance';
 import Button from '../Button';
-import Header from './Header';
-import Jail from '../Jail';
-import Tabs from './Tabs';
 
 import './SnapshotDetailSidebar.less';
 
 const block = 'in-snapshot-detail-sidebar';
-
-const alwaysEmptyArrayObservable = ro.create({emitLatestOnSubscribe: true});
-alwaysEmptyArrayObservable.emit([]);
 
 const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
 alwaysNullObservable.emit(null);
 
 const SnapshotDetailSidebar = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
-    Navigation
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    snapshot: irpt.map,
     parentCoordinates: irpt.map,
-    hierarchy: React.PropTypes.array
+    snapshot: irpt.map
   },
 
   statics: {
     createObservables() {
       return {
         snapshot: selectedSnapshotStore.selectedSnapshot,
-        hierarchy: selectedSnapshotStore.selectedSnapshot.transform({
-          emitLatestOnSubscribe: true,
-
-          transform(snapshot) {
-            if (!snapshot) {
-              return alwaysEmptyArrayObservable;
-            }
-            return wiring.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, snapshot);
-          },
-
-          shouldRetransform(prevSnapshot, snapshot) {
-            return prevSnapshot !== snapshot;
-          }
-        }),
         parentCoordinates: selectedSnapshotStore.selectedSnapshot.transform({
           emitLatestOnSubscribe: true,
 
@@ -83,51 +58,8 @@ const SnapshotDetailSidebar = React.createClass({
     return (
       <div className={block}>
         {this.renderNavigation()}
-        {this.renderTabs()}
-
-        <Header snapshot={snapshot}/>
-
-        <HoverButton icon='dashboard'
-                     onClick={this.openDashboard}
-                     className={block + '__open-dashboard'}>
-          View Dashboard
-        </HoverButton>
-
-        {this.renderSnapshotDetails()}
+        <SnapshotDetailContent snapshot={snapshot}/>
       </div>
-    );
-  },
-
-  renderSnapshotDetails() {
-    return (
-      <div className={block + '__content'}>
-        <Jail component={this.getForgeSpecificComponent('Details')}
-              props={{ snapshot: this.props.snapshot }}/>
-      </div>
-    );
-  },
-
-  getForgeSpecificComponent(name) {
-    const pluginId = this.props.snapshot.get('pluginId');
-    return getForgeComponent(
-      './' +
-      pluginId +
-      '/Sidebar/' +
-      name +
-      '.es6'
-    );
-  },
-
-  openDashboard() {
-    const snapshot = this.props.snapshot;
-    tracking.trackEvent(tracking.events.openingADashboardUsingTheSidebar);
-    this.transitionTo(
-      'dashboard',
-      {
-        pluginId: encodeURIComponent(snapshot.get('pluginId')),
-        steadyId: encodeURIComponent(snapshot.get('steadyId')),
-        hostId: encodeURIComponent(snapshot.get('hostId'))
-      }
     );
   },
 
@@ -143,20 +75,6 @@ const SnapshotDetailSidebar = React.createClass({
       );
     }
     return null;
-  },
-
-  renderTabs() {
-    return (
-      <Tabs className={block + '__tabs'}
-            onItemChanged={this.onItemChanged}
-            snapshot={this.props.snapshot}>
-        {this.props.hierarchy}
-      </Tabs>
-    );
-  },
-
-  onItemChanged(item) {
-    selectedSnapshotStore.select(item);
   }
 });
 
