@@ -11,8 +11,12 @@ MAINTAINER Ben Ripkens "ben@instana.com"
 # and nginx version is changed to Ubuntu and the ubuntu release name
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 RUN echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list
-ENV NGINX_VERSION 1.9.5~trusty
-RUN apt-get update && \
+ENV NGINX_VERSION 1.9.5-1~trusty
+
+# TODO: eventually remove first 2 rms after source lists are consistent in base image on server
+RUN rm /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_trusty-security_universe_source_Sources.gz && \
+    rm /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_trusty-security_multiverse_source_Sources.gz
+    apt-get update && \
     apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
     rm -rf /var/lib/apt/lists/*
 # forward request and error logs to docker log collector
