@@ -29,7 +29,7 @@ const EventControl = React.createClass({
     },
     options: {
       iconType: 'options',
-      tooltip: 'options'
+      tooltip: 'show all'
     }
   },
 
