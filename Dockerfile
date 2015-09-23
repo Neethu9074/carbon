@@ -11,7 +11,7 @@ MAINTAINER Ben Ripkens "ben@instana.com"
 # and nginx version is changed to Ubuntu and the ubuntu release name
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 RUN echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list
-ENV NGINX_VERSION 1.9.4-1~trusty
+ENV NGINX_VERSION 1.9.5~trusty
 RUN apt-get update && \
     apt-get install -y ca-certificates nginx=${NGINX_VERSION} && \
     rm -rf /var/lib/apt/lists/*
