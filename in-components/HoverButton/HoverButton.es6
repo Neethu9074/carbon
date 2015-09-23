@@ -11,10 +11,10 @@ const HoverButton = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    icon: rpt.string.isRequired,
-    children: rpt.any,
     onClick: rpt.func.isRequired,
-    className: rpt.string
+    icon: rpt.string.isRequired,
+    className: rpt.string,
+    children: rpt.any
   },
 
   render() {

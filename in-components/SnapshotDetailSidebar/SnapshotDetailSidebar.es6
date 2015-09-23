@@ -6,15 +6,11 @@ import React from 'react/addons';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import getForgeComponent from 'in-services/getForgeComponent';
 import * as tracking from 'in-services/tracking';
-import {getSingular} from 'in-sdk/pluginName';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
-import {getLabel} from 'in-sdk/snapshot';
 
 import HoverButton from '../HoverButton';
-import HealthIcon from '../HealthIcon';
 import enhance from '../hoc/enhance';
-import ZoneTag from '../ZoneTag';
 import Button from '../Button';
 import Header from './Header';
 import Jail from '../Jail';
@@ -89,18 +85,7 @@ const SnapshotDetailSidebar = React.createClass({
         {this.renderNavigation()}
         {this.renderTabs()}
 
-        <Header>
-          <h1 className={block + '__label'}>
-            {getLabel(snapshot)}
-            <HealthIcon snapshot={snapshot}
-                        className={block + '__health'}/>
-            <ZoneTag snapshot={snapshot}
-                     className={block + '__zone'}/>
-          </h1>
-          <p className={block + '__plugin-type'}>
-            {getSingular(snapshot.get('pluginId'))}
-          </p>
-        </Header>
+        <Header snapshot={snapshot}/>
 
         <HoverButton icon='dashboard'
                      onClick={this.openDashboard}
@@ -108,19 +93,17 @@ const SnapshotDetailSidebar = React.createClass({
           View Dashboard
         </HoverButton>
 
-        <div className={block + '__content'}>
-          {this.renderSnapshotDetails()}
-        </div>
+        {this.renderSnapshotDetails()}
       </div>
     );
   },
 
   renderSnapshotDetails() {
-    const DetailsFromForge = this.getForgeSpecificComponent('Details');
     return (
-      <Jail component={DetailsFromForge} props={{
-        snapshot: this.props.snapshot
-      }} />
+      <div className={block + '__content'}>
+        <Jail component={this.getForgeSpecificComponent('Details')}
+              props={{ snapshot: this.props.snapshot }}/>
+      </div>
     );
   },
 
@@ -151,7 +134,7 @@ const SnapshotDetailSidebar = React.createClass({
   renderNavigation() {
     if (this.props.parentCoordinates) {
       return (
-        <div className={block + '__navigation'}>
+        <div>
           <Button onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}
                   className={block + '__close'}>
             back to host
@@ -163,16 +146,11 @@ const SnapshotDetailSidebar = React.createClass({
   },
 
   renderTabs() {
-    const hierarchy = this.props.hierarchy;
-    if(!hierarchy) {
-      return null;
-    }
-
     return (
       <Tabs className={block + '__tabs'}
             onItemChanged={this.onItemChanged}
             snapshot={this.props.snapshot}>
-        {hierarchy}
+        {this.props.hierarchy}
       </Tabs>
     );
   },

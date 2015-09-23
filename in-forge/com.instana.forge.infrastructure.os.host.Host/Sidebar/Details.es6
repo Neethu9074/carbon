@@ -20,27 +20,33 @@ const OsDetails = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+
     return (
       <div className={block}>
-        <ProblemPanel snapshot={this.props.snapshot} />
+        <ProblemPanel snapshot={snapshot} />
 
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Host</Collapsible.Header>
-          <Collapsible.Content>
-            <HostInfo snapshot={this.props.snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-        <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Interfaces</Collapsible.Header>
-          <Collapsible.Content>
-            <InterfaceList snapshot={this.props.snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
+        {this.getCollapsible('Host', <HostInfo snapshot={snapshot} />)}
+        {this.getCollapsible('Interfaces', <InterfaceList snapshot={snapshot} />)}
 
-        <TagList snapshot={this.props.snapshot} />
-        <HostHardware snapshot={this.props.snapshot} />
-        <WiringList snapshot={this.props.snapshot} />
+        <TagList snapshot={snapshot} />
+        <HostHardware snapshot={snapshot} />
+        <WiringList snapshot={snapshot} />
       </div>
+    );
+  },
+
+  getCollapsible(header, content) {
+    return (
+      <Collapsible initiallyOpen={true}>
+        <Collapsible.Header>
+          {header}
+        </Collapsible.Header>
+
+        <Collapsible.Content>
+          {content}
+        </Collapsible.Content>
+      </Collapsible>
     );
   }
 });

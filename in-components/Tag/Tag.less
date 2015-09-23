@@ -1,20 +1,26 @@
 .in-tag {
+  @light: #b5bfc3;
+  @dark: #6b8088;
+
   display: inline-block;
 
   border-radius: 24px;
-  background: #2c3b42;
+  border: 1px solid @light;
 
   padding: 12px 16px 10px 16px;
   margin: 2px;
 
   text-align: center;
   text-transform: uppercase;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: bold;
+  color: @dark;
 
   &:hover {
-    background: #51626c;
+    background: @dark;
     cursor: pointer;
+
+    color: @light;
   }
 
   &__wrapper {

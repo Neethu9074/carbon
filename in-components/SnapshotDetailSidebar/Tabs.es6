@@ -14,13 +14,17 @@ const SidebarTabs = React.createClass({
   },
 
   render() {
-    const className = this.props.className ? this.props.className : '';
+    const children = this.props.children;
+    if (!children || children.length === 0) {
+      return null;
+    }
+
+    const snapshot = this.props.snapshot;
 
     return (
-      <div className={className}>
-        {this.props.children.map((child, index) => {
-          const isSelected = this.props.snapshot &&
-            this.props.snapshot.get('id') === child.get('id');
+      <div className={this.props.className}>
+        {children.map((child, index) => {
+          const isSelected = snapshot && snapshot.get('id') === child.get('id');
           return (
             <Tab key={index}
                  onClick={this.onClick}
