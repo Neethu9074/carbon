@@ -113,11 +113,20 @@ const SnapshotDetailContent = React.createClass({
   },
 
   renderTabs() {
+    const hierarchy = this.props.hierarchy;
+    if (!hierarchy) {
+      return null;
+    }
+
+    const className = this.props.className ?
+      block + '__tabs ' + this.props.className + '__tabs' :
+      block + '__tabs';
+
     return (
-      <Tabs className={block + '__tabs'}
+      <Tabs className={className}
             onItemChanged={this.onItemChanged}
             snapshot={this.props.snapshot}>
-        {this.props.hierarchy}
+        {hierarchy}
       </Tabs>
     );
   },
