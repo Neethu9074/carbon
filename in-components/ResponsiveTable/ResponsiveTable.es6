@@ -15,21 +15,19 @@ const Button = React.createClass({
   },
 
   render() {
-    let classes = block + '__table';
+    let classes = block;
 
     if (this.props.className) {
       classes += ' ' + this.props.className;
     }
 
     if (this.props.clickable) {
-      classes += ' ' + block + '__table--clickable';
+      classes += ' ' + block + '__clickable';
     }
     return (
-      <div className={block}>
-        <table className={classes}>
-          {this.props.children}
-        </table>
-      </div>
+      <table className={block}>
+        {this.props.children}
+      </table>
     );
   }
 });

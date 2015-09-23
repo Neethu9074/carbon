@@ -1,12 +1,13 @@
 import React from 'react';
 
-import Jail from 'in-components/Jail';
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import SnapshotDetailContent from 'in-components/SnapshotDetailContent';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import getForgeComponent from 'in-services/getForgeComponent';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import * as timelineStore from 'in-services/stores/timeline';
 import {extractCoordinates} from 'in-services/snapshots';
-import getForgeComponent from 'in-services/getForgeComponent';
+import Jail from 'in-components/Jail';
 
 import Header from './Header';
 
@@ -52,20 +53,22 @@ const Dashboard = React.createClass({
   render() {
     return (
       <div className={block}>
-        <Header snapshot={this.state.snapshot}/>
 
         <div className={block + '__content-wrapper'}>
-          <div className={block + '__content'} ref='content'>
-            {this.state.snapshot ?
-              this.renderDashboard()
-            : <LoadingIndicator />}
-          </div>
 
           <div className={block + '__sidebar'}>
             {this.state.snapshot ?
               this.renderSidebar()
             : <LoadingIndicator />}
           </div>
+
+          <div className={block + '__content'} ref='content'>
+            <Header snapshot={this.state.snapshot}/>
+            {this.state.snapshot ?
+              this.renderDashboard()
+            : <LoadingIndicator />}
+          </div>
+
         </div>
       </div>
     );
@@ -82,12 +85,10 @@ const Dashboard = React.createClass({
   },
 
   renderSidebar() {
-    const Sidebar = this.getForgeSpecificComponent('Sidebar');
     return (
-      <Jail component={Sidebar} props={{
-        snapshot: this.state.snapshot,
-        timeframe: this.state.timeframe
-      }} />
+      <div className={block + '__sidebar'}>
+        <SnapshotDetailContent className={block + '__siderbar-content'} snapshot={this.state.snapshot}/>;
+      </div>
     );
   },
 

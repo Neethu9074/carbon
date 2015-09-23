@@ -29,6 +29,7 @@ const SnapshotDetailContent = React.createClass({
   ],
 
   propTypes: {
+    className: React.PropTypes.string,
     hierarchy: React.PropTypes.array,
     snapshot: irpt.map.isRequired
   },
@@ -55,9 +56,10 @@ const SnapshotDetailContent = React.createClass({
   },
 
   render() {
+    const className = this.props.className ? block + ' ' + this.props.className : block;
     const snapshot = this.props.snapshot;
     return (
-      <div className={block}>
+      <div className={className}>
         {this.renderTabs()}
 
         <Header snapshot={snapshot}/>
@@ -74,8 +76,12 @@ const SnapshotDetailContent = React.createClass({
   },
 
   renderSnapshotDetails() {
+    const className = this.props.className ?
+      block + '__content ' + this.props.className + '__content' :
+      block + '__content';
+
     return (
-      <div className={block + '__content'}>
+      <div className={className}>
         <Jail component={this.getForgeSpecificComponent('Details')}
               props={{ snapshot: this.props.snapshot }}/>
       </div>
