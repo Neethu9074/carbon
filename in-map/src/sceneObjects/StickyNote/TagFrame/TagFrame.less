@@ -5,29 +5,15 @@
   width: 50px;
 }
 
-.in-tooltip__tag-frame--ul {
-  display: inline-block;
+.in-tooltip__tag-frame {
+  &__ul {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+  }
 
-  margin: 0;
-  padding: 0;
-}
-
-.in-tooltip__tag-frame--li {
-  display: inline-block;
-
-  margin: 2px;
-}
-
-.in-tooltip__tag-frame--li:last-child {
-  margin-bottom: 0px;
-}
-
-.in-tooltip__tag-frame--bubble {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-
-  background-color: @map__tooltips__font;
-
-  display: inline-block;
+  &__li {
+    display: inline-block;
+    margin: 2px;
+  }
 }

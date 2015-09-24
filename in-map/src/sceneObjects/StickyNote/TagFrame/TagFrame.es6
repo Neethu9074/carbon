@@ -40,10 +40,10 @@ export default React.createClass({
 
     return (
       <div className='in-sticky-note__tag-frame'>
-        <ul className='in-tooltip__tag-frame--ul'>
+        <ul className='in-tooltip__tag-frame__ul'>
           {tags.map(tag => {
             return (
-              <li key={tag} className='in-tooltip__tag-frame--li'>
+              <li key={tag} className='in-tooltip__tag-frame__li'>
                 <Tooltip content={<TagToolTip tag={tag}/>}
                          align={'auto'}>
                   <Tag tag={tag} sceneObject={this.props.sceneObject}/>
