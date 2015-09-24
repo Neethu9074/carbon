@@ -70,6 +70,7 @@ export default class Scene {
     this.setupEvents();
     this.handleLostContext();
 
+    this.update = this.update.bind(this);
     this.update(0);
   }
 
@@ -336,7 +337,7 @@ export default class Scene {
       return;
     }
 
-    requestAnimationFrame(this.update.bind(this));
+    requestAnimationFrame(this.update);
 
     //fire event for updating stats
     eventBus.emit('beginUpdate', highResTimestamp);
