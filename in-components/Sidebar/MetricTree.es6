@@ -15,8 +15,7 @@ const MetricTree = React.createClass({
   propTypes: {
     header: rpt.object.isRequired,
     children: rpt.any,
-    style: rpt.object,
-    className: rpt.string
+    style: rpt.object
   },
 
   renderChildren() {

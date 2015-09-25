@@ -1,27 +1,28 @@
 import React from 'react';
 
+import {getClassName} from 'in-services/react';
+
 import './Icon.less';
+
+const rpt = React.PropTypes;
 
 const Icon = React.createClass({
   propTypes: {
-    className: React.PropTypes.string,
-    type: React.PropTypes.string.isRequired,
-    style: React.PropTypes.object,
-    onClick: React.PropTypes.func,
-    onMouseEnter: React.PropTypes.func,
-    onMouseLeave: React.PropTypes.func
+    type: rpt.string.isRequired,
+    onMouseLeave: rpt.func,
+    onMouseEnter: rpt.func,
+    className: rpt.string,
+    onClick: rpt.func,
+    style: rpt.object
   },
 
   render() {
-    let classes = 'icon icon-' + this.props.type;
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
+    const className = getClassName(this, 'icon icon-' + this.props.type);
 
     if (this.props.onClick) {
       return (
         <button type='button'
-                className={classes}
+                className={className}
                 style={this.props.style}
                 onClick={this.props.onClick}
                 onMouseEnter={this.props.onMouseEnter}
@@ -30,7 +31,7 @@ const Icon = React.createClass({
     }
 
       return (
-      <i className={classes}
+      <i className={className}
          style={this.props.style}
          onMouseEnter={this.props.onMouseEnter}
          onMouseLeave={this.props.onMouseLeave}/>

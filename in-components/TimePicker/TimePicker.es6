@@ -1,5 +1,7 @@
-import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
+import React from 'react/addons';
+
+import {getClassName} from 'in-services/react';
 
 import Button from '../Button';
 
@@ -20,13 +22,8 @@ const TimePicker = React.createClass({
   },
 
   render() {
-    let classes = block;
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
-
     return (
-      <div className={block}>
+      <div className={getClassName(this, block)}>
       <Button className={block + '__button'}
               onClick={() => this.props.onClick(1000 * 60 * 10)}>
          {this.getIntlMessage('timePicker.time1')}

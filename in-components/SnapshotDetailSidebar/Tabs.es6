@@ -1,6 +1,8 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
+import {getClassName} from 'in-services/react';
+
 import Tab from './Tab';
 
 const SidebarTabs = React.createClass({
@@ -14,10 +16,8 @@ const SidebarTabs = React.createClass({
   },
 
   render() {
-    const className = this.props.className ? this.props.className : '';
-
     return (
-      <div className={className}>
+      <div className={getClassName(this, '')}>
         {this.props.children.map((child, index) => {
           const isSelected = this.props.snapshot &&
             this.props.snapshot.get('id') === child.get('id');

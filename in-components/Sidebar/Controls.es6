@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
 import classnames from 'in-services/util/classnames';
+import {getClassName} from 'in-services/react';
 
 import EventControl from './EventControl';
 import Tooltip from '../Tooltip';
@@ -15,18 +16,14 @@ const Controls = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    className: rpt.string,
+    onChangeActiveControl: rpt.func.isRequired,
     activeControl: rpt.string,
-    onChangeActiveControl: rpt.func.isRequired
+    className: rpt.string
   },
 
   render() {
-    let rootClasses = block;
-    if (this.props.className) {
-      rootClasses += ' ' + this.props.className;
-    }
     return (
-      <nav className={rootClasses}>
+      <nav className={getClassName(this, block)}>
         <ul className={block + '__control-list'}>
 
           {this.renderControlIcon('metrics', 'metrics', 'Show metrics.', true)}
