@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import {getClassName} from 'in-services/react';
+
 import './ListHeader.less';
 
 const block = 'in-sidebar-listheader';
@@ -13,10 +15,8 @@ const ListHeader = React.createClass({
   },
 
   render() {
-    const className = this.props.className ? block + ' ' + this.props.className : block;
-
     return (
-      <h2 className={className}>
+      <h2 className={getClassName(this, block)}>
         {this.props.header}
       </h2>
     );

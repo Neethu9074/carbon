@@ -2,6 +2,7 @@ import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
 import {isProductionEnvironment} from 'in-services/config';
+import {getClassName} from 'in-services/react';
 
 import stanPath from './stan.png';
 
@@ -67,12 +68,8 @@ const Menu = React.createClass({
 
   render() {
     const postFix = this.state.open ? 'opened' : 'closed';
-    const className = this.props.className ?
-      block + ' ' + this.props.className :
-      block;
-
     return (
-      <div className={className}>
+      <div className={getClassName(this, block)}>
 
         {this.renderMenu()}
 

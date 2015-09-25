@@ -6,6 +6,7 @@ import React from 'react/addons';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import getForgeComponent from 'in-services/getForgeComponent';
 import * as tracking from 'in-services/tracking';
+import {getClassName} from 'in-services/react';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
 
@@ -56,13 +57,11 @@ const SnapshotDetailContent = React.createClass({
   },
 
   render() {
-    const className = this.props.className ? block + ' ' + this.props.className : block;
-    const snapshot = this.props.snapshot;
     return (
-      <div className={className}>
+      <div className={getClassName(this, block)}>
         {this.renderTabs()}
 
-        <Header snapshot={snapshot}/>
+        <Header snapshot={this.props.snapshot}/>
 
         <HoverButton icon='dashboard'
                      onClick={this.openDashboard}
