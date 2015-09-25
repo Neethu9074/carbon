@@ -4,9 +4,10 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as metricsStore from 'in-services/stores/metrics';
 
-import Icon from '../Icon';
 import MetricTreeLeaf from './MetricTreeLeaf';
+import ResetButton from './ResetButton';
 import MetricTree from './MetricTree';
+import ListHeader from './ListHeader';
 
 import './Metrics.less';
 
@@ -64,24 +65,6 @@ const Metrics = React.createClass({
     );
   },
 
-  renderHeader() {
-    const style = this.state.activeMetric ? {opacity: 1} : {opacity: 0.25};
-
-    return (
-      <div className={block + '__header'}>
-        <h2 className={block + '__label'}>
-          {'Metrics'}
-        </h2>
-        <div className={block + '__clear-button'}
-             style={style}
-             onClick={() => metricsStore.activeMetric.emit(null)}>
-          {'Reset'}
-          <Icon className={block + '__icon'} type='x' />
-        </div>
-      </div>
-    );
-  },
-
   getMetricsToShow(root, level) {
     const children = root.get('children');
     const label = root.get('label');
@@ -100,9 +83,13 @@ const Metrics = React.createClass({
   render() {
     return (
       <div className={block}>
-        {this.renderHeader()}
-        {metricTree.get('children').map(child =>
-          this.getMetricsToShow(child, 0))}
+
+        <ListHeader header={'Metrics'}/>
+
+        <ResetButton onClick={() => metricsStore.activeMetric.emit(null)} />
+
+        {metricTree.get('children').map(child => this.getMetricsToShow(child, 0))}
+
       </div>
     );
   }

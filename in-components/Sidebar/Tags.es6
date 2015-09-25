@@ -1,13 +1,15 @@
-import _ from 'lodash';
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
+import _ from 'lodash';
 
-import * as viewStore from 'in-services/stores/view';
-import {getColor} from 'in-services/tags';
-import classnames from 'in-services/util/classnames';
-import {createTagFilter} from 'in-services/filtering';
 import * as filters from 'in-services/stores/filters';
+import {createTagFilter} from 'in-services/filtering';
+import * as viewStore from 'in-services/stores/view';
+import classnames from 'in-services/util/classnames';
+import {getColor} from 'in-services/tags';
 
+import ResetButton from './ResetButton';
+import ListHeader from './ListHeader';
 import enhance from '../hoc/enhance';
 import './Tags.less';
 
@@ -38,7 +40,11 @@ const SidebarTagListing = React.createClass({
 
     return (
       <div>
-        <h1 className={block + '__label'}>Tags</h1>
+
+        <ListHeader header={'Tags'}/>
+
+        <ResetButton onClick={() => { /*TODO: clear all tags*/}} />
+
         <ol className={block}>
           {tags.map(tag => {
             return (
