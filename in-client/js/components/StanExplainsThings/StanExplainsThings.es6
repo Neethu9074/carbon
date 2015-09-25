@@ -1,5 +1,6 @@
 import React from 'react/addons';
 
+import {getClassName} from 'in-services/react';
 import Stan from 'in-components/Stan';
 
 import './StanExplainsThings.less';
@@ -20,12 +21,8 @@ const StanExplainsThings = React.createClass({
   },
 
   render() {
-    const classes = this.props.className ?
-      block + ' ' + this.props.className :
-      block;
-
     return (
-      <div className={classes} style={this.props.style}>
+      <div className={getClassName(this, block)} style={this.props.style}>
         <span className={block + '__header'}>
           {this.props.header}
         </span>

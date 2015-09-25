@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import {getClassName} from 'in-services/react';
+
 import './Button.less';
 
 const rpt = React.PropTypes;
@@ -18,10 +20,7 @@ const Button = React.createClass({
   },
 
   render() {
-    let classes = block;
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
+    let classes = getClassName(this, block);
 
     const kind = this.props.kind || 'default';
     classes += ' ' + block + '--' + kind;

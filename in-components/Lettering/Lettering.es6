@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {getClassName} from 'in-services/react';
+
 import './Lettering.less';
 
 const Lettering = React.createClass({
@@ -8,12 +10,9 @@ const Lettering = React.createClass({
   },
 
   render() {
-    let classes = 'in-lettering';
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
+    const className = getClassName(this, 'in-lettering');
     return (
-      <div className={classes}>
+      <div className={className}>
         instana Inc.
       </div>
     );

@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
 import * as constants from 'in-forge/constants';
+import {getClassName} from 'in-services/react';
 
 import './ChoosePluginButton.less';
 
@@ -48,12 +49,8 @@ const ChoosePluginButton = React.createClass({
 
   render() {
     const plugin = plugins[this.state.pluginIndex];
-    const className = this.props.className ?
-      this.props.className + ' ' + block :
-      block;
-
     return (
-      <button className={className} onClick={this.clicked}>
+      <button className={getClassName(this, block)} onClick={this.clicked}>
         {'switch to ' + plugin.label + ' view'}
       </button>
     );

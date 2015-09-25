@@ -1,6 +1,6 @@
-
-
 import React from 'react/addons';
+
+import {getClassName} from 'in-services/react';
 
 import './Content.less';
 
@@ -14,13 +14,8 @@ export default React.createClass({
   },
 
   render() {
-    let classes = 'in-tooltip__content';
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
-
     return (
-      <p className={classes}>
+      <p className={getClassName(this, 'in-tooltip__content')}>
         {this.props.children}
       </p>
     );

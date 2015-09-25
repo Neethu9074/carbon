@@ -1,5 +1,7 @@
 import React from 'react';
 
+import {getClassName} from 'in-services/react';
+
 import './Stan.less';
 
 import stanPath from './stan.png';
@@ -10,13 +12,7 @@ const Stan = React.createClass({
   },
 
   render() {
-    let classes = 'in-stan';
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
-    return (
-      <img className={classes} src={stanPath}/>
-    );
+    return <img className={getClassName(this, 'in-stan')} src={stanPath}/>;
   }
 });
 

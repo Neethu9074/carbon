@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import {getClassName} from 'in-services/react';
+
 import './ResponsiveTable.less';
 
 const rpt = React.PropTypes;
@@ -9,18 +11,13 @@ const Button = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
+    children: rpt.any.isRequired,
     className: rpt.string,
-    clickable: rpt.bool,
-    children: rpt.any.isRequired
+    clickable: rpt.bool
   },
 
   render() {
-    let classes = block;
-
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
-
+    let classes = getClassName(this, block + '__table');
     if (this.props.clickable) {
       classes += ' ' + block + '__clickable';
     }

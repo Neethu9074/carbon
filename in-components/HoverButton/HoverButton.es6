@@ -1,5 +1,7 @@
 import React from 'react/addons';
 
+import {getClassName} from 'in-services/react';
+
 import Icon from '../Icon';
 
 import './HoverButton.less';
@@ -18,13 +20,8 @@ const HoverButton = React.createClass({
   },
 
   render() {
-    let classes = block;
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
-
     return (
-      <button className={classes}
+      <button className={getClassName(this, block)}
               onClick={this.props.onClick}>
         <Icon type={this.props.icon}
               className={block + '__icon'}/>
