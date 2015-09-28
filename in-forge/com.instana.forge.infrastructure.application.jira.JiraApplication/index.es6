@@ -1,5 +1,8 @@
+import {
+  addLabelFinder,
+  addIconFinder
+} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
-import {addIconFinder} from 'in-sdk/snapshot';
 import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';
@@ -9,6 +12,11 @@ pluginName.setHumanReadablePluginName(
   constants.plugins.jira,
   'Atlassian JIRA',
   'Atlassian JIRAs'
+);
+
+addLabelFinder(
+  constants.plugins.jira,
+  snapshot => 'Atlassian JIRA ' + snapshot.getIn(['data', 'version'])
 );
 
 addIconFinder(
