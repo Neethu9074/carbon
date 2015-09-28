@@ -15,6 +15,7 @@ module.exports = {
     search: zIndex++,
     header: zIndex++,
     dashboard: zIndex++,
+    dashboardHeader: zIndex++,
     footer: zIndex++,
     flyOutNotifications: zIndex++,
     timepicker: zIndex++,
@@ -28,6 +29,7 @@ module.exports = {
       dialog: zIndex++
     },
     backdrop: zIndex++,
+    accountMenu: zIndex++,
     dialog: zIndex++,
     demoSignIn: zIndex++
   }
