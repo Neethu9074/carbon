@@ -4,13 +4,14 @@ import d3 from 'd3';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import IssueDiscription from 'in-components/IssueDiscription';
-import {getColorForIssue} from 'in-services/issueTracker';
 import {extractCoordinates} from 'in-services/snapshots';
-import {mapSeverityToHealth} from 'in-services/health';
+import {health, mapSeverityToHealth} from 'in-services/health';
 import Tooltip from 'in-components/Tooltip';
 import Icon from 'in-components/Icon';
 
 import './Issue.less';
+
+const block = 'in-timeline-issue';
 
 const Issue = React.createClass({
   mixins: [
@@ -32,22 +33,21 @@ const Issue = React.createClass({
 
   render() {
     const issue = this.props.issue;
+    const state = issue.get('state');
+    const issueHealth = state === 'OPEN' ? mapSeverityToHealth(issue.getIn(['problem', 'severity'])) : health.ok;
     const style = this.props.style ? this.props.style : {};
-    style.color = getColorForIssue(issue);
 
     return (
       <Tooltip  align={'top'}
                 content={<IssueDiscription key={issue.get('id')}
                                            issue={issue}/>}>
 
-        <Icon type={mapSeverityToHealth(issue.getIn(['problem', 'severity']))}
+        <Icon type={'warning'}
               onMouseEnter={() =>this.props.mouseIn(issue)}
               onClick={() => this.focusSnapshot(issue)}
               onMouseLeave={this.props.mouseOut}
-              className={'in-timeline-issue'}
-              style={style}
-        />
-
+              className={block + ' ' + block + '__' + issueHealth}
+              style={style} />
       </Tooltip>
     );
   },
