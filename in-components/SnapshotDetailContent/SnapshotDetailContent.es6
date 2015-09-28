@@ -62,25 +62,25 @@ const SnapshotDetailContent = React.createClass({
         {this.renderTabs()}
 
         <Header snapshot={this.props.snapshot}/>
-
-        <HoverButton icon='dashboard'
-                     onClick={this.openDashboard}
-                     className={block + '__open-dashboard'}>
-          View Dashboard
-        </HoverButton>
-
+        {this.renderHoverButton()}
         {this.renderSnapshotDetails()}
       </div>
     );
   },
 
-  renderSnapshotDetails() {
-    const className = this.props.className ?
-      block + '__content ' + this.props.className + '__content' :
-      block + '__content';
-
+  renderHoverButton() {
     return (
-      <div className={className}>
+      <HoverButton icon='dashboard'
+                   onClick={this.openDashboard}
+                   className={this.getMixedClassName('__open-dashboard')}>
+        View Dashboard
+      </HoverButton>
+    );
+  },
+
+  renderSnapshotDetails() {
+    return (
+      <div className={this.getMixedClassName('__content')}>
         <Jail component={this.getForgeSpecificComponent('Details')}
               props={{ snapshot: this.props.snapshot }}/>
       </div>
@@ -117,12 +117,8 @@ const SnapshotDetailContent = React.createClass({
       return null;
     }
 
-    const className = this.props.className ?
-      block + '__tabs ' + this.props.className + '__tabs' :
-      block + '__tabs';
-
     return (
-      <Tabs className={className}
+      <Tabs className={this.getMixedClassName('__tabs')}
             onItemChanged={this.onItemChanged}
             snapshot={this.props.snapshot}>
         {hierarchy}
@@ -132,6 +128,12 @@ const SnapshotDetailContent = React.createClass({
 
   onItemChanged(item) {
     selectedSnapshotStore.select(item);
+  },
+
+  getMixedClassName(postAppend) {
+    return this.props.className ?
+      block + postAppend + ' ' + this.props.className + postAppend :
+      block + postAppend;
   }
 });
 
