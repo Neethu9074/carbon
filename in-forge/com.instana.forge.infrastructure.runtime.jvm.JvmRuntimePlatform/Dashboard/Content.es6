@@ -83,10 +83,10 @@ const JVMDashboard = React.createClass({
                              formatter: formatBytesShort,
                              tooltipFormatter: formatBytes,
                              metrics: [
-                               'memory.free'
+                               'memory.used'
                              ],
                              labels: [
-                               'Free'
+                               'Used'
                              ],
                              type: 'stackedArea'
                            }}/>
