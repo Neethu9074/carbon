@@ -75,18 +75,18 @@ const JVMDashboard = React.createClass({
                            windowSize={this.props.timeframe}
                            height={chartHeight}
                            margins={{
-                             left: 80
+                             left: 100
                            }}
                            y1={{
                              min: 0,
                              max: this.props.snapshot.getIn(['data', 'memory.max']),
-                             formatter: formatBytesShort,
+                             formatter: formatBytes,
                              tooltipFormatter: formatBytes,
                              metrics: [
-                               'memory.free'
+                               'memory.used'
                              ],
                              labels: [
-                               'Free'
+                               'Used'
                              ],
                              type: 'stackedArea'
                            }}/>
