@@ -9,6 +9,7 @@ import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import NotificationCounter from 'in-components/NotificationCounter';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
@@ -32,22 +33,22 @@ const rpt = React.PropTypes;
 
 const App = React.createClass({
   mixins: [
-    IntlMixin,
-    SubscriptionMixin,
     React.addons.PureRenderMixin,
-    Navigation
+    SubscriptionMixin,
+    Navigation,
+    IntlMixin
   ],
 
   propTypes: {
-    state: rpt.object.isRequired,
+    closeHelpIfOpen: rpt.func.isRequired,
     showHelp: rpt.func.isRequired,
-    closeHelpIfOpen: rpt.func.isRequired
+    state: rpt.object.isRequired
   },
 
   getInitialState() {
     return {
-      selectedSnapshot: null,
       pluginIds: [constants.plugins.os],
+      selectedSnapshot: null,
       showSettings: false
     };
   },
@@ -94,17 +95,12 @@ const App = React.createClass({
 
     return (
       <div>
-        {this.state.showSettings ?
-          <Settings showMenu={this.showMenu}/> :
-          null
-        }
+        {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
         <Lettering className='in-root-lettering' />
-        <AccountMenu className='in-root-menu' showMenu={this.showMenu}/>
+        {this.renderMenu()}
 
-        {__DEV__ ?
-          <ChoosePluginButton onClick={this.togglePlugin}/>
-        : null}
+        {__DEV__ ? <ChoosePluginButton onClick={this.togglePlugin}/> : null}
 
         <section style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginIds={this.state.pluginIds} />
@@ -118,24 +114,26 @@ const App = React.createClass({
         </section>
 
         <Footer toggleNotificationCenter={this.toggleNotificationCenter}/>
-
         <RouteHandler />
 
-        {this.props.state.query.help ?
-          <HelpDialog id={this.props.state.query.help} />
-        : null}
+        {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
 
-        {window.instana.config.environment === 'demo' ?
-          <DemoDialog />
-        : null}
+        {window.instana.config.environment === 'demo' ? <DemoDialog /> : null}
 
         <TooltipPresenter />
-
         <ConnectionStatus />
       </div>
     );
-  }
+  },
 
+  renderMenu() {
+    return (
+      <div className='in-root-menu'>
+        <NotificationCounter onClick={this.toggleNotificationCenter}/>
+        <AccountMenu showMenu={this.showMenu}/>
+      </div>
+    );
+  }
 });
 
 export default helpify(App);
