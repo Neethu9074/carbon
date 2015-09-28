@@ -20,10 +20,25 @@ const InterfaceList = React.createClass({
       <DescriptionList>
         {ifaces.map((iface, ifaceName) =>
           <DescriptionItem key={ifaceName} title={ifaceName}>
-            {iface.get('ips')}
+            {this.formatIPs(iface.get('ips'))}
           </DescriptionItem>
         ).toArray()}
       </DescriptionList>
+    );
+  },
+
+  formatIPs(ips) {
+    if (!ips) return null;
+    // sort IPs based on their length, will make v4 come before v6
+    const ipsSorted = ips.sort((a, b) => a.length - b.length);
+    return (
+      <span>
+        {ipsSorted.map((ip) =>
+          <div key={ip}>
+            {ip}
+          </div>
+        )}
+      </span>
     );
   }
 });

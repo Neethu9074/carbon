@@ -25,7 +25,7 @@ const JVMInfo = React.createClass({
         </DescriptionItem>
 
         <DescriptionItem title='Java Runtime'>
-          {data.get('jvm.vendor')}{' '}
+          {data.get('jvm.vendor')}<br/>
           {data.get('jvm.name')}
         </DescriptionItem>
 
@@ -49,11 +49,10 @@ const JVMInfo = React.createClass({
     const cpEntries = cp.split(/:|;/);
     return (
       <span>
-        {cpEntries.map((cpEntry, i) =>
-          <span key={cpEntry}>
-            {i > 0 ? <span><br/><br/></span> : null}
+        {cpEntries.map((cpEntry) =>
+          <div key={cpEntry}>
             {cpEntry}
-          </span>
+          </div>
         )}
       </span>
     );
