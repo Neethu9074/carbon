@@ -27,17 +27,25 @@
     top: 10px;
   }
 
-  &__left:after {
+  &__left-auto:after {
     right: @size * -1;
   }
 
-  &__right:after {
+  &__right-auto:after {
     left: @size * -2;
     border-right: @size solid @background;
     border-left: @size solid transparent;
   }
 
-  &__top:after {
+  &__right-top:after {
+    left: @size * -2 + 20px;
+    border-right: @size solid @background;
+    border-left: @size solid transparent;
+    top: 100%;
+  }
+
+  &__left-top:after {
+    right: @size * -1 + 20px;
     top: 100%;
   }
 }

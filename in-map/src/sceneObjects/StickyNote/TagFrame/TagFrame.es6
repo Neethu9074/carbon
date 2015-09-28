@@ -44,8 +44,7 @@ export default React.createClass({
           {tags.map(tag => {
             return (
               <li key={tag} className='in-tooltip__tag-frame__li'>
-                <Tooltip content={<TagToolTip tag={tag}/>}
-                         align={'auto'}>
+                <Tooltip content={<TagToolTip tag={tag}/>}>
                   <Tag tag={tag} sceneObject={this.props.sceneObject}/>
                 </Tooltip>
               </li>

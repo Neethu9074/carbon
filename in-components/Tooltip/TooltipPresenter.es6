@@ -47,6 +47,7 @@ const TooltipPresenter = React.createClass({
   getXYFromHtmlElement(tooltipElement) {
     this.translateAlign();
     const activeTooltip = this.props.activeTooltip;
+    const align = activeTooltip.align;
 
     // each box has width, height, top, left properties
     const tooltipBox = tooltipElement.getBoundingClientRect();
@@ -54,8 +55,8 @@ const TooltipPresenter = React.createClass({
     const focusedElement = activeTooltip.focusedElement;
     const focusedElementBox = focusedElement.getBoundingClientRect();
 
-    const x = this.getX(activeTooltip.align, focusedElementBox, tooltipBox);
-    const y = this.getY(activeTooltip.align, focusedElementBox, tooltipBox);
+    const x = this.getX(align, focusedElementBox, tooltipBox);
+    const y = this.getY(align.vertical, focusedElementBox, tooltipBox);
 
     return {x, y};
   },
@@ -63,19 +64,31 @@ const TooltipPresenter = React.createClass({
   translateAlign() {
     const activeTT = this.props.activeTooltip;
 
-    if (activeTT && activeTT.align === 'auto') {
-      activeTT.align = (activeTT.focusedElement.getBoundingClientRect().left < window.innerWidth / 2) ?
-        'right' : 'left';
+    if (activeTT && activeTT.align) {
+      if (activeTT.align.horizontal === 'auto') {
+        activeTT.align.horizontal = (activeTT.focusedElement.getBoundingClientRect().left < window.innerWidth / 2) ?
+          'right' : 'left';
+      }
     }
   },
 
   getX(align, focusedElementBox, tooltipBox) {
-    if (align === 'left') {
-      return focusedElementBox.left - tooltipBox.width - horizontalMargin;
-    } else if (align === 'right') {
-      return focusedElementBox.right + horizontalMargin;
+    const horizontal = align.horizontal;
+    const vertical = align.vertical;
+
+    // if the tooltip is aligned on top, we need to move the div to the left or right by
+    // 40 px so that the :after triangle is pointing directly to the element. what a mess...
+    let x = vertical === 'top' ? 40 : 0;
+
+    if (horizontal === 'left') {
+      x = focusedElementBox.left - tooltipBox.width - horizontalMargin + x;
+    } else if (horizontal === 'right') {
+      x = focusedElementBox.right + horizontalMargin - x;
+    } else {
+      x = focusedElementBox.left + 10;
     }
-    return focusedElementBox.left + 10;
+
+    return x;
   },
 
   getY(align, focusedElementBox, tooltipBox) {
@@ -87,14 +100,18 @@ const TooltipPresenter = React.createClass({
 
   render() {
     const activeTooltip = this.props.activeTooltip;
+    let className = block;
     this.translateAlign();
+
 
     if (!activeTooltip) {
       return null;
     }
 
+    className += ' ' + block + '__' + activeTooltip.align.horizontal + '-' + activeTooltip.align.vertical;
+
     return (
-      <div className={block + ' ' + block + '__' + activeTooltip.align}>
+      <div className={className}>
         {activeTooltip.content}
       </div>
     );

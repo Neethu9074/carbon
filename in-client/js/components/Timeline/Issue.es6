@@ -38,7 +38,7 @@ const Issue = React.createClass({
     const style = this.props.style ? this.props.style : {};
 
     return (
-      <Tooltip  align={'top'}
+      <Tooltip  align={{vertical: 'top'}}
                 content={<IssueDiscription key={issue.get('id')}
                                            issue={issue}/>}>
 
