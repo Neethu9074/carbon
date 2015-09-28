@@ -1,4 +1,8 @@
 .in-responsive-table {
+  @light: #eef2f4;
+  @mid: #b5bfc3;
+  @dark: #6b8088;
+
   overflow-x: auto;
   width: 100%;
 
@@ -6,7 +10,7 @@
 
   th, td {
     padding: 7px;
-    color: #6b8088;;
+    color: @dark;
   }
 
   th {
@@ -16,22 +20,21 @@
   }
 
   td {
-    background: rgba(255, 255, 255, 0.04);
     font-size: 14px;
   }
 
   tr.active td {
-    background: rgba(255, 255, 255, 0.2);
+    background: @mid;
   }
 
   &__clickable {
     td {
-      background: #eef2f4;
+      background: @light;
     }
   }
 
   &__clickable tr:hover td {
     cursor: pointer;
-    background: #b5bfc3;
+    background: @mid;
   }
 }
