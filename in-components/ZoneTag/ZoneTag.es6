@@ -1,9 +1,10 @@
-import _ from 'lodash';
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
+import _ from 'lodash';
 
 import {viewStructure} from 'in-services/stores/view';
 import {getColor, getZone} from 'in-sdk/zones';
+import {getClassName} from 'in-services/react';
 
 import enhance from '../hoc/enhance';
 
@@ -42,12 +43,8 @@ const ZoneTag = React.createClass({
     if (!zone) {
       return null;
     }
-    let classes = block;
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
     return (
-      <div className={classes}
+      <div className={getClassName(this, block)}
            style={{background: getColor(zone)}}>
         {zone}
       </div>

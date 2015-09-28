@@ -99,7 +99,7 @@ export default class PhysicalMap extends SceneObject {
     structures.forEach(triple => this.addNode(triple));
 
     this.removeVanishedNodes(structures);
-    this.removeAllUnknownNodesWithoutConnections();
+    // this.removeAllUnknownNodesWithoutConnections();
   }
 
   applyLayout() {

@@ -3,6 +3,8 @@ import _ from 'lodash';
 import React from 'react/addons';
 import {createLogger} from 'instalog';
 
+import {getClassName} from 'in-services/react';
+
 import './SignInWithLinkedIn.less';
 
 const rpt = React.PropTypes;
@@ -86,12 +88,8 @@ const SignInWithLinkedIn = React.createClass({
       return null;
     }
 
-    let classes = block;
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
     return (
-      <button className={classes}
+      <button className={getClassName(this, block)}
               onClick={() => IN.User.authorize()}>
         Sign in with LinkedIn
       </button>

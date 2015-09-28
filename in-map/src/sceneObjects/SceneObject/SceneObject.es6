@@ -172,7 +172,7 @@ export default class SceneObject {
     const height = scene.height;
     const screenPosition = this.screenPositionAnchor
       .clone()
-      .project(camera);
+      .applyProjection(camera.projection);
 
     screenPosition.x = (screenPosition.x + 1) / 2 * width;
     screenPosition.y = -(screenPosition.y - 1) / 2 * height;

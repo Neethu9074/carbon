@@ -1,5 +1,5 @@
-import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
+import React from 'react/addons';
 
 import * as timelineStore from 'in-services/stores/timeline';
 import * as tracking from 'in-services/tracking';

@@ -56,7 +56,7 @@ export default class Scene {
 
     this.octrees = [];
 
-    //this is the main scene for all scene objects like nodes or metrics
+    // this is the main scene for all scene objects like nodes or metrics
     this.scene = new THREE.Scene();
     this.setupFactories();
     this.setup3D();
@@ -70,6 +70,7 @@ export default class Scene {
     this.setupEvents();
     this.handleLostContext();
 
+    this.update = this.update.bind(this);
     this.update(0);
   }
 
@@ -93,7 +94,7 @@ export default class Scene {
   createOctree() {
     return new THREE.Octree({
       // uncomment below to see the octree (may kill the fps)
-      //scene: this.scene,
+      // scene: this.scene,
       // when undeferred = true, objects are inserted immediately
       // instead of being deferred until next octree.update() call
       // this may decrease performance as it forces a matrix update
@@ -267,8 +268,8 @@ export default class Scene {
     }, false);
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
-      //if there is an active metric, deselect the current selected obj and
-      //show the metric pillars
+      // if there is an active metric, deselect the current selected obj and
+      // show the metric pillars
       if(metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
@@ -284,7 +285,7 @@ export default class Scene {
 
     this.subscriptions.push(
       selectedSnapshot.selectedSnapshot.subscribe(selected => {
-        //if the store was cleared and this client is selected -> unselect it
+        // if the store was cleared and this client is selected -> unselect it
         if(!selected) {
           stores.selectedSceneObject.emit({sceneObject: null});
         }
@@ -293,8 +294,8 @@ export default class Scene {
 
     this.subscriptions.push(stores.selectedSceneObject.subscribe(event => {
       const sceneObject = event.sceneObject;
-      //clear the selectedSnapshot store if there was a click into nowhere
-      //or on a sceneObject without a snapshot or unknown sceneObject
+      // clear the selectedSnapshot store if there was a click into nowhere
+      // or on a sceneObject without a snapshot or unknown sceneObject
       if(sceneObject) {
         if(!event.calledByMap) {
           this.controller.flyToObject(sceneObject);
@@ -329,22 +330,21 @@ export default class Scene {
     }, false);
   }
 
-
   update(highResTimestamp) {
-    //break the requestAnimationFrame loop if disposed
+    // break the requestAnimationFrame loop if disposed
     if (this.disposed) {
       return;
     }
 
-    requestAnimationFrame(this.update.bind(this));
+    requestAnimationFrame(this.update);
 
-    //fire event for updating stats
+    // fire event for updating stats
     eventBus.emit('beginUpdate', highResTimestamp);
 
     time.update(highResTimestamp);
     this.controller.update();
 
-    //don't render scene if it is not needed
+    // don't render scene if it is not needed
     if(!this.shouldRenderScene && !currentMetrics) {
       return;
     }
@@ -363,24 +363,25 @@ export default class Scene {
     const camera = this.camera;
     const camProjectionMat = camera.projectionMatrix;
 
-    //updateMatrix is called in controller before
+    // updateMatrix is called in controller before
     camera.updateMatrixWorld();
     camera.updateProjectionMatrix();
 
-    //sets inverse to camera.matrixWorld^-1
+    // sets inverse to camera.matrixWorld^-1
     inverse.getInverse(camera.matrixWorld);
 
-    //sets the projection matrix
+    // sets the projection matrix
     camera.projection.multiplyMatrices(camProjectionMat, inverse);
   }
 
   updateNodeWidthOnScreen() {
     // size of the view frustum in worldunits
     const camSize = this.cameraSize;
+
     // each node has width = 1 in worldunits
     const nodeSize = 1;
     const aspect = nodeSize / camSize;
-    const nodeSizeInPixel = aspect * 1500;
+    const nodeSizeInPixel = aspect * this.width;
 
     if(this.nodeSizeInPixel !== nodeSizeInPixel) {
       this.nodeSizeInPixel = nodeSizeInPixel;
@@ -399,13 +400,13 @@ export default class Scene {
     const maxZoomIn = 60;
     const maxZoomOut = 250;
 
-    //[1 - max out, 0 - max in]
+    // [1 - max out, 0 - max in]
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
     normedZoomLevel = Math.min(maxNodeOpacity, Math.max(0.1, normedZoomLevel));
 
     this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
 
-    //if there is no cube isSelected, fade all cubes by distance
+    // if there is no cube isSelected, fade all cubes by distance
     if(!this.hullsAreInactive) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
     }
@@ -473,13 +474,13 @@ export default class Scene {
       this.hideMetricsOnZoomOut = false;
     }
 
-    //set this to undefined will not trigger any factory to update heights
+    // set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
     this.renderScene();
   }
 
   setCameraFromSize() {
-    //we start in the middle and go totalWidth / 2 to the left
+    // we start in the middle and go totalWidth / 2 to the left
     const camSizeHalf = this.cameraSize / 2;
     const aspect = this.width / this.height;
 
@@ -488,7 +489,7 @@ export default class Scene {
     this.camera.bottom = -camSizeHalf;
     this.camera.top = camSizeHalf;
 
-    //nodes size only changes at camSize or canvas changes
+    // nodes size only changes at camSize or canvas changes
     this.updateNodeWidthOnScreen();
 
     //projection matrix is updated in update loop
@@ -498,11 +499,11 @@ export default class Scene {
     raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
     const ray = raycaster.ray;
 
-    //iterate all octrees backwards from the highest layer to the lowest
+    // iterate all octrees backwards from the highest layer to the lowest
     for (let i = this.octrees.length - 1; i >= 0; i--) {
       const octree = this.octrees[i];
 
-      //because there can be an octree on layer 7 and 5 but not on 6, check it's presence
+      // because there can be an octree on layer 7 and 5 but not on 6, check it's presence
       if(!octree) {
         continue;
       }
@@ -510,7 +511,7 @@ export default class Scene {
       const octree2Objects = octree.search(
         ray.origin,
         ray.far,
-        true, //true -> organized by objects
+        true, // true -> organized by objects
         ray.direction)
         .filter(object => object.object.isEnabled);
 
@@ -641,24 +642,24 @@ export default class Scene {
     // reset the time and clear all listeners
     time.reset();
 
-    //make shure that there is no update incoming until disposing
+    // make shure that there is no update incoming until disposing
     clearInterval(this.metricUpdateInterval);
     this.metricUpdateInterval = null;
 
-    //dispose all subscriptions
+    // dispose all subscriptions
     this.subscriptions.forEach(sub => sub.dispose());
 
-    //destory the map which will destroy all groups and nodes
+    // destory the map which will destroy all groups and nodes
     this.map.dispose();
 
-    //remove the gradient background from scene
+    // remove the gradient background from scene
     this.backgroundScene.remove(this.backgroundPlane);
 
-    //dispose the background plane to get rid of WebGL context
+    // dispose the background plane to get rid of WebGL context
     this.backgroundPlane.geometry.dispose();
     this.backgroundPlane.material.dispose();
 
-    //remove the canvas and clear the parent div
+    // remove the canvas and clear the parent div
     window.removeEventListener('resize', this.onWindowResizeHandler, false);
     window.removeEventListener('keydown', this.onWindowResizeHandler, false);
 

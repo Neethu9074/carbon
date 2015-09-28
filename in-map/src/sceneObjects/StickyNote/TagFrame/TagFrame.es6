@@ -32,29 +32,27 @@ export default React.createClass({
   },
 
   render() {
-    if (this.props.tags.size === 0) {
+    const zoom = this.state.zoomLevel;
+    const tags = this.props.tags;
+    if (tags.size === 0 || (zoom !== level.near && zoom !== level.nearest)) {
       return null;
     }
 
-    const zoom = this.state.zoomLevel;
-    if (zoom === level.near || zoom === level.nearest) {
-      return (
-        <div className='in-sticky-note__tag-frame'>
-          <ul className='in-tooltip__tag-frame--ul'>
-            {this.props.tags.map(tag => {
-              return (
-                <li key={tag} className='in-tooltip__tag-frame--li'>
-                  <Tooltip content={<TagToolTip tag={tag}/>}
-                           align={'auto'}>
-                    <Tag tag={tag} sceneObject={this.props.sceneObject}/>
-                  </Tooltip>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      );
-    }
-    return null;
+    return (
+      <div className='in-sticky-note__tag-frame'>
+        <ul className='in-tooltip__tag-frame__ul'>
+          {tags.map(tag => {
+            return (
+              <li key={tag} className='in-tooltip__tag-frame__li'>
+                <Tooltip content={<TagToolTip tag={tag}/>}
+                         align={'auto'}>
+                  <Tag tag={tag} sceneObject={this.props.sceneObject}/>
+                </Tooltip>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    );
   }
 });

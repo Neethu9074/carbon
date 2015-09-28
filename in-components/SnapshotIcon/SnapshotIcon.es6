@@ -1,10 +1,9 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import {getHealth, health} from 'in-services/health';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getHealth, health} from 'in-services/health';
+import {getClassName} from 'in-services/react';
 import {theme} from 'in-services/theme';
 
 import Icon from '../Icon';
@@ -34,14 +33,10 @@ const SnapshotIcon = React.createClass({
   },
 
   render() {
-    let classes = 'in-snapshot-icon';
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
     return (
       <Icon type={this.getIcon()}
             style={this.getStyles()}
-            className={classes}/>
+            className={getClassName(this, 'in-snapshot-icon')}/>
     );
   },
 

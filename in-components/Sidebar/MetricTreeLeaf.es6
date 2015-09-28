@@ -2,6 +2,7 @@ import React from 'react/addons';
 
 import * as metricsStore from 'in-services/stores/metrics';
 import * as tracking from 'in-services/tracking';
+import {getClassName} from 'in-services/react';
 
 import './MetricTreeLeaf.less';
 
@@ -25,12 +26,8 @@ const MetricTreeLeaf = React.createClass({
   },
 
   render() {
-    const classes = this.props.className ?
-      block + ' ' + this.props.className :
-      block;
-
     return (
-      <div className={classes}
+      <div className={getClassName(this, block)}
            style={this.props.style}
            onClick={this.onClickMetric}>
         {this.props.metricObject.get('label')}

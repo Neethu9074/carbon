@@ -1,9 +1,8 @@
-
-
 import React from 'react/addons';
 import * as ro from 'reactive-observables';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getClassName} from 'in-services/react';
 
 import './Dialog.less';
 
@@ -32,12 +31,8 @@ const Dialog = React.createClass({
   },
 
   render() {
-    let classes = block;
-    if (this.props.className) {
-      classes += ' ' + this.props.className;
-    }
     return (
-      <section className={classes}>
+      <section className={getClassName(this, block)}>
         <div className={block + '__content'}>
           {this.props.children}
         </div>
