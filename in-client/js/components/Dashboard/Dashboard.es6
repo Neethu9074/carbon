@@ -56,9 +56,10 @@ const Dashboard = React.createClass({
       <div className={block}>
         {this.renderSidebar()}
 
-        <div className={block + '__content'} ref='content'>
+        <div className={block + '__graphs'} ref='content'>
           <Header snapshot={this.state.snapshot}/>
           {this.rederNavigation()}
+
           {this.renderDashboard()}
         </div>
 
@@ -98,10 +99,12 @@ const Dashboard = React.createClass({
 
     const DashboardImpl = this.getForgeSpecificComponent('Content');
     return (
-      <Jail component={DashboardImpl} props={{
-        snapshot: this.state.snapshot,
-        timeframe: this.state.timeframe
-      }} />
+      <Jail component={DashboardImpl}
+            className={block + '__jail'}
+            props={{
+              snapshot: this.state.snapshot,
+              timeframe: this.state.timeframe
+            }} />
     );
   },
 
