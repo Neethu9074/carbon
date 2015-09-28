@@ -124,7 +124,7 @@ const JVMDashboard = React.createClass({
                 <tr>
                   <th>Pool</th>
                   <th>Initial</th>
-                  <th>Max</th>
+                  <th>Maximum</th>
                   <th>Used</th>
                 </tr>
               </thead>
@@ -134,7 +134,7 @@ const JVMDashboard = React.createClass({
                   <tr key={name} onClick={() => this.selectPool(name)}>
                     <td>{name}</td>
                     <td>{formatBytes(data.get('initial'))}</td>
-                    <td>{formatBytes(data.get('max'))}</td>
+                    <td>{this.formatMax(data.get('max'))}</td>
                     <Mtd metric={'pools.' + name}
                          snapshot={this.props.snapshot}
                          formatter={formatBytes} />
@@ -183,6 +183,10 @@ const JVMDashboard = React.createClass({
         : null}
       </div>
     );
+  },
+
+  formatMax(bytes) {
+    return bytes === -1 ? 'unlimited' : formatBytes(bytes);
   },
 
   selectPool(pool) {
