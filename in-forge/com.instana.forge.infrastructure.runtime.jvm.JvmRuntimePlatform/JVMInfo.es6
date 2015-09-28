@@ -25,7 +25,7 @@ const JVMInfo = React.createClass({
         </DescriptionItem>
 
         <DescriptionItem title='Java Runtime'>
-          {data.get('jvm.vendor')}{' '}
+          {data.get('jvm.vendor')}<br/>
           {data.get('jvm.name')}
         </DescriptionItem>
 
