@@ -1,10 +1,11 @@
-
-
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
-import {formatBytes} from 'in-services/converters';
+import {
+  formatBytes,
+  formatPercentageShort
+} from 'in-services/converters';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -44,6 +45,24 @@ const ProcessDashboard = React.createClass({
                      'Resident',
                      'Share'
                    ],
+                   type: 'line'
+                 }}/>
+        </DashboardSection>
+        <DashboardSection title='CPU'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                 windowSize={this.props.timeframe}
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 y1={{
+                   metrics: [
+                     'cpu.perc'
+                   ],
+                   labels: [
+                     'Usage'
+                   ],
+                   formatter: formatPercentageShort,
                    type: 'line'
                  }}/>
         </DashboardSection>
