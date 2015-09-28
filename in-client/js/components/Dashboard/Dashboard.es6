@@ -9,6 +9,7 @@ import * as timelineStore from 'in-services/stores/timeline';
 import {extractCoordinates} from 'in-services/snapshots';
 import Jail from 'in-components/Jail';
 
+import Navigation from './Navigation';
 import Header from './Header';
 
 import './Dashboard.less';
@@ -53,42 +54,53 @@ const Dashboard = React.createClass({
   render() {
     return (
       <div className={block}>
+        {this.renderSidebar()}
 
-        <div className={block + '__content-wrapper'}>
-
-          <div className={block + '__sidebar'}>
-            {this.state.snapshot ?
-              this.renderSidebar()
-            : <LoadingIndicator />}
-          </div>
-
-          <div className={block + '__content'} ref='content'>
-            <Header snapshot={this.state.snapshot}/>
-            {this.state.snapshot ?
-              this.renderDashboard()
-            : <LoadingIndicator />}
-          </div>
-
+        <div className={block + '__content'} ref='content'>
+          <Header snapshot={this.state.snapshot}/>
+          {this.rederNavigation()}
+          {this.renderDashboard()}
         </div>
+
       </div>
     );
   },
 
+  renderSidebar() {
+    if (!this.state.snapshot) {
+      return <LoadingIndicator />;
+    }
+
+    return (
+      <div className={block + '__sidebar'}>
+        <SnapshotDetailContent className={block + '__siderbar-content'} snapshot={this.state.snapshot}/>;
+      </div>
+    );
+  },
+
+  rederNavigation() {
+    const items = ['CPU Usage', 'CPU Load', 'Memory'];
+
+    return (
+      <Navigation>
+        {items.map(item => <Navigation.Item key={item}
+                                            label={item}
+                                            onClick={() => {  }}/>)}
+      </Navigation>
+    );
+  },
+
   renderDashboard() {
+    if (!this.state.snapshot) {
+      return <LoadingIndicator />;
+    }
+
     const DashboardImpl = this.getForgeSpecificComponent('Content');
     return (
       <Jail component={DashboardImpl} props={{
         snapshot: this.state.snapshot,
         timeframe: this.state.timeframe
       }} />
-    );
-  },
-
-  renderSidebar() {
-    return (
-      <div className={block + '__sidebar'}>
-        <SnapshotDetailContent className={block + '__siderbar-content'} snapshot={this.state.snapshot}/>;
-      </div>
     );
   },
 

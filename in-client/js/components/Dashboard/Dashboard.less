@@ -2,6 +2,8 @@
 
 .in-dashboard {
   position: absolute;
+  display: flex;
+  flex-direction: row;
   top: 0;
   bottom: @footer__height * 1px;
   left: 0;
@@ -12,11 +14,6 @@
 
   overflow-x: hidden;
   overflow-y: auto;
-
-  &__content-wrapper {
-    display: flex;
-    flex-direction: row;
-  }
 
   &__content {
     width: 100%;
@@ -33,6 +30,7 @@
       overflow-y: hidden;
     }
 
+    // TODO: define how tabs should look like on the dashboard
     &__tabs {
       left: 20.5rem;
       z-index: 1000;
