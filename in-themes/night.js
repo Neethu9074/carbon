@@ -7,11 +7,25 @@ var base = require('instana-ui-theme/dist/night/config.json');
 var common = require('./common');
 
 var colors = {
-  white: '#FFFFFF',
-  black: '#121416',
-  darkGrey: '#20272C',
-  warning: '#FFD823',
-  danger: '#FF4229'
+  white: '#ffffff',
+  lightestGrey: '#dce3e6',
+  lightGrey: '#6b8088',
+  grey: '#435b64',
+  darkGrey: '#2d4048',
+  darkestGrey: '#203036',
+  cyan: '#9fffff',
+  health: [
+    '#e3e2b8',
+    '#eae18a',
+    '#f1e05c',
+    '#f8df2e',
+    '#ffde00',
+    '#ffbf08',
+    '#ffa010',
+    '#ff8019',
+    '#ff6121',
+    '#ff4229'
+  ]
 };
 
 module.exports = _.defaultsDeep({
