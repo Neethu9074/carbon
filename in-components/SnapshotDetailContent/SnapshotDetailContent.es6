@@ -80,7 +80,8 @@ const SnapshotDetailContent = React.createClass({
 
   renderSnapshotDetails() {
     return (
-      <div className={this.getMixedClassName('__content')}>
+      <div className={this.getMixedClassName('__content')}
+           style={{ maxHeigt: window.height }}>
         <Jail component={this.getForgeSpecificComponent('Details')}
               props={{ snapshot: this.props.snapshot }}/>
       </div>

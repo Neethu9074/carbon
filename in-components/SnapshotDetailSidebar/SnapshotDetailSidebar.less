@@ -4,8 +4,9 @@
   position: fixed;
   top: 5rem;
   left: 5rem;
+  bottom: 0; // we need bottom = 0 because we cant calculate a %-value for childrens
 
-  max-height: ~"calc(100% - 7rem)";
+  max-height: ~"calc(100% - 200px)";
 
   z-index: @z-index__sidebar;
 
