@@ -1,0 +1,6 @@
+{
+  "name": "SnapshotDetailContent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SnapshotDetailContent.es6"
+}

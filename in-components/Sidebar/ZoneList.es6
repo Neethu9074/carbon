@@ -1,12 +1,13 @@
 import React from 'react/addons';
 
+import * as viewStore from 'in-services/stores/view';
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
-import * as viewStore from 'in-services/stores/view';
 
-import enhance from '../hoc/enhance';
-import Collapsible from '../Collapsible';
 import SnapshotList from './SnapshotList';
+import Collapsible from '../Collapsible';
+import ListHeader from './ListHeader';
+import enhance from '../hoc/enhance';
 
 import './ZoneList.less';
 
@@ -52,7 +53,9 @@ const ZoneList = React.createClass({
     const groups = Object.keys(this.props.groups).sort();
     return (
       <div className={block}>
-        <h1 className={block + '__label'}>Zones</h1>
+
+        <ListHeader header={'Zones'} className={block + '__header'}/>
+
         {groups.map(group =>
           <Collapsible key={group}>
             <Collapsible.Header style={{color: getColor(group)}}

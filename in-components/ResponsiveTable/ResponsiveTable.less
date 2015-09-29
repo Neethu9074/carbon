@@ -1,35 +1,40 @@
 .in-responsive-table {
+  @light: #eef2f4;
+  @mid: #b5bfc3;
+  @dark: #6b8088;
 
   overflow-x: auto;
+  width: 100%;
 
-  &__table {
-    width: 100%;
+  border-spacing: 0 2px;
 
-    border-spacing: 0 2px;
+  th, td {
+    padding: 7px;
+    color: @dark;
+  }
 
-    th, td {
-      padding: 7px;
-    }
+  th {
+    font-size: 11px;
+    text-align: left;
+    text-transform: uppercase;
+  }
 
-    th {
-      color: #84a0ae;
-      font-size: 11px;
-      text-align: left;
-      text-transform: uppercase;
-    }
+  td {
+    font-size: 14px;
+  }
 
+  tr.active td {
+    background: @mid;
+  }
+
+  &__clickable {
     td {
-      background: rgba(255, 255, 255, 0.04);
-      font-size: 14px;
+      background: @light;
     }
+  }
 
-    tr.active td {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    &--clickable tr:hover td {
-      background: rgba(255, 255, 255, 0.2);
-      cursor: pointer;
-    }
+  &__clickable tr:hover td {
+    cursor: pointer;
+    background: @mid;
   }
 }

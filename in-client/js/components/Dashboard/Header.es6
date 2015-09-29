@@ -1,19 +1,12 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
-import {Navigation} from 'react-router';
 import * as ro from 'reactive-observables';
+import {Navigation} from 'react-router';
+import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import enhance from 'in-components/hoc/enhance';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
-import {getIcon} from 'in-sdk/snapshot';
-import {getLabel} from 'in-sdk/snapshot';
-import {getSingular} from 'in-sdk/pluginName';
-import Button from 'in-components/Button';
 import Icon from 'in-components/Icon';
-import HealthIcon from 'in-components/HealthIcon';
-import ZoneTag from 'in-components/ZoneTag';
-import enhance from 'in-components/hoc/enhance';
 
 import './Header.less';
 
@@ -45,42 +38,16 @@ const DashboardHeader = React.createClass({
   },
 
   render() {
-    const snapshot = this.props.snapshot;
-
-    if (!snapshot) {
-      return null;
-    }
-
     return (
       <div className={block}>
-        {this.props.parentCoordinates ?
-          <Icon type='back'
-                className={block + '__close'}
-                onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}/>
-        : null}
-        <img src={getIcon(snapshot)}
-             alt='Snapshot icon'
-             className={block + '__icon'}/>
+        <div className={block + '__back-to-map'}
+             onClick={this.closeDashboard}>
 
-        <div>
-          <h1 className={block + '__label'}>
-            {getLabel(snapshot)}
-            <HealthIcon snapshot={snapshot}
-                        className={block + '__health'}/>
-            <ZoneTag snapshot={snapshot}
-                     className={block + '__zone'}/>
-          </h1>
-          <p className={block + '__plugin-type'}>
-            {getSingular(snapshot.get('pluginId'))}
-          </p>
-        </div>
+          <Icon className={block + '__icon'}
+                type={'arrow_left'}/>
 
-        <Button type='button'
-                kind='default'
-                onClick={this.closeDashboard}
-                className={block + '__back-to-map'}>
           Back to map
-        </Button>
+        </div>
       </div>
     );
   },

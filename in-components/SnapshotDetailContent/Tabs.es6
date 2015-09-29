@@ -1,8 +1,6 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import {getClassName} from 'in-services/react';
-
 import Tab from './Tab';
 
 const SidebarTabs = React.createClass({
@@ -16,11 +14,17 @@ const SidebarTabs = React.createClass({
   },
 
   render() {
+    const children = this.props.children;
+    if (!children || children.length === 0) {
+      return null;
+    }
+
+    const snapshot = this.props.snapshot;
+
     return (
-      <div className={getClassName(this, '')}>
-        {this.props.children.map((child, index) => {
-          const isSelected = this.props.snapshot &&
-            this.props.snapshot.get('id') === child.get('id');
+      <div className={this.props.className}>
+        {children.map((child, index) => {
+          const isSelected = snapshot && snapshot.get('id') === child.get('id');
           return (
             <Tab key={index}
                  onClick={this.onClick}

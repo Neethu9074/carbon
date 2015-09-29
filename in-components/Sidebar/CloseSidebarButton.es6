@@ -14,9 +14,15 @@ const CloseSidebarButton = React.createClass({
 
   render() {
     return (
-      <Icon type='arrow_right'
-            onClick={this.props.closeSidebar}
-            className={block}/>
+      <div className={block}
+           onClick={this.props.closeSidebar}>
+
+        <Icon type='arrow_right'
+              className={block + '__icon'}/>
+
+        Close
+
+      </div>
     );
   }
 });

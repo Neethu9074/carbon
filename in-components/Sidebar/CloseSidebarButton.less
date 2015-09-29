@@ -1,9 +1,13 @@
 @import "~in-themes/active.less";
 
 .in-sidebar__close-button {
-  color: @common__highlight-color;
-  font-size: 32px;
-  display: block;
-  margin: 0 0 1rem;
-  text-align: left;
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  &__icon {
+    color: @common__highlight-color;
+    margin-right: 10px;
+    font-size: 32px;
+  }
 }

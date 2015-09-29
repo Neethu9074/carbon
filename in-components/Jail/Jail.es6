@@ -1,6 +1,8 @@
 import React from 'react/addons';
 import {createLogger} from 'instalog';
 
+import {getClassName} from 'in-services/react';
+
 import ContextWrapper from './ContextWrapper';
 
 import './Jail.less';
@@ -12,6 +14,7 @@ const block = 'in-jail';
 const Jail = React.createClass({
   propTypes: {
     component: rpt.any.isRequired,
+    className: rpt.string,
     props: rpt.object
   },
 
@@ -80,9 +83,7 @@ const Jail = React.createClass({
   },
 
   render() {
-    return (
-      <div className={block}></div>
-    );
+    return (<div className={getClassName(this, block)}></div>);
   }
 });
 

@@ -1,15 +1,16 @@
-import React from 'react/addons';
-import Immutable from 'immutable';
-import {IntlMixin} from 'react-intl';
-import {combineLatest} from 'reactive-observables';
 import {RouteHandler, Navigation} from 'react-router';
+import {combineLatest} from 'reactive-observables';
+import {IntlMixin} from 'react-intl';
+import Immutable from 'immutable';
+import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
+import NotificationCounter from 'in-components/NotificationCounter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
+import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
@@ -31,35 +32,26 @@ const rpt = React.PropTypes;
 
 const App = React.createClass({
   mixins: [
-    IntlMixin,
-    SubscriptionMixin,
     React.addons.PureRenderMixin,
-    Navigation
+    SubscriptionMixin,
+    Navigation,
+    IntlMixin
   ],
 
   propTypes: {
-    state: rpt.object.isRequired,
+    closeHelpIfOpen: rpt.func.isRequired,
     showHelp: rpt.func.isRequired,
-    closeHelpIfOpen: rpt.func.isRequired
+    state: rpt.object.isRequired
   },
 
   getInitialState() {
     return {
-      selectedSnapshot: null,
       pluginIds: [constants.plugins.os],
       showSettings: false
     };
   },
 
   componentDidMount() {
-    this.addSubscription(
-      selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot => {
-        this.setState({
-          selectedSnapshot
-        });
-      })
-    );
-
     const subscriptions = this.state.pluginIds.map(pluginId => {
       return create(SnapshotsConveyer, {pluginId});
     });
@@ -93,16 +85,12 @@ const App = React.createClass({
 
     return (
       <div>
-        {this.state.showSettings ?
-          <Settings showMenu={this.showMenu}/> :
-          null
-        }
+        {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
         <Lettering className='in-root-lettering' />
+        {this.renderMenu()}
 
-        {__DEV__ ?
-          <ChoosePluginButton onClick={this.togglePlugin}/>
-        : null}
+        {__DEV__ ? <ChoosePluginButton onClick={this.togglePlugin}/> : null}
 
         <section style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginIds={this.state.pluginIds} />
@@ -115,26 +103,27 @@ const App = React.createClass({
 
         </section>
 
-        <Footer showMenu={this.showMenu}
-                toggleNotificationCenter={this.toggleNotificationCenter}/>
-
+        <Footer toggleNotificationCenter={this.toggleNotificationCenter}/>
         <RouteHandler />
 
-        {this.props.state.query.help ?
-          <HelpDialog id={this.props.state.query.help} />
-        : null}
+        {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
 
-        {window.instana.config.environment === 'demo' ?
-          <DemoDialog />
-        : null}
+        {window.instana.config.environment === 'demo' ? <DemoDialog /> : null}
 
         <TooltipPresenter />
-
         <ConnectionStatus />
       </div>
     );
-  }
+  },
 
+  renderMenu() {
+    return (
+      <div className='in-root-menu'>
+        <NotificationCounter onClick={this.toggleNotificationCenter}/>
+        <AccountMenu showMenu={this.showMenu}/>
+      </div>
+    );
+  }
 });
 
 export default helpify(App);

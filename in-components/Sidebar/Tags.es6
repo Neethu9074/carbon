@@ -1,13 +1,15 @@
-import _ from 'lodash';
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
+import _ from 'lodash';
 
-import * as viewStore from 'in-services/stores/view';
-import {getColor} from 'in-services/tags';
-import classnames from 'in-services/util/classnames';
-import {createTagFilter} from 'in-services/filtering';
 import * as filters from 'in-services/stores/filters';
+import {createTagFilter} from 'in-services/filtering';
+import * as viewStore from 'in-services/stores/view';
+import classnames from 'in-services/util/classnames';
+import {getColor} from 'in-services/tags';
 
+import ResetButton from './ResetButton';
+import ListHeader from './ListHeader';
 import enhance from '../hoc/enhance';
 import './Tags.less';
 
@@ -21,6 +23,8 @@ const SidebarTagListing = React.createClass({
     snapshots: rpt.array.isRequired,
     activeFilters: irpt.list.isRequired
   },
+
+  activeTags: [],
 
   statics: {
     createObservables() {
@@ -38,7 +42,11 @@ const SidebarTagListing = React.createClass({
 
     return (
       <div>
-        <h1 className={block + '__label'}>Tags</h1>
+
+        <ListHeader header={'Tags'}/>
+
+        <ResetButton onClick={this.clearAllTags} />
+
         <ol className={block}>
           {tags.map(tag => {
             return (
@@ -57,6 +65,13 @@ const SidebarTagListing = React.createClass({
         </ol>
       </div>
     );
+  },
+
+  clearAllTags() {
+    this.activeTags.forEach(tag => {
+      filters.removeFilter(createTagFilter(tag));
+    });
+    this.activeTags = [];
   },
 
   getAllTags() {
@@ -85,8 +100,10 @@ const SidebarTagListing = React.createClass({
   toggleFilter(tag) {
     if (this.isTagFilterActive(tag)) {
       filters.removeFilter(createTagFilter(tag));
+      _.remove(this.activeTags, t => t === tag);
     } else {
       filters.addFilter(createTagFilter(tag));
+      this.activeTags.push(tag);
     }
   }
 });

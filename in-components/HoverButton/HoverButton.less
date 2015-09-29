@@ -4,11 +4,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 100%;
   padding: 1rem .5rem;
   border: 0;
 
-  border-radius: 4px;
   background-color: rgba(32, 39, 44, 0.8);
 
   font-family: @common__font-family;
@@ -20,18 +20,14 @@
     color: #fff;
   }
 
-  &:hover > &__label {
-    display: inline;
-  }
-
   &__icon {
     display: inline;
     font-size: 1.5rem;
   }
 
   &__label {
-    display: none;
     margin-left: 0.4rem;
     font-size: 0.9rem;
+    color: white;
   }
 }

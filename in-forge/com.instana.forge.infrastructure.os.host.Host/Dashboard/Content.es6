@@ -101,77 +101,77 @@ const OsDashboard = React.createClass({
 
         {cpuCount > 1 ?
 
-          <DashboardSection title='Individual CPU Usage'>
-            {this.state.cpuNo ?
-              <div>
-                <ChartWithLegend snapshot={this.props.snapshot}
-                       windowSize={this.props.timeframe}
-                       height={chartHeight}
-                       margins={{
-                         left: 60
-                       }}
-                       y1={{
-                         min: 0,
-                         max: 1,
-                         formatter: formatPercentageShort,
-                         metrics: [
-                           'cpus.' + this.state.cpuNo + '.user',
-                           'cpus.' + this.state.cpuNo + '.sys',
-                           'cpus.' + this.state.cpuNo + '.wait',
-                           'cpus.' + this.state.cpuNo + '.nice',
-                           'cpus.' + this.state.cpuNo + '.steal'
-                         ],
-                         labels: [
-                           'User',
-                           'System',
-                           'Wait',
-                           'Nice',
-                           'Steal'
-                         ],
-                         type: 'stackedArea'
-                       }}/>
-              </div>
-            : null}
-            <ResponsiveTable clickable={true}>
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>User</th>
-                  <th>System</th>
-                  <th>Wait</th>
-                  <th>Nice</th>
-                  <th>Steal</th>
-                </tr>
-              </thead>
+        <DashboardSection title='Individual CPU Usage'>
+          {this.state.cpuNo ?
+            <div>
+              <ChartWithLegend snapshot={this.props.snapshot}
+                     windowSize={this.props.timeframe}
+                     height={chartHeight}
+                     margins={{
+                       left: 60
+                     }}
+                     y1={{
+                       min: 0,
+                       max: 1,
+                       formatter: formatPercentageShort,
+                       metrics: [
+                         'cpus.' + this.state.cpuNo + '.user',
+                         'cpus.' + this.state.cpuNo + '.sys',
+                         'cpus.' + this.state.cpuNo + '.wait',
+                         'cpus.' + this.state.cpuNo + '.nice',
+                         'cpus.' + this.state.cpuNo + '.steal'
+                       ],
+                       labels: [
+                         'User',
+                         'System',
+                         'Wait',
+                         'Nice',
+                         'Steal'
+                       ],
+                       type: 'stackedArea'
+                     }}/>
+            </div>
+          : null}
+          <ResponsiveTable clickable={true}>
+            <thead>
+              <tr>
+                <th></th>
+                <th>User</th>
+                <th>System</th>
+                <th>Wait</th>
+                <th>Nice</th>
+                <th>Steal</th>
+              </tr>
+            </thead>
 
-              <tbody>
-                {cpus.map((index) =>
-                  <tr key={'cpu-' + index}
-                      onClick={() => this.selectCpu(index)}
-                      className={classnames({
-                        'active': name === this.state.cpuNo
-                      })}>
-                    <td>CPU {index}</td>
-                    <Mtd metric={'cpus.' + index + '.user'}
-                         snapshot={this.props.snapshot}
-                         formatter={formatPercentageShort} />
-                    <Mtd metric={'cpus.' + index + '.sys'}
-                         snapshot={this.props.snapshot}
-                         formatter={formatPercentageShort} />
-                    <Mtd metric={'cpus.' + index + '.wait'}
-                         snapshot={this.props.snapshot}
-                         formatter={formatPercentageShort} />
-                    <Mtd metric={'cpus.' + index + '.nice'}
-                         snapshot={this.props.snapshot}
-                         formatter={formatPercentageShort} />
-                    <Mtd metric={'cpus.' + index + '.steal'}
-                         snapshot={this.props.snapshot}
-                         formatter={formatPercentageShort} />
-                  </tr>
-                ).valueSeq()}
-              </tbody>
-            </ResponsiveTable>
-          </DashboardSection>
+            <tbody>
+              {cpus.map((index) =>
+                <tr key={'cpu-' + index}
+                    onClick={() => this.selectCpu(index)}
+                    className={classnames({
+                      'active': name === this.state.cpuNo
+                    })}>
+                  <td>CPU {index}</td>
+                  <Mtd metric={'cpus.' + index + '.user'}
+                       snapshot={this.props.snapshot}
+                       formatter={formatPercentageShort} />
+                  <Mtd metric={'cpus.' + index + '.sys'}
+                       snapshot={this.props.snapshot}
+                       formatter={formatPercentageShort} />
+                  <Mtd metric={'cpus.' + index + '.wait'}
+                       snapshot={this.props.snapshot}
+                       formatter={formatPercentageShort} />
+                  <Mtd metric={'cpus.' + index + '.nice'}
+                       snapshot={this.props.snapshot}
+                       formatter={formatPercentageShort} />
+                  <Mtd metric={'cpus.' + index + '.steal'}
+                       snapshot={this.props.snapshot}
+                       formatter={formatPercentageShort} />
+                </tr>
+              ).valueSeq()}
+            </tbody>
+          </ResponsiveTable>
+        </DashboardSection>
         : null}
 
         <DashboardSection title='Memory Free'>
@@ -439,7 +439,6 @@ const OsDashboard = React.createClass({
                              left: 80
                            }}/>
         </DashboardSection>
-
       </div>
     );
   },

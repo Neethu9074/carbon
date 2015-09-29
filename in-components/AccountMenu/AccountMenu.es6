@@ -1,12 +1,13 @@
 import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
-import Icon from 'in-components/Icon';
 import {isProductionEnvironment} from 'in-services/config';
 
-import './Menu.less';
+import stanPath from './stan.png';
 
-const block = 'in-menu';
+import './AccountMenu.less';
+
+const block = 'in-account-menu';
 
 const Menu = React.createClass({
   mixins: [
@@ -65,15 +66,14 @@ const Menu = React.createClass({
 
   render() {
     const postFix = this.state.open ? 'opened' : 'closed';
-
     return (
       <div className={block}>
+
         {this.renderMenu()}
-        <div className={block + '__toggle-button-' + postFix}
+
+        <div className={block + '__toggle-button--' + postFix}
              onClick={this.toggle}>
-           {'Menu'}
-           <Icon className={block + '__icon'}
-                 type='menue' />
+           <img className={block + '__icon'} src={stanPath}/>
         </div>
 
       </div>

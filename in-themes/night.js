@@ -16,7 +16,7 @@ var colors = {
 
 module.exports = _.defaultsDeep({
   sidebar: {
-    background: 'rgba(47, 67, 76, 0.95)'
+    background: 'rgb(45, 64, 72)'
   },
   footer: {
     height: 50

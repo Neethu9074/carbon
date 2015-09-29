@@ -1,41 +1,9 @@
 @import "~in-themes/active.less";
 
-.in-menu {
-  margin: 0 17px 0 19px;
+.in-account-menu {
   white-space: nowrap;
   flex-shrink: 0;
-
-  &__toggle-button-closed, &__toggle-button-opened {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    cursor: pointer;
-
-    background: transparent;
-    color: #868f94;
-    font-size: 13px;
-  }
-
-  &__toggle-button-opened {
-    color: #fff;
-
-    .in-menu__icon, .in-menu__icon-close {
-      color: #fff;
-    }
-  }
-
-  &__toggle-button-closed:hover {
-    .in-menu__icon, .in-menu__icon-close {
-      color: #fff;
-    }
-  }
-
-  &__icon {
-    font-size: 32px;
-    color: #99F4F5;
-    margin: 0 0 0 10px;
-  }
+  cursor: pointer;
 
   &__panel {
     position: absolute;
@@ -44,15 +12,37 @@
     align-items: center;
     flex-direction: column;
 
-    bottom: 100%;
-    right: 10px;
+    top: 100%;
+    right: 0;
     width: 190px;
-    z-index: @z-index__menu-popup;
 
+    margin-top: 10px;
     padding: 10px 20px 0px 20px;
-    border-radius: 4px 4px 0 0;
+    border-radius: 0 0 4px 4px;
 
     background: #20292f;
+  }
+
+  &__toggle-button--closed, &__toggle-button--opened {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    background: transparent;
+    color: #868f94;
+    font-size: 13px;
+
+    &:hover {
+      .in-account-menu__icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  &__toggle-button--opened {
+    .in-account-menu__icon {
+      opacity: 1;
+    }
   }
 
   &__menu-entry, &__menu-entry-signout {
@@ -64,7 +54,6 @@
     color: #a1fefc;
 
     border-bottom: 1px solid #333a3e;
-    cursor: pointer;
 
     &:hover {
       color: #fff;
@@ -73,6 +62,14 @@
     &:last-child {
       border-bottom: 0;
     }
+  }
+
+  &__icon {
+    background: white;
+    border-radius: 50%;
+    opacity: 0.65;
+    padding: 4px;
+    width: 24px;
   }
 
   &__menu-entry-signout {
@@ -88,8 +85,4 @@
     padding: 0;
     cursor: pointer;
   }
-
-   &__button {
-     margin: 5px;
-   }
 }
