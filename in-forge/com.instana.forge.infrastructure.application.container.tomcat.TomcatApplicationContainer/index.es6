@@ -15,7 +15,7 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(
-  constants.plugins.jvm,
+  constants.plugins.tomcat,
   snapshot => snapshot.getIn(['data', 'version'])
 );
 

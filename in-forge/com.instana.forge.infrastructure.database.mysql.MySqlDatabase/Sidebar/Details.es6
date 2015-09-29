@@ -5,12 +5,11 @@ import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
 import WiringList from 'in-components/WiringList';
 
-import ProcessInfo from '../ProcessInfo';
-import ArgList from '../ArgList';
+import MySqlInfo from '../MySqlInfo';
 
 const block = 'in-sidebar-server-details';
 
-const Details = React.createClass({
+const MySqlDetails = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
@@ -23,15 +22,9 @@ const Details = React.createClass({
         <ProblemPanel snapshot={this.props.snapshot} />
 
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Process</Collapsible.Header>
+          <Collapsible.Header>MySql</Collapsible.Header>
           <Collapsible.Content>
-            <ProcessInfo snapshot={this.props.snapshot} />
-          </Collapsible.Content>
-        </Collapsible>
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Arguments</Collapsible.Header>
-          <Collapsible.Content>
-            <ArgList snapshot={this.props.snapshot} />
+            <MySqlInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
@@ -41,4 +34,4 @@ const Details = React.createClass({
   }
 });
 
-export default Details;
+export default MySqlDetails;
