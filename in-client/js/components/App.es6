@@ -4,7 +4,6 @@ import {IntlMixin} from 'react-intl';
 import {combineLatest} from 'reactive-observables';
 import {RouteHandler, Navigation} from 'react-router';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
@@ -48,20 +47,11 @@ const App = React.createClass({
   getInitialState() {
     return {
       pluginIds: [constants.plugins.os],
-      selectedSnapshot: null,
       showSettings: false
     };
   },
 
   componentDidMount() {
-    this.addSubscription(
-      selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot => {
-        this.setState({
-          selectedSnapshot
-        });
-      })
-    );
-
     const subscriptions = this.state.pluginIds.map(pluginId => {
       return create(SnapshotsConveyer, {pluginId});
     });
