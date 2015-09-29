@@ -73,7 +73,8 @@ const Dashboard = React.createClass({
     return (
       <div className={block + '__sidebar'}>
         <SnapshotDetailContent className={block + '__siderbar-content'}
-                               snapshot={this.state.snapshot}/>;
+                               snapshot={this.state.snapshot}
+                               useDetailedInformation={true}/>;
       </div>
     );
   },
