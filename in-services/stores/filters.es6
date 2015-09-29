@@ -27,6 +27,12 @@ export function removeFilter(filter) {
   });
 }
 
+export function removeFiltersWithType(type) {
+  store.applyStateMutation(currentSetOfFilters => {
+    return currentSetOfFilters.filter(eachFilter => eachFilter.get('type') !== type);
+  });
+}
+
 export function clearFilters() {
   store.applyStateMutation(() => emptyList);
 }
