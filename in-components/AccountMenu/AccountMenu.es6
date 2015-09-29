@@ -71,7 +71,7 @@ const Menu = React.createClass({
 
         {this.renderMenu()}
 
-        <div className={block + '__toggle-button-' + postFix}
+        <div className={block + '__toggle-button--' + postFix}
              onClick={this.toggle}>
            <img className={block + '__icon'} src={stanPath}/>
         </div>
