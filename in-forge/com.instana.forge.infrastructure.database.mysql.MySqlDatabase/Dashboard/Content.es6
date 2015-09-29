@@ -28,7 +28,6 @@ const MySqlDashboard = React.createClass({
                              left: 80
                            }}
                            y1={{
-                             min: 0,
                              metrics: [
                                'status.CONNECTIONS'
                              ],
@@ -37,6 +36,54 @@ const MySqlDashboard = React.createClass({
                              ],
                              type: 'line'
                          }}/>
+        </DashboardSection>
+        <DashboardSection title='Slow Queries'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             metrics: [
+                               'status.SLOW_QUERIES'
+                             ],
+                             labels: [
+                               'Slow Queries'
+                             ],
+                             type: 'line'
+                         }}/>
+        </DashboardSection>
+        <DashboardSection title='Key Access'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             metrics: [
+                               'status.KEY_READ_REQUESTS',
+                               'status.KEY_WRITE_REQUESTS'
+                             ],
+                             labels: [
+                               'Read Requests',
+                               'Write Requests'
+                             ],
+                             type: 'line'
+                           }}
+                           y2={{
+                             metrics: [
+                               'status.KEY_READS',
+                               'status.KEY_WRITES'
+                             ],
+                             labels: [
+                               'Reads',
+                               'Writes'
+                             ],
+                             type: 'line'
+                           }}
+                           />
         </DashboardSection>
       </div>
     );
