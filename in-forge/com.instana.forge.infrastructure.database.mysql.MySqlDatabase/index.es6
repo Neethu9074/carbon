@@ -5,26 +5,27 @@ import {
 import * as pluginName from 'in-sdk/pluginName';
 import * as zones from 'in-sdk/zones';
 
-import * as constants from '../constants';
 import iconPath from './icon.svg';
+import * as constants from '../constants';
 
 pluginName.setHumanReadablePluginName(
-  constants.plugins.jira,
-  'Atlassian JIRA',
-  'Atlassian JIRAs'
+  constants.plugins.mysql,
+  'MySQL DB',
+  'MySQL DBs'
 );
 
+
 addLabelFinder(
-  constants.plugins.jira,
-  snapshot => 'Atlassian JIRA ' + snapshot.getIn(['data', 'version'])
+  constants.plugins.mysql,
+  snapshot => 'MySQL @' + snapshot.getIn(['data', 'port'])
 );
 
 addIconFinder(
-  constants.plugins.jira,
+  constants.plugins.mysql,
   () => iconPath
 );
 
 zones.addMapping(
-  constants.plugins.jira,
+  constants.plugins.mysql,
   snapshot => snapshot.get('hostId')
 );

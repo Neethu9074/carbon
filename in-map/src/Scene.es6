@@ -375,13 +375,11 @@ export default class Scene {
   }
 
   updateNodeWidthOnScreen() {
-    // size of the view frustum in worldunits
-    const camSize = this.cameraSize;
-
     // each node has width = 1 in worldunits
+    const width = this.camera.right * 2;
     const nodeSize = 1;
-    const aspect = nodeSize / camSize;
-    const nodeSizeInPixel = aspect * this.width;
+    const aspect = this.height / this.width;
+    const nodeSizeInPixel = (nodeSize / width) * this.width * aspect;
 
     if(this.nodeSizeInPixel !== nodeSizeInPixel) {
       this.nodeSizeInPixel = nodeSizeInPixel;
@@ -421,7 +419,6 @@ export default class Scene {
     parentClasses.add(getZoomClass(zoom.getZoomLevel(zoomUnits)));
   }
 
-
   render() {
     if (this.doneMagic) {
       this.asciiEffect.render(this.scene, this.camera);
@@ -445,7 +442,6 @@ export default class Scene {
   renderScene() {
     this.shouldRenderScene = true;
   }
-
 
   hideHulls() {
     this.hullsAreInactive = true;

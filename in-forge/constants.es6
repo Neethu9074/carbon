@@ -9,6 +9,7 @@ export const plugins = {
   cassandra: 'com.instana.forge.infrastructure.database.cassandra.Cassandra',
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
   mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
+  mysql: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
   tomcat: 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer'
 };
 
