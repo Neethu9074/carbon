@@ -18,6 +18,7 @@ const TimeRange = React.createClass({
   },
 
   render() {
+    console.log('render');
     return (
       <div className={block}>
         {this.getTiles()}

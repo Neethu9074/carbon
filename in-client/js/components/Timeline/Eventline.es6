@@ -25,7 +25,8 @@ const Eventline = React.createClass({
 
   propTypes: {
     focusedMoment: rpt.number,
-    openIssues: irpt.list
+    openIssues: irpt.list,
+    tick: rpt.func
   },
 
   statics: {
@@ -48,9 +49,9 @@ const Eventline = React.createClass({
   componentWillMount() {
     // force a redraw of this component every few seconds to animate the timeline
     this.interval = setInterval(() => {
-      this.setState({
-        renderedForTimestamp: Date.now()
-      });
+      const now =  Date.now();
+      this.setState({ renderedForTimestamp: now });
+      this.props.tick(now);
     }, 1000);
   },
 

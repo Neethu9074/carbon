@@ -30,10 +30,14 @@ const Timeline = React.createClass({
 
         <TimeRange renderedForTimestamp={this.state.renderedForTimestamp}/>
         <ChangeTimeButton onClick={this.onTimeChanged}/>
-        <Eventline />
+        <Eventline tick={this.onTick}/>
         <ServerTime className={block + '__servertime'}/>
       </div>
     );
+  },
+
+  onTick(time) {
+    this.setState({ renderedForTimestamp: time });
   },
 
   renderTimePicker() {
