@@ -30,8 +30,11 @@ const Dashboard = React.createClass({
     }
   },
 
+  headers: [],
+
   getInitialState() {
     return {
+      visibleSections: [],
       snapshot: null,
       timeframe: 0
     };
@@ -58,8 +61,8 @@ const Dashboard = React.createClass({
 
         <div className={block + '__graphs'} ref='content'>
           <Header snapshot={this.state.snapshot}/>
-          {this.rederNavigation()}
 
+          {this.rederNavigation()}
           {this.renderDashboard()}
         </div>
 
@@ -81,15 +84,71 @@ const Dashboard = React.createClass({
   },
 
   rederNavigation() {
-    const items = ['CPU Usage', 'CPU Load', 'Memory'];
+    const jail = this.getJail();
+    if (!jail) {
+      return null;
+    }
+    const oldScrollValue = jail.scrollTop;
+    this.setScrolling(0);
+    const currentHeaders = document.getElementsByClassName('in-dashboard__content-heading') || [];
+    this.headers = [];
+    for (let i = 0; i < currentHeaders.length; i++) {
+      const header = currentHeaders[i];
+      this.headers.push({
+        element: header,
+        label: header.textContent,
+        _cachedTop: header.getBoundingClientRect().top
+      });
+    }
+    this.setScrolling(oldScrollValue);
 
     return (
       <Navigation>
-        {items.map(item => <Navigation.Item key={item}
-                                            label={item}
-                                            onClick={() => {  }}/>)}
+        {this.headers.map(item => {
+          const text = item.label;
+          return (
+            <Navigation.Item key={text}
+                             label={text}
+                             isVisible={this.state.visibleSections.indexOf(text) >= 0}
+                             onClick={() => this.jumpToSection(item)}/>
+          );
+        })}
       </Navigation>
     );
+  },
+
+  jumpToSection(item) {
+    const jail = this.getJail();
+    if (jail) {
+      jail.scrollTop = item._cachedTop - 140;
+    }
+  },
+
+  getJail() {
+    const jails = document.getElementsByClassName(block + '__jail');
+    if (!jails || jails.length === 0) {
+      return null;
+    }
+    return jails[0];
+  },
+
+  setScrolling(value) {
+    const jail = this.getJail();
+    if (jail) {
+      jail.scrollTop = value;
+    }
+  },
+
+  onScroll() {
+    const visibleSections = [];
+    for (let i = 0; i < this.headers.length; i++) {
+      const header = this.headers[i];
+      const boundings = header.element.getBoundingClientRect();
+      if (boundings.top >= 100 && boundings.top < window.innerHeight - 100) {
+        visibleSections.push(header.label);
+      }
+    }
+    this.setState({ visibleSections });
   },
 
   renderDashboard() {
@@ -101,6 +160,7 @@ const Dashboard = React.createClass({
     return (
       <Jail component={DashboardImpl}
             className={block + '__jail'}
+            onScroll={this.onScroll}
             props={{
               snapshot: this.state.snapshot,
               timeframe: this.state.timeframe
