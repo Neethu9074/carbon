@@ -24,8 +24,6 @@ const SidebarTagListing = React.createClass({
     activeFilters: irpt.list.isRequired
   },
 
-  activeTags: [],
-
   statics: {
     createObservables() {
       return {
@@ -68,10 +66,7 @@ const SidebarTagListing = React.createClass({
   },
 
   clearAllTags() {
-    this.activeTags.forEach(tag => {
-      filters.removeFilter(createTagFilter(tag));
-    });
-    this.activeTags = [];
+    filters.removeFiltersWithType('tag');
   },
 
   getAllTags() {
@@ -100,10 +95,8 @@ const SidebarTagListing = React.createClass({
   toggleFilter(tag) {
     if (this.isTagFilterActive(tag)) {
       filters.removeFilter(createTagFilter(tag));
-      _.remove(this.activeTags, t => t === tag);
     } else {
       filters.addFilter(createTagFilter(tag));
-      this.activeTags.push(tag);
     }
   }
 });
