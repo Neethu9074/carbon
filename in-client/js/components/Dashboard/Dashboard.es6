@@ -34,7 +34,7 @@ const Dashboard = React.createClass({
 
   getInitialState() {
     return {
-      visibleSections: [],
+      visibleSection: '',
       snapshot: null,
       timeframe: 0
     };
@@ -109,7 +109,7 @@ const Dashboard = React.createClass({
           return (
             <Navigation.Item key={text}
                              label={text}
-                             isVisible={this.state.visibleSections.indexOf(text) >= 0}
+                             isVisible={this.state.visibleSection === text}
                              onClick={() => this.jumpToSection(item)}/>
           );
         })}
@@ -140,15 +140,15 @@ const Dashboard = React.createClass({
   },
 
   onScroll() {
-    const visibleSections = [];
     for (let i = 0; i < this.headers.length; i++) {
       const header = this.headers[i];
       const boundings = header.element.getBoundingClientRect();
-      if (boundings.top >= 100 && boundings.top < window.innerHeight - 100) {
-        visibleSections.push(header.label);
+      // since the header list is sorted, the first hit is the right to take
+      if (boundings.top >= 0) {
+        this.setState({ visibleSection: header.label });
+        return;
       }
     }
-    this.setState({ visibleSections });
   },
 
   renderDashboard() {
