@@ -100,7 +100,7 @@ const Dashboard = React.createClass({
     const DashboardImpl = this.getForgeSpecificComponent('Content');
     return (
       <Jail component={DashboardImpl}
-            className={block + '__jail'}
+            className={block + '__sections'}
             props={{
               snapshot: this.state.snapshot,
               timeframe: this.state.timeframe
