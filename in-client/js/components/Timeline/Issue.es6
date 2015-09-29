@@ -3,9 +3,9 @@ import React from 'react/addons';
 import d3 from 'd3';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {health, mapSeverityToHealth} from 'in-services/health';
 import IssueDiscription from 'in-components/IssueDiscription';
 import {extractCoordinates} from 'in-services/snapshots';
-import {health, mapSeverityToHealth} from 'in-services/health';
 import Tooltip from 'in-components/Tooltip';
 import Icon from 'in-components/Icon';
 
