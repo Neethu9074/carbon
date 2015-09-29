@@ -1,14 +1,14 @@
-import React from 'react/addons';
-import Immutable from 'immutable';
-import {IntlMixin} from 'react-intl';
-import {combineLatest} from 'reactive-observables';
 import {RouteHandler, Navigation} from 'react-router';
+import {combineLatest} from 'reactive-observables';
+import {IntlMixin} from 'react-intl';
+import Immutable from 'immutable';
+import React from 'react/addons';
 
 import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import NotificationCounter from 'in-components/NotificationCounter';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
