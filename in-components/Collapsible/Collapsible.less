@@ -1,6 +1,9 @@
 @import "~in-themes/active.less";
 
 .in-collapsible {
+  @light: #b5bfc3;
+  @dark: #6b8088;
+
   &:last-child &__header {
     border-bottom: 0;
   }
@@ -12,7 +15,7 @@
 
   &__header {
     cursor: pointer;
-    color: @common__highlight-color;
+    color: @dark;
     font-size: 14px;
     font-weight: 400;
     letter-spacing: 0.5px;
@@ -26,15 +29,15 @@
 
     &--bordered&--closed {
       border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      color: #69a3a8;
+      color: @light;
     }
 
     &:hover .in-collapsible__toggle {
-      color: @common__highlight-color;
+      color: @dark;
     }
 
     &:hover{
-      color: white;
+      color: @dark;
     }
   }
 
@@ -44,7 +47,7 @@
 
   &__toggle {
     font-size: 32px;
-    color: #69a3a8;
+    color: @light;
     margin-right: 6px;
 
     transition: color .5s ease-in-out;

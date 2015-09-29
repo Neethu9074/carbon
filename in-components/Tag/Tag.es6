@@ -21,13 +21,11 @@ const Tag = React.createClass({
     return (
       <div className={block}
            onClick={this.props.onClick}>
-        <div className={block + '__wrapper'}>
-          <div className={block + '__point'}
-               style={{background: String(getColor(this.props.tag))}} />
-          <span className={block + '__label'}>
-            {this.props.tag}
-          </span>
-        </div>
+        <div className={block + '__point'}
+             style={{background: String(getColor(this.props.tag))}} />
+        <span className={block + '__label'}>
+          {this.props.tag}
+        </span>
       </div>
     );
   }

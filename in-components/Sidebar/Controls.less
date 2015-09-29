@@ -2,8 +2,12 @@
 
 .in-sidebar-controls {
   @focus-transition-duration: 0.2s;
+  @control-icon-padding: 0.34rem;
   @control-icon-width: 2rem;
-  @control-icon-padding: 0.35rem;
+  @BG1: #6B8088;
+  @BG2: #435B64;
+  @BG3: #2D4048;
+  @BG4: #203036;
 
   position: fixed;
   top: 50%;
@@ -23,33 +27,37 @@
 
   &__control-item {
     display: block;
-    margin: 0.1rem 0;
 
     list-style: none;
+    border-bottom: 1px solid #7a8d94;
 
-    background: #2d3c43;
-    color: #597582;
     transition: background @focus-transition-duration ease-in-out;
+    color: white;
 
-    @border-radius: 0.35rem;
-    border-top-left-radius: @border-radius;
-    border-bottom-left-radius: @border-radius;
+    &:first-child {
+      border-radius: 4px 0 0 0;
+    }
+
+    &:last-child {
+      border-bottom: 1px solid transparent;
+      border-radius: 0 0 0 4px;
+    }
 
     &--enabled {
-      background: #263238;
-      color: @common__highlight-color;
+      background: @BG1;
 
       &:hover {
-        background: #263238;
+        background: @BG2;
       }
     }
 
     &--active {
-      color: #1E2629;
-      background: @common__highlight-color;
+      color: @common__highlight-color;
+      background: @BG3;
 
       &:hover {
-        background: @common__highlight-color;
+        color: white;
+        background: @BG4;
       }
     }
 
@@ -69,13 +77,7 @@
 
     text-align: center;
 
-    opacity: 0.6;
+    opacity: 1;
     transition: opacity @focus-transition-duration ease-in-out;
-
-    &--enabled:hover, &--active {
-      opacity: 1;
-    }
-
   }
-
 }

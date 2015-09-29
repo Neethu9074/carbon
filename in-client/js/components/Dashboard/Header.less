@@ -6,9 +6,10 @@
   display: flex;
   align-items: center;
 
-  padding: 20px 20px 10px;
+  padding: 25px 20px;
 
-  background-color: rgba(255, 255, 255, 0.04);
+  background: #203036;
+  z-index: @z-index__dashboard-header;
 
   &__close {
     font-size: 2rem;
@@ -24,39 +25,22 @@
   }
 
   &__icon {
-    height: 28px;
-    min-width: 50px;
-
-    margin: 0 10px 0 0;
-  }
-
-  &__label {
-    margin: 0;
-    font-size: 16px;
-    font-weight: normal;
-  }
-
-  &__plugin-type {
-    margin: 0;
-    line-height: 2;
-    font-size: 14px;
-    color: #999;
-  }
-
-  &__health {
-    font-size: 24px;
-    position: relative;
-    top: 5px;
-    margin: 0 0 0 10px;
-  }
-
-  &__zone {
-    margin: 0 0 0 10px;
+    color: @common__highlight-color;
+    font-size: 2rem;
+    margin-right: 10px;
   }
 
   &__back-to-map {
-    position: absolute;
-    top: 20px;
-    right: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    color: #c3cacd;
+
+    &:hover {
+      color: white;
+      .in-dashboard-header__icon {
+        color: white;
+      }
+    }
   }
 }

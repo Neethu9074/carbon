@@ -2,31 +2,49 @@
 
 .in-dashboard {
   position: absolute;
+  display: flex;
+  flex-direction: row;
   top: 0;
-  bottom: @footer__height * 1px;
   left: 0;
   right: 0;
+  bottom: @footer__height * 1px;
 
-  background: #344750;
+  background: white;
   z-index: @z-index__dashboard;
 
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: hidden;
 
-  &__content-wrapper {
-    display: flex;
-    flex-direction: row;
+  &__graphs {
+    width: 100%;
+    height: 100%;
+    box-shadow: inset 50px 0 50px -50px #ccc;
   }
 
-  &__content {
-    padding: 40px 20px 40px 30px;
-    width: 100%;
-    overflow-x: hidden;
+  &__sections {
+    overflow-y: scroll;
+    max-height: ~"calc(100% - 140px)";
   }
 
   &__sidebar {
-    width: 500px;
-    padding: 20px;
+    height: auto;
   }
 
+  &__siderbar-content {
+    &__content {
+      max-height: 100%;
+      overflow-y: hidden;
+    }
+
+    &__open-dashboard {
+      display: none;
+    }
+
+    // TODO: define how tabs should look like on the dashboard
+    &__tabs {
+      left: 20.5rem;
+      z-index: 1000;
+      display: none;
+    }
+  }
 }

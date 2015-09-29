@@ -48,7 +48,7 @@ const ProcessDashboard = React.createClass({
                    type: 'line'
                  }}/>
         </DashboardSection>
-        <DashboardSection title='CPU Usage'>
+        <DashboardSection title='CPU'>
           <ChartWithLegend snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
                  height={chartHeight}
@@ -57,15 +57,13 @@ const ProcessDashboard = React.createClass({
                  }}
                  y1={{
                    metrics: [
-                     'cpu.user',
-                     'cpu.sys'
+                     'cpu.perc'
                    ],
                    labels: [
-                     'User',
-                     'System'
+                     'Usage'
                    ],
                    formatter: formatPercentageShort,
-                   type: 'stackedArea'
+                   type: 'line'
                  }}/>
         </DashboardSection>
       </div>
