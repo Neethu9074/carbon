@@ -24,7 +24,7 @@ import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
 import DemoDialog from './DemoDialog';
 import Settings from './Settings';
-import Footer from './Footer';
+import Timeline from './Timeline';
 
 import './App.less';
 
@@ -103,7 +103,7 @@ const App = React.createClass({
 
         </section>
 
-        <Footer toggleNotificationCenter={this.toggleNotificationCenter}/>
+        <Timeline />
         <RouteHandler />
 
         {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
