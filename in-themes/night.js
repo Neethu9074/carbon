@@ -30,14 +30,22 @@ module.exports = _.defaultsDeep({
   sidebar: {
     header: {
       background: darkGrey,
-      heading: white,
-      plugin: lightestGrey
+      plugin: lightestGrey,
+      heading: white
     },
     viewDashboardButton: {
       background: darkestGrey
     },
     background: white
   },
+  timeline: {
+    changeTimeButton: cyan,
+    timeRangeLabel: white,
+    background: darkGrey,
+    serverTime: lightGrey,
+    line: grey
+  },
+  health,
   footer: {
     height: 32
   },
