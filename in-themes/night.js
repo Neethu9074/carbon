@@ -89,6 +89,12 @@ module.exports = _.defaultsDeep({
     tabs: {
     }
   },
+  mapViewSwitcher: {
+    background: lightGrey,
+    backgroundHighlight: white,
+    label: white,
+    labelHighlight: darkestGrey
+  },
   health,
   footer: {
     height: 32

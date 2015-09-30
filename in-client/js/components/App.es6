@@ -10,6 +10,7 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
+// import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
