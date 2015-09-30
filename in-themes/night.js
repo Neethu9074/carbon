@@ -86,8 +86,7 @@ module.exports = _.defaultsDeep({
       backToMapButtonIconHighlight: white
     },
     tabs: {
-
-    },
+    }
   },
   health,
   footer: {
