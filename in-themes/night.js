@@ -45,6 +45,30 @@ module.exports = _.defaultsDeep({
     serverTime: lightGrey,
     line: grey
   },
+  filterbar: {
+    background: darkestGrey,
+    controls: {
+      label: white,
+      labelHighlight: cyan,
+      background: {
+        regular: lightGrey,
+        regularHover: grey,
+        active: darkGrey,
+        activeHover: darkestGrey
+      },
+      closeButtonIcon: cyan,
+      closeButtonIconHighlight: white,
+      closeButtonLabel: lightGrey,
+      closeButtonLabelHighlight: white,
+      resetButtonIcon: cyan,
+      resetButtonIconHighlight: white,
+      resetButtonLabel: lightGrey,
+      resetButtonLabelHighlight: white,
+      listHeader: white,
+      metricsLabel: white,
+      metricsLabelBackgroundHighlight: darkGrey
+    }
+  },
   health,
   footer: {
     height: 32

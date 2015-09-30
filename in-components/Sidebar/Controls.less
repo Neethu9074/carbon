@@ -4,10 +4,6 @@
   @focus-transition-duration: 0.2s;
   @control-icon-padding: 0.34rem;
   @control-icon-width: 2rem;
-  @BG1: #6B8088;
-  @BG2: #435B64;
-  @BG3: #2D4048;
-  @BG4: #203036;
 
   position: fixed;
   top: 50%;
@@ -32,7 +28,7 @@
     border-bottom: 1px solid #7a8d94;
 
     transition: background @focus-transition-duration ease-in-out;
-    color: white;
+    color: @filterbar__controls__label;
 
     &:first-child {
       border-radius: 4px 0 0 0;
@@ -44,20 +40,20 @@
     }
 
     &--enabled {
-      background: @BG1;
+      background: @filterbar__controls__background__regular;
 
       &:hover {
-        background: @BG2;
+        background: @filterbar__controls__background__regular-hover;
       }
     }
 
     &--active {
-      color: @common__highlight-color;
-      background: @BG3;
+      color: @filterbar__controls__label-highlight;
+      background: @filterbar__controls__background__active;
 
       &:hover {
-        color: white;
-        background: @BG4;
+        color: @filterbar__controls__label;
+        background: @filterbar__controls__background__active-hover;
       }
     }
 

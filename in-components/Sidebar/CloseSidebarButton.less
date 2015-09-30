@@ -3,10 +3,20 @@
 .in-sidebar__close-button {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin: 0 0 1rem 0;
+  cursor: pointer;
+  color: @filterbar__controls__close-button-label;
+
+  &:hover {
+    color: @filterbar__controls__close-button-label-highlight;
+
+    .in-sidebar__close-button__icon {
+      color: @filterbar__controls__close-button-icon-highlight;
+    }
+  }
 
   &__icon {
-    color: @common__highlight-color;
+    color: @filterbar__controls__close-button-icon;
     margin-right: 10px;
     font-size: 32px;
   }
