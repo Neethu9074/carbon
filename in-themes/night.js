@@ -69,6 +69,13 @@ module.exports = _.defaultsDeep({
       metricsLabelBackgroundHighlight: darkGrey
     }
   },
+  menu: {
+    background: darkestGrey,
+    sectionLine: darkGrey,
+    sectionLabelHighlight: white,
+    sectionLabel: cyan,
+    signoutLabel: lightGrey
+  },
   health,
   footer: {
     height: 32

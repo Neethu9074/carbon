@@ -20,18 +20,10 @@
     padding: 10px 20px 0px 20px;
     border-radius: 0 0 4px 4px;
 
-    background: #20292f;
+    background: @menu__background;
   }
 
-  &__toggle-button--closed, &__toggle-button--opened {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    background: transparent;
-    color: #868f94;
-    font-size: 13px;
-
+  &__toggle-button {
     &:hover {
       .in-account-menu__icon {
         opacity: 1;
@@ -51,12 +43,12 @@
 
     padding-top: 8px;
     font-size: 12px;
-    color: #a1fefc;
+    color: @menu__section-label;
 
-    border-bottom: 1px solid #333a3e;
+    border-bottom: 1px solid @menu__section-line;
 
     &:hover {
-      color: #fff;
+      color: @menu__section-label-highlight;
     }
 
     &:last-child {
@@ -74,15 +66,15 @@
 
   &__menu-entry-signout {
     font-size: 10px;
-    color: #7f878b;
+    color: @menu__signout-label;
   }
 
   &__signout {
     font-size: inherit;
-    color: inherit;
+    padding: 0;
     border: 0;
     background: transparent;
-    padding: 0;
+    color: inherit;
     cursor: pointer;
   }
 }
