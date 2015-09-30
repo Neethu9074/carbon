@@ -8,39 +8,26 @@
 
   padding: 25px 20px;
 
-  background: #203036;
+  background: @dashboard__header__background;
   z-index: @z-index__dashboard-header;
-
-  &__close {
-    font-size: 2rem;
-    padding: 0.4rem 0.7rem;
-
-    color: @common__highlight-color;
-    border-radius: 4px;
-
-    &:hover {
-      cursor: pointer;
-      background-color: rgba(32, 39, 44, 0.8);
-    }
-  }
-
-  &__icon {
-    color: @common__highlight-color;
-    font-size: 2rem;
-    margin-right: 10px;
-  }
 
   &__back-to-map {
     display: flex;
     align-items: center;
     cursor: pointer;
-    color: #c3cacd;
+    color: @dashboard__header__back-to-map-button-label;
 
     &:hover {
-      color: white;
-      .in-dashboard-header__icon {
-        color: white;
+      color: @dashboard__header__back-to-map-button-label-highlight;
+      .in-dashboard-header__back-to-map__icon {
+        color: @dashboard__header__back-to-map-button-icon-highlight;
       }
+    }
+
+    &__icon {
+      color: @dashboard__header__back-to-map-button-icon;
+      font-size: 2rem;
+      margin-right: 10px;
     }
   }
 }

@@ -76,6 +76,19 @@ module.exports = _.defaultsDeep({
     sectionLabel: cyan,
     signoutLabel: lightGrey
   },
+  dashboard: {
+    background: white,
+    header: {
+      background: darkestGrey,
+      backToMapButtonLabel: lightGrey,
+      backToMapButtonLabelHighlight: white,
+      backToMapButtonIcon: cyan,
+      backToMapButtonIconHighlight: white
+    },
+    tabs: {
+
+    },
+  },
   health,
   footer: {
     height: 32
