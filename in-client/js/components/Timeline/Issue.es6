@@ -34,7 +34,8 @@ const Issue = React.createClass({
   render() {
     const issue = this.props.issue;
     const style = this.props.style ? this.props.style : {};
-    style.color = theme.health[issue.getIn(['problem', 'severity'])];
+    const state = issue.get('state');
+    style.color = state === 'OPEN' ? theme.health[issue.getIn(['problem', 'severity'])] : theme.health[0];
 
     return (
       <Tooltip  align={{vertical: 'top'}}

@@ -14,6 +14,7 @@ var darkGrey = '#2d4048';
 var darkestGrey = '#203036';
 var cyan = '#9fffff';
 var health = [
+  lightGrey,
   '#e3e2b8',
   '#eae18a',
   '#f1e05c',

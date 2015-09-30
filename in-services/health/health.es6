@@ -13,7 +13,7 @@ export const health = {
  * @returns {string} the mapped severity
  */
 export function mapSeverityToHealth(severity) {
-  if(severity > 8) {
+    if(severity > 8) {
     return health.danger;
   } else if(severity > 4) {
     return health.warning;
@@ -29,9 +29,9 @@ export function mapSeverityToHealth(severity) {
  */
 export function mapHealthToColor(healthToMap) {
   if (healthToMap === health.danger) {
-    return theme.health.danger;
+    return theme.health[10];
   } else if (healthToMap === health.warning) {
-    return theme.health.warning;
+    return theme.health[5];
   }
-  return theme.health.ok;
+  return theme.health[0];
 }

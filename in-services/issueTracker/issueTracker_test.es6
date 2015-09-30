@@ -203,13 +203,13 @@ describe('issueTracker', () => {
           severity: 0
         }
       });
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.ok);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
 
       issue = issue.setIn(['problem', 'severity'], 5);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.ok);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
 
       issue = issue.setIn(['problem', 'severity'], 10);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.ok);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
     });
 
     it('should return color based on severity', () => {
@@ -219,13 +219,13 @@ describe('issueTracker', () => {
           severity: 0
         }
       });
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.ok);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
 
       issue = issue.setIn(['problem', 'severity'], 5);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.warning);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[5]);
 
       issue = issue.setIn(['problem', 'severity'], 10);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health.danger);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[10]);
     });
 
   });
