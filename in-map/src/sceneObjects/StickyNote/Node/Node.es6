@@ -38,6 +38,8 @@ const NodeStickyNoteRC = React.createClass({
     const snapshot = this.props.snapshot;
     const tags = this.props.tags;
 
+    // crazy stuff goes here
+
     return (
       <div className='in-sticky-note__node-stack-wrapper'>
         <div className='in-sticky-note__node-stack-children'>
