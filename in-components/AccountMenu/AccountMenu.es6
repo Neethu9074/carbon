@@ -65,13 +65,17 @@ const Menu = React.createClass({
   },
 
   render() {
-    const postFix = this.state.open ? 'opened' : 'closed';
+    let className = block + '__toggle-button';
+    if (this.state.open) {
+      className += '--opened';
+    }
+
     return (
       <div className={block}>
 
         {this.renderMenu()}
 
-        <div className={block + '__toggle-button--' + postFix}
+        <div className={className}
              onClick={this.toggle}>
            <img className={block + '__icon'} src={stanPath}/>
         </div>

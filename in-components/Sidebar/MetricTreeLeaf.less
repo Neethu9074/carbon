@@ -1,12 +1,14 @@
+@import "~in-themes/active.less";
+
 .in-sidebar-metric-tree--leaf {
   padding: 8px 8px 8px 12px;
   margin: 2px 2px 2px -20px;
-  color: white;
+  color: @filterbar__controls__metrics-label;
 
   font-size: 11px;
 
   &:hover {
-    background: #51626c;
+    background: @filterbar__controls__metrics-label-background-highlight;
     cursor: pointer;
   }
 }

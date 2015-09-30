@@ -3,10 +3,10 @@ import React from 'react/addons';
 import d3 from 'd3';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import {health, mapSeverityToHealth} from 'in-services/health';
 import IssueDiscription from 'in-components/IssueDiscription';
 import {extractCoordinates} from 'in-services/snapshots';
 import Tooltip from 'in-components/Tooltip';
+import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
 
 import './Issue.less';
@@ -33,9 +33,9 @@ const Issue = React.createClass({
 
   render() {
     const issue = this.props.issue;
-    const state = issue.get('state');
-    const issueHealth = state === 'OPEN' ? mapSeverityToHealth(issue.getIn(['problem', 'severity'])) : health.ok;
     const style = this.props.style ? this.props.style : {};
+    const state = issue.get('state');
+    style.color = state === 'OPEN' ? theme.health[issue.getIn(['problem', 'severity'])] : theme.health[0];
 
     return (
       <Tooltip  align={{vertical: 'top'}}
@@ -46,7 +46,7 @@ const Issue = React.createClass({
               onMouseEnter={() =>this.props.mouseIn(issue)}
               onClick={() => this.focusSnapshot(issue)}
               onMouseLeave={this.props.mouseOut}
-              className={block + ' ' + block + '__' + issueHealth}
+              className={block}
               style={style} />
       </Tooltip>
     );

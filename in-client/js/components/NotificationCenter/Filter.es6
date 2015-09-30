@@ -18,8 +18,8 @@ const Filter = React.createClass({
     onFilterSelected: rpt.func.isRequired,
     isSelected: rpt.bool.isRequired,
     predicate: rpt.func.isRequired,
-    color: rpt.string.isRequired,
     type: rpt.string.isRequired,
+    color: rpt.string,
     count: rpt.number
   },
 

@@ -3,6 +3,7 @@ import React from 'react/addons';
 
 import {getCurrentScaleProperties} from 'in-services/time';
 import {getColorForIssue} from 'in-services/issueTracker';
+import {theme} from 'in-services/theme';
 
 import './IssueLine.less';
 
@@ -29,6 +30,7 @@ const IssueLine = React.createClass({
     }
     const style = this.props.style ? this.props.style : {};
     style.borderColor = getColorForIssue(issue);
+    style.color = theme.health[issue.getIn(['problem', 'severity'])];
     style.right = right;
 
     return (
