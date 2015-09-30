@@ -9,10 +9,9 @@ export default class SingleMeshLineFactory extends ASingleMeshFactory {
   }
 
   getMesh() {
-    return new THREE.Line(
+    return new THREE.LineSegments(
       this.geometry,
-      this.material,
-      THREE.LinePieces
+      this.material
     );
   }
 

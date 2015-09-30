@@ -33,7 +33,12 @@ export default class SingleMeshMetricFactory {
 
     // represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
-    this.geometry.dynamic = true;
+
+    // the old and new y positions for each vertex in the vertex shader
+    this.geometry.attributes = this.attributes = {
+      oldHeight: { type: 'f' },
+      newHeight: { type: 'f' }
+    };
 
     this.material = this.getMaterial();
 
@@ -74,17 +79,10 @@ export default class SingleMeshMetricFactory {
     // the global used progress for all vertices in the vertex shader
     const progress = this.progress = { type: 'f', value: 0.0 };
 
-    // the old and new y positions for each vertex in the vertex shader
-    const attributes = this.attributes = {
-      oldHeight: { type: 'f' },
-      newHeight: { type: 'f' }
-    };
-
     const material = new THREE.ShaderMaterial({
       vertexColors: THREE.VertexColors,
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
-      attributes: attributes,
       uniforms: { progress }
     });
 
