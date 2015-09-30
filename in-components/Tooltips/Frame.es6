@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 
 import './Frame.less';
