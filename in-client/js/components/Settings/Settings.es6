@@ -63,7 +63,9 @@ const Settings = React.createClass({
       <Dialog onClose={this.closeSettings}>
         <div className={block}>
 
-        <div className={block + '__header'} />
+        <div className={block + '__header'}>
+          Settings
+        </div>
 
           <SettingEntry>
             <SettingEntry.Header text={'Inverse scroll direction'} />

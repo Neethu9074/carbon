@@ -78,6 +78,9 @@ module.exports = _.defaultsDeep({
     sectionLabel: cyan,
     signoutLabel: lightGrey
   },
+  settings: {
+    headingLabel: lightestGrey
+  },
   dashboard: {
     background: white,
     header: {
