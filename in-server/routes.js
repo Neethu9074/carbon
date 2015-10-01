@@ -68,9 +68,16 @@ router.get('/', (req, res) => {
   // They wreak all kinds of havoc, have inline scripts, JavaScript URLs and
   // more stuff that is just totally incompatible with CSP :-(
   if (config.environment !== 'demo') {
+
+    let append = '';
+    // if this route was called by safari -> add the unsafe inline Content-Security-Policy
+    if (req.headers['user-agent'].toLowerCase().indexOf('safari') >= 0) {
+      append = "'unsafe-inline' ";
+    }
+
     res.set(
       'Content-Security-Policy',
-      "script-src 'self' " + nonces.map(n => "'nonce-" + n + "'").join(' ')
+      "script-src 'self' " + append + nonces.map(n => "'nonce-" + n + "'").join(' ')
     );
   }
   res.send(compiledTemplate({
