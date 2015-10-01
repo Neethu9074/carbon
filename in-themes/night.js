@@ -79,7 +79,14 @@ module.exports = _.defaultsDeep({
     signoutLabel: lightGrey
   },
   settings: {
-    headingLabel: lightestGrey
+    heading: {
+      text: lightestGrey,
+      background: darkestGrey
+    },
+    background: darkGrey,
+    sectionLine: grey,
+    entryText: lightestGrey,
+    helpText: lightGrey
   },
   dashboard: {
     background: white,

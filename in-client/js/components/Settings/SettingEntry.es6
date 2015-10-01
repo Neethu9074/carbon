@@ -17,14 +17,27 @@ const SettingEntry = React.createClass({
   },
 
   render() {
+    const numChildren = this.props.children.length;
     invariant(
-      this.props.children.length === 2,
+      numChildren === 2 || numChildren === 3,
       'A SettingEntry must have exactly two child elements: Header and Content'
     );
 
+    if (numChildren === 2) {
+      return (
+        <div className={block}>
+          {this.props.children}
+        </div>
+      );
+    }
+
     return (
-      <div className={block}>
-        {this.props.children}
+      <div className={block + '__wrapper'}>
+        <div className={block}>
+          {this.props.children[0]}
+          {this.props.children[1]}
+        </div>
+        {this.props.children[2]}
       </div>
     );
   }
@@ -34,8 +47,7 @@ export default SettingEntry;
 
 const Header = React.createClass({
   propTypes: {
-    text: rpt.string.isRequired,
-    helpText: rpt.string
+    text: rpt.string.isRequired
   },
 
   render() {
@@ -62,3 +74,18 @@ const Content = React.createClass({
   }
 });
 SettingEntry.Content = Content;
+
+const HelpText = React.createClass({
+  propTypes: {
+    text: rpt.string.isRequired
+  },
+
+  render() {
+    return (
+      <div className={block + '__help'}>
+        ({this.props.text})
+      </div>
+    );
+  }
+});
+SettingEntry.HelpText = HelpText;
