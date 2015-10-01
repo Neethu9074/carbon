@@ -37,7 +37,8 @@ module.exports = _.defaultsDeep({
     viewDashboardButton: {
       background: darkestGrey
     },
-    background: white
+    background: white,
+    problemStart: darkestGrey
   },
   timeline: {
     changeTimeButton: cyan,
