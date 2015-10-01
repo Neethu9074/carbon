@@ -126,7 +126,7 @@ const Dashboard = React.createClass({
   },
 
   getJail() {
-    const jails = document.getElementsByClassName(block + '__jail');
+    const jails = document.getElementsByClassName(block + '__sections');
     if (!jails || jails.length === 0) {
       return null;
     }
@@ -160,7 +160,7 @@ const Dashboard = React.createClass({
     const DashboardImpl = this.getForgeSpecificComponent('Content');
     return (
       <Jail component={DashboardImpl}
-            className={block + '__jail'}
+            className={block + '__sections'}
             onScroll={this.onScroll}
             props={{
               snapshot: this.state.snapshot,
