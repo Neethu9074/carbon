@@ -100,15 +100,18 @@ const Settings = React.createClass({
 
           <div className={block + '__section'}/>
 
-          <SettingEntry>
-            <SettingEntry.Header text={'Theme (requires browser refresh)'} />
-            <SettingEntry.Content>
-              <ComboBox onChange={e => setActiveTheme(e.target.value)}
-                        defaultValue={this.state.activeTheme}>
-                {availableThemes.toArray()}
-              </ComboBox>
-            </SettingEntry.Content>
-          </SettingEntry>
+          {__DEV__ ?
+            <SettingEntry>
+              <SettingEntry.Header text={'Theme (requires browser refresh)'} />
+              <SettingEntry.Content>
+                <ComboBox onChange={e => setActiveTheme(e.target.value)}
+                          defaultValue={this.state.activeTheme}>
+                  {availableThemes.toArray()}
+                </ComboBox>
+              </SettingEntry.Content>
+            </SettingEntry>
+            : null
+          }
 
           <div className={block + '__section'}/>
 
