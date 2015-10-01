@@ -118,13 +118,13 @@ const Settings = React.createClass({
           {__DEV__ ? <div className={block + '__section'}/> : null }
 
           <SettingEntry>
-            <SettingEntry.Header text={'Enable Desktop Notifications'} />
+            <SettingEntry.Header text='Enable Desktop Notifications' />
             <SettingEntry.Content>
               <CheckBox onClick={this.toggleDesktopNotifications}
                         defaultChecked={this.state.desktopNotification}/>
             </SettingEntry.Content>
             <SettingEntry.HelpText text={
-                                    'Desktop notifications will pop up if the browser window is not active' +
+                                    'Desktop notifications will pop up if the browser window is not active ' +
                                     'to keep you up to date about important messages.'} />
           </SettingEntry>
 
