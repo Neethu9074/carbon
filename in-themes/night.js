@@ -108,8 +108,8 @@ module.exports = _.defaultsDeep({
       },
       cubeBasicColor: '#e9edef',
       clearColor: '#445b63',
-      warning: '#FF0000',
-      critical: '#00FF00',
+      warning: health[5],
+      critical: health[10],
       groundDots: '#809199'
     },
     stickyNotes: {

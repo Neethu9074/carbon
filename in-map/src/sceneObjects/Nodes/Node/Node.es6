@@ -349,7 +349,7 @@ export default class Node extends BaseNode {
     // dispose the event server to prevent updates
     this.snapshotServer.dispose();
 
-    //dispose other subscriptions
+    // dispose other subscriptions
     super.dispose();
 
     this.wiredSnapshots = undefined;
