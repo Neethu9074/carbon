@@ -115,10 +115,7 @@ const Settings = React.createClass({
             : null
           }
 
-            {__DEV__ ?
-              <div className={block + '__section'}/>
-              : null
-            }
+          {__DEV__ ? <div className={block + '__section'}/> : null }
 
           <SettingEntry>
             <SettingEntry.Header text={'Enable Desktop Notifications'} />
