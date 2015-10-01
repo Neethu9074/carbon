@@ -1,3 +1,7 @@
+import d3 from 'd3';
+
+import * as timelineStore from 'in-services/stores/timeline';
+
 import * as connection from '../connection';
 
 // This is an attempt to "synchronize" the time between client (browser) and
@@ -122,4 +126,15 @@ function processTimestampReply(reply) {
     offsets.length - numberOfValuesForOffetMean,
     offsets.length
   );
+}
+
+let timeFrame = 0;
+const scale = d3.scale.linear().range([100, 0]);
+timelineStore.timeframe.subscribe(frame => timeFrame = frame);
+
+export function getCurrentScaleProperties() {
+  const now = getServerTime();
+  const maxOldestPermittedIssue = now - timeFrame;
+
+  return {scale: scale.domain([now, maxOldestPermittedIssue]), maxOldestPermittedIssue};
 }

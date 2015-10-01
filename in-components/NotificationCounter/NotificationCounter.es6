@@ -51,12 +51,12 @@ const NotificationCounter = React.createClass({
 
   getColor(summary) {
     if (summary.get(health.danger) > 0) {
-      return theme.health.danger;
+      return theme.health[10];
     } else if (summary.get(health.warning) > 0) {
-      return theme.health.warning;
+      return theme.health[5];
     }
 
-    return theme.health.ok;
+    return theme.health[0];
   }
 });
 

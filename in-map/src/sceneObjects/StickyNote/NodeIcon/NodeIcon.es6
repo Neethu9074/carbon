@@ -29,7 +29,7 @@ export default React.createClass({
 
   render() {
     const icon = getIcon(this.props.snapshot);
-    const size = Math.max(this.state.size * 0.25, 16);
+    const size = Math.max(this.state.size * 0.5, 16);
     const style = {width: size + 'px', height: size + 'px'};
 
     return (

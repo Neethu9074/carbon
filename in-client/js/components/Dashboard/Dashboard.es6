@@ -62,7 +62,7 @@ const Dashboard = React.createClass({
         <div className={block + '__graphs'} ref='content'>
           <Header snapshot={this.state.snapshot}/>
 
-          {this.rederNavigation()}
+          {this.renderNavigation()}
           {this.renderDashboard()}
         </div>
 
@@ -78,12 +78,13 @@ const Dashboard = React.createClass({
     return (
       <div className={block + '__sidebar'}>
         <SnapshotDetailContent className={block + '__siderbar-content'}
-                               snapshot={this.state.snapshot}/>;
+                               snapshot={this.state.snapshot}
+                               useDetailedInformation={true}/>;
       </div>
     );
   },
 
-  rederNavigation() {
+  renderNavigation() {
     const jail = this.getJail();
     if (!jail) {
       return null;

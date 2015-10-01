@@ -1,23 +1,22 @@
+@background: #223238;
+
 .in-timepicker {
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
 
   margin: 5px;
-  padding: 5px;
+  padding: 14px 18px 8px 18px;
 
-  background: #22292e;
+  background: @background;
+  border-radius: 10px;
 
   &__button {
-    background-color: rgba(255, 255, 255, 0.1);
-    margin: 5px;
+    cursor: pointer;
+    color: #91999c;
+    font-size: 12px;
+    margin-bottom: 10px;
 
-    text-transform: none;
-    color: white;
-  }
-
-  &__button:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    &:hover {
+      color: white;
+    }
   }
 }
 
@@ -26,13 +25,11 @@
   position: absolute;
 
   bottom: -7px;
-  margin-left: 15px;
-  padding: 0;
 
   border: 6px solid;
   border-color:
-    #22292e
+    @background
     transparent
     transparent
-    #22292e;
+    @background;
 }

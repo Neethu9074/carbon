@@ -1,11 +1,13 @@
-
-
 import React from 'react/addons';
 import moment from 'moment';
 
 import * as time from 'in-services/time';
 
 const ServerTime = React.createClass({
+
+  propTypes: {
+    className: React.PropTypes.any
+  },
 
   shouldComponentUpdate() {
     // never, yay!
@@ -28,7 +30,7 @@ const ServerTime = React.createClass({
 
   render() {
     return (
-      <span></span>
+      <span className={this.props.className}></span>
     );
   }
 });

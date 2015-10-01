@@ -30,6 +30,7 @@ const SnapshotDetailContent = React.createClass({
   ],
 
   propTypes: {
+    useDetailedInformation: React.PropTypes.bool,
     className: React.PropTypes.string,
     hierarchy: React.PropTypes.array,
     snapshot: irpt.map.isRequired
@@ -80,7 +81,8 @@ const SnapshotDetailContent = React.createClass({
 
   renderSnapshotDetails() {
     return (
-      <div className={this.getMixedClassName('__content')}>
+      <div className={this.getMixedClassName('__content')}
+           style={{ maxHeigt: window.height }}>
         <Jail component={this.getForgeSpecificComponent('Details')}
               props={{ snapshot: this.props.snapshot }}/>
       </div>
@@ -89,13 +91,11 @@ const SnapshotDetailContent = React.createClass({
 
   getForgeSpecificComponent(name) {
     const pluginId = this.props.snapshot.get('pluginId');
-    return getForgeComponent(
-      './' +
-      pluginId +
-      '/Sidebar/' +
-      name +
-      '.es6'
-    );
+    const path = this.props.useDetailedInformation ?
+      './' + pluginId + '/Dashboard/Sidebar.es6' :
+      './' + pluginId + '/Sidebar/' + name + '.es6';
+
+    return getForgeComponent(path);
   },
 
   openDashboard() {

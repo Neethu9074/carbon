@@ -15,9 +15,8 @@
   padding: 0.3rem 0.5rem;
   border-radius: 0.4rem;
 
-
-  &__left:after {
-    @size: 6px;
+  @size: 6px;
+  &:after {
     content: "";
     width: 0;
     height: 0;
@@ -26,19 +25,27 @@
 
     position: absolute;
     top: 10px;
+  }
+
+  &__left-auto:after {
     right: @size * -1;
   }
 
-  &__right:after {
-    @size: 6px;
-    content: "";
-    width: 0;
-    height: 0;
-    border-bottom: @size solid transparent;
+  &__right-auto:after {
+    left: @size * -2;
     border-right: @size solid @background;
+    border-left: @size solid transparent;
+  }
 
-    position: absolute;
-    top: 10px;
-    left: @size * -1;
+  &__right-top:after {
+    left: @size * -2 + 20px;
+    border-right: @size solid @background;
+    border-left: @size solid transparent;
+    top: 100%;
+  }
+
+  &__left-top:after {
+    right: @size * -1 + 20px;
+    top: 100%;
   }
 }

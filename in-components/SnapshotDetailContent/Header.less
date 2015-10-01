@@ -1,7 +1,7 @@
 @import "~in-themes/active.less";
 
 .in-snapshot-sidebar-header {
-  background: @sidebar__background;
+  background: @sidebar__header__background;
   padding: 16px 20px;
 
   &__label {
@@ -9,6 +9,7 @@
     font-size: 1rem;
     font-weight: normal;
     word-break: break-all;
+    color: @sidebar__header__heading;
   }
 
   &__health {
@@ -26,6 +27,6 @@
     margin: 0;
     line-height: 2;
     font-size: 14px;
-    color: #c3cacd;
+    color: @sidebar__header__plugin;
   }
 }

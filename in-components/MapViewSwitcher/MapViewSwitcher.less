@@ -1,0 +1,35 @@
+@import "~in-themes/active.less";
+
+.in-mapviewswitcher {
+  display: inline-block;
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: 10px;
+
+  &__item {
+    padding: 10px 15px 10px 15px;
+    display: inline;
+    list-style: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 1rem;
+
+    border-right: 1px solid silver;
+    background: @map-view-switcher__background;
+    color: @map-view-switcher__label;
+
+    &:first-child {
+      border-radius: 0 0 0 5px;
+    }
+
+    &:last-child {
+      border-right: 0;
+      border-radius: 0 0 5px 0;
+    }
+
+    &:hover {
+      background: @map-view-switcher__background-highlight;
+      color: @map-view-switcher__label-highlight;
+    }
+  }
+}

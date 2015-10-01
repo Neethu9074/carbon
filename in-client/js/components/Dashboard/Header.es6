@@ -43,7 +43,7 @@ const DashboardHeader = React.createClass({
         <div className={block + '__back-to-map'}
              onClick={this.closeDashboard}>
 
-          <Icon className={block + '__icon'}
+          <Icon className={block + '__back-to-map__icon'}
                 type={'arrow_left'}/>
 
           Back to map

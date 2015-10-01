@@ -43,7 +43,7 @@ const SidebarTagListing = React.createClass({
 
         <ListHeader header={'Tags'}/>
 
-        <ResetButton onClick={() => { /*TODO: clear all tags*/}} />
+        <ResetButton onClick={this.clearAllTags} />
 
         <ol className={block}>
           {tags.map(tag => {
@@ -63,6 +63,10 @@ const SidebarTagListing = React.createClass({
         </ol>
       </div>
     );
+  },
+
+  clearAllTags() {
+    filters.removeFiltersWithType('tag');
   },
 
   getAllTags() {

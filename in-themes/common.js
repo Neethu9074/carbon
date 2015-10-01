@@ -8,6 +8,7 @@ module.exports = {
     map: zIndex++,
     stickyNotes: zIndex++,
     lettering: zIndex++,
+    mapSwitcher: zIndex++,
     feedbackBadge: zIndex++,
     notificationCenter: zIndex++,
     sidebar: zIndex++,

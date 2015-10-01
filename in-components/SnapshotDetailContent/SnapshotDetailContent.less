@@ -2,17 +2,20 @@
 
 .in-snapshot-detail-sidebarcontent {
   width: 21rem;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
 
   &__content {
-    padding: 20px;
-    width: ~"calc(21rem - 40px)";
+    padding: 1.25rem;
+    width: 18.5rem;
 
-    height:auto;
-    max-height: 50vh;
-    overflow-y: scroll;
+    height: auto;
+    max-height: 50%;
+    overflow-y: auto;
 
     overflow-x: hidden;
-    background: white;
+    background: @sidebar__background;
   }
 
   &__icon {
@@ -29,7 +32,7 @@
   }
 
   &__open-dashboard {
-    background: #203034;
+    background: @sidebar__view-dashboard-button__background;
     height: 76px;
   }
 

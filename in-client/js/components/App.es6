@@ -1,16 +1,16 @@
-import React from 'react/addons';
-import Immutable from 'immutable';
-import {IntlMixin} from 'react-intl';
-import {combineLatest} from 'reactive-observables';
 import {RouteHandler, Navigation} from 'react-router';
+import {combineLatest} from 'reactive-observables';
+import {IntlMixin} from 'react-intl';
+import Immutable from 'immutable';
+import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import NotificationCounter from 'in-components/NotificationCounter';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
+// import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
@@ -25,7 +25,7 @@ import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
 import DemoDialog from './DemoDialog';
 import Settings from './Settings';
-import Footer from './Footer';
+import Timeline from './Timeline';
 
 import './App.less';
 
@@ -48,20 +48,11 @@ const App = React.createClass({
   getInitialState() {
     return {
       pluginIds: [constants.plugins.os],
-      selectedSnapshot: null,
       showSettings: false
     };
   },
 
   componentDidMount() {
-    this.addSubscription(
-      selectedSnapshotStore.selectedSnapshot.subscribe(selectedSnapshot => {
-        this.setState({
-          selectedSnapshot
-        });
-      })
-    );
-
     const subscriptions = this.state.pluginIds.map(pluginId => {
       return create(SnapshotsConveyer, {pluginId});
     });
@@ -113,7 +104,7 @@ const App = React.createClass({
 
         </section>
 
-        <Footer toggleNotificationCenter={this.toggleNotificationCenter}/>
+        <Timeline />
         <RouteHandler />
 
         {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
