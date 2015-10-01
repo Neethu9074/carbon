@@ -29,7 +29,7 @@ export default class LayerComponent extends Component {
     coordinates.forEach(layerCoordinates => {
       const layerId = layerCoordinates.get('id');
 
-      //don't create a layer if its still there
+      // don't create a layer if its still there
       const match = _.find(this.layer, layer => layer.id === layerId);
 
       if(!match) {
@@ -40,8 +40,6 @@ export default class LayerComponent extends Component {
         });
 
         this.layer.push(newLayer);
-        this.layer.forEach((layer, index) => layer.index = index);
-
         this.needsUpdate = true;
       }
     });
@@ -71,12 +69,14 @@ export default class LayerComponent extends Component {
   }
 
   arrangeChildren() {
+    const pos = this.positionToSet;
     const layer = this.layer;
     const height = this.heightToSet;
-    const pos = this.positionToSet;
     const heightOfEachChild = height / layer.length;
 
-    layer.forEach((child, index) => {
+    layer
+      .sort((l1, l2) => l1.label <= l2.label)
+      .forEach((child, index) => {
       let heightOfSlice = heightOfEachChild - 0.1;
       if (heightOfSlice <= 0) {
         heightOfSlice = heightOfEachChild * 0.75;
