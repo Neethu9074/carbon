@@ -1,6 +1,8 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import HealthIndicator from 'in-components/HealthIndicator';
 
 import {iconSize} from '../../../mapStores';
 import StickyNote from '../StickyNote';
@@ -20,13 +22,13 @@ const NodeStickyNoteRC = React.createClass({
 
   propTypes: {
     sceneObject: rpt.object.isRequired,
-    snapshot: rpt.object.isRequired,
+    snapshot: irpt.map.isRequired,
     showMetric: rpt.bool,
     tags: rpt.object
   },
 
   getInitialState() {
-    return {size: 50};
+    return { size: 0 };
   },
 
   componentDidMount() {
@@ -37,17 +39,14 @@ const NodeStickyNoteRC = React.createClass({
     const sceneObject = this.props.sceneObject;
     const snapshot = this.props.snapshot;
     const tags = this.props.tags;
-
-    // crazy stuff goes here
+    const size = this.state.size;
 
     return (
       <div className='in-sticky-note__node-stack-wrapper'>
         <div className='in-sticky-note__node-stack-children'>
           {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
-          {this.props.showMetric ?
-            null :
-            <NodeIcon snapshot={snapshot} />
-          }
+          {this.props.showMetric ? null : <HealthIndicator snapshot={snapshot} size={size} /> }
+          {this.props.showMetric ? null : <NodeIcon snapshot={snapshot} size={size} /> }
         </div>
       </div>
     );

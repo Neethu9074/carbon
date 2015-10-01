@@ -1,9 +1,8 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getIcon} from 'in-sdk/snapshot';
-
-import {iconSize} from '../../../mapStores';
 
 import './NodeIcon.less';
 
@@ -16,20 +15,13 @@ export default React.createClass({
   ],
 
   propTypes: {
-    snapshot: rpt.object.isRequired
-  },
-
-  getInitialState() {
-    return {size: 16};
-  },
-
-  componentDidMount() {
-    this.addSubscription(iconSize.subscribe(size => this.setState({size})));
+    snapshot: irpt.map.isRequired,
+    size: rpt.number.isRequired
   },
 
   render() {
     const icon = getIcon(this.props.snapshot);
-    const size = Math.max(this.state.size * 0.5, 16);
+    const size = Math.max(this.props.size * 0.5, 16);
     const style = {width: size + 'px', height: size + 'px'};
 
     return (
