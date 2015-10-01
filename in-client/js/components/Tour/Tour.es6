@@ -55,8 +55,9 @@ const GuidedTour = React.createClass({
 
   onResize() {
     const step = tourDefinition.steps[this.state.activeStep];
-    let focusedElement = tourDefinition.steps[this.state.activeStep].element;
+    let focusedElement = step.element;
     let clientRect = null;
+    let predefinedPosition = null;
 
     if (step.visited) {
       focusedElement = '.in-guided-tour__blocker';
@@ -66,6 +67,13 @@ const GuidedTour = React.createClass({
       if (typeof focusedElement === 'string') {
         focusedElement = document.querySelector(focusedElement);
         if(!focusedElement) {
+          if (step.element === 'ALL_RIGHT') {
+            const dialog = React.findDOMNode(this.refs.dialog);
+            predefinedPosition = {
+              x: window.innerWidth - dialog.getBoundingClientRect().width - dialogMargin,
+              y: dialogMargin * 2};
+          }
+
           focusedElement = document.querySelector('.in-guided-tour__blocker');
         }
       }
@@ -73,7 +81,7 @@ const GuidedTour = React.createClass({
     }
 
     this.positionOverlay(clientRect);
-    this.positionDialog(clientRect);
+    this.positionDialog(clientRect, predefinedPosition);
     step.visited = true;
   },
 
@@ -116,7 +124,7 @@ const GuidedTour = React.createClass({
     }
   },
 
-  positionDialog(clientRect) {
+  positionDialog(clientRect, predefinedPosition) {
     const dialog = React.findDOMNode(this.refs.dialog);
     const dialogDimensions = dialog.getBoundingClientRect();
     const windowHeight = window.innerHeight;
@@ -124,6 +132,13 @@ const GuidedTour = React.createClass({
 
     let x;
     let y;
+
+    if (predefinedPosition) {
+      x = predefinedPosition.x;
+      y = predefinedPosition.y;
+      applyTransform(dialog, `translate(${toPx(x)}, ${toPx(y)})`);
+      return;
+    }
 
     if (clientRect) {
       x = clientRect.width + clientRect.left + dialogMargin;
@@ -208,9 +223,7 @@ const GuidedTour = React.createClass({
         step.beforeExecuted = true;
         step.before(this);
       }
-      this.setState({
-        activeStep: nextStepIndex
-      });
+      this.setState({ activeStep: nextStepIndex });
     }
   },
 
@@ -220,7 +233,7 @@ const GuidedTour = React.createClass({
     const currentStep = this.state.activeStep;
     const step = tourDefinition.steps[currentStep];
 
-    //undo the current step
+    // undo the current step
     if(step && step.undo) {
       step.undo(this);
     }
