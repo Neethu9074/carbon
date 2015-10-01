@@ -121,8 +121,8 @@ module.exports = _.defaultsDeep({
     tooltips: {
       font: white,
       background: '#000000',
-      critical: '#FF0000',
-      danger: '#00FF00'
+      critical: health[5],
+      danger: health[10]
     }
   }
 }, base, common);
