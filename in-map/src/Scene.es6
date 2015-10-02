@@ -192,7 +192,8 @@ export default class Scene {
 
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
     this.layerSingleMeshFactory.material.opacity = maxLayerOpacity;
-    // this.layerSingleMeshFactory.material.color = new THREE.Color(0.75, 0.75, 0.75);
+    this.layerSingleMeshFactory.material.depthWrite = false;
+    // this.layerSingleMeshFactory.material.transparent = false;
 
     this.lineFactory = new SingleMeshLineFactory({scene});
 
