@@ -6,13 +6,11 @@ import Collapsible from 'in-components/Collapsible';
 
 import CassandraInfo from '../CassandraInfo';
 
-const rpt = React.PropTypes;
 const CassandraSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {

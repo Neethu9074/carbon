@@ -7,13 +7,11 @@ import WiringList from 'in-components/WiringList';
 
 import JiraInfo from '../JiraInfo';
 
-const rpt = React.PropTypes;
 const JiraSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {

@@ -17,22 +17,27 @@ const SettingEntry = React.createClass({
   },
 
   render() {
+    const numChildren = this.props.children.length;
     invariant(
-      this.props.children.length === 2,
+      numChildren === 2 || numChildren === 3,
       'A SettingEntry must have exactly two child elements: Header and Content'
     );
 
-    const headerProps = this.props.children[0].props;
-    const contentProps = this.props.children[1].props;
+    if (numChildren === 2) {
+      return (
+        <div className={block}>
+          {this.props.children}
+        </div>
+      );
+    }
 
     return (
-      <div className={block}>
-        <span className={block + '__label'}>
-          {headerProps.text}
-        </span>
-        <div className={block + '__content'}>
-          {contentProps.children}
+      <div className={block + '__wrapper'}>
+        <div className={block}>
+          {this.props.children[0]}
+          {this.props.children[1]}
         </div>
+        {this.props.children[2]}
       </div>
     );
   }
@@ -45,8 +50,13 @@ const Header = React.createClass({
     text: rpt.string.isRequired
   },
 
-  // rendering is done by SettingEntry
-  render() { return null; }
+  render() {
+    return (
+      <span className={block + '__label'}>
+        {this.props.text}
+      </span>
+    );
+  }
 });
 SettingEntry.Header = Header;
 
@@ -55,7 +65,27 @@ const Content = React.createClass({
     children: rpt.object.isRequired
   },
 
-  // rendering is done by SettingEntry
-  render() { return null; }
+  render() {
+    return (
+      <div className={block + '__content'}>
+        {this.props.children}
+      </div>
+    );
+  }
 });
 SettingEntry.Content = Content;
+
+const HelpText = React.createClass({
+  propTypes: {
+    text: rpt.string.isRequired
+  },
+
+  render() {
+    return (
+      <div className={block + '__help'}>
+        ({this.props.text})
+      </div>
+    );
+  }
+});
+SettingEntry.HelpText = HelpText;

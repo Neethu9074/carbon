@@ -10,13 +10,11 @@ import InterfaceList from '../InterfaceList';
 import HostInfo from '../HostInfo';
 import HostHardware from '../HostHardware';
 
-const rpt = React.PropTypes;
 const Sidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {

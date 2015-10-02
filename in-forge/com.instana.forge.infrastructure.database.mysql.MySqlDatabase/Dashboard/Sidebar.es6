@@ -7,14 +7,11 @@ import WiringList from 'in-components/WiringList';
 
 import MySqlInfo from '../MySqlInfo';
 
-const rpt = React.PropTypes;
-
 const MySqlSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {

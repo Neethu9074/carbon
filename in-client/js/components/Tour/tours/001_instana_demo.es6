@@ -65,7 +65,7 @@ export const tourDefinition = {
       title: 'The Sidebar',
       text: 'An overview about a selected host is presented in the sidebar. Also notice the ' +
             'lines indicating TCP connections to other hosts.',
-      element: 'ALL',
+      element: '.in-snapshot-detail-sidebar',
       undo() {
         selectedSnapshot.clear();
       }
@@ -75,7 +75,7 @@ export const tourDefinition = {
       text: 'Double click a host or use the Open Dashboard button in the sidebar to get a ' +
             'comprehensive view of host details with 1 second resolution metrics.',
       nextStepLabel: 'Open the dashboard',
-      element: '.in-sidebar-details__open-dashboard',
+      element: '.in-snapshot-detail-sidebarcontent__open-dashboard',
       after(tour) {
         openDashboard(tour);
       }
@@ -85,7 +85,7 @@ export const tourDefinition = {
       text: 'Dashboards contain real-time, 1 second resolution metrics and charts along with ' +
             'environmental information, e.g. Amazon Web-Service data and applications that are ' +
             'running on this host.',
-      element: 'ALL',
+      element: 'ALL_RIGHT',
       undo(tour) {
         tour.transitionTo('map');
       }
@@ -99,10 +99,10 @@ export const tourDefinition = {
     {
       title: 'Back to the 3D Map',
       text: 'Close the dashboard and go back to the 3D map using this button.',
-      element: '.in-dashboard-header__close',
+      element: '.in-dashboard-header__back-to-map',
       nextStepLabel: 'Back to the 3D Map',
       after() {
-        clickOnCssItem('.in-dashboard-header__close');
+        clickOnCssItem('.in-dashboard-header__back-to-map');
         selectedSnapshot.clear();
       }
     },
@@ -123,8 +123,8 @@ export const tourDefinition = {
       after() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
 
-        setTimeout(() => clickOnCssItem('.in-sidebar-metric-header--0'), 50);
-        setTimeout(() => document.querySelectorAll('.in-sidebar-metric-tree--leaf')[1].click(), 50);
+        setTimeout(() => clickOnCssItem('.in-collapsible__header--bordered.in-collapsible__header--closed'), 50);
+        setTimeout(() => document.querySelectorAll('.in-sidebar-metric-tree--leaf')[1].click(), 100);
       }
     },
     {
@@ -133,7 +133,7 @@ export const tourDefinition = {
             'landscape. This information can be used to easily identify overloaded hosts.',
       element: 'ALL',
       undo() {
-        clickOnCssItem('.in-sidebar-metrics__clear-button');
+        clickOnCssItem('.in-sidebar-resetButton');
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
       }
     },
@@ -144,7 +144,7 @@ export const tourDefinition = {
       nextStepLabel: 'Stop Real-Time Metrics',
       after() {
         // stop metrics from flowing
-        clickOnCssItem('.in-sidebar-metrics__clear-button');
+        clickOnCssItem('.in-sidebar-resetButton');
         // close sidebar
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
       }
@@ -155,7 +155,7 @@ export const tourDefinition = {
       nextStepLabel: 'Finish tour and unlock user interface',
       undo() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
-        clickOnCssItem('.in-sidebar-metric-header--0');
+        clickOnCssItem('.in-collapsible__header--bordered.in-collapsible__header--closed');
         document.querySelectorAll('.in-sidebar-metric-tree--leaf')[1].click();
       }
     }
