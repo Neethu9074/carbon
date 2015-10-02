@@ -117,6 +117,7 @@ module.exports = _.defaultsDeep({
         top: {r: 0.957, g: 0.97, b: 0.98}
       },
       cubeBasicColor: '#e9edef',
+      layerBasicColor: '#e9edef',
       clearColor: '#445b63',
       warning: health[5],
       critical: health[10],

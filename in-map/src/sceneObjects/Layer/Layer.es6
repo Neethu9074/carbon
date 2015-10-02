@@ -6,6 +6,8 @@ import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
 import {getSingular} from 'in-sdk/pluginName';
 import eventBus from 'in-services/eventbus';
+import {health} from 'in-services/health';
+import {theme} from 'in-services/theme';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import HighlightingComponent from '../../components/HighlightingComponent';
@@ -218,7 +220,12 @@ export default class Layer extends SceneObject {
   }
 
   healthChanged(newHealth) {
-    console.log(newHealth);
+    const color = this.calculateColorForHealth(newHealth);
+    const r = color.r;
+    const g = color.g;
+    const b = color.b;
+
+    this.getComponent('mesh').colorChanged(r, g, b);
   }
 
   positionChanged(x, y, z) {
@@ -234,6 +241,20 @@ export default class Layer extends SceneObject {
     this.getComponent('solidMesh').sizeChanged(margin, height, margin);
     this.getComponent('collision').sizeChanged(margin, height, margin);
     this.getComponent('highlighting').sizeChanged(margin, height, margin);
+  }
+
+  calculateColorForHealth(newHealth) {
+    const colors = theme.map.colors;
+    let color;
+
+    if(newHealth === health.warning) {
+      color = new THREE.Color(colors.warning);
+    } else if(newHealth === health.danger) {
+      color = new THREE.Color(colors.critical);
+    } else {
+      color = new THREE.Color(colors.layerBasicColor);
+    }
+    return {r: color.r, g: color.g, b: color.b};
   }
 
   dispose() {
