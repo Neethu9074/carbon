@@ -4,7 +4,9 @@ import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import getForgeComponent from 'in-services/getForgeComponent';
+import * as timelineStore from 'in-services/stores/timeline';
 import * as tracking from 'in-services/tracking';
 import {getClassName} from 'in-services/react';
 import * as wiring from 'in-services/wiring';
@@ -26,6 +28,7 @@ alwaysEmptyArrayObservable.emit([]);
 const SnapshotDetailContent = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
+    SubscriptionMixin,
     Navigation
   ],
 
@@ -57,6 +60,18 @@ const SnapshotDetailContent = React.createClass({
     }
   },
 
+  getInitialState() {
+    return { timeframe: 0 };
+  },
+
+  componentWillMount() {
+    this.addSubscription(
+      timelineStore.timeframe.subscribe(timeframe => {
+        this.setState({ timeframe });
+      })
+    );
+  },
+
   render() {
     return (
       <div className={getClassName(this, block)}>
@@ -84,7 +99,10 @@ const SnapshotDetailContent = React.createClass({
       <div className={this.getMixedClassName('__content')}
            style={{ maxHeigt: window.height }}>
         <Jail component={this.getForgeSpecificComponent('Details')}
-              props={{ snapshot: this.props.snapshot }}/>
+              props={{
+                snapshot: this.props.snapshot,
+                timeframe: this.state.timeframe
+              }}/>
       </div>
     );
   },
