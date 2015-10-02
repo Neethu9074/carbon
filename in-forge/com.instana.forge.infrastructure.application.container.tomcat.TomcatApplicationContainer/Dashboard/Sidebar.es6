@@ -8,13 +8,11 @@ import WiringList from 'in-components/WiringList';
 
 import TomcatInfo from '../TomcatInfo';
 
-const rpt = React.PropTypes;
 const TomcatSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {

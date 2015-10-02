@@ -6,13 +6,11 @@ import Collapsible from 'in-components/Collapsible';
 
 import MongoDBInfo from '../MongoDBInfo';
 
-const rpt = React.PropTypes;
 const MongoDBSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {
