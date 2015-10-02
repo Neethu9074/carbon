@@ -23,28 +23,30 @@ const HealthIndicator = React.createClass({
   },
 
   getInitialState() {
-    return { maxSeverity: 0 };
+    return { healthIndicator: 0 };
   },
 
   componentDidMount() {
     this.addSubscription(getProblemsForSnapshot(this.props.snapshot).map(problems => {
+      // sum all severities
       return problems.reduce((acc, problem) => {
-        return Math.max(problem.get('severity'), acc);
+        const severity = problem.get('severity');
+        return acc + severity;
       }, 0);
-    }).subscribe(maxSeverity => {
-      this.setState({ maxSeverity });
+    }).subscribe(healthIndicator => {
+      this.setState({ healthIndicator });
     }));
   },
 
   render() {
     const width = this.props.size ? this.props.size : 100;
-    const progress = this.state.maxSeverity / 10;
+    const progress = this.state.healthIndicator;
 
     return (
       <div className={getClassName(this, block)}
-           style={{width}}>
+           style={{ width }}>
         <div className={block + '__progress'}
-             style={{width: width * progress}}/>
+             style={{ width: width * progress }}/>
       </div>
     );
   }
