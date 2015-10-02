@@ -18,7 +18,7 @@ import MeshComponent from '../../../components/MeshComponent';
 
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {longClickedSceneObject} from '../../../mapStores';
-import NodeSnapshotServer from '../../../NodeSnapshotServer';
+import NodeSnapshotServer from './NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode';
