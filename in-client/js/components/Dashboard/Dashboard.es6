@@ -32,7 +32,6 @@ const Dashboard = React.createClass({
 
   getInitialState() {
     return {
-      visibleSection: '',
       snapshot: null,
       timeframe: 0
     };
