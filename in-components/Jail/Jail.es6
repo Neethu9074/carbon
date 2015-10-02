@@ -15,7 +15,6 @@ const Jail = React.createClass({
   propTypes: {
     component: rpt.any.isRequired,
     className: rpt.string,
-    onScroll: rpt.func,
     props: rpt.object
   },
 
@@ -84,11 +83,7 @@ const Jail = React.createClass({
   },
 
   render() {
-    return (
-      <div onScroll={this.props.onScroll}
-           className={getClassName(this, block)}>
-      </div>
-    );
+    return <div className={getClassName(this, block)} />;
   }
 });
 

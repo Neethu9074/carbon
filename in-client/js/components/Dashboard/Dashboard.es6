@@ -30,8 +30,6 @@ const Dashboard = React.createClass({
     }
   },
 
-  headers: [],
-
   getInitialState() {
     return {
       visibleSection: '',
@@ -62,7 +60,7 @@ const Dashboard = React.createClass({
         <div className={block + '__graphs'} ref='content'>
           <Header snapshot={this.state.snapshot}/>
 
-          {this.renderNavigation()}
+          <Navigation/>
           {this.renderDashboard()}
         </div>
 
@@ -84,74 +82,6 @@ const Dashboard = React.createClass({
     );
   },
 
-  renderNavigation() {
-    const jail = this.getJail();
-    if (!jail) {
-      return null;
-    }
-    const oldScrollValue = jail.scrollTop;
-    this.setScrolling(0);
-    const currentHeaders = document.getElementsByClassName('in-dashboard__content-heading') || [];
-    this.headers = [];
-    for (let i = 0; i < currentHeaders.length; i++) {
-      const header = currentHeaders[i];
-      this.headers.push({
-        element: header,
-        label: header.textContent,
-        _cachedTop: header.getBoundingClientRect().top
-      });
-    }
-    this.setScrolling(oldScrollValue);
-
-    return (
-      <Navigation>
-        {this.headers.map(item => {
-          const text = item.label;
-          return (
-            <Navigation.Item key={text}
-                             label={text}
-                             isVisible={this.state.visibleSection === text}
-                             onClick={() => this.jumpToSection(item)}/>
-          );
-        })}
-      </Navigation>
-    );
-  },
-
-  jumpToSection(item) {
-    const jail = this.getJail();
-    if (jail) {
-      jail.scrollTop = item._cachedTop - 140;
-    }
-  },
-
-  getJail() {
-    const jails = document.getElementsByClassName(block + '__sections');
-    if (!jails || jails.length === 0) {
-      return null;
-    }
-    return jails[0];
-  },
-
-  setScrolling(value) {
-    const jail = this.getJail();
-    if (jail) {
-      jail.scrollTop = value;
-    }
-  },
-
-  onScroll() {
-    for (let i = 0; i < this.headers.length; i++) {
-      const header = this.headers[i];
-      const boundings = header.element.getBoundingClientRect();
-      // since the header list is sorted, the first hit is the right to take
-      if (boundings.top >= 0) {
-        this.setState({ visibleSection: header.label });
-        return;
-      }
-    }
-  },
-
   renderDashboard() {
     if (!this.state.snapshot) {
       return <LoadingIndicator />;
@@ -161,7 +91,6 @@ const Dashboard = React.createClass({
     return (
       <Jail component={DashboardImpl}
             className={block + '__sections'}
-            onScroll={this.onScroll}
             props={{
               snapshot: this.state.snapshot,
               timeframe: this.state.timeframe
