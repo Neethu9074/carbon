@@ -69,23 +69,62 @@ export default class LayerComponent extends Component {
   }
 
   arrangeChildren() {
+    const layer = this.getSortedLayer();
+    const transformations = this.getLayerTransformations();
+
+    layer.forEach((child, index) => {
+      const transformation = transformations[index];
+      child.setHeight(transformation.heightOfSlice);
+
+      const position = transformation.position;
+      const positionComponent = child.getComponent('position');
+      positionComponent.setPosition(position.x, position.y, position.z);
+    });
+  }
+
+  getLayerTransformations() {
     const pos = this.positionToSet;
     const layer = this.layer;
-    const height = this.heightToSet;
-    const heightOfEachChild = height / layer.length;
+    const numSlicesGapsIncluded = layer.length + this.countDifferentTypesFromSortedArray(layer) - 1;
+    const heightOfEachChild = this.heightToSet / numSlicesGapsIncluded;
+    const transformations = [];
+    let heightAddition = 0;
+    let prevChild = undefined;
 
-    layer
-      .sort((l1, l2) => l1.label <= l2.label)
-      .forEach((child, index) => {
+    layer.forEach((child, index) => {
       let heightOfSlice = heightOfEachChild - 0.1;
       if (heightOfSlice <= 0) {
         heightOfSlice = heightOfEachChild * 0.75;
       }
-      child.setHeight(heightOfSlice);
 
-      const positionComponent = child.getComponent('position');
-      positionComponent.setPosition(pos.x, index * heightOfEachChild, pos.z);
+      if (prevChild && child.label !== prevChild.label) {
+        heightAddition++;
+      }
+      prevChild = child;
+
+      transformations[index] = {
+        position: {x: pos.x, y: (index + heightAddition) * heightOfEachChild, z: pos.z },
+        heightOfSlice
+      };
     });
+
+    return transformations;
+  }
+
+  countDifferentTypesFromSortedArray(array) {
+    let differentTypes = 1;
+
+    for (let i = 1; i < array.length; i++) {
+      if (array[i].label !== array[i - 1].label) {
+        differentTypes++;
+      }
+    }
+
+    return differentTypes;
+  }
+
+  getSortedLayer() {
+    return this.layer.sort((l1, l2) => l1.label <= l2.label);
   }
 
   // is called if a layer was disposed
