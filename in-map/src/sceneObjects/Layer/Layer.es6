@@ -221,11 +221,7 @@ export default class Layer extends SceneObject {
 
   healthChanged(newHealth) {
     const color = this.calculateColorForHealth(newHealth);
-    const r = color.r;
-    const g = color.g;
-    const b = color.b;
-
-    this.getComponent('mesh').colorChanged(r, g, b);
+    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
   }
 
   positionChanged(x, y, z) {
