@@ -1,4 +1,5 @@
 /*eslint-disable react/no-multi-comp, react/prop-types*/
+import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import './Navigation.less';
@@ -13,6 +14,7 @@ const Navigation = React.createClass({
   ],
 
   propTypes: {
+    snapshot: irpt.map.isRequired,
     children: rpt.array
   },
 
@@ -21,6 +23,10 @@ const Navigation = React.createClass({
 
   getInitialState() {
     return { draw: false };
+  },
+
+  componentDidUpdate() {
+    console.log('UPDATE');
   },
 
   componentDidMount() {

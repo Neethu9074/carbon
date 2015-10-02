@@ -58,8 +58,7 @@ const Dashboard = React.createClass({
 
         <div className={block + '__graphs'} ref='content'>
           <Header snapshot={this.state.snapshot}/>
-
-          <Navigation/>
+          <Navigation snapshot={this.state.snapshot}/>
           {this.renderDashboard()}
         </div>
 
