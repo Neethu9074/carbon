@@ -83,37 +83,45 @@ export default class LayerComponent extends Component {
   }
 
   getLayerTransformations() {
-    const pos = this.positionToSet;
     const layer = this.layer;
-    const heightOfEachChild =
-      this.heightToSet /
-      (layer.length + (0.15 * (this.countDifferentTypesFromSortedArray(layer) - 1)));
+    const nodeHeight = this.heightToSet;
+    const numGaps = this.countDifferentTypesFromSortedArray(layer) - 1;
+    const gapHeight = this.calculateHeightForEachGap(nodeHeight, numGaps);
+    const heightUsedForLayer = nodeHeight - numGaps * gapHeight;
+
+    const pos = this.positionToSet;
+    const heightOfEachChild = heightUsedForLayer / layer.length;
     const transformations = [];
-    let heightAddition = 0;
     let prevChild = undefined;
     let position = 0;
 
     layer.forEach((child, index) => {
-      let heightOfSlice = heightOfEachChild - 0.1;
-      if (heightOfSlice <= 0) {
-        heightOfSlice = heightOfEachChild * 0.75;
-      }
-
       if (prevChild && child.label !== prevChild.label) {
-        heightAddition++;
-        position += 0.15;
+        position += gapHeight;
       }
       prevChild = child;
 
       transformations[index] = {
         position: {x: pos.x, y: position, z: pos.z },
-        heightOfSlice
+        heightOfSlice: heightOfEachChild * 0.9
       };
 
-      position += heightOfEachChild * 0.9;
+      position += heightOfEachChild;
     });
 
     return transformations;
+  }
+
+  calculateHeightForEachGap(heightOfNode, numLayer) {
+    const maxPercentUsedForGaps = 0.1;
+    let sizeOfGaps = 0.1;
+    const maxHeightUsedForGaps = heightOfNode * maxPercentUsedForGaps;
+    const heightUsedForGaps = sizeOfGaps * numLayer;
+    if (heightUsedForGaps > maxHeightUsedForGaps) {
+      sizeOfGaps /= heightUsedForGaps / maxHeightUsedForGaps;
+    }
+
+    return sizeOfGaps;
   }
 
   countDifferentTypesFromSortedArray(array) {
