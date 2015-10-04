@@ -87,59 +87,6 @@ describe('3D map', () => {
       expect(transformations.length).to.equal(10);
     });
 
-    it('should stack same layer equally', () => {
-      // better to calculate
-      component.heightChanged(10);
-
-      for (let i = 0; i < 10; i++) {
-        component.addLayer(getRandomLayerCoordinates());
-      }
-
-      const transformations = component.getLayerTransformations();
-      expect(transformations.length).to.equal(10);
-      for (let i = 0; i < 10; i++) {
-        expect(transformations[i].position.y).to.equal(i);
-      }
-    });
-
-    it('should be a gap between two layer of different type', () => {
-      // better to calculate
-      component.heightChanged(3);
-
-      component.addLayer(getRandomLayerCoordinates('typeA'));
-      component.addLayer(getRandomLayerCoordinates('typeB'));
-
-      const transformations = component.getLayerTransformations();
-      expect(transformations.length).to.equal(2);
-      expect(transformations[0].position.y).to.equal(0);
-      expect(transformations[1].position.y).to.equal(2);
-    });
-
-    it('should be a gap between four layer of different type', () => {
-      // better to calculate
-      component.heightChanged(11);
-
-      component.addLayer(getRandomLayerCoordinates('typeA'));
-      component.addLayer(getRandomLayerCoordinates('typeA'));
-      component.addLayer(getRandomLayerCoordinates('typeA'));
-      component.addLayer(getRandomLayerCoordinates('typeB'));
-      component.addLayer(getRandomLayerCoordinates('typeB'));
-      component.addLayer(getRandomLayerCoordinates('typeC'));
-      component.addLayer(getRandomLayerCoordinates('typeC'));
-      component.addLayer(getRandomLayerCoordinates('typeD'));
-
-      const transformations = component.getLayerTransformations();
-      expect(transformations.length).to.equal(8);
-      expect(transformations[0].position.y).to.equal(0);
-      expect(transformations[1].position.y).to.equal(1);
-      expect(transformations[2].position.y).to.equal(2);
-      expect(transformations[3].position.y).to.equal(4);
-      expect(transformations[4].position.y).to.equal(5);
-      expect(transformations[5].position.y).to.equal(7);
-      expect(transformations[6].position.y).to.equal(8);
-      expect(transformations[7].position.y).to.equal(10);
-    });
-
     it('should count the different types correctly', () => {
       expect(component.countDifferentTypesFromSortedArray(component.getSortedLayer())).to.equal(1);
 
@@ -158,7 +105,6 @@ describe('3D map', () => {
       component.addLayer(getRandomLayerCoordinates('typeC'));
       expect(component.countDifferentTypesFromSortedArray(component.getSortedLayer())).to.equal(3);
     });
-
 
   });
 

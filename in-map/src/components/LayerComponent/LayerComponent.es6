@@ -85,11 +85,13 @@ export default class LayerComponent extends Component {
   getLayerTransformations() {
     const pos = this.positionToSet;
     const layer = this.layer;
-    const numSlicesGapsIncluded = layer.length + this.countDifferentTypesFromSortedArray(layer) - 1;
-    const heightOfEachChild = this.heightToSet / numSlicesGapsIncluded;
+    const heightOfEachChild =
+      this.heightToSet /
+      (layer.length + (0.15 * (this.countDifferentTypesFromSortedArray(layer) - 1)));
     const transformations = [];
     let heightAddition = 0;
     let prevChild = undefined;
+    let position = 0;
 
     layer.forEach((child, index) => {
       let heightOfSlice = heightOfEachChild - 0.1;
@@ -99,13 +101,16 @@ export default class LayerComponent extends Component {
 
       if (prevChild && child.label !== prevChild.label) {
         heightAddition++;
+        position += 0.15;
       }
       prevChild = child;
 
       transformations[index] = {
-        position: {x: pos.x, y: (index + heightAddition) * heightOfEachChild, z: pos.z },
+        position: {x: pos.x, y: position, z: pos.z },
         heightOfSlice
       };
+
+      position += heightOfEachChild * 0.9;
     });
 
     return transformations;
