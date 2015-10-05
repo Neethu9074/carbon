@@ -6,13 +6,11 @@ import Collapsible from 'in-components/Collapsible';
 
 import RedisInfo from '../RedisInfo';
 
-const rpt = React.PropTypes;
 const RedisSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {

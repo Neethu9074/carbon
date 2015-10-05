@@ -7,12 +7,15 @@
 
   width: 600px;
   padding: 0 0 10px 0;
-  background: #52626a;
+  background: @settings__background;
 
   &__header {
-    background: #4d5c64;
-    height: 69px;
-    border-bottom: 1px solid grey;
+    background: @settings__heading__background;
+    padding: 20px;
+    font-size: 1.25rem;
+    font-weight: lighter;
+    color: @settings__heading__text;
+    border-bottom: 1px solid @settings__section-line;
   }
 
   &__wrapper {
@@ -34,12 +37,12 @@
   &__section {
     width: ~"calc(100% - 60px)";
     margin: 5px 30px 5px 30px;
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid @settings__section-line;
   }
 
   &__section-end {
     width: 100%;
-    border-bottom: 1px solid grey;
+    border-bottom: 1px solid @settings__section-line;
   }
 
   &__button-close--wrapper {

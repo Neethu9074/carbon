@@ -4,6 +4,7 @@ import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
+import {getSingular} from 'in-sdk/pluginName';
 import eventBus from 'in-services/eventbus';
 
 import CollisionComponent from '../../components/CollisionObjectComponent';
@@ -30,7 +31,7 @@ export default class Layer extends SceneObject {
     super({parent, id});
 
     this.snapshot = undefined;
-    this.layerIndex = undefined; //see this.setLayerIndex
+    this.label = '';
 
     this.getComponent('position').setPosition(Infinity, 0, 0);
 
@@ -194,6 +195,8 @@ export default class Layer extends SceneObject {
 
     this.snapshot = snapshot;
 
+    this.label = getSingular(snapshot.get('pluginId'));
+
     if(!this.tooltip) {
       this.tooltip = new TooltipLayer(this);
     }
@@ -225,14 +228,6 @@ export default class Layer extends SceneObject {
     this.getComponent('solidMesh').sizeChanged(margin, height, margin);
     this.getComponent('collision').sizeChanged(margin, height, margin);
     this.getComponent('highlighting').sizeChanged(margin, height, margin);
-  }
-
-  //this value is used to store the information of the layer of this layer
-  // -----   layer 2
-  // -----   layer 1
-  // -----   layer 0 (bottom layer)
-  setLayerIndex(index) {
-    this.layerIndex = index;
   }
 
   dispose() {

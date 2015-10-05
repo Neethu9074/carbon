@@ -37,7 +37,8 @@ module.exports = _.defaultsDeep({
     viewDashboardButton: {
       background: darkestGrey
     },
-    background: white
+    background: white,
+    problemStart: darkestGrey
   },
   timeline: {
     changeTimeButton: cyan,
@@ -77,6 +78,16 @@ module.exports = _.defaultsDeep({
     sectionLabel: cyan,
     signoutLabel: lightGrey
   },
+  settings: {
+    heading: {
+      text: lightestGrey,
+      background: darkestGrey
+    },
+    background: darkGrey,
+    sectionLine: grey,
+    entryText: lightestGrey,
+    helpText: lightGrey
+  },
   dashboard: {
     background: white,
     header: {
@@ -107,8 +118,8 @@ module.exports = _.defaultsDeep({
       },
       cubeBasicColor: '#e9edef',
       clearColor: '#445b63',
-      warning: '#FF0000',
-      critical: '#00FF00',
+      warning: health[5],
+      critical: health[10],
       groundDots: '#809199'
     },
     stickyNotes: {
@@ -117,8 +128,8 @@ module.exports = _.defaultsDeep({
     tooltips: {
       font: white,
       background: '#000000',
-      critical: '#FF0000',
-      danger: '#00FF00'
+      critical: health[5],
+      danger: health[10]
     }
   }
 }, base, common);

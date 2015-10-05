@@ -91,11 +91,11 @@ const ProblemPanel = React.createClass({
   getColor(problem) {
     switch (mapSeverityToHealth(problem.get('severity'))) {
       case health.ok:
-        return '#fff';
+        return theme.health[0];
       case health.warning:
-        return theme.health.warning;
+        return theme.health[5];
       case health.danger:
-        return theme.health.danger;
+        return theme.health[10];
       default:
         throw new Error('Unknown health ' + mapSeverityToHealth(problem));
     }

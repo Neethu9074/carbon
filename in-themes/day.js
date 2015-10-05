@@ -2,45 +2,134 @@
 /*eslint-disable no-var*/
 
 var _ = require('lodash');
-var base = require('instana-ui-theme/dist/day/config.json');
+var base = require('instana-ui-theme/dist/night/config.json');
 
 var common = require('./common');
 
-var colors = {
-  white: '#FFFFFF',
-  black: '#121416',
-  darkGrey: '#20272C',
-  warning: '#FFD823',
-  danger: '#FF4229'
-};
+var white = '#ffffff';
+var lightestGrey = '#dce3e6';
+var lightGrey = '#6b8088';
+var grey = '#435b64';
+var darkGrey = '#2d4048';
+var darkestGrey = '#203036';
+var cyan = '#9fffff';
+var health = [
+  lightGrey,
+  '#e3e2b8',
+  '#eae18a',
+  '#f1e05c',
+  '#f8df2e',
+  '#ffde00',
+  '#ffbf08',
+  '#ffa010',
+  '#ff8019',
+  '#ff6121',
+  '#ff4229'
+];
 
 module.exports = _.defaultsDeep({
   sidebar: {
-    background: 'rgba(47, 67, 76, 0.95)'
+    header: {
+      background: darkGrey,
+      plugin: lightestGrey,
+      heading: white
+    },
+    viewDashboardButton: {
+      background: darkestGrey
+    },
+    background: white,
+    problemStart: darkestGrey
   },
+  timeline: {
+    changeTimeButton: cyan,
+    timeRangeLabel: white,
+    background: darkGrey,
+    serverTime: lightGrey,
+    line: grey
+  },
+  filterbar: {
+    background: darkestGrey,
+    controls: {
+      label: white,
+      labelHighlight: cyan,
+      background: {
+        regular: lightGrey,
+        regularHover: grey,
+        active: darkGrey,
+        activeHover: darkestGrey
+      },
+      closeButtonIcon: cyan,
+      closeButtonIconHighlight: white,
+      closeButtonLabel: lightGrey,
+      closeButtonLabelHighlight: white,
+      resetButtonIcon: cyan,
+      resetButtonIconHighlight: white,
+      resetButtonLabel: lightGrey,
+      resetButtonLabelHighlight: white,
+      listHeader: white,
+      metricsLabel: white,
+      metricsLabelBackgroundHighlight: darkGrey
+    }
+  },
+  menu: {
+    background: darkestGrey,
+    sectionLine: darkGrey,
+    sectionLabelHighlight: white,
+    sectionLabel: cyan,
+    signoutLabel: lightGrey
+  },
+  settings: {
+    heading: {
+      text: lightestGrey,
+      background: darkestGrey
+    },
+    background: darkGrey,
+    sectionLine: grey,
+    entryText: lightestGrey,
+    helpText: lightGrey
+  },
+  dashboard: {
+    background: white,
+    header: {
+      background: darkestGrey,
+      backToMapButtonLabel: lightGrey,
+      backToMapButtonLabelHighlight: white,
+      backToMapButtonIcon: cyan,
+      backToMapButtonIconHighlight: white
+    },
+    tabs: {
+    }
+  },
+  mapViewSwitcher: {
+    background: lightGrey,
+    backgroundHighlight: white,
+    label: white,
+    labelHighlight: darkestGrey
+  },
+  health,
   footer: {
-    height: 20
+    height: 32
   },
   map: {
     colors: {
       cubeColorFalloffValues: {
-        right: {r: 0.469, g: 0.54, b: 0.57},
-        top: {r: 0.687, g: 0.76, b: 0.79}
+        right: {r: 0.78, g: 0.84, b: 0.87},
+        top: {r: 0.957, g: 0.97, b: 0.98}
       },
-      cubeBasicColor: '#60747c',
-      clearColor: '#879ea6',
-      warning: colors.warning,
-      critical: colors.danger,
-      groundDots: '#c4cfd3'
+      cubeBasicColor: '#e9edef',
+      clearColor: '#445b63',
+      warning: health[5],
+      critical: health[10],
+      groundDots: '#809199'
     },
     stickyNotes: {
-      nodeHightlightBackgroundColor: colors.darkGrey
+      nodeHightlightBackgroundColor: darkGrey
     },
     tooltips: {
-      font: colors.white,
-      background: colors.black,
-      critical: colors.warning,
-      danger: colors.danger
+      font: white,
+      background: '#000000',
+      critical: health[5],
+      danger: health[10]
     }
   }
 }, base, common);

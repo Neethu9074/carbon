@@ -47,7 +47,7 @@ module.exports = {
     user: 'stan@instana.com',
     pw: '4711',
     uiBackendUrl: 'http://localhost:8080',
-    groundskeeperUrl: 'http://workstation:8280'
+    groundskeeperUrl: 'http://localhost:8280'
   },
   staging: {
     user: '<none>',

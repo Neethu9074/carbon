@@ -63,7 +63,9 @@ const Settings = React.createClass({
       <Dialog onClose={this.closeSettings}>
         <div className={block}>
 
-        <div className={block + '__header'} />
+        <div className={block + '__header'}>
+          Settings
+        </div>
 
           <SettingEntry>
             <SettingEntry.Header text={'Inverse scroll direction'} />
@@ -100,24 +102,30 @@ const Settings = React.createClass({
 
           <div className={block + '__section'}/>
 
-          <SettingEntry>
-            <SettingEntry.Header text={'Theme (requires browser refresh)'} />
-            <SettingEntry.Content>
-              <ComboBox onChange={e => setActiveTheme(e.target.value)}
-                        defaultValue={this.state.activeTheme}>
-                {availableThemes.toArray()}
-              </ComboBox>
-            </SettingEntry.Content>
-          </SettingEntry>
+          {__DEV__ ?
+            <SettingEntry>
+              <SettingEntry.Header text={'Theme (requires browser refresh)'} />
+              <SettingEntry.Content>
+                <ComboBox onChange={e => setActiveTheme(e.target.value)}
+                          defaultValue={this.state.activeTheme}>
+                  {availableThemes.toArray()}
+                </ComboBox>
+              </SettingEntry.Content>
+            </SettingEntry>
+            : null
+          }
 
-          <div className={block + '__section'}/>
+          {__DEV__ ? <div className={block + '__section'}/> : null }
 
           <SettingEntry>
-            <SettingEntry.Header text={'Enable Desktop Notifications'} />
+            <SettingEntry.Header text='Enable Desktop Notifications' />
             <SettingEntry.Content>
               <CheckBox onClick={this.toggleDesktopNotifications}
                         defaultChecked={this.state.desktopNotification}/>
             </SettingEntry.Content>
+            <SettingEntry.HelpText text={
+                                    'Desktop notifications will pop up if the browser window is not active ' +
+                                    'to keep you up to date about important messages.'} />
           </SettingEntry>
 
           <div className={block + '__section-end'}/>
