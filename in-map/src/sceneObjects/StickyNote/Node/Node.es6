@@ -2,6 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import HealthIndicator from 'in-components/HealthIndicator';
 
 import {iconSize} from '../../../mapStores';
@@ -33,9 +34,15 @@ const NodeStickyNoteRC = React.createClass({
 
   componentDidMount() {
     this.addSubscription(iconSize.subscribe(size => this.setState({size})));
+    this.addSubscription(zoomLevel.subscribe(l => this.setState({zoomLevel: l})));
   },
 
   render() {
+    const zoom = this.state.zoomLevel;
+    if (zoom !== level.near && zoom !== level.nearest) {
+      return null;
+    }
+
     const sceneObject = this.props.sceneObject;
     const snapshot = this.props.snapshot;
     const tags = this.props.tags;

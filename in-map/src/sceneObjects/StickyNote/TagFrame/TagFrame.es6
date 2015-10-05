@@ -1,7 +1,5 @@
 import React from 'react/addons';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import Tooltip from 'in-components/Tooltip';
 
 import TagToolTip from '../../Tooltips/Tag';
@@ -12,8 +10,7 @@ import './TagFrame.less';
 export default React.createClass({
 
   mixins: [
-    React.addons.PureRenderMixin,
-    SubscriptionMixin
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
@@ -21,20 +18,9 @@ export default React.createClass({
     tags: React.PropTypes.object.isRequired
   },
 
-  getInitialState() {
-    return {zoomLevel: level.near};
-  },
-
-  componentDidMount() {
-    this.addSubscription(zoomLevel.subscribe(l => {
-      this.setState({zoomLevel: l});
-    }));
-  },
-
   render() {
-    const zoom = this.state.zoomLevel;
     const tags = this.props.tags;
-    if (tags.size === 0 || (zoom !== level.near && zoom !== level.nearest)) {
+    if (tags.size === 0) {
       return null;
     }
 

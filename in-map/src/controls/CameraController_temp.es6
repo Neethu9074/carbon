@@ -3,8 +3,8 @@ import THREE from 'three';
 import * as tooltipStore from 'in-services/stores/tooltip';
 
 import ConnectionTooltip from '../sceneObjects/Tooltips/Connection';
-import {currentTooltip} from '../mapStores';
 import {allConnections} from '../sceneObjects/Connection';
+import {currentTooltip} from '../mapStores';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 
@@ -15,9 +15,9 @@ export default class CameraController {
     this.bindListeners();
     this.init(scene);
 
-    this.setZoomLevel(250);
+    this.setZoomLevel(260);
     this.states = setupStates(this);
-    this.state = this.states.near;
+    this.state = this.states.mid;
     this.connectionTooltip = new ConnectionTooltip(scene, []);
   }
 
@@ -92,15 +92,6 @@ export default class CameraController {
     this.scrollSpeed = 5;
   }
 
-  switchStateIfNext() {
-    const next = this.state.getNext(this.zoomLevel);
-    if(next){
-      this.state.leave();
-      this.state = next;
-      this.state.enter();
-    }
-  }
-
   zoom(delta) {
     if (delta === 0) {
       return;
@@ -110,8 +101,6 @@ export default class CameraController {
     const nZoomLevel = this.zoomLevel / (min - max); // [0 nearest, 1 farest]
 
     delta *= nZoomLevel * this.scrollSpeed;
-
-    this.switchStateIfNext();
 
     this.targetZoomLevel -= delta;
     const newTargetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel))); // [min, max]
@@ -298,12 +287,22 @@ export default class CameraController {
     this.scene.renderScene();
   }
 
+  switchStateIfNext(zoomLevel) {
+    const next = this.state.getNext(zoomLevel);
+    if (next) {
+      this.state.leave();
+      this.state = next;
+      this.state.enter();
+    }
+  }
+
   updateZoomLevel(dT) {
     const scene = this.scene;
     const cursorPosition = this.cursorForRay;
     const delta = this.targetZoomLevel - this.zoomLevel;
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
+    this.switchStateIfNext(this.zoomLevel);
 
     // get the position of the point in world space where the mouse is pointing at
     // and before the camera zoomed in

@@ -3,7 +3,7 @@ import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import State from './State';
 
 
-export default class NearestState extends State {
+export default class NearState extends State {
 
   constructor(controller) {
     super(controller);
