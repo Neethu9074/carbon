@@ -5,6 +5,8 @@ import Layer from '../../sceneObjects/Layer';
 import Component from '../Component';
 
 
+const maxPercentUsedByGaps = 10;
+
 export default class LayerComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject);
@@ -112,16 +114,12 @@ export default class LayerComponent extends Component {
     return transformations;
   }
 
-  calculateHeightForEachGap(heightOfNode, numLayer) {
-    const maxPercentUsedForGaps = 0.1;
-    let sizeOfGaps = 0.1;
-    const maxHeightUsedForGaps = heightOfNode * maxPercentUsedForGaps;
-    const heightUsedForGaps = sizeOfGaps * numLayer;
-    if (heightUsedForGaps > maxHeightUsedForGaps) {
-      sizeOfGaps /= heightUsedForGaps / maxHeightUsedForGaps;
-    }
-
-    return sizeOfGaps;
+  calculateHeightForEachGap(heightOfNode, numGaps) {
+    // if 10% is the maximum of height used for gaps -> the maximum height for
+    // gaps can be 1 / 10(%) = 0.1. happens if there is only one gap, taking 10%.
+    // if there are more gaps, e.g. 4 -> each one takes 10% / 4 which is
+    // heightOfNode / (#Gaps * 1 / 10).
+    return Math.min(1 / maxPercentUsedByGaps, heightOfNode / (numGaps * maxPercentUsedByGaps));
   }
 
   countDifferentTypesFromSortedArray(array) {

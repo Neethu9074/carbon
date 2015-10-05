@@ -88,13 +88,11 @@ describe('3D map', () => {
     });
 
     it('should default gap size', () => {
-      const heightOfGap = component.calculateHeightForEachGap(1, 1);
-      expect(heightOfGap).to.equal(0.1);
-    });
-
-    it('should shrink gap size to 50%', () => {
-      const heightOfGap = component.calculateHeightForEachGap(1, 2);
-      expect(heightOfGap).to.equal(0.05);
+      expect(component.calculateHeightForEachGap(1, 1)).to.equal(0.1);
+      expect(component.calculateHeightForEachGap(1, 2)).to.equal(0.05);
+      expect(component.calculateHeightForEachGap(10, 2)).to.equal(0.1);
+      expect(component.calculateHeightForEachGap(10, 10)).to.equal(0.1);
+      expect(component.calculateHeightForEachGap(10, 100)).to.equal(0.01);
     });
 
     it('should count the different types correctly', () => {
