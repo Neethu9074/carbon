@@ -6,8 +6,8 @@
   padding-left: 30px;
   height: 56px;
 
-  color: grey;
-  border-bottom: 1px solid grey;
+  color: @dashboard__tabs__text;
+  border-bottom: 1px solid @dashboard__tabs__line;
 
   &__item {
     cursor: pointer;
@@ -15,13 +15,13 @@
     padding: 15px 10px;
 
     &__true {
-      border-bottom: 3px solid #2d4048;
-      color: #435b65;
+      border-bottom: 3px solid @dashboard__tabs__line;
+      color: @dashboard__tabs__text-highlight;
     }
 
     &:hover {
-      border-bottom: 3px solid #2d4048;
-      color: #435b65;
+      border-bottom: 3px solid @dashboard__tabs__line;
+      color: @dashboard__tabs__text-highlight;
     }
   }
 }
