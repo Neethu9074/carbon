@@ -25,16 +25,23 @@ const Navigation = React.createClass({
     return { draw: false };
   },
 
-  componentDidUpdate() {
-    console.log('UPDATE');
+  componentWillUpdate(nextProps) {
+    if (this.props.snapshot !== nextProps.snapshot) {
+      this.setState({ draw: false });
+      this.calculateJail();
+    }
   },
 
   componentDidMount() {
+    this.calculateJail();
+  },
+
+  calculateJail() {
     setTimeout(() => {
       this.jail = this.getJail();
       this.jail.onscroll = this.onScroll;
       this.setState({ draw: true });
-    }, 1000);
+    }, 500);
   },
 
   render() {
@@ -74,7 +81,7 @@ const Navigation = React.createClass({
   },
 
   jumpToSection(item) {
-    this.jail.scrollTop = item._cachedTop - 100;
+    this.jail.scrollTop = item._cachedTop - 140;
   },
 
   setScrolling(value) {
