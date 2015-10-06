@@ -32,7 +32,7 @@ export default class SingleMesPointsFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
-    const material = new THREE.ShaderMaterial({
+    const material = new THREE.RawShaderMaterial({
       vertexColors: THREE.VertexColors,
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
