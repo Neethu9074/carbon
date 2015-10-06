@@ -9,7 +9,7 @@ export default class PointContentProvider extends ContentProvider {
   }
 
   getVertices() {
-    return [0, 0, 1];
+    return [0, 0, 0];
   }
 
   getColors() {

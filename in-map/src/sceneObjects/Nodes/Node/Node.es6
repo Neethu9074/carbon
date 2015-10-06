@@ -17,8 +17,8 @@ import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
-import {longClickedSceneObject} from '../../../mapStores';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
+import {longClickedSceneObject} from '../../../mapStores';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode';
@@ -39,6 +39,7 @@ export default class Node extends BaseNode {
     super({parent, id});
 
     this._cachedPower = 1;
+    this._cachedPluginId = coordinates.get('pluginId');
     this.isOutOfView = false;
     this.isToFarAway = false;
     this.snapshotServer = new NodeSnapshotServer(this);
@@ -240,6 +241,7 @@ export default class Node extends BaseNode {
       this.setStateForMetricActivity({ isOutOfView: false });
 
       if (this.stickyIsHidden) {
+        this.stickyNote.show();
         this.stickyIsHidden = false;
       }
       this.updateStickyNotes();

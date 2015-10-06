@@ -32,26 +32,27 @@ export default class SingleMesPointsFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
-    const icon = getIcon(this.params.type) || context('./default.png');
-    const texture = THREE.ImageUtils.loadTexture(icon, THREE.UVMapping, (tex) => {
-      tex.image.width = 64;
-      tex.image.height = 64;
-    });
-    texture.minFilter = THREE.LinearFilter;
-    texture.generateMipmaps = false;
-    texture.flipY = false;
-
-    const uniforms = {
-      texture: { type: 't', value: texture }
-    };
-
-    return new THREE.ShaderMaterial({
+    const material = new THREE.ShaderMaterial({
       vertexColors: THREE.VertexColors,
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
-      uniforms: uniforms,
-      depthTest: false,
-      transparent: true
+      transparent: true,
+      depthTest: false
     });
+
+    const icon = getIcon(this.params.type) || context('./default.png');
+    const texture = THREE.ImageUtils.loadTexture(icon, THREE.UVMapping, (tex) => {
+      tex.minFilter = THREE.LinearFilter;
+      tex.generateMipmaps = false;
+      tex.image.height = 64;
+      tex.image.width = 64;
+      tex.flipY = false;
+    });
+
+    material.uniforms = {
+      texture: { type: 't', value: texture }
+    };
+
+    return material;
   }
 }

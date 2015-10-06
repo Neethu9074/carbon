@@ -77,7 +77,7 @@ export default class LayerComponent extends Component {
     this.layerGroupLabel.forEach(label => {
       const positionComponent = label.getComponent('position');
       const oldYPos = positionComponent.position.y;
-      positionComponent.setPosition(pos.x, oldYPos, pos.z);
+      positionComponent.setPosition(pos.x, oldYPos, pos.z + 1);
     });
 
     this.needsUpdate = false;
