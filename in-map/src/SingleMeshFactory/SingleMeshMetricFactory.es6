@@ -79,7 +79,7 @@ export default class SingleMeshMetricFactory {
     // the global used progress for all vertices in the vertex shader
     const progress = this.progress = { type: 'f', value: 0.0 };
 
-    const material = new THREE.ShaderMaterial({
+    const material = new THREE.RawShaderMaterial({
       vertexColors: THREE.VertexColors,
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
