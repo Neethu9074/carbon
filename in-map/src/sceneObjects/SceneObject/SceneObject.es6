@@ -11,9 +11,7 @@ export default class SceneObject {
     this.id = id;
     this.subscriptions = [];
 
-    this.addSubscription(currentScene.subscribe((scene) => {
-      this.scene = scene;
-    }));
+    this.addSubscription(currentScene.subscribe(scene => this.scene = scene));
 
     this.initComponents();
 

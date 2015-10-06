@@ -8,21 +8,32 @@ export default class Label extends SceneObject {
   constructor({parent, id}) {
     super({parent, id});
 
+    this.pluginId = this.parent.snapshot.get('pluginId');
+  }
+
+  onInitialEnter() {
+    this.getFactory().addFragment(this.fragment);
+  }
+
+  onInactiveEnter() {
+    this.getFactory().removeFragment(this.id);
+  }
+
+
+  init() {
+    super.init();
+
     this.positionHandler = new PCM({ contentProvider: new PCP() });
     this.fragment = {
-      id,
+      id: this.id,
       contentProvider: this.positionHandler
     };
   }
 
-  onInitialEnter() {
-    this.scene.getLogoFactory().addFragment(this.fragment);
-  }
 
-  onInactiveEnter() {
-    this.scene.specialTestFactory.removeFragment(this.id);
+  getFactory() {
+    return this.scene.getLogoFactory(this.pluginId);
   }
-
 
   positionChanged(x, y, z) {
     this.positionHandler.position.x = x;
@@ -30,14 +41,14 @@ export default class Label extends SceneObject {
     this.positionHandler.position.z = z;
 
     if (this.isActive) {
-      this.scene.getLogoFactory().addFragment(this.fragment);
+      this.getFactory().addFragment(this.fragment);
     }
   }
 
   dispose() {
     super.dispose();
 
-    this.scene.specialTestFactory.removeFragment(this.id);
+    this.getFactory().removeFragment(this.id);
     this.id = null;
   }
 }

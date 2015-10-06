@@ -78,6 +78,16 @@ export default class Node extends BaseNode {
     }
   }
 
+  onHiddenEnter() {
+    super.onHiddenEnter();
+    this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+  }
+
+  onHiddenLeave() {
+    super.onHiddenLeave();
+    this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+  }
+
   onIndirectHighlightEnter() {
     super.onIndirectHighlightEnter();
 

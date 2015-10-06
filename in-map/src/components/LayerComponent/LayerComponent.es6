@@ -74,7 +74,11 @@ export default class LayerComponent extends Component {
     this.arrangeChildren();
 
     const pos = this.positionToSet;
-    this.layerGroupLabel.forEach(label => label.getComponent('position').setPosition(pos.x, pos.y, pos.z));
+    this.layerGroupLabel.forEach(label => {
+      const positionComponent = label.getComponent('position');
+      const oldYPos = positionComponent.position.y;
+      positionComponent.setPosition(pos.x, oldYPos, pos.z);
+    });
 
     this.needsUpdate = false;
   }
@@ -82,23 +86,58 @@ export default class LayerComponent extends Component {
   arrangeChildren() {
     const layer = this.getSortedLayer();
     const transformations = this.getLayerTransformations();
-    let prevChild = undefined;
-    this.layerGroupLabel.forEach(l => l.dispose());
-    this.layerGroupLabel = [];
 
     layer.forEach((child, index) => {
       const transformation = transformations[index];
-      child.setHeight(transformation.heightOfSlice);
-
       const position = transformation.position;
       const positionComponent = child.getComponent('position');
-      positionComponent.setPosition(position.x, position.y, position.z);
 
-      if (prevChild && child.label !== prevChild.label) {
-        this.layerGroupLabel.push(new Label({parent: child, id: child.id}));
-      }
-      prevChild = child;
+      child.setHeight(transformation.heightOfSlice);
+      positionComponent.setPosition(position.x, position.y, position.z);
     });
+
+    this.addLabels(layer, transformations);
+  }
+
+  addLabels(layer, transformations) {
+    this.layerGroupLabel.forEach(l => l.dispose());
+    this.layerGroupLabel = [];
+
+    const addLabelForChild = (child, y) => {
+      const label = new Label({parent: child, id: child.id});
+      label.getComponent('position').setPosition(0, y, 0);
+
+      this.layerGroupLabel.push(label);
+    };
+
+    for (let i = 0; i < layer.length; i++) {
+      const currentLayer = layer[i];
+      const from = transformations[i].position.y;
+
+      i = this.getNextGroupIndex(layer, i);
+
+      if (i >= layer.length) {
+        i = layer.length - 1;
+      }
+
+      const to = transformations[i].position.y + transformations[i].heightOfSlice;
+      addLabelForChild(currentLayer, (from + to) / 2);
+    }
+  }
+
+  getNextGroupIndex(array, startIndex) {
+    for (let i = startIndex; i <= array.length; i++) {
+      const item = array[i];
+      const nextItem = array[i + 1];
+
+      if (!nextItem) {
+        break;
+      }
+      if (item.label !== nextItem.label) {
+        return i;
+      }
+    }
+    return array.length;
   }
 
   getLayerTransformations() {
@@ -107,7 +146,6 @@ export default class LayerComponent extends Component {
     const numGaps = this.countDifferentTypesFromSortedArray(layer) - 1;
     const gapHeight = this.calculateHeightForEachGap(nodeHeight, numGaps);
     const heightUsedForLayer = nodeHeight - numGaps * gapHeight;
-
     const pos = this.positionToSet;
     const heightOfEachChild = heightUsedForLayer / layer.length;
     const transformations = [];

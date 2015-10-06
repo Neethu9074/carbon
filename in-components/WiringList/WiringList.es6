@@ -1,15 +1,15 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
+import React from 'react/addons';
 
-import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getWiringWithFullSnapshots} from 'in-services/wiring';
-import {getPlural} from 'in-sdk/pluginName';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
 import * as tracking from 'in-services/tracking';
+import {getPlural} from 'in-sdk/pluginName';
 
-import List from '../List';
 import Collapsible from '../Collapsible';
 import enhance from '../hoc/enhance';
+import List from '../List';
 
 import './WiringList.less';
 

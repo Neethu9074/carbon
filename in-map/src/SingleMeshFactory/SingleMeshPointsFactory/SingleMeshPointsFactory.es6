@@ -1,6 +1,8 @@
 /*global require:false*/
 import THREE from 'three';
 
+import {getIcon} from 'in-sdk/snapshot';
+
 import ASingleMeshFactory from '../ASingleMeshFactory';
 import fragmentShader from './pointFragmentShader.glsl';
 import vertexShader from './pointVertexShader.glsl';
@@ -9,7 +11,7 @@ const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
 
 export default class SingleMesPointsFactory extends ASingleMeshFactory {
 
-  constructor({scene, type, renderOrder = 2}) {
+  constructor({scene, type, renderOrder = 10}) {
     super({scene, renderOrder, params: { type } });
   }
 
@@ -18,8 +20,13 @@ export default class SingleMesPointsFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
+    const icon = getIcon(this.params.type) || context('./default.png');
+    const texture = THREE.ImageUtils.loadTexture(icon);
+    texture.minFilter = THREE.LinearFilter;
+    texture.flipY = false;
+
     const uniforms = {
-      texture: { type: 't', value: THREE.ImageUtils.loadTexture(context('./' + this.params.type + '.png')) }
+      texture: { type: 't', value: texture }
     };
 
     return new THREE.ShaderMaterial({
