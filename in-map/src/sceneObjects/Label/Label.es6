@@ -7,8 +7,6 @@ export default class Label extends SceneObject {
 
   constructor({parent, id}) {
     super({parent, id});
-
-    this.pluginId = this.parent.snapshot.get('pluginId');
   }
 
   onInitialEnter() {
@@ -32,7 +30,7 @@ export default class Label extends SceneObject {
 
 
   getFactory() {
-    return this.scene.getLogoFactory(this.pluginId);
+    return this.scene.getLogoFactory(this.parent._cachedPluginId);
   }
 
   positionChanged(x, y, z) {

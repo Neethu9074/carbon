@@ -8,6 +8,7 @@ import ASingleMeshFactory from '../ASingleMeshFactory';
 import fragmentShader from './pointFragmentShader.glsl';
 import vertexShader from './pointVertexShader.glsl';
 
+
 const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
 
 export default class SingleMesPointsFactory extends ASingleMeshFactory {

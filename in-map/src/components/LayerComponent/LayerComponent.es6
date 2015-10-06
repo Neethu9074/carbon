@@ -156,7 +156,6 @@ export default class LayerComponent extends Component {
       if (prevChild && child.label !== prevChild.label) {
         position += gapHeight;
       }
-      prevChild = child;
 
       transformations[index] = {
         position: {x: pos.x, y: position, z: pos.z },
@@ -164,6 +163,7 @@ export default class LayerComponent extends Component {
       };
 
       position += heightOfEachChild;
+      prevChild = child;
     });
 
     return transformations;
@@ -203,6 +203,7 @@ export default class LayerComponent extends Component {
     super.dispose();
 
     this.layer.slice().forEach(layer => layer.dispose());
+    this.layerGroupLabel.forEach(label => label.dispose());
 
     this.positionToSet = null;
     this.heightToSet = null;
