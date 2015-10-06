@@ -33,8 +33,12 @@ export default class SingleMesPointsFactory extends ASingleMeshFactory {
 
   getMaterial() {
     const icon = getIcon(this.params.type) || context('./default.png');
-    const texture = THREE.ImageUtils.loadTexture(icon);
+    const texture = THREE.ImageUtils.loadTexture(icon, THREE.UVMapping, (tex) => {
+      tex.image.width = 64;
+      tex.image.height = 64;
+    });
     texture.minFilter = THREE.LinearFilter;
+    texture.generateMipmaps = false;
     texture.flipY = false;
 
     const uniforms = {
