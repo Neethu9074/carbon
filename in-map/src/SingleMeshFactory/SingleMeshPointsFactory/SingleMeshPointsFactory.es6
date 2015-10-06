@@ -1,6 +1,7 @@
 /*global require:false*/
 import THREE from 'three';
 
+import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {getIcon} from 'in-sdk/snapshot';
 
 import ASingleMeshFactory from '../ASingleMeshFactory';
@@ -13,6 +14,16 @@ export default class SingleMesPointsFactory extends ASingleMeshFactory {
 
   constructor({scene, type, renderOrder = 10}) {
     super({scene, renderOrder, params: { type } });
+
+    const mesh = this.mesh;
+    scene.removeSceneObject(mesh);
+    this.zoomSubscription = zoomLevel.subscribe(l => {
+      if (l !== level.nearest) {
+        scene.removeSceneObject(mesh);
+      } else {
+        scene.addSceneObject(mesh);
+      }
+    });
   }
 
   getMesh() {
