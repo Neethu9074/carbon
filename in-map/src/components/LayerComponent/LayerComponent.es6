@@ -2,6 +2,7 @@ import _ from 'lodash';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer';
+import Label from '../../sceneObjects/Label';
 import Component from '../Component';
 
 
@@ -15,15 +16,19 @@ export default class LayerComponent extends Component {
     this.heightToSet = 1;
     this.layer = [];
 
+    this.layerGroupLabel = [];
+
     this.initialized();
   }
 
   onInitialEnter() {
     this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
+    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {
     this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
 
@@ -67,12 +72,19 @@ export default class LayerComponent extends Component {
 
   update() {
     this.arrangeChildren();
+
+    const pos = this.positionToSet;
+    this.layerGroupLabel.forEach(label => label.getComponent('position').setPosition(pos.x, pos.y, pos.z));
+
     this.needsUpdate = false;
   }
 
   arrangeChildren() {
     const layer = this.getSortedLayer();
     const transformations = this.getLayerTransformations();
+    let prevChild = undefined;
+    this.layerGroupLabel.forEach(l => l.dispose());
+    this.layerGroupLabel = [];
 
     layer.forEach((child, index) => {
       const transformation = transformations[index];
@@ -81,6 +93,11 @@ export default class LayerComponent extends Component {
       const position = transformation.position;
       const positionComponent = child.getComponent('position');
       positionComponent.setPosition(position.x, position.y, position.z);
+
+      if (prevChild && child.label !== prevChild.label) {
+        this.layerGroupLabel.push(new Label({parent: child, id: child.id}));
+      }
+      prevChild = child;
     });
   }
 

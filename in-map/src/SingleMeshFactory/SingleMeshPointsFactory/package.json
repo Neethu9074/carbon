@@ -1,0 +1,6 @@
+{
+  "name": "SingleMeshPointsFactory",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SingleMeshPointsFactory.es6"
+}

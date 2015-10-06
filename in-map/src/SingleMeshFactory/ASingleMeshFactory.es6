@@ -9,8 +9,9 @@ const UPDATE_FLAGS = {
 
 export default class SingleMeshFactory {
 
-  constructor({scene, renderOrder = 2}) {
+  constructor({scene, renderOrder = 2, params}) {
     this.scene = scene;
+    this.params = params;
 
     //stores all added fragments to create the global geometry
     this.fragments = [];

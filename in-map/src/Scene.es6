@@ -18,6 +18,7 @@ import './lib/RenderPass';
 import './lib/CanvasRenderer';
 import './lib/AsciiEffect';
 
+import SingleMeshPointsFactory from './SingleMeshFactory/SingleMeshPointsFactory';
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
@@ -192,7 +193,6 @@ export default class Scene {
 
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
     this.layerSingleMeshFactory.material.opacity = maxLayerOpacity;
-    // this.layerSingleMeshFactory.material.color = new THREE.Color(0.75, 0.75, 0.75);
 
     this.lineFactory = new SingleMeshLineFactory({scene});
 
@@ -200,6 +200,7 @@ export default class Scene {
     this.groundLineFactory.material.opacity = 0.9;
     this.groundLineFactory.material.transparent = true;
 
+    this.logoFactories = {};
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;
@@ -211,6 +212,8 @@ export default class Scene {
     }, 1000);
 
     const updateFactories = () => {
+      Object.keys(this.logoFactories).forEach(key => this.logoFactories[key].rebuild());
+
       this.layerHighlightingSingleMeshFactory.rebuild();
       this.highlightingSingleMeshFactory.rebuild();
       this.groundSingleMeshFactory.rebuild();
@@ -232,6 +235,15 @@ export default class Scene {
     time.addTimeEventListener({
       handleComponentTimeEvent: updateFactories.bind(this)
     });
+  }
+
+  getLogoFactory(type) {
+    type = type ? type : 'default';
+    let factory = this.logoFactories[type];
+    if(!factory) {
+      factory = this.logoFactories[type] = new SingleMeshPointsFactory({scene: this, type});
+    }
+    return factory;
   }
 
   setupEvents() {
