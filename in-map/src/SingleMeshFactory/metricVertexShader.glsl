@@ -1,7 +1,17 @@
+precision mediump float;
+precision mediump int;
+
+uniform mat4 projectionMatrix;
+uniform mat4 modelViewMatrix;
+
+attribute vec3 position;
+attribute vec3 color;
+
 attribute float oldHeight;
 attribute float newHeight;
 uniform float progress;
 varying vec3 vColor;
+
 
 void main() {
   vColor = color;
