@@ -1,6 +1,7 @@
 import THREE from 'three';
 import _ from 'lodash';
 
+import {getIcon} from 'in-sdk/snapshot';
 import {hexToRGBNormalized} from 'in-services/converters';
 import {viewStructure} from 'in-services/stores/view';
 import {getFullSnapshot} from 'in-services/snapshots';
@@ -26,6 +27,39 @@ export default class PhysicalMap extends SceneObject {
     this.size = 1000;
 
     this.groups = [];
+
+    const pluginIds = [
+      'com.instana.forge.infrastructure.database.elasticsearch.Elasticsearch',
+      'com.instana.forge.infrastructure.os.host.Host',
+      'com.instana.forge.infrastructure.os.process.Process',
+      'com.instana.forge.infrastructure.application.jira.JiraApplication',
+      'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
+      'com.instana.forge.infrastructure.virtualization.docker.Docker',
+      'com.instana.forge.infrastructure.database.cassandra.Cassandra',
+      'com.instana.forge.infrastructure.cache.redis.Redis',
+      'com.instana.forge.infrastructure.database.mongodb.MongoDb',
+      'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
+      'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer'
+    ];
+
+    let x = 0;
+    pluginIds.forEach(id => {
+      const icon = getIcon(id);
+      const image = document.createElement('img');
+      image.src = icon;
+      const texture = new THREE.Texture(image);
+      texture.minFilter = THREE.LinearFilter;
+      image.addEventListener( 'load', () => {
+        texture.needsUpdate = true;
+      });
+
+      const mat = new THREE.MeshBasicMaterial({map: texture, transparent: true});
+      const mesh = new THREE.Mesh(new THREE.PlaneBufferGeometry(1, 1, 1, 1), mat);
+      mesh.position.x = x++;
+      mesh.position.z = 5;
+      this.scene.addSceneObject(mesh);
+      console.log(id, x);
+    });
 
     this.createGroundGrid();
     this.registerEvents();

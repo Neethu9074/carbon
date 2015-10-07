@@ -11,7 +11,7 @@ import vertexShader from './pointVertexShader.glsl';
 
 const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
 
-export default class SingleMesPointsFactory extends ASingleMeshFactory {
+export default class SingleMeshPointsFactory extends ASingleMeshFactory {
 
   constructor({scene, type, renderOrder = 10}) {
     super({scene, renderOrder, params: { type } });
@@ -32,27 +32,24 @@ export default class SingleMesPointsFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
-    const material = new THREE.RawShaderMaterial({
+    const icon = getIcon(this.params.type) || context('./default.png');
+    const image = document.createElement('img');
+    image.src = icon;
+    const texture = new THREE.Texture(image);
+    texture.minFilter = THREE.LinearFilter;
+    texture.generateMipmaps = false;
+    texture.flipY = false;
+    texture.needsUpdate = true;
+
+    return new THREE.RawShaderMaterial({
       vertexColors: THREE.VertexColors,
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
       transparent: true,
-      depthTest: false
+      depthTest: false,
+      uniforms: {
+        texture: { type: 't', value: texture }
+      }
     });
-
-    const icon = getIcon(this.params.type) || context('./default.png');
-    const texture = THREE.ImageUtils.loadTexture(icon, THREE.UVMapping, (tex) => {
-      tex.minFilter = THREE.LinearFilter;
-      tex.generateMipmaps = false;
-      tex.image.height = 64;
-      tex.image.width = 64;
-      tex.flipY = false;
-    });
-
-    material.uniforms = {
-      texture: { type: 't', value: texture }
-    };
-
-    return material;
   }
 }
