@@ -21,8 +21,7 @@ const MySqlInfo = React.createClass({
           {data.get('port')}
         </DescriptionItem>
         <DescriptionItem title='Version'>
-          {data.get('variables').get('VERSION')}<br/>
-          {data.get('variables').get('VERSION_COMMENT')}
+          {this.getVersion(data)}
         </DescriptionItem>
       </DescriptionList>
     );
