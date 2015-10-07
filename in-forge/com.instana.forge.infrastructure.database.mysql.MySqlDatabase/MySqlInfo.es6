@@ -26,6 +26,32 @@ const MySqlInfo = React.createClass({
         </DescriptionItem>
       </DescriptionList>
     );
+  },
+
+  getVersion(data) {
+    const variables = data.get('variables');
+    if (!variables) {
+      return null;
+    }
+
+    const version = variables.get('VERSION');
+    const comment = variables.get('VERSION_COMMENTS');
+
+    if (version && comment) {
+      return (
+        <span>
+          {version}
+          <br/>
+          {comment}
+        </span>
+      );
+    } else if (!version && comment) {
+      return comment;
+    } else if (version && !comment) {
+      return version;
+    }
+
+    return null;
   }
 });
 
