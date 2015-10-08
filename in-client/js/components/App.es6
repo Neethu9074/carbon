@@ -4,7 +4,6 @@ import {IntlMixin} from 'react-intl';
 import Immutable from 'immutable';
 import React from 'react/addons';
 
-import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
@@ -15,7 +14,8 @@ import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
-import Sidebar from 'in-components/Sidebar';
+import Filterbar from 'in-components/Filterbar';
+import SidebarMap from 'in-components/SidebarMap';
 import {create} from 'in-services/conveyer';
 import Map from 'in-map';
 
@@ -95,8 +95,8 @@ const App = React.createClass({
 
         <section style={{display: hasChildren ? 'none' : 'block'}}>
           <Map pluginIds={this.state.pluginIds} />
-          <Sidebar pluginIds={this.state.pluginIds} />
-          <SnapshotDetailSidebar />
+          <Filterbar pluginIds={this.state.pluginIds} />
+          <SidebarMap />
           <FeedbackBadge />
 
           <NotificationCenter toggleNotificationCenter={this.toggleNotificationCenter}

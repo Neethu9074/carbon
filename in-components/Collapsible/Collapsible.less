@@ -1,8 +1,8 @@
 @import "~in-themes/active.less";
 
 .in-collapsible {
-  @light: #b5bfc3;
-  @dark: #6b8088;
+  border-bottom: 1px solid @collapsible__line;
+  padding: 10px 0;
 
   &:last-child &__header {
     border-bottom: 0;
@@ -15,9 +15,11 @@
 
   &__header {
     cursor: pointer;
-    color: @dark;
+
+    color: @collapsible__header__opened-text;
+    transition: color .5s ease-in-out;
+
     font-size: 14px;
-    font-weight: 400;
     letter-spacing: 0.5px;
 
     display: flex;
@@ -28,16 +30,15 @@
     margin-top: 5px;
 
     &--bordered&--closed {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-      color: @light;
+      color: @collapsible__header__closed-text;
     }
 
     &:hover .in-collapsible__toggle {
-      color: @dark;
+      color: @collapsible__header__closed-text;
     }
 
     &:hover{
-      color: @dark;
+      color: @collapsible__header__closed-text;
     }
   }
 
@@ -47,7 +48,7 @@
 
   &__toggle {
     font-size: 32px;
-    color: @light;
+    color: @collapsible__header__opened-text;
     margin-right: 6px;
 
     transition: color .5s ease-in-out;

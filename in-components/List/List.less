@@ -1,16 +1,17 @@
-.in-list {
+@import "~in-themes/active.less";
 
+.in-list {
   &__item {
-    padding: 6px 8px;
-    margin: 0 0 2px;
+    padding: 10px 10px;
+    margin: 0 0 5px;
 
     list-style: none;
-    background: #eef2f4;
-    color: #6b8088;
+    background: @sidebar__list__background;
+    color: @sidebar__list__text;
     font-size: 11px;
     letter-spacing: 0.5px;
     -webkit-font-smoothing: subpixel-antialiased;
-    border-radius: 2px;
+    border-radius: 4px;
     word-break: break-all;
 
     &--clickable {

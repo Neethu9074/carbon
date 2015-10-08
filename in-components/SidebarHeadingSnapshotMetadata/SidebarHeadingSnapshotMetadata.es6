@@ -1,38 +1,44 @@
 import irpt from 'react-immutable-proptypes';
+import {Navigation} from 'react-router';
 import React from 'react/addons';
 
+import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
 import {getLabel} from 'in-sdk/snapshot';
 
 import HealthIcon from '../HealthIcon';
 import ZoneTag from '../ZoneTag';
 
-import './Header.less';
+import './SidebarHeadingSnapshotMetadata.less';
 
-const block = 'in-snapshot-sidebar-header';
+const block = 'in-sidebar-heading-metadata';
 
-const SidebarHeader = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+const SidebarHeadingSnapshotMetadata = React.createClass({
+  mixins: [
+    React.addons.PureRenderMixin,
+    Navigation
+  ],
 
   propTypes: {
+    className: React.PropTypes.string,
     snapshot: irpt.map.isRequired
   },
 
   render() {
     const snapshot = this.props.snapshot;
-
     return (
-      <div className={block}>
+      <div className={getClassName(this, block)}>
 
         <h1 className={block + '__label'}>
-
-          {getLabel(snapshot)}
-
-          <HealthIcon snapshot={snapshot}
-                      className={block + '__health'}/>
+          <span className={block + '__text'}>
+            {getLabel(snapshot)}
+          </span>
 
           <ZoneTag snapshot={snapshot}
                    className={block + '__zone'}/>
+
+          <HealthIcon snapshot={snapshot}
+                      className={block + '__health'}/>
         </h1>
 
         <p className={block + '__plugin-type'}>
@@ -44,4 +50,4 @@ const SidebarHeader = React.createClass({
   }
 });
 
-export default SidebarHeader;
+export default SidebarHeadingSnapshotMetadata;

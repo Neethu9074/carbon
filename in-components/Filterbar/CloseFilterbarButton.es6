@@ -1,21 +1,21 @@
 import React from 'react/addons';
 
 import Icon from '../Icon';
-import './CloseSidebarButton.less';
+import './CloseFilterbarButton.less';
 
-const block = 'in-sidebar__close-button';
+const block = 'in-filterbar__close-button';
 const rpt = React.PropTypes;
-const CloseSidebarButton = React.createClass({
+const CloseFilterbarButton = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    closeSidebar: rpt.func.isRequired
+    closeFilterbar: rpt.func.isRequired
   },
 
   render() {
     return (
       <div className={block}
-           onClick={this.props.closeSidebar}>
+           onClick={this.props.closeFilterbar}>
 
         <Icon type='arrow_right'
               className={block + '__icon'}/>
@@ -27,4 +27,4 @@ const CloseSidebarButton = React.createClass({
   }
 });
 
-export default CloseSidebarButton;
+export default CloseFilterbarButton;

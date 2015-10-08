@@ -3,27 +3,30 @@ import * as ro from 'reactive-observables';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
 
-import SnapshotDetailContent from '../SnapshotDetailContent';
+import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';
+import SidebarHeadingNavigation from '../SidebarHeadingNavigation';
+import SidebarDetailList from '../SidebarDetailList';
+import SidebarTabs from '../SidebarTabs';
 import enhance from '../hoc/enhance';
-import Button from '../Button';
 
-import './SnapshotDetailSidebar.less';
+import './SidebarMap.less';
 
-const block = 'in-snapshot-detail-sidebar';
+const block = 'in-sidebar-map';
 
 const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
 alwaysNullObservable.emit(null);
 
-const SnapshotDetailSidebar = React.createClass({
+const SidebarMap = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
   ],
 
   propTypes: {
-    parentCoordinates: irpt.map,
     snapshot: irpt.map
   },
 
@@ -57,25 +60,22 @@ const SnapshotDetailSidebar = React.createClass({
 
     return (
       <div className={block}>
-        {this.renderNavigation()}
-        <SnapshotDetailContent snapshot={snapshot}/>
+        <SidebarTabs snapshot={snapshot}
+                     className={block + '__tabs'}/>
+
+        <SidebarHeadingNavigation snapshot={snapshot}>
+          <SidebarHeadingNavigation.ViewDashboardButton snapshot={snapshot}/>
+          <SidebarHeadingNavigation.BackToHostButton snapshot={snapshot}/>
+        </SidebarHeadingNavigation>
+
+        <SidebarHeadingSnapshotMetadata snapshot={snapshot}
+                                        className={block + '__heading'}/>
+
+        <SidebarDetailList snapshot={snapshot}
+                           className={block + '__detail-list'}/>
       </div>
     );
-  },
-
-  renderNavigation() {
-    if (this.props.parentCoordinates) {
-      return (
-        <div>
-          <Button onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}
-                  className={block + '__close'}>
-            back to host
-          </Button>
-        </div>
-      );
-    }
-    return null;
   }
 });
 
-export default enhance(SnapshotDetailSidebar);
+export default enhance(SidebarMap);

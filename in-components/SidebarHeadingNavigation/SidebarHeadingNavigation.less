@@ -1,0 +1,23 @@
+@import "~in-themes/active.less";
+
+.in-sidebar-heading-navigation {
+  display: flex;
+  padding: 20px 20px 15px 20px;
+  background: @sidebar__header__background;
+
+  &__button, &__button-passive {
+    padding: 6px 11px;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  &__button-passive {
+    background: @sidebar__header__default-button-background;
+    color: @sidebar__header__default-button-text;
+
+    &:hover {
+      background: @sidebar__header__default-button-background-hightlight;
+      color: @sidebar__header__default-button-text-highlight;
+    }
+  }
+}

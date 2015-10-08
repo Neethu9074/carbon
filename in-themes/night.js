@@ -7,14 +7,16 @@ var base = require('instana-ui-theme/dist/night/config.json');
 var common = require('./common');
 
 var white = '#ffffff';
-var lightestGrey = '#dce3e6';
-var lightGrey = '#6b8088';
-var grey = '#435b64';
-var darkGrey = '#2d4048';
-var darkestGrey = '#203036';
+var grey0 = '#eef2f4';
+var grey1 = '#6b8088';
+var grey2 = '#576e76';
+var grey3 = '#435b64';
+var grey4 = '#3b4d55';
+var grey5 = '#2d4048';
+var grey6 = '#203036';
 var cyan = '#9fffff';
 var health = [
-  lightGrey,
+  grey0,
   '#e3e2b8',
   '#eae18a',
   '#f1e05c',
@@ -30,84 +32,114 @@ var health = [
 module.exports = _.defaultsDeep({
   sidebar: {
     header: {
-      background: darkGrey,
-      plugin: lightestGrey,
-      heading: white
+      background: grey5,
+      plugin: grey1,
+      heading: white,
+      defaultButtonBackground: grey1,
+      defaultButtonText: white,
+      defaultButtonBackgroundHightlight: grey0,
+      defaultButtonTextHighlight: grey6
+    },
+    discriptionList: {
+      title: grey5,
+      text: grey1
+    },
+    list: {
+      background: grey0,
+      text: grey5
     },
     viewDashboardButton: {
-      background: darkestGrey
+      background: grey6
+    },
+    tabs: {
+      background: grey1,
+      backgroundHighlight: white,
+      backgroundHover: grey0,
+      line: grey0
+    },
+    tags: {
+      border: grey0,
+      text: grey5,
+      backgroundHighlight: '#FF0000'
     },
     background: white,
-    problemStart: darkestGrey
+    problemStart: grey6
+  },
+  collapsible: {
+    header: {
+      closedText: grey0,
+      openedText: grey3
+    },
+    line: grey0
   },
   timeline: {
     changeTimeButton: cyan,
     timeRangeLabel: white,
-    background: darkGrey,
-    serverTime: lightGrey,
-    line: grey
+    background: grey5,
+    serverTime: grey1,
+    line: grey3
   },
   filterbar: {
-    background: darkestGrey,
+    background: grey6,
     controls: {
       label: white,
       labelHighlight: cyan,
       background: {
-        regular: lightGrey,
-        regularHover: grey,
-        active: darkGrey,
-        activeHover: darkestGrey
+        regular: grey1,
+        regularHover: grey3,
+        active: grey5,
+        activeHover: grey6
       },
       closeButtonIcon: cyan,
       closeButtonIconHighlight: white,
-      closeButtonLabel: lightGrey,
+      closeButtonLabel: grey1,
       closeButtonLabelHighlight: white,
       resetButtonIcon: cyan,
       resetButtonIconHighlight: white,
-      resetButtonLabel: lightGrey,
+      resetButtonLabel: grey1,
       resetButtonLabelHighlight: white,
       listHeader: white,
       metricsLabel: white,
-      metricsLabelBackgroundHighlight: darkGrey
+      metricsLabelBackgroundHighlight: grey5
     }
   },
   menu: {
-    background: darkestGrey,
-    sectionLine: darkGrey,
+    background: grey6,
+    sectionLine: grey5,
     sectionLabelHighlight: white,
     sectionLabel: cyan,
-    signoutLabel: lightGrey
+    signoutLabel: grey1
   },
   settings: {
     heading: {
-      text: lightestGrey,
-      background: darkestGrey
+      text: grey0,
+      background: grey6
     },
-    background: darkGrey,
-    sectionLine: grey,
-    entryText: lightestGrey,
-    helpText: lightGrey
+    background: grey5,
+    sectionLine: grey3,
+    entryText: grey0,
+    helpText: grey1
   },
   dashboard: {
     background: white,
     header: {
-      background: darkestGrey,
-      backToMapButtonLabel: lightGrey,
+      background: grey6,
+      backToMapButtonLabel: grey1,
       backToMapButtonLabelHighlight: white,
       backToMapButtonIcon: cyan,
       backToMapButtonIconHighlight: white
     },
     tabs: {
-      text: lightGrey,
-      textHighlight: darkestGrey,
-      line: lightGrey
+      text: grey1,
+      textHighlight: grey5,
+      line: grey0
     }
   },
   mapViewSwitcher: {
-    background: lightGrey,
+    background: grey1,
     backgroundHighlight: white,
     label: white,
-    labelHighlight: darkestGrey
+    labelHighlight: grey6
   },
   health,
   footer: {
@@ -126,7 +158,7 @@ module.exports = _.defaultsDeep({
       groundDots: '#809199'
     },
     stickyNotes: {
-      nodeHightlightBackgroundColor: darkGrey
+      nodeHightlightBackgroundColor: grey5
     },
     tooltips: {
       font: white,

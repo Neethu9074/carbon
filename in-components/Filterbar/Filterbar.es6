@@ -2,18 +2,18 @@ import React from 'react';
 
 import classnames from 'in-services/util/classnames';
 
-import CloseSidebarButton from './CloseSidebarButton';
+import CloseFilterbarButton from './CloseFilterbarButton';
 import ZoneList from './ZoneList';
 import Controls from './Controls';
 import MapStats from './MapStats';
 import Metrics from './Metrics';
 import Tags from './Tags';
 
-import './Sidebar.less';
+import './Filterbar.less';
 
-const block = 'in-sidebar';
+const block = 'in-filterbar';
 
-const Sidebar = React.createClass({
+const Filterbar = React.createClass({
 
   getInitialState() {
     return {
@@ -40,7 +40,7 @@ const Sidebar = React.createClass({
           [block + '__content']: true,
           [block + '__content--open']: open
         })}>
-          <CloseSidebarButton closeSidebar={this.closeSidebar} />
+          <CloseFilterbarButton closeFilterbar={this.closeFilterbar} />
           {this.renderContent()}
         </div>
       </div>
@@ -76,7 +76,7 @@ const Sidebar = React.createClass({
     });
   },
 
-  closeSidebar() {
+  closeFilterbar() {
     this.setState({
       activeControl: null
     });
@@ -84,4 +84,4 @@ const Sidebar = React.createClass({
 
 });
 
-export default Sidebar;
+export default Filterbar;

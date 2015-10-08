@@ -3,7 +3,6 @@ import irpt from 'react-immutable-proptypes';
 
 import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
-import TagList from 'in-components/TagList/TagList';
 import WiringList from 'in-components/WiringList';
 
 import InterfaceList from '../InterfaceList';
@@ -29,7 +28,6 @@ const OsDetails = React.createClass({
         {this.getCollapsible('Host', <HostInfo snapshot={snapshot} />)}
         {this.getCollapsible('Interfaces', <InterfaceList snapshot={snapshot} />)}
 
-        <TagList snapshot={snapshot} />
         <HostHardware snapshot={snapshot} />
         <WiringList snapshot={snapshot} />
       </div>
