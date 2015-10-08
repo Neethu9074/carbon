@@ -14,14 +14,14 @@ const CloseFilterbarButton = React.createClass({
 
   render() {
     return (
-      <div className={block}
-           onClick={this.props.closeFilterbar}>
+      <div className={block}>
 
-        <Icon type='arrow_right'
-              className={block + '__icon'}/>
-
-        Close
-
+        <div className={block + '__wrapper'}
+             onClick={this.props.closeFilterbar}>
+          <Icon type='arrow_right'
+                className={block + '__icon'}/>
+          Close
+        </div>
       </div>
     );
   }

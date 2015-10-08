@@ -92,7 +92,7 @@ module.exports = _.defaultsDeep({
       },
       closeButtonIcon: cyan,
       closeButtonIconHighlight: white,
-      closeButtonLabel: grey1,
+      closeButtonLabel: white,
       closeButtonLabelHighlight: white,
       resetButtonIcon: cyan,
       resetButtonIconHighlight: white,

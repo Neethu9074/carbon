@@ -40,7 +40,7 @@ const MetricTree = React.createClass({
     return (
       <Collapsible>
        <Collapsible.Header>
-         {this.props.header.text + ' (' + this.props.children.size + ')'}
+         {this.props.header.text}
        </Collapsible.Header>
 
        <Collapsible.Content>

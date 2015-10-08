@@ -1,11 +1,17 @@
 @import "~in-themes/active.less";
 
 .in-filterbar__close-button {
-  display: flex;
-  align-items: center;
-  margin: 0 0 1rem 0;
-  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+  height: 60px;
+
   color: @filterbar__controls__close-button-label;
+
+  &__wrapper {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
 
   &:hover {
     color: @filterbar__controls__close-button-label-highlight;
