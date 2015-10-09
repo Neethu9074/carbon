@@ -86,7 +86,6 @@ const BackToHostButton = React.createClass({
   statics: {
     createObservables() {
       return {
-        snapshot: selectedSnapshotStore.selectedSnapshot,
         parentCoordinates: selectedSnapshotStore.selectedSnapshot.transform({
           emitLatestOnSubscribe: true,
 
@@ -126,10 +125,6 @@ const BackToMap = React.createClass({
     React.addons.PureRenderMixin,
     Navigation
   ],
-
-  propTypes: {
-    snapshot: irpt.map.isRequired
-  },
 
   render() {
     return (
