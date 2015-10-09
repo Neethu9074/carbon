@@ -14,11 +14,8 @@ import './Filterbar.less';
 const block = 'in-filterbar';
 
 const Filterbar = React.createClass({
-
   getInitialState() {
-    return {
-      activeControl: null
-    };
+    return { activeControl: null };
   },
 
   shouldComponentUpdate(newProps, newState) {
@@ -59,11 +56,11 @@ const Filterbar = React.createClass({
 
     switch (this.state.activeControl) {
       case 'tags':
-        return <Tags />;
+        return <Tags/>;
       case 'snapshotList':
-        return <ZoneList />;
+        return <ZoneList/>;
       case 'metrics':
-        return <Metrics />;
+        return <Metrics/>;
       default:
         throw new Error('Unknown content control', this.state.activeControl);
     }
@@ -81,7 +78,6 @@ const Filterbar = React.createClass({
       activeControl: null
     });
   }
-
 });
 
 export default Filterbar;

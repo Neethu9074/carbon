@@ -39,11 +39,11 @@ const HealthIcon = React.createClass({
     switch (this.props.health) {
       case health.warning:
         type = 'warning';
-        color = theme.health.warning;
+        color = theme.health[5];
         break;
       case health.danger:
         type = 'critical';
-        color = theme.health.danger;
+        color = theme.health[10];
         break;
       default:
         throw new Error('Unrecognized health ' + this.props.health);

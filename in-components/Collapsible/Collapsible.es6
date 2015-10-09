@@ -1,8 +1,8 @@
 /*eslint-disable react/no-multi-comp, react/prop-types*/
-import React from 'react/addons';
 import invariant from 'invariant';
+import React from 'react/addons';
 
-import classnames from 'in-services/util/classnames';
+import {getClassName} from 'in-services/react';
 
 import Icon from '../Icon';
 
@@ -15,13 +15,14 @@ const Collapsible = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
+    children: rpt.array.isRequired,
     initiallyOpen: rpt.bool,
-    children: rpt.array.isRequired
+    className: rpt.string
   },
 
   getInitialState() {
     return {
-      open: null
+      open: this.props.initiallyOpen
     };
   },
 
@@ -31,50 +32,28 @@ const Collapsible = React.createClass({
       'A collapsible must have exactly two child elements: Header and Content'
     );
 
-    const headerProps = this.props.children[0].props;
+    const isOpen = this.state.open;
+    const header = this.props.children[0].props;
     const contentProps = this.props.children[1].props;
-
     return (
-      <div className={block}>
-        <div onClick={this.toggle}
-             className={classnames({
-               [block + '__header']: true,
-               [block + '__header--closed']: !this.isOpen(),
-               [block + '__header--bordered']: !headerProps.noBorder,
-               [headerProps.className]: headerProps.className !== undefined,
-               [headerProps.className + '--closed']: headerProps.className !== undefined && !this.isOpen()
-             })}>
-          <div className={classnames({
-                 [block + '__header-contents']: true,
-                 [headerProps.className]: headerProps.className !== undefined
-               })}
-               style={headerProps.style}>
-            {headerProps.children}
-          </div>
-          <Icon type={this.isOpen() ? 'close' : 'open'}
-                className={block + '__toggle'} />
-        </div>
+      <div className={getClassName(this, block)}>
 
-        {this.isOpen() ?
-          <div className={block + '__content'}>
-            {contentProps.children}
-          </div>
-        : null}
+        <Header className={header.className}
+                style={header.style}
+                toggle={this.toggle}
+                isOpen={isOpen}>
+          {header.children}
+        </Header>
+
+        <Content isOpen={isOpen}>
+          {contentProps.children}
+        </Content>
       </div>
     );
   },
 
   toggle() {
-    this.setState({
-      open: !this.isOpen()
-    });
-  },
-
-  isOpen() {
-    if (this.state.open !== null) {
-      return this.state.open;
-    }
-    return !!this.props.initiallyOpen;
+    this.setState({ open: !this.state.open });
   }
 });
 
@@ -82,23 +61,43 @@ export default Collapsible;
 
 const Header = React.createClass({
   propTypes: {
-    className: rpt.string,
+    children: rpt.any.isRequired,
     style: rpt.object,
-    noBorder: rpt.bool,
-    children: rpt.any.isRequired
+    toggle: rpt.func,
+    isOpen: rpt.bool
   },
 
-  // rendering is done by Collapsible
-  render() { return null; }
+  render() {
+    return (
+      <div onClick={this.props.toggle}
+           className={getClassName(this, block, '__header')}
+           style={this.props.style}>
+
+        {this.props.children}
+
+        <Icon type={this.props.isOpen ? 'close' : 'open'}
+              className={block + '__toggle'} />
+      </div>
+    );
+  }
 });
 Collapsible.Header = Header;
 
 const Content = React.createClass({
   propTypes: {
-    children: rpt.any.isRequired
+    children: rpt.any.isRequired,
+    isOpen: rpt.bool
   },
 
-  // rendering is done by Collapsible
-  render() { return null; }
+  render() {
+    if (!this.props.isOpen) {
+      return null;
+    }
+    return (
+      <div className={block + '__content'}>
+        {this.props.children}
+      </div>
+    );
+  }
 });
 Collapsible.Content = Content;

@@ -37,15 +37,16 @@ const MetricTree = React.createClass({
   },
 
   render() {
+    const className = block + '__collapsible';
     return (
-      <Collapsible>
-       <Collapsible.Header>
-         {this.props.header.text}
-       </Collapsible.Header>
+      <Collapsible className={className}>
+        <Collapsible.Header className={className}>
+          {this.props.header.text}
+        </Collapsible.Header>
 
-       <Collapsible.Content>
-         {this.renderChildren()}
-       </Collapsible.Content>
+        <Collapsible.Content>
+          {this.renderChildren()}
+        </Collapsible.Content>
       </Collapsible>
     );
   }

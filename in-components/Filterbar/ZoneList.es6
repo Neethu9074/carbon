@@ -4,6 +4,7 @@ import * as viewStore from 'in-services/stores/view';
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
 
+import ZoneSorterControl from './ZoneSorterControl';
 import SnapshotList from './SnapshotList';
 import Collapsible from '../Collapsible';
 import ListHeader from './ListHeader';
@@ -45,36 +46,62 @@ const ZoneList = React.createClass({
     }
   },
 
+  getInitialState() {
+    return { sortedBy: 'zone' };
+  },
+
   render() {
-    if (!this.props.groups) {
+    const groups = this.props.groups;
+    if (!groups) {
       return null;
     }
 
-    const groups = Object.keys(this.props.groups).sort();
     return (
       <div className={block}>
 
-        <ListHeader header={'Zones'} className={block + '__header'}/>
+        <ListHeader header={'Hosts'}/>
+        <ZoneSorterControl onSortingSelected={this.onSortingChanged}/>
 
-        {groups.map(group =>
-          <Collapsible key={group}>
+        {this.state.sortedBy === 'zone' ?
+          this.showAsZoneList(groups) : this.showAsHealthList(groups)}
+      </div>
+    );
+  },
+
+  showAsZoneList(groups) {
+    const groupNames = Object.keys(groups).sort();
+    const className = block + '__collapsible';
+    return (
+      <div>
+        {groupNames.map(group =>
+          <Collapsible key={group}
+                       className={className}>
             <Collapsible.Header style={{color: getColor(group)}}
-                                className={block + '__zone'}>
-              <span className={block + '__server-count'}
-                    style={{backgroundColor: getColor(group)}}>
-                {this.props.groups[group].length}
-              </span>
-
-              {group}
+                                className={className}>
+              {group + ' (' + groups[group].length + ')'}
             </Collapsible.Header>
 
             <Collapsible.Content>
-              <SnapshotList snapshots={this.props.groups[group].map(n => n.node)}/>
+              <SnapshotList snapshots={groups[group].map(n => n.node)}/>
             </Collapsible.Content>
           </Collapsible>
         )}
       </div>
     );
+  },
+
+  showAsHealthList(groups) {
+    const groupNames = Object.keys(groups);
+    const nodes = [];
+    groupNames.forEach(group => {
+      groups[group].forEach(n => nodes.push(n.node));
+    });
+
+    return <SnapshotList snapshots={nodes}/>;
+  },
+
+  onSortingChanged(event) {
+    this.setState({ sortedBy: event.target.value });
   }
 });
 

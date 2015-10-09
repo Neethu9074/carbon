@@ -1,16 +1,13 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
-
-import {createTagFilter} from 'in-services/filtering';
-import * as filters from 'in-services/stores/filters';
+import React from 'react/addons';
 
 import Tag from '../Tag';
 
-import './TagList.less';
+import './TagListSnapshot.less';
 
-const block = 'in-tag-list';
+const block = 'in-tag-list-snapshot';
 
-const TagList = React.createClass({
+const TagListSnapshot = React.createClass({
   mixins: [
     React.addons.PureRenderMixin
   ],
@@ -29,12 +26,11 @@ const TagList = React.createClass({
       <div className={block}>
         {tags.map((tag) =>
           <Tag key={tag}
-               tag={tag}
-               onClick={() => filters.addFilter(createTagFilter(tag))}/>
+               tag={tag}/>
         )}
       </div>
     );
   }
 });
 
-export default TagList;
+export default TagListSnapshot;

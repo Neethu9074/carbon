@@ -1,8 +1,8 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import classnames from 'in-services/util/classnames';
 import * as tracking from 'in-services/tracking';
 import {getLabel} from 'in-sdk/snapshot';
@@ -15,15 +15,17 @@ const rpt = React.PropTypes;
 const block = 'in-sidebar-snapshot';
 
 const SidebarSnapshot = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin
+  ],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    highlighted: rpt.bool.isRequired
+    highlighted: rpt.bool.isRequired,
+    snapshot: irpt.map.isRequired
   },
 
-
   render() {
+    const snapshot = this.props.snapshot;
     return (
       <li className={classnames({
             [block]: true,
@@ -32,8 +34,9 @@ const SidebarSnapshot = React.createClass({
           onMouseEnter={this.onMouseEnter}
           onMouseLeave={this.onMouseLeave}
           onClick={this.onClick}>
-        {getLabel(this.props.snapshot)}
-        <HealthIcon snapshot={this.props.snapshot}
+
+        {getLabel(snapshot)}
+        <HealthIcon snapshot={snapshot}
                     className={block + '-health'}/>
       </li>
     );

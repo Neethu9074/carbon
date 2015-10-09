@@ -1,8 +1,8 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import TagList from 'in-components/TagList/TagList';
+import TagListSnapshot from 'in-components/TagListSnapshot';
 import {formatBytes} from 'in-services/converters';
 
 const HardwareInfo = React.createClass({
@@ -34,7 +34,7 @@ const HardwareInfo = React.createClass({
           </DescriptionItem>
         </DescriptionList>
 
-        <TagList snapshot={snapshot} />
+        <TagListSnapshot snapshot={snapshot} />
       </div>
     );
   }

@@ -90,8 +90,7 @@ const Settings = React.createClass({
           <SettingEntry>
             <SettingEntry.Header text={'Antialias'} />
             <SettingEntry.Content>
-              <ComboBox label='Antialias'
-                        onChange={this.antialiasChanged}
+              <ComboBox onChange={this.antialiasChanged}
                         defaultValue={this.state.antialiasValue}>
                 {'off'}
                 {'browserAA'}

@@ -1,43 +1,17 @@
+@import "~in-themes/active.less";
+
 .in-sidebar-zone-list {
-  &__header {
-    margin-bottom: 15px;
-  }
+  &__collapsible {
+    margin-right: 10px;
+    border-top: 1px solid @filterbar__metrics__collapsible__line;
 
-  &__label {
-    font-size: 16px;
-    font-weight: 400;
-    margin: 0 0 0.8rem;
-  }
+    &__header {
+      text-transform: uppercase;
 
-  &__zone {
-    text-transform: uppercase;
-    margin: 2px 0 4px;
-
-    &:hover {
-      // important because color is set via style attribute
-      color: white !important;
-
-      .in-sidebar-zone-list__server-count {
+      &:hover {
         // important because color is set via style attribute
-        color: #000 !important;
-        background: #fff !important;
+        color: white !important;
       }
     }
-
-    &--closed {
-      margin: 2px 0 10px;
-      padding-bottom: 10px;
-    }
-  }
-
-  &__server-count {
-    margin: 0 10px 0 6px;
-    padding: 3px 8px;
-
-    color: #000;
-    font-weight: bold;
-    font-size: 13px;
-
-    border-radius: 2px;
   }
 }

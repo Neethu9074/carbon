@@ -60,7 +60,7 @@ module.exports = _.defaultsDeep({
     tags: {
       border: grey0,
       text: grey5,
-      backgroundHighlight: '#FF0000'
+      backgroundHighlight: grey0
     },
     background: white,
     problemStart: grey6
@@ -69,8 +69,7 @@ module.exports = _.defaultsDeep({
     header: {
       closedText: grey0,
       openedText: grey3
-    },
-    line: grey0
+    }
   },
   timeline: {
     changeTimeButton: cyan,
@@ -81,6 +80,18 @@ module.exports = _.defaultsDeep({
   },
   filterbar: {
     background: grey6,
+    metrics: {
+      collapsible: {
+        line: grey5,
+        textOpened: white,
+        textClosed: grey1
+      }
+    },
+    nodes: {
+      text: grey1,
+      textHighlight: white,
+      backgroundHighlight: grey5
+    },
     controls: {
       label: white,
       labelHighlight: cyan,
@@ -101,6 +112,11 @@ module.exports = _.defaultsDeep({
       listHeader: white,
       metricsLabel: white,
       metricsLabelBackgroundHighlight: grey5
+    },
+    tags: {
+      border: grey5,
+      text: white,
+      backgroundHighlight: grey5
     }
   },
   menu: {

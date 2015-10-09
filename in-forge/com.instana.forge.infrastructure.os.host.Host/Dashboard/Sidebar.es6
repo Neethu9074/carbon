@@ -19,6 +19,8 @@ const Sidebar = React.createClass({
   render() {
     return (
       <div>
+        <ProblemPanel snapshot={this.props.snapshot} />
+
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>System</Collapsible.Header>
           <Collapsible.Content>
@@ -33,7 +35,6 @@ const Sidebar = React.createClass({
         </Collapsible>
 
         <HostHardware snapshot={this.props.snapshot} />
-        <ProblemPanel snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
     );

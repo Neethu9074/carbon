@@ -13,11 +13,31 @@
   font-size: 11px;
   color: @sidebar__tags__text;
 
+  cursor: pointer;
+
+  &__active {
+    background: @sidebar__tags__background-highlight;
+    color: white;
+  }
+
   &:hover {
     background: @sidebar__tags__background-highlight;
-    cursor: pointer;
-
     color: white;
+  }
+
+  &__dark {
+    color: @filterbar__tags__text;
+    border: 2px solid @filterbar__tags__border;
+
+    &__active {
+      background: @filterbar__tags__background-highlight;
+      color: @filterbar__tags__text;
+    }
+
+    &:hover {
+      background: @filterbar__tags__background-highlight;
+      color: @filterbar__tags__text;
+    }
   }
 
   &__label {

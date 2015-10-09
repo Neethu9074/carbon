@@ -1,18 +1,21 @@
+@import "~in-themes/active.less";
+
 .in-sidebar-snapshot {
   padding: 8px 11px;
   margin-bottom: 3px;
 
   list-style: none;
-  background: rgba(255, 255, 255, 0.04);
-  color: #fff;
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  -webkit-font-smoothing: subpixel-antialiased;
-  border-radius: 2px;
+  color: @filterbar__nodes__text;
+  font-size: 12px;
   cursor: pointer;
 
   &--highlighted, &:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+    transition: color .25s ease-in-out;
+    transition: background .25s ease-in-out;
+
+    background: @filterbar__nodes__background-highlight;
+    border-radius: 4px;
+    color: @filterbar__nodes__text-highlight
   }
 
   &-health {
