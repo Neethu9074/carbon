@@ -16,7 +16,7 @@ var grey5 = '#2d4048';
 var grey6 = '#203036';
 var cyan = '#9fffff';
 var health = [
-  grey0,
+  white,
   '#e3e2b8',
   '#eae18a',
   '#f1e05c',
@@ -135,7 +135,7 @@ module.exports = _.defaultsDeep({
       text: grey0,
       background: grey6
     },
-    background: grey5,
+    background: grey6,
     sectionLine: grey3,
     entryText: grey0,
     helpText: grey1

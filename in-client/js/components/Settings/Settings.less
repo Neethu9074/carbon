@@ -5,63 +5,34 @@
   flex-direction: column;
   align-items: left;
 
-  width: 600px;
-  padding: 0 0 10px 0;
+  width: 40rem;
+  padding: 50px;
+  border-radius: 13px;
   background: @settings__background;
 
   &__header {
     background: @settings__heading__background;
-    padding: 20px;
-    font-size: 1.25rem;
+    padding-bottom: 20px;
+    font-size: 1.6rem;
     font-weight: lighter;
     color: @settings__heading__text;
-    border-bottom: 1px solid @settings__section-line;
   }
 
-  &__wrapper {
-    position: absolute;
-
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-
-    z-index: @z-index__demo-sign-in;
-  }
-
-  &__section {
-    width: ~"calc(100% - 60px)";
-    margin: 5px 30px 5px 30px;
-    border-bottom: 1px solid @settings__section-line;
-  }
-
-  &__section-end {
-    width: 100%;
-    border-bottom: 1px solid @settings__section-line;
-  }
-
-  &__button-close--wrapper {
-    padding-left: ~"calc(100% - 120px)";
+  &__button-wrapper {
+    text-align: right;
+    margin-bottom: -16px;
+    margin-right: -16px;
   }
 
   &__button-close {
-    height: 35px;
-    width: 100px;
-    margin: 10px 10px 0 10px;
-  }
+    width: 32px;
+    border-radius: 50%;
+    padding: 4px 10px;
+    font-size: 1rem;
 
-  &__button-close:hover {
-    color: white;
-    cursor: pointer;
-  }
-
-  &__button-notifications {
-    height: 35px;
-    margin: 5px;
+    &:hover {
+      color: white;
+      cursor: pointer;
+    }
   }
 }

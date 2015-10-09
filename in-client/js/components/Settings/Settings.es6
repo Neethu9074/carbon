@@ -61,7 +61,14 @@ const Settings = React.createClass({
   render() {
     return (
       <Dialog onClose={this.closeSettings}>
+        <div className={block + '__button-wrapper'}>
+          <Button onClick={this.closeSettings}
+                  className={block + '__button-close'}>
+            {'x'}
+          </Button>
+        </div>
         <div className={block}>
+
 
         <div className={block + '__header'}>
           Settings
@@ -99,8 +106,6 @@ const Settings = React.createClass({
             </SettingEntry.Content>
           </SettingEntry>
 
-          <div className={block + '__section'}/>
-
           {__DEV__ ?
             <SettingEntry>
               <SettingEntry.Header text={'Theme (requires browser refresh)'} />
@@ -114,8 +119,6 @@ const Settings = React.createClass({
             : null
           }
 
-          {__DEV__ ? <div className={block + '__section'}/> : null }
-
           <SettingEntry>
             <SettingEntry.Header text='Enable Desktop Notifications' />
             <SettingEntry.Content>
@@ -126,16 +129,6 @@ const Settings = React.createClass({
                                     'Desktop notifications will pop up if the browser window is not active ' +
                                     'to keep you up to date about important messages.'} />
           </SettingEntry>
-
-          <div className={block + '__section-end'}/>
-
-          <div className={block + '__button-close--wrapper'}>
-            <Button onClick={this.closeSettings}
-                    className={block + '__button-close'}>
-              {'Close'}
-            </Button>
-          </div>
-
         </div>
       </Dialog>
     );
