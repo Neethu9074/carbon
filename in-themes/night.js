@@ -68,7 +68,7 @@ module.exports = _.defaultsDeep({
   collapsible: {
     header: {
       closedText: grey0,
-      openedText: grey3
+      openedText: grey1
     }
   },
   timeline: {
@@ -85,6 +85,11 @@ module.exports = _.defaultsDeep({
         line: grey5,
         textOpened: white,
         textClosed: grey1
+      },
+      leaf: {
+        text: grey1,
+        textHighlight: white,
+        backgroundHighlight: grey5
       }
     },
     nodes: {
@@ -109,9 +114,7 @@ module.exports = _.defaultsDeep({
       resetButtonIconHighlight: white,
       resetButtonLabel: grey1,
       resetButtonLabelHighlight: white,
-      listHeader: white,
-      metricsLabel: white,
-      metricsLabelBackgroundHighlight: grey5
+      listHeader: white
     },
     tags: {
       border: grey5,

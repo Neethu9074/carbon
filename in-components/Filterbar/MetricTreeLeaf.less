@@ -3,16 +3,20 @@
 .in-sidebar-metric-tree--leaf {
   padding: 8px 8px 8px 12px;
   margin: 2px 2px 2px -20px;
-  color: @filterbar__controls__metrics-label;
+  color: @filterbar__metrics__leaf__text;
 
   font-size: 11px;
   cursor: pointer;
 
   &:hover {
-    background: @filterbar__controls__metrics-label-background-highlight;
+    transition: color .25s ease-in-out;
+    transition: background .25s ease-in-out;
+
+    color: @filterbar__metrics__leaf__text-highlight;
+    background: @filterbar__metrics__leaf__background-highlight;
   }
 
   &__active {
-    background: @filterbar__controls__metrics-label-background-highlight;
+    background: @filterbar__metrics__leaf__background-highlight;
   }
 }

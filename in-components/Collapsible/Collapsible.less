@@ -16,8 +16,11 @@
 
     color: @collapsible__header__opened-text;
     transition: color .5s ease-in-out;
-
     cursor: pointer;
+
+    &__closed {
+      color: @collapsible__header__closed-text;
+    }
 
     &:hover {
       color: @collapsible__header__closed-text;

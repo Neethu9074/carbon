@@ -68,14 +68,20 @@ const Header = React.createClass({
   },
 
   render() {
+    const isOpen = this.props.isOpen;
+    let className = getClassName(this, block, '__header');
+    if (!isOpen) {
+      className += ' ' + getClassName(this, block, '__header__closed');
+    }
+
     return (
       <div onClick={this.props.toggle}
-           className={getClassName(this, block, '__header')}
+           className={className}
            style={this.props.style}>
 
         {this.props.children}
 
-        <Icon type={this.props.isOpen ? 'close' : 'open'}
+        <Icon type={isOpen ? 'close' : 'open'}
               className={block + '__toggle'} />
       </div>
     );
