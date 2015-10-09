@@ -48,10 +48,12 @@ const WiringList = React.createClass({
         {groupPluginIds.map(pluginId =>
           <Collapsible key={pluginId}>
             <Collapsible.Header className={block + '__header'}>
-              <img src={getIcon(pluginId)}
-                   alt='plugin icon'
-                   className={block + '__plugin-icon'}/>
-              {getPlural(pluginId)}
+              <div className={block + '__header'}>
+                <img src={getIcon(pluginId)}
+                     alt='plugin icon'
+                     className={block + '__plugin-icon'}/>
+                {getPlural(pluginId)}
+              </div>
             </Collapsible.Header>
             <Collapsible.Content>
               <List>

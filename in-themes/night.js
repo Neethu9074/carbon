@@ -66,6 +66,7 @@ module.exports = _.defaultsDeep({
     problemStart: grey6
   },
   collapsible: {
+    line: grey0,
     header: {
       closedText: grey0,
       openedText: grey1
