@@ -8,6 +8,7 @@ import DashboardSection from 'in-components/DashboardSection';
 
 const chartHeight = 150;
 const rpt = React.PropTypes;
+const msFormatter = n => n + 'ms';
 
 const NodejsDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
@@ -57,6 +58,27 @@ const NodejsDashboard = React.createClass({
                                '#Major GCs'
                              ],
                              type: 'point'
+                           }}/>
+        </DashboardSection>
+
+        <DashboardSection title='Event Loop'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 60
+                           }}
+
+                           y1={{
+                             min: 0,
+                             formatter: msFormatter,
+                             metrics: [
+                               'libuv.max'
+                             ],
+                             labels: [
+                               'Longest time spent in a single loop'
+                             ],
+                             type: 'line'
                            }}/>
         </DashboardSection>
       </div>
