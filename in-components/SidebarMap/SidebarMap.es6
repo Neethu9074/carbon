@@ -52,6 +52,28 @@ const SidebarMap = React.createClass({
     }
   },
 
+  getInitialState: function() {
+    return { windowHeight: this.getWindowHeight() };
+  },
+
+  handleResize: function() {
+    this.setState({ windowHeight: this.getWindowHeight() });
+  },
+
+  getWindowHeight() {
+    // the sidebar is minumum 100px height but max fullWindowHeight - 350px.
+    // 350 is the upper margin + headers for the sidebar + a little margin to the bottom
+    return Math.max(100, window.innerHeight - 350);
+  },
+
+  componentDidMount: function() {
+    window.addEventListener('resize', this.handleResize);
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+
   render() {
     const snapshot = this.props.snapshot;
     if (!snapshot) {
@@ -73,7 +95,8 @@ const SidebarMap = React.createClass({
                                         className={block + '__heading'}/>
 
         <SidebarDetailList snapshot={snapshot}
-                           className={block + '__detail-list'}/>
+                           className={block + '__detail-list'}
+                           style={{ maxHeight: this.state.windowHeight }}/>
       </div>
     );
   }

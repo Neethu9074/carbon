@@ -16,29 +16,8 @@ const SidebarDetailList = React.createClass({
   propTypes: {
     useDetailedInformation: React.PropTypes.bool,
     className: React.PropTypes.string,
+    style: React.PropTypes.object,
     snapshot: irpt.map.isRequired
-  },
-
-  getInitialState: function() {
-    return { windowHeight: this.getWindowHeight() };
-  },
-
-  handleResize: function() {
-    this.setState({ windowHeight: this.getWindowHeight() });
-  },
-
-  getWindowHeight() {
-    // the sidebar is minumum 100px height but max fullWindowHeight - 350px.
-    // 350 is the upper margin + headers for the sidebar + a little margin to the bottom
-    return Math.max(100, window.innerHeight - 350);
-  },
-
-  componentDidMount: function() {
-    window.addEventListener('resize', this.handleResize);
-  },
-
-  componentWillUnmount: function() {
-    window.removeEventListener('resize', this.handleResize);
   },
 
   render() {
@@ -46,7 +25,7 @@ const SidebarDetailList = React.createClass({
 
     return (
       <div className={getClassName(this, block)}
-           style={{ maxHeight: this.state.windowHeight }}>
+           style={this.props.style}>
         <Jail component={this.getForgeSpecificComponent('Details')}
               props={{ snapshot }}/>
       </div>
