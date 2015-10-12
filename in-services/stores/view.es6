@@ -4,7 +4,7 @@ import * as views from '../views';
 import {getStructure} from '../wiring';
 
 export const view = ro.create({emitLatestOnSubscribe: true});
-view.emit(views.physical.hosts);
+view.emit(views.physical);
 
 export function setView(newActiveView) {
   view.emit(newActiveView);

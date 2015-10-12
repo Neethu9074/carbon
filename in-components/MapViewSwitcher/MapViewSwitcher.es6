@@ -1,6 +1,8 @@
 import React from 'react';
 
 import {getClassName} from 'in-services/react';
+import {setView} from 'in-services/stores/view';
+import views from 'in-services/views';
 
 import './MapViewSwitcher.less';
 
@@ -11,27 +13,47 @@ const MapViewSwitcher = React.createClass({
     className: React.PropTypes.string
   },
 
+  views: {
+    physical: { enter() { setView(views.physical); } },
+    process: { enter() { setView(views.process); } }
+  },
+
+  getInitialState() {
+    return { activeView: this.views.physical };
+  },
+
   render() {
     return (
       <ul className={getClassName(this, block)}>
-        {this.renderItem('physical')}
-        {this.renderItem('process')}
-        {this.renderItem('services')}
+        {this.renderViews()}
       </ul>
     );
   },
 
-  renderItem(label) {
+  renderViews() {
+    const keys = Object.keys(this.views);
     return (
-      <li className={block + '__item'}
-          onClick={() => this.onViewSwitched(label)}>
-        {label}
-      </li>
+      <div>
+        {keys.map(viewKey => {
+          const view = this.views[viewKey];
+          const className = this.state.activeView === view ?
+            block + '__item ' + block + '__item__active'
+            : block + '__item';
+          return (
+            <li key={viewKey}
+                className={className}
+                onClick={() => this.onViewSwitched(view)}>
+              {viewKey}
+            </li>
+          );
+        })}
+      </div>
     );
   },
 
-  onViewSwitched(/* newView */) {
-    // console.log('switch to view', newView);
+  onViewSwitched(activeView) {
+    activeView.enter();
+    this.setState({ activeView });
   }
 });
 

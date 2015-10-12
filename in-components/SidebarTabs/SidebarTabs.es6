@@ -39,7 +39,7 @@ const SidebarTabs = React.createClass({
             if (!snapshot) {
               return alwaysEmptyArrayObservable;
             }
-            return wiring.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, snapshot);
+            return wiring.getAllStepsBetweenNodeAndLeaf(views.physical, snapshot);
           },
 
           shouldRetransform(prevSnapshot, snapshot) {

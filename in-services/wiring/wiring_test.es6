@@ -40,7 +40,7 @@ describe('wiring', () => {
       it('should return an empty array for empty graphs', () => {
         emitGraph(getGraph('empty'));
 
-        mod.getStructure(views.physical.hosts)
+        mod.getStructure(views.physical)
           .subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
@@ -52,7 +52,7 @@ describe('wiring', () => {
       it('should traverse the graph and identify groups for OS snapshots', () => {
         emitGraph(getGraph('simple'));
 
-        mod.getStructure(views.physical.hosts)
+        mod.getStructure(views.physical)
           .subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
@@ -76,7 +76,7 @@ describe('wiring', () => {
       it('should find layers for OS snapshots', () => {
         emitGraph(getGraph('common'));
 
-        mod.getStructure(views.physical.hosts)
+        mod.getStructure(views.physical)
           .subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
@@ -114,7 +114,7 @@ describe('wiring', () => {
         it('should return empty array on empty graph', () => {
           emitGraph(getGraph('empty'));
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, extractCoordinates({
+          mod.getAllStepsBetweenNodeAndLeaf(views.physical, extractCoordinates({
             hostId: 'h_0',
             steadyId: 's_1',
             pluginId: 'p_2'
@@ -127,7 +127,7 @@ describe('wiring', () => {
         it('should return empty if snapshot cannot be found', () => {
           emitGraph(getGraph('common'));
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, extractCoordinates({
+          mod.getAllStepsBetweenNodeAndLeaf(views.physical, extractCoordinates({
             hostId: 'h_0',
             steadyId: 's_1',
             pluginId: 'p_2'
@@ -152,7 +152,7 @@ describe('wiring', () => {
             steadyId: 'sDocker'
           });
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, dockerCoords).subscribe(onNext);
+          mod.getAllStepsBetweenNodeAndLeaf(views.physical, dockerCoords).subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);
 
@@ -176,7 +176,7 @@ describe('wiring', () => {
             steadyId: 'sDocker'
           });
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, cassandraCoords).subscribe(onNext);
+          mod.getAllStepsBetweenNodeAndLeaf(views.physical, cassandraCoords).subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);
           const nodes = onNext.getCall(0).args[0];
@@ -201,7 +201,7 @@ describe('wiring', () => {
             steadyId: 'sMySQL'
           });
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical.hosts, mysqlCoords).subscribe(onNext);
+          mod.getAllStepsBetweenNodeAndLeaf(views.physical, mysqlCoords).subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);
           const nodes = onNext.getCall(0).args[0];
@@ -233,7 +233,7 @@ describe('wiring', () => {
         it('should return null for empty graphs', () => {
           emitGraph(getGraph('empty'));
 
-          mod.getParentNode(views.physical.hosts, cassandra)
+          mod.getParentNode(views.physical, cassandra)
             .subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);
@@ -243,7 +243,7 @@ describe('wiring', () => {
         it('should return null for snapshots that have no view specific parent', () => {
           emitGraph(getGraph('common'));
 
-          mod.getParentNode(views.physical.hosts, os)
+          mod.getParentNode(views.physical, os)
             .subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);
@@ -253,7 +253,7 @@ describe('wiring', () => {
         it('should traverse the graph and return the os coordinates as parent', () => {
           emitGraph(getGraph('common'));
 
-          mod.getParentNode(views.physical.hosts, cassandra)
+          mod.getParentNode(views.physical, cassandra)
             .subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);

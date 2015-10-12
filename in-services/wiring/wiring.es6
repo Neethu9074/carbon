@@ -62,7 +62,7 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
 
 
 export function getStructure(view, full = false) {
-  if (view === views.physical.hosts) {
+  if (view === views.physical) {
     return full ? fullPhysicalHostsViewWiring : physicalHostsViewWiring;
   } else if (view === views.process) {
     return full ? fullProcessViewWiring : processViewWiring;

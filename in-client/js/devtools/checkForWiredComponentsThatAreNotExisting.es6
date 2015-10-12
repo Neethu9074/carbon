@@ -11,7 +11,7 @@ import view from 'in-services/views';
 window.instana.dev.checkForWiringIssues = function() {
   console.log('Starting to check for wiring issues…');
 
-  getStructure(view.physical.hosts)
+  getStructure(view.physical)
     .transform({
       emitLatestOnSubscribe: true,
 

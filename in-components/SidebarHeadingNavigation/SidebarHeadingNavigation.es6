@@ -95,7 +95,7 @@ const BackToHostButton = React.createClass({
             if (!snapshot) {
               return alwaysNullObservable;
             }
-            return wiring.getParentNode(views.physical.hosts, snapshot);
+            return wiring.getParentNode(views.physical, snapshot);
           },
 
           shouldRetransform(prevSnapshot, snapshot) {

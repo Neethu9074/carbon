@@ -48,7 +48,7 @@ export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
 
 
 export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
-  if (view !== views.physical.hosts) {
+  if (view !== views.physical) {
     throw new Error('Unsupported view!', view, snapshotCoordinates);
   }
 
@@ -67,7 +67,7 @@ export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
 
 
 export function getParentNode(view, childCoordinates) {
-  if (view !== views.physical.hosts) {
+  if (view !== views.physical) {
     throw new Error('Unsupported view!', view);
   }
 

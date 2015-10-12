@@ -4,19 +4,20 @@
   display: inline-block;
   text-align: center;
   margin-bottom: 0;
-  margin-top: 10px;
+  margin-top: 5px;
 
   &__item {
     padding: 10px 15px 10px 15px;
     display: inline;
     list-style: none;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-size: 1rem;
 
-    border-right: 1px solid silver;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
     background: @map-view-switcher__background;
     color: @map-view-switcher__label;
+    cursor: pointer;
 
     &:first-child {
       border-radius: 0 0 0 5px;
@@ -28,6 +29,11 @@
     }
 
     &:hover {
+      background: @map-view-switcher__background-highlight;
+      color: @map-view-switcher__label-highlight;
+    }
+
+    &__active {
       background: @map-view-switcher__background-highlight;
       color: @map-view-switcher__label-highlight;
     }
