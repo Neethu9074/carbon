@@ -98,6 +98,9 @@ module.exports = _.defaultsDeep({
       backToMapButtonIconHighlight: white
     },
     tabs: {
+      text: lightGrey,
+      textHighlight: darkestGrey,
+      line: lightGrey
     }
   },
   mapViewSwitcher: {

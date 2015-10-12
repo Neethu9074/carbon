@@ -58,6 +58,7 @@ const Dashboard = React.createClass({
 
         <div className={block + '__graphs'} ref='content'>
           <Header snapshot={this.state.snapshot}/>
+          <Navigation snapshot={this.state.snapshot}/>
           {this.renderDashboard()}
         </div>
 
@@ -76,18 +77,6 @@ const Dashboard = React.createClass({
                                snapshot={this.state.snapshot}
                                useDetailedInformation={true}/>;
       </div>
-    );
-  },
-
-  rederNavigation() {
-    const items = ['CPU Usage', 'CPU Load', 'Memory'];
-
-    return (
-      <Navigation>
-        {items.map(item => <Navigation.Item key={item}
-                                            label={item}
-                                            onClick={() => {  }}/>)}
-      </Navigation>
     );
   },
 

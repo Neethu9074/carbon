@@ -27,7 +27,7 @@ const Sidebar = React.createClass({
         </Collapsible>
 
         {xargs ?
-          <Collapsible initiallyOpen={true}>
+          <Collapsible initiallyOpen={false}>
             <Collapsible.Header>X Args</Collapsible.Header>
             <Collapsible.Content>
               <List>

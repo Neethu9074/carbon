@@ -83,7 +83,7 @@ const Jail = React.createClass({
   },
 
   render() {
-    return (<div className={getClassName(this, block)}></div>);
+    return <div className={getClassName(this, block)} />;
   }
 });
 
