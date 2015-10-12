@@ -1,5 +1,6 @@
-.in-notification-dialog {
+@import "~in-themes/active.less";
 
+.in-notification-dialog {
   &__type {
     display: flex;
     align-items: center;
@@ -12,8 +13,18 @@
   }
 
   &__header {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
     font-weight: 300;
+    margin-top: 0;
+    color: black;
+  }
+
+  &__content {
+    position: relative;
+    background: @help-dialog__background;
+    border-radius: 13px;
+    padding: 50px;
+    color: @help-dialog__text;
   }
 
   &__info-icon {
@@ -21,4 +32,24 @@
     margin-right: 0.6rem;
   }
 
+  &__button-close {
+    @size: 30px;
+    position: absolute;
+    height: @size;
+    top: -@size / 2;
+    right: -@size / 2;
+    border-radius: 50%;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &__icon {
+      position: absolute;
+      top: -4px;
+      left: 6px;
+      font-size: 2.3rem;
+      color: @settings__close-button-color;
+    }
+  }
 }
