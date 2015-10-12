@@ -6,6 +6,7 @@ import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as tracking from 'in-services/tracking';
+import {getClassName} from 'in-services/react';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
 
@@ -25,12 +26,13 @@ const SidebarHeadingNavigation = React.createClass({
   ],
 
   propTypes: {
-    children: React.PropTypes.array.isRequired
+    children: React.PropTypes.array.isRequired,
+    className: React.PropTypes.string
   },
 
   render() {
     return (
-      <div className={block}>
+      <div className={getClassName(this, block)}>
         {this.props.children}
       </div>
     );

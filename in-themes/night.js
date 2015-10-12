@@ -68,7 +68,7 @@ module.exports = _.defaultsDeep({
   collapsible: {
     line: grey0,
     header: {
-      closedText: grey0,
+      closedText: 'rgba(107, 128, 136, 0.5)',
       openedText: grey1
     }
   },
