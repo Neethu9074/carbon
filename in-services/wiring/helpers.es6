@@ -1,4 +1,9 @@
+import * as ro from 'reactive-observables';
+
 import * as forgeConsts from 'in-forge/constants';
+
+import {alwaysNullObservable} from '../fixedStreams';
+import {getFullSnapshot} from '../snapshots';
 
 export function getDestinationNode(wiringGraph, source, relation) {
   for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {
@@ -74,4 +79,32 @@ export function getNodesWithPluginId(wiringGraph, pluginId) {
   const query = pluginId + '#';
   return Object.keys(wiringGraph.nodes)
     .filter(strId => strId.indexOf(query) === 0);
+}
+
+
+export function loadFullSnapshotsForNodeStructure(nodeStructure) {
+  const subObservables = [];
+
+  // index 0: group data
+  if (nodeStructure.group) {
+    subObservables.push(getFullSnapshot(nodeStructure.group));
+  } else {
+    subObservables.push(alwaysNullObservable);
+  }
+
+  // index 1: node data
+  subObservables.push(getFullSnapshot(nodeStructure.node));
+
+  // index 2: layer data
+  subObservables.push(ro.combineLatest(nodeStructure.layers.map(getFullSnapshot)));
+
+  // now combine all these observables back to a single observable.
+  return ro.combineLatest(subObservables)
+    .map(vals => {
+      return {
+        group: vals[0],
+        node: vals[1],
+        layers: vals[2]
+      };
+    });
 }
