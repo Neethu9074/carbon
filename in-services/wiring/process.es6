@@ -38,7 +38,7 @@ function mapWiringGraphToProcessViewGraph(wiringGraph) {
     }, []);
 
   return allProcessesStrIds.map(processStrId => {
-    const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.isDeployedOn)
+    const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.availableThrough)
       .map(strId => wiringGraph.nodes[strId]);
     return {
       // To be defined
