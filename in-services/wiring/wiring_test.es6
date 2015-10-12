@@ -1,12 +1,10 @@
-/*eslint-env mocha,node*/
-import fs from 'fs';
-import path from 'path';
-import Immutable from 'immutable';
+/*eslint-env mocha*/
 import sinon from 'sinon';
 import {expect} from 'chai';
 import proxyquire from 'proxyquire';
 import * as ro from 'reactive-observables';
 
+import {getGraph} from './test_util';
 import {extractCoordinates} from '../snapshots';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import * as views from '../views';
@@ -265,21 +263,6 @@ describe('wiring', () => {
     });
   });
 
-  function getGraph(fileName) {
-    const contents = fs.readFileSync(
-      path.join(__dirname, 'testGraphs', fileName + '.json'),
-      {encoding: 'utf8'}
-    );
-
-    const graph = JSON.parse(contents);
-
-    // ensure that the node id objects are immutable (as done by the WiringConveyer)
-    Object.keys(graph.nodes).forEach(nodeKey => {
-      graph.nodes[nodeKey] = Immutable.fromJS(graph.nodes[nodeKey]);
-    });
-
-    return graph;
-  }
 
   function emitGraph(graph) {
     wiringConveyer.emit(graph);

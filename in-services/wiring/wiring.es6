@@ -9,10 +9,13 @@ import {getFullSnapshot} from '../snapshots';
 import * as views from '../views';
 
 import {
+  processViewWiring,
+  fullProcessViewWiring
+} from './process';
+import {
   physicalHostsViewWiring,
   fullPhysicalHostsViewWiring
 } from './physical';
-
 export {
   getAllStepsBetweenNodeAndLeaf,
   getParentNode
@@ -60,6 +63,8 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
 export function getStructure(view, full = false) {
   if (view === views.physical.hosts) {
     return full ? fullPhysicalHostsViewWiring : physicalHostsViewWiring;
+  } else if (view === views.process) {
+    return full ? fullProcessViewWiring : processViewWiring;
   }
 
   throw new Error('Unsupported view type ' + view);
