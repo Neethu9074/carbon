@@ -1,11 +1,14 @@
+import * as ro from 'reactive-observables';
+
 import * as forgeConsts from 'in-forge/constants';
 
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {create} from '../conveyer';
 import {
-  getDestinationNode,
   getLeafNodes,
-  getNodesWithPluginId
+  getNodesWithPluginId,
+  getSourceNodes,
+  loadFullSnapshotsForNodeStructure
 } from './helpers';
 
 /*
@@ -18,23 +21,30 @@ import {
 
 const completeWiring = create(WiringConveyer);
 export const processViewWiring = completeWiring.map(mapWiringGraphToProcessViewGraph);
+export const fullProcessViewWiring = processViewWiring.transform({
+  emitLatestOnSubscribe: true,
+
+  transform(viewStructure) {
+    return ro.combineLatest(viewStructure.map(loadFullSnapshotsForNodeStructure));
+  }
+});
 
 
 function mapWiringGraphToProcessViewGraph(wiringGraph) {
-  return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
-    .map(osNodeStrId => {
-      let group = getDestinationNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
-      if (group) {
-        group = wiringGraph.nodes[group];
-      }
+  const allProcessesStrIds = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
+    .reduce((_allProcessesStrIds, osNodeStrId) => {
+      const processesOfHostStrIds = getLeafNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
+      return _allProcessesStrIds.concat(processesOfHostStrIds);
+    }, []);
 
-      const layers = getLeafNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn)
-        .map(strId => wiringGraph.nodes[strId]);
-
-      return {
-        group,
-        node: wiringGraph.nodes[osNodeStrId],
-        layers
-      };
-    });
+  return allProcessesStrIds.map(processStrId => {
+    const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.isDeployedOn)
+      .map(strId => wiringGraph.nodes[strId]);
+    return {
+      // To be defined
+      group: null,
+      node: wiringGraph.nodes[processStrId],
+      layers
+    };
+  });
 }

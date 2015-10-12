@@ -40,6 +40,19 @@ describe('wiring.process view', () => {
   });
 
 
+  it('should list lowest item of runs on chain as process', () => {
+    emitGraph(getGraph('simple'));
+
+    mod.processViewWiring.subscribe(onNext);
+
+    expect(onNext).to.have.callCount(1);
+    const structure = onNext.getCall(0).args[0];
+    expect(structure.length).to.equal(1);
+    expect(structure[0].node.get('id'))
+      .to.equal('com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra');
+  });
+
+
   function emitGraph(graph) {
     wiringConveyer.emit(graph);
   }
