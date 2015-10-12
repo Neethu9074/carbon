@@ -33,7 +33,6 @@ import * as zoom from './zoom';
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 
-const maxLayerOpacity = 0.7;
 const maxNodeOpacity = 0.6;
 
 let currentMetrics;
@@ -191,8 +190,9 @@ export default class Scene {
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
 
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
-    this.layerSingleMeshFactory.material.opacity = maxLayerOpacity;
-    // this.layerSingleMeshFactory.material.color = new THREE.Color(0.75, 0.75, 0.75);
+    this.layerSingleMeshFactory.material.opacity = 0.3;
+    this.layerSingleMeshFactory.material.transparent = false;
+    this.layerSingleMeshFactory.material.color = new THREE.Color(0.85, 0.85, 0.85);
 
     this.lineFactory = new SingleMeshLineFactory({scene});
 
@@ -446,14 +446,16 @@ export default class Scene {
   hideHulls() {
     this.hullsAreInactive = true;
     this.singleMeshFactory.material.opacity = 0.3;
-    this.layerSingleMeshFactory.material.opacity = 0.3;
+    this.layerSingleMeshFactory.material.transparent = true;
+    this.layerSingleMeshFactory.material.depthWrite = false;
     this.baselineFactory.material.opacity = 0.3;
   }
 
   showHulls() {
     if(!currentMetrics) {
       this.hullsAreInactive = false;
-      this.layerSingleMeshFactory.material.opacity = maxLayerOpacity;
+      this.layerSingleMeshFactory.material.transparent = false;
+      this.layerSingleMeshFactory.material.depthWrite = true;
       this.baselineFactory.material.opacity = 1;
       this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
     }
