@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
 
@@ -19,8 +18,6 @@ const Sidebar = React.createClass({
   render() {
     return (
       <div>
-        <ProblemPanel snapshot={this.props.snapshot} />
-
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>System</Collapsible.Header>
           <Collapsible.Content>
