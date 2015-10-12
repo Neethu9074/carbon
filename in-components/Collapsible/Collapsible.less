@@ -1,7 +1,7 @@
 @import "~in-themes/active.less";
 
 .in-collapsible {
-  padding: 10px 0;
+  padding: 3px 0 4px;
   border-bottom: 1px solid @collapsible__line;
 
   &__header {
@@ -32,15 +32,15 @@
     }
   }
 
+  &__content {
+    margin: 10px 0;
+  }
+
   &__toggle {
     font-size: 32px;
     color: @collapsible__header__opened-text;
     margin-right: 6px;
 
     transition: color .5s ease-in-out;
-  }
-
-  &__content {
-    margin-bottom: 20px;
   }
 }

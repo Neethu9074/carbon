@@ -162,6 +162,10 @@ module.exports = _.defaultsDeep({
     label: white,
     labelHighlight: grey6
   },
+  helpDialog: {
+    background: white,
+    text: grey1
+  },
   health,
   footer: {
     height: 32
