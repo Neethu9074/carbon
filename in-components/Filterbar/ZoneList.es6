@@ -4,7 +4,6 @@ import * as viewStore from 'in-services/stores/view';
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
 
-import ZoneSorterControl from './ZoneSorterControl';
 import SnapshotList from './SnapshotList';
 import Collapsible from '../Collapsible';
 import ListHeader from './ListHeader';
@@ -60,7 +59,7 @@ const ZoneList = React.createClass({
       <div className={block}>
 
         <ListHeader header={'Hosts'}/>
-        <ZoneSorterControl onSortingSelected={this.onSortingChanged}/>
+        <div className={block + '__spacer'}/>
 
         {this.state.sortedBy === 'zone' ?
           this.showAsZoneList(groups) : this.showAsHealthList(groups)}
