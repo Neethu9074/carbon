@@ -18,7 +18,7 @@ const ResetButton = React.createClass({
       <div className={block}
            onClick={this.props.onClick}>
         {'Reset'}
-        <Icon className={block + '__icon'} type='x' />
+        <Icon className={block + '__icon'} type='reset' />
       </div>
     );
   }
