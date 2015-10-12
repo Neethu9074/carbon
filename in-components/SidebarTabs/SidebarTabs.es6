@@ -61,10 +61,11 @@ const SidebarTabs = React.createClass({
     return (
       <ul className={getClassName(this, block)}>
 
-        {hierarchy.map((child, index) => {
-          const isSelected = snapshot && snapshot.get('id') === child.get('id');
+        {hierarchy.map(child => {
+          const childId = child.get('id');
+          const isSelected = snapshot && snapshot.get('id') === childId;
           return (
-            <Tab key={index}
+            <Tab key={childId}
                  className={this.props.className + '__tab'}
                  onClick={this.onClick}
                  isSelected={isSelected}>
