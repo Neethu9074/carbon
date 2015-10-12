@@ -18,7 +18,8 @@ import {
 } from './physical';
 export {
   getAllStepsBetweenNodeAndLeaf,
-  getParentNode
+  getParentNode,
+  getLayers
 } from './physical';
 
 const completeWiring = create(WiringConveyer);

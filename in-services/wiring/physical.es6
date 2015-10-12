@@ -94,3 +94,13 @@ export function getParentNode(view, childCoordinates) {
     return null;
   });
 }
+
+
+export function getLayers(coords) {
+  return completeWiring.map(wiringGraph => {
+    return getLeafNodes(wiringGraph, coords.get('id'), forgeConsts.rels.runsOn)
+      .map(leafNodeStr => {
+        return wiringGraph.nodes[leafNodeStr];
+      });
+  });
+}

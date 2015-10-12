@@ -1,9 +1,11 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
+import * as ro from 'reactive-observables';
 
+import {getLayers} from 'in-services/wiring';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import {getWiringWithFullSnapshots} from 'in-services/wiring';
+import {getFullSnapshot} from 'in-services/snapshots';
 import {getPlural} from 'in-sdk/pluginName';
 import * as tracking from 'in-services/tracking';
 
@@ -23,13 +25,19 @@ const WiringList = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    wiring: irpt.set
+    wiring: React.PropTypes.array
   },
 
   statics: {
     createObservables(props) {
       return {
-        wiring: getWiringWithFullSnapshots(props.snapshot)
+        wiring: getLayers(props.snapshot).transform({
+          emitLatestOnSubscribe: true,
+
+          transform(layers) {
+            return ro.combineLatest(layers.map(getFullSnapshot));
+          }
+        })
       };
     }
   },
