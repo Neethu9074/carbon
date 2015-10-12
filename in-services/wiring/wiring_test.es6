@@ -25,6 +25,11 @@ describe('wiring', () => {
     create.withArgs(WiringConveyer).returns(wiringConveyer);
 
     mod = proxyquire('./wiring', {
+      './physical': proxyquire('./physical', {
+        '../conveyer': {
+          create
+        }
+      }),
       '../conveyer': {
         create
       }
