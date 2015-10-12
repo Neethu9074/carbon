@@ -98,21 +98,28 @@ export function getIssueCountSummary() {
   return issueCountSummary;
 }
 
-export function getProblemsForSnapshot(snapshot) {
+export function getIssuesForSnapshot(snapshot) {
   const predicate = isIdEqual.bind(null, snapshot);
   return openIssuesStream.map(issues => {
     let size = 0;
     const result = Immutable.List().asMutable();
 
     issues.forEach(issue => {
-      const problem = issue.get('problem');
-      if (predicate(problem)) {
-        result.set(size++, problem);
+      if (predicate(issue.get('problem'))) {
+        result.set(size++, issue);
       }
     });
 
     return result.asImmutable();
   });
+}
+
+
+export function getProblemsForSnapshot(snapshot) {
+  return getIssuesForSnapshot(snapshot)
+    .map(issues => {
+      return issues.map(issue => issue.get('problem'));
+    });
 }
 
 function collectingReducer(existingIssues, issueUpdates) {
