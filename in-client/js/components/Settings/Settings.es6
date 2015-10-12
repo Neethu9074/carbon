@@ -1,19 +1,16 @@
 import React from 'react/addons';
 
+import {activeTheme as activeThemeObservable, availableThemes, setActiveTheme} from 'in-services/theme';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
 import {askPermission} from 'in-services/notification';
 import * as tracking from 'in-services/tracking';
-import {
-  activeTheme as activeThemeObservable,
-  availableThemes,
-  setActiveTheme
-} from 'in-services/theme';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
 import Button from 'in-components/Button';
 import Slider from 'in-components/Slider';
 import Dialog from 'in-components/Dialog';
+import Icon from 'in-components/Icon';
 
 import SettingEntry from './SettingEntry';
 
@@ -60,19 +57,17 @@ const Settings = React.createClass({
 
   render() {
     return (
-      <Dialog onClose={this.closeSettings}>
-        <div className={block + '__button-wrapper'}>
+      <Dialog onClose={this.closeSettings}
+              className={block + '__dialog'}>
           <Button onClick={this.closeSettings}
                   className={block + '__button-close'}>
-            {'x'}
+            <Icon type={'delete'} className={block + '__button-close__icon'}/>
           </Button>
-        </div>
+
         <div className={block}>
-
-
-        <div className={block + '__header'}>
-          Settings
-        </div>
+          <div className={block + '__header'}>
+            Settings
+          </div>
 
           <SettingEntry>
             <SettingEntry.Header text={'Inverse scroll direction'} />
@@ -140,7 +135,7 @@ const Settings = React.createClass({
     // sets AA true if on value other than 'none' was chosen
     setIn(['map', 'antialias'], value);
 
-    //track the event
+    // track the event
     tracking.trackEvent(tracking.events.antialiasWasChosenInSettings);
   },
 

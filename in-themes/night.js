@@ -132,13 +132,14 @@ module.exports = _.defaultsDeep({
   },
   settings: {
     heading: {
-      text: grey0,
+      text: white,
       background: grey6
     },
     background: grey6,
     sectionLine: grey3,
-    entryText: grey0,
-    helpText: grey1
+    entryText: white,
+    helpText: grey1,
+    closeButtonColor: grey6
   },
   dashboard: {
     background: white,
