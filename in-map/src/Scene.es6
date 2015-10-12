@@ -169,7 +169,6 @@ export default class Scene {
     effectFXAA.renderToScreen = true;
 
     const composer = new THREE.EffectComposer(this.webGLRenderer, renderTarget);
-    composer.addPass(new THREE.RenderPass(this.backgroundScene, this.backgroundCamera));
     composer.addPass(new THREE.RenderPass(this.scene, this.camera));
     composer.addPass(effectFXAA);
 
@@ -649,13 +648,6 @@ export default class Scene {
 
     // destory the map which will destroy all groups and nodes
     this.map.dispose();
-
-    // remove the gradient background from scene
-    this.backgroundScene.remove(this.backgroundPlane);
-
-    // dispose the background plane to get rid of WebGL context
-    this.backgroundPlane.geometry.dispose();
-    this.backgroundPlane.material.dispose();
 
     // remove the canvas and clear the parent div
     window.removeEventListener('resize', this.onWindowResizeHandler, false);
