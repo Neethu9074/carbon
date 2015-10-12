@@ -1,12 +1,10 @@
-
-
 import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
 
-import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
@@ -61,7 +59,6 @@ const ProblemPanel = React.createClass({
       .reverse();
 
     const maxColor = this.getColor(orderedProblems.first());
-
     return (
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header style={{color: maxColor}}>
