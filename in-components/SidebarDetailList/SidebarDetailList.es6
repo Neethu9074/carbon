@@ -19,12 +19,32 @@ const SidebarDetailList = React.createClass({
     snapshot: irpt.map.isRequired
   },
 
+  getInitialState: function() {
+    return { windowHeight: this.getWindowHeight() };
+  },
+
+  handleResize: function() {
+    this.setState({ windowHeight: this.getWindowHeight() });
+  },
+
+  getWindowHeight() {
+    return Math.max(100, window.innerHeight - 350);
+  },
+
+  componentDidMount: function() {
+    window.addEventListener('resize', this.handleResize);
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('resize', this.handleResize);
+  },
+
   render() {
     const snapshot = this.props.snapshot;
 
     return (
       <div className={getClassName(this, block)}
-           style={{ maxHeigt: window.height }}>
+           style={{ maxHeight: this.state.windowHeight }}>
         <Jail component={this.getForgeSpecificComponent('Details')}
               props={{ snapshot }}/>
       </div>
