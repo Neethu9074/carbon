@@ -7,6 +7,12 @@ import WiringConveyer from '../conveyer/WiringConveyer';
 import {getFullSnapshot} from '../snapshots';
 import {create} from '../conveyer';
 import * as views from '../views';
+import {
+  getAllNodesTillOsNode,
+  getDestinationNode,
+  getLeafNodes,
+  getNodesWithPluginId
+} from './helpers';
 
 // This observable can be used for cases where we want to emit always null.
 const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
@@ -84,6 +90,7 @@ export function getWiringWithFullSnapshots(sourceSnapshot) {
     });
 }
 
+
 export function getStructure(view, full = false) {
   if (view === views.physical.hosts) {
     return full ? fullPhysicalHostsViewWiring : physicalHostsViewWiring;
@@ -91,6 +98,7 @@ export function getStructure(view, full = false) {
 
   throw new Error('Unsupported view type ' + view);
 }
+
 
 function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
   return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
@@ -109,58 +117,6 @@ function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
         layers
       };
     });
-}
-
-function getNodesWithPluginId(wiringGraph, pluginId) {
-  // Caution, this solution depends on the way snapshot string IDs
-  // are generated. It has the benefit of being very fast, but it is also
-  // fragile and needs to be adapted when the snapshot ID generation
-  // strategy changes (which should be never)!
-  const query = pluginId + '#';
-  return Object.keys(wiringGraph.nodes)
-    .filter(strId => strId.indexOf(query) === 0);
-}
-
-
-function getDestinationNode(wiringGraph, source, relation) {
-  for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {
-    const edge = wiringGraph.edges[i];
-    if (edge.source === source && edge.relation === relation) {
-      return edge.destination;
-    }
-  }
-  return null;
-}
-
-
-function getSourceNodes(wiringGraph, destination, relation) {
-  const sourceNodes = [];
-
-  for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {
-    const edge = wiringGraph.edges[i];
-    if (edge.destination === destination && edge.relation === relation) {
-      sourceNodes.push(edge.source);
-    }
-  }
-
-  return sourceNodes;
-}
-
-
-function getLeafNodes(wiringGraph, origin, relation) {
-  let nodesToCheck = getSourceNodes(wiringGraph, origin, relation);
-  const leafNodes = [];
-
-  for (let currentNode = nodesToCheck.pop(); currentNode; currentNode = nodesToCheck.pop()) {
-    const sources = getSourceNodes(wiringGraph, currentNode, relation);
-    if (sources.length === 0) {
-      leafNodes.push(currentNode);
-    } else {
-      nodesToCheck = nodesToCheck.concat(sources);
-    }
-  }
-
-  return leafNodes;
 }
 
 
@@ -191,6 +147,7 @@ function loadFullSnapshotsForNodeStructure(nodeStructure) {
     });
 }
 
+
 export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
   if (view !== views.physical.hosts) {
     throw new Error('Unsupported view!', view, snapshotCoordinates);
@@ -207,29 +164,6 @@ export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
 
     return getAllNodesTillOsNode(wiringGraph, leafId);
   });
-}
-
-function getAllNodesTillOsNode(wiringGraph, leafId) {
-  const nodes = [];
-
-  let current = leafId;
-  while(current) {
-    if (current.indexOf(forgeConsts.plugins.os) === 0) {
-      break;
-    }
-
-    // id -> coords
-    nodes.push(wiringGraph.nodes[current]);
-    current = getDestinationNode(wiringGraph, current, forgeConsts.rels.runsOn);
-  }
-
-  // if the array contains only one element, it's the selected and so the array
-  // can be cleared. Otherwise it is nessessary to collect all nodes in their correct order
-  if (nodes.length === 1) {
-    return [];
-  }
-
-  return nodes;
 }
 
 
