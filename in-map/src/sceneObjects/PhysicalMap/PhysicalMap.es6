@@ -39,7 +39,8 @@ export default class PhysicalMap extends SceneObject {
       'com.instana.forge.infrastructure.cache.redis.Redis',
       'com.instana.forge.infrastructure.database.mongodb.MongoDb',
       'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
-      'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer'
+      'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer',
+      'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform'
     ];
 
     let x = 0;
