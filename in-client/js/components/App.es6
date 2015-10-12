@@ -1,10 +1,8 @@
 import {RouteHandler, Navigation} from 'react-router';
-import {combineLatest} from 'reactive-observables';
 import {IntlMixin} from 'react-intl';
-import Immutable from 'immutable';
 import React from 'react/addons';
 
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
+import * as viewStructureStore from 'in-services/stores/view';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -16,7 +14,6 @@ import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
 import Filterbar from 'in-components/Filterbar';
 import SidebarMap from 'in-components/SidebarMap';
-import {create} from 'in-services/conveyer';
 import Map from 'in-map';
 
 import NotificationCenter from './NotificationCenter';
@@ -53,14 +50,9 @@ const App = React.createClass({
   },
 
   componentDidMount() {
-    const subscriptions = this.state.pluginIds.map(pluginId => {
-      return create(SnapshotsConveyer, {pluginId});
-    });
-
     this.addSubscription(
-      combineLatest(subscriptions).subscribe(snapshotArray => {
-        const snapshots = snapshotArray.reduce((a, b) => a.concat(b), Immutable.List());
-        if(snapshots.size === 0) {
+      viewStructureStore.viewStructure.subscribe(viewStructure => {
+        if (viewStructure.length === 0) {
           this.props.showHelp(203860032);
         } else {
           this.props.closeHelpIfOpen();
@@ -94,8 +86,8 @@ const App = React.createClass({
         {__DEV__ ? <ChoosePluginButton onClick={this.togglePlugin}/> : null}
 
         <section style={{display: hasChildren ? 'none' : 'block'}}>
-          <Map pluginIds={this.state.pluginIds} />
-          <Filterbar pluginIds={this.state.pluginIds} />
+          <Map />
+          <Filterbar />
           <SidebarMap />
           <FeedbackBadge />
 
