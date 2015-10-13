@@ -35,8 +35,7 @@ const SidebarDashboard = React.createClass({
          <SidebarHeadingNavigation.BackToHostButton snapshot={snapshot}/>
         </SidebarHeadingNavigation>
 
-        <SidebarHeadingSnapshotMetadata snapshot={snapshot}
-                                        className={block + '__heading'}/>
+        <SidebarHeadingSnapshotMetadata snapshot={snapshot}/>
 
         <SidebarDetailList snapshot={snapshot}
                            className={block + '__detail-list'}/>
