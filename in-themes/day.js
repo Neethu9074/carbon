@@ -120,7 +120,8 @@ module.exports = _.defaultsDeep({
     tags: {
       border: grey5,
       text: white,
-      backgroundHighlight: grey5
+      backgroundHighlight: grey5,
+      noTagsDefinedText: grey1
     }
   },
   menu: {
