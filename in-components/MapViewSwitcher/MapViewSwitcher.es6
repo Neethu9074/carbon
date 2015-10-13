@@ -6,7 +6,7 @@ import views from 'in-services/views';
 
 import './MapViewSwitcher.less';
 
-const block = 'in-mapviewswitcher';
+const block = 'in-map-view-switcher';
 
 const MapViewSwitcher = React.createClass({
   propTypes: {
@@ -23,17 +23,9 @@ const MapViewSwitcher = React.createClass({
   },
 
   render() {
-    return (
-      <ul className={getClassName(this, block)}>
-        {this.renderViews()}
-      </ul>
-    );
-  },
-
-  renderViews() {
     const keys = Object.keys(this.views);
     return (
-      <div>
+      <ul className={getClassName(this, block)}>
         {keys.map(viewKey => {
           const view = this.views[viewKey];
           const className = this.state.activeView === view ?
@@ -47,7 +39,7 @@ const MapViewSwitcher = React.createClass({
             </li>
           );
         })}
-      </div>
+      </ul>
     );
   },
 
