@@ -31,6 +31,7 @@ var health = [
 
 module.exports = _.defaultsDeep({
   sidebar: {
+    width: 342,
     header: {
       background: grey5,
       plugin: grey1,

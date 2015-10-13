@@ -2,12 +2,13 @@
 
 .in-sidebar-map {
   @borderRadius: 5px;
+  @sidebarWidth: @sidebar__width * 1px;
 
   position: absolute;
   top: 5rem;
   left: 5rem;
-  max-width: 342px;
-  min-width: 342px;
+  max-width: @sidebarWidth;
+  min-width: @sidebarWidth;
 
   z-index: @z-index__sidebar;
 
