@@ -7,6 +7,12 @@ module.exports = {
     uiBackendUrl: 'https://test-instana.instana.io/api',
     groundskeeperUrl: 'https://test-instana.instana.io/auth'
   },
+  lab: {
+    user: 'stan@instana.com',
+    pw: '4711',
+    uiBackendUrl: 'https://lab-instana.instana.io/api',
+    groundskeeperUrl: 'https://lab-instana.instana.io/auth'
+  },
   monitoring: {
     user: 'stan@instana.com',
     pw: '4711',
