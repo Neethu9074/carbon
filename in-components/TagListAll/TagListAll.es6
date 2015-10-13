@@ -9,7 +9,6 @@ import Tag from '../Tag';
 import './TagListAll.less';
 
 const rpt = React.PropTypes;
-const block = 'in-tag-list-all';
 
 const TagListAll = React.createClass({
   mixins: [
@@ -31,10 +30,18 @@ const TagListAll = React.createClass({
   },
 
   render() {
-    const tags = this.getAllTags().sort();
+    let tags = this.getAllTags();
+    if (!tags || tags.length === 0) {
+      return (
+        <div className={'in-tag-list-all__no-tags'}>
+          There are no tags defined
+        </div>
+      );
+    }
 
+    tags = tags.sort();
     return (
-      <div className={block}>
+      <div>
         {tags.map((tag) =>
           <Tag key={tag}
                tag={tag}
