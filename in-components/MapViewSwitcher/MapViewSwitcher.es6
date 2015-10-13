@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {getClassName} from 'in-services/react';
 import {setView} from 'in-services/stores/view';
+import {getClassName} from 'in-services/react';
 import eventBus from 'in-services/eventbus';
 import views from 'in-services/views';
 

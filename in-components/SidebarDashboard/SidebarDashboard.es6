@@ -1,9 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import SidebarDetailList from '../SidebarDetailList';
 import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';
 import SidebarHeadingNavigation from '../SidebarHeadingNavigation';
+import SidebarDetailList from '../SidebarDetailList';
 import SidebarTabs from '../SidebarTabs';
 
 import './SidebarDashboard.less';
