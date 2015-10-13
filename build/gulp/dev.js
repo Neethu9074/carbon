@@ -165,11 +165,12 @@ gulp.task('startDevProxy', function() {
     tls: true,
     proxy: {
       '/': 'http://127.0.0.1:3000',
-      '/auth/signIn': groundskeeperUrl + '/signIn',
-      '/auth/signOut': groundskeeperUrl + '/signOut',
-      '/auth/users/current': groundskeeperUrl + '/users/current',
+      '/auth/signIn': groundskeeperUrl + '/auth/signIn',
+      '/auth/signOut': groundskeeperUrl + '/auth/signOut',
+      '/auth/users/current': groundskeeperUrl + '/auth/users/current',
       '/internal/api': instagrafanaUrl + 'api',
-      '/uiTracker/': 'http://127.0.0.1:8484/'
+      '/uiTracker/': 'http://127.0.0.1:8484/',
+      '/assets/': groundskeeperUrl + '/assets/'
     },
 
     websocketProxy: {
