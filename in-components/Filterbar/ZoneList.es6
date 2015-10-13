@@ -1,6 +1,7 @@
 import React from 'react/addons';
 
 import * as viewStore from 'in-services/stores/view';
+import views from 'in-services/views';
 import {getColor} from 'in-sdk/zones';
 import {getZone} from 'in-sdk/zones';
 
@@ -18,6 +19,7 @@ const ZoneList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
+    activeView: rpt.number,
     groups: rpt.object
   },
 
@@ -40,6 +42,7 @@ const ZoneList = React.createClass({
 
       return {
         viewStructure: viewStore.viewStructure,
+        activeView: viewStore.view,
         groups
       };
     }
@@ -58,13 +61,23 @@ const ZoneList = React.createClass({
     return (
       <div className={block}>
 
-        <ListHeader header={'Hosts'}/>
+        <ListHeader header={this.getHeaderForView()}/>
         <div className={block + '__spacer'}/>
 
         {this.state.sortedBy === 'zone' ?
           this.showAsZoneList(groups) : this.showAsHealthList(groups)}
       </div>
     );
+  },
+
+  getHeaderForView() {
+    const activeView = this.props.activeView;
+    if (activeView === views.physical) {
+      return 'Hosts';
+    } else if (activeView === views.process) {
+      return 'Processes';
+    }
+    return '';
   },
 
   showAsZoneList(groups) {
