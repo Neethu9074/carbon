@@ -31,12 +31,11 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
         <div>
           <h1 className={block + '__label'}>
             <span className={block + '__text'}>
-              {getLabel(snapshot)}
+              {this.getTrimmedLabelForSnapshot(snapshot)}
             </span>
 
             <ZoneTag snapshot={snapshot}
                      className={block + '__zone'}/>
-
           </h1>
 
           <p className={block + '__plugin-type'}>
@@ -49,6 +48,15 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
         </div>
       </div>
     );
+  },
+
+  getTrimmedLabelForSnapshot(snapshot) {
+    const maxLength = 25;
+    let label = getLabel(snapshot);
+    if (label.length > maxLength) {
+      label = label.substring(0, maxLength) + '...';
+    }
+    return label;
   }
 });
 
