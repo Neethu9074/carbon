@@ -46,16 +46,17 @@ const NodeTooltipRC = React.createClass({
   getStatusLine() {
     const state = this.state;
     const nodeHealth = state.health;
+    const snapshot = this.props.snapshot;
     const issues = state.issues
       .sortBy(problem => problem.get('severity'))
       .reverse();
-    const data = this.props.snapshot.get('data');
+    const data = snapshot.get('data');
 
     //only show the status line if there is a "bad" health or some issues
     if (nodeHealth !== health.ok && this.issuesAvailable()) {
         try {
           return (<IssueStatusLine
-            left={data.get('hostname')}
+            left={getLabel(snapshot)}
             right={moment(issues.get(0).get('start')).fromNow()}/>);
         } catch (err) {
           return <IssueStatusLine left={data.get('hostname')} />;

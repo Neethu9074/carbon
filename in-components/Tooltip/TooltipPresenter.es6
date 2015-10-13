@@ -1,8 +1,8 @@
 import React from 'react/addons';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
-import toPx from 'in-services/converters/toPx';
 import {applyTransform} from 'in-services/util/dom';
+import toPx from 'in-services/converters/toPx';
 
 import enhance from '../hoc/enhance';
 
@@ -95,7 +95,7 @@ const TooltipPresenter = React.createClass({
     if (align === 'top') {
       return focusedElementBox.top - tooltipBox.height - 6;
     }
-    return focusedElementBox.top + focusedElementBox.height / 2 - tooltipBox.height / 2;
+    return focusedElementBox.top + focusedElementBox.height / 2 - 10;
   },
 
   render() {

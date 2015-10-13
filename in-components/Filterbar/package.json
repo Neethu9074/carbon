@@ -1,0 +1,6 @@
+{
+  "name": "Filterbar",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Filterbar.es6"
+}

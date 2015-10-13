@@ -1,0 +1,6 @@
+{
+  "name": "SidebarTabs",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SidebarTabs.es6"
+}

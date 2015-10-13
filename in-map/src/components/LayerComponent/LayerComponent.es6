@@ -5,6 +5,8 @@ import Layer from '../../sceneObjects/Layer';
 import Component from '../Component';
 
 
+const maxPercentUsedByGaps = 10;
+
 export default class LayerComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject);
@@ -69,23 +71,71 @@ export default class LayerComponent extends Component {
   }
 
   arrangeChildren() {
-    const pos = this.positionToSet;
-    const layer = this.layer;
-    const height = this.heightToSet;
-    const heightOfEachChild = height / layer.length;
+    const layer = this.getSortedLayer();
+    const transformations = this.getLayerTransformations();
 
-    layer
-      .sort((l1, l2) => l1.label <= l2.label)
-      .forEach((child, index) => {
-      let heightOfSlice = heightOfEachChild - 0.1;
-      if (heightOfSlice <= 0) {
-        heightOfSlice = heightOfEachChild * 0.75;
-      }
-      child.setHeight(heightOfSlice);
+    layer.forEach((child, index) => {
+      const transformation = transformations[index];
+      child.setHeight(transformation.heightOfSlice);
 
+      const position = transformation.position;
       const positionComponent = child.getComponent('position');
-      positionComponent.setPosition(pos.x, index * heightOfEachChild, pos.z);
+      positionComponent.setPosition(position.x, position.y, position.z);
     });
+  }
+
+  getLayerTransformations() {
+    const layer = this.layer;
+    const nodeHeight = this.heightToSet;
+    const numGaps = this.countDifferentTypesFromSortedArray(layer) - 1;
+    const gapHeight = this.calculateHeightForEachGap(nodeHeight, numGaps);
+    const heightUsedForLayer = nodeHeight - numGaps * gapHeight;
+
+    const pos = this.positionToSet;
+    const heightOfEachChild = heightUsedForLayer / layer.length;
+    const transformations = [];
+    let prevChild = undefined;
+    let position = 0;
+
+    layer.forEach((child, index) => {
+      if (prevChild && child.label !== prevChild.label) {
+        position += gapHeight;
+      }
+      prevChild = child;
+
+      transformations[index] = {
+        position: {x: pos.x, y: position, z: pos.z },
+        heightOfSlice: heightOfEachChild * 0.9
+      };
+
+      position += heightOfEachChild;
+    });
+
+    return transformations;
+  }
+
+  calculateHeightForEachGap(heightOfNode, numGaps) {
+    // if 10% is the maximum of height used for gaps -> the maximum height for
+    // gaps can be 1 / 10(%) = 0.1. happens if there is only one gap, taking 10%.
+    // if there are more gaps, e.g. 4 -> each one takes 10% / 4 which is
+    // heightOfNode / (#Gaps * 1 / 10).
+    return Math.min(1 / maxPercentUsedByGaps, heightOfNode / (numGaps * maxPercentUsedByGaps));
+  }
+
+  countDifferentTypesFromSortedArray(array) {
+    let differentTypes = 1;
+
+    for (let i = 1; i < array.length; i++) {
+      if (array[i].label !== array[i - 1].label) {
+        differentTypes++;
+      }
+    }
+
+    return differentTypes;
+  }
+
+  getSortedLayer() {
+    return this.layer.sort((l1, l2) => l1.label <= l2.label);
   }
 
   // is called if a layer was disposed

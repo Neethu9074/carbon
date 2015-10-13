@@ -1,0 +1,28 @@
+@import "~in-themes/active.less";
+
+.in-sidebar-snapshot {
+  padding: 8px 11px;
+  margin-bottom: 3px;
+
+  list-style: none;
+  color: @filterbar__nodes__text;
+  font-size: 12px;
+  cursor: pointer;
+
+  &--highlighted, &:hover {
+    transition: color .25s ease-in-out;
+    transition: background .25s ease-in-out;
+
+    background: @filterbar__nodes__background-highlight;
+    border-radius: 4px;
+    color: @filterbar__nodes__text-highlight
+  }
+
+  &-health {
+    font-size: 29px;
+    float: right;
+    margin: -6px -4px 0;
+    min-width: 20px;
+    text-align: center;
+  }
+}

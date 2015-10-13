@@ -10,11 +10,13 @@ export const plugins = {
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
   mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
   mysql: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
-  tomcat: 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer'
+  tomcat: 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer',
+  nodejs: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform'
 };
 
 export const rels = {
   describes: 'com.instana.sdk.annotation.Describes',
   runsOn: 'com.instana.sdk.annotation.RunsOn',
-  connectsTo: 'com.instana.sdk.annotation.ConnectsTo'
+  connectsTo: 'com.instana.sdk.annotation.ConnectsTo',
+  availableThrough: 'com.instana.sdk.annotation.AvailableThrough'
 };

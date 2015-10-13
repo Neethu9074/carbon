@@ -1,5 +1,5 @@
-import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
 
 import {createStore} from './store';
 

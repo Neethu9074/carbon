@@ -1,3 +1,5 @@
+@import "~in-themes/active.less";
+
 .in-detail-pane__description {
   &-list {
     margin: 0;
@@ -5,23 +7,23 @@
 
   &-item {
     justify-content: space-between;
-    font-size: 11px;
-    background: rgba(255, 255, 255, 0.04);
-    padding: 6px 8px;
-    margin: 0 0 2px;
+    font-size: 12px;
+    padding: 3px 8px;
     border-radius: 2px;
+    display: flex;
   }
 
   &-title {
     float: left;
-    padding: 0 10px 13px 0;
-    color: #2d4048;
-    text-transform: uppercase;
+    color: @sidebar__discription-list__title;
+    text-transform: capitalize;
+    margin-right: 5%;
+    width: 40%;
   }
 
   &-text {
-    color: #758890;
-    text-align: right;
+    color: @sidebar__discription-list__text;
+    width: 55%;
     margin: 0;
     word-break: break-all;
   }

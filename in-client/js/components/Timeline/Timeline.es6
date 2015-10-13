@@ -1,7 +1,6 @@
 import React from 'react/addons';
 
 import ServerTime from 'in-components/ServerTime';
-import TimePicker from 'in-components/TimePicker';
 
 import ChangeTimeButton from './ChangeTimeButton';
 import Eventline from './Eventline';
@@ -17,19 +16,14 @@ const Timeline = React.createClass({
   ],
 
   getInitialState() {
-    return {
-      open: false,
-      renderedForTimestamp: Date.now()
-    };
+    return { renderedForTimestamp: Date.now() };
   },
 
   render() {
     return (
       <div className={block}>
-        {this.renderTimePicker()}
-
         <TimeRange renderedForTimestamp={this.state.renderedForTimestamp}/>
-        <ChangeTimeButton onClick={this.onTimeChanged}/>
+        <ChangeTimeButton/>
         <Eventline tick={this.onTick}/>
         <ServerTime className={block + '__servertime'}/>
       </div>
@@ -38,21 +32,6 @@ const Timeline = React.createClass({
 
   onTick(time) {
     this.setState({ renderedForTimestamp: time });
-  },
-
-  renderTimePicker() {
-    if (this.state.open) {
-      return (<TimePicker onTimeSelected={this.onTimeChanged}
-                          className={block + '__timepicker'}/>);
-    }
-    return null;
-  },
-
-  onTimeChanged() {
-    this.setState({
-      open: !this.state.open,
-      renderedForTimestamp: Date.now()
-    });
   }
 });
 

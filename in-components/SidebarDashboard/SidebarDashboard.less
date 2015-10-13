@@ -1,0 +1,30 @@
+@import "~in-themes/active.less";
+
+.in-sidebar-dashboard {
+  @sidebarWidth: @sidebar__width * 1px;
+
+  z-index: @z-index__sidebar;
+  height: 100%;
+  max-width: @sidebarWidth;
+  min-width: @sidebarWidth;
+
+  &__detail-list {
+    max-height: ~"calc(100% - 150px)";
+  }
+
+  &__tabs {
+    position: absolute;
+    left: @sidebarWidth;
+    top: 30%;
+
+    &__tab {
+      &:first-child {
+        border-radius: 0 5px 0 0;
+      }
+
+      &:last-child {
+        border-radius: 0 0 5px 0;
+      }
+    }
+  }
+}

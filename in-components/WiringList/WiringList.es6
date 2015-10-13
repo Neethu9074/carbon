@@ -1,9 +1,11 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
+import * as ro from 'reactive-observables';
 
+import {getLayers} from 'in-services/wiring';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import {getWiringWithFullSnapshots} from 'in-services/wiring';
+import {getFullSnapshot} from 'in-services/snapshots';
 import {getPlural} from 'in-sdk/pluginName';
 import * as tracking from 'in-services/tracking';
 
@@ -23,13 +25,19 @@ const WiringList = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    wiring: irpt.set
+    wiring: React.PropTypes.array
   },
 
   statics: {
     createObservables(props) {
       return {
-        wiring: getWiringWithFullSnapshots(props.snapshot)
+        wiring: getLayers(props.snapshot).transform({
+          emitLatestOnSubscribe: true,
+
+          transform(layers) {
+            return ro.combineLatest(layers.map(getFullSnapshot));
+          }
+        })
       };
     }
   },
@@ -48,10 +56,12 @@ const WiringList = React.createClass({
         {groupPluginIds.map(pluginId =>
           <Collapsible key={pluginId}>
             <Collapsible.Header className={block + '__header'}>
-              <img src={getIcon(pluginId)}
-                   alt='plugin icon'
-                   className={block + '__plugin-icon'}/>
-              {getPlural(pluginId)}
+              <div className={block + '__header'}>
+                <img src={getIcon(pluginId)}
+                     alt='plugin icon'
+                     className={block + '__plugin-icon'}/>
+                {getPlural(pluginId)}
+              </div>
             </Collapsible.Header>
             <Collapsible.Content>
               <List>

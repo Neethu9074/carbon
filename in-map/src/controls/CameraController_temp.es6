@@ -145,11 +145,15 @@ export default class CameraController {
   }
 
   flyToObject(obj) {
-    const transObj = this.camTransformObject;
     const pos = obj.getComponent('position').getPosition();
+    this.flyToPosition(pos.x, pos.z);
+  }
 
-    transObj.position.x = pos.x;
-    transObj.position.z = pos.z;
+  flyToPosition(x, z) {
+    const transObj = this.camTransformObject;
+
+    transObj.position.x = x;
+    transObj.position.z = z;
     transObj.updateMatrixWorld();
   }
 

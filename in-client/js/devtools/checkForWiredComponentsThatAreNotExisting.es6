@@ -11,7 +11,7 @@ import view from 'in-services/views';
 window.instana.dev.checkForWiringIssues = function() {
   console.log('Starting to check for wiring issues…');
 
-  getStructure(view.physical.hosts)
+  getStructure(view.physical)
     .transform({
       emitLatestOnSubscribe: true,
 
@@ -48,16 +48,17 @@ window.instana.dev.checkForWiringIssues = function() {
               });
             });
 
-            // console.log(foundSnapshots.sort());
-            // console.log(wiredSnapshotIds.sort());
+            console.log('Found snapshots', _.uniq(foundSnapshots).length, _.uniq(foundSnapshots).sort());
+            console.log('Wired snapshots', _.uniq(wiredSnapshotIds).length, _.uniq(wiredSnapshotIds).sort());
             return _.without(wiredSnapshotIds, foundSnapshots);
           });
       }
     })
     .subscribe(unavailableSnapshots => {
       console.log(
-        'The following snapshots could not be found:\n',
-        unavailableSnapshots.join('\n')
+        'The following snapshots could not be found: %s\n',
+        unavailableSnapshots.length,
+        unavailableSnapshots
       );
       console.log('Done!');
     });

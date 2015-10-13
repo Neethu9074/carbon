@@ -1,20 +1,18 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import Collapsible from 'in-components/Collapsible';
 import ProblemPanel from 'in-components/ProblemPanel';
+import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
 
 import ArgList from '../ArgList';
 import ProcessInfo from '../ProcessInfo';
 
-const rpt = React.PropTypes;
 const Sidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {

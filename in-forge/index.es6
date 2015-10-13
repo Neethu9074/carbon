@@ -15,3 +15,4 @@ import './com.instana.forge.infrastructure.os.process.Process';
 import './com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform';
 import './com.instana.forge.infrastructure.virtualization.docker.Docker';
 import './com.instana.forge.hardware.virtual.ec2.Ec2';
+import './com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform';

@@ -1,19 +1,16 @@
 import React from 'react/addons';
 
+import {activeTheme as activeThemeObservable, availableThemes, setActiveTheme} from 'in-services/theme';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setIn, settingsStore} from 'in-services/settings';
 import {askPermission} from 'in-services/notification';
 import * as tracking from 'in-services/tracking';
-import {
-  activeTheme as activeThemeObservable,
-  availableThemes,
-  setActiveTheme
-} from 'in-services/theme';
 import CheckBox from 'in-components/CheckBox';
 import ComboBox from 'in-components/ComboBox';
 import Button from 'in-components/Button';
 import Slider from 'in-components/Slider';
 import Dialog from 'in-components/Dialog';
+import Icon from 'in-components/Icon';
 
 import SettingEntry from './SettingEntry';
 
@@ -60,12 +57,17 @@ const Settings = React.createClass({
 
   render() {
     return (
-      <Dialog onClose={this.closeSettings}>
-        <div className={block}>
+      <Dialog onClose={this.closeSettings}
+              className={block + '__dialog'}>
+          <Button onClick={this.closeSettings}
+                  className={block + '__button-close'}>
+            <Icon type={'delete'} className={block + '__button-close__icon'}/>
+          </Button>
 
-        <div className={block + '__header'}>
-          Settings
-        </div>
+        <div className={block}>
+          <div className={block + '__header'}>
+            Settings
+          </div>
 
           <SettingEntry>
             <SettingEntry.Header text={'Inverse scroll direction'} />
@@ -90,8 +92,7 @@ const Settings = React.createClass({
           <SettingEntry>
             <SettingEntry.Header text={'Antialias'} />
             <SettingEntry.Content>
-              <ComboBox label='Antialias'
-                        onChange={this.antialiasChanged}
+              <ComboBox onChange={this.antialiasChanged}
                         defaultValue={this.state.antialiasValue}>
                 {'off'}
                 {'browserAA'}
@@ -99,8 +100,6 @@ const Settings = React.createClass({
               </ComboBox>
             </SettingEntry.Content>
           </SettingEntry>
-
-          <div className={block + '__section'}/>
 
           {__DEV__ ?
             <SettingEntry>
@@ -115,28 +114,16 @@ const Settings = React.createClass({
             : null
           }
 
-          {__DEV__ ? <div className={block + '__section'}/> : null }
-
           <SettingEntry>
-            <SettingEntry.Header text={'Enable Desktop Notifications'} />
+            <SettingEntry.Header text='Enable Desktop Notifications' />
             <SettingEntry.Content>
               <CheckBox onClick={this.toggleDesktopNotifications}
                         defaultChecked={this.state.desktopNotification}/>
             </SettingEntry.Content>
             <SettingEntry.HelpText text={
-                                    'Desktop notifications will pop up if the browser window is not active' +
+                                    'Desktop notifications will pop up if the browser window is not active ' +
                                     'to keep you up to date about important messages.'} />
           </SettingEntry>
-
-          <div className={block + '__section-end'}/>
-
-          <div className={block + '__button-close--wrapper'}>
-            <Button onClick={this.closeSettings}
-                    className={block + '__button-close'}>
-              {'Close'}
-            </Button>
-          </div>
-
         </div>
       </Dialog>
     );
@@ -148,7 +135,7 @@ const Settings = React.createClass({
     // sets AA true if on value other than 'none' was chosen
     setIn(['map', 'antialias'], value);
 
-    //track the event
+    // track the event
     tracking.trackEvent(tracking.events.antialiasWasChosenInSettings);
   },
 

@@ -15,7 +15,13 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.docker,
-  s => s.getIn(['data', 'Names']).join(', ')
+  s => {
+    const names = s.getIn(['data', 'Names']);
+    if (names) {
+      return names.join(', ');
+    }
+    return undefined;
+  }
 );
 
 addIconFinder(

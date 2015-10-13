@@ -8,13 +8,11 @@ import WiringList from 'in-components/WiringList';
 import DockerLabels from '../DockerLabels';
 import DockerInfo from '../DockerInfo';
 
-const rpt = React.PropTypes;
 const Sidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    snapshot: irpt.map.isRequired
   },
 
   render() {

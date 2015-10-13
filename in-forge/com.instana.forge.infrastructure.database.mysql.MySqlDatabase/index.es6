@@ -4,6 +4,7 @@ import {
 } from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
 import * as zones from 'in-sdk/zones';
+import * as power from 'in-sdk/power';
 
 import iconPath from './icon.svg';
 import * as constants from '../constants';
@@ -28,4 +29,9 @@ addIconFinder(
 zones.addMapping(
   constants.plugins.mysql,
   snapshot => snapshot.get('hostId')
+);
+
+power.addMapping(
+  constants.plugins.mysql,
+  () => 1
 );

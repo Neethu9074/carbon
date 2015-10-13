@@ -93,13 +93,18 @@ export default class PhysicalMap extends SceneObject {
     time.addTimeEventListener({
       handleComponentTimeEvent: this.handleTimeEvent
     });
+
+    // because this check is pretty expensive and will be replaced by a more hipper
+    // backend technology soon, only do this if it's necessary
+    this.addSubscription(eventBus.on('onViewSwitched').subscribe(() =>
+      this.removeAllUnknownNodesWithoutConnections()
+    ));
   }
 
   onInventoryUpdate(structures) {
     structures.forEach(triple => this.addNode(triple));
 
     this.removeVanishedNodes(structures);
-    // this.removeAllUnknownNodesWithoutConnections();
   }
 
   applyLayout() {
