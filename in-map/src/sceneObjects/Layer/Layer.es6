@@ -33,7 +33,7 @@ export default class Layer extends SceneObject {
     this.snapshot = undefined;
     this.label = '';
 
-    this.getComponent('position').setPosition(Infinity, 0, 0);
+    this.getComponent('position').setPosition(0, 0, 0);
 
     this.temp = zoomLevel.subscribe(newLevel => {
       this.currentZoomLevel = newLevel;

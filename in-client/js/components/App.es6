@@ -2,11 +2,11 @@ import {RouteHandler, Navigation} from 'react-router';
 import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
-import * as viewStructureStore from 'in-services/stores/view';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
+import * as viewStructureStore from 'in-services/stores/view';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
