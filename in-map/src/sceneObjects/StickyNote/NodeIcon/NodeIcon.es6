@@ -29,13 +29,14 @@ export default React.createClass({
 
   render() {
     const icon = getIcon(this.props.snapshot);
-    const size = Math.max(this.state.size * 0.5, 16);
-    const style = {width: size + 'px'};
-
+    const size = Math.max(this.state.size * 0.5, 16) + 'px';
     return (
-      <div style={style} className='in-sticky-note__icon-background'>
+      <div style={{ width: size }}
+           className='in-sticky-note__icon-background'>
         {icon ?
-          <img src={icon} className='in-sticky-note__icon-svg'/> : null}
+          <img src={icon}
+               className='in-sticky-note__icon-svg'
+               style={{ maxHeight: size }}/> : null}
       </div>
     );
   }
