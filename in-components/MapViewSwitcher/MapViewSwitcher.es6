@@ -2,6 +2,7 @@ import React from 'react';
 
 import {getClassName} from 'in-services/react';
 import {setView} from 'in-services/stores/view';
+import eventBus from 'in-services/eventbus';
 import views from 'in-services/views';
 
 import './MapViewSwitcher.less';
@@ -14,8 +15,8 @@ const MapViewSwitcher = React.createClass({
   },
 
   views: {
-    physical: { enter() { setView(views.physical); } },
-    process: { enter() { setView(views.process); } }
+    physical: { view: views.physical },
+    process: { view: views.process }
   },
 
   getInitialState() {
@@ -43,9 +44,12 @@ const MapViewSwitcher = React.createClass({
     );
   },
 
-  onViewSwitched(activeView) {
-    activeView.enter();
-    this.setState({ activeView });
+  onViewSwitched(newActiveView) {
+    if (this.state.activeView !== newActiveView) {
+      this.setState({ activeView: newActiveView });
+      setView(newActiveView.view);
+      eventBus.emit('clearUnknownNodes');
+    }
   }
 });
 
