@@ -80,8 +80,8 @@ const App = React.createClass({
       <div>
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
-        <MapViewSwitcher className='in-root-map-switcher' />
-        <Lettering className='in-root-lettering' />
+        <MapViewSwitcher className='in-root-map-switcher'/>
+        <Lettering className='in-root-lettering'/>
         {this.renderMenu()}
 
         {__DEV__ ? <ChoosePluginButton onClick={this.togglePlugin}/> : null}
