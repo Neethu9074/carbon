@@ -1,8 +1,13 @@
 @import "~in-themes/active.less";
 
 .in-collapsible {
-  padding: 3px 0 4px;
+  padding: 3px 1.25rem 4px;
+  margin: 0 -1.25rem;
   border-bottom: 1px solid @collapsible__line;
+
+  &:last-child {
+    border-bottom: 0;
+  }
 
   &__header {
     display: flex;
