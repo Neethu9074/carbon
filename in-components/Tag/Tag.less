@@ -17,26 +17,22 @@
 
   &__active {
     background: @sidebar__tags__background-highlight;
+    color: @sidebar__tags__text-highlight
   }
 
   &:hover {
+    transition: border .25s ease-in-out;
     transition: background .25s ease-in-out;
-    background: @sidebar__tags__background-highlight;
-    color: white;
+    border: 2px solid @sidebar__tags__border-highlight;
   }
 
   &__dark {
     color: @filterbar__tags__text;
     border: 2px solid @filterbar__tags__border;
 
-    &__active {
-      background: @filterbar__tags__background-highlight;
-      color: @filterbar__tags__text;
-    }
-
-    &:hover {
-      background: @filterbar__tags__background-highlight;
-      color: @filterbar__tags__text;
+    &:hover, &__active{
+      background: white;
+      color: @filterbar__tags__background-highlight
     }
   }
 

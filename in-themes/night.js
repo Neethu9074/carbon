@@ -9,7 +9,7 @@ var common = require('./common');
 var white = '#ffffff';
 var grey0 = '#eef2f4';
 var grey1 = '#6b8088';
-// var grey2 = '#576e76';
+var grey2 = '#576e76';
 var grey3 = '#435b64';
 // var grey4 = '#3b4d55';
 var grey5 = '#2d4048';
@@ -37,8 +37,8 @@ module.exports = _.defaultsDeep({
       heading: white,
       defaultButtonBackground: grey1,
       defaultButtonText: white,
-      defaultButtonBackgroundHightlight: grey0,
-      defaultButtonTextHighlight: grey6
+      defaultButtonBackgroundHightlight: grey2,
+      defaultButtonTextHighlight: white
     },
     discriptionList: {
       title: grey5,
@@ -54,13 +54,15 @@ module.exports = _.defaultsDeep({
     tabs: {
       background: grey1,
       backgroundHighlight: white,
-      backgroundHover: grey0,
+      backgroundHover: grey3,
       line: grey0
     },
     tags: {
       border: grey0,
+      borderHighlight: '#dce3e6',
       text: grey5,
-      backgroundHighlight: grey0
+      textHighlight: white,
+      backgroundHighlight: grey5
     },
     background: white,
     problemStart: grey6
@@ -159,6 +161,7 @@ module.exports = _.defaultsDeep({
   },
   mapViewSwitcher: {
     background: grey1,
+    backgroundHover: grey3,
     backgroundHighlight: white,
     label: white,
     labelHighlight: grey6

@@ -8,9 +8,10 @@
 
   &__item {
     display: inline;
-    padding: 10px 15px 10px 15px;
+    padding: 10px 15px;
 
-    font-size: 0.75rem;
+    font-size: 11px;
+    font-weight: bold;
     text-transform: uppercase;
 
     border-right: 1px solid rgba(255, 255, 255, 0.1);
@@ -28,8 +29,8 @@
     }
 
     &:hover {
-      background: @map-view-switcher__background-highlight;
-      color: @map-view-switcher__label-highlight;
+      background: @map-view-switcher__background-hover;
+      color: @map-view-switcher__label;
     }
 
     &__active {
