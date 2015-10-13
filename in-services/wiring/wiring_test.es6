@@ -104,6 +104,19 @@ describe('wiring', () => {
         expect(host2Info.layers[1].get('steadyId')).to.equal('sCassandra');
       });
 
+
+      it('should process secondary updates', () => {
+        emitGraph(getGraph('simple'));
+        mod.getStructure(views.physical)
+          .subscribe(onNext);
+
+        emitGraph(getGraph('common'));
+        expect(onNext).to.have.callCount(2);
+        const structure = onNext.getCall(1).args[0];
+        expect(structure.length).to.equal(2);
+      });
+
+
       describe('getAllStepsBetweenNodeAndLeaf', () => {
 
         it('should fail on unsupported view', () => {
