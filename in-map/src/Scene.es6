@@ -305,6 +305,11 @@ export default class Scene {
       }
     }));
 
+    // if the view was switched, reset the camera position to origin
+    this.subscriptions.push(eventBus.on('onViewSwitched').subscribe(() =>
+      this.controller.flyToPosition(5, -5)
+    ));
+
     if(__DEV__) {
       setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);
     }

@@ -48,7 +48,7 @@ const MapViewSwitcher = React.createClass({
     if (this.state.activeView !== newActiveView) {
       this.setState({ activeView: newActiveView });
       setView(newActiveView.view);
-      eventBus.emit('clearUnknownNodes');
+      eventBus.emit('onViewSwitched');
     }
   }
 });

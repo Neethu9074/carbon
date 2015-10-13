@@ -96,7 +96,7 @@ export default class PhysicalMap extends SceneObject {
 
     // because this check is pretty expensive and will be replaced by a more hipper
     // backend technology soon, only do this if it's necessary
-    this.addSubscription(eventBus.on('clearUnknownNodes').subscribe(() =>
+    this.addSubscription(eventBus.on('onViewSwitched').subscribe(() =>
       this.removeAllUnknownNodesWithoutConnections()
     ));
   }
