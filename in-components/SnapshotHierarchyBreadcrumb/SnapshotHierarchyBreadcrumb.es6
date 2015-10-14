@@ -58,11 +58,7 @@ const SnapshotHierarchyBreadcrumb = React.createClass({
 
     // if the root element is the host
     if (hierarchy.length === 0) {
-      return (
-        <ul className={block}>
-            <Crumb snapshot={this.props.selectedSnapshot}/>
-        </ul>
-      );
+      hierarchy.push(this.props.selectedSnapshot);
     }
 
     return (
