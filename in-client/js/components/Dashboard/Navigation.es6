@@ -28,7 +28,7 @@ const Navigation = React.createClass({
   componentWillUpdate(nextProps) {
     if (this.props.snapshot !== nextProps.snapshot) {
       this.setState({ draw: false });
-      this.calculateJail();
+      this.calculateJail(this.props.snapshot.get('id') !== nextProps.snapshot.get('id'));
     }
   },
 
@@ -36,10 +36,13 @@ const Navigation = React.createClass({
     this.calculateJail();
   },
 
-  calculateJail() {
+  calculateJail(scrollToTop) {
     setTimeout(() => {
       this.jail = this.getJail();
       this.jail.onscroll = this.onScroll;
+      if (scrollToTop) {
+        this.jail.scrollTop = 0;
+      }
       this.setState({ draw: true });
     }, 500);
   },
