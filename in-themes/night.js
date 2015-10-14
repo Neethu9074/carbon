@@ -131,6 +131,10 @@ module.exports = _.defaultsDeep({
     sectionLabel: cyan,
     signoutLabel: grey1
   },
+  notificationCenter: {
+    background: grey5,
+    statusBarBackground: grey6
+  },
   settings: {
     heading: {
       text: white,

@@ -6,7 +6,7 @@
   @transition-duration: .5s;
 
   width: @notification-center-width;
-  background: #233038;
+  background: @notification-center__background;
   border-radius: 5px;
 
   z-index: @z-index__notification-center;
@@ -32,14 +32,19 @@
   }
 
   &__status-bar {
+    position: absolute;
+    top: 50px;
+    right: 0;
+
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 10px;
 
-    padding: 1rem 0 1.3rem 0;
+    padding: 10px 0 14px 0;
     font-size: 0.9rem;
 
-    background: #222f37;
+    background: @notification-center__status-bar-background;
   }
 
   &:before {
@@ -55,7 +60,7 @@
     border-color:
       transparent
       transparent
-      #233038
-      #233038;
+      @notification-center__background
+      @notification-center__background;
   }
 }
