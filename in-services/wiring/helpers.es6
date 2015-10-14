@@ -35,12 +35,12 @@ export function getAllNodesTillOsNode(wiringGraph, leafId) {
 
   let current = leafId;
   while(current) {
+    nodes.push(wiringGraph.nodes[current]);
+
     if (current.indexOf(forgeConsts.plugins.os) === 0) {
       break;
     }
 
-    // id -> coords
-    nodes.push(wiringGraph.nodes[current]);
     current = getDestinationNode(wiringGraph, current, forgeConsts.rels.runsOn);
   }
 
