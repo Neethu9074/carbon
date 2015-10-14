@@ -6,6 +6,8 @@ import {getIssueCountSummary} from 'in-services/issueTracker';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
+import NotificationCenter from '../NotificationCenter';
+
 import './NotificationCounter.less';
 
 const block = 'in-notification-counter';
@@ -16,7 +18,7 @@ const NotificationCounter = React.createClass({
   ],
 
   propTypes: {
-    onClick: React.PropTypes.func.isRequired
+    className: React.PropTypes.string
   },
 
   getInitialState() {
@@ -25,7 +27,8 @@ const NotificationCounter = React.createClass({
         [health.ok]: 0,
         [health.warning]: 0,
         [health.danger]: 0
-      })
+      }),
+      showNotificationCenter: false
     };
   },
 
@@ -39,12 +42,22 @@ const NotificationCounter = React.createClass({
     const summary = this.state.issueSummary;
     const errorAndWarningCounts = summary.get(health.warning) + summary.get(health.danger);
     const color = this.getColor(summary);
+    const showNC = this.state.showNotificationCenter;
 
     return (
-      <div className={block}
-           style={{background: color}}
-           onClick={this.props.onClick}>
-        {errorAndWarningCounts}
+      <div className={this.props.className}>
+        <div className={block}
+             style={{background: color}}
+             onClick={this.toggleNotificationCenter}>
+          {errorAndWarningCounts}
+        </div>
+
+        {showNC ?
+          <div className={block + '__notification-center'}>
+            <NotificationCenter toggleNotificationCenter={this.toggleNotificationCenter}
+                                open={showNC}/>
+          </div>
+        : null}
       </div>
     );
   },
@@ -57,6 +70,10 @@ const NotificationCounter = React.createClass({
     }
 
     return theme.health[0];
+  },
+
+  toggleNotificationCenter() {
+    this.setState({ showNotificationCenter: !this.state.showNotificationCenter });
   }
 });
 

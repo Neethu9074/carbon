@@ -52,15 +52,11 @@ const NotificationCenter = React.createClass({
   },
 
   render() {
-    const className = this.props.open ?
-      block + ' ' + block + '__open' :
-      block;
-
     const selectedType = this.state.selectedType;
     const counter = this.getIssuesCounter();
 
     return (
-      <div className={className}>
+      <div className={block}>
 
         <div className={block + '__header'}>
           {'Notifications'}
@@ -101,6 +97,10 @@ const NotificationCenter = React.createClass({
         {this.renderIssues()}
       </div>
     );
+  },
+
+  renderMenu() {
+
   },
 
   isIssueHealth(issue, healthToCheck) {

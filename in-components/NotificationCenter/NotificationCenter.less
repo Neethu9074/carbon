@@ -5,20 +5,11 @@
   @transition-easing: ease-in-out;
   @transition-duration: .5s;
 
-  position: absolute;
-  bottom: @footer__height * 1px;
-  left: -@notification-center-width;
-  top: 0;
   width: @notification-center-width;
   background: #233038;
-
-  transition: left @transition-duration @transition-easing;
+  border-radius: 5px;
 
   z-index: @z-index__notification-center;
-
-  &__open {
-    left: 0;
-  }
 
   &__header {
     display: flex;
@@ -26,8 +17,6 @@
 
     padding: 1.3rem 1.2rem 1.3rem 1.2rem;
     font-size: 0.9rem;
-
-    background: #20272d;
   }
 
   &__icon {
@@ -51,5 +40,22 @@
     font-size: 0.9rem;
 
     background: #222f37;
+  }
+
+  &:before {
+    content: ' ';
+    position: absolute;
+
+    margin-top: -10px;
+    margin-left: ~'calc(100% - 20px)';
+
+    padding: 0;
+
+    border: 7px solid;
+    border-color:
+      transparent
+      transparent
+      #233038
+      #233038;
   }
 }

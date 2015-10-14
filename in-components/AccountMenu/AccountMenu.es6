@@ -2,6 +2,7 @@ import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
 import {isProductionEnvironment} from 'in-services/config';
+import {getClassName} from 'in-services/react';
 
 import stanPath from './stan.png';
 
@@ -16,6 +17,7 @@ const Menu = React.createClass({
   ],
 
   propTypes: {
+    className: React.PropTypes.string,
     showMenu: React.PropTypes.func
   },
 
@@ -71,8 +73,7 @@ const Menu = React.createClass({
     }
 
     return (
-      <div className={block}>
-
+      <div className={getClassName(this, block)}>
         {this.renderMenu()}
 
         <div className={className}
