@@ -15,7 +15,7 @@
     color: @dashboard__header__breadcrumb__text-hover;
 
     .in-crumb__icon {
-      filter: opacity(100%);
+      opacity: 1;
     }
   }
 
@@ -24,6 +24,8 @@
     @icon-height: 1.25rem;
     height: @icon-height;
     min-width: @icon-height;
-    filter: opacity(20%);
+    transition: opacity .25s ease-in-out;
+    opacity: 0.2;
   }
+
 }
