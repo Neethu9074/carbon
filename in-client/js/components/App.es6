@@ -5,7 +5,6 @@ import React from 'react/addons';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import * as viewStructureStore from 'in-services/stores/view';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import {isDemoEnvironment} from 'in-services/config';
@@ -84,8 +83,6 @@ const App = React.createClass({
         {!isDemoEnvironment() ? <MapViewSwitcher className='in-root-map-switcher'/> : null}
         <Lettering className='in-root-lettering'/>
         {this.renderMenu()}
-
-        {__DEV__ ? <ChoosePluginButton onClick={this.togglePlugin}/> : null}
 
         <section style={{display: hasChildren ? 'none' : 'block'}}>
           <Map />
