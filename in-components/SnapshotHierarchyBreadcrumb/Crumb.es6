@@ -1,5 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import * as ro from 'reactive-observables';
+import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
@@ -17,7 +18,8 @@ alwaysEmptyArrayObservable.emit([]);
 
 const Crumb = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    React.addons.PureRenderMixin,
+    Navigation
   ],
 
   propTypes: {
@@ -50,7 +52,15 @@ const Crumb = React.createClass({
   },
 
   onCrumbClicked() {
-    selectedSnapshotStore.select(this.props.snapshot);
+    const snapshot = this.props.snapshot;
+    this.transitionTo(
+      'dashboard',
+      {
+        pluginId: encodeURIComponent(snapshot.get('pluginId')),
+        steadyId: encodeURIComponent(snapshot.get('steadyId')),
+        hostId: encodeURIComponent(snapshot.get('hostId'))
+      }
+    );
   }
 });
 
