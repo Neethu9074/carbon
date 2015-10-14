@@ -22,8 +22,8 @@ const SidebarHeadingNavigation = React.createClass({
   ],
 
   propTypes: {
-    children: React.PropTypes.array.isRequired,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    children: React.PropTypes.object
   },
 
   render() {
