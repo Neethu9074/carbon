@@ -8,6 +8,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import ChoosePluginButton from 'in-components/ChoosePluginButton';
 import * as viewStructureStore from 'in-services/stores/view';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
+import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
@@ -80,7 +81,7 @@ const App = React.createClass({
       <div>
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
-        <MapViewSwitcher className='in-root-map-switcher'/>
+        {!isDemoEnvironment() ? <MapViewSwitcher className='in-root-map-switcher'/> : null}
         <Lettering className='in-root-lettering'/>
         {this.renderMenu()}
 
