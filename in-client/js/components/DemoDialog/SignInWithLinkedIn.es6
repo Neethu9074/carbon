@@ -70,10 +70,15 @@ const SignInWithLinkedIn = React.createClass({
         this.onSignIn(user);
       })
       .error(error => {
-        this.props.showHelp(205143862);
-        const msg = 'Failed to authenticate using LinkedIn';
-        logger.error(msg, error);
-        this.props.onError(msg);
+        if (error.message.indexOf('access token') !== -1 && IN.User.isAuthorized()) {
+          logger.info('LinkedIn access token seems to be invalid', error);
+          IN.User.logout();
+        } else {
+          this.props.showHelp(205143862);
+          const msg = 'Failed to authenticate using LinkedIn';
+          logger.error(msg, error);
+          this.props.onError(msg);
+        }
       });
   },
 
