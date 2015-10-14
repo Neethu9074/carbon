@@ -7,6 +7,7 @@ import NotificationCounter from 'in-components/NotificationCounter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as viewStructureStore from 'in-services/stores/view';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
+import RegisterForBeta from 'in-components/RegisterForBeta';
 import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
 import * as constants from 'in-forge/constants';
@@ -97,6 +98,9 @@ const App = React.createClass({
 
         <Timeline />
         <RouteHandler />
+        {isDemoEnvironment() ?
+          <RegisterForBeta />
+        : null}
 
         {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
 

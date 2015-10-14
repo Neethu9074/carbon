@@ -15,6 +15,7 @@ module.exports = {
     sidebarControls: zIndex++,
     search: zIndex++,
     header: zIndex++,
+    betaRegistration: zIndex++,
     dashboard: zIndex++,
     dashboardHeader: zIndex++,
     footer: zIndex++,
