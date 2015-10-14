@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import Icon from 'in-components/Icon';
+import SnapshotHierarchyBreadcrumb from 'in-components/SnapshotHierarchyBreadcrumb';
 
 import './Header.less';
 
@@ -14,9 +14,7 @@ const DashboardHeader = React.createClass({
   render() {
     return (
       <div className={block}>
-        <Icon className={block + '__icon'}
-              type={'dashboard'}/>
-        Dashboard
+        <SnapshotHierarchyBreadcrumb />
       </div>
     );
   }

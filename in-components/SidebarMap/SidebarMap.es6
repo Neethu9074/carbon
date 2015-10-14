@@ -88,7 +88,6 @@ const SidebarMap = React.createClass({
         <SidebarHeadingNavigation snapshot={snapshot}
                                   className={block + '__heading-navigation'}>
           <SidebarHeadingNavigation.ViewDashboardButton snapshot={snapshot}/>
-          <SidebarHeadingNavigation.BackToHostButton snapshot={snapshot}/>
         </SidebarHeadingNavigation>
 
         <SidebarHeadingSnapshotMetadata snapshot={snapshot}

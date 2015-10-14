@@ -4,13 +4,9 @@ import * as ro from 'reactive-observables';
 import {Navigation} from 'react-router';
 import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as tracking from 'in-services/tracking';
 import {getClassName} from 'in-services/react';
-import * as wiring from 'in-services/wiring';
-import * as views from 'in-services/views';
 
-import enhance from '../hoc/enhance';
 import Button from '../Button';
 
 import './SidebarHeadingNavigation.less';
@@ -26,8 +22,8 @@ const SidebarHeadingNavigation = React.createClass({
   ],
 
   propTypes: {
-    children: React.PropTypes.array.isRequired,
-    className: React.PropTypes.string
+    className: React.PropTypes.string,
+    children: React.PropTypes.object
   },
 
   render() {
@@ -74,71 +70,6 @@ const ViewDashboardButton = React.createClass({
   }
 });
 SidebarHeadingNavigation.ViewDashboardButton = ViewDashboardButton;
-
-const BackToHostButton = React.createClass({
-  mixins: [
-    React.addons.PureRenderMixin,
-    Navigation
-  ],
-
-  propTypes: {
-    snapshot: irpt.map.isRequired,
-    parentCoordinates: irpt.map,
-    openDashboardOnClick: React.PropTypes.bool
-  },
-
-  statics: {
-    createObservables() {
-      return {
-        parentCoordinates: selectedSnapshotStore.selectedSnapshot.transform({
-          emitLatestOnSubscribe: true,
-
-          transform(snapshot) {
-            if (!snapshot) {
-              return alwaysNullObservable;
-            }
-            return wiring.getParentNode(views.physical, snapshot);
-          },
-
-          shouldRetransform(prevSnapshot, snapshot) {
-            return prevSnapshot !== snapshot;
-          }
-        })
-      };
-    }
-  },
-
-  render() {
-    if (this.props.parentCoordinates) {
-      return (
-        <div>
-          <Button onClick={this.open}
-                  className={block + '__button-passive'}>
-            back to host
-          </Button>
-        </div>
-      );
-    }
-    return null;
-  },
-
-  open() {
-    const coords = this.props.parentCoordinates;
-    if (this.props.openDashboardOnClick === true) {
-      this.transitionTo(
-        'dashboard',
-        {
-          pluginId: coords.get('pluginId'),
-          steadyId: coords.get('steadyId'),
-          hostId: coords.get('hostId')
-        }
-      );
-    } else {
-      selectedSnapshotStore.select(coords);
-    }
-  }
-});
-SidebarHeadingNavigation.BackToHostButton = enhance(BackToHostButton);
 
 const BackToMap = React.createClass({
   mixins: [
