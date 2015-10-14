@@ -77,12 +77,14 @@ SidebarHeadingNavigation.ViewDashboardButton = ViewDashboardButton;
 
 const BackToHostButton = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    React.addons.PureRenderMixin,
+    Navigation
   ],
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    parentCoordinates: irpt.map
+    parentCoordinates: irpt.map,
+    openDashboardOnClick: React.PropTypes.bool
   },
 
   statics: {
@@ -110,7 +112,7 @@ const BackToHostButton = React.createClass({
     if (this.props.parentCoordinates) {
       return (
         <div>
-          <Button onClick={() => selectedSnapshotStore.select(this.props.parentCoordinates)}
+          <Button onClick={this.open}
                   className={block + '__button-passive'}>
             back to host
           </Button>
@@ -118,6 +120,22 @@ const BackToHostButton = React.createClass({
       );
     }
     return null;
+  },
+
+  open() {
+    const coords = this.props.parentCoordinates;
+    if (this.props.openDashboardOnClick === true) {
+      this.transitionTo(
+        'dashboard',
+        {
+          pluginId: coords.get('pluginId'),
+          steadyId: coords.get('steadyId'),
+          hostId: coords.get('hostId')
+        }
+      );
+    } else {
+      selectedSnapshotStore.select(coords);
+    }
   }
 });
 SidebarHeadingNavigation.BackToHostButton = enhance(BackToHostButton);
