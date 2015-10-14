@@ -53,10 +53,7 @@ module.exports = _.defaultsDeep({
       background: grey6
     },
     tabs: {
-      background: grey1,
-      backgroundHighlight: white,
-      backgroundHover: grey3,
-      line: grey0
+      background: grey6
     },
     tags: {
       border: grey0,

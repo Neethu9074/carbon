@@ -7,21 +7,15 @@
   background: @sidebar__tabs__background;
   padding: 4px 4px 10px 4px;
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-  &:hover {
-    background: @sidebar__tabs__background-hover;
+  &:hover, &__selected {
+    .in-sidebar-tab__icon {
+      filter: opacity(100%);
+    }
   }
 
   &:last-child {
     border-bottom: 0;
-  }
-
-  &__selected {
-    background: @sidebar__tabs__background-highlight;
-    .in-sidebar-tab__icon {
-      filter: invert(100%);
-    }
   }
 
   &__icon {
@@ -29,5 +23,6 @@
     height: @icon-height;
     min-width: @height;
     margin-top: (@height - @icon-height) / 2;
+    filter: opacity(20%);
   }
 }
