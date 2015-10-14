@@ -32,7 +32,7 @@ const SidebarDashboard = React.createClass({
 
         <SidebarHeadingNavigation snapshot={snapshot}>
          <SidebarHeadingNavigation.BackToMap snapshot={snapshot}/>
-         <SidebarHeadingNavigation.BackToHostButton snapshot={snapshot}/>
+         <SidebarHeadingNavigation.BackToHostButton snapshot={snapshot} openDashboardOnClick={true}/>
         </SidebarHeadingNavigation>
 
         <SidebarHeadingSnapshotMetadata snapshot={snapshot}/>
