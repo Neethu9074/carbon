@@ -28,14 +28,30 @@ const NotificationCounter = React.createClass({
         [health.warning]: 0,
         [health.danger]: 0
       }),
-      showNotificationCenter: false
+      showNotificationCenter: false,
+      windowHeight: this.getWindowHeight()
     };
   },
 
+  handleResize: function() {
+    this.setState({ windowHeight: this.getWindowHeight() });
+  },
+
+  getWindowHeight() {
+    // the sidebar is minumum 100px height but max fullWindowHeight - 350px.
+    // 350 is the upper margin + headers for the sidebar + a little margin to the bottom
+    return Math.max(100, window.innerHeight - 350);
+  },
+
   componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
     this.addSubscription(
       getIssueCountSummary().subscribe(issueSummary => this.setState({issueSummary}))
     );
+  },
+
+  componentWillUnmount: function() {
+    window.removeEventListener('resize', this.handleResize);
   },
 
   render() {
@@ -55,6 +71,7 @@ const NotificationCounter = React.createClass({
         {showNC ?
           <div className={block + '__notification-center'}>
             <NotificationCenter toggleNotificationCenter={this.toggleNotificationCenter}
+                                style={{ maxHeight: this.state.windowHeight }}
                                 open={showNC}/>
           </div>
         : null}

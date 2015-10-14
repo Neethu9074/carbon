@@ -13,6 +13,7 @@ const IssueItemList = React.createClass({
   ],
 
   propTypes: {
+    style: React.PropTypes.object,
     issues: irpt.list.isRequired
   },
 
@@ -23,7 +24,8 @@ const IssueItemList = React.createClass({
     const days = this.getIssuesPerDay(sortedIssue);
     const dailyIssues = Object.keys(days);
     return (
-      <ul className={block}>
+      <ul className={block}
+          style={this.props.style}>
         {dailyIssues.map(key => {
           const issues = days[key];
           return (

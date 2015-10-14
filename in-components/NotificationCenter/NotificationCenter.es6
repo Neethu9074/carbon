@@ -32,6 +32,7 @@ const NotificationCenter = React.createClass({
     toggleNotificationCenter: rpt.func.isRequired,
     timeframe: rpt.number.isRequired,
     allIssues: irpt.list,
+    style: rpt.object,
     open: rpt.bool
   },
 
@@ -53,7 +54,6 @@ const NotificationCenter = React.createClass({
   },
 
   render() {
-
     return (
       <div className={block}>
 
@@ -136,7 +136,7 @@ const NotificationCenter = React.createClass({
     const filter = this.state.filterPredicate;
     const issues = allIssues.filter(issue => filter(issue));
 
-    return (<IssueItemList issues={issues} />);
+    return (<IssueItemList issues={issues} style={this.props.style} />);
   },
 
   getIssuesCounter() {
