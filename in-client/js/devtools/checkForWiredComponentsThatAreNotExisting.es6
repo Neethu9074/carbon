@@ -48,8 +48,8 @@ window.instana.dev.checkForWiringIssues = function() {
               });
             });
 
-            console.log('Found snapshots', _.uniq(foundSnapshots).length, _.uniq(foundSnapshots).sort());
-            console.log('Wired snapshots', _.uniq(wiredSnapshotIds).length, _.uniq(wiredSnapshotIds).sort());
+            // console.log('Found snapshots', _.uniq(foundSnapshots).length, _.uniq(foundSnapshots).sort());
+            // console.log('Wired snapshots', _.uniq(wiredSnapshotIds).length, _.uniq(wiredSnapshotIds).sort());
             return _.without(wiredSnapshotIds, ...foundSnapshots);
           });
       }
