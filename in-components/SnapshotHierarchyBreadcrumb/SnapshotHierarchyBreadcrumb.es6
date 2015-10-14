@@ -65,7 +65,7 @@ const SnapshotHierarchyBreadcrumb = React.createClass({
       <ul className={block}>
         {hierarchy.reverse().map(child =>
           <Crumb key={child.get('id')}
-                 snapshot={child}/>
+                 coordinates={child}/>
         )}
       </ul>
     );
