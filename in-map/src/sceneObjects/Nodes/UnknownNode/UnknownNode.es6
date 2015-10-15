@@ -43,7 +43,7 @@ export default class Unknownnode extends BaseNode {
     super.onSceneObjectSelected(obj);
 
     if (obj && obj.id === this.id) {
-      tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
+      tracking.events.clickOnUnMonitoredIn3dMap();
     }
   }
 

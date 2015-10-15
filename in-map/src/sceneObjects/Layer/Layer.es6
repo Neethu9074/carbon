@@ -55,7 +55,7 @@ export default class Layer extends SceneObject {
     this.addSubscription(longClickedSceneObject.subscribe(so => {
       if(so && this.snapshot && so.id === this.id) {
         eventBus.emit('openDashboard', this.snapshot);
-        tracking.trackEvent(tracking.events.openingADashboardUsingTheMap);
+        tracking.events.openingADashboardUsingTheMap();
       }
     }));
   }

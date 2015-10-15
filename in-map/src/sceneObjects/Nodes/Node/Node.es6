@@ -74,7 +74,7 @@ export default class Node extends BaseNode {
     super.onSceneObjectSelected(obj);
 
     if (obj && obj.id === this.id) {
-      tracking.trackEvent(tracking.events.clickOnServerIn3DMap);
+      tracking.events.clickOnServerIn3DMap();
     }
   }
 
@@ -149,7 +149,7 @@ export default class Node extends BaseNode {
     this.addSubscription(longClickedSceneObject.subscribe(so => {
       if(so && this.snapshot && so.id === this.id) {
         eventBus.emit('openDashboard', this.snapshot);
-        tracking.trackEvent(tracking.events.openingADashboardUsingTheMap);
+        tracking.events.openingADashboardUsingTheMap();
       }
     }));
   }

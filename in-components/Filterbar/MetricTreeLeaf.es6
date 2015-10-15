@@ -29,7 +29,7 @@ const MetricTreeLeaf = React.createClass({
   },
 
   onClickMetric() {
-    tracking.trackEvent(tracking.events.showMetricIn3dMap);
+    tracking.events.showMetricIn3dMap();
     metricsStore.setActiveMetric(this.props.metricObject);
   },
 

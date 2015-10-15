@@ -608,7 +608,7 @@ export default class Scene {
     } else if(hoveredConnections.length === 0) {
       this.resetClicked();
     } else {
-      tracking.trackEvent(tracking.events.clickOnConnectionBetweenCubes);
+      tracking.events.clickOnConnectionBetweenCubes();
     }
   }
 

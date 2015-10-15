@@ -136,7 +136,7 @@ const Settings = React.createClass({
     setIn(['map', 'antialias'], value);
 
     // track the event
-    tracking.trackEvent(tracking.events.antialiasWasChosenInSettings);
+    tracking.events.antialiasWasChosenInSettings();
   },
 
   closeSettings() {

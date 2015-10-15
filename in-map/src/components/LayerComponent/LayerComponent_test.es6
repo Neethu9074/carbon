@@ -37,6 +37,9 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
+    global.window = global.window || {};
+    global.window.location = global.window.location || {};
+    global.window.location.href = 'https://test-instana.instana.io';
     sceneObject = {};
 
     currentScene.emit({

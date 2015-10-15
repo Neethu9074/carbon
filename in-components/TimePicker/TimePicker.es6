@@ -43,7 +43,7 @@ const TimePicker = React.createClass({
   },
 
   onTimePickerItemClicked(newTime, labels) {
-    tracking.trackEvent(tracking.events.changingTimeWindowUsingTimeline);
+    tracking.events.changingTimeWindowUsingTimeline();
     timelineStore.setTimeframe(newTime);
 
     if (this.props.onTimeSelected) {

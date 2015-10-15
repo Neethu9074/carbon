@@ -58,7 +58,7 @@ const ViewDashboardButton = React.createClass({
 
   openDashboard() {
     const snapshot = this.props.snapshot;
-    tracking.trackEvent(tracking.events.openingADashboardUsingTheSidebar);
+    tracking.events.openingADashboardUsingTheSidebar();
     this.transitionTo(
       'dashboard',
       {

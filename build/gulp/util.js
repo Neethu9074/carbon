@@ -65,6 +65,7 @@ exports.openBrowser = function openBrowser(url) {
 exports.writeDevModeConfig = function writeDevModeConfig(environment) {
   var devConfig = {
     environment: environment,
+    analyticsTrackingId: 'UA-66215232-4',
     keys: {
       xing: 'ecf760e609c548a8293d',
       linkedin: '77k38emu8xnsrk',
