@@ -163,6 +163,7 @@ export default class PhysicalMap extends SceneObject {
 
     // add the node to group (the group handles duplicates)
     const newNode = group.addNode({
+      connections: triple.connections,
       coordinates: triple.node,
       layer: triple.layers
     });

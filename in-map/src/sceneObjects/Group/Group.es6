@@ -81,7 +81,7 @@ export default class Group extends SceneObject {
     this.updateScreenAnchorPosition();
   }
 
-  addNode({coordinates, layer, unknown = false}) {
+  addNode({coordinates, layer, connections, unknown = false}) {
     const nodeId = coordinates.get('id');
     let newNode;
 
@@ -93,7 +93,7 @@ export default class Group extends SceneObject {
       //if the node was created in the past
       if(!newNode) {
         newNode = unknown ? new UnknownNode({parent: this, coordinates, id: nodeId}) :
-                            new Node({parent: this, coordinates, id: nodeId, layer});
+                            new Node({parent: this, coordinates, id: nodeId, layer, connections});
         this.children.push(newNode);
       }
     }

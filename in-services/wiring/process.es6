@@ -1,4 +1,5 @@
 import * as ro from 'reactive-observables';
+import immutable from 'immutable';
 
 import * as forgeConsts from 'in-forge/constants';
 
@@ -38,13 +39,20 @@ function mapWiringGraphToProcessViewGraph(wiringGraph) {
     }, []);
 
   return allProcessesStrIds.map(processStrId => {
+    const node = wiringGraph.nodes[processStrId];
+
     const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.availableThrough)
       .map(strId => wiringGraph.nodes[strId]);
+
+    const getConnectionsObservable = ro.create({emitLatestOnSubscribe: true});
+    getConnectionsObservable.emit(getConnectedCoordinates(node));
+
     return {
       // To be defined
       group: null,
-      node: wiringGraph.nodes[processStrId],
-      layers
+      node,
+      layers,
+      connections: getConnectionsObservable
     };
   });
 }
@@ -86,6 +94,6 @@ export function getConnectedCoordinates(snapshot) {
 
     });
 
-    return connections;
+    return immutable.fromJS(connections);
   });
 }

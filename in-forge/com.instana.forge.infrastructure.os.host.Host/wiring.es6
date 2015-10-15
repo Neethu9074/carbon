@@ -1,14 +1,9 @@
-
-
-import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
 
-import {
-  addWiredSnapshotFinder,
-  addIpFinder
-} from 'in-sdk/snapshot';
-import {create} from 'in-services/conveyer';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
+import {addWiredSnapshotFinder, addIpFinder} from 'in-sdk/snapshot';
+import {create} from 'in-services/conveyer';
 
 import * as constants from '../constants';
 

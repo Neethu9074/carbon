@@ -17,8 +17,8 @@ import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
-import {longClickedSceneObject} from '../../../mapStores';
 import NodeSnapshotServer from '../../../NodeSnapshotServer';
+import {longClickedSceneObject} from '../../../mapStores';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode';
@@ -35,13 +35,13 @@ const nodeBaseHeight = 1;
 
 export default class Node extends BaseNode {
 
-  constructor({parent, coordinates, id, layer}) {
+  constructor({parent, coordinates, id, layer, connections}) {
     super({parent, id});
 
     this._cachedPower = 1;
     this.isOutOfView = false;
     this.isToFarAway = false;
-    this.snapshotServer = new NodeSnapshotServer(this);
+    this.snapshotServer = new NodeSnapshotServer(this, connections);
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))

@@ -284,8 +284,6 @@ export default class BaseNode extends SceneObject {
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
 
-  setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
-
   dispose() {
     // do that first to get connections deleted. they only dispose
     // themselves if both endpoints are not selected
