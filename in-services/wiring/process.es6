@@ -48,3 +48,44 @@ function mapWiringGraphToProcessViewGraph(wiringGraph) {
     };
   });
 }
+
+
+// CONNECTS TO
+export function getConnectedCoordinates(snapshot) {
+
+  if (!snapshot) {
+    completeWiring.map(() => []);
+  }
+
+  const connections = {
+    incoming: [],
+    outgoing: []
+  };
+
+  // create a new observable by mapping completeWiring to another subset
+  return completeWiring.map(wiringGraph => {
+
+    wiringGraph.edges.forEach(edge => {
+      // filter all relations that are not connectsTo-relations
+      if (edge.relation !== forgeConsts.rels.connectsTo) {
+        return;
+      }
+
+      const id = snapshot.get('id');
+
+      // if the snapshot is weather inside source or destination
+      if (edge.source !== id && edge.destination !== id) {
+        return;
+      }
+
+      if (edge.source === id) {
+        connections.outgoing.push(wiringGraph.nodes[edge.destination]);
+      } else {
+        connections.incoming.push(wiringGraph.nodes[edge.source]);
+      }
+
+    });
+
+    return connections;
+  });
+}
