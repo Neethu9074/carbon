@@ -1,14 +1,9 @@
-
-
-import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
 
-import {
-  addWiredSnapshotFinder,
-  addIpFinder
-} from 'in-sdk/snapshot';
-import {create} from 'in-services/conveyer';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
+import {addWiredSnapshotFinder, addIpFinder} from 'in-sdk/snapshot';
+import {create} from 'in-services/conveyer';
 
 import * as constants from '../constants';
 
@@ -49,8 +44,6 @@ addWiredSnapshotFinder(
  */
 export function extractConnections(snapshot, snapshots) {
   const ipSnapshotMap = calculateIpMap(snapshots);
-  const map = Immutable.Map().asMutable();
-
   const connections = {};
 
   connections.outgoing = extractConnectionsFromMap(
@@ -61,10 +54,7 @@ export function extractConnections(snapshot, snapshots) {
     snapshot.getIn(['data', 'connections', 'incoming']),
     ipSnapshotMap);
 
-  map.set('outgoing', connections.outgoing);
-  map.set('incoming', connections.incoming);
-
-  return map.asImmutable();
+  return connections;
 }
 
 function extractConnectionsFromMap(connections, ipSnapshotMap) {

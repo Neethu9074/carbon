@@ -104,7 +104,8 @@ export function loadFullSnapshotsForNodeStructure(nodeStructure) {
       return {
         group: vals[0],
         node: vals[1],
-        layers: vals[2]
+        layers: vals[2],
+        connections: nodeStructure.connections
       };
     });
 }
