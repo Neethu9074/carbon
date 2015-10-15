@@ -83,21 +83,23 @@ export default class Group extends SceneObject {
 
   addNode({coordinates, layer, connections, unknown = false}) {
     const nodeId = coordinates.get('id');
-    let newNode;
+    let matchedNode;
 
-    //if there is no nodeId it's an unknown node
+    // if there is no nodeId it's an unknown node
     if(nodeId) {
-      //check if the node was already created and only needs an update
-      newNode = _.find(this.children, child => child.id === nodeId);
+      // check if the node was already created and only needs an update
+      matchedNode = _.find(this.children, child => child.id === nodeId);
 
-      //if the node was created in the past
-      if(!newNode) {
-        newNode = unknown ? new UnknownNode({parent: this, coordinates, id: nodeId}) :
-                            new Node({parent: this, coordinates, id: nodeId, layer, connections});
-        this.children.push(newNode);
+      // if the node was created in the past
+      if(!matchedNode) {
+        matchedNode = unknown ? new UnknownNode({parent: this, coordinates, id: nodeId}) :
+                                new Node({parent: this, coordinates, id: nodeId, connections});
+        this.children.push(matchedNode);
       }
+      matchedNode.addLayer(layer);
+      matchedNode.setWiredSnapshots(connections);
     }
-    return newNode;
+    return matchedNode;
   }
 
   addUnknownNode(node) {

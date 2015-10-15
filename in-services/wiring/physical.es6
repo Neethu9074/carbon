@@ -38,14 +38,11 @@ export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
       const layers = getLeafNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn)
         .map(strId => wiringGraph.nodes[strId]);
 
-      const getConnectionsObservable = ro.create({emitLatestOnSubscribe: true});
-      getConnectionsObservable.emit(null);
-
       return {
         group,
         node: wiringGraph.nodes[osNodeStrId],
         layers,
-        connections: getConnectionsObservable
+        connections: null
       };
     });
 }

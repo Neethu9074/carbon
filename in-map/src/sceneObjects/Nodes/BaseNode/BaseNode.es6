@@ -244,6 +244,9 @@ export default class BaseNode extends SceneObject {
 
   getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
 
+  addLayer() {}
+  addConnections() {}
+
   updateStickyNotes() {
     this.stickyNote.update();
   }
@@ -283,6 +286,7 @@ export default class BaseNode extends SceneObject {
   }
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
+  setWiredSnapshots() {}
 
   dispose() {
     // do that first to get connections deleted. they only dispose

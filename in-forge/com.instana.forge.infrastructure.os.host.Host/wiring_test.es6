@@ -13,8 +13,8 @@ describe('snapshot', () => {
       const snapshots = getConnectedSnapshots();
       snapshots.forEach(snapshot => {
         const connections = extractConnections(snapshot, snapshots);
-        const outgoing = connections.get('outgoing');
-        const incoming = connections.get('incoming');
+        const outgoing = connections.outgoing;
+        const incoming = connections.incoming;
         const name = snapshot.get('name');
         if(name === 'a') {
           expect(outgoing.size).to.equal(3);

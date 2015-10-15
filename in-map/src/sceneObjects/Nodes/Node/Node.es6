@@ -35,12 +35,13 @@ const nodeBaseHeight = 1;
 
 export default class Node extends BaseNode {
 
-  constructor({parent, coordinates, id, layer, connections}) {
+  constructor({parent, coordinates, id, connections}) {
     super({parent, id});
 
     this._cachedPower = 1;
     this.isOutOfView = false;
     this.isToFarAway = false;
+
     this.snapshotServer = new NodeSnapshotServer(this, connections);
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
@@ -54,8 +55,6 @@ export default class Node extends BaseNode {
         this.hide();
       }
     }));
-
-    this.addLayer(layer);
   }
 
   onSelectedEnter() {
@@ -200,10 +199,14 @@ export default class Node extends BaseNode {
   }
 
   setWiredSnapshots(wiredSnapshots) {
+    if (!wiredSnapshots) {
+      return;
+    }
+
     const parent = this.parent;
     this.wiredSnapshots = wiredSnapshots;
 
-    wiredSnapshots.get('outgoing').forEach(wired => {
+    wiredSnapshots.outgoing.forEach(wired => {
       if (wired.get('state') !== 'unmonitored') {
         return;
       }

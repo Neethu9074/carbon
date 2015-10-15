@@ -1,5 +1,4 @@
 import * as ro from 'reactive-observables';
-import immutable from 'immutable';
 
 import * as forgeConsts from 'in-forge/constants';
 
@@ -44,56 +43,40 @@ function mapWiringGraphToProcessViewGraph(wiringGraph) {
     const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.availableThrough)
       .map(strId => wiringGraph.nodes[strId]);
 
-    const getConnectionsObservable = ro.create({emitLatestOnSubscribe: true});
-    getConnectionsObservable.emit(getConnectedCoordinates(node));
-
     return {
       // To be defined
       group: null,
       node,
       layers,
-      connections: getConnectionsObservable
+      connections: getConnectedCoordinates(wiringGraph, processStrId)
     };
   });
 }
 
 
 // CONNECTS TO
-export function getConnectedCoordinates(snapshot) {
-
-  if (!snapshot) {
-    completeWiring.map(() => []);
-  }
-
+export function getConnectedCoordinates(wiringGraph, id) {
   const connections = {
     incoming: [],
     outgoing: []
   };
 
-  // create a new observable by mapping completeWiring to another subset
-  return completeWiring.map(wiringGraph => {
+  if (!wiringGraph || !id) {
+    return connections;
+  }
 
-    wiringGraph.edges.forEach(edge => {
-      // filter all relations that are not connectsTo-relations
-      if (edge.relation !== forgeConsts.rels.connectsTo) {
-        return;
-      }
+  wiringGraph.edges.forEach(edge => {
+    // filter all relations that are not connectsTo-relations
+    if (edge.relation !== forgeConsts.rels.connectsTo) {
+      return;
+    }
 
-      const id = snapshot.get('id');
-
-      // if the snapshot is weather inside source or destination
-      if (edge.source !== id && edge.destination !== id) {
-        return;
-      }
-
-      if (edge.source === id) {
-        connections.outgoing.push(wiringGraph.nodes[edge.destination]);
-      } else {
-        connections.incoming.push(wiringGraph.nodes[edge.source]);
-      }
-
-    });
-
-    return immutable.fromJS(connections);
+    if (edge.source === id) {
+      connections.outgoing.push(wiringGraph.nodes[edge.destination]);
+    } else if(edge.destination === id){
+      connections.incoming.push(wiringGraph.nodes[edge.source]);
+    }
   });
+
+  return connections;
 }

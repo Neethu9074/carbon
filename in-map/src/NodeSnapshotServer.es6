@@ -57,11 +57,11 @@ export default class NodeSnapshotServer {
     const snapshot = client.snapshot;
 
     // setup wiring subscription
-    this.disposeSubscription(this.wiredSnapshotsSubscription);
-    const connections = this.connections;
-    this.wiredSnapshotsSubscription = connections !== null ? connections : getWiredSnapshots(snapshot);
-    this.wiredSnapshotsSubscription.subscribe(ws => client.setWiredSnapshots(ws));
-    this.subscriptions.push(this.wiredSnapshotsSubscription);
+    if (!this.connections) {
+      this.disposeSubscription(this.wiredSnapshotsSubscription);
+      this.wiredSnapshotsSubscription = getWiredSnapshots(snapshot).subscribe(ws => client.setWiredSnapshots(ws));
+      this.subscriptions.push(this.wiredSnapshotsSubscription);
+    }
 
     // setup height subscription
     this.disposeSubscription(this.maxHeightSubscribtion);

@@ -55,8 +55,8 @@ export default class ConnectionComponent extends Component {
 
     this.clearConnections();
 
-    this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
-    this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
+    this.setConnectionsWithDirection(wiredSnapshots.outgoing, 'out');
+    this.setConnectionsWithDirection(wiredSnapshots.incoming, 'in');
   }
 
   clearConnections() {

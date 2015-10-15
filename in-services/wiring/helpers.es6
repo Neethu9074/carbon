@@ -98,9 +98,6 @@ export function loadFullSnapshotsForNodeStructure(nodeStructure) {
   // index 2: layer data
   subObservables.push(ro.combineLatest(nodeStructure.layers.map(getFullSnapshot)));
 
-  // index 3: connection data
-  subObservables.push(nodeStructure.connections);
-
   // now combine all these observables back to a single observable.
   return ro.combineLatest(subObservables)
     .map(vals => {
@@ -108,7 +105,7 @@ export function loadFullSnapshotsForNodeStructure(nodeStructure) {
         group: vals[0],
         node: vals[1],
         layers: vals[2],
-        connections: vals[3]
+        connections: nodeStructure.connections
       };
     });
 }

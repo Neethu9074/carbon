@@ -57,11 +57,7 @@ describe('wiring.process view', () => {
 
     it('should return empty array on undefined snapshot', () => {
       emitGraph(getGraph('empty'));
-      mod.getConnectedCoordinates(undefined).subscribe(onNext);
-
-      expect(onNext).to.have.callCount(1);
-      expect(onNext.getCall(0).args[0].get('incoming').size).to.equal(0);
-      expect(onNext.getCall(0).args[0].get('outgoing').size).to.equal(0);
+      expect(mod.getConnectedCoordinates(undefined)).to.deep.equal([]);
     });
 
     it('should return empty array if no connected nodes are found', () => {
@@ -77,8 +73,8 @@ describe('wiring.process view', () => {
       mod.getConnectedCoordinates(nodeCoords).subscribe(onNext);
 
       expect(onNext).to.have.callCount(1);
-      expect(onNext.getCall(0).args[0].get('incoming').size).to.equal(0);
-      expect(onNext.getCall(0).args[0].get('outgoing').size).to.equal(0);
+      expect(onNext.getCall(0).args[0].incoming.length).to.equal(0);
+      expect(onNext.getCall(0).args[0].outgoing.length).to.equal(0);
     });
 
     it('should return connected node coords', () => {
@@ -108,14 +104,14 @@ describe('wiring.process view', () => {
       mod.getConnectedCoordinates(osCoords).subscribe(onNext);
 
       expect(onNext).to.have.callCount(1);
-      const incoming = onNext.getCall(0).args[0].get('incoming');
-      const outgoing = onNext.getCall(0).args[0].get('outgoing');
+      const incoming = onNext.getCall(0).args[0].incoming;
+      const outgoing = onNext.getCall(0).args[0].outgoing;
 
-      expect(incoming.size).to.equal(0);
-      expect(outgoing.size).to.equal(2);
+      expect(incoming.length).to.equal(0);
+      expect(outgoing.length).to.equal(2);
 
-      expect(outgoing.get(0).get('id')).to.equal(ec2Coords.get('id'));
-      expect(outgoing.get(1).get('id')).to.equal(cassandraCoords.get('id'));
+      expect(outgoing[0].get('id')).to.equal(ec2Coords.get('id'));
+      expect(outgoing[1].get('id')).to.equal(cassandraCoords.get('id'));
     });
 
     it('should return connected node coords II', () => {
@@ -145,14 +141,14 @@ describe('wiring.process view', () => {
       mod.getConnectedCoordinates(ec2Coords).subscribe(onNext);
 
       expect(onNext).to.have.callCount(1);
-      const incoming = onNext.getCall(0).args[0].get('incoming');
-      const outgoing = onNext.getCall(0).args[0].get('outgoing');
+      const incoming = onNext.getCall(0).args[0].incoming;
+      const outgoing = onNext.getCall(0).args[0].outgoing;
 
-      expect(incoming.size).to.equal(2);
-      expect(outgoing.size).to.equal(0);
+      expect(incoming.length).to.equal(2);
+      expect(outgoing.length).to.equal(0);
 
-      expect(incoming.get(0).get('id')).to.equal(osCoords.get('id'));
-      expect(incoming.get(1).get('id')).to.equal(cassandraCoords.get('id'));
+      expect(incoming[0].get('id')).to.equal(osCoords.get('id'));
+      expect(incoming[1].get('id')).to.equal(cassandraCoords.get('id'));
     });
   });
 
