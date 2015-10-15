@@ -148,8 +148,8 @@ describe('wiring.process view', () => {
       const incoming = onNext.getCall(0).args[0].get('incoming');
       const outgoing = onNext.getCall(0).args[0].get('outgoing');
 
-      expect(incoming.length).to.equal(2);
-      expect(outgoing.length).to.equal(0);
+      expect(incoming.size).to.equal(2);
+      expect(outgoing.size).to.equal(0);
 
       expect(incoming.get(0).get('id')).to.equal(osCoords.get('id'));
       expect(incoming.get(1).get('id')).to.equal(cassandraCoords.get('id'));
