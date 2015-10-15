@@ -1,7 +1,9 @@
 @import "~in-themes/active.less";
 
 .in-notificationcenter-issueitem {
-  padding: 20px 10px 0 10px;
+  padding: 10px 10px 10px 0;
+  margin-top: 10px;
+  border-top: 1px solid @notification-center__issue-item__border-line;
 
   &:hover {
     cursor: pointer;
@@ -20,27 +22,21 @@
 
   &__suggestion {
     font-size: 0.7rem;
-    color: #818a8f;
+    color: @notification-center__issue-item__text-suggestion;
 
-    margin: 10px 0 10px 35px;
+    margin: 10px 0 10px 30px;
   }
 
   &__time {
     font-size: 0.7rem;
-    color: #cdd3d5;
+    color: @notification-center__issue-item__text-time;
 
-    margin: 10px 0 25px 35px;
-  }
-
-  &__breakingline {
-    border-bottom: 1px solid #374349;
-
-    margin-top: 20px;
+    margin: 10px 0 0 30px;
   }
 
   &__icon {
     font-size: 2rem;
-    width: 38px;
+    width: 30px;
 
     margin-top: -5px;
     margin-bottom: -10px;

@@ -32,12 +32,11 @@ const IssueItemList = React.createClass({
             <li key={key}
                 className={block + '__list-item'}>
 
-              <span className={block + '__header-label'}>
+              <div className={block + '__header-label'}>
                 {this.getDayStringForDate(key)}
-              </span>
+              </div>
 
               {issues.map(issue => <IssueItem key={issue.get('id')} issue={issue}/>)}
-
             </li>
           );
         })}

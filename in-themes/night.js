@@ -11,7 +11,7 @@ var grey0 = '#eef2f4';
 var grey1 = '#6b8088';
 var grey2 = '#576e76';
 var grey3 = '#435b64';
-// var grey4 = '#3b4d55';
+var grey4 = '#3b4d55';
 var grey5 = '#2d4048';
 var grey6 = '#203036';
 var cyan = '#9fffff';
@@ -133,7 +133,12 @@ module.exports = _.defaultsDeep({
   },
   notificationCenter: {
     background: grey5,
-    statusBarBackground: grey6
+    statusBarBackground: grey6,
+    issueItem: {
+      borderLine: grey4,
+      textTime: white,
+      textSuggestion: 'rgba(255, 255, 255, 0.5)'
+    }
   },
   settings: {
     heading: {

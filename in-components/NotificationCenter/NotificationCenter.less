@@ -9,14 +9,17 @@
   background: @notification-center__background;
   border-radius: 5px;
 
+  padding: 1.25rem;
+  width: 18rem;
   z-index: @z-index__notification-center;
 
   &__header {
     display: flex;
     justify-content: space-between;
 
-    padding: 1.3rem 1.2rem 1.3rem 1.2rem;
-    font-size: 0.9rem;
+    padding-bottom: 1.25rem;
+    font-size: 1rem;
+    font-weight: bold;
   }
 
   &__icon {
@@ -51,8 +54,8 @@
     content: ' ';
     position: absolute;
 
-    margin-top: -10px;
-    margin-left: ~'calc(100% - 20px)';
+    margin-top: -30px;
+    margin-left: ~'calc(100% - 40px)';
 
     padding: 0;
 
