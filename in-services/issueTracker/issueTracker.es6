@@ -1,6 +1,7 @@
 /*eslint-disable new-cap*/
 import Immutable from 'immutable';
 
+import {isDemoEnvironment} from 'in-services/config';
 import {theme} from 'in-services/theme';
 
 import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
@@ -9,10 +10,28 @@ import IssueConveyer from '../conveyer/IssueConveyer';
 import * as timelineStore from '../stores/timeline';
 import {create} from '../conveyer';
 
+const cpuStealFilter = function(issues) {
+  const array = [];
+  const map = issues.toJS();
+
+  map.forEach(issue => {
+    if (issue.problem.problemText.indexOf('Steal') < 0) {
+      array.push(issue);
+    }
+  });
+
+  return Immutable.fromJS(array);
+};
+
 const allIssuesStream = timelineStore.timeframe.transform({
   emitLatestOnSubscribe: true,
 
   transform(timeframe) {
+    if (isDemoEnvironment()) {
+      return create(IssueConveyer, {timeframe})
+        .scan(collectingReducer, Immutable.List())
+        .map(cpuStealFilter);
+    }
     return create(IssueConveyer, {timeframe})
       .scan(collectingReducer, Immutable.List());
   },
