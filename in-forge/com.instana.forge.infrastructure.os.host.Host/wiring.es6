@@ -54,10 +54,7 @@ export function extractConnections(snapshot, snapshots) {
     snapshot.getIn(['data', 'connections', 'incoming']),
     ipSnapshotMap);
 
-  return {
-    outgoing: connections.outgoing,
-    incoming: connections.incoming
-  };
+  return connections;
 }
 
 function extractConnectionsFromMap(connections, ipSnapshotMap) {
