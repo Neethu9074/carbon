@@ -10,30 +10,26 @@ import IssueConveyer from '../conveyer/IssueConveyer';
 import * as timelineStore from '../stores/timeline';
 import {create} from '../conveyer';
 
-const cpuStealFilter = function(issues) {
-  const array = [];
-  const map = issues.toJS();
-
-  map.forEach(issue => {
-    if (issue.problem.problemText.indexOf('Steal') < 0) {
-      array.push(issue);
-    }
-  });
-
-  return Immutable.fromJS(array);
+// CPU steal issues shouldn't be shown in the demo environment as we are using
+// small EC2 instances. These almost always have high CPU steal.
+const withoutCpuStealMaper = function(issues) {
+  return issues.filter(issue =>
+    issue.getIn(['problem', 'problemText'], '').indexOf('Steal') === -1
+  );
 };
 
 const allIssuesStream = timelineStore.timeframe.transform({
   emitLatestOnSubscribe: true,
 
   transform(timeframe) {
-    if (isDemoEnvironment()) {
-      return create(IssueConveyer, {timeframe})
-        .scan(collectingReducer, Immutable.List())
-        .map(cpuStealFilter);
-    }
-    return create(IssueConveyer, {timeframe})
+    const stream = create(IssueConveyer, {timeframe})
       .scan(collectingReducer, Immutable.List());
+
+    if (isDemoEnvironment()) {
+      return stream.map(withoutCpuStealMaper);
+    }
+
+    return stream;
   },
 
   shouldRetransform(previousTimeframe, nextTimeframe) {
