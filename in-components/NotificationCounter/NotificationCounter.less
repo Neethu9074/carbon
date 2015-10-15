@@ -1,6 +1,7 @@
 @import "~in-themes/active.less";
 
 .in-notification-counter {
+  position: relative;
   min-width: 25px;
   height: 25px;
   border-radius: 50%;
@@ -19,5 +20,11 @@
 
   &:hover {
     opacity: 1;
+  }
+
+  &__notification-center {
+    position: absolute;
+    top: 35px;
+    right: 5px;
   }
 }

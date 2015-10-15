@@ -10,14 +10,13 @@ import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
 import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
+import SidebarMap from 'in-components/SidebarMap';
 import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
 import Filterbar from 'in-components/Filterbar';
-import SidebarMap from 'in-components/SidebarMap';
 import Map from 'in-map';
 
-import NotificationCenter from './NotificationCenter';
 import ConnectionStatus from './ConnectionStatus';
 import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
@@ -66,10 +65,6 @@ const App = React.createClass({
     this.setState({ pluginIds });
   },
 
-  toggleNotificationCenter() {
-    this.setState({ showNotificationCenter: !this.state.showNotificationCenter });
-  },
-
   showMenu(show = true) {
     this.setState({ showSettings: show });
   },
@@ -83,17 +78,15 @@ const App = React.createClass({
 
         {!isDemoEnvironment() ? <MapViewSwitcher className='in-root-map-switcher'/> : null}
         <Lettering className='in-root-lettering'/>
-        {this.renderMenu()}
+        <AccountMenu showMenu={this.showMenu}
+                     className={'in-root-menu'}/>
+        <NotificationCounter className={'in-root-notification-counter'}/>
 
         <section style={{display: hasChildren ? 'none' : 'block'}}>
           <Map />
           <Filterbar />
           <SidebarMap />
           <FeedbackBadge />
-
-          <NotificationCenter toggleNotificationCenter={this.toggleNotificationCenter}
-                              open={this.state.showNotificationCenter}/>
-
         </section>
 
         <Timeline />
@@ -108,15 +101,6 @@ const App = React.createClass({
 
         <TooltipPresenter />
         <ConnectionStatus />
-      </div>
-    );
-  },
-
-  renderMenu() {
-    return (
-      <div className='in-root-menu'>
-        <NotificationCounter onClick={this.toggleNotificationCenter}/>
-        <AccountMenu showMenu={this.showMenu}/>
       </div>
     );
   }

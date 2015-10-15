@@ -1,0 +1,69 @@
+@import "~in-themes/active.less";
+
+.in-notificationcenter {
+  @notification-center-width: 23rem;
+  @transition-easing: ease-in-out;
+  @transition-duration: .5s;
+
+  width: @notification-center-width;
+  background: @notification-center__background;
+  border-radius: 5px;
+
+  padding: 1.25rem;
+  width: 18rem;
+  z-index: @z-index__notification-center;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+
+    padding-bottom: 1.25rem;
+    font-size: 1rem;
+    font-weight: bold;
+  }
+
+  &__icon {
+    font-size: 2rem;
+    color: #99F4F5;
+    margin-top: -0.4rem;
+    margin-bottom: -0.4rem;
+
+    &:hover {
+      cursor: pointer;
+      color: white;
+    }
+  }
+
+  &__status-bar {
+    position: absolute;
+    top: 50px;
+    right: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+
+    padding: 10px 0 14px 0;
+    font-size: 0.9rem;
+
+    background: @notification-center__status-bar-background;
+  }
+
+  &:before {
+    content: ' ';
+    position: absolute;
+
+    margin-top: -30px;
+    margin-left: ~'calc(100% - 40px)';
+
+    padding: 0;
+
+    border: 7px solid;
+    border-color:
+      transparent
+      transparent
+      @notification-center__background
+      @notification-center__background;
+  }
+}
