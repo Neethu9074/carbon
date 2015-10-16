@@ -38,13 +38,45 @@ function mapWiringGraphToProcessViewGraph(wiringGraph) {
     }, []);
 
   return allProcessesStrIds.map(processStrId => {
+    const node = wiringGraph.nodes[processStrId];
+
     const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.availableThrough)
       .map(strId => wiringGraph.nodes[strId]);
+
     return {
       // To be defined
       group: null,
-      node: wiringGraph.nodes[processStrId],
-      layers
+      node,
+      layers,
+      connections: getConnectedCoordinates(wiringGraph, processStrId)
     };
   });
+}
+
+
+// CONNECTS TO
+export function getConnectedCoordinates(wiringGraph, id) {
+  const connections = {
+    incoming: [],
+    outgoing: []
+  };
+
+  if (!wiringGraph || !id) {
+    return connections;
+  }
+
+  wiringGraph.edges.forEach(edge => {
+    // filter all relations that are not connectsTo-relations
+    if (edge.relation !== forgeConsts.rels.connectsTo) {
+      return;
+    }
+
+    if (edge.source === id) {
+      connections.outgoing.push(wiringGraph.nodes[edge.destination]);
+    } else if(edge.destination === id){
+      connections.incoming.push(wiringGraph.nodes[edge.source]);
+    }
+  });
+
+  return connections;
 }

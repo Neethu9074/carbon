@@ -13,9 +13,10 @@ import {subscribeToMetric} from '../../../metricUtils';
 
 export default class NodeSnapshotServer {
 
-  constructor(client) {
+  constructor(client, connections) {
     this.client = client;
     this.subscriptions = [];
+    this.connections = connections;
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       this.disposeMetricSubscription();
@@ -56,10 +57,11 @@ export default class NodeSnapshotServer {
     const snapshot = client.snapshot;
 
     // setup wiring subscription
-    this.disposeSubscription(this.wiredSnapshotsSubscription);
-    this.wiredSnapshotsSubscription = getWiredSnapshots(snapshot)
-      .subscribe(wiredSnapshots => client.setWiredSnapshots(wiredSnapshots));
-    this.subscriptions.push(this.wiredSnapshotsSubscription);
+    if (!this.connections) {
+      this.disposeSubscription(this.wiredSnapshotsSubscription);
+      this.wiredSnapshotsSubscription = getWiredSnapshots(snapshot).subscribe(ws => client.setWiredSnapshots(ws));
+      this.subscriptions.push(this.wiredSnapshotsSubscription);
+    }
 
     // setup height subscription
     this.disposeSubscription(this.maxHeightSubscribtion);
@@ -77,7 +79,7 @@ export default class NodeSnapshotServer {
   }
 
   disposeSubscription(subscribtion) {
-    if(subscribtion) {
+    if(subscribtion && subscribtion.dispose) {
       subscribtion.dispose();
       _.remove(this.subscriptions, sub => sub === subscribtion);
     }
@@ -124,7 +126,11 @@ export default class NodeSnapshotServer {
   }
 
   dispose() {
-    this.subscriptions.forEach(sub => sub.dispose());
+    this.subscriptions.forEach(sub => {
+      if (sub && sub.dispose) {
+        sub.dispose();
+      }
+    });
     this.subscriptions = null;
 
     this.disposeMetricSubscription();

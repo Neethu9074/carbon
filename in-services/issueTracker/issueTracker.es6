@@ -1,6 +1,7 @@
 /*eslint-disable new-cap*/
 import Immutable from 'immutable';
 
+import {isDemoEnvironment} from 'in-services/config';
 import {theme} from 'in-services/theme';
 
 import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
@@ -9,12 +10,26 @@ import IssueConveyer from '../conveyer/IssueConveyer';
 import * as timelineStore from '../stores/timeline';
 import {create} from '../conveyer';
 
+// CPU steal issues shouldn't be shown in the demo environment as we are using
+// small EC2 instances. These almost always have high CPU steal.
+const withoutCpuStealMaper = function(issues) {
+  return issues.filter(issue =>
+    issue.getIn(['problem', 'problemText'], '').indexOf('Steal') === -1
+  );
+};
+
 const allIssuesStream = timelineStore.timeframe.transform({
   emitLatestOnSubscribe: true,
 
   transform(timeframe) {
-    return create(IssueConveyer, {timeframe})
+    const stream = create(IssueConveyer, {timeframe})
       .scan(collectingReducer, Immutable.List());
+
+    if (isDemoEnvironment()) {
+      return stream.map(withoutCpuStealMaper);
+    }
+
+    return stream;
   },
 
   shouldRetransform(previousTimeframe, nextTimeframe) {

@@ -65,7 +65,7 @@ export const tourDefinition = {
       title: 'The Sidebar',
       text: 'An overview about a selected host is presented in the sidebar. Also notice the ' +
             'lines indicating TCP connections to other hosts.',
-      element: '.in-snapshot-detail-sidebar',
+      element: '.in-sidebar-map',
       undo() {
         selectedSnapshot.clear();
       }
@@ -75,7 +75,7 @@ export const tourDefinition = {
       text: 'Double click a host or use the Open Dashboard button in the sidebar to get a ' +
             'comprehensive view of host details with 1 second resolution metrics.',
       nextStepLabel: 'Open the dashboard',
-      element: '.in-snapshot-detail-sidebarcontent__open-dashboard',
+      element: '.in-sidebar-heading-navigation__button',
       after(tour) {
         openDashboard(tour);
       }
@@ -99,10 +99,10 @@ export const tourDefinition = {
     {
       title: 'Back to the 3D Map',
       text: 'Close the dashboard and go back to the 3D map using this button.',
-      element: '.in-dashboard-header__back-to-map',
+      element: '.in-sidebar-dashboard .in-sidebar-heading-navigation__button',
       nextStepLabel: 'Back to the 3D Map',
-      after() {
-        clickOnCssItem('.in-dashboard-header__back-to-map');
+      after(tour) {
+        tour.transitionTo('map');
         selectedSnapshot.clear();
       }
     },
@@ -123,7 +123,7 @@ export const tourDefinition = {
       after() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
 
-        setTimeout(() => clickOnCssItem('.in-collapsible__header--bordered.in-collapsible__header--closed'), 50);
+        setTimeout(() => clickOnCssItem('.in-sidebar-metric-tree__collapsible .in-collapsible__header__closed'), 50);
         setTimeout(() => document.querySelectorAll('.in-sidebar-metric-tree--leaf')[1].click(), 100);
       }
     },
@@ -155,7 +155,7 @@ export const tourDefinition = {
       nextStepLabel: 'Finish tour and unlock user interface',
       undo() {
         clickOnCssItem('.icon-metrics.in-sidebar-controls__control-icon');
-        clickOnCssItem('.in-collapsible__header--bordered.in-collapsible__header--closed');
+        clickOnCssItem('.in-sidebar-metric-tree__collapsible .in-collapsible__header__closed');
         document.querySelectorAll('.in-sidebar-metric-tree--leaf')[1].click();
       }
     }

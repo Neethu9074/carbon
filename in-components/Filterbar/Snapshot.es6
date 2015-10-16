@@ -43,7 +43,7 @@ const SidebarSnapshot = React.createClass({
   },
 
   onClick() {
-    tracking.trackEvent(tracking.events.clickOnServerInSidebar);
+    tracking.events.clickOnServerInSidebar();
     selectedSnapshotStore.select(this.props.snapshot);
   },
 

@@ -35,12 +35,12 @@ export function getAllNodesTillOsNode(wiringGraph, leafId) {
 
   let current = leafId;
   while(current) {
+    nodes.push(wiringGraph.nodes[current]);
+
     if (current.indexOf(forgeConsts.plugins.os) === 0) {
       break;
     }
 
-    // id -> coords
-    nodes.push(wiringGraph.nodes[current]);
     current = getDestinationNode(wiringGraph, current, forgeConsts.rels.runsOn);
   }
 
@@ -104,7 +104,8 @@ export function loadFullSnapshotsForNodeStructure(nodeStructure) {
       return {
         group: vals[0],
         node: vals[1],
-        layers: vals[2]
+        layers: vals[2],
+        connections: nodeStructure.connections
       };
     });
 }

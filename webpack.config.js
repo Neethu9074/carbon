@@ -26,7 +26,7 @@ module.exports = {
   module: {
     loaders: [{
       test: /\.less$/i,
-      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!less', {
+      loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 3 version!less', {
         // assets will be located next to the CSS file. Thus no need to prefix the path with
         // bundle/
         publicPath: './'

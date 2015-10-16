@@ -1,33 +1,28 @@
 @import "~in-themes/active.less";
 
 .in-sidebar-tab {
-  @height: 3rem;
-
   list-style: none;
   background: @sidebar__tabs__background;
   padding: 4px 4px 10px 4px;
   cursor: pointer;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 
-  &:hover {
-    background: @sidebar__tabs__background-hover;
+  &:hover, &__selected {
+    .in-sidebar-tab__icon {
+      transition: opacity 0.25s ease-in-out;
+      opacity: 1;
+    }
   }
 
   &:last-child {
     border-bottom: 0;
   }
 
-  &__selected {
-    background: @sidebar__tabs__background-highlight;
-    .in-sidebar-tab__icon {
-      filter: invert(100%);
-    }
-  }
-
   &__icon {
-    @icon-height: 1.5rem;
+    @height: 2.6rem;
+    @icon-height: 1.1rem;
     height: @icon-height;
     min-width: @height;
     margin-top: (@height - @icon-height) / 2;
+    opacity: 0.2;
   }
 }

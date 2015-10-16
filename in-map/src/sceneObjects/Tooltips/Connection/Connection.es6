@@ -52,7 +52,8 @@ const ConnectionsTooltipRC = React.createClass({
   },
 
   render() {
-    const listItems = this.props.connections
+    const connections = this.props.connections;
+    const listItems = connections
       .filter(connection => connection.from.snapshot && connection.to.snapshot)
       .map(connection => {
         return {

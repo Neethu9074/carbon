@@ -34,14 +34,19 @@ a {
   z-index: @z-index__lettering;
 }
 
-.in-root-menu {
+.in-root-menu, .in-root-notification-counter {
   position: absolute;
+  z-index: @z-index__account-menu;
+}
+
+.in-root-menu {
   top: 20px;
   right: 20px;
+}
 
-  display: flex;
-  align-items: center;
-  z-index: @z-index__account-menu;
+.in-root-notification-counter {
+  top: 24px;
+  right:50px;
 }
 
 .in-root-map-switcher {

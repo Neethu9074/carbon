@@ -48,18 +48,6 @@ if (__DEV__) {
   window.React = React;
 }
 
-// intall the hubspot analytics code for demo and customer environments.
-// Exclude it locally and on instana tenant units
-if (window.location.href.indexOf('instana.instana.io') === -1) {
-  // value from the generated snippet
-  const cacheBreakingTime = 300000;
-  const cacheBreakingPath = Math.ceil(new Date() / cacheBreakingTime) * cacheBreakingTime;
-  const script = document.createElement('script');
-  script.id = 'hs-analytics';
-  script.src = '//js.hs-analytics.net/analytics/' + cacheBreakingPath + '/719302.js';
-  document.head.appendChild(script);
-}
-
 if (window.instana.user) {
   tracking.identify();
 }

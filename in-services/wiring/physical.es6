@@ -41,7 +41,8 @@ export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
       return {
         group,
         node: wiringGraph.nodes[osNodeStrId],
-        layers
+        layers,
+        connections: null
       };
     });
 }

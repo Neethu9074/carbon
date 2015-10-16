@@ -32,6 +32,7 @@ const NotificationCenter = React.createClass({
     toggleNotificationCenter: rpt.func.isRequired,
     timeframe: rpt.number.isRequired,
     allIssues: irpt.list,
+    style: rpt.object,
     open: rpt.bool
   },
 
@@ -46,59 +47,69 @@ const NotificationCenter = React.createClass({
 
   getInitialState() {
     return {
+      showStatusMenu: false,
       filterPredicate: () => true,
       selectedType: FILTER_TYPES.ALL
     };
   },
 
   render() {
-    const className = this.props.open ?
-      block + ' ' + block + '__open' :
-      block;
+    return (
+      <div className={block}>
+
+        <div className={block + '__header'}>
+          {'Notifications'}
+          <Icon type={'menue2'}
+                className={block + '__icon'}
+                onClick={this.toggleStatusMenu}/>
+        </div>
+
+        {this.renderFilterMenu()}
+        {this.renderIssues()}
+      </div>
+    );
+  },
+
+  toggleStatusMenu() {
+    this.setState({ showStatusMenu: !this.state.showStatusMenu });
+  },
+
+  renderFilterMenu() {
+    if (!this.state.showStatusMenu) {
+      return null;
+    }
 
     const selectedType = this.state.selectedType;
     const counter = this.getIssuesCounter();
 
     return (
-      <div className={className}>
+      <div className={block + '__status-bar'}>
+        <Filter onFilterSelected = {this.onFilterSelected}
+                isSelected = {selectedType === FILTER_TYPES.ALL}
+                type = {FILTER_TYPES.ALL}
+                color={'#FFFFFF'}
+                predicate={() => true}/>
 
-        <div className={block + '__header'}>
-          {'Notifications'}
-          <Icon type={'arrow_left'}
-                className={block + '__icon'}
-                onClick={this.props.toggleNotificationCenter}/>
-        </div>
+        <Filter onFilterSelected={this.onFilterSelected}
+                isSelected = {selectedType === FILTER_TYPES.CRITICAL}
+                count={counter.errors}
+                type={FILTER_TYPES.CRITICAL}
+                color={mapHealthToColor(health.danger)}
+                predicate={issue => this.isIssueHealth(issue, health.danger)}/>
 
-        <div className={block + '__status-bar'}>
-          <Filter onFilterSelected = {this.onFilterSelected}
-                  isSelected = {selectedType === FILTER_TYPES.ALL}
-                  type = {FILTER_TYPES.ALL}
-                  color={'#FFFFFF'}
-                  predicate={() => true}/>
+        <Filter onFilterSelected={this.onFilterSelected}
+                isSelected = {selectedType === FILTER_TYPES.WARNING}
+                count={counter.warnings}
+                type={FILTER_TYPES.WARNING}
+                color={mapHealthToColor(health.warning)}
+                predicate={issue => this.isIssueHealth(issue, health.warning)}/>
 
-          <Filter onFilterSelected={this.onFilterSelected}
-                  isSelected = {selectedType === FILTER_TYPES.CRITICAL}
-                  count={counter.errors}
-                  type={FILTER_TYPES.CRITICAL}
-                  color={mapHealthToColor(health.danger)}
-                  predicate={issue => this.isIssueHealth(issue, health.danger)}/>
-
-          <Filter onFilterSelected={this.onFilterSelected}
-                  isSelected = {selectedType === FILTER_TYPES.WARNING}
-                  count={counter.warnings}
-                  type={FILTER_TYPES.WARNING}
-                  color={mapHealthToColor(health.warning)}
-                  predicate={issue => this.isIssueHealth(issue, health.warning)}/>
-
-          <Filter onFilterSelected={this.onFilterSelected}
-                  isSelected = {selectedType === FILTER_TYPES.SYSTEM}
-                  count={counter.commons}
-                  type={FILTER_TYPES.SYSTEM}
-                  color={mapHealthToColor(health.ok)}
-                  predicate={issue => this.isIssueHealth(issue, health.ok)}/>
-        </div>
-
-        {this.renderIssues()}
+        <Filter onFilterSelected={this.onFilterSelected}
+                isSelected = {selectedType === FILTER_TYPES.SYSTEM}
+                count={counter.commons}
+                type={FILTER_TYPES.SYSTEM}
+                color={mapHealthToColor(health.ok)}
+                predicate={issue => this.isIssueHealth(issue, health.ok)}/>
       </div>
     );
   },
@@ -125,7 +136,7 @@ const NotificationCenter = React.createClass({
     const filter = this.state.filterPredicate;
     const issues = allIssues.filter(issue => filter(issue));
 
-    return (<IssueItemList issues={issues} />);
+    return (<IssueItemList issues={issues} style={this.props.style} />);
   },
 
   getIssuesCounter() {

@@ -33,7 +33,6 @@ const IssueItem = React.createClass({
           <Icon type={'warning'}
                 className={block + '__icon'}/>
           {issue.get('problem').get('problemText')}
-
         </div>
 
         <div className={block + '__suggestion'}>
@@ -43,9 +42,6 @@ const IssueItem = React.createClass({
         <div className={block + '__time'}>
           {moment(issue.get('start')).fromNow()}
         </div>
-
-        <div className={block + '__breakingline'}/>
-
       </div>
     );
   },

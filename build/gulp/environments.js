@@ -65,6 +65,6 @@ module.exports = {
     user: '<none>',
     pw: '<none>',
     uiBackendUrl: 'http://localhost:5000',
-    groundskeeperUrl: 'https://localhost:5000'
+    groundskeeperUrl: 'http://localhost:5000'
   }
 };

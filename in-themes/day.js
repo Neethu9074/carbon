@@ -11,7 +11,7 @@ var grey0 = '#eef2f4';
 var grey1 = '#6b8088';
 var grey2 = '#576e76';
 var grey3 = '#435b64';
-// var grey4 = '#3b4d55';
+var grey4 = '#3b4d55';
 var grey5 = '#2d4048';
 var grey6 = '#203036';
 var cyan = '#9fffff';
@@ -53,10 +53,7 @@ module.exports = _.defaultsDeep({
       background: grey6
     },
     tabs: {
-      background: grey1,
-      backgroundHighlight: white,
-      backgroundHover: grey3,
-      line: grey0
+      background: grey6
     },
     tags: {
       border: grey0,
@@ -134,6 +131,16 @@ module.exports = _.defaultsDeep({
     sectionLabel: cyan,
     signoutLabel: grey1
   },
+  notificationCenter: {
+    background: grey5,
+    statusBarBackground: grey6,
+    issueItem: {
+      borderLine: grey4,
+      textTime: white,
+      textSuggestion: 'rgba(255, 255, 255, 0.5)',
+      backgroundHover: grey6
+    }
+  },
   settings: {
     heading: {
       text: white,
@@ -152,7 +159,11 @@ module.exports = _.defaultsDeep({
       backToMapButtonLabel: grey1,
       backToMapButtonLabelHighlight: white,
       backToMapButtonIcon: cyan,
-      backToMapButtonIconHighlight: white
+      backToMapButtonIconHighlight: white,
+      breadcrumb: {
+        text: grey1,
+        textHover: white
+      }
     },
     tabs: {
       text: grey1,

@@ -1,12 +1,12 @@
 /*eslint-env mocha*/
-import sinon from 'sinon';
-import {expect} from 'chai';
-import proxyquire from 'proxyquire';
 import * as ro from 'reactive-observables';
+import proxyquire from 'proxyquire';
+import {expect} from 'chai';
+import sinon from 'sinon';
 
-import {getGraph} from './test_util';
-import {extractCoordinates} from '../snapshots';
 import WiringConveyer from '../conveyer/WiringConveyer';
+import {extractCoordinates} from '../snapshots';
+import {getGraph} from './test_util';
 import * as views from '../views';
 
 describe('wiring', () => {

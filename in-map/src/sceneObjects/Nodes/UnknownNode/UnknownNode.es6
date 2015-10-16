@@ -1,5 +1,3 @@
-import Immutable from 'immutable';
-
 import * as tracking from 'in-services/tracking';
 
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
@@ -43,7 +41,7 @@ export default class Unknownnode extends BaseNode {
     super.onSceneObjectSelected(obj);
 
     if (obj && obj.id === this.id) {
-      tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
+      tracking.events.clickOnUnMonitoredIn3dMap();
     }
   }
 
@@ -62,23 +60,23 @@ export default class Unknownnode extends BaseNode {
         return;
       }
 
-      wired.get('outgoing').forEach(wiredSnapshot => {
+      wired.outgoing.forEach(wiredSnapshot => {
         if(id === wiredSnapshot.get('id')) {
           incoming.push(node.snapshot);
         }
       });
 
-      wired.get('incoming').forEach(wiredSnapshot => {
+      wired.incoming.forEach(wiredSnapshot => {
         if(id === wiredSnapshot.get('id')) {
           outgoing.push(node.snapshot);
         }
       });
     });
 
-    const map = Immutable.Map().asMutable();
-    map.set('outgoing', outgoing);
-    map.set('incoming', incoming);
-    return map.asImmutable();
+    return {
+      outgoing: outgoing,
+      incoming: incoming
+    };
   }
 
   update() {

@@ -10,8 +10,8 @@ import * as sorting from 'in-sdk/sorting';
 import * as zones from 'in-sdk/zones';
 import * as power from 'in-sdk/power';
 
-import iconPath from './icon.svg';
 import * as constants from '../constants';
+import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.process,

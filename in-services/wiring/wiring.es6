@@ -1,11 +1,11 @@
-import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
 
 import * as forgeConsts from 'in-forge/constants';
 
 import WiringConveyer from '../conveyer/WiringConveyer';
-import {create} from '../conveyer';
 import {getFullSnapshot} from '../snapshots';
+import {create} from '../conveyer';
 import * as views from '../views';
 
 import {

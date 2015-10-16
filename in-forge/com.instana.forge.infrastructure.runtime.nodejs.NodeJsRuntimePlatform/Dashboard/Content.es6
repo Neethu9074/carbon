@@ -26,7 +26,7 @@ const NodejsDashboard = React.createClass({
                            windowSize={this.props.timeframe}
                            height={chartHeight}
                            margins={{
-                             left: 60,
+                             left: 90,
                              right: 60
                            }}
 
@@ -66,7 +66,7 @@ const NodejsDashboard = React.createClass({
                            windowSize={this.props.timeframe}
                            height={chartHeight}
                            margins={{
-                             left: 60
+                             left: 90
                            }}
 
                            y1={{

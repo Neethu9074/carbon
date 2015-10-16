@@ -4,7 +4,6 @@ import React from 'react/addons';
 import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';
 import SidebarHeadingNavigation from '../SidebarHeadingNavigation';
 import SidebarDetailList from '../SidebarDetailList';
-import SidebarTabs from '../SidebarTabs';
 
 import './SidebarDashboard.less';
 
@@ -27,12 +26,8 @@ const SidebarDashboard = React.createClass({
 
     return (
       <div className={block}>
-        <SidebarTabs snapshot={snapshot}
-                     className={block + '__tabs'}/>
-
         <SidebarHeadingNavigation snapshot={snapshot}>
          <SidebarHeadingNavigation.BackToMap snapshot={snapshot}/>
-         <SidebarHeadingNavigation.BackToHostButton snapshot={snapshot}/>
         </SidebarHeadingNavigation>
 
         <SidebarHeadingSnapshotMetadata snapshot={snapshot}/>

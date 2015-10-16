@@ -140,7 +140,7 @@ export default class PhysicalMap extends SceneObject {
       }
 
       const wired = node.getWiredSnapshots();
-      if (wired.get('incoming').length === 0 && wired.get('outgoing').length === 0) {
+      if (wired.incoming.length === 0 && wired.outgoing.length === 0) {
         node.dispose();
       }
     });
@@ -163,6 +163,7 @@ export default class PhysicalMap extends SceneObject {
 
     // add the node to group (the group handles duplicates)
     const newNode = group.addNode({
+      connections: triple.connections,
       coordinates: triple.node,
       layer: triple.layers
     });

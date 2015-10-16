@@ -80,7 +80,7 @@ const WiringList = React.createClass({
   },
 
   navigateToDashboard(snapshot) {
-    tracking.trackEvent(tracking.events.navigateToAWiredComponentFromTheDashboard);
+    tracking.events.navigateToAWiredComponentFromTheDashboard();
     this.transitionTo(
       'dashboard',
       {
