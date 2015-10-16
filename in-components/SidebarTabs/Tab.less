@@ -10,7 +10,8 @@
 
   &:hover, &__selected {
     .in-sidebar-tab__icon {
-      filter: opacity(100%);
+      transition: opacity 0.25s ease-in-out;
+      opacity: 1;
     }
   }
 
@@ -23,6 +24,6 @@
     height: @icon-height;
     min-width: @height;
     margin-top: (@height - @icon-height) / 2;
-    filter: opacity(20%);
+    opacity: 0.2;
   }
 }
