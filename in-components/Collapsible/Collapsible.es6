@@ -37,7 +37,6 @@ const Collapsible = React.createClass({
     const contentProps = this.props.children[1].props;
     return (
       <div className={getClassName(this, block)}>
-
         <Header className={header.className}
                 style={header.style}
                 toggle={this.toggle}

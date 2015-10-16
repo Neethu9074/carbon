@@ -45,7 +45,7 @@ const ZoneTag = React.createClass({
     }
     return (
       <div className={getClassName(this, block)}
-           style={{background: getColor(zone)}}>
+           style={{color: getColor(zone)}}>
         {zone}
       </div>
     );
