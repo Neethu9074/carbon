@@ -17,8 +17,8 @@ import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
-import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import {longClickedSceneObject} from '../../../mapStores';
+import NodeSnapshotServer from './NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode';
@@ -361,11 +361,6 @@ export default class Node extends BaseNode {
   calculateNodeColor(hostHealth) {
     const colors = theme.map.colors;
     let color;
-
-    if(!hostHealth) {
-      color = new THREE.Color(colors.cubeBasicColor);
-      return {r: color.r, g: color.g, b: color.b};
-    }
 
     if(hostHealth === health.warning) {
       color = new THREE.Color(colors.warning);
