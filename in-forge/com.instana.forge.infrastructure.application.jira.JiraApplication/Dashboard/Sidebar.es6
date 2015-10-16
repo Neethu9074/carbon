@@ -2,7 +2,6 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
-import ProblemPanel from 'in-components/ProblemPanel';
 import WiringList from 'in-components/WiringList';
 
 import JiraInfo from '../JiraInfo';
@@ -23,8 +22,6 @@ const JiraSidebar = React.createClass({
             <JiraInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-
-        <ProblemPanel snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
     );

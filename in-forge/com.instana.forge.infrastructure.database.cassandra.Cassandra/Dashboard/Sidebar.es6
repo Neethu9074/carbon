@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 
 import CassandraInfo from '../CassandraInfo';
@@ -22,7 +21,6 @@ const CassandraSidebar = React.createClass({
             <CassandraInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <ProblemPanel snapshot={this.props.snapshot} />
       </div>
     );
   }
