@@ -160,7 +160,7 @@ module.exports = _.defaultsDeep({
       backToMapButtonIcon: cyan,
       backToMapButtonIconHighlight: white,
       breadcrumb: {
-        text: grey3,
+        text: grey1,
         textHover: white
       }
     },
