@@ -14,6 +14,16 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
+    global.window = {
+      location: {
+        href: 'http://codecentric.instana.io'
+      },
+      instana: {
+        config: {
+          environment: 'production'
+        }
+      }
+    };
     sceneObject = {
       healthChanged: sinon.stub(),
       scene: {renderScene: sinon.stub()}
