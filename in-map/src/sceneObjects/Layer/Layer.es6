@@ -183,8 +183,8 @@ export default class Layer extends SceneObject {
 
     this.stateMachine.changeStateProperty('selected', isThisSelected);
 
-    // set the selected snapshot store
-    if(isThisSelected) {
+    // snapshots may not yet exist yet when switching views.
+    if(isThisSelected && this.snapshot) {
       selectedSnapshot.select(this.snapshot);
     }
   }

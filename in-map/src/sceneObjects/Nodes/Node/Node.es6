@@ -60,7 +60,10 @@ export default class Node extends BaseNode {
   onSelectedEnter() {
     super.onSelectedEnter();
 
-    selectedSnapshot.select(this.snapshot);
+    // snapshots may not yet exist yet when switching views.
+    if (this.snapshot) {
+      selectedSnapshot.select(this.snapshot);
+    }
   }
 
   onSelectedHighlightEnter() {
