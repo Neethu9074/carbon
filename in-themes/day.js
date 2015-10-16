@@ -137,7 +137,8 @@ module.exports = _.defaultsDeep({
     issueItem: {
       borderLine: grey4,
       textTime: white,
-      textSuggestion: 'rgba(255, 255, 255, 0.5)'
+      textSuggestion: 'rgba(255, 255, 255, 0.5)',
+      backgroundHover: grey6
     }
   },
   settings: {
@@ -160,7 +161,7 @@ module.exports = _.defaultsDeep({
       backToMapButtonIcon: cyan,
       backToMapButtonIconHighlight: white,
       breadcrumb: {
-        text: grey3,
+        text: grey1,
         textHover: white
       }
     },
