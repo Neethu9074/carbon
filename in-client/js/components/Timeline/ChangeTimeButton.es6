@@ -27,7 +27,7 @@ const ChangeTimeButton = React.createClass({
     return (
       <div className={block}>
         {this.renderTimePicker()}
-        <Icon type={'metrics'}
+        <Icon type={'timer'}
               className={block + '__icon'}
               onClick={this.toggleTimePicker} />
         <span className={block + '__text'} >
