@@ -44,17 +44,18 @@ const HealthIcon = React.createClass({
 
     const orderedIssues = issues
       .sortBy(issue => issue.getIn(['problem', 'severity']))
+      .toArray()
       .reverse();
-    const maxColor = this.getColor(orderedIssues.first());
+    const maxColor = this.getColor(orderedIssues[0]);
 
     return (
-      <Tooltip content={this.getContentForTooltip()}>
+      <Tooltip content={this.getContentForTooltip(orderedIssues)}>
 
         <div style={{ backgroundColor: maxColor }}
              type={ 'critical' }
              className={getClassName(this, block)}>
           <span className={getClassName(this, block, '__counter')}>
-            {orderedIssues.size}
+            {orderedIssues.length}
           </span>
         </div>
 
@@ -75,15 +76,10 @@ const HealthIcon = React.createClass({
     }
   },
 
-  getContentForTooltip() {
-    const issues = this.props.issues;
-    if (!issues || issues.size === 0) {
-      return null;
-    }
-
+  getContentForTooltip(orderedIssues) {
     return (
       <div>
-        {this.props.issues.map(issue =>
+        {orderedIssues.map(issue =>
           <IssueDiscription key={issue.get('id')}
                             issue={issue}/>
         )}

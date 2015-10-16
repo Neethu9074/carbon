@@ -72,7 +72,12 @@ const NodeTooltipRC = React.createClass({
     const style = {};
 
     if (this.issuesAvailable()) {
-      const mostImportantProblem = this.state.issues.get(0);
+      const mostImportantProblem = this.state.issues.reduce((issueA, issueB) => {
+        if (issueA.getIn(['problem', 'severity']) >= issueB.getIn(['problem', 'severity'])) {
+          return issueA;
+        }
+        return issueB;
+      });
       text = mostImportantProblem.get('problemText');
       style.color = getColorForProblem(mostImportantProblem);
     }
