@@ -35,7 +35,7 @@
     "react-router": "^0.13.3",
     "reactive-observables": "^1.2.0",
     "roemitter": "^2.0.0",
-    "three.js": "^0.73.0",
+    "three": "^0.72.0",
     "tween.js": "^15.0.0"
   },
   "devDependencies": {
