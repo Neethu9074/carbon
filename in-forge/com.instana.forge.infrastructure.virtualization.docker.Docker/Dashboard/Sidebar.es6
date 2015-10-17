@@ -2,7 +2,6 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
-import ProblemPanel from 'in-components/ProblemPanel';
 import WiringList from 'in-components/WiringList';
 
 import DockerLabels from '../DockerLabels';
@@ -35,7 +34,6 @@ const Sidebar = React.createClass({
           </Collapsible>
         : null}
 
-        <ProblemPanel snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
     );

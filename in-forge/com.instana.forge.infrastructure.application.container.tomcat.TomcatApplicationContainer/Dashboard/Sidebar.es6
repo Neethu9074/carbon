@@ -3,7 +3,6 @@ import React from 'react/addons';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-components/Collapsible';
-import ProblemPanel from 'in-components/ProblemPanel';
 import WiringList from 'in-components/WiringList';
 
 import TomcatInfo from '../TomcatInfo';
@@ -80,7 +79,6 @@ const TomcatSidebar = React.createClass({
             </Collapsible.Content>
           </Collapsible>
         : null }
-        <ProblemPanel snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
     );
