@@ -19,10 +19,10 @@ export function createStore({name, initialValue = null}) {
     // to them that they can just emit() data without going through a
     // state reducer.
     observable: observable.freeze(),
-    applyStateMutation: applyModification
+    applyStateMutation
   };
 
-  function applyModification(reducer) {
+  function applyStateMutation(reducer) {
     currentState = allStates[name] = reducer(currentState);
     observable.emit(currentState);
   }
