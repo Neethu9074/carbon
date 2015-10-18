@@ -42,7 +42,8 @@ export default class NodeSnapshotServer {
       }
     }));
 
-    this.subscriptions.push(selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
+    // TODO Simon: Can we remove this async / nextFrame call?
+    this.subscriptions.push(selectedSnapshot.selectedSnapshot.nextFrame().subscribe(selected => {
         if(selected &&
           this.client.id === selected.get('id') &&
           !this.client.isSelected()) {

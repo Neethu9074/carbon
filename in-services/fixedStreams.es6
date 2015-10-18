@@ -1,5 +1,9 @@
 import * as ro from 'reactive-observables';
 
-// This observable can be used for cases where we want to emit always null.
-export const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
-alwaysNullObservable.emit(null);
+export const alwaysNull = ro.create().emit(null).freeze();
+export const alwaysEmptyArray = ro.create().emit(freeze([])).freeze();
+
+function freeze(v) {
+  Object.freeze(v);
+  return v;
+}

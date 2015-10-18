@@ -1,11 +1,11 @@
 import irpt from 'react-immutable-proptypes';
-import * as ro from 'reactive-observables';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
+import {alwaysNull} from 'in-services/fixedStreams';
 
 import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';
 import SidebarHeadingNavigation from '../SidebarHeadingNavigation';
@@ -16,9 +16,6 @@ import enhance from '../hoc/enhance';
 import './SidebarMap.less';
 
 const block = 'in-sidebar-map';
-
-const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
-alwaysNullObservable.emit(null);
 
 const SidebarMap = React.createClass({
   mixins: [
@@ -39,7 +36,7 @@ const SidebarMap = React.createClass({
 
           transform(snapshot) {
             if (!snapshot) {
-              return alwaysNullObservable;
+              return alwaysNull;
             }
             return wiring.getParentNode(views.physical, snapshot);
           },

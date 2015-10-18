@@ -6,7 +6,7 @@ import * as views from '../views';
 
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {create} from '../conveyer';
-import {alwaysNullObservable} from '../fixedStreams';
+import {alwaysNull} from '../fixedStreams';
 import {
   getDestinationNode,
   getLeafNodes,
@@ -76,7 +76,7 @@ export function getParentNode(view, childCoordinates) {
   // parent node as far as this contract is concerned. The contract being that groups are not
   // considered nodes, but groups (see view- and node strcture).
   if (childCoordinates.get('pluginId') === forgeConsts.plugins.os) {
-    return alwaysNullObservable;
+    return alwaysNull;
   }
 
   const leafId = childCoordinates.get('id');

@@ -1,11 +1,11 @@
 import irpt from 'react-immutable-proptypes';
-import * as ro from 'reactive-observables';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import {getClassName} from 'in-services/react';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
+import {alwaysEmptyArray} from 'in-services/fixedStreams';
 
 import enhance from '../hoc/enhance';
 import Tab from './Tab';
@@ -14,9 +14,6 @@ import './SidebarTabs.less';
 
 const rpt = React.PropTypes;
 const block = 'in-sidebar-tabs';
-
-const alwaysEmptyArrayObservable = ro.create({emitLatestOnSubscribe: true});
-alwaysEmptyArrayObservable.emit([]);
 
 const SidebarTabs = React.createClass({
   mixins: [
@@ -37,7 +34,7 @@ const SidebarTabs = React.createClass({
 
           transform(snapshot) {
             if (!snapshot) {
-              return alwaysEmptyArrayObservable;
+              return alwaysEmptyArray;
             }
             return wiring.getAllStepsBetweenNodeAndLeaf(views.physical, snapshot);
           },

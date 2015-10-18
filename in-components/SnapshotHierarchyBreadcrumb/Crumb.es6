@@ -1,5 +1,4 @@
 import irpt from 'react-immutable-proptypes';
-import * as ro from 'reactive-observables';
 import {Navigation} from 'react-router';
 import React from 'react/addons';
 
@@ -13,12 +12,6 @@ import enhance from '../hoc/enhance';
 import './Crumb.less';
 
 const block = 'in-crumb';
-
-const alwaysEmptyArrayObservable = ro.create({emitLatestOnSubscribe: true});
-alwaysEmptyArrayObservable.emit([]);
-
-const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
-alwaysNullObservable.emit(null);
 
 const Crumb = React.createClass({
   mixins: [

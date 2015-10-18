@@ -2,7 +2,7 @@ import * as ro from 'reactive-observables';
 
 import * as forgeConsts from 'in-forge/constants';
 
-import {alwaysNullObservable} from '../fixedStreams';
+import {alwaysNull} from '../fixedStreams';
 import {getFullSnapshot} from '../snapshots';
 
 export function getDestinationNode(wiringGraph, source, relation) {
@@ -89,7 +89,7 @@ export function loadFullSnapshotsForNodeStructure(nodeStructure) {
   if (nodeStructure.group) {
     subObservables.push(getFullSnapshot(nodeStructure.group));
   } else {
-    subObservables.push(alwaysNullObservable);
+    subObservables.push(alwaysNull);
   }
 
   // index 1: node data

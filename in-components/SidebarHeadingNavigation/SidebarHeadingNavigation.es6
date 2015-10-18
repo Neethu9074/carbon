@@ -1,6 +1,5 @@
 /*eslint-disable react/no-multi-comp, react/prop-types*/
 import irpt from 'react-immutable-proptypes';
-import * as ro from 'reactive-observables';
 import {Navigation} from 'react-router';
 import React from 'react/addons';
 
@@ -12,9 +11,6 @@ import Button from '../Button';
 import './SidebarHeadingNavigation.less';
 
 const block = 'in-sidebar-heading-navigation';
-
-const alwaysNullObservable = ro.create({emitLatestOnSubscribe: true});
-alwaysNullObservable.emit(null);
 
 const SidebarHeadingNavigation = React.createClass({
   mixins: [

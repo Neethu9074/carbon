@@ -137,7 +137,8 @@ export default class Node extends BaseNode {
     super.registerEvents();
 
     this.addSubscription(
-      highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
+      // TODO Simon: Can we remove this async / nextFrame call?
+      highlightedSnapshot.highlightedSnapshot.nextFrame().subscribe(highlighted => {
         if (!highlighted) {
           this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
           return;

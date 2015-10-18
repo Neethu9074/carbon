@@ -1,10 +1,10 @@
 import irpt from 'react-immutable-proptypes';
-import * as ro from 'reactive-observables';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
+import {alwaysEmptyArray} from 'in-services/fixedStreams';
 
 import enhance from '../hoc/enhance';
 import Crumb from './Crumb';
@@ -13,9 +13,6 @@ import './SnapshotHierarchyBreadcrumb.less';
 
 const rpt = React.PropTypes;
 const block = 'in-snapshot-hierarchy-breadcrumb';
-
-const alwaysEmptyArrayObservable = ro.create({emitLatestOnSubscribe: true});
-alwaysEmptyArrayObservable.emit([]);
 
 const SnapshotHierarchyBreadcrumb = React.createClass({
   mixins: [
@@ -36,7 +33,7 @@ const SnapshotHierarchyBreadcrumb = React.createClass({
 
           transform(snapshot) {
             if (!snapshot) {
-              return alwaysEmptyArrayObservable;
+              return alwaysEmptyArray;
             }
             return wiring.getAllStepsBetweenNodeAndLeaf(views.physical, snapshot);
           },
