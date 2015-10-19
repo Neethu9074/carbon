@@ -11,9 +11,9 @@ import RegisterForBeta from 'in-components/RegisterForBeta';
 import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/SidebarMap';
-import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
+import connectTo from 'in-components/hoc/connectTo';
 import Filterbar from 'in-components/Filterbar';
 import Map from 'in-map';
 
@@ -28,7 +28,16 @@ import './App.less';
 
 const rpt = React.PropTypes;
 
-const App = React.createClass({
+export default helpify(connectTo(
+  () => {
+    return {
+      isMonitoring: viewStructureStore.viewStructure
+        .map(viewStructure => viewStructure.length > 0)
+        .distinct()
+    };
+  }, React.createClass({
+  displayName: 'App',
+
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin,
@@ -39,30 +48,34 @@ const App = React.createClass({
   propTypes: {
     closeHelpIfOpen: rpt.func.isRequired,
     showHelp: rpt.func.isRequired,
-    state: rpt.object.isRequired
+    state: rpt.object.isRequired,
+    isMonitoring: rpt.bool
   },
 
   getInitialState() {
     return {
-      pluginIds: [constants.plugins.os],
-      showSettings: false
+      showSettings: false,
+      notMonitoringDialogShownBefore: false
     };
   },
 
   componentDidMount() {
-    this.addSubscription(
-      viewStructureStore.viewStructure.subscribe(viewStructure => {
-        if (viewStructure.length === 0) {
-          this.props.showHelp(203860032);
-        } else {
-          this.props.closeHelpIfOpen();
-        }
-      })
-    );
+    this.showNotMonitoringDialogIfNecessary();
   },
 
-  togglePlugin(pluginIds) {
-    this.setState({ pluginIds });
+  componentDidUpdate() {
+    this.showNotMonitoringDialogIfNecessary();
+  },
+
+  showNotMonitoringDialogIfNecessary() {
+    if (this.props.isMonitoring === false && this.state.notMonitoringDialogShownBefore === false) {
+      this.setState({
+        notMonitoringDialogShownBefore: true
+      });
+      this.props.showHelp(203860032);
+    } else if (this.props.isMonitoring === true) {
+      this.props.closeHelpIfOpen(203860032);
+    }
   },
 
   showMenu(show = true) {
@@ -104,6 +117,4 @@ const App = React.createClass({
       </div>
     );
   }
-});
-
-export default helpify(App);
+})));

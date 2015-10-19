@@ -3,7 +3,7 @@ import {Navigation, State} from 'react-router';
 
 export default function helpify(Component) {
   return React.createClass({
-    displayName: 'Helpify',
+    displayName: 'Helpify for ' + Component.displayName,
 
     mixins: [Navigation, State],
 
@@ -16,7 +16,6 @@ export default function helpify(Component) {
     },
 
     showHelp(id) {
-      this.id = id;
       const query = this.getQuery();
       query.help = id;
       this.transitionTo(
@@ -26,9 +25,9 @@ export default function helpify(Component) {
       );
     },
 
-    closeHelpIfOpen() {
+    closeHelpIfOpen(id) {
       const query = this.getQuery();
-      if(query.help === this.id) {
+      if(query.help === id) {
         delete query.help;
         this.transitionTo(
           this.getPathname(),
