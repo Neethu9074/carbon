@@ -1,73 +1,40 @@
-
-
-import * as ro from 'reactive-observables';
-
-import {getWiredSnapshots} from 'in-sdk/snapshot';
-
+import {alwaysNull} from '../fixedStreams';
+import {createStore} from './store';
 import {isIdEqual, getFullSnapshot} from '../snapshots';
 
+export default function createSelectableSnapshotStore(name) {
 
-export default function createStore(name = '???') {
-  const roSpec = {emitLatestOnSubscribe: true};
-
-  let subscribedSnapshotCoordinates = null;
-  let selectedSnapshotSubscription = null;
-  const selectedSnapshot = ro.create(roSpec);
-
-  // we are writing this value to some object so that we can inspect this
-  // prop for debugging purposes
-  selectedSnapshot.storeName = name;
-
-  // initialize it with a default value so that subscribers will get an
-  // initial value
-  selectedSnapshot.emit(null);
-
-  const wiredSnapshots = selectedSnapshot.transform({
-    emitLatestOnSubscribe: true,
-
-    shouldRetransform(previousSnapshot, newSnapshot) {
-      return !isIdEqual(previousSnapshot, newSnapshot);
-    },
-
-    transform(snapshot) {
-      return getWiredSnapshots(snapshot);
-    }
+  const store = createStore({
+    name,
+    initialValue: null
   });
 
+  const coordinates = store.observable.distinct();
+  const fullSnapshot = coordinates.flatMap(coords => {
+      if (coords == null) {
+        return alwaysNull;
+      }
+      return getFullSnapshot(coords);
+    }).freeze();
+
   return {
-    selectedSnapshot,
-    wiredSnapshots,
+    coordinates,
+    fullSnapshot,
     select,
     clear
   };
 
-  function select(snapshotId) {
-    if (isIdEqual(subscribedSnapshotCoordinates, snapshotId)) {
-      return;
-    }
-
-    subscribedSnapshotCoordinates = snapshotId;
-    disposeSnapshotSubscription();
-
-    selectedSnapshotSubscription = getFullSnapshot(snapshotId)
-      .subscribe(snapshot => {
-        selectedSnapshot.emit(snapshot);
-      });
+  function select(snapshotCoords) {
+    store.applyStateMutation(previousCoords => {
+      if (isIdEqual(previousCoords, snapshotCoords)) {
+        return previousCoords;
+      }
+      return snapshotCoords;
+    });
   }
 
   function clear() {
-    if(subscribedSnapshotCoordinates !== null) {
-      subscribedSnapshotCoordinates = null;
-      disposeSnapshotSubscription();
-      selectedSnapshot.emit(null);
-    }
-  }
-
-  function disposeSnapshotSubscription() {
-    if (selectedSnapshotSubscription) {
-      selectedSnapshotSubscription.dispose();
-      selectedSnapshotSubscription = null;
-    }
+    store.applyStateMutation(() => null);
   }
 
 }

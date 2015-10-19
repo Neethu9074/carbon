@@ -3,7 +3,7 @@ import {Navigation, State} from 'react-router';
 
 export default function helpify(Component) {
   return React.createClass({
-    displayName: 'Helpify',
+    displayName: 'Helpify for ' + Component.displayName,
 
     mixins: [Navigation, State],
 

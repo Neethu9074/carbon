@@ -6,134 +6,69 @@ import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 import * as ro from 'reactive-observables';
 
+import {allStates} from './store';
 import {extractCoordinates, isIdEqual} from '../snapshots';
 
 
 describe('stores.abstractSelectableSnapshotStore', () => {
 
   let snapshotConveyer;
-  let getWiredSnapshots;
-  let wiredSnapshotsObservable;
   let store;
 
-  beforeEach(() => {
-    snapshotConveyer = ro.create({
-      emitLatestOnSubscribe: true
-    });
+  let onNext;
 
-    wiredSnapshotsObservable = ro.create({
-      emitLatestOnSubscribe: true
-    });
-    getWiredSnapshots = sinon.stub();
-    getWiredSnapshots.returns(wiredSnapshotsObservable);
+  beforeEach(() => {
+    onNext = sinon.stub();
+    snapshotConveyer = ro.create();
 
     store = proxyquire('./abstractSelectableSnapshotStore', {
       '../snapshots': {
         getFullSnapshot: () => snapshotConveyer,
         isIdEqual
-      },
-      'in-sdk/snapshot': {
-        getWiredSnapshots
       }
     })();
   });
 
-  describe('wiredSnapshots', () => {
+  afterEach(() => {
+    Object.keys(allStates).forEach(name => delete allStates[name]);
+  });
 
-    it('should setup subscriptions', () => {
-      const onNext = sinon.stub();
-      expect(getWiredSnapshots.callCount).to.equal(0);
+  it('should be null by default', () => {
+    store.coordinates.subscribe(onNext);
+    expect(onNext).to.have.callCount(1);
+    expect(onNext).to.have.been.calledWith(null);
+  });
 
-      const selectedSnapshot = snapshot(1);
-      store.select(selectedSnapshot);
-      snapshotConveyer.emit(selectedSnapshot);
-      store.wiredSnapshots.subscribe(onNext);
+  it('should immediately select coordinates', () => {
+    const coords = snapshot(1);
+    store.select(coords);
+    store.coordinates.subscribe(onNext);
+    expect(onNext).to.have.callCount(1);
+    expect(onNext).to.have.been.calledWith(coords);
+  });
 
-      expect(getWiredSnapshots.callCount).to.equal(1);
-      expect(getWiredSnapshots.getCall(0).args[0]).to.equal(selectedSnapshot);
-    });
+  it('should retrieve the full snapshot when interested parties exist', () => {
+    const coords = snapshot(1);
+    store.select(coords);
 
-    it('should forward wired snapshots to subscribers', () => {
-      const selectedSnapshot = snapshot(1);
-      store.select(selectedSnapshot);
+    store.fullSnapshot.subscribe(onNext);
+    expect(onNext).to.have.callCount(0);
 
-      const onNext = sinon.stub();
-      store.wiredSnapshots.subscribe(onNext);
+    const fakeFullSnapshot = snapshot(2);
+    snapshotConveyer.emit(fakeFullSnapshot);
+    expect(onNext).to.have.callCount(1);
+    expect(onNext).to.have.been.calledWith(fakeFullSnapshot);
+  });
 
-      wiredSnapshotsObservable.emit('42');
-      expect(onNext.callCount).to.equal(1);
-      expect(onNext.getCall(0).args[0]).to.equal('42');
-    });
-
-    it('should resubscribe to wired snapshot on selected snapshot change', () => {
-      const s1 = snapshot(1);
-      const s2 = snapshot(2);
-      store.select(s1);
-      snapshotConveyer.emit(s1);
-      const onNext = sinon.stub();
-      store.wiredSnapshots.subscribe(onNext);
-
-      store.select(s2);
-      snapshotConveyer.emit(s2);
-      expect(getWiredSnapshots.callCount).to.equal(2);
-      expect(getWiredSnapshots.getCall(0).args[0]).to.equal(s1);
-      expect(getWiredSnapshots.getCall(1).args[0]).to.equal(s2);
-    });
-
-    it('should clear wired snapshots when no selected snapshot exists', () => {
-      const snap = snapshot(1);
-      wiredSnapshotsObservable.emit('wiredSnapshotsForASelectedSnapshot');
-
-      const noSelectedInitialValue = '42.24';
-      const noSelectedSnapshotObservable = ro.create({
-        emitLatestOnSubscribe: true
-      });
-      noSelectedSnapshotObservable.emit(noSelectedInitialValue);
-
-      getWiredSnapshots.onCall(0).returns(wiredSnapshotsObservable);
-      getWiredSnapshots.onCall(1).returns(noSelectedSnapshotObservable);
-
-      const onNext = sinon.stub();
-      store.select(snap);
-      snapshotConveyer.emit(snap);
-      store.wiredSnapshots.subscribe(onNext);
-      expect(onNext.callCount).to.equal(1);
-
-      store.clear();
-
-      expect(getWiredSnapshots.callCount).to.equal(2);
-      expect(getWiredSnapshots.getCall(0).args[0]).to.equal(snap);
-      expect(getWiredSnapshots.getCall(1).args[0]).to.equal(null);
-      expect(onNext.callCount).to.equal(2);
-      expect(onNext.getCall(1).args[0]).to.equal(noSelectedInitialValue);
-    });
-
-    it('should not call clear twice', () => {
-      const onNext = sinon.stub();
-      store.selectedSnapshot.subscribe(onNext);
-      store.clear();
-      store.clear();
-      store.clear();
-
-      expect(onNext.callCount).to.equal(1);
-    });
-
-    it('should emit immediately emit when there is a selected snapshot before ' +
-        'a subscription is established', () => {
-      const expected = 'wiredSnapshotsForASelectedSnapshot';
-      wiredSnapshotsObservable.emit(expected);
-
-      const snap = snapshot(1);
-      store.select(snap);
-      snapshotConveyer.emit(snap);
-
-      const onNext = sinon.stub();
-      store.wiredSnapshots.subscribe(onNext);
-
-      expect(onNext.callCount).to.equal(1);
-      expect(onNext.getCall(0).args[0]).to.equal(expected);
-      expect(getWiredSnapshots.getCall(0).args[0]).to.equal(snap);
-    });
+  it('should allow clearing of the store', () => {
+    store.coordinates.subscribe(onNext);
+    const coords = snapshot(1);
+    store.select(coords);
+    store.clear();
+    expect(onNext).to.have.callCount(3);
+    expect(onNext.getCall(0).args[0]).to.equal(null);
+    expect(onNext.getCall(1).args[0]).to.equal(coords);
+    expect(onNext.getCall(2).args[0]).to.equal(null);
   });
 
   function snapshot(id) {

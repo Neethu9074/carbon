@@ -11,12 +11,13 @@ import RegisterForBeta from 'in-components/RegisterForBeta';
 import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/SidebarMap';
-import * as constants from 'in-forge/constants';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
+import connectTo from 'in-components/hoc/connectTo';
 import Filterbar from 'in-components/Filterbar';
 import Map from 'in-map';
 
+import NavigationAdapter from './NavigationAdapter';
 import ConnectionStatus from './ConnectionStatus';
 import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
@@ -28,7 +29,16 @@ import './App.less';
 
 const rpt = React.PropTypes;
 
-const App = React.createClass({
+export default helpify(connectTo(
+  () => {
+    return {
+      isMonitoring: viewStructureStore.viewStructure
+        .map(viewStructure => viewStructure.length > 0)
+        .distinct()
+    };
+  }, React.createClass({
+  displayName: 'App',
+
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin,
@@ -39,32 +49,38 @@ const App = React.createClass({
   propTypes: {
     closeHelpIfOpen: rpt.func.isRequired,
     showHelp: rpt.func.isRequired,
-    state: rpt.object.isRequired
+    state: rpt.object.isRequired,
+    isMonitoring: rpt.bool
   },
 
   getInitialState() {
     return {
-      pluginIds: [constants.plugins.os],
-      showSettings: false
+      showSettings: false,
+      notMonitoringDialogShownBefore: false
     };
   },
 
-  componentDidMount() {
-    this.addSubscription(
-      viewStructureStore.viewStructure.subscribe(viewStructure => {
-        if (viewStructure.length === 0) {
-          this.props.showHelp(203860032);
-        } else {
-          this.props.closeHelpIfOpen(203860032);
-        }
-      })
-    );
+
+  componentWillMount() {
+    this.showNotMonitoringDialogIfNecessary(this.props, this.state);
   },
 
-  togglePlugin(pluginIds) {
-    this.setState({ pluginIds });
+  componentWillUpdate(nextProps, nextState) {
+    this.showNotMonitoringDialogIfNecessary(nextProps, nextState);
   },
 
+  showNotMonitoringDialogIfNecessary(props, state) {
+    if (props.isMonitoring === false && state.notMonitoringDialogShownBefore === false) {
+      this.setState({
+        notMonitoringDialogShownBefore: true
+      });
+      props.showHelp(203860032);
+    } else if (props.isMonitoring === true) {
+      props.closeHelpIfOpen(203860032);
+    }
+  },
+
+  // TODO Ben replace with URL parameter
   showMenu(show = true) {
     this.setState({ showSettings: show });
   },
@@ -74,6 +90,8 @@ const App = React.createClass({
 
     return (
       <div>
+        <NavigationAdapter />
+
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
         {!isDemoEnvironment() ? <MapViewSwitcher className='in-root-map-switcher'/> : null}
@@ -104,6 +122,4 @@ const App = React.createClass({
       </div>
     );
   }
-});
-
-export default helpify(App);
+})));
