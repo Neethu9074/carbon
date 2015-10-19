@@ -59,25 +59,26 @@ export default helpify(connectTo(
     };
   },
 
-  componentDidMount() {
-    this.showNotMonitoringDialogIfNecessary();
+  componentWillMount() {
+    this.showNotMonitoringDialogIfNecessary(this.props, this.state);
   },
 
-  componentDidUpdate() {
-    this.showNotMonitoringDialogIfNecessary();
+  componentWillUpdate(nextProps, nextState) {
+    this.showNotMonitoringDialogIfNecessary(nextProps, nextState);
   },
 
-  showNotMonitoringDialogIfNecessary() {
-    if (this.props.isMonitoring === false && this.state.notMonitoringDialogShownBefore === false) {
+  showNotMonitoringDialogIfNecessary(props, state) {
+    if (props.isMonitoring === false && state.notMonitoringDialogShownBefore === false) {
       this.setState({
         notMonitoringDialogShownBefore: true
       });
-      this.props.showHelp(203860032);
-    } else if (this.props.isMonitoring === true) {
-      this.props.closeHelpIfOpen(203860032);
+      props.showHelp(203860032);
+    } else if (props.isMonitoring === true) {
+      props.closeHelpIfOpen(203860032);
     }
   },
 
+  // TODO Ben replace with URL parameter
   showMenu(show = true) {
     this.setState({ showSettings: show });
   },
