@@ -69,7 +69,6 @@
     "mkdirp": "^0.5.1",
     "mocha": "^2.2.4",
     "mocha-jsdom": "^1.0.0",
-    "napa": "^1.2.0",
     "node-libs-browser": "^0.5.2",
     "proxrox": "^1.4.0",
     "proxyquire": "^1.4.0",
