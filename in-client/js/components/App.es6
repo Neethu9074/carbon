@@ -17,6 +17,7 @@ import connectTo from 'in-components/hoc/connectTo';
 import Filterbar from 'in-components/Filterbar';
 import Map from 'in-map';
 
+import NavigationAdapter from './NavigationAdapter';
 import ConnectionStatus from './ConnectionStatus';
 import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
@@ -88,6 +89,8 @@ export default helpify(connectTo(
 
     return (
       <div>
+        <NavigationAdapter />
+
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
         {!isDemoEnvironment() ? <MapViewSwitcher className='in-root-map-switcher'/> : null}
