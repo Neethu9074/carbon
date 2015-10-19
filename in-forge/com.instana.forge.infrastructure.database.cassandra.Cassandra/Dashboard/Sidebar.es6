@@ -22,6 +22,17 @@ const CassandraSidebar = React.createClass({
     return (
       <div>
         <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>Info</Collapsible.Header>
+          <Collapsible.Content>
+            <DescriptionList>
+              <DescriptionItem title='Version'>
+                {data.get('version')}
+              </DescriptionItem>
+            </DescriptionList>
+          </Collapsible.Content>
+        </Collapsible>
+
+        <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Topology</Collapsible.Header>
           <Collapsible.Content>
             <CassandraTopologyInfo snapshot={this.props.snapshot} />

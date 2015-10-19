@@ -27,26 +27,6 @@ const CassandraDashboard = React.createClass({
   render() {
     return (
       <div>
-        <DashboardSection title='Storage Load'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: formatBytes,
-                             metrics: [
-                               'storage.load'
-                             ],
-                             labels: [
-                               'Load'
-                             ],
-                             type: 'stackedArea'
-                           }}/>
-        </DashboardSection>
-
         <DashboardSection title='Requests'>
           <ChartWithLegend snapshot={this.props.snapshot}
                            windowSize={this.props.timeframe}
@@ -65,6 +45,53 @@ const CassandraDashboard = React.createClass({
                                'Write'
                              ],
                              type: 'line'
+                           }}/>
+        </DashboardSection>
+
+        <DashboardSection title='Pending Requests in Threadpools (Stages)'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'stage.mutation.pending',
+                               'stage.read.pending',
+                               'stage.countermutation.pending',
+                               'stage.readrepair.pending',
+                               'stage.requestresponse.pending'
+                             ],
+                             labels: [
+                               'Write (Mutation)',
+                               'Read',
+                               'Counter Mutation',
+                               'Read Repair',
+                               'Request/Response'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+
+        <DashboardSection title='Storage Load'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: formatBytes,
+                             metrics: [
+                               'storage.load'
+                             ],
+                             labels: [
+                               'Load'
+                             ],
+                             type: 'stackedArea'
                            }}/>
         </DashboardSection>
 
@@ -88,33 +115,6 @@ const CassandraDashboard = React.createClass({
                                'Counter',
                                'Key',
                                'Row'
-                             ],
-                             type: 'line'
-                           }}/>
-        </DashboardSection>
-
-        <DashboardSection title='Pending Requests'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             metrics: [
-                               'stage.countermutation.pending',
-                               'stage.mutation.pending',
-                               'stage.readrepair.pending',
-                               'stage.read.pending',
-                               'stage.requestresponse.pending'
-                             ],
-                             labels: [
-                               'Counter Mutation',
-                               'Mutation',
-                               'Read Repair',
-                               'Read',
-                               'RequestResponse'
                              ],
                              type: 'line'
                            }}/>
