@@ -21,7 +21,6 @@ const CassandraTopologyInfo = React.createClass({
           {data.get('clusterName')}
         </DescriptionItem>
 
-
         <DescriptionItem title='Datacenter'>
           {data.get('datacenter')}
         </DescriptionItem>

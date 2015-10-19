@@ -17,10 +17,13 @@ const CassandraCommunicationInfo = React.createClass({
 
     return (
       <DescriptionList>
+        <DescriptionItem title='Node Status'>
+          {data.get('mode')} //fehlt
+        </DescriptionItem>
+
         <DescriptionItem title='Gossip Running'>
           {data.get('gossipRunning')}
         </DescriptionItem>
-
 
         <DescriptionItem title='Thrift Running'>
           {data.get('thriftRunning')}
