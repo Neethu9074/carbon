@@ -55,7 +55,7 @@ const App = React.createClass({
         if (viewStructure.length === 0) {
           this.props.showHelp(203860032);
         } else {
-          this.props.closeHelpIfOpen();
+          this.props.closeHelpIfOpen(203860032);
         }
       })
     );
