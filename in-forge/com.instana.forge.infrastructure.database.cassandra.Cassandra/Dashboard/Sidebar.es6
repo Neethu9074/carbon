@@ -3,7 +3,8 @@ import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
 
-import CassandraInfo from '../CassandraInfo';
+import CassandraTopologyInfo from '../CassandraTopologyInfo';
+import CassandraCommunicationInfo from '../CassandraCommunicationInfo';
 
 const CassandraSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -16,11 +17,19 @@ const CassandraSidebar = React.createClass({
     return (
       <div>
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Cassandra</Collapsible.Header>
+          <Collapsible.Header>Topology</Collapsible.Header>
           <Collapsible.Content>
-            <CassandraInfo snapshot={this.props.snapshot} />
+            <CassandraTopologyInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
+
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>Communication</Collapsible.Header>
+          <Collapsible.Content>
+            <CassandraCommunicationInfo snapshot={this.props.snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+
       </div>
     );
   }
