@@ -3,7 +3,7 @@
 /*eslint-disable import-order/import-order*/
 import 'in-forge';
 
-import {run, HashLocation} from 'react-router';
+import * as reactRouter from 'react-router';
 import React from 'react/addons';
 import logging from 'instalog';
 
@@ -53,6 +53,10 @@ if (window.instana.user) {
   tracking.identify();
 }
 
-run(routes, HashLocation, (Root, state) => {
+const router = reactRouter.create({
+  routes,
+  location: reactRouter.HashLocation
+});
+router.run((Root, state) => {
   React.render(<Root {...i18n} state={state} />, document.body);
 });

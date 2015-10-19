@@ -1,24 +1,39 @@
-import * as ro from 'reactive-observables';
-
+import {createStore} from './store';
+import {mutateUrl, navigationParameters} from './navigation';
 import * as views from '../views';
 import {getStructure} from '../wiring';
 
-export const view = ro.create({emitLatestOnSubscribe: true});
-view.emit(views.physical);
+const store = createStore({
+  name: 'view',
+  initialValue: views.physical
+});
 
-export function setView(newActiveView) {
-  view.emit(newActiveView);
+export const view = store.observable.distinct();
+export const viewStructure = view.flatMap(theView => getStructure(theView));
+
+
+// this is a somewhat stupid hack around some module loading shortcoming. This will
+// be improved once we use the new react router
+const initialValue = window.location.hash.replace(/^(.*)view=([^&]+)(.*)$/i, '$2');
+if (initialValue.match(/\w+/i)) {
+  setTimeout(() => {
+    store.applyStateMutation(() => initialValue);
+    setView(initialValue);
+  }, 100);
 }
 
 
-export const viewStructure = view.transform({
-  emitLatestOnSubscribe: true,
-
-  shouldRetransform(previousView, currentView) {
-    return previousView !== currentView;
-  },
-
-  transform(theView) {
-    return getStructure(theView, true);
+navigationParameters.subscribe(navParams => {
+  const query = navParams.query;
+  if ('view' in query) {
+    store.applyStateMutation(() => query.view);
   }
 });
+
+
+export function setView(newActiveView) {
+  mutateUrl(navParams => {
+    navParams.query.view = newActiveView;
+    return navParams;
+  });
+}

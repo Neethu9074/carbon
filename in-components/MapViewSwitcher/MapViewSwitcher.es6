@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {setView} from 'in-services/stores/view';
+import connectTo from 'in-components/hoc/connectTo';
+import * as viewStore from 'in-services/stores/view';
 import {getClassName} from 'in-services/react';
 import eventBus from 'in-services/eventbus';
 import views from 'in-services/views';
@@ -9,48 +10,44 @@ import './MapViewSwitcher.less';
 
 const block = 'in-map-view-switcher';
 
-const MapViewSwitcher = React.createClass({
+export default connectTo(
+  () => {
+    return {
+      activeView: viewStore.view
+    };
+  },
+  React.createClass({
+  displayName: 'MapViewSwitcher',
+
   propTypes: {
-    className: React.PropTypes.string
-  },
-
-  views: {
-    physical: { view: views.physical },
-    process: { view: views.process }
-  },
-
-  getInitialState() {
-    return { activeView: this.views.physical };
+    className: React.PropTypes.string,
+    activeView: React.PropTypes.string.isRequired
   },
 
   render() {
-    const keys = Object.keys(this.views);
     return (
       <ul className={getClassName(this, block)}>
-        {keys.map(viewKey => {
-          const view = this.views[viewKey];
-          const className = this.state.activeView === view ?
-            block + '__item ' + block + '__item__active'
-            : block + '__item';
-          return (
-            <li key={viewKey}
-                className={className}
-                onClick={() => this.onViewSwitched(view)}>
-              {viewKey}
-            </li>
-          );
-        })}
+        {this.renderItem(views.physical, 'Physical')}
+        {this.renderItem(views.process, 'Process')}
       </ul>
     );
   },
 
-  onViewSwitched(newActiveView) {
-    if (this.state.activeView !== newActiveView) {
-      this.setState({ activeView: newActiveView });
-      setView(newActiveView.view);
-      eventBus.emit('onViewSwitched');
-    }
-  }
-});
+  renderItem(viewKey, label) {
+    const className = this.props.activeView === viewKey ?
+      block + '__item ' + block + '__item__active'
+      : block + '__item';
+    return (
+      <li key={viewKey}
+          className={className}
+          onClick={() => this.onViewSwitched(viewKey)}>
+        {label}
+      </li>
+    );
+  },
 
-export default MapViewSwitcher;
+  onViewSwitched(viewKey) {
+    viewStore.setView(viewKey);
+    eventBus.emit('onViewSwitched');
+  }
+}));
