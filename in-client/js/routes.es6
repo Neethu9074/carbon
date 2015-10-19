@@ -13,7 +13,6 @@ import SnapshotPane from './components/SnapshotPane';
 import EnvironmentPane from './components/EnvironmentPane';
 import MetricLatencyPane from './components/MetricLatencyPane';
 import MetricPane from './components/MetricPane';
-import DogePane from './components/DogePane/index.djs';
 
 export default (
   <Route name='map' path='/' handler={App}>
@@ -40,8 +39,5 @@ export default (
              path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/:metric'
             name='metric-pane'/>
     : null}
-    <Route handler={DogePane}
-           path='suchWow'
-           name='suchWow' />
   </Route>
 );
