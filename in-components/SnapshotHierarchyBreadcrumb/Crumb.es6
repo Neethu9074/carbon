@@ -1,5 +1,4 @@
 import irpt from 'react-immutable-proptypes';
-import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
@@ -15,8 +14,7 @@ const block = 'in-crumb';
 
 const Crumb = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
-    Navigation
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
@@ -28,7 +26,6 @@ const Crumb = React.createClass({
   statics: {
     createObservables(props) {
       return {
-        selectedSnapshot: selectedSnapshotStore.selectedSnapshot,
         fullSnapshot: getFullSnapshot(props.coordinates)
       };
     }
@@ -54,15 +51,7 @@ const Crumb = React.createClass({
   },
 
   onCrumbClicked() {
-    const coordinates = this.props.coordinates;
-    this.transitionTo(
-      'dashboard',
-      {
-        pluginId: encodeURIComponent(coordinates.get('pluginId')),
-        steadyId: encodeURIComponent(coordinates.get('steadyId')),
-        hostId: encodeURIComponent(coordinates.get('hostId'))
-      }
-    );
+    selectedSnapshotStore.select(this.props.coordinates);
   }
 });
 

@@ -1,8 +1,8 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
-import {Navigation} from 'react-router';
 import * as ro from 'reactive-observables';
 
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import {getLayers} from 'in-services/wiring';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import {getFullSnapshot} from 'in-services/snapshots';
@@ -19,8 +19,7 @@ const block = 'in-wiring-list';
 
 const WiringList = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
-    Navigation
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
@@ -81,14 +80,7 @@ const WiringList = React.createClass({
 
   navigateToDashboard(snapshot) {
     tracking.events.navigateToAWiredComponentFromTheDashboard();
-    this.transitionTo(
-      'dashboard',
-      {
-        pluginId: encodeURIComponent(snapshot.get('pluginId')),
-        steadyId: encodeURIComponent(snapshot.get('steadyId')),
-        hostId: encodeURIComponent(snapshot.get('hostId'))
-      }
-    );
+    selectedSnapshotStore.select(snapshot);
   },
 
   getSnapshotsGroupedByPluginId() {

@@ -28,6 +28,7 @@
     "intl": "^0.1.4",
     "invariant": "^2.0.0",
     "lodash": "^3.9.0",
+    "lodash.clone": "3.0.3",
     "moment": "^2.10.3",
     "react": "0.13.1",
     "react-immutable-proptypes": "^1.0.0",

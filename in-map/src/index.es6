@@ -1,6 +1,7 @@
-import {Navigation} from 'react-router';
 import React from 'react/addons';
 
+import * as navigation from 'in-services/stores/navigation';
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import helpify from 'in-components/hoc/helpify';
 import enhance from 'in-components/hoc/enhance';
@@ -17,8 +18,7 @@ const MapRC = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin,
-    SubscriptionMixin,
-    Navigation
+    SubscriptionMixin
   ],
 
   propTypes: {
@@ -98,14 +98,8 @@ const MapRC = React.createClass({
   },
 
   openDashboard(snapshot) {
-    this.transitionTo(
-      'dashboard',
-      {
-        pluginId: encodeURIComponent(snapshot.get('pluginId')),
-        steadyId: encodeURIComponent(snapshot.get('steadyId')),
-        hostId: encodeURIComponent(snapshot.get('hostId'))
-      }
-    );
+    selectedSnapshotStore.select(snapshot);
+    navigation.goToDashboard();
   },
 
   // https://www.khronos.org/webgl/wiki/FAQ

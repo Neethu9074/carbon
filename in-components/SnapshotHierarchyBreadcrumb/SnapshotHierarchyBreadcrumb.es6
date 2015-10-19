@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as wiring from 'in-services/wiring';
 import * as views from 'in-services/views';
 import {alwaysEmptyArray} from 'in-services/fixedStreams';
@@ -20,30 +19,19 @@ const SnapshotHierarchyBreadcrumb = React.createClass({
   ],
 
   propTypes: {
-    selectedSnapshot: irpt.map.isRequired,
+    snapshot: irpt.map,
     hierarchy: rpt.array
   },
 
   statics: {
-    createObservables() {
-      return {
-        selectedSnapshot: selectedSnapshotStore.selectedSnapshot,
-        hierarchy: selectedSnapshotStore.selectedSnapshot.transform({
-          emitLatestOnSubscribe: true,
-
-          transform(snapshot) {
-            if (!snapshot) {
-              return alwaysEmptyArray;
-            }
-            return wiring.getAllStepsBetweenNodeAndLeaf(views.physical, snapshot);
-          },
-
-          shouldRetransform(prevSnapshot, snapshot) {
-            // reference check works because of immutable objects
-            return prevSnapshot !== snapshot;
-          }
-        })
-      };
+    createObservables(props) {
+      let hierarchy;
+      if (!props.snapshot) {
+        hierarchy = alwaysEmptyArray;
+      } else {
+        hierarchy = wiring.getAllStepsBetweenNodeAndLeaf(views.physical, props.snapshot);
+      }
+      return {hierarchy};
     }
   },
 
@@ -55,14 +43,15 @@ const SnapshotHierarchyBreadcrumb = React.createClass({
 
     // if the root element is the host
     if (hierarchy.length === 0) {
-      hierarchy.push(this.props.selectedSnapshot);
+      hierarchy.push(this.props.snapshot);
     }
 
     return (
       <ul className={block}>
         {hierarchy.reverse().map(child =>
           <Crumb key={child.get('id')}
-                 coordinates={child}/>
+                 coordinates={child}
+                 selectedSnapshot={this.props.snapshot}/>
         )}
       </ul>
     );

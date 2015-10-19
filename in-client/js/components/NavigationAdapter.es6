@@ -1,7 +1,7 @@
 import React from 'react';
 import {Navigation, State} from 'react-router';
 
-import {setUpdatedNavigationParameters} from 'in-services/navigation';
+import {setUpdatedNavigationParameters} from 'in-services/stores/navigation';
 
 const NavigationAdapter = React.createClass({
 
@@ -17,6 +17,7 @@ const NavigationAdapter = React.createClass({
 
   updateNavigationParameters() {
     setUpdatedNavigationParameters(
+      this.transitionTo,
       this.getPathname(),
       this.getParams(),
       this.getQuery()

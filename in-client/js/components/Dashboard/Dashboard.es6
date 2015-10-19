@@ -6,7 +6,6 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import SidebarDashboard from 'in-components/SidebarDashboard';
 import getForgeComponent from 'in-services/getForgeComponent';
 import * as timelineStore from 'in-services/stores/timeline';
-import {extractCoordinates} from 'in-services/snapshots';
 import Jail from 'in-components/Jail';
 
 import Navigation from './Navigation';
@@ -19,17 +18,6 @@ const block = 'in-dashboard';
 const Dashboard = React.createClass({
   mixins: [SubscriptionMixin],
 
-  statics: {
-    willTransitionTo(transition, params) {
-      const snapshotCoordinates = extractCoordinates({
-        pluginId: decodeURIComponent(params.pluginId),
-        hostId: decodeURIComponent(params.hostId),
-        steadyId: decodeURIComponent(params.steadyId)
-      });
-      selectedSnapshotStore.select(snapshotCoordinates);
-    }
-  },
-
   getInitialState() {
     return {
       snapshot: null,
@@ -38,7 +26,9 @@ const Dashboard = React.createClass({
   },
 
   componentWillMount() {
-    this.addSubscription(selectedSnapshotStore.selectedSnapshot.subscribe(snapshot => this.setState({snapshot})));
+    this.addSubscription(selectedSnapshotStore.selectedSnapshot.subscribe(snapshot => {
+      this.setState({snapshot});
+    }));
     this.addSubscription(timelineStore.timeframe.subscribe(timeframe => this.setState({timeframe})));
   },
 
