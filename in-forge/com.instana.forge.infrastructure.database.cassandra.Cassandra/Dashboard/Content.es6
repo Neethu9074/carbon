@@ -93,7 +93,6 @@ const CassandraDashboard = React.createClass({
             <tbody>
               {keyspaces.map(keyspace =>
                 <tr key={keyspace}
-                    onClick={() => this.selectFilesystem(name)}
                     className={classnames({
                       'active': false })}>
                   <td>{keyspace}</td>
