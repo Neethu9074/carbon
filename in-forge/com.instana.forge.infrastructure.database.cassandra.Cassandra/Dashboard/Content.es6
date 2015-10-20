@@ -6,6 +6,7 @@ import d3 from 'd3';
 import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'in-services/converters';
+import classnames from 'in-services/util/classnames';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
@@ -82,7 +83,7 @@ const CassandraDashboard = React.createClass({
 
         {keyspaces ?
           <DashboardSection title='Keyspaces'>
-          <ResponsiveTable clickable={false}>
+          <ResponsiveTable clickable={true}>
             <thead>
               <tr>
                 <th>Name</th>
@@ -92,7 +93,9 @@ const CassandraDashboard = React.createClass({
             <tbody>
               {keyspaces.map(keyspace =>
                 <tr key={keyspace}
-                    onClick={() => this.selectFilesystem(name)}>
+                    onClick={() => this.selectFilesystem(name)}
+                    className={classnames({
+                      'active': false })}>
                   <td>{keyspace}</td>
                 </tr>
               ).valueSeq()}
