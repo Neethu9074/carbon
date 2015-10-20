@@ -8,7 +8,10 @@ import irpt from 'react-immutable-proptypes';
 import {formatBytes} from 'in-services/converters';
 
 import DashboardSection from 'in-components/DashboardSection';
+import ResponsiveTable from 'in-components/ResponsiveTable';
+
 import ChartWithLegend from 'in-components/ChartWithLegend';
+
 
 const rpt = React.PropTypes;
 
@@ -25,6 +28,8 @@ const CassandraDashboard = React.createClass({
   },
 
   render() {
+    const keyspaces = this.props.snapshot.get('data').get('keyspaces');
+
     return (
       <div>
         <DashboardSection title='Requests'>
@@ -74,6 +79,27 @@ const CassandraDashboard = React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
+
+        {keyspaces ?
+          <DashboardSection title='Keyspaces'>
+          <ResponsiveTable clickable={false}>
+            <thead>
+              <tr>
+                <th>Name</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {keyspaces.map(keyspace =>
+                <tr key={keyspace}
+                    onClick={() => this.selectFilesystem(name)}>
+                  <td>{keyspace}</td>
+                </tr>
+              ).valueSeq()}
+            </tbody>
+          </ResponsiveTable>
+        </DashboardSection>
+        : null }
 
         <DashboardSection title='Storage Load'>
           <ChartWithLegend snapshot={this.props.snapshot}
