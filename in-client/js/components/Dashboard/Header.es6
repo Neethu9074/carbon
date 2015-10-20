@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
 import SnapshotHierarchyBreadcrumb from 'in-components/SnapshotHierarchyBreadcrumb';
 
@@ -11,10 +12,14 @@ const DashboardHeader = React.createClass({
     React.addons.PureRenderMixin
   ],
 
+  propTypes: {
+    snapshot: irpt.map.isRequired
+  },
+
   render() {
     return (
       <div className={block}>
-        <SnapshotHierarchyBreadcrumb />
+        <SnapshotHierarchyBreadcrumb snapshot={this.props.snapshot} />
       </div>
     );
   }

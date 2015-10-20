@@ -3,6 +3,8 @@ import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
 import React from 'react/addons';
 
+import * as navigation from 'in-services/stores/navigation';
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import * as tracking from 'in-services/tracking';
 import {getClassName} from 'in-services/react';
 
@@ -53,16 +55,9 @@ const ViewDashboardButton = React.createClass({
   },
 
   openDashboard() {
-    const snapshot = this.props.snapshot;
     tracking.events.openingADashboardUsingTheSidebar();
-    this.transitionTo(
-      'dashboard',
-      {
-        pluginId: encodeURIComponent(snapshot.get('pluginId')),
-        steadyId: encodeURIComponent(snapshot.get('steadyId')),
-        hostId: encodeURIComponent(snapshot.get('hostId'))
-      }
-    );
+    selectedSnapshotStore.select(this.props.snapshot);
+    navigation.goToDashboard();
   }
 });
 SidebarHeadingNavigation.ViewDashboardButton = ViewDashboardButton;
@@ -76,7 +71,7 @@ const BackToMap = React.createClass({
   render() {
     return (
       <Button className={block + '__button'}
-              onClick={() => { this.transitionTo('map'); }}>
+              onClick={navigation.goToMap}>
         back to map
       </Button>
     );

@@ -17,7 +17,7 @@ import MetricPane from './components/MetricPane';
 export default (
   <Route name='map' path='/' handler={App}>
     <Route handler={Dashboard}
-           path='dashboard/:pluginId/:hostId/:steadyId'
+           path='dashboard'
            name='dashboard'/>
     {__INTERNAL__ ?
       <Route handler={SnapshotPane}

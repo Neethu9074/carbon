@@ -1,5 +1,6 @@
 import {createLogger} from 'instalog';
 
+import * as navigation from 'in-services/stores/navigation';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {create} from 'in-services/conveyer';
@@ -11,16 +12,9 @@ let snapshots;
 export const observable = create(SnapshotsConveyer, {pluginId: plugins.os})
                             .subscribe(data => snapshots = data);
 
-function openDashboard(tour) {
-  const snapshot = snapshots.get(0);
-  tour.transitionTo(
-    'dashboard',
-    {
-      pluginId: snapshot.get('pluginId'),
-      steadyId: snapshot.get('steadyId'),
-      hostId: snapshot.get('hostId')
-    }
-  );
+function openDashboard() {
+  selectedSnapshot.select(snapshots.get(0));
+  navigation.goToDashboard();
 }
 
 function clickOnCssItem(tag) {
@@ -86,8 +80,8 @@ export const tourDefinition = {
             'environmental information, e.g. Amazon Web-Service data and applications that are ' +
             'running on this host.',
       element: 'ALL_RIGHT',
-      undo(tour) {
-        tour.transitionTo('map');
+      undo() {
+        navigation.goToMap();
       }
     },
     {
@@ -101,8 +95,8 @@ export const tourDefinition = {
       text: 'Close the dashboard and go back to the 3D map using this button.',
       element: '.in-sidebar-dashboard .in-sidebar-heading-navigation__button',
       nextStepLabel: 'Back to the 3D Map',
-      after(tour) {
-        tour.transitionTo('map');
+      after() {
+        navigation.goToMap();
         selectedSnapshot.clear();
       }
     },
