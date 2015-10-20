@@ -6,3 +6,4 @@
 /tmp
 /in-themes/active*
 /in-server/node_modules
+/in-server/serverConfig.json

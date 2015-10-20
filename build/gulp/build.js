@@ -3,6 +3,7 @@
 
 'use strict';
 
+var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
 var size = require('gulp-size');
@@ -43,7 +44,8 @@ gulp.task('try-build', function(cb) {
     [
       'startTryBuildProxy',
       'openTryBuildUrlInBrowser',
-      'writeTryBuildConfigFile'
+      'writeTryBuildConfigFile',
+      'writeTryBuildServerConfigFile'
     ],
     'startTryBuildServer',
     cb
@@ -156,6 +158,18 @@ gulp.task('identifyTryBuildTargetEnvironment', function(cb) {
 
 gulp.task('writeTryBuildConfigFile', function() {
   buildUtil.writeDevModeConfig(tryBuildModeOptions.uiMode === 'saas' ? 'production' : 'demo');
+});
+
+
+gulp.task('writeTryBuildServerConfigFile', function() {
+  var config = {
+    baseUrl: 'https://local-instana.instana.io',
+    uiBackendBaseUrl: environments[tryBuildModeOptions.environment].uiBackendUrl
+  };
+  fs.writeFileSync(
+    path.join(paths.targetDir, 'serverConfig.json'),
+    JSON.stringify(config, 0, 2)
+  );
 });
 
 
