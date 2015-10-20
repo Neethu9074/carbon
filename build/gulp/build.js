@@ -163,7 +163,7 @@ gulp.task('writeTryBuildConfigFile', function() {
 
 gulp.task('writeTryBuildServerConfigFile', function() {
   var config = {
-    baseUrl: 'https://local-instana.instana.io',
+    baseUrl: 'https://local-instana.instana.io:4000',
     uiBackendBaseUrl: environments[tryBuildModeOptions.environment].uiBackendUrl
   };
   fs.writeFileSync(
@@ -178,7 +178,10 @@ gulp.task('startTryBuildServer', function() {
     '"' + path.join(paths.binDir, 'babel-node') +
     '" "' +
     path.join(paths.targetDir, 'index.js') +
-    '"'
+    '"',
+    {
+      stdio: 'inherit'
+    }
   );
 });
 
@@ -197,11 +200,12 @@ gulp.task('startTryBuildProxy', function() {
     tls: true,
     proxy: {
       '/': 'http://127.0.0.1:3131',
-      '/auth/signIn': groundskeeperUrl + '/signIn',
-      '/auth/signOut': groundskeeperUrl + '/signOut',
-      '/auth/users/current': groundskeeperUrl + '/users/current',
+      '/auth/signIn': groundskeeperUrl + '/auth/signIn',
+      '/auth/signOut': groundskeeperUrl + '/auth/signOut',
+      '/auth/users/current': groundskeeperUrl + '/auth/users/current',
       '/internal/api': instagrafanaUrl + 'api',
-      '/uiTracker/': 'http://127.0.0.1:8484/'
+      '/uiTracker/': 'http://127.0.0.1:8484/',
+      '/assets/': groundskeeperUrl + '/assets/'
     },
 
     websocketProxy: {
