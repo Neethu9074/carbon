@@ -5,7 +5,7 @@ import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
-const CassandraInfo = React.createClass({
+const CassandraCommunicationInfo = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
@@ -17,20 +17,25 @@ const CassandraInfo = React.createClass({
 
     return (
       <DescriptionList>
-        <DescriptionItem title='Version'>
-          {data.get('version')}
+        <DescriptionItem title='Node Status'>
+          {data.get('mode')}
         </DescriptionItem>
 
-        <DescriptionItem title='Cluster'>
-          {data.get('clusterName')}
+        <DescriptionItem title='Gossip Running'>
+          {data.get('gossipRunning')}
         </DescriptionItem>
 
-        <DescriptionItem title='Host'>
-          {data.get('hostId')}
+        <DescriptionItem title='Thrift Running'>
+          {data.get('thriftRunning')}
         </DescriptionItem>
+
+        <DescriptionItem title='CQL/Native Transport Running'>
+          {data.get('nativeTransportRunning')}
+        </DescriptionItem>
+
       </DescriptionList>
     );
   }
 });
 
-export default CassandraInfo;
+export default CassandraCommunicationInfo;

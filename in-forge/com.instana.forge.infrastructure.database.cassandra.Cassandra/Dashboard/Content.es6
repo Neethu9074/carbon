@@ -6,9 +6,13 @@ import d3 from 'd3';
 import irpt from 'react-immutable-proptypes';
 
 import {formatBytes} from 'in-services/converters';
+import classnames from 'in-services/util/classnames';
 
 import DashboardSection from 'in-components/DashboardSection';
+import ResponsiveTable from 'in-components/ResponsiveTable';
+
 import ChartWithLegend from 'in-components/ChartWithLegend';
+
 
 const rpt = React.PropTypes;
 
@@ -25,28 +29,10 @@ const CassandraDashboard = React.createClass({
   },
 
   render() {
+    const keyspaces = this.props.snapshot.get('data').get('keyspaces');
+
     return (
       <div>
-        <DashboardSection title='Storage Load'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: formatBytes,
-                             metrics: [
-                               'storage.load'
-                             ],
-                             labels: [
-                               'Load'
-                             ],
-                             type: 'stackedArea'
-                           }}/>
-        </DashboardSection>
-
         <DashboardSection title='Requests'>
           <ChartWithLegend snapshot={this.props.snapshot}
                            windowSize={this.props.timeframe}
@@ -65,6 +51,75 @@ const CassandraDashboard = React.createClass({
                                'Write'
                              ],
                              type: 'line'
+                           }}/>
+        </DashboardSection>
+
+        <DashboardSection title='Pending Requests in Threadpools (Stages)'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'stage.mutation.pending',
+                               'stage.read.pending',
+                               'stage.countermutation.pending',
+                               'stage.readrepair.pending',
+                               'stage.requestresponse.pending'
+                             ],
+                             labels: [
+                               'Write (Mutation)',
+                               'Read',
+                               'Counter Mutation',
+                               'Read Repair',
+                               'Request/Response'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+
+        {keyspaces ?
+          <DashboardSection title='Keyspaces'>
+          <ResponsiveTable clickable={true}>
+            <thead>
+              <tr>
+                <th>Name</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {keyspaces.map(keyspace =>
+                <tr key={keyspace}
+                    className={classnames({
+                      'active': false })}>
+                  <td>{keyspace}</td>
+                </tr>
+              ).valueSeq()}
+            </tbody>
+          </ResponsiveTable>
+        </DashboardSection>
+        : null }
+
+        <DashboardSection title='Storage Load'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: formatBytes,
+                             metrics: [
+                               'storage.load'
+                             ],
+                             labels: [
+                               'Load'
+                             ],
+                             type: 'stackedArea'
                            }}/>
         </DashboardSection>
 
@@ -88,33 +143,6 @@ const CassandraDashboard = React.createClass({
                                'Counter',
                                'Key',
                                'Row'
-                             ],
-                             type: 'line'
-                           }}/>
-        </DashboardSection>
-
-        <DashboardSection title='Pending Requests'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             metrics: [
-                               'stage.countermutation.pending',
-                               'stage.mutation.pending',
-                               'stage.readrepair.pending',
-                               'stage.read.pending',
-                               'stage.requestresponse.pending'
-                             ],
-                             labels: [
-                               'Counter Mutation',
-                               'Mutation',
-                               'Read Repair',
-                               'Read',
-                               'RequestResponse'
                              ],
                              type: 'line'
                            }}/>
