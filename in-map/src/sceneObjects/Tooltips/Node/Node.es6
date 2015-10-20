@@ -151,7 +151,7 @@ const NodeTooltipRC = React.createClass({
         this.getStatusLine() :
         null}
         <Heading style={heading.style}>
-          {heading.text.toUpperCase()}
+          {heading.text}
         </Heading>
         {content}
       </TooltipFrame>
