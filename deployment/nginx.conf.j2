@@ -142,6 +142,15 @@ http {
       proxy_set_header       Connection "upgrade";
     }
 
+    # This endpoint is only supported to support local development mode. It is harmless in
+    # production but greatly eases local ui development.
+    location /api/checkUserAccessPermitted {
+      proxy_pass             http://api/checkUserAccessPermitted;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
     location /auth/signIn {
       limit_req              zone=onePerSecond burst=10;
 
