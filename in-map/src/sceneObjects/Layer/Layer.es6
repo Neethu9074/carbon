@@ -34,7 +34,7 @@ export default class Layer extends SceneObject {
     super({parent, id});
 
     this.snapshot = undefined;
-    this.label = '';
+    this.label = getSingular(coordinates.get('pluginId'));
 
     this.getComponent('position').setPosition(0, 0, 0);
 
@@ -197,8 +197,6 @@ export default class Layer extends SceneObject {
     }
 
     this.snapshot = snapshot;
-
-    this.label = getSingular(snapshot.get('pluginId'));
 
     if(!this.tooltip) {
       this.tooltip = new TooltipLayer(this);

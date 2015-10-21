@@ -100,31 +100,30 @@ const NodeTooltipRC = React.createClass({
       }
 
     } else if (layer.length > 0) {
-      const types = {}; // maps type -> counter
+      const plugins = {}; // maps type -> counter
       layer.forEach(item => {
         if(!item.snapshot) {
           return;
         }
         const pluginId = item.snapshot.get('pluginId');
-        const type = pluginId;
-        if(!types[type]) {
-          types[type] = 0;
+        if(!plugins[pluginId]) {
+          plugins[pluginId] = 0;
         }
-        types[type]++;
+        plugins[pluginId]++;
       });
 
-      const listItems = Object.keys(types).map(type => {
-        const counter = types[type];
+      const listItems = Object.keys(plugins).sort().map(plugin => {
+        const counter = plugins[plugin];
         return (
-          <li key={type} className={block + '__li'}>
+          <li key={plugin} className={block + '__li'}>
             <div className={block + '__li-wrapper'}>
               <Heading className={block + '__li-header'}>
                 {counter}
               </Heading>
               <Content className={block + '__li-content'}>
                 {counter > 1 ?
-                  getPlural(type) :
-                  getSingular(type)
+                  getPlural(plugin) :
+                  getSingular(plugin)
                 }
               </Content>
             </div>
