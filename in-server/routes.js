@@ -82,7 +82,7 @@ router.get('/', (req, res) => {
     const themeChecksum = themes[theme].checksum;
     const themeConfig = themes[theme].config;
 
-    // doing this exactly four times as the template requires four nonces
+    // doing this exactly three times as the template requires three nonces
     const nonces = [
       uuid.v4(),
       uuid.v4(),
