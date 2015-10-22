@@ -9,7 +9,7 @@ const store = createStore({
 });
 
 export const view = store.observable.distinct();
-export const viewStructure = view.flatMap(theView => getStructure(theView));
+export const viewStructure = view.flatMap(theView => getStructure(theView, true));
 
 
 // this is a somewhat stupid hack around some module loading shortcoming. This will

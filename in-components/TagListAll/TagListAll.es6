@@ -16,21 +16,31 @@ const TagListAll = React.createClass({
   ],
 
   propTypes: {
-    snapshots: rpt.array.isRequired
+    tags: rpt.array
   },
 
   statics: {
     createObservables() {
       return {
-        snapshots: viewStore.viewStructure.map(viewStructure => {
+        tags: viewStore.viewStructure.map(viewStructure => {
           return viewStructure.map(nodeStructure => nodeStructure.node);
+        })
+        .map(snapshots => {
+          let tags = [];
+          snapshots.forEach(snapshot => {
+            const t = snapshot.get('tags');
+            if (t) {
+              tags = tags.concat(t.toArray());
+            }
+          });
+          return _.uniq(tags);
         })
       };
     }
   },
 
   render() {
-    let tags = this.getAllTags();
+    let tags = this.props.tags;
     if (!tags || tags.length === 0) {
       return (
         <div className={'in-tag-list-all__no-tags'}>
@@ -49,23 +59,8 @@ const TagListAll = React.createClass({
         )}
       </div>
     );
-  },
-
-  getAllTags() {
-    let tags = [];
-    if (!this.props.snapshots) {
-      return tags;
-    }
-
-    this.props.snapshots.forEach(snapshot => {
-      const t = snapshot.get('tags');
-      if (t) {
-        tags = tags.concat(t.toArray());
-      }
-    });
-
-    return _.uniq(tags);
   }
+
 });
 
 export default enhance(TagListAll);
