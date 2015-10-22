@@ -15,14 +15,17 @@ const NodeJsInfo = React.createClass({
 
     return (
       <DescriptionList>
-        <DescriptionItem title='Process ID'>
-          {data.get('pid')}
+        <DescriptionItem title='Name'>
+          {data.get('name')}
         </DescriptionItem>
-        <DescriptionItem title='Runtime Arguments'>
-          {data.get('execArgs')}
+        <DescriptionItem title='Version'>
+          {data.get('version')}
         </DescriptionItem>
-        <DescriptionItem title='Runtime Versions'>
-          {this.formatVersionInformation(data.get('versions'))}
+        <DescriptionItem title='Arguments'>
+          {data.get('args')}
+        </DescriptionItem>
+        <DescriptionItem title='Dependencies'>
+          {this.formatVersionInformation(data.get('dependencies'))}
         </DescriptionItem>
       </DescriptionList>
     );

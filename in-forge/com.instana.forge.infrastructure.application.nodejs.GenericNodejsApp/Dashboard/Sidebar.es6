@@ -4,7 +4,7 @@ import irpt from 'react-immutable-proptypes';
 import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
 
-import NodeJsInfo from '../NodeJsInfo';
+import NodeJsAppInfo from '../NodeJsAppInfo';
 
 const NodejsDashboardSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -17,9 +17,9 @@ const NodejsDashboardSidebar = React.createClass({
     return (
       <div>
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Node.js Runtime</Collapsible.Header>
+          <Collapsible.Header>Node.js Application</Collapsible.Header>
           <Collapsible.Content>
-            <NodeJsInfo snapshot={this.props.snapshot} />
+            <NodeJsAppInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
