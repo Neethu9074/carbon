@@ -19,6 +19,8 @@ const rpt = React.PropTypes;
 const chartHeight = 200;
 const commasFormatter = d3.format(',.0f');
 const percentFormatter = d => commasFormatter(d * 100) + '%';
+const muSecondsToMillisFormatter = muSeconds => +(Math.round(muSeconds / 1000.0 + 'e+2')  + 'e-2') + ' ms';
+const muSecondsFormatter = muSeconds => muSeconds + ' µs';
 
 const CassandraDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
@@ -70,6 +72,7 @@ const CassandraDashboard = React.createClass({
                              }}
                              y1={{
                                min: 0,
+                               formatter: muSecondsToMillisFormatter,
                                metrics: [
                                  'clientrequests.' + op + '.mean',
                                  'clientrequests.' + op + '.50',
@@ -87,7 +90,38 @@ const CassandraDashboard = React.createClass({
           </DashboardSection>
         )}
 
-        <DashboardSection title='Pending Requests in Threadpools (Stages)'>
+        {['pending', 'blocked'].map( stage =>
+          <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'}>
+            <ChartWithLegend snapshot={this.props.snapshot}
+                             windowSize={this.props.timeframe}
+                             height={chartHeight}
+                             margins={{
+                               left: 80
+                             }}
+                             y1={{
+                               min: 0,
+                               metrics: [
+                                 'stage.mutation.' + stage,
+                                 'stage.read.' + stage,
+                                 'stage.countermutation.' + stage,
+                                 'stage.readrepair.' + stage,
+                                 'stage.requestresponse.' + stage,
+                                 'stage.memtableflushwriter.' + stage
+                               ],
+                               labels: [
+                                 'Write (Mutation)',
+                                 'Read',
+                                 'Counter Mutation',
+                                 'Read Repair',
+                                 'Request/Response',
+                                 'Memtable FlushWriter'
+                               ],
+                               type: 'line'
+                             }}/>
+          </DashboardSection>
+        )}
+
+        <DashboardSection title='Dropped Messages'>
           <ChartWithLegend snapshot={this.props.snapshot}
                            windowSize={this.props.timeframe}
                            height={chartHeight}
@@ -97,11 +131,11 @@ const CassandraDashboard = React.createClass({
                            y1={{
                              min: 0,
                              metrics: [
-                               'stage.mutation.pending',
-                               'stage.read.pending',
-                               'stage.countermutation.pending',
-                               'stage.readrepair.pending',
-                               'stage.requestresponse.pending'
+                               'blocked.MUTATION',
+                               'blocked.READ',
+                               'blocked.COUNTER_MUTATION',
+                               'blocked.READ_REPAIR',
+                               'blocked.REQUEST_RESPONSE'
                              ],
                              labels: [
                                'Write (Mutation)',
@@ -114,7 +148,44 @@ const CassandraDashboard = React.createClass({
                            }}/>
         </DashboardSection>
 
-        <DashboardSection title='Keyspaces'>
+        <DashboardSection title={this.state.selectedKeyspace ?
+          'Keyspaces (' + this.state.selectedKeyspace + ')' : 'Keyspaces' }>
+          {this.state.selectedKeyspace ?
+            <div>
+              <ChartWithLegend snapshot={this.props.snapshot}
+                     windowSize={this.props.timeframe}
+                     height={chartHeight}
+                     margins={{
+                       left: 80,
+                       right: 80
+                     }}
+                     y1={{
+                       min: 0,
+                       formatter: muSecondsFormatter,
+                       metrics: [
+                         'keyspace.' + this.state.selectedKeyspace + '.readLatency',
+                         'keyspace.' + this.state.selectedKeyspace + '.writeLatency'
+                       ],
+                       labels: [
+                         'Average Read Latency',
+                         'Average Write Latency'
+                       ],
+                       type: 'line'
+                     }}
+                     y2={{
+                       min: 0,
+                       metrics: [
+                         'keyspace.' + this.state.selectedKeyspace + '.reads',
+                         'keyspace.' + this.state.selectedKeyspace + '.writes'
+                       ],
+                       labels: [
+                         'Reads',
+                         'Writes'
+                       ],
+                       type: 'line'
+                     }} />
+            </div>
+          : null}
           <ResponsiveTable clickable={true}>
             <thead>
               <tr>
@@ -140,12 +211,12 @@ const CassandraDashboard = React.createClass({
                        snapshot={this.props.snapshot} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.readLatency'}
                       snapshot={this.props.snapshot}
-                      formatter={d => `${d} μs`} />
+                      formatter={muSecondsFormatter} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.writes'}
                        snapshot={this.props.snapshot} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.writeLatency'}
                       snapshot={this.props.snapshot}
-                      formatter={d => `${d} μs`} />
+                      formatter={muSecondsFormatter} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.ssTables'}
                        snapshot={this.props.snapshot} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.diskSize'}
@@ -202,27 +273,14 @@ const CassandraDashboard = React.createClass({
                              type: 'stackedArea'
                            }}/>
         </DashboardSection>
-
-        <DashboardSection title='Sorted Strings Tables'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             metrics: [
-                               'sstables'
-                             ],
-                             labels: [
-                               'Tables'
-                             ],
-                             type: 'stackedArea'
-                           }}/>
-        </DashboardSection>
       </div>
     );
+  },
+
+  selectKeyspace(keyspace) {
+    this.setState({
+      selectedKeyspace: keyspace
+    });
   }
 
 });
