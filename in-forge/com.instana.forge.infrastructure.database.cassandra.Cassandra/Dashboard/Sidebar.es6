@@ -40,7 +40,7 @@ const CassandraSidebar = React.createClass({
         </Collapsible>
 
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Tokens ({tokens.length})</Collapsible.Header>
+          <Collapsible.Header>{'Tokens' + ' (' + tokens.length + ')'}</Collapsible.Header>
           <Collapsible.Content>
             {tokens.length > 1 ?
               <List>

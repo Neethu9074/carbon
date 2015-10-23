@@ -5,13 +5,13 @@ import {IntlMixin} from 'react-intl';
 import d3 from 'd3';
 import irpt from 'react-immutable-proptypes';
 
-import {formatBytes} from 'in-services/converters';
+import {formatBytesShort, capitalize} from 'in-services/converters';
 import classnames from 'in-services/util/classnames';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
-
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import Mtd from 'in-components/Mtd';
 
 
 const rpt = React.PropTypes;
@@ -28,8 +28,14 @@ const CassandraDashboard = React.createClass({
     timeframe: rpt.number.isRequired
   },
 
+  getInitialState() {
+    return {
+      selectedKeyspace: null
+    };
+  },
+
   render() {
-    const keyspaces = this.props.snapshot.get('data').get('keyspaces');
+    const keyspaces = this.props.snapshot.get('data').get('keyspaces').sort();
 
     return (
       <div>
@@ -43,8 +49,8 @@ const CassandraDashboard = React.createClass({
                            y1={{
                              min: 0,
                              metrics: [
-                               'requests.read',
-                               'requests.write'
+                               'clientrequests.read.count',
+                               'clientrequests.write.count'
                              ],
                              labels: [
                                'Read',
@@ -53,6 +59,33 @@ const CassandraDashboard = React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
+
+        {['read', 'write'].map( op =>
+          <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'}>
+            <ChartWithLegend snapshot={this.props.snapshot}
+                             windowSize={this.props.timeframe}
+                             height={chartHeight}
+                             margins={{
+                               left: 80
+                             }}
+                             y1={{
+                               min: 0,
+                               metrics: [
+                                 'clientrequests.' + op + '.mean',
+                                 'clientrequests.' + op + '.50',
+                                 'clientrequests.' + op + '.95',
+                                 'clientrequests.' + op + '.99'
+                               ],
+                               labels: [
+                                 'Mean',
+                                 '50th Percentile',
+                                 '95th Percentile',
+                                 '99th Percentile'
+                               ],
+                               type: 'line'
+                             }}/>
+          </DashboardSection>
+        )}
 
         <DashboardSection title='Pending Requests in Threadpools (Stages)'>
           <ChartWithLegend snapshot={this.props.snapshot}
@@ -81,46 +114,47 @@ const CassandraDashboard = React.createClass({
                            }}/>
         </DashboardSection>
 
-        {keyspaces ?
-          <DashboardSection title='Keyspaces'>
+        <DashboardSection title='Keyspaces'>
           <ResponsiveTable clickable={true}>
             <thead>
               <tr>
-                <th>Name</th>
+                <th></th>
+                <th>Reads</th>
+                <th>Avg. Read Latency</th>
+                <th>Writes</th>
+                <th>Avg. Write Latency</th>
+                <th>SSTables</th>
+                <th>Disk Space</th>
               </tr>
             </thead>
 
             <tbody>
-              {keyspaces.map(keyspace =>
-                <tr key={keyspace}
+              {keyspaces.map(keyspaceName =>
+                <tr key={'keyspace-' + keyspaceName}
+                    onClick={() => this.selectKeyspace(keyspaceName)}
                     className={classnames({
-                      'active': false })}>
-                  <td>{keyspace}</td>
+                      'active': keyspaceName === this.state.selectedKeyspace
+                    })}>
+                  <td>{keyspaceName}</td>
+                  <Mtd metric={'keyspace.' + keyspaceName + '.reads'}
+                       snapshot={this.props.snapshot} />
+                  <Mtd metric={'keyspace.' + keyspaceName + '.readLatency'}
+                      snapshot={this.props.snapshot}
+                      formatter={d => `${d} μs`} />
+                  <Mtd metric={'keyspace.' + keyspaceName + '.writes'}
+                       snapshot={this.props.snapshot} />
+                  <Mtd metric={'keyspace.' + keyspaceName + '.writeLatency'}
+                      snapshot={this.props.snapshot}
+                      formatter={d => `${d} μs`} />
+                  <Mtd metric={'keyspace.' + keyspaceName + '.ssTables'}
+                       snapshot={this.props.snapshot} />
+                  <Mtd metric={'keyspace.' + keyspaceName + '.diskSize'}
+                       snapshot={this.props.snapshot}
+                       formatter={formatBytesShort} />
                 </tr>
               ).valueSeq()}
             </tbody>
           </ResponsiveTable>
-        </DashboardSection>
-        : null }
-
-        <DashboardSection title='Storage Load'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 80
-                           }}
-                           y1={{
-                             min: 0,
-                             formatter: formatBytes,
-                             metrics: [
-                               'storage.load'
-                             ],
-                             labels: [
-                               'Load'
-                             ],
-                             type: 'stackedArea'
-                           }}/>
         </DashboardSection>
 
         <DashboardSection title='Cache Hits'>
