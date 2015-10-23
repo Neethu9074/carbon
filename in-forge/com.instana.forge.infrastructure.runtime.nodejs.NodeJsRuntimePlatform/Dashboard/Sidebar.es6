@@ -2,7 +2,7 @@ import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
 import Collapsible from 'in-components/Collapsible';
-import WiringList from 'in-components/WiringList';
+import DeployedUnitList from 'in-components/DeployedUnitList';
 
 import NodeJsInfo from '../NodeJsInfo';
 
@@ -23,7 +23,7 @@ const NodejsDashboardSidebar = React.createClass({
           </Collapsible.Content>
         </Collapsible>
 
-        <WiringList snapshot={this.props.snapshot} />
+        <DeployedUnitList snapshot={this.props.snapshot} />
       </div>
     );
   }
