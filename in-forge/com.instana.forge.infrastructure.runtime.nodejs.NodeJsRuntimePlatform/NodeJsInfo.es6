@@ -19,7 +19,7 @@ const NodeJsInfo = React.createClass({
           {data.get('pid')}
         </DescriptionItem>
         <DescriptionItem title='Runtime Arguments'>
-          {data.get('execArgs')}
+          {data.get('execArgs').join(' ')}
         </DescriptionItem>
         <DescriptionItem title='Runtime Versions'>
           {this.formatVersionInformation(data.get('versions'))}

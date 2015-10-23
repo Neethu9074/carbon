@@ -56,10 +56,16 @@ const NodejsDashboard = React.createClass({
                      y2={{
                        min: 0,
                        metrics: [
-                         'http.' + this.state.selectedHttpServer + '.responseTime90'
+                         'http.' + this.state.selectedHttpServer + '.responseTime50',
+                         'http.' + this.state.selectedHttpServer + '.responseTime90',
+                         'http.' + this.state.selectedHttpServer + '.responseTime95',
+                         'http.' + this.state.selectedHttpServer + '.responseTime99'
                        ],
                        labels: [
-                         'Response Time 90th in ms'
+                         'Response Time 50th in ms',
+                         'Response Time 90th in ms',
+                         'Response Time 95th in ms',
+                         'Response Time 99th in ms'
                        ],
                        type: 'line'
                      }}/>
@@ -73,7 +79,10 @@ const NodejsDashboard = React.createClass({
                 <th>Port</th>
                 <th>Requests / s</th>
                 <th>Responses / s</th>
+                <th>Response Time 50th in ms</th>
                 <th>Response Time 90th in ms</th>
+                <th>Response Time 95th in ms</th>
+                <th>Response Time 99th in ms</th>
               </tr>
             </thead>
 
@@ -93,7 +102,13 @@ const NodejsDashboard = React.createClass({
                        snapshot={this.props.snapshot}/>
                   <Mtd metric={'http.' + key + '.responses'}
                        snapshot={this.props.snapshot}/>
+                  <Mtd metric={'http.' + key + '.responseTime50'}
+                       snapshot={this.props.snapshot}/>
                   <Mtd metric={'http.' + key + '.responseTime90'}
+                       snapshot={this.props.snapshot}/>
+                  <Mtd metric={'http.' + key + '.responseTime95'}
+                       snapshot={this.props.snapshot}/>
+                  <Mtd metric={'http.' + key + '.responseTime99'}
                        snapshot={this.props.snapshot}/>
                 </tr>
               ).valueSeq()}

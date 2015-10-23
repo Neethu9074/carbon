@@ -21,8 +21,11 @@ const NodeJsInfo = React.createClass({
         <DescriptionItem title='Version'>
           {data.get('version')}
         </DescriptionItem>
+        <DescriptionItem title='Description'>
+          {data.get('description')}
+        </DescriptionItem>
         <DescriptionItem title='Arguments'>
-          {data.get('args')}
+          {data.get('args').join(' ')}
         </DescriptionItem>
         <DescriptionItem title='Dependencies'>
           {this.formatVersionInformation(data.get('dependencies'))}
