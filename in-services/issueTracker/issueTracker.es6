@@ -1,4 +1,4 @@
-/*eslint-disable new-cap*/
+/* eslint-disable new-cap */
 import Immutable from 'immutable';
 
 import {isDemoEnvironment} from 'in-services/config';
@@ -12,16 +12,14 @@ import {create} from '../conveyer';
 
 // CPU steal issues shouldn't be shown in the demo environment as we are using
 // small EC2 instances. These almost always have high CPU steal.
-const withoutCpuStealMaper = function(issues) {
+const withoutCpuStealMaper = (issues) => {
   return issues.filter(issue =>
     issue.getIn(['problem', 'problemText'], '').indexOf('Steal') === -1
   );
 };
 
-const allIssuesStream = timelineStore.timeframe.transform({
-  emitLatestOnSubscribe: true,
-
-  transform(timeframe) {
+const allIssuesStream = timelineStore.timeframe.distinct()
+  .flatMap(timeframe => {
     const stream = create(IssueConveyer, {timeframe})
       .scan(collectingReducer, Immutable.List());
 
@@ -30,12 +28,7 @@ const allIssuesStream = timelineStore.timeframe.transform({
     }
 
     return stream;
-  },
-
-  shouldRetransform(previousTimeframe, nextTimeframe) {
-    return previousTimeframe !== nextTimeframe;
-  }
-});
+  });
 
 const openIssuesStream = allIssuesStream.map(issues => {
   return issues.filter(issue => issue.get('state') === 'OPEN');

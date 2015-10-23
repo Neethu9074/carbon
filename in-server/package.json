@@ -20,5 +20,10 @@
   },
   "publishConfig": {
     "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"
-  }
+  },
+  "keywords": [
+    "ui",
+    "ui-client",
+    "express"
+  ]
 }

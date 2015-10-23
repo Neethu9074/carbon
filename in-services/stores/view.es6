@@ -14,12 +14,14 @@ export const viewStructure = view.flatMap(theView => getStructure(theView, true)
 
 // this is a somewhat stupid hack around some module loading shortcoming. This will
 // be improved once we use the new react router
-const initialValue = window.location.hash.replace(/^(.*)view=([^&]+)(.*)$/i, '$2');
-if (initialValue.match(/\w+/i)) {
-  setTimeout(() => {
-    store.applyStateMutation(() => initialValue);
-    setView(initialValue);
-  }, 100);
+if (window.location.hash) {
+  const initialValue = window.location.hash.replace(/^(.*)view=([^&]+)(.*)$/i, '$2');
+  if (initialValue.match(/\w+/i)) {
+    setTimeout(() => {
+      store.applyStateMutation(() => initialValue);
+      setView(initialValue);
+    }, 100);
+  }
 }
 
 
