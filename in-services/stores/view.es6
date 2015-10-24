@@ -12,15 +12,14 @@ export const view = store.observable.distinct();
 export const viewStructure = view.flatMap(theView => getStructure(theView, true));
 
 
-// this is a somewhat stupid hack around some module loading shortcoming. This will
-// be improved once we use the new react router
 if (window.location.hash) {
-  const initialValue = window.location.hash.replace(/^(.*)view=([^&]+)(.*)$/i, '$2');
-  if (initialValue.match(/\w+/i)) {
-    setTimeout(() => {
-      store.applyStateMutation(() => initialValue);
-      setView(initialValue);
-    }, 100);
+  const match = window.location.hash.match(/(\?|&)view=([^&]+)(&|$)/i);
+  if (match && isValidView(match[2])) {
+    const initialView = match[2];
+    setView(initialView);
+    store.applyStateMutation(() => initialView);
+  } else {
+    setView(views.physical);
   }
 }
 
@@ -28,7 +27,11 @@ if (window.location.hash) {
 navigationParameters.subscribe(navParams => {
   const query = navParams.query;
   if ('view' in query) {
-    store.applyStateMutation(() => query.view);
+    if (isValidView(query.view)) {
+      store.applyStateMutation(() => query.view);
+    } else {
+      store.applyStateMutation(() => views.physical);
+    }
   }
 });
 
@@ -38,4 +41,14 @@ export function setView(newActiveView) {
     navParams.query.view = newActiveView;
     return navParams;
   });
+}
+
+
+function isValidView(givenView) {
+  for (const key in views) {
+    if (views.hasOwnProperty(key) && views[key] === givenView) {
+      return true;
+    }
+  }
+  return false;
 }
