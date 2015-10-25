@@ -101,7 +101,10 @@ router.get('/', (req, res) => {
 
       res.set(
         'Content-Security-Policy',
-        "script-src 'self' " + append + nonces.map(n => "'nonce-" + n + "'").join(' ')
+        "script-src 'self' " +
+          append +
+          nonces.map(n => "'nonce-" + n + "'").join(' ') +
+          ' https://www.google-analytics.com'
       );
     }
 
