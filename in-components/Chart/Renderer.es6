@@ -1,4 +1,4 @@
-/*eslint complexity:[2, 13] */
+/* eslint complexity:[2, 13] */
 import * as ro from 'reactive-observables';
 import TWEEN from 'tween.js';
 import moment from 'moment';
@@ -540,7 +540,7 @@ export default class Renderer {
       .to({x: animationEndPosition}, 2000)
       // this cannot be an arrow function as tween.js is passing in x values
       // via the execution context
-      .onUpdate(function() {
+      .onUpdate(function onUpdate() {
         self.clearRenderingCanvas();
         self.renderCtx.drawImage(
           self.drawingCanvas,
@@ -614,8 +614,8 @@ export default class Renderer {
     const dataColumns = this[axis].data.getDataColumns();
     const numberOfDataColumns = dataColumns.length;
 
-    let minY = Number.MAX_VALUE;
-    let maxY = Number.MIN_VALUE;
+    let minY = Number.POSITIVE_INFINITY;
+    let maxY = Number.NEGATIVE_INFINITY;
 
     for (let i = 0; i < numberOfDataColumns; i++) {
       if (!minFixed) {
@@ -644,6 +644,11 @@ export default class Renderer {
         maxY = this[axis].config.max;
       }
     }
+
+    if (minY >= maxY) {
+      maxY = minY + 1;
+    }
+
     this[axis].domain([minY, maxY]);
   }
 
@@ -651,14 +656,14 @@ export default class Renderer {
     if (this[axis].config.renderer.getMinYFromDataColumn) {
       return this[axis].config.renderer.getMinYFromDataColumn(dataColumn);
     }
-    return dataColumn.reduce(minReducer, Number.MAX_VALUE);
+    return dataColumn.reduce(minReducer, Number.POSITIVE_INFINITY);
   }
 
   getMaxYFromDataColumn(axis, dataColumn) {
     if (this[axis].config.renderer.getMaxYFromDataColumn) {
       return this[axis].config.renderer.getMaxYFromDataColumn(dataColumn);
     }
-    return dataColumn.reduce(maxReducer, Number.MIN_VALUE);
+    return dataColumn.reduce(maxReducer, Number.NEGATIVE_INFINITY);
   }
 
   onResize({height}) {
