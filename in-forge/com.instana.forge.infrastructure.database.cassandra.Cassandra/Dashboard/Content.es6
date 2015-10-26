@@ -62,8 +62,9 @@ const CassandraDashboard = React.createClass({
                            }}/>
         </DashboardSection>
 
-        {['read', 'write'].map( op =>
-          <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'}>
+        {['read', 'write'].map(op =>
+          <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'}
+                            key={op}>
             <ChartWithLegend snapshot={this.props.snapshot}
                              windowSize={this.props.timeframe}
                              height={chartHeight}
@@ -90,8 +91,9 @@ const CassandraDashboard = React.createClass({
           </DashboardSection>
         )}
 
-        {['pending', 'blocked'].map( stage =>
-          <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'}>
+        {['pending', 'blocked'].map(stage =>
+          <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'}
+                            key={stage}>
             <ChartWithLegend snapshot={this.props.snapshot}
                              windowSize={this.props.timeframe}
                              height={chartHeight}
@@ -199,7 +201,7 @@ const CassandraDashboard = React.createClass({
 
             <tbody>
               {keyspaces.map(keyspaceName =>
-                <tr key={'keyspace-' + keyspaceName}
+                <tr key={keyspaceName}
                     onClick={() => this.selectKeyspace(keyspaceName)}
                     className={classnames({
                       'active': keyspaceName === this.state.selectedKeyspace
