@@ -1,4 +1,4 @@
-/*eslint-env mocha*/
+/* eslint-env mocha */
 import * as ro from 'reactive-observables';
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
@@ -119,15 +119,10 @@ describe('wiring', () => {
 
       describe('getAllStepsBetweenNodeAndLeaf', () => {
 
-        it('should fail on unsupported view', () => {
-          expect(() => mod.getAllStepsBetweenNodeAndLeaf(views.physical.process))
-            .to.throw(Error);
-        });
-
         it('should return empty array on empty graph', () => {
           emitGraph(getGraph('empty'));
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical, extractCoordinates({
+          mod.getAllStepsBetweenNodeAndLeaf(extractCoordinates({
             hostId: 'h_0',
             steadyId: 's_1',
             pluginId: 'p_2'
@@ -140,7 +135,7 @@ describe('wiring', () => {
         it('should return empty if snapshot cannot be found', () => {
           emitGraph(getGraph('common'));
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical, extractCoordinates({
+          mod.getAllStepsBetweenNodeAndLeaf(extractCoordinates({
             hostId: 'h_0',
             steadyId: 's_1',
             pluginId: 'p_2'
@@ -165,7 +160,7 @@ describe('wiring', () => {
             steadyId: 'sDocker'
           });
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical, dockerCoords).subscribe(onNext);
+          mod.getAllStepsBetweenNodeAndLeaf(dockerCoords).subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);
 
@@ -189,7 +184,7 @@ describe('wiring', () => {
             steadyId: 'sDocker'
           });
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical, cassandraCoords).subscribe(onNext);
+          mod.getAllStepsBetweenNodeAndLeaf(cassandraCoords).subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);
           const nodes = onNext.getCall(0).args[0];
@@ -214,7 +209,7 @@ describe('wiring', () => {
             steadyId: 'sMySQL'
           });
 
-          mod.getAllStepsBetweenNodeAndLeaf(views.physical, mysqlCoords).subscribe(onNext);
+          mod.getAllStepsBetweenNodeAndLeaf(mysqlCoords).subscribe(onNext);
 
           expect(onNext).to.have.callCount(1);
           const nodes = onNext.getCall(0).args[0];

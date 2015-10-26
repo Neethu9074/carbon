@@ -4,7 +4,6 @@ import React from 'react/addons';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import {getClassName} from 'in-services/react';
 import * as wiring from 'in-services/wiring';
-import * as views from 'in-services/views';
 import {alwaysEmptyArray} from 'in-services/fixedStreams';
 
 import enhance from '../hoc/enhance';
@@ -36,7 +35,7 @@ const SidebarTabs = React.createClass({
             if (!snapshot) {
               return alwaysEmptyArray;
             }
-            return wiring.getAllStepsBetweenNodeAndLeaf(views.physical, snapshot);
+            return wiring.getAllStepsBetweenNodeAndLeaf(snapshot);
           },
 
           shouldRetransform(prevSnapshot, snapshot) {

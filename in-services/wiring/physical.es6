@@ -6,7 +6,7 @@ import * as views from '../views';
 
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {create} from '../conveyer';
-import {alwaysNull} from '../fixedStreams';
+import {alwaysNull, alwaysEmptyArray} from '../fixedStreams';
 import {
   getDestinationNode,
   getLeafNodes,
@@ -35,7 +35,7 @@ export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
         group = wiringGraph.nodes[group];
       }
 
-      const layers = getLeafNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn)
+      const layers = getLeafNodes(wiringGraph, osNodeStrId, [forgeConsts.rels.runsOn])
         .map(strId => wiringGraph.nodes[strId]);
 
       return {
@@ -48,18 +48,18 @@ export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
 }
 
 
-export function getAllStepsBetweenNodeAndLeaf(view, snapshotCoordinates) {
-  if (view !== views.physical) {
-    throw new Error('Unsupported view!', view, snapshotCoordinates);
-  }
-
+export function getAllStepsBetweenNodeAndLeaf(snapshotCoordinates) {
   const originId = snapshotCoordinates.get('id');
   if (originId.indexOf(forgeConsts.plugins.os) === 0) {
-    return completeWiring.map(() => []);
+    return alwaysEmptyArray;
   }
 
   return completeWiring.map(wiringGraph => {
-    const leafs = getLeafNodes(wiringGraph, originId, forgeConsts.rels.runsOn);
+    const leafs = getLeafNodes(
+      wiringGraph,
+      originId,
+      [forgeConsts.rels.runsOn]
+    );
     const leafId = leafs.length === 0 ? originId : leafs[0];
 
     return getAllNodesTillOsNode(wiringGraph, leafId);
@@ -99,7 +99,11 @@ export function getParentNode(view, childCoordinates) {
 
 export function getLayers(coords) {
   return completeWiring.map(wiringGraph => {
-    return getLeafNodes(wiringGraph, coords.get('id'), forgeConsts.rels.runsOn)
+    return getLeafNodes(
+        wiringGraph,
+        coords.get('id'),
+        [forgeConsts.rels.runsOn]
+      )
       .map(leafNodeStr => {
         return wiringGraph.nodes[leafNodeStr];
       });

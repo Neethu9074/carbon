@@ -33,7 +33,7 @@ export const fullProcessViewWiring = processViewWiring.transform({
 function mapWiringGraphToProcessViewGraph(wiringGraph) {
   const allProcessesStrIds = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
     .reduce((_allProcessesStrIds, osNodeStrId) => {
-      const processesOfHostStrIds = getLeafNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
+      const processesOfHostStrIds = getLeafNodes(wiringGraph, osNodeStrId, [forgeConsts.rels.runsOn]);
       return _allProcessesStrIds.concat(processesOfHostStrIds);
     }, []);
 

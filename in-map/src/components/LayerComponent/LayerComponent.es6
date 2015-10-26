@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import getIdString from 'in-services/snapshots/getIdString';
+
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer';
 import Component from '../Component';
@@ -44,6 +46,34 @@ export default class LayerComponent extends Component {
         this.layer.push(newLayer);
         this.needsUpdate = true;
       }
+    });
+  }
+
+  removedVanishedLayer(coordinates) {
+    const removedLayer = [];
+
+    this.layer.forEach(layer => {
+      const layerId = layer.id;
+
+      // find layer which are not sended anymore, so vanished
+      let found = false;
+
+      for (let i = 0; i < coordinates.size; i++) {
+        const coords = coordinates.get(i);
+        const coordId = getIdString(coords);
+        if (coordId === layerId) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        removedLayer.push(layer);
+      }
+    });
+
+    removedLayer.forEach(layer => {
+      this.removeChild(layer);
     });
   }
 
