@@ -59,4 +59,11 @@ describe('converters', () => {
       expect(rgb.r).to.equal(76 / 255);
     });
   });
+
+  describe('capitalize', () => {
+    it('should return the string with the first letter being uppercase', () => {
+      expect(converter.capitalize('Look at me!')).to.equal('Look at me!');
+    });
+  });
+
 });
