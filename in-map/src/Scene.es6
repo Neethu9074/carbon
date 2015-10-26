@@ -99,7 +99,7 @@ export default class Scene {
       // this may decrease performance as it forces a matrix update
       undeferred: false,
       // set the max depth of tree
-      depthMax: Infinity,
+      depthMax: 8,
       // max number of objects before nodes split or merge
       objectsThreshold: 8,
       // percent between 0 and 1 that nodes will overlap each other
