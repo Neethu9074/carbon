@@ -72,6 +72,7 @@ export default class LayerComponent extends Component {
 
     removedLayer.forEach(layer => {
       this.removeChild(layer);
+      layer.dispose();
     });
   }
 
