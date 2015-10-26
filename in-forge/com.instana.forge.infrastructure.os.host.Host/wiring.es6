@@ -116,7 +116,7 @@ function getIpBySnapshot(snapshot) {
     ethInterfaces.forEach(interf => {
 
       //get all ips of the interface
-      const ips = interf.get('ips');
+      const ips = interf.get('ips') || [];
       ips.forEach(ip => {
         ipArray.push(ip);
       });
