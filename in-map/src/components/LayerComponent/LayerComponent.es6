@@ -53,10 +53,21 @@ export default class LayerComponent extends Component {
     const removedLayer = [];
 
     this.layer.forEach(layer => {
-      // find layer which are not sended anymore, so vanished
-      const match = _.find(coordinates, coords => layer.id === getIdString(coords));
+      const layerId = layer.id;
 
-      if (!match) {
+      // find layer which are not sended anymore, so vanished
+      let found = false;
+
+      for (let i = 0; i < coordinates.size; i++) {
+        const coords = coordinates.get(i);
+        const coordId = getIdString(coords);
+        if (coordId === layerId) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
         removedLayer.push(layer);
       }
     });
