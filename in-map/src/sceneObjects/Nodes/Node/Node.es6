@@ -30,7 +30,6 @@ import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 
-const maxNodeHeight = 3;
 const nodeBaseHeight = 1;
 
 export default class Node extends BaseNode {
@@ -302,6 +301,7 @@ export default class Node extends BaseNode {
   }
 
   updateHeight(maxPower) {
+    const maxNodeHeight = 3;
     this._cachedPower = getPower(this.snapshot);
     const weightedHeight = (maxNodeHeight - nodeBaseHeight) * (this._cachedPower / maxPower);
     this.setHeight(nodeBaseHeight + weightedHeight);

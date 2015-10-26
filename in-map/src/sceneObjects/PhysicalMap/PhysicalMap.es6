@@ -1,8 +1,8 @@
 import THREE from 'three';
 import _ from 'lodash';
 
+import {view, viewStructure} from 'in-services/stores/view';
 import {hexToRGBNormalized} from 'in-services/converters';
-import {viewStructure} from 'in-services/stores/view';
 import {getFullSnapshot} from 'in-services/snapshots';
 import eventBus from 'in-services/eventbus';
 import theme from 'in-services/theme';
@@ -12,6 +12,7 @@ import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
 import * as time from '../../timeCalculations';
 import groundTexturePath from './ground.png';
+import {nodeMaxPower} from '../../mapStores';
 import SceneObject from '../SceneObject';
 import Layouter from '../../layout';
 import Group from '../Group';
@@ -86,6 +87,11 @@ export default class PhysicalMap extends SceneObject {
   }
 
   registerEvents() {
+    this.addSubscription(view.subscribe((v) => {
+      this.view = v;
+      nodeMaxPower.emit(Infinity);
+    }));
+
     this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
 
     this.handleTimeEvent = this.handleTimeEventFunction.bind(this);

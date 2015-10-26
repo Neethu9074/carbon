@@ -26,8 +26,8 @@ import PhysicalMap from './sceneObjects/PhysicalMap';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import TooltipHandler from './TooltipHandler';
-import * as stores from './mapStores';
 import * as time from './timeCalculations';
+import * as stores from './mapStores';
 import * as zoom from './zoom';
 
 const inverse = new THREE.Matrix4();
