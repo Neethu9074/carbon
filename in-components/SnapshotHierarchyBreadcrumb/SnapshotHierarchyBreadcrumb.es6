@@ -35,10 +35,10 @@ const SnapshotHierarchyBreadcrumb = React.createClass({
   },
 
   render() {
-    const hierarchy = this.props.hierarchy;
-    if (!hierarchy) {
+    if (!this.props.hierarchy) {
       return null;
     }
+    const hierarchy = this.props.hierarchy.slice();
 
     // if the root element is the host
     if (hierarchy.length === 0) {
