@@ -39,7 +39,7 @@ export default class MeshComponent extends Component {
 
   sizeChanged(x, y, z) {
     const scale = this.scaleToSet;
-    if(scale.x === x && scale.y === y && scale.z === z) {
+    if (scale.x === x && scale.y === y && scale.z === z) {
       return;
     }
 
@@ -55,7 +55,7 @@ export default class MeshComponent extends Component {
 
   colorChanged(r, g, b) {
     const color = this.colorToSet;
-    if(color.r === r && color.g === g && color.b === b) {
+    if (color.r === r && color.g === g && color.b === b) {
       return;
     }
 
@@ -69,7 +69,7 @@ export default class MeshComponent extends Component {
     this.needsUpdate = false;
     this.updateContentProvider();
 
-    if(this.isActive()) {
+    if (this.isActive()) {
       this.factory.addFragment(this.fragment);
     }
   }

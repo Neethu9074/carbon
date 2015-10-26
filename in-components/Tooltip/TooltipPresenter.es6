@@ -37,7 +37,7 @@ const TooltipPresenter = React.createClass({
 
     if (activeTooltip.focusedElement) {
       xy = this.getXYFromHtmlElement(tooltipElement);
-    } else if(activeTooltip.focusedPoint) {
+    } else if (activeTooltip.focusedPoint) {
       xy = activeTooltip.focusedPoint;
     }
 

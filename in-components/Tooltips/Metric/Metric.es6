@@ -22,7 +22,7 @@ export default React.createClass({
   render() {
     const metrics = this.props.metrics;
     const values = this.props.values;
-    if(values.length === 0 || metrics.size === 0) {
+    if (values.length === 0 || metrics.size === 0) {
       return null;
     }
 
@@ -31,7 +31,7 @@ export default React.createClass({
 
     const listItems = values.map((value, index) => {
       const color = colors[colorIndex++];
-      if(colorIndex >= colors.length) {
+      if (colorIndex >= colors.length) {
         colorIndex = 0;
       }
       const style = {color};

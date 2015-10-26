@@ -78,7 +78,7 @@ const Header = React.createClass({
            className={className}
            style={this.props.style}>
 
-        {this.props.children}
+        <span>{this.props.children}</span>
 
         <Icon type={isOpen ? 'close' : 'open'}
               className={block + '__toggle'} />

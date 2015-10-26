@@ -54,7 +54,7 @@ export default class ColorGenerator {
 
   addRange(fromArray, toArray, fromIndex, toIndex) {
     const middle = this.getMiddle(fromIndex, toIndex);
-    if(middle === -1) {
+    if (middle === -1) {
       return;
     }
 
@@ -65,7 +65,7 @@ export default class ColorGenerator {
 
   getMiddle(from, to) {
     const index = Math.floor((from + to) / 2);
-    if(index === from || index === to) {
+    if (index === from || index === to) {
       return -1;
     }
 
@@ -78,7 +78,7 @@ export default class ColorGenerator {
     const l = this.minLum + ((this.maxLum - this.minLum) * this.progress);
 
     this.progress += this.stepsPerGenerate;
-    if(this.progress > 1) {
+    if (this.progress > 1) {
       this.progress = 0;
     }
 
@@ -94,7 +94,7 @@ export default class ColorGenerator {
   getNextColor() {
     const color = this.colors[this.colorIndex++];
 
-    if(this.colorIndex > this.colors.length - 1) {
+    if (this.colorIndex > this.colors.length - 1) {
       this.colorIndex = 0;
     }
 

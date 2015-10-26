@@ -26,7 +26,7 @@ const MetricRC = React.createClass({
 
   componentDidMount() {
     this.addSubscription(activeMetric.subscribe(metric => {
-      if(!metric) {
+      if (!metric) {
         return;
       }
       const metrics = metric.get('metrics');

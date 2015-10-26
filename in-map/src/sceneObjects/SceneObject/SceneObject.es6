@@ -203,7 +203,7 @@ export default class SceneObject {
 
     this.forEachComponent(component => component.dispose());
 
-    if(this.parent) {
+    if (this.parent) {
       this.parent.removeChild(this);
     }
   }

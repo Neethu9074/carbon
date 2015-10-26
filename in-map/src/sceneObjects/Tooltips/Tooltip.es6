@@ -38,7 +38,7 @@ export default class Tooltip {
   }
 
   unMount() {
-    if(!this.moveSubscribtion) {
+    if (!this.moveSubscribtion) {
       return;
     }
 

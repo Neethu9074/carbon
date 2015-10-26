@@ -41,13 +41,13 @@ export function update(highResTimestamp) {
   timeCounterForComponentUpdate += deltaTimeInMs;
   fpsCounter++;
 
-  if(secondCounter >= 1) {
+  if (secondCounter >= 1) {
     secondCounter = 0;
     fps = fpsCounter;
     fpsCounter = 0;
   }
 
-  if(timeCounterForComponentUpdate >= millisWatingForComponentUpdate) {
+  if (timeCounterForComponentUpdate >= millisWatingForComponentUpdate) {
     timeCounterForComponentUpdate = 0;
     timeEventListener.forEach(l => l.handleComponentTimeEvent());
   }

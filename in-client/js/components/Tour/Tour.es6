@@ -66,7 +66,7 @@ const GuidedTour = React.createClass({
     if (focusedElement) {
       if (typeof focusedElement === 'string') {
         focusedElement = document.querySelector(focusedElement);
-        if(!focusedElement) {
+        if (!focusedElement) {
           if (step.element === 'ALL_RIGHT') {
             const dialog = React.findDOMNode(this.refs.dialog);
             predefinedPosition = {
@@ -234,7 +234,7 @@ const GuidedTour = React.createClass({
     const step = tourDefinition.steps[currentStep];
 
     // undo the current step
-    if(step && step.undo) {
+    if (step && step.undo) {
       step.undo(this);
     }
 

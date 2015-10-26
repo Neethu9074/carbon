@@ -76,7 +76,7 @@ export default class PhysicalMap extends SceneObject {
 
   handleTimeEventFunction() {
     //if the flag was set to recalculate the layouting
-    if(this.refreshLayout) {
+    if (this.refreshLayout) {
       this.applyLayout();
       eventBus.emit('layoutChanged');
 
@@ -167,7 +167,7 @@ export default class PhysicalMap extends SceneObject {
       layer: triple.layers
     });
 
-    if(!newNode) {
+    if (!newNode) {
       return;
     }
 
@@ -198,7 +198,7 @@ export default class PhysicalMap extends SceneObject {
   removeNodeFromAllGroupsInsteadOf(groupId, newNode) {
     const nodeId = newNode.id;
     getAllNodes(this).forEach(node => {
-      if(node.id === nodeId && node.parent.id !== groupId) {
+      if (node.id === nodeId && node.parent.id !== groupId) {
         node.dispose();
       }
     });
@@ -212,7 +212,7 @@ export default class PhysicalMap extends SceneObject {
   }
 
   showWalkableGrid() {
-    if(this.particles) {
+    if (this.particles) {
       this.removeSceneObject(this.particles);
     }
     this.particles = ConnectionGrid.asVisualObject();
@@ -236,7 +236,7 @@ export default class PhysicalMap extends SceneObject {
 
   onZoom(zoomLevel) {
     const size = this.size;
-    if(zoomLevel < 120) {
+    if (zoomLevel < 120) {
       this.groundtexture.repeat.set(3 * size, 3 * size);
     } else {
       this.groundtexture.repeat.set(size, size);

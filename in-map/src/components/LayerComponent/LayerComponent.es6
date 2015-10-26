@@ -34,7 +34,7 @@ export default class LayerComponent extends Component {
       // don't create a layer if its still there
       const match = _.find(this.layer, layer => layer.id === layerId);
 
-      if(!match) {
+      if (!match) {
         const newLayer = new Layer({
           coordinates: layerCoordinates,
           parent: this,
@@ -85,7 +85,7 @@ export default class LayerComponent extends Component {
 
   heightChanged(newHeight) {
     const height = this.heightToSet;
-    if(height === newHeight) {
+    if (height === newHeight) {
       return;
     }
 

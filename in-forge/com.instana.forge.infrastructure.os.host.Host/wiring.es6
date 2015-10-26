@@ -89,7 +89,7 @@ export function calculateIpMap(snapshots) {
 
 function getSnapshotByIp(ip, ipSnapshotMap) {
   let snapshot = ipSnapshotMap[ip];
-  if(!snapshot) {
+  if (!snapshot) {
     snapshot = Immutable.Map({
       state: 'unmonitored',
       hostId: 'unknown',
@@ -104,7 +104,7 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
 
 function getIpBySnapshot(snapshot) {
   const cachedIps = snapshot._cachedIps;
-  if(cachedIps) {
+  if (cachedIps) {
     return cachedIps;
   }
 
@@ -112,7 +112,7 @@ function getIpBySnapshot(snapshot) {
 
   //get all ethernet interfaces
   const ethInterfaces = snapshot.getIn(['data', 'interfaces']);
-  if(ethInterfaces) {
+  if (ethInterfaces) {
     ethInterfaces.forEach(interf => {
 
       //get all ips of the interface

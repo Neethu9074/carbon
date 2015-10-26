@@ -27,7 +27,7 @@ export default class AStateMachine {
   }
 
   changeStateProperty(name, value) {
-    if(this.stateProperties[name] !== value) {
+    if (this.stateProperties[name] !== value) {
       this.stateProperties[name] = value;
       this.updateState();
     }
@@ -37,8 +37,8 @@ export default class AStateMachine {
     const oldState = this.state;
     const newState = this.getStateFromLUT();
 
-    if(oldState !== newState) {
-      if(oldState) {
+    if (oldState !== newState) {
+      if (oldState) {
         oldState.leave();
       }
       this.state = newState;

@@ -49,7 +49,7 @@ export default class Scene {
     this.antialias = antialias;
     this.parent = parent;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.framesRendered = 0;
     }
 
@@ -153,7 +153,7 @@ export default class Scene {
   }
 
   setupFXAARenderPass() {
-    if(this.antialias !== 'FXAA') {
+    if (this.antialias !== 'FXAA') {
       return;
     }
 
@@ -204,7 +204,7 @@ export default class Scene {
     this.baselineFactory.material.transparent = true;
 
     this.metricUpdateInterval = setInterval(() => {
-      if(currentMetrics) {
+      if (currentMetrics) {
         this.updateMetricHeights();
       }
     }, 1000);
@@ -222,7 +222,7 @@ export default class Scene {
 
       for (let i = this.octrees.length - 1; i >= 0; i--) {
         const octree = this.octrees[i];
-        if(octree) {
+        if (octree) {
           octree.update();
         }
       }
@@ -269,7 +269,7 @@ export default class Scene {
     this.subscriptions.push(activeMetric.subscribe(metric => {
       // if there is an active metric, deselect the current selected obj and
       // show the metric pillars
-      if(metric) {
+      if (metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
         stores.selectedSceneObject.emit({sceneObject: null});
@@ -285,7 +285,7 @@ export default class Scene {
     this.subscriptions.push(
       selectedSnapshot.selectedSnapshot.subscribe(selected => {
         // if the store was cleared and this client is selected -> unselect it
-        if(!selected) {
+        if (!selected) {
           stores.selectedSceneObject.emit({sceneObject: null});
         }
       })
@@ -295,8 +295,8 @@ export default class Scene {
       const sceneObject = event.sceneObject;
       // clear the selectedSnapshot store if there was a click into nowhere
       // or on a sceneObject without a snapshot or unknown sceneObject
-      if(sceneObject) {
-        if(!event.calledByMap) {
+      if (sceneObject) {
+        if (!event.calledByMap) {
           this.controller.flyToObject(sceneObject);
         }
         this.hideHulls();
@@ -310,7 +310,7 @@ export default class Scene {
       this.controller.flyToPosition(5, -5)
     ));
 
-    if(__DEV__) {
+    if (__DEV__) {
       setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);
     }
   }
@@ -349,11 +349,11 @@ export default class Scene {
     this.controller.update();
 
     // don't render scene if it is not needed
-    if(!this.shouldRenderScene && !currentMetrics) {
+    if (!this.shouldRenderScene && !currentMetrics) {
       return;
     }
 
-    if(currentMetrics) {
+    if (currentMetrics) {
       eventBus.emit('updateTween', highResTimestamp);
     }
 
@@ -385,7 +385,7 @@ export default class Scene {
     const aspect = this.height / this.width;
     const nodeSizeInPixel = (nodeSize / width) * this.width * aspect;
 
-    if(this.nodeSizeInPixel !== nodeSizeInPixel) {
+    if (this.nodeSizeInPixel !== nodeSizeInPixel) {
       this.nodeSizeInPixel = nodeSizeInPixel;
       stores.iconSize.emit(nodeSizeInPixel);
       this.renderScene();
@@ -393,7 +393,7 @@ export default class Scene {
   }
 
   updateMetricHeights() {
-    if(currentMetrics) {
+    if (currentMetrics) {
       this.singleMeshMetricFactory.updateHeights();
     }
   }
@@ -409,7 +409,7 @@ export default class Scene {
     this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
 
     // if there is no cube isSelected, fade all cubes by distance
-    if(!this.hullsAreInactive) {
+    if (!this.hullsAreInactive) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
     }
   }
@@ -427,7 +427,7 @@ export default class Scene {
     if (this.doneMagic) {
       this.asciiEffect.render(this.scene, this.camera);
     } else {
-      if(this.antialias === 'FXAA') {
+      if (this.antialias === 'FXAA') {
         this.composer.render();
       } else {
         this.webGLRenderer.render(this.scene, this.camera);
@@ -437,7 +437,7 @@ export default class Scene {
     // reset the flag to disable rendering if there is no update
     this.shouldRenderScene = false;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.framesRendered++;
     }
   }
@@ -456,7 +456,7 @@ export default class Scene {
   }
 
   showHulls() {
-    if(!currentMetrics) {
+    if (!currentMetrics) {
       this.hullsAreInactive = false;
       this.layerSingleMeshFactory.material.transparent = false;
       this.layerSingleMeshFactory.material.depthWrite = true;
@@ -470,7 +470,7 @@ export default class Scene {
   }
 
   hideMetrics(e) {
-    if(e && e.hiddenByZoom) {
+    if (e && e.hiddenByZoom) {
       this.hideMetricsOnZoomOut = true;
     } else {
       this.hideMetricsOnZoomOut = false;
@@ -506,7 +506,7 @@ export default class Scene {
       const octree = this.octrees[i];
 
       // because there can be an octree on layer 7 and 5 but not on 6, check it's presence
-      if(!octree) {
+      if (!octree) {
         continue;
       }
 
@@ -535,12 +535,12 @@ export default class Scene {
   }
 
   addCollisionObject(obj, layer = 0) {
-    if(!obj) {
+    if (!obj) {
       return;
     }
 
     let octree = this.octrees[layer];
-    if(!octree) {
+    if (!octree) {
       octree = this.octrees[layer] = this.createOctree();
     }
     octree.add(obj, {useFaces: false});
@@ -548,7 +548,7 @@ export default class Scene {
 
   removeCollisionObject(obj, layer = 0) {
     const octree = this.octrees[layer];
-    if(octree) {
+    if (octree) {
       octree.remove(obj);
     }
   }
@@ -595,17 +595,17 @@ export default class Scene {
   }
 
   onObjectClicked(object, hoveredConnections) {
-    if(object) {
+    if (object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
       // only clear the store if there is no snapshot available or the object is unknown
-      if(!sceneObject.snapshot || sceneObject.isUnknown) {
+      if (!sceneObject.snapshot || sceneObject.isUnknown) {
         selectedSnapshot.clear();
       }
 
       stores.selectedSceneObject.emit({sceneObject, calledByMap: true});
 
     // dont reset the click if you clicken on connections
-    } else if(hoveredConnections.length === 0) {
+    } else if (hoveredConnections.length === 0) {
       this.resetClicked();
     } else {
       tracking.events.clickOnConnectionBetweenCubes();

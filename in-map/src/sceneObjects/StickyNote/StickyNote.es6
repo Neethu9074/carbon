@@ -18,7 +18,7 @@ export default class StickyNote {
   }
 
   hide() {
-    if(this.style.display !== 'none') {
+    if (this.style.display !== 'none') {
       this.style.display = 'none';
     }
   }
@@ -41,7 +41,7 @@ export default class StickyNote {
   setInactive(inactive) {
     const sticky = this.stickyNoteContainer;
 
-    if(inactive) {
+    if (inactive) {
       sticky.classList.remove('in-sticky-note__active');
       sticky.classList.add('in-sticky-note__inactive');
     } else {

@@ -45,13 +45,13 @@ const MapRC = React.createClass({
     const supportsWebGL = this.isWebGLSupported();
     this.setState({isWebGLSupported: supportsWebGL});
 
-    if(!supportsWebGL) {
+    if (!supportsWebGL) {
       this.props.showHelp(203889331);
     }
   },
 
   componentDidMount() {
-    if(!this.state.isWebGLSupported) {
+    if (!this.state.isWebGLSupported) {
       return;
     }
 
@@ -74,14 +74,14 @@ const MapRC = React.createClass({
     // if WebGL is supported, render the MapRC
     // else show a notification with a zendesk help text.
     // if this dialog was closed show nothing but the deepest darkness.
-    if(this.state.isWebGLSupported) {
+    if (this.state.isWebGLSupported) {
       return (<div className={block} ref='parent'/>);
     }
     return null;
   },
 
   loadScene() {
-    if(this.scene) {
+    if (this.scene) {
       this.scene.dispose();
     }
 

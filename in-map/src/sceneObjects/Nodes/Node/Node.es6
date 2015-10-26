@@ -136,8 +136,7 @@ export default class Node extends BaseNode {
     super.registerEvents();
 
     this.addSubscription(
-      // TODO Simon: Can we remove this async / nextFrame call?
-      highlightedSnapshot.highlightedSnapshot.nextFrame().subscribe(highlighted => {
+      highlightedSnapshot.highlightedSnapshot.subscribe(highlighted => {
         if (!highlighted) {
           this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
           return;
@@ -149,7 +148,7 @@ export default class Node extends BaseNode {
     );
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
-      if(so && this.snapshot && so.id === this.id) {
+      if (so && this.snapshot && so.id === this.id) {
         eventBus.emit('openDashboard', this.snapshot);
         tracking.events.openingADashboardUsingTheMap();
       }
@@ -165,7 +164,7 @@ export default class Node extends BaseNode {
 
   onHighlight(highlighted) {
     super.onHighlight(highlighted);
-    if(highlighted) {
+    if (highlighted) {
       highlightedSnapshot.select(this.snapshot);
     } else {
       highlightedSnapshot.clear();
@@ -194,7 +193,7 @@ export default class Node extends BaseNode {
   }
 
   setMetricValues(values) {
-    if(this.isHidden()){
+    if (this.isHidden()) {
       return;
     }
 
@@ -224,8 +223,8 @@ export default class Node extends BaseNode {
   update() {
     super.update();
 
-    //if the node is in the view frustum
-    if(!this.isInView()) {
+    // if the node is in the view frustum
+    if (!this.isInView()) {
         this.setStateForMetricActivity({ isOutOfView: true });
 
         if (!this.stickyIsHidden) {
@@ -243,22 +242,22 @@ export default class Node extends BaseNode {
   }
 
   setStateForMetricActivity(params) {
-    if(params.isOutOfView !== undefined) {
+    if (params.isOutOfView !== undefined) {
       this.isOutOfView = params.isOutOfView;
     }
-    if(params.isToFarAway !== undefined) {
+    if (params.isToFarAway !== undefined) {
       this.isToFarAway = params.isToFarAway;
     }
 
-    if(!this.isToFarAway && !this.isOutOfView &&
+    if (!this.isToFarAway && !this.isOutOfView &&
         this.snapshotServer && this.snapshotServer.currentMetric) {
-      if(!this.canShowMetrics) {
+      if (!this.canShowMetrics) {
         this.canShowMetrics = true;
         this.snapshotServer.resumeMetrics();
         this.showMetrics();
       }
     } else {
-      if(this.canShowMetrics) {
+      if (this.canShowMetrics) {
         this.canShowMetrics = false;
         this.snapshotServer.pauseMetrics();
         this.hideMetric();
@@ -277,23 +276,23 @@ export default class Node extends BaseNode {
   onSnapshotUpdate(snapshot) {
     // if the reference is equal, don't update. the reference is always equal
     // on the same snapshots because they are immutable
-    if(this.snapshot === snapshot) {
+    if (this.snapshot === snapshot) {
       return;
     }
 
     this.snapshot = snapshot;
     this._cachedPower = getPower(snapshot);
 
-    if(!this.components.health) {
+    if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
 
-    if(this.stickyNote.isEmpty) {
+    if (this.stickyNote.isEmpty) {
       this.stickyNote = new StickyNoteNode(this);
     }
     this.stickyNote.onSnapshotUpdate();
 
-    if(this.tooltip.isEmpty) {
+    if (this.tooltip.isEmpty) {
       this.tooltip = new TooltipNode(this);
     }
 
@@ -340,7 +339,7 @@ export default class Node extends BaseNode {
     groundLine.colorChanged(r, g, b);
     this.getComponent('mesh').colorChanged(r, g, b);
 
-    if(newHealth === health.ok) {
+    if (newHealth === health.ok) {
       ground.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
       groundLine.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
       this.getComponent('solidMesh').colorChanged(r + 0.1, g + 0.1, b + 0.1);
@@ -366,9 +365,9 @@ export default class Node extends BaseNode {
     const colors = theme.map.colors;
     let color;
 
-    if(hostHealth === health.warning) {
+    if (hostHealth === health.warning) {
       color = new THREE.Color(colors.warning);
-    } else if(hostHealth === health.danger) {
+    } else if (hostHealth === health.danger) {
       color = new THREE.Color(colors.critical);
     } else {
       color = new THREE.Color(colors.cubeBasicColor);

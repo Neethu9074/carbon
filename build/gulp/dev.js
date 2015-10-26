@@ -203,7 +203,7 @@ gulp.task('webpack:dev', function() {
     }
   })
   .listen(3000, 'localhost', function(err) {
-    if(err) {
+    if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
     }
     gutil.log('[webpack:dev]', 'http://localhost:3000/');

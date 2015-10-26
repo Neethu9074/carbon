@@ -32,7 +32,7 @@ function loadDefault() {
 }
 
 function setDefaultConfigValue(path, defaultValue) {
-  if(settings.getIn(path) === undefined) {
+  if (settings.getIn(path) === undefined) {
     setIn(path, defaultValue);
   }
 }
@@ -51,17 +51,17 @@ export function getIn(path, defaultValue) {
 }
 
 function setToStorage() {
-  if(typeof(Storage) !== 'undefined') {
+  if (typeof(Storage) !== 'undefined') {
     localStorage.setItem(settingsPath, JSON.stringify(settings.toJS()));
   }
 }
 
 function getFromStorage() {
-  if(typeof(Storage) === 'undefined') {
+  if (typeof(Storage) === 'undefined') {
     return null;
   }
   const temp = localStorage.getItem(settingsPath);
-  if(!temp) {
+  if (!temp) {
     return null;
   }
   const fromStorage = Immutable.fromJS(JSON.parse(temp));

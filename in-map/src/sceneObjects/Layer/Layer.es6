@@ -56,7 +56,7 @@ export default class Layer extends SceneObject {
     );
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
-      if(so && this.snapshot && so.id === this.id) {
+      if (so && this.snapshot && so.id === this.id) {
         eventBus.emit('openDashboard', this.snapshot);
         tracking.events.openingADashboardUsingTheMap();
       }
@@ -184,7 +184,7 @@ export default class Layer extends SceneObject {
     this.stateMachine.changeStateProperty('selected', isThisSelected);
 
     // snapshots may not yet exist yet when switching views.
-    if(isThisSelected && this.snapshot) {
+    if (isThisSelected && this.snapshot) {
       selectedSnapshot.select(this.snapshot);
     }
   }
@@ -192,13 +192,13 @@ export default class Layer extends SceneObject {
   onSnapshotUpdate(snapshot) {
     // if the reference is equal, don't update. the reference is always equal
     // on the same snapshots because they are immutable
-    if(this.snapshot === snapshot) {
+    if (this.snapshot === snapshot) {
       return;
     }
 
     this.snapshot = snapshot;
 
-    if(!this.tooltip) {
+    if (!this.tooltip) {
       this.tooltip = new TooltipLayer(this);
     }
 
@@ -206,13 +206,13 @@ export default class Layer extends SceneObject {
       this.selectedSnapshotSubscribtion.dispose();
     }
     this.selectedSnapshotSubscribtion = selectedSnapshot.selectedSnapshot.subscribe(selected => {
-      if(selected && this.snapshot.get('id') === selected.get('id') && !this.isSelected()) {
+      if (selected && this.snapshot.get('id') === selected.get('id') && !this.isSelected()) {
         selectedSceneObject.emit({sceneObject: this});
       }
     });
     this.addSubscription(this.selectedSnapshotSubscribtion);
 
-    if(!this.components.health) {
+    if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
   }
@@ -241,9 +241,9 @@ export default class Layer extends SceneObject {
     const colors = theme.map.colors;
     let color;
 
-    if(newHealth === health.warning) {
+    if (newHealth === health.warning) {
       color = new THREE.Color(colors.warning);
-    } else if(newHealth === health.danger) {
+    } else if (newHealth === health.danger) {
       color = new THREE.Color(colors.critical);
     } else {
       color = new THREE.Color(colors.layerBasicColor);

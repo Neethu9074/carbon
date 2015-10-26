@@ -51,23 +51,23 @@ export default class Unknownnode extends BaseNode {
     const incoming = [];
     this.getAllMapNodes().forEach(node => {
       //filter all unknown nodes and this
-      if(node.isUnknown || id === node.id) {
+      if (node.isUnknown || id === node.id) {
         return;
       }
 
       const wired = node.getWiredSnapshots();
-      if(!wired) {
+      if (!wired) {
         return;
       }
 
       wired.outgoing.forEach(wiredSnapshot => {
-        if(id === wiredSnapshot.get('id')) {
+        if (id === wiredSnapshot.get('id')) {
           incoming.push(node.snapshot);
         }
       });
 
       wired.incoming.forEach(wiredSnapshot => {
-        if(id === wiredSnapshot.get('id')) {
+        if (id === wiredSnapshot.get('id')) {
           outgoing.push(node.snapshot);
         }
       });
@@ -83,7 +83,7 @@ export default class Unknownnode extends BaseNode {
     super.update();
 
     //if the node is near enough or is in the view frustum
-    if(this.isInView()) {
+    if (this.isInView()) {
       this.updateStickyNotes();
     } else {
       this.stickyNote.hide();

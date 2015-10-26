@@ -62,7 +62,7 @@ export default class MouseControl extends TouchController {
         // scale down
         let zoom = (deltaY / 4) | 0;
 
-        if(deltaY < 0) {
+        if (deltaY < 0) {
           zoom = Math.max(-50, Math.min(-1, zoom));
         } else {
           zoom = Math.min(50, Math.max(1, zoom));

@@ -40,7 +40,7 @@ const Menu = React.createClass({
   },
 
   renderMenu() {
-    if(!this.state.open) {
+    if (!this.state.open) {
       return null;
     }
 
