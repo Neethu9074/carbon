@@ -34,14 +34,18 @@ export function getAllNodesTillOsNode(wiringGraph, leafId) {
   const nodes = [];
 
   let current = leafId;
-  while(current) {
+  while (current) {
     nodes.push(wiringGraph.nodes[current]);
 
     if (current.indexOf(forgeConsts.plugins.os) === 0) {
       break;
     }
 
-    current = getDestinationNode(wiringGraph, current, forgeConsts.rels.runsOn);
+    const prev = current;
+    current = getDestinationNode(wiringGraph, prev, forgeConsts.rels.runsOn);
+    if (!current) {
+      current = getDestinationNode(wiringGraph, prev, forgeConsts.rels.availableThrough);
+    }
   }
 
   // if the array contains only one element, it's the selected and so the array
@@ -54,12 +58,20 @@ export function getAllNodesTillOsNode(wiringGraph, leafId) {
 }
 
 
-export function getLeafNodes(wiringGraph, origin, relation) {
-  let nodesToCheck = getSourceNodes(wiringGraph, origin, relation);
+export function getLeafNodes(wiringGraph, origin, relations) {
+  const relLength = relations.length;
+  let nodesToCheck = getSourceNodes(wiringGraph, origin, relations[0]);
+  for (let i = 1; i < relLength; i++) {
+    nodesToCheck = nodesToCheck.concat(getSourceNodes(wiringGraph, origin, relations[i]));
+  }
+
   const leafNodes = [];
 
   for (let currentNode = nodesToCheck.pop(); currentNode; currentNode = nodesToCheck.pop()) {
-    const sources = getSourceNodes(wiringGraph, currentNode, relation);
+    const sources = getSourceNodes(wiringGraph, currentNode, relations[0]);
+    for (let i = 1; i < relLength; i++) {
+      nodesToCheck = nodesToCheck.concat(getSourceNodes(wiringGraph, currentNode, relations[i]));
+    }
     if (sources.length === 0) {
       leafNodes.push(currentNode);
     } else {

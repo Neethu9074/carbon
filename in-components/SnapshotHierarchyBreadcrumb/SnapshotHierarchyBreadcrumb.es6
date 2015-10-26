@@ -2,7 +2,6 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import * as wiring from 'in-services/wiring';
-import * as views from 'in-services/views';
 import {alwaysEmptyArray} from 'in-services/fixedStreams';
 
 import enhance from '../hoc/enhance';
@@ -29,7 +28,7 @@ const SnapshotHierarchyBreadcrumb = React.createClass({
       if (!props.snapshot) {
         hierarchy = alwaysEmptyArray;
       } else {
-        hierarchy = wiring.getAllStepsBetweenNodeAndLeaf(views.physical, props.snapshot);
+        hierarchy = wiring.getAllStepsBetweenNodeAndLeaf(props.snapshot);
       }
       return {hierarchy};
     }
