@@ -1,4 +1,4 @@
-/*eslint-env mocha*/
+/* eslint-env mocha */
 import {expect} from 'chai';
 
 import * as converter from './converter';
@@ -62,7 +62,7 @@ describe('converters', () => {
 
   describe('capitalize', () => {
     it('should return the string with the first letter being uppercase', () => {
-      expect(converter.capitalize('Look at me!')).to.equal('Look at me!');
+      expect(converter.capitalize('look at me!')).to.equal('Look at me!');
     });
   });
 
