@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-import getIdString from 'in-services/snapshots/getIdString';
-
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer';
 import Component from '../Component';
@@ -58,9 +56,9 @@ export default class LayerComponent extends Component {
       // find layer which are not sended anymore, so vanished
       let found = false;
 
-      for (let i = 0; i < coordinates.size; i++) {
-        const coords = coordinates.get(i);
-        const coordId = getIdString(coords);
+      for (let i = 0; i < coordinates.length; i++) {
+        const coords = coordinates[i];
+        const coordId = coords.get('id');
         if (coordId === layerId) {
           found = true;
           break;

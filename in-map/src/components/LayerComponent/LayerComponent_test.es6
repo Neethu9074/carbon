@@ -82,24 +82,28 @@ describe('3D map', () => {
     });
 
     it('can clear layer that are not sended anymore', () => {
-      const coord1 = { hostId: 'h_1', pluginId: 'd', steadyId: 'h' };
-      const coord2 = { hostId: 'h_2', pluginId: 'd', steadyId: 'h' };
-      const coord3 = { hostId: 'h_3', pluginId: 'd', steadyId: 'h' };
+      let coord1 = { hostId: 'h_1', pluginId: 'd', steadyId: 'h' };
+      let coord2 = { hostId: 'h_2', pluginId: 'd', steadyId: 'h' };
+      let coord3 = { hostId: 'h_3', pluginId: 'd', steadyId: 'h' };
 
       coord1.id = getIdString(coord1);
       coord2.id = getIdString(coord2);
       coord3.id = getIdString(coord3);
 
-      component.addLayer(Immutable.fromJS([coord1, coord2, coord3]));
+      coord1 = Immutable.fromJS(coord1);
+      coord2 = Immutable.fromJS(coord2);
+      coord3 = Immutable.fromJS(coord3);
+
+      component.addLayer([coord1, coord2, coord3]);
       expect(component.layer.length).to.equal(3);
 
-      component.removedVanishedLayer(Immutable.fromJS([coord1, coord3]));
+      component.removedVanishedLayer([coord1, coord3]);
       expect(component.layer.length).to.equal(2);
 
-      component.removedVanishedLayer(Immutable.fromJS([coord3]));
+      component.removedVanishedLayer([coord3]);
       expect(component.layer.length).to.equal(1);
 
-      component.addLayer(Immutable.fromJS([coord1, coord2, coord3]));
+      component.addLayer([coord1, coord2, coord3]);
       expect(component.layer.length).to.equal(3);
     });
 
