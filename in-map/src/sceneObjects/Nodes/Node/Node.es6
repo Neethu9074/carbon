@@ -156,11 +156,11 @@ export default class Node extends BaseNode {
     }));
   }
 
-  addLayer(layer) {
+  setLayer(layer) {
     const layerComponent = this.getComponent('layer');
-    if(layerComponent) {
-      layerComponent.addLayer(layer);
-    }
+
+    layerComponent.removedVanishedLayer(layer);
+    layerComponent.addLayer(layer);
   }
 
   onHighlight(highlighted) {

@@ -244,7 +244,7 @@ export default class BaseNode extends SceneObject {
 
   getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
 
-  addLayer() {}
+  setLayer() {}
   addConnections() {}
 
   updateStickyNotes() {

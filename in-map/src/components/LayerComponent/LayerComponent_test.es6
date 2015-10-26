@@ -73,6 +73,13 @@ describe('3D map', () => {
       expect(component.isActive()).to.equal(true);
     });
 
+    it('can add layer', () => {
+      component.addLayer(getRandomLayerCoordinates());
+      component.addLayer(getRandomLayerCoordinates());
+
+      expect(component.layer.length).to.equal(2);
+    });
+
   });
 
   describe('layer layouter', () => {

@@ -96,7 +96,7 @@ export default class Group extends SceneObject {
                                 new Node({parent: this, coordinates, id: nodeId, connections});
         this.children.push(matchedNode);
       }
-      matchedNode.addLayer(layer);
+      matchedNode.setLayer(layer);
       matchedNode.setWiredSnapshots(connections);
     }
     return matchedNode;
