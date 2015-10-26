@@ -131,11 +131,11 @@ const CassandraDashboard = React.createClass({
                            y1={{
                              min: 0,
                              metrics: [
-                               'blocked.MUTATION',
-                               'blocked.READ',
-                               'blocked.COUNTER_MUTATION',
-                               'blocked.READ_REPAIR',
-                               'blocked.REQUEST_RESPONSE'
+                               'dropped.MUTATION',
+                               'dropped.READ',
+                               'dropped.COUNTER_MUTATION',
+                               'dropped.READ_REPAIR',
+                               'dropped.REQUEST_RESPONSE'
                              ],
                              labels: [
                                'Write (Mutation)',
@@ -226,6 +226,25 @@ const CassandraDashboard = React.createClass({
               ).valueSeq()}
             </tbody>
           </ResponsiveTable>
+        </DashboardSection>
+
+        <DashboardSection title='Pending Compactions'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 80
+                           }}
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'compaction.pending'
+                             ],
+                             labels: [
+                               'Compactions'
+                             ],
+                             type: 'line'
+                           }}/>
         </DashboardSection>
 
         <DashboardSection title='Cache Hits'>
