@@ -84,7 +84,7 @@ export function getParentNode(view, childCoordinates) {
   return completeWiring.map(wiringGraph => {
     let currentNodeId = leafId;
 
-    while(currentNodeId) {
+    while (currentNodeId) {
       if (currentNodeId.indexOf(forgeConsts.plugins.os) === 0) {
         return wiringGraph.nodes[currentNodeId];
       }

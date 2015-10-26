@@ -430,7 +430,7 @@ import THREE from 'three';
 
       parent = object.parent;
 
-      while( parent ) {
+      while ( parent ) {
 
         parentCascade.push( parent );
         parent = parent.parent;
@@ -2010,7 +2010,7 @@ import THREE from 'three';
       var count = this.objects.length,
         parent = this.parent;
 
-      while( parent instanceof THREE.OctreeNode ) {
+      while ( parent instanceof THREE.OctreeNode ) {
 
         count += parent.objects.length;
         parent = parent.parent;
