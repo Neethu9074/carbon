@@ -59,9 +59,8 @@ export default class PhysicalMap extends SceneObject {
   getGroundTexture() {
     const quadsPerWorldUnit = 3;
     const repating = quadsPerWorldUnit * this.size;
-    const texture = THREE.ImageUtils.loadTexture(
+    const texture = new THREE.TextureLoader().load(
       groundTexturePath,
-      THREE.UVMapping,
       () => { this.scene.renderScene(); });
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
