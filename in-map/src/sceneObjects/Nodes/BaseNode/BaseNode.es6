@@ -22,7 +22,7 @@ import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider'
 
 
 // if unavailable, the StickyNote-Metric / Layer will not be undefined but this
-// to avoid all these if(available) {do something} stuff
+// to avoid all these if (available) {do something} stuff
 const emptyStickyObject = {
   isEmpty: true,
   hide() {}, show() {}, update() {}, updateWorldPos() {}, render() {},
@@ -198,13 +198,13 @@ export default class BaseNode extends SceneObject {
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
       //update only if this node is visible
-      if(!this.isHidden()) {
+      if (!this.isHidden()) {
         this.update(data);
       }
     }));
 
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
-      if(this.isSelected()) {
+      if (this.isSelected()) {
         const stateMachine = this.getComponent('connection').stateMachine;
         stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
         stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
@@ -216,7 +216,7 @@ export default class BaseNode extends SceneObject {
     }));
 
     this.addSubscription(selectedSceneObject.subscribe(event => {
-      if(event) {
+      if (event) {
         this.onSceneObjectSelected(event.sceneObject);
       }
     }));
@@ -291,7 +291,7 @@ export default class BaseNode extends SceneObject {
   dispose() {
     // do that first to get connections deleted. they only dispose
     // themselves if both endpoints are not selected
-    if(this.isSelected()) {
+    if (this.isSelected()) {
       selectedSceneObject.emit({sceneObject: null});
     }
 

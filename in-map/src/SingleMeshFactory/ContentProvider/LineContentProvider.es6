@@ -35,7 +35,7 @@ export default class LineContentProvider extends ContentProvider {
 
     this.lines.forEach(() => {
       colors.push(faceColors[colorIndex++]);
-      if(colorIndex >= faceColors.length) {
+      if (colorIndex >= faceColors.length) {
         colorIndex = 0;
       }
     });

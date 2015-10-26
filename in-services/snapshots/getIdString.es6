@@ -25,7 +25,7 @@ export default function getIdString(s) {
     steadyId = s.steadyId;
   }
 
-  if(hostId && pluginId && steadyId) {
+  if (hostId && pluginId && steadyId) {
     return `${pluginId}#${hostId}#${steadyId}`;
   }
   return undefined;

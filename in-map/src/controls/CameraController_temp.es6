@@ -94,7 +94,7 @@ export default class CameraController {
 
   switchStateIfNext() {
     const next = this.state.getNext(this.zoomLevel);
-    if(next){
+    if (next){
       this.state.leave();
       this.state = next;
       this.state.enter();
@@ -254,7 +254,7 @@ export default class CameraController {
         return intersected;
       });
 
-      if(canvasStyle.cursor !== 'default') {
+      if (canvasStyle.cursor !== 'default') {
         canvasStyle.cursor = 'default';
       }
     }
@@ -290,9 +290,9 @@ export default class CameraController {
 
     // if the distance after multiplication is bigger than the total distance
     // set it to total distance
-    if(delta.length() > distance) {
+    if (delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
-    } else if(delta.length() < 0.0001) {
+    } else if (delta.length() < 0.0001) {
       return;
     }
 
@@ -339,7 +339,7 @@ export default class CameraController {
 
     // calculate objects intersecting the picking ray
     const intersects = this.raycaster.intersectObjects([scene.map.ground]);
-    if(intersects.length >= 1) {
+    if (intersects.length >= 1) {
       return intersects[0].point;
     }
   }

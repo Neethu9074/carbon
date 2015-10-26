@@ -61,7 +61,7 @@ export function extractCoordinates(snapshot) {
  *  the hostId, pluginId and steadyId property are the same.
  */
 export function isIdEqual(id1, id2) {
-  if(id1 === id2) {
+  if (id1 === id2) {
     return true;
   } else if (id1 != null && id2 == null) {
     return false;
@@ -82,7 +82,7 @@ export function isIdEqual(id1, id2) {
  * @return {boolean} true when both IDs describe the same snapshot
  */
 export function isIdEqualShort(snapshot1, snapshot2) {
-  if(snapshot1 === snapshot2) {
+  if (snapshot1 === snapshot2) {
     return true;
   } else if (snapshot1 !== null && snapshot2 === null) {
     return false;

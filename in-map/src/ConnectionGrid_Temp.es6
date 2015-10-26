@@ -24,7 +24,7 @@ class ConnectionGrid {
   }
 
   setWalkableAt(x, y, value) {
-    if(x === 0 || y === 0) {
+    if (x === 0 || y === 0) {
       return;
     }
 
@@ -46,7 +46,7 @@ class ConnectionGrid {
     this.setWalkableAt(fromX, fromY, -1);
     this.setWalkableAt(toX, toY, -1);
 
-    if(path.length > 1) {
+    if (path.length > 1) {
       return path;
     }
 

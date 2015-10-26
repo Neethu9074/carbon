@@ -48,7 +48,7 @@ export default class HighlightingComponent extends Component {
 
   sizeChanged(x, y, z) {
     const scale = this.scaleToSet;
-    if(scale.x === x && scale.y === y && scale.z === z) {
+    if (scale.x === x && scale.y === y && scale.z === z) {
       return;
     }
 
@@ -66,7 +66,7 @@ export default class HighlightingComponent extends Component {
     this.setupHighlightBorderLines();
 
     this.hide();
-    if(this.isActive()) {
+    if (this.isActive()) {
       this.show();
     }
 

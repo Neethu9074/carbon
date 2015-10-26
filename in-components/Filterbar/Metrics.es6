@@ -69,7 +69,7 @@ const Metrics = React.createClass({
     const children = root.get('children');
     const label = root.get('label');
 
-    if(!children) {
+    if (!children) {
       return <MetricTreeLeaf key={label} metricObject={root} />;
     }
 

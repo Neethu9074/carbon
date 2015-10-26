@@ -20,10 +20,10 @@ export default class NodeSnapshotServer {
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       this.disposeMetricSubscription();
-      if(metric) {
+      if (metric) {
         this.currentMetric = metric.get('metrics');
 
-        if(this.client.canShowMetrics) {
+        if (this.client.canShowMetrics) {
           this.subscribeToCurrentMetric();
           this.client.showMetrics(this.currentMetric);
         }
@@ -35,7 +35,7 @@ export default class NodeSnapshotServer {
 
     this.subscriptions.push(zoomLevel.subscribe(zl => {
       this.zoomLevel = zl;
-      if(zl === level.mid) {
+      if (zl === level.mid) {
         client.setStateForMetricActivity({ isToFarAway: true });
       } else {
         client.setStateForMetricActivity({ isToFarAway: false });
@@ -44,7 +44,7 @@ export default class NodeSnapshotServer {
 
     // TODO Simon: Can we remove this async / nextFrame call?
     this.subscriptions.push(selectedSnapshot.selectedSnapshot.nextFrame().subscribe(selected => {
-        if(selected &&
+        if (selected &&
           this.client.id === selected.get('id') &&
           !this.client.isSelected()) {
           selectedSceneObject.emit({sceneObject: this.client});
@@ -80,14 +80,14 @@ export default class NodeSnapshotServer {
   }
 
   disposeSubscription(subscribtion) {
-    if(subscribtion && subscribtion.dispose) {
+    if (subscribtion && subscribtion.dispose) {
       subscribtion.dispose();
       _.remove(this.subscriptions, sub => sub === subscribtion);
     }
   }
 
   disposeMetricSubscription() {
-    if(this.metricSubscription) {
+    if (this.metricSubscription) {
       this.metricSubscription.dispose();
     }
     this.metricSubscription = undefined;
@@ -121,7 +121,7 @@ export default class NodeSnapshotServer {
   resumeMetrics() {
     //if there was an active metric subscribtion which is paused,
     //resubscribe to it but only if there is a active metric
-    if(!this.metricSubscription && this.currentMetric) {
+    if (!this.metricSubscription && this.currentMetric) {
       this.subscribeToCurrentMetric();
     }
   }

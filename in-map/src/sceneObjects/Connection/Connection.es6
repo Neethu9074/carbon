@@ -94,13 +94,13 @@ export default class Connection extends SceneObject {
   }
 
   onHiddenLeave() {
-    if(!this.oneEndpointIsSelected()) {
+    if (!this.oneEndpointIsSelected()) {
       this.enableFragment();
     }
   }
 
   enableFragment(enabled = true) {
-    if(enabled) {
+    if (enabled) {
       this.scene.lineFactory.addFragment(this.fragment);
     } else {
       this.scene.lineFactory.removeFragment(this.id);
@@ -111,7 +111,7 @@ export default class Connection extends SceneObject {
     const fromPos = this.from.getComponent('position').getPosition();
     const toPos = this.to.getComponent('position').getPosition();
 
-    if(!fromPos || !toPos) {
+    if (!fromPos || !toPos) {
       this.path = undefined;
 
     } else {
@@ -135,7 +135,7 @@ export default class Connection extends SceneObject {
   }
 
   render() {
-    if(!this.path) {
+    if (!this.path) {
       return;
     }
 
@@ -143,7 +143,7 @@ export default class Connection extends SceneObject {
     this.lineContentProvider.setLines(this.toVertexArray(this.points));
 
     //hide this if the parent is hidden
-    if(this.from.isHidden() || this.to.isHidden()) {
+    if (this.from.isHidden() || this.to.isHidden()) {
       this.hide();
     }
   }
@@ -182,7 +182,7 @@ export default class Connection extends SceneObject {
     this.postProcessPoints(points);
     this.calculateCollisionMesh(points);
 
-    if(this.direction === 'in') {
+    if (this.direction === 'in') {
       this.addArrow(points, 0, 1);
     } else {
       this.addArrow(points, points.length - 1, points.length - 2);
@@ -256,12 +256,12 @@ export default class Connection extends SceneObject {
   intersects(raycaster) {
     const state = this.stateMachine.state;
     const states = this.stateMachine.states;
-    if(state === states.initial || state === states.inactive) {
+    if (state === states.initial || state === states.inactive) {
       return false;
     }
 
     const path = this.path;
-    if(!path || !this.collisionLine) {
+    if (!path || !this.collisionLine) {
       return false;
     }
 
@@ -275,7 +275,7 @@ export default class Connection extends SceneObject {
   }
 
   unSelect() {
-    if(!this.oneEndpointIsSelected()) {
+    if (!this.oneEndpointIsSelected()) {
       this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
     }
   }
@@ -286,7 +286,7 @@ export default class Connection extends SceneObject {
   }
 
   disposeCollisionLine() {
-    if(this.collisionLine) {
+    if (this.collisionLine) {
       this.collisionLine.geometry.dispose();
       this.collisionLine = null;
     }

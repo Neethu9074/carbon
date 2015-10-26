@@ -19,7 +19,7 @@ class SpecificSceneObject {
   }
 
   getOrCreateStub(name) {
-    if(!this[name]) {
+    if (!this[name]) {
       this[name] = sinon.stub();
     }
     return this[name];
@@ -64,7 +64,7 @@ describe('3D map', () => {
           expect(lut[0]).to.not.equal(void 0);
           expect(lut[1]).to.not.equal(void 0);
 
-          if(depth === maxDepth) {
+          if (depth === maxDepth) {
             return;
           }
 

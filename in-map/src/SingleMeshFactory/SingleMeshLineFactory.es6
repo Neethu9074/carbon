@@ -20,7 +20,7 @@ export default class SingleMeshLineFactory extends ASingleMeshFactory {
       vertexColors: THREE.VertexColors
     });
 
-    if(navigator.platform.indexOf('Win') < 0) {
+    if (navigator.platform.indexOf('Win') < 0) {
       material.linewidth = 2;
     }
 

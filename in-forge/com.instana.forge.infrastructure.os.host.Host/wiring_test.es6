@@ -16,25 +16,25 @@ describe('snapshot', () => {
         const outgoing = connections.outgoing;
         const incoming = connections.incoming;
         const name = snapshot.get('name');
-        if(name === 'a') {
+        if (name === 'a') {
           expect(outgoing.size).to.equal(3);
           expect(incoming.size).to.equal(0);
 
-        } else if(name === 'b') {
+        } else if (name === 'b') {
           expect(outgoing.size).to.equal(3);
           expect(incoming.size).to.equal(2);
 
-        } else if(name === 'c') {
+        } else if (name === 'c') {
           expect(outgoing.size).to.equal(1);
           expect(incoming.size).to.equal(1);
           expect(outgoing.getIn([0, 'steadyId'])).to.equal('46.137.99.225');
           expect(incoming.getIn([0, 'name'])).to.equal('d');
 
-        } else if(name === 'ec2') {
+        } else if (name === 'ec2') {
           expect(outgoing.size).to.equal(0);
           expect(incoming.size).to.equal(0);
 
-        } else if(name === 'd') {
+        } else if (name === 'd') {
           expect(outgoing.size).to.equal(0);
           expect(incoming.size).to.equal(0);
         }

@@ -44,7 +44,7 @@ const MapStats = React.createClass({
   renderStat(stats, key) {
     const stat = stats[key];
     const statChildren = Object.keys(stat);
-    if(typeof stat === 'string' || statChildren.length === 0) {
+    if (typeof stat === 'string' || statChildren.length === 0) {
       return <MapStat key={key} name={key} value={stats[key]} />;
     }
 
@@ -62,7 +62,7 @@ const MapStats = React.createClass({
 
   render() {
     const stats = this.state.stats;
-    if(!stats) {
+    if (!stats) {
       return null;
     }
 

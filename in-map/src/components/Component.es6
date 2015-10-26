@@ -45,7 +45,7 @@ export default class Component {
   }
 
   handleComponentTimeEvent() {
-    if(this.needsUpdate) {
+    if (this.needsUpdate) {
       this.update();
       this.sceneObject.scene.renderScene();
     }

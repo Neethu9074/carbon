@@ -102,11 +102,11 @@ const NodeTooltipRC = React.createClass({
     } else if (layer.length > 0) {
       const plugins = {}; // maps type -> counter
       layer.forEach(item => {
-        if(!item.snapshot) {
+        if (!item.snapshot) {
           return;
         }
         const pluginId = item.snapshot.get('pluginId');
-        if(!plugins[pluginId]) {
+        if (!plugins[pluginId]) {
           plugins[pluginId] = 0;
         }
         plugins[pluginId]++;
