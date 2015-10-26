@@ -1,48 +1,28 @@
 import React from 'react/addons';
-import irpt from 'react-immutable-proptypes';
-import * as ro from 'reactive-observables';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import {getLayers} from 'in-services/wiring';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import {getFullSnapshot} from 'in-services/snapshots';
 import {getPlural} from 'in-sdk/pluginName';
 import * as tracking from 'in-services/tracking';
 
 import List from '../List';
 import Collapsible from '../Collapsible';
-import enhance from '../hoc/enhance';
 
-import './WiringList.less';
+import './RelatedSnapshotList.less';
 
-const block = 'in-wiring-list';
+const block = 'in-related-snapshot-list';
 
-const WiringList = React.createClass({
+const RelatedSnapshotList = React.createClass({
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    wiring: React.PropTypes.array
-  },
-
-  statics: {
-    createObservables(props) {
-      return {
-        wiring: getLayers(props.snapshot).transform({
-          emitLatestOnSubscribe: true,
-
-          transform(layers) {
-            return ro.combineLatest(layers.map(getFullSnapshot));
-          }
-        })
-      };
-    }
+    snapshots: React.PropTypes.array.isRequired
   },
 
   render() {
-    if (this.props.wiring == null || this.props.wiring.size === 0) {
+    if (this.props.snapshots.length === 0) {
       return null;
     }
 
@@ -66,7 +46,7 @@ const WiringList = React.createClass({
               <List>
                 {groups[pluginId].map(snapshot =>
                   <List.Item key={snapshot.get('id')}
-                             onClick={() => this.navigateToDashboard(snapshot)}>
+                             onClick={() => this.select(snapshot)}>
                     {getLabel(snapshot)}
                   </List.Item>
                 )}
@@ -78,7 +58,7 @@ const WiringList = React.createClass({
     );
   },
 
-  navigateToDashboard(snapshot) {
+  select(snapshot) {
     tracking.events.navigateToAWiredComponentFromTheDashboard();
     selectedSnapshotStore.select(snapshot);
   },
@@ -86,7 +66,7 @@ const WiringList = React.createClass({
   getSnapshotsGroupedByPluginId() {
     const grouping = {};
 
-    this.props.wiring.forEach(snapshot => {
+    this.props.snapshots.forEach(snapshot => {
       const pluginId = snapshot.get('pluginId');
       if (!(pluginId in grouping)) {
         grouping[pluginId] = [];
@@ -99,4 +79,4 @@ const WiringList = React.createClass({
   }
 });
 
-export default enhance(WiringList);
+export default RelatedSnapshotList;

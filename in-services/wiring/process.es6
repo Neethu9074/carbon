@@ -73,10 +73,19 @@ export function getConnectedCoordinates(wiringGraph, id) {
 
     if (edge.source === id) {
       connections.outgoing.push(wiringGraph.nodes[edge.destination]);
-    } else if(edge.destination === id){
+    } else if (edge.destination === id) {
       connections.incoming.push(wiringGraph.nodes[edge.source]);
     }
   });
 
   return connections;
+}
+
+
+export function getDeployedUnits(coords) {
+  const snapshotId = coords.get('id');
+  return completeWiring.map(wiringGraph => {
+      return getSourceNodes(wiringGraph, snapshotId, forgeConsts.rels.availableThrough)
+        .map(sourceNodeId => wiringGraph.nodes[sourceNodeId]);
+    });
 }

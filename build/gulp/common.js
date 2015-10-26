@@ -59,5 +59,10 @@ function buildTheme(themeName, sourceDir, targetDir) {
     'translateTheme.js'
   );
 
-  execSync('node "' + script + '" "' + themeName + '" "' + sourceDir + '" "' + targetDir + '"');
+  execSync(
+    'node "' + script + '" "' + themeName + '" "' + sourceDir + '" "' + targetDir + '"',
+    {
+      stdio: 'inherit'
+    }
+  );
 }

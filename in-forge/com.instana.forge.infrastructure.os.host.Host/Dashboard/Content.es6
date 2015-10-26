@@ -17,7 +17,6 @@ import DashboardSection from 'in-components/DashboardSection';
 import HelpLink from 'in-components/HelpLink';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
-
 import ResponsiveTable from 'in-components/ResponsiveTable';
 
 const rpt = React.PropTypes;

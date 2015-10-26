@@ -1,6 +1,5 @@
 import ColorGenerator from 'in-services/util/colors';
 
-
 const colorGenerator = new ColorGenerator(100);
 const tagColorCache = {};
 

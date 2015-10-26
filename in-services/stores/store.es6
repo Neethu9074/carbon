@@ -25,3 +25,9 @@ export function createStore({name, initialValue = null}) {
     observable.emit(currentState);
   }
 }
+
+// only use this for testing purposes to clear the store registry. This
+// is required when using proxyquire with stores.
+export function resetStoreRegistry() {
+  Object.keys(allStates).forEach(key => delete allStates[key]);
+}

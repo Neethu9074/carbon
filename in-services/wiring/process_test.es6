@@ -1,9 +1,10 @@
-/*eslint-env mocha,node*/
+/* eslint-env mocha,node */
 import * as ro from 'reactive-observables';
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
+import {extractCoordinates} from '../snapshots';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {getGraph} from './test_util';
 
@@ -121,6 +122,38 @@ describe('wiring.process view', () => {
 
       expect(outgoing[0].get('id')).to.equal(ec2CoordsId);
       expect(incoming[0].get('id')).to.equal(osCoordsId);
+    });
+  });
+
+  describe('getDeployedUnits', () => {
+
+    const existingRuntimeCoordinates = extractCoordinates({
+      hostId: 'h1',
+      pluginId: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
+      steadyId: 'sNode'
+    });
+
+    it('should return empty array when no deployment units exist', () => {
+      const missingRuntimeCoordinates = extractCoordinates({
+        hostId: 'h2',
+        pluginId: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
+        steadyId: 'sNode2'
+      });
+
+      emitGraph(getGraph('deployedUnits'));
+      const subscriber = sinon.stub();
+      mod.getDeployedUnits(missingRuntimeCoordinates).subscribe(subscriber);
+      expect(subscriber).to.have.callCount(1);
+      expect(subscriber.getCall(0).args[0]).to.deep.equal([]);
+    });
+
+    it('should return deployed unit', () => {
+      emitGraph(getGraph('deployedUnits'));
+      const subscriber = sinon.stub();
+      mod.getDeployedUnits(existingRuntimeCoordinates).subscribe(subscriber);
+      expect(subscriber).to.have.callCount(1);
+      expect(subscriber.getCall(0).args[0][0].get('id')).to
+        .equal('com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp#h1#sNodeApp');
     });
   });
 

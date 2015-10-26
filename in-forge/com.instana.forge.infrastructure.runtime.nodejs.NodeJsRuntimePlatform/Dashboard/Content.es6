@@ -21,7 +21,7 @@ const NodejsDashboard = React.createClass({
   render() {
     return (
       <div>
-        <DashboardSection title='Memory'>
+        <DashboardSection title='Memory Usage'>
           <ChartWithLegend snapshot={this.props.snapshot}
                            windowSize={this.props.timeframe}
                            height={chartHeight}
@@ -61,6 +61,27 @@ const NodejsDashboard = React.createClass({
                            }}/>
         </DashboardSection>
 
+        <DashboardSection title='GC Activity'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 90
+                           }}
+
+                           y1={{
+                             min: 0,
+                             formatter: msFormatter,
+                             metrics: [
+                               'gc.gcPause'
+                             ],
+                             labels: [
+                               'GC duration per second in ms'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
+        </DashboardSection>
+
         <DashboardSection title='Event Loop'>
           <ChartWithLegend snapshot={this.props.snapshot}
                            windowSize={this.props.timeframe}
@@ -73,10 +94,12 @@ const NodejsDashboard = React.createClass({
                              min: 0,
                              formatter: msFormatter,
                              metrics: [
-                               'libuv.max'
+                               'libuv.max',
+                               'libuv.sum'
                              ],
                              labels: [
-                               'Longest time spent in a single loop'
+                               'Longest time spent in a single loop',
+                               'Total time spent in loop per second'
                              ],
                              type: 'line'
                            }}/>

@@ -12,6 +12,9 @@ import {
   processViewWiring,
   fullProcessViewWiring
 } from './process';
+export {
+  getDeployedUnits
+} from './process';
 import {
   physicalHostsViewWiring,
   fullPhysicalHostsViewWiring

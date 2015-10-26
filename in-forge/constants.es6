@@ -11,7 +11,8 @@ export const plugins = {
   mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
   mysql: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
   tomcat: 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer',
-  nodejs: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform'
+  nodejs: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
+  nodejsApp: 'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp'
 };
 
 export const rels = {
