@@ -32,5 +32,5 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.tomcat,
-  () => 1
+  () => -1
 );

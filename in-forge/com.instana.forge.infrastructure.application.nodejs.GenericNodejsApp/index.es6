@@ -51,7 +51,7 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.nodejsApp,
-  () => 1
+  () => -1
 );
 
 sorting.addMapping(

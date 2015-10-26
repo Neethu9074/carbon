@@ -29,7 +29,7 @@ addIconFinder(
 
 power.addMapping(
   constants.plugins.jvm,
-  () => 1
+  () => -1
 );
 
 zones.addMapping(

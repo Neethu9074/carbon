@@ -32,5 +32,5 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.redis,
-  () => 1
+  () => -1
 );

@@ -36,7 +36,7 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.docker,
-  () => 1
+  () => -1
 );
 
 sorting.addMapping(

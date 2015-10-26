@@ -35,7 +35,7 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.process,
-  () => 1
+  () => -1
 );
 
 sorting.addMapping(

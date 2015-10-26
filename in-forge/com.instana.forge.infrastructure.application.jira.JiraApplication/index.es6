@@ -32,5 +32,5 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.jira,
-  () => 1
+  () => -1
 );

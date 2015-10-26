@@ -32,5 +32,5 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.mongodb,
-  () => 1
+  () => -1
 );

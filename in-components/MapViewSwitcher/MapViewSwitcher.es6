@@ -47,6 +47,7 @@ export default connectTo(
   },
 
   onViewSwitched(viewKey) {
+    eventBus.emit('onViewWillSwitch');
     viewStore.setView(viewKey);
     eventBus.emit('onViewSwitched');
   }

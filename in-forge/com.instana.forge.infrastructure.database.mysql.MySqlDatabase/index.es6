@@ -33,5 +33,5 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.mysql,
-  () => 1
+  () => -1
 );

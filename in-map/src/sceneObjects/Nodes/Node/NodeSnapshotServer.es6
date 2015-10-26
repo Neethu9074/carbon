@@ -69,6 +69,10 @@ export default class NodeSnapshotServer {
     this.maxHeightSubscribtion = nodeMaxPower.subscribe(maxPower => {
       if (maxPower) {
         const clientPower = this.client.calculatePower();
+        if (clientPower < 0) {
+          this.client.setHeight(1);
+          return;
+        }
         if (clientPower > maxPower) {
           nodeMaxPower.emit(clientPower);
           return;

@@ -24,5 +24,5 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.elasticsearch,
-  () => 1
+  () => -1
 );
