@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import d3 from 'd3';
