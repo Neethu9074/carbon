@@ -1,6 +1,7 @@
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import Immutable from 'immutable';
 
 import classnames from 'in-services/util/classnames';
 import ResponsiveTable from 'in-components/ResponsiveTable';
@@ -9,6 +10,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
+const emptyMap = Immutable.Map();
 
 const NodejsDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
@@ -26,8 +28,8 @@ const NodejsDashboard = React.createClass({
   },
 
   render() {
-    const httpServers = this.props.snapshot.getIn(['data', 'http']);
-    const mongodbConnections = this.props.snapshot.getIn(['data', 'mongodb']);
+    const httpServers = this.props.snapshot.getIn(['data', 'http'], emptyMap);
+    const mongodbConnections = this.props.snapshot.getIn(['data', 'mongodb'], emptyMap);
 
     return (
       <div>

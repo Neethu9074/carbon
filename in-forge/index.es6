@@ -1,5 +1,3 @@
-
-
 // require all forge modules inside this one, as
 // this is the only module required by the application.
 
@@ -17,3 +15,4 @@ import './com.instana.forge.infrastructure.virtualization.docker.Docker';
 import './com.instana.forge.hardware.virtual.ec2.Ec2';
 import './com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform';
 import './com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp';
+import './com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp';
