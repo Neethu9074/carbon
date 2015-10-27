@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 
 import Collapsible from 'in-components/Collapsible';
 import DeployedUnitList from 'in-components/DeployedUnitList';
+import TagListSnapshot from 'in-components/TagListSnapshot';
 
 import NodeJsAppInfo from '../NodeJsAppInfo';
 
@@ -23,6 +24,7 @@ const NodejsDashboardSidebar = React.createClass({
           </Collapsible.Content>
         </Collapsible>
 
+        <TagListSnapshot snapshot={this.props.snapshot} />
         <DeployedUnitList snapshot={this.props.snapshot} />
       </div>
     );
