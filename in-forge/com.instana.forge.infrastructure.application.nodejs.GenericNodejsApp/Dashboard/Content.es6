@@ -30,6 +30,7 @@ const NodejsDashboard = React.createClass({
   render() {
     const httpServers = this.props.snapshot.getIn(['data', 'http'], emptyMap);
     const mongodbConnections = this.props.snapshot.getIn(['data', 'mongodb'], emptyMap);
+    const cassandraKeyspaces = this.props.snapshot.getIn(['data', 'cassandra', 'keyspaces'], emptyMap);
 
     return (
       <div>
@@ -206,6 +207,32 @@ const NodejsDashboard = React.createClass({
             </tbody>
           </ResponsiveTable>
         </DashboardSection>
+        : null}
+
+        {!cassandraKeyspaces.isEmpty() ?
+          <DashboardSection title='Cassandra Connections'>
+            <ResponsiveTable>
+              <thead>
+                <tr>
+                  <th>Keyspace</th>
+                  <th>Hosts</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {cassandraKeyspaces.map((hosts, keyspace) =>
+                  <tr key={keyspace}>
+                    <td>
+                      {!keyspace ?
+                        <span style={{fontStyle: 'italic'}}>not specified</span>
+                      : keyspace}
+                    </td>
+                    <td>{hosts.join(', ')}</td>
+                  </tr>
+                ).valueSeq()}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
         : null}
       </div>
     );
