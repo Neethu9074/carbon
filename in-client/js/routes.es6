@@ -1,14 +1,15 @@
-/*eslint-disable no-unused-vars*/
+/* eslint-disable no-unused-vars */
 // While this variable seems unused, it is required after the JSX transpilation.
 // As such React needs to be imported in order for the app to be fully
 // functional.
 import React from 'react';
-/*eslint-enable no-unused-vars*/
+/* eslint-enable no-unused-vars */
 
 import {Route} from 'react-router';
 
 import App from './components/App';
 import Dashboard from './components/Dashboard';
+import GraphShowcase from './components/GraphShowcase';
 import SnapshotPane from './components/SnapshotPane';
 import EnvironmentPane from './components/EnvironmentPane';
 import MetricLatencyPane from './components/MetricLatencyPane';
@@ -19,6 +20,9 @@ export default (
     <Route handler={Dashboard}
            path='dashboard'
            name='dashboard'/>
+    <Route handler={GraphShowcase}
+           path='graphShowcase'
+           name='graphShowcase'/>
     {__INTERNAL__ ?
       <Route handler={SnapshotPane}
              path='internal/:env/:tenant/:unit/hosts'

@@ -63,3 +63,11 @@ export function goToMap() {
     return navParams;
   });
 }
+
+
+export function goToGraph() {
+  mutateUrl(navParams => {
+    navParams.pathname = 'graphShowcase';
+    return navParams;
+  });
+}
