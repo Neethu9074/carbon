@@ -26,10 +26,12 @@ export default connectTo(
 
   render() {
     return (
-      <ul className={getClassName(this, block)}>
-        {this.renderItem(views.physical, 'Physical')}
-        {this.renderItem(views.process, 'Process')}
-      </ul>
+      <div className={getClassName(this, block)}>
+        <div className={block + '__item-wrapper'}>
+          {this.renderItem(views.physical, 'Physical')}
+          {this.renderItem(views.process, 'Process')}
+        </div>
+      </div>
     );
   },
 
@@ -38,11 +40,11 @@ export default connectTo(
       block + '__item ' + block + '__item__active'
       : block + '__item';
     return (
-      <li key={viewKey}
+      <div key={viewKey}
           className={className}
           onClick={() => this.onViewSwitched(viewKey)}>
         {label}
-      </li>
+      </div>
     );
   },
 

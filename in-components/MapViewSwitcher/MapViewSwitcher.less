@@ -1,10 +1,16 @@
 @import "~in-themes/active.less";
 
 .in-map-view-switcher {
+  display: flex;
+  justify-content: center;
   text-align: center;
   width: auto;
   padding: 0;
   margin: 5px 0 0 0;
+
+  &__item-wrapper {
+    box-shadow: 0px 0px 70px rgba(0, 0, 0, 0.2);
+  }
 
   &__item {
     display: inline;
