@@ -6,7 +6,6 @@ import ConnectionGrid from '../../ConnectionGrid_Temp';
 import SceneObject from '../SceneObject';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
 
 
@@ -31,9 +30,7 @@ export default class Connection extends SceneObject {
     this.fragment = {
       id: this.id,
       contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: this.lineContentProvider
-        })
+        contentProvider: this.lineContentProvider
       })
     };
 
