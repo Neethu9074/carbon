@@ -20,7 +20,8 @@ export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, 2);
 export const withSiPrefixZeroDecimalPlaces = d => withSiPrefix(d, 0);
 export const withSiPrefixTwoDecimalPlaces = d => withSiPrefix(d, 2);
 
-export const msSecondsZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
+export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
+export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
 export const muSecondsZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'µs';
 export const muSecondsToMillisZeroDecimalPlaces = d => zeroDecimalPlaces(d / 1000) + 'ms';
 

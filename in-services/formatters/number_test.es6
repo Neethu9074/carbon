@@ -88,7 +88,7 @@ describe('in-services.formatter.number', () => {
 
   describe('seconds', () => {
     it('should format millis', () => {
-      expect(numberFormatters.msSecondsZeroDecimalPlaces(1000.34)).to.equal('1,000ms');
+      expect(numberFormatters.msZeroDecimalPlaces(1000.34)).to.equal('1,000ms');
     });
 
     it('should format micros', () => {
