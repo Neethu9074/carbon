@@ -95,17 +95,19 @@ const NodejsDashboard = React.createClass({
                              formatter: numberFormatters.msTwoDecimalPlaces,
                              metrics: [
                                'libuv.max',
-                               'libuv.sum'
+                               'libuv.sum',
+                               'libuv.lag'
                              ],
                              labels: [
                                'Longest time spent in a single loop',
-                               'Total time spent in loop'
+                               'Total time spent in loop',
+                               'Event loop lag'
                              ],
                              type: 'line'
                            }}
                            y2={{
                              min: 0,
-                             formatter: numberFormatters.twoDecimalPlaces,
+                             formatter: numberFormatters.zeroDecimalPlaces,
                              metrics: [
                                'libuv.num'
                              ],
