@@ -16,12 +16,20 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(constants.plugins.nodejs, getLabel);
 
 function getLabel(s) {
-  const nodeJsVersion = s.getIn(['data', 'versions', 'node']);
+  const data = s.get('data');
+  const nodeJsVersion = data.getIn(['versions', 'node']);
   if (!nodeJsVersion) {
     return getFallbackLabel(s);
   }
 
-  return 'Node.js v' + nodeJsVersion;
+  const label = 'Node.js v' + nodeJsVersion;
+
+  const name = data.get('name');
+  if (!name) {
+    return label;
+  }
+
+  return label + ' executing ' + name;
 }
 
 function getFallbackLabel(s) {
