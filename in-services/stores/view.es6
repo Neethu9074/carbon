@@ -9,6 +9,7 @@ const store = createStore({
 });
 
 export const view = store.observable.distinct();
+export const shallowViewStructure = view.flatMap(theView => getStructure(theView, false));
 export const viewStructure = view.flatMap(theView => getStructure(theView, true));
 
 
