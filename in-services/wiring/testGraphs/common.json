@@ -107,12 +107,12 @@
     "source": "com.instana.forge.infrastructure.database.mysql.MySQL#h2#sMySQL",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
-    "source": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
-    "destination": "com.instana.forge.infrastructure.database.cassandra.CassandraCluster#h#production",
-    "relation": "com.instana.sdk.annotation.PartOfCluster"
+    "source": "com.instana.forge.infrastructure.database.cassandra.CassandraCluster#h#production",
+    "destination": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
+    "relation": "com.instana.sdk.annotation.Clusters"
   }, {
-    "source": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h2#sCassandra",
-    "destination": "com.instana.forge.infrastructure.database.cassandra.CassandraCluster#h#production",
-    "relation": "com.instana.sdk.annotation.PartOfCluster"
+    "source": "com.instana.forge.infrastructure.database.cassandra.CassandraCluster#h#production",
+    "destination": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h2#sCassandra",
+    "relation": "com.instana.sdk.annotation.Clusters"
   }]
 }

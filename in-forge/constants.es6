@@ -21,5 +21,5 @@ export const rels = {
   runsOn: 'com.instana.sdk.annotation.RunsOn',
   connectsTo: 'com.instana.sdk.annotation.ConnectsTo',
   availableThrough: 'com.instana.sdk.annotation.AvailableThrough',
-  partOfCluster: 'com.instana.sdk.annotation.PartOfCluster'
+  clusters: 'com.instana.sdk.annotation.Clusters'
 };

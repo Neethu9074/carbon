@@ -7,7 +7,6 @@ import {create} from '../conveyer';
 import {
   getLeafNodes,
   getNodesWithPluginId,
-  getDestinationNode,
   getSourceNodes,
   loadFullSnapshotsForNodeStructure
 } from './helpers';
@@ -44,10 +43,10 @@ function mapWiringGraphToProcessViewGraph(wiringGraph) {
     const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.availableThrough)
       .map(strId => wiringGraph.nodes[strId]);
 
-    const groupId = getDestinationNode(wiringGraph, processStrId, forgeConsts.rels.partOfCluster);
+    const groupIds = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.clusters);
     let group;
-    if (groupId) {
-      group = wiringGraph.nodes[groupId];
+    if (groupIds.length !== 0) {
+      group = wiringGraph.nodes[groupIds[0]];
     }
 
     return {
