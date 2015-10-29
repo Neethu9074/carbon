@@ -47,6 +47,7 @@ function mapWiringGraphToProcessViewGraph(wiringGraph) {
     let group;
     if (groupIds.length !== 0) {
       group = wiringGraph.nodes[groupIds[0]];
+      console.log(group.toJS());
     }
 
     return {

@@ -13,6 +13,7 @@ export const plugins = {
   tomcat: 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer',
   nodejs: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
   nodejsApp: 'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp',
+  nodejsCluster: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster',
   javaWebApp: 'com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp'
 };
 
