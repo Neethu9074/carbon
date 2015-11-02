@@ -43,9 +43,15 @@ function mapWiringGraphToProcessViewGraph(wiringGraph) {
     const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.availableThrough)
       .map(strId => wiringGraph.nodes[strId]);
 
+    const groupIds = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.clusters);
+    let group;
+    if (groupIds.length !== 0) {
+      group = wiringGraph.nodes[groupIds[0]];
+      console.log(group.toJS());
+    }
+
     return {
-      // To be defined
-      group: null,
+      group,
       node,
       layers,
       connections: getConnectedCoordinates(wiringGraph, processStrId)

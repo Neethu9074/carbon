@@ -53,6 +53,20 @@ describe('wiring.process view', () => {
       .to.equal('com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra');
   });
 
+  it('should find clusters as grouping elements', () => {
+    emitGraph(getGraph('common'));
+
+    mod.processViewWiring.subscribe(onNext);
+
+    expect(onNext).to.have.callCount(1);
+    const structure = onNext.getCall(0).args[0];
+    expect(structure.length).to.equal(3);
+    expect(structure[0].node.get('id'))
+      .to.equal('com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra');
+    expect(structure[0].group.get('id'))
+      .to.equal('com.instana.forge.infrastructure.database.cassandra.CassandraCluster#h#production');
+  });
+
   describe('getConnectedCoordinates', () => {
 
     it('should return empty array on undefined snapshot', () => {

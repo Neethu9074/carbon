@@ -2,13 +2,12 @@ import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 
-import {formatBytes} from 'in-services/converters';
+import * as numberFormatters from 'in-services/formatters/number';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardSection from 'in-components/DashboardSection';
 
 const chartHeight = 150;
 const rpt = React.PropTypes;
-const msFormatter = n => n + 'ms';
 
 const NodejsDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
@@ -32,8 +31,8 @@ const NodejsDashboard = React.createClass({
 
                            y1={{
                              min: 0,
-                             formatter: formatBytes,
-                             tooltipFormatter: formatBytes,
+                             formatter: numberFormatters.bytesZeroDecimalPlaces,
+                             tooltipFormatter: numberFormatters.bytesTwoDecimalPlaces,
                              metrics: [
                                'memory.rss',
                                'memory.heapUsed',
@@ -49,6 +48,7 @@ const NodejsDashboard = React.createClass({
 
                            y2={{
                              min: 0,
+                             formatter: numberFormatters.twoDecimalPlaces,
                              metrics: [
                                'gc.minorGcs',
                                'gc.majorGcs'
@@ -71,12 +71,12 @@ const NodejsDashboard = React.createClass({
 
                            y1={{
                              min: 0,
-                             formatter: msFormatter,
+                             formatter: numberFormatters.msTwoDecimalPlaces,
                              metrics: [
                                'gc.gcPause'
                              ],
                              labels: [
-                               'GC duration per second in ms'
+                               'GC Pause'
                              ],
                              type: 'stackedArea'
                            }}/>
@@ -92,14 +92,27 @@ const NodejsDashboard = React.createClass({
 
                            y1={{
                              min: 0,
-                             formatter: msFormatter,
+                             formatter: numberFormatters.msTwoDecimalPlaces,
                              metrics: [
                                'libuv.max',
-                               'libuv.sum'
+                               'libuv.sum',
+                               'libuv.lag'
                              ],
                              labels: [
                                'Longest time spent in a single loop',
-                               'Total time spent in loop per second'
+                               'Total time spent in loop',
+                               'Event loop lag'
+                             ],
+                             type: 'line'
+                           }}
+                           y2={{
+                             min: 0,
+                             formatter: numberFormatters.zeroDecimalPlaces,
+                             metrics: [
+                               'libuv.num'
+                             ],
+                             labels: [
+                               'Loops per second'
                              ],
                              type: 'line'
                            }}/>

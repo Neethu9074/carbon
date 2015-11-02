@@ -1,7 +1,9 @@
 import React from 'react/addons';
 import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import Immutable from 'immutable';
 
+import * as numberFormatters from 'in-services/formatters/number';
 import classnames from 'in-services/util/classnames';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import DashboardSection from 'in-components/DashboardSection';
@@ -9,6 +11,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
+const emptyMap = Immutable.Map();
 
 const NodejsDashboard = React.createClass({
   mixins: [React.addons.PureRenderMixin, IntlMixin],
@@ -26,8 +29,9 @@ const NodejsDashboard = React.createClass({
   },
 
   render() {
-    const httpServers = this.props.snapshot.getIn(['data', 'http']);
-    const mongodbConnections = this.props.snapshot.getIn(['data', 'mongodb']);
+    const httpServers = this.props.snapshot.getIn(['data', 'http'], emptyMap);
+    const mongodbConnections = this.props.snapshot.getIn(['data', 'mongodb'], emptyMap);
+    const cassandraKeyspaces = this.props.snapshot.getIn(['data', 'cassandra', 'keyspaces'], emptyMap);
 
     return (
       <div>
@@ -39,11 +43,12 @@ const NodejsDashboard = React.createClass({
                      windowSize={this.props.timeframe}
                      height={150}
                      margins={{
-                       left: 60,
-                       right: 60
+                       left: 80,
+                       right: 80
                      }}
                      y1={{
                        min: 0,
+                       formatter: numberFormatters.twoDecimalPlaces,
                        metrics: [
                          'http.' + this.state.selectedHttpServer + '.requests',
                          'http.' + this.state.selectedHttpServer + '.responses'
@@ -56,6 +61,7 @@ const NodejsDashboard = React.createClass({
                      }}
                      y2={{
                        min: 0,
+                       formatter: numberFormatters.msTwoDecimalPlaces,
                        metrics: [
                          'http.' + this.state.selectedHttpServer + '.responseTime50',
                          'http.' + this.state.selectedHttpServer + '.responseTime90',
@@ -80,10 +86,10 @@ const NodejsDashboard = React.createClass({
                 <th>Port</th>
                 <th>Requests / s</th>
                 <th>Responses / s</th>
-                <th>Response Time 50th in ms</th>
-                <th>Response Time 90th in ms</th>
-                <th>Response Time 95th in ms</th>
-                <th>Response Time 99th in ms</th>
+                <th>Response Time 50th</th>
+                <th>Response Time 90th</th>
+                <th>Response Time 95th</th>
+                <th>Response Time 99th</th>
               </tr>
             </thead>
 
@@ -100,17 +106,23 @@ const NodejsDashboard = React.createClass({
                   <td>{httpServer.getIn(['address', 'address'])}</td>
                   <td>{httpServer.getIn(['address', 'port'])}</td>
                   <Mtd metric={'http.' + key + '.requests'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.zeroDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responses'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.zeroDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responseTime50'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responseTime90'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responseTime95'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responseTime99'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.msTwoDecimalPlaces}/>
                 </tr>
               ).valueSeq()}
             </tbody>
@@ -127,11 +139,12 @@ const NodejsDashboard = React.createClass({
                      windowSize={this.props.timeframe}
                      height={150}
                      margins={{
-                       left: 60,
-                       right: 60
+                       left: 80,
+                       right: 80
                      }}
                      y1={{
                        min: 0,
+                       formatter: numberFormatters.zeroDecimalPlaces,
                        metrics: [
                          'mongodb.' + this.state.selectedMongodbConnection + '.requests',
                          'mongodb.' + this.state.selectedMongodbConnection + '.failed'
@@ -144,6 +157,7 @@ const NodejsDashboard = React.createClass({
                      }}
                      y2={{
                        min: 0,
+                       formatter: numberFormatters.msTwoDecimalPlaces,
                        metrics: [
                          'mongodb.' + this.state.selectedMongodbConnection + '.duration50',
                          'mongodb.' + this.state.selectedMongodbConnection + '.duration90',
@@ -168,10 +182,10 @@ const NodejsDashboard = React.createClass({
                 <th>Databases</th>
                 <th>Requests / s</th>
                 <th>Failed Requests / s</th>
-                <th>Duration 50th in ms</th>
-                <th>Duration 90th in ms</th>
-                <th>Duration 95th in ms</th>
-                <th>Duration 99th in ms</th>
+                <th>Duration 50th</th>
+                <th>Duration 90th</th>
+                <th>Duration 95th</th>
+                <th>Duration 99th</th>
               </tr>
             </thead>
 
@@ -188,22 +202,54 @@ const NodejsDashboard = React.createClass({
                   <td>{mongodbConnection.get('port')}</td>
                   <td>{mongodbConnection.get('databases', []).join(', ')}</td>
                   <Mtd metric={'mongodb.' + key + '.requests'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.zeroDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.failed'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.zeroDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.duration50'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.duration90'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.duration95'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.duration99'}
-                       snapshot={this.props.snapshot}/>
+                       snapshot={this.props.snapshot}
+                       formatter={numberFormatters.msTwoDecimalPlaces}/>
                 </tr>
               ).valueSeq()}
             </tbody>
           </ResponsiveTable>
         </DashboardSection>
+        : null}
+
+        {!cassandraKeyspaces.isEmpty() ?
+          <DashboardSection title='Cassandra Connections'>
+            <ResponsiveTable>
+              <thead>
+                <tr>
+                  <th>Keyspace</th>
+                  <th>Hosts</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {cassandraKeyspaces.map((hosts, keyspace) =>
+                  <tr key={keyspace}>
+                    <td>
+                      {!keyspace ?
+                        <span style={{fontStyle: 'italic'}}>not specified</span>
+                      : keyspace}
+                    </td>
+                    <td>{hosts.join(', ')}</td>
+                  </tr>
+                ).valueSeq()}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
         : null}
       </div>
     );
