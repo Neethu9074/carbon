@@ -6,7 +6,7 @@ export const plugins = {
   jira: 'com.instana.forge.infrastructure.application.jira.JiraApplication',
   jvm: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
-  cassandra: 'com.instana.forge.infrastructure.database.cassandra.Cassandra',
+  cassandra: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
   mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
   mysql: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
