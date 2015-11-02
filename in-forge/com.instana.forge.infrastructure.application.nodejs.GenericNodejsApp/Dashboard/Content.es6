@@ -69,10 +69,10 @@ const NodejsDashboard = React.createClass({
                          'http.' + this.state.selectedHttpServer + '.responseTime99'
                        ],
                        labels: [
-                         'Response Time 50th in ms',
-                         'Response Time 90th in ms',
-                         'Response Time 95th in ms',
-                         'Response Time 99th in ms'
+                         'Response Time 50th',
+                         'Response Time 90th',
+                         'Response Time 95th',
+                         'Response Time 99th'
                        ],
                        type: 'line'
                      }}/>
@@ -165,10 +165,10 @@ const NodejsDashboard = React.createClass({
                          'mongodb.' + this.state.selectedMongodbConnection + '.duration99'
                        ],
                        labels: [
-                         'Request duration 50th in ms',
-                         'Request duration 90th in ms',
-                         'Request duration 95th in ms',
-                         'Request duration 99th in ms'
+                         'Request duration 50th',
+                         'Request duration 90th',
+                         'Request duration 95th',
+                         'Request duration 99th'
                        ],
                        type: 'line'
                      }}/>
