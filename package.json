@@ -48,6 +48,7 @@
     "chai-string": "^1.1.2",
     "chai-subset": "^1.0.1",
     "css-loader": "^0.19.0",
+    "cz-conventional-changelog": "1.1.4",
     "del": "^2.0.2",
     "eslint": "^1.1.0",
     "eslint-config-instana": "^3.0.0",
@@ -86,5 +87,10 @@
   },
   "publishConfig": {
     "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
