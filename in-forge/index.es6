@@ -5,6 +5,7 @@ import './com.instana.forge.infrastructure.application.container.tomcat.TomcatAp
 import './com.instana.forge.infrastructure.application.jira.JiraApplication';
 import './com.instana.forge.infrastructure.cache.redis.Redis';
 import './com.instana.forge.infrastructure.database.cassandra.CassandraNode';
+import './com.instana.forge.infrastructure.database.cassandra.CassandraCluster';
 import './com.instana.forge.infrastructure.database.elasticsearch.Elasticsearch';
 import './com.instana.forge.infrastructure.database.mongodb.MongoDb';
 import './com.instana.forge.infrastructure.database.mysql.MySqlDatabase';
