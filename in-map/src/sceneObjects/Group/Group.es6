@@ -157,7 +157,7 @@ export default class Group extends SceneObject {
       return;
     }
     this.getComponent('mesh').positionChanged(x, y, z);
-    this.getComponent('highlight').positionChanged(x, y, z);
+    this.getComponent('highlight').positionChanged(x, y - 0.01, z);
     this.updateScreenAnchorPosition();
   }
 
