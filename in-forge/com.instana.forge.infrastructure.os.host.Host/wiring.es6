@@ -77,7 +77,7 @@ function extractConnectionsFromMap(connections, ipSnapshotMap) {
  */
 export function calculateIpMap(snapshots) {
   const map = {};
-  //get ips for each host
+  // get ips for each host
   snapshots.forEach(host => {
     getIpBySnapshot(host).forEach(ip => {
       map[ip] = host;
@@ -110,12 +110,12 @@ function getIpBySnapshot(snapshot) {
 
   const ipArray = [];
 
-  //get all ethernet interfaces
+  // get all ethernet interfaces
   const ethInterfaces = snapshot.getIn(['data', 'interfaces']);
   if (ethInterfaces) {
     ethInterfaces.forEach(interf => {
 
-      //get all ips of the interface
+      // get all ips of the interface
       const ips = interf.get('ips') || [];
       ips.forEach(ip => {
         ipArray.push(ip);

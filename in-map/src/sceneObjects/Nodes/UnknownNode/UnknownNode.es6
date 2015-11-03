@@ -50,7 +50,7 @@ export default class Unknownnode extends BaseNode {
     const outgoing = [];
     const incoming = [];
     this.getAllMapNodes().forEach(node => {
-      //filter all unknown nodes and this
+      // filter all unknown nodes and this
       if (node.isUnknown || id === node.id) {
         return;
       }
@@ -82,7 +82,7 @@ export default class Unknownnode extends BaseNode {
   update() {
     super.update();
 
-    //if the node is near enough or is in the view frustum
+    // if the node is near enough or is in the view frustum
     if (this.isInView()) {
       this.updateStickyNotes();
     } else {

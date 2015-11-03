@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 const frontFaceCubeVertices = [
-  //front
+  // front
   -1, 0, 1,
   0, 0, 1,
   0, 1, 1,
@@ -10,7 +10,7 @@ const frontFaceCubeVertices = [
   0, 1, 1,
   -1, 1, 1,
 
-  //top
+  // top
   -1, 1, 1,
   0, 1, 1,
   0, 1, 0,
@@ -19,7 +19,7 @@ const frontFaceCubeVertices = [
   0, 1, 0,
   -1, 1, 0,
 
-  //left
+  // left
   -1, 0, 0,
   -1, 0, 1,
   -1, 1, 0,
@@ -29,7 +29,7 @@ const frontFaceCubeVertices = [
   -1, 1, 0
 ];
 
-//the basic geometry is a uniformed cube, where the pivot point is at the corner
+// the basic geometry is a uniformed cube, where the pivot point is at the corner
 export const cubeGeometry = new THREE.BufferGeometry();
 cubeGeometry.addAttribute('position', new THREE.BufferAttribute(new Float32Array(frontFaceCubeVertices), 3));
 cubeGeometry.attributes.position.needsUpdate = true;

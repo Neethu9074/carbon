@@ -52,21 +52,21 @@ export default class SlicedCubeContentProvider extends ContentProvider {
         indexInColors = 0;
       }
 
-      //front
+      // front
       for (let i = 0; i < 18; i += 3) {
         colors[i + offset] = colorArray[0];
         colors[i + offset + 1] = colorArray[1];
         colors[i + offset + 2] = colorArray[2];
       }
 
-      //top
+      // top
       for (let i = 18; i < 36; i += 3) {
         colors[i + offset] = colorArray[3];
         colors[i + offset + 1] = colorArray[4];
         colors[i + offset + 2] = colorArray[5];
       }
 
-      //left
+      // left
       for (let i = 36; i < 54; i += 3) {
         colors[i + offset] = colorArray[6];
         colors[i + offset + 1] = colorArray[7];
@@ -86,7 +86,7 @@ export default class SlicedCubeContentProvider extends ContentProvider {
       const from = i * heightPerSlice;
       const to = (i + 1) * heightPerSlice;
       const slice = [
-        //front
+        // front
         -0.5, from, 0.5,
         0.5, from, 0.5,
         0.5, to, 0.5,
@@ -95,7 +95,7 @@ export default class SlicedCubeContentProvider extends ContentProvider {
         0.5, to, 0.5,
         -0.5, to, 0.5,
 
-        //top
+        // top
         -0.5, to, 0.5,
         0.5, to, 0.5,
         0.5, to, -0.5,
@@ -104,7 +104,7 @@ export default class SlicedCubeContentProvider extends ContentProvider {
         0.5, to, -0.5,
         -0.5, to, -0.5,
 
-        //left
+        // left
         -0.5, from, -0.5,
         -0.5, from, 0.5,
         -0.5, to, -0.5,

@@ -12,23 +12,23 @@ export default class SingleMeshFactory {
   constructor({scene, renderOrder = 2}) {
     this.scene = scene;
 
-    //stores all added fragments to create the global geometry
+    // stores all added fragments to create the global geometry
     this.fragments = [];
 
-    //the global arrays containing the combined stream data
+    // the global arrays containing the combined stream data
     this.vertices = [];
     this.colors = [];
 
-    //stores all added fragments that needs an update on global geometry
+    // stores all added fragments that needs an update on global geometry
     this.fragmentQueue = {};
 
-    //represents the geometry for all combined fragments
+    // represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
     this.geometry.dynamic = true;
 
     this.material = this.getMaterial();
 
-    //a global mesh that stores global geometry
+    // a global mesh that stores global geometry
     const mesh = this.mesh = this.getMesh();
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
@@ -100,7 +100,7 @@ export default class SingleMeshFactory {
     this.updateGeometry();
     this.scene.renderScene();
 
-    //to clear the hole queue just create an empty object
+    // to clear the hole queue just create an empty object
     this.fragmentQueue = {};
   }
 

@@ -49,11 +49,11 @@ const SidebarMap = React.createClass({
     }
   },
 
-  getInitialState: function() {
+  getInitialState: function f() {
     return { windowHeight: this.getWindowHeight() };
   },
 
-  handleResize: function() {
+  handleResize: function f() {
     this.setState({ windowHeight: this.getWindowHeight() });
   },
 
@@ -63,11 +63,11 @@ const SidebarMap = React.createClass({
     return Math.max(100, window.innerHeight - 350);
   },
 
-  componentDidMount: function() {
+  componentDidMount: function f() {
     window.addEventListener('resize', this.handleResize);
   },
 
-  componentWillUnmount: function() {
+  componentWillUnmount: function f() {
     window.removeEventListener('resize', this.handleResize);
   },
 

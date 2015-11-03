@@ -7,7 +7,7 @@ import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
 import CameraController from './CameraController_temp';
 
 
-export default class TouchControl extends CameraController{
+export default class TouchControl extends CameraController {
 
   constructor({scene, canvas}) {
     super({scene});
@@ -53,7 +53,7 @@ export default class TouchControl extends CameraController{
     if (this.hittenObject) {
       longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
 
-      //also perform a simple click
+      // also perform a simple click
       this.doClick();
     }
   }

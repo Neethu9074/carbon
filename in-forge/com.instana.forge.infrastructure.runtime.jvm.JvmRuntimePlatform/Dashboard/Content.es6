@@ -156,12 +156,10 @@ const JVMDashboard = React.createClass({
                    y1={{
                      metrics: collectors.map((name) =>
                                 'gc.' + name + '.time'
-                              ).toArray()
-                     ,
+                              ).toArray(),
                      labels: collectors.map((name) =>
                                 name + ' Time'
-                              ).toArray()
-                     ,
+                              ).toArray(),
                      type: 'line',
                      formatter: (d) => d / 1000 + ' s'
                      }}
@@ -169,12 +167,10 @@ const JVMDashboard = React.createClass({
                    y2={{
                      metrics: collectors.map((name) =>
                                 'gc.' + name + '.inv'
-                              ).toArray()
-                     ,
+                              ).toArray(),
                      labels: collectors.map((name) =>
                                 name + ' Invocations'
-                              ).toArray()
-                     ,
+                              ).toArray(),
                      type: 'point'
                    }}/>
           </DashboardSection>

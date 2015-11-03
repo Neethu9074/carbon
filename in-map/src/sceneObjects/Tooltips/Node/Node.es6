@@ -52,7 +52,7 @@ const NodeTooltipRC = React.createClass({
       .reverse();
     const data = snapshot.get('data');
 
-    //only show the status line if there is a "bad" health or some issues
+    // only show the status line if there is a "bad" health or some issues
     if (nodeHealth !== health.ok && this.issuesAvailable()) {
         try {
           return (<IssueStatusLine

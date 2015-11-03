@@ -95,7 +95,7 @@ export default class ConnectionComponent extends Component {
     this.connections.push(connection);
   }
 
-  //is called from Connection class on disposing
+  // is called from Connection class on disposing
   removeConnection(connection) {
     _.remove(this.connections, con => con.id === connection.id);
   }

@@ -1,4 +1,4 @@
-/*eslint-env mocha, node*/
+/* eslint-env mocha, node */
 import Immutable from 'immutable';
 import {expect} from 'chai';
 
@@ -57,7 +57,7 @@ describe('snapshot', () => {
             outgoing: [
               '1.1.1.2',
               '1.1.1.3',
-              '1.1.1.6' //unknown
+              '1.1.1.6' // unknown
             ]
           }
         }
@@ -77,7 +77,7 @@ describe('snapshot', () => {
             outgoing: [
               '1.1.1.1',
               '1.1.1.3',
-              '1.1.1.5' //unknown
+              '1.1.1.5' // unknown
             ]
           }
         }

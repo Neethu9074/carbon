@@ -1,4 +1,4 @@
-/*eslint-env mocha, node */
+/* eslint-env mocha, node */
 import THREE from 'three';
 import {expect} from 'chai';
 import sinon from 'sinon';

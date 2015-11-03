@@ -1,4 +1,4 @@
-/*global ga:false*/
+/* global ga:false */
 
 import config from './config';
 

@@ -1,5 +1,5 @@
-/* eslint-env mocha*/
-/*eslint max-len:[2, 120] */
+/* eslint-env mocha */
+/* eslint max-len:[2, 120] */
 import proxyquire from 'proxyquire';
 import {expect} from 'chai';
 import sinon from 'sinon';

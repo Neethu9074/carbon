@@ -127,7 +127,7 @@ const MapRC = React.createClass({
     for (let ii = 0; ii < names.length; ++ii) {
       try {
         context = canvas.getContext(names[ii]);
-      } catch(e) {
+      } catch (e) {
         continue;
       }
       if (context) {
