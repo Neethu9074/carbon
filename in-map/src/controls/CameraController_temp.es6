@@ -36,9 +36,9 @@ export default class CameraController {
     // holds the mouse/touch position in pixel coordinates
     this.cursor = new THREE.Vector2();
 
-    this.defaultCameraSpeed = 10; //camera fly speed
-    this.cameraSpeed = this.defaultCameraSpeed; //camera fly speed
-    this.moveSpeed = 0.01; //distance moved per pixel
+    this.defaultCameraSpeed = 100; // camera fly speed
+    this.cameraSpeed = this.defaultCameraSpeed; // camera fly speed
+    this.moveSpeed = 0.01; // distance moved per pixel
 
     this.initZoomField();
 
