@@ -323,7 +323,7 @@ export default class Node extends BaseNode {
 
   getScreenAnchorPosition() {
     const pos = this.getComponent('position').getPosition();
-    return {x: pos.x - 0.25, y: pos.y + this.height + 0.2, z: pos.z + 0.25};
+    return {x: pos.x - 0.2, y: pos.y + this.height + 0.75, z: pos.z + 0.25};
   }
 
   positionChanged(x, y, z, oldPosition) {

@@ -32,7 +32,7 @@ export default class Label extends SceneObject {
   }
 
   getFactory() {
-    const size = this.pluginId === 'com.instana.forge.infrastructure.os.host.Host' ? 1.0 : 0.75;
+    const size = this.pluginId === 'com.instana.forge.infrastructure.os.host.Host' ? 2.0 : 0.75;
     return this.scene.getLogoFactory(this.pluginId, size);
   }
 

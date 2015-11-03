@@ -17,7 +17,6 @@ export default React.createClass({
   ],
 
   propTypes: {
-    sceneObject: React.PropTypes.object.isRequired,
     tags: React.PropTypes.object.isRequired
   },
 
@@ -45,7 +44,7 @@ export default React.createClass({
             return (
               <li key={tag} className='in-tooltip__tag-frame__li'>
                 <Tooltip content={<TagToolTip tag={tag}/>}>
-                  <Tag tag={tag} sceneObject={this.props.sceneObject}/>
+                  <Tag tag={tag}/>
                 </Tooltip>
               </li>
             );

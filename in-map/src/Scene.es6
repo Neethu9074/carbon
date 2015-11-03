@@ -391,20 +391,6 @@ export default class Scene {
     camera.projection.multiplyMatrices(camProjectionMat, inverse);
   }
 
-  updateNodeWidthOnScreen() {
-    // each node has width = 1 in worldunits
-    const width = this.camera.right * 2;
-    const nodeSize = 1;
-    const aspect = this.height / this.width;
-    const nodeSizeInPixel = (nodeSize / width) * this.width * aspect;
-
-    if (this.nodeSizeInPixel !== nodeSizeInPixel) {
-      this.nodeSizeInPixel = nodeSizeInPixel;
-      stores.iconSize.emit(nodeSizeInPixel);
-      this.renderScene();
-    }
-  }
-
   updateMetricHeights() {
     if (currentMetrics) {
       this.singleMeshMetricFactory.updateHeights();
@@ -503,9 +489,6 @@ export default class Scene {
     this.camera.right = camSizeHalf * aspect;
     this.camera.bottom = -camSizeHalf;
     this.camera.top = camSizeHalf;
-
-    // nodes size only changes at camSize or canvas changes
-    this.updateNodeWidthOnScreen();
 
     //projection matrix is updated in update loop
   }
@@ -640,7 +623,6 @@ export default class Scene {
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);
     stores.currentScene.emit(null);
-    stores.iconSize.emit(null);
     selectedSnapshot.clear();
   }
 

@@ -35,6 +35,7 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
     const icon = getIcon(this.params.type) || context('./default.png');
     const image = document.createElement('img');
     image.src = icon;
+    image.height = 64;
     const texture = new THREE.Texture(image);
     texture.minFilter = THREE.LinearFilter;
     texture.generateMipmaps = false;
