@@ -1,4 +1,4 @@
-/*eslint-env mocha*/
+/* eslint-env mocha */
 
 import Immutable from 'immutable';
 import {expect} from 'chai';

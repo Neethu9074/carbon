@@ -1,57 +1,90 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
+import {getIssuesForSnapshot} from 'in-services/issueTracker';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {getHealth} from 'in-services/issueTracker';
-import {health} from 'in-services/health';
+import {mapSeverityToHealth, health} from 'in-services/health';
+import IssueDiscription from 'in-components/IssueDiscription';
+import {getClassName} from 'in-services/react';
 import {theme} from 'in-services/theme';
-import Icon from 'in-components/Icon';
 
 import enhance from '../hoc/enhance';
+import Tooltip from '../Tooltip';
+import './HealthIcon.less';
 
 const rpt = React.PropTypes;
+const block = 'in-health-icon';
 
 const HealthIcon = React.createClass({
-  mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
 
   propTypes: {
     snapshot: irpt.map.isRequired,
     className: rpt.string,
-    health: rpt.string
+    issues: irpt.list
   },
 
   statics: {
     createObservables(props) {
+      const snapshot = props.snapshot;
       return {
-        health: getHealth(props.snapshot)
+        issues: getIssuesForSnapshot(snapshot)
       };
     }
   },
 
   render() {
-    if (!this.props.health || this.props.health === health.ok) {
+    const issues = this.props.issues;
+    if (!issues || issues.size === 0) {
       return null;
     }
 
-    let color;
-    let type;
+    const orderedIssues = issues
+      .sortBy(issue => issue.getIn(['problem', 'severity']))
+      .toArray()
+      .reverse();
+    const maxColor = this.getColor(orderedIssues[0]);
 
-    switch (this.props.health) {
+    return (
+      <Tooltip content={this.getContentForTooltip(orderedIssues)}>
+
+        <div style={{ backgroundColor: maxColor }}
+             type={ 'critical' }
+             className={getClassName(this, block)}>
+          <span className={getClassName(this, block, '__counter')}>
+            {orderedIssues.length}
+          </span>
+        </div>
+
+      </Tooltip>
+    );
+  },
+
+  getColor(problem) {
+    switch (mapSeverityToHealth(problem.getIn(['problem', 'severity']))) {
+      case health.ok:
+        return theme.health[0];
       case health.warning:
-        type = 'warning';
-        color = theme.health.warning;
-        break;
+        return theme.health[5];
       case health.danger:
-        type = 'critical';
-        color = theme.health.danger;
-        break;
+        return theme.health[10];
       default:
-        throw new Error('Unrecognized health ' + this.props.health);
+        throw new Error('Unknown health ' + mapSeverityToHealth(problem));
     }
+  },
 
-    return (<Icon style={{color}}
-                  type={type}
-                  className={this.props.className}/>);
+  getContentForTooltip(orderedIssues) {
+    return (
+      <div>
+        {orderedIssues.map(issue =>
+          <IssueDiscription key={issue.get('id')}
+                            issue={issue}/>
+        )}
+      </div>
+    );
   }
 });
 

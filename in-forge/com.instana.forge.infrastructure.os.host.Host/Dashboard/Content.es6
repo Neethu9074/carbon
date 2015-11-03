@@ -17,7 +17,6 @@ import DashboardSection from 'in-components/DashboardSection';
 import HelpLink from 'in-components/HelpLink';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
-
 import ResponsiveTable from 'in-components/ResponsiveTable';
 
 const rpt = React.PropTypes;
@@ -365,7 +364,7 @@ const OsDashboard = React.createClass({
                     })}>
                   <td>{name}</td>
                   <td>{data.get('mac')}</td>
-                  <td>{data.get('ips').join(', ')}</td>
+                  <td>{data.get('addresses').map(address => address.get('ip')).join(', ')}</td>
                   <Mtd metric={'ifs.' + name + '.rx.bytes'}
                        snapshot={this.props.snapshot}
                        formatter={bytesPerSecondFormatter} />

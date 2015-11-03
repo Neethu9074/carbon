@@ -37,6 +37,9 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
+    global.window = global.window || {};
+    global.window.location = global.window.location || {};
+    global.window.location.href = 'https://test-instana.instana.io';
     sceneObject = {};
 
     currentScene.emit({
@@ -68,6 +71,13 @@ describe('3D map', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);
+    });
+
+    it('can add layer', () => {
+      component.addLayer(getRandomLayerCoordinates());
+      component.addLayer(getRandomLayerCoordinates());
+
+      expect(component.layer.length).to.equal(2);
     });
 
   });

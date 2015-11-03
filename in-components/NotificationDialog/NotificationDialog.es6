@@ -1,11 +1,8 @@
-
-
 import React from 'react/addons';
 
 import Button from '../Button';
 import Dialog from '../Dialog';
-
-import infoPath from './info.svg';
+import Icon from '../Icon';
 
 import './NotificationDialog.less';
 
@@ -28,21 +25,15 @@ const NotificationDialog = React.createClass({
     return (
       <Dialog className={block}
               onClose={this.props.onClose}>
-        <h2 className={block + '__type'}>
-          <img src={infoPath}
-               alt='Information Indicator'
-               className={block + '__info-icon'} />
-          Information
-        </h2>
 
         <h1 className={block + '__header'}>{this.props.title}</h1>
 
         {this.props.children}
 
         {closeButtonVisible === undefined || closeButtonVisible ?
-          <Button type='button'
+          <Button className={block + '__button-close'}
                   onClick={this.props.onClose}>
-            Okay, got it
+            <Icon type={'delete'} className={block + '__button-close__icon'}/>
           </Button>
         : null}
       </Dialog>

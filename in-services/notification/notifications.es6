@@ -38,7 +38,7 @@ function startTracking() {
         previousIssues[issue.get('id')] = 1;
         const coordinates = extractCoordinates(issue.get('problem'));
         const severity = mapSeverityToHealth(issue.getIn(['problem', 'severity']));
-        if(severity === health.warning || severity === health.danger) {
+        if (severity === health.warning || severity === health.danger) {
           getFullSnapshot(coordinates).once(snapShot => {
               showMessage(getLabel(snapShot), issue.getIn(['problem', 'problemText']));
           });

@@ -3,8 +3,8 @@ import _ from 'lodash';
 
 import {getIcon} from 'in-sdk/snapshot';
 import {hexToRGBNormalized} from 'in-services/converters';
-import {viewStructure} from 'in-services/stores/view';
 import {getFullSnapshot} from 'in-services/snapshots';
+import {viewStructure} from 'in-services/stores/view';
 import eventBus from 'in-services/eventbus';
 import theme from 'in-services/theme';
 import {getZone} from 'in-sdk/zones';
@@ -94,9 +94,8 @@ export default class PhysicalMap extends SceneObject {
   getGroundTexture() {
     const quadsPerWorldUnit = 3;
     const repating = quadsPerWorldUnit * this.size;
-    const texture = THREE.ImageUtils.loadTexture(
+    const texture = new THREE.TextureLoader().load(
       groundTexturePath,
-      THREE.UVMapping,
       () => { this.scene.renderScene(); });
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
@@ -112,7 +111,7 @@ export default class PhysicalMap extends SceneObject {
 
   handleTimeEventFunction() {
     //if the flag was set to recalculate the layouting
-    if(this.refreshLayout) {
+    if (this.refreshLayout) {
       this.applyLayout();
       eventBus.emit('layoutChanged');
 
@@ -128,13 +127,18 @@ export default class PhysicalMap extends SceneObject {
     time.addTimeEventListener({
       handleComponentTimeEvent: this.handleTimeEvent
     });
+
+    // because this check is pretty expensive and will be replaced by a more hipper
+    // backend technology soon, only do this if it's necessary
+    this.addSubscription(eventBus.on('onViewSwitched').subscribe(() =>
+      this.removeAllUnknownNodesWithoutConnections()
+    ));
   }
 
   onInventoryUpdate(structures) {
     structures.forEach(triple => this.addNode(triple));
 
     this.removeVanishedNodes(structures);
-    // this.removeAllUnknownNodesWithoutConnections();
   }
 
   applyLayout() {
@@ -170,7 +174,7 @@ export default class PhysicalMap extends SceneObject {
       }
 
       const wired = node.getWiredSnapshots();
-      if (wired.get('incoming').length === 0 && wired.get('outgoing').length === 0) {
+      if (wired.incoming.length === 0 && wired.outgoing.length === 0) {
         node.dispose();
       }
     });
@@ -193,11 +197,12 @@ export default class PhysicalMap extends SceneObject {
 
     // add the node to group (the group handles duplicates)
     const newNode = group.addNode({
+      connections: triple.connections,
       coordinates: triple.node,
       layer: triple.layers
     });
 
-    if(!newNode) {
+    if (!newNode) {
       return;
     }
 
@@ -228,7 +233,7 @@ export default class PhysicalMap extends SceneObject {
   removeNodeFromAllGroupsInsteadOf(groupId, newNode) {
     const nodeId = newNode.id;
     getAllNodes(this).forEach(node => {
-      if(node.id === nodeId && node.parent.id !== groupId) {
+      if (node.id === nodeId && node.parent.id !== groupId) {
         node.dispose();
       }
     });
@@ -242,7 +247,7 @@ export default class PhysicalMap extends SceneObject {
   }
 
   showWalkableGrid() {
-    if(this.particles) {
+    if (this.particles) {
       this.removeSceneObject(this.particles);
     }
     this.particles = ConnectionGrid.asVisualObject();
@@ -266,7 +271,7 @@ export default class PhysicalMap extends SceneObject {
 
   onZoom(zoomLevel) {
     const size = this.size;
-    if(zoomLevel < 120) {
+    if (zoomLevel < 120) {
       this.groundtexture.repeat.set(3 * size, 3 * size);
     } else {
       this.groundtexture.repeat.set(size, size);

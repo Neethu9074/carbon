@@ -16,15 +16,19 @@ const ConnectionTooltip = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    connections: React.PropTypes.array.isRequired
+    connections: React.PropTypes.array
   },
 
   render() {
-    const maxCon = 3;
     const connections = this.props.connections;
+    if (!connections) {
+      return null;
+    }
+
+    const maxCon = 3;
     const numConnections = connections.length;
     const listItems = connections.slice(0, maxCon).map(connection => {
-      const ip = connection.to.ip;
+      const ip = connection.to.ip || '';
       const zoneId = connection.to.zone;
       const style = {color: getColor(zoneId)};
 
@@ -50,7 +54,7 @@ const ConnectionTooltip = React.createClass({
     });
 
     let footer = null;
-    if(numConnections > maxCon) {
+    if (numConnections > maxCon) {
       footer = (
         <Content className={block + '__footer'}>
           {numConnections - maxCon} more

@@ -33,7 +33,7 @@ const Dialog = React.createClass({
   render() {
     return (
       <section className={getClassName(this, block)}>
-        <div className={block + '__content'}>
+        <div className={getClassName(this, block, '__content')}>
           {this.props.children}
         </div>
       </section>

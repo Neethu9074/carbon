@@ -17,8 +17,8 @@ import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
-import NodeSnapshotServer from '../../../NodeSnapshotServer';
 import {longClickedSceneObject} from '../../../mapStores';
+import NodeSnapshotServer from './NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode';
@@ -30,19 +30,19 @@ import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 
-const maxNodeHeight = 3;
 const nodeBaseHeight = 1;
 
 export default class Node extends BaseNode {
 
-  constructor({parent, coordinates, id, layer}) {
+  constructor({parent, coordinates, id, connections}) {
     super({parent, id});
 
     this._cachedPower = 1;
     this._cachedPluginId = coordinates.get('pluginId');
     this.isOutOfView = false;
     this.isToFarAway = false;
-    this.snapshotServer = new NodeSnapshotServer(this);
+
+    this.snapshotServer = new NodeSnapshotServer(this, connections);
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
@@ -55,14 +55,15 @@ export default class Node extends BaseNode {
         this.hide();
       }
     }));
-
-    this.addLayer(layer);
   }
 
   onSelectedEnter() {
     super.onSelectedEnter();
 
-    selectedSnapshot.select(this.snapshot);
+    // snapshots may not yet exist yet when switching views.
+    if (this.snapshot) {
+      selectedSnapshot.select(this.snapshot);
+    }
   }
 
   onSelectedHighlightEnter() {
@@ -75,7 +76,7 @@ export default class Node extends BaseNode {
     super.onSceneObjectSelected(obj);
 
     if (obj && obj.id === this.id) {
-      tracking.trackEvent(tracking.events.clickOnServerIn3DMap);
+      tracking.events.clickOnServerIn3DMap();
     }
   }
 
@@ -146,7 +147,7 @@ export default class Node extends BaseNode {
     super.registerEvents();
 
     this.addSubscription(
-      highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
+      highlightedSnapshot.highlightedSnapshot.subscribe(highlighted => {
         if (!highlighted) {
           this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
           return;
@@ -158,23 +159,23 @@ export default class Node extends BaseNode {
     );
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
-      if(so && this.snapshot && so.id === this.id) {
+      if (so && this.snapshot && so.id === this.id) {
         eventBus.emit('openDashboard', this.snapshot);
-        tracking.trackEvent(tracking.events.openingADashboardUsingTheMap);
+        tracking.events.openingADashboardUsingTheMap();
       }
     }));
   }
 
-  addLayer(layer) {
+  setLayer(layer) {
     const layerComponent = this.getComponent('layer');
-    if(layerComponent) {
-      layerComponent.addLayer(layer);
-    }
+
+    layerComponent.removedVanishedLayer(layer);
+    layerComponent.addLayer(layer);
   }
 
   onHighlight(highlighted) {
     super.onHighlight(highlighted);
-    if(highlighted) {
+    if (highlighted) {
       highlightedSnapshot.select(this.snapshot);
     } else {
       highlightedSnapshot.clear();
@@ -203,7 +204,7 @@ export default class Node extends BaseNode {
   }
 
   setMetricValues(values) {
-    if(this.isHidden()){
+    if (this.isHidden()) {
       return;
     }
 
@@ -211,10 +212,14 @@ export default class Node extends BaseNode {
   }
 
   setWiredSnapshots(wiredSnapshots) {
+    if (!wiredSnapshots) {
+      return;
+    }
+
     const parent = this.parent;
     this.wiredSnapshots = wiredSnapshots;
 
-    wiredSnapshots.get('outgoing').forEach(wired => {
+    wiredSnapshots.outgoing.forEach(wired => {
       if (wired.get('state') !== 'unmonitored') {
         return;
       }
@@ -229,8 +234,8 @@ export default class Node extends BaseNode {
   update() {
     super.update();
 
-    //if the node is in the view frustum
-    if(!this.isInView()) {
+    // if the node is in the view frustum
+    if (!this.isInView()) {
         this.setStateForMetricActivity({ isOutOfView: true });
 
         if (!this.stickyIsHidden) {
@@ -249,22 +254,22 @@ export default class Node extends BaseNode {
   }
 
   setStateForMetricActivity(params) {
-    if(params.isOutOfView !== undefined) {
+    if (params.isOutOfView !== undefined) {
       this.isOutOfView = params.isOutOfView;
     }
-    if(params.isToFarAway !== undefined) {
+    if (params.isToFarAway !== undefined) {
       this.isToFarAway = params.isToFarAway;
     }
 
-    if(!this.isToFarAway && !this.isOutOfView &&
+    if (!this.isToFarAway && !this.isOutOfView &&
         this.snapshotServer && this.snapshotServer.currentMetric) {
-      if(!this.canShowMetrics) {
+      if (!this.canShowMetrics) {
         this.canShowMetrics = true;
         this.snapshotServer.resumeMetrics();
         this.showMetrics();
       }
     } else {
-      if(this.canShowMetrics) {
+      if (this.canShowMetrics) {
         this.canShowMetrics = false;
         this.snapshotServer.pauseMetrics();
         this.hideMetric();
@@ -283,23 +288,23 @@ export default class Node extends BaseNode {
   onSnapshotUpdate(snapshot) {
     // if the reference is equal, don't update. the reference is always equal
     // on the same snapshots because they are immutable
-    if(this.snapshot === snapshot) {
+    if (this.snapshot === snapshot) {
       return;
     }
 
     this.snapshot = snapshot;
     this._cachedPower = getPower(snapshot);
 
-    if(!this.components.health) {
+    if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
 
-    if(this.stickyNote.isEmpty) {
+    if (this.stickyNote.isEmpty) {
       this.stickyNote = new StickyNoteNode(this);
     }
     this.stickyNote.onSnapshotUpdate();
 
-    if(this.tooltip.isEmpty) {
+    if (this.tooltip.isEmpty) {
       this.tooltip = new TooltipNode(this);
     }
 
@@ -307,6 +312,7 @@ export default class Node extends BaseNode {
   }
 
   updateHeight(maxPower) {
+    const maxNodeHeight = 3;
     this._cachedPower = getPower(this.snapshot);
     const weightedHeight = (maxNodeHeight - nodeBaseHeight) * (this._cachedPower / maxPower);
     this.setHeight(nodeBaseHeight + weightedHeight);
@@ -345,7 +351,7 @@ export default class Node extends BaseNode {
     groundLine.colorChanged(r, g, b);
     this.getComponent('mesh').colorChanged(r, g, b);
 
-    if(newHealth === health.ok) {
+    if (newHealth === health.ok) {
       ground.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
       groundLine.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
       this.getComponent('solidMesh').colorChanged(r + 0.1, g + 0.1, b + 0.1);
@@ -371,14 +377,9 @@ export default class Node extends BaseNode {
     const colors = theme.map.colors;
     let color;
 
-    if(!hostHealth) {
-      color = new THREE.Color(colors.cubeBasicColor);
-      return {r: color.r, g: color.g, b: color.b};
-    }
-
-    if(hostHealth === health.warning) {
+    if (hostHealth === health.warning) {
       color = new THREE.Color(colors.warning);
-    } else if(hostHealth === health.danger) {
+    } else if (hostHealth === health.danger) {
       color = new THREE.Color(colors.critical);
     } else {
       color = new THREE.Color(colors.cubeBasicColor);

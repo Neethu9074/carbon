@@ -36,7 +36,7 @@ export default class SingleMeshFactory {
     mesh.frustumCulled = false;
     mesh.renderOrder = renderOrder;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.numberUpdates = 0;
     }
 
@@ -51,7 +51,7 @@ export default class SingleMeshFactory {
   addFragment({id, contentProvider}) {
     let fragment = this.getFragment(id);
 
-    if(fragment) {
+    if (fragment) {
       this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
 
     } else {
@@ -71,7 +71,7 @@ export default class SingleMeshFactory {
 
   removeFragment(id) {
     const fragment = this.getFragment(id);
-    if(!fragment) {
+    if (!fragment) {
       return;
     }
 
@@ -84,14 +84,14 @@ export default class SingleMeshFactory {
 
   rebuild() {
     const keys = Object.keys(this.fragmentQueue);
-    if(keys.length === 0) {
+    if (keys.length === 0) {
       return;
     }
 
     keys.forEach(id => {
       const item = this.fragmentQueue[id];
 
-      if(item.mode === UPDATE_FLAGS.ADD) {
+      if (item.mode === UPDATE_FLAGS.ADD) {
         this.updateGeometryByFragment(item.fragment, item.itemsToBeDeleted);
       } else {
         this.removeFragmentFromGeometry(item);
@@ -118,7 +118,7 @@ export default class SingleMeshFactory {
     let indexInVertices = 0;
     for (let i = 0; i < this.fragments.length; i++) {
       const frag = this.fragments[i];
-      if(frag.id === fragment.id) {
+      if (frag.id === fragment.id) {
         break;
       }
       indexInVertices += frag.vertices.length;
@@ -143,7 +143,7 @@ export default class SingleMeshFactory {
     geometry.attributes.position.needsUpdate = true;
     geometry.attributes.color.needsUpdate = true;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.numberUpdates++;
     }
   }

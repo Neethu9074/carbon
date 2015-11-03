@@ -20,7 +20,8 @@ const SettingEntry = React.createClass({
     const numChildren = this.props.children.length;
     invariant(
       numChildren === 2 || numChildren === 3,
-      'A SettingEntry must have exactly two child elements: Header and Content'
+      'A SettingEntry must have exactly two child elements: Header and Content ' +
+      'or exactly three child elements: Header, Content and HelpText'
     );
 
     if (numChildren === 2) {

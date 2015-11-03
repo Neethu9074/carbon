@@ -50,7 +50,7 @@ export default class TouchControl extends CameraController{
   }
 
   emitLongClick() {
-    if(this.hittenObject) {
+    if (this.hittenObject) {
       longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
 
       //also perform a simple click
@@ -62,7 +62,7 @@ export default class TouchControl extends CameraController{
     const now = Date.now();
     const deltaTime = (now - this.timeSinceLastTap);
     this.timeSinceLastTap = now;
-    if(deltaTime < 300) {
+    if (deltaTime < 300) {
       return true;
     }
     return false;
@@ -84,7 +84,7 @@ export default class TouchControl extends CameraController{
   }
 
   onTab(e) {
-    if(this.checkDoubleClick()) {
+    if (this.checkDoubleClick()) {
       this.emitLongClick();
     }
     this.setCursorToEvent(e);

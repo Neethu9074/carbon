@@ -11,7 +11,7 @@ MAINTAINER Ben Ripkens "ben@instana.com"
 # and nginx version is changed to Ubuntu and the ubuntu release name
 RUN apt-key adv --keyserver hkp://pgp.mit.edu:80 --recv-keys 573BFD6B3D8FBC641079A6ABABF5BD827BD9BF62
 RUN echo "deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx" >> /etc/apt/sources.list
-ENV NGINX_VERSION 1.9.5-1~trusty
+ENV NGINX_VERSION 1.9.6-1~trusty
 
 # TODO: eventually remove first 2 rms after source lists are consistent in base image on server
 RUN rm /var/lib/apt/lists/archive.ubuntu.com_ubuntu_dists_trusty-security_universe_source_Sources.gz && \
@@ -60,13 +60,15 @@ COPY deployment/mime.types /etc/nginx/mime.types
 COPY deployment/.htpasswd /etc/nginx/.htpasswd
 COPY target /opt/www
 COPY deployment/config.json.j2 /opt/www/config.json.j2
+COPY deployment/serverConfig.json.j2 /opt/www/serverConfig.json.j2
 COPY deployment/star_instana_io.crt /etc/ssl/certs/star_instana_io.crt
 COPY deployment/star_instana_io.key /opt/www/star_instana_io.key.j2
 COPY deployment/dhgroup.pem /etc/ssl/dhgroup.pem
 
 CMD j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf && \
   j2 /opt/www/config.json.j2 > /opt/www/assets/config.json && \
+  j2 /opt/www/serverConfig.json.j2 > /opt/www/serverConfig.json && \
   j2 /opt/www/star_instana_io.key.j2 > /etc/ssl/private/star_instana_io.key && \
-  nginx && /opt/www/node_modules/babel/bin/babel-node.js /opt/www/index.js
+  nginx && DEBUG=instana-nodejs-sensor:* /opt/www/node_modules/babel/bin/babel-node.js /opt/www/index.js
 
 EXPOSE 80 443

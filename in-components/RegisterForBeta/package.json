@@ -1,0 +1,6 @@
+{
+  "name": "RegisterForBeta",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./RegisterForBeta.es6"
+}

@@ -1,6 +1,7 @@
-import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
 
+import {view} from './view';
 import {createStore} from './store';
 
 const emptyList = Immutable.List();
@@ -10,6 +11,10 @@ const store = createStore({
 });
 
 export const activeFilters = store.observable;
+
+// remove all active tag filers when the view is switched to avoid
+// physical map tags filtering to impact filtering on the process view.
+view.subscribe(() => removeFiltersWithType('tag'));
 
 export function addFilter(filter) {
   store.applyStateMutation(currentSetOfFilters => {

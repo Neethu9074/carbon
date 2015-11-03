@@ -1,0 +1,27 @@
+@import "~in-themes/active.less";
+
+.in-sidebar-resetButton {
+  padding: 15px 0 25px 0;
+  font-size: 12px;
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  color: @filterbar__controls__reset-button-label;
+  transition: color 0.25s ease-in-out;
+  cursor: pointer;
+
+  &__icon {
+    color: @filterbar__controls__reset-button-icon;
+    font-size: 24px;
+    margin-left: 6px;
+  }
+
+  &:hover {
+    color: @filterbar__controls__reset-button-label-highlight;
+    .in-sidebar-resetButton__icon {
+      color: @filterbar__controls__reset-button-icon-highlight;
+    }
+  }
+}

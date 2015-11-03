@@ -7,14 +7,16 @@ var base = require('instana-ui-theme/dist/night/config.json');
 var common = require('./common');
 
 var white = '#ffffff';
-var lightestGrey = '#dce3e6';
-var lightGrey = '#6b8088';
-var grey = '#435b64';
-var darkGrey = '#2d4048';
-var darkestGrey = '#203036';
+var grey0 = '#eef2f4';
+var grey1 = '#6b8088';
+var grey2 = '#576e76';
+var grey3 = '#435b64';
+var grey4 = '#3b4d55';
+var grey5 = '#2d4048';
+var grey6 = '#203036';
 var cyan = '#9fffff';
 var health = [
-  lightGrey,
+  white,
   '#e3e2b8',
   '#eae18a',
   '#f1e05c',
@@ -29,85 +31,156 @@ var health = [
 
 module.exports = _.defaultsDeep({
   sidebar: {
+    width: 342,
     header: {
-      background: darkGrey,
-      plugin: lightestGrey,
-      heading: white
+      background: grey5,
+      plugin: grey1,
+      heading: white,
+      defaultButtonBackground: grey1,
+      defaultButtonText: white,
+      defaultButtonBackgroundHightlight: grey2,
+      defaultButtonTextHighlight: white
+    },
+    discriptionList: {
+      title: grey5,
+      text: grey1
+    },
+    list: {
+      background: grey0,
+      text: grey5
     },
     viewDashboardButton: {
-      background: darkestGrey
+      background: grey6
+    },
+    tabs: {
+      background: grey6
+    },
+    tags: {
+      border: grey0,
+      borderHighlight: '#dce3e6',
+      text: grey5,
+      textHighlight: white,
+      backgroundHighlight: grey5
     },
     background: white,
-    problemStart: darkestGrey
+    problemStart: grey6
+  },
+  collapsible: {
+    line: grey0,
+    header: {
+      closedText: 'rgba(107, 128, 136, 0.5)',
+      openedText: grey1
+    }
   },
   timeline: {
     changeTimeButton: cyan,
     timeRangeLabel: white,
-    background: darkGrey,
-    serverTime: lightGrey,
-    line: grey
+    background: grey5,
+    serverTime: grey1,
+    line: grey3
   },
   filterbar: {
-    background: darkestGrey,
+    background: grey6,
+    metrics: {
+      collapsible: {
+        line: grey5,
+        textOpened: white,
+        textClosed: grey1
+      },
+      leaf: {
+        text: grey1,
+        textHighlight: white,
+        backgroundHighlight: grey5
+      }
+    },
+    nodes: {
+      text: grey1,
+      textHighlight: white,
+      backgroundHighlight: grey5
+    },
     controls: {
       label: white,
       labelHighlight: cyan,
       background: {
-        regular: lightGrey,
-        regularHover: grey,
-        active: darkGrey,
-        activeHover: darkestGrey
+        regular: grey1,
+        regularHover: grey3,
+        active: grey5,
+        activeHover: grey6
       },
       closeButtonIcon: cyan,
       closeButtonIconHighlight: white,
-      closeButtonLabel: lightGrey,
+      closeButtonLabel: white,
       closeButtonLabelHighlight: white,
       resetButtonIcon: cyan,
       resetButtonIconHighlight: white,
-      resetButtonLabel: lightGrey,
+      resetButtonLabel: grey1,
       resetButtonLabelHighlight: white,
-      listHeader: white,
-      metricsLabel: white,
-      metricsLabelBackgroundHighlight: darkGrey
+      listHeader: white
+    },
+    tags: {
+      border: grey5,
+      text: white,
+      backgroundHighlight: grey5,
+      noTagsDefinedText: grey1
     }
   },
   menu: {
-    background: darkestGrey,
-    sectionLine: darkGrey,
+    background: grey6,
+    sectionLine: grey5,
     sectionLabelHighlight: white,
     sectionLabel: cyan,
-    signoutLabel: lightGrey
+    signoutLabel: grey1
+  },
+  notificationCenter: {
+    background: grey5,
+    statusBarBackground: grey6,
+    issueItem: {
+      borderLine: grey4,
+      textTime: white,
+      textSuggestion: 'rgba(255, 255, 255, 0.5)',
+      backgroundHover: grey6
+    }
   },
   settings: {
     heading: {
-      text: lightestGrey,
-      background: darkestGrey
+      text: white,
+      background: grey6
     },
-    background: darkGrey,
-    sectionLine: grey,
-    entryText: lightestGrey,
-    helpText: lightGrey
+    background: grey6,
+    sectionLine: grey3,
+    entryText: white,
+    helpText: grey1,
+    closeButtonColor: grey6
   },
   dashboard: {
     background: white,
     header: {
-      background: darkestGrey,
-      backToMapButtonLabel: lightGrey,
+      background: grey6,
+      backToMapButtonLabel: grey1,
       backToMapButtonLabelHighlight: white,
       backToMapButtonIcon: cyan,
-      backToMapButtonIconHighlight: white
+      backToMapButtonIconHighlight: white,
+      breadcrumb: {
+        text: grey1,
+        textHover: white
+      }
     },
     tabs: {
-      text: lightGrey,
-      textHighlight: darkestGrey,
-      line: lightGrey
+      text: grey1,
+      textHighlight: grey5,
+      line: grey0
     }
   },
   mapViewSwitcher: {
-    background: lightGrey,
+    background: grey1,
+    backgroundHover: grey3,
     backgroundHighlight: white,
     label: white,
-    labelHighlight: darkestGrey
+    labelHighlight: grey6
+  },
+  helpDialog: {
+    background: white,
+    text: grey1
   },
   health,
   footer: {
@@ -120,13 +193,14 @@ module.exports = _.defaultsDeep({
         top: {r: 0.957, g: 0.97, b: 0.98}
       },
       cubeBasicColor: '#e9edef',
+      layerBasicColor: '#e9edef',
       clearColor: '#445b63',
       warning: health[5],
       critical: health[10],
       groundDots: '#809199'
     },
     stickyNotes: {
-      nodeHightlightBackgroundColor: darkGrey
+      nodeHightlightBackgroundColor: grey5
     },
     tooltips: {
       font: white,

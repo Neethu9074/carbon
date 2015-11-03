@@ -17,7 +17,7 @@ const VerticalFrame = React.createClass({
     const children = this.props.children;
 
     //return null if there are no children available
-    if(!children || children.length === 0) {
+    if (!children || children.length === 0) {
       return null;
     }
 

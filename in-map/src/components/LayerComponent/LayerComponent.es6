@@ -39,7 +39,7 @@ export default class LayerComponent extends Component {
       // don't create a layer if its still there
       const match = _.find(this.layer, layer => layer.id === layerId);
 
-      if(!match) {
+      if (!match) {
         const newLayer = new Layer({
           coordinates: layerCoordinates,
           parent: this,
@@ -49,6 +49,35 @@ export default class LayerComponent extends Component {
         this.layer.push(newLayer);
         this.needsUpdate = true;
       }
+    });
+  }
+
+  removedVanishedLayer(coordinates) {
+    const removedLayer = [];
+
+    this.layer.forEach(layer => {
+      const layerId = layer.id;
+
+      // find layer which are not sended anymore, so vanished
+      let found = false;
+
+      for (let i = 0; i < coordinates.length; i++) {
+        const coords = coordinates[i];
+        const coordId = coords.get('id');
+        if (coordId === layerId) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        removedLayer.push(layer);
+      }
+    });
+
+    removedLayer.forEach(layer => {
+      this.removeChild(layer);
+      layer.dispose();
     });
   }
 
@@ -62,7 +91,7 @@ export default class LayerComponent extends Component {
 
   heightChanged(newHeight) {
     const height = this.heightToSet;
-    if(height === newHeight) {
+    if (height === newHeight) {
       return;
     }
 

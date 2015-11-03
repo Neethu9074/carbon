@@ -1,4 +1,4 @@
-/*eslint-env mocha*/
+/* eslint-env mocha */
 import Immutable from 'immutable';
 import React from 'react/addons';
 import proxyquire from 'proxyquire';

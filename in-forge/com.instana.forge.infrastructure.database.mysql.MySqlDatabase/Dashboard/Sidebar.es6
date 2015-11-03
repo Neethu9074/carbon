@@ -2,7 +2,6 @@ import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
 import Collapsible from 'in-components/Collapsible';
-import ProblemPanel from 'in-components/ProblemPanel';
 import WiringList from 'in-components/WiringList';
 
 import MySqlInfo from '../MySqlInfo';
@@ -23,7 +22,6 @@ const MySqlSidebar = React.createClass({
             <MySqlInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <ProblemPanel snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
     );

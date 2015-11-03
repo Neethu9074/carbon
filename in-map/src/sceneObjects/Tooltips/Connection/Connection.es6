@@ -26,15 +26,15 @@ const ConnectionsTooltipRC = React.createClass({
   },
 
   getOneOfConnectedIps(from, to) {
-    if(!from || !to) {
+    if (!from || !to) {
       return null;
     }
 
-    if(to.isUnknown) {
+    if (to.isUnknown) {
       return to.snapshot.get('steadyId');
     }
 
-    if(from.isUnknown) {
+    if (from.isUnknown) {
       return to.snapshot.getIn(['data', 'hostname']);
     }
 
@@ -52,7 +52,8 @@ const ConnectionsTooltipRC = React.createClass({
   },
 
   render() {
-    const listItems = this.props.connections
+    const connections = this.props.connections;
+    const listItems = connections
       .filter(connection => connection.from.snapshot && connection.to.snapshot)
       .map(connection => {
         return {
@@ -85,11 +86,11 @@ export default class TooltipConnection extends Tooltip {
   }
 
   arraysEqual(arr1, arr2) {
-    if(arr1.length !== arr2.length) {
+    if (arr1.length !== arr2.length) {
       return false;
     }
     for (let i = 0; i < arr1.length; i++) {
-      if(arr1[i] !== arr2[i]) {
+      if (arr1[i] !== arr2[i]) {
         return false;
       }
     }
@@ -98,7 +99,7 @@ export default class TooltipConnection extends Tooltip {
   }
 
   setHovered(hovered) {
-    if(this.arraysEqual(hovered, this.hovered)) {
+    if (this.arraysEqual(hovered, this.hovered)) {
       return;
     }
 

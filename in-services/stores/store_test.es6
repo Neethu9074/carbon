@@ -1,4 +1,4 @@
-/*eslint-env mocha*/
+/* eslint-env mocha */
 
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -32,11 +32,11 @@ describe('in-services/stores/store', () => {
     expect(allStates[name]).to.equal('blub');
   });
 
-  it('should hide the emit function so that all mutations go through applyStateMutation', () => {
+  it('should free the observable so that all mutations go through applyStateMutation', () => {
     const name = generateStoreName();
     const store = createStore({name});
-    expect(store.observable.emit).to.equal(null);
-    expect(store.observable.emitError).to.equal(null);
+
+    expect(() => store.observable.emit(42)).to.throw(/frozen/);
   });
 
   it('should inform subscribers about state transitions', () => {

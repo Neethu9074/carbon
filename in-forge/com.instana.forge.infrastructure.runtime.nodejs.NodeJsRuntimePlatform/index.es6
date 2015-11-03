@@ -17,26 +17,23 @@ addLabelFinder(constants.plugins.nodejs, getLabel);
 
 function getLabel(s) {
   const data = s.get('data');
-  if (!data) {
+  const nodeJsVersion = data.getIn(['versions', 'node']);
+  if (!nodeJsVersion) {
     return getFallbackLabel(s);
   }
+
+  const label = 'Node.js v' + nodeJsVersion;
 
   const name = data.get('name');
   if (!name) {
-    return getFallbackLabel(s);
+    return label;
   }
 
-  let label = name;
-  const version = data.get('version');
-  if (version) {
-    label = label + '@' + version;
-  }
-
-  return label;
+  return label + ' executing ' + name;
 }
 
 function getFallbackLabel(s) {
-  return 'Node.js runtime#' + s.get('steadyId');
+  return 'Node.js#' + s.get('steadyId');
 }
 
 addIconFinder(
@@ -51,7 +48,7 @@ zones.addMapping(
 
 power.addMapping(
   constants.plugins.nodejs,
-  () => 1
+  () => -1
 );
 
 sorting.addMapping(

@@ -1,49 +1,69 @@
-let hubspotQueue = [];
+/*global ga:false*/
 
-export const events = {
-  clickOnServerIn3DMap: '000000370470',
-  clickOnServerInSidebar: '000000370626',
-  openingADashboardUsingTheSidebar: '000000370614',
-  openingADashboardUsingTheMap: '000000375622',
-  showMetricIn3dMap: '000000370623',
-  clickOnConnectionBetweenCubes: '000000370625',
-  changingTimeWindowUsingTimeline: '000000370627',
-  clickOnUnMonitoredIn3dMap: '000000370835',
-  startATour: '000000375707',
-  finishATour: '000000374837',
-  skipATour: '000000374839',
-  nextStepInTour: '000000374840',
-  previousStepInTour: '000000374841',
-  navigateToAWiredComponentFromTheDashboard: '000000375623',
-  antialiasWasChosenInSettings: '000000384375'
-};
+import config from './config';
+
+// please refer to the Google Analytics guidelines about good categories
+// and actions:
+// https://support.google.com/analytics/answer/1033068
+export const events = {};
+addEvent('clickOnServerIn3DMap', 'map', 'click on node');
+addEvent('clickOnServerInSidebar', 'map sidebar', 'click on node');
+addEvent('openingADashboardUsingTheSidebar', 'map sidebar', 'open dashboard');
+addEvent('openingADashboardUsingTheMap', 'map', 'open dashboard');
+addEvent('showMetricIn3dMap', 'map', 'show metrics');
+addEvent('clickOnConnectionBetweenCubes', 'map', 'click on connection');
+addEvent('changingTimeWindowUsingTimeline', 'timeline', 'change time window');
+addEvent('clickOnUnMonitoredIn3dMap', 'map', 'click on unmonitored host');
+addEvent('startATour', 'tour', 'start');
+addEvent('finishATour', 'tour', 'finish');
+addEvent('skipATour', 'tour', 'skip');
+addEvent('nextStepInTour', 'tour', 'next');
+addEvent('previousStepInTour', 'tour', 'prev');
+addEvent('navigateToAWiredComponentFromTheDashboard', 'dashboard', 'navigate to wired component');
+addEvent('antialiasWasChosenInSettings', 'setting', 'change anti alias');
+
+
+// track for local and demo environments. Customer environments are not yet supported.
+// Need to figure out how to use multiple domains with a single tracking ID.
+const shouldTrack = window.location.href.indexOf('local-instana.instana.io') !== -1 ||
+  window.location.href.indexOf('demo.instana.io') !== -1;
+if (shouldTrack) {
+  installTracking();
+}
+
 
 export function identify() {
-  push('identify', {'email': window.instana.user.email});
+  // currently unsupported by Google Analytics API. Will keep this for now
+  // as our sales portal will probably require this functionality.
+  // push('identify', {'email': window.instana.user.email});
 }
 
 
-export function trackEvent(eventId) {
-  push('trackEvent', {'id': eventId});
+function installTracking() {
+  /*eslint-disable*/
+  (function(i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function() {
+      (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })
+  (window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+  ga('create', config.analyticsTrackingId, 'auto');
+  ga('send', 'pageview');
+  /*eslint-enable*/
 }
 
-function push(event, payload) {
-  const msg = [event, payload];
 
-  // the HubSpot API may not be available, queue all tracking messages
-  if (window._hsq) {
-    window._hsq.push(msg);
-  } else if (hubspotQueue) {
-    hubspotQueue.push(msg);
-  }
+function addEvent(name, category, action) {
+  events[name] = function trackEvent() {
+    if (shouldTrack) {
+      ga('send', 'event', category, action);
+    }
+  };
 }
-
-// the hubspot api should be available after ten seconds. If it is not, we
-// assume that will never be available and remove the queue to avoid memory
-// leaks.
-setTimeout(() => {
-  if (window._hsq) {
-    hubspotQueue.forEach(msg => window._hsq.push(msg));
-  }
-  hubspotQueue = null;
-}, 1000 * 10);

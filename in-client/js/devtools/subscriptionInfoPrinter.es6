@@ -1,7 +1,4 @@
 /*eslint-disable no-console*/
-
-
-
 import {
   getActiveSubscriptions,
   emitter

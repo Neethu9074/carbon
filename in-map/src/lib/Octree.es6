@@ -430,7 +430,7 @@ import THREE from 'three';
 
       parent = object.parent;
 
-      while( parent ) {
+      while ( parent ) {
 
         parentCascade.push( parent );
         parent = parent.parent;
@@ -1917,7 +1917,7 @@ import THREE from 'three';
       tmin = Math.max( Math.max( Math.min( t1, t2), Math.min( t3, t4)), Math.min( t5, t6));
 
       // if tmin > tmax or tmin > ray distance, ray doesn't intersect AABB
-      if( tmin > tmax || tmin > distance ) {
+      if ( tmin > tmax || tmin > distance ) {
         return false;
       }
 
@@ -2010,7 +2010,7 @@ import THREE from 'three';
       var count = this.objects.length,
         parent = this.parent;
 
-      while( parent instanceof THREE.OctreeNode ) {
+      while ( parent instanceof THREE.OctreeNode ) {
 
         count += parent.objects.length;
         parent = parent.parent;
