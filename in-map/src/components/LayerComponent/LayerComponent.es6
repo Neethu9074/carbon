@@ -133,7 +133,7 @@ export default class LayerComponent extends Component {
     this.layerGroupLabel = [];
 
     const addLabelForChild = (child, y) => {
-      const label = new Label({parent: child, id: child.id});
+      const label = new Label({parent: child, id: child.id, pluginId: child.snapshot.get('pluginId')});
       label.getComponent('position').setPosition(0, y, 0);
 
       this.layerGroupLabel.push(label);

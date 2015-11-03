@@ -1,4 +1,4 @@
-/*global require:false*/
+/* global require:false */
 import THREE from 'three';
 
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
@@ -13,8 +13,8 @@ const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
 
 export default class SingleMeshPointsFactory extends ASingleMeshFactory {
 
-  constructor({scene, type, renderOrder = 10}) {
-    super({scene, renderOrder, params: { type } });
+  constructor({scene, type, renderOrder = 10, size}) {
+    super({scene, renderOrder, params: { type, size } });
 
     const mesh = this.mesh;
     scene.removeSceneObject(mesh);
@@ -48,7 +48,8 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
       transparent: true,
       depthTest: false,
       uniforms: {
-        texture: { type: 't', value: texture }
+        texture: { type: 't', value: texture },
+        pointSize: { type: 'f', value: this.params.size }
       }
     });
   }

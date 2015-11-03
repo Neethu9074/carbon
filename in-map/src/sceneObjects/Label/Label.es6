@@ -5,16 +5,19 @@ import SceneObject from '../SceneObject';
 
 export default class Label extends SceneObject {
 
-  constructor({parent, id}) {
+  constructor({parent, id, pluginId}) {
     super({parent, id});
-  }
 
-  onInitialEnter() {
+    this.pluginId = pluginId;
     this.getFactory().addFragment(this.fragment);
   }
 
   onInactiveEnter() {
     this.getFactory().removeFragment(this.id);
+  }
+
+  onInactiveLeave() {
+    this.getFactory().addFragment(this.fragment);
   }
 
 
@@ -28,9 +31,9 @@ export default class Label extends SceneObject {
     };
   }
 
-
   getFactory() {
-    return this.scene.getLogoFactory(this.parent._cachedPluginId);
+    const size = this.pluginId === 'com.instana.forge.infrastructure.os.host.Host' ? 1.0 : 0.75;
+    return this.scene.getLogoFactory(this.pluginId, size);
   }
 
   positionChanged(x, y, z) {

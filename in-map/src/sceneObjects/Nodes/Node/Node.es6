@@ -22,6 +22,7 @@ import NodeSnapshotServer from './NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode';
+import Label from '../../Label';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -43,6 +44,8 @@ export default class Node extends BaseNode {
     this.isToFarAway = false;
 
     this.snapshotServer = new NodeSnapshotServer(this, connections);
+
+    this.label = new Label({parent: this, pluginId: this._cachedPluginId, id});
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
@@ -325,6 +328,8 @@ export default class Node extends BaseNode {
 
   positionChanged(x, y, z, oldPosition) {
     super.positionChanged(x, y, z, oldPosition);
+
+    this.label.getComponent('position').setPosition(x, y + this.height + 0.2, z);
 
     this.getComponent('ground').positionChanged(x, y, z);
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);

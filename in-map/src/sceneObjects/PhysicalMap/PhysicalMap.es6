@@ -29,18 +29,23 @@ export default class PhysicalMap extends SceneObject {
     this.groups = [];
 
     const pluginIds = [
+      'com.instana.forge.hardware.virtual.ec2.Ec2',
       'com.instana.forge.infrastructure.database.elasticsearch.Elasticsearch',
       'com.instana.forge.infrastructure.os.host.Host',
       'com.instana.forge.infrastructure.os.process.Process',
       'com.instana.forge.infrastructure.application.jira.JiraApplication',
       'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
       'com.instana.forge.infrastructure.virtualization.docker.Docker',
-      'com.instana.forge.infrastructure.database.cassandra.Cassandra',
+      'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
+      'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
       'com.instana.forge.infrastructure.cache.redis.Redis',
       'com.instana.forge.infrastructure.database.mongodb.MongoDb',
       'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
       'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer',
-      'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform'
+      'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
+      'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp',
+      'com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster',
+      'com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp'
     ];
 
     let x = 0;
@@ -59,7 +64,7 @@ export default class PhysicalMap extends SceneObject {
       mesh.position.x = x++;
       mesh.position.z = 5;
       this.scene.addSceneObject(mesh);
-      console.log(id, x);
+      // console.log(id, x);
     });
 
     this.createGroundGrid();
