@@ -12,7 +12,9 @@ import {
 } from 'in-services/converters';
 import {getMaxValue} from 'in-sdk/metrics';
 
+import {getRawPayload} from 'in-services/snapshots';
 import classnames from 'in-services/util/classnames';
+import connectTo from 'in-components/hoc/connectTo';
 import DashboardSection from 'in-components/DashboardSection';
 import HelpLink from 'in-components/HelpLink';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -27,12 +29,21 @@ const kbFormatterShort = d => formatBytesShort(d * 1024);
 
 const chartHeight = 200;
 
-const OsDashboard = React.createClass({
+export default connectTo(
+  props => {
+    return {
+      processes: getRawPayload(props.snapshot, 'processes')
+    };
+  },
+  React.createClass({
+  displayName: 'HostDashboard',
+
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    processes: rpt.object
   },
 
   getInitialState() {
@@ -44,6 +55,7 @@ const OsDashboard = React.createClass({
   },
 
   render() {
+    console.log(this.props.processes);
     const cpuCount = this.props.snapshot.getIn(['data', 'cpu.count']);
     const filesystems = this.props.snapshot.getIn(['data', 'filesystems']);
     const interfaces = this.props.snapshot.getIn(['data', 'interfaces']);
@@ -460,6 +472,4 @@ const OsDashboard = React.createClass({
     });
   }
 
-});
-
-export default OsDashboard;
+}));
