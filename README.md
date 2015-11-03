@@ -45,6 +45,15 @@ You need to edit the `.npmrc` file according to the comments contained within th
 ### Executing tasks
 Tasks are defined in the `package.json`. They can be executed via `npm run <taskname>`. For instance `npm run test` (or `npm test`) to execute the tests, `npm run dev` to start up a proxy and development server or `npm run build` to build the JavaScript files.
 
+### Using Commitizen for Git Commit Messages
+This project is configured for use with the [Commitizen CLI](https://github.com/commitizen/cz-cli). To use it execute the following command:
+
+```
+npm install -g commitizen
+```
+
+And now you can execute `git cz` to commit with nice commit messages.
+
 ## Theming
 The theming system in place is used to support the default dark theme (called *night*) and a brighter theme with stronger contrasts (called *day*). Themes are switched based on a cookie called `in-theme`. This cookie is read by `in-server` and depending on its value the server returns varying HTML responses.
 
