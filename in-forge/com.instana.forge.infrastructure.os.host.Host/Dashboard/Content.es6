@@ -43,7 +43,7 @@ export default connectTo(
   propTypes: {
     snapshot: irpt.map.isRequired,
     timeframe: rpt.number.isRequired,
-    processes: rpt.object
+    processes: rpt.array
   },
 
   getInitialState() {
@@ -55,7 +55,6 @@ export default connectTo(
   },
 
   render() {
-    console.log(this.props.processes);
     const cpuCount = this.props.snapshot.getIn(['data', 'cpu.count']);
     const filesystems = this.props.snapshot.getIn(['data', 'filesystems']);
     const interfaces = this.props.snapshot.getIn(['data', 'interfaces']);
@@ -450,6 +449,32 @@ export default connectTo(
                              left: 80
                            }}/>
         </DashboardSection>
+
+        {this.props.processes && this.props.processes.length > 0 ?
+        <DashboardSection title='Process Top List'>
+          <ResponsiveTable>
+            <thead>
+              <tr>
+                <th>PID</th>
+                <th>Process Name</th>
+                <th>CPU</th>
+                <th>Memory</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {this.props.processes.map(process =>
+                <tr key={process.pid}>
+                  <td>{process.pid}</td>
+                  <td>{process.name}</td>
+                  <td>{process.cpu}</td>
+                  <td>{formatBytes(process.memory)}</td>
+                </tr>
+              )}
+            </tbody>
+          </ResponsiveTable>
+        </DashboardSection>
+        : null}
       </div>
     );
   },

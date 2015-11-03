@@ -22,7 +22,7 @@ export default class RawPayloadConveyer {
   start(onNext) {
     this.subscription = connection.emitter.on('message')
       .filter(e => e.id === this.id)
-      .subscribe(onNext);
+      .subscribe(e => onNext(e.data));
 
     connection.subscribe(this.id, this.subscribeEvent);
   }
