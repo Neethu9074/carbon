@@ -18,3 +18,4 @@ import './com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform'
 import './com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp';
 import './com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster';
 import './com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp';
+import './com.instana.forge.infrastructure.webserver.httpd.Httpd';
