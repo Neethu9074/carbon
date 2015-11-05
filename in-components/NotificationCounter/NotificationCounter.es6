@@ -33,7 +33,7 @@ const NotificationCounter = React.createClass({
     };
   },
 
-  handleResize: () => {
+  handleResize: function f() {
     this.setState({ windowHeight: this.getWindowHeight() });
   },
 
@@ -50,7 +50,7 @@ const NotificationCounter = React.createClass({
     );
   },
 
-  componentWillUnmount: () => {
+  componentWillUnmount: function f() {
     window.removeEventListener('resize', this.handleResize);
   },
 
