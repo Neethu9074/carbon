@@ -50,7 +50,9 @@ describe('snapshot', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['1.1.1.1']
+              addresses: [
+                {ip: '1.1.1.1'}
+              ]
             }
           },
           connections: {
@@ -66,7 +68,9 @@ describe('snapshot', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['1.1.1.2']
+              addresses: [
+                {ip: '1.1.1.2'}
+              ]
             }
           },
           connections: {
@@ -86,7 +90,9 @@ describe('snapshot', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['1.1.1.3']
+              addresses: [
+                {ip: '1.1.1.3'}
+              ]
             }
           },
           connections: {
@@ -103,7 +109,9 @@ describe('snapshot', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['1.1.1.4']
+              addresses: [
+                {ip: '1.1.1.4'}
+              ]
             }
           }
         }

@@ -116,10 +116,12 @@ function getIpBySnapshot(snapshot) {
     ethInterfaces.forEach(interf => {
 
       // get all ips of the interface
-      const ips = interf.get('ips') || [];
-      ips.forEach(ip => {
-        ipArray.push(ip);
-      });
+      const addresses = interf.get('addresses');
+      if (addresses) {
+        addresses.forEach(address => {
+          ipArray.push(address.get('ip'));
+        });
+      }
     });
   }
   const ec2 = snapshot.getIn(['data',

@@ -89,6 +89,46 @@ describe('conveyer.SnapshotsConveyer', () => {
     expect(onNext.callCount).to.equal(0);
   });
 
+  it('should remove offline snapshots', (done) => {
+    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer.start(onNext);
+    emitData({
+      id: conveyer.snapshotId,
+      data: [
+        {steadyId: 's1', pluginId: 'p1', hostId: 'h1'},
+        {steadyId: 's2', pluginId: 'p2', hostId: 'h2'}
+      ]
+    });
+    expect(onNext).to.have.callCount(1);
+    expect(onNext.getCall(0).args[0].toJS()).to.deep.equal([
+      {steadyId: 's1', pluginId: 'p1', hostId: 'h1', id: 'p1#h1#s1', tags: []},
+      {steadyId: 's2', pluginId: 'p2', hostId: 'h2', id: 'p2#h2#s2', tags: []}
+    ]);
+
+    emitData({
+      id: conveyer.presenceId,
+      data: [
+        {steadyId: 's1', pluginId: 'p1', hostId: 'h1', data: {online: true}}
+      ]
+    });
+    expect(onNext).to.have.callCount(1);
+
+    emitData({
+      id: conveyer.presenceId,
+      data: [
+        {steadyId: 's1', pluginId: 'p1', hostId: 'h1', data: {online: false}}
+      ]
+    });
+
+    setTimeout(() => {
+      expect(onNext).to.have.callCount(2);
+      expect(onNext.getCall(1).args[0].toJS()).to.deep.equal([
+        {steadyId: 's2', pluginId: 'p2', hostId: 'h2', id: 'p2#h2#s2', tags: []}
+      ]);
+      done();
+    }, 110);
+  });
+
   it('should handle successive new messages', (done) => {
     conveyer = new SnapshotsConveyer({pluginId: ec2});
     conveyer.start(onNext);
@@ -122,29 +162,6 @@ describe('conveyer.SnapshotsConveyer', () => {
       const snapshots = onNext.getCall(1).args[0];
       expect(snapshots.size).to.equal(2);
       expect(snapshots.get(1).get('snapshot')).to.equal('changed');
-      done();
-    }, 110);
-  });
-
-  it('should support removals', (done) => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
-    conveyer.start(onNext);
-    emitData({
-      id: conveyer.snapshotId,
-      data: [snapshot(1, 'initial'), snapshot(2, 'initial')]
-    });
-    emitData({
-      id: conveyer.presenceId,
-      data: [{
-        hostId: 'h2',
-        steadyId: 's2',
-        pluginId: 'p1'
-      }]
-    });
-    setTimeout(() => {
-      const snapshots = onNext.getCall(1).args[0];
-      expect(snapshots.size).to.equal(1);
-      expect(snapshots.get(0).get('hostId')).to.equal('h1');
       done();
     }, 110);
   });
