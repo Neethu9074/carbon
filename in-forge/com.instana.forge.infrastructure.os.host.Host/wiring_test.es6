@@ -1,4 +1,4 @@
-/*eslint-env mocha, node*/
+/* eslint-env mocha, node */
 import Immutable from 'immutable';
 import {expect} from 'chai';
 
@@ -50,14 +50,16 @@ describe('snapshot', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['1.1.1.1']
+              addresses: [
+                {ip: '1.1.1.1'}
+              ]
             }
           },
           connections: {
             outgoing: [
               '1.1.1.2',
               '1.1.1.3',
-              '1.1.1.6' //unknown
+              '1.1.1.6' // unknown
             ]
           }
         }
@@ -66,7 +68,9 @@ describe('snapshot', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['1.1.1.2']
+              addresses: [
+                {ip: '1.1.1.2'}
+              ]
             }
           },
           connections: {
@@ -77,7 +81,7 @@ describe('snapshot', () => {
             outgoing: [
               '1.1.1.1',
               '1.1.1.3',
-              '1.1.1.5' //unknown
+              '1.1.1.5' // unknown
             ]
           }
         }
@@ -86,7 +90,9 @@ describe('snapshot', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['1.1.1.3']
+              addresses: [
+                {ip: '1.1.1.3'}
+              ]
             }
           },
           connections: {
@@ -103,7 +109,9 @@ describe('snapshot', () => {
         data: {
           interfaces: {
             eth0: {
-              ips: ['1.1.1.4']
+              addresses: [
+                {ip: '1.1.1.4'}
+              ]
             }
           }
         }

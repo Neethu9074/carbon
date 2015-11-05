@@ -38,12 +38,10 @@ const RedisDashboard = React.createClass({
                            y1={{
                              metrics: dbs.map((name) =>
                                         'db.' + name
-                                      ).toArray()
-                             ,
+                                      ).toArray(),
                              labels: dbs.map((name) =>
                                         name
-                                      ).toArray()
-                             ,
+                                      ).toArray(),
                              type: 'line'
                            }}/>
         </DashboardSection>

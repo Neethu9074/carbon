@@ -1,5 +1,5 @@
-/*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions */
+/* eslint-env mocha, node */
+/* eslint-disable no-unused-expressions */
 import {expect} from 'chai';
 
 import SCM from './ScaleContentManipulator';

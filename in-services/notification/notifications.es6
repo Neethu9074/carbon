@@ -21,11 +21,11 @@ settingsStore.subscribe(data => {
 function startTracking() {
   disposable = getOpenIssues().subscribe((issues) => {
 
-    //show messages only if Browser Window is currently not visible
+    // show messages only if Browser Window is currently not visible
     if (document.hidden == null || !document.hidden) {
       return;
     }
-    //recreate the list of previous issues if first start or if an issue has been removed
+    // recreate the list of previous issues if first start or if an issue has been removed
     if (previousIssues === null || Object.keys(previousIssues).length > issues.size) {
       previousIssues = {};
       issues.forEach(issue => {
@@ -57,13 +57,13 @@ function stopTracking() {
 
 function showMessage(title, problem) {
   if (Notification.permission === 'granted') {
-    //a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
-    /*eslint-disable no-new */
+    // a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
+    /* eslint-disable no-new */
     new Notification(title, {
       icon: location.origin + '/favicon.png',
       body: problem
     });
-    /*eslint-enable no-new */
+    /* eslint-enable no-new */
   }
 }
 
@@ -95,7 +95,3 @@ export function askPermission(callback) {
     }
   }
 }
-
-
-
-

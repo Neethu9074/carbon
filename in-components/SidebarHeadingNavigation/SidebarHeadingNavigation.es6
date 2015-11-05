@@ -1,4 +1,4 @@
-/*eslint-disable react/no-multi-comp, react/prop-types*/
+/* eslint-disable react/no-multi-comp, react/prop-types */
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
 import React from 'react/addons';

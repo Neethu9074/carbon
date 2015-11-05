@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 
 import {create} from '../conveyer';
 import SnapshotConveyer from '../conveyer/SnapshotConveyer';
+import RawPayloadConveyer from '../conveyer/RawPayloadConveyer';
 import _getIdString from './getIdString';
 
 /**
@@ -103,4 +104,20 @@ export function isIdEqualShort(snapshot1, snapshot2) {
  */
 export function getFullSnapshot(coordinates) {
   return create(SnapshotConveyer, {coordinates});
+}
+
+/**
+ * Retrieve a raw payload for the referenced coordinates. This results in an open
+ *
+ *
+ * @param {Immutable.Map} coordinates Coordinates of a snapshot for which a raw payload
+ *   should be retrieved.
+ * @param {string} payloadName Name of the payload that should be retrieved.
+ * @return {ReactiveObservable<any>}
+ */
+export function getRawPayload(coordinates, payloadName) {
+  return create(RawPayloadConveyer, {
+    coordinates,
+    name: payloadName
+  });
 }

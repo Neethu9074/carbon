@@ -143,7 +143,7 @@ const Settings = React.createClass({
     this.props.showMenu(false);
   },
 
-  toggleDesktopNotifications(){
+  toggleDesktopNotifications() {
     const isDesktopNotificationEnabled = this.state.desktopNotification;
 
     if (!isDesktopNotificationEnabled) {

@@ -50,7 +50,8 @@ export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
 
 export function getAllStepsBetweenNodeAndLeaf(snapshotCoordinates) {
   const originId = snapshotCoordinates.get('id');
-  if (originId.indexOf(forgeConsts.plugins.os) === 0) {
+  if (originId.indexOf(forgeConsts.plugins.os) === 0 ||
+      originId.indexOf(forgeConsts.plugins.ec2) === 0) {
     return alwaysEmptyArray;
   }
 

@@ -1,5 +1,5 @@
-/*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions, max-len */
+/* eslint-env mocha, node */
+/* eslint-disable no-unused-expressions, max-len */
 import {expect} from 'chai';
 import sinon from 'sinon';
 

@@ -1,4 +1,4 @@
-/*eslint-env mocha, node*/
+/* eslint-env mocha, node*/
 import {expect} from 'chai';
 import Immutable from 'immutable';
 import proxyquire from 'proxyquire';

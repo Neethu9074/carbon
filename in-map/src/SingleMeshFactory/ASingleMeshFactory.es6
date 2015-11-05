@@ -101,7 +101,7 @@ export default class SingleMeshFactory {
     this.updateGeometry();
     this.scene.renderScene();
 
-    //to clear the hole queue just create an empty object
+    // to clear the hole queue just create an empty object
     this.fragmentQueue = {};
   }
 

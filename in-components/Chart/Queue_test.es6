@@ -1,7 +1,5 @@
 /* eslint-env mocha */
 
-
-
 import {expect} from 'chai';
 
 import Queue from './Queue';

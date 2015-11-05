@@ -1,6 +1,5 @@
 import THREE from 'three';
 
-
 const colorService = new THREE.Color(0, 0, 0);
 
 export default class ColorGenerator {
@@ -38,9 +37,9 @@ export default class ColorGenerator {
 
   reOrder(array) {
 
-    const resultArray = [array[0]]; //add first
+    const resultArray = [array[0]]; // add first
     this.addRange(array, resultArray, 0, array.length - 1);
-    resultArray.push(array[array.length - 1]); //add last
+    resultArray.push(array[array.length - 1]); // add last
 
     const final = [];
     const middle = Math.ceil(resultArray.length / 2);

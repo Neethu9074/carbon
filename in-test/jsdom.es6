@@ -1,4 +1,4 @@
-/*eslint-env mocha,node*/
+/* eslint-env mocha,node */
 import ExecutionEnvironment from 'react/lib/ExecutionEnvironment';
 import mochaJsdom from 'mocha-jsdom';
 

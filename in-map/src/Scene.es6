@@ -55,6 +55,7 @@ export default class Scene {
     }
 
     this.octrees = [];
+    this.octreesToUpdate = [];
 
     // this is the main scene for all scene objects like nodes or metrics
     this.scene = new THREE.Scene();
@@ -100,13 +101,19 @@ export default class Scene {
       // this may decrease performance as it forces a matrix update
       undeferred: false,
       // set the max depth of tree
-      depthMax: 8,
+      depthMax: 16,
       // max number of objects before nodes split or merge
-      objectsThreshold: 8,
+      objectsThreshold: 16,
       // percent between 0 and 1 that nodes will overlap each other
       // helps insert objects that lie over more than one node
       overlapPct: 0
     });
+  }
+
+  rebuildOctree(layer) {
+    if (this.octreesToUpdate.indexOf(layer) < 0) {
+      this.octreesToUpdate.push(layer);
+    }
   }
 
   setupCanvas() {
@@ -232,8 +239,18 @@ export default class Scene {
       }
     };
 
+    const updateOctrees = () => {
+      this.octreesToUpdate.forEach(index => this.octrees[index].rebuild());
+      this.octreesToUpdate = [];
+    };
+
+    const updateTimeEvent = () => {
+      updateFactories();
+      updateOctrees();
+    };
+
     time.addTimeEventListener({
-      handleComponentTimeEvent: updateFactories.bind(this)
+      handleComponentTimeEvent: updateTimeEvent.bind(this)
     });
   }
 
@@ -490,11 +507,11 @@ export default class Scene {
     this.camera.bottom = -camSizeHalf;
     this.camera.top = camSizeHalf;
 
-    //projection matrix is updated in update loop
+    // projection matrix is updated in update loop
   }
 
   findObjectByRay(raycaster) {
-    raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
+    raycaster.far = Math.min(2500, raycaster.far); // [0, 2500]
     const ray = raycaster.ray;
 
     // iterate all octrees backwards from the highest layer to the lowest

@@ -1,4 +1,4 @@
-/*global hbspt:false*/
+/* global hbspt:false */
 import React from 'react';
 
 import './RegisterForBeta.less';
@@ -14,7 +14,7 @@ const RegisterForBeta = React.createClass({
   componentDidMount() {
     const hsScript = document.createElement('script');
     hsScript.src = 'https://js.hscta.net/cta/current.js';
-    hsScript.onload = function() {
+    hsScript.onload = () => {
       hbspt.cta.load(719302, '1b09cb76-ef14-4ee9-815c-764855208bef');
     };
     document.head.appendChild(hsScript);

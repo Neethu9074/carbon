@@ -15,7 +15,8 @@ export const plugins = {
   nodejs: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
   nodejsApp: 'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp',
   nodejsCluster: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster',
-  javaWebApp: 'com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp'
+  javaWebApp: 'com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp',
+  httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd'
 };
 
 export const rels = {

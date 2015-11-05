@@ -36,9 +36,9 @@ export default class CameraController {
     // holds the mouse/touch position in pixel coordinates
     this.cursor = new THREE.Vector2();
 
-    this.defaultCameraSpeed = 10; //camera fly speed
-    this.cameraSpeed = this.defaultCameraSpeed; //camera fly speed
-    this.moveSpeed = 0.01; //distance moved per pixel
+    this.defaultCameraSpeed = 100; // camera fly speed
+    this.cameraSpeed = this.defaultCameraSpeed; // camera fly speed
+    this.moveSpeed = 0.01; // distance moved per pixel
 
     this.initZoomField();
 
@@ -79,7 +79,7 @@ export default class CameraController {
   initZoomField() {
     // zoom fields
     this.maxZoomOut = 1800;
-    this.normalZoomOut = 400; //100%
+    this.normalZoomOut = 400; // 100%
     this.maxZoomIn = 20;
 
     // the current Level of zooming
@@ -94,7 +94,7 @@ export default class CameraController {
 
   switchStateIfNext() {
     const next = this.state.getNext(this.zoomLevel);
-    if (next){
+    if (next) {
       this.state.leave();
       this.state = next;
       this.state.enter();

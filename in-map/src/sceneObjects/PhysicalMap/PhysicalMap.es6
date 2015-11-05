@@ -66,8 +66,8 @@ export default class PhysicalMap extends SceneObject {
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(repating, repating);
 
-    //set the ground anisotropy to the max because it's a huge ground always
-    //seen and it needs to be as sharp as possible
+    // set the ground anisotropy to the max because it's a huge ground always
+    // seen and it needs to be as sharp as possible
     texture.anisotropy = this.scene.webGLRenderer.getMaxAnisotropy();
 
     this.groundtexture = texture;
@@ -75,7 +75,7 @@ export default class PhysicalMap extends SceneObject {
   }
 
   handleTimeEventFunction() {
-    //if the flag was set to recalculate the layouting
+    // if the flag was set to recalculate the layouting
     if (this.refreshLayout) {
       this.applyLayout();
       eventBus.emit('layoutChanged');
@@ -149,16 +149,12 @@ export default class PhysicalMap extends SceneObject {
     if (!triple.group) {
       this.addNodeToGroup(triple, getZone());
     } else {
-      getFullSnapshot(triple.group)
-        .once(groupSnapshot => {
-          const groupId = getZone(groupSnapshot);
-          this.addNodeToGroup(triple, groupId);
-        });
+      getFullSnapshot(triple.group).once(groupSnapshot => this.addNodeToGroup(triple, getZone(groupSnapshot)));
     }
   }
 
   addNodeToGroup(triple, groupId) {
-    const group = this.getOrCreateGroup(groupId);
+    const group = this.getOrCreateGroup(triple.group, groupId);
 
     // add the node to group (the group handles duplicates)
     const newNode = group.addNode({
@@ -180,13 +176,13 @@ export default class PhysicalMap extends SceneObject {
     return getAllNodes(this);
   }
 
-  getOrCreateGroup(id) {
+  getOrCreateGroup(coordinates, id) {
     // get find the group with id
     let group = _.find(getAllGroups(this), g => g.id === id);
 
     // if the nodes group doesn't exist, create it
     if (!group) {
-      group = new Group({id, parent: this});
+      group = new Group({id, parent: this, coordinates});
       this.groups.push(group);
     }
 
@@ -205,8 +201,8 @@ export default class PhysicalMap extends SceneObject {
   }
 
   addUnknownNode(node) {
-    //create zone and send the event back
-    this.getOrCreateGroup('unmonitored').addUnknownNode(node);
+    // create zone and send the event back
+    this.getOrCreateGroup(undefined, 'unmonitored').addUnknownNode(node);
 
     this.refreshLayout = true;
   }
@@ -219,7 +215,7 @@ export default class PhysicalMap extends SceneObject {
     this.addSceneObject(this.particles);
   }
 
-  //is called from group if it has no nodes anymore
+  // is called from group if it has no nodes anymore
   removeChild(child) {
     _.remove(this.groups, group => group.id === child.id);
   }
@@ -244,22 +240,22 @@ export default class PhysicalMap extends SceneObject {
   }
 
   dispose() {
-    //disposing all subscriptions, so that no update is fired anymore
+    // disposing all subscriptions, so that no update is fired anymore
     super.dispose();
 
     time.removeTimeEventListener(this.handleTimeEvent);
     this.handleTimeEvent = null;
 
-    //destory all known and unknown nodes
+    // destory all known and unknown nodes
     getAllNodes(this).slice().forEach(node => node.dispose());
 
-    //groups are disposing themselves if there is no cube inside anymore
+    // groups are disposing themselves if there is no cube inside anymore
     this.groups = [];
 
-    //remove this ground from the parents scene
+    // remove this ground from the parents scene
     this.removeSceneObject(this.ground);
 
-    //clear three.js cache trough disposing
+    // clear three.js cache trough disposing
     this.ground.material.dispose();
     this.ground.geometry.dispose();
     this.ground = null;

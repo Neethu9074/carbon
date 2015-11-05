@@ -118,13 +118,13 @@ export default class NodeSnapshotServer {
   }
 
   pauseMetrics() {
-    //because metrics could not be paused, we have to unsubscribe for the event
+    // because metrics could not be paused, we have to unsubscribe for the event
     this.disposeMetricSubscription();
   }
 
   resumeMetrics() {
-    //if there was an active metric subscribtion which is paused,
-    //resubscribe to it but only if there is a active metric
+    // if there was an active metric subscribtion which is paused,
+    // resubscribe to it but only if there is a active metric
     if (!this.metricSubscription && this.currentMetric) {
       this.subscribeToCurrentMetric();
     }

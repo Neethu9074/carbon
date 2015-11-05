@@ -6,7 +6,7 @@ export const settingsStore = ro.create({emitLatestOnSubscribe: true});
 
 let settings = getFromStorage();
 
-//load defaults if the storage emits null
+// load defaults if the storage emits null
 if (!settings) {
   settings = new Immutable.Map();
 }

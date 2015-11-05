@@ -1,7 +1,4 @@
 /* eslint-env mocha */
-
-
-
 import {expect} from 'chai';
 
 import classnames from './classnames';

@@ -12,7 +12,9 @@ import {
 } from 'in-services/converters';
 import {getMaxValue} from 'in-sdk/metrics';
 
+import {getRawPayload} from 'in-services/snapshots';
 import classnames from 'in-services/util/classnames';
+import connectTo from 'in-components/hoc/connectTo';
 import DashboardSection from 'in-components/DashboardSection';
 import HelpLink from 'in-components/HelpLink';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -27,12 +29,21 @@ const kbFormatterShort = d => formatBytesShort(d * 1024);
 
 const chartHeight = 200;
 
-const OsDashboard = React.createClass({
+export default connectTo(
+  props => {
+    return {
+      processes: getRawPayload(props.snapshot, 'processes')
+    };
+  },
+  React.createClass({
+  displayName: 'HostDashboard',
+
   mixins: [React.addons.PureRenderMixin, IntlMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    processes: rpt.array
   },
 
   getInitialState() {
@@ -438,6 +449,32 @@ const OsDashboard = React.createClass({
                              left: 80
                            }}/>
         </DashboardSection>
+
+        {this.props.processes && this.props.processes.length > 0 ?
+        <DashboardSection title='Process Top List'>
+          <ResponsiveTable>
+            <thead>
+              <tr>
+                <th>PID</th>
+                <th>Process Name</th>
+                <th>CPU</th>
+                <th>Memory</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {this.props.processes.map(process =>
+                <tr key={process.pid}>
+                  <td>{process.pid}</td>
+                  <td>{process.name}</td>
+                  <td>{process.cpu}</td>
+                  <td>{formatBytes(process.memory)}</td>
+                </tr>
+              )}
+            </tbody>
+          </ResponsiveTable>
+        </DashboardSection>
+        : null}
       </div>
     );
   },
@@ -460,6 +497,4 @@ const OsDashboard = React.createClass({
     });
   }
 
-});
-
-export default OsDashboard;
+}));

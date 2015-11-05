@@ -1,4 +1,4 @@
-/*global IN:false*/
+/* global IN:false */
 import React from 'react/addons';
 
 import Lettering from 'in-components/Lettering';

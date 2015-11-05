@@ -1,5 +1,5 @@
-/*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions */
+/* eslint-env mocha, node */
+/* eslint-disable no-unused-expressions */
 import proxyquire from 'proxyquire';
 import Immutable from 'immutable';
 import {expect} from 'chai';

@@ -1,6 +1,6 @@
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.
-/*eslint-disable import-order/import-order*/
+/* eslint-disable import-order/import-order */
 import 'in-forge';
 
 import * as reactRouter from 'react-router';
@@ -37,7 +37,7 @@ if (!__DEV__) {
 }
 
 const unhandledLogger = logging.createLogger('in-client.unhandled');
-window.onerror = function() {
+window.onerror = function f() {
   unhandledLogger.error.apply(unhandledLogger, arguments);
 
   // let the default error handler run as well

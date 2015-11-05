@@ -31,7 +31,7 @@ class ConnectionGrid {
     try {
       // set our field, values less then 0 mean 'not walkable' whereas 0 or higher means walkable
       this.grid.setValue(x, y, value); // make upper left corner not walkable
-    } catch(err) {
+    } catch (err) {
       logger.debug('cannot set position for:', x, y);
       logger.error(err);
     }

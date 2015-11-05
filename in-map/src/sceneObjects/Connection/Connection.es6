@@ -114,7 +114,7 @@ export default class Connection extends SceneObject {
     } else {
       this.path = ConnectionGrid.getPath({
         fromX: fromPos.x,
-        fromY: -fromPos.z, //connectionGrid uses positive z space, so invert
+        fromY: -fromPos.z, // connectionGrid uses positive z space, so invert
         toX: toPos.x,
         toY: -toPos.z
       });
@@ -139,7 +139,7 @@ export default class Connection extends SceneObject {
     this.points = this.calculateVertices(-0.01);
     this.lineContentProvider.setLines(this.toVertexArray(this.points));
 
-    //hide this if the parent is hidden
+    // hide this if the parent is hidden
     if (this.from.isHidden() || this.to.isHidden()) {
       this.hide();
     }
@@ -158,9 +158,9 @@ export default class Connection extends SceneObject {
   calculateVertices(height) {
     const points = [];
 
-    //vertices have to be calculated in the following order:
-    //[ p0, p1, p1, p2, p2, p3, ... ] the reason is that we use lineparts and
-    //openGL is drawing the lines in this order
+    // vertices have to be calculated in the following order:
+    // [ p0, p1, p1, p2, p2, p3, ... ] the reason is that we use lineparts and
+    // openGL is drawing the lines in this order
     for (let i = 1; i < this.path.length; i++) {
       const point = this.path[i];
       const nextPoint = this.path[i - 1];
@@ -193,10 +193,10 @@ export default class Connection extends SceneObject {
     const fromP = points[from];
     const dir = this.getDirectionForPoints(points[from], points[to]);
 
-    //because the arrow are laying on the ground, the up-vector is 0 1 0
+    // because the arrow are laying on the ground, the up-vector is 0 1 0
     const right = new THREE.Vector3(0, 1, 0)
       .cross(dir)
-      .multiplyScalar(arrowLength * 5); //shorten to get a angle < 45 degree
+      .multiplyScalar(arrowLength * 5); // shorten to get a angle < 45 degree
     const arrowLineX = (right.x + dir.x) * arrowLength;
     const arrowLineZ = (right.z + dir.z) * arrowLength;
     const arrowLineXLeft = (-right.x + dir.x) * arrowLength;
@@ -222,11 +222,11 @@ export default class Connection extends SceneObject {
     const dirFirstToSecond = this.getDirectionForPoints(first, second);
     const dirlastToBeforeLast = this.getDirectionForPoints(last, beforeLast);
 
-    //caps the first and last line of the connection. nodes have a size of 1 and
-    //normally the connection goes from center (0.5, 0.5) to center. with this
-    //capping it begins on the edge of the first and ends on the edge of the
-    //last node. to get the right of the four possible we need the direction
-    //directions are normalized so you can multiply with 0.5
+    // caps the first and last line of the connection. nodes have a size of 1 and
+    // normally the connection goes from center (0.5, 0.5) to center. with this
+    // capping it begins on the edge of the first and ends on the edge of the
+    // last node. to get the right of the four possible we need the direction
+    // directions are normalized so you can multiply with 0.5
     first.x += dirFirstToSecond.x * 0.5;
     first.y += dirFirstToSecond.y * 0.5;
     first.z += dirFirstToSecond.z * 0.5;
@@ -241,7 +241,7 @@ export default class Connection extends SceneObject {
     b.z = b.z || 0;
     const dir = {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
 
-    //normalize them
+    // normalize them
     const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
     dir.x /= (length);
     dir.y /= (length);
@@ -277,7 +277,7 @@ export default class Connection extends SceneObject {
     }
   }
 
-  //checks weather one of the endpoints (from and to) is in the selected state
+  // checks weather one of the endpoints (from and to) is in the selected state
   oneEndpointIsSelected() {
     return (this.from.isSelected() || this.to.isSelected());
   }

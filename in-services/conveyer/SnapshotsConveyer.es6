@@ -84,13 +84,20 @@ export default class SnapshotsConveyer {
   }
 
   handlePresenceMessage(message) {
-    if (!message.data.online && this.snapshots) {
+    let hasChanges = false;
+    if (this.snapshots) {
       message.data.forEach(presenceMessage => {
-        const id = getIdString(presenceMessage);
-        this.snapshots = this.snapshots.filter(snapshot => {
-          return snapshot.get('id') !== id;
-        });
+        if (!presenceMessage.data.online) {
+          const id = getIdString(presenceMessage);
+          this.snapshots = this.snapshots.filter(snapshot => {
+            const isOnline = snapshot.get('id') !== id;
+            hasChanges = hasChanges || !isOnline;
+            return isOnline;
+          });
+        }
       });
+    }
+    if (hasChanges) {
       this.onNext(this.snapshots);
     }
   }

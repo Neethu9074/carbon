@@ -1,4 +1,4 @@
-/*eslint-disable react/no-multi-comp*/
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
 import {State, Navigation} from 'react-router';
 import moment from 'moment';

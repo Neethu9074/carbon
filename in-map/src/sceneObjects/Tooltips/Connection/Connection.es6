@@ -38,16 +38,16 @@ const ConnectionsTooltipRC = React.createClass({
       return to.snapshot.getIn(['data', 'hostname']);
     }
 
-    //get ips of the target
+    // get ips of the target
     const toIps = getIps(to.snapshot);
 
-    //get connected ips
+    // get connected ips
     const fromIps = this.getIpBySnapshot(from.snapshot);
 
-    //intersections
+    // intersections
     const matching = _.intersection(fromIps, toIps);
 
-    //one of them
+    // one of them
     return matching[0];
   },
 

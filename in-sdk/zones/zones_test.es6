@@ -1,4 +1,4 @@
-/*eslint-env mocha, node*/
+/* eslint-env mocha, node*/
 import {expect} from 'chai';
 
 import {getColor} from './zones';
@@ -10,10 +10,10 @@ describe('zones', () => {
     beforeEach(() => {
       const storage = {};
       const localStorage = {
-        setItem: function(k, v) {
+        setItem: (k, v) => {
           storage[k] = v + '';
         },
-        getItem: function(k) {
+        getItem: (k) => {
           return storage[k];
         }
       };
