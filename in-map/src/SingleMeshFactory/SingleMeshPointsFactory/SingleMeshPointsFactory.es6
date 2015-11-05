@@ -35,12 +35,14 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
     const icon = getIcon(this.params.type) || context('./default.png');
     const image = document.createElement('img');
     image.src = icon;
-    image.height = 64 * this.params.size;
+    image.height = 128 * this.params.size;
     const texture = new THREE.Texture(image);
     texture.minFilter = THREE.LinearFilter;
     texture.generateMipmaps = false;
     texture.flipY = false;
-    texture.needsUpdate = true;
+    image.addEventListener('load', () => {
+      texture.needsUpdate = true;
+    });
 
     return new THREE.RawShaderMaterial({
       vertexColors: THREE.VertexColors,
