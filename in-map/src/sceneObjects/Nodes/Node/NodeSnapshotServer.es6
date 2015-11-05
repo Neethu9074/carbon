@@ -42,7 +42,7 @@ export default class NodeSnapshotServer {
       }
     }));
 
-    this.subscriptions.push(selectedSnapshot.selectedSnapshot.async().subscribe(selected => {
+    this.subscriptions.push(selectedSnapshot.selectedSnapshot.subscribe(selected => {
         if(selected &&
           this.client.id === selected.get('id') &&
           !this.client.isSelected()) {

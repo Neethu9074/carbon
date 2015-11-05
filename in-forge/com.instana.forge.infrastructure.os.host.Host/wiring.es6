@@ -117,9 +117,11 @@ function getIpBySnapshot(snapshot) {
 
       //get all ips of the interface
       const ips = interf.get('ips');
-      ips.forEach(ip => {
-        ipArray.push(ip);
-      });
+      if (ips) {
+        ips.forEach(ip => {
+          ipArray.push(ip);
+        });
+      }
     });
   }
   const ec2 = snapshot.getIn(['data',

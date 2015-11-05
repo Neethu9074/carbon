@@ -137,7 +137,7 @@ export default class Node extends BaseNode {
     super.registerEvents();
 
     this.addSubscription(
-      highlightedSnapshot.highlightedSnapshot.async().subscribe(highlighted => {
+      highlightedSnapshot.highlightedSnapshot.subscribe(highlighted => {
         if (!highlighted) {
           this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
           return;
