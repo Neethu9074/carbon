@@ -104,7 +104,7 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
 
 function getIpBySnapshot(snapshot) {
   const cachedIps = snapshot._cachedIps;
-  if(cachedIps) {
+  if (cachedIps) {
     return cachedIps;
   }
 
