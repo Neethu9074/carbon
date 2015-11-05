@@ -365,7 +365,7 @@ const OsDashboard = React.createClass({
                     })}>
                   <td>{name}</td>
                   <td>{data.get('mac')}</td>
-                  <td>{data.get('ips').join(', ')}</td>
+                  <td>{data.get('addresses').map(address => address.get('ip')).join(', ')}</td>
                   <Mtd metric={'ifs.' + name + '.rx.bytes'}
                        snapshot={this.props.snapshot}
                        formatter={bytesPerSecondFormatter} />
