@@ -110,16 +110,16 @@ function getIpBySnapshot(snapshot) {
 
   const ipArray = [];
 
-  //get all ethernet interfaces
+  // get all ethernet interfaces
   const ethInterfaces = snapshot.getIn(['data', 'interfaces']);
-  if(ethInterfaces) {
+  if (ethInterfaces) {
     ethInterfaces.forEach(interf => {
 
-      //get all ips of the interface
-      const ips = interf.get('ips');
-      if (ips) {
-        ips.forEach(ip => {
-          ipArray.push(ip);
+      // get all ips of the interface
+      const addresses = interf.get('addresses');
+      if (addresses) {
+        addresses.forEach(address => {
+          ipArray.push(address.get('ip'));
         });
       }
     });
