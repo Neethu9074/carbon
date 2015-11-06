@@ -57,6 +57,7 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
 
+    this.showMetric = false;
     this.render();
   }
 
