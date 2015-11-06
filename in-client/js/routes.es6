@@ -14,6 +14,7 @@ import SnapshotPane from './components/SnapshotPane';
 import EnvironmentPane from './components/EnvironmentPane';
 import MetricLatencyPane from './components/MetricLatencyPane';
 import MetricPane from './components/MetricPane';
+import PresenceLister from './devtools/PresenceLister';
 
 export default (
   <Route name='map' path='/' handler={App}>
@@ -23,6 +24,9 @@ export default (
     <Route handler={GraphShowcase}
            path='graphShowcase'
            name='graphShowcase'/>
+    <Route handler={PresenceLister}
+           path='presenceLister'
+           name='presenceLister'/>
     {__INTERNAL__ ?
       <Route handler={SnapshotPane}
              path='internal/:env/:tenant/:unit/hosts'
