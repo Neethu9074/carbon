@@ -29,7 +29,7 @@ export default connectTo(
     // wiring.
     const javaAppCoords = extractCoordinates({
       hostId: props.snapshot.get('hostId'),
-      pluginId: 'javaApp',
+      pluginId: 'com.instana.forge.infrastructure.application.java.app.GenericJavaApp',
       steadyId: props.snapshot.getIn(['data', 'pid'])
     });
     return {
