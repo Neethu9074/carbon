@@ -112,24 +112,33 @@ const NodeTooltipRC = React.createClass({
         plugins[pluginId]++;
       });
 
-      const listItems = Object.keys(plugins).sort().map(plugin => {
-        const counter = plugins[plugin];
-        return (
-          <li key={plugin} className={block + '__li'}>
-            <div className={block + '__li-wrapper'}>
-              <Heading className={block + '__li-header'}>
-                {counter}
-              </Heading>
-              <Content className={block + '__li-content'}>
-                {counter > 1 ?
-                  getPlural(plugin) :
-                  getSingular(plugin)
-                }
-              </Content>
-            </div>
-          </li>
-        );
-      });
+      const listItems = Object.keys(plugins)
+        .sort((a, b) => {
+          const aText = getSingular(a);
+          const bText = getSingular(b);
+          if (aText < bText) return -1;
+          if (aText > bText) return 1;
+          return 0;
+        })
+        .map(plugin => {
+          const counter = plugins[plugin];
+          return (
+            <li key={plugin} className={block + '__li'}>
+              <div className={block + '__li-wrapper'}>
+                <Heading className={block + '__li-header'}>
+                  {counter}
+                </Heading>
+                <Content className={block + '__li-content'}>
+                  {counter > 1 ?
+                    getPlural(plugin) :
+                    getSingular(plugin)
+                  }
+                </Content>
+              </div>
+            </li>
+          );
+        }
+      );
 
       content = <ul className={block + '__ul'}> {listItems} </ul>;
     }
