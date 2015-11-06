@@ -2,15 +2,15 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
 
-import {getProblemsForSnapshot, getColorForProblem} from 'in-services/issueTracker';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
+import {health, mapHealthToColor} from 'in-services/health';
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import {getHealth} from 'in-services/issueTracker';
-import {health} from 'in-services/health';
 import {getLabel} from 'in-sdk/snapshot';
 
 import Tooltip from '../Tooltip';
@@ -76,7 +76,7 @@ const NodeTooltipRC = React.createClass({
         return issueB;
       });
       text = mostImportantProblem.get('problemText');
-      style.color = getColorForProblem(mostImportantProblem);
+      style.color = mapHealthToColor(this.state.health);
     }
 
     return {text, style};
