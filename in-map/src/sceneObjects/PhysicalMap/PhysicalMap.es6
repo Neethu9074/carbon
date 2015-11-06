@@ -46,7 +46,7 @@ export default class PhysicalMap extends SceneObject {
       'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
       // 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer',
       // 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
-      'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp',
+      'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp'
       // 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster',
       // 'com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp',
       // 'com.instana.forge.infrastructure.webserver.httpd.Httpd'

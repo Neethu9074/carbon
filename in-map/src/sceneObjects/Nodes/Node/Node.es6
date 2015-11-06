@@ -375,7 +375,10 @@ export default class Node extends BaseNode {
     // dispose other subscriptions
     super.dispose();
 
-    this.wiredSnapshots = undefined;
+    this.label.dispose();
+    this.label = null;
+
+    this.wiredSnapshots = null;
   }
 
   calculateNodeColor(hostHealth) {
