@@ -36,8 +36,15 @@ const TomcatDashboard = React.createClass({
 
     servlets.forEach((webAppData, webAppName) => {
       structure.push(
-        <tr key={webAppName} key={webAppName}>
-          <td colSpan='4'>{webAppName}</td>
+        <tr key={webAppName}>
+          <td colSpan='4'
+              style={{
+                background: '#fff',
+                fontWeight: 'bold',
+                fontSize: '13px'
+              }}>
+            {webAppName}
+          </td>
         </tr>
       );
 
