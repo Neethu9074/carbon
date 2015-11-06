@@ -10,7 +10,6 @@ import {
 } from 'in-services/converters';
 import {getMaxValue} from 'in-sdk/metrics';
 import {
-  getFullSnapshot,
   extractCoordinates,
   getRawPayload
 } from 'in-services/snapshots';
@@ -29,11 +28,10 @@ export default connectTo(
     // wiring.
     const javaAppCoords = extractCoordinates({
       hostId: props.snapshot.get('hostId'),
-      pluginId: 'javaApp',
+      pluginId: 'com.instana.forge.infrastructure.application.java.app.GenericJavaApp',
       steadyId: props.snapshot.getIn(['data', 'pid'])
     });
     return {
-      javaApp: getFullSnapshot(javaAppCoords),
       outgoingConnections: getRawPayload(javaAppCoords, 'connections.outgoing')
     };
   },
@@ -55,7 +53,6 @@ export default connectTo(
     },
 
     render() {
-      console.log('Java App', this.props.javaApp);
       console.log('Outgoing Connections', this.props.outgoingConnections);
 
       const pools = this.props.snapshot.getIn(['data', 'jvm.pools']);
@@ -212,6 +209,48 @@ export default connectTo(
       this.setState({
         poolName: pool
       });
+    },
+
+    renderSqlTopList() {
+      const outgoingConnections = this.props.outgoingConnections;
+      if (!outgoingConnections || !('jdbc' in outgoingConnections)) {
+        return null;
+      }
+
+      const topQueries = outgoingConnections.jdbc.reduce((topQueriesAcc, connection) => {
+        return topQueriesAcc.concat(connection.queries);
+      }, []);
+
+      if (topQueries.length === 0) {
+        return null;
+      }
+
+      topQueries.sort((a, b) => {
+        return a.time - b.time;
+      });
+
+      topQueries.reverse();
+
+      return (
+        <DashboardSection title='SQL Top Queries'>
+          <ResponsiveTable clickable={true}>
+            <thead>
+              <tr>
+                <th>Total Time</th>
+                <th>Statement</th>
+              </tr>
+            </thead>
+            <tbody>
+              {topQueries.map(query =>
+                <tr key={query.query}>
+                  <td>{query.time}</td>
+                  <td>{query.query}</td>
+                </tr>
+              )}
+            </tbody>
+          </ResponsiveTable>
+        </DashboardSection>
+      );
     }
 
 }));
