@@ -1,7 +1,7 @@
 /* global require:false */
 import THREE from 'three';
 
-import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+import {zoomLevel} from 'in-services/stores/zoomLevel';
 import {getIcon} from 'in-sdk/snapshot';
 
 import ASingleMeshFactory from '../ASingleMeshFactory';
@@ -13,13 +13,14 @@ const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
 
 export default class SingleMeshPointsFactory extends ASingleMeshFactory {
 
-  constructor({scene, type, renderOrder = 10, size}) {
+  constructor({scene, type, renderOrder = 10, hidingPredicate, size}) {
     super({scene, renderOrder, params: { type, size } });
 
     const mesh = this.mesh;
     scene.removeSceneObject(mesh);
-    this.zoomSubscription = zoomLevel.subscribe(l => {
-      if (l !== level.nearest) {
+
+    this.zoomSubscription = zoomLevel.subscribe(level => {
+      if (hidingPredicate(level)) {
         scene.removeSceneObject(mesh);
       } else {
         scene.addSceneObject(mesh);

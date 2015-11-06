@@ -1,3 +1,6 @@
+import {level} from 'in-services/stores/zoomLevel';
+import * as constants from 'in-forge/constants';
+
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import PCP from '../../SingleMeshFactory/ContentProvider/PointContentProvider';
 import SceneObject from '../SceneObject';
@@ -32,8 +35,11 @@ export default class Label extends SceneObject {
   }
 
   getFactory() {
-    const size = this.pluginId === 'com.instana.forge.infrastructure.os.host.Host' ? 2.3 : 1.0;
-    return this.scene.getLogoFactory(this.pluginId, size);
+    const size = this.pluginId === constants.plugins.os ? 2.3 : 1.0;
+    const hidingPredicate = this.pluginId === constants.plugins.os ?
+      zoomLevel => zoomLevel !== level.nearest && zoomLevel !== level.near :
+      zoomLevel => zoomLevel !== level.nearest;
+    return this.scene.getLogoFactory(this.pluginId, size, hidingPredicate);
   }
 
   positionChanged(x, y, z) {

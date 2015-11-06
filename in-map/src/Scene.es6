@@ -254,11 +254,11 @@ export default class Scene {
     });
   }
 
-  getLogoFactory(type, size ) {
+  getLogoFactory(type, size, hidingPredicate) {
     type = type ? type : 'default';
     let factory = this.logoFactories[type];
     if (!factory) {
-      factory = this.logoFactories[type] = new SingleMeshPointsFactory({scene: this, type, size});
+      factory = this.logoFactories[type] = new SingleMeshPointsFactory({scene: this, type, size, hidingPredicate});
     }
     return factory;
   }
