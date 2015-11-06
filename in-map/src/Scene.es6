@@ -254,11 +254,20 @@ export default class Scene {
     });
   }
 
-  getLogoFactory(type, size, hidingPredicate) {
+  getLogoFactory(type, size, hidingPredicate, snapshot) {
     type = type ? type : 'default';
+    if (snapshot) {
+      type += '_' + snapshot.getIn(['data', 'os.name']);
+    }
     let factory = this.logoFactories[type];
     if (!factory) {
-      factory = this.logoFactories[type] = new SingleMeshPointsFactory({scene: this, type, size, hidingPredicate});
+      factory = this.logoFactories[type] = new SingleMeshPointsFactory({
+        scene: this,
+        type,
+        snapshot,
+        size,
+        hidingPredicate
+      });
     }
     return factory;
   }

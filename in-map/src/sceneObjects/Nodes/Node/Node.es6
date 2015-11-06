@@ -30,7 +30,13 @@ import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/S
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
-
+const emptyLabel = {
+  isEmpty: true,
+  getComponent: () => {
+    setPosition: () => {};
+  },
+  dispose: () => {}
+};
 const nodeBaseHeight = 1;
 
 export default class Node extends BaseNode {
@@ -43,9 +49,8 @@ export default class Node extends BaseNode {
     this.isOutOfView = false;
     this.isToFarAway = false;
 
+    this.label = emptyLabel;
     this.snapshotServer = new NodeSnapshotServer(this, connections);
-
-    this.label = new Label({parent: this, pluginId: this._cachedPluginId, id});
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
@@ -294,6 +299,11 @@ export default class Node extends BaseNode {
     if (this.snapshot === snapshot) {
       return;
     }
+
+    this.label.dispose();
+    this.label = new Label({parent: this, pluginId: this._cachedPluginId, snapshot, id: this.id});
+    const position = this.getComponent('position').getPosition();
+    this.label.getComponent('position').setPosition(position.x, position.y + this.height + 0.2, position.z);
 
     this.snapshot = snapshot;
     this._cachedPower = getPower(snapshot);

@@ -8,10 +8,11 @@ import SceneObject from '../SceneObject';
 
 export default class Label extends SceneObject {
 
-  constructor({parent, id, pluginId}) {
+  constructor({parent, id, pluginId, snapshot}) {
     super({parent, id});
 
     this.pluginId = pluginId;
+    this.snapshot = snapshot;
     this.getFactory().addFragment(this.fragment);
   }
 
@@ -39,7 +40,7 @@ export default class Label extends SceneObject {
     const hidingPredicate = this.pluginId === constants.plugins.os ?
       zoomLevel => zoomLevel !== level.nearest && zoomLevel !== level.near :
       zoomLevel => zoomLevel !== level.nearest;
-    return this.scene.getLogoFactory(this.pluginId, size, hidingPredicate);
+    return this.scene.getLogoFactory(this.pluginId, size, hidingPredicate, this.snapshot);
   }
 
   positionChanged(x, y, z) {

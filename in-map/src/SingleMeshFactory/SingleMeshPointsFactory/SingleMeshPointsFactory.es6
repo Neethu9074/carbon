@@ -13,8 +13,8 @@ const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
 
 export default class SingleMeshPointsFactory extends ASingleMeshFactory {
 
-  constructor({scene, type, renderOrder = 10, hidingPredicate, size}) {
-    super({scene, renderOrder, params: { type, size } });
+  constructor({scene, type, renderOrder = 10, snapshot, hidingPredicate, size}) {
+    super({scene, renderOrder, params: { type, size, snapshot } });
 
     const mesh = this.mesh;
     scene.removeSceneObject(mesh);
@@ -33,7 +33,9 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
-    const icon = getIcon(this.params.type) || context('./default.png');
+    const icon = this.params.snapshot ?
+      getIcon(this.params.snapshot) || context('./default.png') :
+      getIcon(this.params.type) || context('./default.png');
     const image = document.createElement('img');
     image.src = icon;
     image.height = 128 * this.params.size;
