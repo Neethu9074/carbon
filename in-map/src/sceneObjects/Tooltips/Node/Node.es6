@@ -20,7 +20,6 @@ import './Node.less';
 const block = 'in-tooltip__node';
 
 const NodeTooltipRC = React.createClass({
-
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin
@@ -36,11 +35,9 @@ const NodeTooltipRC = React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(getHealth(this.props.snapshot)
-      .subscribe(h => this.setState({health: h})));
-
-    this.addSubscription(getProblemsForSnapshot(this.props.snapshot)
-      .subscribe(issues => this.setState({issues})));
+    const snapshot = this.props.snapshot;
+    this.addSubscription(getHealth(snapshot).subscribe(h => this.setState({health: h})));
+    this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
   },
 
   getStatusLine() {
