@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Immutable from 'immutable';
 import invariant from 'invariant';
 
@@ -38,7 +37,7 @@ export default class SnapshotsConveyer {
   }
 
   start(onNext) {
-    this.onNext = _.throttle(onNext, 100);
+    this.onNext = onNext;
 
     this.snapshotSubscription = connection.emitter.on('message')
       .filter(this.snapshotDataEventPredicate)
