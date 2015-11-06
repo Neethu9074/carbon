@@ -1,8 +1,8 @@
 import React from 'react';
 
-import connectTo from 'in-components/hoc/connectTo';
-import * as viewStore from 'in-services/stores/view';
 import * as navigation from 'in-services/stores/navigation';
+import * as viewStore from 'in-services/stores/view';
+import connectTo from 'in-components/hoc/connectTo';
 import {getClassName} from 'in-services/react';
 import eventBus from 'in-services/eventbus';
 import views from 'in-services/views';
