@@ -36,16 +36,23 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
     const icon = this.params.snapshot ?
       getIcon(this.params.snapshot) || context('./default.png') :
       getIcon(this.params.type) || context('./default.png');
+
     const image = document.createElement('img');
+    const texture = new THREE.Texture();
+    image.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.width;
+      canvas.height = image.height;
+      const cont = canvas.getContext('2d');
+      cont.drawImage(image, 0, 0);
+
+      texture.image = canvas;
+      texture.needsUpdate = true;
+    };
     image.src = icon;
-    image.height = 128 * this.params.size;
-    const texture = new THREE.Texture(image);
     texture.minFilter = THREE.LinearFilter;
     texture.generateMipmaps = false;
     texture.flipY = false;
-    image.addEventListener('load', () => {
-      texture.needsUpdate = true;
-    });
 
     return new THREE.RawShaderMaterial({
       vertexColors: THREE.VertexColors,
