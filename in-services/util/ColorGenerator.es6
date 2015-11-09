@@ -3,18 +3,17 @@ import THREE from 'three';
 const colorService = new THREE.Color(0, 0, 0);
 
 export default class ColorGenerator {
-  constructor(seed) {
-    this.seed = seed;
+  constructor(desiredNumberOfColors) {
     this.progress = 0;
     this.colorIndex = 0;
-    this.stepsPerGenerate = 1 / (seed);
+    this.stepsPerGenerate = 1 / (desiredNumberOfColors);
 
     this.setHueRange(25, 360);
     this.setSatRange(85, 100);
     this.setLumRange(70, 90);
 
     const colors = [];
-    for (let i = 0; i < seed; i++) {
+    for (let i = 0; i < desiredNumberOfColors; i++) {
       colors.push(this.createColor());
     }
     this.colors = this.reOrder(colors);
