@@ -1,23 +1,21 @@
 import * as constants from 'in-forge/constants';
 
+import {zoomLevel} from 'in-services/stores/zoomLevel';
+
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import PCP from '../../SingleMeshFactory/ContentProvider/PointContentProvider';
+
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObject from '../SceneObject';
 
 
 export default class Label extends SceneObject {
 
-  constructor({
-    id,
-    parent,
-    snapshot,
-    iconSize = 1,
-    predicateToHide
-  }) {
+  constructor({ id, parent, snapshot, iconSize = 1, predicate }) {
     super({parent, id});
 
     this.snapshot = snapshot;
-    this.predicateToHide = predicateToHide;
+    this.factory = this.getFactory();
 
     this.positionHandler = new PCM({ contentProvider: new PCP() });
     this.fragment = {
@@ -26,15 +24,21 @@ export default class Label extends SceneObject {
       additionalParams: { iconSize }
     };
 
-    this.getFactory().addFragment(this.fragment);
+    this.subscription = zoomLevel.subscribe(zl => {
+      if (predicate(zl)) {
+        this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+      } else {
+        this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      }
+    });
   }
 
   onInactiveEnter() {
-    this.getFactory().removeFragment(this.id);
+    this.factory.removeFragment(this.id);
   }
 
   onInactiveLeave() {
-    this.getFactory().addFragment(this.fragment);
+    this.factory.addFragment(this.fragment);
   }
 
   getFactory() {
@@ -45,11 +49,7 @@ export default class Label extends SceneObject {
       key += '_' + snapshot.getIn(['data', 'os.name']);
     }
 
-    return this.scene.getOrCreateLogoFactory({
-      key,
-      snapshot: this.snapshot,
-      predicateToHide: this.predicateToHide
-    });
+    return this.scene.getOrCreateLogoFactory({ key, snapshot: this.snapshot });
   }
 
   positionChanged(x, y, z) {
@@ -57,15 +57,18 @@ export default class Label extends SceneObject {
     this.positionHandler.position.y = y;
     this.positionHandler.position.z = z;
 
-    if (this.isActive) {
-      this.getFactory().addFragment(this.fragment);
+    if (this.isActive()) {
+      this.factory.addFragment(this.fragment);
     }
   }
 
   dispose() {
+    // dipose subscription first to avoid race conditions
+    this.subscription.dispose();
+
     super.dispose();
 
-    this.getFactory().removeFragment(this.id);
+    this.factory.removeFragment(this.id);
     this.id = null;
   }
 }

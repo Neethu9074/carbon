@@ -1,7 +1,6 @@
 /* global require:false */
 import THREE from 'three';
 
-import {zoomLevel} from 'in-services/stores/zoomLevel';
 import {getIcon} from 'in-sdk/snapshot';
 
 import ASingleMeshFactory from '../ASingleMeshFactory';
@@ -12,25 +11,8 @@ import vertexShader from './pointVertexShader.glsl';
 const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
 
 export default class SingleMeshPointsFactory extends ASingleMeshFactory {
-  constructor({
-    key,
-    scene,
-    snapshot,
-    predicateToHide,
-    renderOrder = 10
-  }) {
+  constructor({ key, scene, snapshot, renderOrder = 10 }) {
     super({scene, renderOrder, params: { key, snapshot } });
-
-    const mesh = this.mesh;
-    scene.removeSceneObject(mesh);
-
-    this.zoomSubscription = zoomLevel.subscribe(level => {
-      if (predicateToHide(level)) {
-        scene.removeSceneObject(mesh);
-      } else {
-        scene.addSceneObject(mesh);
-      }
-    });
   }
 
   getMesh() {

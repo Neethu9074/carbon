@@ -34,7 +34,7 @@ import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider
 const emptyLabel = {
   isEmpty: true,
   getComponent: () => {
-    setPosition: () => {};
+    return { setPosition: () => {} };
   },
   dispose: () => {}
 };
@@ -327,7 +327,7 @@ export default class Node extends BaseNode {
       parent: this,
       iconSize: 3,
       snapshot: this.snapshot,
-      predicateToHide: zoomLevel => zoomLevel !== level.nearest && zoomLevel !== level.near
+      predicate: zoomLevel => zoomLevel !== level.near && zoomLevel !== level.nearest
     });
     const position = this.getComponent('position').getPosition();
     this.label.getComponent('position').setPosition(position.x, position.y + this.height + 0.2, position.z);

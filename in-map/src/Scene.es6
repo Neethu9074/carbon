@@ -255,14 +255,13 @@ export default class Scene {
     });
   }
 
-  getOrCreateLogoFactory({key, snapshot, predicateToHide}) {
+  getOrCreateLogoFactory({key, snapshot}) {
     let factory = this.logoFactories[key];
     if (!factory) {
       factory = this.logoFactories[key] = new SingleMeshPointsFactory({
         key,
         snapshot,
-        scene: this,
-        predicateToHide
+        scene: this
       });
     }
     return factory;

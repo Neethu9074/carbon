@@ -25,12 +25,10 @@ export default class LayerComponent extends Component {
 
   onInitialEnter() {
     this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
-    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {
     this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
-    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
 
@@ -139,7 +137,7 @@ export default class LayerComponent extends Component {
         id: child.id,
         parent: child,
         snapshot: child._cachedCoordinates,
-        predicateToHide: zoomLevel => zoomLevel !== level.nearest
+        predicate: zoomLevel => zoomLevel !== level.nearest
       });
       label.getComponent('position').setPosition(0, y, 0);
 
