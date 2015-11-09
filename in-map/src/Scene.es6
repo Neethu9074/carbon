@@ -24,7 +24,7 @@ import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import PhysicalMap from './sceneObjects/PhysicalMap';
+import VisualMap from './sceneObjects/VisualMap';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import TooltipHandler from './TooltipHandler';
@@ -87,7 +87,7 @@ export default class Scene {
     this.setupRenderer();
     this.setupFXAARenderPass();
 
-    this.map = new PhysicalMap({ parent: this });
+    this.map = new VisualMap({ parent: this });
 
     // set this flag to force a render cycle
     this.shouldRenderScene = true;

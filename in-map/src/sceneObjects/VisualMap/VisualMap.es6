@@ -17,10 +17,10 @@ import Layouter from '../../layout';
 import Group from '../Group';
 
 
-export default class PhysicalMap extends SceneObject {
+export default class VisualMap extends SceneObject {
 
   constructor({parent}) {
-    super({parent, id: 'physicalMap'});
+    super({parent, id: 'VisualMap'});
 
     // the size of the map in world units (sizeXsize)
     this.size = 1000;

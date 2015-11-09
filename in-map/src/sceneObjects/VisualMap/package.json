@@ -1,0 +1,6 @@
+{
+  "name": "VisualMap",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./VisualMap.es6"
+}
