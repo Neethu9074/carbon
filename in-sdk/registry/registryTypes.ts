@@ -60,7 +60,7 @@ export interface PluginConfiguration {
    * Calculate a snapshots power as in how capable is this component. This
    * information is used to compare snapshot's of the same type. Also, we
    * use this information to render snapshot boxes in the 3D map with
-   * varying heights. More capable snapshots
+   * varying heights. More capable snapshots should have a larger power.
    */
   getPower?(snapshot: Snapshot): number,
 
