@@ -8,7 +8,7 @@ import {
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import Button from 'in-components/Button';
 import ResponsiveTable from 'in-components/ResponsiveTable';
-import ColorGenerator from 'in-services/util/colors';
+import ColorGenerator from 'in-services/util/ColorGenerator';
 import {plugins} from 'in-forge/constants';
 
 import './PresenceLister.less';
