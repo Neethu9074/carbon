@@ -1,10 +1,10 @@
 precision mediump float;
 precision mediump int;
 
-uniform float pointSize;
 uniform mat4 projectionMatrix;
 uniform mat4 modelViewMatrix;
 
+attribute float pointSize;
 attribute vec3 position;
 
 void main() {

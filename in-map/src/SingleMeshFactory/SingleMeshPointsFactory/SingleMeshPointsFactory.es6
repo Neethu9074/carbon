@@ -12,15 +12,20 @@ import vertexShader from './pointVertexShader.glsl';
 const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
 
 export default class SingleMeshPointsFactory extends ASingleMeshFactory {
-
-  constructor({scene, type, renderOrder = 10, snapshot, hidingPredicate, size}) {
-    super({scene, renderOrder, params: { type, size, snapshot } });
+  constructor({
+    key,
+    scene,
+    snapshot,
+    predicateToHide,
+    renderOrder = 10
+  }) {
+    super({scene, renderOrder, params: { key, snapshot } });
 
     const mesh = this.mesh;
     scene.removeSceneObject(mesh);
 
     this.zoomSubscription = zoomLevel.subscribe(level => {
-      if (hidingPredicate(level)) {
+      if (predicateToHide(level)) {
         scene.removeSceneObject(mesh);
       } else {
         scene.addSceneObject(mesh);
@@ -33,9 +38,7 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
-    const icon = this.params.snapshot ?
-      getIcon(this.params.snapshot) || context('./default.png') :
-      getIcon(this.params.type) || context('./default.png');
+    const icon = getIcon(this.params.snapshot) || context('./default.png');
 
     const image = document.createElement('img');
     const texture = new THREE.Texture();
@@ -60,10 +63,27 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
       vertexShader: vertexShader,
       transparent: true,
       depthTest: false,
-      uniforms: {
-        texture: { type: 't', value: texture },
-        pointSize: { type: 'f', value: this.params.size }
-      }
+      uniforms: { texture: { type: 't', value: texture } }
     });
+  }
+
+    updateGeometry() {
+      super.updateGeometry();
+
+      const geometry = this.geometry;
+
+      const pointSizes = new Float32Array(this.fragments.length);
+      this.fragments.forEach((fragment, index) => {
+        pointSizes[index] = fragment.additionalParams.iconSize;
+      });
+
+      geometry.addAttribute('pointSize', new THREE.BufferAttribute(pointSizes, 1));
+      geometry.attributes.pointSize.needsUpdate = true;
+    }
+
+  dispose() {
+    this.zoomSubscription.dispose();
+
+    super.dispose();
   }
 }

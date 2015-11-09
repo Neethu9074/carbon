@@ -33,9 +33,9 @@ export default class Layer extends SceneObject {
   constructor({parent, id, coordinates}) {
     super({parent, id});
 
-    this._cachedPluginId = coordinates.get('pluginId');
-    this.label = getSingular(this._cachedPluginId);
     this.snapshot = undefined;
+    this._cachedCoordinates = coordinates;
+    this.label = getSingular(coordinates.get('pluginId'));
 
     this.getComponent('position').setPosition(0, 0, 0);
 

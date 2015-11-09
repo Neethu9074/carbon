@@ -1,4 +1,3 @@
-import {level} from 'in-services/stores/zoomLevel';
 import * as constants from 'in-forge/constants';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -8,11 +7,25 @@ import SceneObject from '../SceneObject';
 
 export default class Label extends SceneObject {
 
-  constructor({parent, id, pluginId, snapshot}) {
+  constructor({
+    id,
+    parent,
+    snapshot,
+    iconSize = 1,
+    predicateToHide
+  }) {
     super({parent, id});
 
-    this.pluginId = pluginId;
     this.snapshot = snapshot;
+    this.predicateToHide = predicateToHide;
+
+    this.positionHandler = new PCM({ contentProvider: new PCP() });
+    this.fragment = {
+      id: this.id,
+      contentProvider: this.positionHandler,
+      additionalParams: { iconSize }
+    };
+
     this.getFactory().addFragment(this.fragment);
   }
 
@@ -24,23 +37,19 @@ export default class Label extends SceneObject {
     this.getFactory().addFragment(this.fragment);
   }
 
-
-  init() {
-    super.init();
-
-    this.positionHandler = new PCM({ contentProvider: new PCP() });
-    this.fragment = {
-      id: this.id,
-      contentProvider: this.positionHandler
-    };
-  }
-
   getFactory() {
-    const size = this.pluginId === constants.plugins.os ? 2.3 : 1.0;
-    const hidingPredicate = this.pluginId === constants.plugins.os ?
-      zoomLevel => zoomLevel !== level.nearest && zoomLevel !== level.near :
-      zoomLevel => zoomLevel !== level.nearest;
-    return this.scene.getLogoFactory(this.pluginId, size, hidingPredicate, this.snapshot);
+    const snapshot = this.snapshot;
+
+    let key = snapshot.get('pluginId');
+    if (key === constants.plugins.os) {
+      key += '_' + snapshot.getIn(['data', 'os.name']);
+    }
+
+    return this.scene.getOrCreateLogoFactory({
+      key,
+      snapshot: this.snapshot,
+      predicateToHide: this.predicateToHide
+    });
   }
 
   positionChanged(x, y, z) {

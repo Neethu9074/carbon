@@ -4,6 +4,7 @@ import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/converters';
+
 import {activeMetric} from 'in-services/stores/metrics';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
@@ -254,19 +255,14 @@ export default class Scene {
     });
   }
 
-  getLogoFactory(type, size, hidingPredicate, snapshot) {
-    type = type ? type : 'default';
-    if (snapshot) {
-      type += '_' + snapshot.getIn(['data', 'os.name']);
-    }
-    let factory = this.logoFactories[type];
+  getOrCreateLogoFactory({key, snapshot, predicateToHide}) {
+    let factory = this.logoFactories[key];
     if (!factory) {
-      factory = this.logoFactories[type] = new SingleMeshPointsFactory({
-        scene: this,
-        type,
+      factory = this.logoFactories[key] = new SingleMeshPointsFactory({
+        key,
         snapshot,
-        size,
-        hidingPredicate
+        scene: this,
+        predicateToHide
       });
     }
     return factory;

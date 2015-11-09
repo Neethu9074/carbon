@@ -1,5 +1,7 @@
 import _ from 'lodash';
 
+import {level} from 'in-services/stores/zoomLevel';
+
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer';
 import Label from '../../sceneObjects/Label';
@@ -133,7 +135,12 @@ export default class LayerComponent extends Component {
     this.layerGroupLabel = [];
 
     const addLabelForChild = (child, y) => {
-      const label = new Label({parent: child, id: child.id, pluginId: child._cachedPluginId});
+      const label = new Label({
+        id: child.id,
+        parent: child,
+        snapshot: child._cachedCoordinates,
+        predicateToHide: zoomLevel => zoomLevel !== level.nearest
+      });
       label.getComponent('position').setPosition(0, y, 0);
 
       this.layerGroupLabel.push(label);

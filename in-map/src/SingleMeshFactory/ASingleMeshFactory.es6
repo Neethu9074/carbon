@@ -48,7 +48,7 @@ export default class SingleMeshFactory {
   getMaterial() { throw new Error('NOT IMPLEMENTED YET'); }
   getMesh() { throw new Error('NOT IMPLEMENTED YET'); }
 
-  addFragment({id, contentProvider}) {
+  addFragment({id, contentProvider, additionalParams}) {
     let fragment = this.getFragment(id);
 
     if (fragment) {
@@ -63,6 +63,7 @@ export default class SingleMeshFactory {
 
     fragment.vertices = contentProvider.getVertices();
     fragment.colors = contentProvider.getColors();
+    fragment.additionalParams = additionalParams;
   }
 
   getFragment(id) {

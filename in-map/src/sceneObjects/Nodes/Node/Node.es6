@@ -4,6 +4,7 @@ import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {isMatchingAllActiveFilters} from 'in-services/stores/filters';
 import {getFullSnapshot} from 'in-services/snapshots';
+import {level} from 'in-services/stores/zoomLevel';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -45,7 +46,6 @@ export default class Node extends BaseNode {
     super({parent, id});
 
     this._cachedPower = 1;
-    this._cachedPluginId = coordinates.get('pluginId');
     this.isOutOfView = false;
     this.isToFarAway = false;
 
@@ -300,11 +300,6 @@ export default class Node extends BaseNode {
       return;
     }
 
-    this.label.dispose();
-    this.label = new Label({parent: this, pluginId: this._cachedPluginId, snapshot, id: this.id});
-    const position = this.getComponent('position').getPosition();
-    this.label.getComponent('position').setPosition(position.x, position.y + this.height + 0.2, position.z);
-
     this.snapshot = snapshot;
     this._cachedPower = getPower(snapshot);
 
@@ -321,7 +316,21 @@ export default class Node extends BaseNode {
       this.tooltip = new TooltipNode(this);
     }
 
+    this.setupLabel();
     this.snapshotServer.onSnapshotUpdate();
+  }
+
+  setupLabel() {
+    this.label.dispose();
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      iconSize: 3,
+      snapshot: this.snapshot,
+      predicateToHide: zoomLevel => zoomLevel !== level.nearest && zoomLevel !== level.near
+    });
+    const position = this.getComponent('position').getPosition();
+    this.label.getComponent('position').setPosition(position.x, position.y + this.height + 0.2, position.z);
   }
 
   updateHeight(maxPower) {
