@@ -25,10 +25,12 @@ export default class LayerComponent extends Component {
 
   onInitialEnter() {
     this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
+    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {
     this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
 

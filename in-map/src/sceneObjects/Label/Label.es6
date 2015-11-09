@@ -26,9 +26,9 @@ export default class Label extends SceneObject {
 
     this.subscription = zoomLevel.subscribe(zl => {
       if (predicate(zl)) {
-        this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+        this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.ON);
       } else {
-        this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+        this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.OFF);
       }
     });
   }
@@ -40,6 +40,15 @@ export default class Label extends SceneObject {
   onInactiveLeave() {
     this.factory.addFragment(this.fragment);
   }
+
+  onHiddenEnter() {
+    this.factory.removeFragment(this.id);
+  }
+
+  onHiddenLeave() {
+    this.factory.addFragment(this.fragment);
+  }
+
 
   getFactory() {
     const snapshot = this.snapshot;
@@ -57,7 +66,7 @@ export default class Label extends SceneObject {
     this.positionHandler.position.y = y;
     this.positionHandler.position.z = z;
 
-    if (this.isActive()) {
+    if (this.isActive() && !this.isHidden()) {
       this.factory.addFragment(this.fragment);
     }
   }
