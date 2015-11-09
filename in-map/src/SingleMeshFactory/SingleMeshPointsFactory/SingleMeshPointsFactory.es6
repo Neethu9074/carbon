@@ -7,8 +7,7 @@ import ASingleMeshFactory from '../ASingleMeshFactory';
 import fragmentShader from './pointFragmentShader.glsl';
 import vertexShader from './pointVertexShader.glsl';
 
-
-const context = require.context('./', true, /\/[a-zA-Z0-9]+\.png$/);
+import defaultIcon from './default.png';
 
 export default class SingleMeshPointsFactory extends ASingleMeshFactory {
   constructor({ key, scene, snapshot, renderOrder = 10 }) {
@@ -20,7 +19,7 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
-    const icon = getIcon(this.params.snapshot) || context('./default.png');
+    const icon = getIcon(this.params.snapshot) || defaultIcon;
 
     const image = document.createElement('img');
     const texture = new THREE.Texture();
