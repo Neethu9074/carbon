@@ -140,10 +140,6 @@ export default class NodeSnapshotServer {
 
     this.disposeMetricSubscription();
 
-    // tell everybody that the max power is 1 and the all nodes but this
-    // (because subscription was disposed) are reemitting their power if it's greater
-    nodeMaxPower.emit(1);
-
     this.client = null;
   }
 }
