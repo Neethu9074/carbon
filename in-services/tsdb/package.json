@@ -1,6 +1,0 @@
-{
-  "name": "tsdb",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./tsdb.ts"
-}
