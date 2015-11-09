@@ -1,18 +1,20 @@
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import {IntlMixin} from 'react-intl';
+import React from 'react/addons';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import Mtd from 'in-components/Mtd';
 import ResponsiveTable from 'in-components/ResponsiveTable';
+import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
-
 const chartHeight = 200;
 
 const TomcatDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    IntlMixin
+  ],
 
   propTypes: {
     snapshot: irpt.map.isRequired,
@@ -22,15 +24,96 @@ const TomcatDashboard = React.createClass({
   getInitialState() {
     return {
       webapp: null,
-      connector: null
+      connector: null,
+      selectedServlet: null,
+      selectedServletName: null
     };
   },
-  render() {
-    const webapps = this.props.snapshot.getIn(['data', 'webapps']);
-    const connectors = this.props.snapshot.getIn(['data', 'connector-config']);
+
+  renderWebApps(servlets) {
+    const structure = [];
+    const snapshot = this.props.snapshot;
+
+    servlets.forEach((webAppData, webAppName) => {
+      structure.push(
+        <tr key={webAppName}>
+          <td colSpan='4'
+              style={{
+                background: '#fff',
+                fontWeight: 'bold',
+                fontSize: '13px'
+              }}>
+            {webAppName}
+          </td>
+        </tr>
+      );
+
+      webAppData.forEach((servletName) => {
+        const servletKey = webAppName + '.' + servletName;
+        structure.push(
+          <tr key={servletKey} onClick={() => this.selectServlet(servletKey, servletName)}>
+            <td>{servletName}</td>
+            <Mtd metric={'servlets.' + servletKey + '.inv'}
+                 snapshot={snapshot} />
+            <Mtd metric={'servlets.' + servletKey + '.time'}
+                 snapshot={snapshot} />
+            <Mtd metric={'servlets.' + servletKey + '.errors'}
+                 snapshot={snapshot} />
+          </tr>
+        );
+      });
+    });
 
     return (
+      structure.map(value => value)
+    );
+  },
+
+  render() {
+    const servlets = this.props.snapshot.getIn(['data', 'servlets']);
+    const webapps = this.props.snapshot.getIn(['data', 'webapps']);
+    const connectors = this.props.snapshot.getIn(['data', 'connector-config']);
+    return (
       <div>
+      { servlets ?
+        <DashboardSection title={'Servlets' +
+        (this.state.selectedServletName ? ' (' + this.state.selectedServletName + ')' : '')}>
+          {this.state.selectedServlet ?
+            <ChartWithLegend snapshot={this.props.snapshot}
+                   windowSize={this.props.timeframe}
+                   height={chartHeight}
+                   margins={{
+                     left: 80
+                   }}
+                   y1={{
+                     metrics: [
+                       'servlets.' + this.state.selectedServlet + '.time',
+                       'servlets.' + this.state.selectedServlet + '.inv',
+                       'servlets.' + this.state.selectedServlet + '.errors'
+                     ],
+                     labels: [
+                       'Processing Time',
+                       'Request Count',
+                       'Errors'
+                     ],
+                     type: 'line'
+                   }}/>
+          : null}
+          <ResponsiveTable clickable={true}>
+            <thead>
+              <tr>
+                <th>Servlet</th>
+                <th>Requests</th>
+                <th>Response Time</th>
+                <th>Errors</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.renderWebApps(servlets)}
+            </tbody>
+          </ResponsiveTable>
+        </DashboardSection>
+      : null}
         { webapps ?
           <DashboardSection title='Sessions'>
             {this.state.webapp ?
@@ -40,7 +123,6 @@ const TomcatDashboard = React.createClass({
                      margins={{
                        left: 80
                      }}
-
                      y1={{
                        metrics: [
                          'sessions.' + this.state.webapp
@@ -51,7 +133,6 @@ const TomcatDashboard = React.createClass({
                        type: 'line'
                      }}/>
             : null}
-
             <ResponsiveTable clickable={true}>
               <thead>
                 <tr>
@@ -60,7 +141,6 @@ const TomcatDashboard = React.createClass({
                   <th>Session</th>
                 </tr>
               </thead>
-
               <tbody>
                 {webapps.map((data, name) =>
                   <tr key={name} onClick={() => this.selectWebapp(name)}>
@@ -83,7 +163,6 @@ const TomcatDashboard = React.createClass({
                      margins={{
                        left: 80
                      }}
-
                      y1={{
                        metrics: [
                          'connectors.' + this.state.connector + '.threads',
@@ -96,7 +175,6 @@ const TomcatDashboard = React.createClass({
                        type: 'line'
                      }}/>
             : null}
-
             <ResponsiveTable clickable={true}>
               <thead>
                 <tr>
@@ -107,7 +185,6 @@ const TomcatDashboard = React.createClass({
                   <th>Max</th>
                 </tr>
               </thead>
-
               <tbody>
                 {connectors.map((data, name) =>
                   <tr key={name} onClick={() => this.selectConnector(name)}>
@@ -127,19 +204,21 @@ const TomcatDashboard = React.createClass({
       </div>
     );
   },
-
+  selectServlet(metricKey, servletName) {
+    this.setState({
+      selectedServlet: metricKey,
+      selectedServletName: servletName
+    });
+  },
   selectWebapp(w) {
     this.setState({
       webapp: w
     });
   },
-
   selectConnector(c) {
     this.setState({
       connector: c
     });
   }
-
 });
-
 export default TomcatDashboard;
