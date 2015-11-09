@@ -344,6 +344,8 @@ export default class Scene {
       this.controller.flyToPosition(5, -5)
     ));
 
+    this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => activeMetric.emit(null)));
+
     if (__DEV__) {
       setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);
     }

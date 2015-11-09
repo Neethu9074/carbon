@@ -7,6 +7,12 @@ module.exports = {
     uiBackendUrl: 'https://test-instana.instana.io/api',
     groundskeeperUrl: 'https://test-instana.instana.io'
   },
+  demo2: {
+    user: 'stan@instana.com',
+    pw: '4711',
+    uiBackendUrl: 'https://demo2-instana.instana.io/api',
+    groundskeeperUrl: 'https://demo2-instana.instana.io'
+  },
   demo3: {
     user: 'stan@instana.com',
     pw: '4711',

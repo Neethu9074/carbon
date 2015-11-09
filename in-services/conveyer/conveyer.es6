@@ -33,10 +33,10 @@ export function create(Conveyer, params) {
       // Evict stopped conveyers from cache after a small
       // amount of time has passed.
       stopTimeoutHandle = setTimeout(() => {
-        running = false;
-        if (!running) {
-          conveyer.stop();
+        if (running) {
+          running = false;
           delete conveyerCache[uniqueId];
+          conveyer.stop();
         }
       }, 1000);
     }

@@ -93,6 +93,21 @@ describe('conveyer', () => {
     onNext('foo');
   });
 
+  it('should reuse conveyer instances when the unsubscribe is only temporary', () => {
+    const subscriber1 = sinon.stub();
+    const conveyer1 = create(Conveyer);
+    const subscription1 = conveyer1.subscribe(subscriber1);
+    const onNext = conveyerInstance.start.getCall(0).args[0];
+    onNext('A');
+    expect(subscriber1).to.have.callCount(1);
+    expect(subscriber1).to.have.been.calledWith('A');
+
+    subscription1.dispose();
+    clock.tick(500);
+
+    expect(create(Conveyer)).to.equal(conveyer1);
+  });
+
   it('should restart conveyer in pending stop', () => {
     let subscriber = sinon.stub();
     let subscription = create(Conveyer).subscribe(subscriber);
