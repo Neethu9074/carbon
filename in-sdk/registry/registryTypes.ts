@@ -61,6 +61,8 @@ export interface PluginConfiguration {
    * information is used to compare snapshot's of the same type. Also, we
    * use this information to render snapshot boxes in the 3D map with
    * varying heights. More capable snapshots should have a larger power.
+   *
+   * By default a power of 1 will be used.
    */
   getPower?(snapshot: Snapshot): number,
 
@@ -68,7 +70,7 @@ export interface PluginConfiguration {
    * Defines the look and feel for this plugin's sidebar as seen in the
    * map when selecting a snapshot.
    */
-  mapSidebar: __React.ComponentClass<SidebarProps>,
+  mapSidebar?: __React.ComponentClass<SidebarProps>,
 
   /**
    * Defines the look and feel plugin's sidebar as seen in the dashboard.
