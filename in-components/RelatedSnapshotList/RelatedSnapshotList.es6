@@ -2,11 +2,11 @@ import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
-import {getPlural} from 'in-sdk/pluginName';
 import * as tracking from 'in-services/tracking';
+import {getPlural} from 'in-sdk/pluginName';
 
-import List from '../List';
 import Collapsible from '../Collapsible';
+import List from '../List';
 
 import './RelatedSnapshotList.less';
 

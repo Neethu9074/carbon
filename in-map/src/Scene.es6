@@ -4,6 +4,7 @@ import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/converters';
+
 import {activeMetric} from 'in-services/stores/metrics';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
@@ -18,6 +19,7 @@ import './lib/RenderPass';
 import './lib/CanvasRenderer';
 import './lib/AsciiEffect';
 
+import SingleMeshPointsFactory from './SingleMeshFactory/SingleMeshPointsFactory';
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
@@ -206,6 +208,7 @@ export default class Scene {
     this.groundLineFactory.material.opacity = 0.9;
     this.groundLineFactory.material.transparent = true;
 
+    this.logoFactories = {};
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;
@@ -217,6 +220,8 @@ export default class Scene {
     }, 1000);
 
     const updateFactories = () => {
+      Object.keys(this.logoFactories).forEach(key => this.logoFactories[key].rebuild());
+
       this.layerHighlightingSingleMeshFactory.rebuild();
       this.highlightingSingleMeshFactory.rebuild();
       this.groundSingleMeshFactory.rebuild();
@@ -248,6 +253,18 @@ export default class Scene {
     time.addTimeEventListener({
       handleComponentTimeEvent: updateTimeEvent.bind(this)
     });
+  }
+
+  getOrCreateLogoFactory({key, snapshot}) {
+    let factory = this.logoFactories[key];
+    if (!factory) {
+      factory = this.logoFactories[key] = new SingleMeshPointsFactory({
+        key,
+        snapshot,
+        scene: this
+      });
+    }
+    return factory;
   }
 
   setupEvents() {
@@ -397,20 +414,6 @@ export default class Scene {
     camera.projection.multiplyMatrices(camProjectionMat, inverse);
   }
 
-  updateNodeWidthOnScreen() {
-    // each node has width = 1 in worldunits
-    const width = this.camera.right * 2;
-    const nodeSize = 1;
-    const aspect = this.height / this.width;
-    const nodeSizeInPixel = (nodeSize / width) * this.width * aspect;
-
-    if (this.nodeSizeInPixel !== nodeSizeInPixel) {
-      this.nodeSizeInPixel = nodeSizeInPixel;
-      stores.iconSize.emit(nodeSizeInPixel);
-      this.renderScene();
-    }
-  }
-
   updateMetricHeights() {
     if (currentMetrics) {
       this.singleMeshMetricFactory.updateHeights();
@@ -509,9 +512,6 @@ export default class Scene {
     this.camera.right = camSizeHalf * aspect;
     this.camera.bottom = -camSizeHalf;
     this.camera.top = camSizeHalf;
-
-    // nodes size only changes at camSize or canvas changes
-    this.updateNodeWidthOnScreen();
 
     // projection matrix is updated in update loop
   }
@@ -646,7 +646,6 @@ export default class Scene {
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);
     stores.currentScene.emit(null);
-    stores.iconSize.emit(null);
     selectedSnapshot.clear();
   }
 

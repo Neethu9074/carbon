@@ -2,12 +2,11 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
-import {iconSize} from '../../../mapStores';
 import iconPath from './plusIcon.svg';
 
 import './UnknownNodeButton.less';
 
-const defaultIconSize = 16;
+const defaultIconSize = 50;
 
 const UnknownNodeButton = React.createClass({
   mixins: [
@@ -21,10 +20,6 @@ const UnknownNodeButton = React.createClass({
 
   getInitialState() {
     return {size: defaultIconSize};
-  },
-
-  componentDidMount() {
-    this.addSubscription(iconSize.subscribe(size => this.setState({size})));
   },
 
   render() {

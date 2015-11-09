@@ -2,9 +2,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
-import {iconSize} from '../../../mapStores';
 import StickyNote from '../StickyNote';
-import NodeIcon from '../NodeIcon';
 import TagFrame from '../TagFrame';
 
 import './Node.less';
@@ -19,33 +17,17 @@ const NodeStickyNoteRC = React.createClass({
   ],
 
   propTypes: {
-    sceneObject: rpt.object.isRequired,
     snapshot: rpt.object.isRequired,
-    showMetric: rpt.bool,
-    tags: rpt.object
-  },
-
-  getInitialState() {
-    return {size: 50};
-  },
-
-  componentDidMount() {
-    this.addSubscription(iconSize.subscribe(size => this.setState({size})));
+    showMetric: rpt.bool
   },
 
   render() {
-    const sceneObject = this.props.sceneObject;
-    const snapshot = this.props.snapshot;
-    const tags = this.props.tags;
+    const tags = this.props.snapshot.get('tags');
 
     return (
       <div className='in-sticky-note__node-stack-wrapper'>
         <div className='in-sticky-note__node-stack-children'>
-          {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
-          {this.props.showMetric ?
-            null :
-            <NodeIcon snapshot={snapshot} />
-          }
+          {tags ? <TagFrame tags={tags}/> : null}
         </div>
       </div>
     );
@@ -66,9 +48,7 @@ export default class StickyNoteNode extends StickyNote {
 
     React.render(
       <NodeStickyNoteRC snapshot={snapshot}
-                    sceneObject={this.parent}
-                    showMetric={this.showMetric}
-                    tags={snapshot.get('tags')}/>,
+                        showMetric={this.showMetric}/>,
       this.stickyNoteContainer
     );
   }

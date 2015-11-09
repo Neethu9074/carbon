@@ -4,6 +4,7 @@ import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {isMatchingAllActiveFilters} from 'in-services/stores/filters';
 import {getFullSnapshot} from 'in-services/snapshots';
+import {level} from 'in-services/stores/zoomLevel';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -22,6 +23,7 @@ import NodeSnapshotServer from './NodeSnapshotServer';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipNode from '../../Tooltips/Node';
 import BaseNode from '../BaseNode';
+import Label from '../../Label';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -29,7 +31,13 @@ import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/S
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
-
+const emptyLabel = {
+  isEmpty: true,
+  getComponent: () => {
+    return { setPosition: () => {} };
+  },
+  dispose: () => {}
+};
 const nodeBaseHeight = 1;
 
 export default class Node extends BaseNode {
@@ -41,6 +49,7 @@ export default class Node extends BaseNode {
     this.isOutOfView = false;
     this.isToFarAway = false;
 
+    this.label = emptyLabel;
     this.snapshotServer = new NodeSnapshotServer(this, connections);
 
     this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
@@ -77,6 +86,18 @@ export default class Node extends BaseNode {
     if (obj && obj.id === this.id) {
       tracking.events.clickOnServerIn3DMap();
     }
+  }
+
+  onHiddenEnter() {
+    super.onHiddenEnter();
+    this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+  }
+
+  onHiddenLeave() {
+    super.onHiddenLeave();
+    this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onIndirectHighlightEnter() {
@@ -235,6 +256,7 @@ export default class Node extends BaseNode {
       this.setStateForMetricActivity({ isOutOfView: false });
 
       if (this.stickyIsHidden) {
+        this.stickyNote.show();
         this.stickyIsHidden = false;
       }
       this.updateStickyNotes();
@@ -296,7 +318,21 @@ export default class Node extends BaseNode {
       this.tooltip = new TooltipNode(this);
     }
 
+    this.setupLabel();
     this.snapshotServer.onSnapshotUpdate();
+  }
+
+  setupLabel() {
+    this.label.dispose();
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      iconSize: 3,
+      snapshot: this.snapshot,
+      predicate: zoomLevel => zoomLevel !== level.near && zoomLevel !== level.nearest
+    });
+    const position = this.getComponent('position').getPosition();
+    this.label.getComponent('position').setPosition(position.x, position.y + this.height + 0.2, position.z);
   }
 
   updateHeight(maxPower) {
@@ -308,11 +344,13 @@ export default class Node extends BaseNode {
 
   getScreenAnchorPosition() {
     const pos = this.getComponent('position').getPosition();
-    return {x: pos.x - 0.25, y: pos.y + this.height + 0.2, z: pos.z + 0.25};
+    return {x: pos.x - 0.2, y: pos.y + this.height + 0.75, z: pos.z + 0.25};
   }
 
   positionChanged(x, y, z, oldPosition) {
     super.positionChanged(x, y, z, oldPosition);
+
+    this.label.getComponent('position').setPosition(x, y + this.height + 0.2, z);
 
     this.getComponent('ground').positionChanged(x, y, z);
     this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
@@ -358,7 +396,10 @@ export default class Node extends BaseNode {
     // dispose other subscriptions
     super.dispose();
 
-    this.wiredSnapshots = undefined;
+    this.label.dispose();
+    this.label = null;
+
+    this.wiredSnapshots = null;
   }
 
   calculateNodeColor(hostHealth) {

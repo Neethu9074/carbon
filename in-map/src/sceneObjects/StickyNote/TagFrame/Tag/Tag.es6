@@ -12,7 +12,6 @@ const TagStickyNote = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    sceneObject: rpt.object.isRequired,
     tag: rpt.string.isRequired
   },
 
