@@ -6,10 +6,10 @@ import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 import * as zones from 'in-sdk/zones';
 
-import * as constants from '../constants';
 import windowsIconPath from './icons/instana_server_windows.svg';
 import linuxIconPath from './icons/instana_server_linux.svg';
 import appleIconPath from './icons/instana_server_apple.svg';
+import * as constants from '../constants';
 
 import './metrics';
 import './wiring';
@@ -71,6 +71,6 @@ zones.addMapping(
       constants.plugins.ec2
     ], Immutable.Map());
     const zone = steadyIdToZone.valueSeq().first();
-    return zone ? zone.get('availability-zone') : 'undefined zone';
+    return zone ? zone.get('availability-zone') : constants.nameOfUndefinedZone;
   }
 );

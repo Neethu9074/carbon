@@ -1,6 +1,7 @@
-import * as zones from 'in-sdk/zones';
+import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
+import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';
 
@@ -9,6 +10,8 @@ zones.addMapping(
   snapshot => snapshot.getIn(['data', 'groupId'])
 );
 
+import iconPath from './icon.svg';
+
 pluginName.setHumanReadablePluginName(
   constants.plugins.availabilityZone,
   'Availability Zone',
@@ -16,3 +19,15 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.availabilityZone, s => s.getIn(['data', 'groupId']));
+
+zones.addMapping(
+  constants.plugins.availabilityZone,
+  snapshot => {
+    return getLabel(snapshot);
+  }
+);
+
+addIconFinder(
+  constants.plugins.availabilityZone,
+  () => iconPath
+);

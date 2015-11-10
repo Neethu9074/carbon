@@ -6,6 +6,12 @@
       "pluginId": "com.instana.forge.hardware.virtual.ec2.Ec2",
       "steadyId": "sEC2"
     },
+    "com.instana.forge.hardware.AvailabilityZone#z1#sAZ": {
+      "id": "com.instana.forge.hardware.AvailabilityZone#z1#sAZ",
+      "hostId": "z1",
+      "pluginId": "com.instana.forge.hardware.AvailabilityZone",
+      "steadyId": "sAZ"
+    },
     "com.instana.forge.infrastructure.os.host.Host#h1#sOS": {
       "id": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
       "hostId": "h1",
@@ -24,8 +30,6 @@
       "pluginId": "com.instana.forge.infrastructure.database.cassandra.Cassandra",
       "steadyId": "sCassandra"
     },
-
-
 
     "com.instana.forge.hardware.virtual.AIX#h2#sAIX": {
       "id": "com.instana.forge.hardware.virtual.AIX#h2#sAIX",
@@ -76,6 +80,14 @@
     "destination": "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2",
     "source": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
     "relation": "com.instana.sdk.annotation.RunsOn"
+  }, {
+    "source": "com.instana.forge.hardware.AvailabilityZone#z1#sAZ",
+    "destination": "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2",
+    "relation": "com.instana.sdk.annotation.Clusters"
+  }, {
+    "source": "com.instana.forge.hardware.AvailabilityZone#z1#sAZ",
+    "destination": "com.instana.forge.hardware.virtual.AIX#h2#sAIX",
+    "relation": "com.instana.sdk.annotation.Clusters"
   }, {
     "destination": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
     "source": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",

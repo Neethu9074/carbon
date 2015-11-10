@@ -5,8 +5,8 @@ import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
 
 import InterfaceList from '../InterfaceList';
-import HostInfo from '../HostInfo';
 import HostHardware from '../HostHardware';
+import HostInfo from '../HostInfo';
 
 const Sidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],

@@ -15,6 +15,10 @@ export function addLabelFinder(pluginId, finder) {
 }
 
 export function getLabel(snapshot, fallback) {
+  if (!snapshot) {
+    return fallback;
+  }
+
   const pluginId = snapshot.get('pluginId');
 
   const finder = labelFinder[pluginId];

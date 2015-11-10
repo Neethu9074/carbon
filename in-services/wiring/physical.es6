@@ -9,6 +9,7 @@ import {create} from '../conveyer';
 import {alwaysNull, alwaysEmptyArray} from '../fixedStreams';
 import {
   getDestinationNode,
+  getSourceNodes,
   getLeafNodes,
   getNodesWithPluginId,
   getAllNodesTillOsNode,
@@ -32,6 +33,7 @@ export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
     .map(osNodeStrId => {
       let group = getDestinationNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
       if (group) {
+        group = getSourceNodes(wiringGraph, group, forgeConsts.rels.clusters);
         group = wiringGraph.nodes[group];
       }
 

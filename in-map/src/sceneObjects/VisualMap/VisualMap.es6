@@ -2,11 +2,13 @@ import THREE from 'three';
 import _ from 'lodash';
 
 import {hexToRGBNormalized} from 'in-services/converters';
-import {getFullSnapshot} from 'in-services/snapshots';
+import {nameOfUndefinedZone} from 'in-forge/constants';
 import {viewStructure} from 'in-services/stores/view';
 import eventBus from 'in-services/eventbus';
+import {getPlural} from 'in-sdk/pluginName';
+import * as views from 'in-services/views';
+import {getLabel} from 'in-sdk/snapshot';
 import theme from 'in-services/theme';
-import {getZone} from 'in-sdk/zones';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import ConnectionGrid from '../../ConnectionGrid_Temp';
@@ -146,15 +148,25 @@ export default class VisualMap extends SceneObject {
   }
 
   addNode(triple) {
-    if (!triple.group) {
-      this.addNodeToGroup(triple, getZone());
-    } else {
-      getFullSnapshot(triple.group).once(groupSnapshot => this.addNodeToGroup(triple, getZone(groupSnapshot)));
-    }
+    this.addNodeToGroup(triple, this.getGroupName(triple.group));
+  }
+
+  getGroupName(group) {
+    return getLabel(group) || nameOfUndefinedZone;
   }
 
   addNodeToGroup(triple, groupId) {
+    if ((!groupId || groupId === nameOfUndefinedZone) && this.view === views.process) {
+      groupId = getPlural(triple.node.get('pluginId'));
+    }
     const group = this.getOrCreateGroup(triple.group, groupId);
+
+    if (triple.parentGroup) {
+      const parentGroup = this.getOrCreateGroup(triple.parentGroup, this.getGroupName(triple.parentGroup));
+      parentGroup.addGroup(group);
+
+      _.remove(this.groups, g => g.id === group.id);
+    }
 
     // add the node to group (the group handles duplicates)
     const newNode = group.addNode({

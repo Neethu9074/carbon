@@ -32,17 +32,18 @@ const HostHardware = React.createClass({
   },
 
   render() {
-    if (!this.props.group) return null;
+    const group = this.props.group;
+    if (!group) return null;
 
     const Details = this.getForgeSpecificComponent();
 
     return (
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
-          {getSingular(this.props.group.get('pluginId'))}
+          {getSingular(group.get('pluginId'))}
         </Collapsible.Header>
         <Collapsible.Content>
-          <Details snapshot={this.props.group} />
+          <Details snapshot={group} />
         </Collapsible.Content>
       </Collapsible>
     );
