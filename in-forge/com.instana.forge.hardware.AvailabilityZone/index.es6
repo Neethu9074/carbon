@@ -1,6 +1,5 @@
 import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
-import {getLabel} from 'in-sdk/snapshot';
 import * as zones from 'in-sdk/zones';
 
 import * as constants from '../constants';
@@ -19,13 +18,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.availabilityZone, s => s.getIn(['data', 'groupId']));
-
-zones.addMapping(
-  constants.plugins.availabilityZone,
-  snapshot => {
-    return getLabel(snapshot);
-  }
-);
 
 addIconFinder(
   constants.plugins.availabilityZone,
