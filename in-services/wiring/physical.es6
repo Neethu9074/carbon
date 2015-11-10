@@ -2,6 +2,7 @@ import * as ro from 'reactive-observables';
 
 import * as forgeConsts from 'in-forge/constants';
 
+import {getFullSnapshot} from '../snapshots';
 import * as views from '../views';
 
 import WiringConveyer from '../conveyer/WiringConveyer';
@@ -111,4 +112,11 @@ export function getLayers(coords) {
         return wiringGraph.nodes[leafNodeStr];
       });
   });
+}
+
+export function getHostHardware(nodeCoords) {
+  return completeWiring.map(wiringGraph => {
+    const group = getDestinationNode(wiringGraph, nodeCoords.get('id'), forgeConsts.rels.runsOn);
+    return wiringGraph.nodes[group];
+  }).flatMap(group => getFullSnapshot(group));
 }
