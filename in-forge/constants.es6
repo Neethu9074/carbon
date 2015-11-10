@@ -16,7 +16,8 @@ export const plugins = {
   nodejsApp: 'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp',
   nodejsCluster: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster',
   javaWebApp: 'com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp',
-  httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd'
+  httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd',
+  availabilityZone: 'com.instana.forge.hardware.AvailabilityZone'
 };
 
 export const rels = {
