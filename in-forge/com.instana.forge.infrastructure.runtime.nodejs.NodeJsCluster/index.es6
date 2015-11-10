@@ -1,7 +1,8 @@
 import * as zones from 'in-sdk/zones';
 import * as pluginName from 'in-sdk/pluginName';
-import {addLabelFinder} from 'in-sdk/snapshot';
+import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
 
+import iconPath from './icon.svg';
 import * as constants from '../constants';
 
 zones.addMapping(
@@ -16,3 +17,8 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.nodejsCluster, s => s.getIn(['data', 'groupId']));
+
+addIconFinder(
+  constants.plugins.nodejsCluster,
+  () => iconPath
+);
