@@ -1,12 +1,15 @@
-@background: #223238;
+@import "~in-themes/active.less";
 
 .in-timepicker {
+  @background: #223238;
 
   margin: 5px;
   padding: 14px 18px 8px 18px;
 
   background: @background;
   border-radius: 10px;
+
+  z-index: @z-index__timepicker;
 
   &__button {
     cursor: pointer;
@@ -18,18 +21,18 @@
       color: white;
     }
   }
-}
 
-.in-timepicker:before {
-  content: '';
-  position: absolute;
+  &:before {
+    content: '';
+    position: absolute;
 
-  bottom: -7px;
+    bottom: -7px;
 
-  border: 6px solid;
-  border-color:
-    @background
-    transparent
-    transparent
-    @background;
+    border: 6px solid;
+    border-color:
+      @background
+      transparent
+      transparent
+      @background;
+  }
 }

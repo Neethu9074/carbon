@@ -20,7 +20,7 @@ export default class MidState extends State {
   }
 
   getNext(zLevel) {
-    if(zLevel <= this.from) {
+    if (zLevel <= this.from) {
       return this.owner.states.near;
     }
     return undefined;

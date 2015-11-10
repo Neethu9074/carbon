@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import Immutable from 'immutable';
 import invariant from 'invariant';
 
@@ -38,7 +37,7 @@ export default class SnapshotsConveyer {
   }
 
   start(onNext) {
-    this.onNext = _.throttle(onNext, 100);
+    this.onNext = onNext;
 
     this.snapshotSubscription = connection.emitter.on('message')
       .filter(this.snapshotDataEventPredicate)
@@ -84,13 +83,20 @@ export default class SnapshotsConveyer {
   }
 
   handlePresenceMessage(message) {
-    if (!message.data.online && this.snapshots) {
+    let hasChanges = false;
+    if (this.snapshots) {
       message.data.forEach(presenceMessage => {
-        const id = getIdString(presenceMessage);
-        this.snapshots = this.snapshots.filter(snapshot => {
-          return snapshot.get('id') !== id;
-        });
+        if (!presenceMessage.data.online) {
+          const id = getIdString(presenceMessage);
+          this.snapshots = this.snapshots.filter(snapshot => {
+            const isOnline = snapshot.get('id') !== id;
+            hasChanges = hasChanges || !isOnline;
+            return isOnline;
+          });
+        }
       });
+    }
+    if (hasChanges) {
       this.onNext(this.snapshots);
     }
   }

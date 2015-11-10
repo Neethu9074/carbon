@@ -49,14 +49,14 @@ export default class ConnectionComponent extends Component {
 
   setupConnections() {
     const wiredSnapshots = this.sceneObject.getWiredSnapshots();
-    if(!wiredSnapshots) {
+    if (!wiredSnapshots) {
       return;
     }
 
     this.clearConnections();
 
-    this.setConnectionsWithDirection(wiredSnapshots.get('outgoing'), 'out');
-    this.setConnectionsWithDirection(wiredSnapshots.get('incoming'), 'in');
+    this.setConnectionsWithDirection(wiredSnapshots.outgoing, 'out');
+    this.setConnectionsWithDirection(wiredSnapshots.incoming, 'in');
   }
 
   clearConnections() {
@@ -71,7 +71,7 @@ export default class ConnectionComponent extends Component {
   setConnectionsWithDirection(connections, direction) {
     connections.forEach(otherSnapshot => {
       const other = this.sceneObject.findNodeById(otherSnapshot.get('id'));
-      if(other) {
+      if (other) {
         this.connectWith(other, direction);
       }
     });
@@ -79,7 +79,7 @@ export default class ConnectionComponent extends Component {
 
   connectWith(otherNode, direction) {
     // don't setup a new connection if it's still alive
-    if(this.connections.indexOf(otherNode) >= 0) {
+    if (this.connections.indexOf(otherNode) >= 0) {
       return;
     }
 
@@ -95,7 +95,7 @@ export default class ConnectionComponent extends Component {
     this.connections.push(connection);
   }
 
-  //is called from Connection class on disposing
+  // is called from Connection class on disposing
   removeConnection(connection) {
     _.remove(this.connections, con => con.id === connection.id);
   }
@@ -104,7 +104,7 @@ export default class ConnectionComponent extends Component {
     let is = false;
 
     this.getAllConnections().forEach((c) => {
-      if(c.isSelected()) {
+      if (c.isSelected()) {
         is = true;
         return;
       }

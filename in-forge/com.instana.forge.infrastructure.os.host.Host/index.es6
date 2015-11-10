@@ -26,6 +26,11 @@ addIconFinder(
     if (!snapshot) return linuxIconPath;
 
     const os = snapshot.getIn(['data', 'os.name']);
+    // no os name identified? Let's guess its Linux.
+    if (!os) {
+      return linuxIconPath;
+    }
+
     if (os.match(/linux/i)) {
       return linuxIconPath;
     } else if (os.match(/windows/i)) {

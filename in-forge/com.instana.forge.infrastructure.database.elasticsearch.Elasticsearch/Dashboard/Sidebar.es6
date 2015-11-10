@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 
 import ElasticsearchInfo from '../ElasticsearchInfo';
@@ -22,7 +21,6 @@ const ElasticsearchSidebar = React.createClass({
             <ElasticsearchInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <ProblemPanel snapshot={this.props.snapshot} />
       </div>
     );
   }

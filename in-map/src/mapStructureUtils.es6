@@ -8,10 +8,10 @@ export function getAllNodes(parent) {
 
 function getNodes(parent, nodes) {
   const col = getChildren(parent);
-  if(!col) {return; }
+  if (!col) {return; }
 
   col.forEach((child) => {
-    if(child instanceof Group) {
+    if (child instanceof Group) {
       getNodes(child, nodes);
     } else {
       nodes.push(child);
@@ -20,10 +20,10 @@ function getNodes(parent, nodes) {
 }
 
 export function getChildren(parent) {
-  if(!parent) {
+  if (!parent) {
     return null;
   }
-  if(parent instanceof Group){
+  if (parent instanceof Group) {
     return parent.children;
   }
   return parent.groups;
@@ -37,10 +37,10 @@ export function getAllGroups(parent) {
 
 function getGroups(parent, groups) {
   const col = getChildren(parent);
-  if(!col) {return; }
+  if (!col) {return; }
 
   col.forEach((child) => {
-    if(child instanceof Group) {
+    if (child instanceof Group) {
       groups.push(child);
       getGroups(child, groups);
     }

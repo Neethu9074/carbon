@@ -20,9 +20,9 @@ export default class NearState extends State {
   }
 
   getNext(zLevel) {
-    if(zLevel > this.to) {
+    if (zLevel > this.to) {
       return this.owner.states.mid;
-    } else if(zLevel <= this.from) {
+    } else if (zLevel <= this.from) {
       return this.owner.states.nearest;
     }
     return undefined;

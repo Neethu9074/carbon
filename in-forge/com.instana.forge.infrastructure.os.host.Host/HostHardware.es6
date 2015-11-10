@@ -21,7 +21,7 @@ const HostHardware = React.createClass({
       const snapshotId = props.snapshot.get('id');
 
       return {
-        group: getStructure(views.physical.hosts, true)
+        group: getStructure(views.physical, true)
           .map(viewStructure => {
             return viewStructure
               .filter(nodeStructure => nodeStructure.node.get('id') === snapshotId)

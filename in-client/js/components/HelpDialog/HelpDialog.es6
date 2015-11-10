@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import {Navigation, State} from 'react-router';
 import {createLogger} from 'instalog';
@@ -16,7 +14,7 @@ const HelpDialog = React.createClass({
   mixins: [React.addons.PureRenderMixin, Navigation, State],
 
   propTypes: {
-    id: rpt.string.isRequired
+    id: rpt.oneOfType([rpt.string.isRequired, rpt.number.isRequired])
   },
 
   getInitialState() {

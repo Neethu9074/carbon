@@ -81,7 +81,7 @@ export default class MetricComponent extends Component {
   }
 
   setValues(values) {
-    if(values.length !== this.numSlices) {
+    if (values.length !== this.numSlices) {
       this.numSlices = values.length;
       this.fragment
         .contentProvider // SCM
@@ -101,7 +101,7 @@ export default class MetricComponent extends Component {
     this.factoryFragment.values = values;
 
     let heightOfBox = values.reduce((a, b) => a + b, 0);
-    if(heightOfBox <= 0) {
+    if (heightOfBox <= 0) {
       heightOfBox = 0.01;
     }
 
@@ -128,7 +128,7 @@ export default class MetricComponent extends Component {
     this.needsUpdate = false;
     this.updateContentProvider();
 
-    if(this.isActive()) {
+    if (this.isActive()) {
       this.addToFactory();
     }
   }

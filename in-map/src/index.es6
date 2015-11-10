@@ -1,6 +1,7 @@
-import {Navigation} from 'react-router';
 import React from 'react/addons';
 
+import * as navigation from 'in-services/stores/navigation';
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import helpify from 'in-components/hoc/helpify';
 import enhance from 'in-components/hoc/enhance';
@@ -17,8 +18,7 @@ const MapRC = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin,
-    SubscriptionMixin,
-    Navigation
+    SubscriptionMixin
   ],
 
   propTypes: {
@@ -45,13 +45,13 @@ const MapRC = React.createClass({
     const supportsWebGL = this.isWebGLSupported();
     this.setState({isWebGLSupported: supportsWebGL});
 
-    if(!supportsWebGL) {
+    if (!supportsWebGL) {
       this.props.showHelp(203889331);
     }
   },
 
   componentDidMount() {
-    if(!this.state.isWebGLSupported) {
+    if (!this.state.isWebGLSupported) {
       return;
     }
 
@@ -74,14 +74,14 @@ const MapRC = React.createClass({
     // if WebGL is supported, render the MapRC
     // else show a notification with a zendesk help text.
     // if this dialog was closed show nothing but the deepest darkness.
-    if(this.state.isWebGLSupported) {
+    if (this.state.isWebGLSupported) {
       return (<div className={block} ref='parent'/>);
     }
     return null;
   },
 
   loadScene() {
-    if(this.scene) {
+    if (this.scene) {
       this.scene.dispose();
     }
 
@@ -98,14 +98,8 @@ const MapRC = React.createClass({
   },
 
   openDashboard(snapshot) {
-    this.transitionTo(
-      'dashboard',
-      {
-        pluginId: encodeURIComponent(snapshot.get('pluginId')),
-        steadyId: encodeURIComponent(snapshot.get('steadyId')),
-        hostId: encodeURIComponent(snapshot.get('hostId'))
-      }
-    );
+    selectedSnapshotStore.select(snapshot);
+    navigation.goToDashboard();
   },
 
   // https://www.khronos.org/webgl/wiki/FAQ
@@ -133,7 +127,7 @@ const MapRC = React.createClass({
     for (let ii = 0; ii < names.length; ++ii) {
       try {
         context = canvas.getContext(names[ii]);
-      } catch(e) {
+      } catch (e) {
         continue;
       }
       if (context) {

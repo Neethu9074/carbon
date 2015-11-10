@@ -1,25 +1,23 @@
 import {RouteHandler, Navigation} from 'react-router';
-import {combineLatest} from 'reactive-observables';
 import {IntlMixin} from 'react-intl';
-import Immutable from 'immutable';
 import React from 'react/addons';
 
-import SnapshotDetailSidebar from 'in-components/SnapshotDetailSidebar';
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import ChoosePluginButton from 'in-components/ChoosePluginButton';
-// import MapViewSwitcher from 'in-components/MapViewSwitcher';
+import * as viewStructureStore from 'in-services/stores/view';
+import MapViewSwitcher from 'in-components/MapViewSwitcher';
+import RegisterForBeta from 'in-components/RegisterForBeta';
+import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
-import * as constants from 'in-forge/constants';
+import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
-import Sidebar from 'in-components/Sidebar';
-import {create} from 'in-services/conveyer';
+import connectTo from 'in-components/hoc/connectTo';
+import Filterbar from 'in-components/Filterbar';
 import Map from 'in-map';
 
-import NotificationCenter from './NotificationCenter';
+import NavigationAdapter from './NavigationAdapter';
 import ConnectionStatus from './ConnectionStatus';
 import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
@@ -31,7 +29,16 @@ import './App.less';
 
 const rpt = React.PropTypes;
 
-const App = React.createClass({
+export default helpify(connectTo(
+  () => {
+    return {
+      isMonitoring: viewStructureStore.viewStructure
+        .map(viewStructure => viewStructure.length > 0)
+        .distinct()
+    };
+  }, React.createClass({
+  displayName: 'App',
+
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin,
@@ -42,41 +49,38 @@ const App = React.createClass({
   propTypes: {
     closeHelpIfOpen: rpt.func.isRequired,
     showHelp: rpt.func.isRequired,
-    state: rpt.object.isRequired
+    state: rpt.object.isRequired,
+    isMonitoring: rpt.bool
   },
 
   getInitialState() {
     return {
-      pluginIds: [constants.plugins.os],
-      showSettings: false
+      showSettings: false,
+      notMonitoringDialogShownBefore: false
     };
   },
 
-  componentDidMount() {
-    const subscriptions = this.state.pluginIds.map(pluginId => {
-      return create(SnapshotsConveyer, {pluginId});
-    });
 
-    this.addSubscription(
-      combineLatest(subscriptions).subscribe(snapshotArray => {
-        const snapshots = snapshotArray.reduce((a, b) => a.concat(b), Immutable.List());
-        if(snapshots.size === 0) {
-          this.props.showHelp(203860032);
-        } else {
-          this.props.closeHelpIfOpen();
-        }
-      })
-    );
+  componentWillMount() {
+    this.showNotMonitoringDialogIfNecessary(this.props, this.state);
   },
 
-  togglePlugin(pluginIds) {
-    this.setState({ pluginIds });
+  componentWillUpdate(nextProps, nextState) {
+    this.showNotMonitoringDialogIfNecessary(nextProps, nextState);
   },
 
-  toggleNotificationCenter() {
-    this.setState({ showNotificationCenter: !this.state.showNotificationCenter });
+  showNotMonitoringDialogIfNecessary(props, state) {
+    if (props.isMonitoring === false && state.notMonitoringDialogShownBefore === false) {
+      this.setState({
+        notMonitoringDialogShownBefore: true
+      });
+      props.showHelp(203860032);
+    } else if (props.isMonitoring === true) {
+      props.closeHelpIfOpen(203860032);
+    }
   },
 
+  // TODO Ben replace with URL parameter
   showMenu(show = true) {
     this.setState({ showSettings: show });
   },
@@ -86,26 +90,28 @@ const App = React.createClass({
 
     return (
       <div>
+        <NavigationAdapter />
+
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
-        <Lettering className='in-root-lettering' />
-        {this.renderMenu()}
-
-        {__DEV__ ? <ChoosePluginButton onClick={this.togglePlugin}/> : null}
+        {!isDemoEnvironment() ? <MapViewSwitcher className='in-root-map-switcher'/> : null}
+        <Lettering className='in-root-lettering'/>
+        <AccountMenu showMenu={this.showMenu}
+                     className={'in-root-menu'}/>
+        <NotificationCounter className={'in-root-notification-counter'}/>
 
         <section style={{display: hasChildren ? 'none' : 'block'}}>
-          <Map pluginIds={this.state.pluginIds} />
-          <Sidebar pluginIds={this.state.pluginIds} />
-          <SnapshotDetailSidebar />
+          <Map />
+          <Filterbar />
+          <SidebarMap />
           <FeedbackBadge />
-
-          <NotificationCenter toggleNotificationCenter={this.toggleNotificationCenter}
-                              open={this.state.showNotificationCenter}/>
-
         </section>
 
         <Timeline />
         <RouteHandler />
+        {isDemoEnvironment() ?
+          <RegisterForBeta />
+        : null}
 
         {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
 
@@ -115,16 +121,5 @@ const App = React.createClass({
         <ConnectionStatus />
       </div>
     );
-  },
-
-  renderMenu() {
-    return (
-      <div className='in-root-menu'>
-        <NotificationCounter onClick={this.toggleNotificationCenter}/>
-        <AccountMenu showMenu={this.showMenu}/>
-      </div>
-    );
   }
-});
-
-export default helpify(App);
+})));

@@ -1,7 +1,6 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import ProblemPanel from 'in-components/ProblemPanel';
 import Collapsible from 'in-components/Collapsible';
 
 import MongoDBInfo from '../MongoDBInfo';
@@ -22,7 +21,6 @@ const MongoDBSidebar = React.createClass({
             <MongoDBInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <ProblemPanel snapshot={this.props.snapshot} />
       </div>
     );
   }

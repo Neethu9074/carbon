@@ -1,6 +1,6 @@
-export function getClassName(reactClass, baseClass) {
+export function getClassName(reactClass, baseClass, appendix = '') {
   if (reactClass.props.className) {
-    return baseClass + ' ' + reactClass.props.className;
+    return baseClass + appendix + ' ' + reactClass.props.className + appendix;
   }
-  return baseClass;
+  return baseClass + appendix;
 }

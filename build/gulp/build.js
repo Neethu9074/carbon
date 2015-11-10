@@ -1,8 +1,9 @@
-/*eslint-env node*/
-/*eslint-disable no-var, strict, vars-on-top */
+/* eslint-env node*/
+/* eslint-disable no-var, strict, vars-on-top */
 
 'use strict';
 
+var fs = require('fs');
 var path = require('path');
 var gulp = require('gulp');
 var size = require('gulp-size');
@@ -43,7 +44,8 @@ gulp.task('try-build', function(cb) {
     [
       'startTryBuildProxy',
       'openTryBuildUrlInBrowser',
-      'writeTryBuildConfigFile'
+      'writeTryBuildConfigFile',
+      'writeTryBuildServerConfigFile'
     ],
     'startTryBuildServer',
     cb
@@ -159,12 +161,27 @@ gulp.task('writeTryBuildConfigFile', function() {
 });
 
 
+gulp.task('writeTryBuildServerConfigFile', function() {
+  var config = {
+    baseUrl: 'https://local-instana.instana.io:4000',
+    uiBackendBaseUrl: environments[tryBuildModeOptions.environment].uiBackendUrl
+  };
+  fs.writeFileSync(
+    path.join(paths.targetDir, 'serverConfig.json'),
+    JSON.stringify(config, 0, 2)
+  );
+});
+
+
 gulp.task('startTryBuildServer', function() {
   execSync(
     '"' + path.join(paths.binDir, 'babel-node') +
     '" "' +
     path.join(paths.targetDir, 'index.js') +
-    '"'
+    '"',
+    {
+      stdio: 'inherit'
+    }
   );
 });
 
@@ -183,11 +200,12 @@ gulp.task('startTryBuildProxy', function() {
     tls: true,
     proxy: {
       '/': 'http://127.0.0.1:3131',
-      '/auth/signIn': groundskeeperUrl + '/signIn',
-      '/auth/signOut': groundskeeperUrl + '/signOut',
-      '/auth/users/current': groundskeeperUrl + '/users/current',
+      '/auth/signIn': groundskeeperUrl + '/auth/signIn',
+      '/auth/signOut': groundskeeperUrl + '/auth/signOut',
+      '/auth/users/current': groundskeeperUrl + '/auth/users/current',
       '/internal/api': instagrafanaUrl + 'api',
-      '/uiTracker/': 'http://127.0.0.1:8484/'
+      '/uiTracker/': 'http://127.0.0.1:8484/',
+      '/assets/': groundskeeperUrl + '/assets/'
     },
 
     websocketProxy: {

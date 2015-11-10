@@ -9,33 +9,34 @@ const UPDATE_FLAGS = {
 
 export default class SingleMeshFactory {
 
-  constructor({scene, renderOrder = 2}) {
+  constructor({scene, renderOrder = 2, params}) {
     this.scene = scene;
+    this.params = params;
 
-    //stores all added fragments to create the global geometry
+    // stores all added fragments to create the global geometry
     this.fragments = [];
 
-    //the global arrays containing the combined stream data
+    // the global arrays containing the combined stream data
     this.vertices = [];
     this.colors = [];
 
-    //stores all added fragments that needs an update on global geometry
+    // stores all added fragments that needs an update on global geometry
     this.fragmentQueue = {};
 
-    //represents the geometry for all combined fragments
+    // represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
     this.geometry.dynamic = true;
 
     this.material = this.getMaterial();
 
-    //a global mesh that stores global geometry
+    // a global mesh that stores global geometry
     const mesh = this.mesh = this.getMesh();
     mesh.rotationAutoUpdate = false;
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.renderOrder = renderOrder;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.numberUpdates = 0;
     }
 
@@ -47,10 +48,10 @@ export default class SingleMeshFactory {
   getMaterial() { throw new Error('NOT IMPLEMENTED YET'); }
   getMesh() { throw new Error('NOT IMPLEMENTED YET'); }
 
-  addFragment({id, contentProvider}) {
+  addFragment({id, contentProvider, additionalParams}) {
     let fragment = this.getFragment(id);
 
-    if(fragment) {
+    if (fragment) {
       this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
 
     } else {
@@ -62,6 +63,7 @@ export default class SingleMeshFactory {
 
     fragment.vertices = contentProvider.getVertices();
     fragment.colors = contentProvider.getColors();
+    fragment.additionalParams = additionalParams;
   }
 
   getFragment(id) {
@@ -70,7 +72,7 @@ export default class SingleMeshFactory {
 
   removeFragment(id) {
     const fragment = this.getFragment(id);
-    if(!fragment) {
+    if (!fragment) {
       return;
     }
 
@@ -83,14 +85,14 @@ export default class SingleMeshFactory {
 
   rebuild() {
     const keys = Object.keys(this.fragmentQueue);
-    if(keys.length === 0) {
+    if (keys.length === 0) {
       return;
     }
 
     keys.forEach(id => {
       const item = this.fragmentQueue[id];
 
-      if(item.mode === UPDATE_FLAGS.ADD) {
+      if (item.mode === UPDATE_FLAGS.ADD) {
         this.updateGeometryByFragment(item.fragment, item.itemsToBeDeleted);
       } else {
         this.removeFragmentFromGeometry(item);
@@ -100,7 +102,7 @@ export default class SingleMeshFactory {
     this.updateGeometry();
     this.scene.renderScene();
 
-    //to clear the hole queue just create an empty object
+    // to clear the hole queue just create an empty object
     this.fragmentQueue = {};
   }
 
@@ -117,7 +119,7 @@ export default class SingleMeshFactory {
     let indexInVertices = 0;
     for (let i = 0; i < this.fragments.length; i++) {
       const frag = this.fragments[i];
-      if(frag.id === fragment.id) {
+      if (frag.id === fragment.id) {
         break;
       }
       indexInVertices += frag.vertices.length;
@@ -142,7 +144,7 @@ export default class SingleMeshFactory {
     geometry.attributes.position.needsUpdate = true;
     geometry.attributes.color.needsUpdate = true;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.numberUpdates++;
     }
   }

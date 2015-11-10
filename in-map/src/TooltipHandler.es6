@@ -4,7 +4,7 @@ export default class TooltipHandler {
 
   constructor() {
     this.sub = stores.currentTooltip.subscribe(tooltip => {
-      if(this.tooltip === tooltip) {
+      if (this.tooltip === tooltip) {
         return;
       }
 

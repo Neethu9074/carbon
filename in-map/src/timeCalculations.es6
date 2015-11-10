@@ -22,12 +22,12 @@ export function removeTimeEventListener(listener) {
 export function update(highResTimestamp) {
   const timeNow = highResTimestamp;
   const deltaTimeInMs = (timeNow - timeOfLastFrameUpdate);
-  deltaTime = deltaTimeInMs / 1000; //in ms
+  deltaTime = deltaTimeInMs / 1000; // in ms
 
   // clamp the deltaTime to a max of 0.5 seconds. If the map is laggy because of
   // any reason or you are switching tabs, the calculation is stoppend and the
   // deltaTime can become lager than seconds or minutes. since all animations
-  //are computed with deltaTime in 3D enviroments (and so the camera movement)
+  // are computed with deltaTime in 3D enviroments (and so the camera movement)
   // the camera would make a huge jump if moving while the map is laggy. to
   // avoid that clamp the time to a max of x ms/sec. you can also implement a
   // matrix or max payne slowmotion effect with that by setting max to something
@@ -41,13 +41,13 @@ export function update(highResTimestamp) {
   timeCounterForComponentUpdate += deltaTimeInMs;
   fpsCounter++;
 
-  if(secondCounter >= 1) {
+  if (secondCounter >= 1) {
     secondCounter = 0;
     fps = fpsCounter;
     fpsCounter = 0;
   }
 
-  if(timeCounterForComponentUpdate >= millisWatingForComponentUpdate) {
+  if (timeCounterForComponentUpdate >= millisWatingForComponentUpdate) {
     timeCounterForComponentUpdate = 0;
     timeEventListener.forEach(l => l.handleComponentTimeEvent());
   }

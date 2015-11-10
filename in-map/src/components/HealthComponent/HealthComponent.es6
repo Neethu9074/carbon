@@ -10,8 +10,7 @@ export default class HealthComponent extends Component {
 
     this.healthToSet = undefined;
     this.setHealth(health.ok);
-    this.healthSubscribtion =
-      getHealth(sceneObject.snapshot).subscribe(newHealth => this.setHealth(newHealth));
+    this.healthSubscribtion = getHealth(sceneObject.snapshot).subscribe(newHealth => this.setHealth(newHealth));
 
     this.initialized();
   }
@@ -26,7 +25,7 @@ export default class HealthComponent extends Component {
 
 
   setHealth(newHealth) {
-    if(this.healthToSet === newHealth) {
+    if (this.healthToSet === newHealth) {
       return;
     }
 
@@ -35,8 +34,8 @@ export default class HealthComponent extends Component {
   }
 
   update() {
-    //keep the last set health and only set this if the component is active
-    if(this.isActive()) {
+    // keep the last set health and only set this if the component is active
+    if (this.isActive()) {
       this.sceneObject.healthChanged(this.healthToSet);
       this.needsUpdate = false;
     }
@@ -45,7 +44,7 @@ export default class HealthComponent extends Component {
   dispose() {
     super.dispose();
 
-    if(this.healthSubscribtion) {
+    if (this.healthSubscribtion) {
       this.healthSubscribtion.dispose();
       this.healthSubscribtion = null;
     }

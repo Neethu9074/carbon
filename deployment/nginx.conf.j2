@@ -31,10 +31,6 @@ http {
     server                   {{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}};
   }
 
-  upstream ump {
-    server                   {{USERMANAGEMENT_PORTAL_PORT_8380_TCP_ADDR}}:{{USERMANAGEMENT_PORTAL_PORT_8380_TCP_PORT}};
-  }
-
   upstream groundskeeper {
     server                   {{GROUNDSKEEPER_PORT_8280_TCP_ADDR}}:{{GROUNDSKEEPER_PORT_8280_TCP_PORT}};
   }
@@ -56,8 +52,8 @@ http {
   }
 
   server {
-    listen                   443 ssl spdy;
-    server_name              example;
+    listen                   443 ssl http2;
+    server_name              {{PUBLIC_DOMAIN}};
 
     access_log               /var/log/nginx/access.log standard_format buffer=32k;
     log_not_found            on;
@@ -146,6 +142,15 @@ http {
       proxy_set_header       Connection "upgrade";
     }
 
+    # This endpoint is only supported to support local development mode. It is harmless in
+    # production but greatly eases local ui development.
+    location /api/checkUserAccessPermitted {
+      proxy_pass             http://api/checkUserAccessPermitted;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
     location /auth/signIn {
       limit_req              zone=onePerSecond burst=10;
 
@@ -169,15 +174,15 @@ http {
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-    location /ump/ {
-      proxy_pass             http://ump/;
+    location /assets/ {
+      proxy_pass             http://groundskeeper/assets/;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-    location /ump/internal/ {
-      proxy_pass             http://ump/internal/;
+    location /lostPassword/ {
+      proxy_pass             http://groundskeeper/lostPassword/;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;

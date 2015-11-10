@@ -37,7 +37,7 @@ const GuidedTour = React.createClass({
   componentDidMount() {
     if (this.state.tourHasBeenSeen) return;
 
-    tracking.trackEvent(tracking.events.startATour);
+    tracking.events.startATour();
 
     this.addSubscription(ro.on(window, 'resize').subscribe(this.onResize));
     this.addSubscription(ro.on(window, 'keydown').subscribe(this.onKeyDown));
@@ -66,7 +66,7 @@ const GuidedTour = React.createClass({
     if (focusedElement) {
       if (typeof focusedElement === 'string') {
         focusedElement = document.querySelector(focusedElement);
-        if(!focusedElement) {
+        if (!focusedElement) {
           if (step.element === 'ALL_RIGHT') {
             const dialog = React.findDOMNode(this.refs.dialog);
             predefinedPosition = {
@@ -201,7 +201,7 @@ const GuidedTour = React.createClass({
   },
 
   skipTour() {
-    tracking.trackEvent(tracking.events.skipATour);
+    tracking.events.skipATour();
     this.stopTour();
   },
 
@@ -212,11 +212,11 @@ const GuidedTour = React.createClass({
     }
 
     if (this.state.activeStep + 1 >= tourDefinition.steps.length) {
-      tracking.trackEvent(tracking.events.finishATour);
+      tracking.events.finishATour();
       this.stopTour();
 
     } else {
-      tracking.trackEvent(tracking.events.nextStepInTour);
+      tracking.events.nextStepInTour();
       const nextStepIndex = this.state.activeStep + 1;
       const step = tourDefinition.steps[nextStepIndex];
       if (step.before && !step.beforeExecuted) {
@@ -228,13 +228,13 @@ const GuidedTour = React.createClass({
   },
 
   previousStep() {
-    tracking.trackEvent(tracking.events.previousStepInTour);
+    tracking.events.previousStepInTour();
 
     const currentStep = this.state.activeStep;
     const step = tourDefinition.steps[currentStep];
 
     // undo the current step
-    if(step && step.undo) {
+    if (step && step.undo) {
       step.undo(this);
     }
 
@@ -247,7 +247,7 @@ const GuidedTour = React.createClass({
     }
 
     this.stopTour();
-    tracking.trackEvent(tracking.events.finishATour);
+    tracking.events.finishATour();
   },
 
   render() {

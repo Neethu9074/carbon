@@ -6,7 +6,6 @@ import ConnectionGrid from '../../ConnectionGrid_Temp';
 import SceneObject from '../SceneObject';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
 
 
@@ -31,9 +30,7 @@ export default class Connection extends SceneObject {
     this.fragment = {
       id: this.id,
       contentProvider: new PCM({
-        contentProvider: new SCM({
-          contentProvider: this.lineContentProvider
-        })
+        contentProvider: this.lineContentProvider
       })
     };
 
@@ -94,13 +91,13 @@ export default class Connection extends SceneObject {
   }
 
   onHiddenLeave() {
-    if(!this.oneEndpointIsSelected()) {
+    if (!this.oneEndpointIsSelected()) {
       this.enableFragment();
     }
   }
 
   enableFragment(enabled = true) {
-    if(enabled) {
+    if (enabled) {
       this.scene.lineFactory.addFragment(this.fragment);
     } else {
       this.scene.lineFactory.removeFragment(this.id);
@@ -111,13 +108,13 @@ export default class Connection extends SceneObject {
     const fromPos = this.from.getComponent('position').getPosition();
     const toPos = this.to.getComponent('position').getPosition();
 
-    if(!fromPos || !toPos) {
+    if (!fromPos || !toPos) {
       this.path = undefined;
 
     } else {
       this.path = ConnectionGrid.getPath({
         fromX: fromPos.x,
-        fromY: -fromPos.z, //connectionGrid uses positive z space, so invert
+        fromY: -fromPos.z, // connectionGrid uses positive z space, so invert
         toX: toPos.x,
         toY: -toPos.z
       });
@@ -135,15 +132,15 @@ export default class Connection extends SceneObject {
   }
 
   render() {
-    if(!this.path) {
+    if (!this.path) {
       return;
     }
 
     this.points = this.calculateVertices(-0.01);
     this.lineContentProvider.setLines(this.toVertexArray(this.points));
 
-    //hide this if the parent is hidden
-    if(this.from.isHidden() || this.to.isHidden()) {
+    // hide this if the parent is hidden
+    if (this.from.isHidden() || this.to.isHidden()) {
       this.hide();
     }
   }
@@ -161,9 +158,9 @@ export default class Connection extends SceneObject {
   calculateVertices(height) {
     const points = [];
 
-    //vertices have to be calculated in the following order:
-    //[ p0, p1, p1, p2, p2, p3, ... ] the reason is that we use lineparts and
-    //openGL is drawing the lines in this order
+    // vertices have to be calculated in the following order:
+    // [ p0, p1, p1, p2, p2, p3, ... ] the reason is that we use lineparts and
+    // openGL is drawing the lines in this order
     for (let i = 1; i < this.path.length; i++) {
       const point = this.path[i];
       const nextPoint = this.path[i - 1];
@@ -182,7 +179,7 @@ export default class Connection extends SceneObject {
     this.postProcessPoints(points);
     this.calculateCollisionMesh(points);
 
-    if(this.direction === 'in') {
+    if (this.direction === 'in') {
       this.addArrow(points, 0, 1);
     } else {
       this.addArrow(points, points.length - 1, points.length - 2);
@@ -196,10 +193,10 @@ export default class Connection extends SceneObject {
     const fromP = points[from];
     const dir = this.getDirectionForPoints(points[from], points[to]);
 
-    //because the arrow are laying on the ground, the up-vector is 0 1 0
+    // because the arrow are laying on the ground, the up-vector is 0 1 0
     const right = new THREE.Vector3(0, 1, 0)
       .cross(dir)
-      .multiplyScalar(arrowLength * 5); //shorten to get a angle < 45 degree
+      .multiplyScalar(arrowLength * 5); // shorten to get a angle < 45 degree
     const arrowLineX = (right.x + dir.x) * arrowLength;
     const arrowLineZ = (right.z + dir.z) * arrowLength;
     const arrowLineXLeft = (-right.x + dir.x) * arrowLength;
@@ -225,11 +222,11 @@ export default class Connection extends SceneObject {
     const dirFirstToSecond = this.getDirectionForPoints(first, second);
     const dirlastToBeforeLast = this.getDirectionForPoints(last, beforeLast);
 
-    //caps the first and last line of the connection. nodes have a size of 1 and
-    //normally the connection goes from center (0.5, 0.5) to center. with this
-    //capping it begins on the edge of the first and ends on the edge of the
-    //last node. to get the right of the four possible we need the direction
-    //directions are normalized so you can multiply with 0.5
+    // caps the first and last line of the connection. nodes have a size of 1 and
+    // normally the connection goes from center (0.5, 0.5) to center. with this
+    // capping it begins on the edge of the first and ends on the edge of the
+    // last node. to get the right of the four possible we need the direction
+    // directions are normalized so you can multiply with 0.5
     first.x += dirFirstToSecond.x * 0.5;
     first.y += dirFirstToSecond.y * 0.5;
     first.z += dirFirstToSecond.z * 0.5;
@@ -244,7 +241,7 @@ export default class Connection extends SceneObject {
     b.z = b.z || 0;
     const dir = {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
 
-    //normalize them
+    // normalize them
     const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
     dir.x /= (length);
     dir.y /= (length);
@@ -256,12 +253,12 @@ export default class Connection extends SceneObject {
   intersects(raycaster) {
     const state = this.stateMachine.state;
     const states = this.stateMachine.states;
-    if(state === states.initial || state === states.inactive) {
+    if (state === states.initial || state === states.inactive) {
       return false;
     }
 
     const path = this.path;
-    if(!path || !this.collisionLine) {
+    if (!path || !this.collisionLine) {
       return false;
     }
 
@@ -275,18 +272,18 @@ export default class Connection extends SceneObject {
   }
 
   unSelect() {
-    if(!this.oneEndpointIsSelected()) {
+    if (!this.oneEndpointIsSelected()) {
       this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
     }
   }
 
-  //checks weather one of the endpoints (from and to) is in the selected state
+  // checks weather one of the endpoints (from and to) is in the selected state
   oneEndpointIsSelected() {
     return (this.from.isSelected() || this.to.isSelected());
   }
 
   disposeCollisionLine() {
-    if(this.collisionLine) {
+    if (this.collisionLine) {
       this.collisionLine.geometry.dispose();
       this.collisionLine = null;
     }

@@ -1,10 +1,8 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
 import Chart from '../Chart';
-import ChartLegend from '../ChartLegendV2';
+import ChartLegend from '../ChartLegend';
 
 const rpt = React.PropTypes;
 

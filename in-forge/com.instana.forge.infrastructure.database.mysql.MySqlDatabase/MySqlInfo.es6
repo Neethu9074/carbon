@@ -21,11 +21,36 @@ const MySqlInfo = React.createClass({
           {data.get('port')}
         </DescriptionItem>
         <DescriptionItem title='Version'>
-          {data.get('variables').get('VERSION')}<br/>
-          {data.get('variables').get('VERSION_COMMENT')}
+          {this.getVersion(data)}
         </DescriptionItem>
       </DescriptionList>
     );
+  },
+
+  getVersion(data) {
+    const variables = data.get('variables');
+    if (!variables) {
+      return null;
+    }
+
+    const version = variables.get('VERSION');
+    const comment = variables.get('VERSION_COMMENTS');
+
+    if (version && comment) {
+      return (
+        <span>
+          {version}
+          <br/>
+          {comment}
+        </span>
+      );
+    } else if (!version && comment) {
+      return comment;
+    } else if (version && !comment) {
+      return version;
+    }
+
+    return null;
   }
 });
 

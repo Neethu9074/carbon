@@ -49,7 +49,7 @@ export default class SingleMeshMetricFactory {
     mesh.frustumCulled = false;
     mesh.renderOrder = 2;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.numberUpdates = 0;
     }
 
@@ -79,7 +79,7 @@ export default class SingleMeshMetricFactory {
     // the global used progress for all vertices in the vertex shader
     const progress = this.progress = { type: 'f', value: 0.0 };
 
-    const material = new THREE.ShaderMaterial({
+    const material = new THREE.RawShaderMaterial({
       vertexColors: THREE.VertexColors,
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
@@ -93,7 +93,7 @@ export default class SingleMeshMetricFactory {
     // the fragment is either a new one or an updated if it was found inside the fragments
     let fragment = this.getFragment(id);
 
-    if(fragment) {
+    if (fragment) {
       // update the old array data and replace with the new
       this.queueFragment(fragment, fragment.vertices.length, UPDATE_FLAGS.ADD);
 
@@ -124,7 +124,7 @@ export default class SingleMeshMetricFactory {
 
   removeFragment(id) {
     const fragment = this.getFragment(id);
-    if(!fragment) {
+    if (!fragment) {
       return;
     }
 
@@ -139,13 +139,13 @@ export default class SingleMeshMetricFactory {
   rebuild() {
     // iterate over all items inside the queue, items = keys of object
     const keys = Object.keys(this.fragmentQueue);
-    if(keys.length === 0) {
+    if (keys.length === 0) {
       return;
     }
 
     keys.forEach(id => {
       const item = this.fragmentQueue[id];
-      if(item.mode === UPDATE_FLAGS.ADD) {
+      if (item.mode === UPDATE_FLAGS.ADD) {
         this.updateGeometryByFragment(item.fragment, item.itemsToBeDeleted);
       } else {
         this.removeFragmentFromGeometry(item);
@@ -215,7 +215,7 @@ export default class SingleMeshMetricFactory {
     geometry.attributes.position.needsUpdate = true;
     geometry.attributes.color.needsUpdate = true;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.numberUpdates++;
     }
   }

@@ -2,15 +2,15 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
 
-import {getProblemsForSnapshot, getColorForProblem} from 'in-services/issueTracker';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
+import {health, mapHealthToColor} from 'in-services/health';
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import {getHealth} from 'in-services/issueTracker';
-import {health} from 'in-services/health';
 import {getLabel} from 'in-sdk/snapshot';
 
 import Tooltip from '../Tooltip';
@@ -20,7 +20,6 @@ import './Node.less';
 const block = 'in-tooltip__node';
 
 const NodeTooltipRC = React.createClass({
-
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin
@@ -36,26 +35,25 @@ const NodeTooltipRC = React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(getHealth(this.props.snapshot)
-      .subscribe(h => this.setState({health: h})));
-
-    this.addSubscription(getProblemsForSnapshot(this.props.snapshot)
-      .subscribe(issues => this.setState({issues})));
+    const snapshot = this.props.snapshot;
+    this.addSubscription(getHealth(snapshot).subscribe(h => this.setState({health: h})));
+    this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
   },
 
   getStatusLine() {
     const state = this.state;
     const nodeHealth = state.health;
+    const snapshot = this.props.snapshot;
     const issues = state.issues
       .sortBy(problem => problem.get('severity'))
       .reverse();
-    const data = this.props.snapshot.get('data');
+    const data = snapshot.get('data');
 
-    //only show the status line if there is a "bad" health or some issues
+    // only show the status line if there is a "bad" health or some issues
     if (nodeHealth !== health.ok && this.issuesAvailable()) {
         try {
           return (<IssueStatusLine
-            left={data.get('hostname')}
+            left={getLabel(snapshot)}
             right={moment(issues.get(0).get('start')).fromNow()}/>);
         } catch (err) {
           return <IssueStatusLine left={data.get('hostname')} />;
@@ -71,9 +69,14 @@ const NodeTooltipRC = React.createClass({
     const style = {};
 
     if (this.issuesAvailable()) {
-      const mostImportantProblem = this.state.issues.get(0);
+      const mostImportantProblem = this.state.issues.reduce((issueA, issueB) => {
+        if (issueA.getIn(['problem', 'severity']) >= issueB.getIn(['problem', 'severity'])) {
+          return issueA;
+        }
+        return issueB;
+      });
       text = mostImportantProblem.get('problemText');
-      style.color = getColorForProblem(mostImportantProblem);
+      style.color = mapHealthToColor(this.state.health);
     }
 
     return {text, style};
@@ -94,37 +97,45 @@ const NodeTooltipRC = React.createClass({
       }
 
     } else if (layer.length > 0) {
-      const types = {}; // maps type -> counter
+      const plugins = {}; // maps type -> counter
       layer.forEach(item => {
-        if(!item.snapshot) {
+        if (!item.snapshot) {
           return;
         }
         const pluginId = item.snapshot.get('pluginId');
-        const type = pluginId;
-        if(!types[type]) {
-          types[type] = 0;
+        if (!plugins[pluginId]) {
+          plugins[pluginId] = 0;
         }
-        types[type]++;
+        plugins[pluginId]++;
       });
 
-      const listItems = Object.keys(types).map(type => {
-        const counter = types[type];
-        return (
-          <li key={type} className={block + '__li'}>
-            <div className={block + '__li-wrapper'}>
-              <Heading className={block + '__li-header'}>
-                {counter}
-              </Heading>
-              <Content className={block + '__li-content'}>
-                {counter > 1 ?
-                  getPlural(type) :
-                  getSingular(type)
-                }
-              </Content>
-            </div>
-          </li>
-        );
-      });
+      const listItems = Object.keys(plugins)
+        .sort((a, b) => {
+          const aText = getSingular(a);
+          const bText = getSingular(b);
+          if (aText < bText) return -1;
+          if (aText > bText) return 1;
+          return 0;
+        })
+        .map(plugin => {
+          const counter = plugins[plugin];
+          return (
+            <li key={plugin} className={block + '__li'}>
+              <div className={block + '__li-wrapper'}>
+                <Heading className={block + '__li-header'}>
+                  {counter}
+                </Heading>
+                <Content className={block + '__li-content'}>
+                  {counter > 1 ?
+                    getPlural(plugin) :
+                    getSingular(plugin)
+                  }
+                </Content>
+              </div>
+            </li>
+          );
+        }
+      );
 
       content = <ul className={block + '__ul'}> {listItems} </ul>;
     }
@@ -145,7 +156,7 @@ const NodeTooltipRC = React.createClass({
         this.getStatusLine() :
         null}
         <Heading style={heading.style}>
-          {heading.text.toUpperCase()}
+          {heading.text}
         </Heading>
         {content}
       </TooltipFrame>

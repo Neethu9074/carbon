@@ -2,23 +2,26 @@
 
 .in-dashboard-navigation {
   display: flex;
+  padding-left: 20px;
 
-  padding-left: 30px;
-  height: 56px;
-
-  color: red;
-  border-bottom: 1px solid green;
+  color: @dashboard__tabs__text;
+  border-bottom: 1px solid @dashboard__tabs__line;
 
   &__item {
+    padding: 23px 10px;
+    font-size: 12px;
     cursor: pointer;
 
-    padding: 15px 0;
-    margin-right: 20px;
+    border-bottom: 3px solid transparent;
+
+    &__true {
+      border-bottom: 3px solid @dashboard__tabs__line;
+      color: @dashboard__tabs__text-highlight;
+    }
 
     &:hover {
-      border-bottom: 3px solid yellow;
-
-      color: blue;
+      border-bottom: 3px solid @dashboard__tabs__line;
+      color: @dashboard__tabs__text-highlight;
     }
   }
 }

@@ -1,13 +1,28 @@
 @import "~in-themes/active.less";
 
 .in-timeline-change-time-button {
-  font-size: 20px;
-  color: @timeline__change-time-button;
-
-  margin: 0;
+  display: inherit;
+  align-items: center;
   padding: 0 10px;
 
-  &:hover {
-    color: white;
+  &__timepicker {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+  }
+
+  &__icon {
+    margin: 0;
+    font-size: 20px;
+    color: @timeline__change-time-button;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &__text {
+    font-size: 11px;
+    margin-top: -2px;
   }
 }

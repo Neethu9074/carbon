@@ -4,6 +4,7 @@ import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/converters';
+
 import {activeMetric} from 'in-services/stores/metrics';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
@@ -18,11 +19,12 @@ import './lib/RenderPass';
 import './lib/CanvasRenderer';
 import './lib/AsciiEffect';
 
+import SingleMeshPointsFactory from './SingleMeshFactory/SingleMeshPointsFactory';
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import PhysicalMap from './sceneObjects/PhysicalMap';
+import VisualMap from './sceneObjects/VisualMap';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import TooltipHandler from './TooltipHandler';
@@ -33,7 +35,6 @@ import * as zoom from './zoom';
 const inverse = new THREE.Matrix4();
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 
-const maxLayerOpacity = 0.7;
 const maxNodeOpacity = 0.6;
 
 let currentMetrics;
@@ -50,11 +51,12 @@ export default class Scene {
     this.antialias = antialias;
     this.parent = parent;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.framesRendered = 0;
     }
 
     this.octrees = [];
+    this.octreesToUpdate = [];
 
     // this is the main scene for all scene objects like nodes or metrics
     this.scene = new THREE.Scene();
@@ -85,7 +87,7 @@ export default class Scene {
     this.setupRenderer();
     this.setupFXAARenderPass();
 
-    this.map = new PhysicalMap({ parent: this });
+    this.map = new VisualMap({ parent: this });
 
     // set this flag to force a render cycle
     this.shouldRenderScene = true;
@@ -100,13 +102,19 @@ export default class Scene {
       // this may decrease performance as it forces a matrix update
       undeferred: false,
       // set the max depth of tree
-      depthMax: Infinity,
+      depthMax: 16,
       // max number of objects before nodes split or merge
-      objectsThreshold: 8,
+      objectsThreshold: 16,
       // percent between 0 and 1 that nodes will overlap each other
       // helps insert objects that lie over more than one node
       overlapPct: 0
     });
+  }
+
+  rebuildOctree(layer) {
+    if (this.octreesToUpdate.indexOf(layer) < 0) {
+      this.octreesToUpdate.push(layer);
+    }
   }
 
   setupCanvas() {
@@ -154,7 +162,7 @@ export default class Scene {
   }
 
   setupFXAARenderPass() {
-    if(this.antialias !== 'FXAA') {
+    if (this.antialias !== 'FXAA') {
       return;
     }
 
@@ -170,7 +178,6 @@ export default class Scene {
     effectFXAA.renderToScreen = true;
 
     const composer = new THREE.EffectComposer(this.webGLRenderer, renderTarget);
-    composer.addPass(new THREE.RenderPass(this.backgroundScene, this.backgroundCamera));
     composer.addPass(new THREE.RenderPass(this.scene, this.camera));
     composer.addPass(effectFXAA);
 
@@ -191,8 +198,9 @@ export default class Scene {
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
 
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
-    this.layerSingleMeshFactory.material.opacity = maxLayerOpacity;
-    // this.layerSingleMeshFactory.material.color = new THREE.Color(0.75, 0.75, 0.75);
+    this.layerSingleMeshFactory.material.opacity = 0.3;
+    this.layerSingleMeshFactory.material.transparent = false;
+    this.layerSingleMeshFactory.material.color = new THREE.Color(0.85, 0.85, 0.85);
 
     this.lineFactory = new SingleMeshLineFactory({scene});
 
@@ -200,17 +208,20 @@ export default class Scene {
     this.groundLineFactory.material.opacity = 0.9;
     this.groundLineFactory.material.transparent = true;
 
+    this.logoFactories = {};
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;
 
     this.metricUpdateInterval = setInterval(() => {
-      if(currentMetrics) {
+      if (currentMetrics) {
         this.updateMetricHeights();
       }
     }, 1000);
 
     const updateFactories = () => {
+      Object.keys(this.logoFactories).forEach(key => this.logoFactories[key].rebuild());
+
       this.layerHighlightingSingleMeshFactory.rebuild();
       this.highlightingSingleMeshFactory.rebuild();
       this.groundSingleMeshFactory.rebuild();
@@ -223,15 +234,37 @@ export default class Scene {
 
       for (let i = this.octrees.length - 1; i >= 0; i--) {
         const octree = this.octrees[i];
-        if(octree) {
+        if (octree) {
           octree.update();
         }
       }
     };
 
+    const updateOctrees = () => {
+      this.octreesToUpdate.forEach(index => this.octrees[index].rebuild());
+      this.octreesToUpdate = [];
+    };
+
+    const updateTimeEvent = () => {
+      updateFactories();
+      updateOctrees();
+    };
+
     time.addTimeEventListener({
-      handleComponentTimeEvent: updateFactories.bind(this)
+      handleComponentTimeEvent: updateTimeEvent.bind(this)
     });
+  }
+
+  getOrCreateLogoFactory({key, snapshot}) {
+    let factory = this.logoFactories[key];
+    if (!factory) {
+      factory = this.logoFactories[key] = new SingleMeshPointsFactory({
+        key,
+        snapshot,
+        scene: this
+      });
+    }
+    return factory;
   }
 
   setupEvents() {
@@ -270,7 +303,7 @@ export default class Scene {
     this.subscriptions.push(activeMetric.subscribe(metric => {
       // if there is an active metric, deselect the current selected obj and
       // show the metric pillars
-      if(metric) {
+      if (metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
         stores.selectedSceneObject.emit({sceneObject: null});
@@ -286,7 +319,7 @@ export default class Scene {
     this.subscriptions.push(
       selectedSnapshot.selectedSnapshot.subscribe(selected => {
         // if the store was cleared and this client is selected -> unselect it
-        if(!selected) {
+        if (!selected) {
           stores.selectedSceneObject.emit({sceneObject: null});
         }
       })
@@ -296,8 +329,8 @@ export default class Scene {
       const sceneObject = event.sceneObject;
       // clear the selectedSnapshot store if there was a click into nowhere
       // or on a sceneObject without a snapshot or unknown sceneObject
-      if(sceneObject) {
-        if(!event.calledByMap) {
+      if (sceneObject) {
+        if (!event.calledByMap) {
           this.controller.flyToObject(sceneObject);
         }
         this.hideHulls();
@@ -306,7 +339,14 @@ export default class Scene {
       }
     }));
 
-    if(__DEV__) {
+    // if the view was switched, reset the camera position to origin
+    this.subscriptions.push(eventBus.on('onViewSwitched').subscribe(() =>
+      this.controller.flyToPosition(5, -5)
+    ));
+
+    this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => activeMetric.emit(null)));
+
+    if (__DEV__) {
       setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);
     }
   }
@@ -345,11 +385,11 @@ export default class Scene {
     this.controller.update();
 
     // don't render scene if it is not needed
-    if(!this.shouldRenderScene && !currentMetrics) {
+    if (!this.shouldRenderScene && !currentMetrics) {
       return;
     }
 
-    if(currentMetrics) {
+    if (currentMetrics) {
       eventBus.emit('updateTween', highResTimestamp);
     }
 
@@ -374,22 +414,8 @@ export default class Scene {
     camera.projection.multiplyMatrices(camProjectionMat, inverse);
   }
 
-  updateNodeWidthOnScreen() {
-    // each node has width = 1 in worldunits
-    const width = this.camera.right * 2;
-    const nodeSize = 1;
-    const aspect = this.height / this.width;
-    const nodeSizeInPixel = (nodeSize / width) * this.width * aspect;
-
-    if(this.nodeSizeInPixel !== nodeSizeInPixel) {
-      this.nodeSizeInPixel = nodeSizeInPixel;
-      stores.iconSize.emit(nodeSizeInPixel);
-      this.renderScene();
-    }
-  }
-
   updateMetricHeights() {
-    if(currentMetrics) {
+    if (currentMetrics) {
       this.singleMeshMetricFactory.updateHeights();
     }
   }
@@ -405,7 +431,7 @@ export default class Scene {
     this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
 
     // if there is no cube isSelected, fade all cubes by distance
-    if(!this.hullsAreInactive) {
+    if (!this.hullsAreInactive) {
       this.singleMeshFactory.material.opacity = normedZoomLevel;
     }
   }
@@ -423,7 +449,7 @@ export default class Scene {
     if (this.doneMagic) {
       this.asciiEffect.render(this.scene, this.camera);
     } else {
-      if(this.antialias === 'FXAA') {
+      if (this.antialias === 'FXAA') {
         this.composer.render();
       } else {
         this.webGLRenderer.render(this.scene, this.camera);
@@ -433,7 +459,7 @@ export default class Scene {
     // reset the flag to disable rendering if there is no update
     this.shouldRenderScene = false;
 
-    if(__DEV__) {
+    if (__DEV__) {
       this.framesRendered++;
     }
   }
@@ -446,14 +472,16 @@ export default class Scene {
   hideHulls() {
     this.hullsAreInactive = true;
     this.singleMeshFactory.material.opacity = 0.3;
-    this.layerSingleMeshFactory.material.opacity = 0.3;
+    this.layerSingleMeshFactory.material.transparent = true;
+    this.layerSingleMeshFactory.material.depthWrite = false;
     this.baselineFactory.material.opacity = 0.3;
   }
 
   showHulls() {
-    if(!currentMetrics) {
+    if (!currentMetrics) {
       this.hullsAreInactive = false;
-      this.layerSingleMeshFactory.material.opacity = maxLayerOpacity;
+      this.layerSingleMeshFactory.material.transparent = false;
+      this.layerSingleMeshFactory.material.depthWrite = true;
       this.baselineFactory.material.opacity = 1;
       this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
     }
@@ -464,7 +492,7 @@ export default class Scene {
   }
 
   hideMetrics(e) {
-    if(e && e.hiddenByZoom) {
+    if (e && e.hiddenByZoom) {
       this.hideMetricsOnZoomOut = true;
     } else {
       this.hideMetricsOnZoomOut = false;
@@ -485,14 +513,11 @@ export default class Scene {
     this.camera.bottom = -camSizeHalf;
     this.camera.top = camSizeHalf;
 
-    // nodes size only changes at camSize or canvas changes
-    this.updateNodeWidthOnScreen();
-
-    //projection matrix is updated in update loop
+    // projection matrix is updated in update loop
   }
 
   findObjectByRay(raycaster) {
-    raycaster.far = Math.min(2500, raycaster.far); //[0, 2500]
+    raycaster.far = Math.min(2500, raycaster.far); // [0, 2500]
     const ray = raycaster.ray;
 
     // iterate all octrees backwards from the highest layer to the lowest
@@ -500,7 +525,7 @@ export default class Scene {
       const octree = this.octrees[i];
 
       // because there can be an octree on layer 7 and 5 but not on 6, check it's presence
-      if(!octree) {
+      if (!octree) {
         continue;
       }
 
@@ -529,12 +554,12 @@ export default class Scene {
   }
 
   addCollisionObject(obj, layer = 0) {
-    if(!obj) {
+    if (!obj) {
       return;
     }
 
     let octree = this.octrees[layer];
-    if(!octree) {
+    if (!octree) {
       octree = this.octrees[layer] = this.createOctree();
     }
     octree.add(obj, {useFaces: false});
@@ -542,7 +567,7 @@ export default class Scene {
 
   removeCollisionObject(obj, layer = 0) {
     const octree = this.octrees[layer];
-    if(octree) {
+    if (octree) {
       octree.remove(obj);
     }
   }
@@ -589,20 +614,20 @@ export default class Scene {
   }
 
   onObjectClicked(object, hoveredConnections) {
-    if(object) {
+    if (object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
       // only clear the store if there is no snapshot available or the object is unknown
-      if(!sceneObject.snapshot || sceneObject.isUnknown) {
+      if (!sceneObject.snapshot || sceneObject.isUnknown) {
         selectedSnapshot.clear();
       }
 
       stores.selectedSceneObject.emit({sceneObject, calledByMap: true});
 
     // dont reset the click if you clicken on connections
-    } else if(hoveredConnections.length === 0) {
+    } else if (hoveredConnections.length === 0) {
       this.resetClicked();
     } else {
-      tracking.trackEvent(tracking.events.clickOnConnectionBetweenCubes);
+      tracking.events.clickOnConnectionBetweenCubes();
     }
   }
 
@@ -621,7 +646,6 @@ export default class Scene {
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);
     stores.currentScene.emit(null);
-    stores.iconSize.emit(null);
     selectedSnapshot.clear();
   }
 
@@ -647,13 +671,6 @@ export default class Scene {
 
     // destory the map which will destroy all groups and nodes
     this.map.dispose();
-
-    // remove the gradient background from scene
-    this.backgroundScene.remove(this.backgroundPlane);
-
-    // dispose the background plane to get rid of WebGL context
-    this.backgroundPlane.geometry.dispose();
-    this.backgroundPlane.material.dispose();
 
     // remove the canvas and clear the parent div
     window.removeEventListener('resize', this.onWindowResizeHandler, false);

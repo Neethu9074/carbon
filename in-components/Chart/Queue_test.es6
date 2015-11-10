@@ -1,6 +1,4 @@
-/*eslint-env mocha*/
-
-
+/* eslint-env mocha */
 
 import {expect} from 'chai';
 

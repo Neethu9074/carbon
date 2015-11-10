@@ -5,9 +5,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import HealthIndicator from 'in-components/HealthIndicator';
 
-import {iconSize} from '../../../mapStores';
 import StickyNote from '../StickyNote';
-import NodeIcon from '../NodeIcon';
 import TagFrame from '../TagFrame';
 
 import './Node.less';
@@ -15,17 +13,14 @@ import './Node.less';
 const rpt = React.PropTypes;
 
 const NodeStickyNoteRC = React.createClass({
-
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin
   ],
 
   propTypes: {
-    sceneObject: rpt.object.isRequired,
     snapshot: irpt.map.isRequired,
-    showMetric: rpt.bool,
-    tags: rpt.object
+    showMetric: rpt.bool
   },
 
   getInitialState() {
@@ -33,7 +28,6 @@ const NodeStickyNoteRC = React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(iconSize.subscribe(size => this.setState({size})));
     this.addSubscription(zoomLevel.subscribe(l => this.setState({zoomLevel: l})));
   },
 
@@ -43,17 +37,14 @@ const NodeStickyNoteRC = React.createClass({
       return null;
     }
 
-    const sceneObject = this.props.sceneObject;
     const snapshot = this.props.snapshot;
-    const tags = this.props.tags;
-    const size = this.state.size;
+    const tags = snapshot.get('tags');
 
     return (
       <div className='in-sticky-note__node-stack-wrapper'>
         <div className='in-sticky-note__node-stack-children'>
-          {tags ? <TagFrame tags={tags} sceneObject={sceneObject}/> : null}
-          {this.props.showMetric ? null : <HealthIndicator snapshot={snapshot} size={size} /> }
-          {this.props.showMetric ? null : <NodeIcon snapshot={snapshot} size={size} /> }
+          {tags ? <TagFrame tags={tags}/> : null}
+          {this.props.showMetric ? null : <HealthIndicator snapshot={snapshot}/> }
         </div>
       </div>
     );
@@ -65,6 +56,7 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: 'in-sticky-note__node'});
 
+    this.showMetric = false;
     this.render();
   }
 
@@ -73,9 +65,7 @@ export default class StickyNoteNode extends StickyNote {
 
     React.render(
       <NodeStickyNoteRC snapshot={snapshot}
-                    sceneObject={this.parent}
-                    showMetric={this.showMetric}
-                    tags={snapshot.get('tags')}/>,
+                        showMetric={this.showMetric}/>,
       this.stickyNoteContainer
     );
   }

@@ -22,21 +22,21 @@ export default class CubeContentProvider extends ContentProvider {
 
     const colors = [];
 
-    //front
+    // front
     for (let i = 0; i < 18; i += 3) {
       colors[i] = faceColors[0];
       colors[i + 1] = faceColors[1];
       colors[i + 2] = faceColors[2];
     }
 
-    //top
+    // top
     for (let i = 18; i < 36; i += 3) {
       colors[i] = faceColors[3];
       colors[i + 1] = faceColors[4];
       colors[i + 2] = faceColors[5];
     }
 
-    //left
+    // left
     for (let i = 36; i < 54; i += 3) {
       colors[i] = faceColors[6];
       colors[i + 1] = faceColors[7];
@@ -48,7 +48,7 @@ export default class CubeContentProvider extends ContentProvider {
 
   getVertices() {
     return [
-      //front
+      // front
       -0.5, 0, 0.5,
       0.5, 0, 0.5,
       0.5, 1, 0.5,
@@ -57,7 +57,7 @@ export default class CubeContentProvider extends ContentProvider {
       0.5, 1, 0.5,
       -0.5, 1, 0.5,
 
-      //top
+      // top
       -0.5, 1, 0.5,
       0.5, 1, 0.5,
       0.5, 1, -0.5,
@@ -66,7 +66,7 @@ export default class CubeContentProvider extends ContentProvider {
       0.5, 1, -0.5,
       -0.5, 1, -0.5,
 
-      //left
+      // left
       -0.5, 0, -0.5,
       -0.5, 0, 0.5,
       -0.5, 1, -0.5,

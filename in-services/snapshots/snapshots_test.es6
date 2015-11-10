@@ -1,5 +1,5 @@
-/*eslint-env mocha*/
-/*eslint-disable no-unused-vars, new-cap */
+/* eslint-env mocha */
+/* eslint-disable no-unused-vars, new-cap */
 import {expect} from 'chai';
 import Immutable from 'immutable';
 import sinon from 'sinon';
@@ -49,6 +49,16 @@ describe('util.snapshots', () => {
 
     it('should return true when ID matches', () => {
       expect(isIdEqual(newSnapshot(0), newSnapshot(0))).to.equal(true);
+    });
+
+    it('should return false when one of them is null', () => {
+      expect(isIdEqual(newSnapshot(0), null)).to.equal(false);
+      expect(isIdEqual(null, newSnapshot(0))).to.equal(false);
+    });
+
+    it('should return false when one of them is undefined', () => {
+      expect(isIdEqual(newSnapshot(0), undefined)).to.equal(false);
+      expect(isIdEqual(undefined, newSnapshot(0))).to.equal(false);
     });
   });
 

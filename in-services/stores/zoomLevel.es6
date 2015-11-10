@@ -10,4 +10,4 @@ const reemitSpec = {emitLatestOnSubscribe: true};
 
 export const zoomLevel = ro.create(reemitSpec);
 
-// zoomLevel.emit(level.near);
+zoomLevel.emit(level.near);

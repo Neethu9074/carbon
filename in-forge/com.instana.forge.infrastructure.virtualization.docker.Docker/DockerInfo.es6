@@ -1,5 +1,3 @@
-
-
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
@@ -24,7 +22,7 @@ const DockerInfo = React.createClass({
           {data.get('Command')}
         </DescriptionItem>
         <DescriptionItem title='Id'>
-          {data.get('Id').substring(0, 12)}{'…'}
+          {data.get('Id').substring(0, 24)}{'…'}
         </DescriptionItem>
         <DescriptionItem title='Names'>
           {data.get('Names').join(', ')}

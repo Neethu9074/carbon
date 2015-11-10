@@ -1,7 +1,10 @@
 import _ from 'lodash';
 
+import {level} from 'in-services/stores/zoomLevel';
+
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer';
+import Label from '../../sceneObjects/Label';
 import Component from '../Component';
 
 
@@ -15,15 +18,19 @@ export default class LayerComponent extends Component {
     this.heightToSet = 1;
     this.layer = [];
 
+    this.layerGroupLabel = [];
+
     this.initialized();
   }
 
   onInitialEnter() {
     this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
+    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {
     this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
 
@@ -34,7 +41,7 @@ export default class LayerComponent extends Component {
       // don't create a layer if its still there
       const match = _.find(this.layer, layer => layer.id === layerId);
 
-      if(!match) {
+      if (!match) {
         const newLayer = new Layer({
           coordinates: layerCoordinates,
           parent: this,
@@ -44,6 +51,35 @@ export default class LayerComponent extends Component {
         this.layer.push(newLayer);
         this.needsUpdate = true;
       }
+    });
+  }
+
+  removedVanishedLayer(coordinates) {
+    const removedLayer = [];
+
+    this.layer.forEach(layer => {
+      const layerId = layer.id;
+
+      // find layer which are not sended anymore, so vanished
+      let found = false;
+
+      for (let i = 0; i < coordinates.length; i++) {
+        const coords = coordinates[i];
+        const coordId = coords.get('id');
+        if (coordId === layerId) {
+          found = true;
+          break;
+        }
+      }
+
+      if (!found) {
+        removedLayer.push(layer);
+      }
+    });
+
+    removedLayer.forEach(layer => {
+      this.removeChild(layer);
+      layer.dispose();
     });
   }
 
@@ -57,7 +93,7 @@ export default class LayerComponent extends Component {
 
   heightChanged(newHeight) {
     const height = this.heightToSet;
-    if(height === newHeight) {
+    if (height === newHeight) {
       return;
     }
 
@@ -67,6 +103,14 @@ export default class LayerComponent extends Component {
 
   update() {
     this.arrangeChildren();
+
+    const pos = this.positionToSet;
+    this.layerGroupLabel.forEach(label => {
+      const positionComponent = label.getComponent('position');
+      const oldYPos = positionComponent.position.y;
+      positionComponent.setPosition(pos.x, oldYPos, pos.z + 1);
+    });
+
     this.needsUpdate = false;
   }
 
@@ -76,12 +120,60 @@ export default class LayerComponent extends Component {
 
     layer.forEach((child, index) => {
       const transformation = transformations[index];
-      child.setHeight(transformation.heightOfSlice);
-
       const position = transformation.position;
       const positionComponent = child.getComponent('position');
+
+      child.setHeight(transformation.heightOfSlice);
       positionComponent.setPosition(position.x, position.y, position.z);
     });
+
+    this.addLabels(layer, transformations);
+  }
+
+  addLabels(layer, transformations) {
+    this.layerGroupLabel.forEach(l => l.dispose());
+    this.layerGroupLabel = [];
+
+    const addLabelForChild = (child, y) => {
+      const label = new Label({
+        id: child.id,
+        parent: child,
+        snapshot: child._cachedCoordinates,
+        predicate: zoomLevel => zoomLevel !== level.nearest
+      });
+      label.getComponent('position').setPosition(0, y, 0);
+
+      this.layerGroupLabel.push(label);
+    };
+
+    for (let i = 0; i < layer.length; i++) {
+      const currentLayer = layer[i];
+      const from = transformations[i].position.y;
+
+      i = this.getNextGroupIndex(layer, i);
+
+      if (i >= layer.length) {
+        i = layer.length - 1;
+      }
+
+      const to = transformations[i].position.y + transformations[i].heightOfSlice;
+      addLabelForChild(currentLayer, (from + to) / 2);
+    }
+  }
+
+  getNextGroupIndex(array, startIndex) {
+    for (let i = startIndex; i <= array.length; i++) {
+      const item = array[i];
+      const nextItem = array[i + 1];
+
+      if (!nextItem) {
+        break;
+      }
+      if (item.label !== nextItem.label) {
+        return i;
+      }
+    }
+    return array.length;
   }
 
   getLayerTransformations() {
@@ -90,7 +182,6 @@ export default class LayerComponent extends Component {
     const numGaps = this.countDifferentTypesFromSortedArray(layer) - 1;
     const gapHeight = this.calculateHeightForEachGap(nodeHeight, numGaps);
     const heightUsedForLayer = nodeHeight - numGaps * gapHeight;
-
     const pos = this.positionToSet;
     const heightOfEachChild = heightUsedForLayer / layer.length;
     const transformations = [];
@@ -101,7 +192,6 @@ export default class LayerComponent extends Component {
       if (prevChild && child.label !== prevChild.label) {
         position += gapHeight;
       }
-      prevChild = child;
 
       transformations[index] = {
         position: {x: pos.x, y: position, z: pos.z },
@@ -109,6 +199,7 @@ export default class LayerComponent extends Component {
       };
 
       position += heightOfEachChild;
+      prevChild = child;
     });
 
     return transformations;
@@ -148,6 +239,7 @@ export default class LayerComponent extends Component {
     super.dispose();
 
     this.layer.slice().forEach(layer => layer.dispose());
+    this.layerGroupLabel.forEach(label => label.dispose());
 
     this.positionToSet = null;
     this.heightToSet = null;

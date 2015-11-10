@@ -1,6 +1,7 @@
-/*eslint-disable new-cap*/
+/* eslint-disable new-cap */
 import Immutable from 'immutable';
 
+import {isDemoEnvironment} from 'in-services/config';
 import {theme} from 'in-services/theme';
 
 import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
@@ -9,18 +10,25 @@ import IssueConveyer from '../conveyer/IssueConveyer';
 import * as timelineStore from '../stores/timeline';
 import {create} from '../conveyer';
 
-const allIssuesStream = timelineStore.timeframe.transform({
-  emitLatestOnSubscribe: true,
+// CPU steal issues shouldn't be shown in the demo environment as we are using
+// small EC2 instances. These almost always have high CPU steal.
+const withoutCpuStealMaper = (issues) => {
+  return issues.filter(issue =>
+    issue.getIn(['problem', 'problemText'], '').indexOf('Steal') === -1
+  );
+};
 
-  transform(timeframe) {
-    return create(IssueConveyer, {timeframe})
+const allIssuesStream = timelineStore.timeframe.distinct()
+  .flatMap(timeframe => {
+    const stream = create(IssueConveyer, {timeframe})
       .scan(collectingReducer, Immutable.List());
-  },
 
-  shouldRetransform(previousTimeframe, nextTimeframe) {
-    return previousTimeframe !== nextTimeframe;
-  }
-});
+    if (isDemoEnvironment()) {
+      return stream.map(withoutCpuStealMaper);
+    }
+
+    return stream;
+  });
 
 const openIssuesStream = allIssuesStream.map(issues => {
   return issues.filter(issue => issue.get('state') === 'OPEN');
@@ -98,21 +106,28 @@ export function getIssueCountSummary() {
   return issueCountSummary;
 }
 
-export function getProblemsForSnapshot(snapshot) {
+export function getIssuesForSnapshot(snapshot) {
   const predicate = isIdEqual.bind(null, snapshot);
   return openIssuesStream.map(issues => {
     let size = 0;
     const result = Immutable.List().asMutable();
 
     issues.forEach(issue => {
-      const problem = issue.get('problem');
-      if (predicate(problem)) {
-        result.set(size++, problem);
+      if (predicate(issue.get('problem'))) {
+        result.set(size++, issue);
       }
     });
 
     return result.asImmutable();
   });
+}
+
+
+export function getProblemsForSnapshot(snapshot) {
+  return getIssuesForSnapshot(snapshot)
+    .map(issues => {
+      return issues.map(issue => issue.get('problem'));
+    });
 }
 
 function collectingReducer(existingIssues, issueUpdates) {

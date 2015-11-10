@@ -1,9 +1,9 @@
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.
-/*eslint-disable import-order/import-order*/
+/* eslint-disable import-order/import-order */
 import 'in-forge';
 
-import {run, HashLocation} from 'react-router';
+import * as reactRouter from 'react-router';
 import React from 'react/addons';
 import logging from 'instalog';
 
@@ -20,6 +20,7 @@ import './i18n/momentOverwrites';
 import './devtools/subscriptionInfoPrinter';
 import './devtools/timeOffsetProvider';
 import './devtools/checkForWiredComponentsThatAreNotExisting';
+import './devtools/storeStates';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
 // should thus only be added when it can actually log to a browser console.
@@ -36,7 +37,7 @@ if (!__DEV__) {
 }
 
 const unhandledLogger = logging.createLogger('in-client.unhandled');
-window.onerror = function() {
+window.onerror = function f() {
   unhandledLogger.error.apply(unhandledLogger, arguments);
 
   // let the default error handler run as well
@@ -48,22 +49,14 @@ if (__DEV__) {
   window.React = React;
 }
 
-// intall the hubspot analytics code for demo and customer environments.
-// Exclude it locally and on instana tenant units
-if (window.location.href.indexOf('instana.instana.io') === -1) {
-  // value from the generated snippet
-  const cacheBreakingTime = 300000;
-  const cacheBreakingPath = Math.ceil(new Date() / cacheBreakingTime) * cacheBreakingTime;
-  const script = document.createElement('script');
-  script.id = 'hs-analytics';
-  script.src = '//js.hs-analytics.net/analytics/' + cacheBreakingPath + '/719302.js';
-  document.head.appendChild(script);
-}
-
 if (window.instana.user) {
   tracking.identify();
 }
 
-run(routes, HashLocation, (Root, state) => {
+const router = reactRouter.create({
+  routes,
+  location: reactRouter.HashLocation
+});
+router.run((Root, state) => {
   React.render(<Root {...i18n} state={state} />, document.body);
 });

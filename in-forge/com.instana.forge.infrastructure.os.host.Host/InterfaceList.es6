@@ -18,9 +18,9 @@ const InterfaceList = React.createClass({
 
     return (
       <DescriptionList>
-        {ifaces.map((iface, ifaceName) =>
+        {ifaces.map((ifaceData, ifaceName) =>
           <DescriptionItem key={ifaceName} title={ifaceName}>
-            {this.formatIPs(iface.get('ips'))}
+            {this.formatIPs(ifaceData.get('addresses').map(address => address.get('ip')))}
           </DescriptionItem>
         ).toArray()}
       </DescriptionList>

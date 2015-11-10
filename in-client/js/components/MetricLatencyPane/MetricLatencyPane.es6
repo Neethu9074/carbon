@@ -1,4 +1,4 @@
-/*eslint-disable react/no-multi-comp*/
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
 import moment from 'moment';
 import irpt from 'react-immutable-proptypes';

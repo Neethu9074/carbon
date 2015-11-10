@@ -1,6 +1,6 @@
 import './perfNowPolyfill';
 
-/*global require:false */
+/* global require:false */
 runWithPolyfills(() => {
   require('./init');
 });

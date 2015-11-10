@@ -19,8 +19,8 @@ export default class Tooltip {
     style.transform = translate;
     style['-webkit-transform'] = translate;
 
-    //set to '' because the display is set by zoom too. If you would set
-    //this value to another like '' you would overrite it
+    // set to '' because the display is set by zoom too. If you would set
+    // this value to another like '' you would overrite it
     style.display = '';
   }
 
@@ -38,7 +38,7 @@ export default class Tooltip {
   }
 
   unMount() {
-    if(!this.moveSubscribtion) {
+    if (!this.moveSubscribtion) {
       return;
     }
 

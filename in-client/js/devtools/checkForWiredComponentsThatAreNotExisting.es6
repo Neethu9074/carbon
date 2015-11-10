@@ -1,17 +1,16 @@
-/*eslint-disable no-console*/
+/* eslint-disable no-console */
 
 import _ from 'lodash';
 import * as ro from 'reactive-observables';
 
 import {create} from 'in-services/conveyer';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
-import {getStructure} from 'in-services/wiring';
-import view from 'in-services/views';
+import * as viewStructureStore from 'in-services/stores/view';
 
-window.instana.dev.checkForWiringIssues = function() {
+window.instana.dev.checkForWiringIssues = () => {
   console.log('Starting to check for wiring issues…');
 
-  getStructure(view.physical.hosts)
+  viewStructureStore.shallowViewStructure
     .transform({
       emitLatestOnSubscribe: true,
 
@@ -48,16 +47,17 @@ window.instana.dev.checkForWiringIssues = function() {
               });
             });
 
-            // console.log(foundSnapshots.sort());
-            // console.log(wiredSnapshotIds.sort());
-            return _.without(wiredSnapshotIds, foundSnapshots);
+            // console.log('Found snapshots', _.uniq(foundSnapshots).length, _.uniq(foundSnapshots).sort());
+            // console.log('Wired snapshots', _.uniq(wiredSnapshotIds).length, _.uniq(wiredSnapshotIds).sort());
+            return _.without(wiredSnapshotIds, ...foundSnapshots);
           });
       }
     })
     .subscribe(unavailableSnapshots => {
       console.log(
-        'The following snapshots could not be found:\n',
-        unavailableSnapshots.join('\n')
+        'The following snapshots could not be found: %s\n',
+        unavailableSnapshots.length,
+        unavailableSnapshots
       );
       console.log('Done!');
     });

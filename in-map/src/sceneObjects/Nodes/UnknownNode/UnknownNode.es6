@@ -1,5 +1,3 @@
-import Immutable from 'immutable';
-
 import * as tracking from 'in-services/tracking';
 
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
@@ -43,7 +41,7 @@ export default class Unknownnode extends BaseNode {
     super.onSceneObjectSelected(obj);
 
     if (obj && obj.id === this.id) {
-      tracking.trackEvent(tracking.events.clickOnUnMonitoredIn3dMap);
+      tracking.events.clickOnUnMonitoredIn3dMap();
     }
   }
 
@@ -52,40 +50,40 @@ export default class Unknownnode extends BaseNode {
     const outgoing = [];
     const incoming = [];
     this.getAllMapNodes().forEach(node => {
-      //filter all unknown nodes and this
-      if(node.isUnknown || id === node.id) {
+      // filter all unknown nodes and this
+      if (node.isUnknown || id === node.id) {
         return;
       }
 
       const wired = node.getWiredSnapshots();
-      if(!wired) {
+      if (!wired) {
         return;
       }
 
-      wired.get('outgoing').forEach(wiredSnapshot => {
-        if(id === wiredSnapshot.get('id')) {
+      wired.outgoing.forEach(wiredSnapshot => {
+        if (id === wiredSnapshot.get('id')) {
           incoming.push(node.snapshot);
         }
       });
 
-      wired.get('incoming').forEach(wiredSnapshot => {
-        if(id === wiredSnapshot.get('id')) {
+      wired.incoming.forEach(wiredSnapshot => {
+        if (id === wiredSnapshot.get('id')) {
           outgoing.push(node.snapshot);
         }
       });
     });
 
-    const map = Immutable.Map().asMutable();
-    map.set('outgoing', outgoing);
-    map.set('incoming', incoming);
-    return map.asImmutable();
+    return {
+      outgoing: outgoing,
+      incoming: incoming
+    };
   }
 
   update() {
     super.update();
 
-    //if the node is near enough or is in the view frustum
-    if(this.isInView()) {
+    // if the node is near enough or is in the view frustum
+    if (this.isInView()) {
       this.updateStickyNotes();
     } else {
       this.stickyNote.hide();

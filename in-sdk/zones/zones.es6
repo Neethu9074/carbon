@@ -1,4 +1,4 @@
-import ColorGenerator from 'in-services/util/colors';
+import ColorGenerator from 'in-services/util/ColorGenerator';
 
 import pbst from '../util/pluginBasedSnapshotTransformation';
 

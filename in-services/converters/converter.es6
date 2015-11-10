@@ -121,3 +121,11 @@ export function hexToRGBNormalized(style) {
   const rgb = hexToRGB(style);
   return {r: rgb.r / 255, g: rgb.g / 255, b: rgb.b / 255};
 }
+
+/**
+ * Uppercases the first letter of the string.
+ */
+export function capitalize(string) {
+  if (!string) return string;
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

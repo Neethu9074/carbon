@@ -36,9 +36,9 @@ export default class CameraController {
     // holds the mouse/touch position in pixel coordinates
     this.cursor = new THREE.Vector2();
 
-    this.defaultCameraSpeed = 10; //camera fly speed
-    this.cameraSpeed = this.defaultCameraSpeed; //camera fly speed
-    this.moveSpeed = 0.01; //distance moved per pixel
+    this.defaultCameraSpeed = 100; // camera fly speed
+    this.cameraSpeed = this.defaultCameraSpeed; // camera fly speed
+    this.moveSpeed = 0.01; // distance moved per pixel
 
     this.initZoomField();
 
@@ -79,7 +79,7 @@ export default class CameraController {
   initZoomField() {
     // zoom fields
     this.maxZoomOut = 1800;
-    this.normalZoomOut = 400; //100%
+    this.normalZoomOut = 400; // 100%
     this.maxZoomIn = 20;
 
     // the current Level of zooming
@@ -90,6 +90,15 @@ export default class CameraController {
 
     this.zoomSpeed = 10;
     this.scrollSpeed = 5;
+  }
+
+  switchStateIfNext() {
+    const next = this.state.getNext(this.zoomLevel);
+    if (next) {
+      this.state.leave();
+      this.state = next;
+      this.state.enter();
+    }
   }
 
   zoom(delta) {
@@ -134,11 +143,15 @@ export default class CameraController {
   }
 
   flyToObject(obj) {
-    const transObj = this.camTransformObject;
     const pos = obj.getComponent('position').getPosition();
+    this.flyToPosition(pos.x, pos.z);
+  }
 
-    transObj.position.x = pos.x;
-    transObj.position.z = pos.z;
+  flyToPosition(x, z) {
+    const transObj = this.camTransformObject;
+
+    transObj.position.x = x;
+    transObj.position.z = z;
     transObj.updateMatrixWorld();
   }
 
@@ -239,7 +252,7 @@ export default class CameraController {
         return intersected;
       });
 
-      if(canvasStyle.cursor !== 'default') {
+      if (canvasStyle.cursor !== 'default') {
         canvasStyle.cursor = 'default';
       }
     }
@@ -275,9 +288,9 @@ export default class CameraController {
 
     // if the distance after multiplication is bigger than the total distance
     // set it to total distance
-    if(delta.length() > distance) {
+    if (delta.length() > distance) {
       delta.normalize().multiplyScalar(distance);
-    } else if(delta.length() < 0.0001) {
+    } else if (delta.length() < 0.0001) {
       return;
     }
 
@@ -334,7 +347,7 @@ export default class CameraController {
 
     // calculate objects intersecting the picking ray
     const intersects = this.raycaster.intersectObjects([scene.map.ground]);
-    if(intersects.length >= 1) {
+    if (intersects.length >= 1) {
       return intersects[0].point;
     }
   }

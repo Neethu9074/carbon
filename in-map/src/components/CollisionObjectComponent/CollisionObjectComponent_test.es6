@@ -1,4 +1,4 @@
-/*eslint-env mocha, node */
+/* eslint-env mocha, node */
 import THREE from 'three';
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -21,7 +21,8 @@ describe('3D map', () => {
           {rebuild: sinon.stub()},
           {rebuild: sinon.stub()}
         ],
-        renderScene: sinon.stub()
+        renderScene: sinon.stub(),
+        rebuildOctree: sinon.stub()
       }
     };
     collisionObject = new THREE.Mesh(new THREE.BoxGeometry());

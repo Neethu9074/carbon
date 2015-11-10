@@ -1,4 +1,4 @@
-/*eslint-env node*/
+/* eslint-env node */
 
 // import all gulp tasks
 require('./build/gulp/build');

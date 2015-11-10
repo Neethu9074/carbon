@@ -16,10 +16,10 @@ export default {
       }
     },
     timePicker: {
-      time1: '10 minutes',
-      time2: '1 hour',
-      time3: '12 hours',
-      time4: '24 hours'
+      time1: {long: '10 minutes', short: '10M'},
+      time2: {long: '1 hour', short: '1H'},
+      time3: {long: '12 hours', short: '12H'},
+      time4: {long: '24 hours', short: '24H'}
     },
     footer: {
       signOut: 'Sign Out'

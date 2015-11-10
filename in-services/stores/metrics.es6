@@ -29,8 +29,6 @@ export function clearActiveMetric() {
   activeMetric.emit(null);
 }
 
-
-
 // an array of metric names to visualize
 // TODO Ben remove once Map has been refactored
 export const activeMetrics = ro.create(reemitSpec);

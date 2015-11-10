@@ -1,5 +1,3 @@
-
-
 import {formatBytes} from 'in-services/converters';
 import {
   addMaxValueLocator,
@@ -46,7 +44,7 @@ addMinValueLocator(/^fs\.([^\.]+)\.ifree/, zero);
 
 addNormalizedValueLocator(
   /^memory\.free/,
-  (max, value) => (max - value) / max //translates free -> used
+  (max, value) => (max - value) / max // translates free -> used
 );
 
 addNormalizedValueLocator(
@@ -62,7 +60,7 @@ addNormalizedValueLocator(
 
 addFormattedValueLocator(
   /^memory\.free/,
-   //translates free -> used -> whateverBytes
+   // translates free -> used -> whateverBytes
   (max, value) => formatBytes((max - value))
 );
 

@@ -1,14 +1,9 @@
-
-
-import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
 
-import {
-  addWiredSnapshotFinder,
-  addIpFinder
-} from 'in-sdk/snapshot';
-import {create} from 'in-services/conveyer';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
+import {addWiredSnapshotFinder, addIpFinder} from 'in-sdk/snapshot';
+import {create} from 'in-services/conveyer';
 
 import * as constants from '../constants';
 
@@ -49,8 +44,6 @@ addWiredSnapshotFinder(
  */
 export function extractConnections(snapshot, snapshots) {
   const ipSnapshotMap = calculateIpMap(snapshots);
-  const map = Immutable.Map().asMutable();
-
   const connections = {};
 
   connections.outgoing = extractConnectionsFromMap(
@@ -61,10 +54,7 @@ export function extractConnections(snapshot, snapshots) {
     snapshot.getIn(['data', 'connections', 'incoming']),
     ipSnapshotMap);
 
-  map.set('outgoing', connections.outgoing);
-  map.set('incoming', connections.incoming);
-
-  return map.asImmutable();
+  return connections;
 }
 
 function extractConnectionsFromMap(connections, ipSnapshotMap) {
@@ -87,7 +77,7 @@ function extractConnectionsFromMap(connections, ipSnapshotMap) {
  */
 export function calculateIpMap(snapshots) {
   const map = {};
-  //get ips for each host
+  // get ips for each host
   snapshots.forEach(host => {
     getIpBySnapshot(host).forEach(ip => {
       map[ip] = host;
@@ -99,7 +89,7 @@ export function calculateIpMap(snapshots) {
 
 function getSnapshotByIp(ip, ipSnapshotMap) {
   let snapshot = ipSnapshotMap[ip];
-  if(!snapshot) {
+  if (!snapshot) {
     snapshot = Immutable.Map({
       state: 'unmonitored',
       hostId: 'unknown',
@@ -114,22 +104,24 @@ function getSnapshotByIp(ip, ipSnapshotMap) {
 
 function getIpBySnapshot(snapshot) {
   const cachedIps = snapshot._cachedIps;
-  if(cachedIps) {
+  if (cachedIps) {
     return cachedIps;
   }
 
   const ipArray = [];
 
-  //get all ethernet interfaces
+  // get all ethernet interfaces
   const ethInterfaces = snapshot.getIn(['data', 'interfaces']);
-  if(ethInterfaces) {
+  if (ethInterfaces) {
     ethInterfaces.forEach(interf => {
 
-      //get all ips of the interface
-      const ips = interf.get('ips');
-      ips.forEach(ip => {
-        ipArray.push(ip);
-      });
+      // get all ips of the interface
+      const addresses = interf.get('addresses');
+      if (addresses) {
+        addresses.forEach(address => {
+          ipArray.push(address.get('ip'));
+        });
+      }
     });
   }
   const ec2 = snapshot.getIn(['data',

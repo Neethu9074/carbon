@@ -22,7 +22,7 @@ import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider'
 
 
 // if unavailable, the StickyNote-Metric / Layer will not be undefined but this
-// to avoid all these if(available) {do something} stuff
+// to avoid all these if (available) {do something} stuff
 const emptyStickyObject = {
   isEmpty: true,
   hide() {}, show() {}, update() {}, updateWorldPos() {}, render() {},
@@ -155,14 +155,14 @@ export default class BaseNode extends SceneObject {
     const sceneObject = this;
     const components = this.components;
 
-    //add the collision component to handle the collision box
+    // add the collision component to handle the collision box
     components.collision = new CollisionComponent({
       sceneObject,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
 
-    //add the connection component to handle all the visual connection lines
+    // add the connection component to handle all the visual connection lines
     components.connection = new ConnectionComponent({sceneObject});
 
     const pcm = new PCM({
@@ -171,7 +171,7 @@ export default class BaseNode extends SceneObject {
       })
     });
 
-    //add the mesh component to handle visual representation of the node
+    // add the mesh component to handle visual representation of the node
     components.mesh = new MeshComponent({
       id: id + '_mesh',
       sceneObject,
@@ -181,7 +181,7 @@ export default class BaseNode extends SceneObject {
     const color = this.calculateNodeColor();
     this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
 
-    //add the solidMesh component to handle the solid fill color of a node
+    // add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
       id: id + '_solidMesh',
       sceneObject,
@@ -190,21 +190,21 @@ export default class BaseNode extends SceneObject {
     });
     components.solidMesh.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
-    //add the highlighting component to handle the highlighting of a node
-    //this is different to solidMesh since the highlighting is like a mouseOver effect
+    // add the highlighting component to handle the highlighting of a node
+    // this is different to solidMesh since the highlighting is like a mouseOver effect
     components.highlighting = new HighlightingComponent({sceneObject});
   }
 
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
-      //update only if this node is visible
-      if(!this.isHidden()) {
+      // update only if this node is visible
+      if (!this.isHidden()) {
         this.update(data);
       }
     }));
 
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
-      if(this.isSelected()) {
+      if (this.isSelected()) {
         const stateMachine = this.getComponent('connection').stateMachine;
         stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
         stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
@@ -216,7 +216,7 @@ export default class BaseNode extends SceneObject {
     }));
 
     this.addSubscription(selectedSceneObject.subscribe(event => {
-      if(event) {
+      if (event) {
         this.onSceneObjectSelected(event.sceneObject);
       }
     }));
@@ -243,6 +243,9 @@ export default class BaseNode extends SceneObject {
   onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
 
   getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
+
+  setLayer() {}
+  addConnections() {}
 
   updateStickyNotes() {
     this.stickyNote.update();
@@ -283,13 +286,12 @@ export default class BaseNode extends SceneObject {
   }
 
   getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
-
-  setWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
+  setWiredSnapshots() {}
 
   dispose() {
     // do that first to get connections deleted. they only dispose
     // themselves if both endpoints are not selected
-    if(this.isSelected()) {
+    if (this.isSelected()) {
       selectedSceneObject.emit({sceneObject: null});
     }
 
@@ -301,7 +303,7 @@ export default class BaseNode extends SceneObject {
 
     try {
       this.tooltip.unMount();
-    } catch(er) {
+    } catch (er) {
       // the tooltip is already unmounted
       this.tooltip = null;
     }

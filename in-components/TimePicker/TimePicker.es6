@@ -33,20 +33,21 @@ const TimePicker = React.createClass({
   },
 
   createButton(timeRange, content) {
+    const labels = this.getIntlMessage(content);
     return (
       <div  className={block + '__button'}
-            onClick={() => this.onTimePickerItemClicked(timeRange)}>
-        {this.getIntlMessage(content)}
+            onClick={() => this.onTimePickerItemClicked(timeRange, labels)}>
+        {labels.long}
       </div>
     );
   },
 
-  onTimePickerItemClicked(newTime) {
-    tracking.trackEvent(tracking.events.changingTimeWindowUsingTimeline);
+  onTimePickerItemClicked(newTime, labels) {
+    tracking.events.changingTimeWindowUsingTimeline();
     timelineStore.setTimeframe(newTime);
 
     if (this.props.onTimeSelected) {
-      this.props.onTimeSelected(newTime);
+      this.props.onTimeSelected(labels);
     }
   }
 });

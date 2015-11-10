@@ -1,4 +1,4 @@
-/*eslint-disable react/no-multi-comp*/
+/* eslint-disable react/no-multi-comp */
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
@@ -44,7 +44,7 @@ export const Tabs = React.createClass({
     const blockIdentifier = this.props.blockIdentifier || 'in-subtle-tabs';
 
     const headerNodes = this.props.children.map((tab, i) => {
-      if(!tab) {
+      if (!tab) {
         return null;
       }
       let classNames = blockIdentifier + '__tab';

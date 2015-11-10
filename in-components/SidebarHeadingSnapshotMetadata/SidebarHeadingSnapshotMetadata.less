@@ -1,0 +1,36 @@
+@import "~in-themes/active.less";
+
+.in-sidebar-heading-metadata {
+  display: flex;
+  justify-content: space-between;
+
+  padding: 10px 20px 20px 20px;
+  background: @sidebar__header__background;
+
+  &__label {
+    display: flex;
+    align-items: center;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: normal;
+  }
+
+  &__text {
+    color: @sidebar__header__heading;
+  }
+
+  &__zone {
+    margin: 0 10px 0 10px;
+  }
+
+  &__health {
+    padding-top: 12px;
+  }
+
+  &__plugin-type {
+    margin: 0;
+    line-height: 2;
+    font-size: 14px;
+    color: @sidebar__header__plugin;
+  }
+}

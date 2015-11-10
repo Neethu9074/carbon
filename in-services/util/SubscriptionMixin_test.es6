@@ -1,7 +1,4 @@
-/*eslint-env mocha*/
-
-
-
+/* eslint-env mocha */
 import sinon from 'sinon';
 import {expect} from 'chai';
 

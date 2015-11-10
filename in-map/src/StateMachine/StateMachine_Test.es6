@@ -1,5 +1,5 @@
-/*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions */
+/* eslint-env mocha, node */
+/* eslint-disable no-unused-expressions */
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -19,7 +19,7 @@ class SpecificSceneObject {
   }
 
   getOrCreateStub(name) {
-    if(!this[name]) {
+    if (!this[name]) {
       this[name] = sinon.stub();
     }
     return this[name];
@@ -64,7 +64,7 @@ describe('3D map', () => {
           expect(lut[0]).to.not.equal(void 0);
           expect(lut[1]).to.not.equal(void 0);
 
-          if(depth === maxDepth) {
+          if (depth === maxDepth) {
             return;
           }
 
@@ -96,7 +96,7 @@ describe('3D map', () => {
       it('should not do anything if there is no update on state', () => {
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
 
-        //highlight is false by default so there shouldn't be any update
+        // highlight is false by default so there shouldn't be any update
         stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
       });
@@ -107,7 +107,7 @@ describe('3D map', () => {
         stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
 
-        //no update on double set
+        // no update on double set
         stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
         expect(sceneObject.onHighlightEnterStub.callCount).to.equal(1);
       });
@@ -118,7 +118,7 @@ describe('3D map', () => {
         stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
         expect(sceneObject.onIndirectHighlightEnterStub.callCount).to.equal(1);
 
-        //no update on double set
+        // no update on double set
         stateMachine.changeStateProperty('indirect', PROPERTY_VALUES.ON);
         expect(sceneObject.onIndirectHighlightEnterStub.callCount).to.equal(1);
       });

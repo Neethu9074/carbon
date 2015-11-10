@@ -1,5 +1,5 @@
-/*eslint-env mocha, node */
-/*eslint-disable no-unused-expressions */
+/* eslint-env mocha, node */
+/* eslint-disable no-unused-expressions */
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -14,6 +14,16 @@ describe('3D map', () => {
   let sceneObject;
 
   beforeEach(() => {
+    global.window = {
+      location: {
+        href: 'http://codecentric.instana.io'
+      },
+      instana: {
+        config: {
+          environment: 'production'
+        }
+      }
+    };
     sceneObject = {
       healthChanged: sinon.stub(),
       scene: {renderScene: sinon.stub()}

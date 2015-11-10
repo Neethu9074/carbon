@@ -11,9 +11,7 @@ export default class SceneObject {
     this.id = id;
     this.subscriptions = [];
 
-    this.addSubscription(currentScene.subscribe((scene) => {
-      this.scene = scene;
-    }));
+    this.addSubscription(currentScene.subscribe(scene => this.scene = scene));
 
     this.initComponents();
 
@@ -137,7 +135,7 @@ export default class SceneObject {
     this.subscriptions.push(subscription);
   }
 
-  //each object can tell that the scene should be redrawn
+  // each object can tell that the scene should be redrawn
   renderScene() {
     this.scene.renderScene();
   }
@@ -192,18 +190,18 @@ export default class SceneObject {
   removeChild() {}
 
   dispose() {
-    //dispose subscriptions first so that no update fires into disposed component
+    // dispose subscriptions first so that no update fires into disposed component
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];
 
-    //reset states so that inactive state is taken
+    // reset states so that inactive state is taken
     this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
     this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
     this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
 
     this.forEachComponent(component => component.dispose());
 
-    if(this.parent) {
+    if (this.parent) {
       this.parent.removeChild(this);
     }
   }
