@@ -8,6 +8,7 @@ import eventBus from 'in-services/eventbus';
 
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';
 import LineMeshComponent from '../../components/LineMeshComponent';
+import HealthComponent from '../../components/HealthComponent';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import UnknownNode from '../Nodes/UnknownNode';
@@ -24,10 +25,10 @@ export default class Group extends SceneObject {
   constructor({parent, id, coordinates}) {
     super({parent, id});
 
+    this.stickyNote = new StickyNote(this);
+
     this.children = [];
     this.zSize = 1;
-
-    this.stickyNote = new StickyNote(this);
 
     if (coordinates) {
       this.coordinates = coordinates;
@@ -125,6 +126,14 @@ export default class Group extends SceneObject {
 
   onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
+
+    if (!this.components.health) {
+      this.components.health = new HealthComponent({sceneObject: this});
+    }
+  }
+
+  healthChanged(newHealth) {
+    this.stickyNote.setHealth(newHealth);
   }
 
   onGroupClicked() {

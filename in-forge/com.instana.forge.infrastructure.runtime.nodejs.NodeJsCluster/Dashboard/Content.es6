@@ -4,7 +4,7 @@ import irpt from 'react-immutable-proptypes';
 const rpt = React.PropTypes;
 
 export default React.createClass({
-    displayName: 'AvailabilityZoneDashboard',
+    displayName: 'NodejsClusterDashboard',
     mixins: [React.addons.PureRenderMixin],
 
     propTypes: {

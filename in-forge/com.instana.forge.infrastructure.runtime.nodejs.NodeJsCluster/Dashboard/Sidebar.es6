@@ -1,8 +1,8 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 
 export default React.createClass({
-  displayName: 'AvailabilityZoneSidebar',
+  displayName: 'NodejsClusterSidebar',
 
   mixins: [React.addons.PureRenderMixin],
 
@@ -11,9 +11,7 @@ export default React.createClass({
   },
 
   render() {
-    return (
-      <div>
-      </div>
-    );
+    return <div/>;
   }
+
 });

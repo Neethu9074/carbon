@@ -16,12 +16,6 @@ const MetricValue = React.createClass({
     formatter: rpt.func
   },
 
-  getInitialState() {
-    return {
-      metricValue: undefined
-    };
-  },
-
   componentDidMount() {
     this.establishSubscription(this.getStream(this.props));
   },
@@ -39,10 +33,11 @@ const MetricValue = React.createClass({
   },
 
   establishSubscription(stream) {
+    const node = React.findDOMNode(this);
     this.stream = stream;
-    this.addSubscription(
-      stream.subscribe(metricValue => this.setState({metricValue}))
-    );
+    this.addSubscription(stream.subscribe(v => {
+      node.textContent = this.format(v);
+    }));
   },
 
   componentWillReceiveProps(nextProps) {
@@ -62,7 +57,7 @@ const MetricValue = React.createClass({
   },
 
   render() {
-    return <span>{this.format(this.state.metricValue)}</span>;
+    return <span/>;
   }
 
 });
