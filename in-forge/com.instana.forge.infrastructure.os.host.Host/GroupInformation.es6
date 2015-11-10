@@ -1,14 +1,14 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import enhance from 'in-components/hoc/enhance';
-import Collapsible from 'in-components/Collapsible';
-import * as views from 'in-services/views';
-import {getStructure} from 'in-services/wiring';
 import getForgeComponent from 'in-services/getForgeComponent';
+import Collapsible from 'in-components/Collapsible';
+import enhance from 'in-components/hoc/enhance';
+import {getStructure} from 'in-services/wiring';
 import {getSingular} from 'in-sdk/pluginName';
+import * as views from 'in-services/views';
 
-const HostHardware = React.createClass({
+const GroupInformation = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
@@ -59,4 +59,4 @@ const HostHardware = React.createClass({
   }
 });
 
-export default enhance(HostHardware);
+export default enhance(GroupInformation);

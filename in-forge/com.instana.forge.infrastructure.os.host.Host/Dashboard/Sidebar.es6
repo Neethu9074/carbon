@@ -4,8 +4,8 @@ import React from 'react/addons';
 import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
 
+import GroupInformation from '../GroupInformation';
 import InterfaceList from '../InterfaceList';
-import HostHardware from '../HostHardware';
 import HostInfo from '../HostInfo';
 
 const Sidebar = React.createClass({
@@ -31,7 +31,7 @@ const Sidebar = React.createClass({
           </Collapsible.Content>
         </Collapsible>
 
-        <HostHardware snapshot={this.props.snapshot} />
+        <GroupInformation snapshot={this.props.snapshot} />
         <WiringList snapshot={this.props.snapshot} />
       </div>
     );
