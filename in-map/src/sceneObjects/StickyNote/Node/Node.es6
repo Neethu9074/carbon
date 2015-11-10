@@ -43,8 +43,8 @@ const NodeStickyNoteRC = React.createClass({
     return (
       <div className='in-sticky-note__node-stack-wrapper'>
         <div className='in-sticky-note__node-stack-children'>
-          {tags ? <TagFrame tags={tags}/> : null}
           {this.props.showMetric ? null : <HealthIndicator snapshot={snapshot}/> }
+          {tags ? <TagFrame tags={tags}/> : null}
         </div>
       </div>
     );

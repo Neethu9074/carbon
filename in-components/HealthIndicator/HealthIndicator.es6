@@ -4,6 +4,7 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
+import {theme} from 'in-services/theme';
 
 import './HealthIndicator.less';
 
@@ -18,12 +19,11 @@ const HealthIndicator = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    size: rpt.number.isRequired,
     className: rpt.string
   },
 
   getInitialState() {
-    return { healthIndicator: 0 };
+    return { sumSeverities: 0 };
   },
 
   componentDidMount() {
@@ -33,20 +33,20 @@ const HealthIndicator = React.createClass({
         const severity = problem.get('severity');
         return acc + severity;
       }, 0);
-    }).subscribe(healthIndicator => {
-      this.setState({ healthIndicator });
-    }));
+    }).subscribe(sumSeverities => this.setState({ sumSeverities })));
   },
 
   render() {
-    const width = this.props.size ? this.props.size : 100;
-    const progress = this.state.healthIndicator;
+    const sum = this.state.sumSeverities;
+    const progress = Math.min(10, sum); // [0, 10]
 
     return (
-      <div className={getClassName(this, block)}
-           style={{ width }}>
+      <div className={getClassName(this, block)}>
         <div className={block + '__progress'}
-             style={{ width: width * progress }}/>
+             style={{
+               width: progress * 10 + '%', // [0, 100]
+               backgroundColor: theme.health[progress | 0]
+             }}/>
       </div>
     );
   }
