@@ -1,6 +1,5 @@
 import * as pluginName from 'in-sdk/pluginName';
 import {addIconFinder} from 'in-sdk/snapshot';
-import * as zones from 'in-sdk/zones';
 import * as power from 'in-sdk/power';
 
 import * as constants from '../constants';
@@ -15,11 +14,6 @@ pluginName.setHumanReadablePluginName(
 addIconFinder(
   constants.plugins.cassandraCluster,
   () => iconPath
-);
-
-zones.addMapping(
-  constants.plugins.cassandraCluster,
-  snapshot => snapshot.get('hostId')
 );
 
 power.addMapping(

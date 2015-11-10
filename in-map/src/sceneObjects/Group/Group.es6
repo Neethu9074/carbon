@@ -3,8 +3,8 @@ import _ from 'lodash';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {hexToRGBNormalized} from 'in-services/converters';
 import {getFullSnapshot} from 'in-services/snapshots';
+import {getColor} from 'in-services/util/groupColors';
 import eventBus from 'in-services/eventbus';
-import {getColor} from 'in-sdk/zones';
 
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';
 import LineMeshComponent from '../../components/LineMeshComponent';

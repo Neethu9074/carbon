@@ -4,7 +4,7 @@ import {nameOfUndefinedZone} from 'in-forge/constants';
 import * as viewStore from 'in-services/stores/view';
 import {getLabel} from 'in-sdk/snapshot';
 import views from 'in-services/views';
-import {getColor} from 'in-sdk/zones';
+import {getColor} from 'in-services/util/groupColors';
 
 import SnapshotList from './SnapshotList';
 import Collapsible from '../Collapsible';

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import {viewStructure} from 'in-services/stores/view';
 import {getClassName} from 'in-services/react';
 import {getLabel} from 'in-sdk/snapshot';
-import {getColor} from 'in-sdk/zones';
+import {getColor} from 'in-services/util/groupColors';
 
 import enhance from '../hoc/enhance';
 

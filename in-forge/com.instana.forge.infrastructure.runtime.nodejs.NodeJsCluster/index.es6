@@ -1,13 +1,7 @@
-import * as zones from 'in-sdk/zones';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 import * as constants from '../constants';
-
-zones.addMapping(
-  constants.plugins.nodejsCluster,
-  snapshot => snapshot.getIn(['data', 'groupId'])
-);
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.nodejsCluster,
