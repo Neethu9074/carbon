@@ -52,18 +52,17 @@ describe('wiring', () => {
       it('should traverse the graph and identify groups for OS snapshots', () => {
         emitGraph(getGraph('simple'));
 
-        mod.getStructure(views.physical)
-          .subscribe(onNext);
+        mod.getStructure(views.physical).subscribe(onNext);
 
         expect(onNext).to.have.callCount(1);
         const structure = onNext.getCall(0).args[0];
         expect(structure.length).to.equal(1);
         const hostInfo = structure[0];
         expect(hostInfo.group.toJS()).to.deep.equal({
-          id: 'com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2',
-          hostId: 'h1',
-          pluginId: 'com.instana.forge.hardware.virtual.ec2.Ec2',
-          steadyId: 'sEC2'
+          id: 'com.instana.forge.hardware.AvailabilityZone#z1#sAZ',
+          hostId: 'z1',
+          pluginId: 'com.instana.forge.hardware.AvailabilityZone',
+          steadyId: 'sAZ'
         });
         expect(hostInfo.node.toJS()).to.deep.equal({
           id: 'com.instana.forge.infrastructure.os.host.Host#h1#sOS',
@@ -84,8 +83,8 @@ describe('wiring', () => {
         expect(structure.length).to.equal(2);
 
         const host1Info = structure[0];
-        expect(host1Info.group.get('hostId')).to.equal('h1');
-        expect(host1Info.group.get('steadyId')).to.equal('sEC2');
+        expect(host1Info.group.get('hostId')).to.equal('z1');
+        expect(host1Info.group.get('steadyId')).to.equal('sAZ');
         expect(host1Info.node.get('hostId')).to.equal('h1');
         expect(host1Info.node.get('steadyId')).to.equal('sOS');
         expect(host1Info.layers.length).to.equal(1);
@@ -93,8 +92,8 @@ describe('wiring', () => {
         expect(host1Info.layers[0].get('steadyId')).to.equal('sCassandra');
 
         const host2Info = structure[1];
-        expect(host2Info.group.get('hostId')).to.equal('h2');
-        expect(host2Info.group.get('steadyId')).to.equal('sAIX');
+        expect(host2Info.group.get('hostId')).to.equal('z1');
+        expect(host2Info.group.get('steadyId')).to.equal('sAZ');
         expect(host2Info.node.get('hostId')).to.equal('h2');
         expect(host2Info.node.get('steadyId')).to.equal('sOS');
         expect(host2Info.layers.length).to.equal(2);

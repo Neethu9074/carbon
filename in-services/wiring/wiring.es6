@@ -21,6 +21,7 @@ import {
 } from './physical';
 export {
   getAllStepsBetweenNodeAndLeaf,
+  getHostHardware,
   getParentNode,
   getLayers
 } from './physical';

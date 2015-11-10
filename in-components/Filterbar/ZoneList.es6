@@ -1,9 +1,10 @@
 import React from 'react/addons';
 
+import {nameOfUndefinedZone} from 'in-forge/constants';
 import * as viewStore from 'in-services/stores/view';
+import {getLabel} from 'in-sdk/snapshot';
 import views from 'in-services/views';
-import {getColor} from 'in-sdk/zones';
-import {getZone} from 'in-sdk/zones';
+import {getColor} from 'in-services/util/groupColors';
 
 import SnapshotList from './SnapshotList';
 import Collapsible from '../Collapsible';
@@ -19,7 +20,7 @@ const ZoneList = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    activeView: rpt.number,
+    activeView: rpt.string,
     groups: rpt.object
   },
 
@@ -29,7 +30,7 @@ const ZoneList = React.createClass({
         const grouppedNodes = {};
 
         viewStructure.forEach(nodeStructure => {
-          const zone = getZone(nodeStructure.group);
+          const zone = getLabel(nodeStructure.group) || nameOfUndefinedZone;
           if (zone in grouppedNodes) {
             grouppedNodes[zone].push(nodeStructure);
           } else {

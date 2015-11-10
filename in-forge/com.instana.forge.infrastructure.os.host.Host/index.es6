@@ -1,15 +1,12 @@
-import Immutable from 'immutable';
-
 import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
-import * as zones from 'in-sdk/zones';
 
-import * as constants from '../constants';
 import windowsIconPath from './icons/instana_server_windows.svg';
 import linuxIconPath from './icons/instana_server_linux.svg';
 import appleIconPath from './icons/instana_server_apple.svg';
+import * as constants from '../constants';
 
 import './metrics';
 import './wiring';
@@ -60,17 +57,4 @@ power.addMapping(
 sorting.addMapping(
   constants.plugins.os,
   (s1, s2) => s1.get('hostId').localeCompare(s2.get('hostId'))
-);
-
-zones.addMapping(
-  constants.plugins.os,
-  snapshot => {
-    const steadyIdToZone = snapshot.getIn([
-      'data',
-      constants.rels.describes,
-      constants.plugins.ec2
-    ], Immutable.Map());
-    const zone = steadyIdToZone.valueSeq().first();
-    return zone ? zone.get('availability-zone') : 'undefined zone';
-  }
 );

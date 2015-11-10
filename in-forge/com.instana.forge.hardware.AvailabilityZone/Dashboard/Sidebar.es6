@@ -1,5 +1,5 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 export default React.createClass({
   displayName: 'AvailabilityZoneSidebar',
@@ -11,7 +11,9 @@ export default React.createClass({
   },
 
   render() {
-    return <div/>;
+    return (
+      <div>
+      </div>
+    );
   }
-
 });

@@ -3,7 +3,6 @@ import {
   addIconFinder
 } from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
-import * as zones from 'in-sdk/zones';
 import * as power from 'in-sdk/power';
 
 import * as constants from '../constants';
@@ -23,11 +22,6 @@ addLabelFinder(
 addIconFinder(
   constants.plugins.redis,
   () => iconPath
-);
-
-zones.addMapping(
-  constants.plugins.redis,
-  snapshot => snapshot.get('hostId')
 );
 
 power.addMapping(

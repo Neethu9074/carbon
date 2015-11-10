@@ -15,7 +15,6 @@ export function getDestinationNode(wiringGraph, source, relation) {
   return null;
 }
 
-
 export function getSourceNodes(wiringGraph, destination, relation) {
   const sourceNodes = [];
 
