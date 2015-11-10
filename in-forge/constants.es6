@@ -27,5 +27,3 @@ export const rels = {
   availableThrough: 'com.instana.sdk.annotation.AvailableThrough',
   clusters: 'com.instana.sdk.annotation.Clusters'
 };
-
-export const nameOfUndefinedZone = 'undefined zone';

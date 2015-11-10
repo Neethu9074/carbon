@@ -1,7 +1,6 @@
 import ColorGenerator from 'in-services/util/ColorGenerator';
 
-import {nameOfUndefinedZone} from 'in-forge/constants';
-
+const nameOfUndefinedZone = 'undefined zone';
 const colorGenerator = new ColorGenerator(20);
 const zoneColorCache = {};
 

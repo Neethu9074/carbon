@@ -2,7 +2,6 @@ import THREE from 'three';
 import _ from 'lodash';
 
 import {hexToRGBNormalized} from 'in-services/converters';
-import {nameOfUndefinedZone} from 'in-forge/constants';
 import {viewStructure} from 'in-services/stores/view';
 import eventBus from 'in-services/eventbus';
 import {getPlural} from 'in-sdk/pluginName';
@@ -18,6 +17,7 @@ import SceneObject from '../SceneObject';
 import Layouter from '../../layout';
 import Group from '../Group';
 
+const nameOfUndefinedZone = 'undefined zone';
 
 export default class VisualMap extends SceneObject {
 
