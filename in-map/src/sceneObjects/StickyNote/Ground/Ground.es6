@@ -1,5 +1,12 @@
+import irpt from 'react-immutable-proptypes';
+import Immutable from 'immutable';
 import React from 'react/addons';
 
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getProblemsForSnapshot} from 'in-services/issueTracker';
+import IssueDiscription from 'in-components/IssueDiscription';
+import {getHealth} from 'in-services/issueTracker';
+import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
 import Icon from 'in-components/Icon';
 import theme from 'in-services/theme';
@@ -13,7 +20,10 @@ const block = 'in-sticky-note-group';
 
 const GroundStickyNoteRC = React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    SubscriptionMixin
+  ],
 
   propTypes: {
     onMouseLeave: rpt.func.isRequired,
@@ -22,7 +32,22 @@ const GroundStickyNoteRC = React.createClass({
     onClick: rpt.func.isRequired,
     color: rpt.object.isRequired,
     label: rpt.string.isRequired,
-    health: rpt.string
+    snapshot: irpt.map
+  },
+
+  getInitialState() {
+    return {
+      health: health.ok,
+      issues: Immutable.List()
+    };
+  },
+
+  componentDidMount() {
+    const snapshot = this.props.snapshot;
+    if (snapshot) {
+      this.addSubscription(getHealth(snapshot).subscribe(newHealth => this.setState({ health: newHealth })));
+      this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
+    }
   },
 
   render() {
@@ -40,14 +65,41 @@ const GroundStickyNoteRC = React.createClass({
              onMouseLeave={this.props.onMouseLeave}>
           {this.props.label}
         </div>
-        {this.getIcon()}
+        {this.getHealthIcon()}
       </div>
     );
   },
 
-  getIcon() {
-    const groupHealth = this.props.health;
+  getHealthIcon() {
+    const icon = this.getIcon(this.state.health);
+    if (!icon) {
+      return null;
+    }
 
+    if (this.issuesAvailable()) {
+      const mostImportantIssue = this.state.issues.reduce((issueA, issueB) => {
+        if (issueA.getIn(['problem', 'severity']) >= issueB.getIn(['problem', 'severity'])) {
+          return issueA;
+        }
+        return issueB;
+      });
+
+      return (
+        <Tooltip align={{horizontal: 'right'}}
+                 content={<IssueDiscription issue={mostImportantIssue}/>}>
+          {icon}
+        </Tooltip>
+      );
+    }
+
+    return icon;
+  },
+
+  issuesAvailable() {
+    return this.state.issues.some(problem => problem.get('severity') > 0);
+  },
+
+  getIcon(groupHealth) {
     if (groupHealth === health.danger) {
       return <Icon type={'critical'} style={{ color: theme.map.colors.critical }}/>;
     } else if (groupHealth === health.warning) {
@@ -62,17 +114,18 @@ export default class StickyNoteNode extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: block});
 
-    this.health = health.ok;
     this.setActive(false);
   }
 
   render() {
     const parent = this.parent;
+    const snapshot = parent.snapshot;
+
     React.render(
       <GroundStickyNoteRC label={parent.id}
                           isActive={this.isActive}
                           color={parent.getColor()}
-                          health={this.health}
+                          snapshot={snapshot}
                           onClick={parent.onGroupClicked.bind(parent)}
                           onMouseEnter={() => parent.highlight()}
                           onMouseLeave={() => parent.highlight(false)}/>,
@@ -80,8 +133,7 @@ export default class StickyNoteNode extends StickyNote {
     );
   }
 
-  setHealth(groupHealth) {
-    this.health = groupHealth;
+  onSnapshotUpdate() {
     this.render();
   }
 

@@ -1,3 +1,4 @@
+import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
@@ -26,7 +27,7 @@ const NodeTooltipRC = React.createClass({
   ],
 
   propTypes: {
-    snapshot: React.PropTypes.object.isRequired,
+    snapshot: irpt.map.isRequired,
     layer: React.PropTypes.array.isRequired
   },
 

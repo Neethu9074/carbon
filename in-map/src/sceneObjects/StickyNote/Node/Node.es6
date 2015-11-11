@@ -1,3 +1,4 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -17,7 +18,7 @@ const NodeStickyNoteRC = React.createClass({
   ],
 
   propTypes: {
-    snapshot: rpt.object.isRequired,
+    snapshot: irpt.map.isRequired,
     showMetric: rpt.bool
   },
 
