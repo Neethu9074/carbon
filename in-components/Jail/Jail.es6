@@ -62,15 +62,22 @@ const Jail = React.createClass({
         'Failed to render component',
         Component.displayName,
         'with props',
-        props,
+        // make a deep copy to ensure that all the properties are frozen in time and that
+        // all immutable objects are made inspectable
+        JSON.parse(JSON.stringify(props)),
         'Error:',
         e
       );
       React.render(
-        <p className={block + '__error'}>
-          An unexpected error occured:&nbsp;
+        <div className={block + '__error'}>
+          An unexpected error occured while rendering the{' '}
+          <span className={block + '__error-component'}>{Component.displayName}</span>:{' '}
           <span className={block + '__error-reason'}>{e.message}</span>
-        </p>,
+          <p>Component properties:</p>
+          <pre className={block + '__error-component-props'}>
+            {JSON.stringify(props, 0, 2)}
+          </pre>
+        </div>,
         domNode
       );
     }

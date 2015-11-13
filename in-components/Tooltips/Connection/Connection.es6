@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import {getColor} from 'in-sdk/zones';
+import {getColor} from 'in-services/util/groupColors';
 
 import TooltipFrame from '../Frame';
 import Heading from '../Heading';

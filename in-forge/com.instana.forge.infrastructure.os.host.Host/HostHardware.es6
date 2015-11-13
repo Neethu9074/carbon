@@ -1,11 +1,10 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import enhance from 'in-components/hoc/enhance';
-import Collapsible from 'in-components/Collapsible';
-import * as views from 'in-services/views';
-import {getStructure} from 'in-services/wiring';
 import getForgeComponent from 'in-services/getForgeComponent';
+import Collapsible from 'in-components/Collapsible';
+import {getHostHardware} from 'in-services/wiring';
+import enhance from 'in-components/hoc/enhance';
 import {getSingular} from 'in-sdk/pluginName';
 
 const HostHardware = React.createClass({
@@ -18,31 +17,25 @@ const HostHardware = React.createClass({
 
   statics: {
     createObservables(props) {
-      const snapshotId = props.snapshot.get('id');
-
       return {
-        group: getStructure(views.physical, true)
-          .map(viewStructure => {
-            return viewStructure
-              .filter(nodeStructure => nodeStructure.node.get('id') === snapshotId)
-              .reduce((group, nodeStructure) => group || nodeStructure.group, null);
-          })
+        group: getHostHardware(props.snapshot)
       };
     }
   },
 
   render() {
-    if (!this.props.group) return null;
+    const snapshot = this.props.group;
+    if (!snapshot) return null;
 
     const Details = this.getForgeSpecificComponent();
 
     return (
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
-          {getSingular(this.props.group.get('pluginId'))}
+          {getSingular(snapshot.get('pluginId'))}
         </Collapsible.Header>
         <Collapsible.Content>
-          <Details snapshot={this.props.group} />
+          <Details snapshot={snapshot} />
         </Collapsible.Content>
       </Collapsible>
     );

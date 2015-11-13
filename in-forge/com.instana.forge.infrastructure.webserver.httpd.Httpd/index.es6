@@ -7,7 +7,6 @@ import {
 } from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
-import * as zones from 'in-sdk/zones';
 import * as power from 'in-sdk/power';
 
 import * as constants from '../constants';
@@ -27,11 +26,6 @@ addIconFinder(
 );
 
 addWiredSnapshotFinder(constants.plugins.httpd, () => ro.create());
-
-zones.addMapping(
-  constants.plugins.httpd,
-  snapshot => snapshot.get('hostId')
-);
 
 power.addMapping(
   constants.plugins.httpd,

@@ -3,8 +3,8 @@ import _ from 'lodash';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {hexToRGBNormalized} from 'in-services/converters';
 import {getFullSnapshot} from 'in-services/snapshots';
+import {getColor} from 'in-services/util/groupColors';
 import eventBus from 'in-services/eventbus';
-import {getColor} from 'in-sdk/zones';
 
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';
 import LineMeshComponent from '../../components/LineMeshComponent';
@@ -24,10 +24,9 @@ export default class Group extends SceneObject {
   constructor({parent, id, coordinates}) {
     super({parent, id});
 
+    this.stickyNote = new StickyNote(this);
     this.children = [];
     this.zSize = 1;
-
-    this.stickyNote = new StickyNote(this);
 
     if (coordinates) {
       this.coordinates = coordinates;
@@ -125,6 +124,8 @@ export default class Group extends SceneObject {
 
   onSnapshotUpdate(snapshot) {
     this.snapshot = snapshot;
+
+    this.stickyNote.onSnapshotUpdate();
   }
 
   onGroupClicked() {

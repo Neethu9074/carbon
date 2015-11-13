@@ -1,6 +1,0 @@
-{
-  "name": "zones",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./zones.es6"
-}

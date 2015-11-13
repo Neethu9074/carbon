@@ -14,15 +14,15 @@ describe('3D map', () => {
   beforeEach(() => {
     sceneObject = {
       positionChanged: sinon.stub(),
-      addCollisionObject: sinon.stub(),
       scene: {
+        addCollisionObject: sinon.stub(),
+        removeCollisionObject: sinon.stub(),
         octrees: [
           {rebuild: sinon.stub()},
           {rebuild: sinon.stub()},
           {rebuild: sinon.stub()}
         ],
-        renderScene: sinon.stub(),
-        rebuildOctree: sinon.stub()
+        renderScene: sinon.stub()
       }
     };
     collisionObject = new THREE.Mesh(new THREE.BoxGeometry());
@@ -37,7 +37,7 @@ describe('3D map', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);
-      expect(sceneObject.addCollisionObject.callCount).to.equal(1);
+      expect(sceneObject.scene.addCollisionObject.callCount).to.equal(1);
     });
 
     it('dont call external method until time event was handled', () => {

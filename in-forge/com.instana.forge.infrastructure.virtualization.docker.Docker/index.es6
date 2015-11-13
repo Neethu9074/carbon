@@ -1,7 +1,6 @@
 import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
-import * as zones from 'in-sdk/zones';
 import * as power from 'in-sdk/power';
 
 import iconPath from './icon.svg';
@@ -27,11 +26,6 @@ addLabelFinder(
 addIconFinder(
   constants.plugins.docker,
   () => iconPath
-);
-
-zones.addMapping(
-  constants.plugins.docker,
-  snapshot => snapshot.get('hostId')
 );
 
 power.addMapping(
