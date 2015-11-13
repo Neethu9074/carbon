@@ -1,12 +1,22 @@
 @import "~in-themes/active.less";
 
 .in-healthindicator {
-  height: 3px;
-  padding: 1px;
-  background: rgba(255, 255, 255, 0.1);
-  width: 100px;
+  position: relative;
+  top: -50px;
+  left: -25px;
 
-  &__progress {
-    height: 100%;
+  &__canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  &__inner-circle {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
   }
 }
