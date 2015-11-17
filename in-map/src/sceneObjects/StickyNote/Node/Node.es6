@@ -2,6 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+import HealthIndicator from 'in-components/HealthIndicator';
 
 import StickyNote from '../StickyNote';
 import TagFrame from '../TagFrame';
@@ -11,7 +13,6 @@ import './Node.less';
 const rpt = React.PropTypes;
 
 const NodeStickyNoteRC = React.createClass({
-
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin
@@ -22,12 +23,27 @@ const NodeStickyNoteRC = React.createClass({
     showMetric: rpt.bool
   },
 
+  getInitialState() {
+    return { size: 0 };
+  },
+
+  componentDidMount() {
+    this.addSubscription(zoomLevel.subscribe(l => this.setState({zoomLevel: l})));
+  },
+
   render() {
-    const tags = this.props.snapshot.get('tags');
+    const zoom = this.state.zoomLevel;
+    if (zoom !== level.near && zoom !== level.nearest) {
+      return null;
+    }
+
+    const snapshot = this.props.snapshot;
+    const tags = snapshot.get('tags');
 
     return (
       <div className='in-sticky-note__node-stack-wrapper'>
         <div className='in-sticky-note__node-stack-children'>
+          {this.props.showMetric ? null : <HealthIndicator snapshot={snapshot}/> }
           {tags ? <TagFrame tags={tags}/> : null}
         </div>
       </div>
