@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 import {isDemoEnvironment} from 'in-services/config';
 import {theme} from 'in-services/theme';
 
+import AggregatedIssuesConveyer from '../conveyer/AggregatedIssuesConveyer';
 import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
 import {mapSeverityToHealth, health} from '../health';
 import IssueConveyer from '../conveyer/IssueConveyer';
@@ -128,6 +129,37 @@ export function getProblemsForSnapshot(snapshot) {
     .map(issues => {
       return issues.map(issue => issue.get('problem'));
     });
+}
+
+export const analysisWindows = {
+  oneDay: 'D1',
+  oneWeek: 'W1'
+};
+
+export function getAggregatedIssuesForSnapshot(snapshot, analysisWindow) {
+  const id = snapshot.get('id');
+
+  // the server does not send data for "everything is fine", we have to create these objects.
+  const everythingOkayAggregate = {
+    entity: snapshot,
+    diminishedSeverity: 0,
+    severity: 0,
+    problemEndTime: null,
+    analysisWindow: null
+  };
+
+  return create(AggregatedIssuesConveyer, {analysisWindow})
+    .map(aggregates => {
+      for (let i = 0, len = aggregates.length; i < len; i++) {
+        const aggregate = aggregates[i];
+        if (aggregate.entity.get('id') === id) {
+          return aggregate;
+        }
+      }
+
+      return everythingOkayAggregate;
+    })
+    .distinct();
 }
 
 function collectingReducer(existingIssues, issueUpdates) {
