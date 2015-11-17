@@ -27,7 +27,7 @@ export default function helpify(Component) {
 
     closeHelpIfOpen(id) {
       const query = this.getQuery();
-      if (query.help === id) {
+      if (query.help && parseInt(query.help, 10) === id) {
         delete query.help;
         this.transitionTo(
           this.getPathname(),
