@@ -363,6 +363,9 @@ export default class Node extends BaseNode {
   setHeight(height) {
     super.setHeight(height);
     this.getComponent('layer').heightChanged(height);
+
+    const pos = this.getComponent('position').getPosition();
+    this.label.getComponent('position').setPosition(pos.x, pos.y + this.height + 0.2, pos.z);
   }
 
   healthChanged(newHealth) {
