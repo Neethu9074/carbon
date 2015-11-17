@@ -44,6 +44,7 @@ export default class Scene {
 
   constructor({parent, onPlusClicked, antialias}) {
     stores.currentScene.emit(this); // set this scene to store
+    stores.aspectRatio.emit(window.innerWidth / window.innerHeight);
 
     this.onPlusClicked = onPlusClicked;
     this.height = window.innerHeight;
@@ -566,6 +567,8 @@ export default class Scene {
   onWindowResize() {
     const height = this.height = window.innerHeight;
     const width = this.width = window.innerWidth;
+
+    stores.aspectRatio.emit(width / height);
 
     this.canvas.height = height;
     this.canvas.width = width;
