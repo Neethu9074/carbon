@@ -139,7 +139,7 @@ export default connectTo(
     },
 
     getLabelForAggregate(aggregate) {
-      if (this.props.oneWeekAggregate.diminishedSeverity < 1) {
+      if (aggregate.diminishedSeverity < 1) {
         return null;
       } else if (!aggregate.problemEndTime) {
         return 'An unresolved issue with severity ' + aggregate.severity + ' exists.';
