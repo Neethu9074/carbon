@@ -7,6 +7,7 @@ import {theme} from 'in-services/theme';
 import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
 import {mapSeverityToHealth, health} from '../health';
 import IssueConveyer from '../conveyer/IssueConveyer';
+// import AggregatedIssuesConveyer from '../conveyer/AggregatedIssuesConveyer';
 import * as timelineStore from '../stores/timeline';
 import {create} from '../conveyer';
 
