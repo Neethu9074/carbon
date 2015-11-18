@@ -14,7 +14,7 @@ const ArgList = React.createClass({
 
   render() {
     const args = this.props.snapshot.getIn(['data', 'args']);
-    if (!args) {
+    if (!args || args.length === 0) {
       return null;
     }
 

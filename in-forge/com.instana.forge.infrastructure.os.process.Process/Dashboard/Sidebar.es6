@@ -15,21 +15,23 @@ const Sidebar = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+
     return (
       <div>
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Process</Collapsible.Header>
           <Collapsible.Content>
-            <ProcessInfo snapshot={this.props.snapshot} />
+            <ProcessInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Arguments</Collapsible.Header>
           <Collapsible.Content>
-            <ArgList snapshot={this.props.snapshot} />
+            <ArgList snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <WiringList snapshot={this.props.snapshot} />
+        <WiringList snapshot={snapshot} />
       </div>
     );
   }

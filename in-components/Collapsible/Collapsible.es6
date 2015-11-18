@@ -27,14 +27,15 @@ const Collapsible = React.createClass({
   },
 
   render() {
+    const children = this.props.children;
     invariant(
-      this.props.children.length === 2,
+      children.length === 2,
       'A collapsible must have exactly two child elements: Header and Content'
     );
 
     const isOpen = this.state.open;
-    const header = this.props.children[0].props;
-    const contentProps = this.props.children[1].props;
+    const header = children[0].props;
+    const contentProps = children[1].props;
     return (
       <div className={getClassName(this, block)}>
         <Header className={header.className}
@@ -98,6 +99,7 @@ const Content = React.createClass({
     if (!this.props.isOpen) {
       return null;
     }
+
     return (
       <div className={block + '__content'}>
         {this.props.children}
