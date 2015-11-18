@@ -11,3 +11,7 @@ export function isProductionEnvironment() {
 export function isDemoEnvironment() {
   return window.instana.config.environment === 'demo';
 }
+
+export function isInstanaTenant() {
+  return theConfig.tenant === 'instana';
+}
