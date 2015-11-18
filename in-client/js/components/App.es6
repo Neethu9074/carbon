@@ -8,7 +8,7 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as viewStructureStore from 'in-services/stores/view';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
-import {isDemoEnvironment} from 'in-services/config';
+import {config, isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
@@ -94,7 +94,9 @@ export default helpify(connectTo(
 
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
-        {!isDemoEnvironment() ? <MapViewSwitcher className='in-root-map-switcher'/> : null}
+        {!isDemoEnvironment() && config.tenant === 'instana' ?
+          <MapViewSwitcher className='in-root-map-switcher'/>
+        : null}
         <Lettering className='in-root-lettering'/>
         <AccountMenu showMenu={this.showMenu}
                      className={'in-root-menu'}/>
