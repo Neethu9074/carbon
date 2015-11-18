@@ -1,6 +1,8 @@
-const config = window.instana.config;
+const theConfig = window.instana.config;
 
-export default config;
+export default theConfig;
+
+export const config = theConfig;
 
 export function isProductionEnvironment() {
   return window.instana.config.environment !== 'demo';

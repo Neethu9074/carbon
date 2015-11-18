@@ -62,9 +62,12 @@ exports.openBrowser = function openBrowser(url) {
 };
 
 
-exports.writeDevModeConfig = function writeDevModeConfig(environment) {
+exports.writeDevModeConfig = function writeDevModeConfig(environment, envConfig) {
   var devConfig = {
     environment: environment,
+    tenant: envConfig.tenant,
+    tenantUnit: envConfig.tenantUnit,
+    groundskeeperDomain: envConfig.groundskeeperDomain,
     analyticsTrackingId: 'UA-66215232-4',
     keys: {
       xing: 'ecf760e609c548a8293d',
