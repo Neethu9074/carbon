@@ -109,7 +109,10 @@ gulp.task('askForDevOptions', function(cb) {
 
 
 gulp.task('writeDevConfigFile', function() {
-  buildUtil.writeDevModeConfig(devModeOptions.uiMode === 'saas' ? 'production' : 'demo');
+  buildUtil.writeDevModeConfig(
+    devModeOptions.uiMode === 'saas' ? 'production' : 'demo',
+    environments[devModeOptions.environment]
+  );
 });
 
 

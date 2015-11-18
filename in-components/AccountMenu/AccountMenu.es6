@@ -1,7 +1,7 @@
 import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
-import {isProductionEnvironment} from 'in-services/config';
+import {config, isProductionEnvironment} from 'in-services/config';
 import {getClassName} from 'in-services/react';
 
 import stanPath from './stan.png';
@@ -49,8 +49,18 @@ const Menu = React.createClass({
 
         <div className={block + '__menu-entry'}
              onClick={this.showMenu}>
-          Settings
+          Application Settings
         </div>
+
+        {isProductionEnvironment() ?
+          <div className={block + '__menu-entry'}>
+            <a href={this.getGroundskeeperUrl()}
+               target='_blank'
+               className={block + '__menu-link'}>
+              Account Settings
+            </a>
+          </div>
+        : null}
 
         {isProductionEnvironment() ?
           <div className={block + '__menu-entry-signout'}>
@@ -64,6 +74,10 @@ const Menu = React.createClass({
         : null}
       </div>
     );
+  },
+
+  getGroundskeeperUrl() {
+    return `https://${config.groundskeeperDomain}/ump/${config.tenant}/${config.tenantUnit}`;
   },
 
   render() {

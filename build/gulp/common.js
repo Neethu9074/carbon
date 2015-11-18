@@ -35,9 +35,7 @@ gulp.task('copyFavicon', function() {
 gulp.task('writeBuildInfo', function(cb) {
   var data = {
     revision: buildUtil.getRevision(),
-    version: buildUtil.getVersion(),
-    date: new Date().toISOString(),
-    containerTag: process.env.INSTANA_CONTAINER_TAG || 'unknown'
+    date: new Date().toISOString()
   };
 
   fs.writeFile(paths.buildInfoFileLocation, JSON.stringify(data), cb);
