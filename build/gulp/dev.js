@@ -171,7 +171,6 @@ gulp.task('startDevProxy', function() {
       '/auth/signIn': groundskeeperUrl + '/auth/signIn',
       '/auth/signOut': groundskeeperUrl + '/auth/signOut',
       '/auth/users/current': groundskeeperUrl + '/auth/users/current',
-      '/internal/api': instagrafanaUrl + 'api',
       '/uiTracker/': 'http://127.0.0.1:8484/',
       '/assets/': groundskeeperUrl + '/assets/'
     },
