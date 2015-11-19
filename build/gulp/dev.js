@@ -158,7 +158,6 @@ gulp.task('startDevProxy', function() {
   var envConfig = environments[devModeOptions.environment];
   var uiBackendUrl = envConfig.uiBackendUrl;
   var groundskeeperUrl = envConfig.groundskeeperUrl;
-  var instagrafanaUrl = 'https://monitoring-instana.instana.io/api/internal';
 
   var config = {
     serverName: 'local-instana.instana.io',
@@ -171,7 +170,6 @@ gulp.task('startDevProxy', function() {
       '/auth/signIn': groundskeeperUrl + '/auth/signIn',
       '/auth/signOut': groundskeeperUrl + '/auth/signOut',
       '/auth/users/current': groundskeeperUrl + '/auth/users/current',
-      '/internal/api': instagrafanaUrl + 'api',
       '/uiTracker/': 'http://127.0.0.1:8484/',
       '/assets/': groundskeeperUrl + '/assets/'
     },
