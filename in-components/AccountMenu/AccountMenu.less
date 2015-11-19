@@ -1,26 +1,39 @@
 @import "~in-themes/active.less";
 
-.in-account-menu {
+.in-account {
   white-space: nowrap;
-  flex-shrink: 0;
-  cursor: pointer;
 
-  &__panel {
+  &__menu {
     position: absolute;
 
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-
     top: 100%;
-    right: 0;
-    width: 190px;
-
+    right: -5px;
     margin-top: 10px;
-    padding: 10px 20px 0px 20px;
-    border-radius: 0 0 4px 4px;
+    padding: 20px;
 
     background: @menu__background;
+
+    &:before {
+      content: ' ';
+      position: absolute;
+
+      top: -11px;
+      right: 20px;
+
+      padding: 0;
+
+      border: 6px solid;
+      border-color:
+        transparent
+        @menu__background
+        @menu__background
+        transparent;
+    }
+  }
+
+  &__tenants {
+    font-size:  0.75rem;
+    margin-bottom: 20px;
   }
 
   &__toggle-button, &__toggle-button--opened {
@@ -32,31 +45,6 @@
     }
   }
 
-  &__menu-entry, &__menu-entry-signout {
-    height: 30px;
-    width: 100%;
-
-    padding-top: 8px;
-    font-size: 12px;
-    color: @menu__section-label;
-    transition: color 0.25s ease-in-out;
-
-    border-bottom: 1px solid @menu__section-line;
-
-    &:hover {
-      color: @menu__section-label-highlight;
-    }
-
-    &:last-child {
-      border-bottom: 0;
-    }
-  }
-
-  &__menu-link {
-    color: inherit;
-    text-decoration: none;
-  }
-
   &__icon {
     padding: 4px;
     width: 24px;
@@ -64,19 +52,91 @@
     border-radius: 50%;
     opacity: 0.65;
     transition: opacity 0.25s ease-in-out;
-  }
-
-  &__menu-entry-signout {
-    font-size: 10px;
-    color: @menu__signout-label;
-  }
-
-  &__signout {
-    font-size: inherit;
-    padding: 0;
-    border: 0;
-    background: transparent;
-    color: inherit;
     cursor: pointer;
+  }
+}
+
+.in-tenant-switcher {
+  width: 100%;
+
+  &__reset-margin {
+    margin: 0;
+  }
+
+  &__headline {
+    background-color: @tenant-switcher__headline-background-color;
+    border-radius: 10px;
+    border: 1px solid @tenant-switcher__headline-border-color;
+  }
+
+  &__tenant-unit {
+    display: block;
+    position: relative;
+    font-size: 14px;
+    padding: 10px;
+    color: @tenant-switcher__font-color;
+    text-decoration: none;
+    height: 2.88rem;
+
+    &__toggle {
+      height: 0;
+      overflow: hidden;
+
+      &__block {
+        margin: 0 1.88rem;
+        padding: 0.5rem;
+      }
+
+      a {
+        &:link,
+        &:active,
+        &:visited {
+          color: @tenant-switcher__link-color;;
+          text-decoration: none;
+        }
+        &:hover {
+          color: @tenant-switcher__link-hover-color;;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+
+  & :target h2 a:after {
+    content: '';
+    position: absolute;
+    right: 0.63rem;
+    top: 50%;
+    margin-top: -0.19rem;
+    border-top: 0.31rem solid @tenant-switcher__triangle-color;
+    border-left: 0.31rem solid transparent;
+    border-right: 0.31rem solid transparent;
+  }
+
+  & :target .in-tenant-switcher__tenant-unit__toggle {
+    height: 100%;
+  }
+
+  &__tenant-name-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+
+    &__tag {
+      border-radius: 0.63rem;
+      height: 2.5rem;
+      width: 2.5rem;
+      background-color: @tenant-switcher__tag-color;
+      text-align: center;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &__name {
+      margin-left: 0.63rem;
+    }
   }
 }
