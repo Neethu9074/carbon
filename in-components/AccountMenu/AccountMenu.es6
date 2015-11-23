@@ -27,7 +27,7 @@ const Menu = React.createClass({
 
   getInitialState() {
     return {
-      open: true,
+      open: false,
       showSettings: false
     };
   },
