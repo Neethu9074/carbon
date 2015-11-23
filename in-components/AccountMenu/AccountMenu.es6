@@ -1,4 +1,6 @@
-import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
+import TenantSwitcher from 'instana-ui-theme/components/ReactTenantSwitcher';
+// import TenantSwitcher from './TenantSwitcher';
+
 import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
@@ -59,13 +61,19 @@ const Menu = React.createClass({
           Tenants
         </div>
 
-        <TenantSwitcher tenants={[
-          { name: instana.user.preferredName, tenantUnits: [instana.config.tenantUnit] }
-        ]}/>
+        <TenantSwitcher
+          tenants={[
+            { name: instana.user.preferredName, tenantUnits: [instana.config.tenantUnit] }
+          ]}
+          onTenantClicked={this.onTenantClicked}/>
 
         <MenuFooter onClick={this.showMenu}/>
       </div>
     );
+  },
+
+  onTenantClicked(name, unit) {
+    console.log(name, unit);
   },
 
   getGroundskeeperUrl() {
