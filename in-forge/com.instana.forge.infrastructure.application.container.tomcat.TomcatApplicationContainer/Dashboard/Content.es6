@@ -9,6 +9,7 @@ import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
 const chartHeight = 200;
+const milliSecondsFormatter = milliSeconds => milliSeconds + ' ms';
 
 const TomcatDashboard = React.createClass({
   mixins: [
@@ -56,7 +57,7 @@ const TomcatDashboard = React.createClass({
             <Mtd metric={'servlets.' + servletKey + '.inv'}
                  snapshot={snapshot} />
             <Mtd metric={'servlets.' + servletKey + '.time'}
-                 snapshot={snapshot} />
+                 snapshot={snapshot} formatter={milliSecondsFormatter} />
             <Mtd metric={'servlets.' + servletKey + '.errors'}
                  snapshot={snapshot} />
           </tr>
@@ -83,16 +84,25 @@ const TomcatDashboard = React.createClass({
                    windowSize={this.props.timeframe}
                    height={chartHeight}
                    margins={{
-                     left: 80
+                     left: 80,
+                     right: 40
                    }}
                    y1={{
+                     formatter: milliSecondsFormatter,
                      metrics: [
-                       'servlets.' + this.state.selectedServlet + '.time',
+                       'servlets.' + this.state.selectedServlet + '.time'
+                     ],
+                     labels: [
+                       'Average Response Time'
+                     ],
+                     type: 'line'
+                   }}
+                   y2={{
+                     metrics: [
                        'servlets.' + this.state.selectedServlet + '.inv',
                        'servlets.' + this.state.selectedServlet + '.errors'
                      ],
                      labels: [
-                       'Processing Time',
                        'Request Count',
                        'Errors'
                      ],
@@ -104,7 +114,7 @@ const TomcatDashboard = React.createClass({
               <tr>
                 <th>Servlet</th>
                 <th>Requests</th>
-                <th>Response Time</th>
+                <th>Avg Response Time</th>
                 <th>Errors</th>
               </tr>
             </thead>

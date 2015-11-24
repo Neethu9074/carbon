@@ -10,6 +10,15 @@ module.exports = {
     tenantUnit: 'test',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
+  analytics1: {
+    user: 'stan@instana.com',
+    pw: '4711',
+    uiBackendUrl: 'https://analytics1-instana.instana.io/api',
+    groundskeeperUrl: 'https://test-instana.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'analytics1',
+    groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+  },
   demo2: {
     user: 'stan@instana.com',
     pw: '4711',
