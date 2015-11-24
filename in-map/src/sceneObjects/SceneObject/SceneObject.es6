@@ -18,7 +18,9 @@ export default class SceneObject {
     this.screenPositionAnchor = this.getComponent('position').getPosition().clone();
     this.screenPosition = {x: 0, y: 0};
 
-    this.init();
+    if (this.init) {
+      this.init();
+    }
 
     this.stateMachine = new StateMachine(this);
     this.stateMachine.initialized();
@@ -40,13 +42,6 @@ export default class SceneObject {
 
   forEachComponent(fn) {
     Object.keys(this.components).forEach(key => fn(this.components[key]));
-  }
-
-  init() {}
-
-  reEnterState() {
-    this.stateMachine.state.leave();
-    this.stateMachine.state.enter();
   }
 
   onInitialEnter() {}
@@ -109,8 +104,6 @@ export default class SceneObject {
     this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.ON);
   }
 
-  positionChanged() {throw new Error('NOT IMPLEMENTED'); }
-
   setScreenPositionAnchor(x, y, z) {
     this.screenPositionAnchor.set(x, y, z);
   }
@@ -140,8 +133,6 @@ export default class SceneObject {
     this.scene.renderScene();
   }
 
-  colorChanged() {}
-
   getAllMapNodes() {
     return this.parent.getAllMapNodes();
   }
@@ -152,10 +143,6 @@ export default class SceneObject {
 
   getHtmlContainer() {
     return this.scene.getHtmlContainer();
-  }
-
-  on(event, cb) {
-    return this.parent.on(event, cb);
   }
 
   onHighlight(highlighted) {
