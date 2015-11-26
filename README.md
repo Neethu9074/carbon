@@ -10,7 +10,7 @@ easy to switch between installed Node.js and io.js versions and to install globa
 modules without super-user privileges.
 
 ### Node Version Manager installation
-Make sure that you have Git and cURL installed.
+Make sure that you have Git and cURL installed before starting with the following instructions. Execute the instructions in the root directory of the ui-client project.
 
 ```
 # download and install NVM
@@ -19,8 +19,8 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | b
 # reload bash
 bash
 
-# install and use iojs
-VERSION="iojs-v2.5.0"
+# install and use the project's preferred Node.js version
+VERSION=$(cat .nvmrc)
 nvm install "$VERSION"
 nvm use "$VERSION"
 nvm alias default $VERSION
