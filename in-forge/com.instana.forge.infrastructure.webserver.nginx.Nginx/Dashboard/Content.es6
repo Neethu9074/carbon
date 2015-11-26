@@ -48,8 +48,8 @@ const NginxDashboard = React.createClass({
                  y1={{
                    min: 0,
                    metrics: [
-                     'accepts',
-                     'handled'
+                     'connections.accepted',
+                     'connections.handled'
                    ],
                    labels: [
                      'Accepted connections',
@@ -60,9 +60,9 @@ const NginxDashboard = React.createClass({
                  y2={{
                    min: 0,
                    metrics: [
-                     'reading',
-                     'writing',
-                     'waiting'
+                     'connections.reading',
+                     'connections.writing',
+                     'connections.waiting'
                    ],
                    labels: [
                      'Reading',
