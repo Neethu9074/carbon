@@ -199,6 +199,7 @@ gulp.task('webpack:dev', function() {
     publicPath: '/bundle',
     contentBase: 'target/assets/',
     inline: true,
+    noInfo: true,
     stats: {
       colors: true
     }
