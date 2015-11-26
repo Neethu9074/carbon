@@ -33,6 +33,13 @@ In order for cookies to be send to the backend you need to configure a rule in `
 127.0.0.1 local-instana.instana.io
 ```
 
+### Installing Dependencies
+Now that you got the right Node.js version installed, go ahead and download the application's dependencies. Execute the following command in the root directory of the ui-client project.
+
+```
+npm install
+```
+
 ### Accessing our artifact repository via NPM
 To access our artifact repository (NEXUS) and retrieve dependencies via NPM, you need to add a local `.npmrc` configuration file to the `ui-client` directory. You do so via…
 
