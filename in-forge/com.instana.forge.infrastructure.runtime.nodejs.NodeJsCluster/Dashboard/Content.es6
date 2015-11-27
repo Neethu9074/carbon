@@ -1,19 +1,18 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 const rpt = React.PropTypes;
 
 export default React.createClass({
-    displayName: 'NodejsClusterDashboard',
-    mixins: [React.addons.PureRenderMixin],
+  displayName: 'NodejsClusterDashboard',
+  mixins: [React.addons.PureRenderMixin],
 
-    propTypes: {
-      snapshot: irpt.map.isRequired,
-      timeframe: rpt.number.isRequired
-    },
+  propTypes: {
+    timeframe: rpt.number.isRequired,
+    snapshot: irpt.map.isRequired
+  },
 
-    render() {
-      return <div>TODO</div>;
-    }
-
+  render() {
+    return <div/>;
+  }
 });

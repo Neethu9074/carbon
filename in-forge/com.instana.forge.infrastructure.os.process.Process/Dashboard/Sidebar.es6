@@ -4,8 +4,8 @@ import React from 'react/addons';
 import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
 
-import ArgList from '../ArgList';
 import ProcessInfo from '../ProcessInfo';
+import ArgList from '../ArgList';
 
 const Sidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -35,7 +35,6 @@ const Sidebar = React.createClass({
       </div>
     );
   }
-
 });
 
 export default Sidebar;

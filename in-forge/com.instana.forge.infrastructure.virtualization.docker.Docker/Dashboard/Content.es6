@@ -1,8 +1,5 @@
-
-
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import {
   formatBytes,
@@ -17,19 +14,22 @@ const rpt = React.PropTypes;
 const chartHeight = 200;
 
 const DockerDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    snapshot: irpt.map.isRequired
   },
 
   render() {
+    const timeframe = this.props.timeframe;
+    const snapshot = this.props.snapshot;
+
     return (
       <div>
         <DashboardSection title='Memory'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80,
@@ -55,8 +55,8 @@ const DockerDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='Network'>
           <div>
-            <ChartWithLegend snapshot={this.props.snapshot}
-                   windowSize={this.props.timeframe}
+            <ChartWithLegend snapshot={snapshot}
+                   windowSize={timeframe}
                    height={chartHeight}
                    margins={{
                      left: 80,
@@ -99,7 +99,6 @@ const DockerDashboard = React.createClass({
       </div>
     );
   }
-
 });
 
 export default DockerDashboard;

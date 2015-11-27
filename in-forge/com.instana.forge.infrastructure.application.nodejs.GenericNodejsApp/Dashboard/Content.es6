@@ -1,24 +1,23 @@
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
+import React from 'react/addons';
 
 import * as numberFormatters from 'in-services/formatters/number';
-import classnames from 'in-services/util/classnames';
-import ResponsiveTable from 'in-components/ResponsiveTable';
 import DashboardSection from 'in-components/DashboardSection';
+import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import classnames from 'in-services/util/classnames';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
 const emptyMap = Immutable.Map();
 
 const NodejsDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    snapshot: irpt.map.isRequired
   },
 
   getInitialState() {
@@ -29,9 +28,12 @@ const NodejsDashboard = React.createClass({
   },
 
   render() {
-    const httpServers = this.props.snapshot.getIn(['data', 'http'], emptyMap);
-    const mongodbConnections = this.props.snapshot.getIn(['data', 'mongodb'], emptyMap);
-    const cassandraKeyspaces = this.props.snapshot.getIn(['data', 'cassandra', 'keyspaces'], emptyMap);
+    const selectedMongodbConnection = this.state.selectedMongodbConnection;
+    const selectedHttpServer = this.state.selectedHttpServer;
+    const snapshot = this.props.snapshot;
+    const httpServers = snapshot.getIn(['data', 'http'], emptyMap);
+    const mongodbConnections = snapshot.getIn(['data', 'mongodb'], emptyMap);
+    const cassandraKeyspaces = snapshot.getIn(['data', 'cassandra', 'keyspaces'], emptyMap);
 
     return (
       <div>
@@ -39,7 +41,7 @@ const NodejsDashboard = React.createClass({
         <DashboardSection title='HTTP Servers'>
           {this.state.selectedHttpServer ?
             <div>
-              <ChartWithLegend snapshot={this.props.snapshot}
+              <ChartWithLegend snapshot={snapshot}
                      windowSize={this.props.timeframe}
                      height={150}
                      margins={{
@@ -50,8 +52,8 @@ const NodejsDashboard = React.createClass({
                        min: 0,
                        formatter: numberFormatters.twoDecimalPlaces,
                        metrics: [
-                         'http.' + this.state.selectedHttpServer + '.requests',
-                         'http.' + this.state.selectedHttpServer + '.responses'
+                         'http.' + selectedHttpServer + '.requests',
+                         'http.' + selectedHttpServer + '.responses'
                        ],
                        labels: [
                          'Requests / s',
@@ -63,10 +65,10 @@ const NodejsDashboard = React.createClass({
                        min: 0,
                        formatter: numberFormatters.msTwoDecimalPlaces,
                        metrics: [
-                         'http.' + this.state.selectedHttpServer + '.responseTime50',
-                         'http.' + this.state.selectedHttpServer + '.responseTime90',
-                         'http.' + this.state.selectedHttpServer + '.responseTime95',
-                         'http.' + this.state.selectedHttpServer + '.responseTime99'
+                         'http.' + selectedHttpServer + '.responseTime50',
+                         'http.' + selectedHttpServer + '.responseTime90',
+                         'http.' + selectedHttpServer + '.responseTime95',
+                         'http.' + selectedHttpServer + '.responseTime99'
                        ],
                        labels: [
                          'Response Time 50th',
@@ -100,28 +102,28 @@ const NodejsDashboard = React.createClass({
                       selectedHttpServer: key
                     })}
                     className={classnames({
-                      'active': key === this.state.selectedHttpServer
+                      'active': key === selectedHttpServer
                     })}>
                   <td>{httpServer.get('type')}</td>
                   <td>{httpServer.getIn(['address', 'address'])}</td>
                   <td>{httpServer.getIn(['address', 'port'])}</td>
                   <Mtd metric={'http.' + key + '.requests'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.zeroDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responses'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.zeroDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responseTime50'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responseTime90'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responseTime95'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'http.' + key + '.responseTime99'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.msTwoDecimalPlaces}/>
                 </tr>
               ).valueSeq()}
@@ -133,9 +135,9 @@ const NodejsDashboard = React.createClass({
 
         {!mongodbConnections.isEmpty() ?
         <DashboardSection title='MongoDB Connections'>
-          {this.state.selectedMongodbConnection ?
+          {selectedMongodbConnection ?
             <div>
-              <ChartWithLegend snapshot={this.props.snapshot}
+              <ChartWithLegend snapshot={snapshot}
                      windowSize={this.props.timeframe}
                      height={150}
                      margins={{
@@ -146,8 +148,8 @@ const NodejsDashboard = React.createClass({
                        min: 0,
                        formatter: numberFormatters.zeroDecimalPlaces,
                        metrics: [
-                         'mongodb.' + this.state.selectedMongodbConnection + '.requests',
-                         'mongodb.' + this.state.selectedMongodbConnection + '.failed'
+                         'mongodb.' + selectedMongodbConnection + '.requests',
+                         'mongodb.' + selectedMongodbConnection + '.failed'
                        ],
                        labels: [
                          'Requests / s',
@@ -159,10 +161,10 @@ const NodejsDashboard = React.createClass({
                        min: 0,
                        formatter: numberFormatters.msTwoDecimalPlaces,
                        metrics: [
-                         'mongodb.' + this.state.selectedMongodbConnection + '.duration50',
-                         'mongodb.' + this.state.selectedMongodbConnection + '.duration90',
-                         'mongodb.' + this.state.selectedMongodbConnection + '.duration95',
-                         'mongodb.' + this.state.selectedMongodbConnection + '.duration99'
+                         'mongodb.' + selectedMongodbConnection + '.duration50',
+                         'mongodb.' + selectedMongodbConnection + '.duration90',
+                         'mongodb.' + selectedMongodbConnection + '.duration95',
+                         'mongodb.' + selectedMongodbConnection + '.duration99'
                        ],
                        labels: [
                          'Request duration 50th',
@@ -196,28 +198,28 @@ const NodejsDashboard = React.createClass({
                       selectedMongodbConnection: key
                     })}
                     className={classnames({
-                      'active': key === this.state.selectedMongodbConnection
+                      'active': key === selectedMongodbConnection
                     })}>
                   <td>{mongodbConnection.get('host')}</td>
                   <td>{mongodbConnection.get('port')}</td>
                   <td>{mongodbConnection.get('databases', []).join(', ')}</td>
                   <Mtd metric={'mongodb.' + key + '.requests'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.zeroDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.failed'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.zeroDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.duration50'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.duration90'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.duration95'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.msTwoDecimalPlaces}/>
                   <Mtd metric={'mongodb.' + key + '.duration99'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={numberFormatters.msTwoDecimalPlaces}/>
                 </tr>
               ).valueSeq()}
@@ -254,7 +256,6 @@ const NodejsDashboard = React.createClass({
       </div>
     );
   }
-
 });
 
 export default NodejsDashboard;

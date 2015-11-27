@@ -1,5 +1,5 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
@@ -15,13 +15,15 @@ const Sidebar = React.createClass({
   },
 
   render() {
-    const xargs = this.props.snapshot.getIn(['data', 'jvm.args']);
+    const snapshot = this.props.snapshot;
+    const xargs = snapshot.getIn(['data', 'jvm.args']);
+
     return (
       <div>
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Java</Collapsible.Header>
           <Collapsible.Content>
-            <JVMInfo snapshot={this.props.snapshot} />
+            <JVMInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
@@ -37,11 +39,10 @@ const Sidebar = React.createClass({
             </Collapsible.Content>
           </Collapsible>
         : null}
-        <WiringList snapshot={this.props.snapshot} />
+        <WiringList snapshot={snapshot} />
       </div>
     );
   }
-
 });
 
 export default Sidebar;

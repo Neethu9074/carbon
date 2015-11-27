@@ -1,21 +1,13 @@
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import ResponsiveTable from 'in-components/ResponsiveTable';
-
-import {
-  formatBytes,
-  formatBytesShort
-} from 'in-services/converters';
-import {getMaxValue} from 'in-sdk/metrics';
-import {
-  extractCoordinates,
-  getRawPayload
-} from 'in-services/snapshots';
-import connectTo from 'in-components/hoc/connectTo';
+import {extractCoordinates, getRawPayload} from 'in-services/snapshots';
+import {formatBytes, formatBytesShort} from 'in-services/converters';
 import DashboardSection from 'in-components/DashboardSection';
+import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import connectTo from 'in-components/hoc/connectTo';
+import {getMaxValue} from 'in-sdk/metrics';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
@@ -37,13 +29,13 @@ export default connectTo(
   },
   React.createClass({
     displayName: 'JVMDashboard',
-    mixins: [React.addons.PureRenderMixin, IntlMixin],
+    mixins: [React.addons.PureRenderMixin],
 
     propTypes: {
-      snapshot: irpt.map.isRequired,
       timeframe: rpt.number.isRequired,
-      javaApp: irpt.map,
-      outgoingConnections: rpt.any
+      snapshot: irpt.map.isRequired,
+      outgoingConnections: rpt.any,
+      javaApp: irpt.map
     },
 
     getInitialState() {
@@ -55,14 +47,18 @@ export default connectTo(
     render() {
       console.log('Outgoing Connections', this.props.outgoingConnections);
 
-      const pools = this.props.snapshot.getIn(['data', 'jvm.pools']);
-      const collectors = this.props.snapshot.getIn(['data', 'jvm.collectors']);
+      const timeframe = this.props.timeframe;
+      const snapshot = this.props.snapshot;
+      const poolName = this.state.poolName;
+
+      const pools = snapshot.getIn(['data', 'jvm.pools']);
+      const collectors = snapshot.getIn(['data', 'jvm.collectors']);
       return (
         <div>
 
           <DashboardSection title='Threads'>
-            <ChartWithLegend snapshot={this.props.snapshot}
-                             windowSize={this.props.timeframe}
+            <ChartWithLegend snapshot={snapshot}
+                             windowSize={timeframe}
                              height={chartHeight}
                              margins={{
                                left: 60
@@ -91,15 +87,15 @@ export default connectTo(
           </DashboardSection>
 
           <DashboardSection title='Memory'>
-            <ChartWithLegend snapshot={this.props.snapshot}
-                             windowSize={this.props.timeframe}
+            <ChartWithLegend snapshot={snapshot}
+                             windowSize={timeframe}
                              height={chartHeight}
                              margins={{
                                left: 100
                              }}
                              y1={{
                                min: 0,
-                               max: this.props.snapshot.getIn(['data', 'memory.max']),
+                               max: snapshot.getIn(['data', 'memory.max']),
                                formatter: formatBytes,
                                tooltipFormatter: formatBytes,
                                metrics: [
@@ -114,9 +110,9 @@ export default connectTo(
 
           { pools ?
             <DashboardSection title='Memory Pools'>
-              {this.state.poolName ?
-                <ChartWithLegend snapshot={this.props.snapshot}
-                       windowSize={this.props.timeframe}
+              {poolName ?
+                <ChartWithLegend snapshot={snapshot}
+                       windowSize={timeframe}
                        height={chartHeight}
                        margins={{
                          left: 80
@@ -124,16 +120,16 @@ export default connectTo(
 
                        y1={{
                          max: getMaxValue(
-                           'pools.' + this.state.poolName,
-                           this.props.snapshot
+                           'pools.' + poolName,
+                           snapshot
                          ),
                          formatter: formatBytesShort,
                          tooltipFormatter: formatBytes,
                          metrics: [
-                           'pools.' + this.state.poolName
+                           'pools.' + poolName
                          ],
                          labels: [
-                           this.state.poolName + ' Usage'
+                           poolName + ' Usage'
                          ],
                          type: 'line'
                        }}/>
@@ -156,7 +152,7 @@ export default connectTo(
                       <td>{formatBytes(data.get('initial'))}</td>
                       <td>{this.formatMax(data.get('max'))}</td>
                       <Mtd metric={'pools.' + name}
-                           snapshot={this.props.snapshot}
+                           snapshot={snapshot}
                            formatter={formatBytes} />
                     </tr>
                   ).valueSeq()}
@@ -167,8 +163,8 @@ export default connectTo(
 
           {collectors ?
             <DashboardSection title='Garbage Collection'>
-              <ChartWithLegend snapshot={this.props.snapshot}
-                     windowSize={this.props.timeframe}
+              <ChartWithLegend snapshot={snapshot}
+                     windowSize={timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80,
@@ -252,5 +248,4 @@ export default connectTo(
         </DashboardSection>
       );
     }
-
 }));

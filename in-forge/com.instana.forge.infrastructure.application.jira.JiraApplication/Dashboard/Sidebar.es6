@@ -14,19 +14,20 @@ const JiraSidebar = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+
     return (
       <div>
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>JIRA</Collapsible.Header>
           <Collapsible.Content>
-            <JiraInfo snapshot={this.props.snapshot} />
+            <JiraInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <WiringList snapshot={this.props.snapshot} />
+        <WiringList snapshot={snapshot} />
       </div>
     );
   }
-
 });
 
 export default JiraSidebar;

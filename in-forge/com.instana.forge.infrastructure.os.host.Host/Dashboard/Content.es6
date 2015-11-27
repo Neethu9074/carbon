@@ -1,7 +1,7 @@
+import irpt from 'react-immutable-proptypes';
+import {IntlMixin} from 'react-intl';
 import Immutable from 'immutable';
 import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
-import irpt from 'react-immutable-proptypes';
 
 import {
   formatBytes,
@@ -12,14 +12,14 @@ import {
 } from 'in-services/converters';
 import {getMaxValue} from 'in-sdk/metrics';
 
-import {getRawPayload} from 'in-services/snapshots';
+import DashboardSection from 'in-components/DashboardSection';
+import ResponsiveTable from 'in-components/ResponsiveTable';
+import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
 import connectTo from 'in-components/hoc/connectTo';
-import DashboardSection from 'in-components/DashboardSection';
+import {getRawPayload} from 'in-services/snapshots';
 import HelpLink from 'in-components/HelpLink';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
-import ResponsiveTable from 'in-components/ResponsiveTable';
 
 const rpt = React.PropTypes;
 
@@ -38,34 +38,44 @@ export default connectTo(
   React.createClass({
   displayName: 'HostDashboard',
 
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [
+    React.addons.PureRenderMixin,
+    IntlMixin
+  ],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
     timeframe: rpt.number.isRequired,
+    snapshot: irpt.map.isRequired,
     processes: rpt.array
   },
 
   getInitialState() {
     return {
-      cpuNo: null,
       filesystemName: null,
-      interfaceName: null
+      interfaceName: null,
+      cpuNo: null
     };
   },
 
   render() {
-    const cpuCount = this.props.snapshot.getIn(['data', 'cpu.count']);
-    const filesystems = this.props.snapshot.getIn(['data', 'filesystems']);
-    const interfaces = this.props.snapshot.getIn(['data', 'interfaces']);
+    const timeframe = this.props.timeframe;
+    const snapshot = this.props.snapshot;
+
+    const filesystemName = this.state.filesystemName;
+    const interfaceName = this.state.interfaceName;
+    const cpuNo = this.state.cpuNo;
+
+    const filesystems = snapshot.getIn(['data', 'filesystems']);
+    const interfaces = snapshot.getIn(['data', 'interfaces']);
+    const cpuCount = snapshot.getIn(['data', 'cpu.count']);
 
     const cpus = Immutable.Range(1, cpuCount + 1);
 
     return (
       <div>
         <DashboardSection title='CPU Usage'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                 windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                 windowSize={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 60
@@ -93,8 +103,8 @@ export default connectTo(
         </DashboardSection>
 
         <DashboardSection title='CPU Load'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                 windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                 windowSize={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 60
@@ -112,10 +122,10 @@ export default connectTo(
         {cpuCount > 1 ?
 
         <DashboardSection title='Individual CPU Usage'>
-          {this.state.cpuNo ?
+          {cpuNo ?
             <div>
-              <ChartWithLegend snapshot={this.props.snapshot}
-                     windowSize={this.props.timeframe}
+              <ChartWithLegend snapshot={snapshot}
+                     windowSize={timeframe}
                      height={chartHeight}
                      margins={{
                        left: 60
@@ -125,11 +135,11 @@ export default connectTo(
                        max: 1,
                        formatter: formatPercentageShort,
                        metrics: [
-                         'cpus.' + this.state.cpuNo + '.user',
-                         'cpus.' + this.state.cpuNo + '.sys',
-                         'cpus.' + this.state.cpuNo + '.wait',
-                         'cpus.' + this.state.cpuNo + '.nice',
-                         'cpus.' + this.state.cpuNo + '.steal'
+                         'cpus.' + cpuNo + '.user',
+                         'cpus.' + cpuNo + '.sys',
+                         'cpus.' + cpuNo + '.wait',
+                         'cpus.' + cpuNo + '.nice',
+                         'cpus.' + cpuNo + '.steal'
                        ],
                        labels: [
                          'User',
@@ -159,23 +169,23 @@ export default connectTo(
                 <tr key={'cpu-' + index}
                     onClick={() => this.selectCpu(index)}
                     className={classnames({
-                      'active': name === this.state.cpuNo
+                      'active': name === cpuNo
                     })}>
                   <td>CPU {index}</td>
                   <Mtd metric={'cpus.' + index + '.user'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'cpus.' + index + '.sys'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'cpus.' + index + '.wait'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'cpus.' + index + '.nice'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'cpus.' + index + '.steal'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                 </tr>
               ).valueSeq()}
@@ -185,15 +195,15 @@ export default connectTo(
         : null}
 
         <DashboardSection title='Memory Free'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                 windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                 windowSize={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80
                  }}
                  y1={{
                    min: 0,
-                   max: this.props.snapshot.getIn(['data', 'memory.total']),
+                   max: snapshot.getIn(['data', 'memory.total']),
                    formatter: formatBytesShort,
                    metrics: [
                      'memory.free'
@@ -205,10 +215,10 @@ export default connectTo(
 
         <DashboardSection title={this.getIntlMessage('forge.os.filesystems')}>
 
-          {this.state.filesystemName ?
+          {filesystemName ?
             <div>
-              <ChartWithLegend snapshot={this.props.snapshot}
-                     windowSize={this.props.timeframe}
+              <ChartWithLegend snapshot={snapshot}
+                     windowSize={timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80,
@@ -218,13 +228,13 @@ export default connectTo(
                      y1={{
                        min: 0,
                        max: getMaxValue(
-                         'fs.' + this.state.filesystemName + '.free',
-                         this.props.snapshot
+                         'fs.' + filesystemName + '.free',
+                         snapshot
                        ),
                        formatter: kbFormatterShort,
                        metrics: [
-                         'fs.' + this.state.filesystemName + '.free',
-                         'fs.' + this.state.filesystemName + '.leaked'
+                         'fs.' + filesystemName + '.free',
+                         'fs.' + filesystemName + '.leaked'
                        ],
                        labels: ['Free', 'Leaked'],
                        type: 'line'
@@ -233,11 +243,11 @@ export default connectTo(
                      y2={{
                        min: 0,
                        max: getMaxValue(
-                         'fs.' + this.state.filesystemName + '.ifree',
-                         this.props.snapshot
+                         'fs.' + filesystemName + '.ifree',
+                         snapshot
                        ),
                        metrics: [
-                         'fs.' + this.state.filesystemName + '.ifree'
+                         'fs.' + filesystemName + '.ifree'
                        ],
                        labels: ['iFree'],
                        type: 'line',
@@ -269,7 +279,7 @@ export default connectTo(
                 <tr key={name}
                     onClick={() => this.selectFilesystem(name)}
                     className={classnames({
-                      'active': name === this.state.filesystemName
+                      'active': name === filesystemName
                     })}>
                   <td>{name}</td>
                   <td>{data.get('mount')}</td>
@@ -277,13 +287,13 @@ export default connectTo(
                   <td>{data.get('systype')}</td>
                   <td>{kbFormatter(data.get('capacity'))}</td>
                   <Mtd metric={'fs.' + name + '.free'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={kbFormatter} />
                   <Mtd metric={'fs.' + name + '.leaked'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={kbFormatter} />
                   <Mtd metric={'fs.' + name + '.ifree'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatNumberSI} />
                 </tr>
               ).valueSeq()}
@@ -292,10 +302,10 @@ export default connectTo(
         </DashboardSection>
 
         <DashboardSection title={this.getIntlMessage('forge.os.networkinterfaces')}>
-          {this.state.interfaceName ?
+          {interfaceName ?
             <div>
-              <ChartWithLegend snapshot={this.props.snapshot}
-                     windowSize={this.props.timeframe}
+              <ChartWithLegend snapshot={snapshot}
+                     windowSize={timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80,
@@ -306,8 +316,8 @@ export default connectTo(
                        min: 0,
                        formatter: formatBytesShort,
                        metrics: [
-                         'ifs.' + this.state.interfaceName + '.rx.bytes',
-                         'ifs.' + this.state.interfaceName + '.tx.bytes'
+                         'ifs.' + interfaceName + '.rx.bytes',
+                         'ifs.' + interfaceName + '.tx.bytes'
                        ],
                        labels: [
                          'Received',
@@ -319,12 +329,12 @@ export default connectTo(
                        min: 0,
                        max: 1,
                        metrics: [
-                         'ifs.' + this.state.interfaceName + '.rx.errors',
-                         'ifs.' + this.state.interfaceName + '.rx.dropped',
-                         'ifs.' + this.state.interfaceName + '.rx.overruns',
-                         'ifs.' + this.state.interfaceName + '.tx.errors',
-                         'ifs.' + this.state.interfaceName + '.tx.dropped',
-                         'ifs.' + this.state.interfaceName + '.tx.overruns'
+                         'ifs.' + interfaceName + '.rx.errors',
+                         'ifs.' + interfaceName + '.rx.dropped',
+                         'ifs.' + interfaceName + '.rx.overruns',
+                         'ifs.' + interfaceName + '.tx.errors',
+                         'ifs.' + interfaceName + '.tx.dropped',
+                         'ifs.' + interfaceName + '.tx.overruns'
                        ],
                        labels: [
                          'RX Errors',
@@ -371,34 +381,34 @@ export default connectTo(
                 <tr key={name}
                     onClick={() => this.selectInterface(name)}
                     className={classnames({
-                      'active': name === this.state.interfaceName
+                      'active': name === interfaceName
                     })}>
                   <td>{name}</td>
                   <td>{data.get('mac')}</td>
                   <td>{data.get('addresses').map(address => address.get('ip')).join(', ')}</td>
                   <Mtd metric={'ifs.' + name + '.rx.bytes'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={bytesPerSecondFormatter} />
                   <Mtd metric={'ifs.' + name + '.rx.errors'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'ifs.' + name + '.rx.dropped'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'ifs.' + name + '.rx.overruns'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'ifs.' + name + '.tx.bytes'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={bytesPerSecondFormatter} />
                   <Mtd metric={'ifs.' + name + '.tx.errors'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'ifs.' + name + '.tx.dropped'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                   <Mtd metric={'ifs.' + name + '.tx.overruns'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatPercentageShort} />
                 </tr>
               ).valueSeq()}
@@ -407,8 +417,8 @@ export default connectTo(
         </DashboardSection>
 
         <DashboardSection title='TCP Activity'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            y1={{
                              type: 'line',
@@ -496,5 +506,4 @@ export default connectTo(
       interfaceName: iface
     });
   }
-
 }));

@@ -1,5 +1,5 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 const rpt = React.PropTypes;
 
@@ -13,10 +13,9 @@ const GenericJavaWebAppDashboard = React.createClass({
 
   render() {
     return (
-      <div></div>
+      <div/>
     );
   }
-
 });
 
 export default GenericJavaWebAppDashboard;

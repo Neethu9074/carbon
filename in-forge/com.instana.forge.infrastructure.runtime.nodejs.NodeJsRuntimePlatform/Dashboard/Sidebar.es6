@@ -1,8 +1,8 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import Collapsible from 'in-components/Collapsible';
 import DeployedUnitList from 'in-components/DeployedUnitList';
+import Collapsible from 'in-components/Collapsible';
 
 import NodeJsInfo from '../NodeJsInfo';
 

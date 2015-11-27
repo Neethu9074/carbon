@@ -11,8 +11,7 @@ const CassandraClusterSidebar = React.createClass({
 
   render() {
     return (
-      <div>
-      </div>
+      <div/>
     );
   }
 });

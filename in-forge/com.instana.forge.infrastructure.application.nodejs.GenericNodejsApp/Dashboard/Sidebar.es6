@@ -1,9 +1,9 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import Collapsible from 'in-components/Collapsible';
 import DeployedUnitList from 'in-components/DeployedUnitList';
 import TagListSnapshot from 'in-components/TagListSnapshot';
+import Collapsible from 'in-components/Collapsible';
 
 import NodeJsAppInfo from '../NodeJsAppInfo';
 
@@ -15,21 +15,22 @@ const NodejsDashboardSidebar = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+
     return (
       <div>
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Node.js Application</Collapsible.Header>
           <Collapsible.Content>
-            <NodeJsAppInfo snapshot={this.props.snapshot} />
+            <NodeJsAppInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
-        <TagListSnapshot snapshot={this.props.snapshot} />
-        <DeployedUnitList snapshot={this.props.snapshot} />
+        <TagListSnapshot snapshot={snapshot} />
+        <DeployedUnitList snapshot={snapshot} />
       </div>
     );
   }
-
 });
 
 export default NodejsDashboardSidebar;

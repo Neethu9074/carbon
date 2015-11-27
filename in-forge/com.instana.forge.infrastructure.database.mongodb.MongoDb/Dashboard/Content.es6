@@ -1,6 +1,5 @@
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import {formatBytes} from 'in-services/converters';
 
@@ -12,21 +11,24 @@ const rpt = React.PropTypes;
 const chartHeight = 200;
 
 const MongoDBDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    snapshot: irpt.map.isRequired
   },
 
   render() {
-    const dbs = this.props.snapshot.getIn(['data', 'databases']);
+    const timeframe = this.props.timeframe;
+    const snapshot = this.props.snapshot;
+
+    const dbs = snapshot.getIn(['data', 'databases']);
 
     return (
       <div>
         <DashboardSection title='Database Size'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -46,8 +48,8 @@ const MongoDBDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Document Counter'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -70,8 +72,8 @@ const MongoDBDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Clients'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -90,7 +92,6 @@ const MongoDBDashboard = React.createClass({
       </div>
     );
   }
-
 });
 
 export default MongoDBDashboard;

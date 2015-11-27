@@ -15,15 +15,16 @@ const TomcatSidebar = React.createClass({
   },
 
   render() {
-    const webapps = this.props.snapshot.getIn(['data', 'webapps']);
-    const connectors = this.props.snapshot.getIn(['data', 'connector-config']);
+    const snapshot = this.props.snapshot;
+    const webapps = snapshot.getIn(['data', 'webapps']);
+    const connectors = snapshot.getIn(['data', 'connector-config']);
 
     return (
       <div>
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Tomcat</Collapsible.Header>
           <Collapsible.Content>
-            <TomcatInfo snapshot={this.props.snapshot} />
+            <TomcatInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
         { webapps ?
@@ -79,11 +80,10 @@ const TomcatSidebar = React.createClass({
             </Collapsible.Content>
           </Collapsible>
         : null }
-        <WiringList snapshot={this.props.snapshot} />
+        <WiringList snapshot={snapshot} />
       </div>
     );
   }
-
 });
 
 export default TomcatSidebar;

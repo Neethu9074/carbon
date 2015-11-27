@@ -1,7 +1,6 @@
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
-import d3 from 'd3';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
+import d3 from 'd3';
 
 import {formatBytesShort, capitalize} from 'in-services/converters';
 import classnames from 'in-services/util/classnames';
@@ -21,7 +20,7 @@ const muSecondsToMillisFormatter = muSeconds => +(Math.round(muSeconds / 1000.0 
 const muSecondsFormatter = muSeconds => muSeconds + ' µs';
 
 const CassandraDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired,
@@ -35,13 +34,17 @@ const CassandraDashboard = React.createClass({
   },
 
   render() {
-    const keyspaces = this.props.snapshot.get('data').get('keyspaces').sort();
+    const selectedKeyspace = this.state.selectedKeyspace;
+    const timeframe = this.props.timeframe;
+    const snapshot = this.props.snapshot;
+
+    const keyspaces = snapshot.get('data').get('keyspaces').sort();
 
     return (
       <div>
         <DashboardSection title='Requests'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -63,8 +66,8 @@ const CassandraDashboard = React.createClass({
         {['read', 'write'].map(op =>
           <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'}
                             key={op}>
-            <ChartWithLegend snapshot={this.props.snapshot}
-                             windowSize={this.props.timeframe}
+            <ChartWithLegend snapshot={snapshot}
+                             windowSize={timeframe}
                              height={chartHeight}
                              margins={{
                                left: 80
@@ -92,8 +95,8 @@ const CassandraDashboard = React.createClass({
         {['pending', 'blocked'].map(stage =>
           <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'}
                             key={stage}>
-            <ChartWithLegend snapshot={this.props.snapshot}
-                             windowSize={this.props.timeframe}
+            <ChartWithLegend snapshot={snapshot}
+                             windowSize={timeframe}
                              height={chartHeight}
                              margins={{
                                left: 80
@@ -120,8 +123,8 @@ const CassandraDashboard = React.createClass({
         )}
 
         <DashboardSection title='Dropped Messages'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -146,12 +149,12 @@ const CassandraDashboard = React.createClass({
                            }}/>
         </DashboardSection>
 
-        <DashboardSection title={this.state.selectedKeyspace ?
-          'Keyspaces (' + this.state.selectedKeyspace + ')' : 'Keyspaces' }>
-          {this.state.selectedKeyspace ?
+        <DashboardSection title={selectedKeyspace ?
+          'Keyspaces (' + selectedKeyspace + ')' : 'Keyspaces' }>
+          {selectedKeyspace ?
             <div>
-              <ChartWithLegend snapshot={this.props.snapshot}
-                     windowSize={this.props.timeframe}
+              <ChartWithLegend snapshot={snapshot}
+                     windowSize={timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80,
@@ -161,8 +164,8 @@ const CassandraDashboard = React.createClass({
                        min: 0,
                        formatter: muSecondsFormatter,
                        metrics: [
-                         'keyspace.' + this.state.selectedKeyspace + '.readLatency',
-                         'keyspace.' + this.state.selectedKeyspace + '.writeLatency'
+                         'keyspace.' + selectedKeyspace + '.readLatency',
+                         'keyspace.' + selectedKeyspace + '.writeLatency'
                        ],
                        labels: [
                          'Average Read Latency',
@@ -173,8 +176,8 @@ const CassandraDashboard = React.createClass({
                      y2={{
                        min: 0,
                        metrics: [
-                         'keyspace.' + this.state.selectedKeyspace + '.reads',
-                         'keyspace.' + this.state.selectedKeyspace + '.writes'
+                         'keyspace.' + selectedKeyspace + '.reads',
+                         'keyspace.' + selectedKeyspace + '.writes'
                        ],
                        labels: [
                          'Reads',
@@ -202,23 +205,23 @@ const CassandraDashboard = React.createClass({
                 <tr key={keyspaceName}
                     onClick={() => this.selectKeyspace(keyspaceName)}
                     className={classnames({
-                      'active': keyspaceName === this.state.selectedKeyspace
+                      'active': keyspaceName === selectedKeyspace
                     })}>
                   <td>{keyspaceName}</td>
                   <Mtd metric={'keyspace.' + keyspaceName + '.reads'}
-                       snapshot={this.props.snapshot} />
+                       snapshot={snapshot} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.readLatency'}
-                      snapshot={this.props.snapshot}
+                      snapshot={snapshot}
                       formatter={muSecondsFormatter} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.writes'}
-                       snapshot={this.props.snapshot} />
+                       snapshot={snapshot} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.writeLatency'}
-                      snapshot={this.props.snapshot}
+                      snapshot={snapshot}
                       formatter={muSecondsFormatter} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.ssTables'}
-                       snapshot={this.props.snapshot} />
+                       snapshot={snapshot} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.diskSize'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatBytesShort} />
                 </tr>
               ).valueSeq()}
@@ -227,8 +230,8 @@ const CassandraDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Pending Compactions'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -246,8 +249,8 @@ const CassandraDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Cache Hits'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -271,8 +274,8 @@ const CassandraDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Bloom Filter'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -299,7 +302,6 @@ const CassandraDashboard = React.createClass({
       selectedKeyspace: keyspace
     });
   }
-
 });
 
 export default CassandraDashboard;

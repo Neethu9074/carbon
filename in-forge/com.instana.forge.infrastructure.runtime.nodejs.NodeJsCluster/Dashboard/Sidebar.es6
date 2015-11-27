@@ -1,5 +1,5 @@
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 export default React.createClass({
   displayName: 'NodejsClusterSidebar',
@@ -13,5 +13,4 @@ export default React.createClass({
   render() {
     return <div/>;
   }
-
 });

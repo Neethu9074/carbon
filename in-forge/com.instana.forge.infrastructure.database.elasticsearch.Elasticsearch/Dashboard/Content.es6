@@ -1,15 +1,12 @@
-
-
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import ResponsiveTable from 'in-components/ResponsiveTable';
 
-import {formatBytes} from 'in-services/converters';
-import classnames from 'in-services/util/classnames';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import classnames from 'in-services/util/classnames';
+import {formatBytes} from 'in-services/converters';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
@@ -17,11 +14,11 @@ const rpt = React.PropTypes;
 const chartHeight = 200;
 
 const ElasticsearchDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    snapshot: irpt.map.isRequired
   },
 
   getInitialState() {
@@ -31,12 +28,17 @@ const ElasticsearchDashboard = React.createClass({
   },
 
   render() {
-    const indices = this.props.snapshot.getIn(['data', 'index.names']);
+    const timeframe = this.props.timeframe;
+    const indexName = this.state.indexName;
+    const snapshot = this.props.snapshot;
+
+    const indices = snapshot.getIn(['data', 'index.names']);
+
     return (
       <div>
         <DashboardSection title='Total Documents'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -56,10 +58,10 @@ const ElasticsearchDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Indices'>
-          {this.state.indexName ?
+          {indexName ?
             <div>
-              <ChartWithLegend snapshot={this.props.snapshot}
-                               windowSize={this.props.timeframe}
+              <ChartWithLegend snapshot={snapshot}
+                               windowSize={timeframe}
                                height={chartHeight}
                                margins={{
                                  left: 80,
@@ -68,8 +70,8 @@ const ElasticsearchDashboard = React.createClass({
 
                                y1={{
                                  metrics: [
-                                   'index.' + this.state.indexName + '.document_count',
-                                   'index.' + this.state.indexName + '.deleted_count'
+                                   'index.' + indexName + '.document_count',
+                                   'index.' + indexName + '.deleted_count'
                                  ],
                                  labels: [
                                    'Documents',
@@ -79,7 +81,7 @@ const ElasticsearchDashboard = React.createClass({
                                }}
                                y2={{
                                  metrics: [
-                                   'index.' + this.state.indexName + '.size'
+                                   'index.' + indexName + '.size'
                                  ],
                                  labels: [
                                    'Size'
@@ -105,15 +107,15 @@ const ElasticsearchDashboard = React.createClass({
                 <tr key={name}
                     onClick={() => this.selectIndex(name)}
                     className={classnames({
-                      'active': name === this.state.indexName
+                      'active': name === indexName
                     })}>
                   <td>{name}</td>
                   <Mtd metric={'index.' + name + '.document_count'}
-                       snapshot={this.props.snapshot} />
+                       snapshot={snapshot} />
                   <Mtd metric={'index.' + name + '.deleted_count'}
-                       snapshot={this.props.snapshot} />
+                       snapshot={snapshot} />
                   <Mtd metric={'index.' + name + '.size'}
-                       snapshot={this.props.snapshot}
+                       snapshot={snapshot}
                        formatter={formatBytes} />
                 </tr>
               ).valueSeq()}
@@ -122,8 +124,8 @@ const ElasticsearchDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Refresh and Flush'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80,
@@ -155,8 +157,8 @@ const ElasticsearchDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Lucene Segments'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -181,7 +183,6 @@ const ElasticsearchDashboard = React.createClass({
       indexName: index
     });
   }
-
 });
 
 export default ElasticsearchDashboard;

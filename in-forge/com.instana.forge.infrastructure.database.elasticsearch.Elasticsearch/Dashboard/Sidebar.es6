@@ -24,7 +24,6 @@ const ElasticsearchSidebar = React.createClass({
       </div>
     );
   }
-
 });
 
 export default ElasticsearchSidebar;

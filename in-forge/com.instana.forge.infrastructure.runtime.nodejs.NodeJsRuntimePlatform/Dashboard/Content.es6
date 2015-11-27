@@ -1,28 +1,31 @@
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import * as numberFormatters from 'in-services/formatters/number';
-import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardSection from 'in-components/DashboardSection';
+import ChartWithLegend from 'in-components/ChartWithLegend';
 
 const chartHeight = 150;
 const rpt = React.PropTypes;
 
 const NodejsDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [
+    React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    snapshot: irpt.map.isRequired
   },
 
   render() {
+    const timeframe = this.props.timeframe;
+    const snapshot = this.props.snapshot;
+
     return (
       <div>
         <DashboardSection title='Memory Usage'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 90,
@@ -62,8 +65,8 @@ const NodejsDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='GC Activity'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 90
@@ -83,8 +86,8 @@ const NodejsDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Event Loop'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 90
@@ -120,7 +123,6 @@ const NodejsDashboard = React.createClass({
       </div>
     );
   }
-
 });
 
 export default NodejsDashboard;

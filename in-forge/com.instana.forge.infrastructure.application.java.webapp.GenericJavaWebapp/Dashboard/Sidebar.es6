@@ -10,7 +10,7 @@ const GenericJavaWebAppDashboardSidebar = React.createClass({
 
   render() {
     return (
-      <div></div>
+      <div/>
     );
   }
 

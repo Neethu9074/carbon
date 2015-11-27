@@ -1,5 +1,4 @@
 import irpt from 'react-immutable-proptypes';
-import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
 import DashboardSection from 'in-components/DashboardSection';
@@ -12,10 +11,7 @@ const chartHeight = 200;
 const milliSecondsFormatter = milliSeconds => milliSeconds + ' ms';
 
 const TomcatDashboard = React.createClass({
-  mixins: [
-    React.addons.PureRenderMixin,
-    IntlMixin
-  ],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired,
@@ -71,17 +67,21 @@ const TomcatDashboard = React.createClass({
   },
 
   render() {
-    const servlets = this.props.snapshot.getIn(['data', 'servlets']);
-    const webapps = this.props.snapshot.getIn(['data', 'webapps']);
-    const connectors = this.props.snapshot.getIn(['data', 'connector-config']);
+    const state = this.state;
+    const props = this.props;
+    const snapshot = props.snapshot;
+    const servlets = snapshot.getIn(['data', 'servlets']);
+    const webapps = snapshot.getIn(['data', 'webapps']);
+    const connectors = snapshot.getIn(['data', 'connector-config']);
+
     return (
       <div>
       { servlets ?
         <DashboardSection title={'Servlets' +
-        (this.state.selectedServletName ? ' (' + this.state.selectedServletName + ')' : '')}>
-          {this.state.selectedServlet ?
-            <ChartWithLegend snapshot={this.props.snapshot}
-                   windowSize={this.props.timeframe}
+        (this.state.selectedServletName ? ' (' + state.selectedServletName + ')' : '')}>
+          {state.selectedServlet ?
+            <ChartWithLegend snapshot={snapshot}
+                   windowSize={props.timeframe}
                    height={chartHeight}
                    margins={{
                      left: 80,
@@ -90,7 +90,7 @@ const TomcatDashboard = React.createClass({
                    y1={{
                      formatter: milliSecondsFormatter,
                      metrics: [
-                       'servlets.' + this.state.selectedServlet + '.time'
+                       'servlets.' + state.selectedServlet + '.time'
                      ],
                      labels: [
                        'Average Response Time'
@@ -99,8 +99,8 @@ const TomcatDashboard = React.createClass({
                    }}
                    y2={{
                      metrics: [
-                       'servlets.' + this.state.selectedServlet + '.inv',
-                       'servlets.' + this.state.selectedServlet + '.errors'
+                       'servlets.' + state.selectedServlet + '.inv',
+                       'servlets.' + state.selectedServlet + '.errors'
                      ],
                      labels: [
                        'Request Count',
@@ -126,19 +126,19 @@ const TomcatDashboard = React.createClass({
       : null}
         { webapps ?
           <DashboardSection title='Sessions'>
-            {this.state.webapp ?
-              <ChartWithLegend snapshot={this.props.snapshot}
-                     windowSize={this.props.timeframe}
+            {state.webapp ?
+              <ChartWithLegend snapshot={snapshot}
+                     windowSize={props.timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80
                      }}
                      y1={{
                        metrics: [
-                         'sessions.' + this.state.webapp
+                         'sessions.' + state.webapp
                        ],
                        labels: [
-                         this.state.webapp + ' Sessions'
+                         state.webapp + ' Sessions'
                        ],
                        type: 'line'
                      }}/>
@@ -157,7 +157,7 @@ const TomcatDashboard = React.createClass({
                     <td>{data.get('name')}</td>
                     <td>{name}</td>
                     <Mtd metric={'sessions.' + name}
-                         snapshot={this.props.snapshot} />
+                         snapshot={snapshot} />
                   </tr>
                 ).valueSeq()}
               </tbody>
@@ -166,21 +166,21 @@ const TomcatDashboard = React.createClass({
         : null}
         { connectors ?
           <DashboardSection title='Connectors'>
-            {this.state.connector ?
-              <ChartWithLegend snapshot={this.props.snapshot}
-                     windowSize={this.props.timeframe}
+            {state.connector ?
+              <ChartWithLegend snapshot={snapshot}
+                     windowSize={props.timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80
                      }}
                      y1={{
                        metrics: [
-                         'connectors.' + this.state.connector + '.threads',
-                         'connectors.' + this.state.connector + '.connections'
+                         'connectors.' + state.connector + '.threads',
+                         'connectors.' + state.connector + '.connections'
                        ],
                        labels: [
-                         this.state.connector + ' Threads',
-                         this.state.connector + ' Connections'
+                         state.connector + ' Threads',
+                         state.connector + ' Connections'
                        ],
                        type: 'line'
                      }}/>
@@ -200,10 +200,10 @@ const TomcatDashboard = React.createClass({
                   <tr key={name} onClick={() => this.selectConnector(name)}>
                     <td>{name}</td>
                     <Mtd metric={'connectors.' + name + '.threads'}
-                         snapshot={this.props.snapshot} />
+                         snapshot={snapshot} />
                     <td>{data.get('threads').get('max')}</td>
                     <Mtd metric={'connectors.' + name + '.connections'}
-                         snapshot={this.props.snapshot} />
+                         snapshot={snapshot} />
                     <td>{data.get('connections').get('max')}</td>
                   </tr>
                 ).valueSeq()}
@@ -214,21 +214,25 @@ const TomcatDashboard = React.createClass({
       </div>
     );
   },
+
   selectServlet(metricKey, servletName) {
     this.setState({
       selectedServlet: metricKey,
       selectedServletName: servletName
     });
   },
+
   selectWebapp(w) {
     this.setState({
       webapp: w
     });
   },
+
   selectConnector(c) {
     this.setState({
       connector: c
     });
   }
 });
+
 export default TomcatDashboard;

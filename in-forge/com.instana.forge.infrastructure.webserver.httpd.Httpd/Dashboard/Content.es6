@@ -1,6 +1,5 @@
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -10,11 +9,11 @@ const rpt = React.PropTypes;
 const chartHeight = 200;
 
 const HttpdDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.number.isRequired,
+    snapshot: irpt.map.isRequired
   },
 
   render() {
@@ -41,7 +40,6 @@ const HttpdDashboard = React.createClass({
       </div>
     );
   }
-
 });
 
 export default HttpdDashboard;

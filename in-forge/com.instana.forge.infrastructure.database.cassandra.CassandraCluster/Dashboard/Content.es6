@@ -13,8 +13,7 @@ const CassandraClusterDashboard = React.createClass({
 
   render() {
     return (
-      <div>
-      </div>
+      <div/>
     );
   }
 });

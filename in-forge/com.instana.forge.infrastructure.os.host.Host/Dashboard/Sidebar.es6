@@ -4,8 +4,8 @@ import React from 'react/addons';
 import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
 
-import HostHardware from '../HostHardware';
 import InterfaceList from '../InterfaceList';
+import HostHardware from '../HostHardware';
 import HostInfo from '../HostInfo';
 
 const Sidebar = React.createClass({
@@ -38,7 +38,6 @@ const Sidebar = React.createClass({
       </div>
     );
   }
-
 });
 
 export default Sidebar;

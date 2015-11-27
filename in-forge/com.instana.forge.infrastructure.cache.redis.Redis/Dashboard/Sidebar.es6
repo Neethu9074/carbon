@@ -24,7 +24,6 @@ const RedisSidebar = React.createClass({
       </div>
     );
   }
-
 });
 
 export default RedisSidebar;

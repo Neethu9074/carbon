@@ -1,11 +1,7 @@
-import React from 'react/addons';
-import {IntlMixin} from 'react-intl';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import {
-  formatBytes,
-  formatPercentageShort
-} from 'in-services/converters';
+import {formatBytes, formatPercentageShort} from 'in-services/converters';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -15,7 +11,7 @@ const rpt = React.PropTypes;
 const chartHeight = 200;
 
 const RedisDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin, IntlMixin],
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired,
@@ -23,13 +19,16 @@ const RedisDashboard = React.createClass({
   },
 
   render() {
-    const dbs = this.props.snapshot.getIn(['data', 'dbs']);
+    const timeframe = this.props.timeframe;
+    const snapshot = this.props.snapshot;
+
+    const dbs = snapshot.getIn(['data', 'dbs']);
 
     return (
       <div>
         <DashboardSection title='Database Size'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -47,8 +46,8 @@ const RedisDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Clients'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -68,8 +67,8 @@ const RedisDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Memory'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -88,8 +87,8 @@ const RedisDashboard = React.createClass({
         </DashboardSection>
 
         <DashboardSection title='Cache'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -110,7 +109,6 @@ const RedisDashboard = React.createClass({
       </div>
     );
   }
-
 });
 
 export default RedisDashboard;

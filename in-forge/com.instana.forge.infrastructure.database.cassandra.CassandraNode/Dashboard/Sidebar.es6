@@ -1,12 +1,12 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import Collapsible from 'in-components/Collapsible';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import Collapsible from 'in-components/Collapsible';
 import List from 'in-components/List';
 
-import CassandraTopologyInfo from '../CassandraTopologyInfo';
 import CassandraCommunicationInfo from '../CassandraCommunicationInfo';
+import CassandraTopologyInfo from '../CassandraTopologyInfo';
 
 const CassandraSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -16,7 +16,8 @@ const CassandraSidebar = React.createClass({
   },
 
   render() {
-    const data = this.props.snapshot.get('data');
+    const snapshot = this.props.snapshot;
+    const data = snapshot.get('data');
     const tokens = data.get('tokens');
 
     return (
@@ -35,7 +36,7 @@ const CassandraSidebar = React.createClass({
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Topology</Collapsible.Header>
           <Collapsible.Content>
-            <CassandraTopologyInfo snapshot={this.props.snapshot} />
+            <CassandraTopologyInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
@@ -61,14 +62,13 @@ const CassandraSidebar = React.createClass({
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Communication</Collapsible.Header>
           <Collapsible.Content>
-            <CassandraCommunicationInfo snapshot={this.props.snapshot} />
+            <CassandraCommunicationInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
       </div>
     );
   }
-
 });
 
 export default CassandraSidebar;

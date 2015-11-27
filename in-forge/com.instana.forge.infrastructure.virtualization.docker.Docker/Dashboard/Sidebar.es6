@@ -15,13 +15,15 @@ const Sidebar = React.createClass({
   },
 
   render() {
-    const labels = this.props.snapshot.getIn(['data', 'Labels']);
+    const snapshot = this.props.snapshot;
+    const labels = snapshot.getIn(['data', 'Labels']);
+
     return (
       <div>
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Docker Container</Collapsible.Header>
           <Collapsible.Content>
-            <DockerInfo snapshot={this.props.snapshot} />
+            <DockerInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
@@ -29,16 +31,15 @@ const Sidebar = React.createClass({
           <Collapsible initiallyOpen={true}>
             <Collapsible.Header>Container Labels</Collapsible.Header>
             <Collapsible.Content>
-              <DockerLabels snapshot={this.props.snapshot} />
+              <DockerLabels snapshot={snapshot} />
             </Collapsible.Content>
           </Collapsible>
         : null}
 
-        <WiringList snapshot={this.props.snapshot} />
+        <WiringList snapshot={snapshot} />
       </div>
     );
   }
-
 });
 
 export default Sidebar;
