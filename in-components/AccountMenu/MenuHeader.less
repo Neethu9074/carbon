@@ -1,0 +1,26 @@
+@import "~in-themes/active.less";
+
+.in-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  cursor: pointer;
+
+  &__wrapper {
+    margin-right: 50px;
+  }
+
+  &__welcome, &__user-name {
+    font-size: 0.875rem;
+  }
+
+  &__user-name {
+    font-weight: bold;
+  }
+
+  &__icon {
+    font-size: 2rem;
+    margin-right: -12px; // remove the build in image margin
+  }
+}

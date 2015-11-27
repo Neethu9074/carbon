@@ -1,14 +1,19 @@
+import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
+
 import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
-import {config, isProductionEnvironment} from 'in-services/config';
 import {getClassName} from 'in-services/react';
+import {config} from 'in-services/config';
+
+import MenuHeader from './MenuHeader';
+import MenuFooter from './MenuFooter';
 
 import stanPath from './stan.png';
 
 import './AccountMenu.less';
 
-const block = 'in-account-menu';
+const block = 'in-account';
 
 const Menu = React.createClass({
   mixins: [
@@ -44,34 +49,23 @@ const Menu = React.createClass({
       return null;
     }
 
-    return (
-      <div className={block + '__panel'}>
+    const instana = window.instana;
 
-        <div className={block + '__menu-entry'}
-             onClick={this.showMenu}>
-          Application Settings
+    return (
+      <div className={block + '__menu'}>
+
+        <MenuHeader />
+
+        <div className={block + '__tenants'}>
+          Tenants
         </div>
 
-        {isProductionEnvironment() ?
-          <div className={block + '__menu-entry'}>
-            <a href={this.getGroundskeeperUrl()}
-               target='_blank'
-               className={block + '__menu-link'}>
-              Account Settings
-            </a>
-          </div>
-        : null}
+        <TenantSwitcher
+          tenants={[
+            { name: instana.user.preferredName, tenantUnits: [instana.config.tenantUnit] }
+          ]}/>
 
-        {isProductionEnvironment() ?
-          <div className={block + '__menu-entry-signout'}>
-            <form action='/auth/signOut' method='post'>
-              <button type='submit'
-                      className={block + '__signout'}>
-                Sign Out
-              </button>
-            </form>
-          </div>
-        : null}
+        <MenuFooter onClick={this.showMenu}/>
       </div>
     );
   },
