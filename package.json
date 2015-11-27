@@ -86,7 +86,7 @@
     "webpack-dev-server": "^1.7.0"
   },
   "publishConfig": {
-    "registry": "http://repo.internal.instana.io/nexus/content/repositories/instana-npm-releases/"
+    "registry": "https://repo-internal.instana.io/nexus/content/repositories/instana-npm-releases/"
   },
   "config": {
     "commitizen": {
