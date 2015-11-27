@@ -1,4 +1,5 @@
 @import "~in-themes/active.less";
+@import "~instana-ui-theme/components/TenantSwitcher/TenantSwitcher.less";
 
 .in-account {
   white-space: nowrap;
@@ -54,91 +55,5 @@
     opacity: 0.65;
     transition: opacity 0.25s ease-in-out;
     cursor: pointer;
-  }
-}
-
-.in-tenant-switcher {
-  width: 100%;
-
-  &__reset-margin {
-    margin: 0;
-  }
-
-  &__headline {
-    background-color: @tenant-switcher__headline-background-color;
-    border-radius: 5px;
-    border: 1px solid @tenant-switcher__headline-border-color;
-    cursor: pointer;
-  }
-
-  &__tenant-unit {
-    display: block;
-    position: relative;
-    font-size: 14px;
-    padding: 10px;
-    color: @tenant-switcher__font-color;
-    text-decoration: none;
-
-    &__toggle {
-      height: 0;
-      overflow: hidden;
-
-      &__block {
-        margin: 0 1.88rem;
-        padding: 0.5rem;
-        cursor: pointer;
-      }
-
-      a {
-        &:link,
-        &:active,
-        &:visited {
-          color: @tenant-switcher__link-color;;
-          text-decoration: none;
-        }
-        &:hover {
-          color: @tenant-switcher__link-hover-color;;
-          text-decoration: none;
-        }
-      }
-    }
-  }
-
-  & :target h2 a:after {
-    content: '';
-    position: absolute;
-    right: 0.63rem;
-    top: 50%;
-    margin-top: -0.19rem;
-    border-top: 0.31rem solid @tenant-switcher__triangle-color;
-    border-left: 0.31rem solid transparent;
-    border-right: 0.31rem solid transparent;
-  }
-
-  & :target .in-tenant-switcher__tenant-unit__toggle,
-  & &__section--active .in-tenant-switcher__tenant-unit__toggle  {
-    height: 100%;
-  }
-
-  &__tenant-name-container {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-
-    &__tag {
-      border-radius: 5px;
-      height: 2.5rem;
-      width: 2.5rem;
-      background-color: @tenant-switcher__tag-color;
-      text-align: center;
-      margin-right: 0.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    &__name {
-      margin-left: 0.63rem;
-    }
   }
 }
