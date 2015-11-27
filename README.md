@@ -4,13 +4,13 @@
 We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
 
 ## Getting Started
-You need to have io.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install io.js via the
+You need to have io.js (a temporary fork of Node.js, now part of the official Node.js) installed in order to execute the build, tests and the development mode. OS X and Linux users should install io.js via the
 [Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it
 easy to switch between installed Node.js and io.js versions and to install global
 modules without super-user privileges.
 
 ### Node Version Manager installation
-Make sure that you have Git and cURL installed.
+Make sure that you have Git and cURL installed before starting with the following instructions. Execute the instructions in the root directory of the ui-client project.
 
 ```
 # download and install NVM
@@ -19,11 +19,11 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | b
 # reload bash
 bash
 
-# install and use iojs
-VERSION="iojs-v2.5.0"
+# install and use the project's preferred Node.js version
+VERSION=$(cat .nvmrc)
 nvm install "$VERSION"
 nvm use "$VERSION"
-nvm alias default $VERSION
+nvm alias default "$VERSION"
 ```
 
 ### Setting up local domains
@@ -41,6 +41,14 @@ cp .npmrc.sample .npmrc
 ```
 
 You need to edit the `.npmrc` file according to the comments contained within that file. Since the file contains sensitive information, you would not add it to the repository. For your convenience, the file is ignored by default.
+
+
+### Installing Dependencies
+Now that you got the right Node.js version installed and got access to our Nexus, go ahead and install the application's dependencies. Execute the following command in the root directory of the ui-client project.
+
+```
+npm install
+```
 
 ### Executing tasks
 Tasks are defined in the `package.json`. They can be executed via `npm run <taskname>`. For instance `npm run test` (or `npm test`) to execute the tests, `npm run dev` to start up a proxy and development server or `npm run build` to build the JavaScript files.

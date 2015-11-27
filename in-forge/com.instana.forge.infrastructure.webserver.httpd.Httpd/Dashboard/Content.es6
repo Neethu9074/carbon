@@ -19,7 +19,7 @@ const HttpdDashboard = React.createClass({
   render() {
     return (
       <div>
-        <DashboardSection title='Requests'>
+        <DashboardSection title='Traffic'>
           <ChartWithLegend snapshot={this.props.snapshot}
                  windowSize={this.props.timeframe}
                  height={chartHeight}
@@ -27,7 +27,6 @@ const HttpdDashboard = React.createClass({
                    left: 80
                  }}
                  y1={{
-                   min: 0,
                    metrics: [
                      'requests'
                    ],
@@ -35,7 +34,54 @@ const HttpdDashboard = React.createClass({
                      'Requests'
                    ],
                    type: 'line'
-                 }}/>
+                 }}
+                 y2={{
+                   metrics: [
+                     'kBytes'
+                   ],
+                   labels: [
+                     'kBytes'
+                   ],
+                   type: 'line'
+                 }}
+                 />
+        </DashboardSection>
+        <DashboardSection title='Worker'>
+          <ChartWithLegend snapshot={this.props.snapshot}
+                           windowSize={this.props.timeframe}
+                           height={chartHeight}
+                           margins={{
+                             left: 60
+                           }}
+
+                           y1={{
+                             min: 0,
+                             metrics: [
+                               'worker.waiting',
+                               'worker.starting',
+                               'worker.reading',
+                               'worker.writing',
+                               'worker.keepalive',
+                               'worker.dns',
+                               'worker.closing',
+                               'worker.logging',
+                               'worker.graceful',
+                               'worker.idle'
+                             ],
+                             labels: [
+                               'Waiting',
+                               'Starting',
+                               'Reading',
+                               'Writing',
+                               'Keepalive',
+                               'Dns',
+                               'Closing',
+                               'Logging',
+                               'Graceful',
+                               'Idle'
+                             ],
+                             type: 'stackedArea'
+                           }}/>
         </DashboardSection>
       </div>
     );

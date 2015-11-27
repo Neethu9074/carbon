@@ -20,3 +20,4 @@ import './com.instana.forge.infrastructure.runtime.nodejs.NodeJsCluster';
 import './com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp';
 import './com.instana.forge.infrastructure.webserver.httpd.Httpd';
 import './com.instana.forge.hardware.AvailabilityZone';
+import './com.instana.forge.infrastructure.webserver.nginx.Nginx';
