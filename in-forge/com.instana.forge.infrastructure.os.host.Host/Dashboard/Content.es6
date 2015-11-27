@@ -4,12 +4,18 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 
 import {
-  formatBytes,
-  formatBytesShort,
-  formatPercentageShort,
-  formatNumberShort,
-  formatNumberSI
-} from 'in-services/converters';
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  percentageZeroDecimalPlaces,
+  percentageTwoDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  bytesPerSecondZeroDecimalPlaces,
+  kiloBytesZeroDecimalPlaces,
+  kiloBytesTwoDecimalPlaces,
+  withSiPrefixZeroDecimalPlaces,
+  withSiPrefixTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import {getMaxValue} from 'in-sdk/metrics';
 
 import DashboardSection from 'in-components/DashboardSection';
@@ -22,10 +28,6 @@ import HelpLink from 'in-components/HelpLink';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
-
-const bytesPerSecondFormatter = d => formatBytesShort(d) + '/s';
-const kbFormatter = d => formatBytes(d * 1024);
-const kbFormatterShort = d => formatBytesShort(d * 1024);
 
 const chartHeight = 200;
 
@@ -83,7 +85,7 @@ export default connectTo(
                  y1={{
                    min: 0,
                    max: 1,
-                   formatter: formatPercentageShort,
+                   formatter: percentageZeroDecimalPlaces,
                    metrics: [
                      'cpu.user',
                      'cpu.sys',
@@ -112,6 +114,8 @@ export default connectTo(
                  y1={{
                    min: 0,
                    type: 'stackedArea',
+                   formatter: twoDecimalPlaces,
+                   tooltipFormatter: twoDecimalPlaces,
                    metrics: [
                      'load.1min'
                    ],
@@ -133,7 +137,7 @@ export default connectTo(
                      y1={{
                        min: 0,
                        max: 1,
-                       formatter: formatPercentageShort,
+                       formatter: percentageZeroDecimalPlaces,
                        metrics: [
                          'cpus.' + cpuNo + '.user',
                          'cpus.' + cpuNo + '.sys',
@@ -174,19 +178,19 @@ export default connectTo(
                   <td>CPU {index}</td>
                   <Mtd metric={'cpus.' + index + '.user'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'cpus.' + index + '.sys'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'cpus.' + index + '.wait'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'cpus.' + index + '.nice'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'cpus.' + index + '.steal'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                 </tr>
               ).valueSeq()}
             </tbody>
@@ -204,7 +208,8 @@ export default connectTo(
                  y1={{
                    min: 0,
                    max: snapshot.getIn(['data', 'memory.total']),
-                   formatter: formatBytesShort,
+                   formatter: bytesZeroDecimalPlaces,
+                   tooltipFormatter: bytesTwoDecimalPlaces,
                    metrics: [
                      'memory.free'
                    ],
@@ -231,7 +236,8 @@ export default connectTo(
                          'fs.' + filesystemName + '.free',
                          snapshot
                        ),
-                       formatter: kbFormatterShort,
+                       formatter: kiloBytesZeroDecimalPlaces,
+                       tooltipFormatter: kiloBytesTwoDecimalPlaces,
                        metrics: [
                          'fs.' + filesystemName + '.free',
                          'fs.' + filesystemName + '.leaked'
@@ -251,7 +257,8 @@ export default connectTo(
                        ],
                        labels: ['iFree'],
                        type: 'line',
-                       formatter: formatNumberSI
+                       formatter: withSiPrefixZeroDecimalPlaces,
+                       tooltipFormatter: withSiPrefixTwoDecimalPlaces
                      }}/>
             </div>
           : null}
@@ -285,16 +292,16 @@ export default connectTo(
                   <td>{data.get('mount')}</td>
                   <td>{data.get('options')}</td>
                   <td>{data.get('systype')}</td>
-                  <td>{kbFormatter(data.get('capacity'))}</td>
+                  <td>{kiloBytesTwoDecimalPlaces(data.get('capacity'))}</td>
                   <Mtd metric={'fs.' + name + '.free'}
                        snapshot={snapshot}
-                       formatter={kbFormatter} />
+                       formatter={kiloBytesTwoDecimalPlaces} />
                   <Mtd metric={'fs.' + name + '.leaked'}
                        snapshot={snapshot}
-                       formatter={kbFormatter} />
+                       formatter={kiloBytesTwoDecimalPlaces} />
                   <Mtd metric={'fs.' + name + '.ifree'}
                        snapshot={snapshot}
-                       formatter={formatNumberSI} />
+                       formatter={withSiPrefixTwoDecimalPlaces} />
                 </tr>
               ).valueSeq()}
             </tbody>
@@ -314,7 +321,8 @@ export default connectTo(
 
                      y1={{
                        min: 0,
-                       formatter: formatBytesShort,
+                       formatter: bytesZeroDecimalPlaces,
+                       tooltipFormatter: bytesTwoDecimalPlaces,
                        metrics: [
                          'ifs.' + interfaceName + '.rx.bytes',
                          'ifs.' + interfaceName + '.tx.bytes'
@@ -344,7 +352,8 @@ export default connectTo(
                          'TX Dropped',
                          'TX Overruns'
                        ],
-                       formatter: formatPercentageShort,
+                       formatter: percentageZeroDecimalPlaces,
+                       tooltipFormatter: percentageTwoDecimalPlaces,
                        type: 'line'
                      }}/>
             </div>
@@ -388,28 +397,28 @@ export default connectTo(
                   <td>{data.get('addresses').map(address => address.get('ip')).join(', ')}</td>
                   <Mtd metric={'ifs.' + name + '.rx.bytes'}
                        snapshot={snapshot}
-                       formatter={bytesPerSecondFormatter} />
+                       formatter={bytesPerSecondZeroDecimalPlaces} />
                   <Mtd metric={'ifs.' + name + '.rx.errors'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'ifs.' + name + '.rx.dropped'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'ifs.' + name + '.rx.overruns'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'ifs.' + name + '.tx.bytes'}
                        snapshot={snapshot}
-                       formatter={bytesPerSecondFormatter} />
+                       formatter={bytesPerSecondZeroDecimalPlaces} />
                   <Mtd metric={'ifs.' + name + '.tx.errors'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'ifs.' + name + '.tx.dropped'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                   <Mtd metric={'ifs.' + name + '.tx.overruns'}
                        snapshot={snapshot}
-                       formatter={formatPercentageShort} />
+                       formatter={percentageZeroDecimalPlaces} />
                 </tr>
               ).valueSeq()}
             </tbody>
@@ -434,7 +443,8 @@ export default connectTo(
                                'In Segments',
                                'Out Segments'
                              ],
-                             formatter: formatNumberShort
+                             formatter: zeroDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces
                            }}
                            y2={{
                              type: 'line',
@@ -452,7 +462,7 @@ export default connectTo(
                              ],
                              min: 0,
                              max: 1,
-                             formatter: formatPercentageShort
+                             formatter: percentageZeroDecimalPlaces
                            }}
                            margins={{
                              right: 60,
@@ -478,7 +488,7 @@ export default connectTo(
                   <td>{process.pid}</td>
                   <td>{process.name}</td>
                   <td>{process.cpu}</td>
-                  <td>{formatBytes(process.memory)}</td>
+                  <td>{bytesTwoDecimalPlaces(process.memory)}</td>
                 </tr>
               )}
             </tbody>
