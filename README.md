@@ -4,17 +4,15 @@
 We are using the [Git flow](http://nvie.com/posts/a-successful-git-branching-model/) branching model in ui-client.
 
 ## Getting Started
-You need to have io.js (a temporary fork of Node.js, now part of the official Node.js) installed in order to execute the build, tests and the development mode. OS X and Linux users should install io.js via the
-[Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it
-easy to switch between installed Node.js and io.js versions and to install global
-modules without super-user privileges.
+You need to have Node.js installed in order to execute the build, tests and the development mode. OS X and Linux users should install Node.js via the
+[Node Version Manager](https://github.com/creationix/nvm) (NVM). NVM makes it easy to switch between installed Node.js versions and allows installation of global modules without super-user privileges.
 
 ### Node Version Manager installation
 Make sure that you have Git and cURL installed before starting with the following instructions. Execute the instructions in the root directory of the ui-client project.
 
 ```
 # download and install NVM
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.25.4/install.sh | bash
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | bash
 
 # reload bash
 bash
@@ -61,6 +59,15 @@ npm install -g commitizen
 ```
 
 And now you can execute `git cz` to commit with nice commit messages.
+
+### Upgrading Node.js
+From time to time we are upgrading the Node.js version that we are using for build of the `ui-client` as well as for the `in-server`. Node.js upgrades have been automated. Simply execute the following command in the root of the project to automatically upgrade your Node.js version via NVM.
+
+```
+./build/upgrade-nodejs
+```
+
+Once executed, verify that it was successful via the usual `npm test`.
 
 ## Theming
 The theming system in place is used to support the default dark theme (called *night*) and a brighter theme with stronger contrasts (called *day*). Themes are switched based on a cookie called `in-theme`. This cookie is read by `in-server` and depending on its value the server returns varying HTML responses.
