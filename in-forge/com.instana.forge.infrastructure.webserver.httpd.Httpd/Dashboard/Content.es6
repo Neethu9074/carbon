@@ -17,11 +17,14 @@ const HttpdDashboard = React.createClass({
   },
 
   render() {
+    const timeframe = this.props.timeframe;
+    const snapshot = this.props.snapshot;
+
     return (
       <div>
         <DashboardSection title='Traffic'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                 windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                 windowSize={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80
@@ -47,8 +50,8 @@ const HttpdDashboard = React.createClass({
                  />
         </DashboardSection>
         <DashboardSection title='Worker'>
-          <ChartWithLegend snapshot={this.props.snapshot}
-                           windowSize={this.props.timeframe}
+          <ChartWithLegend snapshot={snapshot}
+                           windowSize={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 60
