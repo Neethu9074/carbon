@@ -4,7 +4,6 @@ import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
 import {getClassName} from 'in-services/react';
-import {config} from 'in-services/config';
 
 import MenuHeader from './MenuHeader';
 import MenuFooter from './MenuFooter';
@@ -68,10 +67,6 @@ const Menu = React.createClass({
         <MenuFooter onClick={this.showMenu}/>
       </div>
     );
-  },
-
-  getGroundskeeperUrl() {
-    return `https://${config.groundskeeperDomain}/ump/${config.tenant}/${config.tenantUnit}`;
   },
 
   render() {
