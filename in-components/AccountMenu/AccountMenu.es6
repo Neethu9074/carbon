@@ -1,5 +1,3 @@
-import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
-
 import {IntlMixin} from 'react-intl';
 import React from 'react/addons';
 
@@ -48,21 +46,10 @@ const Menu = React.createClass({
       return null;
     }
 
-    const instana = window.instana;
-
     return (
       <div className={block + '__menu'}>
 
         <MenuHeader />
-
-        <div className={block + '__tenants'}>
-          Tenants
-        </div>
-
-        <TenantSwitcher
-          tenants={[
-            { name: instana.user.preferredName, tenantUnits: [instana.config.tenantUnit] }
-          ]}/>
 
         <MenuFooter onClick={this.showMenu}/>
       </div>
