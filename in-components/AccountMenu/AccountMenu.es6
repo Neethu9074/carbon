@@ -51,13 +51,6 @@ export default connectTo(
     this.props.showMenu(event);
   },
 
- /* componentWillMount() {
-
-    getTenantsWithUnits()
-      .subscribe(response => {
-
-  },*/
-
   renderMenu() {
     if (!this.state.open) {
       return null;
