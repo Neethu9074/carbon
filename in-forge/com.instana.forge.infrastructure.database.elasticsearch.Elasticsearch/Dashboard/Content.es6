@@ -6,7 +6,12 @@ import ResponsiveTable from 'in-components/ResponsiveTable';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
-import {formatBytes} from 'in-services/converters';
+import {
+  zeroDecimalPlaces,
+  withSiPrefixZeroDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
@@ -53,6 +58,8 @@ const ElasticsearchDashboard = React.createClass({
                                'Documents',
                                'Deleted'
                              ],
+                             formatter: withSiPrefixZeroDecimalPlaces,
+                             tooltipFormatter: zeroDecimalPlaces,
                              type: 'line'
                            }}/>
         </DashboardSection>
@@ -77,6 +84,8 @@ const ElasticsearchDashboard = React.createClass({
                                    'Documents',
                                    'Deletions'
                                  ],
+                                 formatter: withSiPrefixZeroDecimalPlaces,
+                                 tooltipFormatter: zeroDecimalPlaces,
                                  type: 'line'
                                }}
                                y2={{
@@ -86,24 +95,25 @@ const ElasticsearchDashboard = React.createClass({
                                  labels: [
                                    'Size'
                                  ],
-                                 formatter: formatBytes,
+                                 formatter: bytesZeroDecimalPlaces,
+                                 tooltipFormatter: bytesTwoDecimalPlaces,
                                  type: 'line'
                                 }}/>
             </div>
-          : null}
+            : null}
 
           <ResponsiveTable clickable={true}>
             <thead>
-              <tr>
-                <th>Index</th>
-                <th>Documents</th>
-                <th>Deleted</th>
-                <th>Size</th>
-              </tr>
+            <tr>
+              <th>Index</th>
+              <th>Documents</th>
+              <th>Deleted</th>
+              <th>Size</th>
+            </tr>
             </thead>
 
             <tbody>
-              {indices.map((name) =>
+            {indices.map((name) =>
                 <tr key={name}
                     onClick={() => this.selectIndex(name)}
                     className={classnames({
@@ -111,14 +121,16 @@ const ElasticsearchDashboard = React.createClass({
                     })}>
                   <td>{name}</td>
                   <Mtd metric={'index.' + name + '.document_count'}
-                       snapshot={snapshot} />
+                       formatter={withSiPrefixZeroDecimalPlaces}
+                       snapshot={snapshot}/>
                   <Mtd metric={'index.' + name + '.deleted_count'}
-                       snapshot={snapshot} />
+                       formatter={withSiPrefixZeroDecimalPlaces}
+                       snapshot={snapshot}/>
                   <Mtd metric={'index.' + name + '.size'}
                        snapshot={snapshot}
-                       formatter={formatBytes} />
+                       formatter={bytesTwoDecimalPlaces}/>
                 </tr>
-              ).valueSeq()}
+            ).valueSeq()}
             </tbody>
           </ResponsiveTable>
         </DashboardSection>
@@ -140,6 +152,8 @@ const ElasticsearchDashboard = React.createClass({
                                'Refresh Count',
                                'Flush Count'
                              ],
+                             formatter: withSiPrefixZeroDecimalPlaces,
+                             tooltipFormatter: zeroDecimalPlaces,
                              type: 'line'
                            }}
                            y2={{
@@ -171,6 +185,8 @@ const ElasticsearchDashboard = React.createClass({
                              labels: [
                                'Segments'
                              ],
+                             formatter: withSiPrefixZeroDecimalPlaces,
+                             tooltipFormatter: zeroDecimalPlaces,
                              type: 'stackedArea'
                            }}/>
         </DashboardSection>

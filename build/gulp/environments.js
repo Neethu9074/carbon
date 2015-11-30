@@ -64,6 +64,15 @@ module.exports = {
     tenantUnit: 'test',
     groundskeeperDomain: 'instana.io'
   },
+  rewedigital: {
+    user: 'stan@instana.com',
+    pw: '4711',
+    uiBackendUrl: 'https://rewedigital.instana.io/api',
+    groundskeeperUrl: 'https://rewedigital.instana.io',
+    tenant: 'rewedigital',
+    tenantUnit: 'rewedigital',
+    groundskeeperDomain: 'instana.io'
+  },
   centerdevice: {
     user: 'daniel.schneller@centerdevice.de',
     pw: '543centerdevice345',
