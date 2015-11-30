@@ -3,13 +3,13 @@ import {Navigation, State} from 'react-router';
 import {createLogger} from 'instalog';
 
 import http from 'in-services/http';
+
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import NotificationDialog from 'in-components/NotificationDialog';
 
 const logger = createLogger('in-client.HelpDialog');
 
 const rpt = React.PropTypes;
-
 const HelpDialog = React.createClass({
   mixins: [React.addons.PureRenderMixin, Navigation, State],
 
@@ -29,10 +29,10 @@ const HelpDialog = React.createClass({
 
   loadArticle() {
     const id = this.props.id;
-    const url = 'https://instana.zendesk.com//api/v2/help_center/articles/' +
+    const url = 'https://instana.zendesk.com/api/v2/help_center/articles/' +
       id + '.json';
     http({method: 'GET', url})
-    .then(response => {
+    .once(response => {
       this.setState({
         article: response.body.article,
         error: null
