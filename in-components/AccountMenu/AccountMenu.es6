@@ -1,6 +1,9 @@
+import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
 import {IntlMixin} from 'react-intl';
+
 import React from 'react/addons';
 
+import {getTenantsWithUnits} from 'in-services/tenants';
 import {getClassName} from 'in-services/react';
 
 import MenuHeader from './MenuHeader';
@@ -26,6 +29,7 @@ const Menu = React.createClass({
   getInitialState() {
     return {
       open: false,
+      tenantSwitcherStructure: null,
       showSettings: false
     };
   },
@@ -37,8 +41,31 @@ const Menu = React.createClass({
   },
 
   showMenu(event) {
-    this.setState({ open: false });
+    this.setState({open: false});
     this.props.showMenu(event);
+  },
+
+  componentWillMount() {
+
+    getTenantsWithUnits()
+      .subscribe(response => {
+        const structure = [];
+
+        Object.keys(response).forEach(key => {
+
+          const tenantUnits = response[key].map(unit => {
+            return unit.name;
+          });
+
+          structure.push({
+            name: key,
+            tenantUnits: tenantUnits
+          });
+        });
+          this.setState({
+            tenantSwitcherStructure: structure
+          });
+      });
   },
 
   renderMenu() {
@@ -50,6 +77,13 @@ const Menu = React.createClass({
       <div className={block + '__menu'}>
 
         <MenuHeader />
+
+        <div className={block + '__tenants'}>
+          Tenants
+        </div>
+
+        <TenantSwitcher
+          tenants={this.state.tenantSwitcherStructure}/>
 
         <MenuFooter onClick={this.showMenu}/>
       </div>
@@ -68,7 +102,7 @@ const Menu = React.createClass({
 
         <div className={className}
              onClick={this.toggle}>
-           <img className={block + '__icon'} src={stanPath}/>
+          <img className={block + '__icon'} src={stanPath}/>
         </div>
 
       </div>

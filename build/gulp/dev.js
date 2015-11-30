@@ -170,6 +170,7 @@ gulp.task('startDevProxy', function() {
       '/auth/signIn': groundskeeperUrl + '/auth/signIn',
       '/auth/signOut': groundskeeperUrl + '/auth/signOut',
       '/auth/users/current': groundskeeperUrl + '/auth/users/current',
+      '/auth/users/tenants': groundskeeperUrl + '/auth/users/tenants',
       '/uiTracker/': 'http://127.0.0.1:8484/',
       '/assets/': groundskeeperUrl + '/assets/'
     },
@@ -181,7 +182,6 @@ gulp.task('startDevProxy', function() {
 
   buildUtil.startProxrox(config);
 });
-
 
 gulp.task('openDevUrlInBrowser', function() {
   buildUtil.openBrowser('https://local-instana.instana.io:4000');
