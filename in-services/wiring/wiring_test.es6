@@ -1,9 +1,11 @@
 /* eslint-env mocha */
 import * as ro from 'reactive-observables';
 import proxyquire from 'proxyquire';
+import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
+import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {extractCoordinates} from '../snapshots';
 import {getGraph} from './test_util';
@@ -13,14 +15,20 @@ describe('wiring', () => {
 
   let onNext;
   let wiringConveyer;
+  let snapshotsConveyer;
   let mod;
 
   beforeEach(() => {
     onNext = sinon.stub();
     const create = sinon.stub();
 
-    wiringConveyer = ro.create({emitLatestOnSubscribe: true});
+    snapshotsConveyer = ro.create();
+    create.withArgs(SnapshotsConveyer).returns(snapshotsConveyer);
+    snapshotsConveyer.emit(Immutable.List());
+
+    wiringConveyer = ro.create();
     create.withArgs(WiringConveyer).returns(wiringConveyer);
+
 
     mod = proxyquire('./wiring', {
       './physical': proxyquire('./physical', {
@@ -47,6 +55,42 @@ describe('wiring', () => {
         const structure = onNext.getCall(0).args[0];
         expect(structure).to.be.instanceOf(Array);
         expect(structure.length).to.equal(0);
+      });
+
+      it('should add nodes which have snapshots but no wiring', () => {
+        emitGraph(getGraph('empty'));
+
+        snapshotsConveyer.emit(Immutable.fromJS([
+          { id: 'temp_id_1' }
+        ]));
+
+        mod.getStructure(views.physical)
+          .subscribe(onNext);
+
+        expect(onNext).to.have.callCount(1);
+        const structure = onNext.getCall(0).args[0];
+        expect(structure).to.be.instanceOf(Array);
+        expect(structure.length).to.equal(1);
+        expect(structure[0].node.get('id')).to.equal('temp_id_1');
+      });
+
+      it('should add nodes which have snapshots but no wiring ' +
+         'but dont add them if they are still inside wiring', () => {
+        emitGraph(getGraph('simple'));
+
+        snapshotsConveyer.emit(Immutable.fromJS([
+          { id: 'temp_id_1' }, // this snapshot is unknown
+          { id: 'com.instana.forge.infrastructure.os.host.Host#h1#sOS' }, // this snapshot is known
+          { id: 'temp_id_2' } // this snapshot is unknown
+        ]));
+
+        mod.getStructure(views.physical)
+          .subscribe(onNext);
+
+        expect(onNext).to.have.callCount(1);
+        const structure = onNext.getCall(0).args[0];
+        expect(structure).to.be.instanceOf(Array);
+        expect(structure.length).to.equal(3);
       });
 
       it('should traverse the graph and identify groups for OS snapshots', () => {

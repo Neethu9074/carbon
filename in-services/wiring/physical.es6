@@ -2,11 +2,11 @@ import * as ro from 'reactive-observables';
 
 import * as forgeConsts from 'in-forge/constants';
 
-import {getFullSnapshot} from '../snapshots';
-import * as views from '../views';
-
+import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
+import {getFullSnapshot} from '../snapshots';
 import {create} from '../conveyer';
+import * as views from '../views';
 import {alwaysNull, alwaysEmptyArray} from '../fixedStreams';
 import {
   getDestinationNode,
@@ -19,7 +19,11 @@ import {
 
 
 const completeWiring = create(WiringConveyer);
-export const physicalHostsViewWiring = completeWiring.map(mapWiringGraphToPhysicalHostsViewGraph);
+
+export const physicalHostsViewWiring = completeWiring
+  .map(mapWiringGraphToPhysicalHostsViewGraph)
+  .flatMap(addNodesFromSnapshotsWichDoesNotAppearInWiring);
+
 export const fullPhysicalHostsViewWiring = physicalHostsViewWiring.transform({
   emitLatestOnSubscribe: true,
 
@@ -29,7 +33,7 @@ export const fullPhysicalHostsViewWiring = physicalHostsViewWiring.transform({
 });
 
 
-export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
+function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
   return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
     .map(osNodeStrId => {
       let group = getDestinationNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
@@ -48,6 +52,29 @@ export function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
         connections: null
       };
     });
+}
+
+function addNodesFromSnapshotsWichDoesNotAppearInWiring(viewStructure) {
+  return create(SnapshotsConveyer, { pluginId: forgeConsts.plugins.os })
+    .map(snapshots => {
+      snapshots.forEach(snapshot => {
+        const snapshotIsInsideView = findNodeWithIdInStructure(snapshot.get('id'), viewStructure);
+        if (!snapshotIsInsideView) {
+          viewStructure.push({
+            group: null,
+            node: snapshot,
+            layers: [],
+            connections: null
+          });
+        }
+      });
+
+      return viewStructure;
+    });
+}
+
+function findNodeWithIdInStructure(id, viewStructure) {
+  return viewStructure[viewStructure.map(vs => vs.node.get('id')).indexOf(id)];
 }
 
 

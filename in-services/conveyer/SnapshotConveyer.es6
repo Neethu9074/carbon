@@ -1,5 +1,5 @@
-import {create} from './conveyer';
 import SnapshotsConveyer from './SnapshotsConveyer';
+import {create} from './conveyer';
 
 export default class SnapshotConveyer {
 
