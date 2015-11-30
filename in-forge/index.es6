@@ -12,6 +12,7 @@ import './com.instana.forge.infrastructure.database.mysql.MySqlDatabase';
 import './com.instana.forge.infrastructure.os.host.Host';
 import './com.instana.forge.infrastructure.os.process.Process';
 import './com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform';
+import './com.instana.forge.infrastructure.messaging.kafka.Kafka';
 import './com.instana.forge.infrastructure.virtualization.docker.Docker';
 import './com.instana.forge.hardware.virtual.ec2.Ec2';
 import './com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform';

@@ -5,6 +5,7 @@ export const plugins = {
   process: 'com.instana.forge.infrastructure.os.process.Process',
   jira: 'com.instana.forge.infrastructure.application.jira.JiraApplication',
   jvm: 'com.instana.forge.infrastructure.runtime.jvm.JvmRuntimePlatform',
+  kafka: 'com.instana.forge.infrastructure.messaging.kafka.Kafka',
   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
   cassandra: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
