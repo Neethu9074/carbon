@@ -55,10 +55,13 @@ function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
 }
 
 function addNodesFromSnapshotsWichDoesNotAppearInWiring(viewStructure) {
+  const LUT = {};
+  viewStructure.forEach(vs => LUT[vs.node.get('id')] = vs.node);
+
   return create(SnapshotsConveyer, { pluginId: forgeConsts.plugins.os })
     .map(snapshots => {
       snapshots.forEach(snapshot => {
-        const snapshotIsInsideView = findNodeWithIdInStructure(snapshot.get('id'), viewStructure);
+        const snapshotIsInsideView = LUT[snapshot.get('id')];
         if (!snapshotIsInsideView) {
           viewStructure.push({
             group: null,
@@ -72,11 +75,6 @@ function addNodesFromSnapshotsWichDoesNotAppearInWiring(viewStructure) {
       return viewStructure;
     });
 }
-
-function findNodeWithIdInStructure(id, viewStructure) {
-  return viewStructure[viewStructure.map(vs => vs.node.get('id')).indexOf(id)];
-}
-
 
 export function getAllStepsBetweenNodeAndLeaf(snapshotCoordinates) {
   const originId = snapshotCoordinates.get('id');
