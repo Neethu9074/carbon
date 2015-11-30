@@ -45,7 +45,6 @@ export default connectTo(
     },
 
     render() {
-      console.log('Outgoing Connections', this.props.outgoingConnections);
 
       const timeframe = this.props.timeframe;
       const snapshot = this.props.snapshot;

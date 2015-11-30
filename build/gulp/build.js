@@ -203,6 +203,7 @@ gulp.task('startTryBuildProxy', function() {
       '/auth/signIn': groundskeeperUrl + '/auth/signIn',
       '/auth/signOut': groundskeeperUrl + '/auth/signOut',
       '/auth/users/current': groundskeeperUrl + '/auth/users/current',
+      '/auth/users/tenants': groundskeeperUrl + '/auth/users/tenants',
       '/internal/api': instagrafanaUrl + 'api',
       '/uiTracker/': 'http://127.0.0.1:8484/',
       '/assets/': groundskeeperUrl + '/assets/'

@@ -1,7 +1,11 @@
+import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
 import {IntlMixin} from 'react-intl';
+
 import React from 'react/addons';
 
+import {getTenantsWithUnits} from 'in-services/tenants';
 import {getClassName} from 'in-services/react';
+import connectTo from 'in-components/hoc/connectTo';
 
 import MenuHeader from './MenuHeader';
 import MenuFooter from './MenuFooter';
@@ -12,7 +16,22 @@ import './AccountMenu.less';
 
 const block = 'in-account';
 
-const Menu = React.createClass({
+export default connectTo(
+  () => {
+    return {
+      tenantUnitStructure: getTenantsWithUnits().map(tenantUnits => {
+        return Object.keys(tenantUnits).map(tenantName => {
+          return {
+            name: tenantName,
+            tenantUnits: tenantUnits[tenantName].map(unit => unit.name)
+          };
+        });
+      })
+    };
+  }, React.createClass({
+
+  displayName: 'AccountMenu',
+
   mixins: [
     React.addons.PureRenderMixin,
     IntlMixin
@@ -20,7 +39,8 @@ const Menu = React.createClass({
 
   propTypes: {
     className: React.PropTypes.string,
-    showMenu: React.PropTypes.func
+    showMenu: React.PropTypes.func,
+    tenantUnitStructure: React.PropTypes.any
   },
 
   getInitialState() {
@@ -37,7 +57,7 @@ const Menu = React.createClass({
   },
 
   showMenu(event) {
-    this.setState({ open: false });
+    this.setState({open: false});
     this.props.showMenu(event);
   },
 
@@ -50,6 +70,13 @@ const Menu = React.createClass({
       <div className={block + '__menu'}>
 
         <MenuHeader />
+
+        <div className={block + '__tenants'}>
+          Tenants
+        </div>
+
+        <TenantSwitcher
+          tenants={this.props.tenantUnitStructure}/>
 
         <MenuFooter onClick={this.showMenu}/>
       </div>
@@ -68,12 +95,10 @@ const Menu = React.createClass({
 
         <div className={className}
              onClick={this.toggle}>
-           <img className={block + '__icon'} src={stanPath}/>
+          <img className={block + '__icon'} src={stanPath}/>
         </div>
 
       </div>
     );
   }
-});
-
-export default Menu;
+}));
