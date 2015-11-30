@@ -15,12 +15,8 @@ const MenuHeader = React.createClass({
 
   render() {
     return (
-      <div className={block}
-           onClick={this.onClick}>
-
-        <a className={block + '__wrapper'}
-           href={url}
-           target='_blank'>
+      <a className={block} href={url} target='_blank'>
+        <span className={block + '__wrapper'}>
           <span className={block + '__welcome'}>
             Welchome to Instana,
           </span>
@@ -28,11 +24,10 @@ const MenuHeader = React.createClass({
           <span className={block + '__user-name'}>
             {window.instana.user.fullName}
           </span>
-        </a>
+        </span>
 
-        <Icon type={'right'} className={block + '__icon'}/>
-
-      </div>
+        <Icon type='right' className={block + '__icon'}/>
+      </a>
     );
   }
 });
