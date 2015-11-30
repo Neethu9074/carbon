@@ -19,9 +19,19 @@ const block = 'in-account';
 export default connectTo(
   () => {
     return {
-      tenantSwitcherStructure: getTenantsWithUnits()
+      tenantUnitStructure: getTenantsWithUnits().map(tenantUnits => {
+        return Object.keys(tenantUnits).map(tenantName => {
+          return {
+            name: tenantName,
+            tenantUnits: tenantUnits[tenantName].map(unit => unit.name)
+          };
+        });
+      })
     };
   }, React.createClass({
+
+  displayName: 'AccountMenu',
+
   mixins: [
     React.addons.PureRenderMixin,
     IntlMixin
@@ -30,7 +40,7 @@ export default connectTo(
   propTypes: {
     className: React.PropTypes.string,
     showMenu: React.PropTypes.func,
-    tenantSwitcherStructure: React.PropTypes.any
+    tenantUnitStructure: React.PropTypes.any
   },
 
   getInitialState() {
@@ -56,20 +66,6 @@ export default connectTo(
       return null;
     }
 
-    const tenantUnitStructure = [];
-
-    Object.keys(this.props.tenantSwitcherStructure).forEach(key => {
-
-      const tenantUnits = this.props.tenantSwitcherStructure[key].map(unit => {
-        return unit.name;
-      });
-
-      tenantUnitStructure.push({
-        name: key,
-        tenantUnits: tenantUnits
-      });
-    });
-
     return (
       <div className={block + '__menu'}>
 
@@ -80,7 +76,7 @@ export default connectTo(
         </div>
 
         <TenantSwitcher
-          tenants={tenantUnitStructure}/>
+          tenants={this.props.tenantUnitStructure}/>
 
         <MenuFooter onClick={this.showMenu}/>
       </div>
