@@ -5,7 +5,7 @@ module.exports = {
     user: 'stan@instana.com',
     pw: '4711',
     uiBackendUrl: 'https://test-instana.instana.io/api',
-    groundskeeperUrl: 'https://test-instana.instana.io',
+    groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
     tenant: 'instana',
     tenantUnit: 'test',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'

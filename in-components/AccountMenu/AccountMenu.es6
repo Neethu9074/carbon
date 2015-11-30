@@ -5,6 +5,7 @@ import React from 'react/addons';
 
 import {getTenantsWithUnits} from 'in-services/tenants';
 import {getClassName} from 'in-services/react';
+import connectTo from 'in-components/hoc/connectTo';
 
 import MenuHeader from './MenuHeader';
 import MenuFooter from './MenuFooter';
@@ -15,7 +16,12 @@ import './AccountMenu.less';
 
 const block = 'in-account';
 
-const Menu = React.createClass({
+export default connectTo(
+  () => {
+    return {
+      tenantSwitcherStructure: getTenantsWithUnits()
+    };
+  }, React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
     IntlMixin
@@ -23,13 +29,13 @@ const Menu = React.createClass({
 
   propTypes: {
     className: React.PropTypes.string,
-    showMenu: React.PropTypes.func
+    showMenu: React.PropTypes.func,
+    tenantSwitcherStructure: React.PropTypes.any
   },
 
   getInitialState() {
     return {
       open: false,
-      tenantSwitcherStructure: null,
       showSettings: false
     };
   },
@@ -45,33 +51,31 @@ const Menu = React.createClass({
     this.props.showMenu(event);
   },
 
-  componentWillMount() {
+ /* componentWillMount() {
 
     getTenantsWithUnits()
       .subscribe(response => {
-        const structure = [];
 
-        Object.keys(response).forEach(key => {
-
-          const tenantUnits = response[key].map(unit => {
-            return unit.name;
-          });
-
-          structure.push({
-            name: key,
-            tenantUnits: tenantUnits
-          });
-        });
-          this.setState({
-            tenantSwitcherStructure: structure
-          });
-      });
-  },
+  },*/
 
   renderMenu() {
     if (!this.state.open) {
       return null;
     }
+
+    const tenantUnitStructure = [];
+
+    Object.keys(this.props.tenantSwitcherStructure).forEach(key => {
+
+      const tenantUnits = this.props.tenantSwitcherStructure[key].map(unit => {
+        return unit.name;
+      });
+
+      tenantUnitStructure.push({
+        name: key,
+        tenantUnits: tenantUnits
+      });
+    });
 
     return (
       <div className={block + '__menu'}>
@@ -83,7 +87,7 @@ const Menu = React.createClass({
         </div>
 
         <TenantSwitcher
-          tenants={this.state.tenantSwitcherStructure}/>
+          tenants={tenantUnitStructure}/>
 
         <MenuFooter onClick={this.showMenu}/>
       </div>
@@ -108,6 +112,4 @@ const Menu = React.createClass({
       </div>
     );
   }
-});
-
-export default Menu;
+}));
