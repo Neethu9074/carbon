@@ -38,5 +38,5 @@ sorting.addMapping(
 );
 
 function getLabel(snapshot) {
-  return snapshot.get('steadyId');
+  return 'Kafka ' + snapshot.getIn(['data', 'version']);
 }
