@@ -14,6 +14,9 @@ const KafkaInfo = React.createClass({
     const data = this.props.snapshot.get('data');
     return (
       <DescriptionList>
+        <DescriptionItem title='Version'>
+          {data.get('version')}
+        </DescriptionItem>
         <DescriptionItem title='Process ID'>
           {data.get('pid')}
         </DescriptionItem>
