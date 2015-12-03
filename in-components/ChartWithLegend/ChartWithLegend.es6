@@ -43,7 +43,7 @@ const ChartWithLegend = React.createClass({
     return (
       <div className={block}>
           <div className={block + '__rollup-indicator'}>
-            {'Rollup ' + this.state.rollup + ' sec'}
+            {'Rollup ' + this.state.rollup}
           </div>
 
         <ChartLegend snapshot={this.props.snapshot}

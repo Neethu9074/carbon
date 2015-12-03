@@ -32,10 +32,10 @@ const TimePicker = React.createClass({
             Rollup
           </span>
         </div>
-        {this.createButton(1000 * 60 * 10, 'timePicker.time1', 1)}
-        {this.createButton(1000 * 60 * 60, 'timePicker.time2', 5)}
-        {this.createButton(1000 * 60 * 60 * 12, 'timePicker.time3', 10)}
-        {this.createButton(1000 * 60 * 60 * 24, 'timePicker.time4', 15)}
+        {this.createButton(1000 * 60 * 10, 'timePicker.time1', '1 sec')}
+        {this.createButton(1000 * 60 * 60, 'timePicker.time2', '5 sec')}
+        {this.createButton(1000 * 60 * 60 * 12, 'timePicker.time3', '1 min')}
+        {this.createButton(1000 * 60 * 60 * 24, 'timePicker.time4', '2 min')}
       </div>
     );
   },
@@ -44,7 +44,7 @@ const TimePicker = React.createClass({
     const labels = this.getIntlMessage(content);
     return this.createEntry(
       labels.long,
-      aggregatedTimeRange + ' sec',
+      aggregatedTimeRange,
       () => this.onTimePickerItemClicked(timeRange, labels, aggregatedTimeRange)
     );
   },

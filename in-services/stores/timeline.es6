@@ -21,7 +21,7 @@ export const focusedMoment = focusedMomentStore.observable;
 
 const currentRollupStore = createStore({
   name: 'currentRollup',
-  initialValue: 1
+  initialValue: '1 sec'
 });
 export const currentRollup = currentRollupStore.observable;
 
