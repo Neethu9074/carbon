@@ -3,7 +3,6 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {currentRollup} from 'in-services/stores/timeline';
-import Tooltip from 'in-components/Tooltip';
 
 import ChartLegend from '../ChartLegend';
 import Chart from '../Chart';
@@ -43,11 +42,9 @@ const ChartWithLegend = React.createClass({
   render() {
     return (
       <div className={block}>
-        <Tooltip content={'add text here'}>
           <div className={block + '__rollup-indicator'}>
             {'Rollup ' + this.state.rollup + ' sec'}
           </div>
-        </Tooltip>
 
         <ChartLegend snapshot={this.props.snapshot}
                      y1={this.props.y1}
