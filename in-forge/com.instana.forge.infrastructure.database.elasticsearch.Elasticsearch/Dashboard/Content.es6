@@ -63,77 +63,78 @@ const ElasticsearchDashboard = React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
+        {indices ?
+          <DashboardSection title='Indices'>
+            {indexName ?
+              <div>
+                <ChartWithLegend snapshot={snapshot}
+                                 windowSize={timeframe}
+                                 height={chartHeight}
+                                 margins={{
+                                   left: 80,
+                                   right: 80
+                                 }}
 
-        <DashboardSection title='Indices'>
-          {indexName ?
-            <div>
-              <ChartWithLegend snapshot={snapshot}
-                               windowSize={timeframe}
-                               height={chartHeight}
-                               margins={{
-                                 left: 80,
-                                 right: 80
-                               }}
+                                 y1={{
+                                   metrics: [
+                                     'index.' + indexName + '.document_count',
+                                     'index.' + indexName + '.deleted_count'
+                                   ],
+                                   labels: [
+                                     'Documents',
+                                     'Deletions'
+                                   ],
+                                   formatter: withSiPrefixZeroDecimalPlaces,
+                                   tooltipFormatter: zeroDecimalPlaces,
+                                   type: 'line'
+                                 }}
+                                 y2={{
+                                   metrics: [
+                                     'index.' + indexName + '.size'
+                                   ],
+                                   labels: [
+                                     'Size'
+                                   ],
+                                   formatter: bytesZeroDecimalPlaces,
+                                   tooltipFormatter: bytesTwoDecimalPlaces,
+                                   type: 'line'
+                                  }}/>
+              </div>
+              : null}
 
-                               y1={{
-                                 metrics: [
-                                   'index.' + indexName + '.document_count',
-                                   'index.' + indexName + '.deleted_count'
-                                 ],
-                                 labels: [
-                                   'Documents',
-                                   'Deletions'
-                                 ],
-                                 formatter: withSiPrefixZeroDecimalPlaces,
-                                 tooltipFormatter: zeroDecimalPlaces,
-                                 type: 'line'
-                               }}
-                               y2={{
-                                 metrics: [
-                                   'index.' + indexName + '.size'
-                                 ],
-                                 labels: [
-                                   'Size'
-                                 ],
-                                 formatter: bytesZeroDecimalPlaces,
-                                 tooltipFormatter: bytesTwoDecimalPlaces,
-                                 type: 'line'
-                                }}/>
-            </div>
-            : null}
+            <ResponsiveTable clickable={true}>
+              <thead>
+              <tr>
+                <th>Index</th>
+                <th>Documents</th>
+                <th>Deleted</th>
+                <th>Size</th>
+              </tr>
+              </thead>
 
-          <ResponsiveTable clickable={true}>
-            <thead>
-            <tr>
-              <th>Index</th>
-              <th>Documents</th>
-              <th>Deleted</th>
-              <th>Size</th>
-            </tr>
-            </thead>
-
-            <tbody>
-            {indices.map((name) =>
-                <tr key={name}
-                    onClick={() => this.selectIndex(name)}
-                    className={classnames({
-                      'active': name === indexName
-                    })}>
-                  <td>{name}</td>
-                  <Mtd metric={'index.' + name + '.document_count'}
-                       formatter={withSiPrefixZeroDecimalPlaces}
-                       snapshot={snapshot}/>
-                  <Mtd metric={'index.' + name + '.deleted_count'}
-                       formatter={withSiPrefixZeroDecimalPlaces}
-                       snapshot={snapshot}/>
-                  <Mtd metric={'index.' + name + '.size'}
-                       snapshot={snapshot}
-                       formatter={bytesTwoDecimalPlaces}/>
-                </tr>
-            ).valueSeq()}
-            </tbody>
-          </ResponsiveTable>
-        </DashboardSection>
+              <tbody>
+              {indices.map((name) =>
+                  <tr key={name}
+                      onClick={() => this.selectIndex(name)}
+                      className={classnames({
+                        'active': name === indexName
+                      })}>
+                    <td>{name}</td>
+                    <Mtd metric={'index.' + name + '.document_count'}
+                         formatter={withSiPrefixZeroDecimalPlaces}
+                         snapshot={snapshot}/>
+                    <Mtd metric={'index.' + name + '.deleted_count'}
+                         formatter={withSiPrefixZeroDecimalPlaces}
+                         snapshot={snapshot}/>
+                    <Mtd metric={'index.' + name + '.size'}
+                         snapshot={snapshot}
+                         formatter={bytesTwoDecimalPlaces}/>
+                  </tr>
+              ).valueSeq()}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+        : null}
 
         <DashboardSection title='Refresh and Flush'>
           <ChartWithLegend snapshot={snapshot}
