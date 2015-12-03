@@ -19,6 +19,16 @@ const focusedMomentStore = createStore({
 });
 export const focusedMoment = focusedMomentStore.observable;
 
+const currentRollupStore = createStore({
+  name: 'currentRollup',
+  initialValue: 1
+});
+export const currentRollup = currentRollupStore.observable;
+
+export function setFocusedRoolup(t) {
+  currentRollupStore.applyStateMutation(() => t);
+}
+
 export function setFocusedMoment(t) {
   focusedMomentStore.applyStateMutation(() => t);
 }

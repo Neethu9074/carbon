@@ -24,27 +24,49 @@ const TimePicker = React.createClass({
     const className = this.props.className ? block + ' ' + this.props.className : block;
     return (
       <div className={className}>
-        {this.createButton(1000 * 60 * 10, 'timePicker.time1')}
-        {this.createButton(1000 * 60 * 60, 'timePicker.time2')}
-        {this.createButton(1000 * 60 * 60 * 12, 'timePicker.time3')}
-        {this.createButton(1000 * 60 * 60 * 24, 'timePicker.time4')}
+        <div className={block + '__heading'}>
+          <span className={block + '__key'}>
+            Time
+          </span>
+          <span className={block + '__value'}>
+            Rollup
+          </span>
+        </div>
+        {this.createButton(1000 * 60 * 10, 'timePicker.time1', 1)}
+        {this.createButton(1000 * 60 * 60, 'timePicker.time2', 5)}
+        {this.createButton(1000 * 60 * 60 * 12, 'timePicker.time3', 10)}
+        {this.createButton(1000 * 60 * 60 * 24, 'timePicker.time4', 15)}
       </div>
     );
   },
 
-  createButton(timeRange, content) {
+  createButton(timeRange, content, aggregatedTimeRange) {
     const labels = this.getIntlMessage(content);
+    return this.createEntry(
+      labels.long,
+      aggregatedTimeRange + ' sec',
+      () => this.onTimePickerItemClicked(timeRange, labels, aggregatedTimeRange)
+    );
+  },
+
+  createEntry(key, value, onClick) {
     return (
-      <div  className={block + '__button'}
-            onClick={() => this.onTimePickerItemClicked(timeRange, labels)}>
-        {labels.long}
+      <div className={block + '__entry'}
+           onClick={onClick}>
+        <span className={block + '__key'}>
+          {key}
+        </span>
+        <span className={block + '__value'}>
+          {value}
+        </span>
       </div>
     );
   },
 
-  onTimePickerItemClicked(newTime, labels) {
+  onTimePickerItemClicked(newTime, labels, rollup) {
     tracking.events.changingTimeWindowUsingTimeline();
     timelineStore.setTimeframe(newTime);
+    timelineStore.setFocusedRoolup(rollup);
 
     if (this.props.onTimeSelected) {
       this.props.onTimeSelected(labels);

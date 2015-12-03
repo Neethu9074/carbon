@@ -77,7 +77,12 @@ module.exports = _.defaultsDeep({
     timeRangeLabel: white,
     background: grey5,
     serverTime: grey1,
-    line: grey3
+    line: grey3,
+    timepicker: {
+      fontColor: grey1,
+      fontColorHighlight: white,
+      backgroundHighlight: grey5
+    }
   },
   filterbar: {
     background: grey6,
@@ -169,6 +174,12 @@ module.exports = _.defaultsDeep({
       text: grey1,
       textHighlight: grey5,
       line: grey0
+    },
+    charts: {
+      roolupIndicatior: {
+        text: grey1,
+        backgroundHighlight: grey0
+      }
     }
   },
   mapViewSwitcher: {
@@ -193,6 +204,7 @@ module.exports = _.defaultsDeep({
         top: {r: 0.957, g: 0.97, b: 0.98}
       },
       cubeBasicColor: '#e9edef',
+      layerBasicColor: '#e9edef',
       clearColor: '#445b63',
       warning: health[5],
       critical: health[10],
