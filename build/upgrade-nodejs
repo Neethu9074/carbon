@@ -28,3 +28,6 @@ nvm alias default "$VERSION"
 npm install
 cd in-server
 npm install
+
+# install tools that everyone needs ;)
+npm install -g ec2c proxrox tldr
