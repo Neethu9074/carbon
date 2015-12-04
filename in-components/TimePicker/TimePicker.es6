@@ -66,7 +66,6 @@ const TimePicker = React.createClass({
   onTimePickerItemClicked(newTime, labels, rollup) {
     tracking.events.changingTimeWindowUsingTimeline();
     timelineStore.setTimeframe(newTime);
-    timelineStore.setFocusedRoolup(rollup);
 
     if (this.props.onTimeSelected) {
       this.props.onTimeSelected(labels);
