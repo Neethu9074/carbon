@@ -449,13 +449,15 @@ export default connectTo(
                            y2={{
                              type: 'line',
                              metrics: [
+                               'tcp.establishedResets',
                                'tcp.resets',
                                'tcp.fails',
                                'tcp.errors',
                                'tcp.retrans'
                              ],
                              labels: [
-                               'Reset',
+                               'Established Resets',
+                               'Out Resets',
                                'Fail',
                                'Error',
                                'Retransmission'
