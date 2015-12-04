@@ -54,7 +54,7 @@ describe('issueTracker', () => {
 
     it('should publish all issues', (done) => {
       issueTracker.getIssues()
-        .subscribe(issues => {
+        .once(issues => {
           expect(issues.size).to.equal(1);
           expect(issues.getIn([0, 'id']))
             .to.equal(issuesStubData.getIn([0, 'id']));
@@ -102,7 +102,7 @@ describe('issueTracker', () => {
   describe('getOpenIssues', () => {
     it('should not include issues with an end date', (done) => {
       let callCount = 0;
-      issueTracker.getOpenIssues()
+      const subscription = issueTracker.getOpenIssues()
         .subscribe(issues => {
           callCount++;
           if (callCount === 1) {
@@ -110,9 +110,11 @@ describe('issueTracker', () => {
           } else {
             expect(issues.size).to.equal(1);
             expect(issues.getIn([0, 'id'])).to.equal('i2');
+            subscription.dispose();
             done();
           }
         });
+
 
       observable.emit(issuesStubData.setIn([0, 'state'], 'CLOSED')
         .setIn([0, 'end'], 42));

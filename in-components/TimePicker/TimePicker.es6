@@ -45,7 +45,7 @@ const TimePicker = React.createClass({
     return this.createEntry(
       labels.long,
       aggregatedTimeRange,
-      () => this.onTimePickerItemClicked(timeRange, labels, aggregatedTimeRange)
+      () => this.onTimePickerItemClicked(timeRange, labels)
     );
   },
 
@@ -63,7 +63,7 @@ const TimePicker = React.createClass({
     );
   },
 
-  onTimePickerItemClicked(newTime, labels, rollup) {
+  onTimePickerItemClicked(newTime, labels) {
     tracking.events.changingTimeWindowUsingTimeline();
     timelineStore.setTimeframe(newTime);
 

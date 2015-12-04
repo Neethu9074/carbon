@@ -23,7 +23,6 @@ export const currentRollup = timeframe.map(frame => {
   return '2 min';
 });
 
-
 const focusedMomentStore = createStore({
   name: 'focusedMoment',
   initialValue: null
