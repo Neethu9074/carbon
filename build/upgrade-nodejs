@@ -19,6 +19,9 @@ rm -rf in-server/node_modules
 ### Activate NVM
 . "$NVM_DIR/nvm.sh"
 
+# copy npmrc
+cp .npmrc in-server
+
 # okay, actually install the current version
 nvm install "$VERSION"
 nvm use "$VERSION"
