@@ -1,4 +1,4 @@
-import 'instana-nodejs-sensor';
+require('instana-nodejs-sensor')();
 
 import express from 'express';
 import cookieParser from 'cookie-parser';
