@@ -29,7 +29,6 @@ export default class PositionComponent extends Component {
     const oldPosition = this.oldPosition;
     const newPosition = this.position;
 
-    // call the event to client
     this.sceneObject.positionChanged(newPosition.x, newPosition.y, newPosition.z, oldPosition);
 
     oldPosition.set(newPosition.x, newPosition.y, newPosition.z);
@@ -44,5 +43,6 @@ export default class PositionComponent extends Component {
     super.dispose();
 
     this.position = null;
+    this.oldPosition = null;
   }
 }
