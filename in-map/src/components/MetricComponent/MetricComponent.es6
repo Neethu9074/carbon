@@ -114,14 +114,8 @@ export default class MetricComponent extends Component {
   positionChanged(x, y, z) {
     this.collisionComponent.positionChanged(x, y, z);
 
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.changeXYZOf(this.positionToSet, x, y, z);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   update() {
@@ -145,7 +139,7 @@ export default class MetricComponent extends Component {
     const pcm = this.contentProvider;
     const pos = this.positionToSet;
 
-    this.changeXyzOf(pcm.position, pos.x - 0.5, pos.y, pos.z + 0.5);
+    this.changeXYZOf(pcm.position, pos.x - 0.5, pos.y, pos.z + 0.5);
   }
 
   dispose() {

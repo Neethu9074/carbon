@@ -48,7 +48,7 @@ export default class GroundHighlightingComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.changeXYZOf(this.positionToSet, x, y, z);
     this.needsUpdate = true;
   }
 
@@ -58,7 +58,7 @@ export default class GroundHighlightingComponent extends Component {
       return;
     }
 
-    this.changeXyzOf(this.scaleToSet, x, y, z);
+    this.changeXYZOf(this.scaleToSet, x, y, z);
     this.needsUpdate = true;
   }
 
@@ -68,16 +68,8 @@ export default class GroundHighlightingComponent extends Component {
       return;
     }
 
-    this.colorToSet.r = r;
-    this.colorToSet.g = g;
-    this.colorToSet.b = b;
+    this.changeRGBOf(this.colorToSet, r, g, b);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   update() {
@@ -88,8 +80,8 @@ export default class GroundHighlightingComponent extends Component {
     const scale = this.scaleToSet;
     const color = this.colorToSet;
 
-    this.changeXyzOf(pcm.position, pos.x, pos.y, pos.z);
-    this.changeXyzOf(scm.scale, scale.x, scale.y, scale.z);
+    this.changeXYZOf(pcm.position, pos.x, pos.y, pos.z);
+    this.changeXYZOf(scm.scale, scale.x, scale.y, scale.z);
 
     cmcm.color = color;
 

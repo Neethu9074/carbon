@@ -18,8 +18,8 @@ export default class MeshComponent extends Component {
     this.colorToSet = {r: color.r, g: color.g, b: color.b};
     this.positionToSet = {x: -1000, y: 0, z: 0};
     this.scaleToSet = {x: 1, y: 1, z: 1};
-    this.updateContentProvider();
 
+    this.updateContentProvider();
     this.initialized();
   }
 
@@ -33,7 +33,7 @@ export default class MeshComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.changeXYZOf(this.positionToSet, x, y, z);
     this.needsUpdate = true;
   }
 
@@ -43,14 +43,8 @@ export default class MeshComponent extends Component {
       return;
     }
 
-    this.changeXyzOf(this.scaleToSet, x, y, z);
+    this.changeXYZOf(this.scaleToSet, x, y, z);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   colorChanged(r, g, b) {
@@ -59,9 +53,7 @@ export default class MeshComponent extends Component {
       return;
     }
 
-    this.colorToSet.r = r;
-    this.colorToSet.g = g;
-    this.colorToSet.b = b;
+    this.changeRGBOf(this.colorToSet, r, g, b);
     this.needsUpdate = true;
   }
 
@@ -82,8 +74,8 @@ export default class MeshComponent extends Component {
     const scale = this.scaleToSet;
     const color = this.colorToSet;
 
-    this.changeXyzOf(pcm.position, pos.x - 0.5, pos.y, pos.z + 0.5);
-    this.changeXyzOf(scm.scale, scale.x, scale.y, scale.z);
+    this.changeXYZOf(pcm.position, pos.x - 0.5, pos.y, pos.z + 0.5);
+    this.changeXYZOf(scm.scale, scale.x, scale.y, scale.z);
 
     cmcm.color = color;
   }

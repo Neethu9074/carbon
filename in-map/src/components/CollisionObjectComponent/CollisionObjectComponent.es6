@@ -31,19 +31,13 @@ export default class CollisionObjectComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.changeXYZOf(this.positionToSet, x, y, z);
     this.needsUpdate = true;
   }
 
   sizeChanged(x, y, z) {
-    this.changeXyzOf(this.scaleToSet, x, y, z);
+    this.changeXYZOf(this.scaleToSet, x, y, z);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   update() {
