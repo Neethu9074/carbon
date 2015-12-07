@@ -24,7 +24,7 @@ var paths = require('./paths');
 var tryBuildModeOptions;
 
 
-gulp.task('build', function(cb) {
+gulp.task('build', cb => {
   runSequence(
     'clean',
     'ensureTargetDirStructureExists',
@@ -37,7 +37,7 @@ gulp.task('build', function(cb) {
 });
 
 
-gulp.task('try-build', function(cb) {
+gulp.task('try-build', cb => {
   runSequence(
     'identifyTryBuildTargetEnvironment',
     'build',
@@ -53,20 +53,19 @@ gulp.task('try-build', function(cb) {
 });
 
 
-gulp.task('copyServerSources', function() {
+gulp.task('copyServerSources', () => {
   return gulp.src(paths.allServerSourcesSelector).pipe(gulp.dest(paths.targetDir));
 });
 
 
-
-gulp.task('minifyCss', function() {
+gulp.task('minifyCss', () => {
   return gulp.src(paths.generatedCssFileSelector)
     .pipe(minifyCss())
     .pipe(gulp.dest(paths.bundleDir));
 });
 
 
-gulp.task('printFileStatistics', function() {
+gulp.task('printFileStatistics', () => {
   return gulp.src([paths.generatedCssFileSelector, paths.javascriptEntryPointFile])
     .pipe(size({
       showFiles: true,
@@ -75,7 +74,7 @@ gulp.task('printFileStatistics', function() {
 });
 
 
-gulp.task('webpack:build', function(callback) {
+gulp.task('webpack:build', (callback) => {
   // modify some webpack config options
   var config = Object.create(webpackConfig);
 
@@ -96,15 +95,15 @@ gulp.task('webpack:build', function(callback) {
     new webpack.BannerPlugin(buildUtil.getBanner())
   );
 
-  buildForTheme('day', function() {
-    buildForTheme('night', function() {
+  buildForTheme('day', () => {
+    buildForTheme('night', () => {
       callback();
     });
   });
 
   function buildForTheme(themeName, cb) {
     buildUtil.setActiveTheme(themeName);
-    webpack(config, function(err, stats) {
+    webpack(config, (err, stats) => {
       if (err) {
         throw new gutil.PluginError('webpack:build', err);
       }
@@ -122,17 +121,17 @@ gulp.task('webpack:build', function(callback) {
 });
 
 
-gulp.task('identifyTryBuildTargetEnvironment', function(cb) {
+gulp.task('identifyTryBuildTargetEnvironment', cb => {
   var questions = [
     {
       type: 'list',
       name: 'environment',
       message: 'Which environment would you like to run against?',
-      choices: Object.keys(environments).map(function(env) {
+      choices: Object.keys(environments).map(env => {
         var config = environments[env];
         return env + ' (' + config.user + ' / ' + config.pw + ')';
       }),
-      filter: function(env) {
+      filter: env => {
         // extract environment name
         return env.match(/(\w+)/)[1];
       }
@@ -149,19 +148,19 @@ gulp.task('identifyTryBuildTargetEnvironment', function(cb) {
     }
   ];
 
-  inquirer.prompt(questions, function(selectedOptions) {
+  inquirer.prompt(questions, selectedOptions => {
     tryBuildModeOptions = selectedOptions;
     cb();
   });
 });
 
 
-gulp.task('writeTryBuildConfigFile', function() {
+gulp.task('writeTryBuildConfigFile', () => {
   buildUtil.writeDevModeConfig(tryBuildModeOptions.uiMode === 'saas' ? 'production' : 'demo');
 });
 
 
-gulp.task('writeTryBuildServerConfigFile', function() {
+gulp.task('writeTryBuildServerConfigFile', () => {
   var config = {
     baseUrl: 'https://local-instana.instana.io:4000',
     uiBackendBaseUrl: environments[tryBuildModeOptions.environment].uiBackendUrl
@@ -173,7 +172,7 @@ gulp.task('writeTryBuildServerConfigFile', function() {
 });
 
 
-gulp.task('startTryBuildServer', function() {
+gulp.task('startTryBuildServer', () => {
   execSync(
     '"' + path.join(paths.binDir, 'babel-node') +
     '" "' +
@@ -186,11 +185,10 @@ gulp.task('startTryBuildServer', function() {
 });
 
 
-gulp.task('startTryBuildProxy', function() {
+gulp.task('startTryBuildProxy', () => {
   var envConfig = environments[tryBuildModeOptions.environment];
   var uiBackendUrl = envConfig.uiBackendUrl;
   var groundskeeperUrl = envConfig.groundskeeperUrl;
-  var instagrafanaUrl = 'https://monitoring-instana.instana.io/api/internal';
 
   var config = {
     serverName: 'local-instana.instana.io',
@@ -204,7 +202,6 @@ gulp.task('startTryBuildProxy', function() {
       '/auth/signOut': groundskeeperUrl + '/auth/signOut',
       '/auth/users/current': groundskeeperUrl + '/auth/users/current',
       '/auth/users/tenants': groundskeeperUrl + '/auth/users/tenants',
-      '/internal/api': instagrafanaUrl + 'api',
       '/uiTracker/': 'http://127.0.0.1:8484/',
       '/assets/': groundskeeperUrl + '/assets/'
     },
@@ -218,6 +215,6 @@ gulp.task('startTryBuildProxy', function() {
 });
 
 
-gulp.task('openTryBuildUrlInBrowser', function() {
+gulp.task('openTryBuildUrlInBrowser', () => {
   buildUtil.openBrowser('https://local-instana.instana.io:4000');
 });

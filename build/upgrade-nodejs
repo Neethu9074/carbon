@@ -33,4 +33,4 @@ cd in-server
 npm install
 
 # install tools that everyone needs ;)
-npm install -g ec2c proxrox tldr
+npm install -g ec2c proxrox tldr commitizen
