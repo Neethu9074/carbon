@@ -11,10 +11,6 @@ import InactiveState from './InactiveState';
 import InitialState from './InitialState';
 import HiddenState from './HiddenState';
 
-
-const ON = 1;
-const OFF = 0;
-
 const stateLUT =                          // highlight selected active hidden indirect
 [ [ [ [ [ 'inactive',                     // 0 0 0 0 0
           'inactive'],                    // 0 0 0 0 1
@@ -50,6 +46,8 @@ const stateLUT =                          // highlight selected active hidden in
           'hidden'] ] ] ]                 // 1 1 1 1 1
 ];
 
+const ON = 1;
+const OFF = 0;
 export const PROPERTY_VALUES = {
   ON,
   OFF
@@ -60,11 +58,11 @@ export class StateMachine extends AStateMachine {
   constructor(owner) {
     super({
       stateProperties: {
-        highlight: OFF,
-        selected: OFF,
-        indirect: OFF,
-        hidden: OFF,
-        active: OFF
+        highlight: PROPERTY_VALUES.OFF,
+        selected: PROPERTY_VALUES.OFF,
+        indirect: PROPERTY_VALUES.OFF,
+        hidden: PROPERTY_VALUES.OFF,
+        active: PROPERTY_VALUES.OFF
       },
       stateLUT,
       owner
@@ -87,11 +85,11 @@ export class StateMachine extends AStateMachine {
   }
 
   checkLUTAgainstCurrentProperties(LUT, stateProps) {
-    const a = stateProps.highlight;
-    const b = stateProps.selected;
-    const c = stateProps.active;
-    const d = stateProps.hidden;
-    const e = stateProps.indirect;
-    return LUT[a][b][c][d][e];
+    return LUT
+      [stateProps.highlight]
+      [stateProps.selected]
+      [stateProps.active]
+      [stateProps.hidden]
+      [stateProps.indirect];
   }
 }
