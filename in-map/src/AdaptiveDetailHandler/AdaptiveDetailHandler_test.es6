@@ -15,7 +15,7 @@ describe('3D map', () => {
   beforeEach(() => {
     timeMock = {
       getFPS() { return fpsToBeReturned; },
-      setFramesWatingForComponentUpdate: sinon.stub()
+      setFramesWaitingForComponentUpdate: sinon.stub()
     };
 
     Handler = proxyquire('./AdaptiveDetailHandler.es6', {
@@ -30,7 +30,7 @@ describe('3D map', () => {
 
     it('switches to max state by default', () => {
       expect(handler.state).to.equal(Handler.maxState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(1);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(1);
     });
 
     it('can calculate state', () => {
@@ -53,7 +53,7 @@ describe('3D map', () => {
       }
 
       expect(handler.state).to.equal(Handler.maxState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(1);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(1);
     });
 
     it('switches to mid state if avg. FPS is between midState min and max', () => {
@@ -66,7 +66,7 @@ describe('3D map', () => {
       }
 
       expect(handler.state).to.equal(Handler.midState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(2);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(2);
     });
 
     it('switches to min state if avg. FPS is between minState min and max', () => {
@@ -79,32 +79,32 @@ describe('3D map', () => {
       }
 
       expect(handler.state).to.equal(Handler.lowState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(3);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(3);
     });
 
     it('switches: max -> mid -> min -> mid -> max', () => {
       expect(handler.state).to.equal(Handler.maxState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(1);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(1);
 
       fpsToBeReturned = 40;
       handler.tick(); handler.tick(); handler.tick(); handler.tick(); handler.tick();
       expect(handler.state).to.equal(Handler.midState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(2);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(2);
 
       fpsToBeReturned = 0;
       handler.tick(); handler.tick(); handler.tick(); handler.tick(); handler.tick();
       expect(handler.state).to.equal(Handler.lowState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(3);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(3);
 
       fpsToBeReturned = 40;
       handler.tick(); handler.tick(); handler.tick(); handler.tick(); handler.tick();
       expect(handler.state).to.equal(Handler.midState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(4);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(4);
 
       fpsToBeReturned = 60;
       handler.tick(); handler.tick(); handler.tick(); handler.tick(); handler.tick();
       expect(handler.state).to.equal(Handler.maxState);
-      expect(timeMock.setFramesWatingForComponentUpdate.callCount).to.equal(5);
+      expect(timeMock.setFramesWaitingForComponentUpdate.callCount).to.equal(5);
     });
 
     it('can calculate average', () => {

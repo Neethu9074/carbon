@@ -65,7 +65,7 @@ export function getBigBangTime() {
   return timeSinceFirstFrame;
 }
 
-export function setFramesWatingForComponentUpdate(numFrames) {
+export function setFramesWaitingForComponentUpdate(numFrames) {
   millisWatingForComponentUpdate = Math.max(1, numFrames); // [1, #]
 }
 
