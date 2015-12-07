@@ -2,8 +2,6 @@
 
 module.exports = {
   test: {
-    user: 'stan@instana.com',
-    pw: '4711',
     uiBackendUrl: 'https://test-instana.instana.io/api',
     groundskeeperUrl: 'https://internal-groundskeeper-instana.instana.io',
     tenant: 'instana',
@@ -11,8 +9,6 @@ module.exports = {
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
   analytics1: {
-    user: 'stan@instana.com',
-    pw: '4711',
     uiBackendUrl: 'https://analytics1-instana.instana.io/api',
     groundskeeperUrl: 'https://test-instana.instana.io',
     tenant: 'instana',
@@ -20,8 +16,6 @@ module.exports = {
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
   demo2: {
-    user: 'stan@instana.com',
-    pw: '4711',
     uiBackendUrl: 'https://demo2-instana.instana.io/api',
     groundskeeperUrl: 'https://demo2-instana.instana.io',
     tenant: 'instana',
@@ -29,8 +23,6 @@ module.exports = {
     groundskeeperDomain: 'demo-groundskeeper-instana.instana.io'
   },
   demo: {
-    user: 'stan@instana.com',
-    pw: '4711',
     uiBackendUrl: 'https://demo.instana.io/api',
     groundskeeperUrl: 'https://demo.instana.io',
     tenant: 'instana',
@@ -38,8 +30,6 @@ module.exports = {
     groundskeeperDomain: 'demo-groundskeeper-instana.instana.io'
   },
   johan: {
-    user: 'fromutome@yahoo.com',
-    pw: '34johan12',
     uiBackendUrl: 'https://johan.instana.io/api',
     groundskeeperUrl: 'https://johan.instana.io',
     tenant: 'johan',
@@ -47,8 +37,6 @@ module.exports = {
     groundskeeperDomain: 'instana.io'
   },
   betquest: {
-    user: 'markus.bonsch@codecentric.de',
-    pw: 'Horst67',
     uiBackendUrl: 'https://betquest.instana.io/api',
     groundskeeperUrl: 'https://betquest.instana.io',
     tenant: 'betquest',
@@ -56,8 +44,6 @@ module.exports = {
     groundskeeperDomain: 'instana.io'
   },
   codecentric: {
-    user: 'tobias.knierim@codecentric.de',
-    pw: 'crackme42',
     uiBackendUrl: 'https://codecentric.instana.io/api',
     groundskeeperUrl: 'https://codecentric.instana.io',
     tenant: 'codecentric',
@@ -65,8 +51,6 @@ module.exports = {
     groundskeeperDomain: 'instana.io'
   },
   rewedigital: {
-    user: 'stan@instana.com',
-    pw: '4711',
     uiBackendUrl: 'https://rewedigital.instana.io/api',
     groundskeeperUrl: 'https://rewedigital.instana.io',
     tenant: 'rewedigital',
@@ -74,8 +58,6 @@ module.exports = {
     groundskeeperDomain: 'instana.io'
   },
   centerdevice: {
-    user: 'daniel.schneller@centerdevice.de',
-    pw: '543centerdevice345',
     uiBackendUrl: 'https://centerdevice.instana.io/api',
     groundskeeperUrl: 'https://centerdevice.instana.io',
     tenant: 'centerdevice',
@@ -83,8 +65,6 @@ module.exports = {
     groundskeeperDomain: 'instana.io'
   },
   local: {
-    user: 'stan@instana.com',
-    pw: '4711',
     uiBackendUrl: 'http://localhost:8080',
     groundskeeperUrl: 'http://localhost:8280',
     tenant: 'instana',
@@ -92,8 +72,6 @@ module.exports = {
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
   staging: {
-    user: '<none>',
-    pw: '<none>',
     uiBackendUrl: 'https://staging-instana.instana.io/api',
     groundskeeperUrl: 'https://staging-instana.instana.io',
     tenant: 'instana',
@@ -101,8 +79,6 @@ module.exports = {
     groundskeeperDomain: 'staging-groundskeeper-instana.instana.io'
   },
   simulator: {
-    user: '<none>',
-    pw: '<none>',
     uiBackendUrl: 'http://localhost:5000',
     groundskeeperUrl: 'http://localhost:5000',
     tenant: 'instana',

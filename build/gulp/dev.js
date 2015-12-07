@@ -60,10 +60,7 @@ gulp.task('askForDevOptions', function(cb) {
       type: 'list',
       name: 'environment',
       message: 'Which environment would you like to run against?',
-      choices: Object.keys(environments).map(function(env) {
-        var config = environments[env];
-        return env + ' (' + config.user + ' / ' + config.pw + ')';
-      }),
+      choices: Object.keys(environments),
       filter: function(env) {
         // extract environment name
         return env.match(/(\w+)/)[1];
