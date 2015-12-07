@@ -4,25 +4,19 @@ import * as time from '../timeCalculations';
 export const lowState = {
   enter() {
     time.setFramesWaitingForComponentUpdate(1000);
-  },
-
-  leave() {}
+  }
 };
 
 export const midState = {
   enter() {
     time.setFramesWaitingForComponentUpdate(500);
-  },
-
-  leave() {}
+  }
 };
 
 export const maxState = {
   enter() {
     time.setFramesWaitingForComponentUpdate(200);
-  },
-
-  leave() {}
+  }
 };
 
 const ranges = [
@@ -58,7 +52,6 @@ export class AdaptiveDetailHandler {
     const average = this.getAverage(fpsArray);
     const newState = this.getState(average);
     if (newState !== this.state) {
-      this.state.leave(scene);
       newState.enter(scene);
       this.state = newState;
     }
