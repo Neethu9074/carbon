@@ -9,6 +9,7 @@ import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import TooltipMetric from '../../sceneObjects/Tooltips/Metric';
 import {currentTooltip} from '../../mapStores';
 import Component from '../Component';
+import XYZ from '../XYZ';
 
 const thicknessOfCubes = 0.9;
 
@@ -24,7 +25,7 @@ export default class MetricComponent extends Component {
     this.tooltip = new TooltipMetric(sceneObject);
     this.factory = scene.singleMeshMetricFactory;
     this.numSlices = 1;
-    this.positionToSet = {x: -1000, y: 0, z: 0};
+    this.positionToSet = new XYZ(-1000, 0, 0);
 
     this.setupFragment();
     this.updateContentProvider();
@@ -114,7 +115,7 @@ export default class MetricComponent extends Component {
   positionChanged(x, y, z) {
     this.collisionComponent.positionChanged(x, y, z);
 
-    this.changeXYZOf(this.positionToSet, x, y, z);
+    this.positionToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -146,6 +147,8 @@ export default class MetricComponent extends Component {
     super.dispose();
 
     this.removeFromFactory();
+
+    this.positionToSet.dispose();
 
     this.factoryFragment = null;
     this.contentProvider = null;

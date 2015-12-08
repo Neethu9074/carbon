@@ -2,8 +2,10 @@ import THREE from 'three';
 
 import {theme} from 'in-services/theme';
 
-import Component from '../Component';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import Component from '../Component';
+import XYZ from '../XYZ';
+import RGB from '../RGB';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -15,10 +17,10 @@ export default class GroundHighlightingComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject);
 
-    this.positionToSet = {x: -10, y: 0, z: 0};
-    this.scaleToSet = {x: 1, y: 1, z: 1};
+    this.positionToSet = new XYZ(-10, 0, 0);
+    this.scaleToSet = new XYZ(1, 1, 1);
     const color = new THREE.Color(theme.map.colors.default);
-    this.colorToSet = {r: color.r, g: color.g, b: color.b};
+    this.colorToSet = new RGB(color.r, color.g, color.b);
 
     this.fragment = {
       id: this.getID(),
@@ -48,7 +50,7 @@ export default class GroundHighlightingComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXYZOf(this.positionToSet, x, y, z);
+    this.positionToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -58,7 +60,7 @@ export default class GroundHighlightingComponent extends Component {
       return;
     }
 
-    this.changeXYZOf(this.scaleToSet, x, y, z);
+    this.scaleToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -68,7 +70,7 @@ export default class GroundHighlightingComponent extends Component {
       return;
     }
 
-    this.changeRGBOf(this.colorToSet, r, g, b);
+    this.colorToSet.set(r, g, b);
     this.needsUpdate = true;
   }
 
@@ -109,6 +111,10 @@ export default class GroundHighlightingComponent extends Component {
     super.dispose();
 
     this.hide();
+
+    this.positionToSet.dispose();
+    this.scaleToSet.dispose();
+    this.colorToSet.dispose();
 
     this.positionToSet = null;
     this.scaleToSet = null;
