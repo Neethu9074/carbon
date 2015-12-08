@@ -116,9 +116,8 @@ export default class TouchControl extends CameraController {
   dispose() {
     super.dispose();
 
+    this.eventHandler.destroy();
     this.timeSinceLastTap = null;
     this.pinchDistance = null;
-
-    console.log(this.eventHandler);
   }
 }
