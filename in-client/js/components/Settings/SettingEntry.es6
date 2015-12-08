@@ -84,7 +84,7 @@ const HelpText = React.createClass({
   render() {
     return (
       <div className={block + '__help'}>
-        ({this.props.text})
+        {this.props.text}
       </div>
     );
   }
