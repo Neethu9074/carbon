@@ -12,10 +12,6 @@ export default class XYZ {
     this.z = z;
   }
 
-  clone() {
-    return new XYZ(this.x, this.y, this.z);
-  }
-
   dispose() {
     this.x = null;
     this.y = null;
