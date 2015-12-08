@@ -15,7 +15,7 @@ export default class TouchControl extends CameraController {
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
 
-    const eventHandler = new Hammer(canvas);
+    const eventHandler = this.eventHandler = new Hammer(canvas);
     const minMovementForPan = 15;
 
     eventHandler.get('pan').set({
@@ -111,5 +111,14 @@ export default class TouchControl extends CameraController {
   setCursorToEvent(event) {
     this.cursor.x = event.pointers[0].clientX;
     this.cursor.y = event.pointers[0].clientY;
+  }
+
+  dispose() {
+    super.dispose();
+
+    this.timeSinceLastTap = null;
+    this.pinchDistance = null;
+
+    console.log(this.eventHandler);
   }
 }

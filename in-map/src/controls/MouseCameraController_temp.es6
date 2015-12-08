@@ -77,5 +77,7 @@ export default class MouseControl extends TouchController {
 
     this.mouseScrollDirectionSubscribtion.dispose();
     this.mouseScrollSpeedSubscribtion.dispose();
+
+    this.scene.parent.onmousemove = undefined;
   }
 }

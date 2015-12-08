@@ -108,6 +108,6 @@ export default class TooltipConnection extends Tooltip {
   }
 
   dispose() {
-    super.dispose();
+    this.unMount();
   }
 }

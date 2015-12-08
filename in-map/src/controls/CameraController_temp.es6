@@ -71,9 +71,8 @@ export default class CameraController {
       .sub(new THREE.Vector3())
       .normalize();
 
-    this.tooltip2DSubscribtion = tooltipStore.activeTooltip.subscribe(tooltip => {
-      this.tooltip2DIsActive = tooltip ? true : false;
-    });
+    this.tooltip2DSubscribtion = tooltipStore.activeTooltip.subscribe(tooltip =>
+      this.tooltip2DIsActive = tooltip ? true : false);
   }
 
   initZoomField() {
@@ -355,5 +354,9 @@ export default class CameraController {
   dispose() {
     this.tooltip2DSubscribtion.dispose();
     this.tooltip2DSubscribtion = null;
+
+    this.states = null;
+    this.state = null;
+    this.connectionTooltip.dispose();
   }
 }
