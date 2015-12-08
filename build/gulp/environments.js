@@ -50,6 +50,13 @@ module.exports = {
     tenantUnit: 'test',
     groundskeeperDomain: 'instana.io'
   },
+  meineStadt: {
+    uiBackendUrl: 'https://meinestadt.instana.io/api',
+    groundskeeperUrl: 'https://meinestadt.instana.io',
+    tenant: 'meinestadt',
+    tenantUnit: 'meinestadt',
+    groundskeeperDomain: 'instana.io'
+  },
   rewedigital: {
     uiBackendUrl: 'https://rewedigital.instana.io/api',
     groundskeeperUrl: 'https://rewedigital.instana.io',
