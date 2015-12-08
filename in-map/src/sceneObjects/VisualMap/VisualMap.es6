@@ -6,6 +6,7 @@ import {viewStructure} from 'in-services/stores/view';
 import eventBus from 'in-services/eventbus';
 import {getPlural} from 'in-sdk/pluginName';
 import * as views from 'in-services/views';
+import {getIn} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
 import theme from 'in-services/theme';
 
@@ -26,6 +27,7 @@ export default class VisualMap extends SceneObject {
 
     // the size of the map in world units (sizeXsize)
     this.size = 1000;
+    this.hideUnmonitoredHosts = false;
 
     this.groups = [];
 
@@ -100,6 +102,24 @@ export default class VisualMap extends SceneObject {
     this.addSubscription(eventBus.on('onViewSwitched').subscribe(() =>
       this.removeAllUnknownNodesWithoutConnections()
     ));
+
+    this.addSubscription(getIn(['map', 'unmonitoredHosts']).subscribe(hideUnmonitoredHosts =>
+      this.disableUnmonitoredHosts(hideUnmonitoredHosts)
+    ));
+  }
+
+  disableUnmonitoredHosts(hide) {
+    if (this.hideUnmonitoredHosts !== hide) {
+      this.refreshLayout = true;
+    }
+    this.hideUnmonitoredHosts = hide;
+
+    if (hide) {
+      const unmonitoredGroup = this.getOrCreateGroup(undefined, 'unmonitored');
+      if (unmonitoredGroup) {
+        unmonitoredGroup.dispose();
+      }
+    }
   }
 
   onInventoryUpdate(structures) {
@@ -213,6 +233,10 @@ export default class VisualMap extends SceneObject {
   }
 
   addUnknownNode(node) {
+    if (this.hideUnmonitoredHosts) {
+      return;
+    }
+
     // create zone and send the event back
     this.getOrCreateGroup(undefined, 'unmonitored').addUnknownNode(node);
 

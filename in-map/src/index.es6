@@ -1,8 +1,8 @@
 import React from 'react/addons';
 
-import * as navigation from 'in-services/stores/navigation';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import * as navigation from 'in-services/stores/navigation';
 import helpify from 'in-components/hoc/helpify';
 import enhance from 'in-components/hoc/enhance';
 import eventBus from 'in-services/eventbus';
