@@ -111,13 +111,7 @@ const NodeTooltipRC = React.createClass({
       });
 
       const listItems = Object.keys(plugins)
-        .sort((a, b) => {
-          const aText = getSingular(a);
-          const bText = getSingular(b);
-          if (aText < bText) return -1;
-          if (aText > bText) return 1;
-          return 0;
-        })
+        .sort((a, b) => getSingular(a).localeCompare(getSingular(b)))
         .map(plugin => {
           const counter = plugins[plugin];
           return (

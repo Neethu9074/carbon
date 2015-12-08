@@ -224,11 +224,8 @@ export default class LayerComponent extends Component {
   }
 
   getSortedLayer() {
-    return this.layer.sort((a, b) => {
-      if (a.label < b.label) return 1;
-      if (a.label > b.label) return -1;
-      return 0;
-    });
+    // reverse the sort order to get aligned with tooltip
+    return this.layer.sort((a, b) => b.label.localeCompare(a.label));
   }
 
   // is called if a layer was disposed
