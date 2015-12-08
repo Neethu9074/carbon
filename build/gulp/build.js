@@ -127,10 +127,7 @@ gulp.task('identifyTryBuildTargetEnvironment', cb => {
       type: 'list',
       name: 'environment',
       message: 'Which environment would you like to run against?',
-      choices: Object.keys(environments).map(env => {
-        var config = environments[env];
-        return env + ' (' + config.user + ' / ' + config.pw + ')';
-      }),
+      choices: Object.keys(environments),
       filter: env => {
         // extract environment name
         return env.match(/(\w+)/)[1];

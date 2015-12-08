@@ -54,14 +54,14 @@ gulp.task('dev', function(cb) {
 });
 
 
-gulp.task('askForDevOptions', function(cb) {
+gulp.task('askForDevOptions', cb => {
   var questions = [
     {
       type: 'list',
       name: 'environment',
       message: 'Which environment would you like to run against?',
       choices: Object.keys(environments),
-      filter: function(env) {
+      filter(env) {
         // extract environment name
         return env.match(/(\w+)/)[1];
       }
