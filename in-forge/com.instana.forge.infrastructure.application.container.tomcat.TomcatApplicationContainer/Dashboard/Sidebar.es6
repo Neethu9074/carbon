@@ -62,10 +62,10 @@ const TomcatSidebar = React.createClass({
                         {data.get('port')}
                       </DescriptionItem>
                       <DescriptionItem title='Max Threads'>
-                        {data.get('threads').get('max')}
+                        {data.getIn(['threads', 'max'])}
                       </DescriptionItem>
                       <DescriptionItem title='Max Connections'>
-                        {data.get('connections').get('max')}
+                        {data.getIn(['connections', 'max'])}
                       </DescriptionItem>
                       <DescriptionItem title='Connect Timeout'>
                         {data.get('connect-timeout')}
