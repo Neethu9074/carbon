@@ -201,10 +201,10 @@ const TomcatDashboard = React.createClass({
                     <td>{name}</td>
                     <Mtd metric={'connectors.' + name + '.threads'}
                          snapshot={snapshot} />
-                    <td>{data.get('threads').get('max')}</td>
+                    <td>{data.getIn(['threads', 'max'])}</td>
                     <Mtd metric={'connectors.' + name + '.connections'}
                          snapshot={snapshot} />
-                    <td>{data.get('connections').get('max')}</td>
+                    <td>{data.getIn(['connections', 'max'])}</td>
                   </tr>
                 ).valueSeq()}
               </tbody>
