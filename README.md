@@ -18,10 +18,7 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.29.0/install.sh | b
 bash
 
 # install and use the project's preferred Node.js version
-VERSION=$(cat .nvmrc)
-nvm install "$VERSION"
-nvm use "$VERSION"
-nvm alias default "$VERSION"
+./build/upgrade-nodejs
 ```
 
 ### Setting up local domains

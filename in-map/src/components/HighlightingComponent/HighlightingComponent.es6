@@ -1,6 +1,7 @@
 import Component from '../Component';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import XYZ from '../XYZ';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
@@ -11,8 +12,8 @@ export default class HighlightingComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject);
 
-    this.positionToSet = {x: -1000, y: 0, z: 0};
-    this.scaleToSet = {x: 1, y: 1, z: 1};
+    this.positionToSet = new XYZ(-1000, 0, 0);
+    this.scaleToSet = new XYZ(1, 1, 1);
 
     this.lineContentProvider = new LCP();
     this.fragment = {
@@ -42,7 +43,7 @@ export default class HighlightingComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.positionToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -52,14 +53,8 @@ export default class HighlightingComponent extends Component {
       return;
     }
 
-    this.changeXyzOf(this.scaleToSet, x, y, z);
+    this.scaleToSet.set(x, y, z);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   update() {
@@ -126,6 +121,9 @@ export default class HighlightingComponent extends Component {
     super.dispose();
 
     this.hide();
+
+    this.positionToSet.dispose();
+    this.scaleToSet.dispose();
 
     this.lineContentProvider = null;
     this.positionToSet = null;

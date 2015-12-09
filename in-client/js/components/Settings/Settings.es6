@@ -31,6 +31,7 @@ const Settings = React.createClass({
   getInitialState() {
     return {
       inverseCheckboxChecked: false,
+      unmonitoredHosts: null,
       antialiasValue: 'off',
       speedSliderValue: 1,
       activeTheme: null
@@ -39,14 +40,16 @@ const Settings = React.createClass({
 
   componentWillMount() {
     this.addSubscription(settingsStore.subscribe(data => {
+      const desktopNotification = data.getIn(['desktopNotification']);
+      const unmonitoredHosts = data.getIn(['map', 'unmonitoredHosts']);
       const direction = data.getIn(['map', 'scrollDirection']);
       const antialias = data.getIn(['map', 'antialias']);
-      const desktopNotification = data.getIn(['desktopNotification']);
       this.setState({
         inverseCheckboxChecked: direction === 1 ? false : true,
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
         antialiasValue: antialias ? antialias : 'off',
-        desktopNotification: desktopNotification
+        desktopNotification: desktopNotification,
+        unmonitoredHosts: unmonitoredHosts
       });
     }));
 
@@ -121,8 +124,20 @@ const Settings = React.createClass({
                         defaultChecked={this.state.desktopNotification}/>
             </SettingEntry.Content>
             <SettingEntry.HelpText text={
-                                    'Desktop notifications will pop up if the browser window is not active ' +
-                                    'to keep you up to date about important messages.'} />
+                                  'Desktop notifications will pop up if the browser window is not active ' +
+                                  'to keep you up to date about important messages.'} />
+          </SettingEntry>
+
+          <SettingEntry>
+            <SettingEntry.Header text='Disable Unmonitored Hosts' />
+            <SettingEntry.Content>
+              <CheckBox onClick={this.toggleUnmonitoredNodes}
+                        defaultChecked={this.state.unmonitoredHosts}/>
+            </SettingEntry.Content>
+            <SettingEntry.HelpText text={
+                                  'Instana automatically detects open TCP connections to hosts which are not ' +
+                                  'monitored by Instana. These hosts are visualized as unmonitored hosts on the map. ' +
+                                  'You can disable them by checking this box.'} />
           </SettingEntry>
         </div>
       </Dialog>
@@ -141,6 +156,14 @@ const Settings = React.createClass({
 
   closeSettings() {
     this.props.showMenu(false);
+  },
+
+  toggleUnmonitoredNodes() {
+    if (!this.state.unmonitoredHosts) {
+      setIn(['map', 'unmonitoredHosts'], true);
+    } else {
+      setIn(['map', 'unmonitoredHosts'], false);
+    }
   },
 
   toggleDesktopNotifications() {

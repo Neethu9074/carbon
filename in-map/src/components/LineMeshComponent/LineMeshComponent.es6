@@ -1,4 +1,6 @@
 import Component from '../Component';
+import XYZ from '../XYZ';
+import RGB from '../RGB';
 
 
 export default class LineMeshComponent extends Component {
@@ -12,9 +14,9 @@ export default class LineMeshComponent extends Component {
     this.highlightingSingleMeshFactory = sceneObject.scene.lineFactory;
     this.id = id;
 
-    this.positionToSet = {x: -1000, y: 0, z: 0};
-    this.scaleToSet = {x: 1, y: 1, z: 1};
-    this.colorToSet = {r: 1, g: 1, b: 1};
+    this.positionToSet = new XYZ(-1000, 0, 0);
+    this.scaleToSet = new XYZ(1, 1, 1);
+    this.colorToSet = new RGB(1, 1, 1);
 
     this.updateContentProvider();
 
@@ -39,7 +41,7 @@ export default class LineMeshComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.positionToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -49,7 +51,7 @@ export default class LineMeshComponent extends Component {
       return;
     }
 
-    this.changeXyzOf(this.scaleToSet, x, y, z);
+    this.scaleToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -59,17 +61,8 @@ export default class LineMeshComponent extends Component {
       return;
     }
 
-    this.colorToSet.r = r;
-    this.colorToSet.g = g;
-    this.colorToSet.b = b;
-
+    this.colorToSet.set(r, g, b);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   update() {
@@ -88,8 +81,8 @@ export default class LineMeshComponent extends Component {
     const pos = this.positionToSet;
     const scale = this.scaleToSet;
 
-    this.changeXyzOf(pcm.position, pos.x, pos.y, pos.z);
-    this.changeXyzOf(scm.scale, scale.x, scale.y, scale.z);
+    this.changeXYZOf(pcm.position, pos.x, pos.y, pos.z);
+    this.changeXYZOf(scm.scale, scale.x, scale.y, scale.z);
 
     lcp.setColor(this.colorToSet);
   }
@@ -98,6 +91,11 @@ export default class LineMeshComponent extends Component {
     super.dispose();
 
     this.factory.removeFragment(this.id);
+
+
+    this.positionToSet.dispose();
+    this.scaleToSet.dispose();
+    this.colorToSet.dispose();
 
     this.contentProvider = null;
     this.positionToSet = null;

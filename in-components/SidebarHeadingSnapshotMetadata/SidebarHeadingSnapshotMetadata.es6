@@ -4,6 +4,7 @@ import React from 'react/addons';
 
 import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
+import Tooltip from 'in-components/Tooltip';
 import {getLabel} from 'in-sdk/snapshot';
 
 import HealthIcon from '../HealthIcon';
@@ -26,13 +27,12 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
+
     return (
       <div className={getClassName(this, block)}>
         <div>
           <h1 className={block + '__label'}>
-            <span className={block + '__text'}>
-              {this.getTrimmedLabelForSnapshot(snapshot)}
-            </span>
+            {this.getHostLabel(snapshot)}
 
             <ZoneTag snapshot={snapshot}
                      className={block + '__zone'}/>
@@ -50,13 +50,34 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
     );
   },
 
-  getTrimmedLabelForSnapshot(snapshot) {
-    const maxLength = 25;
-    let label = getLabel(snapshot);
+  getHostLabel(snapshot) {
+    const label = getLabel(snapshot);
+    const maxLength = 22;
     if (label.length > maxLength) {
-      label = label.substring(0, maxLength) + '...';
+      return (
+        <Tooltip content={label}>
+          <span className={block + '__text'}>
+            {this.getTrimmedLabelForSnapshot(label)}
+          </span>
+        </Tooltip>
+      );
     }
-    return label;
+    return (
+      <span className={block + '__text'}>
+        {label}
+      </span>
+    );
+  },
+
+  getTrimmedLabelForSnapshot(label) {
+    let trimmed = label;
+    const maxLength = 22;
+    if (trimmed.length > maxLength) {
+      trimmed = trimmed
+        .substring(0, maxLength) // cuts the overflowing end
+        .trim() + '...'; // replaces the ending whitespace to avoid text__ -> text__...
+    }
+    return trimmed;
   }
 });
 

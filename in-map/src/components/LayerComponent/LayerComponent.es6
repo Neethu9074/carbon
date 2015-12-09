@@ -6,6 +6,7 @@ import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Layer from '../../sceneObjects/Layer';
 import Label from '../../sceneObjects/Label';
 import Component from '../Component';
+import XYZ from '../XYZ';
 
 
 const maxPercentUsedByGaps = 10;
@@ -14,7 +15,7 @@ export default class LayerComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject);
 
-    this.positionToSet = {x: -1000, y: 0, z: 0};
+    this.positionToSet = new XYZ(-1000, 0, 0);
     this.heightToSet = 1;
     this.layer = [];
 
@@ -84,10 +85,7 @@ export default class LayerComponent extends Component {
   }
 
   positionChanged(x, y, z) {
-    this.positionToSet.x = x;
-    this.positionToSet.y = y;
-    this.positionToSet.z = z;
-
+    this.positionToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -226,7 +224,8 @@ export default class LayerComponent extends Component {
   }
 
   getSortedLayer() {
-    return this.layer.sort((l1, l2) => l1.label <= l2.label);
+    // reverse the sort order to get aligned with tooltip
+    return this.layer.sort((a, b) => b.label.localeCompare(a.label));
   }
 
   // is called if a layer was disposed
@@ -240,6 +239,8 @@ export default class LayerComponent extends Component {
 
     this.layer.slice().forEach(layer => layer.dispose());
     this.layerGroupLabel.forEach(label => label.dispose());
+
+    this.positionToSet.dispose();
 
     this.positionToSet = null;
     this.heightToSet = null;

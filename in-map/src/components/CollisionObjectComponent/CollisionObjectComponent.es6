@@ -1,5 +1,5 @@
 import Component from '../Component';
-
+import XYZ from '../XYZ';
 
 export default class CollisionObjectComponent extends Component {
 
@@ -7,8 +7,8 @@ export default class CollisionObjectComponent extends Component {
     super(sceneObject);
 
     this.layer = layer;
-    this.positionToSet = {x: 0, y: 0, z: 0};
-    this.scaleToSet = {x: 1, y: 1, z: 1};
+    this.positionToSet = new XYZ(0, 0, 0);
+    this.scaleToSet = new XYZ(1, 1, 1);
 
     collisionObject.parentSceneObject = sceneObject;
     collisionObject.rotationAutoUpdate = false;
@@ -31,19 +31,13 @@ export default class CollisionObjectComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.positionToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
   sizeChanged(x, y, z) {
-    this.changeXyzOf(this.scaleToSet, x, y, z);
+    this.scaleToSet.set(x, y, z);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   update() {
@@ -68,6 +62,9 @@ export default class CollisionObjectComponent extends Component {
 
     this.collisionObject.isEnabled = false;
     this.sceneObject.scene.removeCollisionObject(this.collisionObject, this.layer);
+
+    this.positionToSet.dispose();
+    this.scaleToSet.dispose();
 
     this.collisionObject = null;
     this.positionToSet = null;

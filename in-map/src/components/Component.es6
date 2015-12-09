@@ -53,6 +53,19 @@ export default class Component {
 
   update() {}
 
+  // helper methods
+  changeXYZOf(object, x, y, z) {
+    object.x = x;
+    object.y = y;
+    object.z = z;
+  }
+
+  changeRGBOf(object, r, g, b) {
+    object.r = r;
+    object.g = g;
+    object.b = b;
+  }
+
   dispose() {
     this.needsUpdate = false;
     time.removeTimeEventListener(this);

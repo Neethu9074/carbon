@@ -16,6 +16,15 @@ CMD j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf && \
   j2 /opt/www/config.json.j2 > /opt/www/assets/config.json && \
   j2 /opt/www/serverConfig.json.j2 > /opt/www/serverConfig.json && \
   j2 /opt/www/star_instana_io.key.j2 > /etc/ssl/private/star_instana_io.key && \
-  nginx && DEBUG=instana-nodejs-sensor:* /opt/www/node_modules/babel/bin/babel-node.js /opt/www/index.js
+  /sbin/my_init
+
+# prepare folders for deamons
+RUN mkdir /etc/service/nginx
+RUN mkdir /etc/service/in-server
+
+# copy scripts to that folders and call them 'run'
+# see https://github.com/phusion/baseimage-docker#adding_additional_daemons for additional information
+ADD deployment/nginx.sh /etc/service/nginx/run
+ADD deployment/in-server.sh /etc/service/in-server/run
 
 EXPOSE 80 443

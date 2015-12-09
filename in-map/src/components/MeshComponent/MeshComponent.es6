@@ -3,6 +3,8 @@ import THREE from 'three';
 import {theme} from 'in-services/theme';
 
 import Component from '../Component';
+import XYZ from '../XYZ';
+import RGB from '../RGB';
 
 
 export default class MeshComponent extends Component {
@@ -15,11 +17,11 @@ export default class MeshComponent extends Component {
     this.fragment = {id, contentProvider};
 
     const color = new THREE.Color(theme.map.colors.default);
-    this.colorToSet = {r: color.r, g: color.g, b: color.b};
-    this.positionToSet = {x: -1000, y: 0, z: 0};
-    this.scaleToSet = {x: 1, y: 1, z: 1};
-    this.updateContentProvider();
+    this.colorToSet = new RGB(color.r, color.g, color.b);
+    this.positionToSet = new XYZ(-1000, 0, 0);
+    this.scaleToSet = new XYZ(1, 1, 1);
 
+    this.updateContentProvider();
     this.initialized();
   }
 
@@ -33,7 +35,7 @@ export default class MeshComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.positionToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -43,14 +45,8 @@ export default class MeshComponent extends Component {
       return;
     }
 
-    this.changeXyzOf(this.scaleToSet, x, y, z);
+    this.scaleToSet.set(x, y, z);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   colorChanged(r, g, b) {
@@ -59,9 +55,7 @@ export default class MeshComponent extends Component {
       return;
     }
 
-    this.colorToSet.r = r;
-    this.colorToSet.g = g;
-    this.colorToSet.b = b;
+    this.colorToSet.set(r, g, b);
     this.needsUpdate = true;
   }
 
@@ -82,8 +76,8 @@ export default class MeshComponent extends Component {
     const scale = this.scaleToSet;
     const color = this.colorToSet;
 
-    this.changeXyzOf(pcm.position, pos.x - 0.5, pos.y, pos.z + 0.5);
-    this.changeXyzOf(scm.scale, scale.x, scale.y, scale.z);
+    this.changeXYZOf(pcm.position, pos.x - 0.5, pos.y, pos.z + 0.5);
+    this.changeXYZOf(scm.scale, scale.x, scale.y, scale.z);
 
     cmcm.color = color;
   }
@@ -92,6 +86,10 @@ export default class MeshComponent extends Component {
     super.dispose();
 
     this.factory.removeFragment(this.id);
+
+    this.positionToSet.dispose();
+    this.colorToSet.dispose();
+    this.scaleToSet.dispose();
 
     this.contentProvider = null;
     this.positionToSet = null;

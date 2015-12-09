@@ -2,8 +2,10 @@ import THREE from 'three';
 
 import {theme} from 'in-services/theme';
 
-import Component from '../Component';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import Component from '../Component';
+import XYZ from '../XYZ';
+import RGB from '../RGB';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -15,10 +17,10 @@ export default class GroundHighlightingComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject);
 
-    this.positionToSet = {x: -10, y: 0, z: 0};
-    this.scaleToSet = {x: 1, y: 1, z: 1};
+    this.positionToSet = new XYZ(-10, 0, 0);
+    this.scaleToSet = new XYZ(1, 1, 1);
     const color = new THREE.Color(theme.map.colors.default);
-    this.colorToSet = {r: color.r, g: color.g, b: color.b};
+    this.colorToSet = new RGB(color.r, color.g, color.b);
 
     this.fragment = {
       id: this.getID(),
@@ -48,7 +50,7 @@ export default class GroundHighlightingComponent extends Component {
 
 
   positionChanged(x, y, z) {
-    this.changeXyzOf(this.positionToSet, x, y, z);
+    this.positionToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -58,7 +60,7 @@ export default class GroundHighlightingComponent extends Component {
       return;
     }
 
-    this.changeXyzOf(this.scaleToSet, x, y, z);
+    this.scaleToSet.set(x, y, z);
     this.needsUpdate = true;
   }
 
@@ -68,16 +70,8 @@ export default class GroundHighlightingComponent extends Component {
       return;
     }
 
-    this.colorToSet.r = r;
-    this.colorToSet.g = g;
-    this.colorToSet.b = b;
+    this.colorToSet.set(r, g, b);
     this.needsUpdate = true;
-  }
-
-  changeXyzOf(object, x, y, z) {
-    object.x = x;
-    object.y = y;
-    object.z = z;
   }
 
   update() {
@@ -88,8 +82,8 @@ export default class GroundHighlightingComponent extends Component {
     const scale = this.scaleToSet;
     const color = this.colorToSet;
 
-    this.changeXyzOf(pcm.position, pos.x, pos.y, pos.z);
-    this.changeXyzOf(scm.scale, scale.x, scale.y, scale.z);
+    this.changeXYZOf(pcm.position, pos.x, pos.y, pos.z);
+    this.changeXYZOf(scm.scale, scale.x, scale.y, scale.z);
 
     cmcm.color = color;
 
@@ -117,6 +111,10 @@ export default class GroundHighlightingComponent extends Component {
     super.dispose();
 
     this.hide();
+
+    this.positionToSet.dispose();
+    this.scaleToSet.dispose();
+    this.colorToSet.dispose();
 
     this.positionToSet = null;
     this.scaleToSet = null;
