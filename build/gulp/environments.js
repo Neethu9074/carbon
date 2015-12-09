@@ -29,6 +29,13 @@ module.exports = {
     tenantUnit: 'demo',
     groundskeeperDomain: 'demo-groundskeeper-instana.instana.io'
   },
+  agido: {
+    uiBackendUrl: 'https://agido.instana.io/api',
+    groundskeeperUrl: 'https://agido.instana.io',
+    tenant: 'agido',
+    tenantUnit: 'agido',
+    groundskeeperDomain: 'instana.io'
+  },
   johan: {
     uiBackendUrl: 'https://johan.instana.io/api',
     groundskeeperUrl: 'https://johan.instana.io',
