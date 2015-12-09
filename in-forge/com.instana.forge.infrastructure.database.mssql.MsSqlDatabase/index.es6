@@ -9,23 +9,23 @@ import iconPath from './icon.svg';
 import * as constants from '../constants';
 
 pluginName.setHumanReadablePluginName(
-  constants.plugins.mysql,
-  'MySQL DB',
-  'MySQL DBs'
+  constants.plugins.mssql,
+  'MsSQL Instance',
+  'MsSQL Instances'
 );
 
 
 addLabelFinder(
-  constants.plugins.mysql,
-  snapshot => 'MySQL @' + snapshot.getIn(['data', 'port'])
+  constants.plugins.mssql,
+  snapshot => 'MSSQL @' + snapshot.getIn(['data', 'instancename'])
 );
 
 addIconFinder(
-  constants.plugins.mysql,
+  constants.plugins.mssql,
   () => iconPath
 );
 
 power.addMapping(
-  constants.plugins.mysql,
+  constants.plugins.mssql,
   () => -1
 );

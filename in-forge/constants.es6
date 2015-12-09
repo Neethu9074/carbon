@@ -19,7 +19,8 @@ export const plugins = {
   javaWebApp: 'com.instana.forge.infrastructure.application.java.webapp.GenericJavaWebapp',
   httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd',
   nginx: 'com.instana.forge.infrastructure.webserver.nginx.Nginx',
-  availabilityZone: 'com.instana.forge.hardware.AvailabilityZone'
+  availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
+  mssql: 'com.instana.forge.infrastructure.database.mssql.MsSqlDatabase'
 };
 
 export const rels = {
