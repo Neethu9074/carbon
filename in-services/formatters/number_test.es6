@@ -86,7 +86,13 @@ describe('in-services.formatter.number', () => {
     });
   });
 
-  describe('seconds', () => {
+  describe('time', () => {
+    it('should format times dynamically', () => {
+      expect(numberFormatters.time(2356.34)).to.equal('2,356ms');
+      expect(numberFormatters.time(0.03445)).to.equal('34µs');
+      expect(numberFormatters.time(60345)).to.equal('60,345ms');
+    });
+
     it('should format millis', () => {
       expect(numberFormatters.msZeroDecimalPlaces(1000.34)).to.equal('1,000ms');
     });

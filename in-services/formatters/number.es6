@@ -25,6 +25,13 @@ export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
 export const muSecondsZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'µs';
 export const muSecondsToMillisZeroDecimalPlaces = d => zeroDecimalPlaces(d / 1000) + 'ms';
 
+export const time = millis => {
+  if (millis < 1) {
+    return muSecondsZeroDecimalPlaces(millis * 1000);
+  }
+  return msZeroDecimalPlaces(millis);
+};
+
 /**
  * Format a number with a metric prefix according to the international system of units:
 
