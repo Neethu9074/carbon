@@ -29,7 +29,7 @@ const HttpdInfo = React.createClass({
           {data.get('mpm')}
         </DescriptionItem>
         <DescriptionItem title='Ports'>
-          {data.get('ports').join(', ')}
+          {data.get('ports', []).join(', ')}
         </DescriptionItem>
       </DescriptionList>
     );
