@@ -2,7 +2,12 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import {extractCoordinates, getRawPayload} from 'in-services/snapshots';
-import {formatBytes, formatBytesShort} from 'in-services/converters';
+import {
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces,
+  time
+} from 'in-services/formatters/number';
+
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -95,8 +100,8 @@ export default connectTo(
                              y1={{
                                min: 0,
                                max: snapshot.getIn(['data', 'memory.max']),
-                               formatter: formatBytes,
-                               tooltipFormatter: formatBytes,
+                               formatter: bytesTwoDecimalPlaces,
+                               tooltipFormatter: bytesTwoDecimalPlaces,
                                metrics: [
                                  'memory.used'
                                ],
@@ -122,8 +127,8 @@ export default connectTo(
                            'pools.' + poolName,
                            snapshot
                          ),
-                         formatter: formatBytesShort,
-                         tooltipFormatter: formatBytes,
+                         formatter: bytesZeroDecimalPlaces,
+                         tooltipFormatter: bytesTwoDecimalPlaces,
                          metrics: [
                            'pools.' + poolName
                          ],
@@ -148,11 +153,11 @@ export default connectTo(
                   {pools.map((data, name) =>
                     <tr key={name} onClick={() => this.selectPool(name)}>
                       <td>{name}</td>
-                      <td>{formatBytes(data.get('initial'))}</td>
+                      <td>{bytesTwoDecimalPlaces(data.get('initial'))}</td>
                       <td>{this.formatMax(data.get('max'))}</td>
                       <Mtd metric={'pools.' + name}
                            snapshot={snapshot}
-                           formatter={formatBytes} />
+                           formatter={bytesTwoDecimalPlaces} />
                     </tr>
                   ).valueSeq()}
                 </tbody>
@@ -178,7 +183,7 @@ export default connectTo(
                                   name + ' Time'
                                 ).toArray(),
                        type: 'line',
-                       formatter: (d) => d / 1000 + ' s'
+                       formatter: time
                        }}
 
                      y2={{
@@ -197,7 +202,7 @@ export default connectTo(
     },
 
     formatMax(bytes) {
-      return bytes === -1 ? 'unlimited' : formatBytes(bytes);
+      return bytes === -1 ? 'unlimited' : bytesTwoDecimalPlaces(bytes);
     },
 
     selectPool(pool) {

@@ -74,7 +74,7 @@ const NodejsDashboard = React.createClass({
 
                            y1={{
                              min: 0,
-                             formatter: numberFormatters.msTwoDecimalPlaces,
+                             formatter: numberFormatters.time,
                              metrics: [
                                'gc.gcPause'
                              ],
@@ -95,7 +95,7 @@ const NodejsDashboard = React.createClass({
 
                            y1={{
                              min: 0,
-                             formatter: numberFormatters.msTwoDecimalPlaces,
+                             formatter: numberFormatters.time,
                              metrics: [
                                'libuv.max',
                                'libuv.sum',
