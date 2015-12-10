@@ -32,6 +32,10 @@ const HardwareInfo = React.createClass({
           <DescriptionItem title='Memory'>
             {formatBytes(data.get('memory.total'))}
           </DescriptionItem>
+
+          <DescriptionItem title='FQDN'>
+            {data.get('fqdn')}
+          </DescriptionItem>
         </DescriptionList>
 
         <TagListSnapshot snapshot={snapshot} />
