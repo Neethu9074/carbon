@@ -44,7 +44,9 @@ const JVMInfo = React.createClass({
   },
 
   formatClasspath(cp) {
-    if (!cp) return null;
+    if (!cp) {
+      return null;
+    }
 
     const cpEntries = cp.split(/:|;/);
     return (
