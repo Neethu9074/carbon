@@ -44,14 +44,22 @@ const JVMInfo = React.createClass({
   },
 
   formatClasspath(cp) {
-    if (!cp) return null;
+    if (!cp) {
+      return null;
+    }
 
-    const cpEntries = cp.split(/:|;/);
+    const cpEntries = cp.split('/');
+    const chunks = [];
+    for (let i = 0; i < cpEntries.length - 1; i++) {
+      chunks.push(cpEntries[i] + '/');
+    }
+    chunks.push(cpEntries[cpEntries.length - 1]);
+
     return (
       <span>
-        {cpEntries.map((cpEntry) =>
-          <div key={cpEntry}>
-            {cpEntry}
+        {chunks.map(chunk =>
+          <div key={chunk}>
+            {chunk}
           </div>
         )}
       </span>
