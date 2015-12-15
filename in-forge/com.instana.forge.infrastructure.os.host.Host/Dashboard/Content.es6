@@ -485,11 +485,11 @@ export default connectTo(
             </thead>
 
             <tbody>
-              {this.props.processes.map(process =>
+              {this.props.processes.sort((a, b) => b.cpu - a.cpu).map(process =>
                 <tr key={process.pid}>
                   <td>{process.pid}</td>
                   <td>{process.name}</td>
-                  <td>{process.cpu}</td>
+                  <td>{percentageZeroDecimalPlaces(process.cpu)}</td>
                   <td>{bytesTwoDecimalPlaces(process.memory)}</td>
                 </tr>
               )}
