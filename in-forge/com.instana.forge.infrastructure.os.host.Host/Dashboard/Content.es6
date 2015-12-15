@@ -260,6 +260,38 @@ export default connectTo(
                        formatter: withSiPrefixZeroDecimalPlaces,
                        tooltipFormatter: withSiPrefixTwoDecimalPlaces
                      }}/>
+
+              <ChartWithLegend snapshot={snapshot}
+                     windowSize={timeframe}
+                     height={chartHeight}
+                     margins={{
+                       left: 80,
+                       right: 80
+                     }}
+
+                     y1={{
+                       min: 0,
+                       formatter: withSiPrefixZeroDecimalPlaces,
+                       tooltipFormatter: withSiPrefixTwoDecimalPlaces,
+                       metrics: [
+                         'fs.' + filesystemName + '.reads',
+                         'fs.' + filesystemName + '.writes'
+                       ],
+                       labels: ['Reads', 'Writes'],
+                       type: 'line'
+                     }}
+
+                     y2={{
+                       min: 0,
+                       formatter: kiloBytesZeroDecimalPlaces,
+                       tooltipFormatter: kiloBytesTwoDecimalPlaces,
+                       metrics: [
+                         'fs.' + filesystemName + '.readBytes',
+                         'fs.' + filesystemName + '.writeBytes'
+                       ],
+                       labels: ['Read', 'Write'],
+                       type: 'line'
+                     }}/>
             </div>
           : null}
 
