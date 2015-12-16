@@ -9,5 +9,6 @@ init.author.url=http://bripkens.de
 email=ben@instana.com
 
 # generate the auth token the following via
-# echo -n '<your account name>:<your account password>' | openssl base64
+# echo -n '<your nexus account name>:<your nexus account password>' | openssl base64
+# No Nexus account? Ask in the chat :)
 _auth=<your token>

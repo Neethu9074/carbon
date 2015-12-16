@@ -14,7 +14,7 @@ To access our artifact repository (NEXUS) and retrieve dependencies via NPM, you
 cp .npmrc.sample .npmrc
 ```
 
-You need to edit the `.npmrc` file according to the comments contained within that file. Since the file contains sensitive information, you would not add it to the repository. For your convenience, the file is ignored by default.
+You need to edit the `.npmrc` file according to the comments contained within that file (*read the comments in the file!*). Since the file contains sensitive information, you would not add it to the repository. For your convenience, the file is ignored by default via the `.gitignore`.
 
 ### Installation of required software
 Make sure that you have Git and cURL installed before starting with the following instructions. Execute the instructions in the root directory of the ui-client project.
