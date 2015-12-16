@@ -20,7 +20,7 @@ const MsSqlDashboard = React.createClass({
 
     return (
       <div>
-      <DashboardSection title='Waits (all databases)'>
+      <DashboardSection title='Wait-Times (ms) on server'>
         <ChartWithLegend snapshot={snapshot}
                          windowSize={timeframe}
                          height={chartHeight}
@@ -29,9 +29,9 @@ const MsSqlDashboard = React.createClass({
                          }}
                          y1={{
                            metrics: [
-                             'status.PAGEIOLATCH_SH',
-                             'status.PAGEIOLATCH_EX',
-                             'status.CXPACKET'
+                             'waitstats.PAGEIOLATCH_EX.wait_time_ms',
+                             'waitstats.PAGEIOLATCH_SH.wait_time_ms',
+                             'waitstats.CXPACKET.wait_time_ms'
                            ],
                            labels: [
                              'Page IO-Latch SH',
