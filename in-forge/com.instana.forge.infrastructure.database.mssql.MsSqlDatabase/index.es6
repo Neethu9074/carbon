@@ -17,7 +17,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.mssql,
-  snapshot => 'MSSQL @' + snapshot.getIn(['data', 'instancename'])
+  snapshot => 'MSSQL @' + snapshot.getIn(['data', 'instance'])
 );
 
 addIconFinder(

@@ -1,8 +1,12 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
+import Collapsible from 'in-components/Collapsible';
+import WiringList from 'in-components/WiringList';
 
-const MySqlSidebar = React.createClass({
+import MsSqlInfo from '../MsSqlInfo';
+
+const MsSqlSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
@@ -11,11 +15,20 @@ const MySqlSidebar = React.createClass({
 
   render() {
 
+    const snapshot = this.props.snapshot;
+
     return (
       <div>
+        <Collapsible initiallyOpen={true}>
+          <Collapsible.Header>MS SQL-Server</Collapsible.Header>
+          <Collapsible.Content>
+            <MsSqlInfo snapshot={snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+        <WiringList snapshot={snapshot} />
       </div>
     );
   }
 });
 
-export default MySqlSidebar;
+export default MsSqlSidebar;
