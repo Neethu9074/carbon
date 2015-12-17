@@ -27,10 +27,6 @@ export default connectTo(
 
   render() {
     const issue = this.props.issue;
-    console.log('issue', JSON.parse(JSON.stringify(issue)));
-    if (this.props.snapshot) {
-      console.log('label:', getLabel(this.props.snapshot));
-    }
 
     return (
       <div className={block}>
