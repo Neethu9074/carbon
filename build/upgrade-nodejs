@@ -1,6 +1,14 @@
 #!/bin/sh
 
-set -ex
+set -x
+
+# Activate NVM. NVM activation will fail when the user does not
+# have the Node.js version installed which is specified by the .nvmrc.
+# We therefore source it in the beginning and enable strict error mode
+# in the following line.
+. "$NVM_DIR/nvm.sh"
+
+set -e
 
 NEW_NODE_VERSION=$(cat .nvmrc)
 
@@ -15,9 +23,6 @@ rm -rf ~/.node-gyp
 
 # we also update the in-server
 rm -rf in-server/node_modules
-
-### Activate NVM
-. "$NVM_DIR/nvm.sh"
 
 # copy npmrc
 cp .npmrc in-server
