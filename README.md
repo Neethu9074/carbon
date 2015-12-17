@@ -17,6 +17,8 @@ cp .npmrc.sample .npmrc
 You need to edit the `.npmrc` file according to the comments contained within that file (*read the comments in the file!*). Since the file contains sensitive information, you would not add it to the repository. For your convenience, the file is ignored by default via the `.gitignore`.
 
 ### Installation of required software
+
+#### Node.js and NPM
 Make sure that you have Git and cURL installed before starting with the following instructions. Execute the instructions in the root directory of the ui-client project.
 
 ```
@@ -30,29 +32,39 @@ bash
 ./build/upgrade-nodejs
 ```
 
-You will also need to have nginx installed and its CLI on the path. 
+#### Nginx
+You will also need to have nginx installed and its CLI on the path.
 
-You can achieve this on OS X via 
 
-    brew install nginx
-    
-On Ubuntu you achieve this via 
+#### Nginx installation on OS X
+You can achieve this on OS X via…
 
-    apt-get install nginx
+```
+brew install nginx
+```
 
-Nginx must be startable with your own user privileges. You can achieve this by adding the path to the nginx executable to the sudoers file:
+#### Nginx installation on Ubuntu
+On Ubuntu you could install nginx with `apt-get`…
 
-    sudo visudo -f /etc/sudoers.d/nginx
+```
+apt-get install nginx
+```
+
+Nginx must be executed with your own user privileges. You can achieve this by adding the path to the nginx executable to the sudoers file:
+
+```
+sudo visudo -f /etc/sudoers.d/nginx
+```
 
 In the file add the line
 
-    username localhost = (root) NOPASSWD: /path/to/nginx
+```
+<username> localhost = (root) NOPASSWD: /path/to/nginx
+```
 
-Replace username with the output of `whoami` and `/path/to/nginx` with the output of `which nginx`. For more reference, check
+Replace `<username>`` with the output of `whoami` and `/path/to/nginx` with the output of `which nginx`. Further information is available via [StackOverflow](http://askubuntu.com/questions/159007/how-do-i-run-specific-sudo-commands-without-a-password).
 
-- http://askubuntu.com/questions/159007/how-do-i-run-specific-sudo-commands-without-a-password
-
-You will also need to `chmod` or `chown` the nginx error log so it is accessible by your user.
+You will also need to `chown` the nginx error log so it is accessible by your user. You can see the location if this log file when you first attempt to start the ui-client development mode via `npm run dev`.
 
 ### Setting up local domains
 In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.
