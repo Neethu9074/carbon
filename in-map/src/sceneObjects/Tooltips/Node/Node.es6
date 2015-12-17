@@ -12,7 +12,7 @@ import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import {getHealth} from 'in-services/issueTracker';
-import {getLabel} from 'in-sdk/snapshot';
+import {getLabel, getLongLabel} from 'in-sdk/snapshot';
 
 import Tooltip from '../Tooltip';
 
@@ -88,7 +88,8 @@ const NodeTooltipRC = React.createClass({
   },
 
   getContent() {
-    let content = <Content>{this.props.snapshot.get('hostId')}</Content>;
+    const snapshotLabel = getLongLabel(this.props.snapshot, this.props.snapshot.get('hostId'));
+    let content = <Content>{snapshotLabel}</Content>;
     const layer = this.props.layer;
 
     if (this.issuesAvailable()) {

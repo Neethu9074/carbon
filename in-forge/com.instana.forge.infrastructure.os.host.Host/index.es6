@@ -1,4 +1,4 @@
-import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
+import {addIconFinder, addLabelFinder, addLongLabelFinder} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
@@ -43,6 +43,12 @@ addIconFinder(
 addLabelFinder(
   constants.plugins.os,
   snapshot => snapshot.getIn(['data', 'hostname'])
+);
+
+
+addLongLabelFinder(
+  constants.plugins.os,
+  snapshot => snapshot.getIn(['data', 'fqdn'])
 );
 
 

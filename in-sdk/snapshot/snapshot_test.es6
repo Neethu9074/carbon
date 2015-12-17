@@ -39,6 +39,23 @@ describe('snapshot', () => {
     });
   });
 
+  describe('long labels', () => {
+
+    it('should retrieve the label via a finder', () => {
+      const truck = 'truck';
+      mod.addLongLabelFinder(pluginId, () => truck);
+      expect(mod.getLongLabel(snapshot)).to.equal(truck);
+    });
+
+    it('should fall back to a configurable label', () => {
+      expect(mod.getLongLabel(snapshot, 'whoop')).to.equal('whoop');
+    });
+
+    it('should fall back to undefined if all else fails', () => {
+      expect(mod.getLongLabel(snapshot)).to.equal(undefined);
+    });
+  });
+
   describe('icons', () => {
 
     it('should retrieve the icon via a finder', () => {

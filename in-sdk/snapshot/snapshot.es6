@@ -44,6 +44,48 @@ export function getLabel(snapshot, fallback) {
 
 
 // {
+//   <pluginId: String>: [(snapshot) => <label: String>]
+// }
+const longLabelFinder = {};
+
+export function addLongLabelFinder(pluginId, finder) {
+  if (!(pluginId in longLabelFinder)) {
+    longLabelFinder[pluginId] = [];
+  }
+
+  longLabelFinder[pluginId].push(finder);
+}
+
+export function getLongLabel(snapshot, fallback) {
+  if (!snapshot) {
+    return fallback;
+  }
+
+  const pluginId = snapshot.get('pluginId');
+
+  const finder = longLabelFinder[pluginId];
+  if (!finder) {
+    if (fallback) {
+      return fallback;
+    }
+    return undefined;
+  }
+
+  for (let i = 0; i < finder.length; i++) {
+    const icon = finder[i](snapshot);
+    if (icon) {
+      return icon;
+    }
+  }
+
+  if (fallback) {
+    return fallback;
+  }
+  return undefined;
+}
+
+
+// {
 // <pluginId: String>: [(snapshot) => <icon name: String>]
 // }
 const iconFinder = {};
