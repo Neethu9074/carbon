@@ -50,5 +50,5 @@ power.addMapping(
 
 sorting.addMapping(
   constants.plugins.nodejsApp,
-  (s1, s2) => getLabel(s1).localeComparse(getLabel(s2))
+  (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
 );

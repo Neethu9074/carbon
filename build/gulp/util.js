@@ -58,9 +58,12 @@ exports.startProxrox = function startProxrox(config) {
 
 
 exports.openBrowser = function openBrowser(url) {
-  execSync('open "' + url + '"');
+  if (os.platform() === 'darwin') {
+    execSync('open "' + url + '"');
+  } else if (os.platform() === 'linux') {
+    execSync('xdg-open "' + url + '"');
+  }
 };
-
 
 exports.writeDevModeConfig = function writeDevModeConfig(environment, envConfig) {
   var devConfig = {

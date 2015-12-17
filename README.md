@@ -30,7 +30,29 @@ bash
 ./build/upgrade-nodejs
 ```
 
-You will also need to have nginx installed and its CLI on the path. You can achieve this on OS X via `brew install nginx`.
+You will also need to have nginx installed and its CLI on the path. 
+
+You can achieve this on OS X via 
+
+    brew install nginx
+    
+On Ubuntu you achieve this via 
+
+    apt-get install nginx
+
+Nginx must be startable with your own user privileges. You can achieve this by adding the path to the nginx executable to the sudoers file:
+
+    sudo visudo -f /etc/sudoers.d/nginx
+
+In the file add the line
+
+    username localhost = (root) NOPASSWD: /path/to/nginx
+
+Replace username with the output of `whoami` and `/path/to/nginx` with the output of `which nginx`. For more reference, check
+
+- http://askubuntu.com/questions/159007/how-do-i-run-specific-sudo-commands-without-a-password
+
+You will also need to `chmod` or `chown` the nginx error log so it is accessible by your user.
 
 ### Setting up local domains
 In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.

@@ -20,7 +20,8 @@ export const plugins = {
   httpd: 'com.instana.forge.infrastructure.webserver.httpd.Httpd',
   nginx: 'com.instana.forge.infrastructure.webserver.nginx.Nginx',
   availabilityZone: 'com.instana.forge.hardware.AvailabilityZone',
-  mssql: 'com.instana.forge.infrastructure.database.mssql.MsSqlDatabase'
+  mssql: 'com.instana.forge.infrastructure.database.mssql.MsSqlDatabase',
+  phpfpm: 'com.instana.forge.infrastructure.runtime.phpfpm.PhpFpmRuntimePlatform'
 };
 
 export const rels = {

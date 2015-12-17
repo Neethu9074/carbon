@@ -7,45 +7,38 @@ import iconPath from './icon.svg';
 import * as constants from '../constants';
 
 pluginName.setHumanReadablePluginName(
-  constants.plugins.nodejs,
-  'Node.js Runtime',
-  'Node.js Runtimes'
+  constants.plugins.phpfpm,
+  'PHP-FPM Runtime',
+  'PHP-FPM Runtimes'
 );
 
-addLabelFinder(constants.plugins.nodejs, getLabel);
+addLabelFinder(constants.plugins.phpfpm, getLabel);
 
 function getLabel(s) {
   const data = s.get('data');
-  const nodeJsVersion = data.getIn(['versions', 'node']);
-  if (!nodeJsVersion) {
+  const workerPoolName = data.getIn(['pool']);
+  if (!workerPoolName) {
     return getFallbackLabel(s);
   }
 
-  const label = 'Node.js v' + nodeJsVersion;
-
-  const name = data.get('name');
-  if (!name) {
-    return label;
-  }
-
-  return label + ' executing ' + name;
+  return 'PHP-FPM Worker Pool: ' + workerPoolName;
 }
 
 function getFallbackLabel(s) {
-  return 'Node.js#' + s.get('steadyId');
+  return 'PHP-FPM Worker Pool#' + s.get('steadyId');
 }
 
 addIconFinder(
-  constants.plugins.nodejs,
+  constants.plugins.phpfpm,
   () => iconPath
 );
 
 power.addMapping(
-  constants.plugins.nodejs,
+  constants.plugins.phpfpm,
   () => -1
 );
 
 sorting.addMapping(
-  constants.plugins.nodejs,
+  constants.plugins.phpfpm,
   (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
 );
