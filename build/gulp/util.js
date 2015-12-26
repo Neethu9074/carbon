@@ -1,10 +1,11 @@
-/*eslint-env node*/
-/*eslint-disable no-var, strict, vars-on-top */
+/* eslint-env node */
+/* eslint-disable no-var, strict, vars-on-top */
 
 'use strict';
 
 var fs = require('fs');
 var os = require('os');
+var opn = require('opn');
 var util = require('util');
 var path = require('path');
 var execSync = require('child_process').execSync;
@@ -57,13 +58,7 @@ exports.startProxrox = function startProxrox(config) {
 };
 
 
-exports.openBrowser = function openBrowser(url) {
-  if (os.platform() === 'darwin') {
-    execSync('open "' + url + '"');
-  } else if (os.platform() === 'linux') {
-    execSync('xdg-open "' + url + '"');
-  }
-};
+exports.openBrowser = opn;
 
 exports.writeDevModeConfig = function writeDevModeConfig(environment, envConfig) {
   var devConfig = {
