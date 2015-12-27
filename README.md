@@ -33,38 +33,8 @@ bash
 ```
 
 #### Nginx
-You will also need to have nginx installed and its CLI on the path.
+You will also need to have Nginx installed and its CLI on the path. Instructions can be found in the [proxrox repository](https://github.com/bripkens/proxrox/blob/master/INSTALLATION.md#installation-of-nginx).
 
-
-#### Nginx installation on OS X
-You can achieve this on OS X via…
-
-```
-brew install nginx
-```
-
-#### Nginx installation on Ubuntu
-On Ubuntu you could install nginx with `apt-get`…
-
-```
-apt-get install nginx
-```
-
-Nginx must be executed with your own user privileges. You can achieve this by adding the path to the nginx executable to the sudoers file:
-
-```
-sudo visudo -f /etc/sudoers.d/nginx
-```
-
-In the file add the line
-
-```
-<username> localhost = (root) NOPASSWD: /path/to/nginx
-```
-
-Replace `<username>`` with the output of `whoami` and `/path/to/nginx` with the output of `which nginx`. Further information is available via [StackOverflow](http://askubuntu.com/questions/159007/how-do-i-run-specific-sudo-commands-without-a-password).
-
-You will also need to `chown` the nginx error log so it is accessible by your user. You can see the location if this log file when you first attempt to start the ui-client development mode via `npm run dev`.
 
 ### Setting up local domains
 In order for cookies to be send to the backend you need to configure a rule in `/etc/hosts` to route all traffic for `local-instana.instana.io` to `127.0.0.1`. Only access the local development environment using this domain.
