@@ -11,7 +11,7 @@ var gutil = require('gulp-util');
 var webpack = require('webpack');
 var inquirer = require('inquirer');
 var runSequence = require('run-sequence');
-var minifyCss = require('gulp-minify-css');
+var nano = require('gulp-cssnano');
 var execSync = require('child_process').execSync;
 
 var webpackConfig = require('../../webpack.config.js');
@@ -60,7 +60,7 @@ gulp.task('copyServerSources', () => {
 
 gulp.task('minifyCss', () => {
   return gulp.src(paths.generatedCssFileSelector)
-    .pipe(minifyCss())
+    .pipe(nano())
     .pipe(gulp.dest(paths.bundleDir));
 });
 
