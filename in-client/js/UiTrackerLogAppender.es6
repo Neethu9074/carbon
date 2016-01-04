@@ -56,7 +56,8 @@ export default class UiTrackerLogAppender {
       data: message
     })
     // ignore all errors
-    .then(null, () => {});
+    .errors()
+    .subscribe(() => {});
 
     totalNumberOfReportedErrors++;
   }
