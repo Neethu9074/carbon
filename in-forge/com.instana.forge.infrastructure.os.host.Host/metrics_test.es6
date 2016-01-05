@@ -24,9 +24,8 @@ describe('metrics', () => {
         });
       });
 
-      it('should calculate (m - v) / m for memory free', () => {
-        expect(getNormalizedValue('memory.free', snapshot, 1)).to.equal(
-          (1000 - 1) / 1000);
+      it('should calculate v m for memory free', () => {
+        expect(getNormalizedValue('memory.free', snapshot, 1)).to.equal(1 / 1000);
       });
 
       it('should calculate v / m for load', () => {

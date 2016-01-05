@@ -44,7 +44,7 @@ addMinValueLocator(/^fs\.([^\.]+)\.ifree/, zero);
 
 addNormalizedValueLocator(
   /^memory\.free/,
-  (max, value) => (max - value) / max // translates free -> used
+  (max, value) => value / max // translates free -> used
 );
 
 addNormalizedValueLocator(
