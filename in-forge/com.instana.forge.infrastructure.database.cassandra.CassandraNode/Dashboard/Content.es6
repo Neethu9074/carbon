@@ -108,14 +108,16 @@ const CassandraDashboard = React.createClass({
                                  'stage.read.' + stage,
                                  'stage.countermutation.' + stage,
                                  'stage.readrepair.' + stage,
-                                 'stage.requestresponse.' + stage
+                                 'stage.requestresponse.' + stage,
+                                 'stage.memtableflushwriter.' + stage
                                ],
                                labels: [
                                  'Write (Mutation)',
                                  'Read',
                                  'Counter Mutation',
                                  'Read Repair',
-                                 'Request/Response'
+                                 'Request/Response',
+                                 'Memtable Flushwriter'
                                ],
                                type: 'line'
                              }}/>
