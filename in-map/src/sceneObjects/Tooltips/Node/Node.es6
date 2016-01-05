@@ -70,13 +70,7 @@ const NodeTooltipRC = React.createClass({
     const style = {};
 
     if (this.issuesAvailable()) {
-      const mostImportantProblem = this.state.issues.reduce((issueA, issueB) => {
-        if (issueA.getIn(['problem', 'severity']) >= issueB.getIn(['problem', 'severity'])) {
-          return issueA;
-        }
-        return issueB;
-      });
-      text = mostImportantProblem.get('problemText');
+      text = this.getMostImportedProblem().get('problemText');
       style.color = mapHealthToColor(this.state.health);
     }
 
@@ -87,13 +81,22 @@ const NodeTooltipRC = React.createClass({
     return this.state.issues.some(problem => problem.get('severity') > 0);
   },
 
+  getMostImportedProblem() {
+    return this.state.issues.reduce((issueA, issueB) => {
+      if (issueA.getIn(['problem', 'severity']) >= issueB.getIn(['problem', 'severity'])) {
+        return issueA;
+      }
+      return issueB;
+    });
+  },
+
   getContent() {
     const snapshotLabel = getLongLabel(this.props.snapshot, this.props.snapshot.get('hostId'));
     let content = <Content>{snapshotLabel}</Content>;
     const layer = this.props.layer;
 
     if (this.issuesAvailable()) {
-      const suggestion = this.state.issues.getIn([0, 'fixSuggestion']);
+      const suggestion = this.getMostImportedProblem().get('fixSuggestion');
       if (suggestion) {
         content = <Content>{suggestion}</Content>;
       }
