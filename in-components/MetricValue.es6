@@ -16,6 +16,10 @@ const MetricValue = React.createClass({
     formatter: rpt.func
   },
 
+  getInitialState() {
+    return {};
+  },
+
   componentDidMount() {
     this.establishSubscription(this.getStream(this.props));
   },
