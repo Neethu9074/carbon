@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import {getWiredSnapshots} from 'in-sdk/snapshot';
-import {getNormalizedValue} from 'in-sdk/metrics';
+import {getMaxValue} from 'in-sdk/metrics';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
@@ -100,20 +100,12 @@ export default class NodeSnapshotServer {
   subscribeToCurrentMetric() {
     const client = this.client;
     const snapshot = client.snapshot;
+    const maxValue = getMaxValue(this.currentMetric.getIn([0, 'name']), snapshot);
 
     this.metricSubscription = subscribeToMetric({
-      metrics: this.currentMetric, snapshot, fn: (values) => {
-        try {
-          client.setMetricValues(
-            values.map((v, index) => {
-              return getNormalizedValue(
-                this.currentMetric.getIn([index, 'name']), snapshot, v);
-            }
-          ));
-        } catch (err) {
-          client.setMetricValues(values);
-        }
-      }
+      metrics: this.currentMetric,
+      snapshot,
+      fn: (values) => client.setMetricValues(values.map(v => v / maxValue))
     });
   }
 

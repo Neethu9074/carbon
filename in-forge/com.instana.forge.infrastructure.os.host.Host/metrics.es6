@@ -2,7 +2,6 @@ import {formatBytes} from 'in-services/converters';
 import {
   addMaxValueLocator,
   addMinValueLocator,
-  addNormalizedValueLocator,
   addFormattedValueLocator
 } from 'in-sdk/metrics';
 
@@ -41,22 +40,6 @@ addMaxValueLocator(
   ])
 );
 addMinValueLocator(/^fs\.([^\.]+)\.ifree/, zero);
-
-addNormalizedValueLocator(
-  /^memory\.free/,
-  (max, value) => value / max // translates free -> used
-);
-
-addNormalizedValueLocator(
-  /^load/,
-  (max, value) => value / max
-);
-
-addNormalizedValueLocator(
-  /^cpu\.(user|sys|wait|nice|steal|idle)/,
-  (max, value) => value
-);
-
 
 addFormattedValueLocator(
   /^memory\.free/,

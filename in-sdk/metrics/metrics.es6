@@ -6,7 +6,6 @@ import _ from 'lodash';
 // }
 const maxValueLocators = [];
 const minValueLocators = [];
-const normalizedValueLocators = [];
 const formattedValueLocators = [];
 
 export function addMaxValueLocator(metric, locator) {
@@ -18,13 +17,6 @@ export function addMaxValueLocator(metric, locator) {
 
 export function addMinValueLocator(metric, locator) {
   minValueLocators.push({
-    metric,
-    locator
-  });
-}
-
-export function addNormalizedValueLocator(metric, locator) {
-  normalizedValueLocators.push({
     metric,
     locator
   });
@@ -61,18 +53,6 @@ export function getMinValue(metric, snapshot) {
     throw new Error('No locator found for metric ' + metric);
   }
   return locator.locator(snapshot, metric.match(locator.metric));
-}
-
-export function getNormalizedValue(metric, snapshot, value) {
-  const locator = _.find(
-    normalizedValueLocators,
-    eachLocator => metric.match(eachLocator.metric)
-  );
-
-  if (!locator) {
-    throw new Error('No locator found for metric ' + metric);
-  }
-  return locator.locator(getMaxValue(metric, snapshot), value);
 }
 
 export function getFormattedValue(metric, snapshot, value) {

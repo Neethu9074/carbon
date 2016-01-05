@@ -2,43 +2,11 @@
 import Immutable from 'immutable';
 import {expect} from 'chai';
 
-import {getNormalizedValue, getFormattedValue} from 'in-sdk/metrics';
+import {getFormattedValue} from 'in-sdk/metrics';
 
 import './index';
 
 describe('metrics', () => {
-
-  describe('normalized value', () => {
-    const osPlugin = 'com.instana.forge.infrastructure.os.host.Host';
-
-    describe(osPlugin, () => {
-      let snapshot;
-
-      beforeEach(() => {
-        snapshot = Immutable.fromJS({
-          pluginId: osPlugin,
-          data: {
-            'memory.total': 1000,
-            'cpu.count': 4
-          }
-        });
-      });
-
-      it('should calculate v m for memory free', () => {
-        expect(getNormalizedValue('memory.free', snapshot, 1)).to.equal(1 / 1000);
-      });
-
-      it('should calculate v / m for load', () => {
-        expect(getNormalizedValue('load', snapshot, 2)).to.equal(2 / 4);
-      });
-
-      it('should calculate v for cpu', () => {
-        expect(getNormalizedValue('cpu.user', snapshot, 2))
-          .to.equal(2);
-      });
-    });
-
-  });
 
   describe('format value', () => {
     let snapshot;
