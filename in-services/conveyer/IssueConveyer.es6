@@ -2,6 +2,9 @@ import Immutable from 'immutable';
 
 import * as connection from '../connection/subscriptionAwareConnection';
 
+import {isExperimentsEnabled} from '../config';
+
+const experimentsEnabled = isExperimentsEnabled();
 
 export default class IssueConveyer {
 
@@ -22,7 +25,15 @@ export default class IssueConveyer {
   start(onNext) {
     this.subscription = connection.emitter.on('message')
       .filter(e => e.id === this.id)
-      .subscribe(e => onNext(Immutable.fromJS(e.data)));
+      .subscribe(e => {
+        let issues = e.data;
+
+        if (!experimentsEnabled) {
+          issues = issues.filter(issue => !issue.problem.experimental);
+        }
+
+        onNext(Immutable.fromJS(issues));
+      });
 
     connection.subscribe(this.id, this.subscribeEvent);
   }

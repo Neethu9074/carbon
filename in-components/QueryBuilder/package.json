@@ -1,6 +1,0 @@
-{
-  "name": "QueryBuilder",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./QueryBuilder.es6"
-}

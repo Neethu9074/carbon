@@ -21,6 +21,7 @@ import './devtools/subscriptionInfoPrinter';
 import './devtools/timeOffsetProvider';
 import './devtools/checkForWiredComponentsThatAreNotExisting';
 import './devtools/storeStates';
+import './devtools/experiments';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
 // should thus only be added when it can actually log to a browser console.
