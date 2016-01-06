@@ -1,5 +1,3 @@
-
-
 // this file is necessary for a successful installation of the in-services
 // module. Also, we can provide module usage information through this
 // module.
