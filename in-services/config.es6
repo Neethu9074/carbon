@@ -15,7 +15,3 @@ export function isDemoEnvironment() {
 export function isInstanaTenant() {
   return theConfig.tenant === 'instana';
 }
-
-export function isExperimentsEnabled() {
-  return window && window.localStorage && window.localStorage.getItem('in-experiments') === 'true';
-}
