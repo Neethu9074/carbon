@@ -104,24 +104,26 @@ export default connectTo(
                  }}/>
         </DashboardSection>
 
-        <DashboardSection title='CPU Load'>
-          <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
-                 height={chartHeight}
-                 margins={{
-                   left: 60
-                 }}
-                 y1={{
-                   min: 0,
-                   type: 'stackedArea',
-                   formatter: twoDecimalPlaces,
-                   tooltipFormatter: twoDecimalPlaces,
-                   metrics: [
-                     'load.1min'
-                   ],
-                   labels: ['Load']
-                 }}/>
-        </DashboardSection>
+        {!this.isWindows() ?
+          <DashboardSection title='CPU Load'>
+            <ChartWithLegend snapshot={snapshot}
+              windowSize={timeframe}
+              height={chartHeight}
+              margins={{
+                left: 60
+              }}
+              y1={{
+                min: 0,
+                type: 'stackedArea',
+                formatter: twoDecimalPlaces,
+                tooltipFormatter: twoDecimalPlaces,
+                metrics: [
+                  'load.1min'
+                ],
+                labels: ['Load']
+              }}/>
+          </DashboardSection>
+        : null}
 
         {cpuCount > 1 ?
 
@@ -549,5 +551,9 @@ export default connectTo(
     this.setState({
       interfaceName: iface
     });
+  },
+
+  isWindows() {
+    return !!this.props.snapshot.getIn(['data', 'os.name'], '').match(/windows/i);
   }
 }));
