@@ -143,7 +143,7 @@ const Settings = React.createClass({
           </SettingEntry>
 
           <SettingEntry>
-            <SettingEntry.Header text='Show experimental features' />
+            <SettingEntry.Header text='Enable Experimental Features' />
             <SettingEntry.Content>
               <CheckBox onClick={this.toggleExperimentalFeatures}
                         defaultChecked={this.state.experiments}/>
