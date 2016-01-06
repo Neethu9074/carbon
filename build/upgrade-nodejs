@@ -1,6 +1,7 @@
 #!/bin/sh
 
-set -x
+# Only active the following flag if you run into problems
+# set -x
 
 # Activate NVM. NVM activation will fail when the user does not
 # have the Node.js version installed which is specified by the .nvmrc.
@@ -8,7 +9,7 @@ set -x
 # in the following line.
 . "$NVM_DIR/nvm.sh"
 
-set -e
+set -eo pipefail
 
 NEW_NODE_VERSION=$(cat .nvmrc)
 
@@ -39,3 +40,5 @@ npm install
 
 # install tools that everyone needs ;)
 npm install -g ec2c proxrox tldr commitizen
+
+echo 'Great success, Node.js is now up to date!'
