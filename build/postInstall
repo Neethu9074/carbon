@@ -9,6 +9,7 @@ ln -s ../in-map node_modules/in-map
 ln -s ../in-themes node_modules/in-themes
 ln -s ../in-components node_modules/in-components
 ln -s ../in-test node_modules/in-test
+ln -s ../in-stores node_modules/in-stores
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"
