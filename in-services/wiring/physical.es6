@@ -22,7 +22,7 @@ const completeWiring = create(WiringConveyer);
 
 export const physicalHostsViewWiring = completeWiring
   .map(mapWiringGraphToPhysicalHostsViewGraph)
-  .flatMap(addNodesFromSnapshotsWichDoesNotAppearInWiring);
+  .flatMap(addNodesFromSnapshotsWhichDoesNotAppearInWiring);
 
 export const fullPhysicalHostsViewWiring = physicalHostsViewWiring.transform({
   emitLatestOnSubscribe: true,
@@ -54,7 +54,7 @@ function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
     });
 }
 
-function addNodesFromSnapshotsWichDoesNotAppearInWiring(viewStructure) {
+function addNodesFromSnapshotsWhichDoesNotAppearInWiring(viewStructure) {
   const LUT = {};
   viewStructure.forEach(vs => LUT[vs.node.get('id')] = vs.node);
 
