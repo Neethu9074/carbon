@@ -1,8 +1,10 @@
 /* eslint-disable new-cap */
 import Immutable from 'immutable';
+import {combineLatest} from 'reactive-observables';
 
 import {isDemoEnvironment} from 'in-services/config';
 import {theme} from 'in-services/theme';
+import * as settings from 'in-services/settings';
 
 import AggregatedIssuesConveyer from '../conveyer/AggregatedIssuesConveyer';
 import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
@@ -13,22 +15,31 @@ import {create} from '../conveyer';
 
 // CPU steal issues shouldn't be shown in the demo environment as we are using
 // small EC2 instances. These almost always have high CPU steal.
-const withoutCpuStealMaper = (issues) => {
+const withoutCpuStealMapper = (issues) => {
   return issues.filter(issue =>
     issue.getIn(['problem', 'problemText'], '').indexOf('Steal') === -1
   );
 };
 
-const allIssuesStream = timelineStore.timeframe.distinct()
+const allIssuesStreamWithExperimentals = timelineStore.timeframe.distinct()
   .flatMap(timeframe => {
     const stream = create(IssueConveyer, {timeframe})
       .scan(collectingReducer, Immutable.List());
 
     if (isDemoEnvironment()) {
-      return stream.map(withoutCpuStealMaper);
+      return stream.map(withoutCpuStealMapper);
     }
 
     return stream;
+  });
+
+const allIssuesStream = combineLatest(
+    [settings.getIn(['experiments']), allIssuesStreamWithExperimentals]
+  ).map(([withExperiments, issues]) => {
+    if (withExperiments) {
+      return issues;
+    }
+    return issues.filter(issue => !issue.getIn(['problem', 'experimental'], false));
   });
 
 const openIssuesStream = allIssuesStream.map(issues => {

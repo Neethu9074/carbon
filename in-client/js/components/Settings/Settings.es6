@@ -34,7 +34,8 @@ const Settings = React.createClass({
       unmonitoredHosts: null,
       antialiasValue: 'off',
       speedSliderValue: 1,
-      activeTheme: null
+      activeTheme: null,
+      experiments: false
     };
   },
 
@@ -49,7 +50,8 @@ const Settings = React.createClass({
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
         antialiasValue: antialias ? antialias : 'off',
         desktopNotification: desktopNotification,
-        unmonitoredHosts: unmonitoredHosts
+        unmonitoredHosts: unmonitoredHosts,
+        experiments: data.getIn(['experiments'])
       });
     }));
 
@@ -139,6 +141,14 @@ const Settings = React.createClass({
                                   'monitored by Instana. These hosts are visualized as unmonitored hosts on the map. ' +
                                   'You can disable them by checking this box.'} />
           </SettingEntry>
+
+          <SettingEntry>
+            <SettingEntry.Header text='Enable Experimental Features' />
+            <SettingEntry.Content>
+              <CheckBox onClick={this.toggleExperimentalFeatures}
+                        defaultChecked={this.state.experiments}/>
+            </SettingEntry.Content>
+          </SettingEntry>
         </div>
       </Dialog>
     );
@@ -159,11 +169,7 @@ const Settings = React.createClass({
   },
 
   toggleUnmonitoredNodes() {
-    if (!this.state.unmonitoredHosts) {
-      setIn(['map', 'unmonitoredHosts'], true);
-    } else {
-      setIn(['map', 'unmonitoredHosts'], false);
-    }
+    setIn(['map', 'unmonitoredHosts'], !this.state.unmonitoredHosts);
   },
 
   toggleDesktopNotifications() {
@@ -178,6 +184,10 @@ const Settings = React.createClass({
     } else {
       setIn(['desktopNotification'], false);
     }
+  },
+
+  toggleExperimentalFeatures() {
+    setIn(['experiments'], !this.state.experiments);
   }
 });
 
