@@ -25,6 +25,8 @@ const UnknownNode = React.createClass({
         </Heading>
         <Content>
           {'This host is not monitored.'}
+          <br/><br/>
+          {'Click to copy the IP-address to clipboard.'}
         </Content>
       </TooltipFrame>
     );
