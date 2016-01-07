@@ -1,9 +1,12 @@
 import React from 'react/addons';
 
-import UnknownNodeButton from '../UnknownNodeButton';
 import StickyNote from '../StickyNote';
+import iconPath from './plusIcon.svg';
 
 import './UnknownNode.less';
+
+const rpt = React.PropTypes;
+const block = 'in-sticky-note__unknown-node';
 
 const UnknownNodeStickyRC = React.createClass({
   mixins: [
@@ -11,28 +14,26 @@ const UnknownNodeStickyRC = React.createClass({
   ],
 
   propTypes: {
-    onPlusClicked: React.PropTypes.func.isRequired,
-    snapshot: React.PropTypes.object.isRequired,
-    showIp: React.PropTypes.bool.isRequired
+    onClicked: rpt.func.isRequired,
+    snapshot: rpt.object.isRequired,
+    showIp: rpt.bool.isRequired
   },
 
   render() {
+    if (this.props.showIp) {
+      return null;
+    }
     return (
-      <div className='in-sticky-note__note__unknown-node--stack-wrapper'>
-        <div className='in-sticky-note__note__unknown-node--stack-children'>
-          {this.props.showIp ?
-            null :
-            <UnknownNodeButton onPlusClicked={this.props.onPlusClicked} />
-          }
-        </div>
-      </div>
+      <img src={iconPath}
+           className={block + '__icon'}
+           onClick={this.props.onClicked} />
     );
   }
 });
 
 export default class StickyNoteUnknownNode extends StickyNote {
   constructor(parent) {
-    super({parent, cssClass: 'in-sticky-note__unknown-node'});
+    super({parent, cssClass: block});
 
     this.showIp = true;
     this.render();
@@ -43,12 +44,12 @@ export default class StickyNoteUnknownNode extends StickyNote {
       <UnknownNodeStickyRC
         snapshot={this.parent.snapshot}
         showIp={this.showIp}
-        onPlusClicked={this.onPlusClicked.bind(this)}/>,
+        onClicked={this.onClicked.bind(this)}/>,
       this.stickyNoteContainer
     );
   }
 
-  onPlusClicked() {
+  onClicked() {
     this.parent.scene.onPlusClicked();
   }
 
