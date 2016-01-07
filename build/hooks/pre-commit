@@ -1,4 +1,0 @@
-#!/bin/sh
-
-# Execute tests to be on the safe side
-npm test
