@@ -1,9 +1,5 @@
 #!/bin/sh
 
-echo "Installing git commit hooks..."
-rm -f .git/hooks/pre-commit
-ln -s ../../build/hooks/pre-commit .git/hooks/pre-commit
-
 echo "Symlinking node modules to node_modules to enable shorter require paths"
 rm -f node_modules/in-*
 ln -s ../in-services node_modules/in-services

@@ -9,10 +9,10 @@ import IssueStatusLine from 'in-components/Tooltips/StatusLine';
 import {health, mapHealthToColor} from 'in-services/health';
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
+import {getLabel, getLongLabel} from 'in-sdk/snapshot';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import {getHealth} from 'in-services/issueTracker';
-import {getLabel, getLongLabel} from 'in-sdk/snapshot';
 
 import Tooltip from '../Tooltip';
 

@@ -3,8 +3,6 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import HealthIndicator from 'in-components/HealthIndicator';
-import {isInstanaTenant} from 'in-services/config';
 
 import StickyNote from '../StickyNote';
 import TagFrame from '../TagFrame';
@@ -44,7 +42,6 @@ const NodeStickyNoteRC = React.createClass({
     return (
       <div className='in-sticky-note__node-stack-wrapper'>
         <div className='in-sticky-note__node-stack-children'>
-          {this.props.showMetric || !isInstanaTenant() ? null : <HealthIndicator snapshot={snapshot}/> }
           {tags ? <TagFrame tags={tags}/> : null}
         </div>
       </div>

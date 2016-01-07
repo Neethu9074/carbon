@@ -19,7 +19,7 @@ export default React.createClass({
     return (
       <div className='in-tooltip__status-line'>
         <h3 className='in-tooltip__status-line--left'>
-          {left.substring(0, 12)}
+          {left}
         </h3>
         <p className='in-tooltip__status-line--right'>
           {right}
