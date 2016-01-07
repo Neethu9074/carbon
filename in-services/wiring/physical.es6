@@ -3,11 +3,11 @@ import * as ro from 'reactive-observables';
 import * as forgeConsts from 'in-forge/constants';
 
 import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
+import {alwaysNull, alwaysEmptyArray} from '../fixedStreams';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {getFullSnapshot} from '../snapshots';
 import {create} from '../conveyer';
 import * as views from '../views';
-import {alwaysNull, alwaysEmptyArray} from '../fixedStreams';
 import {
   getDestinationNode,
   getSourceNodes,
