@@ -36,7 +36,6 @@ const JVMInfo = React.createClass({
             </DescriptionItem> :
             null
           }
-
         </DescriptionList>
 
         <ClasspathLayouter snapshot={this.props.snapshot}/>

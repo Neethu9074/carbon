@@ -31,6 +31,7 @@ const ClasspathLayouter = React.createClass({
 
     return (
       <div className={block}>
+        Classpath
         {Object.keys(tree).map(path => {
           const parentPath = path;
           const children = tree[path];
