@@ -1,10 +1,10 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import {formatBytes} from 'in-services/converters';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {formatBytes} from 'in-services/converters';
+
+import ClasspathLayouter from './ClasspathLayouter';
 
 const JVMInfo = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -18,47 +18,29 @@ const JVMInfo = React.createClass({
     const maxMemory = data.get('memory.max');
 
     return (
-      <DescriptionList>
-        <DescriptionItem title='Java Version'>
-          {data.get('jvm.version')}{' '}
-          {data.get('jvm.build')}
-        </DescriptionItem>
+      <div>
+        <DescriptionList>
+          <DescriptionItem title='Java Version'>
+            {data.get('jvm.version')}{' '}
+            {data.get('jvm.build')}
+          </DescriptionItem>
 
-        <DescriptionItem title='Java Runtime'>
-          {data.get('jvm.vendor')}<br/>
-          {data.get('jvm.name')}
-        </DescriptionItem>
+          <DescriptionItem title='Java Runtime'>
+            {data.get('jvm.vendor')}<br/>
+            {data.get('jvm.name')}
+          </DescriptionItem>
 
-        {maxMemory ?
-          <DescriptionItem title='Maximum Heap'>
-            {formatBytes(maxMemory)}
-          </DescriptionItem> :
-          null
-        }
+          {maxMemory ?
+            <DescriptionItem title='Maximum Heap'>
+              {formatBytes(maxMemory)}
+            </DescriptionItem> :
+            null
+          }
+        </DescriptionList>
 
-        <DescriptionItem title='Classpath'>
-          {this.formatClasspath(data.get('jvm.cp'))}
-        </DescriptionItem>
-      </DescriptionList>
+        <ClasspathLayouter snapshot={this.props.snapshot}/>
+      </div>
     );
-  },
-
-  formatClasspath(cp) {
-    if (!cp) {
-      return null;
-    }
-
-    const cpEntries = cp.split(/:|;/);
-    return (
-      <span>
-        {cpEntries.map((cpEntry) =>
-          <div key={cpEntry}>
-            {cpEntry}
-          </div>
-        )}
-      </span>
-    );
-  }
-});
+  }});
 
 export default JVMInfo;

@@ -28,6 +28,7 @@
   },
   "author": "Ben Ripkens <ben@instana.com>",
   "dependencies": {
+    "clipboard-js": "^0.2.0",
     "d3": "^3.5.5",
     "hammerjs": "^2.0.4",
     "immutable": "^3.7.1",

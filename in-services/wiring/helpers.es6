@@ -2,8 +2,8 @@ import * as ro from 'reactive-observables';
 
 import * as forgeConsts from 'in-forge/constants';
 
-import {alwaysNull} from '../fixedStreams';
 import {getFullSnapshot} from '../snapshots';
+import {alwaysNull} from '../fixedStreams';
 
 export function getDestinationNode(wiringGraph, source, relation) {
   for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {

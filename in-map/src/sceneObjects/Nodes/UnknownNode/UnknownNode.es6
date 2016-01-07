@@ -1,3 +1,5 @@
+import clipboard from 'clipboard-js';
+
 import * as tracking from 'in-services/tracking';
 
 import StickyNoteUnknownNode from '../../StickyNote/UnknownNode';
@@ -42,7 +44,12 @@ export default class Unknownnode extends BaseNode {
 
     if (obj && obj.id === this.id) {
       tracking.events.clickOnUnMonitoredIn3dMap();
+      this.copyIpAdressToClipboard();
     }
+  }
+
+  copyIpAdressToClipboard() {
+    clipboard.copy(this.snapshot.get('steadyId'));
   }
 
   getWiredSnapshots() {
