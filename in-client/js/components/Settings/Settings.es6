@@ -148,6 +148,9 @@ const Settings = React.createClass({
               <CheckBox onClick={this.toggleExperimentalFeatures}
                         defaultChecked={this.state.experiments}/>
             </SettingEntry.Content>
+            <SettingEntry.HelpText text={
+                                  'We are constantly working on new features. Check this box ' +
+                                  'if you want to use experimential features.'} />
           </SettingEntry>
         </div>
       </Dialog>
