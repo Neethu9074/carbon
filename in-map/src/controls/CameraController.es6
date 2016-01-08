@@ -12,6 +12,8 @@ import {setupStates} from './States/index';
 export default class CameraController {
 
   constructor({scene, map}) {
+    this.camera = map.camera;
+
     this.bindListeners();
     this.init(scene, map);
 
@@ -67,7 +69,7 @@ export default class CameraController {
     this.camTransformObject.position.set(10, 0, -10);
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
 
-    this.directionToCam = scene.camera.position
+    this.directionToCam = this.camera.getPosition()
       .clone()
       .sub(new THREE.Vector3())
       .normalize();
@@ -219,6 +221,11 @@ export default class CameraController {
 
   getObjectOnCursor() {
     const scene = this.scene;
+    const camera = this.camera.camera;
+    if (!camera) {
+      return;
+    }
+
     const canvasStyle = scene.getHtmlContainer().style;
 
     // get the mouse/touch position in pixel coords
@@ -230,7 +237,7 @@ export default class CameraController {
     this.cursorForRay.y = -(y / scene.height) * 2 + 1;
 
     // update raycaster
-    this.raycaster.setFromCamera(this.cursorForRay, scene.camera);
+    this.raycaster.setFromCamera(this.cursorForRay, this.camera.camera);
 
     // find the hitten object
     this.hittenObject = scene.findObjectByRay(this.raycaster);
@@ -266,7 +273,7 @@ export default class CameraController {
     const dTime = time.getDeltaTime();
     this.updateZoomLevel(dTime);
 
-    const cam = this.scene.camera;
+    const cam = this.camera;
     const targetWorldPos = new THREE.Vector3();
 
     targetWorldPos
@@ -276,7 +283,7 @@ export default class CameraController {
         .multiplyScalar(this.zoomLevel));
 
     // calculate the delta between wanted position and current position
-    const direction = cam.position
+    const direction = cam.getPosition()
       .clone()
       .sub(targetWorldPos);
 
@@ -295,7 +302,7 @@ export default class CameraController {
     }
 
     // move to target position with cameraspeed in units/sec
-    cam.position.sub(delta);
+    cam.getPosition().sub(delta);
     cam.updateMatrix();
     this.scene.renderScene();
   }
@@ -321,17 +328,17 @@ export default class CameraController {
     // and before the camera zoomed in
     cursorPosition.x = (this.lastMousePosition.x / scene.width) * 2 - 1; // [-1, 1]
     cursorPosition.y = -(this.lastMousePosition.y / scene.height) * 2 + 1; // [-1, 1]
-    const pointOfImpact = this.getPointOfImpact(cursorPosition, scene);
+    const pointOfImpact = this.getPointOfImpact(cursorPosition);
 
     // change camera size for zoom effect
-    scene.cameraSize = this.zoomLevel / 10;
-    scene.setCameraFromSize();
+    this.map.camera.cameraSize = this.zoomLevel / 10;
+    this.map.camera.setCameraFromSize();
 
     if (!pointOfImpact) {
       return;
     }
 
-    scene.camera.updateProjectionMatrix();
+    this.camera.updateProjectionMatrix();
 
     // get the new screenPosition of the impact point so that you can calculate the delta in screen space
     const pointOfImpactNew = this.getPointOfImpact(cursorPosition, scene);
@@ -341,9 +348,9 @@ export default class CameraController {
     transObj.updateMatrixWorld();
   }
 
-  getPointOfImpact(mousePos, scene) {
+  getPointOfImpact(mousePos) {
     // update the picking ray with the camera and mouse position
-    this.raycaster.setFromCamera(mousePos, scene.camera);
+    this.raycaster.setFromCamera(mousePos, this.camera.camera);
 
     // calculate objects intersecting the picking ray
     const intersects = this.raycaster.intersectObjects([this.map.ground]);

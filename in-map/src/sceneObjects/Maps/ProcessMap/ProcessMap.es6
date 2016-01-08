@@ -16,6 +16,12 @@ export default class ProcessMap extends BaseMap {
     });
   }
 
+  getGroundTexture() {
+    return undefined;
+  }
+
+  onZoom() {}
+
   dispose() {
     super.dispose();
   }

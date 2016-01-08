@@ -27,10 +27,32 @@ export default class MapHandler {
     this.doIfPresent((map) => map.update());
   }
 
+  updateCamera() {
+    this.doIfPresent((map) => map.camera.update());
+  }
+
+  onWindowResize(width, height) {
+    this.doIfPresent((map) => {
+      map.camera.setSize(width, height);
+      map.camera.setCameraFromSize();
+    });
+  }
+
   getCurrentZoomLevel() {
     let zoomLevel = 250;
     this.doIfPresent((map) => zoomLevel = map.controller.zoomLevel);
     return zoomLevel;
+  }
+
+  getCurrentCamera() {
+    let camera;
+    this.doIfPresent((map) => {
+      const cam = map.camera;
+      if (cam) {
+        camera = cam.camera;
+      }
+    });
+    return camera;
   }
 
   onZoom() {

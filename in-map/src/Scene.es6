@@ -31,7 +31,7 @@ import * as time from './timeCalculations';
 import * as stores from './mapStores';
 import * as zoom from './zoom';
 
-const inverse = new THREE.Matrix4();
+
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 
 const maxNodeOpacity = 0.6;
@@ -60,9 +60,14 @@ export default class Scene {
     // this is the main scene for all scene objects like nodes or metrics
     this.scene = new THREE.Scene();
     this.setupFactories();
+
     this.setup3D();
 
-    this.mapHandler = new MapHandler({ scene: this });
+    this.mapHandler = new MapHandler({
+      scene: this,
+      height: this.height,
+      width: this.width
+    });
 
     this.adaptiveDetailHandler = new Handler.AdaptiveDetailHandler(this);
 
@@ -74,11 +79,7 @@ export default class Scene {
   }
 
   setup3D() {
-    const height = this.height;
-    const width = this.width;
-
     this.setupCanvas();
-    this.setupCamera(width, height);
 
     // needs the scene, camera and renderer so do it last
     this.setupRenderer();
@@ -128,28 +129,6 @@ export default class Scene {
     renderer.autoUpdateObjects = false;
   }
 
-  setupCamera(width, height) {
-    // a multiplicator for a homogenious viewport * aspect
-    this.cameraSize = 30;
-
-    const aspect = width / height;
-    const left = -this.cameraSize / 2 * aspect;
-    const top = this.cameraSize / 2;
-    const camera = this.camera = new THREE.OrthographicCamera(
-      left, -left, top, -top,
-      0.1, // near
-      2000 // far
-    );
-
-    camera.position.set(-0.8, 1, 1);
-    camera.lookAt(new THREE.Vector3());
-    camera.projection = new THREE.Matrix4();
-    // set static
-    camera.rotationAutoUpdate = false;
-    camera.matrixAutoUpdate = false;
-    camera.updateMatrix();
-  }
-
   setupFXAARenderPass() {
     if (this.antialias !== 'FXAA') {
       return;
@@ -167,7 +146,7 @@ export default class Scene {
     effectFXAA.renderToScreen = true;
 
     const composer = new THREE.EffectComposer(this.webGLRenderer, renderTarget);
-    composer.addPass(new THREE.RenderPass(this.scene, this.camera));
+    composer.addPass(new THREE.RenderPass(this.scene, this.mapHandler.getCurrentCamera()));
     composer.addPass(effectFXAA);
 
     this.composer = composer;
@@ -359,25 +338,10 @@ export default class Scene {
       eventBus.emit('updateTween', highResTimestamp);
     }
 
-    this.updateCamera();
+    this.mapHandler.updateCamera();
     eventBus.emit('endUpdate', {scene: this});
 
     this.render();
-  }
-
-  updateCamera() {
-    const camera = this.camera;
-    const camProjectionMat = camera.projectionMatrix;
-
-    // updateMatrix is called in controller before
-    camera.updateMatrixWorld();
-    camera.updateProjectionMatrix();
-
-    // sets inverse to camera.matrixWorld^-1
-    inverse.getInverse(camera.matrixWorld);
-
-    // sets the projection matrix
-    camera.projection.multiplyMatrices(camProjectionMat, inverse);
   }
 
   updateMetricHeights() {
@@ -412,13 +376,15 @@ export default class Scene {
   }
 
   render() {
+    const camera = this.mapHandler.getCurrentCamera();
+
     if (this.doneMagic) {
-      this.asciiEffect.render(this.scene, this.camera);
+      this.asciiEffect.render(this.scene, camera);
     } else {
       if (this.antialias === 'FXAA') {
         this.composer.render();
       } else {
-        this.webGLRenderer.render(this.scene, this.camera);
+        this.webGLRenderer.render(this.scene, camera);
       }
     }
 
@@ -467,19 +433,6 @@ export default class Scene {
     // set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
     this.renderScene();
-  }
-
-  setCameraFromSize() {
-    // we start in the middle and go totalWidth / 2 to the left
-    const camSizeHalf = this.cameraSize / 2;
-    const aspect = this.width / this.height;
-
-    this.camera.left = -camSizeHalf * aspect;
-    this.camera.right = camSizeHalf * aspect;
-    this.camera.bottom = -camSizeHalf;
-    this.camera.top = camSizeHalf;
-
-    // projection matrix is updated in update loop
   }
 
   findObjectByRay(raycaster) {
@@ -560,8 +513,7 @@ export default class Scene {
       this.asciiEffect.setSize(width, height);
     }
     this.webGLRenderer.setSize(width, height);
-
-    this.setCameraFromSize();
+    this.mapHandler.onWindowResize(width, height);
 
     // refresh to show the current state
     this.renderScene();
