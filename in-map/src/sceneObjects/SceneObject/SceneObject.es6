@@ -152,7 +152,10 @@ export default class SceneObject {
 
   updateScreenPosition() {
     const scene = this.scene;
-    const camera = scene.camera;
+    const camera = scene.mapHandler.getCurrentCamera();
+    if (!camera) {
+      return;
+    }
     const width = scene.width;
     const height = scene.height;
     const screenPosition = this.screenPositionAnchor
