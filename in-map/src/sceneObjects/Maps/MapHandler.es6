@@ -1,17 +1,21 @@
 import {view} from 'in-services/stores/view';
+import views from 'in-services/views';
 
-import VisualMap from './VisualMap';
+import PhysicalMap from './PhysicalMap';
+import ProcessMap from './ProcessMap';
 
 
 export default class MapHandler {
 
   constructor({ scene }) {
     this.viewSubscription = view.subscribe(v => {
-      this.view = v;
-      if (this.map) {
-        this.map.dispose();
+      this.doIfPresent((map) => map.dispose());
+
+      if (v === views.physical) {
+        this.map = new PhysicalMap({ parent: scene });
+      } else if (v === views.process) {
+        this.map = new ProcessMap({ parent: scene });
       }
-      this.map = new VisualMap({ parent: scene });
     });
   }
 

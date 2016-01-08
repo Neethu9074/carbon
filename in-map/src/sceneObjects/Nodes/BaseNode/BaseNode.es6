@@ -240,9 +240,9 @@ export default class BaseNode extends SceneObject {
     this.updateScreenPosition();
   }
 
-  onSnapshotUpdate() {throw new Error('NOT IMPLEMENTED'); }
+  onSnapshotUpdate() { throw new Error('NOT IMPLEMENTED'); }
 
-  getScreenAnchorPosition() {throw new Error('NOT IMPLEMENTED'); }
+  getScreenAnchorPosition() { throw new Error('NOT IMPLEMENTED'); }
 
   setLayer() {}
   addConnections() {}

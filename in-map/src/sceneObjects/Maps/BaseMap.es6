@@ -10,7 +10,6 @@ import {getIn} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
 import theme from 'in-services/theme';
 
-import MouseCameraController from '../../controls/MouseCameraController';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import ConnectionGrid from '../../ConnectionGrid';
 import * as time from '../../timeCalculations';
@@ -24,8 +23,8 @@ const nameOfUndefinedZone = 'undefined zone';
 
 export default class VisualMap extends SceneObject {
 
-  constructor({parent}) {
-    super({parent, id: 'VisualMap'});
+  constructor({parent, id}) {
+    super({parent, id});
 
     // the size of the map in world units (sizeXsize)
     this.size = 1000;
@@ -36,11 +35,10 @@ export default class VisualMap extends SceneObject {
     this.createGroundGrid();
     this.registerEvents();
 
-    this.controller = new MouseCameraController({
-      canvas: parent.canvas,
-      scene: parent
-    });
+    this.controller = this.getController(parent.canvas);
   }
+
+  getController() { throw new Error('NOT IMPLEMENTED'); }
 
   createGroundGrid() {
     const color = hexToRGBNormalized(theme.map.colors.groundDots);
@@ -123,14 +121,6 @@ export default class VisualMap extends SceneObject {
 
   update() {
     this.controller.update();
-  }
-
-  switchToAscii() {
-    this.controller.dispose();
-    this.controller = new MouseCameraController({
-      canvas: this.scene.asciiEffect.domElement,
-      scene: this.scene
-    });
   }
 
   disableUnmonitoredHosts(hide) {
@@ -302,10 +292,7 @@ export default class VisualMap extends SceneObject {
 
   switchToAscii() {
     this.controller.dispose();
-    this.controller = new MouseCameraController({
-      canvas: this.asciiEffect.domElement,
-      scene: this
-    });
+    this.controller = this.getController(this.scene.asciiEffect.domElement);
   }
 
   dispose() {
