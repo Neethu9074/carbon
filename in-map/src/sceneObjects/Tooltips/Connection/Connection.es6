@@ -4,7 +4,7 @@ import _ from 'lodash';
 import ConnectionTooltip from 'in-components/Tooltips/Connection';
 import {getIps} from 'in-sdk/snapshot';
 
-import Tooltip from '../Tooltip';
+import Tooltip from '../Tooltip.es6';
 
 
 const ConnectionsTooltipRC = React.createClass({
