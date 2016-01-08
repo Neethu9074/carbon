@@ -1,14 +1,11 @@
-import THREE from 'three';
 import _ from 'lodash';
 
-import {hexToRGBNormalized} from 'in-services/converters';
 import {viewStructure} from 'in-services/stores/view';
 import eventBus from 'in-services/eventbus';
 import {getPlural} from 'in-sdk/pluginName';
 import * as views from 'in-services/views';
 import {getIn} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
-import theme from 'in-services/theme';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import OrthographicCamera from '../OrthographicCamera';
@@ -18,6 +15,7 @@ import * as stores from '../../mapStores';
 import SceneObject from '../SceneObject';
 import Layouter from '../../layout';
 import Group from '../Group';
+
 
 const nameOfUndefinedZone = 'undefined zone';
 
@@ -29,44 +27,16 @@ export default class VisualMap extends SceneObject {
     // the size of the map in world units (sizeXsize)
     this.size = 1000;
     this.hideUnmonitoredHosts = false;
-
     this.groups = [];
-    this.createGroundGrid();
 
     this.registerEvents();
 
     this.camera = new OrthographicCamera({ scene: parent });
     this.controller = this.getController(parent.canvas);
+    this.groundPlane = this.getGroundPlane();
   }
 
-  createGroundGrid() {
-    const color = hexToRGBNormalized(theme.map.colors.groundDots);
-    const geo = new THREE.PlaneBufferGeometry(this.size, this.size, 1, 1);
-    const mat = new THREE.MeshBasicMaterial({
-      transparent: true,
-      depthWrite: false,
-      color: new THREE.Color(color.r, color.g, color.b)
-    });
-
-    const texture = this.getGroundTexture();
-    if (texture) {
-      mat.map = texture;
-    }
-
-    const ground = this.ground = new THREE.Mesh(geo, mat);
-    // turn the group around to make it visible. If we wouldn't be doing this,
-    // then backface culling would make it invisible.
-    ground.rotation.x = -90 * Math.PI / 180;
-    ground.position.y = -0.02;
-
-    // set static
-    ground.matrixAutoUpdate = false;
-    ground.rotationAutoUpdate = false;
-    ground.updateMatrix();
-
-    this.addSceneObject(ground);
-  }
-
+  getGroundPlane() { throw new Error('NOT IMPLEMENTED'); }
   getController() { throw new Error('NOT IMPLEMENTED'); }
   onZoom() { throw new Error('NOT IMPLEMENTED'); }
 
@@ -291,13 +261,8 @@ export default class VisualMap extends SceneObject {
     this.camera.dispose();
     this.camera = null;
 
-    // remove this ground from the parents scene
-    this.removeSceneObject(this.ground);
-
-    // clear three.js cache trough disposing
-    this.ground.material.dispose();
-    this.ground.geometry.dispose();
-    this.ground = null;
+    this.groundPlane.dispose();
+    this.groundPlane = null;
 
     // groups are disposing themselves if there is no cube inside anymore
     this.groups = [];

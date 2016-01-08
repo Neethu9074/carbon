@@ -1,4 +1,5 @@
 import MouseCameraController from '../../../controls/MouseCameraController';
+import GroundPlane from '../../GroundPlanes/GroundPlane';
 import BaseMap from '../BaseMap';
 
 
@@ -6,6 +7,10 @@ export default class ProcessMap extends BaseMap {
 
   constructor({parent}) {
     super({parent, id: 'ProcessMap'});
+  }
+
+  getGroundPlane() {
+    return new GroundPlane({ parent: this, size: this.size });
   }
 
   getController(canvas) {

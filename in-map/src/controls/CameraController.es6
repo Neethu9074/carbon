@@ -353,7 +353,7 @@ export default class CameraController {
     this.raycaster.setFromCamera(mousePos, this.camera.camera);
 
     // calculate objects intersecting the picking ray
-    const intersects = this.raycaster.intersectObjects([this.map.ground]);
+    const intersects = this.raycaster.intersectObjects([this.map.groundPlane.getCollisionMesh()]);
     if (intersects.length >= 1) {
       return intersects[0].point;
     }
