@@ -11,9 +11,9 @@ import {setupStates} from './States/index';
 
 export default class CameraController {
 
-  constructor({scene}) {
+  constructor({scene, map}) {
     this.bindListeners();
-    this.init(scene);
+    this.init(scene, map);
 
     this.setZoomLevel(260);
     this.states = setupStates(this);
@@ -27,8 +27,9 @@ export default class CameraController {
     this.zoom = this.zoom.bind(this);
   }
 
-  init(scene) {
+  init(scene, map) {
     this.scene = scene;
+    this.map = map;
 
     // this counter is used to check if the cameraSpeed can be resetted
     this.zoomCalls = 0;
@@ -345,7 +346,7 @@ export default class CameraController {
     this.raycaster.setFromCamera(mousePos, scene.camera);
 
     // calculate objects intersecting the picking ray
-    const intersects = this.raycaster.intersectObjects([scene.map.ground]);
+    const intersects = this.raycaster.intersectObjects([this.map.ground]);
     if (intersects.length >= 1) {
       return intersects[0].point;
     }
