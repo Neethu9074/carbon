@@ -12,7 +12,7 @@ import MeshComponent from '../../../components/MeshComponent';
 import {selectedSceneObject, currentTooltip} from '../../../mapStores';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
-import ConnectionGrid from '../../../ConnectionGrid_Temp';
+import ConnectionGrid from '../../../ConnectionGrid';
 import SceneObject from '../../SceneObject';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';

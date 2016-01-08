@@ -3,7 +3,7 @@ import * as ro from 'reactive-observables';
 import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
-import TouchController from './TouchCameraController_temp';
+import TouchController from './TouchCameraController';
 import {cursorPosition} from '../mapStores';
 
 

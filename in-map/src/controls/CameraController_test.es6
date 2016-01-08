@@ -3,7 +3,7 @@
 import THREE from 'three';
 import {expect} from 'chai';
 
-import CameraController from './CameraController_temp';
+import CameraController from './CameraController';
 
 
 describe('3D map', () => {

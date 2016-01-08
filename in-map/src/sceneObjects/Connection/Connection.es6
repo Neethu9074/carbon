@@ -2,7 +2,7 @@ import THREE from 'three';
 import _ from 'lodash';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import ConnectionGrid from '../../ConnectionGrid_Temp';
+import ConnectionGrid from '../../ConnectionGrid';
 import SceneObject from '../SceneObject';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';

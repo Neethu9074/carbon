@@ -22,7 +22,7 @@ import './lib/AsciiEffect';
 import SingleMeshPointsFactory from './SingleMeshFactory/SingleMeshPointsFactory';
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
-import MouseCameraController from './controls/MouseCameraController_temp';
+import MouseCameraController from './controls/MouseCameraController';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import VisualMap from './sceneObjects/VisualMap';
 import * as Handler from './AdaptiveDetailHandler';
