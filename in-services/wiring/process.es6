@@ -1,15 +1,10 @@
-import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
 
 import * as forgeConsts from 'in-forge/constants';
 
 import WiringConveyer from '../conveyer/WiringConveyer';
+import {getSourceNodes} from './helpers';
 import {create} from '../conveyer';
-import {
-  getLeafNodes,
-  getNodesWithPluginId,
-  getSourceNodes,
-  loadFullSnapshotsForNodeStructure
-} from './helpers';
 
 /*
  * Strategy:
@@ -21,41 +16,18 @@ import {
 
 const completeWiring = create(WiringConveyer);
 export const processViewWiring = completeWiring.map(mapWiringGraphToProcessViewGraph);
-export const fullProcessViewWiring = processViewWiring.transform({
-  emitLatestOnSubscribe: true,
-
-  transform(viewStructure) {
-    return ro.combineLatest(viewStructure.map(loadFullSnapshotsForNodeStructure));
-  }
-});
+export const fullProcessViewWiring = processViewWiring;
 
 
-function mapWiringGraphToProcessViewGraph(wiringGraph) {
-  const allProcessesStrIds = getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
-    .reduce((_allProcessesStrIds, osNodeStrId) => {
-      const processesOfHostStrIds = getLeafNodes(wiringGraph, osNodeStrId, [forgeConsts.rels.runsOn]);
-      return _allProcessesStrIds.concat(processesOfHostStrIds);
-    }, []);
-
-  return allProcessesStrIds.map(processStrId => {
-    const node = wiringGraph.nodes[processStrId];
-
-    const layers = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.availableThrough)
-      .map(strId => wiringGraph.nodes[strId]);
-
-    const groupIds = getSourceNodes(wiringGraph, processStrId, forgeConsts.rels.clusters);
-    let group;
-    if (groupIds.length !== 0) {
-      group = wiringGraph.nodes[groupIds[0]];
+function mapWiringGraphToProcessViewGraph() {
+  return [
+    {
+      group: null,
+      node: Immutable.fromJS({ id: 'h_s', hostId: 'h', pluginId: forgeConsts.plugins.jira, steadyId: 's' }),
+      layers: [],
+      connections: { incoming: [], outgoing: [] }
     }
-
-    return {
-      group,
-      node,
-      layers,
-      connections: getConnectedCoordinates(wiringGraph, processStrId)
-    };
-  });
+  ];
 }
 
 

@@ -3,11 +3,12 @@
 import THREE from 'three';
 import {expect} from 'chai';
 
-import CameraController from './CameraController_temp';
+import CameraController from './CameraController';
 
 
 describe('3D map', () => {
   let scene;
+  let map;
   let controller;
 
   beforeEach(() => {
@@ -15,13 +16,22 @@ describe('3D map', () => {
       addSceneObject() {},
       onZoom() {},
       setCameraFromSize() {},
-      renderScene() {},
+      renderScene() {}
+    };
+    map = {
       camera: {
-        position: new THREE.Vector3(-1, 1, 1),
-        updateMatrix() {}
+        getCurrentCamera() {
+          return {
+            position: new THREE.Vector3(-1, 1, 1),
+            updateMatrix() {}
+          };
+        },
+        getPosition() {
+          return this.getCurrentCamera().position;
+        }
       }
     };
-    controller = new CameraController({scene});
+    controller = new CameraController({ scene, map });
   });
 
   describe('camera controller', () => {
@@ -30,8 +40,7 @@ describe('3D map', () => {
     });
 
     it('should point to camera', () => {
-      const inversePosition =
-        scene.camera.position.multiplyScalar(1).normalize();
+      const inversePosition = map.camera.getPosition().multiplyScalar(1).normalize();
 
       expect(controller.directionToCam.x).to.equal(inversePosition.x);
       expect(controller.directionToCam.y).to.equal(inversePosition.y);
@@ -43,6 +52,7 @@ describe('3D map', () => {
       const pos = controller.camTransformObject.position;
 
       object.position.copy(new THREE.Vector3(0.1, 30, -2));
+      object.getComponent = () => { return { getPosition: () => object.position }; };
       controller.flyToObject(object);
 
       expect(roundFloat(pos.x)).to.equal(0.1);

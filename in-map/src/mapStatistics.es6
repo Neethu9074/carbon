@@ -1,6 +1,6 @@
+import {lowState, midState, maxState} from './AdaptiveDetailHandler';
 import {getAllNodes, getAllGroups} from './mapStructureUtils';
 import * as time from './timeCalculations';
-import {lowState, midState, maxState} from './AdaptiveDetailHandler';
 
 let minFPS = 1000;
 let maxFPS = 0;
@@ -32,7 +32,7 @@ export function getMapStatistics(scene) {
       framesRendered: scene.framesRendered,
       geometries: memoryInfo.geometries,
       textures: memoryInfo.textures,
-      programs: memoryInfo.programs,
+      programs: renderer.info.programs,
       drawCalls: renderInfo.calls,
       faces: renderInfo.faces,
       points: renderInfo.points,

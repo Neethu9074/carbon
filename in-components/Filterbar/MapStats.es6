@@ -1,8 +1,8 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react/addons';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
 import Collapsible from '../Collapsible';
 import './MapStats.less';

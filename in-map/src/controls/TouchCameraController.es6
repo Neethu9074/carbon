@@ -2,15 +2,15 @@ import Hammer from 'hammerjs';
 
 import eventBus from 'in-services/eventbus';
 
-import {longClickedSceneObject, currentTooltip} from '../mapStores';
 import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
-import CameraController from './CameraController_temp';
+import {longClickedSceneObject, currentTooltip} from '../mapStores';
+import CameraController from './CameraController';
 
 
 export default class TouchControl extends CameraController {
 
-  constructor({scene, canvas}) {
-    super({scene});
+  constructor({scene, canvas, map}) {
+    super({scene, map});
 
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;

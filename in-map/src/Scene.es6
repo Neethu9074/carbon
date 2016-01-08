@@ -10,21 +10,20 @@ import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {theme} from 'in-services/theme';
 
-import './lib/Octree';
+import './lib/CanvasRenderer';
 import './lib/EffectComposer';
-import './lib/Projector';
 import './lib/ShaderExtras';
+import './lib/AsciiEffect';
 import './lib/ShaderPass';
 import './lib/RenderPass';
-import './lib/CanvasRenderer';
-import './lib/AsciiEffect';
+import './lib/Projector';
+import './lib/Octree';
 
 import SingleMeshPointsFactory from './SingleMeshFactory/SingleMeshPointsFactory';
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
-import MouseCameraController from './controls/MouseCameraController_temp';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import VisualMap from './sceneObjects/VisualMap';
+import MapHandler from './sceneObjects/Maps/MapHandler';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import TooltipHandler from './TooltipHandler';
@@ -32,7 +31,7 @@ import * as time from './timeCalculations';
 import * as stores from './mapStores';
 import * as zoom from './zoom';
 
-const inverse = new THREE.Matrix4();
+
 const getZoomClass = (level) => 'in-map--zoom-' + level;
 
 const maxNodeOpacity = 0.6;
@@ -61,10 +60,13 @@ export default class Scene {
     // this is the main scene for all scene objects like nodes or metrics
     this.scene = new THREE.Scene();
     this.setupFactories();
+
     this.setup3D();
-    this.controller = new MouseCameraController({
-      canvas: this.canvas,
-      scene: this
+
+    this.mapHandler = new MapHandler({
+      scene: this,
+      height: this.height,
+      width: this.width
     });
 
     this.adaptiveDetailHandler = new Handler.AdaptiveDetailHandler(this);
@@ -77,17 +79,11 @@ export default class Scene {
   }
 
   setup3D() {
-    const height = this.height;
-    const width = this.width;
-
     this.setupCanvas();
-    this.setupCamera(width, height);
 
     // needs the scene, camera and renderer so do it last
     this.setupRenderer();
     this.setupFXAARenderPass();
-
-    this.map = new VisualMap({ parent: this });
 
     // set this flag to force a render cycle
     this.shouldRenderScene = true;
@@ -133,28 +129,6 @@ export default class Scene {
     renderer.autoUpdateObjects = false;
   }
 
-  setupCamera(width, height) {
-    // a multiplicator for a homogenious viewport * aspect
-    this.cameraSize = 30;
-
-    const aspect = width / height;
-    const left = -this.cameraSize / 2 * aspect;
-    const top = this.cameraSize / 2;
-    const camera = this.camera = new THREE.OrthographicCamera(
-      left, -left, top, -top,
-      0.1, // near
-      2000 // far
-    );
-
-    camera.position.set(-0.8, 1, 1);
-    camera.lookAt(new THREE.Vector3());
-    camera.projection = new THREE.Matrix4();
-    // set static
-    camera.rotationAutoUpdate = false;
-    camera.matrixAutoUpdate = false;
-    camera.updateMatrix();
-  }
-
   setupFXAARenderPass() {
     if (this.antialias !== 'FXAA') {
       return;
@@ -172,7 +146,7 @@ export default class Scene {
     effectFXAA.renderToScreen = true;
 
     const composer = new THREE.EffectComposer(this.webGLRenderer, renderTarget);
-    composer.addPass(new THREE.RenderPass(this.scene, this.camera));
+    composer.addPass(new THREE.RenderPass(this.scene, this.mapHandler.getCurrentCamera()));
     composer.addPass(effectFXAA);
 
     this.composer = composer;
@@ -277,11 +251,7 @@ export default class Scene {
         this.parent.removeChild(this.canvas);
         this.parent.appendChild(this.asciiEffect.domElement);
 
-        this.controller.dispose();
-        this.controller = new MouseCameraController({
-          canvas: this.asciiEffect.domElement,
-          scene: this
-        });
+        this.mapHandler.switchToAscii();
 
         this.renderScene();
         this.doneMagic = true;
@@ -318,19 +288,11 @@ export default class Scene {
       // clear the selectedSnapshot store if there was a click into nowhere
       // or on a sceneObject without a snapshot or unknown sceneObject
       if (sceneObject) {
-        if (!event.calledByMap) {
-          this.controller.flyToObject(sceneObject);
-        }
         this.hideHulls();
       } else {
         this.showHulls();
       }
     }));
-
-    // if the view was switched, reset the camera position to origin
-    this.subscriptions.push(eventBus.on('onViewSwitched').subscribe(() =>
-      this.controller.flyToPosition(5, -5)
-    ));
 
     this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => activeMetric.emit(null)));
 
@@ -370,7 +332,8 @@ export default class Scene {
     eventBus.emit('beginUpdate', highResTimestamp);
 
     time.update(highResTimestamp);
-    this.controller.update();
+
+    this.mapHandler.update();
 
     // don't render scene if it is not needed
     if (!this.shouldRenderScene && !currentMetrics) {
@@ -381,25 +344,10 @@ export default class Scene {
       eventBus.emit('updateTween', highResTimestamp);
     }
 
-    this.updateCamera();
+    this.mapHandler.updateCamera();
     eventBus.emit('endUpdate', {scene: this});
 
     this.render();
-  }
-
-  updateCamera() {
-    const camera = this.camera;
-    const camProjectionMat = camera.projectionMatrix;
-
-    // updateMatrix is called in controller before
-    camera.updateMatrixWorld();
-    camera.updateProjectionMatrix();
-
-    // sets inverse to camera.matrixWorld^-1
-    inverse.getInverse(camera.matrixWorld);
-
-    // sets the projection matrix
-    camera.projection.multiplyMatrices(camProjectionMat, inverse);
   }
 
   updateMetricHeights() {
@@ -434,13 +382,15 @@ export default class Scene {
   }
 
   render() {
+    const camera = this.mapHandler.getCurrentCamera();
+
     if (this.doneMagic) {
-      this.asciiEffect.render(this.scene, this.camera);
+      this.asciiEffect.render(this.scene, camera);
     } else {
       if (this.antialias === 'FXAA') {
         this.composer.render();
       } else {
-        this.webGLRenderer.render(this.scene, this.camera);
+        this.webGLRenderer.render(this.scene, camera);
       }
     }
 
@@ -471,7 +421,7 @@ export default class Scene {
       this.layerSingleMeshFactory.material.transparent = false;
       this.layerSingleMeshFactory.material.depthWrite = true;
       this.baselineFactory.material.opacity = 1;
-      this.updateMaterialsByZoomLevel(this.controller.zoomLevel);
+      this.updateMaterialsByZoomLevel(this.mapHandler.getCurrentZoomLevel());
     }
   }
 
@@ -489,19 +439,6 @@ export default class Scene {
     // set this to undefined will not trigger any factory to update heights
     this.activeMetricFactory = undefined;
     this.renderScene();
-  }
-
-  setCameraFromSize() {
-    // we start in the middle and go totalWidth / 2 to the left
-    const camSizeHalf = this.cameraSize / 2;
-    const aspect = this.width / this.height;
-
-    this.camera.left = -camSizeHalf * aspect;
-    this.camera.right = camSizeHalf * aspect;
-    this.camera.bottom = -camSizeHalf;
-    this.camera.top = camSizeHalf;
-
-    // projection matrix is updated in update loop
   }
 
   findObjectByRay(raycaster) {
@@ -582,8 +519,7 @@ export default class Scene {
       this.asciiEffect.setSize(width, height);
     }
     this.webGLRenderer.setSize(width, height);
-
-    this.setCameraFromSize();
+    this.mapHandler.onWindowResize(width, height);
 
     // refresh to show the current state
     this.renderScene();
@@ -597,7 +533,10 @@ export default class Scene {
 
     // update the opacity for the 3D elements
     this.updateMaterialsByZoomLevel(zoomLevel);
-    this.map.onZoom(zoomLevel);
+
+    if (this.mapHandler) {
+      this.mapHandler.onZoom(zoomLevel);
+    }
 
     // refresh to show the current state
     this.renderScene();
@@ -647,8 +586,6 @@ export default class Scene {
 
     this.tooltipHandler.dispose();
 
-    this.controller.dispose();
-
     // reset the time and clear all listeners
     time.reset();
 
@@ -660,7 +597,7 @@ export default class Scene {
     this.subscriptions.forEach(sub => sub.dispose());
 
     // destory the map which will destroy all groups and nodes
-    this.map.dispose();
+    this.mapHandler.dispose();
 
     // remove the canvas and clear the parent div
     window.removeEventListener('resize', this.onWindowResizeHandler, false);

@@ -1,5 +1,5 @@
-import React from 'react';
 import * as ro from 'reactive-observables';
+import React from 'react';
 
 const rpt = React.PropTypes;
 const reemitSpec = {emitLatestOnSubscribe: true};
@@ -9,7 +9,7 @@ export const TooltipShape = rpt.shape({
     rpt.element.isRequired,
     rpt.string.isRequired
   ]),
-  focusedElement: rpt.instanceOf(HTMLElement),
+  focusedElement: rpt.instanceOf(window.HTMLElement),
   focusedPoint: rpt.shape({
     x: rpt.number,
     y: rpt.number

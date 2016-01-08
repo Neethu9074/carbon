@@ -3,14 +3,14 @@ import * as ro from 'reactive-observables';
 import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
-import TouchController from './TouchCameraController_temp';
+import TouchController from './TouchCameraController';
 import {cursorPosition} from '../mapStores';
 
 
 export default class MouseControl extends TouchController {
 
-  constructor({scene, canvas}) {
-    super({scene, canvas});
+  constructor({scene, canvas, map}) {
+    super({scene, canvas, map});
     this.lastMousePosition = {x: 0, y: 0};
 
     this.mouseScrollSpeedSubscribtion = getIn(['map', 'scrollSpeed'])

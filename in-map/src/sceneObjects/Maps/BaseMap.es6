@@ -11,9 +11,10 @@ import {getLabel} from 'in-sdk/snapshot';
 import theme from 'in-services/theme';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
-import ConnectionGrid from '../../ConnectionGrid_Temp';
+import OrthographicCamera from '../OrthographicCamera';
+import ConnectionGrid from '../../ConnectionGrid';
 import * as time from '../../timeCalculations';
-import groundTexturePath from './ground.png';
+import * as stores from '../../mapStores';
 import SceneObject from '../SceneObject';
 import Layouter from '../../layout';
 import Group from '../Group';
@@ -22,29 +23,35 @@ const nameOfUndefinedZone = 'undefined zone';
 
 export default class VisualMap extends SceneObject {
 
-  constructor({parent}) {
-    super({parent, id: 'VisualMap'});
+  constructor({parent, id}) {
+    super({parent, id});
 
     // the size of the map in world units (sizeXsize)
     this.size = 1000;
     this.hideUnmonitoredHosts = false;
 
     this.groups = [];
-
     this.createGroundGrid();
+
     this.registerEvents();
+
+    this.camera = new OrthographicCamera({ scene: parent });
+    this.controller = this.getController(parent.canvas);
   }
 
   createGroundGrid() {
     const color = hexToRGBNormalized(theme.map.colors.groundDots);
-
     const geo = new THREE.PlaneBufferGeometry(this.size, this.size, 1, 1);
     const mat = new THREE.MeshBasicMaterial({
-      map: this.getGroundTexture(),
       transparent: true,
       depthWrite: false,
       color: new THREE.Color(color.r, color.g, color.b)
     });
+
+    const texture = this.getGroundTexture();
+    if (texture) {
+      mat.map = texture;
+    }
 
     const ground = this.ground = new THREE.Mesh(geo, mat);
     // turn the group around to make it visible. If we wouldn't be doing this,
@@ -60,23 +67,8 @@ export default class VisualMap extends SceneObject {
     this.addSceneObject(ground);
   }
 
-  getGroundTexture() {
-    const quadsPerWorldUnit = 3;
-    const repating = quadsPerWorldUnit * this.size;
-    const texture = new THREE.TextureLoader().load(
-      groundTexturePath,
-      () => { this.scene.renderScene(); });
-
-    texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
-    texture.repeat.set(repating, repating);
-
-    // set the ground anisotropy to the max because it's a huge ground always
-    // seen and it needs to be as sharp as possible
-    texture.anisotropy = this.scene.webGLRenderer.getMaxAnisotropy();
-
-    this.groundtexture = texture;
-    return texture;
-  }
+  getController() { throw new Error('NOT IMPLEMENTED'); }
+  onZoom() { throw new Error('NOT IMPLEMENTED'); }
 
   handleTimeEventFunction() {
     // if the flag was set to recalculate the layouting
@@ -106,6 +98,18 @@ export default class VisualMap extends SceneObject {
     this.addSubscription(getIn(['map', 'unmonitoredHosts']).subscribe(hideUnmonitoredHosts =>
       this.disableUnmonitoredHosts(hideUnmonitoredHosts)
     ));
+
+    this.addSubscription(stores.selectedSceneObject.subscribe(event => {
+      if (event.sceneObject && !event.calledByMap) {
+        this.controller.flyToObject(event.sceneObject);
+      }
+    }));
+  }
+
+  update() {
+    if (this.controller) {
+      this.controller.update();
+    }
   }
 
   disableUnmonitoredHosts(hide) {
@@ -266,13 +270,9 @@ export default class VisualMap extends SceneObject {
     }
   }
 
-  onZoom(zoomLevel) {
-    const size = this.size;
-    if (zoomLevel < 120) {
-      this.groundtexture.repeat.set(3 * size, 3 * size);
-    } else {
-      this.groundtexture.repeat.set(size, size);
-    }
+  switchToAscii() {
+    this.controller.dispose();
+    this.controller = this.getController(this.scene.asciiEffect.domElement);
   }
 
   dispose() {
@@ -285,8 +285,11 @@ export default class VisualMap extends SceneObject {
     // destory all known and unknown nodes
     getAllNodes(this).slice().forEach(node => node.dispose());
 
-    // groups are disposing themselves if there is no cube inside anymore
-    this.groups = [];
+    this.controller.dispose();
+    this.controller = null;
+
+    this.camera.dispose();
+    this.camera = null;
 
     // remove this ground from the parents scene
     this.removeSceneObject(this.ground);
@@ -295,6 +298,9 @@ export default class VisualMap extends SceneObject {
     this.ground.material.dispose();
     this.ground.geometry.dispose();
     this.ground = null;
+
+    // groups are disposing themselves if there is no cube inside anymore
+    this.groups = [];
 
     this.parent = null;
     this.size = null;
