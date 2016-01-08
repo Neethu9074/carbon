@@ -5,33 +5,24 @@ const logger = createLogger('in-services.connection');
 
 let socket;
 
-export function initialize() {
+export function init() {
   socket = io(window.location.origin, {
-    path: '/data'
+    path: '/api/dataNew'
   });
 
-  enableCatchAllSupport(socket);
   enableEventLogging(socket);
 }
 
-export function emit(event, data) {
-  socket.emit(event, data);
+export function emit(event, payload) {
+  socket.emit(event, payload);
 }
 
-// Enable catch all messages (except conect, disconnect etc.) via
-//   socket.on('*', ...)
-// TODO: Consider contributing this upstream to socket.io
-function enableCatchAllSupport(socketIoClient) {
-  const originalOnevent = socketIoClient.onevent;
-  socketIoClient.onevent = function onevent(packet) {
-    // original call
-    const args = packet.data || [];
-    originalOnevent.call(this, packet);
+export function on(event, callback) {
+  socket.on(event, callback);
+}
 
-    // additional call to catch-all
-    packet.data = ['*'].concat(args);
-    originalOnevent.call(this, packet);
-  };
+export function off(event, callback) {
+  socket.off(event, callback);
 }
 
 function enableEventLogging(socketIoClient) {

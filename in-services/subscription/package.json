@@ -1,0 +1,6 @@
+{
+  "name": "subscription",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./subscription.es6"
+}

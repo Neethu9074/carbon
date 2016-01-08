@@ -9,6 +9,8 @@ import logging from 'instalog';
 
 import * as tracking from 'in-services/tracking';
 import 'in-services/time';
+import * as persistentConnection from 'in-services/persistentConnection';
+import * as subscriptonManager from 'in-services/subscriptionManager';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -48,6 +50,10 @@ window.onerror = function f() {
 if (__DEV__) {
   window.React = React;
 }
+
+// kick of the init process
+persistentConnection.init();
+subscriptonManager.init();
 
 if (window.instana.user) {
   tracking.identify();
