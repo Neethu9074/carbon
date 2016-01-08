@@ -12,6 +12,7 @@ import Scene from './Scene';
 
 import './index.less';
 
+const rpt = React.PropTypes;
 const block = 'in-map';
 
 const MapRC = React.createClass({
@@ -22,8 +23,8 @@ const MapRC = React.createClass({
   ],
 
   propTypes: {
-    showHelp: React.PropTypes.func.isRequired,
-    antialias: React.PropTypes.string.isRequired
+    antialias: rpt.string.isRequired,
+    showHelp: rpt.func.isRequired
   },
 
   statics: {
