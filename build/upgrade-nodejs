@@ -32,6 +32,10 @@ nvm install "$NEW_NODE_VERSION"
 nvm use "$NEW_NODE_VERSION"
 nvm alias default "$NEW_NODE_VERSION"
 
+# prepare hook installation
+rm -f .git/hooks/pre-commit
+touch .git/hooks/pre-commit
+
 # and install all the dependencies
 npm install
 cd in-server
