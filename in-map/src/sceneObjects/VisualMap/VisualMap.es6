@@ -11,7 +11,7 @@ import {getLabel} from 'in-sdk/snapshot';
 import theme from 'in-services/theme';
 
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
-import ConnectionGrid from '../../ConnectionGrid_Temp';
+import ConnectionGrid from '../../ConnectionGrid';
 import * as time from '../../timeCalculations';
 import groundTexturePath from './ground.png';
 import SceneObject from '../SceneObject';
