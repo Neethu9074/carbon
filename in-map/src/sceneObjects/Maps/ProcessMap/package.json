@@ -1,0 +1,6 @@
+{
+  "name": "ProcessMap",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ProcessMap.es6"
+}
