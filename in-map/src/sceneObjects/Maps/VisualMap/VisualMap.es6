@@ -10,15 +10,15 @@ import {getIn} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
 import theme from 'in-services/theme';
 
-import MouseCameraController from '../../controls/MouseCameraController';
-import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
-import ConnectionGrid from '../../ConnectionGrid';
-import * as time from '../../timeCalculations';
+import MouseCameraController from '../../../controls/MouseCameraController';
+import {getAllNodes, getAllGroups} from '../../../mapStructureUtils';
+import ConnectionGrid from '../../../ConnectionGrid';
+import * as time from '../../../timeCalculations';
 import groundTexturePath from './ground.png';
-import * as stores from '../../mapStores';
-import SceneObject from '../SceneObject';
-import Layouter from '../../layout';
-import Group from '../Group';
+import * as stores from '../../../mapStores';
+import SceneObject from '../../SceneObject';
+import Layouter from '../../../layout';
+import Group from '../../Group';
 
 const nameOfUndefinedZone = 'undefined zone';
 
@@ -33,13 +33,14 @@ export default class VisualMap extends SceneObject {
 
     this.groups = [];
 
-    this.createGroundGrid();
-    this.registerEvents();
-
     this.controller = new MouseCameraController({
       canvas: parent.canvas,
-      scene: parent
+      scene: parent,
+      map: this
     });
+
+    this.createGroundGrid();
+    this.registerEvents();
   }
 
   createGroundGrid() {
@@ -85,7 +86,7 @@ export default class VisualMap extends SceneObject {
     return texture;
   }
 
-  handleComponentTimeEvent() {
+  handleTimeEventFunction() {
     // if the flag was set to recalculate the layouting
     if (this.refreshLayout) {
       this.applyLayout();
@@ -99,7 +100,10 @@ export default class VisualMap extends SceneObject {
   registerEvents() {
     this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
 
-    this.addSubscription(time.addTimeEventListener(this.handleComponentTimeEvent.bind(this)));
+    this.handleTimeEvent = this.handleTimeEventFunction.bind(this);
+    time.addTimeEventListener({
+      handleComponentTimeEvent: this.handleTimeEvent
+    });
 
     // because this check is pretty expensive and will be replaced by a more hipper
     // backend technology soon, only do this if it's necessary
@@ -120,14 +124,6 @@ export default class VisualMap extends SceneObject {
 
   update() {
     this.controller.update();
-  }
-
-  switchToAscii() {
-    this.controller.dispose();
-    this.controller = new MouseCameraController({
-      canvas: this.scene.asciiEffect.domElement,
-      scene: this.scene
-    });
   }
 
   disableUnmonitoredHosts(hide) {
@@ -300,14 +296,18 @@ export default class VisualMap extends SceneObject {
   switchToAscii() {
     this.controller.dispose();
     this.controller = new MouseCameraController({
-      canvas: this.asciiEffect.domElement,
-      scene: this
+      canvas: this.scene.asciiEffect.domElement,
+      scene: this.scene,
+      map: this
     });
   }
 
   dispose() {
     // disposing all subscriptions, so that no update is fired anymore
     super.dispose();
+
+    time.removeTimeEventListener(this.handleTimeEvent);
+    this.handleTimeEvent = null;
 
     // destory all known and unknown nodes
     getAllNodes(this).slice().forEach(node => node.dispose());

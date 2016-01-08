@@ -9,8 +9,8 @@ import CameraController from './CameraController';
 
 export default class TouchControl extends CameraController {
 
-  constructor({scene, canvas}) {
-    super({scene});
+  constructor({scene, canvas, map}) {
+    super({scene, map});
 
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
