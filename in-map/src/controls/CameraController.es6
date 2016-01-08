@@ -67,9 +67,6 @@ export default class CameraController {
     this.camTransformObject.position.set(10, 0, -10);
     this.camTransformObject.rotation.y = pitch * Math.PI / 180;
 
-    this.camTransformObject.add(new THREE.AxisHelper(1));
-    scene.addSceneObject(this.camTransformObject);
-
     this.directionToCam = scene.camera.position
       .clone()
       .sub(new THREE.Vector3())

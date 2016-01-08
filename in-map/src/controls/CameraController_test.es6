@@ -3,12 +3,15 @@
 import THREE from 'three';
 import {expect} from 'chai';
 
+import jsdomReact from 'in-test/jsdom';
+
 import CameraController from './CameraController';
 
 
 describe('3D map', () => {
   let scene;
   let controller;
+  jsdomReact();
 
   beforeEach(() => {
     scene = {
