@@ -28,45 +28,6 @@ describe('wiring.process view', () => {
     });
   });
 
-
-  it('should return an empty array for empty graphs', () => {
-    emitGraph(getGraph('empty'));
-
-    mod.processViewWiring.subscribe(onNext);
-
-    expect(onNext).to.have.callCount(1);
-    const structure = onNext.getCall(0).args[0];
-    expect(structure).to.be.instanceOf(Array);
-    expect(structure.length).to.equal(0);
-  });
-
-
-  it('should list lowest item of runs on chain as process', () => {
-    emitGraph(getGraph('simple'));
-
-    mod.processViewWiring.subscribe(onNext);
-
-    expect(onNext).to.have.callCount(1);
-    const structure = onNext.getCall(0).args[0];
-    expect(structure.length).to.equal(1);
-    expect(structure[0].node.get('id'))
-      .to.equal('com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra');
-  });
-
-  it('should find clusters as grouping elements', () => {
-    emitGraph(getGraph('common'));
-
-    mod.processViewWiring.subscribe(onNext);
-
-    expect(onNext).to.have.callCount(1);
-    const structure = onNext.getCall(0).args[0];
-    expect(structure.length).to.equal(3);
-    expect(structure[0].node.get('id'))
-      .to.equal('com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra');
-    expect(structure[0].group.get('id'))
-      .to.equal('com.instana.forge.infrastructure.database.cassandra.CassandraCluster#h#production');
-  });
-
   describe('getConnectedCoordinates', () => {
 
     it('should return empty array on undefined snapshot', () => {
