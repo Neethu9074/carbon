@@ -21,7 +21,7 @@ const ClasspathLayouter = React.createClass({
     cpEntries.forEach(path => {
       const pathTillJar = this.getPathTillJar(path);
 
-      if (pathTillJar !== currentPath) {
+      if (pathTillJar !== currentPath || !tree[pathTillJar]) {
         tree[pathTillJar] = [];
       }
 
