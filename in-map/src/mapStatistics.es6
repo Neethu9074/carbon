@@ -17,7 +17,7 @@ export function getMapStatistics(scene) {
   const renderer = scene.webGLRenderer;
   const renderInfo = renderer.info.render;
   const memoryInfo = renderer.info.memory;
-  const map = scene.map;
+  const map = scene.mapHandler.map;
 
   update(scene);
 

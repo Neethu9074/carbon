@@ -133,8 +133,8 @@ export default class SceneObject {
     this.scene.renderScene();
   }
 
-  getAllMapNodes() {
-    return this.parent.getAllMapNodes();
+  getAllNodes() {
+    return this.parent.getAllNodes();
   }
 
   findNodeById(id) {

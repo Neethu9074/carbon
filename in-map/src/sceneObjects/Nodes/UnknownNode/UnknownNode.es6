@@ -56,7 +56,7 @@ export default class Unknownnode extends BaseNode {
     const id = this.id;
     const outgoing = [];
     const incoming = [];
-    this.getAllMapNodes().forEach(node => {
+    this.getAllNodes().forEach(node => {
       // filter all unknown nodes and this
       if (node.isUnknown || id === node.id) {
         return;

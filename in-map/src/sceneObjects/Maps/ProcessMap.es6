@@ -44,7 +44,9 @@ export default class ProcessMap extends BaseMap {
 
   applyLayout() {}
 
-  removeChild() {}
+  removeChild() {
+    console.log('remove');
+  }
 
   onInventoryUpdated() {}
 

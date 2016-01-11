@@ -136,6 +136,10 @@ export default class Group extends SceneObject {
     return hexToRGBNormalized(getColor(this.id));
   }
 
+  getAllMapNodes() {
+    return this.parent.getAllMapNodes();
+  }
+
   update() {
     this.updateScreenPosition();
 

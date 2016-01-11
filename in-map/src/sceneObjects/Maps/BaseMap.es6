@@ -40,7 +40,6 @@ export default class BaseMap extends SceneObject {
   }
 
   handleComponentTimeEvent() {
-    console.log('call time event');
     // if the flag was set to recalculate the layouting
     if (this.refreshLayout) {
       this.applyLayout();
