@@ -18,7 +18,7 @@ const MenuHeader = React.createClass({
       <a className={block} href={url} target='_blank'>
         <span className={block + '__wrapper'}>
           <span className={block + '__welcome'}>
-            Welchome to Instana,
+            Welcome to Instana,
           </span>
           <br/>
           <span className={block + '__user-name'}>
