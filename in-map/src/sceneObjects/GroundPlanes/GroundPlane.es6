@@ -1,8 +1,5 @@
 import THREE from 'three';
 
-import {hexToRGBNormalized} from 'in-services/converters';
-import theme from 'in-services/theme';
-
 import SceneObject from '../SceneObject';
 
 
@@ -13,12 +10,10 @@ export default class GroupPlane extends SceneObject {
 
     this.size = size;
 
-    const color = hexToRGBNormalized(theme.map.colors.groundDots);
     const geo = new THREE.PlaneBufferGeometry(size, size, 1, 1);
     const mat = new THREE.MeshBasicMaterial({
       transparent: true,
-      depthWrite: false,
-      color: new THREE.Color(color.r, color.g, color.b)
+      depthWrite: false
     });
 
     const ground = this.ground = new THREE.Mesh(geo, mat);
@@ -35,8 +30,14 @@ export default class GroupPlane extends SceneObject {
     this.addSceneObject(ground);
   }
 
+  onZoom() {}
+
   getCollisionMesh() {
     return this.ground;
+  }
+
+  setColor(color) {
+    this.ground.material.color = color;
   }
 
   dispose() {
