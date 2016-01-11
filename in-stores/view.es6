@@ -1,4 +1,3 @@
-import {types as views} from 'in-stores/view';
 import {getStructure} from 'in-services/wiring';
 
 import {mutateUrl, navigationParameters} from './navigation';
@@ -11,7 +10,7 @@ export const types = {
 
 const store = createStore({
   name: 'view',
-  initialValue: views.physical
+  initialValue: types.physical
 });
 
 export const view = store.observable.distinct();
@@ -26,7 +25,7 @@ if (window.location.hash) {
     setView(initialView);
     store.applyStateMutation(() => initialView);
   } else {
-    setView(views.physical);
+    setView(types.physical);
   }
 }
 
@@ -37,7 +36,7 @@ navigationParameters.subscribe(navParams => {
     if (isValidView(query.view)) {
       store.applyStateMutation(() => query.view);
     } else {
-      store.applyStateMutation(() => views.physical);
+      store.applyStateMutation(() => types.physical);
     }
   }
 });
@@ -52,8 +51,8 @@ export function setView(newActiveView) {
 
 
 function isValidView(givenView) {
-  for (const key in views) {
-    if (views.hasOwnProperty(key) && views[key] === givenView) {
+  for (const key in types) {
+    if (types.hasOwnProperty(key) && types[key] === givenView) {
       return true;
     }
   }
