@@ -1,6 +1,0 @@
-{
-  "name": "PhysicalMap",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./PhysicalMap.es6"
-}
