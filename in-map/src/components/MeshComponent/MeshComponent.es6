@@ -8,13 +8,12 @@ import RGB from '../RGB';
 
 
 export default class MeshComponent extends Component {
-  constructor({sceneObject, contentProvider, id, factory}) {
-    super(sceneObject);
+  constructor({sceneObject, contentProvider, factory}) {
+    super(sceneObject, '_mesh');
 
-    this.id = id;
     this.factory = factory;
     this.contentProvider = contentProvider;
-    this.fragment = {id, contentProvider};
+    this.fragment = {id: this.id, contentProvider};
 
     const color = new THREE.Color(theme.map.colors.default);
     this.colorToSet = new RGB(color.r, color.g, color.b);

@@ -13,7 +13,7 @@ const maxPercentUsedByGaps = 10;
 
 export default class LayerComponent extends Component {
   constructor({sceneObject}) {
-    super(sceneObject);
+    super(sceneObject, '_layer');
 
     this.positionToSet = new XYZ(-1000, 0, 0);
     this.heightToSet = 1;

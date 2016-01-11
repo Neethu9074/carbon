@@ -15,7 +15,7 @@ import PCP from '../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 export default class GroundHighlightingComponent extends Component {
 
   constructor({sceneObject}) {
-    super(sceneObject);
+    super(sceneObject, '_ground_highlighting');
 
     this.positionToSet = new XYZ(-10, 0, 0);
     this.scaleToSet = new XYZ(1, 1, 1);

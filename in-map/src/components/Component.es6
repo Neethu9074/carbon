@@ -1,15 +1,17 @@
 import {StateMachine, PROPERTY_VALUES} from '../StateMachine/StateMachine';
 import * as time from '../timeCalculations';
 
+let idCounter = 0;
 
 export default class Component {
 
-  constructor(sceneObject) {
+  constructor(sceneObject, postId) {
+    this.id = sceneObject.id + postId + '_' + idCounter++;
     this.stateMachine = new StateMachine(this);
     this.sceneObject = sceneObject;
     this.needsUpdate = false;
 
-    time.addTimeEventListener(this);
+    this.timeEvent = time.addTimeEventListener(this.handleComponentTimeEvent.bind(this));
   }
 
   initialized() {
@@ -67,7 +69,8 @@ export default class Component {
   }
 
   dispose() {
+    this.timeEvent.dispose();
+
     this.needsUpdate = false;
-    time.removeTimeEventListener(this);
   }
 }

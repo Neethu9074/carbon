@@ -78,7 +78,7 @@ export default class VisualMap extends SceneObject {
     return texture;
   }
 
-  handleTimeEventFunction() {
+  handleComponentTimeEvent() {
     // if the flag was set to recalculate the layouting
     if (this.refreshLayout) {
       this.applyLayout();
@@ -92,10 +92,7 @@ export default class VisualMap extends SceneObject {
   registerEvents() {
     this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
 
-    this.handleTimeEvent = this.handleTimeEventFunction.bind(this);
-    time.addTimeEventListener({
-      handleComponentTimeEvent: this.handleTimeEvent
-    });
+    this.addSubscription(time.addTimeEventListener(this.handleComponentTimeEvent.bind(this)));
 
     // because this check is pretty expensive and will be replaced by a more hipper
     // backend technology soon, only do this if it's necessary
@@ -278,9 +275,6 @@ export default class VisualMap extends SceneObject {
   dispose() {
     // disposing all subscriptions, so that no update is fired anymore
     super.dispose();
-
-    time.removeTimeEventListener(this.handleTimeEvent);
-    this.handleTimeEvent = null;
 
     // destory all known and unknown nodes
     getAllNodes(this).slice().forEach(node => node.dispose());

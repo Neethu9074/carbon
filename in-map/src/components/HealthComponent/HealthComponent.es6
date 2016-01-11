@@ -6,7 +6,7 @@ import Component from '../Component';
 
 export default class HealthComponent extends Component {
   constructor({sceneObject}) {
-    super(sceneObject);
+    super(sceneObject, '_health');
 
     this.healthToSet = undefined;
     this.setHealth(health.ok);

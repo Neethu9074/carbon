@@ -4,7 +4,7 @@ import XYZ from '../XYZ';
 export default class CollisionObjectComponent extends Component {
 
   constructor({sceneObject, collisionObject, layer}) {
-    super(sceneObject);
+    super(sceneObject, '_collision_object');
 
     this.layer = layer;
     this.positionToSet = new XYZ(0, 0, 0);

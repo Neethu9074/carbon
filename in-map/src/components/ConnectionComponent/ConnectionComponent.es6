@@ -8,7 +8,7 @@ import Component from '../Component';
 export default class ConnectionComponent extends Component {
 
   constructor({sceneObject}) {
-    super(sceneObject);
+    super(sceneObject, '_connection');
 
     this.connections = [];
     this.lineFactory = sceneObject.scene.lineFactory;

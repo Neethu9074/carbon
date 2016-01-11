@@ -212,35 +212,27 @@ export default class Scene {
         this.updateMetricHeights();
       }
     }, 1000);
+  }
 
-    const updateFactories = () => {
-      Object.keys(this.logoFactories).forEach(key => this.logoFactories[key].rebuild());
+  updateFactories() {
+    Object.keys(this.logoFactories).forEach(key => this.logoFactories[key].rebuild());
 
-      this.layerHighlightingSingleMeshFactory.rebuild();
-      this.highlightingSingleMeshFactory.rebuild();
-      this.groundSingleMeshFactory.rebuild();
-      this.layerSingleMeshFactory.rebuild();
-      this.singleMeshMetricFactory.rebuild();
-      this.singleMeshFactory.rebuild();
-      this.baselineFactory.rebuild();
-      this.lineFactory.rebuild();
-      this.groundLineFactory.rebuild();
+    this.layerHighlightingSingleMeshFactory.rebuild();
+    this.highlightingSingleMeshFactory.rebuild();
+    this.groundSingleMeshFactory.rebuild();
+    this.layerSingleMeshFactory.rebuild();
+    this.singleMeshMetricFactory.rebuild();
+    this.singleMeshFactory.rebuild();
+    this.baselineFactory.rebuild();
+    this.lineFactory.rebuild();
+    this.groundLineFactory.rebuild();
 
-      for (let i = this.octrees.length - 1; i >= 0; i--) {
-        const octree = this.octrees[i];
-        if (octree) {
-          octree.update();
-        }
+    for (let i = this.octrees.length - 1; i >= 0; i--) {
+      const octree = this.octrees[i];
+      if (octree) {
+        octree.update();
       }
-    };
-
-    const updateTimeEvent = () => {
-      updateFactories();
-    };
-
-    time.addTimeEventListener({
-      handleComponentTimeEvent: updateTimeEvent.bind(this)
-    });
+    }
   }
 
   getOrCreateLogoFactory({key, snapshot}) {
@@ -333,6 +325,8 @@ export default class Scene {
     ));
 
     this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => activeMetric.emit(null)));
+
+    this.subscriptions.push(time.addTimeEventListener(this.updateFactories.bind(this)));
 
     if (__DEV__) {
       setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);

@@ -5,14 +5,13 @@ import RGB from '../RGB';
 
 export default class LineMeshComponent extends Component {
 
-  constructor({sceneObject, contentProvider, id, factory}) {
-    super(sceneObject);
+  constructor({sceneObject, contentProvider, factory}) {
+    super(sceneObject, '_line_mesh');
 
     this.contentProvider = contentProvider;
-    this.fragment = {id, contentProvider};
+    this.fragment = {id: this.id, contentProvider};
     this.factory = factory;
     this.highlightingSingleMeshFactory = sceneObject.scene.lineFactory;
-    this.id = id;
 
     this.positionToSet = new XYZ(-1000, 0, 0);
     this.scaleToSet = new XYZ(1, 1, 1);
