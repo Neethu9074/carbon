@@ -24,7 +24,7 @@ describe('in-services/stores/filters', () => {
     subscriber = sinon.stub();
     mod = proxyquire('./filters.es6', {
       // reinitialise the store on every test run to clear the store cache
-      './store': proxyquire('./store', {})
+      'in-stores/store': proxyquire('in-stores/store', {})
     });
   });
 

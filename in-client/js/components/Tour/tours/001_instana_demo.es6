@@ -1,6 +1,6 @@
 import {createLogger} from 'instalog';
 
-import * as navigation from 'in-services/stores/navigation';
+import * as navigation from 'in-stores/navigation';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
 import {create} from 'in-services/conveyer';

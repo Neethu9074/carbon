@@ -6,7 +6,8 @@ import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 import * as ro from 'reactive-observables';
 
-import {allStates} from './store';
+import {allStates} from 'in-stores/store';
+
 import {extractCoordinates, isIdEqual} from '../snapshots';
 
 

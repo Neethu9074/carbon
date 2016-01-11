@@ -1,5 +1,6 @@
+import {mutateUrl, navigationParameters} from 'in-stores/navigation';
+
 import create from './abstractSelectableSnapshotStore';
-import {mutateUrl, navigationParameters} from './navigation';
 import {extractCoordinates} from '../snapshots';
 
 const store = create('selected snapshot');

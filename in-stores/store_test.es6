@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import {createStore, allStates} from './store';
 
-describe('in-services/stores/store', () => {
+describe('in-stores/store', () => {
 
   let subscriber;
 

@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import {goToMap} from 'in-services/stores/navigation';
+import {goToMap} from 'in-stores/navigation';
 import Button from 'in-components/Button';
 
 import './GraphShowcase.less';

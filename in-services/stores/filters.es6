@@ -1,8 +1,8 @@
 import * as ro from 'reactive-observables';
 import Immutable from 'immutable';
 
-import {view} from './view';
-import {createStore} from './store';
+import {createStore} from 'in-stores/store';
+import {view} from 'in-stores/view';
 
 const emptyList = Immutable.List();
 const store = createStore({

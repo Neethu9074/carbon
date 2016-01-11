@@ -1,4 +1,4 @@
-import {createStore} from './store';
+import {createStore} from 'in-stores/store';
 
 // value in milliseconds
 const timeframeStore = createStore({

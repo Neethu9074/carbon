@@ -1,4 +1,4 @@
-import {view} from 'in-services/stores/view';
+import {view} from 'in-stores/view';
 import views from 'in-services/views';
 
 import PhysicalMap from './PhysicalMap';

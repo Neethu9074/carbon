@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import _ from 'lodash';
 
-import * as viewStore from 'in-services/stores/view';
+import * as viewStore from 'in-stores/view';
 
 import enhance from '../hoc/enhance';
 import Tag from '../Tag';

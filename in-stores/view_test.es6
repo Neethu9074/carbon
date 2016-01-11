@@ -4,8 +4,10 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
 
+import * as views from 'in-services/views';
+
 import {resetStoreRegistry} from './store';
-import * as views from '../views';
+
 
 describe('stores.view', () => {
 

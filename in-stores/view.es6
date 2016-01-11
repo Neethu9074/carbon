@@ -1,7 +1,8 @@
+import * as views from 'in-services/views';
+import {getStructure} from 'in-services/wiring';
+
 import {mutateUrl, navigationParameters} from './navigation';
-import {getStructure} from '../wiring';
 import {createStore} from './store';
-import * as views from '../views';
 
 const store = createStore({
   name: 'view',

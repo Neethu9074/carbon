@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 import _ from 'lodash';
 
-import {viewStructure} from 'in-services/stores/view';
+import {viewStructure} from 'in-stores/view';
 import {getClassName} from 'in-services/react';
 import {getLabel} from 'in-sdk/snapshot';
 import {getColor} from 'in-services/util/groupColors';

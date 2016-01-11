@@ -4,7 +4,7 @@ import {Navigation} from 'react-router';
 import React from 'react/addons';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import * as navigation from 'in-services/stores/navigation';
+import * as navigation from 'in-stores/navigation';
 import * as tracking from 'in-services/tracking';
 import {getClassName} from 'in-services/react';
 

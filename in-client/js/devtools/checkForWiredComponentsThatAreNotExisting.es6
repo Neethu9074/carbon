@@ -5,7 +5,7 @@ import * as ro from 'reactive-observables';
 
 import {create} from 'in-services/conveyer';
 import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
-import * as viewStructureStore from 'in-services/stores/view';
+import * as viewStructureStore from 'in-stores/view';
 
 window.instana.dev.checkForWiringIssues = () => {
   console.log('Starting to check for wiring issues…');

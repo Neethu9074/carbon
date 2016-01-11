@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import {viewStructure} from 'in-services/stores/view';
+import {viewStructure} from 'in-stores/view';
 import eventBus from 'in-services/eventbus';
 import {getPlural} from 'in-sdk/pluginName';
 import * as views from 'in-services/views';

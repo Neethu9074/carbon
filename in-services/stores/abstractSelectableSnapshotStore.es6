@@ -1,5 +1,6 @@
+import {createStore} from 'in-stores/store';
+
 import {alwaysNull} from '../fixedStreams';
-import {createStore} from './store';
 import {isIdEqual, getFullSnapshot} from '../snapshots';
 
 export default function createSelectableSnapshotStore(name) {
