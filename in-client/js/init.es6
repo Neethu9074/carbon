@@ -10,7 +10,7 @@ import logging from 'instalog';
 import * as tracking from 'in-services/tracking';
 import 'in-services/time';
 import * as persistentConnection from 'in-services/persistentConnection';
-import * as subscriptonManager from 'in-services/subscriptionManager';
+import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
