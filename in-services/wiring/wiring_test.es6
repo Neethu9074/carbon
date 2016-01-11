@@ -5,11 +5,12 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
+import {types as views} from 'in-stores/view';
+
 import SnapshotsConveyer from '../conveyer/SnapshotsConveyer';
 import WiringConveyer from '../conveyer/WiringConveyer';
 import {extractCoordinates} from '../snapshots';
 import {getGraph} from './test_util';
-import * as views from '../views';
 
 describe('wiring', () => {
 

@@ -1,5 +1,5 @@
 import {view} from 'in-stores/view';
-import views from 'in-services/views';
+import {types as views} from 'in-stores/view';
 
 import PhysicalMap from './PhysicalMap';
 import ProcessMap from './ProcessMap';

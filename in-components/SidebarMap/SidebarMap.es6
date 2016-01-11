@@ -4,7 +4,7 @@ import React from 'react/addons';
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as wiring from 'in-services/wiring';
-import * as views from 'in-services/views';
+import {types as views} from 'in-stores/view';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';

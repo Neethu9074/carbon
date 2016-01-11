@@ -4,8 +4,6 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
 
-import * as views from 'in-services/views';
-
 import {resetStoreRegistry} from './store';
 
 
@@ -29,17 +27,17 @@ describe('stores.view', () => {
       mod.view.subscribe(onNext);
 
       expect(onNext).to.have.callCount(1);
-      expect(onNext).to.have.been.calledWith(views.physical);
+      expect(onNext).to.have.been.calledWith(mod.types.physical);
     });
 
     it('should use the process view as initial view if specified', () => {
-      setHash('#/?view=' + views.process);
+      setHash('#/?view=PROCESS');
       loadModule();
 
       mod.view.subscribe(onNext);
 
       expect(onNext).to.have.callCount(1);
-      expect(onNext).to.have.been.calledWith(views.process);
+      expect(onNext).to.have.been.calledWith(mod.types.process);
     });
 
     it('should use the physical view if URL defined view does not exist', () => {
@@ -49,17 +47,17 @@ describe('stores.view', () => {
       mod.view.subscribe(onNext);
 
       expect(onNext).to.have.callCount(1);
-      expect(onNext).to.have.been.calledWith(views.physical);
+      expect(onNext).to.have.been.calledWith(mod.types.physical);
     });
 
     it('should use the process view if defined with multiple other parameters', () => {
-      setHash('#/?sPluginId=foo&view=' + views.process + '&sHostId=bar');
+      setHash('#/?sPluginId=foo&view=PROCESS&sHostId=bar');
       loadModule();
 
       mod.view.subscribe(onNext);
 
       expect(onNext).to.have.callCount(1);
-      expect(onNext).to.have.been.calledWith(views.process);
+      expect(onNext).to.have.been.calledWith(mod.types.process);
     });
   });
 

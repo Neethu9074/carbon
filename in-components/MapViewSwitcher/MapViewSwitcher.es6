@@ -5,7 +5,7 @@ import * as viewStore from 'in-stores/view';
 import connectTo from 'in-components/hoc/connectTo';
 import {getClassName} from 'in-services/react';
 import eventBus from 'in-services/eventbus';
-import views from 'in-services/views';
+import {types as views} from 'in-stores/view';
 
 import './MapViewSwitcher.less';
 

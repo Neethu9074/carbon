@@ -3,7 +3,7 @@ import React from 'react/addons';
 import {nameOfUndefinedZone} from 'in-forge/constants';
 import * as viewStore from 'in-stores/view';
 import {getLabel} from 'in-sdk/snapshot';
-import views from 'in-services/views';
+import {types as views} from 'in-stores/view';
 import {getColor} from 'in-services/util/groupColors';
 
 import SnapshotList from './SnapshotList';

@@ -1,8 +1,13 @@
-import * as views from 'in-services/views';
+import {types as views} from 'in-stores/view';
 import {getStructure} from 'in-services/wiring';
 
 import {mutateUrl, navigationParameters} from './navigation';
 import {createStore} from './store';
+
+export const types = {
+  process: 'PROCESS',
+  physical: 'PHYSICAL'
+};
 
 const store = createStore({
   name: 'view',

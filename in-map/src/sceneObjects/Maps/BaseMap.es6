@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {viewStructure} from 'in-stores/view';
 import eventBus from 'in-services/eventbus';
 import {getPlural} from 'in-sdk/pluginName';
-import * as views from 'in-services/views';
+import {types as views} from 'in-stores/view';
 import {getIn} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
 
