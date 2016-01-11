@@ -10,14 +10,14 @@ import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
 export default class HighlightingComponent extends Component {
 
   constructor({sceneObject}) {
-    super(sceneObject);
+    super(sceneObject, '_highlight');
 
     this.positionToSet = new XYZ(-1000, 0, 0);
     this.scaleToSet = new XYZ(1, 1, 1);
 
     this.lineContentProvider = new LCP();
     this.fragment = {
-      id: this.getID(),
+      id: this.id,
       contentProvider: new PCM({
         contentProvider: new SCM({
           contentProvider: this.lineContentProvider
@@ -110,11 +110,7 @@ export default class HighlightingComponent extends Component {
   }
 
   hide() {
-    this.sceneObject.scene.lineFactory.removeFragment(this.getID());
-  }
-
-  getID() {
-    return this.sceneObject.id + '_highlight';
+    this.sceneObject.scene.lineFactory.removeFragment(this.id);
   }
 
   dispose() {

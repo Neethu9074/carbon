@@ -92,14 +92,12 @@ export default class Group extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    const id = this.id;
     const sceneObject = this;
     const color = this.getColor();
     const components = this.components;
 
     // add the mesh component to handle visual representation of the node
     components.mesh = new LineMeshComponent({
-      id,
       sceneObject,
       factory: this.scene.groundLineFactory,
       contentProvider: new PCM({

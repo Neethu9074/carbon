@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import * as ro from 'reactive-observables';
 
 
 let millisWatingForComponentUpdate = 200;
@@ -9,14 +9,11 @@ let secondCounter = 0;
 let fpsCounter = 0;
 let deltaTime = 0;
 let fps = 0;
-let timeEventListener = [];
 
-export function addTimeEventListener(listener) {
-  timeEventListener.push(listener);
-}
+const listenerObservable = ro.create({ emitLatestOnSubscribe: false });
 
-export function removeTimeEventListener(listener) {
-  _.remove(timeEventListener, list => list === listener);
+export function addTimeEventListener(timeEventCallback) {
+  return listenerObservable.subscribe(() => timeEventCallback());
 }
 
 export function update(highResTimestamp) {
@@ -49,7 +46,7 @@ export function update(highResTimestamp) {
 
   if (timeCounterForComponentUpdate >= millisWatingForComponentUpdate) {
     timeCounterForComponentUpdate = 0;
-    timeEventListener.forEach(l => l.handleComponentTimeEvent());
+    listenerObservable.emit();
   }
 }
 
@@ -70,8 +67,6 @@ export function setFramesWaitingForComponentUpdate(numFrames) {
 }
 
 export function reset() {
-  timeEventListener = [];
-
   timeCounterForComponentUpdate = 0;
   timeOfLastFrameUpdate = 0;
   timeSinceFirstFrame = 0;

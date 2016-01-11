@@ -220,6 +220,28 @@ export default connectTo(
                  }}/>
         </DashboardSection>
 
+        <DashboardSection title='Swap Activity'>
+          <ChartWithLegend snapshot={snapshot}
+                 windowSize={timeframe}
+                 height={chartHeight}
+                 margins={{
+                   left: 90
+                 }}
+                 y1={{
+                   min: 0,
+                   formatter: twoDecimalPlaces,
+                   metrics: [
+                     'swap.pgin',
+                     'swap.pgout'
+                   ],
+                   labels: [
+                     'Page-In',
+                     'Page-Out'
+                   ],
+                   type: 'line'
+                 }}/>
+        </DashboardSection>
+
         <DashboardSection title={this.getIntlMessage('forge.os.filesystems')}>
 
           {filesystemName ?

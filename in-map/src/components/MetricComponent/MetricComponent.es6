@@ -16,11 +16,10 @@ const thicknessOfCubes = 0.9;
 export default class MetricComponent extends Component {
 
   constructor({sceneObject}) {
-    super(sceneObject);
+    super(sceneObject, '_metric_pillar');
 
     const scene = sceneObject.scene;
 
-    this.id = sceneObject.id + '_metricPillar';
     this.scene = sceneObject.scene;
     this.tooltip = new TooltipMetric(sceneObject);
     this.factory = scene.singleMeshMetricFactory;

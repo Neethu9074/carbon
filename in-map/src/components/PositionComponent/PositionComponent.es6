@@ -6,7 +6,7 @@ import Component from '../Component';
 export default class PositionComponent extends Component {
 
   constructor({sceneObject}) {
-    super(sceneObject);
+    super(sceneObject, '_position');
 
     this.position = new THREE.Vector3(0, 0, 0);
     this.oldPosition = new THREE.Vector3(0, 0, 0);

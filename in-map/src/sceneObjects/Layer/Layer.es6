@@ -130,7 +130,6 @@ export default class Layer extends SceneObject {
   initComponents() {
     super.initComponents();
 
-    const id = this.id;
     const components = this.components;
 
     components.collision = new CollisionComponent({
@@ -153,13 +152,11 @@ export default class Layer extends SceneObject {
     components.mesh = new MeshComponent({
       sceneObject: this,
       contentProvider: new CMCM({ contentProvider: pcm }),
-      id,
       factory: this.scene.layerSingleMeshFactory
     });
 
     // add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
-      id: id + '_solidMesh',
       sceneObject: this,
       contentProvider: new CMCM({ contentProvider: pcm }),
       factory: this.scene.layerHighlightingSingleMeshFactory

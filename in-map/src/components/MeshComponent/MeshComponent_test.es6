@@ -26,7 +26,6 @@ describe('3D map', () => {
           }
         }
       },
-      id: 0,
       factory: {
         addFragment: sinon.stub(),
         removeFragment: sinon.stub()

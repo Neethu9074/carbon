@@ -123,10 +123,8 @@ export default class Node extends BaseNode {
   initComponents() {
     super.initComponents();
 
-    const postId = '_ground';
     const components = this.components;
     components.ground = new MeshComponent({
-      id: this.id + postId,
       sceneObject: this,
       factory: this.scene.groundSingleMeshFactory,
       contentProvider: new CMCM({
@@ -138,7 +136,6 @@ export default class Node extends BaseNode {
       })
     });
     components.groundLine = new LineMeshComponent({
-      id: this.id + postId,
       sceneObject: this,
       factory: this.scene.baselineFactory,
       contentProvider: new PCM({
