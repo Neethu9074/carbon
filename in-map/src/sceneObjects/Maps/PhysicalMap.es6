@@ -23,7 +23,14 @@ export default class PhysicalMap extends BaseMap {
     const color = hexToRGBNormalized(theme.map.colors.groundDots);
     this.groundPlane.setColor(color);
 
+  }
+
+  init() {
     this.groups = [];
+  }
+
+  registerEvents() {
+    super.registerEvents();
 
     this.addSubscription(getIn(['map', 'unmonitoredHosts']).subscribe(hideUnmonitoredHosts =>
       this.disableUnmonitoredHosts(hideUnmonitoredHosts)
@@ -103,7 +110,7 @@ export default class PhysicalMap extends BaseMap {
 
   removeVanishedNodes(structures) {
     // identify removed nodes: nodes that are not inside the snapshot update
-    getAllNodes(this).forEach(node => {
+    this.getAllNodes().forEach(node => {
       if (node.isUnknown) {
         return;
       }
