@@ -1,8 +1,8 @@
 import THREE from 'three';
 
-import MouseCameraController from '../../../controls/MouseCameraController';
-import GroundPlane from '../../GroundPlanes/GroundPlane';
-import BaseMap from '../BaseMap';
+import MouseCameraController from '../../controls/MouseCameraController';
+import GroundPlane from '../GroundPlanes/GroundPlane';
+import BaseMap from './BaseMap';
 
 
 export default class ProcessMap extends BaseMap {
@@ -33,6 +33,20 @@ export default class ProcessMap extends BaseMap {
   }
 
   onZoom() {}
+
+  addNode() {
+    console.log('add node');
+  }
+
+  getAllNodes() {
+    return [];
+  }
+
+  applyLayout() {}
+
+  removeChild() {}
+
+  onInventoryUpdated() {}
 
   dispose() {
     super.dispose();
