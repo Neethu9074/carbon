@@ -30,8 +30,6 @@ export default class GroupPlane extends SceneObject {
     this.addSceneObject(ground);
   }
 
-  onZoom() {}
-
   getCollisionMesh() {
     return this.ground;
   }

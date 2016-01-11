@@ -1,0 +1,77 @@
+import * as ro from 'reactive-observables';
+
+
+let millisWatingForComponentUpdate = 200;
+let timeCounterForComponentUpdate = 0;
+let timeOfLastFrameUpdate = 0;
+let timeSinceFirstFrame = 0;
+let secondCounter = 0;
+let fpsCounter = 0;
+let deltaTime = 0;
+let fps = 0;
+
+const listenerObservable = ro.create({ emitLatestOnSubscribe: false });
+
+export function addTimeEventListener(timeEventCallback) {
+  return listenerObservable.subscribe(() => timeEventCallback());
+}
+
+export function update(highResTimestamp) {
+  const timeNow = highResTimestamp;
+  const deltaTimeInMs = (timeNow - timeOfLastFrameUpdate);
+  deltaTime = deltaTimeInMs / 1000; // in ms
+
+  // clamp the deltaTime to a max of 0.5 seconds. If the map is laggy because of
+  // any reason or you are switching tabs, the calculation is stoppend and the
+  // deltaTime can become lager than seconds or minutes. since all animations
+  // are computed with deltaTime in 3D enviroments (and so the camera movement)
+  // the camera would make a huge jump if moving while the map is laggy. to
+  // avoid that clamp the time to a max of x ms/sec. you can also implement a
+  // matrix or max payne slowmotion effect with that by setting max to something
+  // around .001
+  deltaTime = Math.min(deltaTime, 0.1);
+
+  timeOfLastFrameUpdate = timeNow;
+  timeSinceFirstFrame += deltaTime;
+  secondCounter += deltaTime;
+
+  timeCounterForComponentUpdate += deltaTimeInMs;
+  fpsCounter++;
+
+  if (secondCounter >= 1) {
+    secondCounter = 0;
+    fps = fpsCounter;
+    fpsCounter = 0;
+  }
+
+  if (timeCounterForComponentUpdate >= millisWatingForComponentUpdate) {
+    timeCounterForComponentUpdate = 0;
+    listenerObservable.emit();
+  }
+}
+
+export function getFPS() {
+  return fps;
+}
+
+export function getDeltaTime() {
+  return deltaTime;
+}
+
+export function getBigBangTime() {
+  return timeSinceFirstFrame;
+}
+
+export function setFramesWaitingForComponentUpdate(numFrames) {
+  millisWatingForComponentUpdate = Math.max(1, numFrames); // [1, #]
+}
+
+export function reset() {
+  timeCounterForComponentUpdate = 0;
+  timeOfLastFrameUpdate = 0;
+  timeSinceFirstFrame = 0;
+  secondCounter = 0;
+  fpsCounter = 0;
+  deltaTime = 0;
+  fps = 0;
+}
