@@ -26,6 +26,21 @@ export function createStore({name, initialValue = null}) {
   }
 }
 
+
+export function createTrackingStore({name, observable}) {
+  invariant(!(name in allStates), 'Store already exists');
+  invariant(observable != null, 'Observable must be provided');
+
+  allStates[name] = undefined;
+
+  return {
+    observable: observable.map(v => {
+      allStates[name] = v;
+      return v;
+    })
+  };
+}
+
 // only use this for testing purposes to clear the store registry. This
 // is required when using proxyquire with stores.
 export function resetStoreRegistry() {

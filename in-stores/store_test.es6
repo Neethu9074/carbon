@@ -2,8 +2,9 @@
 
 import {expect} from 'chai';
 import sinon from 'sinon';
+import {create} from 'reactive-observables';
 
-import {createStore, allStates} from './store';
+import {createStore, createTrackingStore, allStates} from './store';
 
 describe('in-stores/store', () => {
 
@@ -13,43 +14,100 @@ describe('in-stores/store', () => {
     subscriber = sinon.stub();
   });
 
-  it('should create a named store', () => {
-    const name = generateStoreName();
-    const store = createStore({name, initialValue: 'foobar'});
+  describe('createStore', () => {
+    it('should fail when the store already exists', () => {
+      const name = generateStoreName();
+      createStore({name});
 
-    store.observable.subscribe(subscriber);
-    expect(subscriber).to.have.callCount(1);
-    expect(subscriber).to.have.been.calledWith('foobar');
-    expect(allStates[name]).to.equal('foobar');
+      expect(() => {
+        createStore({name});
+      }).to.throw(/Store already exists/);
+    });
+
+    it('should create a named store', () => {
+      const name = generateStoreName();
+      const store = createStore({name, initialValue: 'foobar'});
+
+      store.observable.subscribe(subscriber);
+      expect(subscriber).to.have.callCount(1);
+      expect(subscriber).to.have.been.calledWith('foobar');
+      expect(allStates[name]).to.equal('foobar');
+    });
+
+    it('should expose the store values under allStates for debugging purposes', () => {
+      const name = generateStoreName();
+      const store = createStore({name, initialValue: 'bla'});
+      expect(allStates[name]).to.equal('bla');
+
+      store.applyStateMutation(() => 'blub');
+      expect(allStates[name]).to.equal('blub');
+    });
+
+    it('should free the observable so that all mutations go through applyStateMutation', () => {
+      const name = generateStoreName();
+      const store = createStore({name});
+
+      expect(() => store.observable.emit(42)).to.throw(/frozen/);
+    });
+
+    it('should inform subscribers about state transitions', () => {
+      const name = generateStoreName();
+      const store = createStore({name});
+
+      store.observable.subscribe(subscriber);
+      expect(subscriber).to.have.callCount(1);
+      expect(subscriber).to.have.been.calledWith(null);
+
+      store.applyStateMutation(() => 'We want Mett!');
+      expect(subscriber).to.have.callCount(2);
+      expect(subscriber).to.have.been.calledWith('We want Mett!');
+    });
   });
 
-  it('should expose the store values under allStates for debugging purposes', () => {
-    const name = generateStoreName();
-    const store = createStore({name, initialValue: 'bla'});
-    expect(allStates[name]).to.equal('bla');
+  describe('createTrackingStore', () => {
+    it('should fail when the store already exists', () => {
+      const name = generateStoreName();
+      createTrackingStore({name, observable: create()});
 
-    store.applyStateMutation(() => 'blub');
-    expect(allStates[name]).to.equal('blub');
-  });
+      expect(() => {
+        createTrackingStore({name, observable: create()});
+      }).to.throw(/Store already exists/);
+    });
 
-  it('should free the observable so that all mutations go through applyStateMutation', () => {
-    const name = generateStoreName();
-    const store = createStore({name});
+    it('should track the store states', () => {
+      const name = generateStoreName();
+      const observable = create();
 
-    expect(() => store.observable.emit(42)).to.throw(/frozen/);
-  });
+      const emittedValue = 42;
+      observable.emit(42);
+      const store = createTrackingStore({name, observable});
+      store.observable.subscribe(subscriber);
 
-  it('should inform subscribers about state transitions', () => {
-    const name = generateStoreName();
-    const store = createStore({name});
+      expect(allStates[name]).to.equal(emittedValue);
+    });
 
-    store.observable.subscribe(subscriber);
-    expect(subscriber).to.have.callCount(1);
-    expect(subscriber).to.have.been.calledWith(null);
+    it('should not incur a performance overhead when no subscribers exist', () => {
+      const name = generateStoreName();
+      const observable = create();
 
-    store.applyStateMutation(() => 'We want Mett!');
-    expect(subscriber).to.have.callCount(2);
-    expect(subscriber).to.have.been.calledWith('We want Mett!');
+      observable.emit(42);
+      createTrackingStore({name, observable});
+
+      expect(allStates[name]).to.equal(undefined);
+    });
+
+    it('should expose a new observable to be subscribed on', () => {
+      const name = generateStoreName();
+      const observable = create();
+      const emittedValue = 42;
+      const store = createTrackingStore({name, observable});
+      store.observable.subscribe(subscriber);
+
+      observable.emit(42);
+
+      expect(subscriber).to.have.callCount(1);
+      expect(subscriber).to.have.been.calledWith(emittedValue);
+    });
   });
 
   let storeCounter = 0;
