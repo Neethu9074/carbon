@@ -1,7 +1,8 @@
 import {getStructure} from 'in-services/wiring';
+import createViewStructureObservable from 'in-services/subscription/view';
 
 import {mutateUrl, navigationParameters} from './navigation';
-import {createStore} from './store';
+import {createStore, createTrackingStore} from './store';
 
 export const types = {
   process: 'PROCESS',
@@ -15,7 +16,10 @@ const store = createStore({
 
 export const view = store.observable.distinct();
 export const shallowViewStructure = view.flatMap(theView => getStructure(theView, false));
-export const viewStructure = view.flatMap(theView => getStructure(theView, true));
+export const viewStructure = createTrackingStore({
+  name: 'viewStructure',
+  observable: view.flatMap(viewType => createViewStructureObservable({viewType}))
+}).observable;
 
 
 if (window.location.hash) {

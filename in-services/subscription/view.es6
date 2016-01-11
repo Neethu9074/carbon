@@ -6,7 +6,7 @@ import {
   getNewSubscriptionId,
   subscribe,
   unsubscribe
-} from '../subscriptionManager';
+} from './subscriptionManager';
 import createObservableIfMissing from './subscriptionObservablesCache';
 
 export default createObservableIfMissing.bind(null, {
@@ -25,7 +25,7 @@ function createViewObservable({viewType}) {
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe('subscribe-view', {
+      subscribe(subscriptionId, 'subscribe-view', {
         'subscriptionId': subscriptionId,
         'viewType': viewType
       });
