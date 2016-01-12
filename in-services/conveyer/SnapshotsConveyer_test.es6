@@ -5,7 +5,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import RoEmitter from 'roemitter';
 
-const ec2 = 'com.instana.forge.hardware.virtual.ec2.Ec2';
+const id = '123';
 
 describe('conveyer.SnapshotsConveyer', () => {
 
@@ -30,12 +30,11 @@ describe('conveyer.SnapshotsConveyer', () => {
   });
 
   it('should calculate unique id', () => {
-    expect(SnapshotsConveyer.getUniqueId({pluginId: ec2}))
-      .to.equal('snapshots:' + ec2);
+    expect(SnapshotsConveyer.getUniqueId({id})).to.equal('snapshots:' + id);
   });
 
   it('should subscribe via WebSocket connection', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     // once for snapshots and once for presence
     expect(connection.subscribe.calledTwice).to.equal(true);
@@ -44,19 +43,19 @@ describe('conveyer.SnapshotsConveyer', () => {
       id: conveyer.snapshotId,
       event: 'subscribe',
       type: 'snapshot',
-      pluginId: ec2
+      snapshotId: id
     });
     expect(connection.subscribe.getCall(1).args[0]).to.equal(conveyer.presenceId);
     expect(connection.subscribe.getCall(1).args[1]).to.deep.equal({
       id: conveyer.presenceId,
       event: 'subscribe',
       type: 'presence',
-      pluginId: ec2
+      snapshotId: id
     });
   });
 
   it('should inform about initial snapshots', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     emitData({
       id: conveyer.snapshotId,
@@ -73,7 +72,7 @@ describe('conveyer.SnapshotsConveyer', () => {
   });
 
   it('should dispose of WebSocket based subscription', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     conveyer.stop();
     expect(connection.unsubscribe.calledTwice).to.equal(true);
@@ -82,7 +81,7 @@ describe('conveyer.SnapshotsConveyer', () => {
   });
 
   it('should dispose of emitter subscription', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     conveyer.stop();
     emitData({online: [{id: 1}]});
@@ -90,7 +89,7 @@ describe('conveyer.SnapshotsConveyer', () => {
   });
 
   it('should remove offline snapshots', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     emitData({
       id: conveyer.snapshotId,
@@ -127,7 +126,7 @@ describe('conveyer.SnapshotsConveyer', () => {
   });
 
   it('should handle successive new messages', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     emitData({
       id: conveyer.snapshotId,
@@ -142,7 +141,7 @@ describe('conveyer.SnapshotsConveyer', () => {
   });
 
   it('should support edits', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     emitData({
       id: conveyer.snapshotId,
@@ -158,7 +157,7 @@ describe('conveyer.SnapshotsConveyer', () => {
   });
 
   it('should keep existing immutable snapshots on update', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     emitData({
       id: conveyer.snapshotId,
@@ -178,7 +177,7 @@ describe('conveyer.SnapshotsConveyer', () => {
   });
 
   it('should discard previous values on reconnect', () => {
-    conveyer = new SnapshotsConveyer({pluginId: ec2});
+    conveyer = new SnapshotsConveyer({id});
     conveyer.start(onNext);
     emitData({
       id: conveyer.snapshotId,
