@@ -27,6 +27,8 @@ export function subscribe(subscriptionId, event, payload) {
 
 export function unsubscribe(subscriptionId) {
   emit('unsubscribe', {subscriptionId});
+
+  delete activeSubscriptions[subscriptionId];
 }
 
 

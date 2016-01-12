@@ -1,9 +1,8 @@
 import THREE from 'three';
 
+import {activeMetric} from 'in-services/stores/metrics';
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {isMatchingAllActiveFilters} from 'in-services/stores/filters';
-import {getFullSnapshot} from 'in-services/snapshots';
 import {level} from 'in-services/stores/zoomLevel';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
@@ -16,57 +15,81 @@ import HealthComponent from '../../../components/HealthComponent';
 import MetricComponent from '../../../components/MetricComponent';
 import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
+import HighlightingComponent from '../../../components/HighlightingComponent';
+import CollisionComponent from '../../../components/CollisionObjectComponent';
+import ConnectionComponent from '../../../components/ConnectionComponent';
 
+import {selectedSceneObject, currentTooltip} from '../../../mapStores';
+import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
+import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {longClickedSceneObject} from '../../../mapStores';
-import NodeSnapshotServer from './NodeSnapshotServer';
+import ConnectionGrid from '../../../ConnectionGrid';
 import StickyNoteNode from '../../StickyNote/Node';
 import TooltipNode from '../../Tooltips/Node';
-import BaseNode from '../BaseNode';
+import * as emptyObjects from './emptyObjects';
 import Label from '../../Label';
+import NodeSnapshotServer from './NodeSnapshotServer';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
+import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
-const emptyLabel = {
-  isEmpty: true,
-  getComponent: () => {
-    return { setPosition: () => {} };
-  },
-  dispose: () => {}
-};
+const emptyTooltip = emptyObjects.emptyTooltip;
+const emptySticky = emptyObjects.emptySticky;
+const emptyLabel = emptyObjects.emptyLabel;
 const nodeBaseHeight = 1;
 
-export default class Node extends BaseNode {
+export default class Node extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
-    super({parent, entity});
+    super({parent, id: entity.get('id')});
 
-    this._cachedPower = 1;
+    this.stickyNote = emptySticky;
+    this.height = nodeBaseHeight;
+    this.tooltip = emptyTooltip;
     this.isOutOfView = false;
     this.isToFarAway = false;
-
     this.label = emptyLabel;
+    this._cachedPower = 1;
+
+    this.registerEvents();
     this.snapshotServer = new NodeSnapshotServer(this);
+  }
 
-    this.addSubscription(getFullSnapshot(this.id).subscribe(snapshot =>
-      this.onSnapshotUpdate(snapshot))
-    );
+  onInitialEnter() {
+    // the default state for the solid hull is off
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+  }
 
-    this.addSubscription(isMatchingAllActiveFilters(this.id).subscribe(isVisible => {
-      if (isVisible) {
-        this.show();
-      } else {
-        this.hide();
-      }
-    }));
+  onHighlightEnter() {
+    this.highlight();
+
+    // show all connections as grey lines
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+  }
+
+  onHighlightLeave() {
+    this.highlight(false);
+
+    // hide the grey connection lines
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
   }
 
   onSelectedEnter() {
-    super.onSelectedEnter();
+    this.highlight();
+
+    // show all connections as white lines
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
 
     // snapshots may not yet exist yet when switching views.
     if (this.snapshot) {
@@ -74,15 +97,36 @@ export default class Node extends BaseNode {
     }
   }
 
+  onSelectedLeave() {
+    this.highlight(false);
+
+    // hide the white connection lines
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
+  }
+
   onSelectedHighlightEnter() {
-    super.onSelectedHighlightEnter();
+    this.highlight();
+
+    // show all connections as white lines
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
 
     selectedSnapshot.select(this.snapshot);
   }
 
-  onSceneObjectSelected(obj) {
-    super.onSceneObjectSelected(obj);
+  onSelectedHighlightLeave() {
+    this.highlight(false);
 
+    // hide the white connection lines
+    const connectionComponent = this.getComponent('connection');
+    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
+  }
+
+  onSceneObjectSelected(obj) {
     if (obj && obj.id === this.id) {
       tracking.events.clickOnServerIn3DMap();
     }
@@ -90,32 +134,48 @@ export default class Node extends BaseNode {
 
   onHiddenEnter() {
     super.onHiddenEnter();
+
+    this.stickyNote.hide();
     this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     this.label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onHiddenLeave() {
     super.onHiddenLeave();
+
+    if (this.isInView()) {
+      this.stickyNote.show();
+    }
     this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     this.label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onIndirectHighlightEnter() {
-    super.onIndirectHighlightEnter();
-
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     this.getComponent('groundLine').stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
   }
 
   onIndirectHighlightLeave() {
-    super.onIndirectHighlightLeave();
-
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     this.getComponent('groundLine').stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
   }
 
-  highlight(solid = true) {
-    super.highlight(solid);
+  onInactiveEnter() {
+    super.onInactiveEnter();
 
+    this.getComponent('mesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+  }
+
+  onInactiveLeave() {
+    super.onInactiveLeave();
+
+    this.highlight(false);
+  }
+
+  highlight(solid = true) {
     const value = solid ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', value);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', value);
     this.getComponent('groundLine').stateMachine.changeStateProperty('selected', value);
   }
 
@@ -123,9 +183,48 @@ export default class Node extends BaseNode {
   initComponents() {
     super.initComponents();
 
+    const sceneObject = this;
     const components = this.components;
+
+    // add the collision component to handle the collision box
+    components.collision = new CollisionComponent({
+      sceneObject,
+      collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
+      layer: 2
+    });
+
+    // add the connection component to handle all the visual connection lines
+    components.connection = new ConnectionComponent({sceneObject});
+
+    const pcm = new PCM({
+      contentProvider: new SCM({
+        contentProvider: new CCP()
+      })
+    });
+
+    // add the mesh component to handle visual representation of the node
+    components.mesh = new MeshComponent({
+      sceneObject,
+      contentProvider: new CMCM({contentProvider: pcm}),
+      factory: this.scene.singleMeshFactory
+    });
+    const color = this.calculateNodeColor();
+    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
+
+    // add the solidMesh component to handle the solid fill color of a node
+    components.solidMesh = new MeshComponent({
+      sceneObject,
+      contentProvider: new CMCM({contentProvider: pcm}),
+      factory: this.scene.highlightingSingleMeshFactory
+    });
+    components.solidMesh.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+
+    // add the highlighting component to handle the highlighting of a node
+    // this is different to solidMesh since the highlighting is like a mouseOver effect
+    components.highlighting = new HighlightingComponent({sceneObject});
+
     components.ground = new MeshComponent({
-      sceneObject: this,
+      sceneObject,
       factory: this.scene.groundSingleMeshFactory,
       contentProvider: new CMCM({
         contentProvider: new PCM({
@@ -136,7 +235,7 @@ export default class Node extends BaseNode {
       })
     });
     components.groundLine = new LineMeshComponent({
-      sceneObject: this,
+      sceneObject,
       factory: this.scene.baselineFactory,
       contentProvider: new PCM({
         contentProvider: new SCM({
@@ -144,16 +243,39 @@ export default class Node extends BaseNode {
         })
       })
     });
-    components.metric = new MetricComponent({sceneObject: this});
-    components.layer = new LayerComponent({sceneObject: this});
+    components.metric = new MetricComponent({sceneObject});
+    components.layer = new LayerComponent({sceneObject});
     components.ground.sizeChanged(1.5, 1, 1.5);
     components.groundLine.sizeChanged(1.5, 1, 1.5);
   }
 
   registerEvents() {
-    super.registerEvents();
+    this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
+      // update only if this node is visible
+      if (!this.isHidden()) {
+        this.update(data);
+      }
+    }));
 
-    this.addSubscription(highlightedSnapshot.highlightedEntityId.observable.subscribe(id => {
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
+      if (this.isSelected()) {
+        const stateMachine = this.getComponent('connection').stateMachine;
+        stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+        stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      }
+    }));
+
+    this.addSubscription(activeMetric.subscribe(metric => {
+      this.onActiveMetric(metric);
+    }));
+
+    this.addSubscription(selectedSceneObject.subscribe(event => {
+      if (event) {
+        this.onSceneObjectSelected(event.sceneObject);
+      }
+    }));
+
+    this.addSubscription(highlightedSnapshot.highlightedEntityId.subscribe(id => {
       if (!id) {
         this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
         return;
@@ -170,6 +292,17 @@ export default class Node extends BaseNode {
     }));
   }
 
+  onActiveMetric(metric) {
+    this.currentMetric = metric;
+
+    const value = metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
+    this.stateMachine.changeStateProperty('active', value);
+  }
+
+  updateStickyNotes() {
+    this.stickyNote.update();
+  }
+
   setLayer(layer) {
     const layerComponent = this.getComponent('layer');
 
@@ -179,11 +312,18 @@ export default class Node extends BaseNode {
 
   onHighlight(highlighted) {
     super.onHighlight(highlighted);
+    currentTooltip.emit(this.tooltip);
+
     if (highlighted) {
-      // highlightedSnapshot.highlightedEntityId.select(this.snapshot);
+      highlightedSnapshot.setHighlightedEntityId(this.id);
     } else {
-      // highlightedSnapshot.highlightedEntityId.clear();
+      highlightedSnapshot.clearHighlightedEntityId();
     }
+  }
+
+  updateScreenAnchorPosition() {
+    const anchor = this.getScreenAnchorPosition();
+    super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
   }
 
   getTooltipSticky() {
@@ -232,7 +372,7 @@ export default class Node extends BaseNode {
   }
 
   update() {
-    super.update();
+    this.updateScreenPosition();
 
     // if the node is in the view frustum
     if (!this.isInView()) {
@@ -338,7 +478,15 @@ export default class Node extends BaseNode {
   }
 
   positionChanged(x, y, z, oldPosition) {
-    super.positionChanged(x, y, z, oldPosition);
+    this.getComponent('collision').positionChanged(x, y, z);
+    this.getComponent('connection').positionChanged();
+    this.getComponent('solidMesh').positionChanged(x, y, z);
+    this.getComponent('mesh').positionChanged(x, y, z);
+    this.getComponent('highlighting').positionChanged(x, y, z);
+    this.updateScreenAnchorPosition();
+
+    ConnectionGrid.clearPosition(oldPosition);
+    ConnectionGrid.blockPosition({x, y, z});
 
     this.label.getComponent('position').setPosition(x, y + this.height + 0.2, z);
 
@@ -351,11 +499,18 @@ export default class Node extends BaseNode {
   }
 
   setHeight(height) {
-    super.setHeight(height);
+    this.height = height;
+
+    this.getComponent('collision').sizeChanged(1, height, 1);
+    this.getComponent('solidMesh').sizeChanged(1, height, 1);
+    this.getComponent('mesh').sizeChanged(1, height, 1);
+    this.getComponent('highlighting').sizeChanged(1, height, 1);
     this.getComponent('layer').heightChanged(height);
 
     const pos = this.getComponent('position').getPosition();
     this.label.getComponent('position').setPosition(pos.x, pos.y + this.height + 0.2, pos.z);
+
+    this.updateScreenAnchorPosition();
   }
 
   healthChanged(newHealth) {
@@ -383,11 +538,28 @@ export default class Node extends BaseNode {
   }
 
   dispose() {
-    // dispose the event server to prevent updates
     this.snapshotServer.dispose();
 
-    // dispose other subscriptions
+    // do that first to get connections deleted. they only dispose
+    // themselves if both endpoints are not selected
+    if (this.isSelected()) {
+      selectedSceneObject.emit({sceneObject: null});
+    }
+
+    // dispose subscriptions so that no update fires anymore
     super.dispose();
+
+    this.stickyNote.dispose();
+    this.stickyNote = null;
+
+    try {
+      this.tooltip.unMount();
+    } catch (er) {
+      // the tooltip is already unmounted
+      this.tooltip = null;
+    }
+
+    this.snapshot = null;
 
     this.label.dispose();
     this.label = null;
