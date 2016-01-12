@@ -1,16 +1,12 @@
 /* eslint-env mocha */
-
+import proxyquire from 'proxyquire';
 import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import proxyquire from 'proxyquire';
 
-function getFullFakeSnapshotForCoordinates(coordinates) {
+function getFakeEntity() {
   return Immutable.fromJS({
-    hostId: coordinates.get('hostId'),
-    pluginId: coordinates.get('pluginId'),
-    steadyId: coordinates.get('steadyId'),
-    data: {},
+    id: '123',
     tags: ['tag1', 'tag2']
   });
 }
@@ -121,10 +117,10 @@ describe('in-services/stores/filters', () => {
     beforeEach(() => {
       snapshots = proxyquire('../snapshots', {
         // reinitialise the store on every test run to clear the store cache
-        '../conveyer/SnapshotConveyer': (params) => {
+        '../conveyer/SnapshotConveyer': () => {
           return {
             start(onNext) {
-              onNext(getFullFakeSnapshotForCoordinates(params.coordinates));
+              onNext(getFakeEntity());
             }
           };
         }
