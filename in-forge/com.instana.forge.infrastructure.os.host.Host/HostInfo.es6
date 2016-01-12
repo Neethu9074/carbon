@@ -16,6 +16,9 @@ const HardwareInfo = React.createClass({
     const snapshot = this.props.snapshot;
     const data = snapshot.get('data');
 
+    const memoryTotal = snapshot.getIn(['data', 'memory.total'], null);
+    const swapTotal = snapshot.getIn(['data', 'swap.total'], null);
+
     return (
       <div>
         <DescriptionList>
@@ -29,9 +32,17 @@ const HardwareInfo = React.createClass({
             {data.get('cpu.count')} x {data.get('cpu.model')}
           </DescriptionItem>
 
-          <DescriptionItem title='Memory'>
-            {formatBytes(data.get('memory.total'))}
-          </DescriptionItem>
+          {memoryTotal !== null ?
+            <DescriptionItem title='Memory'>
+              {formatBytes(data.get('memory.total'))}
+            </DescriptionItem>
+          : null}
+
+          {swapTotal !== null ?
+            <DescriptionItem title='Swap Total'>
+              {formatBytes(data.get('swap.total'))}
+            </DescriptionItem>
+          : null}
 
           <DescriptionItem title='FQDN'>
             {data.get('fqdn')}

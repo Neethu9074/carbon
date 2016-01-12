@@ -70,6 +70,7 @@ export default connectTo(
     const filesystems = snapshot.getIn(['data', 'filesystems']);
     const interfaces = snapshot.getIn(['data', 'interfaces']);
     const cpuCount = snapshot.getIn(['data', 'cpu.count']);
+    const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
 
     const cpus = Immutable.Range(1, cpuCount + 1);
 
@@ -220,27 +221,29 @@ export default connectTo(
                  }}/>
         </DashboardSection>
 
-        <DashboardSection title='Swap Activity'>
-          <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
-                 height={chartHeight}
-                 margins={{
-                   left: 90
-                 }}
-                 y1={{
-                   min: 0,
-                   formatter: twoDecimalPlaces,
-                   metrics: [
-                     'swap.pgin',
-                     'swap.pgout'
-                   ],
-                   labels: [
-                     'Page-In',
-                     'Page-Out'
-                   ],
-                   type: 'line'
-                 }}/>
-        </DashboardSection>
+        {swapTotal > 0 ?
+          <DashboardSection title='Swap Activity'>
+            <ChartWithLegend snapshot={snapshot}
+                   windowSize={timeframe}
+                   height={chartHeight}
+                   margins={{
+                     left: 90
+                   }}
+                   y1={{
+                     min: 0,
+                     formatter: twoDecimalPlaces,
+                     metrics: [
+                       'swap.pgin',
+                       'swap.pgout'
+                     ],
+                     labels: [
+                       'Page-In',
+                       'Page-Out'
+                     ],
+                     type: 'line'
+                   }}/>
+          </DashboardSection>
+        : null}
 
         <DashboardSection title={this.getIntlMessage('forge.os.filesystems')}>
 
