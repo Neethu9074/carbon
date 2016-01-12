@@ -11,23 +11,23 @@ import createObservableIfMissing from './subscriptionObservablesCache';
 
 export default createObservableIfMissing.bind(null, {
   getId,
-  createObservable: createViewObservable
+  createObservable: createSnapshotObservable
 });
 
-function getId({viewType}) {
-  return viewType;
+function getId({snapshotId}) {
+  return snapshotId;
 }
 
-function createViewObservable({viewType}) {
+function createSnapshotObservable({snapshotId}) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = 'data-' + subscriptionId;
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-view', {
+      subscribe(subscriptionId, 'subscribe-snapshot', {
         'subscriptionId': subscriptionId,
-        'viewType': viewType
+        'snapshotId': snapshotId
       });
     },
 
@@ -39,7 +39,7 @@ function createViewObservable({viewType}) {
 
   return observable;
 
-  function onData(viewStructure) {
-    observable.emit(Immutable.fromJS(viewStructure));
+  function onData(snapshot) {
+    observable.emit(Immutable.fromJS(snapshot));
   }
 }
