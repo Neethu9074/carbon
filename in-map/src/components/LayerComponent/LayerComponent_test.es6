@@ -11,24 +11,22 @@ import {currentScene} from '../../mapStores';
 
 class SnapshotConveyerMock {
   static getUniqueId() {
-    return Math.random();
+    return this.id;
   }
 
   constructor(params) {
     this.params = params;
+    this.id = '123';
   }
 
-  getFullFakeSnapshotForCoordinates(coordinates) {
+  getFakeEntity(type) {
     return Immutable.fromJS({
-      hostId: coordinates.get('hostId'),
-      pluginId: coordinates.get('pluginId'),
-      steadyId: coordinates.get('steadyId'),
-      data: {}
+      id: type
     });
   }
 
   start(onNext) {
-    onNext(this.getFullFakeSnapshotForCoordinates(this.params.coords));
+    onNext(this.getFakeEntity());
   }
 }
 
@@ -74,8 +72,8 @@ describe('3D map', () => {
     });
 
     it('can add layer', () => {
-      component.addLayer(getRandomLayerCoordinates());
-      component.addLayer(getRandomLayerCoordinates());
+      component.addLayer(getRandomLayerCoordinates('typeA'));
+      component.addLayer(getRandomLayerCoordinates('typeB'));
 
       expect(component.layer.length).to.equal(2);
     });
@@ -91,7 +89,7 @@ describe('3D map', () => {
 
     it('should return 10 transformations for 10 layer', () => {
       for (let i = 0; i < 10; i++) {
-        component.addLayer(getRandomLayerCoordinates());
+        component.addLayer(getRandomLayerCoordinates('type' + i));
       }
       const transformations = component.getLayerTransformations();
       expect(transformations.length).to.equal(10);
@@ -126,13 +124,7 @@ describe('3D map', () => {
 
   });
 
-  function getRandomLayerCoordinates(pluginId = 'default') {
-    const id = Math.random();
-    return Immutable.fromJS([{
-      id,
-      pluginId,
-      hostId: 'horst_' + id,
-      steadyId: 'someting special'
-    }]);
+  function getRandomLayerCoordinates(type = 'default') {
+    return Immutable.fromJS([{id: type}]);
   }
 });

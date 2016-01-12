@@ -29,9 +29,7 @@ export default class Group extends SceneObject {
 
     if (coordinates) {
       this.coordinates = coordinates;
-      this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
-        this.onSnapshotUpdate(snapshot))
-      );
+      this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
     }
 
     this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
