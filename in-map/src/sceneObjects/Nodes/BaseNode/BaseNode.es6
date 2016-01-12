@@ -35,8 +35,8 @@ const emptyTooltipObject = {
 
 export default class BaseNode extends SceneObject {
 
-  constructor({parent, id}) {
-    super({parent, id});
+  constructor({parent, entity}) {
+    super({parent, id: entity.get('id')});
 
     this.scene = this.scene;
     this.height = 1;
@@ -46,6 +46,9 @@ export default class BaseNode extends SceneObject {
 
     this.registerEvents();
   }
+
+  onSnapshotUpdate() { throw new Error('NOT IMPLEMENTED'); }
+  getScreenAnchorPosition() { throw new Error('NOT IMPLEMENTED'); }
 
   onInitialEnter() {
     // the default state for the solid hull is off
@@ -237,13 +240,6 @@ export default class BaseNode extends SceneObject {
     this.updateScreenPosition();
   }
 
-  onSnapshotUpdate() { throw new Error('NOT IMPLEMENTED'); }
-
-  getScreenAnchorPosition() { throw new Error('NOT IMPLEMENTED'); }
-
-  setLayer() {}
-  addConnections() {}
-
   updateStickyNotes() {
     this.stickyNote.update();
   }
@@ -281,9 +277,6 @@ export default class BaseNode extends SceneObject {
     this.getComponent('highlighting').sizeChanged(1, height, 1);
     this.updateScreenAnchorPosition();
   }
-
-  getWiredSnapshots() {throw new Error('NOT IMPLEMENTED'); }
-  setWiredSnapshots() {}
 
   dispose() {
     // do that first to get connections deleted. they only dispose

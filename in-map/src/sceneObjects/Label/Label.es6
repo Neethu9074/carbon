@@ -1,5 +1,3 @@
-import * as constants from 'in-forge/constants';
-
 import {zoomLevel} from 'in-services/stores/zoomLevel';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -11,10 +9,9 @@ import SceneObject from '../SceneObject';
 
 export default class Label extends SceneObject {
 
-  constructor({ id, parent, snapshot, iconSize = 1, predicate }) {
+  constructor({ id, parent, iconSize = 1, predicate }) {
     super({parent, id});
 
-    this.snapshot = snapshot;
     this.factory = this.getFactory();
 
     this.positionHandler = new PCM({ contentProvider: new PCP() });
@@ -51,14 +48,7 @@ export default class Label extends SceneObject {
 
 
   getFactory() {
-    const snapshot = this.snapshot;
-
-    let key = snapshot.get('pluginId');
-    if (key === constants.plugins.os) {
-      key += '_' + snapshot.getIn(['data', 'os.name']);
-    }
-
-    return this.scene.getOrCreateLogoFactory({ key, snapshot: this.snapshot });
+    return this.scene.getOrCreateLogoFactory(this.id);
   }
 
   positionChanged(x, y, z) {

@@ -61,10 +61,11 @@ export default class VisualMap extends SceneObject {
     }
   }
 
-  onInventoryUpdate(structures) {
-    structures.forEach(triple => this.addNode(triple));
+  onInventoryUpdate(rootNode) {
+    const inventory = rootNode.get('children');
 
-    this.onInventoryUpdated(structures);
+    inventory.forEach(node => this.addNode(node));
+    this.onInventoryUpdated(inventory);
   }
 
   // is called from group if it has no nodes anymore

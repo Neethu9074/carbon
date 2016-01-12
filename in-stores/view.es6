@@ -1,5 +1,5 @@
-import {getStructure} from 'in-services/wiring';
 import createViewStructureObservable from 'in-services/subscription/view';
+import {getStructure} from 'in-services/wiring';
 
 import {mutateUrl, navigationParameters} from './navigation';
 import {createStore, createTrackingStore} from './store';

@@ -11,17 +11,17 @@ import MeshComponent from '../../../components/MeshComponent';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObject from '../../SceneObject';
 
-import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 export default class Node extends SceneObject {
 
-  constructor({parent, coordinates, id}) {
-    super({parent, id});
+  constructor({parent, entity}) {
+    super({parent, id: entity.get('id')});
 
-    this.registerEvents(coordinates);
+    this.registerEvents();
   }
 
   onSelectedEnter() {
@@ -66,12 +66,10 @@ export default class Node extends SceneObject {
     });
   }
 
-  registerEvents(coordinates) {
-    this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
-      this.onSnapshotUpdate(snapshot))
-    );
+  registerEvents() {
+    this.addSubscription(getFullSnapshot(this.id).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
 
-    this.addSubscription(isMatchingAllActiveFilters(coordinates).subscribe(isVisible => {
+    this.addSubscription(isMatchingAllActiveFilters(this.id).subscribe(isVisible => {
       if (isVisible) {
         this.show();
       } else {

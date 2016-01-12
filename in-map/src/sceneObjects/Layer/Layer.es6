@@ -4,7 +4,6 @@ import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
-import {getSingular} from 'in-sdk/pluginName';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
@@ -30,12 +29,11 @@ const margin = 0.8;
 
 export default class Layer extends SceneObject {
 
-  constructor({parent, id, coordinates}) {
-    super({parent, id});
+  constructor({parent, entity}) {
+    super({parent, id: entity.get('id')});
 
+    this.label = this.id;
     this.snapshot = undefined;
-    this._cachedCoordinates = coordinates;
-    this.label = getSingular(coordinates.get('pluginId'));
 
     this.getComponent('position').setPosition(0, 0, 0);
 
@@ -52,9 +50,7 @@ export default class Layer extends SceneObject {
       }
     }));
 
-    this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
-      this.onSnapshotUpdate(snapshot))
-    );
+    this.addSubscription(getFullSnapshot(this.id).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
       if (so && this.snapshot && so.id === this.id) {

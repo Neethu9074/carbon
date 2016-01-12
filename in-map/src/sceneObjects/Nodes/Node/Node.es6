@@ -42,21 +42,21 @@ const nodeBaseHeight = 1;
 
 export default class Node extends BaseNode {
 
-  constructor({parent, coordinates, id, connections}) {
-    super({parent, id});
+  constructor({parent, entity}) {
+    super({parent, entity});
 
     this._cachedPower = 1;
     this.isOutOfView = false;
     this.isToFarAway = false;
 
     this.label = emptyLabel;
-    this.snapshotServer = new NodeSnapshotServer(this, connections);
+    this.snapshotServer = new NodeSnapshotServer(this);
 
-    this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot =>
+    this.addSubscription(getFullSnapshot(this.id).subscribe(snapshot =>
       this.onSnapshotUpdate(snapshot))
     );
 
-    this.addSubscription(isMatchingAllActiveFilters(coordinates).subscribe(isVisible => {
+    this.addSubscription(isMatchingAllActiveFilters(this.id).subscribe(isVisible => {
       if (isVisible) {
         this.show();
       } else {
@@ -153,17 +153,14 @@ export default class Node extends BaseNode {
   registerEvents() {
     super.registerEvents();
 
-    this.addSubscription(
-      highlightedSnapshot.highlightedSnapshot.subscribe(highlighted => {
-        if (!highlighted) {
-          this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
-          return;
-        }
-        const value = highlighted.get('id')  === this.id ?
-          PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-        this.stateMachine.changeStateProperty('highlight', value);
-      })
-    );
+    this.addSubscription(highlightedSnapshot.highlightedEntityId.observable.subscribe(id => {
+      if (!id) {
+        this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
+        return;
+      }
+      const value = id === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+      this.stateMachine.changeStateProperty('highlight', value);
+    }));
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
       if (so && this.snapshot && so.id === this.id) {
@@ -183,9 +180,9 @@ export default class Node extends BaseNode {
   onHighlight(highlighted) {
     super.onHighlight(highlighted);
     if (highlighted) {
-      highlightedSnapshot.select(this.snapshot);
+      // highlightedSnapshot.highlightedEntityId.select(this.snapshot);
     } else {
-      highlightedSnapshot.clear();
+      // highlightedSnapshot.highlightedEntityId.clear();
     }
   }
 
@@ -218,24 +215,20 @@ export default class Node extends BaseNode {
     this.getComponent('metric').setValues(values);
   }
 
-  setWiredSnapshots(wiredSnapshots) {
-    if (!wiredSnapshots) {
-      return;
-    }
-
-    const parent = this.parent;
-    this.wiredSnapshots = wiredSnapshots;
-
-    wiredSnapshots.outgoing.forEach(wired => {
-      if (wired.get('state') !== 'unmonitored') {
-        return;
-      }
-      parent.addUnknownNode(wired);
-    });
+  setOutgoingConnections(outgoingConnections) {
+    this.outgoingConnections = outgoingConnections;
   }
 
-  getWiredSnapshots() {
-    return this.wiredSnapshots;
+  getOutgoingConnections() {
+    return this.outgoingConnections;
+  }
+
+  setIncomingConnections(incomingConnections) {
+    this.incomingConnections = incomingConnections;
+  }
+
+  getIncomingConnections() {
+    return this.incomingConnections;
   }
 
   update() {

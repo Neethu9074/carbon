@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-import {getWiredSnapshots} from 'in-sdk/snapshot';
 import {getMaxValue} from 'in-sdk/metrics';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
@@ -13,10 +12,9 @@ import {subscribeToMetric} from '../../../metricUtils';
 
 export default class NodeSnapshotServer {
 
-  constructor(client, connections) {
+  constructor(client) {
     this.client = client;
     this.subscriptions = [];
-    this.connections = connections;
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       this.disposeMetricSubscription();
@@ -44,26 +42,15 @@ export default class NodeSnapshotServer {
 
     // TODO Simon: Can we remove this async / nextFrame call?
     this.subscriptions.push(selectedSnapshot.selectedSnapshot.nextFrame().subscribe(selected => {
-        if (selected &&
-          this.client.id === selected.get('id') &&
-          !this.client.isSelected()) {
-          selectedSceneObject.emit({sceneObject: this.client});
-        }
-      })
-    );
+      if (selected &&
+        this.client.id === selected.get('id') &&
+        !this.client.isSelected()) {
+        selectedSceneObject.emit({sceneObject: this.client});
+      }
+    }));
   }
 
   onSnapshotUpdate() {
-    const client = this.client;
-    const snapshot = client.snapshot;
-
-    // setup wiring subscription
-    if (!this.connections) {
-      this.disposeSubscription(this.wiredSnapshotsSubscription);
-      this.wiredSnapshotsSubscription = getWiredSnapshots(snapshot).subscribe(ws => client.setWiredSnapshots(ws));
-      this.subscriptions.push(this.wiredSnapshotsSubscription);
-    }
-
     // setup height subscription
     this.disposeSubscription(this.maxHeightSubscribtion);
     this.maxHeightSubscribtion = nodeMaxPower.subscribe(maxPower => {

@@ -33,7 +33,7 @@ export default helpify(connectTo(
   () => {
     return {
       isMonitoring: viewStructureStore.viewStructure
-        .map(viewStructure => viewStructure.length > 0)
+        .map(viewStructure => viewStructure.size > 0)
         .distinct()
     };
   }, React.createClass({

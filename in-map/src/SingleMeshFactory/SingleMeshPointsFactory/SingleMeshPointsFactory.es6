@@ -1,18 +1,16 @@
 /* global require:false */
 import THREE from 'three';
 
-import {getIcon} from 'in-sdk/snapshot';
-
-import {aspectRatio} from '../../mapStores';
 import ASingleMeshFactory from '../ASingleMeshFactory';
 import fragmentShader from './pointFragmentShader.glsl';
 import vertexShader from './pointVertexShader.glsl';
+import {aspectRatio} from '../../mapStores';
 
 import defaultIcon from './default.png';
 
 export default class SingleMeshPointsFactory extends ASingleMeshFactory {
-  constructor({ key, scene, snapshot, renderOrder = 10 }) {
-    super({scene, renderOrder, params: { key, snapshot } });
+  constructor({id, scene, renderOrder = 10}) {
+    super({scene, renderOrder, params: {id}});
 
     this.aspectRationSubscription = aspectRatio.subscribe(aspect =>
       this.material.uniforms.aspect.value = 1.25 / aspect);
@@ -23,7 +21,7 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
   }
 
   getMaterial() {
-    const icon = getIcon(this.params.snapshot) || defaultIcon;
+    const icon = defaultIcon;
 
     const image = document.createElement('img');
     const texture = new THREE.Texture();

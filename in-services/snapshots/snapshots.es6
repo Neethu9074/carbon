@@ -102,8 +102,8 @@ export function isIdEqualShort(snapshot1, snapshot2) {
  *   which should be retrieved
  * @return {ReactiveObservable<ImmutableSnapshot>}
  */
-export function getFullSnapshot(coordinates) {
-  return create(SnapshotConveyer, {coordinates});
+export function getFullSnapshot(id) {
+  return create(SnapshotConveyer, {id});
 }
 
 /**

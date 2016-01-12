@@ -35,27 +35,21 @@ export default class LayerComponent extends Component {
   }
 
 
-  addLayer(coordinates) {
-    coordinates.forEach(layerCoordinates => {
-      const layerId = layerCoordinates.get('id');
+  addLayer(presentLayer) {
+    presentLayer.forEach(entity => {
+      const layerId = entity.get('id');
 
       // don't create a layer if its still there
       const match = _.find(this.layer, layer => layer.id === layerId);
 
       if (!match) {
-        const newLayer = new Layer({
-          coordinates: layerCoordinates,
-          parent: this,
-          id: layerId
-        });
-
-        this.layer.push(newLayer);
+        this.layer.push(new Layer({parent: this, entity}));
         this.needsUpdate = true;
       }
     });
   }
 
-  removedVanishedLayer(coordinates) {
+  removedVanishedLayer(presentLayer) {
     const removedLayer = [];
 
     this.layer.forEach(layer => {
@@ -64,9 +58,8 @@ export default class LayerComponent extends Component {
       // find layer which are not sended anymore, so vanished
       let found = false;
 
-      for (let i = 0; i < coordinates.length; i++) {
-        const coords = coordinates[i];
-        const coordId = coords.get('id');
+      for (let i = 0; i < presentLayer.size; i++) {
+        const coordId = presentLayer.get([i, 'id']);
         if (coordId === layerId) {
           found = true;
           break;
@@ -136,7 +129,6 @@ export default class LayerComponent extends Component {
       const label = new Label({
         id: child.id,
         parent: child,
-        snapshot: child._cachedCoordinates,
         predicate: zoomLevel => zoomLevel !== level.nearest
       });
       label.getComponent('position').setPosition(0, y, 0);

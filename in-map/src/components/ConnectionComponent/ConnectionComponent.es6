@@ -48,15 +48,27 @@ export default class ConnectionComponent extends Component {
   positionChanged() {}
 
   setupConnections() {
-    const wiredSnapshots = this.sceneObject.getWiredSnapshots();
-    if (!wiredSnapshots) {
-      return;
-    }
+    this.sceneObject.getOutgoingConnections().forEach(connection => {
+      const other = this.sceneObject.findNodeById(connection.get('destinationId'));
+      if (other) {
+        this.connections.push(new Connection({
+          from: this.sceneObject,
+          to: other,
+          direction: 'out'
+        }));
+      }
+    });
 
-    this.clearConnections();
-
-    this.setConnectionsWithDirection(wiredSnapshots.outgoing, 'out');
-    this.setConnectionsWithDirection(wiredSnapshots.incoming, 'in');
+    this.sceneObject.getIncomingConnections().forEach(connection => {
+      const other = this.sceneObject.findNodeById(connection.get('sourceId'));
+      if (other) {
+        this.connections.push(new Connection({
+          from: this.sceneObject,
+          to: other,
+          direction: 'in'
+        }));
+      }
+    });
   }
 
   clearConnections() {
@@ -66,28 +78,6 @@ export default class ConnectionComponent extends Component {
 
   getAllConnections() {
     return this.connections;
-  }
-
-  setConnectionsWithDirection(connections, direction) {
-    connections.forEach(otherSnapshot => {
-      const other = this.sceneObject.findNodeById(otherSnapshot.get('id'));
-      if (other) {
-        this.connectWith(other, direction);
-      }
-    });
-  }
-
-  connectWith(otherNode, direction) {
-    // don't setup a new connection if it's still alive
-    if (this.connections.indexOf(otherNode) >= 0) {
-      return;
-    }
-
-    this.connections.push(new Connection({
-      from: this.sceneObject,
-      to: otherNode,
-      direction
-    }));
   }
 
   // is called from Connection class when creating a new connection

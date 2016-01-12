@@ -3,20 +3,18 @@ import {create} from './conveyer';
 
 export default class SnapshotConveyer {
 
-  static getUniqueId({coordinates}) {
-    return 'snapshot:' + coordinates.get('id');
+  static getUniqueId({id}) {
+    return 'snapshot:' + id;
   }
 
-  constructor({coordinates}) {
-    this.coordinates = coordinates;
+  constructor({id}) {
+    this.id = id;
 
-    this.pluginId = this.coordinates.get('pluginId');
-    const id = this.coordinates.get('id');
     this.predicate = snapshot => snapshot.get('id') === id;
   }
 
   start(onNext) {
-    this.snapshotsSubscription = create(SnapshotsConveyer, {pluginId: this.pluginId})
+    this.snapshotsSubscription = create(SnapshotsConveyer, {id: this.id})
       .subscribe(snapshots => {
         const snapshot = snapshots.find(this.predicate, null, undefined);
         if (snapshot !== undefined) {
@@ -28,5 +26,4 @@ export default class SnapshotConveyer {
   stop() {
     this.snapshotsSubscription.dispose();
   }
-
 }

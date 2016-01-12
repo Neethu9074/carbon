@@ -10,7 +10,6 @@ import GroundHighlightingComponent from '../../components/GroundHighlightingComp
 import LineMeshComponent from '../../components/LineMeshComponent';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import UnknownNode from '../Nodes/UnknownNode';
 import StickyNote from '../StickyNote/Ground';
 import SceneObject from '../SceneObject';
 import Node from '../Nodes/Node';
@@ -175,8 +174,8 @@ export default class Group extends SceneObject {
     this.updateScreenAnchorPosition();
   }
 
-  addNode({coordinates, layer, connections, unknown = false}) {
-    const nodeId = coordinates.get('id');
+  addNode({entity}) {
+    const nodeId = entity.get('id');
     let matchedNode;
 
     // if there is no nodeId it's an unknown node
@@ -186,23 +185,16 @@ export default class Group extends SceneObject {
 
       // if the node was created in the past
       if (!matchedNode) {
-        matchedNode = unknown ?
-          new UnknownNode({parent: this, coordinates, id: nodeId}) :
-          new Node({parent: this, coordinates, id: nodeId, connections});
+        matchedNode = new Node({parent: this, entity});
         this.children.push(matchedNode);
       }
-      matchedNode.setLayer(layer);
-      matchedNode.setWiredSnapshots(connections);
+
+      // set layer and connections, no matter if a new node was created or it's still available
+      matchedNode.setLayer(entity.get('children'));
+      matchedNode.setOutgoingConnections(entity.get('outgoingConnections'));
+      matchedNode.setIncomingConnections(entity.get('incomingConnections'));
     }
     return matchedNode;
-  }
-
-  addUnknownNode(node) {
-    if (this.id === 'unmonitored') {
-      this.addNode({coordinates: node, unknown: true});
-    } else {
-      this.parent.addUnknownNode(node);
-    }
   }
 
   addGroup(group) {

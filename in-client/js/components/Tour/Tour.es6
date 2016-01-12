@@ -9,7 +9,7 @@ import toPx from 'in-services/converters/toPx';
 import keyCodes from 'in-components/keyCodes';
 import Button from 'in-components/Button';
 
-import {tourDefinition, observable} from './tours/001_instana_demo';
+import {tourDefinition} from './tours/001_instana_demo';
 
 import './Tour.less';
 
@@ -192,8 +192,6 @@ const GuidedTour = React.createClass({
   },
 
   stopTour() {
-    observable.dispose();
-
     this.disposeSubscriptions();
     window.localStorage.setItem(tourViewedLocalStorageKey, String(tourDefinition.id));
 

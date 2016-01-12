@@ -6,12 +6,12 @@ import getIdString from '../snapshots/getIdString';
 
 export default class SnapshotsConveyer {
 
-  static getUniqueId({pluginId}) {
-    return 'snapshots:' + pluginId;
+  static getUniqueId({id}) {
+    return 'snapshots:' + id;
   }
 
-  constructor({pluginId}) {
-    invariant(pluginId, 'A pluginId is required in order to retrieve snapshots');
+  constructor({id}) {
+    invariant(id, 'An ID is required in order to retrieve snapshots');
 
     this.snapshotId = connection.getSubscriptionId();
     this.presenceId = connection.getSubscriptionId();
@@ -20,13 +20,13 @@ export default class SnapshotsConveyer {
       id: this.snapshotId,
       event: 'subscribe',
       type: 'snapshot',
-      pluginId
+      snapshotId: id
     };
     this.presenceSubscribeEvent = {
       id: this.presenceId,
       event: 'subscribe',
       type: 'presence',
-      pluginId
+      snapshotId: id
     };
 
     this.snapshotDataEventPredicate = e => e.id === this.snapshotId;

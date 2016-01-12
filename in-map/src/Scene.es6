@@ -209,12 +209,11 @@ export default class Scene {
     }
   }
 
-  getOrCreateLogoFactory({key, snapshot}) {
-    let factory = this.logoFactories[key];
+  getOrCreateLogoFactory(id) {
+    let factory = this.logoFactories[id];
     if (!factory) {
-      factory = this.logoFactories[key] = new SingleMeshPointsFactory({
-        key,
-        snapshot,
+      factory = this.logoFactories[id] = new SingleMeshPointsFactory({
+        id,
         scene: this
       });
     }

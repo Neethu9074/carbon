@@ -1,16 +1,11 @@
 import {createLogger} from 'instalog';
 
-import * as navigation from 'in-stores/navigation';
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import SnapshotsConveyer from 'in-services/conveyer/SnapshotsConveyer';
-import {create} from 'in-services/conveyer';
-import {plugins} from 'in-forge/constants';
+import * as navigation from 'in-stores/navigation';
 
 const logger = createLogger('tour.001');
 
 let snapshots;
-export const observable = create(SnapshotsConveyer, {pluginId: plugins.os})
-                            .subscribe(data => snapshots = data);
 
 function openDashboard() {
   selectedSnapshot.select(snapshots.get(0));

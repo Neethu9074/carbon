@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import {hexToRGBNormalized} from 'in-services/converters';
 import {getIn} from 'in-services/settings';
-import {getLabel} from 'in-sdk/snapshot';
 import theme from 'in-services/theme';
 
 import MouseCameraController from '../../controls/MouseCameraController';
@@ -22,7 +21,6 @@ export default class PhysicalMap extends BaseMap {
 
     const color = hexToRGBNormalized(theme.map.colors.groundDots);
     this.groundPlane.setColor(color);
-
   }
 
   init() {
@@ -59,20 +57,16 @@ export default class PhysicalMap extends BaseMap {
   }
 
   // is called if new data is available and parsed in BaseMap
-  addNode(triple) {
-    this.addNodeToGroup(triple,
-                        getLabel(triple.group) || NAME_OF_UNDEFINED_ZONE);
+  addNode(node) {
+    this.addNodeToGroup(node, NAME_OF_UNDEFINED_ZONE);
+                        // getLabel(node.group) || NAME_OF_UNDEFINED_ZONE);
   }
 
-  addNodeToGroup(triple, groupId) {
-    const group = this.getOrCreateGroup(triple.group, groupId);
+  addNodeToGroup(node, groupId) {
+    const group = this.getOrCreateGroup(null, groupId); // null -> no coords available
 
     // add the node to group (the group handles duplicates)
-    const newNode = group.addNode({
-      connections: triple.connections,
-      coordinates: triple.node,
-      layer: triple.layers
-    });
+    const newNode = group.addNode({entity: node});
 
     // if the group has switched delete the nodes in other groups than the current one
     this.removeNodeFromAllGroupsInsteadOf(groupId, newNode);
@@ -103,31 +97,24 @@ export default class PhysicalMap extends BaseMap {
     });
   }
 
-  onInventoryUpdated(structures) {
-    this.removeVanishedNodes(structures);
+  onInventoryUpdated(inventory) {
+    this.removeVanishedNodes(inventory);
     this.refreshLayout = true;
   }
 
-  removeVanishedNodes(structures) {
+  removeVanishedNodes(inventory) {
     // identify removed nodes: nodes that are not inside the snapshot update
     this.getAllNodes().forEach(node => {
       if (node.isUnknown) {
         return;
       }
-      const snapshotExistsInUpdate = structures.some(triple => triple.node.get('id') === node.id);
+
+      // TODO: Get all ids out of inventory
+      const snapshotExistsInUpdate = inventory.some(entity => entity.get('id') === node.id);
       if (!snapshotExistsInUpdate) {
         node.dispose();
       }
     });
-  }
-
-  addUnknownNode(node) {
-    if (this.hideUnmonitoredHosts) {
-      return;
-    }
-
-    // create zone and send the event back
-    this.getOrCreateGroup(undefined, 'unmonitored').addUnknownNode(node);
   }
 
   getAllNodes() {
