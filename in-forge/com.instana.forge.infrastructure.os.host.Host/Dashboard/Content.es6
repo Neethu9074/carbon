@@ -342,122 +342,125 @@ export default connectTo(
           </ResponsiveTable>
         </DashboardSection>
 
-        <DashboardSection title={this.getIntlMessage('forge.os.networkinterfaces')}>
-          {interfaceName ?
-            <div>
-              <ChartWithLegend snapshot={snapshot}
-                     windowSize={timeframe}
-                     height={chartHeight}
-                     margins={{
-                       left: 80,
-                       right: 80
-                     }}
+        { interfaces ?
+          <DashboardSection title={this.getIntlMessage('forge.os.networkinterfaces')}>
+            {interfaceName ?
+              <div>
+                <ChartWithLegend snapshot={snapshot}
+                       windowSize={timeframe}
+                       height={chartHeight}
+                       margins={{
+                         left: 80,
+                         right: 80
+                       }}
 
-                     y1={{
-                       min: 0,
-                       formatter: bytesZeroDecimalPlaces,
-                       tooltipFormatter: bytesTwoDecimalPlaces,
-                       metrics: [
-                         'ifs.' + interfaceName + '.rx.bytes',
-                         'ifs.' + interfaceName + '.tx.bytes'
-                       ],
-                       labels: [
-                         'Received',
-                         'Transmitted'
-                       ],
-                       type: 'line'
-                     }}
-                     y2={{
-                       min: 0,
-                       max: 1,
-                       metrics: [
-                         'ifs.' + interfaceName + '.rx.errors',
-                         'ifs.' + interfaceName + '.rx.dropped',
-                         'ifs.' + interfaceName + '.rx.overruns',
-                         'ifs.' + interfaceName + '.tx.errors',
-                         'ifs.' + interfaceName + '.tx.dropped',
-                         'ifs.' + interfaceName + '.tx.overruns'
-                       ],
-                       labels: [
-                         'RX Errors',
-                         'RX Dropped',
-                         'RX Overruns',
-                         'TX Errors',
-                         'TX Dropped',
-                         'TX Overruns'
-                       ],
-                       formatter: percentageZeroDecimalPlaces,
-                       tooltipFormatter: percentageTwoDecimalPlaces,
-                       type: 'line'
-                     }}/>
-            </div>
-          : null}
+                       y1={{
+                         min: 0,
+                         formatter: bytesZeroDecimalPlaces,
+                         tooltipFormatter: bytesTwoDecimalPlaces,
+                         metrics: [
+                           'ifs.' + interfaceName + '.rx.bytes',
+                           'ifs.' + interfaceName + '.tx.bytes'
+                         ],
+                         labels: [
+                           'Received',
+                           'Transmitted'
+                         ],
+                         type: 'line'
+                       }}
+                       y2={{
+                         min: 0,
+                         max: 1,
+                         metrics: [
+                           'ifs.' + interfaceName + '.rx.errors',
+                           'ifs.' + interfaceName + '.rx.dropped',
+                           'ifs.' + interfaceName + '.rx.overruns',
+                           'ifs.' + interfaceName + '.tx.errors',
+                           'ifs.' + interfaceName + '.tx.dropped',
+                           'ifs.' + interfaceName + '.tx.overruns'
+                         ],
+                         labels: [
+                           'RX Errors',
+                           'RX Dropped',
+                           'RX Overruns',
+                           'TX Errors',
+                           'TX Dropped',
+                           'TX Overruns'
+                         ],
+                         formatter: percentageZeroDecimalPlaces,
+                         tooltipFormatter: percentageTwoDecimalPlaces,
+                         type: 'line'
+                       }}/>
+              </div>
+            : null}
 
-          <ResponsiveTable clickable={true}>
-            <thead>
-              <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th colSpan='4'>Received (RX)</th>
-                <th colSpan='4'>Transmitted (TX)</th>
-              </tr>
-              <tr>
-                <th>Interface</th>
-                <th>Mac</th>
-                <th>IPs</th>
-
-                <th style={{width: '10em'}}>Bytes</th>
-                <th style={{width: '4em'}}>Errors</th>
-                <th style={{width: '4em'}}>Dropped</th>
-                <th style={{width: '4em'}}>Overruns</th>
-
-                <th style={{width: '10em'}}>Bytes</th>
-                <th style={{width: '4em'}}>Errors</th>
-                <th style={{width: '4em'}}>Dropped</th>
-                <th style={{width: '4em'}}>Overruns</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {interfaces.map((data, name) =>
-                <tr key={name}
-                    onClick={() => this.selectInterface(name)}
-                    className={classnames({
-                      'active': name === interfaceName
-                    })}>
-                  <td>{name}</td>
-                  <td>{data.get('mac')}</td>
-                  <td>{data.get('addresses').map(address => address.get('ip')).join(', ')}</td>
-                  <Mtd metric={'ifs.' + name + '.rx.bytes'}
-                       snapshot={snapshot}
-                       formatter={bytesPerSecondZeroDecimalPlaces} />
-                  <Mtd metric={'ifs.' + name + '.rx.errors'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'ifs.' + name + '.rx.dropped'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'ifs.' + name + '.rx.overruns'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'ifs.' + name + '.tx.bytes'}
-                       snapshot={snapshot}
-                       formatter={bytesPerSecondZeroDecimalPlaces} />
-                  <Mtd metric={'ifs.' + name + '.tx.errors'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'ifs.' + name + '.tx.dropped'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'ifs.' + name + '.tx.overruns'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
+            <ResponsiveTable clickable={true}>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th colSpan='4'>Received (RX)</th>
+                  <th colSpan='4'>Transmitted (TX)</th>
                 </tr>
-              ).valueSeq()}
-            </tbody>
-          </ResponsiveTable>
-        </DashboardSection>
+                <tr>
+                  <th>Interface</th>
+                  <th>Mac</th>
+                  <th>IPs</th>
+
+                  <th style={{width: '10em'}}>Bytes</th>
+                  <th style={{width: '4em'}}>Errors</th>
+                  <th style={{width: '4em'}}>Dropped</th>
+                  <th style={{width: '4em'}}>Overruns</th>
+
+                  <th style={{width: '10em'}}>Bytes</th>
+                  <th style={{width: '4em'}}>Errors</th>
+                  <th style={{width: '4em'}}>Dropped</th>
+                  <th style={{width: '4em'}}>Overruns</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {interfaces.map((data, name) =>
+                  <tr key={name}
+                      onClick={() => this.selectInterface(name)}
+                      className={classnames({
+                        'active': name === interfaceName
+                      })}>
+                    <td>{name}</td>
+                    <td>{data.get('mac')}</td>
+                    <td>{data.get('addresses').map(address => address.get('ip')).join(', ')}</td>
+                    <Mtd metric={'ifs.' + name + '.rx.bytes'}
+                         snapshot={snapshot}
+                         formatter={bytesPerSecondZeroDecimalPlaces} />
+                    <Mtd metric={'ifs.' + name + '.rx.errors'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'ifs.' + name + '.rx.dropped'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'ifs.' + name + '.rx.overruns'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'ifs.' + name + '.tx.bytes'}
+                         snapshot={snapshot}
+                         formatter={bytesPerSecondZeroDecimalPlaces} />
+                    <Mtd metric={'ifs.' + name + '.tx.errors'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'ifs.' + name + '.tx.dropped'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'ifs.' + name + '.tx.overruns'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                  </tr>
+                ).valueSeq()
+              }
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+        : null}
 
         <DashboardSection title='TCP Activity'>
           <ChartWithLegend snapshot={snapshot}
