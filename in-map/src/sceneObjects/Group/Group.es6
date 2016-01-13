@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {hexToRGBNormalized} from 'in-services/converters';
-import {getFullSnapshot} from 'in-services/snapshots';
 import {getColor} from 'in-services/util/groupColors';
 import eventBus from 'in-services/eventbus';
 
@@ -20,17 +19,12 @@ import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 
 export default class Group extends SceneObjectWithSnapshot {
-  constructor({parent, id, coordinates}) {
-    super({parent, id});
+  constructor({parent, entity}) {
+    super({parent, id: entity.get('id')});
 
     this.stickyNote = new StickyNote(this);
     this.children = [];
     this.zSize = 1;
-
-    if (coordinates) {
-      this.coordinates = coordinates;
-      this.addSubscription(getFullSnapshot(coordinates).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
-    }
 
     this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
   }
@@ -160,26 +154,21 @@ export default class Group extends SceneObjectWithSnapshot {
     this.updateScreenAnchorPosition();
   }
 
-  addNode({entity}) {
+  addNode(entity) {
     const nodeId = entity.get('id');
-    let matchedNode;
+    let matchedNode = _.find(this.children, child => child.id === nodeId);
 
-    // if there is no nodeId it's an unknown node
-    if (nodeId) {
-      // check if the node was already created and only needs an update
-      matchedNode = _.find(this.children, child => child.id === nodeId);
-
-      // if the node was created in the past
-      if (!matchedNode) {
-        matchedNode = new Node({parent: this, entity});
-        this.children.push(matchedNode);
-      }
-
-      // set layer and connections, no matter if a new node was created or it's still available
-      matchedNode.setLayer(entity.get('children'));
-      matchedNode.setOutgoingConnections(entity.get('outgoingConnections'));
-      matchedNode.setIncomingConnections(entity.get('incomingConnections'));
+    // if the node was created in the past
+    if (!matchedNode) {
+      matchedNode = new Node({parent: this, entity});
+      this.children.push(matchedNode);
     }
+
+    // set layer and connections, no matter if a new node was created or it's still available
+    matchedNode.addLayer(entity.get('children'));
+    matchedNode.setOutgoingConnections(entity.get('outgoingConnections'));
+    matchedNode.setIncomingConnections(entity.get('incomingConnections'));
+
     return matchedNode;
   }
 

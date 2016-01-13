@@ -11,8 +11,6 @@ import Layouter from '../../layout';
 import BaseMap from './BaseMap';
 import Group from '../Group';
 
-const NAME_OF_UNDEFINED_ZONE = 'undefined zone';
-
 
 export default class PhysicalMap extends BaseMap {
 
@@ -57,61 +55,66 @@ export default class PhysicalMap extends BaseMap {
   }
 
   // is called if new data is available and parsed in BaseMap
-  addNode(node) {
-    this.addNodeToGroup(node, NAME_OF_UNDEFINED_ZONE);
-                        // getLabel(node.group) || NAME_OF_UNDEFINED_ZONE);
+  addNode(groupEntity) {
+    const group = this.getOrCreateGroup(groupEntity);
+    const hosts = groupEntity.get('children');
+
+    if (hosts.size > 0) {
+      hosts.forEach(host => this.addHostToGroup(host, group));
+    } else {
+      group.dispose();
+    }
   }
 
-  addNodeToGroup(node, groupId) {
-    const group = this.getOrCreateGroup(null, groupId); // null -> no coords available
-
-    // add the node to group (the group handles duplicates)
-    const newNode = group.addNode({entity: node});
-
-    // if the group has switched delete the nodes in other groups than the current one
-    this.removeNodeFromAllGroupsInsteadOf(groupId, newNode);
-    this.refreshLayout = true;
-  }
-
-  getOrCreateGroup(coordinates, id) {
-    // get find the group with id
-    let group = _.find(getAllGroups(this), g => g.id === id);
+  getOrCreateGroup(groupEntity) {
+    const groupId = groupEntity.get('id');
+    let group = _.find(getAllGroups(this), g => g.id === groupId);
 
     // if the nodes group doesn't exist, create it
     if (!group) {
-      group = new Group({id, parent: this, coordinates});
+      group = new Group({parent: this, entity: groupEntity});
       this.groups.push(group);
     }
 
     return group;
   }
 
+  addHostToGroup(hostEntity, group) {
+    // add the node to group (the group handles duplicates)
+    const newNode = group.addNode(hostEntity);
+
+    // if the group has switched delete the nodes in other groups than the current one
+    this.removeNodeFromAllGroupsInsteadOf(group, newNode);
+    this.refreshLayout = true;
+  }
+
   // runs through all groups instead of the current one and searches for the
   // node added to the current one. if found -> delete it from old groups
-  removeNodeFromAllGroupsInsteadOf(groupId, newNode) {
+  removeNodeFromAllGroupsInsteadOf(group, newNode) {
     const nodeId = newNode.id;
     this.getAllNodes().slice().forEach(node => {
-      if (node.id === nodeId && node.parent.id !== groupId) {
+      if (node.id === nodeId && node.parent.id !== group.id) {
         node.dispose();
       }
     });
   }
 
   onInventoryUpdated(inventory) {
-    this.removeVanishedNodes(inventory);
+    this.removeVanishedHosts(inventory);
     this.refreshLayout = true;
   }
 
-  removeVanishedNodes(inventory) {
-    // identify removed nodes: nodes that are not inside the snapshot update
-    this.getAllNodes().forEach(node => {
-      if (node.isUnknown) {
-        return;
-      }
+  // checks if there are nodes on the map which are not inside the inventory anymore and delete them
+  removeVanishedHosts(inventory) {
+    const currentHostIds = [];
+    inventory.forEach(group => {
+      const hosts = group.get('children');
+      hosts.forEach(host => currentHostIds.push(host.get('id')));
+    });
 
-      // TODO: Get all ids out of inventory
-      const snapshotExistsInUpdate = inventory.some(entity => entity.get('id') === node.id);
-      if (!snapshotExistsInUpdate) {
+    this.getAllNodes().forEach(node => {
+      const index = currentHostIds.indexOf(node.id);
+      if (index < 0) {
         node.dispose();
       }
     });
@@ -156,10 +159,7 @@ export default class PhysicalMap extends BaseMap {
     this.hideUnmonitoredHosts = hide;
 
     if (hide) {
-      const unmonitoredGroup = this.getOrCreateGroup(undefined, 'unmonitored');
-      if (unmonitoredGroup) {
-        unmonitoredGroup.dispose();
-      }
+      console.log('HIDE / DISPOSE / DISABLE / MAKETHEMGO ALL UNMONITORED NODES');
     }
   }
 

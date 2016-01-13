@@ -1,4 +1,4 @@
-import snapshotObservable from 'in-services/subscription/snapshot';
+// import {getSnapshot} from 'in-stores/snapshot';
 
 import SceneObject from '../SceneObject';
 
@@ -8,10 +8,11 @@ export default class SceneObjectWithSnapshot extends SceneObject {
   constructor({parent, id}) {
     super({parent, id});
 
-    this.addSubscription(snapshotObservable(this).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
+    // this.addSubscription(getSnapshot(this.id).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
   }
 
   onSnapshotUpdate(snapshot) {
+    console.log('SNAPSHOT UPDATE FOR', this.id);
     this.snapshot = snapshot;
     this.onSnapshotUpdated(snapshot);
   }

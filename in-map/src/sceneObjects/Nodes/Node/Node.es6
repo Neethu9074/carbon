@@ -287,7 +287,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.stickyNote.update();
   }
 
-  setLayer(layer) {
+  addLayer(layer) {
     const layerComponent = this.getComponent('layer');
 
     layerComponent.removedVanishedLayer(layer);
