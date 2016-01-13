@@ -1,6 +1,5 @@
 import THREE from 'three';
 
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
@@ -13,7 +12,7 @@ import HighlightingComponent from '../../components/HighlightingComponent';
 import HealthComponent from '../../components/HealthComponent';
 import MeshComponent from '../../components/MeshComponent';
 
-import {selectedSceneObject, longClickedSceneObject, currentTooltip} from '../../mapStores';
+import {longClickedSceneObject, currentTooltip} from '../../mapStores';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import TooltipLayer from '../Tooltips/Layer';
@@ -43,12 +42,6 @@ export default class Layer extends SceneObject {
         PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
-
-    this.addSubscription(selectedSceneObject.subscribe(event => {
-      if (event) {
-        this.onSceneObjectSelected(event.sceneObject);
-      }
-    }));
 
     this.addSubscription(getFullSnapshot(this.id).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
 
@@ -171,18 +164,6 @@ export default class Layer extends SceneObject {
     currentTooltip.emit(this.tooltip);
   }
 
-  onSceneObjectSelected(obj) {
-    const isThisSelected = (obj && obj.id === this.id) ?
-      PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-
-    this.stateMachine.changeStateProperty('selected', isThisSelected);
-
-    // snapshots may not yet exist yet when switching views.
-    if (isThisSelected && this.snapshot) {
-      selectedSnapshot.select(this.snapshot);
-    }
-  }
-
   onSnapshotUpdate(snapshot) {
     // if the reference is equal, don't update. the reference is always equal
     // on the same snapshots because they are immutable
@@ -199,12 +180,6 @@ export default class Layer extends SceneObject {
     if (this.selectedSnapshotSubscribtion) {
       this.selectedSnapshotSubscribtion.dispose();
     }
-    this.selectedSnapshotSubscribtion = selectedSnapshot.selectedSnapshot.subscribe(selected => {
-      if (selected && this.snapshot.get('id') === selected.get('id') && !this.isSelected()) {
-        selectedSceneObject.emit({sceneObject: this});
-      }
-    });
-    this.addSubscription(this.selectedSnapshotSubscribtion);
 
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});

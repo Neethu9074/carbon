@@ -1,8 +1,7 @@
 import THREE from 'three';
 
-import {activeMetric} from 'in-services/stores/metrics';
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {activeMetric} from 'in-services/stores/metrics';
 import {level} from 'in-services/stores/zoomLevel';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
@@ -10,26 +9,26 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import {getPower} from 'in-sdk/power';
 
+import HighlightingComponent from '../../../components/HighlightingComponent';
+import CollisionComponent from '../../../components/CollisionObjectComponent';
+import ConnectionComponent from '../../../components/ConnectionComponent';
 import LineMeshComponent from '../../../components/LineMeshComponent';
 import HealthComponent from '../../../components/HealthComponent';
 import MetricComponent from '../../../components/MetricComponent';
 import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
-import HighlightingComponent from '../../../components/HighlightingComponent';
-import CollisionComponent from '../../../components/CollisionObjectComponent';
-import ConnectionComponent from '../../../components/ConnectionComponent';
 
-import {selectedSceneObject, currentTooltip} from '../../../mapStores';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {longClickedSceneObject} from '../../../mapStores';
+import NodeSnapshotServer from './NodeSnapshotServer';
 import ConnectionGrid from '../../../ConnectionGrid';
 import StickyNoteNode from '../../StickyNote/Node';
+import {currentTooltip} from '../../../mapStores';
 import TooltipNode from '../../Tooltips/Node';
 import * as emptyObjects from './emptyObjects';
 import Label from '../../Label';
-import NodeSnapshotServer from './NodeSnapshotServer';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -90,11 +89,6 @@ export default class Node extends SceneObjectWithSnapshot {
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
-
-    // snapshots may not yet exist yet when switching views.
-    if (this.snapshot) {
-      selectedSnapshot.select(this.snapshot);
-    }
   }
 
   onSelectedLeave() {
@@ -113,8 +107,6 @@ export default class Node extends SceneObjectWithSnapshot {
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
-
-    selectedSnapshot.select(this.snapshot);
   }
 
   onSelectedHighlightLeave() {
@@ -265,15 +257,7 @@ export default class Node extends SceneObjectWithSnapshot {
       }
     }));
 
-    this.addSubscription(activeMetric.subscribe(metric => {
-      this.onActiveMetric(metric);
-    }));
-
-    this.addSubscription(selectedSceneObject.subscribe(event => {
-      if (event) {
-        this.onSceneObjectSelected(event.sceneObject);
-      }
-    }));
+    this.addSubscription(activeMetric.subscribe(metric => this.onActiveMetric(metric)));
 
     this.addSubscription(highlightedSnapshot.highlightedEntityId.subscribe(id => {
       if (!id) {
@@ -539,12 +523,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   dispose() {
     this.snapshotServer.dispose();
-
-    // do that first to get connections deleted. they only dispose
-    // themselves if both endpoints are not selected
-    if (this.isSelected()) {
-      selectedSceneObject.emit({sceneObject: null});
-    }
 
     // dispose subscriptions so that no update fires anymore
     super.dispose();

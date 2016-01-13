@@ -250,12 +250,11 @@ export default class Scene {
     }, false);
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
-      // if there is an active metric, deselect the current selected obj and
-      // show the metric pillars
+      // if there is an active metric, deselect the current selected obj and show the metric pillars
       if (metric) {
         currentMetrics = metric.get('metrics');
         this.showMetrics();
-        stores.selectedSceneObject.emit({sceneObject: null});
+        this.resetClicked();
         this.hideHulls();
 
       } else {
@@ -265,28 +264,7 @@ export default class Scene {
       }
     }));
 
-    this.subscriptions.push(
-      selectedSnapshot.selectedSnapshot.subscribe(selected => {
-        // if the store was cleared and this client is selected -> unselect it
-        if (!selected) {
-          stores.selectedSceneObject.emit({sceneObject: null});
-        }
-      })
-    );
-
-    this.subscriptions.push(stores.selectedSceneObject.subscribe(event => {
-      const sceneObject = event.sceneObject;
-      // clear the selectedSnapshot store if there was a click into nowhere
-      // or on a sceneObject without a snapshot or unknown sceneObject
-      if (sceneObject) {
-        this.hideHulls();
-      } else {
-        this.showHulls();
-      }
-    }));
-
     this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => activeMetric.emit(null)));
-
     this.subscriptions.push(time.addTimeEventListener(this.updateFactories.bind(this)));
 
     if (__DEV__) {
@@ -538,13 +516,7 @@ export default class Scene {
   onObjectClicked(object, hoveredConnections) {
     if (object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
-      // only clear the store if there is no snapshot available or the object is unknown
-      if (!sceneObject.snapshot || sceneObject.isUnknown) {
-        selectedSnapshot.clear();
-      }
-
-      stores.selectedSceneObject.emit({sceneObject, calledByMap: true});
-
+      selectedSnapshot.setSelectedEntityId(sceneObject.id);
     // dont reset the click if you clicken on connections
     } else if (hoveredConnections.length === 0) {
       this.resetClicked();
@@ -554,21 +526,19 @@ export default class Scene {
   }
 
   resetClicked() {
-    stores.selectedSceneObject.emit({sceneObject: null});
     highlightedSnapshot.clear();
-    selectedSnapshot.clear();
+    selectedSnapshot.clearSelectedEntityId();
   }
 
   // is called by map
   removeChild() {}
 
   clearStores() {
+    selectedSnapshot.clearSelectedEntityId();
     stores.longClickedSceneObject.emit(null);
-    stores.selectedSceneObject.emit(null);
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);
     stores.currentScene.emit(null);
-    selectedSnapshot.clear();
   }
 
   // set this flag if the update loop should be stoped

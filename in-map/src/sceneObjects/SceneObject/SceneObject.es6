@@ -1,3 +1,5 @@
+import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+
 import PositionComponent from '../../components/PositionComponent';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {StateMachine} from '../../StateMachine/StateMachine';
@@ -18,12 +20,15 @@ export default class SceneObject {
     this.screenPositionAnchor = this.getComponent('position').getPosition().clone();
     this.screenPosition = {x: 0, y: 0};
 
-    if (this.init) {
-      this.init();
-    }
+    this.init();
 
     this.stateMachine = new StateMachine(this);
     this.stateMachine.initialized();
+
+    this.addSubscription(selectedSnapshot.selectedEntityId.subscribe(selectedId => {
+      const isThisSelected = (selectedId === this.id) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+      this.stateMachine.changeStateProperty('selected', isThisSelected);
+    }));
   }
 
   setStartingStateProperties() {
@@ -35,6 +40,8 @@ export default class SceneObject {
       position: new PositionComponent({sceneObject: this})
     };
   }
+
+  init() {}
 
   getComponent(name) {
     return this.components[name];
@@ -183,6 +190,12 @@ export default class SceneObject {
     // dispose subscriptions first so that no update fires into disposed component
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];
+
+    // do that first to get connections deleted. they only dispose
+    // themselves if both endpoints are not selected
+    if (this.isSelected()) {
+      selectedSnapshot.clearSelectedEntityId();
+    }
 
     // reset states so that inactive state is taken
     this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);

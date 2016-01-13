@@ -1,7 +1,6 @@
 import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {isMatchingAllActiveFilters} from 'in-services/stores/filters';
 import {getFullSnapshot} from 'in-services/snapshots';
 
@@ -22,21 +21,6 @@ export default class Node extends SceneObject {
     super({parent, id: entity.get('id')});
 
     this.registerEvents();
-  }
-
-  onSelectedEnter() {
-    super.onSelectedEnter();
-
-    // snapshots may not yet exist yet when switching views.
-    if (this.snapshot) {
-      selectedSnapshot.select(this.snapshot);
-    }
-  }
-
-  onSelectedHighlightEnter() {
-    super.onSelectedHighlightEnter();
-
-    selectedSnapshot.select(this.snapshot);
   }
 
   initComponents() {

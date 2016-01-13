@@ -5,7 +5,6 @@ import eventBus from 'in-services/eventbus';
 
 import OrthographicCamera from '../OrthographicCamera';
 import * as time from '../../timeCalculations';
-import * as stores from '../../mapStores';
 import SceneObject from '../SceneObject';
 
 
@@ -45,14 +44,7 @@ export default class VisualMap extends SceneObject {
 
   registerEvents() {
     this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
-
     this.addSubscription(time.addTimeEventListener(this.handleComponentTimeEvent.bind(this)));
-
-    this.addSubscription(stores.selectedSceneObject.subscribe(event => {
-      if (event.sceneObject && !event.calledByMap) {
-        this.controller.flyToObject(event.sceneObject);
-      }
-    }));
   }
 
   update() {

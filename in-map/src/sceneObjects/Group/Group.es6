@@ -33,14 +33,6 @@ export default class Group extends SceneObject {
     }
 
     this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
-
-    this.addSubscription(selectedSnapshot.selectedSnapshot.subscribe(selected => {
-      if (!selected || selected !== this.snapshot) {
-        this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
-      } else if (selected && selected === this.snapshot) {
-        this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
-      }
-    }));
   }
 
   onHighlightEnter() {
@@ -124,9 +116,7 @@ export default class Group extends SceneObject {
   }
 
   onGroupClicked() {
-    if (this.snapshot) {
-      selectedSnapshot.select(this.snapshot);
-    }
+    selectedSnapshot.setSelectedEntityId(this.id);
   }
 
   getColor() {

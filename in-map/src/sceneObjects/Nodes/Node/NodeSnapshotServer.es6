@@ -1,13 +1,11 @@
 import _ from 'lodash';
 
-import {getMaxValue} from 'in-sdk/metrics';
-
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
+import {getMaxValue} from 'in-sdk/metrics';
 
-import {selectedSceneObject, nodeMaxPower} from '../../../mapStores';
 import {subscribeToMetric} from '../../../metricUtils';
+import {nodeMaxPower} from '../../../mapStores';
 
 
 export default class NodeSnapshotServer {
@@ -37,15 +35,6 @@ export default class NodeSnapshotServer {
         client.setStateForMetricActivity({ isToFarAway: true });
       } else {
         client.setStateForMetricActivity({ isToFarAway: false });
-      }
-    }));
-
-    // TODO Simon: Can we remove this async / nextFrame call?
-    this.subscriptions.push(selectedSnapshot.selectedSnapshot.nextFrame().subscribe(selected => {
-      if (selected &&
-        this.client.id === selected.get('id') &&
-        !this.client.isSelected()) {
-        selectedSceneObject.emit({sceneObject: this.client});
       }
     }));
   }
