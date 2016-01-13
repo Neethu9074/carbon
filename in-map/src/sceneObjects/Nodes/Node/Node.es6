@@ -269,7 +269,7 @@ export default class Node extends SceneObjectWithSnapshot {
     }));
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
-      if (so && this.snapshot && so.id === this.id) {
+      if (so && so.id === this.id && this.snapshot) {
         eventBus.emit('openDashboard', this.snapshot);
         tracking.events.openingADashboardUsingTheMap();
       }

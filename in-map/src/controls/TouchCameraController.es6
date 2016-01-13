@@ -1,9 +1,6 @@
 import Hammer from 'hammerjs';
 
-import eventBus from 'in-services/eventbus';
-
-import ProgressTooltip from '../sceneObjects/Tooltips/ProgressCircle';
-import {longClickedSceneObject, currentTooltip} from '../mapStores';
+import {longClickedSceneObject} from '../mapStores';
 import CameraController from './CameraController';
 
 
@@ -37,16 +34,6 @@ export default class TouchControl extends CameraController {
       time: 300, // minimal press time in ms
       threshold: minMovementForPan - 1
     });
-    eventHandler.on('press', () => {
-      currentTooltip.emit(new ProgressTooltip(this.scene));
-    });
-
-    eventHandler.on('panend pressup', this.cancelPressing.bind(this));
-
-    eventBus.on('longClicked').subscribe(() => {
-      this.cancelPressing();
-      this.emitLongClick();
-    });
   }
 
   emitLongClick() {
@@ -68,13 +55,7 @@ export default class TouchControl extends CameraController {
     return false;
   }
 
-  cancelPressing() {
-    currentTooltip.emit(null);
-  }
-
   onPan(e) {
-    this.cancelPressing();
-
     const dx = (e.pointers[0].clientX - this.cursor.x);
     const dy = (e.pointers[0].clientY - this.cursor.y);
 
