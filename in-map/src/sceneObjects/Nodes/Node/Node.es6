@@ -409,14 +409,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.snapshotServer.pauseMetrics();
   }
 
-  onSnapshotUpdate(snapshot) {
-    // if the reference is equal, don't update. the reference is always equal
-    // on the same snapshots because they are immutable
-    if (this.snapshot === snapshot) {
-      return;
-    }
-
-    this.snapshot = snapshot;
+  onSnapshotUpdated(snapshot) {
     this._cachedPower = getPower(snapshot);
 
     if (!this.components.health) {
@@ -537,12 +530,8 @@ export default class Node extends SceneObjectWithSnapshot {
       this.tooltip = null;
     }
 
-    this.snapshot = null;
-
     this.label.dispose();
     this.label = null;
-
-    this.wiredSnapshots = null;
   }
 
   calculateNodeColor(hostHealth) {

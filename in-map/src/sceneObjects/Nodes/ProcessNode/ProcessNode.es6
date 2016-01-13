@@ -8,14 +8,14 @@ import CollisionComponent from '../../../components/CollisionObjectComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
-import SceneObject from '../../SceneObject';
+import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
-export default class Node extends SceneObject {
+export default class Node extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
@@ -74,15 +74,7 @@ export default class Node extends SceneObject {
     }
   }
 
-  onSnapshotUpdate(snapshot) {
-    // if the reference is equal, don't update. the reference is always equal
-    // on the same snapshots because they are immutable
-    if (this.snapshot === snapshot) {
-      return;
-    }
-
-    this.snapshot = snapshot;
-  }
+  onSnapshotUpdated() {}
 
   positionChanged(x, y, z) {
     this.getComponent('mesh').positionChanged(x, y, z);

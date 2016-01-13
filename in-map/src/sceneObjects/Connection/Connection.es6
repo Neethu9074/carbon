@@ -1,9 +1,9 @@
 import THREE from 'three';
 import _ from 'lodash';
 
+import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import ConnectionGrid from '../../ConnectionGrid';
-import SceneObject from '../SceneObject';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import LCP from '../../SingleMeshFactory/ContentProvider/LineContentProvider';
@@ -17,7 +17,7 @@ export const allConnections = [];
 
 let id = 0;
 
-export default class Connection extends SceneObject {
+export default class Connection extends SceneObjectWithSnapshot {
 
   constructor({from, to, direction}) {
     super({parent: from, id: id++});
@@ -281,6 +281,8 @@ export default class Connection extends SceneObject {
   oneEndpointIsSelected() {
     return (this.from.isSelected() || this.to.isSelected());
   }
+
+  onSnapshotUpdated() {}
 
   disposeCollisionLine() {
     if (this.collisionLine) {

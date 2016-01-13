@@ -1,7 +1,6 @@
 import THREE from 'three';
 
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import {getFullSnapshot} from 'in-services/snapshots';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -14,9 +13,9 @@ import MeshComponent from '../../components/MeshComponent';
 
 import {longClickedSceneObject, currentTooltip} from '../../mapStores';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
+import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import TooltipLayer from '../Tooltips/Layer';
-import SceneObject from '../SceneObject';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -26,7 +25,7 @@ import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 const margin = 0.8;
 
-export default class Layer extends SceneObject {
+export default class Layer extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
@@ -42,8 +41,6 @@ export default class Layer extends SceneObject {
         PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
       this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
     });
-
-    this.addSubscription(getFullSnapshot(this.id).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
       if (so && this.snapshot && so.id === this.id) {
@@ -164,23 +161,13 @@ export default class Layer extends SceneObject {
     currentTooltip.emit(this.tooltip);
   }
 
-  onSnapshotUpdate(snapshot) {
-    // if the reference is equal, don't update. the reference is always equal
-    // on the same snapshots because they are immutable
-    if (this.snapshot === snapshot) {
-      return;
-    }
-
-    this.snapshot = snapshot;
-
+  onSnapshotUpdated() {
+    // tooltip needs the snapshot so you can create it if you have one
     if (!this.tooltip) {
       this.tooltip = new TooltipLayer(this);
     }
 
-    if (this.selectedSnapshotSubscribtion) {
-      this.selectedSnapshotSubscribtion.dispose();
-    }
-
+    // health component needs the snapshot so you can create it if you have one
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
@@ -222,7 +209,5 @@ export default class Layer extends SceneObject {
 
   dispose() {
     super.dispose();
-
-    this.snapshot = null;
   }
 }

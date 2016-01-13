@@ -9,9 +9,9 @@ import eventBus from 'in-services/eventbus';
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';
 import LineMeshComponent from '../../components/LineMeshComponent';
 
+import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import StickyNote from '../StickyNote/Ground';
-import SceneObject from '../SceneObject';
 import Node from '../Nodes/Node';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -19,7 +19,7 @@ import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Scal
 import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 
 
-export default class Group extends SceneObject {
+export default class Group extends SceneObjectWithSnapshot {
   constructor({parent, id, coordinates}) {
     super({parent, id});
 
@@ -109,9 +109,7 @@ export default class Group extends SceneObject {
     this.getComponent('highlight').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
-  onSnapshotUpdate(snapshot) {
-    this.snapshot = snapshot;
-
+  onSnapshotUpdated() {
     this.stickyNote.onSnapshotUpdate();
   }
 

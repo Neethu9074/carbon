@@ -15,4 +15,10 @@ export default class SceneObjectWithSnapshot extends SceneObject {
     this.snapshot = snapshot;
     this.onSnapshotUpdated(snapshot);
   }
+
+  dispose() {
+    super.dispose();
+
+    this.snapshot = null;
+  }
 }

@@ -5,32 +5,16 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {create} from 'in-services/conveyer';
-
+import SceneObject from '../../sceneObjects/SceneObject';
 import {currentScene} from '../../mapStores';
 
-class SnapshotConveyerMock {
-  static getUniqueId() {
-    return this.id;
-  }
-
-  constructor(params) {
-    this.params = params;
-    this.id = '123';
-  }
-
-  getFakeEntity(type) {
-    return Immutable.fromJS({
-      id: type
-    });
-  }
-
-  start(onNext) {
-    onNext(this.getFakeEntity());
+class SceneObjectWithSnapshotMock extends SceneObject {
+  constructor({parent, id}) {
+    super({parent, id});
   }
 }
 
-describe('3D map', () => {
+describe.only('3D map', () => {
   let component;
   let sceneObject;
 
@@ -54,11 +38,7 @@ describe('3D map', () => {
 
     const LayerComponent = proxyquire('./LayerComponent.es6', {
       '../../sceneObjects/Layer': proxyquire('../../sceneObjects/Layer', {
-        'in-services/snapshots': {
-          getFullSnapshot(coords) {
-            return create(SnapshotConveyerMock, {coords});
-          }
-        }
+        '../SceneObjectWithSnapshot': SceneObjectWithSnapshotMock
       })
     });
 
