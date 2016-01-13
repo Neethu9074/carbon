@@ -10,7 +10,7 @@ describe('metrics', () => {
 
   describe('format value', () => {
     let snapshot;
-    const osPlugin = 'com.instana.forge.infrastructure.os.host.Host';
+    const osPlugin = 'host';
 
     beforeEach(() => {
       snapshot = Immutable.fromJS({

@@ -51,7 +51,7 @@ describe('connection.subscriptionAwareConnection', () => {
       id: 42,
       event: 'subscribe',
       type: 'snapshot',
-      pluginId: 'com.instana.forge.hardware.virtual.ec2.Ec2'
+      pluginId: 'ec2'
     });
     open();
     expect(webSocketConnection.send.callCount).to.equal(1);
@@ -59,7 +59,7 @@ describe('connection.subscriptionAwareConnection', () => {
       id: 42,
       event: 'subscribe',
       type: 'snapshot',
-      pluginId: 'com.instana.forge.hardware.virtual.ec2.Ec2'
+      pluginId: 'ec2'
     }));
   });
 

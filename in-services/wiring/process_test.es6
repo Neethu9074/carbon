@@ -104,14 +104,14 @@ describe('wiring.process view', () => {
 
     const existingRuntimeCoordinates = extractCoordinates({
       hostId: 'h1',
-      pluginId: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
+      pluginId: 'nodeJsRuntimePlatform',
       steadyId: 'sNode'
     });
 
     it('should return empty array when no deployment units exist', () => {
       const missingRuntimeCoordinates = extractCoordinates({
         hostId: 'h2',
-        pluginId: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
+        pluginId: 'nodeJsRuntimePlatform',
         steadyId: 'sNode2'
       });
 
@@ -128,7 +128,7 @@ describe('wiring.process view', () => {
       mod.getDeployedUnits(existingRuntimeCoordinates).subscribe(subscriber);
       expect(subscriber).to.have.callCount(1);
       expect(subscriber.getCall(0).args[0][0].get('id')).to
-        .equal('com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp#h1#sNodeApp');
+        .equal('genericNodejsApp#h1#sNodeApp');
     });
   });
 

@@ -81,7 +81,7 @@ describe('wiring', () => {
 
         snapshotsConveyer.emit(Immutable.fromJS([
           { id: 'temp_id_1' }, // this snapshot is unknown
-          { id: 'com.instana.forge.infrastructure.os.host.Host#h1#sOS' }, // this snapshot is known
+          { id: 'host#h1#sOS' }, // this snapshot is known
           { id: 'temp_id_2' } // this snapshot is unknown
         ]));
 
@@ -104,15 +104,15 @@ describe('wiring', () => {
         expect(structure.length).to.equal(1);
         const hostInfo = structure[0];
         expect(hostInfo.group.toJS()).to.deep.equal({
-          id: 'com.instana.forge.hardware.AvailabilityZone#z1#sAZ',
+          id: 'availabilityZone#z1#sAZ',
           hostId: 'z1',
-          pluginId: 'com.instana.forge.hardware.AvailabilityZone',
+          pluginId: 'availabilityZone',
           steadyId: 'sAZ'
         });
         expect(hostInfo.node.toJS()).to.deep.equal({
-          id: 'com.instana.forge.infrastructure.os.host.Host#h1#sOS',
+          id: 'host#h1#sOS',
           hostId: 'h1',
-          pluginId: 'com.instana.forge.infrastructure.os.host.Host',
+          pluginId: 'host',
           steadyId: 'sOS'
         });
       });
@@ -272,7 +272,7 @@ describe('wiring', () => {
 
         const os = extractCoordinates({
           hostId: 'h2',
-          pluginId: 'com.instana.forge.infrastructure.os.host.Host',
+          pluginId: 'host',
           steadyId: 'sOS'
         });
 

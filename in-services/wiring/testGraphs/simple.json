@@ -1,21 +1,21 @@
 {
   "nodes": {
-    "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2": {
-      "id": "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2",
+    "ec2#h1#sEC2": {
+      "id": "ec2#h1#sEC2",
       "hostId": "h1",
-      "pluginId": "com.instana.forge.hardware.virtual.ec2.Ec2",
+      "pluginId": "ec2",
       "steadyId": "sEC2"
     },
-    "com.instana.forge.hardware.AvailabilityZone#z1#sAZ": {
-      "id": "com.instana.forge.hardware.AvailabilityZone#z1#sAZ",
+    "availabilityZone#z1#sAZ": {
+      "id": "availabilityZone#z1#sAZ",
       "hostId": "z1",
-      "pluginId": "com.instana.forge.hardware.AvailabilityZone",
+      "pluginId": "availabilityZone",
       "steadyId": "sAZ"
     },
-    "com.instana.forge.infrastructure.os.host.Host#h1#sOS": {
-      "id": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
+    "host#h1#sOS": {
+      "id": "host#h1#sOS",
       "hostId": "h1",
-      "pluginId": "com.instana.forge.infrastructure.os.host.Host",
+      "pluginId": "host",
       "steadyId": "sOS"
     },
     "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker": {
@@ -32,11 +32,11 @@
     }
   },
   "edges": [{
-    "destination": "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2",
-    "source": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
+    "destination": "ec2#h1#sEC2",
+    "source": "host#h1#sOS",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
-    "destination": "com.instana.forge.infrastructure.os.host.Host#h1#sOS",
+    "destination": "host#h1#sOS",
     "source": "com.instana.forge.infrastructure.virtualization.Docker#h1#sDocker",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
@@ -44,8 +44,8 @@
     "source": "com.instana.forge.infrastructure.database.cassandra.Cassandra#h1#sCassandra",
     "relation": "com.instana.sdk.annotation.RunsOn"
   }, {
-    "source": "com.instana.forge.hardware.AvailabilityZone#z1#sAZ",
-    "destination": "com.instana.forge.hardware.virtual.ec2.Ec2#h1#sEC2",
+    "source": "availabilityZone#z1#sAZ",
+    "destination": "ec2#h1#sEC2",
     "relation": "com.instana.sdk.annotation.Clusters"
   }]
 }

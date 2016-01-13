@@ -7,7 +7,7 @@ import {getPower} from 'in-sdk/power';
 import './index';
 
 describe('power', () => {
-  const osPlugin = 'com.instana.forge.infrastructure.os.host.Host';
+  const osPlugin = 'host';
 
   describe(osPlugin, () => {
     let snapshot;
