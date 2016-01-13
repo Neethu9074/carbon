@@ -12,7 +12,6 @@ export default class SceneObjectWithSnapshot extends SceneObject {
   }
 
   onSnapshotUpdate(snapshot) {
-    console.log('SNAPSHOT UPDATE FOR', this.id);
     this.snapshot = snapshot;
     this.onSnapshotUpdated(snapshot);
   }

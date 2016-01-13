@@ -7,9 +7,9 @@ import theme from 'in-services/theme';
 import MouseCameraController from '../../controls/MouseCameraController';
 import GroundPlaneWithGrid from '../GroundPlanes/GroundPlaneWithGrid';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
+import Group from '../Groups/PhysicalGroup';
 import Layouter from '../../layout';
 import BaseMap from './BaseMap';
-import Group from '../Group';
 
 
 export default class PhysicalMap extends BaseMap {
@@ -59,11 +59,7 @@ export default class PhysicalMap extends BaseMap {
     const group = this.getOrCreateGroup(groupEntity);
     const hosts = groupEntity.get('children');
 
-    if (hosts.size > 0) {
-      hosts.forEach(host => this.addHostToGroup(host, group));
-    } else {
-      group.dispose();
-    }
+    hosts.forEach(host => this.addHostToGroup(host, group));
   }
 
   getOrCreateGroup(groupEntity) {
