@@ -31,12 +31,35 @@ const MsSqlDashboard = React.createClass({
                            metrics: [
                              'waitstats.PAGEIOLATCH_EX.wait_time_ms',
                              'waitstats.PAGEIOLATCH_SH.wait_time_ms',
-                             'waitstats.CXPACKET.wait_time_ms'
+                             'waitstats.ASYNC_NETWORK_IO.wait_time_ms',
+                             'waitstats.CXPACKET.wait_time_ms',
+                             'waitstats.WRITELOG.wait_time_ms'
                            ],
                            labels: [
-                             'Page IO-Latch SH',
                              'Page IO-Latch EX',
-                             'CX-Packet'
+                             'Page IO-Latch SH',
+                             'Async Network IO',
+                             'CX-Packet',
+                             'Writelog'
+                           ],
+                           type: 'line'
+                       }}/>
+      </DashboardSection>
+      <DashboardSection title='Connections & Users'>
+        <ChartWithLegend snapshot={snapshot}
+                         windowSize={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80
+                         }}
+                         y1={{
+                           metrics: [
+                             'perfcounters.sqlserver:general statistics\\logins\/sec',
+                             'perfcounters.sqlserver:general statistics\\user connections'
+                           ],
+                           labels: [
+                             'Logins/sec.',
+                             'Connections'
                            ],
                            type: 'line'
                        }}/>
