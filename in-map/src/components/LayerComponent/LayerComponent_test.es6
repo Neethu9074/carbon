@@ -14,7 +14,7 @@ class SceneObjectWithSnapshotMock extends SceneObject {
   }
 }
 
-describe.only('3D map', () => {
+describe('3D map', () => {
   let component;
   let sceneObject;
 
