@@ -71,6 +71,9 @@ export default class Node extends SceneObjectWithSnapshot {
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+
+    highlightedSnapshot.setHighlightedEntityId(this.id);
+    currentTooltip.emit(this.tooltip);
   }
 
   onHighlightLeave() {
@@ -80,6 +83,8 @@ export default class Node extends SceneObjectWithSnapshot {
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
+
+    highlightedSnapshot.clearHighlightedEntityId();
   }
 
   onSelectedEnter() {
@@ -107,6 +112,9 @@ export default class Node extends SceneObjectWithSnapshot {
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
+
+    highlightedSnapshot.setHighlightedEntityId(this.id);
+    currentTooltip.emit(this.tooltip);
   }
 
   onSelectedHighlightLeave() {
@@ -116,12 +124,8 @@ export default class Node extends SceneObjectWithSnapshot {
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
-  }
 
-  onSceneObjectSelected(obj) {
-    if (obj && obj.id === this.id) {
-      tracking.events.clickOnServerIn3DMap();
-    }
+    highlightedSnapshot.clearHighlightedEntityId();
   }
 
   onHiddenEnter() {
@@ -292,17 +296,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
     layerComponent.removedVanishedLayer(layer);
     layerComponent.addLayer(layer);
-  }
-
-  onHighlight(highlighted) {
-    super.onHighlight(highlighted);
-    currentTooltip.emit(this.tooltip);
-
-    if (highlighted) {
-      highlightedSnapshot.setHighlightedEntityId(this.id);
-    } else {
-      highlightedSnapshot.clearHighlightedEntityId();
-    }
   }
 
   updateScreenAnchorPosition() {

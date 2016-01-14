@@ -53,6 +53,8 @@ export default class Layer extends SceneObjectWithSnapshot {
   onHighlightEnter() {
     // setup the border highlight
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+
+    currentTooltip.emit(this.tooltip);
   }
 
   onHighlightLeave() {
@@ -74,6 +76,8 @@ export default class Layer extends SceneObjectWithSnapshot {
 
     // surounds the node with a white hull
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+
+    currentTooltip.emit(this.tooltip);
   }
 
   onSelectedHighlightLeave() {
@@ -152,13 +156,6 @@ export default class Layer extends SceneObjectWithSnapshot {
     // add the highlighting component to handle the highlighting of a node
     // this is different to solidMesh since the highlighting is like a mouseOver effect
     components.highlighting = new HighlightingComponent({sceneObject: this});
-  }
-
-  // is called via hover event
-  onHighlight(highlighted) {
-    super.onHighlight(highlighted);
-
-    currentTooltip.emit(this.tooltip);
   }
 
   onSnapshotUpdated() {

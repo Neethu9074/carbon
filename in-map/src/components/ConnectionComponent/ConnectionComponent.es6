@@ -48,27 +48,22 @@ export default class ConnectionComponent extends Component {
   positionChanged() {}
 
   setupConnections() {
-    this.sceneObject.getOutgoingConnections().forEach(connection => {
-      const other = this.sceneObject.findNodeById(connection.get('destinationId'));
-      if (other) {
-        this.connections.push(new Connection({
-          from: this.sceneObject,
-          to: other,
-          direction: 'out'
-        }));
+    const client = this.sceneObject;
+    const addConnection = (from, to, direction) => {
+      if (to) {
+        this.connections.push(new Connection({from, to, direction}));
       }
-    });
+    };
 
-    this.sceneObject.getIncomingConnections().forEach(connection => {
-      const other = this.sceneObject.findNodeById(connection.get('sourceId'));
-      if (other) {
-        this.connections.push(new Connection({
-          from: this.sceneObject,
-          to: other,
-          direction: 'in'
-        }));
-      }
-    });
+    client.getOutgoingConnections().forEach(connection =>
+      addConnection(client,
+                    client.findNodeById(connection.get('destinationId')),
+                    'out'));
+
+    client.getIncomingConnections().forEach(connection =>
+      addConnection(client,
+                    client.findNodeById(connection.get('sourceId')),
+                    'in'));
   }
 
   clearConnections() {

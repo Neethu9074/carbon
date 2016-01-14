@@ -1,8 +1,6 @@
 import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import {isMatchingAllActiveFilters} from 'in-services/stores/filters';
-import {getFullSnapshot} from 'in-services/snapshots';
 
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import MeshComponent from '../../../components/MeshComponent';
@@ -19,9 +17,24 @@ export default class Node extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
-
-    this.registerEvents();
   }
+
+  onHighlightEnter() {
+    highlightedSnapshot.setHighlightedEntityId(this.id);
+  }
+
+  onHighlightLeave() {
+    highlightedSnapshot.clearHighlightedEntityId();
+  }
+
+  onSelectedHighlightEnter() {
+    highlightedSnapshot.setHighlightedEntityId(this.id);
+  }
+
+  onSelectedHighlightLeave() {
+    highlightedSnapshot.clearHighlightedEntityId();
+  }
+
 
   initComponents() {
     super.initComponents();
@@ -48,30 +61,6 @@ export default class Node extends SceneObjectWithSnapshot {
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
-  }
-
-  registerEvents() {
-    this.addSubscription(getFullSnapshot(this.id).subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
-
-    this.addSubscription(isMatchingAllActiveFilters(this.id).subscribe(isVisible => {
-      if (isVisible) {
-        this.show();
-      } else {
-        this.hide();
-      }
-    }));
-  }
-
-  onHighlight(highlighted) {
-    super.onHighlight(highlighted);
-
-    if (this.snapshot) {
-      if (highlighted) {
-        highlightedSnapshot.select(this.snapshot);
-      } else {
-        highlightedSnapshot.clear();
-      }
-    }
   }
 
   onSnapshotUpdated() {}
