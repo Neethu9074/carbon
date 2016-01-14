@@ -43,6 +43,13 @@ module.exports = {
     tenantUnit: 'mvb',
     groundskeeperDomain: 'instana.io'
   },
+  autoscout24: {
+    uiBackendUrl: 'https://autoscout24.instana.io/api',
+    groundskeeperUrl: 'https://autoscout24.instana.io',
+    tenant: 'autoscout24',
+    tenantUnit: 'autoscout24',
+    groundskeeperDomain: 'instana.io'
+  },
   johan: {
     uiBackendUrl: 'https://johan.instana.io/api',
     groundskeeperUrl: 'https://johan.instana.io',
