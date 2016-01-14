@@ -6,7 +6,7 @@ import SCCP from '../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvi
 import {cubeGeometry, defaultGeometryMaterial} from '../../SceneObjects/geometries';
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import TooltipMetric from '../../SceneObjects/Tooltips/Metric';
+import TooltipMetric from '../../Tooltips/Metric';
 import {currentTooltip} from '../../mapStores';
 import Component from '../Component';
 import XYZ from '../XYZ';

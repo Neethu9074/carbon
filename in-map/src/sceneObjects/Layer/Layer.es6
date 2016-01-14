@@ -15,7 +15,7 @@ import {longClickedSceneObject, currentTooltip} from '../../mapStores';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import TooltipLayer from '../Tooltips/Layer';
+import TooltipLayer from '../../Tooltips/Layer';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';

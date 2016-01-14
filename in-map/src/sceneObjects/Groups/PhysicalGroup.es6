@@ -10,7 +10,7 @@ import LineMeshComponent from '../../components/LineMeshComponent';
 
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import StickyNote from '../StickyNote/Ground';
+import StickyNote from '../../StickyNotes/Ground';
 import Node from '../Nodes/Node';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';

@@ -5,7 +5,7 @@ import MetricTooltip from 'in-components/Tooltips/Metric';
 import {activeMetric} from 'in-services/stores/metrics';
 import {getFormattedValue} from 'in-sdk/metrics';
 
-import {subscribeToMetric} from '../../../metricUtils';
+import {subscribeToMetric} from '../../metricUtils';
 import Tooltip from '../Tooltip';
 
 

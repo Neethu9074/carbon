@@ -22,11 +22,11 @@ import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {longClickedSceneObject} from '../../../mapStores';
+import StickyNoteNode from '../../../StickyNotes/Node';
 import NodeSnapshotServer from './NodeSnapshotServer';
 import ConnectionGrid from '../../../ConnectionGrid';
-import StickyNoteNode from '../../StickyNote/Node';
 import {currentTooltip} from '../../../mapStores';
-import TooltipNode from '../../Tooltips/Node';
+import TooltipNode from '../../../Tooltips/Node';
 import * as emptyObjects from './emptyObjects';
 import Label from '../../Label';
 
