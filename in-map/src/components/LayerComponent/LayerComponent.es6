@@ -3,8 +3,8 @@ import _ from 'lodash';
 import {level} from 'in-services/stores/zoomLevel';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import Layer from '../../sceneObjects/Layer';
-import Label from '../../sceneObjects/Label';
+import Layer from '../../SceneObjects/Layer';
+import Label from '../../SceneObjects/Label';
 import Component from '../Component';
 import XYZ from '../XYZ';
 

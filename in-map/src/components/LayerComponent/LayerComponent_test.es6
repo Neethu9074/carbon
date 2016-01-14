@@ -5,7 +5,7 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import SceneObject from '../../sceneObjects/SceneObject';
+import SceneObject from '../../SceneObjects';
 import {currentScene} from '../../mapStores';
 
 class SceneObjectWithSnapshotMock extends SceneObject {
@@ -37,7 +37,7 @@ describe('3D map', () => {
     });
 
     const LayerComponent = proxyquire('./LayerComponent.es6', {
-      '../../sceneObjects/Layer': proxyquire('../../sceneObjects/Layer', {
+      '../../SceneObjects/Layer': proxyquire('../../SceneObjects/Layer', {
         '../SceneObjectWithSnapshot': SceneObjectWithSnapshotMock
       })
     });

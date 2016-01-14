@@ -2,8 +2,8 @@ import THREE from 'three';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
 
-import ConnectionTooltip from '../sceneObjects/Tooltips/Connection';
-import {allConnections} from '../sceneObjects/Connection';
+import ConnectionTooltip from '../SceneObjects/Tooltips/Connection';
+import {allConnections} from '../SceneObjects/Connection';
 import {currentTooltip} from '../mapStores';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';

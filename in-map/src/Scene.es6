@@ -23,7 +23,7 @@ import SingleMeshPointsFactory from './SingleMeshFactory/SingleMeshPointsFactory
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import MapHandler from './sceneObjects/Maps/MapHandler';
+import MapHandler from './SceneObjects/Maps/MapHandler';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import TooltipHandler from './TooltipHandler';

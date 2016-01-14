@@ -1,10 +1,10 @@
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 
-import PositionComponent from '../../components/PositionComponent';
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import {StateMachine} from '../../StateMachine/StateMachine';
+import PositionComponent from '../components/PositionComponent';
+import {PROPERTY_VALUES} from '../StateMachine/StateMachine';
+import {StateMachine} from '../StateMachine/StateMachine';
 
-import {currentScene} from '../../mapStores';
+import {currentScene} from '../mapStores';
 
 export default class SceneObject {
 
