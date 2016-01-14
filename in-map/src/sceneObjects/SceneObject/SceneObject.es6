@@ -26,8 +26,8 @@ export default class SceneObject {
     this.stateMachine.initialized();
 
     this.addSubscription(selectedSnapshot.selectedEntityId.subscribe(selectedId => {
-      const isThisSelected = (selectedId === this.id) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty('selected', isThisSelected);
+      const isSelected = (selectedId === this.id) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+      this.stateMachine.changeStateProperty('selected', isSelected);
     }));
   }
 
