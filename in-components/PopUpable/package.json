@@ -1,0 +1,6 @@
+{
+  "name": "PopUpable",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PopUpable.es6"
+}
