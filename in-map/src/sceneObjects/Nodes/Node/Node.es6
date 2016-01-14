@@ -47,6 +47,8 @@ export default class Node extends SceneObjectWithSnapshot {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
+    this.outgoingConnections = [];
+    this.incomingConnections = [];
     this.stickyNote = emptySticky;
     this.height = nodeBaseHeight;
     this.tooltip = emptyTooltip;

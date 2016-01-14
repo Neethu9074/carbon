@@ -69,18 +69,15 @@ export default class SceneObject {
   onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   onInactiveEnter() {
-    this.forEachComponent(component =>
-      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.forEachComponent(component => component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
   onInactiveLeave() {
-    this.forEachComponent(component =>
-      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
+    this.forEachComponent(component => component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
   }
 
   onHiddenEnter() {
-    this.forEachComponent(component =>
-      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.forEachComponent(component => component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
   }
 
   onHiddenLeave() {
@@ -190,12 +187,6 @@ export default class SceneObject {
     // dispose subscriptions first so that no update fires into disposed component
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = [];
-
-    // do that first to get connections deleted. they only dispose
-    // themselves if both endpoints are not selected
-    if (this.isSelected()) {
-      selectedSnapshot.clearSelectedEntityId();
-    }
 
     // reset states so that inactive state is taken
     this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
