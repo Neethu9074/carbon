@@ -1,11 +1,9 @@
-import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import IssueDiscription from 'in-components/IssueDiscription';
-import {getHealth} from 'in-services/issueTracker';
+import {getSnapshot} from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
 import Icon from 'in-components/Icon';
@@ -13,12 +11,12 @@ import theme from 'in-services/theme';
 
 import StickyNote from '../StickyNote';
 
-import './Ground.less';
+import './PhysicalGroup.less';
 
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-group';
 
-const GroundStickyNoteRC = React.createClass({
+const PhysicalGroup = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin,
@@ -31,23 +29,23 @@ const GroundStickyNoteRC = React.createClass({
     isActive: rpt.bool.isRequired,
     onClick: rpt.func.isRequired,
     color: rpt.object.isRequired,
-    label: rpt.string.isRequired,
-    snapshot: irpt.map
+    id: rpt.string.isRequired
   },
 
   getInitialState() {
     return {
       health: health.ok,
-      issues: Immutable.List()
+      issues: Immutable.List(),
+      snapshot: Immutable.List()
     };
   },
 
   componentDidMount() {
-    const snapshot = this.props.snapshot;
-    if (snapshot) {
-      this.addSubscription(getHealth(snapshot).subscribe(newHealth => this.setState({ health: newHealth })));
-      this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
-    }
+    // TODO: get health and problems by ID
+    // this.addSubscription(getHealth(snapshot).subscribe(newHealth => this.setState({ health: newHealth })));
+    // this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
+
+    this.addSubscription(getSnapshot(this.props.id).subscribe(snapshot => this.setState({snapshot})));
   },
 
   render() {
@@ -56,6 +54,8 @@ const GroundStickyNoteRC = React.createClass({
       '#fff' :
       'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
 
+    const label = this.state.snapshot.getIn(['data', 'availability-zone']) || this.props.id;
+
     return (
       <div className={block + '__wrapper'}>
         <div className={block + '__content'}
@@ -63,7 +63,7 @@ const GroundStickyNoteRC = React.createClass({
              onClick={this.props.onClick}
              onMouseEnter={this.props.onMouseEnter}
              onMouseLeave={this.props.onMouseLeave}>
-          {this.props.label}
+          {label}
         </div>
         {this.getHealthIcon()}
       </div>
@@ -119,22 +119,16 @@ export default class StickyNoteNode extends StickyNote {
 
   render() {
     const parent = this.parent;
-    const snapshot = parent.snapshot;
 
     React.render(
-      <GroundStickyNoteRC label={parent.id}
-                          isActive={this.isActive}
-                          color={parent.getColor()}
-                          snapshot={snapshot}
-                          onClick={parent.onGroupClicked.bind(parent)}
-                          onMouseEnter={() => parent.highlight()}
-                          onMouseLeave={() => parent.highlight(false)}/>,
+      <PhysicalGroup id={parent.id}
+                     isActive={this.isActive}
+                     color={parent.getColor()}
+                     onClick={parent.onGroupClicked.bind(parent)}
+                     onMouseEnter={() => parent.highlight()}
+                     onMouseLeave={() => parent.highlight(false)}/>,
       this.stickyNoteContainer
     );
-  }
-
-  onSnapshotUpdate() {
-    this.render();
   }
 
   setActive(isActive = true) {

@@ -10,7 +10,7 @@ import LineMeshComponent from '../../components/LineMeshComponent';
 
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import StickyNote from '../../StickyNotes/Ground';
+import StickyNote from '../../StickyNotes/Groups/PhysicalGroup';
 import Node from '../Nodes/Node';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -103,9 +103,7 @@ export default class Group extends SceneObjectWithSnapshot {
     this.getComponent('highlight').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
-  onSnapshotUpdated() {
-    this.stickyNote.onSnapshotUpdate();
-  }
+  onSnapshotUpdated() {}
 
   onGroupClicked() {
     selectedSnapshot.setSelectedEntityId(this.id);
