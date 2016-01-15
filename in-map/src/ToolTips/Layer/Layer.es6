@@ -96,9 +96,7 @@ const LayerTooltipRC = React.createClass({
 
       return (
         <TooltipFrame>
-          {this.issuesAvailable() ?
-          this.getStatusLine() :
-          null}
+          {this.issuesAvailable() ? this.getStatusLine() : null}
           <Heading style={heading.style}>
             {heading.text}
           </Heading>

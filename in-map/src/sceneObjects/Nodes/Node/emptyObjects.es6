@@ -7,9 +7,3 @@ export const emptyLabel = {
   },
   dispose: () => {}
 };
-
-export const emptyTooltip = {
-  isEmpty: true,
-  mount() {},
-  unMount() {}
-};

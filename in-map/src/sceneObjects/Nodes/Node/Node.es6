@@ -36,7 +36,6 @@ import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
-const emptyTooltip = emptyObjects.emptyTooltip;
 const emptyLabel = emptyObjects.emptyLabel;
 const nodeBaseHeight = 1;
 
@@ -48,13 +47,14 @@ export default class Node extends SceneObjectWithSnapshot {
     this.outgoingConnections = [];
     this.incomingConnections = [];
     this.height = nodeBaseHeight;
-    this.tooltip = emptyTooltip;
     this.isOutOfView = false;
     this.isToFarAway = false;
     this.label = emptyLabel;
     this._cachedPower = 1;
 
     this.registerEvents();
+
+    this.tooltip = new TooltipNode(this);
     this.snapshotServer = new NodeSnapshotServer(this);
   }
 
@@ -294,21 +294,11 @@ export default class Node extends SceneObjectWithSnapshot {
     super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
   }
 
-  getTooltipSticky() {
-    return this.getNodeTooltip();
-  }
-
-  getNodeTooltip() {
-    return new TooltipNode(this);
-  }
-
   showMetrics() {
     this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   hideMetrics() {
-    this.tooltip = this.getNodeTooltip();
-
     this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
@@ -376,10 +366,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
-    }
-
-    if (this.tooltip.isEmpty) {
-      this.tooltip = new TooltipNode(this);
     }
 
     this.setupLabel();
@@ -478,6 +464,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     try {
       this.tooltip.unMount();
+      this.tooltip.dispose();
     } catch (er) {
       // the tooltip is already unmounted
       this.tooltip = null;

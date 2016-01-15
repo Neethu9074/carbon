@@ -1,18 +1,15 @@
-import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {getProblemsForSnapshot} from 'in-services/issueTracker';
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
 import {health, mapHealthToColor} from 'in-services/health';
+import SnapshotMixin from 'in-services/util/SnapshotMixin';
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import {getLabel, getLongLabel} from 'in-sdk/snapshot';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
-import {getHealth} from 'in-services/issueTracker';
 
 import Tooltip from '../Tooltip';
 
@@ -23,50 +20,55 @@ const block = 'in-tooltip__node';
 const NodeTooltipRC = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
-    SubscriptionMixin
+    SnapshotMixin
   ],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    layer: React.PropTypes.array.isRequired
+    layer: React.PropTypes.array.isRequired,
+    id: React.PropTypes.string.isRequired
   },
 
   getInitialState() {
-    return {health: health.ok, issues: Immutable.List()};
+    return {
+      issues: Immutable.List(),
+      health: health.ok
+    };
   },
 
   componentDidMount() {
-    const snapshot = this.props.snapshot;
-    this.addSubscription(getHealth(snapshot).subscribe(h => this.setState({health: h})));
-    this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
+    // TODO: get health and problems by ID
+    // const snapshot = this.state.snapshot;
+    // this.addSubscription(getHealth(snapshot).subscribe(h => this.setState({health: h})));
+    // this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
   },
 
   getStatusLine() {
     const state = this.state;
     const nodeHealth = state.health;
-    const snapshot = this.props.snapshot;
+    const snapshot = this.state.snapshot;
     const issues = state.issues
       .sortBy(problem => problem.get('severity'))
       .reverse();
-    const data = snapshot.get('data');
 
     // only show the status line if there is a "bad" health or some issues
     if (nodeHealth !== health.ok && this.issuesAvailable()) {
         try {
-          return (<IssueStatusLine
+          return (
+            <IssueStatusLine
             left={getLabel(snapshot)}
-            right={moment(issues.get(0).get('start')).fromNow()}/>);
+            right={moment(issues.get(0).get('start')).fromNow()}/>
+          );
         } catch (err) {
-          return <IssueStatusLine left={data.get('hostname')} />;
+          return <IssueStatusLine left={snapshot.getIn(['data', 'hostname'])}/>;
         }
     }
     return null;
   },
 
   getHeading() {
-    const snapshot = this.props.snapshot;
+    const snapshot = this.state.snapshot;
 
-    let text = getSingular(snapshot.get('pluginId')) + ': ' + getLabel(snapshot);
+    let text = getSingular(snapshot.get('plugin')) + ': ' + getLabel(snapshot);
     const style = {};
 
     if (this.issuesAvailable()) {
@@ -91,16 +93,23 @@ const NodeTooltipRC = React.createClass({
   },
 
   getContent() {
-    const snapshotLabel = getLongLabel(this.props.snapshot, this.props.snapshot.get('hostId'));
-    let content = <Content>{snapshotLabel}</Content>;
-    const layer = this.props.layer;
+    const snapshotLabel = getLongLabel(this.state.snapshot, this.state.snapshot.get('hostId'));
+    let content = (
+      <Content>
+        {snapshotLabel}
+      </Content>
+    );
 
+    const layer = this.props.layer;
     if (this.issuesAvailable()) {
       const suggestion = this.getMostImportedProblem().get('fixSuggestion');
       if (suggestion) {
-        content = <Content>{suggestion}</Content>;
+        content = (
+          <Content>
+            {suggestion}
+          </Content>
+        );
       }
-
     } else if (layer.length > 0) {
       const plugins = {}; // maps type -> counter
       layer.forEach(item => {
@@ -142,18 +151,12 @@ const NodeTooltipRC = React.createClass({
   },
 
   render() {
-    if (!this.props.snapshot) {
-      return null;
-    }
-
     const heading = this.getHeading();
     const content = this.getContent();
 
     return (
       <TooltipFrame>
-        {this.issuesAvailable() ?
-        this.getStatusLine() :
-        null}
+        {this.issuesAvailable() ? this.getStatusLine() : null}
         <Heading style={heading.style}>
           {heading.text}
         </Heading>
@@ -171,7 +174,7 @@ export default class TooltipNode extends Tooltip {
   render() {
     React.render(
       <NodeTooltipRC
-        snapshot={this.parent.snapshot}
+        id={this.parent.id}
         layer={this.parent.getComponent('layer').layer}
       />,
       this.stickyNoteContainer

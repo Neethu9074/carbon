@@ -1,10 +1,4 @@
-import * as ro from 'reactive-observables';
-
-import {
-  addLabelFinder,
-  addIconFinder,
-  addWiredSnapshotFinder
-} from 'in-sdk/snapshot';
+import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
@@ -24,8 +18,6 @@ addIconFinder(
   constants.plugins.nginx,
   () => iconPath
 );
-
-addWiredSnapshotFinder(constants.plugins.nginx, () => ro.create());
 
 power.addMapping(
   constants.plugins.nginx,
