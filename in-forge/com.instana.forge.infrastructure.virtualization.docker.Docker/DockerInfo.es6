@@ -13,7 +13,7 @@ const DockerInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
-    var createdMillis = data.get('Created');
+    const createdMillis = data.get('Created');
     // for compatibiltiy with pre 1.1.5 sensor multiply seconds to get ms.
     if (createdMillis < 1500000000) {
       createdMillis *= 1000;
