@@ -1,5 +1,3 @@
-import * as ro from 'reactive-observables';
-
 import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
