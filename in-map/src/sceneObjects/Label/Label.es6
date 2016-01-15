@@ -46,7 +46,7 @@ export default class Label extends SceneObject {
 
   getFactory() {
     const key = this.parent.snapshot ? this.parent.snapshot.get('plugin') : this.id;
-    return this.scene.getOrCreateLogoFactory(key);
+    return this.scene.getOrCreateLogoFactory(key, this.parent.snapshot);
   }
 
   positionChanged(x, y, z) {
