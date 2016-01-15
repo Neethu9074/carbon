@@ -3,6 +3,7 @@ import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
 import WiringList from 'in-components/WiringList';
+import PopUpable from 'in-components/PopUpable';
 
 import DockerLabels from '../DockerLabels';
 import DockerInfo from '../DockerInfo';
@@ -21,20 +22,24 @@ const Sidebar = React.createClass({
     return (
       <div>
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Docker Container</Collapsible.Header>
+          <Collapsible.Header>
+            Docker Container
+          </Collapsible.Header>
           <Collapsible.Content>
             <DockerInfo snapshot={snapshot} />
+            {labels && labels.size > 0 ?
+              <PopUpable>
+              <PopUpable.Header>
+              Container Labels
+              </PopUpable.Header>
+              <PopUpable.Content>
+              <DockerLabels labels={labels}/>
+              </PopUpable.Content>
+              </PopUpable>
+              : null}
           </Collapsible.Content>
         </Collapsible>
 
-        {labels != null && labels.size > 0 ?
-          <Collapsible initiallyOpen={true}>
-            <Collapsible.Header>Container Labels</Collapsible.Header>
-            <Collapsible.Content>
-              <DockerLabels snapshot={snapshot} />
-            </Collapsible.Content>
-          </Collapsible>
-        : null}
 
         <WiringList snapshot={snapshot} />
       </div>
