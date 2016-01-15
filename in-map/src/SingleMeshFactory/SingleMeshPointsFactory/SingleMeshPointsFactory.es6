@@ -53,22 +53,22 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
     });
   }
 
-    updateGeometry() {
-      super.updateGeometry();
+  updateGeometry() {
+    super.updateGeometry();
 
-      const geometry = this.geometry;
+    const geometry = this.geometry;
 
-      const pointSizes = new Float32Array(this.fragments.length);
-      this.fragments.forEach((fragment, index) => {
-        pointSizes[index] = fragment.additionalParams.iconSize;
-      });
+    const pointSizes = new Float32Array(this.fragments.length);
+    this.fragments.forEach((fragment, index) => {
+      pointSizes[index] = fragment.additionalParams.iconSize;
+    });
 
-      geometry.addAttribute('pointSize', new THREE.BufferAttribute(pointSizes, 1));
-      geometry.attributes.pointSize.needsUpdate = true;
-    }
+    geometry.addAttribute('pointSize', new THREE.BufferAttribute(pointSizes, 1));
+    geometry.attributes.pointSize.needsUpdate = true;
+  }
 
   dispose() {
-    this.zoomSubscription.dispose();
+    this.aspectRationSubscription.dispose();
 
     super.dispose();
   }
