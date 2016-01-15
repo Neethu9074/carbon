@@ -2,13 +2,12 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
 import {health, mapHealthToColor} from 'in-services/health';
+import SnapshotMixin from 'in-services/util/SnapshotMixin';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
-import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
 
 import Tooltip from '../Tooltip.es6';
@@ -16,7 +15,7 @@ import Tooltip from '../Tooltip.es6';
 const LayerTooltipRC = React.createClass({
   mixins: [
     React.addons.PureRenderMixin,
-    SubscriptionMixin
+    SnapshotMixin
   ],
 
   propTypes: {
@@ -26,8 +25,7 @@ const LayerTooltipRC = React.createClass({
   getInitialState() {
     return {
       health: health.ok,
-      issues: Immutable.List(),
-      snapshot: Immutable.Map()
+      issues: Immutable.List()
     };
   },
 
@@ -36,8 +34,6 @@ const LayerTooltipRC = React.createClass({
     // const snapshot = this.state.snapshot;
     // this.addSubscription(getHealth(snapshot).subscribe(h => this.setState({health: h})));
     // this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
-
-    this.addSubscription(getSnapshot(this.props.id).subscribe(snapshot => this.setState({snapshot})));
   },
 
   getStatusLine() {

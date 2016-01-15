@@ -1,9 +1,8 @@
 import Immutable from 'immutable';
 import React from 'react/addons';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import IssueDiscription from 'in-components/IssueDiscription';
-import {getSnapshot} from 'in-stores/snapshot';
+import SnapshotMixin from 'in-services/util/SnapshotMixin';
 import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
 import Icon from 'in-components/Icon';
@@ -20,7 +19,7 @@ const PhysicalGroup = React.createClass({
 
   mixins: [
     React.addons.PureRenderMixin,
-    SubscriptionMixin
+    SnapshotMixin
   ],
 
   propTypes: {
@@ -35,8 +34,7 @@ const PhysicalGroup = React.createClass({
   getInitialState() {
     return {
       health: health.ok,
-      issues: Immutable.List(),
-      snapshot: Immutable.Map()
+      issues: Immutable.List()
     };
   },
 
@@ -44,8 +42,6 @@ const PhysicalGroup = React.createClass({
     // TODO: get health and problems by ID
     // this.addSubscription(getHealth(snapshot).subscribe(newHealth => this.setState({ health: newHealth })));
     // this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
-
-    this.addSubscription(getSnapshot(this.props.id).subscribe(snapshot => this.setState({snapshot})));
   },
 
   render() {
