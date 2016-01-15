@@ -21,12 +21,16 @@ const ConnectionsTooltipRC = React.createClass({
     const listItems = connections
     .filter(connection => connection.from.snapshot && connection.to.snapshot)
     .map(connection => {
+      const parent = connection.to.parent;
+      const zone = parent.snapshot ? parent.snapshot.getIn(['data', 'groupId']) : parent.id;
+
       return {
         id: connection.id,
         direction: connection.direction,
         to: {
           ip: this.getOneOfConnectedIps(connection.from, connection.to),
-          zone: connection.to.parent.id
+          zone,
+          zoneId: parent.id
         }
       };
     });
