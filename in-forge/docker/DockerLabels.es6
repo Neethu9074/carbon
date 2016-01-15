@@ -1,32 +1,34 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
-import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import './DockerLabels.less';
+
+const block = 'in-docker-labels';
 
 const DockerLabels = React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired
+    labels: irpt.map.isRequired
   },
 
   render() {
-    const labels = this.props.snapshot.getIn(['data', 'Labels']);
-
-    if (labels == null || labels.size === 0) {
-      return null;
-    }
+    const labels = this.props.labels;
 
     return (
-      <DescriptionList>
+      <div>
         {labels.map((v, k) =>
-          <DescriptionItem title={k}>
-            {v}
-          </DescriptionItem>
+          <div key={k}
+               className={block + '__item'}>
+            <dt className={block + '__title'}>
+              {k}
+            </dt>
+            <dd className={block + '__text'}>
+              {v}
+            </dd>
+          </div>
         ).valueSeq().toArray()}
-      </DescriptionList>
+      </div>
     );
   }
 });

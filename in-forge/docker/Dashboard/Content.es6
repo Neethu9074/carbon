@@ -24,6 +24,7 @@ const DockerDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
+    const hasNetworkMetrics = snapshot.get('NetworkMode', '') === 'bridge';
 
     return (
       <div>
@@ -53,6 +54,7 @@ const DockerDashboard = React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
+        { hasNetworkMetrics ?
         <DashboardSection title='Network'>
           <div>
             <ChartWithLegend snapshot={snapshot}
@@ -96,6 +98,7 @@ const DockerDashboard = React.createClass({
                    }}/>
           </div>
         </DashboardSection>
+        : null }
       </div>
     );
   }
