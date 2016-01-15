@@ -36,7 +36,7 @@ const PhysicalGroup = React.createClass({
     return {
       health: health.ok,
       issues: Immutable.List(),
-      snapshot: Immutable.List()
+      snapshot: Immutable.Map()
     };
   },
 

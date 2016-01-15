@@ -22,7 +22,6 @@ import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {longClickedSceneObject} from '../../../mapStores';
-import StickyNoteNode from '../../../StickyNotes/Node';
 import NodeSnapshotServer from './NodeSnapshotServer';
 import ConnectionGrid from '../../../ConnectionGrid';
 import {currentTooltip} from '../../../mapStores';
@@ -38,7 +37,6 @@ import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 const emptyTooltip = emptyObjects.emptyTooltip;
-const emptySticky = emptyObjects.emptySticky;
 const emptyLabel = emptyObjects.emptyLabel;
 const nodeBaseHeight = 1;
 
@@ -49,7 +47,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.outgoingConnections = [];
     this.incomingConnections = [];
-    this.stickyNote = emptySticky;
     this.height = nodeBaseHeight;
     this.tooltip = emptyTooltip;
     this.isOutOfView = false;
@@ -133,7 +130,6 @@ export default class Node extends SceneObjectWithSnapshot {
   onHiddenEnter() {
     super.onHiddenEnter();
 
-    this.stickyNote.hide();
     this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     this.label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
@@ -141,9 +137,6 @@ export default class Node extends SceneObjectWithSnapshot {
   onHiddenLeave() {
     super.onHiddenLeave();
 
-    if (this.isInView()) {
-      this.stickyNote.show();
-    }
     this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     this.label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
@@ -289,10 +282,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.stateMachine.changeStateProperty('active', value);
   }
 
-  updateStickyNotes() {
-    this.stickyNote.update();
-  }
-
   addLayer(layer) {
     const layerComponent = this.getComponent('layer');
 
@@ -314,13 +303,10 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   showMetrics() {
-    this.stickyNote.switchToMetric();
-
     this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   hideMetrics() {
-    this.stickyNote.switchToIcon();
     this.tooltip = this.getNodeTooltip();
 
     this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
@@ -353,23 +339,7 @@ export default class Node extends SceneObjectWithSnapshot {
   update() {
     this.updateScreenPosition();
 
-    // if the node is in the view frustum
-    if (!this.isInView()) {
-        this.setStateForMetricActivity({ isOutOfView: true });
-
-        if (!this.stickyIsHidden) {
-          this.stickyNote.hide();
-          this.stickyIsHidden = true;
-        }
-    } else {
-      this.setStateForMetricActivity({ isOutOfView: false });
-
-      if (this.stickyIsHidden) {
-        this.stickyNote.show();
-        this.stickyIsHidden = false;
-      }
-      this.updateStickyNotes();
-    }
+    this.setStateForMetricActivity({ isOutOfView: !this.isInView() });
   }
 
   setStateForMetricActivity(params) {
@@ -397,9 +367,6 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   hideMetric() {
-    // disable sticky note
-    this.stickyNote.hide();
-
     // disable metrics if the node isn't visible
     this.snapshotServer.pauseMetrics();
   }
@@ -410,11 +377,6 @@ export default class Node extends SceneObjectWithSnapshot {
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
-
-    if (this.stickyNote.isEmpty) {
-      this.stickyNote = new StickyNoteNode(this);
-    }
-    this.stickyNote.onSnapshotUpdate();
 
     if (this.tooltip.isEmpty) {
       this.tooltip = new TooltipNode(this);
@@ -514,9 +476,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
     // dispose subscriptions so that no update fires anymore
     super.dispose();
-
-    this.stickyNote.dispose();
-    this.stickyNote = null;
 
     try {
       this.tooltip.unMount();
