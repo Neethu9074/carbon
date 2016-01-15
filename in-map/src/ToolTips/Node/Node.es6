@@ -1,15 +1,16 @@
+import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
 
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
 import {health, mapHealthToColor} from 'in-services/health';
-import SnapshotMixin from 'in-services/util/SnapshotMixin';
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import {getLabel, getLongLabel} from 'in-sdk/snapshot';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
+import getSnapshot from 'in-hoc/getSnapshot';
 
 import Tooltip from '../Tooltip';
 
@@ -17,15 +18,15 @@ import './Node.less';
 
 const block = 'in-tooltip__node';
 
-const NodeTooltipRC = React.createClass({
+const NodeTooltipRC = getSnapshot(React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
-    SnapshotMixin
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
+    snapshotId: React.PropTypes.string.isRequired,
     layer: React.PropTypes.array.isRequired,
-    id: React.PropTypes.string.isRequired
+    snapshot: irpt.map
   },
 
   getInitialState() {
@@ -66,7 +67,7 @@ const NodeTooltipRC = React.createClass({
   },
 
   getHeading() {
-    const snapshot = this.state.snapshot;
+    const snapshot = this.props.snapshot;
 
     let text = getSingular(snapshot.get('plugin')) + ': ' + getLabel(snapshot);
     const style = {};
@@ -93,7 +94,7 @@ const NodeTooltipRC = React.createClass({
   },
 
   getContent() {
-    const snapshotLabel = getLongLabel(this.state.snapshot, this.state.snapshot.get('hostId'));
+    const snapshotLabel = getLongLabel(this.props.snapshot, this.props.snapshot.get('hostId'));
     let content = (
       <Content>
         {snapshotLabel}
@@ -151,6 +152,10 @@ const NodeTooltipRC = React.createClass({
   },
 
   render() {
+    if (!this.props.snapshot) {
+      return null;
+    }
+
     const heading = this.getHeading();
     const content = this.getContent();
 
@@ -164,7 +169,7 @@ const NodeTooltipRC = React.createClass({
       </TooltipFrame>
     );
   }
-});
+}));
 
 export default class TooltipNode extends Tooltip {
   constructor(parent) {
@@ -174,7 +179,7 @@ export default class TooltipNode extends Tooltip {
   render() {
     React.render(
       <NodeTooltipRC
-        id={this.parent.id}
+        snapshotId={this.parent.id}
         layer={this.parent.getComponent('layer').layer}
       />,
       this.stickyNoteContainer

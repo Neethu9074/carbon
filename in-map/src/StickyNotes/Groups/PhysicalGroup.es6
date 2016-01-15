@@ -1,8 +1,9 @@
+import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
 
 import IssueDiscription from 'in-components/IssueDiscription';
-import SnapshotMixin from 'in-services/util/SnapshotMixin';
+import getSnapshot from 'in-hoc/getSnapshot';
 import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
 import Icon from 'in-components/Icon';
@@ -15,20 +16,22 @@ import './PhysicalGroup.less';
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-group';
 
-const PhysicalGroup = React.createClass({
+const PhysicalGroup = getSnapshot(React.createClass({
+
+  displayName: 'PhysicalGroup',
 
   mixins: [
-    React.addons.PureRenderMixin,
-    SnapshotMixin
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
     onMouseLeave: rpt.func.isRequired,
     onMouseEnter: rpt.func.isRequired,
+    snapshotId: rpt.string.isRequired,
     isActive: rpt.bool.isRequired,
     onClick: rpt.func.isRequired,
     color: rpt.object.isRequired,
-    id: rpt.string.isRequired
+    snapshot: irpt.map
   },
 
   getInitialState() {
@@ -45,12 +48,16 @@ const PhysicalGroup = React.createClass({
   },
 
   render() {
+    if (!this.props.snapshot) {
+      return null;
+    }
+
     const c = this.props.color;
     const backgroundColor = this.props.isActive ?
       '#fff' :
       'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
 
-    const label = this.state.snapshot.getIn(['data', 'groupId']) || this.props.id;
+    const label = this.props.snapshot.getIn(['data', 'groupId']) || this.props.snapshotId;
 
     return (
       <div className={block + '__wrapper'}>
@@ -103,7 +110,7 @@ const PhysicalGroup = React.createClass({
     }
     return null;
   }
-});
+}));
 
 
 export default class StickyNoteNode extends StickyNote {
@@ -117,7 +124,7 @@ export default class StickyNoteNode extends StickyNote {
     const parent = this.parent;
 
     React.render(
-      <PhysicalGroup id={parent.id}
+      <PhysicalGroup snapshotId={parent.id}
                      isActive={this.isActive}
                      color={parent.getColor()}
                      onClick={parent.onGroupClicked.bind(parent)}

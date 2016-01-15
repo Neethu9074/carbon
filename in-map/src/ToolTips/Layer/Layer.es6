@@ -1,25 +1,26 @@
+import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
 import moment from 'moment';
 
 import IssueStatusLine from 'in-components/Tooltips/StatusLine';
 import {health, mapHealthToColor} from 'in-services/health';
-import SnapshotMixin from 'in-services/util/SnapshotMixin';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
+import getSnapshot from 'in-hoc/getSnapshot';
 import {getLabel} from 'in-sdk/snapshot';
 
 import Tooltip from '../Tooltip.es6';
 
-const LayerTooltipRC = React.createClass({
+const LayerTooltipRC = getSnapshot(React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
-    SnapshotMixin
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    id: React.PropTypes.string.isRequired
+    snapshotId: React.PropTypes.string.isRequired,
+    snapshot: irpt.map
   },
 
   getInitialState() {
@@ -88,7 +89,11 @@ const LayerTooltipRC = React.createClass({
   },
 
   render() {
-    const snapshot = this.state.snapshot;
+    if (!this.props.snapshot) {
+      return null;
+    }
+
+    const snapshot = this.props.snapshot;
 
     if (this.issuesAvailable()) {
       const heading = this.getHeading();
@@ -113,7 +118,7 @@ const LayerTooltipRC = React.createClass({
       </TooltipFrame>
     );
   }
-});
+}));
 
 
 export default class TooltipLayer extends Tooltip {
@@ -123,7 +128,7 @@ export default class TooltipLayer extends Tooltip {
 
   render() {
     React.render(
-      <LayerTooltipRC id={this.parent.id} />,
+      <LayerTooltipRC snapshotId={this.parent.id} />,
       this.stickyNoteContainer
     );
   }
