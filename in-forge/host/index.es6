@@ -9,7 +9,6 @@ import appleIconPath from './icons/instana_server_apple.svg';
 import * as constants from '../constants';
 
 import './metrics';
-import './wiring';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.os,

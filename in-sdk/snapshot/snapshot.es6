@@ -161,35 +161,3 @@ export function getWiredSnapshots(snapshot) {
 
   return emptyObservable;
 }
-
-
-// {
-// <pluginId: String>: [(snapshot) => <icon name: String>]
-// }
-const ipFinder = {};
-
-export function addIpFinder(pluginId, finder) {
-  if (!(pluginId in ipFinder)) {
-    ipFinder[pluginId] = [];
-  }
-
-  ipFinder[pluginId].push(finder);
-}
-
-export function getIps(snapshot) {
-  const pluginId = snapshot.get('pluginId');
-  const finder = ipFinder[pluginId];
-
-  if (!finder) {
-    return [];
-  }
-
-  for (let i = 0; i < finder.length; i++) {
-    const ips = finder[i](snapshot);
-    if (ips) {
-      return ips;
-    }
-  }
-
-  return [];
-}

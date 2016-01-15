@@ -77,15 +77,7 @@ describe('snapshot', () => {
       mod.addIconFinder(pluginId, () => truck);
       expect(mod.getIcon(pluginId)).to.equal(truck);
     });
-  });
 
-  describe('ips', () => {
-
-    it('should retrieve ips via a finder', () => {
-      const truck = 'truck';
-      mod.addIpFinder(pluginId, () => truck);
-      expect(mod.getIps(snapshot)).to.equal(truck);
-    });
   });
 
 });

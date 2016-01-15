@@ -1,8 +1,9 @@
+import Immutable from 'immutable';
 import React from 'react/addons';
 import _ from 'lodash';
 
 import ConnectionTooltip from 'in-components/Tooltips/Connection';
-import {getIps} from 'in-sdk/snapshot';
+import * as constants from 'in-forge/constants';
 
 import Tooltip from '../Tooltip.es6';
 
@@ -15,7 +16,39 @@ const ConnectionsTooltipRC = React.createClass({
     connections: React.PropTypes.array.isRequired
   },
 
-  getIpBySnapshot(snapshot) {
+  render() {
+    const connections = this.props.connections;
+    const listItems = connections
+    .filter(connection => connection.from.snapshot && connection.to.snapshot)
+    .map(connection => {
+      return {
+        id: connection.id,
+        direction: connection.direction,
+        to: {
+          ip: this.getOneOfConnectedIps(connection.from, connection.to),
+          zone: connection.to.parent.id
+        }
+      };
+    });
+
+    return (<ConnectionTooltip connections={listItems}/>);
+  },
+
+  getOneOfConnectedIps(from, to) {
+    // get ips of the target
+    const toIps = this.getIpFromSnapshot(to.snapshot);
+
+    // get connected ips
+    const fromIps = this.getConnectedIpsFromSnapshot(from.snapshot);
+
+    // intersections
+    const matching = _.intersection(fromIps, toIps);
+
+    // one of them
+    return matching[0];
+  },
+
+  getConnectedIpsFromSnapshot(snapshot) {
     const ipArray = [];
     const outgoing = snapshot.getIn(['data', 'connections', 'outgoing']) || [];
     const incoming = snapshot.getIn(['data', 'connections', 'incoming']) || [];
@@ -25,48 +58,39 @@ const ConnectionsTooltipRC = React.createClass({
     return ipArray;
   },
 
-  getOneOfConnectedIps(from, to) {
-    if (!from || !to) {
-      return null;
+  getIpFromSnapshot(snapshot) {
+    const cachedIps = snapshot._cachedIps;
+    if (cachedIps) {
+      return cachedIps;
     }
 
-    if (to.isUnknown) {
-      return to.snapshot.get('steadyId');
-    }
+    const ipArray = [];
 
-    if (from.isUnknown) {
-      return to.snapshot.getIn(['data', 'hostname']);
-    }
+    // get all ethernet interfaces
+    const ethInterfaces = snapshot.getIn(['data', 'interfaces']);
+    if (ethInterfaces) {
+      ethInterfaces.forEach(interf => {
 
-    // get ips of the target
-    const toIps = getIps(to.snapshot);
-
-    // get connected ips
-    const fromIps = this.getIpBySnapshot(from.snapshot);
-
-    // intersections
-    const matching = _.intersection(fromIps, toIps);
-
-    // one of them
-    return matching[0];
-  },
-
-  render() {
-    const connections = this.props.connections;
-    const listItems = connections
-      .filter(connection => connection.from.snapshot && connection.to.snapshot)
-      .map(connection => {
-        return {
-          id: connection.id,
-          direction: connection.direction,
-          to: {
-            ip: this.getOneOfConnectedIps(connection.from, connection.to),
-            zone: connection.to.parent.id
-          }
-        };
+        // get all ips of the interface
+        const addresses = interf.get('addresses');
+        if (addresses) {
+          addresses.forEach(address => {
+            ipArray.push(address.get('ip'));
+          });
+        }
       });
+    }
+    const ec2 = snapshot.getIn(['data',
+                                constants.rels.describes,
+                                constants.plugins.ec2],
+                                Immutable.Map()).valueSeq().first();
+    if (ec2) {
+      ipArray.push(ec2.get('public-ipv4'));
+    }
 
-    return (<ConnectionTooltip connections={listItems}/>);
+    snapshot._cachedIps = ipArray;
+
+    return ipArray;
   }
 });
 
