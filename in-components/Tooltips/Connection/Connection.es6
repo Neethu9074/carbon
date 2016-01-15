@@ -28,9 +28,7 @@ const ConnectionTooltip = React.createClass({
     const maxCon = 3;
     const numConnections = connections.length;
     const listItems = connections.slice(0, maxCon).map(connection => {
-      const ip = connection.to.ip || '';
-      const zoneId = connection.to.zone;
-      const style = {color: getColor(zoneId)};
+      const style = {color: getColor(connection.to.zoneId)};
 
       return (
         <li key={connection.id} className={block + '__li'}>
@@ -43,10 +41,10 @@ const ConnectionTooltip = React.createClass({
             </div>
             <Heading className={block + '__li--header'}
                      style={style}>
-              {zoneId}
+              {connection.to.zone}
             </Heading>
             <Content className={block + '__li--ip'}>
-              {ip}
+              {connection.to.ip || ''}
             </Content>
           </div>
         </li>
