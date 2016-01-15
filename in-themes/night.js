@@ -63,6 +63,7 @@ module.exports = _.defaultsDeep({
       backgroundHighlight: grey5
     },
     dockerLabels: {
+      width: '600px',
       border: grey0,
       title: grey4,
       text: grey1

@@ -3,6 +3,7 @@ import invariant from 'invariant';
 import React from 'react/addons';
 
 import {getClassName} from 'in-services/react';
+import theme from 'in-services/theme';
 
 import CloseButton from './CloseButton';
 import Icon from '../Icon';
@@ -108,7 +109,8 @@ const Content = React.createClass({
     const clickCallback = this.props.onCloseButtonClicked ? this.props.onCloseButtonClicked : () => {};
 
     return (
-      <div className={block + '__popup'}>
+      <div className={block + '__popup'}
+           style={{left: theme.sidebar.width - 10 + 'px'}}>
         <div className={block + '__popup_header'}>
           {this.props.header}
           <CloseButton className={getClassName(this, block, '__close-button')}
