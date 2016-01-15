@@ -21,13 +21,10 @@ export default class Label extends SceneObject {
       additionalParams: { iconSize }
     };
 
-    this.subscription = zoomLevel.subscribe(zl => {
-      if (predicate(zl)) {
-        this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.ON);
-      } else {
-        this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.OFF);
-      }
-    });
+    this.addSubscription(zoomLevel.subscribe(zl => {
+      const isHidden = predicate(zl) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+      this.stateMachine.changeStateProperty('hidden', isHidden);
+    }));
   }
 
   onInactiveEnter() {
@@ -62,9 +59,6 @@ export default class Label extends SceneObject {
   }
 
   dispose() {
-    // dipose subscription first to avoid race conditions
-    this.subscription.dispose();
-
     super.dispose();
 
     this.factory.removeFragment(this.id);

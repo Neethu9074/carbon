@@ -392,7 +392,6 @@ export default class Node extends SceneObjectWithSnapshot {
       id: this.id,
       parent: this,
       iconSize: 3,
-      snapshot: this.snapshot,
       predicate: zoomLevel => zoomLevel !== level.near && zoomLevel !== level.nearest
     });
     const position = this.getComponent('position').getPosition();
