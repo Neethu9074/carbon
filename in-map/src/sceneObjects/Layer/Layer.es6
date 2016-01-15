@@ -32,6 +32,7 @@ export default class Layer extends SceneObjectWithSnapshot {
 
     this.label = this.id;
     this.snapshot = undefined;
+    this.tooltip = new TooltipLayer(this);
 
     this.getComponent('position').setPosition(0, 0, 0);
 
@@ -159,11 +160,6 @@ export default class Layer extends SceneObjectWithSnapshot {
   }
 
   onSnapshotUpdated() {
-    // tooltip needs the snapshot so you can create it if you have one
-    if (!this.tooltip) {
-      this.tooltip = new TooltipLayer(this);
-    }
-
     // health component needs the snapshot so you can create it if you have one
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
