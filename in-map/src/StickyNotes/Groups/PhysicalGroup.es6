@@ -50,7 +50,7 @@ const PhysicalGroup = React.createClass({
       '#fff' :
       'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
 
-    const label = this.state.snapshot.getIn(['data', 'availability-zone']) || this.props.id;
+    const label = this.state.snapshot.getIn(['data', 'groupId']) || this.props.id;
 
     return (
       <div className={block + '__wrapper'}>
