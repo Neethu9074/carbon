@@ -1,10 +1,9 @@
 import React from 'react';
 
-import {health as healthStates} from 'in-services/health';
-import {getHealth as loadHealth} from 'in-stores/health';
+import {getMaxSeverityForOpenIssues as getSeverity} from 'in-stores/maxSeverityForOpenIssues';
 
 
-export default function getHealth(ComposedComponent) {
+export default function getMaxSeverityForOpenIssues(ComposedComponent) {
   return React.createClass({
     displayName: 'getHealth hoc for ' + ComposedComponent.displayName,
 
@@ -14,7 +13,7 @@ export default function getHealth(ComposedComponent) {
 
     getInitialState() {
       return {
-        health: healthStates.unknown
+        maxSeverityForOpenIssues: null
       };
     },
 
@@ -34,10 +33,13 @@ export default function getHealth(ComposedComponent) {
         this.subscription = null;
       }
 
+      // reset state
+      this.setState(this.getInitialState());
+
       if (snapshotId) {
-        this.subscription = loadHealth(snapshotId).subscribe(health => {
+        this.subscription = getSeverity(snapshotId).subscribe(maxSeverityForOpenIssues => {
           this.setState({
-            health
+            maxSeverityForOpenIssues
           });
         });
       }

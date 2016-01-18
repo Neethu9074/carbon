@@ -33,6 +33,9 @@ export default function getSnapshot(ComposedComponent) {
         this.subscription = null;
       }
 
+      // reset state
+      this.setState(this.getInitialState());
+
       if (snapshotId) {
         this.subscription = loadSnapshot(snapshotId).subscribe(snapshot => {
           this.setState({
