@@ -8,7 +8,7 @@ import MouseCameraController from '../../controls/MouseCameraController';
 import GroundPlaneWithGrid from '../GroundPlanes/GroundPlaneWithGrid';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import Group from '../Groups/PhysicalGroup';
-import Layouter from '../../layout';
+import Layouter from './GroupLayouter';
 import BaseMap from './BaseMap';
 
 

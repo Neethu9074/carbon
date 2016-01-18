@@ -1,4 +1,4 @@
-export default class Layouter {
+export default class GroupLayouting {
 
   constructor({
     nodeSize = 1,

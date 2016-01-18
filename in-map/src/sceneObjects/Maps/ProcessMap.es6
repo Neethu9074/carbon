@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import MouseCameraController from '../../controls/MouseCameraController';
 import GroundPlane from '../GroundPlanes/GroundPlane';
+import Layouter from './ReingoldFruchtermanLayouter';
 import ProcessNode from '../Nodes/ProcessNode';
 import BaseMap from './BaseMap';
 
@@ -51,10 +52,8 @@ export default class ProcessMap extends BaseMap {
   }
 
   applyLayout() {
-    for (let i = 0; i < this.nodes.length; i++) {
-      const node = this.nodes[i];
-      node.getComponent('position').setPosition(i + 1, 0, 0);
-    }
+    const layouter = new Layouter();
+    layouter.applyLayout(this);
   }
 
   removeChild() {}
