@@ -12,6 +12,8 @@ import getHealth from 'in-hoc/getHealth';
 import Tooltip from '../Tooltip.es6';
 
 
+const rpt = React.PropTypes;
+
 const NodeTooltipRC = getHealth(
                       getSnapshot(
                       React.createClass({
@@ -21,9 +23,9 @@ const NodeTooltipRC = getHealth(
   ],
 
   propTypes: {
-    snapshotId: React.PropTypes.string.isRequired,
-    layer: React.PropTypes.array.isRequired,
-    health: React.PropTypes.string,
+    snapshotId: rpt.string.isRequired,
+    layer: rpt.array.isRequired,
+    health: rpt.string,
     snapshot: irpt.map
   },
 
