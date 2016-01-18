@@ -11,7 +11,10 @@ import getHealth from 'in-hoc/getHealth';
 import Tooltip from '../Tooltip.es6';
 
 
-const LayerTooltipRC = getHealth(getSnapshot(React.createClass({
+const LayerTooltipRC = getHealth(
+                       getSnapshot(
+                       React.createClass({
+
   mixins: [
     React.addons.PureRenderMixin
   ],
