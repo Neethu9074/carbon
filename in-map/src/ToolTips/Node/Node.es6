@@ -1,24 +1,18 @@
 import irpt from 'react-immutable-proptypes';
-import Immutable from 'immutable';
 import React from 'react/addons';
-import moment from 'moment';
 
-import IssueStatusLine from 'in-components/Tooltips/StatusLine';
-import {health, mapHealthToColor} from 'in-services/health';
-import {getSingular, getPlural} from 'in-sdk/pluginName';
+import {health as healthStates} from 'in-services/health';
 import TooltipFrame from 'in-components/Tooltips/Frame';
-import {getLabel, getLongLabel} from 'in-sdk/snapshot';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
+import {getLongLabel} from 'in-sdk/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
+import getHealth from 'in-hoc/getHealth';
 
-import Tooltip from '../Tooltip';
+import Tooltip from '../Tooltip.es6';
 
-import './Node.less';
 
-const block = 'in-tooltip__node';
-
-const NodeTooltipRC = getSnapshot(React.createClass({
+const NodeTooltipRC = getHealth(getSnapshot(React.createClass({
   mixins: [
     React.addons.PureRenderMixin
   ],
@@ -26,150 +20,33 @@ const NodeTooltipRC = getSnapshot(React.createClass({
   propTypes: {
     snapshotId: React.PropTypes.string.isRequired,
     layer: React.PropTypes.array.isRequired,
+    health: React.PropTypes.string,
     snapshot: irpt.map
   },
 
-  getInitialState() {
-    return {
-      issues: Immutable.List(),
-      health: health.ok
-    };
-  },
-
-  componentDidMount() {
-    // TODO: get health and problems by ID
-    // const snapshot = this.state.snapshot;
-    // this.addSubscription(getHealth(snapshot).subscribe(h => this.setState({health: h})));
-    // this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
-  },
-
-  getStatusLine() {
-    const state = this.state;
-    const nodeHealth = state.health;
-    const snapshot = this.state.snapshot;
-    const issues = state.issues
-      .sortBy(problem => problem.get('severity'))
-      .reverse();
-
-    // only show the status line if there is a "bad" health or some issues
-    if (nodeHealth !== health.ok && this.issuesAvailable()) {
-        try {
-          return (
-            <IssueStatusLine
-            left={getLabel(snapshot)}
-            right={moment(issues.get(0).get('start')).fromNow()}/>
-          );
-        } catch (err) {
-          return <IssueStatusLine left={snapshot.getIn(['data', 'hostname'])}/>;
-        }
-    }
-    return null;
-  },
-
-  getHeading() {
-    const snapshot = this.props.snapshot;
-
-    let text = getSingular(snapshot.get('plugin')) + ': ' + getLabel(snapshot);
-    const style = {};
-
-    if (this.issuesAvailable()) {
-      text = this.getMostImportedProblem().get('problemText');
-      style.color = mapHealthToColor(this.state.health);
-    }
-
-    return {text, style};
-  },
-
-  issuesAvailable() {
-    return this.state.issues.some(problem => problem.get('severity') > 0);
-  },
-
-  getMostImportedProblem() {
-    return this.state.issues.reduce((issueA, issueB) => {
-      if (issueA.getIn(['problem', 'severity']) >= issueB.getIn(['problem', 'severity'])) {
-        return issueA;
-      }
-      return issueB;
-    });
-  },
-
-  getContent() {
-    const snapshotLabel = getLongLabel(this.props.snapshot, this.props.snapshot.get('hostId'));
-    let content = (
-      <Content>
-        {snapshotLabel}
-      </Content>
-    );
-
-    const layer = this.props.layer;
-    if (this.issuesAvailable()) {
-      const suggestion = this.getMostImportedProblem().get('fixSuggestion');
-      if (suggestion) {
-        content = (
-          <Content>
-            {suggestion}
-          </Content>
-        );
-      }
-    } else if (layer.length > 0) {
-      const plugins = {}; // maps type -> counter
-      layer.forEach(item => {
-        if (!item.snapshot) {
-          return;
-        }
-        const pluginId = item.snapshot.get('pluginId');
-        if (!plugins[pluginId]) {
-          plugins[pluginId] = 0;
-        }
-        plugins[pluginId]++;
-      });
-
-      const listItems = Object.keys(plugins)
-        .sort((a, b) => getSingular(a).localeCompare(getSingular(b)))
-        .map(plugin => {
-          const counter = plugins[plugin];
-          return (
-            <li key={plugin} className={block + '__li'}>
-              <div className={block + '__li-wrapper'}>
-                <Heading className={block + '__li-header'}>
-                  {counter}
-                </Heading>
-                <Content className={block + '__li-content'}>
-                  {counter > 1 ?
-                    getPlural(plugin) :
-                    getSingular(plugin)
-                  }
-                </Content>
-              </div>
-            </li>
-          );
-        }
-      );
-
-      content = <ul className={block + '__ul'}> {listItems} </ul>;
-    }
-    return content;
-  },
-
   render() {
-    if (!this.props.snapshot) {
+    const snapshot = this.props.snapshot;
+    if (!snapshot) {
       return null;
     }
 
-    const heading = this.getHeading();
-    const content = this.getContent();
+    const health = this.props.health;
 
     return (
       <TooltipFrame>
-        {this.issuesAvailable() ? this.getStatusLine() : null}
-        <Heading style={heading.style}>
-          {heading.text}
-        </Heading>
-        {content}
+        {health !== healthStates.unknown ?
+          <Heading>
+            {'health: ' + health}
+          </Heading>
+          :
+          <Content>
+            {getLongLabel(snapshot, snapshot.getIn(['data', 'hostname']))}
+          </Content>
+        }
       </TooltipFrame>
     );
   }
-}));
+})));
 
 export default class TooltipNode extends Tooltip {
   constructor(parent) {

@@ -1,11 +1,12 @@
 import React from 'react';
 
-import {getSnapshot as loadSnapshot} from 'in-stores/snapshot';
+import {health as healthStates} from 'in-services/health';
+import {getHealth as loadHealth} from 'in-stores/health';
 
 
-export default function getSnapshot(ComposedComponent) {
+export default function getHealth(ComposedComponent) {
   return React.createClass({
-    displayName: 'getSnapshot hoc for ' + ComposedComponent.displayName,
+    displayName: 'getHealth hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
       snapshotId: React.PropTypes.string.isRequired
@@ -13,7 +14,7 @@ export default function getSnapshot(ComposedComponent) {
 
     getInitialState() {
       return {
-        snapshot: null
+        health: healthStates.unknown
       };
     },
 
@@ -34,9 +35,9 @@ export default function getSnapshot(ComposedComponent) {
       }
 
       if (snapshotId) {
-        this.subscription = loadSnapshot(snapshotId).subscribe(snapshot => {
+        this.subscription = loadHealth(snapshotId).subscribe(health => {
           this.setState({
-            snapshot
+            health
           });
         });
       }
