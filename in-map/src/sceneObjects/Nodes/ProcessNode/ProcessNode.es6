@@ -17,6 +17,9 @@ export default class Node extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
+
+    this.outgoingConnections = [];
+    this.incomingConnections = [];
   }
 
   onHighlightEnter() {

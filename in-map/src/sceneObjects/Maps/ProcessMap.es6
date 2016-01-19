@@ -2,8 +2,8 @@ import THREE from 'three';
 import _ from 'lodash';
 
 import MouseCameraController from '../../controls/MouseCameraController';
+import Layouter from './Layouter/FruchtermanReingoldLayouter';
 import GroundPlane from '../GroundPlanes/GroundPlane';
-import Layouter from './ReingoldFruchtermanLayouter';
 import ProcessNode from '../Nodes/ProcessNode';
 import BaseMap from './BaseMap';
 
