@@ -7,8 +7,8 @@ import theme from 'in-services/theme';
 import MouseCameraController from '../../controls/MouseCameraController';
 import GroundPlaneWithGrid from '../GroundPlanes/GroundPlaneWithGrid';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
+import Layouter from './Layouter/GroupLayouter';
 import Group from '../Groups/PhysicalGroup';
-import Layouter from './GroupLayouter';
 import BaseMap from './BaseMap';
 
 
