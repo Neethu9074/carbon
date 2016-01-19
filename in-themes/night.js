@@ -143,7 +143,7 @@ module.exports = _.defaultsDeep({
     signoutLabel: grey1
   },
   notificationCenter: {
-    background: grey5,
+    background: grey6,
     statusBarBackground: grey6,
     issueItem: {
       borderLine: grey4,
@@ -221,7 +221,7 @@ module.exports = _.defaultsDeep({
     },
     tooltips: {
       font: white,
-      background: '#000000',
+      background: grey6,
       critical: health[5],
       danger: health[10]
     }

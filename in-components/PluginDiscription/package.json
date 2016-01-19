@@ -1,0 +1,6 @@
+{
+  "name": "PluginDiscription",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./PluginDiscription.es6"
+}
