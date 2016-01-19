@@ -1,6 +1,4 @@
 /* eslint-disable complexity */
-import eventBus from 'in-services/eventbus';
-
 const settings = {
   autoArea: true,
   area: 1,
@@ -194,8 +192,6 @@ export default class FruchtermanReingoldLayout {
         node.fr_y * 2
       );
     });
-
-    eventBus.emit('graphLayoutChanged', { graph, width: 100, height: 100 });
   }
 
 }

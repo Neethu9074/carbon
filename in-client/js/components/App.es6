@@ -94,9 +94,7 @@ export default helpify(connectTo(
 
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
-        {!isDemoEnvironment() && config.tenant === 'instana' ?
-          <MapViewSwitcher className='in-root-map-switcher'/>
-        : null}
+        <MapViewSwitcher className='in-root-map-switcher'/>
         <Lettering className='in-root-lettering'/>
         <AccountMenu showMenu={this.showMenu}
                      className={'in-root-menu'}/>
