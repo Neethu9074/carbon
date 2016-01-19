@@ -42,7 +42,7 @@ export default function getSelectedSnapshot(ComposedComponent) {
           });
         });
 
-      this.snapshotSubscription = this.snapshotIdSubscription
+      this.snapshotSubscription = selectedSnapshotStore.selectedEntityIdStore
         .flatMap(snapshotId => {
           if (snapshotId) {
             return loadSnapshot(snapshotId);
