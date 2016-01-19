@@ -1,6 +1,5 @@
 import React from 'react';
 
-import * as navigation from 'in-stores/navigation';
 import * as viewStore from 'in-stores/view';
 import connectTo from 'in-components/hoc/connectTo';
 import {getClassName} from 'in-services/react';
@@ -31,7 +30,6 @@ export default connectTo(
         <div className={block + '__item-wrapper'}>
           {this.renderItem(views.physical, 'Physical')}
           {this.renderItem(views.process, 'Process')}
-          {__DEV__ ? this.renderGraphShowcaseButton() : null}
         </div>
       </div>
     );
@@ -54,14 +52,5 @@ export default connectTo(
     eventBus.emit('onViewWillSwitch');
     viewStore.setView(viewKey);
     eventBus.emit('onViewSwitched');
-  },
-
-  renderGraphShowcaseButton() {
-    return (
-      <div className={block + '__item'}
-          onClick={navigation.goToGraph}>
-        Reveal Graph
-      </div>
-    );
   }
 }));

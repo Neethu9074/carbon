@@ -9,7 +9,6 @@ import {Route} from 'react-router';
 
 import App from './components/App';
 import Dashboard from './components/Dashboard';
-import GraphShowcase from './components/GraphShowcase';
 import SnapshotPane from './components/SnapshotPane';
 import EnvironmentPane from './components/EnvironmentPane';
 import MetricLatencyPane from './components/MetricLatencyPane';
@@ -21,9 +20,6 @@ export default (
     <Route handler={Dashboard}
            path='dashboard'
            name='dashboard'/>
-    <Route handler={GraphShowcase}
-           path='graphShowcase'
-           name='graphShowcase'/>
     <Route handler={PresenceLister}
            path='presenceLister'
            name='presenceLister'/>
