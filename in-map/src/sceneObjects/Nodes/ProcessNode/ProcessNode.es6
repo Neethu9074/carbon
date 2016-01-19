@@ -11,7 +11,7 @@ import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
+import CCP from '../../../SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
 export default class Node extends SceneObjectWithSnapshot {
 
