@@ -5,9 +5,9 @@ import create from './abstractSelectableSnapshotStore';
 import {extractCoordinates} from '../snapshots';
 
 const selectedEntityIdStore = createStore({name: 'selected entity id'});
-const store = create('selected snapshot');
-
 export const selectedEntityId = selectedEntityIdStore.observable;
+
+const store = create('selected snapshot');
 export const selectedSnapshotCoords = store.coordinates;
 export const selectedSnapshot = store.fullSnapshot;
 
