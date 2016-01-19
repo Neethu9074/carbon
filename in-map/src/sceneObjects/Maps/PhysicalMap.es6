@@ -55,7 +55,7 @@ export default class PhysicalMap extends BaseMap {
   }
 
   // is called if new data is available and parsed in BaseMap
-  addNode(groupEntity) {
+  addEntity(groupEntity) {
     const group = this.getOrCreateGroup(groupEntity);
     const hosts = groupEntity.get('children');
 

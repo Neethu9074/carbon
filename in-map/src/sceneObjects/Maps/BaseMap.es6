@@ -56,7 +56,7 @@ export default class VisualMap extends SceneObject {
   onInventoryUpdate(rootNode) {
     const inventory = rootNode.get('children');
 
-    inventory.forEach(node => this.addNode(node));
+    inventory.forEach(entity => this.addEntity(entity));
     this.onInventoryUpdated(inventory);
   }
 

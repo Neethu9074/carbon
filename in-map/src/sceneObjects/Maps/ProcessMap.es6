@@ -37,12 +37,12 @@ export default class ProcessMap extends BaseMap {
 
   onZoom() {}
 
-  addNode(node) {
-    const nodeId = node.get('id');
-    const match = _.find(this.nodes, n => n.id === nodeId);
+  addEntity(entity) {
+    const entityId = entity.get('id');
+    const match = _.find(this.nodes, n => n.id === entityId);
 
     if (!match) {
-      const newNode = new ProcessNode({parent: this, entity: node});
+      const newNode = new ProcessNode({parent: this, entity});
       this.nodes.push(newNode);
     }
   }
