@@ -11,7 +11,7 @@ import {
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import connectTo from 'in-components/hoc/connectTo';
+import connectTo from 'in-hoc/connectTo';
 import {getMaxValue} from 'in-sdk/metrics';
 import Mtd from 'in-components/Mtd';
 

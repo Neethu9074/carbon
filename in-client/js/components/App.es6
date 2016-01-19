@@ -8,12 +8,12 @@ import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as viewStructureStore from 'in-stores/view';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
-import {config, isDemoEnvironment} from 'in-services/config';
+import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
-import connectTo from 'in-components/hoc/connectTo';
+import connectTo from 'in-hoc/connectTo';
 import Filterbar from 'in-components/Filterbar';
 import Map from 'in-map';
 

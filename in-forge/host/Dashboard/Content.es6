@@ -22,7 +22,7 @@ import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
-import connectTo from 'in-components/hoc/connectTo';
+import connectTo from 'in-hoc/connectTo';
 import {getRawPayload} from 'in-services/snapshots';
 import HelpLink from 'in-components/HelpLink';
 import Mtd from 'in-components/Mtd';
