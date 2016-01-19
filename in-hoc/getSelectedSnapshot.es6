@@ -28,7 +28,7 @@ export default function getSelectedSnapshot(ComposedComponent) {
     },
 
     componentWillMount() {
-      this.snapshotIdSubscription = selectedSnapshotStore.selectedEntityIdStore
+      this.snapshotIdSubscription = selectedSnapshotStore.selectedEntityId
         .subscribe(snapshotId => {
           this.setState(previousState => {
             const update = {snapshotId};
@@ -42,7 +42,7 @@ export default function getSelectedSnapshot(ComposedComponent) {
           });
         });
 
-      this.snapshotSubscription = selectedSnapshotStore.selectedEntityIdStore
+      this.snapshotSubscription = selectedSnapshotStore.selectedEntityId
         .flatMap(snapshotId => {
           if (snapshotId) {
             return loadSnapshot(snapshotId);

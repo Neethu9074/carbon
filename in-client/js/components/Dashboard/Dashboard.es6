@@ -58,7 +58,7 @@ const Dashboard = React.createClass({
     const snapshot = this.state.snapshot;
     return getForgeComponent(
       './' +
-      snapshot.get('pluginId') +
+      snapshot.get('plugin') +
       '/Dashboard/' +
       name +
       '.es6'

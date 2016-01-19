@@ -45,7 +45,7 @@ const HostHardware = React.createClass({
     const snapshot = this.props.group;
     return getForgeComponent(
       './' +
-      snapshot.get('pluginId') +
+      snapshot.get('plugin') +
       '/Sidebar/Details.es6'
     );
   }
