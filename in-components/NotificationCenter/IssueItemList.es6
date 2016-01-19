@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import IssueItem from './IssueItem';
+import IssueDiscription from '../IssueDiscription';
 
 import './IssueItemList.less';
 
@@ -18,11 +18,10 @@ const IssueItemList = React.createClass({
   },
 
   render() {
-    const sortedIssue = this.props.issues.sort((a, b) => {
-      return b.get('start') - a.get('start');
-    });
+    const sortedIssue = this.props.issues.sort((a, b) => b.get('start') - a.get('start'));
     const days = this.getIssuesPerDay(sortedIssue);
     const dailyIssues = Object.keys(days);
+
     return (
       <ul className={block}
           style={this.props.style}>
@@ -35,8 +34,10 @@ const IssueItemList = React.createClass({
               <div className={block + '__header-label'}>
                 {this.getDayStringForDate(key)}
               </div>
-
-              {issues.map(issue => <IssueItem key={issue.get('id')} issue={issue}/>)}
+              {issues.map(issue => <IssueDiscription key={issue.get('id')}
+                                                     issue={issue}
+                                                     plugin={issue.getIn(['problem', 'pluginId'])}
+                                                     className={block + '__item'}/>)}
             </li>
           );
         })}

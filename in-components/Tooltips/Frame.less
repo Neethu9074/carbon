@@ -4,24 +4,23 @@
   top: -15px;
   left: 18px;
 
-  max-width: 300px;
+  max-width: 350px;
   min-height: 10px;
-  border-radius: 10px;
+  border-radius: 4px;
 
   padding: 10px;
   margin: 0;
 
-  opacity: 0.85;
   word-break: break-all;
 
   display: inline-block;
 
   z-index: @z-index__tooltips;
-  background-color: @map__tooltips__background;
+  background: @map__tooltips__background;
 }
 
 .in-tooltip__frame:before {
-  content: ' ';
+  content: '';
   position: absolute;
 
   margin-top: 5px;

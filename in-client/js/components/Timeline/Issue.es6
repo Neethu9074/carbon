@@ -11,6 +11,7 @@ import Icon from 'in-components/Icon';
 
 import './Issue.less';
 
+const rpt = React.PropTypes;
 const block = 'in-timeline-issue';
 
 const Issue = React.createClass({
@@ -19,10 +20,10 @@ const Issue = React.createClass({
   ],
 
   propTypes: {
-    mouseOut: React.PropTypes.func.isRequired,
-    mouseIn: React.PropTypes.func.isRequired,
-    style: React.PropTypes.object,
-    issue: irpt.map.isRequired
+    mouseOut: rpt.func.isRequired,
+    mouseIn: rpt.func.isRequired,
+    issue: irpt.map.isRequired,
+    style: rpt.object
   },
 
   getInitialState() {
@@ -40,7 +41,8 @@ const Issue = React.createClass({
     return (
       <Tooltip  align={{vertical: 'top'}}
                 content={<IssueDiscription key={issue.get('id')}
-                                           issue={issue}/>}>
+                                           issue={issue}
+                                           plugin={issue.getIn(['problem', 'pluginId'])}/>}>
 
         <Icon type={'warning'}
               onMouseEnter={() =>this.props.mouseIn(issue)}

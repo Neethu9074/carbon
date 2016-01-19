@@ -2,50 +2,59 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
-import {getLabel} from 'in-sdk/snapshot';
-import connectTo from 'in-components/hoc/connectTo';
 import {getColorForIssue} from 'in-services/issueTracker';
-import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
+import {getClassName} from 'in-services/react';
+
+import PluginDiscription from '../PluginDiscription';
+import Icon from '../Icon';
 
 import './IssueDiscription.less';
 
+const rpt = React.PropTypes;
 const block = 'in-issue-discription';
 
-export default connectTo(
-  props => {
-    return {
-      snapshot: getFullSnapshot(extractCoordinates(props.issue.get('problem')))
-    };
-  },
-  React.createClass({
+export default React.createClass({
+
   displayName: 'IssueDiscription',
 
   propTypes: {
     issue: irpt.map.isRequired,
-    snapshot: irpt.map
+    className: rpt.string,
+    plugin: rpt.string
   },
 
   render() {
     const issue = this.props.issue;
+    const color = getColorForIssue(issue);
+    const className = getClassName(this, block);
 
     return (
-      <div className={block}>
-        <div className={block + '__header'}
-             style={{color: getColorForIssue(issue)}}>
-           {issue.get('problem').get('problemText')}
-        </div>
+      <div className={className}>
+        <Icon className={block + '__icon'}
+              type={this.getIconType(issue)}
+              style={{color}}/>
+        <div className={block + '__discription'}>
+          <div className={block + '__time'}>
+            {moment(issue.get('start')).fromNow()}
+          </div>
 
-        <div className={block + '__suggestion'}>
-          {issue.get('problem').get('fixSuggestion')}
-        </div>
+          <div className={block + '__header'}
+            style={{color}}>
+            {issue.getIn(['problem', 'problemText'])}
+          </div>
 
-        <div className={block + '__time'}>
-          {moment(issue.get('start')).fromNow()}
-          {this.props.snapshot ?
-            ' in component ' + getLabel(this.props.snapshot)
-          : null}
+          <div className={block + '__suggestion'}>
+            {issue.getIn(['problem', 'fixSuggestion'])}
+          </div>
+
+          <PluginDiscription plugin={this.props.plugin} />
         </div>
       </div>
     );
+  },
+
+  getIconType(issue) {
+    const type = issue.getIn(['problem', 'severity']) > 8 ? 'critical' : 'warning';
+    return type;
   }
-}));
+});
