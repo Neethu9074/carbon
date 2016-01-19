@@ -5,6 +5,11 @@ set -eo pipefail
 echo "Please ensure that your ssh agent contains the instana cd key"
 echo "    ssh-add ~/.ssh/instana-cd.private"
 
+killall ssh
+
+echo "Did you comment out the *.compute-1.amazonaws.com reference in /etc/hosts?"
+read x
+
 echo "saas_kafka"
 ssh -Nf -L 2181:localhost:2181 instana@ec2-54-226-238-222.compute-1.amazonaws.com
 ssh -Nf -L 9092:localhost:9092 instana@ec2-54-226-238-222.compute-1.amazonaws.com
