@@ -71,6 +71,8 @@ export function toServerTime(d, off) {
 
 
 function start() {
+  stop();
+
   for (let i = 0; i < numberOfSynchronizationAttemptOnceConnected; i++) {
     synchronize();
   }
@@ -79,7 +81,10 @@ function start() {
 
 
 function stop() {
-  clearInterval(syncIntervalHandle);
+  if (syncIntervalHandle) {
+    clearInterval(syncIntervalHandle);
+    syncIntervalHandle = null;
+  }
 }
 
 
