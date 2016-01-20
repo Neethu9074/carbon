@@ -1,9 +1,14 @@
+
 import THREE from 'three';
+
+import {hexToRGBNormalized} from 'in-services/converters';
+
 
 const colorService = new THREE.Color(0, 0, 0);
 
 export default class ColorGenerator {
   constructor(desiredNumberOfColors) {
+    this.desiredNumberOfColors = desiredNumberOfColors;
     this.progress = 0;
     this.colorIndex = 0;
     this.stepsPerGenerate = 1 / (desiredNumberOfColors);
@@ -35,7 +40,6 @@ export default class ColorGenerator {
   }
 
   reOrder(array) {
-
     const resultArray = [array[0]]; // add first
     this.addRange(array, resultArray, 0, array.length - 1);
     resultArray.push(array[array.length - 1]); // add last
@@ -99,3 +103,38 @@ export default class ColorGenerator {
     return color;
   }
 }
+
+export const colorPools = {};
+
+export function getColorPool(nameOfPool) {
+  if (!colorPools[nameOfPool]) {
+    createColorPool(nameOfPool);
+  }
+  return colorPools[nameOfPool];
+}
+
+function createColorPool(nameOfPool, numColors = 10) {
+  const colorGenerator = new ColorGenerator(numColors);
+  const tagColorCache = {};
+
+  const getColor = (tag) => {
+    if (tag in tagColorCache) {
+      return tagColorCache[tag];
+    }
+
+    // const color = '#' + (Math.random() * 0xFFFFFF << 0).toString(16);
+    const color = colorGenerator.getNextColor().hex;
+    tagColorCache[tag] = color;
+    return color;
+  };
+
+  colorPools[nameOfPool] = {
+    getColorHex: getColor,
+    getColorRGB: tag => hexToRGBNormalized(getColor(tag))
+  };
+}
+
+// create default color pools
+createColorPool('groups', 20);
+createColorPool('tags', 100);
+createColorPool('processes', 100);

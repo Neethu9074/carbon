@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+import {getColorPool} from 'in-services/util/ColorGenerator';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -30,7 +31,7 @@ export default class Layer extends SceneObjectWithSnapshot {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.label = this.id;
+    this.type = this.id;
     this.snapshot = undefined;
     this.tooltip = new TooltipLayer(this);
 
@@ -159,11 +160,14 @@ export default class Layer extends SceneObjectWithSnapshot {
     components.highlighting = new HighlightingComponent({sceneObject: this});
   }
 
-  onSnapshotUpdated() {
+  onSnapshotUpdated(snapshot) {
     // health component needs the snapshot so you can create it if you have one
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
+
+    this.type = snapshot.get('plugin');
+    this.parent.needsUpdate = true;
   }
 
   healthChanged(newHealth) {
@@ -188,16 +192,13 @@ export default class Layer extends SceneObjectWithSnapshot {
 
   calculateColorForHealth(newHealth) {
     const colors = theme.map.colors;
-    let color;
 
     if (newHealth === health.warning) {
-      color = new THREE.Color(colors.warning);
+      return new THREE.Color(colors.warning);
     } else if (newHealth === health.danger) {
-      color = new THREE.Color(colors.critical);
-    } else {
-      color = new THREE.Color(colors.layerBasicColor);
+      return new THREE.Color(colors.critical);
     }
-    return {r: color.r, g: color.g, b: color.b};
+    return getColorPool('processes').getColorRGB(this.type);
   }
 
   dispose() {

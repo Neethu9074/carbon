@@ -1,10 +1,10 @@
 import React from 'react/addons';
 
+import {getColorPool} from 'in-services/util/ColorGenerator';
 import {nameOfUndefinedZone} from 'in-forge/constants';
+import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
 import {getLabel} from 'in-sdk/snapshot';
-import {types as views} from 'in-stores/view';
-import {getColor} from 'in-services/util/groupColors';
 
 import SnapshotList from './SnapshotList';
 import Collapsible from '../Collapsible';
@@ -89,7 +89,7 @@ const ZoneList = React.createClass({
         {groupNames.map(group =>
           <Collapsible key={group}
                        className={className}>
-            <Collapsible.Header style={{color: getColor(group)}}
+            <Collapsible.Header style={{color: getColorPool('groups').getColor(group)}}
                                 className={className}>
               {group + ' (' + groups[group].length + ')'}
             </Collapsible.Header>

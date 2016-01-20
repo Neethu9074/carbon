@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 
-import HighlightingComponent from './HighlightingComponent';
+import HighlightingComponent from './Cube';
 
 
 describe('3D map', () => {

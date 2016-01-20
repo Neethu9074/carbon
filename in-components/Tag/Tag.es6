@@ -1,9 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
+import {getColorPool} from 'in-services/util/ColorGenerator';
 import {createTagFilter} from 'in-services/filtering';
 import * as filters from 'in-services/stores/filters';
-import {getColor} from 'in-services/tags';
 
 import enhance from '../hoc/enhance';
 
@@ -50,7 +50,7 @@ const Tag = React.createClass({
       <div className={className}
            onClick={this.onClick}>
         <div className={block + '__point'}
-             style={{background: String(getColor(this.props.tag))}} />
+             style={{background: String(getColorPool('tags').getColor(this.props.tag))}} />
         <span className={block + '__label'}>
           {this.props.tag}
         </span>

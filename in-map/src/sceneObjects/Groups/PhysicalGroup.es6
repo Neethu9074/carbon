@@ -1,8 +1,7 @@
 import _ from 'lodash';
 
+import {getColorPool} from 'in-services/util/ColorGenerator';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
-import {hexToRGBNormalized} from 'in-services/converters';
-import {getColor} from 'in-services/util/groupColors';
 import eventBus from 'in-services/eventbus';
 
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';
@@ -110,7 +109,7 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   getColor() {
-    return hexToRGBNormalized(getColor(this.id));
+    return getColorPool('groups').getColorRGB(this.id);
   }
 
   getAllMapNodes() {
@@ -133,9 +132,6 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   positionChanged(x, y, z) {
-    if (this.isDisposed) {
-      return;
-    }
     this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('highlight').positionChanged(x, y - 0.01, z);
     this.updateScreenAnchorPosition();
@@ -194,19 +190,13 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   dispose() {
-    if (this.isDisposed) {
-      return;
-    }
-    this.isDisposed = true;
     super.dispose();
 
     this.children.slice().forEach(node => node.dispose());
     this.children = [];
 
-    if (this.stickyNote) {
-      this.stickyNote.dispose();
-      this.stickyNote = null;
-    }
+    this.stickyNote.dispose();
+    this.stickyNote = null;
 
     this.id = null;
   }

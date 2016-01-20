@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import {getColorPool} from 'in-services/util/ColorGenerator';
 
 import HighlightingComponent from '../../../components/HighlightingComponents/ProcessGround';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
@@ -9,7 +10,7 @@ import MeshComponent from '../../../components/MeshComponent';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
-import Label from '../../Label';
+import ColouredPluginLabel from '../../Label/ColouredPluginLabel';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -26,11 +27,10 @@ export default class Node extends SceneObjectWithSnapshot {
     this.incomingConnections = [];
     this.nodes = [];
 
-    this.label = new Label({
+    this.label = new ColouredPluginLabel({
       id: this.id,
       parent: this,
       iconSize: 3,
-      color: this.color,
       predicate: () => false
     });
   }
@@ -55,11 +55,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
-
-  init() {
-    this.color = { r: Math.random(), g: Math.random(), b: Math.random() };
-    this.components.mesh.colorChanged(this.color.r, this.color.g, this.color.b);
-  }
 
   initComponents() {
     super.initComponents();
@@ -103,7 +98,10 @@ export default class Node extends SceneObjectWithSnapshot {
     components.topMesh.sizeChanged(0.9, 0.9, 0.9);
   }
 
-  onSnapshotUpdated() {}
+  onSnapshotUpdated(snapshot) {
+    const color = getColorPool('processes').getColorRGB(snapshot.get('plugin'));
+    this.components.mesh.colorChanged(color.r, color.g, color.b);
+  }
 
   setChildren(entities) {
     console.log('children', entities.size);

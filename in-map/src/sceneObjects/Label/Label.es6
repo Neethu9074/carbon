@@ -1,37 +1,27 @@
 import {zoomLevel} from 'in-services/stores/zoomLevel';
 
-import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import PCP from '../../SingleMeshFactory/ContentProvider/PointContentProvider';
-
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 
 
 export default class Label extends SceneObjectWithSnapshot {
 
-  constructor({id, parent, iconSize = 1, predicate, color = {r: 1, g: 1, b: 1}}) {
+  constructor({id, parent, iconSize = 1, predicate}) {
     super({parent, id});
 
-    this.factory = this.getFactory();
+    this.factory = this.scene.getOrCreateLogoFactory('default', undefined);
 
-    this.positionHandler = new PCM({
-      contentProvider: new CMCM({
-        contentProvider: new PCP(),
-        r: color.r, g: color.g, b: color.b
-     })
-    });
-    this.fragment = {
-      id,
-      contentProvider: this.positionHandler,
-      additionalParams: { iconSize }
-    };
+    this.fragment = this.getFragment(iconSize);
+    this.positionHandler = this.getPositionHandler();
 
     this.addSubscription(zoomLevel.subscribe(zl => {
       const isHidden = predicate(zl) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
       this.stateMachine.changeStateProperty('hidden', isHidden);
     }));
   }
+
+  getFragment() { throw new Error('NOT IMPLEMENTED YET'); }
+  getPositionHandler() { throw new Error('NOT IMPLEMENTED YET'); }
 
   onInactiveEnter() {
     this.factory.removeFragment(this.id);
@@ -49,17 +39,6 @@ export default class Label extends SceneObjectWithSnapshot {
     this.factory.addFragment(this.fragment);
   }
 
-
-  onSnapshotUpdated() {
-    this.factory.removeFragment(this.id);
-    this.factory = this.getFactory();
-    this.updateFragment();
-  }
-
-  getFactory() {
-    const key = this.snapshot ? this.snapshot.get('plugin') : 'default';
-    return this.scene.getOrCreateLogoFactory(key, this.snapshot);
-  }
 
   positionChanged(x, y, z) {
     this.positionHandler.position.x = x;
