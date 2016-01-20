@@ -16,7 +16,7 @@ const Sidebar = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
-    const xargs = snapshot.getIn(['data', 'jvm.args']);
+    const args = snapshot.getIn(['data', 'jvm.args']);
 
     return (
       <div>
@@ -27,12 +27,12 @@ const Sidebar = React.createClass({
           </Collapsible.Content>
         </Collapsible>
 
-        {xargs ?
+        {args ?
           <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>X Args</Collapsible.Header>
+            <Collapsible.Header>JVM Arguments</Collapsible.Header>
             <Collapsible.Content>
               <List>
-                {xargs.map((arg, i) =>
+                {args.map((arg, i) =>
                   <List.Item key={i}>{arg}</List.Item>
                 ).toArray()}
               </List>
