@@ -1,6 +1,0 @@
-{
-  "name": "tags",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./tags.es6"
-}

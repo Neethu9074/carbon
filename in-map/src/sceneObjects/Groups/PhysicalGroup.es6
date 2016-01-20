@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
+import {getColorPool} from 'in-services/util/ColorGenerator';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {hexToRGBNormalized} from 'in-services/converters';
-import {getColor} from 'in-services/util/groupColors';
 import eventBus from 'in-services/eventbus';
 
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';
@@ -110,7 +110,7 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   getColor() {
-    return hexToRGBNormalized(getColor(this.id));
+    return hexToRGBNormalized(getColorPool('groups').getColor(this.id));
   }
 
   getAllMapNodes() {

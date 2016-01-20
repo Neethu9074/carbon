@@ -2,10 +2,10 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 import _ from 'lodash';
 
-import {viewStructure} from 'in-stores/view';
+import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getClassName} from 'in-services/react';
+import {viewStructure} from 'in-stores/view';
 import {getLabel} from 'in-sdk/snapshot';
-import {getColor} from 'in-services/util/groupColors';
 
 import enhance from '../hoc/enhance';
 
@@ -46,7 +46,7 @@ const ZoneTag = React.createClass({
     }
     return (
       <div className={getClassName(this, block)}
-           style={{color: getColor(zone)}}>
+           style={{color: getColorPool('groups').getColor(zone)}}>
         {zone}
       </div>
     );

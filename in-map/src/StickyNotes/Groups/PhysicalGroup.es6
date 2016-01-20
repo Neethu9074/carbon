@@ -41,12 +41,6 @@ const PhysicalGroup = getSnapshot(React.createClass({
     };
   },
 
-  componentDidMount() {
-    // TODO: get health and problems by ID
-    // this.addSubscription(getHealth(snapshot).subscribe(newHealth => this.setState({ health: newHealth })));
-    // this.addSubscription(getProblemsForSnapshot(snapshot).subscribe(issues => this.setState({issues})));
-  },
-
   render() {
     if (!this.props.snapshot) {
       return null;
