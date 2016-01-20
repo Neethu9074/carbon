@@ -7,21 +7,6 @@ import * as fixedStreams from './fixedStreams';
 describe('fixedStreams', () => {
   testPrimitive('alwaysNull', null);
   testCollection('alwaysEmptyArray', []);
-
-  describe('currentTime', () => {
-    testFrozen('currentTime');
-
-    let subscriber;
-
-    beforeEach(() => {
-      subscriber = sinon.stub();
-    });
-
-    it('should immediately emit the current time', () => {
-      fixedStreams.currentTime.subscribe(subscriber);
-      expect(subscriber).to.have.callCount(1);
-    });
-  });
 });
 
 function testPrimitive(name, expectedValue) {
