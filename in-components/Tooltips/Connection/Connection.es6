@@ -28,7 +28,7 @@ const ConnectionTooltip = React.createClass({
     const maxCon = 3;
     const numConnections = connections.length;
     const listItems = connections.slice(0, maxCon).map(connection => {
-      const style = {color: getColorPool('groups').getColor(connection.to.zoneId)};
+      const style = {color: getColorPool('groups').getColorHex(connection.to.zoneId)};
 
       return (
         <li key={connection.id} className={block + '__li'}>

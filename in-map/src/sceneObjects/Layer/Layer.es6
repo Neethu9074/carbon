@@ -31,7 +31,7 @@ export default class Layer extends SceneObjectWithSnapshot {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.type = 'unknown';
+    this.type = this.id;
     this.snapshot = undefined;
     this.tooltip = new TooltipLayer(this);
 
