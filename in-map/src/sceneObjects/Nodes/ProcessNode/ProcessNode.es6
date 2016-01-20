@@ -20,6 +20,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.outgoingConnections = [];
     this.incomingConnections = [];
+    this.nodes = [];
   }
 
   onHighlightEnter() {
@@ -67,6 +68,28 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   onSnapshotUpdated() {}
+
+  setChildren(entities) {
+    console.log('children', entities.size);
+  }
+
+  setOutgoingConnections(outgoingConnections) {
+    console.log('out', outgoingConnections.size);
+    this.outgoingConnections = outgoingConnections;
+  }
+
+  getOutgoingConnections() {
+    return this.outgoingConnections;
+  }
+
+  setIncomingConnections(incomingConnections) {
+    console.log('in', incomingConnections.size);
+    this.incomingConnections = incomingConnections;
+  }
+
+  getIncomingConnections() {
+    return this.incomingConnections;
+  }
 
   positionChanged(x, y, z) {
     this.getComponent('mesh').positionChanged(x, y, z);
