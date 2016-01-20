@@ -5,7 +5,7 @@ export default class PointContentProvider extends ContentProvider {
   constructor() {
     super();
 
-    this.cachedColors = [1.0, 0.0, 0.5];
+    this.cachedColors = [1, 1, 1];
   }
 
   getVertices() {

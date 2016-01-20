@@ -26,7 +26,6 @@ import NodeSnapshotServer from './NodeSnapshotServer';
 import ConnectionGrid from '../../../ConnectionGrid';
 import {currentTooltip} from '../../../mapStores';
 import TooltipNode from '../../../Tooltips/Node';
-import * as emptyObjects from './emptyObjects';
 import Label from '../../Label';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -36,7 +35,6 @@ import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
-const emptyLabel = emptyObjects.emptyLabel;
 const nodeBaseHeight = 1;
 
 export default class Node extends SceneObjectWithSnapshot {
@@ -49,13 +47,18 @@ export default class Node extends SceneObjectWithSnapshot {
     this.height = nodeBaseHeight;
     this.isOutOfView = false;
     this.isToFarAway = false;
-    this.label = emptyLabel;
     this._cachedPower = 1;
 
     this.registerEvents();
 
     this.tooltip = new TooltipNode(this);
     this.snapshotServer = new NodeSnapshotServer(this);
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      iconSize: 3,
+      predicate: zoomLevel => zoomLevel !== level.near && zoomLevel !== level.nearest
+    });
   }
 
   onInitialEnter() {
@@ -368,20 +371,7 @@ export default class Node extends SceneObjectWithSnapshot {
       this.components.health = new HealthComponent({sceneObject: this});
     }
 
-    this.setupLabel();
     this.snapshotServer.onSnapshotUpdate();
-  }
-
-  setupLabel() {
-    this.label.dispose();
-    this.label = new Label({
-      id: this.id,
-      parent: this,
-      iconSize: 3,
-      predicate: zoomLevel => zoomLevel !== level.near && zoomLevel !== level.nearest
-    });
-    const position = this.getComponent('position').getPosition();
-    this.label.getComponent('position').setPosition(position.x, position.y + this.height + 0.2, position.z);
   }
 
   updateHeight(maxPower) {

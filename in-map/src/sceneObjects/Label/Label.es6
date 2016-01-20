@@ -1,22 +1,28 @@
 import {zoomLevel} from 'in-services/stores/zoomLevel';
 
+import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import PCP from '../../SingleMeshFactory/ContentProvider/PointContentProvider';
 
+import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import SceneObject from '../SceneObject';
 
 
-export default class Label extends SceneObject {
+export default class Label extends SceneObjectWithSnapshot {
 
-  constructor({ id, parent, iconSize = 1, predicate }) {
+  constructor({id, parent, iconSize = 1, predicate, color = {r: 1, g: 1, b: 1}}) {
     super({parent, id});
 
     this.factory = this.getFactory();
 
-    this.positionHandler = new PCM({ contentProvider: new PCP() });
+    this.positionHandler = new PCM({
+      contentProvider: new CMCM({
+        contentProvider: new PCP(),
+        r: color.r, g: color.g, b: color.b
+     })
+    });
     this.fragment = {
-      id: this.id,
+      id,
       contentProvider: this.positionHandler,
       additionalParams: { iconSize }
     };
@@ -44,9 +50,15 @@ export default class Label extends SceneObject {
   }
 
 
+  onSnapshotUpdated() {
+    this.factory.removeFragment(this.id);
+    this.factory = this.getFactory();
+    this.updateFragment();
+  }
+
   getFactory() {
-    const key = this.parent.snapshot ? this.parent.snapshot.get('plugin') : 'default';
-    return this.scene.getOrCreateLogoFactory(key, this.parent.snapshot);
+    const key = this.snapshot ? this.snapshot.get('plugin') : 'default';
+    return this.scene.getOrCreateLogoFactory(key, this.snapshot);
   }
 
   positionChanged(x, y, z) {
@@ -54,6 +66,10 @@ export default class Label extends SceneObject {
     this.positionHandler.position.y = y;
     this.positionHandler.position.z = z;
 
+    this.updateFragment();
+  }
+
+  updateFragment() {
     if (this.isActive() && !this.isHidden()) {
       this.factory.addFragment(this.fragment);
     }

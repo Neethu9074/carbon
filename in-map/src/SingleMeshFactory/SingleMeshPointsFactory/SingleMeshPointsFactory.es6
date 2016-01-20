@@ -43,7 +43,6 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
     texture.flipY = false;
 
     return new THREE.RawShaderMaterial({
-      vertexColors: THREE.VertexColors,
       fragmentShader: fragmentShader,
       vertexShader: vertexShader,
       transparent: true,
@@ -67,6 +66,9 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
 
     geometry.addAttribute('pointSize', new THREE.BufferAttribute(pointSizes, 1));
     geometry.attributes.pointSize.needsUpdate = true;
+
+    geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(this.colors), 3));
+    geometry.attributes.color.needsUpdate = true;
   }
 
   dispose() {

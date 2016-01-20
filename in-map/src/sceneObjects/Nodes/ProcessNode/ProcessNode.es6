@@ -9,6 +9,7 @@ import MeshComponent from '../../../components/MeshComponent';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
+import Label from '../../Label';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -24,6 +25,14 @@ export default class Node extends SceneObjectWithSnapshot {
     this.outgoingConnections = [];
     this.incomingConnections = [];
     this.nodes = [];
+
+    this.label = new Label({
+      id: this.id,
+      parent: this,
+      iconSize: 3,
+      color: this.color,
+      predicate: () => false
+    });
   }
 
   onHighlightEnter() {
@@ -47,6 +56,11 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
 
+  init() {
+    this.color = { r: Math.random(), g: Math.random(), b: Math.random() };
+    this.components.mesh.colorChanged(this.color.r, this.color.g, this.color.b);
+  }
+
   initComponents() {
     super.initComponents();
 
@@ -64,7 +78,6 @@ export default class Node extends SceneObjectWithSnapshot {
       }),
       factory: this.scene.solidSingleMeshFactory
     });
-    components.mesh.colorChanged(Math.random(), Math.random(), Math.random());
 
     // add the collision component to handle the collision box
     components.collision = new CollisionComponent({
@@ -114,14 +127,20 @@ export default class Node extends SceneObjectWithSnapshot {
     return this.incomingConnections;
   }
 
+
   positionChanged(x, y, z) {
     this.getComponent('mesh').positionChanged(x, y, z);
-    this.getComponent('topMesh').positionChanged(x, y + 0.51, z); // avoid z fighting, so use height + 0.01
+     // avoid z fighting, so use height + 0.01
+    this.getComponent('topMesh').positionChanged(x, y + 0.51, z);
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
+    this.label.getComponent('position').setPosition(x - 0.1, y + 0.05, z);
   }
 
   dispose() {
     super.dispose();
+
+    this.label.dispose();
+    this.label = null;
   }
 }
