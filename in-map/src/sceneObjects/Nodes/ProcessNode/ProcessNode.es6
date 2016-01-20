@@ -2,11 +2,13 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 
+import HighlightingComponent from '../../../components/HighlightingComponents/Ground';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
+import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -25,18 +27,22 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onHighlightEnter() {
     highlightedSnapshot.setHighlightedEntityId(this.id);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onHighlightLeave() {
     highlightedSnapshot.clearHighlightedEntityId();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onSelectedHighlightEnter() {
     highlightedSnapshot.setHighlightedEntityId(this.id);
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightLeave() {
     highlightedSnapshot.clearHighlightedEntityId();
+    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
 
@@ -55,7 +61,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory: this.scene.singleMeshFactory
+      factory: this.scene.solidSingleMeshFactory
     });
     this.getComponent('mesh').colorChanged(Math.random(), Math.random(), Math.random());
 
@@ -65,6 +71,8 @@ export default class Node extends SceneObjectWithSnapshot {
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
+
+    components.highlighting = new HighlightingComponent({sceneObject: this});
   }
 
   onSnapshotUpdated() {}
@@ -94,6 +102,7 @@ export default class Node extends SceneObjectWithSnapshot {
   positionChanged(x, y, z) {
     this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('collision').positionChanged(x, y, z);
+    this.getComponent('highlighting').positionChanged(x, y, z);
   }
 
   dispose() {

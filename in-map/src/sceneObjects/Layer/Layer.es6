@@ -6,8 +6,8 @@ import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
+import HighlightingComponent from '../../components/HighlightingComponents/Cube';
 import CollisionComponent from '../../components/CollisionObjectComponent';
-import HighlightingComponent from '../../components/HighlightingComponent';
 import HealthComponent from '../../components/HealthComponent';
 import MeshComponent from '../../components/MeshComponent';
 

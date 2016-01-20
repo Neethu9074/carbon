@@ -9,7 +9,7 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import {getPower} from 'in-sdk/power';
 
-import HighlightingComponent from '../../../components/HighlightingComponent';
+import HighlightingComponent from '../../../components/HighlightingComponents/Cube';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import ConnectionComponent from '../../../components/ConnectionComponent';
 import LineMeshComponent from '../../../components/LineMeshComponent';

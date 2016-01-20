@@ -162,8 +162,13 @@ export default class Scene {
     this.groundSingleMeshFactory.material.opacity = 0.3;
 
     this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 4});
+
     this.layerHighlightingSingleMeshFactory = new SingleMeshFactory({scene});
+
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
+
+    this.solidSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
+    this.solidSingleMeshFactory.material.opacity = 0.3;
 
     this.layerSingleMeshFactory = new SingleMeshFactory({scene});
     this.layerSingleMeshFactory.material.opacity = 0.3;
@@ -197,6 +202,7 @@ export default class Scene {
     this.layerSingleMeshFactory.rebuild();
     this.singleMeshMetricFactory.rebuild();
     this.singleMeshFactory.rebuild();
+    this.solidSingleMeshFactory.rebuild();
     this.baselineFactory.rebuild();
     this.lineFactory.rebuild();
     this.groundLineFactory.rebuild();
@@ -385,6 +391,7 @@ export default class Scene {
     this.layerSingleMeshFactory.material.transparent = true;
     this.layerSingleMeshFactory.material.depthWrite = false;
     this.baselineFactory.material.opacity = 0.3;
+    this.solidSingleMeshFactory.material.transparent = true;
   }
 
   showHulls() {
@@ -393,6 +400,7 @@ export default class Scene {
       this.layerSingleMeshFactory.material.transparent = false;
       this.layerSingleMeshFactory.material.depthWrite = true;
       this.baselineFactory.material.opacity = 1;
+      this.solidSingleMeshFactory.material.transparent = false;
       this.updateMaterialsByZoomLevel(this.mapHandler.getCurrentZoomLevel());
     }
   }
