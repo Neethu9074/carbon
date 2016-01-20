@@ -8,7 +8,7 @@ import Tooltip from 'in-components/Tooltip';
 import {getLabel} from 'in-sdk/snapshot';
 
 import HealthIcon from '../HealthIcon';
-import ZoneTag from '../ZoneTag';
+// import ZoneTag from '../ZoneTag';
 
 import './SidebarHeadingSnapshotMetadata.less';
 
@@ -28,14 +28,15 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
   render() {
     const snapshot = this.props.snapshot;
 
+    // TODO Ben add zone tag
+    // <ZoneTag snapshot={snapshot}
+    // className={block + '__zone'}/>
     return (
       <div className={getClassName(this, block)}>
         <div>
           <h1 className={block + '__label'}>
             {this.getHostLabel(snapshot)}
 
-            <ZoneTag snapshot={snapshot}
-                     className={block + '__zone'}/>
           </h1>
 
           <p className={block + '__plugin-type'}>
