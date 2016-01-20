@@ -2,12 +2,11 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
-import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
+import {extractCoordinates} from 'in-services/snapshots';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {getCurrentScaleProperties} from 'in-services/time';
 import {focusedMoment} from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
-import enhance from 'in-components/hoc/enhance';
+import connectTo from 'in-hoc/connectTo';
 
 import IssueLine from './IssueLine';
 import Issue from './Issue';
@@ -17,46 +16,34 @@ import './Eventline.less';
 const rpt = React.PropTypes;
 const block = 'in-timeline-eventline';
 
-const Eventline = React.createClass({
+export default connectTo(
+  () => {
+    return {
+      openIssues: getIssues().debounce(500),
+      focusedMoment
+    };
+  },
+  React.createClass({
+  displayName: 'Eventline',
+
   mixins: [
     React.addons.PureRenderMixin,
     SubscriptionMixin
   ],
 
   propTypes: {
+    renderedForTimestamp: rpt.number.isRequired,
+    scale: rpt.func.isRequired,
+    maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
     focusedMoment: rpt.number,
-    openIssues: irpt.list,
-    tick: rpt.func
-  },
-
-  statics: {
-    createObservables() {
-      return {
-        openIssues: getIssues().debounce(500),
-        focusedMoment
-      };
-    }
+    openIssues: irpt.list
   },
 
   getInitialState() {
     return {
-      renderedForTimestamp: Date.now(),
       hoveredSnapshot: null,
       hoveredIssue: null
     };
-  },
-
-  componentWillMount() {
-    // force a redraw of this component every few seconds to animate the timeline
-    this.interval = setInterval(() => {
-      const now =  Date.now();
-      this.setState({ renderedForTimestamp: now });
-      this.props.tick(now);
-    }, 1000);
-  },
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
   },
 
   render() {
@@ -75,10 +62,10 @@ const Eventline = React.createClass({
       return null;
     }
 
-    const scale = getCurrentScaleProperties().scale;
 
-    return (<IssueLine style={{left: scale(issue.get('start')).toFixed(2) + '%'}}
-                       issue={issue}/>);
+    return (<IssueLine style={{left: this.props.scale(issue.get('start')).toFixed(2) + '%'}}
+                       issue={issue}
+                       scale={this.props.scale}/>);
   },
 
   renderIssues() {
@@ -87,36 +74,32 @@ const Eventline = React.createClass({
       return null;
     }
 
-    const scaleProps = getCurrentScaleProperties();
-    const scale = scaleProps.scale;
     return openIssues
-      .filter(issue => issue.get('start') > scaleProps.maxOldestPermittedIssue)
+      .filter(issue => issue.get('start') > this.props.maxOldestPermittedIssueTimestamp)
       .map(issue => <Issue key={issue.get('id')}
-                                      mouseIn={this.mouseIn}
-                                      mouseOut={this.mouseOut}
-                                      issue={issue}
-                                      style={{ left: scale(issue.get('start')).toFixed(2) + '%' }}/>
+                           mouseIn={this.mouseIn}
+                           mouseOut={this.mouseOut}
+                           issue={issue}
+                           style={{
+                             left: this.props.scale(issue.get('start')).toFixed(2) + '%'
+                           }}/>
       );
   },
 
   mouseIn(issue) {
-    this.setState({ hoveredIssue: issue });
+    this.setState({
+      hoveredIssue: issue
+    });
 
     const problem = issue.get('problem');
     const problemCoordinates = extractCoordinates(problem);
-    this.addSubscription(
-      getFullSnapshot(problemCoordinates)
-      .subscribe(hoveredSnapshot => this.setState({hoveredSnapshot}))
-    );
     highlightedSnapshotStore.select(problemCoordinates);
   },
 
   mouseOut() {
     this.setState({
-      hoveredIssue: null,
-      hoveredSnapshot: null
+      hoveredIssue: null
     });
-    this.disposeSubscriptions();
     highlightedSnapshotStore.clear();
   },
 
@@ -125,12 +108,11 @@ const Eventline = React.createClass({
       return null;
     }
 
-    const scale = getCurrentScaleProperties().scale;
     return (
       <div className={block + '__focused-moment'}
-           style={{ left: scale(this.props.focusedMoment).toFixed(2) + '%' }}/>
+           style={{
+             left: this.props.scale(this.props.focusedMoment).toFixed(2) + '%'
+           }}/>
     );
   }
-});
-
-export default enhance(Eventline);
+}));

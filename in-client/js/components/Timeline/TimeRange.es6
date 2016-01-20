@@ -1,20 +1,21 @@
 import React from 'react/addons';
 import moment from 'moment';
 
-import {getCurrentScaleProperties} from 'in-services/time';
-import {getServerTime} from 'in-services/time';
-
 import './TimeRange.less';
 
 const block = 'in-timeline-timerange';
 
-const TimeRange = React.createClass({
+export default React.createClass({
+  displayName: 'TimeRange',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    renderedForTimestamp: React.PropTypes.number
+    serverTime: React.PropTypes.number.isRequired,
+    scale: React.PropTypes.func.isRequired,
+    maxOldestPermittedIssueTimestamp: React.PropTypes.number.isRequired
   },
 
   render() {
@@ -26,9 +27,9 @@ const TimeRange = React.createClass({
   },
 
   getTiles() {
-    const now = getServerTime();
-    const max = getCurrentScaleProperties().maxOldestPermittedIssue;
-    const scale = getCurrentScaleProperties().scale;
+    const now = this.props.serverTime;
+    const max = this.props.maxOldestPermittedIssueTimestamp;
+    const scale = this.props.scale;
     const range = now - max;
     const numItems = 8;
     const spaceBetweenEachItem = 1 / numItems;
@@ -48,5 +49,3 @@ const TimeRange = React.createClass({
     });
   }
 });
-
-export default TimeRange;

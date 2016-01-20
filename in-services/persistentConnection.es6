@@ -1,7 +1,7 @@
 import {createLogger} from 'instalog';
 import io from 'socket.io-client';
 
-const logger = createLogger('in-services.connection');
+const logger = createLogger('in-services.persistentConnection');
 
 let socket;
 
