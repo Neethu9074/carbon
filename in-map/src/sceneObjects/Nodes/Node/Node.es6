@@ -25,8 +25,8 @@ import {longClickedSceneObject} from '../../../mapStores';
 import NodeSnapshotServer from './NodeSnapshotServer';
 import ConnectionGrid from '../../../ConnectionGrid';
 import {currentTooltip} from '../../../mapStores';
+import PluginLabel from '../../Label/PluginLabel';
 import TooltipNode from '../../../Tooltips/Node';
-import Label from '../../Label';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -53,7 +53,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.tooltip = new TooltipNode(this);
     this.snapshotServer = new NodeSnapshotServer(this);
-    this.label = new Label({
+    this.label = new PluginLabel({
       id: this.id,
       parent: this,
       iconSize: 3,

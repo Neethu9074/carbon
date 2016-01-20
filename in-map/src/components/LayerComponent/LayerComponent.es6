@@ -3,8 +3,8 @@ import _ from 'lodash';
 import {level} from 'in-services/stores/zoomLevel';
 
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import PluginLabel from '../../SceneObjects/Label/PluginLabel';
 import Layer from '../../SceneObjects/Layer';
-import Label from '../../SceneObjects/Label';
 import Component from '../Component';
 import XYZ from '../XYZ';
 
@@ -17,9 +17,8 @@ export default class LayerComponent extends Component {
 
     this.positionToSet = new XYZ(-1000, 0, 0);
     this.heightToSet = 1;
-    this.layer = [];
-
     this.layerGroupLabel = [];
+    this.layer = [];
 
     this.initialized();
   }
@@ -126,7 +125,7 @@ export default class LayerComponent extends Component {
     this.layerGroupLabel = [];
 
     const addLabelForChild = (child, y) => {
-      const label = new Label({
+      const label = new PluginLabel({
         id: child.id,
         parent: child,
         predicate: zoomLevel => zoomLevel !== level.nearest
@@ -159,7 +158,7 @@ export default class LayerComponent extends Component {
       if (!nextItem) {
         break;
       }
-      if (item.label !== nextItem.label) {
+      if (item.type !== nextItem.type) {
         return i;
       }
     }
@@ -179,7 +178,7 @@ export default class LayerComponent extends Component {
     let position = 0;
 
     layer.forEach((child, index) => {
-      if (prevChild && child.label !== prevChild.label) {
+      if (prevChild && child.type !== prevChild.type) {
         position += gapHeight;
       }
 
@@ -207,7 +206,7 @@ export default class LayerComponent extends Component {
     let differentTypes = 1;
 
     for (let i = 1; i < array.length; i++) {
-      if (array[i].label !== array[i - 1].label) {
+      if (array[i].type !== array[i - 1].type) {
         differentTypes++;
       }
     }
@@ -217,7 +216,7 @@ export default class LayerComponent extends Component {
 
   getSortedLayer() {
     // reverse the sort order to get aligned with tooltip
-    return this.layer.sort((a, b) => b.label.localeCompare(a.label));
+    return this.layer.sort((a, b) => b.type.localeCompare(a.type));
   }
 
   // is called if a layer was disposed

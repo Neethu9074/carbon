@@ -32,7 +32,7 @@ export default class Layer extends SceneObjectWithSnapshot {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.label = this.id;
+    this.type = 'unknown';
     this.snapshot = undefined;
     this.tooltip = new TooltipLayer(this);
 
@@ -161,11 +161,14 @@ export default class Layer extends SceneObjectWithSnapshot {
     components.highlighting = new HighlightingComponent({sceneObject: this});
   }
 
-  onSnapshotUpdated() {
+  onSnapshotUpdated(snapshot) {
     // health component needs the snapshot so you can create it if you have one
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
+
+    this.type = snapshot.get('plugin');
+    this.parent.needsUpdate = true;
   }
 
   healthChanged(newHealth) {
@@ -196,7 +199,7 @@ export default class Layer extends SceneObjectWithSnapshot {
     } else if (newHealth === health.danger) {
       return new THREE.Color(colors.critical);
     }
-    return hexToRGBNormalized(getColorPool('processes').getColor(this.id));
+    return hexToRGBNormalized(getColorPool('processes').getColor(this.type));
   }
 
   dispose() {

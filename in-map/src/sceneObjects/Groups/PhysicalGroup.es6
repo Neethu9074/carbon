@@ -133,9 +133,6 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   positionChanged(x, y, z) {
-    if (this.isDisposed) {
-      return;
-    }
     this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('highlight').positionChanged(x, y - 0.01, z);
     this.updateScreenAnchorPosition();
@@ -194,19 +191,13 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   dispose() {
-    if (this.isDisposed) {
-      return;
-    }
-    this.isDisposed = true;
     super.dispose();
 
     this.children.slice().forEach(node => node.dispose());
     this.children = [];
 
-    if (this.stickyNote) {
-      this.stickyNote.dispose();
-      this.stickyNote = null;
-    }
+    this.stickyNote.dispose();
+    this.stickyNote = null;
 
     this.id = null;
   }
