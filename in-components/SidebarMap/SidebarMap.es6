@@ -1,59 +1,42 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import * as wiring from 'in-services/wiring';
-import {types as views} from 'in-stores/view';
-import {alwaysNull} from 'in-services/fixedStreams';
+import connectTo from 'in-hoc/connectTo';
+import getSelectedSnapshot from 'in-hoc/getSelectedSnapshot';
 
 import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';
 import SidebarHeadingNavigation from '../SidebarHeadingNavigation';
 import SidebarDetailList from '../SidebarDetailList';
 import SidebarTabs from '../SidebarTabs';
-import enhance from '../hoc/enhance';
 
 import './SidebarMap.less';
 
 const block = 'in-sidebar-map';
 
-const SidebarMap = React.createClass({
+export default getSelectedSnapshot(connectTo(
+  () => {
+    // TODO add ELEVATORE!
+    return {
+    };
+  },
+  React.createClass({
+  displayName: 'SidebarMap',
+
   mixins: [
-    React.addons.PureRenderMixin,
-    SubscriptionMixin
+    React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    snapshot: irpt.map
+    snapshotId: React.PropTypes.string,
+    snapshot: irpt.map,
+    parentCoordinates: irpt.list
   },
 
-  statics: {
-    createObservables() {
-      return {
-        snapshot: selectedSnapshotStore.selectedSnapshot,
-        parentCoordinates: selectedSnapshotStore.selectedSnapshot.transform({
-          emitLatestOnSubscribe: true,
-
-          transform(snapshot) {
-            if (!snapshot) {
-              return alwaysNull;
-            }
-            return wiring.getParentNode(views.physical, snapshot);
-          },
-
-          shouldRetransform(prevSnapshot, snapshot) {
-            return prevSnapshot !== snapshot;
-          }
-        })
-      };
-    }
-  },
-
-  getInitialState: function f() {
+  getInitialState() {
     return { windowHeight: this.getWindowHeight() };
   },
 
-  handleResize: function f() {
+  handleResize() {
     this.setState({ windowHeight: this.getWindowHeight() });
   },
 
@@ -63,11 +46,11 @@ const SidebarMap = React.createClass({
     return Math.max(100, window.innerHeight - 350);
   },
 
-  componentDidMount: function f() {
+  componentDidMount() {
     window.addEventListener('resize', this.handleResize);
   },
 
-  componentWillUnmount: function f() {
+  componentWillUnmount() {
     window.removeEventListener('resize', this.handleResize);
   },
 
@@ -96,6 +79,4 @@ const SidebarMap = React.createClass({
       </div>
     );
   }
-});
-
-export default enhance(SidebarMap);
+})));

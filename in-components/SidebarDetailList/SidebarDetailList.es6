@@ -33,10 +33,10 @@ const SidebarDetailList = React.createClass({
   },
 
   getForgeSpecificComponent(name) {
-    const pluginId = this.props.snapshot.get('pluginId');
+    const plugin = this.props.snapshot.get('plugin');
     const path = this.props.useDetailedInformation ?
-      './' + pluginId + '/Dashboard/Sidebar.es6' :
-      './' + pluginId + '/Sidebar/' + name + '.es6';
+      './' + plugin + '/Dashboard/Sidebar.es6' :
+      './' + plugin + '/Sidebar/' + name + '.es6';
 
     return getForgeComponent(path);
   }
