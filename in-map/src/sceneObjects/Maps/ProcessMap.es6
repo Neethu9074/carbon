@@ -49,6 +49,12 @@ export default class ProcessMap extends BaseMap {
       matchedNode.setOutgoingConnections(entity.get('outgoingConnections'));
       matchedNode.setIncomingConnections(entity.get('incomingConnections'));
 
+      console.log(
+        'children', entity.get('children').size,
+        'out', entity.get('outgoingConnections').size,
+        'in', entity.get('incomingConnections').size
+      );
+
       this.nodes.push(matchedNode);
     }
   }

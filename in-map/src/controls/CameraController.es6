@@ -14,19 +14,12 @@ export default class CameraController {
   constructor({scene, map}) {
     this.camera = map.camera;
 
-    this.bindListeners();
     this.init(scene, map);
 
     this.setZoomLevel(260);
     this.states = setupStates(this);
     this.state = this.states.mid;
     this.connectionTooltip = new ConnectionTooltip(scene, []);
-  }
-
-  bindListeners() {
-    this.init = this.init.bind(this);
-    this.update = this.update.bind(this);
-    this.zoom = this.zoom.bind(this);
   }
 
   init(scene, map) {

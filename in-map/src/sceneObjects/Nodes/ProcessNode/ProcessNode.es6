@@ -103,12 +103,9 @@ export default class Node extends SceneObjectWithSnapshot {
     this.components.mesh.colorChanged(color.r, color.g, color.b);
   }
 
-  setChildren(entities) {
-    console.log('children', entities.size);
-  }
+  setChildren() {}
 
   setOutgoingConnections(outgoingConnections) {
-    console.log('out', outgoingConnections.size);
     this.outgoingConnections = outgoingConnections;
   }
 
@@ -117,7 +114,6 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   setIncomingConnections(incomingConnections) {
-    console.log('in', incomingConnections.size);
     this.incomingConnections = incomingConnections;
   }
 
