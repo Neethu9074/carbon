@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 
-import HighlightingComponent from '../../../components/HighlightingComponents/Ground';
+import HighlightingComponent from '../../../components/HighlightingComponents/ProcessGround';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
@@ -13,6 +13,7 @@ import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import CPCP from '../../../SingleMeshFactory/ContentProvider/CylinderPlaneContentProvider';
 import CCP from '../../../SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
 export default class Node extends SceneObjectWithSnapshot {
@@ -51,7 +52,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     const components = this.components;
 
-    // add the mesh component to handle visual representation of the node
+    // add the mesh component to handle visual representation of the entity
     components.mesh = new MeshComponent({
       sceneObject: this,
       contentProvider: new CMCM({
@@ -63,7 +64,7 @@ export default class Node extends SceneObjectWithSnapshot {
       }),
       factory: this.scene.solidSingleMeshFactory
     });
-    this.getComponent('mesh').colorChanged(Math.random(), Math.random(), Math.random());
+    components.mesh.colorChanged(Math.random(), Math.random(), Math.random());
 
     // add the collision component to handle the collision box
     components.collision = new CollisionComponent({
@@ -73,6 +74,20 @@ export default class Node extends SceneObjectWithSnapshot {
     });
 
     components.highlighting = new HighlightingComponent({sceneObject: this});
+
+    // the topping of the cylinder
+    components.topMesh = new MeshComponent({
+      sceneObject: this,
+      contentProvider: new CMCM({
+        contentProvider: new PCM({
+          contentProvider: new SCM({
+            contentProvider: new CPCP()
+          })
+        })
+      }),
+      factory: this.scene.solidSingleMeshFactory
+    });
+    components.topMesh.sizeChanged(0.9, 0.9, 0.9);
   }
 
   onSnapshotUpdated() {}
@@ -101,6 +116,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
   positionChanged(x, y, z) {
     this.getComponent('mesh').positionChanged(x, y, z);
+    this.getComponent('topMesh').positionChanged(x, y + 0.51, z); // avoid z fighting, so use height + 0.01
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
   }
