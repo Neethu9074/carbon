@@ -1,6 +1,8 @@
 import THREE from 'three';
 
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
+import {getColorPool} from 'in-services/util/ColorGenerator';
+import {hexToRGBNormalized} from 'in-services/converters';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -188,16 +190,13 @@ export default class Layer extends SceneObjectWithSnapshot {
 
   calculateColorForHealth(newHealth) {
     const colors = theme.map.colors;
-    let color;
 
     if (newHealth === health.warning) {
-      color = new THREE.Color(colors.warning);
+      return new THREE.Color(colors.warning);
     } else if (newHealth === health.danger) {
-      color = new THREE.Color(colors.critical);
-    } else {
-      color = new THREE.Color(colors.layerBasicColor);
+      return new THREE.Color(colors.critical);
     }
-    return {r: color.r, g: color.g, b: color.b};
+    return hexToRGBNormalized(getColorPool('processes').getColor(this.id));
   }
 
   dispose() {

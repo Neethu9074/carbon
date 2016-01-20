@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {hexToRGBNormalized} from 'in-services/converters';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import eventBus from 'in-services/eventbus';
 
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';

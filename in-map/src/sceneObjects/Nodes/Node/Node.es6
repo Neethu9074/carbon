@@ -466,16 +466,13 @@ export default class Node extends SceneObjectWithSnapshot {
 
   calculateNodeColor(hostHealth) {
     const colors = theme.map.colors;
-    let color;
 
     if (hostHealth === health.warning) {
-      color = new THREE.Color(colors.warning);
+      return new THREE.Color(colors.warning);
     } else if (hostHealth === health.danger) {
-      color = new THREE.Color(colors.critical);
-    } else {
-      color = new THREE.Color(colors.cubeBasicColor);
+      return new THREE.Color(colors.critical);
     }
-    return {r: color.r, g: color.g, b: color.b};
+    return new THREE.Color(colors.cubeBasicColor);
   }
 
   calculatePower() {
