@@ -35,9 +35,7 @@ export default class Layer extends SceneObjectWithSnapshot {
     this.snapshot = undefined;
     this.tooltip = new TooltipLayer(this);
 
-    this.getComponent('position').setPosition(0, 0, 0);
-
-    this.temp = zoomLevel.subscribe(newLevel => {
+    zoomLevel.subscribe(newLevel => {
       this.currentZoomLevel = newLevel;
       const activateCollisions = (newLevel === level.nearest && this.isActive()) ?
         PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
