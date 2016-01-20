@@ -282,11 +282,11 @@ export default class Node extends SceneObjectWithSnapshot {
     this.stateMachine.changeStateProperty('active', value);
   }
 
-  addLayer(layer) {
+  setChildren(entities) {
     const layerComponent = this.getComponent('layer');
 
-    layerComponent.removedVanishedLayer(layer);
-    layerComponent.addLayer(layer);
+    layerComponent.removedVanishedLayer(entities);
+    layerComponent.addLayer(entities);
   }
 
   updateScreenAnchorPosition() {

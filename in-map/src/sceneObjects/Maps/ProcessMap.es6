@@ -39,11 +39,17 @@ export default class ProcessMap extends BaseMap {
 
   addEntity(entity) {
     const entityId = entity.get('id');
-    const match = _.find(this.nodes, n => n.id === entityId);
+    let matchedNode = _.find(this.nodes, n => n.id === entityId);
 
-    if (!match) {
-      const newNode = new ProcessNode({parent: this, entity});
-      this.nodes.push(newNode);
+    if (!matchedNode) {
+      matchedNode = new ProcessNode({parent: this, entity});
+
+      // set layer and connections, no matter if a new node was created or it's still available
+      matchedNode.setChildren(entity.get('children'));
+      matchedNode.setOutgoingConnections(entity.get('outgoingConnections'));
+      matchedNode.setIncomingConnections(entity.get('incomingConnections'));
+
+      this.nodes.push(matchedNode);
     }
   }
 

@@ -163,7 +163,7 @@ export default class Group extends SceneObjectWithSnapshot {
     }
 
     // set layer and connections, no matter if a new node was created or it's still available
-    matchedNode.addLayer(entity.get('children'));
+    matchedNode.setChildren(entity.get('children'));
     matchedNode.setOutgoingConnections(entity.get('outgoingConnections'));
     matchedNode.setIncomingConnections(entity.get('incomingConnections'));
 
