@@ -1,6 +1,6 @@
 import _ from 'lodash';
 
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {hexToRGBNormalized} from 'in-services/converters';
 import {getColor} from 'in-services/util/groupColors';
 import eventBus from 'in-services/eventbus';
@@ -106,7 +106,7 @@ export default class Group extends SceneObjectWithSnapshot {
   onSnapshotUpdated() {}
 
   onGroupClicked() {
-    selectedSnapshot.setSelectedEntityId(this.id);
+    setSelectedSnapshotId(this.id);
   }
 
   getColor() {

@@ -1,5 +1,75 @@
+import {combineLatest} from 'reactive-observables';
+
+import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
+import {alwaysNull} from 'in-services/fixedStreams';
+
+import {createStore, createTrackingStore} from 'in-stores/store';
+
+const selectedSnapshotIdStore = createStore({name: 'selectedSnapshotId'});
+export const selectedSnapshotId = selectedSnapshotIdStore.observable;
+
+export const selectedSnapshot = createTrackingStore({
+  name: 'selectedSnapshot',
+  observable: selectedSnapshotId.flatMap(snapshotId => {
+    if (snapshotId) {
+      return getSnapshot(snapshotId);
+    }
+    return alwaysNull;
+  })
+}).observable;
+
+export const selectedSnapshotWithId = createTrackingStore({
+  name: 'selectedSnapshotWithId',
+  observable: combineLatest([selectedSnapshotId, selectedSnapshot])
+    .map(([snapshotId, snapshot]) => {
+      if (!snapshotId) {
+        return {
+          snapshotId: null,
+          snapshot: null
+        };
+      } else if (snapshot && snapshot.get('id') !== snapshotId) {
+        return {
+          snapshotId: snapshotId,
+          snapshot: null
+        };
+      }
+
+      return {
+        snapshotId,
+        snapshot
+      };
+    })
+}).observable;
+
+export function setSelectedSnapshotId(id) {
+  if (id == null) {
+    clearSelectedSnapshotId();
+  } else {
+    mutateUrl(navParams => {
+      navParams.query.snapshotId = encodeURIComponent(id);
+      return navParams;
+    });
+  }
+}
+
+export function clearSelectedSnapshotId() {
+  mutateUrl(navParams => {
+    delete navParams.query.snapshotId;
+    return navParams;
+  });
+}
 
 export function getSnapshot(snapshotId) {
   return createSnapshotObservable({snapshotId});
 }
+
+navigationParameters.subscribe(navParams => {
+  const query = navParams.query;
+  if ('snapshotId' in query) {
+    const snapshotId = decodeURIComponent(query.snapshotId);
+    selectedSnapshotIdStore.applyStateMutation(() => snapshotId);
+  } else {
+    selectedSnapshotIdStore.applyStateMutation(() => null);
+  }
+});
