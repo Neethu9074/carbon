@@ -1,4 +1,4 @@
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import * as snapshotStore from 'in-stores/snapshot';
 
 import PositionComponent from '../components/PositionComponent';
 import {PROPERTY_VALUES} from '../StateMachine/StateMachine';
@@ -25,7 +25,7 @@ export default class SceneObject {
     this.stateMachine = new StateMachine(this);
     this.stateMachine.initialized();
 
-    this.addSubscription(selectedSnapshot.selectedEntityId.subscribe(selectedId => {
+    this.addSubscription(snapshotStore.selectedSnapshotId.subscribe(selectedId => {
       const isSelected = (selectedId === this.id) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
       this.stateMachine.changeStateProperty('selected', isSelected);
     }));

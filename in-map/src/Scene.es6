@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
+import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/converters';
 
@@ -525,7 +525,7 @@ export default class Scene {
   onObjectClicked(object, hoveredConnections) {
     if (object) {
       const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
-      selectedSnapshot.setSelectedEntityId(sceneObject.id);
+      setSelectedSnapshotId(sceneObject.id);
     // dont reset the click if you clicken on connections
     } else if (hoveredConnections.length === 0) {
       this.resetClicked();
@@ -536,14 +536,14 @@ export default class Scene {
 
   resetClicked() {
     highlightedSnapshot.clear();
-    selectedSnapshot.clearSelectedEntityId();
+    clearSelectedSnapshotId();
   }
 
   // is called by map
   removeChild() {}
 
   clearStores() {
-    selectedSnapshot.clearSelectedEntityId();
+    clearSelectedSnapshotId();
     stores.longClickedSceneObject.emit(null);
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);

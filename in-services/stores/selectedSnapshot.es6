@@ -1,11 +1,7 @@
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
-import {createStore} from 'in-stores/store';
 
 import create from './abstractSelectableSnapshotStore';
 import {extractCoordinates} from '../snapshots';
-
-const selectedEntityIdStore = createStore({name: 'selected entity id'});
-export const selectedEntityId = selectedEntityIdStore.observable;
 
 const store = create('selected snapshot');
 export const selectedSnapshotCoords = store.coordinates;
@@ -45,12 +41,4 @@ export function clear() {
     delete navParams.query.sSteadyId;
     return navParams;
   });
-}
-
-export function setSelectedEntityId(id) {
-  selectedEntityIdStore.applyStateMutation(() => id);
-}
-
-export function clearSelectedEntityId() {
-  selectedEntityIdStore.applyStateMutation(() => null);
 }
