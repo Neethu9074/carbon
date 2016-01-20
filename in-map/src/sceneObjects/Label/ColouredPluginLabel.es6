@@ -1,5 +1,4 @@
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import {hexToRGBNormalized} from 'in-services/converters';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -27,7 +26,7 @@ export default class ColouredPluginLabel extends PluginLabel {
   }
 
   onSnapshotUpdated(snapshot) {
-    const newColor = hexToRGBNormalized(getColorPool('processes').getColor(snapshot.get('plugin')));
+    const newColor = getColorPool('processes').getColorRGB(snapshot.get('plugin'));
     const currentColor = this.fragment.contentProvider.contentProvider.color;
 
     currentColor.r = newColor.r;

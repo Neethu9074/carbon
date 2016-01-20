@@ -2,7 +2,6 @@ import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import {hexToRGBNormalized} from 'in-services/converters';
 
 import HighlightingComponent from '../../../components/HighlightingComponents/ProcessGround';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
@@ -100,7 +99,7 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   onSnapshotUpdated(snapshot) {
-    const color = hexToRGBNormalized(getColorPool('processes').getColor(snapshot.get('plugin')));
+    const color = getColorPool('processes').getColorRGB(snapshot.get('plugin'));
     this.components.mesh.colorChanged(color.r, color.g, color.b);
   }
 

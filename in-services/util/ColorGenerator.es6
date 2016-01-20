@@ -1,4 +1,8 @@
+
 import THREE from 'three';
+
+import {hexToRGBNormalized} from 'in-services/converters';
+
 
 const colorService = new THREE.Color(0, 0, 0);
 
@@ -124,7 +128,10 @@ function createColorPool(nameOfPool, numColors = 10) {
     return color;
   };
 
-  colorPools[nameOfPool] = { getColor };
+  colorPools[nameOfPool] = {
+    getColorHex: getColor,
+    getColorRGB: tag => hexToRGBNormalized(getColor(tag))
+  };
 }
 
 // create default color pools
