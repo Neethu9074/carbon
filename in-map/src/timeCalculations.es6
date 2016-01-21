@@ -8,6 +8,7 @@ let timeSinceFirstFrame = 0;
 let secondCounter = 0;
 let fpsCounter = 0;
 let deltaTime = 0;
+let timeNow = 0;
 let fps = 0;
 
 const listenerObservable = ro.create({ emitLatestOnSubscribe: false });
@@ -17,7 +18,7 @@ export function addTimeEventListener(timeEventCallback) {
 }
 
 export function update(highResTimestamp) {
-  const timeNow = highResTimestamp;
+  timeNow = highResTimestamp;
   const deltaTimeInMs = (timeNow - timeOfLastFrameUpdate);
   deltaTime = deltaTimeInMs / 1000; // in ms
 
@@ -56,6 +57,10 @@ export function getFPS() {
 
 export function getDeltaTime() {
   return deltaTime;
+}
+
+export function getNow() {
+  return timeNow;
 }
 
 export function getBigBangTime() {

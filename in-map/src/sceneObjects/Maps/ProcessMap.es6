@@ -1,7 +1,7 @@
 import THREE from 'three';
 import _ from 'lodash';
 
-import MouseCameraController from '../../controls/MouseCameraController';
+import CameraController from '../../controls/TouchCameraController_temp';
 import Layouter from './Layouter/FruchtermanReingoldLayouter';
 import GroundPlane from '../GroundPlanes/GroundPlane';
 import ProcessNode from '../Nodes/ProcessNode';
@@ -28,10 +28,10 @@ export default class ProcessMap extends BaseMap {
   }
 
   getController(canvas) {
-    return new MouseCameraController({
+    return new CameraController({
+      canvas,
       scene: this.scene,
-      map: this,
-      canvas
+      camera: this.camera
     });
   }
 

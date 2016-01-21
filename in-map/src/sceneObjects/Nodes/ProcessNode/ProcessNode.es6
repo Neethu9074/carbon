@@ -128,7 +128,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.getComponent('topMesh').positionChanged(x, y + 0.51, z);
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
-    this.label.getComponent('position').setPosition(x - 0.1, y + 0.05, z);
+    this.label.getComponent('position').setPosition(x - 0.5, y + 0.5, z + 0.5);
   }
 
   dispose() {

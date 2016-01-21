@@ -25,8 +25,8 @@ export default class OrthographicCamera extends SceneObject {
       2000 // far
     );
 
-    camera.position.set(-0.8, 1, 1);
-    camera.lookAt(new THREE.Vector3());
+    // camera.position.set(-0.8, 1, 1);
+    // camera.lookAt(new THREE.Vector3());
     camera.projection = new THREE.Matrix4();
     // set static
     camera.rotationAutoUpdate = false;
@@ -52,6 +52,10 @@ export default class OrthographicCamera extends SceneObject {
   setSize(width, height) {
     this.width = width;
     this.height = height;
+  }
+
+  setCameraSize(value) {
+    this.cameraSize = Math.min(Math.max(10, value), 300);
   }
 
   setCameraFromSize() {

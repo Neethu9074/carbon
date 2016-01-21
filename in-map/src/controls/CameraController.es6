@@ -14,6 +14,11 @@ export default class CameraController {
   constructor({scene, map}) {
     this.camera = map.camera;
 
+    this.camera.camera.position.set(-0.8, 1, 1);
+    this.camera.camera.lookAt(new THREE.Vector3(0, 0, 0));
+    this.camera.updateMatrix();
+    this.camera.update();
+
     this.init(scene, map);
 
     this.setZoomLevel(260);
