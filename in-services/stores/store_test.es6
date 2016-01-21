@@ -35,8 +35,7 @@ describe('in-services/stores/store', () => {
   it('should free the observable so that all mutations go through applyStateMutation', () => {
     const name = generateStoreName();
     const store = createStore({name});
-
-    expect(() => store.observable.emit(42)).to.throw(/frozen/);
+    expect(store.observable.emit).to.equal(undefined);
   });
 
   it('should inform subscribers about state transitions', () => {
