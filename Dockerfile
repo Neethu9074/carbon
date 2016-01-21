@@ -12,11 +12,7 @@ COPY deployment/star_instana_io.crt /etc/ssl/certs/star_instana_io.crt
 COPY deployment/star_instana_io.key /opt/www/star_instana_io.key.j2
 COPY deployment/dhgroup.pem /etc/ssl/dhgroup.pem
 
-CMD j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf && \
-  j2 /opt/www/config.json.j2 > /opt/www/assets/config.json && \
-  j2 /opt/www/serverConfig.json.j2 > /opt/www/serverConfig.json && \
-  j2 /opt/www/star_instana_io.key.j2 > /etc/ssl/private/star_instana_io.key && \
-  /sbin/my_init
+CMD ["/sbin/my_init"]
 
 # prepare folders for deamons
 RUN mkdir /etc/service/nginx
