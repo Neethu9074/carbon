@@ -9,39 +9,11 @@ import {Route} from 'react-router';
 
 import App from './components/App';
 import Dashboard from './components/Dashboard';
-import SnapshotPane from './components/SnapshotPane';
-import EnvironmentPane from './components/EnvironmentPane';
-import MetricLatencyPane from './components/MetricLatencyPane';
-import MetricPane from './components/MetricPane';
-import PresenceLister from './devtools/PresenceLister';
 
 export default (
   <Route name='map' path='/' handler={App}>
     <Route handler={Dashboard}
            path='dashboard'
            name='dashboard'/>
-    <Route handler={PresenceLister}
-           path='presenceLister'
-           name='presenceLister'/>
-    {__INTERNAL__ ?
-      <Route handler={SnapshotPane}
-             path='internal/:env/:tenant/:unit/hosts'
-             name='snapshot-pane'/>
-    : null}
-    {__INTERNAL__ ?
-      <Route handler={EnvironmentPane}
-             path='internal/environments/'
-             name='environments-pane'/>
-    : null}
-    {__INTERNAL__ ?
-      <Route handler={MetricLatencyPane}
-             path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/metrics'
-             name='metric-latency-pane'/>
-     : null}
-    {__INTERNAL__ ?
-      <Route handler={MetricPane}
-             path='internal/:env/:tenant/:unit/:hostId/:pluginId/:steadyId/:metric'
-            name='metric-pane'/>
-    : null}
   </Route>
 );

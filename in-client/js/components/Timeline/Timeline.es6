@@ -1,6 +1,11 @@
+import d3 from 'd3';
 import React from 'react/addons';
+import {combineLatest} from 'reactive-observables';
 
 import ServerTime from 'in-components/ServerTime';
+import connectTo from 'in-hoc/connectTo';
+import * as timelineStore from 'in-services/stores/timeline';
+import * as serverTimeStore from 'in-stores/serverTime';
 
 import ChangeTimeButton from './ChangeTimeButton';
 import Eventline from './Eventline';
@@ -10,29 +15,57 @@ import './Timeline.less';
 
 const block = 'in-timeline';
 
-const Timeline = React.createClass({
+export default connectTo(
+  () => {
+    return {
+      serverTime: serverTimeStore.serverTime,
+      timeframe: timelineStore.timeframe,
+      maxOldestPermittedIssueTimestamp: combineLatest(
+          [serverTimeStore.serverTime, timelineStore.timeframe]
+        ).map(([serverTime, timeframe]) => serverTime - timeframe)
+    };
+  },
+  React.createClass({
+
+  displayName: 'Timeline',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
-  getInitialState() {
-    return { renderedForTimestamp: Date.now() };
+  propTypes: {
+    serverTime: React.PropTypes.number.isRequired,
+    timeframe: React.PropTypes.number.isRequired,
+    maxOldestPermittedIssueTimestamp: React.PropTypes.number.isRequired
+  },
+
+  componentWillMount() {
+    this.scale = d3.scale.linear().range([100, 0])
+      .domain([
+        this.props.serverTime,
+        this.props.maxOldestPermittedIssueTimestamp
+      ]);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.scale = this.scale.domain([
+      nextProps.serverTime,
+      nextProps.maxOldestPermittedIssueTimestamp
+    ]);
   },
 
   render() {
     return (
       <div className={block}>
-        <TimeRange renderedForTimestamp={this.state.renderedForTimestamp}/>
-        <ChangeTimeButton/>
-        <Eventline tick={this.onTick}/>
-        <ServerTime className={block + '__servertime'}/>
+        <TimeRange serverTime={this.props.serverTime}
+                   scale={this.scale}
+                   maxOldestPermittedIssueTimestamp={this.props.maxOldestPermittedIssueTimestamp}/>
+        <ChangeTimeButton />
+        <Eventline renderedForTimestamp={this.props.serverTime}
+                   scale={this.scale}
+                   maxOldestPermittedIssueTimestamp={this.props.maxOldestPermittedIssueTimestamp} />
+        <ServerTime className={block + '__servertime'} />
       </div>
     );
-  },
-
-  onTick(time) {
-    this.setState({ renderedForTimestamp: time });
   }
-});
-
-export default Timeline;
+}));

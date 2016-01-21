@@ -1,6 +1,5 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
-import d3 from 'd3';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import IssueDiscription from 'in-components/IssueDiscription';
@@ -24,12 +23,6 @@ const Issue = React.createClass({
     mouseIn: rpt.func.isRequired,
     issue: irpt.map.isRequired,
     style: rpt.object
-  },
-
-  getInitialState() {
-    return {
-      scale: d3.scale.linear().range([100, 0])
-    };
   },
 
   render() {

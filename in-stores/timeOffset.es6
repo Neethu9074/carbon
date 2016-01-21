@@ -1,8 +1,6 @@
-import d3 from 'd3';
-
-import * as timelineStore from 'in-services/stores/timeline';
-
-import * as connection from '../connection';
+import {createStore} from 'in-stores/store';
+import createTimestampObservable from 'in-services/subscription/timestamp';
+import * as persistentConnection from 'in-services/persistentConnection';
 
 // This is an attempt to "synchronize" the time between client (browser) and
 // server (backend). This needs to be done as we cannot expect that the user
@@ -39,69 +37,62 @@ let syncIntervalHandle;
 // Negative values indicate that the local click is behing the server clock.
 let offsets = [];
 
-connection.emitter.on('connected').subscribe(start);
-connection.emitter.on('closed').subscribe(stop);
 
-/**
- * Returns the number of milliseconds that the local clock differs from the
- * remote click.
- *
- * Positive values indicate that the local clock is ahead of the server clock.
- * Negative values indicate that the local click is behing the server clock.
- *
- * @returns {number} Difference in milliseconds.
- */
-export function getOffset() {
-  const offsetSum = offsets.reduce((a, b) => a + b, 0);
-  return Math.round(offsetSum / Math.max(offsets.length, 1));
+const offsetStore = createStore({
+  name: 'timeOffsetMillis',
+  initialValue: 0
+});
+export const offset = offsetStore.observable;
+
+
+export function init() {
+  persistentConnection.on('connect', start);
+  persistentConnection.on('reconnect', start);
+  persistentConnection.on('disconnect', stop);
 }
 
+
 /**
- * Translate local time to server time by subtracting the current offset
+ * Translate local time to server time by subtracting the offset
  *
  * @param {number|Date} d The value which should be translated to server time.
+ * @param {number} off The current offset to the server time in millis
  * @returns {number} The provided time in milliseconds server time.
  */
-export function toServerTime(d) {
+export function toServerTime(d, off) {
   let millis;
   if (d instanceof Date) {
     millis = d.getTime();
   } else {
     millis = d;
   }
-  return millis - getOffset();
+  return millis - off;
 }
 
-export function getServerTime() {
-  return toServerTime(Date.now());
-}
 
 function start() {
+  stop();
+
   for (let i = 0; i < numberOfSynchronizationAttemptOnceConnected; i++) {
     synchronize();
   }
   syncIntervalHandle = setInterval(synchronize, syncInterval);
 }
 
+
 function stop() {
-  clearInterval(syncIntervalHandle);
+  if (syncIntervalHandle) {
+    clearInterval(syncIntervalHandle);
+    syncIntervalHandle = null;
+  }
 }
+
 
 function synchronize() {
-  const id = connection.getNewMessageId();
-  const message = {
-    event: 'timestamp',
-    id,
-    originate: Date.now()
-  };
-
-  connection.emitter
-    .on('message')
-    .filter(e => e.id === id)
+  createTimestampObservable({originate: Date.now()})
     .once(processTimestampReply);
-
-  connection.send(message);
 }
+
 
 /**
  * Process the server reply and try to get an offset approximation.
@@ -126,15 +117,20 @@ function processTimestampReply(reply) {
     offsets.length - numberOfValuesForOffetMean,
     offsets.length
   );
+  offsetStore.applyStateMutation(() => getOffset());
 }
 
-let timeFrame = 0;
-const scale = d3.scale.linear().range([100, 0]);
-timelineStore.timeframe.subscribe(frame => timeFrame = frame);
 
-export function getCurrentScaleProperties() {
-  const now = getServerTime();
-  const maxOldestPermittedIssue = now - timeFrame;
-
-  return {scale: scale.domain([now, maxOldestPermittedIssue]), maxOldestPermittedIssue};
+/**
+ * Returns the number of milliseconds that the local clock differs from the
+ * remote click.
+ *
+ * Positive values indicate that the local clock is ahead of the server clock.
+ * Negative values indicate that the local click is behing the server clock.
+ *
+ * @returns {number} Difference in milliseconds.
+ */
+function getOffset() {
+  const offsetSum = offsets.reduce((a, b) => a + b, 0);
+  return Math.round(offsetSum / Math.max(offsets.length, 1));
 }

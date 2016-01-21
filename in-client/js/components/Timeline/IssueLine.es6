@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {getCurrentScaleProperties} from 'in-services/time';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {theme} from 'in-services/theme';
 
@@ -14,14 +13,14 @@ const IssueLine = React.createClass({
 
   propTypes: {
     style: React.PropTypes.object,
-    issue: irpt.map.isRequired
+    issue: irpt.map.isRequired,
+    scale: React.PropTypes.func.isRequired
   },
 
   render() {
     const issue = this.props.issue;
-    const scale = getCurrentScaleProperties().scale;
 
-    let right = scale(issue.get('end')).toFixed(2);
+    let right = this.props.scale(issue.get('end')).toFixed(2);
     if (right < 0) {
       right = 0 + '%';
     } else {

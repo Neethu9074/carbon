@@ -1,38 +1,32 @@
 import React from 'react/addons';
 import moment from 'moment';
 
-import * as time from 'in-services/time';
+import connectTo from 'in-hoc/connectTo';
+import * as serverTimeStore from 'in-stores/serverTime';
 
-const ServerTime = React.createClass({
+export default connectTo(
+  () => {
+    return {
+      serverTime: serverTimeStore.serverTime
+    };
+  },
+  React.createClass({
+  displayName: 'ServerTime',
 
   propTypes: {
-    className: React.PropTypes.any
+    className: React.PropTypes.any,
+    serverTime: React.PropTypes.number.isRequired
   },
 
-  shouldComponentUpdate() {
-    // never, yay!
-    return false;
-  },
-
-  componentDidMount() {
-    const node = React.findDOMNode(this);
-    setNow();
-    this.interval = setInterval(setNow, 1000);
-
-    function setNow() {
-      node.innerHTML = moment(time.getServerTime()).format('HH:mm:ss');
-    }
-  },
-
-  componentWillUnmount() {
-    clearInterval(this.interval);
-  },
+  mixins: [
+    React.addons.PureRenderMixin
+  ],
 
   render() {
     return (
-      <span className={this.props.className}></span>
+      <span className={this.props.className}>
+        {moment(this.props.serverTime).format('HH:mm:ss')}
+      </span>
     );
   }
-});
-
-export default ServerTime;
+}));

@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
+import getSnapshot from 'in-hoc/getSnapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import {getIcon} from 'in-sdk/snapshot';
 
@@ -11,36 +12,45 @@ import './Tab.less';
 const block = 'in-sidebar-tab';
 const rpt = React.PropTypes;
 
-const SidebarTab = React.createClass({
+export default getSnapshot(React.createClass({
+  displayName: 'SidebarTab',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
+    snapshotId: rpt.string.isRequired,
+    snapshot: irpt.map,
     isSelected: rpt.bool.isRequired,
-    children: irpt.map.isRequired,
     onClick: rpt.func.isRequired,
     className: rpt.string
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+    if (!snapshot) {
+      return null;
+    }
+
     let className = this.props.isSelected ? block + ' ' + block + '__selected' : block;
     className += ' ' + this.props.className;
-    const item = this.props.children;
 
     return (
-      <Tooltip content={getSingular(item.get('pluginId'))}>
+      <Tooltip content={getSingular(snapshot.get('plugin'))}>
         <li className={className}
-            onClick={() => this.props.onClick(item)}>
+            onClick={this.onClick}>
 
-          <img src={getIcon(item)}
+          <img src={getIcon(snapshot)}
                alt='Snapshot icon'
                className={block + '__icon'}/>
 
         </li>
       </Tooltip>
     );
-  }
-});
+  },
 
-export default SidebarTab;
+  onClick() {
+    this.props.onClick(this.props.snapshotId);
+  }
+}));

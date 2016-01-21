@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import connectTo from 'in-hoc/connectTo';
 import getSelectedSnapshot from 'in-hoc/getSelectedSnapshot';
 
 import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';
@@ -13,13 +12,7 @@ import './SidebarMap.less';
 
 const block = 'in-sidebar-map';
 
-export default getSelectedSnapshot(connectTo(
-  () => {
-    // TODO add ELEVATORE!
-    return {
-    };
-  },
-  React.createClass({
+export default getSelectedSnapshot(React.createClass({
   displayName: 'SidebarMap',
 
   mixins: [
@@ -62,7 +55,7 @@ export default getSelectedSnapshot(connectTo(
 
     return (
       <div className={block}>
-        <SidebarTabs snapshot={snapshot}
+        <SidebarTabs snapshotId={this.props.snapshotId}
                      className={block + '__tabs'}/>
 
         <SidebarHeadingNavigation snapshot={snapshot}
@@ -79,4 +72,4 @@ export default getSelectedSnapshot(connectTo(
       </div>
     );
   }
-})));
+}));

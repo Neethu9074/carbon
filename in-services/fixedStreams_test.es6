@@ -23,7 +23,7 @@ function testCollection(name, expectedValue) {
 function testFrozen(name) {
   it(`${name} observable should be frozen`, () => {
     const ro = getImplementation(name);
-    expect(() => ro.emit(42)).to.throw(/frozen/);
+    expect(ro.emit).to.equal(undefined);
   });
 }
 
