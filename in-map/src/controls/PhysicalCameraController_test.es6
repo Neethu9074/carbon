@@ -1,15 +1,22 @@
 /* eslint-env mocha, node */
 /* eslint-disable no-unused-expressions */
-import THREE from 'three';
+import proxyquire from 'proxyquire';
 import {expect} from 'chai';
+import sinon from 'sinon';
+import THREE from 'three';
 
-import CameraController from './CameraController';
 
-
-describe('3D map', () => {
+describe.only('3D map', () => {
   let scene;
   let map;
   let controller;
+
+  const CameraController = proxyquire(
+    './PhysicalCameraController', {
+      './MouseControlsModule': class {},
+      './TouchControlsModule': class {}
+    }
+  );
 
   beforeEach(() => {
     scene = {
@@ -20,14 +27,11 @@ describe('3D map', () => {
     };
     map = {
       camera: {
-        getCurrentCamera() {
-          return {
-            position: new THREE.Vector3(-1, 1, 1),
-            updateMatrix() {}
-          };
-        },
+        camera: new THREE.OrthographicCamera(1, -1, 1, -1, 0.1, 2000),
+        updateMatrix: sinon.stub(),
+        update: sinon.stub(),
         getPosition() {
-          return this.getCurrentCamera().position;
+          return this.camera.position;
         }
       }
     };

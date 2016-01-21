@@ -1,7 +1,7 @@
 import THREE from 'three';
 import _ from 'lodash';
 
-import CameraController from '../../controls/TouchCameraController_temp';
+import CameraController from '../../controls/ProcessCameraController';
 import Layouter from './Layouter/FruchtermanReingoldLayouter';
 import GroundPlane from '../GroundPlanes/GroundPlane';
 import ProcessNode from '../Nodes/ProcessNode';

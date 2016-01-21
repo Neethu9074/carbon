@@ -4,7 +4,7 @@ import {hexToRGBNormalized} from 'in-services/converters';
 import {getIn} from 'in-services/settings';
 import theme from 'in-services/theme';
 
-import MouseCameraController from '../../controls/MouseCameraController';
+import CameraController from '../../controls/PhysicalCameraController';
 import GroundPlaneWithGrid from '../GroundPlanes/GroundPlaneWithGrid';
 import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
 import Layouter from './Layouter/GroupLayouter';
@@ -41,7 +41,7 @@ export default class PhysicalMap extends BaseMap {
   }
 
   getController(canvas) {
-    return new MouseCameraController({
+    return new CameraController({
       scene: this.scene,
       map: this,
       canvas
