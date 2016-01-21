@@ -26,6 +26,7 @@ const RedisDashboard = React.createClass({
 
     return (
       <div>
+        {dbs ?
         <DashboardSection title='Database Size'>
           <ChartWithLegend snapshot={snapshot}
                            windowSize={timeframe}
@@ -44,6 +45,7 @@ const RedisDashboard = React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
+        : null}
 
         <DashboardSection title='Clients'>
           <ChartWithLegend snapshot={snapshot}
