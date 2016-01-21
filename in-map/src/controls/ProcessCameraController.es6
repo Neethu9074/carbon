@@ -1,6 +1,8 @@
 import TWEEN from 'tween.js';
 import THREE from 'three';
 
+import MouseControlsModule from './MouseControlsModule';
+import TouchControlsModule from './TouchControlsModule';
 import * as time from '../timeCalculations';
 
 
@@ -11,7 +13,7 @@ const startRoll = -40;
 
 export default class CameraController {
 
-  constructor({scene, camera}) {
+  constructor({scene, camera, canvas}) {
     this.camera = camera;
     this.scene = scene;
     this.zoomLevel = 0;
@@ -19,6 +21,11 @@ export default class CameraController {
 
     this.init();
     this.setupAnimation();
+
+    this.interactionModules = [
+      new MouseControlsModule({parent: this, scene, canvas}),
+      new TouchControlsModule({parent: this, scene, canvas})
+    ];
   }
 
   init() {
@@ -94,6 +101,10 @@ export default class CameraController {
     this.animation.stop();
     this.aniamte = true;
     this.animation.start();
+  }
+
+  onMouseMoved(/* lastMousePosition */) {
+    // console.log('mousemoved', lastMousePosition)
   }
 
   move(dx, dy) {

@@ -2,18 +2,19 @@ import THREE from 'three';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
 
+import {longClickedSceneObject, currentTooltip} from '../mapStores';
 import {allConnections} from '../SceneObjects/Connection';
+import MouseControlsModule from './MouseControlsModule';
+import TouchControlsModule from './TouchControlsModule';
 import ConnectionTooltip from '../Tooltips/Connection';
-import {currentTooltip} from '../mapStores';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 
 
 export default class CameraController {
 
-  constructor({scene, map}) {
+  constructor({scene, map, canvas}) {
     this.camera = map.camera;
-
     this.camera.camera.position.set(-0.8, 1, 1);
     this.camera.camera.lookAt(new THREE.Vector3(0, 0, 0));
     this.camera.updateMatrix();
@@ -25,6 +26,11 @@ export default class CameraController {
     this.states = setupStates(this);
     this.state = this.states.mid;
     this.connectionTooltip = new ConnectionTooltip(scene, []);
+
+    this.interactionModules = [
+      new MouseControlsModule({parent: this, scene, canvas}),
+      new TouchControlsModule({parent: this, scene, canvas})
+    ];
   }
 
   init(scene, map) {
@@ -33,9 +39,6 @@ export default class CameraController {
 
     // this counter is used to check if the cameraSpeed can be resetted
     this.zoomCalls = 0;
-
-    // holds the mouse/touch position in pixel coordinates
-    this.cursor = new THREE.Vector2();
 
     this.defaultCameraSpeed = 100; // camera fly speed
     this.cameraSpeed = this.defaultCameraSpeed; // camera fly speed
@@ -92,6 +95,27 @@ export default class CameraController {
     this.scrollSpeed = 5;
   }
 
+  onClicked() {
+    this.getObjectOnCursor();
+    // if an object was found via raycasting, inform the scene
+    this.scene.onObjectClicked(this.hittenObject, this.hoveredConnections);
+  }
+
+  onDoubleClicked() {
+    if (this.hittenObject) {
+      longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
+
+      // also perform a simple click
+      this.onClicked();
+    }
+  }
+
+  onMouseMoved(lastMousePosition) {
+    this.lastMousePosition.x = lastMousePosition.x;
+    this.lastMousePosition.y = lastMousePosition.y;
+    this.handleRayCasting();
+  }
+
   switchStateIfNext() {
     const next = this.state.getNext(this.zoomLevel);
     if (next) {
@@ -135,11 +159,6 @@ export default class CameraController {
 
     this.targetZoomLevel = Math.max(max, Math.min(min, (zL)));
     this.scene.onZoom({zoomLevel: this.targetZoomLevel});
-  }
-
-  doClick() {
-    // if an object was found via raycasting, inform the scene
-    this.scene.onObjectClicked(this.hittenObject, this.hoveredConnections);
   }
 
   flyToObject(obj) {
@@ -358,6 +377,9 @@ export default class CameraController {
   }
 
   dispose() {
+    this.interactionModules.forEach(module => module.dispose());
+    this.interactionModules = [];
+
     this.tooltip2DSubscribtion.dispose();
     this.tooltip2DSubscribtion = null;
 

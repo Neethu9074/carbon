@@ -1,16 +1,18 @@
 import Hammer from 'hammerjs';
 
-import {longClickedSceneObject} from '../mapStores';
-import CameraController from './CameraController';
+import BaseModule from './BaseModule';
 
+export default class TouchControl extends BaseModule {
 
-export default class TouchControl extends CameraController {
-
-  constructor({scene, canvas, map}) {
-    super({scene, map});
+  constructor({parent, canvas}) {
+    super(parent);
 
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
+
+
+    // holds the mouse/touch position in pixel coordinates
+    this.cursor = { x: 0, y: 0 };
 
     const eventHandler = this.eventHandler = new Hammer(canvas);
     const minMovementForPan = 15;
@@ -36,15 +38,6 @@ export default class TouchControl extends CameraController {
     });
   }
 
-  emitLongClick() {
-    if (this.hittenObject) {
-      longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
-
-      // also perform a simple click
-      this.doClick();
-    }
-  }
-
   checkDoubleClick() {
     const now = Date.now();
     const deltaTime = (now - this.timeSinceLastTap);
@@ -55,22 +48,22 @@ export default class TouchControl extends CameraController {
     return false;
   }
 
-  onPan(e) {
-    const dx = (e.pointers[0].clientX - this.cursor.x);
-    const dy = (e.pointers[0].clientY - this.cursor.y);
+  onPan(event) {
+    const pointer = event.pointers[0];
+    const dx = (pointer.clientX - this.cursor.x);
+    const dy = (pointer.clientY - this.cursor.y);
 
-    this.setCursorToEvent(e);
+    this.setCursorToEvent(event);
 
-    this.move(dx, dy);
+    this.parent.move(dx, dy);
   }
 
   onTab(e) {
     if (this.checkDoubleClick()) {
-      this.emitLongClick();
+      this.parent.onDoubleClicked();
     }
     this.setCursorToEvent(e);
-    this.getObjectOnCursor();
-    this.doClick();
+    this.parent.onClicked();
   }
 
   onPinchIn(e) {
@@ -86,12 +79,13 @@ export default class TouchControl extends CameraController {
     const delta = newDistance - oldDistance;
     this.pinchDistance = newDistance;
 
-    this.zoom(delta);
+    this.parent.zoom(delta);
   }
 
   setCursorToEvent(event) {
-    this.cursor.x = event.pointers[0].clientX;
-    this.cursor.y = event.pointers[0].clientY;
+    const pointer = event.pointers[0];
+    this.cursor.x = pointer.clientX;
+    this.cursor.y = pointer.clientY;
   }
 
   dispose() {

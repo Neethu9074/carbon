@@ -3,14 +3,16 @@ import * as ro from 'reactive-observables';
 import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
-import TouchController from './TouchCameraController';
 import {cursorPosition} from '../mapStores';
+import BaseModule from './BaseModule';
 
 
-export default class MouseControl extends TouchController {
+export default class MouseControl extends BaseModule {
 
-  constructor({scene, canvas, map}) {
-    super({scene, canvas, map});
+  constructor({parent, scene}) {
+    super(parent);
+
+    this.scene = scene;
     this.lastMousePosition = {x: 0, y: 0};
 
     this.mouseScrollSpeedSubscribtion = getIn(['map', 'scrollSpeed'])
@@ -30,13 +32,13 @@ export default class MouseControl extends TouchController {
         this.lastMousePosition.x = roundedX;
         this.lastMousePosition.y = roundedY;
         cursorPosition.emit(this.lastMousePosition);
-        this.handleRayCasting();
+        this.parent.onMouseMoved(this.lastMousePosition);
       }
     };
 
     // Wheel event is new (IE10+, Chrome 31+, FF 17+, Safari 7), but produces
     // a consistent range of scroll events.
-    ro.on(div, 'wheel')
+    this.wheelDisposable = ro.on(div, 'wheel')
       .scan((aggregate, e) => {
         e.preventDefault();
         aggregate.deltaY += e.deltaY;
@@ -68,16 +70,16 @@ export default class MouseControl extends TouchController {
           zoom = Math.min(50, Math.max(1, zoom));
         }
 
-        this.zoom(-zoom * this.mouseScrollDirection * this.mouseScrollSpeed);
+        this.parent.zoom(-zoom * this.mouseScrollDirection * this.mouseScrollSpeed);
       });
   }
 
   dispose() {
     super.dispose();
 
+    this.scene.parent.onmousemove = undefined;
     this.mouseScrollDirectionSubscribtion.dispose();
     this.mouseScrollSpeedSubscribtion.dispose();
-
-    this.scene.parent.onmousemove = undefined;
+    this.wheelDisposable.dispose();
   }
 }
