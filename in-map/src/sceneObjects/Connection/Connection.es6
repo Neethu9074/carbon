@@ -15,7 +15,7 @@ const fullWhite = {r: 1, g: 1, b: 1};
 
 export const allConnections = [];
 
-let id = 0;
+let id = 1;
 
 export default class Connection extends SceneObjectWithSnapshot {
 
