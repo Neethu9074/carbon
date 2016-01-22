@@ -51,7 +51,7 @@ router.get('/', (req, res) => {
   askUiBackendWhetherTheRequestIsAuthorized(req, (err, status) => {
     if (err) {
       console.error(err);
-      res.sendStatus(500);
+      res.sendStatus(500).send('Sorry, our internal communication failed :(.');
       return;
     }
 
