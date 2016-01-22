@@ -1,56 +1,39 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
-import _ from 'lodash';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getClassName} from 'in-services/react';
-import {viewStructure} from 'in-stores/view';
-import {getLabel} from 'in-sdk/snapshot';
-
-import enhance from '../hoc/enhance';
+import getZone from 'in-hoc/getZone';
 
 import './ZoneTag.less';
+
 
 const rpt = React.PropTypes;
 const block = 'in-zone-tag';
 
-const ZoneTag = React.createClass({
+export default getZone(React.createClass({
+
+  displayName: 'ZoneTag',
+
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    zone: rpt.string,
+    snapshotId: rpt.string.isRequired,
+    zoneSnapshot: irpt.map,
     className: rpt.string
   },
 
-  statics: {
-    createObservables(props) {
-      const snapshotId = props.snapshot.get('id');
-      const predicate = nodeStructure => nodeStructure.node.get('id') === snapshotId;
-      return {
-        zone: viewStructure.map(currentViewStructure => {
-          const nodeStructure = _.find(currentViewStructure, predicate);
-          if (nodeStructure && nodeStructure.group) {
-            return getLabel(nodeStructure.group);
-          }
-          return null;
-        })
-      };
-    }
-  },
-
   render() {
-    const zone = this.props.zone;
-    if (!zone) {
+    const snapshot = this.props.zoneSnapshot;
+    if (!snapshot) {
       return null;
     }
+
     return (
       <div className={getClassName(this, block)}
-           style={{color: getColorPool('groups').getColor(zone)}}>
-        {zone}
+           style={{color: getColorPool('groups').getColorHex(snapshot.get('id'))}}>
+        {snapshot.getIn(['data', 'groupId'])}
       </div>
     );
   }
-});
-
-export default enhance(ZoneTag);
+}));
