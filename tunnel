@@ -5,9 +5,10 @@ set -eo pipefail
 echo "Please ensure that your ssh agent contains the instana cd key"
 echo "    ssh-add ~/.ssh/instana-cd.private"
 
-killall ssh
+killall ssh || true
 
 echo "Did you comment out the *.compute-1.amazonaws.com reference in /etc/hosts?"
+echo "Hit enter to continue..."
 read x
 
 echo "saas_kafka"
