@@ -16,8 +16,19 @@ export default class CameraController {
   constructor({scene, camera, canvas}) {
     this.camera = camera;
     this.scene = scene;
+
+    // this is an abstract zoomLevel, needed to store calculte the frustum size of
+    // of the camera and the distance to the POI
     this.zoomLevel = 0;
+
+    // this is the speed the camera will move to the new pos on drag
     this.cameraMoveSpeed = 0.02;
+
+    // copy this property to animate it
+    this.targetCameraFrustumSize = camera.getCameraSize();
+    this.cameraFrunstumSizeAnimationSpeed = 5;
+
+    this.targetCameraZPosition = 200;
 
     this.init();
     this.setupAnimation();
@@ -40,7 +51,7 @@ export default class CameraController {
     this.camMoveHelper.add(this.camRotationHelper);
 
     this.camTargetPosition = new THREE.Object3D();
-    this.camTargetPosition.position.z = 200;
+    this.camTargetPosition.position.z = this.targetCameraZPosition;
     this.camTargetPosition.add(new THREE.AxisHelper(0.5));
     this.camRotationHelper.add(this.camTargetPosition);
   }
@@ -85,14 +96,8 @@ export default class CameraController {
   }
 
   zoom(delta) {
-    this.camera.setCameraSize(this.camera.cameraSize + delta / 20);
-    this.camera.setCameraFromSize();
-    this.camera.update();
-
-    this.camTargetPosition.position.z += delta / 4;
-    this.camTargetPosition.position.z = Math.min(Math.max(80, this.camTargetPosition.position.z), 1000);
-
-    this.scene.renderScene();
+    this.targetCameraZPosition += delta / 4;
+    this.targetCameraFrustumSize += delta / 20;
   }
 
   onClick() {}
@@ -113,9 +118,20 @@ export default class CameraController {
   }
 
   update() {
+    const dt = time.getDeltaTime();
     if (this.aniamte) {
       this.animation.update(time.getNow());
     }
+
+    const deltaCamSize = this.targetCameraFrustumSize - this.camera.getCameraSize();
+    this.camera.setCameraSize(
+      this.camera.getCameraSize() + deltaCamSize * Math.min(1, dt * this.cameraFrunstumSizeAnimationSpeed));
+    this.camera.setCameraFromSize();
+
+    const deltaCamZPosition = this.camTargetPosition.position.z - this.targetCameraZPosition;
+    this.camTargetPosition.position.z += deltaCamZPosition * dt;
+    this.camTargetPosition.position.z = Math.min(Math.max(80, this.camTargetPosition.position.z), 1000);
+
     this.refreshCameraTransformHierarchy();
   }
 

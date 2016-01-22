@@ -58,6 +58,10 @@ export default class OrthographicCamera extends SceneObject {
     this.cameraSize = Math.min(Math.max(10, value), 300);
   }
 
+  getCameraSize() {
+    return this.cameraSize;
+  }
+
   setCameraFromSize() {
     // we start in the middle and go totalWidth / 2 to the left
     const camSizeHalf = this.cameraSize / 2;
