@@ -29,27 +29,24 @@ export default function getZone(ComposedComponent) {
     },
 
     subscribe(snapshotId) {
-      this.disposeSubscription(this.zoneIdSubscription);
-      this.disposeSubscription(this.snapshotSubscription);
+      this.disposeSubscription(this.subscription);
 
       // reset state
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        this.zoneIdSubscription = loadZone(snapshotId).subscribe(zoneId => {
-          this.disposeSubscription(this.snapshotSubscription);
-          this.snapshotSubscription = loadSnapshot(zoneId).subscribe(zoneSnapshot => {
+        this.subscription = loadZone(snapshotId)
+          .flatMap(zoneId =>loadSnapshot(zoneId))
+          .subscribe(zoneSnapshot => {
             this.setState({
               zoneSnapshot
             });
           });
-        });
       }
     },
 
     componentWillUnmount() {
-      this.disposeSubscription(this.zoneIdSubscription);
-      this.disposeSubscription(this.snapshotSubscription);
+      this.disposeSubscription(this.subscription);
     },
 
     disposeSubscription(subscription) {
