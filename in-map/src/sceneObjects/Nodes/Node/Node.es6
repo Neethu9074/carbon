@@ -42,8 +42,6 @@ export default class Node extends SceneObjectWithSnapshot {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.outgoingConnections = [];
-    this.incomingConnections = [];
     this.height = nodeBaseHeight;
     this.isOutOfView = false;
     this.isToFarAway = false;
@@ -59,6 +57,12 @@ export default class Node extends SceneObjectWithSnapshot {
       iconSize: 3,
       predicate: zoomLevel => zoomLevel !== level.near && zoomLevel !== level.nearest
     });
+  }
+
+  init() {
+    super.init();
+    this.outgoingConnections = [];
+    this.incomingConnections = [];
   }
 
   onInitialEnter() {
