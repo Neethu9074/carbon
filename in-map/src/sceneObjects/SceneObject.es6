@@ -149,11 +149,6 @@ export default class SceneObject {
     return this.scene.getHtmlContainer();
   }
 
-  onHighlight(highlighted) {
-    const value =  highlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-    this.stateMachine.changeStateProperty('highlight', value);
-  }
-
   updateScreenPosition() {
     const scene = this.scene;
     const camera = scene.mapHandler.getCurrentCamera();

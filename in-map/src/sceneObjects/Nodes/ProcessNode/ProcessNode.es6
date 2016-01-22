@@ -1,6 +1,5 @@
 import THREE from 'three';
 
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 
 import HighlightingComponent from '../../../components/HighlightingComponents/ProcessGround';
@@ -36,22 +35,18 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   onHighlightEnter() {
-    highlightedSnapshot.setHighlightedEntityId(this.id);
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onHighlightLeave() {
-    highlightedSnapshot.clearHighlightedEntityId();
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 
   onSelectedHighlightEnter() {
-    highlightedSnapshot.setHighlightedEntityId(this.id);
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightLeave() {
-    highlightedSnapshot.clearHighlightedEntityId();
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
   }
 

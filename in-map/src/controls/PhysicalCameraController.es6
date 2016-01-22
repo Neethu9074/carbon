@@ -1,5 +1,6 @@
 import THREE from 'three';
 
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as tooltipStore from 'in-services/stores/tooltip';
 
 import {longClickedSceneObject, currentTooltip} from '../mapStores';
@@ -205,31 +206,16 @@ export default class CameraController {
       return;
     }
 
-    const hoveredConnections = this.hoveredConnections;
-    const hittenOld = this.hittenObject;
     this.getObjectOnCursor();
-    const hittenNew = this.hittenObject;
 
-    // if there is actually not hittenOld but it was last frame
-    if (!hittenNew && hittenOld) {
-      hittenOld.parentSceneObject.onHighlight(false);
+    if (this.hittenObject) {
+      highlightedSnapshot.setHighlightedEntityId(this.hittenObject.parentSceneObject.id);
+    } else {
+      highlightedSnapshot.clearHighlightedEntityId();
 
-      // if there is a hittenOld object
-    } else if (hittenNew) {
-      // if this is a new hittenOld object
-      if (hittenOld !== hittenNew) {
-        // if the new differs from the old and the old is valid
-        if (hittenOld) {
-          hittenOld.parentSceneObject.onHighlight(false);
-        }
-        hittenNew.parentSceneObject.onHighlight(true);
-      }
-    }
-
-    if (!hittenNew) {
-      if (hoveredConnections.length > 0) {
+      if (this.hoveredConnections.length > 0) {
         currentTooltip.emit(this.connectionTooltip);
-        this.connectionTooltip.setHovered(hoveredConnections);
+        this.connectionTooltip.setHovered(this.hoveredConnections);
       } else {
         currentTooltip.emit(null);
       }

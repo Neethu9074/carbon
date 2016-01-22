@@ -1,6 +1,5 @@
 import THREE from 'three';
 
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import {activeMetric} from 'in-services/stores/metrics';
 import {level} from 'in-services/stores/zoomLevel';
 import * as tracking from 'in-services/tracking';
@@ -78,7 +77,6 @@ export default class Node extends SceneObjectWithSnapshot {
     connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
 
-    highlightedSnapshot.setHighlightedEntityId(this.id);
     currentTooltip.emit(this.tooltip);
   }
 
@@ -89,8 +87,6 @@ export default class Node extends SceneObjectWithSnapshot {
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
-
-    highlightedSnapshot.clearHighlightedEntityId();
   }
 
   onSelectedEnter() {
@@ -119,7 +115,6 @@ export default class Node extends SceneObjectWithSnapshot {
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
 
-    highlightedSnapshot.setHighlightedEntityId(this.id);
     currentTooltip.emit(this.tooltip);
   }
 
@@ -130,8 +125,6 @@ export default class Node extends SceneObjectWithSnapshot {
     const connectionComponent = this.getComponent('connection');
     connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
     connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
-
-    highlightedSnapshot.clearHighlightedEntityId();
   }
 
   onHiddenEnter() {
@@ -264,15 +257,6 @@ export default class Node extends SceneObjectWithSnapshot {
     }));
 
     this.addSubscription(activeMetric.subscribe(metric => this.onActiveMetric(metric)));
-
-    this.addSubscription(highlightedSnapshot.highlightedEntityId.subscribe(id => {
-      if (!id) {
-        this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
-        return;
-      }
-      const value = id === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty('highlight', value);
-    }));
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
       if (so && so.id === this.id && this.snapshot) {

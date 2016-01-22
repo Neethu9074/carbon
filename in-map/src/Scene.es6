@@ -1,6 +1,5 @@
 import THREE from 'three';
 
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/converters';
@@ -535,7 +534,6 @@ export default class Scene {
   }
 
   resetClicked() {
-    highlightedSnapshot.clear();
     clearSelectedSnapshotId();
   }
 

@@ -96,6 +96,12 @@ export default class Connection extends SceneObjectWithSnapshot {
     }
   }
 
+
+  onHighlight(highlighted) {
+    const value =  highlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+    this.stateMachine.changeStateProperty('highlight', value);
+  }
+
   enableFragment(enabled = true) {
     if (enabled) {
       this.scene.lineFactory.addFragment(this.fragment);
