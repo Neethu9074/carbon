@@ -5,7 +5,7 @@ import React from 'react';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
 
-import PluginDiscription from '../PluginDiscription';
+import SnapshotDiscription from '../SnapshotDiscription';
 import Icon from '../Icon';
 
 import './IssueDiscription.less';
@@ -47,7 +47,7 @@ export default React.createClass({
             {issue.getIn(['problem', 'fixSuggestion'])}
           </div>
 
-          <PluginDiscription plugin={this.props.plugin} />
+          <SnapshotDiscription snapshot={issue.get('problem')} />
         </div>
       </div>
     );
