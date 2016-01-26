@@ -16,10 +16,10 @@ ssh -Nf -L 2181:localhost:2181 instana@ec2-54-226-238-222.compute-1.amazonaws.co
 ssh -Nf -L 9092:localhost:9092 instana@ec2-54-226-238-222.compute-1.amazonaws.com
 
 echo "global_cassandra in eu-west"
-ssh -Nf -L 9042:localhost:9042 instana@ec2-52-30-221-227.eu-west-1.compute.amazonaws.com
+ssh -Nf -L 9042:localhost:9042 instana@ec2-52-48-70-147.eu-west-1.compute.amazonaws.com
 
 echo "saas_autoscout24_autoscout24"
-ssh -Nf -L 8180:localhost:8180 instana@ec2-54-147-62-37.compute-1.amazonaws.com
+ssh -Nf -L 8180:localhost:8180 instana@ec2-52-30-101-241.eu-west-1.compute.amazonaws.com
 
 echo "Please ensure that you have the following entry in /etc/hosts"
 echo "   127.0.0.1 ec2-54-226-238-222.compute-1.amazonaws.com"
