@@ -3,6 +3,7 @@ import {IntlMixin} from 'react-intl';
 
 import React from 'react/addons';
 
+import {isDemoEnvironment} from 'in-services/config';
 import {getTenantsWithUnits} from 'in-services/tenants';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-components/hoc/connectTo';
@@ -18,6 +19,10 @@ const block = 'in-account';
 
 export default connectTo(
   () => {
+    if (isDemoEnvironment()) {
+      return {};
+    }
+
     return {
       tenantUnitStructure: getTenantsWithUnits().map(tenantUnits => {
         return Object.keys(tenantUnits).map(tenantName => {
@@ -69,14 +74,17 @@ export default connectTo(
     return (
       <div className={block + '__menu'}>
 
-        <MenuHeader />
+        {!isDemoEnvironment() ?
+          <div>
+            <MenuHeader />
 
-        <div className={block + '__tenants'}>
-          Tenants
-        </div>
+            <div className={block + '__tenants'}>
+              Tenants
+            </div>
 
-        <TenantSwitcher
-          tenants={this.props.tenantUnitStructure}/>
+            <TenantSwitcher tenants={this.props.tenantUnitStructure}/>
+          </div>
+        : null}
 
         <MenuFooter onClick={this.showMenu}/>
       </div>
