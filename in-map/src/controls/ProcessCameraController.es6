@@ -11,7 +11,7 @@ const _position = new THREE.Vector3();
 const _scale = new THREE.Vector3();
 const startRoll = -40;
 
-export default class CameraController {
+export default class ProcessCameraController {
 
   constructor({scene, camera, canvas}) {
     this.camera = camera;
@@ -136,5 +136,14 @@ export default class CameraController {
   }
 
   dispose() {
+    this.interactionModules.forEach(module => module.dispose());
+    this.interactionModules = [];
+    this.camera = null;
+    this.scene = null;
+    this.zoomLevel = null;
+    this.cameraMoveSpeed = null;
+    this.targetCameraFrustumSize = null;
+    this.cameraFrunstumSizeAnimationSpeed = null;
+    this.targetCameraZPosition = null;
   }
 }

@@ -12,7 +12,7 @@ import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 
 
-export default class CameraController {
+export default class PhysicalCameraController {
 
   constructor({scene, map, canvas}) {
     this.camera = map.camera;
