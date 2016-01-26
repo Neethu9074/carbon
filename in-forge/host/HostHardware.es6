@@ -3,28 +3,20 @@ import React from 'react/addons';
 
 import getForgeComponent from 'in-services/getForgeComponent';
 import Collapsible from 'in-components/Collapsible';
-import {getHostHardware} from 'in-services/wiring';
-import enhance from 'in-components/hoc/enhance';
+import getFoundation from 'in-hoc/getFoundation';
 import {getSingular} from 'in-sdk/pluginName';
 
-const HostHardware = React.createClass({
+export default getFoundation(React.createClass({
+  displayName: 'HostHardware',
+
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    group: irpt.map
-  },
-
-  statics: {
-    createObservables(props) {
-      return {
-        group: getHostHardware(props.snapshot)
-      };
-    }
+    foundationSnapshot: irpt.map
   },
 
   render() {
-    const snapshot = this.props.group;
+    const snapshot = this.props.foundationSnapshot;
     if (!snapshot) return null;
 
     const Details = this.getForgeSpecificComponent();
@@ -32,7 +24,7 @@ const HostHardware = React.createClass({
     return (
       <Collapsible initiallyOpen={true}>
         <Collapsible.Header>
-          {getSingular(snapshot.get('pluginId'))}
+          {getSingular(snapshot.get('plugin'))}
         </Collapsible.Header>
         <Collapsible.Content>
           <Details snapshot={snapshot} />
@@ -42,13 +34,11 @@ const HostHardware = React.createClass({
   },
 
   getForgeSpecificComponent() {
-    const snapshot = this.props.group;
+    const snapshot = this.props.foundationSnapshot;
     return getForgeComponent(
       './' +
       snapshot.get('plugin') +
       '/Sidebar/Details.es6'
     );
   }
-});
-
-export default enhance(HostHardware);
+}));

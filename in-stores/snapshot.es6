@@ -3,6 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
+import createFoundationsObservable from 'in-services/subscription/foundations';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 import {createStore, createTrackingStore} from 'in-stores/store';
@@ -62,11 +63,15 @@ export function clearSelectedSnapshotId() {
 }
 
 export function getSnapshot(snapshotId) {
-  return createSnapshotObservable({snapshotId});
+  return createSnapshotObservable(snapshotId);
 }
 
 export function getPhysicalHierarchy(snapshotId) {
-  return createPhysicalHierarchyObservable({snapshotId});
+  return createPhysicalHierarchyObservable(snapshotId);
+}
+
+export function getFoundations(snapshotId) {
+  return createFoundationsObservable(snapshotId);
 }
 
 navigationParameters.subscribe(navParams => {

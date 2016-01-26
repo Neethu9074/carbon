@@ -7,7 +7,6 @@ import getZone from 'in-hoc/getZone';
 
 import './ZoneTag.less';
 
-
 const rpt = React.PropTypes;
 const block = 'in-zone-tag';
 

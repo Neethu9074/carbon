@@ -33,7 +33,7 @@ const Sidebar = React.createClass({
           </Collapsible.Content>
         </Collapsible>
 
-        <HostHardware snapshot={snapshot} />
+        <HostHardware snapshotId={snapshot.get('id')} />
         <WiringList snapshot={snapshot} />
       </div>
     );

@@ -1,8 +1,8 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {getIssuesForSnapshot} from 'in-services/issueTracker';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {getIssuesForSnapshot} from 'in-services/issueTracker';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import IssueDiscription from 'in-components/IssueDiscription';
 import {getClassName} from 'in-services/react';

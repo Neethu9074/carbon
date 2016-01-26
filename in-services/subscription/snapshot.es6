@@ -14,11 +14,11 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createSnapshotObservable
 });
 
-function getId({snapshotId}) {
+function getId(snapshotId) {
   return snapshotId;
 }
 
-function createSnapshotObservable({snapshotId}) {
+function createSnapshotObservable(snapshotId) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = 'data-' + subscriptionId;
 
