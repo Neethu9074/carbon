@@ -4,6 +4,8 @@ import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
 import createFoundationsObservable from 'in-services/subscription/foundations';
+import createDeployedUnitsObservable from 'in-services/subscription/deployedUnits';
+import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 import {createStore, createTrackingStore} from 'in-stores/store';
@@ -72,6 +74,14 @@ export function getPhysicalHierarchy(snapshotId) {
 
 export function getFoundations(snapshotId) {
   return createFoundationsObservable(snapshotId);
+}
+
+export function getRunningComponents(snapshotId) {
+  return createRunningComponentsObservable(snapshotId);
+}
+
+export function getDeployedUnits(snapshotId) {
+  return createDeployedUnitsObservable(snapshotId);
 }
 
 navigationParameters.subscribe(navParams => {
