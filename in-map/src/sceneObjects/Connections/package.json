@@ -1,6 +1,6 @@
 {
-  "name": "Connection",
+  "name": "PhysicalConnection",
   "version": "0.0.0",
   "private": true,
-  "main": "./Connection.es6"
+  "main": "./PhysicalConnection.es6"
 }

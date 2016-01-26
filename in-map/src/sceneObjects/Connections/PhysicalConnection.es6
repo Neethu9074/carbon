@@ -4,6 +4,7 @@ import eventBus from 'in-services/eventbus';
 
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {DIRECTIONS} from '../Connections/ConnectionDirections';
 import ConnectionGrid from '../../ConnectionGrid';
 
 
@@ -11,9 +12,10 @@ export const allConnections = [];
 
 export default class PhysicalConnection extends SceneObjectWithSnapshot {
 
-  constructor({parent, entity, sourceNode, destinationNode}) {
+  constructor({parent, entity, sourceNode, destinationNode, direction}) {
     super({parent, id: entity.get('id')});
 
+    this.direction = direction;
     this.sourceNode = sourceNode;
     this.destinationNode = destinationNode;
 
@@ -173,8 +175,8 @@ export default class PhysicalConnection extends SceneObjectWithSnapshot {
   }
 
   addArrowToDestination(path) {
-    const from = path.length - 1;
-    const to = path.length - 2;
+    const from = this.direction === DIRECTIONS.IN ? 0 : path.length - 1;
+    const to = this.direction === DIRECTIONS.IN ? 1 : path.length - 2;
     const arrowLength = 0.2;
     const fromP = path[from];
     const dir = this.getDirectionForPoints(path[from], path[to]);

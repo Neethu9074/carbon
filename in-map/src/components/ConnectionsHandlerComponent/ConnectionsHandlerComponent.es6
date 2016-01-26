@@ -2,6 +2,7 @@ import Immutable from 'immutable';
 import _ from 'lodash';
 
 import PhysicalConnection from '../../SceneObjects/Connections/PhysicalConnection';
+import {DIRECTIONS} from '../../SceneObjects/Connections/ConnectionDirections';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Component from '../Component';
 
@@ -60,9 +61,18 @@ export default class ConnectionsHandlerComponent extends Component {
     // clear all connections and rebuild on the current state
     this.disposeConnections();
 
-    const addConnections = list => list.forEach(entity => {
-      const sourceNode = this.sceneObject.findNodeById(entity.get('sourceId'));
-      const destinationNode = this.sceneObject.findNodeById(entity.get('destinationId'));
+    const correspondingNode = this.sceneObject;
+
+    const addConnections = (list, direction) => list.forEach(entity => {
+      let destinationNode;
+      let sourceNode;
+      if (direction === DIRECTIONS.IN) {
+        sourceNode = correspondingNode;
+        destinationNode = this.sceneObject.findNodeById(entity.get('sourceId'));
+      } else {
+        sourceNode = correspondingNode;
+        destinationNode = this.sceneObject.findNodeById(entity.get('destinationId'));
+      }
 
       if (!sourceNode || !destinationNode) {
         return;
@@ -72,14 +82,15 @@ export default class ConnectionsHandlerComponent extends Component {
         new PhysicalConnection({
           parent: this,
           entity,
+          direction,
           sourceNode,
           destinationNode
         }));
       }
     );
 
-    addConnections(this.incomingConnections);
-    addConnections(this.outgoingConnections);
+    addConnections(this.incomingConnections, DIRECTIONS.IN);
+    addConnections(this.outgoingConnections, DIRECTIONS.OUT);
 
     this.needsUpdate = false;
   }
