@@ -2,6 +2,8 @@ import THREE from 'three';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
 
+import ProcessConnectionsHandlerComponent from
+  '../../../components/ConnectionsHandlerComponents/ProcessConnectionsHandlerComponent';
 import HighlightingComponent from '../../../components/HighlightingComponents/ProcessGround';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import MeshComponent from '../../../components/MeshComponent';
@@ -91,6 +93,8 @@ export default class Node extends SceneObjectWithSnapshot {
       factory: this.scene.solidSingleMeshFactory
     });
     components.topMesh.sizeChanged(0.9, 0.9, 0.9);
+
+    components.connectionsHandler = new ProcessConnectionsHandlerComponent({sceneObject: this});
   }
 
   onSnapshotUpdated(snapshot) {

@@ -8,7 +8,8 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import {getPower} from 'in-sdk/power';
 
-import ConnectionsHandlerComponent from '../../../components/ConnectionsHandlerComponent';
+import PhysicalConnectionsHandlerComponent from
+  '../../../components/ConnectionsHandlerComponents/PhysicalConnectionsHandlerComponent';
 import HighlightingComponent from '../../../components/HighlightingComponents/Cube';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import LineMeshComponent from '../../../components/LineMeshComponent';
@@ -204,7 +205,7 @@ export default class Node extends SceneObjectWithSnapshot {
     components.groundLine.sizeChanged(1.5, 1, 1.5);
 
     // test connections
-    components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject});
+    components.connectionsHandler = new PhysicalConnectionsHandlerComponent({sceneObject});
   }
 
   registerEvents() {
