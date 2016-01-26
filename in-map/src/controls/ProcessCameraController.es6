@@ -100,7 +100,7 @@ export default class CameraController {
     this.targetCameraFrustumSize += delta / 20;
   }
 
-  onClick() {}
+  onClicked() {}
 
   onDoubleClicked() {
     this.animation.stop();
@@ -128,8 +128,8 @@ export default class CameraController {
       this.camera.getCameraSize() + deltaCamSize * Math.min(1, dt * this.cameraFrunstumSizeAnimationSpeed));
     this.camera.setCameraFromSize();
 
-    const deltaCamZPosition = this.camTargetPosition.position.z - this.targetCameraZPosition;
-    this.camTargetPosition.position.z += deltaCamZPosition * dt;
+    const deltaCamZPosition = this.targetCameraZPosition - this.camTargetPosition.position.z;
+    this.camTargetPosition.position.z += deltaCamZPosition;
     this.camTargetPosition.position.z = Math.min(Math.max(80, this.camTargetPosition.position.z), 1000);
 
     this.refreshCameraTransformHierarchy();
