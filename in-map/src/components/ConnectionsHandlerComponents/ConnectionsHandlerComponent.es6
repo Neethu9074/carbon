@@ -1,15 +1,14 @@
 import Immutable from 'immutable';
 import _ from 'lodash';
 
-import PhysicalConnection from '../../SceneObjects/Connections/PhysicalConnection';
 import {DIRECTIONS} from '../../SceneObjects/Connections/ConnectionDirections';
 import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Component from '../Component';
 
 
 export default class ConnectionsHandlerComponent extends Component {
-  constructor({sceneObject}) {
-    super(sceneObject, '_connectionsHandler');
+  constructor({sceneObject, id}) {
+    super(sceneObject, id);
 
     this.outgoingConnections = Immutable.List();
     this.incomingConnections = Immutable.List();
@@ -79,15 +78,15 @@ export default class ConnectionsHandlerComponent extends Component {
       }
 
       this.connections.push(
-        new PhysicalConnection({
+        this.createNewConnection({
           parent: this,
           entity,
           direction,
           sourceNode,
           destinationNode
-        }));
-      }
-    );
+        })
+      );
+    });
 
     addConnections(this.incomingConnections, DIRECTIONS.IN);
     addConnections(this.outgoingConnections, DIRECTIONS.OUT);
