@@ -35,7 +35,7 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
     const sourceSnapshot = this.props.sourceSnapshot;
     const zoneSnapshot = this.props.zoneSnapshot;
     const snapshot = this.props.snapshot;
-    if (!snapshot || !zoneSnapshot) {
+    if (!snapshot || !zoneSnapshot || !sourceSnapshot) {
       return null;
     }
 
