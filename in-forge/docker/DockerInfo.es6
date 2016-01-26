@@ -53,25 +53,23 @@ const DockerInfo = React.createClass({
   },
 
   renderPorts(data) {
-    const ports = data.get('Ports');
     // PortBindings is new as of 1.1.5, Ports for compatibility
     const portBindings = data.get('PortBindings');
-
-    if ((ports == null || ports.size === 0)
-        && (portBindings == null || portBindings.size === 0)) {
-      return null;
+    if (portBindings != null && portBindings.size > 0) {
+      return portBindings.keySeq().join(', ');
     }
 
-    return (
-      <span>
-        {ports ? ports.map(port =>
-          <span key={port}>{port.get('PrivatePort')}/{port.get('Type')}</span>
-        ) : null}
-        {portBindings ? portBindings.map(portBinding =>
-          <span key={portBinding}>{portBinding}</span>
-        ) : null}
-      </span>
-    );
+    const ports = data.get('Ports');
+    if (ports != null && ports.size > 0) {
+      return (
+        <span>
+          {ports.map(port =>
+            <span key={port}>{port.get('PrivatePort')}/{port.get('Type')}</span>
+          )}
+        </span>
+      );
+    }
+    return null;
   }
 });
 
