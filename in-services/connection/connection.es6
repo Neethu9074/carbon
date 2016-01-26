@@ -47,8 +47,8 @@ let connection;
 // the ping timeout handle
 let pingTimeoutHandle;
 
-connect();
-
+// TODO obsolete connection, already disabled and should no longer be required
+// connect();
 
 function connect() {
   logger.debug('Attempting to connect to WebSocket URL', endpoint);
@@ -175,7 +175,7 @@ export function send(msg) {
 
 
 export function isOpen() {
-  return connection.readyState === readyState.open;
+  return false;
 }
 
 export function getNewMessageId() {
