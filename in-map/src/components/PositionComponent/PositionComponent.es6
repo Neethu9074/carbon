@@ -30,7 +30,6 @@ export default class PositionComponent extends Component {
     const newPosition = this.position;
 
     this.sceneObject.positionChanged(newPosition.x, newPosition.y, newPosition.z, oldPosition);
-
     oldPosition.set(newPosition.x, newPosition.y, newPosition.z);
     this.needsUpdate = false;
   }

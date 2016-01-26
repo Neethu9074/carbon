@@ -1,0 +1,233 @@
+import THREE from 'three';
+
+import eventBus from 'in-services/eventbus';
+
+import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
+import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import ConnectionGrid from '../../ConnectionGrid';
+
+
+export const allConnections = [];
+
+export default class PhysicalConnection extends SceneObjectWithSnapshot {
+
+  constructor({parent, entity, sourceNode, destinationNode}) {
+    super({parent, id: entity.get('id')});
+
+    this.sourceNode = sourceNode;
+    this.destinationNode = destinationNode;
+
+    // represents the geometry for all combined fragments
+    this.geometry = new THREE.BufferGeometry();
+    this.geometry.dynamic = true;
+
+    this.material = new THREE.LineBasicMaterial({
+      color: 0xBBBBBB,
+      visible: false,
+      linewidth: 2
+    });
+
+    // a global mesh that stores global geometry
+    const mesh = this.mesh = new THREE.LineSegments(this.geometry, this.material);
+    mesh.rotationAutoUpdate = false;
+    mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
+    mesh.renderOrder = 2;
+
+    this.calculateGeometry();
+    this.scene.addSceneObject(this.mesh);
+
+    allConnections.push(this);
+
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.calculateGeometry()));
+  }
+
+  setStartingStateProperties() {
+    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+  }
+
+  onInitialEnter() {
+    this.material.visible = true;
+  }
+
+  onInitialLeave() {}
+
+  onHighlightEnter() {
+  }
+
+  onHighlightLeave() {
+  }
+
+  onSelectedEnter() {}
+  onSelectedLeave() {}
+
+  onSelectedHighlightEnter() {}
+  onSelectedHighlightLeave() {}
+
+  onHiddenEnter() {}
+  onHiddenLeave() {}
+
+  onInactiveEnter() {
+    this.material.visible = false;
+  }
+
+  calculateGeometry() {
+    this.geometry.addAttribute('position',
+      new THREE.BufferAttribute(
+        new Float32Array(this.getLineVertices(this.sourceNode, this.destinationNode)), 3));
+
+    this.geometry.attributes.position.needsUpdate = true;
+  }
+
+  setColor(color) {
+    this.material.color.set(color);
+    this.scene.renderScene();
+  }
+
+  getLineVertices(from, to) {
+    const fromPos = from.getComponent('position').getPosition();
+    const toPos = to.getComponent('position').getPosition();
+
+
+    // calculating the path
+    let path = this.calculatePath(fromPos, toPos);
+
+    // postproduct the begining and the end lines to attach to the box's edges
+    path = this.postProPath(path);
+
+    // adding arrows
+    path = this.addArrowToDestination(path);
+
+    // return the final line
+    const flatPath = [];
+    for (let i = 0; i < path.length; i++) {
+      flatPath.push(path[i].x);
+      flatPath.push(path[i].y);
+      flatPath.push(path[i].z);
+    }
+    return flatPath;
+  }
+
+  calculatePath(fromPos, toPos) {
+    this.path = this.getPathFromConnectionGrid(fromPos, toPos);
+    this.calculateCollisionMesh(this.path);
+    return this.path;
+  }
+
+  getPathFromConnectionGrid(fromPos, toPos) {
+    const path = ConnectionGrid.getPath({
+      fromX: fromPos.x,
+      fromY: -fromPos.z, // connectionGrid uses positive z space, so invert
+      toX: toPos.x,
+      toY: -toPos.z
+    });
+
+    const preparedPath = [];
+    for (let i = 0; i < path.length - 1; i++) {
+      const current = path[i].position;
+      const next = path[i + 1].position;
+      preparedPath.push({x: current.x - 0.5, y: current.z, z: -current.y + 0.5});
+      preparedPath.push({x: next.x - 0.5, y: next.z, z: -next.y + 0.5});
+    }
+
+    return preparedPath;
+  }
+
+  postProPath(path) {
+    const pathLength = path.length;
+    const first = path[0];
+    const second = path[1];
+    const beforeLast = path[pathLength - 2];
+    const last = path[pathLength - 1];
+    const dirFirstToSecond = this.getDirectionForPoints(first, second);
+    const dirlastToBeforeLast = this.getDirectionForPoints(last, beforeLast);
+
+    // caps the first and last line of the connection. nodes have a size of 1 and
+    // normally the connection goes from center (0.5, 0.5) to center. with this
+    // capping it begins on the edge of the first and ends on the edge of the
+    // last node. to get the right of the four possible we need the direction
+    // directions are normalized so you can multiply with 0.5
+    first.x += dirFirstToSecond.x * 0.5;
+    first.y += dirFirstToSecond.y * 0.5;
+    first.z += dirFirstToSecond.z * 0.5;
+
+    last.x += dirlastToBeforeLast.x * 0.5;
+    last.y += dirlastToBeforeLast.y * 0.5;
+    last.z += dirlastToBeforeLast.z * 0.5;
+
+    return path;
+  }
+
+  getDirectionForPoints(a, b) {
+    a.z = a.z || 0;
+    b.z = b.z || 0;
+    const dir = {x: b.x - a.x, y: b.y - a.y, z: b.z - a.z};
+
+    // normalize them
+    const length = Math.sqrt(dir.x * dir.x + dir.y * dir.y + dir.z * dir.z);
+    dir.x /= (length);
+    dir.y /= (length);
+    dir.z /= (length);
+
+    return dir;
+  }
+
+  addArrowToDestination(path) {
+    const from = path.length - 1;
+    const to = path.length - 2;
+    const arrowLength = 0.2;
+    const fromP = path[from];
+    const dir = this.getDirectionForPoints(path[from], path[to]);
+
+    // because the arrow are laying on the ground, the up-vector is 0 1 0
+    const right = new THREE.Vector3(0, 1, 0)
+      .cross(dir)
+      .multiplyScalar(arrowLength * 5); // shorten to get a angle < 45 degree
+    const arrowLineX = (right.x + dir.x) * arrowLength;
+    const arrowLineZ = (right.z + dir.z) * arrowLength;
+    const arrowLineXLeft = (-right.x + dir.x) * arrowLength;
+    const arrowLineZLeft = (-right.z + dir.z) * arrowLength;
+
+    path.push(fromP);
+    path.push({
+      x: fromP.x + arrowLineX, y: fromP.y, z: fromP.z + arrowLineZ
+    });
+
+    path.push(fromP);
+    path.push({
+      x: fromP.x + arrowLineXLeft, y: fromP.y, z: fromP.z + arrowLineZLeft
+    });
+
+    return path;
+  }
+
+  onSnapshotUpdated() {}
+
+  calculateCollisionMesh(path) {
+    const geometry = new THREE.Geometry();
+    for (let i = 0; i < path.length; i++) {
+      geometry.vertices.push(new THREE.Vector3(path[i].x, path[i].y, path[i].z));
+    }
+
+    this.collisionLine = new THREE.Line(geometry);
+  }
+
+  intersects(raycaster) {
+    if (!this.isActive() || !this.path || !this.collisionLine) {
+      return false;
+    }
+
+    raycaster.linePrecision = 0.25;
+    const hit = raycaster.intersectObject(this.collisionLine, false);
+    return hit.length > 0;
+  }
+
+  onHighlight(isHighlighted) {
+    const value = isHighlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+    this.stateMachine.changeStateProperty('highlight', value);
+  }
+
+  dispose() {
+    super.dispose();
+  }
+}

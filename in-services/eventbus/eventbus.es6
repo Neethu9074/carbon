@@ -1,5 +1,3 @@
-
-
 import RoEmitter from 'roemitter';
 
 // This is our application wide event bus

@@ -24,7 +24,6 @@ export default class SingleMeshPointsFactory extends ASingleMeshFactory {
 
   getMaterial() {
     const icon = getIcon(this.params.snapshot) || defaultIcon;
-
     const image = document.createElement('img');
     const texture = new THREE.Texture();
     image.onload = () => {

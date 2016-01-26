@@ -2,10 +2,10 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 import _ from 'lodash';
 
-import ConnectionTooltip from 'in-components/Tooltips/Connection';
 import * as constants from 'in-forge/constants';
 
 import Tooltip from '../Tooltip.es6';
+// import ConnectionTooltip from 'in-components/Tooltips/Connection';
 
 
 const ConnectionsTooltipRC = React.createClass({
@@ -18,41 +18,46 @@ const ConnectionsTooltipRC = React.createClass({
 
   render() {
     const connections = this.props.connections;
-    const listItems = connections
-    .filter(connection => connection.from.snapshot && connection.to.snapshot)
-    .map(connection => {
-      const parent = connection.to.parent;
-      const zone = parent.snapshot ? parent.snapshot.getIn(['data', 'groupId']) : parent.id;
+    return (
+      <ul>
+        {connections.map(connection =>
+          <li key={connection.id}>
+            {connection.sourceNode.id + ' ->' + connection.destinationNode.id}
+          </li>
+        )}
+      </ul>
+    );
 
-      return {
-        id: connection.id,
-        direction: connection.direction,
-        to: {
-          ip: this.getOneOfConnectedIps(connection.from, connection.to),
-          zone,
-          zoneId: parent.id
-        }
-      };
-    });
+    // const listItems = connections
+    // .filter(connection => connection.sourceNode.snapshot && connection.destinationNode.snapshot)
+    // .map(connection => {
+    //   return {
+    //     id: connection.id,
+    //     destination: {
+    //       ip: this.getOneOfConnectedIps(connection.sourceNode, connection.destinationNode),
+    //       zoneId: connection.destinationNode.parent
+    //     }
+    //   };
+    // });
 
-    return (<ConnectionTooltip connections={listItems}/>);
+    // return <ConnectionTooltip connections={listItems}/>;
   },
 
-  getOneOfConnectedIps(from, to) {
+  getOneOfConnectedIps(sourceNode, destinationNode) {
     // get ips of the target
-    const toIps = this.getIpFromSnapshot(to.snapshot);
+    const destinationIPs = this.getIpFromSnapshot(destinationNode.snapshot);
 
     // get connected ips
-    const fromIps = this.getConnectedIpsFromSnapshot(from.snapshot);
+    const sourceIPs = this.getConnectedIPsFromSnapshot(sourceNode.snapshot);
 
     // intersections
-    const matching = _.intersection(fromIps, toIps);
+    const matching = _.intersection(sourceIPs, destinationIPs);
 
     // one of them
     return matching[0];
   },
 
-  getConnectedIpsFromSnapshot(snapshot) {
+  getConnectedIPsFromSnapshot(snapshot) {
     const ipArray = [];
     const outgoing = snapshot.getIn(['data', 'connections', 'outgoing']) || [];
     const incoming = snapshot.getIn(['data', 'connections', 'incoming']) || [];

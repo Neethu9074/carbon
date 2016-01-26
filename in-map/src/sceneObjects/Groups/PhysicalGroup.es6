@@ -160,8 +160,11 @@ export default class Group extends SceneObjectWithSnapshot {
 
     // set layer and connections, no matter if a new node was created or it's still available
     matchedNode.setChildren(entity.get('children'));
-    matchedNode.setOutgoingConnections(entity.get('outgoingConnections'));
-    matchedNode.setIncomingConnections(entity.get('incomingConnections'));
+
+    // first set both, incoming and outgoing connections, then rebuild the geometry
+    const connectionsHandler = matchedNode.getComponent('connectionsHandler');
+    connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
+    connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
 
     return matchedNode;
   }

@@ -8,9 +8,9 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import {getPower} from 'in-sdk/power';
 
+import ConnectionsHandlerComponent from '../../../components/ConnectionsHandlerComponent';
 import HighlightingComponent from '../../../components/HighlightingComponents/Cube';
 import CollisionComponent from '../../../components/CollisionObjectComponent';
-import ConnectionComponent from '../../../components/ConnectionComponent';
 import LineMeshComponent from '../../../components/LineMeshComponent';
 import HealthComponent from '../../../components/HealthComponent';
 import MetricComponent from '../../../components/MetricComponent';
@@ -58,12 +58,6 @@ export default class Node extends SceneObjectWithSnapshot {
     });
   }
 
-  init() {
-    super.init();
-    this.outgoingConnections = [];
-    this.incomingConnections = [];
-  }
-
   onInitialEnter() {
     // the default state for the solid hull is off
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
@@ -72,59 +66,29 @@ export default class Node extends SceneObjectWithSnapshot {
   onHighlightEnter() {
     this.highlight();
 
-    // show all connections as grey lines
-    const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.ON);
-    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-
     currentTooltip.emit(this.tooltip);
   }
 
   onHighlightLeave() {
     this.highlight(false);
-
-    // hide the grey connection lines
-    const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    connectionComponent.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
   }
 
   onSelectedEnter() {
     this.highlight();
-
-    // show all connections as white lines
-    const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
   }
 
   onSelectedLeave() {
     this.highlight(false);
-
-    // hide the white connection lines
-    const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
   }
 
   onSelectedHighlightEnter() {
     this.highlight();
-
-    // show all connections as white lines
-    const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
 
     currentTooltip.emit(this.tooltip);
   }
 
   onSelectedHighlightLeave() {
     this.highlight(false);
-
-    // hide the white connection lines
-    const connectionComponent = this.getComponent('connection');
-    connectionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    connectionComponent.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
   }
 
   onHiddenEnter() {
@@ -168,6 +132,9 @@ export default class Node extends SceneObjectWithSnapshot {
     this.getComponent('solidMesh').stateMachine.changeStateProperty('active', value);
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', value);
     this.getComponent('groundLine').stateMachine.changeStateProperty('selected', value);
+
+    // test connections
+    this.getComponent('connectionsHandler').stateMachine.changeStateProperty('active', value);
   }
 
 
@@ -183,9 +150,6 @@ export default class Node extends SceneObjectWithSnapshot {
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
-
-    // add the connection component to handle all the visual connection lines
-    components.connection = new ConnectionComponent({sceneObject});
 
     const pcm = new PCM({
       contentProvider: new SCM({
@@ -238,6 +202,9 @@ export default class Node extends SceneObjectWithSnapshot {
     components.layer = new LayerComponent({sceneObject});
     components.ground.sizeChanged(1.5, 1, 1.5);
     components.groundLine.sizeChanged(1.5, 1, 1.5);
+
+    // test connections
+    components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject});
   }
 
   registerEvents() {
@@ -245,14 +212,6 @@ export default class Node extends SceneObjectWithSnapshot {
       // update only if this node is visible
       if (!this.isHidden()) {
         this.update(data);
-      }
-    }));
-
-    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => {
-      if (this.isSelected()) {
-        const stateMachine = this.getComponent('connection').stateMachine;
-        stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-        stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
       }
     }));
 
@@ -299,22 +258,6 @@ export default class Node extends SceneObjectWithSnapshot {
     }
 
     this.getComponent('metric').setValues(values);
-  }
-
-  setOutgoingConnections(outgoingConnections) {
-    this.outgoingConnections = outgoingConnections;
-  }
-
-  getOutgoingConnections() {
-    return this.outgoingConnections;
-  }
-
-  setIncomingConnections(incomingConnections) {
-    this.incomingConnections = incomingConnections;
-  }
-
-  getIncomingConnections() {
-    return this.incomingConnections;
   }
 
   update() {
@@ -376,7 +319,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   positionChanged(x, y, z, oldPosition) {
     this.getComponent('collision').positionChanged(x, y, z);
-    this.getComponent('connection').positionChanged();
     this.getComponent('solidMesh').positionChanged(x, y, z);
     this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);

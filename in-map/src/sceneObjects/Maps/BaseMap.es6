@@ -31,7 +31,7 @@ export default class VisualMap extends SceneObject {
   onZoom() { throw new Error('NOT IMPLEMENTED'); }
   init() { throw new Error('NOT IMPLEMENTED'); }
 
-  handleComponentTimeEvent() {
+  handleTimeEvent() {
     // if the flag was set to recalculate the layouting
     if (this.refreshLayout) {
       this.applyLayout();
@@ -44,7 +44,7 @@ export default class VisualMap extends SceneObject {
 
   registerEvents() {
     this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
-    this.addSubscription(time.addTimeEventListener(this.handleComponentTimeEvent.bind(this)));
+    this.addSubscription(time.addTimeEventListener(this.handleTimeEvent.bind(this)));
   }
 
   update() {

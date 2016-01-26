@@ -62,6 +62,11 @@ export default class PhysicalMap extends BaseMap {
     hosts.forEach(host => this.addHostToGroup(host, group));
   }
 
+  onInventoryUpdated(inventory) {
+    this.removeVanishedHosts(inventory);
+    this.refreshLayout = true;
+  }
+
   getOrCreateGroup(groupEntity) {
     const groupId = groupEntity.get('id');
     let group = _.find(getAllGroups(this), g => g.id === groupId);
@@ -93,11 +98,6 @@ export default class PhysicalMap extends BaseMap {
         node.dispose();
       }
     });
-  }
-
-  onInventoryUpdated(inventory) {
-    this.removeVanishedHosts(inventory);
-    this.refreshLayout = true;
   }
 
   // checks if there are nodes on the map which are not inside the inventory anymore and delete them

@@ -3,8 +3,8 @@ import THREE from 'three';
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as tooltipStore from 'in-services/stores/tooltip';
 
+import {allConnections} from '../SceneObjects/Connections/PhysicalConnection';
 import {longClickedSceneObject, currentTooltip} from '../mapStores';
-import {allConnections} from '../SceneObjects/Connection';
 import MouseControlsModule from './MouseControlsModule';
 import TouchControlsModule from './TouchControlsModule';
 import ConnectionTooltip from '../Tooltips/Connection';
@@ -252,14 +252,13 @@ export default class CameraController {
       if (canvasStyle.cursor !== 'pointer') {
         canvasStyle.cursor = 'pointer';
       }
-
     } else {
       this.hoveredConnections = allConnections.filter(connection => {
-        const intersected = connection.intersects(this.raycaster);
-        if (intersected) {
+        const intersectedConnections = connection.intersects(this.raycaster);
+        if (intersectedConnections) {
           connection.onHighlight(true);
         }
-        return intersected;
+        return intersectedConnections;
       });
 
       if (canvasStyle.cursor !== 'default') {

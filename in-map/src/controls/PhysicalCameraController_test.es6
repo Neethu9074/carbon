@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import THREE from 'three';
 
 
-describe.only('3D map', () => {
+describe('3D map', () => {
   let scene;
   let map;
   let controller;
