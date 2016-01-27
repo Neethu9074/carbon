@@ -71,7 +71,7 @@ export default class ProcessMap extends BaseMap {
         const connectionsHandler = node.getComponent('connectionsHandler');
         connectionsHandler.setOutgoingConnections(Immutable.fromJS([
           {
-            id: randomId + '_connection',
+            id: randomId + '_connection' + '_' + Math.random(),
             sourceId: node.id,
             destinationId: randomId
           }
