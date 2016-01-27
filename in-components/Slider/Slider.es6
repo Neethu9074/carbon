@@ -7,7 +7,7 @@ const block = 'in-slider';
 const Slider = React.createClass({
   propTypes: {
     onChange: React.PropTypes.func.isRequired,
-    defaultValue: React.PropTypes.string,
+    defaultValue: React.PropTypes.number,
     min: React.PropTypes.number,
     max: React.PropTypes.number
   },

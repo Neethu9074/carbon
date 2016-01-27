@@ -3,13 +3,13 @@ import React from 'react';
 
 import {getIcon, getLabel} from 'in-sdk/snapshot';
 
-import './SnapshotDiscription.less';
+import './SnapshotDescription.less';
 
-const block = 'in-plugin-discription';
+const block = 'in-snapshot-description';
 
 export default React.createClass({
 
-  displayName: 'PluginDiscription',
+  displayName: 'SnapshotDescription',
 
   propTypes: {
     snapshot: irpt.map
