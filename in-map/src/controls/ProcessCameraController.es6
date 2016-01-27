@@ -24,10 +24,16 @@ export default class ProcessCameraController {
     // this is the speed the camera will move to the new pos on drag
     this.cameraMoveSpeed = 0.02;
 
-    // copy this property to animate it
+    this.targetCameraPOIPosition = new THREE.Object3D();
+    this.targetCameraPOIPosition.rotateY(-30 * Math.PI / 180);
+
+    // this is the target frustum size (or the zoom level in abstract) for the camera.
+    // It will be animated during the update routine
     this.targetCameraFrustumSize = camera.getCameraSize();
     this.cameraFrunstumSizeAnimationSpeed = 5;
 
+    // this is the target z position for the camera.
+    // It will not be animated during the update routine
     this.targetCameraZPosition = 200;
 
     this.init();
@@ -113,8 +119,8 @@ export default class ProcessCameraController {
   }
 
   move(dx, dy) {
-    this.camMoveHelper.translateX(-dx * this.cameraMoveSpeed);
-    this.camMoveHelper.translateZ(-dy * this.cameraMoveSpeed);
+    this.targetCameraPOIPosition.translateX(-dx * this.cameraMoveSpeed);
+    this.targetCameraPOIPosition.translateZ(-dy * this.cameraMoveSpeed);
   }
 
   update() {
@@ -125,12 +131,21 @@ export default class ProcessCameraController {
 
     const deltaCamSize = this.targetCameraFrustumSize - this.camera.getCameraSize();
     const deltaCamZPosition = this.targetCameraZPosition - this.camTargetPosition.position.z;
+    const deltaCamPOIPositionX = this.targetCameraPOIPosition.position.x - this.camMoveHelper.position.x;
+    const deltaCamPOIPositionZ = this.targetCameraPOIPosition.position.z - this.camMoveHelper.position.z;
 
 
-    // TODO: dont render if not nessessary
-    if (Math.abs(deltaCamSize) <= 0.0001 && Math.abs(deltaCamZPosition) < 0.0001) {
+    if (!this.isAnyValueGreaterThanEpsilon(
+      deltaCamSize,
+      deltaCamZPosition,
+      deltaCamPOIPositionX,
+      deltaCamPOIPositionZ
+    ) && !this.aniamte) {
       return;
     }
+
+    this.camMoveHelper.position.x = this.targetCameraPOIPosition.position.x;
+    this.camMoveHelper.position.z = this.targetCameraPOIPosition.position.z;
 
     this.camera.setCameraSize(
       this.camera.getCameraSize() + deltaCamSize * Math.min(1, dt * this.cameraFrunstumSizeAnimationSpeed));
@@ -140,6 +155,15 @@ export default class ProcessCameraController {
     this.camTargetPosition.position.z = Math.min(Math.max(80, this.camTargetPosition.position.z), 1000);
 
     this.refreshCameraTransformHierarchy();
+  }
+
+  isAnyValueGreaterThanEpsilon() {
+    for (let i = 0; i < arguments.length; i++) {
+      if (Math.abs(arguments[i]) > 0.0001) {
+        return true;
+      }
+    }
+    return false;
   }
 
   dispose() {
