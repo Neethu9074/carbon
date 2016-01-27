@@ -37,6 +37,6 @@ function createRunningComponentsObservable(snapshotId) {
   return observable;
 
   function onData(components) {
-    observable.emit(Immutable.fromJS(components));
+    observable.emit(Immutable.Set(components));
   }
 }

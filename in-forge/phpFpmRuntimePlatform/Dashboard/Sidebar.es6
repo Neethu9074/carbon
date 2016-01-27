@@ -23,7 +23,7 @@ const PhpFpmDashboardSidebar = React.createClass({
           </Collapsible.Content>
         </Collapsible>
 
-        <DeployedUnitList snapshot={this.props.snapshot} />
+        <DeployedUnitList snapshotId={this.props.snapshot.get('id')} />
       </div>
     );
   }

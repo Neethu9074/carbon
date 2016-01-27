@@ -27,7 +27,7 @@ const NodejsDashboardSidebar = React.createClass({
         </Collapsible>
 
         <TagListSnapshot snapshot={snapshot} />
-        <DeployedUnitList snapshot={snapshot} />
+        <DeployedUnitList snapshotId={snapshot.get('id')} />
       </div>
     );
   }

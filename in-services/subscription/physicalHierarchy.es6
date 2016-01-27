@@ -40,6 +40,6 @@ function createPhysicalHierarchyObservable(snapshotId) {
   return observable;
 
   function onData(hierarchy) {
-    observable.emit(Immutable.fromJS(hierarchy));
+    observable.emit(Immutable.List(hierarchy));
   }
 }

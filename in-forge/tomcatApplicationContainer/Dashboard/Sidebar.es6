@@ -3,7 +3,7 @@ import React from 'react/addons';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-components/Collapsible';
-import WiringList from 'in-components/WiringList';
+import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import TomcatInfo from '../TomcatInfo';
 
@@ -80,7 +80,7 @@ const TomcatSidebar = React.createClass({
             </Collapsible.Content>
           </Collapsible>
         : null }
-        <WiringList snapshot={snapshot} />
+        <RunningComponentsList snapshotId={snapshot.get('id')} />
       </div>
     );
   }

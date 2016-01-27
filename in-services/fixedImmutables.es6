@@ -7,3 +7,4 @@ import Immutable from 'immutable';
 //  - Allow change detection to identify unnecessary re-renders.
 
 export const emptyList = Immutable.List();
+export const emptySet = Immutable.Set();

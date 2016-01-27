@@ -1,9 +1,12 @@
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
+import {combineLatest} from 'reactive-observables';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import * as tracking from 'in-services/tracking';
 import {getPlural} from 'in-sdk/pluginName';
+import connectTo from 'in-hoc/connectTo';
 
 import Collapsible from '../Collapsible';
 import List from '../List';
@@ -12,17 +15,34 @@ import './RelatedSnapshotList.less';
 
 const block = 'in-related-snapshot-list';
 
-const RelatedSnapshotList = React.createClass({
+export default connectTo(
+  props => {
+    return {
+      snapshots: combineLatest(props.snapshotIds.map(id =>
+          getSnapshot(id).startWith(null)
+        ).toArray())
+        // Do not show snapshots which are still loading
+        .map(snapshots => snapshots.filter(s => s))
+        // We will have lots of incremental updates. One update every few
+        // milliseconds is enough.
+        .throttle(100)
+    };
+  },
+  React.createClass({
+  displayName: 'RelatedSnapshotList',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    snapshots: React.PropTypes.array.isRequired
+    snapshotIds: irpt.setOf(React.PropTypes.string).isRequired,
+    snapshots: React.PropTypes.array
   },
 
   render() {
-    if (this.props.snapshots.length === 0) {
+    console.log(JSON.parse(JSON.stringify(this.props.snapshots)));
+    if (!this.props.snapshots || this.props.snapshots.size === 0) {
       return null;
     }
 
@@ -60,14 +80,14 @@ const RelatedSnapshotList = React.createClass({
 
   select(snapshot) {
     tracking.events.navigateToAWiredComponentFromTheDashboard();
-    selectedSnapshotStore.select(snapshot);
+    setSelectedSnapshotId(snapshot.get('id'));
   },
 
   getSnapshotsGroupedByPluginId() {
     const grouping = {};
 
     this.props.snapshots.forEach(snapshot => {
-      const pluginId = snapshot.get('pluginId');
+      const pluginId = snapshot.get('plugin');
       if (!(pluginId in grouping)) {
         grouping[pluginId] = [];
       }
@@ -77,6 +97,4 @@ const RelatedSnapshotList = React.createClass({
 
     return grouping;
   }
-});
-
-export default RelatedSnapshotList;
+}));

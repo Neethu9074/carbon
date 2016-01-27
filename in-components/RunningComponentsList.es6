@@ -1,7 +1,7 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 
-import {getDeployedUnits} from 'in-stores/snapshot';
+import {getRunningComponents} from 'in-stores/snapshot';
 import {emptySet} from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 
@@ -10,14 +10,14 @@ import RelatedSnapshotList from './RelatedSnapshotList';
 export default connectTo(
   props => {
     return {
-      snapshotIds: getDeployedUnits(props.snapshotId)
+      snapshotIds: getRunningComponents(props.snapshotId)
         // Always start with an empty set to avoid inconsistent view,
-        // displaying deployed units for a previously selected snapshot.
+        // displaying running components for a previously selected snapshot.
         .startWith(emptySet)
     };
   },
   React.createClass({
-  displayName: 'DeployedUnitList',
+  displayName: 'RunningComponentsList',
 
   mixins: [
     React.addons.PureRenderMixin

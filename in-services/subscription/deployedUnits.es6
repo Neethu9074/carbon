@@ -37,6 +37,6 @@ function createDeployedUnitsObservable(snapshotId) {
   return observable;
 
   function onData(units) {
-    observable.emit(Immutable.fromJS(units));
+    observable.emit(Immutable.Set(units));
   }
 }
