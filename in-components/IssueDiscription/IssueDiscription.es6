@@ -5,7 +5,7 @@ import React from 'react';
 import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
-import connectTo from 'in-components/hoc/connectTo';
+import connectTo from 'in-hoc/connectTo';
 
 import SnapshotDescription from '../SnapshotDescription';
 import Icon from '../Icon';
