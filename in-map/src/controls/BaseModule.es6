@@ -1,10 +1,16 @@
-export default class BaseModule {
+import BaseSubscriber from './BaseSubscriber';
 
-  constructor(parent) {
-    this.parent = parent;
+export default class BaseModule extends BaseSubscriber {
+
+  constructor(eventEmitter) {
+    super();
+
+    this.eventEmitter = eventEmitter;
   }
 
   dispose() {
-    this.parent = null;
+    super.dispose();
+
+    this.eventEmitter = null;
   }
 }

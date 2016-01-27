@@ -1,20 +1,19 @@
 import THREE from 'three';
 
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import * as tooltipStore from 'in-services/stores/tooltip';
-
-import {allConnections} from '../SceneObjects/Connections/BaseConnection';
-import {longClickedSceneObject, currentTooltip} from '../mapStores';
+import BaseCameraController from './BaseCameraController';
 import MouseControlsModule from './MouseControlsModule';
 import TouchControlsModule from './TouchControlsModule';
-import ConnectionTooltip from '../Tooltips/Connection';
+import {longClickedSceneObject} from '../mapStores';
+import RaycasterModule from './RaycasterModule';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';
 
 
-export default class PhysicalCameraController {
+export default class PhysicalCameraController extends BaseCameraController {
 
   constructor({scene, map, canvas}) {
+    super();
+
     this.camera = map.camera;
     this.camera.camera.position.set(-0.8, 1, 1);
     this.camera.camera.lookAt(new THREE.Vector3(0, 0, 0));
@@ -26,11 +25,14 @@ export default class PhysicalCameraController {
     this.setZoomLevel(260);
     this.states = setupStates(this);
     this.state = this.states.mid;
-    this.connectionTooltip = new ConnectionTooltip(scene, []);
 
+    this.setupEvents();
+
+    const eventEmitter = this.eventEmitter;
     this.interactionModules = [
-      new MouseControlsModule({parent: this, scene, canvas}),
-      new TouchControlsModule({parent: this, scene, canvas})
+      new MouseControlsModule({eventEmitter, scene}),
+      new TouchControlsModule({eventEmitter, scene, canvas}),
+      new RaycasterModule({eventEmitter, scene, camera: this.camera})
     ];
   }
 
@@ -50,15 +52,6 @@ export default class PhysicalCameraController {
     // raytracing fields
     this.raycaster = new THREE.Raycaster();
 
-    // holds the mouse/touch position in screen coordinates (x,y) => [-1, 1]
-    this.cursorForRay = new THREE.Vector2();
-
-    // holds the last hitten object from raycasting on click or mouseover
-    this.hittenObject = undefined;
-
-    // holds the last hitten connections from raycasting on mouseover
-    this.hoveredConnections = [];
-
     // the units moved between a mouseDown/touchStart and mouseUp/TouchEnd
     this.unitsMoved = 0;
 
@@ -75,9 +68,6 @@ export default class PhysicalCameraController {
       .clone()
       .sub(new THREE.Vector3())
       .normalize();
-
-    this.tooltip2DSubscribtion = tooltipStore.activeTooltip.subscribe(tooltip =>
-      this.tooltip2DIsActive = tooltip ? true : false);
   }
 
   initZoomField() {
@@ -96,86 +86,29 @@ export default class PhysicalCameraController {
     this.scrollSpeed = 5;
   }
 
-  onClicked() {
-    this.getObjectOnCursor();
-    // if an object was found via raycasting, inform the scene
-    this.scene.onObjectClicked(this.hittenObject, this.hoveredConnections);
-  }
+  setupEvents() {
+    this.addSubscription(this.eventEmitter.on('onMove')
+      .subscribe(delta => this.onMove(delta)));
 
-  onDoubleClicked() {
-    if (this.hittenObject) {
-      longClickedSceneObject.emit(this.hittenObject.parentSceneObject);
+    this.addSubscription(this.eventEmitter.on('onZoom')
+      .subscribe(delta => this.onZoom(delta)));
 
-      // also perform a simple click
-      this.onClicked();
-    }
+    this.addSubscription(this.eventEmitter.on('onMouseMoved')
+      .subscribe(lastMousePosition => this.onMouseMoved(lastMousePosition)));
+
+    this.addSubscription(this.eventEmitter.on('onObjectClicked')
+      .subscribe(({hittenObject, hoveredConnections}) => this.scene.onObjectClicked(hittenObject, hoveredConnections)));
+
+    this.addSubscription(this.eventEmitter.on('onObjectDoubleClicked')
+      .subscribe(hittenOne => longClickedSceneObject.emit(hittenOne.parentSceneObject)));
   }
 
   onMouseMoved(lastMousePosition) {
     this.lastMousePosition.x = lastMousePosition.x;
     this.lastMousePosition.y = lastMousePosition.y;
-    this.handleRayCasting();
   }
 
-  switchStateIfNext() {
-    const next = this.state.getNext(this.zoomLevel);
-    if (next) {
-      this.state.leave();
-      this.state = next;
-      this.state.enter();
-    }
-  }
-
-  zoom(delta) {
-    if (delta === 0) {
-      return;
-    }
-    const min = this.maxZoomOut;
-    const max = this.maxZoomIn;
-    const nZoomLevel = this.zoomLevel / (min - max); // [0 nearest, 1 farest]
-
-    delta *= nZoomLevel * this.scrollSpeed;
-
-    this.targetZoomLevel -= delta;
-    const newTargetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel))); // [min, max]
-
-    this.targetZoomLevel = newTargetZoomLevel;
-    this.scene.onZoom({zoomLevel: newTargetZoomLevel});
-
-    this.handleRayCasting();
-
-    this.cameraSpeed = 1000;
-    this.zoomCalls++;
-    setTimeout(() => {
-      this.zoomCalls--;
-      if (this.zoomCalls === 0) {
-        this.cameraSpeed = this.defaultCameraSpeed;
-      }
-    }, 500);
-  }
-
-  setZoomLevel(zL) {
-    const min = this.maxZoomOut;
-    const max = this.maxZoomIn;
-
-    this.targetZoomLevel = Math.max(max, Math.min(min, (zL)));
-    this.scene.onZoom({zoomLevel: this.targetZoomLevel});
-  }
-
-  flyToObject(obj) {
-    const pos = obj.getComponent('position').getPosition();
-    this.flyToPosition(pos.x, pos.z);
-  }
-
-  flyToPosition(x, z) {
-    const transObj = this.camTransformObject;
-
-    transObj.position.x = x;
-    transObj.position.z = z;
-    transObj.updateMatrixWorld();
-  }
-
-  move(dx, dy) {
+  onMove({dx, dy}) {
     // the pixels moved until last mouseDown / touchDown
     // set this before dx and dy gets manipulated
     this.unitsMoved += Math.sqrt(
@@ -199,76 +132,60 @@ export default class PhysicalCameraController {
     // TODO: clamp the position to avoid overflow of the level area
   }
 
-  handleRayCasting() {
-    if (this.tooltip2DIsActive) {
-      currentTooltip.emit(null);
-      this.hittenObject = null;
+  onZoom(delta) {
+    if (delta === 0) {
       return;
     }
+    const min = this.maxZoomOut;
+    const max = this.maxZoomIn;
+    const nZoomLevel = this.zoomLevel / (min - max); // [0 nearest, 1 farest]
 
-    this.getObjectOnCursor();
+    delta *= nZoomLevel * this.scrollSpeed;
 
-    if (this.hittenObject) {
-      highlightedSnapshot.setHighlightedEntityId(this.hittenObject.parentSceneObject.id);
-    } else {
-      highlightedSnapshot.clearHighlightedEntityId();
+    this.targetZoomLevel -= delta;
+    const newTargetZoomLevel = Math.max(max, Math.min(min, (this.targetZoomLevel))); // [min, max]
 
-      if (this.hoveredConnections.length > 0) {
-        currentTooltip.emit(this.connectionTooltip);
-        this.connectionTooltip.setHovered(this.hoveredConnections);
-      } else {
-        currentTooltip.emit(null);
+    this.targetZoomLevel = newTargetZoomLevel;
+    this.scene.onZoom({zoomLevel: newTargetZoomLevel});
+
+    this.cameraSpeed = 1000;
+    this.zoomCalls++;
+    setTimeout(() => {
+      this.zoomCalls--;
+      if (this.zoomCalls === 0) {
+        this.cameraSpeed = this.defaultCameraSpeed;
       }
+    }, 500);
+  }
+
+  switchStateIfNext() {
+    const next = this.state.getNext(this.zoomLevel);
+    if (next) {
+      this.state.leave();
+      this.state = next;
+      this.state.enter();
     }
   }
 
-  getObjectOnCursor() {
-    const scene = this.scene;
-    const camera = this.camera.camera;
-    if (!camera) {
-      return;
-    }
+  setZoomLevel(zL) {
+    const min = this.maxZoomOut;
+    const max = this.maxZoomIn;
 
-    const canvasStyle = scene.getHtmlContainer().style;
-
-    // get the mouse/touch position in pixel coords
-    const x = this.lastMousePosition.x;
-    const y = this.lastMousePosition.y;
-
-    // transform into screen space
-    this.cursorForRay.x = (x / scene.width) * 2 - 1;
-    this.cursorForRay.y = -(y / scene.height) * 2 + 1;
-
-    // update raycaster
-    this.raycaster.setFromCamera(this.cursorForRay, this.camera.camera);
-
-    // find the hitten object
-    this.hittenObject = scene.findObjectByRay(this.raycaster);
-
-    // reset highlight for all hovered connections
-    this.hoveredConnections.forEach(c => c.onHighlight(false));
-
-    if (this.hittenObject) {
-      if (canvasStyle.cursor !== 'pointer') {
-        canvasStyle.cursor = 'pointer';
-      }
-    } else {
-      this.hoveredConnections = allConnections.filter(connection => {
-        const intersectedConnections = connection.intersects(this.raycaster);
-        if (intersectedConnections) {
-          connection.onHighlight(true);
-        }
-        return intersectedConnections;
-      });
-
-      if (canvasStyle.cursor !== 'default') {
-        canvasStyle.cursor = 'default';
-      }
-    }
+    this.targetZoomLevel = Math.max(max, Math.min(min, (zL)));
+    this.scene.onZoom({zoomLevel: this.targetZoomLevel});
   }
 
-  isHoveringObject() {
-    return this.hittenObject;
+  flyToObject(obj) {
+    const pos = obj.getComponent('position').getPosition();
+    this.flyToPosition(pos.x, pos.z);
+  }
+
+  flyToPosition(x, z) {
+    const transObj = this.camTransformObject;
+
+    transObj.position.x = x;
+    transObj.position.z = z;
+    transObj.updateMatrixWorld();
   }
 
   update() {
@@ -320,7 +237,7 @@ export default class PhysicalCameraController {
 
   updateZoomLevel(dT) {
     const scene = this.scene;
-    const cursorPosition = this.cursorForRay;
+    const cursorPosition = { x: 0, y: 0 };
     const delta = this.targetZoomLevel - this.zoomLevel;
 
     this.zoomLevel += delta * dT * this.zoomSpeed;
@@ -362,14 +279,12 @@ export default class PhysicalCameraController {
   }
 
   dispose() {
+    super.dispose();
+
     this.interactionModules.forEach(module => module.dispose());
     this.interactionModules = [];
 
-    this.tooltip2DSubscribtion.dispose();
-    this.tooltip2DSubscribtion = null;
-
     this.states = null;
     this.state = null;
-    this.connectionTooltip.dispose();
   }
 }
