@@ -11,7 +11,7 @@ const _position = new THREE.Vector3();
 const _scale = new THREE.Vector3();
 const startRoll = -40;
 
-export default class CameraController {
+export default class ProcessCameraController {
 
   constructor({scene, camera, canvas}) {
     this.camera = camera;
@@ -24,10 +24,16 @@ export default class CameraController {
     // this is the speed the camera will move to the new pos on drag
     this.cameraMoveSpeed = 0.02;
 
-    // copy this property to animate it
+    this.targetCameraPOIPosition = new THREE.Object3D();
+    this.targetCameraPOIPosition.rotateY(-30 * Math.PI / 180);
+
+    // this is the target frustum size (or the zoom level in abstract) for the camera.
+    // It will be animated during the update routine
     this.targetCameraFrustumSize = camera.getCameraSize();
     this.cameraFrunstumSizeAnimationSpeed = 5;
 
+    // this is the target z position for the camera.
+    // It will not be animated during the update routine
     this.targetCameraZPosition = 200;
 
     this.init();
@@ -51,7 +57,7 @@ export default class CameraController {
     this.camMoveHelper.add(this.camRotationHelper);
 
     this.camTargetPosition = new THREE.Object3D();
-    this.camTargetPosition.position.z = this.targetCameraZPosition;
+    this.camTargetPosition.position.z = 10;
     this.camTargetPosition.add(new THREE.AxisHelper(0.5));
     this.camRotationHelper.add(this.camTargetPosition);
   }
@@ -100,7 +106,7 @@ export default class CameraController {
     this.targetCameraFrustumSize += delta / 20;
   }
 
-  onClick() {}
+  onClicked() {}
 
   onDoubleClicked() {
     this.animation.stop();
@@ -113,8 +119,8 @@ export default class CameraController {
   }
 
   move(dx, dy) {
-    this.camMoveHelper.translateX(-dx * this.cameraMoveSpeed);
-    this.camMoveHelper.translateZ(-dy * this.cameraMoveSpeed);
+    this.targetCameraPOIPosition.translateX(-dx * this.cameraMoveSpeed);
+    this.targetCameraPOIPosition.translateZ(-dy * this.cameraMoveSpeed);
   }
 
   update() {
@@ -124,17 +130,51 @@ export default class CameraController {
     }
 
     const deltaCamSize = this.targetCameraFrustumSize - this.camera.getCameraSize();
+    const deltaCamZPosition = this.targetCameraZPosition - this.camTargetPosition.position.z;
+    const deltaCamPOIPositionX = this.targetCameraPOIPosition.position.x - this.camMoveHelper.position.x;
+    const deltaCamPOIPositionZ = this.targetCameraPOIPosition.position.z - this.camMoveHelper.position.z;
+
+
+    if (!this.isAnyValueGreaterThanEpsilon(
+      deltaCamSize,
+      deltaCamZPosition,
+      deltaCamPOIPositionX,
+      deltaCamPOIPositionZ
+    ) && !this.aniamte) {
+      return;
+    }
+
+    this.camMoveHelper.position.x = this.targetCameraPOIPosition.position.x;
+    this.camMoveHelper.position.z = this.targetCameraPOIPosition.position.z;
+
     this.camera.setCameraSize(
       this.camera.getCameraSize() + deltaCamSize * Math.min(1, dt * this.cameraFrunstumSizeAnimationSpeed));
     this.camera.setCameraFromSize();
 
-    const deltaCamZPosition = this.camTargetPosition.position.z - this.targetCameraZPosition;
-    this.camTargetPosition.position.z += deltaCamZPosition * dt;
+    this.camTargetPosition.position.z += deltaCamZPosition;
     this.camTargetPosition.position.z = Math.min(Math.max(80, this.camTargetPosition.position.z), 1000);
 
     this.refreshCameraTransformHierarchy();
   }
 
+  isAnyValueGreaterThanEpsilon() {
+    for (let i = 0; i < arguments.length; i++) {
+      if (Math.abs(arguments[i]) > 0.0001) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   dispose() {
+    this.interactionModules.forEach(module => module.dispose());
+    this.interactionModules = [];
+    this.camera = null;
+    this.scene = null;
+    this.zoomLevel = null;
+    this.cameraMoveSpeed = null;
+    this.targetCameraFrustumSize = null;
+    this.cameraFrunstumSizeAnimationSpeed = null;
+    this.targetCameraZPosition = null;
   }
 }

@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import THREE from 'three';
 import _ from 'lodash';
 
@@ -46,8 +47,10 @@ export default class ProcessMap extends BaseMap {
 
       // set layer and connections, no matter if a new node was created or it's still available
       matchedNode.setChildren(entity.get('children'));
-      matchedNode.setOutgoingConnections(entity.get('outgoingConnections'));
-      matchedNode.setIncomingConnections(entity.get('incomingConnections'));
+
+      const connectionsHandler = matchedNode.getComponent('connectionsHandler');
+      connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
+      connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
 
       console.log(
         'children', entity.get('children').size,
@@ -57,6 +60,26 @@ export default class ProcessMap extends BaseMap {
 
       this.nodes.push(matchedNode);
     }
+  }
+
+  onInventoryUpdated() {
+    // test add random connections
+    const ids = this.nodes.map(node => node.id);
+    this.nodes.forEach(node => {
+      const randomId = ids[Math.floor(Math.random() * (ids.length - 1))];
+      if (randomId !== node.id) {
+        const connectionsHandler = node.getComponent('connectionsHandler');
+        connectionsHandler.setOutgoingConnections(Immutable.fromJS([
+          {
+            id: randomId + '_connection',
+            sourceId: node.id,
+            destinationId: randomId
+          }
+        ]));
+      }
+    });
+
+    this.refreshLayout = true;
   }
 
   getAllNodes() {
@@ -69,10 +92,6 @@ export default class ProcessMap extends BaseMap {
   }
 
   removeChild() {}
-
-  onInventoryUpdated() {
-    this.refreshLayout = true;
-  }
 
   dispose() {
     super.dispose();

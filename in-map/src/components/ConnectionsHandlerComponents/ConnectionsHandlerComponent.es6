@@ -77,15 +77,18 @@ export default class ConnectionsHandlerComponent extends Component {
         return;
       }
 
-      this.connections.push(
-        this.createNewConnection({
-          parent: this,
-          entity,
-          direction,
-          sourceNode,
-          destinationNode
-        })
-      );
+      const connection = this.createNewConnection({
+        parent: this,
+        entity,
+        direction,
+        sourceNode,
+        destinationNode
+      });
+
+      const isActive = this.isActive() ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+      connection.stateMachine.changeStateProperty('active', isActive);
+
+      this.connections.push(connection);
     });
 
     addConnections(this.incomingConnections, DIRECTIONS.IN);

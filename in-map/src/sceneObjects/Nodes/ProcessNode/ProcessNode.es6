@@ -24,8 +24,6 @@ export default class Node extends SceneObjectWithSnapshot {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.outgoingConnections = [];
-    this.incomingConnections = [];
     this.nodes = [];
 
     this.label = new ColouredPluginLabel({
@@ -95,6 +93,7 @@ export default class Node extends SceneObjectWithSnapshot {
     components.topMesh.sizeChanged(0.9, 0.9, 0.9);
 
     components.connectionsHandler = new ProcessConnectionsHandlerComponent({sceneObject: this});
+    components.connectionsHandler.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
   }
 
   onSnapshotUpdated(snapshot) {
@@ -103,23 +102,6 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   setChildren() {}
-
-  setOutgoingConnections(outgoingConnections) {
-    this.outgoingConnections = outgoingConnections;
-  }
-
-  getOutgoingConnections() {
-    return this.outgoingConnections;
-  }
-
-  setIncomingConnections(incomingConnections) {
-    this.incomingConnections = incomingConnections;
-  }
-
-  getIncomingConnections() {
-    return this.incomingConnections;
-  }
-
 
   positionChanged(x, y, z) {
     this.getComponent('mesh').positionChanged(x, y, z);
