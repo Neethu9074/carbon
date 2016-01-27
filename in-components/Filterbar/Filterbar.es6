@@ -3,7 +3,6 @@ import React from 'react';
 import classnames from 'in-services/util/classnames';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
-import ZoneList from './ZoneList';
 import Controls from './Controls';
 import MapStats from './MapStats';
 import Metrics from './Metrics';
@@ -57,8 +56,6 @@ const Filterbar = React.createClass({
     switch (this.state.activeControl) {
       case 'tags':
         return <Tags/>;
-      case 'snapshotList':
-        return <ZoneList/>;
       case 'metrics':
         return <Metrics/>;
       default:

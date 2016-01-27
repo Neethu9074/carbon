@@ -2,10 +2,12 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
+import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
+import connectTo from 'in-hoc/connectTo';
 
-import SnapshotDiscription from '../SnapshotDiscription';
+import SnapshotDescription from '../SnapshotDescription';
 import Icon from '../Icon';
 
 import './IssueDiscription.less';
@@ -13,12 +15,19 @@ import './IssueDiscription.less';
 const rpt = React.PropTypes;
 const block = 'in-issue-discription';
 
-export default React.createClass({
+export default connectTo(
+  props => {
+    return {
+      snapshot: getFullSnapshot(extractCoordinates(props.issue.get('problem')))
+    };
+  },
+  React.createClass({
 
   displayName: 'IssueDiscription',
 
   propTypes: {
     issue: irpt.map.isRequired,
+    snapshot: irpt.map,
     className: rpt.string,
     plugin: rpt.string
   },
@@ -47,7 +56,9 @@ export default React.createClass({
             {issue.getIn(['problem', 'fixSuggestion'])}
           </div>
 
-          <SnapshotDiscription snapshot={issue.get('problem')} />
+          {this.props.snapshot ?
+            <SnapshotDescription snapshot={this.props.snapshot} />
+          : null}
         </div>
       </div>
     );
@@ -57,4 +68,4 @@ export default React.createClass({
     const type = issue.getIn(['problem', 'severity']) > 8 ? 'critical' : 'warning';
     return type;
   }
-});
+}));

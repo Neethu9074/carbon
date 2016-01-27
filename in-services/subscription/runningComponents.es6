@@ -1,31 +1,28 @@
 import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 
-import {on, off} from '../persistentConnection';
-import {
-  getNewSubscriptionId,
-  subscribe,
-  unsubscribe
-} from './subscriptionManager';
+import {getNewSubscriptionId, subscribe, unsubscribe} from './subscriptionManager';
 import createObservableIfMissing from './subscriptionObservablesCache';
+import {on, off} from '../persistentConnection';
+
 
 export default createObservableIfMissing.bind(null, {
   getId,
-  createObservable: createPhysicalHierarchyObservable
+  createObservable: createRunningComponentsObservable
 });
 
 function getId(snapshotId) {
   return snapshotId;
 }
 
-function createPhysicalHierarchyObservable(snapshotId) {
+function createRunningComponentsObservable(snapshotId) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = 'data-' + subscriptionId;
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-physical-hierarchy', {
+      subscribe(subscriptionId, 'subscribe-running-components', {
         'subscriptionId': subscriptionId,
         'snapshotId': snapshotId
       });
@@ -39,7 +36,7 @@ function createPhysicalHierarchyObservable(snapshotId) {
 
   return observable;
 
-  function onData(hierarchy) {
-    observable.emit(Immutable.List(hierarchy));
+  function onData(components) {
+    observable.emit(Immutable.Set(components));
   }
 }

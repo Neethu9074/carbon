@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
-import WiringList from 'in-components/WiringList';
+import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import InterfaceList from '../InterfaceList';
 import HostHardware from '../HostHardware';
@@ -34,7 +34,7 @@ const Sidebar = React.createClass({
         </Collapsible>
 
         <HostHardware snapshotId={snapshot.get('id')} />
-        <WiringList snapshot={snapshot} />
+        <RunningComponentsList snapshotId={snapshot.get('id')} />
       </div>
     );
   }

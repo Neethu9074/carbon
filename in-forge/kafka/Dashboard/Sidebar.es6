@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
-import WiringList from 'in-components/WiringList';
+import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import KafkaInfo from '../KafkaInfo';
 
@@ -22,7 +22,7 @@ const KafkaSidebar = React.createClass({
             <KafkaInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <WiringList snapshot={this.props.snapshot} />
+        <RunningComponentsList snapshot={this.props.snapshot} />
       </div>
     );
   }

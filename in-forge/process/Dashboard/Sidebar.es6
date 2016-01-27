@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
-import WiringList from 'in-components/WiringList';
+import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import ProcessInfo from '../ProcessInfo';
 import ArgList from '../ArgList';
@@ -31,7 +31,7 @@ const Sidebar = React.createClass({
             <ArgList snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <WiringList snapshot={snapshot} />
+        <RunningComponentsList snapshotId={snapshot.get('id')} />
       </div>
     );
   }
