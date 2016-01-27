@@ -1,8 +1,10 @@
 import TWEEN from 'tween.js';
 import THREE from 'three';
 
+import BaseCameraController from './BaseCameraController';
 import MouseControlsModule from './MouseControlsModule';
 import TouchControlsModule from './TouchControlsModule';
+import RaycasterModule from './RaycasterModule';
 import * as time from '../timeCalculations';
 
 
@@ -11,9 +13,11 @@ const _position = new THREE.Vector3();
 const _scale = new THREE.Vector3();
 const startRoll = -40;
 
-export default class ProcessCameraController {
+export default class ProcessCameraController extends BaseCameraController {
 
   constructor({scene, camera, canvas}) {
+    super();
+
     this.camera = camera;
     this.scene = scene;
 
@@ -38,10 +42,13 @@ export default class ProcessCameraController {
 
     this.init();
     this.setupAnimation();
+    this.setupEvents();
 
+    const eventEmitter = this.eventEmitter;
     this.interactionModules = [
-      new MouseControlsModule({parent: this, scene, canvas}),
-      new TouchControlsModule({parent: this, scene, canvas})
+      new MouseControlsModule({eventEmitter, scene, canvas}),
+      new TouchControlsModule({eventEmitter, scene, canvas}),
+      new RaycasterModule({eventEmitter, scene, camera: this.camera})
     ];
   }
 
@@ -60,21 +67,6 @@ export default class ProcessCameraController {
     this.camTargetPosition.position.z = 10;
     this.camTargetPosition.add(new THREE.AxisHelper(0.5));
     this.camRotationHelper.add(this.camTargetPosition);
-  }
-
-  refreshCameraTransformHierarchy() {
-    this.camMoveHelper.updateMatrixWorld(true);
-    this.camRotationHelper.updateMatrixWorld(true);
-    this.camTargetPosition.updateMatrixWorld(true);
-
-    this.camTargetPosition.matrixWorld.decompose(_position, _quaternion, _scale);
-
-    this.camera.camera.position.copy(_position);
-    this.camera.camera.lookAt(this.camMoveHelper.position);
-    this.camera.updateMatrix();
-    this.camera.update();
-
-    this.scene.renderScene();
   }
 
   setupAnimation() {
@@ -101,12 +93,39 @@ export default class ProcessCameraController {
     this.animation.stop();
   }
 
-  zoom(delta) {
+  setupEvents() {
+    this.addSubscription(this.eventEmitter.on('onMove')
+      .subscribe(delta => this.onMove(delta)));
+
+    this.addSubscription(this.eventEmitter.on('onZoom')
+      .subscribe(delta => this.onZoom(delta)));
+
+    this.addSubscription(this.eventEmitter.on('onDoubleClicked')
+      .subscribe(() => this.onDoubleClicked()));
+
+    this.addSubscription(this.eventEmitter.on('onObjectClicked')
+      .subscribe(({hittenObject, hoveredConnections}) => this.scene.onObjectClicked(hittenObject, hoveredConnections)));
+  }
+
+  refreshCameraTransformHierarchy() {
+    this.camMoveHelper.updateMatrixWorld(true);
+    this.camRotationHelper.updateMatrixWorld(true);
+    this.camTargetPosition.updateMatrixWorld(true);
+
+    this.camTargetPosition.matrixWorld.decompose(_position, _quaternion, _scale);
+
+    this.camera.camera.position.copy(_position);
+    this.camera.camera.lookAt(this.camMoveHelper.position);
+    this.camera.updateMatrix();
+    this.camera.update();
+
+    this.scene.renderScene();
+  }
+
+  onZoom(delta) {
     this.targetCameraZPosition += delta / 4;
     this.targetCameraFrustumSize += delta / 20;
   }
-
-  onClicked() {}
 
   onDoubleClicked() {
     this.animation.stop();
@@ -114,11 +133,7 @@ export default class ProcessCameraController {
     this.animation.start();
   }
 
-  onMouseMoved(/* lastMousePosition */) {
-    // console.log('mousemoved', lastMousePosition)
-  }
-
-  move(dx, dy) {
+  onMove({dx, dy}) {
     this.targetCameraPOIPosition.translateX(-dx * this.cameraMoveSpeed);
     this.targetCameraPOIPosition.translateZ(-dy * this.cameraMoveSpeed);
   }
@@ -167,6 +182,8 @@ export default class ProcessCameraController {
   }
 
   dispose() {
+    super.dispose();
+
     this.interactionModules.forEach(module => module.dispose());
     this.interactionModules = [];
     this.camera = null;

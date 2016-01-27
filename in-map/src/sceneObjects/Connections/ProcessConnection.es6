@@ -58,6 +58,10 @@ export default class ProcessConnection extends BaseConnection {
     this.geometry.attributes.color.needsUpdate = true;
   }
 
+  intersects() {
+    return false;
+  }
+
   dispose() {
     super.dispose();
   }

@@ -1,7 +1,6 @@
 import THREE from 'three';
 
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import {getColorPool} from 'in-services/util/ColorGenerator';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -196,7 +195,7 @@ export default class Layer extends SceneObjectWithSnapshot {
     } else if (newHealth === health.danger) {
       return new THREE.Color(colors.critical);
     }
-    return getColorPool('processes').getColorRGB(this.type);
+    return new THREE.Color(colors.cubeBasicColor);
   }
 
   dispose() {

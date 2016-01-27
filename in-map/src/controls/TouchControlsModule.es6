@@ -2,14 +2,13 @@ import Hammer from 'hammerjs';
 
 import BaseModule from './BaseModule';
 
-export default class TouchControl extends BaseModule {
+export default class TouchControlModule extends BaseModule {
 
-  constructor({parent, canvas}) {
-    super(parent);
+  constructor({eventEmitter, canvas}) {
+    super(eventEmitter);
 
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
-
 
     // holds the mouse/touch position in pixel coordinates
     this.cursor = { x: 0, y: 0 };
@@ -55,15 +54,15 @@ export default class TouchControl extends BaseModule {
 
     this.setCursorToEvent(event);
 
-    this.parent.move(dx, dy);
+    this.eventEmitter.emit('onMove', {dx, dy});
   }
 
   onTab(e) {
     if (this.checkDoubleClick()) {
-      this.parent.onDoubleClicked();
+      this.eventEmitter.emit('onDoubleClicked');
     }
     this.setCursorToEvent(e);
-    this.parent.onClicked();
+    this.eventEmitter.emit('onClicked');
   }
 
   onPinchIn(e) {
@@ -79,7 +78,7 @@ export default class TouchControl extends BaseModule {
     const delta = newDistance - oldDistance;
     this.pinchDistance = newDistance;
 
-    this.parent.zoom(delta);
+    this.eventEmitter.emit('onZoom', delta);
   }
 
   setCursorToEvent(event) {

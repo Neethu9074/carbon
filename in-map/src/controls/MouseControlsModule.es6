@@ -7,10 +7,10 @@ import {cursorPosition} from '../mapStores';
 import BaseModule from './BaseModule';
 
 
-export default class MouseControl extends BaseModule {
+export default class MouseControlModule extends BaseModule {
 
-  constructor({parent, scene}) {
-    super(parent);
+  constructor({eventEmitter, scene}) {
+    super(eventEmitter);
 
     this.scene = scene;
     this.lastMousePosition = {x: 0, y: 0};
@@ -31,8 +31,9 @@ export default class MouseControl extends BaseModule {
           this.lastMousePosition.y !== roundedY) {
         this.lastMousePosition.x = roundedX;
         this.lastMousePosition.y = roundedY;
+
         cursorPosition.emit(this.lastMousePosition);
-        this.parent.onMouseMoved(this.lastMousePosition);
+        this.eventEmitter.emit('onMouseMoved', this.lastMousePosition);
       }
     };
 
@@ -70,7 +71,7 @@ export default class MouseControl extends BaseModule {
           zoom = Math.min(50, Math.max(1, zoom));
         }
 
-        this.parent.zoom(-zoom * this.mouseScrollDirection * this.mouseScrollSpeed);
+        this.eventEmitter.emit('onZoom', -zoom * this.mouseScrollDirection * this.mouseScrollSpeed);
       });
   }
 
