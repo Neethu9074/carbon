@@ -10,18 +10,47 @@ export default class PhysicalConnection extends BaseConnection {
 
   constructor(params) {
     super(params);
+
+    this.scene.addSceneObject(this.mesh);
   }
 
   setStartingStateProperties() {
     this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
-  getMaterial() {
-    return new THREE.LineBasicMaterial({
+  onInitialEnter() {
+    this.material.visible = true;
+  }
+
+  onInactiveEnter() {
+    this.material.visible = false;
+  }
+
+  setupGeometry() {
+    // represents the geometry for all combined fragments
+    this.geometry = new THREE.BufferGeometry();
+    this.geometry.dynamic = true;
+
+    this.material = new THREE.LineBasicMaterial({
       color: 0xBBBBBB,
       visible: false,
       linewidth: 2
     });
+
+    // a global mesh that stores global geometry
+    const mesh = this.mesh = new THREE.LineSegments(this.geometry, this.material);
+    mesh.rotationAutoUpdate = false;
+    mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
+    mesh.renderOrder = 2;
+  }
+
+  updateGeometry() {
+    this.geometry.addAttribute('position',
+      new THREE.BufferAttribute(
+        new Float32Array(this.getLineVertices(this.sourceNode, this.destinationNode)), 3));
+
+    this.geometry.attributes.position.needsUpdate = true;
   }
 
   calculatePath(fromPos, toPos) {

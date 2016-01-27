@@ -17,66 +17,22 @@ export default class BaseConnection extends SceneObjectWithSnapshot {
     this.sourceNode = sourceNode;
     this.destinationNode = destinationNode;
 
-    this.calculateGeometry();
-    this.scene.addSceneObject(this.mesh);
+    this.updateGeometry();
 
     allConnections.push(this);
 
-    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.calculateGeometry()));
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.updateGeometry()));
   }
 
-  getMaterial() { throw new Error('NOT IMPLEMENTED'); }
+  updateGeometry() { throw new Error('NOT IMPLEMENTED'); }
+  setupGeometry() { throw new Error('NOT IMPLEMENTED'); }
   calculatePath() { throw new Error('NOT IMPLEMENTED'); }
   postProPath() { throw new Error('NOT IMPLEMENTED'); }
 
-  onInitialEnter() {
-    this.material.visible = true;
-  }
-
-  onInitialLeave() {}
-
-  onHighlightEnter() {
-  }
-
-  onHighlightLeave() {
-  }
-
-  onSelectedEnter() {}
-  onSelectedLeave() {}
-
-  onSelectedHighlightEnter() {}
-  onSelectedHighlightLeave() {}
-
-  onHiddenEnter() {}
-  onHiddenLeave() {}
-
-  onInactiveEnter() {
-    this.material.visible = false;
-  }
-
-
   init() {
-    // represents the geometry for all combined fragments
-    this.geometry = new THREE.BufferGeometry();
-    this.geometry.dynamic = true;
-
-    this.material = this.getMaterial();
-
-    // a global mesh that stores global geometry
-    const mesh = this.mesh = new THREE.LineSegments(this.geometry, this.material);
-    mesh.rotationAutoUpdate = false;
-    mesh.matrixAutoUpdate = false;
-    mesh.frustumCulled = false;
-    mesh.renderOrder = 2;
+    this.setupGeometry();
   }
 
-  calculateGeometry() {
-    this.geometry.addAttribute('position',
-      new THREE.BufferAttribute(
-        new Float32Array(this.getLineVertices(this.sourceNode, this.destinationNode)), 3));
-
-    this.geometry.attributes.position.needsUpdate = true;
-  }
 
   getLineVertices(from, to) {
     const fromPos = from.getComponent('position').getPosition().clone();

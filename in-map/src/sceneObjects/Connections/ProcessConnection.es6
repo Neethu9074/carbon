@@ -13,35 +13,51 @@ export default class ProcessConnection extends BaseConnection {
 
   constructor(params) {
     super(params);
+
     this.addSubscription(
-      combineLatest([
-        getSnapshot(this.sourceNode.id),
-        getSnapshot(this.destinationNode.id)
-      ])
+       combineLatest([getSnapshot(this.sourceNode.id), getSnapshot(this.destinationNode.id)])
       .subscribe(snapshots => this.setColorFromSnapshots(snapshots[0], snapshots[1]))
     );
+
+    this.scene.addSceneObject(this.mesh);
   }
 
-  getMaterial() {
-    return new THREE.LineBasicMaterial({
+  setupGeometry() {
+    // represents the geometry for all combined fragments
+    this.geometry = new THREE.BufferGeometry();
+    this.geometry.dynamic = true;
+
+    this.material = new THREE.LineBasicMaterial({
       vertexColors: THREE.VertexColors,
-      visible: false,
       linewidth: 2
     });
+
+    // a global mesh that stores global geometry
+    const mesh = this.mesh = new THREE.LineSegments(this.geometry, this.material);
+    mesh.rotationAutoUpdate = false;
+    mesh.matrixAutoUpdate = false;
+    mesh.frustumCulled = false;
+    mesh.renderOrder = 2;
+  }
+
+  updateGeometry() {
+    this.geometry.addAttribute('position',
+      new THREE.BufferAttribute(
+        new Float32Array(this.getLineVertices(this.sourceNode, this.destinationNode)), 3));
+
+    this.geometry.attributes.position.needsUpdate = true;
   }
 
   calculatePath(fromPos, toPos) {
-    return [
-      fromPos,
-      toPos
-    ];
+    fromPos.x -= 0.5;
+    fromPos.z += 0.5;
+    toPos.x -= 0.5;
+    toPos.z += 0.5;
+
+    return [fromPos, toPos];
   }
 
   postProPath(path) {
-    path.forEach(point => {
-      point.x -= 0.5;
-      point.z += 0.5;
-    });
     return path;
   }
 
@@ -56,10 +72,6 @@ export default class ProcessConnection extends BaseConnection {
 
     this.geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(color), 3));
     this.geometry.attributes.color.needsUpdate = true;
-  }
-
-  intersects() {
-    return false;
   }
 
   dispose() {
