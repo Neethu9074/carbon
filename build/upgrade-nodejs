@@ -35,7 +35,7 @@ nvm alias default "$NEW_NODE_VERSION"
 
 # prepare hook installation
 rm -f .git/hooks/pre-commit
-touch .git/hooks/pre-commit
+echo "" > .git/hooks/pre-commit
 
 # and install all the dependencies
 npm install
