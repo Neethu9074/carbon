@@ -30,7 +30,7 @@ export default class ProcessConnection extends BaseConnection {
   updateGeometry() {
     const lines = this.getLineVertices(this.sourceNode, this.destinationNode);
     this.fragment.contentProvider.setLines(lines);
-    this.fragment.contentProvider.setColor([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    this.fragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
 
     this.scene.lineFactory.addFragment(this.fragment);
   }
