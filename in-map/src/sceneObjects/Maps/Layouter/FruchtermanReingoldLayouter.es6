@@ -41,8 +41,8 @@ export default class FruchtermanReingoldLayout {
       source.inNode.getComponent('connectionsHandler').getOutgoingConnections().forEach(edge => {
         graph.edges.push({
           id: edgeIdCounter++,
-          source: edge.from.id,
-          target: edge.to.id
+          source: edge.get('sourceId'),
+          target: edge.get('destinationId')
         });
       });
     });

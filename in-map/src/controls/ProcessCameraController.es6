@@ -51,7 +51,7 @@ export default class ProcessCameraController {
     this.camMoveHelper.add(this.camRotationHelper);
 
     this.camTargetPosition = new THREE.Object3D();
-    this.camTargetPosition.position.z = this.targetCameraZPosition;
+    this.camTargetPosition.position.z = 10;
     this.camTargetPosition.add(new THREE.AxisHelper(0.5));
     this.camRotationHelper.add(this.camTargetPosition);
   }
@@ -124,11 +124,18 @@ export default class ProcessCameraController {
     }
 
     const deltaCamSize = this.targetCameraFrustumSize - this.camera.getCameraSize();
+    const deltaCamZPosition = this.targetCameraZPosition - this.camTargetPosition.position.z;
+
+
+    // TODO: dont render if not nessessary
+    if (Math.abs(deltaCamSize) <= 0.0001 && Math.abs(deltaCamZPosition) < 0.0001) {
+      return;
+    }
+
     this.camera.setCameraSize(
       this.camera.getCameraSize() + deltaCamSize * Math.min(1, dt * this.cameraFrunstumSizeAnimationSpeed));
     this.camera.setCameraFromSize();
 
-    const deltaCamZPosition = this.targetCameraZPosition - this.camTargetPosition.position.z;
     this.camTargetPosition.position.z += deltaCamZPosition;
     this.camTargetPosition.position.z = Math.min(Math.max(80, this.camTargetPosition.position.z), 1000);
 

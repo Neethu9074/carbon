@@ -1,5 +1,8 @@
+import {combineLatest} from 'reactive-observables';
 import THREE from 'three';
 
+import {getColorPool} from 'in-services/util/ColorGenerator';
+import {getSnapshot} from 'in-stores/snapshot';
 import eventBus from 'in-services/eventbus';
 
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
@@ -18,12 +21,28 @@ export default class ProcessConnection extends SceneObjectWithSnapshot {
     this.sourceNode = sourceNode;
     this.destinationNode = destinationNode;
 
+    this.calculateGeometry();
+    this.scene.addSceneObject(this.mesh);
+
+    allConnections.push(this);
+
+    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.calculateGeometry()));
+    this.addSubscription(
+      combineLatest([
+        getSnapshot(sourceNode.id),
+        getSnapshot(destinationNode.id)
+      ])
+      .subscribe(snapshots => this.setColorFromSnapshots(snapshots[0], snapshots[1]))
+    );
+  }
+
+  init() {
     // represents the geometry for all combined fragments
     this.geometry = new THREE.BufferGeometry();
     this.geometry.dynamic = true;
 
     this.material = new THREE.LineBasicMaterial({
-      color: 0xBBBBBB,
+      vertexColors: THREE.VertexColors,
       visible: false,
       linewidth: 2
     });
@@ -34,18 +53,8 @@ export default class ProcessConnection extends SceneObjectWithSnapshot {
     mesh.matrixAutoUpdate = false;
     mesh.frustumCulled = false;
     mesh.renderOrder = 2;
-
-    this.calculateGeometry();
-    this.scene.addSceneObject(this.mesh);
-
-    allConnections.push(this);
-
-    this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.calculateGeometry()));
   }
 
-  setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-  }
 
   onInitialEnter() {
     this.material.visible = true;
@@ -72,6 +81,7 @@ export default class ProcessConnection extends SceneObjectWithSnapshot {
     this.material.visible = false;
   }
 
+
   calculateGeometry() {
     this.geometry.addAttribute('position',
       new THREE.BufferAttribute(
@@ -80,39 +90,25 @@ export default class ProcessConnection extends SceneObjectWithSnapshot {
     this.geometry.attributes.position.needsUpdate = true;
   }
 
-  setColor(color) {
-    this.material.color.set(color);
-    this.scene.renderScene();
-  }
-
   getLineVertices(from, to) {
     const fromPos = from.getComponent('position').getPosition();
     const toPos = to.getComponent('position').getPosition();
 
-
     // calculating the path
-    let path = this.calculatePath(fromPos, toPos);
+    const path = this.path =  [fromPos, toPos];
+    this.calculateCollisionMesh(path);
 
     // adding arrows
-    path = this.addArrowToDestination(path);
+    // path = this.addArrowToDestination(path);
 
     // return the final line
     const flatPath = [];
     for (let i = 0; i < path.length; i++) {
-      flatPath.push(path[i].x);
+      flatPath.push(path[i].x - 0.5);
       flatPath.push(path[i].y);
-      flatPath.push(path[i].z);
+      flatPath.push(path[i].z + 0.5);
     }
     return flatPath;
-  }
-
-  calculatePath(fromPos, toPos) {
-    this.path =  [
-      fromPos,
-      toPos
-    ];
-    this.calculateCollisionMesh(this.path);
-    return this.path;
   }
 
   getDirectionForPoints(a, b) {
@@ -158,8 +154,6 @@ export default class ProcessConnection extends SceneObjectWithSnapshot {
     return path;
   }
 
-  onSnapshotUpdated() {}
-
   calculateCollisionMesh(path) {
     const geometry = new THREE.Geometry();
     for (let i = 0; i < path.length; i++) {
@@ -167,6 +161,21 @@ export default class ProcessConnection extends SceneObjectWithSnapshot {
     }
 
     this.collisionLine = new THREE.Line(geometry);
+  }
+
+  onSnapshotUpdated() {}
+
+  setColorFromSnapshots(sourceSnapshot, destinationSnapshot) {
+    const colorPool = getColorPool('processes');
+    const sourceColor = colorPool.getColorRGB(sourceSnapshot.get('plugin'));
+    const destinationColor = colorPool.getColorRGB(destinationSnapshot.get('plugin'));
+    const color = [
+      sourceColor.r, sourceColor.g, sourceColor.b,
+      destinationColor.r, destinationColor.g, destinationColor.b
+    ];
+
+    this.geometry.addAttribute('color', new THREE.BufferAttribute(new Float32Array(color), 3));
+    this.geometry.attributes.color.needsUpdate = true;
   }
 
   intersects(raycaster) {

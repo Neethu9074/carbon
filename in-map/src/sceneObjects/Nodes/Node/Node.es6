@@ -134,7 +134,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.getComponent('highlighting').stateMachine.changeStateProperty('active', value);
     this.getComponent('groundLine').stateMachine.changeStateProperty('selected', value);
 
-    // test connections
     this.getComponent('connectionsHandler').stateMachine.changeStateProperty('active', value);
   }
 
@@ -204,7 +203,6 @@ export default class Node extends SceneObjectWithSnapshot {
     components.ground.sizeChanged(1.5, 1, 1.5);
     components.groundLine.sizeChanged(1.5, 1, 1.5);
 
-    // test connections
     components.connectionsHandler = new PhysicalConnectionsHandlerComponent({sceneObject});
   }
 
