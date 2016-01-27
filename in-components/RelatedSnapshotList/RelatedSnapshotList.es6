@@ -41,7 +41,6 @@ export default connectTo(
   },
 
   render() {
-    console.log(JSON.parse(JSON.stringify(this.props.snapshots)));
     if (!this.props.snapshots || this.props.snapshots.size === 0) {
       return null;
     }
