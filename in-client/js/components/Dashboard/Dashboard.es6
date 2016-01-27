@@ -1,12 +1,13 @@
 import React from 'react';
+import irpt from 'react-immutable-proptypes';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {selectedSnapshot} from 'in-stores/snapshot';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SidebarDashboard from 'in-components/SidebarDashboard';
 import getForgeComponent from 'in-services/getForgeComponent';
 import * as timelineStore from 'in-services/stores/timeline';
 import Jail from 'in-components/Jail';
+import connectTo from 'in-hoc/connectTo';
 
 import Navigation from './Navigation';
 import Header from './Header';
@@ -15,25 +16,23 @@ import './Dashboard.less';
 
 const block = 'in-dashboard';
 
-const Dashboard = React.createClass({
-  mixins: [SubscriptionMixin],
-
-  getInitialState() {
+export default connectTo(
+  () => {
     return {
-      snapshot: null,
-      timeframe: 0
+      snapshot: selectedSnapshot,
+      timeframe: timelineStore.timeframe
     };
   },
+  React.createClass({
+  displayName: 'Dashboard',
 
-  componentWillMount() {
-    this.addSubscription(selectedSnapshotStore.selectedSnapshot.subscribe(snapshot => {
-      this.setState({snapshot});
-    }));
-    this.addSubscription(timelineStore.timeframe.subscribe(timeframe => this.setState({timeframe})));
+  propTypes: {
+    snapshot: irpt.map,
+    timeframe: React.PropTypes.number
   },
 
   render() {
-    const snapshot = this.state.snapshot;
+    const snapshot = this.props.snapshot;
     if (!snapshot) {
       return <LoadingIndicator />;
     }
@@ -48,14 +47,14 @@ const Dashboard = React.createClass({
           <Navigation snapshot={snapshot}/>
           <Jail component={DashboardImpl}
                 className={block + '__sections'}
-                props={{ snapshot, timeframe: this.state.timeframe }}/>
+                props={{ snapshot, timeframe: this.props.timeframe }}/>
         </div>
       </div>
     );
   },
 
   getForgeSpecificComponent(name) {
-    const snapshot = this.state.snapshot;
+    const snapshot = this.props.snapshot;
     return getForgeComponent(
       './' +
       snapshot.get('plugin') +
@@ -64,6 +63,4 @@ const Dashboard = React.createClass({
       '.es6'
     );
   }
-});
-
-export default Dashboard;
+}));

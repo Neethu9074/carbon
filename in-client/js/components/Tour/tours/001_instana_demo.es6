@@ -1,14 +1,14 @@
 import {createLogger} from 'instalog';
 
-import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
 import * as navigation from 'in-stores/navigation';
 
 const logger = createLogger('tour.001');
 
-let snapshots;
+// let snapshots;
 
 function openDashboard() {
-  selectedSnapshot.select(snapshots.get(0));
+  // selectedSnapshot.select(snapshots.get(0));
+  // TODO set selected snapshot
   navigation.goToDashboard();
 }
 
@@ -43,11 +43,12 @@ export const tourDefinition = {
       nextStepLabel: 'Click on a box',
       element: 'ALL',
       after() {
-        let indexToClick = 0;
-        if (snapshots.size > 1) {
-          indexToClick = Math.floor(snapshots.size / 2);
-        }
-        selectedSnapshot.select(snapshots.get(indexToClick));
+        // let indexToClick = 0;
+        // if (snapshots.size > 1) {
+        //   indexToClick = Math.floor(snapshots.size / 2);
+        // }
+        // selectedSnapshot.select(snapshots.get(indexToClick));
+        // TODO set selected snapshot
       }
     },
     {
@@ -56,7 +57,8 @@ export const tourDefinition = {
             'lines indicating TCP connections to other hosts.',
       element: '.in-sidebar-map',
       undo() {
-        selectedSnapshot.clear();
+        // selectedSnapshot.clear();
+        // TODO set selected snapshot
       }
     },
     {
@@ -92,7 +94,8 @@ export const tourDefinition = {
       nextStepLabel: 'Back to the 3D Map',
       after() {
         navigation.goToMap();
-        selectedSnapshot.clear();
+        // selectedSnapshot.clear();
+        // TODO set selected snapshot
       }
     },
     {

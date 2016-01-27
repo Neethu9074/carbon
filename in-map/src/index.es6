@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as navigation from 'in-stores/navigation';
 import helpify from 'in-components/hoc/helpify';
@@ -99,7 +99,7 @@ const MapRC = React.createClass({
   },
 
   openDashboard(snapshot) {
-    selectedSnapshotStore.select(snapshot);
+    setSelectedSnapshotId(snapshot.get('id'));
     navigation.goToDashboard();
   },
 

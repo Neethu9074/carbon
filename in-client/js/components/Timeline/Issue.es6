@@ -1,9 +1,8 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import IssueDiscription from 'in-components/IssueDiscription';
-import {extractCoordinates} from 'in-services/snapshots';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -48,8 +47,8 @@ const Issue = React.createClass({
   },
 
   focusSnapshot(issue) {
-    const problemCoordinates = extractCoordinates(issue.get('problem'));
-    selectedSnapshotStore.select(problemCoordinates);
+    setSelectedSnapshotId(issue.getIn(['problem', 'snapshotId']));
+    throw new Error('Include snapshotId in issue');
   }
 });
 

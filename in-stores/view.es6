@@ -1,5 +1,4 @@
 import createViewStructureObservable from 'in-services/subscription/view';
-import {getStructure} from 'in-services/wiring';
 
 import {mutateUrl, navigationParameters} from './navigation';
 import {createStore, createTrackingStore} from './store';
@@ -15,7 +14,6 @@ const store = createStore({
 });
 
 export const view = store.observable.distinct();
-export const shallowViewStructure = view.flatMap(theView => getStructure(theView, false));
 export const viewStructure = createTrackingStore({
   name: 'viewStructure',
   observable: view.flatMap(viewType => createViewStructureObservable({viewType}))
