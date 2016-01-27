@@ -7,8 +7,8 @@ import eventBus from 'in-services/eventbus';
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';
 import LineMeshComponent from '../../components/LineMeshComponent';
 
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import StickyNote from '../../StickyNotes/Groups/PhysicalGroup';
 import Node from '../Nodes/Node';
 
@@ -29,11 +29,11 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onHighlightEnter() {
-    this.getComponent('highlight').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onHighlightLeave() {
-    this.getComponent('highlight').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSelectedEnter() {
@@ -49,7 +49,7 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onSelectedHighlightEnter() {
-    this.getComponent('highlight').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
     this.getComponent('mesh').colorChanged(1.0, 1.0, 1.0);
 
@@ -57,7 +57,7 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onSelectedHighlightLeave() {
-    this.getComponent('highlight').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     const color = this.getColor();
     this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
@@ -67,7 +67,7 @@ export default class Group extends SceneObjectWithSnapshot {
 
   highlight(highlighted = true) {
     const propState = highlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-    this.stateMachine.changeStateProperty('highlight', propState);
+    this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, propState);
   }
 
 
@@ -95,11 +95,11 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onMouseEnterOnSticky() {
-    this.getComponent('highlight').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onMouseLeaveOnSticky() {
-    this.getComponent('highlight').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSnapshotUpdated() {}

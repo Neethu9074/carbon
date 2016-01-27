@@ -53,6 +53,14 @@ export const PROPERTY_VALUES = {
   OFF
 };
 
+export const PROPERTIES = {
+  HIGHLIGHT: 'highlight',
+  SELECTED: 'selected',
+  INDIRECT: 'indirect',
+  HIDDEN: 'hidden',
+  ACTIVE: 'active'
+};
+
 export class StateMachine extends AStateMachine {
 
   constructor(owner) {

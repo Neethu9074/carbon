@@ -2,7 +2,7 @@ import Immutable from 'immutable';
 import _ from 'lodash';
 
 import {DIRECTIONS} from '../../SceneObjects/Connections/ConnectionDirections';
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Component from '../Component';
 
 
@@ -20,15 +20,17 @@ export default class ConnectionsHandlerComponent extends Component {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onInitialEnter() {
-    this.connections.forEach(connection => connection.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
+    this.connections.forEach(connection =>
+      connection.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {
-    this.connections.forEach(connection => connection.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.connections.forEach(connection =>
+      connection.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
   }
 
 
@@ -86,7 +88,7 @@ export default class ConnectionsHandlerComponent extends Component {
       });
 
       const isActive = this.isActive() ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      connection.stateMachine.changeStateProperty('active', isActive);
+      connection.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, isActive);
 
       this.connections.push(connection);
     });

@@ -4,8 +4,8 @@ import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Posi
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import SCCP from '../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 import {cubeGeometry, defaultGeometryMaterial} from '../../SceneObjects/geometries';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import CollisionComponent from '../../components/CollisionObjectComponent';
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import TooltipMetric from '../../Tooltips/Metric';
 import {currentTooltip} from '../../mapStores';
 import Component from '../Component';
@@ -34,23 +34,23 @@ export default class MetricComponent extends Component {
       sceneObject: this,
       layer: 3
     });
-    this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     this.initialized();
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onInitialEnter() {
     this.addToFactory();
 
-    this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onInactiveEnter() {
-    this.collisionComponent.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     this.removeFromFactory();
   }

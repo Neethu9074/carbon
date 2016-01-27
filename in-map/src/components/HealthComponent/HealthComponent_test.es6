@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import {health} from 'in-services/health';
 
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import HealthComponent from './HealthComponent';
 
 
@@ -47,7 +47,7 @@ describe('3D map', () => {
 
     it('dont set health on inactive but on resume', () => {
       expect(sceneObject.healthChanged.callCount).to.equal(0);
-      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
       expect(component.isActive()).to.equal(false);
       expect(sceneObject.healthChanged.callCount).to.equal(1);
 
@@ -57,7 +57,7 @@ describe('3D map', () => {
       expect(sceneObject.healthChanged.callCount).to.equal(1);
       expect(component.healthToSet).to.equal(health.warning);
 
-      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
       expect(sceneObject.healthChanged.callCount).to.equal(2);
       component.handleComponentTimeEvent();

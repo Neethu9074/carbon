@@ -1,6 +1,6 @@
 import Component from '../Component';
 
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import XYZ from '../XYZ';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -30,7 +30,7 @@ export default class BaseHighlightingComponent extends Component {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onInitialEnter() {

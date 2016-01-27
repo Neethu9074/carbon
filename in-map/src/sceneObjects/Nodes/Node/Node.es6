@@ -18,9 +18,9 @@ import MetricComponent from '../../../components/MetricComponent';
 import LayerComponent from '../../../components/LayerComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
+import {PROPERTIES, PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
-import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {longClickedSceneObject} from '../../../mapStores';
 import NodeSnapshotServer from './NodeSnapshotServer';
 import ConnectionGrid from '../../../ConnectionGrid';
@@ -61,7 +61,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onInitialEnter() {
     // the default state for the solid hull is off
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onHighlightEnter() {
@@ -95,31 +95,31 @@ export default class Node extends SceneObjectWithSnapshot {
   onHiddenEnter() {
     super.onHiddenEnter();
 
-    this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    this.label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('layer').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onHiddenLeave() {
     super.onHiddenLeave();
 
-    this.getComponent('layer').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-    this.label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('layer').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onIndirectHighlightEnter() {
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-    this.getComponent('groundLine').stateMachine.changeStateProperty('selected', PROPERTY_VALUES.ON);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.getComponent('groundLine').stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.ON);
   }
 
   onIndirectHighlightLeave() {
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    this.getComponent('groundLine').stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.getComponent('groundLine').stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.OFF);
   }
 
   onInactiveEnter() {
     super.onInactiveEnter();
 
-    this.getComponent('mesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('mesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onInactiveLeave() {
@@ -130,11 +130,11 @@ export default class Node extends SceneObjectWithSnapshot {
 
   highlight(solid = true) {
     const value = solid ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', value);
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', value);
-    this.getComponent('groundLine').stateMachine.changeStateProperty('selected', value);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
+    this.getComponent('groundLine').stateMachine.changeStateProperty(PROPERTIES.SELECTED, value);
 
-    this.getComponent('connectionsHandler').stateMachine.changeStateProperty('active', value);
+    this.getComponent('connectionsHandler').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
   }
 
 
@@ -172,7 +172,7 @@ export default class Node extends SceneObjectWithSnapshot {
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.highlightingSingleMeshFactory
     });
-    components.solidMesh.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    components.solidMesh.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     // add the highlighting component to handle the highlighting of a node
     // this is different to solidMesh since the highlighting is like a mouseOver effect
@@ -228,7 +228,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.currentMetric = metric;
 
     const value = metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
-    this.stateMachine.changeStateProperty('active', value);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
   }
 
   setChildren(entities) {
@@ -244,11 +244,11 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   showMetrics() {
-    this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('metric').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   hideMetrics() {
-    this.getComponent('metric').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('metric').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   setMetricValues(values) {
@@ -364,14 +364,14 @@ export default class Node extends SceneObjectWithSnapshot {
     this.getComponent('mesh').colorChanged(r, g, b);
 
     if (newHealth === health.ok) {
-      ground.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-      groundLine.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+      ground.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+      groundLine.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
       this.getComponent('solidMesh').colorChanged(r + 0.1, g + 0.1, b + 0.1);
 
     } else {
       this.getComponent('solidMesh').colorChanged(r, g, b);
-      ground.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
-      groundLine.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      ground.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+      groundLine.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     }
   }
 

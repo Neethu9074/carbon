@@ -2,8 +2,8 @@ import THREE from 'three';
 
 import eventBus from 'in-services/eventbus';
 
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 
 
 export const allConnections = [];
@@ -122,7 +122,7 @@ export default class BaseConnection extends SceneObjectWithSnapshot {
 
   onHighlight(isHighlighted) {
     const value = isHighlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-    this.stateMachine.changeStateProperty('highlight', value);
+    this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, value);
   }
 
   dispose() {

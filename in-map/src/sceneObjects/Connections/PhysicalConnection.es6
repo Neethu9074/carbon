@@ -1,6 +1,6 @@
 import THREE from 'three';
 
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {DIRECTIONS} from '../Connections/ConnectionDirections';
 import ConnectionGrid from '../../ConnectionGrid';
 import BaseConnection from './BaseConnection';
@@ -13,7 +13,7 @@ export default class PhysicalConnection extends BaseConnection {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   getMaterial() {

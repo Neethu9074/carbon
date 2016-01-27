@@ -8,9 +8,9 @@ import HighlightingComponent from '../../../components/HighlightingComponents/Pr
 import CollisionComponent from '../../../components/CollisionObjectComponent';
 import MeshComponent from '../../../components/MeshComponent';
 
+import {PROPERTIES, PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
-import {PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import ColouredPluginLabel from '../../Label/ColouredPluginLabel';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -35,19 +35,19 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   onHighlightEnter() {
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onHighlightLeave() {
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSelectedHighlightEnter() {
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightLeave() {
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
 
@@ -93,7 +93,7 @@ export default class Node extends SceneObjectWithSnapshot {
     components.topMesh.sizeChanged(0.9, 0.9, 0.9);
 
     components.connectionsHandler = new ProcessConnectionsHandlerComponent({sceneObject: this});
-    components.connectionsHandler.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    components.connectionsHandler.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onSnapshotUpdated(snapshot) {

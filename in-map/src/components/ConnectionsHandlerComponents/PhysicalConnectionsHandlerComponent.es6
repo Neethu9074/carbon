@@ -1,6 +1,6 @@
 import PhysicalConnection from '../../SceneObjects/Connections/PhysicalConnection';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import ConnectionsHandlerComponent from './ConnectionsHandlerComponent';
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 
 
 export default class PhysicalConnectionsHandlerComponent extends ConnectionsHandlerComponent {
@@ -9,7 +9,7 @@ export default class PhysicalConnectionsHandlerComponent extends ConnectionsHand
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   createNewConnection(config) {

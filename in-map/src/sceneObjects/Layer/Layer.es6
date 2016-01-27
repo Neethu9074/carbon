@@ -11,10 +11,10 @@ import CollisionComponent from '../../components/CollisionObjectComponent';
 import HealthComponent from '../../components/HealthComponent';
 import MeshComponent from '../../components/MeshComponent';
 
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {longClickedSceneObject, currentTooltip} from '../../mapStores';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import TooltipLayer from '../../Tooltips/Layer';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -38,7 +38,7 @@ export default class Layer extends SceneObjectWithSnapshot {
       this.currentZoomLevel = newLevel;
       const activateCollisions = (newLevel === level.nearest && this.isActive()) ?
         PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.components.collision.stateMachine.changeStateProperty('active', activateCollisions);
+      this.components.collision.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, activateCollisions);
     });
 
     this.addSubscription(longClickedSceneObject.subscribe(so => {
@@ -51,68 +51,68 @@ export default class Layer extends SceneObjectWithSnapshot {
 
   onHighlightEnter() {
     // setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
     currentTooltip.emit(this.tooltip);
   }
 
   onHighlightLeave() {
     // dispose the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSelectedEnter() {
     // setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
     // surounds the node with a white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightEnter() {
     // setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
     // surounds the node with a white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
     currentTooltip.emit(this.tooltip);
   }
 
   onSelectedHighlightLeave() {
     // hide the border highlighting stuff
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     // dispose the white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSelectedLeave() {
     // setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     // dispose the white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onHiddenLeave() {
     // enables all components
     super.onHiddenLeave();
 
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onInactiveLeave() {
     // enables all components
     super.onInactiveLeave();
 
-    this.getComponent('highlighting').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
-    this.getComponent('solidMesh').stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     const activateCollisions = (this.currentZoomLevel === level.nearest) ?
       PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-    this.getComponent('collision').stateMachine.changeStateProperty('active', activateCollisions);
+    this.getComponent('collision').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, activateCollisions);
   }
 
 
@@ -129,7 +129,7 @@ export default class Layer extends SceneObjectWithSnapshot {
     // the default state for collisions on layer is inactive. collisions are only
     // active, if the layer is active and the zoomLevel is nearest so that you are
     // close to the layer with the camera
-    components.collision.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    components.collision.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     const pcm = new PCM({
       contentProvider: new SCM({
@@ -150,7 +150,7 @@ export default class Layer extends SceneObjectWithSnapshot {
       contentProvider: new CMCM({ contentProvider: pcm }),
       factory: this.scene.layerHighlightingSingleMeshFactory
     });
-    components.solidMesh.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    components.solidMesh.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     // add the highlighting component to handle the highlighting of a node
     // this is different to solidMesh since the highlighting is like a mouseOver effect

@@ -1,7 +1,7 @@
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import {getSnapshot} from 'in-stores/snapshot';
 
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObject from '../SceneObject';
 
 
@@ -14,7 +14,7 @@ export default class SceneObjectWithSnapshot extends SceneObject {
 
     this.addSubscription(highlightedSnapshot.highlightedEntityId.subscribe(highlightedId => {
       const isThisHighlighted = highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty('highlight', isThisHighlighted);
+      this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, isThisHighlighted);
     }));
   }
 

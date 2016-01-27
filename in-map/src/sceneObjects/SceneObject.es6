@@ -1,7 +1,7 @@
 import * as snapshotStore from 'in-stores/snapshot';
 
+import {PROPERTIES, PROPERTY_VALUES} from '../StateMachine/StateMachine';
 import PositionComponent from '../components/PositionComponent';
-import {PROPERTY_VALUES} from '../StateMachine/StateMachine';
 import {StateMachine} from '../StateMachine/StateMachine';
 
 import {currentScene} from '../mapStores';
@@ -27,12 +27,12 @@ export default class SceneObject {
 
     this.addSubscription(snapshotStore.selectedSnapshotId.subscribe(selectedId => {
       const isSelected = (selectedId === this.id) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty('selected', isSelected);
+      this.stateMachine.changeStateProperty(PROPERTIES.SELECTED, isSelected);
     }));
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   initComponents() {
@@ -69,19 +69,23 @@ export default class SceneObject {
   onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   onInactiveEnter() {
-    this.forEachComponent(component => component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.forEachComponent(component =>
+      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
   }
 
   onInactiveLeave() {
-    this.forEachComponent(component => component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
+    this.forEachComponent(component =>
+      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON));
   }
 
   onHiddenEnter() {
-    this.forEachComponent(component => component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.forEachComponent(component =>
+      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
   }
 
   onHiddenLeave() {
-    this.forEachComponent(component => component.setStartingStateProperties());
+    this.forEachComponent(component =>
+      component.setStartingStateProperties());
   }
 
   isSelected() {
@@ -101,11 +105,11 @@ export default class SceneObject {
   }
 
   show() {
-    this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.HIDDEN, PROPERTY_VALUES.OFF);
   }
 
   hide() {
-    this.stateMachine.changeStateProperty('hidden', PROPERTY_VALUES.ON);
+    this.stateMachine.changeStateProperty(PROPERTIES.HIDDEN, PROPERTY_VALUES.ON);
   }
 
   setScreenPositionAnchor(x, y, z) {
@@ -184,9 +188,9 @@ export default class SceneObject {
     this.subscriptions = [];
 
     // reset states so that inactive state is taken
-    this.stateMachine.changeStateProperty('highlight', PROPERTY_VALUES.OFF);
-    this.stateMachine.changeStateProperty('selected', PROPERTY_VALUES.OFF);
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     this.forEachComponent(component => component.dispose());
 

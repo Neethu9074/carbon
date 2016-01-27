@@ -1,4 +1,4 @@
-import {StateMachine, PROPERTY_VALUES} from '../StateMachine/StateMachine';
+import {StateMachine, PROPERTIES, PROPERTY_VALUES} from '../StateMachine/StateMachine';
 import * as time from '../timeCalculations';
 
 let idCounter = 0;
@@ -19,7 +19,7 @@ export default class Component {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
 

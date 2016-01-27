@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import {theme} from 'in-services/theme';
 
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import Component from '../Component';
 import XYZ from '../XYZ';
 import RGB from '../RGB';
@@ -37,7 +37,7 @@ export default class GroundHighlightingComponent extends Component {
   }
 
   setStartingStateProperties() {
-    this.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF);
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onInitialEnter() {

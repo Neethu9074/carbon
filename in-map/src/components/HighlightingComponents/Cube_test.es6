@@ -3,7 +3,7 @@
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 
 import HighlightingComponent from './Cube';
 
@@ -34,7 +34,7 @@ describe('3D map', () => {
     });
 
     it('should call external method', () => {
-      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);
       component.positionChanged(1, 2, 3);
@@ -46,7 +46,7 @@ describe('3D map', () => {
     });
 
     it('should do force update even if there is no change', () => {
-      component.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON);
+      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
       component.positionChanged(1, 2, 3);
       expect(sceneObject.scene.lineFactory.addFragment.callCount).to.equal(1);

@@ -1,7 +1,7 @@
 import {zoomLevel} from 'in-services/stores/zoomLevel';
 
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 
 
 export default class Label extends SceneObjectWithSnapshot {
@@ -16,7 +16,7 @@ export default class Label extends SceneObjectWithSnapshot {
 
     this.addSubscription(zoomLevel.subscribe(zl => {
       const isHidden = predicate(zl) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty('hidden', isHidden);
+      this.stateMachine.changeStateProperty(PROPERTIES.HIDDEN, isHidden);
     }));
   }
 

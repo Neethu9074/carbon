@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 import {level} from 'in-services/stores/zoomLevel';
 
-import {PROPERTY_VALUES} from '../../StateMachine/StateMachine';
+import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import PluginLabel from '../../SceneObjects/Label/PluginLabel';
 import Layer from '../../SceneObjects/Layer';
 import Component from '../Component';
@@ -24,13 +24,15 @@ export default class LayerComponent extends Component {
   }
 
   onInitialEnter() {
-    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
-    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.ON));
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON));
+    this.layerGroupLabel.forEach(label =>
+      label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON));
   }
 
   onInactiveEnter() {
-    this.layer.forEach(layer => layer.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
-    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty('active', PROPERTY_VALUES.OFF));
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
+    this.layerGroupLabel.forEach(label =>
+      label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
   }
 
 
