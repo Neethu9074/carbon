@@ -102,6 +102,9 @@ export default class ProcessCameraController extends BaseCameraController {
 
     this.addSubscription(this.eventEmitter.on('onDoubleClicked')
       .subscribe(() => this.onDoubleClicked()));
+
+    this.addSubscription(this.eventEmitter.on('onObjectClicked')
+      .subscribe(({hittenObject, hoveredConnections}) => this.scene.onObjectClicked(hittenObject, hoveredConnections)));
   }
 
   refreshCameraTransformHierarchy() {
