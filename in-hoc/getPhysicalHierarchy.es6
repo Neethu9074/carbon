@@ -39,6 +39,7 @@ export default function getPhysicalHierarchy(ComposedComponent) {
           physicalHierarchy: emptyList
         });
         this.subscription = loadPhysicalHierarchy(props.snapshotId)
+          .startWith(emptyList)
           .subscribe(physicalHierarchy => this.setState({physicalHierarchy}));
       }
     },
