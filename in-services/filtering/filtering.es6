@@ -1,6 +1,5 @@
 import Immutable from 'immutable';
 
-import {getFullSnapshot} from '../snapshots';
 import {getHealth} from '../issueTracker';
 import {health} from '../health';
 
@@ -11,13 +10,8 @@ export function createTagFilter(tag) {
     icon: 'timeline',
     tooltip: 'Filter components for the tag ' + tag,
     predicate: (coords) => {
-      return getFullSnapshot(coords).map(snapshot => {
-        const tags = snapshot.get('tags');
-        if (tags) {
-          return tags.some(t => t.indexOf(tag) !== -1);
-        }
-        return false;
-      });
+      // TODO will be removed
+      return getHealth(coords).map(h => h === health.warning);
     }
   });
 }

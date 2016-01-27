@@ -1,7 +1,6 @@
 import Immutable from 'immutable';
 
 import {create} from '../conveyer';
-import SnapshotConveyer from '../conveyer/SnapshotConveyer';
 import RawPayloadConveyer from '../conveyer/RawPayloadConveyer';
 import _getIdString from './getIdString';
 
@@ -92,18 +91,6 @@ export function isIdEqualShort(snapshot1, snapshot2) {
   }
 
   return snapshot1.get('id') === snapshot2.get('id');
-}
-
-/**
- * Retrieve a full snapshot and updates for it. Use this function to look for a
- * single snapshot instead instead of filtering sequences yourself.
- *
- * @param {Immutable.Map} coordinates Coordinates of the snapshot
- *   which should be retrieved
- * @return {ReactiveObservable<ImmutableSnapshot>}
- */
-export function getFullSnapshot(id) {
-  return create(SnapshotConveyer, {id});
 }
 
 /**
