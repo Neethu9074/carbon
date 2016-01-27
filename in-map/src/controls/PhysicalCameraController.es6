@@ -3,7 +3,7 @@ import THREE from 'three';
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import * as tooltipStore from 'in-services/stores/tooltip';
 
-import {allConnections} from '../SceneObjects/Connections/PhysicalConnection';
+import {allConnections} from '../SceneObjects/Connections/BaseConnection';
 import {longClickedSceneObject, currentTooltip} from '../mapStores';
 import MouseControlsModule from './MouseControlsModule';
 import TouchControlsModule from './TouchControlsModule';
