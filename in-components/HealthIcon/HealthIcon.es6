@@ -4,7 +4,7 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getIssuesForSnapshot} from 'in-services/issueTracker';
 import {mapSeverityToHealth, health} from 'in-services/health';
-import IssueDiscription from 'in-components/IssueDiscription';
+import IssueDescription from 'in-components/IssueDescription';
 import {getClassName} from 'in-services/react';
 import {theme} from 'in-services/theme';
 
@@ -80,7 +80,7 @@ const HealthIcon = React.createClass({
     return (
       <div>
         {orderedIssues.map(issue =>
-          <IssueDiscription key={issue.get('id')}
+          <IssueDescription key={issue.get('id')}
                             issue={issue}
                             plugin={this.props.snapshot.get('pluginId')}/>
         )}

@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import IssueDiscription from '../IssueDiscription';
+import IssueDescription from '../IssueDescription';
 
 import './IssueItemList.less';
 
@@ -34,7 +34,7 @@ const IssueItemList = React.createClass({
               <div className={block + '__header-label'}>
                 {this.getDayStringForDate(key)}
               </div>
-              {issues.map(issue => <IssueDiscription key={issue.get('id')}
+              {issues.map(issue => <IssueDescription key={issue.get('id')}
                                                      issue={issue}
                                                      plugin={issue.getIn(['problem', 'pluginId'])}
                                                      className={block + '__item'}/>)}

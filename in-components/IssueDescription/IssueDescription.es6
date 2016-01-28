@@ -2,6 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
+import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
@@ -10,7 +11,7 @@ import connectTo from 'in-components/hoc/connectTo';
 import SnapshotDescription from '../SnapshotDescription';
 import Icon from '../Icon';
 
-import './IssueDiscription.less';
+import './IssueDescription.less';
 
 const rpt = React.PropTypes;
 const block = 'in-issue-discription';
@@ -23,7 +24,7 @@ export default connectTo(
   },
   React.createClass({
 
-  displayName: 'IssueDiscription',
+  displayName: 'IssueDescription',
 
   propTypes: {
     issue: irpt.map.isRequired,
@@ -38,7 +39,8 @@ export default connectTo(
     const className = getClassName(this, block);
 
     return (
-      <div className={className}>
+      <div className={className}
+           onClick={this.onClick}>
         <Icon className={block + '__icon'}
               type={this.getIconType(issue)}
               style={{color}}/>
@@ -67,5 +69,10 @@ export default connectTo(
   getIconType(issue) {
     const type = issue.getIn(['problem', 'severity']) > 8 ? 'critical' : 'warning';
     return type;
+  },
+
+  onClick() {
+    const coords = extractCoordinates(this.props.issue.get('problem'));
+    selectedSnapshotStore.select(coords);
   }
 }));

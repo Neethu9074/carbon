@@ -4,7 +4,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getIssuesForSnapshot} from 'in-services/issueTracker';
-import IssueDiscription from 'in-components/IssueDiscription';
+import IssueDescription from 'in-components/IssueDescription';
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import {getLabel, getLongLabel} from 'in-sdk/snapshot';
@@ -114,7 +114,7 @@ const NodeTooltipRC = React.createClass({
     if (this.issuesAvailable()) {
       return (
         <TooltipFrame>
-          <IssueDiscription issue={this.getMostImportantIssue()}
+          <IssueDescription issue={this.getMostImportantIssue()}
                             plugin={this.props.snapshot.get('pluginId')}/>
         </TooltipFrame>
       );
