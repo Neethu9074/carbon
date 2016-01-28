@@ -152,8 +152,6 @@ export default class Scene {
 
     this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 4});
 
-    this.layerHighlightingSingleMeshFactory = new SingleMeshFactory({scene});
-
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
 
     this.solidSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
@@ -181,7 +179,6 @@ export default class Scene {
   updateFactories() {
     Object.keys(this.logoFactories).forEach(key => this.logoFactories[key].rebuild());
 
-    this.layerHighlightingSingleMeshFactory.rebuild();
     this.highlightingSingleMeshFactory.rebuild();
     this.groundSingleMeshFactory.rebuild();
     this.layerSingleMeshFactory.rebuild();
