@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
+import {formatBytes} from 'in-services/converters';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -21,6 +22,7 @@ const MsIISDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
+    const allSites = snapshot.getIn(['data', 'allsites']).toArray();
     const siteName = this.state.siteName;
     return (
       <div>
@@ -34,12 +36,8 @@ const MsIISDashboard = React.createClass({
                    left: 60
                  }}
                  y1={{
-                   metrics: [
-                     'siteperf.' + siteName + '.current_connections'
-                   ],
-                   labels: [
-                     siteName
-                   ],
+                   metrics: allSites.map(site => 'siteperf.' + site + '.current_connections'),
+                   labels: allSites,
                    type: 'line'
                  }}/>
         </div>
@@ -55,17 +53,34 @@ const MsIISDashboard = React.createClass({
                     left: 60
                   }}
                   y1={{
-                    metrics: [
-                      'siteperf.' + siteName + '.total_requests'
-                    ],
-                    labels: [
-                      siteName
-                    ],
+                    metrics: allSites.map(site => 'siteperf.' + site + '.total_requests'),
+                    labels: allSites,
                     type: 'line'
                   }}/>
          </div>
        : null}
         </DashboardSection>
+        <DashboardSection title='I/O Stats'>
+        {siteName ?
+          <div>
+            <ChartWithLegend snapshot={snapshot}
+                   windowSize={timeframe}
+                   height={chartHeight}
+                   margins={{
+                     left: 60
+                   }}
+                   y1={{
+                     min: 0,
+                     formatter: formatBytes,
+                     metrics: allSites.map(site => 'siteperf.' + site + '.bytes_sent')
+                              .concat(allSites.map(site => 'siteperf.' + site + '.bytes_received')),
+                     labels: allSites.map(site => site + ' out')
+                             .concat(allSites.map(site => site + ' in')),
+                     type: 'line'
+                   }}/>
+          </div>
+        : null}
+         </DashboardSection>
       </div>
     );
   }
