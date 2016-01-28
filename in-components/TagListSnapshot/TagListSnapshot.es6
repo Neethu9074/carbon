@@ -17,7 +17,7 @@ const TagListSnapshot = React.createClass({
   },
 
   render() {
-    const tags = this.props.snapshot.get('tags');
+    const tags = this.props.snapshot.get('processorTags');
     if (!tags || tags.size === 0) {
       return null;
     }
