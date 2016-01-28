@@ -60,13 +60,14 @@ export default class Scene {
     this.scene = new THREE.Scene();
     this.setupFactories();
 
-    this.setup3D();
-
+    this.setupCanvas();
+    this.setupRenderer();
     this.mapHandler = new MapHandler({
       scene: this,
       height: this.height,
       width: this.width
     });
+    this.setupFXAARenderPass();
 
     this.adaptiveDetailHandler = new Handler.AdaptiveDetailHandler(this);
 
@@ -75,17 +76,6 @@ export default class Scene {
 
     this.update = this.update.bind(this);
     this.update(0);
-  }
-
-  setup3D() {
-    this.setupCanvas();
-
-    // needs the scene, camera and renderer so do it last
-    this.setupRenderer();
-    this.setupFXAARenderPass();
-
-    // set this flag to force a render cycle
-    this.shouldRenderScene = true;
   }
 
   createOctree() {

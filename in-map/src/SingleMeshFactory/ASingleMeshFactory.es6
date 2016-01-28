@@ -152,6 +152,11 @@ export default class SingleMeshFactory {
   dispose() {
     this.scene.removeSceneObject(this.mesh);
 
+    this.geometry.dispose();
+    this.material.dispose();
+
     this.fragments = null;
+    this.geometry = null;
+    this.material = null;
   }
 }

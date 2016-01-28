@@ -155,21 +155,24 @@ export default class SceneObject {
 
   updateScreenPosition() {
     const scene = this.scene;
-    const camera = scene.mapHandler.getCurrentCamera();
-    if (!camera) {
-      return;
-    }
-    const width = scene.width;
-    const height = scene.height;
-    const screenPosition = this.screenPositionAnchor
+    if (scene.mapHandler) {
+      const camera = scene.mapHandler.getCurrentCamera();
+      if (!camera) {
+        return;
+      }
+
+      const width = scene.width;
+      const height = scene.height;
+      const screenPosition = this.screenPositionAnchor
       .clone()
       .applyProjection(camera.projection);
 
-    screenPosition.x = (screenPosition.x + 1) / 2 * width;
-    screenPosition.y = -(screenPosition.y - 1) / 2 * height;
+      screenPosition.x = (screenPosition.x + 1) / 2 * width;
+      screenPosition.y = -(screenPosition.y - 1) / 2 * height;
 
-    this.screenPosition.x = screenPosition.x;
-    this.screenPosition.y = screenPosition.y;
+      this.screenPosition.x = screenPosition.x;
+      this.screenPosition.y = screenPosition.y;
+    }
   }
 
   isInView() {
