@@ -258,6 +258,9 @@ export default class PhysicalCameraController extends BaseCameraController {
 
     // get the new screenPosition of the impact point so that you can calculate the delta in screen space
     const pointOfImpactNew = this.getPointOfImpact(cursorPosition, scene);
+    if (!pointOfImpactNew) {
+      return;
+    }
     const transObj = this.camTransformObject;
     transObj.position.x += pointOfImpact.x - pointOfImpactNew.x;
     transObj.position.z += pointOfImpact.z - pointOfImpactNew.z;
