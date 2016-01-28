@@ -19,10 +19,6 @@ export default class MapHandler {
     });
   }
 
-  switchToAscii() {
-    this.doIfPresent((map) => map.switchToAscii());
-  }
-
   update() {
     this.doIfPresent((map) => map.update());
   }

@@ -9,13 +9,10 @@ import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {theme} from 'in-services/theme';
 
-import './lib/CanvasRenderer';
 import './lib/EffectComposer';
 import './lib/ShaderExtras';
-import './lib/AsciiEffect';
 import './lib/ShaderPass';
 import './lib/RenderPass';
-import './lib/Projector';
 import './lib/Octree';
 
 import SingleMeshPointsFactory from './SingleMeshFactory/SingleMeshPointsFactory';
@@ -210,27 +207,6 @@ export default class Scene {
 
     this.subscriptions = [];
 
-    window.addEventListener('keydown', (e) => {
-      const char = String.fromCharCode(e.keyCode);
-      if (!this.secretWord) {
-        this.secretWord = '';
-      }
-      this.secretWord += char;
-      if (this.secretWord.toLowerCase().match(/instana/i) && !this.doneMagic) {
-        this.webGLRenderer.autoClearColor = true;
-        this.asciiEffect = new THREE.AsciiEffect(this.webGLRenderer);
-        this.asciiEffect.setSize(this.width, this.height);
-
-        this.parent.removeChild(this.canvas);
-        this.parent.appendChild(this.asciiEffect.domElement);
-
-        this.mapHandler.switchToAscii();
-
-        this.renderScene();
-        this.doneMagic = true;
-      }
-    }, false);
-
     this.subscriptions.push(activeMetric.subscribe(metric => {
       // if there is an active metric, deselect the current selected obj and show the metric pillars
       if (metric) {
@@ -328,14 +304,10 @@ export default class Scene {
   render() {
     const camera = this.mapHandler.getCurrentCamera();
 
-    if (this.doneMagic) {
-      this.asciiEffect.render(this.scene, camera);
+    if (this.antialias === 'FXAA') {
+      this.composer.render();
     } else {
-      if (this.antialias === 'FXAA') {
-        this.composer.render();
-      } else {
-        this.webGLRenderer.render(this.scene, camera);
-      }
+      this.webGLRenderer.render(this.scene, camera);
     }
 
     // reset the flag to disable rendering if there is no update
@@ -460,9 +432,6 @@ export default class Scene {
       this.fxaaEffect.uniforms.resolution.value.set(1 / width, 1 / height);
       this.renderTarget.setSize(width, height);
       this.composer.setSize(width, height);
-    }
-    if (this.asciiEffect) {
-      this.asciiEffect.setSize(width, height);
     }
     this.webGLRenderer.setSize(width, height);
     this.mapHandler.onWindowResize(width, height);

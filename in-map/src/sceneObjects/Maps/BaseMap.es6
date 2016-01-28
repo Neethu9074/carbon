@@ -75,11 +75,6 @@ export default class VisualMap extends SceneObject {
     }
   }
 
-  switchToAscii() {
-    this.controller.dispose();
-    this.controller = this.getController(this.scene.asciiEffect.domElement);
-  }
-
   dispose() {
     // disposing all subscriptions, so that no update is fired anymore
     super.dispose();
