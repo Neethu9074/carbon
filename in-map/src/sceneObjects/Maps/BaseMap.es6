@@ -76,6 +76,8 @@ export default class VisualMap extends SceneObject {
   }
 
   dispose() {
+    this.refreshLayout = false;
+
     // disposing all subscriptions, so that no update is fired anymore
     super.dispose();
 
@@ -91,6 +93,7 @@ export default class VisualMap extends SceneObject {
     this.groundPlane.dispose();
     this.groundPlane = null;
 
+    this.refreshLayout = null;
     this.parent = null;
     this.size = null;
   }

@@ -352,6 +352,21 @@ export default class Node extends SceneObjectWithSnapshot {
     }
   }
 
+  calculateNodeColor(hostHealth) {
+    const colors = theme.map.colors;
+
+    if (hostHealth === health.warning) {
+      return new THREE.Color(colors.warning);
+    } else if (hostHealth === health.danger) {
+      return new THREE.Color(colors.critical);
+    }
+    return new THREE.Color(colors.cubeBasicColor);
+  }
+
+  calculatePower() {
+    return this._cachedPower;
+  }
+
   dispose() {
     this.snapshotServer.dispose();
 
@@ -368,20 +383,5 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.label.dispose();
     this.label = null;
-  }
-
-  calculateNodeColor(hostHealth) {
-    const colors = theme.map.colors;
-
-    if (hostHealth === health.warning) {
-      return new THREE.Color(colors.warning);
-    } else if (hostHealth === health.danger) {
-      return new THREE.Color(colors.critical);
-    }
-    return new THREE.Color(colors.cubeBasicColor);
-  }
-
-  calculatePower() {
-    return this._cachedPower;
   }
 }
