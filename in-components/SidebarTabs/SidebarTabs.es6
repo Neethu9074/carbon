@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import * as snapshotStore from 'in-stores/snapshot';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getClassName} from 'in-services/react';
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 
@@ -37,15 +37,10 @@ export default getPhysicalHierarchy(React.createClass({
           <Tab key={childSnapshotId}
                snapshotId={childSnapshotId}
                className={this.props.className + '__tab'}
-               onClick={this.onClick}
+               onClick={setSelectedSnapshotId}
                isSelected={this.props.snapshotId === childSnapshotId} />
         )}
-
       </ul>
     );
-  },
-
-  onClick(snapshotId) {
-    snapshotStore.setSelectedSnapshotId(snapshotId);
   }
 }));
