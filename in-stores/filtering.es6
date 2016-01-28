@@ -15,7 +15,7 @@ const filterTypes = {
 let filterIdCounter = 0;
 
 const filtersStore = createStore({
-  name: 'filters',
+  name: 'activeFilters',
   initialValue: emptySet
 });
 
