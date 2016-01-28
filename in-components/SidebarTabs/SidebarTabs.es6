@@ -64,9 +64,8 @@ const SidebarTabs = React.createClass({
             <Tab key={childId}
                  className={this.props.className + '__tab'}
                  onClick={this.onClick}
-                 isSelected={isSelected}>
-              {child}
-            </Tab>
+                 isSelected={isSelected}
+                 coordinates={child}/>
           );
         })}
 
