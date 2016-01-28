@@ -45,8 +45,8 @@ export default class SingleMeshFactory {
   }
 
   // must be implemented by extending classes
-  getMaterial() { throw new Error('PLEASE OVERRIDE METHOD YET'); }
-  getMesh() { throw new Error('PLEASE OVERRIDE METHOD YET'); }
+  getMaterial() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  getMesh() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
   addFragment({id, contentProvider, additionalParams}) {
     let fragment = this.getFragment(id);

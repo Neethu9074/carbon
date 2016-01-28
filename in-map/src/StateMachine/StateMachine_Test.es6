@@ -35,12 +35,8 @@ class SpecificSceneObject {
   onInactiveLeave() {this.getOrCreateStub('onInactiveLeaveStub')(); }
   onSelectedHighlightEnter() {this.getOrCreateStub('onSelectedHighlightEnterStub')(); }
   onSelectedHighlightLeave() {this.getOrCreateStub('onSelectedHighlightLeaveStub')(); }
-  onHighlightInactiveEnter() {this.getOrCreateStub('onHighlightInactiveEnterStub')(); }
-  onHighlightInactiveLeave() {this.getOrCreateStub('onHighlightInactiveLeaveStub')(); }
   onIndirectHighlightEnter() {this.getOrCreateStub('onIndirectHighlightEnterStub')(); }
   onIndirectHighlightLeave() {this.getOrCreateStub('onIndirectHighlightLeaveStub')(); }
-  onSelectedHighlightInactiveEnter() {this.getOrCreateStub('onSelectedHighlightInactiveEnterStub')(); }
-  onSelectedHighlightInactiveLeave() {this.getOrCreateStub('onSelectedHighlightInactiveLeaveStub')(); }
 }
 
 describe('3D map', () => {
@@ -83,8 +79,6 @@ describe('3D map', () => {
       it('should be initial by default', () => {
         expect(sceneObject.onInitialEnterStub.callCount).to.equal(1);
         expect(sceneObject.onInitialLeaveStub).to.equal(void 0);
-        expect(sceneObject.onHighlightEnterStub).to.equal(void 0);
-        expect(sceneObject.onHighlightLeaveStub).to.equal(void 0);
         expect(sceneObject.onSelectedEnterStub).to.equal(void 0);
         expect(sceneObject.onSelectedLeaveStub).to.equal(void 0);
         expect(sceneObject.onInactiveEnterStub).to.equal(void 0);

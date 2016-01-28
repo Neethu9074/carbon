@@ -59,14 +59,8 @@ export default class SceneObject {
   onSelectedLeave() {}
   onSelectedHighlightEnter() {}
   onSelectedHighlightLeave() {}
-  onSelectedHighlightInactiveEnter() {}
-  onSelectedHighlightInactiveLeave() {}
   onIndirectHighlightEnter() {}
   onIndirectHighlightLeave() {}
-  onHighlightInactiveEnter() {}
-  onHighlightInactiveLeave() {}
-  onSelectedInactiveEnter() { this.onInactiveEnter(); }
-  onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   onInactiveEnter() {
     this.forEachComponent(component =>

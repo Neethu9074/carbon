@@ -20,8 +20,8 @@ export default class Label extends SceneObjectWithSnapshot {
     }));
   }
 
-  getFragment() { throw new Error('PLEASE OVERRIDE METHOD YET'); }
-  getPositionHandler() { throw new Error('PLEASE OVERRIDE METHOD YET'); }
+  getFragment() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  getPositionHandler() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
   onInactiveEnter() {
     this.factory.removeFragment(this.id);
