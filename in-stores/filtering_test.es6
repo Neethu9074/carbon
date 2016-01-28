@@ -4,7 +4,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
 
-import {resetStoreRegistry} from './store';
+import {resetStoreRegistry} from 'in-stores/store';
 
 describe('in-stores/filtering', () => {
   let filteringStore;
@@ -13,7 +13,7 @@ describe('in-stores/filtering', () => {
   beforeEach(() => {
     subscriber = sinon.stub();
     resetStoreRegistry();
-    filteringStore = proxyquire('./filtering', {});
+    filteringStore = proxyquire('in-stores/filtering', {});
   });
 
   it('should be empty initially', () => {
@@ -45,5 +45,13 @@ describe('in-stores/filtering', () => {
     filteringStore.removeTagFilter(tag);
     filteringStore.filters$.subscribe(subscriber);
     expect(subscriber.getCall(0).args[0].size).to.equal(1);
+  });
+
+  it('should expose all filtered tags', () => {
+    filteringStore.addTagFilter('foo');
+    filteringStore.addTagFilter('bar');
+    filteringStore.filteredTags$.subscribe(subscriber);
+    expect(subscriber.getCall(0).args[0].toJS().sort())
+      .to.deep.equal(['bar', 'foo']);
   });
 });

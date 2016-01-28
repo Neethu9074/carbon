@@ -20,8 +20,16 @@ const filtersStore = createStore({
 });
 
 
+// A set of all filters in the form ImmutableSet<Filter> where Filter is of
+// the form seen in the backend.
 export const filters$ = filtersStore.observable;
 
+// A stream of the form ImmutableSet<String> describing the currently active
+// tag filters.
+export const filteredTags$ = filters$.map(filters => {
+  return filters.filter(f => f.get('type') === filterTypes.tag)
+    .map(f => f.getIn(['options', 'tag']));
+});
 
 export function addTagFilter(tag) {
   filtersStore.applyStateMutation(filters => {
