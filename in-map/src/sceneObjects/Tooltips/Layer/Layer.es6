@@ -3,7 +3,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getIssuesForSnapshot} from 'in-services/issueTracker';
-import IssueDiscription from 'in-components/IssueDiscription';
+import IssueDescription from 'in-components/IssueDescription';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Content from 'in-components/Tooltips/Content';
 import {getLabel} from 'in-sdk/snapshot';
@@ -52,7 +52,7 @@ const LayerTooltipRC = React.createClass({
     if (this.issuesAvailable()) {
       return (
         <TooltipFrame>
-          <IssueDiscription issue={this.getMostImportantIssue()}
+          <IssueDescription issue={this.getMostImportantIssue()}
                             plugin={snapshot.get('pluginId')}/>
         </TooltipFrame>
       );

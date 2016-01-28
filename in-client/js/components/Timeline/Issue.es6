@@ -3,7 +3,7 @@ import React from 'react/addons';
 import d3 from 'd3';
 
 import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import IssueDiscription from 'in-components/IssueDiscription';
+import IssueDescription from 'in-components/IssueDescription';
 import {extractCoordinates} from 'in-services/snapshots';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
@@ -40,7 +40,7 @@ const Issue = React.createClass({
 
     return (
       <Tooltip  align={{vertical: 'top'}}
-                content={<IssueDiscription key={issue.get('id')}
+                content={<IssueDescription key={issue.get('id')}
                                            issue={issue}
                                            plugin={issue.getIn(['problem', 'pluginId'])}/>}>
 

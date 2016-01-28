@@ -4,7 +4,7 @@ import React from 'react/addons';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getProblemsForSnapshot} from 'in-services/issueTracker';
-import IssueDiscription from 'in-components/IssueDiscription';
+import IssueDescription from 'in-components/IssueDescription';
 import {getHealth} from 'in-services/issueTracker';
 import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
@@ -86,7 +86,7 @@ const GroundStickyNoteRC = React.createClass({
 
       return (
         <Tooltip align={{horizontal: 'right'}}
-                 content={<IssueDiscription issue={mostImportantIssue}/>}>
+                 content={<IssueDescription issue={mostImportantIssue}/>}>
           {icon}
         </Tooltip>
       );
