@@ -92,20 +92,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.highlight(false);
   }
 
-  onHiddenEnter() {
-    super.onHiddenEnter();
-
-    this.getComponent('layer').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-  }
-
-  onHiddenLeave() {
-    super.onHiddenLeave();
-
-    this.getComponent('layer').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-  }
-
   onIndirectHighlightEnter() {
     this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.getComponent('groundLine').stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.ON);
@@ -207,12 +193,7 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   registerEvents() {
-    this.addSubscription(eventBus.on('endUpdate').subscribe((data) => {
-      // update only if this node is visible
-      if (!this.isHidden()) {
-        this.update(data);
-      }
-    }));
+    this.addSubscription(eventBus.on('endUpdate').subscribe(data => this.update(data)));
 
     this.addSubscription(activeMetric.subscribe(metric => this.onActiveMetric(metric)));
 
@@ -252,10 +233,6 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   setMetricValues(values) {
-    if (this.isHidden()) {
-      return;
-    }
-
     this.getComponent('metric').setValues(values);
   }
 

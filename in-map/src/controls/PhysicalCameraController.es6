@@ -25,15 +25,14 @@ export default class PhysicalCameraController extends BaseCameraController {
     this.setZoomLevel(260);
     this.states = setupStates(this);
     this.state = this.states.mid;
-
     this.setupEvents();
 
     const eventEmitter = this.eventEmitter;
-    this.interactionModules = [
+    this.interactionModules.push(
       new MouseControlsModule({eventEmitter, scene}),
       new TouchControlsModule({eventEmitter, scene, canvas}),
       new RaycasterModule({eventEmitter, scene, camera: this.camera})
-    ];
+    );
   }
 
   init(scene, map) {
@@ -87,20 +86,18 @@ export default class PhysicalCameraController extends BaseCameraController {
   }
 
   setupEvents() {
-    this.addSubscription(this.eventEmitter.on('onMove')
-      .subscribe(delta => this.onMove(delta)));
+    this.addSubscriptions([
+      this.eventEmitter.on('onMove').subscribe(delta => this.onMove(delta)),
 
-    this.addSubscription(this.eventEmitter.on('onZoom')
-      .subscribe(delta => this.onZoom(delta)));
+      this.eventEmitter.on('onZoom').subscribe(delta => this.onZoom(delta)),
 
-    this.addSubscription(this.eventEmitter.on('onMouseMoved')
-      .subscribe(lastMousePosition => this.onMouseMoved(lastMousePosition)));
+      this.eventEmitter.on('onMouseMoved').subscribe(lastMousePosition => this.onMouseMoved(lastMousePosition)),
 
-    this.addSubscription(this.eventEmitter.on('onObjectClicked')
-      .subscribe(({hittenObject, hoveredConnections}) => this.scene.onObjectClicked(hittenObject, hoveredConnections)));
+      this.eventEmitter.on('onObjectClicked').subscribe((hittenOnes) => this.scene.onObjectClicked(hittenOnes)),
 
-    this.addSubscription(this.eventEmitter.on('onObjectDoubleClicked')
-      .subscribe(hittenOne => longClickedSceneObject.emit(hittenOne.parentSceneObject)));
+      this.eventEmitter.on('onObjectDoubleClicked')
+        .subscribe(hittenOne => longClickedSceneObject.emit(hittenOne.parentSceneObject))
+    ]);
   }
 
   onMouseMoved(lastMousePosition) {
@@ -281,10 +278,26 @@ export default class PhysicalCameraController extends BaseCameraController {
   dispose() {
     super.dispose();
 
-    this.interactionModules.forEach(module => module.dispose());
-    this.interactionModules = [];
-
+    this.defaultCameraSpeed = null;
+    this.camTransformObject = null;
+    this.lastMousePosition = null;
+    this.targetZoomLevel = null;
+    this.directionToCam = null;
+    this.normalZoomOut = null;
+    this.cameraSpeed = null;
+    this.scrollSpeed = null;
+    this.unitsMoved = null;
+    this.maxZoomOut = null;
+    this.zoomCalls = null;
+    this.moveSpeed = null;
+    this.raycaster = null;
+    this.maxZoomIn = null;
+    this.zoomLevel = null;
+    this.zoomSpeed = null;
+    this.camera = null;
     this.states = null;
     this.state = null;
+    this.scene = null;
+    this.map = null;
   }
 }

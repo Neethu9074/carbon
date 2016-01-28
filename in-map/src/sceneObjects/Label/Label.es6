@@ -15,13 +15,13 @@ export default class Label extends SceneObjectWithSnapshot {
     this.positionHandler = this.getPositionHandler();
 
     this.addSubscription(zoomLevel.subscribe(zl => {
-      const isHidden = predicate(zl) ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty(PROPERTIES.HIDDEN, isHidden);
+      const isHidden = predicate(zl) ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
+      this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, isHidden);
     }));
   }
 
-  getFragment() { throw new Error('NOT IMPLEMENTED YET'); }
-  getPositionHandler() { throw new Error('NOT IMPLEMENTED YET'); }
+  getFragment() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  getPositionHandler() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
   onInactiveEnter() {
     this.factory.removeFragment(this.id);
@@ -30,15 +30,6 @@ export default class Label extends SceneObjectWithSnapshot {
   onInactiveLeave() {
     this.factory.addFragment(this.fragment);
   }
-
-  onHiddenEnter() {
-    this.factory.removeFragment(this.id);
-  }
-
-  onHiddenLeave() {
-    this.factory.addFragment(this.fragment);
-  }
-
 
   positionChanged(x, y, z) {
     this.positionHandler.position.x = x;
@@ -49,7 +40,7 @@ export default class Label extends SceneObjectWithSnapshot {
   }
 
   updateFragment() {
-    if (this.isActive() && !this.isHidden()) {
+    if (this.isActive()) {
       this.factory.addFragment(this.fragment);
     }
   }

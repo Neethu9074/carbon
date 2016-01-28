@@ -33,14 +33,8 @@ export default class Component {
   onSelectedLeave() {}
   onSelectedHighlightEnter() {}
   onSelectedHighlightLeave() {}
-  onSelectedHighlightInactiveEnter() {}
-  onSelectedHighlightInactiveLeave() {}
   onIndirectHighlightEnter() {}
   onIndirectHighlightLeave() {}
-  onHighlightInactiveEnter() {}
-  onHighlightInactiveLeave() {}
-  onSelectedInactiveEnter() { this.onInactiveEnter(); }
-  onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   isActive() {
     return this.stateMachine.stateProperties.active === PROPERTY_VALUES.ON;

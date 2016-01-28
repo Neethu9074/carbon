@@ -14,11 +14,13 @@ export default class PhysicalConnection extends BaseConnection {
     this.scene.addSceneObject(this.mesh);
   }
 
+  // physical connections are deactivated by default and only visible if a host is highlighted
   setStartingStateProperties() {
     this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onInitialEnter() {
+    // only set the visibility to true. the rest is handled by threejs
     this.material.visible = true;
   }
 
@@ -141,5 +143,13 @@ export default class PhysicalConnection extends BaseConnection {
 
   dispose() {
     super.dispose();
+
+    // clear three cache
+    this.geometry.dispose();
+    this.material.dispose();
+
+    this.geometry = null;
+    this.material = null;
+    this.mesh = null;
   }
 }

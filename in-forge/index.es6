@@ -24,3 +24,4 @@ import './availabilityZone';
 import './nginx';
 import './msSqlDatabase';
 import './phpFpmRuntimePlatform';
+import './msiis';

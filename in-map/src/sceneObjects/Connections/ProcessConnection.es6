@@ -7,6 +7,8 @@ import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProv
 import BaseConnection from './BaseConnection';
 
 
+// this global array stores all connections to get a quick access to it when
+// calculating the intersections in RaycasterModule
 export const allConnections = [];
 
 export default class ProcessConnection extends BaseConnection {
@@ -14,6 +16,7 @@ export default class ProcessConnection extends BaseConnection {
   constructor(params) {
     super(params);
 
+    // subscribe to both snapshots to caluclate the color gradient between source and destination
     this.addSubscription(
        combineLatest([getSnapshot(this.sourceNode.id), getSnapshot(this.destinationNode.id)])
       .subscribe(snapshots => this.setColorFromSnapshots(snapshots[0], snapshots[1]))
@@ -28,14 +31,19 @@ export default class ProcessConnection extends BaseConnection {
   }
 
   updateGeometry() {
-    const lines = this.getLineVertices(this.sourceNode, this.destinationNode);
-    this.fragment.contentProvider.setLines(lines);
-    this.fragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
+    const fragment = this.fragment;
 
-    this.scene.lineFactory.addFragment(this.fragment);
+    fragment.contentProvider.setLines(this.getLineVertices(this.sourceNode, this.destinationNode));
+
+    // the default color must be set to get a working shader. It's black so you can
+    // see if there is a snapshot missing
+    fragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
+
+    this.scene.lineFactory.addFragment(fragment);
   }
 
   calculatePath(fromPos, toPos) {
+    // move the path a little so that the source/target position is in the middle of the geometry
     fromPos.x -= 0.5;
     fromPos.z += 0.5;
     toPos.x -= 0.5;
@@ -53,14 +61,22 @@ export default class ProcessConnection extends BaseConnection {
     const sourceColor = colorPool.getColorRGB(sourceSnapshot.get('plugin'));
     const destinationColor = colorPool.getColorRGB(destinationSnapshot.get('plugin'));
 
+    // since process connections are straight lines, we just need 2 * 3 floats for the gradient
     this.fragment.contentProvider.setColor([
       sourceColor.r, sourceColor.g, sourceColor.b,
       destinationColor.r, destinationColor.g, destinationColor.b
     ]);
+
+    // refreshes the fragment
     this.scene.lineFactory.addFragment(this.fragment);
   }
 
   dispose() {
+    // remove fragment first to save the id
+    this.scene.lineFactory.removeFragment(this.id);
+
     super.dispose();
+
+    this.fragment = null;
   }
 }

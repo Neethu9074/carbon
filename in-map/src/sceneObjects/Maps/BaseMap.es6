@@ -26,10 +26,10 @@ export default class VisualMap extends SceneObject {
     this.groundPlane = this.getGroundPlane();
   }
 
-  getGroundPlane() { throw new Error('NOT IMPLEMENTED'); }
-  getController() { throw new Error('NOT IMPLEMENTED'); }
-  onZoom() { throw new Error('NOT IMPLEMENTED'); }
-  init() { throw new Error('NOT IMPLEMENTED'); }
+  getGroundPlane() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  getController() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  onZoom() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  init() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
   handleTimeEvent() {
     // if the flag was set to recalculate the layouting

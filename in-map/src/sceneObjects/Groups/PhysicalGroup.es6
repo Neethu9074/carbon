@@ -166,6 +166,12 @@ export default class Group extends SceneObjectWithSnapshot {
     connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
     connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
 
+    console.log(
+      'children', entity.get('children').size,
+      'out', entity.get('outgoingConnections').size,
+      'in', entity.get('incomingConnections').size
+    );
+
     return matchedNode;
   }
 

@@ -32,24 +32,22 @@ export default class RaycasterModule extends BaseModule {
   }
 
   setupEvents() {
-    this.addSubscription(tooltipStore.activeTooltip.subscribe(tooltip =>
-      this.tooltip2DIsActive = tooltip ? true : false));
+    this.addSubscriptions([
+      this.eventEmitter.on('onMouseMoved')
+      .subscribe(({x, y}) => {
+        this.cursorPosition.x = x;
+        this.cursorPosition.y = y;
+        this.handleRayCasting();
+      }),
 
-    this.addSubscription(this.eventEmitter.on('onMouseMoved')
-    .subscribe(({x, y}) => {
-      this.cursorPosition.x = x;
-      this.cursorPosition.y = y;
-      this.handleRayCasting();
-    }));
+      tooltipStore.activeTooltip.subscribe(tooltip => this.tooltip2DIsActive = tooltip ? true : false),
 
-    this.addSubscription(this.eventEmitter.on('onZoom')
-    .subscribe(this.handleRayCasting.bind(this)));
+      this.eventEmitter.on('onZoom').subscribe(this.handleRayCasting.bind(this)),
 
-    this.addSubscription(this.eventEmitter.on('onClicked')
-    .subscribe(() => this.onClicked()));
+      this.eventEmitter.on('onClicked').subscribe(() => this.onClicked()),
 
-    this.addSubscription(this.eventEmitter.on('onDoubleClicked')
-    .subscribe(() => this.onDoubleClicked()));
+      this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked())
+    ]);
   }
 
   handleRayCasting() {
@@ -116,5 +114,12 @@ export default class RaycasterModule extends BaseModule {
     super.dispose();
 
     this.connectionTooltip.dispose();
+    this.connectionTooltip = null;
+
+    this.cursorPosition = null;
+    this.cursorForRay = null;
+    this.raycaster = null;
+    this.camera = null;
+    this.scene = null;
   }
 }

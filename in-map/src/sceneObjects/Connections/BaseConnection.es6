@@ -24,10 +24,10 @@ export default class BaseConnection extends SceneObjectWithSnapshot {
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.updateGeometry()));
   }
 
-  updateGeometry() { throw new Error('NOT IMPLEMENTED'); }
-  setupGeometry() { throw new Error('NOT IMPLEMENTED'); }
-  calculatePath() { throw new Error('NOT IMPLEMENTED'); }
-  postProPath() { throw new Error('NOT IMPLEMENTED'); }
+  updateGeometry() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  setupGeometry() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  calculatePath() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  postProPath() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
   init() {
     this.setupGeometry();

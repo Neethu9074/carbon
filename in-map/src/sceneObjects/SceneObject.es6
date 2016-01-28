@@ -59,14 +59,8 @@ export default class SceneObject {
   onSelectedLeave() {}
   onSelectedHighlightEnter() {}
   onSelectedHighlightLeave() {}
-  onSelectedHighlightInactiveEnter() {}
-  onSelectedHighlightInactiveLeave() {}
   onIndirectHighlightEnter() {}
   onIndirectHighlightLeave() {}
-  onHighlightInactiveEnter() {}
-  onHighlightInactiveLeave() {}
-  onSelectedInactiveEnter() { this.onInactiveEnter(); }
-  onSelectedInactiveLeave() { this.onInactiveLeave(); }
 
   onInactiveEnter() {
     this.forEachComponent(component =>
@@ -76,16 +70,6 @@ export default class SceneObject {
   onInactiveLeave() {
     this.forEachComponent(component =>
       component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON));
-  }
-
-  onHiddenEnter() {
-    this.forEachComponent(component =>
-      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
-  }
-
-  onHiddenLeave() {
-    this.forEachComponent(component =>
-      component.setStartingStateProperties());
   }
 
   isSelected() {
@@ -98,18 +82,6 @@ export default class SceneObject {
 
   isActive() {
     return this.stateMachine.stateProperties.active === PROPERTY_VALUES.ON;
-  }
-
-  isHidden() {
-    return this.stateMachine.stateProperties.hidden === PROPERTY_VALUES.ON;
-  }
-
-  show() {
-    this.stateMachine.changeStateProperty(PROPERTIES.HIDDEN, PROPERTY_VALUES.OFF);
-  }
-
-  hide() {
-    this.stateMachine.changeStateProperty(PROPERTIES.HIDDEN, PROPERTY_VALUES.ON);
   }
 
   setScreenPositionAnchor(x, y, z) {
@@ -155,21 +127,24 @@ export default class SceneObject {
 
   updateScreenPosition() {
     const scene = this.scene;
-    const camera = scene.mapHandler.getCurrentCamera();
-    if (!camera) {
-      return;
-    }
-    const width = scene.width;
-    const height = scene.height;
-    const screenPosition = this.screenPositionAnchor
+    if (scene.mapHandler) {
+      const camera = scene.mapHandler.getCurrentCamera();
+      if (!camera) {
+        return;
+      }
+
+      const width = scene.width;
+      const height = scene.height;
+      const screenPosition = this.screenPositionAnchor
       .clone()
       .applyProjection(camera.projection);
 
-    screenPosition.x = (screenPosition.x + 1) / 2 * width;
-    screenPosition.y = -(screenPosition.y - 1) / 2 * height;
+      screenPosition.x = (screenPosition.x + 1) / 2 * width;
+      screenPosition.y = -(screenPosition.y - 1) / 2 * height;
 
-    this.screenPosition.x = screenPosition.x;
-    this.screenPosition.y = screenPosition.y;
+      this.screenPosition.x = screenPosition.x;
+      this.screenPosition.y = screenPosition.y;
+    }
   }
 
   isInView() {
