@@ -23,9 +23,9 @@ export default class ProcessCameraController extends BaseCameraController {
 
     // this is an abstract zoomLevel, needed to store calculte the frustum size of
     // of the camera and the distance to the POI
-    this.zoomLevel = 0;
+    this.zoomLevel = 1000;
 
-    // this is the speed the camera will move to the new pos on drag
+    // this is the speed te camera will move to the new pos on drag
     this.cameraMoveSpeed = 0.02;
 
     this.targetCameraPOIPosition = new THREE.Object3D();
@@ -50,6 +50,7 @@ export default class ProcessCameraController extends BaseCameraController {
       new TouchControlsModule({eventEmitter, scene, canvas}),
       new RaycasterModule({eventEmitter, scene, camera: this.camera})
     );
+    eventEmitter.emit('onZoom', 0);
   }
 
   init() {
@@ -94,17 +95,15 @@ export default class ProcessCameraController extends BaseCameraController {
   }
 
   setupEvents() {
-    this.addSubscription(this.eventEmitter.on('onMove')
-      .subscribe(delta => this.onMove(delta)));
+    this.addSubscriptions([
+      this.eventEmitter.on('onMove').subscribe(delta => this.onMove(delta)),
 
-    this.addSubscription(this.eventEmitter.on('onZoom')
-      .subscribe(delta => this.onZoom(delta)));
+      this.eventEmitter.on('onZoom').subscribe(delta => this.onZoom(delta)),
 
-    this.addSubscription(this.eventEmitter.on('onDoubleClicked')
-      .subscribe(() => this.onDoubleClicked()));
+      this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked()),
 
-    this.addSubscription(this.eventEmitter.on('onObjectClicked')
-      .subscribe(({hittenObject, hoveredConnections}) => this.scene.onObjectClicked(hittenObject, hoveredConnections)));
+      this.eventEmitter.on('onObjectClicked').subscribe((hittenOnes) => this.scene.onObjectClicked(hittenOnes))
+    ]);
   }
 
   refreshCameraTransformHierarchy() {
@@ -123,8 +122,11 @@ export default class ProcessCameraController extends BaseCameraController {
   }
 
   onZoom(delta) {
-    this.targetCameraZPosition += delta / 4;
-    this.targetCameraFrustumSize += delta / 20;
+    this.zoomLevel += delta;
+    this.zoomLevel = Math.min(Math.max(this.zoomLevel, 200), 1500);
+
+    this.targetCameraZPosition = this.zoomLevel / 2.5;
+    this.targetCameraFrustumSize = this.zoomLevel / 20;
   }
 
   onDoubleClicked() {
@@ -162,12 +164,12 @@ export default class ProcessCameraController extends BaseCameraController {
     this.camMoveHelper.position.x = this.targetCameraPOIPosition.position.x;
     this.camMoveHelper.position.z = this.targetCameraPOIPosition.position.z;
 
+    const wayToMove = Math.min(1, dt * this.cameraFrunstumSizeAnimationSpeed);
     this.camera.setCameraSize(
-      this.camera.getCameraSize() + deltaCamSize * Math.min(1, dt * this.cameraFrunstumSizeAnimationSpeed));
+      this.camera.getCameraSize() + deltaCamSize * wayToMove);
     this.camera.setCameraFromSize();
 
-    this.camTargetPosition.position.z += deltaCamZPosition;
-    this.camTargetPosition.position.z = Math.min(Math.max(80, this.camTargetPosition.position.z), 1000);
+    this.camTargetPosition.position.z += deltaCamZPosition * wayToMove;
 
     this.refreshCameraTransformHierarchy();
   }

@@ -511,9 +511,10 @@ export default class Scene {
     this.renderScene();
   }
 
-  onObjectClicked(object, hoveredConnections) {
-    if (object) {
-      const sceneObject = object.parentSceneObject ? object.parentSceneObject : object;
+  onObjectClicked({hittenObject, hoveredConnections}) {
+    if (hittenObject) {
+      const parentSceneObject = hittenObject.parentSceneObject;
+      const sceneObject = parentSceneObject ? parentSceneObject : hittenObject;
       setSelectedSnapshotId(sceneObject.id);
     // dont reset the click if you clicken on connections
     } else if (hoveredConnections.length === 0) {
