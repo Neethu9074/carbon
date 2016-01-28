@@ -28,15 +28,10 @@ import {getMapStatistics} from './mapStatistics';
 import TooltipHandler from './TooltipHandler';
 import * as time from './timeCalculations';
 import * as stores from './mapStores';
-import * as zoom from './zoom';
 
-
-const getZoomClass = (level) => 'in-map--zoom-' + level;
 
 const maxNodeOpacity = 0.6;
-
 let currentMetrics;
-
 
 export default class Scene {
 
@@ -330,15 +325,6 @@ export default class Scene {
     }
   }
 
-  updateZoomLevelInCss(zoomUnits) {
-    const parentClasses = this.parent.classList;
-
-    zoom.zoomLevelsInDesign.forEach(level => {
-      parentClasses.remove(getZoomClass(level));
-    });
-    parentClasses.add(getZoomClass(zoom.getZoomLevel(zoomUnits)));
-  }
-
   render() {
     const camera = this.mapHandler.getCurrentCamera();
 
@@ -487,9 +473,6 @@ export default class Scene {
 
   onZoom(event) {
     const zoomLevel = event.zoomLevel;
-
-    // update the css design zoom distance
-    this.updateZoomLevelInCss(zoomLevel);
 
     // update the opacity for the 3D elements
     this.updateMaterialsByZoomLevel(zoomLevel);
