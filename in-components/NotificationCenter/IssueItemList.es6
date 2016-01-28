@@ -1,5 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
+import moment from 'moment';
 
 import IssueDescription from '../IssueDescription';
 
@@ -74,10 +75,7 @@ const IssueItemList = React.createClass({
   },
 
   getDateString(date) {
-    const day = date.getDate();
-    const month = date.getMonth();
-    const year = date.getFullYear();
-    return day + '-' + month + '-' + year;
+    return moment(date).format('YYYY-MM-DD');
   }
 });
 
