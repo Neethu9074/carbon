@@ -8,21 +8,21 @@ import {on, off} from '../persistentConnection';
 
 export default createObservableIfMissing.bind(null, {
   getId,
-  createObservable: createFiltersObservable
+  createObservable: createFilterableTagsObservable
 });
 
 function getId() {
   return '';
 }
 
-function createFiltersObservable() {
+function createFilterableTagsObservable() {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = 'data-' + subscriptionId;
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-filters', {
+      subscribe(subscriptionId, 'subscribe-filterable-tags', {
         'subscriptionId': subscriptionId
       });
     },
@@ -35,7 +35,8 @@ function createFiltersObservable() {
 
   return observable;
 
-  function onData(filters) {
-    observable.emit(Immutable.fromJS(filters));
+  function onData(filterableTags) {
+    filterableTags.sort();
+    observable.emit(Immutable.List(filterableTags));
   }
 }

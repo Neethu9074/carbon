@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import {createStore} from 'in-stores/store';
 import {emptySet} from 'in-services/fixedImmutables';
 import {on, emit} from 'in-services/persistentConnection';
+import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
 
 // The filter types as defined in the backend.
 const filterTypes = {
@@ -30,6 +31,8 @@ export const filteredTags$ = filters$.map(filters => {
   return filters.filter(f => f.get('type') === filterTypes.tag)
     .map(f => f.getIn(['options', 'tag']));
 });
+
+export const getFilterableTags = createFilterableTagsObservable;
 
 export function addTagFilter(tag) {
   filtersStore.applyStateMutation(filters => {
@@ -73,17 +76,24 @@ export function removeTagFilter(tag) {
 }
 
 
+export function removeAllTagFilters() {
+  filtersStore.applyStateMutation(filters => {
+    return filters.filter(f => f.get('type') !== filterTypes.tag);
+  });
+}
+
+
 export function init() {
   // send all filter changes to the backend
   filters$.subscribe(filters => {
-    emit('set-filters', filters.toJS());
+    emit('set-filters', {newFilters: filters.toJS()});
   });
 
   // When we reconnect, we need to send the filters to the backend
   // so that it can correctly initialize the view.
   on('reconnect', () => {
     filters$.once(filters => {
-      emit('set-filters', filters.toJS());
+      emit('set-filters', {newFilters: filters.toJS()});
     });
   });
 }

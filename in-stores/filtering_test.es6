@@ -54,4 +54,12 @@ describe('in-stores/filtering', () => {
     expect(subscriber.getCall(0).args[0].toJS().sort())
       .to.deep.equal(['bar', 'foo']);
   });
+
+  it('should remove all tag filters()', () => {
+    filteringStore.addTagFilter('foo');
+    filteringStore.addTagFilter('bar');
+    filteringStore.removeAllTagFilters();
+    filteringStore.filteredTags$.subscribe(subscriber);
+    expect(subscriber.getCall(0).args[0].size).to.equal(0);
+  });
 });
