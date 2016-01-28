@@ -2,7 +2,6 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
-import WiringList from 'in-components/WiringList';
 
 import IISInfo from '../IISInfo';
 
@@ -25,7 +24,6 @@ const MsIISSidebar = React.createClass({
             <IISInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <WiringList snapshot={snapshot} />
       </div>
     );
   }

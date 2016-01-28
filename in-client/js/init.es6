@@ -11,6 +11,7 @@ import * as tracking from 'in-services/tracking';
 import * as persistentConnection from 'in-services/persistentConnection';
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
 import * as timeOffsetStore from 'in-stores/timeOffset';
+import * as filteringStore from 'in-stores/filtering';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -53,6 +54,7 @@ if (__DEV__) {
 persistentConnection.init();
 subscriptonManager.init();
 timeOffsetStore.init();
+filteringStore.init();
 
 if (window.instana.user) {
   tracking.identify();
