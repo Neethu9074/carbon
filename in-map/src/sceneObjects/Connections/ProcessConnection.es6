@@ -61,6 +61,7 @@ export default class ProcessConnection extends BaseConnection {
   }
 
   dispose() {
+    this.scene.lineFactory.removeFragment(this.id);
     super.dispose();
   }
 }
