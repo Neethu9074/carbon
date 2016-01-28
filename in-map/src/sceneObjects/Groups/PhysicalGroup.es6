@@ -1,7 +1,6 @@
 import _ from 'lodash';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import eventBus from 'in-services/eventbus';
 
 import GroundHighlightingComponent from '../../components/GroundHighlightingComponent';
@@ -65,11 +64,6 @@ export default class Group extends SceneObjectWithSnapshot {
     this.stickyNote.setActive(false);
   }
 
-  highlight(highlighted = true) {
-    const propState = highlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-    this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, propState);
-  }
-
 
   initComponents() {
     super.initComponents();
@@ -103,10 +97,6 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onSnapshotUpdated() {}
-
-  onGroupClicked() {
-    setSelectedSnapshotId(this.id);
-  }
 
   getColor() {
     return getColorPool('groups').getColorRGB(this.id);

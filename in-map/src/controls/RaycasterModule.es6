@@ -57,13 +57,15 @@ export default class RaycasterModule extends BaseModule {
       return;
     }
 
+    const oldHittenObject = this.hittenObject;
     const {hittenObject, hoveredConnections} = this.getObjectOnCursor();
 
     if (hittenObject) {
       highlightedSnapshot.setHighlightedEntityId(hittenObject.parentSceneObject.id);
     } else {
-      highlightedSnapshot.clearHighlightedEntityId();
-
+      if (oldHittenObject) {
+        highlightedSnapshot.clearHighlightedEntityId();
+      }
       if (hoveredConnections.length > 0) {
         currentTooltip.emit(this.connectionTooltip);
         this.connectionTooltip.setHovered(hoveredConnections);
@@ -99,7 +101,7 @@ export default class RaycasterModule extends BaseModule {
     this.raycaster.setFromCamera(this.cursorForRay, this.camera.camera);
 
     // find the hitten object
-    const hittenObject = scene.findObjectByRay(this.raycaster);
+    const hittenObject = this.hittenObject = scene.findObjectByRay(this.raycaster);
     const hoveredConnections = hittenObject ?
       emptyArray : // dont calculate if another object than a connection was hitten
       allConnections.filter(connection => connection.intersects(this.raycaster));
