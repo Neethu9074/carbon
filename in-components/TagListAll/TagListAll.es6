@@ -1,47 +1,32 @@
 import React from 'react/addons';
-import _ from 'lodash';
+import irpt from 'react-immutable-proptypes';
 
-import * as viewStore from 'in-stores/view';
+import {getFilterableTags} from 'in-stores/filtering';
+import connectTo from 'in-hoc/connectTo';
 
-import enhance from '../hoc/enhance';
 import Tag from '../Tag';
 
 import './TagListAll.less';
 
-const rpt = React.PropTypes;
+export default connectTo(
+  () => {
+    return {
+      tags: getFilterableTags()
+    };
+  }, React.createClass({
+  displayName: 'TagListAll',
 
-const TagListAll = React.createClass({
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    tags: rpt.array
-  },
-
-  statics: {
-    createObservables() {
-      return {
-        tags: viewStore.viewStructure.map(viewStructure => {
-          return viewStructure.map(nodeStructure => nodeStructure.node);
-        })
-        .map(snapshots => {
-          let tags = [];
-          snapshots.forEach(snapshot => {
-            const t = snapshot.get('tags');
-            if (t) {
-              tags = tags.concat(t.toArray());
-            }
-          });
-          return _.uniq(tags);
-        })
-      };
-    }
+    tags: irpt.list
   },
 
   render() {
     let tags = this.props.tags;
-    if (!tags || tags.length === 0) {
+    if (!tags || tags.size === 0) {
       return (
         <div className={'in-tag-list-all__no-tags'}>
           There are no tags defined
@@ -52,7 +37,7 @@ const TagListAll = React.createClass({
     tags = tags.sort();
     return (
       <div>
-        {tags.map((tag) =>
+        {tags.toArray().map(tag =>
           <Tag key={tag}
                tag={tag}
                isDark={true}/>
@@ -61,6 +46,4 @@ const TagListAll = React.createClass({
     );
   }
 
-});
-
-export default enhance(TagListAll);
+}));
