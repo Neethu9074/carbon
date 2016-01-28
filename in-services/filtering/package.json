@@ -1,6 +1,0 @@
-{
-  "name": "filtering",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./filtering.es6"
-}
