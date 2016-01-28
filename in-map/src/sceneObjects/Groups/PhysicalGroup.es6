@@ -23,7 +23,7 @@ export default class Group extends SceneObjectWithSnapshot {
 
     this.stickyNote = new StickyNote(this);
     this.children = [];
-    this.zSize = 1;
+    this.depth = 1;
 
     this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
   }
@@ -81,7 +81,7 @@ export default class Group extends SceneObjectWithSnapshot {
     // add the mesh component to handle visual representation of the node
     components.mesh = new LineMeshComponent({
       sceneObject,
-      factory: this.scene.groundLineFactory,
+      factory: this.scene.lineFactory,
       contentProvider: new PCM({
         contentProvider: new SCM({
           contentProvider: new FCP()
@@ -128,7 +128,7 @@ export default class Group extends SceneObjectWithSnapshot {
 
   updateScreenAnchorPosition() {
     const pos = this.getComponent('position').getPosition();
-    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + this.zSize / 2);
+    super.setScreenPositionAnchor(pos.x, pos.y, pos.z + this.depth / 2);
   }
 
   positionChanged(x, y, z) {
@@ -138,10 +138,7 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   setScale(x, y, z) {
-    if (this.isDisposed) {
-      return;
-    }
-    this.zSize = z;
+    this.depth = z;
 
     this.getComponent('mesh').sizeChanged(x, y, z);
     this.getComponent('highlight').sizeChanged(x, y, z);
@@ -167,7 +164,6 @@ export default class Group extends SceneObjectWithSnapshot {
     connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
 
     console.log(
-      'children', entity.get('children').size,
       'out', entity.get('outgoingConnections').size,
       'in', entity.get('incomingConnections').size
     );

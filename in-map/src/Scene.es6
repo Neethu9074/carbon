@@ -166,10 +166,6 @@ export default class Scene {
 
     this.lineFactory = new SingleMeshLineFactory({scene});
 
-    this.groundLineFactory = new SingleMeshLineFactory({scene});
-    this.groundLineFactory.material.opacity = 0.9;
-    this.groundLineFactory.material.transparent = true;
-
     this.logoFactories = {};
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
@@ -192,9 +188,7 @@ export default class Scene {
     this.singleMeshMetricFactory.rebuild();
     this.singleMeshFactory.rebuild();
     this.solidSingleMeshFactory.rebuild();
-    this.baselineFactory.rebuild();
     this.lineFactory.rebuild();
-    this.groundLineFactory.rebuild();
 
     for (let i = this.octrees.length - 1; i >= 0; i--) {
       const octree = this.octrees[i];
