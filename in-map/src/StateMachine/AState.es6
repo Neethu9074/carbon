@@ -4,11 +4,6 @@ export default class AState {
     this.owner = owner;
   }
 
-  enter() {
-    throw new Error('NOT IMPLEMENTD YET');
-  }
-
-  leave() {
-    throw new Error('NOT IMPLEMENTD YET');
-  }
+  enter() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  leave() { throw new Error('PLEASE OVERRIDE METHOD'); }
 }

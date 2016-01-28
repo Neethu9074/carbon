@@ -20,8 +20,8 @@ export default class Label extends SceneObjectWithSnapshot {
     }));
   }
 
-  getFragment() { throw new Error('NOT IMPLEMENTED YET'); }
-  getPositionHandler() { throw new Error('NOT IMPLEMENTED YET'); }
+  getFragment() { throw new Error('PLEASE OVERRIDE METHOD YET'); }
+  getPositionHandler() { throw new Error('PLEASE OVERRIDE METHOD YET'); }
 
   onInactiveEnter() {
     this.factory.removeFragment(this.id);

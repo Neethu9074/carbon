@@ -7,16 +7,11 @@ export default class AStateMachine {
     this.owner = owner;
   }
 
+  setupStates() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  checkAgainstCurrentProperties() { throw new Error('PLEASE OVERRIDE METHOD'); }
+
   initialized() {
     this.owner.setStartingStateProperties();
-  }
-
-  setupStates() {
-    throw new Error('NOT IMPLEMENTED YET');
-  }
-
-  checkAgainstCurrentProperties() {
-    throw new Error('NOT IMPLEMENTED YET');
   }
 
   getStateFromLUT() {
