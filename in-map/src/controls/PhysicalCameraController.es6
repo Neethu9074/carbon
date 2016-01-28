@@ -25,7 +25,6 @@ export default class PhysicalCameraController extends BaseCameraController {
     this.setZoomLevel(260);
     this.states = setupStates(this);
     this.state = this.states.mid;
-
     this.setupEvents();
 
     const eventEmitter = this.eventEmitter;

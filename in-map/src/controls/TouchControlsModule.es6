@@ -9,11 +9,15 @@ export default class TouchControlModule extends BaseModule {
 
     this.timeSinceLastTap = Date.now();
     this.pinchDistance = 0;
+    this.canvas = canvas;
 
     // holds the mouse/touch position in pixel coordinates
     this.cursor = { x: 0, y: 0 };
+    this.setupEvents();
+  }
 
-    const eventHandler = this.eventHandler = new Hammer(canvas);
+  setupEvents() {
+    const eventHandler = this.eventHandler = new Hammer(this.canvas);
     const minMovementForPan = 15;
 
     eventHandler.get('pan').set({
@@ -93,5 +97,7 @@ export default class TouchControlModule extends BaseModule {
     this.eventHandler.destroy();
     this.timeSinceLastTap = null;
     this.pinchDistance = null;
+    this.canvas = null;
+    this.cursor = null;
   }
 }
