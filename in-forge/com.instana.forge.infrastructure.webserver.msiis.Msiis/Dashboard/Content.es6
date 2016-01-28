@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {formatBytes} from 'in-services/converters';
+import {kiloBytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -71,7 +71,7 @@ const MsIISDashboard = React.createClass({
                    }}
                    y1={{
                      min: 0,
-                     formatter: formatBytes,
+                     formatter: kiloBytesTwoDecimalPlaces,
                      metrics: allSites.map(site => 'siteperf.' + site + '.bytes_sent')
                               .concat(allSites.map(site => 'siteperf.' + site + '.bytes_received')),
                      labels: allSites.map(site => site + ' out')
