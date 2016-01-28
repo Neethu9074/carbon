@@ -45,11 +45,11 @@ export default class ProcessCameraController extends BaseCameraController {
     this.setupEvents();
 
     const eventEmitter = this.eventEmitter;
-    this.interactionModules = [
+    this.interactionModules.push(
       new MouseControlsModule({eventEmitter, scene, canvas}),
       new TouchControlsModule({eventEmitter, scene, canvas}),
       new RaycasterModule({eventEmitter, scene, camera: this.camera})
-    ];
+    );
   }
 
   init() {
@@ -184,14 +184,12 @@ export default class ProcessCameraController extends BaseCameraController {
   dispose() {
     super.dispose();
 
-    this.interactionModules.forEach(module => module.dispose());
-    this.interactionModules = [];
+    this.cameraFrunstumSizeAnimationSpeed = null;
+    this.targetCameraFrustumSize = null;
+    this.targetCameraZPosition = null;
+    this.cameraMoveSpeed = null;
+    this.zoomLevel = null;
     this.camera = null;
     this.scene = null;
-    this.zoomLevel = null;
-    this.cameraMoveSpeed = null;
-    this.targetCameraFrustumSize = null;
-    this.cameraFrunstumSizeAnimationSpeed = null;
-    this.targetCameraZPosition = null;
   }
 }
