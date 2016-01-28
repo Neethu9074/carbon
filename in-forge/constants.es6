@@ -21,7 +21,8 @@ export const plugins = {
   phpfpm: 'phpFpmRuntimePlatform',
   process: 'process',
   redis: 'redis',
-  tomcat: 'tomcatApplicationContainer'
+  tomcat: 'tomcatApplicationContainer',
+  msiis: 'msiis'
 };
 
 export const rels = {
