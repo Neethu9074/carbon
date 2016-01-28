@@ -23,7 +23,7 @@ export default class GroundHighlightingComponent extends Component {
     this.colorToSet = new RGB(color.r, color.g, color.b);
 
     this.fragment = {
-      id: this.getID(),
+      id: this.id,
       contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
@@ -86,7 +86,6 @@ export default class GroundHighlightingComponent extends Component {
     this.changeXYZOf(scm.scale, scale.x, scale.y, scale.z);
 
     cmcm.color = color;
-
     this.hide();
     if (this.isActive()) {
       this.show();
@@ -100,11 +99,7 @@ export default class GroundHighlightingComponent extends Component {
   }
 
   hide() {
-    this.sceneObject.scene.groundSingleMeshFactory.removeFragment(this.getID());
-  }
-
-  getID() {
-    return this.sceneObject.id + '_highlight';
+    this.sceneObject.scene.groundSingleMeshFactory.removeFragment(this.id);
   }
 
   dispose() {

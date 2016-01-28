@@ -30,7 +30,7 @@ describe('3D map', () => {
         addFragment: sinon.stub(),
         removeFragment: sinon.stub()
       },
-      layerHighlightingSingleMeshFactory: {
+      highlightingSingleMeshFactory: {
         addFragment: sinon.stub(),
         removeFragment: sinon.stub()
       }

@@ -140,7 +140,7 @@ export default class Layer extends SceneObjectWithSnapshot {
     components.solidMesh = new MeshComponent({
       sceneObject: this,
       contentProvider: new CMCM({ contentProvider: pcm }),
-      factory: this.scene.layerHighlightingSingleMeshFactory
+      factory: this.scene.highlightingSingleMeshFactory
     });
     components.solidMesh.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 

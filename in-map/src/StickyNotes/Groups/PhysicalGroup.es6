@@ -2,7 +2,9 @@ import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
 
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
 import IssueDiscription from 'in-components/IssueDiscription';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
 import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
@@ -42,7 +44,8 @@ const PhysicalGroup = getSnapshot(React.createClass({
   },
 
   render() {
-    if (!this.props.snapshot) {
+    const snapshot = this.props.snapshot;
+    if (!snapshot) {
       return null;
     }
 
@@ -51,7 +54,7 @@ const PhysicalGroup = getSnapshot(React.createClass({
       '#fff' :
       'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
 
-    const label = this.props.snapshot.getIn(['data', 'groupId']) || this.props.snapshotId;
+    const label = snapshot.getIn(['data', 'groupId']) || this.props.snapshotId;
 
     return (
       <div className={block + '__wrapper'}>
@@ -116,14 +119,15 @@ export default class StickyNoteNode extends StickyNote {
 
   render() {
     const parent = this.parent;
+    const id = parent.id;
 
     React.render(
-      <PhysicalGroup snapshotId={parent.id}
+      <PhysicalGroup snapshotId={id}
                      isActive={this.isActive}
                      color={parent.getColor()}
-                     onClick={parent.onGroupClicked.bind(parent)}
-                     onMouseEnter={() => parent.highlight()}
-                     onMouseLeave={() => parent.highlight(false)}/>,
+                     onClick={() => setSelectedSnapshotId(id)}
+                     onMouseEnter={() => highlightedSnapshot.setHighlightedEntityId(id)}
+                     onMouseLeave={() => highlightedSnapshot.clearHighlightedEntityId()}/>,
       this.stickyNoteContainer
     );
   }
