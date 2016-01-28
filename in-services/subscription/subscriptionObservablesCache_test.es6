@@ -59,4 +59,18 @@ describe('in-service.subscriptionObservablesCache', () => {
     expect(factory.createObservable).to.have.been.calledWith(opts);
     expect(secondObservable).not.to.equal(firstObservable);
   });
+
+  it('should delay stop calls', () => {
+    const start = sinon.stub();
+    const stop = sinon.stub();
+    factory.getId.returns('stop calls');
+    factory.createObservable.returns(create({start, stop}));
+
+    const observable = createObservableIfMissing(factory);
+    const subscription = observable.subscribe(() => {});
+    expect(start).to.have.callCount(1);
+
+    subscription.dispose();
+    expect(stop).to.have.callCount(0);
+  });
 });
