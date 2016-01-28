@@ -78,16 +78,6 @@ export default class SceneObject {
       component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON));
   }
 
-  onHiddenEnter() {
-    this.forEachComponent(component =>
-      component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
-  }
-
-  onHiddenLeave() {
-    this.forEachComponent(component =>
-      component.setStartingStateProperties());
-  }
-
   isSelected() {
     return this.stateMachine.stateProperties.selected === PROPERTY_VALUES.ON;
   }
@@ -98,18 +88,6 @@ export default class SceneObject {
 
   isActive() {
     return this.stateMachine.stateProperties.active === PROPERTY_VALUES.ON;
-  }
-
-  isHidden() {
-    return this.stateMachine.stateProperties.hidden === PROPERTY_VALUES.ON;
-  }
-
-  show() {
-    this.stateMachine.changeStateProperty(PROPERTIES.HIDDEN, PROPERTY_VALUES.OFF);
-  }
-
-  hide() {
-    this.stateMachine.changeStateProperty(PROPERTIES.HIDDEN, PROPERTY_VALUES.ON);
   }
 
   setScreenPositionAnchor(x, y, z) {

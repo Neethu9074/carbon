@@ -95,14 +95,6 @@ export default class Layer extends SceneObjectWithSnapshot {
     this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
-  onHiddenLeave() {
-    // enables all components
-    super.onHiddenLeave();
-
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-  }
-
   onInactiveLeave() {
     // enables all components
     super.onInactiveLeave();

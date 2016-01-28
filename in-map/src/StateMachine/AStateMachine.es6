@@ -37,6 +37,9 @@ export default class AStateMachine {
         oldState.leave();
       }
       this.state = newState;
+      if (!newState) {
+        console.log('CANNOT FIND NEW STATE FOR', this.stateProperties);
+      }
       newState.enter();
     }
   }
