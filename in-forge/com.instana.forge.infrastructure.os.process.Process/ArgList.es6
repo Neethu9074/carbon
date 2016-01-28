@@ -1,7 +1,5 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import List from 'in-components/List';
 
@@ -14,7 +12,7 @@ const ArgList = React.createClass({
 
   render() {
     const args = this.props.snapshot.getIn(['data', 'args']);
-    if (!args || args.length === 0) {
+    if (!args || args.size === 0) {
       return null;
     }
 

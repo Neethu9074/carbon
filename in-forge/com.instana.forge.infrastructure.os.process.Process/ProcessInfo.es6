@@ -1,7 +1,5 @@
-
-
-import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
+import React from 'react/addons';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
