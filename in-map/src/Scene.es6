@@ -26,7 +26,6 @@ import TooltipHandler from './TooltipHandler';
 import * as time from './timeCalculations';
 import * as stores from './mapStores';
 
-
 const maxNodeOpacity = 0.6;
 let currentMetrics;
 
