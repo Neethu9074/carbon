@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+
+. "$NVM_DIR/nvm.sh"
+
+nvm use
+
+npm prune
+npm update
+npm install
+
+# local in-server is not yet part of all branches
+if [ -d "in-server" ]; then
+  cd in-server
+  npm install
+  cd ..
+fi
+
+npm run test
+
+# public build
+npm run build
+
+# Clear data from previous build to avoid retention of artefacts
+# like JS files which names are changing on every build
+rm -rf /var/lib/jenkins/ui-client_artefacts/build
+mkdir -p /var/lib/jenkins/ui-client_artefacts/build
+cp -R target /var/lib/jenkins/ui-client_artefacts/build/

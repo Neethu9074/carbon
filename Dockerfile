@@ -20,7 +20,7 @@ RUN mkdir /etc/service/in-server
 
 # copy scripts to that folders and call them 'run'
 # see https://github.com/phusion/baseimage-docker#adding_additional_daemons for additional information
-ADD deployment/nginx.sh /etc/service/nginx/run
-ADD deployment/in-server.sh /etc/service/in-server/run
+ADD deployment/services/nginx.sh /etc/service/nginx/run
+ADD deployment/services/in-server.sh /etc/service/in-server/run
 
 EXPOSE 80 443
