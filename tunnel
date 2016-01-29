@@ -12,8 +12,8 @@ echo "Hit enter to continue..."
 read x
 
 echo "saas_kafka"
-ssh -Nf -L 2181:localhost:2181 instana@ec2-54-226-238-222.compute-1.amazonaws.com
-ssh -Nf -L 9092:localhost:9092 instana@ec2-54-226-238-222.compute-1.amazonaws.com
+ssh -Nf -L 2181:localhost:2181 instana@ec2-52-30-241-91.eu-west-1.compute.amazonaws.com
+ssh -Nf -L 9092:localhost:9092 instana@ec2-52-30-241-91.eu-west-1.compute.amazonaws.com
 
 echo "global_cassandra in eu-west"
 ssh -Nf -L 9042:localhost:9042 instana@ec2-52-48-70-147.eu-west-1.compute.amazonaws.com
