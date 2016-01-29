@@ -2,6 +2,8 @@ FROM registry.internal.instana.io/instana/nginx-nodejs:latest
 
 MAINTAINER Ben Ripkens "ben@instana.com"
 
+LABEL com.instana.commit.id="{{GIT_COMMIT}}"
+
 COPY deployment/nginx.conf.j2 /etc/nginx/nginx.conf.j2
 COPY deployment/mime.types /etc/nginx/mime.types
 COPY deployment/.htpasswd /etc/nginx/.htpasswd

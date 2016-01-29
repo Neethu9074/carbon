@@ -3,6 +3,9 @@
 rm -rf target
 cp -R /var/lib/jenkins/ui-client_artefacts/build/target .
 
+rm -f Dockerfile
+mv target/Dockerfile .
+
 VERSION=$BUILD_NUMBER
 IMAGE="ui-client"
 
