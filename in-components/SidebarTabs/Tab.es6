@@ -39,18 +39,13 @@ export default getSnapshot(React.createClass({
     return (
       <Tooltip content={getSingular(snapshot.get('plugin'))}>
         <li className={className}
-            onClick={this.onClick}>
+            onClick={() => this.props.onClick(this.props.snapshotId)}>
 
           <img src={getIcon(snapshot)}
                alt='Snapshot icon'
                className={block + '__icon'}/>
-
         </li>
       </Tooltip>
     );
-  },
-
-  onClick() {
-    this.props.onClick(this.props.snapshotId);
   }
 }));

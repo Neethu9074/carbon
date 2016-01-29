@@ -3,9 +3,9 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
-import IssueDiscription from 'in-components/IssueDiscription';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
+import IssueDescription from 'in-components/IssueDescription';
 import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
 import Icon from 'in-components/Icon';
@@ -86,7 +86,7 @@ const PhysicalGroup = getSnapshot(React.createClass({
 
       return (
         <Tooltip align={{horizontal: 'right'}}
-                 content={<IssueDiscription issue={mostImportantIssue}/>}>
+                 content={<IssueDescription issue={mostImportantIssue}/>}>
           {icon}
         </Tooltip>
       );

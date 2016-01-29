@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
-import IssueDiscription from 'in-components/IssueDiscription';
+import IssueDescription from 'in-components/IssueDescription';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -32,7 +32,7 @@ const Issue = React.createClass({
 
     return (
       <Tooltip  align={{vertical: 'top'}}
-                content={<IssueDiscription key={issue.get('id')}
+                content={<IssueDescription key={issue.get('id')}
                                            issue={issue}
                                            plugin={issue.getIn(['problem', 'pluginId'])}/>}>
 

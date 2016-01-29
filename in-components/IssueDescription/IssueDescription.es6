@@ -10,7 +10,7 @@ import connectTo from 'in-hoc/connectTo';
 import SnapshotDescription from '../SnapshotDescription';
 import Icon from '../Icon';
 
-import './IssueDiscription.less';
+import './IssueDescription.less';
 
 const rpt = React.PropTypes;
 const block = 'in-issue-discription';
@@ -23,7 +23,7 @@ export default connectTo(
   },
   React.createClass({
 
-  displayName: 'IssueDiscription',
+  displayName: 'IssueDescription',
 
   propTypes: {
     issue: irpt.map.isRequired,
@@ -38,7 +38,8 @@ export default connectTo(
     const className = getClassName(this, block);
 
     return (
-      <div className={className}>
+      <div className={className}
+           onClick={this.onClick}>
         <Icon className={block + '__icon'}
               type={this.getIconType(issue)}
               style={{color}}/>
@@ -67,5 +68,9 @@ export default connectTo(
   getIconType(issue) {
     const type = issue.getIn(['problem', 'severity']) > 8 ? 'critical' : 'warning';
     return type;
+  },
+
+  onClick() {
+    // TODO set selected snapshot
   }
 }));
