@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+. "$NVM_DIR/nvm.sh"
+
+nvm use
+
+npm prune
+npm update
+npm install
+
+
+npm run test
+npm run build
+
+export GIT_COMMIT="`git rev-parse HEAD`"
+
+j2 deployment/Dockerfile.j2 > target/Dockerfile
+
+# Clear data from previous build to avoid retention of artefacts
+# like JS files which names are changing on every build
+rm -rf /var/lib/jenkins/ui-client_artefacts/build
+mkdir -p /var/lib/jenkins/ui-client_artefacts/build
+
+# copy artefacts for container creation
+cp -R target /var/lib/jenkins/ui-client_artefacts/build/
