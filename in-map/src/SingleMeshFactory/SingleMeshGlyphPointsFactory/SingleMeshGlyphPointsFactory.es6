@@ -55,9 +55,9 @@ export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
     this.fragments.forEach((fragment) => {
       const xy = config.LUT[fragment.additionalParams.type];
       if (!xy) {
-        console.log('there is not glyph defined for', fragment.additionalParams.type);
-        uvCoords.push(0);
-        uvCoords.push(0);
+        // use right bootom UV coords to show nothing but emptiness
+        uvCoords.push(1);
+        uvCoords.push(1);
       } else {
         uvCoords.push(xy.x / textureWidth);
         uvCoords.push(xy.y / textureWidth);
