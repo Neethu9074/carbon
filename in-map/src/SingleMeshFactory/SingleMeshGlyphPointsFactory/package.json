@@ -1,6 +1,6 @@
 {
-  "name": "SingleMeshPointsFactory",
+  "name": "SingleMeshGlyphPointsFactory",
   "version": "0.0.0",
   "private": true,
-  "main": "./SingleMeshPointsFactory.es6"
+  "main": "./SingleMeshGlyphPointsFactory.es6"
 }
