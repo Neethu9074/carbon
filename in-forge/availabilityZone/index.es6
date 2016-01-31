@@ -1,4 +1,5 @@
 import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 
 import * as constants from '../constants';
@@ -17,3 +18,8 @@ addIconFinder(
   constants.plugins.availabilityZone,
   () => iconPath
 );
+
+addIconToRegistry({
+  id: constants.plugins.availabilityZone,
+  image: iconPath
+});

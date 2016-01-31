@@ -21,7 +21,7 @@ export default class ColouredPluginLabel extends PluginLabel {
           contentProvider: new PCP()
         })
       }),
-      additionalParams: { iconSize }
+      additionalParams: { iconSize, type: undefined }
     };
   }
 

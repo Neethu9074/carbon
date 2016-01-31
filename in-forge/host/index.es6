@@ -1,4 +1,5 @@
 import {addIconFinder, addLabelFinder, addLongLabelFinder} from 'in-sdk/snapshot';
+import {addIconsToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
@@ -63,3 +64,15 @@ sorting.addMapping(
   constants.plugins.os,
   (s1, s2) => s1.get('hostId').localeCompare(s2.get('hostId'))
 );
+
+addIconsToRegistry([ {
+    id: constants.plugins.os + '_linux',
+    image: linuxIconPath
+  }, {
+    id: constants.plugins.os + '_apple',
+    image: appleIconPath
+  }, {
+    id: constants.plugins.os + '_windows',
+    image: windowsIconPath
+  }
+]);

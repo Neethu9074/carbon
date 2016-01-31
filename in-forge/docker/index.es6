@@ -1,4 +1,5 @@
 import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
@@ -37,3 +38,8 @@ sorting.addMapping(
   constants.plugins.docker,
   (s1, s2) => s1.get('hostId') > s2.get('hostId')
 );
+
+addIconToRegistry({
+  id: constants.plugins.docker,
+  image: iconPath
+});

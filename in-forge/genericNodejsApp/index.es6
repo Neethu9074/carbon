@@ -1,4 +1,5 @@
 import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
@@ -52,3 +53,8 @@ sorting.addMapping(
   constants.plugins.nodejsApp,
   (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
 );
+
+addIconToRegistry({
+  id: constants.plugins.nodejsApp,
+  image: iconPath
+});

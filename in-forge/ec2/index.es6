@@ -1,3 +1,4 @@
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {
   addIconFinder
@@ -16,3 +17,8 @@ addIconFinder(
   constants.plugins.ec2,
   () => iconPath
 );
+
+addIconToRegistry({
+  id: constants.plugins.ec2,
+  image: iconPath
+});

@@ -1,5 +1,6 @@
-import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import * as pluginName from 'in-sdk/pluginName';
 
 import iconPath from './icon.svg';
 import * as constants from '../constants';
@@ -16,3 +17,8 @@ addIconFinder(
   constants.plugins.nodejsCluster,
   () => iconPath
 );
+
+addIconToRegistry({
+  id: constants.plugins.nodejsCluster,
+  image: iconPath
+});

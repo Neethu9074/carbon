@@ -9,8 +9,7 @@ export default class Label extends SceneObjectWithSnapshot {
   constructor({id, parent, iconSize = 1, predicate}) {
     super({parent, id});
 
-    this.factory = this.scene.getOrCreateLogoFactory('default', undefined);
-
+    this.factory = this.scene.singleMeshGlyphPointsFactory;
     this.fragment = this.getFragment(iconSize);
     this.positionHandler = this.getPositionHandler();
 

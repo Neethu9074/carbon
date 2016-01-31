@@ -15,7 +15,7 @@ import './lib/ShaderPass';
 import './lib/RenderPass';
 import './lib/Octree';
 
-import SingleMeshPointsFactory from './SingleMeshFactory/SingleMeshPointsFactory';
+import SingleMeshGlyphPointsFactory from './SingleMeshFactory/SingleMeshGlyphPointsFactory';
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
@@ -25,6 +25,7 @@ import {getMapStatistics} from './mapStatistics';
 import TooltipHandler from './TooltipHandler';
 import * as time from './timeCalculations';
 import * as stores from './mapStores';
+
 
 const maxNodeOpacity = 0.6;
 let currentMetrics;
@@ -155,7 +156,7 @@ export default class Scene {
 
     this.lineFactory = new SingleMeshLineFactory({scene});
 
-    this.logoFactories = {};
+    this.singleMeshGlyphPointsFactory = new SingleMeshGlyphPointsFactory({scene});
 
     this.baselineFactory = new SingleMeshLineFactory({scene});
     this.baselineFactory.material.transparent = true;
@@ -168,14 +169,13 @@ export default class Scene {
   }
 
   updateFactories() {
-    Object.keys(this.logoFactories).forEach(key => this.logoFactories[key].rebuild());
-
     this.highlightingSingleMeshFactory.rebuild();
+    this.singleMeshGlyphPointsFactory.rebuild();
     this.groundSingleMeshFactory.rebuild();
-    this.layerSingleMeshFactory.rebuild();
     this.singleMeshMetricFactory.rebuild();
-    this.singleMeshFactory.rebuild();
+    this.layerSingleMeshFactory.rebuild();
     this.solidSingleMeshFactory.rebuild();
+    this.singleMeshFactory.rebuild();
     this.lineFactory.rebuild();
 
     for (let i = this.octrees.length - 1; i >= 0; i--) {
@@ -184,18 +184,6 @@ export default class Scene {
         octree.update();
       }
     }
-  }
-
-  getOrCreateLogoFactory(id, snapshot) {
-    let factory = this.logoFactories[id];
-    if (!factory) {
-      factory = this.logoFactories[id] = new SingleMeshPointsFactory({
-        id,
-        snapshot,
-        scene: this
-      });
-    }
-    return factory;
   }
 
   setupEvents() {

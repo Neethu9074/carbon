@@ -1,3 +1,4 @@
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {addIconFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
@@ -20,3 +21,8 @@ power.addMapping(
   constants.plugins.cassandraCluster,
   () => -1
 );
+
+addIconToRegistry({
+  id: constants.plugins.cassandraCluster,
+  image: iconPath
+});

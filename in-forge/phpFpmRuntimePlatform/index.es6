@@ -1,4 +1,5 @@
 import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
@@ -7,7 +8,7 @@ import iconPath from './icon.svg';
 import * as constants from '../constants';
 
 pluginName.setHumanReadablePluginName(
-  constants.plugins.phpfpm,
+  constants.plugins.process,
   'PHP-FPM Runtime',
   'PHP-FPM Runtimes'
 );
@@ -42,3 +43,8 @@ sorting.addMapping(
   constants.plugins.phpfpm,
   (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
 );
+
+addIconToRegistry({
+  id: constants.plugins.phpfpm,
+  image: iconPath
+});

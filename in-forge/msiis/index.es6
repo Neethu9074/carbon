@@ -1,7 +1,5 @@
-import {
-  addLabelFinder,
-  addIconFinder
-} from 'in-sdk/snapshot';
+import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as power from 'in-sdk/power';
 
@@ -29,3 +27,8 @@ power.addMapping(
   constants.plugins.msiis,
   () => -1
 );
+
+addIconToRegistry({
+  id: constants.plugins.msiis,
+  image: iconPath
+});
