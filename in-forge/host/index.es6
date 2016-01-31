@@ -1,4 +1,4 @@
-import {addIconFinder, addLabelFinder, addLongLabelFinder} from 'in-sdk/snapshot';
+import {addLabelFinder, addLongLabelFinder} from 'in-sdk/snapshot';
 import {addIconsToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
@@ -15,29 +15,6 @@ pluginName.setHumanReadablePluginName(
   constants.plugins.os,
   'Host',
   'Hosts'
-);
-
-addIconFinder(
-  constants.plugins.os,
-  snapshot => {
-    if (!snapshot) return linuxIconPath;
-
-    const os = snapshot.getIn(['data', 'os.name']);
-    // no os name identified? Let's guess its Linux.
-    if (!os) {
-      return linuxIconPath;
-    }
-
-    if (os.match(/linux/i)) {
-      return linuxIconPath;
-    } else if (os.match(/windows/i)) {
-      return windowsIconPath;
-    } else if (os.match(/mac/i)) {
-      return appleIconPath;
-    }
-
-    return undefined;
-  }
 );
 
 addLabelFinder(

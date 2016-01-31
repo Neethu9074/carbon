@@ -1,6 +1,6 @@
-import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
 import iconPath from './icon.svg';
@@ -12,15 +12,9 @@ pluginName.setHumanReadablePluginName(
   'Internet Information Servers'
 );
 
-
 addLabelFinder(
   constants.plugins.msiis,
   () => 'MSIIS'
-);
-
-addIconFinder(
-  constants.plugins.msiis,
-  () => iconPath
 );
 
 power.addMapping(

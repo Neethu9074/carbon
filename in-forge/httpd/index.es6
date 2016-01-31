@@ -1,6 +1,6 @@
-import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
@@ -14,11 +14,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.httpd, getLabel);
-
-addIconFinder(
-  constants.plugins.httpd,
-  () => iconPath
-);
 
 power.addMapping(
   constants.plugins.httpd,

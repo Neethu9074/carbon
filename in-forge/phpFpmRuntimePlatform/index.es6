@@ -1,6 +1,6 @@
-import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
@@ -28,11 +28,6 @@ function getLabel(s) {
 function getFallbackLabel(s) {
   return 'PHP-FPM Worker Pool#' + s.get('steadyId');
 }
-
-addIconFinder(
-  constants.plugins.phpfpm,
-  () => iconPath
-);
 
 power.addMapping(
   constants.plugins.phpfpm,

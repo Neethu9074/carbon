@@ -1,10 +1,7 @@
-const iconRegistry = [];
+const iconRegistry = {};
 
 export function addIconToRegistry(icon) {
-  iconRegistry.push({
-    id: icon.id,
-    image: icon.image
-  });
+  iconRegistry[icon.id] = icon;
 }
 
 export function addIconsToRegistry(icons) {
@@ -12,13 +9,12 @@ export function addIconsToRegistry(icons) {
 }
 
 export function getIconById(id) {
-  for (let i = 0; i < iconRegistry.length; i++) {
-    if (iconRegistry[i].id === id) {
-      return iconRegistry[i].image;
-    }
+  const match = iconRegistry[id];
+  if (match) {
+    return match.image;
   }
 }
 
 export function getAllIcons() {
-  return iconRegistry.map(icon => icon);
+  return Object.keys(iconRegistry).map(key => iconRegistry[key]);
 }

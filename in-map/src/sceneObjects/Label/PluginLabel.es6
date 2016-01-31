@@ -1,4 +1,4 @@
-import * as constants from 'in-forge/constants';
+import {getIconIdBySnapshot} from 'in-sdk/snapshot';
 
 import Label from './Label';
 
@@ -28,25 +28,7 @@ export default class PluginLabel extends Label {
 
   onSnapshotUpdated(snapshot) {
     this.factory.removeFragment(this.id);
-    let type = snapshot.get('plugin');
-
-    const osPlugin = constants.plugins.os;
-    if (type === osPlugin) {
-      const os = snapshot.getIn(['data', 'os.name']);
-      type = osPlugin + '_linux'; // linux as default
-
-      if (os) {
-        if (os.match(/linux/i)) {
-          type = osPlugin + '_linux';
-        } else if (os.match(/windows/i)) {
-          type = osPlugin + '_windows';
-        } else if (os.match(/mac/i)) {
-          type = osPlugin + '_apple';
-        }
-      }
-    }
-
-    this.fragment.additionalParams.type = type;
+    this.fragment.additionalParams.type = getIconIdBySnapshot(snapshot);
     this.updateFragment();
   }
 }

@@ -1,3 +1,6 @@
+import * as constants from 'in-forge/constants';
+import {getIconById} from 'in-sdk/iconRegistry';
+
 // {
 //   <pluginId: String>: [(snapshot) => <label: String>]
 // }
@@ -82,37 +85,31 @@ export function getLongLabel(snapshot, fallback) {
 }
 
 
-// {
-// <pluginId: String>: [(snapshot) => <icon name: String>]
-// }
-const iconFinder = {};
-
-export function addIconFinder(pluginId, finder) {
-  if (!(pluginId in iconFinder)) {
-    iconFinder[pluginId] = [];
+export function getIcon(pluginId) {
+  if (typeof pluginId === 'object') {
+    pluginId = getIconIdBySnapshot(pluginId);
   }
 
-  iconFinder[pluginId].push(finder);
+  return getIconById(pluginId);
 }
 
-export function getIcon(pluginId) {
-  let snapshot;
-  if (typeof pluginId === 'object') {
-    snapshot = pluginId;
-    pluginId = snapshot.get('plugin');
-  }
+export function getIconIdBySnapshot(snapshot) {
+  let type = snapshot.get('plugin');
 
-  const finder = iconFinder[pluginId];
-  if (!finder) {
-    return undefined;
-  }
+  const osPlugin = constants.plugins.os;
+  if (type === osPlugin) {
+    const os = snapshot.getIn(['data', 'os.name']);
+    type = osPlugin + '_linux'; // linux as default
 
-  for (let i = 0; i < finder.length; i++) {
-    const icon = finder[i](snapshot);
-    if (icon) {
-      return icon;
+    if (os) {
+      if (os.match(/linux/i)) {
+        type = osPlugin + '_linux';
+      } else if (os.match(/windows/i)) {
+        type = osPlugin + '_windows';
+      } else if (os.match(/mac/i)) {
+        type = osPlugin + '_apple';
+      }
     }
   }
-
-  return undefined;
+  return type;
 }

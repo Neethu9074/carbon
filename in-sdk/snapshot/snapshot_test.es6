@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import proxyquire from 'proxyquire';
 
 const steadyId = 's1';
-const plugin = 'os';
+const plugin = 'host';
 
 describe('snapshot', () => {
 
@@ -60,23 +60,11 @@ describe('snapshot', () => {
   describe('icons', () => {
 
     it('should retrieve the icon via a finder', () => {
-      const truck = 'truck';
-      mod.addIconFinder(plugin, () => truck);
-      expect(mod.getIcon(snapshot)).to.equal(truck);
+      expect(mod.getIcon(snapshot)).to.not.equal(undefined);
     });
 
-    it('should support multiple finders', () => {
-      const truck = 'truck';
-      mod.addIconFinder('ec2', () => 'amazon');
-      mod.addIconFinder(plugin, () => truck);
-      mod.addIconFinder('docker', () => 'container');
-      expect(mod.getIcon(snapshot)).to.equal(truck);
-    });
-
-    it('should allow plugin to be specified as string as param', () => {
-      const truck = 'truck';
-      mod.addIconFinder(plugin, () => truck);
-      expect(mod.getIcon(plugin)).to.equal(truck);
+    it('should retrieve undefined for unknown plugins', () => {
+      expect(mod.getIcon('unknownId')).to.equal(undefined);
     });
 
   });

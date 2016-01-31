@@ -1,6 +1,6 @@
-import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
 import * as constants from '../constants';
@@ -17,11 +17,6 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.jvm,
   snapshot => snapshot.getIn(['data', 'name'])
-);
-
-addIconFinder(
-  constants.plugins.jvm,
-  () => iconPath
 );
 
 power.addMapping(

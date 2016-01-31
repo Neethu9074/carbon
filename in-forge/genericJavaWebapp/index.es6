@@ -1,6 +1,6 @@
-import {addIconFinder, addLabelFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
@@ -18,11 +18,6 @@ addLabelFinder(constants.plugins.javaWebApp, getLabel);
 function getLabel(s) {
   return 'JVM Web App#' + s.get('steadyId');
 }
-
-addIconFinder(
-  constants.plugins.javaWebApp,
-  () => iconPath
-);
 
 power.addMapping(
   constants.plugins.javaWebApp,

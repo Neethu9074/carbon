@@ -1,6 +1,6 @@
-import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 
 import iconPath from './icon.svg';
 import * as constants from '../constants';
@@ -12,11 +12,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.nodejsCluster, s => s.getIn(['data', 'groupId']));
-
-addIconFinder(
-  constants.plugins.nodejsCluster,
-  () => iconPath
-);
 
 addIconToRegistry({
   id: constants.plugins.nodejsCluster,

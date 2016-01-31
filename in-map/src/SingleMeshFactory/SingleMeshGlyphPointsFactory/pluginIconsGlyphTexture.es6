@@ -18,20 +18,17 @@ glyphTexture.flipY = false;
 create(glyphTexture);
 
 function create(texture) {
-  const allIcons = getAllIcons();
-  const numElementsPerColumn = config.numElementsPerColumn;
   const iconWidth = config.iconWidth;
-
   const canvas = document.createElement('canvas');
-  canvas.width = numElementsPerColumn * iconWidth;
-  canvas.height = numElementsPerColumn * iconWidth;
+  canvas.width = config.numElementsPerColumn * iconWidth;
+  canvas.height = config.numElementsPerColumn * iconWidth;
   texture.image = canvas;
 
   let row = 0;
   let column = 0;
   const context = canvas.getContext('2d');
 
-  allIcons.forEach(icon => {
+  getAllIcons().forEach(icon => {
     const x = column * iconWidth;
     const y = row * iconWidth;
     const image = document.createElement('img');
@@ -46,7 +43,7 @@ function create(texture) {
     config.LUT[icon.id] = {x, y};
 
     column++;
-    if (column >= numElementsPerColumn) {
+    if (column >= config.numElementsPerColumn) {
       column = 0;
       row++;
     }

@@ -1,6 +1,6 @@
-import {addLabelFinder, addIconFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
 import * as constants from '../constants';
@@ -15,11 +15,6 @@ pluginName.setHumanReadablePluginName(
 addLabelFinder(
   constants.plugins.jira,
   snapshot => 'Atlassian JIRA ' + snapshot.getIn(['data', 'version'])
-);
-
-addIconFinder(
-  constants.plugins.jira,
-  () => iconPath
 );
 
 power.addMapping(
