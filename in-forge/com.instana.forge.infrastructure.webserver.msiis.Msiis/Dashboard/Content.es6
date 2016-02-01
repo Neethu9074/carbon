@@ -4,6 +4,9 @@ import React from 'react/addons';
 import {kiloBytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import ResponsiveTable from 'in-components/ResponsiveTable';
+import Mtd from 'in-components/Mtd';
+import classnames from 'in-services/util/classnames';
 
 const rpt = React.PropTypes;
 const chartHeight = 200;
@@ -16,18 +19,21 @@ const MsIISDashboard = React.createClass({
   },
   getInitialState() {
     return {
-      siteName: 'eumapp'
+      siteName: null
     };
+  },
+  selectWebsite(name) {
+    this.setState({siteName: name});
   },
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
     const allSites = snapshot.getIn(['data', 'allsites']).toArray();
+    const allPools = snapshot.getIn(['data', 'allpools']).toArray();
     const siteName = this.state.siteName;
     return (
       <div>
-      <DashboardSection title='Connections'>
-      {siteName ?
+      <DashboardSection title='Connections On All Sites'>
         <div>
           <ChartWithLegend snapshot={snapshot}
                  windowSize={timeframe}
@@ -41,10 +47,8 @@ const MsIISDashboard = React.createClass({
                    type: 'line'
                  }}/>
         </div>
-      : null}
        </DashboardSection>
-       <DashboardSection title='Request Stats'>
-       {siteName ?
+       <DashboardSection title='Total Requests On All Sites'>
          <div>
            <ChartWithLegend snapshot={snapshot}
                   windowSize={timeframe}
@@ -58,7 +62,6 @@ const MsIISDashboard = React.createClass({
                     type: 'line'
                   }}/>
          </div>
-       : null}
         </DashboardSection>
         <DashboardSection title='I/O Stats'>
         {siteName ?
@@ -71,17 +74,89 @@ const MsIISDashboard = React.createClass({
                    }}
                    y1={{
                      min: 0,
+                     metrics: [
+                              'siteperf.' + siteName + '.get_requests',
+                              'siteperf.' + siteName + '.post_requests',
+                              'siteperf.' + siteName + '.put_requests'
+                            ],
+                     labels: [
+                              'GET Requests',
+                              'POST Requests',
+                              'PUT Requests'
+                            ],
+                     type: 'line'
+                   }}
+                   y2={{
+                     min: 0,
                      formatter: kiloBytesTwoDecimalPlaces,
-                     metrics: allSites.map(site => 'siteperf.' + site + '.bytes_sent')
-                              .concat(allSites.map(site => 'siteperf.' + site + '.bytes_received')),
-                     labels: allSites.map(site => site + ' out')
-                             .concat(allSites.map(site => site + ' in')),
+                     metrics: [
+                              'siteperf.' + siteName + '.bytes_sent',
+                              'siteperf.' + siteName + '.bytes_received'
+                            ],
+                     labels: [
+                              'Bytes sent',
+                              'Bytes received'
+                            ],
                      type: 'line'
                    }}/>
           </div>
         : null}
          </DashboardSection>
-      </div>
+         <DashboardSection title='Web-Sites'>
+         <ResponsiveTable clickable={true}>
+           <thead>
+             <tr>
+               <th>Name</th>
+               <th>Current Connections</th>
+               <th>Requests</th>
+               <th>GET Requests</th>
+               <th>POST Requests</th>
+               <th>PUT Requests</th>
+             </tr>
+           </thead>
+           <tbody>
+             {allSites.map(site =>
+               <tr key={site} onClick={() => this.selectWebsite(site)}
+               className={classnames({
+                 'active': site === siteName
+               })}>
+                  <td>{site}</td>
+                  <Mtd metric={'siteperf.' + site + '.current_connections'}
+                  snapshot={snapshot}/>
+                  <Mtd metric={'siteperf.' + site + '.total_requests'}
+                  snapshot={snapshot}/>
+                  <Mtd metric={'siteperf.' + site + '.get_requests'}
+                  snapshot={snapshot}/>
+                  <Mtd metric={'siteperf.' + site + '.post_requests'}
+                  snapshot={snapshot}/>
+                  <Mtd metric={'siteperf.' + site + '.put_requests'}
+                  snapshot={snapshot}/>
+
+               </tr>
+             )}
+           </tbody>
+         </ResponsiveTable>
+         </DashboardSection>
+
+         <DashboardSection title='Application-Pools'>
+         <ResponsiveTable clickable={true}>
+           <thead>
+             <tr>
+               <th>Name</th>
+               <th>ASP.NET Version</th>
+             </tr>
+           </thead>
+           <tbody>
+             {allPools.map(pool =>
+               <tr key={pool}>
+                 <td>{pool}</td>
+                 <td>{snapshot.get('data').get('iis.apppools').get(pool).get('runtimeversion')}</td>
+               </tr>
+             )}
+           </tbody>
+         </ResponsiveTable>
+         </DashboardSection>
+         </div>
     );
   }
 });
