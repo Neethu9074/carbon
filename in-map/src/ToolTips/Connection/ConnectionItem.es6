@@ -35,12 +35,12 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
     const sourceSnapshot = this.props.sourceSnapshot;
     const zoneSnapshot = this.props.zoneSnapshot;
     const snapshot = this.props.snapshot;
-    if (!snapshot || !zoneSnapshot || !sourceSnapshot) {
+    if (!snapshot || !sourceSnapshot) {
       return null;
     }
 
     const ip = this.getOneOfConnectedIps(sourceSnapshot, snapshot);
-    const color = getColorPool('groups').getColorHex(zoneSnapshot.get('id'));
+    const color = zoneSnapshot ? getColorPool('groups').getColorHex(zoneSnapshot.get('id')) : '';
 
     return (
       <div className={block}>
@@ -52,7 +52,7 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
           {ip}
         </span>
         <span style={{color}}>
-          {zoneSnapshot.getIn(['data', 'groupId'])}
+          {zoneSnapshot ? zoneSnapshot.getIn(['data', 'groupId']) : null}
         </span>
       </div>
     );
