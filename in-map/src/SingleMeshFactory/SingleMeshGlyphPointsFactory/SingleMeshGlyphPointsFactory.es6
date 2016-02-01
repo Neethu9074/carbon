@@ -55,7 +55,7 @@ export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
     this.fragments.forEach((fragment) => {
       const xy = config.LUT[fragment.additionalParams.type];
       if (!xy) {
-        // use right bootom UV coords to show nothing but emptiness
+        // use right bottom UV coords to show nothing but emptiness
         uvCoords.push(1);
         uvCoords.push(1);
       } else {
