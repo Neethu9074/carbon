@@ -64,18 +64,16 @@ export default class ProcessMap extends BaseMap {
 
   onInventoryUpdated() {
     // test add random connections
-    const ids = this.nodes.map(node => node.id);
+    const nodes = this.nodes;
     this.nodes.forEach(node => {
-      const randomId = ids[Math.floor(Math.random() * (ids.length - 1))];
-      if (randomId !== node.id) {
-        const connectionsHandler = node.getComponent('connectionsHandler');
-        connectionsHandler.setOutgoingConnections(Immutable.fromJS([
-          {
-            id: randomId + '_connection' + '_' + Math.random(),
+      const randomNode = nodes[Math.floor(Math.random() * (nodes.length - 1))];
+      if (randomNode.id !== node.id) {
+        node.getComponent('connectionsHandler').setOutgoingConnections(
+          Immutable.fromJS([{
+            id: randomNode.id + '_connection' + '_' + Math.random(),
             sourceId: node.id,
-            destinationId: randomId
-          }
-        ]));
+            destinationId: randomNode.id
+          }]));
       }
     });
 

@@ -13,7 +13,7 @@ export default class ProcessConnectionsHandlerComponent extends ConnectionsHandl
     this.bubbles = [];
 
     this.animationController = new AnimationController({
-      onUpdate: this.updateAnimation.bind(this),
+      updateCallback: this.updateAnimation.bind(this),
       timeToAnimate: 2000,
       repeat: true
     });

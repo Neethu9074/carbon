@@ -36,18 +36,32 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onHighlightEnter() {
     this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.getComponent('connectionsHandler').startAnimation();
   }
 
   onHighlightLeave() {
     this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.getComponent('connectionsHandler').stopAnimation();
+  }
+
+  onSelectedEnter() {
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.getComponent('connectionsHandler').startAnimation();
+  }
+
+  onSelectedLeave() {
+    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.getComponent('connectionsHandler').stopAnimation();
   }
 
   onSelectedHighlightEnter() {
     this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.getComponent('connectionsHandler').startAnimation();
   }
 
   onSelectedHighlightLeave() {
     this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.getComponent('connectionsHandler').stopAnimation();
   }
 
 

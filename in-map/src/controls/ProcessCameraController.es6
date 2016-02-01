@@ -1,5 +1,6 @@
-import TWEEN from 'tween.js';
 import THREE from 'three';
+
+import AnimationController from 'in-map/src/AnimationController';
 
 import BaseCameraController from './BaseCameraController';
 import MouseControlsModule from './MouseControlsModule';
@@ -41,7 +42,14 @@ export default class ProcessCameraController extends BaseCameraController {
     this.targetCameraZPosition = 200;
 
     this.init();
-    this.setupAnimation();
+
+    this.fromRoll = startRoll;
+    this.toRoll = -89.5;
+    this.animationController = new AnimationController({
+      onUpdate: this.onAnimationUpdate.bind(this),
+      onStop: this.onAnimationStop.bind(this),
+      timeToAnimate: 500
+    });
     this.setupEvents();
 
     const eventEmitter = this.eventEmitter;
@@ -70,28 +78,16 @@ export default class ProcessCameraController extends BaseCameraController {
     this.camRotationHelper.add(this.camTargetPosition);
   }
 
-  setupAnimation() {
-    let fromRoll = startRoll;
-    let toRoll = -89.5;
-    const from = {v: 0.0}; // 0%
-    const to = {v: 1.0}; // 100%
+  onAnimationStop() {
+    this.animationController.stop();
+    const cache = this.toRoll;
+    this.toRoll = this.fromRoll;
+    this.fromRoll = cache;
+  }
 
-    // updating from 0 to 1 in 500 ms
-    const animation = new TWEEN.Tween(from).to(to, 500);
-    animation.easing(TWEEN.Easing.Cubic.InOut);
-    animation.onUpdate((v) => {
-      this.camRotationHelper.rotation.set(0, 0, 0);
-      this.camRotationHelper.rotateX((fromRoll + (toRoll - fromRoll) * v) * Math.PI / 180);
-    });
-    animation.onComplete(() => {
-      this.aniamte = false;
-      const cache = toRoll;
-      toRoll = fromRoll;
-      fromRoll = cache;
-    });
-
-    this.animation = animation;
-    this.animation.stop();
+  onAnimationUpdate(v) {
+    this.camRotationHelper.rotation.set(0, 0, 0);
+    this.camRotationHelper.rotateX((this.fromRoll + (this.toRoll - this.fromRoll) * v) * Math.PI / 180);
   }
 
   setupEvents() {
@@ -130,9 +126,7 @@ export default class ProcessCameraController extends BaseCameraController {
   }
 
   onDoubleClicked() {
-    this.animation.stop();
-    this.aniamte = true;
-    this.animation.start();
+    this.animationController.start();
   }
 
   onMove({dx, dy}) {
@@ -142,10 +136,6 @@ export default class ProcessCameraController extends BaseCameraController {
 
   update() {
     const dt = time.getDeltaTime();
-    if (this.aniamte) {
-      this.animation.update(time.getNow());
-    }
-
     const deltaCamSize = this.targetCameraFrustumSize - this.camera.getCameraSize();
     const deltaCamZPosition = this.targetCameraZPosition - this.camTargetPosition.position.z;
     const deltaCamPOIPositionX = this.targetCameraPOIPosition.position.x - this.camMoveHelper.position.x;
@@ -156,8 +146,7 @@ export default class ProcessCameraController extends BaseCameraController {
       deltaCamSize,
       deltaCamZPosition,
       deltaCamPOIPositionX,
-      deltaCamPOIPositionZ
-    ) && !this.aniamte) {
+      deltaCamPOIPositionZ) && !this.animationController.animationInProgress) {
       return;
     }
 
