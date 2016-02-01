@@ -4,6 +4,8 @@ import React from 'react/addons';
 import Collapsible from 'in-components/Collapsible';
 
 import IISInfo from '../IISInfo';
+import AppPoolList from '../AppPoolList.es6';
+import WebSiteList from '../WebSiteList.es6';
 
 const MsIISSidebar = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -22,6 +24,18 @@ const MsIISSidebar = React.createClass({
           <Collapsible.Header>Internet Information Server</Collapsible.Header>
           <Collapsible.Content>
             <IISInfo snapshot={snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>Web-Sites</Collapsible.Header>
+          <Collapsible.Content>
+            <WebSiteList snapshot={snapshot} />
+          </Collapsible.Content>
+        </Collapsible>
+        <Collapsible initiallyOpen={false}>
+          <Collapsible.Header>Application-Pools</Collapsible.Header>
+          <Collapsible.Content>
+            <AppPoolList snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
       </div>
