@@ -11,7 +11,7 @@ const WebSiteList = React.createClass({
   },
 
   render() {
-    const sites = this.props.snapshot.getIn(['data', 'allsites']);
+    const sites = this.props.snapshot.getIn(['data', 'allsites']).toArray();
     if (!sites || sites.length === 0) {
       return null;
     }
@@ -22,7 +22,7 @@ const WebSiteList = React.createClass({
           <List.Item key={i}>
             {site}
           </List.Item>
-        ).toArray()}
+        )}
       </List>
     );
   }

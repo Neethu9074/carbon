@@ -11,7 +11,7 @@ const AppPoolList = React.createClass({
   },
 
   render() {
-    const pools = this.props.snapshot.getIn(['data', 'allpools']);
+    const pools = this.props.snapshot.getIn(['data', 'allpools']).toArray();
     if (!pools || pools.length === 0) {
       return null;
     }
@@ -22,7 +22,7 @@ const AppPoolList = React.createClass({
           <List.Item key={i}>
             {pool}
           </List.Item>
-        ).toArray()}
+        )}
       </List>
     );
   }

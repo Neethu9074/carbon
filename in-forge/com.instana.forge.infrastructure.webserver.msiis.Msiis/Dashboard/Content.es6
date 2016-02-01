@@ -17,14 +17,17 @@ const MsIISDashboard = React.createClass({
     timeframe: rpt.number.isRequired,
     snapshot: irpt.map.isRequired
   },
+
   getInitialState() {
     return {
       siteName: null
     };
   },
+
   selectWebsite(name) {
     this.setState({siteName: name});
   },
+
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
@@ -75,28 +78,28 @@ const MsIISDashboard = React.createClass({
                    y1={{
                      min: 0,
                      metrics: [
-                              'siteperf.' + siteName + '.get_requests',
-                              'siteperf.' + siteName + '.post_requests',
-                              'siteperf.' + siteName + '.put_requests'
-                            ],
+                       'siteperf.' + siteName + '.get_requests',
+                       'siteperf.' + siteName + '.post_requests',
+                       'siteperf.' + siteName + '.put_requests'
+                     ],
                      labels: [
-                              'GET Requests',
-                              'POST Requests',
-                              'PUT Requests'
-                            ],
+                       'GET Requests',
+                       'POST Requests',
+                       'PUT Requests'
+                     ],
                      type: 'line'
                    }}
                    y2={{
                      min: 0,
                      formatter: kiloBytesTwoDecimalPlaces,
                      metrics: [
-                              'siteperf.' + siteName + '.bytes_sent',
-                              'siteperf.' + siteName + '.bytes_received'
-                            ],
+                       'siteperf.' + siteName + '.bytes_sent',
+                       'siteperf.' + siteName + '.bytes_received'
+                     ],
                      labels: [
-                              'Bytes sent',
-                              'Bytes received'
-                            ],
+                       'Bytes sent',
+                       'Bytes received'
+                     ],
                      type: 'line'
                    }}/>
           </div>
@@ -131,13 +134,11 @@ const MsIISDashboard = React.createClass({
                   snapshot={snapshot}/>
                   <Mtd metric={'siteperf.' + site + '.put_requests'}
                   snapshot={snapshot}/>
-
-               </tr>
+             </tr>
              )}
            </tbody>
          </ResponsiveTable>
          </DashboardSection>
-
          <DashboardSection title='Application-Pools'>
          <ResponsiveTable clickable={true}>
            <thead>
@@ -150,7 +151,7 @@ const MsIISDashboard = React.createClass({
              {allPools.map(pool =>
                <tr key={pool}>
                  <td>{pool}</td>
-                 <td>{snapshot.get('data').get('iis.apppools').get(pool).get('runtimeversion')}</td>
+                 <td>{snapshot.getIn(['data', 'iis.apppools', pool, 'runtimeversion'])}</td>
                </tr>
              )}
            </tbody>
