@@ -22,8 +22,8 @@ const ConnectionsTooltipRC = React.createClass({
         <Heading>
           {connections.length + ' connection' + (connections.length === 1 ? '' : 's')}
         </Heading>
-        {connections.map(connection =>
-          <ConnectionItem key={connection.id}
+        {connections.map((connection, index) =>
+          <ConnectionItem key={index}
                           snapshotId={connection.destinationNode.id}
                           direction={connection.direction}
                           sourceSnapshot={connection.sourceNode.snapshot}/>
