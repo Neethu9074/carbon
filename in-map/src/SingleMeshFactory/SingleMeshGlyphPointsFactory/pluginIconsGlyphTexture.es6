@@ -35,7 +35,9 @@ function create(texture) {
 
     image.src = icon.image;
     image.onload = () => {
-      context.drawImage(image, x, y);
+      // if the image is 100 x 100 in width don't draw it directly for 0 - 100
+      // use 2 - 98 instead to get a clear border to avoid nastly artifacts caused by rounding issues
+      context.drawImage(image, x + 2, y + 2, iconWidth - 4, iconWidth - 4);
       texture.needsUpdate = true;
     };
 
