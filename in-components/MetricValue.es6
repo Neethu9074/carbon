@@ -26,7 +26,10 @@ export default React.createClass({
       return props.createMetricValueStream();
     }
 
-    return getLiveMetrics(props.snapshot.get('id'), props.metric);
+    return getLiveMetrics({
+      snapshotId: props.snapshot.get('id'),
+      metric: props.metric
+    });
   },
 
   establishSubscription(stream) {

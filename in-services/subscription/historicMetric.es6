@@ -7,26 +7,27 @@ import {on, off} from 'in-services/persistentConnection';
 
 export default createObservableIfMissing.bind(null, {
   getId,
-  createObservable: createLiveMetricObservable
+  createObservable: createHistoricMetricObservable
 });
 
-function getId({snapshotId, metric, aggregation, rollup}) {
-  return snapshotId + metric + aggregation + rollup;
+function getId({snapshotId, metric, timeframe, aggregation, rollup}) {
+  return snapshotId + metric + timeframe + aggregation + rollup;
 }
 
-function createLiveMetricObservable({snapshotId, metric, aggregation, rollup}) {
+function createHistoricMetricObservable({snapshotId, metric, timeframe, aggregation, rollup}) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-live-metric', {
+      subscribe(subscriptionId, 'subscribe-historic-metric', {
         'subscriptionId': subscriptionId,
         'snapshotId': snapshotId,
         'metric': metric,
         'aggregation': aggregation,
-        'rollup': rollup
+        'rollup': rollup,
+        'timeframe': timeframe
       });
     },
 
@@ -40,9 +41,6 @@ function createLiveMetricObservable({snapshotId, metric, aggregation, rollup}) {
 
   function onData(update) {
     // Mutable on purpose – for performance reasons.
-    observable.emit({
-      timestamp: update[0],
-      value: update[1]
-    });
+    observable.emit(update);
   }
 }

@@ -1,20 +1,47 @@
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
+import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
 
+// There is currently no other form of aggregation, but we already want
+// to have this communication style with the backend.
+const defaultAggregation = 'mean';
 
-export function getLiveMetrics(snapshotId, metric) {
+export function getLiveMetrics({snapshotId, metric, timeframe = null}) {
+  const rollup = getDefaultMetricRollupDuration(timeframe);
+  let aggregation = null;
+  if (rollup) {
+    aggregation = defaultAggregation;
+  }
   return createLiveMetricObservable({
     snapshotId,
-    metric
+    metric,
+    aggregation,
+    rollup
   });
 }
 
 
-export function getMetricName(metric, timeframe) {
+export function getHistoricMetrics({snapshotId, metric, timeframe}) {
   const rollup = getDefaultMetricRollupDuration(timeframe);
+  let aggregation = null;
   if (rollup) {
-    return metric + '.mean.' + rollup;
+    aggregation = defaultAggregation;
   }
-  return metric;
+  return createHistoricMetricObservable({
+    snapshotId,
+    metric,
+    timeframe,
+    aggregation,
+    rollup
+  });
+}
+
+
+export function getHistoricMetricsWithLiveUpdates(opts) {
+  const live$ = getLiveMetrics(opts)
+    // bring the two streams into the same format
+    .map(update => [update.timestamp, update.value]);
+  const historic$ = getHistoricMetrics(opts);
+  return live$.merge(historic$);
 }
 
 
