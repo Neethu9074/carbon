@@ -1,6 +1,7 @@
 // require all forge modules inside this one, as
 // this is the only module required by the application.
 
+import './com.instana.forge.infrastructure.application.container.springboot.SpringbootApplicationContainer';
 import './com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer';
 import './com.instana.forge.infrastructure.application.jira.JiraApplication';
 import './com.instana.forge.infrastructure.cache.redis.Redis';

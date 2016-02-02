@@ -12,6 +12,7 @@ export const plugins = {
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
   mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
   mysql: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
+  springboot: 'com.instana.forge.infrastructure.application.container.springboot.SpringbootApplicationContainer',
   tomcat: 'com.instana.forge.infrastructure.application.container.tomcat.TomcatApplicationContainer',
   nodejs: 'com.instana.forge.infrastructure.runtime.nodejs.NodeJsRuntimePlatform',
   nodejsApp: 'com.instana.forge.infrastructure.application.nodejs.GenericNodejsApp',
