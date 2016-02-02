@@ -13,7 +13,8 @@ export default React.createClass({
     snapshot: irpt.map.isRequired,
     metric: rpt.string.isRequired,
     formatter: rpt.func,
-    createMetricValueStream: rpt.func
+    createMetricValueStream: rpt.func,
+    initialValue: rpt.string
   },
 
   componentDidMount() {
@@ -30,6 +31,13 @@ export default React.createClass({
 
   establishSubscription(stream) {
     const node = React.findDOMNode(this);
+
+    if (this.props.initialValue) {
+      node.textContent = this.props.initialValue;
+    } else {
+      node.textContent = '';
+    }
+
     this.stream = stream;
     this.subscription = stream.subscribe(v => {
       node.textContent = this.format(v.value);
