@@ -1,21 +1,15 @@
 import {combineLatest} from 'reactive-observables';
 
-import MetricConveyer from 'in-services/conveyer/MetricConveyer';
-import {create} from 'in-services/conveyer';
+import {getLiveMetrics} from 'in-stores/metric';
 
 export function subscribeToMetric({metrics, snapshot, fn}) {
-  const tempSubscriptions = metrics.map(metric => {
-    return create(MetricConveyer, {
-      metric: metric.get('name'),
-      snapshot: snapshot
-    });
-  }).toJS();
+  const tempSubscriptions = metrics.toArray().map(metric => {
+    return getLiveMetrics(snapshot.get('id'), metric.get('name'));
+  });
 
   const metricSubscription = combineLatest(tempSubscriptions)
-  .throttle(1000)
-  .subscribe((values) => {
-    fn(values);
-  });
+    .throttle(1000)
+    .subscribe(fn);
 
   return metricSubscription;
 }
