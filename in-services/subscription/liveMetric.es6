@@ -13,11 +13,11 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createLiveMetricObservable
 });
 
-function getId({snapshotId, metric, timeframe}) {
-  return snapshotId + metric + timeframe;
+function getId({snapshotId, metric}) {
+  return snapshotId + metric;
 }
 
-function createLiveMetricObservable({snapshotId, metric, timeframe}) {
+function createLiveMetricObservable({snapshotId, metric}) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = 'data-' + subscriptionId;
 
@@ -27,8 +27,7 @@ function createLiveMetricObservable({snapshotId, metric, timeframe}) {
       subscribe(subscriptionId, 'subscribe-live-metric', {
         'subscriptionId': subscriptionId,
         'snapshotId': snapshotId,
-        'metric': metric,
-        'timeframe': timeframe
+        'metric': metric
       });
     },
 
