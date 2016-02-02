@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
+import eventBus from 'in-services/eventbus';
 
 import ProcessConnectionsHandlerComponent from
   '../../../components/ConnectionsHandlerComponents/ProcessConnectionsHandlerComponent';
@@ -12,6 +13,7 @@ import {PROPERTIES, PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
 import ColouredPluginLabel from '../../Label/ColouredPluginLabel';
+import StickyNote from '../../../StickyNotes/ProcessCluster';
 
 import CMCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -118,21 +120,20 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
   }
 
   expand() {
-    if (!this.isExpanded) {
-      this.nodes.forEach(node => {
-        this.expandedNodes.push(new ProcessNode({
-          parent: this,
-          entity: node
-        }));
-      });
-    } else {
-      this.expandedNodes.forEach(node => {
-        node.dispose();
-      });
-      this.expandedNodes = [];
-    }
+    this.nodes.forEach(node =>
+      this.expandedNodes.push(new ProcessNode({
+        parent: this,
+        entity: node
+      }))
+    );
 
-    this.isExpanded = !this.isExpanded;
+    this.layoutNeedsUpdate();
+  }
+
+  collapse() {
+    this.expandedNodes.forEach(node => node.dispose());
+    this.expandedNodes = [];
+
     this.layoutNeedsUpdate();
   }
 
@@ -142,6 +143,15 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
 
   setChildren(entities) {
     this.nodes = entities;
+
+    if (entities.size > 0) {
+      if (!this.stickyNote) {
+        this.stickyNote = new StickyNote(this);
+        this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
+      }
+      this.stickyNote.setNumChildren(entities.size);
+    }
+
 
     // TODO: if expanded, add to scene
   }
@@ -153,6 +163,18 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
     this.label.getComponent('position').setPosition(x - 0.5, y + 0.5, z + 0.5);
+
+    super.setScreenPositionAnchor(x + 0.5, y + 0.3, z);
+  }
+
+  update() {
+    this.updateScreenPosition();
+
+    if (this.isInView()) {
+      this.stickyNote.update();
+    } else {
+      this.stickyNote.hide();
+    }
   }
 
   dispose() {

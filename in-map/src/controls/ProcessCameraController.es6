@@ -98,12 +98,7 @@ export default class ProcessCameraController extends BaseCameraController {
 
       this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked()),
 
-      this.eventEmitter.on('onObjectClicked').subscribe(hittenOnes => {
-        this.scene.onObjectClicked(hittenOnes);
-        if (hittenOnes.hittenObject) {
-          hittenOnes.hittenObject.parentSceneObject.expand();
-        }
-      })
+      this.eventEmitter.on('onObjectClicked').subscribe(hittenOnes => this.scene.onObjectClicked(hittenOnes))
     ]);
   }
 

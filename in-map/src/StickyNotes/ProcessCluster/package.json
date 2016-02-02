@@ -1,0 +1,6 @@
+{
+  "name": "ProcessCluster",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ProcessCluster.es6"
+}
