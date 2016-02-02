@@ -1,14 +1,10 @@
 import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 
-import {on, off} from '../persistentConnection';
-import {
-  getNewSubscriptionId,
-  subscribe,
-  unsubscribe
-} from './subscriptionManager';
-import createObservableIfMissing from './subscriptionObservablesCache';
-
+import {getDataEvent} from 'in-services/subscription/dataEvent';
+import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
+import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
+import {on, off} from 'in-services/persistentConnection';
 export default createObservableIfMissing.bind(null, {
   getId,
   createObservable: createPhysicalHierarchyObservable
@@ -20,7 +16,7 @@ function getId(snapshotId) {
 
 function createPhysicalHierarchyObservable(snapshotId) {
   const subscriptionId = getNewSubscriptionId();
-  const dataEvent = 'data-' + subscriptionId;
+  const dataEvent = getDataEvent(subscriptionId);
 
   const observable = create({
     start() {

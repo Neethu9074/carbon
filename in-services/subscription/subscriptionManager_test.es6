@@ -15,7 +15,7 @@ describe('in-services.subscriptionManager', () => {
     };
 
     mod = proxyquire('./subscriptionManager', {
-      '../persistentConnection': persistentConnection
+      'in-services/persistentConnection': persistentConnection
     });
 
     mod.init();

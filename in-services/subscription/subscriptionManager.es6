@@ -1,6 +1,6 @@
 import invariant from 'invariant';
 
-import {on, emit} from '../persistentConnection';
+import {on, emit} from 'in-services/persistentConnection';
 
 // {
 //   <id>: {
