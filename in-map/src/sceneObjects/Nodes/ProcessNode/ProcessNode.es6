@@ -19,12 +19,14 @@ import SCM from '../../../SingleMeshFactory/ContentProvider/ContentManipulator/S
 import CPCP from '../../../SingleMeshFactory/ContentProvider/CylinderPlaneContentProvider';
 import CCP from '../../../SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
-export default class Node extends SceneObjectWithSnapshot {
+export default class ProcessNode extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
     this.nodes = [];
+    this.isExpanded = false;
+    this.expandedNodes = [];
 
     this.label = new ColouredPluginLabel({
       id: this.id,
@@ -115,12 +117,39 @@ export default class Node extends SceneObjectWithSnapshot {
     this.components.mesh.colorChanged(color.r, color.g, color.b);
   }
 
-  setChildren() {}
+  expand() {
+    if (!this.isExpanded) {
+      this.nodes.forEach(node => {
+        this.expandedNodes.push(new ProcessNode({
+          parent: this,
+          entity: node
+        }));
+      });
+    } else {
+      this.expandedNodes.forEach(node => {
+        node.dispose();
+      });
+      this.expandedNodes = [];
+    }
+
+    this.isExpanded = !this.isExpanded;
+    this.layoutNeedsUpdate();
+  }
+
+  layoutNeedsUpdate() {
+    this.parent.layoutNeedsUpdate();
+  }
+
+  setChildren(entities) {
+    this.nodes = entities;
+
+    // TODO: if expanded, add to scene
+  }
 
   positionChanged(x, y, z) {
-    this.getComponent('mesh').positionChanged(x, y, z);
      // avoid z fighting, so use height + 0.01
     this.getComponent('topMesh').positionChanged(x, y + 0.51, z);
+    this.getComponent('mesh').positionChanged(x, y, z);
     this.getComponent('collision').positionChanged(x, y, z);
     this.getComponent('highlighting').positionChanged(x, y, z);
     this.label.getComponent('position').setPosition(x - 0.5, y + 0.5, z + 0.5);
@@ -131,5 +160,9 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.label.dispose();
     this.label = null;
+
+    this.nodes = null;
+    this.isExpanded = null;
+    this.expandedNodes = null;
   }
 }

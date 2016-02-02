@@ -80,6 +80,10 @@ export default class ProcessMap extends BaseMap {
     this.refreshLayout = true;
   }
 
+  layoutNeedsUpdate() {
+    this.refreshLayout = true;
+  }
+
   getAllNodes() {
     return this.nodes;
   }
