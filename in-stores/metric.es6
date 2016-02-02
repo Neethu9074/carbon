@@ -1,20 +1,21 @@
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 
+// There is currently no other form of aggregation, but we already want
+// to have this communication style with the backend.
+const defaultAggregation = 'mean';
 
-export function getLiveMetrics(snapshotId, metric) {
+export function getLiveMetrics({snapshotId, metric, timeframe = null}) {
+  const rollup = getDefaultMetricRollupDuration(timeframe);
+  let aggregation = null;
+  if (rollup) {
+    aggregation = defaultAggregation;
+  }
   return createLiveMetricObservable({
     snapshotId,
-    metric
+    metric,
+    aggregation,
+    rollup
   });
-}
-
-
-export function getMetricName(metric, timeframe) {
-  const rollup = getDefaultMetricRollupDuration(timeframe);
-  if (rollup) {
-    return metric + '.mean.' + rollup;
-  }
-  return metric;
 }
 
 

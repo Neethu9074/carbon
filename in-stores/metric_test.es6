@@ -40,16 +40,4 @@ describe('in-stores/metric', () => {
         .to.equal(1000 * 60 * 5);
     });
   });
-
-  describe('getMetricName', () => {
-    it('should not use any rollup for short timeframes', () => {
-      expect(metricStore.getMetricName('cpu.sys', oneMinute * 10))
-        .to.equal('cpu.sys');
-    });
-
-    it('should use rollups for larger time windows', () => {
-      expect(metricStore.getMetricName('cpu.sys', oneMinute * 60))
-        .to.equal('cpu.sys.mean.5000');
-    });
-  });
 });
