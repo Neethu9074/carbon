@@ -1,23 +1,19 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import MetricConveyer from 'in-services/conveyer/MetricConveyer';
-import {create} from 'in-services/conveyer';
+import {getLiveMetrics} from 'in-stores/metric';
 
 const rpt = React.PropTypes;
-const MetricValue = React.createClass({
-  mixins: [SubscriptionMixin, React.addons.PureRenderMixin],
+export default React.createClass({
+  displayName: 'MetricValue',
+
+  mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map,
-    metric: rpt.string,
-    createMetricValueStream: rpt.func,
-    formatter: rpt.func
-  },
-
-  getInitialState() {
-    return {};
+    snapshot: irpt.map.isRequired,
+    metric: rpt.string.isRequired,
+    formatter: rpt.func,
+    createMetricValueStream: rpt.func
   },
 
   componentDidMount() {
@@ -29,27 +25,33 @@ const MetricValue = React.createClass({
       return props.createMetricValueStream();
     }
 
-    return create(MetricConveyer, {
-      snapshot: props.snapshot,
-      metric: props.metric
-    });
-
+    return getLiveMetrics(props.snapshot.get('id'), props.metric);
   },
 
   establishSubscription(stream) {
     const node = React.findDOMNode(this);
     this.stream = stream;
-    this.addSubscription(stream.subscribe(v => {
-      node.textContent = this.format(v);
-    }));
+    this.subscription = stream.subscribe(v => {
+      node.textContent = this.format(v.value);
+    });
   },
 
   componentWillReceiveProps(nextProps) {
     const nextStream = this.getStream(nextProps);
     if (this.stream !== nextStream) {
-      this.setState(this.getInitialState());
-      this.disposeSubscriptions();
+      this.disposeSubscription();
       this.establishSubscription(nextStream);
+    }
+  },
+
+  componentWillUnmount() {
+    this.disposeSubscription();
+  },
+
+  disposeSubscription() {
+    if (this.subscription) {
+      this.subscription.dispose();
+      this.subscription = null;
     }
   },
 
@@ -65,5 +67,3 @@ const MetricValue = React.createClass({
   }
 
 });
-
-export default MetricValue;

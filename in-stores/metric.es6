@@ -1,10 +1,10 @@
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 
 
-export function getLiveMetrics({snapshotId, metric, timeframe}) {
+export function getLiveMetrics(snapshotId, metric) {
   return createLiveMetricObservable({
     snapshotId,
-    metric: getMetricName(metric, timeframe)
+    metric
   });
 }
 

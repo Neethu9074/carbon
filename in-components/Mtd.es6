@@ -7,10 +7,10 @@ const rpt = React.PropTypes;
 const Mtd = React.createClass({
 
   propTypes: {
-    snapshot: irpt.map,
-    metric: rpt.string,
-    createMetricValueStream: rpt.func,
-    formatter: rpt.func
+    snapshot: irpt.map.isRequired,
+    metric: rpt.string.isRequired,
+    formatter: rpt.func,
+    createMetricValueStream: rpt.func
   },
 
   render() {
