@@ -39,7 +39,7 @@ export function getHistoricMetrics({snapshotId, metric, timeframe}) {
 export function getHistoricMetricsWithLiveUpdates(opts) {
   const live$ = getLiveMetrics(opts)
     // bring the two streams into the same format
-    .map(update => [update.timestamp, update.value]);
+    .map(update => [[update.timestamp, update.value]]);
   const historic$ = getHistoricMetrics(opts);
   return live$.merge(historic$);
 }
