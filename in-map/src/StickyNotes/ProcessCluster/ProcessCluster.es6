@@ -3,6 +3,7 @@ import React from 'react/addons';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import getSnapshot from 'in-hoc/getSnapshot';
+import Icon from 'in-components/Icon';
 
 import StickyNote from '../StickyNote';
 
@@ -38,25 +39,28 @@ const ProcessCluster = getSnapshot(React.createClass({
     const snapshot = this.props.snapshot;
     const color = snapshot ? getColorPool('processes').getColorHex(snapshot.get('plugin')) : '#999';
 
+
     return (
       <div className={block + '__content'}
            style={{backgroundColor: color}}>
         {this.props.numChildren}
         <div className={block + '__button'}
              onClick={this.onClick}>
-          {this.state.expandend ? '<' : '>'}
+          <Icon className={block + '__icon'}
+                type={this.state.expanded ? 'close' : 'open'} />
         </div>
       </div>
     );
   },
 
   onClick() {
-    if (this.state.expanded) {
+    if (!this.state.expanded) {
       this.props.expand();
     } else {
       this.props.collapse();
     }
-    this.setState({expandend: !this.state.expandend});
+
+    this.setState({expanded: !this.state.expanded});
   }
 }));
 
