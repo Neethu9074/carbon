@@ -1,3 +1,4 @@
+// import Immutable from 'immutable';
 import _ from 'lodash';
 
 import {viewStructure} from 'in-stores/view';
@@ -45,6 +46,25 @@ export default class VisualMap extends SceneObject {
   registerEvents() {
     this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
     this.addSubscription(time.addTimeEventListener(this.handleTimeEvent.bind(this)));
+
+    // this.onInventoryUpdate(Immutable.fromJS({
+    //   children: [{
+    //     id: 'p1',
+    //     children: [{
+    //         id: 'p1_1',
+    //         children: [],
+    //         outgoingConnections: [{id: 'c1', sourceId: 'p1_1', destinationId: 'p1_2'}],
+    //         incomingConnections: []
+    //       }, {
+    //         id: 'p1_2',
+    //         children: [],
+    //         outgoingConnections: [],
+    //         incomingConnections: [{id: 'c2', sourceId: 'p1_1', destinationId: 'p1_2'}]
+    //       }],
+    //     outgoingConnections: [],
+    //     incomingConnections: []
+    //   }]
+    // }));
   }
 
   update() {

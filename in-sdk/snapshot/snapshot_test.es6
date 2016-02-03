@@ -64,7 +64,7 @@ describe('snapshot', () => {
     });
 
     it('should retrieve undefined for unknown plugins', () => {
-      expect(mod.getIcon('unknownId')).to.equal(undefined);
+      expect(mod.getIcon('unknownId')).to.not.equal(undefined);
     });
 
   });

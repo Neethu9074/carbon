@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 /* eslint-disable complexity */
 const settings = {
   autoArea: true,
@@ -23,7 +25,8 @@ export default class FruchtermanReingoldLayout {
       edges: []
     };
 
-    map.getAllNodes().forEach((node) => {
+    const allNodes = map.getAllNodes();
+    allNodes.forEach((node) => {
       const pos = node.getComponent('position').getPosition();
       const sigmaNode = {
         id: node.id,
@@ -39,11 +42,14 @@ export default class FruchtermanReingoldLayout {
     let edgeIdCounter = 0;
     graph.nodes.forEach(source => {
       source.inNode.getComponent('connectionsHandler').getOutgoingConnections().forEach(edge => {
-        graph.edges.push({
-          id: edgeIdCounter++,
-          source: edge.get('sourceId'),
-          target: edge.get('destinationId')
-        });
+        if (_.find(graph.nodes, node => node.id === edge.get('sourceId')) &&
+            _.find(graph.nodes, node => node.id === edge.get('destinationId'))) {
+          graph.edges.push({
+            id: edgeIdCounter++,
+            source: edge.get('sourceId'),
+            target: edge.get('destinationId')
+          });
+        }
       });
     });
 
