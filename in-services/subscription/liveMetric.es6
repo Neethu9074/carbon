@@ -40,9 +40,6 @@ function createLiveMetricObservable({snapshotId, metric, aggregation, rollup}) {
 
   function onData(update) {
     // Mutable on purpose – for performance reasons.
-    observable.emit({
-      timestamp: update[0],
-      value: update[1]
-    });
+    observable.emit(update);
   }
 }
