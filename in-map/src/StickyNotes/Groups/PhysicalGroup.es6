@@ -49,7 +49,7 @@ const PhysicalGroup = getSnapshot(React.createClass({
       return null;
     }
 
-    const c = getColorPool('groups').getColorHex(this.props.snapshotId);
+    const c = getColorPool('groups').getColorRGB(this.props.snapshotId);
     const backgroundColor = this.props.isActive ?
       '#fff' :
       'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
