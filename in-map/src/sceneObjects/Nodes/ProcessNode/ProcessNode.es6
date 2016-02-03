@@ -27,8 +27,8 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
     super({parent, id: entity.get('id')});
 
     this.nodes = [];
+    this.children = [];
     this.isExpanded = false;
-    this.expandedNodes = [];
 
     this.label = new ColouredPluginLabel({
       id: this.id,
@@ -120,8 +120,8 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
   }
 
   expand() {
-    this.nodes.forEach(node =>
-      this.expandedNodes.push(new ProcessNode({
+    this.children.forEach(node =>
+      this.nodes.push(new ProcessNode({
         parent: this,
         entity: node
       }))
@@ -131,8 +131,8 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
   }
 
   collapse() {
-    this.expandedNodes.forEach(node => node.dispose());
-    this.expandedNodes = [];
+    this.nodes.forEach(node => node.dispose());
+    this.nodes = [];
 
     this.layoutNeedsUpdate();
   }
@@ -142,7 +142,7 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
   }
 
   setChildren(entities) {
-    this.nodes = entities;
+    this.children = entities;
 
     if (entities.size > 0) {
       if (!this.stickyNote) {
@@ -184,7 +184,7 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
     this.label = null;
 
     this.nodes = null;
+    this.children = null;
     this.isExpanded = null;
-    this.expandedNodes = null;
   }
 }
