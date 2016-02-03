@@ -1,3 +1,4 @@
+import {DIRECTIONS} from 'in-map/src/SceneObjects/Connections/ConnectionDirections';
 import Bubble from 'in-map/src/components/ConnectionsHandlerComponents/Bubble';
 import AnimationController from 'in-map/src/AnimationController';
 
@@ -28,8 +29,8 @@ export default class ProcessConnectionsHandlerComponent extends ConnectionsHandl
     connections.forEach(connection => {
       this.bubbles.push(new Bubble({
         scene: this.sceneObject.scene,
-        from: connection.sourceNode,
-        to: connection.destinationNode
+        from: connection.direction === DIRECTIONS.IN ? connection.sourceNode : connection.destinationNode,
+        to: connection.direction === DIRECTIONS.IN ? connection.destinationNode : connection.sourceNode
       }));
     });
   }
