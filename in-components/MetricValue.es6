@@ -43,7 +43,7 @@ export default React.createClass({
 
     this.stream = stream;
     this.subscription = stream.subscribe(v => {
-      node.textContent = this.format(v.value);
+      node.textContent = this.format(v[1]);
     });
   },
 
