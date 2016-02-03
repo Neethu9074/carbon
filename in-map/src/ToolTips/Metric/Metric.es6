@@ -17,7 +17,7 @@ const MetricRC = React.createClass({
   ],
 
   propTypes: {
-    snapshot: React.PropTypes.object.isRequired
+    snapshotId: React.PropTypes.number.isRequired
   },
 
   getInitialState() {
@@ -33,9 +33,9 @@ const MetricRC = React.createClass({
       this.setState({metrics});
 
       this.addSubscription(subscribeToMetric({
-        metrics, snapshot: this.props.snapshot, fn: (values) => {
-          this.setState({values: values.slice()});
-        }
+        metrics,
+        id: this.props.snapshotId,
+        fn: values => this.setState({values: values.slice()})
       }));
     }));
   },
@@ -47,7 +47,7 @@ const MetricRC = React.createClass({
     .reverse()
     .map((value, index) => {
       const metricName = metrics.getIn([index, 'name']);
-      return getFormattedValue(metricName, this.props.snapshot, value);
+      return getFormattedValue(metricName, this.props.snapshotId, value[1]);
     });
 
     return (
@@ -64,7 +64,7 @@ export default class TooltipMetric extends Tooltip {
 
   render() {
     React.render(
-      <MetricRC snapshot={this.parent.snapshot} />,
+      <MetricRC snapshotId={this.parent.id} />,
       this.stickyNoteContainer
     );
   }

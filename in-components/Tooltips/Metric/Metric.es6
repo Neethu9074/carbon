@@ -45,7 +45,7 @@ export default React.createClass({
               {metricLabel}
             </Heading>
             <Content className='in-tooltip__metric-li--value'>
-              {value}
+              {value[1]}
             </Content>
           </div>
         </li>);

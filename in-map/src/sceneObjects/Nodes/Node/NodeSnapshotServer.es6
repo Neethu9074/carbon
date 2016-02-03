@@ -80,8 +80,8 @@ export default class NodeSnapshotServer {
 
     this.metricSubscription = subscribeToMetric({
       metrics: this.currentMetric,
-      snapshot,
-      fn: (values) => client.setMetricValues(values.map(v => v / maxValue))
+      id: this.client.id,
+      fn: values => client.setMetricValues(values.map(v => v[1] / maxValue))
     });
   }
 
