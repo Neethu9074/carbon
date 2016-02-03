@@ -33,8 +33,7 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
     this.label = new ColouredPluginLabel({
       id: this.id,
       parent: this,
-      iconSize: 3,
-      predicate: () => false
+      iconSize: 3
     });
   }
 

@@ -1,7 +1,6 @@
 import THREE from 'three';
 
 import {activeMetric} from 'in-services/stores/metrics';
-import {level} from 'in-services/stores/zoomLevel';
 import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
@@ -35,6 +34,7 @@ import PCP from '../../../SingleMeshFactory/ContentProvider/PlaneContentProvider
 import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
+
 const nodeBaseHeight = 1;
 
 export default class Node extends SceneObjectWithSnapshot {
@@ -54,8 +54,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.label = new PluginLabel({
       id: this.id,
       parent: this,
-      iconSize: 3,
-      predicate: zoomLevel => zoomLevel !== level.near && zoomLevel !== level.nearest
+      iconSize: 3
     });
   }
 

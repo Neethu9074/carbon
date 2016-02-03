@@ -1,22 +1,14 @@
-import {zoomLevel} from 'in-services/stores/zoomLevel';
-
-import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 
 
 export default class Label extends SceneObjectWithSnapshot {
 
-  constructor({id, parent, iconSize = 1, predicate}) {
+  constructor({id, parent, iconSize = 1}) {
     super({parent, id});
 
     this.factory = this.scene.singleMeshGlyphPointsFactory;
     this.fragment = this.getFragment(iconSize);
     this.positionHandler = this.getPositionHandler();
-
-    this.addSubscription(zoomLevel.subscribe(zl => {
-      const isHidden = predicate(zl) ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
-      this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, isHidden);
-    }));
   }
 
   getFragment() { throw new Error('PLEASE OVERRIDE METHOD'); }

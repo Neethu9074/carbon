@@ -1,7 +1,5 @@
 import _ from 'lodash';
 
-import {level} from 'in-services/stores/zoomLevel';
-
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import PluginLabel from '../../SceneObjects/Label/PluginLabel';
 import Layer from '../../SceneObjects/Layer';
@@ -129,8 +127,7 @@ export default class LayerComponent extends Component {
     const addLabelForChild = (child, y) => {
       const label = new PluginLabel({
         id: child.id,
-        parent: child,
-        predicate: zoomLevel => zoomLevel !== level.nearest
+        parent: child
       });
       label.getComponent('position').setPosition(0, y, 0);
 
