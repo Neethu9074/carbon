@@ -3,9 +3,10 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import IssueDescription from 'in-components/IssueDescription';
+import {getColorPool} from 'in-services/util/ColorGenerator';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
-import IssueDescription from 'in-components/IssueDescription';
 import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
 import Icon from 'in-components/Icon';
@@ -32,7 +33,6 @@ const PhysicalGroup = getSnapshot(React.createClass({
     snapshotId: rpt.string.isRequired,
     isActive: rpt.bool.isRequired,
     onClick: rpt.func.isRequired,
-    color: rpt.object.isRequired,
     snapshot: irpt.map
   },
 
@@ -49,7 +49,7 @@ const PhysicalGroup = getSnapshot(React.createClass({
       return null;
     }
 
-    const c = this.props.color;
+    const c = getColorPool('groups').getColorHex(this.props.snapshotId);
     const backgroundColor = this.props.isActive ?
       '#fff' :
       'rgb(' + ((c.r * 255) | 0) + ',' + ((c.g * 255) | 0) + ',' + ((c.b * 255) | 0) + ')';
@@ -110,7 +110,7 @@ const PhysicalGroup = getSnapshot(React.createClass({
 }));
 
 
-export default class StickyNoteNode extends StickyNote {
+export default class StickyNoteGroup extends StickyNote {
   constructor(parent) {
     super({parent, cssClass: block});
 
@@ -124,7 +124,6 @@ export default class StickyNoteNode extends StickyNote {
     React.render(
       <PhysicalGroup snapshotId={id}
                      isActive={this.isActive}
-                     color={parent.getColor()}
                      onClick={() => setSelectedSnapshotId(id)}
                      onMouseEnter={() => highlightedSnapshot.setHighlightedEntityId(id)}
                      onMouseLeave={() => highlightedSnapshot.clearHighlightedEntityId()}/>,

@@ -28,16 +28,15 @@ export default class ProcessConnection extends BaseConnection {
       id: this.id,
       contentProvider: new CLCP()
     };
+    // the default color must be set to get a working shader. It's black so you can
+    // see if there is a snapshot missing
+    this.fragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
   }
 
   updateGeometry() {
     const fragment = this.fragment;
 
     fragment.contentProvider.setLines(this.getLineVertices(this.sourceNode, this.destinationNode));
-
-    // the default color must be set to get a working shader. It's black so you can
-    // see if there is a snapshot missing
-    fragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
 
     this.scene.lineFactory.addFragment(fragment);
   }

@@ -83,6 +83,6 @@ export default class CylinderContentProvider extends ContentProvider {
   }
 
   getColors() {
-    return this.cachedColors;
+    return this.cachedColors.slice();
   }
 }
