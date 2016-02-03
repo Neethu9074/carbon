@@ -23,7 +23,7 @@ export default class FruchtermanReingoldLayout {
       edges: []
     };
 
-    map.nodes.forEach((node) => {
+    map.getAllNodes().forEach((node) => {
       const pos = node.getComponent('position').getPosition();
       const sigmaNode = {
         id: node.id,

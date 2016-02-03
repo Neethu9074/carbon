@@ -85,7 +85,16 @@ export default class ProcessMap extends BaseMap {
   }
 
   getAllNodes() {
-    return this.nodes;
+    const nodes = [];
+    this.nodes.forEach(child => this.getNodes(child, nodes));
+    return nodes;
+  }
+
+  getNodes(parent, nodes) {
+    nodes.push(parent);
+
+    const children = parent.nodes;
+    children.forEach(child => this.getNodes(child, nodes));
   }
 
   applyLayout() {
