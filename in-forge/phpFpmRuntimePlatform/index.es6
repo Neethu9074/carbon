@@ -8,7 +8,7 @@ import iconPath from './icon.svg';
 import * as constants from '../constants';
 
 pluginName.setHumanReadablePluginName(
-  constants.plugins.process,
+  constants.plugins.phpfpm,
   'PHP-FPM Runtime',
   'PHP-FPM Runtimes'
 );

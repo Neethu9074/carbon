@@ -1,7 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {kiloBytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ResponsiveTable from 'in-components/ResponsiveTable';
@@ -91,7 +91,7 @@ const MsIISDashboard = React.createClass({
                    }}
                    y2={{
                      min: 0,
-                     formatter: kiloBytesTwoDecimalPlaces,
+                     formatter: bytesTwoDecimalPlaces,
                      metrics: [
                        'siteperf.' + siteName + '.bytes_sent',
                        'siteperf.' + siteName + '.bytes_received'

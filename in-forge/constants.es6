@@ -21,6 +21,7 @@ export const plugins = {
   phpfpm: 'phpFpmRuntimePlatform',
   process: 'process',
   redis: 'redis',
+  springboot: 'springbootApplicationContainer',
   tomcat: 'tomcatApplicationContainer',
   msiis: 'msiis'
 };

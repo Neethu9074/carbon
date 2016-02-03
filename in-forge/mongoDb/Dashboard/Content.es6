@@ -26,6 +26,7 @@ const MongoDBDashboard = React.createClass({
 
     return (
       <div>
+        {dbs ?
         <DashboardSection title='Database Size'>
           <ChartWithLegend snapshot={snapshot}
                            windowSize={timeframe}
@@ -46,6 +47,7 @@ const MongoDBDashboard = React.createClass({
                              tooltipFormatter: formatBytes
                            }}/>
         </DashboardSection>
+        : null}
 
         <DashboardSection title='Document Counter'>
           <ChartWithLegend snapshot={snapshot}
