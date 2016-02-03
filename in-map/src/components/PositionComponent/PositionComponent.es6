@@ -40,8 +40,5 @@ export default class PositionComponent extends Component {
 
   dispose() {
     super.dispose();
-
-    this.position = null;
-    this.oldPosition = null;
   }
 }

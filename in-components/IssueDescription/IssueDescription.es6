@@ -66,8 +66,14 @@ export default connectTo(
   },
 
   getIconType(issue) {
-    const type = issue.getIn(['problem', 'severity']) > 8 ? 'critical' : 'warning';
-    return type;
+    const severity = issue.getIn(['problem', 'severity']);
+
+    if (severity < 0) {
+      return 'change';
+    } else if (severity > 8) {
+      return 'critical';
+    }
+    return 'warning';
   },
 
   onClick() {
