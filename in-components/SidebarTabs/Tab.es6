@@ -19,6 +19,8 @@ export default connectTo(
       snapshot: getFullSnapshot(props.coordinates)
     };
   }, React.createClass({
+  displayName: 'SidebarTab',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
