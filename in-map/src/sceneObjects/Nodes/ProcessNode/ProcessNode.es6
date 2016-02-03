@@ -202,6 +202,11 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
     this.label.dispose();
     this.label = null;
 
+    if (this.stickyNote) {
+      this.stickyNote.dispose();
+      this.stickyNote = null;
+    }
+
     this.nodes = null;
     this.children = null;
     this.isExpanded = null;
