@@ -60,6 +60,30 @@ export default class VisualMap extends SceneObject {
     this.onInventoryUpdated(inventory);
   }
 
+  onInventoryUpdated(inventory) {
+    const allNodes = this.getAllNodes();
+
+    // add connections later because all nodes need to be there
+    inventory.forEach(entity => {
+      const entityId = entity.get('id');
+      const matchedNode = _.find(allNodes, n => n.id === entityId);
+
+      if (matchedNode) {
+        matchedNode.setChildren(entity.get('children'));
+
+        const connectionsHandler = matchedNode.getComponent('connectionsHandler');
+        connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
+        connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
+      }
+    });
+
+    this.layoutNeedsUpdate();
+  }
+
+  layoutNeedsUpdate() {
+    this.refreshLayout = true;
+  }
+
   // is called from group if it has no nodes anymore
   removeChild(child) {
     _.remove(this.groups, group => group.id === child.id);

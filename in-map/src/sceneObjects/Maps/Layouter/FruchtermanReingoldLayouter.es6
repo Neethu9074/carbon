@@ -186,11 +186,7 @@ export default class FruchtermanReingoldLayout {
         return;
       }
 
-      node.inNode.getComponent('position').setPosition(
-        node.fr_x * 2,
-        0,
-        node.fr_y * 2
-      );
+      node.inNode.getComponent('position').setPosition(node.fr_x * 2, 0, node.fr_y * 2);
     });
   }
 

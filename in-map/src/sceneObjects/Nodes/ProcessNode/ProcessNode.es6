@@ -120,12 +120,31 @@ export default class ProcessNode extends SceneObjectWithSnapshot {
   }
 
   expand() {
-    this.children.forEach(node =>
-      this.nodes.push(new ProcessNode({
+    const nodeEntityMap = {};
+
+    this.children.forEach(node => {
+      const newNode = new ProcessNode({
         parent: this,
         entity: node
-      }))
-    );
+      });
+
+      this.nodes.push(newNode);
+      nodeEntityMap[newNode.id] = {
+        node: newNode,
+        entity: node
+      };
+    });
+
+    // first create all nodes after that the connections!
+    Object.keys(nodeEntityMap).forEach(nodeID => {
+      const entity = nodeEntityMap[nodeID].entity;
+      const node = nodeEntityMap[nodeID].node;
+
+      node.setChildren(entity.get('children'));
+      const connectionsHandler = node.getComponent('connectionsHandler');
+      connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
+      connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
+    });
 
     this.layoutNeedsUpdate();
   }

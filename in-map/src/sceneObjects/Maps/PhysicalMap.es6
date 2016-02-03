@@ -63,8 +63,9 @@ export default class PhysicalMap extends BaseMap {
   }
 
   onInventoryUpdated(inventory) {
+    super.onInventoryUpdated(inventory);
     this.removeVanishedHosts(inventory);
-    this.refreshLayout = true;
+    this.layoutNeedsUpdate();
   }
 
   getOrCreateGroup(groupEntity) {
