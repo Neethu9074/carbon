@@ -104,12 +104,14 @@ export default class Node extends SceneObjectWithSnapshot {
   onInactiveEnter() {
     super.onInactiveEnter();
 
+    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.getComponent('mesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onInactiveLeave() {
     super.onInactiveLeave();
 
+    this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.highlight(false);
   }
 
