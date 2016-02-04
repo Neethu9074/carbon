@@ -22,15 +22,11 @@ export default class LayerComponent extends Component {
   }
 
   onInitialEnter() {
-    this.layer.forEach(layer => layer.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON));
-    this.layerGroupLabel.forEach(label =>
-      label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON));
+    this.setActiveStateForLayer(true);
   }
 
   onInactiveEnter() {
-    this.layer.forEach(layer => layer.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
-    this.layerGroupLabel.forEach(label =>
-      label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF));
+    this.setActiveStateForLayer(false);
   }
 
 
@@ -46,6 +42,10 @@ export default class LayerComponent extends Component {
         this.needsUpdate = true;
       }
     });
+
+    if (!this.isActive()) {
+      this.setActiveStateForLayer(false);
+    }
   }
 
   removedVanishedLayer(presentLayer) {
@@ -216,6 +216,12 @@ export default class LayerComponent extends Component {
   getSortedLayer() {
     // reverse the sort order to get aligned with tooltip
     return this.layer.sort((a, b) => b.type.localeCompare(a.type));
+  }
+
+  setActiveStateForLayer(active) {
+    const isActive = active ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+    this.layer.forEach(layer => layer.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, isActive));
+    this.layerGroupLabel.forEach(label => label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, isActive));
   }
 
   // is called if a layer was disposed
