@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import Collapsible from 'in-components/Collapsible';
-import WiringList from 'in-components/WiringList';
+import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import SpringbootInfo from '../SpringbootInfo';
 
@@ -24,7 +24,7 @@ const SpringbootSidebar = React.createClass({
             <SpringbootInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <WiringList snapshot={snapshot} />
+        <RunningComponentsList snapshotId={snapshot.get('id')} />
       </div>
     );
   }
