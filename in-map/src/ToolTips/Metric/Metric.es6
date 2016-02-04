@@ -1,6 +1,6 @@
+import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {activeMetric} from 'in-services/stores/metrics';
 import TooltipFrame from 'in-components/Tooltips/Frame';
@@ -8,6 +8,8 @@ import {emptyList} from 'in-services/fixedImmutables';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import MetricValue from 'in-components/MetricValue';
+import {getFormattedValue} from 'in-sdk/metrics';
+import getSnapshot from 'in-hoc/getSnapshot';
 import {theme} from 'in-services/theme';
 
 import Tooltip from '../Tooltip';
@@ -17,7 +19,9 @@ import './Metric.less';
 
 const block = 'in-tooltip-metric';
 
-const MetricRC = React.createClass({
+const MetricTooltipReactClass = getSnapshot(React.createClass({
+
+  displayName: 'Metric Tooltip',
 
   mixins: [
     React.addons.PureRenderMixin,
@@ -25,7 +29,8 @@ const MetricRC = React.createClass({
   ],
 
   propTypes: {
-    snapshotId: React.PropTypes.string.isRequired
+    snapshotId: React.PropTypes.string.isRequired,
+    snapshot: irpt.map
   },
 
   getInitialState() {
@@ -41,12 +46,18 @@ const MetricRC = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+    if (!snapshot) {
+      return null;
+    }
+
     const metrics = this.state.metrics.reverse();
     const colors = theme.chart.strokeColors.slice(0, metrics.size).reverse();
     let colorIndex = 0;
 
     const listItems = metrics.map(metric => {
       const label = metric.get('label');
+      const name = metric.get('name');
 
       // rotate colors max colors are used
       const color = colors[colorIndex++];
@@ -63,9 +74,9 @@ const MetricRC = React.createClass({
             </Heading>
             <Content className={block + '__value'}>
               <MetricValue snapshotId={this.props.snapshotId}
-                           metric={metric.get('name')}
+                           metric={name}
                            initialValue={'?'}
-                           formatter={percentageZeroDecimalPlaces}/>
+                           formatter={getFormattedValue.bind(this, name, snapshot)}/>
             </Content>
           </div>
         </li>);
@@ -79,7 +90,7 @@ const MetricRC = React.createClass({
       </TooltipFrame>
     );
   }
-});
+}));
 
 
 export default class TooltipMetric extends Tooltip {
@@ -89,7 +100,7 @@ export default class TooltipMetric extends Tooltip {
 
   render() {
     React.render(
-      <MetricRC snapshotId={this.parent.id} />,
+      <MetricTooltipReactClass snapshotId={this.parent.id} />,
       this.stickyNoteContainer
     );
   }

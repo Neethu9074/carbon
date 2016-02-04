@@ -2,8 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
-import getSnapshot from 'in-hoc/getSnapshot';
 import {getSingular} from 'in-sdk/pluginName';
+import getSnapshot from 'in-hoc/getSnapshot';
 import {getIcon} from 'in-sdk/snapshot';
 
 import './Crumb.less';
