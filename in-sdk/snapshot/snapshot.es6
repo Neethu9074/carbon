@@ -1,6 +1,9 @@
 import * as constants from 'in-forge/constants';
 import {getIconById} from 'in-sdk/iconRegistry';
 
+
+const UNKNOWN_LABEL = 'Unknown';
+
 // {
 //   <pluginId: String>: [(snapshot) => <label: String>]
 // }
@@ -26,7 +29,7 @@ export function getLabel(snapshot, fallback) {
     if (fallback) {
       return fallback;
     }
-    return snapshot.get('id');
+    return UNKNOWN_LABEL;
   }
 
   for (let i = 0; i < finder.length; i++) {
@@ -39,7 +42,7 @@ export function getLabel(snapshot, fallback) {
   if (fallback) {
     return fallback;
   }
-  return snapshot.get('id');
+  return UNKNOWN_LABEL;
 }
 
 

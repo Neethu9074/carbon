@@ -40,8 +40,12 @@ button.icon {
  * \.icon-([^:]+):before { content: ([^;]+); }
  *
  * Replace:
- * @icon-$1: $2;ABC.icon-$1:before { content: @icon-$1; }
+ * @icon-$1: $2;ABC { content: @icon-$1; }
  */
+
+
+@icon-instana_change: "\e901";
+.icon-instana_change:before { content: @icon-instana_change; }
 
 @icon-popup_pop_up: "\e900";
 .icon-popup_pop_up:before { content: @icon-popup_pop_up; }
