@@ -6,7 +6,7 @@ const logger = createLogger('in-services.persistentConnection');
 let socket;
 
 export function init() {
-  socket = io(window.location.origin, {
+  window.instana.dev.socket = socket = io(window.location.origin, {
     path: '/api/dataNew'
   });
 
