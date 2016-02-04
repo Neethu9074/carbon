@@ -174,7 +174,7 @@ gulp.task('startDevProxy', function() {
 
     websocketProxy: {
       '/api/data': uiBackendUrl + '/data',
-      '/api/dataNew/': 'http://127.0.0.1:8082/'
+      '/api/dataNew/': 'http://127.0.0.1:8084/'
     }
   };
 
