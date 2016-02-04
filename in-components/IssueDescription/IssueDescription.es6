@@ -70,7 +70,7 @@ export default connectTo(
     const severity = issue.getIn(['problem', 'severity']);
 
     if (severity < 0) {
-      return 'change';
+      return 'instana_change';
     } else if (severity > 8) {
       return 'critical';
     }
