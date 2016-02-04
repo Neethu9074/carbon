@@ -3,6 +3,7 @@ import {expect} from 'chai';
 import Immutable from 'immutable';
 import proxyquire from 'proxyquire';
 
+const UNKNOWN_LABEL = 'Unknown';
 const steadyId = 's1';
 const pluginId = 'os';
 
@@ -35,7 +36,7 @@ describe('snapshot', () => {
     });
 
     it('should fall back to a steady id if all else fails', () => {
-      expect(mod.getLabel(snapshot)).to.equal(steadyId);
+      expect(mod.getLabel(snapshot)).to.equal(UNKNOWN_LABEL);
     });
   });
 

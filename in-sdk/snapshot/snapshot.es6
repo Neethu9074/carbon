@@ -1,5 +1,8 @@
-import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
+
+
+const UNKNOWN_LABEL = 'Unknown';
 
 // {
 //   <pluginId: String>: [(snapshot) => <label: String>]
@@ -26,7 +29,7 @@ export function getLabel(snapshot, fallback) {
     if (fallback) {
       return fallback;
     }
-    return snapshot.get('steadyId');
+    return UNKNOWN_LABEL;
   }
 
   for (let i = 0; i < finder.length; i++) {
@@ -39,7 +42,7 @@ export function getLabel(snapshot, fallback) {
   if (fallback) {
     return fallback;
   }
-  return snapshot.get('steadyId');
+  return UNKNOWN_LABEL;
 }
 
 

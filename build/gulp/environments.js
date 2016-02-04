@@ -85,6 +85,13 @@ module.exports = {
     tenantUnit: 'rewedigital',
     groundskeeperDomain: 'instana.io'
   },
+  rewesystems: {
+    uiBackendUrl: 'https://rewesystems.instana.io/api',
+    groundskeeperUrl: 'https://rewesystems.instana.io',
+    tenant: 'rewesystems',
+    tenantUnit: 'rewesystems',
+    groundskeeperDomain: 'instana.io'
+  },
   drivenow: {
     uiBackendUrl: 'https://drivenow.instana.io/api',
     groundskeeperUrl: 'https://drivenow.instana.io',
