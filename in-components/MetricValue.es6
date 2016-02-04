@@ -1,4 +1,3 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import {getLiveMetrics} from 'in-stores/metric';
@@ -10,11 +9,11 @@ export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    metric: rpt.string.isRequired,
-    formatter: rpt.func,
+    snapshotId: rpt.string.isRequired,
     createMetricValueStream: rpt.func,
-    initialValue: rpt.string
+    metric: rpt.string.isRequired,
+    initialValue: rpt.string,
+    formatter: rpt.func
   },
 
   componentDidMount() {
@@ -27,7 +26,7 @@ export default React.createClass({
     }
 
     return getLiveMetrics({
-      snapshotId: props.snapshot.get('id'),
+      snapshotId: props.snapshotId,
       metric: props.metric
     });
   },

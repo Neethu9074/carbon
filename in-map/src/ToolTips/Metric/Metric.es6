@@ -1,13 +1,21 @@
 import React from 'react/addons';
 
+import {percentageZeroDecimalPlaces} from 'in-services/formatters/number';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import MetricTooltip from 'in-components/Tooltips/Metric';
 import {activeMetric} from 'in-services/stores/metrics';
-import {getFormattedValue} from 'in-sdk/metrics';
+import TooltipFrame from 'in-components/Tooltips/Frame';
+import {emptyList} from 'in-services/fixedImmutables';
+import Heading from 'in-components/Tooltips/Heading';
+import Content from 'in-components/Tooltips/Content';
+import MetricValue from 'in-components/MetricValue';
+import {theme} from 'in-services/theme';
 
-import {subscribeToMetric} from '../../metricUtils';
 import Tooltip from '../Tooltip';
 
+import './Metric.less';
+
+
+const block = 'in-tooltip-metric';
 
 const MetricRC = React.createClass({
 
@@ -17,41 +25,58 @@ const MetricRC = React.createClass({
   ],
 
   propTypes: {
-    snapshotId: React.PropTypes.number.isRequired
+    snapshotId: React.PropTypes.string.isRequired
   },
 
   getInitialState() {
-    return {values: [], metrics: []};
+    return {
+      metrics: emptyList
+    };
   },
 
   componentDidMount() {
-    this.addSubscription(activeMetric.subscribe(metric => {
-      if (!metric) {
-        return;
-      }
-      const metrics = metric.get('metrics');
-      this.setState({metrics});
-
-      this.addSubscription(subscribeToMetric({
-        metrics,
-        id: this.props.snapshotId,
-        fn: values => this.setState({values: values.slice()})
-      }));
-    }));
+    this.addSubscription(activeMetric.subscribe(metric =>
+      this.setState({ metrics: metric.get('metrics') })
+    ));
   },
 
   render() {
-    const metrics = this.state.metrics.slice().reverse();
-    const values = this.state.values
-    .slice()
-    .reverse()
-    .map((value, index) => {
-      const metricName = metrics.getIn([index, 'name']);
-      return getFormattedValue(metricName, this.props.snapshotId, value[1]);
+    const metrics = this.state.metrics.reverse();
+    const colors = theme.chart.strokeColors.slice(0, metrics.size).reverse();
+    let colorIndex = 0;
+
+    const listItems = metrics.map(metric => {
+      const label = metric.get('label');
+
+      // rotate colors max colors are used
+      const color = colors[colorIndex++];
+      if (colorIndex >= colors.length) {
+        colorIndex = 0;
+      }
+
+      return (
+        <li key={label} className={block + '__li'}>
+          <div className={block + '__item'}>
+            <Heading className={block + '__name'}
+                     style={{color}}>
+              {label}
+            </Heading>
+            <Content className={block + '__value'}>
+              <MetricValue snapshotId={this.props.snapshotId}
+                           metric={metric.get('name')}
+                           initialValue={'?'}
+                           formatter={percentageZeroDecimalPlaces}/>
+            </Content>
+          </div>
+        </li>);
     });
 
     return (
-      <MetricTooltip metrics={metrics} values={values}/>
+      <TooltipFrame>
+        <ul className={block + '__ul'}>
+          {listItems}
+        </ul>
+      </TooltipFrame>
     );
   }
 });

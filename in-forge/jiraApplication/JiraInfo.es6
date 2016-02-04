@@ -15,6 +15,7 @@ const JiraInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
+    const snapshotId = this.props.snapshot.get('id');
 
     return (
       <DescriptionList>
@@ -23,15 +24,15 @@ const JiraInfo = React.createClass({
         </DescriptionItem>
         <DescriptionItem title='Issues'>
           <MetricValue metric={'instruments.entity.issues.total'}
-               snapshot={this.props.snapshot} />
+                       snapshotId={snapshotId} />
         </DescriptionItem>
         <DescriptionItem title='Workflows'>
           <MetricValue metric={'instruments.entity.workflows.total'}
-               snapshot={this.props.snapshot} />
+                       snapshotId={snapshotId} />
         </DescriptionItem>
         <DescriptionItem title='Custom Fields'>
           <MetricValue metric={'instruments.entity.customfields.total'}
-               snapshot={this.props.snapshot} />
+                       snapshotId={snapshotId} />
         </DescriptionItem>
       </DescriptionList>
     );

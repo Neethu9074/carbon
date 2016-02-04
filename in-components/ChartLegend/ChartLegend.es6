@@ -1,8 +1,8 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {theme} from 'in-services/theme';
 import MetricValue from 'in-components/MetricValue';
+import {theme} from 'in-services/theme';
 
 import './ChartLegend.less';
 
@@ -45,7 +45,7 @@ const ChartLegend = React.createClass({
               {axis.labels[i]}
             </dt>
             <dt className={block + '__metric-value'}>
-              <MetricValue snapshot={this.props.snapshot}
+              <MetricValue snapshotId={this.props.snapshot.get('id')}
                            metric={metric}
                            formatter={axis.formatter}
                            initialValue='?' />

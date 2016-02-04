@@ -1,5 +1,7 @@
 import THREE from 'three';
 
+import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
 import SCCP from '../../SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
@@ -36,6 +38,11 @@ export default class MetricComponent extends Component {
     });
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
+    this.highlightingSubscription = highlightedSnapshot.highlightedEntityId.subscribe(highlightedId => {
+      const isThisHighlighted = highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+      this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, isThisHighlighted);
+    });
+
     this.initialized();
   }
 
@@ -45,18 +52,16 @@ export default class MetricComponent extends Component {
 
   onInitialEnter() {
     this.addToFactory();
-
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+  }
+
+  onHighlightEnter() {
+    currentTooltip.emit(this.tooltip);
   }
 
   onInactiveEnter() {
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-
     this.removeFromFactory();
-  }
-
-  addCollisionObject(obj, layer) {
-    this.sceneObject.addCollisionObject(obj, layer);
   }
 
 
@@ -74,10 +79,6 @@ export default class MetricComponent extends Component {
       id: this.id,
       contentProvider: this.contentProvider
     };
-  }
-
-  onHighlight() {
-    currentTooltip.emit(this.tooltip);
   }
 
   setValues(values) {
@@ -148,7 +149,9 @@ export default class MetricComponent extends Component {
     this.removeFromFactory();
 
     this.positionToSet.dispose();
+    this.highlightingSubscription.dispose();
 
+    this.highlightingSubscription = null;
     this.factoryFragment = null;
     this.contentProvider = null;
     this.positionToSet = null;
