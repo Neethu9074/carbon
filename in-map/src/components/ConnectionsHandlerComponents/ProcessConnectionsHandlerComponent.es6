@@ -29,8 +29,8 @@ export default class ProcessConnectionsHandlerComponent extends ConnectionsHandl
     connections.forEach(connection => {
       this.bubbles.push(new Bubble({
         scene: this.sceneObject.scene,
-        from: connection.direction === DIRECTIONS.IN ? connection.sourceNode : connection.destinationNode,
-        to: connection.direction === DIRECTIONS.IN ? connection.destinationNode : connection.sourceNode
+        from: connection.direction === DIRECTIONS.OUT ? connection.sourceNode : connection.destinationNode,
+        to: connection.direction === DIRECTIONS.OUT ? connection.destinationNode : connection.sourceNode
       }));
     });
   }
