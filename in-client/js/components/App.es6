@@ -6,20 +6,19 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as viewStructureStore from 'in-services/stores/view';
+import {config, isDemoEnvironment} from 'in-services/config';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
-import {config, isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
+import connectTo from 'in-components/hoc/connectTo';
 import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
-import connectTo from 'in-components/hoc/connectTo';
 import Filterbar from 'in-components/Filterbar';
 import Map from 'in-map';
 
 import NavigationAdapter from './NavigationAdapter';
 import ConnectionStatus from './ConnectionStatus';
-import FeedbackBadge from './FeedbackBadge';
 import HelpDialog from './HelpDialog';
 import DemoDialog from './DemoDialog';
 import Settings from './Settings';
@@ -106,7 +105,6 @@ export default helpify(connectTo(
           <Map />
           <Filterbar />
           <SidebarMap />
-          <FeedbackBadge />
         </section>
 
         <Timeline />
