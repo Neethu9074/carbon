@@ -37,10 +37,6 @@ export default class ConnectionsHandlerComponent extends Component {
 
   setOutgoingConnections(outgoingConnections) {
     this.outgoingConnections = outgoingConnections;
-
-    if (outgoingConnections.size > 0) {
-      this.needsUpdate = true;
-    }
   }
 
   getOutgoingConnections() {
@@ -49,14 +45,17 @@ export default class ConnectionsHandlerComponent extends Component {
 
   setIncomingConnections(incomingConnections) {
     this.incomingConnections = incomingConnections;
-
-    if (incomingConnections.size > 0) {
-      this.needsUpdate = true;
-    }
   }
 
   getIncomingConnections() {
     return this.incomingConnections;
+  }
+
+  checkForUpdate() {
+    if (this.incomingConnections.size > 0 ||
+        this.outgoingConnections.size > 0) {
+      this.needsUpdate = true;
+    }
   }
 
   update() {
@@ -94,8 +93,8 @@ export default class ConnectionsHandlerComponent extends Component {
       this.connections.push(connection);
     });
 
-    addConnections(this.incomingConnections, DIRECTIONS.IN);
     addConnections(this.outgoingConnections, DIRECTIONS.OUT);
+    addConnections(this.incomingConnections, DIRECTIONS.IN);
 
     this.needsUpdate = false;
   }

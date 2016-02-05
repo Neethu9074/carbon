@@ -61,6 +61,10 @@ export default class ProcessMap extends BaseMap {
   }
 
   applyLayout() {
+    // refresh all connections before layouting!
+    //
+    this.getAllNodes().forEach(node => node.getComponent('connectionsHandler').checkForUpdate());
+
     const layouter = new Layouter();
     layouter.applyLayout(this);
   }
