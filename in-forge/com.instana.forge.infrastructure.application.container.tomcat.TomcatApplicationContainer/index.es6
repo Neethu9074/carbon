@@ -16,7 +16,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.tomcat,
-  snapshot => snapshot.getIn(['data', 'version'])
+  snapshot => 'Tomcat ' + snapshot.getIn(['data', 'version'])
 );
 
 addIconFinder(
