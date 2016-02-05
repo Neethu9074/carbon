@@ -7,21 +7,21 @@ import {on, off} from 'in-services/persistentConnection';
 
 export default createObservableIfMissing.bind(null, {
   getId,
-  createObservable: createZoneObservable
+  createObservable: createHealthStatusObservable
 });
 
 function getId(snapshotId) {
   return snapshotId;
 }
 
-function createZoneObservable(snapshotId) {
+function createHealthStatusObservable(snapshotId) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-zone', {
+      subscribe(subscriptionId, 'subscribe-health-status', {
         'subscriptionId': subscriptionId,
         'snapshotId': snapshotId
       });
@@ -35,7 +35,7 @@ function createZoneObservable(snapshotId) {
 
   return observable;
 
-  function onData(zoneId) {
-    observable.emit(zoneId);
+  function onData(healthStatus) {
+    observable.emit(healthStatus);
   }
 }
