@@ -1,5 +1,6 @@
-import Immutable from 'immutable';
 import _ from 'lodash';
+
+import {emptyList} from 'in-services/fixedImmutables';
 
 import {DIRECTIONS} from '../../SceneObjects/Connections/ConnectionDirections';
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
@@ -10,8 +11,8 @@ export default class ConnectionsHandlerComponent extends Component {
   constructor({sceneObject, id}) {
     super(sceneObject, id);
 
-    this.outgoingConnections = Immutable.List();
-    this.incomingConnections = Immutable.List();
+    this.outgoingConnections = emptyList;
+    this.incomingConnections = emptyList;
 
     // this array holds all physical connections, created on update
     this.connections = [];
