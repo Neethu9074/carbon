@@ -1,6 +1,8 @@
 import THREE from 'three';
 
 
+const defaultBubbleMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+
 export default class Bubble {
 
   constructor({scene, from, to}) {
@@ -10,7 +12,7 @@ export default class Bubble {
 
     const fromPos = from.getComponent('position').getPosition();
 
-    this.bubble = new THREE.Mesh(new THREE.SphereGeometry(0.2, 10, 10));
+    this.bubble = new THREE.Mesh(new THREE.SphereGeometry(0.2, 10, 10), defaultBubbleMaterial);
     this.bubble.position.set(fromPos.x - 0.5, fromPos.y, fromPos.z + 0.5);
     this.scene.addSceneObject(this.bubble);
   }
