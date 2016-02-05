@@ -25,8 +25,8 @@ sorting.addMapping(
   (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
 );
 
-function getLabel(snapshot) {
-  return snapshot.get('steadyId');
+function getLabel() {
+  return 'Nginx';
 }
 
 addIconToRegistry({

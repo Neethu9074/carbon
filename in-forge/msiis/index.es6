@@ -14,7 +14,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.msiis,
-  () => 'MSIIS'
+  snapshot => 'IIS ' + snapshot.getIn(['data', 'iis.version'])
 );
 
 power.addMapping(
