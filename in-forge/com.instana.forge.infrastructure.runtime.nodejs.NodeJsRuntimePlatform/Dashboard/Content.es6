@@ -4,6 +4,9 @@ import React from 'react/addons';
 import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import ResponsiveTable from 'in-components/ResponsiveTable';
+import classnames from 'in-services/util/classnames';
+import Mtd from 'in-components/Mtd';
 
 const chartHeight = 150;
 const rpt = React.PropTypes;
@@ -17,9 +20,17 @@ const NodejsDashboard = React.createClass({
     snapshot: irpt.map.isRequired
   },
 
+  getInitialState() {
+    return {
+      selectedHeapSpace: null
+    };
+  },
+
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
+
+    const heapSpaces = snapshot.getIn(['data', 'heapSpaces']);
 
     return (
       <div>
@@ -84,6 +95,74 @@ const NodejsDashboard = React.createClass({
                              type: 'stackedArea'
                            }}/>
         </DashboardSection>
+
+        {heapSpaces && heapSpaces.size > 0 ?
+          <DashboardSection title='Heap Spaces'>
+            {this.state.selectedHeapSpace ?
+              <ChartWithLegend snapshot={snapshot}
+                               windowSize={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 90
+                               }}
+
+                               y1={{
+                                 min: 0,
+                                 formatter: numberFormatters.bytesZeroDecimalPlaces,
+                                 tooltipFormatter: numberFormatters.bytesTwoDecimalPlaces,
+                                 metrics: [
+                                   'heapSpaces.' + this.state.selectedHeapSpace + '.available',
+                                   'heapSpaces.' + this.state.selectedHeapSpace + '.current',
+                                   'heapSpaces.' + this.state.selectedHeapSpace + '.used',
+                                   'heapSpaces.' + this.state.selectedHeapSpace + '.physical'
+                                 ],
+                                 labels: [
+                                   'Available',
+                                   'Current',
+                                   'Used',
+                                   'Physical'
+                                 ],
+                                 type: 'line'
+              }}/>
+            : null}
+
+            <ResponsiveTable clickable={true}>
+              <thead>
+                <tr>
+                  <th>Heap Space</th>
+                  <th>Available</th>
+                  <th>Current</th>
+                  <th>Used</th>
+                  <th>Physical</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {heapSpaces.toArray().map(heapSpace =>
+                  <tr key={heapSpace}
+                      onClick={() => this.setState({selectedHeapSpace: heapSpace})}
+                      className={classnames({
+                        'active': heapSpace === this.state.selectedHeapSpace
+                      })}>
+                    <td>{heapSpace}</td>
+                    <Mtd metric={'heapSpaces.' + heapSpace + '.available'}
+                         snapshot={snapshot}
+                         formatter={numberFormatters.bytesTwoDecimalPlaces} />
+                    <Mtd metric={'heapSpaces.' + heapSpace + '.current'}
+                         snapshot={snapshot}
+                         formatter={numberFormatters.bytesTwoDecimalPlaces} />
+                    <Mtd metric={'heapSpaces.' + heapSpace + '.used'}
+                         snapshot={snapshot}
+                         formatter={numberFormatters.bytesTwoDecimalPlaces} />
+                    <Mtd metric={'heapSpaces.' + heapSpace + '.physical'}
+                         snapshot={snapshot}
+                         formatter={numberFormatters.bytesTwoDecimalPlaces} />
+                  </tr>
+                )}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+        : null}
 
         <DashboardSection title='Event Loop'>
           <ChartWithLegend snapshot={snapshot}
