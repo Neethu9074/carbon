@@ -51,7 +51,7 @@ router.get('/', (req, res) => {
   askUiBackendWhetherTheRequestIsAuthorized(req, (err, status) => {
     if (err) {
       console.error(err);
-      res.sendStatus(500).send('Sorry, our internal communication failed :(.');
+      res.status(500).send('Sorry, our internal communication failed :(.');
       return;
     }
 
@@ -64,11 +64,11 @@ router.get('/', (req, res) => {
       );
       return;
     } else if (status === 403) {
-      res.sendStatus(403).send('Access denied!');
+      res.status(403).send('Access denied!');
       return;
     } else if (status < 200 || status > 299) {
       console.error('Undefined state: Server returned unknown status code ' + status);
-      res.sendStatus(500);
+      res.status(500).send('Sorry, we received something that we do not understand. This is a failure on our side and we are sorry for that :(.');
       return;
     }
 
