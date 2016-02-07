@@ -50,7 +50,7 @@ router.use(express.static(assetDir));
 router.get('/', (req, res) => {
   askUiBackendWhetherTheRequestIsAuthorized(req, (err, status) => {
     if (err) {
-      console.error(err);
+      console.error('Failed to communicate with the UI-backend:', err);
       res.status(500).send('Sorry, our internal communication failed :(.');
       return;
     }
