@@ -92,7 +92,7 @@ http {
       auth_basic_user_file   .htpasswd;
       proxy_pass             http://{{ZIPKIN_WEB_PORT_8789_TCP_ADDR}}:{{ZIPKIN_WEB_PORT_8789_TCP_PORT}}/;
       proxy_set_header       Host $host;
-      rewrite                /(.*) /zipkin/$1 break;
+      rewrite                ^/ /zipkin/ break;
     }
 
     location /nginx_status {
