@@ -12,4 +12,4 @@ ln -s ../in-test node_modules/in-test
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"
-proxrox install
+nice -19 proxrox install
