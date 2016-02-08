@@ -93,6 +93,12 @@ http {
       proxy_pass             http://{{ZIPKIN_WEB_PORT_8789_TCP_ADDR}}:{{ZIPKIN_WEB_PORT_8789_TCP_PORT}}/;
     }
 
+    location /app/ {
+      auth_basic             "Restricted";
+      auth_basic_user_file   .htpasswd;
+      proxy_pass             http://{{ZIPKIN_WEB_PORT_8789_TCP_ADDR}}:{{ZIPKIN_WEB_PORT_8789_TCP_PORT}}/app/;
+    }
+
     location /nginx_status {
       stub_status on;
       access_log   off;
