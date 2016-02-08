@@ -95,8 +95,6 @@ http {
       auth_basic             "Restricted";
       auth_basic_user_file   .htpasswd;
 
-      rewrite /zipkin/(.*) /$1 break;
-
       proxy_pass             http://zipkin;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
