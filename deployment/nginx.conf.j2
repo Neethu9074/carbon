@@ -39,6 +39,10 @@ http {
     server                   {{UI_TRACKER_PORT_8484_TCP_ADDR}}:{{UI_TRACKER_PORT_8484_TCP_PORT}};
   }
 
+  upstream zipkin {
+    server                   {{ZIPKIN_WEB_PORT_8789_TCP_ADDR}}:{{ZIPKIN_WEB_PORT_8789_TCP_PORT}};
+  }
+
   server {
     listen                   80;
     return                   301 https://$host$request_uri;
@@ -81,6 +85,15 @@ http {
       auth_basic_user_file   .htpasswd;
 
       proxy_pass             http://localNodeInstance;
+      proxy_set_header       X-Real-IP $remote_addr;
+      proxy_set_header       Host $host;
+      proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+    location /zipkin {
+      auth_basic             "Restricted";
+      auth_basic_user_file   .htpasswd;
+
+      proxy_pass             http://zipkin;
       proxy_set_header       X-Real-IP $remote_addr;
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
