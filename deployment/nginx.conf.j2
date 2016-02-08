@@ -89,6 +89,8 @@ http {
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
+    {% endif %}
+
     location /zipkin {
       auth_basic             "Restricted";
       auth_basic_user_file   .htpasswd;
@@ -98,7 +100,6 @@ http {
       proxy_set_header       Host $host;
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
-    {% endif %}
 
     location /nginx_status {
       stub_status on;
