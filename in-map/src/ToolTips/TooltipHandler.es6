@@ -1,9 +1,9 @@
-import * as stores from './stores';
+import {currentTooltip} from '../stores';
 
 export default class TooltipHandler {
 
   constructor() {
-    this.sub = stores.currentTooltip.subscribe(tooltip => {
+    this.sub = currentTooltip.subscribe(tooltip => {
       if (this.tooltip === tooltip) {
         return;
       }
