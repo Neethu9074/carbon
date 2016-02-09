@@ -153,11 +153,6 @@ export default class Group extends SceneObjectWithSnapshot {
     connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
     connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
 
-    console.log(
-      'out', entity.get('outgoingConnections').size,
-      'in', entity.get('incomingConnections').size
-    );
-
     return matchedNode;
   }
 
