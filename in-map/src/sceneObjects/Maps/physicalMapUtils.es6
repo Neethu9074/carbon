@@ -1,4 +1,4 @@
-import Group from './SceneObjects/Groups/PhysicalGroup';
+import Group from '../Groups/PhysicalGroup';
 
 export function getAllNodes(parent) {
   const nodes = [];

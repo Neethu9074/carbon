@@ -1,5 +1,5 @@
+import {getAllNodes, getAllGroups} from './SceneObjects/Maps/physicalMapUtils';
 import {lowState, midState, maxState} from './AdaptiveDetailHandler';
-import {getAllNodes, getAllGroups} from './mapStructureUtils';
 import * as time from './timeCalculations';
 
 let minFPS = 1000;

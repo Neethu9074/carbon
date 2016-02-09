@@ -6,7 +6,7 @@ import theme from 'in-services/theme';
 
 import CameraController from '../../controls/PhysicalCameraController';
 import GroundPlaneWithGrid from '../GroundPlanes/GroundPlaneWithGrid';
-import {getAllNodes, getAllGroups} from '../../mapStructureUtils';
+import {getAllNodes, getAllGroups} from './physicalMapUtils';
 import Layouter from './Layouter/GroupLayouter';
 import Group from '../Groups/PhysicalGroup';
 import BaseMap from './BaseMap';
