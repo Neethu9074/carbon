@@ -5,7 +5,7 @@ import {activeMetric} from 'in-services/stores/metrics';
 import {getMaxValue} from 'in-sdk/metrics';
 
 import {subscribeToMetric} from '../../../metricUtils';
-import {nodeMaxPower} from '../../../mapStores';
+import {nodeMaxPower} from '../../../stores';
 
 
 export default class NodeSnapshotServer {

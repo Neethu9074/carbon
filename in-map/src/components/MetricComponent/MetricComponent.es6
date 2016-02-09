@@ -9,7 +9,7 @@ import {cubeGeometry, defaultGeometryMaterial} from '../../SceneObjects/geometri
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import CollisionComponent from '../../components/CollisionObjectComponent';
 import TooltipMetric from '../../Tooltips/Metric';
-import {currentTooltip} from '../../mapStores';
+import {currentTooltip} from '../../stores';
 import Component from '../Component';
 import XYZ from '../XYZ';
 

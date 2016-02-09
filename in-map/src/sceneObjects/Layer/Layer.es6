@@ -12,7 +12,7 @@ import HealthComponent from '../../components/HealthComponent';
 import MeshComponent from '../../components/MeshComponent';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import {longClickedSceneObject, currentTooltip} from '../../mapStores';
+import {longClickedSceneObject, currentTooltip} from '../../stores';
 import {cubeGeometry, defaultGeometryMaterial} from '../geometries';
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 import TooltipLayer from '../../Tooltips/Layer';

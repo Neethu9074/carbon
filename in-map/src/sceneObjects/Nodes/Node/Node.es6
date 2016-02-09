@@ -20,10 +20,10 @@ import MeshComponent from '../../../components/MeshComponent';
 import {PROPERTIES, PROPERTY_VALUES} from '../../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../../geometries';
 import SceneObjectWithSnapshot from '../../SceneObjectWithSnapshot';
-import {longClickedSceneObject} from '../../../mapStores';
+import {longClickedSceneObject} from '../../../stores';
 import NodeSnapshotServer from './NodeSnapshotServer';
 import ConnectionGrid from '../../../ConnectionGrid';
-import {currentTooltip} from '../../../mapStores';
+import {currentTooltip} from '../../../stores';
 import PluginLabel from '../../Label/PluginLabel';
 import TooltipNode from '../../../Tooltips/Node';
 

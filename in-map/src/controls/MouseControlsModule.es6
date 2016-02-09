@@ -3,7 +3,7 @@ import * as ro from 'reactive-observables';
 import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
-import {cursorPosition} from '../mapStores';
+import {cursorPosition} from '../stores';
 import BaseModule from './BaseModule';
 
 

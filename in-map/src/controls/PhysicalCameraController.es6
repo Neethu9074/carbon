@@ -3,7 +3,7 @@ import THREE from 'three';
 import BaseCameraController from './BaseCameraController';
 import MouseControlsModule from './MouseControlsModule';
 import TouchControlsModule from './TouchControlsModule';
-import {longClickedSceneObject} from '../mapStores';
+import {longClickedSceneObject} from '../stores';
 import RaycasterModule from './RaycasterModule';
 import * as time from '../timeCalculations';
 import {setupStates} from './States/index';

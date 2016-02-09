@@ -1,4 +1,4 @@
-import * as stores from './mapStores';
+import * as stores from './stores';
 
 export default class TooltipHandler {
 

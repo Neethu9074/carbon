@@ -6,7 +6,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import SceneObject from '../../SceneObjects';
-import {currentScene} from '../../mapStores';
+import {currentScene} from '../../stores';
 
 class SceneObjectWithSnapshotMock extends SceneObject {
   constructor({parent, id}) {

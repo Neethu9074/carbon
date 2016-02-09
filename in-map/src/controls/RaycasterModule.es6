@@ -5,7 +5,7 @@ import * as tooltipStore from 'in-services/stores/tooltip';
 
 import {allConnections} from '../SceneObjects/Connections/BaseConnection';
 import ConnectionTooltip from '../Tooltips/Connection';
-import {currentTooltip} from '../mapStores';
+import {currentTooltip} from '../stores';
 import BaseModule from './BaseModule';
 
 const emptyArray = [];

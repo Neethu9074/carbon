@@ -4,7 +4,7 @@ import {PROPERTIES, PROPERTY_VALUES} from '../StateMachine/StateMachine';
 import PositionComponent from '../components/PositionComponent';
 import {StateMachine} from '../StateMachine/StateMachine';
 
-import {currentScene} from '../mapStores';
+import {currentScene} from '../stores';
 
 export default class SceneObject {
 

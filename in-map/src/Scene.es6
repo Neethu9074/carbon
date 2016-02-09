@@ -24,7 +24,7 @@ import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import TooltipHandler from './TooltipHandler';
 import * as time from './timeCalculations';
-import * as stores from './mapStores';
+import * as stores from './stores';
 
 
 const maxNodeOpacity = 0.6;
