@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
+import {highlightedEntityId} from 'in-services/stores/highlightedSnapshot';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/converters';
 
@@ -210,6 +211,11 @@ export default class Scene {
 
     this.subscriptions.push(eventBus.on('onViewWillSwitch').subscribe(() => activeMetric.emit(null)));
     this.subscriptions.push(time.addTimeEventListener(this.updateFactories.bind(this)));
+
+    // if something is highlighted, change cursor to pointer
+    this.subscriptions.push(highlightedEntityId.subscribe(highlightedId =>
+      this.parent.style.cursor = highlightedId ? 'pointer' : ''
+    ));
 
     if (__DEV__) {
       setInterval(() => mapStatisticsStore.emit(getMapStatistics(this)), 1000);
