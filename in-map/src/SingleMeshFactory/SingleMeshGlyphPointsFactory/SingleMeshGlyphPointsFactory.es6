@@ -5,15 +5,11 @@ import {glyphTexture, config} from './pluginIconsGlyphTexture';
 import ASingleMeshFactory from '../ASingleMeshFactory';
 import fragmentShader from './pointFragmentShader.glsl';
 import vertexShader from './pointVertexShader.glsl';
-import {aspectRatio} from '../../mapStores';
 
 
 export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
   constructor({id, scene, renderOrder = 10, snapshot}) {
     super({scene, renderOrder, params: {id, snapshot}});
-
-    this.aspectRationSubscription = aspectRatio.subscribe(aspect =>
-      this.material.uniforms.aspect.value = 1.25 / aspect);
   }
 
   getMesh() {
@@ -68,8 +64,6 @@ export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
   }
 
   dispose() {
-    this.aspectRationSubscription.dispose();
-
     super.dispose();
   }
 }

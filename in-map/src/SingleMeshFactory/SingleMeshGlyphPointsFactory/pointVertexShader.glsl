@@ -18,7 +18,8 @@ void main() {
   vUv = uv;
   vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
 
-  float pointSize = pointSize * aspect * ( 1500.0 / length( mvPosition.xyz ) );
+  float pointSize = pointSize * ( 1500.0 / length( mvPosition.xyz ) );
+
   if (pointSize < 20.0) {
     pointSize = 0.0;
   }
