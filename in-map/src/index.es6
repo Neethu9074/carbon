@@ -1,7 +1,7 @@
 import React from 'react/addons';
 
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import * as navigation from 'in-stores/navigation';
 import helpify from 'in-components/hoc/helpify';
 import enhance from 'in-components/hoc/enhance';
@@ -12,10 +12,13 @@ import Scene from './Scene';
 
 import './index.less';
 
+
 const rpt = React.PropTypes;
 const block = 'in-map';
 
-const MapRC = React.createClass({
+export default helpify(enhance(React.createClass({
+
+  displayName: 'map',
 
   mixins: [
     React.addons.PureRenderMixin,
@@ -137,6 +140,4 @@ const MapRC = React.createClass({
     }
     return context;
   }
-});
-
-export default helpify(enhance(MapRC));
+})));
