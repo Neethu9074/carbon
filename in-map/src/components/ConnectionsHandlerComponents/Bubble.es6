@@ -5,16 +5,18 @@ import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
 
 
-const white = {r: 1, g: 1, b: 1};
+const BUBBLE_SIZE = 0.1;
+const WHITE_COLOR = {r: 1, g: 1, b: 1};
 
 export default class Bubble {
 
   constructor({scene, from, to}) {
-    this.from = from;
     this.to = to;
+    this.from = from;
     this.scene = scene;
 
-    this.fromColor = this.toColor = white;
+    // the default color if on of the snapshots can't be found
+    this.fromColor = this.toColor = WHITE_COLOR;
 
     // subscribe to both snapshots to caluclate the color gradient between source and destination
     this.snapshotSubscriptions = combineLatest([getSnapshot(this.from.id), getSnapshot(this.to.id)])
@@ -23,8 +25,8 @@ export default class Bubble {
     const fromPos = from.getComponent('position').getPosition();
 
     this.bubble = new THREE.Mesh(
-      new THREE.SphereGeometry(0.2, 10, 10),
-      new THREE.MeshBasicMaterial({ color: 0xffffff }));
+      new THREE.SphereGeometry(BUBBLE_SIZE, 10, 10),
+      new THREE.MeshBasicMaterial());
     this.bubble.position.set(fromPos.x - 0.5, fromPos.y, fromPos.z + 0.5);
     this.scene.addSceneObject(this.bubble);
   }

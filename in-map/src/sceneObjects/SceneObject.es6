@@ -6,6 +6,7 @@ import {StateMachine} from '../StateMachine/StateMachine';
 
 import {currentScene} from '../stores';
 
+
 export default class SceneObject {
 
   constructor({parent, id}) {

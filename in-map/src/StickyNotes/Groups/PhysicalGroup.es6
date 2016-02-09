@@ -16,6 +16,7 @@ import StickyNote from '../StickyNote';
 
 import './PhysicalGroup.less';
 
+
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-group';
 

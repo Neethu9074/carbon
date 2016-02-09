@@ -1,4 +1,5 @@
-const emptyArray = [];
+import {emptyArray} from 'in-services/fixedObjects';
+
 
 export default class BaseSubscriber {
 

@@ -1,14 +1,14 @@
 import THREE from 'three';
 
 import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import {emptyArray} from 'in-services/stores/highlightedSnapshot';
 import * as tooltipStore from 'in-services/stores/tooltip';
 
-import {allConnections} from '../SceneObjects/Connections/BaseConnection';
+import {ALL_CONNECTIONS} from '../SceneObjects/Connections/BaseConnection';
 import ConnectionTooltip from '../Tooltips/Connection';
 import {currentTooltip} from '../stores';
 import BaseModule from './BaseModule';
 
-const emptyArray = [];
 
 export default class RaycasterModule extends BaseModule {
 
@@ -104,7 +104,7 @@ export default class RaycasterModule extends BaseModule {
     const hittenObject = this.hittenObject = scene.findObjectByRay(this.raycaster);
     const hoveredConnections = hittenObject ?
       emptyArray : // dont calculate if another object than a connection was hitten
-      allConnections.filter(connection => connection.intersects(this.raycaster));
+      ALL_CONNECTIONS.filter(connection => connection.intersects(this.raycaster));
 
     return {
       hittenObject,

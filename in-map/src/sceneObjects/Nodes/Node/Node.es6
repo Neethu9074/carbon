@@ -35,14 +35,14 @@ import FCP from '../../../SingleMeshFactory/ContentProvider/FrameContentProvider
 import CCP from '../../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 
-const nodeBaseHeight = 1;
+const NODE_BASE_HEIGHT = 1;
 
 export default class Node extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.height = nodeBaseHeight;
+    this.height = NODE_BASE_HEIGHT;
     this.isOutOfView = false;
     this.isToFarAway = false;
     this._cachedPower = 1;
@@ -285,8 +285,8 @@ export default class Node extends SceneObjectWithSnapshot {
   updateHeight(maxPower) {
     const maxNodeHeight = 3;
     this._cachedPower = getPower(this.snapshot);
-    const weightedHeight = (maxNodeHeight - nodeBaseHeight) * (this._cachedPower / maxPower);
-    this.setHeight(nodeBaseHeight + weightedHeight);
+    const weightedHeight = (maxNodeHeight - NODE_BASE_HEIGHT) * (this._cachedPower / maxPower);
+    this.setHeight(NODE_BASE_HEIGHT + weightedHeight);
   }
 
   getScreenAnchorPosition() {

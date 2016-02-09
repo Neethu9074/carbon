@@ -23,7 +23,7 @@ import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/Scal
 import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 
-const margin = 0.8;
+const MARGIN = 0.8;
 
 export default class Layer extends SceneObjectWithSnapshot {
 
@@ -173,10 +173,10 @@ export default class Layer extends SceneObjectWithSnapshot {
 
   setHeight(height) {
     this.height = height;
-    this.getComponent('mesh').sizeChanged(margin, height, margin);
-    this.getComponent('solidMesh').sizeChanged(margin, height, margin);
-    this.getComponent('collision').sizeChanged(margin, height, margin);
-    this.getComponent('highlighting').sizeChanged(margin, height, margin);
+    this.getComponent('mesh').sizeChanged(MARGIN, height, MARGIN);
+    this.getComponent('solidMesh').sizeChanged(MARGIN, height, MARGIN);
+    this.getComponent('collision').sizeChanged(MARGIN, height, MARGIN);
+    this.getComponent('highlighting').sizeChanged(MARGIN, height, MARGIN);
   }
 
   calculateColorForHealth(newHealth) {

@@ -7,10 +7,6 @@ import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProv
 import BaseConnection from './BaseConnection';
 
 
-// this global array stores all connections to get a quick access to it when
-// calculating the intersections in RaycasterModule
-export const allConnections = [];
-
 export default class ProcessConnection extends BaseConnection {
 
   constructor(params) {

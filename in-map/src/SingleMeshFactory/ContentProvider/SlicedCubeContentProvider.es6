@@ -5,7 +5,7 @@ import {theme} from 'in-services/theme';
 import ContentProvider from './ContentProvider';
 
 
-const defaultColors = (() => {
+const DEFAULT_COLOR = (() => {
   const colors = [];
   const converter = new THREE.Color();
 
@@ -33,7 +33,7 @@ export default class SlicedCubeContentProvider extends ContentProvider {
     super();
 
     this.numSlices = numSlices;
-    this.faceColors = defaultColors;
+    this.faceColors = DEFAULT_COLOR;
 
     this.calculateSliceIndices();
     this.calculatePositions();

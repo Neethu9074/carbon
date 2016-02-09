@@ -1,5 +1,6 @@
 import BaseSubscriber from './BaseSubscriber';
 
+
 export default class BaseModule extends BaseSubscriber {
 
   constructor(eventEmitter) {

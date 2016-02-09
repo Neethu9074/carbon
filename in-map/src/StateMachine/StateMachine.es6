@@ -7,6 +7,7 @@ import SelectedState from './SelectedState';
 import InactiveState from './InactiveState';
 import InitialState from './InitialState';
 
+
 const stateLUT =                    // a=active h=highlight s=selected i=indirect
 [ [ [ [ 'inactive',                 // 0 0 0 0   - - - -
         'inactive'],                // 0 0 0 1   - - - i
@@ -26,11 +27,9 @@ const stateLUT =                    // a=active h=highlight s=selected i=indirec
         'selectedHighlighted'] ] ]  // 1 1 1 1   a h s i
 ];
 
-const ON = 1;
-const OFF = 0;
 export const PROPERTY_VALUES = {
-  ON,
-  OFF
+  ON: 1,
+  OFF: 0
 };
 
 export const PROPERTIES = {

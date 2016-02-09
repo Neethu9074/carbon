@@ -3,7 +3,7 @@ import THREE from 'three';
 import SceneObject from '../SceneObject';
 
 
-const inverse = new THREE.Matrix4();
+const INVERSE = new THREE.Matrix4();
 
 export default class OrthographicCamera extends SceneObject {
 
@@ -42,11 +42,11 @@ export default class OrthographicCamera extends SceneObject {
     camera.updateMatrixWorld();
     camera.updateProjectionMatrix();
 
-    // sets inverse to camera.matrixWorld^-1
-    inverse.getInverse(camera.matrixWorld);
+    // sets INVERSE to camera.matrixWorld^-1
+    INVERSE.getInverse(camera.matrixWorld);
 
     // sets the projection matrix
-    camera.projection.multiplyMatrices(camProjectionMat, inverse);
+    camera.projection.multiplyMatrices(camProjectionMat, INVERSE);
   }
 
   setSize(width, height) {

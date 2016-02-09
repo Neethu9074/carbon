@@ -2,6 +2,7 @@ import THREE from 'three';
 
 import ASingleMeshFactory from './ASingleMeshFactory';
 
+
 export default class SingleMeshLineFactory extends ASingleMeshFactory {
 
   constructor({scene, renderOrder = 2}) {

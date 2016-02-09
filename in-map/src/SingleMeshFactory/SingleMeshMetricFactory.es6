@@ -283,6 +283,18 @@ export default class SingleMeshMetricFactory {
     this.updateSubscribtion.dispose();
     this.scene.removeSceneObject(this.mesh);
 
+    this.geometry.dispose();
+    this.material.dispose();
+
+    this.mesh = null;
+    this.scene = null;
+    this.colors = null;
+    this.vertices = null;
+    this.geometry = null;
+    this.material = null;
     this.fragments = null;
+    this.oldHeights = null;
+    this.newHeights = null;
+    this.fragmentQueue = null;
   }
 }

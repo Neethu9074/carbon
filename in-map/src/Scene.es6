@@ -27,7 +27,7 @@ import * as time from './timeCalculations';
 import * as stores from './stores';
 
 
-const maxNodeOpacity = 0.6;
+const MAX_NODE_OPACITY = 0.6;
 let currentMetrics;
 
 export default class Scene {
@@ -277,7 +277,7 @@ export default class Scene {
 
     // [1 - max out, 0 - max in]
     let normedZoomLevel = zoomLevel / (maxZoomOut - maxZoomIn);
-    normedZoomLevel = Math.min(maxNodeOpacity, Math.max(0.1, normedZoomLevel));
+    normedZoomLevel = Math.min(MAX_NODE_OPACITY, Math.max(0.1, normedZoomLevel));
 
     this.highlightingSingleMeshFactory.material.opacity = normedZoomLevel;
 

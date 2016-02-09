@@ -62,9 +62,9 @@ export default class AnimationController {
     this.updateSubscription.dispose();
     this.updateSubscription = null;
 
-    this.repeat = null;
     this.timeToAnimate = null;
     this.onUpdate = null;
+    this.repeat = null;
     this.onStop = null;
   }
 }

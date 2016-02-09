@@ -9,10 +9,10 @@ import RaycasterModule from './RaycasterModule';
 import * as time from '../timeCalculations';
 
 
-const _quaternion = new THREE.Quaternion();
-const _position = new THREE.Vector3();
-const _scale = new THREE.Vector3();
-const startRoll = -40;
+const QUATERNION = new THREE.Quaternion();
+const POSITION = new THREE.Vector3();
+const SCALE = new THREE.Vector3();
+const START_ROLL = -40;
 
 export default class ProcessCameraController extends BaseCameraController {
 
@@ -43,7 +43,7 @@ export default class ProcessCameraController extends BaseCameraController {
 
     this.init();
 
-    this.fromRoll = startRoll;
+    this.fromRoll = START_ROLL;
     this.toRoll = -89.5;
     this.animationController = new AnimationController({
       onUpdate: this.onAnimationUpdate.bind(this),
@@ -68,7 +68,7 @@ export default class ProcessCameraController extends BaseCameraController {
     this.camMoveHelper.rotateY(-30 * Math.PI / 180);
 
     this.camRotationHelper = new THREE.Object3D();
-    this.camRotationHelper.rotateX(startRoll * Math.PI / 180);
+    this.camRotationHelper.rotateX(START_ROLL * Math.PI / 180);
     this.camRotationHelper.add(new THREE.AxisHelper(1));
     this.camMoveHelper.add(this.camRotationHelper);
 
@@ -107,9 +107,9 @@ export default class ProcessCameraController extends BaseCameraController {
     this.camRotationHelper.updateMatrixWorld(true);
     this.camTargetPosition.updateMatrixWorld(true);
 
-    this.camTargetPosition.matrixWorld.decompose(_position, _quaternion, _scale);
+    this.camTargetPosition.matrixWorld.decompose(POSITION, QUATERNION, SCALE);
 
-    this.camera.camera.position.copy(_position);
+    this.camera.camera.position.copy(POSITION);
     this.camera.camera.lookAt(this.camMoveHelper.position);
     this.camera.updateMatrix();
     this.camera.update();

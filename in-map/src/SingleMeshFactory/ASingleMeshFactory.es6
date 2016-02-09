@@ -155,8 +155,15 @@ export default class SingleMeshFactory {
     this.geometry.dispose();
     this.material.dispose();
 
-    this.fragments = null;
+    this.mesh = null;
+    this.scene = null;
+    this.params = null;
+    this.colors = null;
     this.geometry = null;
     this.material = null;
+    this.vertices = null;
+    this.fragments = null;
+    this.fragmentQueue = null;
+
   }
 }

@@ -6,7 +6,9 @@ import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObjectWithSnapshot from '../SceneObjectWithSnapshot';
 
 
-export const allConnections = [];
+// this global array stores all connections to get a quick access to it when
+// calculating the intersections in RaycasterModule
+export const ALL_CONNECTIONS = [];
 
 export default class BaseConnection extends SceneObjectWithSnapshot {
 
@@ -19,7 +21,7 @@ export default class BaseConnection extends SceneObjectWithSnapshot {
 
     this.updateGeometry();
 
-    allConnections.push(this);
+    ALL_CONNECTIONS.push(this);
 
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.updateGeometry()));
   }

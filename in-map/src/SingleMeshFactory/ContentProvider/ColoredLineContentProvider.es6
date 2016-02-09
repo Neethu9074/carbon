@@ -1,11 +1,11 @@
 import ContentProvider from './ContentProvider';
 
 
-const defaultColor = [1, 1, 1]; // white color as default
+const DEFAULT_COLOR = [1, 1, 1]; // white color as default
 
 export default class ColoredLineContentProvider extends ContentProvider {
 
-  constructor(faceColors = defaultColor) {
+  constructor(faceColors = DEFAULT_COLOR) {
     super();
 
     this.lines = [];

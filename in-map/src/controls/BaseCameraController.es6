@@ -2,6 +2,7 @@ import RoEmitter from 'roemitter';
 
 import BaseSubscriber from './BaseSubscriber';
 
+
 export default class BaseCameraController extends BaseSubscriber {
 
   constructor() {
