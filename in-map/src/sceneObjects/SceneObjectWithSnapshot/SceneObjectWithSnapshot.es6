@@ -28,6 +28,10 @@ export default class SceneObjectWithSnapshot extends SceneObject {
 
   onHealthStatusUpdate(healthStatus) {
     this.healthStatus = healthStatus;
+
+    if (this.onHealthStatusUpdated) {
+      this.onHealthStatusUpdated(healthStatus);
+    }
   }
 
   dispose() {
