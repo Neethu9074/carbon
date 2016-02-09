@@ -1,4 +1,5 @@
 import * as snapshotStore from 'in-stores/snapshot';
+import {emptyArray} from 'in-services/fixedObjects';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../StateMachine/StateMachine';
 import PositionComponent from '../components/PositionComponent';
@@ -161,7 +162,7 @@ export default class SceneObject {
   dispose() {
     // dispose subscriptions first so that no update fires into disposed component
     this.subscriptions.forEach(subscription => subscription.dispose());
-    this.subscriptions = [];
+    this.subscriptions = emptyArray;
 
     // reset states so that inactive state is taken
     this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, PROPERTY_VALUES.OFF);
