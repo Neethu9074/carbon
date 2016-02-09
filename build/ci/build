@@ -4,13 +4,13 @@
 
 nvm use
 
-npm prune
-npm update
-npm install
+nice -19 npm prune
+nice -19 npm update
+nice -19 npm install
 
 
-npm run test
-npm run build
+nice -19 npm run test
+nice -19 npm run build
 
 export GIT_COMMIT="`git rev-parse HEAD`"
 

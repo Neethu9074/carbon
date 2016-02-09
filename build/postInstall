@@ -14,4 +14,4 @@ ln -s ../in-hoc node_modules/in-hoc
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"
-proxrox install
+nice -19 proxrox install
