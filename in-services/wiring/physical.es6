@@ -18,7 +18,9 @@ import {
 } from './helpers';
 
 
-const completeWiring = create(WiringConveyer);
+const completeWiring = create(WiringConveyer)
+  .nextFrame()
+  .throttle(15000);
 
 export const physicalHostsViewWiring = completeWiring
   .map(mapWiringGraphToPhysicalHostsViewGraph)
@@ -59,6 +61,8 @@ function addNodesFromSnapshotsWhichDoesNotAppearInWiring(viewStructure) {
   viewStructure.forEach(vs => LUT[vs.node.get('id')] = vs.node);
 
   return create(SnapshotsConveyer, { pluginId: forgeConsts.plugins.os })
+    .nextFrame()
+    .throttle(15000)
     .map(snapshots => {
       snapshots.forEach(snapshot => {
         const snapshotIsInsideView = LUT[snapshot.get('id')];
