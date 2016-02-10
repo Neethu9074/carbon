@@ -32,7 +32,9 @@ export const fullPhysicalHostsViewWiring = physicalHostsViewWiring.transform({
   transform(viewStructure) {
     return ro.combineLatest(viewStructure.map(loadFullSnapshotsForNodeStructure));
   }
-});
+})
+.nextFrame()
+.throttle(15000);
 
 
 function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
