@@ -4,6 +4,8 @@ import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
 
 import CLCP from '../../SingleMeshFactory/ContentProvider/ColoredLineContentProvider';
+import ACP from '../../SingleMeshFactory/ContentProvider/ArrowContentProvider';
+import {DIRECTIONS} from '../Connections/ConnectionDirections';
 import BaseConnection from './BaseConnection';
 
 
@@ -20,21 +22,32 @@ export default class ProcessConnection extends BaseConnection {
   }
 
   setupGeometry() {
-    this.fragment = {
+    this.lineFragment = {
       id: this.id,
       contentProvider: new CLCP()
     };
     // the default color must be set to get a working shader. It's black so you can
     // see if there is a snapshot missing
-    this.fragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
+    this.lineFragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
+
+    this.arrowFragment = {
+      id: this.id,
+      contentProvider: new ACP()
+    };
+    // the default color must be set to get a working shader. It's black so you can
+    // see if there is a snapshot missing
+    this.arrowFragment.contentProvider.setColor([0, 0, 0, 0, 0, 0]);
   }
 
   updateGeometry() {
-    const fragment = this.fragment;
+    this.lineFragment.contentProvider.setLines(this.getLineVertices(this.sourceNode, this.destinationNode));
+    this.scene.lineFactory.addFragment(this.lineFragment);
 
-    fragment.contentProvider.setLines(this.getLineVertices(this.sourceNode, this.destinationNode));
-
-    this.scene.lineFactory.addFragment(fragment);
+    const from = this.direction === DIRECTIONS.OUT ? this.sourceNode : this.destinationNode;
+    const to = this.direction === DIRECTIONS.OUT ? this.destinationNode : this.sourceNode;
+    this.arrowFragment.contentProvider.setFromTo(from.getComponent('position').getPosition().clone(),
+                                                 to.getComponent('position').getPosition().clone());
+    this.scene.solidSingleMeshFactory.addFragment(this.arrowFragment);
   }
 
   calculatePath(fromPos, toPos) {
@@ -57,21 +70,26 @@ export default class ProcessConnection extends BaseConnection {
     const destinationColor = colorPool.getColorRGB(destinationSnapshot.get('plugin'));
 
     // since process connections are straight lines, we just need 2 * 3 floats for the gradient
-    this.fragment.contentProvider.setColor([
+    this.lineFragment.contentProvider.setColor([
       sourceColor.r, sourceColor.g, sourceColor.b,
       destinationColor.r, destinationColor.g, destinationColor.b
     ]);
 
+    const color = this.direction === DIRECTIONS.OUT ? destinationColor : sourceColor;
+    this.arrowFragment.contentProvider.setColor(color);
+
     // refreshes the fragment
-    this.scene.lineFactory.addFragment(this.fragment);
+    this.scene.lineFactory.addFragment(this.lineFragment);
+    this.scene.solidSingleMeshFactory.addFragment(this.arrowFragment);
   }
 
   dispose() {
     // remove fragment first to save the id
     this.scene.lineFactory.removeFragment(this.id);
+    this.scene.solidSingleMeshFactory.removeFragment(this.id);
 
     super.dispose();
 
-    this.fragment = null;
+    this.lineFragment = null;
   }
 }
