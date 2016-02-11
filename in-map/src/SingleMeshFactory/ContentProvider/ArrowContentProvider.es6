@@ -9,7 +9,8 @@ const PLANE_VERTICES = [
   0, 1, 0
 ];
 
-const DEFAULT_COLOR = [1, 1, 1, 1, 1, 1, 1, 1, 1];
+// initialize an array with 1 values [1, 1, 1, 1, ...]
+const DEFAULT_COLOR = Array.apply(null, Array(PLANE_VERTICES.length)).map(() => 1);
 
 const ARROW_LENGTH = 0.5;
 const ARROW_WIDTH = 0.3;

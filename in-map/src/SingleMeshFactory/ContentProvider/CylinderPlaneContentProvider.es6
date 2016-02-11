@@ -32,7 +32,7 @@ const CYLINDRIC_PLANE_VERTICES = [
   0.4755289852619171, 0, -0.15450899302959442, 0, 0, 0
 ];
 
-// initialize an array with 1 values [1, 1, 1, 1, ...]
+// initialize an array with 0.2 values [0.2, 0.2, 0.2, 0.2, ...]
 const DEFAULT_COLOR = Array.apply(null, Array(CYLINDRIC_PLANE_VERTICES.length)).map(() => 0.2);
 
 export default class CylinderPlaneContentProvider extends ContentProvider {
