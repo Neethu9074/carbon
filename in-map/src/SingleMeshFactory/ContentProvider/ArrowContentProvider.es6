@@ -46,11 +46,16 @@ export default class ArrowContentProvider extends ContentProvider {
 
     const left = right.clone().multiplyScalar(-1);
 
-    this.vertices = [
-      arrowStart.x + left.x, 0.01, arrowStart.z + left.z,
-      arrowStart.x + right.x, 0.01, arrowStart.z + right.z,
-      direction.x + toPos.x, 0.01, direction.z + toPos.z
-    ];
+    // avoid creation of a new array and reuse the old one
+    this.vertices[0] = arrowStart.x + left.x;
+    this.vertices[1] = 0.01;
+    this.vertices[2] = arrowStart.z + left.z;
+    this.vertices[3] = arrowStart.x + right.x;
+    this.vertices[4] = 0.01;
+    this.vertices[5] = arrowStart.z + right.z;
+    this.vertices[6] = direction.x + toPos.x;
+    this.vertices[7] = 0.01;
+    this.vertices[8] = direction.z + toPos.z;
   }
 
   setColor(colors) {
