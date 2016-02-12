@@ -9,7 +9,7 @@ import getSnapshot from 'in-hoc/getSnapshot';
 import Icon from 'in-components/Icon';
 import getZone from 'in-hoc/getZone';
 
-import {DIRECTIONS} from '../../SceneObjects/Connections/ConnectionDirections';
+import {DIRECTIONS} from '../../mapSceneObjects/common/Connection';
 
 import './ConnectionItem.less';
 

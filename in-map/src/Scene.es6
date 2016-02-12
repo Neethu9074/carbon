@@ -20,7 +20,7 @@ import SingleMeshGlyphPointsFactory from './SingleMeshFactory/SingleMeshGlyphPoi
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import MapHandler from './SceneObjects/Maps/MapHandler';
+import MapHandler from './mapSceneObjects/common/MapHandler';
 import TooltipHandler from './Tooltips/TooltipHandler';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
