@@ -1,7 +1,7 @@
 import RoEmitter from 'roemitter';
 
 import * as snapshotStore from 'in-stores/snapshot';
-import {emptyArray} from 'in-services/fixedObjects';
+import Subscriber from 'in-map/src/Subscriber';
 
 import {currentScene} from 'in-map/src/stores';
 
@@ -10,12 +10,13 @@ import PositionComponent from '../../components/common/PositionComponent';
 import {StateMachine} from '../../StateMachine/StateMachine';
 
 
-export default class SceneObject {
+export default class SceneObject extends Subscriber {
 
   constructor({parent, id}) {
+    super();
+
     this.id = id;
     this.parent = parent;
-    this.subscriptions = [];
 
     this.eventEmitter = new RoEmitter(id);
     this.addSubscription(currentScene.subscribe(scene => this.scene = scene));
@@ -109,10 +110,6 @@ export default class SceneObject {
     this.scene.removeCollisionObject(obj, layer);
   }
 
-  addSubscription(subscription) {
-    this.subscriptions.push(subscription);
-  }
-
   // each object can tell that the scene should be redrawn
   renderScene() {
     this.scene.renderScene();
@@ -166,9 +163,7 @@ export default class SceneObject {
     this.eventEmitter.dispose();
     this.eventEmitter = null;
 
-    // dispose subscriptions first so that no update fires into disposed component
-    this.subscriptions.forEach(subscription => subscription.dispose());
-    this.subscriptions = emptyArray;
+    super.dispose();
 
     // reset states so that inactive state is taken
     this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, PROPERTY_VALUES.OFF);
