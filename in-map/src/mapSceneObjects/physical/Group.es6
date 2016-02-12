@@ -25,6 +25,7 @@ export default class Group extends SceneObjectWithSnapshot {
     this.depth = 1;
 
     this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
+    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.updateScreenAnchorPosition.bind(this)));
   }
 
   onHighlightEnter() {
@@ -119,12 +120,6 @@ export default class Group extends SceneObjectWithSnapshot {
   updateScreenAnchorPosition() {
     const pos = this.getComponent('position').getPosition();
     super.setScreenPositionAnchor(pos.x, pos.y, pos.z + this.depth / 2);
-  }
-
-  positionChanged(x, y, z) {
-    this.getComponent('mesh').positionChanged(x, y, z);
-    this.getComponent('highlight').positionChanged(x, y - 0.01, z);
-    this.updateScreenAnchorPosition();
   }
 
   setScale(x, y, z) {

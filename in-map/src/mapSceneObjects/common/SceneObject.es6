@@ -1,3 +1,5 @@
+import RoEmitter from 'roemitter';
+
 import * as snapshotStore from 'in-stores/snapshot';
 import {emptyArray} from 'in-services/fixedObjects';
 
@@ -11,10 +13,11 @@ import {StateMachine} from '../../StateMachine/StateMachine';
 export default class SceneObject {
 
   constructor({parent, id}) {
-    this.parent = parent;
     this.id = id;
+    this.parent = parent;
     this.subscriptions = [];
 
+    this.eventEmitter = new RoEmitter(id);
     this.addSubscription(currentScene.subscribe(scene => this.scene = scene));
 
     this.initComponents();
@@ -154,12 +157,15 @@ export default class SceneObject {
     const scene = this.scene;
 
     return (screenPos.x > 0 && screenPos.x <= scene.width &&
-      screenPos.y > 0 && screenPos.y <= scene.height);
+            screenPos.y > 0 && screenPos.y <= scene.height);
   }
 
   removeChild() {}
 
   dispose() {
+    this.eventEmitter.dispose();
+    this.eventEmitter = null;
+
     // dispose subscriptions first so that no update fires into disposed component
     this.subscriptions.forEach(subscription => subscription.dispose());
     this.subscriptions = emptyArray;

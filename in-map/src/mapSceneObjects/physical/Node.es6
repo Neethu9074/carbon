@@ -7,7 +7,7 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import {getPower} from 'in-sdk/power';
 
-import PhysicalConnectionsHandlerComponent from '../../components/physical/ConnectionsHandlerComponent';
+import ConnectionsHandlerComponent from '../../components/physical/ConnectionsHandlerComponent';
 import HighlightingComponent from '../../components/physical/HighlightingComponent';
 import CollisionComponent from '../../components/common/CollisionObjectComponent';
 import LineMeshComponent from '../../components/common/LineMeshComponent';
@@ -55,6 +55,8 @@ export default class Node extends SceneObjectWithSnapshot {
       parent: this,
       iconSize: 3
     });
+
+    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
   }
 
   onInitialEnter() {
@@ -189,7 +191,7 @@ export default class Node extends SceneObjectWithSnapshot {
     components.ground.sizeChanged(1.5, 1, 1.5);
     components.groundLine.sizeChanged(1.5, 1, 1.5);
 
-    components.connectionsHandler = new PhysicalConnectionsHandlerComponent({sceneObject});
+    components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject});
   }
 
   registerEvents() {
@@ -293,23 +295,14 @@ export default class Node extends SceneObjectWithSnapshot {
     return {x: pos.x - 0.2, y: pos.y + this.height + 0.75, z: pos.z + 0.25};
   }
 
-  positionChanged(x, y, z, oldPosition) {
-    this.getComponent('collision').positionChanged(x, y, z);
-    this.getComponent('solidMesh').positionChanged(x, y, z);
-    this.getComponent('mesh').positionChanged(x, y, z);
-    this.getComponent('highlighting').positionChanged(x, y, z);
-    this.updateScreenAnchorPosition();
+  positionChanged({newPosition, oldPosition}) {
+    const x = newPosition.x;
+    const y = newPosition.y;
+    const z = newPosition.z;
+    this.label.getComponent('position').setPosition(x, y + this.height + 0.2, z);
 
     ConnectionGrid.clearPosition(oldPosition);
     ConnectionGrid.blockPosition({x, y, z});
-
-    this.label.getComponent('position').setPosition(x, y + this.height + 0.2, z);
-
-    this.getComponent('ground').positionChanged(x, y, z);
-    this.getComponent('groundLine').positionChanged(x - 0.5, y, z + 0.5);
-    this.getComponent('layer').positionChanged(x, y, z);
-    this.getComponent('metric').positionChanged(x, y, z);
-
     this.updateScreenAnchorPosition();
   }
 

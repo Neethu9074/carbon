@@ -3,9 +3,10 @@ import THREE from 'three';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-services/eventbus';
 
-import ProcessConnectionsHandlerComponent from '../../components/process/ConnectionsHandlerComponent';
+import ConnectionsHandlerComponent from '../../components/process/ConnectionsHandlerComponent';
 import HighlightingComponent from '../../components/process/HighlightingComponent';
 import CollisionComponent from '../../components/common/CollisionObjectComponent';
+import TopMeshComponent from '../../components/process/TopMeshComponent';
 import MeshComponent from '../../components/common/MeshComponent';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
@@ -35,6 +36,8 @@ export default class Node extends SceneObjectWithSnapshot {
       parent: this,
       iconSize: 3
     });
+
+    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
   }
 
   onHighlightEnter() {
@@ -96,7 +99,7 @@ export default class Node extends SceneObjectWithSnapshot {
     components.highlighting = new HighlightingComponent({sceneObject: this});
 
     // the topping of the cylinder
-    components.topMesh = new MeshComponent({
+    components.topMesh = new TopMeshComponent({
       sceneObject: this,
       contentProvider: new CMCM({
         contentProvider: new PCM({
@@ -109,7 +112,7 @@ export default class Node extends SceneObjectWithSnapshot {
     });
     components.topMesh.sizeChanged(0.9, 0.9, 0.9);
 
-    components.connectionsHandler = new ProcessConnectionsHandlerComponent({sceneObject: this});
+    components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject: this});
     components.connectionsHandler.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
@@ -176,14 +179,11 @@ export default class Node extends SceneObjectWithSnapshot {
     // TODO: if expanded, add to scene
   }
 
-  positionChanged(x, y, z) {
-     // avoid z fighting, so use height + 0.01
-    this.getComponent('topMesh').positionChanged(x, y + 0.51, z);
-    this.getComponent('mesh').positionChanged(x, y, z);
-    this.getComponent('collision').positionChanged(x, y, z);
-    this.getComponent('highlighting').positionChanged(x, y, z);
+  positionChanged({newPosition}) {
+    const x = newPosition.x;
+    const y = newPosition.y;
+    const z = newPosition.z;
     this.label.getComponent('position').setPosition(x - 0.5, y + 0.5, z + 0.5);
-
     super.setScreenPositionAnchor(x + 0.5, y + 0.3, z);
   }
 

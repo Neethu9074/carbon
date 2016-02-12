@@ -1,6 +1,7 @@
 /* eslint-env mocha, node */
-import THREE from 'three';
+import RoEmitter from 'roemitter';
 import {expect} from 'chai';
+import THREE from 'three';
 import sinon from 'sinon';
 
 import CollisionObjectComponent from './CollisionObjectComponent';
@@ -13,6 +14,7 @@ describe('3D map', () => {
 
   beforeEach(() => {
     sceneObject = {
+      eventEmitter: new RoEmitter(),
       positionChanged: sinon.stub(),
       scene: {
         addCollisionObject: sinon.stub(),
@@ -41,7 +43,7 @@ describe('3D map', () => {
     });
 
     it('dont call external method until time event was handled', () => {
-      component.positionChanged(1, 2, 3);
+      component.positionChanged({newPosition: {x: 1, y: 2, z: 3}});
       component.sizeChanged(4, 5, 6);
       expect(collisionObject.position.x).to.equal(0);
       expect(collisionObject.position.y).to.equal(0);
@@ -57,7 +59,7 @@ describe('3D map', () => {
     });
 
     it('should keep the old state on multiple updates of different properties', () => {
-      component.positionChanged(1, 2, 3);
+      component.positionChanged({newPosition: {x: 1, y: 2, z: 3}});
       expect(collisionObject.position.x).to.equal(0);
       expect(collisionObject.position.y).to.equal(0);
       expect(collisionObject.position.z).to.equal(0);

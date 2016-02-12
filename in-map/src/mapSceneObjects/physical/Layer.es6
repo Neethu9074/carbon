@@ -164,13 +164,6 @@ export default class Layer extends SceneObjectWithSnapshot {
     this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
   }
 
-  positionChanged(x, y, z) {
-    this.getComponent('mesh').positionChanged(x, y, z);
-    this.getComponent('solidMesh').positionChanged(x, y, z);
-    this.getComponent('collision').positionChanged(x, y, z);
-    this.getComponent('highlighting').positionChanged(x, y, z);
-  }
-
   setHeight(height) {
     this.height = height;
     this.getComponent('mesh').sizeChanged(MARGIN, height, MARGIN);

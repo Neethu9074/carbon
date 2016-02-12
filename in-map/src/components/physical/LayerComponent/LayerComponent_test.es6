@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import proxyquire from 'proxyquire';
 import Immutable from 'immutable';
+import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -23,7 +24,7 @@ describe('3D map', () => {
     global.window = global.window || {};
     global.window.location = global.window.location || {};
     global.window.location.href = 'https://test-instana.instana.io';
-    sceneObject = {};
+    sceneObject = {eventEmitter: new RoEmitter()};
 
     currentScene.emit({
       addCollisionObject: sinon.stub(),

@@ -18,8 +18,9 @@ export default class LineMeshComponent extends Component {
     this.colorToSet = new RGB(1, 1, 1);
 
     this.updateContentProvider();
-
     this.initialized();
+
+    this.addSubscription('positionChanged', this.positionChanged);
   }
 
   onInitialEnter() {
@@ -39,8 +40,8 @@ export default class LineMeshComponent extends Component {
   }
 
 
-  positionChanged(x, y, z) {
-    this.positionToSet.set(x, y, z);
+  positionChanged({newPosition}) {
+    this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
     this.needsUpdate = true;
   }
 

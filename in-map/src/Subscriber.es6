@@ -1,7 +1,7 @@
 import {emptyArray} from 'in-services/fixedObjects';
 
 
-export default class BaseSubscriber {
+export default class Subscriber {
 
   constructor() {
     this.subscriptions = [];

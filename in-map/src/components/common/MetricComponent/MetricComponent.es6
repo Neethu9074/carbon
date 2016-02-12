@@ -33,7 +33,7 @@ export default class MetricComponent extends Component {
 
     this.collisionComponent = new CollisionComponent({
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
-      sceneObject: this,
+      sceneObject,
       layer: 3
     });
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
@@ -44,6 +44,7 @@ export default class MetricComponent extends Component {
     });
 
     this.initialized();
+    this.addSubscription('positionChanged', this.positionChanged);
   }
 
   setStartingStateProperties() {
@@ -112,10 +113,10 @@ export default class MetricComponent extends Component {
       thicknessOfCubes);
   }
 
-  positionChanged(x, y, z) {
-    this.collisionComponent.positionChanged(x, y, z);
 
-    this.positionToSet.set(x, y, z);
+  positionChanged({newPosition}) {
+    this.collisionComponent.positionChanged({newPosition});
+    this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
     this.needsUpdate = true;
   }
 

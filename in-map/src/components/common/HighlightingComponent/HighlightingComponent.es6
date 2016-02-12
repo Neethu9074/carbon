@@ -27,6 +27,7 @@ export default class BaseHighlightingComponent extends Component {
     this.setupHighlightBorderLines();
 
     this.initialized();
+    this.addSubscription('positionChanged', this.positionChanged);
   }
 
   setStartingStateProperties() {
@@ -42,8 +43,8 @@ export default class BaseHighlightingComponent extends Component {
   }
 
 
-  positionChanged(x, y, z) {
-    this.positionToSet.set(x, y, z);
+  positionChanged({newPosition}) {
+    this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
     this.needsUpdate = true;
   }
 

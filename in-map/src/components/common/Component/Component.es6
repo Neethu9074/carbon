@@ -1,11 +1,14 @@
 import {StateMachine, PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import * as time from 'in-map/src/timeCalculations';
+import Subscriber from 'in-map/src/Subscriber';
 
 let idCounter = 0;
 
-export default class Component {
+export default class Component extends Subscriber {
 
   constructor(sceneObject, postId) {
+    super();
+
     this.id = sceneObject.id + postId + '_' + idCounter++;
     this.stateMachine = new StateMachine(this);
     this.sceneObject = sceneObject;
@@ -40,6 +43,14 @@ export default class Component {
     return this.stateMachine.stateProperties.active === PROPERTY_VALUES.ON;
   }
 
+  emit(msg, payload) {
+    this.sceneObject.eventEmitter.emit(msg, payload);
+  }
+
+  addSubscription(msg, callback) {
+    super.addSubscription(this.sceneObject.eventEmitter.on(msg).subscribe(callback.bind(this)));
+  }
+
   handleComponentTimeEvent() {
     if (this.needsUpdate) {
       this.update();
@@ -63,8 +74,9 @@ export default class Component {
   }
 
   dispose() {
-    this.timeEvent.dispose();
+    super.dispose();
 
+    this.timeEvent.dispose();
     this.needsUpdate = false;
   }
 }

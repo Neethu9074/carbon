@@ -1,4 +1,4 @@
-import Subscriber from './Subscriber';
+import Subscriber from 'in-map/src/Subscriber';
 
 
 export default class Module extends Subscriber {
