@@ -5,7 +5,6 @@ import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
-import {getPower} from 'in-sdk/power';
 
 import ConnectionsHandlerComponent from '../../components/physical/ConnectionsHandlerComponent';
 import HighlightingComponent from '../../components/physical/HighlightingComponent';
@@ -14,6 +13,7 @@ import LineMeshComponent from '../../components/common/LineMeshComponent';
 import HealthComponent from '../../components/common/HealthComponent';
 import MetricComponent from '../../components/common/MetricComponent';
 import LayerComponent from '../../components/physical/LayerComponent';
+import PowerComponent from '../../components/physical/PowerComponent';
 import MeshComponent from '../../components/common/MeshComponent';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
@@ -44,7 +44,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.height = NODE_BASE_HEIGHT;
     this.isOutOfView = false;
     this.isToFarAway = false;
-    this._cachedPower = 1;
 
     this.registerEvents();
 
@@ -57,6 +56,7 @@ export default class Node extends SceneObjectWithSnapshot {
     });
 
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
+    this.addSubscription(this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)));
   }
 
   onInitialEnter() {
@@ -192,6 +192,8 @@ export default class Node extends SceneObjectWithSnapshot {
     components.groundLine.sizeChanged(1.5, 1, 1.5);
 
     components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject});
+
+    components.power = new PowerComponent({sceneObject});
   }
 
   registerEvents() {
@@ -273,21 +275,10 @@ export default class Node extends SceneObjectWithSnapshot {
     this.snapshotServer.pauseMetrics();
   }
 
-  onSnapshotUpdated(snapshot) {
-    this._cachedPower = getPower(snapshot);
-
+  onSnapshotUpdated() {
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
-
-    this.snapshotServer.onSnapshotUpdate();
-  }
-
-  updateHeight(maxPower) {
-    const maxNodeHeight = 3;
-    this._cachedPower = getPower(this.snapshot);
-    const weightedHeight = (maxNodeHeight - NODE_BASE_HEIGHT) * (this._cachedPower / maxPower);
-    this.setHeight(NODE_BASE_HEIGHT + weightedHeight);
   }
 
   getScreenAnchorPosition() {
@@ -306,14 +297,14 @@ export default class Node extends SceneObjectWithSnapshot {
     this.updateScreenAnchorPosition();
   }
 
-  setHeight(height) {
-    this.height = height;
+  setPower(power) {
+    this.height = power;
 
-    this.getComponent('collision').sizeChanged(1, height, 1);
-    this.getComponent('solidMesh').sizeChanged(1, height, 1);
-    this.getComponent('mesh').sizeChanged(1, height, 1);
-    this.getComponent('highlighting').sizeChanged(1, height, 1);
-    this.getComponent('layer').heightChanged(height);
+    this.getComponent('collision').sizeChanged(1, power, 1);
+    this.getComponent('solidMesh').sizeChanged(1, power, 1);
+    this.getComponent('mesh').sizeChanged(1, power, 1);
+    this.getComponent('highlighting').sizeChanged(1, power, 1);
+    this.getComponent('layer').heightChanged(power);
 
     const pos = this.getComponent('position').getPosition();
     this.label.getComponent('position').setPosition(pos.x, pos.y + this.height + 0.2, pos.z);
@@ -354,10 +345,6 @@ export default class Node extends SceneObjectWithSnapshot {
       return new THREE.Color(colors.critical);
     }
     return new THREE.Color(colors.cubeBasicColor);
-  }
-
-  calculatePower() {
-    return this._cachedPower;
   }
 
   dispose() {

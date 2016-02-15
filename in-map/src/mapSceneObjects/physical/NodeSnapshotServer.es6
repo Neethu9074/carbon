@@ -1,11 +1,8 @@
-import _ from 'lodash';
-
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
 import {getMaxValue} from 'in-sdk/metrics';
 
 import {subscribeToMetric} from '../../metricUtils';
-import {nodeMaxPower} from '../../stores';
 
 
 export default class NodeSnapshotServer {
@@ -37,33 +34,6 @@ export default class NodeSnapshotServer {
         client.setStateForMetricActivity({ isToFarAway: false });
       }
     }));
-  }
-
-  onSnapshotUpdate() {
-    // setup height subscription
-    this.disposeSubscription(this.maxHeightSubscribtion);
-    this.maxHeightSubscribtion = nodeMaxPower.subscribe(maxPower => {
-      if (maxPower) {
-        const clientPower = this.client.calculatePower();
-        if (clientPower < 0) {
-          this.client.setHeight(1);
-          return;
-        }
-        if (clientPower > maxPower) {
-          nodeMaxPower.emit(clientPower);
-          return;
-        }
-        this.client.updateHeight(maxPower);
-      }
-    });
-    this.subscriptions.push(this.maxHeightSubscribtion);
-  }
-
-  disposeSubscription(subscribtion) {
-    if (subscribtion && subscribtion.dispose) {
-      subscribtion.dispose();
-      _.remove(this.subscriptions, sub => sub === subscribtion);
-    }
   }
 
   disposeMetricSubscription() {
