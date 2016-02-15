@@ -21,6 +21,7 @@ export default class LayerComponent extends Component {
 
     this.initialized();
     this.addSubscription('positionChanged', this.positionChanged);
+    this.addSubscription('sizeChanged', this.heightChanged);
   }
 
   onInitialEnter() {
@@ -83,13 +84,13 @@ export default class LayerComponent extends Component {
     this.needsUpdate = true;
   }
 
-  heightChanged(newHeight) {
+  heightChanged({y}) {
     const height = this.heightToSet;
-    if (height === newHeight) {
+    if (height === y) {
       return;
     }
 
-    this.heightToSet = newHeight;
+    this.heightToSet = y;
     this.needsUpdate = true;
   }
 

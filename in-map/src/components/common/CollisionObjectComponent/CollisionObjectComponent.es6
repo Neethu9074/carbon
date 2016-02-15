@@ -21,6 +21,7 @@ export default class CollisionObjectComponent extends Component {
     this.initialized();
 
     this.addSubscription('positionChanged', this.positionChanged);
+    this.addSubscription('sizeChanged', this.sizeChanged);
   }
 
   onInitialEnter() {
@@ -37,7 +38,7 @@ export default class CollisionObjectComponent extends Component {
     this.needsUpdate = true;
   }
 
-  sizeChanged(x, y, z) {
+  sizeChanged({x, y, z}) {
     this.scaleToSet.set(x, y, z);
     this.needsUpdate = true;
   }

@@ -28,6 +28,7 @@ export default class BaseHighlightingComponent extends Component {
 
     this.initialized();
     this.addSubscription('positionChanged', this.positionChanged);
+    this.addSubscription('sizeChanged', this.sizeChanged);
   }
 
   setStartingStateProperties() {
@@ -48,7 +49,7 @@ export default class BaseHighlightingComponent extends Component {
     this.needsUpdate = true;
   }
 
-  sizeChanged(x, y, z) {
+  sizeChanged({x, y, z}) {
     const scale = this.scaleToSet;
     if (scale.x === x && scale.y === y && scale.z === z) {
       return;

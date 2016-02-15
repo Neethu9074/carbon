@@ -287,24 +287,17 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   positionChanged({newPosition, oldPosition}) {
-    const x = newPosition.x;
-    const y = newPosition.y;
-    const z = newPosition.z;
-    this.label.getComponent('position').setPosition(x, y + this.height + 0.2, z);
+    this.label.getComponent('position').setPosition(newPosition.x, newPosition.y + this.height + 0.2, newPosition.z);
 
     ConnectionGrid.clearPosition(oldPosition);
-    ConnectionGrid.blockPosition({x, y, z});
+    ConnectionGrid.blockPosition(newPosition);
     this.updateScreenAnchorPosition();
   }
 
   setPower(power) {
     this.height = power;
 
-    this.getComponent('collision').sizeChanged(1, power, 1);
-    this.getComponent('solidMesh').sizeChanged(1, power, 1);
-    this.getComponent('mesh').sizeChanged(1, power, 1);
-    this.getComponent('highlighting').sizeChanged(1, power, 1);
-    this.getComponent('layer').heightChanged(power);
+    this.eventEmitter.emit('sizeChanged', { x: 1, y: power, z: 1 });
 
     const pos = this.getComponent('position').getPosition();
     this.label.getComponent('position').setPosition(pos.x, pos.y + this.height + 0.2, pos.z);

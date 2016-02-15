@@ -180,11 +180,8 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   positionChanged({newPosition}) {
-    const x = newPosition.x;
-    const y = newPosition.y;
-    const z = newPosition.z;
-    this.label.getComponent('position').setPosition(x - 0.5, y + 0.5, z + 0.5);
-    super.setScreenPositionAnchor(x + 0.5, y + 0.3, z);
+    this.label.getComponent('position').setPosition(newPosition.x - 0.5, newPosition.y + 0.5, newPosition.z + 0.5);
+    super.setScreenPositionAnchor(newPosition.x + 0.5, newPosition.y + 0.3, newPosition.z);
   }
 
   update() {

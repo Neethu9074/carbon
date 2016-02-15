@@ -165,11 +165,7 @@ export default class Layer extends SceneObjectWithSnapshot {
   }
 
   setHeight(height) {
-    this.height = height;
-    this.getComponent('mesh').sizeChanged(MARGIN, height, MARGIN);
-    this.getComponent('solidMesh').sizeChanged(MARGIN, height, MARGIN);
-    this.getComponent('collision').sizeChanged(MARGIN, height, MARGIN);
-    this.getComponent('highlighting').sizeChanged(MARGIN, height, MARGIN);
+    this.eventEmitter.emit('sizeChanged', { x: MARGIN, y: height, z: MARGIN });
   }
 
   calculateColorForHealth(newHealth) {
