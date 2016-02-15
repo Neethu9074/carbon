@@ -40,10 +40,19 @@ export const fullPhysicalHostsViewWiring = physicalHostsViewWiring.transform({
 function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
   return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
     .map(osNodeStrId => {
-      let group = getDestinationNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
-      if (group) {
-        group = getSourceNodes(wiringGraph, group, forgeConsts.rels.clusters);
-        group = wiringGraph.nodes[group];
+      let group;
+      const clusteringNodes = getSourceNodes(wiringGraph, osNodeStrId, forgeConsts.rels.clusters);
+      // if a custom zone is defined, take the first
+      if (clusteringNodes.length > 0) {
+        group = clusteringNodes[0];
+      } else {
+        // get the entity where the host is running on
+        group = getDestinationNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
+        if (group) {
+          // find the clustering entity
+          group = getSourceNodes(wiringGraph, group, forgeConsts.rels.clusters);
+          group = wiringGraph.nodes[group];
+        }
       }
 
       const layers = getLeafNodes(wiringGraph, osNodeStrId, [forgeConsts.rels.runsOn])
