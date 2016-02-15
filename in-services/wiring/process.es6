@@ -19,7 +19,9 @@ import {
  */
 
 
-const completeWiring = create(WiringConveyer);
+const completeWiring = create(WiringConveyer)
+  .throttle(15000);
+
 export const processViewWiring = completeWiring.map(mapWiringGraphToProcessViewGraph);
 export const fullProcessViewWiring = processViewWiring.transform({
   emitLatestOnSubscribe: true,
