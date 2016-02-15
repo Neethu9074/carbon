@@ -21,6 +21,8 @@ export default class LineMeshComponent extends Component {
     this.initialized();
 
     this.addSubscription('positionChanged', this.positionChanged);
+    this.addSubscription('sizeChanged', this.sizeChanged);
+    this.addSubscription('colorChanged', this.colorChanged);
   }
 
   onInitialEnter() {
@@ -45,7 +47,7 @@ export default class LineMeshComponent extends Component {
     this.needsUpdate = true;
   }
 
-  sizeChanged(x, y, z) {
+  sizeChanged({x, y, z}) {
     const scale = this.scaleToSet;
     if (scale.x === x && scale.y === y && scale.z === z) {
       return;
@@ -55,7 +57,7 @@ export default class LineMeshComponent extends Component {
     this.needsUpdate = true;
   }
 
-  colorChanged(r, g, b) {
+  colorChanged({r, g, b}) {
     const color = this.colorToSet;
     if (color.r === r && color.g === g && color.b === b) {
       return;

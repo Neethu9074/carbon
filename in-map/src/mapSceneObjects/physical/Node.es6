@@ -7,9 +7,10 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
 import ConnectionsHandlerComponent from '../../components/physical/ConnectionsHandlerComponent';
+import GroundLineMeshComponent from '../../components/common/GroundLineMeshComponent';
 import HighlightingComponent from '../../components/physical/HighlightingComponent';
 import CollisionComponent from '../../components/common/CollisionObjectComponent';
-import LineMeshComponent from '../../components/common/LineMeshComponent';
+import GroundMeshComponent from '../../components/common/GroundMeshComponent';
 import HealthComponent from '../../components/common/HealthComponent';
 import MetricComponent from '../../components/common/MetricComponent';
 import LayerComponent from '../../components/physical/LayerComponent';
@@ -57,6 +58,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
     this.addSubscription(this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)));
+    this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
   }
 
   onInitialEnter() {
@@ -121,7 +123,6 @@ export default class Node extends SceneObjectWithSnapshot {
     this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
     this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
     this.getComponent('groundLine').stateMachine.changeStateProperty(PROPERTIES.SELECTED, value);
-
     this.getComponent('connectionsHandler').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
   }
 
@@ -166,7 +167,7 @@ export default class Node extends SceneObjectWithSnapshot {
     // this is different to solidMesh since the highlighting is like a mouseOver effect
     components.highlighting = new HighlightingComponent({sceneObject});
 
-    components.ground = new MeshComponent({
+    components.ground = new GroundMeshComponent({
       sceneObject,
       factory: this.scene.groundSingleMeshFactory,
       contentProvider: new CMCM({
@@ -177,7 +178,7 @@ export default class Node extends SceneObjectWithSnapshot {
         })
       })
     });
-    components.groundLine = new LineMeshComponent({
+    components.groundLine = new GroundLineMeshComponent({
       sceneObject,
       factory: this.scene.baselineFactory,
       contentProvider: new PCM({
@@ -188,8 +189,6 @@ export default class Node extends SceneObjectWithSnapshot {
     });
     components.metric = new MetricComponent({sceneObject});
     components.layer = new LayerComponent({sceneObject});
-    components.ground.sizeChanged(1.5, 1, 1.5);
-    components.groundLine.sizeChanged(1.5, 1, 1.5);
 
     components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject});
 
@@ -309,21 +308,14 @@ export default class Node extends SceneObjectWithSnapshot {
     const groundLine = this.getComponent('groundLine');
     const ground = this.getComponent('ground');
     const color = this.calculateNodeColor(newHealth);
-    const r = color.r;
-    const g = color.g;
-    const b = color.b;
 
-    ground.colorChanged(r, g, b);
-    groundLine.colorChanged(r, g, b);
-    this.getComponent('mesh').colorChanged(r, g, b);
+    this.eventEmitter.emit('colorChanged', color);
 
     if (newHealth === health.ok) {
       ground.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
       groundLine.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-      this.getComponent('solidMesh').colorChanged(r + 0.1, g + 0.1, b + 0.1);
 
     } else {
-      this.getComponent('solidMesh').colorChanged(r, g, b);
       ground.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
       groundLine.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     }

@@ -36,7 +36,7 @@ export default class HealthComponent extends Component {
   update() {
     // keep the last set health and only set this if the component is active
     if (this.isActive()) {
-      this.sceneObject.healthChanged(this.healthToSet);
+      this.emit('healthChanged', this.healthToSet);
       this.needsUpdate = false;
     }
   }

@@ -7,9 +7,9 @@ import PCP from 'in-map/src/SingleMeshFactory/ContentProvider/PlaneContentProvid
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import {theme} from 'in-services/theme';
 
-import Component from '../Component';
-import XYZ from '../XYZ';
-import RGB from '../RGB';
+import Component from '../../common/Component';
+import XYZ from '../../common/XYZ';
+import RGB from '../../common/RGB';
 
 
 export default class GroundHighlightingComponent extends Component {
@@ -35,6 +35,7 @@ export default class GroundHighlightingComponent extends Component {
 
     this.initialized();
     this.addSubscription('positionChanged', this.positionChanged);
+    this.addSubscription('colorChanged', this.colorChanged);
   }
 
   setStartingStateProperties() {
@@ -65,7 +66,7 @@ export default class GroundHighlightingComponent extends Component {
     this.needsUpdate = true;
   }
 
-  colorChanged(r, g, b) {
+  colorChanged({r, g, b}) {
     const color = this.colorToSet;
     if (color.r === r && color.g === g && color.b === b) {
       return;

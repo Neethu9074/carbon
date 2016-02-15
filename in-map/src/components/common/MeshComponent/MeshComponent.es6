@@ -24,6 +24,7 @@ export default class MeshComponent extends Component {
     this.initialized();
 
     this.addSubscription('positionChanged', this.positionChanged);
+    this.addSubscription('colorChanged', this.colorChanged);
     this.addSubscription('sizeChanged', this.sizeChanged);
   }
 
@@ -51,7 +52,7 @@ export default class MeshComponent extends Component {
     this.needsUpdate = true;
   }
 
-  colorChanged(r, g, b) {
+  colorChanged({r, g, b}) {
     const color = this.colorToSet;
     if (color.r === r && color.g === g && color.b === b) {
       return;

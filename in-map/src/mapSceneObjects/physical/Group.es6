@@ -3,7 +3,7 @@ import _ from 'lodash';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-services/eventbus';
 
-import GroundHighlightingComponent from '../../components/common/GroundHighlightingComponent';
+import GroundHighlightingComponent from '../../components/physical/GroundHighlightingComponent';
 import LineMeshComponent from '../../components/common/LineMeshComponent';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
@@ -37,13 +37,12 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onSelectedEnter() {
-    this.getComponent('mesh').colorChanged(1.0, 1.0, 1.0);
+    this.eventEmitter.emit('colorChanged', { r: 1, g: 1, b: 1 });
     this.stickyNote.setActive();
   }
 
   onSelectedLeave() {
-    const color = this.getColor();
-    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
+    this.eventEmitter.emit('colorChanged', this.getColor());
 
     this.stickyNote.setActive(false);
   }
@@ -51,7 +50,7 @@ export default class Group extends SceneObjectWithSnapshot {
   onSelectedHighlightEnter() {
     this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
-    this.getComponent('mesh').colorChanged(1.0, 1.0, 1.0);
+    this.eventEmitter.emit('colorChanged', { r: 1, g: 1, b: 1 });
 
     this.stickyNote.setActive();
   }
@@ -59,8 +58,7 @@ export default class Group extends SceneObjectWithSnapshot {
   onSelectedHighlightLeave() {
     this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
-    const color = this.getColor();
-    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
+    this.eventEmitter.emit('colorChanged', this.getColor());
 
     this.stickyNote.setActive(false);
   }
@@ -83,10 +81,9 @@ export default class Group extends SceneObjectWithSnapshot {
         })
       })
     });
-    components.mesh.colorChanged(color.r, color.g, color.b);
+    components.mesh.colorChanged(color);
 
     components.highlight = new GroundHighlightingComponent({sceneObject});
-    components.highlight.colorChanged(color.r, color.g, color.b);
   }
 
   onMouseEnterOnSticky() {
@@ -125,7 +122,8 @@ export default class Group extends SceneObjectWithSnapshot {
   setScale(x, y, z) {
     this.depth = z;
 
-    this.getComponent('mesh').sizeChanged(x, y, z);
+    // this.getComponent('mesh').sizeChanged({x, y, z});
+    this.eventEmitter.emit('sizeChanged', { x, y, z });
     this.getComponent('highlight').sizeChanged(x, y, z);
     this.updateScreenAnchorPosition();
   }

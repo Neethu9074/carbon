@@ -47,6 +47,8 @@ export default class Layer extends SceneObjectWithSnapshot {
         tracking.events.openingADashboardUsingTheMap();
       }
     }));
+
+    this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
   }
 
   onHighlightEnter() {
@@ -160,8 +162,7 @@ export default class Layer extends SceneObjectWithSnapshot {
   }
 
   healthChanged(newHealth) {
-    const color = this.calculateColorForHealth(newHealth);
-    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
+    this.eventEmitter.emit('colorChanged', this.calculateColorForHealth(newHealth));
   }
 
   setHeight(height) {
