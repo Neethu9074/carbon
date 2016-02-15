@@ -44,15 +44,15 @@ describe('3D map', () => {
 
     it('dont call external method until time event was handled', () => {
       component.positionChanged({newPosition: {x: 1, y: 2, z: 3}});
-      component.sizeChanged(4, 5, 6);
+      component.sizeChanged({x: 4, y: 5, z: 6});
       expect(collisionObject.position.x).to.equal(0);
       expect(collisionObject.position.y).to.equal(0);
       expect(collisionObject.position.z).to.equal(0);
 
       component.handleComponentTimeEvent();
-      expect(collisionObject.position.x).to.equal(1 - 0.5 + 4 / 2);
+      expect(collisionObject.position.x).to.equal((1 - 0.5) + 4 / 2);
       expect(collisionObject.position.y).to.equal(2);
-      expect(collisionObject.position.z).to.equal(3 + 0.5 - 6 / 2);
+      expect(collisionObject.position.z).to.equal((3 + 0.5) - 6 / 2);
       expect(collisionObject.scale.x).to.equal(4);
       expect(collisionObject.scale.y).to.equal(5);
       expect(collisionObject.scale.z).to.equal(6);
@@ -72,7 +72,7 @@ describe('3D map', () => {
       expect(collisionObject.scale.y).to.equal(1);
       expect(collisionObject.scale.z).to.equal(1);
 
-      component.sizeChanged(4, 5, 6);
+      component.sizeChanged({x: 4, y: 5, z: 6});
       component.handleComponentTimeEvent();
       expect(collisionObject.position.x).to.equal(1 - 0.5 + 4 / 2);
       expect(collisionObject.position.y).to.equal(2);

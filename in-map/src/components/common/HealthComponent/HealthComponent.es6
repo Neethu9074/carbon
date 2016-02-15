@@ -16,11 +16,11 @@ export default class HealthComponent extends Component {
   }
 
   onInactiveEnter() {
-    this.sceneObject.healthChanged(health.ok);
+    this.emit('healthChanged', health.ok);
   }
 
   onInactiveLeave() {
-    this.sceneObject.healthChanged(this.healthToSet);
+    this.emit('healthChanged', this.healthToSet);
   }
 
 

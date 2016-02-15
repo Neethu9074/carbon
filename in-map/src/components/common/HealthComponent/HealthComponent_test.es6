@@ -1,5 +1,6 @@
 /* eslint-env mocha, node */
 /* eslint-disable no-unused-expressions */
+import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
@@ -12,6 +13,7 @@ import HealthComponent from './HealthComponent';
 describe('3D map', () => {
   let component;
   let sceneObject;
+  let healthChanged;
 
   beforeEach(() => {
     global.window = {
@@ -25,10 +27,12 @@ describe('3D map', () => {
       }
     };
     sceneObject = {
-      healthChanged: sinon.stub(),
-      scene: {renderScene: sinon.stub()}
+      scene: {renderScene: sinon.stub()},
+      eventEmitter: new RoEmitter()
     };
     component = new HealthComponent({sceneObject});
+    healthChanged = sinon.stub();
+    sceneObject.eventEmitter.on('healthChanged').subscribe(healthChanged);
   });
 
   describe('HealthComponent', () => {
@@ -40,28 +44,28 @@ describe('3D map', () => {
 
     it('dont call external method until time event was handled', () => {
       component.setHealth(health.warning);
-      expect(sceneObject.healthChanged.callCount).to.equal(0);
+      expect(healthChanged.callCount).to.equal(0);
       component.handleComponentTimeEvent();
-      expect(sceneObject.healthChanged.callCount).to.equal(1);
+      expect(healthChanged.callCount).to.equal(1);
     });
 
     it('dont set health on inactive but on resume', () => {
-      expect(sceneObject.healthChanged.callCount).to.equal(0);
+      expect(healthChanged.callCount).to.equal(0);
       component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
       expect(component.isActive()).to.equal(false);
-      expect(sceneObject.healthChanged.callCount).to.equal(1);
+      expect(healthChanged.callCount).to.equal(1);
 
       component.setHealth(health.warning);
       component.handleComponentTimeEvent();
 
-      expect(sceneObject.healthChanged.callCount).to.equal(1);
+      expect(healthChanged.callCount).to.equal(1);
       expect(component.healthToSet).to.equal(health.warning);
 
       component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
-      expect(sceneObject.healthChanged.callCount).to.equal(2);
+      expect(healthChanged.callCount).to.equal(2);
       component.handleComponentTimeEvent();
-      expect(sceneObject.healthChanged.callCount).to.equal(3);
+      expect(healthChanged.callCount).to.equal(3);
     });
 
   });
