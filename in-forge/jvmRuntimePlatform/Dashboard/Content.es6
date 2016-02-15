@@ -5,13 +5,15 @@ import {extractCoordinates, getRawPayload} from 'in-services/snapshots';
 import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  time
+  time,
+  withSiPrefixZeroDecimalPlaces,
+  withSiPrefixTwoDecimalPlaces
 } from 'in-services/formatters/number';
-
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import connectTo from 'in-hoc/connectTo';
+import classnames from 'in-services/util/classnames';
+import connectTo from 'in-components/hoc/connectTo';
 import {getMaxValue} from 'in-sdk/metrics';
 import Mtd from 'in-components/Mtd';
 
@@ -45,20 +47,68 @@ export default connectTo(
 
     getInitialState() {
       return {
-        poolName: null
+        poolName: null,
+        selectedJmxMetric: null
       };
     },
 
     render() {
-
       const timeframe = this.props.timeframe;
       const snapshot = this.props.snapshot;
       const poolName = this.state.poolName;
 
       const pools = snapshot.getIn(['data', 'jvm.pools']);
       const collectors = snapshot.getIn(['data', 'jvm.collectors']);
+      const jmx = snapshot.getIn(['data', 'jmx']);
+      const jmxMetrics = jmx ? jmx.toArray() : [];
+
       return (
         <div>
+          {jmx && jmx.length > 0 ?
+            <DashboardSection title='Custom JMX Metrics'>
+              {this.state.selectedJmxMetric ?
+                <ChartWithLegend snapshot={snapshot}
+                                 windowSize={timeframe}
+                                 height={chartHeight}
+                                 margins={{
+                                   left: 90
+                                 }}
+                                 y1={{
+                                   formatter: withSiPrefixZeroDecimalPlaces,
+                                   tooltipFormatter: withSiPrefixTwoDecimalPlaces,
+                                   metrics: ['jmx.' + this.state.selectedJmxMetric],
+                                   labels: [this.state.selectedJmxMetric],
+                                   type: 'line'
+                                 }}/>
+              : null}
+              <ResponsiveTable clickable={true}>
+                <thead>
+                  <tr>
+                    <th>
+                      Custom JMX Metrics
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {jmxMetrics.map(jmxMetric =>
+                    <tr key={jmxMetric}
+                        onClick={() => this.setState({selectedJmxMetric: jmxMetric})}
+                        className={classnames({
+                          'active': jmxMetric === this.state.selectedJmxMetric
+                        })}>
+                      <td>
+                        {jmxMetric}
+                      </td>
+                      <Mtd metric={'jmx.' + jmxMetric}
+                           snapshot={snapshot}
+                           formatter={withSiPrefixTwoDecimalPlaces} />
+                    </tr>
+                  )}
+                </tbody>
+              </ResponsiveTable>
+            </DashboardSection>
+          : null}
 
           <DashboardSection title='Threads'>
             <ChartWithLegend snapshot={snapshot}

@@ -17,12 +17,12 @@ addLabelFinder(constants.plugins.phpfpm, getLabel);
 
 function getLabel(s) {
   const data = s.get('data');
-  const workerPoolName = data.getIn(['pool']);
-  if (!workerPoolName) {
+  const workerPoolNames = data.getIn(['worker_pools']).toArray();
+  if (!workerPoolNames) {
     return getFallbackLabel(s);
   }
 
-  return 'PHP-FPM Worker Pool: ' + workerPoolName;
+  return 'PHP-FPM Worker Pool: ' + workerPoolNames.join(', ');
 }
 
 function getFallbackLabel(s) {

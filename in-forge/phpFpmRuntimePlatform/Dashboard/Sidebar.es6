@@ -19,7 +19,7 @@ const PhpFpmDashboardSidebar = React.createClass({
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>PHP-FPM Runtime</Collapsible.Header>
           <Collapsible.Content>
-            <PhpFpmInfo snapshot={this.props.snapshot} />
+            <PhpFpmInfo snapshot={this.props.snapshot}/>
           </Collapsible.Content>
         </Collapsible>
 
