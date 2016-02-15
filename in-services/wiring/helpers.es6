@@ -28,6 +28,19 @@ export function getSourceNodes(wiringGraph, destination, relation) {
   return sourceNodes;
 }
 
+export function getDestinationNodes(wiringGraph, destination, relation) {
+  const sourceNodes = [];
+
+  for (let i = 0, len = wiringGraph.edges.length; i < len; i++) {
+    const edge = wiringGraph.edges[i];
+    if (edge.source === destination && edge.relation === relation) {
+      sourceNodes.push(edge.destination);
+    }
+  }
+
+  return sourceNodes;
+}
+
 
 export function getAllNodesTillOsNode(wiringGraph, leafId) {
   const nodes = [];
