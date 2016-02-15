@@ -9,6 +9,8 @@ export const plugins = {
   docker: 'com.instana.forge.infrastructure.virtualization.docker.Docker',
   cassandra: 'com.instana.forge.infrastructure.database.cassandra.CassandraNode',
   cassandraCluster: 'com.instana.forge.infrastructure.database.cassandra.CassandraCluster',
+  genericHardware: 'com.instana.forge.hardware.GenericHardware',
+  genericZone: 'com.instana.forge.hardware.GenericZone',
   redis: 'com.instana.forge.infrastructure.cache.redis.Redis',
   mongodb: 'com.instana.forge.infrastructure.database.mongodb.MongoDb',
   mysql: 'com.instana.forge.infrastructure.database.mysql.MySqlDatabase',
