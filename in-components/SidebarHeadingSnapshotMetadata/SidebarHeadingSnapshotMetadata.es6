@@ -4,7 +4,6 @@ import React from 'react/addons';
 
 import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
-import Tooltip from 'in-components/Tooltip';
 import {getLabel} from 'in-sdk/snapshot';
 
 import HealthIcon from '../HealthIcon';
@@ -51,20 +50,9 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
   },
 
   getHostLabel(snapshot) {
-    const label = getLabel(snapshot);
-    const maxLength = 22;
-    if (label.length > maxLength) {
-      return (
-        <Tooltip content={label}>
-          <span className={block + '__text'}>
-            {label}
-          </span>
-        </Tooltip>
-      );
-    }
     return (
       <span className={block + '__text'}>
-        {label}
+        {getLabel(snapshot)}
       </span>
     );
   }

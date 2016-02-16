@@ -4,7 +4,6 @@ import React from 'react/addons';
 import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
-import ContentHeading from 'in-components/ContentHeading';
 
 const chartHeight = 150;
 const rpt = React.PropTypes;
