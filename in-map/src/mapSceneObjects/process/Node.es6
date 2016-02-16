@@ -56,7 +56,7 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   onSelectedLeave() {
-    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.FF);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.getComponent('connectionsHandler').stopAnimation();
   }
 
@@ -110,15 +110,14 @@ export default class Node extends SceneObjectWithSnapshot {
       }),
       factory: this.scene.solidSingleMeshFactory
     });
-    components.topMesh.sizeChanged(0.9, 0.9, 0.9);
+    components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
 
     components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject: this});
     components.connectionsHandler.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onSnapshotUpdated(snapshot) {
-    const color = getColorPool('processes').getColorRGB(snapshot.get('plugin'));
-    this.components.mesh.colorChanged(color.r, color.g, color.b);
+    this.components.mesh.colorChanged(getColorPool('processes').getColorRGB(snapshot.get('plugin')));
   }
 
   expand() {
