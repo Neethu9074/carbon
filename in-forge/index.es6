@@ -26,3 +26,5 @@ import './com.instana.forge.infrastructure.webserver.nginx.Nginx';
 import './com.instana.forge.infrastructure.database.mssql.MsSqlDatabase';
 import './com.instana.forge.infrastructure.webserver.msiis.Msiis';
 import './com.instana.forge.infrastructure.runtime.phpfpm.PhpFpmRuntimePlatform';
+import './com.instana.forge.hardware.GenericHardware';
+import './com.instana.forge.hardware.GenericZone';

@@ -10,6 +10,7 @@ import {create} from '../conveyer';
 import * as views from '../views';
 import {
   getDestinationNode,
+  getDestinationNodes,
   getSourceNodes,
   getLeafNodes,
   getNodesWithPluginId,
@@ -40,19 +41,24 @@ export const fullPhysicalHostsViewWiring = physicalHostsViewWiring.transform({
 function mapWiringGraphToPhysicalHostsViewGraph(wiringGraph) {
   return getNodesWithPluginId(wiringGraph, forgeConsts.plugins.os)
     .map(osNodeStrId => {
+      const hardwareIds = getDestinationNodes(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
       let group;
-      const clusteringNodes = getSourceNodes(wiringGraph, osNodeStrId, forgeConsts.rels.clusters);
-      // if a custom zone is defined, take the first
-      if (clusteringNodes.length > 0) {
-        group = clusteringNodes[0];
-      } else {
-        // get the entity where the host is running on
-        group = getDestinationNode(wiringGraph, osNodeStrId, forgeConsts.rels.runsOn);
-        if (group) {
-          // find the clustering entity
-          group = getSourceNodes(wiringGraph, group, forgeConsts.rels.clusters);
-          group = wiringGraph.nodes[group];
+
+      if (hardwareIds.length > 0) {
+        group = hardwareIds[0];
+      }
+
+      hardwareIds.forEach(hardwareId => {
+        const pluginId = wiringGraph.nodes[hardwareId].get('pluginId');
+        if (pluginId === forgeConsts.plugins.genericHardware) {
+          group = hardwareId;
         }
+      });
+
+      if (group) {
+        // find the clustering entity
+        group = getSourceNodes(wiringGraph, group, forgeConsts.rels.clusters);
+        group = wiringGraph.nodes[group];
       }
 
       const layers = getLeafNodes(wiringGraph, osNodeStrId, [forgeConsts.rels.runsOn])

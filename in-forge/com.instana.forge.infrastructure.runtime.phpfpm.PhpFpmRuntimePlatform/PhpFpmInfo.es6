@@ -1,8 +1,8 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
-
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import Collapsible from 'in-components/Collapsible';
 
 const PhpFpmInfo = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -13,22 +13,31 @@ const PhpFpmInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
+    const pools = data.get('worker_pools').toArray();
 
     return (
-      <DescriptionList>
-        <DescriptionItem title='Process ID'>
-          {data.get('pid')}
-        </DescriptionItem>
-        <DescriptionItem title='Pool Name'>
-          {data.get('pool')}
-        </DescriptionItem>
-        <DescriptionItem title='Process Manager'>
-          {data.get('process manager')}
-        </DescriptionItem>
-        <DescriptionItem title='Start Time'>
-          {moment.unix(data.get('start time')).format()}
-        </DescriptionItem>
-      </DescriptionList>
+      <div>
+        <DescriptionList>
+          <DescriptionItem title='Master Process ID'>
+            {data.get('pid')}
+          </DescriptionItem>
+        </DescriptionList>
+          {pools.map(pool =>
+            <Collapsible initiallyOpen={true} key={pool}>
+              <Collapsible.Header>Worker Pool: {data.get('worker_pool.' + pool).get('pool')}</Collapsible.Header>
+              <Collapsible.Content>
+                <DescriptionList>
+                  <DescriptionItem title="Process Manager">
+                    {data.get('worker_pool.' + pool).get('process_manager')}
+                  </DescriptionItem>
+                  <DescriptionItem title="Start Time">
+                    {moment.unix(data.get('worker_pool.' + pool).get('start_time')).format()}
+                  </DescriptionItem>
+                </DescriptionList>
+              </Collapsible.Content>
+            </Collapsible>
+          )}
+      </div>
     );
   }
 });
