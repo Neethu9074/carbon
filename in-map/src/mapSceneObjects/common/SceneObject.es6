@@ -164,10 +164,8 @@ export default class SceneObject extends Subscriber {
   removeChild() {}
 
   dispose() {
-    this.eventEmitter.dispose();
-    this.eventEmitter = null;
-
     super.dispose();
+
 
     // reset states so that inactive state is taken
     this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, PROPERTY_VALUES.OFF);
@@ -175,6 +173,9 @@ export default class SceneObject extends Subscriber {
     this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     this.forEachComponent(component => component.dispose());
+
+    this.eventEmitter.dispose();
+    this.eventEmitter = null;
 
     if (this.parent) {
       this.parent.removeChild(this);
