@@ -57,7 +57,7 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
       return (
         <Tooltip content={label}>
           <span className={block + '__text'}>
-            {this.getTrimmedLabelForSnapshot(label)}
+            {label}
           </span>
         </Tooltip>
       );
@@ -67,17 +67,6 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
         {label}
       </span>
     );
-  },
-
-  getTrimmedLabelForSnapshot(label) {
-    let trimmed = label;
-    const maxLength = 22;
-    if (trimmed.length > maxLength) {
-      trimmed = trimmed
-        .substring(0, maxLength) // cuts the overflowing end
-        .trim() + '...'; // replaces the ending whitespace to avoid text__ -> text__...
-    }
-    return trimmed;
   }
 });
 
