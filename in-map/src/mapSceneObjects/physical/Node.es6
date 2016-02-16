@@ -7,10 +7,10 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
 import ConnectionsHandlerComponent from '../../components/physical/ConnectionsHandlerComponent';
-import GroundLineMeshComponent from '../../components/common/GroundLineMeshComponent';
+import GroundLineMeshComponent from '../../components/physical/GroundLineMeshComponent';
 import HighlightingComponent from '../../components/physical/HighlightingComponent';
 import CollisionComponent from '../../components/common/CollisionObjectComponent';
-import GroundMeshComponent from '../../components/common/GroundMeshComponent';
+import GroundMeshComponent from '../../components/physical/GroundMeshComponent';
 import HealthComponent from '../../components/common/HealthComponent';
 import MetricComponent from '../../components/common/MetricComponent';
 import LayerComponent from '../../components/physical/LayerComponent';
