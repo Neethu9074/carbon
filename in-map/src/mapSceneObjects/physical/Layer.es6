@@ -52,60 +52,44 @@ export default class Layer extends SceneObjectWithSnapshot {
   }
 
   onHighlightEnter() {
-    // setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
     currentTooltip.emit(this.tooltip);
   }
 
   onHighlightLeave() {
-    // dispose the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSelectedEnter() {
-    // setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-
-    // surounds the node with a white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightEnter() {
-    // setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-
-    // surounds the node with a white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
     currentTooltip.emit(this.tooltip);
   }
 
   onSelectedHighlightLeave() {
-    // hide the border highlighting stuff
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-
-    // dispose the white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSelectedLeave() {
-    // setup the border highlight
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-
-    // dispose the white hull
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onInactiveLeave() {
-    // enables all components
     super.onInactiveLeave();
 
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
-    const activateCollisions = (this.currentZoomLevel === level.nearest) ?
-      PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+    const activateCollisions = this.currentZoomLevel === level.nearest ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
     this.getComponent('collision').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, activateCollisions);
   }
 
@@ -146,9 +130,9 @@ export default class Layer extends SceneObjectWithSnapshot {
     });
     components.solidMesh.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
-    // add the highlighting component to handle the highlighting of a node
-    // this is different to solidMesh since the highlighting is like a mouseOver effect
-    components.highlighting = new HighlightingComponent({sceneObject: this});
+    // add the highlight component to handle the highlight of a node
+    // this is different to solidMesh since the highlight is like a mouseOver effect
+    components.highlight = new HighlightingComponent({sceneObject: this});
   }
 
   onSnapshotUpdated(snapshot) {

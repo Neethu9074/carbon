@@ -29,11 +29,11 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onHighlightEnter() {
-    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onHighlightLeave() {
-    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSelectedEnter() {
@@ -48,7 +48,7 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onSelectedHighlightEnter() {
-    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 
     this.eventEmitter.emit('colorChanged', { r: 1, g: 1, b: 1 });
 
@@ -56,7 +56,7 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onSelectedHighlightLeave() {
-    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     this.eventEmitter.emit('colorChanged', this.getColor());
 
@@ -87,11 +87,11 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   onMouseEnterOnSticky() {
-    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onMouseLeaveOnSticky() {
-    this.getComponent('highlight').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   onSnapshotUpdated() {}

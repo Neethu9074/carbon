@@ -57,6 +57,10 @@ export default class SceneObject extends Subscriber {
     Object.keys(this.components).forEach(key => fn(this.components[key]));
   }
 
+  changeComponentState(componentName, stateProperty, value) {
+    this.components[componentName].stateMachine.changeStateProperty(stateProperty, value);
+  }
+
   onInitialEnter() {}
   onInitialLeave() {}
   onHighlightEnter() {}

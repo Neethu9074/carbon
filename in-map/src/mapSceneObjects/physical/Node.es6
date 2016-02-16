@@ -95,20 +95,20 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   onIndirectHighlightEnter() {
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    this.getComponent('groundLine').stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.ON);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('groundLine', PROPERTIES.SELECTED, PROPERTY_VALUES.ON);
   }
 
   onIndirectHighlightLeave() {
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.getComponent('groundLine').stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.OFF);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('groundLine', PROPERTIES.SELECTED, PROPERTY_VALUES.OFF);
   }
 
   onInactiveEnter() {
     super.onInactiveEnter();
 
     this.label.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.getComponent('mesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('mesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onInactiveLeave() {
@@ -120,10 +120,10 @@ export default class Node extends SceneObjectWithSnapshot {
 
   highlight(solid = true) {
     const value = solid ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-    this.getComponent('solidMesh').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
-    this.getComponent('highlighting').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
-    this.getComponent('groundLine').stateMachine.changeStateProperty(PROPERTIES.SELECTED, value);
-    this.getComponent('connectionsHandler').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, value);
+    this.changeComponentState('highlighting', PROPERTIES.ACTIVE, value);
+    this.changeComponentState('groundLine', PROPERTIES.SELECTED, value);
+    this.changeComponentState('connectionsHandler', PROPERTIES.ACTIVE, value);
   }
 
 
@@ -228,11 +228,11 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   showMetrics() {
-    this.getComponent('metric').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+    this.changeComponentState('metric', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   hideMetrics() {
-    this.getComponent('metric').stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('metric', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
   setMetricValues(values) {
@@ -305,19 +305,15 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   healthChanged(newHealth) {
-    const groundLine = this.getComponent('groundLine');
-    const ground = this.getComponent('ground');
-    const color = this.calculateNodeColor(newHealth);
-
-    this.eventEmitter.emit('colorChanged', color);
+    this.eventEmitter.emit('colorChanged', this.calculateNodeColor(newHealth));
 
     if (newHealth === health.ok) {
-      ground.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-      groundLine.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+      this.changeComponentState('ground', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+      this.changeComponentState('groundLine', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
     } else {
-      ground.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-      groundLine.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+      this.changeComponentState('ground', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+      this.changeComponentState('groundLine', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     }
   }
 
