@@ -5,7 +5,6 @@ import {mapSeverityToHealth, mapHealthToColor, health} from 'in-services/health'
 import * as timelineStore from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
 import enhance from 'in-components/hoc/enhance';
-import Icon from 'in-components/Icon';
 
 import IssueItemList from './IssueItemList';
 import Filter from './Filter';
@@ -47,7 +46,6 @@ const NotificationCenter = React.createClass({
 
   getInitialState() {
     return {
-      showStatusMenu: false,
       filterPredicate: () => true,
       selectedType: FILTER_TYPES.ALL
     };
@@ -56,29 +54,14 @@ const NotificationCenter = React.createClass({
   render() {
     return (
       <div className={block}>
-
-        <div className={block + '__header'}>
-          {'Notifications'}
-          <Icon type={'menue2'}
-                className={block + '__icon'}
-                onClick={this.toggleStatusMenu}/>
-        </div>
-
+        {'Notifications'}
         {this.renderFilterMenu()}
         {this.renderIssues()}
       </div>
     );
   },
 
-  toggleStatusMenu() {
-    this.setState({ showStatusMenu: !this.state.showStatusMenu });
-  },
-
   renderFilterMenu() {
-    if (!this.state.showStatusMenu) {
-      return null;
-    }
-
     const selectedType = this.state.selectedType;
     const counter = this.getIssuesCounter();
 

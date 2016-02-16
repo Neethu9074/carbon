@@ -58,9 +58,7 @@ export default connectTo(
             {issue.getIn(['problem', 'fixSuggestion'])}
           </div>
 
-          {this.props.snapshot ?
-            <SnapshotDescription snapshot={this.props.snapshot} />
-          : null}
+          <SnapshotDescription snapshot={this.props.snapshot} />
         </div>
       </div>
     );
