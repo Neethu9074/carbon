@@ -16,7 +16,12 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.tomcat,
-  snapshot => 'Tomcat ' + snapshot.getIn(['data', 'version'])
+  // Version usually looks like "Apache Tomcat/7.0"
+  // So it is enough to take version + ports
+  snapshot => snapshot.getIn(['data', 'version'])
+              + ' @'
+              + snapshot.getIn(['data', 'connector-config'])
+                .map(data => data.getIn(['port'])).join(',')
 );
 
 addIconFinder(
