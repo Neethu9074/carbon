@@ -31,10 +31,11 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
       <div className={getClassName(this, block)}>
         <div>
           <h1 className={block + '__label'}>
-            {this.getHostLabel(snapshot)}
+            <span className={block + '__text'}>
+              {getLabel(snapshot)}
 
-            <ZoneTag snapshot={snapshot}
-                     className={block + '__zone'}/>
+              <ZoneTag snapshot={snapshot} className={block + '__zone'}/>
+            </span>
           </h1>
 
           <p className={block + '__plugin-type'}>
@@ -46,14 +47,6 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
           <HealthIcon snapshot={snapshot}/>
         </div>
       </div>
-    );
-  },
-
-  getHostLabel(snapshot) {
-    return (
-      <span className={block + '__text'}>
-        {getLabel(snapshot)}
-      </span>
     );
   }
 });
