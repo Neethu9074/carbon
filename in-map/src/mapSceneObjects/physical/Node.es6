@@ -221,8 +221,8 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   updateScreenAnchorPosition() {
-    const anchor = this.getScreenAnchorPosition();
-    super.setScreenPositionAnchor(anchor.x, anchor.y, anchor.z);
+    const pos = this.getComponent('position').getPosition();
+    super.setScreenPositionAnchor(pos.x - 0.2, pos.y + this.height + 0.75, pos.z + 0.25);
   }
 
   showMetrics() {
@@ -249,11 +249,6 @@ export default class Node extends SceneObjectWithSnapshot {
     if (!this.components.health) {
       this.components.health = new HealthComponent({sceneObject: this});
     }
-  }
-
-  getScreenAnchorPosition() {
-    const pos = this.getComponent('position').getPosition();
-    return {x: pos.x - 0.2, y: pos.y + this.height + 0.75, z: pos.z + 0.25};
   }
 
   positionChanged({newPosition, oldPosition}) {
