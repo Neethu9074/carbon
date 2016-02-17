@@ -189,16 +189,14 @@ export default class Node extends SceneObjectWithSnapshot {
   registerEvents() {
     this.addSubscription(eventBus.on('endUpdate').subscribe(data => this.update(data)));
 
-    this.addSubscription(activeMetric.subscribe(metric => this.onActiveMetric(metric)));
+    this.addSubscription(activeMetric.subscribe(metric => {
+      this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE,
+                                            metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON);
+    }));
 
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
     this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
     this.addSubscription(this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)));
-  }
-
-  onActiveMetric(metric) {
-    const value = metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
-    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
   }
 
   setChildren(entities) {

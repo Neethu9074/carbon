@@ -84,8 +84,8 @@ export default class Connection extends SceneObjectWithSnapshot {
   }
 
   onHighlight(isHighlighted) {
-    const value = isHighlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-    this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, value);
+    this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT,
+                                          isHighlighted ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF);
   }
 
   dispose() {
