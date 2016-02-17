@@ -13,7 +13,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.genericZone,
-  () => 'Generic Zone'
+  s => s.getIn(['data', 'groupId'])
 );
 
 addIconFinder(
