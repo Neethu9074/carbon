@@ -21,10 +21,10 @@ import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
 import {longClickedSceneObject} from '../../stores';
-import NodeSnapshotServer from './NodeSnapshotServer';
 import ConnectionGrid from '../../ConnectionGrid';
 import TooltipNode from '../../Tooltips/Node';
 import {currentTooltip} from '../../stores';
+import MetricHandler from './MetricHandler';
 import Label from './Label';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
@@ -49,7 +49,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.registerEvents();
 
     this.tooltip = new TooltipNode(this);
-    this.snapshotServer = new NodeSnapshotServer(this);
+    this.metricHandler = new MetricHandler(this);
     this.label = new Label({
       id: this.id,
       parent: this,
@@ -242,7 +242,9 @@ export default class Node extends SceneObjectWithSnapshot {
   update() {
     this.updateScreenPosition();
 
-    this.setStateForMetricActivity({ isOutOfView: !this.isInView() });
+    if (this.metricHandler) {
+      this.setStateForMetricActivity({ isOutOfView: !this.isInView() });
+    }
   }
 
   setStateForMetricActivity(params) {
@@ -253,17 +255,16 @@ export default class Node extends SceneObjectWithSnapshot {
       this.isToFarAway = params.isToFarAway;
     }
 
-    if (!this.isToFarAway && !this.isOutOfView &&
-        this.snapshotServer && this.snapshotServer.currentMetric) {
+    if (!this.isToFarAway && !this.isOutOfView && this.metricHandler && this.metricHandler.currentMetric) {
       if (!this.canShowMetrics) {
         this.canShowMetrics = true;
-        this.snapshotServer.resumeMetrics();
+        this.metricHandler.resumeMetrics();
         this.showMetrics();
       }
     } else {
       if (this.canShowMetrics) {
         this.canShowMetrics = false;
-        this.snapshotServer.pauseMetrics();
+        this.metricHandler.pauseMetrics();
         this.hideMetric();
       }
     }
@@ -271,7 +272,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
   hideMetric() {
     // disable metrics if the node isn't visible
-    this.snapshotServer.pauseMetrics();
+    this.metricHandler.pauseMetrics();
   }
 
   onSnapshotUpdated() {
@@ -329,7 +330,7 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   dispose() {
-    this.snapshotServer.dispose();
+    this.metricHandler.dispose();
 
     // dispose subscriptions so that no update fires anymore
     super.dispose();

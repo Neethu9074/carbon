@@ -1,11 +1,12 @@
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
+import {emptyArray} from 'in-services/fixedObjects';
 import {getMaxValue} from 'in-sdk/metrics';
 
 import {subscribeToMetric} from '../../metricUtils';
 
 
-export default class NodeSnapshotServer {
+export default class MetricHandler {
 
   constructor(client) {
     this.client = client;
@@ -63,12 +64,8 @@ export default class NodeSnapshotServer {
   }
 
   dispose() {
-    this.subscriptions.forEach(sub => {
-      if (sub && sub.dispose) {
-        sub.dispose();
-      }
-    });
-    this.subscriptions = null;
+    this.subscriptions.forEach(sub => sub.dispose());
+    this.subscriptions = emptyArray;
 
     this.disposeMetricSubscription();
 
