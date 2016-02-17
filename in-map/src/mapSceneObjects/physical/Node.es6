@@ -43,8 +43,6 @@ export default class Node extends SceneObjectWithSnapshot {
     super({parent, id: entity.get('id')});
 
     this.height = NODE_BASE_HEIGHT;
-    this.isOutOfView = false;
-    this.isToFarAway = false;
 
     this.registerEvents();
 
@@ -243,36 +241,8 @@ export default class Node extends SceneObjectWithSnapshot {
     this.updateScreenPosition();
 
     if (this.metricHandler) {
-      this.setStateForMetricActivity({ isOutOfView: !this.isInView() });
+      this.metricHandler.setStateForMetricActivity({ isOutOfView: !this.isInView() });
     }
-  }
-
-  setStateForMetricActivity(params) {
-    if (params.isOutOfView !== undefined) {
-      this.isOutOfView = params.isOutOfView;
-    }
-    if (params.isToFarAway !== undefined) {
-      this.isToFarAway = params.isToFarAway;
-    }
-
-    if (!this.isToFarAway && !this.isOutOfView && this.metricHandler && this.metricHandler.currentMetric) {
-      if (!this.canShowMetrics) {
-        this.canShowMetrics = true;
-        this.metricHandler.resumeMetrics();
-        this.showMetrics();
-      }
-    } else {
-      if (this.canShowMetrics) {
-        this.canShowMetrics = false;
-        this.metricHandler.pauseMetrics();
-        this.hideMetric();
-      }
-    }
-  }
-
-  hideMetric() {
-    // disable metrics if the node isn't visible
-    this.metricHandler.pauseMetrics();
   }
 
   onSnapshotUpdated() {

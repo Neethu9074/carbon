@@ -11,13 +11,16 @@ export default class MetricHandler {
   constructor(client) {
     this.client = client;
     this.subscriptions = [];
+    this.isOutOfView = false;
+    this.isToFarAway = false;
+    this.currentMetric = undefined;
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
       this.disposeMetricSubscription();
       if (metric) {
         this.currentMetric = metric.get('metrics');
 
-        if (this.client.canShowMetrics) {
+        if (this.canShowMetrics) {
           this.subscribeToCurrentMetric();
           this.client.showMetrics(this.currentMetric);
         }
@@ -28,7 +31,29 @@ export default class MetricHandler {
     }));
 
     this.subscriptions.push(zoomLevel.subscribe(zl =>
-      client.setStateForMetricActivity({ isToFarAway: zl === level.mid })));
+      this.setStateForMetricActivity({ isToFarAway: zl === level.mid })));
+  }
+
+  setStateForMetricActivity({isOutOfView, isToFarAway}) {
+    if (isOutOfView !== undefined) {
+      this.isOutOfView = isOutOfView;
+    }
+    if (isToFarAway !== undefined) {
+      this.isToFarAway = isToFarAway;
+    }
+
+    if (!this.isToFarAway && !this.isOutOfView && this.currentMetric) {
+      if (!this.canShowMetrics) {
+        this.canShowMetrics = true;
+        this.resumeMetrics();
+        this.client.showMetrics();
+      }
+    } else {
+      if (this.canShowMetrics) {
+        this.canShowMetrics = false;
+        this.pauseMetrics();
+      }
+    }
   }
 
   disposeMetricSubscription() {
@@ -70,5 +95,8 @@ export default class MetricHandler {
     this.disposeMetricSubscription();
 
     this.client = null;
+    this.isOutOfView = null;
+    this.isToFarAway = null;
+    this.currentMetric = null;
   }
 }
