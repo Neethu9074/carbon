@@ -143,8 +143,6 @@ export default class Node extends SceneObjectWithSnapshot {
       contentProvider: new CMCM({contentProvider: pcm}),
       factory: this.scene.singleMeshFactory
     });
-    const color = this.calculateNodeColor();
-    components.mesh.colorChanged(color.r, color.g, color.b);
 
     // add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
@@ -206,11 +204,6 @@ export default class Node extends SceneObjectWithSnapshot {
     layerComponent.addLayer(entities);
   }
 
-  updateScreenAnchorPosition() {
-    const pos = this.getComponent('position').getPosition();
-    super.setScreenPositionAnchor(pos.x - 0.2, pos.y + this.height + 0.75, pos.z + 0.25);
-  }
-
   showMetrics() {
     this.changeComponentState('metric', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
@@ -237,6 +230,11 @@ export default class Node extends SceneObjectWithSnapshot {
     }
   }
 
+  updateScreenAnchorPosition() {
+    const pos = this.getComponent('position').getPosition();
+    super.setScreenPositionAnchor(pos.x - 0.2, pos.y + this.height + 0.75, pos.z + 0.25);
+  }
+
   positionChanged({newPosition, oldPosition}) {
     this.label.getComponent('position').setPosition(newPosition.x, newPosition.y + this.height + 0.2, newPosition.z);
 
@@ -257,18 +255,18 @@ export default class Node extends SceneObjectWithSnapshot {
   }
 
   healthChanged(newHealth) {
-    this.eventEmitter.emit('colorChanged', this.calculateNodeColor(newHealth));
-  }
-
-  calculateNodeColor(hostHealth) {
     const colors = theme.map.colors;
+    let color;
 
-    if (hostHealth === health.warning) {
-      return new THREE.Color(colors.warning);
-    } else if (hostHealth === health.danger) {
-      return new THREE.Color(colors.critical);
+    if (newHealth === health.warning) {
+      color = new THREE.Color(colors.warning);
+    } else if (newHealth === health.danger) {
+      color = new THREE.Color(colors.critical);
+    } else {
+      color = new THREE.Color(colors.cubeBasicColor);
     }
-    return new THREE.Color(colors.cubeBasicColor);
+
+    this.eventEmitter.emit('colorChanged', color);
   }
 
   dispose() {

@@ -75,10 +75,11 @@ export default class Node extends SceneObjectWithSnapshot {
     super.initComponents();
 
     const components = this.components;
+    const sceneObject = this;
 
     // add the mesh component to handle visual representation of the entity
     components.mesh = new MeshComponent({
-      sceneObject: this,
+      sceneObject,
       contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
@@ -91,7 +92,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     // add the collision component to handle the collision box
     components.collision = new CollisionComponent({
-      sceneObject: this,
+      sceneObject,
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
       layer: 2
     });
@@ -100,7 +101,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
     // the topping of the cylinder
     components.topMesh = new TopMeshComponent({
-      sceneObject: this,
+      sceneObject,
       contentProvider: new CMCM({
         contentProvider: new PCM({
           contentProvider: new SCM({
@@ -112,7 +113,7 @@ export default class Node extends SceneObjectWithSnapshot {
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
 
-    components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject: this});
+    components.connectionsHandler = new ConnectionsHandlerComponent({sceneObject});
     components.connectionsHandler.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
