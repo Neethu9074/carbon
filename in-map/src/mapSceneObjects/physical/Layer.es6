@@ -1,8 +1,6 @@
 import THREE from 'three';
 
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import * as tracking from 'in-services/tracking';
-import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
@@ -14,8 +12,8 @@ import MeshComponent from '../../components/common/MeshComponent';
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
-import {longClickedSceneObject, currentTooltip} from '../../stores';
 import TooltipLayer from '../../Tooltips/Layer';
+import {currentTooltip} from '../../stores';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -40,13 +38,6 @@ export default class Layer extends SceneObjectWithSnapshot {
         PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
       this.components.collision.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, activateCollisions);
     });
-
-    this.addSubscription(longClickedSceneObject.subscribe(so => {
-      if (so && this.snapshot && so.id === this.id) {
-        eventBus.emit('openDashboard', this.snapshot);
-        tracking.events.openingADashboardUsingTheMap();
-      }
-    }));
 
     this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
   }

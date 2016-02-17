@@ -1,7 +1,6 @@
 import THREE from 'three';
 
 import {activeMetric} from 'in-services/stores/metrics';
-import * as tracking from 'in-services/tracking';
 import eventBus from 'in-services/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
@@ -20,7 +19,6 @@ import MeshComponent from '../../components/common/MeshComponent';
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
-import {longClickedSceneObject} from '../../stores';
 import ConnectionGrid from '../../ConnectionGrid';
 import TooltipNode from '../../Tooltips/Node';
 import {currentTooltip} from '../../stores';
@@ -53,10 +51,6 @@ export default class Node extends SceneObjectWithSnapshot {
       parent: this,
       iconSize: 3
     });
-
-    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
-    this.addSubscription(this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)));
-    this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
   }
 
   onInitialEnter() {
@@ -198,17 +192,12 @@ export default class Node extends SceneObjectWithSnapshot {
 
     this.addSubscription(activeMetric.subscribe(metric => this.onActiveMetric(metric)));
 
-    this.addSubscription(longClickedSceneObject.subscribe(so => {
-      if (so && so.id === this.id && this.snapshot) {
-        eventBus.emit('openDashboard', this.snapshot);
-        tracking.events.openingADashboardUsingTheMap();
-      }
-    }));
+    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
+    this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
+    this.addSubscription(this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)));
   }
 
   onActiveMetric(metric) {
-    this.currentMetric = metric;
-
     const value = metric ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
     this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, value);
   }

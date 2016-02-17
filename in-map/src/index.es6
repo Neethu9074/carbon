@@ -3,6 +3,7 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import * as navigation from 'in-stores/navigation';
+import * as tracking from 'in-services/tracking';
 import helpify from 'in-components/hoc/helpify';
 import enhance from 'in-components/hoc/enhance';
 import eventBus from 'in-services/eventbus';
@@ -101,8 +102,9 @@ export default helpify(enhance(React.createClass({
     this.props.showHelp(203906681);
   },
 
-  openDashboard(snapshot) {
-    setSelectedSnapshotId(snapshot.get('id'));
+  openDashboard(id) {
+    tracking.events.openingADashboardUsingTheMap();
+    setSelectedSnapshotId(id);
     navigation.goToDashboard();
   },
 
