@@ -1,9 +1,15 @@
+import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import {health} from 'in-services/health';
+
 import LineMeshComponent from '../../common/LineMeshComponent';
 
 
 export default class GroundLineMeshComponent extends LineMeshComponent {
+
   constructor(config) {
     super(config);
+
+    this.addSubscription('healthChanged', this.healthChanged);
   }
 
   positionChanged(pos) {
@@ -18,5 +24,10 @@ export default class GroundLineMeshComponent extends LineMeshComponent {
 
   sizeChanged({x, y, z}) {
     super.sizeChanged({x: x * 1.5, y, z: z * 1.5});
+  }
+
+  healthChanged(newHealth) {
+    const active = newHealth === health.ok ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
+    this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, active);
   }
 }

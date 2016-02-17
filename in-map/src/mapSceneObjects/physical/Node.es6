@@ -277,15 +277,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   healthChanged(newHealth) {
     this.eventEmitter.emit('colorChanged', this.calculateNodeColor(newHealth));
-
-    if (newHealth === health.ok) {
-      this.changeComponentState('ground', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-      this.changeComponentState('groundLine', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-
-    } else {
-      this.changeComponentState('ground', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-      this.changeComponentState('groundLine', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-    }
   }
 
   calculateNodeColor(hostHealth) {
