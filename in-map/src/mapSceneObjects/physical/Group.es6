@@ -145,6 +145,7 @@ export default class Group extends SceneObjectWithSnapshot {
     const connectionsHandler = matchedNode.getComponent('connectionsHandler');
     connectionsHandler.setOutgoingConnections(entity.get('outgoingConnections'));
     connectionsHandler.setIncomingConnections(entity.get('incomingConnections'));
+    connectionsHandler.checkForUpdate();
 
     return matchedNode;
   }

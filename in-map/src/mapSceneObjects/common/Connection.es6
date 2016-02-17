@@ -40,7 +40,6 @@ export default class Connection extends SceneObjectWithSnapshot {
     this.setupGeometry();
   }
 
-
   getLineVertices(from, to) {
     const fromPos = from.getComponent('position').getPosition().clone();
     const toPos = to.getComponent('position').getPosition().clone();
