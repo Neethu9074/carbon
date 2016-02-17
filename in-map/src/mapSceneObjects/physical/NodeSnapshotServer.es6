@@ -26,14 +26,8 @@ export default class NodeSnapshotServer {
       }
     }));
 
-    this.subscriptions.push(zoomLevel.subscribe(zl => {
-      this.zoomLevel = zl;
-      if (zl === level.mid) {
-        client.setStateForMetricActivity({ isToFarAway: true });
-      } else {
-        client.setStateForMetricActivity({ isToFarAway: false });
-      }
-    }));
+    this.subscriptions.push(zoomLevel.subscribe(zl =>
+      client.setStateForMetricActivity({ isToFarAway: zl === level.mid })));
   }
 
   disposeMetricSubscription() {
