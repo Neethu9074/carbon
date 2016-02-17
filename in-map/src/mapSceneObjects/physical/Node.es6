@@ -33,14 +33,13 @@ import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
 import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
 
 
-const NODE_BASE_HEIGHT = 1;
-
 export default class Node extends SceneObjectWithSnapshot {
 
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
-    this.height = NODE_BASE_HEIGHT;
+    // nodes base height
+    this.height = 1;
 
     this.registerEvents();
 
@@ -145,7 +144,7 @@ export default class Node extends SceneObjectWithSnapshot {
       factory: this.scene.singleMeshFactory
     });
     const color = this.calculateNodeColor();
-    this.getComponent('mesh').colorChanged(color.r, color.g, color.b);
+    components.mesh.colorChanged(color.r, color.g, color.b);
 
     // add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
