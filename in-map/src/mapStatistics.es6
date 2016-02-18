@@ -22,39 +22,43 @@ export function getMapStatistics(scene) {
   update(scene);
 
   const allDetailSec = detailLevels.low + detailLevels.mid + detailLevels.max;
-  return {
-    seconds: time.getBigBangTime() | 0,
-    renderStats: {
-      FPS: {
-        'FPS possible': String(time.getFPS() + ' (' + minFPS + '/' + maxFPS + ')'),
-        average: round(fpsArray.reduce((a, b) => a + b) / (timeRangeForAvarage + 1))
+  window.instana.dev.mapStatistics = () => {
+    return {
+      seconds: time.getBigBangTime() | 0,
+      renderStats: {
+        FPS: {
+          'FPS possible': String(time.getFPS() + ' (' + minFPS + '/' + maxFPS + ')'),
+          average: round(fpsArray.reduce((a, b) => a + b) / (timeRangeForAvarage + 1))
+        },
+        framesRendered: scene.framesRendered,
+        geometries: memoryInfo.geometries,
+        textures: memoryInfo.textures,
+        programs: renderer.info.programs,
+        drawCalls: renderInfo.calls,
+        faces: renderInfo.faces,
+        points: renderInfo.points,
+        vertices: renderInfo.vertices
       },
-      framesRendered: scene.framesRendered,
-      geometries: memoryInfo.geometries,
-      textures: memoryInfo.textures,
-      programs: renderer.info.programs,
-      drawCalls: renderInfo.calls,
-      faces: renderInfo.faces,
-      points: renderInfo.points,
-      vertices: renderInfo.vertices
-    },
-    mapObjects: {
-      '#groups': getAllGroups(map).length,
-      '#nodes': getAllNodes(map).length,
-      factories: {
-        highlight: scene.highlightingSingleMeshFactory.numberUpdates | 0,
-        metrics: scene.singleMeshMetricFactory.numberUpdates | 0,
-        ground: scene.groundSingleMeshFactory.numberUpdates | 0,
-        SMF_updates: scene.singleMeshFactory.numberUpdates | 0,
-        layer: scene.layerSingleMeshFactory.numberUpdates | 0
-      },
-      details: {
-        low: String(((detailLevels.low / allDetailSec) * 100) | 0) + '%',
-        mid: String(((detailLevels.mid / allDetailSec) * 100) | 0) + '%',
-        max: String(((detailLevels.max / allDetailSec) * 100) | 0) + '%'
+      mapObjects: {
+        '#groups': getAllGroups(map).length,
+        '#nodes': getAllNodes(map).length,
+        factories: {
+          highlight: scene.highlightingSingleMeshFactory.numberUpdates | 0,
+          metrics: scene.singleMeshMetricFactory.numberUpdates | 0,
+          ground: scene.groundSingleMeshFactory.numberUpdates | 0,
+          SMF_updates: scene.singleMeshFactory.numberUpdates | 0,
+          layer: scene.layerSingleMeshFactory.numberUpdates | 0
+        },
+        details: {
+          low: String(((detailLevels.low / allDetailSec) * 100) | 0) + '%',
+          mid: String(((detailLevels.mid / allDetailSec) * 100) | 0) + '%',
+          max: String(((detailLevels.max / allDetailSec) * 100) | 0) + '%'
+        }
       }
-    }
+    };
   };
+
+  return window.instana.dev.mapStatistics();
 }
 
 
