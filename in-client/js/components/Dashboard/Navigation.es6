@@ -39,12 +39,14 @@ const Navigation = React.createClass({
   calculateJail(scrollToTop) {
     setTimeout(() => {
       this.jail = this.getJail();
-      this.jail.onscroll = this.onScroll;
-      if (scrollToTop) {
-        this.jail.scrollTop = 0;
+      if (this.jail) {
+        this.jail.onscroll = this.onScroll;
+        if (scrollToTop) {
+          this.jail.scrollTop = 0;
+        }
+        this.setState({ draw: true });
       }
-      this.setState({ draw: true });
-    }, 500);
+    }, 800);
   },
 
   render() {
