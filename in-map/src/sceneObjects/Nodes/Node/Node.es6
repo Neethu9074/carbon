@@ -47,7 +47,6 @@ export default class Node extends BaseNode {
 
     this._cachedPower = 1;
     this.isOutOfView = false;
-    this.isToFarAway = false;
 
     this.label = emptyLabel;
     this.snapshotServer = new NodeSnapshotServer(this, connections);
@@ -264,12 +263,8 @@ export default class Node extends BaseNode {
     if (params.isOutOfView !== undefined) {
       this.isOutOfView = params.isOutOfView;
     }
-    if (params.isToFarAway !== undefined) {
-      this.isToFarAway = params.isToFarAway;
-    }
 
-    if (!this.isToFarAway && !this.isOutOfView &&
-        this.snapshotServer && this.snapshotServer.currentMetric) {
+    if (!this.isOutOfView && this.snapshotServer && this.snapshotServer.currentMetric) {
       if (!this.canShowMetrics) {
         this.canShowMetrics = true;
         this.snapshotServer.resumeMetrics();

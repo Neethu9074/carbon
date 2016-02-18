@@ -4,7 +4,6 @@ import {getWiredSnapshots} from 'in-sdk/snapshot';
 import {getMaxValue} from 'in-sdk/metrics';
 
 import * as selectedSnapshot from 'in-services/stores/selectedSnapshot';
-import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
 
 import {selectedSceneObject, nodeMaxPower} from '../../../mapStores';
@@ -30,15 +29,6 @@ export default class NodeSnapshotServer {
       } else {
         this.currentMetric = undefined;
         this.client.hideMetrics();
-      }
-    }));
-
-    this.subscriptions.push(zoomLevel.subscribe(zl => {
-      this.zoomLevel = zl;
-      if (zl === level.mid) {
-        client.setStateForMetricActivity({ isToFarAway: true });
-      } else {
-        client.setStateForMetricActivity({ isToFarAway: false });
       }
     }));
 
