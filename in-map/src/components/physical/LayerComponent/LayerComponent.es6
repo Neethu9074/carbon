@@ -236,10 +236,10 @@ export default class LayerComponent extends Component {
   dispose() {
     super.dispose();
 
+    this.positionToSet.dispose();
+
     this.layer.slice().forEach(layer => layer.dispose());
     this.layerGroupLabel.forEach(label => label.dispose());
-
-    this.positionToSet.dispose();
 
     this.positionToSet = null;
     this.heightToSet = null;

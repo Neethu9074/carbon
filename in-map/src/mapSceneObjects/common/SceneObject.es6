@@ -166,7 +166,6 @@ export default class SceneObject extends Subscriber {
   dispose() {
     super.dispose();
 
-
     // reset states so that inactive state is taken
     this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, PROPERTY_VALUES.OFF);
     this.stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.OFF);
