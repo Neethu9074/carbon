@@ -26,3 +26,5 @@ import './msSqlDatabase';
 import './phpFpmRuntimePlatform';
 import './springbootApplicationContainer';
 import './msiis';
+import './genericHardware';
+import './genericZone';
