@@ -26,6 +26,9 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
+    if (!snapshot) {
+      return null;
+    }
 
     return (
       <div className={getClassName(this, block)}>
@@ -34,7 +37,7 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
             <span className={block + '__text'}>
               {getLabel(snapshot)}
 
-              <ZoneTag snapshot={snapshot} className={block + '__zone'}/>
+              <ZoneTag snapshotId={snapshot.get('id')} className={block + '__zone'}/>
             </span>
           </h1>
 

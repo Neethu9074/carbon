@@ -2,14 +2,11 @@
 
 .in-sidebar-heading-metadata {
   display: flex;
-  justify-content: space-between;
 
   padding: 10px 20px 20px 20px;
   background: @sidebar__header__background;
 
   &__label {
-    display: flex;
-    align-items: center;
     margin: 0;
     font-size: 1rem;
     font-weight: normal;
@@ -20,7 +17,7 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    width: 300px;
+    max-width: 300px;
   }
 
   &__zone {
