@@ -23,7 +23,9 @@ export const plugins = {
   redis: 'redis',
   springboot: 'springbootApplicationContainer',
   tomcat: 'tomcatApplicationContainer',
-  msiis: 'msiis'
+  msiis: 'msiis',
+  genericHardware: 'genericHardware',
+  genericZone: 'genericZone'
 };
 
 export const rels = {

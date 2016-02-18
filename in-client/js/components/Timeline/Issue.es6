@@ -2,6 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {mapSeverityToHealth, health} from 'in-services/health';
 import IssueDescription from 'in-components/IssueDescription';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
@@ -28,7 +29,20 @@ const Issue = React.createClass({
     const issue = this.props.issue;
     const style = this.props.style ? this.props.style : {};
     const state = issue.get('state');
-    style.color = state === 'OPEN' ? theme.health[issue.getIn(['problem', 'severity'])] : theme.health[0];
+    const severity = issue.getIn(['problem', 'severity']);
+    style.color = state === 'OPEN' ? theme.health[severity] : theme.health[0];
+
+    let iconType;
+    switch (mapSeverityToHealth(severity)) {
+      case health.warning:
+        iconType = 'warning';
+        break;
+      case health.danger:
+        iconType = 'critical';
+        break;
+      default:
+        iconType = 'change';
+    }
 
     return (
       <Tooltip  align={{vertical: 'top'}}
@@ -36,7 +50,7 @@ const Issue = React.createClass({
                                            issue={issue}
                                            plugin={issue.getIn(['problem', 'pluginId'])}/>}>
 
-        <Icon type={'warning'}
+        <Icon type={iconType}
               onMouseEnter={() =>this.props.mouseIn(issue)}
               onClick={() => this.focusSnapshot(issue)}
               onMouseLeave={this.props.mouseOut}
