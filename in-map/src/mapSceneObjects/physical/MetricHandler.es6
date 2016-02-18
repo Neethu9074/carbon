@@ -1,4 +1,3 @@
-import {level, zoomLevel} from 'in-services/stores/zoomLevel';
 import {activeMetric} from 'in-services/stores/metrics';
 import {emptyArray} from 'in-services/fixedObjects';
 import {getMaxValue} from 'in-sdk/metrics';
@@ -12,7 +11,6 @@ export default class MetricHandler {
     this.client = client;
     this.subscriptions = [];
     this.isOutOfView = false;
-    this.isToFarAway = false;
     this.currentMetric = undefined;
 
     this.subscriptions.push(activeMetric.subscribe(metric => {
@@ -29,20 +27,14 @@ export default class MetricHandler {
         this.client.hideMetrics();
       }
     }));
-
-    this.subscriptions.push(zoomLevel.subscribe(zl =>
-      this.setStateForMetricActivity({ isToFarAway: zl === level.mid })));
   }
 
-  setStateForMetricActivity({isOutOfView, isToFarAway}) {
+  setStateForMetricActivity({isOutOfView}) {
     if (isOutOfView !== undefined) {
       this.isOutOfView = isOutOfView;
     }
-    if (isToFarAway !== undefined) {
-      this.isToFarAway = isToFarAway;
-    }
 
-    if (!this.isToFarAway && !this.isOutOfView && this.currentMetric) {
+    if (!this.isOutOfView && this.currentMetric) {
       if (!this.canShowMetrics) {
         this.canShowMetrics = true;
         this.resumeMetrics();
@@ -96,7 +88,6 @@ export default class MetricHandler {
 
     this.client = null;
     this.isOutOfView = null;
-    this.isToFarAway = null;
     this.currentMetric = null;
   }
 }
