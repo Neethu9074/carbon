@@ -46,7 +46,7 @@ const Navigation = React.createClass({
         }
         this.setState({ draw: true });
       }
-    }, 500);
+    }, 800);
   },
 
   render() {

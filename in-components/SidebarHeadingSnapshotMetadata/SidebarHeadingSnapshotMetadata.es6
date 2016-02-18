@@ -26,6 +26,9 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
+    if (!snapshot) {
+      return null;
+    }
 
     return (
       <div className={getClassName(this, block)}>
