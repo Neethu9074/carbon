@@ -60,8 +60,10 @@ export default class PowerComponent extends Component {
     this.snapshotSubscription.dispose();
     this.snapshotSubscription = null;
 
-    this.maxHeightSubscribtion.dispose();
-    this.maxHeightSubscribtion = null;
+    if (this.maxHeightSubscribtion) {
+      this.maxHeightSubscribtion.dispose();
+      this.maxHeightSubscribtion = null;
+    }
 
     super.dispose();
 
