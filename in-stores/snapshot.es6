@@ -6,6 +6,7 @@ import createPhysicalHierarchyObservable from 'in-services/subscription/physical
 import createFoundationsObservable from 'in-services/subscription/foundations';
 import createDeployedUnitsObservable from 'in-services/subscription/deployedUnits';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
+import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 import {createStore, createTrackingStore} from 'in-stores/store';
@@ -82,6 +83,10 @@ export function getRunningComponents(snapshotId) {
 
 export function getDeployedUnits(snapshotId) {
   return createDeployedUnitsObservable(snapshotId);
+}
+
+export function getRawPayload(snapshotId, payloadName) {
+  return createRawPayloadObservable({snapshotId, payloadName});
 }
 
 navigationParameters.subscribe(navParams => {

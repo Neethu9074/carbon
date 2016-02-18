@@ -23,7 +23,7 @@ import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
 import connectTo from 'in-hoc/connectTo';
-import {getRawPayload} from 'in-services/snapshots';
+import {getRawPayload} from 'in-stores/snapshot';
 import HelpLink from 'in-components/HelpLink';
 import Mtd from 'in-components/Mtd';
 
@@ -34,7 +34,7 @@ const chartHeight = 200;
 export default connectTo(
   props => {
     return {
-      processes: getRawPayload(props.snapshot, 'processes')
+      processes: getRawPayload(props.snapshot.get('id'), 'processes')
     };
   },
   React.createClass({
@@ -48,7 +48,7 @@ export default connectTo(
   propTypes: {
     timeframe: rpt.number.isRequired,
     snapshot: irpt.map.isRequired,
-    processes: rpt.array
+    processes: irpt.list
   },
 
   getInitialState() {
@@ -534,7 +534,7 @@ export default connectTo(
                            }}/>
         </DashboardSection>
 
-        {this.props.processes && this.props.processes.length > 0 ?
+        {this.props.processes && this.props.processes.size > 0 ?
         <DashboardSection title='Process Top List'>
           <ResponsiveTable>
             <thead>
@@ -547,12 +547,12 @@ export default connectTo(
             </thead>
 
             <tbody>
-              {this.props.processes.sort((a, b) => b.cpu - a.cpu).map(process =>
-                <tr key={process.pid}>
-                  <td>{process.pid}</td>
-                  <td>{process.name}</td>
-                  <td>{percentageZeroDecimalPlaces(process.cpu)}</td>
-                  <td>{bytesTwoDecimalPlaces(process.memory)}</td>
+              {this.props.processes.toArray().sort((a, b) => b.get('cpu') - a.get('cpu')).map(process =>
+                <tr key={process.get('pid')}>
+                  <td>{process.get('pid')}</td>
+                  <td>{process.get('name')}</td>
+                  <td>{percentageZeroDecimalPlaces(process.get('cpu'))}</td>
+                  <td>{bytesTwoDecimalPlaces(process.get('memory'))}</td>
                 </tr>
               )}
             </tbody>
