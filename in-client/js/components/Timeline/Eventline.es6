@@ -1,8 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import * as highlightedSnapshotStore from 'in-services/stores/highlightedSnapshot';
-import {extractCoordinates} from 'in-services/snapshots';
+import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {focusedMoment} from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
@@ -32,9 +31,9 @@ export default connectTo(
   ],
 
   propTypes: {
+    maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
     renderedForTimestamp: rpt.number.isRequired,
     scale: rpt.func.isRequired,
-    maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
     focusedMoment: rpt.number,
     openIssues: irpt.list
   },
@@ -87,20 +86,16 @@ export default connectTo(
   },
 
   mouseIn(issue) {
-    this.setState({
-      hoveredIssue: issue
-    });
+    this.setState({ hoveredIssue: issue });
 
-    const problem = issue.get('problem');
-    const problemCoordinates = extractCoordinates(problem);
-    highlightedSnapshotStore.select(problemCoordinates);
+    setHighlightedEntityId(issue.getIn(['problem', 'snapshotId']));
   },
 
   mouseOut() {
     this.setState({
       hoveredIssue: null
     });
-    highlightedSnapshotStore.clear();
+    clearHighlightedEntityId();
   },
 
   renderFocusedMoment() {

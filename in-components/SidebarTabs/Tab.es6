@@ -21,10 +21,10 @@ export default getSnapshot(React.createClass({
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
-    snapshot: irpt.map,
     isSelected: rpt.bool.isRequired,
     onClick: rpt.func.isRequired,
-    className: rpt.string
+    className: rpt.string,
+    snapshot: irpt.map
   },
 
   render() {

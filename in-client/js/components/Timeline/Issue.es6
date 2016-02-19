@@ -48,7 +48,7 @@ const Issue = React.createClass({
       <Tooltip  align={{vertical: 'top'}}
                 content={<IssueDescription key={issue.get('id')}
                                            issue={issue}
-                                           plugin={issue.getIn(['problem', 'pluginId'])}/>}>
+                                           snapshotId={issue.getIn(['problem', 'snapshotId'])}/>}>
 
         <Icon type={iconType}
               onMouseEnter={() =>this.props.mouseIn(issue)}

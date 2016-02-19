@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
-import {highlightedEntityId} from 'in-services/stores/highlightedSnapshot';
+import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/converters';
 

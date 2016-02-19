@@ -5,7 +5,7 @@ import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator
 import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/mapSceneObjects/common/geometries';
 import SCCP from 'in-map/src/SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import TooltipMetric from 'in-map/src/Tooltips/Metric';
 import {currentTooltip} from 'in-map/src/stores';
 
@@ -38,7 +38,7 @@ export default class MetricComponent extends Component {
     });
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
-    this.highlightingSubscription = highlightedSnapshot.highlightedEntityId.subscribe(highlightedId => {
+    this.highlightingSubscription = highlightedEntityId.subscribe(highlightedId => {
       const isThisHighlighted = highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
       this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, isThisHighlighted);
     });

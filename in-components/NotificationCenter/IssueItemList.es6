@@ -37,7 +37,7 @@ const IssueItemList = React.createClass({
               </div>
               {issues.map(issue => <IssueDescription key={issue.get('id')}
                                                      issue={issue}
-                                                     plugin={issue.getIn(['problem', 'pluginId'])}
+                                                     snapshotId={issue.getIn(['problem', 'snapshotId'])}
                                                      className={block + '__item'}/>)}
             </li>
           );

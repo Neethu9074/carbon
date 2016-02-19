@@ -1,9 +1,9 @@
 import THREE from 'three';
 
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {ALL_CONNECTIONS} from 'in-map/src/mapSceneObjects/common/Connection';
-import {emptyArray} from 'in-services/stores/highlightedSnapshot';
 import * as tooltipStore from 'in-services/stores/tooltip';
+import {emptyArray} from 'in-services/fixedObjects';
 import {currentTooltip} from 'in-map/src/stores';
 
 import ConnectionTooltip from '../../Tooltips/Connection';
@@ -61,10 +61,10 @@ export default class RaycasterModule extends Module {
     const {hittenObject, hoveredConnections} = this.getObjectOnCursor();
 
     if (hittenObject) {
-      highlightedSnapshot.setHighlightedEntityId(hittenObject.parentSceneObject.id);
+      setHighlightedEntityId(hittenObject.parentSceneObject.id);
     } else {
       if (oldHittenObject) {
-        highlightedSnapshot.clearHighlightedEntityId();
+        clearHighlightedEntityId();
       }
       if (hoveredConnections.length > 0) {
         currentTooltip.emit(this.connectionTooltip);
