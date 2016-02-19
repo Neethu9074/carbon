@@ -34,8 +34,8 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
             <span className={block + '__text'}>
               {getLabel(snapshot)}
 
-              <ZoneTag snapshot={snapshot} className={block + '__zone'}/>
               <HealthIcon snapshot={snapshot} className={block + '__health'}/>
+              <ZoneTag snapshot={snapshot} className={block + '__zone'}/>
             </span>
           </h1>
 
