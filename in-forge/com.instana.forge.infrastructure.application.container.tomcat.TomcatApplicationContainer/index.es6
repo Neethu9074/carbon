@@ -18,10 +18,16 @@ addLabelFinder(
   constants.plugins.tomcat,
   // Version usually looks like "Apache Tomcat/7.0"
   // So it is enough to take version + ports
-  snapshot => snapshot.getIn(['data', 'version'])
-              + ' @'
-              + snapshot.getIn(['data', 'connector-config'])
-                .map(data => data.getIn(['port'])).join(',')
+  snapshot => {
+    let label = snapshot.getIn(['data', 'version']);
+
+    const connectorConfig = snapshot.getIn(['data', 'connector-config']);
+    if (connectorConfig && connectorConfig.size > 0) {
+      label += ' @ ' + snapshot.getIn(['data', 'connector-config'])
+        .map(data => data.getIn(['port'])).join(',');
+    }
+    return label;
+  }
 );
 
 addIconFinder(
