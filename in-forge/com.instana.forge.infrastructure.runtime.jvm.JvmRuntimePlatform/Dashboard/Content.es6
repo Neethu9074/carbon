@@ -64,52 +64,6 @@ export default connectTo(
 
       return (
         <div>
-          {jmx && jmx.length > 0 ?
-            <DashboardSection title='Custom JMX Metrics'>
-              {this.state.selectedJmxMetric ?
-                <ChartWithLegend snapshot={snapshot}
-                                 windowSize={timeframe}
-                                 height={chartHeight}
-                                 margins={{
-                                   left: 90
-                                 }}
-                                 y1={{
-                                   formatter: withSiPrefixZeroDecimalPlaces,
-                                   tooltipFormatter: withSiPrefixTwoDecimalPlaces,
-                                   metrics: ['jmx.' + this.state.selectedJmxMetric],
-                                   labels: [this.state.selectedJmxMetric],
-                                   type: 'line'
-                                 }}/>
-              : null}
-              <ResponsiveTable clickable={true}>
-                <thead>
-                  <tr>
-                    <th>
-                      Custom JMX Metrics
-                    </th>
-                  </tr>
-                </thead>
-
-                <tbody>
-                  {jmxMetrics.map(jmxMetric =>
-                    <tr key={jmxMetric}
-                        onClick={() => this.setState({selectedJmxMetric: jmxMetric})}
-                        className={classnames({
-                          'active': jmxMetric === this.state.selectedJmxMetric
-                        })}>
-                      <td>
-                        {jmxMetric}
-                      </td>
-                      <Mtd metric={'jmx.' + jmxMetric}
-                           snapshot={snapshot}
-                           formatter={withSiPrefixTwoDecimalPlaces} />
-                    </tr>
-                  )}
-                </tbody>
-              </ResponsiveTable>
-            </DashboardSection>
-          : null}
-
           <DashboardSection title='Threads'>
             <ChartWithLegend snapshot={snapshot}
                              windowSize={timeframe}
@@ -245,6 +199,52 @@ export default connectTo(
                                 ).toArray(),
                        type: 'point'
                      }}/>
+            </DashboardSection>
+          : null}
+
+          {jmxMetrics && jmxMetrics.length > 0 ?
+            <DashboardSection title='Custom JMX Metrics'>
+              {this.state.selectedJmxMetric ?
+                <ChartWithLegend snapshot={snapshot}
+                                 windowSize={timeframe}
+                                 height={chartHeight}
+                                 margins={{
+                                   left: 90
+                                 }}
+                                 y1={{
+                                   formatter: withSiPrefixZeroDecimalPlaces,
+                                   tooltipFormatter: withSiPrefixTwoDecimalPlaces,
+                                   metrics: ['jmx.' + this.state.selectedJmxMetric],
+                                   labels: [this.state.selectedJmxMetric],
+                                   type: 'line'
+                                 }}/>
+              : null}
+              <ResponsiveTable clickable={true}>
+                <thead>
+                  <tr>
+                    <th>
+                      Custom JMX Metrics
+                    </th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {jmxMetrics.map(jmxMetric =>
+                    <tr key={jmxMetric}
+                        onClick={() => this.setState({selectedJmxMetric: jmxMetric})}
+                        className={classnames({
+                          'active': jmxMetric === this.state.selectedJmxMetric
+                        })}>
+                      <td>
+                        {jmxMetric}
+                      </td>
+                      <Mtd metric={'jmx.' + jmxMetric}
+                           snapshot={snapshot}
+                           formatter={withSiPrefixTwoDecimalPlaces} />
+                    </tr>
+                  )}
+                </tbody>
+              </ResponsiveTable>
             </DashboardSection>
           : null}
         </div>
