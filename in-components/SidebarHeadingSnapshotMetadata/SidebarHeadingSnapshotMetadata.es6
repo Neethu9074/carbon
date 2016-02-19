@@ -6,7 +6,6 @@ import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
 import {getLabel} from 'in-sdk/snapshot';
 
-import HealthIcon from '../HealthIcon';
 import ZoneTag from '../ZoneTag';
 
 import './SidebarHeadingSnapshotMetadata.less';
@@ -36,7 +35,6 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
           <h1 className={block + '__label'}>
             <span className={block + '__text'}>
               {getLabel(snapshot)}
-
               <ZoneTag snapshotId={snapshot.get('id')} className={block + '__zone'}/>
             </span>
           </h1>
@@ -44,10 +42,6 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
           <p className={block + '__plugin-type'}>
             {getSingular(snapshot.get('pluginId'))}
           </p>
-        </div>
-
-        <div className={block + '__health'}>
-          <HealthIcon snapshot={snapshot}/>
         </div>
       </div>
     );
