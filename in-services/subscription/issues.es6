@@ -8,22 +8,23 @@ import {on, off} from 'in-services/persistentConnection';
 
 export default createObservableIfMissing.bind(null, {
   getId,
-  createObservable: createFilterableTagsObservable
+  createObservable: createIssueObservable
 });
 
-function getId() {
-  return '';
+function getId(timeframe) {
+  return timeframe;
 }
 
-function createFilterableTagsObservable() {
+function createIssueObservable(timeframe) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-filterable-tags', {
-        'subscriptionId': subscriptionId
+      subscribe(subscriptionId, 'subscribe-issues', {
+        'subscriptionId': subscriptionId,
+        'timeframe': timeframe
       });
     },
 
@@ -35,8 +36,7 @@ function createFilterableTagsObservable() {
 
   return observable;
 
-  function onData(filterableTags) {
-    filterableTags.sort();
-    observable.emit(Immutable.List(filterableTags));
+  function onData(issues) {
+    observable.emit(Immutable.fromJS(issues));
   }
 }

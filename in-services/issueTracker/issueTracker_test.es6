@@ -1,14 +1,14 @@
 /* eslint-env mocha */
 /* eslint-disable max-len*/
+import * as ro from 'reactive-observables';
+import proxyquire from 'proxyquire';
+import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
-import proxyquire from 'proxyquire';
-import * as ro from 'reactive-observables';
-import Immutable from 'immutable';
 
 import {theme} from 'in-services/theme';
 
-describe('issueTracker', () => {
+describe.only('issueTracker', () => {
 
   let issuesStubData;
   let observable;
@@ -30,23 +30,23 @@ describe('issueTracker', () => {
     create.returns(observable);
 
     issueTracker = proxyquire('./issueTracker', {
-      '../conveyer': {create}
+      'in-stores/issues': {
+        getIssues: create
+      }
     });
 
     issuesStubData = Immutable.fromJS([{
      'id': 'i1',
      'problem': {
-       'pluginId': 'p1',
-       'steadyId': 's1',
-       'hostId': 'h1',
+       'id': 'p1',
+       'snapshotId': 'snappiId',
        'problemText': 'You will run out of main memory just within next 2 hours',
        'fixSuggestion': 'Analyse running processes for eventual memory…',
        'explanation': 'Determined through linear regression',
        'severity': 5
      },
-     'state': 'OPEN',
-     'start': 1433251409977,
-     'end': null
+     'start': 1433251409977
+     // no end == state : OPEN
    }]);
   });
 
@@ -94,12 +94,12 @@ describe('issueTracker', () => {
         });
 
       observable.emit(issuesStubData);
-      observable.emit(issuesStubData.setIn([0, 'end'], 42)
-        .setIn([0, 'state'], 'CLOSED'));
+      observable.emit(issuesStubData.setIn([0, 'end'], 42));
     });
   });
 
   describe('getOpenIssues', () => {
+
     it('should not include issues with an end date', (done) => {
       let callCount = 0;
       const subscription = issueTracker.getOpenIssues()
@@ -115,15 +115,14 @@ describe('issueTracker', () => {
           }
         });
 
-
-      observable.emit(issuesStubData.setIn([0, 'state'], 'CLOSED')
-        .setIn([0, 'end'], 42));
+      observable.emit(issuesStubData.setIn([0, 'end'], 42));
       observable.emit(issuesStubData.setIn([0, 'id'], 'i2'));
     });
 
   });
 
   describe('getIssueSummary', () => {
+
     it('should summarize severities across issues', () => {
       const stub = sinon.stub();
       issueTracker.getIssueSummary().subscribe(stub);
@@ -135,8 +134,11 @@ describe('issueTracker', () => {
       expect(summary.get('warning').size).to.equal(1);
       expect(summary.get('danger').size).to.equal(0);
 
-      observable.emit(issuesStubData.setIn([0, 'id'], 'i2')
-        .setIn([0, 'problem', 'severity'], 10));
+      observable.emit(issuesStubData
+        .setIn([0, 'id'], 'i2')
+        .setIn([0, 'problem', 'severity'], 10)
+      );
+
       expect(stub.callCount).to.equal(2);
       summary = stub.getCall(1).args[0];
       expect(summary.get('warning').size).to.equal(1);
@@ -151,11 +153,8 @@ describe('issueTracker', () => {
 
       const summary = stub.getCall(0).args[0];
       expect(summary.get('warning').size).to.equal(1);
-      const snapshotId = summary.get('warning').keys().next().value;
-      expect(snapshotId.get('pluginId')).to.equal('p1');
-      expect(snapshotId.get('hostId')).to.equal('h1');
-      expect(snapshotId.get('steadyId')).to.equal('s1');
-      expect(summary.getIn(['warning', snapshotId])).to.equal(1);
+      const id = summary.get('warning').keys().next().value;
+      expect(id).to.equal('snappiId');
     });
   });
 
@@ -186,37 +185,8 @@ describe('issueTracker', () => {
       expect(() => issueTracker.getColorForIssue(undefined)).to.throw(Error);
     });
 
-    it('should throw an error if the structure is incorrect', () => {
-      const issueWithoutState = Immutable.fromJS({
-        problem: {
-          severity: 5
-        }
-      });
-      expect(() => issueTracker.getColorForIssue(issueWithoutState)).to.throw(Error);
-
-      const issueWithoutProblem = Immutable.fromJS({ state: 'OPEN' });
-      expect(() => issueTracker.getColorForIssue(issueWithoutProblem)).to.throw(Error);
-    });
-
     it('should return ok color on closed issues', () => {
       let issue = Immutable.fromJS({
-        state: 'CLOSED',
-        problem: {
-          severity: 0
-        }
-      });
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
-
-      issue = issue.setIn(['problem', 'severity'], 5);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
-
-      issue = issue.setIn(['problem', 'severity'], 10);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
-    });
-
-    it('should return color based on severity', () => {
-      let issue = Immutable.fromJS({
-        state: 'OPEN',
         problem: {
           severity: 0
         }
@@ -228,6 +198,22 @@ describe('issueTracker', () => {
 
       issue = issue.setIn(['problem', 'severity'], 10);
       expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[10]);
+    });
+
+    it('should return default color for closed issues', () => {
+      let issue = Immutable.fromJS({
+        problem: {
+          severity: 0
+        },
+        end: 42
+      });
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
+
+      issue = issue.setIn(['problem', 'severity'], 5);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
+
+      issue = issue.setIn(['problem', 'severity'], 10);
+      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
     });
 
   });

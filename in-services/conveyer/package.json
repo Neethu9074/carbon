@@ -1,6 +1,0 @@
-{
-  "name": "conveyer",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./conveyer.es6"
-}

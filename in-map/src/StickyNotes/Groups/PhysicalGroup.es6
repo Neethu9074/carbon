@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
 import React from 'react/addons';
 
-import * as highlightedSnapshot from 'in-services/stores/highlightedSnapshot';
+import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import IssueDescription from 'in-components/IssueDescription';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
@@ -87,7 +87,9 @@ const PhysicalGroup = getSnapshot(React.createClass({
 
       return (
         <Tooltip align={{horizontal: 'right'}}
-                 content={<IssueDescription issue={mostImportantIssue}/>}>
+                 content={<IssueDescription issue={mostImportantIssue}
+                                            snapshotId={this.props.snapshotId}/>
+                         }>
           {icon}
         </Tooltip>
       );
@@ -126,8 +128,8 @@ export default class StickyNoteGroup extends StickyNote {
       <PhysicalGroup snapshotId={id}
                      isActive={this.isActive}
                      onClick={() => setSelectedSnapshotId(id)}
-                     onMouseEnter={() => highlightedSnapshot.setHighlightedEntityId(id)}
-                     onMouseLeave={() => highlightedSnapshot.clearHighlightedEntityId()}/>,
+                     onMouseEnter={() => setHighlightedEntityId(id)}
+                     onMouseLeave={() => clearHighlightedEntityId()}/>,
       this.stickyNoteContainer
     );
   }

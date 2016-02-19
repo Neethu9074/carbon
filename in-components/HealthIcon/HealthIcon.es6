@@ -82,7 +82,7 @@ const HealthIcon = React.createClass({
         {orderedIssues.map(issue =>
           <IssueDescription key={issue.get('id')}
                             issue={issue}
-                            plugin={this.props.snapshot.get('pluginId')}/>
+                            snapshotId={this.props.snapshot.get('id')}/>
         )}
       </div>
     );

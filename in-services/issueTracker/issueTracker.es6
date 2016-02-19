@@ -2,15 +2,13 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
+import {getIssues as getIssueStore} from 'in-stores/issues';
 import {isDemoEnvironment} from 'in-services/config';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
-import {isIdEqual, getIdString, extractCoordinates} from '../snapshots';
 import {mapSeverityToHealth, health} from '../health';
-import IssueConveyer from '../conveyer/IssueConveyer';
 import * as timelineStore from '../stores/timeline';
-import {create} from '../conveyer';
 
 // CPU steal issues shouldn't be shown in the demo environment as we are using
 // small EC2 instances. These almost always have high CPU steal.
@@ -22,8 +20,7 @@ const withoutCpuStealMapper = (issues) => {
 
 const allIssuesStreamWithExperimentals = timelineStore.timeframe.distinct()
   .flatMap(timeframe => {
-    const stream = create(IssueConveyer, {timeframe})
-      .scan(collectingReducer, Immutable.List());
+    const stream = getIssueStore(timeframe).scan(collectingReducer, Immutable.List());
 
     if (isDemoEnvironment()) {
       return stream.map(withoutCpuStealMapper);
@@ -33,17 +30,15 @@ const allIssuesStreamWithExperimentals = timelineStore.timeframe.distinct()
   });
 
 const allIssuesStream = combineLatest(
-    [settings.getIn(['experiments']), allIssuesStreamWithExperimentals]
-  ).map(([withExperiments, issues]) => {
-    if (withExperiments) {
-      return issues;
-    }
-    return issues.filter(issue => !issue.getIn(['problem', 'experimental'], false));
-  });
-
-const openIssuesStream = allIssuesStream.map(issues => {
-  return issues.filter(issue => issue.get('state') === 'OPEN');
+  [settings.getIn(['experiments']), allIssuesStreamWithExperimentals]
+).map(([withExperiments, issues]) => {
+  if (withExperiments) {
+    return issues;
+  }
+  return issues.filter(issue => !issue.getIn(['problem', 'experimental'], false));
 });
+
+const openIssuesStream = allIssuesStream.map(issues => issues.filter(issue => !issue.get('end')));
 
 const issueSummary = openIssuesStream.map(issues => {
   const warnings = {};
@@ -74,14 +69,14 @@ const issueSummary = openIssuesStream.map(issues => {
 });
 
 function addProblem(all, problem) {
-  const idString = getIdString(problem);
-  if (!(idString in all)) {
-    all[idString] = {
-      id: extractCoordinates(problem),
+  const id = problem.get('snapshotId');
+  if (!(id in all)) {
+    all[id] = {
+      id,
       count: 1
     };
   } else {
-    all[idString].count++;
+    all[id].count++;
   }
 }
 
@@ -91,7 +86,6 @@ function severityReducer(all, severityArrayMap, key) {
   return severityArrayMap;
 }
 
-
 const issueCountSummary = issueSummary.map(summary => {
   return summary.map(summaryForHealth => {
     return summaryForHealth.reduce((count, snapshotIssueCount) => {
@@ -99,7 +93,6 @@ const issueCountSummary = issueSummary.map(summary => {
     }, 0);
   });
 });
-
 
 export function getIssues() {
   return allIssuesStream;
@@ -117,14 +110,13 @@ export function getIssueCountSummary() {
   return issueCountSummary;
 }
 
-export function getIssuesForSnapshot(snapshot) {
-  const predicate = isIdEqual.bind(null, snapshot);
+export function getIssuesById(snapshotId) {
   return openIssuesStream.map(issues => {
     let size = 0;
     const result = Immutable.List().asMutable();
 
     issues.forEach(issue => {
-      if (predicate(issue.get('problem'))) {
+      if (issue.getIn(['problem', 'snapshotId']) === snapshotId) {
         result.set(size++, issue);
       }
     });
@@ -133,11 +125,8 @@ export function getIssuesForSnapshot(snapshot) {
   });
 }
 
-export function getProblemsForSnapshot(snapshot) {
-  return getIssuesForSnapshot(snapshot)
-    .map(issues => {
-      return issues.map(issue => issue.get('problem'));
-    });
+export function getProblemsById(snapshotId) {
+  return getIssuesById(snapshotId).map(issues => issues.map(issue => issue.get('problem')));
 }
 
 function collectingReducer(existingIssues, issueUpdates) {
@@ -165,8 +154,8 @@ function collectingReducer(existingIssues, issueUpdates) {
  * @returns {ReactiveObservable<string>} A stream that emits whenever the health
  *   changes.
  */
-export function getHealth(snapshot) {
-  return getProblemsForSnapshot(snapshot)
+export function getHealth(snapshotId) {
+  return getProblemsById(snapshotId)
     .map(problems => {
       return problems.reduce((acc, problem) => {
         return Math.max(problem.get('severity'), acc);
@@ -186,10 +175,8 @@ export function getHealth(snapshot) {
 export function getColorForIssue(issue) {
   throwExceptionIfUndefined(issue);
 
-  const state = issue.get('state');
-  throwExceptionIfUndefined(state);
-
-  return state === 'OPEN' ? getColorForProblem(issue.get('problem')) : theme.health[0];
+  // if there is no end time, the issue is open
+  return !issue.get('end') ? getColorForProblem(issue.get('problem')) : theme.health[0];
 }
 
 export function getColorForProblem(problem) {
