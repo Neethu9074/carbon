@@ -8,7 +8,7 @@ import sinon from 'sinon';
 
 import {theme} from 'in-services/theme';
 
-describe.only('issueTracker', () => {
+describe('issueTracker', () => {
 
   let issuesStubData;
   let observable;
