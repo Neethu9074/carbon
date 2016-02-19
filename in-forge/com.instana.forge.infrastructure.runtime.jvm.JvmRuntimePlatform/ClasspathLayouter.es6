@@ -14,6 +14,11 @@ const ClasspathLayouter = React.createClass({
 
   render() {
     const cp = this.props.snapshot.getIn(['data', 'jvm.cp']);
+
+    if (!cp) {
+      return null;
+    }
+
     const cpEntries = cp.split(/:|;/);
     const tree = {};
     let currentPath = '';
