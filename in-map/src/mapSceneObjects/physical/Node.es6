@@ -41,8 +41,6 @@ export default class Node extends SceneObjectWithSnapshot {
     // nodes base height
     this.height = 1;
 
-    this.registerEvents();
-
     this.tooltip = new TooltipNode(this);
     this.metricHandler = new MetricHandler(this);
     this.label = new Label({
@@ -50,6 +48,8 @@ export default class Node extends SceneObjectWithSnapshot {
       parent: this,
       iconSize: 3
     });
+
+    this.registerEvents();
   }
 
   onInitialEnter() {

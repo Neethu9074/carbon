@@ -1,5 +1,3 @@
-import _ from 'lodash';
-
 import {getSnapshot} from 'in-stores/snapshot';
 import {nodeMaxPower} from 'in-map/src/stores';
 import {getPower} from 'in-sdk/power';
@@ -39,9 +37,8 @@ export default class PowerComponent extends Component {
   }
 
   disposeSubscription(subscribtion) {
-    if (subscribtion && subscribtion.dispose) {
+    if (subscribtion) {
       subscribtion.dispose();
-      _.remove(this.subscriptions, sub => sub === subscribtion);
     }
   }
 
@@ -57,15 +54,10 @@ export default class PowerComponent extends Component {
   }
 
   dispose() {
-    this.snapshotSubscription.dispose();
-    this.snapshotSubscription = null;
-
-    if (this.maxHeightSubscribtion) {
-      this.maxHeightSubscribtion.dispose();
-      this.maxHeightSubscribtion = null;
-    }
-
     super.dispose();
+
+    this.disposeSubscription(this.snapshotSubscription);
+    this.disposeSubscription(this.maxHeightSubscribtion);
 
     // is disposed via Subscriber.dispose()
     this.maxHeightSubscribtion = null;
