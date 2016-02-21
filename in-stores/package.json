@@ -1,0 +1,9 @@
+{
+  "name": "in-stores",
+  "version": "1.0.0",
+  "description": "Store implementations",
+  "main": "index.es6",
+  "author": "Ben Ripkens <ben@instana.com>",
+  "license": "UNLICENSED",
+  "private": true
+}
