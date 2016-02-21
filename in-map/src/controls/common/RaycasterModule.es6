@@ -6,7 +6,7 @@ import * as tooltipStore from 'in-services/stores/tooltip';
 import {emptyArray} from 'in-services/fixedObjects';
 import {currentTooltip} from 'in-map/src/stores';
 
-import ConnectionTooltip from '../../Tooltips/Connection';
+import ConnectionTooltip from '../../Tooltip/Connection';
 import Module from './Module';
 
 

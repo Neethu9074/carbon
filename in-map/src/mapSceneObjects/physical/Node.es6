@@ -20,7 +20,7 @@ import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
 import ConnectionGrid from '../../ConnectionGrid';
-import TooltipNode from '../../Tooltips/Node';
+import TooltipNode from '../../Tooltip/Node';
 import {currentTooltip} from '../../stores';
 import MetricHandler from './MetricHandler';
 import Label from './Label';

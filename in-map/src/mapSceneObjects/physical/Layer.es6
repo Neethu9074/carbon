@@ -12,7 +12,7 @@ import MeshComponent from '../../components/common/MeshComponent';
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
-import TooltipLayer from '../../Tooltips/Layer';
+import TooltipLayer from '../../Tooltip/Layer';
 import {currentTooltip} from '../../stores';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
