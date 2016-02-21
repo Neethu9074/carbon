@@ -173,7 +173,7 @@ gulp.task('startDevProxy', function() {
     },
 
     websocketProxy: {
-      '/api/data': uiBackendUrl
+      '/api/data/': uiBackendUrl
     }
   };
 
