@@ -28,9 +28,6 @@ require('babel/register')({
   ignore: '^$'
 });
 
-// support TypeScript
-require('typescript-require');
-
 // Ensuring a browser environment is simulated before React is loaded to avoid
 // "Error: Invariant Violation: Markup wrapping node not initialized"
 // Also see:

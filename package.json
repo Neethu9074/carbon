@@ -11,7 +11,7 @@
     "try-build": "export BUILD_DEV='false' && gulp try-build",
     "test": "npm run lint && npm run execute-tests",
     "lint": "eslint --ext .es6 in-* gulpfile.js",
-    "execute-tests": "gulp prepareTestExecution && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.ts' -o -name '*_test.es6')",
+    "execute-tests": "gulp prepareTestExecution && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
     "dev": "export BUILD_DEV='true' && export NODE_ENV='development' && gulp dev",
     "check-updates": "ncu"
   },
