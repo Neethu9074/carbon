@@ -2,12 +2,19 @@
 
 . "$NVM_DIR/nvm.sh"
 
+set -e
+
 nvm use
 
 nice -19 npm prune
 nice -19 npm update
 nice -19 npm install
 
+cd in-server
+nice -19 npm prune
+nice -19 npm update
+nice -19 npm install
+cd ..
 
 nice -19 npm run test
 nice -19 npm run build
