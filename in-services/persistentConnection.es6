@@ -7,7 +7,7 @@ let socket;
 
 export function init() {
   window.instana.dev.socket = socket = io(window.location.origin, {
-    path: '/api/dataNew'
+    path: '/api/data'
   });
 
   enableEventLogging(socket);

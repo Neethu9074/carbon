@@ -204,7 +204,7 @@ gulp.task('startTryBuildProxy', () => {
     },
 
     websocketProxy: {
-      '/api/data': uiBackendUrl + '/data'
+      '/api/data': uiBackendUrl
     }
   };
 
