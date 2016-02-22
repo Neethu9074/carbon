@@ -147,10 +147,9 @@ export default class MetricComponent extends Component {
   dispose() {
     super.dispose();
 
-    this.removeFromFactory();
-
-    this.positionToSet.dispose();
     this.highlightingSubscription.dispose();
+    this.removeFromFactory();
+    this.positionToSet.dispose();
 
     this.highlightingSubscription = null;
     this.factoryFragment = null;
