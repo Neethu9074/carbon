@@ -17,16 +17,16 @@ addLabelFinder(constants.plugins.phpfpm, getLabel);
 
 function getLabel(s) {
   const data = s.get('data');
-  const workerPoolNames = data.getIn(['worker_pools']).toArray();
+  const workerPoolNames = data.getIn(['worker_pools']);
   if (!workerPoolNames) {
     return getFallbackLabel(s);
   }
 
-  return 'PHP-FPM Worker Pool: ' + workerPoolNames.join(', ');
+  return 'PHP-FPM Worker Pools: ' + workerPoolNames.join(', ');
 }
 
 function getFallbackLabel(s) {
-  return 'PHP-FPM Worker Pool#' + s.get('steadyId');
+  return 'PHP-FPM Master Process#' + s.get('steadyId');
 }
 
 power.addMapping(
