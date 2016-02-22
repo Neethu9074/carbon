@@ -1,14 +1,9 @@
-
-
 import React from 'react';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import * as connection from 'in-services/connection';
+import * as connection from 'in-services/persistentConnection';
 import Toast from 'in-components/Toast';
 
 const ConnectionStatus = React.createClass({
-  mixins: [SubscriptionMixin],
-
   getInitialState() {
     return {
       systemMessage: null
@@ -16,21 +11,25 @@ const ConnectionStatus = React.createClass({
   },
 
   componentDidMount() {
-    this.addSubscription(
-      connection.emitter.on('closed').subscribe(() =>
-        this.setState({
-          systemMessage: 'Connection lost.'
-        })
-      )
-    );
+    connection.on('connect', this.onConnect);
+    connection.on('connect_error', this.onConnectError);
+  },
 
-    this.addSubscription(
-      connection.emitter.on('connected').subscribe(() =>
-        this.setState({
-          systemMessage: null
-        })
-      )
-    );
+  componentWillUnmount() {
+    connection.off('connect', this.onConnect);
+    connection.off('connect_error', this.onConnectError);
+  },
+
+  onConnect() {
+    this.setState({
+      systemMessage: null
+    });
+  },
+
+  onConnectError() {
+    this.setState({
+      systemMessage: 'Connection lost.'
+    });
   },
 
   render() {
