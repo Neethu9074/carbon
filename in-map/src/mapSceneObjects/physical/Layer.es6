@@ -13,7 +13,6 @@ import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
 import TooltipLayer from '../../tooltips/physical/Layer';
-import {currentTooltip} from '../../stores';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -44,8 +43,6 @@ export default class Layer extends SceneObjectWithSnapshot {
 
   onHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-
-    currentTooltip.emit(this.tooltip);
   }
 
   onHighlightLeave() {
@@ -60,8 +57,6 @@ export default class Layer extends SceneObjectWithSnapshot {
   onSelectedHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
-
-    currentTooltip.emit(this.tooltip);
   }
 
   onSelectedHighlightLeave() {
@@ -124,6 +119,10 @@ export default class Layer extends SceneObjectWithSnapshot {
     // add the highlight component to handle the highlight of a node
     // this is different to solidMesh since the highlight is like a mouseOver effect
     components.highlight = new HighlightingComponent({sceneObject: this});
+  }
+
+  getTooltip() {
+    return this.tooltip;
   }
 
   onSnapshotUpdated(snapshot) {

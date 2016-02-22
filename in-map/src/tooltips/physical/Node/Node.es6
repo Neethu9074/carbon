@@ -47,7 +47,9 @@ const NodeTooltip = getMaxSeverityForOpenIssues(
             <span className={block + '__label'}>
               Host: {snapshot ? getLongLabel(snapshot, snapshot.getIn(['data', 'hostname'])) : null}
             </span>
-            <LayerListing snapshotIds={this.props.layer.map(layer => layer.id)}/>
+            { this.props.layer.length > 0 ?
+              <LayerListing snapshotIds={this.props.layer.map(layer => layer.id)}/>
+              : null }
           </Content>
         }
       </TooltipFrame>
