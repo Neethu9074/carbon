@@ -1,8 +1,9 @@
+import {combineLatest} from 'reactive-observables';
+
 import {activeMetric} from 'in-services/stores/metrics';
 import {emptyArray} from 'in-services/fixedObjects';
+import {getLiveMetrics} from 'in-stores/metric';
 import {getMaxValue} from 'in-sdk/metrics';
-
-import {subscribeToMetric} from '../../metricUtils';
 
 
 export default class MetricHandler {
@@ -60,11 +61,16 @@ export default class MetricHandler {
     const snapshot = client.snapshot;
     const maxValue = getMaxValue(this.currentMetric.getIn([0, 'name']), snapshot);
 
-    this.metricSubscription = subscribeToMetric({
-      metrics: this.currentMetric,
-      id: this.client.id,
-      fn: values => client.setMetricValues(values.map(v => v[1] / maxValue))
-    });
+    this.metricSubscription = combineLatest(
+      this.currentMetric.toArray().map(metric => {
+        return getLiveMetrics({
+          snapshotId: client.id,
+          metric: metric.get('name')
+        });
+      }))
+      .throttle(1000)
+      .subscribe(values => client.setMetricValues(values.map(v => v[1] / maxValue))
+    );
   }
 
   pauseMetrics() {
