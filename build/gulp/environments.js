@@ -107,7 +107,7 @@ module.exports = {
     groundskeeperDomain: 'instana.io'
   },
   local: {
-    uiBackendUrl: 'http://localhost:8082',
+    uiBackendUrl: 'http://localhost:8082/',
     groundskeeperUrl: 'http://localhost:8280',
     tenant: 'instana',
     tenantUnit: 'test',
