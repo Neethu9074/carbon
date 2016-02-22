@@ -10,8 +10,6 @@ export default class Connection extends BaseConnection {
 
   constructor(params) {
     super(params);
-
-    this.scene.addSceneObject(this.mesh);
   }
 
   // physical connections are deactivated by default and only visible if a host is highlighted
@@ -20,12 +18,11 @@ export default class Connection extends BaseConnection {
   }
 
   onInitialEnter() {
-    // only set the visibility to true. the rest is handled by threejs
-    this.material.visible = true;
+    this.addSceneObject(this.mesh);
   }
 
   onInactiveEnter() {
-    this.material.visible = false;
+    this.removeSceneObject(this.mesh);
   }
 
   setupGeometry() {
@@ -35,7 +32,6 @@ export default class Connection extends BaseConnection {
 
     this.material = new THREE.LineBasicMaterial({
       color: 0xBBBBBB,
-      visible: false,
       linewidth: 2
     });
 
