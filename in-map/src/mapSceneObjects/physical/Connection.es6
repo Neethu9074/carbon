@@ -144,6 +144,8 @@ export default class Connection extends BaseConnection {
   dispose() {
     super.dispose();
 
+    this.scene.removeSceneObject(this.mesh);
+
     // clear three cache
     this.geometry.dispose();
     this.material.dispose();
