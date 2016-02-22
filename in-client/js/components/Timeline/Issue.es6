@@ -52,17 +52,12 @@ const Issue = React.createClass({
 
         <Icon type={iconType}
               onMouseEnter={() =>this.props.mouseIn(issue)}
-              onClick={() => this.focusSnapshot(issue)}
+              onClick={() => setSelectedSnapshotId(issue.getIn(['problem', 'snapshotId']))}
               onMouseLeave={this.props.mouseOut}
               className={block}
               style={style} />
       </Tooltip>
     );
-  },
-
-  focusSnapshot(issue) {
-    setSelectedSnapshotId(issue.getIn(['problem', 'snapshotId']));
-    throw new Error('Include snapshotId in issue');
   }
 });
 

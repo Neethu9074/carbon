@@ -21,7 +21,6 @@ import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
 import TooltipNode from '../../tooltips/physical/Node';
 import ConnectionGrid from '../../ConnectionGrid';
-import {currentTooltip} from '../../stores';
 import MetricHandler from './MetricHandler';
 import Label from './Label';
 
@@ -59,8 +58,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onHighlightEnter() {
     this.highlight();
-
-    currentTooltip.emit(this.tooltip);
   }
 
   onHighlightLeave() {
@@ -77,8 +74,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onSelectedHighlightEnter() {
     this.highlight();
-
-    currentTooltip.emit(this.tooltip);
   }
 
   onSelectedHighlightLeave() {
@@ -196,6 +191,10 @@ export default class Node extends SceneObjectWithSnapshot {
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.positionChanged.bind(this)));
     this.addSubscription(this.eventEmitter.on('healthChanged').subscribe(this.healthChanged.bind(this)));
     this.addSubscription(this.eventEmitter.on('powerChanged').subscribe(this.setPower.bind(this)));
+  }
+
+  getTooltip() {
+    return this.tooltip;
   }
 
   setChildren(entities) {

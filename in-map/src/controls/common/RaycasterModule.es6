@@ -6,6 +6,7 @@ import ConnectionTooltip from 'in-map/src/tooltips/common/connection';
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {emptyArray} from 'in-services/fixedObjects';
 import {currentTooltip} from 'in-map/src/stores';
+import {tooltipForSceneObject} from 'in-map/src/stores';
 
 import Module from './Module';
 
@@ -62,8 +63,10 @@ export default class RaycasterModule extends Module {
 
     if (hittenObject) {
       setHighlightedEntityId(hittenObject.parentSceneObject.id);
+      tooltipForSceneObject.emit(hittenObject.parentSceneObject.id);
     } else {
       if (oldHittenObject) {
+        tooltipForSceneObject.emit(null);
         clearHighlightedEntityId();
       }
       if (hoveredConnections.length > 0) {

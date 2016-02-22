@@ -7,7 +7,6 @@ import SCCP from 'in-map/src/SingleMeshFactory/ContentProvider/SlicedCubeContent
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import TooltipMetric from 'in-map/src/tooltips/physical/Metric';
-import {currentTooltip} from 'in-map/src/stores';
 
 import CollisionComponent from '../CollisionObjectComponent';
 import Component from '../Component';
@@ -56,15 +55,15 @@ export default class MetricComponent extends Component {
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
-  onHighlightEnter() {
-    currentTooltip.emit(this.tooltip);
-  }
-
   onInactiveEnter() {
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.removeFromFactory();
   }
 
+
+  getTooltip() {
+    return this.tooltip;
+  }
 
   setupFragment() {
     this.contentProvider = new PCM({
