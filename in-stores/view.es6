@@ -19,9 +19,6 @@ export const viewStructure = createTrackingStore({
   observable: view
     .flatMap(viewType => createViewStructureObservable({viewType}))
     .nextFrame()
-    // TODO Move this to backend - no need to send data over the wire that the
-    // UI is not interested in
-    .throttle(15000)
 }).observable;
 
 
