@@ -187,6 +187,11 @@ gulp.task('startTryBuildProxy', () => {
   var uiBackendUrl = envConfig.uiBackendUrl;
   var groundskeeperUrl = envConfig.groundskeeperUrl;
 
+  var gkApiPrefix = '';
+  if (!envConfig.withoutAuthPrefix) {
+    gkApiPrefix = '/auth';
+  }
+
   var config = {
     serverName: 'local-instana.instana.io',
     port: 4000,
@@ -195,10 +200,10 @@ gulp.task('startTryBuildProxy', () => {
     tls: true,
     proxy: {
       '/': 'http://127.0.0.1:3131',
-      '/auth/signIn': groundskeeperUrl + '/auth/signIn',
-      '/auth/signOut': groundskeeperUrl + '/auth/signOut',
-      '/auth/users/current': groundskeeperUrl + '/auth/users/current',
-      '/auth/users/tenants': groundskeeperUrl + '/auth/users/tenants',
+      '/auth/signIn': groundskeeperUrl + gkApiPrefix + '/signIn',
+      '/auth/signOut': groundskeeperUrl + gkApiPrefix + '/signOut',
+      '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
+      '/auth/users/tenants': groundskeeperUrl + gkApiPrefix + '/users/tenants',
       '/uiTracker/': 'http://127.0.0.1:8484/',
       '/assets/': groundskeeperUrl + '/assets/'
     },
