@@ -1,7 +1,6 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
-
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-components/Collapsible';
 
@@ -26,15 +25,17 @@ const PhpFpmInfo = React.createClass({
         </DescriptionList>
           {pools.map(pool =>
             <Collapsible initiallyOpen={true} key={pool}>
-              <Collapsible.Header>Worker Pool: {data.get('worker_pool.' + pool).get('pool')}</Collapsible.Header>
+              <Collapsible.Header>Worker Pool: {data.get('worker_pool.' + pool + '.pool')}</Collapsible.Header>
               <Collapsible.Content>
                 <DescriptionList>
-                  <DescriptionItem title='Process Manager'>
-                    {data.get('worker_pool.' + pool).get('process_manager')}
+                  <DescriptionItem title="Process Manager">
+                    {data.get('worker_pool.' + pool + '.process_manager')}
                   </DescriptionItem>
-                  <DescriptionItem title='Start Time'>
-                    {moment.unix(data.get('worker_pool.' + pool).get('start_time')).format()}
-                  </DescriptionItem>
+                  {data.get('worker_pool.' + pool + '.start_time') !== null ?
+                    <DescriptionItem title="Start Time">
+                      {moment.unix(data.get('worker_pool.' + pool + '.start_time')).format()}
+                    </DescriptionItem>
+                    : null}
                 </DescriptionList>
               </Collapsible.Content>
             </Collapsible>

@@ -22,7 +22,7 @@ const PhpFpmDashboard = React.createClass({
     const data = this.props.snapshot.get('data');
     const pools = data.get('worker_pools').toArray();
 
-    if (!pools || pools.length === 0) {
+    if (pools.length === 0) {
       return (<div>No Worker Pools found</div>);
     }
 
@@ -30,7 +30,7 @@ const PhpFpmDashboard = React.createClass({
       <div>
         {pools.map(pool =>
           <div key={pool}>
-            <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool).get('pool') + ')'}>
+            <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
               <ChartWithLegend snapshot={snapshot}
                                windowSize={timeframe}
                                height={chartHeight}
@@ -70,7 +70,7 @@ const PhpFpmDashboard = React.createClass({
                                  type: 'line'
                                }}/>
             </DashboardSection>
-            <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool).get('pool') + ')'}>
+            <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
               <ChartWithLegend snapshot={snapshot}
                                windowSize={timeframe}
                                height={chartHeight}
