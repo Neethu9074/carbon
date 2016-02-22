@@ -8,14 +8,16 @@ import Content from 'in-components/Tooltips/Content';
 import {getLongLabel} from 'in-sdk/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
 
+import LayerListing from './LayerListing.es6';
 import Tooltip from '../../Tooltip.es6';
 
 
+const block = 'in-tooltip-node';
 const rpt = React.PropTypes;
 
-const NodeTooltipRC = getMaxSeverityForOpenIssues(
-                      getSnapshot(
-                      React.createClass({
+const NodeTooltip = getMaxSeverityForOpenIssues(
+                    getSnapshot(
+                    React.createClass({
 
   displayName: 'physical node tootlip',
 
@@ -32,10 +34,6 @@ const NodeTooltipRC = getMaxSeverityForOpenIssues(
 
   render() {
     const snapshot = this.props.snapshot;
-    if (!snapshot) {
-      return null;
-    }
-
     const maxSeverity = this.props.maxSeverityForOpenIssues;
 
     return (
@@ -46,7 +44,10 @@ const NodeTooltipRC = getMaxSeverityForOpenIssues(
           </Heading>
           :
           <Content>
-            {getLongLabel(snapshot, snapshot.getIn(['data', 'hostname']))}
+            <span className={block + '__label'}>
+              Host: {snapshot ? getLongLabel(snapshot, snapshot.getIn(['data', 'hostname'])) : null}
+            </span>
+            <LayerListing snapshotIds={this.props.layer.map(layer => layer.id)}/>
           </Content>
         }
       </TooltipFrame>
@@ -61,9 +62,8 @@ export default class TooltipNode extends Tooltip {
 
   render() {
     React.render(
-      <NodeTooltipRC
-        snapshotId={this.parent.id}
-        layer={this.parent.getComponent('layer').layer}
+      <NodeTooltip snapshotId={this.parent.id}
+                   layer={this.parent.getComponent('layer').layer}
       />,
       this.stickyNoteContainer
     );
