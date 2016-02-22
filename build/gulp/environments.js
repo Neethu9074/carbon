@@ -109,6 +109,7 @@ module.exports = {
   local: {
     uiBackendUrl: 'http://localhost:8082/',
     groundskeeperUrl: 'http://localhost:8280',
+    withoutAuthPrefix: true,
     tenant: 'instana',
     tenantUnit: 'test',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
