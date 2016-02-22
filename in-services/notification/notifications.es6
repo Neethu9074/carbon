@@ -1,26 +1,27 @@
-import {extractCoordinates, getFullSnapshot} from 'in-services/snapshots';
+import {createLogger} from 'instalog';
+
+import {getSnapshot} from 'in-stores/snapshot';
 import {health, mapSeverityToHealth} from 'in-services/health';
 import {getOpenIssues} from 'in-services/issueTracker';
 import {settingsStore} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
 
+
+const logger = createLogger('notification');
 let disposable;
 let previousIssues = null;
 
 settingsStore.subscribe(data => {
-  const desktopNotification = data.getIn(['desktopNotification']);
-  if (desktopNotification) {
+  if (data.getIn(['desktopNotification'])) {
     startTracking();
   } else {
     stopTracking();
   }
-
 });
 
 
 function startTracking() {
-  disposable = getOpenIssues().subscribe((issues) => {
-
+  disposable = getOpenIssues().subscribe(issues => {
     // show messages only if Browser Window is currently not visible
     if (document.hidden == null || !document.hidden) {
       return;
@@ -28,22 +29,21 @@ function startTracking() {
     // recreate the list of previous issues if first start or if an issue has been removed
     if (previousIssues === null || Object.keys(previousIssues).length > issues.size) {
       previousIssues = {};
-      issues.forEach(issue => {
-        previousIssues[issue.get('id')] = 1;
-      });
+      issues.forEach(issue => previousIssues[issue.get('id')] = 1);
     }
 
     issues.forEach(issue => {
-      if (previousIssues[issue.get('id')] !== 1) {
-        previousIssues[issue.get('id')] = 1;
-        const coordinates = extractCoordinates(issue.get('problem'));
-        const severity = mapSeverityToHealth(issue.getIn(['problem', 'severity']));
-        if (severity === health.warning || severity === health.danger) {
-          getFullSnapshot(coordinates).once(snapShot => {
-            showMessage(getLabel(snapShot), issue.getIn(['problem', 'problemText']));
-          });
+      const problem = issue.get('problem');
+      getSnapshot(problem.get('snapshotId')).once(snapshot => {
+        const issueId = issue.get('id');
+        if (previousIssues[issueId] !== 1) {
+          previousIssues[issueId] = 1;
+          const severity = mapSeverityToHealth(problem.get('severity'));
+          if (severity === health.warning || severity === health.danger) {
+            showMessage(getLabel(snapshot), problem.get('problemText'));
+          }
         }
-      }
+      });
     });
   });
 }
@@ -55,15 +55,13 @@ function stopTracking() {
   }
 }
 
-function showMessage(title, problem) {
+function showMessage(title, body) {
   if (Notification.permission === 'granted') {
-    // a Notification can only be created using *new*. Actually I don't need any instance of this, so suppress warnings
-    /* eslint-disable no-new */
-    new Notification(title, {
+    const notification = new Notification(title, {
       icon: location.origin + '/favicon.png',
-      body: problem
+      body
     });
-    /* eslint-enable no-new */
+    logger.debug('a notification was send', notification);
   }
 }
 
