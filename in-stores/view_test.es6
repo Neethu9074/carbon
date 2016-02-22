@@ -51,7 +51,7 @@ describe('stores.view', () => {
     });
 
     it('should use the process view if defined with multiple other parameters', () => {
-      setHash('#/?sPluginId=foo&view=PROCESS&sHostId=bar');
+      setHash('#/?sPlugin=foo&view=PROCESS&sHostId=bar');
       loadModule();
 
       mod.view.subscribe(onNext);

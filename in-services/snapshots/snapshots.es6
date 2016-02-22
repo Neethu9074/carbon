@@ -16,7 +16,7 @@ export const getIdString = _getIdString;
  * means to uniquely identify a snapshot.
  *
  * @param {Immutable.Map} snapshot An immutable snapshot from which the ID
- *   part should be extracted, i.e. hostId, pluginId and steadyId.
+ *   part should be extracted, i.e. hostId, plugin and steadyId.
  * @returns {Immutable.Map} A map only with the three aforementioed properties.
  */
 export function extractCoordinates(snapshot) {
@@ -25,21 +25,21 @@ export function extractCoordinates(snapshot) {
     id = Immutable.Map({
       id: getIdString(snapshot),
       hostId: snapshot.get('hostId'),
-      pluginId: snapshot.get('pluginId'),
+      plugin: snapshot.get('plugin'),
       steadyId: snapshot.get('steadyId')
     });
   } else {
     id = Immutable.Map({
       id: getIdString(snapshot),
       hostId: snapshot.hostId,
-      pluginId: snapshot.pluginId,
+      plugin: snapshot.plugin,
       steadyId: snapshot.steadyId
     });
   }
 
   /* eslint-disable max-len */
   // Snapshot IDs are considered equal when they have the same
-  // hostId, pluginId and steadyId. By adding this equal function
+  // hostId, plugin and steadyId. By adding this equal function
   // we can make use Immutable.is' special behavior: It will use
   // an `equal` method on immutable objects when this method exists!
   // See:
@@ -56,7 +56,7 @@ export function extractCoordinates(snapshot) {
  * @param {Immutable.Map} id1
  * @param {Immutable.Map} id2
  * @return {boolean} true when both IDs describe the same snapshot, i.e.
- *  the hostId, pluginId and steadyId property are the same.
+ *  the hostId, plugin and steadyId property are the same.
  */
 export function isIdEqual(id1, id2) {
   if (id1 === id2) {
@@ -68,7 +68,7 @@ export function isIdEqual(id1, id2) {
   }
 
   return id1.get('hostId') === id2.get('hostId') &&
-    id1.get('pluginId') === id2.get('pluginId') &&
+    id1.get('plugin') === id2.get('plugin') &&
     id1.get('steadyId') === id2.get('steadyId');
 }
 

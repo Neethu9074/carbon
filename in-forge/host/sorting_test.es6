@@ -12,9 +12,9 @@ describe('zones', () => {
 
   beforeEach(() => {
     snapshots = Immutable.fromJS([
-      {hostId: 'B', pluginId: constants.plugins.os},
-      {hostId: 'A', pluginId: constants.plugins.os},
-      {hostId: 'C', pluginId: constants.plugins.os}
+      {hostId: 'B', plugin: constants.plugins.os},
+      {hostId: 'A', plugin: constants.plugins.os},
+      {hostId: 'C', plugin: constants.plugins.os}
     ]);
   });
 

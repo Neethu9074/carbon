@@ -5,16 +5,16 @@ import {getIconById} from 'in-sdk/iconRegistry';
 const UNKNOWN_LABEL = 'Unknown';
 
 // {
-//   <pluginId: String>: [(snapshot) => <label: String>]
+//   <plugin: String>: [(snapshot) => <label: String>]
 // }
 const labelFinder = {};
 
-export function addLabelFinder(pluginId, finder) {
-  if (!(pluginId in labelFinder)) {
-    labelFinder[pluginId] = [];
+export function addLabelFinder(plugin, finder) {
+  if (!(plugin in labelFinder)) {
+    labelFinder[plugin] = [];
   }
 
-  labelFinder[pluginId].push(finder);
+  labelFinder[plugin].push(finder);
 }
 
 export function getLabel(snapshot, fallback) {
@@ -22,9 +22,9 @@ export function getLabel(snapshot, fallback) {
     return fallback;
   }
 
-  const pluginId = snapshot.get('plugin');
+  const plugin = snapshot.get('plugin');
 
-  const finder = labelFinder[pluginId];
+  const finder = labelFinder[plugin];
   if (!finder) {
     if (fallback) {
       return fallback;
@@ -47,16 +47,16 @@ export function getLabel(snapshot, fallback) {
 
 
 // {
-//   <pluginId: String>: [(snapshot) => <label: String>]
+//   <plugin: String>: [(snapshot) => <label: String>]
 // }
 const longLabelFinder = {};
 
-export function addLongLabelFinder(pluginId, finder) {
-  if (!(pluginId in longLabelFinder)) {
-    longLabelFinder[pluginId] = [];
+export function addLongLabelFinder(plugin, finder) {
+  if (!(plugin in longLabelFinder)) {
+    longLabelFinder[plugin] = [];
   }
 
-  longLabelFinder[pluginId].push(finder);
+  longLabelFinder[plugin].push(finder);
 }
 
 export function getLongLabel(snapshot, fallback) {
@@ -64,9 +64,9 @@ export function getLongLabel(snapshot, fallback) {
     return fallback;
   }
 
-  const pluginId = snapshot.get('plugin');
+  const plugin = snapshot.get('plugin');
 
-  const finder = longLabelFinder[pluginId];
+  const finder = longLabelFinder[plugin];
   if (!finder) {
     if (fallback) {
       return fallback;
@@ -88,12 +88,12 @@ export function getLongLabel(snapshot, fallback) {
 }
 
 
-export function getIcon(pluginId) {
-  if (typeof pluginId === 'object') {
-    pluginId = getIconIdBySnapshot(pluginId);
+export function getIcon(plugin) {
+  if (typeof plugin === 'object') {
+    plugin = getIconIdBySnapshot(plugin);
   }
 
-  return getIconById(pluginId);
+  return getIconById(plugin);
 }
 
 export function getIconIdBySnapshot(snapshot) {

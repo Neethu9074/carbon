@@ -70,8 +70,8 @@ function setActiveState() {
     }
 
     const subscription = activeSubscriptions[id];
-    if (subscription.pluginId) {
-      subscription.pluginId = subscription.pluginId.replace(/^.*\.([^.]+)$/i, '$1');
+    if (subscription.plugin) {
+      subscription.plugin = subscription.plugin.replace(/^.*\.([^.]+)$/i, '$1');
     }
     delete subscription.id;
     delete subscription.event;

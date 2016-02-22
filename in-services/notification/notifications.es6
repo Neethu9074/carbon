@@ -1,8 +1,8 @@
+import {extractCoordinates, getFullSnapshot} from 'in-services/snapshots';
+import {health, mapSeverityToHealth} from 'in-services/health';
 import {getOpenIssues} from 'in-services/issueTracker';
 import {settingsStore} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
-import {health, mapSeverityToHealth} from 'in-services/health';
-import {extractCoordinates, getFullSnapshot} from 'in-services/snapshots';
 
 let disposable;
 let previousIssues = null;
@@ -40,7 +40,7 @@ function startTracking() {
         const severity = mapSeverityToHealth(issue.getIn(['problem', 'severity']));
         if (severity === health.warning || severity === health.danger) {
           getFullSnapshot(coordinates).once(snapShot => {
-              showMessage(getLabel(snapShot), issue.getIn(['problem', 'problemText']));
+            showMessage(getLabel(snapShot), issue.getIn(['problem', 'problemText']));
           });
         }
       }

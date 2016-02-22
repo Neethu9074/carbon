@@ -1,5 +1,5 @@
 
 
-// export function register(pluginId, configuration) {
+// export function register(plugin, configuration) {
 //   // body...
 // }

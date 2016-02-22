@@ -40,7 +40,7 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
           </h1>
 
           <p className={block + '__plugin-type'}>
-            {getSingular(snapshot.get('pluginId'))}
+            {getSingular(snapshot.get('plugin'))}
           </p>
         </div>
       </div>

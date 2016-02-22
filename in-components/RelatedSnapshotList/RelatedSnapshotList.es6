@@ -45,25 +45,25 @@ export default connectTo(
       return null;
     }
 
-    const groups = this.getSnapshotsGroupedByPluginId();
-    const groupPluginIds = Object.keys(groups)
+    const groups = this.getSnapshotsGroupedByPlugin();
+    const groupPlugins = Object.keys(groups)
       .sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
 
     return (
       <div>
-        {groupPluginIds.map(pluginId =>
-          <Collapsible key={pluginId}>
+        {groupPlugins.map(plugin =>
+          <Collapsible key={plugin}>
             <Collapsible.Header className={block + '__header'}>
               <div className={block + '__header'}>
-                <img src={getIcon(pluginId)}
+                <img src={getIcon(plugin)}
                      alt='plugin icon'
                      className={block + '__plugin-icon'}/>
-                {getPlural(pluginId)}
+                {getPlural(plugin)}
               </div>
             </Collapsible.Header>
             <Collapsible.Content>
               <List>
-                {groups[pluginId].map(snapshot =>
+                {groups[plugin].map(snapshot =>
                   <List.Item key={snapshot.get('id')}
                              onClick={() => this.select(snapshot)}>
                     {getLabel(snapshot)}
@@ -82,16 +82,16 @@ export default connectTo(
     setSelectedSnapshotId(snapshot.get('id'));
   },
 
-  getSnapshotsGroupedByPluginId() {
+  getSnapshotsGroupedByPlugin() {
     const grouping = {};
 
     this.props.snapshots.forEach(snapshot => {
-      const pluginId = snapshot.get('plugin');
-      if (!(pluginId in grouping)) {
-        grouping[pluginId] = [];
+      const plugin = snapshot.get('plugin');
+      if (!(plugin in grouping)) {
+        grouping[plugin] = [];
       }
 
-      grouping[pluginId].push(snapshot);
+      grouping[plugin].push(snapshot);
     });
 
     return grouping;

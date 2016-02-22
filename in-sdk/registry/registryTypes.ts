@@ -25,7 +25,7 @@ export interface SidebarProps {
 }
 
 export interface PluginConfiguration {
-  pluginId: string,
+  plugin: string,
 
   pluginName: {
     singular: string,

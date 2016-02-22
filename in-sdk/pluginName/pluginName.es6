@@ -2,24 +2,24 @@
 
 const translationTable = {};
 
-export function setHumanReadablePluginName(pluginId, singular, plural) {
-  translationTable[pluginId] = {
+export function setHumanReadablePluginName(plugin, singular, plural) {
+  translationTable[plugin] = {
     singular,
     plural
   };
 }
 
-export function getSingular(pluginId) {
-  return get(pluginId, 'singular');
+export function getSingular(plugin) {
+  return get(plugin, 'singular');
 }
 
-export function getPlural(pluginId) {
-  return get(pluginId, 'plural');
+export function getPlural(plugin) {
+  return get(plugin, 'plural');
 }
 
-function get(pluginId, prop) {
-  if (!(pluginId in translationTable)) {
-    return pluginId;
+function get(plugin, prop) {
+  if (!(plugin in translationTable)) {
+    return plugin;
   }
-  return translationTable[pluginId][prop];
+  return translationTable[plugin][prop];
 }

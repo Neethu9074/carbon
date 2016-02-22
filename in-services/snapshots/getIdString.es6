@@ -12,21 +12,21 @@ import Immutable from 'immutable';
  */
 export default function getIdString(s) {
   let hostId;
-  let pluginId;
+  let plugin;
   let steadyId;
 
   if (Immutable.Map.isMap(s)) {
     hostId = s.get('hostId');
-    pluginId = s.get('pluginId');
+    plugin = s.get('plugin');
     steadyId = s.get('steadyId');
   } else {
     hostId = s.hostId;
-    pluginId = s.pluginId;
+    plugin = s.plugin;
     steadyId = s.steadyId;
   }
 
-  if (hostId && pluginId && steadyId) {
-    return `${pluginId}#${hostId}#${steadyId}`;
+  if (hostId && plugin && steadyId) {
+    return `${plugin}#${hostId}#${steadyId}`;
   }
   return undefined;
 }

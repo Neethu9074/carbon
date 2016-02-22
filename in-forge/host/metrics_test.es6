@@ -14,7 +14,7 @@ describe('metrics', () => {
 
     beforeEach(() => {
       snapshot = Immutable.fromJS({
-        pluginId: osPlugin,
+        plugin: osPlugin,
         data: {
           'memory.total': 1024,
           'cpu.count': 4
