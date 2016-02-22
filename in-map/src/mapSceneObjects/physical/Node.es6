@@ -92,6 +92,7 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onIndirectHighlightLeave() {
     this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.changeComponentState('groundLine', PROPERTIES.SELECTED, PROPERTY_VALUES.OFF);
   }
 
@@ -199,9 +200,21 @@ export default class Node extends SceneObjectWithSnapshot {
 
   setChildren(entities) {
     const layerComponent = this.getComponent('layer');
+    const nodeLayerIds = layerComponent.layer.map(layer => layer.id);
 
-    layerComponent.removedVanishedLayer(entities);
-    layerComponent.addLayer(entities);
+    let arraysAreEqual = true;
+    for (let i = 0; i < entities.size; i++) {
+      if (nodeLayerIds.indexOf(entities.getIn([i, 'id'])) < 0) {
+        arraysAreEqual = false;
+        break;
+      }
+    }
+
+    if (!arraysAreEqual) {
+      layerComponent.removedVanishedLayer(entities);
+      layerComponent.addLayer(entities);
+    }
+    // else -> arrays are equal, so don't create them new
   }
 
   showMetrics() {
