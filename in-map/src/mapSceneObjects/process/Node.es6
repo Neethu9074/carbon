@@ -12,7 +12,7 @@ import MeshComponent from '../../components/common/MeshComponent';
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
-import StickyNote from '../../StickyNotes/ProcessCluster';
+import StickyNote from '../../stickyNotes/process/Cluster';
 import Label from './Label';
 
 import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';

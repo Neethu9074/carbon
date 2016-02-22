@@ -12,9 +12,9 @@ import {health} from 'in-services/health';
 import Icon from 'in-components/Icon';
 import theme from 'in-services/theme';
 
-import StickyNote from '../StickyNote';
+import StickyNote from '../../StickyNote';
 
-import './PhysicalGroup.less';
+import './Group.less';
 
 
 const rpt = React.PropTypes;
@@ -22,7 +22,7 @@ const block = 'in-sticky-note-group';
 
 const PhysicalGroup = getSnapshot(React.createClass({
 
-  displayName: 'PhysicalGroup',
+  displayName: 'physical group sticky',
 
   mixins: [
     React.addons.PureRenderMixin

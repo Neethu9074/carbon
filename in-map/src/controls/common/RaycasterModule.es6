@@ -2,11 +2,11 @@ import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {ALL_CONNECTIONS} from 'in-map/src/mapSceneObjects/common/Connection';
+import ConnectionTooltip from 'in-map/src/tooltips/common/connection';
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {emptyArray} from 'in-services/fixedObjects';
 import {currentTooltip} from 'in-map/src/stores';
 
-import ConnectionTooltip from '../../Tooltip/Connection';
 import Module from './Module';
 
 

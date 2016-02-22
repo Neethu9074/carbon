@@ -12,7 +12,7 @@ import {getFormattedValue} from 'in-sdk/metrics';
 import getSnapshot from 'in-hoc/getSnapshot';
 import {theme} from 'in-services/theme';
 
-import Tooltip from '../Tooltip';
+import Tooltip from '../../Tooltip';
 
 import './Metric.less';
 
@@ -21,7 +21,7 @@ const block = 'in-tooltip-metric';
 
 const MetricTooltipReactClass = getSnapshot(React.createClass({
 
-  displayName: 'Metric Tooltip',
+  displayName: 'metric tooltip',
 
   mixins: [
     React.addons.PureRenderMixin,

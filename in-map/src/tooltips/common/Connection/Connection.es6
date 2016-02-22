@@ -4,10 +4,12 @@ import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 
 import ConnectionItem from './ConnectionItem';
-import Tooltip from '../Tooltip.es6';
+import Tooltip from '../../Tooltip.es6';
 
 
 const ConnectionsTooltipRC = React.createClass({
+
+  displayName: 'connection tooltip',
 
   mixins: [React.addons.PureRenderMixin],
 

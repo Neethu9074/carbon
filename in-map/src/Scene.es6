@@ -21,7 +21,7 @@ import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
 import MapHandler from './mapSceneObjects/common/MapHandler';
-import TooltipHandler from './Tooltip/TooltipHandler';
+import TooltipHandler from './tooltips/TooltipHandler';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import * as time from './timeCalculations';

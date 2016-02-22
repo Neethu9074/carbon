@@ -3,13 +3,12 @@ import Immutable from 'immutable';
 import React from 'react/addons';
 import _ from 'lodash';
 
+import {DIRECTIONS} from 'in-map/src/mapSceneObjects/common/Connection';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import * as constants from 'in-forge/constants';
 import getSnapshot from 'in-hoc/getSnapshot';
 import Icon from 'in-components/Icon';
 import getZone from 'in-hoc/getZone';
-
-import {DIRECTIONS} from '../../mapSceneObjects/common/Connection';
 
 import './ConnectionItem.less';
 

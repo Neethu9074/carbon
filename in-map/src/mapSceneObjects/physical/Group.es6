@@ -8,7 +8,7 @@ import LineMeshComponent from '../../components/common/LineMeshComponent';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
-import StickyNote from '../../StickyNotes/Groups/PhysicalGroup';
+import StickyNote from '../../stickyNotes/physical/Group';
 import Node from './Node';
 
 import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';

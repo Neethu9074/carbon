@@ -5,9 +5,9 @@ import {getColorPool} from 'in-services/util/ColorGenerator';
 import getSnapshot from 'in-hoc/getSnapshot';
 import Icon from 'in-components/Icon';
 
-import StickyNote from '../StickyNote';
+import StickyNote from '../../StickyNote';
 
-import './ProcessCluster.less';
+import './Cluster.less';
 
 
 const rpt = React.PropTypes;
@@ -15,7 +15,7 @@ const block = 'in-sticky-note-process-cluster';
 
 const ProcessCluster = getSnapshot(React.createClass({
 
-  displayName: 'ProcessCluster',
+  displayName: 'process cluster sticky',
 
   mixins: [
     React.addons.PureRenderMixin

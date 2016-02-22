@@ -5,16 +5,19 @@ import getMaxSeverityForOpenIssues from 'in-hoc/getMaxSeverityForOpenIssues';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
+import {getLongLabel} from 'in-sdk/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
 
-import Tooltip from '../Tooltip.es6';
+import Tooltip from '../../Tooltip.es6';
 
 
 const rpt = React.PropTypes;
 
-const LayerTooltipRC = getMaxSeverityForOpenIssues(
-                       getSnapshot(
-                       React.createClass({
+const NodeTooltipRC = getMaxSeverityForOpenIssues(
+                      getSnapshot(
+                      React.createClass({
+
+  displayName: 'physical node tootlip',
 
   mixins: [
     React.addons.PureRenderMixin
@@ -23,6 +26,7 @@ const LayerTooltipRC = getMaxSeverityForOpenIssues(
   propTypes: {
     maxSeverityForOpenIssues: rpt.number,
     snapshotId: rpt.string.isRequired,
+    layer: rpt.array.isRequired,
     snapshot: irpt.map
   },
 
@@ -42,7 +46,7 @@ const LayerTooltipRC = getMaxSeverityForOpenIssues(
           </Heading>
           :
           <Content>
-            {snapshot.get('plugin')}
+            {getLongLabel(snapshot, snapshot.getIn(['data', 'hostname']))}
           </Content>
         }
       </TooltipFrame>
@@ -50,16 +54,22 @@ const LayerTooltipRC = getMaxSeverityForOpenIssues(
   }
 })));
 
-
-export default class TooltipLayer extends Tooltip {
+export default class TooltipNode extends Tooltip {
   constructor(parent) {
     super(parent);
   }
 
   render() {
     React.render(
-      <LayerTooltipRC snapshotId={this.parent.id}/>,
+      <NodeTooltipRC
+        snapshotId={this.parent.id}
+        layer={this.parent.getComponent('layer').layer}
+      />,
       this.stickyNoteContainer
     );
+  }
+
+  dispose() {
+    super.dispose();
   }
 }
