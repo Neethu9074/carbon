@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
+import TooltipHandler from 'in-map/src/2DSceneObjects/tooltips/TooltipHandler';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/converters';
@@ -20,8 +21,7 @@ import SingleMeshGlyphPointsFactory from './SingleMeshFactory/SingleMeshGlyphPoi
 import SingleMeshMetricFactory from './SingleMeshFactory/SingleMeshMetricFactory';
 import SingleMeshLineFactory from './SingleMeshFactory/SingleMeshLineFactory';
 import SingleMeshFactory from './SingleMeshFactory/SingleMeshFactory';
-import MapHandler from './mapSceneObjects/common/MapHandler';
-import TooltipHandler from './tooltips/TooltipHandler';
+import MapHandler from './3DSceneObjects/common/MapHandler';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import * as time from './timeCalculations';

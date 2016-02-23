@@ -2,11 +2,11 @@ import THREE from 'three';
 
 import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
 import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/mapSceneObjects/common/geometries';
+import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
 import SCCP from 'in-map/src/SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import TooltipMetric from 'in-map/src/2DSceneObjects/tooltips/physical/Metric';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import TooltipMetric from 'in-map/src/tooltips/physical/Metric';
 
 import CollisionComponent from '../CollisionObjectComponent';
 import Component from '../Component';
