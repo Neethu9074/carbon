@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import CameraController from 'in-map/src/controls/physical/CameraController';
-import {hexToRGBNormalized} from 'in-services/converters';
+import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {getIn} from 'in-services/settings';
 import theme from 'in-services/theme';
 

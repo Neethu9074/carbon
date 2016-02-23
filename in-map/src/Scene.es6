@@ -3,7 +3,7 @@ import THREE from 'three';
 import {setSelectedSnapshotId, clearSelectedSnapshotId} from 'in-stores/snapshot';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
-import {hexToRGBNormalized} from 'in-services/converters';
+import {hexToRGBNormalized} from 'in-services/formatters/color';
 
 import {activeMetric} from 'in-services/stores/metrics';
 import * as tracking from 'in-services/tracking';

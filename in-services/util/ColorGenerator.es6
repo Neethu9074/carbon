@@ -1,7 +1,7 @@
 
 import THREE from 'three';
 
-import {hexToRGBNormalized} from 'in-services/converters';
+import {hexToRGBNormalized} from 'in-services/formatters/color';
 
 
 const colorService = new THREE.Color(0, 0, 0);
