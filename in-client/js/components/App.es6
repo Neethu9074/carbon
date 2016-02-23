@@ -4,7 +4,6 @@ import React from 'react/addons';
 
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
 import {isDemoEnvironment} from 'in-services/config';
@@ -41,7 +40,6 @@ export default helpify(connectTo(
 
   mixins: [
     React.addons.PureRenderMixin,
-    SubscriptionMixin,
     Navigation,
     IntlMixin
   ],
