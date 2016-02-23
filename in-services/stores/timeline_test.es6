@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-/* eslint-disable no-unused-vars, new-cap, max-len */
+
 import {expect} from 'chai';
 import sinon from 'sinon';
 import proxyquire from 'proxyquire';
