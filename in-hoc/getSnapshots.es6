@@ -4,9 +4,9 @@ import React from 'react';
 import {getSnapshot as loadSnapshot} from 'in-stores/snapshot';
 
 
-export default function getSnapshot(ComposedComponent) {
+export default function getSnapshots(ComposedComponent) {
   return React.createClass({
-    displayName: 'getSnapshot hoc for ' + ComposedComponent.displayName,
+    displayName: 'getSnapshots hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
       snapshotIds: React.PropTypes.array.isRequired
@@ -27,15 +27,15 @@ export default function getSnapshot(ComposedComponent) {
       if (this.props.snapshotIds.length !== nextProps.snapshotIds.length) {
         areEqual = false;
       } else {
-        for (let i = 0; i < this.props.snapshotIds.length; i++) {
-          if (this.props.snapshotIds[i] !== nextProps.snapshotIds) {
+        for (let i = 0, len = this.props.snapshotIds.length; i < len; i++) {
+          if (this.props.snapshotIds[i] !== nextProps.snapshotIds[i]) {
             areEqual = false;
             break;
           }
         }
       }
 
-      if (areEqual) {
+      if (!areEqual) {
         this.subscribe(nextProps.snapshotIds);
       }
     },
@@ -50,7 +50,7 @@ export default function getSnapshot(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotIds) {
-        this.subscription = combineLatest(snapshotIds.map(snapshotId => loadSnapshot(snapshotId)))
+        this.subscription = combineLatest(snapshotIds.map(loadSnapshot))
           .subscribe(snapshots => this.setState({
             snapshots
           }));
