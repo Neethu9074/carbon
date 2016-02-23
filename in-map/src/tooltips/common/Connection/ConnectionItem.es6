@@ -1,5 +1,4 @@
 import irpt from 'react-immutable-proptypes';
-import Immutable from 'immutable';
 import React from 'react/addons';
 import _ from 'lodash';
 
@@ -9,6 +8,7 @@ import * as constants from 'in-forge/constants';
 import getSnapshot from 'in-hoc/getSnapshot';
 import Icon from 'in-components/Icon';
 import getZone from 'in-hoc/getZone';
+import {emptyMap} from 'in-services/fixedImmutables';
 
 import './ConnectionItem.less';
 
@@ -106,7 +106,7 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
     const ec2 = snapshot.getIn(['data',
                                 constants.rels.describes,
                                 constants.plugins.ec2],
-                                Immutable.Map()).valueSeq().first();
+                                emptyMap).valueSeq().first();
     if (ec2) {
       ipArray.push(ec2.get('public-ipv4'));
     }

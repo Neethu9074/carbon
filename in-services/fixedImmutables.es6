@@ -8,3 +8,4 @@ import Immutable from 'immutable';
 
 export const emptyList = Immutable.List();
 export const emptySet = Immutable.Set();
+export const emptyMap = Immutable.Map();
