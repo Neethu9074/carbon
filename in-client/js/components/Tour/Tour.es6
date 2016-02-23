@@ -5,7 +5,7 @@ import React from 'react/addons';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {applyTransform} from 'in-services/util/dom';
 import * as tracking from 'in-services/tracking';
-import toPx from 'in-services/converters/toPx';
+import toPx from 'in-services/formatters/toPx';
 import keyCodes from 'in-components/keyCodes';
 import Button from 'in-components/Button';
 
