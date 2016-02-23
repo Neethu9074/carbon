@@ -154,10 +154,6 @@ export default class Map extends BaseMap {
       this.refreshLayout = true;
     }
     this.hideUnmonitoredHosts = hide;
-
-    if (hide) {
-      console.log('HIDE / DISPOSE / DISABLE / MAKETHEMGO ALL UNMONITORED NODES');
-    }
   }
 
   dispose() {
