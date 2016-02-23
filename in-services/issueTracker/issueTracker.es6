@@ -6,6 +6,7 @@ import {getIssues as getIssueStore} from 'in-stores/issues';
 import {isDemoEnvironment} from 'in-services/config';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
+import {emptyList} from 'in-services/fixedImmutables';
 
 import {mapSeverityToHealth, health} from '../health';
 import * as timelineStore from '../stores/timeline';
@@ -20,7 +21,7 @@ const withoutCpuStealMapper = (issues) => {
 
 const allIssuesStreamWithExperimentals = timelineStore.timeframe.distinct()
   .flatMap(timeframe => {
-    const stream = getIssueStore(timeframe).scan(collectingReducer, Immutable.List());
+    const stream = getIssueStore(timeframe).scan(collectingReducer, emptyList);
 
     if (isDemoEnvironment()) {
       return stream.map(withoutCpuStealMapper);

@@ -1,5 +1,4 @@
 import irpt from 'react-immutable-proptypes';
-import Immutable from 'immutable';
 import React from 'react/addons';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
@@ -11,6 +10,7 @@ import Tooltip from 'in-components/Tooltip';
 import {health} from 'in-services/health';
 import Icon from 'in-components/Icon';
 import theme from 'in-services/theme';
+import {emptyList} from 'in-services/fixedImmutables';
 
 import StickyNote from '../../StickyNote';
 
@@ -40,7 +40,7 @@ const PhysicalGroup = getSnapshot(React.createClass({
   getInitialState() {
     return {
       health: health.ok,
-      issues: Immutable.List()
+      issues: emptyList
     };
   },
 
