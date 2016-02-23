@@ -64,7 +64,7 @@ export default class Map extends BaseMap {
 
   onInventoryUpdated(inventory) {
     super.onInventoryUpdated(inventory);
-    // this.removeVanishedHosts(inventory);
+    this.removeVanishedHosts(inventory);
     this.layoutNeedsUpdate();
   }
 
