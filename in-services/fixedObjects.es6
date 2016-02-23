@@ -1,1 +1,1 @@
-export const emptyArray = [];
+export const emptyArray = Object.freeze([]);
