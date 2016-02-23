@@ -20,7 +20,6 @@ import i18n from './i18n';
 // initiate time offset calculation. Module initialization has side effects.
 import './i18n/momentOverwrites';
 
-import './devtools/subscriptionInfoPrinter';
 import './devtools/storeStates';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
