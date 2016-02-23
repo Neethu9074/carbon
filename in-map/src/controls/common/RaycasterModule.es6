@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import ConnectionTooltip from 'in-map/src/2DSceneObjects/tooltips/common/connection';
+import ConnectionTooltip from 'in-map/src/2DSceneObjects/tooltips/common/Connection';
 import {ALL_CONNECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {tooltipForSceneObject} from 'in-map/src/stores';
