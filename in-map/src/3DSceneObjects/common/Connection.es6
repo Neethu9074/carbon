@@ -24,6 +24,8 @@ export default class Connection extends SceneObjectWithSnapshot {
     this.sourceNode = sourceNode;
     this.destinationNode = destinationNode;
 
+    this.updateGeometry();
+
     ALL_CONNECTIONS.push(this);
 
     this.addSubscription(eventBus.on('layoutChanged').subscribe(() => this.updateGeometry()));
