@@ -3,7 +3,7 @@ import React from 'react/addons';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import TagListSnapshot from 'in-components/TagListSnapshot';
-import {formatBytes} from 'in-services/converters';
+import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 
 const HardwareInfo = React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -34,13 +34,13 @@ const HardwareInfo = React.createClass({
 
           {memoryTotal !== null ?
             <DescriptionItem title='Memory'>
-              {formatBytes(data.get('memory.total'))}
+              {bytesTwoDecimalPlaces(data.get('memory.total'))}
             </DescriptionItem>
           : null}
 
           {swapTotal !== null ?
             <DescriptionItem title='Swap Total'>
-              {formatBytes(data.get('swap.total'))}
+              {bytesTwoDecimalPlaces(data.get('swap.total'))}
             </DescriptionItem>
           : null}
 

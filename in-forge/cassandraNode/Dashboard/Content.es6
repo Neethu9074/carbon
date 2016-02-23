@@ -2,7 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 import d3 from 'd3';
 
-import {formatBytesShort, capitalize} from 'in-services/converters';
+import {bytesZeroDecimalPlaces} from 'in-services/formatters/number';
+import {capitalize} from 'in-services/formatters/string';
 import classnames from 'in-services/util/classnames';
 
 import DashboardSection from 'in-components/DashboardSection';
@@ -224,7 +225,7 @@ const CassandraDashboard = React.createClass({
                        snapshot={snapshot} />
                   <Mtd metric={'keyspace.' + keyspaceName + '.diskSize'}
                        snapshot={snapshot}
-                       formatter={formatBytesShort} />
+                       formatter={bytesZeroDecimalPlaces} />
                 </tr>
               ).valueSeq()}
             </tbody>

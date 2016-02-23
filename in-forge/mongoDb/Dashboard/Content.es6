@@ -1,7 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {formatBytes} from 'in-services/converters';
+import {
+  bytesZeroDecimalPlaces,
+  bytesTwoDecimalPlaces
+} from 'in-services/formatters/number';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -43,8 +46,8 @@ const MongoDBDashboard = React.createClass({
                                         name
                                       ).toArray(),
                              type: 'line',
-                             formatter: formatBytes,
-                             tooltipFormatter: formatBytes
+                             formatter: bytesZeroDecimalPlaces,
+                             tooltipFormatter: bytesTwoDecimalPlaces
                            }}/>
         </DashboardSection>
         : null}

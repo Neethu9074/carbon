@@ -1,7 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {formatBytes, formatPercentageShort} from 'in-services/converters';
+import {
+  bytesTwoDecimalPlaces,
+  percentageZeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -33,7 +36,7 @@ const ProcessDashboard = React.createClass({
                  }}
                  y1={{
                    min: 0,
-                   formatter: formatBytes,
+                   formatter: bytesTwoDecimalPlaces,
                    metrics: [
                      'mem.virtual',
                      'mem.resident',
@@ -63,7 +66,7 @@ const ProcessDashboard = React.createClass({
                      'User',
                      'System'
                    ],
-                   formatter: formatPercentageShort,
+                   formatter: percentageZeroDecimalPlaces,
                    type: 'stackedArea'
                  }}/>
         </DashboardSection>

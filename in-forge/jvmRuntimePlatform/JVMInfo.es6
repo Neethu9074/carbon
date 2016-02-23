@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import {formatBytes} from 'in-services/converters';
+import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 
 import ClasspathLayouter from './ClasspathLayouter';
 
@@ -32,7 +32,7 @@ const JVMInfo = React.createClass({
 
           {maxMemory ?
             <DescriptionItem title='Maximum Heap'>
-              {formatBytes(maxMemory)}
+              {bytesTwoDecimalPlaces(maxMemory)}
             </DescriptionItem> :
             null
           }

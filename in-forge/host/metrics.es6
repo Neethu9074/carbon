@@ -1,4 +1,4 @@
-import {formatBytes} from 'in-services/converters';
+import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import {
   addMaxValueLocator,
   addMinValueLocator,
@@ -44,7 +44,7 @@ addMinValueLocator(/^fs\.([^\.]+)\.ifree/, zero);
 addFormattedValueLocator(
   /^memory\.free/,
    // translates free -> used -> whateverBytes
-  (max, value) => formatBytes((max - value))
+  (max, value) => bytesTwoDecimalPlaces((max - value))
 );
 
 addFormattedValueLocator(

@@ -1,7 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {formatBytes, formatPercentageShort} from 'in-services/converters';
+import {
+  bytesTwoDecimalPlaces,
+  percentageZeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -77,7 +80,7 @@ const RedisDashboard = React.createClass({
                            }}
                            y1={{
                              min: 0,
-                             formatter: formatBytes,
+                             formatter: bytesTwoDecimalPlaces,
                              metrics: [
                                'used_memory'
                              ],
@@ -98,7 +101,7 @@ const RedisDashboard = React.createClass({
                            y1={{
                              min: 0,
                              max: 1,
-                             formatter: formatPercentageShort,
+                             formatter: percentageZeroDecimalPlaces,
                              metrics: [
                                'hit_rate'
                              ],

@@ -2,10 +2,10 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
 import {
-  formatBytes,
-  formatBytesShort,
-  formatPercentageShort
-} from 'in-services/converters';
+  bytesTwoDecimalPlaces,
+  bytesZeroDecimalPlaces,
+  percentageZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 
@@ -50,7 +50,7 @@ const DockerDashboard = React.createClass({
                                'inactive_anon',
                                'inactive_file'
                              ],
-                             formatter: formatBytes,
+                             formatter: bytesTwoDecimalPlaces,
                              type: 'line'
                            }}/>
         </DashboardSection>
@@ -67,7 +67,7 @@ const DockerDashboard = React.createClass({
 
                    y1={{
                      min: 0,
-                     formatter: formatBytesShort,
+                     formatter: bytesZeroDecimalPlaces,
                      metrics: [
                        'network.rx.bytes',
                        'network.tx.bytes'
@@ -93,7 +93,7 @@ const DockerDashboard = React.createClass({
                        'TX Errors',
                        'TX Dropped'
                      ],
-                     formatter: formatPercentageShort,
+                     formatter: percentageZeroDecimalPlaces,
                      type: 'line'
                    }}/>
           </div>
