@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import {DIRECTIONS} from 'in-map/src/mapSceneObjects/common/Connection';
+import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import {emptyList} from 'in-services/fixedImmutables';
 
 import Component from '../Component';

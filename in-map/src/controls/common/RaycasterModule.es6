@@ -1,12 +1,12 @@
 import THREE from 'three';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import {ALL_CONNECTIONS} from 'in-map/src/mapSceneObjects/common/Connection';
-import ConnectionTooltip from 'in-map/src/tooltips/common/connection';
+import ConnectionTooltip from 'in-map/src/2DSceneObjects/tooltips/common/connection';
+import {ALL_CONNECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import * as tooltipStore from 'in-services/stores/tooltip';
+import {tooltipForSceneObject} from 'in-map/src/stores';
 import {emptyArray} from 'in-services/fixedObjects';
 import {currentTooltip} from 'in-map/src/stores';
-import {tooltipForSceneObject} from 'in-map/src/stores';
 
 import Module from './Module';
 

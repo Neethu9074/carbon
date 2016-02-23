@@ -8,6 +8,14 @@ module.exports = {
     tenantUnit: 'test',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
+  local: {
+    uiBackendUrl: 'http://localhost:8082/',
+    groundskeeperUrl: 'http://localhost:8280',
+    withoutAuthPrefix: true,
+    tenant: 'instana',
+    tenantUnit: 'test',
+    groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+  },
   analytics1: {
     uiBackendUrl: 'https://analytics1-instana.instana.io/api/data/',
     groundskeeperUrl: 'https://test-instana.instana.io',
@@ -105,14 +113,6 @@ module.exports = {
     tenant: 'centerdevice',
     tenantUnit: 'test',
     groundskeeperDomain: 'instana.io'
-  },
-  local: {
-    uiBackendUrl: 'http://localhost:8082/',
-    groundskeeperUrl: 'http://localhost:8280',
-    withoutAuthPrefix: true,
-    tenant: 'instana',
-    tenantUnit: 'test',
-    groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
   staging: {
     uiBackendUrl: 'https://staging-instana.instana.io/api/data/',

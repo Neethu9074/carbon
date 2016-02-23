@@ -1,5 +1,5 @@
-import {DIRECTIONS} from 'in-map/src/mapSceneObjects/common/Connection';
-import Connection from 'in-map/src/mapSceneObjects/process/Connection';
+import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
+import Connection from 'in-map/src/3DSceneObjects/process/Connection';
 import AnimationController from 'in-map/src/AnimationController';
 
 import BaseConnectionsHandlerComponent from '../common/ConnectionsHandlerComponent';

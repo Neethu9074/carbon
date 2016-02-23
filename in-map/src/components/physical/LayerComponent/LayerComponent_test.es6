@@ -6,7 +6,7 @@ import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import SceneObject from 'in-map/src/mapSceneObjects/common/SceneObject';
+import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
 import {currentScene} from 'in-map/src/stores';
 
 
@@ -39,7 +39,7 @@ describe('3D map', () => {
     });
 
     const LayerComponent = proxyquire('./LayerComponent.es6', {
-      'in-map/src/mapSceneObjects/physical/Layer': proxyquire('in-map/src/mapSceneObjects/physical/Layer', {
+      'in-map/src/3DSceneObjects/physical/Layer': proxyquire('in-map/src/3DSceneObjects/physical/Layer', {
         '../common/SceneObjectWithSnapshot': SceneObjectWithSnapshotMock
       })
     });

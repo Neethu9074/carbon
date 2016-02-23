@@ -1,4 +1,4 @@
-import {getAllNodes, getAllGroups} from './mapSceneObjects/physical/mapUtils';
+import {getAllNodes, getAllGroups} from './3DSceneObjects/physical/mapUtils';
 import {lowState, midState, maxState} from './AdaptiveDetailHandler';
 import * as time from './timeCalculations';
 

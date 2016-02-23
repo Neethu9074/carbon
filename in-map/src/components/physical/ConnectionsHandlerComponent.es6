@@ -1,5 +1,5 @@
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import Connection from 'in-map/src/mapSceneObjects/physical/Connection';
+import Connection from 'in-map/src/3DSceneObjects/physical/Connection';
 
 import BaseConnectionsHandlerComponent from '../common/ConnectionsHandlerComponent';
 

@@ -1,8 +1,8 @@
 import _ from 'lodash';
 
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import PluginLabel from 'in-map/src/mapSceneObjects/physical/Label';
-import Layer from 'in-map/src/mapSceneObjects/physical/Layer';
+import PluginLabel from 'in-map/src/3DSceneObjects/physical/Label';
+import Layer from 'in-map/src/3DSceneObjects/physical/Layer';
 
 import Component from '../../common/Component';
 import XYZ from '../../common/XYZ';
