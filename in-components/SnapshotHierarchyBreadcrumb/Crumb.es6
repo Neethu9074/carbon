@@ -1,42 +1,37 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import {getFullSnapshot} from 'in-services/snapshots';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
+import getSnapshot from 'in-hoc/getSnapshot';
 import {getIcon} from 'in-sdk/snapshot';
-
-import enhance from '../hoc/enhance';
 
 import './Crumb.less';
 
 const block = 'in-crumb';
 
-const Crumb = React.createClass({
+export default getSnapshot(React.createClass({
+  displayName: 'Crumb',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    selectedSnapshot: irpt.map.isRequired,
-    coordinates: irpt.map.isRequired,
-    fullSnapshot: irpt.map
-  },
-
-  statics: {
-    createObservables(props) {
-      return {
-        fullSnapshot: getFullSnapshot(props.coordinates)
-      };
-    }
+    selectedSnapshotId: React.PropTypes.string.isRequired,
+    snapshotId: React.PropTypes.string.isRequired,
+    snapshot: irpt.map
   },
 
   render() {
-    const coordinates = this.props.coordinates;
-    const isSelected = coordinates.get('id') === this.props.selectedSnapshot.get('id');
-    const label = getSingular(coordinates.get('pluginId'));
+    if (!this.props.snapshot) {
+      return null;
+    }
+
+    const isSelected = this.props.snapshotId === this.props.selectedSnapshotId;
+    const label = getSingular(this.props.snapshot.get('plugin'));
     const className = isSelected ? block + ' ' + block + '__selected' : block;
-    const icon = this.props.fullSnapshot ? getIcon(this.props.fullSnapshot) : getIcon(coordinates);
+    const icon = getIcon(this.props.snapshot);
 
     return (
       <li className={className}
@@ -51,8 +46,6 @@ const Crumb = React.createClass({
   },
 
   onCrumbClicked() {
-    selectedSnapshotStore.select(this.props.coordinates);
+    setSelectedSnapshotId(this.props.snapshotId);
   }
-});
-
-export default enhance(Crumb);
+}));

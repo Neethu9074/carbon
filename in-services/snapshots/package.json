@@ -1,6 +1,0 @@
-{
-  "name": "snapshots",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./snapshots.es6"
-}

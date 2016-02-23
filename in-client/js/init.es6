@@ -8,7 +8,10 @@ import React from 'react/addons';
 import logging from 'instalog';
 
 import * as tracking from 'in-services/tracking';
-import 'in-services/time';
+import * as persistentConnection from 'in-services/persistentConnection';
+import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
+import * as timeOffsetStore from 'in-stores/timeOffset';
+import * as filteringStore from 'in-stores/filtering';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -17,9 +20,6 @@ import i18n from './i18n';
 // initiate time offset calculation. Module initialization has side effects.
 import './i18n/momentOverwrites';
 
-import './devtools/subscriptionInfoPrinter';
-import './devtools/timeOffsetProvider';
-import './devtools/checkForWiredComponentsThatAreNotExisting';
 import './devtools/storeStates';
 
 // the global console object does not exist in all browsers. A ConsoleAppender
@@ -48,6 +48,12 @@ window.onerror = function f() {
 if (__DEV__) {
   window.React = React;
 }
+
+// kick of the init process
+persistentConnection.init();
+subscriptonManager.init();
+timeOffsetStore.init();
+filteringStore.init();
 
 if (window.instana.user) {
   tracking.identify();

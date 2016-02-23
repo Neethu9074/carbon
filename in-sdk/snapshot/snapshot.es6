@@ -1,20 +1,20 @@
-import * as ro from 'reactive-observables';
-import Immutable from 'immutable';
+import * as constants from 'in-forge/constants';
+import {getIconById} from 'in-sdk/iconRegistry';
 
 
 const UNKNOWN_LABEL = 'Unknown';
 
 // {
-//   <pluginId: String>: [(snapshot) => <label: String>]
+//   <plugin: String>: [(snapshot) => <label: String>]
 // }
 const labelFinder = {};
 
-export function addLabelFinder(pluginId, finder) {
-  if (!(pluginId in labelFinder)) {
-    labelFinder[pluginId] = [];
+export function addLabelFinder(plugin, finder) {
+  if (!(plugin in labelFinder)) {
+    labelFinder[plugin] = [];
   }
 
-  labelFinder[pluginId].push(finder);
+  labelFinder[plugin].push(finder);
 }
 
 export function getLabel(snapshot, fallback) {
@@ -22,9 +22,9 @@ export function getLabel(snapshot, fallback) {
     return fallback;
   }
 
-  const pluginId = snapshot.get('pluginId');
+  const plugin = snapshot.get('plugin');
 
-  const finder = labelFinder[pluginId];
+  const finder = labelFinder[plugin];
   if (!finder) {
     if (fallback) {
       return fallback;
@@ -47,16 +47,16 @@ export function getLabel(snapshot, fallback) {
 
 
 // {
-//   <pluginId: String>: [(snapshot) => <label: String>]
+//   <plugin: String>: [(snapshot) => <label: String>]
 // }
 const longLabelFinder = {};
 
-export function addLongLabelFinder(pluginId, finder) {
-  if (!(pluginId in longLabelFinder)) {
-    longLabelFinder[pluginId] = [];
+export function addLongLabelFinder(plugin, finder) {
+  if (!(plugin in longLabelFinder)) {
+    longLabelFinder[plugin] = [];
   }
 
-  longLabelFinder[pluginId].push(finder);
+  longLabelFinder[plugin].push(finder);
 }
 
 export function getLongLabel(snapshot, fallback) {
@@ -64,9 +64,9 @@ export function getLongLabel(snapshot, fallback) {
     return fallback;
   }
 
-  const pluginId = snapshot.get('pluginId');
+  const plugin = snapshot.get('plugin');
 
-  const finder = longLabelFinder[pluginId];
+  const finder = longLabelFinder[plugin];
   if (!finder) {
     if (fallback) {
       return fallback;
@@ -88,111 +88,31 @@ export function getLongLabel(snapshot, fallback) {
 }
 
 
-// {
-// <pluginId: String>: [(snapshot) => <icon name: String>]
-// }
-const iconFinder = {};
-
-export function addIconFinder(pluginId, finder) {
-  if (!(pluginId in iconFinder)) {
-    iconFinder[pluginId] = [];
+export function getIcon(plugin) {
+  if (typeof plugin === 'object') {
+    plugin = getIconIdBySnapshot(plugin);
   }
 
-  iconFinder[pluginId].push(finder);
+  return getIconById(plugin);
 }
 
-export function getIcon(pluginId) {
-  let snapshot;
-  if (typeof pluginId === 'object') {
-    snapshot = pluginId;
-    pluginId = snapshot.get('pluginId');
-  }
+export function getIconIdBySnapshot(snapshot) {
+  let type = snapshot.get('plugin');
 
-  const finder = iconFinder[pluginId];
-  if (!finder) {
-    return undefined;
-  }
+  const osPlugin = constants.plugins.os;
+  if (type === osPlugin) {
+    const os = snapshot.getIn(['data', 'os.name']);
+    type = osPlugin + '_linux'; // linux as default
 
-  for (let i = 0; i < finder.length; i++) {
-    const icon = finder[i](snapshot);
-    if (icon) {
-      return icon;
+    if (os) {
+      if (os.match(/linux/i)) {
+        type = osPlugin + '_linux';
+      } else if (os.match(/windows/i)) {
+        type = osPlugin + '_windows';
+      } else if (os.match(/mac/i)) {
+        type = osPlugin + '_apple';
+      }
     }
   }
-
-  return undefined;
-}
-
-
-// {
-// (snapshot) => Observerable<Map<string, Set<snapshot>>>
-// }
-const wiredSnapshotFinder = {};
-
-export function addWiredSnapshotFinder(pluginId, finder) {
-  if (!(pluginId in wiredSnapshotFinder)) {
-    wiredSnapshotFinder[pluginId] = [];
-  }
-
-  wiredSnapshotFinder[pluginId].push(finder);
-}
-
-const emptyObservable = ro.create({emitLatestOnSubscribe: true});
-emptyObservable.emit(Immutable.Map({
-  incoming: Immutable.Set(),
-  outgoing: Immutable.Set()
-}));
-
-export function getWiredSnapshots(snapshot) {
-  if (snapshot === null) {
-    return emptyObservable;
-  }
-
-  const pluginId = snapshot.get('pluginId');
-
-  const finder = wiredSnapshotFinder[pluginId];
-  if (!finder) {
-    return emptyObservable;
-  }
-
-  for (let i = 0; i < finder.length; i++) {
-    const wiredSnapshots = finder[i](snapshot);
-    if (wiredSnapshots) {
-      return wiredSnapshots;
-    }
-  }
-
-  return emptyObservable;
-}
-
-
-// {
-// <pluginId: String>: [(snapshot) => <icon name: String>]
-// }
-const ipFinder = {};
-
-export function addIpFinder(pluginId, finder) {
-  if (!(pluginId in ipFinder)) {
-    ipFinder[pluginId] = [];
-  }
-
-  ipFinder[pluginId].push(finder);
-}
-
-export function getIps(snapshot) {
-  const pluginId = snapshot.get('pluginId');
-  const finder = ipFinder[pluginId];
-
-  if (!finder) {
-    return [];
-  }
-
-  for (let i = 0; i < finder.length; i++) {
-    const ips = finder[i](snapshot);
-    if (ips) {
-      return ips;
-    }
-  }
-
-  return [];
+  return type;
 }

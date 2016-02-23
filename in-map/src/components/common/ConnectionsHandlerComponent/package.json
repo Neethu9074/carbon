@@ -1,0 +1,6 @@
+{
+  "name": "ConnectionsHandlerComponent",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ConnectionsHandlerComponent.es6"
+}

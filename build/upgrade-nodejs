@@ -1,14 +1,15 @@
 #!/bin/sh
 
-set -x
+# Only active the following flag if you run into problems
+# set -x
 
 # Activate NVM. NVM activation will fail when the user does not
 # have the Node.js version installed which is specified by the .nvmrc.
 # We therefore source it in the beginning and enable strict error mode
 # in the following line.
-. "$NVM_DIR/nvm.sh"
+. "$HOME/.nvm/nvm.sh" --no-use
 
-set -e
+set -eo pipefail
 
 NEW_NODE_VERSION=$(cat .nvmrc)
 
@@ -34,7 +35,7 @@ nvm alias default "$NEW_NODE_VERSION"
 
 # prepare hook installation
 rm -f .git/hooks/pre-commit
-touch .git/hooks/pre-commit
+echo "" > .git/hooks/pre-commit
 
 # and install all the dependencies
 npm install
@@ -43,3 +44,5 @@ npm install
 
 # install tools that everyone needs ;)
 npm install -g ec2c proxrox tldr commitizen
+
+echo 'Great success, Node.js is now up to date!'

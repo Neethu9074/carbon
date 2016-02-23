@@ -1,60 +1,46 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import * as wiring from 'in-services/wiring';
-import {alwaysEmptyArray} from 'in-services/fixedStreams';
+import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 
-import enhance from '../hoc/enhance';
 import Crumb from './Crumb';
 
 import './SnapshotHierarchyBreadcrumb.less';
 
-const rpt = React.PropTypes;
 const block = 'in-snapshot-hierarchy-breadcrumb';
 
-const SnapshotHierarchyBreadcrumb = React.createClass({
+export default getPhysicalHierarchy(React.createClass({
+  displayName: 'SnapshotHierarchyBreadcrumb',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    snapshot: irpt.map,
-    hierarchy: rpt.array
-  },
-
-  statics: {
-    createObservables(props) {
-      let hierarchy;
-      if (!props.snapshot) {
-        hierarchy = alwaysEmptyArray;
-      } else {
-        hierarchy = wiring.getAllStepsBetweenNodeAndLeaf(props.snapshot);
-      }
-      return {hierarchy};
-    }
+    snapshotId: React.PropTypes.string.isRequired,
+    physicalHierarchy: irpt.list
   },
 
   render() {
-    if (!this.props.hierarchy) {
+    if (!this.props.physicalHierarchy) {
       return null;
     }
-    const hierarchy = this.props.hierarchy.slice();
+    const hierarchy = this.props.physicalHierarchy.toJS();
 
-    // if the root element is the host
+    // If there is no hierarchy, we should at least have the selected element
+    // in the list.
     if (hierarchy.length === 0) {
-      hierarchy.push(this.props.snapshot);
+      hierarchy.push(this.props.snapshotId);
     }
 
     return (
       <ul className={block}>
         {hierarchy.reverse().map(child =>
-          <Crumb key={child.get('id')}
-                 coordinates={child}
-                 selectedSnapshot={this.props.snapshot}/>
+          <Crumb key={child}
+                 snapshotId={child}
+                 selectedSnapshotId={this.props.snapshotId}/>
         )}
       </ul>
     );
   }
-});
-
-export default enhance(SnapshotHierarchyBreadcrumb);
+}));

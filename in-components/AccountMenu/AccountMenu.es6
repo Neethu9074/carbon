@@ -6,7 +6,7 @@ import React from 'react/addons';
 import {isDemoEnvironment} from 'in-services/config';
 import {getTenantsWithUnits} from 'in-services/tenants';
 import {getClassName} from 'in-services/react';
-import connectTo from 'in-components/hoc/connectTo';
+import connectTo from 'in-hoc/connectTo';
 
 import MenuHeader from './MenuHeader';
 import MenuFooter from './MenuFooter';

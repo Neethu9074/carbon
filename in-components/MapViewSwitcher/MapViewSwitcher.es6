@@ -1,11 +1,10 @@
 import React from 'react';
 
-import * as navigation from 'in-services/stores/navigation';
-import * as viewStore from 'in-services/stores/view';
-import connectTo from 'in-components/hoc/connectTo';
+import * as viewStore from 'in-stores/view';
+import connectTo from 'in-hoc/connectTo';
 import {getClassName} from 'in-services/react';
-import eventBus from 'in-services/eventbus';
-import views from 'in-services/views';
+import eventBus from 'in-map/eventbus';
+import {types as views} from 'in-stores/view';
 
 import './MapViewSwitcher.less';
 
@@ -31,7 +30,6 @@ export default connectTo(
         <div className={block + '__item-wrapper'}>
           {this.renderItem(views.physical, 'Physical')}
           {this.renderItem(views.process, 'Process')}
-          {__DEV__ ? this.renderGraphShowcaseButton() : null}
         </div>
       </div>
     );
@@ -54,14 +52,5 @@ export default connectTo(
     eventBus.emit('onViewWillSwitch');
     viewStore.setView(viewKey);
     eventBus.emit('onViewSwitched');
-  },
-
-  renderGraphShowcaseButton() {
-    return (
-      <div className={block + '__item'}
-          onClick={navigation.goToGraph}>
-        Reveal Graph
-      </div>
-    );
   }
 }));

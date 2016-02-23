@@ -4,14 +4,14 @@ const logger = createLogger('in-sdk.sorting');
 
 const comparators = {};
 
-export function addMapping(pluginId, comparator) {
-  if (pluginId in comparators) {
+export function addMapping(plugin, comparator) {
+  if (plugin in comparators) {
     logger.info(
-      'Duplicated comparator registration for pluginId' + pluginId
+      'Duplicated comparator registration for plugin' + plugin
     );
     return;
   }
-  comparators[pluginId] = comparator;
+  comparators[plugin] = comparator;
 }
 
 export function sort(snapshots) {
@@ -19,10 +19,10 @@ export function sort(snapshots) {
     return snapshots;
   }
 
-  const pluginId = snapshots.get(0).get('pluginId');
-  const comparator = comparators[pluginId];
+  const plugin = snapshots.get(0).get('plugin');
+  const comparator = comparators[plugin];
   if (!comparator) {
-    const msg = 'No sorter for pluginId ' + pluginId + ' found.';
+    const msg = 'No sorter for plugin ' + plugin + ' found.';
     logger.error(msg);
     throw new Error(msg);
   }

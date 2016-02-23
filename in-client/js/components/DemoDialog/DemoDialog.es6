@@ -2,7 +2,7 @@
 import React from 'react/addons';
 
 import Lettering from 'in-components/Lettering';
-import * as connection from 'in-services/connection';
+import {emit} from 'in-services/persistentConnection';
 import * as tracking from 'in-services/tracking';
 
 import SignInWithXing from './SignInWithXing';
@@ -69,8 +69,7 @@ const DemoDialog = React.createClass({
     context.pageUrl = window.location.href;
     context.pageName = window.title;
 
-    connection.send({
-      event: 'createLead',
+    emit('create-lead', {
       props,
       context
     });

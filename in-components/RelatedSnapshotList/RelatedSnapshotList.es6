@@ -1,9 +1,12 @@
 import React from 'react/addons';
+import irpt from 'react-immutable-proptypes';
+import {combineLatest} from 'reactive-observables';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import * as tracking from 'in-services/tracking';
 import {getPlural} from 'in-sdk/pluginName';
+import connectTo from 'in-hoc/connectTo';
 
 import Collapsible from '../Collapsible';
 import List from '../List';
@@ -12,39 +15,55 @@ import './RelatedSnapshotList.less';
 
 const block = 'in-related-snapshot-list';
 
-const RelatedSnapshotList = React.createClass({
+export default connectTo(
+  props => {
+    return {
+      snapshots: combineLatest(props.snapshotIds.map(id =>
+          getSnapshot(id).startWith(null)
+        ).toArray())
+        // Do not show snapshots which are still loading
+        .map(snapshots => snapshots.filter(s => s))
+        // We will have lots of incremental updates. One update every few
+        // milliseconds is enough.
+        .throttle(100)
+    };
+  },
+  React.createClass({
+  displayName: 'RelatedSnapshotList',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    snapshots: React.PropTypes.array.isRequired
+    snapshotIds: irpt.setOf(React.PropTypes.string).isRequired,
+    snapshots: React.PropTypes.array
   },
 
   render() {
-    if (this.props.snapshots.length === 0) {
+    if (!this.props.snapshots || this.props.snapshots.size === 0) {
       return null;
     }
 
-    const groups = this.getSnapshotsGroupedByPluginId();
-    const groupPluginIds = Object.keys(groups)
+    const groups = this.getSnapshotsGroupedByPlugin();
+    const groupPlugins = Object.keys(groups)
       .sort((a, b) => getPlural(a).localeCompare(getPlural(b)));
 
     return (
       <div>
-        {groupPluginIds.map(pluginId =>
-          <Collapsible key={pluginId}>
+        {groupPlugins.map(plugin =>
+          <Collapsible key={plugin}>
             <Collapsible.Header className={block + '__header'}>
               <div className={block + '__header'}>
-                <img src={getIcon(pluginId)}
+                <img src={getIcon(plugin)}
                      alt='plugin icon'
                      className={block + '__plugin-icon'}/>
-                {getPlural(pluginId)}
+                {getPlural(plugin)}
               </div>
             </Collapsible.Header>
             <Collapsible.Content>
               <List>
-                {groups[pluginId].map(snapshot =>
+                {groups[plugin].map(snapshot =>
                   <List.Item key={snapshot.get('id')}
                              onClick={() => this.select(snapshot)}>
                     {getLabel(snapshot)}
@@ -60,23 +79,21 @@ const RelatedSnapshotList = React.createClass({
 
   select(snapshot) {
     tracking.events.navigateToAWiredComponentFromTheDashboard();
-    selectedSnapshotStore.select(snapshot);
+    setSelectedSnapshotId(snapshot.get('id'));
   },
 
-  getSnapshotsGroupedByPluginId() {
+  getSnapshotsGroupedByPlugin() {
     const grouping = {};
 
     this.props.snapshots.forEach(snapshot => {
-      const pluginId = snapshot.get('pluginId');
-      if (!(pluginId in grouping)) {
-        grouping[pluginId] = [];
+      const plugin = snapshot.get('plugin');
+      if (!(plugin in grouping)) {
+        grouping[plugin] = [];
       }
 
-      grouping[pluginId].push(snapshot);
+      grouping[plugin].push(snapshot);
     });
 
     return grouping;
   }
-});
-
-export default RelatedSnapshotList;
+}));

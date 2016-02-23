@@ -217,7 +217,10 @@ module.exports = _.defaultsDeep({
       groundDots: '#809199'
     },
     stickyNotes: {
-      nodeHightlightBackgroundColor: grey5
+      nodeHightlightBackgroundColor: grey5,
+      processGroups: {
+        fontColor: grey3
+      }
     },
     tooltips: {
       font: white,

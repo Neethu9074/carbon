@@ -1,9 +1,8 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import {getFullSnapshot} from 'in-services/snapshots';
-import connectTo from 'in-components/hoc/connectTo';
 import {getSingular} from 'in-sdk/pluginName';
+import getSnapshot from 'in-hoc/getSnapshot';
 import {getIcon} from 'in-sdk/snapshot';
 
 import Tooltip from '../Tooltip';
@@ -13,12 +12,7 @@ import './Tab.less';
 const block = 'in-sidebar-tab';
 const rpt = React.PropTypes;
 
-export default connectTo(
-  props => {
-    return {
-      snapshot: getFullSnapshot(props.coordinates)
-    };
-  }, React.createClass({
+export default getSnapshot(React.createClass({
   displayName: 'SidebarTab',
 
   mixins: [
@@ -26,7 +20,7 @@ export default connectTo(
   ],
 
   propTypes: {
-    coordinates: irpt.map.isRequired,
+    snapshotId: rpt.string.isRequired,
     isSelected: rpt.bool.isRequired,
     onClick: rpt.func.isRequired,
     className: rpt.string,
@@ -43,9 +37,9 @@ export default connectTo(
     className += ' ' + this.props.className;
 
     return (
-      <Tooltip content={getSingular(snapshot.get('pluginId'))}>
+      <Tooltip content={getSingular(snapshot.get('plugin'))}>
         <li className={className}
-            onClick={() => this.props.onClick(snapshot)}>
+            onClick={() => this.props.onClick(this.props.snapshotId)}>
 
           <img src={getIcon(snapshot)}
                alt='Snapshot icon'

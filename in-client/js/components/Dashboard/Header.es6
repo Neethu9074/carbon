@@ -19,7 +19,7 @@ const DashboardHeader = React.createClass({
   render() {
     return (
       <div className={block}>
-        <SnapshotHierarchyBreadcrumb snapshot={this.props.snapshot} />
+        <SnapshotHierarchyBreadcrumb snapshotId={this.props.snapshot.get('id')} />
       </div>
     );
   }

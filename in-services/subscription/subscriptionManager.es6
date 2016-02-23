@@ -1,0 +1,68 @@
+import invariant from 'invariant';
+
+import {on, emit} from 'in-services/persistentConnection';
+
+// {
+//   <id>: {
+//     event: 'event to send to establish subscription'
+//     payload: 'payload to be send to establish subscription'
+//   }
+// }
+const activeSubscriptions = {};
+
+export function subscribe(subscriptionId, event, payload) {
+  invariant(
+    !(subscriptionId in activeSubscriptions),
+    'Multiple subscriptions with the same id are not possible!'
+  );
+
+  activeSubscriptions[subscriptionId] = {
+    event,
+    payload
+  };
+
+  emit(event, payload);
+}
+
+
+export function unsubscribe(subscriptionId) {
+  emit('unsubscribe', {subscriptionId});
+
+  delete activeSubscriptions[subscriptionId];
+}
+
+
+export function init() {
+  // resend active subscription upon reconnect. This allows us to keep the ui-backend
+  // stateless, i.e. it does not need to keep a session of established subscriptions
+  // per user.
+  on('reconnect', function onPersistentConnectionReconnect() {
+    Object.keys(activeSubscriptions).forEach(k => {
+      const activeSubscription = activeSubscriptions[k];
+      emit(activeSubscription.event, activeSubscription.payload);
+    });
+  });
+}
+
+/**
+ * Provides information about all currently active subscriptions.
+ *
+ * @returns {object} A copy of all active subscriptions
+ */
+export function getActiveSubscriptions() {
+  // better safe than sorry: Protect against mutations by doing a deep copy
+  return JSON.parse(JSON.stringify(activeSubscriptions));
+}
+
+
+// We want to reduce the overhead of channels on the network. Example: A metric
+// subscription would need to include the hostId, plugin, steadyId, metric
+// name and possibly other pieces of information in order to route messages.
+// This is way too much overhead. We want to route messages based on a single
+// numeric value. This is what these IDs are for. We include a single ID in
+// server responses to reduce the overhead.
+let idCounter = 0;
+
+export function getNewSubscriptionId() {
+  return idCounter++;
+}

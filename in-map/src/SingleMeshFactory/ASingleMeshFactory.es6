@@ -45,8 +45,8 @@ export default class SingleMeshFactory {
   }
 
   // must be implemented by extending classes
-  getMaterial() { throw new Error('NOT IMPLEMENTED YET'); }
-  getMesh() { throw new Error('NOT IMPLEMENTED YET'); }
+  getMaterial() { throw new Error('PLEASE OVERRIDE METHOD'); }
+  getMesh() { throw new Error('PLEASE OVERRIDE METHOD'); }
 
   addFragment({id, contentProvider, additionalParams}) {
     let fragment = this.getFragment(id);
@@ -152,6 +152,18 @@ export default class SingleMeshFactory {
   dispose() {
     this.scene.removeSceneObject(this.mesh);
 
+    this.geometry.dispose();
+    this.material.dispose();
+
+    this.mesh = null;
+    this.scene = null;
+    this.params = null;
+    this.colors = null;
+    this.geometry = null;
+    this.material = null;
+    this.vertices = null;
     this.fragments = null;
+    this.fragmentQueue = null;
+
   }
 }

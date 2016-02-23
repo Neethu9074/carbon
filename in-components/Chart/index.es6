@@ -2,9 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 import _ from 'lodash';
 
-import TimeWindowBasedMetricConveyer from 'in-services/conveyer/TimeWindowBasedMetricConveyer';
-import {isIdEqual} from 'in-services/snapshots';
-import {create} from 'in-services/conveyer';
+import {getHistoricMetricsWithLiveUpdates} from 'in-stores/metric';
 
 import Chart from './Chart';
 
@@ -60,8 +58,8 @@ const ChartWrapper = React.createClass({
 
   createDataSources(axis) {
     return axis.metrics.map(metric =>
-      create(TimeWindowBasedMetricConveyer, {
-        snapshot: this.props.snapshot,
+      getHistoricMetricsWithLiveUpdates({
+        snapshotId: this.props.snapshot.get('id'),
         metric,
         timeframe: this.props.windowSize
       })
@@ -78,7 +76,7 @@ const ChartWrapper = React.createClass({
 
   componentDidUpdate(prevProps) {
     // isEqual should ignore datasources and labels
-    if (!isIdEqual(this.props.snapshot, prevProps.snapshot) ||
+    if (this.props.snapshot.get('id') !== prevProps.snapshot.get('id') ||
         this.props.windowSize !== prevProps.windowSize ||
         !this.isAxisEqual(this.props.y1, prevProps.y1) ||
         !this.isAxisEqual(this.props.y2, prevProps.y2)) {

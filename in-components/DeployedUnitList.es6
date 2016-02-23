@@ -1,40 +1,38 @@
 import React from 'react/addons';
 import irpt from 'react-immutable-proptypes';
-import * as ro from 'reactive-observables';
 
-import {getDeployedUnits} from 'in-services/wiring';
-import {getFullSnapshot} from 'in-services/snapshots';
+import {getDeployedUnits} from 'in-stores/snapshot';
+import {emptySet} from 'in-services/fixedImmutables';
+import connectTo from 'in-hoc/connectTo';
 
 import RelatedSnapshotList from './RelatedSnapshotList';
-import enhance from './hoc/enhance';
 
-const DeployedUnitList = React.createClass({
+export default connectTo(
+  props => {
+    return {
+      snapshotIds: getDeployedUnits(props.snapshotId)
+        // Always start with an empty set to avoid inconsistent view,
+        // displaying deployed units for a previously selected snapshot.
+        .startWith(emptySet)
+    };
+  },
+  React.createClass({
+  displayName: 'DeployedUnitList',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
-    deployedUnits: React.PropTypes.array
-  },
-
-  statics: {
-    createObservables(props) {
-      return {
-        deployedUnits: getDeployedUnits(props.snapshot)
-          .flatMap(deployedUnits => ro.combineLatest(deployedUnits.map(getFullSnapshot)))
-      };
-    }
+    snapshotId: React.PropTypes.string.isRequired,
+    snapshotIds: irpt.setOf(React.PropTypes.string)
   },
 
   render() {
-    if (this.props.deployedUnits == null) {
+    if (this.props.snapshotIds == null) {
       return null;
     }
 
-    return <RelatedSnapshotList snapshots={this.props.deployedUnits} />;
+    return <RelatedSnapshotList snapshotIds={this.props.snapshotIds} />;
   }
-
-});
-
-export default enhance(DeployedUnitList);
+}));

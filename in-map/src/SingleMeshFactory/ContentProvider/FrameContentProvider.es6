@@ -1,6 +1,7 @@
 import LineContentProvider from './LineContentProvider';
 
-const lines = [
+
+const FRAME = [
   -0.5, 0, -0.5,
   0.5, 0, -0.5,
 
@@ -14,7 +15,6 @@ const lines = [
   -0.5, 0, -0.5
 ];
 
-
 export default class FrameContentProvider extends LineContentProvider {
 
   constructor(color) {
@@ -22,7 +22,7 @@ export default class FrameContentProvider extends LineContentProvider {
   }
 
   getVertices() {
-    this.setLines(lines.slice());
+    this.setLines(FRAME.slice());
     return super.getVertices();
   }
 }

@@ -3,25 +3,25 @@ import {createLogger} from 'instalog';
 export default function generatePluginBasedSnapshotTransformation(label) {
   const logger = createLogger('in-sdk.' + label);
 
-  // pluginId: (snapshot) => ExtractedValue
+  // plugin: (snapshot) => ExtractedValue
   const mappings = {};
 
   return {
-    addMapping(pluginId, provider) {
-      if (pluginId in mappings) {
+    addMapping(plugin, provider) {
+      if (plugin in mappings) {
         logger.info(
           'Duplicated registration of ' + label + 'Provider for ' +
-          'pluginId' + pluginId
+          'plugin' + plugin
         );
       }
-      mappings[pluginId] = provider;
+      mappings[plugin] = provider;
     },
 
     get(snapshot) {
-      const pluginId = snapshot.get('pluginId');
-      const mapping = mappings[pluginId];
+      const plugin = snapshot.get('plugin');
+      const mapping = mappings[plugin];
       if (!mapping) {
-        const msg = 'No ' + label + 'Provider for pluginId ' + pluginId + ' found.';
+        const msg = 'No ' + label + 'Provider for plugin ' + plugin + ' found.';
         logger.error(msg);
         throw new Error(msg);
       }

@@ -31,6 +31,10 @@ http {
     server                   {{UI_BACKEND_PORT_8080_TCP_ADDR}}:{{UI_BACKEND_PORT_8080_TCP_PORT}};
   }
 
+  upstream wsApi {
+    server                   {{UI_BACKEND_PORT_8082_TCP_ADDR}}:{{UI_BACKEND_PORT_8082_TCP_PORT}};
+  }
+
   upstream groundskeeper {
     server                   {{GROUNDSKEEPER_PORT_8280_TCP_ADDR}}:{{GROUNDSKEEPER_PORT_8280_TCP_PORT}};
   }
@@ -129,8 +133,8 @@ http {
       proxy_set_header       X-Forwarded-For $proxy_add_x_forwarded_for;
     }
 
-    location /api/data {
-      proxy_pass             http://api/data;
+    location /api/data/ {
+      proxy_pass             http://wsApi/;
       proxy_http_version     1.1;
       proxy_set_header       Upgrade $http_upgrade;
       proxy_set_header       Connection "upgrade";

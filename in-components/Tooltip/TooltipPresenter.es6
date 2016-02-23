@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {applyTransform} from 'in-services/util/dom';
-import toPx from 'in-services/converters/toPx';
+import toPx from 'in-services/formatters/toPx';
 
 import enhance from '../hoc/enhance';
 

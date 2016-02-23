@@ -1,12 +1,10 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getClassName} from 'in-services/react';
-import * as wiring from 'in-services/wiring';
-import {alwaysEmptyArray} from 'in-services/fixedStreams';
+import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 
-import enhance from '../hoc/enhance';
 import Tab from './Tab';
 
 import './SidebarTabs.less';
@@ -14,68 +12,35 @@ import './SidebarTabs.less';
 const rpt = React.PropTypes;
 const block = 'in-sidebar-tabs';
 
-const SidebarTabs = React.createClass({
+export default getPhysicalHierarchy(React.createClass({
+  displayName: 'SidebarTabs',
+
   mixins: [
     React.addons.PureRenderMixin
   ],
 
   propTypes: {
-    snapshot: irpt.map.isRequired,
+    snapshotId: rpt.string.isRequired,
     className: rpt.string,
-    hierarchy: rpt.array
-  },
-
-  statics: {
-    createObservables() {
-      return {
-        hierarchy: selectedSnapshotStore.selectedSnapshot.transform({
-          emitLatestOnSubscribe: true,
-
-          transform(snapshot) {
-            if (!snapshot) {
-              return alwaysEmptyArray;
-            }
-            return wiring.getAllStepsBetweenNodeAndLeaf(snapshot);
-          },
-
-          shouldRetransform(prevSnapshot, snapshot) {
-            // reference check works because of immutable objects
-            return prevSnapshot !== snapshot;
-          }
-        })
-      };
-    }
+    physicalHierarchy: irpt.list
   },
 
   render() {
-    const hierarchy = this.props.hierarchy;
-    if (!hierarchy) {
+    const hierarchy = this.props.physicalHierarchy;
+    if (!hierarchy || hierarchy.isEmpty()) {
       return null;
     }
 
-    const snapshot = this.props.snapshot;
     return (
       <ul className={getClassName(this, block)}>
-
-        {hierarchy.map(child => {
-          const childId = child.get('id');
-          const isSelected = snapshot && snapshot.get('id') === childId;
-          return (
-            <Tab key={childId}
-                 className={this.props.className + '__tab'}
-                 onClick={this.onClick}
-                 isSelected={isSelected}
-                 coordinates={child}/>
-          );
-        })}
-
+        {hierarchy.map(childSnapshotId =>
+          <Tab key={childSnapshotId}
+               snapshotId={childSnapshotId}
+               className={this.props.className + '__tab'}
+               onClick={setSelectedSnapshotId}
+               isSelected={this.props.snapshotId === childSnapshotId} />
+        )}
       </ul>
     );
-  },
-
-  onClick(item) {
-    selectedSnapshotStore.select(item);
   }
-});
-
-export default enhance(SidebarTabs);
+}));

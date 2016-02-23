@@ -1,21 +1,25 @@
 import React from 'react/addons';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import * as navigation from 'in-services/stores/navigation';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import * as navigation from 'in-stores/navigation';
+import * as tracking from 'in-services/tracking';
 import helpify from 'in-components/hoc/helpify';
 import enhance from 'in-components/hoc/enhance';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 import {getIn} from 'in-services/settings';
 
 import Scene from './Scene';
 
 import './index.less';
 
+
 const rpt = React.PropTypes;
 const block = 'in-map';
 
-const MapRC = React.createClass({
+export default helpify(enhance(React.createClass({
+
+  displayName: 'map',
 
   mixins: [
     React.addons.PureRenderMixin,
@@ -98,8 +102,9 @@ const MapRC = React.createClass({
     this.props.showHelp(203906681);
   },
 
-  openDashboard(snapshot) {
-    selectedSnapshotStore.select(snapshot);
+  openDashboard(id) {
+    tracking.events.openingADashboardUsingTheMap();
+    setSelectedSnapshotId(id);
     navigation.goToDashboard();
   },
 
@@ -137,6 +142,4 @@ const MapRC = React.createClass({
     }
     return context;
   }
-});
-
-export default helpify(enhance(MapRC));
+})));

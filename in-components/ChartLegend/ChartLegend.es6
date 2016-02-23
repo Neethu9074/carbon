@@ -1,11 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
-import _ from 'lodash';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import MetricConveyer from 'in-services/conveyer/MetricConveyer';
-import {isIdEqual} from 'in-services/snapshots';
-import {create} from 'in-services/conveyer';
+import MetricValue from 'in-components/MetricValue';
 import {theme} from 'in-services/theme';
 
 import './ChartLegend.less';
@@ -20,62 +16,10 @@ const axisConfigShape = rpt.shape({
 });
 
 const ChartLegend = React.createClass({
-  mixins: [SubscriptionMixin],
-
   propTypes: {
     snapshot: irpt.map.isRequired,
     y1: axisConfigShape.isRequired,
     y2: axisConfigShape
-  },
-
-  getInitialState() {
-    return {};
-  },
-
-  componentDidMount() {
-    this.subscribeToMetrics(this.props);
-  },
-
-  subscribeToMetrics(props) {
-    this.disposeSubscriptions();
-
-    props.y1.metrics.forEach(metric =>
-      this.addSubscription(
-        create(MetricConveyer, {
-          snapshot: props.snapshot,
-          metric
-        })
-        .subscribe(value => {
-          this.setState({
-            [metric]: value
-          });
-        })
-      )
-    );
-
-    if (props.y2) {
-      props.y2.metrics.forEach(metric =>
-        this.addSubscription(
-          create(MetricConveyer, {
-            snapshot: props.snapshot,
-            metric
-          })
-          .subscribe(value => {
-            this.setState({
-              [metric]: value
-            });
-          })
-        )
-      );
-    }
-  },
-
-  componentWillReceiveProps(nextProps) {
-    if (!isIdEqual(nextProps.snapshot, this.props.snapshot) ||
-        !_.isEqual(nextProps.y1, this.props.y1) ||
-        !_.isEqual(nextProps.y2, this.props.y2)) {
-      this.subscribeToMetrics(nextProps);
-    }
   },
 
   render() {
@@ -101,21 +45,15 @@ const ChartLegend = React.createClass({
               {axis.labels[i]}
             </dt>
             <dt className={block + '__metric-value'}>
-              {this.state[metric] === undefined ?
-                '?'
-              : this.formatValue(axis, this.state[metric])}
+              <MetricValue snapshotId={this.props.snapshot.get('id')}
+                           metric={metric}
+                           formatter={axis.formatter}
+                           initialValue='?' />
             </dt>
           </div>
         )}
       </dl>
     );
-  },
-
-  formatValue(axis, d) {
-    if (axis.formatter) {
-      return axis.formatter(d);
-    }
-    return d;
   }
 });
 

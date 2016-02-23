@@ -1,5 +1,5 @@
-/*eslint-env node */
-/*eslint-disable no-var, strict*/
+/* eslint-env node */
+/* eslint-disable no-var, strict */
 'use strict';
 
 var webpack = require('webpack');
@@ -46,9 +46,6 @@ module.exports = {
     }, {
       test: /\.djs$/,
       loader: 'dogescript'
-    }, {
-      test: /\.ts$/i,
-      loader: 'ts'
     }, {
       test: /\.md$/,
       loader: 'html!markdown'

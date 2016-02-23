@@ -2,11 +2,9 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
-import {getFullSnapshot, extractCoordinates} from 'in-services/snapshots';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
-import connectTo from 'in-components/hoc/connectTo';
+import getSnapshot from 'in-hoc/getSnapshot';
 
 import SnapshotDescription from '../SnapshotDescription';
 import Icon from '../Icon';
@@ -16,21 +14,15 @@ import './IssueDescription.less';
 const rpt = React.PropTypes;
 const block = 'in-issue-discription';
 
-export default connectTo(
-  props => {
-    return {
-      snapshot: getFullSnapshot(extractCoordinates(props.issue.get('problem')))
-    };
-  },
-  React.createClass({
+export default getSnapshot(React.createClass({
 
   displayName: 'IssueDescription',
 
   propTypes: {
+    snapshotId: rpt.string.isRequired,
     issue: irpt.map.isRequired,
-    snapshot: irpt.map,
     className: rpt.string,
-    plugin: rpt.string
+    snapshot: irpt.map
   },
 
   render() {
@@ -76,7 +68,6 @@ export default connectTo(
   },
 
   onClick() {
-    const coords = extractCoordinates(this.props.issue.get('problem'));
-    selectedSnapshotStore.select(coords);
+    // TODO set selected snapshot
   }
 }));

@@ -1,5 +1,5 @@
-/*eslint-env node*/
-/*eslint-disable no-var, strict, vars-on-top */
+/* eslint-env node */
+/* eslint-disable no-var, strict, vars-on-top */
 
 'use strict';
 
@@ -22,7 +22,7 @@ var environments = require('./environments');
 var devModeOptions;
 
 
-gulp.task('prepareTestExecution', function(cb) {
+gulp.task('prepareTestExecution', (cb) => {
   runSequence(
     'ensureTargetDirStructureExists',
     'translateThemeConfigs',
@@ -32,7 +32,7 @@ gulp.task('prepareTestExecution', function(cb) {
 });
 
 
-gulp.task('dev', function(cb) {
+gulp.task('dev', (cb) => {
   runSequence(
     'askForDevOptions',
     'clean',
@@ -98,14 +98,14 @@ gulp.task('askForDevOptions', cb => {
     }
   ];
 
-  inquirer.prompt(questions, function(selectedOptions) {
+  inquirer.prompt(questions, (selectedOptions) => {
     devModeOptions = selectedOptions;
     cb();
   });
 });
 
 
-gulp.task('writeDevConfigFile', function() {
+gulp.task('writeDevConfigFile', () => {
   buildUtil.writeDevModeConfig(
     devModeOptions.uiMode === 'saas' ? 'production' : 'demo',
     environments[devModeOptions.environment]
@@ -113,18 +113,18 @@ gulp.task('writeDevConfigFile', function() {
 });
 
 
-gulp.task('copyDevIndexHtml', function() {
+gulp.task('copyDevIndexHtml', () => {
   return gulp.src(paths.devIndexHtmlSrc)
     .pipe(gulp.dest(paths.assetDir));
 });
 
 
-gulp.task('setActiveThemeForTestExecution', function() {
+gulp.task('setActiveThemeForTestExecution', () => {
   buildUtil.setActiveTheme('night');
 });
 
 
-gulp.task('setActiveThemeForDevMode', function() {
+gulp.task('setActiveThemeForDevMode', () => {
   buildUtil.setActiveTheme(devModeOptions.activeTheme);
 
   var activeThemeConfig = path.join(paths.assetDir, 'activeTheme.json');
@@ -136,7 +136,7 @@ gulp.task('setActiveThemeForDevMode', function() {
 });
 
 
-gulp.task('enableDevWatches', function() {
+gulp.task('enableDevWatches', () => {
   const themeBase = path.join(paths.rootDir, 'in-themes');
   const themeFiles = [
     path.join(themeBase, 'common.js'),
@@ -151,10 +151,15 @@ gulp.task('enableDevWatches', function() {
 });
 
 
-gulp.task('startDevProxy', function() {
+gulp.task('startDevProxy', function startDevProxy() {
   var envConfig = environments[devModeOptions.environment];
   var uiBackendUrl = envConfig.uiBackendUrl;
   var groundskeeperUrl = envConfig.groundskeeperUrl;
+
+  var gkApiPrefix = '';
+  if (!envConfig.withoutAuthPrefix) {
+    gkApiPrefix = '/auth';
+  }
 
   var config = {
     serverName: 'local-instana.instana.io',
@@ -164,28 +169,28 @@ gulp.task('startDevProxy', function() {
     tls: true,
     proxy: {
       '/': 'http://127.0.0.1:3000',
-      '/auth/signIn': groundskeeperUrl + '/auth/signIn',
-      '/auth/signOut': groundskeeperUrl + '/auth/signOut',
-      '/auth/users/current': groundskeeperUrl + '/auth/users/current',
-      '/auth/users/tenants': groundskeeperUrl + '/auth/users/tenants',
+      '/auth/signIn': groundskeeperUrl + gkApiPrefix + '/signIn',
+      '/auth/signOut': groundskeeperUrl + gkApiPrefix + '/signOut',
+      '/auth/users/current': groundskeeperUrl + gkApiPrefix + '/users/current',
+      '/auth/users/tenants': groundskeeperUrl + gkApiPrefix + '/users/tenants',
       '/uiTracker/': 'http://127.0.0.1:8484/',
       '/assets/': groundskeeperUrl + '/assets/'
     },
 
     websocketProxy: {
-      '/api/data': uiBackendUrl + '/data'
+      '/api/data/': uiBackendUrl
     }
   };
 
   buildUtil.startProxrox(config);
 });
 
-gulp.task('openDevUrlInBrowser', function() {
+gulp.task('openDevUrlInBrowser', () => {
   buildUtil.openBrowser('https://local-instana.instana.io:4000');
 });
 
 
-gulp.task('webpack:dev', function() {
+gulp.task('webpack:dev', () => {
   // modify some webpack config options
   var config = Object.create(webpackConfig);
   config.devtool = 'eval';
@@ -201,7 +206,7 @@ gulp.task('webpack:dev', function() {
       colors: true
     }
   })
-  .listen(3000, 'localhost', function(err) {
+  .listen(3000, 'localhost', (err) => {
     if (err) {
       throw new gutil.PluginError('webpack-dev-server', err);
     }
@@ -210,5 +215,5 @@ gulp.task('webpack:dev', function() {
 
   // return a Promise so that Gulp knows that this task is going to
   // continue to run asynchronously
-  return new Promise(function(){});
+  return new Promise(() => {});
 });

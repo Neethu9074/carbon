@@ -1,11 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
-import d3 from 'd3';
 
-import * as selectedSnapshotStore from 'in-services/stores/selectedSnapshot';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import IssueDescription from 'in-components/IssueDescription';
-import {extractCoordinates} from 'in-services/snapshots';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -25,12 +23,6 @@ const Issue = React.createClass({
     mouseIn: rpt.func.isRequired,
     issue: irpt.map.isRequired,
     style: rpt.object
-  },
-
-  getInitialState() {
-    return {
-      scale: d3.scale.linear().range([100, 0])
-    };
   },
 
   render() {
@@ -56,21 +48,16 @@ const Issue = React.createClass({
       <Tooltip  align={{vertical: 'top'}}
                 content={<IssueDescription key={issue.get('id')}
                                            issue={issue}
-                                           plugin={issue.getIn(['problem', 'pluginId'])}/>}>
+                                           snapshotId={issue.getIn(['problem', 'snapshotId'])}/>}>
 
         <Icon type={iconType}
               onMouseEnter={() =>this.props.mouseIn(issue)}
-              onClick={() => this.focusSnapshot(issue)}
+              onClick={() => setSelectedSnapshotId(issue.getIn(['problem', 'snapshotId']))}
               onMouseLeave={this.props.mouseOut}
               className={block}
               style={style} />
       </Tooltip>
     );
-  },
-
-  focusSnapshot(issue) {
-    const problemCoordinates = extractCoordinates(issue.get('problem'));
-    selectedSnapshotStore.select(problemCoordinates);
   }
 });
 

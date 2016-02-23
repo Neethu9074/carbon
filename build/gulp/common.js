@@ -1,5 +1,5 @@
-/*eslint-env node*/
-/*eslint-disable no-var, strict, vars-on-top */
+/* eslint-env node */
+/* eslint-disable no-var, strict, vars-on-top */
 
 'use strict';
 
@@ -15,24 +15,24 @@ var buildUtil = require('./util');
 var paths = require('./paths');
 
 
-gulp.task('clean', function() {
+gulp.task('clean', () => {
   return del(paths.targetDir);
 });
 
 
-gulp.task('ensureTargetDirStructureExists', function() {
+gulp.task('ensureTargetDirStructureExists', () => {
   mkdirp.sync(paths.targetDir);
   mkdirp.sync(paths.assetDir);
   mkdirp.sync(paths.bundleDir);
 });
 
 
-gulp.task('copyFavicon', function() {
+gulp.task('copyFavicon', () => {
   return gulp.src(paths.faviconSrc).pipe(gulp.dest(paths.assetDir));
 });
 
 
-gulp.task('writeBuildInfo', function(cb) {
+gulp.task('writeBuildInfo', (cb) => {
   var data = {
     revision: buildUtil.getRevision(),
     date: new Date().toISOString()
@@ -42,7 +42,7 @@ gulp.task('writeBuildInfo', function(cb) {
 });
 
 
-gulp.task('translateThemeConfigs', function() {
+gulp.task('translateThemeConfigs', () => {
   buildTheme('day', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
   buildTheme('night', path.join(paths.rootDir, 'in-themes'), paths.assetDir);
 });

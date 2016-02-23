@@ -15,9 +15,9 @@ export default React.createClass({
 
   render() {
     return (
-      <p className={getClassName(this, 'in-tooltip__content')}>
+      <div className={getClassName(this, 'in-tooltip__content')}>
         {this.props.children}
-      </p>
+      </div>
     );
   }
 });

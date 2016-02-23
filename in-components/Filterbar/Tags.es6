@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import * as filters from 'in-services/stores/filters';
+import {removeAllTagFilters} from 'in-stores/filtering';
 
 import ResetButton from './ResetButton';
 import TagListAll from '../TagListAll';
@@ -14,14 +14,10 @@ const SidebarTagListing = React.createClass({
     return (
       <div>
         <ListHeader header={'Tags'}/>
-        <ResetButton onClick={this.clearAllTags}/>
+        <ResetButton onClick={removeAllTagFilters}/>
         <TagListAll/>
       </div>
     );
-  },
-
-  clearAllTags() {
-    filters.removeFiltersWithType('tag');
   }
 });
 

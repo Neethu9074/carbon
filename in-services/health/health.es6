@@ -1,6 +1,7 @@
 import {theme} from '../theme';
 
 export const health = {
+  unknown: 'unknown',
   ok: 'ok',
   warning: 'warning',
   danger: 'danger'

@@ -1,56 +1,42 @@
 import AStateMachine from './AStateMachine';
 
-import SelectedHighlightedInactiveState from './SelectedHighlightedInactiveState';
-import HighlightedInactiveState from './HighlightedInactiveState';
 import SelectedHighlightedState from './SelectedHighlightedState';
 import IndirectHighlightedState from './IndirectHighlightedState';
-import SelectedInactiveState from './SelectedInactiveState';
 import HighlightedState from './HighlightedState';
 import SelectedState from './SelectedState';
 import InactiveState from './InactiveState';
 import InitialState from './InitialState';
-import HiddenState from './HiddenState';
 
-const stateLUT =                          // highlight selected active hidden indirect
-[ [ [ [ [ 'inactive',                     // 0 0 0 0 0
-          'inactive'],                    // 0 0 0 0 1
-        [ 'hidden',                       // 0 0 0 1 0
-          'hidden'] ],                    // 0 0 0 1 1
-      [ [ 'initial',                      // 0 0 1 0 0
-          'indirect'],                    // 0 0 1 0 1
-        [ 'hidden',                       // 0 0 1 1 0
-          'hidden'] ] ],                  // 0 0 1 1 1
-    [ [ [ 'selectedInactive',             // 0 1 0 0 0
-          'selectedInactive'],            // 0 1 0 0 1
-        [ 'hidden',                       // 0 1 0 1 0
-          'hidden'] ],                    // 0 1 0 1 1
-      [ [ 'selected',                     // 0 1 1 0 0
-          'selected'],                    // 0 1 1 0 1
-        [ 'hidden',                       // 0 1 1 1 0
-          'hidden'] ] ] ],                // 0 1 1 1 1
-  [ [ [ [ 'highlightedInactive',          // 1 0 0 0 0
-          'highlightedInactive'],         // 1 0 0 0 1
-        [ 'hidden',                       // 1 0 0 1 0
-          'hidden'] ],                    // 1 0 0 1 1
-      [ [ 'highlighted',                  // 1 0 1 0 0
-          'highlighted'],                 // 1 0 1 0 1
-        [ 'hidden',                       // 1 0 1 1 0
-          'hidden'] ] ],                  // 1 0 1 1 1
-    [ [ [ 'selectedHighlightedInactive',  // 1 1 0 0 0
-          'selectedHighlightedInactive'], // 1 1 0 0 1
-        [ 'hidden',                       // 1 1 0 1 0
-          'hidden'] ],                    // 1 1 0 1 1
-      [ [ 'selectedHighlighted',          // 1 1 1 0 0
-          'selectedHighlighted'],         // 1 1 1 0 1
-        [ 'hidden',                       // 1 1 1 1 0
-          'hidden'] ] ] ]                 // 1 1 1 1 1
+
+const stateLUT =                    // a=active h=highlight s=selected i=indirect
+[ [ [ [ 'inactive',                 // 0 0 0 0   - - - -
+        'inactive'],                // 0 0 0 1   - - - i
+      [ 'inactive',                 // 0 0 1 0   - - s -
+        'inactive'] ],              // 0 0 1 1   - - s i
+    [ [ 'inactive',                 // 0 1 0 0   - h - -
+        'inactive'],                // 0 1 0 1   - h - i
+      [ 'inactive',                 // 0 1 1 0   - h s -
+        'inactive'] ] ],            // 0 1 1 1   - h s i
+  [ [ [ 'initial',                  // 1 0 0 0   a - - -
+        'highlighted'],             // 1 0 0 1   a - - i
+      [ 'selected',                 // 1 0 1 0   a - s -
+        'selected'] ],              // 1 0 1 1   a - s i
+    [ [ 'highlighted',              // 1 1 0 0   a h - -
+        'highlighted'],             // 1 1 0 1   a h - i
+      [ 'selectedHighlighted',      // 1 1 1 0   a h s -
+        'selectedHighlighted'] ] ]  // 1 1 1 1   a h s i
 ];
 
-const ON = 1;
-const OFF = 0;
 export const PROPERTY_VALUES = {
-  ON,
-  OFF
+  ON: 1,
+  OFF: 0
+};
+
+export const PROPERTIES = {
+  HIGHLIGHT: 'highlight',
+  SELECTED: 'selected',
+  INDIRECT: 'indirect',
+  ACTIVE: 'active'
 };
 
 export class StateMachine extends AStateMachine {
@@ -61,7 +47,6 @@ export class StateMachine extends AStateMachine {
         highlight: PROPERTY_VALUES.OFF,
         selected: PROPERTY_VALUES.OFF,
         indirect: PROPERTY_VALUES.OFF,
-        hidden: PROPERTY_VALUES.OFF,
         active: PROPERTY_VALUES.OFF
       },
       stateLUT,
@@ -71,25 +56,20 @@ export class StateMachine extends AStateMachine {
 
   setupStates(owner) {
     return {
-      selectedHighlightedInactive: new SelectedHighlightedInactiveState(owner),
       selectedHighlighted: new SelectedHighlightedState(owner),
-      highlightedInactive: new HighlightedInactiveState(owner),
-      selectedInactive: new SelectedInactiveState(owner),
       indirect: new IndirectHighlightedState(owner),
       highlighted: new HighlightedState(owner),
       selected: new SelectedState(owner),
       inactive: new InactiveState(owner),
-      initial: new InitialState(owner),
-      hidden: new HiddenState(owner)
+      initial: new InitialState(owner)
     };
   }
 
   checkLUTAgainstCurrentProperties(LUT, stateProps) {
     return LUT
+      [stateProps.active]
       [stateProps.highlight]
       [stateProps.selected]
-      [stateProps.active]
-      [stateProps.hidden]
       [stateProps.indirect];
   }
 }

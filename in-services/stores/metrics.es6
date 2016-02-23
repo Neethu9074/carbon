@@ -1,10 +1,9 @@
-import Immutable from 'immutable';
 import invariant from 'invariant';
 import * as ro from 'reactive-observables';
 
-const reemitSpec = {emitLatestOnSubscribe: true};
+import {emptyList} from 'in-services/fixedImmutables';
 
-const emptyList = Immutable.List();
+const reemitSpec = {emitLatestOnSubscribe: true};
 
 export const metricPath = ro.create(reemitSpec);
 metricPath.emit(emptyList);

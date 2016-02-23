@@ -1,9 +1,6 @@
 import * as ro from 'reactive-observables';
 
-export const alwaysNull = ro.create().emit(null).freeze();
-export const alwaysEmptyArray = ro.create().emit(freeze([])).freeze();
+import * as fixedObjects from './fixedObjects';
 
-function freeze(v) {
-  Object.freeze(v);
-  return v;
-}
+export const alwaysNull = ro.create().emit(null).freeze();
+export const alwaysEmptyArray = ro.create().emit(fixedObjects.emptyArray).freeze();

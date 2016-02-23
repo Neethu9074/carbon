@@ -1,18 +1,22 @@
 import ContentProvider from './ContentProvider';
 
+
+const POINT_VERTICES = [0, 0, 0];
+const DEFAULT_COLOR = [1, 1, 1];
+
 export default class PointContentProvider extends ContentProvider {
 
   constructor() {
     super();
 
-    this.cachedColors = [1.0, 0.0, 0.5];
+    this.cachedColors = [1, 1, 1];
   }
 
   getVertices() {
-    return [0, 0, 0];
+    return POINT_VERTICES.slice();
   }
 
   getColors() {
-    return this.cachedColors.slice();
+    return DEFAULT_COLOR.slice();
   }
 }

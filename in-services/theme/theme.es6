@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-import {createStore} from '../stores/store';
+import {createStore} from 'in-stores/store';
 
 const store = createStore({
   name: 'theme',

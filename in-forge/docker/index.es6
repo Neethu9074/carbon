@@ -1,0 +1,40 @@
+import {addIconToRegistry} from 'in-sdk/iconRegistry';
+import * as pluginName from 'in-sdk/pluginName';
+import {addLabelFinder} from 'in-sdk/snapshot';
+import * as sorting from 'in-sdk/sorting';
+import * as power from 'in-sdk/power';
+
+import iconPath from './icon.svg';
+import * as constants from '../constants';
+
+pluginName.setHumanReadablePluginName(
+  constants.plugins.docker,
+  'Docker Container',
+  'Docker Containers'
+);
+
+addLabelFinder(
+  constants.plugins.docker,
+  s => {
+    const names = s.getIn(['data', 'Names']);
+    if (names) {
+      return names.join(', ');
+    }
+    return undefined;
+  }
+);
+
+power.addMapping(
+  constants.plugins.docker,
+  () => -1
+);
+
+sorting.addMapping(
+  constants.plugins.docker,
+  (s1, s2) => s1.get('hostId') > s2.get('hostId')
+);
+
+addIconToRegistry({
+  id: constants.plugins.docker,
+  image: iconPath
+});

@@ -1,5 +1,5 @@
-/*eslint-env mocha,node*/
-/*eslint-disable no-var, vars-on-top, strict*/
+/* eslint-env mocha,node */
+/* eslint-disable no-var, vars-on-top, strict */
 
 'use strict';
 
@@ -16,8 +16,8 @@ chai.use(require('chai-subset'));
 chai.use(require('sinon-chai'));
 
 // support static file require statements
-['.png', '.obj', '.less', '.svg', '.glsl'].forEach(function(extension) {
-  require.extensions[extension] = function(module) {
+['.png', '.obj', '.less', '.svg', '.glsl'].forEach(extension => {
+  require.extensions[extension] = module => {
     return module;
   };
 });
@@ -27,9 +27,6 @@ require('babel/register')({
   only: /es6/,
   ignore: '^$'
 });
-
-// support TypeScript
-require('typescript-require');
 
 // Ensuring a browser environment is simulated before React is loaded to avoid
 // "Error: Invariant Violation: Markup wrapping node not initialized"
@@ -43,5 +40,5 @@ global.navigator = global.window.navigator;
 setupThemeGlobals();
 
 // many tests import a whole bunch of modules and at some point this always
-// ends up in in-services/connection (which requirs WebSocket globals).
+// ends up in in-services/persistentConnection (which requirs WebSocket globals).
 setupWebSocketGlobals();

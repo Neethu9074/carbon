@@ -6,7 +6,6 @@ import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
 import {getLabel} from 'in-sdk/snapshot';
 
-import HealthIcon from '../HealthIcon';
 import ZoneTag from '../ZoneTag';
 
 import './SidebarHeadingSnapshotMetadata.less';
@@ -26,6 +25,9 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
 
   render() {
     const snapshot = this.props.snapshot;
+    if (!snapshot) {
+      return null;
+    }
 
     return (
       <div className={getClassName(this, block)}>
@@ -33,14 +35,12 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
           <h1 className={block + '__label'}>
             <span className={block + '__text'}>
               {getLabel(snapshot)}
-
-              <HealthIcon snapshot={snapshot} className={block + '__health'}/>
-              <ZoneTag snapshot={snapshot} className={block + '__zone'}/>
+              <ZoneTag snapshotId={snapshot.get('id')} className={block + '__zone'}/>
             </span>
           </h1>
 
           <p className={block + '__plugin-type'}>
-            {getSingular(snapshot.get('pluginId'))}
+            {getSingular(snapshot.get('plugin'))}
           </p>
         </div>
       </div>

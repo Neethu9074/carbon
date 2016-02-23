@@ -1,5 +1,6 @@
 import AState from './AState';
 
+
 export default class InactiveState extends AState {
 
   constructor(baseNode) {

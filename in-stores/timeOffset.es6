@@ -1,0 +1,136 @@
+import {createStore} from 'in-stores/store';
+import createTimestampObservable from 'in-services/subscription/timestamp';
+import * as persistentConnection from 'in-services/persistentConnection';
+
+// This is an attempt to "synchronize" the time between client (browser) and
+// server (backend). This needs to be done as we cannot expect that the user
+// has correctly configured its local time. Also, we need this information in
+// order to interpret the report times in issues and charts as those are
+// represented in server time.
+//
+// While this is not a complete solution to this problem, this module enables
+// the discovery of a rough offset between client and server time, but it is
+// succeptible to latency. Luckily this is not a big issue for us as an
+// accuracy of a few seconds can hardly be noticed by humans for this specific
+// use case.
+//
+// This approach is based on
+// http://stackoverflow.com/questions/8478179/synchronize-time-in-javascript-with-a-good-precision-0-5s-ntp-like
+
+// the number of milliseconds between each synchronization
+const syncInterval = 1000 * 10;
+
+// number of offsets that should be used to calculate the time offset
+const numberOfValuesForOffetMean = 5;
+
+// How many consecutive synchronization attempts should be made whenever a
+// new connection is established.
+const numberOfSynchronizationAttemptOnceConnected = 3;
+
+let syncIntervalHandle;
+
+// in the beginning we do not know the time offset. We will try to synchronize
+// regularly and we will use the mean of multiple attempts.
+//
+// A value in milliseconds
+// Positive values indicate that the local clock is ahead of the server clock.
+// Negative values indicate that the local click is behing the server clock.
+let offsets = [];
+
+
+const offsetStore = createStore({
+  name: 'timeOffsetMillis',
+  initialValue: 0
+});
+export const offset = offsetStore.observable;
+
+
+export function init() {
+  persistentConnection.on('connect', start);
+  persistentConnection.on('reconnect', start);
+  persistentConnection.on('disconnect', stop);
+}
+
+
+/**
+ * Translate local time to server time by subtracting the offset
+ *
+ * @param {number|Date} d The value which should be translated to server time.
+ * @param {number} off The current offset to the server time in millis
+ * @returns {number} The provided time in milliseconds server time.
+ */
+export function toServerTime(d, off) {
+  let millis;
+  if (d instanceof Date) {
+    millis = d.getTime();
+  } else {
+    millis = d;
+  }
+  return millis - off;
+}
+
+
+function start() {
+  stop();
+
+  for (let i = 0; i < numberOfSynchronizationAttemptOnceConnected; i++) {
+    synchronize();
+  }
+  syncIntervalHandle = setInterval(synchronize, syncInterval);
+}
+
+
+function stop() {
+  if (syncIntervalHandle) {
+    clearInterval(syncIntervalHandle);
+    syncIntervalHandle = null;
+  }
+}
+
+
+function synchronize() {
+  createTimestampObservable({originate: Date.now()})
+    .once(processTimestampReply);
+}
+
+
+/**
+ * Process the server reply and try to get an offset approximation.
+ * @param {object} reply An object with originate, transmit and receive
+ *   timestamps as retrieved by the server.
+ */
+function processTimestampReply(reply) {
+  const returned = Date.now();
+
+  // calculate time difference between server and client timestamps
+  const sending = reply.receive - reply.originate;
+  const receiving = returned - reply.transmit;
+
+  // the roundtrip time is the sum of the two for the case that both clocks
+  // are aligned (which is quite unlikely)
+  const roundtrip = sending + receiving;
+  const oneway = roundtrip / 2;
+
+  const difference = receiving - oneway;
+  offsets.push(difference);
+  offsets = offsets.slice(
+    offsets.length - numberOfValuesForOffetMean,
+    offsets.length
+  );
+  offsetStore.applyStateMutation(() => getOffset());
+}
+
+
+/**
+ * Returns the number of milliseconds that the local clock differs from the
+ * remote click.
+ *
+ * Positive values indicate that the local clock is ahead of the server clock.
+ * Negative values indicate that the local click is behing the server clock.
+ *
+ * @returns {number} Difference in milliseconds.
+ */
+function getOffset() {
+  const offsetSum = offsets.reduce((a, b) => a + b, 0);
+  return Math.round(offsetSum / Math.max(offsets.length, 1));
+}

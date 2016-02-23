@@ -1,0 +1,62 @@
+import React from 'react';
+
+import {getSnapshot as loadSnapshot} from 'in-stores/snapshot';
+
+
+export default function getSnapshot(ComposedComponent) {
+  return React.createClass({
+    displayName: 'getSnapshot hoc for ' + ComposedComponent.displayName,
+
+    propTypes: {
+      snapshotId: React.PropTypes.string.isRequired
+    },
+
+    getInitialState() {
+      return {
+        snapshot: null
+      };
+    },
+
+    componentWillMount() {
+      this.subscribe(this.props.snapshotId);
+    },
+
+    componentWillReceiveProps(nextProps) {
+      if (this.props.snapshotId !== nextProps.snapshotId) {
+        this.subscribe(nextProps.snapshotId);
+      }
+    },
+
+    subscribe(snapshotId) {
+      if (this.subscription) {
+        this.subscription.dispose();
+        this.subscription = null;
+      }
+
+      // reset state
+      this.setState(this.getInitialState());
+
+      if (snapshotId) {
+        this.subscription = loadSnapshot(snapshotId).subscribe(snapshot => {
+          this.setState({
+            snapshot
+          });
+        });
+      }
+    },
+
+    componentWillUnmount() {
+      if (this.subscription) {
+        this.subscription.dispose();
+        this.subscription = null;
+      }
+    },
+
+    render() {
+      return (
+        <ComposedComponent {...this.props}
+                           {...this.state} />
+      );
+    }
+  });
+}

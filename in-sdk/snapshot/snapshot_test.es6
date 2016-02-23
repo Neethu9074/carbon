@@ -5,7 +5,7 @@ import proxyquire from 'proxyquire';
 
 const UNKNOWN_LABEL = 'Unknown';
 const steadyId = 's1';
-const pluginId = 'os';
+const plugin = 'host';
 
 describe('snapshot', () => {
 
@@ -17,8 +17,9 @@ describe('snapshot', () => {
     mod = proxyquire('./snapshot', {});
 
     snapshot = Immutable.fromJS({
+      id: steadyId,
       steadyId,
-      pluginId,
+      plugin,
       data: {}
     });
   });
@@ -27,7 +28,7 @@ describe('snapshot', () => {
 
     it('should retrieve the label via a finder', () => {
       const truck = 'truck';
-      mod.addLabelFinder(pluginId, () => truck);
+      mod.addLabelFinder(plugin, () => truck);
       expect(mod.getLabel(snapshot)).to.equal(truck);
     });
 
@@ -44,7 +45,7 @@ describe('snapshot', () => {
 
     it('should retrieve the label via a finder', () => {
       const truck = 'truck';
-      mod.addLongLabelFinder(pluginId, () => truck);
+      mod.addLongLabelFinder(plugin, () => truck);
       expect(mod.getLongLabel(snapshot)).to.equal(truck);
     });
 
@@ -60,33 +61,13 @@ describe('snapshot', () => {
   describe('icons', () => {
 
     it('should retrieve the icon via a finder', () => {
-      const truck = 'truck';
-      mod.addIconFinder(pluginId, () => truck);
-      expect(mod.getIcon(snapshot)).to.equal(truck);
+      expect(mod.getIcon(snapshot)).to.not.equal(undefined);
     });
 
-    it('should support multiple finders', () => {
-      const truck = 'truck';
-      mod.addIconFinder('ec2', () => 'amazon');
-      mod.addIconFinder(pluginId, () => truck);
-      mod.addIconFinder('docker', () => 'container');
-      expect(mod.getIcon(snapshot)).to.equal(truck);
+    it('should retrieve undefined for unknown plugins', () => {
+      expect(mod.getIcon('unknownId')).to.not.equal(undefined);
     });
 
-    it('should allow pluginId to be specified as string as param', () => {
-      const truck = 'truck';
-      mod.addIconFinder(pluginId, () => truck);
-      expect(mod.getIcon(pluginId)).to.equal(truck);
-    });
-  });
-
-  describe('ips', () => {
-
-    it('should retrieve ips via a finder', () => {
-      const truck = 'truck';
-      mod.addIpFinder(pluginId, () => truck);
-      expect(mod.getIps(snapshot)).to.equal(truck);
-    });
   });
 
 });

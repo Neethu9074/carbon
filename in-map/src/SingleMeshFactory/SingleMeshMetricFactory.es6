@@ -2,7 +2,7 @@ import TWEEN from 'tween.js';
 import THREE from 'three';
 import _ from 'lodash';
 
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 
 import fragmentShader from './metricFragmentShader.glsl';
 import vertexShader from './metricVertexShader.glsl';
@@ -283,6 +283,18 @@ export default class SingleMeshMetricFactory {
     this.updateSubscribtion.dispose();
     this.scene.removeSceneObject(this.mesh);
 
+    this.geometry.dispose();
+    this.material.dispose();
+
+    this.mesh = null;
+    this.scene = null;
+    this.colors = null;
+    this.vertices = null;
+    this.geometry = null;
+    this.material = null;
     this.fragments = null;
+    this.oldHeights = null;
+    this.newHeights = null;
+    this.fragmentQueue = null;
   }
 }
