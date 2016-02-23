@@ -2,15 +2,19 @@
 /* eslint-disable no-unused-vars, new-cap, max-len */
 import {expect} from 'chai';
 import sinon from 'sinon';
+import proxyquire from 'proxyquire';
 
-import * as timelineStore from './timeline';
+import {resetStoreRegistry} from 'in-stores/store';
 
 describe('stores.timeline', () => {
 
   let onNext;
+  let timelineStore;
 
   beforeEach(() => {
     onNext = sinon.stub();
+    resetStoreRegistry();
+    timelineStore = proxyquire('./timeline', {});
   });
 
   it('should return default value', () => {
