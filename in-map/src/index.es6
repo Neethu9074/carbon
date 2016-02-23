@@ -6,7 +6,7 @@ import * as navigation from 'in-stores/navigation';
 import * as tracking from 'in-services/tracking';
 import helpify from 'in-components/hoc/helpify';
 import enhance from 'in-components/hoc/enhance';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 import {getIn} from 'in-services/settings';
 
 import Scene from './Scene';

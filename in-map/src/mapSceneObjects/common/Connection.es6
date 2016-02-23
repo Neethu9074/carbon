@@ -1,6 +1,6 @@
 import THREE from 'three';
 
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import SceneObjectWithSnapshot from './SceneObjectWithSnapshot';

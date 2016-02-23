@@ -2,7 +2,7 @@ import THREE from 'three';
 
 import {longClickedSceneObject} from 'in-map/src/stores';
 import * as time from 'in-map/src/timeCalculations';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 
 import MouseControlsModule from '../common/MouseControlsModule';
 import TouchControlsModule from '../common/TouchControlsModule';

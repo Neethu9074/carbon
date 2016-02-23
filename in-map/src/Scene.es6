@@ -7,7 +7,7 @@ import {hexToRGBNormalized} from 'in-services/formatters/color';
 
 import {activeMetric} from 'in-services/stores/metrics';
 import * as tracking from 'in-services/tracking';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 import {theme} from 'in-services/theme';
 
 import './lib/EffectComposer';

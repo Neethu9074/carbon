@@ -2,7 +2,7 @@
 import _ from 'lodash';
 
 import {viewStructure} from 'in-stores/view';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 
 import OrthographicCamera from './OrthographicCamera';
 import * as time from '../../timeCalculations';

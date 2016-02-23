@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 
 import ConnectionsHandlerComponent from '../../components/process/ConnectionsHandlerComponent';
 import HighlightingComponent from '../../components/process/HighlightingComponent';

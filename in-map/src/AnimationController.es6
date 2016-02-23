@@ -1,7 +1,7 @@
 import TWEEN from 'tween.js';
 
 import * as time from 'in-map/src/timeCalculations';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 
 
 export default class AnimationController {

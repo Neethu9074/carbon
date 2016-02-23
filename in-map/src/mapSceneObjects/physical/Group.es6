@@ -1,7 +1,7 @@
 import _ from 'lodash';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 
 import GroundHighlightingComponent from '../../components/physical/GroundHighlightingComponent';
 import LineMeshComponent from '../../components/common/LineMeshComponent';

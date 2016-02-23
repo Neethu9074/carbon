@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import {activeMetric} from 'in-services/stores/metrics';
-import eventBus from 'in-services/eventbus';
+import eventBus from 'in-map/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
