@@ -25,7 +25,6 @@ export default getSnapshots(React.createClass({
   render() {
     const snapshots = this.props.snapshots;
     if (!snapshots) {
-      console.log('snappis');
       return null;
     }
 
