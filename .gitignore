@@ -7,4 +7,4 @@
 /in-themes/active*
 /in-server/node_modules
 /in-server/serverConfig.json
-build-props.properties
+git-env.properties
