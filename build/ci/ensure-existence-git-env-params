@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -e
+set -ex
 
 # Jenkins only defines environment parameters when the build is triggered
 # via a Git push. This is okay, but we also want to retain the ability to
@@ -9,7 +9,7 @@ set -e
 # build parameter INSTANA_UICLIENT_BRANCH.
 
 export THE_COMMIT="`git rev-parse HEAD`"
-export THE_BRANCH=${GIT_BRANCH:-$INSTANA_UICLIENT_BRANCH}
+export THE_BRANCH="${GIT_BRANCH:-origin/$INSTANA_UICLIENT_BRANCH}"
 
 echo "GIT_COMMIT=$THE_COMMIT" > git-env.properties
 echo "GIT_BRANCH=$THE_BRANCH" >> git-env.properties
