@@ -62,18 +62,9 @@ export default class ConnectionsHandlerComponent extends Component {
     // clear all connections and rebuild on the current state
     this.disposeConnections();
 
-    const correspondingNode = this.sceneObject;
-
     const addConnections = (list, direction) => list.forEach(entity => {
-      let destinationNode;
-      let sourceNode;
-      if (direction === DIRECTIONS.IN) {
-        sourceNode = correspondingNode;
-        destinationNode = this.sceneObject.findNodeById(entity.get('sourceId'));
-      } else {
-        sourceNode = correspondingNode;
-        destinationNode = this.sceneObject.findNodeById(entity.get('destinationId'));
-      }
+      const destinationNode = this.sceneObject.findNodeById(entity.get('otherId'));
+      const sourceNode = this.sceneObject;
 
       if (!sourceNode || !destinationNode) {
         return;
