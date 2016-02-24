@@ -1,6 +1,7 @@
 import THREE from 'three';
 
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/process/Cluster';
+import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-map/eventbus';
 
@@ -31,6 +32,7 @@ export default class Node extends SceneObjectWithSnapshot {
     this.children = [];
     this.isExpanded = false;
 
+    this.tooltip = new TooltipNode(this);
     this.label = new Label({
       id: this.id,
       parent: this,
@@ -121,6 +123,10 @@ export default class Node extends SceneObjectWithSnapshot {
     this.components.mesh.colorChanged(getColorPool('processes').getColorRGB(snapshot.get('plugin')));
   }
 
+  getTooltip() {
+    return this.tooltip;
+  }
+
   expand() {
     const nodeEntityMap = {};
 
@@ -203,6 +209,14 @@ export default class Node extends SceneObjectWithSnapshot {
     if (this.stickyNote) {
       this.stickyNote.dispose();
       this.stickyNote = null;
+    }
+
+    try {
+      this.tooltip.unMount();
+      this.tooltip.dispose();
+    } catch (er) {
+      // the tooltip is already unmounted
+      this.tooltip = null;
     }
 
     this.nodes = null;
