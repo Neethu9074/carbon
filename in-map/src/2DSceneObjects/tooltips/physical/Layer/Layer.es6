@@ -5,6 +5,7 @@ import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
 import IssueDescription from 'in-components/IssueDescription';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Content from 'in-components/Tooltips/Content';
+import {getLabel} from 'in-sdk/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
 
 import Tooltip from '../../Tooltip.es6';
@@ -35,7 +36,6 @@ const LayerTooltipRC = getMostImportantIssue(
     }
 
     const mostImportantIssue = this.props.mostImportantIssue;
-
     return (
       <TooltipFrame>
         {mostImportantIssue ?
@@ -43,7 +43,7 @@ const LayerTooltipRC = getMostImportantIssue(
                             snapshotId={this.props.snapshotId}/>
           :
           <Content>
-            {snapshot.get('plugin')}
+            {getLabel(snapshot)}
           </Content>
         }
       </TooltipFrame>
