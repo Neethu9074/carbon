@@ -9,7 +9,7 @@ rm -f Dockerfile
 mv target/Dockerfile .
 
 VERSION="$BUILD_NUMBER"
-IMAGE="ui-client/$GIT_BRANCH"
+IMAGE="ui-client/$INSTANA_UICLIENT_BRANCH"
 
 if [ -z "$IMAGE" ]; then echo "no image provided"; exit 1; fi
 if [ -z "$VERSION" ]; then echo "no version provided"; exit 2; fi

@@ -11,5 +11,5 @@ set -ex
 export THE_COMMIT="`git rev-parse HEAD`"
 export THE_BRANCH="${GIT_BRANCH:-origin/$INSTANA_UICLIENT_BRANCH}"
 
-echo "GIT_COMMIT=$THE_COMMIT" > git-env.properties
-echo "GIT_BRANCH=$THE_BRANCH" >> git-env.properties
+echo "INSTANA_UICLIENT_COMMIT=$THE_COMMIT" > git-env.properties
+echo "INSTANA_UICLIENT_BRANCH=$THE_BRANCH" >> git-env.properties
