@@ -207,9 +207,8 @@ export default React.createClass({
               <ResponsiveTable clickable={true}>
                 <thead>
                   <tr>
-                    <th>
-                      Custom JMX Metrics
-                    </th>
+                    <th>Name</th>
+                    <th>Value</th>
                   </tr>
                 </thead>
 
