@@ -22,8 +22,11 @@ export default class SceneObject {
 
   unMount() {
     const container = this.container;
-    React.unmountComponentAtNode(container);
-    container.parentNode.removeChild(container);
+
+    if (container) {
+      React.unmountComponentAtNode(container);
+      container.parentNode.removeChild(container);
+    }
   }
 
   setScreenPosition({x, y}) {
