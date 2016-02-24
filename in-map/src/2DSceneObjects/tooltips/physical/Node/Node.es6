@@ -33,9 +33,9 @@ const NodeTooltip = getMostImportantIssue(
   },
 
   render() {
-    const layer = this.props.layer;
     const mostImportantIssue = this.props.mostImportantIssue;
     const snapshot = this.props.snapshot;
+    const layer = this.props.layer;
 
     return (
       <TooltipFrame>
