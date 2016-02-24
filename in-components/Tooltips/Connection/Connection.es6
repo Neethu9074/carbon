@@ -64,7 +64,7 @@ const ConnectionTooltip = React.createClass({
     return (
       <TooltipFrame>
         <Heading>
-          {numConnections + ' connection' + (numConnections === 1 ? '' : 'S')}
+          {numConnections + ' connection' + (numConnections === 1 ? '' : 's')}
         </Heading>
         <ul className={block + '__ul'}>
           {listItems}
