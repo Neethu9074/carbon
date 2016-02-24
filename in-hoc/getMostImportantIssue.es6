@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {getMaxSeverityForOpenIssues as getSeverity} from 'in-stores/maxSeverityForOpenIssues';
+import {getIssuesById} from 'in-services/issueTracker';
 
 
-export default function getMaxSeverityForOpenIssues(ComposedComponent) {
+export default function getMostImportantIssue(ComposedComponent) {
   return React.createClass({
-    displayName: 'getHealth hoc for ' + ComposedComponent.displayName,
+    displayName: 'getProblems hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
       snapshotId: React.PropTypes.string.isRequired
@@ -13,7 +13,7 @@ export default function getMaxSeverityForOpenIssues(ComposedComponent) {
 
     getInitialState() {
       return {
-        maxSeverityForOpenIssues: null
+        mostImportantIssue: null
       };
     },
 
@@ -37,9 +37,14 @@ export default function getMaxSeverityForOpenIssues(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        this.subscription = getSeverity(snapshotId).subscribe(maxSeverityForOpenIssues => {
+        this.subscription = getIssuesById(snapshotId).subscribe(issues => {
+          const mostImportantIssue = issues & issues.size > 0 ?
+            issues.toArray().sort((i1, i2) =>
+              i1.getIn(['problem', 'severity']) > i2.getIn(['problem', 'severity']))[0] :
+            null;
+          console.log(mostImportantIssue, issues.toJS());
           this.setState({
-            maxSeverityForOpenIssues
+            mostImportantIssue
           });
         });
       }

@@ -3,10 +3,10 @@ import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
 import {getIssues as getIssueStore} from 'in-stores/issues';
+import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
-import {emptyList} from 'in-services/fixedImmutables';
 
 import {mapSeverityToHealth, health} from '../health';
 import * as timelineStore from '../stores/timeline';

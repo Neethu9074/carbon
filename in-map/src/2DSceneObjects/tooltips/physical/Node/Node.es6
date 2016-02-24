@@ -1,9 +1,9 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react/addons';
 
-import getMaxSeverityForOpenIssues from 'in-hoc/getMaxSeverityForOpenIssues';
+import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
+import IssueDescription from 'in-components/IssueDescription';
 import TooltipFrame from 'in-components/Tooltips/Frame';
-import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
 import {getLongLabel} from 'in-sdk/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
@@ -15,7 +15,7 @@ import Tooltip from '../../Tooltip.es6';
 const block = 'in-tooltip-node';
 const rpt = React.PropTypes;
 
-const NodeTooltip = getMaxSeverityForOpenIssues(
+const NodeTooltip = getMostImportantIssue(
                     getSnapshot(
                     React.createClass({
 
@@ -26,22 +26,21 @@ const NodeTooltip = getMaxSeverityForOpenIssues(
   ],
 
   propTypes: {
-    maxSeverityForOpenIssues: rpt.number,
     snapshotId: rpt.string.isRequired,
+    mostImportantIssue: irpt.map,
     layer: rpt.array.isRequired,
     snapshot: irpt.map
   },
 
   render() {
+    const mostImportantIssue = this.props.mostImportantIssue;
     const snapshot = this.props.snapshot;
-    const maxSeverity = this.props.maxSeverityForOpenIssues;
 
     return (
       <TooltipFrame>
-        {maxSeverity ?
-          <Heading>
-            {maxSeverity}
-          </Heading>
+        {mostImportantIssue ?
+          <IssueDescription issue={mostImportantIssue}
+                            snapshotId={this.props.snapshotId}/>
           :
           <Content>
             <span className={block + '__label'}>
