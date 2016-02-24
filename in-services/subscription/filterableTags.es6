@@ -36,7 +36,11 @@ function createFilterableTagsObservable() {
   return observable;
 
   function onData(filterableTags) {
-    filterableTags.sort();
+    filterableTags.sort((a, b) => {
+      return a.localeCompare(b, 'en-US', {
+        sensitivity: 'base'
+      });
+    });
     observable.emit(Immutable.List(filterableTags));
   }
 }
