@@ -24,7 +24,14 @@ export default class Connection extends SceneObjectWithSnapshot {
     this.sourceNode = sourceNode;
     this.destinationNode = destinationNode;
 
-    this.updateGeometry();
+    const fromPos = sourceNode.getComponent('position').getPosition();
+    const toPos = destinationNode.getComponent('position').getPosition();
+
+    // only do an initial geometry if the nodes where already layouted and are not on the same position
+    // (which can happen before layouting)
+    if (fromPos.x !== toPos.x || fromPos.z !== toPos.z) {
+      this.updateGeometry();
+    }
 
     ALL_CONNECTIONS.push(this);
 
