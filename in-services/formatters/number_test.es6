@@ -80,9 +80,28 @@ describe('in-services.formatter.number', () => {
       expect(numberFormatters.withSiPrefixZeroDecimalPlaces(1367000000)).to.equal('1G');
     });
 
+    it('should format various numbers using only multiplication prefixes', () => {
+      expect(numberFormatters.withSiMultiplyPrefixZeroDecimalPlaces(0.000000001567)).to.equal('0');
+      expect(numberFormatters.withSiMultiplyPrefixZeroDecimalPlaces(0.000001)).to.equal('0');
+      expect(numberFormatters.withSiMultiplyPrefixZeroDecimalPlaces(0.001)).to.equal('0');
+      expect(numberFormatters.withSiMultiplyPrefixZeroDecimalPlaces(1)).to.equal('1');
+      expect(numberFormatters.withSiMultiplyPrefixZeroDecimalPlaces(1000)).to.equal('1k');
+      expect(numberFormatters.withSiMultiplyPrefixZeroDecimalPlaces(1000000)).to.equal('1M');
+      expect(numberFormatters.withSiMultiplyPrefixZeroDecimalPlaces(1367000000)).to.equal('1G');
+    });
+
     it('should format with decimal places', () => {
       expect(numberFormatters.withSiPrefixTwoDecimalPlaces(0.000000001567)).to.equal('1.57n');
+      expect(numberFormatters.withSiPrefixTwoDecimalPlaces(0.001567)).to.equal('1.57m');
+      expect(numberFormatters.withSiPrefixTwoDecimalPlaces(1.567)).to.equal('1.57');
       expect(numberFormatters.withSiPrefixTwoDecimalPlaces(1567)).to.equal('1.57k');
+    });
+
+    it('should format with decimal places using only multiplication prefixes', () => {
+      expect(numberFormatters.withSiMultiplyPrefixTwoDecimalPlaces(0.000000001567)).to.equal('0');
+      expect(numberFormatters.withSiMultiplyPrefixTwoDecimalPlaces(0.001567)).to.equal('0');
+      expect(numberFormatters.withSiMultiplyPrefixTwoDecimalPlaces(1.567)).to.equal('1.57');
+      expect(numberFormatters.withSiMultiplyPrefixTwoDecimalPlaces(1567)).to.equal('1.57k');
     });
   });
 

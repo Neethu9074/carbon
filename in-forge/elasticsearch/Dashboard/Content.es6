@@ -8,7 +8,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
 import {
   zeroDecimalPlaces,
-  withSiPrefixZeroDecimalPlaces,
+  withSiMultiplyPrefixZeroDecimalPlaces,
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces
 } from 'in-services/formatters/number';
@@ -58,7 +58,7 @@ const ElasticsearchDashboard = React.createClass({
                                'Documents',
                                'Deleted'
                              ],
-                             formatter: withSiPrefixZeroDecimalPlaces,
+                             formatter: withSiMultiplyPrefixZeroDecimalPlaces,
                              tooltipFormatter: zeroDecimalPlaces,
                              type: 'line'
                            }}/>
@@ -84,7 +84,7 @@ const ElasticsearchDashboard = React.createClass({
                                      'Documents',
                                      'Deletions'
                                    ],
-                                   formatter: withSiPrefixZeroDecimalPlaces,
+                                   formatter: withSiMultiplyPrefixZeroDecimalPlaces,
                                    tooltipFormatter: zeroDecimalPlaces,
                                    type: 'line'
                                  }}
@@ -121,10 +121,10 @@ const ElasticsearchDashboard = React.createClass({
                       })}>
                     <td>{name}</td>
                     <Mtd metric={'index.' + name + '.document_count'}
-                         formatter={withSiPrefixZeroDecimalPlaces}
+                         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
                          snapshot={snapshot}/>
                     <Mtd metric={'index.' + name + '.deleted_count'}
-                         formatter={withSiPrefixZeroDecimalPlaces}
+                         formatter={withSiMultiplyPrefixZeroDecimalPlaces}
                          snapshot={snapshot}/>
                     <Mtd metric={'index.' + name + '.size'}
                          snapshot={snapshot}
@@ -153,7 +153,7 @@ const ElasticsearchDashboard = React.createClass({
                                'Refresh Count',
                                'Flush Count'
                              ],
-                             formatter: withSiPrefixZeroDecimalPlaces,
+                             formatter: withSiMultiplyPrefixZeroDecimalPlaces,
                              tooltipFormatter: zeroDecimalPlaces,
                              type: 'line'
                            }}
@@ -186,7 +186,7 @@ const ElasticsearchDashboard = React.createClass({
                              labels: [
                                'Segments'
                              ],
-                             formatter: withSiPrefixZeroDecimalPlaces,
+                             formatter: withSiMultiplyPrefixZeroDecimalPlaces,
                              tooltipFormatter: zeroDecimalPlaces,
                              type: 'stackedArea'
                            }}/>

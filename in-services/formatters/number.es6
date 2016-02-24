@@ -20,6 +20,9 @@ export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, 2);
 export const withSiPrefixZeroDecimalPlaces = d => withSiPrefix(d, 0);
 export const withSiPrefixTwoDecimalPlaces = d => withSiPrefix(d, 2);
 
+export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiMultiplyPrefix(d, 0);
+export const withSiMultiplyPrefixTwoDecimalPlaces = d => withSiMultiplyPrefix(d, 2);
+
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
 export const muSecondsZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'µs';
@@ -34,7 +37,6 @@ export const time = millis => {
 
 /**
  * Format a number with a metric prefix according to the international system of units:
-
  * Wiki excerpt:
  * > A metric prefix is a unit prefix that precedes a basic unit of measure to indicate a
  * > multiple or fraction of the unit. While all metric prefixes in common use today are decadic,
@@ -61,6 +63,19 @@ function withSiPrefix(num, numberOfDecimalPlaces = 2) {
   return d3.round(prefix.scale(num), numberOfDecimalPlaces) + prefix.symbol;
 }
 
+/**
+ * Format a number with a metric prefix according to the international system of units.
+ * identicla to withSiPrefix, except that only multiplicating prefixes (kilo, mega giga) are used.
+ * Intended to avoid confusion for a number that can go from 0 to 100.000, to show 500m instead of 0.5.
+ *
+ * @param {number} num Number to format with SI prefix
+ * @param {number} [numberOfDecimalPlaces=2] The desired number of decimal places to format to.
+ * @return {string} The formatter number of the SI prefix.
+ */
+function withSiMultiplyPrefix(num, numberOfDecimalPlaces = 2) {
+  const prefix = d3.formatPrefix(num.toFixed(0));
+  return d3.round(prefix.scale(num), numberOfDecimalPlaces) + prefix.symbol;
+}
 
 /**
  * Format a number of bytes to improve readability for humans. Turn a raw

@@ -13,8 +13,8 @@ import {
   bytesPerSecondZeroDecimalPlaces,
   kiloBytesZeroDecimalPlaces,
   kiloBytesTwoDecimalPlaces,
-  withSiPrefixZeroDecimalPlaces,
-  withSiPrefixTwoDecimalPlaces
+  withSiMultiplyPrefixZeroDecimalPlaces,
+  withSiMultiplyPrefixTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import {getMaxValue} from 'in-sdk/metrics';
 
@@ -284,8 +284,8 @@ export default connectTo(
                        ],
                        labels: ['iFree'],
                        type: 'line',
-                       formatter: withSiPrefixZeroDecimalPlaces,
-                       tooltipFormatter: withSiPrefixTwoDecimalPlaces
+                       formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+                       tooltipFormatter: withSiMultiplyPrefixTwoDecimalPlaces
                      }}/>
 
               <ChartWithLegend snapshot={snapshot}
@@ -298,8 +298,8 @@ export default connectTo(
 
                      y1={{
                        min: 0,
-                       formatter: withSiPrefixZeroDecimalPlaces,
-                       tooltipFormatter: withSiPrefixTwoDecimalPlaces,
+                       formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+                       tooltipFormatter: withSiMultiplyPrefixTwoDecimalPlaces,
                        metrics: [
                          'fs.' + filesystemName + '.reads',
                          'fs.' + filesystemName + '.writes'
@@ -360,7 +360,7 @@ export default connectTo(
                        formatter={kiloBytesTwoDecimalPlaces} />
                   <Mtd metric={'fs.' + name + '.ifree'}
                        snapshot={snapshot}
-                       formatter={withSiPrefixTwoDecimalPlaces} />
+                       formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
                 </tr>
               ).valueSeq()}
             </tbody>
