@@ -135,7 +135,7 @@ http {
     }
 
     location /api/data/ {
-      limit_req              zone=thirtyPerSecond burst=0 nodelay;
+      limit_req              zone=thirtyPerSecond burst=1 nodelay;
 
       proxy_pass             http://wsApi/;
       proxy_http_version     1.1;
