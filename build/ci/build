@@ -19,10 +19,6 @@ cd ..
 nice -19 npm run test
 nice -19 npm run build
 
-export GIT_COMMIT="`git rev-parse HEAD`"
-export INSTANA_UICLIENT_BRANCH="`git rev-parse --abbrev-ref HEAD`"
-j2 build/ci/build-props.properties.j2 > build-props.properties
-
 j2 deployment/Dockerfile.j2 > target/Dockerfile
 
 # Clear data from previous build to avoid retention of artefacts

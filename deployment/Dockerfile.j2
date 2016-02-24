@@ -2,7 +2,7 @@ FROM registry-internal.instana.io/instana/nginx-nodejs:latest
 
 MAINTAINER Ben Ripkens "ben@instana.com"
 
-LABEL com.instana.commit="{{GIT_COMMIT}}"
+LABEL com.instana.commit="{{INSTANA_UICLIENT_COMMIT}}"
 LABEL com.instana.branch="{{INSTANA_UICLIENT_BRANCH}}"
 
 COPY deployment/nginx.conf.j2 /etc/nginx/nginx.conf.j2
