@@ -22,7 +22,6 @@ http {
                              '"$http_referer" "$http_user_agent" "$gzip_ratio"';
 
   limit_req_zone             $binary_remote_addr zone=onePerSecond:20m rate=1r/s;
-  limit_req_zone             $binary_remote_addr zone=thirtyPerSecond:20m rate=30r/s;
 
   upstream localNodeInstance {
     server                   127.0.0.1:3131;
@@ -135,8 +134,6 @@ http {
     }
 
     location /api/data/ {
-      limit_req              zone=thirtyPerSecond burst=1 nodelay;
-
       proxy_pass             http://wsApi/;
       proxy_http_version     1.1;
       proxy_set_header       Upgrade $http_upgrade;
