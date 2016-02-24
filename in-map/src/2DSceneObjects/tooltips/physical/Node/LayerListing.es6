@@ -25,6 +25,7 @@ export default getSnapshots(React.createClass({
   render() {
     const snapshots = this.props.snapshots;
     if (!snapshots) {
+      console.log('snappis');
       return null;
     }
 
@@ -36,7 +37,10 @@ export default getSnapshots(React.createClass({
           .sort()
           .map(key =>
           <li key={key}>
-            {aggregatedLayer[key] + ' ' + (aggregatedLayer[key] === 1 ? getSingular(key) : getPlural(key))}
+            <span className={block + '__count'}>
+              {aggregatedLayer[key]}
+            </span>
+            {(aggregatedLayer[key] === 1 ? getSingular(key) : getPlural(key))}
           </li>
         )}
       </ul>
