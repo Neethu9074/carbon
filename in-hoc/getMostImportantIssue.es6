@@ -38,11 +38,10 @@ export default function getMostImportantIssue(ComposedComponent) {
 
       if (snapshotId) {
         this.subscription = getIssuesById(snapshotId).subscribe(issues => {
-          const mostImportantIssue = issues & issues.size > 0 ?
+          const mostImportantIssue = issues && issues.size > 0 ?
             issues.toArray().sort((i1, i2) =>
               i1.getIn(['problem', 'severity']) > i2.getIn(['problem', 'severity']))[0] :
             null;
-          console.log(mostImportantIssue, issues.toJS());
           this.setState({
             mostImportantIssue
           });
