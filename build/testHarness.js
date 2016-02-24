@@ -35,6 +35,7 @@ require('babel/register')({
 global.document = jsdom.jsdom('<html><head></head><body></body></html>');
 global.window = global.document.defaultView;
 global.navigator = global.window.navigator;
+global.__DEV__ = false;
 
 // ensure that the theme information is defined
 setupThemeGlobals();
