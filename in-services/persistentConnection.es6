@@ -3,12 +3,20 @@ import io from 'socket.io-client';
 
 const logger = createLogger('in-services.persistentConnection');
 
+let transports = ['polling', 'websocket'];
+
+// We only want to use the WebSocket transport during local dev mode as this
+// makes the development life easier: Only one connection needs to be inspected!
+if (__DEV__) {
+  transports = ['websocket'];
+}
+
 let socket;
 
 export function init() {
   window.instana.dev.socket = socket = io(window.location.origin, {
     path: '/api/data',
-    rememberUpgrade: true
+    transports
   });
 
   enableEventLogging(socket);
