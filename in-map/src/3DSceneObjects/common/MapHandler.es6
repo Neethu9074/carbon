@@ -1,5 +1,4 @@
-import {types as views} from 'in-stores/view';
-import {view} from 'in-stores/view';
+import {view, types as views} from 'in-stores/view';
 
 import PhysicalMap from '../physical/Map';
 import ProcessMap from '../process/Map';
@@ -7,9 +6,9 @@ import ProcessMap from '../process/Map';
 
 export default class MapHandler {
 
-  constructor({ scene }) {
+  constructor({scene}) {
     this.viewSubscription = view.subscribe(v => {
-      this.doIfPresent((map) => map.dispose());
+      this.doIfPresent(map => map.dispose());
 
       if (v === views.physical) {
         this.map = new PhysicalMap({ parent: scene });
@@ -20,15 +19,15 @@ export default class MapHandler {
   }
 
   update() {
-    this.doIfPresent((map) => map.update());
+    this.doIfPresent(map => map.update());
   }
 
   updateCamera() {
-    this.doIfPresent((map) => map.camera.update());
+    this.doIfPresent(map => map.camera.update());
   }
 
   onWindowResize(width, height) {
-    this.doIfPresent((map) => {
+    this.doIfPresent(map => {
       map.camera.setSize(width, height);
       map.camera.setCameraFromSize();
     });
@@ -36,13 +35,13 @@ export default class MapHandler {
 
   getCurrentZoomLevel() {
     let zoomLevel = 250;
-    this.doIfPresent((map) => zoomLevel = map.controller.zoomLevel);
+    this.doIfPresent(map => zoomLevel = map.controller.zoomLevel);
     return zoomLevel;
   }
 
   getCurrentCamera() {
     let camera;
-    this.doIfPresent((map) => {
+    this.doIfPresent(map => {
       const cam = map.camera;
       if (cam) {
         camera = cam.camera;
@@ -52,7 +51,7 @@ export default class MapHandler {
   }
 
   onZoom() {
-    this.doIfPresent((map) => map.onZoom());
+    this.doIfPresent(map => map.onZoom());
   }
 
   doIfPresent(action) {
@@ -65,7 +64,7 @@ export default class MapHandler {
     this.viewSubscription.dispose();
     this.viewSubscription = null;
 
-    this.doIfPresent((map) => map.dispose());
+    this.doIfPresent(map => map.dispose());
     this.map = null;
   }
 }
