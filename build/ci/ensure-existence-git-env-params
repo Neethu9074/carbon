@@ -9,7 +9,9 @@ set -ex
 # build parameter INSTANA_UICLIENT_BRANCH.
 
 export THE_COMMIT="`git rev-parse HEAD`"
-export THE_BRANCH="${GIT_BRANCH:-origin/$INSTANA_UICLIENT_BRANCH}"
+export THE_BRANCH="${GIT_BRANCH:-$INSTANA_UICLIENT_BRANCH}"
+
+export THE_BRANCH=$(echo $THE_BRANCH | sed "s/^origin\///")
 
 echo "INSTANA_UICLIENT_COMMIT=$THE_COMMIT" > git-env.properties
 echo "INSTANA_UICLIENT_BRANCH=$THE_BRANCH" >> git-env.properties
