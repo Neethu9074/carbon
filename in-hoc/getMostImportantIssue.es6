@@ -5,7 +5,7 @@ import {getIssuesById} from 'in-services/issueTracker';
 
 export default function getMostImportantIssue(ComposedComponent) {
   return React.createClass({
-    displayName: 'getProblems hoc for ' + ComposedComponent.displayName,
+    displayName: 'getMostImportantIssue hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
       snapshotId: React.PropTypes.string.isRequired
