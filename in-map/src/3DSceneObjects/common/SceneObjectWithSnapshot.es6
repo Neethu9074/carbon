@@ -8,10 +8,11 @@ import SceneObject from './SceneObject';
 
 export default class SceneObjectWithSnapshot extends SceneObject {
 
-  constructor({parent, id}) {
+  constructor({parent, id, snapshotId}) {
     super({parent, id});
 
-    this.addSubscription(getSnapshot(this.id).nextFrame().subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
+    snapshotId = snapshotId || id;
+    this.addSubscription(getSnapshot(snapshotId).nextFrame().subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
 
     this.addSubscription(highlightedEntityId.subscribe(highlightedId => {
       const isThisHighlighted = highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
