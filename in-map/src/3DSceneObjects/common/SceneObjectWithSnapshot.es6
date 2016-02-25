@@ -1,6 +1,6 @@
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import {getHealthStatus} from 'in-stores/healthStatus';
+// import {getHealthStatus} from 'in-stores/healthStatus';
 import {getSnapshot} from 'in-stores/snapshot';
 
 import SceneObject from './SceneObject';
@@ -19,7 +19,8 @@ export default class SceneObjectWithSnapshot extends SceneObject {
       this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, isThisHighlighted);
     }));
 
-    this.addSubscription(getHealthStatus(this.id).subscribe(healthStatus => this.onHealthStatusUpdate(healthStatus)));
+    // this.addSubscription(getHealthStatus(this.id).subscribe(healthStatus =>
+    //   this.onHealthStatusUpdate(healthStatus)));
   }
 
   onSnapshotUpdate(snapshot) {
