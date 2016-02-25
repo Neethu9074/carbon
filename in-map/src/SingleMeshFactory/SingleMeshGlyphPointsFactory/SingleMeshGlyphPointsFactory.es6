@@ -48,12 +48,12 @@ export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {
 
     const uvCoords = [];
     const textureWidth = config.numElementsPerColumn * config.iconWidth;
-    this.fragments.forEach((fragment) => {
+    this.fragments.forEach(fragment => {
       const xy = config.LUT[fragment.additionalParams.type];
       if (!xy) {
         // use right bottom UV coords to show nothing but emptiness
-        uvCoords.push(1);
-        uvCoords.push(1);
+        uvCoords.push(0);
+        uvCoords.push(0);
       } else {
         uvCoords.push(xy.x / textureWidth);
         uvCoords.push(xy.y / textureWidth);
