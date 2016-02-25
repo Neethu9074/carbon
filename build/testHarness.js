@@ -8,6 +8,7 @@ process.env.TZ = 'Europe/Berlin';
 
 var chai = require('chai');
 var jsdom = require('jsdom');
+
 var setupWebSocketGlobals = require('../in-test/setupWebSocketGlobals');
 var setupThemeGlobals = require('../in-test/setupThemeGlobals');
 
