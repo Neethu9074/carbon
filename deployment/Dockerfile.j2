@@ -2,9 +2,16 @@ FROM registry-internal.instana.io/instana/nginx-nodejs:latest
 
 MAINTAINER Ben Ripkens "ben@instana.com"
 
-LABEL com.instana.commit="{{INSTANA_UICLIENT_COMMIT}}"
-LABEL com.instana.branch="{{INSTANA_UICLIENT_BRANCH}}"
+LABEL com.instana.commit="{{INSTANA_UICLIENT_COMMIT}}" \
+      com.instana.branch="{{INSTANA_UICLIENT_BRANCH}}"
 
+# 1: Prepare folders for deamons.
+# 2: Clear apt cache
+RUN mkdir -p /etc/service/nginx /etc/service/in-server && \
+  apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/**
+
+# TODO How can we reduce copy the number of layers created by these copy
+# instructions?
 COPY deployment/nginx.conf.j2 /etc/nginx/nginx.conf.j2
 COPY deployment/mime.types /etc/nginx/mime.types
 COPY deployment/.htpasswd /etc/nginx/.htpasswd
@@ -14,16 +21,9 @@ COPY deployment/serverConfig.json.j2 /opt/www/serverConfig.json.j2
 COPY deployment/star_instana_io.crt /etc/ssl/certs/star_instana_io.crt
 COPY deployment/star_instana_io.key /opt/www/star_instana_io.key.j2
 COPY deployment/dhgroup.pem /etc/ssl/dhgroup.pem
+COPY deployment/services/nginx.sh /etc/service/nginx/run
+COPY deployment/services/in-server.sh /etc/service/in-server/run
 
 CMD ["/sbin/my_init"]
-
-# prepare folders for deamons
-RUN mkdir /etc/service/nginx
-RUN mkdir /etc/service/in-server
-
-# copy scripts to that folders and call them 'run'
-# see https://github.com/phusion/baseimage-docker#adding_additional_daemons for additional information
-ADD deployment/services/nginx.sh /etc/service/nginx/run
-ADD deployment/services/in-server.sh /etc/service/in-server/run
 
 EXPOSE 80 443
