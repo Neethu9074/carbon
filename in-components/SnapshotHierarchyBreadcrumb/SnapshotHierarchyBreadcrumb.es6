@@ -7,9 +7,12 @@ import Crumb from './Crumb';
 
 import './SnapshotHierarchyBreadcrumb.less';
 
+
 const block = 'in-snapshot-hierarchy-breadcrumb';
 
-export default getPhysicalHierarchy(React.createClass({
+export default getPhysicalHierarchy(
+               React.createClass({
+
   displayName: 'SnapshotHierarchyBreadcrumb',
 
   mixins: [
@@ -27,8 +30,7 @@ export default getPhysicalHierarchy(React.createClass({
     }
     const hierarchy = this.props.physicalHierarchy.toJS();
 
-    // If there is no hierarchy, we should at least have the selected element
-    // in the list.
+    // If there is no hierarchy, we should at least have the selected element in the list.
     if (hierarchy.length === 0) {
       hierarchy.push(this.props.snapshotId);
     }

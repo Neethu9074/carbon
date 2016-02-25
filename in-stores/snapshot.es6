@@ -1,12 +1,12 @@
 import {combineLatest} from 'reactive-observables';
 
-import {mutateUrl, navigationParameters} from 'in-stores/navigation';
-import createSnapshotObservable from 'in-services/subscription/snapshot';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
-import createFoundationsObservable from 'in-services/subscription/foundations';
-import createDeployedUnitsObservable from 'in-services/subscription/deployedUnits';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
+import createDeployedUnitsObservable from 'in-services/subscription/deployedUnits';
+import createFoundationsObservable from 'in-services/subscription/foundations';
 import createRawPayloadObservable from 'in-services/subscription/rawPayload';
+import createSnapshotObservable from 'in-services/subscription/snapshot';
+import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 import {createStore, createTrackingStore} from 'in-stores/store';

@@ -10,7 +10,9 @@ import './Crumb.less';
 
 const block = 'in-crumb';
 
-export default getSnapshot(React.createClass({
+export default getSnapshot(
+               React.createClass({
+
   displayName: 'Crumb',
 
   mixins: [
