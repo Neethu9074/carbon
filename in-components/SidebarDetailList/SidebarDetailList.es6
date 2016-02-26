@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import getForgeComponent from 'in-services/getForgeComponent';
 import {getClassName} from 'in-services/react';
@@ -11,7 +12,7 @@ import './SidebarDetailList.less';
 const block = 'in-sidebar-detail-list';
 
 const SidebarDetailList = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     useDetailedInformation: React.PropTypes.bool,

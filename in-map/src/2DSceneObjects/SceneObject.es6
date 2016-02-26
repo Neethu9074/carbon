@@ -1,4 +1,4 @@
-import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {applyTransform} from 'in-services/util/dom';
 
@@ -24,7 +24,7 @@ export default class SceneObject {
     const container = this.container;
 
     if (container) {
-      React.unmountComponentAtNode(container);
+      ReactDOM.unmountComponentAtNode(container);
 
       if (container.parentNode) {
         container.parentNode.removeChild(container);

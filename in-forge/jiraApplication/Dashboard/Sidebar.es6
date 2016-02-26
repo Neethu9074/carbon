@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import Collapsible from 'in-components/Collapsible';
 import RunningComponentsList from 'in-components/RunningComponentsList';
@@ -7,7 +8,7 @@ import RunningComponentsList from 'in-components/RunningComponentsList';
 import JiraInfo from '../JiraInfo';
 
 const JiraSidebar = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired

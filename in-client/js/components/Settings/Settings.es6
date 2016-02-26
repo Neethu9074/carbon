@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {activeTheme as activeThemeObservable, availableThemes, setActiveTheme} from 'in-services/theme';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -20,7 +21,7 @@ const block = 'in-settings';
 
 const Settings = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin
   ],
 

@@ -1,10 +1,11 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 export default React.createClass({
     displayName: 'UnmonitoredHostDashboard',
 
-    mixins: [React.addons.PureRenderMixin],
+    mixins: [PureRenderMixin],
 
     propTypes: {
       snapshot: irpt.map.isRequired

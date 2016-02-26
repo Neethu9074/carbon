@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as timelineStore from 'in-services/stores/timeline';
@@ -11,7 +12,7 @@ const block = 'in-timeline-change-time-button';
 
 const ChangeTimeButton = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin
   ],
 

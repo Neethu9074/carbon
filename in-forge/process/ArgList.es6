@@ -1,10 +1,11 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import List from 'in-components/List';
 
 const ArgList = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired

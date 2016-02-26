@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {
@@ -16,7 +17,7 @@ const rpt = React.PropTypes;
 const chartHeight = 200;
 
 const KafkaDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     timeframe: rpt.number.isRequired,

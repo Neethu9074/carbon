@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import classnames from 'in-services/util/classnames';
 import {getClassName} from 'in-services/react';
@@ -12,7 +13,7 @@ const rpt = React.PropTypes;
 const block = 'in-sidebar-controls';
 
 const Controls = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     onChangeActiveControl: rpt.func.isRequired,

@@ -1,6 +1,5 @@
-
-
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import helpify from '../hoc/helpify';
 
@@ -10,7 +9,7 @@ const block = 'in-help-link';
 const rpt = React.PropTypes;
 
 const HelpLink = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     showHelp: rpt.func.isRequired,

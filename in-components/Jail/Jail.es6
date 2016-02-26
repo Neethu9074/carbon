@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import {createLogger} from 'instalog';
 
 import {getClassName} from 'in-services/react';
@@ -38,20 +39,20 @@ const Jail = React.createClass({
 
   componentDidUpdate(prevProps) {
     if (this.props.component !== prevProps.component) {
-      React.unmountComponentAtNode(
-        React.findDOMNode(this)
+      ReactDOM.unmountComponentAtNode(
+        ReactDOM.findDOMNode(this)
       );
     }
     this.renderInprisonedComponent();
   },
 
   renderInprisonedComponent() {
-    const domNode = React.findDOMNode(this);
+    const domNode = ReactDOM.findDOMNode(this);
     const Component = this.props.component;
     const props = this.props.props || {};
 
     try {
-      React.render(
+      ReactDOM.render(
         <ContextWrapper context={this.context}
                         component={Component}
                         props={props} />,
@@ -68,7 +69,7 @@ const Jail = React.createClass({
         'Error:',
         e
       );
-      React.render(
+      ReactDOM.render(
         <div className={block + '__error'}>
           An unexpected error occured while rendering the{' '}
           <span className={block + '__error-component'}>{Component.displayName}</span>:{' '}
@@ -84,8 +85,8 @@ const Jail = React.createClass({
   },
 
   componentWillUnmount() {
-    React.unmountComponentAtNode(
-      React.findDOMNode(this)
+    ReactDOM.unmountComponentAtNode(
+      ReactDOM.findDOMNode(this)
     );
   },
 

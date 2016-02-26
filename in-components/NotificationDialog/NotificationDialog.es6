@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import Button from '../Button';
 import Dialog from '../Dialog';
@@ -10,7 +11,7 @@ const rpt = React.PropTypes;
 const block = 'in-notification-dialog';
 
 const NotificationDialog = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     title: rpt.string.isRequired,

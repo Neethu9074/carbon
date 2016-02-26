@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import Collapsible from 'in-components/Collapsible';
@@ -8,7 +9,7 @@ import RunningComponentsList from 'in-components/RunningComponentsList';
 import TomcatInfo from '../TomcatInfo';
 
 const TomcatSidebar = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired

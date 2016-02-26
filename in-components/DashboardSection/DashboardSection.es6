@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import ContentHeading from '../ContentHeading';
 
@@ -8,7 +9,7 @@ const block = 'in-dashboard-section';
 const rpt = React.PropTypes;
 
 const DashboardSection = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     title: rpt.string.isRequired,

@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from 'react';
 import {Navigation, State} from 'react-router';
 
 export default function helpify(Component) {

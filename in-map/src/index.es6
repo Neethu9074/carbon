@@ -1,4 +1,6 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
@@ -22,7 +24,7 @@ export default helpify(enhance(React.createClass({
   displayName: 'map',
 
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin
   ],
 
@@ -90,7 +92,7 @@ export default helpify(enhance(React.createClass({
       this.scene.dispose();
     }
 
-    const parent = React.findDOMNode(this.refs.parent);
+    const parent = ReactDOM.findDOMNode(this.refs.parent);
     this.scene = new Scene({
       parent,
       antialias: this.props.antialias,

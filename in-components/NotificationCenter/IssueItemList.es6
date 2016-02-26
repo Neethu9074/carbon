@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 import moment from 'moment';
 
 import IssueDescription from '../IssueDescription';
@@ -10,7 +11,7 @@ const block = 'in-notificationcenter-issueitemlist';
 
 const IssueItemList = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

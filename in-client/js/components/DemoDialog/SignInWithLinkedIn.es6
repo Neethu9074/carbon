@@ -1,6 +1,6 @@
 /* global IN:false */
 import _ from 'lodash';
-import React from 'react/addons';
+import React from 'react';
 import {createLogger} from 'instalog';
 
 import helpify from 'in-components/hoc/helpify';

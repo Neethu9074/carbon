@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
@@ -7,7 +8,7 @@ import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import ClasspathLayouter from './ClasspathLayouter';
 
 const JVMInfo = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired

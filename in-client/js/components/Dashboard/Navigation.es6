@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/prop-types */
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './Navigation.less';
 
@@ -10,7 +11,7 @@ const rpt = React.PropTypes;
 
 const Navigation = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import Tag from '../Tag';
 
@@ -9,7 +10,7 @@ const block = 'in-tag-list-snapshot';
 
 const TagListSnapshot = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

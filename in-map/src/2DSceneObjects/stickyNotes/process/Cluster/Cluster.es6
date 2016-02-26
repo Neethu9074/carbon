@@ -1,5 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import getSnapshot from 'in-hoc/getSnapshot';
@@ -18,7 +20,7 @@ const ProcessCluster = getSnapshot(React.createClass({
   displayName: 'process cluster sticky',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {
@@ -73,7 +75,7 @@ export default class StickyNoteProcessCluster extends StickyNote {
   render() {
     const parent = this.parent;
 
-    React.render(
+    ReactDOM.render(
       <ProcessCluster snapshotId={parent.id}
                       numChildren={this.numChildren}
                       expand={() => parent.expand()}

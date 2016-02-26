@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {isProductionEnvironment} from 'in-services/config';
 
@@ -8,7 +9,7 @@ const block = 'in-menu-footer';
 
 const MenuFooter = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

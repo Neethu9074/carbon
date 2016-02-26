@@ -1,5 +1,5 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {currentRollup} from 'in-services/stores/timeline';

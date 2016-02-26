@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {
   bytesZeroDecimalPlaces,
@@ -21,7 +22,7 @@ const chartHeight = 200;
 
 export default React.createClass({
     displayName: 'JVMDashboard',
-    mixins: [React.addons.PureRenderMixin],
+    mixins: [PureRenderMixin],
 
     propTypes: {
       timeframe: rpt.number.isRequired,

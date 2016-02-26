@@ -1,5 +1,6 @@
-import React from 'react/addons';
+import React from 'react';
 import {Navigation, State} from 'react-router';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {createLogger} from 'instalog';
 
 import http from 'in-services/http';
@@ -11,7 +12,7 @@ const logger = createLogger('in-client.HelpDialog');
 
 const rpt = React.PropTypes;
 const HelpDialog = React.createClass({
-  mixins: [React.addons.PureRenderMixin, Navigation, State],
+  mixins: [PureRenderMixin, Navigation, State],
 
   propTypes: {
     id: rpt.oneOfType([rpt.string.isRequired, rpt.number.isRequired])

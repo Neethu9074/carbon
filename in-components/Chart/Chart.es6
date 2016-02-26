@@ -1,5 +1,7 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import _ from 'lodash';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
@@ -13,7 +15,7 @@ import './Chart.less';
 const rpt = React.PropTypes;
 
 const Chart = React.createClass({
-  mixins: [React.addons.PureRenderMixin, SubscriptionMixin],
+  mixins: [PureRenderMixin, SubscriptionMixin],
 
   propTypes: {
     height: rpt.number.isRequired,
@@ -68,7 +70,7 @@ const Chart = React.createClass({
     }
 
     const config = {
-      container: React.findDOMNode(this),
+      container: ReactDOM.findDOMNode(this),
       height: this.props.height,
       margins,
       y1: this.extendAxisConfig('y1'),

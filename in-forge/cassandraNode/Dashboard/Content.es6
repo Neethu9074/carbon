@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 import d3 from 'd3';
 
 import {bytesZeroDecimalPlaces} from 'in-services/formatters/number';
@@ -21,7 +22,7 @@ const muSecondsToMillisFormatter = muSeconds => +(Math.round(muSeconds / 1000.0 
 const muSecondsFormatter = muSeconds => muSeconds + ' µs';
 
 const CassandraDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired,

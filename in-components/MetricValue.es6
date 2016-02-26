@@ -1,4 +1,6 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {getLiveMetrics} from 'in-stores/metric';
 
@@ -6,7 +8,7 @@ const rpt = React.PropTypes;
 export default React.createClass({
   displayName: 'MetricValue',
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
@@ -32,7 +34,7 @@ export default React.createClass({
   },
 
   establishSubscription(stream) {
-    const node = React.findDOMNode(this);
+    const node = ReactDOM.findDOMNode(this);
 
     if (this.props.initialValue) {
       node.textContent = this.props.initialValue;

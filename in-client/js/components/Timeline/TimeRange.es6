@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
 
 import './TimeRange.less';
@@ -9,7 +10,7 @@ export default React.createClass({
   displayName: 'TimeRange',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

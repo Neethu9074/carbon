@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 import moment from 'moment';
 
 import connectTo from 'in-hoc/connectTo';
@@ -19,7 +20,7 @@ export default connectTo(
   },
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   render() {

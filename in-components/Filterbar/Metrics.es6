@@ -1,5 +1,5 @@
 import Immutable from 'immutable';
-import React from 'react/addons';
+import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as metricsStore from 'in-services/stores/metrics';

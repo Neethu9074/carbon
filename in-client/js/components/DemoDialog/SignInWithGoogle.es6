@@ -1,7 +1,8 @@
 /* global gapi:false */
 
 import _ from 'lodash';
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import config from 'in-services/config';
 
@@ -18,7 +19,7 @@ const propMapping = [
 ];
 
 const SignInWithGoogle = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     onSignIn: rpt.func.isRequired,

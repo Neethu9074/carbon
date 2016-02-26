@@ -1,5 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import IssueDescription from 'in-components/IssueDescription';
@@ -25,7 +27,7 @@ const PhysicalGroup = getSnapshot(React.createClass({
   displayName: 'physical group sticky',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {
@@ -123,7 +125,7 @@ export default class StickyNoteGroup extends StickyNote {
   render() {
     const id = this.parent.id;
 
-    React.render(
+    ReactDOM.render(
       <PhysicalGroup snapshotId={id}
                      isActive={this.isActive}
                      onClick={() => setSelectedSnapshotId(id)}

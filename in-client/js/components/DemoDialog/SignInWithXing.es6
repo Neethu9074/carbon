@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('in-client.SignInWithXing');
@@ -38,7 +39,7 @@ const SignInWithXing = React.createClass({
     // https://dev.xing.com/plugins/login_with/docs#get-started
     window.onXingAuthLogin = this.onSignIn;
 
-    const domNode = React.findDOMNode(this);
+    const domNode = ReactDOM.findDOMNode(this);
 
     const xingButtonElement = document.createElement('script');
     xingButtonElement.type = 'xing/login';

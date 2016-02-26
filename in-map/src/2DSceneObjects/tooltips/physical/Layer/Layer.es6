@@ -1,5 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
 import IssueDescription from 'in-components/IssueDescription';
@@ -20,7 +22,7 @@ const LayerTooltipRC = getMostImportantIssue(
    displayName: 'physical layer tooltip',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {
@@ -58,7 +60,7 @@ export default class TooltipLayer extends Tooltip {
   }
 
   render() {
-    React.render(
+    ReactDOM.render(
       <LayerTooltipRC snapshotId={this.parent.id}/>,
       this.container
     );

@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {getClassName} from 'in-services/react';
 
@@ -8,7 +9,7 @@ const rpt = React.PropTypes;
 const block = 'in-button';
 
 const Button = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     className: rpt.string,

@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import classnames from 'in-services/util/classnames';
 
@@ -9,7 +10,7 @@ const rpt = React.PropTypes;
 const block = 'in-list';
 
 const List = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     children: rpt.any
@@ -29,7 +30,7 @@ export default List;
 List.Item = React.createClass({
   displayName: 'List.Item',
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     children: rpt.any,

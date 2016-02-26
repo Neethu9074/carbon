@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import {mapSeverityToHealth} from 'in-services/health';
 import Icon from 'in-components/Icon';
@@ -11,7 +12,7 @@ const rpt = React.PropTypes;
 
 const Filter = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

@@ -1,12 +1,13 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import './DockerLabels.less';
 
 const block = 'in-docker-labels';
 
 const DockerLabels = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     labels: irpt.map.isRequired

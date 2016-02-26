@@ -1,6 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
-import React from 'react/addons';
+import React from 'react';
 
 import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
@@ -14,7 +15,7 @@ const block = 'in-sidebar-heading-metadata';
 
 const SidebarHeadingSnapshotMetadata = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     Navigation
   ],
 

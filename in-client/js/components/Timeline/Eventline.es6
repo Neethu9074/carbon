@@ -1,5 +1,6 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -26,7 +27,7 @@ export default connectTo(
   displayName: 'Eventline',
 
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin
   ],
 

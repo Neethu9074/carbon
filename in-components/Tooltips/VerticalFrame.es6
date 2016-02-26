@@ -1,10 +1,11 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import './VerticalFrame.less';
 
 const VerticalFrame = React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     children: React.PropTypes.any.isRequired

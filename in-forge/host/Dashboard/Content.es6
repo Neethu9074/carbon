@@ -1,7 +1,8 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import {IntlMixin} from 'react-intl';
 import Immutable from 'immutable';
-import React from 'react/addons';
+import React from 'react';
 
 import {
   zeroDecimalPlaces,
@@ -41,7 +42,7 @@ export default connectTo(
   displayName: 'HostDashboard',
 
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     IntlMixin
   ],
 

@@ -1,11 +1,12 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
-import React from 'react/addons';
+import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 const DockerInfo = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired

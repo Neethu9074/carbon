@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
@@ -16,7 +17,7 @@ export default getSnapshot(
   displayName: 'Crumb',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

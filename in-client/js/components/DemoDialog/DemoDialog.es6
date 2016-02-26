@@ -1,5 +1,6 @@
 /* global IN:false */
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import Lettering from 'in-components/Lettering';
 import {emit} from 'in-services/persistentConnection';
@@ -15,7 +16,7 @@ import './DemoDialog.less';
 const block = 'in-demo-sign-in-overlay';
 
 const DemoDialog = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   getInitialState() {
     return {

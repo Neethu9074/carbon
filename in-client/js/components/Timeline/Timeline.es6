@@ -1,5 +1,6 @@
 import d3 from 'd3';
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {combineLatest} from 'reactive-observables';
 
 import ServerTime from 'in-components/ServerTime';
@@ -30,7 +31,7 @@ export default connectTo(
   displayName: 'Timeline',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

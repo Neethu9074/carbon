@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {config} from 'in-services/config';
 import Icon from 'in-components/Icon';
@@ -10,7 +11,7 @@ const url = `https://${config.groundskeeperDomain}/ump/${config.tenant}/${config
 
 const MenuHeader = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   render() {

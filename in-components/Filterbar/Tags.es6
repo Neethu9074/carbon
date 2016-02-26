@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {removeAllTagFilters} from 'in-stores/filtering';
 
@@ -8,7 +9,7 @@ import ListHeader from './ListHeader';
 
 
 const SidebarTagListing = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   render() {
     return (

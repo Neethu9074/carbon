@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import * as metricsStore from 'in-services/stores/metrics';
@@ -11,7 +12,7 @@ const rpt = React.PropTypes;
 
 const MetricTreeLeaf = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin
   ],
 

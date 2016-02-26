@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getClassName} from 'in-services/react';
@@ -16,7 +17,7 @@ export default getPhysicalHierarchy(React.createClass({
   displayName: 'SidebarTabs',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

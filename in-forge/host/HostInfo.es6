@@ -1,12 +1,13 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import TagListSnapshot from 'in-components/TagListSnapshot';
 import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 
 const HardwareInfo = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired

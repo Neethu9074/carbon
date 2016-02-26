@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 
@@ -16,7 +17,7 @@ export default getPhysicalHierarchy(
   displayName: 'SnapshotHierarchyBreadcrumb',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

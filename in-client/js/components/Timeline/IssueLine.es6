@@ -1,5 +1,6 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {getColorForIssue} from 'in-services/issueTracker';
 import {theme} from 'in-services/theme';
@@ -8,7 +9,7 @@ import './IssueLine.less';
 
 const IssueLine = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

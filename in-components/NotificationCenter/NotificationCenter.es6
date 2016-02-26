@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {mapSeverityToHealth, mapHealthToColor, health} from 'in-services/health';
 import * as timelineStore from 'in-services/stores/timeline';
@@ -24,7 +25,7 @@ const rpt = React.PropTypes;
 
 const NotificationCenter = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

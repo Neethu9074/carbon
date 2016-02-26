@@ -1,6 +1,8 @@
 import * as ro from 'reactive-observables';
 import {Navigation} from 'react-router';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {applyTransform} from 'in-services/util/dom';
@@ -20,7 +22,7 @@ const margin = 10;
 
 const GuidedTour = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin,
     Navigation
   ],
@@ -68,7 +70,7 @@ const GuidedTour = React.createClass({
         focusedElement = document.querySelector(focusedElement);
         if (!focusedElement) {
           if (step.element === 'ALL_RIGHT') {
-            const dialog = React.findDOMNode(this.refs.dialog);
+            const dialog = ReactDOM.findDOMNode(this.refs.dialog);
             predefinedPosition = {
               x: window.innerWidth - dialog.getBoundingClientRect().width - dialogMargin,
               y: dialogMargin * 2};
@@ -86,10 +88,10 @@ const GuidedTour = React.createClass({
   },
 
   positionOverlay(clientRect) {
-    const bottomStyle = React.findDOMNode(this.refs.bottom).style;
-    const rightStyle = React.findDOMNode(this.refs.right).style;
-    const leftStyle = React.findDOMNode(this.refs.left).style;
-    const topStyle = React.findDOMNode(this.refs.top).style;
+    const bottomStyle = ReactDOM.findDOMNode(this.refs.bottom).style;
+    const rightStyle = ReactDOM.findDOMNode(this.refs.right).style;
+    const leftStyle = ReactDOM.findDOMNode(this.refs.left).style;
+    const topStyle = ReactDOM.findDOMNode(this.refs.top).style;
 
     topStyle.top = leftStyle.top = leftStyle.left = leftStyle.bottom =
     bottomStyle.bottom = rightStyle.top = rightStyle.right = rightStyle.bottom =
@@ -125,7 +127,7 @@ const GuidedTour = React.createClass({
   },
 
   positionDialog(clientRect, predefinedPosition) {
-    const dialog = React.findDOMNode(this.refs.dialog);
+    const dialog = ReactDOM.findDOMNode(this.refs.dialog);
     const dialogDimensions = dialog.getBoundingClientRect();
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;

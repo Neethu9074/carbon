@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getClassName} from 'in-services/react';
@@ -14,7 +15,7 @@ export default getZone(React.createClass({
 
   displayName: 'ZoneTag',
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshotId: rpt.string.isRequired,

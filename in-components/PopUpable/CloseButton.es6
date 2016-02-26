@@ -1,5 +1,5 @@
-/* eslint-disable react/no-multi-comp, react/prop-types */
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import Icon from '../Icon';
 
@@ -9,7 +9,7 @@ const rpt = React.PropTypes;
 const block = 'in-popupable-close-button';
 
 const CloseButton = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     onClick: rpt.func.isRequired,

@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
@@ -9,7 +10,7 @@ const chartHeight = 150;
 const rpt = React.PropTypes;
 
 const PhpFpmDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     timeframe: rpt.number.isRequired,

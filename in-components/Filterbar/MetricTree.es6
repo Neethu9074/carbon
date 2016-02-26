@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import Collapsible from '../Collapsible';
 
@@ -9,7 +10,7 @@ const rpt = React.PropTypes;
 const MetricTree = React.createClass({
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

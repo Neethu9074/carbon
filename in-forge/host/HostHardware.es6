@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import getForgeComponent from 'in-services/getForgeComponent';
 import Collapsible from 'in-components/Collapsible';
@@ -9,7 +10,7 @@ import {getSingular} from 'in-sdk/pluginName';
 export default getFoundation(React.createClass({
   displayName: 'HostHardware',
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     foundationSnapshot: irpt.map

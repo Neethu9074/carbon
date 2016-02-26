@@ -1,5 +1,5 @@
 /* eslint-disable react/no-multi-comp */
-import React from 'react/addons';
+import React from 'react';
 
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';

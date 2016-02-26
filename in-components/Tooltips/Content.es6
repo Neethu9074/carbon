@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import {getClassName} from 'in-services/react';
 
@@ -6,7 +7,7 @@ import './Content.less';
 
 export default React.createClass({
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     className: React.PropTypes.string,

@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {applyTransform} from 'in-services/util/dom';
@@ -33,7 +34,7 @@ const TooltipPresenter = React.createClass({
     }
 
     let xy;
-    const tooltipElement = React.findDOMNode(this);
+    const tooltipElement = ReactDOM.findDOMNode(this);
 
     if (activeTooltip.focusedElement) {
       xy = this.getXYFromHtmlElement(tooltipElement);

@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {getFilterableTags} from 'in-stores/filtering';
@@ -17,7 +18,7 @@ export default connectTo(
   displayName: 'TagListAll',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

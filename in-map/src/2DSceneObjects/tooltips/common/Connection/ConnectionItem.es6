@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 import _ from 'lodash';
 
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
@@ -18,7 +19,7 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
 
   displayName: 'ConnectionItem',
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     sourceSnapshot: irpt.map.isRequired,

@@ -1,5 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
 import IssueDescription from 'in-components/IssueDescription';
@@ -23,7 +25,7 @@ const NodeTooltip = getMostImportantIssue(
   displayName: 'physical node tootlip',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {
@@ -65,7 +67,7 @@ export default class TooltipNode extends Tooltip {
   }
 
   render() {
-    React.render(
+    ReactDOM.render(
       <NodeTooltip snapshotId={this.parent.id}
                    layer={this.parent.getComponent('layer').layer}
       />,

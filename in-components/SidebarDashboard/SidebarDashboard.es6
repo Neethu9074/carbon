@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import SidebarHeadingSnapshotMetadata from '../SidebarHeadingSnapshotMetadata';
 import SidebarHeadingNavigation from '../SidebarHeadingNavigation';
@@ -11,7 +12,7 @@ const block = 'in-sidebar-dashboard';
 
 const SidebarDashboard = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

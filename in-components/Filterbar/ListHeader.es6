@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {getClassName} from 'in-services/react';
 
@@ -7,7 +8,7 @@ import './ListHeader.less';
 const block = 'in-sidebar-listheader';
 
 const ListHeader = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     header: React.PropTypes.string.isRequired,

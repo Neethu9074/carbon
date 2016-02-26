@@ -1,5 +1,5 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import MetricValue from 'in-components/MetricValue';
 import {theme} from 'in-services/theme';

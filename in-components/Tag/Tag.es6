@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {addTagFilter, removeTagFilter, filteredTags$} from 'in-stores/filtering';
@@ -19,7 +20,7 @@ export default connectTo(
   displayName: 'Tag',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

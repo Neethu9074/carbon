@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 import Immutable from 'immutable';
 
 import {getIssueCountSummary} from 'in-services/issueTracker';
@@ -12,7 +13,7 @@ const block = 'in-issue-count';
 
 const Issues = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin
   ],
 

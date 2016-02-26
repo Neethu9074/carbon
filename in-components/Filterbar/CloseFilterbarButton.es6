@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import Icon from '../Icon';
 import './CloseFilterbarButton.less';
@@ -6,7 +7,7 @@ import './CloseFilterbarButton.less';
 const block = 'in-filterbar__close-button';
 const rpt = React.PropTypes;
 const CloseFilterbarButton = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     closeFilterbar: rpt.func.isRequired

@@ -1,4 +1,6 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
@@ -11,7 +13,7 @@ const ConnectionsTooltip = React.createClass({
 
   displayName: 'connection tooltip',
 
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     connections: React.PropTypes.array.isRequired
@@ -44,7 +46,7 @@ export default class ConnectionTooltip extends Tooltip {
   }
 
   render() {
-    React.render(
+    ReactDOM.render(
       <ConnectionsTooltip connections={this.hovered}/>,
       this.container
     );

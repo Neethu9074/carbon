@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {
   bytesTwoDecimalPlaces,
@@ -14,7 +15,7 @@ const rpt = React.PropTypes;
 const chartHeight = 200;
 
 const DockerDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     timeframe: rpt.number.isRequired,

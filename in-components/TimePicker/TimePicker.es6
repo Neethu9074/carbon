@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {IntlMixin} from 'react-intl';
-import React from 'react/addons';
+import React from 'react';
 
 import * as timelineStore from 'in-services/stores/timeline';
 import * as tracking from 'in-services/tracking';
@@ -11,7 +12,7 @@ const block = 'in-timepicker';
 
 const TimePicker = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     IntlMixin
   ],
 

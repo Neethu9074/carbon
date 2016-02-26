@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/prop-types */
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import invariant from 'invariant';
-import React from 'react/addons';
+import React from 'react';
 
 import {getClassName} from 'in-services/react';
 import theme from 'in-services/theme';
@@ -14,7 +15,7 @@ const rpt = React.PropTypes;
 const block = 'in-popupable';
 
 const PopUpable = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     children: rpt.array.isRequired,

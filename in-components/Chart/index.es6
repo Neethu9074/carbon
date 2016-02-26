@@ -1,5 +1,5 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 import _ from 'lodash';
 
 import {getHistoricMetricsWithLiveUpdates} from 'in-stores/metric';

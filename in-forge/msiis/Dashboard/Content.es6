@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
@@ -11,7 +12,7 @@ import classnames from 'in-services/util/classnames';
 const rpt = React.PropTypes;
 const chartHeight = 200;
 const MsIISDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     timeframe: rpt.number.isRequired,

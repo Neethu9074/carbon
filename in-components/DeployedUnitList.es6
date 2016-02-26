@@ -1,5 +1,6 @@
-import React from 'react/addons';
+import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {getDeployedUnits} from 'in-stores/snapshot';
 import {emptySet} from 'in-services/fixedImmutables';
@@ -20,7 +21,7 @@ export default connectTo(
   displayName: 'DeployedUnitList',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

@@ -1,5 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {activeMetric} from 'in-services/stores/metrics';
@@ -24,7 +26,7 @@ const MetricTooltipReactClass = getSnapshot(React.createClass({
   displayName: 'metric tooltip',
 
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin
   ],
 
@@ -99,7 +101,7 @@ export default class TooltipMetric extends Tooltip {
   }
 
   render() {
-    React.render(
+    ReactDOM.render(
       <MetricTooltipReactClass snapshotId={this.parent.id} />,
       this.container
     );

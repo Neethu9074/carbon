@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import Icon from '../Icon';
 
@@ -7,7 +8,7 @@ import './ResetButton.less';
 const block = 'in-sidebar-resetButton';
 
 const ResetButton = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     onClick: React.PropTypes.func.isRequired

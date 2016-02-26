@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/prop-types */
-import React from 'react/addons';
+import React from 'react';
 import invariant from 'invariant';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import './SettingEntry.less';
 
@@ -9,7 +10,7 @@ const block = 'in-settingentry';
 
 const SettingEntry = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import Collapsible from 'in-components/Collapsible';
 
@@ -8,7 +9,7 @@ import AppPoolList from '../AppPoolList.es6';
 import WebSiteList from '../WebSiteList.es6';
 
 const MsIISSidebar = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired

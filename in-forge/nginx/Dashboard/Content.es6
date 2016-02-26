@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import DashboardSection from 'in-components/DashboardSection';
@@ -7,7 +8,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 const rpt = React.PropTypes;
 
 const NginxDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     timeframe: rpt.number.isRequired,

@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {getRunningComponents} from 'in-stores/snapshot';
@@ -20,7 +21,7 @@ export default connectTo(
   displayName: 'RunningComponentsList',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

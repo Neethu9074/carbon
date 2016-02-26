@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import {getSingular} from 'in-sdk/pluginName';
 import getSnapshot from 'in-hoc/getSnapshot';
@@ -16,7 +17,7 @@ export default getSnapshot(React.createClass({
   displayName: 'SidebarTab',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

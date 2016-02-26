@@ -4,7 +4,8 @@
 import 'in-forge';
 
 import * as reactRouter from 'react-router';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 import logging from 'instalog';
 
 import * as tracking from 'in-services/tracking';
@@ -63,6 +64,7 @@ const router = reactRouter.create({
   routes,
   location: reactRouter.HashLocation
 });
+const container = document.getElementById('main');
 router.run((Root, state) => {
-  React.render(<Root {...i18n} state={state} />, document.body);
+  ReactDOM.render(<Root {...i18n} state={state} />, container);
 });

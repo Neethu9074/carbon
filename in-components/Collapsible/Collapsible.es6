@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/prop-types */
 import invariant from 'invariant';
-import React from 'react/addons';
+import React from 'react';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {getClassName} from 'in-services/react';
 
@@ -12,7 +13,7 @@ const rpt = React.PropTypes;
 const block = 'in-collapsible';
 
 const Collapsible = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     children: rpt.array.isRequired,

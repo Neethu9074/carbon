@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import './ResponsiveTable.less';
 
@@ -6,7 +7,7 @@ const rpt = React.PropTypes;
 const block = 'in-responsive-table';
 
 const Button = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     children: rpt.any.isRequired,

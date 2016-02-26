@@ -1,4 +1,5 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import getSnapshots from 'in-hoc/getSnapshots';
@@ -14,7 +15,7 @@ export default getSnapshots(React.createClass({
   displayName: 'layer listing',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

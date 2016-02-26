@@ -1,11 +1,13 @@
-import React from 'react/addons';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
 
 const rpt = React.PropTypes;
 
 const Tooltip = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     content: rpt.oneOfType([
@@ -42,7 +44,7 @@ const Tooltip = React.createClass({
   },
 
   addListeners() {
-    this.domNode = React.findDOMNode(this);
+    this.domNode = ReactDOM.findDOMNode(this);
     this.domNode.addEventListener('mouseenter', this.onMouseIn, false);
     this.domNode.addEventListener('mouseleave', this.onMouseOut, false);
   },

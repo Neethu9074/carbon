@@ -1,5 +1,6 @@
-import React from 'react/addons';
+import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SnapshotHierarchyBreadcrumb from 'in-components/SnapshotHierarchyBreadcrumb';
 
@@ -9,7 +10,7 @@ const block = 'in-dashboard-header';
 
 const DashboardHeader = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {

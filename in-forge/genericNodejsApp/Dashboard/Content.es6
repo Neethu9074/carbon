@@ -1,6 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
-import React from 'react/addons';
+import React from 'react';
 
 import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
@@ -13,7 +14,7 @@ const rpt = React.PropTypes;
 const emptyMap = Immutable.Map();
 
 const NodejsDashboard = React.createClass({
-  mixins: [React.addons.PureRenderMixin],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     timeframe: rpt.number.isRequired,

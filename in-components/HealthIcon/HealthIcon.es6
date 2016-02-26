@@ -1,5 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {getIssuesForSnapshot} from 'in-services/issueTracker';
@@ -17,7 +18,7 @@ const block = 'in-health-icon';
 
 const HealthIcon = React.createClass({
   mixins: [
-    React.addons.PureRenderMixin,
+    PureRenderMixin,
     SubscriptionMixin
   ],
 

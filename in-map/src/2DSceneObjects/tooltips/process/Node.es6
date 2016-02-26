@@ -1,5 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react/addons';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import {getLongLabel} from 'in-sdk/snapshot';
@@ -16,7 +18,7 @@ const NodeTooltip = getSnapshot(
   displayName: 'process node tootlip',
 
   mixins: [
-    React.addons.PureRenderMixin
+    PureRenderMixin
   ],
 
   propTypes: {
@@ -41,7 +43,7 @@ export default class TooltipNode extends Tooltip {
   }
 
   render() {
-    React.render(
+    ReactDOM.render(
       <NodeTooltip snapshotId={this.parent.id}/>,
       this.container
     );
