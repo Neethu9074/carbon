@@ -25,7 +25,10 @@ export default class SceneObject {
 
     if (container) {
       React.unmountComponentAtNode(container);
-      container.parentNode.removeChild(container);
+
+      if (container.parentNode) {
+        container.parentNode.removeChild(container);
+      }
     }
   }
 
