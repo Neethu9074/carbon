@@ -25,13 +25,6 @@ export const plugins = {
   tomcat: 'tomcatApplicationContainer',
   msiis: 'msiis',
   genericHardware: 'genericHardware',
-  genericZone: 'genericZone'
-};
-
-export const rels = {
-  describes: 'com.instana.sdk.annotation.Describes',
-  runsOn: 'com.instana.sdk.annotation.RunsOn',
-  connectsTo: 'com.instana.sdk.annotation.ConnectsTo',
-  availableThrough: 'com.instana.sdk.annotation.AvailableThrough',
-  clusters: 'com.instana.sdk.annotation.Clusters'
+  genericZone: 'genericZone',
+  unmonitoredHost: 'unmonitoredHost'
 };

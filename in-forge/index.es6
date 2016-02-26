@@ -28,3 +28,4 @@ import './springbootApplicationContainer';
 import './msiis';
 import './genericHardware';
 import './genericZone';
+import './unmonitoredHost';
