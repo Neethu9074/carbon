@@ -44,26 +44,29 @@ const CassandraSidebar = React.createClass({
           </Collapsible.Content>
         </Collapsible>
 
-        <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>
-            Tokens ({tokens.size})
-          </Collapsible.Header>
-          <Collapsible.Content>
-            {tokens.size > 1 ?
-              <List>
+        {tokens ?
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>
+              Tokens ({tokens.size})
+            </Collapsible.Header>
+            <Collapsible.Content>
+              {tokens.size > 1 ?
+                <List>
                 {tokens.map((token, i) =>
                   <List.Item key={i}>{token}</List.Item>
                 ).toArray()}
-              </List>
-            :
-            <DescriptionList>
-              <DescriptionItem title='Token'>
-                {tokens[0]}
-              </DescriptionItem>
-            </DescriptionList>
-          }
-          </Collapsible.Content>
-        </Collapsible>
+                </List>
+                :
+                <DescriptionList>
+                <DescriptionItem title='Token'>
+                  {tokens[0]}
+                </DescriptionItem>
+              </DescriptionList>
+            }
+            </Collapsible.Content>
+          </Collapsible>
+          : null
+        }
 
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>
