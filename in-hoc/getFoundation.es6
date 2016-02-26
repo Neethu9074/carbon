@@ -62,6 +62,7 @@ export default function getFoundationHoc(ComposedComponent) {
 
     componentWillUnmount() {
       this.disposeSubscription(this.foundationSnapshotSubscription);
+      this.disposeSubscription(this.foundationSnapshotIdSubscription);
     },
 
     disposeSubscription(subscription) {
