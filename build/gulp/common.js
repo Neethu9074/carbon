@@ -32,11 +32,15 @@ gulp.task('copyFavicon', () => {
 });
 
 
-gulp.task('writeBuildInfo', (cb) => {
+gulp.task('writeBuildInfo', cb => {
   var data = {
     revision: buildUtil.getRevision(),
     date: new Date().toISOString()
   };
+
+  if (process.env.INSTANA_UICLIENT_BRANCH) {
+    data.branch = process.env.INSTANA_UICLIENT_BRANCH;
+  }
 
   fs.writeFile(paths.buildInfoFileLocation, JSON.stringify(data), cb);
 });

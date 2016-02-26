@@ -22,7 +22,7 @@ var environments = require('./environments');
 var devModeOptions;
 
 
-gulp.task('prepareTestExecution', (cb) => {
+gulp.task('prepareTestExecution', cb => {
   runSequence(
     'ensureTargetDirStructureExists',
     'translateThemeConfigs',
@@ -32,7 +32,7 @@ gulp.task('prepareTestExecution', (cb) => {
 });
 
 
-gulp.task('dev', (cb) => {
+gulp.task('dev', cb => {
   runSequence(
     'askForDevOptions',
     'clean',
