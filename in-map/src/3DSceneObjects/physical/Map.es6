@@ -137,16 +137,7 @@ export default class Map extends BaseMap {
   }
 
   applyLayout() {
-    let numElementsOnMap = 0;
-    this.groups.forEach(group => {
-      group.children.forEach(() => {
-        numElementsOnMap++;
-      });
-    });
-
-    const maxNodesPerRow = Math.floor(Math.sqrt(numElementsOnMap / this.groups.length));
-    const layouter = new Layouter({maxNodesPerRow});
-    layouter.applyLayout(this);
+    new Layouter().applyLayout(this);
   }
 
   disableUnmonitoredHosts(hide) {
