@@ -23,7 +23,9 @@ const CassandraSidebar = React.createClass({
     return (
       <div>
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Info</Collapsible.Header>
+          <Collapsible.Header>
+            Info
+          </Collapsible.Header>
           <Collapsible.Content>
             <DescriptionList>
               <DescriptionItem title='Version'>
@@ -34,14 +36,18 @@ const CassandraSidebar = React.createClass({
         </Collapsible>
 
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Topology</Collapsible.Header>
+          <Collapsible.Header>
+            Topology
+          </Collapsible.Header>
           <Collapsible.Content>
             <CassandraTopologyInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
         <Collapsible initiallyOpen={false}>
-          <Collapsible.Header>Tokens ({tokens.size})</Collapsible.Header>
+          <Collapsible.Header>
+            Tokens ({tokens.size})
+          </Collapsible.Header>
           <Collapsible.Content>
             {tokens.size > 1 ?
               <List>
@@ -60,7 +66,9 @@ const CassandraSidebar = React.createClass({
         </Collapsible>
 
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>Communication</Collapsible.Header>
+          <Collapsible.Header>
+            Communication
+          </Collapsible.Header>
           <Collapsible.Content>
             <CassandraCommunicationInfo snapshot={snapshot} />
           </Collapsible.Content>
