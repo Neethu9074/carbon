@@ -3,18 +3,19 @@ export default class GroupLayouting {
   constructor() {
     this.groupMargin = 1;
     this.nodeMargin = 2;
+    this.squashFactor = 0.5;
   }
 
   applyLayout(map) {
     // the first group starts at (0, 0)
     let groupXCursor = 0;
     map.groups.forEach(group => {
-      const numNodesPerRow = Math.floor(Math.sqrt(group.children.length));
+      const numNodesPerRow = Math.ceil(this.squashFactor * Math.sqrt(group.children.length));
       const numNodesPerCol = Math.ceil(group.children.length / numNodesPerRow);
       const dim = {
         x: groupXCursor,
-        width: 2 + numNodesPerRow + (numNodesPerRow - 1) * 2,
-        height: 2 + numNodesPerCol + (numNodesPerCol - 1) * 2
+        width: this.nodeMargin + numNodesPerRow + (numNodesPerRow - 1) * this.nodeMargin,
+        height: this.nodeMargin + numNodesPerCol + (numNodesPerCol - 1) * this.nodeMargin
       };
 
       group.getComponent('position').setPosition(dim.x + dim.width / 2 - 1, 0,
