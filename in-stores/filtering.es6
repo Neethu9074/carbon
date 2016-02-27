@@ -1,7 +1,8 @@
 import Immutable from 'immutable';
 
+import {getIn as getSetting} from 'in-services/settings';
 import {createStore} from 'in-stores/store';
-import {emptySet} from 'in-services/fixedImmutables';
+import {emptySet, emptyMap} from 'in-services/fixedImmutables';
 import {on, emit} from 'in-services/persistentConnection';
 import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
 
@@ -83,7 +84,46 @@ export function removeAllTagFilters() {
 }
 
 
+function addExcludeUnmonitoredHostsFilter() {
+  filtersStore.applyStateMutation(filters => {
+    if (filters.some(f => f.get('type') === filterTypes.excludeUnmonitoredHosts)) {
+      return filters;
+    }
+
+    const filter = Immutable.Map({
+      filterId: filterIdCounter++,
+      type: filterTypes.excludeUnmonitoredHosts,
+      options: emptyMap
+    });
+
+    return filters.add(filter);
+  });
+}
+
+
+function removeExcludeUnmonitoredHostsFilter() {
+  filtersStore.applyStateMutation(filters => {
+    return filters.filter(f => {
+      return f.get('type') !== filterTypes.excludeUnmonitoredHosts;
+    });
+  });
+}
+
+
 export function init() {
+  // Respond to the setting changes by adding / removing filters.
+  // Exclusion of unmonitored hosts is kind of special as it is
+  // currently done via the settings dialog. Under the hood,
+  // we only implement one filtering infrastructure though.
+  getSetting(['map', 'excludeUnmonitoredHosts'])
+    .subscribe(exclude => {
+      if (exclude) {
+        addExcludeUnmonitoredHostsFilter();
+      } else {
+        removeExcludeUnmonitoredHostsFilter();
+      }
+    });
+
   // send all filter changes to the backend
   filters$.subscribe(filters => {
     emit('set-filters', {newFilters: filters.toJS()});

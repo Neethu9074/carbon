@@ -28,6 +28,7 @@ function loadDefault() {
   setDefaultConfigValue(['map', 'scrollSpeed'], 1);
   setDefaultConfigValue(['map', 'scrollDirection'], 1);
   setDefaultConfigValue(['map', 'antialias'], 'browserAA');
+  setDefaultConfigValue(['map', 'excludeUnmonitoredHosts'], false);
   setDefaultConfigValue(['desktopNotification'], false);
   setDefaultConfigValue(['experiments'], false);
 

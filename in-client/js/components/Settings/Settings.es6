@@ -32,7 +32,7 @@ const Settings = React.createClass({
   getInitialState() {
     return {
       inverseCheckboxChecked: false,
-      unmonitoredHosts: null,
+      excludeUnmonitoredHosts: null,
       antialiasValue: 'off',
       speedSliderValue: 1,
       activeTheme: null,
@@ -43,7 +43,7 @@ const Settings = React.createClass({
   componentWillMount() {
     this.addSubscription(settingsStore.subscribe(data => {
       const desktopNotification = data.getIn(['desktopNotification']);
-      const unmonitoredHosts = data.getIn(['map', 'unmonitoredHosts']);
+      const excludeUnmonitoredHosts = data.getIn(['map', 'excludeUnmonitoredHosts']);
       const direction = data.getIn(['map', 'scrollDirection']);
       const antialias = data.getIn(['map', 'antialias']);
       this.setState({
@@ -51,7 +51,7 @@ const Settings = React.createClass({
         speedSliderValue: data.getIn(['map', 'scrollSpeed']),
         antialiasValue: antialias ? antialias : 'off',
         desktopNotification: desktopNotification,
-        unmonitoredHosts: unmonitoredHosts,
+        excludeUnmonitoredHosts: excludeUnmonitoredHosts,
         experiments: data.getIn(['experiments'])
       });
     }));
@@ -135,7 +135,7 @@ const Settings = React.createClass({
             <SettingEntry.Header text='Disable Unmonitored Hosts' />
             <SettingEntry.Content>
               <CheckBox onClick={this.toggleUnmonitoredNodes}
-                        defaultChecked={this.state.unmonitoredHosts}/>
+                        defaultChecked={this.state.excludeUnmonitoredHosts}/>
             </SettingEntry.Content>
             <SettingEntry.HelpText text={
                                   'Instana automatically detects open TCP connections to hosts which are not ' +
@@ -173,7 +173,7 @@ const Settings = React.createClass({
   },
 
   toggleUnmonitoredNodes() {
-    setIn(['map', 'unmonitoredHosts'], !this.state.unmonitoredHosts);
+    setIn(['map', 'excludeUnmonitoredHosts'], !this.state.excludeUnmonitoredHosts);
   },
 
   toggleDesktopNotifications() {
