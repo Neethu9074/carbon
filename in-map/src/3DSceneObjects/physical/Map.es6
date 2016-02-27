@@ -2,7 +2,6 @@ import _ from 'lodash';
 
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
-import {getIn} from 'in-services/settings';
 import theme from 'in-services/theme';
 
 import {getAllNodes, getAllGroups} from './mapUtils';
@@ -27,10 +26,6 @@ export default class Map extends BaseMap {
 
   registerEvents() {
     super.registerEvents();
-
-    this.addSubscription(getIn(['map', 'unmonitoredHosts']).subscribe(hideUnmonitoredHosts =>
-      this.disableUnmonitoredHosts(hideUnmonitoredHosts)
-    ));
   }
 
   getGroundPlane() {
@@ -138,13 +133,6 @@ export default class Map extends BaseMap {
 
   applyLayout() {
     new Layouter().applyLayout(this);
-  }
-
-  disableUnmonitoredHosts(hide) {
-    if (this.hideUnmonitoredHosts !== hide) {
-      this.refreshLayout = true;
-    }
-    this.hideUnmonitoredHosts = hide;
   }
 
   dispose() {

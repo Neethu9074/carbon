@@ -16,7 +16,6 @@ export default class Map extends SceneObject {
 
     // the size of the map in world units (sizeXsize)
     this.size = 1000;
-    this.hideUnmonitoredHosts = false;
     this.groups = [];
 
     this.init();
