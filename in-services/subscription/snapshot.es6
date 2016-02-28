@@ -1,5 +1,6 @@
 import {create} from 'reactive-observables';
 import Immutable from 'immutable';
+import invariant from 'invariant';
 
 import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
 import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
@@ -16,6 +17,10 @@ function getId(snapshotId) {
 }
 
 function createSnapshotObservable(snapshotId) {
+  invariant(
+    snapshotId,
+    'A snapshotId is required in order to retrieve snapshots.'
+  );
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
