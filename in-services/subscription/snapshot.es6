@@ -2,6 +2,7 @@ import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 import invariant from 'invariant';
 
+import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
 import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
 import {getDataEvent} from 'in-services/subscription/dataEvent';
@@ -26,7 +27,7 @@ function createSnapshotObservable(snapshotId) {
 
   const observable = create({
     start() {
-      on(dataEvent, onData);
+      on(dataEvent, throttleNextFrame(onData));
       subscribe(subscriptionId, 'subscribe-snapshot', {
         'subscriptionId': subscriptionId,
         'snapshotId': snapshotId
