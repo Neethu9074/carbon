@@ -1,4 +1,5 @@
 import './perfNowPolyfill';
+import './defaultTimeout.es6';
 
 /* global require:false */
 runWithPolyfills(() => {
