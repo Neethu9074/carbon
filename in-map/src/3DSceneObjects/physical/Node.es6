@@ -2,9 +2,9 @@ import THREE from 'three';
 
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/physical/Node';
 import {activeMetric} from 'in-services/stores/metrics';
-import eventBus from 'in-map/eventbus';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
+import eventBus from 'in-map/eventbus';
 
 import ConnectionsHandlerComponent from '../../components/physical/ConnectionsHandlerComponent';
 import GroundLineMeshComponent from '../../components/physical/GroundLineMeshComponent';
