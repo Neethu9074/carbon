@@ -2,6 +2,7 @@ import React from 'react';
 
 import {getSnapshot as loadSnapshot} from 'in-stores/snapshot';
 import {getZone as loadZone} from 'in-stores/zone';
+import {alwaysNull} from 'in-services/fixedStreams';
 
 
 export default function getZone(ComposedComponent) {
@@ -36,7 +37,12 @@ export default function getZone(ComposedComponent) {
 
       if (snapshotId) {
         this.subscription = loadZone(snapshotId)
-          .flatMap(zoneId =>loadSnapshot(zoneId))
+          .flatMap(zoneId => {
+            if (zoneId) {
+              return loadSnapshot(zoneId);
+            }
+            return alwaysNull;
+          })
           .subscribe(zoneSnapshot => {
             this.setState({
               zoneSnapshot
