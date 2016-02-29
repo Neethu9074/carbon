@@ -14,7 +14,6 @@ export function getOneOfConnectedIps(sourceSnapshot, destinationSnapshot) {
   const matching = _.intersection(sourceIPs, destinationIPs);
 
   // one of them if available
-  console.log(matching, sourceIPs, destinationSnapshot.toJS());
   return matching.length > 0 ? matching[0] : undefined;
 }
 
