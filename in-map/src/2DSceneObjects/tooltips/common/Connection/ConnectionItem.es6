@@ -1,13 +1,14 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
-import _ from 'lodash';
 
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import getSnapshot from 'in-hoc/getSnapshot';
 import Icon from 'in-components/Icon';
 import getZone from 'in-hoc/getZone';
+
+import {getOneOfConnectedIps} from './snapshotIpExtraction';
 
 import './ConnectionItem.less';
 
@@ -22,9 +23,9 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    sourceSnapshot: irpt.map.isRequired,
     snapshotId: rpt.string.isRequired,
     direction: rpt.string.isRequired,
+    sourceSnapshot: irpt.map,
     zoneSnapshot: irpt.map,
     snapshot: irpt.map
   },
@@ -37,7 +38,7 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
       return null;
     }
 
-    const ip = this.getOneOfConnectedIps(sourceSnapshot, snapshot);
+    const ip = getOneOfConnectedIps(sourceSnapshot, snapshot);
     const color = zoneSnapshot ? getColorPool('groups').getColorHex(zoneSnapshot.get('id')) : '';
 
     return (
@@ -54,58 +55,6 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
         </span>
       </div>
     );
-  },
-
-  getOneOfConnectedIps(sourceSnapshot, destinationSnapshot) {
-    // get ips of the target
-    const destinationIPs = this.getIpFromSnapshot(destinationSnapshot);
-
-    // get connected ips
-    const sourceIPs = this.getConnectedIPsFromSnapshot(sourceSnapshot);
-
-    // intersections
-    const matching = _.intersection(sourceIPs, destinationIPs);
-
-    // one of them
-    return matching[0];
-  },
-
-  getConnectedIPsFromSnapshot(snapshot) {
-    const ipArray = [];
-    const outgoing = snapshot.getIn(['data', 'connections', 'outgoing']) || [];
-    const incoming = snapshot.getIn(['data', 'connections', 'incoming']) || [];
-
-    outgoing.concat(incoming).forEach(ip => ipArray.push(ip));
-
-    return ipArray;
-  },
-
-  getIpFromSnapshot(snapshot) {
-    const cachedIps = snapshot._cachedIps;
-    if (cachedIps) {
-      return cachedIps;
-    }
-
-    const ipArray = [];
-
-    // get all ethernet interfaces
-    const ethInterfaces = snapshot.getIn(['data', 'interfaces']);
-    if (ethInterfaces) {
-      ethInterfaces.forEach(interf => {
-
-        // get all ips of the interface
-        const addresses = interf.get('addresses');
-        if (addresses) {
-          addresses.forEach(address => {
-            ipArray.push(address.get('ip'));
-          });
-        }
-      });
-    }
-
-    snapshot._cachedIps = ipArray;
-
-    return ipArray;
   }
 })));
 
