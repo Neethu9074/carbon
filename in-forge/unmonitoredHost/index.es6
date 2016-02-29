@@ -14,7 +14,7 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.unmonitoredHost, labelFinder);
-addLongLabelFinder(constants.plugins.unmonitoredHost, s => s.getIn(['data', 'ipv4']));
+addLongLabelFinder(constants.plugins.unmonitoredHost, labelFinder);
 
 addIconToRegistry({
   id: constants.plugins.unmonitoredHost,
@@ -28,7 +28,7 @@ function labelFinder(snapshot) {
   const dnsName = snapshot.getIn(['data', 'dnsName']);
 
   if (dnsName) {
-    return dnsName + '(' + ip + ')';
+    return dnsName + ' (' + ip + ')';
   }
 
   return ip;
