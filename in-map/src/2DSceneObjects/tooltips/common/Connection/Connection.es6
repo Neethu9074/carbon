@@ -1,6 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
@@ -28,9 +28,8 @@ const ConnectionsTooltip = React.createClass({
         </Heading>
         {connections.map((connection, index) =>
           <ConnectionItem key={index}
-                          snapshotId={connection.destinationNode.id}
-                          direction={connection.direction}
-                          sourceSnapshot={connection.sourceNode.snapshot}/>
+                          snapshotId={connection.sourceNode.id}
+                          direction={connection.direction}/>
         )}
       </TooltipFrame>
     );

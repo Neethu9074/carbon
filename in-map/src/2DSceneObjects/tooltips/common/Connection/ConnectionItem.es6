@@ -5,10 +5,9 @@ import React from 'react';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import getSnapshot from 'in-hoc/getSnapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import Icon from 'in-components/Icon';
 import getZone from 'in-hoc/getZone';
-
-import {getOneOfConnectedIps} from './snapshotIpExtraction';
 
 import './ConnectionItem.less';
 
@@ -16,7 +15,9 @@ import './ConnectionItem.less';
 const rpt = React.PropTypes;
 const block = 'in-connection-item';
 
-const ConnectionItem = getZone(getSnapshot(React.createClass({
+const ConnectionItem = getZone(
+                       getSnapshot(
+                       React.createClass({
 
   displayName: 'ConnectionItem',
 
@@ -25,23 +26,17 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
   propTypes: {
     snapshotId: rpt.string.isRequired,
     direction: rpt.string.isRequired,
-    sourceSnapshot: irpt.map,
     zoneSnapshot: irpt.map,
     snapshot: irpt.map
   },
 
   render() {
-    const sourceSnapshot = this.props.sourceSnapshot;
     const zoneSnapshot = this.props.zoneSnapshot;
-    const direction = this.props.direction;
     const snapshot = this.props.snapshot;
-    if (!snapshot || !sourceSnapshot) {
+    if (!snapshot) {
       return null;
     }
 
-    const ip = direction === DIRECTIONS.IN ?
-      getOneOfConnectedIps(snapshot, sourceSnapshot) :
-      getOneOfConnectedIps(sourceSnapshot, snapshot);
     const color = zoneSnapshot ? getColorPool('groups').getColorHex(zoneSnapshot.get('id')) : '';
 
     return (
@@ -51,7 +46,7 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
           <Icon className={block + '__icon'} type={'arrow_right'}/>
         }
         <span className={block + '__ip'}>
-          {ip}
+          {getLabel(snapshot)}
         </span>
         <span style={{color}}>
           {zoneSnapshot ? zoneSnapshot.getIn(['data', 'groupId']) : null}
