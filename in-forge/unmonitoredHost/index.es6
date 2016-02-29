@@ -13,8 +13,8 @@ pluginName.setHumanReadablePluginName(
   'Unmonitored Hosts'
 );
 
-addLabelFinder(constants.plugins.unmonitoredHost, s => s.getIn(['data', 'ip']));
-addLongLabelFinder(constants.plugins.unmonitoredHost, s => s.getIn(['data', 'ip']));
+addLabelFinder(constants.plugins.unmonitoredHost, labelFinder);
+addLongLabelFinder(constants.plugins.unmonitoredHost, s => s.getIn(['data', 'ipv4']));
 
 addIconToRegistry({
   id: constants.plugins.unmonitoredHost,
@@ -22,3 +22,14 @@ addIconToRegistry({
 });
 
 power.addMapping(constants.plugins.unmonitoredHost, () => 1);
+
+function labelFinder(snapshot) {
+  const ip = s => s.getIn(['data', 'ipv4']);
+  const dnsName = snapshot.getIn(['data', 'dnsName']);
+
+  if (dnsName) {
+    return dnsName + '(' + ip + ')';
+  }
+
+  return ip;
+}
