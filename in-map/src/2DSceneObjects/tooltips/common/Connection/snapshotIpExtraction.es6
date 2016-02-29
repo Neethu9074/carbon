@@ -18,8 +18,8 @@ export function getOneOfConnectedIps(sourceSnapshot, destinationSnapshot) {
 }
 
 function getConnectedIPs(snapshot) {
-  const outgoing = snapshot.getIn(['data', 'connections', 'outgoing']) || [];
-  const incoming = snapshot.getIn(['data', 'connections', 'incoming']) || [];
+  const outgoing = snapshot.getIn(['data', 'connections', 'outgoing']) || emptyMap;
+  const incoming = snapshot.getIn(['data', 'connections', 'incoming']) || emptyMap;
 
   return outgoing.concat(incoming).toArray();
 }

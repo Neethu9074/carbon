@@ -33,12 +33,15 @@ const ConnectionItem = getZone(getSnapshot(React.createClass({
   render() {
     const sourceSnapshot = this.props.sourceSnapshot;
     const zoneSnapshot = this.props.zoneSnapshot;
+    const direction = this.props.direction;
     const snapshot = this.props.snapshot;
     if (!snapshot || !sourceSnapshot) {
       return null;
     }
 
-    const ip = getOneOfConnectedIps(sourceSnapshot, snapshot);
+    const ip = direction === DIRECTIONS.IN ?
+      getOneOfConnectedIps(snapshot, sourceSnapshot) :
+      getOneOfConnectedIps(sourceSnapshot, snapshot);
     const color = zoneSnapshot ? getColorPool('groups').getColorHex(zoneSnapshot.get('id')) : '';
 
     return (
