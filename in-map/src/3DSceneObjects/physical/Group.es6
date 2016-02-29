@@ -20,12 +20,15 @@ export default class Group extends SceneObjectWithSnapshot {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
+    this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
+    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.updateScreenAnchorPosition.bind(this)));
+  }
+
+  // will be called before subscriptions are handled
+  init() {
     this.stickyNote = new StickyNote(this);
     this.children = [];
     this.depth = 1;
-
-    this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
-    this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.updateScreenAnchorPosition.bind(this)));
   }
 
   onHighlightEnter() {
