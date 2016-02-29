@@ -1,6 +1,7 @@
 import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 
+import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {getDataEvent} from 'in-services/subscription/dataEvent';
 import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
 import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
@@ -21,7 +22,7 @@ function createViewObservable({viewType}) {
 
   const observable = create({
     start() {
-      on(dataEvent, onData);
+      on(dataEvent, throttleNextFrame(onData));
       subscribe(subscriptionId, 'subscribe-view', {
         'subscriptionId': subscriptionId,
         'viewType': viewType
