@@ -16,9 +16,7 @@ const store = createStore({
 export const view = store.observable.distinct();
 export const viewStructure = createTrackingStore({
   name: 'viewStructure',
-  observable: view
-    .flatMap(viewType => createViewStructureObservable({viewType}))
-    .nextFrame()
+  observable: view.flatMap(viewType => createViewStructureObservable({viewType}))
 }).observable;
 
 

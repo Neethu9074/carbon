@@ -43,7 +43,12 @@ export default class Map extends SceneObject {
   }
 
   registerEvents() {
-    this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
+    // the problem here is a race condition. If the view changes, this logic will dispose the current
+    // map and create a new one based on views type. This new map will subscribe to viewStructure and
+    // get the cached structure which is the old one, because it wasn't updated yet. After the MapHandler was
+    // told about the new view, the viewStructure will change but it is to late since the map already got
+    // the old data. To avoid that, we need a debounce on viewStrcture subscription
+    this.addSubscription(viewStructure.debounce(500).subscribe(structures => this.onInventoryUpdate(structures)));
     this.addSubscription(time.addTimeEventListener(this.handleTimeEvent.bind(this)));
   }
 

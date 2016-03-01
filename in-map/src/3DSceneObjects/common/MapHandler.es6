@@ -9,6 +9,7 @@ export default class MapHandler {
   constructor({scene}) {
     this.viewSubscription = view.subscribe(v => {
       this.doIfPresent(map => map.dispose());
+      scene.renderScene();
 
       if (v === views.physical) {
         this.map = new PhysicalMap({ parent: scene });
