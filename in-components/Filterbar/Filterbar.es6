@@ -3,6 +3,7 @@ import React from 'react';
 import classnames from 'in-services/util/classnames';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
+import ComponentList from './ComponentList';
 import Controls from './Controls';
 import MapStats from './MapStats';
 import Metrics from './Metrics';
@@ -58,6 +59,8 @@ const Filterbar = React.createClass({
         return <Tags/>;
       case 'metrics':
         return <Metrics/>;
+      case 'components':
+        return <ComponentList/>;
       default:
         throw new Error('Unknown content control', this.state.activeControl);
     }

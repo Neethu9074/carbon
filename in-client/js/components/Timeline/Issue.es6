@@ -2,9 +2,9 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import IssueDescription from 'in-components/IssueDescription';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';

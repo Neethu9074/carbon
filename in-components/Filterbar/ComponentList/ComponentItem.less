@@ -1,0 +1,20 @@
+@import "~in-themes/active.less";
+
+.in-sidebar-component-item {
+  list-style: none;
+
+  color: @filterbar__nodes__text;
+  padding: 8px 11px;
+  margin-bottom: 3px;
+  border-radius: 4px;
+  font-size: 12px;
+  cursor: pointer;
+
+  &:hover, &__highlighted {
+    transition: background .25s ease-in-out;
+    transition: color .25s ease-in-out;
+
+    background: @filterbar__nodes__background-highlight;
+    color: @filterbar__nodes__text-highlight
+  }
+}

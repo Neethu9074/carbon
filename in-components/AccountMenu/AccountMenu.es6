@@ -1,6 +1,6 @@
 import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
-import {IntlMixin} from 'react-intl';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {IntlMixin} from 'react-intl';
 import React from 'react';
 
 import {isDemoEnvironment} from 'in-services/config';

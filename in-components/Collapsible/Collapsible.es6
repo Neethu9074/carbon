@@ -63,6 +63,7 @@ export default Collapsible;
 const Header = React.createClass({
   propTypes: {
     children: rpt.any.isRequired,
+    className: rpt.string,
     style: rpt.object,
     toggle: rpt.func,
     isOpen: rpt.bool

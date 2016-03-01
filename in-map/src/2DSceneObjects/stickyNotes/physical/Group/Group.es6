@@ -22,7 +22,8 @@ import './Group.less';
 const rpt = React.PropTypes;
 const block = 'in-sticky-note-group';
 
-const PhysicalGroup = getSnapshot(React.createClass({
+const PhysicalGroup = getSnapshot(
+                      React.createClass({
 
   displayName: 'physical group sticky',
 
