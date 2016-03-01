@@ -15,6 +15,8 @@ export default class MapHandler {
       } else if (v === views.process) {
         this.map = new ProcessMap({ parent: scene });
       }
+
+      scene.renderScene();
     });
   }
 
