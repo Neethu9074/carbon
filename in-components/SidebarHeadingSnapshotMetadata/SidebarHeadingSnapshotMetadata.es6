@@ -32,17 +32,19 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
 
     return (
       <div className={getClassName(this, block)}>
-        <div>
+        <div className={block + '__type-zone-wrapper'}>
           <h1 className={block + '__label'}>
             <span className={block + '__text'}>
               {getLongLabel(snapshot)}
-              <ZoneTag snapshotId={snapshot.get('id')} className={block + '__zone'}/>
             </span>
           </h1>
 
-          <p className={block + '__plugin-type'}>
-            {getSingular(snapshot.get('plugin'))}
-          </p>
+          <div>
+            <span className={block + '__plugin-type'}>
+              {getSingular(snapshot.get('plugin'))}
+            </span>
+            <ZoneTag snapshotId={snapshot.get('id')} className={block + '__zone'}/>
+          </div>
         </div>
       </div>
     );
