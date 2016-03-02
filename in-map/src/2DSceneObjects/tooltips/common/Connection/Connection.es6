@@ -28,7 +28,7 @@ const ConnectionsTooltip = React.createClass({
         </Heading>
         {connections.map((connection, index) =>
           <ConnectionItem key={index}
-                          snapshotId={connection.sourceNode.id}
+                          snapshotId={connection.destinationNode.id}
                           direction={connection.direction}/>
         )}
       </TooltipFrame>
