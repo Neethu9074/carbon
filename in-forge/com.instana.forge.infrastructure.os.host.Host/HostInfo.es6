@@ -16,8 +16,8 @@ const HardwareInfo = React.createClass({
     const snapshot = this.props.snapshot;
     const data = snapshot.get('data');
 
-    const memoryTotal = snapshot.getIn(['data', 'memory.total'], null);
-    const swapTotal = snapshot.getIn(['data', 'swap.total'], null);
+    const memoryTotal = data.get('memory.total', null);
+    const swapTotal = data.get('swap.total', null);
 
     return (
       <div>
@@ -34,15 +34,19 @@ const HardwareInfo = React.createClass({
 
           {memoryTotal !== null ?
             <DescriptionItem title='Memory'>
-              {formatBytes(data.get('memory.total'))}
+              {formatBytes(memoryTotal)}
             </DescriptionItem>
           : null}
 
           {swapTotal !== null ?
             <DescriptionItem title='Swap Total'>
-              {formatBytes(data.get('swap.total'))}
+              {formatBytes(swapTotal)}
             </DescriptionItem>
           : null}
+
+          <DescriptionItem title='Hostname'>
+            {data.get('hostname')}
+          </DescriptionItem>
 
           <DescriptionItem title='FQDN'>
             {data.get('fqdn')}

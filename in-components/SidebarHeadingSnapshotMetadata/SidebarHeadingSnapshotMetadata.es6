@@ -4,7 +4,7 @@ import React from 'react/addons';
 
 import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
-import {getLabel} from 'in-sdk/snapshot';
+import {getLongLabel} from 'in-sdk/snapshot';
 
 import HealthIcon from '../HealthIcon';
 import ZoneTag from '../ZoneTag';
@@ -32,7 +32,7 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
         <div>
           <h1 className={block + '__label'}>
             <span className={block + '__text'}>
-              {getLabel(snapshot)}
+              {getLongLabel(snapshot)}
 
               <HealthIcon snapshot={snapshot} className={block + '__health'}/>
               <ZoneTag snapshot={snapshot} className={block + '__zone'}/>

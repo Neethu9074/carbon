@@ -7,9 +7,9 @@ import {getIssuesForSnapshot} from 'in-services/issueTracker';
 import IssueDescription from 'in-components/IssueDescription';
 import {getSingular, getPlural} from 'in-sdk/pluginName';
 import TooltipFrame from 'in-components/Tooltips/Frame';
-import {getLabel, getLongLabel} from 'in-sdk/snapshot';
 import Heading from 'in-components/Tooltips/Heading';
 import Content from 'in-components/Tooltips/Content';
+import {getLongLabel} from 'in-sdk/snapshot';
 
 import Tooltip from '../Tooltip';
 
@@ -42,7 +42,7 @@ const NodeTooltipRC = React.createClass({
     const snapshot = this.props.snapshot;
     return (
       <Heading>
-        {getSingular(snapshot.get('pluginId')) + ': ' + getLabel(snapshot)}
+        {getLongLabel(snapshot)}
       </Heading>
     );
   },
