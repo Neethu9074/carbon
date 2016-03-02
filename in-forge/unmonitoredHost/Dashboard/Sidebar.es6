@@ -22,10 +22,10 @@ export default React.createClass({
           <Collapsible.Content>
             <DescriptionList>
               <DescriptionItem title='IPv4'>
-                {this.props.snapshot.get('ipv4')}
+                {this.props.snapshot.getIn(['data', 'ipv4'])}
               </DescriptionItem>
               <DescriptionItem title='Reverse Lookup'>
-                {this.props.snapshot.get('dnsName')}
+                {this.props.snapshot.getIn(['data', 'dnsName'])}
               </DescriptionItem>
             </DescriptionList>
           </Collapsible.Content>
