@@ -11,8 +11,8 @@ const logger = createLogger('notification');
 let disposable;
 let previousIssues = null;
 
-settingsStore.subscribe(data => {
-  if (data.getIn(['desktopNotification'])) {
+settingsStore.nextFrame().subscribe(data => {
+  if (data.get('desktopNotification')) {
     startTracking();
   } else {
     stopTracking();
