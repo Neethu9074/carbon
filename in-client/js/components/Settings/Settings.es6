@@ -1,5 +1,5 @@
-import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import {activeTheme as activeThemeObservable, availableThemes, setActiveTheme} from 'in-services/theme';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -42,7 +42,7 @@ const Settings = React.createClass({
 
   componentWillMount() {
     this.addSubscription(settingsStore.subscribe(data => {
-      const desktopNotification = data.getIn(['desktopNotification']);
+      const desktopNotification = data.get('desktopNotification');
       const excludeUnmonitoredHosts = data.getIn(['map', 'excludeUnmonitoredHosts']);
       const direction = data.getIn(['map', 'scrollDirection']);
       const antialias = data.getIn(['map', 'antialias']);
@@ -52,13 +52,13 @@ const Settings = React.createClass({
         antialiasValue: antialias ? antialias : 'off',
         desktopNotification: desktopNotification,
         excludeUnmonitoredHosts: excludeUnmonitoredHosts,
-        experiments: data.getIn(['experiments'])
+        experiments: data.get('experiments')
       });
     }));
 
-    this.addSubscription(activeThemeObservable.subscribe(activeTheme => {
-      this.setState({activeTheme});
-    }));
+    this.addSubscription(activeThemeObservable.subscribe(activeTheme => this.setState({
+      activeTheme
+    })));
   },
 
   render() {
