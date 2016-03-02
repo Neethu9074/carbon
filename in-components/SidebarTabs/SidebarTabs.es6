@@ -2,9 +2,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getClassName} from 'in-services/react';
-import getPhysicalHierarchy from 'in-hoc/getPhysicalHierarchy';
 
 import Tab from './Tab';
 
@@ -13,7 +13,9 @@ import './SidebarTabs.less';
 const rpt = React.PropTypes;
 const block = 'in-sidebar-tabs';
 
-export default getPhysicalHierarchy(React.createClass({
+export default getPhysicalHierarchy(
+               React.createClass({
+
   displayName: 'SidebarTabs',
 
   mixins: [

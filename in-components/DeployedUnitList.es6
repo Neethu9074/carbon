@@ -1,9 +1,9 @@
-import React from 'react';
-import irpt from 'react-immutable-proptypes';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
-import {getDeployedUnits} from 'in-stores/snapshot';
 import {emptySet} from 'in-services/fixedImmutables';
+import {getDeployedUnits} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import RelatedSnapshotList from './RelatedSnapshotList';

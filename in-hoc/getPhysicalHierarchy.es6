@@ -1,7 +1,7 @@
 import React from 'react';
 
-import {emptyList} from 'in-services/fixedImmutables';
 import {getPhysicalHierarchy as loadPhysicalHierarchy} from 'in-stores/snapshot';
+import {emptyList} from 'in-services/fixedImmutables';
 
 
 export default function getPhysicalHierarchy(ComposedComponent) {

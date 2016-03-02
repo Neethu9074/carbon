@@ -7,9 +7,9 @@ import createFoundationsObservable from 'in-services/subscription/foundations';
 import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
+import {createStore, createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
 
-import {createStore, createTrackingStore} from 'in-stores/store';
 
 const selectedSnapshotIdStore = createStore({name: 'selectedSnapshotId'});
 export const selectedSnapshotId = selectedSnapshotIdStore.observable.distinct();

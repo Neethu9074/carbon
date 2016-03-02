@@ -1,5 +1,5 @@
-import Immutable from 'immutable';
 import * as ro from 'reactive-observables';
+import Immutable from 'immutable';
 
 import {emptyMap} from 'in-services/fixedImmutables';
 
