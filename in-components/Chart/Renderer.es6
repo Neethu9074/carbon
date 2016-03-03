@@ -41,6 +41,7 @@ export default class Renderer {
       .ticks(5)
       .tickSize(0)
       .tickPadding(20)
+      .tickFormat(d3.time.format('%H:%M'))
       .orient('bottom');
 
     this.y1 = d3.scale.linear();
