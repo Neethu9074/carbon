@@ -2,6 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
 import getSnapshot from 'in-hoc/getSnapshot';
@@ -12,7 +13,7 @@ import Icon from '../Icon';
 import './IssueDescription.less';
 
 const rpt = React.PropTypes;
-const block = 'in-issue-discription';
+const block = 'in-issue-description';
 
 export default getSnapshot(React.createClass({
 
@@ -36,7 +37,7 @@ export default getSnapshot(React.createClass({
         <Icon className={block + '__icon'}
               type={this.getIconType(issue)}
               style={{color}}/>
-        <div className={block + '__discription'}>
+        <div className={block + '__description'}>
           <div className={block + '__time'}>
             {moment(issue.get('start')).fromNow()}
           </div>
@@ -68,6 +69,6 @@ export default getSnapshot(React.createClass({
   },
 
   onClick() {
-    // TODO set selected snapshot
+    setSelectedSnapshotId(this.props.snapshotId);
   }
 }));
