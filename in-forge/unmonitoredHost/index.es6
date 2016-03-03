@@ -24,7 +24,7 @@ addIconToRegistry({
 power.addMapping(constants.plugins.unmonitoredHost, () => 1);
 
 function labelFinder(snapshot) {
-  const ip = s => s.getIn(['data', 'ipv4']);
+  const ip = snapshot.getIn(['data', 'ipv4']);
   const dnsName = snapshot.getIn(['data', 'dnsName']);
 
   if (dnsName) {
