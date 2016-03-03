@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import find from 'lodash/find';
+import remove from 'lodash/remove';
 
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/physical/Group';
 import {getColorPool} from 'in-services/util/ColorGenerator';
@@ -133,7 +134,7 @@ export default class Group extends SceneObjectWithSnapshot {
 
   addNode(entity) {
     const nodeId = entity.get('id');
-    let matchedNode = _.find(this.children, child => child.id === nodeId);
+    let matchedNode = find(this.children, child => child.id === nodeId);
 
     // if the node was created in the past
     if (!matchedNode) {
@@ -166,7 +167,7 @@ export default class Group extends SceneObjectWithSnapshot {
   }
 
   removeChild(child) {
-    _.remove(this.children, node => node.id === child.id);
+    remove(this.children, node => node.id === child.id);
 
     // destroy this group if there are no children anymore
     if (this.children.length === 0) {

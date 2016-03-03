@@ -1,5 +1,5 @@
-// import Immutable from 'immutable';
-import _ from 'lodash';
+import find from 'lodash/find';
+import remove from 'lodash/remove';
 
 import {viewStructure} from 'in-stores/view';
 import eventBus from 'in-map/eventbus';
@@ -71,7 +71,7 @@ export default class Map extends SceneObject {
     // add connections later because all nodes need to be there
     inventory.forEach(entity => {
       const entityId = entity.get('id');
-      const matchedNode = _.find(allNodes, n => n.id === entityId);
+      const matchedNode = find(allNodes, n => n.id === entityId);
 
       if (matchedNode) {
         matchedNode.setChildren(entity.get('children'));
@@ -91,7 +91,7 @@ export default class Map extends SceneObject {
 
   // is called from group if it has no nodes anymore
   removeChild(child) {
-    _.remove(this.groups, group => group.id === child.id);
+    remove(this.groups, group => group.id === child.id);
   }
 
   findNodeById(id) {

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import find from 'lodash/find';
 
 /* eslint-disable complexity */
 const settings = {
@@ -42,8 +42,8 @@ export default class FruchtermanReingoldLayout {
     let edgeIdCounter = 0;
     graph.nodes.forEach(source => {
       source.inNode.getComponent('connectionsHandler').getOutgoingConnections().forEach(edge => {
-        if (_.find(graph.nodes, node => node.id === edge.get('sourceId')) &&
-            _.find(graph.nodes, node => node.id === edge.get('destinationId'))) {
+        if (find(graph.nodes, node => node.id === edge.get('sourceId')) &&
+            find(graph.nodes, node => node.id === edge.get('destinationId'))) {
           graph.edges.push({
             id: edgeIdCounter++,
             source: edge.get('sourceId'),

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import remove from 'lodash/remove';
 
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
@@ -97,7 +97,7 @@ export default class ConnectionsHandlerComponent extends Component {
   }
 
   removeChild(child) {
-    _.remove(this.connections, con => con.id === child.id);
+    remove(this.connections, con => con.id === child.id);
   }
 
   disposeConnections() {

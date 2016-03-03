@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
+import merge from 'lodash/merge';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -52,10 +53,10 @@ const Chart = React.createClass({
   },
 
   doesPropertyChangeRequireFullRedraw(prevProps) {
-    return !_.isEqual(this.props.margins, prevProps.margins) ||
+    return !isEqual(this.props.margins, prevProps.margins) ||
       this.props.windowSize !== prevProps.windowSize ||
-      !_.isEqual(this.props.y1, prevProps.y1) ||
-      !_.isEqual(this.props.y2, prevProps.y2);
+      !isEqual(this.props.y1, prevProps.y1) ||
+      !isEqual(this.props.y2, prevProps.y2);
   },
 
   renderChart() {
@@ -66,7 +67,7 @@ const Chart = React.createClass({
       left: 40
     };
     if (this.props.margins) {
-      _.merge(margins, this.props.margins);
+      merge(margins, this.props.margins);
     }
 
     const config = {
@@ -90,7 +91,7 @@ const Chart = React.createClass({
   },
 
   extendAxisConfig(axis) {
-    return _.merge({
+    return merge({
       formatter: v => v,
       renderer: this.getRenderer(this.props[axis].type)
     }, this.props[axis]);

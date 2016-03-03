@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
-import _ from 'lodash';
+import isEqual from 'lodash/isEqual';
+import merge from 'lodash/merge';
 
 import {getHistoricMetricsWithLiveUpdates} from 'in-stores/metric';
 
@@ -97,7 +98,7 @@ const ChartWrapper = React.createClass({
 
     for (let i = 0; i < propsToCheck.length; i++) {
       const prop = propsToCheck[i];
-      if (!_.isEqual(y1[prop], y2[prop])) {
+      if (!isEqual(y1[prop], y2[prop])) {
         return false;
       }
     }
@@ -109,13 +110,13 @@ const ChartWrapper = React.createClass({
       return null;
     }
 
-    const y1 = _.merge({}, this.props.y1);
+    const y1 = merge({}, this.props.y1);
     y1.datasources = this.state.y1Datasources;
     y1.labels = this.state.y1Labels;
 
     let y2;
     if (this.props.y2) {
-      y2 = _.merge({}, this.props.y2);
+      y2 = merge({}, this.props.y2);
       y2.datasources = this.state.y2Datasources;
       y2.labels = this.state.y2Labels;
     }

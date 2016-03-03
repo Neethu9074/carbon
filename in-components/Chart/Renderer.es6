@@ -2,7 +2,7 @@
 import * as ro from 'reactive-observables';
 import TWEEN from 'tween.js';
 import moment from 'moment';
-import _ from 'lodash';
+import sortedIndexBy from 'lodash/sortedIndexBy';
 import d3 from 'd3';
 
 import * as timelineStore from 'in-services/stores/timeline';
@@ -156,7 +156,7 @@ export default class Renderer {
 
   lookForDataPoint(axis, x) {
     const data = axis.data.getDataColumns();
-    const i = _.sortedIndex(
+    const i = sortedIndexBy(
       data,
       x,
       column => {

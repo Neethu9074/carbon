@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import find from 'lodash/find';
+import remove from 'lodash/remove';
 
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import PluginLabel from 'in-map/src/3DSceneObjects/physical/Label';
@@ -38,7 +39,7 @@ export default class LayerComponent extends Component {
       const layerId = entity.get('id');
 
       // don't create a layer if its still there
-      const match = _.find(this.layer, layer => layer.id === layerId);
+      const match = find(this.layer, layer => layer.id === layerId);
 
       if (!match) {
         this.layer.push(new Layer({parent: this, entity}));
@@ -229,7 +230,7 @@ export default class LayerComponent extends Component {
 
   // is called if a layer was disposed
   removeChild(toBeRemoved) {
-    _.remove(this.layer, layer => toBeRemoved.id === layer.id);
+    remove(this.layer, layer => toBeRemoved.id === layer.id);
     this.needsUpdate = true;
   }
 

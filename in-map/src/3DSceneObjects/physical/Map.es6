@@ -1,4 +1,5 @@
-import _ from 'lodash';
+import find from 'lodash/find';
+import remove from 'lodash/remove';
 
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
@@ -65,7 +66,7 @@ export default class Map extends BaseMap {
 
   getOrCreateGroup(groupEntity) {
     const groupId = groupEntity.get('id');
-    let group = _.find(getAllGroups(this), g => g.id === groupId);
+    let group = find(getAllGroups(this), g => g.id === groupId);
 
     // if the nodes group doesn't exist, create it
     if (!group) {
@@ -118,7 +119,7 @@ export default class Map extends BaseMap {
 
   // is called from group if it has no nodes anymore
   removeChild(child) {
-    _.remove(this.groups, group => group.id === child.id);
+    remove(this.groups, group => group.id === child.id);
   }
 
   findNodeById(id) {

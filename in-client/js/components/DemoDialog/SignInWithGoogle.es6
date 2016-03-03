@@ -1,6 +1,6 @@
 /* global gapi:false */
 
-import _ from 'lodash';
+import get from 'lodash/get';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
@@ -50,7 +50,7 @@ const SignInWithGoogle = React.createClass({
           }
           const props = {};
           propMapping.forEach(mapping => {
-            const value = _.get(result, mapping.from, '');
+            const value = get(result, mapping.from, '');
             props[mapping.to] = value;
           });
           this.props.onSignIn(props);

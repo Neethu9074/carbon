@@ -1,7 +1,5 @@
-
-
 import invariant from 'invariant';
-import _ from 'lodash';
+import find from 'lodash/find';
 
 export default class Queue {
 
@@ -70,7 +68,7 @@ export default class Queue {
     const predicate = dataPoint => dataPoint.x === x;
     const dataPoints = [];
     for (let i = 0, numberOfSeries = this.series.length; i < numberOfSeries; i++) {
-      dataPoints[i] = _.find(this.series[i], predicate);
+      dataPoints[i] = find(this.series[i], predicate);
     }
     return dataPoints;
   }
