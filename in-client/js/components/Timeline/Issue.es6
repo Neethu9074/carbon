@@ -29,9 +29,9 @@ const Issue = React.createClass({
   render() {
     const issue = this.props.issue;
     const style = this.props.style ? this.props.style : {};
-    const state = issue.get('state');
     const severity = issue.getIn(['problem', 'severity']);
-    style.color = state === 'OPEN' ? theme.health[severity] : theme.health[0];
+    const open = issue.get('end') == null;
+    style.color = open ? theme.health[severity] : theme.health[0];
 
     let iconType;
     switch (mapSeverityToHealth(severity)) {
