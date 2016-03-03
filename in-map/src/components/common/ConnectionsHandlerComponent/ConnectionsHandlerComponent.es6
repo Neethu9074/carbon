@@ -59,6 +59,12 @@ export default class ConnectionsHandlerComponent extends Component {
   }
 
   update() {
+    // suppressing the path calculation as long this component is not active (so not visible)
+    // to avoid overhead on path calculations
+    if (!this.isActive()) {
+      return;
+    }
+
     // clear all connections and rebuild on the current state
     this.disposeConnections();
 
