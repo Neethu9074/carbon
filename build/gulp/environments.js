@@ -23,6 +23,13 @@ module.exports = {
     tenantUnit: 'analytics1',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
+  nicolas: {
+    uiBackendUrl: 'https://nicolas-instana.instana.io/api/data/',
+    groundskeeperUrl: 'https://test-instana.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'nicolas',
+    groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+  },
   demo2: {
     uiBackendUrl: 'https://demo2-instana.instana.io/api/data/',
     groundskeeperUrl: 'https://demo2-instana.instana.io',
