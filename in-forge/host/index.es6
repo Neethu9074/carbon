@@ -1,4 +1,4 @@
-import {addLabelFinder, addLongLabelFinder} from 'in-sdk/snapshot';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import {addIconsToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
@@ -19,15 +19,8 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.os,
-  snapshot => snapshot.getIn(['data', 'hostname'])
-);
-
-
-addLongLabelFinder(
-  constants.plugins.os,
   snapshot => snapshot.getIn(['data', 'fqdn'])
 );
-
 
 power.addMapping(
   constants.plugins.os,
