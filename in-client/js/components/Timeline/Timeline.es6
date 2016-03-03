@@ -1,12 +1,12 @@
-import d3 from 'd3';
-import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {combineLatest} from 'reactive-observables';
+import React from 'react';
+import d3 from 'd3';
 
-import ServerTime from 'in-components/ServerTime';
-import connectTo from 'in-hoc/connectTo';
 import * as timelineStore from 'in-services/stores/timeline';
 import * as serverTimeStore from 'in-stores/serverTime';
+import ServerTime from 'in-components/ServerTime';
+import connectTo from 'in-hoc/connectTo';
 
 import ChangeTimeButton from './ChangeTimeButton';
 import Eventline from './Eventline';
@@ -14,6 +14,8 @@ import TimeRange from './TimeRange';
 
 import './Timeline.less';
 
+
+const rpt = React.PropTypes;
 const block = 'in-timeline';
 
 export default connectTo(
@@ -35,9 +37,9 @@ export default connectTo(
   ],
 
   propTypes: {
-    serverTime: React.PropTypes.number.isRequired,
-    timeframe: React.PropTypes.number.isRequired,
-    maxOldestPermittedIssueTimestamp: React.PropTypes.number.isRequired
+    maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
+    serverTime: rpt.number.isRequired,
+    timeframe: rpt.number.isRequired
   },
 
   componentWillMount() {

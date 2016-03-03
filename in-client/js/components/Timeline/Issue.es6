@@ -1,6 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {mapSeverityToHealth, health} from 'in-services/health';
 import IssueDescription from 'in-components/IssueDescription';

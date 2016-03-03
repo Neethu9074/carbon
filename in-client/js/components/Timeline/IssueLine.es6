@@ -1,6 +1,6 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {getColorForIssue} from 'in-services/issueTracker';
 import {theme} from 'in-services/theme';
@@ -13,9 +13,9 @@ const IssueLine = React.createClass({
   ],
 
   propTypes: {
+    scale: React.PropTypes.func.isRequired,
     style: React.PropTypes.object,
-    issue: irpt.map.isRequired,
-    scale: React.PropTypes.func.isRequired
+    issue: irpt.map.isRequired
   },
 
   render() {

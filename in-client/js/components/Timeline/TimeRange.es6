@@ -1,9 +1,11 @@
-import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
+import React from 'react';
 
 import './TimeRange.less';
 
+
+const rpt = React.PropTypes;
 const block = 'in-timeline-timerange';
 
 export default React.createClass({
@@ -14,9 +16,9 @@ export default React.createClass({
   ],
 
   propTypes: {
-    serverTime: React.PropTypes.number.isRequired,
-    scale: React.PropTypes.func.isRequired,
-    maxOldestPermittedIssueTimestamp: React.PropTypes.number.isRequired
+    maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
+    serverTime: rpt.number.isRequired,
+    scale: rpt.func.isRequired
   },
 
   render() {
