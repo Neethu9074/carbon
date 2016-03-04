@@ -11,6 +11,8 @@ export const percentageTwoDecimalPlaces = d => twoDecimalPlaces(d * 100) + '%';
 export const bytesZeroDecimalPlaces = d => formatBytes(d, 0);
 export const bytesTwoDecimalPlaces = d => formatBytes(d, 2);
 
+export const timeByMicro = t => formatTime(t);
+
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, 0) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, 2) + '/s';
 
@@ -109,4 +111,53 @@ function formatBytes(num, numberOfDecimalPlaces = 2) {
   unit = units[exponent];
 
   return (neg ? '-' : '') + num + ' ' + unit;
+}
+
+/**
+ * Format a time to improve readability for humans. Turn a raw
+ * number to something like 10 ms or 30 s.
+ *
+ * @param {number} num - The amount on bytes that should be formatted
+ * @returns {string} Human readable amount of time
+ * @throws An error when the time are NaN
+ */
+function formatTime(t) {
+  if (typeof t !== 'number' || isNaN(t)) {
+    throw new TypeError('Expected a number');
+  }
+
+  const format = v => ((v * 100) | 0) / 100;
+
+  const units = [{
+      unit: 'µs',
+      range: 1000
+    }, {
+      unit: 'ms',
+      range: 1000
+    }, {
+      unit: 's',
+      range: 60
+    }, {
+      unit: 'min',
+      range: 60
+    }, {
+      unit: 'h',
+      range: 24
+    }, {
+      unit: 'd',
+      range: Number.MAX_VALUE
+    }
+  ];
+
+  for (let i = 0; i < units.length; i++) {
+    const unit = units[i];
+
+    if (t < unit.range) {
+      return format(t) + unit.unit;
+    }
+
+    t /= unit.range;
+  }
+
+  return format(t) + units[units.length - 1].unit;
 }

@@ -105,7 +105,7 @@ describe('in-services.formatter.number', () => {
     });
   });
 
-  describe('time', () => {
+  describe.only('time', () => {
     it('should format times dynamically', () => {
       expect(numberFormatters.time(2356.34)).to.equal('2,356ms');
       expect(numberFormatters.time(0.03445)).to.equal('34µs');
@@ -122,6 +122,16 @@ describe('in-services.formatter.number', () => {
 
     it('should format micros to millis', () => {
       expect(numberFormatters.muSecondsToMillisZeroDecimalPlaces(3000)).to.equal('3ms');
+    });
+
+    it('should format times by micro dynamically', () => {
+      expect(numberFormatters.timeByMicro(10)).to.equal('10µs');
+      expect(numberFormatters.timeByMicro(1234)).to.equal('1.23ms');
+      expect(numberFormatters.timeByMicro(1 * 1000 * 1000)).to.equal('1s');
+      expect(numberFormatters.timeByMicro(60 * 1000 * 1000)).to.equal('1min');
+      expect(numberFormatters.timeByMicro(60 * 60 * 1000 * 1000)).to.equal('1h');
+      expect(numberFormatters.timeByMicro(24 * 60 * 60 * 1000 * 1000)).to.equal('1d');
+      expect(numberFormatters.timeByMicro(1234 * 24 * 60 * 60 * 1000 * 1000)).to.equal('1234d');
     });
   });
 });
