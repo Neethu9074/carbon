@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import find from 'lodash/find';
 
 // {
 //   metric: /^memory\.free/,
@@ -31,7 +31,7 @@ export function addFormattedValueLocator(metric, locator) {
 
 
 export function getMaxValue(metric, snapshot) {
-  const locator = _.find(
+  const locator = find(
     maxValueLocators,
     eachLocator => metric.match(eachLocator.metric)
   );
@@ -44,7 +44,7 @@ export function getMaxValue(metric, snapshot) {
 }
 
 export function getMinValue(metric, snapshot) {
-  const locator = _.find(
+  const locator = find(
     minValueLocators,
     eachLocator => metric.match(eachLocator.metric)
   );
@@ -56,7 +56,7 @@ export function getMinValue(metric, snapshot) {
 }
 
 export function getFormattedValue(metric, snapshot, value) {
-  const locator = _.find(
+  const locator = find(
     formattedValueLocators,
     eachLocator => metric.match(eachLocator.metric)
   );

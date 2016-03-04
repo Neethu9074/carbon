@@ -1,4 +1,4 @@
-import {addLabelFinder, addLongLabelFinder} from 'in-sdk/snapshot';
+import {addLabelFinder} from 'in-sdk/snapshot';
 import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as power from 'in-sdk/power';
@@ -14,7 +14,6 @@ pluginName.setHumanReadablePluginName(
 );
 
 addLabelFinder(constants.plugins.unmonitoredHost, labelFinder);
-addLongLabelFinder(constants.plugins.unmonitoredHost, labelFinder);
 
 addIconToRegistry({
   id: constants.plugins.unmonitoredHost,

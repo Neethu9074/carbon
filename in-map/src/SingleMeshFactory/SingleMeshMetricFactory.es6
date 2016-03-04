@@ -1,6 +1,7 @@
 import TWEEN from 'tween.js';
 import THREE from 'three';
-import _ from 'lodash';
+import find from 'lodash/find';
+import remove from 'lodash/remove';
 
 import eventBus from 'in-map/eventbus';
 
@@ -119,7 +120,7 @@ export default class SingleMeshMetricFactory {
   }
 
   getFragment(id) {
-    return _.find(this.fragments, fragment => fragment.id === id);
+    return find(this.fragments, fragment => fragment.id === id);
   }
 
   removeFragment(id) {
@@ -168,7 +169,7 @@ export default class SingleMeshMetricFactory {
     fragment.colors = [];
 
     this.updateGeometryByFragment(fragment, item.itemsToBeDeleted);
-    _.remove(this.fragments, frag => frag.id === fragment.id);
+    remove(this.fragments, frag => frag.id === fragment.id);
   }
 
   updateGeometryByFragment(fragment, numElements = 0) {

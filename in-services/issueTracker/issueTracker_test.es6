@@ -1,5 +1,6 @@
 /* eslint-env mocha */
 /* eslint-disable max-len*/
+/* global global:false */
 import * as ro from 'reactive-observables';
 import proxyquire from 'proxyquire';
 import Immutable from 'immutable';
@@ -7,6 +8,10 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {theme} from 'in-services/theme';
+
+global.requestAnimationFrame = function requestAnimationFrame(fn) {
+  fn();
+};
 
 describe('issueTracker', () => {
 

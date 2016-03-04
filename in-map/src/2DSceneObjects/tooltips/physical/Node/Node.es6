@@ -7,7 +7,7 @@ import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
 import IssueDescription from 'in-components/IssueDescription';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Content from 'in-components/Tooltips/Content';
-import {getLongLabel} from 'in-sdk/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
 
 import LayerListing from './LayerListing.es6';
@@ -47,7 +47,7 @@ const NodeTooltip = getMostImportantIssue(
           :
           <Content>
             <span className={block + '__label'}>
-              {snapshot ? getLongLabel(snapshot, snapshot.getIn(['data', 'hostname'])) : null}
+              {snapshot ? getLabel(snapshot, snapshot.getIn(['data', 'hostname'])) : null}
             </span>
             {layer.length > 0 ?
               <LayerListing snapshotIds={layer.map(l => l.id)}/>

@@ -1,5 +1,5 @@
 /* global IN:false */
-import _ from 'lodash';
+import get from 'lodash/get';
 import React from 'react';
 import {createLogger} from 'instalog';
 
@@ -85,7 +85,7 @@ const SignInWithLinkedIn = React.createClass({
   onSignIn(user) {
     const props = {};
     propMapping.forEach(mapping => {
-      const value = _.get(user, mapping.from, '');
+      const value = get(user, mapping.from, '');
       props[mapping.to] = value;
     });
     this.props.onSignIn(props);

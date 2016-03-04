@@ -1,7 +1,7 @@
-/*eslint-env node*/
-/*eslint-disable no-var*/
+/* eslint-env node */
+/* eslint-disable no-var */
 
-var _ = require('lodash');
+var defaultsDeep = require('lodash/defaultsDeep');
 var base = require('instana-ui-theme/dist/night/config.json');
 
 var common = require('./common');
@@ -29,7 +29,7 @@ var health = [
   '#ff4229'
 ];
 
-module.exports = _.defaultsDeep({
+module.exports = defaultsDeep({
   sidebar: {
     width: 342,
     header: {

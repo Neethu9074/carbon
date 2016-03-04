@@ -1,5 +1,5 @@
 import THREE from 'three';
-import _ from 'lodash';
+import find from 'lodash/find';
 
 import CameraController from 'in-map/src/controls/process/CameraController';
 
@@ -40,7 +40,7 @@ export default class Map extends BaseMap {
 
   addEntity(entity) {
     const entityId = entity.get('id');
-    let matchedNode = _.find(this.nodes, n => n.id === entityId);
+    let matchedNode = find(this.nodes, n => n.id === entityId);
 
     if (!matchedNode) {
       matchedNode = new Node({parent: this, entity});

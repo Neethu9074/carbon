@@ -21,7 +21,11 @@ const withoutCpuStealMapper = (issues) => {
 
 const allIssuesStreamWithExperimentals = timelineStore.timeframe.distinct()
   .flatMap(timeframe => {
-    const stream = getIssueStore(timeframe).scan(collectingReducer, emptyList);
+    const stream = getIssueStore(timeframe)
+      .scan(collectingReducer, emptyList)
+      // Do not consume precious CPU cycles for data that isn't rendered
+      // anyway.
+      .nextFrame();
 
     if (isDemoEnvironment()) {
       return stream.map(withoutCpuStealMapper);

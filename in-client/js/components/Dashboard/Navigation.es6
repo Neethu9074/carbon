@@ -38,7 +38,8 @@ const Navigation = React.createClass({
   },
 
   calculateJail(scrollToTop) {
-    setTimeout(() => {
+    this.clearTimeout();
+    this.timeoutHandle = setTimeout(() => {
       this.jail = this.getJail();
       if (this.jail) {
         this.jail.onscroll = this.onScroll;
@@ -48,6 +49,17 @@ const Navigation = React.createClass({
         this.setState({ draw: true });
       }
     }, 800);
+  },
+
+  componentWillUnmount() {
+    this.clearTimeout();
+  },
+
+  clearTimeout() {
+    if (this.timeoutHandle) {
+      window.clearTimeout(this.timeoutHandle);
+      this.timeoutHandle = null;
+    }
   },
 
   render() {

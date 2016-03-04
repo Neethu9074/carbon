@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import {getLongLabel, getLabel} from 'in-sdk/snapshot';

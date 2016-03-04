@@ -5,7 +5,7 @@ import React from 'react';
 
 import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
-import {getLongLabel} from 'in-sdk/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 
 import ZoneTag from '../ZoneTag';
 
@@ -35,7 +35,7 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
         <div className={block + '__type-zone-wrapper'}>
           <h1 className={block + '__label'}>
             <span className={block + '__text'}>
-              {getLongLabel(snapshot)}
+              {getLabel(snapshot)}
             </span>
           </h1>
 

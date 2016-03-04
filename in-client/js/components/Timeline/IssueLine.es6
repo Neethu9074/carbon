@@ -3,16 +3,28 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getColorForIssue} from 'in-services/issueTracker';
+import {serverTime} from 'in-stores/serverTime';
+import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
 import './IssueLine.less';
 
-const IssueLine = React.createClass({
+export default connectTo(
+  () => {
+    return {
+      serverTime
+    };
+  },
+  React.createClass({
+
+  displayName: 'IssueLine',
+
   mixins: [
     PureRenderMixin
   ],
 
   propTypes: {
+    serverTime: React.PropTypes.number.isRequired,
     scale: React.PropTypes.func.isRequired,
     style: React.PropTypes.object,
     issue: irpt.map.isRequired
@@ -21,7 +33,8 @@ const IssueLine = React.createClass({
   render() {
     const issue = this.props.issue;
 
-    let right = this.props.scale(issue.get('end')).toFixed(2);
+    const end = issue.get('end', this.props.serverTime);
+    let right = this.props.scale(end).toFixed(2);
     if (right < 0) {
       right = 0 + '%';
     } else {
@@ -39,6 +52,4 @@ const IssueLine = React.createClass({
       </div>
     );
   }
-});
-
-export default IssueLine;
+}));

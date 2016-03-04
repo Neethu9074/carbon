@@ -1,6 +1,4 @@
-
-
-import _ from 'lodash';
+import dropWhile from 'lodash/dropWhile';
 
 /**
  * This class keeps track of all the data that is currently drawn or will be
@@ -31,7 +29,7 @@ export default class Data {
     const latest = this.dataColumns[numberOfDataColumns - 1][0].x;
     const earliestPermittedTimestamp = latest - this.windowSize;
 
-    this.dataColumns = _.dropWhile(
+    this.dataColumns = dropWhile(
       this.dataColumns,
       dataColumn => dataColumn[0].x < earliestPermittedTimestamp
     );
