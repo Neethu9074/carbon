@@ -31,6 +31,7 @@
   "dependencies": {
     "clipboard-js": "^0.2.0",
     "d3": "^3.5.5",
+    "fixed-data-table": "^0.6.0",
     "hammerjs": "^2.0.4",
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
