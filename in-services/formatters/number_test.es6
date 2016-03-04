@@ -125,13 +125,13 @@ describe('in-services.formatter.number', () => {
     });
 
     it('should format times by micro dynamically', () => {
-      expect(numberFormatters.timeByMicro(10)).to.equal('10µs');
-      expect(numberFormatters.timeByMicro(1234)).to.equal('1.23ms');
-      expect(numberFormatters.timeByMicro(1 * 1000 * 1000)).to.equal('1s');
-      expect(numberFormatters.timeByMicro(60 * 1000 * 1000)).to.equal('1min');
-      expect(numberFormatters.timeByMicro(60 * 60 * 1000 * 1000)).to.equal('1h');
-      expect(numberFormatters.timeByMicro(24 * 60 * 60 * 1000 * 1000)).to.equal('1d');
-      expect(numberFormatters.timeByMicro(1234 * 24 * 60 * 60 * 1000 * 1000)).to.equal('1234d');
+      expect(numberFormatters.timeByMicroTwoDecimalPlaces(10)).to.equal('10µs');
+      expect(numberFormatters.timeByMicroTwoDecimalPlaces(1234)).to.equal('1.23ms');
+      expect(numberFormatters.timeByMicroTwoDecimalPlaces(1 * 1000 * 1000)).to.equal('1s');
+      expect(numberFormatters.timeByMicroTwoDecimalPlaces(60 * 1000 * 1000)).to.equal('1min');
+      expect(numberFormatters.timeByMicroTwoDecimalPlaces(60 * 60 * 1000 * 1000)).to.equal('1h');
+      expect(numberFormatters.timeByMicroTwoDecimalPlaces(24 * 60 * 60 * 1000 * 1000)).to.equal('1d');
+      expect(numberFormatters.timeByMicroTwoDecimalPlaces(1234 * 24 * 60 * 60 * 1000 * 1000)).to.equal('1234d');
     });
   });
 });

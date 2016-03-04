@@ -11,7 +11,7 @@ export const percentageTwoDecimalPlaces = d => twoDecimalPlaces(d * 100) + '%';
 export const bytesZeroDecimalPlaces = d => formatBytes(d, 0);
 export const bytesTwoDecimalPlaces = d => formatBytes(d, 2);
 
-export const timeByMicro = t => formatTime(t);
+export const timeByMicroTwoDecimalPlaces = t => formatTime(t);
 
 export const bytesPerSecondZeroDecimalPlaces = d => formatBytes(d, 0) + '/s';
 export const bytesPerSecondTwoDecimalPlaces = d => formatBytes(d, 2) + '/s';

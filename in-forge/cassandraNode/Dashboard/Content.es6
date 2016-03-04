@@ -3,7 +3,9 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 import d3 from 'd3';
 
-import {bytesZeroDecimalPlaces, timeByMicro} from 'in-services/formatters/number';
+import {
+  bytesZeroDecimalPlaces,
+  timeByMicroTwoDecimalPlaces} from 'in-services/formatters/number';
 import {capitalize} from 'in-services/formatters/string';
 import classnames from 'in-services/util/classnames';
 
@@ -166,7 +168,7 @@ const CassandraDashboard = React.createClass({
                      }}
                      y1={{
                        min: 0,
-                       formatter: timeByMicro,
+                       formatter: timeByMicroTwoDecimalPlaces,
                        metrics: [
                          'keyspace.' + selectedKeyspace + '.readLatency',
                          'keyspace.' + selectedKeyspace + '.writeLatency'
