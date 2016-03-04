@@ -59,6 +59,10 @@ export default class Connection extends BaseConnection {
       toY: -toPos.z
     });
 
+    if (!path) {
+      return undefined;
+    }
+
     const preparedPath = [];
     for (let i = 0; i < path.length - 1; i++) {
       const current = path[i].position;
