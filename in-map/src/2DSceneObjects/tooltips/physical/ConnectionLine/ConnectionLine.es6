@@ -9,39 +9,41 @@ import {getLabel} from 'in-sdk/snapshot';
 import Icon from 'in-components/Icon';
 import getZone from 'in-hoc/getZone';
 
-import './ConnectionItem.less';
+import './ConnectionLine.less';
 
 
 const rpt = React.PropTypes;
 const block = 'in-connection-item';
 
-const ConnectionItem = getZone(
+const ConnectionLine = getZone(
                        getSnapshot(
                        React.createClass({
 
-  displayName: 'ConnectionItem',
+  displayName: 'ConnectionLine (Physical)',
 
   mixins: [PureRenderMixin],
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
-    direction: rpt.string.isRequired,
+    connection: rpt.object.isRequired,
     zoneSnapshot: irpt.map,
     snapshot: irpt.map
   },
 
   render() {
-    const zoneSnapshot = this.props.zoneSnapshot;
     const snapshot = this.props.snapshot;
     if (!snapshot) {
       return null;
     }
 
+    const zoneSnapshot = this.props.zoneSnapshot;
+    const connection = this.props.connection;
     const color = zoneSnapshot ? getColorPool('groups').getColorHex(zoneSnapshot.get('id')) : '';
 
     return (
-      <div className={block}>
-        {this.props.direction === DIRECTIONS.IN ?
+      <div key={connection.id}
+           className={block}>
+        {connection.direction === DIRECTIONS.IN ?
           <Icon className={block + '__icon'} type={'arrow_left'}/> :
           <Icon className={block + '__icon'} type={'arrow_right'}/>
         }
@@ -56,4 +58,10 @@ const ConnectionItem = getZone(
   }
 })));
 
-export default ConnectionItem;
+export function renderConnectionLine(connection) {
+  return (
+    <ConnectionLine key={connection.id}
+                    snapshotId={connection.destinationNode.id}
+                    connection={connection} />
+  );
+}

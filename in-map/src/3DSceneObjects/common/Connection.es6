@@ -1,5 +1,6 @@
 import THREE from 'three';
 
+import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/physical/ConnectionLine';
 import eventBus from 'in-map/eventbus';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
@@ -69,6 +70,10 @@ export default class Connection extends SceneObjectWithSnapshot {
   }
 
   onSnapshotUpdated() {}
+
+  getTooltipLine() {
+    return renderConnectionLine(this);
+  }
 
   calculateCollisionMesh(path) {
     const geometry = new THREE.Geometry();

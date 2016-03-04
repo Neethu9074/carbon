@@ -5,8 +5,7 @@ import React from 'react';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Heading from 'in-components/Tooltips/Heading';
 
-import ConnectionItem from './ConnectionItem';
-import Tooltip from '../../Tooltip.es6';
+import Tooltip from '../Tooltip.es6';
 
 
 const ConnectionsTooltip = React.createClass({
@@ -26,11 +25,7 @@ const ConnectionsTooltip = React.createClass({
         <Heading>
           {connections.length + ' connection' + (connections.length === 1 ? '' : 's')}
         </Heading>
-        {connections.map((connection, index) =>
-          <ConnectionItem key={index}
-                          snapshotId={connection.destinationNode.id}
-                          direction={connection.direction}/>
-        )}
+        {connections.map(connection => connection.getTooltipLine())}
       </TooltipFrame>
     );
   }

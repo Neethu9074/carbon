@@ -7,11 +7,11 @@ import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
 import IssueDescription from 'in-components/IssueDescription';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Content from 'in-components/Tooltips/Content';
-import {getLabel} from 'in-sdk/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import getSnapshot from 'in-hoc/getSnapshot';
+import {getLabel} from 'in-sdk/snapshot';
 
-import Tooltip from '../../Tooltip.es6';
+import Tooltip from '../Tooltip.es6';
 
 
 const rpt = React.PropTypes;

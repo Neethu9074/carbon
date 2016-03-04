@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import {renderConnectionLine} from 'in-map/src/2DSceneObjects/tooltips/process/ConnectionLine';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {getSnapshot} from 'in-stores/snapshot';
 
@@ -81,6 +82,10 @@ export default class Connection extends BaseConnection {
     // refreshes the fragment
     this.scene.lineFactory.addFragment(this.lineFragment);
     this.scene.solidSingleMeshFactory.addFragment(this.arrowFragment);
+  }
+
+  getTooltipLine() {
+    return renderConnectionLine(this);
   }
 
   dispose() {
