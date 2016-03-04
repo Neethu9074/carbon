@@ -105,7 +105,7 @@ describe('in-services.formatter.number', () => {
     });
   });
 
-  describe.only('time', () => {
+  describe('time', () => {
     it('should format times dynamically', () => {
       expect(numberFormatters.time(2356.34)).to.equal('2,356ms');
       expect(numberFormatters.time(0.03445)).to.equal('34µs');
