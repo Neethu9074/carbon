@@ -1,5 +1,5 @@
-import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import classnames from 'in-services/util/classnames';
 import {getClassName} from 'in-services/react';
@@ -32,6 +32,9 @@ const Controls = React.createClass({
 
           {__DEV__ ?
             this.renderControlIcon('system', 'mapStats', 'Show map rendering stats.', true)
+          : null}
+          {__DEV__ ?
+            this.renderControlIcon('system', 'table', '', true)
           : null}
         </ul>
       </nav>

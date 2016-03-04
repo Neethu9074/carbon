@@ -1,6 +1,8 @@
+import Immutable from 'immutable';
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
+import Table from 'in-components/Table';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
 import ComponentList from './ComponentList';
@@ -52,6 +54,21 @@ const Filterbar = React.createClass({
     // special case mapstats so that it will not be part of the compiled artifact
     if (__DEV__ && this.state.activeControl === 'mapStats') {
       return <MapStats />;
+    }
+
+    if (__DEV__ && this.state.activeControl === 'table') {
+      return (
+        <Table data={Immutable.fromJS([
+                      { id: 0, name: 'name 1' },
+                      { id: 1, name: 'name 2' },
+                      { id: 2, name: 'name 3' }
+                    ])}
+               headerDefinitions={[
+                 {name: 'id', size: 100},
+                 {name: 'name', size: 200}
+               ]}
+        />
+      );
     }
 
     switch (this.state.activeControl) {
