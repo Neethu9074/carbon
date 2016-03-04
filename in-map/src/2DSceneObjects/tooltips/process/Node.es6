@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
-import {getLongLabel, getLabel} from 'in-sdk/snapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
 
 import Tooltip from '../Tooltip.es6';
@@ -31,7 +31,7 @@ const NodeTooltip = getSnapshot(
 
     return (
       <TooltipFrame>
-        {snapshot ? getLongLabel(snapshot, getLabel(snapshot, 'process')) : null}
+        {snapshot ? getLabel(snapshot) : null}
       </TooltipFrame>
     );
   }
