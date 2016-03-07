@@ -1,8 +1,9 @@
 /* eslint-disable no-nested-ternary */
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {Table, Column, Cell} from 'fixed-data-table';
-import irpt from 'react-immutable-proptypes';
-import Immutable from 'immutable';
 import React from 'react';
+
+import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
 import './Table.less';
 
@@ -15,41 +16,49 @@ const SORT_TYPES = {
   DESC: 'DESC'
 };
 
-
 export default React.createClass({
 
   displayName: 'Table',
 
+  mixins: [
+    SubscriptionMixin,
+    PureRenderMixin
+  ],
+
   propTypes: {
     headerDefinitions: rpt.array.isRequired,
-    data: irpt.list.isRequired,
     cellClicked: rpt.func,
     canFilter: rpt.array,
-    canSort: rpt.array
+    canSort: rpt.array,
+    data: rpt.object
   },
 
   getInitialState() {
     return {
-      filteredData: this.props.data,
       sortByHeaderName: undefined,
-      sortDirection: undefined
+      sortDirection: undefined,
+      data: undefined
     };
   },
 
+  componentWillMount() {
+    this.addSubscription(this.props.data.subscribe(data => this.setState({
+      data
+    })));
+  },
+
   render() {
+    const data = this.state.data;
+    if (!data) {
+      return null;
+    }
+
     const headerDefinitions = this.props.headerDefinitions;
     const fullWidth = headerDefinitions.map(h => h.size).reduce((a, b) => a + b, 0);
     const sortByHeaderName = this.state.sortByHeaderName;
     const filterableHeaders = this.props.canFilter;
     const sortableHeaders = this.props.canSort;
     const sortDir = this.state.sortDirection;
-    const data = sortByHeaderName ?
-      this.state.filteredData.sort((a, b) => {
-        return sortDir === SORT_TYPES.ASC ?
-          a.get(sortByHeaderName).toString().localeCompare(b.get(sortByHeaderName)) :
-          b.get(sortByHeaderName).toString().localeCompare(a.get(sortByHeaderName));
-      }) :
-      this.state.filteredData;
 
     return (
       <div className={block}>
@@ -96,36 +105,12 @@ export default React.createClass({
   },
 
   onFilterChange(e) {
-    const data = this.props.data;
-    let filterText = e.target.value;
-    if (!filterText) {
-      this.setState({ filteredData: data });
-    }
-    filterText = filterText.toLowerCase();
-
-    const filteredData = [];
-    const filterableHeaders = this.props.canFilter;
-
-    data.forEach(item => {
-      // run through all defined filter headers and get the corresponding value
-      // if the value matches the filterText -> show the row
-      for (let i = 0; i < filterableHeaders.length; i++) {
-        const cellContent = item.get(filterableHeaders[i]);
-        if (!cellContent) {
-          continue;
-        }
-
-        if (cellContent.toString().toLowerCase().indexOf(filterText) >= 0) {
-          filteredData.push(item);
-          break;
-        }
-      }
-    });
-
-    this.setState({ filteredData: Immutable.fromJS(filteredData) });
+    console.log('TODO: send the filter event together with the filter-string (' + e.target.value + ') to server');
   },
 
   onSortChange(headerName) {
+    console.log('TODO: send the sort event together with the header name to server');
+
     const sortDir = this.state.sortDirection;
     if (sortDir === SORT_TYPES.ASC) {
       this.setState({

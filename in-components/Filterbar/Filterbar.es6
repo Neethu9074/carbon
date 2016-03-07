@@ -1,7 +1,7 @@
-import Immutable from 'immutable';
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
+import {tableData} from 'in-stores/fixedTableData';
 import Table from 'in-components/Table';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
@@ -57,12 +57,8 @@ const Filterbar = React.createClass({
     }
 
     if (__DEV__ && this.state.activeControl === 'table') {
-      const tableData = [];
-      for (let i = 0; i < 100; i++) {
-        tableData[i] = { id: i, name: 'name ' + i, size: (Math.random() * 10000) | 0 };
-      }
       return (
-        <Table data={Immutable.fromJS(tableData)}
+        <Table data={tableData}
                canFilter={['name', 'size']}
                canSort={['id', 'name']}
                headerDefinitions={[
