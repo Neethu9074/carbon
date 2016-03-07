@@ -1,7 +1,7 @@
 import React from 'react';
 
+import {traceData, setFilterString, setSortDirection} from 'in-stores/traceData';
 import classnames from 'in-services/util/classnames';
-import {traceData} from 'in-stores/traceData';
 import Table from 'in-components/Table';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
@@ -59,7 +59,9 @@ const Filterbar = React.createClass({
     if (__DEV__ && this.state.activeControl === 'table') {
       return (
         <Table data={traceData}
-               canFilter={['name', 'size']}
+               setFilter={setFilterString}
+               canFilter={true}
+               setSortDirection={setSortDirection}
                canSort={['id', 'name']}
                headerDefinitions={[
                  {name: 'id', size: 60},

@@ -12,8 +12,8 @@ const rpt = React.PropTypes;
 const block = 'in-table';
 
 const SORT_TYPES = {
-  ASC: 'ASC',
-  DESC: 'DESC'
+  ASC: 'ascending',
+  DESC: 'descending'
 };
 
 export default React.createClass({
@@ -27,8 +27,9 @@ export default React.createClass({
 
   propTypes: {
     headerDefinitions: rpt.array.isRequired,
+    setSortDirection: rpt.func,
     cellClicked: rpt.func,
-    canFilter: rpt.array,
+    setFilter: rpt.func,
     canSort: rpt.array,
     data: rpt.object
   },
@@ -56,20 +57,19 @@ export default React.createClass({
     const headerDefinitions = this.props.headerDefinitions;
     const fullWidth = headerDefinitions.map(h => h.size).reduce((a, b) => a + b, 0);
     const sortByHeaderName = this.state.sortByHeaderName;
-    const filterableHeaders = this.props.canFilter;
     const sortableHeaders = this.props.canSort;
     const sortDir = this.state.sortDirection;
 
     return (
       <div className={block}>
-        {filterableHeaders ?
+        {this.props.setFilter ?
           <input className={block + '__filter'}
                  onChange={this.onFilterChange}
-                 placeholder={'filter by ' + filterableHeaders.join(', ')}
+                 placeholder={'filter by soemthing'}
           />
           : null
         }
-        {filterableHeaders ? <br /> : null}
+        {this.props.setFilter ? <br /> : null}
         <Table rowHeight={40}
                headerHeight={40}
                rowsCount={data.size}
@@ -105,23 +105,20 @@ export default React.createClass({
   },
 
   onFilterChange(e) {
-    console.log('TODO: send the filter event together with the filter-string (' + e.target.value + ') to server');
+    if (this.props.setFilter) {
+      this.props.setFilter(e.target.value || '');
+    }
   },
 
   onSortChange(headerName) {
-    console.log('TODO: send the sort event together with the header name to server');
+    const sortDirection = this.state.sortDirection === SORT_TYPES.ASC ? SORT_TYPES.DESC : SORT_TYPES.ASC;
 
-    const sortDir = this.state.sortDirection;
-    if (sortDir === SORT_TYPES.ASC) {
-      this.setState({
-        sortDirection: SORT_TYPES.DESC,
-        sortByHeaderName: headerName
-      });
-    } else {
-      this.setState({
-        sortDirection: SORT_TYPES.ASC,
-        sortByHeaderName: headerName
-      });
+    if (this.props.setSortDirection) {
+      this.props.setSortDirection(headerName, sortDirection);
     }
+    this.setState({
+      sortDirection,
+      sortByHeaderName: headerName
+    });
   }
 });
