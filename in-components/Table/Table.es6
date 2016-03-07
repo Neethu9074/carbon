@@ -5,6 +5,7 @@ import React from 'react';
 import './Table.less';
 
 
+const rpt = React.PropTypes;
 const block = 'in-table';
 
 export default React.createClass({
@@ -12,8 +13,9 @@ export default React.createClass({
   displayName: 'Table',
 
   propTypes: {
-    headerDefinitions: React.PropTypes.array.isRequired,
-    data: irpt.list.isRequired
+    headerDefinitions: rpt.array.isRequired,
+    data: irpt.list.isRequired,
+    cellClicked: rpt.func
   },
 
   render() {
@@ -27,15 +29,21 @@ export default React.createClass({
                headerHeight={40}
                rowsCount={data.size}
                width={fullWidth}
-               height={400}>
+               height={400}
+               onRowClick={this.props.cellClicked}>
 
           {headerDefinitions.map(header =>
             <Column key={header.name}
                     header={<Cell>{header.name}</Cell>}
               cell={props => (
-                <Cell {...props}>
+
+                <Cell {...props}
+                      className={block + '__row'}>
+
                   {data.getIn([props.rowIndex, header.name])}
+
                 </Cell>
+
               )}
               width={header.size}
             />

@@ -1,12 +1,15 @@
 @import "~in-themes/active.less";
 
 .in-table {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1000;
-
   color: black;
+
+  &__row {
+    cursor: pointer;
+
+    &:hover {
+      color: grey;
+    }
+  }
 }
 
 .public_Scrollbar_main.public_Scrollbar_mainActive,
