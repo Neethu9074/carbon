@@ -8,3 +8,4 @@
 /in-server/node_modules
 /in-server/serverConfig.json
 git-env.properties
+/licenses.txt
