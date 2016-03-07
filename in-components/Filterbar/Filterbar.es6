@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classnames from 'in-services/util/classnames';
-import {tableData} from 'in-stores/fixedTableData';
+import {traceData} from 'in-stores/traceData';
 import Table from 'in-components/Table';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
@@ -58,7 +58,7 @@ const Filterbar = React.createClass({
 
     if (__DEV__ && this.state.activeControl === 'table') {
       return (
-        <Table data={tableData}
+        <Table data={traceData}
                canFilter={['name', 'size']}
                canSort={['id', 'name']}
                headerDefinitions={[
