@@ -1,10 +1,10 @@
 import Immutable from 'immutable';
 
-import {getIn as getSetting} from 'in-services/settings';
-import {createStore} from 'in-stores/store';
+import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
 import {emptySet, emptyMap} from 'in-services/fixedImmutables';
 import {on, emit} from 'in-services/persistentConnection';
-import createFilterableTagsObservable from 'in-services/subscription/filterableTags';
+import {getIn as getSetting} from 'in-services/settings';
+import {createStore} from 'in-stores/store';
 
 // The filter types as defined in the backend.
 const filterTypes = {
