@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import {Table, Column, Cell} from 'fixed-data-table';
 import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
@@ -9,6 +10,12 @@ import './Table.less';
 const rpt = React.PropTypes;
 const block = 'in-table';
 
+const SORT_TYPES = {
+  ASC: 'ASC',
+  DESC: 'DESC'
+};
+
+
 export default React.createClass({
 
   displayName: 'Table',
@@ -17,20 +24,32 @@ export default React.createClass({
     headerDefinitions: rpt.array.isRequired,
     data: irpt.list.isRequired,
     cellClicked: rpt.func,
-    canFilter: rpt.array
+    canFilter: rpt.array,
+    canSort: rpt.array
   },
 
   getInitialState() {
     return {
-      filteredData: this.props.data
+      filteredData: this.props.data,
+      sortByHeaderName: undefined,
+      sortDirection: undefined
     };
   },
 
   render() {
     const headerDefinitions = this.props.headerDefinitions;
     const fullWidth = headerDefinitions.map(h => h.size).reduce((a, b) => a + b, 0);
+    const sortByHeaderName = this.state.sortByHeaderName;
     const filterableHeaders = this.props.canFilter;
-    const data = this.state.filteredData;
+    const sortableHeaders = this.props.canSort;
+    const sortDir = this.state.sortDirection;
+    const data = sortByHeaderName ?
+      this.state.filteredData.sort((a, b) => {
+        return sortDir === SORT_TYPES.ASC ?
+          a.get(sortByHeaderName).toString().localeCompare(b.get(sortByHeaderName)) :
+          b.get(sortByHeaderName).toString().localeCompare(a.get(sortByHeaderName));
+      }) :
+      this.state.filteredData;
 
     return (
       <div className={block}>
@@ -49,17 +68,28 @@ export default React.createClass({
                height={400}
                onRowClick={this.props.cellClicked}>
 
-          {headerDefinitions.map(header =>
-            <Column key={header.name}
-                    header={<Cell>{header.name}</Cell>}
-              cell={props => <Cell {...props}
-                                   className={block + '__row'}>
-                               {data.getIn([props.rowIndex, header.name])}
-                             </Cell>
-              }
-              width={header.size}
-            />
-          )}
+          {headerDefinitions.map(header => {
+            const headerName = header.name;
+            return (
+              <Column key={headerName}
+                      header={sortableHeaders.indexOf(headerName) >= 0 ?
+                            <Cell onClick={() => this.onSortChange(headerName)}>
+                              {headerName}
+                              {sortDir && sortByHeaderName === headerName ?
+                                (sortDir === SORT_TYPES.DESC ? ' ↓' : ' ↑')
+                                : ''}
+                            </Cell> :
+                            <Cell>{headerName}</Cell>
+                          }
+                      cell={props => <Cell {...props}
+                                           className={block + '__row'}>
+                                      {data.getIn([props.rowIndex, headerName])}
+                                     </Cell>
+                           }
+                      width={header.size}
+              />
+          );
+        })}
         </Table>
       </div>
     );
@@ -77,8 +107,6 @@ export default React.createClass({
     const filterableHeaders = this.props.canFilter;
 
     data.forEach(item => {
-      let matchesOne = false;
-
       // run through all defined filter headers and get the corresponding value
       // if the value matches the filterText -> show the row
       for (let i = 0; i < filterableHeaders.length; i++) {
@@ -88,16 +116,27 @@ export default React.createClass({
         }
 
         if (cellContent.toString().toLowerCase().indexOf(filterText) >= 0) {
-          matchesOne = true;
+          filteredData.push(item);
           break;
         }
-      }
-
-      if (matchesOne) {
-        filteredData.push(item);
       }
     });
 
     this.setState({ filteredData: Immutable.fromJS(filteredData) });
+  },
+
+  onSortChange(headerName) {
+    const sortDir = this.state.sortDirection;
+    if (sortDir === SORT_TYPES.ASC) {
+      this.setState({
+        sortDirection: SORT_TYPES.DESC,
+        sortByHeaderName: headerName
+      });
+    } else {
+      this.setState({
+        sortDirection: SORT_TYPES.ASC,
+        sortByHeaderName: headerName
+      });
+    }
   }
 });

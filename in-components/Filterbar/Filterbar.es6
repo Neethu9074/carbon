@@ -64,6 +64,7 @@ const Filterbar = React.createClass({
       return (
         <Table data={Immutable.fromJS(tableData)}
                canFilter={['name', 'size']}
+               canSort={['id', 'name']}
                headerDefinitions={[
                  {name: 'id', size: 60},
                  {name: 'name', size: 140},
