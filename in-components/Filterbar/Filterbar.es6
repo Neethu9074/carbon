@@ -59,13 +59,15 @@ const Filterbar = React.createClass({
     if (__DEV__ && this.state.activeControl === 'table') {
       const tableData = [];
       for (let i = 0; i < 100; i++) {
-        tableData[i] = { id: i, name: 'name ' + i };
+        tableData[i] = { id: i, name: 'name ' + i, size: (Math.random() * 10000) | 0 };
       }
       return (
         <Table data={Immutable.fromJS(tableData)}
+               canFilter={['name', 'size']}
                headerDefinitions={[
-                 {name: 'id', size: 100},
-                 {name: 'name', size: 200}
+                 {name: 'id', size: 60},
+                 {name: 'name', size: 140},
+                 {name: 'size', size: 100}
                ]}
         />
       );
