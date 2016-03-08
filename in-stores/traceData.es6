@@ -25,14 +25,14 @@ function subscribeToBackendData() {
     subscription.dispose();
   }
 
-  subscription = createTraceDataObservable(sortingProperty, sortDirection, filterString)
+  subscription = createTraceDataObservable({sortingProperty, sortDirection, filterString})
                   .subscribe(data => persistentDataStore.applyStateMutation(() => data));
 }
 
 function resetManipulationProperties() {
-  sortingProperty = undefined;
-  sortDirection = undefined;
-  filterString = '';
+  sortingProperty = 'id';
+  sortDirection = 'asc';
+  filterString = 'test';
 }
 
 export function getTraceData() {

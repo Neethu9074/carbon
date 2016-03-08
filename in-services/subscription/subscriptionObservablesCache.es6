@@ -10,8 +10,7 @@
  * @return {Observable} A reactive observable which starts upon first subscribe.
  */
 export default function createObservableIfMissing(factory, opts) {
-  // we add a _cache flag to each factory to cache created observable
-  // instances.
+  // we add a _cache flag to each factory to cache created observable instances.
   const cache = factory._cache = factory._cache || {};
   const id = factory.getId(opts);
 

@@ -15,10 +15,10 @@ let sortDirection;
 let filterString;
 const mod = proxyquire('in-stores/traceData', {
   // mock createTraceDataObservable
-  'in-services/subscription/traceData': (sortingProp, sortDir, filterStr) => {
-    sortingProperty = sortingProp;
-    filterString = filterStr;
-    sortDirection = sortDir;
+  'in-services/subscription/traceData': (event) => {
+    sortingProperty = event.sortingProperty;
+    sortDirection = event.sortDirection;
+    filterString = event.filterString;
 
     return backendDataMock.observable;
   }
