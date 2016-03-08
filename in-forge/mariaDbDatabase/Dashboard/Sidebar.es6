@@ -2,12 +2,13 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import Collapsible from 'in-components/Collapsible';
 import DeployedUnitList from 'in-components/DeployedUnitList';
+import TagListSnapshot from 'in-components/TagListSnapshot';
+import Collapsible from 'in-components/Collapsible';
 
-import MySqlInfo from '../MySqlInfo';
+import MariaDbInfo from '../MariaDbInfo';
 
-const MySqlSidebar = React.createClass({
+const MariaDbSidebar = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
@@ -20,15 +21,16 @@ const MySqlSidebar = React.createClass({
     return (
       <div>
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>MySql</Collapsible.Header>
+          <Collapsible.Header>MariaDB</Collapsible.Header>
           <Collapsible.Content>
-            <MySqlInfo snapshot={snapshot} />
+            <MariaDbInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
+        <TagListSnapshot snapshot={snapshot} />
         <DeployedUnitList snapshotId={snapshot.get('id')} />
       </div>
     );
   }
 });
 
-export default MySqlSidebar;
+export default MariaDbSidebar;

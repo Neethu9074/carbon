@@ -9,6 +9,7 @@ import './cassandraCluster';
 import './elasticsearch';
 import './mongoDb';
 import './mySqlDatabase';
+import './mariaDbDatabase';
 import './host';
 import './process';
 import './jvmRuntimePlatform';
