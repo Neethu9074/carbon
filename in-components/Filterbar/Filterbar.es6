@@ -61,11 +61,11 @@ const Filterbar = React.createClass({
         <Table data={getTraceData()}
                setFilter={setFilterString}
                setSortDirection={setSortDirection}
-               canSort={['id', 'name']}
+               canSort={['id', 'field1']}
                headerDefinitions={[
                  {name: 'id', size: 60},
-                 {name: 'name', size: 140},
-                 {name: 'size', size: 100}
+                 {name: 'field1', size: 60},
+                 {name: 'field2', size: 200}
                ]}
         />
       );

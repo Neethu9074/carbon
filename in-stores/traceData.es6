@@ -6,7 +6,7 @@ import {createStore} from 'in-stores/store';
 
 const tempData = [];
 for (let i = 0; i < 100; i++) {
-  tempData[i] = { id: i, name: 'name ' + i, size: (Math.random() * 10000) | 0 };
+  tempData[i] = { id: i, field1: 'field ' + i, field2: (Math.random() * 10000) | 0 };
 }
 
 let sortingProperty;
@@ -26,13 +26,13 @@ function subscribeToBackendData() {
   }
 
   subscription = createTraceDataObservable({sortingProperty, sortDirection, filterString})
-                  .subscribe(data => persistentDataStore.applyStateMutation(() => data));
+                  .subscribe(data => persistentDataStore.applyStateMutation(() => Immutable.fromJS(data)));
 }
 
 function resetManipulationProperties() {
-  sortingProperty = 'id';
-  sortDirection = 'asc';
-  filterString = 'test';
+  sortingProperty = '';
+  sortDirection = '';
+  filterString = '';
 }
 
 export function getTraceData() {
