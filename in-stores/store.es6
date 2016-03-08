@@ -6,7 +6,7 @@ import invariant from 'invariant';
 export const allStates = {};
 
 export function createStore({name, initialValue = null}) {
-  invariant(!(name in allStates), 'Store already exists');
+  invariant(!(name in allStates), 'Store (' + name +  ') already exists');
 
   let currentState = allStates[name] = initialValue;
   const observable = ro.create();
@@ -28,7 +28,7 @@ export function createStore({name, initialValue = null}) {
 
 
 export function createTrackingStore({name, observable}) {
-  invariant(!(name in allStates), 'Store already exists');
+  invariant(!(name in allStates), 'Store (' + name +  ') already exists');
   invariant(observable != null, 'Observable must be provided');
 
   allStates[name] = undefined;

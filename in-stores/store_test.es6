@@ -21,7 +21,7 @@ describe('in-stores/store', () => {
 
       expect(() => {
         createStore({name});
-      }).to.throw(/Store already exists/);
+      }).to.throw('Store (' + name +  ') already exists');
     });
 
     it('should create a named store', () => {
@@ -71,7 +71,7 @@ describe('in-stores/store', () => {
 
       expect(() => {
         createTrackingStore({name, observable: create()});
-      }).to.throw(/Store already exists/);
+      }).to.throw('Store (' + name +  ') already exists');
     });
 
     it('should track the store states', () => {

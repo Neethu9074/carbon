@@ -4,16 +4,15 @@
 import 'in-forge';
 
 import * as reactRouter from 'react-router';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import logging from 'instalog';
+import React from 'react';
 
-import * as tracking from 'in-services/tracking';
-import * as persistentConnection from 'in-services/persistentConnection';
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
+import * as persistentConnection from 'in-services/persistentConnection';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
-import * as traceDataStore from 'in-stores/traceData';
+import * as tracking from 'in-services/tracking';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
@@ -56,7 +55,6 @@ persistentConnection.init();
 subscriptonManager.init();
 timeOffsetStore.init();
 filteringStore.init();
-traceDataStore.init();
 
 if (window.instana.user) {
   tracking.identify();

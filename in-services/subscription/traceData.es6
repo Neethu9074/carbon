@@ -6,11 +6,18 @@ import {getDataEvent} from 'in-services/subscription/dataEvent';
 import {on, off} from 'in-services/persistentConnection';
 
 export default createObservableIfMissing.bind(null, {
-  getId: () => 'trace_data_for_table',
+  getId,
   createObservable: createTraceDataObservable
 });
 
-function createTraceDataObservable() {
+function getId({sortingProperty, sortDirection, filterString}) {
+  return 'trace_data' +
+    '_sortProp:' + sortingProperty +
+    '_sortDir:' + sortDirection +
+    '_filterStr:' + filterString;
+}
+
+function createTraceDataObservable({sortingProperty, sortDirection, filterString}) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
@@ -18,7 +25,10 @@ function createTraceDataObservable() {
     start() {
       on(dataEvent, onData);
       subscribe(subscriptionId, 'subscribe-trace-data', {
-        'subscriptionId': subscriptionId
+        subscriptionId,
+        sortingProperty,
+        sortDirection,
+        filterString
       });
     },
 
