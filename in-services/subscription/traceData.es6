@@ -10,7 +10,7 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createTraceDataObservable
 });
 
-function createTraceDataObservable() {
+function createTraceDataObservable(sortingProperty, sortDirection, filterString) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
@@ -18,7 +18,10 @@ function createTraceDataObservable() {
     start() {
       on(dataEvent, onData);
       subscribe(subscriptionId, 'subscribe-trace-data', {
-        'subscriptionId': subscriptionId
+        subscriptionId,
+        sortingProperty,
+        sortDirection,
+        filterString
       });
     },
 

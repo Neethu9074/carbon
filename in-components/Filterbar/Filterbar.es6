@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {traceData, setFilterString, setSortDirection} from 'in-stores/traceData';
+import {getTraceData, setFilterString, setSortDirection} from 'in-stores/traceData';
 import classnames from 'in-services/util/classnames';
 import Table from 'in-components/Table';
 
@@ -58,9 +58,8 @@ const Filterbar = React.createClass({
 
     if (__DEV__ && this.state.activeControl === 'table') {
       return (
-        <Table data={traceData}
+        <Table data={getTraceData()}
                setFilter={setFilterString}
-               canFilter={true}
                setSortDirection={setSortDirection}
                canSort={['id', 'name']}
                headerDefinitions={[

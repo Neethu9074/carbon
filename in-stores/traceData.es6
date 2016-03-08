@@ -1,7 +1,6 @@
 import Immutable from 'immutable';
 
 import createTraceDataObservable from 'in-services/subscription/traceData';
-import {on, emit} from 'in-services/persistentConnection';
 import {createStore} from 'in-stores/store';
 
 
@@ -9,42 +8,46 @@ const tempData = [];
 for (let i = 0; i < 100; i++) {
   tempData[i] = { id: i, name: 'name ' + i, size: (Math.random() * 10000) | 0 };
 }
-export const traceData = createTraceDataObservable().startWith(Immutable.fromJS(tempData));
 
-const traceDataFilterStringStore = createStore({
-  name: 'traceDataFilterString',
-  initialValue: ''
+let sortingProperty;
+let sortDirection;
+let subscription;
+let filterString;
+
+// this store is used to handle all the subscriptions
+const persistentDataStore = createStore({
+  name: 'persistent trace data',
+  initialValue: Immutable.fromJS(tempData)
 });
-const traceDataFilterString$ = traceDataFilterStringStore.observable;
 
-const traceDataSortDirectionStore = createStore({
-  name: 'traceDataSortDirection',
-  initialValue: ''
-});
-const traceDataSortDirection$ = traceDataSortDirectionStore.observable;
+function subscribeToBackendData() {
+  if (subscription) {
+    subscription.dispose();
+  }
 
-export function setFilterString(filterString) {
-  traceDataFilterStringStore.applyStateMutation(() => filterString);
+  subscription = createTraceDataObservable(sortingProperty, sortDirection, filterString)
+                  .subscribe(data => persistentDataStore.applyStateMutation(() => data));
 }
 
-export function setSortDirection(propertyName, sortDirection) {
-  traceDataSortDirectionStore.applyStateMutation(() => {
-    return {
-      propertyName,
-      sortDirection
-    };
-  });
+function resetManipulationProperties() {
+  sortingProperty = undefined;
+  sortDirection = undefined;
+  filterString = '';
 }
 
-export function init() {
-  // send the current filter string to the backend
-  traceDataFilterString$.subscribe(filterString => emit('set-filters', {filterString}));
-  traceDataSortDirection$.subscribe(sortDirection => emit('set-trace-data-sort-direction', {sortDirection}));
+export function getTraceData() {
+  resetManipulationProperties();
+  subscribeToBackendData();
+  return persistentDataStore.observable;
+}
 
-  // When we reconnect, we need to send the filter string to the backend
-  // so that it can correctly initialize the view.
-  on('reconnect', () => {
-    traceDataFilterString$.once(filterString => emit('set-trace-data-filters', {filterString}));
-    traceDataSortDirection$.once(event => emit('set-trace-data-sort-direction', event));
-  });
+export function setFilterString(filterStr) {
+  filterString = filterStr;
+  subscribeToBackendData();
+}
+
+export function setSortDirection(propertyName, sortDir) {
+  sortingProperty = propertyName;
+  sortDirection = sortDir;
+  subscribeToBackendData();
 }
