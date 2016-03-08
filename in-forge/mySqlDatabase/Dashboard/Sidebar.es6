@@ -3,7 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import Collapsible from 'in-components/Collapsible';
-import RunningComponentsList from 'in-components/RunningComponentsList';
+import DeployedUnitList from 'in-components/DeployedUnitList';
 
 import MySqlInfo from '../MySqlInfo';
 
@@ -25,7 +25,7 @@ const MySqlSidebar = React.createClass({
             <MySqlInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <RunningComponentsList snapshotId={snapshot.get('id')} />
+        <DeployedUnitList snapshotId={snapshot.get('id')} />
       </div>
     );
   }

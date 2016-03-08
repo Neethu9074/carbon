@@ -2,8 +2,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import DeployedUnitList from 'in-components/DeployedUnitList';
+import TagListSnapshot from 'in-components/TagListSnapshot';
 import Collapsible from 'in-components/Collapsible';
-import RunningComponentsList from 'in-components/RunningComponentsList';
 
 import MariaDbInfo from '../MariaDbInfo';
 
@@ -25,7 +26,8 @@ const MariaDbSidebar = React.createClass({
             <MariaDbInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <RunningComponentsList snapshotId={snapshot.get('id')} />
+        <TagListSnapshot snapshot={snapshot} />
+        <DeployedUnitList snapshotId={snapshot.get('id')} />
       </div>
     );
   }
