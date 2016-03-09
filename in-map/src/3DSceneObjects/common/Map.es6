@@ -48,7 +48,8 @@ export default class Map extends SceneObject {
     // get the cached structure which is the old one, because it wasn't updated yet. After the MapHandler was
     // told about the new view, the viewStructure will change but it is to late since the map already got
     // the old data. To avoid that, we need a debounce on viewStrcture subscription
-    this.addSubscription(viewStructure.debounce(500).subscribe(structures => this.onInventoryUpdate(structures)));
+    // this.addSubscription(viewStructure.debounce(500).subscribe(structures => this.onInventoryUpdate(structures)));
+    this.addSubscription(viewStructure.subscribe(structures => this.onInventoryUpdate(structures)));
     this.addSubscription(time.addTimeEventListener(this.handleTimeEvent.bind(this)));
   }
 
