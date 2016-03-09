@@ -2,10 +2,10 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getColorForIssue} from 'in-services/issueTracker';
-import {getClassName} from 'in-services/react';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {toHtml} from 'in-services/formatters/markdown';
+import {getClassName} from 'in-services/react';
 import getSnapshot from 'in-hoc/getSnapshot';
 
 import SnapshotDescription from '../SnapshotDescription';
