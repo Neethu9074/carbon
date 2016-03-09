@@ -5,6 +5,7 @@ import React from 'react';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getColorForIssue} from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
+import {toHtml} from 'in-services/formatters/markdown';
 import getSnapshot from 'in-hoc/getSnapshot';
 
 import SnapshotDescription from '../SnapshotDescription';
@@ -47,9 +48,8 @@ export default getSnapshot(React.createClass({
             {issue.getIn(['problem', 'problemText'])}
           </div>
 
-          <div className={block + '__suggestion'}>
-            {issue.getIn(['problem', 'fixSuggestion'])}
-          </div>
+          <div className={block + '__suggestion'}
+               dangerouslySetInnerHTML={{__html: toHtml(issue.getIn(['problem', 'fixSuggestion']))}} />
 
           <SnapshotDescription snapshot={this.props.snapshot} />
         </div>
