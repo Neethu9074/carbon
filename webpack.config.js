@@ -44,6 +44,9 @@ module.exports = {
       test: /\.es6$/i,
       loader: 'babel'
     }, {
+      test: /\.json$/i,
+      loader: 'json'
+    }, {
       test: /\.djs$/,
       loader: 'dogescript'
     }, {
