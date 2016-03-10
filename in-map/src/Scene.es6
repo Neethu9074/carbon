@@ -143,7 +143,7 @@ export default class Scene {
     this.groundSingleMeshFactory.material.transparent = true;
     this.groundSingleMeshFactory.material.opacity = 0.3;
 
-    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 4});
+    this.highlightingSingleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
 
     this.singleMeshFactory = new SingleMeshFactory({scene, renderOrder: 3});
 
