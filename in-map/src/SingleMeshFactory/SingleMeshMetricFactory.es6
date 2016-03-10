@@ -1,7 +1,7 @@
+import remove from 'lodash/remove';
+import find from 'lodash/find';
 import TWEEN from 'tween.js';
 import THREE from 'three';
-import find from 'lodash/find';
-import remove from 'lodash/remove';
 
 import eventBus from 'in-map/eventbus';
 
