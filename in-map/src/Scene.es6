@@ -5,6 +5,7 @@ import TooltipHandler from 'in-map/src/2DSceneObjects/tooltips/TooltipHandler';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
+import * as snapshotStore from 'in-stores/snapshot';
 
 import {activeMetric} from 'in-services/stores/metrics';
 import * as tracking from 'in-services/tracking';
@@ -205,6 +206,14 @@ export default class Scene {
       } else {
         currentMetrics = undefined;
         this.hideMetrics();
+        this.showHulls();
+      }
+    }));
+
+    this.subscriptions.push(snapshotStore.selectedSnapshotId.subscribe(selectedId => {
+      if (selectedId) {
+        this.hideHulls();
+      } else {
         this.showHulls();
       }
     }));
