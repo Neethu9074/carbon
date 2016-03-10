@@ -21,6 +21,8 @@ export default class Group extends SceneObjectWithSnapshot {
   constructor({parent, entity}) {
     super({parent, id: entity.get('id')});
 
+    this._cachedLabel = this.id;
+
     this.addSubscription(eventBus.on('endUpdate').subscribe(() => this.update()));
     this.addSubscription(this.eventEmitter.on('positionChanged').subscribe(this.updateScreenAnchorPosition.bind(this)));
   }
@@ -98,7 +100,10 @@ export default class Group extends SceneObjectWithSnapshot {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
-  onSnapshotUpdated() {}
+  onSnapshotUpdated(snapshot) {
+    this._cachedLabel = snapshot ? snapshot.getIn(['data', 'groupId']) : this._cachedLabel;
+    this.parent.layoutNeedsUpdate();
+  }
 
   getColor() {
     return getColorPool('groups').getColorRGB(this.id);

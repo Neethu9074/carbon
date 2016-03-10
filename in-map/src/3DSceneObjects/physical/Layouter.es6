@@ -9,7 +9,9 @@ export default class GroupLayouting {
   applyLayout(map) {
     // the first group starts at (0, 0)
     let groupXCursor = 0;
-    map.groups.forEach(group => {
+    map.groups
+      .sort((a, b) => a._cachedLabel.localeCompare(b._cachedLabel))
+      .forEach(group => {
       const numNodesPerRow = Math.ceil(this.squashFactor * Math.sqrt(group.children.length));
       const numNodesPerCol = Math.ceil(group.children.length / numNodesPerRow);
       const dim = {
