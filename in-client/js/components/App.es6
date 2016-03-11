@@ -13,7 +13,7 @@ import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
 import helpify from 'in-components/hoc/helpify';
 import Filterbar from 'in-components/Filterbar';
-import {viewStructure} from 'in-stores/view';
+import {isMonitoring} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import Map from 'in-map';
 
@@ -32,9 +32,7 @@ const rpt = React.PropTypes;
 export default helpify(connectTo(
   () => {
     return {
-      isMonitoring: viewStructure
-        .map(rootNode => rootNode.get('children').size > 0)
-        .distinct()
+      isMonitoring
     };
   }, React.createClass({
   displayName: 'App',
@@ -93,7 +91,7 @@ export default helpify(connectTo(
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
         {!isDemoEnvironment() && config.tenant === 'instana' ?
-        <MapViewSwitcher className='in-root-map-switcher'/>
+          <MapViewSwitcher className='in-root-map-switcher'/>
         : null}
 
         <Lettering className='in-root-lettering'/>
