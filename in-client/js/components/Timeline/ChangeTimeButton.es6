@@ -34,12 +34,12 @@ export default React.createClass({
 
   render() {
     return (
-      <div className={block + (this.state.open ? ' ' + block + '__open' : '')}
-           onClick={this.toggleTimePicker}>
+      <div>
         {this.renderTimePicker()}
-        <span className={block + '__text'}>
+        <div className={block + (this.state.open ? ' ' + block + '__open' : '')}
+             onClick={this.toggleTimePicker}>
           {this.state.currentTime}
-        </span>
+        </div>
       </div>
     );
   },
