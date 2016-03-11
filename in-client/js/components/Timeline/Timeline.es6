@@ -9,7 +9,6 @@ import connectTo from 'in-hoc/connectTo';
 
 import ChangeTimeButton from './ChangeTimeButton';
 import Eventline from './Eventline';
-import TimeRange from './TimeRange';
 
 import './Timeline.less';
 
@@ -59,9 +58,6 @@ export default connectTo(
   render() {
     return (
       <div className={block}>
-        <TimeRange serverTime={this.props.serverTime}
-                   scale={this.scale}
-                   maxOldestPermittedIssueTimestamp={this.props.maxOldestPermittedIssueTimestamp}/>
 
         <ChangeTimeButton onTimeSelected={time => console.log('select from ', time)}
                           align={'left'}/>
