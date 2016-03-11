@@ -3,21 +3,27 @@
 .in-timeline-change-time-button {
   display: inherit;
   align-items: center;
-  padding: 0 10px;
+  padding: 4px 5px;
+  border: 2px solid grey;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:hover, &__open {
+    border: 2px solid white;
+    background: white;
+    color: black;
+  }
 
   &__timepicker {
     position: absolute;
-    bottom: 30px;
-    left: 0;
-  }
+    bottom: 40px;
 
-  &__icon {
-    margin: 0;
-    font-size: 20px;
-    color: @timeline__change-time-button;
+    &__left {
+      left: 20px;
+    }
 
-    &:hover {
-      color: white;
+    &__right {
+      right: 20px;
     }
   }
 

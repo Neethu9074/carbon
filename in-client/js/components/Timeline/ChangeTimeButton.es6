@@ -1,37 +1,43 @@
-import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import * as timelineStore from 'in-services/stores/timeline';
-import TimePicker from 'in-components/TimePicker';
-import Icon from 'in-components/Icon';
+
+import TimePicker from './TimePicker';
 
 import './ChangeTimeButton.less';
 
+
+const rpt = React.PropTypes;
 const block = 'in-timeline-change-time-button';
 
-const ChangeTimeButton = React.createClass({
+export default React.createClass({
+
+  displayName: 'ChangeTimeButton',
+
   mixins: [
     PureRenderMixin,
     SubscriptionMixin
   ],
 
-  getInitialState() {
-    return { open: false, timeframe: 0, currentTime: '10M' };
+  propTypes: {
+    onTimeSelected: rpt.func.isRequired,
+    align: rpt.string
   },
 
-  componentWillMount() {
-    this.addSubscription(timelineStore.timeframe.subscribe(timeframe => this.setState({timeframe})));
+  getInitialState() {
+    return {
+      open: false,
+      currentTime: '10M'
+    };
   },
 
   render() {
     return (
-      <div className={block}>
+      <div className={block + (this.state.open ? ' ' + block + '__open' : '')}
+           onClick={this.toggleTimePicker}>
         {this.renderTimePicker()}
-        <Icon type={'timer'}
-              className={block + '__icon'}
-              onClick={this.toggleTimePicker} />
-        <span className={block + '__text'} >
+        <span className={block + '__text'}>
           {this.state.currentTime}
         </span>
       </div>
@@ -40,8 +46,12 @@ const ChangeTimeButton = React.createClass({
 
   renderTimePicker() {
     if (this.state.open) {
-      return (<TimePicker onTimeSelected={this.onTimeChanged}
-                          className={block + '__timepicker'}/>);
+      const timePickerClass = block + '__timepicker';
+      return (
+        <TimePicker onTimeSelected={this.onTimeChanged}
+                    className={timePickerClass +
+                               ' ' + timePickerClass + (this.props.align === 'left' ? '__left' : '__right')}/>
+      );
     }
     return null;
   },
@@ -51,11 +61,11 @@ const ChangeTimeButton = React.createClass({
       open: false,
       currentTime: labels.short
     });
+
+    this.props.onTimeSelected(labels.short);
   },
 
   toggleTimePicker() {
     this.setState({ open: !this.state.open });
   }
 });
-
-export default ChangeTimeButton;

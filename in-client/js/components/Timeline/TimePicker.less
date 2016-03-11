@@ -7,7 +7,7 @@
   padding: 5px 5px 8px 5px;
 
   background: @background;
-  border-radius: 10px;
+  border-radius: 4px;
 
   z-index: @z-index__timepicker;
 
@@ -51,20 +51,5 @@
 
   &__value {
     font-size: 12px;
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-
-    bottom: -7px;
-    left: 20px;
-
-    border: 6px solid;
-    border-color:
-      @background
-      transparent
-      transparent
-      @background;
   }
 }

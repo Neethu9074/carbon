@@ -5,8 +5,8 @@ import d3 from 'd3';
 
 import * as timelineStore from 'in-services/stores/timeline';
 import * as serverTimeStore from 'in-stores/serverTime';
-import ServerTime from 'in-components/ServerTime';
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import ChangeTimeButton from './ChangeTimeButton';
 import Eventline from './Eventline';
@@ -63,11 +63,22 @@ export default connectTo(
         <TimeRange serverTime={this.props.serverTime}
                    scale={this.scale}
                    maxOldestPermittedIssueTimestamp={this.props.maxOldestPermittedIssueTimestamp}/>
-        <ChangeTimeButton />
+
+        <Icon type={'timer'}
+              className={block + '__icon'}/>
+
+        <ChangeTimeButton onTimeSelected={time => console.log('select from ', time)}
+                          align={'left'}/>
+
         <Eventline renderedForTimestamp={this.props.serverTime}
                    scale={this.scale}
                    maxOldestPermittedIssueTimestamp={this.props.maxOldestPermittedIssueTimestamp} />
-        <ServerTime className={block + '__servertime'} />
+
+        <ChangeTimeButton onTimeSelected={time => console.log('select to ', time)}
+                          align={'right'}/>
+
+        <Icon type={'timer'}
+              className={block + '__icon'}/>
       </div>
     );
   }
