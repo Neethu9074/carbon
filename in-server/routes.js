@@ -7,7 +7,7 @@ import sendRequest from 'request';
 
 import serverConfig from './serverConfig.js';
 import clientConfig from './assets/config.json';
-import {getChecksumForFile} from './checksum';
+import {getHashForFile} from './checksum';
 
 const router = express.Router();
 export default router;
@@ -22,7 +22,9 @@ const compiledTemplate = Handlebars.compile(rawTemplate);
 const assetDir = path.join(__dirname, 'assets');
 const bundleDir = path.join(assetDir, 'bundle');
 
-const indexJsChecksum = getChecksumForFile(path.join(bundleDir, 'index.js'));
+const indexJsHash = getHashForFile(path.join(bundleDir, 'index.js'));
+const indexJsSri = 'sha256-' + indexJsHash;
+const indexJsChecksum = indexJsHash.substring(0, 10);
 const themes = fs.readdirSync(bundleDir)
   .reduce((themeHashes, fileName) => {
     const match = fileName.match(/^theme-(\w+)\.css$/);
@@ -32,9 +34,11 @@ const themes = fs.readdirSync(bundleDir)
         path.join(__dirname, 'assets', themeName, 'config.json'),
         {encoding: 'utf8'}
       );
+      const themeHash = getHashForFile(path.join(bundleDir, fileName));
       themeHashes[themeName] = {
         fileName,
-        checksum: getChecksumForFile(path.join(bundleDir, fileName)),
+        checksum: themeHash.substring(0, 10),
+        sri: 'sha256-' + themeHash,
         // parse & stringify to remove all extra whitespace. Basically "minify"
         // the JSON.
         config: JSON.stringify(JSON.parse(themeConfig))
@@ -68,7 +72,8 @@ router.get('/', (req, res) => {
       return;
     } else if (status < 200 || status > 299) {
       console.error('Undefined state: Server returned unknown status code ' + status);
-      res.status(500).send('Sorry, we received something that we do not understand. This is a failure on our side and we are sorry for that :(.');
+      res.status(500).send('Sorry, we received something that we do not understand. This is a ' +
+        'failure on our side and we are sorry for that :(.');
       return;
     }
 
@@ -80,6 +85,7 @@ router.get('/', (req, res) => {
       theme = enabledTheme;
     }
     const themeChecksum = themes[theme].checksum;
+    const themeSri = themes[theme].sri;
     const themeConfig = themes[theme].config;
 
     // doing this exactly three times as the template requires three nonces
@@ -110,9 +116,11 @@ router.get('/', (req, res) => {
 
     res.send(compiledTemplate({
       indexJsChecksum,
+      indexJsSri,
       theme,
       themeChecksum,
       themeConfig,
+      themeSri,
       nonces
     }));
   });
