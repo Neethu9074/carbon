@@ -22,6 +22,8 @@ const TimePicker = React.createClass({
   },
 
   render() {
+    // TODO: Ben, Simon - Render fancy datepicker, realtime, hasseNichJesehen items here
+
     const className = this.props.className ? block + ' ' + this.props.className : block;
     return (
       <div className={className}>
