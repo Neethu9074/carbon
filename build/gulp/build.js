@@ -153,7 +153,10 @@ gulp.task('identifyTryBuildTargetEnvironment', cb => {
 
 
 gulp.task('writeTryBuildConfigFile', () => {
-  buildUtil.writeDevModeConfig(tryBuildModeOptions.uiMode === 'saas' ? 'production' : 'demo');
+  buildUtil.writeDevModeConfig(
+    tryBuildModeOptions.uiMode === 'saas' ? 'production' : 'demo',
+    environments[tryBuildModeOptions.environment]
+  );
 });
 
 
