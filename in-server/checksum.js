@@ -6,5 +6,5 @@ export function getSriIntegrityForFile(path) {
 }
 
 export function getChecksumForFile(path) {
-  return crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex');
+  return crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex').substring(0, 10);
 }
