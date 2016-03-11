@@ -7,7 +7,7 @@ import sendRequest from 'request';
 
 import serverConfig from './serverConfig.js';
 import clientConfig from './assets/config.json';
-import {getHashForFile} from './checksum';
+import {getChecksumForFile, getSriIntegrityForFile} from './checksum';
 
 const router = express.Router();
 export default router;
@@ -22,9 +22,9 @@ const compiledTemplate = Handlebars.compile(rawTemplate);
 const assetDir = path.join(__dirname, 'assets');
 const bundleDir = path.join(assetDir, 'bundle');
 
-const indexJsHash = getHashForFile(path.join(bundleDir, 'index.js'));
-const indexJsSri = 'sha256-' + indexJsHash;
-const indexJsChecksum = indexJsHash.substring(0, 10);
+const fullIndexJsPath = path.join(bundleDir, 'index.js');
+const indexJsSri = getSriIntegrityForFile(fullIndexJsPath);
+const indexJsChecksum = getChecksumForFile(fullIndexJsPath);
 const themes = fs.readdirSync(bundleDir)
   .reduce((themeHashes, fileName) => {
     const match = fileName.match(/^theme-(\w+)\.css$/);
@@ -34,11 +34,11 @@ const themes = fs.readdirSync(bundleDir)
         path.join(__dirname, 'assets', themeName, 'config.json'),
         {encoding: 'utf8'}
       );
-      const themeHash = getHashForFile(path.join(bundleDir, fileName));
+      const fullFilePath = path.join(bundleDir, fileName);
       themeHashes[themeName] = {
         fileName,
-        checksum: themeHash.substring(0, 10),
-        sri: 'sha256-' + themeHash,
+        checksum: getChecksumForFile(fullFilePath),
+        sri: getSriIntegrityForFile(fullFilePath),
         // parse & stringify to remove all extra whitespace. Basically "minify"
         // the JSON.
         config: JSON.stringify(JSON.parse(themeConfig))
