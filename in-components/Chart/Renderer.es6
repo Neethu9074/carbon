@@ -5,7 +5,7 @@ import moment from 'moment';
 import sortedIndexBy from 'lodash/sortedIndexBy';
 import d3 from 'd3';
 
-import * as timelineStore from 'in-services/stores/timeline';
+import * as timelineStore from 'in-stores/timeline';
 import {theme} from 'in-services/theme';
 
 import Queue from './Queue';

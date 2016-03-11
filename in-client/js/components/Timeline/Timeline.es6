@@ -3,7 +3,7 @@ import {combineLatest} from 'reactive-observables';
 import React from 'react';
 import d3 from 'd3';
 
-import * as timelineStore from 'in-services/stores/timeline';
+import * as timelineStore from 'in-stores/timeline';
 import * as serverTimeStore from 'in-stores/serverTime';
 import ServerTime from 'in-components/ServerTime';
 import connectTo from 'in-hoc/connectTo';
@@ -22,10 +22,9 @@ export default connectTo(
   () => {
     return {
       serverTime: serverTimeStore.serverTime,
-      timeframe: timelineStore.timeframe,
       maxOldestPermittedIssueTimestamp: combineLatest(
           [serverTimeStore.serverTime, timelineStore.timeframe]
-        ).map(([serverTime, timeframe]) => serverTime - timeframe)
+        ).map(([serverTime, timeframe]) => serverTime - timeframe.windowSize)
     };
   },
   React.createClass({
@@ -38,8 +37,7 @@ export default connectTo(
 
   propTypes: {
     maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
-    serverTime: rpt.number.isRequired,
-    timeframe: rpt.number.isRequired
+    serverTime: rpt.number.isRequired
   },
 
   componentWillMount() {

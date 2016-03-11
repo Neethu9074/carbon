@@ -2,7 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import * as timelineStore from 'in-services/stores/timeline';
+import * as timelineStore from 'in-stores/timeline';
 import TimePicker from 'in-components/TimePicker';
 import Icon from 'in-components/Icon';
 
@@ -21,7 +21,9 @@ const ChangeTimeButton = React.createClass({
   },
 
   componentWillMount() {
-    this.addSubscription(timelineStore.timeframe.subscribe(timeframe => this.setState({timeframe})));
+    this.addSubscription(timelineStore.timeframe.subscribe(timeframe =>
+      this.setState({timeframe: timeframe.windowSize})
+    ));
   },
 
   render() {

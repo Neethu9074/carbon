@@ -4,7 +4,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {focusedMoment} from 'in-services/stores/timeline';
+import {focusedMoment} from 'in-stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 

@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {currentRollup} from 'in-services/stores/timeline';
+import {currentRollup} from 'in-stores/timeline';
 
 import ChartLegend from '../ChartLegend';
 import Chart from '../Chart';

@@ -19,7 +19,7 @@ const ChartWrapper = React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    windowSize: rpt.number.isRequired,
+    windowSize: rpt.object.isRequired,
     snapshot: irpt.map.isRequired,
     y1: rpt.object.isRequired,
     y2: rpt.object
@@ -62,7 +62,7 @@ const ChartWrapper = React.createClass({
       getHistoricMetricsWithLiveUpdates({
         snapshotId: this.props.snapshot.get('id'),
         metric,
-        timeframe: this.props.windowSize
+        timeframe: this.props.windowSize.windowSize
       })
     );
   },
@@ -124,7 +124,7 @@ const ChartWrapper = React.createClass({
     return (
       <Chart height={this.props.height}
              margins={this.props.margins}
-             windowSize={this.props.windowSize}
+             windowSize={this.props.windowSize.windowSize}
              y1={y1}
              y2={y2} />
     );
