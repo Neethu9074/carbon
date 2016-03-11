@@ -25,14 +25,6 @@ const TimePicker = React.createClass({
     const className = this.props.className ? block + ' ' + this.props.className : block;
     return (
       <div className={className}>
-        <div className={block + '__heading'}>
-          <span className={block + '__key'}>
-            Time
-          </span>
-          <span className={block + '__value'}>
-            Rollup
-          </span>
-        </div>
         {this.createButton(1000 * 60 * 10, 'timePicker.time1', '1 sec')}
         {this.createButton(1000 * 60 * 60, 'timePicker.time2', '5 sec')}
         {this.createButton(1000 * 60 * 60 * 12, 'timePicker.time3', '1 min')}
