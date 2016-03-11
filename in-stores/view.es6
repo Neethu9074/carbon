@@ -1,5 +1,5 @@
 import createViewStructureObservable from 'in-services/subscription/view';
-import createIsMonitoringObservable from 'in-services/subscription/view';
+import createIsMonitoringObservable from 'in-services/subscription/isMonitoring';
 
 import {mutateUrl, navigationParameters} from './navigation';
 import {createStore, createTrackingStore} from './store';
