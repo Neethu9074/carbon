@@ -15,7 +15,7 @@ import {
   kiloBytesZeroDecimalPlaces,
   kiloBytesTwoDecimalPlaces,
   withSiMultiplyPrefixZeroDecimalPlaces,
-  withSiMultiplyPrefixTwoDecimalPlaces
+  withSiMultiplyPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
 import {getMaxValue} from 'in-sdk/metrics';
 
@@ -286,7 +286,7 @@ export default connectTo(
                        labels: ['iFree'],
                        type: 'line',
                        formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                       tooltipFormatter: withSiMultiplyPrefixTwoDecimalPlaces
+                       tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
                      }}/>
 
               <ChartWithLegend snapshot={snapshot}
@@ -300,7 +300,7 @@ export default connectTo(
                      y1={{
                        min: 0,
                        formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                       tooltipFormatter: withSiMultiplyPrefixTwoDecimalPlaces,
+                       tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
                        metrics: [
                          'fs.' + filesystemName + '.reads',
                          'fs.' + filesystemName + '.writes'

@@ -20,10 +20,10 @@ export const kiloBytesZeroDecimalPlaces = d => formatBytes(d * byteBase, 0);
 export const kiloBytesTwoDecimalPlaces = d => formatBytes(d * byteBase, 2);
 
 export const withSiPrefixZeroDecimalPlaces = d => withSiPrefix(d, 0);
-export const withSiPrefixTwoDecimalPlaces = d => withSiPrefix(d, 2);
+export const withSiPrefixThreeDecimalPlaces = d => withSiPrefix(d, 3);
 
 export const withSiMultiplyPrefixZeroDecimalPlaces = d => withSiMultiplyPrefix(d, 0);
-export const withSiMultiplyPrefixTwoDecimalPlaces = d => withSiMultiplyPrefix(d, 2);
+export const withSiMultiplyPrefixThreeDecimalPlaces = d => withSiMultiplyPrefix(d, 3);
 
 export const msZeroDecimalPlaces = d => zeroDecimalPlaces(d) + 'ms';
 export const msTwoDecimalPlaces = d => twoDecimalPlaces(d) + 'ms';
@@ -60,9 +60,12 @@ export const time = millis => {
  * @param {number} [numberOfDecimalPlaces=2] The desired number of decimal places to format to.
  * @return {string} The formatter number of the SI prefix.
  */
-function withSiPrefix(num, numberOfDecimalPlaces = 2) {
+function withSiPrefix(num, numberOfDecimalPlaces) {
   const prefix = d3.formatPrefix(num);
-  return d3.round(prefix.scale(num), numberOfDecimalPlaces) + prefix.symbol;
+  return toStringWithNumberOfDecimalPlaces(
+    d3.round(prefix.scale(num), numberOfDecimalPlaces),
+    numberOfDecimalPlaces
+  ) + prefix.symbol;
 }
 
 /**
@@ -74,9 +77,43 @@ function withSiPrefix(num, numberOfDecimalPlaces = 2) {
  * @param {number} [numberOfDecimalPlaces=2] The desired number of decimal places to format to.
  * @return {string} The formatter number of the SI prefix.
  */
-function withSiMultiplyPrefix(num, numberOfDecimalPlaces = 2) {
+function withSiMultiplyPrefix(num, numberOfDecimalPlaces) {
   const prefix = d3.formatPrefix(num.toFixed(0));
-  return d3.round(prefix.scale(num), numberOfDecimalPlaces) + prefix.symbol;
+  return toStringWithNumberOfDecimalPlaces(
+    d3.round(prefix.scale(num), numberOfDecimalPlaces),
+    numberOfDecimalPlaces
+  ) + prefix.symbol;
+}
+
+function toStringWithNumberOfDecimalPlaces(num, numberOfDecimalPlaces) {
+  let numStr = String(num);
+
+  // Assuming that a previous component already rounded to a specific scale
+  // for performance reasons.
+  if (numberOfDecimalPlaces === 0) {
+    return numStr;
+  }
+
+  let periodIndex = -1;
+  for (let i = 0, len = numStr.length; i < len; i++) {
+    if (numStr[i] === '.') {
+      periodIndex = i;
+      break;
+    }
+  }
+
+
+  if (periodIndex === -1) {
+    numStr += '.';
+    periodIndex = numStr.length;
+  }
+
+  const missingZerosCount = numberOfDecimalPlaces - Math.max(numStr.length - periodIndex - 1, 0);
+  for (let i = 0; i < missingZerosCount; i++) {
+    numStr += '0';
+  }
+
+  return numStr;
 }
 
 /**

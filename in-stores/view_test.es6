@@ -1,5 +1,6 @@
 /* eslint-env mocha, node */
 
+import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
@@ -62,7 +63,9 @@ describe('stores.view', () => {
   });
 
   function loadModule() {
-    mod = proxyquire('./view', {});
+    mod = proxyquire('./view', {
+      'in-services/subscription/view': () => create().startWith(true)
+    });
   }
 
   function setHash(hash) {
