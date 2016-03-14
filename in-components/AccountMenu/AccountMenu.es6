@@ -3,8 +3,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {IntlMixin} from 'react-intl';
 import React from 'react';
 
-import {isDemoEnvironment} from 'in-services/config';
 import {getTenantsWithUnits} from 'in-services/tenants';
+import {isDemoEnvironment} from 'in-services/config';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 

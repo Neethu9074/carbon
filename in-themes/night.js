@@ -79,15 +79,26 @@ module.exports = defaultsDeep({
     }
   },
   timeline: {
-    changeTimeButton: cyan,
     timeRangeLabel: white,
     background: grey5,
-    serverTime: grey1,
     line: grey3,
     timepicker: {
-      fontColor: grey1,
-      fontColorHighlight: white,
-      backgroundHighlight: grey5
+      timeRangePicker: {
+        buttonBackground: grey1,
+        buttonForeground: white,
+        buttonBackgroundHighlight: white,
+        buttonForegroundHighlight: grey1
+      },
+      fixedTimeWindowPicker: {
+
+      },
+      panelBorder: grey1,
+      selection: {
+        icon: cyan,
+        heading: white,
+        text: grey1,
+        textSelected: '#C3DAF6'
+      }
     }
   },
   filterbar: {
