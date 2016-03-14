@@ -69,7 +69,7 @@ export default React.createClass({
            onClick={() => this.setState({ selectedtimePicker: type })}>
         <Icon className={block + '__icon'}
               type={iconType} />
-        <div className={block + '__description'}>
+        <div>
           <p className={block + '__heading'}>
           {heading}
           </p>
