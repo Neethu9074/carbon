@@ -62,9 +62,9 @@ exports.openBrowser = opn;
 
 exports.writeDevModeConfig = function writeDevModeConfig(environment, envConfig) {
   var devConfig = {
-    environment: environment,
     tenant: envConfig.tenant,
     tenantUnit: envConfig.tenantUnit,
+    environment: 'internal',
     groundskeeperDomain: envConfig.groundskeeperDomain,
     analyticsTrackingId: 'UA-66215232-4',
     keys: {
