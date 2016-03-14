@@ -6,7 +6,6 @@ import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   time,
-  withSiMultiplyPrefixZeroDecimalPlaces,
   withSiMultiplyPrefixTwoDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
@@ -198,8 +197,7 @@ export default React.createClass({
                                    left: 90
                                  }}
                                  y1={{
-                                   formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                                   tooltipFormatter: withSiMultiplyPrefixTwoDecimalPlaces,
+                                   formatter: withSiMultiplyPrefixTwoDecimalPlaces,
                                    metrics: ['jmx.' + this.state.selectedJmxMetric],
                                    labels: [this.state.selectedJmxMetric],
                                    type: 'line'
