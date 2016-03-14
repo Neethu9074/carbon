@@ -37,13 +37,20 @@ export default React.createClass({
         </div>
 
         <DayPicker initialMonth={this.props.date}
-                   modifiers={{isSunday: this.isSunday}}
+                   renderDay={this.renderDay}
+                   modifiers={{
+                   }}
                    onDayClick={(e, day) => this.props.handleDateClicked(day)}/>
      </div>
     );
   },
 
-  isSunday(day) {
-    return day.getDay() === 0;
+  renderDay(day) {
+    const className = day.getTime() === this.props.date.getTime() ? block + '__selected-day' : null;
+    return (
+      <div className={className}>
+        {day.getDate()}
+      </div>
+    );
   }
 });
