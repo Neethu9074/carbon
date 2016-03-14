@@ -1,10 +1,10 @@
 import crypto from 'crypto';
 import fs from 'fs';
 
-export function getChecksumForFile(path) {
-  return getChecksumForString(fs.readFileSync(path, {encoding: 'utf8'}));
+export function getSriIntegrityForFile(path) {
+  return 'sha256-' + crypto.createHash('sha256').update(fs.readFileSync(path)).digest('base64');
 }
 
-export function getChecksumForString(str) {
-  return crypto.createHash('sha256').update(str).digest('hex').substring(0, 10);
+export function getChecksumForFile(path) {
+  return crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex').substring(0, 10);
 }

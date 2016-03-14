@@ -1,4 +1,5 @@
 import createViewStructureObservable from 'in-services/subscription/view';
+import createIsMonitoringObservable from 'in-services/subscription/isMonitoring';
 
 import {mutateUrl, navigationParameters} from './navigation';
 import {createStore, createTrackingStore} from './store';
@@ -18,6 +19,12 @@ export const viewStructure = createTrackingStore({
   name: 'viewStructure',
   observable: view.flatMap(viewType => createViewStructureObservable({viewType}))
 }).observable;
+
+
+export const isMonitoring = createTrackingStore({
+  name: 'isMonitoring',
+  observable: createIsMonitoringObservable()
+}).observable.distinct();
 
 
 if (window.location.hash) {

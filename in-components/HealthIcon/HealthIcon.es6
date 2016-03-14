@@ -5,6 +5,7 @@ import React from 'react';
 import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import IssueDescription from 'in-components/IssueDescription';
+import {getClassName} from 'in-services/react';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
 
@@ -21,6 +22,7 @@ export default getMostImportantIssue(
 
   propTypes: {
     snapshotId: React.PropTypes.string.isRequired,
+    className: React.PropTypes.string,
     mostImportantIssue: irpt.map
   },
 
@@ -50,7 +52,7 @@ export default getMostImportantIssue(
       <Tooltip content={<IssueDescription issue={mostImportantIssue}
                                           snapshotId={this.props.snapshotId}/>}>
         <Icon type={iconType}
-              className={block}
+              className={getClassName(this, block)}
               style={{ color }} />
       </Tooltip>
     );

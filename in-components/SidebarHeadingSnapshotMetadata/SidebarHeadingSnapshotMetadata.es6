@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import {Navigation} from 'react-router';
 import React from 'react';
 
+import HealthIcon from 'in-components/HealthIcon';
 import {getClassName} from 'in-services/react';
 import {getSingular} from 'in-sdk/pluginName';
 import {getLabel} from 'in-sdk/snapshot';
@@ -39,11 +40,14 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
             </span>
           </h1>
 
-          <div>
+          <div className={block + '__wrapper'}>
             <span className={block + '__plugin-type'}>
               {getSingular(snapshot.get('plugin'))}
             </span>
-            <ZoneTag snapshotId={snapshot.get('id')} className={block + '__zone'}/>
+            <div className={block + '__wrapper'}>
+              <ZoneTag snapshotId={snapshot.get('id')} className={block + '__zone'}/>
+              <HealthIcon snapshotId={snapshot.get('id')} className={block + '__icon'}/>
+            </div>
           </div>
         </div>
       </div>
