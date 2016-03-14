@@ -3,7 +3,6 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {mapSeverityToHealth, mapHealthToColor, health} from 'in-services/health';
-import * as timelineStore from 'in-services/stores/timeline';
 import {getIssues} from 'in-services/issueTracker';
 import enhance from 'in-components/hoc/enhance';
 
@@ -30,7 +29,6 @@ const NotificationCenter = React.createClass({
 
   propTypes: {
     toggleNotificationCenter: rpt.func.isRequired,
-    timeframe: rpt.number.isRequired,
     allIssues: irpt.list,
     style: rpt.object,
     open: rpt.bool
@@ -39,7 +37,6 @@ const NotificationCenter = React.createClass({
   statics: {
     createObservables() {
       return {
-        timeframe: timelineStore.timeframe,
         allIssues: getIssues()
       };
     }

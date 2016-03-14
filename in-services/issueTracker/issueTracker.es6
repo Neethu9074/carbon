@@ -7,9 +7,9 @@ import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
+import * as timelineStore from 'in-stores/timeline';
 
 import {mapSeverityToHealth, health} from '../health';
-import * as timelineStore from '../stores/timeline';
 
 // CPU steal issues shouldn't be shown in the demo environment as we are using
 // small EC2 instances. These almost always have high CPU steal.
@@ -19,7 +19,9 @@ const withoutCpuStealMapper = (issues) => {
   );
 };
 
-const allIssuesStreamWithExperimentals = timelineStore.timeframe.distinct()
+const allIssuesStreamWithExperimentals = timelineStore.timeframe
+  .map(timeframe => timeframe.windowSize)
+  .distinct()
   .flatMap(timeframe => {
     const stream = getIssueStore(timeframe)
       .scan(collectingReducer, emptyList)

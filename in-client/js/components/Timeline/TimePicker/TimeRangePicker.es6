@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {IntlMixin} from 'react-intl';
 import React from 'react';
 
-import * as timelineStore from 'in-services/stores/timeline';
+import * as timelineStore from 'in-stores/timeline';
 import * as tracking from 'in-services/tracking';
 
 import './TimeRangePicker.less';
