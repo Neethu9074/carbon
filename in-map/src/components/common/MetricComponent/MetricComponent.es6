@@ -6,14 +6,15 @@ import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/c
 import SCCP from 'in-map/src/SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipMetric from 'in-map/src/2DSceneObjects/tooltips/physical/Metric';
-import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {currentTooltip, tooltipForSceneObject} from 'in-map/src/stores';
 
 import CollisionComponent from '../CollisionObjectComponent';
 import Component from '../Component';
 import XYZ from '../XYZ';
 
+
 const thicknessOfCubes = 0.9;
+const fixedEmitter = { on: () => { return { subscribe: () => {} }; } };
 
 export default class MetricComponent extends Component {
 
@@ -30,9 +31,7 @@ export default class MetricComponent extends Component {
     this.setupFragment();
     this.updateContentProvider();
 
-    this.eventEmitter = {
-      on: () => { return { subscribe: () => {} }; }
-    };
+    this.eventEmitter = fixedEmitter;
 
     this.collisionComponent = new CollisionComponent({
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
@@ -40,12 +39,6 @@ export default class MetricComponent extends Component {
       layer: 3
     });
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-
-    this.highlightingSubscription = highlightedEntityId.subscribe(highlightedId =>
-      this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT,
-        highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF)
-    );
-
 
     this.initialized();
     this.addSubscription('positionChanged', this.positionChanged);
@@ -130,7 +123,6 @@ export default class MetricComponent extends Component {
       thicknessOfCubes);
   }
 
-
   positionChanged({newPosition}) {
     this.collisionComponent.positionChanged({newPosition});
     this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
@@ -147,7 +139,6 @@ export default class MetricComponent extends Component {
   }
 
   addToFactory() {
-
     this.factoryFragment = this.factory.addFragment(this.fragment);
   }
 
@@ -165,7 +156,6 @@ export default class MetricComponent extends Component {
   dispose() {
     super.dispose();
 
-    this.highlightingSubscription.dispose();
     this.removeFromFactory();
     this.positionToSet.dispose();
 

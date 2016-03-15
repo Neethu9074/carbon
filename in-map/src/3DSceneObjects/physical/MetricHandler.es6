@@ -67,12 +67,10 @@ export default class MetricHandler {
     const maxValue = getMaxValue(this.currentMetric.getIn([0, 'name']), snapshot);
 
     this.metricSubscription = combineLatest(
-      this.currentMetric.toArray().map(metric => {
-        return getLiveMetrics({
-          snapshotId: client.id,
-          metric: metric.get('name')
-        });
-      }))
+      this.currentMetric.toArray().map(metric => getLiveMetrics({
+        snapshotId: client.id,
+        metric: metric.get('name')
+      })))
       .throttle(1000)
       .subscribe(values => client.setMetricValues(values.map(v => v[1] / maxValue))
     );
