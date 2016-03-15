@@ -3,18 +3,20 @@ import {combineLatest} from 'reactive-observables';
 import React from 'react';
 import d3 from 'd3';
 
-import * as timelineStore from 'in-stores/timeline';
+import {selectedDateFrom, selectedDateTo} from 'in-stores/timeline';
 import * as serverTimeStore from 'in-stores/serverTime';
+import * as timelineStore from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import ChangeTimeButton from './ChangeTimeButton';
+import TimePicker from './TimePicker';
 import Eventline from './Eventline';
 
 import './Timeline.less';
 
 
-const rpt = React.PropTypes;
 const block = 'in-timeline';
+const rpt = React.PropTypes;
 
 export default connectTo(
   () => {
@@ -22,7 +24,9 @@ export default connectTo(
       serverTime: serverTimeStore.serverTime,
       maxOldestPermittedIssueTimestamp: combineLatest(
           [serverTimeStore.serverTime, timelineStore.timeframe]
-        ).map(([serverTime, timeframe]) => serverTime - timeframe.windowSize)
+        ).map(([serverTime, timeframe]) => serverTime - timeframe.windowSize),
+      selectedDateFrom,
+      selectedDateTo
     };
   },
   React.createClass({
@@ -35,7 +39,15 @@ export default connectTo(
 
   propTypes: {
     maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
-    serverTime: rpt.number.isRequired
+    serverTime: rpt.number.isRequired,
+    selectedDateFrom: rpt.any,
+    selectedDateTo: rpt.any
+  },
+
+  getInitialState() {
+    return {
+      open: false
+    };
   },
 
   componentWillMount() {
@@ -54,19 +66,41 @@ export default connectTo(
   },
 
   render() {
+    if (!this.props.selectedDateFrom || !this.props.selectedDateTo) {
+      return null;
+    }
+
     return (
       <div className={block}>
+        {this.renderTimePicker()}
 
-        <ChangeTimeButton onTimeSelected={time => console.log('select from ', time)}
+        <ChangeTimeButton label={this.props.selectedDateFrom.toLocaleString()}
+                          toggleTimePicker={() => this.toggleTimePicker('left')}
                           align={'left'}/>
 
         <Eventline renderedForTimestamp={this.props.serverTime}
                    scale={this.scale}
                    maxOldestPermittedIssueTimestamp={this.props.maxOldestPermittedIssueTimestamp} />
 
-        <ChangeTimeButton onTimeSelected={time => console.log('select to ', time)}
+        <ChangeTimeButton label={this.props.selectedDateTo.toLocaleString()}
+                          toggleTimePicker={() => this.toggleTimePicker('right')}
                           align={'right'}/>
       </div>
     );
+  },
+
+  renderTimePicker() {
+    if (this.state.open) {
+      const className = ' ' + block + '__timepicker__' + this.state.align;
+      return <TimePicker className={block + '__timepicker' + className} />;
+    }
+    return null;
+  },
+
+  toggleTimePicker(align) {
+    this.setState({
+      open: !this.state.open,
+      align
+    });
   }
 }));

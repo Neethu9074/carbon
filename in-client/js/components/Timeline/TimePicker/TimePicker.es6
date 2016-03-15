@@ -25,7 +25,6 @@ export default React.createClass({
   ],
 
   propTypes: {
-    onTimeSelected: rpt.func,
     className: rpt.any
   },
 
