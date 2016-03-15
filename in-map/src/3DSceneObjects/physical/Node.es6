@@ -87,7 +87,6 @@ export default class Node extends SceneObjectWithSnapshot {
 
   onIndirectHighlightLeave() {
     this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.changeComponentState('groundLine', PROPERTIES.SELECTED, PROPERTY_VALUES.OFF);
   }
 

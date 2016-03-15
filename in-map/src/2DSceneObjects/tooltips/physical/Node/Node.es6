@@ -1,20 +1,19 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 
 import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
 import IssueDescription from 'in-components/IssueDescription';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Content from 'in-components/Tooltips/Content';
-import {getLabel} from 'in-sdk/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
+import {getLabel} from 'in-sdk/snapshot';
 
 import LayerListing from './LayerListing.es6';
 import Tooltip from '../../Tooltip.es6';
 
 
-const block = 'in-tooltip-node';
 const rpt = React.PropTypes;
 
 const NodeTooltip = getMostImportantIssue(
@@ -46,9 +45,7 @@ const NodeTooltip = getMostImportantIssue(
                             snapshotId={this.props.snapshotId}/>
           :
           <Content>
-            <span className={block + '__label'}>
-              {snapshot ? getLabel(snapshot, snapshot.getIn(['data', 'hostname'])) : null}
-            </span>
+            {snapshot ? getLabel(snapshot, snapshot.getIn(['data', 'hostname'])) : null}
             {layer.length > 0 ?
               <LayerListing snapshotIds={layer.map(l => l.id)}/>
               : null}

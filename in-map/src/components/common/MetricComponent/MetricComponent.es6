@@ -1,3 +1,4 @@
+import RoEmitter from 'roemitter';
 import THREE from 'three';
 
 import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -6,11 +7,12 @@ import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/c
 import SCCP from 'in-map/src/SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipMetric from 'in-map/src/2DSceneObjects/tooltips/physical/Metric';
-import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {currentTooltip, tooltipForSceneObject} from 'in-map/src/stores';
 
 import CollisionComponent from '../CollisionObjectComponent';
 import Component from '../Component';
 import XYZ from '../XYZ';
+
 
 const thicknessOfCubes = 0.9;
 
@@ -29,17 +31,14 @@ export default class MetricComponent extends Component {
     this.setupFragment();
     this.updateContentProvider();
 
+    this.eventEmitter = new RoEmitter(this.id);
+
     this.collisionComponent = new CollisionComponent({
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
-      sceneObject,
+      sceneObject: this,
       layer: 3
     });
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-
-    this.highlightingSubscription = highlightedEntityId.subscribe(highlightedId => {
-      const isThisHighlighted = highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, isThisHighlighted);
-    });
 
     this.initialized();
     this.addSubscription('positionChanged', this.positionChanged);
@@ -52,11 +51,24 @@ export default class MetricComponent extends Component {
   onInitialEnter() {
     this.addToFactory();
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+
+    if (!this.tooltipSubscription) {
+      this.tooltipSubscription = tooltipForSceneObject.subscribe(sOId => {
+        if (sOId === this.id) {
+          currentTooltip.emit(this.getTooltip());
+        }
+      });
+    }
   }
 
   onInactiveEnter() {
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.removeFromFactory();
+
+    if (this.tooltipSubscription) {
+      this.tooltipSubscription.dispose();
+      this.tooltipSubscription = null;
+    }
   }
 
 
@@ -105,16 +117,18 @@ export default class MetricComponent extends Component {
       heightOfBox = 0.01;
     }
 
-    this.collisionComponent.sizeChanged(
-      thicknessOfCubes,
-      heightOfBox,
-      thicknessOfCubes);
+    // route to local emitter
+    this.eventEmitter.emit('sizeChanged', {
+      x: thicknessOfCubes,
+      y: heightOfBox,
+      z: thicknessOfCubes
+    });
   }
 
-
-  positionChanged({newPosition}) {
-    this.collisionComponent.positionChanged({newPosition});
-    this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
+  positionChanged(event) {
+    // route to local emitter
+    this.eventEmitter.emit('positionChanged', event);
+    this.positionToSet.set(event.newPosition.x, event.newPosition.y, event.newPosition.z);
     this.needsUpdate = true;
   }
 
@@ -128,7 +142,6 @@ export default class MetricComponent extends Component {
   }
 
   addToFactory() {
-
     this.factoryFragment = this.factory.addFragment(this.fragment);
   }
 
@@ -146,7 +159,6 @@ export default class MetricComponent extends Component {
   dispose() {
     super.dispose();
 
-    this.highlightingSubscription.dispose();
     this.removeFromFactory();
     this.positionToSet.dispose();
 

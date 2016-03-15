@@ -4,6 +4,6 @@ import moment from 'moment';
 // for us.
 moment.updateLocale('en', {
   longDateFormat: {
-    LT: 'h:mm:ss A'
+    LT: 'HH:mm:ss'
   }
 });
