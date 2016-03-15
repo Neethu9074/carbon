@@ -30,7 +30,7 @@ export default class SceneObject extends Subscriber {
     this.stateMachine = new StateMachine(this);
     this.stateMachine.initialized();
 
-    this.addSubscription(snapshotStore.selectedSnapshotId.subscribe(selectedId =>
+    this.addSubscription(snapshotStore.selectedSnapshotIdForHighlightingInMap.subscribe(selectedId =>
       this.stateMachine.changeStateProperty(PROPERTIES.SELECTED,
         selectedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF)
     ));

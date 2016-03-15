@@ -56,12 +56,10 @@ export const selectedSnapshotIdForHighlightingInMap = createTrackingStore({
       }
 
       return getPhysicalHierarchy(snapshotId)
-        .startWith(snapshotId)
         .map(physicalHierarchy => {
           if (!physicalHierarchy || physicalHierarchy.size <= 1) {
             return snapshotId;
           }
-
           return physicalHierarchy.first();
         });
     })
