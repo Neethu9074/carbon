@@ -47,6 +47,26 @@ export const selectedSnapshotWithId = createTrackingStore({
     })
 }).observable;
 
+export const selectedSnapshotIdForHighlightingInMap = createTrackingStore({
+  name: 'selectedSnapshotIdForHighlightingInMap',
+  observable: selectedSnapshotId
+    .flatMap(snapshotId => {
+      if (!snapshotId) {
+        return alwaysNull;
+      }
+
+      return getPhysicalHierarchy(snapshotId)
+        .startWith(snapshotId)
+        .map(physicalHierarchy => {
+          if (!physicalHierarchy || physicalHierarchy.size <= 1) {
+            return snapshotId;
+          }
+
+          return physicalHierarchy.first();
+        });
+    })
+}).observable;
+
 export function setSelectedSnapshotId(id) {
   if (id == null) {
     clearSelectedSnapshotId();
