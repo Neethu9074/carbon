@@ -1,3 +1,4 @@
+import RoEmitter from 'roemitter';
 import THREE from 'three';
 
 import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
@@ -14,7 +15,6 @@ import XYZ from '../XYZ';
 
 
 const thicknessOfCubes = 0.9;
-const fixedEmitter = { on: () => { return { subscribe: () => {} }; } };
 
 export default class MetricComponent extends Component {
 
@@ -31,7 +31,7 @@ export default class MetricComponent extends Component {
     this.setupFragment();
     this.updateContentProvider();
 
-    this.eventEmitter = fixedEmitter;
+    this.eventEmitter = new RoEmitter(this.id);
 
     this.collisionComponent = new CollisionComponent({
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
@@ -117,15 +117,18 @@ export default class MetricComponent extends Component {
       heightOfBox = 0.01;
     }
 
-    this.collisionComponent.sizeChanged(
-      thicknessOfCubes,
-      heightOfBox,
-      thicknessOfCubes);
+    // route to local emitter
+    this.eventEmitter.emit('sizeChanged', {
+      x: thicknessOfCubes,
+      y: heightOfBox,
+      z: thicknessOfCubes
+    });
   }
 
-  positionChanged({newPosition}) {
-    this.collisionComponent.positionChanged({newPosition});
-    this.positionToSet.set(newPosition.x, newPosition.y, newPosition.z);
+  positionChanged(event) {
+    // route to local emitter
+    this.eventEmitter.emit('positionChanged', event);
+    this.positionToSet.set(event.newPosition.x, event.newPosition.y, event.newPosition.z);
     this.needsUpdate = true;
   }
 
