@@ -91,17 +91,24 @@ describe('in-services.formatter.number', () => {
     });
 
     it('should format with decimal places', () => {
-      expect(numberFormatters.withSiPrefixTwoDecimalPlaces(0.000000001567)).to.equal('1.57n');
-      expect(numberFormatters.withSiPrefixTwoDecimalPlaces(0.001567)).to.equal('1.57m');
-      expect(numberFormatters.withSiPrefixTwoDecimalPlaces(1.567)).to.equal('1.57');
-      expect(numberFormatters.withSiPrefixTwoDecimalPlaces(1567)).to.equal('1.57k');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(0.000000001567)).to.equal('1.567n');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(0.001567)).to.equal('1.567m');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(1.567)).to.equal('1.567');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(1567)).to.equal('1.567k');
     });
 
     it('should format with decimal places using only multiplication prefixes', () => {
-      expect(numberFormatters.withSiMultiplyPrefixTwoDecimalPlaces(0.000000001567)).to.equal('0');
-      expect(numberFormatters.withSiMultiplyPrefixTwoDecimalPlaces(0.001567)).to.equal('0');
-      expect(numberFormatters.withSiMultiplyPrefixTwoDecimalPlaces(1.567)).to.equal('1.57');
-      expect(numberFormatters.withSiMultiplyPrefixTwoDecimalPlaces(1567)).to.equal('1.57k');
+      expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(0.000000001567)).to.equal('0.000');
+      expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(0.001567)).to.equal('0.002');
+      expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(1.567)).to.equal('1.567');
+      expect(numberFormatters.withSiMultiplyPrefixThreeDecimalPlaces(1567)).to.equal('1.567k');
+    });
+
+    it('should always use the same number of decimal places', () => {
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(1.5)).to.equal('1.500');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(1.53)).to.equal('1.530');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(1.536)).to.equal('1.536');
+      expect(numberFormatters.withSiPrefixThreeDecimalPlaces(5)).to.equal('5.000');
     });
   });
 

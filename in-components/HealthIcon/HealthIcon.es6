@@ -16,6 +16,9 @@ const block = 'in-health-icon';
 
 export default getMostImportantIssue(
                React.createClass({
+
+  displayName: 'HealthIconListing',
+
   mixins: [
     PureRenderMixin
   ],

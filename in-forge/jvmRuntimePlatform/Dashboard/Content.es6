@@ -6,8 +6,7 @@ import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   time,
-  withSiMultiplyPrefixZeroDecimalPlaces,
-  withSiMultiplyPrefixTwoDecimalPlaces
+  withSiPrefixThreeDecimalPlaces
 } from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
@@ -198,8 +197,7 @@ export default React.createClass({
                                    left: 90
                                  }}
                                  y1={{
-                                   formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                                   tooltipFormatter: withSiMultiplyPrefixTwoDecimalPlaces,
+                                   formatter: withSiPrefixThreeDecimalPlaces,
                                    metrics: ['jmx.' + this.state.selectedJmxMetric],
                                    labels: [this.state.selectedJmxMetric],
                                    type: 'line'
@@ -225,7 +223,7 @@ export default React.createClass({
                       </td>
                       <Mtd metric={'jmx.' + jmxMetric}
                            snapshot={snapshot}
-                           formatter={withSiMultiplyPrefixTwoDecimalPlaces} />
+                           formatter={withSiPrefixThreeDecimalPlaces} />
                     </tr>
                   )}
                 </tbody>
