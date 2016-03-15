@@ -1,13 +1,15 @@
 /* eslint-disable react/no-multi-comp */
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {dateUtils} from 'react-day-picker/utils';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
 import React from 'react';
 
 import './DatePicker.less';
 
-const rpt = React.PropTypes;
+
 const block = 'in-date-picker';
+const rpt = React.PropTypes;
 
 export default React.createClass({
 
@@ -37,20 +39,11 @@ export default React.createClass({
         </div>
 
         <DayPicker initialMonth={this.props.date}
-                   renderDay={this.renderDay}
                    modifiers={{
+                     isSelected: day => dateUtils.isSameDay(day, this.props.date)
                    }}
                    onDayClick={(e, day) => this.props.handleDateClicked(day)}/>
      </div>
-    );
-  },
-
-  renderDay(day) {
-    const className = day.getTime() === this.props.date.getTime() ? block + '__selected-day' : null;
-    return (
-      <div className={className}>
-        {day.getDate()}
-      </div>
     );
   }
 });

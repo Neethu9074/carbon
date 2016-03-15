@@ -11,22 +11,26 @@
     font-size: 0.9rem;
     font-weight: normal;
   }
-
-  &__selected-day {
-    color: yellow;
-  }
 }
 
 .DayPicker-Day {
   font-size: 0.75rem;
-  border: 1px solid #43565E;
+  border: 1px solid @datepicker__matte;
 
   &:hover {
-    color: @timeline__background;
-    background: white;
+    color: @datepicker__matte;
+    background: @datepicker__highlight;
   }
+}
+
+.DayPicker-Day--isSelected {
+  background: @datepicker__matte;
 }
 
 .DayPicker-Weekday {
   font-size: 0.75rem;
+}
+
+.DayPicker-Day--today {
+  color: @datepicker__highlight;
 }

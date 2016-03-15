@@ -78,6 +78,10 @@ module.exports = defaultsDeep({
       openedText: grey1
     }
   },
+  datepicker: {
+    matte: grey3,
+    highlight: '#fff'
+  },
   timeline: {
     timeRangeLabel: white,
     background: grey5,
