@@ -2,11 +2,8 @@
 
 set -e
 
-discovery_options=${DISCOVERY//,/$'\n'}
-for discovery_option in $discovery_options
-do
-    source /tmp/discovery/$discovery_option
-done
+cd /tmp
+source discovery/discovery.general
 
 j2 /opt/www/config.json.j2 > /opt/www/assets/config.json
 j2 /opt/www/serverConfig.json.j2 > /opt/www/serverConfig.json
