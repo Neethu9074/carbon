@@ -24,25 +24,14 @@ export default React.createClass({
     align: rpt.string
   },
 
-  getInitialState() {
-    return {
-      open: false
-    };
-  },
-
   render() {
     return (
       <div>
-        <div className={block + (this.state.open ? ' ' + block + '__open' : '')}
-             onClick={this.toggleTimePicker}>
+        <div className={block}
+             onClick={this.props.toggleTimePicker}>
           {this.props.label}
         </div>
       </div>
     );
-  },
-
-  toggleTimePicker() {
-    this.setState({ open: !this.state.open });
-    this.props.toggleTimePicker();
   }
 });
