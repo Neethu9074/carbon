@@ -7,6 +7,7 @@ import SCCP from 'in-map/src/SingleMeshFactory/ContentProvider/SlicedCubeContent
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipMetric from 'in-map/src/2DSceneObjects/tooltips/physical/Metric';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {currentTooltip, tooltipForSceneObject} from 'in-map/src/stores';
 
 import CollisionComponent from '../CollisionObjectComponent';
 import Component from '../Component';
@@ -29,17 +30,22 @@ export default class MetricComponent extends Component {
     this.setupFragment();
     this.updateContentProvider();
 
+    this.eventEmitter = {
+      on: () => { return { subscribe: () => {} }; }
+    };
+
     this.collisionComponent = new CollisionComponent({
       collisionObject: new THREE.Mesh(cubeGeometry, defaultGeometryMaterial),
-      sceneObject,
+      sceneObject: this,
       layer: 3
     });
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
-    this.highlightingSubscription = highlightedEntityId.subscribe(highlightedId => {
-      const isThisHighlighted = highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, isThisHighlighted);
-    });
+    this.highlightingSubscription = highlightedEntityId.subscribe(highlightedId =>
+      this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT,
+        highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF)
+    );
+
 
     this.initialized();
     this.addSubscription('positionChanged', this.positionChanged);
@@ -52,11 +58,24 @@ export default class MetricComponent extends Component {
   onInitialEnter() {
     this.addToFactory();
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
+
+    if (!this.tooltipSubscription) {
+      this.tooltipSubscription = tooltipForSceneObject.subscribe(sOId => {
+        if (sOId === this.id) {
+          currentTooltip.emit(this.getTooltip());
+        }
+      });
+    }
   }
 
   onInactiveEnter() {
     this.collisionComponent.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.removeFromFactory();
+
+    if (this.tooltipSubscription) {
+      this.tooltipSubscription.dispose();
+      this.tooltipSubscription = null;
+    }
   }
 
 
