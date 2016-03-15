@@ -96,7 +96,7 @@ module.exports = defaultsDeep({
       fixedTimeWindowPicker: {
 
       },
-      panelBorder: grey1,
+      panelBorder: grey3,
       selection: {
         icon: cyan,
         heading: white,

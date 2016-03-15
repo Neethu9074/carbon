@@ -3,6 +3,7 @@ import React from 'react';
 
 import {selectedDateFrom, setDateFrom, selectedDateTo, setDateTo} from 'in-stores/timeline';
 import DatePicker from 'in-components/DatePicker';
+import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
 import './FixedTimeWindowPicker.less';
@@ -40,8 +41,17 @@ export default connectTo(
           <DatePicker heading={'To'}
                       date={this.props.dateTo}
                       handleDateClicked={setDateTo}/>
+
+          <Button className={block + '__apply--button'}
+                  onClick={this.applyTime}>
+            APPLY
+          </Button>
         </div>
       );
+    },
+
+    applyTime() {
+      console.log('apply timerange from', this.props.dateFrom, 'to', this.props.dateTo);
     }
   })
 );
