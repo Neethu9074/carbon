@@ -51,26 +51,3 @@ export function setFocusedMoment(t) {
 export function clearFocusedMoment() {
   focusedMomentStore.applyStateMutation(() => null);
 }
-
-
-export const selectedDateFromStore = createStore({
-  name: 'selectedDateFrom',
-  initialValue: new Date() // now
-});
-
-export const selectedDateFrom = selectedDateFromStore.observable;
-
-export function setDateFrom(date) {
-  selectedDateFromStore.applyStateMutation(() => date);
-}
-
-export const selectedDateToStore = createStore({
-  name: 'selectedDateTo',
-  initialValue: new Date() // now
-});
-
-export const selectedDateTo = selectedDateToStore.observable;
-
-export function setDateTo(date) {
-  selectedDateToStore.applyStateMutation(() => date);
-}

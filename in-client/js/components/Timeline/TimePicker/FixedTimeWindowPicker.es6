@@ -1,10 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {selectedDateFrom, setDateFrom, selectedDateTo, setDateTo} from 'in-stores/timeline';
 import DatePicker from 'in-components/DatePicker';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+
+import {selectedDateFrom, setDateFrom, selectedDateTo, setDateTo} from '../stores';
 
 import './FixedTimeWindowPicker.less';
 
