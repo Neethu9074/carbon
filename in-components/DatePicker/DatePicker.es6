@@ -3,6 +3,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {dateUtils} from 'react-day-picker/utils';
 import DayPicker from 'react-day-picker';
 import 'react-day-picker/lib/style.css';
+import moment from 'moment';
 import React from 'react';
 
 import './DatePicker.less';
@@ -21,8 +22,8 @@ export default React.createClass({
 
   propTypes: {
     handleDateClicked: rpt.func.isRequired,
-    heading: rpt.string,
-    date: rpt.any
+    date: rpt.instanceOf(Date),
+    heading: rpt.string
   },
 
   render() {
@@ -45,7 +46,7 @@ export default React.createClass({
             <br/>
             <input type='text'
                    className={block + '__input'}
-                   value={date.toLocaleDateString()}
+                   value={moment(date).format('YYYY-MM-DD')}
                    disabled={true}/>
           </div>
           <div>
@@ -55,7 +56,8 @@ export default React.createClass({
             <br/>
             <input type='text'
                    className={block + '__input'}
-                   defaultValue={date.toLocaleTimeString()}/>
+                   defaultValue={moment(date).format('LT')}
+                   onChange={(e) => this.onTimeChanged(e)}/>
           </div>
         </div>
 
@@ -63,8 +65,19 @@ export default React.createClass({
                    modifiers={{
                      isSelected: day => dateUtils.isSameDay(day, date)
                    }}
-                   onDayClick={(e, day) => this.props.handleDateClicked(day)}/>
+                   onDayClick={(e, day) => this.onDayClicked(day)}/>
      </div>
     );
+  },
+
+  onTimeChanged(event) {
+    const time = moment.parseTimeString(event.target.value);
+    if (time) {
+      console.log(time);
+    }
+  },
+
+  onDayClicked(day) {
+    this.props.handleDateClicked(day);
   }
 });

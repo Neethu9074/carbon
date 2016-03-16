@@ -55,7 +55,7 @@ export default connectTo(
                    setChangeTimeButtonFromSelected();
                  }
                }}>
-            {moment(this.props.timeframe.to.getTime() - this.props.timeframe.windowSize).format('DD/MM/YY, HH:mm:ss')}
+            {moment(this.props.timeframe.to.getTime() - this.props.timeframe.windowSize).format('YYYY-MM-DD, HH:mm:ss')}
           </div>
         </div>
       );
