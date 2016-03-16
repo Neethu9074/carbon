@@ -163,7 +163,7 @@ gulp.task('writeTryBuildConfigFile', () => {
 gulp.task('writeTryBuildServerConfigFile', () => {
   var config = {
     baseUrl: 'https://local-instana.instana.io:4000',
-    uiBackendBaseUrl: environments[tryBuildModeOptions.environment].uiBackendUrl
+    uiBackendBaseUrl: 'http://127.0.0.1:8080'
   };
   fs.writeFileSync(
     path.join(paths.targetDir, 'serverConfig.json'),
