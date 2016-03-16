@@ -95,11 +95,11 @@ gulp.task('webpack:build', (callback) => {
     new webpack.BannerPlugin(buildUtil.getBanner())
   );
 
-  buildForTheme('day', () => {
+  // buildForTheme('day', () => {
     buildForTheme('night', () => {
       callback();
     });
-  });
+  // });
 
   function buildForTheme(themeName, cb) {
     buildUtil.setActiveTheme(themeName);
