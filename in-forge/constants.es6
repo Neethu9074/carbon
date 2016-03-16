@@ -6,6 +6,7 @@ export const plugins = {
   ec2: 'ec2',
   elasticsearch: 'elasticsearch',
   httpd: 'httpd',
+  jbossas: 'jBossAsApplicationContainer',
   javaWebApp: 'genericJavaWebapp',
   jira: 'jiraApplication',
   jvm: 'jvmRuntimePlatform',

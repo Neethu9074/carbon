@@ -34,9 +34,8 @@ export function createTrackingStore({name, observable}) {
   allStates[name] = undefined;
 
   return {
-    observable: observable.map(v => {
+    observable: observable.tap(v => {
       allStates[name] = v;
-      return v;
     })
   };
 }

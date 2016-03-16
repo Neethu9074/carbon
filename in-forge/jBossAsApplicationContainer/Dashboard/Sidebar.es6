@@ -2,12 +2,12 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import RunningComponentsList from 'in-components/RunningComponentsList';
 import Collapsible from 'in-components/Collapsible';
+import RunningComponentsList from 'in-components/RunningComponentsList';
 
-import MsSqlInfo from '../MsSqlInfo';
+import JBossAsInfo from '../JBossAsInfo';
 
-const MsSqlSidebar = React.createClass({
+const JBossAsSidebar = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
@@ -15,15 +15,14 @@ const MsSqlSidebar = React.createClass({
   },
 
   render() {
-
     const snapshot = this.props.snapshot;
 
     return (
       <div>
         <Collapsible initiallyOpen={true}>
-          <Collapsible.Header>MS SQL-Server</Collapsible.Header>
+          <Collapsible.Header>JBoss Application Server</Collapsible.Header>
           <Collapsible.Content>
-            <MsSqlInfo snapshot={snapshot} />
+            <JBossAsInfo snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
         <RunningComponentsList snapshotId={snapshot.get('id')} />
@@ -32,4 +31,4 @@ const MsSqlSidebar = React.createClass({
   }
 });
 
-export default MsSqlSidebar;
+export default JBossAsSidebar;

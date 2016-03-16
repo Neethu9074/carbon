@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {activeMetric} from 'in-services/stores/metrics';
@@ -12,6 +12,7 @@ import Content from 'in-components/Tooltips/Content';
 import MetricValue from 'in-components/MetricValue';
 import {getFormattedValue} from 'in-sdk/metrics';
 import getSnapshot from 'in-hoc/getSnapshot';
+import {getLabel} from 'in-sdk/snapshot';
 import {theme} from 'in-services/theme';
 
 import Tooltip from '../../Tooltip';
@@ -86,6 +87,9 @@ const MetricTooltipReactClass = getSnapshot(React.createClass({
 
     return (
       <TooltipFrame>
+        <p className={block + '__label'}>
+          {snapshot ? getLabel(snapshot, snapshot.getIn(['data', 'hostname'])) : null}
+        </p>
         <ul className={block + '__ul'}>
           {listItems}
         </ul>
