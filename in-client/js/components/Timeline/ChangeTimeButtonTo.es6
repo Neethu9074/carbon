@@ -3,10 +3,10 @@ import moment from 'moment';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import {timeframe} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import {
-  selectedDateTo,
   changeTimeButtonToSelected,
   setChangeTimeButtonToSelected,
   clearChangeTimeButtonToSelected,
@@ -24,7 +24,7 @@ export default connectTo(
   () => {
     return {
       changeTimeButtonToSelected,
-      selectedDateTo
+      timeframe
     };
   },
   React.createClass({
@@ -38,7 +38,7 @@ export default connectTo(
 
     propTypes: {
       changeTimeButtonToSelected: rpt.bool,
-      selectedDateTo: rpt.any
+      timeframe: rpt.object
     },
 
     render() {
@@ -55,7 +55,7 @@ export default connectTo(
                    setChangeTimeButtonToSelected();
                  }
                }}>
-            {moment(this.props.selectedDateTo).format('MM/DD/YY, HH:mm:ss')}
+            {moment(this.props.timeframe.to).format('DD/MM/YY, HH:mm:ss')}
           </div>
         </div>
       );

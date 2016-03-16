@@ -1,7 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import * as timelineStore from 'in-stores/timeline';
 import DatePicker from 'in-components/DatePicker';
+import * as tracking from 'in-services/tracking';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -29,8 +31,8 @@ export default connectTo(
     ],
 
     propTypes: {
-      dateFrom: rpt.any,
-      dateTo: rpt.any
+      dateFrom: rpt.instanceOf(Date),
+      dateTo: rpt.instanceOf(Date)
     },
 
     render() {
@@ -52,7 +54,11 @@ export default connectTo(
     },
 
     applyTime() {
-      console.log('apply timerange from', this.props.dateFrom, 'to', this.props.dateTo);
+      const from = this.props.dateFrom;
+      const to = this.props.dateTo;
+
+      tracking.events.changingTimeWindowUsingTimeline();
+      timelineStore.setTimeframe(to - from, to);
     }
   })
 );

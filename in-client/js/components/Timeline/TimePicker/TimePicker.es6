@@ -30,7 +30,7 @@ export default connectTo(
 
     propTypes: {
       selectedTimePicker: rpt.string,
-      className: rpt.any
+      className: rpt.string
     },
 
     render() {

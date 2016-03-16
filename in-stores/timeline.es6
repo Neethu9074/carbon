@@ -9,7 +9,7 @@ const timeframeStore = createStore({
   name: 'timeline',
   initialValue: {
     windowSize: 1000 * 60 * 10,
-    to: null
+    to: new Date()
   }
 });
 
@@ -21,7 +21,7 @@ export function setTimeframe(windowSize, to) {
   timeframeStore.applyStateMutation(() => {
     return {
       windowSize,
-      to: to == null ? null : to
+      to: to == null ? new Date() : to
     };
   });
 }

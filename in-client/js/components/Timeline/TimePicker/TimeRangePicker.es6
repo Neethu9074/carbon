@@ -8,7 +8,6 @@ import * as tracking from 'in-services/tracking';
 import './TimeRangePicker.less';
 
 
-const rpt = React.PropTypes;
 const block = 'in-time-range-picker';
 
 export default React.createClass({
@@ -19,10 +18,6 @@ export default React.createClass({
     PureRenderMixin,
     IntlMixin
   ],
-
-  propTypes: {
-    onTimeSelected: rpt.func
-  },
 
   render() {
     return (
@@ -35,22 +30,18 @@ export default React.createClass({
     );
   },
 
-  createButton(timeRange, content) {
+  createButton(timeframe, content) {
     const label = this.getIntlMessage(content);
     return (
       <span className={block + '__item'}
-            onClick={() => this.onTimePickerItemClicked(timeRange, label)}>
+            onClick={() => this.onTimePickerItemClicked(timeframe)}>
         {label}
       </span>
     );
   },
 
-  onTimePickerItemClicked(newTime, label) {
+  onTimePickerItemClicked(timeframe) {
     tracking.events.changingTimeWindowUsingTimeline();
-    timelineStore.setTimeframe(newTime);
-
-    if (this.props.onTimeSelected) {
-      this.props.onTimeSelected(label);
-    }
+    timelineStore.setTimeframe(timeframe);
   }
 });
