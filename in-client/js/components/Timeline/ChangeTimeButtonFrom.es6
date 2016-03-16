@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import moment from 'moment';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
@@ -54,7 +55,7 @@ export default connectTo(
                    setChangeTimeButtonFromSelected();
                  }
                }}>
-            {this.props.selectedDateFrom.toLocaleString()}
+            {moment(this.props.selectedDateFrom).format('MM/DD/YY, HH:mm:ss')}
           </div>
         </div>
       );
