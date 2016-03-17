@@ -15,6 +15,17 @@ export function setDateFrom(date) {
   selectedDateFromStore.applyStateMutation(() => date);
 }
 
+export function setTimeFrom(time) {
+  selectedDateFromStore.applyStateMutation(prevDate => {
+    const newDate = new Date(prevDate.getTime());
+    newDate.setHours(time.hour());
+    newDate.setMinutes(time.minute());
+    newDate.setSeconds(time.second());
+    return newDate;
+  });
+}
+
+
 /*
   this store is used to handle the selected ending date in the timepicker
 */
@@ -27,6 +38,14 @@ export const selectedDateTo = selectedDateToStore.observable;
 
 export function setDateTo(date) {
   selectedDateToStore.applyStateMutation(() => date);
+}
+
+export function setTimeTo(newTime) {
+  selectedDateToStore.applyStateMutation(prevDate => {
+    const newDate = new Date(prevDate.getTime());
+    newDate.setTime(newTime);
+    return newDate;
+  });
 }
 
 
