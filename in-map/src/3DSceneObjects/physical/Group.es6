@@ -1,8 +1,7 @@
-import remove from 'lodash/remove';
+import {remove, find} from 'lodash';
 
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/physical/Group';
 import {getColorPool} from 'in-services/util/ColorGenerator';
-import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/eventbus';
 
 import GroundHighlightingComponent from '../../components/physical/GroundHighlightingComponent';

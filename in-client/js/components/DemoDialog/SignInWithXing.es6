@@ -1,4 +1,4 @@
-import get from 'lodash/get';
+import {get} from 'lodash';
 import React from 'react';
 import ReactDOM from 'react';
 import {createLogger} from 'instalog';

@@ -1,4 +1,4 @@
-import dropWhile from 'lodash/dropWhile';
+import {dropWhile} from 'lodash';
 
 /**
  * This class keeps track of all the data that is currently drawn or will be
