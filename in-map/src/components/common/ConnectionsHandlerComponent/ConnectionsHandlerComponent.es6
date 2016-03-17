@@ -1,4 +1,4 @@
-import remove from 'lodash/remove';
+import {remove} from 'lodash';
 
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import {DIRECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';

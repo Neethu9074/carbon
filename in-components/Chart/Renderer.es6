@@ -1,8 +1,8 @@
 /* eslint complexity:[2, 13] */
 import * as ro from 'reactive-observables';
+import {sortedIndexBy} from 'lodash';
 import TWEEN from 'tween.js';
 import moment from 'moment';
-import sortedIndexBy from 'lodash/sortedIndexBy';
 import d3 from 'd3';
 
 import * as timelineStore from 'in-stores/timeline';

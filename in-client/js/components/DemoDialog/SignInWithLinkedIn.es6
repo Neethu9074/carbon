@@ -1,5 +1,5 @@
 /* global IN:false */
-import get from 'lodash/get';
+import {get} from 'lodash';
 import React from 'react';
 import {createLogger} from 'instalog';
 
