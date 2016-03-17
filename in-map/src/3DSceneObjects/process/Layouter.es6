@@ -1,4 +1,5 @@
-import find from 'lodash/find';
+import {find} from 'in-services/arrayUtils';
+
 
 /* eslint-disable complexity */
 const settings = {

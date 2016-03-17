@@ -1,8 +1,8 @@
-import find from 'lodash/find';
 import remove from 'lodash/remove';
 
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
+import {find} from 'in-services/arrayUtils';
 import theme from 'in-services/theme';
 
 import {getAllNodes, getAllGroups} from './mapUtils';

@@ -1,16 +1,7 @@
-import THREE from 'three';
-// import find from 'lodash/find';
 import remove from 'lodash/remove';
+import THREE from 'three';
 
-
-const find = (array, predicate) => {
-  for (let i = 0; i < array.length; i++) {
-    if (predicate(array[i])) {
-      return array[i];
-    }
-  }
-  return undefined;
-};
+import {find} from 'in-services/arrayUtils';
 
 
 const UPDATE_FLAGS = {

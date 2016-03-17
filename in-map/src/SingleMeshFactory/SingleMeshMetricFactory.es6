@@ -1,8 +1,8 @@
 import remove from 'lodash/remove';
-import find from 'lodash/find';
 import TWEEN from 'tween.js';
 import THREE from 'three';
 
+import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/eventbus';
 
 import fragmentShader from './metricFragmentShader.glsl';

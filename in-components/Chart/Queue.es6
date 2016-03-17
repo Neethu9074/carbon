@@ -1,5 +1,7 @@
 import invariant from 'invariant';
-import find from 'lodash/find';
+
+import {find} from 'in-services/arrayUtils';
+
 
 export default class Queue {
 
