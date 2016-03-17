@@ -1,4 +1,4 @@
-import remove from 'lodash/remove';
+import {remove} from 'lodash';
 import TWEEN from 'tween.js';
 import THREE from 'three';
 

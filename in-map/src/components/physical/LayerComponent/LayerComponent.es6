@@ -1,9 +1,8 @@
-import remove from 'lodash/remove';
+import {remove, find} from 'lodash';
 
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import PluginLabel from 'in-map/src/3DSceneObjects/physical/Label';
 import Layer from 'in-map/src/3DSceneObjects/physical/Layer';
-import {find} from 'in-services/arrayUtils';
 
 import Component from '../../common/Component';
 import XYZ from '../../common/XYZ';

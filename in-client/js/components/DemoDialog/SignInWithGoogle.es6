@@ -1,6 +1,6 @@
 /* global gapi:false */
 
-import get from 'lodash/get';
+import {get} from 'lodash';
 import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
