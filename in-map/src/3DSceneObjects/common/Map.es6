@@ -1,7 +1,7 @@
-import find from 'lodash/find';
 import remove from 'lodash/remove';
 
 import {viewStructure} from 'in-stores/view';
+import {find} from 'in-services/arrayUtils';
 import eventBus from 'in-map/eventbus';
 
 import OrthographicCamera from './OrthographicCamera';

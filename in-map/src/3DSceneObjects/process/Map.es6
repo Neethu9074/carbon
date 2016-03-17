@@ -1,7 +1,7 @@
 import THREE from 'three';
-import find from 'lodash/find';
 
 import CameraController from 'in-map/src/controls/process/CameraController';
+import {find} from 'in-services/arrayUtils';
 
 import GroundPlane from '../common/GroundPlane';
 import BaseMap from '../common/Map';
