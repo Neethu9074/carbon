@@ -3,6 +3,8 @@ import moment from 'moment';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import ServerTime from 'in-components/ServerTime';
+import {serverTime} from 'in-stores/serverTime';
 import {timeframe} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
@@ -24,6 +26,7 @@ export default connectTo(
   () => {
     return {
       changeTimeButtonToSelected,
+      serverTime,
       timeframe
     };
   },
@@ -38,6 +41,7 @@ export default connectTo(
 
     propTypes: {
       changeTimeButtonToSelected: rpt.bool,
+      serverTime: rpt.number,
       timeframe: rpt.object
     },
 
@@ -55,7 +59,9 @@ export default connectTo(
                    setChangeTimeButtonToSelected();
                  }
                }}>
-            {moment(this.props.timeframe.to).format('YYYY-MM-DD, HH:mm:ss')}
+            {this.props.timeframe.to ?
+              moment(this.props.timeframe.to).format('YYYY-MM-DD, HH:mm:ss') :
+              <ServerTime format='YYYY-MM-DD, HH:mm:ss'/>}
           </div>
         </div>
       );

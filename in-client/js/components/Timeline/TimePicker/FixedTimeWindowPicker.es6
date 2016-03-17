@@ -7,7 +7,14 @@ import * as tracking from 'in-services/tracking';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
-import {selectedDateFrom, setDateFrom, selectedDateTo, setDateTo} from '../stores';
+import {
+  selectedDateFrom,
+  selectedDateTo,
+  setDateFrom,
+  setTimeFrom,
+  setTimeTo,
+  setDateTo
+} from '../stores';
 
 import './FixedTimeWindowPicker.less';
 
@@ -40,10 +47,12 @@ export default connectTo(
         <div className={block}>
           <DatePicker heading={'From'}
                       date={this.props.dateFrom}
-                      handleDateClicked={setDateFrom}/>
+                      onTimeChanged={setTimeFrom}
+                      onDateClicked={setDateFrom}/>
           <DatePicker heading={'To'}
                       date={this.props.dateTo}
-                      handleDateClicked={setDateTo}/>
+                      onTimeChanged={setTimeTo}
+                      onDateClicked={setDateTo}/>
 
           <Button className={block + '__apply--button'}
                   onClick={this.applyTime}>

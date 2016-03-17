@@ -21,7 +21,8 @@ export default React.createClass({
   ],
 
   propTypes: {
-    handleDateClicked: rpt.func.isRequired,
+    onDateClicked: rpt.func.isRequired,
+    onTimeChanged: rpt.func.isRequired,
     date: rpt.instanceOf(Date),
     heading: rpt.string
   },
@@ -56,7 +57,7 @@ export default React.createClass({
             <br/>
             <input type='text'
                    className={block + '__input'}
-                   defaultValue={moment(date).format('LT')}
+                   value={moment(date).format('LT')}
                    onChange={(e) => this.onTimeChanged(e)}/>
           </div>
         </div>
@@ -65,19 +66,15 @@ export default React.createClass({
                    modifiers={{
                      isSelected: day => dateUtils.isSameDay(day, date)
                    }}
-                   onDayClick={(e, day) => this.onDayClicked(day)}/>
+                   onDayClick={(e, day) => this.props.onDateClicked(day)}/>
      </div>
     );
   },
 
   onTimeChanged(event) {
-    const time = moment.parseTimeString(event.target.value);
-    if (time) {
-      console.log(time);
+    const time = moment(event.target.value, 'HH-mm-ss');
+    if (time.isValid()) {
+      this.props.onTimeChanged(time);
     }
-  },
-
-  onDayClicked(day) {
-    this.props.handleDateClicked(day);
   }
 });

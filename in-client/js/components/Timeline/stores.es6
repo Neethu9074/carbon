@@ -21,6 +21,7 @@ export function setTimeFrom(time) {
     newDate.setHours(time.hour());
     newDate.setMinutes(time.minute());
     newDate.setSeconds(time.second());
+
     return newDate;
   });
 }
@@ -40,10 +41,13 @@ export function setDateTo(date) {
   selectedDateToStore.applyStateMutation(() => date);
 }
 
-export function setTimeTo(newTime) {
+export function setTimeTo(time) {
   selectedDateToStore.applyStateMutation(prevDate => {
     const newDate = new Date(prevDate.getTime());
-    newDate.setTime(newTime);
+    newDate.setHours(time.hour());
+    newDate.setMinutes(time.minute());
+    newDate.setSeconds(time.second());
+
     return newDate;
   });
 }

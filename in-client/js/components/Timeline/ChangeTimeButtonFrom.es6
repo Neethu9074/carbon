@@ -3,6 +3,7 @@ import moment from 'moment';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
+import ServerTime from 'in-components/ServerTime';
 import {timeframe} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
@@ -55,7 +56,11 @@ export default connectTo(
                    setChangeTimeButtonFromSelected();
                  }
                }}>
-            {moment(this.props.timeframe.to.getTime() - this.props.timeframe.windowSize).format('YYYY-MM-DD, HH:mm:ss')}
+            {this.props.timeframe.to ?
+              moment(this.props.timeframe.to.getTime() - this.props.timeframe.windowSize)
+                .format('YYYY-MM-DD, HH:mm:ss') :
+              <ServerTime format='YYYY-MM-DD, HH:mm:ss' offset={this.props.timeframe.windowSize * -1}/>
+            }
           </div>
         </div>
       );
