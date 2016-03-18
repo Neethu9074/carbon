@@ -1,5 +1,7 @@
-import {find, remove} from 'lodash';
+import {remove} from 'lodash';
 import THREE from 'three';
+
+import {find} from 'in-services/arrayUtils';
 
 
 const UPDATE_FLAGS = {
