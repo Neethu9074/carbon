@@ -2,7 +2,8 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
-import {getHistoricalIssues} from 'in-stores/historicalIssues';
+import {getHistoricalIssues as getHistoricalIssuesStore} from 'in-stores/historicalIssues';
+import {getOpenIssues as getOpenIssuesStore} from 'in-stores/OpenIssues';
 import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
 import * as timelineStore from 'in-stores/timeline';
@@ -22,7 +23,7 @@ const withoutCpuStealMapper = (issues) => {
 const allIssuesStreamWithExperimentals = timelineStore.timeframe
   .distinct()
   .flatMap(timeframe => {
-    const stream = getHistoricalIssues(timeframe)
+    const stream = getHistoricalIssuesStore(timeframe)
       .scan(collectingReducer, emptyList)
       // Do not consume precious CPU cycles for data that isn't rendered anyway
       .nextFrame();
@@ -195,3 +196,56 @@ function throwExceptionIfUndefined(property) {
     throw new Error('Missing argument:', property);
   }
 }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+function prepareIssue$(issue$) {
+  return combineLatest([
+      settings.getIn(['experiments']),
+      issue$
+    ]).map(([withExperiments, issues]) => {
+      if (withExperiments) {
+        return issues;
+      }
+      return issues.filter(issue => !issue.getIn(['problem', 'experimental'], false));
+    });
+}
+
+const historicalIssuesWithExperimentals$ = timelineStore.timeframe
+  .distinct()
+  .flatMap(timeframe => {
+    const stream = getHistoricalIssuesStore(timeframe)
+      .scan(collectingReducer, emptyList)
+      // Do not consume precious CPU cycles for data that isn't rendered anyway
+      .nextFrame();
+
+    if (isDemoEnvironment()) {
+      return stream.map(withoutCpuStealMapper);
+    }
+
+    return stream;
+  });
+
+export const historicalIssues$ = prepareIssue$(historicalIssuesWithExperimentals$);
+
+
+const openIssuesWithExperimentals$ = isDemoEnvironment() ?
+  getOpenIssuesStore().map(withoutCpuStealMapper) :
+  getOpenIssuesStore();
+
+export const openIssues$ = prepareIssue$(openIssuesWithExperimentals$);

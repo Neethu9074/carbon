@@ -11,8 +11,8 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createIssueObservable
 });
 
-function getId(timeframe) {
-  return timeframe;
+function getId() {
+  return '';
 }
 
 function createIssueObservable() {
