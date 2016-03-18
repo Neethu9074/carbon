@@ -2,7 +2,7 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
-import {getIssues as getIssueStore} from 'in-stores/issues';
+import {getHistoricalIssues} from 'in-stores/historicalIssues';
 import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
 import * as timelineStore from 'in-stores/timeline';
@@ -20,10 +20,9 @@ const withoutCpuStealMapper = (issues) => {
 };
 
 const allIssuesStreamWithExperimentals = timelineStore.timeframe
-  .map(timeframe => timeframe.windowSize)
   .distinct()
   .flatMap(timeframe => {
-    const stream = getIssueStore(timeframe)
+    const stream = getHistoricalIssues(timeframe)
       .scan(collectingReducer, emptyList)
       // Do not consume precious CPU cycles for data that isn't rendered anyway
       .nextFrame();
