@@ -7,6 +7,8 @@ import React from 'react';
 
 import {Route} from 'react-router';
 
+import TraceView from 'in-components/trace/TraceView';
+
 import App from './components/App';
 import Dashboard from './components/Dashboard';
 
@@ -15,5 +17,8 @@ export default (
     <Route handler={Dashboard}
            path='dashboard'
            name='dashboard'/>
+    <Route handler={TraceView}
+           path='traces'
+           name='traces'/>
   </Route>
 );

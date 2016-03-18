@@ -1,10 +1,12 @@
 import React from 'react';
 
+import {isInternalEnvironment} from 'in-services/config';
+import {getClassName} from 'in-services/react';
+import {types as views} from 'in-stores/view';
+import {getToTraceView} from 'in-stores/navigation';
 import * as viewStore from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
-import {getClassName} from 'in-services/react';
 import eventBus from 'in-map/eventbus';
-import {types as views} from 'in-stores/view';
 
 import './MapViewSwitcher.less';
 
@@ -28,23 +30,23 @@ export default connectTo(
     return (
       <div className={getClassName(this, block)}>
         <div className={block + '__item-wrapper'}>
-          {this.renderItem(views.physical, 'Physical')}
-          {this.renderItem(views.process, 'Process')}
+          {this.renderViewItem(views.physical, 'Physical')}
+          {isInternalEnvironment() ?
+            this.renderViewItem(views.process, 'Process')
+          : null}
+          {isInternalEnvironment() ?
+            this.renderTraceViewItem()
+          : null}
         </div>
       </div>
     );
   },
 
-  renderItem(viewKey, label) {
-    const className = this.props.activeView === viewKey ?
-      block + '__item ' + block + '__item__active'
-      : block + '__item';
-    return (
-      <div key={viewKey}
-          className={className}
-          onClick={() => this.switchView(viewKey)}>
-        {label}
-      </div>
+  renderViewItem(viewKey, label) {
+    return this.renderItem(
+      label,
+      () => this.switchView(viewKey),
+      this.props.activeView === viewKey
     );
   },
 
@@ -52,5 +54,27 @@ export default connectTo(
     eventBus.emit('onViewWillSwitch');
     viewStore.setView(viewKey);
     eventBus.emit('onViewSwitched');
+  },
+
+  renderItem(label, onClick, active) {
+    let classes = block + '__item ';
+    if (active) {
+      classes += block + '__item__active';
+    }
+    return (
+      <div key={label}
+          className={classes}
+          onClick={onClick}>
+        {label}
+      </div>
+    );
+  },
+
+  renderTraceViewItem() {
+    return this.renderItem(
+      'Trace',
+      getToTraceView,
+      false
+    );
   }
 }));

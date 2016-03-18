@@ -1,7 +1,9 @@
-/*eslint-env node*/
-/*eslint-disable no-var*/
+/* eslint-env node */
+/* eslint-disable strict */
 
-var zIndex = 1;
+'use strict';
+
+let zIndex = 1;
 
 module.exports = {
   zIndex: {
@@ -16,6 +18,7 @@ module.exports = {
     search: zIndex++,
     header: zIndex++,
     betaRegistration: zIndex++,
+    traceView: zIndex++,
     dashboard: zIndex++,
     dashboardHeader: zIndex++,
     footer: zIndex++,

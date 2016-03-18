@@ -37,6 +37,11 @@ global.document = jsdom.jsdom('<html><head></head><body></body></html>');
 global.window = global.document.defaultView;
 global.navigator = global.window.navigator;
 global.__DEV__ = false;
+global.window.instana = {
+  config: {
+    environment: 'saas'
+  }
+};
 
 // ensure that the theme information is defined
 setupThemeGlobals();

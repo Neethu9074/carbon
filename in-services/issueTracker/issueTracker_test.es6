@@ -21,16 +21,6 @@ describe('issueTracker', () => {
 
   beforeEach(() => {
     observable = ro.create();
-    /* eslint-disable camelcase, no-underscore-dangle, no-undef */
-    global.__DEV__ = false;
-    global.window = global.window || {};
-    global.window.instana = {
-      config: {
-        environment: 'production'
-      }
-    };
-    /* eslint-enable camelcase, no-underscore-dangle, no-undef */
-
     const create = sinon.stub();
     create.returns(observable);
 
