@@ -7,7 +7,7 @@ import React from 'react';
 
 import {Route} from 'react-router';
 
-import TraceView from 'in-components/trace/TraceView';
+import TraceView from 'in-components/traceView/TraceView';
 
 import App from './components/App';
 import Dashboard from './components/Dashboard';

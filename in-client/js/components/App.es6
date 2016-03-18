@@ -91,7 +91,7 @@ export default helpify(connectTo(
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
         {isInternalEnvironment() ?
-          <MapViewSwitcher className='in-root-map-switcher'/>
+          <MapViewSwitcher />
         : null}
 
         <Lettering className='in-root-lettering'/>
