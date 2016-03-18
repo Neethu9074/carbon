@@ -1,0 +1,6 @@
+{
+  "name": "NotificationCenterFlyout",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./NotificationCenterFlyout.es6"
+}

@@ -6,7 +6,7 @@ import {getIssueCountSummary} from 'in-services/issueTracker';
 import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
-import NotificationCenter from '../NotificationCenter';
+import NotificationCenterFlyout from '../NotificationCenterFlyout';
 
 import './NotificationCounter.less';
 
@@ -70,9 +70,9 @@ const NotificationCounter = React.createClass({
 
         {showNC ?
           <div className={block + '__notification-center'}>
-            <NotificationCenter toggleNotificationCenter={this.toggleNotificationCenter}
-                                style={{ maxHeight: this.state.windowHeight }}
-                                open={showNC}/>
+            <NotificationCenterFlyout toggleNotificationCenter={this.toggleNotificationCenter}
+                                      style={{ maxHeight: this.state.windowHeight }}
+                                      open={showNC}/>
           </div>
         : null}
       </div>

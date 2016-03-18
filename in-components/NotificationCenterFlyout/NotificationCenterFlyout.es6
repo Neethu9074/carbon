@@ -1,12 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-
 import IssueListSwitcher from './IssueListSwitcher';
 import IssueItemList from './IssueItemList';
 import FilterBar from './FilterBar';
 
-import './NotificationCenter.less';
+import './NotificationCenterFlyout.less';
 
 
 const block = 'in-notificationcenter';

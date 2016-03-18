@@ -1,6 +1,0 @@
-{
-  "name": "NotificationCenter",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./NotificationCenter.es6"
-}
