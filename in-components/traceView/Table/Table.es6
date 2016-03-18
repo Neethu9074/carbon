@@ -17,7 +17,6 @@ const SORT_TYPES = {
 };
 
 export default React.createClass({
-
   displayName: 'Table',
 
   mixins: [
