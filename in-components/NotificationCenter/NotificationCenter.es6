@@ -1,8 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getIssues} from 'in-services/issueTracker';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 
@@ -19,8 +17,7 @@ const rpt = React.PropTypes;
 export default connectTo(
   () => {
     return {
-      selectedNotificationFilter,
-      allIssues: getIssues()
+      selectedNotificationFilter
     };
   },
   React.createClass({
@@ -33,13 +30,10 @@ export default connectTo(
 
     propTypes: {
       selectedNotificationFilter: rpt.object,
-      allIssues: irpt.list,
       style: rpt.object
     },
 
     render() {
-      const allIssues = this.props.allIssues;
-
       return (
         <div className={block}>
           {'Notifications'}
@@ -56,11 +50,7 @@ export default connectTo(
           </div>
 
           <FilterBar />
-
-          {allIssues ?
-            <IssueItemList issues={allIssues.filter(issue => this.props.selectedNotificationFilter.predicate(issue))}
-                           style={this.props.style}/>
-            : null}
+          <IssueItemList style={this.props.style}/>
         </div>
       );
     }
