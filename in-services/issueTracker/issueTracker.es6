@@ -5,9 +5,9 @@ import Immutable from 'immutable';
 import {getIssues as getIssueStore} from 'in-stores/issues';
 import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
+import * as timelineStore from 'in-stores/timeline';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
-import * as timelineStore from 'in-stores/timeline';
 
 import {mapSeverityToHealth, health} from '../health';
 
@@ -25,8 +25,7 @@ const allIssuesStreamWithExperimentals = timelineStore.timeframe
   .flatMap(timeframe => {
     const stream = getIssueStore(timeframe)
       .scan(collectingReducer, emptyList)
-      // Do not consume precious CPU cycles for data that isn't rendered
-      // anyway.
+      // Do not consume precious CPU cycles for data that isn't rendered anyway
       .nextFrame();
 
     if (isDemoEnvironment()) {
