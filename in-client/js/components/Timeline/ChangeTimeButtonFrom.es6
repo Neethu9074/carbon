@@ -2,7 +2,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import moment from 'moment';
 import React from 'react';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import ServerTime from 'in-components/ServerTime';
 import {timeframe} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
@@ -33,7 +32,6 @@ export default connectTo(
     displayName: 'ChangeTimeButtonFrom',
 
     mixins: [
-      SubscriptionMixin,
       PureRenderMixin
     ],
 
@@ -46,7 +44,7 @@ export default connectTo(
       return (
         <div>
           {this.props.changeTimeButtonFromSelected ?
-            <TimePicker className={block + '__timepicker' + ' ' + block + '__timepicker__left'} /> : null}
+            <TimePicker className={block + '__timepicker__left'} /> : null}
           <div className={block + (this.props.changeTimeButtonFromSelected ? ' ' + block + '__selected' : '')}
                onClick={() => {
                  if (this.props.changeTimeButtonFromSelected) {
