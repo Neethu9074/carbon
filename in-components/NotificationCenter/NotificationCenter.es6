@@ -2,154 +2,103 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {mapSeverityToHealth, mapHealthToColor, health} from 'in-services/health';
+import {mapSeverityToHealth} from 'in-services/health';
+import {emptyArray} from 'in-services/fixedObjects';
 import {getIssues} from 'in-services/issueTracker';
-import enhance from 'in-components/hoc/enhance';
+import connectTo from 'in-hoc/connectTo';
 
+import {FILTER_TYPES, selectedNotificationFilter} from './stores';
 import IssueItemList from './IssueItemList';
 import Filter from './Filter';
 
 import './NotificationCenter.less';
 
-const FILTER_TYPES = {
-  ALL: 'all',
-  CRITICAL: 'critical',
-  WARNING: 'warning',
-  SYSTEM: 'system'
-};
 
 const block = 'in-notificationcenter';
-
 const rpt = React.PropTypes;
 
-const NotificationCenter = React.createClass({
-  mixins: [
-    PureRenderMixin
-  ],
-
-  propTypes: {
-    toggleNotificationCenter: rpt.func.isRequired,
-    allIssues: irpt.list,
-    style: rpt.object,
-    open: rpt.bool
-  },
-
-  statics: {
-    createObservables() {
-      return {
-        allIssues: getIssues()
-      };
-    }
-  },
-
-  getInitialState() {
+export default connectTo(
+  () => {
     return {
-      filterPredicate: () => true,
-      selectedType: FILTER_TYPES.ALL
+      selectedNotificationFilter,
+      allIssues: getIssues()
     };
   },
+  React.createClass({
 
-  render() {
-    return (
-      <div className={block}>
-        {'Notifications'}
-        {this.renderFilterMenu()}
-        {this.renderIssues()}
-      </div>
-    );
-  },
+    displayName: 'NotificationCenterFlyout',
 
-  renderFilterMenu() {
-    const selectedType = this.state.selectedType;
-    const counter = this.getIssuesCounter();
+    mixins: [
+      PureRenderMixin
+    ],
 
-    return (
-      <div className={block + '__status-bar'}>
-        <Filter onFilterSelected = {this.onFilterSelected}
-                isSelected = {selectedType === FILTER_TYPES.ALL}
-                type = {FILTER_TYPES.ALL}
-                color={'#FFFFFF'}
-                predicate={() => true}/>
+    propTypes: {
+      selectedNotificationFilter: rpt.object,
+      allIssues: irpt.list,
+      style: rpt.object,
+      open: rpt.bool
+    },
 
-        <Filter onFilterSelected={this.onFilterSelected}
-                isSelected = {selectedType === FILTER_TYPES.CRITICAL}
-                count={counter.errors}
-                type={FILTER_TYPES.CRITICAL}
-                color={mapHealthToColor(health.danger)}
-                predicate={issue => this.isIssueHealth(issue, health.danger)}/>
+    render() {
+      return (
+        <div className={block}>
+          {'Notifications'}
+          {this.renderFilterMenu()}
+          {this.renderIssues()}
+        </div>
+      );
+    },
 
-        <Filter onFilterSelected={this.onFilterSelected}
-                isSelected = {selectedType === FILTER_TYPES.WARNING}
-                count={counter.warnings}
-                type={FILTER_TYPES.WARNING}
-                color={mapHealthToColor(health.warning)}
-                predicate={issue => this.isIssueHealth(issue, health.warning)}/>
+    renderFilterMenu() {
+      const counter = this.getIssuesCounter();
 
-        <Filter onFilterSelected={this.onFilterSelected}
-                isSelected = {selectedType === FILTER_TYPES.SYSTEM}
-                count={counter.commons}
-                type={FILTER_TYPES.SYSTEM}
-                color={mapHealthToColor(health.ok)}
-                predicate={issue => this.isIssueHealth(issue, health.ok)}/>
-      </div>
-    );
-  },
+      return (
+        <div className={block + '__status-bar'}>
+          <Filter label={'All'}
+                  filter = {FILTER_TYPES.ALL}/>
 
-  isIssueHealth(issue, healthToCheck) {
-    const severity = issue.getIn(['problem', 'severity']);
-    const issueHealth = mapSeverityToHealth(severity);
-    return issueHealth === healthToCheck;
-  },
+          <Filter label={counter.errors}
+                  filter={FILTER_TYPES.CRITICAL}/>
 
-  onFilterSelected(type, predicate) {
-    this.setState({
-      filterPredicate: predicate,
-      selectedType: type
-    });
-  },
+          <Filter label={counter.warnings}
+                  filter={FILTER_TYPES.WARNING}/>
 
-  renderIssues() {
-    const allIssues = this.props.allIssues;
-    if (!allIssues) {
-      return null;
-    }
+          <Filter label={counter.ok}
+                  filter={FILTER_TYPES.SYSTEM}/>
+        </div>
+      );
+    },
 
-    const filter = this.state.filterPredicate;
-    const issues = allIssues.filter(issue => filter(issue));
-
-    return (<IssueItemList issues={issues} style={this.props.style} />);
-  },
-
-  getIssuesCounter() {
-    const allIssues = this.props.allIssues;
-
-    let errors = 0;
-    let warnings = 0;
-    let commons = 0;
-    if (!allIssues) {
-      return { errors, warnings, commons };
-    }
-
-    allIssues.forEach(issue => {
-      const issueHealth = mapSeverityToHealth(issue.getIn(['problem', 'severity']));
-      if (!issueHealth) {
-        return;
+    renderIssues() {
+      const allIssues = this.props.allIssues;
+      if (!allIssues) {
+        return null;
       }
 
-      switch (issueHealth) {
-        case health.danger:
-          errors++;
-          break;
-        case health.warning:
-          warnings++;
-          break;
-        default:
-          commons++;
-      }
-    });
+      return (
+        <IssueItemList issues={allIssues.filter(issue => this.props.selectedNotificationFilter.predicate(issue))}
+                       style={this.props.style}/>
+      );
+    },
 
-    return { errors, warnings, commons };
-  }
-});
+    getIssuesCounter() {
+      const counter = {
+        warnings: 0,
+        errors: 0,
+        ok: 0
+      };
 
-export default enhance(NotificationCenter);
+      const allIssues = this.props.allIssues || emptyArray;
+      allIssues.forEach(issue => {
+        const issueHealth = mapSeverityToHealth(issue.getIn(['problem', 'severity']));
+        if (!issueHealth) {
+          return;
+        }
+
+        counter[issueHealth]++;
+      });
+
+      return counter;
+    }
+  })
+);

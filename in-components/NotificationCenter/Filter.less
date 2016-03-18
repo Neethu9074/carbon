@@ -1,20 +1,16 @@
 @import "~in-themes/active.less";
 
 .in-notificationcenter-filter {
-
   display: flex;
   align-items: center;
   margin: 0 1rem 0 1rem;
   color: #aeb3b7;
   opacity: 0.5;
 
-  &__selected {
-    opacity: 1;
-    color: white;
-  }
 
-  &:hover {
+  &:hover, &__selected {
     cursor: pointer;
+    opacity: 1;
     color: white;
 
     .in-notificationcenter-filter__icon {
