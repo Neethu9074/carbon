@@ -5,12 +5,24 @@ import TraceTableRow from 'in-components/traceView/TraceTableRow';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
-import {getTraces} from 'in-stores/traces';
+import {
+  getTraces,
+  selectedTraceId,
+  setSelectedTraceId,
+  clearSelectedTraceId
+} from 'in-stores/traces';
+import connectTo from 'in-hoc/connectTo';
 
 const block = 'in-trace-table';
 
-export default React.createClass({
+export default connectTo({
+    selectedTraceId
+  }, React.createClass({
   displayName: 'TraceTable',
+
+  propTypes: {
+    selectedTraceId: React.PropTypes.string
+  },
 
   getInitialState() {
     return {
@@ -31,7 +43,8 @@ export default React.createClass({
     if (this.traceSubscription) {
       this.traceSubscription.dispose();
     }
-    this.traceSubscription = getTraces(this.state.fastestTraceDuration).once(this.addTraces);
+    this.traceSubscription = getTraces(this.state.fastestTraceDuration)
+      .once(this.addTraces);
   },
 
   addTraces(newTraces) {
@@ -76,7 +89,9 @@ export default React.createClass({
                   isInfiniteLoading={this.state.isInfiniteLoading}>
           {this.state.traces.map(trace =>
             <TraceTableRow key={trace.id}
-                           trace={trace} />
+                           trace={trace}
+                           selectedTraceId={this.props.selectedTraceId}
+                           onClick={this.onClick}/>
           )}
         </Infinite>
       </div>
@@ -86,5 +101,13 @@ export default React.createClass({
   onInfiniteLoad() {
     this.setState({isInfiniteLoading: true});
     this.loadMoreTraces();
+  },
+
+  onClick(traceId) {
+    if (this.props.selectedTraceId === traceId) {
+      clearSelectedTraceId();
+    } else {
+      setSelectedTraceId(traceId);
+    }
   }
-});
+}));

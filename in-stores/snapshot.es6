@@ -11,7 +11,10 @@ import {createStore, createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 
-const selectedSnapshotIdStore = createStore({name: 'selectedSnapshotId'});
+const selectedSnapshotIdStore = createStore({
+  name: 'selectedSnapshotId',
+  initialValue: null
+});
 export const selectedSnapshotId = selectedSnapshotIdStore.observable.distinct();
 
 export const selectedSnapshot = createTrackingStore({
