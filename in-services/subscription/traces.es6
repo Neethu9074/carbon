@@ -11,11 +11,11 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createTracesDataObservable
 });
 
-function getId() {
-  return 'traces';
+function getId(onlyTracesFasterThan) {
+  return 'traces' + onlyTracesFasterThan;
 }
 
-function createTracesDataObservable() {
+function createTracesDataObservable(onlyTracesFasterThan) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
@@ -23,7 +23,8 @@ function createTracesDataObservable() {
     start() {
       on(dataEvent, onData);
       subscribe(subscriptionId, 'subscribe-traces', {
-        subscriptionId
+        subscriptionId,
+        onlyTracesFasterThan: onlyTracesFasterThan > 0 ? onlyTracesFasterThan : undefined
       });
     },
 

@@ -1,29 +1,36 @@
-import 'fixed-data-table/dist/fixed-data-table-base.css';
-import 'fixed-data-table/dist/fixed-data-table-style.css';
-import {Table, Column, Cell} from 'fixed-data-table';
+import Infinite from 'react-infinite';
 import React from 'react';
 
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {getTraces} from 'in-stores/traces';
 
-const block = 'in-trace-view__trace-table';
-
-const TextCell = ({rowIndex, data, col}) => (
-  <Cell>{data[rowIndex][col]}</Cell>
-);
+const block = 'in-trace-table';
 
 export default React.createClass({
   displayName: 'TraceTable',
 
   getInitialState() {
     return {
-      traces: []
+      traces: [],
+      isInfiniteLoading: false,
+      fastestTraceDuration: null
     };
   },
 
-  componentWillMount() {
-    this.traceSubscription = getTraces().once(this.addTraces);
+  refresh() {
+    this.setState({
+      traces: [],
+      fastestTraceDuration: null
+    });
+  },
+
+  loadMoreTraces() {
+    if (this.traceSubscription) {
+      this.traceSubscription.dispose();
+    }
+    this.traceSubscription = getTraces(this.state.fastestTraceDuration).once(this.addTraces);
   },
 
   addTraces(newTraces) {
@@ -31,43 +38,57 @@ export default React.createClass({
       return {
         start: formatDateTime(trace.get('start')),
         duration: msZeroDecimalPlaces(trace.get('duration')),
-        name: trace.get('name')
+        name: trace.get('name'),
+        id: trace.get('id')
       };
     });
 
+    const fastestTrace = newTraces.last();
+    let fastestTraceDuration = null;
+    if (fastestTrace) {
+      fastestTraceDuration = fastestTrace.get('duration');
+    }
+
     this.setState(state => {
       return {
-        traces: state.traces.concat(transformedTraces)
+        traces: state.traces.concat(transformedTraces),
+        fastestTraceDuration,
+        isInfiniteLoading: false
       };
     });
   },
 
   componentWillUnmount() {
-    this.traceSubscription.dispose();
+    if (this.traceSubscription) {
+      this.traceSubscription.dispose();
+    }
   },
 
   render() {
+    const traceTableRowClassName = block + '__row';
+
     return (
       <div className={block}>
-        <Table rowHeight={50}
-               headerHeight={50}
-               rowsCount={this.state.traces.length}
-               width={1000}
-               height={500}>
-          <Column header={<Cell>Timestamp</Cell>}
-                  cell={<TextCell data={this.state.traces} col='start'/>}
-                  width={200}
-                  fixed={true}/>
-          <Column header={<Cell>Duration</Cell>}
-                  cell={<TextCell data={this.state.traces} col='duration'/>}
-                  width={200}
-                  fixed={true}/>
-          <Column header={<Cell>Name</Cell>}
-                  cell={<TextCell data={this.state.traces} col='name'/>}
-                  width={200}
-                  flexGrow={2}/>
-        </Table>
+        <Infinite containerHeight={200}
+                  elementHeight={30}
+                  loadingSpinnerDelegate={<LoadingIndicator />}
+                  infiniteLoadBeginEdgeOffset={150}
+                  onInfiniteLoad={this.onInfiniteLoad}
+                  isInfiniteLoading={this.state.isInfiniteLoading}>
+          {this.state.traces.map(trace =>
+            <div className={traceTableRowClassName}
+                 key={trace.id}
+                 style={{height: '30px'}}>
+              {trace.start}: {trace.name} for {trace.duration}
+            </div>
+          )}
+        </Infinite>
       </div>
     );
+  },
+
+  onInfiniteLoad() {
+    this.setState({isInfiniteLoading: true});
+    this.loadMoreTraces();
   }
 });

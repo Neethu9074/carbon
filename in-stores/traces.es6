@@ -1,5 +1,5 @@
 import createTraceObservable from 'in-services/subscription/traces';
 
-export function getTraces() {
-  return createTraceObservable();
+export function getTraces(onlyTracesFasterThan) {
+  return createTraceObservable(onlyTracesFasterThan);
 }
