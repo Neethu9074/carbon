@@ -1,0 +1,15 @@
+.in-trace-table-row {
+  // needs to be kept in sync with the react infinite configuration
+  height: 30px;
+
+  &__cell {
+    width: 33%;
+    float: left;
+    display: block;
+
+    // we cannot flow into new lines as this would break infinite scrolling
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+}

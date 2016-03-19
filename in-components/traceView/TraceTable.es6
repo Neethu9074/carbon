@@ -1,6 +1,7 @@
 import Infinite from 'react-infinite';
 import React from 'react';
 
+import TraceTableRow from 'in-components/traceView/TraceTableRow';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
@@ -65,8 +66,6 @@ export default React.createClass({
   },
 
   render() {
-    const traceTableRowClassName = block + '__row';
-
     return (
       <div className={block}>
         <Infinite containerHeight={200}
@@ -76,11 +75,8 @@ export default React.createClass({
                   onInfiniteLoad={this.onInfiniteLoad}
                   isInfiniteLoading={this.state.isInfiniteLoading}>
           {this.state.traces.map(trace =>
-            <div className={traceTableRowClassName}
-                 key={trace.id}
-                 style={{height: '30px'}}>
-              {trace.start}: {trace.name} for {trace.duration}
-            </div>
+            <TraceTableRow key={trace.id}
+                           trace={trace} />
           )}
         </Infinite>
       </div>
