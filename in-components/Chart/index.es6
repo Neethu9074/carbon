@@ -1,7 +1,6 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
-import isEqual from 'lodash/isEqual';
-import merge from 'lodash/merge';
+import {isEqual, merge} from 'lodash';
 
 import {getHistoricMetricsWithLiveUpdates} from 'in-stores/metric';
 

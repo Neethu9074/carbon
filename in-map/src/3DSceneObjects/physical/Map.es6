@@ -1,5 +1,4 @@
-import find from 'lodash/find';
-import remove from 'lodash/remove';
+import {find, remove} from 'lodash';
 
 import CameraController from 'in-map/src/controls/physical/CameraController';
 import {hexToRGBNormalized} from 'in-services/formatters/color';

@@ -8,6 +8,8 @@ import SCCP from 'in-map/src/SingleMeshFactory/ContentProvider/SlicedCubeContent
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipMetric from 'in-map/src/2DSceneObjects/tooltips/physical/Metric';
 import {currentTooltip, tooltipForSceneObject} from 'in-map/src/stores';
+import {longClickedSceneObject} from 'in-map/src/stores';
+import eventBus from 'in-map/eventbus';
 
 import CollisionComponent from '../CollisionObjectComponent';
 import Component from '../Component';
@@ -42,6 +44,12 @@ export default class MetricComponent extends Component {
 
     this.initialized();
     this.addSubscription('positionChanged', this.positionChanged);
+
+    this.longClickedSubscription = longClickedSceneObject.subscribe(so => {
+      if (so && so.id === this.id) {
+        eventBus.emit('openDashboard', sceneObject.id);
+      }
+    });
   }
 
   setStartingStateProperties() {
@@ -158,6 +166,8 @@ export default class MetricComponent extends Component {
 
   dispose() {
     super.dispose();
+
+    this.longClickedSubscription.dispose();
 
     this.removeFromFactory();
     this.positionToSet.dispose();

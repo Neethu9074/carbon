@@ -3,7 +3,6 @@ import THREE from 'three';
 import AnimationController from 'in-map/src/AnimationController';
 import {longClickedSceneObject} from 'in-map/src/stores';
 import * as time from 'in-map/src/timeCalculations';
-import eventBus from 'in-map/eventbus';
 
 import MouseControlsModule from '../common/MouseControlsModule';
 import TouchControlsModule from '../common/TouchControlsModule';
@@ -103,13 +102,7 @@ export default class CameraController extends BaseCameraController {
       this.eventEmitter.on('onDoubleClicked').subscribe(() => this.onDoubleClicked()),
 
       this.eventEmitter.on('onObjectDoubleClicked').subscribe(hittenOne =>
-        longClickedSceneObject.emit(hittenOne.parentSceneObject)),
-
-      longClickedSceneObject.subscribe(so => {
-        if (so) {
-          eventBus.emit('openDashboard', so.id);
-        }
-      })
+        longClickedSceneObject.emit(hittenOne.parentSceneObject))
     ]);
   }
 

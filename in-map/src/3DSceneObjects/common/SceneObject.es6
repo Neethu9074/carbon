@@ -1,8 +1,10 @@
 import RoEmitter from 'roemitter';
 
 import {currentScene, currentTooltip, tooltipForSceneObject} from 'in-map/src/stores';
+import {longClickedSceneObject} from 'in-map/src/stores';
 import * as snapshotStore from 'in-stores/snapshot';
 import Subscriber from 'in-map/src/Subscriber';
+import eventBus from 'in-map/eventbus';
 
 import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
 import PositionComponent from '../../components/common/PositionComponent';
@@ -30,16 +32,24 @@ export default class SceneObject extends Subscriber {
     this.stateMachine = new StateMachine(this);
     this.stateMachine.initialized();
 
-    this.addSubscription(snapshotStore.selectedSnapshotIdForHighlightingInMap.subscribe(selectedId =>
-      this.stateMachine.changeStateProperty(PROPERTIES.SELECTED,
-        selectedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF)
-    ));
+    this.addSubscriptions([
+      snapshotStore.selectedSnapshotIdForHighlightingInMap.subscribe(selectedId =>
+        this.stateMachine.changeStateProperty(PROPERTIES.SELECTED,
+          selectedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF)
+      ),
 
-    this.addSubscription(tooltipForSceneObject.subscribe(sOId => {
-      if (sOId === this.id) {
-        currentTooltip.emit(this.getTooltip());
-      }
-    }));
+      tooltipForSceneObject.subscribe(sOId => {
+        if (sOId === this.id) {
+          currentTooltip.emit(this.getTooltip());
+        }
+      }),
+
+      longClickedSceneObject.subscribe(so => {
+        if (so && so.id === this.id) {
+          eventBus.emit('openDashboard', this.id);
+        }
+      })
+    ]);
   }
 
   setStartingStateProperties() {

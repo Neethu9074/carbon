@@ -1,5 +1,4 @@
-import find from 'lodash/find';
-import remove from 'lodash/remove';
+import {remove, find} from 'lodash';
 
 import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/physical/Group';
 import {getColorPool} from 'in-services/util/ColorGenerator';

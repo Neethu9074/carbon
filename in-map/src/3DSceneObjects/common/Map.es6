@@ -1,5 +1,4 @@
-import find from 'lodash/find';
-import remove from 'lodash/remove';
+import {remove, find} from 'lodash';
 
 import {viewStructure} from 'in-stores/view';
 import eventBus from 'in-map/eventbus';

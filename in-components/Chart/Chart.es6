@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import isEqual from 'lodash/isEqual';
-import merge from 'lodash/merge';
+import {isEqual, merge} from 'lodash';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';

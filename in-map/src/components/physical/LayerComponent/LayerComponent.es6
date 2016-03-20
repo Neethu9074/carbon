@@ -1,5 +1,4 @@
-import find from 'lodash/find';
-import remove from 'lodash/remove';
+import {remove, find} from 'lodash';
 
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import PluginLabel from 'in-map/src/3DSceneObjects/physical/Label';
