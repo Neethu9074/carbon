@@ -2,7 +2,7 @@ import {createLogger} from 'instalog';
 
 import {getSnapshot} from 'in-stores/snapshot';
 import {health, mapSeverityToHealth} from 'in-services/health';
-import {getOpenIssues} from 'in-services/issueTracker';
+import {getOpenIssuesStream} from 'in-services/issueTracker';
 import {settingsStore} from 'in-services/settings';
 import {getLabel} from 'in-sdk/snapshot';
 
@@ -21,7 +21,7 @@ settingsStore.nextFrame().subscribe(data => {
 
 
 function startTracking() {
-  disposable = getOpenIssues().subscribe(issues => {
+  disposable = getOpenIssuesStream().subscribe(issues => {
     // show messages only if Browser Window is currently not visible
     if (document.hidden == null || !document.hidden) {
       return;

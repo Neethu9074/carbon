@@ -1,97 +1,100 @@
-import Immutable from 'immutable';
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {getIssueCountSummary} from 'in-services/issueTracker';
-import {health} from 'in-services/health';
+import {getOpenIssuesStream} from 'in-services/issueTracker';
+import {emptyList} from 'in-services/fixedImmutables';
+import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
 import NotificationCenterFlyout from '../NotificationCenterFlyout';
 
 import './NotificationCounter.less';
 
+
 const block = 'in-notification-counter';
 
-const NotificationCounter = React.createClass({
-  mixins: [
-    SubscriptionMixin
-  ],
-
-  propTypes: {
-    className: React.PropTypes.string
-  },
-
-  getInitialState() {
+export default connectTo(
+  () => {
     return {
-      issueSummary: Immutable.Map({
-        [health.ok]: 0,
-        [health.warning]: 0,
-        [health.danger]: 0
-      }),
-      showNotificationCenter: false,
-      windowHeight: this.getWindowHeight()
+      openIssues: getOpenIssuesStream()
     };
   },
+  React.createClass({
 
-  handleResize() {
-    this.setState({ windowHeight: this.getWindowHeight() });
-  },
+    displayName: 'NotificationCounter',
 
-  getWindowHeight() {
-    // the sidebar is minumum 100px height but max fullWindowHeight - 350px.
-    // 350 is the upper margin + headers for the sidebar + a little margin to the bottom
-    return Math.max(100, window.innerHeight - 350);
-  },
+    mixins: [
+      SubscriptionMixin
+    ],
 
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-    this.addSubscription(
-      getIssueCountSummary().subscribe(issueSummary => this.setState({issueSummary}))
-    );
-  },
+    propTypes: {
+      className: React.PropTypes.string,
+      openIssues: irpt.list
+    },
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  },
+    getInitialState() {
+      return {
+        showNotificationCenter: false,
+        windowHeight: this.getWindowHeight()
+      };
+    },
 
-  render() {
-    const summary = this.state.issueSummary;
-    const errorAndWarningCounts = summary.get(health.warning) + summary.get(health.danger);
-    const color = this.getColor(summary);
-    const showNC = this.state.showNotificationCenter;
+    handleResize() {
+      this.setState({ windowHeight: this.getWindowHeight() });
+    },
 
-    return (
-      <div className={this.props.className}>
-        <div className={block}
-             style={{background: color}}
-             onClick={this.toggleNotificationCenter}>
-          {errorAndWarningCounts}
-        </div>
+    getWindowHeight() {
+      // the sidebar is minumum 100px height but max fullWindowHeight - 350px.
+      // 350 is the upper margin + headers for the sidebar + a little margin to the bottom
+      return Math.max(100, window.innerHeight - 350);
+    },
 
-        {showNC ?
-          <div className={block + '__notification-center'}>
-            <NotificationCenterFlyout toggleNotificationCenter={this.toggleNotificationCenter}
-                                      style={{ maxHeight: this.state.windowHeight }}
-                                      open={showNC}/>
+    componentDidMount() {
+      window.addEventListener('resize', this.handleResize);
+    },
+
+    componentWillUnmount() {
+      window.removeEventListener('resize', this.handleResize);
+    },
+
+    render() {
+      const issues = this.props.openIssues || emptyList;
+      const showNC = this.state.showNotificationCenter;
+
+      let maxSeverity = 0;
+      issues.forEach(issue => {
+        const severity = issue.getIn('problem', 'severity');
+        if (severity > maxSeverity) {
+          maxSeverity = severity;
+        }
+      });
+
+      const color = theme.health[maxSeverity];
+
+      return (
+        <div className={this.props.className}>
+          <div className={block}
+               style={{background: color}}
+               onClick={this.toggleNotificationCenter}>
+            {issues.size}
           </div>
-        : null}
-      </div>
-    );
-  },
 
-  getColor(summary) {
-    if (summary.get(health.danger) > 0) {
-      return theme.health[10];
-    } else if (summary.get(health.warning) > 0) {
-      return theme.health[5];
+          {showNC ?
+            <div className={block + '__notification-center'}>
+              <NotificationCenterFlyout toggleNotificationCenter={this.toggleNotificationCenter}
+                                        style={{ maxHeight: this.state.windowHeight }}
+                                        open={showNC}/>
+            </div>
+          : null}
+        </div>
+      );
+    },
+
+    toggleNotificationCenter() {
+      this.setState({
+        showNotificationCenter: !this.state.showNotificationCenter
+      });
     }
-
-    return theme.health[0];
-  },
-
-  toggleNotificationCenter() {
-    this.setState({ showNotificationCenter: !this.state.showNotificationCenter });
-  }
-});
-
-export default NotificationCounter;
+  })
+);
