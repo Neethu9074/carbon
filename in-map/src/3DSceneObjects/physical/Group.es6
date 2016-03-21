@@ -158,18 +158,6 @@ export default class Group extends SceneObjectWithSnapshot {
     return matchedNode;
   }
 
-  addGroup(group) {
-    const children = this.children;
-    for (let i = 0; i < children.length; i++) {
-      if (children[i].id === group.id) {
-        return;
-      }
-    }
-
-    group.parent = this;
-    this.children.push(group);
-  }
-
   removeChild(child) {
     remove(this.children, node => node.id === child.id);
 
