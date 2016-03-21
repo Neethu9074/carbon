@@ -1,8 +1,8 @@
 import irpt from 'react-immutable-proptypes';
-import React from 'react';
 import {isEqual, merge} from 'lodash';
+import React from 'react';
 
-import {getHistoricMetricsWithLiveUpdates} from 'in-stores/metric';
+import {getMetricsForTimeframe} from 'in-stores/metric';
 
 import Chart from './Chart';
 
@@ -58,10 +58,10 @@ const ChartWrapper = React.createClass({
 
   createDataSources(axis) {
     return axis.metrics.map(metric =>
-      getHistoricMetricsWithLiveUpdates({
+      getMetricsForTimeframe({
         snapshotId: this.props.snapshot.get('id'),
-        metric,
-        timeframe: this.props.timeframe.windowSize
+        timeframe: this.props.timeframe,
+        metric
       })
     );
   },
