@@ -23,7 +23,7 @@ const ElasticsearchDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -44,7 +44,7 @@ const ElasticsearchDashboard = React.createClass({
       <div>
         <DashboardSection title='Total Documents'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -69,7 +69,7 @@ const ElasticsearchDashboard = React.createClass({
             {indexName ?
               <div>
                 <ChartWithLegend snapshot={snapshot}
-                                 windowSize={timeframe}
+                                 timeframe={timeframe}
                                  height={chartHeight}
                                  margins={{
                                    left: 80,
@@ -139,7 +139,7 @@ const ElasticsearchDashboard = React.createClass({
 
         <DashboardSection title='Refresh and Flush'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80,
@@ -174,7 +174,7 @@ const ElasticsearchDashboard = React.createClass({
 
         <DashboardSection title='Lucene Segments'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80

@@ -13,7 +13,7 @@ const MySqlDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -25,7 +25,7 @@ const MySqlDashboard = React.createClass({
       <div>
         <DashboardSection title='Clients'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -42,7 +42,7 @@ const MySqlDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='Slow Queries'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -59,7 +59,7 @@ const MySqlDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='Key Access'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80

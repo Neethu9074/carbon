@@ -18,7 +18,7 @@ const MongoDBDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -33,7 +33,7 @@ const MongoDBDashboard = React.createClass({
         {dbs ?
         <DashboardSection title='Database Size'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -55,7 +55,7 @@ const MongoDBDashboard = React.createClass({
 
         <DashboardSection title='Document Counter'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -79,7 +79,7 @@ const MongoDBDashboard = React.createClass({
 
         <DashboardSection title='Clients'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80

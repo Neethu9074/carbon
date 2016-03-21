@@ -13,7 +13,7 @@ const HttpdDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -25,7 +25,7 @@ const HttpdDashboard = React.createClass({
       <div>
         <DashboardSection title='Traffic'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80
@@ -52,7 +52,7 @@ const HttpdDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='Worker'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 60

@@ -18,7 +18,7 @@ const ProcessDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -30,7 +30,7 @@ const ProcessDashboard = React.createClass({
       <div>
         <DashboardSection title='Memory'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80
@@ -53,7 +53,7 @@ const ProcessDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='CPU Usage'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80

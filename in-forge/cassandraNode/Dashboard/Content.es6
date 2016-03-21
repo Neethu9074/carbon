@@ -28,7 +28,7 @@ const CassandraDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.object.isRequired
   },
 
   getInitialState() {
@@ -48,7 +48,7 @@ const CassandraDashboard = React.createClass({
       <div>
         <DashboardSection title='Requests'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -71,7 +71,7 @@ const CassandraDashboard = React.createClass({
           <DashboardSection title={'Client ' + capitalize(op) + ' Request Latencies'}
                             key={op}>
             <ChartWithLegend snapshot={snapshot}
-                             windowSize={timeframe}
+                             timeframe={timeframe}
                              height={chartHeight}
                              margins={{
                                left: 80
@@ -100,7 +100,7 @@ const CassandraDashboard = React.createClass({
           <DashboardSection title={capitalize(stage) + ' Requests in Threadpools (Stages)'}
                             key={stage}>
             <ChartWithLegend snapshot={snapshot}
-                             windowSize={timeframe}
+                             timeframe={timeframe}
                              height={chartHeight}
                              margins={{
                                left: 80
@@ -130,7 +130,7 @@ const CassandraDashboard = React.createClass({
 
         <DashboardSection title='Dropped Messages'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -160,7 +160,7 @@ const CassandraDashboard = React.createClass({
           {selectedKeyspace ?
             <div>
               <ChartWithLegend snapshot={snapshot}
-                     windowSize={timeframe}
+                     timeframe={timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80,
@@ -237,7 +237,7 @@ const CassandraDashboard = React.createClass({
 
         <DashboardSection title='Pending Compactions'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -256,7 +256,7 @@ const CassandraDashboard = React.createClass({
 
         <DashboardSection title='Cache Hits'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -281,7 +281,7 @@ const CassandraDashboard = React.createClass({
 
         <DashboardSection title='Bloom Filter'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80

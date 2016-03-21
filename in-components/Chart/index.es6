@@ -18,7 +18,7 @@ const ChartWrapper = React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    windowSize: rpt.object.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired,
     y1: rpt.object.isRequired,
     y2: rpt.object
@@ -61,7 +61,7 @@ const ChartWrapper = React.createClass({
       getHistoricMetricsWithLiveUpdates({
         snapshotId: this.props.snapshot.get('id'),
         metric,
-        timeframe: this.props.windowSize.windowSize
+        timeframe: this.props.timeframe.windowSize
       })
     );
   },
@@ -77,7 +77,8 @@ const ChartWrapper = React.createClass({
   componentDidUpdate(prevProps) {
     // isEqual should ignore datasources and labels
     if (this.props.snapshot.get('id') !== prevProps.snapshot.get('id') ||
-        this.props.windowSize !== prevProps.windowSize ||
+        this.props.timeframe.windowSize !== prevProps.timeframe.windowSize ||
+        this.props.timeframe.to !== prevProps.timeframe.to ||
         !this.isAxisEqual(this.props.y1, prevProps.y1) ||
         !this.isAxisEqual(this.props.y2, prevProps.y2)) {
       this.initAxis();
@@ -123,7 +124,7 @@ const ChartWrapper = React.createClass({
     return (
       <Chart height={this.props.height}
              margins={this.props.margins}
-             windowSize={this.props.windowSize.windowSize}
+             timeframe={this.props.timeframe}
              y1={y1}
              y2={y2} />
     );

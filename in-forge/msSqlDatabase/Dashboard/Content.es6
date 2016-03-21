@@ -11,7 +11,7 @@ const MsSqlDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -23,7 +23,7 @@ const MsSqlDashboard = React.createClass({
       <div>
       <DashboardSection title='Wait-Times (ms) on server'>
         <ChartWithLegend snapshot={snapshot}
-                         windowSize={timeframe}
+                         timeframe={timeframe}
                          height={chartHeight}
                          margins={{
                            left: 80
@@ -48,7 +48,7 @@ const MsSqlDashboard = React.createClass({
       </DashboardSection>
       <DashboardSection title='Connections & Users'>
         <ChartWithLegend snapshot={snapshot}
-                         windowSize={timeframe}
+                         timeframe={timeframe}
                          height={chartHeight}
                          margins={{
                            left: 80

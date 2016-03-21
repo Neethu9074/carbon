@@ -20,7 +20,7 @@ const KafkaDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -32,7 +32,7 @@ const KafkaDashboard = React.createClass({
       <div>
         <DashboardSection title='Broker Traffic'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80
@@ -55,7 +55,7 @@ const KafkaDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='Broker Failures'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80
@@ -76,7 +76,7 @@ const KafkaDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='Broker Messages In'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80
@@ -95,7 +95,7 @@ const KafkaDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='Log Flushing'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 80,

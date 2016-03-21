@@ -16,7 +16,7 @@ const TomcatDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.object.isRequired
   },
 
   getInitialState() {
@@ -82,7 +82,7 @@ const TomcatDashboard = React.createClass({
         (this.state.selectedServletName ? ' (' + state.selectedServletName + ')' : '')}>
           {state.selectedServlet ?
             <ChartWithLegend snapshot={snapshot}
-                   windowSize={props.timeframe}
+                   timeframe={props.timeframe}
                    height={chartHeight}
                    margins={{
                      left: 80,
@@ -129,7 +129,7 @@ const TomcatDashboard = React.createClass({
           <DashboardSection title='Sessions'>
             {state.webapp ?
               <ChartWithLegend snapshot={snapshot}
-                     windowSize={props.timeframe}
+                     timeframe={props.timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80
@@ -169,7 +169,7 @@ const TomcatDashboard = React.createClass({
           <DashboardSection title='Connectors'>
             {state.connector ?
               <ChartWithLegend snapshot={snapshot}
-                     windowSize={props.timeframe}
+                     timeframe={props.timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80

@@ -9,7 +9,7 @@ const JBossAsDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.object.isRequired
   },
 
   render() {

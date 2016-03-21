@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {isEqual, merge} from 'lodash';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {isEqual, merge} from 'lodash';
+import ReactDOM from 'react-dom';
+import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 
 import * as stackedAreaRenderer from './render/stackedAreaRenderer';
-import * as lineRenderer from './render/lineRenderer';
 import * as pointRenderer from './render/pointRenderer';
+import * as lineRenderer from './render/lineRenderer';
 import Renderer from './Renderer';
 
 import './Chart.less';
@@ -21,7 +21,7 @@ const Chart = React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    windowSize: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
 
     y1: rpt.object.isRequired,
     y2: rpt.object
@@ -53,7 +53,8 @@ const Chart = React.createClass({
 
   doesPropertyChangeRequireFullRedraw(prevProps) {
     return !isEqual(this.props.margins, prevProps.margins) ||
-      this.props.windowSize !== prevProps.windowSize ||
+      this.props.timeframe.windowSize !== prevProps.timeframe.windowSize ||
+      this.props.timeframe.to !== prevProps.timeframe.to ||
       !isEqual(this.props.y1, prevProps.y1) ||
       !isEqual(this.props.y2, prevProps.y2);
   },
@@ -74,7 +75,7 @@ const Chart = React.createClass({
       height: this.props.height,
       margins,
       y1: this.extendAxisConfig('y1'),
-      windowSize: this.props.windowSize
+      windowSize: this.props.timeframe.windowSize
     };
 
     if (this.props.y2) {

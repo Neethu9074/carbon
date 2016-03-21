@@ -28,7 +28,7 @@ export default connectTo(
 
   propTypes: {
     snapshot: irpt.map,
-    timeframe: React.PropTypes.number
+    timeframe: React.PropTypes.object
   },
 
   render() {

@@ -17,7 +17,7 @@ const NodejsDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -43,7 +43,7 @@ const NodejsDashboard = React.createClass({
           {this.state.selectedHttpServer ?
             <div>
               <ChartWithLegend snapshot={snapshot}
-                     windowSize={this.props.timeframe}
+                     timeframe={this.props.timeframe}
                      height={150}
                      margins={{
                        left: 80,
@@ -139,7 +139,7 @@ const NodejsDashboard = React.createClass({
           {selectedMongodbConnection ?
             <div>
               <ChartWithLegend snapshot={snapshot}
-                     windowSize={this.props.timeframe}
+                     timeframe={this.props.timeframe}
                      height={150}
                      margins={{
                        left: 80,
