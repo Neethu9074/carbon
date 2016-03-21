@@ -55,7 +55,6 @@ export default class SingleMeshMetricFactory {
     }
 
     this.updateGeometry();
-    scene.addSceneObject(mesh);
 
     // setup the tween animation for updating the progress
     this.setupAnimation();
@@ -218,6 +217,17 @@ export default class SingleMeshMetricFactory {
 
     if (__DEV__) {
       this.numberUpdates++;
+    }
+
+    if (this.vertices.length > 0) {
+      if (!this.isAddedToScene) {
+        this.scene.addSceneObject(this.mesh);
+        this.isAddedToScene = true;
+      }
+    // if there is no draw data anymore, remove the geometry from scene
+    } else {
+      this.scene.removeSceneObject(this.mesh);
+      this.isAddedToScene = false;
     }
   }
 

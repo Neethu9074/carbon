@@ -23,7 +23,13 @@ COPY deployment/star_instana_io.key /opt/www/star_instana_io.key.j2
 COPY deployment/dhgroup.pem /etc/ssl/dhgroup.pem
 COPY deployment/services/nginx.sh /etc/service/nginx/run
 COPY deployment/services/in-server.sh /etc/service/in-server/run
+ADD deployment/discovery /tmp/discovery
+
+# install jq
+RUN echo 'deb http://us.archive.ubuntu.com/ubuntu vivid main universe' >> /etc/apt/sources.list.d/jq.list
+RUN apt-get update && apt-get install jq
 
 CMD ["/sbin/my_init"]
 
 EXPOSE 80 443
+

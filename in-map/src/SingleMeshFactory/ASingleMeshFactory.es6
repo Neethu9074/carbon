@@ -43,7 +43,6 @@ export default class SingleMeshFactory {
     }
 
     this.updateGeometry();
-    scene.addSceneObject(mesh);
   }
 
   // must be implemented by extending classes
@@ -148,6 +147,17 @@ export default class SingleMeshFactory {
 
     if (__DEV__) {
       this.numberUpdates++;
+    }
+
+    if (this.vertices.length > 0) {
+      if (!this.isAddedToScene) {
+        this.scene.addSceneObject(this.mesh);
+        this.isAddedToScene = true;
+      }
+    // if there is no draw data anymore, remove the geometry from scene
+    } else {
+      this.scene.removeSceneObject(this.mesh);
+      this.isAddedToScene = false;
     }
   }
 
