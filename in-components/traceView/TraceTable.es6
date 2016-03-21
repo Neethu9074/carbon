@@ -53,7 +53,7 @@ export default connectTo({
         start: formatDateTime(trace.get('start')),
         duration: msZeroDecimalPlaces(trace.get('duration')),
         name: trace.get('name'),
-        id: trace.get('id')
+        id: trace.get('traceId')
       };
     });
 
