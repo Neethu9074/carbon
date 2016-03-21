@@ -63,6 +63,8 @@ export const Issue$ = selectedIssueListStore.observable
     }
 });
 
+export const selectedIssueList = selectedIssueListStore.observable;
+
 export function setSelectedList(type) {
   selectedIssueListStore.applyStateMutation(() => type);
 }

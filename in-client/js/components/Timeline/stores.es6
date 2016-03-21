@@ -147,8 +147,9 @@ export const issue$ = selectedTimeRange.flatMap(timeRange => {
     case TIME_RANGES.FIXED:
       return getHistoricalIssuesStream();
     case TIME_RANGES.LIVE:
-      return getHistoricalIssuesStream().merge(getOpenIssuesStream())
-                                        .scan(collectingReducer, emptyList);
+      return getHistoricalIssuesStream()
+        .merge(getOpenIssuesStream())
+        .scan(collectingReducer, emptyList);
     default:
       return alwaysNull;
   }
