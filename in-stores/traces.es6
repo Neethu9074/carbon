@@ -1,12 +1,24 @@
-import createTraceObservable from 'in-services/subscription/traces';
-import {createStore} from 'in-stores/store';
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
+import createTracesObservable from 'in-services/subscription/traces';
+import createTraceObservable from 'in-services/subscription/trace';
+import {alwaysNull} from 'in-services/fixedStreams';
+import {createStore, createTrackingStore} from 'in-stores/store';
 
 const selectedTraceIdStore = createStore({
   name: 'selectedTraceId',
   initialValue: null
 });
 export const selectedTraceId = selectedTraceIdStore.observable.distinct();
+
+export const selectedTrace = createTrackingStore({
+  name: 'selectedTrace',
+  observable: selectedTraceId.flatMap(traceId => {
+    if (traceId) {
+      return createTraceObservable(traceId);
+    }
+    return alwaysNull;
+  })
+}).observable;
 
 export function setSelectedTraceId(id) {
   if (id == null) {
@@ -38,5 +50,5 @@ navigationParameters.subscribe(navParams => {
 
 
 export function getTraces(onlyTracesFasterThan) {
-  return createTraceObservable(onlyTracesFasterThan);
+  return createTracesObservable(onlyTracesFasterThan);
 }

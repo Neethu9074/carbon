@@ -18,7 +18,7 @@ export default function createObservableIfMissing(factory, opts) {
     return cache[id];
   }
 
-  const observable = factory.createObservable(opts).delayedStop(5000, () => {
+  const observable = factory.createObservable(opts).delayedStop(10000, () => {
     delete cache[id];
   });
   cache[id] = observable;

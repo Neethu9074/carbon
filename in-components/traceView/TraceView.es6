@@ -1,6 +1,7 @@
 import React from 'react';
 
-import TraceTable from './TraceTable';
+import TraceTable from 'in-components/traceView/TraceTable';
+import TraceDetails from 'in-components/traceView/TraceDetails';
 
 import './TraceView.less';
 
@@ -15,6 +16,7 @@ export default React.createClass({
         Trace View
 
         <TraceTable />
+        <TraceDetails />
       </section>
     );
   }
