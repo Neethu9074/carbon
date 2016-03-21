@@ -11,7 +11,9 @@ import {
   changeTimeButtonToSelected,
   setChangeTimeButtonToSelected,
   clearChangeTimeButtonToSelected,
-  clearChangeTimeButtonFromSelected
+  clearChangeTimeButtonFromSelected,
+  selectedTimeRange,
+  TIME_RANGES
 } from './stores';
 import TimePicker from './TimePicker';
 
@@ -25,6 +27,7 @@ export default connectTo(
   () => {
     return {
       changeTimeButtonToSelected,
+      selectedTimeRange,
       serverTime,
       timeframe
     };
@@ -39,6 +42,7 @@ export default connectTo(
 
     propTypes: {
       changeTimeButtonToSelected: rpt.bool,
+      selectedTimeRange: rpt.string,
       serverTime: rpt.number,
       timeframe: rpt.object
     },
@@ -57,7 +61,7 @@ export default connectTo(
                    setChangeTimeButtonToSelected();
                  }
                }}>
-            {this.props.timeframe.to ?
+            {this.props.selectedTimeRange === TIME_RANGES.FIXED ?
               moment(this.props.timeframe.to).format('YYYY-MM-DD, HH:mm:ss') :
               <ServerTime format='YYYY-MM-DD, HH:mm:ss'/>}
           </div>

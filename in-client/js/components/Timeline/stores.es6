@@ -1,3 +1,7 @@
+import {getHistoricalIssuesStream, getOpenIssuesStream} from 'in-services/issueTracker';
+import {emptyList} from 'in-services/fixedImmutables';
+import {alwaysNull} from 'in-services/fixedStreams';
+import {timeframe} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 
 
@@ -96,7 +100,7 @@ export function clearChangeTimeButtonToSelected() {
 */
 export const TIME_PICKER = {
   FIXED: 'fixed',
-  LIVE: 'range'
+  LIVE: 'live'
 };
 
 export const selectedTimePickerStore = createStore({
@@ -109,3 +113,43 @@ export const selectedTimePicker = selectedTimePickerStore.observable;
 export function setSelectedTimePicker(timepicker) {
   selectedTimePickerStore.applyStateMutation(() => timepicker);
 }
+
+
+/*
+  this store is used to handle the different issue streams which are shown in the timelineStore
+
+  when selecting a custom timerange, the historical issues will be streamed 1:1
+
+  when selecting the live view, we need to merge the open issues with the historical issues in them
+  selected timerange (last 1h, last 12h, ...)
+*/
+export const TIME_RANGES = TIME_PICKER; // you can select a fixed range or the live range
+export const selectedTimeRange = timeframe.map(frame => frame.to ? TIME_RANGES.FIXED : TIME_RANGES.LIVE);
+
+
+function collectingReducer(existingIssues, issueUpdates) {
+  // a issue may already exist in our list of issues.
+  // We assume that it is an update in such cases. An update may change a
+  // problem's end time and other properties.
+  //
+  // Remove all issues for which we get updates from the backend
+  // and add the updated ones.
+  return existingIssues.filter(existingIssue => {
+    return issueUpdates.findIndex(updatedIssue => {
+      return updatedIssue.get('id') === existingIssue.get('id');
+    }) === -1;
+  })
+  .concat(issueUpdates);
+}
+
+export const issue$ = selectedTimeRange.flatMap(timeRange => {
+  switch (timeRange) {
+    case TIME_RANGES.FIXED:
+      return getHistoricalIssuesStream();
+    case TIME_RANGES.LIVE:
+      return getHistoricalIssuesStream().merge(getOpenIssuesStream())
+                                        .scan(collectingReducer, emptyList);
+    default:
+      return alwaysNull;
+  }
+});

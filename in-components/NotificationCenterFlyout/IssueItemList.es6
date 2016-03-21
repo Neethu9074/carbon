@@ -3,10 +3,9 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 import moment from 'moment';
 
-import {getIssues} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
-import {selectedNotificationFilter} from './stores';
+import {Issue$, selectedNotificationFilter} from './stores';
 import IssueDescription from '../IssueDescription';
 
 import './IssueItemList.less';
@@ -19,7 +18,7 @@ export default connectTo(
   () => {
     return {
       selectedNotificationFilter,
-      allIssues: getIssues()
+      allIssues: Issue$
     };
   },
   React.createClass({

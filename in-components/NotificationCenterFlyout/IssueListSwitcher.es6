@@ -3,6 +3,8 @@ import React from 'react';
 
 import Button from 'in-components/Button';
 
+import {ISSUE_LISTS, setSelectedList} from './stores';
+
 import './IssueListSwitcher.less';
 
 
@@ -23,11 +25,11 @@ export default React.createClass({
     return (
       <div className={block}>
         <Button className={block + '__button'}
-                onClick={() => console.log('historical')}>
+                onClick={() => setSelectedList(ISSUE_LISTS.HISTORICAL)}>
           historical
         </Button>
         <Button className={block + '__button'}
-                onClick={() => console.log('current')}>
+                onClick={() => setSelectedList(ISSUE_LISTS.CURRENT)}>
           current
         </Button>
       </div>

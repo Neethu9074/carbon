@@ -4,10 +4,9 @@ import React from 'react';
 
 import {mapSeverityToHealth} from 'in-services/health';
 import {emptyArray} from 'in-services/fixedObjects';
-import {getIssues} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 
-import {FILTER_TYPES} from './stores';
+import {FILTER_TYPES, Issue$} from './stores';
 import Filter from './Filter';
 
 import './FilterBar.less';
@@ -18,7 +17,7 @@ const block = 'in-notificationcenter-filterbar';
 export default connectTo(
   () => {
     return {
-      allIssues: getIssues()
+      allIssues: Issue$
     };
   },
   React.createClass({

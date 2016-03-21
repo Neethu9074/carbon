@@ -21,6 +21,7 @@ export default connectTo(
   () => {
     return {
       serverTime: serverTimeStore.serverTime,
+      timeframe: timelineStore.timeframe,
       maxOldestPermittedIssueTimestamp: combineLatest(
           [serverTimeStore.serverTime, timelineStore.timeframe]
         ).map(([serverTime, timeframe]) => serverTime - timeframe.windowSize)
@@ -40,17 +41,21 @@ export default connectTo(
   },
 
   componentWillMount() {
-    this.scale = d3.scale.linear().range([100, 0])
-      .domain([
-        this.props.serverTime,
-        this.props.maxOldestPermittedIssueTimestamp
-      ]);
+    this.scale = d3.scale.linear().range([100, 0]);
+    this.updateDomain(this.props);
   },
 
   componentWillReceiveProps(nextProps) {
+    this.updateDomain(nextProps);
+  },
+
+  updateDomain(props) {
+    const timeframe = props.timeframe;
+    const to = timeframe.to ? timeframe.to : props.serverTime;
+
     this.scale = this.scale.domain([
-      nextProps.serverTime,
-      nextProps.maxOldestPermittedIssueTimestamp
+      to,
+      to - timeframe.windowSize
     ]);
   },
 

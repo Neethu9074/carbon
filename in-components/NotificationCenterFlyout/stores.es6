@@ -1,4 +1,6 @@
+import {getHistoricalIssuesStream, getOpenIssuesStream} from 'in-services/issueTracker';
 import {mapHealthToColor, mapSeverityToHealth, health} from 'in-services/health';
+import {alwaysNull} from 'in-services/fixedStreams';
 import {createStore} from 'in-stores/store';
 
 
@@ -36,4 +38,31 @@ export const selectedNotificationFilter = selectedNotificationFilterStore.observ
 
 export function setSelectedNotificationFilter(filter) {
   selectedNotificationFilterStore.applyStateMutation(() => filter);
+}
+
+
+export const ISSUE_LISTS = {
+  CURRENT: 'current',
+  HISTORICAL: 'historical'
+};
+const selectedIssueListStore = createStore({
+  name: 'selectedIssueList',
+  initialValue: ISSUE_LISTS.CURRENT
+});
+
+export const Issue$ = selectedIssueListStore.observable
+  .distinct()
+  .flatMap(list => {
+    switch (list) {
+      case ISSUE_LISTS.CURRENT:
+        return getOpenIssuesStream();
+      case ISSUE_LISTS.HISTORICAL:
+        return getHistoricalIssuesStream();
+      default:
+        return alwaysNull;
+    }
+});
+
+export function setSelectedList(type) {
+  selectedIssueListStore.applyStateMutation(() => type);
 }
