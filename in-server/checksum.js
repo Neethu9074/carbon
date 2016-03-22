@@ -1,10 +1,12 @@
-import crypto from 'crypto';
-import fs from 'fs';
+'use strict';
 
-export function getSriIntegrityForFile(path) {
+const crypto = require('crypto');
+const fs = require('fs');
+
+exports.getSriIntegrityForFile = function getSriIntegrityForFile(path) {
   return 'sha256-' + crypto.createHash('sha256').update(fs.readFileSync(path)).digest('base64');
-}
+};
 
-export function getChecksumForFile(path) {
+exports.getChecksumForFile = function getChecksumForFile(path) {
   return crypto.createHash('sha256').update(fs.readFileSync(path)).digest('hex').substring(0, 10);
-}
+};

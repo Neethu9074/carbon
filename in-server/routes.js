@@ -1,13 +1,17 @@
-import express from 'express';
-import Handlebars from 'handlebars';
-import fs from 'fs';
-import path from 'path';
-import uuid from 'node-uuid';
-import sendRequest from 'request';
+'use strict';
 
-import serverConfig from './serverConfig.js';
-import clientConfig from './assets/config.json';
-import {getChecksumForFile, getSriIntegrityForFile} from './checksum';
+const express = require('express');
+const Handlebars = require('handlebars');
+const fs = require('fs');
+const path = require('path');
+const uuid = require('node-uuid');
+const sendRequest = require('request');
+
+const serverConfig = require('./serverConfig.js');
+const clientConfig = require('./assets/config.json');
+const checkSumMod = require('./checksum');
+const getChecksumForFile = checkSumMod.getChecksumForFile;
+const getSriIntegrityForFile = checkSumMod.getSriIntegrityForFile;
 
 const router = express.Router();
 export default router;

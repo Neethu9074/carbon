@@ -1,6 +1,6 @@
 {
   "name": "in-client",
-  "version": "1.0.0-prerelease",
+  "version": "1.0.0",
   "description": "Instana core frontend",
   "main": "index.js",
   "license": "UNLICENSED",
