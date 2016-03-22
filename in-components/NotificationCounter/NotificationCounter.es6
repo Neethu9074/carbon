@@ -64,7 +64,7 @@ export default connectTo(
 
       let maxSeverity = 0;
       issues.forEach(issue => {
-        const severity = issue.getIn('problem', 'severity');
+        const severity = issue.getIn(['problem', 'severity']);
         if (severity > maxSeverity) {
           maxSeverity = severity;
         }

@@ -1,5 +1,4 @@
 import {getHistoricalIssuesStream, getOpenIssuesStream} from 'in-services/issueTracker';
-import {emptyList} from 'in-services/fixedImmutables';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {timeframe} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
