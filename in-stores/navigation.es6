@@ -63,3 +63,11 @@ export function goToMap() {
     return navParams;
   });
 }
+
+
+export function getToTraceView() {
+  mutateUrl(navParams => {
+    navParams.pathname = 'traces';
+    return navParams;
+  });
+}

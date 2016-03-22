@@ -21,7 +21,12 @@ export default function connectTo(createObservables, ComposedComponent) {
     },
 
     subscribe(props) {
-      const observables = createObservables(props);
+      let observables;
+      if (typeof createObservables === 'function') {
+        observables = createObservables(props);
+      } else {
+        observables = createObservables;
+      }
 
       const newSubscriptions = Object.keys(observables).map(key => {
         return observables[key].subscribe(value => {

@@ -25,7 +25,7 @@ module.exports = {
   devtool: 'source-map',
   module: {
     loaders: [{
-      test: /\.(less|css)$/i,
+      test: /\.(css|less)$/i,
       loader: ExtractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 3 version!less', {
         // assets will be located next to the CSS file. Thus no need to prefix the path with
         // bundle/

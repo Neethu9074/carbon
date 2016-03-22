@@ -1,3 +1,4 @@
+import Immutable from 'immutable';
 import {create} from 'reactive-observables';
 
 import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
@@ -10,25 +11,20 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createTraceDataObservable
 });
 
-function getId({sortingProperty, sortDirection, filterString}) {
-  return 'trace_data' +
-    '_sortProp:' + sortingProperty +
-    '_sortDir:' + sortDirection +
-    '_filterStr:' + filterString;
+function getId(traceId) {
+  return traceId;
 }
 
-function createTraceDataObservable({sortingProperty, sortDirection, filterString}) {
+function createTraceDataObservable(traceId) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-trace-data', {
+      subscribe(subscriptionId, 'subscribe-trace', {
         subscriptionId,
-        sortingProperty,
-        sortDirection,
-        filterString
+        traceId
       });
     },
 
@@ -40,7 +36,7 @@ function createTraceDataObservable({sortingProperty, sortDirection, filterString
 
   return observable;
 
-  function onData(traceData) {
-    observable.emit(traceData);
+  function onData(trace) {
+    observable.emit(Immutable.fromJS(trace));
   }
 }

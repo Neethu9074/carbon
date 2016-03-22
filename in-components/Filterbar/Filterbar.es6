@@ -1,8 +1,6 @@
 import React from 'react';
 
-import {getTraceData, setFilterString, setSortDirection} from 'in-stores/traceData';
 import classnames from 'in-services/util/classnames';
-import Table from 'in-components/Table';
 
 import CloseFilterbarButton from './CloseFilterbarButton';
 import ComponentList from './ComponentList';
@@ -54,21 +52,6 @@ const Filterbar = React.createClass({
     // special case mapstats so that it will not be part of the compiled artifact
     if (__DEV__ && this.state.activeControl === 'mapStats') {
       return <MapStats />;
-    }
-
-    if (__DEV__ && this.state.activeControl === 'table') {
-      return (
-        <Table data={getTraceData()}
-               setFilter={setFilterString}
-               setSortDirection={setSortDirection}
-               canSort={['id', 'field1']}
-               headerDefinitions={[
-                 {name: 'id', size: 60},
-                 {name: 'field1', size: 60},
-                 {name: 'field2', size: 200}
-               ]}
-        />
-      );
     }
 
     switch (this.state.activeControl) {

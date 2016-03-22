@@ -1,14 +1,15 @@
-/*eslint-env node*/
-/*eslint-disable no-var*/
+/* eslint-env node */
+/* eslint-disable strict */
 
-var zIndex = 1;
+'use strict';
+
+let zIndex = 1;
 
 module.exports = {
   zIndex: {
     map: zIndex++,
     stickyNotes: zIndex++,
     lettering: zIndex++,
-    mapSwitcher: zIndex++,
     feedbackBadge: zIndex++,
     notificationCenter: zIndex++,
     sidebar: zIndex++,
@@ -16,6 +17,8 @@ module.exports = {
     search: zIndex++,
     header: zIndex++,
     betaRegistration: zIndex++,
+    traceView: zIndex++,
+    mapViewSwitcher: zIndex++,
     dashboard: zIndex++,
     dashboardHeader: zIndex++,
     footer: zIndex++,

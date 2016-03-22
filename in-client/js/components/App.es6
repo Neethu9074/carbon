@@ -5,7 +5,7 @@ import React from 'react';
 
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
-import {config, isDemoEnvironment} from 'in-services/config';
+import {isInternalEnvironment, isDemoEnvironment} from 'in-services/config';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
 import AccountMenu from 'in-components/AccountMenu';
@@ -90,8 +90,8 @@ export default helpify(connectTo(
 
         {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
 
-        {config.environment === 'internal' ?
-          <MapViewSwitcher className='in-root-map-switcher'/>
+        {isInternalEnvironment() ?
+          <MapViewSwitcher />
         : null}
 
         <Lettering className='in-root-lettering'/>
@@ -113,7 +113,7 @@ export default helpify(connectTo(
 
         {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
 
-        {window.instana.config.environment === 'demo' ? <DemoDialog /> : null}
+        {isDemoEnvironment() ? <DemoDialog /> : null}
 
         <TooltipPresenter />
         <ConnectionStatus />
