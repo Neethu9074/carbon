@@ -111,6 +111,33 @@ const PhpFpmDashboard = React.createClass({
                                  type: 'line'
                                }}/>
             </DashboardSection>
+            <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
+              <ChartWithLegend snapshot={snapshot}
+                               windowSize={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 90,
+                                 right: 60
+                               }}
+
+                               y1={{
+                                 min: 0,
+                                 formatter: numberFormatters.percentageTwoDecimalPlaces,
+                                 tooltipFormatter: numberFormatters.percentageTwoDecimalPlaces,
+                                 metrics: [ 'worker_pool.' + pool + '.total_cpu'],
+                                 labels: ['CPU Time %'],
+                                 type: 'line'
+                               }}
+
+                               y2={{
+                                 min: 0,
+                                 formatter: numberFormatters.bytesZeroDecimalPlaces,
+                                 metrics: ['worker_pool.' + pool + '.total_memory'],
+                                 labels: ['Memory'],
+                                 type: 'line'
+                               }}/>
+            </DashboardSection>
+
           </div>
         )}
       </div>
