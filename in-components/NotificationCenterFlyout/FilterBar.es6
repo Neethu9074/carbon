@@ -40,10 +40,10 @@ export default connectTo(
           <Filter label={'All'}
                   filter = {FILTER_TYPES.ALL}/>
 
-          <Filter label={'' + counter.errors}
+          <Filter label={'' + counter.error}
                   filter={FILTER_TYPES.CRITICAL}/>
 
-          <Filter label={'' + counter.warnings}
+          <Filter label={'' + counter.warning}
                   filter={FILTER_TYPES.WARNING}/>
 
           <Filter label={'' + counter.ok}
@@ -54,8 +54,8 @@ export default connectTo(
 
     getIssuesCounter() {
       const counter = {
-        warnings: 0,
-        errors: 0,
+        warning: 0,
+        error: 0,
         ok: 0
       };
 
