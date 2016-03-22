@@ -6,6 +6,7 @@ import {getHistoricalIssues as getHistoricalIssuesStore} from 'in-stores/histori
 import {getOpenIssues as getOpenIssuesStore} from 'in-stores/openIssues';
 import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
+import {createTrackingStore} from 'in-stores/store';
 import * as timelineStore from 'in-stores/timeline';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
@@ -48,26 +49,32 @@ function prepareIssue$(issue$) {
   });
 }
 
-const historicalIssues$ = prepareIssue$(timelineStore.timeframe
-                          .distinct()
-                          .flatMap(timeframe => isDemoEnvironment() ?
-                            getHistoricalIssuesStore(timeframe).map(withoutCpuStealMapper) :
-                            getHistoricalIssuesStore(timeframe)
-                          ))
-                          .scan(collectingReducer, emptyList);
+export const historicalIssues$ = createTrackingStore({
+  name: 'historicalIssuesStore',
+  observable: prepareIssue$(timelineStore.timeframe
+                            .distinct()
+                            .flatMap(timeframe => isDemoEnvironment() ?
+                              getHistoricalIssuesStore(timeframe).map(withoutCpuStealMapper) :
+                              getHistoricalIssuesStore(timeframe)
+                            ))
+                .scan(collectingReducer, emptyList)
+}).observable;
 
 export function getHistoricalIssuesStream() {
   return historicalIssues$;
 }
 
 
-const openIssue$ = prepareIssue$(isDemoEnvironment() ?
-                                   getOpenIssuesStore().map(withoutCpuStealMapper) :
-                                   getOpenIssuesStore())
-                    .scan(collectingReducer, emptyList);
+export const openIssues$ = createTrackingStore({
+  name: 'openIssuesStore',
+  observable: prepareIssue$(isDemoEnvironment() ?
+                                     getOpenIssuesStore().map(withoutCpuStealMapper) :
+                                     getOpenIssuesStore())
+                .scan(collectingReducer, emptyList)
+}).observable;
 
 export function getOpenIssuesStream() {
-  return openIssue$;
+  return openIssues$;
 }
 
 

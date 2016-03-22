@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
+import {resetStoreRegistry} from 'in-stores/store';
 import {theme} from 'in-services/theme';
 
 
@@ -23,6 +24,8 @@ describe('issueTracker', () => {
   let issueTracker;
 
   beforeEach(() => {
+    resetStoreRegistry();
+
     historicalIssuesObservable = ro.create();
     openIssuesObservable = ro.create();
 
