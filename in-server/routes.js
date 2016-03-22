@@ -13,8 +13,7 @@ const checkSumMod = require('./checksum');
 const getChecksumForFile = checkSumMod.getChecksumForFile;
 const getSriIntegrityForFile = checkSumMod.getSriIntegrityForFile;
 
-const router = express.Router();
-export default router;
+const router = module.exports = express.Router();
 
 
 const rawTemplate = fs.readFileSync(
