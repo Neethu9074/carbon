@@ -10,13 +10,14 @@ import './TraceWaterfallChart.less';
 const block = 'in-trace-waterfall-chart';
 
 const TraceWatterfallSpan = ({span, scale}) => {
-  const duration = span.get('start') + span.get('duration');
+  const left = scale.getRange(span.get('start'));
+  const right = scale.getRange(span.get('start') + span.get('duration'));
   return (
     <div>
       <div className={block + '__span'}
-           style={{left: scale.getRange(span.get('start')) + '%'}}>
+           style={{left: `${left}%`}}>
         <div className={block + '__span-block'}
-             style={{width: scale.getRange(duration) + '%'}}>
+             style={{width: `${right - left}%`}}>
         </div>
         {msZeroDecimalPlaces(span.get('duration'))}: {span.get('name')}
       </div>
