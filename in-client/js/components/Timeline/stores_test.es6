@@ -114,7 +114,7 @@ describe('timeline/stores', () => {
     let combinedIssues;
     stores.issue$.subscribe(i => combinedIssues = i.toJS());
 
-    setTimeframe(100); // all open for the last 100
+    setTimeframe(100); // get live stream
     expect(combinedIssues.length).to.equal(3);
     expect(combinedIssues[0].id).to.equal('hi');
     expect(combinedIssues[1].id).to.equal('oi');

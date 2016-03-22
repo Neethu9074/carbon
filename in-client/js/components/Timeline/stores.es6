@@ -1,4 +1,5 @@
 import {getHistoricalIssuesStream, getOpenIssuesStream} from 'in-services/issueTracker';
+import {emptyList} from 'in-services/fixedImmutables';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {timeframe} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
@@ -125,13 +126,29 @@ export function setSelectedTimePicker(timepicker) {
 export const TIME_RANGES = TIME_PICKER; // you can select a fixed range or the live range
 export const selectedTimeRange = timeframe.map(frame => frame.to ? TIME_RANGES.FIXED : TIME_RANGES.LIVE);
 
+
+function collectingReducer(existingIssues, issueUpdates) {
+  // a issue may already exist in our list of issues.
+  // We assume that it is an update in such cases. An update may change a
+  // problem's end time and other properties.
+  //
+  // Remove all issues for which we get updates from the backend
+  // and add the updated ones.
+  return existingIssues.filter(existingIssue => {
+    return issueUpdates.findIndex(updatedIssue => {
+      return updatedIssue.get('id') === existingIssue.get('id');
+    }) === -1;
+  })
+  .concat(issueUpdates);
+}
+
 export const issue$ = selectedTimeRange.flatMap(timeRange => {
   switch (timeRange) {
     case TIME_RANGES.FIXED:
       return getHistoricalIssuesStream();
     case TIME_RANGES.LIVE:
-      return getHistoricalIssuesStream()
-        .merge(getOpenIssuesStream());
+      return getHistoricalIssuesStream().merge(getOpenIssuesStream())
+              .scan(collectingReducer, emptyList);
     default:
       return alwaysNull;
   }
