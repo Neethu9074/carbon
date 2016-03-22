@@ -4,6 +4,7 @@ import Immutable from 'immutable';
 
 import {getHistoricalIssues as getHistoricalIssuesStore} from 'in-stores/historicalIssues';
 import {getOpenIssues as getOpenIssuesStore} from 'in-stores/openIssues';
+import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
 import * as timelineStore from 'in-stores/timeline';
 import * as settings from 'in-services/settings';
@@ -20,6 +21,21 @@ const withoutCpuStealMapper = (issues) => {
   );
 };
 
+function collectingReducer(existingIssues, issueUpdates) {
+  // a issue may already exist in our list of issues.
+  // We assume that it is an update in such cases. An update may change a
+  // problem's end time and other properties.
+  //
+  // Remove all issues for which we get updates from the backend
+  // and add the updated ones.
+  return existingIssues.filter(existingIssue => {
+    return issueUpdates.findIndex(updatedIssue => {
+      return updatedIssue.get('id') === existingIssue.get('id');
+    }) === -1;
+  })
+  .concat(issueUpdates);
+}
+
 function prepareIssue$(issue$) {
   return combineLatest([
     settings.getIn(['experiments']),
@@ -32,24 +48,26 @@ function prepareIssue$(issue$) {
   });
 }
 
+const historicalIssues$ = prepareIssue$(timelineStore.timeframe
+                          .distinct()
+                          .flatMap(timeframe => isDemoEnvironment() ?
+                            getHistoricalIssuesStore(timeframe).map(withoutCpuStealMapper) :
+                            getHistoricalIssuesStore(timeframe)
+                          ))
+                          .scan(collectingReducer, emptyList);
 
 export function getHistoricalIssuesStream() {
-  const historicalIssuesWithExperimentals$ = timelineStore.timeframe
-    .distinct()
-    .flatMap(timeframe => isDemoEnvironment() ?
-      getHistoricalIssuesStore(timeframe).map(withoutCpuStealMapper) :
-      getHistoricalIssuesStore(timeframe)
-    );
-  return prepareIssue$(historicalIssuesWithExperimentals$);
+  return historicalIssues$;
 }
 
 
-export function getOpenIssuesStream() {
-  const openIssuesWithExperimentals$ = isDemoEnvironment() ?
-    getOpenIssuesStore().map(withoutCpuStealMapper) :
-    getOpenIssuesStore();
+const openIssue$ = prepareIssue$(isDemoEnvironment() ?
+                                   getOpenIssuesStore().map(withoutCpuStealMapper) :
+                                   getOpenIssuesStore())
+                    .scan(collectingReducer, emptyList);
 
-  return prepareIssue$(openIssuesWithExperimentals$);
+export function getOpenIssuesStream() {
+  return openIssue$;
 }
 
 
