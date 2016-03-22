@@ -3,79 +3,31 @@ import React from 'react';
 
 import TraceTableRow from 'in-components/traceView/TraceTableRow';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {formatDateTime} from 'in-services/formatters/date';
-import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {
-  getTraces,
   selectedTraceId,
   setSelectedTraceId,
   clearSelectedTraceId
 } from 'in-stores/traces';
 import connectTo from 'in-hoc/connectTo';
+import * as traceViewStore from 'in-components/traceView/traceViewStore';
 
 const block = 'in-trace-table';
 
 export default connectTo({
-    selectedTraceId
+    selectedTraceId,
+    traces: traceViewStore.traces$,
+    isInfiniteLoading: traceViewStore.isLoading$
   }, React.createClass({
   displayName: 'TraceTable',
 
   propTypes: {
-    selectedTraceId: React.PropTypes.string
-  },
-
-  getInitialState() {
-    return {
-      traces: [],
-      isInfiniteLoading: false,
-      fastestTraceDuration: null
-    };
-  },
-
-  refresh() {
-    this.setState({
-      traces: [],
-      fastestTraceDuration: null
-    });
-  },
-
-  loadMoreTraces() {
-    if (this.traceSubscription) {
-      this.traceSubscription.dispose();
-    }
-    this.traceSubscription = getTraces(this.state.fastestTraceDuration)
-      .once(this.addTraces);
-  },
-
-  addTraces(newTraces) {
-    const transformedTraces = newTraces.toArray().map(trace => {
-      return {
-        start: formatDateTime(trace.get('start')),
-        duration: msZeroDecimalPlaces(trace.get('duration')),
-        name: trace.get('name'),
-        id: trace.get('traceId')
-      };
-    });
-
-    const fastestTrace = newTraces.last();
-    let fastestTraceDuration = null;
-    if (fastestTrace) {
-      fastestTraceDuration = fastestTrace.get('duration');
-    }
-
-    this.setState(state => {
-      return {
-        traces: state.traces.concat(transformedTraces),
-        fastestTraceDuration,
-        isInfiniteLoading: false
-      };
-    });
+    selectedTraceId: React.PropTypes.string,
+    traces: React.PropTypes.array.isRequired,
+    isInfiniteLoading: React.PropTypes.bool.isRequired
   },
 
   componentWillUnmount() {
-    if (this.traceSubscription) {
-      this.traceSubscription.dispose();
-    }
+    traceViewStore.clear();
   },
 
   render() {
@@ -85,9 +37,9 @@ export default connectTo({
                   elementHeight={30}
                   loadingSpinnerDelegate={<LoadingIndicator />}
                   infiniteLoadBeginEdgeOffset={150}
-                  onInfiniteLoad={this.onInfiniteLoad}
-                  isInfiniteLoading={this.state.isInfiniteLoading}>
-          {this.state.traces.map(trace =>
+                  onInfiniteLoad={traceViewStore.loadMoreTraces}
+                  isInfiniteLoading={this.props.isInfiniteLoading}>
+          {this.props.traces.map(trace =>
             <TraceTableRow key={trace.id}
                            trace={trace}
                            selectedTraceId={this.props.selectedTraceId}
@@ -96,11 +48,6 @@ export default connectTo({
         </Infinite>
       </div>
     );
-  },
-
-  onInfiniteLoad() {
-    this.setState({isInfiniteLoading: true});
-    this.loadMoreTraces();
   },
 
   onClick(traceId) {

@@ -13,8 +13,7 @@ export default React.createClass({
   render() {
     return (
       <section className={block}>
-        Trace View
-
+        <h1>Trace View</h1>
         <TraceTable />
         <TraceDetails />
       </section>
