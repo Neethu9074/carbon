@@ -59,7 +59,7 @@ export default connectTo(
                  }
                }}>
             {this.props.selectedTimeRange === TIME_RANGES.FIXED ?
-              moment(this.props.timeframe.to.getTime() - this.props.timeframe.windowSize)
+              moment(this.props.timeframe.to - this.props.timeframe.windowSize)
                 .format('YYYY-MM-DD, HH:mm:ss') :
               <ServerTime format='YYYY-MM-DD, HH:mm:ss' offset={this.props.timeframe.windowSize * -1}/>
             }

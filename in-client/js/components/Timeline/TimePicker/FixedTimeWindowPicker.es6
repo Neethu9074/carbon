@@ -64,7 +64,7 @@ export default connectTo(
 
     applyTime() {
       const from = this.props.dateFrom;
-      const to = this.props.dateTo;
+      const to = this.props.dateTo.getTime(); // to timestamp
 
       tracking.events.changingTimeWindowUsingTimeline();
       timelineStore.setTimeframe(to - from, to);
