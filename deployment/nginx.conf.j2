@@ -79,7 +79,7 @@ http {
     ssl_prefer_server_ciphers on;
     ssl_dhparam              /etc/ssl/dhgroup.pem;
 
-    {% if INSTANA_ENVIRONMENT != 'internal' %}
+    {% if ENVIRONMENT != 'internal' %}
     location ~* \.js\.map$ {
       auth_basic             "Restricted";
       auth_basic_user_file   .htpasswd;
