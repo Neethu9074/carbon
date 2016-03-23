@@ -12,7 +12,7 @@ export default createObservableIfMissing.bind(null, {
 });
 
 function getId(timeframe) {
-  return timeframe;
+  return timeframe.to + ',' + timeframe.windowSize;
 }
 
 function createIssueObservable(timeframe) {

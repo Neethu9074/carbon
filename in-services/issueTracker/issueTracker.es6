@@ -38,26 +38,34 @@ function collectingReducer(existingIssues, issueUpdates) {
 }
 
 function prepareIssue$(issue$) {
-  return combineLatest([
+  let stream = issue$;
+
+  if (isDemoEnvironment()) {
+    stream = stream.map(withoutCpuStealMapper);
+  }
+
+  stream = combineLatest([
     settings.getIn(['experiments']),
-    issue$
+    stream
   ]).map(([withExperiments, issues]) => {
     if (withExperiments) {
       return issues;
     }
     return issues.filter(issue => !issue.getIn(['problem', 'experimental'], false));
   });
+
+  return stream;
 }
 
 export const historicalIssues$ = createTrackingStore({
   name: 'historicalIssuesStore',
   observable: prepareIssue$(timelineStore.timeframe
                               .distinct()
-                              .flatMap(timeframe => isDemoEnvironment() ?
-                                getHistoricalIssuesStore(timeframe).map(withoutCpuStealMapper) :
+                              .flatMap(timeframe =>
                                 getHistoricalIssuesStore(timeframe)
+                                  .scan(collectingReducer, emptyList)
                               ))
-                .scan(collectingReducer, emptyList)
+                .nextFrame()
 }).observable;
 
 export function getHistoricalIssuesStream() {
@@ -67,10 +75,9 @@ export function getHistoricalIssuesStream() {
 
 export const openIssues$ = createTrackingStore({
   name: 'openIssuesStore',
-  observable: prepareIssue$(isDemoEnvironment() ?
-                              getOpenIssuesStore().map(withoutCpuStealMapper) :
-                              getOpenIssuesStore())
+  observable: prepareIssue$(getOpenIssuesStore())
                 .scan(collectingReducer, emptyList)
+                .nextFrame()
 }).observable;
 
 export function getOpenIssuesStream() {
@@ -78,8 +85,23 @@ export function getOpenIssuesStream() {
 }
 
 
-const combinedIssues$ = getHistoricalIssuesStream().merge(getOpenIssuesStream())
-                          .scan(collectingReducer, emptyList);
+const combinedIssues$ = combineLatest([getHistoricalIssuesStream(), getOpenIssuesStream()])
+  .map(([historical, open]) => {
+    const result = historical.toArray();
+    const addedIssues = {};
+
+    result.forEach(issue => {
+      addedIssues[issue.get('id')] = true;
+    });
+
+    open.forEach(issue => {
+      if (!addedIssues[issue.get('id')]) {
+        result.push(issue);
+      }
+    });
+
+    return Immutable.List(result);
+  });
 
 export function getCombinedIssuesStream() {
   return combinedIssues$;
