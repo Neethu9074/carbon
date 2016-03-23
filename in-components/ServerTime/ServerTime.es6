@@ -1,6 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
-import moment from 'moment';
 
 import * as serverTimeStore from 'in-stores/serverTime';
 import connectTo from 'in-hoc/connectTo';
@@ -19,7 +18,7 @@ export default connectTo(
 
   propTypes: {
     serverTime: rpt.number.isRequired,
-    format: rpt.string.isRequired,
+    format: rpt.func.isRequired,
     offset: rpt.number
   },
 
@@ -34,7 +33,7 @@ export default connectTo(
 
     return (
       <span>
-        {moment(serverTime + offset).format(format)}
+        {format(serverTime + offset)}
       </span>
     );
   }

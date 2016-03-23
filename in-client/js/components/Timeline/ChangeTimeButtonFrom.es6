@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import moment from 'moment';
 import React from 'react';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import ServerTime from 'in-components/ServerTime';
 import {timeframe} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
@@ -59,9 +59,8 @@ export default connectTo(
                  }
                }}>
             {this.props.selectedTimeRange === TIME_RANGES.FIXED ?
-              moment(this.props.timeframe.to - this.props.timeframe.windowSize)
-                .format('YYYY-MM-DD, HH:mm:ss') :
-              <ServerTime format='YYYY-MM-DD, HH:mm:ss' offset={this.props.timeframe.windowSize * -1}/>
+              formatDateTime(this.props.timeframe.to - this.props.timeframe.windowSize) :
+              <ServerTime format={formatDateTime} offset={this.props.timeframe.windowSize * -1}/>
             }
           </div>
         </div>
