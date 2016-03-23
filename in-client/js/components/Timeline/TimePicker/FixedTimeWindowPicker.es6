@@ -60,7 +60,7 @@ export default connectTo({
     },
 
     applyTime() {
-      const from = this.props.dateFrom;
+      const from = this.props.dateFrom.getTime();
       const to = this.props.dateTo.getTime(); // to timestamp
 
       tracking.events.changingTimeWindowUsingTimeline();
