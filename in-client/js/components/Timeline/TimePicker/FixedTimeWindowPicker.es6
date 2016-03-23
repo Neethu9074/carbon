@@ -51,7 +51,7 @@ export default connectTo({
                       onTimeChanged={setTimeTo}
                       onDateClicked={setDateTo}/>
 
-          <Button className={block + '__apply--button'}
+          <Button className={block + '__apply-button'}
                   onClick={this.applyTime}>
             Apply
           </Button>
