@@ -26,6 +26,7 @@ function getHistoricMetrics({snapshotId, metric, timeframe}) {
   if (rollup) {
     aggregation = defaultAggregation;
   }
+
   return createHistoricMetricObservable({
     snapshotId,
     metric,
@@ -81,6 +82,8 @@ export function getDefaultMetricRollupDuration(timeframe) {
 
   for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
     const config = rollupDurationThresholds[i];
+    // this works because the rollupDurationThresholds array is sorted by maxTimeframe
+    // the first rollup matching the requirements is returned
     if (timeframe.windowSize <= config.maxTimeframe) {
       return config.rollup;
     }
