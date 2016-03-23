@@ -3,8 +3,8 @@ import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import * as power from 'in-sdk/power';
 
+import iconPath from 'in-forge/genericZone/icon.svg';
 import * as constants from 'in-forge/constants';
-import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.genericZone,

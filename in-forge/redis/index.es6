@@ -4,7 +4,7 @@ import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
 import * as constants from 'in-forge/constants';
-import iconPath from './icon.svg';
+import iconPath from 'in-forge/redis/icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.redis,

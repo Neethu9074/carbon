@@ -3,8 +3,8 @@ import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
+import iconPath from 'in-forge/jBossAsApplicationContainericon.svg';
 import * as constants from 'in-forge/constants';
-import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.jbossas,

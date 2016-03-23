@@ -3,7 +3,7 @@ import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
 import * as constants from 'in-forge/constants';
-import iconPath from './icon.svg';
+import iconPath from 'in-forge/ec2/icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.ec2,

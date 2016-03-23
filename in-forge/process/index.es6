@@ -4,8 +4,8 @@ import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
+import iconPath from 'in-forge/process/icon.svg';
 import * as constants from 'in-forge/constants';
-import iconPath from './icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.process,

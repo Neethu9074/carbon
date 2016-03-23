@@ -5,7 +5,7 @@ import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
 import * as constants from 'in-forge/constants';
-import iconPath from './icon.svg';
+import iconPath from 'in-forge/httpd/icon.svg';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.httpd,
