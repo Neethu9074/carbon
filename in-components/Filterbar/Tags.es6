@@ -2,7 +2,7 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {removeAllTagFilters} from 'in-stores/filtering';
-import TagListAll from 'in-componentsiss/TagListAll';
+import TagListAll from 'in-components/TagListAll';
 
 import ResetButton from 'in-components/Filterbar/ResetButton';
 import ListHeader from 'in-components/Filterbar/ListHeader';
