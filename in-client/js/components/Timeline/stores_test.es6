@@ -110,15 +110,4 @@ describe('timeline/stores', () => {
     expect(historicalIssues[1].id).to.equal('oi');
   });
 
-  it('should switch issues stream to combined issues, based on the timerange', () => {
-    let combinedIssues;
-    stores.issue$.subscribe(i => combinedIssues = i.toJS());
-
-    setTimeframe(100); // get live stream
-    expect(combinedIssues.length).to.equal(3);
-    expect(combinedIssues[0].id).to.equal('hi');
-    expect(combinedIssues[1].id).to.equal('oi');
-    expect(combinedIssues[2].id).to.equal('oi2');
-  });
-
 });

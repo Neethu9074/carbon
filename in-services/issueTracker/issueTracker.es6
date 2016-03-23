@@ -78,6 +78,14 @@ export function getOpenIssuesStream() {
 }
 
 
+const combinedIssues$ = getHistoricalIssuesStream().merge(getOpenIssuesStream())
+                          .scan(collectingReducer, emptyList);
+
+export function getCombinedIssuesStream() {
+  return combinedIssues$;
+}
+
+
 export function getIssuesById(snapshotId) {
   return getOpenIssuesStream().map(issues => {
     let size = 0;

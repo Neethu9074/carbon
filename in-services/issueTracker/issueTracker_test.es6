@@ -51,32 +51,20 @@ describe('issueTracker', () => {
     });
 
     openIssuesStubData = Immutable.fromJS([{
-      'id': 'i1',
-      'problem': {
-        'id': 'p1',
-        'snapshotId': 'snappiId',
-        'problemText': 'You will run out of main memory just within next 2 hours',
-        'fixSuggestion': 'Analyse running processes for eventual memory…',
-        'explanation': 'Determined through linear regression',
-        'severity': 5
-      },
-      'start': 1433251409977
-      // no end == state : OPEN
-    }]);
+        'id': 'oi1',
+        'start': 1433251409977
+      }, {
+        'id': 'oi2',
+        'start': 1433251409977
+      }
+    ]);
 
-     historicalIssuesStubData = Immutable.fromJS([{
-      'id': 'i1',
-      'problem': {
-        'id': 'p1',
-        'snapshotId': 'snappiId',
-        'problemText': 'You will run out of main memory just within next 2 hours',
-        'fixSuggestion': 'Analyse running processes for eventual memory…',
-        'explanation': 'Determined through linear regression',
-        'severity': 5
-      },
-      'start': 1433251400000,
-      'end': 1433251500000
-    }]);
+    historicalIssuesStubData = Immutable.fromJS([{
+        'id': 'hi1',
+        'start': 1433251400000,
+        'end': 1433251500000
+      }
+    ]);
   });
 
   describe('getOpenIssues', () => {
@@ -86,7 +74,9 @@ describe('issueTracker', () => {
       issueTracker.getOpenIssuesStream().subscribe(issues => openIssues = issues.toJS());
       openIssuesObservable.emit(openIssuesStubData);
 
-      expect(openIssues.length).to.equal(1);
+      expect(openIssues.length).to.equal(2);
+      expect(openIssues[0].id).to.equal('oi1');
+      expect(openIssues[1].id).to.equal('oi2');
     });
 
   });
@@ -99,6 +89,23 @@ describe('issueTracker', () => {
       historicalIssuesObservable.emit(historicalIssuesStubData);
 
       expect(historicalIssues.length).to.equal(1);
+      expect(historicalIssues[0].id).to.equal('hi1');
+    });
+
+  });
+
+  describe('getCombinedIssues', () => {
+
+    it('should combine both, historical and open issues', () => {
+      let combinedIssues;
+      issueTracker.getCombinedIssuesStream().subscribe(issues => combinedIssues = issues.toJS());
+      historicalIssuesObservable.emit(historicalIssuesStubData);
+      openIssuesObservable.emit(openIssuesStubData);
+
+      expect(combinedIssues.length).to.equal(3);
+      expect(combinedIssues[0].id).to.equal('hi1');
+      expect(combinedIssues[1].id).to.equal('oi1');
+      expect(combinedIssues[2].id).to.equal('oi2');
     });
 
   });
