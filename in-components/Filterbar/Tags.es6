@@ -2,10 +2,10 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {removeAllTagFilters} from 'in-stores/filtering';
+import TagListAll from 'in-componentsiss/TagListAll';
 
-import ResetButton from './ResetButton';
-import TagListAll from '../TagListAll';
-import ListHeader from './ListHeader';
+import ResetButton from 'in-components/Filterbar/ResetButton';
+import ListHeader from 'in-components/Filterbar/ListHeader';
 
 
 const SidebarTagListing = React.createClass({

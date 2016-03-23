@@ -3,9 +3,9 @@ import {remove, find} from 'lodash';
 import {viewStructure} from 'in-stores/view';
 import eventBus from 'in-map/eventbus';
 
-import OrthographicCamera from './OrthographicCamera';
-import * as time from '../../timeCalculations';
-import SceneObject from './SceneObject';
+import OrthographicCamera from 'in-map/src/3DSceneObjects/common/OrthographicCamera';
+import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
+import * as time from 'in-map/src/timeCalculations';
 
 
 export default class Map extends SceneObject {

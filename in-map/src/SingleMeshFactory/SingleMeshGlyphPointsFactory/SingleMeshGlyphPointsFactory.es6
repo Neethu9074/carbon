@@ -1,10 +1,10 @@
 /* global require:false */
 import THREE from 'three';
 
-import {glyphTexture, config} from './pluginIconsGlyphTexture';
-import ASingleMeshFactory from '../ASingleMeshFactory';
-import fragmentShader from './pointFragmentShader.glsl';
-import vertexShader from './pointVertexShader.glsl';
+import {glyphTexture, config} from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory/pluginIconsGlyphTexture';
+import fragmentShader from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory/pointFragmentShader.glsl';
+import vertexShader from 'in-map/src/SingleMeshFactory/SingleMeshGlyphPointsFactory/pointVertexShader.glsl';
+import ASingleMeshFactory from 'in-map/src/SingleMeshFactory/ASingleMeshFactory';
 
 
 export default class SingleMeshGlyphPointsFactory extends ASingleMeshFactory {

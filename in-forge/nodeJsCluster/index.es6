@@ -2,8 +2,8 @@ import {addIconToRegistry} from 'in-sdk/iconRegistry';
 import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 
-import iconPath from './icon.svg';
-import * as constants from '../constants';
+import iconPath from 'in-forge/nodeJsCluster/icon.svg';
+import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.nodejsCluster,

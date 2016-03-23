@@ -3,7 +3,7 @@ import * as pluginName from 'in-sdk/pluginName';
 import {addLabelFinder} from 'in-sdk/snapshot';
 import * as power from 'in-sdk/power';
 
-import * as constants from '../constants';
+import * as constants from 'in-forge/constants';
 import iconPath from './icon.svg';
 
 import './metrics.es6';

@@ -1,9 +1,9 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import IssueListSwitcher from './IssueListSwitcher';
-import IssueItemList from './IssueItemList';
-import FilterBar from './FilterBar';
+import IssueListSwitcher from 'in-components/NotificationCenterFlyout/IssueListSwitcher';
+import IssueItemList from 'in-components/NotificationCenterFlyout/IssueItemList';
+import FilterBar from 'in-components/NotificationCenterFlyout/FilterBar';
 
 import './NotificationCenterFlyout.less';
 

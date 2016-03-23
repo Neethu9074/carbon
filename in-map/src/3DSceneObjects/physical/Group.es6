@@ -4,16 +4,15 @@ import StickyNote from 'in-map/src/2DSceneObjects/stickyNotes/physical/Group';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-map/eventbus';
 
-import GroundHighlightingComponent from '../../components/physical/GroundHighlightingComponent';
-import LineMeshComponent from '../../components/common/LineMeshComponent';
+import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import FCP from 'in-map/src/SingleMeshFactory/ContentProvider/FrameContentProvider';
 
-import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
-import Node from './Node';
-
-import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
+import GroundHighlightingComponent from 'in-map/src/components/physical/GroundHighlightingComponent';
+import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import LineMeshComponent from 'in-map/src/components/common/LineMeshComponent';
+import Node from 'in-map/src/3DSceneObjects/physical/Node';
 
 
 export default class Group extends SceneObjectWithSnapshot {

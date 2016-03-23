@@ -6,30 +6,30 @@ import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import eventBus from 'in-map/eventbus';
 
-import ConnectionsHandlerComponent from '../../components/physical/ConnectionsHandlerComponent';
-import GroundLineMeshComponent from '../../components/physical/GroundLineMeshComponent';
-import HighlightingComponent from '../../components/physical/HighlightingComponent';
-import CollisionComponent from '../../components/common/CollisionObjectComponent';
-import GroundMeshComponent from '../../components/physical/GroundMeshComponent';
-import HealthComponent from '../../components/common/HealthComponent';
-import MetricComponent from '../../components/common/MetricComponent';
-import LayerComponent from '../../components/physical/LayerComponent';
-import PowerComponent from '../../components/physical/PowerComponent';
-import MeshComponent from '../../components/common/MeshComponent';
+import ConnectionsHandlerComponent from 'in-map/src/components/physical/ConnectionsHandlerComponent';
+import GroundLineMeshComponent from 'in-map/src/components/physical/GroundLineMeshComponent';
+import HighlightingComponent from 'in-map/src/components/physical/HighlightingComponent';
+import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
+import GroundMeshComponent from 'in-map/src/components/physical/GroundMeshComponent';
+import HealthComponent from 'in-map/src/components/common/HealthComponent';
+import MetricComponent from 'in-map/src/components/common/MetricComponent';
+import LayerComponent from 'in-map/src/components/physical/LayerComponent';
+import PowerComponent from 'in-map/src/components/physical/PowerComponent';
+import MeshComponent from 'in-map/src/components/common/MeshComponent';
 
-import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
-import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
-import ConnectionGrid from '../../ConnectionGrid';
-import MetricHandler from './MetricHandler';
-import Label from './Label';
+import CMCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import PCP from 'in-map/src/SingleMeshFactory/ContentProvider/PlaneContentProvider';
+import FCP from 'in-map/src/SingleMeshFactory/ContentProvider/FrameContentProvider';
+import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CubeContentProvider';
 
-import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import PCP from '../../SingleMeshFactory/ContentProvider/PlaneContentProvider';
-import FCP from '../../SingleMeshFactory/ContentProvider/FrameContentProvider';
-import CCP from '../../SingleMeshFactory/ContentProvider/CubeContentProvider';
+import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
+import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import MetricHandler from 'in-map/src/3DSceneObjects/physical/MetricHandler';
+import Label from 'in-map/src/3DSceneObjects/physical/Label';
+import ConnectionGrid from 'in-map/src/ConnectionGrid';
 
 
 export default class Node extends SceneObjectWithSnapshot {

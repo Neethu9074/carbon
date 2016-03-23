@@ -4,11 +4,11 @@ import CameraController from 'in-map/src/controls/physical/CameraController';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
 import theme from 'in-services/theme';
 
-import {getAllNodes, getAllGroups} from './mapUtils';
-import GroundPlane from './GroundPlane';
-import BaseMap from '../common/Map';
-import Layouter from './Layouter';
-import Group from './Group';
+import {getAllNodes, getAllGroups} from 'in-map/src/3DSceneObjects/physical/mapUtils';
+import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
+import Layouter from 'in-map/src/3DSceneObjects/physical/Layouter';
+import Group from 'in-map/src/3DSceneObjects/physical/Group';
+import BaseMap from 'in-map/src/3DSceneObjects/common/Map';
 
 
 export default class Map extends BaseMap {

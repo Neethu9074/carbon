@@ -6,8 +6,8 @@ import React from 'react';
 import {getClassName} from 'in-services/react';
 import theme from 'in-services/theme';
 
-import CloseButton from './CloseButton';
-import Icon from '../Icon';
+import CloseButton from 'in-components/PopUpable/CloseButton';
+import Icon from 'in-components/Icon';
 
 import './PopUpable.less';
 

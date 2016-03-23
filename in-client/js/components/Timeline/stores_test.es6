@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import Immutable from 'Immutable';
+import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 

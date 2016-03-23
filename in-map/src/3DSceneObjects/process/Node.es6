@@ -5,22 +5,22 @@ import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/process/Node';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import eventBus from 'in-map/eventbus';
 
-import ConnectionsHandlerComponent from '../../components/process/ConnectionsHandlerComponent';
-import HighlightingComponent from '../../components/process/HighlightingComponent';
-import CollisionComponent from '../../components/common/CollisionObjectComponent';
-import TopMeshComponent from '../../components/process/TopMeshComponent';
-import MeshComponent from '../../components/common/MeshComponent';
+import ConnectionsHandlerComponent from 'in-map/src/components/process/ConnectionsHandlerComponent';
+import HighlightingComponent from 'in-map/src/components/process/HighlightingComponent';
+import CollisionComponent from 'in-map/src/components/common/CollisionObjectComponent';
+import TopMeshComponent from 'in-map/src/components/process/TopMeshComponent';
+import MeshComponent from 'in-map/src/components/common/MeshComponent';
 
-import {PROPERTIES, PROPERTY_VALUES} from '../../StateMachine/StateMachine';
-import {cubeGeometry, defaultGeometryMaterial} from '../common/geometries';
-import SceneObjectWithSnapshot from '../common/SceneObjectWithSnapshot';
-import Label from './Label';
+import CMCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
+import PCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
+import SCM from 'in-map/src/SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
+import CPCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderPlaneContentProvider';
+import CCP from 'in-map/src/SingleMeshFactory/ContentProvider/CylinderContentProvider';
 
-import CMCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ColorMultiplierContentManipulator';
-import PCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/PositionContentManipulator';
-import SCM from '../../SingleMeshFactory/ContentProvider/ContentManipulator/ScaleContentManipulator';
-import CPCP from '../../SingleMeshFactory/ContentProvider/CylinderPlaneContentProvider';
-import CCP from '../../SingleMeshFactory/ContentProvider/CylinderContentProvider';
+import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/common/geometries';
+import SceneObjectWithSnapshot from 'in-map/src/3DSceneObjects/common/SceneObjectWithSnapshot';
+import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import Label from 'in-map/src/3DSceneObjects/process/Label';
 
 
 export default class Node extends SceneObjectWithSnapshot {

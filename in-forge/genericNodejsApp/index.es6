@@ -4,8 +4,8 @@ import {addLabelFinder} from 'in-sdk/snapshot';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
-import iconPath from './icon.svg';
-import * as constants from '../constants';
+import iconPath from 'in-forge/genericNodejsApp/icon.svg';
+import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.nodejsApp,

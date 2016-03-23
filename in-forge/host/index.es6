@@ -4,10 +4,10 @@ import * as pluginName from 'in-sdk/pluginName';
 import * as sorting from 'in-sdk/sorting';
 import * as power from 'in-sdk/power';
 
-import windowsIconPath from './icons/instana_server_windows.svg';
-import linuxIconPath from './icons/instana_server_linux.svg';
-import appleIconPath from './icons/instana_server_apple.svg';
-import * as constants from '../constants';
+import windowsIconPath from 'in-forge/host/icons/instana_server_windows.svg';
+import linuxIconPath from 'in-forge/host/icons/instana_server_linux.svg';
+import appleIconPath from 'in-forge/host/icons/instana_server_apple.svg';
+import * as constants from 'in-forge/constants';
 
 import './metrics';
 
