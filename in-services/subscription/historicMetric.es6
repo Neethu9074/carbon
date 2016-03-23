@@ -27,7 +27,7 @@ function createHistoricMetricObservable({snapshotId, metric, timeframe, aggregat
         'metric': metric,
         'aggregation': aggregation,
         'rollup': rollup,
-        'timeframe': timeframe.windowSize
+        'timeframe': timeframe
       });
     },
 
