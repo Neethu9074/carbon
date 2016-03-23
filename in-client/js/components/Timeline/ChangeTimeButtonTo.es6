@@ -31,7 +31,7 @@ export default connectTo({
   },
   React.createClass({
 
-    displayName: 'ChangeTimeButtonFrom',
+    displayName: 'ChangeTimeButtonTo',
 
     mixins: [
       PureRenderMixin

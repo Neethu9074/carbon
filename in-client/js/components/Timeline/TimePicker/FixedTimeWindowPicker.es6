@@ -53,7 +53,7 @@ export default connectTo({
 
           <Button className={block + '__apply--button'}
                   onClick={this.applyTime}>
-            APPLY
+            Apply
           </Button>
         </div>
       );
