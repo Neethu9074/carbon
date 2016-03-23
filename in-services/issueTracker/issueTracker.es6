@@ -52,11 +52,11 @@ function prepareIssue$(issue$) {
 export const historicalIssues$ = createTrackingStore({
   name: 'historicalIssuesStore',
   observable: prepareIssue$(timelineStore.timeframe
-                            .distinct()
-                            .flatMap(timeframe => isDemoEnvironment() ?
-                              getHistoricalIssuesStore(timeframe).map(withoutCpuStealMapper) :
-                              getHistoricalIssuesStore(timeframe)
-                            ))
+                              .distinct()
+                              .flatMap(timeframe => isDemoEnvironment() ?
+                                getHistoricalIssuesStore(timeframe).map(withoutCpuStealMapper) :
+                                getHistoricalIssuesStore(timeframe)
+                              ))
                 .scan(collectingReducer, emptyList)
 }).observable;
 
@@ -68,8 +68,8 @@ export function getHistoricalIssuesStream() {
 export const openIssues$ = createTrackingStore({
   name: 'openIssuesStore',
   observable: prepareIssue$(isDemoEnvironment() ?
-                                     getOpenIssuesStore().map(withoutCpuStealMapper) :
-                                     getOpenIssuesStore())
+                              getOpenIssuesStore().map(withoutCpuStealMapper) :
+                              getOpenIssuesStore())
                 .scan(collectingReducer, emptyList)
 }).observable;
 
