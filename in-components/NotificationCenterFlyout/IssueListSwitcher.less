@@ -1,0 +1,19 @@
+@import "~in-themes/active.less";
+
+.in-notificationcenter-issue-list-switcher {
+  display: flex;
+  justify-content: space-around;
+  margin: 10px 10px 0 10px;
+
+  &__button {
+    width: 40%;
+    padding: 5px;
+    background: @notification-center__background;
+    color: #92a5ae;
+
+    &__selected, &:hover {
+      background: #92a5ae;
+      color: @notification-center__background;
+    }
+  }
+}

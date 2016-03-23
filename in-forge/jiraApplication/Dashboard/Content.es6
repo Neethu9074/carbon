@@ -14,7 +14,7 @@ const JiraDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.object.isRequired
   },
 
   render() {
@@ -25,7 +25,7 @@ const JiraDashboard = React.createClass({
       <div>
         <DashboardSection title='Traffic'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -51,7 +51,7 @@ const JiraDashboard = React.createClass({
         </DashboardSection>
         <DashboardSection title='DB Pool'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80

@@ -1,5 +1,5 @@
-import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
+import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 
 // There is currently no other form of aggregation, but we already want
 // to have this communication style with the backend.
@@ -20,12 +20,13 @@ export function getLiveMetrics({snapshotId, metric, timeframe = null}) {
 }
 
 
-export function getHistoricMetrics({snapshotId, metric, timeframe}) {
+function getHistoricMetrics({snapshotId, metric, timeframe}) {
   const rollup = getDefaultMetricRollupDuration(timeframe);
   let aggregation = null;
   if (rollup) {
     aggregation = defaultAggregation;
   }
+
   return createHistoricMetricObservable({
     snapshotId,
     metric,
@@ -42,6 +43,12 @@ export function getHistoricMetricsWithLiveUpdates(opts) {
     .map(update => [update]);
   const historic$ = getHistoricMetrics(opts);
   return live$.merge(historic$);
+}
+
+export function getMetricsForTimeframe(opts) {
+  return opts.timeframe.to ?
+    getHistoricMetrics(opts) :
+    getHistoricMetricsWithLiveUpdates(opts);
 }
 
 
@@ -75,7 +82,9 @@ export function getDefaultMetricRollupDuration(timeframe) {
 
   for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
     const config = rollupDurationThresholds[i];
-    if (timeframe <= config.maxTimeframe) {
+    // this works because the rollupDurationThresholds array is sorted by maxTimeframe
+    // the first rollup matching the requirements is returned
+    if (timeframe.windowSize <= config.maxTimeframe) {
       return config.rollup;
     }
   }

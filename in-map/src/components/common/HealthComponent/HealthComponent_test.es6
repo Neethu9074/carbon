@@ -1,5 +1,7 @@
 /* eslint-env mocha, node */
 /* eslint-disable no-unused-expressions */
+import {create} from 'reactive-observables';
+import proxyquire from 'proxyquire';
 import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -7,13 +9,15 @@ import sinon from 'sinon';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import {health} from 'in-services/health';
 
-import HealthComponent from './HealthComponent';
-
 
 describe('3D map', () => {
   let component;
   let sceneObject;
   let healthChanged;
+
+  const HealthComponent = proxyquire('./HealthComponent', {
+    'in-services/issueTracker': { getHealth: () => create().startWith(health.ok) }
+  });
 
   beforeEach(() => {
     global.window = {

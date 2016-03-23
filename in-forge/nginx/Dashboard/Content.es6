@@ -11,7 +11,7 @@ const NginxDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -23,7 +23,7 @@ const NginxDashboard = React.createClass({
       <div>
         <DashboardSection title='Requests'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={200}
                  margins={{
                    left: 80
@@ -42,7 +42,7 @@ const NginxDashboard = React.createClass({
 
         <DashboardSection title='Connections'>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={200}
                  margins={{
                    left: 80,

@@ -7,7 +7,9 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
+import {resetStoreRegistry} from 'in-stores/store';
 import {theme} from 'in-services/theme';
+
 
 global.requestAnimationFrame = function requestAnimationFrame(fn) {
   fn();
@@ -15,163 +17,90 @@ global.requestAnimationFrame = function requestAnimationFrame(fn) {
 
 describe('issueTracker', () => {
 
-  let issuesStubData;
-  let observable;
+  let historicalIssuesObservable;
+  let historicalIssuesStubData;
+  let openIssuesObservable;
+  let openIssuesStubData;
   let issueTracker;
 
   beforeEach(() => {
-    observable = ro.create();
-    const create = sinon.stub();
-    create.returns(observable);
+    resetStoreRegistry();
+
+    historicalIssuesObservable = ro.create();
+    openIssuesObservable = ro.create();
+
+    /* eslint-disable camelcase, no-underscore-dangle, no-undef */
+    global.__DEV__ = false;
+    global.window = global.window || {};
+    global.window.instana = {
+      config: {
+        environment: 'production'
+      }
+    };
+    /* eslint-enable camelcase, no-underscore-dangle, no-undef */
+
+    const historicalIssuesStreamstub = sinon.stub();
+    historicalIssuesStreamstub.returns(historicalIssuesObservable);
+
+    const openIssuesStreamstub = sinon.stub();
+    openIssuesStreamstub.returns(openIssuesObservable);
 
     issueTracker = proxyquire('./issueTracker', {
-      'in-stores/issues': {
-        getIssues: create
-      }
+      'in-stores/historicalIssues': { getHistoricalIssues: historicalIssuesStreamstub },
+      'in-stores/openIssues': { getOpenIssues: openIssuesStreamstub }
     });
 
-    issuesStubData = Immutable.fromJS([{
-     'id': 'i1',
-     'problem': {
-       'id': 'p1',
-       'snapshotId': 'snappiId',
-       'problemText': 'You will run out of main memory just within next 2 hours',
-       'fixSuggestion': 'Analyse running processes for eventual memory…',
-       'explanation': 'Determined through linear regression',
-       'severity': 5
-     },
-     'start': 1433251409977
-     // no end == state : OPEN
-   }]);
-  });
+    openIssuesStubData = Immutable.fromJS([{
+      'id': 'i1',
+      'problem': {
+        'id': 'p1',
+        'snapshotId': 'snappiId',
+        'problemText': 'You will run out of main memory just within next 2 hours',
+        'fixSuggestion': 'Analyse running processes for eventual memory…',
+        'explanation': 'Determined through linear regression',
+        'severity': 5
+      },
+      'start': 1433251409977
+      // no end == state : OPEN
+    }]);
 
-  describe('getIssues', () => {
-
-    it('should publish all issues', (done) => {
-      issueTracker.getIssues()
-        .once(issues => {
-          expect(issues.size).to.equal(1);
-          expect(issues.getIn([0, 'id']))
-            .to.equal(issuesStubData.getIn([0, 'id']));
-          done();
-        });
-
-      observable.emit(issuesStubData);
-    });
-
-    it('should aggregate successive issue messages', (done) => {
-      let callCount = 0;
-      issueTracker.getIssues()
-        .subscribe(issues => {
-          callCount++;
-          if (callCount === 2) {
-            expect(issues.size).to.equal(2);
-            expect(issues.getIn([0, 'id'])).to.equal('i1');
-            expect(issues.getIn([1, 'id'])).to.equal('i2');
-            done();
-          }
-        });
-
-      observable.emit(issuesStubData);
-      observable.emit(issuesStubData.setIn([0, 'id'], 'i2'));
-    });
-
-    it('should update existing issues', (done) => {
-      let callCount = 0;
-      issueTracker.getIssues()
-        .subscribe(issues => {
-          callCount++;
-          if (callCount === 2) {
-            expect(issues.size).to.equal(1);
-            expect(issues.getIn([0, 'end'])).to.equal(42);
-            done();
-          }
-        });
-
-      observable.emit(issuesStubData);
-      observable.emit(issuesStubData.setIn([0, 'end'], 42));
-    });
+     historicalIssuesStubData = Immutable.fromJS([{
+      'id': 'i1',
+      'problem': {
+        'id': 'p1',
+        'snapshotId': 'snappiId',
+        'problemText': 'You will run out of main memory just within next 2 hours',
+        'fixSuggestion': 'Analyse running processes for eventual memory…',
+        'explanation': 'Determined through linear regression',
+        'severity': 5
+      },
+      'start': 1433251400000,
+      'end': 1433251500000
+    }]);
   });
 
   describe('getOpenIssues', () => {
 
-    it('should not include issues with an end date', (done) => {
-      let callCount = 0;
-      const subscription = issueTracker.getOpenIssues()
-        .subscribe(issues => {
-          callCount++;
-          if (callCount === 1) {
-            expect(issues.size).to.equal(0);
-          } else {
-            expect(issues.size).to.equal(1);
-            expect(issues.getIn([0, 'id'])).to.equal('i2');
-            subscription.dispose();
-            done();
-          }
-        });
+    it('should send initial data', () => {
+      let openIssues;
+      issueTracker.getOpenIssuesStream().subscribe(issues => openIssues = issues.toJS());
+      openIssuesObservable.emit(openIssuesStubData);
 
-      observable.emit(issuesStubData.setIn([0, 'end'], 42));
-      observable.emit(issuesStubData.setIn([0, 'id'], 'i2'));
+      expect(openIssues.length).to.equal(1);
     });
 
   });
 
-  describe('getIssueSummary', () => {
+  describe('getHistoricalIssues', () => {
 
-    it('should summarize severities across issues', () => {
-      const stub = sinon.stub();
-      issueTracker.getIssueSummary().subscribe(stub);
-      expect(stub.callCount).to.equal(0);
+    it('should send initial data', () => {
+      let historicalIssues;
+      issueTracker.getHistoricalIssuesStream().subscribe(issues => historicalIssues = issues.toJS());
+      historicalIssuesObservable.emit(historicalIssuesStubData);
 
-      observable.emit(issuesStubData);
-      expect(stub.callCount).to.equal(1);
-      let summary = stub.getCall(0).args[0];
-      expect(summary.get('warning').size).to.equal(1);
-      expect(summary.get('danger').size).to.equal(0);
-
-      observable.emit(issuesStubData
-        .setIn([0, 'id'], 'i2')
-        .setIn([0, 'problem', 'severity'], 10)
-      );
-
-      expect(stub.callCount).to.equal(2);
-      summary = stub.getCall(1).args[0];
-      expect(summary.get('warning').size).to.equal(1);
-      expect(summary.get('danger').size).to.equal(1);
+      expect(historicalIssues.length).to.equal(1);
     });
 
-    it('should provide IDs for endangered snapshots', () => {
-      const stub = sinon.stub();
-      issueTracker.getIssueSummary().subscribe(stub);
-
-      observable.emit(issuesStubData);
-
-      const summary = stub.getCall(0).args[0];
-      expect(summary.get('warning').size).to.equal(1);
-      const id = summary.get('warning').keys().next().value;
-      expect(id).to.equal('snappiId');
-    });
-  });
-
-  describe('getIssueCountSummary', () => {
-    it('should summarize severities across issues', () => {
-      const stub = sinon.stub();
-      issueTracker.getIssueCountSummary().subscribe(stub);
-      expect(stub.callCount).to.equal(0);
-
-      observable.emit(issuesStubData);
-      expect(stub.callCount).to.equal(1);
-      let summary = stub.getCall(0).args[0];
-      expect(summary.get('warning')).to.equal(1);
-      expect(summary.get('danger')).to.equal(0);
-
-      observable.emit(issuesStubData.setIn([0, 'id'], 'i2')
-        .setIn([0, 'problem', 'severity'], 10));
-      expect(stub.callCount).to.equal(2);
-      summary = stub.getCall(1).args[0];
-      expect(summary.get('warning')).to.equal(1);
-      expect(summary.get('danger')).to.equal(1);
-    });
   });
 
   describe('getColorForIssue', () => {

@@ -2,8 +2,8 @@
 
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
-import sinon from 'sinon';
 import {expect} from 'chai';
+import sinon from 'sinon';
 
 import {resetStoreRegistry} from './store';
 

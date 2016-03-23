@@ -11,7 +11,7 @@ export default createObservableIfMissing.bind(null, {
 });
 
 function getId({snapshotId, metric, timeframe, aggregation, rollup}) {
-  return snapshotId + metric + timeframe + aggregation + rollup;
+  return snapshotId + metric + timeframe.windowSize + timeframe.to + aggregation + rollup;
 }
 
 function createHistoricMetricObservable({snapshotId, metric, timeframe, aggregation, rollup}) {
@@ -27,7 +27,7 @@ function createHistoricMetricObservable({snapshotId, metric, timeframe, aggregat
         'metric': metric,
         'aggregation': aggregation,
         'rollup': rollup,
-        'timeframe': timeframe
+        'timeframe': timeframe.windowSize
       });
     },
 

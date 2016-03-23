@@ -19,7 +19,7 @@ const RedisDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.number.isRequired
+    timeframe: rpt.object.isRequired
   },
 
   render() {
@@ -33,7 +33,7 @@ const RedisDashboard = React.createClass({
         {dbs ?
         <DashboardSection title='Database Size'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -53,7 +53,7 @@ const RedisDashboard = React.createClass({
 
         <DashboardSection title='Clients'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -74,7 +74,7 @@ const RedisDashboard = React.createClass({
 
         <DashboardSection title='Memory'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80
@@ -94,7 +94,7 @@ const RedisDashboard = React.createClass({
 
         <DashboardSection title='Cache'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80

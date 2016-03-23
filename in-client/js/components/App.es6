@@ -1,7 +1,7 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {RouteHandler, Navigation} from 'react-router';
 import {IntlMixin} from 'react-intl';
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';

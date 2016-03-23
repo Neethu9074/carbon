@@ -24,7 +24,7 @@ export default React.createClass({
     mixins: [PureRenderMixin],
 
     propTypes: {
-      timeframe: rpt.number.isRequired,
+      timeframe: rpt.object.isRequired,
       snapshot: irpt.map.isRequired,
       outgoingConnections: rpt.any,
       javaApp: irpt.map
@@ -51,7 +51,7 @@ export default React.createClass({
         <div>
           <DashboardSection title='Threads'>
             <ChartWithLegend snapshot={snapshot}
-                             windowSize={timeframe}
+                             timeframe={timeframe}
                              height={chartHeight}
                              margins={{
                                left: 60
@@ -81,7 +81,7 @@ export default React.createClass({
 
           <DashboardSection title='Memory'>
             <ChartWithLegend snapshot={snapshot}
-                             windowSize={timeframe}
+                             timeframe={timeframe}
                              height={chartHeight}
                              margins={{
                                left: 100
@@ -105,7 +105,7 @@ export default React.createClass({
             <DashboardSection title='Memory Pools'>
               {poolName ?
                 <ChartWithLegend snapshot={snapshot}
-                       windowSize={timeframe}
+                       timeframe={timeframe}
                        height={chartHeight}
                        margins={{
                          left: 80
@@ -157,7 +157,7 @@ export default React.createClass({
           {collectors ?
             <DashboardSection title='Garbage Collection'>
               <ChartWithLegend snapshot={snapshot}
-                     windowSize={timeframe}
+                     timeframe={timeframe}
                      height={chartHeight}
                      margins={{
                        left: 80,
@@ -191,7 +191,7 @@ export default React.createClass({
             <DashboardSection title='Custom JMX Metrics'>
               {this.state.selectedJmxMetric ?
                 <ChartWithLegend snapshot={snapshot}
-                                 windowSize={timeframe}
+                                 timeframe={timeframe}
                                  height={chartHeight}
                                  margins={{
                                    left: 90

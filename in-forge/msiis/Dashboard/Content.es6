@@ -15,7 +15,7 @@ const MsIISDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -40,7 +40,7 @@ const MsIISDashboard = React.createClass({
       <DashboardSection title='Connections On All Sites'>
         <div>
           <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
+                 timeframe={timeframe}
                  height={chartHeight}
                  margins={{
                    left: 60
@@ -55,7 +55,7 @@ const MsIISDashboard = React.createClass({
        <DashboardSection title='Total Requests On All Sites'>
          <div>
            <ChartWithLegend snapshot={snapshot}
-                  windowSize={timeframe}
+                  timeframe={timeframe}
                   height={chartHeight}
                   margins={{
                     left: 60
@@ -71,7 +71,7 @@ const MsIISDashboard = React.createClass({
         {siteName ?
           <div>
             <ChartWithLegend snapshot={snapshot}
-                   windowSize={timeframe}
+                   timeframe={timeframe}
                    height={chartHeight}
                    margins={{
                      left: 60

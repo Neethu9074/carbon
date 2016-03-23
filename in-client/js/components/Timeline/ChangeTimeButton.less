@@ -1,28 +1,31 @@
 @import "~in-themes/active.less";
 
 .in-timeline-change-time-button {
-  display: inherit;
-  align-items: center;
-  padding: 0 10px;
+  padding: 3px 8px;
+  margin: 0 5px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  border: 2px solid @timeline__timepicker__panel-border;
+  border-radius: 5px;
+  white-space: nowrap;
 
-  &__timepicker {
+  &:hover, &__selected {
+    border: 2px solid white;
+    background: white;
+    color: black;
+  }
+
+  &__timepicker__left, &__timepicker__right {
     position: absolute;
-    bottom: 30px;
-    left: 0;
+    bottom: 60px;
   }
 
-  &__icon {
-    margin: 0;
-    font-size: 20px;
-    color: @timeline__change-time-button;
-
-    &:hover {
-      color: white;
-    }
+  &__timepicker__left {
+    left: 20px;
   }
 
-  &__text {
-    font-size: 11px;
-    margin-top: -2px;
+  &__timepicker__right {
+    right: 20px;
   }
 }

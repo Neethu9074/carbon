@@ -1,0 +1,45 @@
+@import "~in-themes/active.less";
+
+.in-timepicker {
+  z-index: @z-index__timepicker;
+  background: @timeline__background;
+  border-radius: 4px;
+  width: 590px;
+
+  &__selection-panel {
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid @timeline__timepicker__panel-border;
+  }
+
+  &__selection, &__selection__selected {
+    display: flex;
+    width: 50%;
+    padding: 25px;
+    cursor: pointer;
+    border-radius: 0 0 4px 4px;
+    color: @timeline__timepicker__selection__text;
+
+    &:hover, &__selected {
+      background: #4A90E2;
+      color: @timeline__timepicker__selection__text-selected;
+    }
+  }
+
+  &__icon {
+    font-size: 40px;
+    margin: 10px;
+    color: @timeline__timepicker__selection__icon;
+  }
+
+  &__heading {
+    margin: 0;
+    font-size: 0.9rem;
+    color: @timeline__timepicker__selection__heading;
+  }
+
+  &__text {
+    font-size: 0.75rem;
+    white-space: normal;
+  }
+}

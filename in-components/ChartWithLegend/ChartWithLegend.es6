@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {currentRollup} from 'in-services/stores/timeline';
+import {currentRollup} from 'in-stores/timeline';
 
 import ChartLegend from '../ChartLegend';
 import Chart from '../Chart';
@@ -19,7 +19,7 @@ const ChartWithLegend = React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    windowSize: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired,
     y1: rpt.object.isRequired,
     y2: rpt.object
@@ -51,7 +51,7 @@ const ChartWithLegend = React.createClass({
                      y2={this.props.y2} />
 
         <Chart snapshot={this.props.snapshot}
-               windowSize={this.props.windowSize}
+               timeframe={this.props.timeframe}
                height={this.props.height}
                y1={this.props.y1}
                y2={this.props.y2}

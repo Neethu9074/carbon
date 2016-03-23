@@ -17,7 +17,7 @@ const NodejsDashboard = React.createClass({
     PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -37,7 +37,7 @@ const NodejsDashboard = React.createClass({
       <div>
         <DashboardSection title='Memory Usage'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 90,
@@ -78,7 +78,7 @@ const NodejsDashboard = React.createClass({
 
         <DashboardSection title='GC Activity'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 90
@@ -101,7 +101,7 @@ const NodejsDashboard = React.createClass({
           <DashboardSection title='Heap Spaces'>
             {this.state.selectedHeapSpace ?
               <ChartWithLegend snapshot={snapshot}
-                               windowSize={timeframe}
+                               timeframe={timeframe}
                                height={chartHeight}
                                margins={{
                                  left: 90
@@ -167,7 +167,7 @@ const NodejsDashboard = React.createClass({
 
         <DashboardSection title='Event Loop'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 90

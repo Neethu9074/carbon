@@ -9,7 +9,7 @@ export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 

@@ -2,14 +2,17 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
-import {getIssues as getIssueStore} from 'in-stores/issues';
+import {getHistoricalIssues as getHistoricalIssuesStore} from 'in-stores/historicalIssues';
+import {getOpenIssues as getOpenIssuesStore} from 'in-stores/openIssues';
 import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
+import {createTrackingStore} from 'in-stores/store';
+import * as timelineStore from 'in-stores/timeline';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
-import {mapSeverityToHealth, health} from '../health';
-import * as timelineStore from '../stores/timeline';
+import {mapSeverityToHealth} from '../health';
+
 
 // CPU steal issues shouldn't be shown in the demo environment as we are using
 // small EC2 instances. These almost always have high CPU steal.
@@ -19,104 +22,64 @@ const withoutCpuStealMapper = (issues) => {
   );
 };
 
-const allIssuesStreamWithExperimentals = timelineStore.timeframe.distinct()
-  .flatMap(timeframe => {
-    const stream = getIssueStore(timeframe)
-      .scan(collectingReducer, emptyList)
-      // Do not consume precious CPU cycles for data that isn't rendered
-      // anyway.
-      .nextFrame();
+function collectingReducer(existingIssues, issueUpdates) {
+  // a issue may already exist in our list of issues.
+  // We assume that it is an update in such cases. An update may change a
+  // problem's end time and other properties.
+  //
+  // Remove all issues for which we get updates from the backend
+  // and add the updated ones.
+  return existingIssues.filter(existingIssue => {
+    return issueUpdates.findIndex(updatedIssue => {
+      return updatedIssue.get('id') === existingIssue.get('id');
+    }) === -1;
+  })
+  .concat(issueUpdates);
+}
 
-    if (isDemoEnvironment()) {
-      return stream.map(withoutCpuStealMapper);
+function prepareIssue$(issue$) {
+  return combineLatest([
+    settings.getIn(['experiments']),
+    issue$
+  ]).map(([withExperiments, issues]) => {
+    if (withExperiments) {
+      return issues;
     }
-
-    return stream;
+    return issues.filter(issue => !issue.getIn(['problem', 'experimental'], false));
   });
-
-const allIssuesStream = combineLatest(
-  [settings.getIn(['experiments']), allIssuesStreamWithExperimentals]
-).map(([withExperiments, issues]) => {
-  if (withExperiments) {
-    return issues;
-  }
-  return issues.filter(issue => !issue.getIn(['problem', 'experimental'], false));
-});
-
-const openIssuesStream = allIssuesStream.map(issues => issues.filter(issue => !issue.get('end')));
-
-const issueSummary = openIssuesStream.map(issues => {
-  const warnings = {};
-  const dangers = {};
-
-  issues.forEach(issue => {
-    const problem = issue.get('problem');
-    const problemHealth = mapSeverityToHealth(problem.get('severity'));
-    if (problemHealth === health.warning) {
-      addProblem(warnings, problem);
-    } else if (problemHealth === health.danger) {
-      addProblem(dangers, problem);
-    }
-  });
-
-  const iWarnings = Immutable.Map(
-    Object.keys(warnings).reduce(severityReducer.bind(null, warnings), [])
-  );
-
-  const iDangers = Immutable.Map(
-    Object.keys(dangers).reduce(severityReducer.bind(null, dangers), [])
-  );
-
-  return Immutable.Map([
-    [health.warning, iWarnings],
-    [health.danger, iDangers]
-  ]);
-});
-
-function addProblem(all, problem) {
-  const id = problem.get('snapshotId');
-  if (!(id in all)) {
-    all[id] = {
-      id,
-      count: 1
-    };
-  } else {
-    all[id].count++;
-  }
 }
 
-function severityReducer(all, severityArrayMap, key) {
-  const item = all[key];
-  severityArrayMap.push([item.id, item.count]);
-  return severityArrayMap;
+export const historicalIssues$ = createTrackingStore({
+  name: 'historicalIssuesStore',
+  observable: prepareIssue$(timelineStore.timeframe
+                            .distinct()
+                            .flatMap(timeframe => isDemoEnvironment() ?
+                              getHistoricalIssuesStore(timeframe).map(withoutCpuStealMapper) :
+                              getHistoricalIssuesStore(timeframe)
+                            ))
+                .scan(collectingReducer, emptyList)
+}).observable;
+
+export function getHistoricalIssuesStream() {
+  return historicalIssues$;
 }
 
-const issueCountSummary = issueSummary.map(summary => {
-  return summary.map(summaryForHealth => {
-    return summaryForHealth.reduce((count, snapshotIssueCount) => {
-      return count + snapshotIssueCount;
-    }, 0);
-  });
-});
 
-export function getIssues() {
-  return allIssuesStream;
+export const openIssues$ = createTrackingStore({
+  name: 'openIssuesStore',
+  observable: prepareIssue$(isDemoEnvironment() ?
+                                     getOpenIssuesStore().map(withoutCpuStealMapper) :
+                                     getOpenIssuesStore())
+                .scan(collectingReducer, emptyList)
+}).observable;
+
+export function getOpenIssuesStream() {
+  return openIssues$;
 }
 
-export function getOpenIssues() {
-  return openIssuesStream;
-}
-
-export function getIssueSummary() {
-  return issueSummary;
-}
-
-export function getIssueCountSummary() {
-  return issueCountSummary;
-}
 
 export function getIssuesById(snapshotId) {
-  return openIssuesStream.map(issues => {
+  return getOpenIssuesStream().map(issues => {
     let size = 0;
     const result = Immutable.List().asMutable();
 
@@ -134,20 +97,6 @@ export function getProblemsById(snapshotId) {
   return getIssuesById(snapshotId).map(issues => issues.map(issue => issue.get('problem')));
 }
 
-function collectingReducer(existingIssues, issueUpdates) {
-  // a issue may already exist in our list of issues.
-  // We assume that it is an update in such cases. An update may change a
-  // problem's end time and other properties.
-  //
-  // Remove all issues for which we get updates from the backend
-  // and add the updated ones.
-  return existingIssues.filter(existingIssue => {
-    return issueUpdates.findIndex(updatedIssue => {
-      return updatedIssue.get('id') === existingIssue.get('id');
-    }) === -1;
-  })
-  .concat(issueUpdates);
-}
 
 /**
  * Gets the max severity of all problems and maps them to a health string. This

@@ -23,9 +23,9 @@ import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
-import connectTo from 'in-hoc/connectTo';
 import {getRawPayload} from 'in-stores/snapshot';
 import HelpLink from 'in-components/HelpLink';
+import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
@@ -39,341 +39,220 @@ export default connectTo(
     };
   },
   React.createClass({
-  displayName: 'HostDashboard',
 
-  mixins: [
-    PureRenderMixin,
-    IntlMixin
-  ],
+    displayName: 'HostDashboard',
 
-  propTypes: {
-    timeframe: rpt.number.isRequired,
-    snapshot: irpt.map.isRequired,
-    processes: irpt.list
-  },
+    mixins: [
+      PureRenderMixin,
+      IntlMixin
+    ],
 
-  getInitialState() {
-    return {
-      filesystemName: null,
-      interfaceName: null,
-      cpuNo: null
-    };
-  },
+    propTypes: {
+      timeframe: rpt.object.isRequired,
+      snapshot: irpt.map.isRequired,
+      processes: irpt.list
+    },
 
-  render() {
-    const timeframe = this.props.timeframe;
-    const snapshot = this.props.snapshot;
+    getInitialState() {
+      return {
+        filesystemName: null,
+        interfaceName: null,
+        cpuNo: null
+      };
+    },
 
-    const filesystemName = this.state.filesystemName;
-    const interfaceName = this.state.interfaceName;
-    const cpuNo = this.state.cpuNo;
+    render() {
+      const timeframe = this.props.timeframe;
+      const snapshot = this.props.snapshot;
 
-    const filesystems = snapshot.getIn(['data', 'filesystems']);
-    const interfaces = snapshot.getIn(['data', 'interfaces']);
-    const cpuCount = snapshot.getIn(['data', 'cpu.count']);
-    const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
+      const filesystemName = this.state.filesystemName;
+      const interfaceName = this.state.interfaceName;
+      const cpuNo = this.state.cpuNo;
 
-    const cpus = Immutable.Range(1, cpuCount + 1);
+      const filesystems = snapshot.getIn(['data', 'filesystems']);
+      const interfaces = snapshot.getIn(['data', 'interfaces']);
+      const cpuCount = snapshot.getIn(['data', 'cpu.count']);
+      const swapTotal = snapshot.getIn(['data', 'swap.total'], 0);
 
-    return (
-      <div>
-        <DashboardSection title='CPU Usage'>
-          <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
-                 height={chartHeight}
-                 margins={{
-                   left: 60
-                 }}
-                 y1={{
-                   min: 0,
-                   max: 1,
-                   formatter: percentageZeroDecimalPlaces,
-                   metrics: [
-                     'cpu.user',
-                     'cpu.sys',
-                     'cpu.wait',
-                     'cpu.nice',
-                     'cpu.steal'
-                   ],
-                   labels: [
-                     'User',
-                     'System',
-                     'Wait',
-                     'Nice',
-                     'Steal'
-                   ],
-                   type: 'stackedArea'
-                 }}/>
-        </DashboardSection>
+      const cpus = Immutable.Range(1, cpuCount + 1);
 
-        {!this.isWindows() ?
-          <DashboardSection title='CPU Load'>
+      return (
+        <div>
+          <DashboardSection title='CPU Usage'>
             <ChartWithLegend snapshot={snapshot}
-              windowSize={timeframe}
-              height={chartHeight}
-              margins={{
-                left: 60
-              }}
-              y1={{
-                min: 0,
-                type: 'stackedArea',
-                formatter: twoDecimalPlaces,
-                tooltipFormatter: twoDecimalPlaces,
-                metrics: [
-                  'load.1min'
-                ],
-                labels: ['Load']
-              }}/>
-          </DashboardSection>
-        : null}
-
-        {cpuCount > 1 ?
-
-        <DashboardSection title='Individual CPU Usage'>
-          {cpuNo ?
-            <div>
-              <ChartWithLegend snapshot={snapshot}
-                     windowSize={timeframe}
-                     height={chartHeight}
-                     margins={{
-                       left: 60
-                     }}
-                     y1={{
-                       min: 0,
-                       max: 1,
-                       formatter: percentageZeroDecimalPlaces,
-                       metrics: [
-                         'cpus.' + cpuNo + '.user',
-                         'cpus.' + cpuNo + '.sys',
-                         'cpus.' + cpuNo + '.wait',
-                         'cpus.' + cpuNo + '.nice',
-                         'cpus.' + cpuNo + '.steal'
-                       ],
-                       labels: [
-                         'User',
-                         'System',
-                         'Wait',
-                         'Nice',
-                         'Steal'
-                       ],
-                       type: 'stackedArea'
-                     }}/>
-            </div>
-          : null}
-          <ResponsiveTable clickable={true}>
-            <thead>
-              <tr>
-                <th></th>
-                <th>User</th>
-                <th>System</th>
-                <th>Wait</th>
-                <th>Nice</th>
-                <th>Steal</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {cpus.map((index) =>
-                <tr key={'cpu-' + index}
-                    onClick={() => this.selectCpu(index)}
-                    className={classnames({
-                      'active': name === cpuNo
-                    })}>
-                  <td>CPU {index}</td>
-                  <Mtd metric={'cpus.' + index + '.user'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'cpus.' + index + '.sys'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'cpus.' + index + '.wait'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'cpus.' + index + '.nice'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                  <Mtd metric={'cpus.' + index + '.steal'}
-                       snapshot={snapshot}
-                       formatter={percentageZeroDecimalPlaces} />
-                </tr>
-              ).valueSeq()}
-            </tbody>
-          </ResponsiveTable>
-        </DashboardSection>
-        : null}
-
-        <DashboardSection title='Memory Free'>
-          <ChartWithLegend snapshot={snapshot}
-                 windowSize={timeframe}
-                 height={chartHeight}
-                 margins={{
-                   left: 80
-                 }}
-                 y1={{
-                   min: 0,
-                   max: snapshot.getIn(['data', 'memory.total']),
-                   formatter: bytesZeroDecimalPlaces,
-                   tooltipFormatter: bytesTwoDecimalPlaces,
-                   metrics: [
-                     'memory.free'
-                   ],
-                   labels: ['Free'],
-                   type: 'stackedArea'
-                 }}/>
-        </DashboardSection>
-
-        {swapTotal > 0 ?
-          <DashboardSection title='Swap Activity'>
-            <ChartWithLegend snapshot={snapshot}
-                   windowSize={timeframe}
+                   timeframe={timeframe}
                    height={chartHeight}
                    margins={{
-                     left: 90
+                     left: 60
                    }}
                    y1={{
                      min: 0,
-                     formatter: twoDecimalPlaces,
+                     max: 1,
+                     formatter: percentageZeroDecimalPlaces,
                      metrics: [
-                       'swap.pgin',
-                       'swap.pgout'
+                       'cpu.user',
+                       'cpu.sys',
+                       'cpu.wait',
+                       'cpu.nice',
+                       'cpu.steal'
                      ],
                      labels: [
-                       'Page-In',
-                       'Page-Out'
+                       'User',
+                       'System',
+                       'Wait',
+                       'Nice',
+                       'Steal'
                      ],
-                     type: 'line'
+                     type: 'stackedArea'
                    }}/>
           </DashboardSection>
-        : null}
 
-        <DashboardSection title={this.getIntlMessage('forge.os.filesystems')}>
-
-          {filesystemName ?
-            <div>
+          {!this.isWindows() ?
+            <DashboardSection title='CPU Load'>
               <ChartWithLegend snapshot={snapshot}
-                     windowSize={timeframe}
-                     height={chartHeight}
-                     margins={{
-                       left: 80,
-                       right: 80
-                     }}
-
-                     y1={{
-                       min: 0,
-                       max: getMaxValue(
-                         'fs.' + filesystemName + '.free',
-                         snapshot
-                       ),
-                       formatter: kiloBytesZeroDecimalPlaces,
-                       tooltipFormatter: kiloBytesTwoDecimalPlaces,
-                       metrics: [
-                         'fs.' + filesystemName + '.free',
-                         'fs.' + filesystemName + '.leaked'
-                       ],
-                       labels: ['Free', 'Leaked'],
-                       type: 'line'
-                     }}
-
-                     y2={{
-                       min: 0,
-                       max: getMaxValue(
-                         'fs.' + filesystemName + '.ifree',
-                         snapshot
-                       ),
-                       metrics: [
-                         'fs.' + filesystemName + '.ifree'
-                       ],
-                       labels: ['iFree'],
-                       type: 'line',
-                       formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                       tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
-                     }}/>
-
-              <ChartWithLegend snapshot={snapshot}
-                     windowSize={timeframe}
-                     height={chartHeight}
-                     margins={{
-                       left: 80,
-                       right: 80
-                     }}
-
-                     y1={{
-                       min: 0,
-                       formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                       tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
-                       metrics: [
-                         'fs.' + filesystemName + '.reads',
-                         'fs.' + filesystemName + '.writes'
-                       ],
-                       labels: ['Reads', 'Writes'],
-                       type: 'line'
-                     }}
-
-                     y2={{
-                       min: 0,
-                       formatter: kiloBytesZeroDecimalPlaces,
-                       tooltipFormatter: kiloBytesTwoDecimalPlaces,
-                       metrics: [
-                         'fs.' + filesystemName + '.readBytes',
-                         'fs.' + filesystemName + '.writeBytes'
-                       ],
-                       labels: ['Read', 'Write'],
-                       type: 'line'
-                     }}/>
-            </div>
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 60
+                }}
+                y1={{
+                  min: 0,
+                  type: 'stackedArea',
+                  formatter: twoDecimalPlaces,
+                  tooltipFormatter: twoDecimalPlaces,
+                  metrics: [
+                    'load.1min'
+                  ],
+                  labels: ['Load']
+                }}/>
+            </DashboardSection>
           : null}
 
-          <ResponsiveTable clickable={true}>
-            <thead>
-              <tr>
-                <th>Device</th>
-                <th>Mount</th>
-                <th>Options</th>
-                <th>Type</th>
-                <th>Capacity</th>
-                <th>Free</th>
-                <th>
-                  <HelpLink helpId='203876231'>
-                    Leaked
-                  </HelpLink>
-                </th>
-                <th>iFree</th>
-              </tr>
-            </thead>
+          {cpuCount > 1 ?
 
-            <tbody>
-              {filesystems.map((data, name) =>
-                <tr key={name}
-                    onClick={() => this.selectFilesystem(name)}
-                    className={classnames({
-                      'active': name === filesystemName
-                    })}>
-                  <td>{name}</td>
-                  <td>{data.get('mount')}</td>
-                  <td>{data.get('options')}</td>
-                  <td>{data.get('systype')}</td>
-                  <td>{kiloBytesTwoDecimalPlaces(data.get('capacity'))}</td>
-                  <Mtd metric={'fs.' + name + '.free'}
-                       snapshot={snapshot}
-                       formatter={kiloBytesTwoDecimalPlaces} />
-                  <Mtd metric={'fs.' + name + '.leaked'}
-                       snapshot={snapshot}
-                       formatter={kiloBytesTwoDecimalPlaces} />
-                  <Mtd metric={'fs.' + name + '.ifree'}
-                       snapshot={snapshot}
-                       formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
-                </tr>
-              ).valueSeq()}
-            </tbody>
-          </ResponsiveTable>
-        </DashboardSection>
-
-        { interfaces ?
-          <DashboardSection title={this.getIntlMessage('forge.os.networkinterfaces')}>
-            {interfaceName ?
+          <DashboardSection title='Individual CPU Usage'>
+            {cpuNo ?
               <div>
                 <ChartWithLegend snapshot={snapshot}
-                       windowSize={timeframe}
+                       timeframe={timeframe}
+                       height={chartHeight}
+                       margins={{
+                         left: 60
+                       }}
+                       y1={{
+                         min: 0,
+                         max: 1,
+                         formatter: percentageZeroDecimalPlaces,
+                         metrics: [
+                           'cpus.' + cpuNo + '.user',
+                           'cpus.' + cpuNo + '.sys',
+                           'cpus.' + cpuNo + '.wait',
+                           'cpus.' + cpuNo + '.nice',
+                           'cpus.' + cpuNo + '.steal'
+                         ],
+                         labels: [
+                           'User',
+                           'System',
+                           'Wait',
+                           'Nice',
+                           'Steal'
+                         ],
+                         type: 'stackedArea'
+                       }}/>
+              </div>
+            : null}
+            <ResponsiveTable clickable={true}>
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>User</th>
+                  <th>System</th>
+                  <th>Wait</th>
+                  <th>Nice</th>
+                  <th>Steal</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {cpus.map((index) =>
+                  <tr key={'cpu-' + index}
+                      onClick={() => this.selectCpu(index)}
+                      className={classnames({
+                        'active': name === cpuNo
+                      })}>
+                    <td>CPU {index}</td>
+                    <Mtd metric={'cpus.' + index + '.user'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'cpus.' + index + '.sys'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'cpus.' + index + '.wait'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'cpus.' + index + '.nice'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                    <Mtd metric={'cpus.' + index + '.steal'}
+                         snapshot={snapshot}
+                         formatter={percentageZeroDecimalPlaces} />
+                  </tr>
+                ).valueSeq()}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+          : null}
+
+          <DashboardSection title='Memory Free'>
+            <ChartWithLegend snapshot={snapshot}
+                   timeframe={timeframe}
+                   height={chartHeight}
+                   margins={{
+                     left: 80
+                   }}
+                   y1={{
+                     min: 0,
+                     max: snapshot.getIn(['data', 'memory.total']),
+                     formatter: bytesZeroDecimalPlaces,
+                     tooltipFormatter: bytesTwoDecimalPlaces,
+                     metrics: [
+                       'memory.free'
+                     ],
+                     labels: ['Free'],
+                     type: 'stackedArea'
+                   }}/>
+          </DashboardSection>
+
+          {swapTotal > 0 ?
+            <DashboardSection title='Swap Activity'>
+              <ChartWithLegend snapshot={snapshot}
+                     timeframe={timeframe}
+                     height={chartHeight}
+                     margins={{
+                       left: 90
+                     }}
+                     y1={{
+                       min: 0,
+                       formatter: twoDecimalPlaces,
+                       metrics: [
+                         'swap.pgin',
+                         'swap.pgout'
+                       ],
+                       labels: [
+                         'Page-In',
+                         'Page-Out'
+                       ],
+                       type: 'line'
+                     }}/>
+            </DashboardSection>
+          : null}
+
+          <DashboardSection title={this.getIntlMessage('forge.os.filesystems')}>
+
+            {filesystemName ?
+              <div>
+                <ChartWithLegend snapshot={snapshot}
+                       timeframe={timeframe}
                        height={chartHeight}
                        margins={{
                          left: 80,
@@ -382,39 +261,64 @@ export default connectTo(
 
                        y1={{
                          min: 0,
-                         formatter: bytesZeroDecimalPlaces,
-                         tooltipFormatter: bytesTwoDecimalPlaces,
+                         max: getMaxValue(
+                           'fs.' + filesystemName + '.free',
+                           snapshot
+                         ),
+                         formatter: kiloBytesZeroDecimalPlaces,
+                         tooltipFormatter: kiloBytesTwoDecimalPlaces,
                          metrics: [
-                           'ifs.' + interfaceName + '.rx.bytes',
-                           'ifs.' + interfaceName + '.tx.bytes'
+                           'fs.' + filesystemName + '.free',
+                           'fs.' + filesystemName + '.leaked'
                          ],
-                         labels: [
-                           'Received',
-                           'Transmitted'
-                         ],
+                         labels: ['Free', 'Leaked'],
                          type: 'line'
                        }}
+
                        y2={{
                          min: 0,
-                         max: 1,
+                         max: getMaxValue(
+                           'fs.' + filesystemName + '.ifree',
+                           snapshot
+                         ),
                          metrics: [
-                           'ifs.' + interfaceName + '.rx.errors',
-                           'ifs.' + interfaceName + '.rx.dropped',
-                           'ifs.' + interfaceName + '.rx.overruns',
-                           'ifs.' + interfaceName + '.tx.errors',
-                           'ifs.' + interfaceName + '.tx.dropped',
-                           'ifs.' + interfaceName + '.tx.overruns'
+                           'fs.' + filesystemName + '.ifree'
                          ],
-                         labels: [
-                           'RX Errors',
-                           'RX Dropped',
-                           'RX Overruns',
-                           'TX Errors',
-                           'TX Dropped',
-                           'TX Overruns'
+                         labels: ['iFree'],
+                         type: 'line',
+                         formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+                         tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
+                       }}/>
+
+                <ChartWithLegend snapshot={snapshot}
+                       timeframe={timeframe}
+                       height={chartHeight}
+                       margins={{
+                         left: 80,
+                         right: 80
+                       }}
+
+                       y1={{
+                         min: 0,
+                         formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+                         tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces,
+                         metrics: [
+                           'fs.' + filesystemName + '.reads',
+                           'fs.' + filesystemName + '.writes'
                          ],
-                         formatter: percentageZeroDecimalPlaces,
-                         tooltipFormatter: percentageTwoDecimalPlaces,
+                         labels: ['Reads', 'Writes'],
+                         type: 'line'
+                       }}
+
+                       y2={{
+                         min: 0,
+                         formatter: kiloBytesZeroDecimalPlaces,
+                         tooltipFormatter: kiloBytesTwoDecimalPlaces,
+                         metrics: [
+                           'fs.' + filesystemName + '.readBytes',
+                           'fs.' + filesystemName + '.writeBytes'
+                         ],
+                         labels: ['Read', 'Write'],
                          type: 'line'
                        }}/>
               </div>
@@ -423,166 +327,264 @@ export default connectTo(
             <ResponsiveTable clickable={true}>
               <thead>
                 <tr>
-                  <th></th>
-                  <th></th>
-                  <th></th>
-                  <th colSpan='4'>Received (RX)</th>
-                  <th colSpan='4'>Transmitted (TX)</th>
-                </tr>
-                <tr>
-                  <th>Interface</th>
-                  <th>Mac</th>
-                  <th>IPs</th>
-
-                  <th style={{width: '10em'}}>Bytes</th>
-                  <th style={{width: '4em'}}>Errors</th>
-                  <th style={{width: '4em'}}>Dropped</th>
-                  <th style={{width: '4em'}}>Overruns</th>
-
-                  <th style={{width: '10em'}}>Bytes</th>
-                  <th style={{width: '4em'}}>Errors</th>
-                  <th style={{width: '4em'}}>Dropped</th>
-                  <th style={{width: '4em'}}>Overruns</th>
+                  <th>Device</th>
+                  <th>Mount</th>
+                  <th>Options</th>
+                  <th>Type</th>
+                  <th>Capacity</th>
+                  <th>Free</th>
+                  <th>
+                    <HelpLink helpId='203876231'>
+                      Leaked
+                    </HelpLink>
+                  </th>
+                  <th>iFree</th>
                 </tr>
               </thead>
 
               <tbody>
-                {interfaces.map((data, name) =>
+                {filesystems.map((data, name) =>
                   <tr key={name}
-                      onClick={() => this.selectInterface(name)}
+                      onClick={() => this.selectFilesystem(name)}
                       className={classnames({
-                        'active': name === interfaceName
+                        'active': name === filesystemName
                       })}>
                     <td>{name}</td>
-                    <td>{data.get('mac')}</td>
-                    <td>{data.get('addresses').map(address => address.get('ip')).join(', ')}</td>
-                    <Mtd metric={'ifs.' + name + '.rx.bytes'}
+                    <td>{data.get('mount')}</td>
+                    <td>{data.get('options')}</td>
+                    <td>{data.get('systype')}</td>
+                    <td>{kiloBytesTwoDecimalPlaces(data.get('capacity'))}</td>
+                    <Mtd metric={'fs.' + name + '.free'}
                          snapshot={snapshot}
-                         formatter={bytesPerSecondZeroDecimalPlaces} />
-                    <Mtd metric={'ifs.' + name + '.rx.errors'}
+                         formatter={kiloBytesTwoDecimalPlaces} />
+                    <Mtd metric={'fs.' + name + '.leaked'}
                          snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'ifs.' + name + '.rx.dropped'}
+                         formatter={kiloBytesTwoDecimalPlaces} />
+                    <Mtd metric={'fs.' + name + '.ifree'}
                          snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'ifs.' + name + '.rx.overruns'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'ifs.' + name + '.tx.bytes'}
-                         snapshot={snapshot}
-                         formatter={bytesPerSecondZeroDecimalPlaces} />
-                    <Mtd metric={'ifs.' + name + '.tx.errors'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'ifs.' + name + '.tx.dropped'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
-                    <Mtd metric={'ifs.' + name + '.tx.overruns'}
-                         snapshot={snapshot}
-                         formatter={percentageZeroDecimalPlaces} />
+                         formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
                   </tr>
-                ).valueSeq()
-              }
+                ).valueSeq()}
               </tbody>
             </ResponsiveTable>
           </DashboardSection>
-        : null}
 
-        <DashboardSection title='TCP Activity'>
-          <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
-                           height={chartHeight}
-                           y1={{
-                             type: 'line',
-                             metrics: [
-                               'tcp.established',
-                               'tcp.opens',
-                               'tcp.inSegs',
-                               'tcp.outSegs'
-                             ],
-                             labels: [
-                               'Established',
-                               'Opens',
-                               'In Segments',
-                               'Out Segments'
-                             ],
-                             formatter: zeroDecimalPlaces,
-                             tooltipFormatter: twoDecimalPlaces
-                           }}
-                           y2={{
-                             type: 'line',
-                             metrics: [
-                               'tcp.establishedResets',
-                               'tcp.resets',
-                               'tcp.fails',
-                               'tcp.errors',
-                               'tcp.retrans'
-                             ],
-                             labels: [
-                               'Established Resets',
-                               'Out Resets',
-                               'Fail',
-                               'Error',
-                               'Retransmission'
-                             ],
-                             min: 0,
-                             max: 1,
-                             formatter: percentageZeroDecimalPlaces
-                           }}
-                           margins={{
-                             right: 60,
-                             left: 80
-                           }}/>
-        </DashboardSection>
+          { interfaces ?
+            <DashboardSection title={this.getIntlMessage('forge.os.networkinterfaces')}>
+              {interfaceName ?
+                <div>
+                  <ChartWithLegend snapshot={snapshot}
+                         timeframe={timeframe}
+                         height={chartHeight}
+                         margins={{
+                           left: 80,
+                           right: 80
+                         }}
 
-        {this.props.processes && this.props.processes.size > 0 ?
-        <DashboardSection title='Process Top List'>
-          <ResponsiveTable>
-            <thead>
-              <tr>
-                <th>PID</th>
-                <th>Process Name</th>
-                <th>CPU</th>
-                <th>Memory</th>
-              </tr>
-            </thead>
+                         y1={{
+                           min: 0,
+                           formatter: bytesZeroDecimalPlaces,
+                           tooltipFormatter: bytesTwoDecimalPlaces,
+                           metrics: [
+                             'ifs.' + interfaceName + '.rx.bytes',
+                             'ifs.' + interfaceName + '.tx.bytes'
+                           ],
+                           labels: [
+                             'Received',
+                             'Transmitted'
+                           ],
+                           type: 'line'
+                         }}
+                         y2={{
+                           min: 0,
+                           max: 1,
+                           metrics: [
+                             'ifs.' + interfaceName + '.rx.errors',
+                             'ifs.' + interfaceName + '.rx.dropped',
+                             'ifs.' + interfaceName + '.rx.overruns',
+                             'ifs.' + interfaceName + '.tx.errors',
+                             'ifs.' + interfaceName + '.tx.dropped',
+                             'ifs.' + interfaceName + '.tx.overruns'
+                           ],
+                           labels: [
+                             'RX Errors',
+                             'RX Dropped',
+                             'RX Overruns',
+                             'TX Errors',
+                             'TX Dropped',
+                             'TX Overruns'
+                           ],
+                           formatter: percentageZeroDecimalPlaces,
+                           tooltipFormatter: percentageTwoDecimalPlaces,
+                           type: 'line'
+                         }}/>
+                </div>
+              : null}
 
-            <tbody>
-              {this.props.processes.toArray().sort((a, b) => b.get('cpu') - a.get('cpu')).map(process =>
-                <tr key={process.get('pid')}>
-                  <td>{process.get('pid')}</td>
-                  <td>{process.get('name')}</td>
-                  <td>{percentageZeroDecimalPlaces(process.get('cpu'))}</td>
-                  <td>{bytesTwoDecimalPlaces(process.get('memory'))}</td>
+              <ResponsiveTable clickable={true}>
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th colSpan='4'>Received (RX)</th>
+                    <th colSpan='4'>Transmitted (TX)</th>
+                  </tr>
+                  <tr>
+                    <th>Interface</th>
+                    <th>Mac</th>
+                    <th>IPs</th>
+
+                    <th style={{width: '10em'}}>Bytes</th>
+                    <th style={{width: '4em'}}>Errors</th>
+                    <th style={{width: '4em'}}>Dropped</th>
+                    <th style={{width: '4em'}}>Overruns</th>
+
+                    <th style={{width: '10em'}}>Bytes</th>
+                    <th style={{width: '4em'}}>Errors</th>
+                    <th style={{width: '4em'}}>Dropped</th>
+                    <th style={{width: '4em'}}>Overruns</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {interfaces.map((data, name) =>
+                    <tr key={name}
+                        onClick={() => this.selectInterface(name)}
+                        className={classnames({
+                          'active': name === interfaceName
+                        })}>
+                      <td>{name}</td>
+                      <td>{data.get('mac')}</td>
+                      <td>{data.get('addresses').map(address => address.get('ip')).join(', ')}</td>
+                      <Mtd metric={'ifs.' + name + '.rx.bytes'}
+                           snapshot={snapshot}
+                           formatter={bytesPerSecondZeroDecimalPlaces} />
+                      <Mtd metric={'ifs.' + name + '.rx.errors'}
+                           snapshot={snapshot}
+                           formatter={percentageZeroDecimalPlaces} />
+                      <Mtd metric={'ifs.' + name + '.rx.dropped'}
+                           snapshot={snapshot}
+                           formatter={percentageZeroDecimalPlaces} />
+                      <Mtd metric={'ifs.' + name + '.rx.overruns'}
+                           snapshot={snapshot}
+                           formatter={percentageZeroDecimalPlaces} />
+                      <Mtd metric={'ifs.' + name + '.tx.bytes'}
+                           snapshot={snapshot}
+                           formatter={bytesPerSecondZeroDecimalPlaces} />
+                      <Mtd metric={'ifs.' + name + '.tx.errors'}
+                           snapshot={snapshot}
+                           formatter={percentageZeroDecimalPlaces} />
+                      <Mtd metric={'ifs.' + name + '.tx.dropped'}
+                           snapshot={snapshot}
+                           formatter={percentageZeroDecimalPlaces} />
+                      <Mtd metric={'ifs.' + name + '.tx.overruns'}
+                           snapshot={snapshot}
+                           formatter={percentageZeroDecimalPlaces} />
+                    </tr>
+                  ).valueSeq()
+                }
+                </tbody>
+              </ResponsiveTable>
+            </DashboardSection>
+          : null}
+
+          <DashboardSection title='TCP Activity'>
+            <ChartWithLegend snapshot={snapshot}
+                             timeframe={timeframe}
+                             height={chartHeight}
+                             y1={{
+                               type: 'line',
+                               metrics: [
+                                 'tcp.established',
+                                 'tcp.opens',
+                                 'tcp.inSegs',
+                                 'tcp.outSegs'
+                               ],
+                               labels: [
+                                 'Established',
+                                 'Opens',
+                                 'In Segments',
+                                 'Out Segments'
+                               ],
+                               formatter: zeroDecimalPlaces,
+                               tooltipFormatter: twoDecimalPlaces
+                             }}
+                             y2={{
+                               type: 'line',
+                               metrics: [
+                                 'tcp.establishedResets',
+                                 'tcp.resets',
+                                 'tcp.fails',
+                                 'tcp.errors',
+                                 'tcp.retrans'
+                               ],
+                               labels: [
+                                 'Established Resets',
+                                 'Out Resets',
+                                 'Fail',
+                                 'Error',
+                                 'Retransmission'
+                               ],
+                               min: 0,
+                               max: 1,
+                               formatter: percentageZeroDecimalPlaces
+                             }}
+                             margins={{
+                               right: 60,
+                               left: 80
+                             }}/>
+          </DashboardSection>
+
+          {this.props.processes && this.props.processes.size > 0 ?
+          <DashboardSection title='Process Top List'>
+            <ResponsiveTable>
+              <thead>
+                <tr>
+                  <th>PID</th>
+                  <th>Process Name</th>
+                  <th>CPU</th>
+                  <th>Memory</th>
                 </tr>
-              )}
-            </tbody>
-          </ResponsiveTable>
-        </DashboardSection>
-        : null}
-      </div>
-    );
-  },
+              </thead>
 
-  selectCpu(cpu) {
-    this.setState({
-      cpuNo: cpu
-    });
-  },
+              <tbody>
+                {this.props.processes.toArray().sort((a, b) => b.get('cpu') - a.get('cpu')).map(process =>
+                  <tr key={process.get('pid')}>
+                    <td>{process.get('pid')}</td>
+                    <td>{process.get('name')}</td>
+                    <td>{percentageZeroDecimalPlaces(process.get('cpu'))}</td>
+                    <td>{bytesTwoDecimalPlaces(process.get('memory'))}</td>
+                  </tr>
+                )}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+          : null}
+        </div>
+      );
+    },
 
-  selectFilesystem(fs) {
-    this.setState({
-      filesystemName: fs
-    });
-  },
+    selectCpu(cpu) {
+      this.setState({
+        cpuNo: cpu
+      });
+    },
 
-  selectInterface(iface) {
-    this.setState({
-      interfaceName: iface
-    });
-  },
+    selectFilesystem(fs) {
+      this.setState({
+        filesystemName: fs
+      });
+    },
 
-  isWindows() {
-    return !!this.props.snapshot.getIn(['data', 'os.name'], '').match(/windows/i);
-  }
-}));
+    selectInterface(iface) {
+      this.setState({
+        interfaceName: iface
+      });
+    },
+
+    isWindows() {
+      return !!this.props.snapshot.getIn(['data', 'os.name'], '').match(/windows/i);
+    }
+  })
+);

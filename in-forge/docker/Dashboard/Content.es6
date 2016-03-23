@@ -18,7 +18,7 @@ const DockerDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -31,7 +31,7 @@ const DockerDashboard = React.createClass({
       <div>
         <DashboardSection title='Memory'>
           <ChartWithLegend snapshot={snapshot}
-                           windowSize={timeframe}
+                           timeframe={timeframe}
                            height={chartHeight}
                            margins={{
                              left: 80,
@@ -59,7 +59,7 @@ const DockerDashboard = React.createClass({
         <DashboardSection title='Network'>
           <div>
             <ChartWithLegend snapshot={snapshot}
-                   windowSize={timeframe}
+                   timeframe={timeframe}
                    height={chartHeight}
                    margins={{
                      left: 80,

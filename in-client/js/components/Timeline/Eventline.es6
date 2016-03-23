@@ -3,15 +3,15 @@ import React from 'react';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {focusedMoment} from 'in-services/stores/timeline';
-import {getIssues} from 'in-services/issueTracker';
+import {focusedMoment} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import IssueLine from './IssueLine';
+import {issue$} from './stores';
 import Issue from './Issue';
 
 import './Eventline.less';
+
 
 const rpt = React.PropTypes;
 const block = 'in-timeline-eventline';
@@ -19,7 +19,7 @@ const block = 'in-timeline-eventline';
 export default connectTo(
   () => {
     return {
-      openIssues: getIssues().debounce(500),
+      issues: issue$,
       focusedMoment
     };
   },
@@ -27,8 +27,7 @@ export default connectTo(
   displayName: 'Eventline',
 
   mixins: [
-    PureRenderMixin,
-    SubscriptionMixin
+    PureRenderMixin
   ],
 
   propTypes: {
@@ -36,7 +35,7 @@ export default connectTo(
     renderedForTimestamp: rpt.number.isRequired,
     scale: rpt.func.isRequired,
     focusedMoment: rpt.number,
-    openIssues: irpt.list
+    issues: irpt.list
   },
 
   getInitialState() {
@@ -62,19 +61,20 @@ export default connectTo(
       return null;
     }
 
-
-    return (<IssueLine style={{left: this.props.scale(issue.get('start')).toFixed(2) + '%'}}
-                       issue={issue}
-                       scale={this.props.scale}/>);
+    return (
+      <IssueLine style={{left: this.props.scale(issue.get('start')).toFixed(2) + '%'}}
+                 issue={issue}
+                 scale={this.props.scale}/>
+    );
   },
 
   renderIssues() {
-    const openIssues = this.props.openIssues;
-    if (!openIssues || openIssues.size === 0) {
+    const issues = this.props.issues;
+    if (!issues || issues.size === 0) {
       return null;
     }
 
-    return openIssues
+    return issues
       .filter(issue => issue.get('start') > this.props.maxOldestPermittedIssueTimestamp)
       .map(issue => <Issue key={issue.get('id')}
                            mouseIn={this.mouseIn}

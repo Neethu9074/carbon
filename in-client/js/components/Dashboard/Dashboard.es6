@@ -1,13 +1,13 @@
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
-import {selectedSnapshot} from 'in-stores/snapshot';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SidebarDashboard from 'in-components/SidebarDashboard';
 import getForgeComponent from 'in-services/getForgeComponent';
-import * as timelineStore from 'in-services/stores/timeline';
-import Jail from 'in-components/Jail';
+import {selectedSnapshot} from 'in-stores/snapshot';
+import * as timelineStore from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
+import Jail from 'in-components/Jail';
 
 import Navigation from './Navigation';
 import Header from './Header';
@@ -28,7 +28,7 @@ export default connectTo(
 
   propTypes: {
     snapshot: irpt.map,
-    timeframe: React.PropTypes.number
+    timeframe: React.PropTypes.object
   },
 
   render() {

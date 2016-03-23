@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp, react/prop-types */
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import invariant from 'invariant';
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {getClassName} from 'in-services/react';
 

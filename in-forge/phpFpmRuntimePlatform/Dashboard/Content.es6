@@ -13,7 +13,7 @@ const PhpFpmDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.number.isRequired,
+    timeframe: rpt.object.isRequired,
     snapshot: irpt.map.isRequired
   },
 
@@ -33,7 +33,7 @@ const PhpFpmDashboard = React.createClass({
           <div key={pool}>
             <DashboardSection title={'Connections (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
               <ChartWithLegend snapshot={snapshot}
-                               windowSize={timeframe}
+                               timeframe={timeframe}
                                height={chartHeight}
                                margins={{
                                  left: 90,
@@ -73,7 +73,7 @@ const PhpFpmDashboard = React.createClass({
             </DashboardSection>
             <DashboardSection title={'Processes (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
               <ChartWithLegend snapshot={snapshot}
-                               windowSize={timeframe}
+                               timeframe={timeframe}
                                height={chartHeight}
                                margins={{
                                  left: 90,
