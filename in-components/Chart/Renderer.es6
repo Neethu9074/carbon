@@ -148,6 +148,7 @@ export default class Renderer {
         this.focusedY1 = dataY1;
         this.focusedY2 = dataY2;
         this.fillTooltip();
+        this.renderTooltip();
       }
     } else {
       this.focusedMoment = null;
