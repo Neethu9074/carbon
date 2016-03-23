@@ -21,7 +21,10 @@ const Chart = React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    timeframe: rpt.object.isRequired,
+    timeframe: rpt.shape({
+      windowSize: rpt.number.isRequired,
+      to: rpt.number
+    }),
 
     y1: rpt.object.isRequired,
     y2: rpt.object

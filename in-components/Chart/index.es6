@@ -18,7 +18,10 @@ const ChartWrapper = React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    timeframe: rpt.object.isRequired,
+    timeframe: rpt.shape({
+      windowSize: rpt.number.isRequired,
+      to: rpt.number
+    }),
     snapshot: irpt.map.isRequired,
     y1: rpt.object.isRequired,
     y2: rpt.object

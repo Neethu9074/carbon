@@ -20,7 +20,10 @@ const KafkaDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.object.isRequired,
+    timeframe: rpt.shape({
+      windowSize: rpt.number.isRequired,
+      to: rpt.number
+    }),
     snapshot: irpt.map.isRequired
   },
 

@@ -48,7 +48,10 @@ export default connectTo(
     ],
 
     propTypes: {
-      timeframe: rpt.object.isRequired,
+      timeframe: rpt.shape({
+        windowSize: rpt.number.isRequired,
+        to: rpt.number
+      }),
       snapshot: irpt.map.isRequired,
       processes: irpt.list
     },

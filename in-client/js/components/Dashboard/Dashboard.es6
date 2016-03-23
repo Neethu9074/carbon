@@ -14,7 +14,9 @@ import Header from './Header';
 
 import './Dashboard.less';
 
+
 const block = 'in-dashboard';
+const rpt = React.PropTypes;
 
 export default connectTo(
   () => {
@@ -28,7 +30,10 @@ export default connectTo(
 
   propTypes: {
     snapshot: irpt.map,
-    timeframe: React.PropTypes.object
+    timeframe: rpt.shape({
+      windowSize: rpt.number.isRequired,
+      to: rpt.number
+    })
   },
 
   render() {
