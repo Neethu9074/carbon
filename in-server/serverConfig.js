@@ -1,2 +1,1 @@
-import config from './serverConfig.json';
-export default config;
+module.exports = require('./serverConfig.json');

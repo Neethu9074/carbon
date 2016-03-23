@@ -1,9 +1,11 @@
+'use strict';
+
 require('instana-nodejs-sensor')();
 
-import express from 'express';
-import cookieParser from 'cookie-parser';
+const express = require('express');
+const cookieParser = require('cookie-parser');
 
-import routes from './routes';
+const routes = require('./routes');
 
 const app = express();
 
