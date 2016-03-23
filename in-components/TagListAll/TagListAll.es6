@@ -9,11 +9,8 @@ import Tag from '../Tag';
 
 import './TagListAll.less';
 
-export default connectTo(
-  () => {
-    return {
-      tags: getFilterableTags()
-    };
+export default connectTo({
+    tags: getFilterableTags()
   }, React.createClass({
   displayName: 'TagListAll',
 

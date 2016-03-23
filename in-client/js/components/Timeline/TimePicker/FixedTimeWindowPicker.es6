@@ -22,12 +22,9 @@ import './FixedTimeWindowPicker.less';
 const rpt = React.PropTypes;
 const block = 'in-fixed-time-window-picker';
 
-export default connectTo(
-  () => {
-    return {
-      dateFrom: selectedDateFrom,
-      dateTo: selectedDateTo
-    };
+export default connectTo({
+    dateFrom: selectedDateFrom,
+    dateTo: selectedDateTo
   },
   React.createClass({
 

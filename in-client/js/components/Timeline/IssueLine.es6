@@ -9,11 +9,8 @@ import {theme} from 'in-services/theme';
 
 import './IssueLine.less';
 
-export default connectTo(
-  () => {
-    return {
-      serverTime
-    };
+export default connectTo({
+    serverTime
   },
   React.createClass({
 

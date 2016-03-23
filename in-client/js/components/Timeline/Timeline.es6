@@ -17,15 +17,12 @@ import './Timeline.less';
 const block = 'in-timeline';
 const rpt = React.PropTypes;
 
-export default connectTo(
-  () => {
-    return {
-      serverTime: serverTimeStore.serverTime,
-      timeframe: timelineStore.timeframe,
-      maxOldestPermittedIssueTimestamp: combineLatest(
-          [serverTimeStore.serverTime, timelineStore.timeframe]
-        ).map(([serverTime, timeframe]) => serverTime - timeframe.windowSize)
-    };
+export default connectTo({
+    serverTime: serverTimeStore.serverTime,
+    timeframe: timelineStore.timeframe,
+    maxOldestPermittedIssueTimestamp: combineLatest(
+        [serverTimeStore.serverTime, timelineStore.timeframe]
+      ).map(([serverTime, timeframe]) => serverTime - timeframe.windowSize)
   },
   React.createClass({
 

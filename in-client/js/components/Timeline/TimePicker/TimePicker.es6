@@ -14,11 +14,8 @@ import './TimePicker.less';
 const rpt = React.PropTypes;
 const block = 'in-timepicker';
 
-export default connectTo(
-  () => {
-    return {
-      selectedTimePicker
-    };
+export default connectTo({
+    selectedTimePicker
   },
   React.createClass({
 

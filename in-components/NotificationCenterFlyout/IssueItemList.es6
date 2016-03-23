@@ -14,12 +14,9 @@ import './IssueItemList.less';
 const block = 'in-notificationcenter-issueitemlist';
 const rpt = React.PropTypes;
 
-export default connectTo(
-  () => {
-    return {
-      selectedNotificationFilter,
-      allIssues: Issue$
-    };
+export default connectTo({
+    selectedNotificationFilter,
+    allIssues: Issue$
   },
   React.createClass({
 

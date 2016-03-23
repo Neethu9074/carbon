@@ -22,13 +22,10 @@ import './ChangeTimeButton.less';
 const block = 'in-timeline-change-time-button';
 const rpt = React.PropTypes;
 
-export default connectTo(
-  () => {
-    return {
-      changeTimeButtonFromSelected,
-      selectedTimeRange,
-      timeframe
-    };
+export default connectTo({
+    changeTimeButtonFromSelected,
+    selectedTimeRange,
+    timeframe
   },
   React.createClass({
 

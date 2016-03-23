@@ -12,11 +12,8 @@ import './Filter.less';
 const block = 'in-notificationcenter-filter';
 const rpt = React.PropTypes;
 
-export default connectTo(
-  () => {
-    return {
-      selectedNotificationFilter
-    };
+export default connectTo({
+    selectedNotificationFilter
   },
   React.createClass({
 

@@ -11,11 +11,8 @@ import './MapViewSwitcher.less';
 
 const block = 'in-map-view-switcher';
 
-export default connectTo(
-  () => {
-    return {
-      activeView: viewStore.view
-    };
+export default connectTo({
+    activeView: viewStore.view
   },
   React.createClass({
   displayName: 'MapViewSwitcher',

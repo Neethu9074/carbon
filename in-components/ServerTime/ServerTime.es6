@@ -7,11 +7,8 @@ import connectTo from 'in-hoc/connectTo';
 
 const rpt = React.PropTypes;
 
-export default connectTo(
-  () => {
-    return {
-      serverTime: serverTimeStore.serverTime
-    };
+export default connectTo({
+    serverTime: serverTimeStore.serverTime
   },
   React.createClass({
   displayName: 'ServerTime',

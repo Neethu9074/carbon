@@ -14,11 +14,8 @@ import './NotificationCounter.less';
 
 const block = 'in-notification-counter';
 
-export default connectTo(
-  () => {
-    return {
-      openIssues: getOpenIssuesStream()
-    };
+export default connectTo({
+    openIssues: getOpenIssuesStream()
   },
   React.createClass({
 

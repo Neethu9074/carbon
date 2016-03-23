@@ -29,11 +29,8 @@ import './App.less';
 
 const rpt = React.PropTypes;
 
-export default helpify(connectTo(
-  () => {
-    return {
-      isMonitoring
-    };
+export default helpify(connectTo({
+    isMonitoring
   }, React.createClass({
   displayName: 'App',
 

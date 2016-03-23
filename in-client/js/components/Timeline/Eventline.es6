@@ -16,12 +16,9 @@ import './Eventline.less';
 const rpt = React.PropTypes;
 const block = 'in-timeline-eventline';
 
-export default connectTo(
-  () => {
-    return {
-      issues: issue$,
-      focusedMoment
-    };
+export default connectTo({
+    issues: issue$,
+    focusedMoment
   },
   React.createClass({
   displayName: 'Eventline',

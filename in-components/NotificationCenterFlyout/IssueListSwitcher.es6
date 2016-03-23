@@ -15,11 +15,8 @@ import './IssueListSwitcher.less';
 
 const block = 'in-notificationcenter-issue-list-switcher';
 
-export default connectTo(
-  () => {
-    return {
-      selectedIssueList
-    };
+export default connectTo({
+    selectedIssueList
   },
   React.createClass({
 

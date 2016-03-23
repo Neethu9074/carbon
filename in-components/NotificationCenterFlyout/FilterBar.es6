@@ -14,11 +14,8 @@ import './FilterBar.less';
 
 const block = 'in-notificationcenter-filterbar';
 
-export default connectTo(
-  () => {
-    return {
-      allIssues: Issue$
-    };
+export default connectTo({
+    allIssues: Issue$
   },
   React.createClass({
 

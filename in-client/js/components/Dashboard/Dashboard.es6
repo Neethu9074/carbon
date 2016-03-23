@@ -18,12 +18,9 @@ import './Dashboard.less';
 const block = 'in-dashboard';
 const rpt = React.PropTypes;
 
-export default connectTo(
-  () => {
-    return {
-      snapshot: selectedSnapshot,
-      timeframe: timelineStore.timeframe
-    };
+export default connectTo({
+    snapshot: selectedSnapshot,
+    timeframe: timelineStore.timeframe
   },
   React.createClass({
   displayName: 'Dashboard',
