@@ -24,17 +24,13 @@ RUN mkdir -p /etc/nginx \
     mv /opt/all/deployment/dhgroup.pem             /etc/ssl/dhgroup.pem && \
     mv /opt/all/deployment/services/nginx.sh       /etc/service/nginx/run && \
     mv /opt/all/deployment/services/in-server.sh   /etc/service/in-server/run && \
-    mv /opt/all/deployment/discovery               /tmp/discovery && \
+    mv /opt/all/deployment/discovery               /opt/discovery && \
 
-    # Now that we moved all files, we can remove the all directory
-    rm -rf /opt/all && \
-
-    # TODO remove jq installation once it is part of the base image
-    echo 'deb http://us.archive.ubuntu.com/ubuntu vivid main universe' >> /etc/apt/sources.list.d/jq.list && \
-    apt-get update && \
-    apt-get install jq && \
+    # Now that we moved all files, we can remove the all directory and
+    # all the other files that were only interesting for the image
+    # setup
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/**
+    rm -rf /opt/all /var/lib/apt/lists/* /tmp/* /var/tmp/**
 
 CMD ["/sbin/my_init"]
 

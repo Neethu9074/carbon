@@ -2,7 +2,7 @@
 
 set -e
 
-cd /tmp
+cd /opt
 source discovery/discovery.general
 
 j2 /etc/nginx/nginx.conf.j2 > /etc/nginx/nginx.conf

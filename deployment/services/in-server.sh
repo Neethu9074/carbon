@@ -2,7 +2,7 @@
 
 set -e
 
-cd /tmp
+cd /opt
 source discovery/discovery.general
 
 j2 /opt/www/config.json.j2 > /opt/www/assets/config.json
