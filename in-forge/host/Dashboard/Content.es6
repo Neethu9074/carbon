@@ -23,12 +23,12 @@ import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
+import {timeframeShape} from 'in-stores/timeline';
 import {getRawPayload} from 'in-stores/snapshot';
 import HelpLink from 'in-components/HelpLink';
 import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
 
-const rpt = React.PropTypes;
 
 const chartHeight = 200;
 
@@ -48,11 +48,8 @@ export default connectTo(
     ],
 
     propTypes: {
-      timeframe: rpt.shape({
-        windowSize: rpt.number.isRequired,
-        to: rpt.number
-      }),
       snapshot: irpt.map.isRequired,
+      timeframe: timeframeShape,
       processes: irpt.list
     },
 

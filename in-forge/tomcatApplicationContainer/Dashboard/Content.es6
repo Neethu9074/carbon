@@ -5,9 +5,10 @@ import React from 'react';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ResponsiveTable from 'in-components/ResponsiveTable';
+import {timeframeShape} from 'in-stores/timeline';
 import Mtd from 'in-components/Mtd';
 
-const rpt = React.PropTypes;
+
 const chartHeight = 200;
 const milliSecondsFormatter = milliSeconds => milliSeconds + ' ms';
 
@@ -16,7 +17,7 @@ const TomcatDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.object.isRequired
+    timeframe: timeframeShape
   },
 
   getInitialState() {

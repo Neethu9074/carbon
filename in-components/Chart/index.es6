@@ -3,8 +3,10 @@ import {isEqual, merge} from 'lodash';
 import React from 'react';
 
 import {getMetricsForTimeframe} from 'in-stores/metric';
+import {timeframeShape} from 'in-stores/timeline';
 
 import Chart from './Chart';
+
 
 const rpt = React.PropTypes;
 
@@ -18,10 +20,8 @@ const ChartWrapper = React.createClass({
     height: rpt.number.isRequired,
     margins: rpt.object,
 
-    timeframe: rpt.shape({
-      windowSize: rpt.number.isRequired,
-      to: rpt.number
-    }),
+    timeframe: timeframeShape,
+
     snapshot: irpt.map.isRequired,
     y1: rpt.object.isRequired,
     y2: rpt.object

@@ -8,14 +8,13 @@ import {
   timeByMicroTwoDecimalPlaces} from 'in-services/formatters/number';
 import {capitalize} from 'in-services/formatters/string';
 import classnames from 'in-services/util/classnames';
+import {timeframeShape} from 'in-stores/timeline';
 
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import Mtd from 'in-components/Mtd';
 
-
-const rpt = React.PropTypes;
 
 const chartHeight = 200;
 const commasFormatter = d3.format(',.0f');
@@ -28,7 +27,7 @@ const CassandraDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.object.isRequired
+    timeframe: timeframeShape
   },
 
   getInitialState() {

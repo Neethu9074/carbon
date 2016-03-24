@@ -1,6 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
 import {
   zeroDecimalPlaces,
@@ -11,8 +11,8 @@ import {
 
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {timeframeShape} from 'in-stores/timeline';
 
-const rpt = React.PropTypes;
 
 const chartHeight = 200;
 
@@ -20,11 +20,8 @@ const KafkaDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.shape({
-      windowSize: rpt.number.isRequired,
-      to: rpt.number
-    }),
-    snapshot: irpt.map.isRequired
+    snapshot: irpt.map.isRequired,
+    timeframe: timeframeShape
   },
 
   render() {

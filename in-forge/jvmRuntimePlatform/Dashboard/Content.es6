@@ -12,10 +12,10 @@ import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
+import {timeframeShape} from 'in-stores/timeline';
 import {getMaxValue} from 'in-sdk/metrics';
 import Mtd from 'in-components/Mtd';
 
-const rpt = React.PropTypes;
 
 const chartHeight = 200;
 
@@ -24,12 +24,9 @@ export default React.createClass({
     mixins: [PureRenderMixin],
 
     propTypes: {
-      timeframe: rpt.shape({
-        windowSize: rpt.number.isRequired,
-        to: rpt.number
-      }),
       snapshot: irpt.map.isRequired,
-      outgoingConnections: rpt.any,
+      outgoingConnections: React.PropTypes.any,
+      timeframe: timeframeShape,
       javaApp: irpt.map
     },
 

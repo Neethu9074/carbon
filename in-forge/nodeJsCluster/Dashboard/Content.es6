@@ -2,18 +2,16 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-const rpt = React.PropTypes;
+import {timeframeShape} from 'in-stores/timeline';
+
 
 export default React.createClass({
   displayName: 'NodejsClusterDashboard',
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.shape({
-      windowSize: rpt.number.isRequired,
-      to: rpt.number
-    }),
-    snapshot: irpt.map.isRequired
+    snapshot: irpt.map.isRequired,
+    timeframe: timeframeShape
   },
 
   render() {

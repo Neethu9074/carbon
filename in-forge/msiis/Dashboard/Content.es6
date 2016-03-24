@@ -6,20 +6,18 @@ import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ResponsiveTable from 'in-components/ResponsiveTable';
-import Mtd from 'in-components/Mtd';
 import classnames from 'in-services/util/classnames';
+import {timeframeShape} from 'in-stores/timeline';
+import Mtd from 'in-components/Mtd';
 
-const rpt = React.PropTypes;
+
 const chartHeight = 200;
 const MsIISDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.shape({
-      windowSize: rpt.number.isRequired,
-      to: rpt.number
-    }),
-    snapshot: irpt.map.isRequired
+    snapshot: irpt.map.isRequired,
+    timeframe: timeframeShape
   },
 
   getInitialState() {

@@ -5,19 +5,17 @@ import React from 'react';
 import * as numberFormatters from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {timeframeShape} from 'in-stores/timeline';
+
 
 const chartHeight = 150;
-const rpt = React.PropTypes;
 
 const PhpFpmDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.shape({
-      windowSize: rpt.number.isRequired,
-      to: rpt.number
-    }),
-    snapshot: irpt.map.isRequired
+    snapshot: irpt.map.isRequired,
+    timeframe: timeframeShape
   },
 
   render() {

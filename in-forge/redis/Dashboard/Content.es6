@@ -6,11 +6,10 @@ import {
   bytesTwoDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
-
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {timeframeShape} from 'in-stores/timeline';
 
-const rpt = React.PropTypes;
 
 const chartHeight = 200;
 
@@ -19,7 +18,7 @@ const RedisDashboard = React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: rpt.object.isRequired
+    timeframe: timeframeShape
   },
 
   render() {

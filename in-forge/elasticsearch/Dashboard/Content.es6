@@ -7,6 +7,7 @@ import ResponsiveTable from 'in-components/ResponsiveTable';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
+import {timeframeShape} from 'in-stores/timeline';
 import {
   zeroDecimalPlaces,
   withSiMultiplyPrefixZeroDecimalPlaces,
@@ -15,7 +16,6 @@ import {
 } from 'in-services/formatters/number';
 import Mtd from 'in-components/Mtd';
 
-const rpt = React.PropTypes;
 
 const chartHeight = 200;
 
@@ -23,11 +23,8 @@ const ElasticsearchDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.shape({
-      windowSize: rpt.number.isRequired,
-      to: rpt.number
-    }),
-    snapshot: irpt.map.isRequired
+    snapshot: irpt.map.isRequired,
+    timeframe: timeframeShape
   },
 
   getInitialState() {

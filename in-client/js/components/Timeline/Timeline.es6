@@ -34,6 +34,7 @@ export default connectTo({
 
   propTypes: {
     maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
+    timeframe: timelineStore.timeframeShape,
     serverTime: rpt.number.isRequired
   },
 

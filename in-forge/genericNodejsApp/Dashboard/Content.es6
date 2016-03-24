@@ -8,20 +8,18 @@ import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import classnames from 'in-services/util/classnames';
+import {timeframeShape} from 'in-stores/timeline';
 import Mtd from 'in-components/Mtd';
 
-const rpt = React.PropTypes;
+
 const emptyMap = Immutable.Map();
 
 const NodejsDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
-    timeframe: rpt.shape({
-      windowSize: rpt.number.isRequired,
-      to: rpt.number
-    }),
-    snapshot: irpt.map.isRequired
+    snapshot: irpt.map.isRequired,
+    timeframe: timeframeShape
   },
 
   getInitialState() {

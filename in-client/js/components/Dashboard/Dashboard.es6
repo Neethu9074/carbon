@@ -16,7 +16,6 @@ import './Dashboard.less';
 
 
 const block = 'in-dashboard';
-const rpt = React.PropTypes;
 
 export default connectTo({
     snapshot: selectedSnapshot,
@@ -27,10 +26,7 @@ export default connectTo({
 
   propTypes: {
     snapshot: irpt.map,
-    timeframe: rpt.shape({
-      windowSize: rpt.number.isRequired,
-      to: rpt.number
-    })
+    timeframe: timelineStore.timeframeShape
   },
 
   render() {

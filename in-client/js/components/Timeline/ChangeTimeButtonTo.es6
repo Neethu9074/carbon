@@ -1,10 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {timeframe, timeframeShape} from 'in-stores/timeline';
 import {formatDateTime} from 'in-services/formatters/date';
 import ServerTime from 'in-components/ServerTime';
 import {serverTime} from 'in-stores/serverTime';
-import {timeframe} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import {
@@ -40,8 +40,8 @@ export default connectTo({
     propTypes: {
       changeTimeButtonToSelected: rpt.bool,
       selectedTimeRange: rpt.string,
-      serverTime: rpt.number,
-      timeframe: rpt.object
+      timeframe: timeframeShape,
+      serverTime: rpt.number
     },
 
     render() {

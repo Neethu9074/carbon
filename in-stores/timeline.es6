@@ -1,4 +1,5 @@
 import {createStore} from 'in-stores/store';
+import React from 'react';
 
 // An object of the following structure
 // {
@@ -15,6 +16,11 @@ const timeframeStore = createStore({
 
 
 export const timeframe = timeframeStore.observable;
+
+export const timeframeShape = React.PropTypes.shape({
+  windowSize: React.PropTypes.number.isRequired,
+  to: React.PropTypes.number
+});
 
 
 export function setTimeframe(windowSize, to) {
