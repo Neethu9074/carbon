@@ -1,5 +1,7 @@
-import {createStore} from 'in-stores/store';
 import React from 'react';
+
+import {createStore} from 'in-stores/store';
+
 
 // An object of the following structure
 // {
