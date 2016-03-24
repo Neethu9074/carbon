@@ -123,6 +123,16 @@ export function getIssuesById(snapshotId) {
   });
 }
 
+export function getMostImportantIssue(snapshotId) {
+  return getIssuesById(snapshotId)
+           .map(issues => issues.reduce((acc, issue) => {
+             if (issue.getIn(['problem', 'severity']) >= acc.getIn(['problem', 'severity'])) {
+               return issue;
+             }
+             return acc;
+           }, issues.get(0)));
+}
+
 export function getProblemsById(snapshotId) {
   return getIssuesById(snapshotId).map(issues => issues.map(issue => issue.get('problem')));
 }

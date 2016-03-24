@@ -148,4 +148,66 @@ describe('issueTracker', () => {
     });
 
   });
+
+  describe('getMostImportantIssue', () => {
+
+    it('should return the most important issue if there are multiple issues for the same entity', () => {
+      let mostImportantIssue;
+      issueTracker.getMostImportantIssue('123').subscribe(issue => mostImportantIssue = issue);
+
+      openIssuesObservable.emit(Immutable.fromJS([{
+          'id': 'oi1',
+          'problem': {
+            'snapshotId': '123',
+            'severity': 5
+          },
+          'start': 1433251409977
+        }, {
+          'id': 'oi2',
+          'problem': {
+            'snapshotId': '123',
+            'severity': 10
+          },
+          'start': 1433251409977
+        }, {
+          'id': 'oi3',
+          'problem': {
+            'snapshotId': '123',
+            'severity': 3
+          },
+          'start': 1433251409977
+        }
+      ]));
+
+      expect(mostImportantIssue.get('id')).to.equal('oi2');
+    });
+
+    it('should return the only issue if there is only one', () => {
+      let mostImportantIssue;
+      issueTracker.getMostImportantIssue('123').subscribe(issue => mostImportantIssue = issue);
+
+      openIssuesObservable.emit(Immutable.fromJS([{
+          'id': 'oi1',
+          'problem': {
+            'snapshotId': '123',
+            'severity': 0
+          },
+          'start': 1433251409977
+        }
+      ]));
+
+      expect(mostImportantIssue.get('id')).to.equal('oi1');
+    });
+
+    it('should return nothing if there are no issues', () => {
+      let mostImportantIssue;
+      issueTracker.getMostImportantIssue('123').subscribe(issue => mostImportantIssue = issue);
+
+      openIssuesObservable.emit(Immutable.fromJS([]));
+
+      expect(mostImportantIssue).to.equal(undefined);
+    });
+
+  });
+
 });

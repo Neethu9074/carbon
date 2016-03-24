@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getIssuesById} from 'in-services/issueTracker';
+import {getMostImportantIssue as getMostImportantIssueFromIssueTracker} from 'in-services/issueTracker';
 
 
 export default function getMostImportantIssue(ComposedComponent) {
@@ -37,15 +37,11 @@ export default function getMostImportantIssue(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        this.subscription = getIssuesById(snapshotId).subscribe(issues => {
-          const mostImportantIssue = issues && issues.size > 0 ?
-            issues.toArray().sort((i1, i2) =>
-              i1.getIn(['problem', 'severity']) < i2.getIn(['problem', 'severity']))[0] :
-            null;
+        this.subscription = getMostImportantIssueFromIssueTracker(snapshotId).subscribe(mostImportantIssue =>
           this.setState({
             mostImportantIssue
-          });
-        });
+          })
+        );
       }
     },
 
