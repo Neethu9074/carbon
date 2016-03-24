@@ -14,7 +14,7 @@ import {
   setTimeFrom,
   setTimeTo,
   setDateTo
-} from '../stores';
+} from '../timelineStores';
 
 import './FixedTimeWindowPicker.less';
 

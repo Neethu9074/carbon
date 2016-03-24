@@ -7,8 +7,8 @@ import {cubeGeometry, defaultGeometryMaterial} from 'in-map/src/3DSceneObjects/c
 import SCCP from 'in-map/src/SingleMeshFactory/ContentProvider/SlicedCubeContentProvider';
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
 import TooltipMetric from 'in-map/src/2DSceneObjects/tooltips/physical/Metric';
-import {currentTooltip, tooltipForSceneObject} from 'in-map/src/stores';
-import {longClickedSceneObject} from 'in-map/src/stores';
+import {currentTooltip, tooltipForSceneObject} from 'in-map/src/mapStores';
+import {longClickedSceneObject} from 'in-map/src/mapStores';
 import eventBus from 'in-map/eventbus';
 
 import CollisionComponent from '../CollisionObjectComponent';

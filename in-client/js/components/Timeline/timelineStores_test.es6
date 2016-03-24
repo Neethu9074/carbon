@@ -8,7 +8,7 @@ import sinon from 'sinon';
 import {setTimeframe} from 'in-stores/timeline';
 
 
-describe('timeline/stores', () => {
+describe('timeline/timelineStores', () => {
   const historicalIssue1 = {
     'id': 'hi',
     'problem': {
@@ -49,7 +49,7 @@ describe('timeline/stores', () => {
     openIssue2
   ]));
 
-  const stores = proxyquire('./stores', {
+  const stores = proxyquire('./timelineStores', {
     'in-services/issueTracker': {
       getHistoricalIssuesStream: () => historicalIssuesStream,
       getOpenIssuesStream: () => openIssuesStream

@@ -6,7 +6,7 @@ import {mapSeverityToHealth} from 'in-services/health';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
-import {FILTER_TYPES, Issue$} from './stores';
+import {FILTER_TYPES, Issue$} from './notificationCenterFlyoutStores';
 import Filter from './Filter';
 
 import './FilterBar.less';

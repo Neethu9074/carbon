@@ -1,7 +1,7 @@
 import RoEmitter from 'roemitter';
 
-import {currentScene, currentTooltip, tooltipForSceneObject} from 'in-map/src/stores';
-import {longClickedSceneObject} from 'in-map/src/stores';
+import {currentScene, currentTooltip, tooltipForSceneObject} from 'in-map/src/mapStores';
+import {longClickedSceneObject} from 'in-map/src/mapStores';
 import * as snapshotStore from 'in-stores/snapshot';
 import Subscriber from 'in-map/src/Subscriber';
 import eventBus from 'in-map/eventbus';

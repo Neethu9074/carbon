@@ -1,4 +1,4 @@
-import {currentTooltip} from 'in-map/src/stores';
+import {currentTooltip} from 'in-map/src/mapStores';
 
 export default class TooltipHandler {
 

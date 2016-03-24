@@ -5,7 +5,7 @@ import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
-import {selectedTimePicker, setSelectedTimePicker, TIME_PICKER} from '../stores';
+import {selectedTimePicker, setSelectedTimePicker, TIME_PICKER} from '../timelineStores';
 import FixedTimeWindowPicker from './FixedTimeWindowPicker';
 import TimeRangePicker from './TimeRangePicker';
 

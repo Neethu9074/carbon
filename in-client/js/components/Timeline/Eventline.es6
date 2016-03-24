@@ -1,13 +1,13 @@
+import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {focusedMoment} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
+import {issue$} from './timelineStores';
 import IssueLine from './IssueLine';
-import {issue$} from './stores';
 import Issue from './Issue';
 
 import './Eventline.less';

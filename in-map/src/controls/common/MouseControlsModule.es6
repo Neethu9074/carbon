@@ -1,6 +1,6 @@
 import * as ro from 'reactive-observables';
 
-import {cursorPosition} from 'in-map/src/stores';
+import {cursorPosition} from 'in-map/src/mapStores';
 import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 

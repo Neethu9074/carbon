@@ -13,7 +13,7 @@ import {
   clearChangeTimeButtonFromSelected,
   selectedTimeRange,
   TIME_RANGES
-} from './stores';
+} from './timelineStores';
 import TimePicker from './TimePicker';
 
 import './ChangeTimeButton.less';

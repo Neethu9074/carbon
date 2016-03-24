@@ -5,7 +5,10 @@ import moment from 'moment';
 
 import connectTo from 'in-hoc/connectTo';
 
-import {Issue$, selectedNotificationFilter} from 'in-components/NotificationCenterFlyout/stores';
+import {
+  Issue$,
+  selectedNotificationFilter
+} from 'in-components/NotificationCenterFlyout/notificationCenterFlyoutStores';
 import IssueDescription from 'in-components/IssueDescription';
 
 import './IssueItemList.less';

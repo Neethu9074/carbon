@@ -8,7 +8,7 @@ import {
   ISSUE_LISTS,
   selectedIssueList,
   setSelectedList
-} from './stores';
+} from './notificationCenterFlyoutStores';
 
 import './IssueListSwitcher.less';
 

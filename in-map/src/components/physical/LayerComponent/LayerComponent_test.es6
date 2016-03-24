@@ -7,7 +7,7 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import SceneObject from 'in-map/src/3DSceneObjects/common/SceneObject';
-import {currentScene} from 'in-map/src/stores';
+import {currentScene} from 'in-map/src/mapStores';
 
 
 class SceneObjectWithSnapshotMock extends SceneObject {

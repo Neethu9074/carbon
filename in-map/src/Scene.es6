@@ -26,7 +26,7 @@ import MapHandler from './3DSceneObjects/common/MapHandler';
 import * as Handler from './AdaptiveDetailHandler';
 import {getMapStatistics} from './mapStatistics';
 import * as time from './timeCalculations';
-import * as stores from './stores';
+import * as stores from './mapStores';
 
 
 const MAX_NODE_OPACITY = 0.6;

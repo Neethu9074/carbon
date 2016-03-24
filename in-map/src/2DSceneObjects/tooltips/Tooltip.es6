@@ -1,4 +1,4 @@
-import {cursorPosition} from 'in-map/src/stores';
+import {cursorPosition} from 'in-map/src/mapStores';
 
 import SceneObject from '../SceneObject';
 

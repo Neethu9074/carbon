@@ -1,7 +1,7 @@
 import THREE from 'three';
 
 import AnimationController from 'in-map/src/AnimationController';
-import {longClickedSceneObject} from 'in-map/src/stores';
+import {longClickedSceneObject} from 'in-map/src/mapStores';
 import * as time from 'in-map/src/timeCalculations';
 
 import MouseControlsModule from '../common/MouseControlsModule';

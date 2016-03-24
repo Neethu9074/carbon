@@ -1,5 +1,5 @@
 import {getSnapshot} from 'in-stores/snapshot';
-import {nodeMaxPower} from 'in-map/src/stores';
+import {nodeMaxPower} from 'in-map/src/mapStores';
 import {getPower} from 'in-sdk/power';
 
 import Component from '../../common/Component';

@@ -4,9 +4,9 @@ import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stor
 import ConnectionTooltip from 'in-map/src/2DSceneObjects/tooltips/common/Connection';
 import {ALL_CONNECTIONS} from 'in-map/src/3DSceneObjects/common/Connection';
 import * as tooltipStore from 'in-services/stores/tooltip';
-import {tooltipForSceneObject} from 'in-map/src/stores';
+import {tooltipForSceneObject} from 'in-map/src/mapStores';
 import {emptyArray} from 'in-services/fixedObjects';
-import {currentTooltip} from 'in-map/src/stores';
+import {currentTooltip} from 'in-map/src/mapStores';
 
 import Module from './Module';
 
