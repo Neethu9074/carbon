@@ -26,10 +26,10 @@ import Timeline from './Timeline';
 
 
 import {
-  setSettingsVisibility,
-  showSettings$,
   notMonitoringDialogShown$,
-  notMonitoringWasShown
+  setSettingsVisibility,
+  notMonitoringWasShown,
+  showSettings$
 } from './appStores';
 
 import './App.less';
@@ -71,10 +71,10 @@ export default
     },
 
     showNotMonitoringDialogIfNecessary(props) {
-      if (props.isMonitoring === false && props.notMonitoringDialogShownBefore === false) {
+      if (!props.isMonitoring && !props.notMonitoringDialogShown) {
         notMonitoringWasShown();
         props.showHelp(203860032);
-      } else if (props.isMonitoring === true) {
+      } else if (props.isMonitoring) {
         props.closeHelpIfOpen(203860032);
       }
     },
