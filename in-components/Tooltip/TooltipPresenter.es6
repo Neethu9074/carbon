@@ -1,13 +1,13 @@
-import React from 'react';
 import ReactDOM from 'react-dom';
+import React from 'react';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
 import {applyTransform} from 'in-services/util/dom';
 import toPx from 'in-services/formatters/toPx';
-
-import enhance from '../hoc/enhance';
+import enhance from 'in-hoc/enhance';
 
 import './TooltipPresenter.less';
+
 
 const block = 'in-tooltip-presenter';
 const horizontalMargin = 10;

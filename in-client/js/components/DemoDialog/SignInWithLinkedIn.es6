@@ -3,7 +3,7 @@ import {get} from 'lodash';
 import React from 'react';
 import {createLogger} from 'instalog';
 
-import helpify from 'in-components/hoc/helpify';
+import helpify from 'in-hoc/helpify';
 import {getClassName} from 'in-services/react';
 
 import './SignInWithLinkedIn.less';

@@ -1,9 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import helpify from '../hoc/helpify';
+import helpify from 'in-hoc/helpify';
 
 import './HelpLink.less';
+
 
 const block = 'in-help-link';
 const rpt = React.PropTypes;

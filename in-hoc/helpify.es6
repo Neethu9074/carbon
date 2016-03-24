@@ -1,8 +1,10 @@
-import React from 'react';
 import {Navigation, State} from 'react-router';
+import React from 'react';
+
 
 export default function helpify(Component) {
   return React.createClass({
+
     displayName: 'Helpify for ' + Component.displayName,
 
     mixins: [Navigation, State],

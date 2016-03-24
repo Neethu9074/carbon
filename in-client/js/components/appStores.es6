@@ -1,10 +1,9 @@
 import {createStore} from 'in-stores/store';
 
-
 /*
   this store is used to handle the visibility of the settings dialog
 */
-export const showSettingsStore = createStore({
+const showSettingsStore = createStore({
   name: 'showSettings',
   initialValue: false
 });
@@ -20,7 +19,7 @@ export function setSettingsVisibility(value) {
   this store is used to handle the not-monitoring-dialog. It will only be shown once
   so we need to keep track of this information
 */
-export const notMonitoringDialogShownStore = createStore({
+const notMonitoringDialogShownStore = createStore({
   name: 'notMonitoringDialogShown',
   initialValue: false
 });

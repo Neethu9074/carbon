@@ -1,12 +1,12 @@
-import React from 'react';
-import {Navigation, State} from 'react-router';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {Navigation, State} from 'react-router';
 import {createLogger} from 'instalog';
+import React from 'react';
 
+import NotificationDialog from 'in-components/NotificationDialog';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import http from 'in-services/http';
 
-import LoadingIndicator from 'in-components/LoadingIndicator';
-import NotificationDialog from 'in-components/NotificationDialog';
 
 const logger = createLogger('in-client.HelpDialog');
 

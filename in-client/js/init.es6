@@ -9,6 +9,7 @@ import logging from 'instalog';
 import React from 'react';
 
 import * as subscriptonManager from 'in-services/subscription/subscriptionManager';
+import * as messageStore from 'in-components/MessageDialog/MessageDialogStores';
 import * as persistentConnection from 'in-services/persistentConnection';
 import * as timeOffsetStore from 'in-stores/timeOffset';
 import * as filteringStore from 'in-stores/filtering';
@@ -55,6 +56,7 @@ persistentConnection.init();
 subscriptonManager.init();
 timeOffsetStore.init();
 filteringStore.init();
+messageStore.init();
 
 if (window.instana.user) {
   tracking.identify();

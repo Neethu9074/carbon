@@ -7,6 +7,7 @@ import Icon from '../Icon';
 
 import './NotificationDialog.less';
 
+
 const rpt = React.PropTypes;
 const block = 'in-notification-dialog';
 

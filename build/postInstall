@@ -11,6 +11,7 @@ ln -s ../in-components node_modules/in-components
 ln -s ../in-test node_modules/in-test
 ln -s ../in-stores node_modules/in-stores
 ln -s ../in-hoc node_modules/in-hoc
+ln -s ../in-client node_modules/in-client
 
 # Try to install nginx for supported systems
 echo "Trying to install nginx for supported systems"

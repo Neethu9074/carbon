@@ -8,13 +8,14 @@ import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
+import MessageDialog from 'in-components/MessageDialog';
 import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
-import helpify from 'in-components/hoc/helpify';
 import Filterbar from 'in-components/Filterbar';
 import {isMonitoring} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
+import helpify from 'in-hoc/helpify';
 import Map from 'in-map';
 
 import NavigationAdapter from './NavigationAdapter';
@@ -24,7 +25,6 @@ import DemoDialog from './DemoDialog';
 import Settings from './Settings';
 import Timeline from './Timeline';
 
-
 import {
   notMonitoringDialogShown$,
   setSettingsVisibility,
@@ -33,6 +33,7 @@ import {
 } from './appStores';
 
 import './App.less';
+
 
 const rpt = React.PropTypes;
 
@@ -71,7 +72,7 @@ export default
     },
 
     showNotMonitoringDialogIfNecessary(props) {
-      if (!props.isMonitoring && !props.notMonitoringDialogShown) {
+      if (props.isMonitoring === false && props.notMonitoringDialogShown === false) {
         notMonitoringWasShown();
         props.showHelp(203860032);
       } else if (props.isMonitoring) {
@@ -113,6 +114,7 @@ export default
 
           {isDemoEnvironment() ? <DemoDialog /> : null}
 
+          <MessageDialog />
           <TooltipPresenter />
           <ConnectionStatus />
         </div>
