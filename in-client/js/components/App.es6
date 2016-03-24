@@ -25,6 +25,13 @@ import Settings from './Settings';
 import Timeline from './Timeline';
 
 
+import {
+  setSettingsVisibility,
+  showSettings$,
+  notMonitoringDialogShown$,
+  notMonitoringWasShown
+} from './appStores';
+
 import './App.less';
 
 const rpt = React.PropTypes;
@@ -32,6 +39,8 @@ const rpt = React.PropTypes;
 export default
   helpify(
   connectTo({
+    notMonitoringDialogShown: notMonitoringDialogShown$,
+    showSettings: showSettings$,
     isMonitoring
   },
   React.createClass({
@@ -46,40 +55,28 @@ export default
 
     propTypes: {
       closeHelpIfOpen: rpt.func.isRequired,
+      notMonitoringDialogShown: rpt.bool,
       showHelp: rpt.func.isRequired,
       state: rpt.object.isRequired,
+      showSettings: rpt.bool,
       isMonitoring: rpt.bool
     },
 
-    getInitialState() {
-      return {
-        showSettings: false,
-        notMonitoringDialogShownBefore: false
-      };
-    },
-
     componentWillMount() {
-      this.showNotMonitoringDialogIfNecessary(this.props, this.state);
+      this.showNotMonitoringDialogIfNecessary(this.props);
     },
 
     componentWillUpdate(nextProps, nextState) {
       this.showNotMonitoringDialogIfNecessary(nextProps, nextState);
     },
 
-    showNotMonitoringDialogIfNecessary(props, state) {
-      if (props.isMonitoring === false && state.notMonitoringDialogShownBefore === false) {
-        this.setState({
-          notMonitoringDialogShownBefore: true
-        });
+    showNotMonitoringDialogIfNecessary(props) {
+      if (props.isMonitoring === false && props.notMonitoringDialogShownBefore === false) {
+        notMonitoringWasShown();
         props.showHelp(203860032);
       } else if (props.isMonitoring === true) {
         props.closeHelpIfOpen(203860032);
       }
-    },
-
-    // TODO Ben replace with URL parameter
-    showMenu(show = true) {
-      this.setState({ showSettings: show });
     },
 
     render() {
@@ -89,14 +86,14 @@ export default
         <div>
           <NavigationAdapter />
 
-          {this.state.showSettings ? <Settings showMenu={this.showMenu}/> : null }
+          {this.props.showSettings ? <Settings showMenu={setSettingsVisibility}/> : null }
 
           {isInternalEnvironment() ?
             <MapViewSwitcher />
           : null}
 
           <Lettering className='in-root-lettering'/>
-          <AccountMenu showMenu={this.showMenu}
+          <AccountMenu showMenu={setSettingsVisibility}
                        className={'in-root-menu'}/>
           <NotificationCounter className={'in-root-notification-counter'}/>
 

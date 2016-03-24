@@ -43,9 +43,9 @@ export default connectTo(
   ],
 
   propTypes: {
+    tenantUnitStructure: React.PropTypes.any,
     className: React.PropTypes.string,
-    showMenu: React.PropTypes.func,
-    tenantUnitStructure: React.PropTypes.any
+    showMenu: React.PropTypes.func
   },
 
   getInitialState() {
@@ -61,9 +61,9 @@ export default connectTo(
     });
   },
 
-  showMenu(event) {
+  showMenu() {
     this.setState({open: false});
-    this.props.showMenu(event);
+    this.props.showMenu(true);
   },
 
   renderMenu() {
