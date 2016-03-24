@@ -116,7 +116,7 @@ const PhpFpmDashboard = React.createClass({
             </DashboardSection>
             <DashboardSection title={'Resources (' + data.get('worker_pool.' + pool + '.pool') + ')'}>
               <ChartWithLegend snapshot={snapshot}
-                               windowSize={timeframe}
+                               timeframe={timeframe}
                                height={chartHeight}
                                margins={{
                                  left: 90,
