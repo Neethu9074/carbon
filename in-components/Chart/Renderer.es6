@@ -2,9 +2,9 @@
 import * as ro from 'reactive-observables';
 import {sortedIndexBy} from 'lodash';
 import TWEEN from 'tween.js';
-import moment from 'moment';
 import d3 from 'd3';
 
+import {formatDateTime} from 'in-services/formatters/date';
 import * as timelineStore from 'in-stores/timeline';
 import {theme} from 'in-services/theme';
 
@@ -172,7 +172,7 @@ export default class Renderer {
   }
 
   fillTooltip() {
-    this.tooltipTime.textContent = moment(this.focusedY1[0].x).calendar();
+    this.tooltipTime.textContent = formatDateTime(this.focusedY1[0].x);
 
     const elements = this.tooltipValueElements;
 

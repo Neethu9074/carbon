@@ -6,6 +6,8 @@ import 'react-day-picker/lib/style.css';
 import moment from 'moment';
 import React from 'react';
 
+import {formatTime, formatDate} from 'in-services/formatters/date';
+
 import './DatePicker.less';
 
 
@@ -47,7 +49,7 @@ export default React.createClass({
             <br/>
             <input type='text'
                    className={block + '__input'}
-                   value={moment(date).format('YYYY-MM-DD')}
+                   value={formatDate(date.getTime())}
                    disabled={true}/>
           </div>
           <div>
@@ -57,7 +59,7 @@ export default React.createClass({
             <br/>
             <input type='text'
                    className={block + '__input'}
-                   value={moment(date).format('LT')}
+                   value={formatTime(date.getTime())}
                    onChange={(e) => this.onTimeChanged(e)}/>
           </div>
         </div>

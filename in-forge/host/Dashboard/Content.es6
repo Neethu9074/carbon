@@ -1,6 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import {IntlMixin} from 'react-intl';
 import Immutable from 'immutable';
 import React from 'react';
 
@@ -43,8 +42,7 @@ export default connectTo(
     displayName: 'HostDashboard',
 
     mixins: [
-      PureRenderMixin,
-      IntlMixin
+      PureRenderMixin
     ],
 
     propTypes: {
@@ -247,7 +245,7 @@ export default connectTo(
             </DashboardSection>
           : null}
 
-          <DashboardSection title={this.getIntlMessage('forge.os.filesystems')}>
+          <DashboardSection title='Filesystems'>
 
             {filesystemName ?
               <div>
@@ -370,7 +368,7 @@ export default connectTo(
           </DashboardSection>
 
           { interfaces ?
-            <DashboardSection title={this.getIntlMessage('forge.os.networkinterfaces')}>
+            <DashboardSection title='Network Interfaces'>
               {interfaceName ?
                 <div>
                   <ChartWithLegend snapshot={snapshot}

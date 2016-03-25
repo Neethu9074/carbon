@@ -1,6 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {RouteHandler, Navigation} from 'react-router';
-import {IntlMixin} from 'react-intl';
 import React from 'react';
 
 import {isInternalEnvironment, isDemoEnvironment} from 'in-services/config';
@@ -50,8 +49,7 @@ export default
 
     mixins: [
       PureRenderMixin,
-      Navigation,
-      IntlMixin
+      Navigation
     ],
 
     propTypes: {

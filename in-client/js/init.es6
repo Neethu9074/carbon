@@ -17,10 +17,6 @@ import * as tracking from 'in-services/tracking';
 
 import UiTrackerLogAppender from './UiTrackerLogAppender';
 import routes from './routes';
-import i18n from './i18n';
-
-// initiate time offset calculation. Module initialization has side effects.
-import './i18n/momentOverwrites';
 
 import './devtools/storeStates';
 
@@ -68,5 +64,5 @@ const router = reactRouter.create({
 });
 const container = document.getElementById('main');
 router.run((Root, state) => {
-  ReactDOM.render(<Root {...i18n} state={state} />, container);
+  ReactDOM.render(<Root state={state} />, container);
 });

@@ -1,6 +1,5 @@
 import TenantSwitcher from 'instana-ui-theme/components/TenantSwitcher';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {IntlMixin} from 'react-intl';
 import React from 'react';
 
 import {getTenantsWithUnits} from 'in-services/tenants';
@@ -38,8 +37,7 @@ export default connectTo(
   displayName: 'AccountMenu',
 
   mixins: [
-    PureRenderMixin,
-    IntlMixin
+    PureRenderMixin
   ],
 
   propTypes: {

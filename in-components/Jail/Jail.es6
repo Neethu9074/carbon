@@ -19,12 +19,9 @@ const Jail = React.createClass({
     props: rpt.object
   },
 
-  // Context types required by react-router and react-intl
+  // Context types required by react-router
   contextTypes: {
-    router: rpt.any,
-    locales: rpt.any,
-    formats: rpt.any,
-    messages: rpt.any
+    router: rpt.any
   },
 
   getInitialState() {

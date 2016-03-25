@@ -7,15 +7,7 @@ runWithPolyfills(() => {
 });
 
 function runWithPolyfills(fn) {
-  // Check if polyfill required
-  if (!window.Intl) {
-    // Webpack parses the inside of require([]) at build time to know that
-    // intl should be bundled separately.
-    require(['intl'], () => {
-      fn();
-    });
-  } else {
-    // Polyfill wasn't needed, carry on
-    fn();
-  }
+  // Including perf.now polyfill all the time since it is so small.
+  // Intl polyfill removed since we aren't using it anyway.
+  fn();
 }

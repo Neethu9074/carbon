@@ -15,7 +15,7 @@
     "dev": "export BUILD_DEV='true' && export NODE_ENV='development' && gulp dev",
     "check-updates": "ncu",
     "check-licenses": "license-checker > licenses.txt",
-    "check-bundle-size": "source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map"
+    "check-bundle-size": "npm run build && source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map"
   },
   "config": {
     "commitizen": {
@@ -37,7 +37,6 @@
     "immutable": "^3.7.1",
     "instalog": "^1.0.0",
     "instana-ui-theme": "^1.8.0",
-    "intl": "^0.1.4",
     "invariant": "^2.0.0",
     "lodash": "^4.0.0",
     "markdown-it": "6.0.0",
@@ -48,7 +47,6 @@
     "react-dom": "^0.14.7",
     "react-immutable-proptypes": "^1.0.0",
     "react-infinite": "0.9.0",
-    "react-intl": "^1.2.0",
     "react-router": "^0.13.3",
     "reactive-observables": "^1.23.0",
     "roemitter": "^2.0.0",

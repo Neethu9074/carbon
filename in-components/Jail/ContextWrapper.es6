@@ -4,7 +4,7 @@ const rpt = React.PropTypes;
 
 const ContextWrapper = React.createClass({
 
-  // Context types required by react-router and react-intl
+  // Context types required by react-router
   propTypes: {
     context: rpt.object.isRequired,
     component: rpt.any.isRequired,
@@ -12,10 +12,7 @@ const ContextWrapper = React.createClass({
   },
 
   childContextTypes: {
-    router: rpt.any,
-    locales: rpt.any,
-    formats: rpt.any,
-    messages: rpt.any
+    router: rpt.any
   },
 
   getChildContext() {

@@ -1,5 +1,4 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {IntlMixin} from 'react-intl';
 import React from 'react';
 
 import * as timelineStore from 'in-stores/timeline';
@@ -15,23 +14,21 @@ export default React.createClass({
   displayName: 'TimeRangePicker',
 
   mixins: [
-    PureRenderMixin,
-    IntlMixin
+    PureRenderMixin
   ],
 
   render() {
     return (
       <div className={block}>
-        {this.createButton(1000 * 60 * 10, 'timePicker.time1')}
-        {this.createButton(1000 * 60 * 60, 'timePicker.time2')}
-        {this.createButton(1000 * 60 * 60 * 12, 'timePicker.time3')}
-        {this.createButton(1000 * 60 * 60 * 24, 'timePicker.time4')}
+        {this.createButton(1000 * 60 * 10, '10 M')}
+        {this.createButton(1000 * 60 * 60, '1 H')}
+        {this.createButton(1000 * 60 * 60 * 12, '12 H')}
+        {this.createButton(1000 * 60 * 60 * 24, '24 H')}
       </div>
     );
   },
 
-  createButton(timeframe, content) {
-    const label = this.getIntlMessage(content);
+  createButton(timeframe, label) {
     return (
       <span className={block + '__item'}
             onClick={() => this.onTimePickerItemClicked(timeframe)}>
