@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Only active the following flag if you run into problems
+# Only activate the following flag if you run into problems
 # set -x
 
 # Activate NVM. NVM activation will fail when the user does not
