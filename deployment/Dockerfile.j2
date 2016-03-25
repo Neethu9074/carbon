@@ -26,10 +26,17 @@ RUN mkdir -p /etc/nginx \
     mv /opt/all/deployment/services/in-server.sh   /etc/service/in-server/run && \
     mv /opt/all/deployment/discovery               /opt/discovery && \
 
+    # Install dependencies inside the container. We need to do this to compile
+    # native extensions against the image's operating system. This makes the
+    # build a bit slower, but is the only technically correct way.
+    cd /opt/www && \
+    npm install --production && \
+
     # Now that we moved all files, we can remove the all directory and
     # all the other files that were only interesting for the image
     # setup
     apt-get clean && \
+    apt-get purge && \
     rm -rf /opt/all /var/lib/apt/lists/* /tmp/* /var/tmp/**
 
 CMD ["/sbin/my_init"]
