@@ -14,7 +14,8 @@
     "execute-tests": "gulp prepareTestExecution && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
     "dev": "export BUILD_DEV='true' && export NODE_ENV='development' && gulp dev",
     "check-updates": "ncu",
-    "check-licenses": "license-checker > licenses.txt"
+    "check-licenses": "license-checker > licenses.txt",
+    "check-bundle-size": "source-map-explorer target/assets/bundle/index.js target/assets/bundle/index.js.map"
   },
   "config": {
     "commitizen": {
@@ -98,6 +99,7 @@
     "run-sequence": "^1.1.2",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.8.0",
+    "source-map-explorer": "1.3.0",
     "style-loader": "^0.8.3",
     "url-loader": "^0.5.5",
     "webpack": "^1.5.3",
