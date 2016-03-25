@@ -2,12 +2,11 @@
 /* eslint-disable no-var, strict */
 'use strict';
 
-var webpack = require('webpack');
 var path = require('path');
+var webpack = require('webpack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var definePlugin = new webpack.DefinePlugin({
-  __INTERNAL__: JSON.stringify(JSON.parse(process.env.BUILD_INTERNAL || 'false')),
   __DEV__: JSON.stringify(JSON.parse(process.env.BUILD_DEV || 'true')),
 
   // this is necessary for the React and Invariant modules

@@ -1,6 +1,6 @@
 // Require the forge to add pluggables before everything else to ensure that
 // the SDK is properly configured.
-/* eslint-disable import-order/import-order */
+/* eslint-disable instana-import-order/instana-import-order */
 import 'in-forge';
 
 import * as reactRouter from 'react-router';
