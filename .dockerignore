@@ -1,4 +1,3 @@
-node_modules
-in-*
-.npmrc
-.npmrc.sample
+*
+!target
+!deployment
