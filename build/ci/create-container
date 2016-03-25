@@ -19,4 +19,5 @@ sudo docker build -t "registry-internal.instana.io/instana/$IMAGE" .
 sudo docker tag -f "registry-internal.instana.io/instana/$IMAGE" "registry-internal.instana.io/instana/$IMAGE:$VERSION"
 
 echo "Publishing Docker image ..."
-sudo docker push "registry-internal.instana.io/instana/$IMAGE"
+sudo docker push "registry-internal.instana.io/instana/$IMAGE:latest"
+sudo docker push "registry-internal.instana.io/instana/$IMAGE:$VERSION"
