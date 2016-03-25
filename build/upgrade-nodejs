@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Only active the following flag if you run into problems
 # set -x
