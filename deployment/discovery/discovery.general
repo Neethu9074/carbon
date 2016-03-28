@@ -2,6 +2,9 @@
 
 export CURL="curl --connect-timeout 10 -m 10 -s"
 
+mkdir -p /var/discovery
+echo -n "" > /var/discovery/dependencies
+
 discovery_options=${DISCOVERY//,/$'\n'}
 for discovery_option in $discovery_options
 do

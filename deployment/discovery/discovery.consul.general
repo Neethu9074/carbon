@@ -15,6 +15,9 @@ consul_discover_environment_single() {
     DEP_UPPER=$(echo ${DEP^^} | tr '-' '_')
     eval "export ${DEP_UPPER}_PORT=$(${CURL} ${CONSUL_GETURL}/$REGION-$ENVIRONMENT-${DEP_LOWER} | jq '.[0].ServicePort')"
     eval "export ${DEP_UPPER}_HOST=$(${CURL} ${CONSUL_GETURL}/$REGION-$ENVIRONMENT-${DEP_LOWER} | jq '.[0].Address' | tr -d '\"')"
+    hostvar=${DEP_UPPER}_HOST
+    portvar=${DEP_UPPER}_PORT
+    echo "$REGION-$ENVIRONMENT-${DEP_LOWER}=${!hostvar}:${!portvar}" >> /var/discovery/dependencies
 }
 
 consul_discover_unit_single() {
@@ -23,6 +26,9 @@ consul_discover_unit_single() {
     DEP_UPPER=$(echo ${DEP^^} | tr '-' '_')
     eval "export ${DEP_UPPER}_PORT=$(${CURL} ${CONSUL_GETURL}/$REGION-$ENVIRONMENT-$TENANT-$UNIT-${DEP_LOWER} | jq '.[0].ServicePort')"
     eval "export ${DEP_UPPER}_HOST=$(${CURL} ${CONSUL_GETURL}/$REGION-$ENVIRONMENT-$TENANT-$UNIT-${DEP_LOWER} | jq '.[0].Address' | tr -d '\"')"
+    hostvar=${DEP_UPPER}_HOST
+    portvar=${DEP_UPPER}_PORT
+    echo "$REGION-$ENVIRONMENT-$TENANT-$UNIT-${DEP_LOWER}=${!hostvar}:${!portvar}" >> /var/discovery/dependencies
 }
 
 consul_discover_region_multiple() {
@@ -31,6 +37,9 @@ consul_discover_region_multiple() {
     DEP_UPPER=$(echo ${DEP^^} | tr '-' '_')
     eval "export ${DEP_UPPER}_HOSTS=$(${CURL} $CONSUL_GETURL/$REGION-$DATA_SCOPE-${DEP_LOWER} | jq '.[].Address' | while read a; do echo -n "${a:1:-1},"; done | head -c -1)
     eval "export ${DEP_UPPER}_PORT=$(${CURL} $CONSUL_GETURL/$REGION-$DATA_SCOPE-${DEP_LOWER} | jq '.[0].ServicePort')
+    hostvar=${DEP_UPPER}_HOSTS
+    portvar=${DEP_UPPER}_PORT
+    echo "$REGION-$DATA_SCOPE-${DEP_LOWER}=${!hostvar}:${!portvar}" >> /var/discovery/dependencies
 }
 
 ${CURL} "http://localhost:8500/v1/catalog/services" > /dev/null
