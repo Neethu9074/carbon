@@ -15,6 +15,7 @@ const getSriIntegrityForFile = checkSumMod.getSriIntegrityForFile;
 
 const router = module.exports = express.Router();
 
+const staticFileMaxCachingDurationMs = 1000 * 60 * 60 * 24 * 7;
 
 const rawTemplate = fs.readFileSync(
   path.join(__dirname, 'templates', 'index.hbs'),
@@ -51,7 +52,9 @@ const themes = fs.readdirSync(bundleDir)
   }, {});
 
 // assets directory will be populated with generated JavaScript during the build process.
-router.use(express.static(assetDir));
+router.use(express.static(assetDir, {
+  maxAge: staticFileMaxCachingDurationMs
+}));
 
 
 router.get('/', (req, res) => {
@@ -157,6 +160,9 @@ function sendIndexJs(req, res) {
       if (err) {
         res.sendStatus(404);
       }
+    },
+    {
+      maxAge: staticFileMaxCachingDurationMs
     }
   );
 }
@@ -177,6 +183,9 @@ router.get('/bundle/theme-*.css', (req, res) => {
       if (err) {
         res.sendStatus(404);
       }
+    },
+    {
+      maxAge: staticFileMaxCachingDurationMs
     }
   );
 });
