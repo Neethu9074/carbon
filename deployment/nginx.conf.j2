@@ -122,8 +122,8 @@ http {
       add_header             Strict-Transport-Security "max-age=10886400; includeSubDomains; preload";
 
       # tell browsers to preconnect google for downloading webfonts
-      add_header             Link: "<https://fonts.googleapis.com>; rel=preconnect; crossorigin";
-      add_header             Link: "<https://fonts.gstatic.com>; rel=preconnect; crossorigin";
+      add_header             Link "<https://fonts.googleapis.com>; rel=preconnect; crossorigin";
+      add_header             Link "<https://fonts.gstatic.com>; rel=preconnect; crossorigin";
     }
 
     location / {
