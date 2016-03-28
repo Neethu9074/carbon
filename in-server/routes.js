@@ -157,13 +157,11 @@ router.get('/bundle/index-*.js', sendIndexJs);
 function sendIndexJs(req, res) {
   res.sendFile(
     path.join(bundleDir, 'index.js'),
+    {maxAge: staticFileMaxCachingDurationMs},
     err => {
       if (err) {
         res.sendStatus(404);
       }
-    },
-    {
-      maxAge: staticFileMaxCachingDurationMs
     }
   );
 }
@@ -180,13 +178,11 @@ router.get('/bundle/theme-*.css', (req, res) => {
   const themeName = match[1];
   res.sendFile(
     path.join(bundleDir, 'theme-' + themeName + '.css'),
+    {maxAge: staticFileMaxCachingDurationMs},
     err => {
       if (err) {
         res.sendStatus(404);
       }
-    },
-    {
-      maxAge: staticFileMaxCachingDurationMs
     }
   );
 });
