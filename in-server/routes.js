@@ -138,7 +138,8 @@ function askUiBackendWhetherTheRequestIsAuthorized(req, cb) {
     url: serverConfig.uiBackendBaseUrl + '/checkUserAccessPermitted',
     headers: {
       'Cookie': 'in-token=' + req.cookies['in-token']
-    }
+    },
+    timeout: 1000 * 5
   }, (error, response) => {
     if (error) {
       cb(error, null, null);
