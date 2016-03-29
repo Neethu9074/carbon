@@ -84,11 +84,13 @@ export default connectTo({
     renderIssues() {
       const issues = this.props.issues;
       if (!issues || issues.size === 0) {
+        console.log('return because of');
         return null;
       }
 
       const times = this.props.times;
-      const maxOldestPermittedIssueTimestamp = times.serverTime - times.timeframe.windowSize;
+      const maxOldestPermittedIssueTimestamp =
+        (times.timeframe.to ? times.timeframe.to : times.serverTime ) - times.timeframe.windowSize;
       const maxNewestTimeStamp = times.timeframe.to ? times.timeframe.to : Infinity;
 
       return issues
