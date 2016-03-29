@@ -39,12 +39,12 @@ export default connectTo({
           <Button className={buttonBlock +
                              (this.props.selectedIssueList === ISSUE_LISTS.HISTORICAL ? selectedClassName : '')}
                   onClick={() => setSelectedList(ISSUE_LISTS.HISTORICAL)}>
-            historical
+            custom timerange
           </Button>
           <Button className={buttonBlock +
                             (this.props.selectedIssueList === ISSUE_LISTS.CURRENT ? selectedClassName : '')}
                   onClick={() => setSelectedList(ISSUE_LISTS.CURRENT)}>
-            current
+            active
           </Button>
         </div>
       );
