@@ -1,0 +1,37 @@
+.in-trace-table-row {
+  // needs to be kept in sync with the react infinite configuration
+  height: 38px;
+  line-height: 38px;
+  cursor: pointer;
+  color: #2D4048;
+  font-size: 0.75rem;
+  border-radius: 0.25rem;
+  padding: 0 0.625rem;
+
+  &:nth-child(odd) {
+    background: #EEF2F4;
+  }
+
+  &:hover, &--selected.in-trace-table-row {
+    background: #4A90E2;
+    color: #fff;
+  }
+
+  &__cell {
+    width: 60%;
+    display: inline-block;
+
+    // we cannot flow into new lines as this would break infinite scrolling
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+    &:first-child {
+      width: 25%;
+    }
+
+    &:last-child {
+      width: 15%;
+    }
+  }
+}
