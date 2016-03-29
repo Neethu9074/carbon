@@ -1,8 +1,8 @@
 import RoEmitter from 'roemitter';
 
 import {currentScene, currentTooltip, tooltipForSceneObject} from 'in-map/src/mapStores';
+import {selectedSnapshotIdForHighlightingInMap} from 'in-map/src/mapStores';
 import {longClickedSceneObject} from 'in-map/src/mapStores';
-import * as snapshotStore from 'in-stores/snapshot';
 import Subscriber from 'in-map/src/Subscriber';
 import eventBus from 'in-map/eventbus';
 
@@ -33,10 +33,14 @@ export default class SceneObject extends Subscriber {
     this.stateMachine.initialized();
 
     this.addSubscriptions([
-      snapshotStore.selectedSnapshotIdForHighlightingInMap.subscribe(selectedId =>
-        this.stateMachine.changeStateProperty(PROPERTIES.SELECTED,
-          selectedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF)
-      ),
+      selectedSnapshotIdForHighlightingInMap.subscribe(selectedId => {
+        const isThisSelected = selectedId === this.id;
+        if (isThisSelected) {
+          this.stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.ON);
+        } else if (!isThisSelected && this.isSelected()) {
+          this.stateMachine.changeStateProperty(PROPERTIES.SELECTED, PROPERTY_VALUES.OFF);
+        }
+      }),
 
       tooltipForSceneObject.subscribe(sOId => {
         if (sOId === this.id) {

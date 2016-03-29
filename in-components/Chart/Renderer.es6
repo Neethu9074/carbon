@@ -26,6 +26,7 @@ export default class Renderer {
         container,
         height,
         windowSize,
+        rollupMillis,
         margins,
         y1,
         y2
@@ -34,6 +35,7 @@ export default class Renderer {
     this.container = container;
     this.windowSize = windowSize;
     this.tween = null;
+    this.rollupMillis = rollupMillis;
 
     this.x = d3.time.scale();
     this.x.axis = d3.svg.axis()
@@ -457,12 +459,19 @@ export default class Renderer {
   }
 
   draw() {
+    const start = this.x.domain()[0];
+    // The next expected point is the point at we which we would expect a next data point
+    // to exist. We add a small margin to this to account for errors and delays.
+    const expectedNextPoint = new Date(start.getTime() + this.rollupMillis * 5);
+    const maxDistanceBetweenPoints = this.x(expectedNextPoint) - this.x(start);
+
     this.y1.config.renderer.draw({
       dataColumns: this.y1.data.getDataColumns(),
       series: this.y1.config.seriesConfig,
       ctx: this.drawingCtx,
       x: this.x,
-      y: this.y1
+      y: this.y1,
+      maxDistanceBetweenPoints
     });
 
     if (this.y2) {
@@ -471,7 +480,8 @@ export default class Renderer {
         series: this.y2.config.seriesConfig,
         ctx: this.drawingCtx,
         x: this.x,
-        y: this.y2
+        y: this.y2,
+        maxDistanceBetweenPoints
       });
     }
   }
