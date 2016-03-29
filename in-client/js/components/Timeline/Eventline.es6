@@ -74,8 +74,9 @@ export default connectTo({
 
     return issues
       .filter(issue => {
-        return issue.get('start') > this.props.maxOldestPermittedIssueTimestamp &&
-               issue.get('start') < this.props.maxNewestTimeStamp;
+        const start = issue.get('start');
+        return start > this.props.maxOldestPermittedIssueTimestamp &&
+               start < this.props.maxNewestTimeStamp;
       })
       .map(issue => <Issue key={issue.get('id')}
                            mouseIn={this.mouseIn}
