@@ -1,39 +1,62 @@
+export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints}) {
+  let currentRenderIndex = 0;
+  const end = dataColumns.length - 1;
+  while (currentRenderIndex < end) {
+    currentRenderIndex = renderUntilGap(currentRenderIndex);
+  }
 
+  function renderUntilGap(startingPoint) {
+    let endIndex = null;
 
-export function draw({dataColumns, ctx, series, x, y}) {
-  series.forEach((s, seriesIndex) => {
-    ctx.beginPath();
+    series.forEach((s, seriesIndex) => {
+      ctx.beginPath();
 
-    // going left to right
-    for (let columnIndex = 0, len = dataColumns.length;
-       columnIndex < len;
-       columnIndex++) {
-      const dataColumn = dataColumns[columnIndex];
-      const dataRow = dataColumn[seriesIndex];
+      let previousX = Number.MAX_VALUE * -1;
+      let seriesEndIndex = null;
 
-      if (columnIndex === 0) {
-        // subtract one to ensure that the line is always visible
-        ctx.moveTo(x(dataRow.x), y(dataRow.y1) - 1);
-      } else {
-        // subtract one to ensure that the line is always visible
-        ctx.lineTo(x(dataRow.x), y(dataRow.y1) - 1);
+      // going left to right
+      for (let columnIndex = startingPoint, len = dataColumns.length;
+         columnIndex < len && seriesEndIndex == null;
+         columnIndex++) {
+        const dataColumn = dataColumns[columnIndex];
+        const dataRow = dataColumn[seriesIndex];
+        const xToRender = x(dataRow.x);
+
+        if (columnIndex === startingPoint) {
+          // subtract one to ensure that the line is always visible
+          ctx.moveTo(xToRender, y(dataRow.y1) - 1);
+          previousX = xToRender;
+        } else if ((xToRender - previousX) > maxDistanceBetweenPoints) {
+          seriesEndIndex = columnIndex;
+        } else {
+          // subtract one to ensure that the line is always visible
+          ctx.lineTo(xToRender, y(dataRow.y1) - 1);
+          previousX = xToRender;
+        }
       }
-    }
 
-    // going right to left to draw the bottom line
-    for (let columnIndex = dataColumns.length - 1;
-       columnIndex >= 0;
-       columnIndex--) {
-      const dataColumn = dataColumns[columnIndex];
-      const dataRow = dataColumn[seriesIndex];
+      if (seriesEndIndex == null) {
+        seriesEndIndex = dataColumns.length - 1;
+      }
 
-      ctx.lineTo(x(dataRow.x), y(dataRow.y0));
-    }
+      // going right to left to draw the bottom line
+      for (let columnIndex = seriesEndIndex - 1;
+         columnIndex >= startingPoint;
+         columnIndex--) {
+        const dataColumn = dataColumns[columnIndex];
+        const dataRow = dataColumn[seriesIndex];
 
-    ctx.closePath();
-    ctx.fillStyle = s.color;
-    ctx.fill();
-  });
+        ctx.lineTo(x(dataRow.x), y(dataRow.y0));
+      }
+
+      ctx.closePath();
+      ctx.fillStyle = s.color;
+      ctx.fill();
+      endIndex = seriesEndIndex;
+    });
+
+    return endIndex;
+  }
 }
 
 
