@@ -2,9 +2,11 @@ import React from 'react';
 
 import './Grid.less';
 
+const rpt = React.PropTypes;
+
 export const Row = ({children}) => <div className='grid__row'>{children}</div>;
 Row.propTypes = {
-  children: React.PropTypes.any
+  children: rpt.any
 };
 
 
@@ -17,7 +19,7 @@ export const Col = ({offset, cols, children}) => {
   return <div className={classes}>{children}</div>;
 };
 Col.propTypes = {
-  offset: React.PropTypes.number,
-  cols: React.PropTypes.number.isRequired,
-  children: React.PropTypes.any
+  offset: rpt.number,
+  cols: rpt.number.isRequired,
+  children: rpt.any
 };
