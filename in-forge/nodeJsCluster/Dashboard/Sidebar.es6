@@ -19,9 +19,7 @@ export default React.createClass({
     const snapshot = this.props.snapshot;
 
     return (
-      <div>
-        <ClusterMembersList snapshotId={snapshot.get('id')} />
-      </div>
+      <ClusterMembersList snapshotId={snapshot.get('id')} />
     );
   }
 });
