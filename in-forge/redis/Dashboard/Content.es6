@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
+  bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   percentageZeroDecimalPlaces,
   zeroDecimalPlaces,
@@ -59,7 +60,8 @@ export default connectTo(
                                y1={{
                                  metrics: dbs.toArray().map(name => 'db.' + name),
                                  labels: dbs.toArray(),
-                                 type: 'line'
+                                 type: 'line',
+                                 formatter: zeroDecimalPlaces
                                }}/>
             </DashboardSection>
           : null}
@@ -143,7 +145,8 @@ export default connectTo(
                              }}
                              y1={{
                                min: 0,
-                               formatter: bytesTwoDecimalPlaces,
+                               formatter: bytesZeroDecimalPlaces,
+                               tooltipFormatter: bytesTwoDecimalPlaces,
                                metrics: [
                                  'used_memory',
                                  'used_memory_rss',
@@ -214,11 +217,11 @@ export default connectTo(
                 {this.props.slowLogs.toArray()
                   .sort((a, b) => a.get('timestamp') - b.get('timestamp'))
                   .map(slog =>
-                    <tr>
+                    <tr key={slog.get('id')}>
                       <td>{slog.get('id')}</td>
                       <td>{formatUnixDateTime(slog.get('timestamp'))}</td>
                       <td>{timeByMicroTwoDecimalPlaces(slog.get('duration'))}</td>
-                      <td>{slog.get('args').toArray().map(a => a + ' ')}</td>
+                      <td>{slog.get('args').join(' ')}</td>
                     </tr>
                   )}
                 </tbody>
