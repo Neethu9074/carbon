@@ -3,6 +3,7 @@ export function draw({dataColumns, ctx, series, x, y, maxDistanceBetweenPoints})
     ctx.beginPath();
 
     let previousX = Number.MAX_VALUE * -1;
+
     // going left to right
     for (let columnIndex = 0, len = dataColumns.length;
          columnIndex < len;

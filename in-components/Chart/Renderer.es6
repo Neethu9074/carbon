@@ -462,7 +462,7 @@ export default class Renderer {
     const start = this.x.domain()[0];
     // The next expected point is the point at we which we would expect a next data point
     // to exist. We add a small margin to this to account for errors and delays.
-    const expectedNextPoint = new Date(start.getTime() + this.rollupMillis * 1.5);
+    const expectedNextPoint = new Date(start.getTime() + this.rollupMillis * 5);
     const maxDistanceBetweenPoints = this.x(expectedNextPoint) - this.x(start);
 
     this.y1.config.renderer.draw({
