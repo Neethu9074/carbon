@@ -84,7 +84,6 @@ export default connectTo({
     renderIssues() {
       const issues = this.props.issues;
       if (!issues || issues.size === 0) {
-        console.log('return because of');
         return null;
       }
 
