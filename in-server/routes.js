@@ -15,6 +15,7 @@ const getSriIntegrityForFile = checkSumMod.getSriIntegrityForFile;
 
 const router = module.exports = express.Router();
 
+const staticFileMaxCachingDurationMs = 1000 * 60 * 60 * 24 * 7;
 
 const rawTemplate = fs.readFileSync(
   path.join(__dirname, 'templates', 'index.hbs'),
@@ -51,7 +52,9 @@ const themes = fs.readdirSync(bundleDir)
   }, {});
 
 // assets directory will be populated with generated JavaScript during the build process.
-router.use(express.static(assetDir));
+router.use(express.static(assetDir, {
+  maxAge: staticFileMaxCachingDurationMs
+}));
 
 
 router.get('/', (req, res) => {
@@ -135,7 +138,8 @@ function askUiBackendWhetherTheRequestIsAuthorized(req, cb) {
     url: serverConfig.uiBackendBaseUrl + '/checkUserAccessPermitted',
     headers: {
       'Cookie': 'in-token=' + req.cookies['in-token']
-    }
+    },
+    timeout: 1000 * 5
   }, (error, response) => {
     if (error) {
       cb(error, null, null);
@@ -153,6 +157,7 @@ router.get('/bundle/index-*.js', sendIndexJs);
 function sendIndexJs(req, res) {
   res.sendFile(
     path.join(bundleDir, 'index.js'),
+    {maxAge: staticFileMaxCachingDurationMs},
     err => {
       if (err) {
         res.sendStatus(404);
@@ -173,6 +178,7 @@ router.get('/bundle/theme-*.css', (req, res) => {
   const themeName = match[1];
   res.sendFile(
     path.join(bundleDir, 'theme-' + themeName + '.css'),
+    {maxAge: staticFileMaxCachingDurationMs},
     err => {
       if (err) {
         res.sendStatus(404);
