@@ -1,5 +1,3 @@
-
-
 const CIRCLE_ARC = 2 * Math.PI;
 
 export function draw({dataColumns, ctx, series, x, y}) {
