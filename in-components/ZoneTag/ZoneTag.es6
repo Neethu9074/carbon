@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getColorPool} from 'in-services/util/ColorGenerator';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getClassName} from 'in-services/react';
 import getZone from 'in-hoc/getZone';
 
@@ -29,9 +30,13 @@ export default getZone(React.createClass({
       return null;
     }
 
+    const id = snapshot.get('id');
+    const color = getColorPool('groups').getColorHex(id);
+
     return (
       <div className={getClassName(this, block)}
-           style={{color: getColorPool('groups').getColorHex(snapshot.get('id'))}}>
+           onClick={() => setSelectedSnapshotId(id)}
+           style={{color}}>
         {snapshot.getIn(['data', 'groupId'])}
       </div>
     );

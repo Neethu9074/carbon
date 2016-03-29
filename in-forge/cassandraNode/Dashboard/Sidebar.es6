@@ -41,7 +41,8 @@ const CassandraSidebar = React.createClass({
             Topology
           </Collapsible.Header>
           <Collapsible.Content>
-            <CassandraTopologyInfo snapshot={snapshot} />
+            <CassandraTopologyInfo snapshotId={snapshot.get('id')}
+                                   snapshot={snapshot} />
           </Collapsible.Content>
         </Collapsible>
 
