@@ -42,10 +42,12 @@ export default class Layer extends SceneObjectWithSnapshot {
   }
 
   onHighlightEnter() {
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onHighlightLeave() {
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
 
@@ -54,17 +56,17 @@ export default class Layer extends SceneObjectWithSnapshot {
     this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
+  onSelectedLeave() {
+    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
+  }
+
   onSelectedHighlightEnter() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
     this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
   }
 
   onSelectedHighlightLeave() {
-    this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-    this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
-  }
-
-  onSelectedLeave() {
     this.changeComponentState('highlight', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
     this.changeComponentState('solidMesh', PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
   }
