@@ -23,7 +23,7 @@ export default React.createClass({
     return (
       <div>
         <DescriptionList>
-          <DescriptionItem title='Clustername'>
+          <DescriptionItem title='Cluster name'>
             {data.get('groupId')}
           </DescriptionItem>
         </DescriptionList>
