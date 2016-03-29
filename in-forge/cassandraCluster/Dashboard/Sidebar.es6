@@ -2,7 +2,13 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-const CassandraClusterSidebar = React.createClass({
+import ClusterMembersList from 'in-components/ClusterMembersList';
+
+
+export default React.createClass({
+
+  displayName: 'CassandraClusterSidebar',
+
   mixins: [PureRenderMixin],
 
   propTypes: {
@@ -10,10 +16,12 @@ const CassandraClusterSidebar = React.createClass({
   },
 
   render() {
+    const snapshot = this.props.snapshot;
+
     return (
-      <div/>
+      <div>
+        <ClusterMembersList snapshotId={snapshot.get('id')} />
+      </div>
     );
   }
 });
-
-export default CassandraClusterSidebar;
