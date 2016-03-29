@@ -14,6 +14,9 @@ IMAGE="ui-client/$INSTANA_UICLIENT_BRANCH"
 if [ -z "$IMAGE" ]; then echo "no image provided"; exit 1; fi
 if [ -z "$VERSION" ]; then echo "no version provided"; exit 2; fi
 
+rm -rf ext-discovery
+git clone git@github.com:instana/discovery.git ext-discovery
+
 echo "Building Docker image ..."
 sudo docker build -t "registry-internal.instana.io/instana/$IMAGE" .
 sudo docker tag -f "registry-internal.instana.io/instana/$IMAGE" "registry-internal.instana.io/instana/$IMAGE:$VERSION"

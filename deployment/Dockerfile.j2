@@ -25,6 +25,7 @@ RUN mkdir -p /etc/nginx \
     mv /opt/all/deployment/services/nginx.sh       /etc/service/nginx/run && \
     mv /opt/all/deployment/services/in-server.sh   /etc/service/in-server/run && \
     mv /opt/all/deployment/discovery               /opt/discovery && \
+    mv /opt/all/deployment/ext-discovery/*         /opt/discovery/ && \
 
     # Install dependencies inside the container. We need to do this to compile
     # native extensions against the image's operating system. This makes the
