@@ -30,6 +30,7 @@ export default connectTo({
   propTypes: {
     maxOldestPermittedIssueTimestamp: rpt.number.isRequired,
     renderedForTimestamp: rpt.number.isRequired,
+    maxNewestTimeStamp: rpt.number.isRequired,
     scale: rpt.func.isRequired,
     focusedMoment: rpt.number,
     issues: irpt.list
@@ -72,7 +73,10 @@ export default connectTo({
     }
 
     return issues
-      .filter(issue => issue.get('start') > this.props.maxOldestPermittedIssueTimestamp)
+      .filter(issue => {
+        return issue.get('start') > this.props.maxOldestPermittedIssueTimestamp &&
+               issue.get('start') < this.props.maxNewestTimeStamp;
+      })
       .map(issue => <Issue key={issue.get('id')}
                            mouseIn={this.mouseIn}
                            mouseOut={this.mouseOut}

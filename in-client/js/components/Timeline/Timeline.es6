@@ -64,7 +64,8 @@ export default connectTo({
 
         <Eventline renderedForTimestamp={this.props.serverTime}
                    scale={this.scale}
-                   maxOldestPermittedIssueTimestamp={this.props.maxOldestPermittedIssueTimestamp} />
+                   maxOldestPermittedIssueTimestamp={this.props.maxOldestPermittedIssueTimestamp}
+                   maxNewestTimeStamp={this.props.timeframe.to ? this.props.timeframe.to : Infinity} />
 
         <ChangeTimeButtonTo/>
       </div>
