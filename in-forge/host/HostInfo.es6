@@ -3,8 +3,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import TagListSnapshot from 'in-components/TagListSnapshot';
 import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
+import TagListSnapshot from 'in-components/TagListSnapshot';
 
 const HardwareInfo = React.createClass({
   mixins: [PureRenderMixin],

@@ -88,7 +88,8 @@ export default connectTo({
       }
 
       const times = this.props.times;
-      const maxOldestPermittedIssueTimestamp = times.serverTime - times.timeframe.windowSize;
+      const maxOldestPermittedIssueTimestamp =
+        (times.timeframe.to ? times.timeframe.to : times.serverTime ) - times.timeframe.windowSize;
       const maxNewestTimeStamp = times.timeframe.to ? times.timeframe.to : Infinity;
 
       return issues

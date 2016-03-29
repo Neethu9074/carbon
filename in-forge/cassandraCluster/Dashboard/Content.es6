@@ -5,7 +5,10 @@ import React from 'react';
 import {timeframeShape} from 'in-stores/timeline';
 
 
-const CassandraClusterDashboard = React.createClass({
+export default React.createClass({
+
+  displayName: 'CassandraClusterDashboard',
+
   mixins: [PureRenderMixin],
 
   propTypes: {
@@ -19,5 +22,3 @@ const CassandraClusterDashboard = React.createClass({
     );
   }
 });
-
-export default CassandraClusterDashboard;

@@ -37,13 +37,17 @@ export const DescriptionList = React.createClass({
       return null;
     }
 
+    const textClassName = block + '__description-text ' +
+      (descriptionItemProps.onClick ? block + '__description-text--link' : '');
+
     return (
       <div key={descriptionItemProps.title}
            className={block + '__description-item'}>
         <dt className={block + '__description-title'}>
           {descriptionItemProps.title}
         </dt>
-        <dd className={block + '__description-text'}>
+        <dd className={textClassName}
+            onClick={descriptionItemProps.onClick}>
           {descriptionItemProps.children}
         </dd>
       </div>
