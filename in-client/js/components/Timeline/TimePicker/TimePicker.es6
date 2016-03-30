@@ -5,11 +5,18 @@ import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
-import {selectedTimePicker, setSelectedTimePicker, TIME_PICKER} from '../timelineStores';
+import {
+  selectedTimePicker,
+  setSelectedTimePicker,
+  clearChangeTimeButtonFromSelected,
+  clearChangeTimeButtonToSelected,
+  TIME_PICKER
+} from '../timelineStores';
 import FixedTimeWindowPicker from './FixedTimeWindowPicker';
 import TimeRangePicker from './TimeRangePicker';
 
 import './TimePicker.less';
+
 
 const rpt = React.PropTypes;
 const block = 'in-timepicker';
@@ -20,6 +27,8 @@ export default connectTo({
   React.createClass({
 
     displayName: 'TimePicker',
+
+    mouseIsOnTimePicker: false,
 
     mixins: [
       PureRenderMixin
@@ -43,12 +52,13 @@ export default connectTo({
             {this.createSelection(TIME_PICKER.LIVE,
                                   'metrics',
                                   'Live View',
-                                  'Weit hinten, hinter den Wortbergen, fern der Länder')
+                                  'All information is updated each second for the selected time window after now')
             }
             {this.createSelection(TIME_PICKER.FIXED,
                                   'metrics',
                                   'Custom Timerange',
-                                  'Weit hinten, hinter den Wortbergen, fern der Länder')
+                                  'Drill down into a selected timerange. ' +
+                                  'This only affects metrics. Map shows live state')
             }
           </div>
         </div>
