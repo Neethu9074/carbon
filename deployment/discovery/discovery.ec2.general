@@ -1,8 +1,0 @@
-#!/bin/bash
-
-set -e
-
-REGION=$(${CURL} http://169.254.169.254/latest/meta-data/placement/availability-zone)
-if [ $? -eq 0 ]; then
-    export REGION=${REGION::-1}
-fi
