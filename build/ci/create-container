@@ -18,9 +18,9 @@ rm -rf ext-discovery
 git clone git@github.com:instana/discovery.git deployment/ext-discovery
 
 echo "Building Docker image ..."
-sudo docker build -t "registry-internal.instana.io/instana/$IMAGE" .
-sudo docker tag -f "registry-internal.instana.io/instana/$IMAGE" "registry-internal.instana.io/instana/$IMAGE:$VERSION"
+docker build -t "registry-internal.instana.io/instana/$IMAGE" .
+docker tag -f "registry-internal.instana.io/instana/$IMAGE" "registry-internal.instana.io/instana/$IMAGE:$VERSION"
 
 echo "Publishing Docker image ..."
-sudo docker push "registry-internal.instana.io/instana/$IMAGE:latest"
-sudo docker push "registry-internal.instana.io/instana/$IMAGE:$VERSION"
+docker push "registry-internal.instana.io/instana/$IMAGE:latest"
+docker push "registry-internal.instana.io/instana/$IMAGE:$VERSION"
