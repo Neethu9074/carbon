@@ -8,8 +8,6 @@ import Icon from 'in-components/Icon';
 import {
   selectedTimePicker,
   setSelectedTimePicker,
-  clearChangeTimeButtonFromSelected,
-  clearChangeTimeButtonToSelected,
   TIME_PICKER
 } from '../timelineStores';
 import FixedTimeWindowPicker from './FixedTimeWindowPicker';
