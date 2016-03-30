@@ -71,7 +71,7 @@ describe('issueTracker', () => {
 
     it('should send initial data', () => {
       let openIssues;
-      issueTracker.getOpenIssuesStream().subscribe(issues => openIssues = issues.toJS());
+      issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
       openIssuesObservable.emit(openIssuesStubData);
 
       expect(openIssues.length).to.equal(2);
@@ -85,7 +85,7 @@ describe('issueTracker', () => {
 
     it('should send initial data', () => {
       let historicalIssues;
-      issueTracker.getHistoricalIssuesStream().subscribe(issues => historicalIssues = issues.toJS());
+      issueTracker.historicalIssues$.subscribe(issues => historicalIssues = issues.toJS());
       historicalIssuesObservable.emit(historicalIssuesStubData);
 
       expect(historicalIssues.length).to.equal(1);

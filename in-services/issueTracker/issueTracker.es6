@@ -68,10 +68,6 @@ export const historicalIssues$ = createTrackingStore({
                 .nextFrame()
 }).observable;
 
-export function getHistoricalIssuesStream() {
-  return historicalIssues$;
-}
-
 
 export const openIssues$ = createTrackingStore({
   name: 'openIssuesStore',
@@ -80,12 +76,8 @@ export const openIssues$ = createTrackingStore({
                 .nextFrame()
 }).observable;
 
-export function getOpenIssuesStream() {
-  return openIssues$;
-}
 
-
-const combinedIssues$ = combineLatest([getHistoricalIssuesStream(), getOpenIssuesStream()])
+const combinedIssues$ = combineLatest([historicalIssues$, openIssues$])
   .map(([historical, open]) => {
     const result = historical.toArray();
     const addedIssues = {};
@@ -109,7 +101,7 @@ export function getCombinedIssuesStream() {
 
 
 export function getIssuesById(snapshotId) {
-  return getOpenIssuesStream().map(issues => {
+  return openIssues$.map(issues => {
     let size = 0;
     const result = Immutable.List().asMutable();
 

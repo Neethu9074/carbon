@@ -1,4 +1,4 @@
-import {getHistoricalIssuesStream, getCombinedIssuesStream} from 'in-services/issueTracker';
+import {historicalIssues$, getCombinedIssuesStream} from 'in-services/issueTracker';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {timeframe} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
@@ -128,7 +128,7 @@ export const selectedTimeRange = timeframe.map(frame => frame.to ? TIME_RANGES.F
 export const issue$ = selectedTimeRange.flatMap(timeRange => {
   switch (timeRange) {
     case TIME_RANGES.FIXED:
-      return getHistoricalIssuesStream();
+      return historicalIssues$;
     case TIME_RANGES.LIVE:
       return getCombinedIssuesStream();
     default:

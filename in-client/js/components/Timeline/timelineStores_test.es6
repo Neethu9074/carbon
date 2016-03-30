@@ -51,8 +51,8 @@ describe('timeline/timelineStores', () => {
 
   const stores = proxyquire('./timelineStores', {
     'in-services/issueTracker': {
-      getHistoricalIssuesStream: () => historicalIssuesStream,
-      getOpenIssuesStream: () => openIssuesStream
+      historicalIssues$: historicalIssuesStream,
+      openIssues$: openIssuesStream
     }
   });
 

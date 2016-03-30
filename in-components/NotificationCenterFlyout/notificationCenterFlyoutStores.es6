@@ -1,5 +1,5 @@
-import {getHistoricalIssuesStream, getOpenIssuesStream} from 'in-services/issueTracker';
 import {mapHealthToColor, mapSeverityToHealth, health} from 'in-services/health';
+import {historicalIssues$, openIssues$} from 'in-services/issueTracker';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {createStore} from 'in-stores/store';
 
@@ -55,9 +55,9 @@ export const Issue$ = selectedIssueListStore.observable
   .flatMap(list => {
     switch (list) {
       case ISSUE_LISTS.CURRENT:
-        return getOpenIssuesStream();
+        return openIssues$;
       case ISSUE_LISTS.HISTORICAL:
-        return getHistoricalIssuesStream();
+        return historicalIssues$;
       default:
         return alwaysNull;
     }
