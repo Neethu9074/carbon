@@ -2,6 +2,7 @@ import React from 'react';
 
 import TraceTable from 'in-components/traceView/TraceTable';
 import TraceDetails from 'in-components/traceView/TraceDetails';
+import {Row, Col} from 'in-components/Grid';
 
 import './TraceView.less';
 
@@ -14,8 +15,14 @@ export default React.createClass({
     return (
       <section className={block}>
         <h1>Trace View</h1>
-        <TraceTable />
-        <TraceDetails />
+        <Row>
+          <Col cols={6}>
+            <TraceTable />
+          </Col>
+          <Col cols={6}>
+            <TraceDetails />
+          </Col>
+        </Row>
       </section>
     );
   }
