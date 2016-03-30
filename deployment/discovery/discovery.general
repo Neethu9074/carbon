@@ -1,9 +1,0 @@
-#!/bin/bash
-
-export CURL="curl --connect-timeout 10 -m 10 -s"
-
-discovery_options=${DISCOVERY//,/$'\n'}
-for discovery_option in $discovery_options
-do
-    source discovery/discovery.$discovery_option.general
-done
