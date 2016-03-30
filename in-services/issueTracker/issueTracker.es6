@@ -22,19 +22,22 @@ const withoutCpuStealMapper = (issues) => {
   );
 };
 
-function collectingReducer(existingIssues, issueUpdates) {
+function historicalIssuesReducer(existingIssues, issueUpdates) {
   // a issue may already exist in our list of issues.
   // We assume that it is an update in such cases. An update may change a
   // problem's end time and other properties.
   //
-  // Remove all issues for which we get updates from the backend
-  // and add the updated ones.
-  return existingIssues.filter(existingIssue => {
-    return issueUpdates.findIndex(updatedIssue => {
-      return updatedIssue.get('id') === existingIssue.get('id');
-    }) === -1;
+  // Remove all issues for which we get updates from the backend and add the updated ones.
+  return existingIssues.filter(existing => {
+    const id = existing.get('id');
+    return issueUpdates.findIndex(updated => updated.get('id') === id) === -1;
   })
   .concat(issueUpdates);
+}
+
+function openIssuesReducer(existingIssues, issueUpdates) {
+  // TODO: We need to remove update issues that now have an end date
+  return historicalIssuesReducer(existingIssues, issueUpdates);
 }
 
 function prepareIssue$(issue$) {
@@ -63,29 +66,21 @@ export const historicalIssues$ = createTrackingStore({
                               .distinct()
                               .flatMap(timeframe =>
                                 getHistoricalIssuesStore(timeframe)
-                                  .scan(collectingReducer, emptyList)
+                                  .scan(historicalIssuesReducer, emptyList)
                               ))
                 .nextFrame()
 }).observable;
-
-export function getHistoricalIssuesStream() {
-  return historicalIssues$;
-}
 
 
 export const openIssues$ = createTrackingStore({
   name: 'openIssuesStore',
   observable: prepareIssue$(getOpenIssuesStore())
-                .scan(collectingReducer, emptyList)
+                .scan(openIssuesReducer, emptyList)
                 .nextFrame()
 }).observable;
 
-export function getOpenIssuesStream() {
-  return openIssues$;
-}
 
-
-const combinedIssues$ = combineLatest([getHistoricalIssuesStream(), getOpenIssuesStream()])
+export const combinedIssues$ = combineLatest([historicalIssues$, openIssues$])
   .map(([historical, open]) => {
     const result = historical.toArray();
     const addedIssues = {};
@@ -103,13 +98,9 @@ const combinedIssues$ = combineLatest([getHistoricalIssuesStream(), getOpenIssue
     return Immutable.List(result);
   });
 
-export function getCombinedIssuesStream() {
-  return combinedIssues$;
-}
-
 
 export function getIssuesById(snapshotId) {
-  return getOpenIssuesStream().map(issues => {
+  return openIssues$.map(issues => {
     let size = 0;
     const result = Immutable.List().asMutable();
 

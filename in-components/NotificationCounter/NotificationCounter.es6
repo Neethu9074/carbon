@@ -2,8 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {getOpenIssuesStream} from 'in-services/issueTracker';
 import {emptyList} from 'in-services/fixedImmutables';
+import {openIssues$} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -15,7 +15,7 @@ import './NotificationCounter.less';
 const block = 'in-notification-counter';
 
 export default connectTo({
-    openIssues: getOpenIssuesStream()
+    openIssues: openIssues$
   },
   React.createClass({
 
