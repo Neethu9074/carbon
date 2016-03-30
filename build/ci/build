@@ -13,7 +13,7 @@ nice -19 npm install
 nice -19 npm run test
 nice -19 npm run build
 
-j2 deployment/Dockerfile.j2 > target/Dockerfile
+/var/lib/jenkins/ENV/bin/j2 deployment/Dockerfile.j2 > target/Dockerfile
 
 # Clear data from previous build to avoid retention of artefacts
 # like JS files which names are changing on every build
