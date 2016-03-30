@@ -22,19 +22,22 @@ const withoutCpuStealMapper = (issues) => {
   );
 };
 
-function collectingReducer(existingIssues, issueUpdates) {
+function historicalIssuesReducer(existingIssues, issueUpdates) {
   // a issue may already exist in our list of issues.
   // We assume that it is an update in such cases. An update may change a
   // problem's end time and other properties.
   //
-  // Remove all issues for which we get updates from the backend
-  // and add the updated ones.
-  return existingIssues.filter(existingIssue => {
-    return issueUpdates.findIndex(updatedIssue => {
-      return updatedIssue.get('id') === existingIssue.get('id');
-    }) === -1;
+  // Remove all issues for which we get updates from the backend and add the updated ones.
+  return existingIssues.filter(existing => {
+    const id = existing.get('id');
+    return issueUpdates.findIndex(updated => updated.get('id') === id) === -1;
   })
   .concat(issueUpdates);
+}
+
+function openIssuesReducer(existingIssues, issueUpdates) {
+  // TODO: We need to remove update issues that now have an end date
+  return historicalIssuesReducer(existingIssues, issueUpdates);
 }
 
 function prepareIssue$(issue$) {
@@ -63,7 +66,7 @@ export const historicalIssues$ = createTrackingStore({
                               .distinct()
                               .flatMap(timeframe =>
                                 getHistoricalIssuesStore(timeframe)
-                                  .scan(collectingReducer, emptyList)
+                                  .scan(historicalIssuesReducer, emptyList)
                               ))
                 .nextFrame()
 }).observable;
@@ -72,7 +75,7 @@ export const historicalIssues$ = createTrackingStore({
 export const openIssues$ = createTrackingStore({
   name: 'openIssuesStore',
   observable: prepareIssue$(getOpenIssuesStore())
-                .scan(collectingReducer, emptyList)
+                .scan(openIssuesReducer, emptyList)
                 .nextFrame()
 }).observable;
 

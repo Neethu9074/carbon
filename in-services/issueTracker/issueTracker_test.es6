@@ -79,6 +79,35 @@ describe('issueTracker', () => {
       expect(openIssues[1].id).to.equal('oi2');
     });
 
+    it('should send updates', () => {
+      let openIssues;
+      issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
+      openIssuesObservable.emit(openIssuesStubData);
+      openIssuesObservable.emit(Immutable.fromJS([{
+        'id': 'oi_new',
+        'start': 1433251409977
+      }]));
+
+      expect(openIssues.length).to.equal(3);
+      expect(openIssues[0].id).to.equal('oi1');
+      expect(openIssues[1].id).to.equal('oi2');
+      expect(openIssues[2].id).to.equal('oi_new');
+    });
+
+    // it('should remove updated issues that are now historical', () => {
+    //   let openIssues;
+    //   issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
+    //   openIssuesObservable.emit(openIssuesStubData);
+    //   openIssuesObservable.emit(Immutable.fromJS([{
+    //     'id': 'oi2',
+    //     'start': 1433251409977,
+    //     'end': 1433251500000
+    //   }]));
+    //
+    //   expect(openIssues.length).to.equal(1);
+    //   expect(openIssues[0].id).to.equal('oi1');
+    // });
+
   });
 
   describe('getHistoricalIssues', () => {
