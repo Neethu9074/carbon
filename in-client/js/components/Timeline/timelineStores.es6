@@ -1,4 +1,4 @@
-import {historicalIssues$, getCombinedIssuesStream} from 'in-services/issueTracker';
+import {historicalIssues$, combinedIssues$} from 'in-services/issueTracker';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {timeframe} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
@@ -130,7 +130,7 @@ export const issue$ = selectedTimeRange.flatMap(timeRange => {
     case TIME_RANGES.FIXED:
       return historicalIssues$;
     case TIME_RANGES.LIVE:
-      return getCombinedIssuesStream();
+      return combinedIssues$;
     default:
       return alwaysNull;
   }

@@ -77,7 +77,7 @@ export const openIssues$ = createTrackingStore({
 }).observable;
 
 
-const combinedIssues$ = combineLatest([historicalIssues$, openIssues$])
+export const combinedIssues$ = combineLatest([historicalIssues$, openIssues$])
   .map(([historical, open]) => {
     const result = historical.toArray();
     const addedIssues = {};
@@ -94,10 +94,6 @@ const combinedIssues$ = combineLatest([historicalIssues$, openIssues$])
 
     return Immutable.List(result);
   });
-
-export function getCombinedIssuesStream() {
-  return combinedIssues$;
-}
 
 
 export function getIssuesById(snapshotId) {

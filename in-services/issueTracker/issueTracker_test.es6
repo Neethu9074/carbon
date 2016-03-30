@@ -98,7 +98,7 @@ describe('issueTracker', () => {
 
     it('should combine both, historical and open issues', () => {
       let combinedIssues;
-      issueTracker.getCombinedIssuesStream().subscribe(issues => combinedIssues = issues.toJS());
+      issueTracker.combinedIssues$.subscribe(issues => combinedIssues = issues.toJS());
       historicalIssuesObservable.emit(historicalIssuesStubData);
       openIssuesObservable.emit(openIssuesStubData);
 
