@@ -36,8 +36,8 @@ function historicalIssuesReducer(existingIssues, issueUpdates) {
 }
 
 function openIssuesReducer(existingIssues, issueUpdates) {
-  // TODO: We need to remove update issues that now have an end date
-  return historicalIssuesReducer(existingIssues, issueUpdates);
+  return historicalIssuesReducer(existingIssues, issueUpdates)
+          .filter(issue => issue.get('end') === undefined);
 }
 
 function prepareIssue$(issue$) {

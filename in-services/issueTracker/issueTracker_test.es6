@@ -94,19 +94,70 @@ describe('issueTracker', () => {
       expect(openIssues[2].id).to.equal('oi_new');
     });
 
-    // it('should remove updated issues that are now historical', () => {
-    //   let openIssues;
-    //   issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
-    //   openIssuesObservable.emit(openIssuesStubData);
-    //   openIssuesObservable.emit(Immutable.fromJS([{
-    //     'id': 'oi2',
-    //     'start': 1433251409977,
-    //     'end': 1433251500000
-    //   }]));
-    //
-    //   expect(openIssues.length).to.equal(1);
-    //   expect(openIssues[0].id).to.equal('oi1');
-    // });
+    it('should remove updated issues that are now historical', () => {
+      let openIssues;
+      issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
+      openIssuesObservable.emit(openIssuesStubData);
+      openIssuesObservable.emit(Immutable.fromJS([{
+        'id': 'oi2',
+        'start': 1433251409977,
+        'end': 1433251500000
+      }]));
+
+      expect(openIssues.length).to.equal(1);
+      expect(openIssues[0].id).to.equal('oi1');
+    });
+
+    it('should add and remove issues', () => {
+      let openIssues;
+      issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
+      openIssuesObservable.emit(openIssuesStubData);
+      expect(openIssues.length).to.equal(2);
+      expect(openIssues[0].id).to.equal('oi1');
+      expect(openIssues[1].id).to.equal('oi2');
+
+      openIssuesObservable.emit(Immutable.fromJS([{
+        'id': 'oi2',
+        'start': 1433251409977,
+        'end': 1433251500000
+      }]));
+
+      expect(openIssues.length).to.equal(1);
+      expect(openIssues[0].id).to.equal('oi1');
+
+      openIssuesObservable.emit(Immutable.fromJS([{
+        'id': 'oi2',
+        'start': 1433251409977
+      }]));
+      expect(openIssues.length).to.equal(2);
+      expect(openIssues[0].id).to.equal('oi1');
+      expect(openIssues[1].id).to.equal('oi2');
+
+      openIssuesObservable.emit(Immutable.fromJS([{
+        'id': 'oi2',
+        'start': 1433251409977,
+        'end': 1433251500000
+      }]));
+
+      expect(openIssues.length).to.equal(1);
+      expect(openIssues[0].id).to.equal('oi1');
+
+      openIssuesObservable.emit(Immutable.fromJS([{
+        'id': 'oi1',
+        'start': 1433251409977,
+        'end': 1433251500000
+      }]));
+
+      expect(openIssues.length).to.equal(0);
+
+      openIssuesObservable.emit(Immutable.fromJS([{
+        'id': 'oi1',
+        'start': 1433251409977
+      }]));
+
+      expect(openIssues.length).to.equal(1);
+      expect(openIssues[0].id).to.equal('oi1');
+    });
 
   });
 
