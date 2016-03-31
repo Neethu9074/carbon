@@ -5,7 +5,7 @@ import TooltipHandler from 'in-map/src/2DSceneObjects/tooltips/TooltipHandler';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {mapStatisticsStore} from 'in-services/stores/mapStatistics';
 import {hexToRGBNormalized} from 'in-services/formatters/color';
-import {clearSelectedIncidentId} from 'in-stores/incident';
+import {clearSelectedIncident} from 'in-stores/incident';
 import * as snapshotStore from 'in-stores/snapshot';
 
 import {activeMetric} from 'in-services/stores/metrics';
@@ -469,7 +469,7 @@ export default class Scene {
 
   resetClicked() {
     clearSelectedSnapshotId();
-    clearSelectedIncidentId();
+    clearSelectedIncident();
   }
 
   // is called by map
@@ -477,7 +477,7 @@ export default class Scene {
 
   clearStores() {
     clearSelectedSnapshotId();
-    clearSelectedIncidentId();
+    clearSelectedIncident();
     stores.longClickedSceneObject.emit(null);
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);

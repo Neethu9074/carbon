@@ -1,65 +1,39 @@
-import Immutable from 'immutable';
-
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
-import {createStore, createTrackingStore} from 'in-stores/store';
+import {createStore} from 'in-stores/store';
 
 
-const selectedIncidentIdStore = createStore({
-  name: 'selectedIncidentIdStore',
+const selectedIncidentStore = createStore({
+  name: 'selectedIncidentStore',
   initialValue: null
 });
-export const selectedIncidentId = selectedIncidentIdStore.observable.distinct();
+export const selectedIncident = selectedIncidentStore.observable.distinct();
 
 
-export const selectedIncident = createTrackingStore({
-  name: 'selectedIncidentStore',
-  observable: selectedIncidentId.map(id => {
-    if (id) {
-      return getSnapshot(id);
-    }
-    return null;
-  })
-}).observable;
-
-
-function getSnapshot(id) {
-  return Immutable.fromJS({
-    id,
-    key: '',
-    start: '',
-    end: '',
-    state: '',
-    metadata: '',
-    issues: ''
-  });
-}
-
-
-export function setSelectedIncidentId(id) {
-  if (id == null) {
-    clearSelectedIncidentId();
+export function setSelectedIncident(incident) {
+  if (incident == null) {
+    clearSelectedIncident();
   } else {
     mutateUrl(navParams => {
       delete navParams.query.snapshotId;
-      navParams.query.incidentId = encodeURIComponent(id);
+      navParams.query.incidentId = encodeURIComponent(incident.get('id'));
       return navParams;
     });
+    selectedIncidentStore.applyStateMutation(() => incident);
   }
 }
 
-export function clearSelectedIncidentId() {
+export function clearSelectedIncident() {
   mutateUrl(navParams => {
     delete navParams.query.incidentId;
     return navParams;
   });
+  selectedIncidentStore.applyStateMutation(() => null);
 }
+
 
 navigationParameters.subscribe(navParams => {
   const query = navParams.query;
-  if ('incidentId' in query) {
-    const incidentId = decodeURIComponent(query.incidentId);
-    selectedIncidentIdStore.applyStateMutation(() => incidentId);
-  } else {
-    selectedIncidentIdStore.applyStateMutation(() => null);
+  if (!('incidentId' in query)) {
+    selectedIncidentStore.applyStateMutation(() => null);
   }
 });
