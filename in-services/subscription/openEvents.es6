@@ -25,6 +25,17 @@ function createEventObservable() {
       subscribe(subscriptionId, 'subscribe-open-issues', {
         'subscriptionId': subscriptionId
       });
+
+      onData(Immutable.fromJS([{
+        id: 'i1',
+        problem: {
+          id: 'p1',
+          severity: 5,
+          snapshotId: '1'
+        },
+        start: Date.now() - 1000,
+        type: 'incident'
+      }]));
     },
 
     stop() {
