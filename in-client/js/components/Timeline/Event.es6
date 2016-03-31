@@ -5,6 +5,7 @@ import React from 'react';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import EventDescription from 'in-components/EventDescription';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {setSelectedIncidentId} from 'in-stores/incident';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -28,22 +29,11 @@ const Event = React.createClass({
 
   render() {
     const event = this.props.event;
+    const iconType = this.getIconType(event);
     const style = this.props.style ? this.props.style : {};
     const severity = event.getIn(['problem', 'severity']);
     const open = event.get('end') == null;
     style.color = open ? theme.health[severity] : theme.health[0];
-
-    let iconType;
-    switch (mapSeverityToHealth(severity)) {
-      case health.warning:
-        iconType = 'warning';
-        break;
-      case health.danger:
-        iconType = 'critical';
-        break;
-      default:
-        iconType = 'change';
-    }
 
     return (
       <Tooltip  align={{vertical: 'top'}}
@@ -52,13 +42,40 @@ const Event = React.createClass({
                                            snapshotId={event.getIn(['problem', 'snapshotId'])}/>}>
 
         <Icon type={iconType}
-              onMouseEnter={() =>this.props.mouseIn(event)}
-              onClick={() => setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']))}
+              onMouseEnter={() => this.props.mouseIn(event)}
+              onClick={this.onClick}
               onMouseLeave={this.props.mouseOut}
               className={block}
               style={style} />
       </Tooltip>
     );
+  },
+
+  getIconType(event) {
+    const eventType = event.get('type');
+    if (eventType === 'incident') {
+      return 'system';
+    }
+
+    switch (mapSeverityToHealth(event.getIn(['problem', 'severity']))) {
+      case health.warning:
+        return 'warning';
+      case health.danger:
+        return 'critical';
+      default:
+        return 'change';
+    }
+  },
+
+  onClick() {
+    const event = this.props.event;
+    const eventType = event.get('type');
+
+    if (eventType === 'incident') {
+      setSelectedIncidentId(event.get('id'));
+    } else {
+      setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
+    }
   }
 });
 
