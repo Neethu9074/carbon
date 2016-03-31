@@ -1,39 +1,58 @@
+import createSnapshotObservable from 'in-services/subscription/event';
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
-import {createStore} from 'in-stores/store';
+import {createStore, createTrackingStore} from 'in-stores/store';
+import {alwaysNull} from 'in-services/fixedStreams';
 
 
-const selectedIncidentStore = createStore({
-  name: 'selectedIncidentStore',
+const selectedIncidentIdStore = createStore({
+  name: 'selectedIncidentIdStore',
   initialValue: null
 });
-export const selectedIncident = selectedIncidentStore.observable.distinct();
+const selectedIncidentId = selectedIncidentIdStore.observable.distinct();
 
 
-export function setSelectedIncident(incident) {
-  if (incident == null) {
-    clearSelectedIncident();
+export const selectedIncident = createTrackingStore({
+  name: 'selectedIncidentStore',
+  observable: selectedIncidentId.flatMap(id => {
+    if (id) {
+      return getEvent(id);
+    }
+    return alwaysNull;
+  })
+}).observable;
+
+export function setSelectedIncidentId(id) {
+  if (id == null) {
+    clearSelectedIncidentId();
   } else {
     mutateUrl(navParams => {
       delete navParams.query.snapshotId;
-      navParams.query.incidentId = encodeURIComponent(incident.get('id'));
+      navParams.query.incidentId = encodeURIComponent(id);
       return navParams;
     });
-    selectedIncidentStore.applyStateMutation(() => incident);
   }
 }
 
-export function clearSelectedIncident() {
+export function clearSelectedIncidentId() {
   mutateUrl(navParams => {
     delete navParams.query.incidentId;
     return navParams;
   });
-  selectedIncidentStore.applyStateMutation(() => null);
+  selectedIncidentIdStore.applyStateMutation(() => null);
+}
+
+
+export function getEvent(id) {
+  return createSnapshotObservable(id);
 }
 
 
 navigationParameters.subscribe(navParams => {
   const query = navParams.query;
-  if (!('incidentId' in query)) {
-    selectedIncidentStore.applyStateMutation(() => null);
+  if ('incidentId' in query) {
+    const id = decodeURIComponent(query.incidentId);
+    selectedIncidentIdStore.applyStateMutation(() => id);
+  } else {
+    selectedIncidentIdStore.applyStateMutation(() => null);
   }
 });
