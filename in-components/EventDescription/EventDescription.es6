@@ -2,7 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
-import {getColorForIssue} from 'in-services/issueTracker';
+import {getColorForEvent} from 'in-services/issueTracker';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {toHtml} from 'in-services/formatters/markdown';
 import {getClassName} from 'in-services/react';
@@ -11,45 +11,46 @@ import getSnapshot from 'in-hoc/getSnapshot';
 import SnapshotDescription from '../SnapshotDescription';
 import Icon from '../Icon';
 
-import './IssueDescription.less';
+import './EventDescription.less';
+
 
 const rpt = React.PropTypes;
-const block = 'in-issue-description';
+const block = 'in-event-description';
 
 export default getSnapshot(React.createClass({
 
-  displayName: 'IssueDescription',
+  displayName: 'EventDescription',
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
-    issue: irpt.map.isRequired,
+    event: irpt.map.isRequired,
     className: rpt.string,
     snapshot: irpt.map
   },
 
   render() {
-    const issue = this.props.issue;
-    const color = getColorForIssue(issue);
+    const event = this.props.event;
+    const color = getColorForEvent(event);
     const className = getClassName(this, block);
 
     return (
       <div className={className}
            onClick={this.onClick}>
         <Icon className={block + '__icon'}
-              type={this.getIconType(issue)}
+              type={this.getIconType(event)}
               style={{color}}/>
         <div className={block + '__description'}>
           <div className={block + '__time'}>
-            {moment(issue.get('start')).fromNow()}
+            {moment(event.get('start')).fromNow()}
           </div>
 
           <div className={block + '__header'}
             style={{color}}>
-            {issue.getIn(['problem', 'problemText'])}
+            {event.getIn(['problem', 'problemText'])}
           </div>
 
           <div className={block + '__suggestion'}
-               dangerouslySetInnerHTML={{__html: toHtml(issue.getIn(['problem', 'fixSuggestion']))}} />
+               dangerouslySetInnerHTML={{__html: toHtml(event.getIn(['problem', 'fixSuggestion']))}} />
 
           <SnapshotDescription snapshot={this.props.snapshot} />
         </div>
@@ -57,8 +58,8 @@ export default getSnapshot(React.createClass({
     );
   },
 
-  getIconType(issue) {
-    const severity = issue.getIn(['problem', 'severity']);
+  getIconType(event) {
+    const severity = event.getIn(['problem', 'severity']);
 
     if (severity < 0) {
       return 'instana_change';

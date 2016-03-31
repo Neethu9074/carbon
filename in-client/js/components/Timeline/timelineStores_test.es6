@@ -9,7 +9,7 @@ import {setTimeframe} from 'in-stores/timeline';
 
 
 describe('timeline/timelineStores', () => {
-  const historicalIssue1 = {
+  const historicalEvent1 = {
     'id': 'hi',
     'problem': {
       'id': 'hp',
@@ -19,7 +19,7 @@ describe('timeline/timelineStores', () => {
     'end': 60
   };
 
-  const openIssue1 = {
+  const openEvent1 = {
     'id': 'oi',
     'problem': {
       'id': 'op',
@@ -29,7 +29,7 @@ describe('timeline/timelineStores', () => {
     // no end == state : OPEN
   };
 
-  const openIssue2 = {
+  const openEvent2 = {
     'id': 'oi2',
     'problem': {
       'id': 'op2',
@@ -39,20 +39,20 @@ describe('timeline/timelineStores', () => {
     // no end == state : OPEN
   };
 
-  const historicalIssuesStream = create().startWith(Immutable.fromJS([
-    historicalIssue1,
-    openIssue1
+  const historicalEventsStream = create().startWith(Immutable.fromJS([
+    historicalEvent1,
+    openEvent1
   ]));
 
-  const openIssuesStream = create().startWith(Immutable.fromJS([
-    openIssue1,
-    openIssue2
+  const openEventsStream = create().startWith(Immutable.fromJS([
+    openEvent1,
+    openEvent2
   ]));
 
   const stores = proxyquire('./timelineStores', {
     'in-services/issueTracker': {
-      historicalIssues$: historicalIssuesStream,
-      openIssues$: openIssuesStream
+      historicalEvents$: historicalEventsStream,
+      openEvents$: openEventsStream
     }
   });
 
@@ -62,19 +62,19 @@ describe('timeline/timelineStores', () => {
   });
 
   it('should contain the correct elements', () => {
-    let historicalIssues;
-    historicalIssuesStream.subscribe(i => historicalIssues = i.toJS());
+    let historicalEvents;
+    historicalEventsStream.subscribe(i => historicalEvents = i.toJS());
 
-    let openIssues;
-    openIssuesStream.subscribe(i => openIssues = i.toJS());
+    let openEvents;
+    openEventsStream.subscribe(i => openEvents = i.toJS());
 
-    expect(historicalIssues.length).to.equal(2);
-    expect(historicalIssues[0].id).to.equal('hi');
-    expect(historicalIssues[1].id).to.equal('oi');
+    expect(historicalEvents.length).to.equal(2);
+    expect(historicalEvents[0].id).to.equal('hi');
+    expect(historicalEvents[1].id).to.equal('oi');
 
-    expect(openIssues.length).to.equal(2);
-    expect(openIssues[0].id).to.equal('oi');
-    expect(openIssues[1].id).to.equal('oi2');
+    expect(openEvents.length).to.equal(2);
+    expect(openEvents[0].id).to.equal('oi');
+    expect(openEvents[1].id).to.equal('oi2');
   });
 
   it('should send initial value', () => {
@@ -100,14 +100,14 @@ describe('timeline/timelineStores', () => {
     expect(callback).to.have.been.calledWith(stores.TIME_RANGES.FIXED);
   });
 
-  it('should switch issues stream to historical issues, based on the timerange', () => {
-    let historicalIssues;
-    stores.issue$.subscribe(i => historicalIssues = i.toJS());
+  it('should switch events stream to historical events, based on the timerange', () => {
+    let historicalEvents;
+    stores.event$.subscribe(i => historicalEvents = i.toJS());
 
     setTimeframe(100, 100); // from 0 to 100
-    expect(historicalIssues.length).to.equal(2);
-    expect(historicalIssues[0].id).to.equal('hi');
-    expect(historicalIssues[1].id).to.equal('oi');
+    expect(historicalEvents.length).to.equal(2);
+    expect(historicalEvents[0].id).to.equal('hi');
+    expect(historicalEvents[1].id).to.equal('oi');
   });
 
 });

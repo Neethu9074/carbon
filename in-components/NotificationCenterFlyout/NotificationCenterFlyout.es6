@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import IssueListSwitcher from 'in-components/NotificationCenterFlyout/IssueListSwitcher';
-import IssueItemList from 'in-components/NotificationCenterFlyout/IssueItemList';
+import EventListSwitcher from 'in-components/NotificationCenterFlyout/EventListSwitcher';
+import EventItemList from 'in-components/NotificationCenterFlyout/EventItemList';
 import FilterBar from 'in-components/NotificationCenterFlyout/FilterBar';
 
 import './NotificationCenterFlyout.less';
@@ -27,9 +27,9 @@ export default React.createClass({
     return (
       <div className={block}>
         {'Notifications'}
-        <IssueListSwitcher />
+        <EventListSwitcher />
         <FilterBar />
-        <IssueItemList style={this.props.style} />
+        <EventItemList style={this.props.style} />
       </div>
     );
   }

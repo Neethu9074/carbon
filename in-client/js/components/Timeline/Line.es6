@@ -2,19 +2,20 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getColorForIssue} from 'in-services/issueTracker';
+import {getColorForEvent} from 'in-services/issueTracker';
 import {serverTime} from 'in-stores/serverTime';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
-import './IssueLine.less';
+import './Line.less';
+
 
 export default connectTo({
     serverTime
   },
   React.createClass({
 
-  displayName: 'IssueLine',
+  displayName: 'Line',
 
   mixins: [
     PureRenderMixin
@@ -24,13 +25,13 @@ export default connectTo({
     serverTime: React.PropTypes.number.isRequired,
     scale: React.PropTypes.func.isRequired,
     style: React.PropTypes.object,
-    issue: irpt.map.isRequired
+    event: irpt.map.isRequired
   },
 
   render() {
-    const issue = this.props.issue;
+    const event = this.props.event;
 
-    const end = issue.get('end', this.props.serverTime);
+    const end = event.get('end', this.props.serverTime);
     let right = this.props.scale(end).toFixed(2);
     if (right < 0) {
       right = 0 + '%';
@@ -39,12 +40,12 @@ export default connectTo({
 
     }
     const style = this.props.style ? this.props.style : {};
-    style.borderColor = getColorForIssue(issue);
-    style.color = theme.health[issue.getIn(['problem', 'severity'])];
+    style.borderColor = getColorForEvent(event);
+    style.color = theme.health[event.getIn(['problem', 'severity'])];
     style.right = right;
 
     return (
-      <div className={'in-timeline-issue-line'}
+      <div className={'in-timeline-line'}
            style={style}>
       </div>
     );

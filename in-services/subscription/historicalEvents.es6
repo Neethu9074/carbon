@@ -8,22 +8,23 @@ import {on, off} from 'in-services/persistentConnection';
 
 export default createObservableIfMissing.bind(null, {
   getId,
-  createObservable: createIssueObservable
+  createObservable: createEventObservable
 });
 
-function getId() {
-  return '';
+function getId(timeframe) {
+  return timeframe.to + ',' + timeframe.windowSize;
 }
 
-function createIssueObservable() {
+function createEventObservable(timeframe) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-open-issues', {
-        'subscriptionId': subscriptionId
+      subscribe(subscriptionId, 'subscribe-issues', {
+        'subscriptionId': subscriptionId,
+        'timeframe': timeframe
       });
     },
 
@@ -35,7 +36,7 @@ function createIssueObservable() {
 
   return observable;
 
-  function onData(issues) {
-    observable.emit(Immutable.fromJS(issues));
+  function onData(events) {
+    observable.emit(Immutable.fromJS(events));
   }
 }

@@ -3,8 +3,8 @@ import irpt from 'react-immutable-proptypes';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
-import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
-import IssueDescription from 'in-components/IssueDescription';
+import getMostImportantEvent from 'in-hoc/getMostImportantEvent';
+import EventDescription from 'in-components/EventDescription';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import Content from 'in-components/Tooltips/Content';
 import getSnapshot from 'in-hoc/getSnapshot';
@@ -16,7 +16,7 @@ import Tooltip from 'in-map/src/2DSceneObjects/tooltips/Tooltip.es6';
 
 const rpt = React.PropTypes;
 
-const NodeTooltip = getMostImportantIssue(
+const NodeTooltip = getMostImportantEvent(
                     getSnapshot(
                     React.createClass({
 
@@ -28,20 +28,20 @@ const NodeTooltip = getMostImportantIssue(
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
-    mostImportantIssue: irpt.map,
+    mostImportantEvent: irpt.map,
     layer: rpt.array.isRequired,
     snapshot: irpt.map
   },
 
   render() {
-    const mostImportantIssue = this.props.mostImportantIssue;
+    const mostImportantEvent = this.props.mostImportantEvent;
     const snapshot = this.props.snapshot;
     const layer = this.props.layer;
 
     return (
       <TooltipFrame>
-        {mostImportantIssue ?
-          <IssueDescription issue={mostImportantIssue}
+        {mostImportantEvent ?
+          <EventDescription event={mostImportantEvent}
                             snapshotId={this.props.snapshotId}/>
           :
           <Content>

@@ -2,9 +2,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import getMostImportantIssue from 'in-hoc/getMostImportantIssue';
+import getMostImportantEvent from 'in-hoc/getMostImportantEvent';
 import {mapSeverityToHealth, health} from 'in-services/health';
-import IssueDescription from 'in-components/IssueDescription';
+import EventDescription from 'in-components/EventDescription';
 import {getClassName} from 'in-services/react';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -14,7 +14,7 @@ import './HealthIcon.less';
 
 const block = 'in-health-icon';
 
-export default getMostImportantIssue(
+export default getMostImportantEvent(
                React.createClass({
 
   displayName: 'HealthIconListing',
@@ -26,16 +26,16 @@ export default getMostImportantIssue(
   propTypes: {
     snapshotId: React.PropTypes.string.isRequired,
     className: React.PropTypes.string,
-    mostImportantIssue: irpt.map
+    mostImportantEvent: irpt.map
   },
 
   render() {
-    const mostImportantIssue = this.props.mostImportantIssue;
-    if (!mostImportantIssue) {
+    const mostImportantEvent = this.props.mostImportantEvent;
+    if (!mostImportantEvent) {
       return null;
     }
 
-    const severity = mostImportantIssue.getIn(['problem', 'severity']);
+    const severity = mostImportantEvent.getIn(['problem', 'severity']);
 
     let iconType;
     switch (mapSeverityToHealth(severity)) {
@@ -52,7 +52,7 @@ export default getMostImportantIssue(
     const color = theme.health[severity];
 
     return (
-      <Tooltip content={<IssueDescription issue={mostImportantIssue}
+      <Tooltip content={<EventDescription event={mostImportantEvent}
                                           snapshotId={this.props.snapshotId}/>}>
         <Icon type={iconType}
               className={getClassName(this, block)}

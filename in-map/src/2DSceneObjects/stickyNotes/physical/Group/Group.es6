@@ -4,7 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
-import IssueDescription from 'in-components/IssueDescription';
+import EventDescription from 'in-components/EventDescription';
 import {getColorPool} from 'in-services/util/ColorGenerator';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import getSnapshot from 'in-hoc/getSnapshot';
@@ -43,7 +43,7 @@ const PhysicalGroup = getSnapshot(
   getInitialState() {
     return {
       health: health.ok,
-      issues: emptyList
+      events: emptyList
     };
   },
 
@@ -80,17 +80,17 @@ const PhysicalGroup = getSnapshot(
       return null;
     }
 
-    if (this.issuesAvailable()) {
-      const mostImportantIssue = this.state.issues.reduce((issueA, issueB) => {
-        if (issueA.getIn(['problem', 'severity']) >= issueB.getIn(['problem', 'severity'])) {
-          return issueA;
+    if (this.eventsAvailable()) {
+      const mostImportantEvent = this.state.events.reduce((eventA, eventB) => {
+        if (eventA.getIn(['problem', 'severity']) >= eventB.getIn(['problem', 'severity'])) {
+          return eventA;
         }
-        return issueB;
+        return eventB;
       });
 
       return (
         <Tooltip align={{horizontal: 'right'}}
-                 content={<IssueDescription issue={mostImportantIssue}
+                 content={<EventDescription event={mostImportantEvent}
                                             snapshotId={this.props.snapshotId}/>
                          }>
           {icon}
@@ -101,8 +101,8 @@ const PhysicalGroup = getSnapshot(
     return icon;
   },
 
-  issuesAvailable() {
-    return this.state.issues.some(problem => problem.get('severity') > 0);
+  eventsAvailable() {
+    return this.state.events.some(problem => problem.get('severity') > 0);
   },
 
   getIcon(groupHealth) {
