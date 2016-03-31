@@ -6,7 +6,7 @@ import {mapSeverityToHealth} from 'in-services/health';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
-import {FILTER_TYPES, Issue$} from './notificationCenterFlyoutStores';
+import {FILTER_TYPES, event$} from './notificationCenterFlyoutStores';
 import Filter from './Filter';
 
 import './FilterBar.less';
@@ -15,7 +15,7 @@ import './FilterBar.less';
 const block = 'in-notificationcenter-filterbar';
 
 export default connectTo({
-    allIssues: Issue$
+    allEvents: event$
   },
   React.createClass({
 
@@ -26,11 +26,11 @@ export default connectTo({
     ],
 
     propTypes: {
-      allIssues: irpt.list
+      allEvents: irpt.list
     },
 
     render() {
-      const counter = this.getIssuesCounter();
+      const counter = this.getEventsCounter();
 
       return (
         <div className={block}>
@@ -49,21 +49,21 @@ export default connectTo({
       );
     },
 
-    getIssuesCounter() {
+    getEventsCounter() {
       const counter = {
         warning: 0,
         danger: 0,
         ok: 0
       };
 
-      const allIssues = this.props.allIssues || emptyArray;
-      allIssues.forEach(issue => {
-        const issueHealth = mapSeverityToHealth(issue.getIn(['problem', 'severity']));
-        if (!issueHealth) {
+      const allEvents = this.props.allEvents || emptyArray;
+      allEvents.forEach(event => {
+        const health = mapSeverityToHealth(event.getIn(['problem', 'severity']));
+        if (!health) {
           return;
         }
 
-        counter[issueHealth]++;
+        counter[health]++;
       });
 
       return counter;

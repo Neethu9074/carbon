@@ -1,12 +1,12 @@
 import React from 'react';
 
-import {getIssuesById} from 'in-services/issueTracker';
+import {getEventsById} from 'in-services/issueTracker';
 
 
-export default function getIssues(ComposedComponent) {
+export default function getEvents(ComposedComponent) {
   return React.createClass({
 
-    displayName: 'getIssues hoc for ' + ComposedComponent.displayName,
+    displayName: 'getEvents hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
       snapshotId: React.PropTypes.string.isRequired
@@ -14,7 +14,7 @@ export default function getIssues(ComposedComponent) {
 
     getInitialState() {
       return {
-        issues: null
+        events: null
       };
     },
 
@@ -38,13 +38,13 @@ export default function getIssues(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        this.subscription = getIssuesById(snapshotId).subscribe(allIssues => {
-          const issues = allIssues && allIssues.size > 0 ?
-            allIssues.toArray().sort((i1, i2) =>
+        this.subscription = getEventsById(snapshotId).subscribe(allEvents => {
+          const events = allEvents && allEvents.size > 0 ?
+            allEvents.toArray().sort((i1, i2) =>
               i1.getIn(['problem', 'severity']) > i2.getIn(['problem', 'severity'])) :
             null;
           this.setState({
-            issues
+            events
           });
         });
       }

@@ -159,13 +159,7 @@ module.exports = defaultsDeep({
   },
   notificationCenter: {
     background: grey6,
-    statusBarBackground: grey6,
-    issueItem: {
-      borderLine: grey4,
-      textTime: white,
-      textSuggestion: 'rgba(255, 255, 255, 0.5)',
-      backgroundHover: grey6
-    }
+    statusBarBackground: grey6
   },
   settings: {
     heading: {

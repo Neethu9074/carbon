@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {getMostImportantIssue as getMostImportantIssueFromIssueTracker} from 'in-services/issueTracker';
+import {getMostImportantEvent as getMostImportantEventFromIssueTracker} from 'in-services/issueTracker';
 
 
-export default function getMostImportantIssue(ComposedComponent) {
+export default function getMostImportantEvent(ComposedComponent) {
   return React.createClass({
-    displayName: 'getMostImportantIssue hoc for ' + ComposedComponent.displayName,
+    displayName: 'getMostImportantEvent hoc for ' + ComposedComponent.displayName,
 
     propTypes: {
       snapshotId: React.PropTypes.string.isRequired
@@ -13,7 +13,7 @@ export default function getMostImportantIssue(ComposedComponent) {
 
     getInitialState() {
       return {
-        mostImportantIssue: null
+        mostImportantEvent: null
       };
     },
 
@@ -37,9 +37,9 @@ export default function getMostImportantIssue(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        this.subscription = getMostImportantIssueFromIssueTracker(snapshotId).subscribe(mostImportantIssue =>
+        this.subscription = getMostImportantEventFromIssueTracker(snapshotId).subscribe(mostImportantEvent =>
           this.setState({
-            mostImportantIssue
+            mostImportantEvent
           })
         );
       }

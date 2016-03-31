@@ -3,18 +3,18 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {mapSeverityToHealth, health} from 'in-services/health';
-import IssueDescription from 'in-components/IssueDescription';
+import EventDescription from 'in-components/EventDescription';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
 
-import './Issue.less';
+import './Event.less';
 
 const rpt = React.PropTypes;
-const block = 'in-timeline-issue';
+const block = 'in-timeline-event';
 
-const Issue = React.createClass({
+const Event = React.createClass({
   mixins: [
     PureRenderMixin
   ],
@@ -22,15 +22,15 @@ const Issue = React.createClass({
   propTypes: {
     mouseOut: rpt.func.isRequired,
     mouseIn: rpt.func.isRequired,
-    issue: irpt.map.isRequired,
+    event: irpt.map.isRequired,
     style: rpt.object
   },
 
   render() {
-    const issue = this.props.issue;
+    const event = this.props.event;
     const style = this.props.style ? this.props.style : {};
-    const severity = issue.getIn(['problem', 'severity']);
-    const open = issue.get('end') == null;
+    const severity = event.getIn(['problem', 'severity']);
+    const open = event.get('end') == null;
     style.color = open ? theme.health[severity] : theme.health[0];
 
     let iconType;
@@ -47,13 +47,13 @@ const Issue = React.createClass({
 
     return (
       <Tooltip  align={{vertical: 'top'}}
-                content={<IssueDescription key={issue.get('id')}
-                                           issue={issue}
-                                           snapshotId={issue.getIn(['problem', 'snapshotId'])}/>}>
+                content={<EventDescription key={event.get('id')}
+                                           event={event}
+                                           snapshotId={event.getIn(['problem', 'snapshotId'])}/>}>
 
         <Icon type={iconType}
-              onMouseEnter={() =>this.props.mouseIn(issue)}
-              onClick={() => setSelectedSnapshotId(issue.getIn(['problem', 'snapshotId']))}
+              onMouseEnter={() =>this.props.mouseIn(event)}
+              onClick={() => setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']))}
               onMouseLeave={this.props.mouseOut}
               className={block}
               style={style} />
@@ -62,4 +62,4 @@ const Issue = React.createClass({
   }
 });
 
-export default Issue;
+export default Event;
