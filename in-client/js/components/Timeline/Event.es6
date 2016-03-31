@@ -4,8 +4,8 @@ import React from 'react';
 
 import {mapSeverityToHealth, health} from 'in-services/health';
 import EventDescription from 'in-components/EventDescription';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
-import {setSelectedIncidentId} from 'in-stores/incident';
+// import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {setSelectedIncident} from 'in-stores/incident';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -72,9 +72,10 @@ const Event = React.createClass({
     const eventType = event.get('type');
 
     if (eventType === 'incident') {
-      setSelectedIncidentId(event.get('id'));
+      setSelectedIncident(event);
     } else {
-      setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
+      setSelectedIncident(event);
+      // setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']))
     }
   }
 });
