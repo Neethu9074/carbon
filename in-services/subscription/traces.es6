@@ -12,7 +12,8 @@ export default createObservableIfMissing.bind(null, {
 });
 
 function getId(onlyTracesFasterThan) {
-  return 'traces' + onlyTracesFasterThan;
+  // cache should remain active for one second
+  return 'traces' + onlyTracesFasterThan + Math.round(Date.now() / 1000);
 }
 
 function createTracesDataObservable(onlyTracesFasterThan) {

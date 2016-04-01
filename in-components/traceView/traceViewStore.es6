@@ -24,6 +24,14 @@ const isLoadingStore = createStore({
 });
 export const isLoading$ = isLoadingStore.observable;
 
+
+const autoUpdateStore = createStore({
+  name: 'traceViewAutoUpdate',
+  initialValue: false
+});
+export const autoUpdate$ = autoUpdateStore.observable;
+
+
 let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
   disposeExistingLoad();
@@ -56,7 +64,30 @@ function addNewTraces(newTraces) {
 }
 
 
+export function refresh() {
+  clear();
+}
+
+
 export function clear() {
   disposeExistingLoad();
   tracesStore.applyStateMutation(() => []);
+}
+
+let intervalHandle;
+export function toggleAutoRefresh() {
+  autoUpdateStore.applyStateMutation(active => {
+    const newState = !active;
+
+    if (intervalHandle) {
+      clearInterval(intervalHandle);
+      intervalHandle = null;
+    }
+
+    if (newState) {
+      intervalHandle = setInterval(refresh, 10000);
+    }
+
+    return newState;
+  });
 }
