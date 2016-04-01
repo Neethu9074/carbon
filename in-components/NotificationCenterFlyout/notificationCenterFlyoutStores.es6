@@ -27,7 +27,7 @@ export const FILTER_TYPES = {
   INCIDENT: {
     predicate: event => getEventType(event) === EVENT_TYPES.INCIDENT,
     color: mapHealthToColor(health.ok),
-    iconType: 'instana_change'
+    iconType: 'system'
   }
 };
 
