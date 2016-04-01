@@ -78,18 +78,17 @@ export function clear() {
 
 let intervalHandle;
 export function toggleAutoRefresh() {
-  autoUpdateStore.applyStateMutation(active => {
-    const newState = !active;
-
-    if (intervalHandle) {
-      clearInterval(intervalHandle);
-      intervalHandle = null;
-    }
-
-    if (newState) {
-      intervalHandle = setInterval(refresh, 10000);
-    }
-
-    return newState;
-  });
+  autoUpdateStore.applyStateMutation(active => !active);
 }
+
+autoUpdate$.subscribe(active => {
+  if (intervalHandle) {
+    clearInterval(intervalHandle);
+    intervalHandle = null;
+  }
+
+  if (active) {
+    refresh();
+    intervalHandle = setInterval(refresh, 10000);
+  }
+});

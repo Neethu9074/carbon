@@ -18,7 +18,8 @@ export default connectTo({
   displayName: 'MapViewSwitcher',
 
   propTypes: {
-    activeView: React.PropTypes.string.isRequired
+    activeView: React.PropTypes.string.isRequired,
+    activePath: React.PropTypes.arrayOf(React.PropTypes.string).isRequired
   },
 
   render() {
@@ -38,6 +39,9 @@ export default connectTo({
   },
 
   renderViewItem(viewKey, label) {
+    const active = this.props.activePath.length === 1 &&
+      this.props.activePath[0] === 'map' &&
+      this.props.activeView === viewKey;
     return this.renderItem(
       label,
       () => {
@@ -46,7 +50,7 @@ export default connectTo({
         eventBus.emit('onViewSwitched');
         goToMap();
       },
-      this.props.activeView === viewKey
+      active
     );
   },
 
@@ -68,7 +72,7 @@ export default connectTo({
     return this.renderItem(
       'Trace',
       getToTraceView,
-      false
+      this.props.activePath[1] === 'traces'
     );
   }
 }));
