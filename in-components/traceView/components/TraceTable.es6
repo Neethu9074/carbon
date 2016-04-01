@@ -41,7 +41,7 @@ export default addElementHeight(connectTo({
           <Infinite containerHeight={this.props.height}
                     elementHeight={38}
                     loadingSpinnerDelegate={<LoadingIndicator type='dark' />}
-                    infiniteLoadBeginEdgeOffset={150}
+                    infiniteLoadBeginEdgeOffset={this.props.height * 0.5}
                     onInfiniteLoad={traceViewStore.loadMoreTraces}
                     isInfiniteLoading={this.props.isInfiniteLoading}
                     className={block + '__scroll-area'}>
