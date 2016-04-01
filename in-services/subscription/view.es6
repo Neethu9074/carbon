@@ -8,13 +8,14 @@ export default createSubscription.bind(null,
   'subscribe-view',
 
   // getID
-  ({viewType}) => viewType,
+  ({viewType, time}) => viewType + time,
 
   // data to be send for subscription
-  (subscriptionId, {viewType}) => {
+  (subscriptionId, {viewType, time}) => {
     return {
       subscriptionId,
-      viewType
+      viewType,
+      time
     };
   },
 

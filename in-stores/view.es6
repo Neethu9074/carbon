@@ -1,8 +1,11 @@
-import createViewStructureObservable from 'in-services/subscription/view';
-import createIsMonitoringObservable from 'in-services/subscription/isMonitoring';
+import * as ro from 'reactive-observables';
 
-import {mutateUrl, navigationParameters} from './navigation';
-import {createStore, createTrackingStore} from './store';
+import createIsMonitoringObservable from 'in-services/subscription/isMonitoring';
+import createViewStructureObservable from 'in-services/subscription/view';
+
+import {mutateUrl, navigationParameters} from 'in-stores/navigation';
+import {createStore, createTrackingStore} from 'in-stores/store';
+import * as timelineStore from 'in-stores/timeline';
 
 export const types = {
   process: 'PROCESS',
@@ -17,7 +20,10 @@ const store = createStore({
 export const view = store.observable.distinct();
 export const viewStructure = createTrackingStore({
   name: 'viewStructure',
-  observable: view.flatMap(viewType => createViewStructureObservable({viewType}))
+  observable: ro.combineLatest([view, timelineStore.timeframe])
+    .flatMap(([viewType, timeframe]) => {
+      return createViewStructureObservable(viewType, timeframe.to);
+    })
 }).observable;
 
 
