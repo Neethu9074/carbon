@@ -14,7 +14,7 @@ IMAGE="ui-client/$INSTANA_UICLIENT_BRANCH"
 if [ -z "$IMAGE" ]; then echo "no image provided"; exit 1; fi
 if [ -z "$VERSION" ]; then echo "no version provided"; exit 2; fi
 
-rm -rf ext-discovery
+rm -rf deployment/ext-discovery
 git clone git@github.com:instana/discovery.git deployment/ext-discovery
 
 echo "Building Docker image ..."
