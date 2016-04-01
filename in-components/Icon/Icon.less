@@ -33,16 +33,54 @@ button.icon {
 }
 
 /*
- * To update the following section do a regex search and replace of the
- * following
+ * To update the following section, to the following with the style.css
+ * provided by the designers
  *
- * Search:
- * \.icon-([^:]+):before { content: ([^;]+); }
+ * 1. Remove everything from the file except the icon rules, e.g.
+ *     .icon-instana_icons_critical:before {
+ *       content: "\e60f";
+ *     }
  *
- * Replace:
- * @icon-$1: $2;ABC { content: @icon-$1; }
+ * 2. Replace all line breaks so that each icon rule is in the format
+ *    .icon-instana_icons_critical:before { content: "\e60f"; }
+ *
+ * 3. Do a regex search replace with
+ *
+ *     Search:
+ *     \.icon-([^:]+):before { content: ([^;]+); }
+ *
+ *     Replace:
+ *     @icon-$1: $2;ABC.icon-$1:before { content: @icon-$1; }
+ *
+ * 4. Do a multi-cursor search for ABC and turn the rule into the following format.
+ *     @icon-instana_icons_critical: "\e60f";
+ *     .icon-instana_icons_critical:before { content: @icon-instana_icons_critical; }
+ *
+ * 5. Remove the prefix from the classes via
+ *    Search for
+ *     instana_icons_
+ *    Replace with <nothing>
+ *
  */
 
+
+@icon-calendar: "\e903";
+.icon-calendar:before { content: @icon-calendar; }
+
+@icon-enlarge: "\e904";
+.icon-enlarge:before { content: @icon-enlarge; }
+
+@icon-fullscreen: "\e905";
+.icon-fullscreen:before { content: @icon-fullscreen; }
+
+@icon-livetime: "\e906";
+.icon-livetime:before { content: @icon-livetime; }
+
+@icon-reload: "\e907";
+.icon-reload:before { content: @icon-reload; }
+
+@icon-customzone: "\e902";
+.icon-customzone:before { content: @icon-customzone; }
 
 @icon-instana_change: "\e901";
 .icon-instana_change:before { content: @icon-instana_change; }

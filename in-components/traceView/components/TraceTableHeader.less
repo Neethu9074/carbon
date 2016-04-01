@@ -1,0 +1,46 @@
+.in-trace-table-header {
+  color: #92A5AE;
+  font-size: 0.75rem;
+  padding: 0 0.625rem 0.5rem 0.625rem;
+  margin: 1rem 1rem 0 0;
+
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  &__cell {
+    width: 60%;
+    display: inline-block;
+    position: relative;
+    line-height: 1.5rem;
+    border-bottom: 1px solid #D5DFE4;
+    padding: 1rem 0 1.5625rem;
+
+    &--selected {
+      color: #172429;
+      font-weight: bold;
+      border-bottom-color: #2D4048;
+
+      &::after {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        content: "";
+        height: 3px;
+        background: #2D4048;
+      }
+    }
+
+    &:first-child {
+      width: 25%;
+    }
+
+    &:last-child {
+      width: ~"calc(15% + 0.625rem)";
+      margin-right: -0.625rem;
+    }
+  }
+}

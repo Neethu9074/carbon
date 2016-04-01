@@ -22,12 +22,18 @@ const withoutCpuStealMapper = (events) => {
   );
 };
 
+/**
+ * An isue may already exist in our list of events.
+ * We assume that it is an update in such cases. An update may change a
+ * problem's end time and other properties.
+ *
+ * Remove all events for which we get updates from the backend and add the updated ones.
+ *
+ * @param {Immutable<Event>} existingEvents All current event since the last scan
+ * @param {Immutable<Event>} eventUpdates All updates
+ * @returns {Immutable≤Issue>} existingEvents + eventUpdates - dublicates
+ */
 function historicalEventsReducer(existingEvents, eventUpdates) {
-  // a event may already exist in our list of events.
-  // We assume that it is an update in such cases. An update may change a
-  // problem's end time and other properties.
-  //
-  // Remove all events for which we get updates from the backend and add the updated ones.
   return existingEvents.filter(existing => {
     const id = existing.get('id');
     return eventUpdates.findIndex(updated => updated.get('id') === id) === -1;
@@ -35,11 +41,26 @@ function historicalEventsReducer(existingEvents, eventUpdates) {
   .concat(eventUpdates);
 }
 
+/**
+ * The same as historicalEventsReducer but this reducer removes all events
+ * inside updates which have an end timestamp
+ *
+ * @param {Immutable<Event>} existingEvents All current event since the last scan
+ * @param {Immutable<Event>} eventUpdates All updates
+ * @returns {Immutable≤Issue>} existingEvents + eventUpdates - dublicates - events with end date
+ */
 function openEventsReducer(existingEvents, eventUpdates) {
   return historicalEventsReducer(existingEvents, eventUpdates)
           .filter(event => event.get('end') === undefined);
 }
 
+/**
+ * This method returns any event stream and sort out or leave in all events that are marked
+ * as experimental, depending on the settings. Furthermore CPU Steal event are removed on demo environment
+ *
+ * @param {ReactiveObservable<Event>} event$ The event stream, containing all events
+ * @returns {ReactiveObservable<Event>} A cleaned event stream
+ */
 function prepareEvents$(event$) {
   let stream = event$;
 
@@ -114,6 +135,13 @@ export function getEventsById(snapshotId) {
   });
 }
 
+/**
+ * Searches for the event with the highest severity and returns it or the first
+ * if many have the same severity
+ *
+ * @param {number} snapshotId The id to filter the event stream
+ * @returns {Event} The event with the highest severity
+ */
 export function getMostImportantEvent(snapshotId) {
   return getEventsById(snapshotId)
            .map(events => events.reduce((acc, event) => {
@@ -164,6 +192,12 @@ export function getColorForEvent(event) {
   return !event.get('end') ? getColorForProblem(event.get('problem')) : theme.health[0];
 }
 
+/**
+ * The same as getColorForIssue but with Problem object
+ *
+ * @param {Immutable<Problem>} Problem The problem for which the color should be determined.
+ * @returns {string} The color string in hex (e.g. #F03249)
+ */
 export function getColorForProblem(problem) {
   const severity = problem.get('severity');
   throwExceptionIfUndefined(severity);

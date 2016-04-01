@@ -61,7 +61,7 @@ export default getSnapshot(React.createClass({
     const severity = event.getIn(['problem', 'severity']);
 
     if (severity < 0) {
-      return 'instana_change';
+      return 'change';
     } else if (severity > 8) {
       return 'critical';
     }
