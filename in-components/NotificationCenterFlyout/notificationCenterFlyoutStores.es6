@@ -9,23 +9,20 @@ export const FILTER_TYPES = {
     predicate: () => true,
     iconType: ''
   },
-
   CRITICAL: {
     predicate: event => mapSeverityToHealth(event.getIn(['problem', 'severity'])) === health.danger,
     color: mapHealthToColor(health.danger),
     iconType: 'critical'
   },
-
   WARNING: {
     predicate: event => mapSeverityToHealth(event.getIn(['problem', 'severity'])) === health.warning,
     color: mapHealthToColor(health.warning),
     iconType: 'warning'
   },
-
-  SYSTEM: {
-    predicate: event => mapSeverityToHealth(event.getIn(['problem', 'severity'])) === health.ok,
+  CHANGE: {
+    predicate: issue => mapSeverityToHealth(issue.getIn(['problem', 'severity'])) === health.ok,
     color: mapHealthToColor(health.ok),
-    iconType: 'system'
+    iconType: 'instana_change'
   }
 };
 

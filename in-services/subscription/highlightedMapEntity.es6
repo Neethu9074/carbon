@@ -21,7 +21,7 @@ function createPhysicalHierarchyObservable(snapshotId) {
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-physical-hierarchy', {
+      subscribe(subscriptionId, 'subscribe-highlighted-map-entity', {
         'subscriptionId': subscriptionId,
         'snapshotId': snapshotId
       });
@@ -35,7 +35,7 @@ function createPhysicalHierarchyObservable(snapshotId) {
 
   return observable;
 
-  function onData(hierarchy) {
-    observable.emit(Immutable.List(hierarchy));
+  function onData(entity) {
+    observable.emit(Immutable.List(entity));
   }
 }

@@ -1,6 +1,6 @@
 import * as ro from 'reactive-observables';
 
-import {selectedSnapshotId, getPhysicalHierarchy} from 'in-stores/snapshot';
+import {selectedSnapshotId, getHighlightedMapEntity} from 'in-stores/snapshot';
 import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
 
@@ -24,13 +24,6 @@ export const selectedSnapshotIdForHighlightingInMap = createTrackingStore({
       if (!snapshotId) {
         return alwaysNull;
       }
-
-      return getPhysicalHierarchy(snapshotId)
-        .map(physicalHierarchy => {
-          if (!physicalHierarchy || physicalHierarchy.size <= 1) {
-            return snapshotId;
-          }
-          return physicalHierarchy.first();
-        });
+      return getHighlightedMapEntity(snapshotId);
     })
 }).observable;

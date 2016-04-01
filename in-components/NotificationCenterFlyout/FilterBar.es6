@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {mapSeverityToHealth} from 'in-services/health';
+import {mapSeverityToHealth, health} from 'in-services/health';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
@@ -43,8 +43,8 @@ export default connectTo({
           <Filter label={'' + counter.warning}
                   filter={FILTER_TYPES.WARNING}/>
 
-          <Filter label={'' + counter.ok}
-                  filter={FILTER_TYPES.SYSTEM}/>
+          <Filter label={'' + counter.change}
+                  filter={FILTER_TYPES.CHANGE}/>
         </div>
       );
     },
@@ -53,17 +53,21 @@ export default connectTo({
       const counter = {
         warning: 0,
         danger: 0,
-        ok: 0
+        change: 0
       };
 
       const allEvents = this.props.allEvents || emptyArray;
       allEvents.forEach(event => {
-        const health = mapSeverityToHealth(event.getIn(['problem', 'severity']));
-        if (!health) {
+        const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity']));
+        if (!eventHealth) {
           return;
         }
 
-        counter[health]++;
+        if (eventHealth === health.ok) {
+          counter.change++;
+        } else {
+          counter[eventHealth]++;
+        }
       });
 
       return counter;

@@ -1,5 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 
+import createHighlightedMapEntityObservable from 'in-services/subscription/highlightedMapEntity';
 import createPhysicalHierarchyObservable from 'in-services/subscription/physicalHierarchy';
 import createRunningComponentsObservable from 'in-services/subscription/runningComponents';
 import createDeployedUnitsObservable from 'in-services/subscription/deployedUnits';
@@ -75,6 +76,10 @@ export function getSnapshot(snapshotId) {
 
 export function getPhysicalHierarchy(snapshotId) {
   return createPhysicalHierarchyObservable(snapshotId);
+}
+
+export function getHighlightedMapEntity(snapshotId) {
+  return createHighlightedMapEntityObservable(snapshotId);
 }
 
 export function getFoundations(snapshotId) {
