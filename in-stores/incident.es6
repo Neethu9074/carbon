@@ -15,7 +15,7 @@ export const selectedIncident = createTrackingStore({
   name: 'selectedIncidentStore',
   observable: selectedIncidentId.flatMap(id => {
     if (id) {
-      return getEvent(id);
+      return createSnapshotObservable(id);
     }
     return alwaysNull;
   })
@@ -39,11 +39,6 @@ export function clearSelectedIncidentId() {
     return navParams;
   });
   selectedIncidentIdStore.applyStateMutation(() => null);
-}
-
-
-export function getEvent(id) {
-  return createSnapshotObservable(id);
 }
 
 

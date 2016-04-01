@@ -159,6 +159,7 @@ module.exports = defaultsDeep({
   },
   notificationCenter: {
     background: grey6,
+    backgroundHighlight: grey5,
     statusBarBackground: grey6
   },
   settings: {
