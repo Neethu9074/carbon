@@ -2,9 +2,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {mapSeverityToHealth, health} from 'in-services/health';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import EventDescription from 'in-components/EventDescription';
-// import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {setSelectedIncidentId} from 'in-stores/incident';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
@@ -52,30 +52,25 @@ const Event = React.createClass({
   },
 
   getIconType(event) {
-    const eventType = event.get('type');
-    if (eventType === 'incident') {
-      return 'system';
-    }
-
-    switch (mapSeverityToHealth(event.getIn(['problem', 'severity']))) {
-      case health.warning:
+    switch (getEventType(event)) {
+      case EVENT_TYPES.ISSUE_WARNING:
         return 'warning';
-      case health.danger:
+      case EVENT_TYPES.ISSUE_CRITICAL:
         return 'critical';
+      case EVENT_TYPES.INCIDENT:
+        return 'system';
       default:
         return 'change';
     }
   },
 
   onClick() {
-    const event = this.props.event;
-    const eventType = event.get('type');
+    const eventType = getEventType(this.props.event);
 
-    if (eventType === 'incident') {
+    if (eventType === EVENT_TYPES.INCIDENT) {
       setSelectedIncidentId(event.get('id'));
     } else {
-      setSelectedIncidentId(event.get('id'));
-      // setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']))
+      setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
     }
   }
 });

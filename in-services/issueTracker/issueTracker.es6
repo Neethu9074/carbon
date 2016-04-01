@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
+import {mapSeverityToHealth, health} from 'in-services/health';
 import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
 import {createTrackingStore} from 'in-stores/store';
@@ -9,8 +10,6 @@ import * as timelineStore from 'in-stores/timeline';
 import {getOpenEvents} from 'in-stores/openEvents';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
-
-import {mapSeverityToHealth} from '../health';
 
 
 // CPU steal events shouldn't be shown in the demo environment as we are using
@@ -172,5 +171,30 @@ export function getColorForProblem(problem) {
 function throwExceptionIfUndefined(property) {
   if (property === undefined) {
     throw new Error('Missing argument:', property);
+  }
+}
+
+
+export const EVENT_TYPES = {
+  CHANGE: 0,
+  ISSUE_WARNING: 1,
+  ISSUE_CRITICAL: 2,
+  INCIDENT: 3
+};
+
+export function getEventType(event) {
+  const eventType = event.get('type');
+  if (eventType === 'incident') {
+    return EVENT_TYPES.INCIDENT;
+  }
+
+  const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity']));
+  switch (eventHealth) {
+    case health.danger:
+      return EVENT_TYPES.ISSUE_CRITICAL;
+    case health.warning:
+      return EVENT_TYPES.ISSUE_WARNING;
+    default:
+      return EVENT_TYPES.CHANGE;
   }
 }

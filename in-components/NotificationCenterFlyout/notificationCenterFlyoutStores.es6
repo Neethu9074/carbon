@@ -1,5 +1,5 @@
-import {mapHealthToColor, mapSeverityToHealth, health} from 'in-services/health';
-import {historicalEvents$, openEvents$} from 'in-services/issueTracker';
+import {historicalEvents$, openEvents$, getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import {mapHealthToColor, health} from 'in-services/health';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {createStore} from 'in-stores/store';
 
@@ -10,17 +10,22 @@ export const FILTER_TYPES = {
     iconType: ''
   },
   CRITICAL: {
-    predicate: event => mapSeverityToHealth(event.getIn(['problem', 'severity'])) === health.danger,
+    predicate: event => getEventType(event) === EVENT_TYPES.ISSUE_CRITICAL,
     color: mapHealthToColor(health.danger),
     iconType: 'critical'
   },
   WARNING: {
-    predicate: event => mapSeverityToHealth(event.getIn(['problem', 'severity'])) === health.warning,
+    predicate: event => getEventType(event) === EVENT_TYPES.ISSUE_WARNING,
     color: mapHealthToColor(health.warning),
     iconType: 'warning'
   },
   CHANGE: {
-    predicate: issue => mapSeverityToHealth(issue.getIn(['problem', 'severity'])) === health.ok,
+    predicate: event => getEventType(event) === EVENT_TYPES.CHANGE,
+    color: mapHealthToColor(health.ok),
+    iconType: 'instana_change'
+  },
+  INCIDENT: {
+    predicate: event => getEventType(event) === EVENT_TYPES.INCIDENT,
     color: mapHealthToColor(health.ok),
     iconType: 'instana_change'
   }
