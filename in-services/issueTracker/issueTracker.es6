@@ -22,12 +22,18 @@ const withoutCpuStealMapper = (issues) => {
   );
 };
 
+/**
+ * An isue may already exist in our list of issues.
+ * We assume that it is an update in such cases. An update may change a
+ * problem's end time and other properties.
+ *
+ * Remove all issues for which we get updates from the backend and add the updated ones.
+ *
+ * @param {Immutable<Issue>} existingIssues All current issue since the last scan
+ * @param {Immutable<Issue>} issueUpdates All updates
+ * @returns {Immutable≤Issue>} existingIssues + issueUpdates - dublicates
+ */
 function historicalIssuesReducer(existingIssues, issueUpdates) {
-  // a issue may already exist in our list of issues.
-  // We assume that it is an update in such cases. An update may change a
-  // problem's end time and other properties.
-  //
-  // Remove all issues for which we get updates from the backend and add the updated ones.
   return existingIssues.filter(existing => {
     const id = existing.get('id');
     return issueUpdates.findIndex(updated => updated.get('id') === id) === -1;
@@ -35,11 +41,26 @@ function historicalIssuesReducer(existingIssues, issueUpdates) {
   .concat(issueUpdates);
 }
 
+/**
+ * The same as historicalIssuesReducer but this reducer removes all issues
+ * inside updates which have an end timestamp
+ *
+ * @param {Immutable<Issue>} existingIssues All current issue since the last scan
+ * @param {Immutable<Issue>} issueUpdates All updates
+ * @returns {Immutable≤Issue>} existingIssues + issueUpdates - dublicates - issues with end date
+ */
 function openIssuesReducer(existingIssues, issueUpdates) {
   return historicalIssuesReducer(existingIssues, issueUpdates)
           .filter(issue => issue.get('end') === undefined);
 }
 
+/**
+ * This method returns any issue stream and sort out or leave in all issues that are marked
+ * as experimental, depending on the settings. Furthermore CPU Steal issue are removed on demo environment
+ *
+ * @param {ReactiveObservable<Issue>} issue$ The issue stream, containing all issues
+ * @returns {ReactiveObservable<Issue>} A cleaned issue stream
+ */
 function prepareIssue$(issue$) {
   let stream = issue$;
 
@@ -114,6 +135,13 @@ export function getIssuesById(snapshotId) {
   });
 }
 
+/**
+ * Searches for the issue with the highest severity and returns it or the first
+ * if many have the same severity
+ *
+ * @param {number} snapshotId The id to filter the issue stream
+ * @returns {Issue} The issue with the highest severity
+ */
 export function getMostImportantIssue(snapshotId) {
   return getIssuesById(snapshotId)
            .map(issues => issues.reduce((acc, issue) => {
@@ -164,6 +192,12 @@ export function getColorForIssue(issue) {
   return !issue.get('end') ? getColorForProblem(issue.get('problem')) : theme.health[0];
 }
 
+/**
+ * The same as getColorForIssue but with Problem object
+ *
+ * @param {Immutable<Problem>} Problem The problem for which the color should be determined.
+ * @returns {string} The color string in hex (e.g. #F03249)
+ */
 export function getColorForProblem(problem) {
   const severity = problem.get('severity');
   throwExceptionIfUndefined(severity);
