@@ -3,6 +3,8 @@ import Immutable from 'immutable';
 
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {mapSeverityToHealth, health} from 'in-services/health';
+import {setSelectedIncidentId} from 'in-stores/incident';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
 import {createTrackingStore} from 'in-stores/store';
@@ -196,5 +198,14 @@ export function getEventType(event) {
       return EVENT_TYPES.ISSUE_WARNING;
     default:
       return EVENT_TYPES.CHANGE;
+  }
+}
+
+
+export function selectEvent(event) {
+  if (getEventType(event) === EVENT_TYPES.INCIDENT) {
+    setSelectedIncidentId(event.get('id'));
+  } else {
+    setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
   }
 }

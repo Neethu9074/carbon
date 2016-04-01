@@ -33,6 +33,7 @@ export function setSelectedIncidentId(id) {
   }
 }
 
+
 export function clearSelectedIncidentId() {
   mutateUrl(navParams => {
     delete navParams.query.incidentId;

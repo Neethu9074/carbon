@@ -2,10 +2,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import {getEventType, EVENT_TYPES, selectEvent} from 'in-services/issueTracker';
 import EventDescription from 'in-components/EventDescription';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
-import {setSelectedIncidentId} from 'in-stores/incident';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -15,7 +13,10 @@ import './Event.less';
 const rpt = React.PropTypes;
 const block = 'in-timeline-event';
 
-const Event = React.createClass({
+export default React.createClass({
+
+  displayName: 'Event',
+
   mixins: [
     PureRenderMixin
   ],
@@ -43,7 +44,7 @@ const Event = React.createClass({
 
         <Icon type={iconType}
               onMouseEnter={() => this.props.mouseIn(event)}
-              onClick={this.onClick}
+              onClick={(() => selectEvent(event))}
               onMouseLeave={this.props.mouseOut}
               className={block}
               style={style} />
@@ -62,17 +63,4 @@ const Event = React.createClass({
       default:
         return 'change';
     }
-  },
-
-  onClick() {
-    const eventType = getEventType(this.props.event);
-
-    if (eventType === EVENT_TYPES.INCIDENT) {
-      setSelectedIncidentId(event.get('id'));
-    } else {
-      setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
-    }
-  }
-});
-
-export default Event;
+  }});

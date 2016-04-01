@@ -2,8 +2,7 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
-import {getColorForEvent} from 'in-services/issueTracker';
-import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import {getColorForEvent, selectEvent} from 'in-services/issueTracker';
 import {toHtml} from 'in-services/formatters/markdown';
 import {getClassName} from 'in-services/react';
 import getSnapshot from 'in-hoc/getSnapshot';
@@ -35,7 +34,7 @@ export default getSnapshot(React.createClass({
 
     return (
       <div className={className}
-           onClick={this.onClick}>
+           onClick={() => selectEvent(event)}>
         <Icon className={block + '__icon'}
               type={this.getIconType(event)}
               style={{color}}/>
@@ -67,9 +66,5 @@ export default getSnapshot(React.createClass({
       return 'critical';
     }
     return 'warning';
-  },
-
-  onClick() {
-    setSelectedSnapshotId(this.props.snapshotId);
   }
 }));
