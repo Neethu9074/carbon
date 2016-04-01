@@ -32,7 +32,7 @@ export default connectTo({
 
     getInitialState() {
       return {
-        showNotificationCenter: false,
+        showNotificationCenter: true,
         windowHeight: this.getWindowHeight()
       };
     },

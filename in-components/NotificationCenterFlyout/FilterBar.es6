@@ -43,8 +43,8 @@ export default connectTo({
           <Filter label={'' + counter.warning}
                   filter={FILTER_TYPES.WARNING}/>
 
-          <Filter label={'' + counter.ok}
-                  filter={FILTER_TYPES.SYSTEM}/>
+          <Filter label={'' + counter.change}
+                  filter={FILTER_TYPES.CHANGE}/>
         </div>
       );
     },
@@ -53,7 +53,7 @@ export default connectTo({
       const counter = {
         warning: 0,
         danger: 0,
-        ok: 0
+        change: 0
       };
 
       const allIssues = this.props.allIssues || emptyArray;
@@ -63,7 +63,11 @@ export default connectTo({
           return;
         }
 
-        counter[issueHealth]++;
+        if (issueHealth === 'ok') {
+          counter.change++;
+        } else {
+          counter[issueHealth]++;
+        }
       });
 
       return counter;
