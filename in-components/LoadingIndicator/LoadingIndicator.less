@@ -10,6 +10,10 @@
     margin: 0 1px;
     display: inline-block;
     animation: in-loading-indicator-animation 1.2s infinite ease-in-out;
+
+    &--dark {
+      background-color: #2D4048;
+    }
   }
 
   &__rect--1 { animation-delay: -1.2s; }
@@ -17,7 +21,6 @@
   &__rect--3 { animation-delay: -1.0s; }
   &__rect--4 { animation-delay: -0.9s; }
   &__rect--5 { animation-delay: -0.8s; }
-
 }
 
 @keyframes in-loading-indicator-animation {

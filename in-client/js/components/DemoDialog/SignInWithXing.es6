@@ -1,6 +1,6 @@
 import {get} from 'lodash';
 import React from 'react';
-import ReactDOM from 'react';
+import ReactDOM from 'react-dom';
 import {createLogger} from 'instalog';
 
 const logger = createLogger('in-client.SignInWithXing');

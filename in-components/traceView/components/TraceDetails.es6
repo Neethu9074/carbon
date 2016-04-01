@@ -2,7 +2,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import TraceWaterfallChart from 'in-components/traceView/TraceWaterfallChart';
+import TraceWaterfallChart from 'in-components/traceView/components/TraceWaterfallChart';
+import TraceHeading from 'in-components/traceView/components/TraceHeading';
 import {selectedTrace} from 'in-stores/traces';
 import connectTo from 'in-hoc/connectTo';
 
@@ -21,11 +22,13 @@ export default connectTo({
 
   render() {
     if (!this.props.trace) {
-      return null;
+      return <p>No trace selected.</p>;
     }
     return (
       <div className={block}>
-        <h1>TraceDetails</h1>
+        <TraceHeading>
+          {this.props.trace.get('name')}
+        </TraceHeading>
         <TraceWaterfallChart trace={this.props.trace} />
       </div>
     );
