@@ -42,17 +42,29 @@ const withoutCpuStealMapper = (events) => {
  * @param {Immutable<Event>} eventUpdates All updates
  * @returns {Immutable≤Issue>} existingEvents + eventUpdates - dublicates
  */
-function historicalEventsReducer(existingEvents, eventUpdates) {
+function issuesReducer(existingEvents, eventUpdates) {
   return existingEvents.filter(existing => {
-  // TODO: remove issue that are not in the window anymore
     const id = existing.get('id');
     return eventUpdates.findIndex(updated => updated.get('id') === id) === -1;
   })
   .concat(eventUpdates);
 }
 
+
 /**
- * The same as historicalEventsReducer but this reducer removes all events
+ * The same as issuesReducer but this reducer removes all issues
+ * which are not inside the timeframe anymore
+ *
+ * @param {Immutable<Issue>} existingIssues All current issue since the last scan
+ * @param {Immutable<Issue>} issueUpdates All updates
+ * @returns {Immutable≤Issue>} existingIssues + issueUpdates - dublicates - issues outside timeframe
+ */
+function historicalEventsReducer(existingIssues, issueUpdates) {
+  return issuesReducer(existingIssues, issueUpdates);
+}
+
+/**
+ * The same as issuesReducer but this reducer removes all issues
  * inside updates which have an end timestamp
  *
  * @param {Immutable<Event>} existingEvents All current event since the last scan
@@ -60,7 +72,7 @@ function historicalEventsReducer(existingEvents, eventUpdates) {
  * @returns {Immutable≤Issue>} existingEvents + eventUpdates - dublicates - events with end date
  */
 function openEventsReducer(existingEvents, eventUpdates) {
-  return historicalEventsReducer(existingEvents, eventUpdates)
+  return issuesReducer(existingEvents, eventUpdates)
           .filter(event => event.get('end') === undefined);
 }
 
