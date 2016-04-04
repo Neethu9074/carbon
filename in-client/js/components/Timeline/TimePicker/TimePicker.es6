@@ -34,13 +34,23 @@ export default connectTo({
 
     propTypes: {
       selectedTimePicker: rpt.string,
+      onClose: rpt.func.isRequired,
       className: rpt.string
+    },
+
+    componentDidMount() {
+      window.addEventListener('mouseup', this.handleClick, false);
+    },
+
+    componentWillUnmount() {
+      window.removeEventListener('mouseup', this.handleClick, false);
     },
 
     render() {
       const className = getClassName(this, block);
       return (
-        <div className={className}>
+        <div className={className}
+             ref='myDiv'>
           {this.props.selectedTimePicker === TIME_PICKER.FIXED ?
             <FixedTimeWindowPicker /> :
             <TimeRangePicker />
@@ -82,6 +92,15 @@ export default connectTo({
           </div>
         </div>
       );
+    },
+
+    handleClick(e) {
+      const rect = this.refs.myDiv.getBoundingClientRect();
+      if (e.clientX > rect.right || e.clientX < rect.left ||
+          e.clientY < rect.top || e.clientY > rect.bottom) {
+        // the click was donw outside this component so close it
+        this.props.onClose();
+      }
     }
   })
 );

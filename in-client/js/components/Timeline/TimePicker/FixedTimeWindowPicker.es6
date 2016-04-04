@@ -63,17 +63,15 @@ export default connectTo({
     },
 
     applyTime() {
-      let from = this.props.dateFrom;
+      const from = this.props.dateFrom;
       let to = this.props.dateTo;
-      console.log('set', from, to);
 
       // only apply valid dates
       if (from && to) {
-        from = from.getTime();
         to = to.getTime();
 
         tracking.events.changingTimeWindowUsingTimeline();
-        timelineStore.setTimeframe(to - from, to);
+        timelineStore.setTimeframe(to - from.getTime(), to);
       }
     }
   })

@@ -34,6 +34,8 @@ const withoutCpuStealMapper = (issues) => {
  * @returns {Immutable≤Issue>} existingIssues + issueUpdates - dublicates
  */
 function historicalIssuesReducer(existingIssues, issueUpdates) {
+  // TODO: remove issue that are not in the window anymore
+
   return existingIssues.filter(existing => {
     const id = existing.get('id');
     return issueUpdates.findIndex(updated => updated.get('id') === id) === -1;
