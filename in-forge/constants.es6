@@ -2,6 +2,7 @@ export const plugins = {
   availabilityZone: 'availabilityZone',
   cassandra: 'cassandraNode',
   cassandraCluster: 'cassandraCluster',
+  dropwizard: 'dropwizardApplicationContainer',
   docker: 'docker',
   ec2: 'ec2',
   elasticsearch: 'elasticsearch',
