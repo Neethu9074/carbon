@@ -6,7 +6,9 @@ import 'react-day-picker/lib/style.css';
 import moment from 'moment';
 import React from 'react';
 
-import {formatTime, formatDate} from 'in-services/formatters/date';
+import {timeFormat, formatTime, dateFormat, formatDate} from 'in-services/formatters/date';
+
+import TextInput from './TextInput';
 
 import './DatePicker.less';
 
@@ -23,14 +25,32 @@ export default React.createClass({
   ],
 
   propTypes: {
-    onDateClicked: rpt.func.isRequired,
-    onTimeChanged: rpt.func.isRequired,
-    date: rpt.instanceOf(Date),
+    setDateTime: rpt.func.isRequired,
     heading: rpt.string
   },
 
+  getInitialState() {
+    const date = new Date();
+    const dateString = formatDate(date.getTime());
+    const timeString = formatTime(date.getTime());
+    return {
+      dateString,
+      timeString,
+      dateIsValid: this.checkDate(dateString),
+      timeIsValid: this.checkTime(timeString)
+    };
+  },
+
+  componentWillUpdate(props, state) {
+    if (!state.dateIsValid || !state.timeIsValid) {
+      this.props.setDateTime(null);
+    } else {
+      this.props.setDateTime(this.getMergedDate(state));
+    }
+  },
+
   render() {
-    const date = this.props.date;
+    const date = this.getMergedDate(this.state);
 
     return (
       <div className={block}>
@@ -42,41 +62,69 @@ export default React.createClass({
         }
 
         <div className={block + '__inputs'}>
-          <div>
-            <span className={block + '__input--heading'}>
-              Date
-            </span>
-            <br/>
-            <input type='text'
-                   className={block + '__input'}
-                   value={formatDate(date.getTime())}
-                   disabled={true}/>
-          </div>
-          <div>
-            <span className={block + '__input--heading'}>
-              Time
-            </span>
-            <br/>
-            <input type='text'
-                   className={block + '__input'}
-                   value={formatTime(date.getTime())}
-                   onChange={(e) => this.onTimeChanged(e)}/>
-          </div>
+          <TextInput heading={'Date'}
+                     value={this.state.dateString}
+                     isValid={this.state.dateIsValid}
+                     validationMessage={'please enter a date in the form: ' + dateFormat}
+                     onChange={this.onDateStringChanged} />
+
+          <TextInput heading={'Time'}
+                     value={this.state.timeString}
+                     isValid={this.state.timeIsValid}
+                     validationMessage={'please enter a time in the form: ' + timeFormat}
+                     onChange={this.onTimeStringChanged} />
         </div>
 
         <DayPicker initialMonth={date}
                    modifiers={{
-                     isSelected: day => dateUtils.isSameDay(day, date)
+                     isSelected: day => {
+                       return dateUtils.isSameDay(day, date);
+                     }
                    }}
-                   onDayClick={(e, day) => this.props.onDateClicked(day)}/>
-     </div>
+                   onDayClick={(e, day) => this.onDateStringChanged(formatDate(day))}/>
+      </div>
     );
   },
 
-  onTimeChanged(event) {
-    const time = moment(event.target.value, 'HH-mm-ss');
-    if (time.isValid()) {
-      this.props.onTimeChanged(time);
+  onDateStringChanged(dateString) {
+    const dateIsValid = this.checkDate(dateString);
+    this.setState({
+      dateString,
+      dateIsValid
+    });
+  },
+
+  onTimeStringChanged(timeString) {
+    const timeIsValid = this.checkTime(timeString);
+    this.setState({
+      timeString,
+      timeIsValid
+    });
+  },
+
+  checkDate(date) {
+    return moment(date, dateFormat).isValid();
+  },
+
+  checkTime(time) {
+    return moment(time, timeFormat).isValid();
+  },
+
+  getMergedDate(state) {
+    const date = state.dateIsValid ? moment(state.dateString, dateFormat) : null;
+    const time = state.timeIsValid ? moment(state.timeString, timeFormat) : null;
+
+    if (!date || !time) {
+      return undefined;
     }
+
+    const dateTime = new Date();
+    dateTime.setFullYear(date.year());
+    dateTime.setMonth(date.month());
+    dateTime.setDate(date.date());
+    dateTime.setHours(time.hour());
+    dateTime.setMinutes(time.minute());
+    dateTime.setSeconds(time.second());
+    return dateTime;
   }
 });

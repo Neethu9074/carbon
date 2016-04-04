@@ -1,4 +1,3 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import * as timelineStore from 'in-stores/timeline';
@@ -6,15 +5,12 @@ import DatePicker from 'in-components/DatePicker';
 import * as tracking from 'in-services/tracking';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
-import moment from 'moment';
 
 import {
-  selectedDateFrom,
-  selectedDateTo,
-  setDateFrom,
-  setTimeFrom,
-  setTimeTo,
-  setDateTo
+  dateFrom,
+  dateTo,
+  setDateTimeFrom,
+  setDateTimeTo
 } from '../timelineStores';
 
 import './FixedTimeWindowPicker.less';
@@ -24,44 +20,39 @@ const rpt = React.PropTypes;
 const block = 'in-fixed-time-window-picker';
 
 export default connectTo({
-    dateFrom: selectedDateFrom,
-    dateTo: selectedDateTo
+    dateFrom,
+    dateTo
   },
   React.createClass({
 
     displayName: 'FixedTimeWindowPicker',
-
-    mixins: [
-      PureRenderMixin
-    ],
 
     propTypes: {
       dateFrom: rpt.instanceOf(Date),
       dateTo: rpt.instanceOf(Date)
     },
 
-    componentWillMount() {
-      // set initial time and date
-      const now = new Date();
-      const time = moment(now.getTime());
+    shouldComponentUpdate(nextProps) {
+      const shouldUpdate =
+        nextProps.dateFrom === this.props.dateFrom &&
+        nextProps.dateTo === this.props.dateTo;
 
-      setDateFrom(now);
-      setDateTo(now);
-      setTimeFrom(time);
-      setTimeTo(time);
+      return !shouldUpdate;
+    },
+
+    componentWillMount() {
+      const now = new Date();
+      setDateTimeFrom(now);
+      setDateTimeTo(now);
     },
 
     render() {
       return (
         <div className={block}>
           <DatePicker heading={'From'}
-                      date={this.props.dateFrom}
-                      onTimeChanged={setTimeFrom}
-                      onDateClicked={setDateFrom}/>
+                      setDateTime={setDateTimeFrom}/>
           <DatePicker heading={'To'}
-                      date={this.props.dateTo}
-                      onTimeChanged={setTimeTo}
-                      onDateClicked={setDateTo}/>
+                      setDateTime={setDateTimeTo}/>
 
           <Button className={block + '__apply-button'}
                   onClick={this.applyTime}>
@@ -72,11 +63,18 @@ export default connectTo({
     },
 
     applyTime() {
-      const from = this.props.dateFrom.getTime();
-      const to = this.props.dateTo.getTime(); // to timestamp
+      let from = this.props.dateFrom;
+      let to = this.props.dateTo;
+      console.log('set', from, to);
 
-      tracking.events.changingTimeWindowUsingTimeline();
-      timelineStore.setTimeframe(to - from, to);
+      // only apply valid dates
+      if (from && to) {
+        from = from.getTime();
+        to = to.getTime();
+
+        tracking.events.changingTimeWindowUsingTimeline();
+        timelineStore.setTimeframe(to - from, to);
+      }
     }
   })
 );
