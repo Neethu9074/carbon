@@ -1,7 +1,7 @@
-import createSnapshotObservable from 'in-services/subscription/event';
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {getEvent} from 'in-services/issueTracker';
 
 
 const selectedIncidentIdStore = createStore({
@@ -15,7 +15,7 @@ export const selectedIncident = createTrackingStore({
   name: 'selectedIncidentStore',
   observable: selectedIncidentId.flatMap(id => {
     if (id) {
-      return createSnapshotObservable(id);
+      return getEvent(id);
     }
     return alwaysNull;
   })

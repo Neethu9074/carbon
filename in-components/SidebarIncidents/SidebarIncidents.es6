@@ -3,14 +3,16 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
-import getSelectedIncident from 'in-hoc/getSelectedIncident';
+import getSelectedincident from 'in-hoc/getSelectedIncident';
 
+import EventListing from './EventListing';
 
 import './SidebarIncidents.less';
 
+
 const block = 'in-sidebar-incidents';
 
-export default getSelectedIncident(
+export default getSelectedincident(
   React.createClass({
 
     displayName: 'SidebarIncidents',
@@ -62,20 +64,7 @@ export default getSelectedIncident(
             </DescriptionItem>
           </DescriptionList>
 
-          <br />
-          Problem
-
-          <DescriptionList>
-            <DescriptionItem key={'problemid'} title={'id'}>
-            {incident.getIn(['problem', 'id'])}
-            </DescriptionItem>
-            <DescriptionItem key={'severity'} title={'severity'}>
-            {incident.getIn(['problem', 'severity'])}
-            </DescriptionItem>
-            <DescriptionItem key={'snapshotId'} title={'snapshotId'}>
-            {incident.getIn(['problem', 'snapshotId'])}
-            </DescriptionItem>
-          </DescriptionList>
+          <EventListing events={incident.get('associatedEvents')}/>
         </div>
       );
     }

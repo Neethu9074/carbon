@@ -33,16 +33,45 @@ function createEventObservable(eventId) {
         'eventId': eventId
       });
 
-      onData(Immutable.fromJS({
-        id: eventId,
-        problem: {
-          id: 'p1',
-          severity: 5,
-          eventId: '1'
-        },
-        start: Date.now() - 1000,
-        type: 'incident'
-      }));
+      if (eventId === 'issue_1') {
+        onData(Immutable.fromJS({
+          id: 'issue_1',
+          problem: {
+            id: 'problem_1',
+            severity: 5,
+            snapshotId: '1',
+            problemText: 'this is an issue',
+            fixSuggestion: 'fix it hard!'
+          },
+          start: Date.now() - 50000,
+          parentIncidents: ['incident_1'],
+          type: 'issue'
+        }));
+      } else if (eventId === 'change_1') {
+        onData(Immutable.fromJS({
+          id: 'change_1',
+          problem: {
+            id: 'problem_2',
+            severity: 0,
+            snapshotId: '1',
+            problemText: 'this is a change',
+            fixSuggestion: 'shit happens'
+          },
+          start: Date.now() - 200000,
+          parentIncidents: ['incident_1'],
+          type: 'change'
+        }));
+      } else {
+        onData(Immutable.fromJS({
+          id: 'incident_1',
+          associatedEvents: [
+            'issue_1',
+            'change_1'
+          ],
+          start: Date.now() - 1000,
+          type: 'incident'
+        }));
+      }
     },
 
     stop() {

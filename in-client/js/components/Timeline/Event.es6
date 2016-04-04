@@ -40,7 +40,7 @@ export default React.createClass({
       <Tooltip  align={{vertical: 'top'}}
                 content={<EventDescription key={event.get('id')}
                                            event={event}
-                                           snapshotId={event.getIn(['problem', 'snapshotId'])}/>}>
+                                           snapshotId={event.getIn(['problem', 'snapshotId'], '')}/>}>
 
         <Icon type={iconType}
               onMouseEnter={() => this.props.mouseIn(event)}

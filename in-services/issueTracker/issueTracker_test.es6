@@ -190,7 +190,7 @@ describe('issueTracker', () => {
 
   });
 
-  describe('getColorForEvent', () => {
+  describe.only('getColorForEvent', () => {
 
     it('should throw an error if there is no given event', () => {
       expect(() => issueTracker.getColorForEvent(undefined)).to.throw(Error);
@@ -200,7 +200,8 @@ describe('issueTracker', () => {
       let event = Immutable.fromJS({
         problem: {
           severity: 0
-        }
+        },
+        type: 'issue'
       });
       expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
 
@@ -216,7 +217,8 @@ describe('issueTracker', () => {
         problem: {
           severity: 0
         },
-        end: 42
+        end: 42,
+        type: 'issue'
       });
       expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
 

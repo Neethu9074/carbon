@@ -61,7 +61,7 @@ export default connectTo({
                 </div>
                 {events.map(event => <EventDescription key={event.get('id')}
                                                        event={event}
-                                                       snapshotId={event.getIn(['problem', 'snapshotId'])}
+                                                       snapshotId={event.getIn(['problem', 'snapshotId'], '')}
                                                        className={block + '__item'}/>)}
               </li>
             );

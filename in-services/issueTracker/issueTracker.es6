@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
+import createSnapshotObservable from 'in-services/subscription/event';
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import {setSelectedIncidentId} from 'in-stores/incident';
@@ -13,6 +14,14 @@ import {getOpenEvents} from 'in-stores/openEvents';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
+
+export const EVENT_TYPES = {
+  CHANGE: 0,
+  ISSUE_WARNING: 1,
+  ISSUE_CRITICAL: 2,
+  ISSUE_OK: 3,
+  INCIDENT: 4
+};
 
 // CPU steal events shouldn't be shown in the demo environment as we are using
 // small EC2 instances. These almost always have high CPU steal.
@@ -188,6 +197,12 @@ export function getHealth(snapshotId) {
 export function getColorForEvent(event) {
   throwExceptionIfUndefined(event);
 
+  const eventType = getEventType(event);
+  if (eventType === EVENT_TYPES.INCIDENT ||
+      eventType === EVENT_TYPES.CHANGE) {
+    return theme.health[0];
+  }
+
   // if there is no end time, the event is open
   return !event.get('end') ? getColorForProblem(event.get('problem')) : theme.health[0];
 }
@@ -210,26 +225,21 @@ function throwExceptionIfUndefined(property) {
   }
 }
 
-
-export const EVENT_TYPES = {
-  CHANGE: 0,
-  ISSUE_WARNING: 1,
-  ISSUE_CRITICAL: 2,
-  INCIDENT: 3
-};
-
 export function getEventType(event) {
   const eventType = event.get('type');
-  if (eventType === 'incident') {
-    return EVENT_TYPES.INCIDENT;
-  }
-
-  const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity']));
-  switch (eventHealth) {
-    case health.danger:
-      return EVENT_TYPES.ISSUE_CRITICAL;
-    case health.warning:
-      return EVENT_TYPES.ISSUE_WARNING;
+  switch (eventType) {
+    case 'incident':
+      return EVENT_TYPES.INCIDENT;
+    case 'change':
+      return EVENT_TYPES.CHANGE;
+    case 'issue':
+      const eventHealth = mapSeverityToHealth(event.getIn(['problem', 'severity']));
+      if (eventHealth === health.warning) {
+        return EVENT_TYPES.ISSUE_WARNING;
+      } else if (eventHealth === health.danger) {
+        return EVENT_TYPES.ISSUE_CRITICAL;
+      }
+      return EVENT_TYPES.ISSUE_OK;
     default:
       return EVENT_TYPES.CHANGE;
   }
@@ -242,4 +252,8 @@ export function selectEvent(event) {
   } else {
     setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
   }
+}
+
+export function getEvent(id) {
+  return createSnapshotObservable(id);
 }
