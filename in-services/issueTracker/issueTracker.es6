@@ -33,9 +33,7 @@ const withoutCpuStealMapper = (issues) => {
  * @param {Immutable<Issue>} issueUpdates All updates
  * @returns {Immutable≤Issue>} existingIssues + issueUpdates - dublicates
  */
-function historicalIssuesReducer(existingIssues, issueUpdates) {
-  // TODO: remove issue that are not in the window anymore
-
+function issuesReducer(existingIssues, issueUpdates) {
   return existingIssues.filter(existing => {
     const id = existing.get('id');
     return issueUpdates.findIndex(updated => updated.get('id') === id) === -1;
@@ -43,8 +41,21 @@ function historicalIssuesReducer(existingIssues, issueUpdates) {
   .concat(issueUpdates);
 }
 
+
 /**
- * The same as historicalIssuesReducer but this reducer removes all issues
+ * The same as issuesReducer but this reducer removes all issues
+ * which are not inside the timeframe anymore
+ *
+ * @param {Immutable<Issue>} existingIssues All current issue since the last scan
+ * @param {Immutable<Issue>} issueUpdates All updates
+ * @returns {Immutable≤Issue>} existingIssues + issueUpdates - dublicates - issues outside timeframe
+ */
+function historicalIssuesReducer(existingIssues, issueUpdates) {
+  return issuesReducer(existingIssues, issueUpdates);
+}
+
+/**
+ * The same as issuesReducer but this reducer removes all issues
  * inside updates which have an end timestamp
  *
  * @param {Immutable<Issue>} existingIssues All current issue since the last scan
@@ -52,7 +63,7 @@ function historicalIssuesReducer(existingIssues, issueUpdates) {
  * @returns {Immutable≤Issue>} existingIssues + issueUpdates - dublicates - issues with end date
  */
 function openIssuesReducer(existingIssues, issueUpdates) {
-  return historicalIssuesReducer(existingIssues, issueUpdates)
+  return issuesReducer(existingIssues, issueUpdates)
           .filter(issue => issue.get('end') === undefined);
 }
 
