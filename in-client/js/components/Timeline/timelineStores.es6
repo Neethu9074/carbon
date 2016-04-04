@@ -7,52 +7,57 @@ import {createStore} from 'in-stores/store';
 /*
   this store is used to handle the selected starting date in the timepicker
 */
-export const selectedDateFromStore = createStore({
+const selectedDateFromStore = createStore({
   name: 'selectedDateFrom',
   initialValue: new Date() // now
 });
 
 export const selectedDateFrom = selectedDateFromStore.observable;
 
-export function setDateFrom(date) {
-  selectedDateFromStore.applyStateMutation(() => date);
-}
-
-export function setTimeFrom(time) {
-  selectedDateFromStore.applyStateMutation(prevDate => {
-    const newDate = new Date(prevDate.getTime());
-    newDate.setHours(time.hour());
-    newDate.setMinutes(time.minute());
-    newDate.setSeconds(time.second());
-
-    return newDate;
-  });
-}
-
-
 /*
   this store is used to handle the selected ending date in the timepicker
 */
-export const selectedDateToStore = createStore({
+const selectedDateToStore = createStore({
   name: 'selectedDateTo',
   initialValue: new Date() // now
 });
 
 export const selectedDateTo = selectedDateToStore.observable;
 
+
+export function setDateFrom(date) {
+  selectedDateFromStore.applyStateMutation(prevDate => setNewDateFrom(date, prevDate));
+}
+
 export function setDateTo(date) {
-  selectedDateToStore.applyStateMutation(() => date);
+  selectedDateToStore.applyStateMutation(prevDate => setNewDateFrom(date, prevDate));
+}
+
+export function setTimeFrom(time) {
+  selectedDateFromStore.applyStateMutation(prevDate => setNewTimeFrom(time, prevDate));
 }
 
 export function setTimeTo(time) {
-  selectedDateToStore.applyStateMutation(prevDate => {
-    const newDate = new Date(prevDate.getTime());
-    newDate.setHours(time.hour());
-    newDate.setMinutes(time.minute());
-    newDate.setSeconds(time.second());
+  selectedDateToStore.applyStateMutation(prevDate => setNewTimeFrom(time, prevDate));
+}
 
-    return newDate;
-  });
+// helpers
+function setNewDateFrom(date, prevDate) {
+  const newDate = new Date(prevDate.getTime());
+  newDate.setFullYear(date.getFullYear());
+  newDate.setMonth(date.getMonth());
+  newDate.setDate(date.getDate());
+
+  return newDate;
+}
+
+function setNewTimeFrom(time, prevDate) {
+  const newDate = new Date(prevDate.getTime());
+  newDate.setHours(time.hour());
+  newDate.setMinutes(time.minute());
+  newDate.setSeconds(time.second());
+
+  return newDate;
 }
 
 

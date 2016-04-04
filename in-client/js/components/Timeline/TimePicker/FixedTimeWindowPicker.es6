@@ -6,6 +6,7 @@ import DatePicker from 'in-components/DatePicker';
 import * as tracking from 'in-services/tracking';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
+import moment from 'moment';
 
 import {
   selectedDateFrom,
@@ -37,6 +38,17 @@ export default connectTo({
     propTypes: {
       dateFrom: rpt.instanceOf(Date),
       dateTo: rpt.instanceOf(Date)
+    },
+
+    componentWillMount() {
+      // set initial time and date
+      const now = new Date();
+      const time = moment(now.getTime());
+
+      setDateFrom(now);
+      setDateTo(now);
+      setTimeFrom(time);
+      setTimeTo(time);
     },
 
     render() {
