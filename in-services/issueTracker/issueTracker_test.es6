@@ -190,7 +190,7 @@ describe('issueTracker', () => {
 
   });
 
-  describe.only('getColorForEvent', () => {
+  describe('getColorForEvent', () => {
 
     it('should throw an error if there is no given event', () => {
       expect(() => issueTracker.getColorForEvent(undefined)).to.throw(Error);
