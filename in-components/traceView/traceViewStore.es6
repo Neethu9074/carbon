@@ -10,7 +10,7 @@ const tracesStore = createStore({
 export const traces$ = tracesStore.observable;
 
 
-const fastestTraceDuration$ = traces$.map(traces => {
+const slowestTraceDuration$ = traces$.map(traces => {
   if (traces.length === 0) {
     return null;
   }
@@ -24,12 +24,20 @@ const isLoadingStore = createStore({
 });
 export const isLoading$ = isLoadingStore.observable;
 
+
+const autoUpdateStore = createStore({
+  name: 'traceViewAutoUpdate',
+  initialValue: false
+});
+export const autoUpdate$ = autoUpdateStore.observable;
+
+
 let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
   disposeExistingLoad();
-  fastestTraceDuration$.once(fastestTraceDuration => {
+  slowestTraceDuration$.once(slowestTraceDuration => {
     isLoadingStore.applyStateMutation(() => true);
-    existingLoadMoreTracesSubscription = getTraces(fastestTraceDuration).once(addNewTraces);
+    existingLoadMoreTracesSubscription = getTraces(slowestTraceDuration).once(addNewTraces);
   });
 }
 
@@ -47,6 +55,8 @@ function addNewTraces(newTraces) {
     return {
       start: formatDateTime(trace.get('start')),
       duration: msZeroDecimalPlaces(trace.get('duration')),
+      // required for inifinity scroll and loading of additional traces.
+      durationMillis: trace.get('duration'),
       name: trace.get('name'),
       id: trace.get('traceId')
     };
@@ -56,7 +66,29 @@ function addNewTraces(newTraces) {
 }
 
 
+export function refresh() {
+  clear();
+}
+
+
 export function clear() {
   disposeExistingLoad();
   tracesStore.applyStateMutation(() => []);
 }
+
+let intervalHandle;
+export function toggleAutoRefresh() {
+  autoUpdateStore.applyStateMutation(active => !active);
+}
+
+autoUpdate$.subscribe(active => {
+  if (intervalHandle) {
+    clearInterval(intervalHandle);
+    intervalHandle = null;
+  }
+
+  if (active) {
+    refresh();
+    intervalHandle = setInterval(refresh, 10000);
+  }
+});

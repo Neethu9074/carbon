@@ -2,8 +2,11 @@ import React from 'react';
 
 import TraceTableHeader from 'in-components/traceView/components/TraceTableHeader';
 import TraceHeading from 'in-components/traceView/components/TraceHeading';
+import AutoUpdate from 'in-components/traceView/components/AutoUpdate';
 import TraceTable from 'in-components/traceView/components/TraceTable';
-import {Row, Col} from 'in-components/Grid';
+import TabHeader from 'in-components/traceView/components/TabHeader';
+import {refresh} from 'in-components/traceView/traceViewStore';
+import Icon from 'in-components/Icon';
 
 import './TraceList.less';
 
@@ -15,18 +18,15 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
-        <Row className={block + '__header'}>
-          <Col cols={6}
-               className={block + '__title'}>
-            <TraceHeading>
-              Traces{' '}
-            </TraceHeading>
-          </Col>
-          <Col cols={6}
-               className={block + '__controls'}>
-            Update…
-          </Col>
-        </Row>
+        <TabHeader left={<TraceHeading>Traces</TraceHeading>}
+                   right={
+                     <span className={block + '__actions'}>
+                        <Icon type='reload'
+                              onClick={refresh}
+                              className={block + '__reload'}/>
+                        <AutoUpdate />
+                     </span>
+                   }/>
 
         <TraceTableHeader />
         <TraceTable />

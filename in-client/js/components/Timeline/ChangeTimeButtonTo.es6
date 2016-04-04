@@ -48,7 +48,10 @@ export default connectTo({
       return (
         <div>
           {this.props.changeTimeButtonToSelected ?
-            <TimePicker className={block + '__timepicker--right'} /> : null}
+            <TimePicker className={block + '__timepicker--right'}
+                        onClose={clearChangeTimeButtonToSelected} />
+            : null
+          }
           <div className={block + (this.props.changeTimeButtonToSelected ? ' ' + block + '__selected' : '')}
                onClick={() => {
                  if (this.props.changeTimeButtonToSelected) {

@@ -4,55 +4,29 @@ import {timeframe} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 
 
-/*
-  this store is used to handle the selected starting date in the timepicker
-*/
-export const selectedDateFromStore = createStore({
-  name: 'selectedDateFrom',
-  initialValue: new Date() // now
+const dateFromStore = createStore({
+  name: 'dateFromStore',
+  initialValue: null
 });
 
-export const selectedDateFrom = selectedDateFromStore.observable;
-
-export function setDateFrom(date) {
-  selectedDateFromStore.applyStateMutation(() => date);
-}
-
-export function setTimeFrom(time) {
-  selectedDateFromStore.applyStateMutation(prevDate => {
-    const newDate = new Date(prevDate.getTime());
-    newDate.setHours(time.hour());
-    newDate.setMinutes(time.minute());
-    newDate.setSeconds(time.second());
-
-    return newDate;
-  });
-}
-
+export const dateFrom = dateFromStore.observable;
 
 /*
   this store is used to handle the selected ending date in the timepicker
 */
-export const selectedDateToStore = createStore({
-  name: 'selectedDateTo',
-  initialValue: new Date() // now
+const dateToStore = createStore({
+  name: 'dateToStore',
+  initialValue: null
 });
 
-export const selectedDateTo = selectedDateToStore.observable;
+export const dateTo = dateToStore.observable;
 
-export function setDateTo(date) {
-  selectedDateToStore.applyStateMutation(() => date);
+export function setDateTimeFrom(date) {
+  dateFromStore.applyStateMutation(() => date);
 }
 
-export function setTimeTo(time) {
-  selectedDateToStore.applyStateMutation(prevDate => {
-    const newDate = new Date(prevDate.getTime());
-    newDate.setHours(time.hour());
-    newDate.setMinutes(time.minute());
-    newDate.setSeconds(time.second());
-
-    return newDate;
-  });
+export function setDateTimeTo(date) {
+  dateToStore.applyStateMutation(() => date);
 }
 
 

@@ -80,6 +80,7 @@ export default
     },
 
     render() {
+      const activePath = this.props.state.routes.map(route => route.name);
       const hasChildren = this.props.state.routes.length > 1;
 
       return (
@@ -89,7 +90,7 @@ export default
           {this.props.showSettings ? <Settings showMenu={setSettingsVisibility}/> : null }
 
           {isInternalEnvironment() ?
-            <MapViewSwitcher />
+            <MapViewSwitcher activePath={activePath} />
           : null}
 
           <Lettering className='in-root-lettering'/>

@@ -44,6 +44,7 @@ const withoutCpuStealMapper = (events) => {
  */
 function historicalEventsReducer(existingEvents, eventUpdates) {
   return existingEvents.filter(existing => {
+  // TODO: remove issue that are not in the window anymore
     const id = existing.get('id');
     return eventUpdates.findIndex(updated => updated.get('id') === id) === -1;
   })

@@ -1,5 +1,6 @@
 export const timeFormat = 'HH:mm:ss';
-export const dateTimeFormat = 'YYYY-MM-DD ' + timeFormat;
+export const dateFormat = 'YYYY-MM-DD';
+export const dateTimeFormat = dateFormat + ' ' + timeFormat;
 
 export function formatTime(millis) {
   return formatTimeInternal(new Date(millis));

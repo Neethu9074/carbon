@@ -45,16 +45,12 @@ export default connectTo({
       return (
         <div>
           {this.props.changeTimeButtonFromSelected ?
-            <TimePicker className={block + '__timepicker--left'} /> : null}
+            <TimePicker className={block + '__timepicker--left'}
+                        onClose={clearChangeTimeButtonFromSelected} />
+            : null
+          }
           <div className={block + (this.props.changeTimeButtonFromSelected ? ' ' + block + '__selected' : '')}
-               onClick={() => {
-                 if (this.props.changeTimeButtonFromSelected) {
-                   clearChangeTimeButtonFromSelected();
-                 } else {
-                   clearChangeTimeButtonToSelected();
-                   setChangeTimeButtonFromSelected();
-                 }
-               }}>
+               onClick={this.handleClick}>
             {this.props.selectedTimeRange === TIME_RANGES.FIXED ?
               formatDateTime(this.props.timeframe.to - this.props.timeframe.windowSize) :
               <ServerTime format={formatDateTime} offset={this.props.timeframe.windowSize * -1}/>
@@ -62,6 +58,15 @@ export default connectTo({
           </div>
         </div>
       );
+    },
+
+    handleClick() {
+      if (this.props.changeTimeButtonFromSelected) {
+        clearChangeTimeButtonFromSelected();
+      } else {
+        clearChangeTimeButtonToSelected();
+        setChangeTimeButtonFromSelected();
+      }
     }
   })
 );
