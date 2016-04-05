@@ -44,7 +44,7 @@ export default React.createClass({
   }
 });
 
-export const KeyValue = React.createClass({
+const KeyValue = React.createClass({
 
   displayName: 'KeyValue',
 
