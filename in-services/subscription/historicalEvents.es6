@@ -27,7 +27,7 @@ function createEventObservable(timeframe) {
         'timeframe': timeframe
       });
 
-      // onData(Immutable.fromJS([]));
+      onData(Immutable.fromJS([]));
     },
 
     stop() {

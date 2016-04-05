@@ -44,7 +44,7 @@ function createEventObservable(eventId) {
             fixSuggestion: 'fix it hard!'
           },
           start: Date.now() - 50000,
-          parentIncidents: ['incident_1'],
+          referencedEvents: ['incident_1'],
           type: 'issue'
         }));
       } else if (eventId === 'change_1') {
@@ -58,13 +58,13 @@ function createEventObservable(eventId) {
             fixSuggestion: 'shit happens'
           },
           start: Date.now() - 200000,
-          parentIncidents: ['incident_1'],
+          referencedEvents: ['incident_1'],
           type: 'change'
         }));
       } else {
         onData(Immutable.fromJS({
           id: 'incident_1',
-          associatedEvents: [
+          referencedEvents: [
             'issue_1',
             'change_1'
           ],

@@ -26,39 +26,39 @@ function createEventObservable() {
         'subscriptionId': subscriptionId
       });
 
-      // onData(Immutable.fromJS([{
-      //   id: 'issue_1',
-      //   problem: {
-      //     id: 'problem_1',
-      //     severity: 5,
-      //     snapshotId: '1',
-      //     problemText: 'this is an issue',
-      //     fixSuggestion: 'fix it hard!'
-      //   },
-      //   start: Date.now() - 50000,
-      //   parentIncidents: ['incident_1'],
-      //   type: 'issue'
-      // }, {
-      //   id: 'change_1',
-      //   problem: {
-      //     id: 'problem_2',
-      //     severity: 0,
-      //     snapshotId: '1',
-      //     problemText: 'this is a change',
-      //     fixSuggestion: 'shit happens'
-      //   },
-      //   start: Date.now() - 200000,
-      //   parentIncidents: ['incident_1'],
-      //   type: 'change'
-      // }, {
-      //   id: 'incident_1',
-      //   associatedEvents: [
-      //     'issue_1',
-      //     'change_1'
-      //   ],
-      //   start: Date.now() - 1000,
-      //   type: 'incident'
-      // }]));
+      onData(Immutable.fromJS([{
+        id: 'issue_1',
+        problem: {
+          id: 'problem_1',
+          severity: 5,
+          snapshotId: '1',
+          problemText: 'this is an issue',
+          fixSuggestion: 'fix it hard!'
+        },
+        start: Date.now() - 50000,
+        referencedEvents: ['incident_1'],
+        type: 'issue'
+      }, {
+        id: 'change_1',
+        problem: {
+          id: 'problem_2',
+          severity: 0,
+          snapshotId: '1',
+          problemText: 'this is a change',
+          fixSuggestion: 'shit happens'
+        },
+        start: Date.now() - 200000,
+        referencedEvents: ['incident_1'],
+        type: 'change'
+      }, {
+        id: 'incident_1',
+        referencedEvents: [
+          'issue_1',
+          'change_1'
+        ],
+        start: Date.now() - 1000,
+        type: 'incident'
+      }]));
     },
 
     stop() {

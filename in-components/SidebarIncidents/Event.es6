@@ -2,34 +2,34 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import getEvent from 'in-hoc/getEvent';
+import EventDescription from 'in-components/EventDescription';
+
+import './Event.less';
 
 
-const block = 'in-sidebar-event-listing';
+const block = 'in-sidebar-incident-event';
 
-export default getEvent(
-  React.createClass({
-    displayName: 'EventListing event',
+export default React.createClass({
 
-    mixins: [
-      PureRenderMixin
-    ],
+  displayName: 'EventListing event',
 
-    propTypes: {
-      event: irpt.map
-    },
+  mixins: [
+    PureRenderMixin
+  ],
 
-    render() {
-      const event = this.props.event;
-      if (!event) {
-        return null;
-      }
+  propTypes: {
+    event: irpt.map.isRequired
+  },
 
-      return (
-        <div className={block}>
-          {event.get('id')}
-        </div>
-      );
-    }
-  })
-);
+  render() {
+    const event = this.props.event;
+
+    return (
+      <div className={block}>
+        <EventDescription className={block + '__description'}
+                          event={event}
+                          snapshotId={event.getIn(['problem', 'snapshotId'], '')}/>
+      </div>
+    );
+  }
+});

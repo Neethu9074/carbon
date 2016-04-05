@@ -39,7 +39,7 @@ export default getSnapshot(React.createClass({
               type={this.getIconType(event)}
               style={{color}}/>
         <div className={block + '__description'}>
-          <div className={block + '__time'}>
+          <div className={getClassName(this, block, '__time')}>
             {moment(event.get('start')).fromNow()}
           </div>
 
