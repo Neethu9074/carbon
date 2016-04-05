@@ -65,9 +65,7 @@ const KeyValue = React.createClass({
         <span className={className + '__key'}>
           {this.props.k}
         </span>
-        <span className={className + '__value'}>
-          {this.props.v}
-        </span>
+        {this.props.v}
       </div>
     );
   }
