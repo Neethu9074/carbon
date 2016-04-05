@@ -22,12 +22,12 @@ function createEventObservable(timeframe) {
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-issues', {
+      subscribe(subscriptionId, 'subscribe-events', {
         'subscriptionId': subscriptionId,
         'timeframe': timeframe
       });
 
-      onData(Immutable.fromJS([]));
+      // onData(Immutable.fromJS([]));
     },
 
     stop() {
