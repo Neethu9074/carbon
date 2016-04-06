@@ -38,7 +38,7 @@ export default React.createClass({
                   v={incident.get('end', 'still active')} />
         <br />
         <KeyValue k='Events'
-                  v={incident.get('referencedEvents').size + ''} />
+                  v={incident.get('recentEvents').size + ''} />
       </div>
     );
   }

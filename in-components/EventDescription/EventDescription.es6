@@ -67,9 +67,10 @@ export default getSnapshot(React.createClass({
 
   getContent(event, eventType, color) {
     if (eventType === EVENT_TYPES.INCIDENT) {
+      console.log(event.toJS());
       return (
         <IncidentContent incident={event}
-                         eventId={event.getIn(['referencedEvents', 0])} />
+                         eventId={event.getIn(['recentEvents', 0])} />
       );
     }
 
@@ -111,7 +112,7 @@ const IncidentContent = getEvent(
       return (
         <div>
           <div className={block + '__header'}>
-            {'incident (' + incident.get('referencedEvents').size + ' events)'}
+            {'incident (' + incident.get('recentEvents').size + ' events)'}
           </div>
           <span className={block + '__incident-started'}>
             started here:
