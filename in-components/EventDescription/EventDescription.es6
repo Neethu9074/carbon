@@ -8,7 +8,6 @@ import {getColorForEvent, selectEvent, getEvent, getEventType, EVENT_TYPES} from
 import {toHtml} from 'in-services/formatters/markdown';
 import {emptyList} from 'in-services/fixedImmutables';
 import {getClassName} from 'in-services/react';
-import getSnapshot from 'in-hoc/getSnapshot';
 import connectTo from 'in-hoc/connectTo';
 
 import SnapshotDescription from '../SnapshotDescription';
@@ -20,15 +19,14 @@ import './EventDescription.less';
 const rpt = React.PropTypes;
 const block = 'in-event-description';
 
-export default getSnapshot(React.createClass({
+export default React.createClass({
 
   displayName: 'EventDescription',
 
   propTypes: {
     snapshotId: rpt.string.isRequired,
     event: irpt.map.isRequired,
-    className: rpt.string,
-    snapshot: irpt.map
+    className: rpt.string
   },
 
   render() {
@@ -48,7 +46,7 @@ export default getSnapshot(React.createClass({
             {moment(event.get('start')).fromNow()}
           </div>
 
-          {this.getContent(event, eventType, color)}
+          {this.getContent(event, eventType)}
         </div>
       </div>
     );
@@ -67,14 +65,31 @@ export default getSnapshot(React.createClass({
     }
   },
 
-  getContent(event, eventType, color) {
-    if (eventType === EVENT_TYPES.INCIDENT) {
-      return (
-        <IncidentContent incident={event}
-                         eventIds={event.get('recentEvents', emptyList).toArray()}
-                         to={event.get('start')} />
-      );
-    }
+  getContent(event, eventType) {
+    return (
+      eventType === EVENT_TYPES.INCIDENT ?
+      <IncidentContent incident={event}
+                       eventIds={event.get('recentEvents', emptyList).toArray()}
+                       to={event.get('start')} /> :
+      <DefaultContent snapshotId={this.props.snapshotId}
+                      event={event}/>
+    );
+  }
+});
+
+const DefaultContent = React.createClass({
+
+  displayName: 'EventDescription-Default',
+
+  propTypes: {
+    snapshotId: rpt.string.isRequired,
+    event: irpt.map.isRequired
+  },
+
+  render() {
+    const snapshotId = this.props.snapshotId;
+    const event = this.props.event;
+    const color = getColorForEvent(event);
 
     return (
       <div>
@@ -86,11 +101,12 @@ export default getSnapshot(React.createClass({
         <div className={block + '__suggestion'}
              dangerouslySetInnerHTML={{__html: toHtml(event.getIn(['problem', 'fixSuggestion']))}} />
 
-        <SnapshotDescription snapshot={this.props.snapshot} />
+        <SnapshotDescription snapshotId={snapshotId} />
       </div>
     );
   }
-}));
+});
+
 
 const IncidentContent = connectTo(
   props => {
@@ -100,7 +116,7 @@ const IncidentContent = connectTo(
   },
   React.createClass({
 
-    displayName: 'EventDescription',
+    displayName: 'EventDescription-Incident',
 
     propTypes: {
       eventIds: rpt.array.isRequired,
@@ -122,15 +138,20 @@ const IncidentContent = connectTo(
           <div className={block + '__header'}>
             {'incident (' + incident.get('recentEvents').size + ' events)'}
           </div>
+
           <span className={block + '__incident-started'}>
             started here:
           </span>
+
           <div className={block + '__header'}
                style={{color}}>
             {firstEvent.getIn(['problem', 'problemText'])}
           </div>
+
           <div className={block + '__suggestion'}
                dangerouslySetInnerHTML={{__html: toHtml(firstEvent.getIn(['problem', 'fixSuggestion']))}} />
+
+          <SnapshotDescription snapshotId={firstEvent.getIn(['problem', 'snapshotId'])} />
         </div>
       );
     }
