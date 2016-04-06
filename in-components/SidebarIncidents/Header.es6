@@ -35,7 +35,7 @@ export default React.createClass({
                   v={moment(incident.get('start')).fromNow()} />
 
         <KeyValue k='Ended'
-                  v={incident.get('end', 'still active')} />
+                  v={incident.get('end') ? moment(incident.get('end')).fromNow() : 'still active'} />
         <br />
         <KeyValue k='Events'
                   v={incident.get('recentEvents').size + ''} />
