@@ -1,5 +1,4 @@
 import {create} from 'reactive-observables';
-import Immutable from 'immutable';
 
 import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
 import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
@@ -35,7 +34,7 @@ function createPhysicalHierarchyObservable(snapshotId) {
 
   return observable;
 
-  function onData(entity) {
-    observable.emit(Immutable.List(entity));
+  function onData(id) {
+    observable.emit(id);
   }
 }
