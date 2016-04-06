@@ -1,7 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
-import createSnapshotObservable from 'in-services/subscription/event';
+import createEventObservable from 'in-services/subscription/event';
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import {setSelectedIncidentId} from 'in-stores/incident';
@@ -261,12 +261,12 @@ export function getEventType(event) {
 
 export function selectEvent(event) {
   if (getEventType(event) === EVENT_TYPES.INCIDENT) {
-    setSelectedIncidentId(event.get('id'));
+    setSelectedIncidentId(event.get('id'), event.get('start'));
   } else {
     setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
   }
 }
 
-export function getEvent(id) {
-  return createSnapshotObservable(id);
+export function getEvent(eventId, to) {
+  return createEventObservable({eventId, to});
 }

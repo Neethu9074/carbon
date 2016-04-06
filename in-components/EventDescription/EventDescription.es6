@@ -67,10 +67,10 @@ export default getSnapshot(React.createClass({
 
   getContent(event, eventType, color) {
     if (eventType === EVENT_TYPES.INCIDENT) {
-      console.log(event.toJS());
       return (
         <IncidentContent incident={event}
-                         eventId={event.getIn(['recentEvents', 0])} />
+                         eventId={event.getIn(['recentEvents', 0])}
+                         to={event.get('start')} />
       );
     }
 

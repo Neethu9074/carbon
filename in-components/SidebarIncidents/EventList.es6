@@ -13,7 +13,7 @@ const rpt = React.PropTypes;
 export default connectTo(
   props => {
     return {
-      events: combineLatest(props.eventIds.map(id => getEvent(id)))
+      events: combineLatest(props.eventIds.map(id => getEvent(id, props.to)))
     };
   },
   React.createClass({
@@ -26,6 +26,7 @@ export default connectTo(
 
     propTypes: {
       eventIds: rpt.array.isRequired,
+      to: rpt.number.isRequired,
       events: rpt.array
     },
 

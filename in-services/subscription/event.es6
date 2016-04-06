@@ -13,24 +13,24 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createEventObservable
 });
 
-function getId(eventId) {
-  return eventId;
+function getId({eventId, to}) {
+  return eventId + ',' + to;
 }
 
-function createEventObservable(eventId) {
+function createEventObservable({eventId, to}) {
   invariant(
     eventId,
     'A eventId is required in order to retrieve event.'
   );
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
-
   const observable = create({
     start() {
       on(dataEvent, throttleNextFrame(onData));
       subscribe(subscriptionId, 'subscribe-event', {
         'subscriptionId': subscriptionId,
-        'eventId': eventId
+        'eventId': eventId,
+        'to': to
       });
     },
 

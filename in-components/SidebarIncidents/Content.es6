@@ -32,7 +32,8 @@ export default React.createClass({
           What happened?
         </h2>
 
-        <EventList eventIds={incident.get('recentEvents', emptyList).toArray()}/>
+        <EventList eventIds={incident.get('recentEvents', emptyList).toArray()}
+                   to={incident.get('start')}/>
       </div>
     );
   }
