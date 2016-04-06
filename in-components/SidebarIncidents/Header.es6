@@ -1,5 +1,6 @@
 /* eslint-disable react/no-multi-comp */
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import {formatDateTime} from 'in-services/formatters/date';
 import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
@@ -24,6 +25,8 @@ export default React.createClass({
 
   render() {
     const incident = this.props.incident;
+    const start = incident.get('start');
+    const end = incident.get('end');
 
     return (
       <div className={block}>
@@ -32,10 +35,10 @@ export default React.createClass({
         </h1>
 
         <KeyValue k='Started'
-                  v={moment(incident.get('start')).fromNow()} />
+                  v={formatDateTime(start) + ' (' + moment(start).fromNow() + ')'} />
 
         <KeyValue k='Ended'
-                  v={incident.get('end') ? moment(incident.get('end')).fromNow() : 'still active'} />
+                  v={end ? formatDateTime(end) + ' (' + moment(end).fromNow() + ')' : 'still active'} />
         <br />
         <KeyValue k='Events'
                   v={incident.get('recentEvents').size + ''} />
