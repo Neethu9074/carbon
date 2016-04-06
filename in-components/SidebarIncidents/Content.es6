@@ -23,11 +23,26 @@ export default React.createClass({
     incident: irpt.map.isRequired
   },
 
+  getInitialState() {
+    return { windowHeight: this.getWindowHeight() };
+  },
+
+  handleResize() {
+    this.setState({ windowHeight: this.getWindowHeight() });
+  },
+
+  getWindowHeight() {
+    // the sidebar is minumum 100px height but max fullWindowHeight - 350px.
+    // 350 is the upper margin + headers for the sidebar + a little margin to the bottom
+    return Math.max(100, window.innerHeight - 350);
+  },
+
   render() {
     const incident = this.props.incident;
 
     return (
-      <div className={block}>
+      <div className={block}
+           style={{ maxHeight: this.state.windowHeight }}>
         <h2 className={block + '__heading'}>
           What happened?
         </h2>
