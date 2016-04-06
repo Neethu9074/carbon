@@ -1,13 +1,15 @@
 /* eslint-disable react/no-multi-comp */
+import {combineLatest} from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
-import {getColorForEvent, selectEvent, getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import {getColorForEvent, selectEvent, getEvent, getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {toHtml} from 'in-services/formatters/markdown';
+import {emptyList} from 'in-services/fixedImmutables';
 import {getClassName} from 'in-services/react';
 import getSnapshot from 'in-hoc/getSnapshot';
-import getEvent from 'in-hoc/getEvent';
+import connectTo from 'in-hoc/connectTo';
 
 import SnapshotDescription from '../SnapshotDescription';
 import Icon from '../Icon';
@@ -69,7 +71,7 @@ export default getSnapshot(React.createClass({
     if (eventType === EVENT_TYPES.INCIDENT) {
       return (
         <IncidentContent incident={event}
-                         eventId={event.getIn(['recentEvents', 0])}
+                         eventIds={event.get('recentEvents', emptyList).toArray()}
                          to={event.get('start')} />
       );
     }
@@ -90,22 +92,28 @@ export default getSnapshot(React.createClass({
   }
 }));
 
-const IncidentContent = getEvent(
+const IncidentContent = connectTo(
+  props => {
+    return {
+      events: combineLatest(props.eventIds.map(id => getEvent(id, props.to)))
+    };
+  },
   React.createClass({
 
     displayName: 'EventDescription',
 
     propTypes: {
+      eventIds: rpt.array.isRequired,
       incident: irpt.map.isRequired,
-      event: irpt.map
+      events: rpt.array
     },
 
     render() {
-      const firstEvent = this.props.event;
-      if (!firstEvent) {
+      if (!this.props.events || this.props.events.length === 0) {
         return null;
       }
 
+      const firstEvent = this.props.events.sort((a, b) => a.get('start') - b.get('start'))[0];
       const incident = this.props.incident;
       const color = getColorForEvent(firstEvent);
 

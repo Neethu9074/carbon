@@ -38,7 +38,7 @@ export default connectTo(
 
       return (
         <div>
-          {events.sort((a, b) => b.get('start') - a.get('start'))
+          {events.sort((a, b) => a.get('start') - b.get('start'))
                  .map(event =>
                    <Event key={event.get('id')}
                           event={event} />
