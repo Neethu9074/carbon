@@ -249,44 +249,69 @@ export default connectTo(
 
             {filesystemName ?
               <div>
+              {this.isWindows() ?
                 <ChartWithLegend snapshot={snapshot}
-                       timeframe={timeframe}
-                       height={chartHeight}
-                       margins={{
-                         left: 80,
-                         right: 80
-                       }}
+                                 timeframe={timeframe}
+                                 height={chartHeight}
+                                 margins={{
+                                   left: 80,
+                                   right: 80
+                                 }}
 
-                       y1={{
-                         min: 0,
-                         max: getMaxValue(
-                           'fs.' + filesystemName + '.free',
-                           snapshot
-                         ),
-                         formatter: kiloBytesZeroDecimalPlaces,
-                         tooltipFormatter: kiloBytesTwoDecimalPlaces,
-                         metrics: [
-                           'fs.' + filesystemName + '.free',
-                           'fs.' + filesystemName + '.leaked'
-                         ],
-                         labels: ['Free', 'Leaked'],
-                         type: 'line'
-                       }}
+                                 y1={{
+                                   min: 0,
+                                   max: getMaxValue(
+                                     'fs.' + filesystemName + '.free',
+                                     snapshot
+                                   ),
+                                   formatter: kiloBytesZeroDecimalPlaces,
+                                   tooltipFormatter: kiloBytesTwoDecimalPlaces,
+                                   metrics: [
+                                     'fs.' + filesystemName + '.free',
+                                     'fs.' + filesystemName + '.leaked'
+                                   ],
+                                   labels: ['Free', 'Leaked'],
+                                   type: 'line'
+                                 }}/> :
+                <ChartWithLegend snapshot={snapshot}
+                                 timeframe={timeframe}
+                                 height={chartHeight}
+                                 margins={{
+                                   left: 80,
+                                   right: 80
+                                 }}
 
-                       y2={{
-                         min: 0,
-                         max: getMaxValue(
-                           'fs.' + filesystemName + '.ifree',
-                           snapshot
-                         ),
-                         metrics: [
-                           'fs.' + filesystemName + '.ifree'
-                         ],
-                         labels: ['iFree'],
-                         type: 'line',
-                         formatter: withSiMultiplyPrefixZeroDecimalPlaces,
-                         tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
-                       }}/>
+                                 y1={{
+                                   min: 0,
+                                   max: getMaxValue(
+                                     'fs.' + filesystemName + '.free',
+                                     snapshot
+                                   ),
+                                   formatter: kiloBytesZeroDecimalPlaces,
+                                   tooltipFormatter: kiloBytesTwoDecimalPlaces,
+                                   metrics: [
+                                     'fs.' + filesystemName + '.free',
+                                     'fs.' + filesystemName + '.leaked'
+                                   ],
+                                   labels: ['Free', 'Leaked'],
+                                   type: 'line'
+                                 }}
+
+                                 y2={{
+                                   min: 0,
+                                   max: getMaxValue(
+                                     'fs.' + filesystemName + '.ifree',
+                                     snapshot
+                                   ),
+                                   metrics: [
+                                     'fs.' + filesystemName + '.ifree'
+                                   ],
+                                   labels: ['iFree'],
+                                   type: 'line',
+                                   formatter: withSiMultiplyPrefixZeroDecimalPlaces,
+                                   tooltipFormatter: withSiMultiplyPrefixThreeDecimalPlaces
+                                 }}/>
+                }
 
                 <ChartWithLegend snapshot={snapshot}
                        timeframe={timeframe}
@@ -326,7 +351,7 @@ export default connectTo(
               <thead>
                 <tr>
                   <th>Device</th>
-                  <th>Mount</th>
+                  {!this.isWindows() ? <th>Mount</th> : null}
                   <th>Options</th>
                   <th>Type</th>
                   <th>Capacity</th>
@@ -336,7 +361,7 @@ export default connectTo(
                       Leaked
                     </HelpLink>
                   </th>
-                  <th>iFree</th>
+                  {!this.isWindows() ? <th>iFree</th> : null}
                 </tr>
               </thead>
 
@@ -348,7 +373,7 @@ export default connectTo(
                         'active': name === filesystemName
                       })}>
                     <td>{name}</td>
-                    <td>{data.get('mount')}</td>
+                    {!this.isWindows() ? <td>{data.get('mount')}</td> : null}
                     <td>{data.get('options')}</td>
                     <td>{data.get('systype')}</td>
                     <td>{kiloBytesTwoDecimalPlaces(data.get('capacity'))}</td>
@@ -358,9 +383,11 @@ export default connectTo(
                     <Mtd metric={'fs.' + name + '.leaked'}
                          snapshot={snapshot}
                          formatter={kiloBytesTwoDecimalPlaces} />
-                    <Mtd metric={'fs.' + name + '.ifree'}
-                         snapshot={snapshot}
-                         formatter={withSiMultiplyPrefixZeroDecimalPlaces} />
+                    {!this.isWindows() ?
+                      <Mtd metric={'fs.' + name + '.ifree'}
+                           snapshot={snapshot}
+                           formatter={withSiMultiplyPrefixZeroDecimalPlaces} /> : null
+                    }
                   </tr>
                 ).valueSeq()}
               </tbody>
