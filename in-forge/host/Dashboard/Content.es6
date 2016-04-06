@@ -1,3 +1,4 @@
+/* eslint-disable complexity*/
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import Immutable from 'immutable';
