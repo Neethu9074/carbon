@@ -30,6 +30,7 @@ export default connectTo({
     focusedMoment: timelineStore.focusedMoment
   },
   React.createClass({
+
     displayName: 'Eventline',
 
     mixins: [

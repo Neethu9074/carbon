@@ -5,7 +5,6 @@ import React from 'react';
 import EventDescription from 'in-components/EventDescription';
 import * as issueTracker from 'in-services/issueTracker';
 import Tooltip from 'in-components/Tooltip';
-import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
 
 import './Event.less';
@@ -32,14 +31,11 @@ export default React.createClass({
     const event = this.props.event;
     const iconType = issueTracker.getIconTypeForEvent(event, true);
     const style = this.props.style ? this.props.style : {};
-    const severity = event.getIn(['problem', 'severity']);
-    const open = event.get('end') == null;
-    style.color = open ? theme.health[severity] : theme.health[0];
+    style.color = issueTracker.getColorForEvent(event);
 
     return (
       <Tooltip  align={{vertical: 'top'}}
-                content={<EventDescription key={event.get('id')}
-                                           event={event}
+                content={<EventDescription event={event}
                                            snapshotId={event.getIn(['problem', 'snapshotId'], '')}/>}>
 
         <Icon type={iconType}
