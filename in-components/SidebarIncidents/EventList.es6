@@ -1,26 +1,14 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getEventsWithinTimerange} from 'in-stores/eventsWithinTimerange';
-import {emptyList} from 'in-services/fixedImmutables';
-import connectTo from 'in-hoc/connectTo';
+import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 
 import Event from './Event';
 
 
 const rpt = React.PropTypes;
 
-export default connectTo(
-  props => {
-    return {
-      events: getEventsWithinTimerange({
-        from: props.incident.get('start'),
-        to: props.incident.get('end'),
-        eventIds: props.incident.get('recentEvents', emptyList).toArray()
-      })
-    };
-  },
+export default getEventsWithinTimerange(
   React.createClass({
 
     displayName: 'EventList',
@@ -30,7 +18,6 @@ export default connectTo(
     ],
 
     propTypes: {
-      incident: irpt.map.isRequired,
       events: rpt.array
     },
 

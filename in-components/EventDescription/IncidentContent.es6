@@ -2,44 +2,32 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getEventsWithinTimerange} from 'in-stores/eventsWithinTimerange';
+import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import * as issueTracker from 'in-services/issueTracker';
 import {toHtml} from 'in-services/formatters/markdown';
-import {emptyList} from 'in-services/fixedImmutables';
-import connectTo from 'in-hoc/connectTo';
 
 
 const block = 'in-event-description';
-const rpt = React.PropTypes;
 
-
-export default connectTo(
-  props => {
-    return {
-      events: getEventsWithinTimerange({
-        from: props.incident.get('start'),
-        to: props.incident.get('end'),
-        eventIds: props.incident.get('recentEvents', emptyList).toArray()
-      })
-    };
-  },
+export default getEventsWithinTimerange(
   React.createClass({
 
     displayName: 'IncidentContent',
 
     propTypes: {
       incident: irpt.map.isRequired,
-      events: rpt.array
+      events: React.PropTypes.array
     },
 
     render() {
-      if (!this.props.events || this.props.events.length === 0) {
+      const events = this.props.events;
+      if (!events || events.length === 0) {
         return null;
       }
 
-      const firstEvent = this.props.events.sort((a, b) => a.get('start') - b.get('start'))[0];
       const incident = this.props.incident;
+      const firstEvent = events.sort((a, b) => a.get('start') - b.get('start'))[0];
       const color = issueTracker.getColorForEvent(firstEvent);
 
       return (
@@ -60,7 +48,7 @@ export default connectTo(
           <div className={block + '__suggestion'}
                dangerouslySetInnerHTML={{__html: toHtml(firstEvent.getIn(['problem', 'fixSuggestion']))}} />
 
-          <SnapshotDescription snapshotId={firstEvent.getIn(['problem', 'snapshotId'])} />
+          <SnapshotDescription snapshotId={firstEvent.getIn(['problem', 'snapshotId'], '')} />
         </div>
       );
     }
