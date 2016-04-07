@@ -2,11 +2,10 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {getIconTypeForEvent, getColorForEvent} from 'in-services/issueTracker';
 import getMostImportantEvent from 'in-hoc/getMostImportantEvent';
-import {mapSeverityToHealth, health} from 'in-services/health';
 import EventDescription from 'in-components/EventDescription';
 import {getClassName} from 'in-services/react';
-import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
 
 import Tooltip from '../Tooltip';
@@ -14,8 +13,7 @@ import './HealthIcon.less';
 
 const block = 'in-health-icon';
 
-export default getMostImportantEvent(
-               React.createClass({
+export default getMostImportantEvent(React.createClass({
 
   displayName: 'HealthIconListing',
 
@@ -35,21 +33,8 @@ export default getMostImportantEvent(
       return null;
     }
 
-    const severity = mostImportantEvent.getIn(['problem', 'severity']);
-
-    let iconType;
-    switch (mapSeverityToHealth(severity)) {
-      case health.warning:
-        iconType = 'warning';
-        break;
-      case health.danger:
-        iconType = 'critical';
-        break;
-      default:
-        iconType = 'change';
-    }
-
-    const color = theme.health[severity];
+    const iconType = getIconTypeForEvent(mostImportantEvent);
+    const color = getColorForEvent(mostImportantEvent);
 
     return (
       <Tooltip content={<EventDescription event={mostImportantEvent}

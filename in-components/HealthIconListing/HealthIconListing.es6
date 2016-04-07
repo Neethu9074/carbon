@@ -2,8 +2,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import EventDescription from 'in-components/EventDescription';
+import {getColorForEvent} from 'in-services/issueTracker';
 import getEvents from 'in-hoc/getEvents';
-import {theme} from 'in-services/theme';
 
 import Tooltip from '../Tooltip';
 import './HealthIconListing.less';
@@ -33,9 +33,6 @@ export default getEvents(
       return null;
     }
 
-    // the list is sorted so the first is the one with the hightest severity
-    const color = theme.health[events[0].getIn(['problem', 'severity'])];
-
     return (
       <Tooltip content={
         <div>
@@ -46,7 +43,7 @@ export default getEvents(
         </div>
       }>
         <div className={block}
-             style={{background: color}}>
+             style={{background: getColorForEvent(events[0])}}>
           {events.length}
         </div>
       </Tooltip>
