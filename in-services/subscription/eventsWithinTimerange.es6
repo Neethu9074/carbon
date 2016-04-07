@@ -13,8 +13,8 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createEventObservable
 });
 
-function getId({eventId, to}) {
-  return eventId + ',' + to;
+function getId({eventIds, from, to}) {
+  return eventIds.map(id => id + ',') + from + to;
 }
 
 function createEventObservable({eventIds, to, from}) {
