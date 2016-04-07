@@ -22,7 +22,7 @@ export const viewStructure = createTrackingStore({
   name: 'viewStructure',
   observable: ro.combineLatest([view, timelineStore.timeframe])
     .flatMap(([viewType, timeframe]) => {
-      return createViewStructureObservable(viewType, timeframe.to);
+      return createViewStructureObservable({viewType, time: timeframe.to});
     })
 }).observable;
 
