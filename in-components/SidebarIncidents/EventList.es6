@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
-import {getEvent} from 'in-services/issueTracker';
+import {getEventsWithinTimerange} from 'in-stores/eventsWithinTimerange';
+import {emptyList} from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 
 import Event from './Event';
@@ -13,7 +13,11 @@ const rpt = React.PropTypes;
 export default connectTo(
   props => {
     return {
-      events: combineLatest(props.eventIds.map(id => getEvent(id, props.to)))
+      events: getEventsWithinTimerange({
+        from: props.incident.get('start'),
+        to: props.incident.get('end'),
+        eventIds: props.incident.get('recentEvents', emptyList).toArray()
+      })
     };
   },
   React.createClass({

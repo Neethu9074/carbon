@@ -25,8 +25,6 @@ function createEventObservable({eventIds, to, from}) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
-  console.log(eventIds, from, to);
-
   const observable = create({
     start() {
       on(dataEvent, throttleNextFrame(onData));

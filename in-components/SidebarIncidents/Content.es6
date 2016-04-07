@@ -2,8 +2,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {emptyList} from 'in-services/fixedImmutables';
-
 import EventList from './EventList';
 
 import './Content.less';
@@ -47,8 +45,7 @@ export default React.createClass({
           What happened?
         </h2>
 
-        <EventList eventIds={incident.get('recentEvents', emptyList).toArray()}
-                   to={incident.get('start')}/>
+        <EventList incident={incident}/>
       </div>
     );
   }
