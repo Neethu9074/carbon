@@ -2,8 +2,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {getEventType, EVENT_TYPES, selectEvent} from 'in-services/issueTracker';
 import EventDescription from 'in-components/EventDescription';
+import * as issueTracker from 'in-services/issueTracker';
 import Tooltip from 'in-components/Tooltip';
 import {theme} from 'in-services/theme';
 import Icon from 'in-components/Icon';
@@ -30,7 +30,7 @@ export default React.createClass({
 
   render() {
     const event = this.props.event;
-    const iconType = this.getIconType(event);
+    const iconType = issueTracker.getIconTypeForEvent(event, true);
     const style = this.props.style ? this.props.style : {};
     const severity = event.getIn(['problem', 'severity']);
     const open = event.get('end') == null;
@@ -44,23 +44,11 @@ export default React.createClass({
 
         <Icon type={iconType}
               onMouseEnter={() => this.props.mouseIn(event)}
-              onClick={(() => selectEvent(event))}
+              onClick={(() => issueTracker.selectEvent(event))}
               onMouseLeave={this.props.mouseOut}
               className={block}
               style={style} />
       </Tooltip>
     );
-  },
-
-  getIconType(event) {
-    switch (getEventType(event)) {
-      case EVENT_TYPES.ISSUE_WARNING:
-        return 'warning';
-      case EVENT_TYPES.ISSUE_CRITICAL:
-        return 'critical';
-      case EVENT_TYPES.INCIDENT:
-        return 'system';
-      default:
-        return 'change';
-    }
-  }});
+  }
+});

@@ -8,22 +8,22 @@ const selectedIncidentStore = createStore({
   name: 'selectedIncidentIdToStore',
   initialValue: null
 });
-const selectedIncidentId = selectedIncidentStore.observable.distinct();
-
 
 export const selectedIncident = createTrackingStore({
   name: 'selectedIncidentStore',
-  observable: selectedIncidentId.flatMap(incident => {
-    if (incident && incident.id && incident.to) {
-      return getEvent(incident.id, incident.to);
-    }
+  observable: selectedIncidentStore.observable
+                .distinct()
+                .flatMap(incident => {
+                  if (incident && incident.id && incident.to) {
+                    return getEvent(incident.id, incident.to);
+                  }
     return alwaysNull;
   })
 }).observable;
 
-export function setSelectedIncidentId(id, to) {
+export function setSelectedIncident(id, to) {
   if (id == null) {
-    clearSelectedIncidentId();
+    clearSelectedIncident();
   } else {
     mutateUrl(navParams => {
       delete navParams.query.snapshotId;
@@ -35,7 +35,7 @@ export function setSelectedIncidentId(id, to) {
 }
 
 
-export function clearSelectedIncidentId() {
+export function clearSelectedIncident() {
   mutateUrl(navParams => {
     delete navParams.query.incidentId;
     delete navParams.query.incidentTo;

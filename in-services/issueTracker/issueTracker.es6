@@ -4,7 +4,7 @@ import Immutable from 'immutable';
 import createEventObservable from 'in-services/subscription/event';
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {mapSeverityToHealth, health} from 'in-services/health';
-import {setSelectedIncidentId} from 'in-stores/incident';
+import {setSelectedIncident} from 'in-stores/incident';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {emptyList} from 'in-services/fixedImmutables';
 import {isDemoEnvironment} from 'in-services/config';
@@ -238,6 +238,35 @@ function throwExceptionIfUndefined(property) {
   }
 }
 
+/**
+ * Gets the icontype, needed for Icon components for an events type.
+ *
+ * @param {EVENT_TYPES} eventType The event type for which the icon type should be determined.
+ * @returns {string} The icon type of the event
+ */
+export function getIconTypeForEventType(eventType, useAlternativeChangeIcon) {
+  switch (eventType) {
+    case EVENT_TYPES.ISSUE_WARNING:
+      return 'warning';
+    case EVENT_TYPES.ISSUE_CRITICAL:
+      return 'critical';
+    case EVENT_TYPES.INCIDENT:
+      return 'system';
+    default:
+      return useAlternativeChangeIcon ? 'instana_change' : 'change';
+  }
+}
+
+/**
+ * Gets the icontype, needed for Icon components for an event.
+ *
+ * @param {Immutable<Event>} event The event for which the icon type should be determined.
+ * @returns {string} The icon type of the event
+ */
+export function getIconTypeForEvent(event, useAlternativeChangeIcon = false) {
+  return getIconTypeForEventType(getEventType(event, useAlternativeChangeIcon));
+}
+
 export function getEventType(event) {
   const eventType = event.get('type');
   switch (eventType) {
@@ -261,7 +290,7 @@ export function getEventType(event) {
 
 export function selectEvent(event) {
   if (getEventType(event) === EVENT_TYPES.INCIDENT) {
-    setSelectedIncidentId(event.get('id'), event.get('start'));
+    setSelectedIncident(event.get('id'), event.get('start'));
   } else {
     setSelectedSnapshotId(event.getIn(['problem', 'snapshotId']));
   }
