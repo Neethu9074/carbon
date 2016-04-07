@@ -1,4 +1,3 @@
-/* eslint-disable react/no-multi-comp */
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 

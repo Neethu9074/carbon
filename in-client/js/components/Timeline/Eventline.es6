@@ -38,8 +38,8 @@ export default connectTo({
 
     propTypes: {
       times: rpt.shape({
-        serverTime: rpt.number.isRequired,
-        timeframe: timelineStore.timeframeShape.isRequired
+        timeframe: timelineStore.timeframeShape.isRequired,
+        serverTime: rpt.number.isRequired
       }),
       scale: rpt.func.isRequired,
       focusedMoment: rpt.number,

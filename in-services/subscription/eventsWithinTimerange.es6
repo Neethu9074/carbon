@@ -25,6 +25,7 @@ function createEventObservable({eventIds, to, from}) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
+  console.log('subscribe to:', eventIds, from, to);
   const observable = create({
     start() {
       on(dataEvent, throttleNextFrame(onData));
@@ -45,6 +46,7 @@ function createEventObservable({eventIds, to, from}) {
   return observable;
 
   function onData(event) {
+    console.log('got data:', event);
     observable.emit(Immutable.fromJS(event));
   }
 }
