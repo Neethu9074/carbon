@@ -48,8 +48,7 @@ export default function getEventsWithinTimerange(ComposedComponent) {
           eventIds: recentEvents.toArray(),
           from: incident.get('start'),
           to: incident.get('end')
-        }).subscribe(events =>
-          this.setState({ events: events.toArray() }));
+        }).subscribe(events => this.setState({ events }));
       }
     },
 

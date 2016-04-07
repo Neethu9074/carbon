@@ -17,7 +17,7 @@ export default getEventsWithinTimerange(
 
     propTypes: {
       incident: irpt.map.isRequired,
-      events: React.PropTypes.array
+      events: irpt.list
     },
 
     render() {
@@ -27,7 +27,7 @@ export default getEventsWithinTimerange(
       }
 
       const incident = this.props.incident;
-      const firstEvent = events.sort((a, b) => a.get('start') - b.get('start'))[0];
+      const firstEvent = events.get(0);
       const color = issueTracker.getColorForEvent(firstEvent);
 
       return (
