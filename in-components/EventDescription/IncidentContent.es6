@@ -22,7 +22,7 @@ export default getEventsWithinTimerange(
 
     render() {
       const events = this.props.events;
-      if (!events || events.length === 0) {
+      if (!events || events.size === 0) {
         return null;
       }
 
