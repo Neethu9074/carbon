@@ -29,7 +29,6 @@ export default connectTo(
     displayName: 'IncidentContent',
 
     propTypes: {
-      eventIds: rpt.array.isRequired,
       incident: irpt.map.isRequired,
       events: rpt.array
     },

@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {getEventsWithinTimerange} from 'in-stores/eventsWithinTimerange';
@@ -29,8 +30,7 @@ export default connectTo(
     ],
 
     propTypes: {
-      eventIds: rpt.array.isRequired,
-      to: rpt.number.isRequired,
+      incident: irpt.map.isRequired,
       events: rpt.array
     },
 
