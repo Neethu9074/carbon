@@ -1,11 +1,12 @@
 /* eslint-disable react/no-multi-comp */
-import {combineLatest} from 'reactive-observables';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {getEventsWithinTimerange} from 'in-stores/eventsWithinTimerange';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import * as issueTracker from 'in-services/issueTracker';
 import {toHtml} from 'in-services/formatters/markdown';
+import {emptyList} from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 
 
@@ -16,7 +17,11 @@ const rpt = React.PropTypes;
 export default connectTo(
   props => {
     return {
-      events: combineLatest(props.eventIds.map(id => issueTracker.getEvent(id, props.to)))
+      events: getEventsWithinTimerange({
+        from: props.incident.get('start'),
+        to: props.incident.get('end'),
+        eventIds: props.incident.get('recentEvents', emptyList).toArray()
+      })
     };
   },
   React.createClass({

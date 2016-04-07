@@ -4,7 +4,6 @@ import moment from 'moment';
 import React from 'react';
 
 import * as issueTracker from 'in-services/issueTracker';
-import {emptyList} from 'in-services/fixedImmutables';
 import {getClassName} from 'in-services/react';
 import Icon from 'in-components/Icon';
 
@@ -53,9 +52,7 @@ export default React.createClass({
   getContent(event, eventType, color) {
     return (
       eventType === issueTracker.EVENT_TYPES.INCIDENT ?
-      <IncidentContent incident={event}
-                       eventIds={event.get('recentEvents', emptyList).toArray()}
-                       to={event.get('start')}/> :
+      <IncidentContent incident={event}/> :
       <EventContent snapshotId={this.props.snapshotId}
                     event={event}
                     color={color}/>
