@@ -6,24 +6,24 @@ import moment from 'moment';
 import connectTo from 'in-hoc/connectTo';
 
 import {
-  Issue$,
+  event$,
   selectedNotificationFilter
 } from 'in-components/NotificationCenterFlyout/notificationCenterFlyoutStores';
-import IssueDescription from 'in-components/IssueDescription';
+import EventDescription from 'in-components/EventDescription';
 
-import './IssueItemList.less';
+import './EventItemList.less';
 
 
-const block = 'in-notificationcenter-issueitemlist';
+const block = 'in-notificationcenter-eventitemlist';
 const rpt = React.PropTypes;
 
 export default connectTo({
     selectedNotificationFilter,
-    allIssues: Issue$
+    allEvents: event$
   },
   React.createClass({
 
-    displayName: 'NotificationCenterIssueItemList',
+    displayName: 'NotificationCenterEventItemList',
 
     mixins: [
       PureRenderMixin
@@ -31,27 +31,27 @@ export default connectTo({
 
     propTypes: {
       selectedNotificationFilter: rpt.object,
-      allIssues: irpt.list,
+      allEvents: irpt.list,
       style: rpt.object
     },
 
     render() {
-      const allIssues = this.props.allIssues;
-      if (!allIssues) {
+      const allEvents = this.props.allEvents;
+      if (!allEvents) {
         return null;
       }
 
-      const sortedIssue = allIssues
-                            .filter(issue => this.props.selectedNotificationFilter.predicate(issue))
+      const sortedEvent = allEvents
+                            .filter(event => this.props.selectedNotificationFilter.predicate(event))
                             .sort((a, b) => b.get('start') - a.get('start'));
-      const days = this.getIssuesPerDay(sortedIssue);
-      const dailyIssues = Object.keys(days);
+      const days = this.getEventsPerDay(sortedEvent);
+      const dailyEvents = Object.keys(days);
 
       return (
         <ul className={block}
             style={this.props.style}>
-          {dailyIssues.map(key => {
-            const issues = days[key];
+          {dailyEvents.map(key => {
+            const events = days[key];
             return (
               <li key={key}
                   className={block + '__list-item'}>
@@ -59,9 +59,9 @@ export default connectTo({
                 <div className={block + '__header-label'}>
                   {this.getDayStringForDate(key)}
                 </div>
-                {issues.map(issue => <IssueDescription key={issue.get('id')}
-                                                       issue={issue}
-                                                       snapshotId={issue.getIn(['problem', 'snapshotId'])}
+                {events.map(event => <EventDescription key={event.get('id')}
+                                                       event={event}
+                                                       snapshotId={event.getIn(['problem', 'snapshotId'], '')}
                                                        className={block + '__item'}/>)}
               </li>
             );
@@ -83,16 +83,16 @@ export default connectTo({
       return dateString;
     },
 
-    getIssuesPerDay(issues) {
+    getEventsPerDay(events) {
       const days = {};
 
-      issues.forEach(issue => {
-        const issueStartingDate = new Date(issue.get('start'));
-        const dateString = this.getDateString(issueStartingDate);
+      events.forEach(event => {
+        const eventStartingDate = new Date(event.get('start'));
+        const dateString = this.getDateString(eventStartingDate);
         if (!days[dateString]) {
           days[dateString] = [];
         }
-        days[dateString].push(issue);
+        days[dateString].push(event);
       });
 
       return days;

@@ -96,7 +96,7 @@ module.exports = defaultsDeep({
       fixedTimeWindowPicker: {
 
       },
-      panelBorder: grey1,
+      panelBorder: grey3,
       selection: {
         icon: cyan,
         heading: white,
@@ -159,13 +159,8 @@ module.exports = defaultsDeep({
   },
   notificationCenter: {
     background: grey6,
-    statusBarBackground: grey6,
-    issueItem: {
-      borderLine: grey4,
-      textTime: white,
-      textSuggestion: 'rgba(255, 255, 255, 0.5)',
-      backgroundHover: grey6
-    }
+    backgroundHighlight: grey5,
+    statusBarBackground: grey6
   },
   settings: {
     heading: {

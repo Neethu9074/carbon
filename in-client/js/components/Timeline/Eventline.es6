@@ -8,9 +8,9 @@ import * as serverTimeStore from 'in-stores/serverTime';
 import * as timelineStore from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
-import {issue$} from './timelineStores';
-import IssueLine from './IssueLine';
-import Issue from './Issue';
+import {event$} from './timelineStores';
+import Line from './Line';
+import Event from './Event';
 
 import './Eventline.less';
 
@@ -26,10 +26,11 @@ export default connectTo({
                 timeframe
               };
             }),
-    issues: issue$,
+    events: event$,
     focusedMoment: timelineStore.focusedMoment
   },
   React.createClass({
+
     displayName: 'Eventline',
 
     mixins: [
@@ -38,18 +39,18 @@ export default connectTo({
 
     propTypes: {
       times: rpt.shape({
-        serverTime: rpt.number.isRequired,
-        timeframe: timelineStore.timeframeShape.isRequired
+        timeframe: timelineStore.timeframeShape.isRequired,
+        serverTime: rpt.number.isRequired
       }),
       scale: rpt.func.isRequired,
       focusedMoment: rpt.number,
-      issues: irpt.list
+      events: irpt.list
     },
 
     getInitialState() {
       return {
         hoveredSnapshot: null,
-        hoveredIssue: null
+        hoveredEvent: null
       };
     },
 
@@ -61,62 +62,62 @@ export default connectTo({
 
       return (
         <div className={block}>
-          {this.renderIssueLine()}
-          {this.renderIssues()}
+          {this.renderEventLine()}
+          {this.renderEvents()}
           {this.renderFocusedMoment()}
         </div>
       );
     },
 
-    renderIssueLine() {
-      const issue = this.state.hoveredIssue;
-      if (!issue) {
+    renderEventLine() {
+      const event = this.state.hoveredEvent;
+      if (!event) {
         return null;
       }
 
       return (
-        <IssueLine style={{left: this.props.scale(issue.get('start')).toFixed(2) + '%'}}
-                   issue={issue}
+        <Line style={{left: this.props.scale(event.get('start')).toFixed(2) + '%'}}
+                   event={event}
                    scale={this.props.scale}/>
       );
     },
 
-    renderIssues() {
-      const issues = this.props.issues;
-      if (!issues || issues.size === 0) {
+    renderEvents() {
+      const events = this.props.events;
+      if (!events || events.size === 0) {
         return null;
       }
 
       const times = this.props.times;
-      const maxOldestPermittedIssueTimestamp =
+      const maxOldestPermittedEventTimestamp =
         (times.timeframe.to ? times.timeframe.to : times.serverTime ) - times.timeframe.windowSize;
       const maxNewestTimeStamp = times.timeframe.to ? times.timeframe.to : Infinity;
 
-      return issues
-        .filter(issue => {
-          const start = issue.get('start');
-          return start > maxOldestPermittedIssueTimestamp &&
+      return events
+        .filter(event => {
+          const start = event.get('start');
+          return start > maxOldestPermittedEventTimestamp &&
                  start < maxNewestTimeStamp;
         })
-        .map(issue => <Issue key={issue.get('id')}
+        .map(event => <Event key={event.get('id')}
                              mouseIn={this.mouseIn}
                              mouseOut={this.mouseOut}
-                             issue={issue}
+                             event={event}
                              style={{
-                               left: this.props.scale(issue.get('start')).toFixed(2) + '%'
+                               left: this.props.scale(event.get('start')).toFixed(2) + '%'
                              }}/>
         );
     },
 
-    mouseIn(issue) {
-      this.setState({ hoveredIssue: issue });
+    mouseIn(event) {
+      this.setState({ hoveredEvent: event });
 
-      setHighlightedEntityId(issue.getIn(['problem', 'snapshotId']));
+      setHighlightedEntityId(event.getIn(['problem', 'snapshotId']));
     },
 
     mouseOut() {
       this.setState({
-        hoveredIssue: null
+        hoveredEvent: null
       });
       clearHighlightedEntityId();
     },

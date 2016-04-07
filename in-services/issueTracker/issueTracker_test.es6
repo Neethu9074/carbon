@@ -17,17 +17,17 @@ global.requestAnimationFrame = function requestAnimationFrame(fn) {
 
 describe('issueTracker', () => {
 
-  let historicalIssuesObservable;
-  let historicalIssuesStubData;
-  let openIssuesObservable;
-  let openIssuesStubData;
+  let historicalEventObservable;
+  let historicalEventsStubData;
+  let openEventsObservable;
+  let openEventsStubData;
   let issueTracker;
 
   beforeEach(() => {
     resetStoreRegistry();
 
-    historicalIssuesObservable = ro.create();
-    openIssuesObservable = ro.create();
+    historicalEventObservable = ro.create();
+    openEventsObservable = ro.create();
 
     /* eslint-disable camelcase, no-underscore-dangle, no-undef */
     global.__DEV__ = false;
@@ -39,18 +39,18 @@ describe('issueTracker', () => {
     };
     /* eslint-enable camelcase, no-underscore-dangle, no-undef */
 
-    const historicalIssuesStreamstub = sinon.stub();
-    historicalIssuesStreamstub.returns(historicalIssuesObservable);
+    const historicalEventsStreamstub = sinon.stub();
+    historicalEventsStreamstub.returns(historicalEventObservable);
 
-    const openIssuesStreamstub = sinon.stub();
-    openIssuesStreamstub.returns(openIssuesObservable);
+    const openEventsStreamstub = sinon.stub();
+    openEventsStreamstub.returns(openEventsObservable);
 
     issueTracker = proxyquire('./issueTracker', {
-      'in-stores/historicalIssues': { getHistoricalIssues: historicalIssuesStreamstub },
-      'in-stores/openIssues': { getOpenIssues: openIssuesStreamstub }
+      'in-stores/historicalEvents': { getHistoricalEvents: historicalEventsStreamstub },
+      'in-stores/openEvents': { getOpenEvents: openEventsStreamstub }
     });
 
-    openIssuesStubData = Immutable.fromJS([{
+    openEventsStubData = Immutable.fromJS([{
         'id': 'oi1',
         'start': 1433251409977
       }, {
@@ -59,7 +59,7 @@ describe('issueTracker', () => {
       }
     ]);
 
-    historicalIssuesStubData = Immutable.fromJS([{
+    historicalEventsStubData = Immutable.fromJS([{
         'id': 'hi1',
         'start': 1433251400000,
         'end': 1433251500000
@@ -67,175 +67,177 @@ describe('issueTracker', () => {
     ]);
   });
 
-  describe('getOpenIssues', () => {
+  describe('getOpenEvents', () => {
 
     it('should send initial data', () => {
-      let openIssues;
-      issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
-      openIssuesObservable.emit(openIssuesStubData);
+      let openEvents;
+      issueTracker.openEvents$.subscribe(events => openEvents = events.toJS());
+      openEventsObservable.emit(openEventsStubData);
 
-      expect(openIssues.length).to.equal(2);
-      expect(openIssues[0].id).to.equal('oi1');
-      expect(openIssues[1].id).to.equal('oi2');
+      expect(openEvents.length).to.equal(2);
+      expect(openEvents[0].id).to.equal('oi1');
+      expect(openEvents[1].id).to.equal('oi2');
     });
 
     it('should send updates', () => {
-      let openIssues;
-      issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
-      openIssuesObservable.emit(openIssuesStubData);
-      openIssuesObservable.emit(Immutable.fromJS([{
+      let openEvents;
+      issueTracker.openEvents$.subscribe(events => openEvents = events.toJS());
+      openEventsObservable.emit(openEventsStubData);
+      openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi_new',
         'start': 1433251409977
       }]));
 
-      expect(openIssues.length).to.equal(3);
-      expect(openIssues[0].id).to.equal('oi1');
-      expect(openIssues[1].id).to.equal('oi2');
-      expect(openIssues[2].id).to.equal('oi_new');
+      expect(openEvents.length).to.equal(3);
+      expect(openEvents[0].id).to.equal('oi1');
+      expect(openEvents[1].id).to.equal('oi2');
+      expect(openEvents[2].id).to.equal('oi_new');
     });
 
-    it('should remove updated issues that are now historical', () => {
-      let openIssues;
-      issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
-      openIssuesObservable.emit(openIssuesStubData);
-      openIssuesObservable.emit(Immutable.fromJS([{
+    it('should remove updated events that are now historical', () => {
+      let openEvents;
+      issueTracker.openEvents$.subscribe(events => openEvents = events.toJS());
+      openEventsObservable.emit(openEventsStubData);
+      openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi2',
         'start': 1433251409977,
         'end': 1433251500000
       }]));
 
-      expect(openIssues.length).to.equal(1);
-      expect(openIssues[0].id).to.equal('oi1');
+      expect(openEvents.length).to.equal(1);
+      expect(openEvents[0].id).to.equal('oi1');
     });
 
-    it('should add and remove issues', () => {
-      let openIssues;
-      issueTracker.openIssues$.subscribe(issues => openIssues = issues.toJS());
-      openIssuesObservable.emit(openIssuesStubData);
-      expect(openIssues.length).to.equal(2);
-      expect(openIssues[0].id).to.equal('oi1');
-      expect(openIssues[1].id).to.equal('oi2');
+    it('should add and remove events', () => {
+      let openEvents;
+      issueTracker.openEvents$.subscribe(events => openEvents = events.toJS());
+      openEventsObservable.emit(openEventsStubData);
+      expect(openEvents.length).to.equal(2);
+      expect(openEvents[0].id).to.equal('oi1');
+      expect(openEvents[1].id).to.equal('oi2');
 
-      openIssuesObservable.emit(Immutable.fromJS([{
+      openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi2',
         'start': 1433251409977,
         'end': 1433251500000
       }]));
 
-      expect(openIssues.length).to.equal(1);
-      expect(openIssues[0].id).to.equal('oi1');
+      expect(openEvents.length).to.equal(1);
+      expect(openEvents[0].id).to.equal('oi1');
 
-      openIssuesObservable.emit(Immutable.fromJS([{
+      openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi2',
         'start': 1433251409977
       }]));
-      expect(openIssues.length).to.equal(2);
-      expect(openIssues[0].id).to.equal('oi1');
-      expect(openIssues[1].id).to.equal('oi2');
+      expect(openEvents.length).to.equal(2);
+      expect(openEvents[0].id).to.equal('oi1');
+      expect(openEvents[1].id).to.equal('oi2');
 
-      openIssuesObservable.emit(Immutable.fromJS([{
+      openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi2',
         'start': 1433251409977,
         'end': 1433251500000
       }]));
 
-      expect(openIssues.length).to.equal(1);
-      expect(openIssues[0].id).to.equal('oi1');
+      expect(openEvents.length).to.equal(1);
+      expect(openEvents[0].id).to.equal('oi1');
 
-      openIssuesObservable.emit(Immutable.fromJS([{
+      openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi1',
         'start': 1433251409977,
         'end': 1433251500000
       }]));
 
-      expect(openIssues.length).to.equal(0);
+      expect(openEvents.length).to.equal(0);
 
-      openIssuesObservable.emit(Immutable.fromJS([{
+      openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi1',
         'start': 1433251409977
       }]));
 
-      expect(openIssues.length).to.equal(1);
-      expect(openIssues[0].id).to.equal('oi1');
+      expect(openEvents.length).to.equal(1);
+      expect(openEvents[0].id).to.equal('oi1');
     });
 
   });
 
-  describe('getHistoricalIssues', () => {
+  describe('getHistoricalEvents', () => {
 
     it('should send initial data', () => {
-      let historicalIssues;
-      issueTracker.historicalIssues$.subscribe(issues => historicalIssues = issues.toJS());
-      historicalIssuesObservable.emit(historicalIssuesStubData);
+      let historicalEvents;
+      issueTracker.historicalEvents$.subscribe(events => historicalEvents = events.toJS());
+      historicalEventObservable.emit(historicalEventsStubData);
 
-      expect(historicalIssues.length).to.equal(1);
-      expect(historicalIssues[0].id).to.equal('hi1');
+      expect(historicalEvents.length).to.equal(1);
+      expect(historicalEvents[0].id).to.equal('hi1');
     });
 
   });
 
-  describe('getCombinedIssues', () => {
+  describe('getCombinedEvents', () => {
 
-    it('should combine both, historical and open issues', () => {
-      let combinedIssues;
-      issueTracker.combinedIssues$.subscribe(issues => combinedIssues = issues.toJS());
-      historicalIssuesObservable.emit(historicalIssuesStubData);
-      openIssuesObservable.emit(openIssuesStubData);
+    it('should combine both, historical and open events', () => {
+      let combinedEvents;
+      issueTracker.combinedEvents$.subscribe(events => combinedEvents = events.toJS());
+      historicalEventObservable.emit(historicalEventsStubData);
+      openEventsObservable.emit(openEventsStubData);
 
-      expect(combinedIssues.length).to.equal(3);
-      expect(combinedIssues[0].id).to.equal('hi1');
-      expect(combinedIssues[1].id).to.equal('oi1');
-      expect(combinedIssues[2].id).to.equal('oi2');
+      expect(combinedEvents.length).to.equal(3);
+      expect(combinedEvents[0].id).to.equal('hi1');
+      expect(combinedEvents[1].id).to.equal('oi1');
+      expect(combinedEvents[2].id).to.equal('oi2');
     });
 
   });
 
-  describe('getColorForIssue', () => {
+  describe('getColorForEvent', () => {
 
-    it('should throw an error if there is no given issue', () => {
-      expect(() => issueTracker.getColorForIssue(undefined)).to.throw(Error);
+    it('should throw an error if there is no given event', () => {
+      expect(() => issueTracker.getColorForEvent(undefined)).to.throw(Error);
     });
 
-    it('should return ok color on closed issues', () => {
-      let issue = Immutable.fromJS({
-        problem: {
-          severity: 0
-        }
-      });
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
-
-      issue = issue.setIn(['problem', 'severity'], 5);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[5]);
-
-      issue = issue.setIn(['problem', 'severity'], 10);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[10]);
-    });
-
-    it('should return default color for closed issues', () => {
-      let issue = Immutable.fromJS({
+    it('should return ok color on closed events', () => {
+      let event = Immutable.fromJS({
         problem: {
           severity: 0
         },
-        end: 42
+        type: 'issue'
       });
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
+      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
 
-      issue = issue.setIn(['problem', 'severity'], 5);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
+      event = event.setIn(['problem', 'severity'], 5);
+      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[5]);
 
-      issue = issue.setIn(['problem', 'severity'], 10);
-      expect(issueTracker.getColorForIssue(issue)).to.equal(theme.health[0]);
+      event = event.setIn(['problem', 'severity'], 10);
+      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[10]);
+    });
+
+    it('should return default color for closed events', () => {
+      let event = Immutable.fromJS({
+        problem: {
+          severity: 0
+        },
+        end: 42,
+        type: 'issue'
+      });
+      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
+
+      event = event.setIn(['problem', 'severity'], 5);
+      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
+
+      event = event.setIn(['problem', 'severity'], 10);
+      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
     });
 
   });
 
-  describe('getMostImportantIssue', () => {
+  describe('getMostImportantEvent', () => {
 
-    it('should return the most important issue if there are multiple issues for the same entity', () => {
-      let mostImportantIssue;
-      issueTracker.getMostImportantIssue('123').subscribe(issue => mostImportantIssue = issue);
+    it('should return the most important event if there are multiple events for the same entity', () => {
+      let mostImportantEvent;
+      issueTracker.getMostImportantEvent('123').subscribe(event => mostImportantEvent = event);
 
-      openIssuesObservable.emit(Immutable.fromJS([{
+      openEventsObservable.emit(Immutable.fromJS([{
           'id': 'oi1',
           'problem': {
             'snapshotId': '123',
@@ -259,14 +261,14 @@ describe('issueTracker', () => {
         }
       ]));
 
-      expect(mostImportantIssue.get('id')).to.equal('oi2');
+      expect(mostImportantEvent.get('id')).to.equal('oi2');
     });
 
-    it('should return the only issue if there is only one', () => {
-      let mostImportantIssue;
-      issueTracker.getMostImportantIssue('123').subscribe(issue => mostImportantIssue = issue);
+    it('should return the only event if there is only one', () => {
+      let mostImportantEvent;
+      issueTracker.getMostImportantEvent('123').subscribe(event => mostImportantEvent = event);
 
-      openIssuesObservable.emit(Immutable.fromJS([{
+      openEventsObservable.emit(Immutable.fromJS([{
           'id': 'oi1',
           'problem': {
             'snapshotId': '123',
@@ -276,16 +278,16 @@ describe('issueTracker', () => {
         }
       ]));
 
-      expect(mostImportantIssue.get('id')).to.equal('oi1');
+      expect(mostImportantEvent.get('id')).to.equal('oi1');
     });
 
-    it('should return nothing if there are no issues', () => {
-      let mostImportantIssue;
-      issueTracker.getMostImportantIssue('123').subscribe(issue => mostImportantIssue = issue);
+    it('should return nothing if there are no events', () => {
+      let mostImportantEvent;
+      issueTracker.getMostImportantEvent('123').subscribe(event => mostImportantEvent = event);
 
-      openIssuesObservable.emit(Immutable.fromJS([]));
+      openEventsObservable.emit(Immutable.fromJS([]));
 
-      expect(mostImportantIssue).to.equal(undefined);
+      expect(mostImportantEvent).to.equal(undefined);
     });
 
   });

@@ -3,7 +3,7 @@ import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {emptyList} from 'in-services/fixedImmutables';
-import {openIssues$} from 'in-services/issueTracker';
+import {openEvents$} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -15,7 +15,7 @@ import './NotificationCounter.less';
 const block = 'in-notification-counter';
 
 export default connectTo({
-    openIssues: openIssues$
+    openEvents: openEvents$
   },
   React.createClass({
 
@@ -27,7 +27,7 @@ export default connectTo({
 
     propTypes: {
       className: React.PropTypes.string,
-      openIssues: irpt.list
+      openEvents: irpt.list
     },
 
     getInitialState() {
@@ -56,12 +56,12 @@ export default connectTo({
     },
 
     render() {
-      const issues = this.props.openIssues || emptyList;
+      const events = this.props.openEvents || emptyList;
       const showNC = this.state.showNotificationCenter;
 
       let maxSeverity = 0;
-      issues.forEach(issue => {
-        const severity = issue.getIn(['problem', 'severity']);
+      events.forEach(event => {
+        const severity = event.getIn(['problem', 'severity']);
         if (severity > maxSeverity) {
           maxSeverity = severity;
         }
@@ -74,7 +74,7 @@ export default connectTo({
           <div className={block}
                style={{background: color}}
                onClick={this.toggleNotificationCenter}>
-            {issues.size}
+            {events.size}
           </div>
 
           {showNC ?

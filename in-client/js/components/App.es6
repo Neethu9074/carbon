@@ -5,6 +5,7 @@ import React from 'react';
 import {isInternalEnvironment, isDemoEnvironment} from 'in-services/config';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
+import SidebarIncidents from 'in-components/SidebarIncidents';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
 import MessageDialog from 'in-components/MessageDialog';
@@ -100,6 +101,7 @@ export default
           <section style={{display: hasChildren ? 'none' : 'block'}}>
             <Map />
             <Filterbar />
+            <SidebarIncidents />
             <SidebarMap />
           </section>
 

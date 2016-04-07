@@ -1,4 +1,4 @@
-import {historicalIssues$, combinedIssues$} from 'in-services/issueTracker';
+import {historicalEvents$, combinedEvents$} from 'in-services/issueTracker';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {timeframe} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
@@ -89,22 +89,22 @@ export function setSelectedTimePicker(timepicker) {
 
 
 /*
-  this store is used to handle the different issue streams which are shown in the timelineStore
+  this store is used to handle the different event streams which are shown in the timelineStore
 
-  when selecting a custom timerange, the historical issues will be streamed 1:1
+  when selecting a custom timerange, the historical events will be streamed 1:1
 
-  when selecting the live view, we need to merge the open issues with the historical issues in them
+  when selecting the live view, we need to merge the open events with the historical events in them
   selected timerange (last 1h, last 12h, ...)
 */
 export const TIME_RANGES = TIME_PICKER; // you can select a fixed range or the live range
 export const selectedTimeRange = timeframe.map(frame => frame.to ? TIME_RANGES.FIXED : TIME_RANGES.LIVE);
 
-export const issue$ = selectedTimeRange.flatMap(timeRange => {
+export const event$ = selectedTimeRange.flatMap(timeRange => {
   switch (timeRange) {
     case TIME_RANGES.FIXED:
-      return historicalIssues$;
+      return historicalEvents$;
     case TIME_RANGES.LIVE:
-      return combinedIssues$;
+      return combinedEvents$;
     default:
       return alwaysNull;
   }

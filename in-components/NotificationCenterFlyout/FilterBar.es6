@@ -2,11 +2,11 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {mapSeverityToHealth} from 'in-services/health';
+import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
-import {FILTER_TYPES, Issue$} from './notificationCenterFlyoutStores';
+import {FILTER_TYPES, event$} from './notificationCenterFlyoutStores';
 import Filter from './Filter';
 
 import './FilterBar.less';
@@ -15,7 +15,7 @@ import './FilterBar.less';
 const block = 'in-notificationcenter-filterbar';
 
 export default connectTo({
-    allIssues: Issue$
+    allEvents: event$
   },
   React.createClass({
 
@@ -26,11 +26,11 @@ export default connectTo({
     ],
 
     propTypes: {
-      allIssues: irpt.list
+      allEvents: irpt.list
     },
 
     render() {
-      const counter = this.getIssuesCounter();
+      const counter = this.getEventsCounter();
 
       return (
         <div className={block}>
@@ -45,28 +45,37 @@ export default connectTo({
 
           <Filter label={'' + counter.change}
                   filter={FILTER_TYPES.CHANGE}/>
+
+          <Filter label={'' + counter.incident}
+                  filter={FILTER_TYPES.INCIDENT}/>
         </div>
       );
     },
 
-    getIssuesCounter() {
+    getEventsCounter() {
       const counter = {
         warning: 0,
         danger: 0,
-        change: 0
+        change: 0,
+        incident: 0
       };
 
-      const allIssues = this.props.allIssues || emptyArray;
-      allIssues.forEach(issue => {
-        const issueHealth = mapSeverityToHealth(issue.getIn(['problem', 'severity']));
-        if (!issueHealth) {
-          return;
-        }
-
-        if (issueHealth === 'ok') {
-          counter.change++;
-        } else {
-          counter[issueHealth]++;
+      const allEvents = this.props.allEvents || emptyArray;
+      allEvents.forEach(event => {
+        switch (getEventType(event)) {
+          case EVENT_TYPES.ISSUE_WARNING:
+            counter.warning++;
+            break;
+          case EVENT_TYPES.ISSUE_CRITICAL:
+            counter.danger++;
+            break;
+          case EVENT_TYPES.CHANGE:
+            counter.change++;
+            break;
+          case EVENT_TYPES.INCIDENT:
+            counter.incident++;
+            break;
+          default:
         }
       });
 

@@ -8,6 +8,7 @@ import connectTo from 'in-hoc/connectTo';
 
 import ChangeTimeButtonFrom from './ChangeTimeButtonFrom';
 import ChangeTimeButtonTo from './ChangeTimeButtonTo';
+import TimeRange from './TimeRange';
 import Eventline from './Eventline';
 
 import './Timeline.less';
@@ -54,10 +55,10 @@ export default connectTo({
     render() {
       return (
         <div className={block}>
+        <TimeRange serverTime={this.props.serverTime}
+                   scale={this.scale}/>
           <ChangeTimeButtonFrom/>
-
           <Eventline scale={this.scale} />
-
           <ChangeTimeButtonTo/>
         </div>
       );

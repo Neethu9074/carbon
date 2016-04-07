@@ -1,7 +1,7 @@
 import {createLogger} from 'instalog';
 
 import {health, mapSeverityToHealth} from 'in-services/health';
-import {openIssues$} from 'in-services/issueTracker';
+import {openEvents$} from 'in-services/issueTracker';
 import {settingsStore} from 'in-services/settings';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
@@ -9,7 +9,7 @@ import {getLabel} from 'in-sdk/snapshot';
 
 const logger = createLogger('notification');
 let disposable;
-let previousIssues = null;
+let previousEvents = null;
 
 settingsStore.nextFrame().subscribe(data => {
   if (data.get('desktopNotification')) {
@@ -21,23 +21,23 @@ settingsStore.nextFrame().subscribe(data => {
 
 
 function startTracking() {
-  disposable = openIssues$.subscribe(issues => {
+  disposable = openEvents$.subscribe(events => {
     // show messages only if Browser Window is currently not visible
     if (document.hidden == null || !document.hidden) {
       return;
     }
-    // recreate the list of previous issues if first start or if an issue has been removed
-    if (previousIssues === null || Object.keys(previousIssues).length > issues.size) {
-      previousIssues = {};
-      issues.forEach(issue => previousIssues[issue.get('id')] = 1);
+    // recreate the list of previous events if first start or if an event has been removed
+    if (previousEvents === null || Object.keys(previousEvents).length > events.size) {
+      previousEvents = {};
+      events.forEach(event => previousEvents[event.get('id')] = 1);
     }
 
-    issues.forEach(issue => {
-      const problem = issue.get('problem');
+    events.forEach(event => {
+      const problem = event.get('problem');
       getSnapshot(problem.get('snapshotId')).once(snapshot => {
-        const issueId = issue.get('id');
-        if (previousIssues[issueId] !== 1) {
-          previousIssues[issueId] = 1;
+        const eventId = event.get('id');
+        if (previousEvents[eventId] !== 1) {
+          previousEvents[eventId] = 1;
           const severity = mapSeverityToHealth(problem.get('severity'));
           if (severity === health.warning || severity === health.danger) {
             showMessage(getLabel(snapshot), problem.get('problemText'));

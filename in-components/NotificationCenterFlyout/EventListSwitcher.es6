@@ -5,29 +5,29 @@ import connectTo from 'in-hoc/connectTo';
 import Button from 'in-components/Button';
 
 import {
-  ISSUE_LISTS,
-  selectedIssueList,
+  EVENT_LISTS,
+  selectedEventList,
   setSelectedList
 } from './notificationCenterFlyoutStores';
 
-import './IssueListSwitcher.less';
+import './EventListSwitcher.less';
 
 
-const block = 'in-notificationcenter-issue-list-switcher';
+const block = 'in-notificationcenter-event-list-switcher';
 
 export default connectTo({
-    selectedIssueList
+    selectedEventList
   },
   React.createClass({
 
-    displayName: 'NotificationIssueListSwitcher',
+    displayName: 'NotificationEventListSwitcher',
 
     mixins: [
       PureRenderMixin
     ],
 
     propTypes: {
-      selectedIssueList: React.PropTypes.string
+      selectedEventList: React.PropTypes.string
     },
 
     render() {
@@ -37,13 +37,13 @@ export default connectTo({
       return (
         <div className={block}>
           <Button className={buttonBlock +
-                             (this.props.selectedIssueList === ISSUE_LISTS.HISTORICAL ? selectedClassName : '')}
-                  onClick={() => setSelectedList(ISSUE_LISTS.HISTORICAL)}>
+                             (this.props.selectedEventList === EVENT_LISTS.HISTORICAL ? selectedClassName : '')}
+                  onClick={() => setSelectedList(EVENT_LISTS.HISTORICAL)}>
             custom timerange
           </Button>
           <Button className={buttonBlock +
-                            (this.props.selectedIssueList === ISSUE_LISTS.CURRENT ? selectedClassName : '')}
-                  onClick={() => setSelectedList(ISSUE_LISTS.CURRENT)}>
+                            (this.props.selectedEventList === EVENT_LISTS.CURRENT ? selectedClassName : '')}
+                  onClick={() => setSelectedList(EVENT_LISTS.CURRENT)}>
             active
           </Button>
         </div>

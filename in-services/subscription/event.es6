@@ -10,27 +10,27 @@ import {on, off} from 'in-services/persistentConnection';
 
 export default createObservableIfMissing.bind(null, {
   getId,
-  createObservable: createSnapshotObservable
+  createObservable: createEventObservable
 });
 
-function getId(snapshotId) {
-  return snapshotId;
+function getId({eventId, to}) {
+  return eventId + ',' + to;
 }
 
-function createSnapshotObservable(snapshotId) {
+function createEventObservable({eventId, to}) {
   invariant(
-    snapshotId,
-    'A snapshotId is required in order to retrieve snapshots.'
+    eventId,
+    'A eventId is required in order to retrieve event.'
   );
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
-
   const observable = create({
     start() {
       on(dataEvent, throttleNextFrame(onData));
-      subscribe(subscriptionId, 'subscribe-snapshot', {
+      subscribe(subscriptionId, 'subscribe-event', {
         'subscriptionId': subscriptionId,
-        'snapshotId': snapshotId
+        'eventId': eventId,
+        'to': to
       });
     },
 
@@ -42,7 +42,7 @@ function createSnapshotObservable(snapshotId) {
 
   return observable;
 
-  function onData(snapshot) {
-    observable.emit(Immutable.fromJS(snapshot));
+  function onData(event) {
+    observable.emit(Immutable.fromJS(event));
   }
 }

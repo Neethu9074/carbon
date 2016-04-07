@@ -12,9 +12,13 @@ import ZoneTag from '../ZoneTag';
 
 import './SidebarHeadingSnapshotMetadata.less';
 
+
 const block = 'in-sidebar-heading-metadata';
 
-const SidebarHeadingSnapshotMetadata = React.createClass({
+export default React.createClass({
+
+  displayName: 'SidebarHeadingSnapshotMetadata',
+
   mixins: [
     PureRenderMixin,
     Navigation
@@ -30,6 +34,7 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
     if (!snapshot) {
       return null;
     }
+    const snapshotId = snapshot.get('id');
 
     return (
       <div className={getClassName(this, block)}>
@@ -45,8 +50,8 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
               {getSingular(snapshot.get('plugin'))}
             </span>
             <div className={block + '__wrapper'}>
-              <ZoneTag snapshotId={snapshot.get('id')} className={block + '__zone'}/>
-              <HealthIconListing snapshotId={snapshot.get('id')}/>
+              <ZoneTag snapshotId={snapshotId} className={block + '__zone'}/>
+              <HealthIconListing snapshotId={snapshotId}/>
             </div>
           </div>
         </div>
@@ -54,5 +59,3 @@ const SidebarHeadingSnapshotMetadata = React.createClass({
     );
   }
 });
-
-export default SidebarHeadingSnapshotMetadata;

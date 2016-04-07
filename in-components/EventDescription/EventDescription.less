@@ -1,7 +1,6 @@
 @import "~in-themes/active.less";
 
-.in-issue-description {
-
+.in-event-description {
   display: flex;
   background: @map__tooltips__background;
   margin: 5px 0;
@@ -17,9 +16,7 @@
     padding: 0px 10px 5px 5px;
   }
 
-  &__header {
-    display: flex;
-
+  &__header, &__incident-started {
     font-size: 0.7rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -39,5 +36,10 @@
     color: #cdd3d5;
 
     margin-bottom: 5px;
+  }
+
+  &__incident-started {
+    font-weight: normal;
+    text-transform: none;
   }
 }
