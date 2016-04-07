@@ -1,9 +1,10 @@
 /* eslint-disable react/no-multi-comp */
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {formatDateTime} from 'in-services/formatters/date';
 import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
+
+import {formatDateTime} from 'in-services/formatters/date';
 
 import './Header.less';
 
