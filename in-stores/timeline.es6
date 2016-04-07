@@ -12,7 +12,7 @@ const timeframeStore = createStore({
   name: 'timeline',
   initialValue: {
     windowSize: 1000 * 60 * 10,
-    to: null
+    to: undefined
   }
 });
 
