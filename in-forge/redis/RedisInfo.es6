@@ -3,12 +3,25 @@ import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
 import {
-  msZeroDecimalPlaces,
-  muSecondsToMillisZeroDecimalPlaces,
-  timeByMicroTwoDecimalPlaces
-} from 'in-services/formatters/number';
+  formatUnixDateTime
+}from 'in-forge/redis/formatters/date';
+
+import {
+  formatBoolean
+}from 'in-forge/redis/formatters/boolean';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import MetricValue from 'in-components/MetricValue';
+
+const secondsFormatter = d => {
+    return d + 's';
+};
+const secondsAgoFormatter = d => {
+    return d + 's ago';
+};
+const syncInProgressFormatter = d => {
+    return formatBoolean(d > 0);
+};
 
 const RedisInfo = React.createClass({
   mixins: [PureRenderMixin],
@@ -19,6 +32,9 @@ const RedisInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
+    const snapshotId = this.props.snapshot.get('id');
+    const role = data.get('role');
+    const masterLinkStatus = data.get('master_link_status');
 
     return (
       <DescriptionList>
@@ -28,48 +44,57 @@ const RedisInfo = React.createClass({
         <DescriptionItem title='Port'>
           {data.get('port')}
         </DescriptionItem>
-        {data.get('started_at') > 0 ?
-          <DescriptionItem title='Started at'>
-              {timeByMicroTwoDecimalPlaces(data.get('started_at'))}
-          </DescriptionItem>
-        : null}
-        <DescriptionItem title='Max Memory'>
-            {data.get('max_memory')}
+        <DescriptionItem title='Started At'>
+            {formatUnixDateTime(data.get('started_at'))}
         </DescriptionItem>
         <DescriptionItem title='Role'>
-            {data.get('role')}
+            {role}
         </DescriptionItem>
-        <DescriptionItem title='Max clients'>
-            {data.get('maxclients')}
+        <DescriptionItem title='Cluster Enabled'>
+            {formatBoolean(data.get('cluster_enabled') === 1)}
         </DescriptionItem>
-        {data.get('latency_monitor_threshold') != null ?
-          <DescriptionItem title='Latency monitor threshold'>
-            {msZeroDecimalPlaces(data.get('latency_monitor_threshold'))}
+        {role === 'master' ?
+          <DescriptionItem title='Number of Slaves'>
+            <MetricValue metric={'master_connected_slaves'}
+                         snapshotId={snapshotId} />
           </DescriptionItem>
         : null}
-        {data.get('slow_log_slower_than') != null ?
-          <DescriptionItem title='SlowLog slower than'>
-            {muSecondsToMillisZeroDecimalPlaces(data.get('slow_log_slower_than'))}
+        {role === 'slave' ?
+          <DescriptionItem title='Master Host'>
+            {data.get('master_host')}
           </DescriptionItem>
         : null}
-        <DescriptionItem title='Watchdog period'>
-          {data.get('watchdog_period')}
-        </DescriptionItem>
-        <DescriptionItem title='PUBSUB channels'>
-          {data.get('pubsub_channels')}
-        </DescriptionItem>
-        <DescriptionItem title='Master host'>
-          {data.get('master_host')}
-        </DescriptionItem>
-        <DescriptionItem title='master port'>
-          {data.get('master_port')}
-        </DescriptionItem>
-        <DescriptionItem title='Master link status'>
-          {data.get('master_link_status')}
-        </DescriptionItem>
-        <DescriptionItem title='Master sync left bytes'>
-          {data.get('master_sync_left_bytes')}
-        </DescriptionItem>
+        {role === 'slave' ?
+          <DescriptionItem title='Master Port'>
+            {data.get('master_port')}
+          </DescriptionItem>
+        : null}
+        {role === 'slave' ?
+          <DescriptionItem title='Master Link Status'>
+            {masterLinkStatus}
+          </DescriptionItem>
+        : null}
+        {masterLinkStatus === 'down' && role === 'slave' ?
+          <DescriptionItem title='Master Downtime'>
+            <MetricValue metric={'master_downtime_seconds'}
+                         snapshotId={snapshotId}
+                         formatter={secondsFormatter}/>
+          </DescriptionItem>
+        : null}
+        {role === 'slave' ?
+          <DescriptionItem title='Sync in Progress'>
+            <MetricValue metric={'master_sync_left_bytes'}
+                         snapshotId={snapshotId}
+                         formatter={syncInProgressFormatter}/>
+          </DescriptionItem>
+        : null}
+        {role === 'slave' ?
+          <DescriptionItem title='Last Interaction with Master'>
+            <MetricValue metric={'master_last_io_seconds_ago'}
+                         snapshotId={snapshotId}
+                         formatter={secondsAgoFormatter}/>
+          </DescriptionItem>
+        : null}
       </DescriptionList>
     );
   }

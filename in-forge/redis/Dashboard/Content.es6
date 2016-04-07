@@ -5,15 +5,18 @@ import React from 'react';
 import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
-  percentageZeroDecimalPlaces,
   zeroDecimalPlaces,
   msZeroDecimalPlaces,
-  timeByMicroTwoDecimalPlaces,
-  withSiPrefixThreeDecimalPlaces
+  withSiPrefixThreeDecimalPlaces,
+  muSecondsZeroDecimalPlaces,
+  kiloBytesZeroDecimalPlaces,
+  kiloBytesTwoDecimalPlaces,
+  percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 import {
-  formatDateTime
-} from 'in-services/formatters/date';
+  formatUnixDateTime
+} from 'in-forge/redis/formatters/date';
+import {emptyList} from 'in-services/fixedImmutables';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -25,8 +28,62 @@ import Mtd from 'in-components/Mtd';
 
 const chartHeight = 200;
 
-function formatUnixDateTime(seconds) {
-  return formatDateTime(seconds * 1000);
+const persistenceFormater = d => {
+    let formatedText;
+    if (d < 0) {
+        formatedText = 'Not in progress';
+    } else {
+        formatedText = d + 's';
+    }
+    return formatedText;
+};
+
+const latencyFormatter = (d, threshold) => {
+    let formattedLatency;
+    if (d < threshold) {
+        formattedLatency = 'Less than ' + msZeroDecimalPlaces(threshold);
+    } else {
+        formattedLatency = msZeroDecimalPlaces(d);
+    }
+    return formattedLatency;
+};
+
+const hitRateFormatter = d => {
+    return (d < 0) ? 'No activity' : percentageZeroDecimalPlaces(d);
+};
+
+function getConnectionMetricsForRole(role) {
+    return (role === 'master') ?
+        [ 'connected_clients', 'blocked_clients', 'rejected_connections', 'master_connected_slaves']
+        : [ 'connected_clients', 'blocked_clients', 'rejected_connections' ];
+}
+
+function getConnectionLabelsForRole(role) {
+    return (role === 'master') ?
+        [ 'Connected', 'Blocked', 'Rejected connections', 'Connected slaves' ]
+        : [ 'Connected', 'Blocked', 'Rejected connections' ];
+}
+
+function dbKeysMetrics(dbNames) {
+    const metrics = [];
+    metrics.push(dbNames.map(name => 'db.' + name + '.count')[0]);
+    metrics.push(dbNames.map(name => 'db.' + name + '.expires')[0]);
+    return metrics;
+}
+
+function dbKeysLabels(dbNames) {
+    const labels = [];
+    labels.push(dbNames.map(name => name + ' Keys Count')[0]);
+    labels.push(dbNames.map(name => name + ' Keys Expires')[0]);
+    return labels;
+}
+
+function monitorMetrics(monitor) {
+    return monitor ? monitor.toArray() : [];
+}
+
+function pubSubMetrics(channelNames) {
+    return channelNames.map(name => 'pubsub_subscribers.' + name);
 }
 
 export default connectTo(
@@ -53,55 +110,17 @@ export default connectTo(
     render() {
       const timeframe = this.props.timeframe;
       const snapshot = this.props.snapshot;
+      const data = snapshot.get('data');
       const latencyThreshold = snapshot.getIn(['data', 'latency_monitor_threshold']);
-      const dbs = snapshot.getIn(['data', 'dbs']);
-      const monitor = snapshot.getIn(['data', 'monitor']);
-      const monitorMetrics = monitor ? monitor.toArray() : [];
+      const monitor = data.get('monitor');
+      const dbNames = data.get('dbs', emptyList).toArray();
+      const channelNames = data.get('channels', emptyList).toArray();
+      const role = data.get('role');
 
       return (
         <div>
-          {dbs && dbs.size > 0 ?
-            <DashboardSection title='Database Size'>
-              <ChartWithLegend snapshot={snapshot}
-                               timeframe={timeframe}
-                               height={chartHeight}
-                               margins={{
-                                 left: 80
-                               }}
-                               y1={{
-                                 metrics: dbs.toArray().map(name => 'db.' + name),
-                                 labels: dbs.toArray(),
-                                 type: 'line',
-                                 formatter: zeroDecimalPlaces
-                               }}/>
-            </DashboardSection>
-          : null}
-
-          <DashboardSection title='Clients'>
-            <ChartWithLegend snapshot={snapshot}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               metrics: [
-                                 'connected_clients',
-                                 'blocked_clients',
-                                 'rejected_connections'
-                               ],
-                               labels: [
-                                 'Connected',
-                                 'Blocked',
-                                 'Rejected connections'
-                               ],
-                               type: 'line'
-                             }}/>
-          </DashboardSection>
-
-          <DashboardSection title='Performance'>
-            {latencyThreshold > 0 ?
+          {latencyThreshold > 0 ?
+            <DashboardSection title='Latency'>
               <ChartWithLegend snapshot={snapshot}
                                timeframe={timeframe}
                                height={chartHeight}
@@ -116,19 +135,13 @@ export default connectTo(
                                  labels: [
                                    'Latency'
                                  ],
-                                 formatter: d => {
-                                   let formattedLatency;
-                                   if (d < latencyThreshold) {
-                                     formattedLatency = 'Less than ' + msZeroDecimalPlaces(latencyThreshold);
-                                   } else {
-                                     formattedLatency = msZeroDecimalPlaces(d);
-                                   }
-                                   return formattedLatency;
-                                 },
+                                 formatter: latencyFormatter.bind(latencyThreshold),
                                  type: 'line'
                                }}/>
-            : null}
+            </DashboardSection>
+          : null }
 
+          <DashboardSection title='Throughput'>
             <ChartWithLegend snapshot={snapshot}
                              timeframe={timeframe}
                              height={chartHeight}
@@ -147,6 +160,69 @@ export default connectTo(
                              }}/>
           </DashboardSection>
 
+          <DashboardSection title='Key Hits/Misses'>
+            <ChartWithLegend snapshot={snapshot}
+                            timeframe={timeframe}
+                            height={chartHeight}
+                            margins={{
+                              left: 80
+                            }}
+                            y1={{
+                              min: 0,
+                                  metrics: [
+                                'keyspace_hits',
+                                'keyspace_misses'
+                              ],
+                                  labels: [
+                                'Key Hits',
+                                'Key Misses'
+                              ],
+                              type: 'line'
+                            }}
+                            y2={{
+                              min: 0,
+                              max: 1,
+                              metrics: [ 'hit_rate' ],
+                              labels: ['Hit Rate' ],
+                              type: 'line',
+                              formatter: hitRateFormatter
+                            }}/>
+          </DashboardSection>
+          <DashboardSection title='Key Expired/Evicted'>
+            <ChartWithLegend snapshot={snapshot}
+                            timeframe={timeframe}
+                            height={chartHeight}
+                            margins={{
+                             left: 80
+                            }}
+                            y1={{
+                             min: 0,
+                             metrics: [
+                               'expired_keys',
+                               'evicted_keys'
+                             ],
+                             labels: [
+                               'Keys Expired',
+                               'Keys Evicted'
+                             ],
+                             type: 'line'
+                            }}/>
+          </DashboardSection>
+          {dbNames && dbNames.length > 0 ?
+            <DashboardSection title='Database'>
+                <ChartWithLegend snapshot={snapshot}
+                                timeframe={timeframe}
+                                height={chartHeight}
+                                margins={{
+                                  left: 80
+                                }}
+                                y1={{
+                                  metrics: dbKeysMetrics(dbNames),
+                                  labels: dbKeysLabels(dbNames),
+                                  type: 'stackedArea'
+                                }}/>
+            </DashboardSection>
+          : null}
           <DashboardSection title='Memory'>
             <ChartWithLegend snapshot={snapshot}
                              timeframe={timeframe}
@@ -171,8 +247,41 @@ export default connectTo(
                                type: 'stackedArea'
                              }}/>
           </DashboardSection>
-
-          <DashboardSection title='Cache'>
+          <DashboardSection title='Connections'>
+             <ChartWithLegend snapshot = {snapshot}
+                              timeframe = {timeframe}
+                              height = {chartHeight}
+                              margins = {{
+                                left: 80
+                              }}
+                              y1 = {{
+                                min: 0,
+                                metrics: getConnectionMetricsForRole(role),
+                                labels: getConnectionLabelsForRole(role),
+                                type: 'line'
+                              }}/>
+          </DashboardSection>
+          {channelNames && channelNames.length > 0 ?
+            <DashboardSection title='Pub/Sub'>
+              <ChartWithLegend snapshot={snapshot}
+                               timeframe={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 80
+                               }}
+                               y1={{
+                                 metrics: pubSubMetrics(channelNames),
+                                 labels: channelNames,
+                                 type: 'line'
+                               }}
+                               y2={{
+                                 metrics: ['pubsub_subscribed_patterns'],
+                                 labels: ['Subscribed patterns'],
+                                 type: 'line'
+                               }}/>
+            </DashboardSection>
+          : null}
+          <DashboardSection title='Persistence'>
             <ChartWithLegend snapshot={snapshot}
                              timeframe={timeframe}
                              height={chartHeight}
@@ -181,33 +290,15 @@ export default connectTo(
                              }}
                              y1={{
                                min: 0,
-                               max: 1,
-                               formatter: percentageZeroDecimalPlaces,
                                metrics: [
-                                 'hit_rate'
+                                 'rdb_current_bgsave_time_sec',
+                                 'aof_current_rewrite_time_sec'
                                ],
                                labels: [
-                                 'Hit Rate'
+                                 'Duration of current rdb save',
+                                 'Duration of current aof log rewrite'
                                ],
-                               type: 'stackedArea'
-                             }}/>
-
-            <ChartWithLegend snapshot={snapshot}
-                             timeframe={timeframe}
-                             height={chartHeight}
-                             margins={{
-                               left: 80
-                             }}
-                             y1={{
-                               min: 0,
-                               metrics: [
-                                 'expired_keys',
-                                 'evicted_keys'
-                               ],
-                               labels: [
-                                 'Expired keys',
-                                 'Evicted keys'
-                               ],
+                               formatter: persistenceFormater,
                                type: 'line'
                              }}/>
           </DashboardSection>
@@ -231,38 +322,36 @@ export default connectTo(
                     <tr key={slog.get('id')}>
                       <td>{slog.get('id')}</td>
                       <td>{formatUnixDateTime(slog.get('timestamp'))}</td>
-                      <td>{timeByMicroTwoDecimalPlaces(slog.get('duration'))}</td>
+                      <td>{muSecondsZeroDecimalPlaces(slog.get('duration'))} </td>
                       <td>{slog.get('args').join(' ')}</td>
                     </tr>
                   )}
                 </tbody>
               </ResponsiveTable>
             </DashboardSection>
-           : null}
+          : null}
 
-           <DashboardSection title='Config'>
-            <ResponsiveTable>
-              <thead>
-                <tr>
-                  <th>Property</th>
-                  <th>Value</th>
-                </tr>
-              </thead>
+          {role === 'slave' ?
+            <DashboardSection title='Bytes left before syncing is complete'>
+              <ChartWithLegend snapshot={snapshot}
+                            timeframe={timeframe}
+                            height={chartHeight}
+                            margins={{
+                            left: 80,
+                                right: 80
+                            }}
+                            y1={{
+                                min: 0,
+                                formatter: kiloBytesZeroDecimalPlaces,
+                                tooltipFormatter: kiloBytesTwoDecimalPlaces,
+                                metrics: [ 'master_sync_left_bytes' ],
+                                labels: [ 'Bytes left before syncing is complete' ],
+                                type: 'stackedArea'
+                            }}/>
+              </DashboardSection>
+          : null}
 
-              <tbody>
-                <tr>
-                  <td>logfile</td>
-                  <td>{snapshot.getIn(['data', 'logfile'])}</td>
-                </tr>
-                <tr>
-                  <td>pidfile</td>
-                  <td>{snapshot.getIn(['data', 'pidfile'])}</td>
-                </tr>
-              </tbody>
-            </ResponsiveTable>
-          </DashboardSection>
-
-          {monitorMetrics && monitorMetrics.length > 0 ?
+          {monitor ?
             <DashboardSection title='Custom Monitors'>
               {this.state.selectedMonitorMetric ?
                 <ChartWithLegend snapshot={snapshot}
@@ -287,7 +376,7 @@ export default connectTo(
                 </thead>
 
                 <tbody>
-                  {monitorMetrics.map(monitorMetric =>
+                  {monitorMetrics(monitor).map(monitorMetric =>
                     <tr key={monitorMetric}
                         onClick={() => this.setState({selectedMonitorMetric: monitorMetric})}
                         className={classnames({
