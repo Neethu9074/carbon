@@ -18,6 +18,7 @@ import './TimePicker.less';
 
 const rpt = React.PropTypes;
 const block = 'in-timepicker';
+const MAX_MILLIS_FOR_CLICK = 300;
 
 export default connectTo({
     selectedTimePicker
@@ -39,11 +40,15 @@ export default connectTo({
     },
 
     componentDidMount() {
-      window.addEventListener('mouseup', this.handleClick, false);
+      this.downTime = 0;
+      this.upTime = 0;
+      window.addEventListener('mouseup', this.onMouseUp, false);
+      window.addEventListener('mousedown', this.onMouseDown, false);
     },
 
     componentWillUnmount() {
-      window.removeEventListener('mouseup', this.handleClick, false);
+      window.removeEventListener('mousedown', this.onMouseDown, false);
+      window.removeEventListener('mouseup', this.onMouseUp, false);
     },
 
     render() {
@@ -79,7 +84,8 @@ export default connectTo({
 
       return (
         <div className={className}
-             onClick={() => setSelectedTimePicker(type)}>
+             onClick={() => setSelectedTimePicker(type)}
+             ref='timepicker'>
           <Icon className={block + '__icon'}
                 type={iconType} />
           <div>
@@ -94,13 +100,24 @@ export default connectTo({
       );
     },
 
-    handleClick(e) {
-      const rect = this.refs.myDiv.getBoundingClientRect();
+    onMouseUp(e) {
+      this.upTime = Date.now();
+
+      const delta = this.upTime - this.downTime;
+      if (delta > MAX_MILLIS_FOR_CLICK) {
+        return;
+      }
+
+      const rect = this.refs.timepicker.getBoundingClientRect();
       if (e.clientX > rect.right || e.clientX < rect.left ||
           e.clientY < rect.top || e.clientY > rect.bottom) {
         // the click was donw outside this component so close it
         this.props.onClose();
       }
+    },
+
+    onMouseDown() {
+      this.downTime = Date.now();
     }
   })
 );
