@@ -11,10 +11,10 @@ export default createSubscription.bind(null,
   timeframe => timeframe.to + ',' + timeframe.windowSize,
 
   // data to be send for subscription
-  (subscriptionId, snapshotId) => {
+  (subscriptionId, timeframe) => {
     return {
       subscriptionId,
-      snapshotId
+      timeframe
     };
   },
 
