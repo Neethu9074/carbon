@@ -4,6 +4,10 @@ set -e
 
 consul_discover_unit_single "ui-backend"
 consul_discover_unit_single "ui-tracker"
+consul_discover_environment_single "groundskeeper"
+
+export GROUNDSKEEPER_PORT_8280_TCP_ADDR=$GROUNDSKEEPER_HOST
+export GROUNDSKEEPER_PORT_8280_TCP_PORT=$GROUNDSKEEPER_PORT
 
 export UI_BACKEND_PORT_8080_TCP_PORT=$UI_BACKEND_PORT
 export UI_BACKEND_PORT_8080_TCP_ADDR=$UI_BACKEND_HOST
