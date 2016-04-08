@@ -1,5 +1,6 @@
-import createSubscription from 'in-services/subscription/subscription';
 import Immutable from 'immutable';
+
+import createSubscription from 'in-services/subscription/subscription';
 
 
 export default createSubscription.bind(null,
