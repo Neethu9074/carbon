@@ -1,41 +1,21 @@
-import {create} from 'reactive-observables';
+import createSubscription from 'in-services/subscription/subscription';
 import Immutable from 'immutable';
 
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {on, off} from 'in-services/persistentConnection';
 
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createFiltersObservable
-});
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-filters',
 
-function getId() {
-  return '';
-}
+  // getID
+  () => '',
 
-function createFiltersObservable() {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+  // data to be send for subscription
+  (subscriptionId) => {
+    return {
+      subscriptionId
+    };
+  },
 
-  const observable = create({
-    start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-filters', {
-        'subscriptionId': subscriptionId
-      });
-    },
-
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(filters) {
-    observable.emit(Immutable.fromJS(filters));
-  }
-}
+  // data transformation on onData
+  filters => Immutable.fromJS(filters)
+);

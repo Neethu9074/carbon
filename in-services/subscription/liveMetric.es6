@@ -1,45 +1,27 @@
-import {create} from 'reactive-observables';
+import createSubscription from 'in-services/subscription/subscription';
 
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import {on, off} from 'in-services/persistentConnection';
 
-export default createObservableIfMissing.bind(null, {
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-live-metric',
+
   getId,
-  createObservable: createLiveMetricObservable
-});
+
+  // data to be send for subscription
+  (subscriptionId, {snapshotId, metric, aggregation, rollup}) => {
+    return {
+      subscriptionId,
+      aggregation,
+      snapshotId,
+      metric,
+      rollup
+    };
+  },
+
+  // data transformation on onData
+  data => data
+);
 
 function getId({snapshotId, metric, aggregation, rollup}) {
   return snapshotId + metric + aggregation + rollup;
-}
-
-function createLiveMetricObservable({snapshotId, metric, aggregation, rollup}) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
-
-  const observable = create({
-    start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-live-metric', {
-        'subscriptionId': subscriptionId,
-        'snapshotId': snapshotId,
-        'metric': metric,
-        'aggregation': aggregation,
-        'rollup': rollup
-      });
-    },
-
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(update) {
-    // Mutable on purpose – for performance reasons.
-    observable.emit(update);
-  }
 }

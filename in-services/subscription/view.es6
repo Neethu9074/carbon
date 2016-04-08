@@ -1,43 +1,22 @@
-import {create} from 'reactive-observables';
+import createSubscription from 'in-services/subscription/subscription';
 import Immutable from 'immutable';
 
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import throttleNextFrame from 'in-services/util/throttleNextFrame';
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {on, off} from 'in-services/persistentConnection';
 
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createViewObservable
-});
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-view',
 
-function getId({viewType}) {
-  return viewType;
-}
+  // getID
+  ({viewType}) => viewType,
 
-function createViewObservable({viewType}) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+  // data to be send for subscription
+  (subscriptionId, {viewType}) => {
+    return {
+      subscriptionId,
+      viewType
+    };
+  },
 
-  const observable = create({
-    start() {
-      on(dataEvent, throttleNextFrame(onData));
-      subscribe(subscriptionId, 'subscribe-view', {
-        'subscriptionId': subscriptionId,
-        'viewType': viewType
-      });
-    },
-
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(viewStructure) {
-    observable.emit(Immutable.fromJS(viewStructure));
-  }
-}
+  // data transformation on onData
+  data => Immutable.fromJS(data)
+);

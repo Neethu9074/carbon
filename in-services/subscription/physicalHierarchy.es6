@@ -1,41 +1,22 @@
-import {create} from 'reactive-observables';
+import createSubscription from 'in-services/subscription/subscription';
 import Immutable from 'immutable';
 
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {on, off} from 'in-services/persistentConnection';
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createPhysicalHierarchyObservable
-});
 
-function getId(snapshotId) {
-  return snapshotId;
-}
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-physical-hierarchy',
 
-function createPhysicalHierarchyObservable(snapshotId) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+  // getID
+  snapshotId => snapshotId,
 
-  const observable = create({
-    start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-physical-hierarchy', {
-        'subscriptionId': subscriptionId,
-        'snapshotId': snapshotId
-      });
-    },
+  // data to be send for subscription
+  (subscriptionId, snapshotId) => {
+    return {
+      subscriptionId,
+      snapshotId
+    };
+  },
 
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(hierarchy) {
-    observable.emit(Immutable.List(hierarchy));
-  }
-}
+  // data transformation on onData
+  data => Immutable.List(data)
+);

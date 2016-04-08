@@ -1,40 +1,20 @@
-import {create} from 'reactive-observables';
+import createSubscription from 'in-services/subscription/subscription';
 
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {on, off} from 'in-services/persistentConnection';
 
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createMessageObservable
-});
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-message',
 
-function getId() {
-  return 'messageSubscription';
-}
+  // getID
+  () => 'messageSubscription',
 
-function createMessageObservable() {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+  // data to be send for subscription
+  subscriptionId => {
+    return {
+      subscriptionId
+    };
+  },
 
-  const observable = create({
-    start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-message', {
-        'subscriptionId': subscriptionId
-      });
-    },
-
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(message) {
-    observable.emit(message);
-  }
-}
+  // data transformation on onData
+  message => message
+);
