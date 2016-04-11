@@ -6,8 +6,9 @@ import TraceWaterfallChart from 'in-components/traceView/components/TraceWaterfa
 import TraceHeading from 'in-components/traceView/components/TraceHeading';
 import TabHeader from 'in-components/traceView/components/TabHeader';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
-import {selectedTrace} from 'in-stores/traces';
+import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceDetails.less';
@@ -15,6 +16,7 @@ import './TraceDetails.less';
 const block = 'in-trace-details';
 
 export default connectTo({
+  traceId: selectedTraceId,
   trace: selectedTrace
 }, React.createClass({
   displayName: 'TraceDetails',
@@ -22,12 +24,19 @@ export default connectTo({
   mixins: [PureRenderMixin],
 
   propTypes: {
+    traceId: React.PropTypes.string,
     trace: irpt.map
   },
 
   render() {
-    if (!this.props.trace) {
+    if (!this.props.traceId) {
       return <p>No trace selected.</p>;
+    }
+
+    if (!this.props.trace) {
+      return <LoadingIndicator type='dark' />;
+    } else if (this.props.trace.get('traceId') !== this.props.traceId) {
+      return <LoadingIndicator type='dark' />;
     }
 
     return (
