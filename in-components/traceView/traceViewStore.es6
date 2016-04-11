@@ -10,11 +10,11 @@ const tracesStore = createStore({
 export const traces$ = tracesStore.observable;
 
 
-const slowestTraceDuration$ = traces$.map(traces => {
+const oldestTraceStartTime$ = traces$.map(traces => {
   if (traces.length === 0) {
     return null;
   }
-  return traces[traces.length - 1].durationMillis;
+  return traces[traces.length - 1].startMillis;
 });
 
 
@@ -35,9 +35,14 @@ export const autoUpdate$ = autoUpdateStore.observable;
 let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
   disposeExistingLoad();
-  slowestTraceDuration$.once(slowestTraceDuration => {
+  oldestTraceStartTime$.once(oldestTraceStartTime => {
     isLoadingStore.applyStateMutation(() => true);
-    existingLoadMoreTracesSubscription = getTraces(slowestTraceDuration).once(addNewTraces);
+    // Remove 1 from the maxTimestamp to avoid being stuck in time, i.e. loading the same
+    // data over and over again. This can happen when we have more than <pageSize> traces
+    // with the same timestamp.
+    const maxTimestamp = oldestTraceStartTime ? oldestTraceStartTime - 1 : oldestTraceStartTime;
+    existingLoadMoreTracesSubscription = getTraces(maxTimestamp)
+      .once(addNewTraces);
   });
 }
 
@@ -54,9 +59,9 @@ function addNewTraces(newTraces) {
   const transformedTraces = newTraces.toArray().map(trace => {
     return {
       start: formatDateTime(trace.get('start')),
-      duration: msZeroDecimalPlaces(trace.get('duration')),
       // required for inifinity scroll and loading of additional traces.
-      durationMillis: trace.get('duration'),
+      startMillis: trace.get('start'),
+      duration: msZeroDecimalPlaces(trace.get('duration')),
       name: trace.get('name'),
       id: trace.get('traceId')
     };

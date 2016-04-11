@@ -49,6 +49,6 @@ navigationParameters.subscribe(navParams => {
 });
 
 
-export function getTraces(onlyTracesFasterThan) {
-  return createTracesObservable(onlyTracesFasterThan);
+export function getTraces(maxTimestamp) {
+  return createTracesObservable(maxTimestamp);
 }

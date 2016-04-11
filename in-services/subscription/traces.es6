@@ -5,16 +5,16 @@ import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription.bind(null,
   // event ID
-  'subscribe-foundations',
+  'subscribe-traces',
 
   // getID
-  onlyTracesFasterThan => 'traces' + onlyTracesFasterThan + Math.round(Date.now() / 1000),
+  maxTimestamp => 'traces' + maxTimestamp + Math.round(Date.now() / 1000),
 
   // data to be send for subscription
-  (subscriptionId, onlyTracesFasterThan) => {
+  (subscriptionId, maxTimestamp) => {
     return {
       subscriptionId,
-      onlyTracesFasterThan: onlyTracesFasterThan > 0 ? onlyTracesFasterThan : undefined
+      maxTimestamp: maxTimestamp > 0 ? maxTimestamp : undefined
     };
   },
 
