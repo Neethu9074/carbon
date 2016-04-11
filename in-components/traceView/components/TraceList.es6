@@ -5,6 +5,7 @@ import TraceHeading from 'in-components/traceView/components/TraceHeading';
 import AutoUpdate from 'in-components/traceView/components/AutoUpdate';
 import TraceTable from 'in-components/traceView/components/TraceTable';
 import TabHeader from 'in-components/traceView/components/TabHeader';
+import TotalTraceCount from 'in-components/traceView/components/TotalTraceCount';
 import {refresh} from 'in-components/traceView/traceViewStore';
 import Icon from 'in-components/Icon';
 
@@ -18,7 +19,11 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
-        <TabHeader left={<TraceHeading>Traces</TraceHeading>}
+        <TabHeader left={
+                    <TraceHeading>
+                      Traces <TotalTraceCount />
+                    </TraceHeading>
+                  }
                    right={
                      <span className={block + '__actions'}>
                         <Icon type='reload'
