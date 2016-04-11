@@ -4,8 +4,9 @@ import createTracesObservable from 'in-services/subscription/traces';
 import createTraceObservable from 'in-services/subscription/trace';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {createStore, createTrackingStore} from 'in-stores/store';
+import {timeframe as timeframe$} from 'in-stores/timeline';
 
-export const totalTraceCount$ = createTotalTraceCountObservable();
+export const totalTraceCount$ = timeframe$.flatMap(createTotalTraceCountObservable);
 
 const selectedTraceIdStore = createStore({
   name: 'selectedTraceId',

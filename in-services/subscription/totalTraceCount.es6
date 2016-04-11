@@ -5,12 +5,13 @@ export default createSubscription.bind(null,
   'subscribe-trace-count',
 
   // getID
-  () => 'total-trace-count',
+  timeframe => 'total-trace-count' + timeframe.to + timeframe.windowSize,
 
   // data to be send for subscription
-  (subscriptionId) => {
+  (subscriptionId, timeframe) => {
     return {
-      subscriptionId
+      subscriptionId,
+      timeframe
     };
   },
 

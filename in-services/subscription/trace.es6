@@ -14,7 +14,8 @@ export default createSubscription.bind(null,
   (subscriptionId, traceId) => {
     return {
       subscriptionId,
-      traceId
+      traceId,
+      offset: 0
     };
   },
 
