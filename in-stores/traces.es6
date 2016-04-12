@@ -2,9 +2,9 @@ import createTotalTraceCountObservable from 'in-services/subscription/totalTrace
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import createTracesObservable from 'in-services/subscription/traces';
 import createTraceObservable from 'in-services/subscription/trace';
-import {alwaysNull} from 'in-services/fixedStreams';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import {timeframe as timeframe$} from 'in-stores/timeline';
+import {alwaysNull} from 'in-services/fixedStreams';
 
 export const totalTraceCount$ = timeframe$.flatMap(createTotalTraceCountObservable);
 

@@ -1,5 +1,6 @@
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
+import {timeframe as timeframe$} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 import {getTraces} from 'in-stores/traces';
 
@@ -31,6 +32,9 @@ const autoUpdateStore = createStore({
 });
 export const autoUpdate$ = autoUpdateStore.observable;
 
+// Automatically refresh the shown traces upon timeframe change to reload and present data
+// that is in the chosen timeframe.
+timeframe$.subscribe(refresh);
 
 let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
