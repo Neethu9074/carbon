@@ -54,5 +54,9 @@ navigationParameters.subscribe(navParams => {
 
 
 export function getTraces(maxTimestamp) {
-  return createTracesObservable(maxTimestamp);
+  if (maxTimestamp) {
+    return createTracesObservable(maxTimestamp);
+  }
+
+  return timeframe$.flatMap(timeframe => createTracesObservable(timeframe.to));
 }
