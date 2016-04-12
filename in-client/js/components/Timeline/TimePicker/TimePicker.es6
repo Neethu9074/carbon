@@ -73,7 +73,7 @@ export default connectTo({
             }
             {this.createSelection(TIME_PICKER.FIXED,
                                   'metrics',
-                                  'Custom Timerange',
+                                  'Timerange',
                                   'Drill down into a selected timerange. ' +
                                   'This only affects metrics. Map shows live state')
             }
