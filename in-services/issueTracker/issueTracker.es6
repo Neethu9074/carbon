@@ -251,7 +251,7 @@ export function getIconTypeForEventType(eventType, useAlternativeChangeIcon) {
     case EVENT_TYPES.ISSUE_CRITICAL:
       return 'critical';
     case EVENT_TYPES.INCIDENT:
-      return 'system';
+      return 'incidents';
     default:
       return useAlternativeChangeIcon ? 'instana_change' : 'change';
   }

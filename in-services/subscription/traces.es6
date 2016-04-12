@@ -1,43 +1,23 @@
 import Immutable from 'immutable';
-import {create} from 'reactive-observables';
 
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {on, off} from 'in-services/persistentConnection';
+import createSubscription from 'in-services/subscription/subscription';
 
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createTracesDataObservable
-});
 
-function getId(onlyTracesFasterThan) {
-  // cache should remain active for one second
-  return 'traces' + onlyTracesFasterThan + Math.round(Date.now() / 1000);
-}
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-traces',
 
-function createTracesDataObservable(onlyTracesFasterThan) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+  // getID
+  maxTimestamp => 'traces' + maxTimestamp + Math.round(Date.now() / 1000),
 
-  const observable = create({
-    start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-traces', {
-        subscriptionId,
-        onlyTracesFasterThan: onlyTracesFasterThan > 0 ? onlyTracesFasterThan : undefined
-      });
-    },
+  // data to be send for subscription
+  (subscriptionId, maxTimestamp) => {
+    return {
+      subscriptionId,
+      maxTimestamp: maxTimestamp > 0 ? maxTimestamp : undefined
+    };
+  },
 
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(traceData) {
-    observable.emit(Immutable.fromJS(traceData));
-  }
-}
+  // data transformation on onData
+  traceData => Immutable.fromJS(traceData)
+);

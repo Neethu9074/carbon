@@ -1,42 +1,23 @@
-import {create} from 'reactive-observables';
 import Immutable from 'immutable';
 
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import {on, off} from 'in-services/persistentConnection';
+import createSubscription from 'in-services/subscription/subscription';
 
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createFoundationObservable
-});
 
-function getId(snapshotId) {
-  return snapshotId;
-}
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-foundations',
 
-function createFoundationObservable(snapshotId) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+  // getID
+  snapshotId => snapshotId,
 
-  const observable = create({
-    start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-foundations', {
-        'subscriptionId': subscriptionId,
-        'snapshotId': snapshotId
-      });
-    },
+  // data to be send for subscription
+  (subscriptionId, snapshotId) => {
+    return {
+      subscriptionId,
+      snapshotId
+    };
+  },
 
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(foundations) {
-    observable.emit(Immutable.fromJS(foundations));
-  }
-}
+  // data transformation on onData
+  foundations => Immutable.fromJS(foundations)
+);

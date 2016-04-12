@@ -10,13 +10,13 @@ const selectedClassName = cellClassName + '--selected';
 export default function TraceTableHeader() {
   return (
     <div className={block}>
-      <span className={cellClassName}>
+      <span className={cellClassName + ' ' + selectedClassName}>
         Time Stamp
       </span>
       <span className={cellClassName}>
         Call
       </span>
-      <span className={cellClassName + ' ' + selectedClassName}>
+      <span className={cellClassName}>
         Resp. Time
       </span>
     </div>

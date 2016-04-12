@@ -1,42 +1,24 @@
 import Immutable from 'immutable';
-import {create} from 'reactive-observables';
 
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {on, off} from 'in-services/persistentConnection';
+import createSubscription from 'in-services/subscription/subscription';
 
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createTraceDataObservable
-});
 
-function getId(traceId) {
-  return traceId;
-}
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-trace',
 
-function createTraceDataObservable(traceId) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+  // getID
+  traceId => traceId,
 
-  const observable = create({
-    start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-trace', {
-        subscriptionId,
-        traceId
-      });
-    },
+  // data to be send for subscription
+  (subscriptionId, traceId) => {
+    return {
+      subscriptionId,
+      traceId,
+      offset: 0
+    };
+  },
 
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(trace) {
-    observable.emit(Immutable.fromJS(trace));
-  }
-}
+  // data transformation on onData
+  trace => Immutable.fromJS(trace)
+);

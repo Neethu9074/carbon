@@ -1,41 +1,21 @@
-import {create} from 'reactive-observables';
+import createSubscription from 'in-services/subscription/subscription';
 
-import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
-import {getDataEvent} from 'in-services/subscription/dataEvent';
-import {on, off} from 'in-services/persistentConnection';
 
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createZoneObservable
-});
+export default createSubscription.bind(null,
+  // event ID
+  'subscribe-zone',
 
-function getId(snapshotId) {
-  return snapshotId;
-}
+  // getID
+  snapshotId => snapshotId,
 
-function createZoneObservable(snapshotId) {
-  const subscriptionId = getNewSubscriptionId();
-  const dataEvent = getDataEvent(subscriptionId);
+  // data to be send for subscription
+  (subscriptionId, snapshotId) => {
+    return {
+      subscriptionId,
+      snapshotId
+    };
+  },
 
-  const observable = create({
-    start() {
-      on(dataEvent, onData);
-      subscribe(subscriptionId, 'subscribe-zone', {
-        'subscriptionId': subscriptionId,
-        'snapshotId': snapshotId
-      });
-    },
-
-    stop() {
-      off(dataEvent, onData);
-      unsubscribe(subscriptionId);
-    }
-  });
-
-  return observable;
-
-  function onData(zoneId) {
-    observable.emit(zoneId);
-  }
-}
+  // data transformation on onData
+  zoneId => zoneId
+);

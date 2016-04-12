@@ -1,5 +1,6 @@
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
+import {timeframe as timeframe$} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 import {getTraces} from 'in-stores/traces';
 
@@ -10,11 +11,11 @@ const tracesStore = createStore({
 export const traces$ = tracesStore.observable;
 
 
-const slowestTraceDuration$ = traces$.map(traces => {
+const oldestTraceStartTime$ = traces$.map(traces => {
   if (traces.length === 0) {
     return null;
   }
-  return traces[traces.length - 1].durationMillis;
+  return traces[traces.length - 1].startMillis;
 });
 
 
@@ -31,13 +32,21 @@ const autoUpdateStore = createStore({
 });
 export const autoUpdate$ = autoUpdateStore.observable;
 
+// Automatically refresh the shown traces upon timeframe change to reload and present data
+// that is in the chosen timeframe.
+timeframe$.subscribe(refresh);
 
 let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
   disposeExistingLoad();
-  slowestTraceDuration$.once(slowestTraceDuration => {
+  oldestTraceStartTime$.once(oldestTraceStartTime => {
     isLoadingStore.applyStateMutation(() => true);
-    existingLoadMoreTracesSubscription = getTraces(slowestTraceDuration).once(addNewTraces);
+    // Remove 1 from the maxTimestamp to avoid being stuck in time, i.e. loading the same
+    // data over and over again. This can happen when we have more than <pageSize> traces
+    // with the same timestamp.
+    const maxTimestamp = oldestTraceStartTime ? oldestTraceStartTime - 1 : oldestTraceStartTime;
+    existingLoadMoreTracesSubscription = getTraces(maxTimestamp)
+      .once(addNewTraces);
   });
 }
 
@@ -54,9 +63,9 @@ function addNewTraces(newTraces) {
   const transformedTraces = newTraces.toArray().map(trace => {
     return {
       start: formatDateTime(trace.get('start')),
-      duration: msZeroDecimalPlaces(trace.get('duration')),
       // required for inifinity scroll and loading of additional traces.
-      durationMillis: trace.get('duration'),
+      startMillis: trace.get('start'),
+      duration: msZeroDecimalPlaces(trace.get('duration')),
       name: trace.get('name'),
       id: trace.get('traceId')
     };

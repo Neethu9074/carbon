@@ -1,6 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -42,6 +43,9 @@ export default connectTo({
     componentDidMount() {
       this.downTime = 0;
       this.upTime = 0;
+      this.onMouseUp = throttleNextFrame(this.onMouseUp);
+      this.onMouseDown = throttleNextFrame(this.onMouseDown);
+
       window.addEventListener('mouseup', this.onMouseUp, false);
       window.addEventListener('mousedown', this.onMouseDown, false);
     },
@@ -55,7 +59,7 @@ export default connectTo({
       const className = getClassName(this, block);
       return (
         <div className={className}
-             ref='myDiv'>
+             ref='timepicker'>
           {this.props.selectedTimePicker === TIME_PICKER.FIXED ?
             <FixedTimeWindowPicker /> :
             <TimeRangePicker />
@@ -69,7 +73,7 @@ export default connectTo({
             }
             {this.createSelection(TIME_PICKER.FIXED,
                                   'metrics',
-                                  'Custom Timerange',
+                                  'Timerange',
                                   'Drill down into a selected timerange. ' +
                                   'This only affects metrics. Map shows live state')
             }
@@ -84,8 +88,7 @@ export default connectTo({
 
       return (
         <div className={className}
-             onClick={() => setSelectedTimePicker(type)}
-             ref='timepicker'>
+             onClick={() => setSelectedTimePicker(type)}>
           <Icon className={block + '__icon'}
                 type={iconType} />
           <div>
@@ -101,6 +104,11 @@ export default connectTo({
     },
 
     onMouseUp(e) {
+      // we are doing this asynchronously and the timepicker may already be gone
+      if (!this.refs.timepicker) {
+        return;
+      }
+
       this.upTime = Date.now();
 
       const delta = this.upTime - this.downTime;

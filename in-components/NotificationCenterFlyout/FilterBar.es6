@@ -37,6 +37,9 @@ export default connectTo({
           <Filter label={'All'}
                   filter = {FILTER_TYPES.ALL}/>
 
+          <Filter label={'' + counter.incident}
+                  filter={FILTER_TYPES.INCIDENT}/>
+
           <Filter label={'' + counter.danger}
                   filter={FILTER_TYPES.CRITICAL}/>
 
@@ -45,9 +48,6 @@ export default connectTo({
 
           <Filter label={'' + counter.change}
                   filter={FILTER_TYPES.CHANGE}/>
-
-          <Filter label={'' + counter.incident}
-                  filter={FILTER_TYPES.INCIDENT}/>
         </div>
       );
     },
