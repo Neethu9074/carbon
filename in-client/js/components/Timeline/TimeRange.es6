@@ -1,8 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {combineLatest} from 'reactive-observables';
 import moment from 'moment';
 import React from 'react';
 
+import {always} from 'in-services/fixedStreams';
 import * as serverTimeStore from 'in-stores/serverTime';
 import * as timelineStore from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
@@ -14,13 +14,13 @@ const rpt = React.PropTypes;
 const block = 'in-timeline-timerange';
 
 export default connectTo({
-    times: combineLatest([serverTimeStore.serverTime, timelineStore.timeframe])
-            .map(([serverTime, timeframe]) => {
-              return {
-                serverTime,
-                timeframe
-              };
-            })
+    timeframe: timelineStore.timeframe,
+    max: timelineStore.timeframe.flatMap(timeframe => {
+      if (timeframe.to) {
+        return always(timeframe.to);
+      }
+      return serverTimeStore.serverTime;
+    })
   },
   React.createClass({
 
@@ -31,11 +31,8 @@ export default connectTo({
     ],
 
     propTypes: {
-      times: rpt.shape({
-        timeframe: timelineStore.timeframeShape.isRequired,
-        serverTime: rpt.number.isRequired
-      }),
-      serverTime: rpt.number.isRequired,
+      timeframe: timelineStore.timeframeShape.isRequired,
+      max: rpt.number.isRequired,
       scale: rpt.func.isRequired
     },
 
@@ -48,17 +45,16 @@ export default connectTo({
     },
 
     getTiles() {
-      const times = this.props.times;
-      const max = (times.timeframe.to ? times.timeframe.to : times.serverTime ) - times.timeframe.windowSize;
-      const now = this.props.serverTime;
+      const max = this.props.max;
+      const min = max - this.props.timeframe.windowSize;
       const scale = this.props.scale;
-      const range = now - max;
+      const range = max - min;
       const numItems = 8;
       const spaceBetweenEachItem = 1 / numItems;
 
       const array = [];
       for (let i = 0; i < numItems; i++) {
-        array.push((range / numItems) / 2 + max + range * i * spaceBetweenEachItem);
+        array.push((range / numItems) / 2 + min + range * i * spaceBetweenEachItem);
       }
 
       return array.map(time => {

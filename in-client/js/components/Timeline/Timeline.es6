@@ -55,8 +55,7 @@ export default connectTo({
     render() {
       return (
         <div className={block}>
-        <TimeRange serverTime={this.props.serverTime}
-                   scale={this.scale}/>
+          <TimeRange scale={this.scale}/>
           <ChangeTimeButtonFrom/>
           <Eventline scale={this.scale} />
           <ChangeTimeButtonTo/>
