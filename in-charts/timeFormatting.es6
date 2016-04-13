@@ -1,31 +1,66 @@
+import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+
 const timeFormats = [
+  {
+    maxMillis: 10,
+    formatter: formatTimeWithSeconds,
+    relativeFormatter: msZeroDecimalPlaces,
+    stepSize: 1,
+    ceilToNearestStep: a => a
+  },
+  {
+    maxMillis: 100,
+    formatter: formatTimeWithSeconds,
+    relativeFormatter: msZeroDecimalPlaces,
+    stepSize: 10,
+    ceilToNearestStep: composeCeil(ceilTo10Millis)
+  },
+  {
+    maxMillis: 1000,
+    formatter: formatTimeWithSeconds,
+    relativeFormatter: msZeroDecimalPlaces,
+    stepSize: 100,
+    ceilToNearestStep: composeCeil(ceilTo100Millis)
+  },
+  {
+    maxMillis: 1000 * 10,
+    formatter: formatTimeWithSeconds,
+    relativeFormatter: msZeroDecimalPlaces,
+    stepSize: 1000,
+    ceilToNearestStep: composeCeil(ceilToFullSecond)
+  },
   {
     maxMillis: 1000 * 60,
     formatter: formatTimeWithSeconds,
+    relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 10,
     ceilToNearestStep: composeCeil(ceilToFullSecond)
   },
   {
     maxMillis: 1000 * 60 * 10,
     formatter: formatTime,
+    relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
   },
   {
     maxMillis: 1000 * 60 * 60,
     formatter: formatTime,
+    relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 5,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
   },
   {
     maxMillis: 1000 * 60 * 60 * 12,
     formatter: formatTime,
+    relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
   },
   {
     maxMillis: 1000 * 60 * 60 * 24,
     formatter: formatTime,
+    relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60 * 2,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
   },
@@ -34,25 +69,21 @@ const timeFormats = [
     formatter(date) {
       return `${formatDate(date)} ${formatTime(date)}`;
     },
+    relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60 * 24,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
   }
 ];
 
 
-export function getXAxisConfig(timerangeMillis) {
+export function getAxisConfig(timerangeMillis) {
   for (let i = 0, len = timeFormats.length; i < len; i++) {
     const format = timeFormats[i];
     if (timerangeMillis <= format.maxMillis) {
       return format;
     }
   }
-  throw new Error(`No x axis config known for time range: ${timerangeMillis}.`);
-}
-
-
-export function getTimeFormatter(timerangeMillis) {
-  return getXAxisConfig(timerangeMillis).formatter;
+  throw new Error(`No axis config known for time range: ${timerangeMillis}.`);
 }
 
 
@@ -100,6 +131,22 @@ function composeCeil(...fns) {
     }
     return date.getTime();
   };
+}
+
+
+function ceilTo10Millis(date) {
+  const millis = date.getMilliseconds();
+  if (millis > 0) {
+    date.setMilliseconds(millis + (10 - millis % 10));
+  }
+}
+
+
+function ceilTo100Millis(date) {
+  const millis = date.getMilliseconds();
+  if (millis > 0) {
+    date.setMilliseconds(millis + (100 - millis % 100));
+  }
 }
 
 
