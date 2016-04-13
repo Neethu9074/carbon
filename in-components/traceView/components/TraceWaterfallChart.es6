@@ -3,7 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
-import createScale from 'in-services/scale';
+import createScale from 'in-charts/scale';
 
 import './TraceWaterfallChart.less';
 

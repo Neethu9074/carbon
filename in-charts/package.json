@@ -1,0 +1,8 @@
+{
+  "name": "in-charts",
+  "version": "1.0.0",
+  "description": "Everything related to charts",
+  "main": "index.es6",
+  "license": "UNLICENSED",
+  "private": true
+}
