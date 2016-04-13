@@ -12,3 +12,5 @@ export const serverTime = createTrackingStore({
       return timeOffsetStore.toServerTime(localTime, currentOffset);
     })
 }).observable;
+
+export const serverTime$ = serverTime;

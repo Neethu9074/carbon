@@ -5,12 +5,16 @@ import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 // to have this communication style with the backend.
 const defaultAggregation = 'mean';
 
-export function getLiveMetrics({snapshotId, metric, timeframe = null}) {
-  const rollup = getDefaultMetricRollupDuration(timeframe);
+export function getLiveMetrics({snapshotId, metric, timeframe = null, rollup}) {
+  if (rollup === undefined) {
+    rollup = getDefaultMetricRollupDuration(timeframe);
+  }
+
   let aggregation = null;
   if (rollup) {
     aggregation = defaultAggregation;
   }
+
   return createLiveMetricObservable({
     snapshotId,
     metric,
@@ -20,8 +24,12 @@ export function getLiveMetrics({snapshotId, metric, timeframe = null}) {
 }
 
 
-function getHistoricMetrics({snapshotId, metric, timeframe}) {
-  const rollup = getDefaultMetricRollupDuration(timeframe);
+function getHistoricMetrics({snapshotId, metric, timeframe, rollup}) {
+  if (rollup === undefined) {
+    rollup = getDefaultMetricRollupDuration(timeframe);
+  }
+
+
   let aggregation = null;
   if (rollup) {
     aggregation = defaultAggregation;

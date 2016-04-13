@@ -19,7 +19,10 @@ export default createSubscription.bind(null,
   },
 
   // data transformation on onData
-  data => data
+  dataPoint => {
+    dataPoint.time = dataPoint[0];
+    return dataPoint;
+  }
 );
 
 function getId({snapshotId, metric, aggregation, rollup}) {
