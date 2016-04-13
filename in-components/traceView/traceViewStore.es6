@@ -46,7 +46,7 @@ export function loadMoreTraces() {
     // data over and over again. This can happen when we have more than <pageSize> traces
     // with the same timestamp.
     const maxTimestamp = oldestTraceStartTime ? oldestTraceStartTime - 1 : oldestTraceStartTime;
-    existingLoadMoreTracesSubscription = getTraces(maxTimestamp)
+    existingLoadMoreTracesSubscription = getTraces(maxTimestamp, 0, 'ts', 'desc')
       .once(addNewTraces);
   });
 }
