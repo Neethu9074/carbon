@@ -6,11 +6,11 @@ import TraceWaterfallChart from 'in-components/traceView/components/TraceWaterfa
 import TraceHeading from 'in-components/traceView/components/TraceHeading';
 import TabHeader from 'in-components/traceView/components/TabHeader';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
+import {selectedTrace, selectedTraceId} from 'in-stores/traces';
+import {getLabel, getTypeLabelSingular} from 'in-sdk/tracing';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
-import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import connectTo from 'in-hoc/connectTo';
-import {getLabel} from 'in-sdk/tracing';
 
 import './TraceDetails.less';
 
@@ -63,6 +63,11 @@ export default connectTo({
           <dt className={block + '__prop-key'}>Calls</dt>
           <dd className={block + '__prop-value'}>
             {this.getCalls(this.props.trace)}
+          </dd>
+
+          <dt className={block + '__prop-key'}>Type</dt>
+          <dd className={block + '__prop-value'}>
+            {getTypeLabelSingular(this.props.trace)}
           </dd>
         </dl>
 
