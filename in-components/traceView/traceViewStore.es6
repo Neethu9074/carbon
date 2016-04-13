@@ -3,6 +3,7 @@ import {formatDateTime} from 'in-services/formatters/date';
 import {timeframe as timeframe$} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 import {getTraces} from 'in-stores/traces';
+import {getLabel} from 'in-sdk/tracing';
 
 const tracesStore = createStore({
   name: 'shownTraces',
@@ -66,7 +67,7 @@ function addNewTraces(newTraces) {
       // required for inifinity scroll and loading of additional traces.
       startMillis: trace.get('start'),
       duration: msZeroDecimalPlaces(trace.get('duration')),
-      name: trace.get('name'),
+      name: getLabel(trace),
       id: trace.get('traceId')
     };
   });

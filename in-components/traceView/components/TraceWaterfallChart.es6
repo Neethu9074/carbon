@@ -6,6 +6,7 @@ import TraceWaterfallAxis from 'in-components/traceView/components/TraceWaterfal
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
+import {getLabel} from 'in-sdk/tracing';
 
 import './TraceWaterfallChart.less';
 
@@ -22,7 +23,7 @@ const TraceWatterfallSpan = ({span, scale}) => {
         <div className={block + '__span-block'}
              style={{width: `${right - left}%`}}>
         </div>
-        {msZeroDecimalPlaces(span.get('duration'))}: {span.get('name')}
+        {msZeroDecimalPlaces(span.get('duration'))}: {getLabel(span)}
       </div>
 
       {span.get('childSpans').toArray().map(childSpan =>

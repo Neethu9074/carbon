@@ -10,6 +10,7 @@ import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
 import connectTo from 'in-hoc/connectTo';
+import {getLabel} from 'in-sdk/tracing';
 
 import './TraceDetails.less';
 
@@ -41,7 +42,7 @@ export default connectTo({
 
     return (
       <div className={block}>
-        <TabHeader left={<TraceHeading>{this.props.trace.get('name')}</TraceHeading>} />
+        <TabHeader left={<TraceHeading>{getLabel(this.props.trace)}</TraceHeading>} />
 
         <dl className={block + '__props'}>
           <dt className={block + '__prop-key'}>Start</dt>

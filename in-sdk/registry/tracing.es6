@@ -7,10 +7,10 @@ export function registerSpanDefinition(spanDefinition) {
 }
 
 
-export function getSpanDefinition(type) {
+export function getSpanDefinition(type, data) {
   const definiton = registry[type];
   if (definiton) {
     return definiton;
   }
-  throw new Error(`No span definition found for type: ${type}`);
+  throw new Error(`No span definition found for type: ${type} and data ${data}`);
 }
