@@ -11,9 +11,13 @@
   &__tile {
     position: absolute;
     width: 100px;
-    margin-left: -50px;		
+    margin-left: -50px;
     text-align: center;
     font-size: 11px;
     color: @timeline__time-range-label;
+
+    &:first-child, &:last-child {
+      display: none;
+    }
   }
 }
