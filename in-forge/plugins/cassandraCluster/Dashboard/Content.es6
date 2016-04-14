@@ -3,7 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {timeframeShape} from 'in-stores/timeline';
-
+import ClusterNodesTable from 'in-forge/plugins/cassandraCluster/Dashboard/ClusterNodesTable';
 
 export default React.createClass({
 
@@ -13,12 +13,16 @@ export default React.createClass({
 
   propTypes: {
     snapshot: irpt.map.isRequired,
-    timeframe: timeframeShape
+    nodes: irpt.setOf(React.PropTypes.string),
+    timeframe: timeframeShape.isRequired
   },
 
   render() {
     return (
-      <div/>
+      <div>
+        <ClusterNodesTable clusterSnapshotId={this.props.snapshot.get('id')}
+                           timeframe={this.props.timeframe}/>
+      </div>
     );
   }
 });
