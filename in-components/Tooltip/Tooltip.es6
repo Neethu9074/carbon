@@ -18,12 +18,13 @@ const Tooltip = React.createClass({
     align: rpt.object
   },
 
-  componentWillMount() {
-    const align = this.props.align ? this.props.align : {};
-    this.align = {vertical: 'auto', horizontal: 'auto'};
-
-    this.align.vertical = align.vertical ? align.vertical : 'auto';
-    this.align.horizontal = align.horizontal ? align.horizontal : 'auto';
+  getDefaultProps() {
+    return {
+      align: {
+        vertical: 'auto',
+        horizontal: 'auto'
+      }
+    };
   },
 
   componentDidMount() {
@@ -61,7 +62,10 @@ const Tooltip = React.createClass({
     tooltipStore.setActiveTooltip({
       focusedElement: this.domNode,
       content: this.props.content,
-      align: this.align
+      align: {
+        vertical: this.props.align.vertical || 'auto',
+        horizontal: this.props.align.horizontal || 'auto'
+      }
     });
     this.isActive = true;
   },

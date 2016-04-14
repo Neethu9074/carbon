@@ -51,7 +51,11 @@ const Controls = React.createClass({
         [block + '__control-item--active']: this.props.activeControl === controlName,
         [block + '__control-item--enabled']: enabled
       })}>
-        <Tooltip content={tooltip}>
+        <Tooltip content={tooltip}
+                 align={{
+                   horizontal: 'left',
+                   vertical: 'middle'
+                 }}>
           <Icon type={icon}
                 className={classnames({
                   [block + '__control-icon']: true,
