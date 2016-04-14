@@ -1,4 +1,4 @@
-import PureRenderMixin from 'react-addons-pure-render-mixin';
+import shallowEquals from 'fbjs/lib/shallowEqual';
 import ReactDOM from 'react-dom';
 import React from 'react';
 
@@ -10,8 +10,6 @@ const block = 'in-spark-chart';
 
 export default React.createClass({
   displayName: 'SparkChart',
-
-  mixins: [PureRenderMixin],
 
   propTypes: {
     width: rpt.number.isRequired,
@@ -25,7 +23,9 @@ export default React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    this.initCharts(nextProps);
+    if (!shallowEquals(this.props, nextProps)) {
+      this.initCharts(nextProps);
+    }
   },
 
   initCharts(props) {

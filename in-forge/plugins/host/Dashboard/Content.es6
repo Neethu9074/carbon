@@ -18,6 +18,7 @@ import {
 } from 'in-services/formatters/number';
 import {getMaxValue} from 'in-sdk/metrics';
 
+import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
@@ -76,6 +77,13 @@ export default connectTo(
 
       return (
         <div>
+          <HistoricMetricSparkChart snapshotId={snapshot.get('id')}
+                                    timeframe={timeframe}
+                                    width={200}
+                                    height={100}
+                                    metric={'cpu.user'}
+                                    rollup={60000} />
+
           <DashboardSection title='CPU Usage'>
             <ChartWithLegend snapshot={snapshot}
                    timeframe={timeframe}
