@@ -18,6 +18,7 @@ const timeframeStore = createStore({
 
 
 export const timeframe = timeframeStore.observable;
+export const timeframe$ = timeframe;
 
 export const timeframeShape = React.PropTypes.shape({
   windowSize: React.PropTypes.number.isRequired,

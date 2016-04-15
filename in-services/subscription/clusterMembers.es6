@@ -8,13 +8,14 @@ export default createSubscription.bind(null,
   'subscribe-cluster-members',
 
   // getID
-  snapshotId => snapshotId,
+  ({snapshotId, time}) => snapshotId + time,
 
   // data to be send for subscription
-  (subscriptionId, snapshotId) => {
+  (subscriptionId, {snapshotId, time}) => {
     return {
       subscriptionId,
-      snapshotId
+      snapshotId,
+      time
     };
   },
 
