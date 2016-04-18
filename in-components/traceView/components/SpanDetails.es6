@@ -3,6 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {msZeroDecimalPlaces, percentageTwoDecimalPlaces} from 'in-services/formatters/number';
+import SpanForgeDetails from 'in-components/traceView/components/SpanForgeDetails';
 import {selectedSpanId$, selectedSpan$, selectedTrace$} from 'in-stores/traces';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
@@ -60,7 +61,9 @@ export default connectTo({
             <PropList.Prop label='Start'
                            value={formatDateTime(span.get('start'))} />
           </PropList>
-          {this.props.span}
+
+          <SpanForgeDetails span={span}
+                            trace={trace} />
         </section>
       );
     }

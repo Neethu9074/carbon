@@ -8,6 +8,8 @@ registerSpanDefinition({
     plural: 'HTTP Calls'
   },
 
+  detailView: 'JerseySpanDetailView',
+
   getLabel(span) {
     return span.getIn(['data', 'http', 'url']);
   }
