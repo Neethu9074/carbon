@@ -6,6 +6,7 @@ import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import TagListSnapshot from 'in-components/TagListSnapshot';
 
+
 const HardwareInfo = React.createClass({
   mixins: [PureRenderMixin],
 

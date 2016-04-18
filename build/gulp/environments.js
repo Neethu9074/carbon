@@ -30,6 +30,13 @@ module.exports = {
     tenantUnit: 'issuegrouping',
     groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
   },
+  healthtest: {
+    uiBackendUrl: 'https://healthtest-instana.instana.io/api/data/',
+    groundskeeperUrl: 'https://test-instana.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'healthtest',
+    groundskeeperDomain: 'internal-groundskeeper-instana.instana.io'
+  },
   demo2: {
     uiBackendUrl: 'https://demo2-instana.instana.io/api/data/',
     groundskeeperUrl: 'https://demo2-instana.instana.io',

@@ -4,14 +4,15 @@ import React from 'react';
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
+import HealthInfoBar from 'in-components/HealthInfoBar';
 import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
 
-const rpt = React.PropTypes;
 
+const rpt = React.PropTypes;
 
 const ClusterNodesTable = connectTo(
   props => {
@@ -24,10 +25,12 @@ const ClusterNodesTable = connectTo(
         .throttle(1000)
     };
   }, function ClusterNodesTable({clusterNodes, timeframe}) {
+
     return (
       <ResponsiveTable>
         <thead>
           <tr>
+            <th>Health</th>
             <th>Name</th>
             <th>Master Status</th>
             <th>Version</th>
@@ -39,33 +42,40 @@ const ClusterNodesTable = connectTo(
           </tr>
         </thead>
         <tbody>
-          {clusterNodes.map(node =>
-            <tr key={node.get('id')}>
-              <td>{node.getIn(['data', 'node.name'])}</td>
-              <td>{node.getIn(['data', 'node.master'])}</td>
-              <td>{node.getIn(['data', 'version'])}</td>
-              <td>{node.getIn(['data', 'node.type'])}</td>
-              <td>
-                <HistoricMetricSparkChart width={200}
-                                          height={30}
-                                          timeframe={timeframe}
-                                          snapshotId={node.get('id')}
-                                          metric='indices.index_count' />
-              </td>
-              <td>
-                TODO
-              </td>
-              <td>
-                <HistoricMetricSparkChart width={200}
-                                          height={30}
-                                          timeframe={timeframe}
-                                          snapshotId={node.get('id')}
-                                          metric='indices.document_count' />
-              </td>
-              <Mtd metric={'size'}
-                   snapshot={node} />
-            </tr>
-          )}
+          {clusterNodes.map(node => {
+            const data = node.get('data');
+            const nodeId = node.get('id');
+            return (
+              <tr key={node.get('id')}>
+                <td>
+                  <HealthInfoBar snapshotId={nodeId} />
+                </td>
+                <td>{data.get('node.name')}</td>
+                <td>{data.get('node.master')}</td>
+                <td>{data.get('version')}</td>
+                <td>{data.get('node.type')}</td>
+                <td>
+                  <HistoricMetricSparkChart width={200}
+                                            height={30}
+                                            timeframe={timeframe}
+                                            snapshotId={nodeId}
+                                            metric='indices.index_count' />
+                </td>
+                <td>
+                  TODO
+                </td>
+                <td>
+                  <HistoricMetricSparkChart width={200}
+                                            height={30}
+                                            timeframe={timeframe}
+                                            snapshotId={nodeId}
+                                            metric='indices.document_count' />
+                </td>
+                <Mtd metric={'size'}
+                     snapshot={node} />
+              </tr>
+            );
+          })}
         </tbody>
       </ResponsiveTable>
     );
@@ -76,6 +86,6 @@ export default ClusterNodesTable;
 
 ClusterNodesTable.PropTypes = {
   clusterSnapshotId: rpt.string.isRequired,
-  clusterNodes: rpt.array.isRequired,
-  timeframe: timeframeShape.isRequired
+  timeframe: timeframeShape.isRequired,
+  clusterNodes: rpt.array.isRequired
 };

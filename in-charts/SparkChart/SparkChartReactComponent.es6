@@ -4,18 +4,21 @@ import React from 'react';
 
 import createSparkChart from 'in-charts/SparkChart/SparkChart';
 import * as timelineStore from 'in-stores/timeline';
+import {getClassName} from 'in-services/react';
 
-const rpt = React.PropTypes;
+
 const block = 'in-spark-chart';
+const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'SparkChart',
 
   propTypes: {
-    width: rpt.number.isRequired,
-    height: rpt.number.isRequired,
+    timeframe: timelineStore.timeframeShape.isRequired,
     datasource: rpt.object.isRequired,
-    timeframe: timelineStore.timeframeShape.isRequired
+    height: rpt.number.isRequired,
+    width: rpt.number.isRequired,
+    className: rpt.string
   },
 
   componentDidMount() {
@@ -45,7 +48,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div className={block} />
+      <div className={getClassName(this, block)} />
     );
   }
 });

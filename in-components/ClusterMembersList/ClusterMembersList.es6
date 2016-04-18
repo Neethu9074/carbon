@@ -10,6 +10,8 @@ import connectTo from 'in-hoc/connectTo';
 import './ClusterMembersList.less';
 
 
+const rpt = React.PropTypes;
+
 export default connectTo(
   props => {
     return {
@@ -28,7 +30,8 @@ export default connectTo(
 
   propTypes: {
     snapshotIds: irpt.setOf(React.PropTypes.string),
-    snapshotId: React.PropTypes.string.isRequired
+    snapshotId: rpt.string.isRequired,
+    onRenderItem: rpt.func
   },
 
   render() {
@@ -37,7 +40,8 @@ export default connectTo(
     }
     return (
       <RelatedSnapshotList snapshotIds={this.props.snapshotIds}
-                           initiallyOpen={true}/>
+                           initiallyOpen={true}
+                           onRenderItem={this.props.onRenderItem}/>
     );
   }
 }));

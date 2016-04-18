@@ -5,20 +5,21 @@ import SparkChart from 'in-charts/SparkChart/SparkChartReactComponent';
 import {getHistoricMetricsWithLiveUpdates} from 'in-stores/metric';
 import * as timelineStore from 'in-stores/timeline';
 
+
 const rpt = React.PropTypes;
 
 export default React.createClass({
   displayName: 'HistoricMetricSparkChart',
 
   propTypes: {
-    width: rpt.number.isRequired,
-    height: rpt.number.isRequired,
     timeframe: timelineStore.timeframeShape.isRequired,
-
     snapshotId: rpt.string.isRequired,
     metric: rpt.string.isRequired,
-    rollup: rpt.number,
-    aggregation: rpt.string
+    height: rpt.number.isRequired,
+    width: rpt.number.isRequired,
+    aggregation: rpt.string,
+    className: rpt.string,
+    rollup: rpt.number
   },
 
   getInitialState() {
