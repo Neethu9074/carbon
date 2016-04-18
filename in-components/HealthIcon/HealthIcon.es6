@@ -11,11 +11,12 @@ import Icon from 'in-components/Icon';
 import Tooltip from '../Tooltip';
 import './HealthIcon.less';
 
+
 const block = 'in-health-icon';
 
 export default getMostImportantEvent(React.createClass({
 
-  displayName: 'HealthIconListing',
+  displayName: 'HealthIcon',
 
   mixins: [
     PureRenderMixin

@@ -1,12 +1,14 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
+import RelatedSnapshotList from 'in-components/RelatedSnapshotList';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import {emptySet} from 'in-services/fixedImmutables';
 import connectTo from 'in-hoc/connectTo';
 
-import RelatedSnapshotList from './RelatedSnapshotList';
+import './ClusterMembersList.less';
+
 
 export default connectTo(
   props => {
@@ -33,7 +35,9 @@ export default connectTo(
     if (this.props.snapshotIds == null) {
       return null;
     }
-
-    return <RelatedSnapshotList snapshotIds={this.props.snapshotIds} />;
+    return (
+      <RelatedSnapshotList snapshotIds={this.props.snapshotIds}
+                           initiallyOpen={true}/>
+    );
   }
 }));

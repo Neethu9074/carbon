@@ -1,21 +1,24 @@
+import Immutable from 'immutable';
+
 import createSubscription from 'in-services/subscription/subscription';
 
 
 export default createSubscription.bind(null,
   // event ID
-  'subscribe-health-status',
+  'subscribe-health-info',
 
   // getID
-  snapshotId => snapshotId,
+  ({snapshotId, time}) => snapshotId + time,
 
   // data to be send for subscription
-  (subscriptionId, snapshotId) => {
+  (subscriptionId, {snapshotId, time}) => {
     return {
       subscriptionId,
-      snapshotId
+      snapshotId,
+      time
     };
   },
 
   // data transformation on onData
-  healthStatus => healthStatus
+  healthInfo => Immutable.fromJS(healthInfo)
 );

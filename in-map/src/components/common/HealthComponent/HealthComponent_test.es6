@@ -2,6 +2,7 @@
 /* eslint-disable no-unused-expressions */
 import {create} from 'reactive-observables';
 import proxyquire from 'proxyquire';
+import Immutable from 'immutable';
 import RoEmitter from 'roemitter';
 import {expect} from 'chai';
 import sinon from 'sinon';
@@ -43,11 +44,13 @@ describe('3D map', () => {
 
     it('can be created', () => {
       expect(component.isActive()).to.equal(true);
-      expect(component.healthToSet).to.equal('ok');
+      expect(component.healthToSet).to.equal(0);
     });
 
     it('dont call external method until time event was handled', () => {
-      component.setHealth(health.warning);
+      component.setHealth(Immutable.fromJS({
+        maxSeverity: 0.5
+      }));
       expect(healthChanged.callCount).to.equal(0);
       component.handleComponentTimeEvent();
       expect(healthChanged.callCount).to.equal(1);
@@ -59,11 +62,13 @@ describe('3D map', () => {
       expect(component.isActive()).to.equal(false);
       expect(healthChanged.callCount).to.equal(1);
 
-      component.setHealth(health.warning);
+      component.setHealth(Immutable.fromJS({
+        maxSeverity: 0.5
+      }));
       component.handleComponentTimeEvent();
 
       expect(healthChanged.callCount).to.equal(1);
-      expect(component.healthToSet).to.equal(health.warning);
+      expect(component.healthToSet).to.equal(0.5);
 
       component.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.ON);
 

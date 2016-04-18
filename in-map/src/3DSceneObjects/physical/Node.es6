@@ -2,7 +2,6 @@ import THREE from 'three';
 
 import TooltipNode from 'in-map/src/2DSceneObjects/tooltips/physical/Node';
 import {activeMetric} from 'in-services/stores/metrics';
-import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 import eventBus from 'in-map/eventbus';
 
@@ -265,19 +264,11 @@ export default class Node extends SceneObjectWithSnapshot {
     this.updateScreenAnchorPosition();
   }
 
-  healthChanged(newHealth) {
-    const colors = theme.map.colors;
-    let color;
-
-    if (newHealth === health.warning) {
-      color = new THREE.Color(colors.warning);
-    } else if (newHealth === health.danger) {
-      color = new THREE.Color(colors.critical);
-    } else {
-      color = new THREE.Color(colors.cubeBasicColor);
-    }
+  healthChanged(maxSeverity) {
+    const color = new THREE.Color(theme.health[Math.floor(maxSeverity)]);
 
     this.eventEmitter.emit('colorChanged', color);
+    return color;
   }
 
   dispose() {

@@ -1,0 +1,6 @@
+{
+  "name": "ClusterMembersList",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./ClusterMembersList.es6"
+}
