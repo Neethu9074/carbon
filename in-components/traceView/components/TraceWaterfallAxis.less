@@ -1,0 +1,29 @@
+.in-trace-waterfall-axis {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  // position axis above blocks
+  z-index: 1;
+
+  &__tick {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    color: #92A5AE;
+    font-size: 0.75rem;
+  }
+
+  &__vertical-line {
+    width: 1px;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 2rem;
+    left: 0;
+    bottom: 0;
+    border-left: 1px dashed #92A5AE;
+  }
+}

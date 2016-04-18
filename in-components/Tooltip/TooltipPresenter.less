@@ -4,8 +4,6 @@
   @background: @map__tooltips__background;
 
   position: absolute;
-  top: 0;
-  left: 0;
 
   z-index: @z-index__tooltips;
 
@@ -16,7 +14,7 @@
   border-radius: 4px;
 
   @size: 6px;
-  &:after {
+  &::after {
     content: "";
     width: 0;
     height: 0;
@@ -27,24 +25,24 @@
     top: 10px;
   }
 
-  &__left-auto:after {
+  &__left-bottom::after, &__left-middle::after {
     right: @size * -1;
   }
 
-  &__right-auto:after {
+  &__right-auto::after {
     left: @size * -2;
     border-right: @size solid @background;
     border-left: @size solid transparent;
   }
 
-  &__right-top:after {
+  &__right-top::after {
     left: @size * -2 + 20px;
     border-right: @size solid @background;
     border-left: @size solid transparent;
     top: 100%;
   }
 
-  &__left-top:after {
+  &__left-top::after {
     right: @size * -1 + 20px;
     top: 100%;
   }

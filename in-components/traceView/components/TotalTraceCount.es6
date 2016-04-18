@@ -10,6 +10,10 @@ export default connectTo(
     count: totalTraceCount$
   },
   function TotalTraceCount({count}) {
+    if (count == null) {
+      return <noscript/>;
+    }
+
     return (
       <span className='in-total-trace-count'>
         ({count})

@@ -1,6 +1,0 @@
-{
-  "name": "registry",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./registry.es6"
-}

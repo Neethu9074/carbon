@@ -2,28 +2,24 @@ import ReactDOM from 'react-dom';
 import React from 'react';
 
 import * as tooltipStore from 'in-services/stores/tooltip';
-import {applyTransform} from 'in-services/util/dom';
 import toPx from 'in-services/formatters/toPx';
-import enhance from 'in-hoc/enhance';
+import connectTo from 'in-hoc/connectTo';
 
 import './TooltipPresenter.less';
 
 
 const block = 'in-tooltip-presenter';
-const horizontalMargin = 10;
+const horizontalMargin = 20;
+const verticalMargin = 10;
 
-const TooltipPresenter = React.createClass({
+export default connectTo({
+    activeTooltip: tooltipStore.activeTooltip.nextFrame()
+  }, React.createClass({
+
+  displayName: 'TooltipPresenter',
 
   propTypes: {
     activeTooltip: tooltipStore.TooltipShape
-  },
-
-  statics: {
-    createObservables() {
-      return {
-        activeTooltip: tooltipStore.activeTooltip.nextFrame()
-      };
-    }
   },
 
   componentDidUpdate() {
@@ -33,90 +29,98 @@ const TooltipPresenter = React.createClass({
       return;
     }
 
-    let xy;
     const tooltipElement = ReactDOM.findDOMNode(this);
+    const align = this.resolveAutoAlignment();
+
+    // add the CSS classes for arrow alignment
+    tooltipElement.className = '';
+    tooltipElement.classList.add(block);
+    tooltipElement.classList.add(`${block}__${align.horizontal}-${align.vertical}`);
 
     if (activeTooltip.focusedElement) {
-      xy = this.getXYFromHtmlElement(tooltipElement);
+      this.positionFocusedElement(align, tooltipElement, activeTooltip.focusedElement);
     } else if (activeTooltip.focusedPoint) {
-      xy = activeTooltip.focusedPoint;
-    }
-
-    applyTransform(tooltipElement, 'translate(' + toPx(xy.x) + ',' + toPx(xy.y) + ')');
-  },
-
-  getXYFromHtmlElement(tooltipElement) {
-    this.translateAlign();
-    const activeTooltip = this.props.activeTooltip;
-    const align = activeTooltip.align;
-
-    // each box has width, height, top, left properties
-    const tooltipBox = tooltipElement.getBoundingClientRect();
-
-    const focusedElement = activeTooltip.focusedElement;
-    const focusedElementBox = focusedElement.getBoundingClientRect();
-
-    const x = this.getX(align, focusedElementBox, tooltipBox);
-    const y = this.getY(align.vertical, focusedElementBox, tooltipBox);
-
-    return {x, y};
-  },
-
-  translateAlign() {
-    const activeTT = this.props.activeTooltip;
-
-    if (activeTT && activeTT.align) {
-      if (activeTT.align.horizontal === 'auto') {
-        activeTT.align.horizontal = (activeTT.focusedElement.getBoundingClientRect().left < window.innerWidth / 2) ?
-          'right' : 'left';
-      }
-    }
-  },
-
-  getX(align, focusedElementBox, tooltipBox) {
-    const horizontal = align.horizontal;
-    const vertical = align.vertical;
-
-    // if the tooltip is aligned on top, we need to move the div to the left or right by
-    // 40 px so that the :after triangle is pointing directly to the element. what a mess...
-    let x = vertical === 'top' ? 40 : 0;
-
-    if (horizontal === 'left') {
-      x = focusedElementBox.left - tooltipBox.width - horizontalMargin + x;
-    } else if (horizontal === 'right') {
-      x = focusedElementBox.right + horizontalMargin - x;
+      tooltipElement.style.left = toPx(activeTooltip.focusedPoint.x);
+      tooltipElement.style.top = toPx(activeTooltip.focusedPoint.y);
     } else {
-      x = focusedElementBox.left + 10;
+      throw new Error('Not possible to show tooltip without any focused element.');
     }
-
-    return x;
   },
 
-  getY(align, focusedElementBox, tooltipBox) {
-    if (align === 'top') {
-      return focusedElementBox.top - tooltipBox.height - 6;
+  positionFocusedElement(align, tooltipElement, focusedElement) {
+    const focusedElementBox = focusedElement.getBoundingClientRect();
+    this.positionFocusedElementHorizontally(align, tooltipElement, focusedElement, focusedElementBox);
+    this.positionFocusedElementVertically(align, tooltipElement, focusedElement, focusedElementBox);
+  },
+
+  positionFocusedElementHorizontally(align, tooltipElement, focusedElement, focusedElementBox) {
+    let left;
+    let right;
+
+    if (align.horizontal === 'left') {
+      right = window.innerWidth - focusedElementBox.left;
+      if (align.vertical !== 'middle') {
+        right -= horizontalMargin;
+      } else {
+        right += horizontalMargin;
+      }
+    } else {
+      left = focusedElementBox.left + focusedElementBox.width - horizontalMargin;
     }
-    return focusedElementBox.top + focusedElementBox.height / 2 - 10;
+
+    this.set(tooltipElement, 'left', left);
+    this.set(tooltipElement, 'right', right);
+  },
+
+  positionFocusedElementVertically(align, tooltipElement, focusedElement, focusedElementBox) {
+    let top;
+    let bottom;
+
+    if (align.vertical === 'bottom') {
+      top = focusedElementBox.top + focusedElementBox.height - verticalMargin;
+    } else if (align.vertical === 'top') {
+      bottom = window.innerHeight - focusedElementBox.top + verticalMargin;
+    } else if (align.vertical === 'middle') {
+      top = focusedElementBox.top + focusedElementBox.height / 2;
+    }
+
+    this.set(tooltipElement, 'top', top);
+    this.set(tooltipElement, 'bottom', bottom);
+  },
+
+  set(ele, prop, value) {
+    if (value == null) {
+      ele.style[prop] = null;
+    } else {
+      ele.style[prop] = toPx(value);
+    }
+  },
+
+  resolveAutoAlignment() {
+    const activeTooltip = this.props.activeTooltip;
+
+    const align = {
+      horizontal: activeTooltip.align.horizontal,
+      vertical: activeTooltip.align.vertical
+    };
+
+    const boundingRect = activeTooltip.focusedElement.getBoundingClientRect();
+    if (align.horizontal === 'auto') {
+      align.horizontal = (boundingRect.left < window.innerWidth / 2) ? 'right' : 'left';
+    }
+
+    if (align.vertical === 'auto') {
+      align.vertical = (boundingRect.top < window.innerHeight / 2) ? 'bottom' : 'top';
+    }
+
+    return align;
   },
 
   render() {
-    const activeTooltip = this.props.activeTooltip;
-    let className = block;
-    this.translateAlign();
-
-
-    if (!activeTooltip) {
+    if (!this.props.activeTooltip) {
       return null;
     }
 
-    className += ' ' + block + '__' + activeTooltip.align.horizontal + '-' + activeTooltip.align.vertical;
-
-    return (
-      <div className={className}>
-        {activeTooltip.content}
-      </div>
-    );
+    return <div>{this.props.activeTooltip.content}</div>;
   }
-});
-
-export default enhance(TooltipPresenter);
+}));

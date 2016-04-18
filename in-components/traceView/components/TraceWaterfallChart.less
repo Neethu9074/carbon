@@ -1,14 +1,38 @@
 .in-trace-waterfall-chart {
+  position: relative;
+  padding-top: 2rem;
 
   &__span {
     position: relative;
+    color: #2D4048;
+    padding-left: 0.2rem;
+    font-size: 0.75rem;
+    line-height: 2.735rem;
+
+    &:hover, &--selected {
+      // Removed since we currently don't have a span detail pane.
+      // color: #fff;
+
+      .in-trace-waterfall-chart__span-block {
+        // Removed since we currently don't have a span detail pane.
+        // background: #4A90E2;
+      }
+    }
+
+    & > span {
+      // Position text elements above the block highlighter.
+      // Needs a different positioning to apply z-index magic.
+      position: relative;
+    }
   }
 
   &__span-block {
-    background: rgba(0, 255, 255, 0.3);
+    background: #E7F1FC;
     position: absolute;
     top: 0;
     bottom: 0;
+    left: 0;
+    right: 0;
     display: block;
   }
 }

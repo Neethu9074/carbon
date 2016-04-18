@@ -1,0 +1,44 @@
+/* eslint-env mocha */
+
+import {expect} from 'chai';
+
+import {getAxisConfig} from './timeFormatting';
+
+describe('timeFormatting', () => {
+  let formatter;
+
+  describe('formatting', () => {
+    it('must format 10min time ranges as time only', () => {
+      formatter = getAxisConfig(1000 * 60 * 10).formatter;
+      expect(formatter(1457124359542)).to.equal('21:45');
+    });
+
+    it('must format large time windows as date time', () => {
+      formatter = getAxisConfig(1000 * 60 * 60 * 48).formatter;
+      expect(formatter(1457124309542)).to.equal('2016-03-04 21:45');
+    });
+  });
+
+  describe('ceil', () => {
+    const configTenMinutes = getAxisConfig(1000 * 60 * 10);
+    const config24Hours = getAxisConfig(1000 * 60 * 60 * 24);
+
+    it('must ceil to full minute', () => {
+      // Sun Mar 06 2016 09:45:09:223 GMT+0100 (CET)
+      const time = 1457253909223;
+      expect(configTenMinutes.ceilToNearestStep(time)).to.equal(1457253960000);
+    });
+
+    it('must respect millis when ceiling', () => {
+      // Sun Mar 06 2016 09:51:00:567 GMT+0100 (CET)
+      const time = 1457254260567;
+      expect(configTenMinutes.ceilToNearestStep(time)).to.equal(1457254320000);
+    });
+
+    it('must ceil to full hour', () => {
+      // Sun Mar 06 2016 09:45:09:223 GMT+0100 (CET)
+      const time = 1457253909223;
+      expect(config24Hours.ceilToNearestStep(time)).to.equal(1457254800000);
+    });
+  });
+});
