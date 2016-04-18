@@ -5,11 +5,14 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import {
-  getSpanDetailView
-} from 'in-sdk/tracing';
+import {getSpanDetailView} from 'in-sdk/tracing';
+import Jail from 'in-components/Jail/Jail';
+
+import './SpanForgeDetails.less';
 
 const context = require.context('../../../in-forge/tracing', true, /\/[a-zA-Z0-9]+\.es6$/);
+
+const block = 'in-span-forge-details';
 
 export default React.createClass({
   displayName: 'SpanForgeDetails',
@@ -42,10 +45,10 @@ export default React.createClass({
     if (!this.state.Component) {
       return <LoadingIndicator />;
     }
-    const Component = this.state.Component;
     return (
-      <Component span={this.props.span}
-                 trace={this.props.trace} />
+      <Jail component={this.state.Component}
+            props={this.prosp}
+            className={block} />
     );
   }
 });
