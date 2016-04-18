@@ -9,6 +9,6 @@ registerSpanDefinition({
   },
 
   getLabel(span) {
-    return span.getIn(['data', 'jdbc.statement']) || span.getIn(['data', 'jdbc.connection']);
+    return span.getIn(['data', 'jdbc', 'statement']) || span.getIn(['data', 'jdbc', 'connection']);
   }
 });

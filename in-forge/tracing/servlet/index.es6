@@ -9,8 +9,8 @@ registerSpanDefinition({
   },
 
   getLabel(span) {
-    const url = span.getIn(['data', 'http.url']);
-    const method = span.getIn(['data', 'http.method']);
+    const url = span.getIn(['data', 'http', 'url']);
+    const method = span.getIn(['data', 'http', 'method']);
 
     if (url && method) {
       return method + ' ' + url;
