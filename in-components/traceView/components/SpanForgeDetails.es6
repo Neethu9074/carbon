@@ -47,7 +47,7 @@ export default React.createClass({
     }
     return (
       <Jail component={this.state.Component}
-            props={this.prosp}
+            props={this.props}
             className={block} />
     );
   }
