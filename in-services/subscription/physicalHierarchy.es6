@@ -8,7 +8,7 @@ export default createSubscription.bind(null,
   'subscribe-physical-hierarchy',
 
   // getID
-    ({snapshotId, time}) => snapshotId + time,
+  ({snapshotId, time}) => snapshotId + time,
 
   // data to be send for subscription
   (subscriptionId, {snapshotId, time}) => {

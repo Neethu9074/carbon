@@ -89,7 +89,8 @@ export function getFoundations(snapshotId) {
 }
 
 export function getRunningComponents(snapshotId) {
-  return createRunningComponentsObservable(snapshotId);
+  return timelineStore.timeframe.flatMap(timeframe =>
+    createRunningComponentsObservable({snapshotId, time: timeframe.to}));
 }
 
 export function getDeployedUnits(snapshotId) {
