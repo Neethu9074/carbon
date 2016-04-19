@@ -9,6 +9,7 @@ import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
+import * as timelineStore from 'in-stores/timeline';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 
@@ -75,7 +76,8 @@ export function getSnapshot(snapshotId) {
 }
 
 export function getPhysicalHierarchy(snapshotId) {
-  return createPhysicalHierarchyObservable(snapshotId);
+  return timelineStore.timeframe.flatMap(timeframe =>
+    createPhysicalHierarchyObservable({snapshotId, time: timeframe.to}));
 }
 
 export function getHighlightedMapEntity(snapshotId) {
