@@ -1,17 +1,23 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
+import {setSelectedSnapshotId} from 'in-stores/snapshot';
+import getZone from 'in-hoc/getZone';
 
-const ElasticsearchInfo = React.createClass({
+export default getZone(React.createClass({
+  displayName: 'ElasticsearchInfo',
+
   mixins: [PureRenderMixin],
 
   propTypes: {
-    snapshot: irpt.map.isRequired
+    snapshot: irpt.map.isRequired,
+    zoneSnapshot: irpt.map
   },
 
   render() {
+    const clusterId = this.props.zoneSnapshot ? this.props.zoneSnapshot.get('id') : undefined;
     const data = this.props.snapshot.get('data');
 
     return (
@@ -20,7 +26,8 @@ const ElasticsearchInfo = React.createClass({
           {data.get('version')}
         </DescriptionItem>
 
-        <DescriptionItem title='Cluster'>
+        <DescriptionItem onClick={() => setSelectedSnapshotId(clusterId)}
+                         title='Cluster'>
           {data.get('cluster.name')}
         </DescriptionItem>
 
@@ -46,6 +53,4 @@ const ElasticsearchInfo = React.createClass({
       </DescriptionList>
     );
   }
-});
-
-export default ElasticsearchInfo;
+}));

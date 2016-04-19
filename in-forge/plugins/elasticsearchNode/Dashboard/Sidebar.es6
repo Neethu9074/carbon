@@ -19,7 +19,8 @@ const ElasticsearchSidebar = React.createClass({
         <Collapsible initiallyOpen={true}>
           <Collapsible.Header>Elasticsearch</Collapsible.Header>
           <Collapsible.Content>
-            <ElasticsearchInfo snapshot={this.props.snapshot} />
+            <ElasticsearchInfo snapshot={this.props.snapshot}
+                               snapshotId={this.props.snapshot.get('id')}/>
           </Collapsible.Content>
         </Collapsible>
       </div>
