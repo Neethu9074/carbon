@@ -8,6 +8,7 @@ import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
+import Mtd from 'in-components/Mtd';
 
 const rpt = React.PropTypes;
 
@@ -28,14 +29,21 @@ const ClusterNodesTable = connectTo(
         <thead>
           <tr>
             <th>Name</th>
+            <th>Master Status</th>
+            <th>Version</th>
+            <th>Type</th>
             <th>Nr. of Indices</th>
             <th>Nr. of documents</th>
+            <th>Size of Store</th>
           </tr>
         </thead>
         <tbody>
           {clusterNodes.map(node =>
             <tr key={node.get('id')}>
               <td>{node.getIn(['data', 'node.name'])}</td>
+              <td>{node.getIn(['data', 'node.master'])}</td>
+              <td>{node.getIn(['data', 'version'])}</td>
+              <td>{node.getIn(['data', 'node.type'])}</td>
               <td>
                 <HistoricMetricSparkChart width={200}
                                           height={30}
@@ -50,6 +58,8 @@ const ClusterNodesTable = connectTo(
                                           snapshotId={node.get('id')}
                                           metric='indices.document_count' />
               </td>
+              <Mtd metric={'size'}
+                   snapshot={node} />
             </tr>
           )}
         </tbody>
