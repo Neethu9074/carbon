@@ -6,6 +6,7 @@ import {bytesTwoDecimalPlaces} from 'in-services/formatters/number';
 import DashboardSection from 'in-components/DashboardSection';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import ResponsiveTable from 'in-components/ResponsiveTable';
+import {emptyList} from 'in-services/fixedImmutables';
 import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 import Mtd from 'in-components/Mtd';
@@ -33,8 +34,8 @@ const MsIISDashboard = React.createClass({
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
-    const allSites = snapshot.getIn(['data', 'allsites']).toArray();
-    const allPools = snapshot.getIn(['data', 'allpools']).toArray();
+    const allSites = snapshot.getIn(['data', 'allsites'], emptyList).toArray();
+    const allPools = snapshot.getIn(['data', 'allpools'], emptyList).toArray();
     const siteName = this.state.siteName;
     return (
       <div>
