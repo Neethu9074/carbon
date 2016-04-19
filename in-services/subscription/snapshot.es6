@@ -13,11 +13,11 @@ export default createObservableIfMissing.bind(null, {
   createObservable: createSnapshotObservable
 });
 
-function getId(snapshotId) {
-  return snapshotId;
+function getId({snapshotId, time}) {
+  return snapshotId + time;
 }
 
-function createSnapshotObservable(snapshotId) {
+function createSnapshotObservable({snapshotId, time}) {
   invariant(
     snapshotId,
     'A snapshotId is required in order to retrieve snapshots.'
@@ -30,7 +30,8 @@ function createSnapshotObservable(snapshotId) {
       on(dataEvent, throttleNextFrame(onData));
       subscribe(subscriptionId, 'subscribe-snapshot', {
         'subscriptionId': subscriptionId,
-        'snapshotId': snapshotId
+        'snapshotId': snapshotId,
+        'time': time
       });
     },
 

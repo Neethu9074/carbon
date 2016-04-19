@@ -72,7 +72,8 @@ export function clearSelectedSnapshotId() {
 }
 
 export function getSnapshot(snapshotId) {
-  return createSnapshotObservable(snapshotId);
+  return timelineStore.timeframe.flatMap(timeframe =>
+    createSnapshotObservable({snapshotId, time: timeframe.to}));
 }
 
 export function getPhysicalHierarchy(snapshotId) {
