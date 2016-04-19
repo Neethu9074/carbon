@@ -81,8 +81,8 @@ export default function createSparkChart({width, height, datasource, container, 
       }
     }
 
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = 'red';
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#203036';
     ctx.stroke();
     ctx.closePath();
   }
