@@ -29,7 +29,6 @@ const ClusterNodesTable = connectTo(
           <tr>
             <th>Name</th>
             <th>Nr. of Indices</th>
-            <th>Nr. of active shards</th>
             <th>Nr. of documents</th>
           </tr>
         </thead>
@@ -43,9 +42,6 @@ const ClusterNodesTable = connectTo(
                                           timeframe={timeframe}
                                           snapshotId={node.get('id')}
                                           metric='indices.index_count' />
-              </td>
-              <td>
-                TODO
               </td>
               <td>
                 <HistoricMetricSparkChart width={200}

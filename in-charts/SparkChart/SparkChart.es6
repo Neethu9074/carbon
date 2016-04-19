@@ -67,7 +67,15 @@ export default function createSparkChart({width, height, datasource, container, 
     ctx.clearRect(0, 0, width, height);
 
     ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, height);
+    ctx.lineTo(width, height);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#203036';
+    ctx.stroke();
+    ctx.closePath();
 
+    ctx.beginPath();
     for (let columnIndex = 0, len = dataColumns.length;
          columnIndex < len;
          columnIndex++) {
@@ -81,8 +89,9 @@ export default function createSparkChart({width, height, datasource, container, 
       }
     }
 
+
     ctx.lineWidth = 1;
-    ctx.strokeStyle = '#203036';
+    ctx.strokeStyle = '#4A90E2';
     ctx.stroke();
     ctx.closePath();
   }
