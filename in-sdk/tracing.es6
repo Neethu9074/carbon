@@ -5,9 +5,13 @@ export function getLabel(span) {
 }
 
 export function getTypeLabelSingular(span) {
-  return getSpanDefinition(span.get('name'), span).typeName.singular || '<unknown>';
+  return getSpanDefinition(span.get('name'), span).typeName.singular;
 }
 
 export function getTypeLabelPlural(span) {
-  return getSpanDefinition(span.get('name'), span).typeName.plural || '<unknown>';
+  return getSpanDefinition(span.get('name'), span).typeName.plural;
+}
+
+export function getSpanDetailView(span) {
+  return getSpanDefinition(span.get('name'), span).detailView;
 }

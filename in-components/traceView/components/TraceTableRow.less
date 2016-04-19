@@ -14,7 +14,9 @@
 
   &:hover, &--selected.in-trace-table-row {
     background: #4A90E2;
-    color: #fff;
+    // Text color changes disables due to problems with short chart blocks
+    // which result in white text on white ground.
+    // color: #fff;
   }
 
   &__cell {

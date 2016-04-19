@@ -8,7 +8,7 @@ import addElementHeight from 'in-hoc/addElementHeight';
 import {
   selectedTraceId,
   setSelectedTraceId,
-  clearSelectedTraceId
+  clearTraceSelection
 } from 'in-stores/traces';
 import connectTo from 'in-hoc/connectTo';
 
@@ -59,7 +59,7 @@ export default addElementHeight(connectTo({
 
   onClick(traceId) {
     if (this.props.selectedTraceId === traceId) {
-      clearSelectedTraceId();
+      clearTraceSelection();
     } else {
       setSelectedTraceId(traceId);
     }

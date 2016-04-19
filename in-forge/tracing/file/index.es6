@@ -8,7 +8,9 @@ registerSpanDefinition({
     plural: 'File accesses'
   },
 
+  detailView: 'FileSpanDetailView',
+
   getLabel(span) {
-    return span.getIn(['data', 'file.access']) + ' ' + span.getIn(['data', 'file.path']);
+    return span.getIn(['data', 'file', 'access']) + ' ' + span.getIn(['data', 'file', 'path']);
   }
 });

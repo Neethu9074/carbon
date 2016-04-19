@@ -7,9 +7,10 @@ import TraceHeading from 'in-components/traceView/components/TraceHeading';
 import TabHeader from 'in-components/traceView/components/TabHeader';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {selectedTrace, selectedTraceId} from 'in-stores/traces';
-import {getLabel, getTypeLabelSingular} from 'in-sdk/tracing';
+import {getLabel} from 'in-sdk/tracing';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import {formatDateTime} from 'in-services/formatters/date';
+import PropList from 'in-components/PropList';
 import connectTo from 'in-hoc/connectTo';
 
 import './TraceDetails.less';
@@ -44,32 +45,19 @@ export default connectTo({
       <div className={block}>
         <TabHeader left={<TraceHeading>{getLabel(this.props.trace)}</TraceHeading>} />
 
-        <dl className={block + '__props'}>
-          <dt className={block + '__prop-key'}>Start</dt>
-          <dd className={block + '__prop-value'}>
-            {formatDateTime(this.props.trace.get('start'))}
-          </dd>
+        <PropList className={block + '__props'}>
+          <PropList.Prop label='Start'
+                         value={formatDateTime(this.props.trace.get('start'))} />
 
-          <dt className={block + '__prop-key'}>Duration</dt>
-          <dd className={block + '__prop-value'}>
-            {msZeroDecimalPlaces(this.props.trace.get('duration'))}
-          </dd>
+          <PropList.Prop label='Duration'
+                         value={msZeroDecimalPlaces(this.props.trace.get('duration'))} />
 
-          <dt className={block + '__prop-key'}>Depth</dt>
-          <dd className={block + '__prop-value'}>
-            {this.getDepth(this.props.trace)}
-          </dd>
+          <PropList.Prop label='Depth'
+                         value={this.getDepth(this.props.trace)} />
 
-          <dt className={block + '__prop-key'}>Calls</dt>
-          <dd className={block + '__prop-value'}>
-            {this.getCalls(this.props.trace)}
-          </dd>
-
-          <dt className={block + '__prop-key'}>Type</dt>
-          <dd className={block + '__prop-value'}>
-            {getTypeLabelSingular(this.props.trace)}
-          </dd>
-        </dl>
+          <PropList.Prop label='Calls'
+                         value={this.getCalls(this.props.trace)} />
+        </PropList>
 
         <TraceWaterfallChart trace={this.props.trace} />
       </div>

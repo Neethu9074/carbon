@@ -8,14 +8,16 @@
     padding-left: 0.2rem;
     font-size: 0.75rem;
     line-height: 2.735rem;
+    cursor: pointer;
+    margin: 0.1875rem 0;
 
     &:hover, &--selected {
-      // Removed since we currently don't have a span detail pane.
+      // Text color changes disables due to problems with short chart blocks
+      // which result in white text on white ground.
       // color: #fff;
 
       .in-trace-waterfall-chart__span-block {
-        // Removed since we currently don't have a span detail pane.
-        // background: #4A90E2;
+        background: #4A90E2;
       }
     }
 
@@ -34,5 +36,6 @@
     left: 0;
     right: 0;
     display: block;
+    border-radius: 0.25rem;
   }
 }
