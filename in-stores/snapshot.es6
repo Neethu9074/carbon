@@ -95,7 +95,8 @@ export function getRunningComponents(snapshotId) {
 }
 
 export function getDeployedUnits(snapshotId) {
-  return createDeployedUnitsObservable(snapshotId);
+  return timelineStore.timeframe.flatMap(timeframe =>
+    createDeployedUnitsObservable({snapshotId, time: timeframe.to}));
 }
 
 export function getRawPayload(snapshotId, payloadName) {
