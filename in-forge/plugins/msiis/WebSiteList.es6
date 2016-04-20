@@ -1,10 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
 import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
 import List from 'in-components/List';
 
-const WebSiteList = React.createClass({
+
+export default React.createClass({
   mixins: [PureRenderMixin],
 
   propTypes: {
@@ -12,15 +13,13 @@ const WebSiteList = React.createClass({
   },
 
   render() {
-    const sites = this.props.snapshot.getIn(['data', 'allsites']).toArray();
-    if (!sites || sites.length === 0) {
-      return null;
-    }
-
+    const sites = this.props.snapshot.getIn(['data', 'allsites']);
     return (
+      (!sites || sites.size === 0) ?
+      null :
       <List>
-        {sites.map((site, i) =>
-          <List.Item key={i}>
+        {sites.map(site =>
+          <List.Item key={site}>
             {site}
           </List.Item>
         )}
@@ -28,5 +27,3 @@ const WebSiteList = React.createClass({
     );
   }
 });
-
-export default WebSiteList;
