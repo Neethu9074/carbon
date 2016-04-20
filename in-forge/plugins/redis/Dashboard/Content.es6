@@ -1,4 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
@@ -13,9 +14,6 @@ import {
   kiloBytesTwoDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import {
-  formatUnixDateTime
-} from 'in-forge/plugins/redis/formatters/date';
 import {emptyList} from 'in-services/fixedImmutables';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
@@ -321,7 +319,7 @@ export default connectTo(
                   .map(slog =>
                     <tr key={slog.get('id')}>
                       <td>{slog.get('id')}</td>
-                      <td>{formatUnixDateTime(slog.get('timestamp'))}</td>
+                      <td>{moment(slog.get('timestamp')).format()}</td>
                       <td>{muSecondsZeroDecimalPlaces(slog.get('duration'))} </td>
                       <td>{slog.get('args').join(' ')}</td>
                     </tr>
