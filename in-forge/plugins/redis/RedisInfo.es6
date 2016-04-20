@@ -1,26 +1,21 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
-import irpt from 'react-immutable-proptypes';
-
-import {
-  formatBoolean
-}from 'in-forge/plugins/redis/formatters/boolean';
 
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 import MetricValue from 'in-components/MetricValue';
 
-const secondsFormatter = d => {
-    return d + 's';
-};
-const secondsAgoFormatter = d => {
-    return d + 's ago';
-};
-const syncInProgressFormatter = d => {
-    return formatBoolean(d > 0);
-};
 
-const RedisInfo = React.createClass({
+const secondsFormatter = d => d + 's';
+const secondsAgoFormatter = d => d + 's ago';
+const formatBoolean = value => value ? 'Yes' : 'No';
+const syncInProgressFormatter = d => formatBoolean(d > 0);
+
+export default React.createClass({
+
+  displayName: 'RedisInfo',
+
   mixins: [PureRenderMixin],
 
   propTypes: {
@@ -28,9 +23,10 @@ const RedisInfo = React.createClass({
   },
 
   render() {
-    const data = this.props.snapshot.get('data');
-    const snapshotId = this.props.snapshot.get('id');
+    const snapshot = this.props.snapshot;
+    const data = snapshot.get('data');
     const role = data.get('role');
+    const snapshotId = snapshot.get('id');
     const masterLinkStatus = data.get('master_link_status');
 
     return (
@@ -96,5 +92,3 @@ const RedisInfo = React.createClass({
     );
   }
 });
-
-export default RedisInfo;

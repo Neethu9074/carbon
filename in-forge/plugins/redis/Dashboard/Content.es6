@@ -1,6 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import moment from 'moment';
 import irpt from 'react-immutable-proptypes';
+import moment from 'moment';
 import React from 'react';
 
 import {
@@ -14,74 +14,57 @@ import {
   kiloBytesTwoDecimalPlaces,
   percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
-import {emptyList} from 'in-services/fixedImmutables';
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {emptyList} from 'in-services/fixedImmutables';
 import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 import {getRawPayload} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
 
+
 const chartHeight = 200;
 
-const persistenceFormater = d => {
-    let formatedText;
-    if (d < 0) {
-        formatedText = 'Not in progress';
-    } else {
-        formatedText = d + 's';
-    }
-    return formatedText;
-};
-
-const latencyFormatter = (d, threshold) => {
-    let formattedLatency;
-    if (d < threshold) {
-        formattedLatency = 'Less than ' + msZeroDecimalPlaces(threshold);
-    } else {
-        formattedLatency = msZeroDecimalPlaces(d);
-    }
-    return formattedLatency;
-};
-
-const hitRateFormatter = d => {
-    return (d < 0) ? 'No activity' : percentageZeroDecimalPlaces(d);
-};
+const hitRateFormatter = d => d < 0 ? 'No activity' : percentageZeroDecimalPlaces(d);
+const persistenceFormater = d => d < 0 ? 'Not in progress' : d + 's';
+const latencyFormatter = (d, threshold) => d < threshold ?
+  'Less than ' + msZeroDecimalPlaces(threshold) :
+  msZeroDecimalPlaces(d);
 
 function getConnectionMetricsForRole(role) {
-    return (role === 'master') ?
-        [ 'connected_clients', 'blocked_clients', 'rejected_connections', 'master_connected_slaves']
-        : [ 'connected_clients', 'blocked_clients', 'rejected_connections' ];
+  return (role === 'master') ?
+    [ 'connected_clients', 'blocked_clients', 'rejected_connections', 'master_connected_slaves']
+    : [ 'connected_clients', 'blocked_clients', 'rejected_connections' ];
 }
 
 function getConnectionLabelsForRole(role) {
-    return (role === 'master') ?
-        [ 'Connected', 'Blocked', 'Rejected connections', 'Connected slaves' ]
-        : [ 'Connected', 'Blocked', 'Rejected connections' ];
+  return (role === 'master') ?
+    [ 'Connected', 'Blocked', 'Rejected connections', 'Connected slaves' ]
+    : [ 'Connected', 'Blocked', 'Rejected connections' ];
 }
 
 function dbKeysMetrics(dbNames) {
-    const metrics = [];
-    metrics.push(dbNames.map(name => 'db.' + name + '.count')[0]);
-    metrics.push(dbNames.map(name => 'db.' + name + '.expires')[0]);
-    return metrics;
+  const metrics = [];
+  metrics.push(dbNames.map(name => 'db.' + name + '.count')[0]);
+  metrics.push(dbNames.map(name => 'db.' + name + '.expires')[0]);
+  return metrics;
 }
 
 function dbKeysLabels(dbNames) {
-    const labels = [];
-    labels.push(dbNames.map(name => name + ' Keys Count')[0]);
-    labels.push(dbNames.map(name => name + ' Keys Expires')[0]);
-    return labels;
+  const labels = [];
+  labels.push(dbNames.map(name => name + ' Keys Count')[0]);
+  labels.push(dbNames.map(name => name + ' Keys Expires')[0]);
+  return labels;
 }
 
 function monitorMetrics(monitor) {
-    return monitor ? monitor.toArray() : [];
+  return monitor ? monitor.toArray() : [];
 }
 
 function pubSubMetrics(channelNames) {
-    return channelNames.map(name => 'pubsub_subscribers.' + name);
+  return channelNames.map(name => 'pubsub_subscribers.' + name);
 }
 
 export default connectTo(
