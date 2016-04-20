@@ -17,7 +17,10 @@ const JBossAsInfo = React.createClass({
     return (
       <DescriptionList>
         <DescriptionItem title='Version'>
-          {data.get('version')}
+          {data.get('serverInfo').get('releaseVersion')}
+        </DescriptionItem>
+        <DescriptionItem title='Home'>
+          {data.get('serverInfo').get('homeDir')}
         </DescriptionItem>
       </DescriptionList>
     );
