@@ -1,10 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import moment from 'moment';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
-
-import {
-  formatUnixDateTime
-}from 'in-forge/plugins/redis/formatters/date';
 
 import {
   formatBoolean
@@ -45,7 +42,7 @@ const RedisInfo = React.createClass({
           {data.get('port')}
         </DescriptionItem>
         <DescriptionItem title='Started At'>
-            {formatUnixDateTime(data.get('started_at'))}
+            {moment(data.get('started_at')).format()}
         </DescriptionItem>
         <DescriptionItem title='Role'>
             {role}
