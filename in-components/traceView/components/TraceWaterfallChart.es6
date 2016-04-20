@@ -30,10 +30,12 @@ const TraceWatterfallSpan = ({span, scale, selectedSpanId}) => {
   return (
     <div>
       <div className={classes}
-           style={{left: `${left}%`}}
+           style={{
+             left: `${left}%`,
+             width: `${right - left}%`
+           }}
            onClick={onClick}>
-        <div className={block + '__span-block'}
-             style={{width: `${right - left}%`}}>
+        <div className={block + '__span-block'}>
         </div>
         {msZeroDecimalPlaces(span.get('duration'))}: {getLabel(span)}
       </div>

@@ -74,6 +74,17 @@ describe('scale', () => {
 
       expect(scale.getRange(0)).to.equal(5);
     });
+
+    it('must set range to 50% for 0 domain range', () => {
+      // Range:      0--------------------------10
+      // Domain:    51--------------------------51
+      scale.setRangeFrom(0);
+      scale.setRangeTo(10);
+      scale.setDomainFrom(51);
+      scale.setDomainTo(51);
+
+      expect(scale.getRange(51)).to.equal(5);
+    });
   });
 
   describe('getDomain', () => {

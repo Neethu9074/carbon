@@ -8757,6 +8757,11 @@
       "version": "2.4.1",
       "from": "yauzl@>=2.2.1 <3.0.0",
       "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/yauzl/-/yauzl-2.4.1.tgz"
+    },
+    "highlight.js": {
+      "version": "9.3.0",
+      "from": "highlight.js@>=9.3.0 <10.0.0",
+      "resolved": "https://repo-internal.instana.io/nexus/content/groups/instana-npm-all/highlight.js/-/highlight.js-9.3.0.tgz"
     }
   }
 }
