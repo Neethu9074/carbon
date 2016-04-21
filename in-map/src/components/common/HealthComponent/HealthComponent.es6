@@ -1,16 +1,22 @@
-import {getHealth} from 'in-services/issueTracker';
+import Immutable from 'immutable';
+
+import {getHealthInfo} from 'in-stores/healthInfo';
 import {health} from 'in-services/health';
 
 import Component from '../Component';
 
+
+const defaultHealth = Immutable.fromJS({
+  maxSeverity: 0
+});
 
 export default class HealthComponent extends Component {
   constructor({sceneObject}) {
     super(sceneObject, '_health');
 
     this.healthToSet = undefined;
-    this.setHealth(health.ok);
-    this.healthSubscribtion = getHealth(sceneObject.id).subscribe(newHealth => this.setHealth(newHealth));
+    this.setHealth(defaultHealth);
+    this.healthSubscribtion = getHealthInfo(sceneObject.id).subscribe(this.setHealth.bind(this));
 
     this.initialized();
   }
@@ -24,12 +30,13 @@ export default class HealthComponent extends Component {
   }
 
 
-  setHealth(newHealth) {
-    if (this.healthToSet === newHealth) {
+  setHealth(newHealthInfo) {
+    const maxSeverity = newHealthInfo.get('maxSeverity', 0);
+    if (this.healthToSet === maxSeverity) {
       return;
     }
 
-    this.healthToSet = newHealth;
+    this.healthToSet = maxSeverity;
     this.needsUpdate = true;
   }
 

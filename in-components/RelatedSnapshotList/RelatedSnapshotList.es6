@@ -14,7 +14,9 @@ import List from '../List';
 
 import './RelatedSnapshotList.less';
 
+
 const block = 'in-related-snapshot-list';
+const rpt = React.PropTypes;
 
 export default connectTo(
   props => {
@@ -38,7 +40,9 @@ export default connectTo(
 
   propTypes: {
     snapshotIds: irpt.setOf(React.PropTypes.string).isRequired,
-    snapshots: React.PropTypes.array
+    initiallyOpen: rpt.bool,
+    onRenderItem: rpt.func,
+    snapshots: rpt.array
   },
 
   render() {
@@ -53,7 +57,8 @@ export default connectTo(
     return (
       <div>
         {groupPlugins.map(plugin =>
-          <Collapsible key={plugin}>
+          <Collapsible key={plugin}
+                       initiallyOpen={this.props.initiallyOpen}>
             <Collapsible.Header className={block + '__header'}>
               <div className={block + '__header'}>
                 <img src={getIcon(plugin)}
@@ -67,7 +72,10 @@ export default connectTo(
                 {groups[plugin].map(snapshot =>
                   <List.Item key={snapshot.get('id')}
                              onClick={() => this.select(snapshot)}>
-                    {getLabel(snapshot)}
+                    {this.props.onRenderItem ?
+                      this.props.onRenderItem(snapshot) :
+                      getLabel(snapshot)
+                    }
                   </List.Item>
                 )}
               </List>

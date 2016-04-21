@@ -2,7 +2,6 @@ import THREE from 'three';
 
 import TooltipLayer from 'in-map/src/2DSceneObjects/tooltips/physical/Layer';
 import {level, zoomLevel} from 'in-services/stores/zoomLevel';
-import {health} from 'in-services/health';
 import {theme} from 'in-services/theme';
 
 import HighlightingComponent from '../../components/physical/HighlightingComponent';
@@ -137,23 +136,15 @@ export default class Layer extends SceneObjectWithSnapshot {
     this.parent.needsUpdate = true;
   }
 
-  healthChanged(newHealth) {
-    this.eventEmitter.emit('colorChanged', this.calculateColorForHealth(newHealth));
+  healthChanged(maxSeverity) {
+    const color = new THREE.Color(theme.health[Math.floor(maxSeverity)]);
+
+    this.eventEmitter.emit('colorChanged', color);
+    return color;
   }
 
   setHeight(height) {
     this.eventEmitter.emit('sizeChanged', { x: MARGIN, y: height, z: MARGIN });
-  }
-
-  calculateColorForHealth(newHealth) {
-    const colors = theme.map.colors;
-
-    if (newHealth === health.warning) {
-      return new THREE.Color(colors.warning);
-    } else if (newHealth === health.danger) {
-      return new THREE.Color(colors.critical);
-    }
-    return new THREE.Color(colors.cubeBasicColor);
   }
 
   dispose() {

@@ -1,5 +1,4 @@
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import {health} from 'in-services/health';
 
 import LineMeshComponent from '../../common/LineMeshComponent';
 
@@ -26,8 +25,8 @@ export default class GroundLineMeshComponent extends LineMeshComponent {
     super.sizeChanged({x: x * 1.5, y, z: z * 1.5});
   }
 
-  healthChanged(newHealth) {
-    const active = newHealth === health.ok ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
+  healthChanged(maxSeverity) {
+    const active = maxSeverity < 0.5 ? PROPERTY_VALUES.OFF : PROPERTY_VALUES.ON;
     this.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, active);
   }
 }
