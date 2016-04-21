@@ -11,9 +11,6 @@ export default class GroupLayouting {
     let groupXCursor = 0;
     map.groups
       .sort((a, b) => {
-        if (a.id === 'undefined-zone') {
-          return Number.maxValue;
-        }
         if (b.id === 'undefined-zone') {
           return -1 * Number.maxValue;
         }
