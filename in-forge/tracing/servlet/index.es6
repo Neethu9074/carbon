@@ -1,4 +1,5 @@
 import {registerSpanDefinition} from 'in-sdk/registry/tracing';
+import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'servlet',
@@ -10,17 +11,5 @@ registerSpanDefinition({
 
   detailView: 'ServletSpanDetailView',
 
-  getLabel(span) {
-    const url = span.getIn(['data', 'http', 'url']);
-    const method = span.getIn(['data', 'http', 'method']);
-
-    if (url && method) {
-      return method + ' ' + url;
-    } else if (url) {
-      return url;
-    } else if (method) {
-      return method;
-    }
-    return null;
-  }
+  getLabel
 });

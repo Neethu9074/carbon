@@ -1,4 +1,5 @@
 import {registerSpanDefinition} from 'in-sdk/registry/tracing';
+import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
   type: 'jersey',
@@ -10,7 +11,5 @@ registerSpanDefinition({
 
   detailView: 'JerseySpanDetailView',
 
-  getLabel(span) {
-    return span.getIn(['data', 'http', 'url']);
-  }
+  getLabel
 });

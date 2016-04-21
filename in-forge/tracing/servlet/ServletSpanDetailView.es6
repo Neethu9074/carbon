@@ -1,7 +1,3 @@
-import React from 'react';
+import HttpSpanDetailView from '../http/HttpSpanDetailView';
 
-export default function ServletSpanDetailView() {
-  return (
-    <div />
-  );
-}
+export default HttpSpanDetailView;
