@@ -3,7 +3,7 @@ import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
 import {emptyList} from 'in-services/fixedImmutables';
-import {openEvents$} from 'in-services/issueTracker';
+import {getEventType, EVENT_TYPES, openEvents$} from 'in-services/issueTracker';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -60,10 +60,14 @@ export default connectTo({
       const showNC = this.state.showNotificationCenter;
 
       let maxSeverity = 0;
+      let count = 0;
       events.forEach(event => {
-        const severity = event.getIn(['problem', 'severity']);
-        if (severity > maxSeverity) {
-          maxSeverity = severity;
+        if (getEventType(event) !== EVENT_TYPES.INCIDENT) {
+          count++;
+          const severity = event.getIn(['problem', 'severity']);
+          if (severity > maxSeverity) {
+            maxSeverity = severity;
+          }
         }
       });
 
@@ -74,7 +78,7 @@ export default connectTo({
           <div className={block}
                style={{background: color}}
                onClick={this.toggleNotificationCenter}>
-            {events.size}
+            {count}
           </div>
 
           {showNC ?
