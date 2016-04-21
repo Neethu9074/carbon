@@ -75,11 +75,11 @@ const rollupDurationThresholds = [
   },
   { // 24 hours
     maxTimeframe: 1000 * 60 * 24,
-    rollup: 1000 * 60 * 2
+    rollup: 1000 * 60 * 5
   },
   { // indefinite for everything else
     maxTimeframe: Number.MAX_VALUE,
-    rollup: 1000 * 60 * 5
+    rollup: 1000 * 60 * 60
   }
 ];
 
