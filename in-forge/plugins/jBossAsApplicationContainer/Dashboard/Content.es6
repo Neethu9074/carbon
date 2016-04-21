@@ -63,9 +63,7 @@ const JBossAsDashboard = React.createClass({
       });
     });
 
-    return (
-      structure.map(value => value)
-    );
+    return structure;
   },
 
   selectServlet(metricKey, servletName) {
