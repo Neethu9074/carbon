@@ -11,11 +11,11 @@ export default class GroupLayouting {
     let groupXCursor = 0;
     map.groups
       .sort((a, b) => {
-        if (a.id === 'undefined-zone') {
-          return Number.maxValue;
+        if (a.id === 'unmonitored-hosts-zone') {
+          return Number.MAX_VALUE;
         }
-        if (b.id === 'undefined-zone') {
-          return -1 * Number.maxValue;
+        if (b.id === 'unmonitored-hosts-zone') {
+          return -1 * Number.MAX_VALUE;
         }
         return a._cachedLabel.localeCompare(b._cachedLabel);
       })
