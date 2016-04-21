@@ -32,38 +32,39 @@ const JBossAsDashboard = React.createClass({
   },
 
   renderDeployments(servlets) {
-    const structure = [];
     const snapshot = this.props.snapshot;
 
-    servlets.forEach((deploymentServlets, deploymentName) => {
-      structure.push(
+    const structure = servlets.map((deploymentServlets, deploymentName) => {
+      const headerRow = (
         <tr key={deploymentName}>
           <td colSpan='4'
-              style={{
-                background: '#fff',
-                fontWeight: 'bold',
-                fontSize: '13px'
-              }}>
+            style={{
+              background: '#fff',
+              fontWeight: 'bold',
+              fontSize: '13px'
+            }}>
             {deploymentName}
           </td>
         </tr>
       );
 
-      deploymentServlets.forEach((servletName) => {
+      const servletRows = deploymentServlets.map((servletName) => {
         const servletKey = deploymentName + '.' + servletName;
-        structure.push(
+        return (
           <tr key={servletKey} onClick={() => this.selectServlet(servletKey, servletName)}>
             <td>{servletName}</td>
             <Mtd metric={'servlets.' + servletKey + '.requests'}
-                 snapshot={snapshot} />
+              snapshot={snapshot} />
             <Mtd metric={'servlets.' + servletKey + '.avgResponseTime'}
-                 snapshot={snapshot} formatter={msZeroDecimalPlaces} />
+              snapshot={snapshot} formatter={msZeroDecimalPlaces} />
           </tr>
         );
       });
+
+      return servletRows.insert(0, headerRow);
     });
 
-    return structure;
+    return structure.toList().flatten();
   },
 
   selectServlet(metricKey, servletName) {
