@@ -1,5 +1,6 @@
 import createEventObservable from 'in-services/subscription/openEvents';
+import {timeframe$} from 'in-stores/timeline';
 
 export function getOpenEvents() {
-  return createEventObservable();
+  return timeframe$.flatMap(timeframe => createEventObservable(timeframe.to));
 }
