@@ -133,7 +133,7 @@ const JBossAsDashboard = React.createClass({
                 <tr>
                   <th>Servlet</th>
                   <th>Requests</th>
-                  <th>Processing Time</th>
+                  <th>Average Response Time</th>
                 </tr>
               </thead>
               <tbody>

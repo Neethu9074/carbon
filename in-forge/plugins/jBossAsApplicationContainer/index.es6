@@ -23,7 +23,7 @@ addLabelFinder(
     }
     const sockets = snapshot.getIn(['data', 'sockets']);
     if (sockets && sockets.size > 0) {
-      label += ' @ ' + sockets.map(data => data.getIn(['port'])).join(',');
+      label += ' @ ' + sockets.map(data => data.get('port')).join(', ');
     }
     return label;
   }
