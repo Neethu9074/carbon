@@ -26,16 +26,26 @@ export default React.createClass({
 
   getInitialState() {
     return {
+      componentType: null,
       Component: null
     };
   },
 
   componentWillMount() {
-    const type = this.props.span.get('name');
-    const detailViewPath = getSpanDetailView(this.props.span);
+    this.updateForge(this.props);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.updateForge(nextProps);
+  },
+
+  updateForge(props) {
+    const type = props.span.get('name');
+    const detailViewPath = getSpanDetailView(props.span);
     const self = this;
     require.ensure([], function onModLoad() {
       self.setState({
+        componentType: type,
         Component: context('./' + type + '/' + detailViewPath + '.es6')
       });
     });
@@ -44,7 +54,10 @@ export default React.createClass({
   render() {
     if (!this.state.Component) {
       return <LoadingIndicator />;
+    } else if (this.state.componentType !== this.props.span.get('name')) {
+      return <LoadingIndicator />;
     }
+
     return (
       <Jail component={this.state.Component}
             props={this.props}
