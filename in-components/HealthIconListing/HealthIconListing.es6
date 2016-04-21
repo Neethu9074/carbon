@@ -1,52 +1,57 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import EventDescription from 'in-components/EventDescription';
-import {getColorForEvent} from 'in-services/issueTracker';
-import getEvents from 'in-hoc/getEvents';
+import {getHealthInfo} from 'in-stores/healthInfo';
+import Tooltip from 'in-components/Tooltip';
+import connectTo from 'in-hoc/connectTo';
+import {theme} from 'in-services/theme';
 
-import Tooltip from '../Tooltip';
+import EventsListing from './EventsListing';
+
 import './HealthIconListing.less';
 
 
 const block = 'in-health-listing';
 const rpt = React.PropTypes;
 
-export default getEvents(
-               React.createClass({
-
-  displayName: 'HealthIconListing',
-
-  mixins: [
-    PureRenderMixin
-  ],
-
-  propTypes: {
-    snapshotId: rpt.string.isRequired,
-    className: rpt.string,
-    events: rpt.array
+export default connectTo(
+  props => {
+    return {
+      healthInfo: getHealthInfo(props.snapshotId)
+    };
   },
+  React.createClass({
 
-  render() {
-    const events = this.props.events;
-    if (!events) {
-      return null;
+    displayName: 'HealthIconListing',
+
+    mixins: [
+      PureRenderMixin
+    ],
+
+    propTypes: {
+      snapshotId: rpt.string.isRequired,
+      className: rpt.string,
+      healthInfo: irpt.map
+    },
+
+    render() {
+      const healthInfo = this.props.healthInfo;
+      if (!healthInfo) {
+        return null;
+      }
+
+      const maxSeverity = healthInfo.get('maxSeverity');
+      const backgroundColor = theme.health[Math.floor(maxSeverity)];
+
+      return (
+        <Tooltip content={<EventsListing snapshotId={this.props.snapshotId} />}>
+          <div className={block}
+               style={{backgroundColor}}>
+            {healthInfo.get('numberOfOpenEvents')}
+          </div>
+        </Tooltip>
+      );
     }
-
-    return (
-      <Tooltip content={
-        <div>
-          {events.map(event =>
-            <EventDescription key={event.get('id')}
-                              event={event}
-                              snapshotId={this.props.snapshotId}/>)}
-        </div>
-      }>
-        <div className={block}
-             style={{background: getColorForEvent(events[0])}}>
-          {events.length}
-        </div>
-      </Tooltip>
-    );
-  }
-}));
+  })
+);
