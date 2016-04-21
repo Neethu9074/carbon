@@ -4,6 +4,8 @@ import React from 'react';
 import EventDescription from 'in-components/EventDescription';
 import getEvents from 'in-hoc/getEvents';
 
+import './HealthIconListing.less';
+
 
 const rpt = React.PropTypes;
 
@@ -32,7 +34,8 @@ export default getEvents(
       return (
         <div>
           {events.map(event =>
-            <EventDescription key={event.get('id')}
+            <EventDescription className={'in-health-listing__item'}
+                              key={event.get('id')}
                               event={event}
                               snapshotId={event.getIn(['problem', 'snapshotId'])}/>)
           }

@@ -34,9 +34,9 @@ export default React.createClass({
     style.color = issueTracker.getColorForEvent(event);
 
     return (
-      <Tooltip  align={{vertical: 'top'}}
-                content={<EventDescription event={event}
-                                           snapshotId={event.getIn(['problem', 'snapshotId'], '')}/>}>
+      <Tooltip align={{vertical: 'top'}}
+               content={<EventDescription event={event}
+                                          snapshotId={event.getIn(['problem', 'snapshotId'], '')}/>}>
 
         <Icon type={iconType}
               onMouseEnter={() => this.props.mouseIn(event)}

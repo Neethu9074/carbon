@@ -37,7 +37,7 @@ export default connectTo(
 
     render() {
       const healthInfo = this.props.healthInfo;
-      if (!healthInfo) {
+      if (!healthInfo || healthInfo.get('numberOfOpenEvents') === 0) {
         return null;
       }
 
@@ -45,7 +45,8 @@ export default connectTo(
       const backgroundColor = theme.health[Math.floor(maxSeverity)];
 
       return (
-        <Tooltip content={<EventsListing snapshotId={this.props.snapshotId} />}>
+        <Tooltip align={{horizontal: 'right'}}
+                 content={<EventsListing snapshotId={this.props.snapshotId} />}>
           <div className={block}
                style={{backgroundColor}}>
             {healthInfo.get('numberOfOpenEvents')}
