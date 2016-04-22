@@ -12,12 +12,15 @@ const JBossAsInfo = React.createClass({
   },
 
   render() {
-    const data = this.props.snapshot.get('data');
+    const serverInfo = this.props.snapshot.getIn(['data', 'serverInfo']);
 
     return (
       <DescriptionList>
         <DescriptionItem title='Version'>
-          {data.get('version')}
+          {serverInfo.get('releaseVersion')}
+        </DescriptionItem>
+        <DescriptionItem title='Home'>
+          {serverInfo.get('homeDir')}
         </DescriptionItem>
       </DescriptionList>
     );

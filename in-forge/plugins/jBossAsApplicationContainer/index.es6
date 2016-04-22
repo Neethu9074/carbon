@@ -14,7 +14,19 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.jbossas,
-  snapshot => snapshot.getIn(['data', 'version'])
+  snapshot => {
+    const serverInfo = snapshot.getIn(['data', 'serverInfo']);
+    let label = 'JBoss AS';
+    label += ' ' + serverInfo.get('releaseVersion');
+    if (serverInfo.get('productName')) {
+      label += ' ' + serverInfo.get('productName') + ' ';
+    }
+    const sockets = snapshot.getIn(['data', 'sockets']);
+    if (sockets && sockets.size > 0) {
+      label += ' @ ' + sockets.map(data => data.get('port')).join(', ');
+    }
+    return label;
+  }
 );
 
 power.addMapping(
