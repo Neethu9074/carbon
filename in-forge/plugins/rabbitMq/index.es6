@@ -9,8 +9,8 @@ import iconPath from 'in-forge/plugins/rabbitMq/icon.svg';
 
 pluginName.setHumanReadablePluginName(
     constants.plugins.rabbitmq,
-    'RabbitMq',
-    'RabbitMq'
+    'RabbitMQ',
+    'RabbitMQ'
 );
 
 addLabelFinder(constants.plugins.rabbitmq, getLabel);
@@ -26,7 +26,7 @@ sorting.addMapping(
 );
 
 function getLabel() {
-  return 'rabbitMq';
+  return 'RabbitMQ';
 }
 
 addIconToRegistry({
