@@ -8,12 +8,13 @@ export default createSubscription.bind(null,
   'subscribe-open-events',
 
   // getID
-  () => '',
+  time => time,
 
   // data to be send for subscription
-  subscriptionId => {
+  (subscriptionId, time) => {
     return {
-      subscriptionId
+      subscriptionId,
+      time
     };
   },
 

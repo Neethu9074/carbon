@@ -28,8 +28,8 @@ describe('in-stores/metric', () => {
       expect(metricStore.getDefaultMetricRollupDuration({ windowSize: oneMinute * 60 })).to.equal(5000);
     });
 
-    it('should use five minute rollups for any larger timeframe', () => {
-      expect(metricStore.getDefaultMetricRollupDuration({ windowSize: Number.MAX_VALUE })).to.equal(1000 * 60 * 5);
+    it('should use hourly rollups for any larger timeframe', () => {
+      expect(metricStore.getDefaultMetricRollupDuration({ windowSize: Number.MAX_VALUE })).to.equal(1000 * 60 * 60);
     });
   });
 });
