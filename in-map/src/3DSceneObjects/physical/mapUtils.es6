@@ -46,3 +46,15 @@ function getGroups(parent, groups) {
     }
   });
 }
+
+
+export function getAllLayer(map) {
+  const nodes = getAllNodes(map);
+  const layer = [];
+
+  nodes.forEach(node => {
+    node.getComponent('layer').layer.forEach(l => layer.push(l));
+  });
+
+  return layer;
+}

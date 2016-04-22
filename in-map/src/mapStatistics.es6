@@ -1,4 +1,4 @@
-import {getAllNodes, getAllGroups} from './3DSceneObjects/physical/mapUtils';
+import {getAllNodes, getAllGroups, getAllLayer} from './3DSceneObjects/physical/mapUtils';
 import {lowState, midState, maxState} from './AdaptiveDetailHandler';
 import * as time from './timeCalculations';
 
@@ -42,6 +42,7 @@ export function getMapStatistics(scene) {
       mapObjects: {
         '#groups': getAllGroups(map).length,
         '#nodes': getAllNodes(map).length,
+        '#layer': getAllLayer(map).length,
         factories: {
           highlight: scene.highlightingSingleMeshFactory.numberUpdates | 0,
           metrics: scene.singleMeshMetricFactory.numberUpdates | 0,
