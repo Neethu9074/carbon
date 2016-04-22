@@ -4,9 +4,9 @@ const idOfUnmonitoredZone = 'unmonitored-hosts-zone';
 export default class GroupLayouting {
 
   constructor() {
+    this.squashFactor = 0.5;
     this.groupMargin = 1;
     this.nodeMargin = 2;
-    this.squashFactor = 0.5;
   }
 
   applyLayout(map) {
@@ -38,15 +38,19 @@ export default class GroupLayouting {
 
         let nodeXCursor = groupXCursor + 1;
         let nodeYCursor = 1;
-        group.children.forEach(node => {
-          node.getComponent('position').setPosition(nodeXCursor, 0, -nodeYCursor);
 
-          nodeXCursor += this.nodeMargin + 1;
-          if (nodeXCursor >= dim.x + dim.width) {
-            nodeXCursor = groupXCursor + 1;
-            nodeYCursor += this.nodeMargin + 1;
+        group.children
+          .sort((a, b) => a.id.localeCompare(b.id))
+          .forEach(node => {
+            node.getComponent('position').setPosition(nodeXCursor, 0, -nodeYCursor);
+
+            nodeXCursor += this.nodeMargin + 1;
+            if (nodeXCursor >= dim.x + dim.width) {
+              nodeXCursor = groupXCursor + 1;
+              nodeYCursor += this.nodeMargin + 1;
+            }
           }
-        });
+        );
 
         groupXCursor += dim.width + this.groupMargin;
       });
