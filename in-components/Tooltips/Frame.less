@@ -1,9 +1,7 @@
 @import "~in-themes/active.less";
 
 .in-tooltip__frame {
-  top: -15px;
-  left: 18px;
-
+  display: inline-block;
   max-width: 350px;
   min-height: 10px;
   border-radius: 4px;
@@ -11,9 +9,7 @@
   padding: 10px;
   margin: 0;
 
-  word-break: break-all;
-
-  display: inline-block;
+  word-break: normal;
 
   z-index: @z-index__tooltips;
   background: @map__tooltips__background;
