@@ -1,6 +1,8 @@
 import createHistoricMetricObservable from 'in-services/subscription/historicMetric';
 import createLiveMetricObservable from 'in-services/subscription/liveMetric';
 
+const MAX_NUMBER_OF_METRICS_FOR_CHARTS = 800;
+
 // There is currently no other form of aggregation, but we already want
 // to have this communication style with the backend.
 const defaultAggregation = 'mean';
@@ -61,25 +63,25 @@ export function getMetricsForTimeframe(opts) {
 
 
 const rollupDurationThresholds = [
-  { // 10 minutes
-    maxTimeframe: 1000 * 60 * 10,
-    rollup: null
+  {
+    availableFor: 1000 * 60 * 10, // 10m
+    rollup: null // 1s
   },
-  { // 1 hour
-    maxTimeframe: 1000 * 60 * 60,
-    rollup: 1000 * 5
+  {
+    availableFor: 1000 * 60 * 60 * 24, // 1d
+    rollup: 1000 * 5 // 5s
   },
-  { // 12 hours
-    maxTimeframe: 1000 * 60 * 60 * 12,
-    rollup: 1000 * 60
+  {
+    availableFor: 1000 * 60 * 60 * 24 * 31, // 1 month
+    rollup: 1000 * 60 // 1m
   },
-  { // 24 hours
-    maxTimeframe: 1000 * 60 * 24,
-    rollup: 1000 * 60 * 5
+  {
+    availableFor: 1000 * 60 * 60 * 24 * 31 * 3, // 1 month
+    rollup: 1000 * 60 * 5 // 5m
   },
-  { // indefinite for everything else
-    maxTimeframe: Number.MAX_VALUE,
-    rollup: 1000 * 60 * 60
+  {
+    availableFor: Number.MAX_VALUE, // forever
+    rollup: 1000 * 60 * 60 // 1h
   }
 ];
 
@@ -88,14 +90,25 @@ export function getDefaultMetricRollupDuration(timeframe) {
     return null;
   }
 
-  for (let i = 0, len = rollupDurationThresholds.length; i < len; i++) {
-    const config = rollupDurationThresholds[i];
-    // this works because the rollupDurationThresholds array is sorted by maxTimeframe
+  // Ignoring time differences for now since small time differences
+  // can be accepted. This time is only used to calculate the rollup.
+  const now = Date.now();
+  const to = timeframe.to ? timeframe.to : now;
+  const from = to - timeframe.windowSize;
+
+  const availableRollupDefinitions = rollupDurationThresholds.filter(rollupDefinition =>
+    from >= now - rollupDefinition.availableFor
+  );
+
+  for (let i = 0, len = availableRollupDefinitions.length; i < len; i++) {
+    // this works because the rollupDurationThresholds array is sorted by rollup
     // the first rollup matching the requirements is returned
-    if (timeframe.windowSize <= config.maxTimeframe) {
-      return config.rollup;
+    const rollupDefinition = availableRollupDefinitions[i];
+    const rollup = rollupDefinition.rollup || 1000;
+    if (timeframe.windowSize / rollup <= MAX_NUMBER_OF_METRICS_FOR_CHARTS) {
+      return rollupDefinition.rollup;
     }
   }
 
-  throw new Error('Could not determine rollup for timeframe ' + timeframe);
+  return rollupDurationThresholds[rollupDurationThresholds.length - 1].rollup;
 }
