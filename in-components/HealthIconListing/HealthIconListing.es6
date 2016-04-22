@@ -53,7 +53,7 @@ export default connectTo(
         <div className={block}
              style={{backgroundColor}}
              onMouseEnter={() => this.setState({showTooltip: true})}
-             onMouseLeave={() => this.setState({showTooltip: true})}>
+             onMouseLeave={() => this.setState({showTooltip: false})}>
            {this.state.showTooltip ?
              <EventsListing snapshotId={this.props.snapshotId} />
              : null}
