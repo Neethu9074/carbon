@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
+import {emptyList} from 'in-services/fixedImmutables';
 import {DescriptionList, DescriptionItem} from 'in-components/DescriptionList';
 
 const RabbitMqInfo = React.createClass({
@@ -13,6 +14,9 @@ const RabbitMqInfo = React.createClass({
 
   render() {
     const data = this.props.snapshot.get('data');
+    const nodeNames = data.get('nodes', emptyList).toArray();
+    const queueNames = data.get('queues', emptyList).toArray();
+    const channelNames = data.get('channels', emptyList).toArray();
 
     return (
       <DescriptionList>
@@ -32,13 +36,13 @@ const RabbitMqInfo = React.createClass({
           {data.get('overview.node')}
         </DescriptionItem>
         <DescriptionItem title='Nodes'>
-          {data.get('nodes').length}
+          {nodeNames.length}
         </DescriptionItem>
         <DescriptionItem title='Queues'>
-          {data.get('queues').length}
+          {queueNames.length}
         </DescriptionItem>
         <DescriptionItem title='Channels'>
-          {data.get('channels').length}
+          {channelNames.length}
         </DescriptionItem>
       </DescriptionList>
     );

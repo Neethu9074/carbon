@@ -2,7 +2,6 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import RunningComponentsList from 'in-components/RunningComponentsList';
 import Collapsible from 'in-components/Collapsible';
 
 import RabbitMqInfo from '../RabbitMqInfo';
@@ -24,7 +23,6 @@ const RabbitMqSidebar = React.createClass({
               <RabbitMqInfo snapshot={this.props.snapshot} />
           </Collapsible.Content>
         </Collapsible>
-        <RunningComponentsList snapshotId={this.props.snapshot.get('id')} />
       </div>
     );
   }

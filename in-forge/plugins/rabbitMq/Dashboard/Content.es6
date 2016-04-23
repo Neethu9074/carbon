@@ -17,56 +17,6 @@ import {
 
 const chartHeight = 200;
 
-function nodeMetricsFileDesc(nodeName) {
-    const metrics = [];
-    metrics.push('node_map.' + nodeName + '.fd_used');
-    metrics.push('node_map.' + nodeName + '.fd_total');
-    return metrics;
-}
-
-function nodeMetricsMemory(nodeName) {
-  const metrics = [];
-  metrics.push('node_map.' + nodeName + '.mem_used');
-  metrics.push('node_map.' + nodeName + '.mem_limit');
-  return metrics;
-}
-
-function nodeMetricsProcesses(nodeName) {
-  const metrics = [];
-  metrics.push('node_map.' + nodeName + '.proc_used');
-  metrics.push('node_map.' + nodeName + '.proc_total');
-  return metrics;
-}
-
-function nodeMetricsDisk(nodeName) {
-  const metrics = [];
-  metrics.push('node_map.' + nodeName + '.disk_free');
-  metrics.push('node_map.' + nodeName + '.disk_free_limit');
-  return metrics;
-}
-
-function queueMetricsMessagesSent(queueName) {
-  const metrics = [];
-  metrics.push('queue_map.' + queueName + '.publish');
-  metrics.push('queue_map.' + queueName + '.publish_rate');
-  metrics.push('queue_map.' + queueName + '.deliver');
-  metrics.push('queue_map.' + queueName + '.deliver_rate');
-  metrics.push('queue_map.' + queueName + '.ack');
-  metrics.push('queue_map.' + queueName + '.ack_rate');
-  return metrics;
-}
-
-function queueMetricsMessagesQueued(queueName) {
-  const metrics = [];
-  metrics.push('queue_map.' + queueName + '.messages_ready');
-  metrics.push('queue_map.' + queueName + '.messages_ready_rate');
-  metrics.push('queue_map.' + queueName + '.messages_unacknowledged');
-  metrics.push('queue_map.' + queueName + '.messages_unacknowledged_rate');
-  metrics.push('queue_map.' + queueName + '.messages');
-  metrics.push('queue_map.' + queueName + '.messages_rate');
-  return metrics;
-}
-
 function extractNodeName(nodeKey) {
   return nodeKey.split(/_/)[1];
 }
@@ -94,190 +44,174 @@ const RabbitMqDashboard = React.createClass({
       <div>
         <DashboardSection title='Overview'>
           <ChartWithLegend  snapshot={snapshot}
-                            timeframe={timeframe}
-                            height={chartHeight}
-                            margins={{
-                              left: 80
-                            }}
-                            y1={{
-                                metrics: [ 'overview.publish', 'overview.deliver', 'overview.ack' ],
-                                labels: [ 'Published messages', 'Delivered messages', 'Acknowledged messages' ],
-                                type: 'line'
-                            }}
-                            />
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
+                    'overview.publish',
+                    'overview.deliver',
+                    'overview.ack'
+                  ],
+                  labels: [
+                    'Published messages',
+                    'Delivered messages',
+                    'Acknowledged messages'
+                  ],
+                  type: 'line'
+                }}/>
           <ChartWithLegend  snapshot={snapshot}
-                            timeframe={timeframe}
-                            height={chartHeight}
-                            margins={{
-                              left: 80
-                            }}
-                            y1={{
-                                metrics: [ 'overview.publish_rate', 'overview.deliver_rate', 'overview.ack_rate' ],
-                                labels: [ 'Publish rate', 'Deliver rate', 'Acknowledge rate'],
-                                type: 'line',
-                                formatter: percentageZeroDecimalPlaces
-                            }}
-                            />
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
+                    'overview.publish_rate',
+                    'overview.deliver_rate',
+                    'overview.ack_rate'
+                  ],
+                  labels: [
+                    'Publish rate',
+                    'Deliver rate',
+                    'Acknowledge rate'
+                  ],
+                  type: 'line',
+                  formatter: percentageZeroDecimalPlaces
+                }}/>
           <ChartWithLegend  snapshot={snapshot}
-                            timeframe={timeframe}
-                            height={chartHeight}
-                            margins={{
-                              left: 80
-                            }}
-                            y1={{
-                                metrics: [ 'overview.messages_ready',
-                                         'overview.messages_unacknowledged',
-                                         'overview.messages' ],
-                                labels: [ 'Messages ready', 'Messages unacknowledged', 'Messages total' ],
-                                type: 'line'
-                            }}
-                            />
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
+                    'overview.messages_ready',
+                    'overview.messages_unacknowledged',
+                    'overview.messages'
+                  ],
+                  labels: [
+                    'Messages ready',
+                    'Messages unacknowledged',
+                    'Messages total'
+                  ],
+                  type: 'line'
+                }}/>
           <ChartWithLegend  snapshot={snapshot}
-                            timeframe={timeframe}
-                            height={chartHeight}
-                            margins={{
-                              left: 80
-                            }}
-                            y1={{
-                                metrics: [ 'overview.consumers' ],
-                                labels: [ 'Consumers' ],
-                                type: 'line'
-                            }}
-                            />
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
+                    'overview.consumers'
+                  ],
+                  labels: [
+                    'Consumers'
+                  ],
+                  type: 'line'
+                }}/>
           <ChartWithLegend  snapshot={snapshot}
-                            timeframe={timeframe}
-                            height={chartHeight}
-                            margins={{
-                              left: 80
-                            }}
-                            y1={{
-                              metrics: [ 'overview.connections' ],
-                                labels: [ 'Conections' ],
-                                type: 'line'
-                            }}
-                            />
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
+                    'overview.connections'
+                  ],
+                  labels: [
+                    'Conections'
+                  ],
+                  type: 'line'
+                }}/>
         </DashboardSection>
 
         <DashboardSection title='Nodes'>
           <Collapsible initiallyOpen={false}>
-            <Collapsible.Header></Collapsible.Header>
+            <Collapsible.Header>Nodes</Collapsible.Header>
             <Collapsible.Content>
               {nodeNames && nodeNames.length > 0 ?
-              nodeNames.map(nn =>
-              <DashboardSection key={nn} title={extractNodeName(nn)}>
-                <ChartWithLegend  snapshot={snapshot}
-                                  timeframe={timeframe}
-                                  height={chartHeight}
-                                  margins={{
-                                    left: 80
-                                  }}
-                                  y1={{
-                                    metrics: nodeMetricsFileDesc(nn),
-                                      labels: ['Used file descriptors', 'Total file descriptors'],
-                                      type: 'line'
-                                  }}/>
-                <ChartWithLegend  snapshot={snapshot}
-                                  timeframe={timeframe}
-                                  height={chartHeight}
-                                  margins={{
-                                    left: 80
-                                  }}
-                                  y1={{
-                                    formatter: bytesZeroDecimalPlaces,
-                                    tooltipFormatter: bytesTwoDecimalPlaces,
-                                    metrics: nodeMetricsMemory(nn),
-                                      labels: ['Used memory', 'Memory limit'],
-                                      type: 'line'
-                                  }}/>
-
-                <ChartWithLegend  snapshot={snapshot}
-                                  timeframe={timeframe}
-                                  height={chartHeight}
-                                  margins={{
-                                    left: 80
-                                  }}
-                                  y1={{
-                                    metrics: nodeMetricsProcesses(nn),
-                                      labels: ['Erlang processes in use', 'Maximum number of Erlang processes'],
-                                      type: 'line'
-                                  }}/>
-
-                <ChartWithLegend  snapshot={snapshot}
-                                  timeframe={timeframe}
-                                  height={chartHeight}
-                                  margins={{
-                                    left: 80
-                                  }}
-                                  y1={{
-                                    formatter: bytesZeroDecimalPlaces,
-                                    tooltipFormatter: bytesTwoDecimalPlaces,
-                                    metrics: nodeMetricsDisk(nn),
-                                      labels: ['Disk alarm threshold', 'Disk free space in bytes'],
-                                      type: 'line'
-                                  }}/>
-              </DashboardSection>
-              )
-              : null}
-            </Collapsible.Content>
-          </Collapsible>
-        </DashboardSection>
-
-        <DashboardSection title='Queues'>
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header></Collapsible.Header>
-            <Collapsible.Content>
-              {queueNames && queueNames.length > 0 ?
-                queueNames.map(queueKey =>
-                  <DashboardSection key={queueKey} title={extractQueueName(queueKey)}>
-                    <ChartWithLegend  snapshot={snapshot}
-                                      timeframe={timeframe}
-                                      height={chartHeight}
-                                      margins={{
-                                        left: 80
-                                      }}
-                                      y1={{
-                                          metrics: queueMetricsMessagesSent(queueKey),
-                                          labels: [ 'Published messages', 'Publish rate', 'Delivered messages',
-                                                   'Deliver rate', 'Acknowledged messages', 'Acknowledge rate' ],
-                                          type: 'line'
-                                      }}/>
-                    <ChartWithLegend  snapshot={snapshot}
-                                      timeframe={timeframe}
-                                      height={chartHeight}
-                                      margins={{
-                                        left: 80
-                                      }}
-                                      y1={{
-                                          metrics: queueMetricsMessagesQueued(queueKey),
-                                          labels: [ 'Messages ready', 'Messages ready rate',
-                                                    'Messages unacknowledged', 'Unacknowledged rate',
-                                                    'Messages total', 'Messages total rate' ],
-                                          type: 'line'
-                                      }}/>
-                    <ChartWithLegend  snapshot={snapshot}
-                                      timeframe={timeframe}
-                                      height={chartHeight}
-                                      margins={{
-                                        left: 80
-                                      }}
-                                      y1={{
-                                          metrics: [ 'queue_map.' + queueKey + '.consumers' ],
-                                          labels: ['Consumers'],
-                                          type: 'line'
-                                      }}/>
-                    <ChartWithLegend  snapshot={snapshot}
-                                      timeframe={timeframe}
-                                      height={chartHeight}
-                                      margins={{
-                                        left: 80
-                                      }}
-                                      y1={{
-                                          formatter: bytesZeroDecimalPlaces,
-                                          tooltipFormatter: bytesTwoDecimalPlaces,
-                                          metrics: [ 'queue_map.' + queueKey + '.memory' ],
-                                          labels: ['Memory use'],
-                                          type: 'line'
-                                      }}/>
+                nodeNames.map(nn =>
+                  <DashboardSection key={nn} title={extractNodeName(nn)}>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            metrics: [
+                              'node_map.' + nn + '.fd_used',
+                              'node_map.' + nn + '.fd_total'
+                            ],
+                            labels: [
+                              'Used file descriptors',
+                              'Total file descriptors'
+                            ],
+                            type: 'line'
+                          }}/>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            formatter: bytesZeroDecimalPlaces,
+                            tooltipFormatter: bytesTwoDecimalPlaces,
+                            metrics: [
+                              'node_map.' + nn + '.mem_used',
+                              'node_map.' + nn + '.mem_limit'
+                            ],
+                            labels: [
+                              'Used memory',
+                              'Memory limit'
+                            ],
+                            type: 'line'
+                          }}/>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            metrics: [
+                              'node_map.' + nn + '.proc_used',
+                              'node_map.' + nn + '.proc_total'
+                            ],
+                            labels: [
+                              'Erlang processes in use',
+                              'Maximum number of Erlang processes'
+                            ],
+                            type: 'line'
+                          }}/>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            formatter: bytesZeroDecimalPlaces,
+                            tooltipFormatter: bytesTwoDecimalPlaces,
+                            metrics: [
+                              'node_map.' + nn + '.disk_free',
+                              'node_map.' + nn + '.disk_free_limit'
+                            ],
+                            labels: [
+                              'Disk alarm threshold',
+                              'Disk free space in bytes'
+                            ],
+                            type: 'line'
+                          }}/>
                   </DashboardSection>
                 )
               : null}
@@ -285,25 +219,120 @@ const RabbitMqDashboard = React.createClass({
           </Collapsible>
         </DashboardSection>
 
-        <DashboardSection title='Channels'>
-          <ResponsiveTable>
-            <thead>
-              <tr>
-                <th>Name</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {channelNames && channelNames.length > 0 ?
-                channelNames.map(channelName =>
-                <tr key={channelName}>
-                  <td>{channelName}</td>
-                </tr>
-              )
+        <DashboardSection title='Queues'>
+          <Collapsible initiallyOpen={false}>
+            <Collapsible.Header>Queues</Collapsible.Header>
+            <Collapsible.Content>
+              {queueNames && queueNames.length > 0 ?
+                queueNames.map(queueKey =>
+                  <DashboardSection key={queueKey} title={extractQueueName(queueKey)}>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            metrics: [
+                              'queue_map.' + queueKey + '.publish',
+                              'queue_map.' + queueKey + '.publish_rate',
+                              'queue_map.' + queueKey + '.deliver',
+                              'queue_map.' + queueKey + '.deliver_rate',
+                              'queue_map.' + queueKey + '.ack',
+                              'queue_map.' + queueKey + '.ack_rate'
+                            ],
+                            labels: [
+                              'Published messages',
+                              'Publish rate',
+                              'Delivered messages',
+                              'Deliver rate',
+                              'Acknowledged messages',
+                              'Acknowledge rate'
+                            ],
+                            type: 'line'
+                          }}/>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            metrics: [
+                              'queue_map.' + queueKey + '.messages_ready',
+                              'queue_map.' + queueKey + '.messages_ready_rate',
+                              'queue_map.' + queueKey + '.messages_unacknowledged',
+                              'queue_map.' + queueKey + '.messages_unacknowledged_rate',
+                              'queue_map.' + queueKey + '.messages',
+                              'queue_map.' + queueKey + '.messages_rate'
+                            ],
+                            labels: [
+                              'Messages ready',
+                              'Messages ready rate',
+                              'Messages unacknowledged',
+                              'Unacknowledged rate',
+                              'Messages total',
+                              'Messages total rate'
+                            ],
+                            type: 'line'
+                          }}/>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            metrics: [
+                              'queue_map.' + queueKey + '.consumers'
+                            ],
+                            labels: [
+                              'Consumers'
+                            ],
+                            type: 'line'
+                          }}/>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            formatter: bytesZeroDecimalPlaces,
+                            tooltipFormatter: bytesTwoDecimalPlaces,
+                            metrics: [
+                              'queue_map.' + queueKey + '.memory'
+                            ],
+                            labels: [
+                              'Memory use'
+                            ],
+                            type: 'line'
+                          }}/>
+                  </DashboardSection>
+                )
               : null}
-            </tbody>
-          </ResponsiveTable>
+            </Collapsible.Content>
+          </Collapsible>
         </DashboardSection>
+
+        {channelNames && channelNames.length > 0 ?
+          <DashboardSection title='Channels'>
+            <ResponsiveTable>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                {channelNames.map(channelName =>
+                  <tr key={channelName}>
+                    <td>{channelName}</td>
+                  </tr>
+                )}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+        : null}
 
     </div>
   );

@@ -8,25 +8,25 @@ import * as constants from 'in-forge/constants';
 import iconPath from 'in-forge/plugins/rabbitMq/icon.svg';
 
 pluginName.setHumanReadablePluginName(
-    constants.plugins.rabbitmq,
-    'RabbitMQ',
-    'RabbitMQ'
+  constants.plugins.rabbitmq,
+  'RabbitMQ',
+  'RabbitMQ'
 );
 
 addLabelFinder(constants.plugins.rabbitmq, getLabel);
 
 power.addMapping(
-    constants.plugins.rabbitmq,
-    () => -1
+  constants.plugins.rabbitmq,
+  () => -1
 );
 
 sorting.addMapping(
-    constants.plugins.rabbitmq,
-    (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
+  constants.plugins.rabbitmq,
+  (s1, s2) => getLabel(s1).localeCompare(getLabel(s2))
 );
 
-function getLabel() {
-  return 'RabbitMQ';
+function getLabel(snapshot) {
+  return 'RabbitMQ ' + snapshot.getIn(['data', 'overview.version']);
 }
 
 addIconToRegistry({
