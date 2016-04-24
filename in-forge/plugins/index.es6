@@ -6,6 +6,7 @@ import './jBossAsApplicationContainer';
 import './tomcatApplicationContainer';
 import './jiraApplication';
 import './redis';
+import './rabbitMq';
 import './cassandraNode';
 import './cassandraCluster';
 import './elasticsearchNode';
