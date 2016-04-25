@@ -46,9 +46,9 @@ const ClusterNodesTable = connectTo(
           {clusterNodes == null ? null : clusterNodes.map(node => {
             const id = node.get('id');
             let masterStatus;
-            if (node.getIn(['data', 'node.master'])) {
+            if (node.getIn(['data', 'node.master']) === 'true') {
               masterStatus = 'elected Master';
-            } else if (node.getIn(['data', 'node.master_eligible'])) {
+            } else if (node.getIn(['data', 'node.master_eligible']) === 'true') {
               masterStatus = 'Master-eligible';
             } else {
               masterStatus = 'not Master-eligible';
@@ -66,7 +66,7 @@ const ClusterNodesTable = connectTo(
                                                      height={30}
                                                      timeframe={timeframe}
                                                      snapshotId={id}
-                                                     metric='indices.index_count'
+                                                     metric='cluster_health.noofindices'
                                                      formatter={zeroDecimalPlaces} />
                 </td>
                 <td>
