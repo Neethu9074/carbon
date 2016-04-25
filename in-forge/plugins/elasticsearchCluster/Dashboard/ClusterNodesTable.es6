@@ -1,7 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
-import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
+import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
+import {zeroDecimalPlaces} from 'in-services/formatters/number';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import {emptyList} from 'in-services/fixedImmutables';
@@ -33,7 +34,7 @@ const ClusterNodesTable = connectTo(
             <th>Version</th>
             <th>Type</th>
             <th>Nr. of Indices</th>
-            <th>Nr. of Shards</th>
+            <th>Nr. of Active Shards</th>
             <th>Nr. of documents</th>
             <th>Size of Store</th>
           </tr>
@@ -46,21 +47,28 @@ const ClusterNodesTable = connectTo(
               <td>{node.getIn(['data', 'version'])}</td>
               <td>{node.getIn(['data', 'node.type'])}</td>
               <td>
-                <HistoricMetricSparkChart width={200}
-                                          height={30}
-                                          timeframe={timeframe}
-                                          snapshotId={node.get('id')}
-                                          metric='indices.index_count' />
+                <HistoricMetricSparkChartWithLabel width={200}
+                                                   height={30}
+                                                   timeframe={timeframe}
+                                                   snapshotId={node.get('id')}
+                                                   metric='indices.index_count'
+                                                   formatter={zeroDecimalPlaces} />
               </td>
               <td>
-                TODO
+                <HistoricMetricSparkChartWithLabel width={200}
+                                                   height={30}
+                                                   timeframe={timeframe}
+                                                   snapshotId={node.get('id')}
+                                                   metric='cluster_health.active_shards'
+                                                   formatter={zeroDecimalPlaces} />
               </td>
               <td>
-                <HistoricMetricSparkChart width={200}
-                                          height={30}
-                                          timeframe={timeframe}
-                                          snapshotId={node.get('id')}
-                                          metric='indices.document_count' />
+                <HistoricMetricSparkChartWithLabel width={200}
+                                                   height={30}
+                                                   timeframe={timeframe}
+                                                   snapshotId={node.get('id')}
+                                                   metric='indices.document_count'
+                                                   formatter={zeroDecimalPlaces} />
               </td>
               <Mtd metric={'size'}
                    snapshot={node} />

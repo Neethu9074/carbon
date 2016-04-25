@@ -15,7 +15,8 @@ export default React.createClass({
     width: rpt.number.isRequired,
     height: rpt.number.isRequired,
     datasource: rpt.object.isRequired,
-    timeframe: timelineStore.timeframeShape.isRequired
+    timeframe: timelineStore.timeframeShape.isRequired,
+    className: rpt.string
   },
 
   componentDidMount() {
@@ -44,8 +45,12 @@ export default React.createClass({
   },
 
   render() {
+    let classes = block;
+    if (this.props.className) {
+      classes += ' ' + this.props.className;
+    }
     return (
-      <div className={block} />
+      <div className={classes} />
     );
   }
 });

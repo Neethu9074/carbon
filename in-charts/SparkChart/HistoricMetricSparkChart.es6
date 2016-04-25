@@ -14,6 +14,7 @@ export default React.createClass({
     width: rpt.number.isRequired,
     height: rpt.number.isRequired,
     timeframe: timelineStore.timeframeShape.isRequired,
+    className: rpt.string,
 
     snapshotId: rpt.string.isRequired,
     metric: rpt.string.isRequired,

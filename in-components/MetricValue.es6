@@ -15,7 +15,8 @@ export default React.createClass({
     createMetricValueStream: rpt.func,
     metric: rpt.string.isRequired,
     initialValue: rpt.string,
-    formatter: rpt.func
+    formatter: rpt.func,
+    className: rpt.string
   },
 
   componentDidMount() {
@@ -75,7 +76,7 @@ export default React.createClass({
   },
 
   render() {
-    return <span/>;
+    return <span className={this.props.className} />;
   }
 
 });
