@@ -19,6 +19,9 @@ export default function createSparkChart({width, height, datasource, container, 
   container.appendChild(canvas);
   updateCanvasDimensions(canvas, ctx, width, height);
 
+  // draw initial axis
+  drawAxis();
+
 
   let timeSubscription;
   if (timeframe.to == null) {
@@ -65,15 +68,7 @@ export default function createSparkChart({width, height, datasource, container, 
     }
 
     ctx.clearRect(0, 0, width, height);
-
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, height);
-    ctx.lineTo(width, height);
-    ctx.lineWidth = 1;
-    ctx.strokeStyle = '#203036';
-    ctx.stroke();
-    ctx.closePath();
+    drawAxis();
 
     ctx.beginPath();
     for (let columnIndex = 0, len = dataColumns.length;
@@ -96,6 +91,16 @@ export default function createSparkChart({width, height, datasource, container, 
     ctx.closePath();
   }
 
+  function drawAxis() {
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, height);
+    ctx.lineTo(width, height);
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = '#203036';
+    ctx.stroke();
+    ctx.closePath();
+  }
 
   function updateYScale(dataColumns) {
     let min = dataColumns[0][1];

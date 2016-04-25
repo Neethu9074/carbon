@@ -39,6 +39,7 @@ export default connectTo(
 
       const maxSeverity = healthInfo.get('maxSeverity');
       const backgroundColor = theme.health[Math.floor(maxSeverity)];
+      const numberOfOpenEvents = healthInfo.get('numberOfOpenEvents');
 
       const style = {
         width: maxSeverity * 10 + '%',
@@ -53,13 +54,15 @@ export default connectTo(
             </div>
           </div>
 
-          <span className={block + '__counter'}
-                style={{
-                  color: maxSeverity < 0.6 ? '#000' : '#fff',
-                  backgroundColor
-                }}>
-            {healthInfo.get('numberOfOpenEvents')}
-          </span>
+          {numberOfOpenEvents > 0 ?
+            <span className={block + '__counter'}
+                  style={{
+                    color: maxSeverity < 0.6 ? '#000' : '#fff',
+                    backgroundColor
+                  }}>
+              {numberOfOpenEvents}
+            </span> :
+            null}
         </div>
       );
     }
