@@ -10,6 +10,7 @@ import {timeframeShape} from 'in-stores/timeline';
 import * as stackedAreaRenderer from './render/stackedAreaRenderer';
 import * as pointRenderer from './render/pointRenderer';
 import * as lineRenderer from './render/lineRenderer';
+import * as barRenderer from './render/barRenderer';
 import Renderer from './Renderer';
 
 import './Chart.less';
@@ -107,6 +108,8 @@ const Chart = React.createClass({
       return stackedAreaRenderer;
     } else if (type === 'point') {
       return pointRenderer;
+    } else if (type === 'bar') {
+      return barRenderer;
     }
     throw new Error('Unknown chart type' + type);
   },
