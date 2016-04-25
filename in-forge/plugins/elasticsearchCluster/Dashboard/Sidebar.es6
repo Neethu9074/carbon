@@ -68,7 +68,6 @@ export default connectTo(props => {
                 {this.item('Name', data.get('groupId'))}
                 {this.item('Version', 'TODO')}
                 {this.item('Status', 'TODO')}
-                {this.item('Status', 'TODO')}
               </DescriptionList>
             </Collapsible.Content>
           </Collapsible>
