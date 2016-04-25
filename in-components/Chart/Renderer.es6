@@ -471,7 +471,8 @@ export default class Renderer {
       ctx: this.drawingCtx,
       x: this.x,
       y: this.y1,
-      maxDistanceBetweenPoints
+      maxDistanceBetweenPoints,
+      rollUpInMillis: this.rollupMillis
     });
 
     if (this.y2) {
@@ -481,7 +482,8 @@ export default class Renderer {
         ctx: this.drawingCtx,
         x: this.x,
         y: this.y2,
-        maxDistanceBetweenPoints
+        maxDistanceBetweenPoints,
+        rollUpInMillis: this.rollupMillis
       });
     }
   }
