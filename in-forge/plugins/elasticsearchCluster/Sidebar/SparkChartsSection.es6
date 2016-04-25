@@ -4,6 +4,10 @@ import React from 'react';
 import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
 import MetricValue from 'in-components/MetricValue';
 import {timeframeShape} from 'in-stores/timeline';
+import {
+  zeroDecimalPlaces,
+  bytesZeroDecimalPlaces
+} from 'in-services/formatters/number';
 
 import './SparkChartsSection.less';
 
@@ -24,16 +28,16 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
-        {this.sparkChart('node_count', 'Nodes')}
-        {this.sparkChart('APPLY CORRECT INCIDES METRIC HERE', 'Indices')}
-        {this.sparkChart('APPLY CORRECT ACTIVE SHARDS METRIC HERE', 'Active Shards', 280)}
-        {this.sparkChart('document_count', 'Documents')}
-        {this.sparkChart('APPLY CORRECT SIZE OF STORE METRIC HERE', 'Size of store')}
+        {this.sparkChart('node_count', 'Nodes', zeroDecimalPlaces)}
+        {this.sparkChart('indices_count', 'Indices', zeroDecimalPlaces)}
+        {this.sparkChart('active_shards_count', 'Active Shards', zeroDecimalPlaces, 280)}
+        {this.sparkChart('document_count', 'Documents', zeroDecimalPlaces)}
+        {this.sparkChart('store_size', 'Size of store', bytesZeroDecimalPlaces)}
       </div>
     );
   },
 
-  sparkChart(metric, title, width = 100) {
+  sparkChart(metric, title, formatter, width = 100) {
     const snapshotId = this.props.snapshotId;
     const timeframe = this.props.timeframe;
 
@@ -50,7 +54,8 @@ export default React.createClass({
           </span>
           <MetricValue snapshotId={snapshotId}
                        metric={metric}
-                       className={block + '__value'}/>
+                       className={block + '__value'}
+                       formatter={formatter}/>
         </div>
       </div>
     );
