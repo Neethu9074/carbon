@@ -2,17 +2,20 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {
+  zeroDecimalPlaces,
+  twoDecimalPlaces,
+  msTwoDecimalPlaces,
+  msZeroDecimalPlaces
+} from 'in-services/formatters/number';
 import ClusterNodesTable from 'in-forge/plugins/elasticsearchCluster/Dashboard/ClusterNodesTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
 import DashboardSection from 'in-components/DashboardSection';
 import {timeframeShape} from 'in-stores/timeline';
-import {
-  msZeroDecimalPlaces,
-  msTwoDecimalPlaces,
-  zeroDecimalPlaces,
-  twoDecimalPlaces
-} from 'in-services/formatters/number';
+import {Row, Col} from 'in-components/Grid/Grid';
 
+
+const chartHeight = 200;
 
 export default React.createClass({
 
@@ -64,6 +67,59 @@ export default React.createClass({
                              type: 'line'
                            }}/>
         </DashboardSection>
+
+        <Row>
+          <Col cols={6}>
+            <DashboardSection title='Indices'>
+              <ChartWithLegend snapshot={snapshot}
+                               timeframe={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 60
+                               }}
+                               y1={{
+                                 min: 0,
+                                 formatter: zeroDecimalPlaces,
+                                 metrics: [
+                                   'indices_count'
+                                 ],
+                                 labels: [
+                                   'Indices'
+                                 ],
+                                 type: 'line'
+                               }}/>
+            </DashboardSection>
+          </Col>
+          <Col cols={6}>
+            <DashboardSection title='Shards'>
+              <ChartWithLegend snapshot={snapshot}
+                               timeframe={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 60
+                               }}
+                               y1={{
+                                 min: 0,
+                                 formatter: zeroDecimalPlaces,
+                                 metrics: [
+                                   'active_shards',
+                                   'active_primaryshards',
+                                   'initializing_shards',
+                                   'relocating_shards',
+                                   'unassigned_shards'
+                                 ],
+                                 labels: [
+                                   'Active',
+                                   'Active Primary',
+                                   'Inwitializing',
+                                   'Relocating',
+                                   'Unassinged'
+                                 ],
+                                 type: 'line'
+                               }}/>
+            </DashboardSection>
+          </Col>
+        </Row>
 
         <DashboardSection title='Cluster Nodes'>
           <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}
