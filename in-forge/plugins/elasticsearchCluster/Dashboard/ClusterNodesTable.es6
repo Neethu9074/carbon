@@ -66,7 +66,7 @@ const ClusterNodesTable = connectTo(
                                                      height={30}
                                                      timeframe={timeframe}
                                                      snapshotId={id}
-                                                     metric='indices.index_count'
+                                                     metric='cluster_health.noofindices'
                                                      formatter={zeroDecimalPlaces} />
                 </td>
                 <td>
