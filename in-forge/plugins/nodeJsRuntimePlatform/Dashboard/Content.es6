@@ -8,6 +8,7 @@ import ChartWithLegend from 'in-components/ChartWithLegend';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
+import {Row, Col} from 'in-components/Grid/Grid';
 import Mtd from 'in-components/Mtd';
 
 
@@ -36,66 +37,69 @@ const NodejsDashboard = React.createClass({
 
     return (
       <div>
-        <DashboardSection title='Memory Usage'>
-          <ChartWithLegend snapshot={snapshot}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 90,
-                             right: 60
-                           }}
+        <DashboardSection title='Memory Usage & GC Activity'>
+          <Row>
+            <Col cols={6}>
+              <ChartWithLegend snapshot={snapshot}
+                               timeframe={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 90,
+                                 right: 60
+                               }}
 
-                           y1={{
-                             min: 0,
-                             formatter: numberFormatters.bytesZeroDecimalPlaces,
-                             tooltipFormatter: numberFormatters.bytesTwoDecimalPlaces,
-                             metrics: [
-                               'memory.rss',
-                               'memory.heapUsed',
-                               'gc.usedHeapSizeAfterGc'
-                             ],
-                             labels: [
-                               'RSS',
-                               'Heap Size',
-                               'Heap Size After GC'
-                             ],
-                             type: 'line'
-                           }}
+                               y1={{
+                                 min: 0,
+                                 formatter: numberFormatters.bytesZeroDecimalPlaces,
+                                 tooltipFormatter: numberFormatters.bytesTwoDecimalPlaces,
+                                 metrics: [
+                                   'memory.rss',
+                                   'memory.heapUsed',
+                                   'gc.usedHeapSizeAfterGc'
+                                 ],
+                                 labels: [
+                                   'RSS',
+                                   'Heap Size',
+                                   'Heap Size After GC'
+                                 ],
+                                 type: 'line'
+                               }}
 
-                           y2={{
-                             min: 0,
-                             formatter: numberFormatters.twoDecimalPlaces,
-                             metrics: [
-                               'gc.minorGcs',
-                               'gc.majorGcs'
-                             ],
-                             labels: [
-                               '#Minor GCs',
-                               '#Major GCs'
-                             ],
-                             type: 'point'
-                           }}/>
-        </DashboardSection>
+                               y2={{
+                                 min: 0,
+                                 formatter: numberFormatters.twoDecimalPlaces,
+                                 metrics: [
+                                   'gc.minorGcs',
+                                   'gc.majorGcs'
+                                 ],
+                                 labels: [
+                                   '#Minor GCs',
+                                   '#Major GCs'
+                                 ],
+                                 type: 'point'
+                               }}/>
+            </Col>
+            <Col cols={6}>
+              <ChartWithLegend snapshot={snapshot}
+                               timeframe={timeframe}
+                               height={chartHeight}
+                               margins={{
+                                 left: 90
+                               }}
 
-        <DashboardSection title='GC Activity'>
-          <ChartWithLegend snapshot={snapshot}
-                           timeframe={timeframe}
-                           height={chartHeight}
-                           margins={{
-                             left: 90
-                           }}
-
-                           y1={{
-                             min: 0,
-                             formatter: numberFormatters.time,
-                             metrics: [
-                               'gc.gcPause'
-                             ],
-                             labels: [
-                               'GC Pause'
-                             ],
-                             type: 'stackedArea'
-                           }}/>
+                               y1={{
+                                 min: 0,
+                                 formatter: numberFormatters.time,
+                                 metrics: [
+                                   'gc.gcPause'
+                                 ],
+                                 labels: [
+                                   'GC Pause'
+                                 ],
+                                 type: 'stackedArea'
+                               }}/>
+            </Col>
+          </Row>
         </DashboardSection>
 
         {heapSpaces && heapSpaces.size > 0 ?

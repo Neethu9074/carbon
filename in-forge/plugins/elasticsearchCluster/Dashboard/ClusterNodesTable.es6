@@ -1,7 +1,8 @@
 import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
-import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkChart';
+import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
+import {zeroDecimalPlaces} from 'in-services/formatters/number';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import HealthInfoBar from 'in-components/HealthInfoBar';
@@ -36,46 +37,49 @@ const ClusterNodesTable = connectTo(
             <th>Version</th>
             <th>Type</th>
             <th>Nr. of Indices</th>
-            <th>Nr. of Shards</th>
+            <th>Nr. of Active Shards</th>
             <th>Nr. of documents</th>
             <th>Size of Store</th>
           </tr>
         </thead>
         <tbody>
-          {clusterNodes.map(node => {
-            const data = node.get('data');
-            const nodeId = node.get('id');
-            return (
-              <tr key={node.get('id')}>
-                <td>
-                  <HealthInfoBar snapshotId={nodeId} />
-                </td>
-                <td>{data.get('node.name')}</td>
-                <td>{data.get('node.master')}</td>
-                <td>{data.get('version')}</td>
-                <td>{data.get('node.type')}</td>
-                <td>
-                  <HistoricMetricSparkChart width={200}
-                                            height={30}
-                                            timeframe={timeframe}
-                                            snapshotId={nodeId}
-                                            metric='indices.index_count' />
-                </td>
-                <td>
-                  TODO
-                </td>
-                <td>
-                  <HistoricMetricSparkChart width={200}
-                                            height={30}
-                                            timeframe={timeframe}
-                                            snapshotId={nodeId}
-                                            metric='indices.document_count' />
-                </td>
-                <Mtd metric={'size'}
-                     snapshot={node} />
-              </tr>
-            );
-          })}
+          {clusterNodes.map(node =>
+            <tr key={node.get('id')}>
+              <td>
+                <HealthInfoBar snapshotId={node.get('id')} />
+              </td>
+              <td>{node.getIn(['data', 'node.name'])}</td>
+              <td>{node.getIn(['data', 'node.master'])}</td>
+              <td>{node.getIn(['data', 'version'])}</td>
+              <td>{node.getIn(['data', 'node.type'])}</td>
+              <td>
+                <HistoricMetricSparkChartWithLabel width={200}
+                                                   height={30}
+                                                   timeframe={timeframe}
+                                                   snapshotId={node.get('id')}
+                                                   metric='indices.index_count'
+                                                   formatter={zeroDecimalPlaces} />
+              </td>
+              <td>
+                <HistoricMetricSparkChartWithLabel width={200}
+                                                   height={30}
+                                                   timeframe={timeframe}
+                                                   snapshotId={node.get('id')}
+                                                   metric='cluster_health.active_shards'
+                                                   formatter={zeroDecimalPlaces} />
+              </td>
+              <td>
+                <HistoricMetricSparkChartWithLabel width={200}
+                                                   height={30}
+                                                   timeframe={timeframe}
+                                                   snapshotId={node.get('id')}
+                                                   metric='indices.document_count'
+                                                   formatter={zeroDecimalPlaces} />
+              </td>
+              <Mtd metric={'size'}
+                   snapshot={node} />
+            </tr>
+          )}
         </tbody>
       </ResponsiveTable>
     );

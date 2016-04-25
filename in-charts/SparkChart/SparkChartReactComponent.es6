@@ -47,6 +47,10 @@ export default React.createClass({
   },
 
   render() {
+    let classes = block;
+    if (this.props.className) {
+      classes += ' ' + this.props.className;
+    }
     return (
       <div className={getClassName(this, block)} />
     );
