@@ -40,7 +40,7 @@ export default getZone(React.createClass({
         </DescriptionItem>
 
         <DescriptionItem title='Master Eligible'>
-          {data.get('node.master')}
+          {data.get('node.eligible')}
         </DescriptionItem>
 
         <DescriptionItem title='Transport'>
