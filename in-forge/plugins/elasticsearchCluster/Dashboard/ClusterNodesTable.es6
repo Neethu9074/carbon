@@ -2,11 +2,13 @@ import {combineLatest} from 'reactive-observables';
 import React from 'react';
 
 import HistoricMetricSparkChartWithLabel from 'in-charts/SparkChart/HistoricMetricSparkChartWithLabel';
-import {zeroDecimalPlaces} from 'in-services/formatters/number';
+import {
+  zeroDecimalPlaces,
+  bytesTwoDecimalPlaces
+} from 'in-services/formatters/number';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import HealthInfoBar from 'in-components/HealthInfoBar';
-import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
@@ -21,12 +23,10 @@ const ClusterNodesTable = connectTo(
       clusterNodes: getClusterMembers(props.clusterSnapshotId)
         // Always start with an empty set to avoid inconsistent view,
         // displaying running components for a previously selected snapshot.
-        .startWith(emptyList)
         .flatMap(nodeIds => combineLatest(nodeIds.toArray().map(getSnapshot)))
         .throttle(1000)
     };
   }, function ClusterNodesTable({clusterNodes, timeframe}) {
-
     return (
       <ResponsiveTable>
         <thead>
@@ -43,43 +43,54 @@ const ClusterNodesTable = connectTo(
           </tr>
         </thead>
         <tbody>
-          {clusterNodes.map(node =>
-            <tr key={node.get('id')}>
-              <td>
-                <HealthInfoBar snapshotId={node.get('id')} />
-              </td>
-              <td>{node.getIn(['data', 'node.name'])}</td>
-              <td>{node.getIn(['data', 'node.master'])}</td>
-              <td>{node.getIn(['data', 'version'])}</td>
-              <td>{node.getIn(['data', 'node.type'])}</td>
-              <td>
-                <HistoricMetricSparkChartWithLabel width={200}
-                                                   height={30}
-                                                   timeframe={timeframe}
-                                                   snapshotId={node.get('id')}
-                                                   metric='indices.index_count'
-                                                   formatter={zeroDecimalPlaces} />
-              </td>
-              <td>
-                <HistoricMetricSparkChartWithLabel width={200}
-                                                   height={30}
-                                                   timeframe={timeframe}
-                                                   snapshotId={node.get('id')}
-                                                   metric='cluster_health.active_shards'
-                                                   formatter={zeroDecimalPlaces} />
-              </td>
-              <td>
-                <HistoricMetricSparkChartWithLabel width={200}
-                                                   height={30}
-                                                   timeframe={timeframe}
-                                                   snapshotId={node.get('id')}
-                                                   metric='indices.document_count'
-                                                   formatter={zeroDecimalPlaces} />
-              </td>
-              <Mtd metric={'size'}
-                   snapshot={node} />
-            </tr>
-          )}
+          {clusterNodes == null ? null : clusterNodes.map(node => {
+            const id = node.get('id');
+            let masterStatus;
+            if (node.getIn(['data', 'node.master'])) {
+              masterStatus = 'elected Master';
+            } else if (node.getIn(['data', 'node.master_eligible'])) {
+              masterStatus = 'Master-eligible';
+            } else {
+              masterStatus = 'not Master-eligible';
+            }
+
+            return (
+              <tr key={id}>
+                <td><HealthInfoBar snapshotId={id} /></td>
+                <td>{node.getIn(['data', 'node.name'])}</td>
+                <td>{masterStatus}</td>
+                <td>{node.getIn(['data', 'version'])}</td>
+                <td>{node.getIn(['data', 'node.type'])}</td>
+                <td>
+                  <HistoricMetricSparkChartWithLabel width={200}
+                                                     height={30}
+                                                     timeframe={timeframe}
+                                                     snapshotId={id}
+                                                     metric='indices.index_count'
+                                                     formatter={zeroDecimalPlaces} />
+                </td>
+                <td>
+                  <HistoricMetricSparkChartWithLabel width={200}
+                                                     height={30}
+                                                     timeframe={timeframe}
+                                                     snapshotId={id}
+                                                     metric='cluster_health.active_shards'
+                                                     formatter={zeroDecimalPlaces} />
+                </td>
+                <td>
+                  <HistoricMetricSparkChartWithLabel width={200}
+                                                     height={30}
+                                                     timeframe={timeframe}
+                                                     snapshotId={id}
+                                                     metric='indices.document_count'
+                                                     formatter={zeroDecimalPlaces} />
+                </td>
+                <Mtd metric={'indices.store_size'}
+                     snapshot={node}
+                     formatter={bytesTwoDecimalPlaces}/>
+              </tr>
+            );
+          })}
         </tbody>
       </ResponsiveTable>
     );
