@@ -38,10 +38,10 @@ export default React.createClass({
                              max: 1,
                              formatter: percentageZeroDecimalPlaces,
                              metrics: [
-                               'cpu.user'
+                               'document_count'
                              ],
                              labels: [
-                               'DA_MÄTRIC'
+                               'Document Count'
                              ],
                              type: 'bar'
                            }}

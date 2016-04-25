@@ -23,10 +23,10 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
-        {this.sparkChart('APPLY CORRECT NODES METRIC HERE')}
+        {this.sparkChart('node_count')}
         {this.sparkChart('APPLY CORRECT INCIDES METRIC HERE')}
         {this.sparkChart('APPLY CORRECT ACTIVE SHARDS METRIC HERE', 250)}
-        {this.sparkChart('APPLY CORRECT DOCUMENTS METRIC HERE')}
+        {this.sparkChart('document_count')}
         {this.sparkChart('APPLY CORRECT SIZE OF STORE METRIC HERE')}
       </div>
     );
