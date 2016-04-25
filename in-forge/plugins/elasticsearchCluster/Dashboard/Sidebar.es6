@@ -8,8 +8,6 @@ import HealthInfoBar from 'in-components/HealthInfoBar';
 import * as timelineStore from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
-import SparkChartsSection from './SparkChartsSection';
-
 
 export default connectTo({
     timeframe: timelineStore.timeframe
@@ -38,9 +36,6 @@ export default connectTo({
             {this.item('Version', 'TODO')}
             {this.item('Status', 'TODO')}
           </DescriptionList>
-
-          <SparkChartsSection snapshotId={snapshotId}
-                              timeframe={this.props.timeframe}/>
 
           <ClusterMembersList snapshotId={snapshotId} />
         </div>

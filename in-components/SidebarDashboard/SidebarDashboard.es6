@@ -34,7 +34,8 @@ const SidebarDashboard = React.createClass({
         <SidebarHeadingSnapshotMetadata snapshot={snapshot}/>
 
         <SidebarDetailList snapshot={snapshot}
-                           className={block + '__detail-list'}/>
+                           className={block + '__detail-list'}
+                           useDetailedInformation={true}/>
       </div>
     );
   }
