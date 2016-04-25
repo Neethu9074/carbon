@@ -121,6 +121,42 @@ export default React.createClass({
           </Col>
         </Row>
 
+        <DashboardSection title='Documents'>
+          <ChartWithLegend snapshot={snapshot}
+                           timeframe={timeframe}
+                           height={300}
+                           margins={{
+                             left: 60,
+                             right: 60
+                           }}
+                           y1={{
+                             min: 0,
+                             formatter: zeroDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'document_count'
+                             ],
+                             labels: [
+                               'Overall Documents'
+                             ],
+                             type: 'line'
+                           }}
+                           y2={{
+                             min: 0,
+                             formatter: zeroDecimalPlaces,
+                             tooltipFormatter: twoDecimalPlaces,
+                             metrics: [
+                               'index_count',
+                               'deleted_count'
+                             ],
+                             labels: [
+                               'Added',
+                               'Removed'
+                             ],
+                             type: 'line'
+                           }}/>
+        </DashboardSection>
+
         <DashboardSection title='Cluster Nodes'>
           <ClusterNodesTable clusterSnapshotId={snapshot.get('id')}
                              timeframe={timeframe} />
