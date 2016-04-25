@@ -39,7 +39,7 @@ export default connectTo({
           <Button className={buttonBlock +
                              (this.props.selectedEventList === EVENT_LISTS.HISTORICAL ? selectedClassName : '')}
                   onClick={() => setSelectedList(EVENT_LISTS.HISTORICAL)}>
-            Timerange
+            Time Range
           </Button>
           <Button className={buttonBlock +
                             (this.props.selectedEventList === EVENT_LISTS.CURRENT ? selectedClassName : '')}
