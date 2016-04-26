@@ -9,11 +9,11 @@ import {
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import {getClusterMembers} from 'in-stores/clusterMembers';
 import HealthInfoBar from 'in-components/HealthInfoBar';
+import SnapshotLink from 'in-components/SnapshotLink';
 import {timeframeShape} from 'in-stores/timeline';
 import {getSnapshot} from 'in-stores/snapshot';
 import connectTo from 'in-hoc/connectTo';
 import Mtd from 'in-components/Mtd';
-
 
 const rpt = React.PropTypes;
 
@@ -57,7 +57,11 @@ const ClusterNodesTable = connectTo(
             return (
               <tr key={id}>
                 <td><HealthInfoBar snapshotId={id} /></td>
-                <td>{node.getIn(['data', 'node.name'])}</td>
+                <td>
+                  <SnapshotLink snapshotId={id}>
+                    {node.getIn(['data', 'node.name'])}
+                  </SnapshotLink>
+                </td>
                 <td>{masterStatus}</td>
                 <td>{node.getIn(['data', 'version'])}</td>
                 <td>{node.getIn(['data', 'node.type'])}</td>
