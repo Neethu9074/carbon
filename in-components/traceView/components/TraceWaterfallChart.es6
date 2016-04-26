@@ -98,6 +98,14 @@ export default connectTo({
     },
 
     getTickPositions(scale, axisConfig) {
+      // special case: Trace with 0 time.
+      if (scale.getDomainFrom() === scale.getDomainTo()) {
+        return [{
+          range: scale.getRangeFrom(),
+          domain: scale.getDomainFrom()
+        }];
+      }
+
       const ticks = [];
       const width = scale.getRangeTo();
       const start = scale.getDomainFrom();
