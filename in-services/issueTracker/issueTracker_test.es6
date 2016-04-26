@@ -207,16 +207,12 @@ describe('issueTracker', () => {
       }
 
       event = Immutable.fromJS({
+        id: '1',
         problem: {
           severity: 10
         },
         type: 'issue'
       });
-    });
-
-    it('should return default color if there is no event', () => {
-      event = null;
-      check(theme.health[0]);
     });
 
     it('should return default color if the event is an incident', () => {

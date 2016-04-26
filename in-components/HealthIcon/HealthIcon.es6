@@ -18,6 +18,9 @@ const rpt = React.PropTypes;
 
 export default getMostImportantEvent(
   connectTo(props => {
+    if (!props.mostImportantEvent) {
+      return {};
+    }
     return {
       color: getColorForEvent(props.mostImportantEvent)
     };

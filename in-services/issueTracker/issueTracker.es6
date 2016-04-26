@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
+import getColorForEventSubscription from 'in-services/subscription/issueTrackerSubscription';
 import createEventObservable from 'in-services/subscription/event';
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {mapSeverityToHealth, health} from 'in-services/health';
@@ -12,7 +13,6 @@ import {createTrackingStore} from 'in-stores/store';
 import * as timelineStore from 'in-stores/timeline';
 import {getOpenEvents} from 'in-stores/openEvents';
 import * as settings from 'in-services/settings';
-import {theme} from 'in-services/theme';
 
 
 export const EVENT_TYPES = {
@@ -208,49 +208,7 @@ export function getHealth(snapshotId) {
  * @returns {string} The color string in hex (e.g. #F03249)
  */
 export function getColorForEvent(event) {
-  const defaultColor = theme.health[0];
-
-  return timelineStore.timeframe.map(timeframe => {
-    if (!event) {
-      return defaultColor;
-    }
-    const eventType = getEventType(event);
-    if (eventType === EVENT_TYPES.INCIDENT ||
-        eventType === EVENT_TYPES.CHANGE) {
-      return defaultColor;
-    }
-    if (!timeframe.to) {
-      if (!event.get('end')) {
-        // live mode and event is open
-        return getColorForProblem(event.get('problem'));
-      }
-      // live mode and event is closed
-      return defaultColor;
-    } else if (event.get('end') < timeframe.to) {
-      // event is closed
-      return defaultColor;
-    }
-
-    return getColorForProblem(event.get('problem'));
-  });
-}
-
-/**
- * The same as getColorForIssue but with Problem object
- *
- * @param {Immutable<Problem>} Problem The problem for which the color should be determined.
- * @returns {string} The color string in hex (e.g. #F03249)
- */
-export function getColorForProblem(problem) {
-  const severity = problem.get('severity');
-  throwExceptionIfUndefined(severity);
-  return theme.health[severity];
-}
-
-function throwExceptionIfUndefined(property) {
-  if (property === undefined) {
-    throw new Error('Missing argument:', property);
-  }
+  return timelineStore.timeframe$.flatMap(timeframe => getColorForEventSubscription({event, time: timeframe.to}));
 }
 
 /**
