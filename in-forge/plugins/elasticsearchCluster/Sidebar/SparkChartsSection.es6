@@ -37,7 +37,7 @@ export default React.createClass({
     );
   },
 
-  sparkChart(metric, title, formatter, width = 100) {
+  sparkChart(metric, title, formatter, width = 130) {
     const snapshotId = this.props.snapshotId;
     const timeframe = this.props.timeframe;
 
