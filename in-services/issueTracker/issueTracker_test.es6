@@ -7,6 +7,7 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
+import * as timelineStore from 'in-stores/timeline';
 import {resetStoreRegistry} from 'in-stores/store';
 import {theme} from 'in-services/theme';
 
@@ -191,42 +192,65 @@ describe('issueTracker', () => {
   });
 
   describe('getColorForEvent', () => {
+    let event;
+    let color;
+    let sub;
 
-    it('should throw an error if there is no given event', () => {
-      expect(() => issueTracker.getColorForEvent(undefined)).to.throw(Error);
-    });
+    beforeEach(() => {
+      if (sub) {
+        sub.dispose();
+      }
 
-    it('should return ok color on closed events', () => {
-      let event = Immutable.fromJS({
+      event = Immutable.fromJS({
         problem: {
-          severity: 0
+          severity: 10
         },
         type: 'issue'
       });
-      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
-
-      event = event.setIn(['problem', 'severity'], 5);
-      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[5]);
-
-      event = event.setIn(['problem', 'severity'], 10);
-      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[10]);
     });
 
-    it('should return default color for closed events', () => {
-      let event = Immutable.fromJS({
-        problem: {
-          severity: 0
-        },
-        end: 42,
-        type: 'issue'
-      });
-      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
+    it('should return default color if there is no event', () => {
+      sub = issueTracker.getColorForEvent(null).subscribe(c => color = c);
+      expect(color).to.equal(theme.health[0]);
+    });
 
-      event = event.setIn(['problem', 'severity'], 5);
-      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
+    it('should return default color if the event is an incident', () => {
+      event = event.set('type', 'incident');
+      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      expect(color).to.equal(theme.health[0]);
+    });
 
-      event = event.setIn(['problem', 'severity'], 10);
-      expect(issueTracker.getColorForEvent(event)).to.equal(theme.health[0]);
+    it('should return default color if the event is a change', () => {
+      event = event.set('type', 'change');
+      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      expect(color).to.equal(theme.health[0]);
+    });
+
+    it('should return red if the event is an open issue in live mode', () => {
+      timelineStore.setTimeframe(10000, null);
+      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      expect(color).to.equal(theme.health[10]);
+    });
+
+    it('should return default color if the event is an closed issue in live mode', () => {
+      event = event.set('end', 10);
+      timelineStore.setTimeframe(10000, null);
+      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      expect(color).to.equal(theme.health[0]);
+    });
+
+    it('should return default color if the event is an closed issue in historical mode', () => {
+      event = event.set('end', 10);
+      timelineStore.setTimeframe(100, 100);
+      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      expect(color).to.equal(theme.health[0]);
+    });
+
+    it('should return red if the event is an open issue in historical mode', () => {
+      event = event.set('end', 1000);
+      timelineStore.setTimeframe(100, 100);
+      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      expect(color).to.equal(theme.health[10]);
     });
 
   });

@@ -5,17 +5,24 @@ import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 import SnapshotDescription from 'in-components/SnapshotDescription';
 import * as issueTracker from 'in-services/issueTracker';
 import {toHtml} from 'in-services/formatters/markdown';
+import connectTo from 'in-hoc/connectTo';
 
 
 const block = 'in-event-description';
 
 export default getEventsWithinTimerange(
-  React.createClass({
+  connectTo(props => {
+    const event = props.events ? props.events.get(0) : null;
+    return {
+      color: issueTracker.getColorForEvent(event)
+    };
+  }, React.createClass({
 
     displayName: 'IncidentContent',
 
     propTypes: {
       incident: irpt.map.isRequired,
+      color: React.PropTypes.any,
       events: irpt.list
     },
 
@@ -27,7 +34,7 @@ export default getEventsWithinTimerange(
 
       const incident = this.props.incident;
       const firstEvent = events.get(0);
-      const color = issueTracker.getColorForEvent(firstEvent);
+      const color = this.props.color;
 
       return (
         <div>
@@ -51,5 +58,5 @@ export default getEventsWithinTimerange(
         </div>
       );
     }
-  })
+  }))
 );

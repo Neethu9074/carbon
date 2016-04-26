@@ -208,16 +208,31 @@ export function getHealth(snapshotId) {
  * @returns {string} The color string in hex (e.g. #F03249)
  */
 export function getColorForEvent(event) {
-  throwExceptionIfUndefined(event);
+  const defaultColor = theme.health[0];
 
-  const eventType = getEventType(event);
-  if (eventType === EVENT_TYPES.INCIDENT ||
-      eventType === EVENT_TYPES.CHANGE) {
-    return theme.health[0];
-  }
+  return timelineStore.timeframe.map(timeframe => {
+    if (!event) {
+      return defaultColor;
+    }
+    const eventType = getEventType(event);
+    if (eventType === EVENT_TYPES.INCIDENT ||
+        eventType === EVENT_TYPES.CHANGE) {
+      return defaultColor;
+    }
+    if (!timeframe.to) {
+      if (!event.get('end')) {
+        // live mode and event is open
+        return getColorForProblem(event.get('problem'));
+      }
+      // live mode and event is closed
+      return defaultColor;
+    } else if (event.get('end') < timeframe.to) {
+      // event is closed
+      return defaultColor;
+    }
 
-  // if there is no end time, the event is open
-  return !event.get('end') ? getColorForProblem(event.get('problem')) : theme.health[0];
+    return getColorForProblem(event.get('problem'));
+  });
 }
 
 /**
