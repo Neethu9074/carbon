@@ -1,6 +1,8 @@
+import {combineLatest} from 'reactive-observables';
+
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {formatDateTime} from 'in-services/formatters/date';
-import {timeframe as timeframe$} from 'in-stores/timeline';
+import {timeframe as timeframe$, from$, to$} from 'in-stores/timeline';
 import {createStore} from 'in-stores/store';
 import {getTraces} from 'in-stores/traces';
 import {getLabel} from 'in-sdk/tracing';
@@ -40,15 +42,17 @@ timeframe$.subscribe(refresh);
 let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
   disposeExistingLoad();
-  oldestTraceStartTime$.once(oldestTraceStartTime => {
-    isLoadingStore.applyStateMutation(() => true);
-    // Remove 1 from the maxTimestamp to avoid being stuck in time, i.e. loading the same
-    // data over and over again. This can happen when we have more than <pageSize> traces
-    // with the same timestamp.
-    const maxTimestamp = oldestTraceStartTime ? oldestTraceStartTime - 1 : oldestTraceStartTime;
-    existingLoadMoreTracesSubscription = getTraces(maxTimestamp, 0, 'ts', 'desc')
-      .once(addNewTraces);
-  });
+
+  combineLatest([oldestTraceStartTime$, from$, to$])
+    .once(([oldestTraceStartTime, from, to]) => {
+      isLoadingStore.applyStateMutation(() => true);
+      // Remove 1 from the maxTimestamp to avoid being stuck in time, i.e. loading the same
+      // data over and over again. This can happen when we have more than <pageSize> traces
+      // with the same timestamp.
+      const maxTimestamp = oldestTraceStartTime ? oldestTraceStartTime - 1 : to;
+      existingLoadMoreTracesSubscription = getTraces(maxTimestamp, from, 'ts', 'desc')
+        .once(addNewTraces);
+    });
 }
 
 
