@@ -196,6 +196,10 @@ describe('issueTracker', () => {
     let color;
     let sub;
 
+    function prepare() {
+      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+    }
+
     beforeEach(() => {
       if (sub) {
         sub.dispose();
@@ -210,46 +214,47 @@ describe('issueTracker', () => {
     });
 
     it('should return default color if there is no event', () => {
-      sub = issueTracker.getColorForEvent(null).subscribe(c => color = c);
+      event = null;
+      prepare();
       expect(color).to.equal(theme.health[0]);
     });
 
     it('should return default color if the event is an incident', () => {
       event = event.set('type', 'incident');
-      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      prepare();
       expect(color).to.equal(theme.health[0]);
     });
 
     it('should return default color if the event is a change', () => {
       event = event.set('type', 'change');
-      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      prepare();
       expect(color).to.equal(theme.health[0]);
     });
 
     it('should return red if the event is an open issue in live mode', () => {
       timelineStore.setTimeframe(10000, null);
-      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      prepare();
       expect(color).to.equal(theme.health[10]);
     });
 
     it('should return default color if the event is an closed issue in live mode', () => {
       event = event.set('end', 10);
       timelineStore.setTimeframe(10000, null);
-      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      prepare();
       expect(color).to.equal(theme.health[0]);
     });
 
     it('should return default color if the event is an closed issue in historical mode', () => {
       event = event.set('end', 10);
       timelineStore.setTimeframe(100, 100);
-      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      prepare();
       expect(color).to.equal(theme.health[0]);
     });
 
     it('should return red if the event is an open issue in historical mode', () => {
       event = event.set('end', 1000);
       timelineStore.setTimeframe(100, 100);
-      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      prepare();
       expect(color).to.equal(theme.health[10]);
     });
 
