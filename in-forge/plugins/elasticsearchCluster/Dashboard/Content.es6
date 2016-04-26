@@ -111,7 +111,7 @@ export default React.createClass({
                                  labels: [
                                    'Active',
                                    'Active Primary',
-                                   'Inwitializing',
+                                   'Initializing',
                                    'Relocating',
                                    'Unassinged'
                                  ],
