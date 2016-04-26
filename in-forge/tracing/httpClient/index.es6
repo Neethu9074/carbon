@@ -2,7 +2,7 @@ import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 import {getLabel} from 'in-forge/tracing/http/spanDefinition';
 
 registerSpanDefinition({
-  type: 'servlet',
+  type: 'hc',
 
   typeName: {
     singular: 'HTTP Call',
