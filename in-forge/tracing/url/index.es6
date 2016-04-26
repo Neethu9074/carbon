@@ -9,7 +9,7 @@ registerSpanDefinition({
     plural: 'HTTP Calls'
   },
 
-  detailView: '../http/HttpSpanDetailView',
+  detailView: 'UrlSpanDetailView',
 
   getLabel
 });
