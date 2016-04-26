@@ -45,9 +45,9 @@ export default connectTo({
             <Collapsible.Header>Nodes</Collapsible.Header>
             <Collapsible.Content>
               <DescriptionList>
-                {this.item('Nodes', data.get('node_count'))}
-                {this.item('Data Nodes', data.get('data_node_count'))}
-                {this.item('Master Nodes', data.get('master_node_count'))}
+                {this.item('Nodes', data.get('nodeCount'))}
+                {this.item('Data Nodes', data.get('dataNodeCount'))}
+                {this.item('Master Nodes', data.get('masterNodeCount'))}
               </DescriptionList>
             </Collapsible.Content>
           </Collapsible>
