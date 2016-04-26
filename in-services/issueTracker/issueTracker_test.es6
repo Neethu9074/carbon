@@ -7,7 +7,6 @@ import Immutable from 'immutable';
 import {expect} from 'chai';
 import sinon from 'sinon';
 
-import * as timelineStore from 'in-stores/timeline';
 import {resetStoreRegistry} from 'in-stores/store';
 import {theme} from 'in-services/theme';
 
@@ -23,12 +22,18 @@ describe('issueTracker', () => {
   let openEventsObservable;
   let openEventsStubData;
   let issueTracker;
+  let timeframe$;
 
   beforeEach(() => {
     resetStoreRegistry();
 
     historicalEventObservable = ro.create();
     openEventsObservable = ro.create();
+    timeframe$ = ro.create();
+    timeframe$.emit({
+      windowSize: 1000 * 60 * 10,
+      to: undefined
+    });
 
     /* eslint-disable camelcase, no-underscore-dangle, no-undef */
     global.__DEV__ = false;
@@ -48,7 +53,8 @@ describe('issueTracker', () => {
 
     issueTracker = proxyquire('./issueTracker', {
       'in-stores/historicalEvents': { getHistoricalEvents: historicalEventsStreamstub },
-      'in-stores/openEvents': { getOpenEvents: openEventsStreamstub }
+      'in-stores/openEvents': { getOpenEvents: openEventsStreamstub },
+      'in-stores/timeline': { timeframe: timeframe$ }
     });
 
     openEventsStubData = Immutable.fromJS([{
@@ -202,16 +208,18 @@ describe('issueTracker', () => {
     }
 
     beforeEach(() => {
-      if (sub) {
-        sub.dispose();
-      }
-
       event = Immutable.fromJS({
         problem: {
           severity: 10
         },
         type: 'issue'
       });
+    });
+
+    afterEach(() => {
+      if (sub) {
+        sub.dispose();
+      }
     });
 
     it('should return default color if there is no event', () => {
@@ -230,25 +238,37 @@ describe('issueTracker', () => {
     });
 
     it('should return red if the event is an open issue in live mode', () => {
-      timelineStore.setTimeframe(10000, null);
+      timeframe$.emit({
+        to: null,
+        windowSize: 10000
+      });
       check(theme.health[10]);
     });
 
     it('should return default color if the event is an closed issue in live mode', () => {
       event = event.set('end', 10);
-      timelineStore.setTimeframe(10000, null);
+      timeframe$.emit({
+        to: null,
+        windowSize: 10000
+      });
       check(theme.health[0]);
     });
 
     it('should return default color if the event is an closed issue in historical mode', () => {
       event = event.set('end', 10);
-      timelineStore.setTimeframe(100, 100);
+      timeframe$.emit({
+        to: 100,
+        windowSize: 100
+      });
       check(theme.health[0]);
     });
 
     it('should return red if the event is an open issue in historical mode', () => {
       event = event.set('end', 1000);
-      timelineStore.setTimeframe(100, 100);
+      timeframe$.emit({
+        to: 100,
+        windowSize: 100
+      });
       check(theme.health[10]);
     });
 
