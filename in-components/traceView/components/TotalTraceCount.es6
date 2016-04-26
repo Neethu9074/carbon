@@ -1,5 +1,6 @@
 import React from 'react';
 
+import {zeroDecimalPlaces} from 'in-services/formatters/number';
 import {totalTraceCount$} from 'in-stores/traces';
 import connectTo from 'in-hoc/connectTo';
 
@@ -16,7 +17,7 @@ export default connectTo(
 
     return (
       <span className='in-total-trace-count'>
-        ({count})
+        ({zeroDecimalPlaces(count)})
       </span>
     );
   }
