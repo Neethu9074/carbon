@@ -3,7 +3,7 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import {
-  zeroDecimalPlaces,
+  withSiPrefixZeroDecimalPlaces,
   twoDecimalPlaces,
   msTwoDecimalPlaces,
   msZeroDecimalPlaces
@@ -56,7 +56,7 @@ export default React.createClass({
                            }}
                            y2={{
                              min: 0,
-                             formatter: zeroDecimalPlaces,
+                             formatter: withSiPrefixZeroDecimalPlaces,
                              tooltipFormatter: twoDecimalPlaces,
                              metrics: [
                                'query_count'
@@ -79,7 +79,8 @@ export default React.createClass({
                                }}
                                y1={{
                                  min: 0,
-                                 formatter: zeroDecimalPlaces,
+                                 formatter: withSiPrefixZeroDecimalPlaces,
+                                 tooltipFormatter: twoDecimalPlaces,
                                  metrics: [
                                    'indices_count'
                                  ],
@@ -100,7 +101,8 @@ export default React.createClass({
                                }}
                                y1={{
                                  min: 0,
-                                 formatter: zeroDecimalPlaces,
+                                 formatter: withSiPrefixZeroDecimalPlaces,
+                                 tooltipFormatter: twoDecimalPlaces,
                                  metrics: [
                                    'active_shards',
                                    'active_primaryshards',
@@ -131,7 +133,7 @@ export default React.createClass({
                            }}
                            y1={{
                              min: 0,
-                             formatter: zeroDecimalPlaces,
+                             formatter: withSiPrefixZeroDecimalPlaces,
                              tooltipFormatter: twoDecimalPlaces,
                              metrics: [
                                'document_count'
@@ -143,7 +145,7 @@ export default React.createClass({
                            }}
                            y2={{
                              min: 0,
-                             formatter: zeroDecimalPlaces,
+                             formatter: withSiPrefixZeroDecimalPlaces,
                              tooltipFormatter: twoDecimalPlaces,
                              metrics: [
                                'index_count',
