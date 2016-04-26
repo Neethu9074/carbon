@@ -1,46 +1,79 @@
 import React from 'react';
 
-import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-
 export default function connectTo(createObservables, ComposedComponent) {
   return React.createClass({
     displayName: 'connectTo hoc for ' + ComposedComponent.displayName,
-
-    mixins: [SubscriptionMixin],
 
     getInitialState() {
       return {};
     },
 
     componentWillMount() {
-      this.subscribe(this.props);
-    },
+      this.subscriptions = {};
+      this.observables = {};
 
-    componentWillReceiveProps(nextProps) {
-      this.subscribe(nextProps);
-    },
-
-    subscribe(props) {
       let observables;
       if (typeof createObservables === 'function') {
-        observables = createObservables(props);
+        observables = createObservables(this.props);
       } else {
         observables = createObservables;
       }
+      this.subscribe(observables);
+    },
 
-      const newSubscriptions = Object.keys(observables).map(key => {
-        return observables[key].subscribe(value => {
+    componentWillReceiveProps(nextProps) {
+      if (typeof createObservables === 'function') {
+        this.subscribe(createObservables(nextProps));
+      }
+    },
+
+    subscribe(observables) {
+      const newProperties = Object.keys(observables);
+      const oldProperties = Object.keys(this.observables);
+
+      for (let i = 0, len = newProperties.length; i < len; i++) {
+        const property = newProperties[i];
+
+        const prevObservable = this.observables[property];
+        const newObservable = observables[property];
+
+        if (prevObservable === newObservable) {
+          // Nothing to do, we have the same observable
+          return;
+        }
+
+        const oldSubscription = this.subscriptions[property];
+        this.observables[property] = newObservable;
+        this.subscriptions[property] = newObservable.subscribe(value => {
           this.setState({
-            [key]: value
+            [property]: value
           });
         });
-      });
 
-      // dispose previous subscriptions only after new subscriptions were
-      // established to ensure that the connection to the backend does not
-      // need to be reestablished.
-      this.disposeSubscriptions();
-      newSubscriptions.forEach(this.addSubscription);
+        // dispose previous subscriptions only after new subscriptions were
+        // established to ensure that the connection to the backend does not
+        // need to be reestablished.
+        if (oldSubscription) {
+          oldSubscription.dispose();
+        }
+      }
+
+      // Remove properties / subscriptions for all properties that haven't been
+      // recreated / are not found in the new observable map.
+      const removedProperties = oldProperties.filter(property => !observables[property]);
+      const clearStateProps = {};
+      for (let i = 0, len = removedProperties.length; i < len; i++) {
+        const property = removedProperties[i];
+        this.subscriptions[property].dispose();
+        delete this.subscriptions[property];
+        delete this.observables[property];
+        clearStateProps[property] = null;
+      }
+      this.setState(clearStateProps);
+    },
+
+    componentWillUnmount() {
+      Object.keys(this.subscriptions).forEach(key => this.subscriptions[key].dispose());
     },
 
     render() {
