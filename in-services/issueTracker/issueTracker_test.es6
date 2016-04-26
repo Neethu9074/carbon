@@ -196,8 +196,9 @@ describe('issueTracker', () => {
     let color;
     let sub;
 
-    function prepare() {
+    function check(colorToCheck) {
       sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
+      expect(color).to.equal(colorToCheck);
     }
 
     beforeEach(() => {
@@ -215,47 +216,40 @@ describe('issueTracker', () => {
 
     it('should return default color if there is no event', () => {
       event = null;
-      prepare();
-      expect(color).to.equal(theme.health[0]);
+      check(theme.health[0]);
     });
 
     it('should return default color if the event is an incident', () => {
       event = event.set('type', 'incident');
-      prepare();
-      expect(color).to.equal(theme.health[0]);
+      check(theme.health[0]);
     });
 
     it('should return default color if the event is a change', () => {
       event = event.set('type', 'change');
-      prepare();
-      expect(color).to.equal(theme.health[0]);
+      check(theme.health[0]);
     });
 
     it('should return red if the event is an open issue in live mode', () => {
       timelineStore.setTimeframe(10000, null);
-      prepare();
-      expect(color).to.equal(theme.health[10]);
+      check(theme.health[10]);
     });
 
     it('should return default color if the event is an closed issue in live mode', () => {
       event = event.set('end', 10);
       timelineStore.setTimeframe(10000, null);
-      prepare();
-      expect(color).to.equal(theme.health[0]);
+      check(theme.health[0]);
     });
 
     it('should return default color if the event is an closed issue in historical mode', () => {
       event = event.set('end', 10);
       timelineStore.setTimeframe(100, 100);
-      prepare();
-      expect(color).to.equal(theme.health[0]);
+      check(theme.health[0]);
     });
 
     it('should return red if the event is an open issue in historical mode', () => {
       event = event.set('end', 1000);
       timelineStore.setTimeframe(100, 100);
-      prepare();
-      expect(color).to.equal(theme.health[10]);
+      check(theme.health[10]);
     });
 
   });
