@@ -32,7 +32,7 @@ describe('issueTracker', () => {
     timeframe$ = ro.create();
     timeframe$.emit({
       windowSize: 1000 * 60 * 10,
-      to: undefined
+      to: null
     });
 
     /* eslint-disable camelcase, no-underscore-dangle, no-undef */
