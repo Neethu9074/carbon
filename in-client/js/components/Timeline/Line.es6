@@ -28,7 +28,7 @@ export default connectTo(props => {
       serverTime: rpt.number.isRequired,
       scale: rpt.func.isRequired,
       event: irpt.map.isRequired,
-      style: rpt.object,
+      left: rpt.string,
       color: rpt.any
     },
 
@@ -43,10 +43,12 @@ export default connectTo(props => {
         right = (100 - Math.min(100, right)) + '%';
 
       }
-      const style = this.props.style ? this.props.style : {};
-      style.borderColor = this.props.color;
-      style.color = style.borderColor;
-      style.right = right;
+      const style = {
+        left: this.props.left,
+        color: this.props.color,
+        borderColor: this.props.color,
+        right
+      };
 
       return (
         <div className={'in-timeline-line'}
