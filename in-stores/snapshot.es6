@@ -72,8 +72,9 @@ export function clearSelectedSnapshotId() {
 }
 
 export function getSnapshot(snapshotId) {
-  return timelineStore.timeframe.flatMap(timeframe =>
-    createSnapshotObservable({snapshotId, time: timeframe.to}));
+  return timelineStore.focusedMoment$.flatMap(focusedMoment =>
+    createSnapshotObservable({snapshotId, time: focusedMoment})
+  );
 }
 
 export function getPhysicalHierarchy(snapshotId) {

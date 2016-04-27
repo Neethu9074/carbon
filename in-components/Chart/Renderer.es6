@@ -99,18 +99,18 @@ export default class Renderer {
     this.createCanvas();
     this.setDimensions({width: container.clientWidth, height: height});
 
-    this.focusedMoment = null;
-    this.focusedMomentSubscription = timelineStore.focusedMoment
+    this.highlightedMoment = null;
+    this.highlightedMomentSubscription = timelineStore.highlightedMoment$
       .throttle(20)
-      .subscribe(focusedMoment => this.onFocusChange(focusedMoment));
+      .subscribe(highlightedMoment => this.onFocusChange(highlightedMoment));
 
     ro.on(this.glassPane, 'mousemove')
       .subscribe(e => {
-        timelineStore.setFocusedMoment(this.x.invert(e.offsetX).getTime());
+        timelineStore.setHighlightedMoment(this.x.invert(e.offsetX).getTime());
       });
 
     ro.on(this.glassPane, 'mouseleave')
-      .subscribe(timelineStore.clearFocusedMoment);
+      .subscribe(timelineStore.clearHighlightedMoment);
 
     ro.on(window, 'resize')
       .debounce(500)
@@ -126,34 +126,34 @@ export default class Renderer {
     this.rendering = false;
   }
 
-  onFocusChange(newFocusedMoment) {
+  onFocusChange(newHighlightedMoment) {
     // only update the visibility when actually necessary
-    if (this.focusedMoment && !newFocusedMoment) {
+    if (this.highlightedMoment && !newHighlightedMoment) {
       this.tooltipLine.style('display', 'none');
       this.tooltipElement.style.display = 'none';
-    } else if (!this.focusedMoment && newFocusedMoment) {
+    } else if (!this.highlightedMoment && newHighlightedMoment) {
       this.tooltipLine.style('display', 'block');
       this.tooltipElement.style.display = 'block';
     }
 
-    this.focusedMoment = newFocusedMoment;
+    this.highlightedMoment = newHighlightedMoment;
 
-    if (newFocusedMoment) {
-      const dataY1 = this.lookForDataPoint(this.y1, newFocusedMoment);
+    if (newHighlightedMoment) {
+      const dataY1 = this.lookForDataPoint(this.y1, newHighlightedMoment);
       let dataY2;
       if (this.y2) {
-        dataY2 = this.lookForDataPoint(this.y2, newFocusedMoment);
+        dataY2 = this.lookForDataPoint(this.y2, newHighlightedMoment);
       }
 
       if (dataY1) {
-        this.focusedMoment = dataY1[0].x;
+        this.highlightedMoment = dataY1[0].x;
         this.focusedY1 = dataY1;
         this.focusedY2 = dataY2;
         this.fillTooltip();
         this.renderTooltip();
       }
     } else {
-      this.focusedMoment = null;
+      this.highlightedMoment = null;
     }
   }
 
@@ -398,11 +398,11 @@ export default class Renderer {
 
   renderTooltip() {
     // no need to render anything when there is no focused moment
-    if (!this.focusedMoment) {
+    if (!this.highlightedMoment) {
       return;
     }
 
-    const x = this.x(this.focusedMoment);
+    const x = this.x(this.highlightedMoment);
     this.tooltipLine.attr('x1', x).attr('x2', x);
 
     const availableWidth = this.width - this.margins.left - this.margins.right;
@@ -773,7 +773,7 @@ export default class Renderer {
   dispose() {
     this.container.removeChild(this.widthCalculationElement);
     this.container.removeChild(this.chartContentContainer);
-    this.focusedMomentSubscription.dispose();
+    this.highlightedMomentSubscription.dispose();
     this.stopAnimations();
   }
 
