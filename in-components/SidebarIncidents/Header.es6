@@ -5,6 +5,9 @@ import moment from 'moment';
 import React from 'react';
 
 import {formatDateTime} from 'in-services/formatters/date';
+import Icon from 'in-components/Icon';
+
+import RecentEventsCounter from './RecentEventsCounter';
 
 import './Header.less';
 
@@ -26,23 +29,32 @@ export default React.createClass({
 
   render() {
     const incident = this.props.incident;
+    const numberOfIncidents = incident.get('recentEvents').size;
     const start = incident.get('start');
     const end = incident.get('end');
 
     return (
       <div className={block}>
-        <h1 className={block + '__heading'}>
-          incident
-        </h1>
+        <div className={block + '__heading-wrapper'}>
+          <div className={block + '__heading-wrapper__left'}>
+            <Icon type={'incidents'}
+                  className={block + '__icon'}/>
+            <h1 className={block + '__heading'}>
+              {'incident (' + numberOfIncidents + ')'}
+            </h1>
+          </div>
+          {moment(start).fromNow()}
+        </div>
 
-        <KeyValue k='Started'
-                  v={formatDateTime(start) + ' (' + moment(start).fromNow() + ')'} />
+        <div className={block + '__flex-wrapper'}>
+          <KeyValue k='Started'
+                    v={formatDateTime(start)} />
 
-        <KeyValue k='Ended'
-                  v={end ? formatDateTime(end) + ' (' + moment(end).fromNow() + ')' : 'still active'} />
-        <br />
-        <KeyValue k='Events'
-                  v={incident.get('recentEvents').size + ''} />
+          <KeyValue k='Ended'
+                    v={end ? formatDateTime(end) : 'still active'} />
+        </div>
+
+        <RecentEventsCounter incident={incident}/>
       </div>
     );
   }
@@ -66,9 +78,9 @@ const KeyValue = React.createClass({
 
     return (
       <div className={className}>
-        <span className={className + '__key'}>
+        <h3 className={className + '__key'}>
           {this.props.k}
-        </span>
+        </h3>
         {this.props.v}
       </div>
     );

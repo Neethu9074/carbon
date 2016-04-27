@@ -4,7 +4,7 @@ import {selectedIncident} from 'in-stores/incident';
 
 export default function getSelectedIncident(ComposedComponent) {
   return React.createClass({
-    displayName: 'getSelectedincident hoc for ' + ComposedComponent.displayName,
+    displayName: 'getSelectedIncident hoc for ' + ComposedComponent.displayName,
 
     getInitialState() {
       return {

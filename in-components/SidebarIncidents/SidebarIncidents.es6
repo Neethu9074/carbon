@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import getSelectedincident from 'in-hoc/getSelectedIncident';
+import getSelectedIncident from 'in-hoc/getSelectedIncident';
 
 import Content from './Content';
 import Header from './Header';
@@ -12,7 +12,7 @@ import './SidebarIncidents.less';
 
 const block = 'in-sidebar-incidents';
 
-export default getSelectedincident(
+export default getSelectedIncident(
   React.createClass({
 
     displayName: 'SidebarIncidents',
