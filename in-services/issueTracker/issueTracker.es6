@@ -1,7 +1,6 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 
-import getColorForEventSubscription from 'in-services/subscription/issueTrackerSubscription';
 import createEventObservable from 'in-services/subscription/event';
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {mapSeverityToHealth, health} from 'in-services/health';
@@ -13,6 +12,7 @@ import {createTrackingStore} from 'in-stores/store';
 import * as timelineStore from 'in-stores/timeline';
 import {getOpenEvents} from 'in-stores/openEvents';
 import * as settings from 'in-services/settings';
+import {theme} from 'in-services/theme';
 
 
 export const EVENT_TYPES = {
@@ -206,7 +206,9 @@ export function getHealth(snapshotId) {
  *
  */
 export function getColorForEvent(event) {
-  return timelineStore.timeframe$.flatMap(timeframe => getColorForEventSubscription({event, time: timeframe.to}));
+  return event.get('state') === 'open' ?
+    theme.health[event.getIn(['problem', 'severity'], 0)] :
+    theme.health[0];
 }
 
 /**

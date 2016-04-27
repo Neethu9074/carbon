@@ -199,13 +199,6 @@ describe('issueTracker', () => {
 
   describe('getColorForEvent', () => {
     let event;
-    let color;
-    let sub;
-
-    function check(colorToCheck) {
-      sub = issueTracker.getColorForEvent(event).subscribe(c => color = c);
-      expect(color).to.equal(colorToCheck);
-    }
 
     beforeEach(() => {
       event = Immutable.fromJS({
@@ -213,61 +206,20 @@ describe('issueTracker', () => {
         problem: {
           severity: 10
         },
-        type: 'issue'
+        type: 'issue',
+        state: 'open'
       });
     });
 
-    afterEach(() => {
-      if (sub) {
-        sub.dispose();
-      }
+    it('should return default color if the event is closed', () => {
+      const color = issueTracker.getColorForEvent(event);
+      expect(color).to.equal(theme.health[10]);
     });
 
-    it('should return default color if the event is an incident', () => {
-      event = event.set('type', 'incident');
-      check(theme.health[0]);
-    });
-
-    it('should return default color if the event is a change', () => {
-      event = event.set('type', 'change');
-      check(theme.health[0]);
-    });
-
-    it('should return red if the event is an open issue in live mode', () => {
-      // change id to provoke new subscription
-      event = event.set('id', '2');
-      timeframe$.emit({
-        to: null,
-        windowSize: 10000
-      });
-      check(theme.health[10]);
-    });
-
-    it('should return default color if the event is an closed issue in live mode', () => {
-      event = event.set('end', 10);
-      timeframe$.emit({
-        to: null,
-        windowSize: 10000
-      });
-      check(theme.health[0]);
-    });
-
-    it('should return default color if the event is an closed issue in historical mode', () => {
-      event = event.set('end', 10);
-      timeframe$.emit({
-        to: 100,
-        windowSize: 100
-      });
-      check(theme.health[0]);
-    });
-
-    it('should return red if the event is an open issue in historical mode', () => {
-      event = event.set('end', 1000);
-      timeframe$.emit({
-        to: 100,
-        windowSize: 100
-      });
-      check(theme.health[10]);
+    it('should return default color if the event is open', () => {
+      event = event.set('state', 'closed');
+      const color = issueTracker.getColorForEvent(event);
+      expect(color).to.equal(theme.health[0]);
     });
 
   });
