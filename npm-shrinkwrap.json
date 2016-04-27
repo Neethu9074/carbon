@@ -7344,8 +7344,8 @@
       }
     },
     "reactive-observables": {
-      "version": "1.24.0",
-      "from": "reactive-observables@1.24.0"
+      "version": "1.24.1",
+      "from": "reactive-observables@1.24.1"
     },
     "read-all-stream": {
       "version": "3.1.0",

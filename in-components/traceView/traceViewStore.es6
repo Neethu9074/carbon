@@ -26,6 +26,29 @@ const isLoadingStore = createStore({
   name: 'loadingTraces',
   initialValue: false
 });
+
+const sortBy = createStore({
+  name: 'tracesSortBy',
+  initialValue: 'ts'
+});
+
+export function setSortBy(newSortBy) {
+  sortBy.applyStateMutation(()=>newSortBy);
+  refresh();
+}
+
+const sortDirection = createStore({
+  name: 'tracesSortDirection',
+  initialValue: 'desc'
+});
+
+export function setSortDirection(newSortDirection) {
+  sortDirection.applyStateMutation(()=>newSortDirection);
+  refresh();
+}
+
+export const sortBy$ = sortBy.observable;
+export const sortDirection$ = sortDirection.observable;
 export const isLoading$ = isLoadingStore.observable;
 
 
@@ -43,14 +66,14 @@ let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
   disposeExistingLoad();
 
-  combineLatest([oldestTraceStartTime$, from$, to$])
-    .once(([oldestTraceStartTime, from, to]) => {
+  combineLatest([oldestTraceStartTime$, from$, to$, sortBy$, sortDirection$])
+    .once(([oldestTraceStartTime, from, to, currentSortBy, currentSortDirection]) => {
       isLoadingStore.applyStateMutation(() => true);
       // Remove 1 from the maxTimestamp to avoid being stuck in time, i.e. loading the same
       // data over and over again. This can happen when we have more than <pageSize> traces
       // with the same timestamp.
       const maxTimestamp = oldestTraceStartTime ? oldestTraceStartTime - 1 : to;
-      existingLoadMoreTracesSubscription = getTraces(maxTimestamp, from, 'ts', 'desc')
+      existingLoadMoreTracesSubscription = getTraces(maxTimestamp, from, currentSortBy, currentSortDirection)
         .once(addNewTraces);
     });
 }
