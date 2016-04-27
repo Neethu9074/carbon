@@ -27,7 +27,7 @@ export default connectTo({
               };
             }),
     events: event$,
-    focusedMoment: timelineStore.focusedMoment
+    highlightedMoment: timelineStore.highlightedMoment$
   },
   React.createClass({
 
@@ -43,7 +43,7 @@ export default connectTo({
         serverTime: rpt.number.isRequired
       }),
       scale: rpt.func.isRequired,
-      focusedMoment: rpt.number,
+      highlightedMoment: rpt.number,
       events: irpt.list
     },
 
@@ -64,7 +64,7 @@ export default connectTo({
         <div className={block}>
           {this.renderEventLine()}
           {this.renderEvents()}
-          {this.renderFocusedMoment()}
+          {this.renderHighlightedMoment()}
         </div>
       );
     },
@@ -122,15 +122,15 @@ export default connectTo({
       clearHighlightedEntityId();
     },
 
-    renderFocusedMoment() {
-      if (!this.props.focusedMoment) {
+    renderHighlightedMoment() {
+      if (!this.props.highlightedMoment) {
         return null;
       }
 
       return (
         <div className={block + '__focused-moment'}
              style={{
-               left: this.props.scale(this.props.focusedMoment).toFixed(2) + '%'
+               left: this.props.scale(this.props.highlightedMoment).toFixed(2) + '%'
              }}/>
       );
     }

@@ -22,6 +22,8 @@ const timeframeStore = createStore({
 export const timeframe = timeframeStore.observable;
 export const timeframe$ = timeframe;
 
+export const focusedMoment$ = timeframe$.map(_timeframe => _timeframe.to);
+
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
     return create().emit(_timeframe.to).freeze();
@@ -60,16 +62,16 @@ export const currentRollup = timeframe.map(({windowSize}) => {
   return '2 min';
 });
 
-const focusedMomentStore = createStore({
-  name: 'focusedMoment',
+const highlightedMomentStore = createStore({
+  name: 'highlightedMoment',
   initialValue: null
 });
-export const focusedMoment = focusedMomentStore.observable;
+export const highlightedMoment$ = highlightedMomentStore.observable;
 
-export function setFocusedMoment(t) {
-  focusedMomentStore.applyStateMutation(() => t);
+export function setHighlightedMoment(t) {
+  highlightedMomentStore.applyStateMutation(() => t);
 }
 
-export function clearFocusedMoment() {
-  focusedMomentStore.applyStateMutation(() => null);
+export function clearHighlightedMoment() {
+  highlightedMomentStore.applyStateMutation(() => null);
 }
