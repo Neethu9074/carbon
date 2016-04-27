@@ -1,5 +1,7 @@
 import React from 'react';
+import {create} from 'reactive-observables';
 
+import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
 
 
@@ -19,6 +21,17 @@ const timeframeStore = createStore({
 
 export const timeframe = timeframeStore.observable;
 export const timeframe$ = timeframe;
+
+export const to$ = timeframe$.flatMap(_timeframe => {
+  if (_timeframe.to) {
+    return create().emit(_timeframe.to).freeze();
+  }
+  return serverTime$;
+});
+
+export const from$ = timeframe$.flatMap(_timeframe => {
+  return to$.map(to => to - _timeframe.windowSize);
+});
 
 export const timeframeShape = React.PropTypes.shape({
   windowSize: React.PropTypes.number.isRequired,
