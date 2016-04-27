@@ -12,9 +12,11 @@ const block = 'in-event-description';
 
 export default getEventsWithinTimerange(
   connectTo(props => {
-    const event = props.events ? props.events.get(0) : null;
+    if (!props.events) {
+      return {};
+    }
     return {
-      color: issueTracker.getColorForEvent(event)
+      color: issueTracker.getColorForEvent(props.events.get(0))
     };
   }, React.createClass({
 

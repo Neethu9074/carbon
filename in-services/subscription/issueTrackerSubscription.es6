@@ -10,7 +10,7 @@ export default createObservableIfMissing.bind(null, {
 });
 
 function getId({event, time}) {
-  return event.get('id') + event.get('end') + event.getIn(['problem', 'severity']) + time;
+  return event.get('id') + event.get('end') + event.getIn(['problem', 'severity'], 0) + time;
 }
 
 function createSnapshotObservable({event, time}) {
