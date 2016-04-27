@@ -204,8 +204,6 @@ export function getHealth(snapshotId) {
  * Gets the color for an event. If an event is closed it should be some kind
  * grey, if it's open and critical it has a danger color and so on.
  *
- * @param {Immutable<Event>} Event The event for which the color should be determined.
- * @returns {string} The color string in hex (e.g. #F03249)
  */
 export function getColorForEvent(event) {
   return timelineStore.timeframe$.flatMap(timeframe => getColorForEventSubscription({event, time: timeframe.to}));
