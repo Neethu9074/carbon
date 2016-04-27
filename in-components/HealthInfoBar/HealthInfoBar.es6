@@ -2,7 +2,10 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import TooltipFrame from 'in-components/Tooltips/Frame';
+import EventListing from 'in-components/EventListing';
 import {getHealthInfo} from 'in-stores/healthInfo';
+import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -55,14 +58,20 @@ export default connectTo(
           </div>
 
           {numberOfOpenEvents > 0 ?
-            <span className={block + '__counter'}
-                  style={{
-                    color: maxSeverity < 0.6 ? '#000' : '#fff',
+            <Tooltip content={<TooltipFrame>
+                                <EventListing snapshotId={this.props.snapshotId}/>
+                              </TooltipFrame>}
+                     align={{horizontal: 'right'}}>
+              <span className={block + '__counter'}
+                    style={{
+                      color: maxSeverity < 0.6 ? '#000' : '#fff',
                     backgroundColor
-                  }}>
-              {numberOfOpenEvents}
-            </span> :
-            null}
+                    }}>
+                {numberOfOpenEvents}
+              </span>
+            </Tooltip>
+            : null
+          }
         </div>
       );
     }
