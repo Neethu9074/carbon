@@ -9,7 +9,7 @@ import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
-import * as timelineStore from 'in-stores/timeline';
+import {focusedMoment$} from 'in-stores/timeline';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 
@@ -72,14 +72,14 @@ export function clearSelectedSnapshotId() {
 }
 
 export function getSnapshot(snapshotId) {
-  return timelineStore.focusedMoment$.flatMap(focusedMoment =>
+  return focusedMoment$.flatMap(focusedMoment =>
     createSnapshotObservable({snapshotId, time: focusedMoment})
   );
 }
 
 export function getPhysicalHierarchy(snapshotId) {
-  return timelineStore.timeframe.flatMap(timeframe =>
-    createPhysicalHierarchyObservable({snapshotId, time: timeframe.to}));
+  return focusedMoment$.flatMap(focusedMoment =>
+    createPhysicalHierarchyObservable({snapshotId, time: focusedMoment}));
 }
 
 export function getHighlightedMapEntity(snapshotId) {
@@ -91,13 +91,13 @@ export function getFoundations(snapshotId) {
 }
 
 export function getRunningComponents(snapshotId) {
-  return timelineStore.timeframe.flatMap(timeframe =>
-    createRunningComponentsObservable({snapshotId, time: timeframe.to}));
+  return focusedMoment$.flatMap(focusedMoment =>
+    createRunningComponentsObservable({snapshotId, time: focusedMoment}));
 }
 
 export function getDeployedUnits(snapshotId) {
-  return timelineStore.timeframe.flatMap(timeframe =>
-    createDeployedUnitsObservable({snapshotId, time: timeframe.to}));
+  return focusedMoment$.flatMap(focusedMoment =>
+    createDeployedUnitsObservable({snapshotId, time: focusedMoment}));
 }
 
 export function getRawPayload(snapshotId, payloadName) {

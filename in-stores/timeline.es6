@@ -1,5 +1,5 @@
-import React from 'react';
 import {create} from 'reactive-observables';
+import React from 'react';
 
 import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';

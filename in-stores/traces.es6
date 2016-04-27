@@ -5,7 +5,7 @@ import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import createTracesObservable from 'in-services/subscription/traces';
 import createTraceObservable from 'in-services/subscription/trace';
 import {createStore, createTrackingStore} from 'in-stores/store';
-import {timeframe as timeframe$} from 'in-stores/timeline';
+import {timeframe as timeframe$, focusedMoment$} from 'in-stores/timeline';
 import {alwaysNull} from 'in-services/fixedStreams';
 
 export const totalTraceCount$ = timeframe$.flatMap(createTotalTraceCountObservable);
@@ -16,8 +16,8 @@ export function getTraces(maxTimestamp, minTimestamp, sortByField, sortMode) {
     return createTracesObservable({maxTimestamp, minTimestamp, sortByField, sortMode});
   }
 
-  return timeframe$.flatMap(timeframe => createTracesObservable(
-    {maxTimstamp: timeframe.to, minTimestamp, sortByField, sortMode}
+  return focusedMoment$.flatMap(focusedMoment => createTracesObservable(
+    {maxTimstamp: focusedMoment, minTimestamp, sortByField, sortMode}
   ));
 }
 

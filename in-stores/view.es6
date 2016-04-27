@@ -5,7 +5,7 @@ import createViewStructureObservable from 'in-services/subscription/view';
 
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
-import * as timelineStore from 'in-stores/timeline';
+import {focusedMoment$} from 'in-stores/timeline';
 
 export const types = {
   process: 'PROCESS',
@@ -20,9 +20,9 @@ const store = createStore({
 export const view = store.observable.distinct();
 export const viewStructure = createTrackingStore({
   name: 'viewStructure',
-  observable: ro.combineLatest([view, timelineStore.timeframe])
-    .flatMap(([viewType, timeframe]) => {
-      return createViewStructureObservable({viewType, time: timeframe.to});
+  observable: ro.combineLatest([view, focusedMoment$])
+    .flatMap(([viewType, focusedMoment]) => {
+      return createViewStructureObservable({viewType, time: focusedMoment});
     })
 }).observable;
 

@@ -1,8 +1,8 @@
 import createClusterMembersObservable from 'in-services/subscription/clusterMembers';
-import {timeframe$} from 'in-stores/timeline';
+import {focusedMoment$} from 'in-stores/timeline';
 
 export function getClusterMembers(snapshotId) {
-  return timeframe$.flatMap(timeframe => createClusterMembersObservable({
-    snapshotId, time: timeframe.to
+  return focusedMoment$.flatMap(focusedMoment => createClusterMembersObservable({
+    snapshotId, time: focusedMoment
   }));
 }

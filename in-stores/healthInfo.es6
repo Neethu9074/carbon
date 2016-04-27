@@ -1,7 +1,7 @@
 import Immutable from 'immutable';
 
 import createHealthInfoObservable from 'in-services/subscription/healthInfo';
-import * as timelineStore from 'in-stores/timeline';
+import {focusedMoment$} from 'in-stores/timeline';
 
 const defaultHealthInfo = Immutable.Map({
   maxSeverity: 0,
@@ -9,7 +9,7 @@ const defaultHealthInfo = Immutable.Map({
 });
 
 export function getHealthInfo(snapshotId) {
-  return timelineStore.focusedMoment$.flatMap(focusedMoment => {
+  return focusedMoment$.flatMap(focusedMoment => {
     return createHealthInfoObservable({snapshotId, time: focusedMoment});
   })
   .startWith(defaultHealthInfo);
