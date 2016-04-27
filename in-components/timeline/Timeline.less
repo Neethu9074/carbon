@@ -1,3 +1,20 @@
-.in-bottom-timeline {
+@import "~in-themes/active.less";
 
+.in-bottom-timeline {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  background: #2e4048;
+
+  &__wrapper {
+    height: 200px;
+
+    transition: height 0.25s ease-in-out;
+
+    &--collapsed {
+      height: @footer__height * 1px;
+    }
+  }
 }

@@ -4,7 +4,9 @@ import {
   getEventType,
   EVENT_TYPES
 } from 'in-services/issueTracker/issueTracker';
+import {createStore} from 'in-stores/store';
 import {live$} from 'in-stores/timeline';
+
 
 export const events$ = live$.flatMap(live => {
   if (live) {
@@ -34,3 +36,14 @@ export const categorizedEvents$ = events$.map(events => {
 
   return categorized;
 });
+
+
+const isCollapsed = createStore({
+  name: 'isTimelineCollapsedStore',
+  initialValue: true
+});
+export const isCollapsed$ = isCollapsed.observable;
+
+export function toggleMenu() {
+  isCollapsed.applyStateMutation(oldValue => !oldValue);
+}

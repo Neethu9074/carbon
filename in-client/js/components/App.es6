@@ -9,6 +9,7 @@ import SidebarIncidents from 'in-components/SidebarIncidents';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
 import RegisterForBeta from 'in-components/RegisterForBeta';
 import MessageDialog from 'in-components/MessageDialog';
+import Timeline from 'in-components/timeline/Timeline';
 import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
@@ -23,7 +24,6 @@ import ConnectionStatus from './ConnectionStatus';
 import HelpDialog from './HelpDialog';
 import DemoDialog from './DemoDialog';
 import Settings from './Settings';
-import Timeline from './Timeline';
 
 import {
   notMonitoringDialogShown$,

@@ -3,8 +3,8 @@ import React from 'react';
 
 import TraceTableRow from 'in-components/traceView/components/TraceTableRow';
 import * as traceViewStore from 'in-components/traceView/traceViewStore';
+import getElementDimensions from 'in-hoc/getElementDimensions';
 import LoadingIndicator from 'in-components/LoadingIndicator';
-import addElementHeight from 'in-hoc/addElementHeight';
 import {
   selectedTraceId,
   setSelectedTraceId,
@@ -16,7 +16,7 @@ import './TraceTable.less';
 
 const block = 'in-trace-table';
 
-export default addElementHeight(connectTo({
+export default getElementDimensions(connectTo({
     selectedTraceId,
     traces: traceViewStore.traces$,
     isInfiniteLoading: traceViewStore.isLoading$

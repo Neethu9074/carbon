@@ -1,10 +1,10 @@
 import ReactDOM from 'react-dom';
-import React from 'react';
 import * as ro from 'reactive-observables';
+import React from 'react';
 
-export default function addElementHeight(ComposedComponent) {
+export default function getElementDimensions(ComposedComponent) {
   return  React.createClass({
-    displayName: 'ElementHeightHoc',
+    displayName: 'ElementDimensionHoc',
 
     getInitialState() {
       return {
@@ -22,7 +22,8 @@ export default function addElementHeight(ComposedComponent) {
 
     calculateDimensions() {
       this.setState({
-        height: this.domNode.clientHeight
+        height: this.domNode.clientHeight,
+        width: this.domNode.clientWidth
       });
     },
 
@@ -32,7 +33,7 @@ export default function addElementHeight(ComposedComponent) {
 
     render() {
       return (
-        <ComposedComponent {...this.props} height={this.state.height} />
+        <ComposedComponent {...this.props} height={this.state.height} width={this.state.width} />
       );
     }
   });
