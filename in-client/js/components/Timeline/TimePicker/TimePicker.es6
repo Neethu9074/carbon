@@ -69,13 +69,13 @@ export default connectTo({
             {this.createSelection(TIME_PICKER.LIVE,
                                   'metrics',
                                   'Live View',
-                                  'All information is updated each second for the selected time window after now')
+                                  'All information is updated each second for the selected time window after now.')
             }
             {this.createSelection(TIME_PICKER.FIXED,
                                   'metrics',
                                   'Time Range',
                                   'Drill down into a selected time range. ' +
-                                  'This only affects metrics. Map shows live state')
+                                  'Map shows status of the environment at the selected end time.')
             }
           </div>
         </div>
