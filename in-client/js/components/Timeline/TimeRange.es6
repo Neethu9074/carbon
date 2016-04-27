@@ -15,9 +15,9 @@ const block = 'in-timeline-timerange';
 
 export default connectTo({
     timeframe: timelineStore.timeframe,
-    max: timelineStore.timeframe.flatMap(timeframe => {
-      if (timeframe.to) {
-        return always(timeframe.to);
+    max: timelineStore.focusedMoment$.flatMap(focusedMoment => {
+      if (focusedMoment) {
+        return always(focusedMoment);
       }
       return serverTimeStore.serverTime;
     })
