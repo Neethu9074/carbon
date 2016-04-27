@@ -1,6 +1,8 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import createTimelineRenderer from 'in-components/timeline/components/timelineCanvas';
+
 import './TimelineCanvasReactWrapper.less';
 
 
@@ -14,9 +16,20 @@ export default React.createClass({
     PureRenderMixin
   ],
 
+  componentDidMount() {
+    this.renderer = createTimelineRenderer({
+      canvas: this.refs.canvas
+    });
+  },
+
+  componentWillUnmount() {
+    this.renderer.dispose();
+  },
+
   render() {
     return (
-      <canvas className={block} />
+      <canvas ref='canvas'
+              className={block} />
     );
   }
 });

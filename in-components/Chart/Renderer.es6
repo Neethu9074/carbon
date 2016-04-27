@@ -112,7 +112,7 @@ export default class Renderer {
     ro.on(this.glassPane, 'mouseleave')
       .subscribe(timelineStore.clearHighlightedMoment);
 
-    ro.on(window, 'resize')
+    this.resizeSubscription = ro.on(window, 'resize')
       .debounce(500)
       .subscribe(() => {
         // TODO yak! Improve width calculation after alpha
@@ -774,6 +774,7 @@ export default class Renderer {
     this.container.removeChild(this.widthCalculationElement);
     this.container.removeChild(this.chartContentContainer);
     this.highlightedMomentSubscription.dispose();
+    this.resizeSubscription.dispose();
     this.stopAnimations();
   }
 
