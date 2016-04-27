@@ -16,9 +16,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div className={block}>
-        KOTZ WÜRG
-      </div>
+      <canvas className={block} />
     );
   }
 });
