@@ -34,7 +34,7 @@ const NginxDashboard = React.createClass({
                      'requests'
                    ],
                    labels: [
-                     'Requests'
+                     'Requests / s'
                    ],
                    type: 'line'
                  }}/>
