@@ -4,6 +4,7 @@ import React from 'react';
 
 import {
   withSiPrefixZeroDecimalPlaces,
+  withSiPrefixThreeDecimalPlaces,
   twoDecimalPlaces,
   msTwoDecimalPlaces,
   msZeroDecimalPlaces
@@ -133,7 +134,7 @@ export default React.createClass({
                            }}
                            y1={{
                              min: 0,
-                             formatter: withSiPrefixZeroDecimalPlaces,
+                             formatter: withSiPrefixThreeDecimalPlaces,
                              tooltipFormatter: twoDecimalPlaces,
                              metrics: [
                                'document_count'
@@ -145,7 +146,7 @@ export default React.createClass({
                            }}
                            y2={{
                              min: 0,
-                             formatter: withSiPrefixZeroDecimalPlaces,
+                             formatter: withSiPrefixThreeDecimalPlaces,
                              tooltipFormatter: twoDecimalPlaces,
                              metrics: [
                                'index_count',

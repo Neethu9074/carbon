@@ -5,7 +5,8 @@ import React from 'react';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getSingular} from 'in-sdk/pluginName';
 import getSnapshot from 'in-hoc/getSnapshot';
-import {getIcon} from 'in-sdk/snapshot';
+import {getIcon, getLabel} from 'in-sdk/snapshot';
+import Tooltip from 'in-components/Tooltip';
 
 import './Crumb.less';
 
@@ -27,24 +28,29 @@ export default getSnapshot(
   },
 
   render() {
-    if (!this.props.snapshot) {
+    const snapshot = this.props.snapshot;
+    if (!snapshot) {
       return null;
     }
 
     const isSelected = this.props.snapshotId === this.props.selectedSnapshotId;
-    const label = getSingular(this.props.snapshot.get('plugin'));
+    const label = getSingular(snapshot.get('plugin'));
     const className = isSelected ? block + ' ' + block + '__selected' : block;
-    const icon = getIcon(this.props.snapshot);
+    const icon = getIcon(snapshot);
+
+    const tooltip = `${getSingular(snapshot.get('plugin'))}: ${getLabel(snapshot)}`;
 
     return (
-      <li className={className}
-          onClick={this.onCrumbClicked}>
+      <Tooltip content={tooltip}>
+        <li className={className}
+            onClick={this.onCrumbClicked}>
 
-        <img src={icon}
-             alt='Snapshot icon'
-             className={block + '__icon'}/>
-        {label}
-      </li>
+          <img src={icon}
+               alt='Snapshot icon'
+               className={block + '__icon'}/>
+          {label}
+        </li>
+      </Tooltip>
     );
   },
 

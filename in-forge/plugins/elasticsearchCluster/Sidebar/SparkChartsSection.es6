@@ -5,7 +5,7 @@ import HistoricMetricSparkChart from 'in-charts/SparkChart/HistoricMetricSparkCh
 import MetricValue from 'in-components/MetricValue';
 import {timeframeShape} from 'in-stores/timeline';
 import {
-  zeroDecimalPlaces,
+  withSiPrefixZeroDecimalPlaces,
   bytesZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
@@ -28,10 +28,10 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
-        {this.sparkChart('node_count', 'Nodes', zeroDecimalPlaces)}
-        {this.sparkChart('indices_count', 'Indices', zeroDecimalPlaces)}
-        {this.sparkChart('active_shards_count', 'Active Shards', zeroDecimalPlaces, 280)}
-        {this.sparkChart('document_count', 'Documents', zeroDecimalPlaces)}
+        {this.sparkChart('node_count', 'Nodes', withSiPrefixZeroDecimalPlaces)}
+        {this.sparkChart('indices_count', 'Indices', withSiPrefixZeroDecimalPlaces)}
+        {this.sparkChart('active_shards_count', 'Active Shards', withSiPrefixZeroDecimalPlaces, 280)}
+        {this.sparkChart('document_count', 'Documents', withSiPrefixZeroDecimalPlaces)}
         {this.sparkChart('store_size', 'Size of store', bytesZeroDecimalPlaces)}
       </div>
     );

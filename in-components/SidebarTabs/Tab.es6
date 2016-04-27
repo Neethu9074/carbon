@@ -4,9 +4,9 @@ import React from 'react';
 
 import {getSingular} from 'in-sdk/pluginName';
 import getSnapshot from 'in-hoc/getSnapshot';
-import {getIcon} from 'in-sdk/snapshot';
+import {getLabel, getIcon} from 'in-sdk/snapshot';
 
-import Tooltip from '../Tooltip';
+import Tooltip from 'in-components/Tooltip';
 
 import './Tab.less';
 
@@ -37,8 +37,10 @@ export default getSnapshot(React.createClass({
     let className = this.props.isSelected ? block + ' ' + block + '__selected' : block;
     className += ' ' + this.props.className;
 
+    const tooltip = `${getSingular(snapshot.get('plugin'))}: ${getLabel(snapshot)}`;
+
     return (
-      <Tooltip content={getSingular(snapshot.get('plugin'))}>
+      <Tooltip content={tooltip}>
         <li className={className}
             onClick={() => this.props.onClick(this.props.snapshotId)}>
 
