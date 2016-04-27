@@ -76,9 +76,9 @@ export default connectTo({
       }
 
       return (
-        <Line style={{left: this.props.scale(event.get('start')).toFixed(2) + '%'}}
-                   event={event}
-                   scale={this.props.scale}/>
+        <Line left={this.props.scale(event.get('start')).toFixed(2) + '%'}
+              event={event}
+              scale={this.props.scale}/>
       );
     },
 

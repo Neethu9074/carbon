@@ -9,6 +9,7 @@ import './Line.less';
 
 const rpt = React.PropTypes;
 
+
 export default React.createClass({
 
   displayName: 'Line',
@@ -21,7 +22,7 @@ export default React.createClass({
     serverTime: rpt.number.isRequired,
     scale: rpt.func.isRequired,
     event: irpt.map.isRequired,
-    style: rpt.object
+    left: rpt.string
   },
 
   render() {
@@ -35,10 +36,13 @@ export default React.createClass({
       right = (100 - Math.min(100, right)) + '%';
 
     }
-    const style = this.props.style ? this.props.style : {};
-    style.color = getColorForEvent(event);
-    style.borderColor = style.color;
-    style.right = right;
+    const color = getColorForEvent(event);
+    const style = {
+      left: this.props.left,
+      color: color,
+      borderColor: color,
+      right
+    };
 
     return (
       <div className={'in-timeline-line'}
