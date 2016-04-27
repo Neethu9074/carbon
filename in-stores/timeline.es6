@@ -24,6 +24,8 @@ export const timeframe$ = timeframe;
 
 export const focusedMoment$ = timeframe$.map(_timeframe => _timeframe.to).distinct();
 
+export const live$ = timeframe$.map(_timeframe => !_timeframe.to).distinct();
+
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
     return create().emit(_timeframe.to).freeze();
