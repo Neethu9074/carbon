@@ -1,8 +1,10 @@
 import React from 'react';
 
 import connectTo from 'in-hoc/connectTo';
+import Icon from 'in-components/Icon';
 
 import {setSortBy, setSortDirection, sortDirection$, sortBy$} from '../traceViewStore';
+
 import './TraceTableHeader.less';
 
 
@@ -37,9 +39,11 @@ export default connectTo({
 
     renderCell(name, field) {
       return (
-        <span onClick={()=>this.onClick(field)} className={cellClassName + this.getCellClassName(field)}>
-          {name + this.getSortState(field)}
-        </span>
+        <div onClick={() => this.onClick(field)}
+             className={cellClassName + this.getCellClassName(field)}>
+          {name}
+          {this.getSortIcon(field)}
+        </div>
       );
     },
 
@@ -48,14 +52,20 @@ export default connectTo({
       setSortDirection(this.props.sortDirection === 'desc' ? 'asc' : 'desc');
     },
 
-    getSortState(cell) {
+    getSortIcon(cell) {
       if (this.props.sortBy === cell) {
         if (this.props.sortDirection === 'desc') {
-          return 'D';
+          return (
+            <Icon className={cellClassName + '__sort-icon'}
+                  type={'up'}/>
+          );
         }
-        return 'A';
+        return (
+          <Icon className={cellClassName + '__sort-icon'}
+                type={'down'}/>
+        );
       }
-      return '';
+      return null;
     },
 
     getCellClassName(cell) {
