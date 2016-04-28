@@ -23,15 +23,15 @@ export default React.createClass({
   render() {
     return (
       <div className={block}>
-        <Icon type={'search'}
-              className={block + '__icon-zoom-out'}/>
+        <Icon type={'zoom_small'}
+              className={block + '__icon-zoom'}/>
          <Slider onChange={this.onZoomChanged}
                  min={0}
                  max={1}
                  defaultValue={0.5}
                  className={block + '__slider'}/>
-        <Icon type={'search'}
-              className={block + '__icon-zoom-in'}/>
+        <Icon type={'zoom_large'}
+              className={block + '__icon-zoom'}/>
       </div>
     );
   },
