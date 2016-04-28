@@ -1,8 +1,6 @@
 import {find, remove} from 'lodash';
 
 import CameraController from 'in-map/src/controls/physical/CameraController';
-import {hexToRGBNormalized} from 'in-services/formatters/color';
-import theme from 'in-services/theme';
 
 import {getAllNodes, getAllGroups} from 'in-map/src/3DSceneObjects/physical/mapUtils';
 import GroundPlane from 'in-map/src/3DSceneObjects/physical/GroundPlane';
@@ -15,9 +13,6 @@ export default class Map extends BaseMap {
 
   constructor({parent}) {
     super({parent, id: 'PhysicalMap'});
-
-    const color = hexToRGBNormalized(theme.map.colors.groundDots);
-    this.groundPlane.setColor(color);
   }
 
   init() {
