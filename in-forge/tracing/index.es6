@@ -3,6 +3,7 @@ import './file';
 import './hc';
 import './jdbc';
 import './jersey';
+import './OpenEJB';
 import './redis';
 import './servlet';
 import './url';
