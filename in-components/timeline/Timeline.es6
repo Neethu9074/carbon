@@ -10,7 +10,7 @@ import connectTo from 'in-hoc/connectTo';
 import './Timeline.less';
 
 
-const block = 'in-bottom-timeline';
+const block = 'in-timeline';
 const rpt = React.PropTypes;
 
 export default connectTo({

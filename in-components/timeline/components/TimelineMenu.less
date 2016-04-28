@@ -1,8 +1,60 @@
-.in-bottom-timeline-menu {
+.in-timeline-menu {
   @width: 250px;
 
   float: left;
   width: @width;
 
-  cursor: pointer;
+  &__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    height: 30px;
+    padding: 5px 20px 5px 10px;
+  }
+
+  &__event-line, &__event-line--with-icon {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    padding: 5px 20px 5px 5px;
+    height: 30px;
+    font-size: 0.75rem;
+    background: #43565e;
+    border-bottom: 1px solid #2e4048;
+  }
+
+  &__event-line--with-icon {
+    justify-content: space-between;
+  }
+
+  &__counter {
+    color: #80939c;
+    margin-left: 5px;
+  }
+
+  &__icon {
+    color: #80939c;
+    font-size: 2rem;
+    cursor: pointer;
+    padding: 0;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  &__date, &__time {
+    font-size: 0.8rem;
+  }
+
+  &__date {
+    color: #9fffff;
+  }
+
+  &__time {
+    margin-left: 5px;
+    color: #92a5ae;
+  }
 }

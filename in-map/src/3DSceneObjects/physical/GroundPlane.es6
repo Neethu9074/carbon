@@ -21,8 +21,6 @@ export default class GroundPlane extends BaseGroundPlane {
     const texture = new THREE.TextureLoader().load(
       groundTexturePath,
       loadedTexture => {
-        this.scene.renderScene();
-
         this.ground.material.dispose();
         this.ground.material = new THREE.MeshBasicMaterial({
           transparent: true,
@@ -34,6 +32,8 @@ export default class GroundPlane extends BaseGroundPlane {
         this.ground.material.color.r = color.r;
         this.ground.material.color.g = color.g;
         this.ground.material.color.b = color.b;
+
+        this.scene.renderScene();
       });
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
