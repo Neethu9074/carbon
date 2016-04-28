@@ -7,7 +7,7 @@ import Icon from 'in-components/Icon';
 import './TimelineNavigation.less';
 
 
-const block = 'in-bottom-timeline-navigation';
+const block = 'in-timeline-navigation';
 
 export default React.createClass({
 

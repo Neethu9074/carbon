@@ -7,7 +7,7 @@ import connectTo from 'in-hoc/connectTo';
 import './TimelineLiveButton.less';
 
 
-const block = 'in-bottom-timeline-live-button';
+const block = 'in-timeline-live-button';
 const rpt = React.PropTypes;
 
 export default connectTo({

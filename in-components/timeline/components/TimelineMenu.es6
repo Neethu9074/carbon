@@ -11,7 +11,7 @@ import Icon from 'in-components/Icon';
 import './TimelineMenu.less';
 
 
-const block = 'in-bottom-timeline-menu';
+const block = 'in-timeline-menu';
 const rpt = React.PropTypes;
 
 export default connectTo({

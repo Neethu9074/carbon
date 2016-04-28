@@ -6,7 +6,7 @@ import createTimelineRenderer from 'in-components/timeline/components/timelineCa
 import './TimelineCanvasReactWrapper.less';
 
 
-const block = 'in-bottom-timeline-canvas';
+const block = 'in-timeline-canvas';
 
 export default React.createClass({
 
