@@ -1,5 +1,8 @@
 import THREE from 'three';
 
+import {hexToRGBNormalized} from 'in-services/formatters/color';
+import theme from 'in-services/theme';
+
 import BaseGroundPlane from '../common/GroundPlane';
 import groundTexturePath from './ground.png';
 
@@ -9,7 +12,7 @@ export default class GroundPlane extends BaseGroundPlane {
   constructor({parent, size}) {
     super({parent, size});
 
-    this.ground.material.map = this.getGroundTexture();
+    this.getGroundTexture();
   }
 
   getGroundTexture() {
@@ -17,7 +20,21 @@ export default class GroundPlane extends BaseGroundPlane {
     const repating = quadsPerWorldUnit * this.size;
     const texture = new THREE.TextureLoader().load(
       groundTexturePath,
-      () => { this.scene.renderScene(); });
+      loadedTexture => {
+        this.scene.renderScene();
+
+        this.ground.material.dispose();
+        this.ground.material = new THREE.MeshBasicMaterial({
+          transparent: true,
+          depthWrite: false,
+          map: loadedTexture
+        });
+
+        const color = hexToRGBNormalized(theme.map.colors.groundDots);
+        this.ground.material.color.r = color.r;
+        this.ground.material.color.g = color.g;
+        this.ground.material.color.b = color.b;
+      });
 
     texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
     texture.repeat.set(repating, repating);
@@ -27,7 +44,6 @@ export default class GroundPlane extends BaseGroundPlane {
     texture.anisotropy = this.scene.webGLRenderer.getMaxAnisotropy();
 
     this.groundtexture = texture;
-    return texture;
   }
 
   onZoom(zoomLevel) {
