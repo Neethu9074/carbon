@@ -18,6 +18,7 @@ export default React.createClass({
 
   componentDidMount() {
     this.renderer = createTimelineRenderer({
+      container: this.refs.container,
       canvas: this.refs.canvas
     });
   },
@@ -28,8 +29,11 @@ export default React.createClass({
 
   render() {
     return (
-      <canvas ref='canvas'
-              className={block} />
+      <div ref='container'
+           className={block}>
+        <canvas ref='canvas'
+                className={block + '__canvas'} />
+      </div>
     );
   }
 });

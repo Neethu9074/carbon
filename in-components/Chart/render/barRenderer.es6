@@ -1,6 +1,5 @@
 export function draw({dataColumns, ctx, series, x, y, rollUpInMillis}) {
   series.forEach((s, seriesIndex) => {
-    ctx.beginPath();
     ctx.lineWidth = 2;
     ctx.fillStyle = s.color;
 

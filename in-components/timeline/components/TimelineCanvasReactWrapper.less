@@ -1,7 +1,14 @@
 .in-bottom-timeline-canvas {
-  display: block;
+  position: relative;
   float: left;
 
   width: ~'calc(100% - 250px)';
-  height: 250px;
+  height: 162px;
+
+  &__canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+  }
 }

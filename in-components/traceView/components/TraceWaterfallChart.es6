@@ -6,6 +6,7 @@ import {setSelectedSpanId, selectedSpanId$, clearSpanSelection} from 'in-stores/
 import TraceWaterfallAxis from 'in-components/traceView/components/TraceWaterfallAxis';
 import {msZeroDecimalPlaces} from 'in-services/formatters/number';
 import {getAxisConfig} from 'in-charts/timeFormatting';
+import {getTickPositions} from 'in-charts/timeAxis';
 import createScale from 'in-charts/scale';
 import connectTo from 'in-hoc/connectTo';
 import {getLabel} from 'in-sdk/tracing';
@@ -71,7 +72,7 @@ export default connectTo({
       scale.setDomainFrom(domain[0]);
       scale.setDomainTo(domain[1]);
       const axisConfig = getAxisConfig(scale.getDomainTo() - scale.getDomainFrom());
-      const ticks = this.getTickPositions(scale, axisConfig);
+      const ticks = getTickPositions(scale, axisConfig);
 
       return (
         <div className={block}>
@@ -95,34 +96,5 @@ export default connectTo({
         domain[1] = Math.max(domain[1], start + span.get('duration'));
         span.get('childSpans').forEach(updateDomain);
       }
-    },
-
-    getTickPositions(scale, axisConfig) {
-      // special case: Trace with 0 time.
-      if (scale.getDomainFrom() === scale.getDomainTo()) {
-        return [{
-          range: scale.getRangeFrom(),
-          domain: scale.getDomainFrom()
-        }];
-      }
-
-      const ticks = [];
-      const width = scale.getRangeTo();
-      const start = scale.getDomainFrom();
-
-      let lastTickDomain = 0;
-      let lastTickRange = scale.getRange(lastTickDomain + start);
-
-      while (lastTickRange <= width) {
-        ticks.push({
-          range: lastTickRange,
-          domain: lastTickDomain + start
-        });
-
-        lastTickDomain += axisConfig.stepSize;
-        lastTickRange = scale.getRange(lastTickDomain + start);
-      }
-
-      return ticks;
     }
-}));
+  }));
