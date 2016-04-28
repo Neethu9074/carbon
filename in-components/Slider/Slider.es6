@@ -1,21 +1,26 @@
 import React from 'react';
 
+import {getClassName} from 'in-services/react';
+
 import './Slider.less';
 
+
 const block = 'in-slider';
+const rpt = React.PropTypes;
 
 const Slider = React.createClass({
   propTypes: {
-    onChange: React.PropTypes.func.isRequired,
-    defaultValue: React.PropTypes.any,
-    min: React.PropTypes.number,
-    max: React.PropTypes.number
+    onChange: rpt.func.isRequired,
+    defaultValue: rpt.any,
+    className: rpt.string,
+    min: rpt.number,
+    max: rpt.number
   },
 
   render() {
     return (
       <input type='range'
-             className={block}
+             className={getClassName(this, block)}
              min={this.props.min ? this.props.min : 0}
              max={this.props.max ? this.props.max : 100}
              step={0.1}

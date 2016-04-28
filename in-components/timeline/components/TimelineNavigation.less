@@ -1,2 +1,86 @@
-.in-bottom-timeline {
+
+.in-bottom-timeline-navigation {
+  @dark: #384b53;
+  @light: #92a5ae;
+  @width: 220px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: @width;
+  padding: 5px 15px;
+
+  &__icon-zoom-in, &__icon-zoom-out {
+    color: @light;
+  }
+
+  &__icon-zoom-out {
+    font-size: 1rem;
+  }
+
+  &__icon-zoom-in {
+    font-size: 1.5rem;
+  }
+
+  &__slider {
+    width: 100%;
+    margin: 6px 4px;
+
+    -webkit-appearance: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-slider-runnable-track {
+      height: 2px;
+      cursor: pointer;
+      background: @dark;
+    }
+
+    &::-webkit-slider-thumb {
+      height: 14px;
+      width: 4px;
+      border-radius: 2px;
+      background: @light;
+      cursor: pointer;
+      -webkit-appearance: none;
+      margin-top: -6px;
+    }
+
+    &::-moz-range-thumb{
+      height: 14px;
+      width: 2px;
+      border-radius: 2px;
+      background: @light;
+      cursor: pointer;
+    }
+
+    &::-ms-thumb {
+      height: 14px;
+      width: 5px;
+      border-radius: 2px;
+      background: @light;
+      cursor: pointer;
+    }
+
+    &::-moz-range-track {
+      height: 2px;
+      cursor: pointer;
+      background: @dark;
+    }
+
+    &::-ms-track {
+      height: 2px;
+      cursor: pointer;
+    }
+
+    &::-ms-fill-upper {
+      background: @dark;
+    }
+
+    &:focus::-ms-fill-lower {
+      background: @dark;
+    }
+  }
 }
