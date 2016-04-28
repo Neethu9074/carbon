@@ -47,3 +47,15 @@ export const isCollapsed$ = isCollapsed.observable;
 export function toggleMenu() {
   isCollapsed.applyStateMutation(oldValue => !oldValue);
 }
+
+
+// this is a temporary store to show the UI behaves on live mode
+const isLive = createStore({
+  name: 'isTimelineLiveStore',
+  initialValue: false
+});
+export const isLive$ = isLive.observable;
+
+export function toggleLive() {
+  isLive.applyStateMutation(oldValue => !oldValue);
+}
