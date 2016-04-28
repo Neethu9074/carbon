@@ -1,8 +1,12 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {
+  isCollapsed$,
+  toggleMenu,
+  categorizedEvents$
+} from 'in-components/timeline/timelineStore';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
-import {isCollapsed$, toggleMenu} from 'in-components/timeline/timelineStore';
 import {formatDate, formatTime} from 'in-services/formatters/date';
 import connectTo from 'in-hoc/connectTo';
 import {to$} from 'in-stores/timeline';
@@ -15,6 +19,7 @@ const block = 'in-timeline-menu';
 const rpt = React.PropTypes;
 
 export default connectTo({
+    categorizedEvents: categorizedEvents$,
     isCollapsed: isCollapsed$,
     to: to$
   },
@@ -27,12 +32,14 @@ export default connectTo({
     ],
 
     propTypes: {
+      categorizedEvents: rpt.object,
       isCollapsed: rpt.bool,
       to: rpt.number
     },
 
     render() {
       const to = this.props.to;
+      const categorizedEvents = this.props.categorizedEvents;
 
       return (
         <div className={block}>
@@ -58,7 +65,7 @@ export default connectTo({
             <div>
               Indicents
               <span className={block + '__counter'}>
-              (12)
+                {categorizedEvents ? '(' + categorizedEvents.incidents.length + ')' : null}
               </span>
             </div>
           </div>
@@ -66,14 +73,14 @@ export default connectTo({
           <div className={block + '__event-line'}>
             Issues
             <span className={block + '__counter'}>
-              (1)
+              {categorizedEvents ? '(' + categorizedEvents.issues.length + ')' : null}
             </span>
           </div>
 
           <div className={block + '__event-line'}>
             Changes
             <span className={block + '__counter'}>
-              (1)
+              {categorizedEvents ? '(' + categorizedEvents.changes.length + ')' : null}
             </span>
           </div>
         </div>
