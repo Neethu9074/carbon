@@ -7,7 +7,6 @@ import {on, off} from 'in-services/persistentConnection';
 
 
 export default function(eventId, getId, getData, transformData) {
-  debugger;
   return createObservableIfMissing.bind(null, {
     getId,
     createObservable: createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData)
