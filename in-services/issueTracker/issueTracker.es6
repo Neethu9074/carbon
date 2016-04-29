@@ -1,6 +1,5 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
-import invariant from 'invariant';
 import {createLogger} from 'instalog';
 
 import createEventObservable from 'in-services/subscription/event';
@@ -47,12 +46,20 @@ const withoutCpuStealMapper = (events) => {
  */
 function issuesReducer(existingEvents, eventUpdates) {
   const updatedEventIds = {};
-  eventUpdates.forEach(event => updatedEventIds[event.get('id')] = event);
+  const updatesToApply = [];
+  eventUpdates.forEach(event => {
+    if (updatedEventIds[event.get('id')]) {
+      logger.warn(`Update contains the event with ID ${event.get('id')} (at least) twice.`);
+    } else {
+      updatedEventIds[event.get('id')] = event;
+      updatesToApply.push(event);
+    }
+  });
 
   const result = existingEvents.filter(existing => {
     return !updatedEventIds[existing.get('id')];
   })
-  .concat(eventUpdates);
+  .concat(Immutable.List(updatesToApply));
 
   return result;
 }
@@ -131,14 +138,16 @@ export const openEvents$ = createTrackingStore({
 
 export const combinedEvents$ = combineLatest([historicalEvents$, openEvents$])
   .map(([historical, open]) => {
-    const result = open.toArray();
+    const result = [];
     const addedEvents = {};
 
-    result.forEach(event => {
-      if (__DEV__) {
-        invariant(addedEvents[event.get('id')] == null, 'Event with same ID exists twice!');
+    open.forEach(event => {
+      if (addedEvents[event.get('id')]) {
+        logger.warn(`Event with the ID ${event.get('id')} exists (at least) twice!`);
+      } else {
+        addedEvents[event.get('id')] = event;
+        result.push(event);
       }
-      addedEvents[event.get('id')] = event;
     });
 
     historical.forEach(event => {
