@@ -6,21 +6,22 @@ import {getDataEvent} from 'in-services/subscription/dataEvent';
 import {on, off} from 'in-services/persistentConnection';
 
 
-export default function(eventId, getId, getData, transformData, data) {
-  return createObservableIfMissing({
+export default function(eventId, getId, getData, transformData) {
+  debugger;
+  return createObservableIfMissing.bind(null, {
     getId,
-    createObservable: createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData, data)
-  }, data);
+    createObservable: createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData)
+  });
 }
 
-function createPhysicalHierarchyObservable(eventId, getData, transformData, snapshotId) {
+function createPhysicalHierarchyObservable(eventId, getData, transformData, opts) {
   const subscriptionId = getNewSubscriptionId();
   const dataEvent = getDataEvent(subscriptionId);
 
   const observable = create({
     start() {
       on(dataEvent, onData);
-      subscribe(subscriptionId, eventId, getData(subscriptionId, snapshotId));
+      subscribe(subscriptionId, eventId, getData(subscriptionId, opts));
     },
 
     stop() {
