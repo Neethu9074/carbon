@@ -19,9 +19,32 @@ export default function ElasticsearchSpanDetailView({span}) {
         </DescriptionItem>
       </DescriptionList>
       {query ?
-        <Code code={JSON.stringify(JSON.parse(query), 0, 2)}
+        <Code code={prettyPrintQuery(query)}
               type='json' />
       : null}
     </div>
   );
+}
+
+
+function prettyPrintQuery(query) {
+  let json;
+  try {
+    json = JSON.parse(query);
+  } catch (e) {
+    return query;
+  }
+
+  if (json.query_binary) {
+    const binaryQuery = json.query_binary;
+
+    try {
+      json.query_binary_decoded = atob(binaryQuery);
+    } catch (e) {
+      // Queries may be trucnated to save space. Decoding
+      // is only an optional service.
+    }
+  }
+
+  return JSON.stringify(json, 0, 2);
 }
