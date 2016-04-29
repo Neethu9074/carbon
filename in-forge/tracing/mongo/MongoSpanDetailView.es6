@@ -9,7 +9,7 @@ export default function MongoSpanDetailView({span}) {
         <DescriptionItem title='Service'>
           {span.getIn(['data', 'mongo', 'service'])}
         </DescriptionItem>
-        <DescriptionItem title='Topic'>
+        <DescriptionItem title='Protocol'>
           {span.getIn(['data', 'mongo', 'protocol'])}
         </DescriptionItem>
       </DescriptionList>
