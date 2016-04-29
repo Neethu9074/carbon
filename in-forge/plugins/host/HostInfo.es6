@@ -19,7 +19,6 @@ const HardwareInfo = React.createClass({
     const data = snapshot.get('data');
 
     const memoryTotal = data.get('memory.total', null);
-    const swapTotal = data.get('swap.total', null);
 
     return (
       <div>
@@ -37,12 +36,6 @@ const HardwareInfo = React.createClass({
           {memoryTotal !== null ?
             <DescriptionItem title='Memory'>
               {bytesTwoDecimalPlaces(memoryTotal)}
-            </DescriptionItem>
-          : null}
-
-          {swapTotal !== null ?
-            <DescriptionItem title='Swap Total'>
-              {bytesTwoDecimalPlaces(swapTotal)}
             </DescriptionItem>
           : null}
 
