@@ -1,4 +1,9 @@
-import {historicalEvents$, openEvents$, getEventType, EVENT_TYPES} from 'in-services/issueTracker';
+import {
+  historicalEvents$,
+  openEvents$,
+  getEventType,
+  EVENT_TYPES
+} from 'in-services/issueTracker';
 import {mapHealthToColor, health} from 'in-services/health';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {createStore} from 'in-stores/store';

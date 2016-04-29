@@ -1,5 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
+import invariant from 'invariant';
+import {createLogger} from 'instalog';
 
 import createEventObservable from 'in-services/subscription/event';
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
@@ -14,6 +16,7 @@ import {getOpenEvents} from 'in-stores/openEvents';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
+const logger = createLogger('in-services/issueTracker/issueTracker');
 
 export const EVENT_TYPES = {
   CHANGE: 0,
@@ -43,11 +46,15 @@ const withoutCpuStealMapper = (events) => {
  * @returns {Immutable≤Issue>} existingEvents + eventUpdates - dublicates
  */
 function issuesReducer(existingEvents, eventUpdates) {
-  return existingEvents.filter(existing => {
-    const id = existing.get('id');
-    return eventUpdates.findIndex(updated => updated.get('id') === id) === -1;
+  const updatedEventIds = {};
+  eventUpdates.forEach(event => updatedEventIds[event.get('id')] = event);
+
+  const result = existingEvents.filter(existing => {
+    return !updatedEventIds[existing.get('id')];
   })
   .concat(eventUpdates);
+
+  return result;
 }
 
 
@@ -73,7 +80,7 @@ function historicalEventsReducer(existingIssues, issueUpdates) {
  */
 function openEventsReducer(existingEvents, eventUpdates) {
   return issuesReducer(existingEvents, eventUpdates)
-          .filter(event => event.get('end') === undefined);
+    .filter(event => event.get('state') === 'open');
 }
 
 /**
@@ -122,17 +129,19 @@ export const openEvents$ = createTrackingStore({
                 .nextFrame()
 }).observable;
 
-
 export const combinedEvents$ = combineLatest([historicalEvents$, openEvents$])
   .map(([historical, open]) => {
-    const result = historical.toArray();
+    const result = open.toArray();
     const addedEvents = {};
 
     result.forEach(event => {
-      addedEvents[event.get('id')] = true;
+      if (__DEV__) {
+        invariant(addedEvents[event.get('id')] == null, 'Event with same ID exists twice!');
+      }
+      addedEvents[event.get('id')] = event;
     });
 
-    open.forEach(event => {
+    historical.forEach(event => {
       if (!addedEvents[event.get('id')]) {
         result.push(event);
       }
@@ -206,9 +215,21 @@ export function getHealth(snapshotId) {
  *
  */
 export function getColorForEvent(event) {
-  return event.get('state') === 'open' ?
-    theme.health[event.getIn(['problem', 'severity'], 0)] :
-    theme.health[0];
+  if (event.get('state') === 'open') {
+    const severity = event.getIn(['problem', 'severity'], 0);
+
+    if (__DEV__ && severity < 0 || severity > 10) {
+      logger.warn(`Invalid severity ${severity} for event ${event.toString()}`);
+    }
+
+    const color = theme.health[severity];
+    if (!color) {
+      return theme.health[0];
+    }
+    return color;
+  }
+
+  return theme.health[0];
 }
 
 /**

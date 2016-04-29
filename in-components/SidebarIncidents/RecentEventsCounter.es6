@@ -40,13 +40,13 @@ export default getEventsWithinTimerange(
         return (
           <div className={block}>
             <Counter titleFirstLine={'Active'}
-                     titleSecondLine={'Issues'}
+                     titleSecondLine={counter.activeIssues === 1 ? 'Issue' : 'Issues'}
                      value={counter.activeIssues}
                      total={counter.issues}/>
-            <Counter titleSecondLine={'Changes'}
+            <Counter titleSecondLine={counter.changes === 1 ? 'Change' : 'Changes'}
                      value={counter.changes}/>
             <Counter titleFirstLine={'Affected'}
-                     titleSecondLine={'Entities'}
+                     titleSecondLine={counter.affectedEntities === 1 ? 'Entity' : 'Entities'}
                      value={counter.affectedEntities}/>
           </div>
         );

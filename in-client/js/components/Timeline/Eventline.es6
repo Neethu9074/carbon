@@ -74,11 +74,11 @@ export default connectTo({
       if (!event) {
         return null;
       }
-
       return (
         <Line left={this.props.scale(event.get('start')).toFixed(2) + '%'}
               event={event}
-              scale={this.props.scale}/>
+              scale={this.props.scale}
+              serverTime={this.props.times.serverTime}/>
       );
     },
 

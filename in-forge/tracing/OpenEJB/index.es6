@@ -1,7 +1,7 @@
 import {registerSpanDefinition} from 'in-sdk/registry/tracing';
 
 registerSpanDefinition({
-  type: 'redis',
+  type: 'OpenEJB',
 
   typeName: {
     singular: 'Enterprise Java Bean',
