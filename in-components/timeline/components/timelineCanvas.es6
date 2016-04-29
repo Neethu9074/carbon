@@ -16,7 +16,8 @@ export default function createTimelineRenderer({container, canvas}) {
 
   const backBufferCanvas = document.createElement('canvas');
   const backBuffer = backBufferCanvas.getContext('2d');
-  const screenBuffer = canvas.getContext('2d');
+  const screenBufferCanvas = canvas;
+  const screenBuffer = screenBufferCanvas.getContext('2d');
 
   const changes = ro.create();
 
@@ -55,7 +56,7 @@ export default function createTimelineRenderer({container, canvas}) {
   .subscribe(draw);
 
   return {
-    canvas,
+    canvas: screenBufferCanvas,
     dispose
   };
 
@@ -65,7 +66,7 @@ export default function createTimelineRenderer({container, canvas}) {
     scale.setRangeTo(width);
 
     updateCanvasDimensions(backBufferCanvas, backBuffer, width, height);
-    updateCanvasDimensions(canvas, screenBuffer, width, height);
+    updateCanvasDimensions(screenBufferCanvas, screenBuffer, width, height);
 
     changes.emit(changeSignal);
   }
@@ -74,7 +75,7 @@ export default function createTimelineRenderer({container, canvas}) {
     drawBackground();
     drawTimeAxis();
 
-    screenBuffer.drawImage(backBufferCanvas, 0, 0);
+    screenBuffer.drawImage(backBufferCanvas, 0, 0, width, height);
   }
 
   function drawBackground() {
