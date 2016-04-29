@@ -1,0 +1,16 @@
+import {registerSpanDefinition} from 'in-sdk/registry/tracing';
+
+registerSpanDefinition({
+  type: 'kafka',
+
+  typeName: {
+    singular: 'Kafka',
+    plural: 'Kafka'
+  },
+
+  detailView: 'KafkaSpanDetailView',
+
+  getLabel(span) {
+    return `${span.getIn(['data', 'kafka', 'access'])} ${span.getIn(['data', 'kafka', 'service'])}`;
+  }
+});
