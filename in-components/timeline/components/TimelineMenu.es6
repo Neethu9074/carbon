@@ -4,11 +4,13 @@ import React from 'react';
 import {
   isCollapsed$,
   toggleMenu,
-  categorizedEvents$
+  categorizedEvents$,
+  showTimeSelector$
 } from 'in-components/timeline/timelineStore';
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
+import DatePicker from 'in-components/timeline/components/DatePicker';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
@@ -19,6 +21,7 @@ const block = 'in-timeline-menu';
 const rpt = React.PropTypes;
 
 export default connectTo({
+  showTimeSelector: showTimeSelector$,
     categorizedEvents: categorizedEvents$,
     isCollapsed: isCollapsed$
   },
@@ -32,6 +35,7 @@ export default connectTo({
 
     propTypes: {
       categorizedEvents: rpt.object,
+      showTimeSelector: rpt.bool,
       isCollapsed: rpt.bool
     },
 
@@ -41,6 +45,7 @@ export default connectTo({
       return (
         <div className={block}>
           <div className={block + '__heading'}>
+            {this.props.showTimeSelector ? <DatePicker applyDate={this.applyDate}/> : null}
             <TimelineSelectedTime/>
             <TimelineLiveButton/>
           </div>
@@ -60,6 +65,10 @@ export default connectTo({
                                  count={events ? events.changes.length : 0}/>
         </div>
       );
+    },
+
+    applyDate(date) {
+      console.log(date);
     }
   })
 );

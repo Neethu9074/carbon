@@ -47,3 +47,14 @@ export const isCollapsed$ = isCollapsed.observable;
 export function toggleMenu() {
   isCollapsed.applyStateMutation(oldValue => !oldValue);
 }
+
+
+const showTimeSelector = createStore({
+  name: 'showTimeSelectorStore',
+  initialValue: false
+});
+export const showTimeSelector$ = showTimeSelector.observable;
+
+export function toggleShowTimeSelector() {
+  showTimeSelector.applyStateMutation(oldValue => !oldValue);
+}

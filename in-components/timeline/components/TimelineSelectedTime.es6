@@ -1,6 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
 import {formatDate, formatTime} from 'in-services/formatters/date';
 import connectTo from 'in-hoc/connectTo';
 import {to$} from 'in-stores/timeline';
@@ -30,7 +31,8 @@ export default connectTo({
       const to = this.props.to;
 
       return (
-        <div className={block}>
+        <div className={block}
+             onClick={toggleShowTimeSelector}>
           <span className={block + '__date'}>
             {formatDate(to)}
           </span>
