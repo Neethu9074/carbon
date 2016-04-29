@@ -19,7 +19,7 @@ export default function ElasticsearchSpanDetailView({span}) {
         </DescriptionItem>
       </DescriptionList>
       {query ?
-        <Code code={JSON.stringify(query, 0, 2)}
+        <Code code={JSON.stringify(JSON.parse(query), 0, 2)}
               type='json' />
       : null}
     </div>

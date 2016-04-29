@@ -1,10 +1,15 @@
+import './cassandra';
+import './corba';
 import './elasticsearch';
 import './file';
 import './hc';
 import './jdbc';
 import './jersey';
+import './jms';
 import './kafka';
+import './mongo';
 import './OpenEJB';
+import './rabbitMq';
 import './redis';
 import './servlet';
 import './url';
