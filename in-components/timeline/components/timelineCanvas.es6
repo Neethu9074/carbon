@@ -1,11 +1,17 @@
 import * as ro from 'reactive-observables';
 
+import {categorizedEvents$} from 'in-components/timeline/timelineStore';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {getTickPositions} from 'in-charts/timeAxis';
 import createScale from 'in-charts/scale';
 
+import issueCriticalIcon from 'in-components/timeline/icons/issue_critical.svg';
+import issueWarningIcon from 'in-components/timeline/icons/issue_warning.svg';
+import incidentIcon from 'in-components/timeline/icons/incident.svg';
+
+const imageSize = 16;
 
 export default function createTimelineRenderer({container, canvas}) {
   const changeSignal = true;
@@ -20,6 +26,18 @@ export default function createTimelineRenderer({container, canvas}) {
   const screenBuffer = screenBufferCanvas.getContext('2d');
 
   const changes = ro.create();
+
+  const incidentImage = document.createElement('img');
+  incidentImage.onload = () => changes.emit(changeSignal);
+  incidentImage.src = incidentIcon;
+
+  const issueWarningImage = document.createElement('img');
+  issueWarningImage.onload = () => changes.emit(changeSignal);
+  issueWarningImage.src = issueWarningIcon;
+
+  const issueCriticalImage = document.createElement('img');
+  issueCriticalImage.onload = () => changes.emit(changeSignal);
+  issueCriticalImage.src = issueCriticalIcon;
 
   const scale = createScale();
   scale.setRangeFrom(0);
@@ -40,6 +58,12 @@ export default function createTimelineRenderer({container, canvas}) {
       axisConfig = config;
       changes.emit(changeSignal);
     });
+
+  let categorizedEvents;
+  categorizedEvents$.subscribe(events => {
+    categorizedEvents = events;
+    changes.emit(changeSignal);
+  });
 
   const height = 162;
   let width;
@@ -74,6 +98,7 @@ export default function createTimelineRenderer({container, canvas}) {
   function draw() {
     drawBackground();
     drawTimeAxis();
+    drawEvents();
 
     screenBuffer.drawImage(backBufferCanvas, 0, 0, width, height);
   }
@@ -103,6 +128,44 @@ export default function createTimelineRenderer({container, canvas}) {
       backBuffer.fillStyle = lightColor;
       backBuffer.font = font;
       backBuffer.fillText(axisConfig.formatter(position.domain), x, 28);
+    }
+  }
+
+  function drawEvents() {
+    if (!categorizedEvents) {
+      return;
+    }
+
+    backBuffer.fillStyle = '#fff';
+
+    // draw incidents
+    for (let i = 0, length = categorizedEvents.incidents.length; i < length; i++) {
+      drawEvent(categorizedEvents.incidents[i], 41, incidentImage);
+    }
+
+    // draw issues
+    for (let i = 0, length = categorizedEvents.issues.length; i < length; i++) {
+      drawEvent(categorizedEvents.issues[i], 82, issueWarningImage);
+    }
+
+    // draw changes
+    for (let i = 0, length = categorizedEvents.changes.length; i < length; i++) {
+      drawEvent(categorizedEvents.changes[i], 123);
+    }
+  }
+
+  function drawEvent(event, y, image) {
+    const x = scale.getRange(event.get('start'));
+    if (x <= 0) {
+      return;
+    }
+    backBuffer.fillRect(x, y, 1, 38);
+
+    if (image) {
+      backBuffer.drawImage(
+        image, x - imageSize / 2,
+        y + 20 - imageSize / 2 - 1,
+        imageSize, imageSize);
     }
   }
 
