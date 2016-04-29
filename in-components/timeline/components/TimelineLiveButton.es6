@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {isLive$, toggleLive} from 'in-components/timeline/timelineStore';
+import {live$} from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import './TimelineLiveButton.less';
@@ -11,7 +11,7 @@ const block = 'in-timeline-live-button';
 const rpt = React.PropTypes;
 
 export default connectTo({
-    isLive: isLive$
+    isLive: live$
   },
   React.createClass({
 
@@ -28,7 +28,7 @@ export default connectTo({
     render() {
       return (
         <div className={this.getClassName()}
-             onClick={toggleLive}>
+             onClick={() => {}}>
           live
         </div>
       );
