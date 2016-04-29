@@ -2,6 +2,7 @@ import * as ro from 'reactive-observables';
 
 import {categorizedEvents$} from 'in-components/timeline/timelineStore';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
+import * as issueTracker from 'in-services/issueTracker';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import {getTickPositions} from 'in-charts/timeAxis';
@@ -10,8 +11,6 @@ import createScale from 'in-charts/scale';
 import issueCriticalIcon from 'in-components/timeline/icons/issue_critical.svg';
 import issueWarningIcon from 'in-components/timeline/icons/issue_warning.svg';
 import incidentIcon from 'in-components/timeline/icons/incident.svg';
-
-const imageSize = 16;
 
 export default function createTimelineRenderer({container, canvas}) {
   const changeSignal = true;
@@ -27,17 +26,9 @@ export default function createTimelineRenderer({container, canvas}) {
 
   const changes = ro.create();
 
-  const incidentImage = document.createElement('img');
-  incidentImage.onload = () => changes.emit(changeSignal);
-  incidentImage.src = incidentIcon;
-
-  const issueWarningImage = document.createElement('img');
-  issueWarningImage.onload = () => changes.emit(changeSignal);
-  issueWarningImage.src = issueWarningIcon;
-
-  const issueCriticalImage = document.createElement('img');
-  issueCriticalImage.onload = () => changes.emit(changeSignal);
-  issueCriticalImage.src = issueCriticalIcon;
+  const incidentImage = loadImage(incidentIcon);
+  const issueWarningImage = loadImage(issueWarningIcon);
+  const issueCriticalImage = loadImage(issueCriticalIcon);
 
   const scale = createScale();
   scale.setRangeFrom(0);
@@ -136,16 +127,19 @@ export default function createTimelineRenderer({container, canvas}) {
       return;
     }
 
-    backBuffer.fillStyle = '#fff';
-
     // draw incidents
     for (let i = 0, length = categorizedEvents.incidents.length; i < length; i++) {
-      drawEvent(categorizedEvents.incidents[i], 41, incidentImage);
+      drawEvent(categorizedEvents.incidents[i], 41, incidentImage, 16);
     }
 
     // draw issues
     for (let i = 0, length = categorizedEvents.issues.length; i < length; i++) {
-      drawEvent(categorizedEvents.issues[i], 82, issueWarningImage);
+      const issue = categorizedEvents.issues[i];
+      if (issueTracker.getEventType(issue) === issueTracker.EVENT_TYPES.ISSUE_WARNING) {
+        drawEvent(issue, 82, issueWarningImage, 14);
+      } else {
+        drawEvent(issue, 82, issueCriticalImage, 14);
+      }
     }
 
     // draw changes
@@ -154,20 +148,31 @@ export default function createTimelineRenderer({container, canvas}) {
     }
   }
 
-  function drawEvent(event, y, image) {
+  function drawEvent(event, y, image, size) {
     const x = scale.getRange(event.get('start'));
     if (x <= 0) {
       return;
     }
+
+    backBuffer.fillStyle = issueTracker.getColorForEvent(event);
     backBuffer.fillRect(x, y, 1, 38);
 
     if (image) {
       backBuffer.drawImage(
-        image, x - imageSize / 2,
-        y + 20 - imageSize / 2 - 1,
-        imageSize, imageSize);
+        image, x - size / 2,
+        y + 20 - size / 2 - 1,
+        size, size);
     }
   }
+
+  function loadImage(src) {
+    const image = document.createElement('img');
+    image.onload = () => changes.emit(changeSignal);
+    image.src = src;
+
+    return image;
+  }
+
 
   function dispose() {
     timeframeSubscription.dispose();
