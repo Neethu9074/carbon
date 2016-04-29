@@ -1,6 +1,7 @@
 import {combineLatest} from 'reactive-observables';
 import Immutable from 'immutable';
 import invariant from 'invariant';
+import {createLogger} from 'instalog';
 
 import createEventObservable from 'in-services/subscription/event';
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
@@ -15,6 +16,7 @@ import {getOpenEvents} from 'in-stores/openEvents';
 import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
+const logger = createLogger('in-services/issueTracker/issueTracker');
 
 export const EVENT_TYPES = {
   CHANGE: 0,
@@ -217,7 +219,7 @@ export function getColorForEvent(event) {
     const severity = event.getIn(['problem', 'severity'], 0);
 
     if (__DEV__ && severity < 0 || severity > 10) {
-      throw new Error(`Invalid severity ${severity} for event ${event.toString()}`);
+      logger.warn(`Invalid severity ${severity} for event ${event.toString()}`);
     }
 
     const color = theme.health[severity];
