@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {RouteHandler, Navigation} from 'react-router';
 import React from 'react';
 
-import {isInternalEnvironment, isDemoEnvironment} from 'in-services/config';
+import {isDemoEnvironment} from 'in-services/config';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import SidebarIncidents from 'in-components/SidebarIncidents';
@@ -89,9 +89,7 @@ export default
 
           {this.props.showSettings ? <Settings showMenu={setSettingsVisibility}/> : null }
 
-          {isInternalEnvironment() ?
-            <MapViewSwitcher activePath={activePath} />
-          : null}
+          <MapViewSwitcher activePath={activePath} />
 
           <Lettering className='in-root-lettering'/>
           <AccountMenu showMenu={setSettingsVisibility}

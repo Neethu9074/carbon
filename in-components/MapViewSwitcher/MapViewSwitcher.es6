@@ -30,9 +30,7 @@ export default connectTo({
           {isInternalEnvironment() ?
             this.renderViewItem(views.process, 'Process')
           : null}
-          {isInternalEnvironment() ?
-            this.renderTraceViewItem()
-          : null}
+          {this.renderTraceViewItem()}
         </div>
       </div>
     );

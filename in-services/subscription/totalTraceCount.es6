@@ -1,6 +1,6 @@
 import createSubscription from 'in-services/subscription/subscription';
 
-export default createSubscription.bind(null,
+export default createSubscription(
   // event ID
   'subscribe-trace-count',
 

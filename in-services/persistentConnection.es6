@@ -19,7 +19,9 @@ export function init() {
     transports
   });
 
-  enableEventLogging(socket);
+  if (__DEV__) {
+    enableEventLogging(socket);
+  }
 }
 
 export function emit(event, payload) {

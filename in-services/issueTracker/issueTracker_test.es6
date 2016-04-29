@@ -59,17 +59,20 @@ describe('issueTracker', () => {
 
     openEventsStubData = Immutable.fromJS([{
         'id': 'oi1',
-        'start': 1433251409977
+        'start': 1433251409977,
+        'state': 'open'
       }, {
         'id': 'oi2',
-        'start': 1433251409977
+        'start': 1433251409977,
+        'state': 'open'
       }
     ]);
 
     historicalEventsStubData = Immutable.fromJS([{
         'id': 'hi1',
         'start': 1433251400000,
-        'end': 1433251500000
+        'end': 1433251500000,
+        'state': 'closed'
       }
     ]);
   });
@@ -92,7 +95,8 @@ describe('issueTracker', () => {
       openEventsObservable.emit(openEventsStubData);
       openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi_new',
-        'start': 1433251409977
+        'start': 1433251409977,
+        'state': 'open'
       }]));
 
       expect(openEvents.length).to.equal(3);
@@ -126,7 +130,8 @@ describe('issueTracker', () => {
       openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi2',
         'start': 1433251409977,
-        'end': 1433251500000
+        'end': 1433251500000,
+        'state': 'closed'
       }]));
 
       expect(openEvents.length).to.equal(1);
@@ -134,7 +139,8 @@ describe('issueTracker', () => {
 
       openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi2',
-        'start': 1433251409977
+        'start': 1433251409977,
+        'state': 'open'
       }]));
       expect(openEvents.length).to.equal(2);
       expect(openEvents[0].id).to.equal('oi1');
@@ -143,7 +149,8 @@ describe('issueTracker', () => {
       openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi2',
         'start': 1433251409977,
-        'end': 1433251500000
+        'end': 1433251500000,
+        'state': 'closed'
       }]));
 
       expect(openEvents.length).to.equal(1);
@@ -152,14 +159,16 @@ describe('issueTracker', () => {
       openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi1',
         'start': 1433251409977,
-        'end': 1433251500000
+        'end': 1433251500000,
+        'state': 'closed'
       }]));
 
       expect(openEvents.length).to.equal(0);
 
       openEventsObservable.emit(Immutable.fromJS([{
         'id': 'oi1',
-        'start': 1433251409977
+        'start': 1433251409977,
+        'state': 'open'
       }]));
 
       expect(openEvents.length).to.equal(1);
@@ -190,9 +199,9 @@ describe('issueTracker', () => {
       openEventsObservable.emit(openEventsStubData);
 
       expect(combinedEvents.length).to.equal(3);
-      expect(combinedEvents[0].id).to.equal('hi1');
-      expect(combinedEvents[1].id).to.equal('oi1');
-      expect(combinedEvents[2].id).to.equal('oi2');
+      expect(combinedEvents[0].id).to.equal('oi1');
+      expect(combinedEvents[1].id).to.equal('oi2');
+      expect(combinedEvents[2].id).to.equal('hi1');
     });
 
   });
@@ -211,12 +220,12 @@ describe('issueTracker', () => {
       });
     });
 
-    it('should return default color if the event is closed', () => {
+    it('should return default color if the event is open', () => {
       const color = issueTracker.getColorForEvent(event);
       expect(color).to.equal(theme.health[10]);
     });
 
-    it('should return default color if the event is open', () => {
+    it('should return default color if the event is closed', () => {
       event = event.set('state', 'closed');
       const color = issueTracker.getColorForEvent(event);
       expect(color).to.equal(theme.health[0]);
@@ -236,21 +245,24 @@ describe('issueTracker', () => {
             'snapshotId': '123',
             'severity': 5
           },
-          'start': 1433251409977
+          'start': 1433251409977,
+          'state': 'open'
         }, {
           'id': 'oi2',
           'problem': {
             'snapshotId': '123',
             'severity': 10
           },
-          'start': 1433251409977
+          'start': 1433251409977,
+          'state': 'open'
         }, {
           'id': 'oi3',
           'problem': {
             'snapshotId': '123',
             'severity': 3
           },
-          'start': 1433251409977
+          'start': 1433251409977,
+          'state': 'open'
         }
       ]));
 
@@ -267,7 +279,8 @@ describe('issueTracker', () => {
             'snapshotId': '123',
             'severity': 0
           },
-          'start': 1433251409977
+          'start': 1433251409977,
+          'state': 'open'
         }
       ]));
 
