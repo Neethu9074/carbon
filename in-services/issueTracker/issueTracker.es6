@@ -213,9 +213,21 @@ export function getHealth(snapshotId) {
  *
  */
 export function getColorForEvent(event) {
-  return event.get('state') === 'open' ?
-    theme.health[event.getIn(['problem', 'severity'], 0)] :
-    theme.health[0];
+  if (event.get('state') === 'open') {
+    const severity = event.getIn(['problem', 'severity'], 0);
+
+    if (__DEV__ && severity < 0 || severity > 10) {
+      throw new Error(`Invalid severity ${severity} for event ${event.toString()}`);
+    }
+
+    const color = theme.health[severity];
+    if (!color) {
+      return theme.health[0];
+    }
+    return color;
+  }
+
+  return theme.health[0];
 }
 
 /**

@@ -220,12 +220,12 @@ describe('issueTracker', () => {
       });
     });
 
-    it('should return default color if the event is closed', () => {
+    it('should return default color if the event is open', () => {
       const color = issueTracker.getColorForEvent(event);
       expect(color).to.equal(theme.health[10]);
     });
 
-    it('should return default color if the event is open', () => {
+    it('should return default color if the event is closed', () => {
       event = event.set('state', 'closed');
       const color = issueTracker.getColorForEvent(event);
       expect(color).to.equal(theme.health[0]);

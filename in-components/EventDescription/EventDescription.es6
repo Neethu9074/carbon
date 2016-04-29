@@ -54,7 +54,7 @@ export default React.createClass({
       <IncidentContent incident={event}/> :
       <EventContent snapshotId={this.props.snapshotId}
                     event={event}
-                    color={color ? color : '#f00'}/>
+                    color={color}/>
     );
   }
 });
