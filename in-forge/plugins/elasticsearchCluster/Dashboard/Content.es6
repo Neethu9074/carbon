@@ -38,10 +38,10 @@ export default React.createClass({
         <DashboardSection title='Search Performance vs. Throughput'>
           <ChartWithLegend snapshot={snapshot}
                            timeframe={timeframe}
-                           height={300}
+                           height={200}
                            margins={{
-                             left: 60,
-                             right: 60
+                             left: 80,
+                             right: 80
                            }}
                            y1={{
                              min: 0,
@@ -76,7 +76,7 @@ export default React.createClass({
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
-                                 left: 60
+                                 left: 80
                                }}
                                y1={{
                                  min: 0,
@@ -98,7 +98,7 @@ export default React.createClass({
                                timeframe={timeframe}
                                height={chartHeight}
                                margins={{
-                                 left: 60
+                                 left: 80
                                }}
                                y1={{
                                  min: 0,
@@ -127,10 +127,10 @@ export default React.createClass({
         <DashboardSection title='Documents'>
           <ChartWithLegend snapshot={snapshot}
                            timeframe={timeframe}
-                           height={300}
+                           height={200}
                            margins={{
-                             left: 60,
-                             right: 60
+                             left: 80,
+                             right: 80
                            }}
                            y1={{
                              min: 0,
