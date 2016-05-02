@@ -49,7 +49,7 @@ export default connectTo({
 
     onClick(sortBy) {
       setSortBy(sortBy);
-      setSortDirection(this.props.sortDirection === 'desc' ? 'asc' : 'desc');
+      setSortDirection(this.props.sortDirection === 'asc' ? 'asc' : 'desc');
     },
 
     getSortIcon(cell) {
