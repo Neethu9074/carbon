@@ -1,24 +1,16 @@
 import {sortedIndexBy} from 'lodash';
 
-import {getHistoricalEvents, getLatestEvents, getEventUpdates} from 'in-stores/events';
+import {getHistoricalEvents, getEventUpdates} from 'in-stores/events';
 import {timeframe$} from 'in-stores/timeline';
 
-// TODO clean up store
-
-export const store$ = timeframe$
+export const eventsAroundTimeframe$ = timeframe$
   .throttle(1000)
   .flatMap(timeframe => {
-    if (timeframe.to == null) {
-      return getLatestEvents(timeframe.windowSize)
-        // Beware: Different formats! Immutable sequences vs. immutable events.
-        .merge(getEventUpdates());
-    }
-
     return getHistoricalEvents({
       // Increase amount of retrieved data to ensure smooth vertical scrolling.
-      to: timeframe.to + timeframe.windowSize / 2,
+      to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
       windowSize: timeframe.windowSize * 1.5
-    });
+    }).merge(getEventUpdates());
   })
   .scan((store, update) => {
     // Instead of supplying this as the second parameter to scan, we deliberately
@@ -29,10 +21,7 @@ export const store$ = timeframe$
       store = {
         // Sorted array of events[] by start time. Permits quick lookup of events within a
         // time range. Each events[] has a time property for fast lookups and comparisons
-        byTime: [],
-
-        // Maps event id => id
-        byId: {}
+        byTime: []
       };
     }
 
@@ -42,25 +31,25 @@ export const store$ = timeframe$
     // 2. Updates for a single event which are just regular objects.
     if (update instanceof Array) {
       for (let i = 0, len = update.length; i < len; i++) {
-        insertSorted(store.byTime, update[i]);
+        insertSorted(store, update[i]);
       }
     } else {
-      insertSorted(store.byTime, update);
+      insertSorted(store, update);
     }
 
     return store;
   }, null)
-  .map(store => {
-    // TODO extract events in selected timeframe
-    return store;
-  })
-  .map(eventsInSelectedTime => {
-    // TODO categorize
-    return eventsInSelectedTime;
-  });
+  .map(store => store.byTime);
 
 
-function insertSorted(byTime, event) {
+// export const eventsInTimeframe$ = combineLatest([timeframe$, eventsAroundTimeframe$])
+//   .map(([timeframe, eventsAroundTimeframe]) => {
+//
+//   });
+
+
+function insertSorted(store, event) {
+  const byTime = store.byTime;
   const time = event.get('start');
 
   // Assigning time to `time` property to allow faster binary
