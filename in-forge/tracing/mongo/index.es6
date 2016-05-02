@@ -11,6 +11,6 @@ registerSpanDefinition({
   detailView: 'MongoSpanDetailView',
 
   getLabel(span) {
-    return span.getIn(['data', 'mongo', 'service']);
+    return span.getIn(['data', 'mongo', 'command']);
   }
 });
