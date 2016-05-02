@@ -5,12 +5,11 @@ import IncidentRenderer from 'in-components/timeline/components/renderer/eventRe
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
-import {categorizedEvents$} from 'in-components/timeline/timelineStore';
+import {eventsAroundTimeframe$} from 'in-components/timeline/eventsStore';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
-
 
 export default function createTimelineRenderer({container, canvas}) {
   const changeSignal = true;
@@ -51,7 +50,7 @@ export default function createTimelineRenderer({container, canvas}) {
     });
 
   let categorizedEvents;
-  categorizedEvents$.subscribe(events => {
+  const eventsSubscription = eventsAroundTimeframe$.subscribe(events => {
     categorizedEvents = events;
     changes.emit(changeSignal);
   });
@@ -112,6 +111,7 @@ export default function createTimelineRenderer({container, canvas}) {
 
   function dispose() {
     timeframeSubscription.dispose();
+    eventsSubscription.dispose();
     resizeSubscription.dispose();
     fromSubscription.dispose();
     drawSubscription.dispose();

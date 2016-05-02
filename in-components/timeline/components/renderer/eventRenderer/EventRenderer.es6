@@ -15,9 +15,12 @@ export default class EventRenderer {
     this.width = width;
   }
 
-  drawEvents(events) {
-    for (let i = 0, length = events.length; i < length; i++) {
-      this.draw(events[i]);
+  drawEvents(times) {
+    for (let timeI = 0, timeLength = times.length; timeI < timeLength; timeI++) {
+      const events = times[timeI];
+      for (let eventI = 0, eventsLength = events.length; eventI < eventsLength; eventI++) {
+        this.draw(events[eventI]);
+      }
     }
   }
 
