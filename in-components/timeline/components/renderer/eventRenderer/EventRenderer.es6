@@ -31,7 +31,9 @@ export default class EventRenderer {
     }
 
     this.buffer.fillStyle = issueTracker.getColorForEvent(event);
-    this.buffer.fillRect(x, this.y, 1, 38);
+    this.buffer.globalAlpha = 0.2;
+    this.buffer.fillRect(x, this.y, 1, 40);
+    this.buffer.globalAlpha = 1;
 
     return x;
   }

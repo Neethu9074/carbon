@@ -6,7 +6,7 @@ import icons from 'in-components/timeline/icons/icons';
 export default class IssueRenderer extends EventRenderer {
 
   constructor(buffer, scale, iconSize) {
-    super(buffer, scale, 82, iconSize);
+    super(buffer, scale, 81, iconSize);
   }
 
   draw(issue) {
