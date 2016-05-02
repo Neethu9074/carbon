@@ -231,6 +231,32 @@ describe('in-components/timeline/eventsStore', () => {
       expect(result.changes[0].time).to.equal(5);
       expect(result.changes[0][0].get('id')).to.equal('foo');
     });
+
+    it('should update events', () => {
+      mod.eventsAroundTimeframe$.subscribe(subscriber);
+
+      getHistoricalEventsResult.emit([Immutable.fromJS({
+        'id': 'bar',
+        'start': 15,
+        'state': 'open',
+        'type': 'issue'
+      })]);
+
+      getEventUpdatesResult.emit(Immutable.fromJS({
+        'id': 'bar',
+        'start': 15,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue'
+      }));
+
+      const result = subscriber.getCall(2).args[0];
+      expect(result.issues.length).to.equal(1);
+      expect(result.issues[0].time).to.equal(15);
+      expect(result.issues[0].length).to.equal(1);
+      expect(result.issues[0][0].get('id')).to.equal('bar');
+      expect(result.issues[0][0].get('end')).to.equal(20);
+    });
   });
 
 });

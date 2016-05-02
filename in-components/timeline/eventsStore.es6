@@ -5,11 +5,12 @@ import {timeframe$} from 'in-stores/timeline';
 
 export const eventsAroundTimeframe$ = timeframe$
   .flatMap(timeframe => {
-    return getHistoricalEvents({
+    const opts = {
       // Increase amount of retrieved data to ensure smooth vertical scrolling.
       to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
       windowSize: timeframe.windowSize * 2
-    }).merge(getEventUpdates());
+    };
+    return getHistoricalEvents(opts).merge(getEventUpdates(opts));
   })
   .scan((store, update) => {
     // Instead of supplying this as the second parameter to scan, we deliberately
@@ -58,6 +59,19 @@ function insertSorted(store, event) {
     newItem.time = event.get('start');
     byTime.splice(index, 0, newItem);
   } else {
-    byTime[index].push(event);
+    const id = event.get('id');
+    const eventsAtTime = byTime[index];
+    let isNewEvent = true;
+
+    for (let i = 0, len = eventsAtTime.length; i < len && isNewEvent; i++) {
+      if (eventsAtTime[i].get('id') === id) {
+        eventsAtTime[i] = event;
+        isNewEvent = false;
+      }
+    }
+
+    if (isNewEvent) {
+      eventsAtTime.push(event);
+    }
   }
 }
