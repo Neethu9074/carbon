@@ -49,12 +49,12 @@ export default connectTo({
 
     onClick(sortBy) {
       setSortBy(sortBy);
-      setSortDirection(this.props.sortDirection === 'asc' ? 'asc' : 'desc');
+      setSortDirection(this.props.sortDirection === 'desc' ? 'asc' : 'desc');
     },
 
     getSortIcon(cell) {
       if (this.props.sortBy === cell) {
-        if (this.props.sortDirection === 'desc') {
+        if (this.props.sortDirection === 'asc') {
           return (
             <Icon className={cellClassName + '__sort-icon'}
                   type={'up'}/>
