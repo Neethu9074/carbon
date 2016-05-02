@@ -11,7 +11,6 @@ export default class IssueRenderer extends EventRenderer {
 
   draw(event) {
     const x = super.draw(event);
-
     if (!x) {
       return;
     }

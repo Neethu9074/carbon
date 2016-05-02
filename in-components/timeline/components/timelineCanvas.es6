@@ -14,6 +14,8 @@ import createScale from 'in-charts/scale';
 
 export default function createTimelineRenderer({container, canvas}) {
   const changeSignal = true;
+  const height = 162;
+  let width;
 
   const backBufferCanvas = document.createElement('canvas');
   const backBuffer = backBufferCanvas.getContext('2d');
@@ -37,7 +39,7 @@ export default function createTimelineRenderer({container, canvas}) {
   const incidentRenderer = new IncidentRenderer(backBuffer, scale, 16);
   const issueRenderer = new IssueRenderer(backBuffer, scale, 14);
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
-  const backgroundRenderer = new BackgroundRenderer(backBuffer);
+  const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
 
   let axisConfig;
   const timeframeSubscription = timeframe$
@@ -54,8 +56,6 @@ export default function createTimelineRenderer({container, canvas}) {
     changes.emit(changeSignal);
   });
 
-  const height = 162;
-  let width;
 
   const resizeSubscription = ro.on(window, 'resize')
     .debounce(500)
@@ -80,14 +80,19 @@ export default function createTimelineRenderer({container, canvas}) {
 
     scale.setRangeTo(width);
 
-    updateCanvasDimensions(backBufferCanvas, backBuffer, width, height);
+    changeEventRenderer.setWidth(width);
+    backgroundRenderer.setWidth(width);
+    incidentRenderer.setWidth(width);
+    issueRenderer.setWidth(width);
+
     updateCanvasDimensions(screenBufferCanvas, screenBuffer, width, height);
+    updateCanvasDimensions(backBufferCanvas, backBuffer, width, height);
 
     changes.emit(changeSignal);
   }
 
   function draw() {
-    backgroundRenderer.draw(width, height);
+    backgroundRenderer.draw();
     timeAxisRenderer.draw(axisConfig);
     drawEvents();
 
@@ -100,9 +105,9 @@ export default function createTimelineRenderer({container, canvas}) {
       return;
     }
 
+    changeEventRenderer.drawEvents(categorizedEvents.changes);
     incidentRenderer.drawEvents(categorizedEvents.incidents);
     issueRenderer.drawEvents(categorizedEvents.issues);
-    changeEventRenderer.drawEvents(categorizedEvents.changes);
   }
 
   function dispose() {

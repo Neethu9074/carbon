@@ -8,6 +8,11 @@ export default class EventRenderer {
     this.buffer = buffer;
     this.scale = scale;
     this.y = y;
+    this.width = 0;
+  }
+
+  setWidth(width) {
+    this.width = width;
   }
 
   drawEvents(events) {
@@ -18,7 +23,7 @@ export default class EventRenderer {
 
   draw(event) {
     const x = this.scale.getRange(event.get('start'));
-    if (x <= 0) {
+    if (x <= 0 || x > this.width) {
       return null;
     }
 
