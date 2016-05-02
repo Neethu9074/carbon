@@ -9,21 +9,20 @@ export default class IssueRenderer extends EventRenderer {
     super(buffer, scale, 82, iconSize);
   }
 
-  draw(event) {
-    const x = super.draw(event);
+  draw(issue) {
+    const x = super.draw(issue);
     if (!x) {
       return;
     }
 
-    const issue = event;
     if (issueTracker.getEventType(issue) === issueTracker.EVENT_TYPES.ISSUE_WARNING) {
-      if (issue.state === 'open') {
+      if (issue.get('state') === 'open') {
         this.drawImage(icons.issueWarningImageColored, x);
       } else {
         this.drawImage(icons.issueWarningImage, x);
       }
     } else {
-      if (issue.state === 'open') {
+      if (issue.get('state') === 'open') {
         this.drawImage(icons.issueCriticalImageColored, x);
       } else {
         this.drawImage(icons.issueCriticalImage, x);
