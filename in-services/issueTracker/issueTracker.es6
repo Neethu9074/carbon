@@ -49,7 +49,7 @@ function issuesReducer(existingEvents, eventUpdates) {
   const updatesToApply = [];
   eventUpdates.forEach(event => {
     if (updatedEventIds[event.get('id')]) {
-      logger.warn(`Update contains the event with ID ${event.get('id')} (at least) twice.`);
+      logger.info(`Update contains the event with ID ${event.get('id')} (at least) twice.`);
     } else {
       updatedEventIds[event.get('id')] = event;
       updatesToApply.push(event);
@@ -143,7 +143,7 @@ export const combinedEvents$ = combineLatest([historicalEvents$, openEvents$])
 
     open.forEach(event => {
       if (addedEvents[event.get('id')]) {
-        logger.warn(`Event with the ID ${event.get('id')} exists (at least) twice!`);
+        logger.info(`Event with the ID ${event.get('id')} exists (at least) twice!`);
       } else {
         addedEvents[event.get('id')] = event;
         result.push(event);
@@ -228,7 +228,7 @@ export function getColorForEvent(event) {
     const severity = event.getIn(['problem', 'severity'], 0);
 
     if (__DEV__ && severity < 0 || severity > 10) {
-      logger.warn(`Invalid severity ${severity} for event ${event.toString()}`);
+      logger.info(`Invalid severity ${severity} for event ${event.toString()}`);
     }
 
     const color = theme.health[severity];
