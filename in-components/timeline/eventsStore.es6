@@ -1,16 +1,15 @@
 import {sortedIndexBy} from 'lodash';
 
-import {getHistoricalEvents, getEventUpdates} from 'in-stores/events';
+import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {timeframe$} from 'in-stores/timeline';
 
 export const eventsAroundTimeframe$ = timeframe$
-  .throttle(1000)
   .flatMap(timeframe => {
     return getHistoricalEvents({
       // Increase amount of retrieved data to ensure smooth vertical scrolling.
       to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
-      windowSize: timeframe.windowSize * 1.5
-    }).merge(getEventUpdates());
+      windowSize: timeframe.windowSize * 2
+    });
   })
   .scan((store, update) => {
     // Instead of supplying this as the second parameter to scan, we deliberately
@@ -21,36 +20,22 @@ export const eventsAroundTimeframe$ = timeframe$
       store = {
         // Sorted array of events[] by start time. Permits quick lookup of events within a
         // time range. Each events[] has a time property for fast lookups and comparisons
-        byTime: []
+        issues: [],
+        changes: [],
+        incidents: []
       };
     }
 
-    // We have different update formats:
-    //
-    // 1. Initial data and batch updates which may be multiple events.
-    // 2. Updates for a single event which are just regular objects.
-    if (update instanceof Array) {
-      for (let i = 0, len = update.length; i < len; i++) {
-        insertSorted(store, update[i]);
-      }
-    } else {
-      insertSorted(store, update);
-    }
+    update.forEach(event => insertSorted(store, event));
 
     return store;
-  }, null)
-  .map(store => store.byTime);
-
-
-// export const eventsInTimeframe$ = combineLatest([timeframe$, eventsAroundTimeframe$])
-//   .map(([timeframe, eventsAroundTimeframe]) => {
-//
-//   });
+  }, null);
 
 
 function insertSorted(store, event) {
-  const byTime = store.byTime;
   const time = event.get('start');
+  const type = event.get('type');
+  const byTime = store[type + 's'];
 
   // Assigning time to `time` property to allow faster binary
   // search and same interface as the arrays.
@@ -63,6 +48,19 @@ function insertSorted(store, event) {
     newItem.time = event.get('start');
     byTime.splice(index, 0, newItem);
   } else {
-    byTime[index].push(event);
+    const id = event.get('id');
+    const eventsAtTime = byTime[index];
+    let isNewEvent = true;
+
+    for (let i = 0, len = eventsAtTime.length; i < len && isNewEvent; i++) {
+      if (eventsAtTime[i].get('id') === id) {
+        eventsAtTime[i] = event;
+        isNewEvent = false;
+      }
+    }
+
+    if (isNewEvent) {
+      eventsAtTime.push(event);
+    }
   }
 }
