@@ -20,7 +20,9 @@ export const eventsAroundTimeframe$ = timeframe$
       store = {
         // Sorted array of events[] by start time. Permits quick lookup of events within a
         // time range. Each events[] has a time property for fast lookups and comparisons
-        byTime: []
+        issues: [],
+        changes: [],
+        incidents: []
       };
     }
 
@@ -37,18 +39,12 @@ export const eventsAroundTimeframe$ = timeframe$
     }
 
     return store;
-  }, null)
-  .map(store => store.byTime);
-
-
-// export const eventsInTimeframe$ = combineLatest([timeframe$, eventsAroundTimeframe$])
-//   .map(([timeframe, eventsAroundTimeframe]) => {
-//
-//   });
+  }, null);
 
 
 function insertSorted(store, event) {
-  const byTime = store.byTime;
+  const type = event.get('type');
+  const byTime = store[type + 's'];
   const time = event.get('start');
 
   // Assigning time to `time` property to allow faster binary

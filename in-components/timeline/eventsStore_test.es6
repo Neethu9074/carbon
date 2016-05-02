@@ -42,7 +42,7 @@ describe('in-components/timeline/eventsStore', () => {
   describe('eventsAroundTimeframe$', () => {
     it('should work when there are no events', () => {
       mod.eventsAroundTimeframe$.subscribe(subscriber);
-      const result = subscriber.getCall(0).args[0];
+      const result = subscriber.getCall(0).args[0].issues;
       expect(result.length).to.equal(0);
     });
 
@@ -51,12 +51,13 @@ describe('in-components/timeline/eventsStore', () => {
         'id': 'foo',
         'start': 10,
         'end': 20,
-        'state': 'closed'
+        'state': 'closed',
+        'type': 'issue'
       })]);
 
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
-      const result = subscriber.getCall(0).args[0];
+      const result = subscriber.getCall(0).args[0].issues;
       expect(result.length).to.equal(1);
       expect(result[0].time).to.equal(10);
       expect(result[0][0].get('id')).to.equal('foo');
@@ -69,16 +70,18 @@ describe('in-components/timeline/eventsStore', () => {
         'id': 'foo',
         'start': 10,
         'end': 20,
-        'state': 'closed'
+        'state': 'closed',
+        'type': 'issue'
       })]);
 
       getHistoricalEventsResult.emit([Immutable.fromJS({
         'id': 'bar',
         'start': 5,
-        'state': 'open'
+        'state': 'open',
+        'type': 'issue'
       })]);
 
-      const result = subscriber.getCall(1).args[0];
+      const result = subscriber.getCall(1).args[0].issues;
       expect(result.length).to.equal(2);
       expect(result[0].time).to.equal(5);
       expect(result[0][0].get('id')).to.equal('bar');
@@ -93,16 +96,18 @@ describe('in-components/timeline/eventsStore', () => {
         'id': 'foo',
         'start': 10,
         'end': 20,
-        'state': 'closed'
+        'state': 'closed',
+        'type': 'issue'
       }));
 
       getHistoricalEventsResult.emit([Immutable.fromJS({
         'id': 'bar',
         'start': 5,
-        'state': 'open'
+        'state': 'open',
+        'type': 'issue'
       })]);
 
-      const result = subscriber.getCall(1).args[0];
+      const result = subscriber.getCall(1).args[0].issues;
       expect(result.length).to.equal(2);
       expect(result[0].time).to.equal(5);
       expect(result[0][0].get('id')).to.equal('bar');
@@ -117,23 +122,26 @@ describe('in-components/timeline/eventsStore', () => {
         'id': 'foo',
         'start': 10,
         'end': 20,
-        'state': 'closed'
+        'state': 'closed',
+        'type': 'issue'
       }));
 
       getHistoricalEventsResult.emit([Immutable.fromJS({
         'id': 'bar',
         'start': 5,
-        'state': 'open'
+        'state': 'open',
+        'type': 'issue'
       })]);
 
       getEventUpdatesResult.emit(Immutable.fromJS({
         'id': 'pups',
         'start': 15,
         'end': 20,
-        'state': 'closed'
+        'state': 'closed',
+        'type': 'issue'
       }));
 
-      const result = subscriber.getCall(2).args[0];
+      const result = subscriber.getCall(2).args[0].issues;
       expect(result.length).to.equal(3);
       expect(result[0].time).to.equal(5);
       expect(result[0][0].get('id')).to.equal('bar');
@@ -166,20 +174,62 @@ describe('in-components/timeline/eventsStore', () => {
         'id': 'foo',
         'start': 5,
         'end': 20,
-        'state': 'closed'
+        'state': 'closed',
+        'type': 'issue'
       }));
 
       getHistoricalEventsResult.emit([Immutable.fromJS({
         'id': 'bar',
         'start': 5,
-        'state': 'open'
+        'state': 'open',
+        'type': 'issue'
       })]);
 
-      const result = subscriber.getCall(2).args[0];
+      const result = subscriber.getCall(2).args[0].issues;
       expect(result.length).to.equal(1);
       expect(result[0].time).to.equal(5);
       expect(result[0][0].get('id')).to.equal('foo');
       expect(result[0][1].get('id')).to.equal('bar');
+    });
+
+    it('should categorized events', () => {
+      mod.eventsAroundTimeframe$.subscribe(subscriber);
+
+      getEventUpdatesResult.emit(Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'change'
+      }));
+
+      getEventUpdatesResult.emit(Immutable.fromJS({
+        'id': 'pups',
+        'start': 19,
+        'end': 20,
+        'state': 'closed',
+        'type': 'incident'
+      }));
+
+      getHistoricalEventsResult.emit([Immutable.fromJS({
+        'id': 'bar',
+        'start': 15,
+        'state': 'open',
+        'type': 'issue'
+      })]);
+
+      const result = subscriber.getCall(3).args[0];
+      expect(result.issues.length).to.equal(1);
+      expect(result.issues[0].time).to.equal(15);
+      expect(result.issues[0][0].get('id')).to.equal('bar');
+
+      expect(result.incidents.length).to.equal(1);
+      expect(result.incidents[0].time).to.equal(19);
+      expect(result.incidents[0][0].get('id')).to.equal('pups');
+
+      expect(result.changes.length).to.equal(1);
+      expect(result.changes[0].time).to.equal(5);
+      expect(result.changes[0][0].get('id')).to.equal('foo');
     });
   });
 
