@@ -158,6 +158,29 @@ describe('in-components/timeline/eventsStore', () => {
       expect(getHistoricalEvents.getCall(1).args[0].to).to.equal(35);
       expect(getHistoricalEvents.getCall(1).args[0].windowSize).to.equal(20);
     });
+
+    it('should merge events in same time', () => {
+      mod.eventsAroundTimeframe$.subscribe(subscriber);
+
+      getEventUpdatesResult.emit(Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed'
+      }));
+
+      getHistoricalEventsResult.emit([Immutable.fromJS({
+        'id': 'bar',
+        'start': 5,
+        'state': 'open'
+      })]);
+
+      const result = subscriber.getCall(2).args[0];
+      expect(result.length).to.equal(1);
+      expect(result[0].time).to.equal(5);
+      expect(result[0][0].get('id')).to.equal('foo');
+      expect(result[0][1].get('id')).to.equal('bar');
+    });
   });
 
 });
