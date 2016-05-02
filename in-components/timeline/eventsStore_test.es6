@@ -47,12 +47,12 @@ describe('in-components/timeline/eventsStore', () => {
     });
 
     it('should include historic data in aggregation', () => {
-      getHistoricalEventsResult.emit(Immutable.fromJS({
+      getHistoricalEventsResult.emit([Immutable.fromJS({
         'id': 'foo',
         'start': 10,
         'end': 20,
         'state': 'closed'
-      }));
+      })]);
 
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
@@ -60,6 +60,103 @@ describe('in-components/timeline/eventsStore', () => {
       expect(result.length).to.equal(1);
       expect(result[0].time).to.equal(10);
       expect(result[0][0].get('id')).to.equal('foo');
+    });
+
+    it('should combine successive historic updates', () => {
+      mod.eventsAroundTimeframe$.subscribe(subscriber);
+
+      getHistoricalEventsResult.emit([Immutable.fromJS({
+        'id': 'foo',
+        'start': 10,
+        'end': 20,
+        'state': 'closed'
+      })]);
+
+      getHistoricalEventsResult.emit([Immutable.fromJS({
+        'id': 'bar',
+        'start': 5,
+        'state': 'open'
+      })]);
+
+      const result = subscriber.getCall(1).args[0];
+      expect(result.length).to.equal(2);
+      expect(result[0].time).to.equal(5);
+      expect(result[0][0].get('id')).to.equal('bar');
+      expect(result[1].time).to.equal(10);
+      expect(result[1][0].get('id')).to.equal('foo');
+    });
+
+    it('should merge historic with live updates', () => {
+      mod.eventsAroundTimeframe$.subscribe(subscriber);
+
+      getEventUpdatesResult.emit(Immutable.fromJS({
+        'id': 'foo',
+        'start': 10,
+        'end': 20,
+        'state': 'closed'
+      }));
+
+      getHistoricalEventsResult.emit([Immutable.fromJS({
+        'id': 'bar',
+        'start': 5,
+        'state': 'open'
+      })]);
+
+      const result = subscriber.getCall(1).args[0];
+      expect(result.length).to.equal(2);
+      expect(result[0].time).to.equal(5);
+      expect(result[0][0].get('id')).to.equal('bar');
+      expect(result[1].time).to.equal(10);
+      expect(result[1][0].get('id')).to.equal('foo');
+    });
+
+    it('should provide sorted events list', () => {
+      mod.eventsAroundTimeframe$.subscribe(subscriber);
+
+      getEventUpdatesResult.emit(Immutable.fromJS({
+        'id': 'foo',
+        'start': 10,
+        'end': 20,
+        'state': 'closed'
+      }));
+
+      getHistoricalEventsResult.emit([Immutable.fromJS({
+        'id': 'bar',
+        'start': 5,
+        'state': 'open'
+      })]);
+
+      getEventUpdatesResult.emit(Immutable.fromJS({
+        'id': 'pups',
+        'start': 15,
+        'end': 20,
+        'state': 'closed'
+      }));
+
+      const result = subscriber.getCall(2).args[0];
+      expect(result.length).to.equal(3);
+      expect(result[0].time).to.equal(5);
+      expect(result[0][0].get('id')).to.equal('bar');
+      expect(result[1].time).to.equal(10);
+      expect(result[1][0].get('id')).to.equal('foo');
+      expect(result[2].time).to.equal(15);
+      expect(result[2][0].get('id')).to.equal('pups');
+    });
+
+    it('should subscribe with selected timeframe', () => {
+      mod.eventsAroundTimeframe$.subscribe(subscriber);
+      expect(getHistoricalEvents.getCall(0).args[0].to).to.equal(null);
+      expect(getHistoricalEvents.getCall(0).args[0].windowSize).to.equal(1000 * 60 * 10 * 2);
+    });
+
+    it('should resubscribe when selected timeframe changes', () => {
+      mod.eventsAroundTimeframe$.subscribe(subscriber);
+      timeframe$.emit({
+        to: 30,
+        windowSize: 10
+      });
+      expect(getHistoricalEvents.getCall(1).args[0].to).to.equal(35);
+      expect(getHistoricalEvents.getCall(1).args[0].windowSize).to.equal(20);
     });
   });
 

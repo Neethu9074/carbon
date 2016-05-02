@@ -4,12 +4,11 @@ import {getHistoricalEvents, getEventUpdates} from 'in-stores/events';
 import {timeframe$} from 'in-stores/timeline';
 
 export const eventsAroundTimeframe$ = timeframe$
-  .throttle(1000)
   .flatMap(timeframe => {
     return getHistoricalEvents({
       // Increase amount of retrieved data to ensure smooth vertical scrolling.
       to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
-      windowSize: timeframe.windowSize * 1.5
+      windowSize: timeframe.windowSize * 2
     }).merge(getEventUpdates());
   })
   .scan((store, update) => {
