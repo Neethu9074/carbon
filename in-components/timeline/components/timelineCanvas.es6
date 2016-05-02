@@ -5,7 +5,7 @@ import IncidentRenderer from 'in-components/timeline/components/renderer/eventRe
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
-import {eventsAroundTimeframe$} from 'in-components/timeline/eventsStore';
+import {eventsAroundTimeframe$} from 'in-stores/events';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';

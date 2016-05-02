@@ -6,7 +6,7 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
 
-describe('in-components/timeline/eventsStore', () => {
+describe('in-stores/events', () => {
 
   let mod;
   let subscriber;
@@ -23,7 +23,7 @@ describe('in-components/timeline/eventsStore', () => {
     getHistoricalEvents = sinon.stub();
     getHistoricalEventsResult = create().emit([]);
     getHistoricalEvents.returns(getHistoricalEventsResult);
-    mod = proxyquire('in-components/timeline/eventsStore', {
+    mod = proxyquire('in-stores/events', {
       'in-stores/timeline': {
         timeframe$
       },
