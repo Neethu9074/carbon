@@ -67,12 +67,14 @@ export default function createTimelineRenderer({container, canvas}) {
   resize();
 
   const drawSubscription = changes
-  .debounce(300)
-  .subscribe(draw);
+    .debounce(300)
+    .subscribe(draw);
 
   return {
     canvas: screenBufferCanvas,
-    dispose
+    dispose,
+
+    getDomain: pixelX => scale.getDomain(pixelX)
   };
 
   function resize() {

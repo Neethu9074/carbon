@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import React from 'react';
-import irpt from 'react-immutable-proptypes';
 import {combineLatest} from 'reactive-observables';
+import irpt from 'react-immutable-proptypes';
+import React from 'react';
 
 import {getSnapshot, setSelectedSnapshotId} from 'in-stores/snapshot';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
