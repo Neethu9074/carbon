@@ -54,7 +54,7 @@ export default connectTo({
 
     getSortIcon(cell) {
       if (this.props.sortBy === cell) {
-        if (this.props.sortDirection === 'desc') {
+        if (this.props.sortDirection === 'asc') {
           return (
             <Icon className={cellClassName + '__sort-icon'}
                   type={'up'}/>
