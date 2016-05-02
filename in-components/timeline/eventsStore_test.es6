@@ -13,8 +13,6 @@ describe('in-components/timeline/eventsStore', () => {
   let timeframe$;
   let getHistoricalEvents;
   let getHistoricalEventsResult;
-  let getEventUpdates;
-  let getEventUpdatesResult;
 
   beforeEach(() => {
     subscriber = sinon.stub();
@@ -22,9 +20,6 @@ describe('in-components/timeline/eventsStore', () => {
       to: null,
       windowSize: 1000 * 60 * 10
     });
-    getEventUpdates = sinon.stub();
-    getEventUpdatesResult = create();
-    getEventUpdates.returns(getEventUpdatesResult);
     getHistoricalEvents = sinon.stub();
     getHistoricalEventsResult = create().emit([]);
     getHistoricalEvents.returns(getHistoricalEventsResult);
@@ -32,9 +27,8 @@ describe('in-components/timeline/eventsStore', () => {
       'in-stores/timeline': {
         timeframe$
       },
-      'in-stores/events': {
-        getHistoricalEvents,
-        getEventUpdates
+      'in-stores/historicalEvents': {
+        getHistoricalEvents
       }
     });
   });
@@ -47,13 +41,13 @@ describe('in-components/timeline/eventsStore', () => {
     });
 
     it('should include historic data in aggregation', () => {
-      getHistoricalEventsResult.emit([Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'foo',
         'start': 10,
         'end': 20,
         'state': 'closed',
         'type': 'issue'
-      })]);
+      }]));
 
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
@@ -66,20 +60,20 @@ describe('in-components/timeline/eventsStore', () => {
     it('should combine successive historic updates', () => {
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
-      getHistoricalEventsResult.emit([Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'foo',
         'start': 10,
         'end': 20,
         'state': 'closed',
         'type': 'issue'
-      })]);
+      }]));
 
-      getHistoricalEventsResult.emit([Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'bar',
         'start': 5,
         'state': 'open',
         'type': 'issue'
-      })]);
+      }]));
 
       const result = subscriber.getCall(1).args[0].issues;
       expect(result.length).to.equal(2);
@@ -92,20 +86,20 @@ describe('in-components/timeline/eventsStore', () => {
     it('should merge historic with live updates', () => {
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
-      getEventUpdatesResult.emit(Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'foo',
         'start': 10,
         'end': 20,
         'state': 'closed',
         'type': 'issue'
-      }));
+      }]));
 
-      getHistoricalEventsResult.emit([Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'bar',
         'start': 5,
         'state': 'open',
         'type': 'issue'
-      })]);
+      }]));
 
       const result = subscriber.getCall(1).args[0].issues;
       expect(result.length).to.equal(2);
@@ -118,28 +112,28 @@ describe('in-components/timeline/eventsStore', () => {
     it('should provide sorted events list', () => {
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
-      getEventUpdatesResult.emit(Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'foo',
         'start': 10,
         'end': 20,
         'state': 'closed',
         'type': 'issue'
-      }));
+      }]));
 
-      getHistoricalEventsResult.emit([Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'bar',
         'start': 5,
         'state': 'open',
         'type': 'issue'
-      })]);
+      }]));
 
-      getEventUpdatesResult.emit(Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'pups',
         'start': 15,
         'end': 20,
         'state': 'closed',
         'type': 'issue'
-      }));
+      }]));
 
       const result = subscriber.getCall(2).args[0].issues;
       expect(result.length).to.equal(3);
@@ -170,20 +164,20 @@ describe('in-components/timeline/eventsStore', () => {
     it('should merge events in same time', () => {
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
-      getEventUpdatesResult.emit(Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
         'state': 'closed',
         'type': 'issue'
-      }));
+      }]));
 
-      getHistoricalEventsResult.emit([Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'bar',
         'start': 5,
         'state': 'open',
         'type': 'issue'
-      })]);
+      }]));
 
       const result = subscriber.getCall(2).args[0].issues;
       expect(result.length).to.equal(1);
@@ -195,28 +189,28 @@ describe('in-components/timeline/eventsStore', () => {
     it('should categorized events', () => {
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
-      getEventUpdatesResult.emit(Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
         'state': 'closed',
         'type': 'change'
-      }));
+      }]));
 
-      getEventUpdatesResult.emit(Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 20,
         'state': 'closed',
         'type': 'incident'
-      }));
+      }]));
 
-      getHistoricalEventsResult.emit([Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'bar',
         'start': 15,
         'state': 'open',
         'type': 'issue'
-      })]);
+      }]));
 
       const result = subscriber.getCall(3).args[0];
       expect(result.issues.length).to.equal(1);
@@ -235,20 +229,20 @@ describe('in-components/timeline/eventsStore', () => {
     it('should update events', () => {
       mod.eventsAroundTimeframe$.subscribe(subscriber);
 
-      getHistoricalEventsResult.emit([Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'bar',
         'start': 15,
         'state': 'open',
         'type': 'issue'
-      })]);
+      }]));
 
-      getEventUpdatesResult.emit(Immutable.fromJS({
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
         'id': 'bar',
         'start': 15,
         'end': 20,
         'state': 'closed',
         'type': 'issue'
-      }));
+      }]));
 
       const result = subscriber.getCall(2).args[0];
       expect(result.issues.length).to.equal(1);
