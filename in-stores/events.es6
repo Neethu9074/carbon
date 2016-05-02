@@ -2,16 +2,29 @@ import {sortedIndexBy} from 'lodash';
 import {combineLatest} from 'reactive-observables';
 
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
+import getOpenEvents from 'in-services/subscription/openEvents';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 
+// TODO Backend data subscription doesn't really work. We have duplicate
+// data retrieval going on and updates aren't always properly received.
+// Change it to:
+//  a) Get all data for a specific time window (timeframe as parameter)
+//  c) Get all updates (no parameters)
+//
+// Much easier to handle and reason update. Current backend subscriptions
+// are too complicated.
 export const retrievedEvents$ = timeframe$
   .flatMap(timeframe => {
+    // TODO replace with get historical data subscription
     return getHistoricalEvents({
       // Increase amount of retrieved data to ensure smooth vertical scrolling.
       to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
       windowSize: timeframe.windowSize * 2
     });
   })
+
+  // TODO replace with get all updates subscription
+  .merge(getOpenEvents())
   .scan((store, update) => {
     update.forEach(event => insertSorted(store, event));
     return store;

@@ -15,6 +15,8 @@ describe('in-stores/events', () => {
   let timeframe$;
   let getHistoricalEvents;
   let getHistoricalEventsResult;
+  let getOpenEvents;
+  let getOpenEventsResult;
 
   beforeEach(() => {
     subscriber = sinon.stub();
@@ -25,14 +27,18 @@ describe('in-stores/events', () => {
     from$ = create();
     to$ = create();
     getHistoricalEvents = sinon.stub();
-    getHistoricalEventsResult = create().emit([]);
+    getHistoricalEventsResult = create().emit(Immutable.List());
     getHistoricalEvents.returns(getHistoricalEventsResult);
+    getOpenEvents = sinon.stub();
+    getOpenEventsResult = create();
+    getOpenEvents.returns(getOpenEventsResult);
     mod = proxyquire('in-stores/events', {
       'in-stores/timeline': {
         timeframe$,
         from$,
         to$
       },
+      'in-services/subscription/openEvents': getOpenEvents,
       'in-stores/historicalEvents': {
         getHistoricalEvents
       }
