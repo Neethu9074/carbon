@@ -4,9 +4,9 @@ import React from 'react';
 import {
   isCollapsed$,
   toggleMenu,
-  categorizedEvents$,
   showTimeSelector$
 } from 'in-components/timeline/timelineStore';
+import {eventsInTimeframe$} from 'in-stores/events';
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
@@ -22,7 +22,7 @@ const rpt = React.PropTypes;
 
 export default connectTo({
   showTimeSelector: showTimeSelector$,
-    categorizedEvents: categorizedEvents$,
+    categorizedEvents: eventsInTimeframe$,
     isCollapsed: isCollapsed$
   },
   React.createClass({
