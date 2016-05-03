@@ -39,8 +39,12 @@ export default getZone(React.createClass({
           {data.get('node.type')}
         </DescriptionItem>
 
+        <DescriptionItem title='Master'>
+          {data.get('node.master')}
+        </DescriptionItem>
+
         <DescriptionItem title='Master Eligible'>
-          {data.get('node.eligible')}
+          {data.get('node.master_eligible')}
         </DescriptionItem>
 
         <DescriptionItem title='Transport'>
