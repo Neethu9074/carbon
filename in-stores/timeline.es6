@@ -51,17 +51,6 @@ export function setTimeframe(windowSize, to = null) {
 }
 
 
-export const currentRollup = timeframe.map(({windowSize}) => {
-  if (windowSize <= 1000 * 60 * 10) {
-    return '1 sec';
-  } else if (windowSize <= 1000 * 60 * 60) {
-    return '5 sec';
-  } else if (windowSize <= 1000 * 60 * 60 * 12) {
-    return '1 min';
-  }
-  return '2 min';
-});
-
 const highlightedMomentStore = createStore({
   name: 'highlightedMoment',
   initialValue: null
