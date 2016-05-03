@@ -1,17 +1,20 @@
 import {combineLatest} from 'reactive-observables';
 import {sortedIndexBy} from 'lodash';
 
-import {getHistoricalEvents} from 'in-stores/historicalEvents';
+import getEvents from 'in-services/subscription/events';
+import getEventUpdates from 'in-services/subscription/eventUpdates';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 
 export const retrievedEvents$ = timeframe$
   .flatMap(timeframe => {
-    return getHistoricalEvents({
+    return getEvents({
       // Increase amount of retrieved data to ensure smooth vertical scrolling.
       to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
       windowSize: timeframe.windowSize * 2
     });
   })
+
+  .merge(getEventUpdates())
   .scan((store, update) => {
     update.forEach(event => insertSorted(store, event));
     return store;
