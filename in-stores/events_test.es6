@@ -290,4 +290,83 @@ describe('in-stores/events', () => {
     });
   });
 
+  describe('getNearestEvent$', () => {
+    it('should return null if there are no events', () => {
+      timeframe$.emit({
+        to: 100,
+        windowSize: 100
+      });
+      from$.emit(0);
+      to$.emit(100);
+
+      mod.eventsInTimeframe$.subscribe(subscriber);
+
+      getHistoricalEventsResult.emit(Immutable.fromJS([]));
+
+      const result = subscriber.getCall(1).args[0];
+      expect(mod.getNearestEvent(result.issues, 40)).to.equal(null);
+    });
+
+    it('should find the only inserted item', () => {
+      timeframe$.emit({
+        to: 100,
+        windowSize: 100
+      });
+      from$.emit(0);
+      to$.emit(100);
+
+      mod.eventsInTimeframe$.subscribe(subscriber);
+
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue'
+      }]));
+
+      const result = subscriber.getCall(1).args[0];
+
+      expect(mod.getNearestEvent(result.issues, 90).get('id')).to.equal('foo');
+    });
+
+    it('should find the nearest event', () => {
+      timeframe$.emit({
+        to: 100,
+        windowSize: 100
+      });
+      from$.emit(0);
+      to$.emit(100);
+
+      mod.eventsInTimeframe$.subscribe(subscriber);
+
+      getHistoricalEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue'
+      }, {
+        'id': 'bar',
+        'start': 19,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue'
+      }, {
+        'id': 'pups',
+        'start': 40,
+        'end': 50,
+        'state': 'closed',
+        'type': 'issue'
+      }]));
+
+      const result = subscriber.getCall(1).args[0];
+
+      expect(mod.getNearestEvent(result.issues, 0).get('id')).to.equal('foo');
+      expect(mod.getNearestEvent(result.issues, 10).get('id')).to.equal('foo');
+      expect(mod.getNearestEvent(result.issues, 20).get('id')).to.equal('bar');
+      expect(mod.getNearestEvent(result.issues, 30).get('id')).to.equal('pups');
+      expect(mod.getNearestEvent(result.issues, 90).get('id')).to.equal('pups');
+    });
+  });
 });

@@ -1,5 +1,5 @@
-import {sortedIndexBy} from 'lodash';
 import {combineLatest} from 'reactive-observables';
+import {sortedIndexBy} from 'lodash';
 
 import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
@@ -82,4 +82,29 @@ function insertSorted(store, event) {
   } else {
     byTime.splice(index, 0, event);
   }
+}
+
+export function getNearestEvent(events, timestamp) {
+  if (events.length === 0) {
+    return null;
+  }
+
+  let index = sortedIndexBy(events, {time: timestamp}, event => event.time);
+
+  let B = events[index];
+  if (!B) {
+    index = events.length - 1;
+    B = events[index];
+  }
+
+  if (index === 0) {
+    return B;
+  }
+
+  const A = events[index - 1];
+
+  const distanceToA = Math.abs(A.time - timestamp);
+  const distanceToB = Math.abs(B.time - timestamp);
+
+  return distanceToA < distanceToB ? A : B;
 }

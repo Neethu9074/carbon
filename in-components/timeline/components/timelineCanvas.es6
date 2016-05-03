@@ -5,13 +5,17 @@ import IncidentRenderer from 'in-components/timeline/components/renderer/eventRe
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
-import {eventsInTimeframe$} from 'in-stores/events';
+import createMouseEvents from 'in-components/timeline/components/mouseEvents';
+import {eventsInTimeframe$, getNearestEvent} from 'in-stores/events';
+import {setTo} from 'in-components/timeline/timelineStore';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
 export default function createTimelineRenderer({container, canvas}) {
+  const renderer = {};
+
   const changeSignal = true;
   const height = 162;
   let width;
@@ -40,6 +44,8 @@ export default function createTimelineRenderer({container, canvas}) {
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
 
+  const mouseEvents = createMouseEvents(canvas, renderer);
+
   let axisConfig;
   const timeframeSubscription = timeframe$
     .map(frame => getAxisConfig(frame.windowSize))
@@ -67,12 +73,34 @@ export default function createTimelineRenderer({container, canvas}) {
     .debounce(300)
     .subscribe(draw);
 
-  return {
-    canvas: screenBufferCanvas,
-    dispose,
+  renderer.canvas = screenBufferCanvas;
+  renderer.onMouseMove = onMouseMove;
+  renderer.onMouseDown = onMouseDown;
+  renderer.onMouseUp = onMouseUp;
+  renderer.dispose = dispose;
+  renderer.onDrag = onDrag;
 
-    getDomain: pixelX => scale.getDomain(pixelX)
-  };
+  return renderer;
+
+  function onMouseDown() {}
+  function onMouseUp() {}
+
+  function onMouseMove(x) {
+    if (!categorizedEvents) {
+      return;
+    }
+
+    const hit = getNearestEvent(categorizedEvents.issues, scale.getDomain(x));
+    if (!hit) {
+      return;
+    }
+  }
+
+  function onDrag(x, prevX) {
+    const oldTimestamp = scale.getDomain(prevX);
+    const newTimestamp = scale.getDomain(x);
+    setTo(newTimestamp, oldTimestamp);
+  }
 
   function resize() {
     width = container.clientWidth;
@@ -110,6 +138,8 @@ export default function createTimelineRenderer({container, canvas}) {
   }
 
   function dispose() {
+    mouseEvents.dispose();
+
     timeframeSubscription.dispose();
     eventsSubscription.dispose();
     resizeSubscription.dispose();
