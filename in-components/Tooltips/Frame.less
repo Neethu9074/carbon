@@ -13,21 +13,35 @@
 
   z-index: @z-index__tooltips;
   background: @map__tooltips__background;
-}
 
-.in-tooltip__frame:before {
-  content: '';
-  position: absolute;
+  &::before {
+    position: absolute;
 
-  margin-top: 5px;
-  margin-left: -17px;
+    content: '';
+    padding: 0;
+    border: 4px solid;
+  }
 
-  padding: 0;
+  &__left {
+    &::before {
+      margin-top: 5px;
+      margin-left: -17px;
 
-  border: 4px solid;
-  border-color:
-    @map__tooltips__background
-    @map__tooltips__background
-    transparent
-    transparent;
+      border-color:
+        @map__tooltips__background
+        @map__tooltips__background
+        transparent
+        transparent;
+    }
+  }
+
+  &__bottom {
+    &::before {
+      border-color:
+        @map__tooltips__background
+        transparent
+        @map__tooltips__background
+        transparent;
+    }
+  }
 }

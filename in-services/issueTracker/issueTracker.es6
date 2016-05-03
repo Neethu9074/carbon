@@ -227,10 +227,6 @@ export function getColorForEvent(event) {
   if (event.get('state') === 'open') {
     const severity = event.getIn(['problem', 'severity'], 0);
 
-    if (__DEV__ && severity < 0 || severity > 10) {
-      logger.info(`Invalid severity ${severity} for event ${event.toString()}`);
-    }
-
     const color = theme.health[severity];
     if (!color) {
       return theme.health[0];

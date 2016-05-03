@@ -23,7 +23,7 @@ export default function createMouseEvents(canvas, component) {
   const mouseMoveSubscription = ro.on(canvas, 'mousemove')
     .throttle(100)
     .subscribe(e => {
-      component.onMouseMove(e.offsetX, e.offsetY);
+      component.onMouseMove(e.offsetX, e.screenX);
       if (isDragging) {
         component.onDrag(e.offsetX, e.offsetX - e.movementX);
       }

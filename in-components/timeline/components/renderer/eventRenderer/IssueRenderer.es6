@@ -9,8 +9,8 @@ export default class IssueRenderer extends EventRenderer {
     super(buffer, scale, 81, iconSize);
   }
 
-  draw(issue) {
-    const x = super.draw(issue);
+  draw(issue, isHighlighted) {
+    const x = super.draw(issue, isHighlighted);
     if (!x) {
       return;
     }

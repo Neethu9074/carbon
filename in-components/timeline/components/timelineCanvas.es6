@@ -1,13 +1,13 @@
 import * as ro from 'reactive-observables';
 
 import ChangeEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/ChangeEventRenderer';
+import {eventsInTimeframe$, getNearestEvent, highlightedEvent$, setHighlightedEvent} from 'in-stores/events';
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
+import {setTo, setHighlightedEventXPosition} from 'in-components/timeline/timelineStore';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
-import {eventsInTimeframe$, getNearestEvent} from 'in-stores/events';
-import {setTo} from 'in-components/timeline/timelineStore';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
@@ -44,6 +44,14 @@ export default function createTimelineRenderer({container, canvas}) {
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
 
+  const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
+    changeEventRenderer.setHighlightedEvent(event);
+    incidentRenderer.setHighlightedEvent(event);
+    issueRenderer.setHighlightedEvent(event);
+
+    changes.emit(changeSignal);
+  });
+
   const mouseEvents = createMouseEvents(canvas, renderer);
 
   let axisConfig;
@@ -60,7 +68,6 @@ export default function createTimelineRenderer({container, canvas}) {
     categorizedEvents = events;
     changes.emit(changeSignal);
   });
-
 
   const resizeSubscription = ro.on(window, 'resize')
     .debounce(500)
@@ -85,15 +92,19 @@ export default function createTimelineRenderer({container, canvas}) {
   function onMouseDown() {}
   function onMouseUp() {}
 
-  function onMouseMove(x) {
+  function onMouseMove(x, screenX) {
     if (!categorizedEvents) {
       return;
     }
 
-    const hit = getNearestEvent(categorizedEvents.issues, scale.getDomain(x));
-    if (!hit) {
-      return;
-    }
+    const pixelsToCheckForEventMouseOver = 20;
+    const timeAtCursor = scale.getDomain(x);
+    const timeFrom = scale.getDomain(x - pixelsToCheckForEventMouseOver / 2);
+    const maxDistance = Math.abs(timeAtCursor - timeFrom);
+
+    const hit = getNearestEvent(categorizedEvents.issues, scale.getDomain(x), maxDistance);
+    setHighlightedEvent(hit);
+    setHighlightedEventXPosition(hit ? screenX : null);
   }
 
   function onDrag(x, prevX) {
@@ -140,6 +151,7 @@ export default function createTimelineRenderer({container, canvas}) {
   function dispose() {
     mouseEvents.dispose();
 
+    highlightedEventIdSubscription.dispose();
     timeframeSubscription.dispose();
     eventsSubscription.dispose();
     resizeSubscription.dispose();

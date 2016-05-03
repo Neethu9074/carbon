@@ -3,12 +3,17 @@ import React from 'react';
 
 import './Frame.less';
 
+
+const block = 'in-tooltip__frame';
+const rpt = React.PropTypes;
+
 export default React.createClass({
 
   mixins: [PureRenderMixin],
 
   propTypes: {
-    children: React.PropTypes.any.isRequired
+    children: rpt.any.isRequired,
+    anchor: rpt.string
   },
 
 
@@ -20,8 +25,10 @@ export default React.createClass({
       return null;
     }
 
+    const anchor = this.props.anchor ? this.props.anchor : 'left';
+
     return (
-      <div className='in-tooltip__frame'>
+      <div className={block + ' ' + block + '__' + anchor}>
         {this.props.children}
       </div>
     );

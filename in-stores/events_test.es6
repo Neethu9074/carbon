@@ -6,6 +6,8 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import {expect} from 'chai';
 
+import {resetStoreRegistry} from 'in-stores/store';
+
 describe('in-stores/events', () => {
 
   let mod;
@@ -19,6 +21,8 @@ describe('in-stores/events', () => {
   let getEventUpdatesResult;
 
   beforeEach(() => {
+    resetStoreRegistry();
+
     subscriber = sinon.stub();
     timeframe$ = create().emit({
       to: null,
@@ -305,7 +309,7 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getHistoricalEventsResult.emit(Immutable.fromJS([]));
+      getEventsResult.emit(Immutable.fromJS([]));
 
       const result = subscriber.getCall(1).args[0];
       expect(mod.getNearestEvent(result.issues, 40)).to.equal(null);
@@ -321,7 +325,7 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getHistoricalEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(Immutable.fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -344,7 +348,7 @@ describe('in-stores/events', () => {
 
       mod.eventsInTimeframe$.subscribe(subscriber);
 
-      getHistoricalEventsResult.emit(Immutable.fromJS([{
+      getEventsResult.emit(Immutable.fromJS([{
         'id': 'foo',
         'start': 5,
         'end': 20,
@@ -371,6 +375,39 @@ describe('in-stores/events', () => {
       expect(mod.getNearestEvent(result.issues, 20).get('id')).to.equal('bar');
       expect(mod.getNearestEvent(result.issues, 30).get('id')).to.equal('pups');
       expect(mod.getNearestEvent(result.issues, 90).get('id')).to.equal('pups');
+    });
+
+    it('should allow maxDistance thresholds', () => {
+      timeframe$.emit({
+        to: 100,
+        windowSize: 100
+      });
+      from$.emit(0);
+      to$.emit(100);
+
+      mod.eventsInTimeframe$.subscribe(subscriber);
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue'
+      }, {
+        'id': 'bar',
+        'start': 19,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue'
+      }]));
+
+      const issues = subscriber.getCall(1).args[0].issues;
+
+      expect(mod.getNearestEvent(issues, 10, 5).get('id')).to.equal('foo');
+      expect(mod.getNearestEvent(issues, 10, 4)).to.equal(null);
+      expect(mod.getNearestEvent(issues, 12).get('id')).to.equal('foo');
+      expect(mod.getNearestEvent(issues, 29, 5)).to.equal(null);
+      expect(mod.getNearestEvent(issues, 1, 2)).to.equal(null);
     });
   });
 });

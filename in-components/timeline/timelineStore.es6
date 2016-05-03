@@ -2,7 +2,7 @@ import {createStore} from 'in-stores/store';
 
 const isCollapsed = createStore({
   name: 'isTimelineCollapsedStore',
-  initialValue: true
+  initialValue: false
 });
 export const isCollapsed$ = isCollapsed.observable;
 
@@ -51,4 +51,15 @@ const toStore = createStore({
 });
 export function setTo(to) {
   toStore.applyStateMutation(() => to);
+}
+
+
+const highlightedEventXPosition = createStore({
+  name: 'highlightedEventXPositionStore',
+  initialValue: null
+});
+export const highlightedEventXPosition$ = highlightedEventXPosition.observable.distinct();
+
+export function setHighlightedEventXPosition(pos) {
+  highlightedEventXPosition.applyStateMutation(() => pos);
 }

@@ -8,8 +8,8 @@ export default class IncidentRenderer extends EventRenderer {
     super(buffer, scale, 40, iconSize);
   }
 
-  draw(event) {
-    const x = super.draw(event);
+  draw(event, isHighlighted) {
+    const x = super.draw(event, isHighlighted);
     if (!x) {
       return;
     }

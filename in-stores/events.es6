@@ -1,9 +1,11 @@
 import {combineLatest} from 'reactive-observables';
 import {sortedIndexBy} from 'lodash';
 
-import getEvents from 'in-services/subscription/events';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
+import getEvents from 'in-services/subscription/events';
+import {createStore} from 'in-stores/store';
+
 
 export const retrievedEvents$ = timeframe$
   .flatMap(timeframe => {
@@ -87,7 +89,7 @@ function insertSorted(store, event) {
   }
 }
 
-export function getNearestEvent(events, timestamp) {
+export function getNearestEvent(events, timestamp, maxDistance = Number.MAX_VALUE) {
   if (events.length === 0) {
     return null;
   }
@@ -99,15 +101,34 @@ export function getNearestEvent(events, timestamp) {
     index = events.length - 1;
     B = events[index];
   }
+  const distanceToB = Math.abs(B.time - timestamp);
 
   if (index === 0) {
-    return B;
+    if (distanceToB < maxDistance) {
+      return B;
+    }
+    return null;
   }
 
   const A = events[index - 1];
-
   const distanceToA = Math.abs(A.time - timestamp);
-  const distanceToB = Math.abs(B.time - timestamp);
 
-  return distanceToA < distanceToB ? A : B;
+  if (distanceToA <= distanceToB && distanceToA <= maxDistance) {
+    return A;
+  } else if (distanceToB < distanceToA && distanceToB <= maxDistance) {
+    return B;
+  }
+
+  return null;
+}
+
+
+const highlightedEvent = createStore({
+  name: 'highlightedEventStore',
+  initialValue: null
+});
+export const highlightedEvent$ = highlightedEvent.observable.distinct();
+
+export function setHighlightedEvent(event) {
+  highlightedEvent.applyStateMutation(() => event);
 }
