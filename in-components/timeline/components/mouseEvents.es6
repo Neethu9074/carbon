@@ -2,17 +2,21 @@ import * as ro from 'reactive-observables';
 
 import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
+import {selectEvent} from 'in-services/issueTracker';
 
 
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
+  let millisBetweenMouseDownAndUp = Number.MAX_VALUE;
+  const maxMillisForClickDetection = 300;
+
   const changeSignal = true;
   let isDragging = false;
 
   let categorizedEvents;
   const eventsSubscription = eventsInTimeframe$.subscribe(events => categorizedEvents = events);
 
-  const mouseUpSubscription = ro.on(canvas, 'mouseup').subscribe(() => isDragging = false);
-  const mouseDownSubscription = ro.on(canvas, 'mousedown').subscribe(() => isDragging = true);
+  const mouseDownSubscription = ro.on(canvas, 'mousedown').subscribe(onMouseDown);
+  const mouseUpSubscription = ro.on(canvas, 'mouseup').subscribe(onMouseUp);
 
   const mouseLeaveSubscription = ro.on(canvas, 'mouseleave').subscribe(() => {
     setHighlightedEventScreenPosition(null);
@@ -33,27 +37,36 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     dispose
   };
 
+  function onClick(e) {
+    const eventAtCursor = getEventAtXY(e.offsetX, e.offsetY);
+    if (eventAtCursor) {
+      selectEvent(eventAtCursor);
+    }
+  }
+
+  function onMouseDown() {
+    isDragging = true;
+    millisBetweenMouseDownAndUp = Date.now();
+  }
+
+  function onMouseUp(e) {
+    isDragging = false;
+
+    millisBetweenMouseDownAndUp = Date.now() - millisBetweenMouseDownAndUp;
+    if (millisBetweenMouseDownAndUp < maxMillisForClickDetection) {
+      onClick(e);
+    }
+  }
+
   function onMouseMove(x, screenX, y) {
     if (!categorizedEvents) {
       return;
     }
 
-    const eventsToCheck = resultDependingOnY(y,
-      categorizedEvents.incidents,
-      categorizedEvents.issues,
-      categorizedEvents.changes);
-    if (!eventsToCheck) {
-      return;
-    }
+    const eventAtCursor = getEventAtXY(x, y);
 
-    const pixelsToCheckForEventMouseOver = 20;
-    const timeAtCursor = scale.getDomain(x);
-    const timeFrom = scale.getDomain(x - pixelsToCheckForEventMouseOver / 2);
-    const maxDistance = Math.abs(timeAtCursor - timeFrom);
-
-    const hit = getNearestEvent(eventsToCheck, scale.getDomain(x), maxDistance);
-    setHighlightedEvent(hit);
-    setHighlightedEventScreenPosition(hit ? {
+    setHighlightedEvent(eventAtCursor);
+    setHighlightedEventScreenPosition(eventAtCursor ? {
       x: screenX,
       y: resultDependingOnY(y,
         60, // if incidents
@@ -69,6 +82,23 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     setTo(newTimestamp, oldTimestamp);
 
     realtimeDrawStream.emit(changeSignal);
+  }
+
+  function getEventAtXY(x, y) {
+    const eventsToCheck = resultDependingOnY(y,
+      categorizedEvents.incidents,
+      categorizedEvents.issues,
+      categorizedEvents.changes);
+    if (!eventsToCheck) {
+      return null;
+    }
+
+    const pixelsToCheckForEventMouseOver = 20;
+    const timeAtCursor = scale.getDomain(x);
+    const timeFrom = scale.getDomain(x - pixelsToCheckForEventMouseOver / 2);
+    const maxDistance = Math.abs(timeAtCursor - timeFrom);
+
+    return getNearestEvent(eventsToCheck, scale.getDomain(x), maxDistance);
   }
 
   function resultDependingOnY(y, incidentResult, issueResult, changesResult) {
