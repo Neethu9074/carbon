@@ -5,8 +5,8 @@ import {eventsInTimeframe$, getNearestEvent, highlightedEvent$, setHighlightedEv
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
+import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
-import {setTo, setHighlightedEventXPosition} from 'in-components/timeline/timelineStore';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 import {updateCanvasDimensions} from 'in-charts/canvas';
@@ -81,6 +81,7 @@ export default function createTimelineRenderer({container, canvas}) {
     .subscribe(draw);
 
   renderer.canvas = screenBufferCanvas;
+  renderer.onMouseLeave = onMouseLeave;
   renderer.onMouseMove = onMouseMove;
   renderer.onMouseDown = onMouseDown;
   renderer.onMouseUp = onMouseUp;
@@ -92,8 +93,18 @@ export default function createTimelineRenderer({container, canvas}) {
   function onMouseDown() {}
   function onMouseUp() {}
 
-  function onMouseMove(x, screenX) {
+  function onMouseLeave() {
+    setHighlightedEvent(null);
+    setHighlightedEventScreenPosition(null);
+  }
+
+  function onMouseMove(x, screenX, y) {
     if (!categorizedEvents) {
+      return;
+    }
+
+    const eventsToCheck = functionGetEventsToCheckByY(y);
+    if (!eventsToCheck) {
       return;
     }
 
@@ -102,9 +113,31 @@ export default function createTimelineRenderer({container, canvas}) {
     const timeFrom = scale.getDomain(x - pixelsToCheckForEventMouseOver / 2);
     const maxDistance = Math.abs(timeAtCursor - timeFrom);
 
-    const hit = getNearestEvent(categorizedEvents.issues, scale.getDomain(x), maxDistance);
+    const hit = getNearestEvent(eventsToCheck, scale.getDomain(x), maxDistance);
     setHighlightedEvent(hit);
-    setHighlightedEventXPosition(hit ? screenX : null);
+    setHighlightedEventScreenPosition(hit ? {x: screenX, y: getTooltipYPosition(y)} : null);
+  }
+
+  function functionGetEventsToCheckByY(y) {
+    if (y >= 40 && y <= 80) {
+      return categorizedEvents.incidents;
+    } else if (y >= 81 && y <= 120) {
+      return categorizedEvents.issues;
+    } else if (y >= 121 && y <= 160) {
+      return categorizedEvents.changes;
+    }
+    return null;
+  }
+
+  function getTooltipYPosition(y) {
+    if (y >= 40 && y <= 80) {
+      return 60;
+    } else if (y >= 81 && y <= 120) {
+      return 100;
+    } else if (y >= 121 && y <= 160) {
+      return 120;
+    }
+    return y;
   }
 
   function onDrag(x, prevX) {

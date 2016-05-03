@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {highlightedEventXPosition$} from 'in-components/timeline/timelineStore';
+import {highlightedEventScreenPosition$} from 'in-components/timeline/timelineStore';
 import EventDescription from 'in-components/EventDescription';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import {highlightedEvent$} from 'in-stores/events';
@@ -13,9 +13,11 @@ import './EventTooltip.less';
 
 const block = 'in-timeline-event-tooltip';
 const rpt = React.PropTypes;
+const xOffset = -10;
+const yOffset = 220;
 
 export default connectTo({
-    highlightedEventXPosition: highlightedEventXPosition$,
+    highlightedEventScreenPosition: highlightedEventScreenPosition$,
     highlightedEvent: highlightedEvent$
   },
   React.createClass({
@@ -27,24 +29,27 @@ export default connectTo({
     ],
 
     propTypes: {
-      highlightedEventXPosition: rpt.number,
+      highlightedEventScreenPosition: rpt.object,
       highlightedEvent: irpt.map
     },
 
     render() {
-      const highlightedEventXPosition = this.props.highlightedEventXPosition;
+      const highlightedEventScreenPosition = this.props.highlightedEventScreenPosition;
       const highlightedEvent = this.props.highlightedEvent;
 
-      if (!highlightedEvent || !highlightedEventXPosition) {
+      if (!highlightedEvent || !highlightedEventScreenPosition) {
         return null;
       }
 
       return (
         <div className={block}
-             style={{left: this.props.highlightedEventXPosition}}>
+             style={{
+               left: highlightedEventScreenPosition.x + xOffset,
+               bottom: yOffset - highlightedEventScreenPosition.y
+             }}>
            <TooltipFrame anchor='bottom'>
              <EventDescription event={highlightedEvent}
-                               snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'])}/>
+                               snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')}/>
            </TooltipFrame>
         </div>
       );

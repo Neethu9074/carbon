@@ -54,12 +54,12 @@ export function setTo(to) {
 }
 
 
-const highlightedEventXPosition = createStore({
-  name: 'highlightedEventXPositionStore',
+const highlightedEventScreenPosition = createStore({
+  name: 'highlightedEventScreenPositionStore',
   initialValue: null
 });
-export const highlightedEventXPosition$ = highlightedEventXPosition.observable.distinct();
+export const highlightedEventScreenPosition$ = highlightedEventScreenPosition.observable.distinct();
 
-export function setHighlightedEventXPosition(pos) {
-  highlightedEventXPosition.applyStateMutation(() => pos);
+export function setHighlightedEventScreenPosition(pos) {
+  highlightedEventScreenPosition.applyStateMutation(() => pos);
 }

@@ -2,7 +2,6 @@ import * as ro from 'reactive-observables';
 
 
 export default function createMouseEvents(canvas, component) {
-
   let isDragging = false;
 
   const mouseUpSubscription = ro.on(canvas, 'mouseup').subscribe(e => {
@@ -11,7 +10,7 @@ export default function createMouseEvents(canvas, component) {
   });
 
   const mouseLeaveSubscription = ro.on(canvas, 'mouseleave').subscribe(e => {
-    component.onMouseUp(e.offsetX, e.offsetY);
+    component.onMouseLeave(e.offsetX, e.offsetY);
     isDragging = false;
   });
 
@@ -23,12 +22,11 @@ export default function createMouseEvents(canvas, component) {
   const mouseMoveSubscription = ro.on(canvas, 'mousemove')
     .throttle(100)
     .subscribe(e => {
-      component.onMouseMove(e.offsetX, e.screenX);
+      component.onMouseMove(e.offsetX, e.x, e.offsetY, e.y);
       if (isDragging) {
         component.onDrag(e.offsetX, e.offsetX - e.movementX);
       }
   });
-
 
   return {
     dispose
