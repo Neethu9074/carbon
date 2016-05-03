@@ -23,6 +23,13 @@ module.exports = {
     tenantUnit: 'staging',
     groundskeeperDomain: 'staging-groundskeeper-instana.instana.io'
   },
+  current: {
+    uiBackendUrl: 'https://current-instana.instana.io/api/data/',
+    groundskeeperUrl: 'https://current-instana.instana.io',
+    tenant: 'instana',
+    tenantUnit: 'current',
+    groundskeeperDomain: 'current-groundskeeper-instana.instana.io'
+  },
   issuegrouping: {
     uiBackendUrl: 'https://issuegrouping-instana.instana.io/api/data/',
     groundskeeperUrl: 'https://test-instana.instana.io',
