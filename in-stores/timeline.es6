@@ -41,7 +41,7 @@ export const timeframeShape = React.PropTypes.shape({
 });
 
 
-export function setTimeframe(windowSize, to) {
+export function setTimeframe(windowSize, to = null) {
   timeframeStore.applyStateMutation(() => {
     return {
       windowSize,
