@@ -1,21 +1,18 @@
 import * as ro from 'reactive-observables';
 
 import ChangeEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/ChangeEventRenderer';
-import {eventsInTimeframe$, getNearestEvent, highlightedEvent$, setHighlightedEvent} from 'in-stores/events';
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
-import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
+import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
 import {timeframe$, to$, from$} from 'in-stores/timeline';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
 
 export default function createTimelineRenderer({container, canvas}) {
-  const renderer = {};
-
   const changeSignal = true;
   const height = 162;
   let width;
@@ -25,12 +22,14 @@ export default function createTimelineRenderer({container, canvas}) {
   const screenBufferCanvas = canvas;
   const screenBuffer = screenBufferCanvas.getContext('2d');
 
+  const realtimeDrawStream = ro.create();
   const changes = ro.create();
 
   const scale = createScale();
   scale.setRangeFrom(0);
   const fromSubscription = from$.subscribe(from => {
     scale.setDomainFrom(from);
+
     changes.emit(changeSignal);
   });
   const toSubscription = to$.subscribe(to => {
@@ -52,7 +51,7 @@ export default function createTimelineRenderer({container, canvas}) {
     changes.emit(changeSignal);
   });
 
-  const mouseEvents = createMouseEvents(canvas, renderer);
+  const mouseEvents = createMouseEvents(canvas, scale, realtimeDrawStream);
 
   let axisConfig;
   const timeframeSubscription = timeframe$
@@ -80,71 +79,12 @@ export default function createTimelineRenderer({container, canvas}) {
     .debounce(300)
     .subscribe(draw);
 
-  renderer.canvas = screenBufferCanvas;
-  renderer.onMouseLeave = onMouseLeave;
-  renderer.onMouseMove = onMouseMove;
-  renderer.onMouseDown = onMouseDown;
-  renderer.onMouseUp = onMouseUp;
-  renderer.dispose = dispose;
-  renderer.onDrag = onDrag;
+  const realtimeDrawSubscription = realtimeDrawStream.subscribe(draw);
 
-  return renderer;
-
-  function onMouseDown() {}
-  function onMouseUp() {}
-
-  function onMouseLeave() {
-    setHighlightedEvent(null);
-    setHighlightedEventScreenPosition(null);
-  }
-
-  function onMouseMove(x, screenX, y) {
-    if (!categorizedEvents) {
-      return;
-    }
-
-    const eventsToCheck = functionGetEventsToCheckByY(y);
-    if (!eventsToCheck) {
-      return;
-    }
-
-    const pixelsToCheckForEventMouseOver = 20;
-    const timeAtCursor = scale.getDomain(x);
-    const timeFrom = scale.getDomain(x - pixelsToCheckForEventMouseOver / 2);
-    const maxDistance = Math.abs(timeAtCursor - timeFrom);
-
-    const hit = getNearestEvent(eventsToCheck, scale.getDomain(x), maxDistance);
-    setHighlightedEvent(hit);
-    setHighlightedEventScreenPosition(hit ? {x: screenX, y: getTooltipYPosition(y)} : null);
-  }
-
-  function functionGetEventsToCheckByY(y) {
-    if (y >= 40 && y <= 80) {
-      return categorizedEvents.incidents;
-    } else if (y >= 81 && y <= 120) {
-      return categorizedEvents.issues;
-    } else if (y >= 121 && y <= 160) {
-      return categorizedEvents.changes;
-    }
-    return null;
-  }
-
-  function getTooltipYPosition(y) {
-    if (y >= 40 && y <= 80) {
-      return 60;
-    } else if (y >= 81 && y <= 120) {
-      return 100;
-    } else if (y >= 121 && y <= 160) {
-      return 120;
-    }
-    return y;
-  }
-
-  function onDrag(x, prevX) {
-    const oldTimestamp = scale.getDomain(prevX);
-    const newTimestamp = scale.getDomain(x);
-    setTo(newTimestamp, oldTimestamp);
-  }
+  return {
+    canvas: screenBufferCanvas,
+    dispose
+  };
 
   function resize() {
     width = container.clientWidth;
@@ -185,6 +125,7 @@ export default function createTimelineRenderer({container, canvas}) {
     mouseEvents.dispose();
 
     highlightedEventIdSubscription.dispose();
+    realtimeDrawSubscription.dispose();
     timeframeSubscription.dispose();
     eventsSubscription.dispose();
     resizeSubscription.dispose();
