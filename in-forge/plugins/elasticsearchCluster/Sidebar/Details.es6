@@ -35,8 +35,7 @@ export default connectTo({
           <DescriptionList>
             {this.item('Health', <HealthInfoBar snapshotId={snapshotId}/>)}
             {this.item('Name', data.get('groupId'))}
-            {this.item('Version', 'TODO')}
-            {this.item('Status', 'TODO')}
+            {this.item('Status', data.get('clusterState'))}
           </DescriptionList>
 
           <SparkChartsSection snapshotId={snapshotId}
