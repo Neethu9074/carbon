@@ -2,6 +2,7 @@ import {createStore} from 'in-stores/store';
 
 
 export const CURSOR_TYPES = {
+  HORIZONTAL_MOVE: 'ew-resize',
   POINTER: 'pointer',
   DEFAULT: ''
 };

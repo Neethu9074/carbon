@@ -66,6 +66,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     const eventAtCursor = getEventAtXY(x, y);
 
+    // add a hand cursor to support UX and tell the user that he can interact with the canvas at this point
     setCursor(eventAtCursor ? CURSOR_TYPES.POINTER : CURSOR_TYPES.DEFAULT);
 
     setHighlightedEvent(eventAtCursor);
@@ -85,6 +86,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     setTo(newTimestamp, oldTimestamp);
 
     realtimeDrawStream.emit(changeSignal);
+
+    // add visual scroll effect to support UX
+    setCursor(CURSOR_TYPES.HORIZONTAL_MOVE);
   }
 
   function getEventAtXY(x, y) {
