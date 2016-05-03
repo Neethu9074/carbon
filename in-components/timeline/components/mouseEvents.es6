@@ -2,6 +2,7 @@ import * as ro from 'reactive-observables';
 
 import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
+import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {selectEvent} from 'in-services/issueTracker';
 
 
@@ -64,6 +65,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     }
 
     const eventAtCursor = getEventAtXY(x, y);
+
+    setCursor(eventAtCursor ? CURSOR_TYPES.POINTER : CURSOR_TYPES.DEFAULT);
 
     setHighlightedEvent(eventAtCursor);
     setHighlightedEventScreenPosition(eventAtCursor ? {
