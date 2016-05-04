@@ -6,12 +6,10 @@ import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {selectEvent} from 'in-services/issueTracker';
 
 
-export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
+export default function createMouseEvents(canvas, scale) {
   let millisBetweenMouseDownAndUp = Number.MAX_VALUE;
   const minPixelToMoveForDragDetection = 5;
   const maxMillisForClickDetection = 300;
-
-  const changeSignal = true;
 
   let xPositionOnMouseDown = null;
   let lastXPosOnPan = null;
