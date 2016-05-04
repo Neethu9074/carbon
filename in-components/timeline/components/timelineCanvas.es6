@@ -55,7 +55,7 @@ export default function createTimelineRenderer({container, canvas}) {
     changes.emit(changeSignal);
   });
 
-  const mouseEvents = createMouseEvents(canvas, scale);
+  const mouseEvents = createMouseEvents(canvas, scale, realtimeDrawStream);
 
   let axisConfig;
   const timeframeSubscription = timeframe$

@@ -8,7 +8,9 @@ import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 
 
-export default function createMouseEvents(canvas, scale) {
+export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
+  const changeSignal = true;
+
   let millisBetweenMouseDownAndUp = Number.MAX_VALUE;
   const minPixelToMoveForDragDetection = 5;
   const maxMillisForClickDetection = 300;
@@ -124,6 +126,8 @@ export default function createMouseEvents(canvas, scale) {
   function onPanEnd() {
     isPanning = false;
     setGlobalTo(scale.getDomainTo());
+
+    realtimeDrawStream.emit(changeSignal);
   }
 
   function getEventAtXY(x, y) {
