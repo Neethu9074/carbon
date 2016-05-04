@@ -1,6 +1,7 @@
 import * as ro from 'reactive-observables';
 
 import ChangeEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/ChangeEventRenderer';
+import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
@@ -42,8 +43,10 @@ export default function createTimelineRenderer({container, canvas}) {
   const issueRenderer = new IssueRenderer(backBuffer, scale, 14);
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
+  const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
+    hoveredEventLineRenderer.setHighlightedEvent(event);
     changeEventRenderer.setHighlightedEvent(event);
     incidentRenderer.setHighlightedEvent(event);
     issueRenderer.setHighlightedEvent(event);
@@ -105,6 +108,7 @@ export default function createTimelineRenderer({container, canvas}) {
   function draw() {
     backgroundRenderer.draw();
     timeAxisRenderer.draw(axisConfig);
+    hoveredEventLineRenderer.draw();
     drawEvents();
 
     // copy backbuffer to screenbuffer

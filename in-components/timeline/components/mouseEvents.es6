@@ -8,9 +8,12 @@ import {selectEvent} from 'in-services/issueTracker';
 
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   let millisBetweenMouseDownAndUp = Number.MAX_VALUE;
+  const minPixelToMoveForDragDetection = 5;
   const maxMillisForClickDetection = 300;
 
   const changeSignal = true;
+
+  let xPositionOnMouseDown = null;
   let isDragging = false;
 
   let categorizedEvents;
@@ -22,7 +25,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const mouseLeaveSubscription = ro.on(canvas, 'mouseleave').subscribe(() => {
     setHighlightedEventScreenPosition(null);
     setHighlightedEvent(null);
-    isDragging = false;
+
+    if (isDragging) {
+      onDragEnd();
+    }
   });
 
   const mouseMoveSubscription = ro.on(canvas, 'mousemove')
@@ -45,13 +51,14 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     }
   }
 
-  function onMouseDown() {
-    isDragging = true;
+  function onMouseDown(e) {
+    xPositionOnMouseDown = e.offsetX;
     millisBetweenMouseDownAndUp = Date.now();
   }
 
   function onMouseUp(e) {
-    isDragging = false;
+    xPositionOnMouseDown = null;
+    onDragEnd();
 
     millisBetweenMouseDownAndUp = Date.now() - millisBetweenMouseDownAndUp;
     if (millisBetweenMouseDownAndUp < maxMillisForClickDetection) {
@@ -60,7 +67,15 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onMouseMove(x, screenX, y) {
-    if (!categorizedEvents) {
+    if (!isDragging && xPositionOnMouseDown) {
+      const movedSinceMouseDown = Math.abs(x - xPositionOnMouseDown);
+      if (movedSinceMouseDown > minPixelToMoveForDragDetection) {
+        onDragStart();
+      }
+    }
+
+    // don't try to calculate mouseover if the user is dragging or there are no events
+    if (isDragging || !categorizedEvents) {
       return;
     }
 
@@ -78,6 +93,18 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
         140 // if changes
       )
     } : null);
+  }
+
+  function onDragStart() {
+    // if the user has an active mouseover state, clear it
+    setHighlightedEventScreenPosition(null);
+    setHighlightedEvent(null);
+
+    isDragging = true;
+  }
+
+  function onDragEnd() {
+    isDragging = false;
   }
 
   function onDrag(x, prevX) {
