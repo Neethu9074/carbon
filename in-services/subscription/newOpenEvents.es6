@@ -5,15 +5,16 @@ import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription(
   // event ID
-  'subscribe-event-updates',
+  'subscribe-new-open-events',
 
   // getID
-  () => '',
+  time => time,
 
   // data to be send for subscription
-  (subscriptionId) => {
+  (subscriptionId, time) => {
     return {
-      subscriptionId
+      subscriptionId,
+      time
     };
   },
 
