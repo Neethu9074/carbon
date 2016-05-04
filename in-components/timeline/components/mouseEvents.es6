@@ -5,6 +5,7 @@ import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-store
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
+import {serverTime$} from 'in-stores/serverTime';
 
 
 export default function createMouseEvents(canvas, scale) {
@@ -19,12 +20,17 @@ export default function createMouseEvents(canvas, scale) {
   let categorizedEvents;
   const eventsSubscription = eventsInTimeframe$.subscribe(events => categorizedEvents = events);
 
+  let serverTime = Number.MAX_VALUE;
+  const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time ? time : Number.MAX_VALUE);
+
   const mouseDownSubscription = ro.on(canvas, 'mousedown').subscribe(onMouseDown);
   const mouseUpSubscription = ro.on(canvas, 'mouseup').subscribe(onMouseUp);
 
   const mouseLeaveSubscription = ro.on(canvas, 'mouseleave').subscribe(() => {
     setHighlightedEventScreenPosition(null);
     setHighlightedEvent(null);
+
+    xPositionOnMouseDown = null;
 
     if (isPanning) {
       onPanEnd();
@@ -107,7 +113,9 @@ export default function createMouseEvents(canvas, scale) {
     setCursor(CURSOR_TYPES.HORIZONTAL_MOVE); // add visual scroll effect to support UX
 
     const pixelPanned = lastXPosOnPan - x;
-    const newTimestamp = scale.getDomain(scale.getRangeTo() + pixelPanned);
+
+    // min, because it's not allowed to scroll to future times
+    const newTimestamp = Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned));
     setTo(newTimestamp);
 
     lastXPosOnPan = x;
@@ -146,6 +154,7 @@ export default function createMouseEvents(canvas, scale) {
   }
 
   function dispose() {
+    serverTimeSubscription.dispose();
     mouseLeaveSubscription.dispose();
     mouseDownSubscription.dispose();
     mouseMoveSubscription.dispose();
