@@ -22,7 +22,17 @@ const timeframeStore = createStore({
 export const timeframe = timeframeStore.observable;
 export const timeframe$ = timeframe;
 
-export const focusedMoment$ = timeframe$.map(_timeframe => _timeframe.to).distinct();
+
+const focusedMoment = createStore({
+  name: 'focusedMomentStore',
+  initialValue: null
+});
+export const focusedMoment$ = focusedMoment.observable.distinct();
+
+export function setFocusedMoment(newFocusedMoment) {
+  focusedMoment.applyStateMutation(() => newFocusedMoment);
+}
+
 
 export const live$ = timeframe$.map(_timeframe => !_timeframe.to).distinct();
 
@@ -32,6 +42,15 @@ export const to$ = timeframe$.flatMap(_timeframe => {
   }
   return serverTime$;
 }).distinct();
+export function setTo(to) {
+  timeframeStore.applyStateMutation(prevTimeFrame => {
+    return {
+      windowSize: prevTimeFrame.windowSize,
+      to
+    };
+  });
+}
+
 
 export const from$ = timeframe$.flatMap(_timeframe => {
   return to$.map(to => to - _timeframe.windowSize);

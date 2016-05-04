@@ -4,6 +4,7 @@ import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/t
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {selectEvent} from 'in-services/issueTracker';
+import {setTimeframe} from 'in-stores/timeline';
 
 
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
@@ -14,7 +15,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
   let xPositionOnMouseDown = null;
-  let isDragging = false;
+  let isPanning = false;
 
   let categorizedEvents;
   const eventsSubscription = eventsInTimeframe$.subscribe(events => categorizedEvents = events);
@@ -26,8 +27,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     setHighlightedEventScreenPosition(null);
     setHighlightedEvent(null);
 
-    if (isDragging) {
-      onDragEnd();
+    if (isPanning) {
+      onPanEnd();
     }
   });
 
@@ -35,8 +36,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     .throttle(100)
     .subscribe(e => {
       onMouseMove(e.offsetX, e.x, e.offsetY, e.y);
-      if (isDragging) {
-        onDrag(e.offsetX, e.offsetX - e.movementX);
+      if (isPanning) {
+        onPan(e.offsetX, e.offsetX - e.movementX);
       }
   });
 
@@ -58,7 +59,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   function onMouseUp(e) {
     xPositionOnMouseDown = null;
-    onDragEnd();
+    onPanEnd();
 
     millisBetweenMouseDownAndUp = Date.now() - millisBetweenMouseDownAndUp;
     if (millisBetweenMouseDownAndUp < maxMillisForClickDetection) {
@@ -67,15 +68,15 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onMouseMove(x, screenX, y) {
-    if (!isDragging && xPositionOnMouseDown) {
+    if (!isPanning && xPositionOnMouseDown) {
       const movedSinceMouseDown = Math.abs(x - xPositionOnMouseDown);
       if (movedSinceMouseDown > minPixelToMoveForDragDetection) {
-        onDragStart();
+        onPanStart();
       }
     }
 
     // don't try to calculate mouseover if the user is dragging or there are no events
-    if (isDragging || !categorizedEvents) {
+    if (isPanning || !categorizedEvents) {
       return;
     }
 
@@ -95,27 +96,40 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     } : null);
   }
 
-  function onDragStart() {
+  function onPanStart() {
     // if the user has an active mouseover state, clear it
     setHighlightedEventScreenPosition(null);
     setHighlightedEvent(null);
 
-    isDragging = true;
+    isPanning = true;
+
+    /*
+      TODO: begin dragging
+    */
   }
 
-  function onDragEnd() {
-    isDragging = false;
+  function onPanEnd() {
+    isPanning = false;
+
+    /*
+      TODO: stop dragging
+
+    */
+    // setTimeframe();
   }
 
-  function onDrag(x, prevX) {
+  function onPan(x, prevX) {
+    setCursor(CURSOR_TYPES.HORIZONTAL_MOVE); // add visual scroll effect to support UX
+
+    /*
+      TODO: on dragging
+    */
     const oldTimestamp = scale.getDomain(prevX);
     const newTimestamp = scale.getDomain(x);
-    setTo(newTimestamp, oldTimestamp);
+    // setTo(newTimestamp, oldTimestamp);
+
 
     realtimeDrawStream.emit(changeSignal);
-
-    // add visual scroll effect to support UX
-    setCursor(CURSOR_TYPES.HORIZONTAL_MOVE);
   }
 
   function getEventAtXY(x, y) {

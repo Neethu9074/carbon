@@ -1,4 +1,12 @@
+import {create} from 'reactive-observables';
+
+import {
+  timeframe$ as globalTiemframe$,
+  setTimeframe as setGlobalTimeframe
+} from 'in-stores/timeline';
+import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
+
 
 const isCollapsed = createStore({
   name: 'isTimelineCollapsedStore',
@@ -34,7 +42,8 @@ const timeframeStore = createStore({
     to: null
   }
 });
-export const timeframeStore$ = timeframeStore.observable;
+export const timeframe$ = timeframeStore.observable;
+globalTiemframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
 
 export function setTimeFrame(windowSize, to) {
   timeframeStore.applyStateMutation(() => {
@@ -45,13 +54,25 @@ export function setTimeFrame(windowSize, to) {
   });
 }
 
-const toStore = createStore({
-  name: 'timelineToStore',
-  initialValue: null
-});
 export function setTo(to) {
-  toStore.applyStateMutation(() => to);
+  timeframeStore.applyStateMutation(prevTimeFrame => {
+    return {
+      windowSize: prevTimeFrame.windowSize,
+      to
+    };
+  });
 }
+
+export const to$ = timeframe$.flatMap(_timeframe => {
+  if (_timeframe.to) {
+    return create().emit(_timeframe.to).freeze();
+  }
+  return serverTime$;
+}).distinct();
+
+export const from$ = timeframe$.flatMap(_timeframe => {
+  return to$.map(to => to - _timeframe.windowSize);
+}).distinct();
 
 
 const highlightedEventScreenPosition = createStore({
@@ -62,4 +83,27 @@ export const highlightedEventScreenPosition$ = highlightedEventScreenPosition.ob
 
 export function setHighlightedEventScreenPosition(pos) {
   highlightedEventScreenPosition.applyStateMutation(() => pos);
+}
+
+
+/*
+  this store is used to throttle the slider event. If the user is using the slider very fast
+  we don't want to set every step between the start and goal position. therefore this store stream
+  is throttled to 1sec. All values in between are ignored
+*/
+const windowSizeForSlider = createStore({
+  name: 'windowSizeForSliderStore',
+  initialValue: null
+});
+windowSizeForSlider.observable
+  .distinct()
+  .throttle(1000)
+  .subscribe(windowSize =>{
+    if (windowSize) {
+      setGlobalTimeframe(windowSize);
+    }
+  });
+
+export function setWindowSizeForSlider(windowSize) {
+  windowSizeForSlider.applyStateMutation(() => windowSize);
 }

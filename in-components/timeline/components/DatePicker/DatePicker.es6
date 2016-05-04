@@ -87,7 +87,7 @@ export default connectTo({
                          return dateUtils.isSameDay(day, date);
                        }
                      }}
-                     onDayClick={(e, day) => this.onDateStringChanged(formatDate(day))}/>
+                     onDayClick={(e, day) => setDateString(formatDate(day))}/>
         </div>
       );
     },

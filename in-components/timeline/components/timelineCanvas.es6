@@ -3,12 +3,13 @@ import * as ro from 'reactive-observables';
 import ChangeEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/ChangeEventRenderer';
 import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
+import FocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
+import {timeframe$, to$, from$} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
-import {timeframe$, to$, from$} from 'in-stores/timeline';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
 import createScale from 'in-charts/scale';
@@ -43,6 +44,7 @@ export default function createTimelineRenderer({container, canvas}) {
   const issueRenderer = new IssueRenderer(backBuffer, scale, 14);
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
+  const focusedMomentRenderer = new FocusedMomentRenderer(backBuffer, scale);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
@@ -110,6 +112,7 @@ export default function createTimelineRenderer({container, canvas}) {
     timeAxisRenderer.draw(axisConfig);
     hoveredEventLineRenderer.draw();
     drawEvents();
+    focusedMomentRenderer.draw();
 
     // copy backbuffer to screenbuffer
     screenBuffer.drawImage(backBufferCanvas, 0, 0, width, height);
@@ -130,6 +133,7 @@ export default function createTimelineRenderer({container, canvas}) {
 
     highlightedEventIdSubscription.dispose();
     realtimeDrawSubscription.dispose();
+    focusedMomentRenderer.dispose();
     timeframeSubscription.dispose();
     eventsSubscription.dispose();
     resizeSubscription.dispose();

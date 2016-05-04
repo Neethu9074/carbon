@@ -9,8 +9,10 @@ import {
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
+import {setTo, setFocusedMoment, timeframeShape} from 'in-stores/timeline';
 import EventTooltip from 'in-components/timeline/components/EventTooltip';
 import DatePicker from 'in-components/timeline/components/DatePicker';
+import {timeframe$} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$} from 'in-stores/events';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -24,7 +26,8 @@ const rpt = React.PropTypes;
 export default connectTo({
     categorizedEvents: eventsInTimeframe$,
     showTimeSelector: showTimeSelector$,
-    isCollapsed: isCollapsed$
+    isCollapsed: isCollapsed$,
+    timeframe: timeframe$
   },
   React.createClass({
 
@@ -37,6 +40,7 @@ export default connectTo({
     propTypes: {
       categorizedEvents: rpt.object,
       showTimeSelector: rpt.bool,
+      timeframe: timeframeShape,
       isCollapsed: rpt.bool
     },
 
@@ -70,7 +74,13 @@ export default connectTo({
     },
 
     applyDate(date) {
-      console.log(date);
+      if (this.props.timeframe) {
+        const focusedMoment = Date.parse(date);
+        if (focusedMoment) {
+          setFocusedMoment(focusedMoment);
+          setTo(focusedMoment + this.props.timeframe.windowSize / 2);
+        }
+      }
     }
   })
 );

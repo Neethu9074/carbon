@@ -13,6 +13,7 @@ const Slider = React.createClass({
     onChange: rpt.func.isRequired,
     defaultValue: rpt.any,
     className: rpt.string,
+    step: rpt.number,
     min: rpt.number,
     max: rpt.number
   },
@@ -23,7 +24,7 @@ const Slider = React.createClass({
              className={getClassName(this, block)}
              min={this.props.min ? this.props.min : 0}
              max={this.props.max ? this.props.max : 100}
-             step={0.1}
+             step={this.props.step ? this.props.step : 0.1}
              defaultValue={this.props.defaultValue ? this.props.defaultValue : 0}
              onChange={this.props.onChange}/>
     );
