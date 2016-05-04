@@ -105,6 +105,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
         140 // if changes
       )
     } : null);
+
+    realtimeDrawStream.emit(changeSignal);
   }
 
   function onPanStart(x) {
