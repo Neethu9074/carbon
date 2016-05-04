@@ -35,7 +35,7 @@ export default connectTo({
               <DescriptionList>
                 {this.item('Health', <HealthInfoBar snapshotId={snapshotId}/>)}
                 {this.item('Name', data.get('groupId'))}
-                {this.item('Status', 'TODO')}
+                {this.item('Status', data.get('clusterState'))}
               </DescriptionList>
             </Collapsible.Content>
           </Collapsible>
