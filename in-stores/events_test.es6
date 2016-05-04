@@ -40,10 +40,12 @@ describe('in-stores/events', () => {
       'in-stores/timeline': {
         timeframe$,
         from$,
-        to$
+        to$,
+        focusedMoment$: create()
       },
       'in-services/subscription/eventUpdates': getEventUpdates,
-      'in-services/subscription/events': getEvents
+      'in-services/subscription/events': getEvents,
+      'in-services/subscription/newOpenEvents': () => create()
     });
   });
 

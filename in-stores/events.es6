@@ -2,7 +2,13 @@ import {combineLatest} from 'reactive-observables';
 import {sortedIndexBy} from 'lodash';
 
 import getEventUpdates from 'in-services/subscription/eventUpdates';
-import {timeframe$, to$, from$} from 'in-stores/timeline';
+import getOpenEvents from 'in-services/subscription/newOpenEvents';
+import {
+  focusedMoment$,
+  timeframe$,
+  to$,
+  from$
+} from 'in-stores/timeline';
 import getEvents from 'in-services/subscription/events';
 import {createStore} from 'in-stores/store';
 
@@ -15,8 +21,11 @@ export const retrievedEvents$ = timeframe$
       windowSize: timeframe.windowSize * 2
     });
   })
-
-  .merge(getEventUpdates())
+  .merge(
+    getEventUpdates(),
+    getOpenEvents(),
+    focusedMoment$.flatMap(getOpenEvents)
+  )
   .scan((store, update) => {
     update.forEach(event => insertSorted(store, event));
     return store;
