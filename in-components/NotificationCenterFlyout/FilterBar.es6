@@ -6,7 +6,12 @@ import {getEventType, EVENT_TYPES} from 'in-services/issueTracker';
 import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 
-import {FILTER_TYPES, event$} from './notificationCenterFlyoutStores';
+import {
+  FILTER_TYPES,
+  event$,
+  selectedEventList$,
+  EVENT_LISTS
+} from './notificationCenterFlyoutStores';
 import Filter from './Filter';
 
 import './FilterBar.less';
@@ -15,7 +20,8 @@ import './FilterBar.less';
 const block = 'in-notificationcenter-filterbar';
 
 export default connectTo({
-    allEvents: event$
+    allEvents: event$,
+    selectedEventList: selectedEventList$
   },
   React.createClass({
 
@@ -26,7 +32,8 @@ export default connectTo({
     ],
 
     propTypes: {
-      allEvents: irpt.list
+      allEvents: irpt.list,
+      selectedEventList: React.PropTypes.string.isRequired
     },
 
     render() {
@@ -46,8 +53,10 @@ export default connectTo({
           <Filter label={'' + counter.warning}
                   filter={FILTER_TYPES.WARNING}/>
 
-          <Filter label={'' + counter.change}
-                  filter={FILTER_TYPES.CHANGE}/>
+          {this.props.selectedEventList === EVENT_LISTS.HISTORICAL ?
+            <Filter label={'' + counter.change}
+                    filter={FILTER_TYPES.CHANGE}/>
+          : null}
         </div>
       );
     },
