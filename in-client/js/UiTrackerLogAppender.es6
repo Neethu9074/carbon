@@ -10,7 +10,7 @@ export default class UiTrackerLogAppender {
 
   append(opts) {
     // lots of stuff seems to go wrong, stop polluting our logs
-    if (totalNumberOfReportedErrors > 10) {
+    if (totalNumberOfReportedErrors >= 5) {
       return;
     }
     const formattedPayload = opts.params
@@ -37,7 +37,9 @@ export default class UiTrackerLogAppender {
       userAgent: window.navigator.userAgent,
       platform: window.navigator.platform,
       level: opts.severity,
-      message: formattedPayload
+      message: formattedPayload,
+      selectedSnapshot: window.instana.dev.storeStates.selectedSnapshot,
+      selectedTrace: window.instana.dev.storeStates.selectedTrace
     };
 
     const error = opts.params.filter(p => p instanceof Error)[0];
