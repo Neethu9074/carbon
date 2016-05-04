@@ -1,7 +1,6 @@
-import * as ro from 'reactive-observables';
-
 import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
+import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
@@ -25,10 +24,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   let serverTime = Number.MAX_VALUE;
   const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time ? time : Number.MAX_VALUE);
 
-  const mouseDownSubscription = ro.on(canvas, 'mousedown').subscribe(onMouseDown);
-  const mouseUpSubscription = ro.on(canvas, 'mouseup').subscribe(onMouseUp);
+  const mouseDownSubscription = onDown(canvas, onMouseDown);
+  const mouseUpSubscription = onUp(canvas, onMouseUp);
 
-  const mouseLeaveSubscription = ro.on(canvas, 'mouseleave').subscribe(() => {
+  const mouseLeaveSubscription = onLeave(canvas, () => {
     setHighlightedEventScreenPosition(null);
     setHighlightedEvent(null);
 
@@ -39,12 +38,15 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     }
   });
 
-  const mouseMoveSubscription = ro.on(canvas, 'mousemove')
-    .subscribe(e => {
-      onMouseMove(e.offsetX, e.x, e.offsetY, e.y);
-      if (isPanning) {
-        onPan(e.offsetX);
-      }
+  const mouseMoveSubscription = onMove(canvas, e => {
+    onMouseMove(e.offsetX, e.x, e.offsetY, e.y);
+    if (isPanning) {
+      onPan(e.offsetX);
+    }
+  });
+
+  const scrollSubscription = onWheel(canvas, e => {
+    console.log(e);
   });
 
   return {
@@ -164,5 +166,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     mouseMoveSubscription.dispose();
     mouseUpSubscription.dispose();
     eventsSubscription.dispose();
+    scrollSubscription.dispose();
   }
 }
