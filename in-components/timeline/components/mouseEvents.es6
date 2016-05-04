@@ -4,7 +4,6 @@ import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/t
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {selectEvent} from 'in-services/issueTracker';
-import {setTimeframe} from 'in-stores/timeline';
 
 
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
@@ -15,6 +14,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
   let xPositionOnMouseDown = null;
+  let lastXPosOnPan = null;
   let isPanning = false;
 
   let categorizedEvents;
@@ -33,11 +33,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   });
 
   const mouseMoveSubscription = ro.on(canvas, 'mousemove')
-    .throttle(100)
     .subscribe(e => {
       onMouseMove(e.offsetX, e.x, e.offsetY, e.y);
       if (isPanning) {
-        onPan(e.offsetX, e.offsetX - e.movementX);
+        onPan(e.offsetX);
       }
   });
 
@@ -71,11 +70,11 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     if (!isPanning && xPositionOnMouseDown) {
       const movedSinceMouseDown = Math.abs(x - xPositionOnMouseDown);
       if (movedSinceMouseDown > minPixelToMoveForDragDetection) {
-        onPanStart();
+        onPanStart(x);
       }
     }
 
-    // don't try to calculate mouseover if the user is dragging or there are no events
+    // don't try to calculate mouseover if the user is panning or there are no events
     if (isPanning || !categorizedEvents) {
       return;
     }
@@ -96,40 +95,28 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     } : null);
   }
 
-  function onPanStart() {
+  function onPanStart(x) {
     // if the user has an active mouseover state, clear it
     setHighlightedEventScreenPosition(null);
     setHighlightedEvent(null);
 
     isPanning = true;
+    lastXPosOnPan = x;
+  }
 
-    /*
-      TODO: begin dragging
-    */
+  function onPan(x) {
+    setCursor(CURSOR_TYPES.HORIZONTAL_MOVE); // add visual scroll effect to support UX
+
+    const pixelPanned = lastXPosOnPan - x;
+    const newTimestamp = scale.getDomain(scale.getRangeTo() + pixelPanned);
+    setTo(newTimestamp);
+
+    lastXPosOnPan = x;
   }
 
   function onPanEnd() {
     isPanning = false;
-
-    /*
-      TODO: stop dragging
-
-    */
     // setTimeframe();
-  }
-
-  function onPan(x, prevX) {
-    setCursor(CURSOR_TYPES.HORIZONTAL_MOVE); // add visual scroll effect to support UX
-
-    /*
-      TODO: on dragging
-    */
-    const oldTimestamp = scale.getDomain(prevX);
-    const newTimestamp = scale.getDomain(x);
-    // setTo(newTimestamp, oldTimestamp);
-
-
-    realtimeDrawStream.emit(changeSignal);
   }
 
   function getEventAtXY(x, y) {

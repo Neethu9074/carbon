@@ -31,12 +31,11 @@ export default function createTimelineRenderer({container, canvas}) {
   scale.setRangeFrom(0);
   const fromSubscription = from$.subscribe(from => {
     scale.setDomainFrom(from);
-
-    changes.emit(changeSignal);
+    realtimeDrawStream.emit(changeSignal);
   });
   const toSubscription = to$.subscribe(to => {
     scale.setDomainTo(to);
-    changes.emit(changeSignal);
+    realtimeDrawStream.emit(changeSignal);
   });
 
   const changeEventRenderer = new ChangeEventRenderer(backBuffer, scale, 14);
@@ -84,7 +83,9 @@ export default function createTimelineRenderer({container, canvas}) {
     .debounce(300)
     .subscribe(draw);
 
-  const realtimeDrawSubscription = realtimeDrawStream.subscribe(draw);
+  const realtimeDrawSubscription = realtimeDrawStream
+    .nextFrame()
+    .subscribe(draw);
 
   return {
     canvas: screenBufferCanvas,
