@@ -1,5 +1,6 @@
+import {timeframe$} from 'in-components/timeline/timelineStore';
 import {focusedMoment$} from 'in-stores/timeline';
-
+import {serverTime$} from 'in-stores/serverTime';
 
 const color = '#9fffff';
 
@@ -10,6 +11,8 @@ export default class FocusedMomentRenderer {
     this.scale = scale;
 
     this.focusedMomentSubscription = focusedMoment$.subscribe(focusedMoment => this.focusedMoment = focusedMoment);
+    this.toSubscription = timeframe$.subscribe(timeframe => this.to = timeframe.to);
+    this.serverTimeSubscription = serverTime$.subscribe(time => this.serverTime = time);
   }
 
   draw() {
@@ -18,9 +21,14 @@ export default class FocusedMomentRenderer {
     const scale = this.scale;
     const width = 8;
 
-    const x = focusedMoment ?
-      scale.getRange(focusedMoment) :
-      scale.getRange(scale.getDomainTo());
+    let x = null;
+    if (focusedMoment) {
+      x = scale.getRange(focusedMoment);
+    } else if (!this.to) {
+      x = scale.getRange(scale.getDomainTo());
+    } else {
+      x = scale.getRange(this.serverTime);
+    }
 
     // draw line
     buffer.fillStyle = color;
@@ -42,5 +50,7 @@ export default class FocusedMomentRenderer {
 
   dispose() {
     this.focusedMomentSubscription.dispose();
+    this.serverTimeSubscription.dispose();
+    this.toSubscription.dispose();
   }
 }

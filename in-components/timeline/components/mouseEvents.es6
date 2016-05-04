@@ -1,8 +1,8 @@
 import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
+import {setTo as setGlobalTo, setTimeframe as setGlobalTimeframe} from 'in-stores/timeline';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
-import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 
@@ -22,7 +22,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const eventsSubscription = eventsInTimeframe$.subscribe(events => categorizedEvents = events);
 
   let serverTime = Number.MAX_VALUE;
-  const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time ? time : Number.MAX_VALUE);
+  const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time);
 
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
@@ -46,7 +46,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   });
 
   const scrollSubscription = onWheel(canvas, e => {
-    console.log(e);
+    const oldWindowSize = scale.getDomainTo() - scale.getDomainFrom();
+    const step = 0.01;
+    const newWindowSize = e.sign < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
+    setGlobalTimeframe(newWindowSize);
   });
 
   return {

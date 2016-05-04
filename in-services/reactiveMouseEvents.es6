@@ -6,8 +6,9 @@ export function onWheel(domElement, callback) {
            .scan((aggregate, e) => {
               e.preventDefault();
               aggregate.deltaY += e.deltaY;
+              aggregate.sign = e.deltaY < 0 ? 1 : -1;
               return aggregate;
-            }, { deltaY: 0 })
+            }, { deltaY: 0, sign: 0 })
             .throttle(50)
             .subscribe(callback);
 }

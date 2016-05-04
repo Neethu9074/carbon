@@ -34,7 +34,7 @@ export function setFocusedMoment(newFocusedMoment) {
 }
 
 
-export const live$ = timeframe$.map(_timeframe => !_timeframe.to).distinct();
+export const live$ = focusedMoment$.map(moment => !moment).distinct();
 
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
