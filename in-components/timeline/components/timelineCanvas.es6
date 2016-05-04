@@ -95,7 +95,7 @@ export default function createTimelineRenderer({container, canvas}) {
   function resize() {
     width = container.clientWidth;
 
-    scale.setRangeTo(width);
+    scale.setRangeTo(width - 20);
 
     changeEventRenderer.setWidth(width);
     backgroundRenderer.setWidth(width);

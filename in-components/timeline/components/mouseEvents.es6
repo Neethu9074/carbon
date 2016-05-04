@@ -3,6 +3,7 @@ import * as ro from 'reactive-observables';
 import {setTo, setHighlightedEventScreenPosition} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
+import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
 
 
@@ -114,7 +115,7 @@ export default function createMouseEvents(canvas, scale) {
 
   function onPanEnd() {
     isPanning = false;
-    // setTimeframe();
+    setGlobalTo(scale.getDomainTo());
   }
 
   function getEventAtXY(x, y) {
