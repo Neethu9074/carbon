@@ -3,6 +3,7 @@ import * as ro from 'reactive-observables';
 import ChangeEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/ChangeEventRenderer';
 import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
+import MarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';
 import FocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
@@ -45,6 +46,7 @@ export default function createTimelineRenderer({container, canvas}) {
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
   const focusedMomentRenderer = new FocusedMomentRenderer(backBuffer, scale);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
+  const markedIncidentRenderer = new MarkedIncidentRenderer(backBuffer, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
@@ -111,6 +113,11 @@ export default function createTimelineRenderer({container, canvas}) {
   function draw() {
     backgroundRenderer.draw();
     timeAxisRenderer.draw(axisConfig);
+
+    if (categorizedEvents) {
+      markedIncidentRenderer.draw(categorizedEvents.incidents);
+    }
+
     hoveredEventLineRenderer.draw();
     drawEvents();
     focusedMomentRenderer.draw();
@@ -134,6 +141,7 @@ export default function createTimelineRenderer({container, canvas}) {
 
     highlightedEventIdSubscription.dispose();
     realtimeDrawSubscription.dispose();
+    markedIncidentRenderer.dispose();
     focusedMomentRenderer.dispose();
     timeframeSubscription.dispose();
     eventsSubscription.dispose();

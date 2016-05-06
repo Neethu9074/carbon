@@ -1,7 +1,7 @@
 import * as issueTracker from 'in-services/issueTracker';
 
 
-const white = '#f0f000';
+const highlightedColor = '#ffffff';
 
 export default class EventRenderer {
 
@@ -35,7 +35,7 @@ export default class EventRenderer {
       return null;
     }
 
-    this.buffer.fillStyle = isHighlighted ? white : issueTracker.getColorForEvent(event);
+    this.buffer.fillStyle = isHighlighted ? highlightedColor : issueTracker.getColorForEvent(event);
     this.buffer.globalAlpha = 0.2;
     this.buffer.fillRect(x, this.y, 1, 40);
     this.buffer.globalAlpha = 1;

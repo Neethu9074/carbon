@@ -9,6 +9,9 @@ const selectedIncidentStore = createStore({
   name: 'selectedIncidentIdToStore',
   initialValue: null
 });
+export const selectedIncidentId$ = selectedIncidentStore.observable
+                                    .distinct()
+                                    .map(incident => incident ? incident.id : null);
 
 export const selectedIncident = createTrackingStore({
   name: 'selectedIncidentStore',
