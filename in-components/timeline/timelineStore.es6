@@ -107,3 +107,13 @@ windowSizeForSlider.observable
 export function setWindowSizeForSlider(windowSize) {
   windowSizeForSlider.applyStateMutation(() => windowSize);
 }
+
+
+const timelineScale = createStore({
+  name: 'timelineScaleStore',
+  initialValue: null
+});
+export const timelineScale$ = timelineScale.observable;
+export function setTimelineScale(scale) {
+  timelineScale.applyStateMutation(() => scale);
+}
