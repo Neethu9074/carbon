@@ -8,6 +8,7 @@ import FocusedMomentRenderer from 'in-components/timeline/components/renderer/Fo
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
+import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
 import {timeframe$, to$, from$} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
@@ -26,18 +27,14 @@ export default function createTimelineRenderer({container, canvas}) {
   const screenBuffer = screenBufferCanvas.getContext('2d');
 
   const realtimeDrawStream = ro.create();
+  const realtimeUpdateEvents = new RealtimeUpdateEvents(realtimeDrawStream, changeSignal);
+
   const changes = ro.create();
 
   const scale = createScale();
   scale.setRangeFrom(0);
-  const fromSubscription = from$.subscribe(from => {
-    scale.setDomainFrom(from);
-    realtimeDrawStream.emit(changeSignal);
-  });
-  const toSubscription = to$.subscribe(to => {
-    scale.setDomainTo(to);
-    realtimeDrawStream.emit(changeSignal);
-  });
+  const fromSubscription = from$.subscribe(from => scale.setDomainFrom(from));
+  const toSubscription = to$.subscribe(to => scale.setDomainTo(to));
 
   const changeEventRenderer = new ChangeEventRenderer(backBuffer, scale, 14);
   const incidentRenderer = new IncidentRenderer(backBuffer, scale, 16);
@@ -45,8 +42,8 @@ export default function createTimelineRenderer({container, canvas}) {
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
   const focusedMomentRenderer = new FocusedMomentRenderer(backBuffer, scale);
-  const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
   const markedIncidentRenderer = new MarkedIncidentRenderer(backBuffer, scale);
+  const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
@@ -139,15 +136,19 @@ export default function createTimelineRenderer({container, canvas}) {
   function dispose() {
     mouseEvents.dispose();
 
+    realtimeUpdateEvents.dispose();
     highlightedEventIdSubscription.dispose();
     realtimeDrawSubscription.dispose();
     markedIncidentRenderer.dispose();
     focusedMomentRenderer.dispose();
     timeframeSubscription.dispose();
+    changeEventRenderer.dispose();
     eventsSubscription.dispose();
     resizeSubscription.dispose();
     fromSubscription.dispose();
+    incidentRenderer.dispose();
     drawSubscription.dispose();
     toSubscription.dispose();
+    issueRenderer.dispose();
   }
 }

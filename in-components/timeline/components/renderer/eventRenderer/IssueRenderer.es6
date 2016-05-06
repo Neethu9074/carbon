@@ -15,18 +15,16 @@ export default class IssueRenderer extends EventRenderer {
       return;
     }
 
+    let imageToDraw = icons.issueCriticalImage;
     if (issueTracker.getEventType(issue) === issueTracker.EVENT_TYPES.ISSUE_WARNING) {
       if (issue.get('state') === 'open') {
-        this.drawImage(icons.issueWarningImageColored, x);
+        imageToDraw = icons.issueWarningImageColored;
       } else {
-        this.drawImage(icons.issueWarningImage, x);
+        imageToDraw = icons.issueWarningImage;
       }
-    } else {
-      if (issue.get('state') === 'open') {
-        this.drawImage(icons.issueCriticalImageColored, x);
-      } else {
-        this.drawImage(icons.issueCriticalImage, x);
-      }
+    } else if (issue.get('state') === 'open') {
+      imageToDraw = icons.issueCriticalImageColored;
     }
+    this.drawImage(imageToDraw, x);
   }
 }
