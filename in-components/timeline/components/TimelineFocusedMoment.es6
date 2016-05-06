@@ -2,7 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import {timelineScale$} from 'in-components/timeline/timelineStore';
-import {focusedMoment$} from 'in-stores/timeline';
+import {focusedMoment$, setFocusedMoment} from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import connectTo from 'in-hoc/connectTo';
 
@@ -14,8 +14,8 @@ const rpt = React.PropTypes;
 
 export default connectTo({
     focusedMoment: focusedMoment$,
-    serverTime: serverTime$,
-    timelineScale: timelineScale$
+    timelineScale: timelineScale$,
+    serverTime: serverTime$
   },
   React.createClass({
 
@@ -26,8 +26,8 @@ export default connectTo({
     ],
 
     propTypes: {
-      focusedMoment: rpt.number,
       timelineScale: rpt.object,
+      focusedMoment: rpt.any,
       serverTime: rpt.number
     },
 
@@ -42,18 +42,31 @@ export default connectTo({
 
       let x = null;
       if (focusedMoment) {
-        x = scale.getRange(focusedMoment);
+        x = focusedMoment;
       } else if (!this.to) {
-        x = scale.getRange(scale.getDomainTo());
+        x = scale.getDomainTo();
       } else {
-        x = scale.getRange(this.serverTime);
+        x = this.serverTime;
       }
 
       return (
-        <div className={block}
-             style={{left: x - 3}}>
+        <div className={block}>
+          <input type='range'
+                 className={block + '__slider'}
+                 min={scale.getDomainFrom()}
+                 max={scale.getDomainTo()}
+                 step={1000}
+                 value={x}
+                 onChange={this.onChange}/>
+
+          <div className = {block + '__marker'}
+               style={{left: Math.max(0, scale.getRange(x))}}/>
         </div>
       );
+    },
+
+    onChange(e) {
+      setFocusedMoment(e.target.value);
     }
   })
 );

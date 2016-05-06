@@ -141,10 +141,15 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function getEventAtXY(x, y) {
+    if (!categorizedEvents) {
+      return null;
+    }
+
     const eventsToCheck = resultDependingOnY(y,
       categorizedEvents.incidents,
       categorizedEvents.issues,
       categorizedEvents.changes);
+
     if (!eventsToCheck) {
       return null;
     }

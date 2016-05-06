@@ -1,24 +1,76 @@
 .in-timeline-focused-moment {
-  @height: 40px;
   @cyan: #9fffff;
+  @width: 100%;
 
   position: absolute;
-  top: 6px;
+  top: 0;
+  left: 0;
 
-  width: 7px;
-  height: @height;
-  background: @cyan;
-  border-radius: 3px;
-  cursor: pointer;
+  width: @width;
+  height: 0;
 
-  &::after {
+  &__marker {
     position: absolute;
-    top: @height;
-    left: 3px;
+    top: 40px;
+    left: 20px;
 
     height: 120px;
     width: 1px;
-    content: '';
     background: @cyan;
+  }
+
+  &__slider {
+    position: absolute;
+    left: 0;
+
+    width: ~'calc(100% - 20px)';
+
+    margin: 0;
+    -webkit-appearance: none;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::-webkit-slider-runnable-track {
+      height: 0;
+    }
+
+    &::-moz-range-track {
+      height: 0;
+    }
+
+    &::-ms-track {
+      height: 0;
+    }
+
+    &::-webkit-slider-thumb {
+      height: 36px;
+      width: 7px;
+      margin-top: 6px;
+      border-radius: 3px;
+      background: @cyan;
+      cursor: pointer;
+      -webkit-appearance: none;
+    }
+
+    &::-moz-range-thumb {
+      height: 36px;
+      width: 7px;
+      margin-top: 6px;
+      top: 6px;
+      border-radius: 3px;
+      background: @cyan;
+      cursor: pointer;
+    }
+
+    &::-ms-thumb {
+      height: 36px;
+      width: 7px;
+      margin-top: 6px;
+      border-radius: 3px;
+      background: @cyan;
+      cursor: pointer;
+    }
   }
 }
