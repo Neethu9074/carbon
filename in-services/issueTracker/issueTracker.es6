@@ -163,22 +163,6 @@ export const combinedEvents$ = combineLatest([historicalEvents$, openEvents$])
   });
 
 
-export function getEventsById(snapshotId) {
-  return openEvents$.map(events => {
-    let size = 0;
-    const result = Immutable.List().asMutable();
-
-    events.forEach(event => {
-      if (event.getIn(['problem', 'snapshotId']) === snapshotId) {
-        result.set(size++, event);
-      }
-    });
-
-    return result.asImmutable();
-  });
-}
-
-
 /**
  * Gets the color for an event. If an event is closed it should be some kind
  * grey, if it's open and critical it has a danger color and so on.

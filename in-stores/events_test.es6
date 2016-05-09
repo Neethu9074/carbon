@@ -525,8 +525,8 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      expect(subscriber.callCount).to.equal(1);
-      expect(subscriber.getCall(0).args[0].get('id')).to.equal('foo');
+      expect(subscriber.callCount).to.equal(2);
+      expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo');
 
       getEventsResult.emit(Immutable.fromJS([{
         id: 'foo',
@@ -539,8 +539,8 @@ describe('in-stores/events', () => {
         }
       }]));
 
-      expect(subscriber.callCount).to.equal(2);
-      expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo2');
+      expect(subscriber.callCount).to.equal(3);
+      expect(subscriber.getCall(2).args[0].get('id')).to.equal('foo2');
     });
   });
 

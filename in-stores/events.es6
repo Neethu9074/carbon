@@ -13,32 +13,35 @@ import {
 } from 'in-stores/timeline';
 import getEvents from 'in-services/subscription/events';
 import {serverTime$} from 'in-stores/serverTime';
-import {createStore} from 'in-stores/store';
+import {createStore, createTrackingStore} from 'in-stores/store';
 
 
-export const retrievedEvents$ = timeframe$
-  .flatMap(timeframe => {
-    return getEvents({
-      // Increase amount of retrieved data to ensure smooth vertical scrolling.
-      to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
-      windowSize: timeframe.windowSize * 2
-    });
-  })
-  .merge(
-    getEventUpdates(),
-    getOpenEvents(),
-    focusedMoment$.flatMap(getOpenEvents)
-  )
-  .scan((store, update) => {
-    update.forEach(event => insertSorted(store, event));
-    return store;
-  }, {
-    // Sorted array of events[] by start time. Permits quick lookup of events within a
-    // time range. Each events[] has a time property for fast lookups and comparisons
-    issues: [],
-    changes: [],
-    incidents: []
-  });
+export const retrievedEvents$ = createTrackingStore({
+  name: 'retrievedEvents',
+    observable: timeframe$
+    .flatMap(timeframe => {
+      return getEvents({
+        // Increase amount of retrieved data to ensure smooth vertical scrolling.
+        to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
+        windowSize: timeframe.windowSize * 2
+      });
+    })
+    .merge(
+      getEventUpdates(),
+      getOpenEvents(),
+      focusedMoment$.flatMap(getOpenEvents)
+    )
+    .scan((store, update) => {
+      update.forEach(event => insertSorted(store, event));
+      return store;
+    }, {
+      // Sorted array of events[] by start time. Permits quick lookup of events within a
+      // time range. Each events[] has a time property for fast lookups and comparisons
+      issues: [],
+      changes: [],
+      incidents: []
+    })
+}).observable;
 
 
 export const eventsInTimeframe$ = combineLatest([
@@ -60,44 +63,49 @@ export const eventsInTimeframe$ = combineLatest([
   });
 
 
-export const openEventsAtServerTime$ = combineLatest([
-    // TODO only use issue state for this for perf reasons?
-    serverTime$.throttle(10000),
-    retrievedEvents$
-  ])
-  .map(([serverTime, events]) => {
-    // TODO order by end time would be much, much more efficient
-    return {
-      issues: events.issues.filter(filter),
-      changes: events.changes.filter(filter),
-      incidents: events.incidents.filter(filter)
-    };
+export const openEventsAtServerTime$ = createTrackingStore({
+  name: 'openEventsAtServerTime',
+  observable: combineLatest([
+      // TODO only use issue state for this for perf reasons?
+      serverTime$,
+      retrievedEvents$
+    ])
+    .map(([serverTime, events]) => {
+      // TODO order by end time would be much, much more efficient
+      return {
+        issues: events.issues.filter(filter),
+        changes: events.changes.filter(filter),
+        incidents: events.incidents.filter(filter)
+      };
 
-    function filter(event) {
-      return event.end > serverTime;
-    }
-  });
-
-
-export const openEventsAtFocusedMoment$ = combineLatest([
-    resolvedFocusedMoment$.throttle(10000),
-    retrievedEvents$
-  ])
-  .map(([time, events]) => {
-    // TODO order by end time would be much, much more efficient
-    return {
-      issues: events.issues.filter(filter),
-      changes: events.changes.filter(filter),
-      incidents: events.incidents.filter(filter)
-    };
-
-    function filter(event) {
-      return event.end > time;
-    }
-  });
+      function filter(event) {
+        return event.start < serverTime && serverTime < event.end;
+      }
+    })
+}).observable;
 
 
-// previously getEventsById
+export const openEventsAtFocusedMoment$ = createTrackingStore({
+  name: 'openEventsAtFocusedMoment',
+  observable: combineLatest([
+      resolvedFocusedMoment$,
+      retrievedEvents$
+    ])
+    .map(([time, events]) => {
+      // TODO order by end time would be much, much more efficient
+      return {
+        issues: events.issues.filter(filter),
+        changes: events.changes.filter(filter),
+        incidents: events.incidents.filter(filter)
+      };
+
+      function filter(event) {
+        return event.start < time && time < event.end;
+      }
+    })
+}).observable;
+
+
 export function getOpenIssuesAtFocusedMoment(snapshotId) {
   // TODO an index by entity would be great, but probably more expensive to
   // maintain than actually to loop?
@@ -118,7 +126,7 @@ export function getOpenIssuesAtFocusedMoment(snapshotId) {
 export function getMostImportantEventAtFocusedMoment(snapshotId) {
   return getOpenIssuesAtFocusedMoment(snapshotId)
     .map(events => {
-      let topEvent;
+      let topEvent = null;
       let topSeverity = Number.MAX_VALUE * -1;
 
       events.forEach(event => {
