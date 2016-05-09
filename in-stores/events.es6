@@ -11,9 +11,10 @@ import {
   to$,
   from$
 } from 'in-stores/timeline';
+import memoize from 'in-services/util/memoizingObservableGenerator';
+import {createStore, createTrackingStore} from 'in-stores/store';
 import getEvents from 'in-services/subscription/events';
 import {serverTime$} from 'in-stores/serverTime';
-import {createStore, createTrackingStore} from 'in-stores/store';
 
 
 export const retrievedEvents$ = createTrackingStore({
@@ -106,14 +107,18 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
 }).observable;
 
 
-export function getOpenIssuesAtFocusedMoment(snapshotId) {
+export const getOpenIssuesAtFocusedMoment = memoize(
   // TODO an index by entity would be great, but probably more expensive to
   // maintain than actually to loop?
-  return openEventsAtFocusedMoment$.map(events => {
-    return Immutable.List(events.issues
-      .filter(event => event.get('snapshotId') === snapshotId));
-  });
-}
+  snapshotId => openEventsAtFocusedMoment$.map(events => {
+      return Immutable.List(events.issues
+        .filter(event => event.get('snapshotId') === snapshotId));
+    }),
+
+  id => id,
+
+  3000
+);
 
 
 /**
