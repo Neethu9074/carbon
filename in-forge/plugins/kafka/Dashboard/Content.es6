@@ -53,6 +53,52 @@ const KafkaDashboard = React.createClass({
                    type: 'line'
                  }}/>
         </DashboardSection>
+        <DashboardSection title='Request Latency'>
+          <ChartWithLegend snapshot={snapshot}
+                 timeframe={timeframe}
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 y1={{
+                   formatter: bytesZeroDecimalPlaces,
+                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   metrics: [
+                     'broker.totalTimeProduce',
+                     'broker.totalTimeFetchConsumer',
+                     'broker.totalTimeFetchFollower'
+                   ],
+                   labels: [
+                     'Produce',
+                     'Fetch Consumer',
+                     'Fetch Follower'
+                   ],
+                   type: 'line'
+                 }}/>
+        </DashboardSection>
+        <DashboardSection title='Requests per Second'>
+          <ChartWithLegend snapshot={snapshot}
+                 timeframe={timeframe}
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 y1={{
+                   formatter: bytesZeroDecimalPlaces,
+                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   metrics: [
+                     'broker.produceRequests',
+                     'broker.fetchConsumerRequests',
+                     'broker.fetchFollowerRequests'
+                   ],
+                   labels: [
+                     'Produce',
+                     'Fetch Consumer',
+                     'Fetch Follower'
+                   ],
+                   type: 'line'
+                 }}/>
+        </DashboardSection>
         <DashboardSection title='Broker Failures'>
           <ChartWithLegend snapshot={snapshot}
                  timeframe={timeframe}
@@ -70,6 +116,77 @@ const KafkaDashboard = React.createClass({
                    labels: [
                      'Fetch',
                      'Produce'
+                   ],
+                   type: 'line'
+                 }}/>
+        </DashboardSection>
+        <DashboardSection title='Broker state metrics'>
+          <ChartWithLegend snapshot={snapshot}
+                 timeframe={timeframe}
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 y1={{
+                   formatter: bytesZeroDecimalPlaces,
+                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   metrics: [
+                     'broker.underReplicatedPartitions',
+                     'broker.offlinePartitionsCount',
+                     'broker.leaderElections',
+                     'broker.uncleanLeaderElections',
+                     'broker.isrShrinks',
+                     'broker.isrExpansions',
+                     'broker.activeControllerCount'
+                   ],
+                   labels: [
+                     'Under-replicated Partitions',
+                     'Offline Partitions',
+                     'Leader Elections',
+                     'Unclean Leader Elections',
+                     'ISR Shrinks',
+                     'ISR Expansions',
+                     'Active controller count'
+                   ],
+                   type: 'line'
+                 }}/>
+        </DashboardSection>
+        <DashboardSection title='Average Idle Time Percentage'>
+          <ChartWithLegend snapshot={snapshot}
+                 timeframe={timeframe}
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 y1={{
+                   formatter: bytesZeroDecimalPlaces,
+                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   metrics: [
+                     'broker.networkProcessorIdle',
+                     'broker.requestHandlerIdle'
+                   ],
+                   labels: [
+                     'Network Processor',
+                     'Request Handler'
+                   ],
+                   type: 'line'
+                 }}/>
+        </DashboardSection>
+        <DashboardSection title='Partitions'>
+          <ChartWithLegend snapshot={snapshot}
+                 timeframe={timeframe}
+                 height={chartHeight}
+                 margins={{
+                   left: 80
+                 }}
+                 y1={{
+                   formatter: bytesZeroDecimalPlaces,
+                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   metrics: [
+                     'broker.partitionCount'
+                   ],
+                   labels: [
+                     'Count'
                    ],
                    type: 'line'
                  }}/>
