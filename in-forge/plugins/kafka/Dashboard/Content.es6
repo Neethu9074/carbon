@@ -53,35 +53,13 @@ const KafkaDashboard = React.createClass({
                    type: 'line'
                  }}/>
         </DashboardSection>
-        <DashboardSection title='Request Latency'>
+        <DashboardSection title='Request Latency vs Throughput'>
           <ChartWithLegend snapshot={snapshot}
                  timeframe={timeframe}
                  height={chartHeight}
                  margins={{
-                   left: 80
-                 }}
-                 y1={{
-                   formatter: zeroDecimalPlaces,
-                   tooltipFormatter: twoDecimalPlaces,
-                   metrics: [
-                     'broker.totalTimeProduce',
-                     'broker.totalTimeFetchConsumer',
-                     'broker.totalTimeFetchFollower'
-                   ],
-                   labels: [
-                     'Produce',
-                     'Fetch Consumer',
-                     'Fetch Follower'
-                   ],
-                   type: 'line'
-                 }}/>
-        </DashboardSection>
-        <DashboardSection title='Requests per Second'>
-          <ChartWithLegend snapshot={snapshot}
-                 timeframe={timeframe}
-                 height={chartHeight}
-                 margins={{
-                   left: 80
+                   left: 80,
+                   right: 40
                  }}
                  y1={{
                    formatter: zeroDecimalPlaces,
@@ -92,9 +70,24 @@ const KafkaDashboard = React.createClass({
                      'broker.fetchFollowerRequests'
                    ],
                    labels: [
-                     'Produce',
-                     'Fetch Consumer',
-                     'Fetch Follower'
+                     'Produce Throughput',
+                     'Fetch Consumer Throughput',
+                     'Fetch Follower Throughput'
+                   ],
+                   type: 'line'
+                 }}
+                 y2={{
+                   formatter: zeroDecimalPlaces,
+                   tooltipFormatter: twoDecimalPlaces,
+                   metrics: [
+                     'broker.totalTimeProduce',
+                     'broker.totalTimeFetchConsumer',
+                     'broker.totalTimeFetchFollower'
+                   ],
+                   labels: [
+                     'Produce Latency',
+                     'Fetch Consumer Latency',
+                     'Fetch Follower Latency'
                    ],
                    type: 'line'
                  }}/>
