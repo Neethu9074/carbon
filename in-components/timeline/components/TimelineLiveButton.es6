@@ -1,7 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {setTo, live$, setFocusedMoment} from 'in-stores/timeline';
+import {live$, setTo, setFocusedMoment} from 'in-stores/timeline';
 import {to$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
@@ -43,10 +43,10 @@ export default connectTo({
 
     onClick() {
       if (this.props.isLive) {
-        setTo(this.props.to);
+        setFocusedMoment(this.props.to);
       } else {
-        setTo(null);
         setFocusedMoment(null);
+        setTo(null);
       }
     }
   })
