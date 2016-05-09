@@ -36,9 +36,16 @@ export function setFocusedMoment(newFocusedMoment) {
 
 export const live$ = focusedMoment$.map(moment => !moment).distinct();
 
+export const resolvedFocusedMoment$ = focusedMoment$.flatMap(_focusedMoment => {
+  if (_focusedMoment == null) {
+    return serverTime$.throttle(10000);
+  }
+  return focusedMoment$;
+});
+
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
-    return create().emit(_timeframe.to).freeze();
+    return create().emit(_timeframe.to);
   }
   return serverTime$;
 }).distinct();
