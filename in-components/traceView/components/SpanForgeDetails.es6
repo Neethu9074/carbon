@@ -42,13 +42,16 @@ export default React.createClass({
   updateForge(props) {
     const type = props.span.get('name');
     const detailViewPath = getSpanDetailView(props.span);
-    const self = this;
-    require.ensure([], function onModLoad() {
-      self.setState({
-        componentType: type,
-        Component: context('./' + type + '/' + detailViewPath + '.es6')
+
+    if (detailViewPath) {
+      const self = this;
+      require.ensure([], function onModLoad() {
+        self.setState({
+          componentType: type,
+          Component: context('./' + type + '/' + detailViewPath + '.es6')
+        });
       });
-    });
+    }
   },
 
   render() {
