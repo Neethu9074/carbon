@@ -5,11 +5,13 @@ import HoveredEventLineRenderer from 'in-components/timeline/components/renderer
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
 import MarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
+import EventsGraphRenderer from 'in-components/timeline/components/renderer/EventsGraphRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import {timeframe$, to$, from$, setTimelineScale} from 'in-components/timeline/timelineStore';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
+import {drawMode$, DRAW_MODES} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
@@ -47,6 +49,7 @@ export default function createTimelineRenderer({container, canvas}) {
   const issueRenderer = new IssueRenderer(backBuffer, scale, 14);
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
+  const eventsGraphRenderer = new EventsGraphRenderer(backBuffer, height);
   const markedIncidentRenderer = new MarkedIncidentRenderer(backBuffer, scale);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
 
@@ -57,6 +60,12 @@ export default function createTimelineRenderer({container, canvas}) {
     issueRenderer.setHighlightedEvent(event);
 
     changes.emit(changeSignal);
+  });
+
+  let drawMode;
+  drawMode$.subscribe(mode => {
+    drawMode = mode;
+    realtimeDrawStream.emit(changeSignal);
   });
 
   const mouseEvents = createMouseEvents(canvas, scale, realtimeDrawStream);
@@ -102,6 +111,7 @@ export default function createTimelineRenderer({container, canvas}) {
     scale.setRangeTo(width - 20);
     setTimelineScale(scale);
 
+    eventsGraphRenderer.setWidth(width);
     changeEventRenderer.setWidth(width);
     backgroundRenderer.setWidth(width);
     incidentRenderer.setWidth(width);
@@ -118,24 +128,21 @@ export default function createTimelineRenderer({container, canvas}) {
     timeAxisRenderer.draw(axisConfig);
 
     if (categorizedEvents) {
-      markedIncidentRenderer.draw(categorizedEvents.incidents);
-    }
+      if (drawMode === DRAW_MODES.DISCRETE_EVENTS) {
+        markedIncidentRenderer.draw(categorizedEvents.incidents);
+        hoveredEventLineRenderer.draw();
 
-    hoveredEventLineRenderer.draw();
-    drawEvents();
+        changeEventRenderer.drawEvents(categorizedEvents.changes);
+        incidentRenderer.drawEvents(categorizedEvents.incidents);
+        issueRenderer.drawEvents(categorizedEvents.issues);
+
+      } else if (drawMode === DRAW_MODES.EVENTS_GRAPH) {
+        eventsGraphRenderer.draw(categorizedEvents);
+      }
+    }
 
     // copy backbuffer to screenbuffer
     screenBuffer.drawImage(backBufferCanvas, 0, 0, width, height);
-  }
-
-  function drawEvents() {
-    if (!categorizedEvents) {
-      return;
-    }
-
-    changeEventRenderer.drawEvents(categorizedEvents.changes);
-    incidentRenderer.drawEvents(categorizedEvents.incidents);
-    issueRenderer.drawEvents(categorizedEvents.issues);
   }
 
   function dispose() {
