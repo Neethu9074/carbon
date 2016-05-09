@@ -211,7 +211,7 @@ module.exports = defaultsDeep({
   },
   health,
   footer: {
-    height: 80
+    height: 108
   },
   map: {
     colors: {
