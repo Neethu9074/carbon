@@ -1,25 +1,28 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import EntityList from 'in-components/tableView/components/EntityList';
-
-import './TableView.less';
+import './Entity.less';
 
 
-const block = 'in-table-view';
+const block = 'in-table-view-entity';
+const rpt = React.PropTypes;
 
 export default React.createClass({
-  displayName: 'TableView',
 
-  mixins: [PureRenderMixin],
+  displayName: 'Entity',
+
+  mixins: [
+    PureRenderMixin
+  ],
 
   propTypes: {
+    snapshotId: rpt.string.isRequired
   },
 
   render() {
     return (
       <div className={block}>
-        <EntityList />
+        {this.props.snapshotId}
       </div>
     );
   }
