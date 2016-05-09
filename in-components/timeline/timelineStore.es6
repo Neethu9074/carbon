@@ -1,8 +1,10 @@
-import {create} from 'reactive-observables';
+import {create, combineLatest} from 'reactive-observables';
 
 import {
-  timeframe$ as globalTiemframe$,
-  setTimeframe as setGlobalTimeframe
+  timeframe$ as globalTimeframe$,
+  setTimeframe as setGlobalTimeframe,
+  focusedMoment$ as globalFocusedMoment$,
+  setFocusedMoment as setGlobalFocusedMoment
 } from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
@@ -43,7 +45,7 @@ const timeframeStore = createStore({
   }
 });
 export const timeframe$ = timeframeStore.observable;
-globalTiemframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
+globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
 
 export function setTimeFrame(windowSize, to) {
   timeframeStore.applyStateMutation(() => {
@@ -128,7 +130,55 @@ const drawMode = createStore({
   name: 'drawModeStore',
   initialValue: DRAW_MODES.DISCRETE_EVENTS
 });
-export const drawMode$ = drawMode.observable;
+export const drawMode$ = drawMode.observable.distinct();
 export function setDrawMode(mode) {
   drawMode.applyStateMutation(() => mode);
 }
+
+
+const focusedMoment = createStore({
+  name: 'timelineFocusedMomentStore',
+  initialValue: null
+});
+export const focusedMoment$ = focusedMoment.observable.distinct();
+
+export function setFocusedMoment(newFocusedMoment) {
+  focusedMoment.applyStateMutation(() => newFocusedMoment);
+}
+
+globalFocusedMoment$.subscribe(setFocusedMoment);
+
+focusedMoment$
+  .throttle(1000)
+  .subscribe(setGlobalFocusedMoment);
+
+
+const focusedMomentXPosition = createStore({
+  name: 'focusedMomentXPositionStore',
+  initialValue: null
+});
+export const focusedMomentXPosition$ = focusedMomentXPosition.observable.distinct();
+
+
+combineLatest([serverTime$, timelineScale$, focusedMoment$, globalTimeframe$])
+  .subscribe(props => {
+    const serverTime = props[0];
+    const scale = props[1];
+    const moment = props[2];
+    const timeframe = props[3];
+
+    if (!scale) {
+      return;
+    }
+
+    let x;
+    if (moment) {
+      x = scale.getRange(moment);
+    } else if (!timeframe.to) {
+      x = scale.getRange(scale.getDomainTo());
+    } else {
+      x = scale.getRange(serverTime);
+    }
+
+    focusedMomentXPosition.applyStateMutation(() => x);
+  });

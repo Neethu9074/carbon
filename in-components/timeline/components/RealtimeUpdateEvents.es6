@@ -1,4 +1,4 @@
-import {to$, from$} from 'in-components/timeline/timelineStore';
+import {to$, from$, focusedMoment$} from 'in-components/timeline/timelineStore';
 import {selectedIncidentId$} from 'in-stores/incident';
 
 /*
@@ -7,6 +7,7 @@ import {selectedIncidentId$} from 'in-stores/incident';
 export default function createRealtimeUpateEvents(realtimeDrawStream, changeSignal) {
 
   const selectedIncidentSubscription = selectedIncidentId$.subscribe(() => realtimeDrawStream.emit(changeSignal));
+  const focusedMomentSubscription = focusedMoment$.subscribe(() => realtimeDrawStream.emit(changeSignal));
   const fromSubscription = from$.subscribe(() => realtimeDrawStream.emit(changeSignal));
   const toSubscription = to$.subscribe(() => realtimeDrawStream.emit(changeSignal));
 
@@ -16,6 +17,7 @@ export default function createRealtimeUpateEvents(realtimeDrawStream, changeSign
 
   function dispose() {
     selectedIncidentSubscription.dispose();
+    focusedMomentSubscription.dispose();
     fromSubscription.dispose();
     toSubscription.dispose();
   }
