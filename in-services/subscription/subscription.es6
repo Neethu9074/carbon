@@ -1,16 +1,16 @@
 import {create} from 'reactive-observables';
 
 import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import {getDataEvent} from 'in-services/subscription/dataEvent';
 import {on, off} from 'in-services/persistentConnection';
 
 
 export default function(eventId, getId, getData, transformData) {
-  return createObservableIfMissing.bind(null, {
-    getId,
-    createObservable: createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData)
-  });
+  return memoize(
+    createPhysicalHierarchyObservable.bind(null, eventId, getData, transformData),
+    getId
+  );
 }
 
 function createPhysicalHierarchyObservable(eventId, getData, transformData, opts) {
