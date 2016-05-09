@@ -1,15 +1,18 @@
 import {combineLatest} from 'reactive-observables';
 import {sortedIndexBy} from 'lodash';
+import Immutable from 'immutable';
 
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import getOpenEvents from 'in-services/subscription/newOpenEvents';
 import {
   focusedMoment$,
+  resolvedFocusedMoment$,
   timeframe$,
   to$,
   from$
 } from 'in-stores/timeline';
 import getEvents from 'in-services/subscription/events';
+import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
 
 
@@ -39,7 +42,7 @@ export const retrievedEvents$ = timeframe$
 
 
 export const eventsInTimeframe$ = combineLatest([
-    to$.throttle(5000),
+    to$.throttle(10000),
     from$,
     retrievedEvents$
   ])
@@ -57,6 +60,81 @@ export const eventsInTimeframe$ = combineLatest([
   });
 
 
+export const openEventsAtServerTime$ = combineLatest([
+    // TODO only use issue state for this for perf reasons?
+    serverTime$.throttle(10000),
+    retrievedEvents$
+  ])
+  .map(([serverTime, events]) => {
+    // TODO order by end time would be much, much more efficient
+    return {
+      issues: events.issues.filter(filter),
+      changes: events.changes.filter(filter),
+      incidents: events.incidents.filter(filter)
+    };
+
+    function filter(event) {
+      return event.end > serverTime;
+    }
+  });
+
+
+export const openEventsAtFocusedMoment$ = combineLatest([
+    resolvedFocusedMoment$,
+    retrievedEvents$
+  ])
+  .map(([time, events]) => {
+    // TODO order by end time would be much, much more efficient
+    return {
+      issues: events.issues.filter(filter),
+      changes: events.changes.filter(filter),
+      incidents: events.incidents.filter(filter)
+    };
+
+    function filter(event) {
+      return event.end > time;
+    }
+  });
+
+
+// previously getEventsById
+export function getOpenIssuesAtFocusedMoment(snapshotId) {
+  // TODO an index by entity would be great, but probably more expensive to
+  // maintain than actually to loop?
+  return openEventsAtFocusedMoment$.map(events => {
+    return Immutable.List(events.issues
+      .filter(event => event.getIn(['problem', 'snapshotId']) === snapshotId));
+  });
+}
+
+
+/**
+ * Searches for the issue with the highest severity and returns it or the first
+ * if many have the same severity
+ *
+ * @param {number} snapshotId The id to filter the event stream
+ * @returns {Observable<Event>} The event with the highest severity
+ */
+export function getMostImportantEventAtFocusedMoment(snapshotId) {
+  return getOpenIssuesAtFocusedMoment(snapshotId)
+    .map(events => {
+      let topEvent;
+      let topSeverity = Number.MAX_VALUE * -1;
+
+      events.forEach(event => {
+        const severity = event.getIn(['problem', 'severity'], 0);
+        if (severity > topSeverity) {
+          topSeverity = severity;
+          topEvent = event;
+        }
+      });
+
+      return topEvent;
+    })
+    .distinct();
+}
+
+
 function insertSorted(store, event) {
   const time = event.get('start');
   const id = event.get('id');
@@ -64,6 +142,7 @@ function insertSorted(store, event) {
   event.time = time;
   event.id = id;
   event.start = event.get('start');
+  event.end = event.get('end');
   const type = event.get('type');
   const byTime = store[type + 's'];
 
