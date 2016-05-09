@@ -16,6 +16,9 @@ describe('in-stores/events', () => {
   let to$;
   let timeframe$;
   let getEvents;
+  let serverTime$;
+  let focusedMoment$;
+  let resolvedFocusedMoment$;
   let getEventsResult;
   let getEventUpdates;
   let getEventUpdatesResult;
@@ -30,8 +33,16 @@ describe('in-stores/events', () => {
     });
     from$ = create();
     to$ = create();
+    serverTime$ = create();
     getEvents = sinon.stub();
     getEventsResult = create().emit(Immutable.List());
+    focusedMoment$ = create();
+    resolvedFocusedMoment$ = focusedMoment$.flatMap(focusedMoment => {
+      if (focusedMoment == null) {
+        return serverTime$;
+      }
+      return focusedMoment$;
+    });
     getEvents.returns(getEventsResult);
     getEventUpdates = sinon.stub();
     getEventUpdatesResult = create();
@@ -41,11 +52,13 @@ describe('in-stores/events', () => {
         timeframe$,
         from$,
         to$,
-        focusedMoment$: create()
+        focusedMoment$,
+        resolvedFocusedMoment$
       },
       'in-services/subscription/eventUpdates': getEventUpdates,
       'in-services/subscription/events': getEvents,
-      'in-services/subscription/newOpenEvents': () => create()
+      'in-services/subscription/newOpenEvents': () => create(),
+      'in-stores/serverTime': {serverTime$}
     });
   });
 
@@ -251,6 +264,10 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
+      let result = subscriber.getCall(1).args[0];
+      expect(result.issues.length).to.equal(1);
+      expect(result.issues[0].get('end')).to.equal(undefined);
+
       getEventsResult.emit(Immutable.fromJS([{
         'id': 'bar',
         'start': 15,
@@ -259,10 +276,8 @@ describe('in-stores/events', () => {
         'type': 'issue'
       }]));
 
-      const result = subscriber.getCall(2).args[0];
+      result = subscriber.getCall(2).args[0];
       expect(result.issues.length).to.equal(1);
-      expect(result.issues[0].time).to.equal(15);
-      expect(result.issues[0].get('id')).to.equal('bar');
       expect(result.issues[0].get('end')).to.equal(20);
     });
   });
@@ -297,6 +312,235 @@ describe('in-stores/events', () => {
       const result = subscriber.getCall(2).args[0];
       expect(result.issues.length).to.equal(1);
       expect(result.issues[0].get('id')).to.equal('foo');
+    });
+  });
+
+  describe('openEventsAtServerTime$', () => {
+    it('should only keep open events for the server time', () => {
+      serverTime$.emit(10);
+
+      mod.openEventsAtServerTime$.subscribe(subscriber);
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 11,
+        'type': 'issue'
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'pups',
+        'start': 19,
+        'end': 10,
+        'type': 'issue'
+      }]));
+
+      expect(subscriber.callCount).to.equal(3);
+      const result = subscriber.getCall(2).args[0];
+      expect(result.issues.length).to.equal(1);
+      expect(result.issues[0].get('id')).to.equal('foo');
+    });
+  });
+
+  describe('openEventsAtFocusedMoment$', () => {
+    it('should only keep open events for the server time when focused moment is live', () => {
+      serverTime$.emit(10);
+      focusedMoment$.emit(null);
+
+      mod.openEventsAtFocusedMoment$.subscribe(subscriber);
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 11,
+        'type': 'issue'
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'pups',
+        'start': 19,
+        'end': 10,
+        'type': 'issue'
+      }]));
+
+      expect(subscriber.callCount).to.equal(3);
+      const result = subscriber.getCall(2).args[0];
+      expect(result.issues.length).to.equal(1);
+      expect(result.issues[0].get('id')).to.equal('foo');
+    });
+
+    it('should only keep open events for the focused moment', () => {
+      serverTime$.emit(15);
+      focusedMoment$.emit(10);
+
+      mod.openEventsAtFocusedMoment$.subscribe(subscriber);
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 11,
+        'type': 'issue'
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'pups',
+        'start': 19,
+        'end': 10,
+        'type': 'issue'
+      }]));
+
+      expect(subscriber.callCount).to.equal(3);
+      const result = subscriber.getCall(2).args[0];
+      expect(result.issues.length).to.equal(1);
+      expect(result.issues[0].get('id')).to.equal('foo');
+    });
+  });
+
+  describe('getOpenIssuesAtFocusedMoment', () => {
+    const snapshotId = '1234567890abc';
+
+    it('should only return issues for the selected snapshot', () => {
+      focusedMoment$.emit(6);
+
+      mod.getOpenIssuesAtFocusedMoment(snapshotId).subscribe(subscriber);
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 10,
+        'type': 'issue',
+        'problem': {
+          snapshotId
+        }
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo2',
+        'start': 0,
+        'end': 7,
+        'type': 'issue',
+        'problem': {
+          snapshotId
+        }
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'pups',
+        'start': 19,
+        'end': 10,
+        'type': 'issue',
+        'problem': {
+          snapshotId: 'watAnderes'
+        }
+      }]));
+
+      expect(subscriber.callCount).to.equal(4);
+      const result = subscriber.getCall(3).args[0];
+      expect(result.size).to.equal(2);
+      expect(result.getIn([0, 'id'])).to.equal('foo2');
+      expect(result.getIn([1, 'id'])).to.equal('foo');
+    });
+
+
+    it('should only return issues for the selected snapshot at the focused moment', () => {
+      focusedMoment$.emit(7);
+
+      mod.getOpenIssuesAtFocusedMoment(snapshotId).subscribe(subscriber);
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 10,
+        'type': 'issue',
+        'problem': {
+          snapshotId
+        }
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo2',
+        'start': 0,
+        'end': 7,
+        'type': 'issue',
+        'problem': {
+          snapshotId
+        }
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'pups',
+        'start': 19,
+        'end': 10,
+        'type': 'issue',
+        'problem': {
+          snapshotId: 'watAnderes'
+        }
+      }]));
+
+      expect(subscriber.callCount).to.equal(4);
+      const result = subscriber.getCall(3).args[0];
+      expect(result.size).to.equal(1);
+      expect(result.getIn([0, 'id'])).to.equal('foo');
+    });
+  });
+
+
+  describe('getMostImportantEventAtFocusedMoment', () => {
+    const snapshotId = '1234567890abc';
+
+    it('should only return issues for the selected snapshot', () => {
+      focusedMoment$.emit(6);
+
+      mod.getMostImportantEventAtFocusedMoment(snapshotId).subscribe(subscriber);
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo',
+        'start': 5,
+        'end': 10,
+        'type': 'issue',
+        'problem': {
+          snapshotId,
+          severity: 6
+        }
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'foo2',
+        'start': 0,
+        'end': 7,
+        'type': 'issue',
+        'problem': {
+          snapshotId,
+          severity: 3
+        }
+      }]));
+
+      getEventsResult.emit(Immutable.fromJS([{
+        'id': 'pups',
+        'start': 19,
+        'end': 10,
+        'type': 'issue',
+        'problem': {
+          snapshotId: 'watAnderes'
+        }
+      }]));
+
+      expect(subscriber.callCount).to.equal(1);
+      expect(subscriber.getCall(0).args[0].get('id')).to.equal('foo');
+
+      getEventsResult.emit(Immutable.fromJS([{
+        id: 'foo',
+        start: 5,
+        end: 6,
+        type: 'issue',
+        problem: {
+          snapshotId,
+          severity: 6
+        }
+      }]));
+
+      expect(subscriber.callCount).to.equal(2);
+      expect(subscriber.getCall(1).args[0].get('id')).to.equal('foo2');
     });
   });
 });

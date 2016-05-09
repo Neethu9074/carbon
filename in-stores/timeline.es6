@@ -24,9 +24,16 @@ export const timeframe$ = timeframe;
 
 export const focusedMoment$ = timeframe$.map(_timeframe => _timeframe.to).distinct();
 
+export const resolvedFocusedMoment$ = focusedMoment$.flatMap(focusedMoment => {
+  if (focusedMoment == null) {
+    return serverTime$.throttle(10000);
+  }
+  return focusedMoment$;
+});
+
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
-    return create().emit(_timeframe.to).freeze();
+    return create().emit(_timeframe.to);
   }
   return serverTime$;
 }).distinct();
