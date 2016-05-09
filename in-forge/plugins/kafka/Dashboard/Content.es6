@@ -77,8 +77,8 @@ const KafkaDashboard = React.createClass({
                    type: 'line'
                  }}
                  y2={{
-                   formatter: zeroDecimalPlaces,
-                   tooltipFormatter: twoDecimalPlaces,
+                   formatter: msZeroDecimalPlaces,
+                   tooltipFormatter: msTwoDecimalPlaces,
                    metrics: [
                      'broker.totalTimeProduce',
                      'broker.totalTimeFetchConsumer',
