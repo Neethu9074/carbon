@@ -11,7 +11,7 @@ import {timeframe$, to$, from$, setTimelineScale} from 'in-components/timeline/t
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
 import createMouseEvents from 'in-components/timeline/components/mouseEvents';
-import {drawMode$, DRAW_MODES} from 'in-components/timeline/timelineStore';
+import {drawMode$, DRAW_MODES, isCollapsed$} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';
@@ -21,6 +21,7 @@ export default function createTimelineRenderer({container, canvas}) {
   const changeSignal = true;
   const height = 162;
   let width;
+  let collapsed;
 
   const backBufferCanvas = document.createElement('canvas');
   const backBuffer = backBufferCanvas.getContext('2d');
@@ -42,6 +43,16 @@ export default function createTimelineRenderer({container, canvas}) {
   const toSubscription = to$.subscribe(to => {
     scale.setDomainTo(to);
     setTimelineScale(scale);
+  });
+  const collapsedSubscription = isCollapsed$.subscribe(_collapsed => {
+    collapsed = _collapsed;
+
+    // only require realtime draw when opening the timeline
+    if (collapsed) {
+      changes.emit(changeSignal);
+    } else {
+      realtimeDrawStream.emit(changeSignal);
+    }
   });
 
   const changeEventRenderer = new ChangeEventRenderer(backBuffer, scale, 14);
@@ -132,9 +143,12 @@ export default function createTimelineRenderer({container, canvas}) {
         markedIncidentRenderer.draw(categorizedEvents.incidents);
         hoveredEventLineRenderer.draw();
 
-        changeEventRenderer.drawEvents(categorizedEvents.changes);
         incidentRenderer.drawEvents(categorizedEvents.incidents);
-        issueRenderer.drawEvents(categorizedEvents.issues);
+
+        if (!collapsed) {
+          changeEventRenderer.drawEvents(categorizedEvents.changes);
+          issueRenderer.drawEvents(categorizedEvents.issues);
+        }
 
       } else if (drawMode === DRAW_MODES.EVENTS_GRAPH) {
         eventsGraphRenderer.draw(categorizedEvents);
@@ -153,6 +167,7 @@ export default function createTimelineRenderer({container, canvas}) {
     realtimeDrawSubscription.dispose();
     markedIncidentRenderer.dispose();
     timeframeSubscription.dispose();
+    collapsedSubscription.dispose();
     changeEventRenderer.dispose();
     eventsSubscription.dispose();
     resizeSubscription.dispose();

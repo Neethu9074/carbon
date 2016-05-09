@@ -10,7 +10,7 @@ import {createStore} from 'in-stores/store';
 
 const isCollapsed = createStore({
   name: 'isTimelineCollapsedStore',
-  initialValue: false
+  initialValue: true
 });
 export const isCollapsed$ = isCollapsed.observable;
 
