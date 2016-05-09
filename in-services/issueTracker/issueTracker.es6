@@ -178,22 +178,6 @@ export function getEventsById(snapshotId) {
   });
 }
 
-/**
- * Searches for the event with the highest severity and returns it or the first
- * if many have the same severity
- *
- * @param {number} snapshotId The id to filter the event stream
- * @returns {Event} The event with the highest severity
- */
-export function getMostImportantEvent(snapshotId) {
-  return getEventsById(snapshotId)
-           .map(events => events.reduce((acc, event) => {
-             if (event.getIn(['problem', 'severity']) >= acc.getIn(['problem', 'severity'])) {
-               return event;
-             }
-             return acc;
-           }, events.get(0)));
-}
 
 /**
  * Gets the color for an event. If an event is closed it should be some kind

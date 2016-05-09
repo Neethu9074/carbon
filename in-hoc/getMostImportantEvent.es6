@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getMostImportantEvent as getMostImportantEventFromIssueTracker} from 'in-services/issueTracker';
+import {getMostImportantEventAtFocusedMoment} from 'in-stores/events';
 
 
 export default function getMostImportantEvent(ComposedComponent) {
@@ -37,7 +37,7 @@ export default function getMostImportantEvent(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        this.subscription = getMostImportantEventFromIssueTracker(snapshotId).subscribe(mostImportantEvent =>
+        this.subscription = getMostImportantEventAtFocusedMoment(snapshotId).subscribe(mostImportantEvent =>
           this.setState({
             mostImportantEvent
           })
