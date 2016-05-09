@@ -49,6 +49,11 @@ export default connectTo({
         x = this.serverTime;
       }
 
+      const margin = 7;
+      const fullRange = scale.getRangeTo() - scale.getRangeFrom();
+      const rangeMinusMargin = fullRange - margin;
+      const relation = rangeMinusMargin / fullRange;
+
       return (
         <div className={block}>
           <input type='range'
@@ -60,7 +65,7 @@ export default connectTo({
                  onChange={this.onChange}/>
 
           <div className = {block + '__marker'}
-               style={{left: Math.max(0, scale.getRange(x))}}/>
+               style={{left: (margin / 2) + Math.max(0, scale.getRange(x) * relation)}}/>
         </div>
       );
     },
