@@ -60,6 +60,7 @@ export const eventsInTimeframe$ = combineLatest([
 
 
 export const openEventsAtServerTime$ = combineLatest([
+    // TODO only use issue state for this for perf reasons?
     serverTime$.throttle(10000),
     retrievedEvents$
   ])
