@@ -8,9 +8,10 @@ import React from 'react';
 import {Route} from 'react-router';
 
 import TraceView from 'in-components/traceView/TraceView';
+import TableView from 'in-components/tableView/TableView';
 
-import App from './components/App';
 import Dashboard from './components/Dashboard';
+import App from './components/App';
 
 export default (
   <Route name='map' path='/' handler={App}>
@@ -20,5 +21,8 @@ export default (
     <Route handler={TraceView}
            path='traces'
            name='traces'/>
+    <Route handler={TableView}
+           path='table'
+           name='table'/>
   </Route>
 );

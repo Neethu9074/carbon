@@ -65,6 +65,14 @@ export function goToMap() {
 }
 
 
+export function goToTable() {
+  mutateUrl(navParams => {
+    navParams.pathname = 'table';
+    return navParams;
+  });
+}
+
+
 export function getToTraceView() {
   mutateUrl(navParams => {
     navParams.pathname = 'traces';
