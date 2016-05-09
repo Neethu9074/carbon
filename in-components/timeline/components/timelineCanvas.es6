@@ -4,6 +4,7 @@ import ChangeEventRenderer from 'in-components/timeline/components/renderer/even
 import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
 import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
 import MarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';
+import FocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
 import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import EventsGraphRenderer from 'in-components/timeline/components/renderer/EventsGraphRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
@@ -50,6 +51,7 @@ export default function createTimelineRenderer({container, canvas}) {
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
   const eventsGraphRenderer = new EventsGraphRenderer(backBuffer, height);
+  const focusedMomentRenderer = new FocusedMomentRenderer(backBuffer, scale);
   const markedIncidentRenderer = new MarkedIncidentRenderer(backBuffer, scale);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
 
@@ -141,6 +143,8 @@ export default function createTimelineRenderer({container, canvas}) {
       }
     }
 
+    focusedMomentRenderer.draw();
+
     // copy backbuffer to screenbuffer
     screenBuffer.drawImage(backBufferCanvas, 0, 0, width, height);
   }
@@ -153,6 +157,7 @@ export default function createTimelineRenderer({container, canvas}) {
     realtimeDrawSubscription.dispose();
     markedIncidentRenderer.dispose();
     timeframeSubscription.dispose();
+    focusedMomentRenderer.dispose();
     changeEventRenderer.dispose();
     eventsSubscription.dispose();
     resizeSubscription.dispose();

@@ -1,7 +1,6 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import TimelineFocusedMoment from 'in-components/timeline/components/TimelineFocusedMoment';
 import createTimelineRenderer from 'in-components/timeline/components/timelineCanvas';
 
 import './TimelineCanvasReactWrapper.less';
@@ -34,7 +33,6 @@ export default React.createClass({
            className={block}>
         <canvas ref='canvas'
                 className={block + '__canvas'} />
-        <TimelineFocusedMoment />
       </div>
     );
   }
