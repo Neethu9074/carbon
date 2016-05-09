@@ -61,8 +61,8 @@ const KafkaDashboard = React.createClass({
                    left: 80
                  }}
                  y1={{
-                   formatter: bytesZeroDecimalPlaces,
-                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   formatter: zeroDecimalPlaces,
+                   tooltipFormatter: twoDecimalPlaces,
                    metrics: [
                      'broker.totalTimeProduce',
                      'broker.totalTimeFetchConsumer',
@@ -84,8 +84,8 @@ const KafkaDashboard = React.createClass({
                    left: 80
                  }}
                  y1={{
-                   formatter: bytesZeroDecimalPlaces,
-                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   formatter: zeroDecimalPlaces,
+                   tooltipFormatter: twoDecimalPlaces,
                    metrics: [
                      'broker.produceRequests',
                      'broker.fetchConsumerRequests',
@@ -128,8 +128,8 @@ const KafkaDashboard = React.createClass({
                    left: 80
                  }}
                  y1={{
-                   formatter: bytesZeroDecimalPlaces,
-                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   formatter: zeroDecimalPlaces,
+                   tooltipFormatter: zeroDecimalPlaces,
                    metrics: [
                      'broker.underReplicatedPartitions',
                      'broker.offlinePartitionsCount',
@@ -159,8 +159,8 @@ const KafkaDashboard = React.createClass({
                    left: 80
                  }}
                  y1={{
-                   formatter: bytesZeroDecimalPlaces,
-                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   formatter: twoDecimalPlaces,
+                   tooltipFormatter: twoDecimalPlaces,
                    metrics: [
                      'broker.networkProcessorIdle',
                      'broker.requestHandlerIdle'
@@ -180,8 +180,8 @@ const KafkaDashboard = React.createClass({
                    left: 80
                  }}
                  y1={{
-                   formatter: bytesZeroDecimalPlaces,
-                   tooltipFormatter: bytesTwoDecimalPlaces,
+                   formatter: zeroDecimalPlaces,
+                   tooltipFormatter: zeroDecimalPlaces,
                    metrics: [
                      'broker.partitionCount'
                    ],
