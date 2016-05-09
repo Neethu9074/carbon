@@ -79,7 +79,7 @@ export const openEventsAtServerTime$ = createTrackingStore({
       };
 
       function filter(event) {
-        return event.start < serverTime && serverTime < event.end;
+        return event.start < serverTime && (serverTime < event.end || event.end == null);
       }
     })
 }).observable;
@@ -100,7 +100,7 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
       };
 
       function filter(event) {
-        return event.start < time && time < event.end;
+        return event.start <= time && (time < event.end || event.end == null);
       }
     })
 }).observable;
@@ -111,7 +111,7 @@ export function getOpenIssuesAtFocusedMoment(snapshotId) {
   // maintain than actually to loop?
   return openEventsAtFocusedMoment$.map(events => {
     return Immutable.List(events.issues
-      .filter(event => event.getIn(['problem', 'snapshotId']) === snapshotId));
+      .filter(event => event.get('snapshotId') === snapshotId));
   });
 }
 

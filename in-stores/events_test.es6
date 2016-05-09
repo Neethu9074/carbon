@@ -409,9 +409,7 @@ describe('in-stores/events', () => {
         'start': 5,
         'end': 10,
         'type': 'issue',
-        'problem': {
-          snapshotId
-        }
+        snapshotId
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -419,9 +417,7 @@ describe('in-stores/events', () => {
         'start': 0,
         'end': 7,
         'type': 'issue',
-        'problem': {
-          snapshotId
-        }
+        snapshotId
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -429,9 +425,7 @@ describe('in-stores/events', () => {
         'start': 19,
         'end': 10,
         'type': 'issue',
-        'problem': {
-          snapshotId: 'watAnderes'
-        }
+        snapshotId: 'watAnderes'
       }]));
 
       expect(subscriber.callCount).to.equal(4);
@@ -452,9 +446,7 @@ describe('in-stores/events', () => {
         'start': 5,
         'end': 10,
         'type': 'issue',
-        'problem': {
-          snapshotId
-        }
+        snapshotId
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -462,9 +454,7 @@ describe('in-stores/events', () => {
         'start': 0,
         'end': 7,
         'type': 'issue',
-        'problem': {
-          snapshotId
-        }
+        snapshotId
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
@@ -472,9 +462,7 @@ describe('in-stores/events', () => {
         'start': 19,
         'end': 10,
         'type': 'issue',
-        'problem': {
-          snapshotId: 'watAnderes'
-        }
+        snapshotId: 'watAnderes'
       }]));
 
       expect(subscriber.callCount).to.equal(4);
@@ -498,8 +486,8 @@ describe('in-stores/events', () => {
         'start': 5,
         'end': 10,
         'type': 'issue',
+        snapshotId,
         'problem': {
-          snapshotId,
           severity: 6
         }
       }]));
@@ -509,8 +497,8 @@ describe('in-stores/events', () => {
         'start': 0,
         'end': 7,
         'type': 'issue',
+        snapshotId,
         'problem': {
-          snapshotId,
           severity: 3
         }
       }]));
@@ -520,9 +508,7 @@ describe('in-stores/events', () => {
         'start': 19,
         'end': 10,
         'type': 'issue',
-        'problem': {
-          snapshotId: 'watAnderes'
-        }
+        snapshotId: 'watAnderes'
       }]));
 
       expect(subscriber.callCount).to.equal(2);
@@ -533,8 +519,8 @@ describe('in-stores/events', () => {
         start: 5,
         end: 6,
         type: 'issue',
+        snapshotId,
         problem: {
-          snapshotId,
           severity: 6
         }
       }]));
