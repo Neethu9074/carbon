@@ -38,7 +38,7 @@ export const live$ = focusedMoment$.map(moment => !moment).distinct();
 
 export const resolvedFocusedMoment$ = focusedMoment$.flatMap(_focusedMoment => {
   if (_focusedMoment == null) {
-    return serverTime$.throttle(10000);
+    return serverTime$;
   }
   return focusedMoment$;
 });

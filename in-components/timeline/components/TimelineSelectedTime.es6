@@ -4,7 +4,7 @@ import React from 'react';
 import {toggleShowTimeSelector} from 'in-components/timeline/timelineStore';
 import {formatDate, formatTime} from 'in-services/formatters/date';
 import connectTo from 'in-hoc/connectTo';
-import {to$} from 'in-stores/timeline';
+import {resolvedFocusedMoment$} from 'in-stores/timeline';
 
 import './TimelineSelectedTime.less';
 
@@ -13,7 +13,7 @@ const block = 'in-timeline-selected-time';
 const rpt = React.PropTypes;
 
 export default connectTo({
-    to: to$
+    focusedMoment: resolvedFocusedMoment$
   },
   React.createClass({
 
@@ -24,20 +24,20 @@ export default connectTo({
     ],
 
     propTypes: {
-      to: rpt.number
+      focusedMoment: rpt.number
     },
 
     render() {
-      const to = this.props.to;
+      const focusedMoment = this.props.focusedMoment;
 
       return (
         <div className={block}
              onClick={toggleShowTimeSelector}>
           <span className={block + '__date'}>
-            {formatDate(to)}
+            {formatDate(focusedMoment)}
           </span>
           <span className={block + '__time'}>
-            {formatTime(to)}
+            {formatTime(focusedMoment)}
           </span>
         </div>
       );

@@ -80,7 +80,7 @@ export const openEventsAtServerTime$ = combineLatest([
 
 
 export const openEventsAtFocusedMoment$ = combineLatest([
-    resolvedFocusedMoment$,
+    resolvedFocusedMoment$.throttle(10000),
     retrievedEvents$
   ])
   .map(([time, events]) => {
