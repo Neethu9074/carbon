@@ -6,7 +6,9 @@ import {
   zeroDecimalPlaces,
   twoDecimalPlaces,
   bytesZeroDecimalPlaces,
-  bytesTwoDecimalPlaces
+  bytesTwoDecimalPlaces,
+  msZeroDecimalPlaces,
+  msTwoDecimalPlaces
 } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-components/DashboardSection';
