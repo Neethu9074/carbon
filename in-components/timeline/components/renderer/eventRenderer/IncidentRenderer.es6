@@ -8,12 +8,22 @@ export default class IncidentRenderer extends EventRenderer {
     super(buffer, scale, 40, iconSize);
   }
 
-  draw(event, isHighlighted) {
-    const x = super.draw(event, isHighlighted);
+  draw(incident, isHighlighted) {
+    const x = super.draw(incident, isHighlighted);
     if (!x) {
       return;
     }
 
-    this.drawImage(icons.incidentImage, x);
+    let imageToDraw = icons.incidentImage;
+    if (incident.get('state') === 'open') {
+      const severity = incident.getIn(['problem', 'severity'], 0);
+      if (severity > 0) {
+        imageToDraw = icons.incidentWarningImageColored;
+      } if (severity > 5) {
+        imageToDraw = icons.incidentCriticalImageColored;
+      }
+    }
+
+    this.drawImage(imageToDraw, x);
   }
 }

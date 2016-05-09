@@ -6,7 +6,11 @@ import theme from 'in-services/theme';
 
 const icons = {};
 
-icons.incidentImage = loadImage(incidentIcon);
+icons.incidentImage = loadImage(incidentIcon, loadedImage => {
+  icons.incidentWarningImageColored = createColorCanvasFrom(loadedImage, hexToRGB(theme.health[5]));
+  icons.incidentCriticalImageColored = createColorCanvasFrom(loadedImage, hexToRGB(theme.health[10]));
+});
+
 icons.issueWarningImage = loadImage(issueWarningIcon, loadedImage =>
   icons.issueWarningImageColored = createColorCanvasFrom(loadedImage, hexToRGB(theme.health[5])));
 icons.issueCriticalImage = loadImage(issueCriticalIcon, loadedImage =>
