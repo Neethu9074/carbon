@@ -195,32 +195,6 @@ export function getMostImportantEvent(snapshotId) {
            }, events.get(0)));
 }
 
-export function getProblemsById(snapshotId) {
-  return getEventsById(snapshotId).map(events => events.map(event => event.get('problem')));
-}
-
-
-/**
- * Gets the max severity of all problems and maps them to a health string. This
- * works by subscribing to all problems that occured for this snapshot and
- * returning a reactive observable.
- *
- * @param {Immutable<Snapshot>} snapshot The snapshot for which the health
- *   should be determined.
- * @returns {ReactiveObservable<string>} A stream that emits whenever the health
- *   changes.
- */
-export function getHealth(snapshotId) {
-  return getProblemsById(snapshotId)
-    .map(problems => {
-      return problems.reduce((acc, problem) => {
-        return Math.max(problem.get('severity'), acc);
-      }, 0);
-    })
-    .map(mapSeverityToHealth)
-    .distinct();
-}
-
 /**
  * Gets the color for an event. If an event is closed it should be some kind
  * grey, if it's open and critical it has a danger color and so on.

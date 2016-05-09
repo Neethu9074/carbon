@@ -113,6 +113,7 @@ export function getOpenIssuesAtFocusedMoment(snapshotId) {
  * @param {number} snapshotId The id to filter the event stream
  * @returns {Observable<Event>} The event with the highest severity
  */
+// previously getMostImportantEvent
 export function getMostImportantEventAtFocusedMoment(snapshotId) {
   return getOpenIssuesAtFocusedMoment(snapshotId)
     .map(events => {
