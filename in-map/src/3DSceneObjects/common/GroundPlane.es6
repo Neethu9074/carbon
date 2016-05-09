@@ -26,8 +26,6 @@ export default class GroundPlane extends SceneObject {
     ground.matrixAutoUpdate = false;
     ground.rotationAutoUpdate = false;
     ground.updateMatrix();
-
-    this.addSceneObject(ground);
   }
 
   getCollisionMesh() {

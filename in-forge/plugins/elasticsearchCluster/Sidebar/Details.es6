@@ -9,6 +9,7 @@ import * as timelineStore from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
 import SparkChartsSection from './SparkChartsSection';
+import ClusterStatusLabel from '../ClusterStatusLabel';
 
 
 export default connectTo({
@@ -35,8 +36,7 @@ export default connectTo({
           <DescriptionList>
             {this.item('Health', <HealthInfoBar snapshotId={snapshotId}/>)}
             {this.item('Name', data.get('groupId'))}
-            {this.item('Version', 'TODO')}
-            {this.item('Status', 'TODO')}
+            {this.item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
           </DescriptionList>
 
           <SparkChartsSection snapshotId={snapshotId}

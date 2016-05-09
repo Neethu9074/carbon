@@ -6,7 +6,7 @@ import Button from 'in-components/Button';
 
 import {
   EVENT_LISTS,
-  selectedEventList,
+  selectedEventList$,
   setSelectedList
 } from './notificationCenterFlyoutStores';
 
@@ -16,7 +16,7 @@ import './EventListSwitcher.less';
 const block = 'in-notificationcenter-event-list-switcher';
 
 export default connectTo({
-    selectedEventList
+    selectedEventList: selectedEventList$
   },
   React.createClass({
 

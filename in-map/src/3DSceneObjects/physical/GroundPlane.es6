@@ -21,18 +21,20 @@ export default class GroundPlane extends BaseGroundPlane {
     const texture = new THREE.TextureLoader().load(
       groundTexturePath,
       loadedTexture => {
-        this.ground.material.dispose();
-        this.ground.material = new THREE.MeshBasicMaterial({
+        const ground = this.ground;
+        ground.material.dispose();
+        ground.material = new THREE.MeshBasicMaterial({
           transparent: true,
           depthWrite: false,
           map: loadedTexture
         });
 
         const color = hexToRGBNormalized(theme.map.colors.groundDots);
-        this.ground.material.color.r = color.r;
-        this.ground.material.color.g = color.g;
-        this.ground.material.color.b = color.b;
+        ground.material.color.r = color.r;
+        ground.material.color.g = color.g;
+        ground.material.color.b = color.b;
 
+        this.addSceneObject(ground);
         this.scene.renderScene();
       });
 

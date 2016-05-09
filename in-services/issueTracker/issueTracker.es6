@@ -131,9 +131,12 @@ export const historicalEvents$ = createTrackingStore({
 
 export const openEvents$ = createTrackingStore({
   name: 'openEventsStore',
-  observable: prepareEvents$(getOpenEvents())
-                .scan(openEventsReducer, emptyList)
-                .nextFrame()
+  observable: prepareEvents$(timelineStore.timeframe
+                              .flatMap(timeframe =>
+                                getOpenEvents(timeframe.to)
+                                  .scan(openEventsReducer, emptyList)
+                              ))
+                              .nextFrame()
 }).observable;
 
 export const combinedEvents$ = combineLatest([historicalEvents$, openEvents$])

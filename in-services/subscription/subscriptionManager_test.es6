@@ -11,7 +11,8 @@ describe('in-services.subscriptionManager', () => {
   beforeEach(() => {
     persistentConnection = {
       on: sinon.stub(),
-      emit: sinon.stub()
+      emit: sinon.stub(),
+      off: sinon.stub()
     };
 
     mod = proxyquire('./subscriptionManager', {
@@ -52,6 +53,7 @@ describe('in-services.subscriptionManager', () => {
   describe('unsubscribe', () => {
     it('should send unsubscribe event to backend', () => {
       const subscriptionId = 5;
+      mod.subscribe(subscriptionId, 'foo-bar', {});
       mod.unsubscribe(subscriptionId);
       expect(persistentConnection.emit).to.have.been.calledWith('unsubscribe', {
         subscriptionId

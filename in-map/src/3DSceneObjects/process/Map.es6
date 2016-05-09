@@ -1,9 +1,9 @@
 import THREE from 'three';
 
 import CameraController from 'in-map/src/controls/process/CameraController';
+import GroundPlane from 'in-map/src/3DSceneObjects/process/GroundPlane';
 import {find} from 'in-services/arrayUtils';
 
-import GroundPlane from '../common/GroundPlane';
 import BaseMap from '../common/Map';
 import Layouter from './Layouter';
 import Node from './Node';

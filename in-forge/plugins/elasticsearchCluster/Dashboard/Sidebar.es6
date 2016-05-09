@@ -8,6 +8,9 @@ import Collapsible from 'in-components/Collapsible';
 import * as timelineStore from 'in-stores/timeline';
 import connectTo from 'in-hoc/connectTo';
 
+import ClusterStatusLabel from '../ClusterStatusLabel';
+
+
 export default connectTo({
     timeframe: timelineStore.timeframe
   },
@@ -35,7 +38,7 @@ export default connectTo({
               <DescriptionList>
                 {this.item('Health', <HealthInfoBar snapshotId={snapshotId}/>)}
                 {this.item('Name', data.get('groupId'))}
-                {this.item('Status', 'TODO')}
+                {this.item('Status', <ClusterStatusLabel status={data.get('clusterState')} />)}
               </DescriptionList>
             </Collapsible.Content>
           </Collapsible>

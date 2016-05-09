@@ -2,7 +2,8 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {currentRollup, timeframeShape} from 'in-stores/timeline';
+import {timeframeShape} from 'in-stores/timeline';
+import {currentRollup$} from 'in-stores/metric';
 
 import ChartLegend from '../ChartLegend';
 import Chart from '../Chart';
@@ -34,7 +35,7 @@ const ChartWithLegend = React.createClass({
 
   componentDidMount() {
     this.addSubscription(
-      currentRollup.subscribe(rollup => {
+      currentRollup$.subscribe(rollup => {
         this.setState({ rollup });
       })
     );

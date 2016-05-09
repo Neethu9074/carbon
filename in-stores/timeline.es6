@@ -62,7 +62,7 @@ export const timeframeShape = React.PropTypes.shape({
 });
 
 
-export function setTimeframe(windowSize, to) {
+export function setTimeframe(windowSize, to = null) {
   timeframeStore.applyStateMutation(() => {
     return {
       windowSize,
@@ -71,17 +71,6 @@ export function setTimeframe(windowSize, to) {
   });
 }
 
-
-export const currentRollup = timeframe.map(({windowSize}) => {
-  if (windowSize <= 1000 * 60 * 10) {
-    return '1 sec';
-  } else if (windowSize <= 1000 * 60 * 60) {
-    return '5 sec';
-  } else if (windowSize <= 1000 * 60 * 60 * 12) {
-    return '1 min';
-  }
-  return '2 min';
-});
 
 const highlightedMomentStore = createStore({
   name: 'highlightedMoment',

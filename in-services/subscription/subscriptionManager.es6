@@ -1,14 +1,18 @@
 import invariant from 'invariant';
 
-import {on, emit} from 'in-services/persistentConnection';
+import {getDataEvent} from 'in-services/subscription/dataEvent';
+import {on, off, emit} from 'in-services/persistentConnection';
 
 // {
 //   <id>: {
+//     subscriptionId
 //     event: 'event to send to establish subscription'
 //     payload: 'payload to be send to establish subscription'
+//     lastData: 'last retrieved data point',
+//     dataListener: 'function used to read data from socket'
 //   }
 // }
-const activeSubscriptions = {};
+export const activeSubscriptions = {};
 
 export function subscribe(subscriptionId, event, payload) {
   invariant(
@@ -16,18 +20,31 @@ export function subscribe(subscriptionId, event, payload) {
     'Multiple subscriptions with the same id are not possible!'
   );
 
-  activeSubscriptions[subscriptionId] = {
+  const subscription = activeSubscriptions[subscriptionId] = {
+    subscriptionId,
     event,
-    payload
+    payload,
+    lastData: undefined,
+    dataListener
   };
 
+  if (payload.subscriptionId === subscriptionId) {
+    on(getDataEvent(subscriptionId), dataListener);
+  }
+
   emit(event, payload);
+
+  function dataListener(data) {
+    subscription.lastData = data;
+  }
 }
 
 
 export function unsubscribe(subscriptionId) {
   emit('unsubscribe', {subscriptionId});
 
+  const subscription = activeSubscriptions[subscriptionId];
+  off(getDataEvent(subscriptionId), subscription.dataListener);
   delete activeSubscriptions[subscriptionId];
 }
 

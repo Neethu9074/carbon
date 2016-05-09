@@ -57,7 +57,7 @@ const selectedEventListStore = createStore({
   initialValue: EVENT_LISTS.CURRENT
 });
 
-export const selectedEventList = selectedEventListStore.observable;
+export const selectedEventList$ = selectedEventListStore.observable;
 
 export function setSelectedList(type) {
   selectedEventListStore.applyStateMutation(() => type);
