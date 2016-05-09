@@ -1,76 +1,34 @@
 .in-timeline-focused-moment {
   @cyan: #9fffff;
-  @width: 100%;
 
   position: absolute;
   top: 0;
   left: 0;
+  right: 20px;
 
-  width: @width;
-  height: 0;
+  height: 40px;
 
   &__marker {
     position: absolute;
-    top: 40px;
+    top: 10px;
     left: 20px;
 
-    height: 120px;
-    width: 1px;
+    height: 36px;
+    width: 7px;
+
+    border-radius: 4px;
     background: @cyan;
-  }
+    cursor: pointer;
 
-  &__slider {
-    position: absolute;
-    left: 0;
+    &::after {
+      position: absolute;
+      top: 30px;
+      left: 3px;
 
-    width: ~'calc(100% - 20px)';
-
-    margin: 0;
-    -webkit-appearance: none;
-
-    &:focus {
-      outline: none;
-    }
-
-    &::-webkit-slider-runnable-track {
-      height: 0;
-    }
-
-    &::-moz-range-track {
-      height: 0;
-    }
-
-    &::-ms-track {
-      height: 0;
-    }
-
-    &::-webkit-slider-thumb {
-      height: 36px;
-      width: 7px;
-      margin-top: 6px;
-      border-radius: 3px;
+      height: 120px;
+      width: 1px;
+      content: '';
       background: @cyan;
-      cursor: pointer;
-      -webkit-appearance: none;
-    }
-
-    &::-moz-range-thumb {
-      height: 36px;
-      width: 7px;
-      margin-top: 6px;
-      top: 6px;
-      border-radius: 3px;
-      background: @cyan;
-      cursor: pointer;
-    }
-
-    &::-ms-thumb {
-      height: 36px;
-      width: 7px;
-      margin-top: 6px;
-      border-radius: 3px;
-      background: @cyan;
-      cursor: pointer;
     }
   }
 }
