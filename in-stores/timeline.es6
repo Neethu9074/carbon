@@ -49,6 +49,7 @@ export const to$ = timeframe$.flatMap(_timeframe => {
   }
   return serverTime$;
 }).distinct();
+
 export function setTo(to) {
   timeframeStore.applyStateMutation(prevTimeFrame => {
     return {
