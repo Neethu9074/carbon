@@ -77,7 +77,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     millisBetweenMouseDownAndUp = Date.now();
 
     // if the distance of the cursor
-    if (isCursorOnFocusedMoment(e.offsetX)) {
+    if (isCursorOnFocusedMoment(e.offsetX, e.offsetY)) {
       isFocusedMomentPanning = true;
     }
   }
@@ -110,7 +110,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const eventAtCursor = getEventAtXY(x, y);
 
     // add a hand cursor to support UX and tell the user that he can interact with the canvas at this point
-    setCursor(eventAtCursor || isCursorOnFocusedMoment(x) ? CURSOR_TYPES.POINTER : CURSOR_TYPES.DEFAULT);
+    setCursor(eventAtCursor || isCursorOnFocusedMoment(x, y) ? CURSOR_TYPES.POINTER : CURSOR_TYPES.DEFAULT);
 
     setHighlightedEvent(eventAtCursor);
     setHighlightedEventScreenPosition(eventAtCursor ? {
@@ -198,8 +198,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     }
   }
 
-  function isCursorOnFocusedMoment(x) {
-    return Math.abs(focusedMomentXPosition - x < 4) ? true : false;
+  function isCursorOnFocusedMoment(x, y) {
+    return y < 50 && Math.abs(focusedMomentXPosition - x) <= 4 ? true : false;
   }
 
   function dispose() {

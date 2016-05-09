@@ -11,8 +11,8 @@ import BackgroundRenderer from 'in-components/timeline/components/renderer/Backg
 import {timeframe$, to$, from$, setTimelineScale} from 'in-components/timeline/timelineStore';
 import TimeAxisRenderer from 'in-components/timeline/components/renderer/TimeAxisRenderer';
 import RealtimeUpdateEvents from 'in-components/timeline/components/RealtimeUpdateEvents';
-import createMouseEvents from 'in-components/timeline/components/mouseEvents';
 import {drawMode$, DRAW_MODES, isCollapsed$} from 'in-components/timeline/timelineStore';
+import createMouseEvents from 'in-components/timeline/components/mouseEvents';
 import {eventsInTimeframe$, highlightedEvent$} from 'in-stores/events';
 import {updateCanvasDimensions} from 'in-charts/canvas';
 import {getAxisConfig} from 'in-charts/timeFormatting';

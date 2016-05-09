@@ -18,6 +18,4 @@ export function setCursor(cursorType) {
 
 cursor.observable
   .distinct()
-  .subscribe(cursorType => {
-    document.body.style.cursor = cursorType;
-  });
+  .subscribe(cursorType => document.body.style.cursor = cursorType);
