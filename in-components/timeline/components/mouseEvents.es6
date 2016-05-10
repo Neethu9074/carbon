@@ -3,7 +3,8 @@ import {
   setHighlightedEventScreenPosition,
   focusedMomentXPosition$,
   focusedMoment$,
-  setFocusedMoment
+  setFocusedMoment,
+  isCollapsed$
 } from 'in-components/timeline/timelineStore';
 import {setTo as setGlobalTo, setTimeframe as setGlobalTimeframe} from 'in-stores/timeline';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
@@ -36,6 +37,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let focusedMoment;
   const focusedMomentSubscription = focusedMoment$.subscribe(fm => focusedMoment = fm);
+
+  let isCollapsed;
+  const isCollapsedSubscription = isCollapsed$.subscribe(isC => isCollapsed = isC);
 
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
@@ -122,11 +126,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     setHighlightedEvent(eventAtCursor);
     setHighlightedEventScreenPosition(eventAtCursor ? {
       x: screenX,
-      y: resultDependingOnY(y,
-        60, // if incidents
-        100, // if issues
-        140 // if changes
-      )
+      y: isCollapsed ? 140 : resultDependingOnY(y, 60, 100, 140)
     } : null);
 
     realtimeDrawStream.emit(changeSignal);
@@ -212,6 +212,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   function dispose() {
     focusedMomentXPositionSubscription.dispose();
     focusedMomentSubscription.dispose();
+    isCollapsedSubscription.dispose();
     serverTimeSubscription.dispose();
     mouseLeaveSubscription.dispose();
     mouseDownSubscription.dispose();
