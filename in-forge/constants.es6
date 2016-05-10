@@ -31,5 +31,6 @@ export const plugins = {
   msiis: 'msiis',
   genericHardware: 'genericHardware',
   genericZone: 'genericZone',
-  unmonitoredHost: 'unmonitoredHost'
+  unmonitoredHost: 'unmonitoredHost',
+  haproxy: 'hAProxy'
 };
