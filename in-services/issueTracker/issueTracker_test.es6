@@ -190,22 +190,6 @@ describe('issueTracker', () => {
 
   });
 
-  describe('getCombinedEvents', () => {
-
-    it('should combine both, historical and open events', () => {
-      let combinedEvents;
-      issueTracker.combinedEvents$.subscribe(events => combinedEvents = events.toJS());
-      historicalEventObservable.emit(historicalEventsStubData);
-      openEventsObservable.emit(openEventsStubData);
-
-      expect(combinedEvents.length).to.equal(3);
-      expect(combinedEvents[0].id).to.equal('oi1');
-      expect(combinedEvents[1].id).to.equal('oi2');
-      expect(combinedEvents[2].id).to.equal('hi1');
-    });
-
-  });
-
   describe('getColorForEvent', () => {
     let event;
 

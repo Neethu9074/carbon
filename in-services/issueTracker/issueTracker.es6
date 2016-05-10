@@ -139,30 +139,6 @@ export const openEvents$ = createTrackingStore({
                               .nextFrame()
 }).observable;
 
-export const combinedEvents$ = combineLatest([historicalEvents$, openEvents$])
-  .map(([historical, open]) => {
-    const result = [];
-    const addedEvents = {};
-
-    open.forEach(event => {
-      if (addedEvents[event.get('id')]) {
-        logger.info(`Event with the ID ${event.get('id')} exists (at least) twice!`);
-      } else {
-        addedEvents[event.get('id')] = event;
-        result.push(event);
-      }
-    });
-
-    historical.forEach(event => {
-      if (!addedEvents[event.get('id')]) {
-        result.push(event);
-      }
-    });
-
-    return Immutable.List(result);
-  });
-
-
 /**
  * Gets the color for an event. If an event is closed it should be some kind
  * grey, if it's open and critical it has a danger color and so on.
