@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import HealthInfoBar from 'in-components/HealthInfoBar';
 import {getLabel, getIcon} from 'in-sdk/snapshot';
 import CheckBox from 'in-components/CheckBox';
 import getSnapshot from 'in-hoc/getSnapshot';
@@ -54,7 +55,11 @@ export default getSnapshot(
             : null
           }
 
-          {snapshot ? getLabel(snapshot) : null}
+          <span className={block + '__label'}>
+            {snapshot ? getLabel(snapshot) : null}
+          </span>
+
+          <HealthInfoBar snapshotId={this.props.snapshotId} />
         </div>
       );
     }
