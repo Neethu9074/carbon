@@ -14,6 +14,7 @@ import {
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import getEvents from 'in-services/subscription/events';
+import {theme} from 'in-services/theme';
 
 
 export const retrievedEvents$ = createTrackingStore({
@@ -138,6 +139,36 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
     })
     .distinct();
 }
+
+
+export const getColorForEventAtFocusedMoment = memoize(
+  event => {
+    const start = event.get('start');
+    const end = event.get('end');
+    const state = event.get('state');
+    const severity = event.getIn(['problem', 'severity'], 0);
+    const color = theme.health[severity] || theme.health[0];
+
+    return focusedMoment$
+      .map(focusedMoment => {
+        // No focused moment? Then it is according to server time which means
+        // we color based on the state property.
+        const open = (focusedMoment == null && state === 'open') ||
+          (start < focusedMoment && focusedMoment < end);
+
+          if (open) {
+            return color;
+          }
+
+          return theme.health[0];
+      })
+      .distinct();
+  },
+
+  event => event.get('id'),
+
+  5000
+);
 
 
 function insertSorted(store, event) {

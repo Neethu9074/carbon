@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import {expect} from 'chai';
 
 import {resetStoreRegistry} from 'in-stores/store';
+import {theme} from 'in-services/theme';
 
 describe('in-stores/events', () => {
 
@@ -642,6 +643,95 @@ describe('in-stores/events', () => {
       expect(mod.getNearestEvent(issues, 12).get('id')).to.equal('foo');
       expect(mod.getNearestEvent(issues, 29, 5)).to.equal(null);
       expect(mod.getNearestEvent(issues, 1, 2)).to.equal(null);
+    });
+  });
+
+  describe('getColorForEventAtFocusedMoment', () => {
+    it('should color issues according to server time when no focused moment is defined', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(null);
+
+      mod.getColorForEventAtFocusedMoment(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
+    });
+
+    it('should color issues according to server time when no focused moment is defined', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'open',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(null);
+
+      mod.getColorForEventAtFocusedMoment(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
+    });
+
+    it('should color issues according to focused moment when one is selected', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(20);
+
+      mod.getColorForEventAtFocusedMoment(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
+    });
+
+    it('should color issues according to focused moment when one is selected', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(19);
+
+      mod.getColorForEventAtFocusedMoment(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
+    });
+
+    it('should color changes using the default color', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'open',
+        'type': 'change'
+      });
+      focusedMoment$.emit(null);
+
+      mod.getColorForEventAtFocusedMoment(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
     });
   });
 });
