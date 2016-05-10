@@ -1,3 +1,4 @@
+import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import * as issueTracker from 'in-services/issueTracker';
 import {selectedIncident} from 'in-stores/incident';
 import {emptyArray} from 'in-services/fixedObjects';
@@ -27,6 +28,9 @@ export default class EventRenderer {
         this.recentEventIds = emptyArray;
       }
     });
+
+    this.focusedMoment = null;
+    this.focusedMomentSubscription = focusedMoment$.subscribe(focusedMoment => this.focusedMoment = focusedMoment);
   }
 
   setWidth(width) {
@@ -52,7 +56,7 @@ export default class EventRenderer {
 
   isEventActive(event) {
     // the event is active (which means that it will be drawn normally) if there is no incident selected
-    if (!this.selectedIncident) {
+    if (!this.selectedIncident && (!this.focusedMoment || event.get('start') <= this.focusedMoment)) {
       return true;
     }
 
@@ -87,5 +91,6 @@ export default class EventRenderer {
 
   dispose() {
     this.selectedIncidentSubscription.dispose();
+    this.focusedMomentSubscription.dispose();
   }
 }
