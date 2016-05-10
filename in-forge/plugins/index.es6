@@ -34,3 +34,4 @@ import './msiis';
 import './genericHardware';
 import './genericZone';
 import './unmonitoredHost';
+import './hAProxy';
