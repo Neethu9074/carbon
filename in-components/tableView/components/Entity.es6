@@ -1,5 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
+import irpt from 'react-immutable-proptypes';
 import React from 'react';
+
+import {getLabel, getIcon} from 'in-sdk/snapshot';
+import CheckBox from 'in-components/CheckBox';
+import getSnapshot from 'in-hoc/getSnapshot';
+import Icon from 'in-components/Icon';
 
 import './Entity.less';
 
@@ -7,23 +13,50 @@ import './Entity.less';
 const block = 'in-table-view-entity';
 const rpt = React.PropTypes;
 
-export default React.createClass({
+export default getSnapshot(
+  React.createClass({
 
-  displayName: 'Entity',
+    displayName: 'Entity',
 
-  mixins: [
-    PureRenderMixin
-  ],
+    mixins: [
+      PureRenderMixin
+    ],
 
-  propTypes: {
-    snapshotId: rpt.string.isRequired
-  },
+    propTypes: {
+      snapshotId: rpt.string.isRequired,
+      snapshot: irpt.map
+    },
 
-  render() {
-    return (
-      <div className={block}>
-        {this.props.snapshotId}
-      </div>
-    );
-  }
-});
+    getInitialState() {
+      return {
+        isCollapsed: true,
+        isChecked: false
+      };
+    },
+
+    render() {
+      const snapshot = this.props.snapshot;
+
+      return (
+        <div className={block} >
+
+          <CheckBox onClick={() => this.setState({isChecked: !this.state.isChecked})}
+                    defaultChecked={false} />
+
+          <Icon className={block + '__arrow-icon'}
+                type={this.state.isCollapsed ? 'open' : 'close'}
+                onClick={() => this.setState({isCollapsed: !this.state.isCollapsed})} />
+
+          {snapshot ?
+            <img src={getIcon(snapshot)}
+                 alt='plugin icon'
+                 className={block + '__plugin-icon'}/>
+            : null
+          }
+
+          {snapshot ? getLabel(snapshot) : null}
+        </div>
+      );
+    }
+  })
+);

@@ -3,6 +3,11 @@ import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import Entity from 'in-components/tableView/components/Entity';
+import {getColorPool} from 'in-services/util/ColorGenerator';
+import CheckBox from 'in-components/CheckBox';
+import getSnapshot from 'in-hoc/getSnapshot';
+import {getLabel} from 'in-sdk/snapshot';
+import Icon from 'in-components/Icon';
 
 import './Group.less';
 
@@ -10,46 +15,65 @@ import './Group.less';
 const block = 'in-table-view-group';
 const rpt = React.PropTypes;
 
-export default React.createClass({
+export default getSnapshot(
+  React.createClass({
 
-  displayName: 'Group',
+    displayName: 'Group',
 
-  mixins: [
-    PureRenderMixin
-  ],
+    mixins: [
+      PureRenderMixin
+    ],
 
-  propTypes: {
-    snapshotId: rpt.string.isRequired,
-    hosts: irpt.list.isRequired
-  },
+    propTypes: {
+      snapshotId: rpt.string.isRequired,
+      hosts: irpt.list.isRequired,
+      snapshot: irpt.map
+    },
 
-  getInitialState() {
-    return {
-      isOpen: false
-    };
-  },
+    getInitialState() {
+      return {
+        isCollapsed: true,
+        isChecked: false
+      };
+    },
 
-  render() {
-    const hosts = this.props.hosts;
+    render() {
+      const snapshot = this.props.snapshot;
+      const hosts = this.props.hosts;
+      const color = getColorPool('groups').getColorHex(this.props.snapshotId);
 
-    return (
-      <div className={block}
-           onClick={this.toggleIsOpen}>
-        {'group: ' + this.props.snapshotId}
-        {this.state.isOpen ?
-          hosts.map(host =>
-            <Entity key={host.get('id')}
-            snapshotId={host.get('id')} />
-          )
-          : null
-        }
-      </div>
-    );
-  },
+      return (
+        <div className={block}>
+          <div className={block + '__header'}>
 
-  toggleIsOpen() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    });
-  }
-});
+            <CheckBox onClick={() => this.setState({isChecked: !this.state.isChecked})}
+                      defaultChecked={false} />
+
+            <Icon className={block + '__arrow-icon'}
+                  type={this.state.isCollapsed ? 'open' : 'close'}
+                  onClick={() => this.setState({isCollapsed: !this.state.isCollapsed})} />
+
+            {snapshot ?
+              <span style={{color}}>
+                {getLabel(snapshot)}
+              </span>
+              : null
+            }
+            <span className={block + '__counter'}>
+              {'(' + hosts.size + ')'}
+            </span>
+
+          </div>
+
+          {this.state.isCollapsed ?
+            null :
+            hosts.map(host =>
+              <Entity key={host.get('id')}
+              snapshotId={host.get('id')} />
+            )
+          }
+        </div>
+      );
+    }
+  })
+);

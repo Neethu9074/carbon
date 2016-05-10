@@ -1,4 +1,36 @@
 .in-table-view-group {
   padding: 10px;
-  cursor: pointer;
+  color: #6b8088;
+
+  &__header {
+    display: flex;
+    align-items: center;
+
+    background: white;
+    padding: 0 5px;
+    border-radius: 5px;
+    border-left: 10px solid grey;
+
+    font-weight: bold;
+
+    transition: background 0.3s ease-in-out;
+
+    &:hover {
+      background: #6b8088;
+
+      .in-table-view-group__counter {
+        color: white;
+      }
+    }
+  }
+
+  &__counter {
+    margin-left: 5px;
+  }
+
+  &__arrow-icon {
+    font-size: 2rem;
+    margin: -3px 0 -1px 0;
+    cursor: pointer;
+  }
 }
