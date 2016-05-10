@@ -1,11 +1,14 @@
+import Immutable from 'immutable';
+
 import {
-  historicalEvents$,
-  openEvents$,
   getEventType,
   EVENT_TYPES
 } from 'in-services/issueTracker';
+import {
+  eventsInTimeframe$,
+  openEventsAtServerTime$
+} from 'in-stores/events';
 import {mapHealthToColor, health} from 'in-services/health';
-import {alwaysNull} from 'in-services/fixedStreams';
 import {createStore} from 'in-stores/store';
 
 
@@ -68,10 +71,19 @@ export const event$ = selectedEventListStore.observable
   .flatMap(list => {
     switch (list) {
       case EVENT_LISTS.CURRENT:
-        return openEvents$;
+        return openEventsAtServerTime$;
       case EVENT_LISTS.HISTORICAL:
-        return historicalEvents$;
+        return eventsInTimeframe$;
       default:
-        return alwaysNull;
+        throw new Error('Unsupported list type: ' + list);
     }
-});
+  })
+  .map(events => {
+    let result = [];
+
+    result = result.concat(events.issues);
+    result = result.concat(events.incidents);
+    result = result.concat(events.changes);
+
+    return Immutable.List(result);
+  });

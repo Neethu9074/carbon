@@ -1,21 +1,9 @@
-import {combineLatest} from 'reactive-observables';
-import Immutable from 'immutable';
-import {createLogger} from 'instalog';
-
 import createEventObservable from 'in-services/subscription/event';
-import {getHistoricalEvents} from 'in-stores/historicalEvents';
 import {mapSeverityToHealth, health} from 'in-services/health';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {setSelectedIncident} from 'in-stores/incident';
-import {emptyList} from 'in-services/fixedImmutables';
-import {isDemoEnvironment} from 'in-services/config';
-import {createTrackingStore} from 'in-stores/store';
-import * as timelineStore from 'in-stores/timeline';
-import {getOpenEvents} from 'in-stores/openEvents';
-import * as settings from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
-const logger = createLogger('in-services/issueTracker/issueTracker');
 
 export const EVENT_TYPES = {
   CHANGE: 0,
@@ -24,120 +12,6 @@ export const EVENT_TYPES = {
   ISSUE_OK: 3,
   INCIDENT: 4
 };
-
-// CPU steal events shouldn't be shown in the demo environment as we are using
-// small EC2 instances. These almost always have high CPU steal.
-const withoutCpuStealMapper = (events) => {
-  return events.filter(event =>
-    event.getIn(['problem', 'problemText'], '').indexOf('Steal') === -1
-  );
-};
-
-/**
- * An isue may already exist in our list of events.
- * We assume that it is an update in such cases. An update may change a
- * problem's end time and other properties.
- *
- * Remove all events for which we get updates from the backend and add the updated ones.
- *
- * @param {Immutable<Event>} existingEvents All current event since the last scan
- * @param {Immutable<Event>} eventUpdates All updates
- * @returns {Immutable≤Issue>} existingEvents + eventUpdates - dublicates
- */
-function issuesReducer(existingEvents, eventUpdates) {
-  const updatedEventIds = {};
-  const updatesToApply = [];
-  eventUpdates.forEach(event => {
-    if (updatedEventIds[event.get('id')]) {
-      logger.info(`Update contains the event with ID ${event.get('id')} (at least) twice.`);
-    } else {
-      updatedEventIds[event.get('id')] = event;
-      updatesToApply.push(event);
-    }
-  });
-
-  const result = existingEvents.filter(existing => {
-    return !updatedEventIds[existing.get('id')];
-  })
-  .concat(Immutable.List(updatesToApply));
-
-  return result;
-}
-
-
-/**
- * The same as issuesReducer but this reducer removes all issues
- * which are not inside the timeframe anymore
- *
- * @param {Immutable<Issue>} existingIssues All current issue since the last scan
- * @param {Immutable<Issue>} issueUpdates All updates
- * @returns {Immutable≤Issue>} existingIssues + issueUpdates - dublicates - issues outside timeframe
- */
-function historicalEventsReducer(existingIssues, issueUpdates) {
-  return issuesReducer(existingIssues, issueUpdates);
-}
-
-/**
- * The same as issuesReducer but this reducer removes all issues
- * inside updates which have an end timestamp
- *
- * @param {Immutable<Event>} existingEvents All current event since the last scan
- * @param {Immutable<Event>} eventUpdates All updates
- * @returns {Immutable≤Issue>} existingEvents + eventUpdates - dublicates - events with end date
- */
-function openEventsReducer(existingEvents, eventUpdates) {
-  return issuesReducer(existingEvents, eventUpdates)
-    .filter(event => event.get('state') === 'open');
-}
-
-/**
- * This method returns any event stream and sort out or leave in all events that are marked
- * as experimental, depending on the settings. Furthermore CPU Steal event are removed on demo environment
- *
- * @param {ReactiveObservable<Event>} event$ The event stream, containing all events
- * @returns {ReactiveObservable<Event>} A cleaned event stream
- */
-function prepareEvents$(event$) {
-  let stream = event$;
-
-  if (isDemoEnvironment()) {
-    stream = stream.map(withoutCpuStealMapper);
-  }
-
-  stream = combineLatest([
-    settings.getIn(['experiments']),
-    stream
-  ]).map(([withExperiments, events]) => {
-    if (withExperiments) {
-      return events;
-    }
-    return events.filter(event => !event.getIn(['problem', 'experimental'], false));
-  });
-
-  return stream;
-}
-
-export const historicalEvents$ = createTrackingStore({
-  name: 'historicalEventsStore',
-  observable: prepareEvents$(timelineStore.timeframe
-                              .distinct()
-                              .flatMap(timeframe =>
-                                getHistoricalEvents(timeframe)
-                                  .scan(historicalEventsReducer, emptyList)
-                              ))
-                .nextFrame()
-}).observable;
-
-
-export const openEvents$ = createTrackingStore({
-  name: 'openEventsStore',
-  observable: prepareEvents$(timelineStore.timeframe
-                              .flatMap(timeframe =>
-                                getOpenEvents(timeframe.to)
-                                  .scan(openEventsReducer, emptyList)
-                              ))
-                              .nextFrame()
-}).observable;
 
 /**
  * Gets the color for an event. If an event is closed it should be some kind
