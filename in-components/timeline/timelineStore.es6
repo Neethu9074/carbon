@@ -31,6 +31,10 @@ export function toggleShowTimeSelector() {
   showTimeSelector.applyStateMutation(oldValue => !oldValue);
 }
 
+export function hideTimeSelector() {
+  showTimeSelector.applyStateMutation(() => false);
+}
+
 
 /*
   we need to seperate the global timeline.timeframe store from this timeframeStore because

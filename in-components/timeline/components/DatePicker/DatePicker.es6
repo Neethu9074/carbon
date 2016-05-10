@@ -6,6 +6,7 @@ import moment from 'moment';
 import React from 'react';
 
 import {timeFormat, dateFormat, formatDate} from 'in-services/formatters/date';
+import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import Button from 'in-components/Button';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -24,6 +25,7 @@ import TextInput from './TextInput';
 import './DatePicker.less';
 
 
+const MAX_MILLIS_FOR_CLICK = 300;
 const block = 'in-date-picker';
 const rpt = React.PropTypes;
 
@@ -43,6 +45,7 @@ export default connectTo({
 
     propTypes: {
       applyDate: rpt.func.isRequired,
+      onClose: rpt.func.isRequired,
       dateString: rpt.string,
       timeString: rpt.string,
       dateIsValid: rpt.bool,
@@ -53,11 +56,27 @@ export default connectTo({
       reset();
     },
 
+    componentDidMount() {
+      this.downTime = 0;
+      this.upTime = 0;
+      this.onMouseUp = throttleNextFrame(this.onMouseUp);
+      this.onMouseDown = throttleNextFrame(this.onMouseDown);
+
+      window.addEventListener('mouseup', this.onMouseUp, false);
+      window.addEventListener('mousedown', this.onMouseDown, false);
+    },
+
+    componentWillUnmount() {
+      window.removeEventListener('mousedown', this.onMouseDown, false);
+      window.removeEventListener('mouseup', this.onMouseUp, false);
+    },
+
     render() {
       const date = this.getMergedDate();
 
       return (
-        <div className={block}>
+        <div className={block}
+             ref='timepicker'>
           <div className={block + '__heading'}>
             <Icon type='reset'
                   className={block + '__reset-button'}
@@ -108,6 +127,31 @@ export default connectTo({
       dateTime.setMinutes(time.minute());
       dateTime.setSeconds(time.second());
       return dateTime;
+    },
+
+    onMouseUp(e) {
+      // we are doing this asynchronously and the timepicker may already be gone
+      if (!this.refs.timepicker) {
+        return;
+      }
+
+      this.upTime = Date.now();
+
+      const delta = this.upTime - this.downTime;
+      if (delta > MAX_MILLIS_FOR_CLICK) {
+        return;
+      }
+
+      const rect = this.refs.timepicker.getBoundingClientRect();
+      if (e.clientX > rect.right || e.clientX < rect.left ||
+          e.clientY < rect.top || e.clientY > rect.bottom) {
+        // the click was donw outside this component so close it
+        this.props.onClose();
+      }
+    },
+
+    onMouseDown() {
+      this.downTime = Date.now();
     }
   })
 );

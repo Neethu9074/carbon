@@ -4,7 +4,8 @@ import React from 'react';
 import {
   isCollapsed$,
   toggleMenu,
-  showTimeSelector$
+  showTimeSelector$,
+  hideTimeSelector
 } from 'in-components/timeline/timelineStore';
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
@@ -33,6 +34,8 @@ export default connectTo({
 
     displayName: 'TimelineMenu',
 
+    mouseIsOnTimePicker: false,
+
     mixins: [
       PureRenderMixin
     ],
@@ -51,7 +54,11 @@ export default connectTo({
         <div className={block}>
           <div className={block + '__heading'}>
             <EventTooltip />
-            {this.props.showTimeSelector ? <DatePicker applyDate={this.applyDate}/> : null}
+            {this.props.showTimeSelector ?
+              <DatePicker applyDate={this.applyDate}
+                          onClose={hideTimeSelector}/>
+               : null
+             }
             <TimelineSelectedTime/>
             <TimelineLiveButton/>
           </div>
