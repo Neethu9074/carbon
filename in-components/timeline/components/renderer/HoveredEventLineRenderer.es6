@@ -1,3 +1,5 @@
+import {focusedMoment$} from 'in-components/timeline/timelineStore';
+import {getColorForEventAtFocusedMoment} from 'in-stores/events';
 import * as issueTracker from 'in-services/issueTracker';
 
 
@@ -8,6 +10,9 @@ export default class HoveredEventLineRenderer {
     this.buffer = buffer;
     this.scale = scale;
     this.y = 0;
+
+    this.focusedMoment = null;
+    this.focusedMomentSubscription = focusedMoment$.subscribe(focusedMoment => this.focusedMoment = focusedMoment);
   }
 
   setHighlightedEvent(event) {
@@ -39,9 +44,15 @@ export default class HoveredEventLineRenderer {
       this.scale.getRange(this.scale.getDomainTo()) :
       this.scale.getRange(event.get('end'));
 
+    console.log(event.toJS(), this.focusedMoment, getColorForEventAtFocusedMoment(event, this.focusedMoment));
+
     this.buffer.globalAlpha = 0.2;
-    this.buffer.fillStyle = issueTracker.getColorForEvent(event);
+    this.buffer.fillStyle = getColorForEventAtFocusedMoment(event, this.focusedMoment);
     this.buffer.fillRect(x, this.y, to - x, 40);
     this.buffer.globalAlpha = 1;
+  }
+
+  dispose() {
+    this.focusedMomentSubscription.dispose();
   }
 }

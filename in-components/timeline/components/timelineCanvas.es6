@@ -169,6 +169,7 @@ export default function createTimelineRenderer({container, canvas}) {
     realtimeUpdateEvents.dispose();
     highlightedEventIdSubscription.dispose();
     realtimeDrawSubscription.dispose();
+    hoveredEventLineRenderer.dispose();
     markedIncidentRenderer.dispose();
     timeframeSubscription.dispose();
     focusedMomentRenderer.dispose();

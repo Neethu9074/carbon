@@ -141,7 +141,7 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
 }
 
 
-export const getColorForEventAtFocusedMoment = memoize(
+export const getColorForEventAtFocusedMomentAsStream = memoize(
   event => {
     const start = event.get('start');
     const end = event.get('end');
@@ -150,18 +150,7 @@ export const getColorForEventAtFocusedMoment = memoize(
     const color = theme.health[severity] || theme.health[0];
 
     return focusedMoment$
-      .map(focusedMoment => {
-        // No focused moment? Then it is according to server time which means
-        // we color based on the state property.
-        const open = (focusedMoment == null && state === 'open') ||
-          (start < focusedMoment && focusedMoment < end);
-
-          if (open) {
-            return color;
-          }
-
-          return theme.health[0];
-      })
+      .map(focusedMoment => isEventOpenAtFocusedMoment(start, end, state, focusedMoment) ? color : theme.health[0])
       .distinct();
   },
 
@@ -169,6 +158,31 @@ export const getColorForEventAtFocusedMoment = memoize(
 
   5000
 );
+
+export function getColorForEventAtFocusedMoment(event, focusedMoment) {
+  const severity = event.getIn(['problem', 'severity'], 0);
+  const start = event.get('start');
+  const end = event.get('end');
+  const state = event.get('state');
+  const color = theme.health[severity] || theme.health[0];
+
+  // No focused moment? Then it is according to server time which means
+  // we color based on the state property.
+  const open = isEventOpenAtFocusedMoment(start, end, state, focusedMoment);
+
+  if (open) {
+    return color;
+  }
+
+  return theme.health[0];
+}
+
+function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
+  // No focused moment? Then it is according to server time which means
+  // we color based on the state property.
+  return (focusedMoment == null && state === 'open') ||
+         (start < focusedMoment && (focusedMoment < end || !end));
+}
 
 
 function insertSorted(store, event) {
