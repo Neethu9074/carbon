@@ -11,7 +11,6 @@ import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMen
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
 import TimelineLiveButton from 'in-components/timeline/components/TimelineLiveButton';
 import {setTo, setFocusedMoment, timeframeShape} from 'in-stores/timeline';
-import EventTooltip from 'in-components/timeline/components/EventTooltip';
 import DatePicker from 'in-components/timeline/components/DatePicker';
 import {timeframe$} from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$} from 'in-stores/events';
@@ -53,7 +52,6 @@ export default connectTo({
       return (
         <div className={block}>
           <div className={block + '__heading'}>
-            <EventTooltip />
             {this.props.showTimeSelector ?
               <DatePicker applyDate={this.applyDate}
                           onClose={hideTimeSelector}/>

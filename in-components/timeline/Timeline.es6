@@ -4,6 +4,7 @@ import React from 'react';
 import TimelineCanvasReactWrapper from 'in-components/timeline/components/TimelineCanvasReactWrapper';
 import TimelineNavigation from 'in-components/timeline/components/TimelineNavigation';
 import TimelineMenu from 'in-components/timeline/components/TimelineMenu';
+import EventTooltip from 'in-components/timeline/components/EventTooltip';
 import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import connectTo from 'in-hoc/connectTo';
 
@@ -31,6 +32,7 @@ export default connectTo({
     render() {
       return (
         <div className={block}>
+          <EventTooltip />
           <div className={this.getWrapperClassName()}>
             <TimelineMenu />
             <TimelineCanvasReactWrapper />

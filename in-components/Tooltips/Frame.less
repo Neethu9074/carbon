@@ -36,14 +36,29 @@
   }
 
   &__bottom {
-    &::before {
-      bottom: -8px;
+    &__left {
+      &::before {
+        bottom: -8px;
 
-      border-color:
+        border-color:
         @map__tooltips__background
         transparent
         transparent
         @map__tooltips__background;
+      }
+    }
+
+    &__right {
+      &::before {
+        bottom: -8px;
+        margin-left: ~'calc(100% - 34px)';
+
+        border-color:
+        @map__tooltips__background
+        @map__tooltips__background
+        transparent
+        transparent;
+      }
     }
   }
 }
