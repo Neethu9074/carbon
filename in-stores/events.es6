@@ -86,7 +86,6 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
       retrievedEvents$
     ])
     .map(([time, events]) => {
-      // TODO improve perf by doing a binary search
       return {
         issues: events.issues.filter(filter),
         changes: events.changes.filter(filter),
