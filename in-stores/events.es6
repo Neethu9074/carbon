@@ -45,7 +45,7 @@ export const retrievedEvents$ = createTrackingStore({
 
 
 export const eventsInTimeframe$ = combineLatest([
-    to$.throttle(10000),
+    to$.throttle(5000),
     from$,
     retrievedEvents$
   ])

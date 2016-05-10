@@ -1,7 +1,7 @@
 import {createLogger} from 'instalog';
 
 import {health, mapSeverityToHealth} from 'in-services/health';
-import {openEvents$} from 'in-services/issueTracker';
+import {openEventsAtServerTime$} from 'in-stores/events';
 import {settingsStore} from 'in-services/settings';
 import {getSnapshot} from 'in-stores/snapshot';
 import {getLabel} from 'in-sdk/snapshot';
@@ -21,13 +21,14 @@ settingsStore.nextFrame().subscribe(data => {
 
 
 function startTracking() {
-  disposable = openEvents$.subscribe(events => {
+  disposable = openEventsAtServerTime$.subscribe(events => {
     // show messages only if Browser Window is currently not visible
     if (document.hidden == null || !document.hidden) {
       return;
     }
+
     // recreate the list of previous events if first start or if an event has been removed
-    if (previousEvents === null || Object.keys(previousEvents).length > events.size) {
+    if (previousEvents === null || Object.keys(previousEvents).length > events.length) {
       previousEvents = {};
       events.forEach(event => previousEvents[event.get('id')] = 1);
     }
