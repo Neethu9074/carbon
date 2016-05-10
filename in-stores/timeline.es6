@@ -22,26 +22,6 @@ const timeframeStore = createStore({
 export const timeframe = timeframeStore.observable;
 export const timeframe$ = timeframe;
 
-
-const focusedMoment = createStore({
-  name: 'focusedMoment',
-  initialValue: null
-});
-export const focusedMoment$ = focusedMoment.observable.distinct();
-
-export function setFocusedMoment(newFocusedMoment) {
-  focusedMoment.applyStateMutation(() => newFocusedMoment);
-}
-
-export const live$ = focusedMoment$.map(moment => !moment).distinct();
-
-export const resolvedFocusedMoment$ = focusedMoment$.flatMap(_focusedMoment => {
-  if (_focusedMoment == null) {
-    return serverTime$;
-  }
-  return focusedMoment$;
-}).distinct();
-
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
     return create().emit(_timeframe.to);
@@ -57,6 +37,39 @@ export function setTo(to) {
     };
   });
 }
+
+const focusedMoment = createStore({
+  name: 'focusedMoment',
+  initialValue: null
+});
+export const focusedMoment$ = focusedMoment.observable.distinct();
+
+let currentTimeframe;
+timeframe$.subscribe(tf => currentTimeframe = tf);
+
+let currentServertime;
+serverTime$.subscribe(st => currentServertime = st);
+
+export function setFocusedMoment(newFocusedMoment) {
+  focusedMoment.applyStateMutation(() => newFocusedMoment);
+  if (newFocusedMoment) {
+    timeframeStore.applyStateMutation(() => {
+      return {
+        windowSize: currentTimeframe.windowSize,
+        to: currentServertime
+      };
+    });
+  }
+}
+
+export const live$ = focusedMoment$.map(moment => !moment).distinct();
+
+export const resolvedFocusedMoment$ = focusedMoment$.flatMap(_focusedMoment => {
+  if (_focusedMoment == null) {
+    return serverTime$;
+  }
+  return focusedMoment$;
+}).distinct();
 
 
 export const from$ = timeframe$.flatMap(_timeframe => {

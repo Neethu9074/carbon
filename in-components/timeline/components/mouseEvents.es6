@@ -2,6 +2,7 @@ import {
   setTo,
   setHighlightedEventScreenPosition,
   focusedMomentXPosition$,
+  focusedMoment$,
   setFocusedMoment
 } from 'in-components/timeline/timelineStore';
 import {setTo as setGlobalTo, setTimeframe as setGlobalTimeframe} from 'in-stores/timeline';
@@ -32,6 +33,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let focusedMomentXPosition;
   const focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(newX => focusedMomentXPosition = newX);
+
+  let focusedMoment;
+  const focusedMomentSubscription = focusedMoment$.subscribe(fm => focusedMoment = fm);
 
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
@@ -154,7 +158,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onPanEnd() {
-    if (!isFocusedMomentPanning) {
+    if (!isFocusedMomentPanning && !focusedMoment) {
       const timeToSet = scale.getDomainTo();
       // if the user panns to the right border (servertime) set to live mode again
       setGlobalTo(timeToSet >= serverTime ? null : timeToSet);
@@ -204,6 +208,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   function dispose() {
     focusedMomentXPositionSubscription.dispose();
+    focusedMomentSubscription.dispose();
     serverTimeSubscription.dispose();
     mouseLeaveSubscription.dispose();
     mouseDownSubscription.dispose();
