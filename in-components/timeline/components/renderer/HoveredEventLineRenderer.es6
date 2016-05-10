@@ -44,8 +44,6 @@ export default class HoveredEventLineRenderer {
       this.scale.getRange(this.scale.getDomainTo()) :
       this.scale.getRange(event.get('end'));
 
-    console.log(event.toJS(), this.focusedMoment, getColorForEventAtFocusedMoment(event, this.focusedMoment));
-
     this.buffer.globalAlpha = 0.2;
     this.buffer.fillStyle = getColorForEventAtFocusedMoment(event, this.focusedMoment);
     this.buffer.fillRect(x, this.y, to - x, 40);
