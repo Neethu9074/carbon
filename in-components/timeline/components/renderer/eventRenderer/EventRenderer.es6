@@ -64,6 +64,15 @@ export default class EventRenderer {
     return this.recentEventIds.indexOf(event.get('id')) < 0 ? false : true;
   }
 
+  eventIsOpenAtFocusedMoment(event) {
+    const focusedMoment = this.focusedMoment;
+    return event.get('start') < focusedMoment && (!event.get('end') || event.get('end') > focusedMoment);
+  }
+
+  eventIsOpenOnLiveMode(event) {
+    return event.get('state') === 'open';
+  }
+
   draw(event, isHighlighted) {
     const x = this.scale.getRange(event.get('start'));
     if (x <= 0 || x > this.width) {
