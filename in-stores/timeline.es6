@@ -52,11 +52,11 @@ serverTime$.subscribe(st => currentServertime = st);
 
 export function setFocusedMoment(newFocusedMoment) {
   focusedMoment.applyStateMutation(() => newFocusedMoment);
-  if (newFocusedMoment) {
+  if (newFocusedMoment && !currentTimeframe.to) {
     timeframeStore.applyStateMutation(() => {
       return {
         windowSize: currentTimeframe.windowSize,
-        to: currentServertime
+        to: currentTimeframe.to ? currentTimeframe.to : currentServertime
       };
     });
   }
