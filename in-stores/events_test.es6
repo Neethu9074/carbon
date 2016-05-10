@@ -325,14 +325,16 @@ describe('in-stores/events', () => {
         'id': 'foo',
         'start': 5,
         'end': 11,
-        'type': 'issue'
+        'type': 'issue',
+        'state': 'open'
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
-        'type': 'issue'
+        'type': 'issue',
+        'state': 'closed'
       }]));
 
       expect(subscriber.callCount).to.equal(3);

@@ -14,7 +14,6 @@ import {
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import getEvents from 'in-services/subscription/events';
-import {serverTime$} from 'in-stores/serverTime';
 
 
 export const retrievedEvents$ = createTrackingStore({
@@ -66,13 +65,7 @@ export const eventsInTimeframe$ = combineLatest([
 
 export const openEventsAtServerTime$ = createTrackingStore({
   name: 'openEventsAtServerTime',
-  observable: combineLatest([
-      // TODO only use issue state for this for perf reasons?
-      serverTime$,
-      retrievedEvents$
-    ])
-    .map(([serverTime, events]) => {
-      // TODO order by end time would be much, much more efficient
+  observable: retrievedEvents$.map(events => {
       return {
         issues: events.issues.filter(filter),
         changes: events.changes.filter(filter),
@@ -80,7 +73,7 @@ export const openEventsAtServerTime$ = createTrackingStore({
       };
 
       function filter(event) {
-        return event.start < serverTime && (serverTime < event.end || event.end == null);
+        return event.state === 'open';
       }
     })
 }).observable;
@@ -89,11 +82,11 @@ export const openEventsAtServerTime$ = createTrackingStore({
 export const openEventsAtFocusedMoment$ = createTrackingStore({
   name: 'openEventsAtFocusedMoment',
   observable: combineLatest([
-      resolvedFocusedMoment$,
+      resolvedFocusedMoment$.throttle(5000),
       retrievedEvents$
     ])
     .map(([time, events]) => {
-      // TODO order by end time would be much, much more efficient
+      // TODO improve perf by doing a binary search
       return {
         issues: events.issues.filter(filter),
         changes: events.changes.filter(filter),
@@ -156,6 +149,7 @@ function insertSorted(store, event) {
   event.id = id;
   event.start = event.get('start');
   event.end = event.get('end');
+  event.state = event.get('state');
   const type = event.get('type');
   const byTime = store[type + 's'];
 
