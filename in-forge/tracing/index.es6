@@ -12,4 +12,5 @@ import './OpenEJB';
 import './rabbitMq';
 import './redis';
 import './servlet';
+import './spring-web';
 import './url';

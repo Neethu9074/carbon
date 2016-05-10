@@ -1,16 +1,24 @@
 // maps type => spanDefinition
 export const registry = {};
 
+const defaultSpanDefinition = {
+  type: 'unknown',
+
+  typeName: {
+    singular: 'Unknown',
+    plural: 'Unknown'
+  },
+
+  getLabel() {
+    return 'Unknown';
+  }
+};
 
 export function registerSpanDefinition(spanDefinition) {
   registry[spanDefinition.type] = spanDefinition;
 }
 
 
-export function getSpanDefinition(type, data) {
-  const definiton = registry[type];
-  if (definiton) {
-    return definiton;
-  }
-  throw new Error(`No span definition found for type: ${type} and data ${data}`);
+export function getSpanDefinition(type) {
+  return registry[type] || defaultSpanDefinition;
 }

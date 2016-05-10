@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getEventsById} from 'in-services/issueTracker';
+import {getOpenIssuesAtFocusedMoment} from 'in-stores/events';
 
 
 export default function getEvents(ComposedComponent) {
@@ -38,7 +38,7 @@ export default function getEvents(ComposedComponent) {
       this.setState(this.getInitialState());
 
       if (snapshotId) {
-        this.subscription = getEventsById(snapshotId).subscribe(allEvents => {
+        this.subscription = getOpenIssuesAtFocusedMoment(snapshotId).subscribe(allEvents => {
           const events = allEvents && allEvents.size > 0 ?
             allEvents.toArray().sort((i1, i2) =>
               i1.getIn(['problem', 'severity']) > i2.getIn(['problem', 'severity'])) :

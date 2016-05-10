@@ -3,15 +3,12 @@ import Immutable from 'immutable';
 import invariant from 'invariant';
 
 import {getNewSubscriptionId, subscribe, unsubscribe} from 'in-services/subscription/subscriptionManager';
-import createObservableIfMissing from 'in-services/subscription/subscriptionObservablesCache';
+import memoize from 'in-services/util/memoizingObservableGenerator';
 import throttleNextFrame from 'in-services/util/throttleNextFrame';
 import {getDataEvent} from 'in-services/subscription/dataEvent';
 import {on, off} from 'in-services/persistentConnection';
 
-export default createObservableIfMissing.bind(null, {
-  getId,
-  createObservable: createSnapshotObservable
-});
+export default memoize(createSnapshotObservable, getId);
 
 function getId({snapshotId, time}) {
   return snapshotId + time;
