@@ -6,7 +6,6 @@ import getEventUpdates from 'in-services/subscription/eventUpdates';
 import getOpenEvents from 'in-services/subscription/newOpenEvents';
 import {
   focusedMoment$,
-  resolvedFocusedMoment$,
   timeframe$,
   to$,
   from$
@@ -83,7 +82,7 @@ export const openEventsAtServerTime$ = createTrackingStore({
 export const openEventsAtFocusedMoment$ = createTrackingStore({
   name: 'openEventsAtFocusedMoment',
   observable: combineLatest([
-      resolvedFocusedMoment$.throttle(5000),
+      focusedMoment$,
       retrievedEvents$
     ])
     .map(([time, events]) => {
@@ -94,6 +93,10 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
       };
 
       function filter(event) {
+        if (time == null) {
+          return event.state === 'open';
+        }
+
         return event.start <= time && (time < event.end || event.end == null);
       }
     })
