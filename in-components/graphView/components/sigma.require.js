@@ -1741,7 +1741,7 @@ if (window === undefined)
 if (typeof exports !== 'undefined') {
   if (typeof module !== 'undefined' && module.exports)
     exports = module.exports = sigma;
-  exports.sigma = sigma;
+  exports.sigma = window.sigma = sigma;
 }
 
 ;(function(undefined) {
