@@ -113,7 +113,7 @@ router.get('/', (req, res) => {
 
       res.set(
         'Content-Security-Policy',
-        "script-src 'self' " +
+        "script-src 'self' 'unsafe-eval' " +
           append +
           nonces.map(n => "'nonce-" + n + "'").join(' ') +
           ' https://www.google-analytics.com'
