@@ -71,3 +71,10 @@ export function getToTraceView() {
     return navParams;
   });
 }
+
+export function getToGraphView() {
+  mutateUrl(navParams => {
+    navParams.pathname = 'graph';
+    return navParams;
+  });
+}
