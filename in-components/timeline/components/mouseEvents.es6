@@ -6,7 +6,8 @@ import {
   setFocusedMoment,
   setWindowSizeForSlider,
   isCollapsed$,
-  timeframe$
+  timeframe$,
+  setTimeFrame
 } from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
@@ -84,8 +85,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     let rightBorder = timeframe.to ? timeframe.to : to;
     rightBorder -= deltaWindowSizes * percentInRightDirection / 100;
+    rightBorder = Math.min(serverTime, rightBorder);
 
-    setTo(rightBorder);
+    setTimeFrame(newWindowSize, rightBorder);
   });
 
   return {
