@@ -64,8 +64,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   const scrollSubscription = onWheel(canvas, e => {
     const oldWindowSize = scale.getDomainTo() - scale.getDomainFrom();
-    const step = 0.01;
-    const newWindowSize = e.sign < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
+    const step = 0.01 * e.scrollSpeed;
+    const newWindowSize = e.scrollDirection < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
     setGlobalTimeframe(newWindowSize);
   });
 

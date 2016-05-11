@@ -1,6 +1,5 @@
 import {onWheel, onMove} from 'in-services/reactiveMouseEvents';
 import {cursorPosition} from 'in-map/src/mapStores';
-import {getIn} from 'in-services/settings';
 import {theme} from 'in-services/theme';
 
 import Module from './Module';
@@ -20,10 +19,6 @@ export default class MouseControlModule extends Module {
     const div = this.scene.parent;
 
     this.addSubscriptions([
-      getIn(['map', 'scrollSpeed']).subscribe(data => this.mouseScrollSpeed = data),
-
-      getIn(['map', 'scrollDirection']).subscribe(data => this.mouseScrollDirection = data),
-
       onMove(div, e  => {
         e.preventDefault();
 
@@ -39,9 +34,9 @@ export default class MouseControlModule extends Module {
           }
         }),
 
-      onWheel(div, aggregate => {
-        const deltaY = aggregate.deltaY;
-        aggregate.deltaY = 0;
+      onWheel(div, event => {
+        const deltaY = event.deltaY;
+        event.deltaY = 0;
 
         // Because we listen to onwheel, the e.deltaY "should be" in a range of
         // +/- 0 .. 200, but sometimes is much larger due to "buffering" of scroll
@@ -62,7 +57,7 @@ export default class MouseControlModule extends Module {
           zoom = Math.min(50, Math.max(1, zoom));
         }
 
-        this.eventEmitter.emit('onZoom', -zoom * this.mouseScrollDirection * this.mouseScrollSpeed);
+        this.eventEmitter.emit('onZoom', -zoom * event.scrollDirection * event.scrollSpeed);
       })
     ]);
   }

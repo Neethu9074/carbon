@@ -21,6 +21,8 @@ export default React.createClass({
     ],
 
     render() {
+      const step = (maxZoomLevel - minZoomLevel) / 2; // 20 steps
+
       return (
         <div className={block}>
           <Icon type={'zoom_small'}
@@ -29,7 +31,7 @@ export default React.createClass({
                    min={minZoomLevel}
                    max={maxZoomLevel}
                    defaultValue={maxZoomLevel}
-                   step={(maxZoomLevel - minZoomLevel) / 20} // 20 steps
+                   step={step}
                    className={block + '__slider'}/>
           <Icon type={'zoom_large'}
                 className={block + '__icon-zoom'}/>
