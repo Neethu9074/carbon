@@ -2,6 +2,7 @@ import {combineLatest} from 'reactive-observables';
 import {sortedIndexBy} from 'lodash';
 import Immutable from 'immutable';
 
+import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import getOpenEvents from 'in-services/subscription/newOpenEvents';
 import {
@@ -270,4 +271,10 @@ export const highlightedEvent$ = highlightedEvent.observable.distinct();
 
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);
+
+  if (event) {
+    setHighlightedEntityId(event.get('snapshotId'));
+  } else {
+    clearHighlightedEntityId();
+  }
 }
