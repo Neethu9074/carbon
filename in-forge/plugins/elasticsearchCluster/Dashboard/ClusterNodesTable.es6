@@ -70,7 +70,7 @@ const ClusterNodesTable = connectTo(
                                                      height={30}
                                                      timeframe={timeframe}
                                                      snapshotId={id}
-                                                     metric='cluster_health.noofindices'
+                                                     metric='indices_count'
                                                      formatter={zeroDecimalPlaces} />
                 </td>
                 <td>
@@ -78,7 +78,7 @@ const ClusterNodesTable = connectTo(
                                                      height={30}
                                                      timeframe={timeframe}
                                                      snapshotId={id}
-                                                     metric='cluster_health.active_shards'
+                                                     metric='shards.node_active_shards'
                                                      formatter={zeroDecimalPlaces} />
                 </td>
                 <td>
