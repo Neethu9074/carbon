@@ -144,23 +144,22 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
 }
 
 
-export const getColorForEventAtFocusedMomentAsStream = memoize(
-  event => {
-    const start = event.get('start');
-    const end = event.get('end');
-    const state = event.get('state');
-    const severity = event.getIn(['problem', 'severity'], 0);
-    const color = theme.health[severity] || theme.health[0];
+export function getColorForEventAtFocusedMomentAsStream(event) {
+  const start = event.get('start');
+  const end = event.get('end');
+  const state = event.get('state');
+  const severity = event.getIn(['problem', 'severity'], 0);
+  const color = theme.health[severity] || theme.health[0];
 
-    return focusedMoment$
-      .map(focusedMoment => isEventOpenAtFocusedMoment(start, end, state, focusedMoment) ? color : theme.health[0])
-      .distinct();
-  },
-
-  event => event.get('id'),
-
-  5000
-);
+  return focusedMoment$
+    .map(focusedMoment => {
+      if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
+        return color;
+      }
+      return theme.health[0];
+    })
+    .distinct();
+}
 
 export function getColorForEventAtFocusedMoment(event, focusedMoment) {
   const severity = event.getIn(['problem', 'severity'], 0);
