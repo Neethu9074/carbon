@@ -7,7 +7,6 @@ import getEventUpdates from 'in-services/subscription/eventUpdates';
 import getOpenEvents from 'in-services/subscription/newOpenEvents';
 import {
   focusedMoment$,
-  resolvedFocusedMoment$,
   timeframe$,
   to$,
   from$
@@ -84,7 +83,7 @@ export const openEventsAtServerTime$ = createTrackingStore({
 export const openEventsAtFocusedMoment$ = createTrackingStore({
   name: 'openEventsAtFocusedMoment',
   observable: combineLatest([
-      resolvedFocusedMoment$.throttle(5000),
+      focusedMoment$,
       retrievedEvents$
     ])
     .map(([time, events]) => {
@@ -95,6 +94,10 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
       };
 
       function filter(event) {
+        if (time == null) {
+          return event.state === 'open';
+        }
+
         return event.start <= time && (time < event.end || event.end == null);
       }
     })
@@ -142,23 +145,22 @@ export function getMostImportantEventAtFocusedMoment(snapshotId) {
 }
 
 
-export const getColorForEventAtFocusedMomentAsStream = memoize(
-  event => {
-    const start = event.get('start');
-    const end = event.get('end');
-    const state = event.get('state');
-    const severity = event.getIn(['problem', 'severity'], 0);
-    const color = theme.health[severity] || theme.health[0];
+export function getColorForEventAtFocusedMomentAsStream(event) {
+  const start = event.get('start');
+  const end = event.get('end');
+  const state = event.get('state');
+  const severity = event.getIn(['problem', 'severity'], 0);
+  const color = theme.health[severity] || theme.health[0];
 
-    return focusedMoment$
-      .map(focusedMoment => isEventOpenAtFocusedMoment(start, end, state, focusedMoment) ? color : theme.health[0])
-      .distinct();
-  },
-
-  event => event.get('id'),
-
-  5000
-);
+  return focusedMoment$
+    .map(focusedMoment => {
+      if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
+        return color;
+      }
+      return theme.health[0];
+    })
+    .distinct();
+}
 
 export function getColorForEventAtFocusedMoment(event, focusedMoment) {
   const severity = event.getIn(['problem', 'severity'], 0);

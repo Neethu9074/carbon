@@ -1,33 +1,42 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import getEventsWithinTimerange from 'in-hoc/getEventsWithinTimerange';
 import SnapshotDescription from 'in-components/SnapshotDescription';
-import * as issueTracker from 'in-services/issueTracker';
 import {toHtml} from 'in-services/formatters/markdown';
+import connectTo from 'in-hoc/connectTo';
 
 
 const block = 'in-event-description';
 
-export default getEventsWithinTimerange(React.createClass({
+export default getEventsWithinTimerange(
+  connectTo(props => {
+    if (props.events && props.events.size > 0) {
+      return {
+        color: getColorForEventAtFocusedMomentAsStream(props.events.get(0))
+      };
+    }
+    return {};
+  }, React.createClass({
 
   displayName: 'IncidentContent',
 
   propTypes: {
     incident: irpt.map.isRequired,
-    color: React.PropTypes.any,
+    color: React.PropTypes.string,
     events: irpt.list
   },
 
   render() {
     const events = this.props.events;
-    if (!events || events.size === 0) {
+    const color = this.props.color;
+    if (!events || events.size === 0 || !color) {
       return null;
     }
 
     const incident = this.props.incident;
     const firstEvent = events.get(0);
-    const color = issueTracker.getColorForEvent(firstEvent);
 
     return (
       <div>
@@ -51,4 +60,4 @@ export default getEventsWithinTimerange(React.createClass({
       </div>
     );
   }
-}));
+})));
