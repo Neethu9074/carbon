@@ -46,7 +46,9 @@ export const retrievedEvents$ = createTrackingStore({
 
 
 export const eventsInTimeframe$ = combineLatest([
-    to$.throttle(5000),
+    // TODO improve perf by subscribing to timeframe first and only subscribe to serverTime
+    // when this is actually necessary
+    to$.throttle(10000),
     from$,
     retrievedEvents$
   ])
