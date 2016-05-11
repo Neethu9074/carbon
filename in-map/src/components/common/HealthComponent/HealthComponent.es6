@@ -1,6 +1,6 @@
 import Immutable from 'immutable';
 
-import {getHealthInfo} from 'in-stores/healthInfo';
+import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
 import {health} from 'in-services/health';
 
 import Component from '../Component';
@@ -16,7 +16,8 @@ export default class HealthComponent extends Component {
 
     this.healthToSet = undefined;
     this.setHealth(defaultHealth);
-    this.healthSubscribtion = getHealthInfo(sceneObject.id).subscribe(this.setHealth.bind(this));
+    this.healthSubscribtion = getHealthInfoAtFocusedMoment(sceneObject.id)
+      .subscribe(this.setHealth.bind(this));
 
     this.initialized();
   }

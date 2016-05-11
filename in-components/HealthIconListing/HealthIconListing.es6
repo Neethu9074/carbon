@@ -2,9 +2,9 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import EventListing from 'in-components/EventListing';
-import {getHealthInfo} from 'in-stores/healthInfo';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
@@ -18,7 +18,7 @@ const rpt = React.PropTypes;
 export default connectTo(
   props => {
     return {
-      healthInfo: getHealthInfo(props.snapshotId)
+      healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
     };
   },
   React.createClass({
@@ -37,7 +37,7 @@ export default connectTo(
 
     render() {
       const healthInfo = this.props.healthInfo;
-      if (!healthInfo || healthInfo.get('numberOfOpenEvents') === 0) {
+      if (!healthInfo || healthInfo.get('numberOfOpenIssues') === 0) {
         return null;
       }
 
@@ -51,7 +51,7 @@ export default connectTo(
                  align={{horizontal: 'right'}}>
           <div className={block}
                style={{backgroundColor}}>
-            {healthInfo.get('numberOfOpenEvents')}
+            {healthInfo.get('numberOfOpenIssues')}
           </div>
         </Tooltip>
       );

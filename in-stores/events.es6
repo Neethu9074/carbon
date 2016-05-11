@@ -118,6 +118,39 @@ export const getOpenIssuesAtFocusedMoment = memoize(
 );
 
 
+export const getHealthInfoAtFocusedMoment = memoize(
+  snapshotId => getOpenIssuesAtFocusedMoment(snapshotId)
+    .scan((prevHealthInfo, issues) => {
+      const nextHealthInfo = {
+        maxSeverity: 0,
+        issueWithMaxSeverity: null,
+        numberOfOpenIssues: issues.size
+      };
+
+      issues.forEach(issue => {
+        const severity = issue.getIn(['problem', 'severity'], 0);
+        if (severity >= nextHealthInfo.maxSeverity) {
+          nextHealthInfo.maxSeverity = severity;
+          nextHealthInfo.issueWithMaxSeverity = issue;
+        }
+      });
+
+      if (prevHealthInfo.maxSeverity !== nextHealthInfo.maxSeverity ||
+          prevHealthInfo.issueWithMaxSeverity !== nextHealthInfo.issueWithMaxSeverity ||
+          prevHealthInfo.numberOfOpenIssues !== nextHealthInfo.numberOfOpenIssues) {
+        return nextHealthInfo;
+      }
+      return prevHealthInfo;
+    }, {})
+    .distinct()
+    .map(mutableHealthInfo => Immutable.Map(mutableHealthInfo)),
+
+  id => id,
+
+  3000
+);
+
+
 /**
  * Searches for the issue with the highest severity and returns it or the first
  * if many have the same severity
@@ -126,21 +159,8 @@ export const getOpenIssuesAtFocusedMoment = memoize(
  * @returns {Observable<Event>} The event with the highest severity
  */
 export function getMostImportantEventAtFocusedMoment(snapshotId) {
-  return getOpenIssuesAtFocusedMoment(snapshotId)
-    .map(events => {
-      let topEvent = null;
-      let topSeverity = Number.MAX_VALUE * -1;
-
-      events.forEach(event => {
-        const severity = event.getIn(['problem', 'severity'], 0);
-        if (severity > topSeverity) {
-          topSeverity = severity;
-          topEvent = event;
-        }
-      });
-
-      return topEvent;
-    })
+  return getHealthInfoAtFocusedMoment(snapshotId)
+    .map(healthInfo => healthInfo.get('issueWithMaxSeverity'))
     .distinct();
 }
 
