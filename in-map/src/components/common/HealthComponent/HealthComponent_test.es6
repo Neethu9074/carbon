@@ -8,7 +8,6 @@ import {expect} from 'chai';
 import sinon from 'sinon';
 
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import {health} from 'in-services/health';
 
 
 describe('3D map', () => {
@@ -17,7 +16,11 @@ describe('3D map', () => {
   let healthChanged;
 
   const HealthComponent = proxyquire('./HealthComponent', {
-    'in-services/issueTracker': { getHealth: () => create().startWith(health.ok) }
+    'in-stores/events': {
+      getHealthInfoAtFocusedMoment: () => create().emit(Immutable.fromJS({
+        maxSeverity: 0
+      }))
+    }
   });
 
   beforeEach(() => {
