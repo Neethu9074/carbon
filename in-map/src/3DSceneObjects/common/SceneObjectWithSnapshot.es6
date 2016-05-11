@@ -1,5 +1,7 @@
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
+import {getHighlightedClusterMember} from 'in-stores/highlightedClusterMember';
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+
 import {getSnapshot} from 'in-stores/snapshot';
 
 import SceneObject from './SceneObject';
@@ -16,6 +18,10 @@ export default class SceneObjectWithSnapshot extends SceneObject {
     this.addSubscription(highlightedEntityId.subscribe(highlightedId => {
       const isThisHighlighted = highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
       this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, isThisHighlighted);
+    }));
+
+    this.addSubscription(getHighlightedClusterMember(snapshotId).subscribe(ids => {
+      console.log(ids);
     }));
   }
 

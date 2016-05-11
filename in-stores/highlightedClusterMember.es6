@@ -2,7 +2,7 @@ import createHighlightedClusterMemberSubscription from 'in-services/subscription
 import {focusedMoment$} from 'in-stores/timeline';
 
 
-export default function getHighlightedClusterMember(snapshotId) {
+export function getHighlightedClusterMember(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
     createHighlightedClusterMemberSubscription({snapshotId, time: focusedMoment}));
 }
