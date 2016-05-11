@@ -18,6 +18,7 @@ module.exports = {
     header: zIndex++,
     betaRegistration: zIndex++,
     traceView: zIndex++,
+    graphView: zIndex++,
     mapViewSwitcher: zIndex++,
     dashboard: zIndex++,
     dashboardHeader: zIndex++,
