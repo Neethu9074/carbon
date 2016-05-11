@@ -107,7 +107,7 @@ export const windowSizeForSlider$ = windowSizeForSlider.observable.distinct();
 // this stream is throttled because we want to avoid fast sliding resulting in much subscriptions which
 // are thrown away because they are outdated
 windowSizeForSlider$
-  .throttle(1000)
+  .debounce(500)
   .subscribe(windowSize =>{
     if (windowSize) {
       setGlobalTimeframe(windowSize);
