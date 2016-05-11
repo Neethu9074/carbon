@@ -1,7 +1,12 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {windowSizeForSlider$, setWindowSizeForSlider} from 'in-components/timeline/timelineStore';
+import {
+  windowSizeForSlider$,
+  setWindowSizeForSlider,
+  MIN_ZOOM_LEVEL,
+  MAX_ZOOM_LEVEL
+} from 'in-components/timeline/timelineStore';
 import Slider from 'in-components/Slider';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -9,8 +14,8 @@ import Icon from 'in-components/Icon';
 import './TimelineNavigation.less';
 
 
-const minZoomLevel = 1000 * 60 * 10; // 10 min
-const maxZoomLevel = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
+const step = (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) / 100; // 100 steps
+
 const block = 'in-timeline-navigation';
 const rpt = React.PropTypes;
 
@@ -34,28 +39,36 @@ export default connectTo({
         return null;
       }
 
-      const step = (maxZoomLevel - minZoomLevel) / 100; // 20 steps
-
       return (
         <div className={block}>
           <Icon type={'zoom_small'}
-                className={block + '__icon-zoom'}/>
+                className={block + '__icon-zoom'}
+                onClick={this.zoomIn}/>
 
           <Slider onChange={this.onZoomChanged}
-                  min={minZoomLevel}
-                  max={maxZoomLevel}
+                  min={MIN_ZOOM_LEVEL}
+                  max={MAX_ZOOM_LEVEL}
                   step={step}
                   value={windowSizeForSlider}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
-                className={block + '__icon-zoom'}/>
+                className={block + '__icon-zoom'}
+                onClick={this.zoomOut}/>
         </div>
       );
     },
 
     onZoomChanged(e) {
       setWindowSizeForSlider(e.target.value * 1); // as number
+    },
+
+    zoomOut() {
+      setWindowSizeForSlider(this.props.windowSizeForSlider + step);
+    },
+
+    zoomIn() {
+      setWindowSizeForSlider(this.props.windowSizeForSlider - step);
     }
   })
 );

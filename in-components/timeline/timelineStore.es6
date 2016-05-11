@@ -69,6 +69,15 @@ export function setTo(to) {
   });
 }
 
+export function setWindowSize(windowSize) {
+  timeframeStore.applyStateMutation(prevTimeFrame => {
+    return {
+      windowSize: windowSize,
+      to: prevTimeFrame.to
+    };
+  });
+}
+
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
     return create().emit(_timeframe.to).freeze();
@@ -92,6 +101,9 @@ export function setHighlightedEventScreenPosition(pos) {
 }
 
 
+export const MIN_ZOOM_LEVEL = 1000 * 60 * 10; // 10 min
+export const MAX_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
+
 /*
   this store is used to throttle the slider event. If the user is using the slider very fast
   we don't want to set every step between the start and goal position. therefore this store stream
@@ -99,7 +111,7 @@ export function setHighlightedEventScreenPosition(pos) {
 */
 const windowSizeForSlider = createStore({
   name: 'windowSizeForSliderStore',
-  initialValue: 1000 * 60 * 10
+  initialValue: MIN_ZOOM_LEVEL
 });
 
 export const windowSizeForSlider$ = windowSizeForSlider.observable.distinct();
@@ -115,7 +127,10 @@ windowSizeForSlider$
   });
 
 export function setWindowSizeForSlider(windowSize) {
+  windowSize = Math.max(MIN_ZOOM_LEVEL, Math.min(MAX_ZOOM_LEVEL, windowSize));
+
   windowSizeForSlider.applyStateMutation(() => windowSize);
+  setWindowSize(windowSize);
 }
 
 timeframe$.subscribe(tf => windowSizeForSlider.applyStateMutation(() => tf.windowSize));

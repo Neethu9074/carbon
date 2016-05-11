@@ -4,7 +4,7 @@ import {
   focusedMomentXPosition$,
   focusedMoment$,
   setFocusedMoment,
-  setTimeFrame,
+  setWindowSizeForSlider,
   isCollapsed$
 } from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
@@ -19,9 +19,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
   const minPixelToMoveForDragDetection = 5;
-
-  const minZoomLevel = 1000 * 60 * 10; // 10 min
-  const maxZoomLevel = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
 
   let xPositionOnMouseDown = null;
   let lastXPosOnPan = null;
@@ -68,7 +65,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const oldWindowSize = scale.getDomainTo() - scale.getDomainFrom();
     const step = 0.05 * e.scrollSpeed;
     const newWindowSize = e.deltaY < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
-    setTimeFrame(Math.max(minZoomLevel, Math.min(maxZoomLevel, newWindowSize)));
+
+    setWindowSizeForSlider(newWindowSize);
   });
 
   return {
