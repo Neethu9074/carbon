@@ -1,3 +1,4 @@
+import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import * as issueTracker from 'in-services/issueTracker';
 import {selectedIncident} from 'in-stores/incident';
@@ -31,6 +32,11 @@ export default class EventRenderer {
 
     this.focusedMoment = null;
     this.focusedMomentSubscription = focusedMoment$.subscribe(focusedMoment => this.focusedMoment = focusedMoment);
+
+    this.highlightedEntityId = null;
+    this.highlightedEntityIdSubscription = highlightedEntityId
+          .throttle(100) // throttle this to avoid flickering when moving the mosue fast over the map
+          .subscribe(id => this.highlightedEntityId = id);
   }
 
   setWidth(width) {
@@ -56,7 +62,11 @@ export default class EventRenderer {
 
   isEventActive(event) {
     // the event is active (which means that it will be drawn normally) if there is no incident selected
-    if (!this.selectedIncident && (!this.focusedMoment || event.get('start') <= this.focusedMoment)) {
+    // and the events range must cross the focused moment so it currentyl active
+    // and it has to contain to cetrain selected entityId (if available)
+    if (!this.selectedIncident &&
+       (!this.focusedMoment || event.get('start') <= this.focusedMoment) &&
+       (!this.highlightedEntityId || event.get('snapshotId') === this.highlightedEntityId)) {
       return true;
     }
 
@@ -99,6 +109,7 @@ export default class EventRenderer {
   }
 
   dispose() {
+    this.highlightedEntityIdSubscription.dispose();
     this.selectedIncidentSubscription.dispose();
     this.focusedMomentSubscription.dispose();
   }

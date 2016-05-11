@@ -1,11 +1,9 @@
 import * as ro from 'reactive-observables';
 
-import ChangeEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/ChangeEventRenderer';
+import CombinedEventsRenderer from 'in-components/timeline/components/renderer/eventRenderer/CombinedEventsRenderer';
 import HoveredEventLineRenderer from 'in-components/timeline/components/renderer/HoveredEventLineRenderer';
-import IncidentRenderer from 'in-components/timeline/components/renderer/eventRenderer/IncidentRenderer';
 import MarkedIncidentRenderer from 'in-components/timeline/components/renderer/MarkedIncidentRenderer';
 import FocusedMomentRenderer from 'in-components/timeline/components/renderer/FocusedMomentRenderer';
-import IssueRenderer from 'in-components/timeline/components/renderer/eventRenderer/IssueRenderer';
 import EventsGraphRenderer from 'in-components/timeline/components/renderer/EventsGraphRenderer';
 import BackgroundRenderer from 'in-components/timeline/components/renderer/BackgroundRenderer';
 import {timeframe$, to$, from$, setTimelineScale} from 'in-components/timeline/timelineStore';
@@ -56,21 +54,17 @@ export default function createTimelineRenderer({container, canvas}) {
     }
   });
 
-  const changeEventRenderer = new ChangeEventRenderer(backBuffer, scale, 14);
-  const incidentRenderer = new IncidentRenderer(backBuffer, scale, 16);
-  const issueRenderer = new IssueRenderer(backBuffer, scale, 14);
   const timeAxisRenderer = new TimeAxisRenderer(backBuffer, scale);
   const backgroundRenderer = new BackgroundRenderer(backBuffer, height);
   const eventsGraphRenderer = new EventsGraphRenderer(backBuffer, height);
   const focusedMomentRenderer = new FocusedMomentRenderer(backBuffer, scale);
   const markedIncidentRenderer = new MarkedIncidentRenderer(backBuffer, scale);
+  const combinedEventsRenderer = new CombinedEventsRenderer(backBuffer, scale);
   const hoveredEventLineRenderer = new HoveredEventLineRenderer(backBuffer, scale);
 
   const highlightedEventIdSubscription = highlightedEvent$.subscribe(event => {
     hoveredEventLineRenderer.setHighlightedEvent(event);
-    changeEventRenderer.setHighlightedEvent(event);
-    incidentRenderer.setHighlightedEvent(event);
-    issueRenderer.setHighlightedEvent(event);
+    combinedEventsRenderer.setHighlightedEvent(event);
 
     changes.emit(changeSignal);
   });
@@ -125,10 +119,8 @@ export default function createTimelineRenderer({container, canvas}) {
     setTimelineScale(scale);
 
     eventsGraphRenderer.setWidth(width);
-    changeEventRenderer.setWidth(width);
+    combinedEventsRenderer.setWidth(width);
     backgroundRenderer.setWidth(width);
-    incidentRenderer.setWidth(width);
-    issueRenderer.setWidth(width);
 
     updateCanvasDimensions(screenBufferCanvas, screenBuffer, width, height);
     updateCanvasDimensions(backBufferCanvas, backBuffer, width, height);
@@ -144,13 +136,7 @@ export default function createTimelineRenderer({container, canvas}) {
       if (drawMode === DRAW_MODES.DISCRETE_EVENTS) {
         markedIncidentRenderer.draw(categorizedEvents.incidents);
         hoveredEventLineRenderer.draw();
-
-        incidentRenderer.drawEvents(categorizedEvents.incidents);
-
-        if (!collapsed) {
-          changeEventRenderer.drawEvents(categorizedEvents.changes);
-          issueRenderer.drawEvents(categorizedEvents.issues);
-        }
+        combinedEventsRenderer.drawEvents(categorizedEvents);
 
       } else if (drawMode === DRAW_MODES.EVENTS_GRAPH) {
         eventsGraphRenderer.draw(categorizedEvents);
@@ -171,16 +157,14 @@ export default function createTimelineRenderer({container, canvas}) {
     realtimeDrawSubscription.dispose();
     hoveredEventLineRenderer.dispose();
     markedIncidentRenderer.dispose();
+    combinedEventsRenderer.dispose();
     timeframeSubscription.dispose();
     focusedMomentRenderer.dispose();
     collapsedSubscription.dispose();
-    changeEventRenderer.dispose();
     eventsSubscription.dispose();
     resizeSubscription.dispose();
     fromSubscription.dispose();
-    incidentRenderer.dispose();
     drawSubscription.dispose();
     toSubscription.dispose();
-    issueRenderer.dispose();
   }
 }
