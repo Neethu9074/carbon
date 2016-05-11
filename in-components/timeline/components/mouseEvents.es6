@@ -154,6 +154,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
       // min, because it's not allowed to scroll to future times
       const newTimestamp = Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned));
       setTo(newTimestamp);
+
+      // set focued moment to the right edge if the user panned away from servertime
+      // otherwhise set it to null, so return to livemode again
+      setFocusedMoment(newTimestamp < serverTime ? newTimestamp : null);
     }
 
     lastXPosOnPan = x;
