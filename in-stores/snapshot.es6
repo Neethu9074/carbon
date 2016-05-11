@@ -9,8 +9,8 @@ import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
 import {mutateUrl, navigationParameters} from 'in-stores/navigation';
 import {createStore, createTrackingStore} from 'in-stores/store';
-import {focusedMoment$} from 'in-stores/timeline';
 import {alwaysNull} from 'in-services/fixedStreams';
+import {focusedMoment$} from 'in-stores/timeline';
 
 
 const selectedSnapshotIdStore = createStore({
@@ -83,11 +83,13 @@ export function getPhysicalHierarchy(snapshotId) {
 }
 
 export function getHighlightedMapEntity(snapshotId) {
-  return createHighlightedMapEntityObservable(snapshotId);
+  return focusedMoment$.flatMap(focusedMoment =>
+    createHighlightedMapEntityObservable({snapshotId, time: focusedMoment}));
 }
 
 export function getFoundations(snapshotId) {
-  return createFoundationsObservable(snapshotId);
+  return focusedMoment$.flatMap(focusedMoment =>
+    createFoundationsObservable({snapshotId, time: focusedMoment}));
 }
 
 export function getRunningComponents(snapshotId) {

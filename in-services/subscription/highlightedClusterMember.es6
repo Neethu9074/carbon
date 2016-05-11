@@ -5,7 +5,7 @@ import createSubscription from 'in-services/subscription/subscription';
 
 export default createSubscription(
   // event ID
-  'subscribe-foundations',
+  'subscribe-entities-for-highlighting',
 
   // getID
   ({snapshotId, time}) => snapshotId + time,
@@ -20,5 +20,5 @@ export default createSubscription(
   },
 
   // data transformation on onData
-  foundations => Immutable.fromJS(foundations)
+  data => Immutable.Set(data)
 );
