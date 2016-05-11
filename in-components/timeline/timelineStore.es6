@@ -99,10 +99,14 @@ export function setHighlightedEventScreenPosition(pos) {
 */
 const windowSizeForSlider = createStore({
   name: 'windowSizeForSliderStore',
-  initialValue: null
+  initialValue: 1000 * 60 * 10
 });
-windowSizeForSlider.observable
-  .distinct()
+
+export const windowSizeForSlider$ = windowSizeForSlider.observable.distinct();
+
+// this stream is throttled because we want to avoid fast sliding resulting in much subscriptions which
+// are thrown away because they are outdated
+windowSizeForSlider$
   .throttle(1000)
   .subscribe(windowSize =>{
     if (windowSize) {
@@ -113,6 +117,8 @@ windowSizeForSlider.observable
 export function setWindowSizeForSlider(windowSize) {
   windowSizeForSlider.applyStateMutation(() => windowSize);
 }
+
+timeframe$.subscribe(tf => windowSizeForSlider.applyStateMutation(() => tf.windowSize));
 
 
 const timelineScale = createStore({

@@ -5,19 +5,20 @@ import {getIn} from 'in-services/settings';
 
 export function onWheel(domElement, callback) {
 
-  return ro.combineLatest([getIn(['map', 'scrollSpeed']),
-                  getIn(['map', 'scrollDirection']),
-                   ro.on(domElement, 'wheel')
-                     .map(e => e.deltaY)
-                     .throttle(50)
-               ])
-               .subscribe(props => {
-                 callback({
-                   deltaY: props[2],
-                   scrollSpeed: props[0],
-                   scrollDirection: props[1]
-                 });
-               });
+  return ro.combineLatest([
+    getIn(['map', 'scrollSpeed']),
+    getIn(['map', 'scrollDirection']),
+     ro.on(domElement, 'wheel')
+       .map(e => e.deltaY)
+       .throttle(50)
+  ])
+  .subscribe(props => {
+   callback({
+     deltaY: props[2],
+     scrollSpeed: props[0],
+     scrollDirection: props[1]
+   });
+ });
 }
 
 

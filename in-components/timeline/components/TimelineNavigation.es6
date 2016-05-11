@@ -1,18 +1,22 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {setWindowSizeForSlider} from 'in-components/timeline/timelineStore';
+import {windowSizeForSlider$, setWindowSizeForSlider} from 'in-components/timeline/timelineStore';
 import Slider from 'in-components/Slider';
+import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
 
 
-const block = 'in-timeline-navigation';
 const minZoomLevel = 1000 * 60 * 10; // 10 min
 const maxZoomLevel = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
+const block = 'in-timeline-navigation';
+const rpt = React.PropTypes;
 
-export default React.createClass({
+export default connectTo({
+    windowSizeForSlider: windowSizeForSlider$
+  }, React.createClass({
 
     displayName: 'TimelineNavigation',
 
@@ -20,19 +24,30 @@ export default React.createClass({
       PureRenderMixin
     ],
 
+    propTypes: {
+      windowSizeForSlider: rpt.number
+    },
+
     render() {
-      const step = (maxZoomLevel - minZoomLevel) / 2; // 20 steps
+      const windowSizeForSlider = this.props.windowSizeForSlider;
+      if (!windowSizeForSlider) {
+        return null;
+      }
+
+      const step = (maxZoomLevel - minZoomLevel) / 100; // 20 steps
 
       return (
         <div className={block}>
           <Icon type={'zoom_small'}
                 className={block + '__icon-zoom'}/>
-           <Slider onChange={this.onZoomChanged}
-                   min={minZoomLevel}
-                   max={maxZoomLevel}
-                   defaultValue={maxZoomLevel}
-                   step={step}
-                   className={block + '__slider'}/>
+
+          <Slider onChange={this.onZoomChanged}
+                  min={minZoomLevel}
+                  max={maxZoomLevel}
+                  step={step}
+                  value={windowSizeForSlider}
+                  className={block + '__slider'}/>
+
           <Icon type={'zoom_large'}
                 className={block + '__icon-zoom'}/>
         </div>
@@ -40,7 +55,7 @@ export default React.createClass({
     },
 
     onZoomChanged(e) {
-      const newWindowSize = (maxZoomLevel - e.target.value) + minZoomLevel;
-      setWindowSizeForSlider(newWindowSize);
+      setWindowSizeForSlider(e.target.value * 1); // as number
     }
-  });
+  })
+);

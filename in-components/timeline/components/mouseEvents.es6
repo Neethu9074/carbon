@@ -21,6 +21,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const minPixelToMoveForDragDetection = 5;
   const maxMillisForClickDetection = 300;
 
+  const minZoomLevel = 1000 * 60 * 10; // 10 min
+  const maxZoomLevel = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
+
   let xPositionOnMouseDown = null;
   let lastXPosOnPan = null;
   let isPanning = false;
@@ -64,9 +67,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   const scrollSubscription = onWheel(canvas, e => {
     const oldWindowSize = scale.getDomainTo() - scale.getDomainFrom();
-    const step = 0.01 * e.scrollSpeed;
-    const newWindowSize = e.scrollDirection < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
-    setGlobalTimeframe(newWindowSize);
+    const step = 0.1 * e.scrollSpeed;
+    const newWindowSize = e.deltaY < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
+    setGlobalTimeframe(Math.max(minZoomLevel, Math.min(maxZoomLevel, newWindowSize)));
   });
 
   return {
