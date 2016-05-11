@@ -178,10 +178,12 @@ const TomcatDashboard = React.createClass({
                      y1={{
                        metrics: [
                          'connectors.' + state.connector + '.threads',
+                         'connectors.' + state.connector + '.threadsBusy',
                          'connectors.' + state.connector + '.connections'
                        ],
                        labels: [
                          state.connector + ' Threads',
+                         state.connector + ' Threads Busy',
                          state.connector + ' Connections'
                        ],
                        type: 'line'
@@ -192,6 +194,7 @@ const TomcatDashboard = React.createClass({
                 <tr>
                   <th>Connector</th>
                   <th>Threads</th>
+                  <th>Busy</th>
                   <th>Max</th>
                   <th>Connections</th>
                   <th>Max</th>
@@ -202,6 +205,8 @@ const TomcatDashboard = React.createClass({
                   <tr key={name} onClick={() => this.selectConnector(name)}>
                     <td>{name}</td>
                     <Mtd metric={'connectors.' + name + '.threads'}
+                         snapshot={snapshot} />
+                    <Mtd metric={'connectors.' + name + '.threadsBusy'}
                          snapshot={snapshot} />
                     <td>{data.getIn(['threads', 'max'])}</td>
                     <Mtd metric={'connectors.' + name + '.connections'}
