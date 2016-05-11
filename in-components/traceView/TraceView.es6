@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import * as traceViewStores from 'in-components/traceView/traceViewStores';
+import {enable, disable} from 'in-components/traceView/traceViewStore';
 import TraceListView from 'in-components/traceView/views/TraceListView';
 import TraceDetailView from 'in-components/traceView/views/TraceDetailView';
 import {Row, Col} from 'in-components/Grid';
@@ -22,6 +23,14 @@ export default connectTo({
     propTypes: {
       height: rpt.number,
       fullscreenComponent: rpt.string
+    },
+
+    componentWillMount() {
+      enable();
+    },
+
+    componentWillUnmount() {
+      disable();
     },
 
     render() {
