@@ -8,7 +8,9 @@ import {selectedSnapshotId} from 'in-stores/snapshot';
 */
 export default function createRealtimeUpateEvents(realtimeDrawStream, changeSignal) {
 
-  const highlightedEntityIdSubscription = highlightedEntityId.subscribe(emitRealtimeSignal);
+  const highlightedEntityIdSubscription = highlightedEntityId
+    .throttle(100) // throttle this to avoid flickering when moving the mosue fast over the map
+    .subscribe(emitRealtimeSignal);
   const selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(emitRealtimeSignal);
   const selectedIncidentSubscription = selectedIncidentId$.subscribe(emitRealtimeSignal);
   const focusedMomentSubscription = focusedMoment$.subscribe(emitRealtimeSignal);

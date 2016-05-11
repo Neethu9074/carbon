@@ -35,9 +35,7 @@ export default class EventRenderer {
     this.focusedMomentSubscription = focusedMoment$.subscribe(focusedMoment => this.focusedMoment = focusedMoment);
 
     this.highlightedEntityId = null;
-    this.highlightedEntityIdSubscription = highlightedEntityId
-          .throttle(100) // throttle this to avoid flickering when moving the mosue fast over the map
-          .subscribe(id => this.highlightedEntityId = id);
+    this.highlightedEntityIdSubscription = highlightedEntityId.subscribe(id => this.highlightedEntityId = id);
 
     this.selectedSnapshotId = null;
     this.selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(id => this.selectedSnapshotId = id);
@@ -65,13 +63,14 @@ export default class EventRenderer {
   }
 
   isEventActive(event) {
+    const snapshotId = event.getIn(['problem', 'snapshotId']);
     // the event is active (which means that it will be drawn normally) if there is no incident selected
     // and the events range must cross the focused moment so it currentyl active
     // and it has to contain to cetrain selected entityId (if available)
     if (!this.selectedIncident &&
        (!this.focusedMoment || event.get('start') <= this.focusedMoment) &&
-       (!this.highlightedEntityId || event.get('snapshotId') === this.highlightedEntityId) &&
-       (!this.selectedSnapshotId || event.get('snapshotId') === this.selectedSnapshotId)) {
+       (!this.highlightedEntityId || snapshotId === this.highlightedEntityId) &&
+       (!this.selectedSnapshotId || snapshotId === this.selectedSnapshotId)) {
       return true;
     }
 
