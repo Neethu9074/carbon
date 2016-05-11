@@ -5,7 +5,8 @@ import {
   focusedMoment$,
   setFocusedMoment,
   setWindowSizeForSlider,
-  isCollapsed$
+  isCollapsed$,
+  timeframe$
 } from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
@@ -43,6 +44,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   let to;
   const toSubscription = globalTo$.subscribe(_to => to = _to);
 
+  let timeframe;
+  const timeframeSubscription = timeframe$.subscribe(_timeframe => timeframe = _timeframe);
+
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
 
@@ -65,11 +69,23 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   });
 
   const scrollSubscription = onWheel(canvas, e => {
+    const cursorXPos = e.rawEvent.offsetX;
+    const scaleTo = scale.getRangeTo();
+    const percentValueFactor = scaleTo > 100 ? 100 / scaleTo : scaleTo / 100;
+    const percentInRightDirection = percentValueFactor * (scaleTo - cursorXPos);
+
     const oldWindowSize = scale.getDomainTo() - scale.getDomainFrom();
     const step = 0.05 * e.scrollSpeed;
     const newWindowSize = e.deltaY < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
 
     setWindowSizeForSlider(newWindowSize);
+
+    const deltaWindowSizes = oldWindowSize - newWindowSize;
+
+    let rightBorder = timeframe.to ? timeframe.to : to;
+    rightBorder -= deltaWindowSizes * percentInRightDirection / 100;
+
+    setTo(rightBorder);
   });
 
   return {
@@ -226,6 +242,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     serverTimeSubscription.dispose();
     mouseLeaveSubscription.dispose();
     mouseDownSubscription.dispose();
+    timeframeSubscription.dispose();
     mouseMoveSubscription.dispose();
     mouseUpSubscription.dispose();
     eventsSubscription.dispose();

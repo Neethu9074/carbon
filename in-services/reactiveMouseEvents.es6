@@ -9,14 +9,14 @@ export function onWheel(domElement, callback) {
     getIn(['map', 'scrollSpeed']),
     getIn(['map', 'scrollDirection']),
      ro.on(domElement, 'wheel')
-       .map(e => e.deltaY)
        .throttle(50)
   ])
   .subscribe(props => {
    callback({
-     deltaY: props[2],
      scrollSpeed: props[0],
-     scrollDirection: props[1]
+     scrollDirection: props[1],
+     deltaY: props[2].deltaY,
+     rawEvent: props[2]
    });
  });
 }
