@@ -9,8 +9,8 @@ import {
 } from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
+import {to$ as globalTo$,  setTo as setGlobalTo} from 'in-stores/timeline';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
-import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 
@@ -39,6 +39,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let isCollapsed;
   const isCollapsedSubscription = isCollapsed$.subscribe(isC => isCollapsed = isC);
+
+  let to;
+  const toSubscription = globalTo$.subscribe(_to => to = _to);
 
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
@@ -136,6 +139,12 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     setHighlightedEventScreenPosition(null);
     setHighlightedEvent(null);
 
+    // set focued moment to the right edge if the user panned away from servertime
+    // otherwhise set it to null, so return to livemode again
+    if (to && !focusedMoment) {
+      setFocusedMoment(to);
+    }
+
     isPanning = true;
     lastXPosOnPan = x;
   }
@@ -154,10 +163,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
       // min, because it's not allowed to scroll to future times
       const newTimestamp = Math.min(serverTime, scale.getDomain(scale.getRangeTo() + pixelPanned));
       setTo(newTimestamp);
-
-      // set focued moment to the right edge if the user panned away from servertime
-      // otherwhise set it to null, so return to livemode again
-      setFocusedMoment(newTimestamp < serverTime ? newTimestamp : null);
     }
 
     lastXPosOnPan = x;
@@ -225,5 +230,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     mouseUpSubscription.dispose();
     eventsSubscription.dispose();
     scrollSubscription.dispose();
+    toSubscription.dispose();
   }
 }
