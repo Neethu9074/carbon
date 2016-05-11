@@ -18,9 +18,7 @@ import {serverTime$} from 'in-stores/serverTime';
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
-  let millisBetweenMouseDownAndUp = Number.MAX_VALUE;
   const minPixelToMoveForDragDetection = 5;
-  const maxMillisForClickDetection = 300;
 
   const minZoomLevel = 1000 * 60 * 10; // 10 min
   const maxZoomLevel = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
@@ -89,7 +87,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   function onMouseDown(e) {
     xPositionOnMouseDown = e.offsetX;
-    millisBetweenMouseDownAndUp = Date.now();
 
     // if the distance of the cursor
     if (isCursorOnFocusedMoment(e.offsetX, e.offsetY)) {
@@ -98,14 +95,14 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onMouseUp(e) {
+    const movedSinceMouseDown = Math.abs(e.offsetX - xPositionOnMouseDown);
+    if (movedSinceMouseDown <= minPixelToMoveForDragDetection) {
+      onClick(e);
+    }
+
     xPositionOnMouseDown = null;
     isFocusedMomentPanning = false;
     onPanEnd();
-
-    millisBetweenMouseDownAndUp = Date.now() - millisBetweenMouseDownAndUp;
-    if (millisBetweenMouseDownAndUp < maxMillisForClickDetection) {
-      onClick(e);
-    }
   }
 
   function onMouseMove(x, screenX, y) {
@@ -175,6 +172,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     isPanning = false;
 
     realtimeDrawStream.emit(changeSignal);
+
+    setCursor(CURSOR_TYPES.DEFAULT);
   }
 
   function getEventAtXY(x, y) {
