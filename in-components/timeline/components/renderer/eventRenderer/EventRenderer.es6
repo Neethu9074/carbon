@@ -1,6 +1,7 @@
 import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import * as issueTracker from 'in-services/issueTracker';
+import {selectedSnapshotId} from 'in-stores/snapshot';
 import {selectedIncident} from 'in-stores/incident';
 import {emptyArray} from 'in-services/fixedObjects';
 
@@ -37,6 +38,9 @@ export default class EventRenderer {
     this.highlightedEntityIdSubscription = highlightedEntityId
           .throttle(100) // throttle this to avoid flickering when moving the mosue fast over the map
           .subscribe(id => this.highlightedEntityId = id);
+
+    this.selectedSnapshotId = null;
+    this.selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(id => this.selectedSnapshotId = id);
   }
 
   setWidth(width) {
@@ -66,7 +70,8 @@ export default class EventRenderer {
     // and it has to contain to cetrain selected entityId (if available)
     if (!this.selectedIncident &&
        (!this.focusedMoment || event.get('start') <= this.focusedMoment) &&
-       (!this.highlightedEntityId || event.get('snapshotId') === this.highlightedEntityId)) {
+       (!this.highlightedEntityId || event.get('snapshotId') === this.highlightedEntityId) &&
+       (!this.selectedSnapshotId || event.get('snapshotId') === this.selectedSnapshotId)) {
       return true;
     }
 
@@ -110,6 +115,7 @@ export default class EventRenderer {
 
   dispose() {
     this.highlightedEntityIdSubscription.dispose();
+    this.selectedSnapshotIdSubscription.dispose();
     this.selectedIncidentSubscription.dispose();
     this.focusedMomentSubscription.dispose();
   }
