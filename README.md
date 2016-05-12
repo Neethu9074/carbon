@@ -82,3 +82,4 @@ For more information please refer to the build job's `translateThemeConfigs` Gul
  - `in-themes/night.js`: The night theme configuration file (based on `common.js`).
  - `in-themes/active.less`: To be imported in less files in order to use variables from the currently active theme. Import via `@import "~in-themes/active.less";`. *This file will be created as part of the build job and should not be checked in. It will also change when building the application!*
  - `in-themes/active.json`: This file contains configuration for the currently active theme to be consumed by JavaScript modules. Instead of importing this file, please import `import theme from 'in-services/theme'` instead. *This file will be created as part of the build job and should not be checked in. It will also change when building the application!*
+
