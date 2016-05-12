@@ -87,8 +87,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     };
 
     const step = 0.05 * scrollSpeed;
-    const newWindowSize = getValidWindowSize(scrollDirection < 0 ? oldWindowSize * (1 + step) :
-                                                                   oldWindowSize * (1 - step));
+    const newWindowSize = getValidWindowSize(scrollDirection < 0 ? oldWindowSize * (1 - step) :
+                                                                   oldWindowSize * (1 + step));
 
     newTimeFrame.windowSize = newWindowSize;
 
