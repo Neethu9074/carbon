@@ -94,7 +94,11 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     const deltaWindowSizes = oldWindowSize - newWindowSize;
     newTimeFrame.to -= deltaWindowSizes * (1 - normalizedMouseXPosition);
-    newTimeFrame.to = Math.min(serverTime, Math.max(0, newTimeFrame.to));
+    newTimeFrame.to = Math.max(0, newTimeFrame.to);
+
+    if (newTimeFrame.to >= serverTime) {
+      newTimeFrame.to = null;
+    }
 
     return newTimeFrame;
   }

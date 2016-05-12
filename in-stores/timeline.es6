@@ -62,6 +62,13 @@ export function setFocusedMoment(newFocusedMoment) {
   }
 }
 
+export function lockFocusedMoment() {
+  serverTime$.once(sTime =>
+    focusedMoment.applyStateMutation(prevFocusedMoment =>
+      !prevFocusedMoment ? sTime : prevFocusedMoment)
+  );
+}
+
 export const live$ = focusedMoment$.map(moment => !moment).distinct();
 
 export const resolvedFocusedMoment$ = focusedMoment$.flatMap(_focusedMoment => {

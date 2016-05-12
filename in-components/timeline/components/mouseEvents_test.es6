@@ -11,14 +11,16 @@ describe('mouseEvents', () => {
   const ZOOM_OUT = -1;
   const MIN_ZOOM_LEVEL = 0;
   const MAX_ZOOM_LEVEL = 1000;
+  const toMock = create();
+  const serverTimeMock = create();
 
   createMouseEvents = proxyquire('in-components/timeline/components/mouseEvents', {
     'in-components/timeline/timelineStore': {
       getValidWindowSize: wz => Math.max(MIN_ZOOM_LEVEL, Math.min(MAX_ZOOM_LEVEL, wz)),
-      to$: create().startWith(100)
+      to$: toMock
     },
     'in-stores/serverTime': {
-      serverTime$: create().startWith(100)
+      serverTime$: serverTimeMock
     },
     'in-services/reactiveMouseEvents': {
       onWheel: () => create().subscribe(),
@@ -34,6 +36,8 @@ describe('mouseEvents', () => {
 
   beforeEach(() => {
     mouseEvents = createMouseEvents();
+    toMock.emit(100);
+    serverTimeMock.emit(100);
   });
 
   afterEach(() => {
@@ -84,7 +88,7 @@ describe('mouseEvents', () => {
     it('should move the window to right if mouse is on the right on the timeline', () => {
       const oldWindowSize = MIN_ZOOM_LEVEL + ((MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) / 2);
       const frame = mouseEvents.getNewTimeframeByScroll(ZOOM_IN, 1, oldWindowSize, 1);
-      expect(frame.to).to.equal(100);
+      expect(frame.to).to.equal(null);
     });
 
     it('should move the window accroding to mouse position', () => {
@@ -94,6 +98,30 @@ describe('mouseEvents', () => {
         const frame = mouseEvents.getNewTimeframeByScroll(ZOOM_IN, 1, oldWindowSize, i);
         expect(frame.to).to.equal(100 - ((oldWindowSize - frame.windowSize) * (1 - i)));
       }
+    });
+
+    it('should zoom out equally when mouse is in the middle', () => {
+      const oldWindowSize = 10;
+      toMock.emit(20);
+      const frame = mouseEvents.getNewTimeframeByScroll(ZOOM_OUT, 2, oldWindowSize, 0.5);
+      expect(frame.to).to.equal(20 + oldWindowSize * 0.05);
+    });
+
+    it('should only scroll to the left if mouse is on the right', () => {
+      const oldWindowSize = 10;
+      toMock.emit(20);
+      const frame = mouseEvents.getNewTimeframeByScroll(ZOOM_OUT, 2, oldWindowSize, 1);
+      expect(frame.to).to.equal(20);
+    });
+
+    it('should clamp to servertime', () => {
+      const oldWindowSize = 10;
+
+      serverTimeMock.emit(20);
+      toMock.emit(20);
+
+      const frame = mouseEvents.getNewTimeframeByScroll(ZOOM_OUT, 2, oldWindowSize, 1);
+      expect(frame.to).to.equal(null);
     });
   });
 });
