@@ -114,7 +114,7 @@ export default React.createClass({
               id: edgeUpdate.id,
               source: edgeUpdate.from,
               target: edgeUpdate.to,
-              size: Math.random(),
+              size: Math.random() * 5,
               color: '#ccc'
             });
           } else {
