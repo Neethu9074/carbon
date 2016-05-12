@@ -69,7 +69,8 @@ export default getSnapshot(
             null :
             hosts.map(host =>
               <Entity key={host.get('id')}
-              snapshotId={host.get('id')} />
+                      snapshotId={host.get('id')}
+                      entity={host} />
             )
           }
         </div>

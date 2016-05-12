@@ -14,39 +14,45 @@ import './Entity.less';
 const block = 'in-table-view-entity';
 const rpt = React.PropTypes;
 
-export default getSnapshot(
-  React.createClass({
+const EntityClass = getSnapshot(React.createClass({
 
-    displayName: 'Entity',
+  displayName: 'Entity',
 
-    mixins: [
-      PureRenderMixin
-    ],
+  mixins: [
+    PureRenderMixin
+  ],
 
-    propTypes: {
-      snapshotId: rpt.string.isRequired,
-      snapshot: irpt.map
-    },
+  propTypes: {
+    snapshotId: rpt.string.isRequired,
+    entity: rpt.any.isRequired,
+    snapshot: irpt.map
+  },
 
-    getInitialState() {
-      return {
-        isCollapsed: true,
-        isChecked: false
-      };
-    },
+  getInitialState() {
+    return {
+      isCollapsed: true,
+      isChecked: false
+    };
+  },
 
-    render() {
-      const snapshot = this.props.snapshot;
+  render() {
+    const snapshot = this.props.snapshot;
+    const children = this.props.entity.get('children');
 
-      return (
-        <div className={block} >
+    return (
+      <div className={block}>
 
+        <div className={block + '__header'}>
           <CheckBox onClick={() => this.setState({isChecked: !this.state.isChecked})}
                     defaultChecked={false} />
 
-          <Icon className={block + '__arrow-icon'}
-                type={this.state.isCollapsed ? 'open' : 'close'}
-                onClick={() => this.setState({isCollapsed: !this.state.isCollapsed})} />
+          {children.size > 0 ?
+            <Icon className={block + '__arrow-icon'}
+                  type={this.state.isCollapsed ? 'open' : 'close'}
+                  onClick={() => this.setState({isCollapsed: !this.state.isCollapsed})}/>
+            :
+            <div className={block + '__spacing'}/>
+          }
 
           {snapshot ?
             <img src={getIcon(snapshot)}
@@ -59,9 +65,20 @@ export default getSnapshot(
             {snapshot ? getLabel(snapshot) : null}
           </span>
 
-          <HealthInfoBar snapshotId={this.props.snapshotId} />
+          <HealthInfoBar snapshotId={this.props.snapshotId}/>
         </div>
-      );
-    }
-  })
-);
+
+        { this.state.isCollapsed ?
+          null :
+          children.map(child =>
+            <EntityClass key={child.get('id')}
+                         snapshotId={child.get('id')}
+                         entity={child} />
+          )
+        }
+      </div>
+    );
+  }
+}));
+
+export default EntityClass;

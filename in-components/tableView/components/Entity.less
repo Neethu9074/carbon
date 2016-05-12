@@ -1,19 +1,22 @@
 .in-table-view-entity {
-  display: flex;
-  align-items: center;
 
-  padding: 3px 0 3px 20px;
-  border-bottom: 1px solid #ccc;
-  border-radius: 5px;
+  &__header {
+    display: flex;
+    align-items: center;
 
-  transition: all 0.3s ease-in-out;
+    padding: 3px 0 3px 20px;
+    border-bottom: 1px solid #ccc;
+    border-radius: 5px;
 
-  &:hover {
-    background: #6b8088;
-    color: white;
+    transition: all 0.3s ease-in-out;
 
-    .in-table-view-entity__plugin-icon {
-      filter: invert(0%);
+    &:hover {
+      background: #6b8088;
+      color: white;
+
+      .in-table-view-entity__plugin-icon {
+        filter: invert(0%);
+      }
     }
   }
 
@@ -28,6 +31,10 @@
     min-width: 16px;
     margin-right: 15px;
     filter: invert(50%);
+  }
+
+  &__spacing {
+    min-width: 27px;
   }
 
   &__label {
