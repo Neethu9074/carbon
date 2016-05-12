@@ -14,7 +14,7 @@ export function onWheel(domElement, callback) {
   .subscribe(props => {
     const event = props[2];
 
-    const eventScrollDir = event.deltaY < 0 ? 1 : -1;
+    const eventScrollDir = event.deltaY < 0 ? -1 : 1;
     const userScrollDir = props[1];
 
     callback({
