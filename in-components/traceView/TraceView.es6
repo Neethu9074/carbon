@@ -1,10 +1,11 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import TraceDetailView from 'in-components/traceView/views/TraceDetailView';
 import * as traceViewStores from 'in-components/traceView/traceViewStores';
 import {enable, disable} from 'in-components/traceView/traceViewStore';
 import TraceListView from 'in-components/traceView/views/TraceListView';
-import TraceDetailView from 'in-components/traceView/views/TraceDetailView';
+import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import {Row, Col} from 'in-components/Grid';
 import connectTo from 'in-hoc/connectTo';
 
@@ -14,7 +15,8 @@ const rpt = React.PropTypes;
 const block = 'in-trace-view';
 
 export default connectTo({
-    fullscreenComponent: traceViewStores.fullscreenComponent$
+    fullscreenComponent: traceViewStores.fullscreenComponent$,
+    isTimelineCollapsed: isCollapsed$
   }, React.createClass({
     displayName: 'TraceView',
 
@@ -22,7 +24,8 @@ export default connectTo({
 
     propTypes: {
       height: rpt.number,
-      fullscreenComponent: rpt.string
+      fullscreenComponent: rpt.string,
+      isTimelineCollapsed: React.PropTypes.bool.isRequired
     },
 
     componentWillMount() {
@@ -35,8 +38,13 @@ export default connectTo({
 
     render() {
       const fullscreenComponent = this.props.fullscreenComponent;
+      let classes = block;
+      if (!this.props.isTimelineCollapsed) {
+        classes += ` ${block}--timeline-open`;
+      }
+
       return (
-        <section className={block}>
+        <section className={classes}>
           <Row style={{height: '100%'}}>
             <Col cols={fullscreenComponent === 'listView' ? 12 : 6}
                  style={{

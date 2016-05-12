@@ -1,6 +1,7 @@
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
+import {isCollapsed$} from 'in-components/timeline/timelineStore';
 import LoadingIndicator from 'in-components/LoadingIndicator';
 import SidebarDashboard from 'in-components/SidebarDashboard';
 import getForgeComponent from 'in-services/getForgeComponent';
@@ -19,14 +20,16 @@ const block = 'in-dashboard';
 
 export default connectTo({
     snapshot: selectedSnapshot,
-    timeframe: timelineStore.timeframe
+    timeframe: timelineStore.timeframe,
+    isTimelineCollapsed: isCollapsed$
   },
   React.createClass({
   displayName: 'Dashboard',
 
   propTypes: {
     snapshot: irpt.map,
-    timeframe: timelineStore.timeframeShape
+    timeframe: timelineStore.timeframeShape,
+    isTimelineCollapsed: React.PropTypes.bool.isRequired
   },
 
   render() {
@@ -35,9 +38,14 @@ export default connectTo({
       return <LoadingIndicator />;
     }
 
+    let classes = block;
+    if (!this.props.isTimelineCollapsed) {
+      classes += ` ${block}--timeline-open`;
+    }
+
     const DashboardImpl = this.getForgeSpecificComponent('Content');
     return (
-      <div className={block}>
+      <div className={classes}>
         <SidebarDashboard snapshot={snapshot}/>
 
         <div className={block + '__graphs'} ref='content'>
