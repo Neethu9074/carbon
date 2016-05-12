@@ -13,12 +13,14 @@ export function onWheel(domElement, callback) {
   ])
   .subscribe(props => {
     const event = props[2];
-    const userScrollDirection = props[1];
 
-   callback({
-     scrollSpeed: props[0],
-     scrollDirection: event.deltaY < 0 ? -1 * userScrollDirection : 1 * userScrollDirection,
-     rawEvent: event
+    const eventScrollDir = event.deltaY < 0 ? 1 : -1;
+    const userScrollDir = props[1];
+
+    callback({
+      scrollSpeed: props[0],
+      scrollDirection: eventScrollDir * userScrollDir,
+      rawEvent: event
    });
  });
 }
