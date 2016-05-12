@@ -109,6 +109,26 @@ const RabbitMqDashboard = React.createClass({
                 }}
                 y1={{
                   metrics: [
+                    'overview.messages_ready_rate',
+                    'overview.messages_unacknowledged_rate',
+                    'overview.messages_rate'
+                  ],
+                  labels: [
+                    'Messages ready rate',
+                    'Unacknowledged rate',
+                    'Messages total rate'
+                  ],
+                  type: 'line',
+                  formatter: percentageZeroDecimalPlaces
+                }}/>
+          <ChartWithLegend  snapshot={snapshot}
+                timeframe={timeframe}
+                height={chartHeight}
+                margins={{
+                  left: 80
+                }}
+                y1={{
+                  metrics: [
                     'overview.consumers'
                   ],
                   labels: [
@@ -127,7 +147,7 @@ const RabbitMqDashboard = React.createClass({
                     'overview.connections'
                   ],
                   labels: [
-                    'Conections'
+                    'Connections'
                   ],
                   type: 'line'
                 }}/>
@@ -235,21 +255,35 @@ const RabbitMqDashboard = React.createClass({
                           y1={{
                             metrics: [
                               'queue_map.' + queueKey + '.publish',
-                              'queue_map.' + queueKey + '.publish_rate',
                               'queue_map.' + queueKey + '.deliver',
-                              'queue_map.' + queueKey + '.deliver_rate',
-                              'queue_map.' + queueKey + '.ack',
-                              'queue_map.' + queueKey + '.ack_rate'
+                              'queue_map.' + queueKey + '.ack'
                             ],
                             labels: [
                               'Published messages',
-                              'Publish rate',
                               'Delivered messages',
-                              'Deliver rate',
-                              'Acknowledged messages',
-                              'Acknowledge rate'
+                              'Acknowledged messages'
                             ],
                             type: 'line'
+                          }}/>
+                    <ChartWithLegend  snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            metrics: [
+                              'queue_map.' + queueKey + '.publish_rate',
+                              'queue_map.' + queueKey + '.deliver_rate',
+                              'queue_map.' + queueKey + '.ack_rate'
+                            ],
+                            labels: [
+                              'Publish rate',
+                              'Deliver rate',
+                              'Acknowledge rate'
+                            ],
+                            type: 'line',
+                            formatter: percentageZeroDecimalPlaces
                           }}/>
                     <ChartWithLegend snapshot={snapshot}
                           timeframe={timeframe}
@@ -260,21 +294,35 @@ const RabbitMqDashboard = React.createClass({
                           y1={{
                             metrics: [
                               'queue_map.' + queueKey + '.messages_ready',
-                              'queue_map.' + queueKey + '.messages_ready_rate',
                               'queue_map.' + queueKey + '.messages_unacknowledged',
-                              'queue_map.' + queueKey + '.messages_unacknowledged_rate',
-                              'queue_map.' + queueKey + '.messages',
-                              'queue_map.' + queueKey + '.messages_rate'
+                              'queue_map.' + queueKey + '.messages'
                             ],
                             labels: [
                               'Messages ready',
-                              'Messages ready rate',
                               'Messages unacknowledged',
-                              'Unacknowledged rate',
-                              'Messages total',
-                              'Messages total rate'
+                              'Messages total'
                             ],
                             type: 'line'
+                          }}/>
+                    <ChartWithLegend  snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
+                          }}
+                          y1={{
+                            metrics: [
+                              'queue_map.' + queueKey + '.messages_ready_rate',
+                              'queue_map.' + queueKey + '.messages_unacknowledged_rate',
+                              'queue_map.' + queueKey + '.messages_rate'
+                            ],
+                            labels: [
+                              'Messages ready rate',
+                              'Unacknowledged rate',
+                              'Messages total rate'
+                            ],
+                            type: 'line',
+                            formatter: percentageZeroDecimalPlaces
                           }}/>
                     <ChartWithLegend snapshot={snapshot}
                           timeframe={timeframe}

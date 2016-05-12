@@ -15,6 +15,8 @@ import DashboardSection from 'in-components/DashboardSection';
 import {timeframeShape} from 'in-stores/timeline';
 import {Row, Col} from 'in-components/Grid/Grid';
 
+import ClusterSummary from '../ClusterSummary.es6';
+
 
 const chartHeight = 200;
 
@@ -35,6 +37,9 @@ export default React.createClass({
 
     return (
       <div>
+        <DashboardSection title='Summary'>
+        <ClusterSummary snapshot={snapshot}/>
+        </DashboardSection>
         <DashboardSection title='Search Performance vs. Throughput'>
           <ChartWithLegend snapshot={snapshot}
                            timeframe={timeframe}
@@ -102,7 +107,7 @@ export default React.createClass({
                                }}
                                y1={{
                                  min: 0,
-                                 formatter: withSiPrefixZeroDecimalPlaces,
+                                 formatter: withSiPrefixThreeDecimalPlaces,
                                  tooltipFormatter: twoDecimalPlaces,
                                  metrics: [
                                    'active_shards',

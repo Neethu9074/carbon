@@ -18,6 +18,7 @@ const selectedSnapshotIdStore = createStore({
   initialValue: null
 });
 export const selectedSnapshotId = selectedSnapshotIdStore.observable.distinct();
+export const selectedSnapshotId$ = selectedSnapshotId;
 
 export const selectedSnapshot = createTrackingStore({
   name: 'selectedSnapshot',
