@@ -1,6 +1,8 @@
+import {combineLatest} from 'reactive-observables';
+
 import {PROPERTIES, PROPERTY_VALUES} from 'in-map/src/StateMachine/StateMachine';
-import {getHighlightedClusterMember} from 'in-stores/highlightedClusterMember';
-import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {highlightedEntityId$} from 'in-services/stores/highlightedEntityId';
+import {highlightedEntityIds$} from 'in-stores/highlightedEntityIds';
 
 import {getSnapshot} from 'in-stores/snapshot';
 
@@ -13,16 +15,18 @@ export default class SceneObjectWithSnapshot extends SceneObject {
     super({parent, id});
 
     snapshotId = snapshotId || id;
-    this.addSubscription(getSnapshot(snapshotId).nextFrame().subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
+    this.addSubscription(getSnapshot(snapshotId)
+      .nextFrame()
+      .subscribe(snapshot => this.onSnapshotUpdate(snapshot)));
 
-    this.addSubscription(highlightedEntityId.subscribe(highlightedId => {
-      const isThisHighlighted = highlightedId === this.id ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
-      this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, isThisHighlighted);
-    }));
-
-    this.addSubscription(getHighlightedClusterMember(snapshotId).subscribe(ids => {
-      console.log(ids);
-    }));
+    this.addSubscription(combineLatest(
+        [highlightedEntityId$, highlightedEntityIds$]
+      ).subscribe(([highlightedId, highlightedIds]) => {
+        const isHighlighted = snapshotId === highlightedId ||
+          highlightedIds.indexOf(snapshotId) !== -1;
+        const propertyValue = isHighlighted  ? PROPERTY_VALUES.ON : PROPERTY_VALUES.OFF;
+        this.stateMachine.changeStateProperty(PROPERTIES.HIGHLIGHT, propertyValue);
+      }));
   }
 
   onSnapshotUpdate(snapshot) {
