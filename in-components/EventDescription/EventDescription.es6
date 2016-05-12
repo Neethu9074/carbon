@@ -2,11 +2,13 @@ import irpt from 'react-immutable-proptypes';
 import moment from 'moment';
 import React from 'react';
 
+import {formatDateTime} from 'in-services/formatters/date';
+import {Row, Col} from 'in-components/Grid/Grid';
+import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 import * as issueTracker from 'in-services/issueTracker';
 import {getClassName} from 'in-services/react';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
-import {getColorForEventAtFocusedMomentAsStream} from 'in-stores/events';
 
 import IncidentContent from './IncidentContent';
 import EventContent from './EventContent';
@@ -36,6 +38,7 @@ export default connectTo(props => {
     const event = this.props.event;
     const eventType = issueTracker.getEventType(event);
     const className = getClassName(this, block);
+    const end = event.get('end');
 
     return (
       <div className={className}
@@ -44,9 +47,18 @@ export default connectTo(props => {
               type={issueTracker.getIconTypeForEventType(eventType)}
               style={{color: this.props.color}}/>
         <div className={block + '__description'}>
-          <div className={getClassName(this, block, '__time')}>
-            {moment(event.get('start')).fromNow()}
-          </div>
+          <Row className={getClassName(this, block, '__time')}>
+            <Col cols={5}>
+              {moment(event.get('start')).fromNow()}
+            </Col>
+
+            {end ?
+              <Col cols={7}
+                   className={block + '__end'}>
+                End: {formatDateTime(end)}
+              </Col>
+            : null}
+          </Row>
 
           {this.getContent(event, eventType, this.props.color)}
         </div>
