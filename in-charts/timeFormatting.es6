@@ -45,14 +45,14 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 60 * 60,
-    formatter: formatTimeWithSeconds,
+    formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 5,
-    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFiveMinuteStep)
   },
   {
     maxMillis: 1000 * 60 * 60 * 12,
-    formatter: formatTimeWithSeconds,
+    formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
@@ -62,7 +62,7 @@ const timeFormats = [
     formatter: formatDateTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60 * 2,
-    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToTwoHourStep)
   },
   {
     maxMillis: Number.MAX_VALUE,
@@ -166,12 +166,31 @@ function ceilToFullMinute(date) {
 }
 
 
+function ceilToFiveMinuteStep(date) {
+  const minutes = date.getMinutes();
+  const remainder = minutes % 5;
+  if (remainder !== 0) {
+    date.setMinutes(minutes + 5 - remainder);
+  }
+}
+
+
 function ceilToFullHour(date) {
   const minutes = date.getMinutes();
   if (minutes > 0) {
     date.setMinutes(minutes + 60 - minutes);
   }
 }
+
+
+function ceilToTwoHourStep(date) {
+  const hours = date.getHours();
+  const remainder = hours % 2;
+  if (remainder !== 0) {
+    date.setHours(hours + 2 - remainder);
+  }
+}
+
 
 function ceilToFullDay(date) {
   const hours = date.getHours();
