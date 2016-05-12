@@ -19,7 +19,7 @@ const timeframeStore = createStore({
 });
 
 
-export const timeframe = timeframeStore.observable;
+export const timeframe = timeframeStore.observable.distinct();
 export const timeframe$ = timeframe;
 
 export const to$ = timeframe$.flatMap(_timeframe => {
@@ -90,7 +90,10 @@ export const timeframeShape = React.PropTypes.shape({
 
 
 export function setTimeframe(windowSize, to = null) {
-  timeframeStore.applyStateMutation(() => {
+  timeframeStore.applyStateMutation(previous => {
+    if (previous.windowSize === windowSize && previous.to === to) {
+      return previous;
+    }
     return {
       windowSize,
       to

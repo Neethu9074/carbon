@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getToTraceView, goToMap, getToGraphView} from 'in-stores/navigation';
+import {goToTraceView, goToMap} from 'in-stores/navigation';
 import {isInternalEnvironment} from 'in-services/config';
 import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
@@ -29,9 +29,6 @@ export default connectTo({
           {this.renderViewItem(views.physical, 'Physical')}
           {isInternalEnvironment() ?
             this.renderViewItem(views.process, 'Process')
-          : null}
-          {isInternalEnvironment() ?
-            this.renderGraphItem()
           : null}
           {this.renderTraceViewItem()}
         </div>
@@ -72,16 +69,8 @@ export default connectTo({
   renderTraceViewItem() {
     return this.renderItem(
       'Trace',
-      getToTraceView,
+      goToTraceView,
       this.props.activePath[1] === 'traces'
-    );
-  },
-
-  renderGraphItem() {
-    return this.renderItem(
-      'Graph',
-      getToGraphView,
-      this.props.activePath[1] === 'graph'
     );
   }
 }));
