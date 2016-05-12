@@ -4,7 +4,6 @@ import {
   timeframe$ as globalTimeframe$,
   setTimeframe as setGlobalTimeframe,
   focusedMoment$ as globalFocusedMoment$,
-  lockFocusedMoment as lockGlobalFousedMoment,
   setFocusedMoment as setGlobalFocusedMoment
 } from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
@@ -55,13 +54,6 @@ export const timeframe$ = timeframeStore.observable;
 globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
 timeframe$.debounce(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
 
-// lock the global focused moment if the timeframe was limited to the past
-// multi locking is checked by lockGlobalFousedMoment implementation
-timeframe$.subscribe(timeframe => {
-  if (timeframe.to != null) {
-    lockGlobalFousedMoment();
-  }
-});
 
 export function setTimeFrame(windowSize, to) {
   timeframeStore.applyStateMutation(() => createTimeframe(getValidWindowSize(windowSize), to));

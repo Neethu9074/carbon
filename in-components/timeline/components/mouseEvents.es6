@@ -9,10 +9,10 @@ import {
   setTimeFrame,
   getValidWindowSize
 } from 'in-components/timeline/timelineStore';
+import {setTo as setGlobalTo, lockFocusedMoment as lockGlobalFousedMoment} from 'in-stores/timeline';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
-import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 
@@ -98,6 +98,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     if (newTimeFrame.to >= serverTime) {
       newTimeFrame.to = null;
+    } else {
+      // lock the global focused moment if the timeframe was limited to the past
+      // multi locking is checked by lockGlobalFousedMoment implementation
+      lockGlobalFousedMoment();
     }
 
     return newTimeFrame;
