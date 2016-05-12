@@ -48,6 +48,7 @@ export default connectTo({
                   min={MIN_ZOOM_LEVEL}
                   max={MAX_ZOOM_LEVEL}
                   step={step}
+                  defaultValue={timeframe.windowSize}
                   value={MAX_ZOOM_LEVEL - timeframe.windowSize}
                   className={block + '__slider'}/>
 
