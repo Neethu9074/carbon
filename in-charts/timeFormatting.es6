@@ -38,40 +38,38 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 60 * 10,
-    formatter: formatTime,
+    formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
   },
   {
     maxMillis: 1000 * 60 * 60,
-    formatter: formatTime,
+    formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 5,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
   },
   {
     maxMillis: 1000 * 60 * 60 * 12,
-    formatter: formatTime,
+    formatter: formatTimeWithSeconds,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
   },
   {
     maxMillis: 1000 * 60 * 60 * 24,
-    formatter: formatTime,
+    formatter: formatDateTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60 * 2,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
   },
   {
     maxMillis: Number.MAX_VALUE,
-    formatter(date) {
-      return `${formatDate(date)} ${formatTime(date)}`;
-    },
+    formatter: formatDateTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60 * 24,
-    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour)
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToFullDay)
   }
 ];
 
@@ -96,20 +94,14 @@ function formatTimeWithSeconds(millis) {
 }
 
 
-function formatTime(millis) {
-  const date = new Date(millis);
-  const hours = ensureTwoChars(date.getHours());
-  const minutes = ensureTwoChars(date.getMinutes());
-  return `${hours}:${minutes}`;
-}
-
-
-function formatDate(millis) {
+function formatDateTime(millis) {
   const date = new Date(millis);
   const year = date.getFullYear();
   const month = ensureTwoChars(date.getMonth() + 1);
   const day = ensureTwoChars(date.getDate());
-  return `${year}-${month}-${day}`;
+  const hours = ensureTwoChars(date.getHours());
+  const minutes = ensureTwoChars(date.getMinutes());
+  return `${year}-${month}-${day} ${hours}:${minutes}`;
 }
 
 
@@ -170,5 +162,12 @@ function ceilToFullHour(date) {
   const minutes = date.getMinutes();
   if (minutes > 0) {
     date.setMinutes(minutes + 60 - minutes);
+  }
+}
+
+function ceilToFullDay(date) {
+  const hours = date.getHours();
+  if (hours > 0) {
+    date.setHours(hours + 24 - hours);
   }
 }
