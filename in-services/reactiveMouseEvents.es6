@@ -12,11 +12,13 @@ export function onWheel(domElement, callback) {
        .throttle(50)
   ])
   .subscribe(props => {
+    const event = props[2];
+    const userScrollDirection = props[1];
+
    callback({
      scrollSpeed: props[0],
-     scrollDirection: props[1],
-     deltaY: props[2].deltaY,
-     rawEvent: props[2]
+     scrollDirection: event.deltaY < 0 ? -1 * userScrollDirection : 1 * userScrollDirection,
+     rawEvent: event
    });
  });
 }

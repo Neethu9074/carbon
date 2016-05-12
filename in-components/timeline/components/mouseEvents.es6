@@ -4,15 +4,15 @@ import {
   focusedMomentXPosition$,
   focusedMoment$,
   setFocusedMoment,
-  setWindowSizeForSlider,
   isCollapsed$,
-  timeframe$,
-  setTimeFrame
+  to$,
+  setTimeFrame,
+  getValidWindowSize
 } from 'in-components/timeline/timelineStore';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
-import {to$ as globalTo$,  setTo as setGlobalTo} from 'in-stores/timeline';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
+import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 
@@ -22,10 +22,10 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   const minPixelToMoveForDragDetection = 5;
 
+  let isFocusedMomentPanning = false;
   let xPositionOnMouseDown = null;
   let lastXPosOnPan = null;
   let isPanning = false;
-  let isFocusedMomentPanning = false;
 
   let categorizedEvents;
   const eventsSubscription = eventsInTimeframe$.subscribe(events => categorizedEvents = events);
@@ -42,11 +42,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   let isCollapsed;
   const isCollapsedSubscription = isCollapsed$.subscribe(isC => isCollapsed = isC);
 
-  let to;
-  const toSubscription = globalTo$.subscribe(_to => to = _to);
-
-  let timeframe;
-  const timeframeSubscription = timeframe$.subscribe(_timeframe => timeframe = _timeframe);
+  let currentTo;
+  const toSubscription = to$.subscribe(_to => currentTo = _to);
 
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
@@ -70,27 +67,42 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   });
 
   const scrollSubscription = onWheel(canvas, e => {
-    const cursorXPos = e.rawEvent.offsetX;
-    const scaleTo = scale.getRangeTo();
-    const percentValueFactor = scaleTo > 100 ? 100 / scaleTo : scaleTo / 100;
-    const percentInRightDirection = percentValueFactor * (scaleTo - cursorXPos);
-
     const oldWindowSize = scale.getDomainTo() - scale.getDomainFrom();
-    const step = 0.05 * e.scrollSpeed;
-    const newWindowSize = e.deltaY < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
 
-    setWindowSizeForSlider(newWindowSize);
+    // [0, 1] 0 -> left, 0.5 -> middle, 1 -> right, etc
+    const normalizedMouseXPosition = e.rawEvent.offsetX / scale.getRangeTo();
 
-    const deltaWindowSizes = oldWindowSize - newWindowSize;
+    const newTimeFrame = getNewTimeframeByScroll(e.scrollDirection,
+                                                 e.scrollSpeed,
+                                                 oldWindowSize,
+                                                 normalizedMouseXPosition);
 
-    let rightBorder = timeframe.to ? timeframe.to : to;
-    rightBorder -= deltaWindowSizes * percentInRightDirection / 100;
-    rightBorder = Math.min(serverTime, rightBorder);
-
-    setTimeFrame(newWindowSize, rightBorder);
+    setTimeFrame(newTimeFrame.windowSize, newTimeFrame.to);
   });
 
+  function getNewTimeframeByScroll(scrollDirection, scrollSpeed, oldWindowSize, normalizedMouseXPosition) {
+    const newTimeFrame = {
+      windowSize: oldWindowSize,
+      to: currentTo
+    };
+
+    const step = 0.05 * scrollSpeed;
+    const newWindowSize = getValidWindowSize(scrollDirection < 0 ? oldWindowSize * (1 + step) :
+                                                                   oldWindowSize * (1 - step));
+
+    newTimeFrame.windowSize = newWindowSize;
+
+    const deltaWindowSizes = oldWindowSize - newWindowSize;
+    newTimeFrame.to -= deltaWindowSizes * (1 - normalizedMouseXPosition);
+    newTimeFrame.to = Math.min(serverTime, Math.max(0, newTimeFrame.to));
+
+    return newTimeFrame;
+  }
+
   return {
+    // export this method to make it testable
+    getNewTimeframeByScroll,
+
     dispose
   };
 
@@ -159,8 +171,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
     // set focued moment to the right edge if the user panned away from servertime
     // otherwhise set it to null, so return to livemode again
-    if (to && !focusedMoment) {
-      setFocusedMoment(to);
+    if (currentTo && !focusedMoment) {
+      setFocusedMoment(currentTo);
     }
 
     isPanning = true;
@@ -244,7 +256,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     serverTimeSubscription.dispose();
     mouseLeaveSubscription.dispose();
     mouseDownSubscription.dispose();
-    timeframeSubscription.dispose();
     mouseMoveSubscription.dispose();
     mouseUpSubscription.dispose();
     eventsSubscription.dispose();

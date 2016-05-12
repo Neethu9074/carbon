@@ -2,11 +2,12 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
 import {
-  windowSizeForSlider$,
-  setWindowSizeForSlider,
+  timeframe$,
+  setWindowSize,
   MIN_ZOOM_LEVEL,
   MAX_ZOOM_LEVEL
 } from 'in-components/timeline/timelineStore';
+import {timeframeShape} from 'in-stores/timeline';
 import Slider from 'in-components/Slider';
 import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
@@ -15,12 +16,10 @@ import './TimelineNavigation.less';
 
 
 const step = (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) / 100; // 100 steps
-
 const block = 'in-timeline-navigation';
-const rpt = React.PropTypes;
 
 export default connectTo({
-    windowSizeForSlider: windowSizeForSlider$
+    timeframe: timeframe$
   }, React.createClass({
 
     displayName: 'TimelineNavigation',
@@ -30,12 +29,12 @@ export default connectTo({
     ],
 
     propTypes: {
-      windowSizeForSlider: rpt.number
+      timeframe: timeframeShape
     },
 
     render() {
-      const windowSizeForSlider = this.props.windowSizeForSlider;
-      if (!windowSizeForSlider) {
+      const timeframe = this.props.timeframe;
+      if (!timeframe) {
         return null;
       }
 
@@ -49,7 +48,7 @@ export default connectTo({
                   min={MIN_ZOOM_LEVEL}
                   max={MAX_ZOOM_LEVEL}
                   step={step}
-                  value={MAX_ZOOM_LEVEL - windowSizeForSlider}
+                  value={MAX_ZOOM_LEVEL - timeframe.windowSize}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
@@ -60,15 +59,15 @@ export default connectTo({
     },
 
     onZoomChanged(e) {
-      setWindowSizeForSlider(e.target.value * 1); // as number
+      setWindowSize(e.target.value * 1); // as number
     },
 
     zoomOut() {
-      setWindowSizeForSlider(this.props.windowSizeForSlider + step);
+      setWindowSize(this.props.timeframe.windowSize + step);
     },
 
     zoomIn() {
-      setWindowSizeForSlider(this.props.windowSizeForSlider - step);
+      setWindowSize(this.props.timeframe.windowSize - step);
     }
   })
 );

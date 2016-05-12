@@ -35,8 +35,7 @@ export default class MouseControlModule extends Module {
         }),
 
       onWheel(div, event => {
-        const deltaY = event.deltaY;
-        event.deltaY = 0;
+        const deltaY = event.rawEvent.deltaY;
 
         // Because we listen to onwheel, the e.deltaY "should be" in a range of
         // +/- 0 .. 200, but sometimes is much larger due to "buffering" of scroll
@@ -57,7 +56,7 @@ export default class MouseControlModule extends Module {
           zoom = Math.min(50, Math.max(1, zoom));
         }
 
-        this.eventEmitter.emit('onZoom', -zoom * event.scrollDirection * event.scrollSpeed);
+        this.eventEmitter.emit('onZoom', zoom * event.scrollSpeed);
       })
     ]);
   }
