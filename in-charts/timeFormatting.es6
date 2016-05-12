@@ -38,7 +38,7 @@ const timeFormats = [
   },
   {
     maxMillis: 1000 * 60 * 10,
-    formatter: formatTimeWithSeconds,
+    formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute)
@@ -91,6 +91,14 @@ function formatTimeWithSeconds(millis) {
   const minutes = ensureTwoChars(date.getMinutes());
   const seconds = ensureTwoChars(date.getSeconds());
   return `${hours}:${minutes}:${seconds}`;
+}
+
+
+function formatTime(millis) {
+  const date = new Date(millis);
+  const hours = ensureTwoChars(date.getHours());
+  const minutes = ensureTwoChars(date.getMinutes());
+  return `${hours}:${minutes}`;
 }
 
 

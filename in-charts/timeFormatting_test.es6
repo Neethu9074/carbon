@@ -10,7 +10,7 @@ describe('timeFormatting', () => {
   describe('formatting', () => {
     it('must format 10min time ranges as time only', () => {
       formatter = getAxisConfig(1000 * 60 * 10).formatter;
-      expect(formatter(1457124359542)).to.equal('21:45:59');
+      expect(formatter(1457124359542)).to.equal('21:45');
     });
 
     it('must format large time windows as date time', () => {
