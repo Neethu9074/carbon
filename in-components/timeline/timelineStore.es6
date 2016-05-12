@@ -52,7 +52,7 @@ export const timeframe$ = timeframeStore.observable;
 
 // create cycle
 globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
-timeframe$.debounce(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
+timeframe$.throttle(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
 
 
 export function setTimeFrame(windowSize, to) {
