@@ -16,6 +16,7 @@ export const plugins = {
   mongodb: 'mongoDb',
   mssql: 'msSqlDatabase',
   mysql: 'mySqlDatabase',
+  postgresql: 'postgreSqlDatabase',
   mariaDbDatabase: 'mariaDbDatabase',
   nginx: 'nginx',
   nodejs: 'nodeJsRuntimePlatform',

@@ -14,6 +14,7 @@ import './elasticsearchCluster';
 import './mongoDb';
 import './mySqlDatabase';
 import './mariaDbDatabase';
+import './postgreSqlDatabase';
 import './host';
 import './process';
 import './jvmRuntimePlatform';
