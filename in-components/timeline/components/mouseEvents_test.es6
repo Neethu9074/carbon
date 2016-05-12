@@ -7,8 +7,8 @@ import {expect} from 'chai';
 describe('mouseEvents', () => {
   let createMouseEvents;
   let mouseEvents;
-  const ZOOM_IN = 1;
-  const ZOOM_OUT = -1;
+  const ZOOM_IN = -1;
+  const ZOOM_OUT = 1;
   const MIN_ZOOM_LEVEL = 0;
   const MAX_ZOOM_LEVEL = 1000;
   const toMock = create();
