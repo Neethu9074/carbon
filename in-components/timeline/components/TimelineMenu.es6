@@ -5,7 +5,7 @@ import {
   isCollapsed$,
   toggleMenu,
   showTimeSelector$,
-  hideTimeSelector
+  toggleShowTimeSelector
 } from 'in-components/timeline/timelineStore';
 import TimelineMenuEventLine from 'in-components/timeline/components/TimelineMenuEventLine';
 import TimelineSelectedTime from 'in-components/timeline/components/TimelineSelectedTime';
@@ -54,7 +54,7 @@ export default connectTo({
           <div className={block + '__heading'}>
             {this.props.showTimeSelector ?
               <DatePicker applyDate={this.applyDate}
-                          onClose={hideTimeSelector}/>
+                          onClose={toggleShowTimeSelector}/>
                : null
              }
             <TimelineSelectedTime/>

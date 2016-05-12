@@ -36,10 +36,6 @@ export function toggleShowTimeSelector() {
   showTimeSelector.applyStateMutation(oldValue => !oldValue);
 }
 
-export function hideTimeSelector() {
-  showTimeSelector.applyStateMutation(() => false);
-}
-
 
 /*
   we need to seperate the global timeline.timeframe store from this timeframeStore because
@@ -57,40 +53,33 @@ export const timeframe$ = timeframeStore.observable;
 
 // create cycle
 globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
-timeframe$.debounce(500)
-          .subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
+timeframe$.debounce(500).subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
+
+// lock the global focused moment if the timeframe was limited to the past
+// multi locking is checked by lockGlobalFousedMoment implementation
 timeframe$.subscribe(timeframe => {
   if (timeframe.to != null) {
     lockGlobalFousedMoment();
   }
 });
 
-
 export function setTimeFrame(windowSize, to) {
-  timeframeStore.applyStateMutation(() => {
-    return {
-      windowSize: getValidWindowSize(windowSize),
-      to
-    };
-  });
+  timeframeStore.applyStateMutation(() => createTimeframe(getValidWindowSize(windowSize), to));
 }
 
 export function setTo(to) {
-  timeframeStore.applyStateMutation(prevTimeFrame => {
-    return {
-      windowSize: prevTimeFrame.windowSize,
-      to
-    };
-  });
+  timeframeStore.applyStateMutation(prevTimeFrame => createTimeframe(prevTimeFrame.windowSize, to));
 }
 
 export function setWindowSize(windowSize) {
-  timeframeStore.applyStateMutation(prevTimeFrame => {
-    return {
-      windowSize: getValidWindowSize(windowSize),
-      to: prevTimeFrame.to
-    };
-  });
+  timeframeStore.applyStateMutation(prevTimeFrame => createTimeframe(getValidWindowSize(windowSize), prevTimeFrame.to));
+}
+
+function createTimeframe(windowSize, to) {
+  return {
+    windowSize,
+    to
+  };
 }
 
 
@@ -99,16 +88,13 @@ export function getValidWindowSize(windowSize) {
 }
 
 
-export const to$ = timeframe$.flatMap(_timeframe => {
-  if (_timeframe.to) {
-    return create().emit(_timeframe.to).freeze();
-  }
-  return serverTime$;
-}).distinct();
+export const to$ = timeframe$.flatMap(_timeframe => _timeframe.to ? create()
+                                                                    .emit(_timeframe.to)
+                                                                    .freeze() :
+                                                                    serverTime$)
+  .distinct();
 
-export const from$ = timeframe$.flatMap(_timeframe => {
-  return to$.map(to => to - _timeframe.windowSize);
-}).distinct();
+export const from$ = timeframe$.flatMap(_timeframe => to$.map(to => to - _timeframe.windowSize)).distinct();
 
 
 const highlightedEventScreenPosition = createStore({
@@ -142,6 +128,7 @@ const drawMode = createStore({
   initialValue: DRAW_MODES.DISCRETE_EVENTS
 });
 export const drawMode$ = drawMode.observable.distinct();
+
 export function setDrawMode(mode) {
   drawMode.applyStateMutation(() => mode);
 }
@@ -160,7 +147,7 @@ export function setFocusedMoment(newFocusedMoment) {
 globalFocusedMoment$.subscribe(setFocusedMoment);
 
 focusedMoment$
-  .throttle(1000)
+  .debounce(1000)
   .subscribe(setGlobalFocusedMoment);
 
 
