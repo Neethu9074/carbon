@@ -15,7 +15,8 @@ const Slider = React.createClass({
     className: rpt.string,
     step: rpt.number,
     min: rpt.number,
-    max: rpt.number
+    max: rpt.number,
+    value: rpt.any
   },
 
   render() {
@@ -26,6 +27,7 @@ const Slider = React.createClass({
              max={this.props.max ? this.props.max : 100}
              step={this.props.step ? this.props.step : 0.1}
              defaultValue={this.props.defaultValue ? this.props.defaultValue : 0}
+             value={this.props.value ? this.props.value : null}
              onChange={this.props.onChange}/>
     );
   }

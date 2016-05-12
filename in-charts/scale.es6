@@ -29,6 +29,9 @@ export default function createScale() {
   function getRange(domainValue) {
     const domainRange = domainTo - domainFrom;
     if (domainRange === 0) {
+      if (domainValue === 0) {
+        return rangeFrom;
+      }
       return (rangeTo - rangeFrom) / 2 + rangeFrom;
     }
     const percentageOfDomain = 1 / (domainTo - domainFrom) * (domainValue - domainFrom);

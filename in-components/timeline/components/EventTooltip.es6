@@ -41,13 +41,23 @@ export default connectTo({
         return null;
       }
 
+      const style = {
+        bottom: yOffset - highlightedEventScreenPosition.y
+      };
+
+      let anchor;
+      if (highlightedEventScreenPosition.x > window.innerWidth / 2) {
+        style.right = window.innerWidth - highlightedEventScreenPosition.x + xOffset;
+        anchor = 'bottom__right';
+      } else {
+        style.left = highlightedEventScreenPosition.x + xOffset;
+        anchor = 'bottom__left';
+      }
+
       return (
         <div className={block}
-             style={{
-               left: highlightedEventScreenPosition.x + xOffset,
-               bottom: yOffset - highlightedEventScreenPosition.y
-             }}>
-           <TooltipFrame anchor='bottom'>
+             style={style}>
+           <TooltipFrame anchor={anchor}>
              <EventDescription event={highlightedEvent}
                                snapshotId={highlightedEvent.getIn(['problem', 'snapshotId'], '')}/>
            </TooltipFrame>

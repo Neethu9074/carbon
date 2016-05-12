@@ -4,10 +4,15 @@ import {
   timeframe$ as globalTimeframe$,
   setTimeframe as setGlobalTimeframe,
   focusedMoment$ as globalFocusedMoment$,
+  lockFocusedMoment as lockGlobalFousedMoment,
   setFocusedMoment as setGlobalFocusedMoment
 } from 'in-stores/timeline';
 import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
+
+
+export const MIN_ZOOM_LEVEL = 1000 * 60 * 10; // 10 min
+export const MAX_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
 
 
 const isCollapsed = createStore({
@@ -31,6 +36,10 @@ export function toggleShowTimeSelector() {
   showTimeSelector.applyStateMutation(oldValue => !oldValue);
 }
 
+export function hideTimeSelector() {
+  showTimeSelector.applyStateMutation(() => false);
+}
+
 
 /*
   we need to seperate the global timeline.timeframe store from this timeframeStore because
@@ -40,17 +49,27 @@ export function toggleShowTimeSelector() {
 const timeframeStore = createStore({
   name: 'timelineTimeframeStore',
   initialValue: {
-    windowSize: null,
+    windowSize: MIN_ZOOM_LEVEL,
     to: null
   }
 });
 export const timeframe$ = timeframeStore.observable;
+
+// create cycle
 globalTimeframe$.subscribe(timeframe => setTimeFrame(timeframe.windowSize, timeframe.to));
+timeframe$.debounce(500)
+          .subscribe(timeframe => setGlobalTimeframe(timeframe.windowSize, timeframe.to));
+timeframe$.subscribe(timeframe => {
+  if (timeframe.to != null) {
+    lockGlobalFousedMoment();
+  }
+});
+
 
 export function setTimeFrame(windowSize, to) {
   timeframeStore.applyStateMutation(() => {
     return {
-      windowSize,
+      windowSize: getValidWindowSize(windowSize),
       to
     };
   });
@@ -64,6 +83,21 @@ export function setTo(to) {
     };
   });
 }
+
+export function setWindowSize(windowSize) {
+  timeframeStore.applyStateMutation(prevTimeFrame => {
+    return {
+      windowSize: getValidWindowSize(windowSize),
+      to: prevTimeFrame.to
+    };
+  });
+}
+
+
+export function getValidWindowSize(windowSize) {
+  return Math.max(MIN_ZOOM_LEVEL, Math.min(MAX_ZOOM_LEVEL, windowSize));
+}
+
 
 export const to$ = timeframe$.flatMap(_timeframe => {
   if (_timeframe.to) {
@@ -85,29 +119,6 @@ export const highlightedEventScreenPosition$ = highlightedEventScreenPosition.ob
 
 export function setHighlightedEventScreenPosition(pos) {
   highlightedEventScreenPosition.applyStateMutation(() => pos);
-}
-
-
-/*
-  this store is used to throttle the slider event. If the user is using the slider very fast
-  we don't want to set every step between the start and goal position. therefore this store stream
-  is throttled to 1sec. All values in between are ignored
-*/
-const windowSizeForSlider = createStore({
-  name: 'windowSizeForSliderStore',
-  initialValue: null
-});
-windowSizeForSlider.observable
-  .distinct()
-  .throttle(1000)
-  .subscribe(windowSize =>{
-    if (windowSize) {
-      setGlobalTimeframe(windowSize);
-    }
-  });
-
-export function setWindowSizeForSlider(windowSize) {
-  windowSizeForSlider.applyStateMutation(() => windowSize);
 }
 
 

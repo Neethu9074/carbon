@@ -2,12 +2,17 @@ import {
   setTo,
   setHighlightedEventScreenPosition,
   focusedMomentXPosition$,
-  setFocusedMoment
+  focusedMoment$,
+  setFocusedMoment,
+  isCollapsed$,
+  to$,
+  setTimeFrame,
+  getValidWindowSize
 } from 'in-components/timeline/timelineStore';
-import {setTo as setGlobalTo, setTimeframe as setGlobalTimeframe} from 'in-stores/timeline';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
+import {setTo as setGlobalTo} from 'in-stores/timeline';
 import {selectEvent} from 'in-services/issueTracker';
 import {serverTime$} from 'in-stores/serverTime';
 
@@ -15,14 +20,12 @@ import {serverTime$} from 'in-stores/serverTime';
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
-  let millisBetweenMouseDownAndUp = Number.MAX_VALUE;
   const minPixelToMoveForDragDetection = 5;
-  const maxMillisForClickDetection = 300;
 
+  let isFocusedMomentPanning = false;
   let xPositionOnMouseDown = null;
   let lastXPosOnPan = null;
   let isPanning = false;
-  let isFocusedMomentPanning = false;
 
   let categorizedEvents;
   const eventsSubscription = eventsInTimeframe$.subscribe(events => categorizedEvents = events);
@@ -32,6 +35,15 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let focusedMomentXPosition;
   const focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(newX => focusedMomentXPosition = newX);
+
+  let focusedMoment;
+  const focusedMomentSubscription = focusedMoment$.subscribe(fm => focusedMoment = fm);
+
+  let isCollapsed;
+  const isCollapsedSubscription = isCollapsed$.subscribe(isC => isCollapsed = isC);
+
+  let currentTo;
+  const toSubscription = to$.subscribe(_to => currentTo = _to);
 
   const mouseDownSubscription = onDown(canvas, onMouseDown);
   const mouseUpSubscription = onUp(canvas, onMouseUp);
@@ -56,12 +68,45 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   const scrollSubscription = onWheel(canvas, e => {
     const oldWindowSize = scale.getDomainTo() - scale.getDomainFrom();
-    const step = 0.01;
-    const newWindowSize = e.sign < 0 ? oldWindowSize * (1 - step) : oldWindowSize * (1 + step);
-    setGlobalTimeframe(newWindowSize);
+
+    // [0, 1] 0 -> left, 0.5 -> middle, 1 -> right, etc
+    const normalizedMouseXPosition = e.rawEvent.offsetX / scale.getRangeTo();
+
+    const newTimeFrame = getNewTimeframeByScroll(e.scrollDirection,
+                                                 e.scrollSpeed,
+                                                 oldWindowSize,
+                                                 normalizedMouseXPosition);
+
+    setTimeFrame(newTimeFrame.windowSize, newTimeFrame.to);
   });
 
+  function getNewTimeframeByScroll(scrollDirection, scrollSpeed, oldWindowSize, normalizedMouseXPosition) {
+    const newTimeFrame = {
+      windowSize: oldWindowSize,
+      to: currentTo
+    };
+
+    const step = 0.05 * scrollSpeed;
+    const newWindowSize = getValidWindowSize(scrollDirection < 0 ? oldWindowSize * (1 - step) :
+                                                                   oldWindowSize * (1 + step));
+
+    newTimeFrame.windowSize = newWindowSize;
+
+    const deltaWindowSizes = oldWindowSize - newWindowSize;
+    newTimeFrame.to -= deltaWindowSizes * (1 - normalizedMouseXPosition);
+    newTimeFrame.to = Math.max(0, newTimeFrame.to);
+
+    if (newTimeFrame.to >= serverTime) {
+      newTimeFrame.to = null;
+    }
+
+    return newTimeFrame;
+  }
+
   return {
+    // export this method to make it testable
+    getNewTimeframeByScroll,
+
     dispose
   };
 
@@ -69,12 +114,14 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     const eventAtCursor = getEventAtXY(e.offsetX, e.offsetY);
     if (eventAtCursor) {
       selectEvent(eventAtCursor);
+    } else {
+      // if there is no event and the user clicked, set the focused moment to the time at pixel clicked
+      setFocusedMoment(scale.getDomain(e.offsetX));
     }
   }
 
   function onMouseDown(e) {
     xPositionOnMouseDown = e.offsetX;
-    millisBetweenMouseDownAndUp = Date.now();
 
     // if the distance of the cursor
     if (isCursorOnFocusedMoment(e.offsetX, e.offsetY)) {
@@ -83,14 +130,14 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onMouseUp(e) {
+    const movedSinceMouseDown = Math.abs(e.offsetX - xPositionOnMouseDown);
+    if (movedSinceMouseDown <= minPixelToMoveForDragDetection) {
+      onClick(e);
+    }
+
     xPositionOnMouseDown = null;
     isFocusedMomentPanning = false;
     onPanEnd();
-
-    millisBetweenMouseDownAndUp = Date.now() - millisBetweenMouseDownAndUp;
-    if (millisBetweenMouseDownAndUp < maxMillisForClickDetection) {
-      onClick(e);
-    }
   }
 
   function onMouseMove(x, screenX, y) {
@@ -115,11 +162,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     setHighlightedEvent(eventAtCursor);
     setHighlightedEventScreenPosition(eventAtCursor ? {
       x: screenX,
-      y: resultDependingOnY(y,
-        60, // if incidents
-        100, // if issues
-        140 // if changes
-      )
+      y: isCollapsed ? 140 : resultDependingOnY(y, 60, 100, 140)
     } : null);
 
     realtimeDrawStream.emit(changeSignal);
@@ -129,6 +172,12 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     // if the user has an active mouseover state, clear it
     setHighlightedEventScreenPosition(null);
     setHighlightedEvent(null);
+
+    // set focued moment to the right edge if the user panned away from servertime
+    // otherwhise set it to null, so return to livemode again
+    if (currentTo && !focusedMoment) {
+      setFocusedMoment(currentTo);
+    }
 
     isPanning = true;
     lastXPosOnPan = x;
@@ -154,7 +203,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onPanEnd() {
-    if (!isFocusedMomentPanning) {
+    if (!isFocusedMomentPanning && !focusedMoment) {
       const timeToSet = scale.getDomainTo();
       // if the user panns to the right border (servertime) set to live mode again
       setGlobalTo(timeToSet >= serverTime ? null : timeToSet);
@@ -164,6 +213,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     isPanning = false;
 
     realtimeDrawStream.emit(changeSignal);
+
+    setCursor(CURSOR_TYPES.DEFAULT);
   }
 
   function getEventAtXY(x, y) {
@@ -204,6 +255,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   function dispose() {
     focusedMomentXPositionSubscription.dispose();
+    focusedMomentSubscription.dispose();
+    isCollapsedSubscription.dispose();
     serverTimeSubscription.dispose();
     mouseLeaveSubscription.dispose();
     mouseDownSubscription.dispose();
@@ -211,5 +264,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     mouseUpSubscription.dispose();
     eventsSubscription.dispose();
     scrollSubscription.dispose();
+    toSubscription.dispose();
   }
 }

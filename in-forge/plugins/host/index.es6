@@ -19,7 +19,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.os,
-  snapshot => snapshot.getIn(['data', 'fqdn'])
+  snapshot => snapshot.getIn(['data', 'fqdn'], snapshot.getIn(['data', 'hostname']))
 );
 
 power.addMapping(

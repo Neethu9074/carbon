@@ -7,6 +7,7 @@ import sinon from 'sinon';
 import {expect} from 'chai';
 
 import {resetStoreRegistry} from 'in-stores/store';
+import {theme} from 'in-services/theme';
 
 describe('in-stores/events', () => {
 
@@ -325,14 +326,16 @@ describe('in-stores/events', () => {
         'id': 'foo',
         'start': 5,
         'end': 11,
-        'type': 'issue'
+        'type': 'issue',
+        'state': 'open'
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
-        'type': 'issue'
+        'type': 'issue',
+        'state': 'closed'
       }]));
 
       expect(subscriber.callCount).to.equal(3);
@@ -353,14 +356,16 @@ describe('in-stores/events', () => {
         'id': 'foo',
         'start': 5,
         'end': 11,
-        'type': 'issue'
+        'type': 'issue',
+        'state': 'open'
       }]));
 
       getEventsResult.emit(Immutable.fromJS([{
         'id': 'pups',
         'start': 19,
         'end': 10,
-        'type': 'issue'
+        'type': 'issue',
+        'state': 'closed'
       }]));
 
       expect(subscriber.callCount).to.equal(3);
@@ -640,6 +645,113 @@ describe('in-stores/events', () => {
       expect(mod.getNearestEvent(issues, 12).get('id')).to.equal('foo');
       expect(mod.getNearestEvent(issues, 29, 5)).to.equal(null);
       expect(mod.getNearestEvent(issues, 1, 2)).to.equal(null);
+    });
+  });
+
+  describe('getColorForEventAtFocusedMomentAsStream', () => {
+    it('should color issues according to server time when no focused moment is defined', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(null);
+
+      mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
+    });
+
+    it('should color issues according to server time when no focused moment is defined', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'open',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(null);
+
+      mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
+    });
+
+    it('should color issues according to focused moment when one is selected', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(20);
+
+      mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
+    });
+
+    it('should color issues according to focused moment when one is selected', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'closed',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(19);
+
+      mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
+    });
+
+    it('should color changes using the default color', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'end': 20,
+        'state': 'open',
+        'type': 'change'
+      });
+      focusedMoment$.emit(null);
+
+      mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[0]);
+    });
+
+    it('should color issues according to focused moment time when focused moment is defined' +
+        'and issue was open so it has no end defined', () => {
+      const issue = Immutable.fromJS({
+        'id': 'foo',
+        'start': 5,
+        'state': 'open',
+        'type': 'issue',
+        'problem': {
+          'severity': 9
+        }
+      });
+      focusedMoment$.emit(null);
+
+      mod.getColorForEventAtFocusedMomentAsStream(issue).subscribe(subscriber);
+
+      expect(subscriber.getCall(0).args[0]).to.equal(theme.health[9]);
     });
   });
 });

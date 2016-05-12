@@ -4,7 +4,7 @@ import React from 'react';
 
 import TooltipFrame from 'in-components/Tooltips/Frame';
 import EventListing from 'in-components/EventListing';
-import {getHealthInfo} from 'in-stores/healthInfo';
+import {getHealthInfoAtFocusedMoment} from 'in-stores/events';
 import Tooltip from 'in-components/Tooltip';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
@@ -18,7 +18,7 @@ const rpt = React.PropTypes;
 export default connectTo(
   props => {
     return {
-      healthInfo: getHealthInfo(props.snapshotId)
+      healthInfo: getHealthInfoAtFocusedMoment(props.snapshotId)
     };
   },
   React.createClass({
@@ -42,7 +42,7 @@ export default connectTo(
 
       const maxSeverity = healthInfo.get('maxSeverity');
       const backgroundColor = theme.health[Math.floor(maxSeverity)];
-      const numberOfOpenEvents = healthInfo.get('numberOfOpenEvents');
+      const numberOfOpenIssues = healthInfo.get('numberOfOpenIssues');
 
       const style = {
         width: maxSeverity * 10 + '%',
@@ -57,7 +57,7 @@ export default connectTo(
             </div>
           </div>
 
-          {numberOfOpenEvents > 0 ?
+          {numberOfOpenIssues > 0 ?
             <Tooltip content={<TooltipFrame>
                                 <EventListing snapshotId={this.props.snapshotId}/>
                               </TooltipFrame>}
@@ -67,7 +67,7 @@ export default connectTo(
                       color: maxSeverity < 0.6 ? '#000' : '#fff',
                     backgroundColor
                     }}>
-                {numberOfOpenEvents}
+                {numberOfOpenIssues}
               </span>
             </Tooltip>
             : null

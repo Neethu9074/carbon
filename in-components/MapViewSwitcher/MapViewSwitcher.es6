@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getToTraceView, goToMap, goToTable} from 'in-stores/navigation';
+import {goToTraceView, goToMap, goToTable} from 'in-stores/navigation';
 import {isInternalEnvironment} from 'in-services/config';
 import {types as views} from 'in-stores/view';
 import * as viewStore from 'in-stores/view';
@@ -68,7 +68,7 @@ export default connectTo({
   renderTraceViewItem() {
     return this.renderItem(
       'Trace',
-      getToTraceView,
+      goToTraceView,
       this.props.activePath[1] === 'traces'
     );
   },

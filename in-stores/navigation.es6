@@ -73,7 +73,7 @@ export function goToTable() {
 }
 
 
-export function getToTraceView() {
+export function goToTraceView() {
   mutateUrl(navParams => {
     navParams.pathname = 'traces';
     return navParams;

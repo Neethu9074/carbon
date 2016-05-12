@@ -1,4 +1,7 @@
+import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import * as issueTracker from 'in-services/issueTracker';
+import {selectedSnapshotId} from 'in-stores/snapshot';
 import {selectedIncident} from 'in-stores/incident';
 import {emptyArray} from 'in-services/fixedObjects';
 
@@ -27,6 +30,15 @@ export default class EventRenderer {
         this.recentEventIds = emptyArray;
       }
     });
+
+    this.focusedMoment = null;
+    this.focusedMomentSubscription = focusedMoment$.subscribe(focusedMoment => this.focusedMoment = focusedMoment);
+
+    this.highlightedEntityId = null;
+    this.highlightedEntityIdSubscription = highlightedEntityId.subscribe(id => this.highlightedEntityId = id);
+
+    this.selectedSnapshotId = null;
+    this.selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(id => this.selectedSnapshotId = id);
   }
 
   setWidth(width) {
@@ -51,13 +63,28 @@ export default class EventRenderer {
   }
 
   isEventActive(event) {
+    const snapshotId = event.getIn(['problem', 'snapshotId']);
     // the event is active (which means that it will be drawn normally) if there is no incident selected
-    if (!this.selectedIncident) {
+    // and the events range must cross the focused moment so it currentyl active
+    // and it has to contain to cetrain selected entityId (if available)
+    if (!this.selectedIncident &&
+       (!this.focusedMoment || event.get('start') <= this.focusedMoment) &&
+       (!this.highlightedEntityId || snapshotId === this.highlightedEntityId) &&
+       (!this.selectedSnapshotId || snapshotId === this.selectedSnapshotId)) {
       return true;
     }
 
     // otherwhise we have to look if the event is inside the recent events of the selected incident
     return this.recentEventIds.indexOf(event.get('id')) < 0 ? false : true;
+  }
+
+  eventIsOpenAtFocusedMoment(event) {
+    const focusedMoment = this.focusedMoment;
+    return event.get('start') < focusedMoment && (!event.get('end') || event.get('end') > focusedMoment);
+  }
+
+  eventIsOpenOnLiveMode(event) {
+    return event.get('state') === 'open';
   }
 
   draw(event, isHighlighted) {
@@ -86,6 +113,9 @@ export default class EventRenderer {
   }
 
   dispose() {
+    this.highlightedEntityIdSubscription.dispose();
+    this.selectedSnapshotIdSubscription.dispose();
     this.selectedIncidentSubscription.dispose();
+    this.focusedMomentSubscription.dispose();
   }
 }

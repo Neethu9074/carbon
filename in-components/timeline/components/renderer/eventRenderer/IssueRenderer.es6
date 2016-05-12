@@ -15,16 +15,28 @@ export default class IssueRenderer extends EventRenderer {
       return;
     }
 
+    const focusedMoment = this.focusedMoment;
     let imageToDraw = icons.issueCriticalImage;
-    if (issueTracker.getEventType(issue) === issueTracker.EVENT_TYPES.ISSUE_WARNING) {
-      if (issue.get('state') === 'open') {
-        imageToDraw = icons.issueWarningImageColored;
+
+    if (focusedMoment) {
+      if (this.eventIsOpenAtFocusedMoment(issue)) {
+        imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImageColored, icons.issueCriticalImageColored);
       } else {
-        imageToDraw = icons.issueWarningImage;
+        imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
       }
-    } else if (issue.get('state') === 'open') {
-      imageToDraw = icons.issueCriticalImageColored;
+    } else {
+      if (this.eventIsOpenOnLiveMode(issue)) {
+        imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImageColored, icons.issueCriticalImageColored);
+      } else {
+        imageToDraw = this.getImageByIssueType(issue, icons.issueWarningImage, icons.issueCriticalImage);
+      }
     }
+
     this.drawImage(imageToDraw, x);
+  }
+
+  getImageByIssueType(issue, ifWarning, ifCritical) {
+    return issueTracker.getEventType(issue) === issueTracker.EVENT_TYPES.ISSUE_WARNING ?
+      ifWarning : ifCritical;
   }
 }

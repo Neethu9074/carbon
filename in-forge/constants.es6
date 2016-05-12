@@ -16,6 +16,7 @@ export const plugins = {
   mongodb: 'mongoDb',
   mssql: 'msSqlDatabase',
   mysql: 'mySqlDatabase',
+  postgresql: 'postgreSqlDatabase',
   mariaDbDatabase: 'mariaDbDatabase',
   nginx: 'nginx',
   nodejs: 'nodeJsRuntimePlatform',
@@ -31,5 +32,6 @@ export const plugins = {
   msiis: 'msiis',
   genericHardware: 'genericHardware',
   genericZone: 'genericZone',
-  unmonitoredHost: 'unmonitoredHost'
+  unmonitoredHost: 'unmonitoredHost',
+  haproxy: 'hAProxy'
 };

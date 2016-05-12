@@ -1,18 +1,26 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import {setWindowSizeForSlider} from 'in-components/timeline/timelineStore';
+import {
+  timeframe$,
+  setWindowSize,
+  MIN_ZOOM_LEVEL,
+  MAX_ZOOM_LEVEL
+} from 'in-components/timeline/timelineStore';
+import {timeframeShape} from 'in-stores/timeline';
 import Slider from 'in-components/Slider';
+import connectTo from 'in-hoc/connectTo';
 import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
 
 
+const step = (MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) / 100; // 100 steps
 const block = 'in-timeline-navigation';
-const minZoomLevel = 1000 * 60 * 10; // 10 min
-const maxZoomLevel = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
 
-export default React.createClass({
+export default connectTo({
+    timeframe: timeframe$
+  }, React.createClass({
 
     displayName: 'TimelineNavigation',
 
@@ -20,25 +28,46 @@ export default React.createClass({
       PureRenderMixin
     ],
 
+    propTypes: {
+      timeframe: timeframeShape
+    },
+
     render() {
+      const timeframe = this.props.timeframe;
+      if (!timeframe) {
+        return null;
+      }
+
       return (
         <div className={block}>
           <Icon type={'zoom_small'}
-                className={block + '__icon-zoom'}/>
-           <Slider onChange={this.onZoomChanged}
-                   min={minZoomLevel}
-                   max={maxZoomLevel}
-                   defaultValue={maxZoomLevel}
-                   step={(maxZoomLevel - minZoomLevel) / 20} // 20 steps
-                   className={block + '__slider'}/>
+                className={block + '__icon-zoom'}
+                onClick={this.zoomIn}/>
+
+          <Slider onChange={this.onZoomChanged}
+                  min={MIN_ZOOM_LEVEL}
+                  max={MAX_ZOOM_LEVEL}
+                  step={step}
+                  value={MAX_ZOOM_LEVEL - timeframe.windowSize}
+                  className={block + '__slider'}/>
+
           <Icon type={'zoom_large'}
-                className={block + '__icon-zoom'}/>
+                className={block + '__icon-zoom'}
+                onClick={this.zoomOut}/>
         </div>
       );
     },
 
     onZoomChanged(e) {
-      const newWindowSize = (maxZoomLevel - e.target.value) + minZoomLevel;
-      setWindowSizeForSlider(newWindowSize);
+      setWindowSize(e.target.value * 1); // as number
+    },
+
+    zoomOut() {
+      setWindowSize(this.props.timeframe.windowSize + step);
+    },
+
+    zoomIn() {
+      setWindowSize(this.props.timeframe.windowSize - step);
     }
-  });
+  })
+);

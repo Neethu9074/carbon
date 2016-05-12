@@ -60,7 +60,15 @@ export const autoUpdate$ = autoUpdateStore.observable;
 
 // Automatically refresh the shown traces upon timeframe change to reload and present data
 // that is in the chosen timeframe.
-timeframe$.subscribe(refresh);
+let timeframeSubscription;
+
+export function enable() {
+  timeframeSubscription = timeframe$.subscribe(refresh);
+}
+
+export function disable() {
+  timeframeSubscription.dispose();
+}
 
 let existingLoadMoreTracesSubscription;
 export function loadMoreTraces() {
@@ -105,6 +113,7 @@ function addNewTraces(newTraces) {
 
 export function refresh() {
   clear();
+  loadMoreTraces();
 }
 
 

@@ -1,9 +1,8 @@
-import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
 import SubscriptionMixin from 'in-services/util/SubscriptionMixin';
-import {emptyList} from 'in-services/fixedImmutables';
-import {getEventType, EVENT_TYPES, openEvents$} from 'in-services/issueTracker';
+import {openEventsAtServerTime$} from 'in-stores/events';
+import {emptyArray} from 'in-services/fixedObjects';
 import connectTo from 'in-hoc/connectTo';
 import {theme} from 'in-services/theme';
 
@@ -15,7 +14,7 @@ import './NotificationCounter.less';
 const block = 'in-notification-counter';
 
 export default connectTo({
-    openEvents: openEvents$
+    openIssues: openEventsAtServerTime$.map(events => events.issues)
   },
   React.createClass({
 
@@ -27,7 +26,7 @@ export default connectTo({
 
     propTypes: {
       className: React.PropTypes.string,
-      openEvents: irpt.list
+      openIssues: React.PropTypes.array
     },
 
     getInitialState() {
@@ -56,18 +55,16 @@ export default connectTo({
     },
 
     render() {
-      const events = this.props.openEvents || emptyList;
+      const events = this.props.openIssues || emptyArray;
       const showNC = this.state.showNotificationCenter;
 
       let maxSeverity = 0;
       let count = 0;
       events.forEach(event => {
-        if (getEventType(event) !== EVENT_TYPES.INCIDENT) {
-          count++;
-          const severity = event.getIn(['problem', 'severity']);
-          if (severity > maxSeverity) {
-            maxSeverity = severity;
-          }
+        count++;
+        const severity = event.getIn(['problem', 'severity']);
+        if (severity > maxSeverity) {
+          maxSeverity = severity;
         }
       });
 

@@ -2,11 +2,11 @@ import {combineLatest} from 'reactive-observables';
 import {sortedIndexBy} from 'lodash';
 import Immutable from 'immutable';
 
+import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import getOpenEvents from 'in-services/subscription/newOpenEvents';
 import {
   focusedMoment$,
-  resolvedFocusedMoment$,
   timeframe$,
   to$,
   from$
@@ -14,7 +14,7 @@ import {
 import memoize from 'in-services/util/memoizingObservableGenerator';
 import {createStore, createTrackingStore} from 'in-stores/store';
 import getEvents from 'in-services/subscription/events';
-import {serverTime$} from 'in-stores/serverTime';
+import {theme} from 'in-services/theme';
 
 
 export const retrievedEvents$ = createTrackingStore({
@@ -46,6 +46,8 @@ export const retrievedEvents$ = createTrackingStore({
 
 
 export const eventsInTimeframe$ = combineLatest([
+    // TODO improve perf by subscribing to timeframe first and only subscribe to serverTime
+    // when this is actually necessary
     to$.throttle(10000),
     from$,
     retrievedEvents$
@@ -66,13 +68,7 @@ export const eventsInTimeframe$ = combineLatest([
 
 export const openEventsAtServerTime$ = createTrackingStore({
   name: 'openEventsAtServerTime',
-  observable: combineLatest([
-      // TODO only use issue state for this for perf reasons?
-      serverTime$,
-      retrievedEvents$
-    ])
-    .map(([serverTime, events]) => {
-      // TODO order by end time would be much, much more efficient
+  observable: retrievedEvents$.map(events => {
       return {
         issues: events.issues.filter(filter),
         changes: events.changes.filter(filter),
@@ -80,7 +76,7 @@ export const openEventsAtServerTime$ = createTrackingStore({
       };
 
       function filter(event) {
-        return event.start < serverTime && (serverTime < event.end || event.end == null);
+        return event.state === 'open';
       }
     })
 }).observable;
@@ -89,11 +85,10 @@ export const openEventsAtServerTime$ = createTrackingStore({
 export const openEventsAtFocusedMoment$ = createTrackingStore({
   name: 'openEventsAtFocusedMoment',
   observable: combineLatest([
-      resolvedFocusedMoment$,
+      focusedMoment$,
       retrievedEvents$
     ])
     .map(([time, events]) => {
-      // TODO order by end time would be much, much more efficient
       return {
         issues: events.issues.filter(filter),
         changes: events.changes.filter(filter),
@@ -101,6 +96,10 @@ export const openEventsAtFocusedMoment$ = createTrackingStore({
       };
 
       function filter(event) {
+        if (time == null) {
+          return event.state === 'open';
+        }
+
         return event.start <= time && (time < event.end || event.end == null);
       }
     })
@@ -121,6 +120,39 @@ export const getOpenIssuesAtFocusedMoment = memoize(
 );
 
 
+export const getHealthInfoAtFocusedMoment = memoize(
+  snapshotId => getOpenIssuesAtFocusedMoment(snapshotId)
+    .scan((prevHealthInfo, issues) => {
+      const nextHealthInfo = {
+        maxSeverity: 0,
+        issueWithMaxSeverity: null,
+        numberOfOpenIssues: issues.size
+      };
+
+      issues.forEach(issue => {
+        const severity = issue.getIn(['problem', 'severity'], 0);
+        if (severity >= nextHealthInfo.maxSeverity) {
+          nextHealthInfo.maxSeverity = severity;
+          nextHealthInfo.issueWithMaxSeverity = issue;
+        }
+      });
+
+      if (prevHealthInfo.maxSeverity !== nextHealthInfo.maxSeverity ||
+          prevHealthInfo.issueWithMaxSeverity !== nextHealthInfo.issueWithMaxSeverity ||
+          prevHealthInfo.numberOfOpenIssues !== nextHealthInfo.numberOfOpenIssues) {
+        return nextHealthInfo;
+      }
+      return prevHealthInfo;
+    }, {})
+    .distinct()
+    .map(mutableHealthInfo => Immutable.Map(mutableHealthInfo)),
+
+  id => id,
+
+  3000
+);
+
+
 /**
  * Searches for the issue with the highest severity and returns it or the first
  * if many have the same severity
@@ -129,22 +161,52 @@ export const getOpenIssuesAtFocusedMoment = memoize(
  * @returns {Observable<Event>} The event with the highest severity
  */
 export function getMostImportantEventAtFocusedMoment(snapshotId) {
-  return getOpenIssuesAtFocusedMoment(snapshotId)
-    .map(events => {
-      let topEvent = null;
-      let topSeverity = Number.MAX_VALUE * -1;
+  return getHealthInfoAtFocusedMoment(snapshotId)
+    .map(healthInfo => healthInfo.get('issueWithMaxSeverity'))
+    .distinct();
+}
 
-      events.forEach(event => {
-        const severity = event.getIn(['problem', 'severity'], 0);
-        if (severity > topSeverity) {
-          topSeverity = severity;
-          topEvent = event;
-        }
-      });
 
-      return topEvent;
+export function getColorForEventAtFocusedMomentAsStream(event) {
+  const start = event.get('start');
+  const end = event.get('end');
+  const state = event.get('state');
+  const severity = event.getIn(['problem', 'severity'], 0);
+  const color = theme.health[severity] || theme.health[0];
+
+  return focusedMoment$
+    .map(focusedMoment => {
+      if (isEventOpenAtFocusedMoment(start, end, state, focusedMoment)) {
+        return color;
+      }
+      return theme.health[0];
     })
     .distinct();
+}
+
+export function getColorForEventAtFocusedMoment(event, focusedMoment) {
+  const severity = event.getIn(['problem', 'severity'], 0);
+  const start = event.get('start');
+  const end = event.get('end');
+  const state = event.get('state');
+  const color = theme.health[severity] || theme.health[0];
+
+  // No focused moment? Then it is according to server time which means
+  // we color based on the state property.
+  const open = isEventOpenAtFocusedMoment(start, end, state, focusedMoment);
+
+  if (open) {
+    return color;
+  }
+
+  return theme.health[0];
+}
+
+function isEventOpenAtFocusedMoment(start, end, state, focusedMoment) {
+  // No focused moment? Then it is according to server time which means
+  // we color based on the state property.
+  return (focusedMoment == null && state === 'open') ||
+         (start < focusedMoment && (focusedMoment < end || !end));
 }
 
 
@@ -156,6 +218,7 @@ function insertSorted(store, event) {
   event.id = id;
   event.start = event.get('start');
   event.end = event.get('end');
+  event.state = event.get('state');
   const type = event.get('type');
   const byTime = store[type + 's'];
 
@@ -232,4 +295,10 @@ export const highlightedEvent$ = highlightedEvent.observable.distinct();
 
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);
+
+  if (event) {
+    setHighlightedEntityId(event.get('snapshotId'));
+  } else {
+    clearHighlightedEntityId();
+  }
 }

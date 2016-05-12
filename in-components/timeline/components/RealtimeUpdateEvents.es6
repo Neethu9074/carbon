@@ -1,21 +1,33 @@
 import {to$, from$, focusedMoment$} from 'in-components/timeline/timelineStore';
+import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {selectedIncidentId$} from 'in-stores/incident';
+import {selectedSnapshotId} from 'in-stores/snapshot';
 
 /*
   this "class"is just to get all this realtime updates out of the canvas renderer class.
 */
 export default function createRealtimeUpateEvents(realtimeDrawStream, changeSignal) {
 
-  const selectedIncidentSubscription = selectedIncidentId$.subscribe(() => realtimeDrawStream.emit(changeSignal));
-  const focusedMomentSubscription = focusedMoment$.subscribe(() => realtimeDrawStream.emit(changeSignal));
-  const fromSubscription = from$.subscribe(() => realtimeDrawStream.emit(changeSignal));
-  const toSubscription = to$.subscribe(() => realtimeDrawStream.emit(changeSignal));
+  const highlightedEntityIdSubscription = highlightedEntityId
+    .throttle(100) // throttle this to avoid flickering when moving the mosue fast over the map
+    .subscribe(emitRealtimeSignal);
+  const selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(emitRealtimeSignal);
+  const selectedIncidentSubscription = selectedIncidentId$.subscribe(emitRealtimeSignal);
+  const focusedMomentSubscription = focusedMoment$.subscribe(emitRealtimeSignal);
+  const fromSubscription = from$.subscribe(emitRealtimeSignal);
+  const toSubscription = to$.subscribe(emitRealtimeSignal);
 
   return {
     dispose
   };
 
+  function emitRealtimeSignal() {
+    realtimeDrawStream.emit(changeSignal);
+  }
+
   function dispose() {
+    highlightedEntityIdSubscription.dispose();
+    selectedSnapshotIdSubscription.dispose();
     selectedIncidentSubscription.dispose();
     focusedMomentSubscription.dispose();
     fromSubscription.dispose();

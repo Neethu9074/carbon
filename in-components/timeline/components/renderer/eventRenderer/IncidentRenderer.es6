@@ -14,9 +14,11 @@ export default class IncidentRenderer extends EventRenderer {
       return;
     }
 
+    const focusedMoment = this.focusedMoment;
+    const severity = incident.getIn(['problem', 'severity'], 0);
     let imageToDraw = icons.incidentImage;
-    if (incident.get('state') === 'open') {
-      const severity = incident.getIn(['problem', 'severity'], 0);
+
+    if ((focusedMoment && this.eventIsOpenAtFocusedMoment(incident)) || this.eventIsOpenOnLiveMode(incident)) {
       if (severity > 0) {
         imageToDraw = icons.incidentWarningImageColored;
       } if (severity > 5) {
