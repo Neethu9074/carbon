@@ -21,7 +21,7 @@ export const selectedIncident = createTrackingStore({
                   if (incident && incident.id && incident.to) {
                     return getEvent(incident.id, incident.to);
                   }
-    return alwaysNull;
+                  return alwaysNull;
   })
 }).observable;
 

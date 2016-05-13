@@ -1,11 +1,11 @@
-import EventRenderer from 'in-components/timeline/components/renderer/eventRenderer/EventRenderer';
+import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
 import * as issueTracker from 'in-services/issueTracker';
 
 
-export default class ChangeEventRenderer extends EventRenderer {
+export default class ChangeEventRenderer extends BasicEventRenderer {
 
-  constructor(buffer, scale, iconSize) {
-    super(buffer, scale, 122, iconSize);
+  constructor(backBuffer, scale, iconSize) {
+    super(backBuffer, scale, 122, iconSize);
   }
 
   draw(event, isHighlighted) {
@@ -14,7 +14,7 @@ export default class ChangeEventRenderer extends EventRenderer {
       return;
     }
 
-    this.buffer.fillStyle = issueTracker.getColorForEvent(event);
-    this.buffer.fillRect(x, this.y + 10, 2, 18);
+    this.backBuffer.fillStyle = issueTracker.getColorForEvent(event);
+    this.backBuffer.fillRect(x, this.y + 10, 2, 18);
   }
 }

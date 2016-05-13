@@ -1,7 +1,11 @@
-export default class EventsGraphRenderer {
+import BasicRenderer from 'in-components/timeline/components/renderer/BasicRenderer';
 
-  constructor(buffer, height) {
-    this.buffer = buffer;
+
+export default class EventsGraphRenderer extends BasicRenderer {
+
+  constructor(backBuffer, scale, height) {
+    super(backBuffer, scale);
+
     this.height = height;
   }
 
@@ -9,7 +13,5 @@ export default class EventsGraphRenderer {
     this.width = width;
   }
 
-  draw() {
-    return;
-  }
+  draw() {}
 }

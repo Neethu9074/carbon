@@ -2,15 +2,15 @@
 import Immutable from 'immutable';
 import {expect} from 'chai';
 
-import EventRenderer from 'in-components/timeline/components/renderer/eventRenderer/EventRenderer';
+import BasicEventRenderer from 'in-components/timeline/components/renderer/eventRenderer/BasicEventRenderer';
 import {setHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {setFocusedMoment} from 'in-components/timeline/timelineStore';
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
 import {setSelectedIncident} from 'in-stores/incident';
 
 
-describe('EventRenderer', () => {
-  const eventRenderer = new EventRenderer();
+describe('BasicEventRenderer', () => {
+  const eventRenderer = new BasicEventRenderer();
 
   beforeEach(() => {
     setFocusedMoment(null);
