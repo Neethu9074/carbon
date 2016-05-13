@@ -55,7 +55,7 @@ export default connectTo(props => {
             {end ?
               <Col cols={7}
                    className={block + '__end'}>
-                End: {formatDateTime(end)}
+                Ended: {formatDateTime(end)}
               </Col>
             : null}
           </Row>
