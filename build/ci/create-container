@@ -24,3 +24,8 @@ docker tag -f "registry-internal.instana.io/instana/$IMAGE" "registry-internal.i
 echo "Publishing Docker image ..."
 docker push "registry-internal.instana.io/instana/$IMAGE:latest"
 docker push "registry-internal.instana.io/instana/$IMAGE:$VERSION"
+
+docker rmi registry-internal.instana.io/instana/$IMAGE:$VERSION
+docker rmi registry-internal.instana.io/instana/$IMAGE:latest
+docker rmi registry-public.instana.io/instana/$IMAGE:latest
+
