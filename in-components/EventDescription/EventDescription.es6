@@ -38,6 +38,7 @@ export default connectTo(props => {
     const event = this.props.event;
     const eventType = issueTracker.getEventType(event);
     const className = getClassName(this, block);
+    const start = event.get('start');
     const end = event.get('end');
 
     return (
@@ -49,10 +50,10 @@ export default connectTo(props => {
         <div className={block + '__description'}>
           <Row className={getClassName(this, block, '__time')}>
             <Col cols={5}>
-              {moment(event.get('start')).fromNow()}
+              {moment(start).fromNow()}
             </Col>
 
-            {end ?
+            {end && start !== end ?
               <Col cols={7}
                    className={block + '__end'}>
                 Ended: {formatDateTime(end)}
