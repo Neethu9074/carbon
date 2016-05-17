@@ -9,7 +9,12 @@ import {
   setTimeFrame,
   getValidWindowSize
 } from 'in-components/timeline/timelineStore';
-import {setTo as setGlobalTo, lockFocusedMoment as lockGlobalFousedMoment} from 'in-stores/timeline';
+import {
+  setTo as setGlobalTo,
+  lockFocusedMoment as lockGlobalFousedMoment,
+  setHighlightedMoment,
+  clearHighlightedMoment
+} from 'in-stores/timeline';
 import {eventsInTimeframe$, getNearestEvent, setHighlightedEvent} from 'in-stores/events';
 import {onWheel, onMove, onDown, onUp, onLeave} from 'in-services/reactiveMouseEvents';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
@@ -53,6 +58,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     setHighlightedEvent(null);
 
     xPositionOnMouseDown = null;
+
+    clearHighlightedMoment();
 
     if (isPanning) {
       onPanEnd();
@@ -152,6 +159,8 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
         onPanStart(x);
       }
     }
+
+    setHighlightedMoment(scale.getDomain(x));
 
     // don't try to calculate mouseover if the user is panning or there are no events
     if (isPanning || !categorizedEvents) {
