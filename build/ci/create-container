@@ -25,7 +25,6 @@ echo "Publishing Docker image ..."
 docker push "registry-internal.instana.io/instana/$IMAGE:latest"
 docker push "registry-internal.instana.io/instana/$IMAGE:$VERSION"
 
-docker rmi registry-internal.instana.io/instana/$IMAGE:$VERSION
-docker rmi registry-internal.instana.io/instana/$IMAGE:latest
-docker rmi registry-public.instana.io/instana/$IMAGE:latest
-
+docker rmi registry-internal.instana.io/instana/$IMAGE:$VERSION || true
+docker rmi registry-internal.instana.io/instana/$IMAGE:latest || true
+docker rmi registry-public.instana.io/instana/$IMAGE:latest || true
