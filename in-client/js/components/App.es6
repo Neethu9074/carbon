@@ -2,6 +2,7 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import {RouteHandler, Navigation} from 'react-router';
 import React from 'react';
 
+import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
 import SidebarIncidents from 'in-components/SidebarIncidents';
@@ -105,6 +106,7 @@ export default
 
           <Timeline />
           <RouteHandler />
+
           {isDemoEnvironment() ?
             <RegisterForBeta />
           : null}
@@ -116,6 +118,7 @@ export default
           <MessageDialog />
           <TooltipPresenter />
           <ConnectionStatus />
+          <TemporaryNotificationPresenter />
         </div>
       );
     }
