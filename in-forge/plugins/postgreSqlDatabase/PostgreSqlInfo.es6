@@ -23,7 +23,7 @@ const PostgreSqlInfo = React.createClass({
           {data.get('port')}
         </DescriptionItem>
         <DescriptionItem title='Version'>
-          {data.getIn(['variables', 'version'])}
+          {data.get('variables.VERSION')}
         </DescriptionItem>
       </DescriptionList>
     );
