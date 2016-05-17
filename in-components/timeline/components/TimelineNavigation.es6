@@ -49,7 +49,7 @@ export default connectTo({
                   max={MAX_ZOOM_LEVEL}
                   step={step}
                   defaultValue={timeframe.windowSize}
-                  value={MAX_ZOOM_LEVEL - timeframe.windowSize}
+                  value={timeframe.windowSize}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
