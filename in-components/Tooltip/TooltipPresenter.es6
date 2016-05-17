@@ -64,8 +64,10 @@ export default connectTo({
       } else {
         right += horizontalMargin;
       }
+    } else if (align.horizontal === 'middle') {
+      left = focusedElementBox.left + focusedElementBox.width / 2;
     } else {
-      left = focusedElementBox.left + focusedElementBox.width - horizontalMargin;
+      left = focusedElementBox.left + focusedElementBox.width;
     }
 
     this.set(tooltipElement, 'left', left);
@@ -77,7 +79,7 @@ export default connectTo({
     let bottom;
 
     if (align.vertical === 'bottom') {
-      top = focusedElementBox.top + focusedElementBox.height - verticalMargin;
+      top = focusedElementBox.top + focusedElementBox.height;
     } else if (align.vertical === 'top') {
       bottom = window.innerHeight - focusedElementBox.top + verticalMargin;
     } else if (align.vertical === 'middle') {

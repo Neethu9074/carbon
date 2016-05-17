@@ -40,7 +40,11 @@ export default getSnapshot(React.createClass({
     const tooltip = `${getSingular(snapshot.get('plugin'))}: ${getLabel(snapshot)}`;
 
     return (
-      <Tooltip content={tooltip}>
+      <Tooltip content={tooltip}
+               align={{
+                 vertical: 'middle',
+                 horizontal: 'right'
+               }}>
         <li className={className}
             onClick={() => this.props.onClick(this.props.snapshotId)}>
 
