@@ -10,8 +10,8 @@ import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
 
 
-export const MIN_ZOOM_LEVEL = 1000 * 60 * 10; // 10 min
-export const MAX_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
+export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
+export const MAX_ZOOM_LEVEL = 1000 * 10; // 1 second
 
 
 const isCollapsed = createStore({
@@ -44,7 +44,7 @@ export function toggleShowTimeSelector() {
 const timeframeStore = createStore({
   name: 'timelineTimeframeStore',
   initialValue: {
-    windowSize: MIN_ZOOM_LEVEL,
+    windowSize: 1000 * 60 * 10, // 10 minutes
     to: null
   }
 });
@@ -76,7 +76,7 @@ function createTimeframe(windowSize, to) {
 
 
 export function getValidWindowSize(windowSize) {
-  return Math.max(MIN_ZOOM_LEVEL, Math.min(MAX_ZOOM_LEVEL, windowSize));
+  return Math.max(MAX_ZOOM_LEVEL, Math.min(MIN_ZOOM_LEVEL, windowSize)) | 0;
 }
 
 

@@ -32,7 +32,7 @@ export default React.createClass({
   getWindowHeight() {
     // the sidebar is minumum 100px height but max fullWindowHeight - 350px.
     // 350 is the upper margin + headers for the sidebar + a little margin to the bottom
-    return Math.max(100, window.innerHeight - 480);
+    return Math.max(100, window.innerHeight - 570);
   },
 
   render() {
