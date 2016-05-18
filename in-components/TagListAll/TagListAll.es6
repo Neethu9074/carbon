@@ -23,7 +23,7 @@ export default connectTo({
   },
 
   render() {
-    let tags = this.props.tags;
+    const tags = this.props.tags;
     if (!tags || tags.size === 0) {
       return (
         <div className={'in-tag-list-all__no-tags'}>
@@ -32,7 +32,6 @@ export default connectTo({
       );
     }
 
-    tags = tags.sort();
     return (
       <div>
         {tags.toArray().map(tag =>
