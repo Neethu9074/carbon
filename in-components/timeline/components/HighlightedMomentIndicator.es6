@@ -1,10 +1,10 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
-import toPx from 'in-services/formatters/toPx';
 import {timelineScale$} from 'in-components/timeline/timelineStore';
-import {formatDateTime} from 'in-services/formatters/date';
+import {formatDate, formatTime} from 'in-services/formatters/date';
 import {highlightedMoment$, to$} from 'in-stores/timeline';
+import toPx from 'in-services/formatters/toPx';
 import connectTo from 'in-hoc/connectTo';
 
 import './HighlightedMomentIndicator.less';
@@ -52,7 +52,13 @@ export default connectTo({
     return (
       <div className={block}
            style={style}>
-        {formatDateTime(highlightedMoment)}
+        <span className={block + '__date'}>
+          {formatDate(highlightedMoment)}
+        </span>
+        &nbsp;
+        <span className={block + '__time'}>
+          {formatTime(highlightedMoment)}
+        </span>
       </div>
     );
   }

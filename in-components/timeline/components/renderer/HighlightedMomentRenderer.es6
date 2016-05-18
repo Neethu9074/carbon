@@ -21,7 +21,8 @@ export default class HighlightedMomentRenderer extends BasicRenderer {
     const buffer = this.backBuffer;
     const x = this.scale.getRange(this.highlightedMoment);
 
-    buffer.strokeStyle = '#ff0000';
+    // buffer.strokeStyle = '#ff0000';
+    buffer.strokeStyle = '#669FA3';
     buffer.lineWidth = 1;
     buffer.beginPath();
     buffer.moveTo(x, 40);
