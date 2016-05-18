@@ -16,7 +16,8 @@ import './TimelineNavigation.less';
 
 const MAX_ZOOM_LEVEL_FOR_SLIDER = Math.max(MAX_ZOOM_LEVEL, 1000 * 60 * 10);
 
-const step = (MIN_ZOOM_LEVEL - MAX_ZOOM_LEVEL_FOR_SLIDER) / 30; // 30 steps
+const stepCount = 15;
+const step = (MIN_ZOOM_LEVEL - MAX_ZOOM_LEVEL_FOR_SLIDER) / stepCount;
 const block = 'in-timeline-navigation';
 
 export default connectTo({

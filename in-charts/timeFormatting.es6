@@ -65,11 +65,18 @@ const timeFormats = [
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToTwoHourStep)
   },
   {
-    maxMillis: Number.MAX_VALUE,
-    formatter: formatDateTime,
+    maxMillis: 1000 * 60 * 60 * 24 * 14,
+    formatter: formatDate,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60 * 60 * 24,
     ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToFullDay)
+  },
+  {
+    maxMillis: Number.MAX_VALUE,
+    formatter: formatDate,
+    relativeFormatter: msZeroDecimalPlaces,
+    stepSize: 1000 * 60 * 60 * 24 * 7,
+    ceilToNearestStep: composeCeil(ceilToFullSecond, ceilToFullMinute, ceilToFullHour, ceilToFullDay, ceilToStartOfWeek)
   }
 ];
 
@@ -110,6 +117,15 @@ function formatDateTime(millis) {
   const hours = ensureTwoChars(date.getHours());
   const minutes = ensureTwoChars(date.getMinutes());
   return `${year}-${month}-${day} ${hours}:${minutes}`;
+}
+
+
+function formatDate(millis) {
+  const date = new Date(millis);
+  const year = date.getFullYear();
+  const month = ensureTwoChars(date.getMonth() + 1);
+  const day = ensureTwoChars(date.getDate());
+  return `${year}-${month}-${day}`;
 }
 
 
@@ -196,5 +212,15 @@ function ceilToFullDay(date) {
   const hours = date.getHours();
   if (hours > 0) {
     date.setHours(hours + 24 - hours);
+  }
+}
+
+
+function ceilToStartOfWeek(date) {
+  // Caution: Deliberately chosen getDay and getDate. There is no setDay in the Date
+  // API.
+  const daysOfWeek = date.getDay();
+  if (daysOfWeek > 0) {
+    date.setDate(date.getDate() + 7 - daysOfWeek);
   }
 }
