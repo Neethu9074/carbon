@@ -1,6 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import HighlightedMomentIndicator from 'in-components/timeline/components/HighlightedMomentIndicator';
 import {parseLong} from 'in-services/formatters/string';
 import {
   timeframe$,
@@ -57,6 +58,8 @@ export default connectTo({
           <Icon type={'zoom_large'}
                 className={block + '__icon-zoom'}
                 onClick={this.zoomIn}/>
+
+          <HighlightedMomentIndicator />
         </div>
       );
     },
