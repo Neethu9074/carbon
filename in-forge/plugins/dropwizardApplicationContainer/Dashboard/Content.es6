@@ -8,6 +8,7 @@ import {
 import DashboardSection from 'in-components/DashboardSection';
 import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {emptyList} from 'in-services/fixedImmutables';
 import classnames from 'in-services/util/classnames';
 import {timeframeShape} from 'in-stores/timeline';
 import Mtd from 'in-components/Mtd';
@@ -35,9 +36,9 @@ const DropwizardDashboard = React.createClass({
       const timeframe = this.props.timeframe;
       const snapshot = this.props.snapshot;
 
-      const gauges = snapshot.getIn(['data', 'metrics.gauges'], []).toArray();
-      const counters = snapshot.getIn(['data', 'metrics.counters'], []).toArray();
-      const meters = snapshot.getIn(['data', 'metrics.meters'], []).toArray();
+      const gauges = snapshot.getIn(['data', 'metrics.gauges'], emptyList).toArray();
+      const counters = snapshot.getIn(['data', 'metrics.counters'], emptyList).toArray();
+      const meters = snapshot.getIn(['data', 'metrics.meters'], emptyList).toArray();
 
       return (
         <div>
