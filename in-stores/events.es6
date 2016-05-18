@@ -16,6 +16,7 @@ import {createStore, createTrackingStore} from 'in-stores/store';
 import getEvents from 'in-services/subscription/events';
 import {theme} from 'in-services/theme';
 
+const maxDataRetrieval = 1000 * 60 * 60 * 24 * 31; // one month
 
 export const retrievedEvents$ = createTrackingStore({
   name: 'retrievedEvents',
@@ -24,7 +25,9 @@ export const retrievedEvents$ = createTrackingStore({
       return getEvents({
         // Increase amount of retrieved data to ensure smooth vertical scrolling.
         to: timeframe.to == null ? null : timeframe.to + timeframe.windowSize / 2,
-        windowSize: timeframe.windowSize * 2
+
+        // load at most one month worth of data
+        windowSize: Math.min(timeframe.windowSize * 2, maxDataRetrieval)
       });
     })
     .merge(

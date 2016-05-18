@@ -17,4 +17,9 @@ describe('in-services.formatters.string', () => {
     });
   });
 
+  describe('parseLong', () => {
+    it('should parse large numbers to long like number type', () => {
+      expect(formatters.parseLong('2678400000.456')).to.equal(2678400000);
+    });
+  });
 });

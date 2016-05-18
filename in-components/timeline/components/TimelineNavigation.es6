@@ -1,6 +1,7 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 
+import {parseLong} from 'in-services/formatters/string';
 import {
   timeframe$,
   setWindowSize,
@@ -14,10 +15,8 @@ import Icon from 'in-components/Icon';
 
 import './TimelineNavigation.less';
 
-const MAX_ZOOM_LEVEL_FOR_SLIDER = Math.max(MAX_ZOOM_LEVEL, 1000 * 60 * 10);
-
 const stepCount = 15;
-const step = (MIN_ZOOM_LEVEL - MAX_ZOOM_LEVEL_FOR_SLIDER) / stepCount;
+const step = (MIN_ZOOM_LEVEL - MAX_ZOOM_LEVEL) / stepCount;
 const block = 'in-timeline-navigation';
 
 export default connectTo({
@@ -48,11 +47,11 @@ export default connectTo({
 
           {/* MIN / MAX is turned upside down 'cause highest zoom level = smallest number */}
           <Slider onChange={this.onZoomChanged}
-                  min={MAX_ZOOM_LEVEL_FOR_SLIDER}
+                  min={MAX_ZOOM_LEVEL}
                   max={MIN_ZOOM_LEVEL}
                   step={step}
-                  defaultValue={MAX_ZOOM_LEVEL_FOR_SLIDER + MIN_ZOOM_LEVEL - timeframe.windowSize}
-                  value={MAX_ZOOM_LEVEL_FOR_SLIDER + MIN_ZOOM_LEVEL - timeframe.windowSize}
+                  defaultValue={MAX_ZOOM_LEVEL + MIN_ZOOM_LEVEL - timeframe.windowSize}
+                  value={MAX_ZOOM_LEVEL + MIN_ZOOM_LEVEL - timeframe.windowSize}
                   className={block + '__slider'}/>
 
           <Icon type={'zoom_large'}
@@ -63,7 +62,7 @@ export default connectTo({
     },
 
     onZoomChanged(e) {
-      setWindowSize(MAX_ZOOM_LEVEL_FOR_SLIDER + MIN_ZOOM_LEVEL - parseInt(e.target.value * 1, 10));
+      setWindowSize(MAX_ZOOM_LEVEL + MIN_ZOOM_LEVEL - parseLong(e.target.value));
     },
 
     zoomOut() {

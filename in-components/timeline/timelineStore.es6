@@ -10,8 +10,8 @@ import {serverTime$} from 'in-stores/serverTime';
 import {createStore} from 'in-stores/store';
 
 
-export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
-export const MAX_ZOOM_LEVEL = 1000 * 60 * 10; // 1 second
+export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 31; // 1 month (31 days)
+export const MAX_ZOOM_LEVEL = 1000 * 60 * 10; // 10 minutes
 
 
 const isCollapsed = createStore({
@@ -76,7 +76,7 @@ function createTimeframe(windowSize, to) {
 
 
 export function getValidWindowSize(windowSize) {
-  return Math.max(MAX_ZOOM_LEVEL, Math.min(MIN_ZOOM_LEVEL, windowSize)) | 0;
+  return Math.max(MAX_ZOOM_LEVEL, Math.min(MIN_ZOOM_LEVEL, windowSize));
 }
 
 
@@ -86,7 +86,9 @@ export const to$ = timeframe$.flatMap(_timeframe => _timeframe.to ? create()
                                                                     serverTime$)
   .distinct();
 
-export const from$ = timeframe$.flatMap(_timeframe => to$.map(to => to - _timeframe.windowSize)).distinct();
+export const from$ = timeframe$
+  .flatMap(_timeframe => to$.map(to => to - _timeframe.windowSize))
+  .distinct();
 
 
 const highlightedEventScreenPosition = createStore({
