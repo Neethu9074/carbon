@@ -36,6 +36,7 @@ export default connectTo({
           <span className={block + '__date'}>
             {formatDate(focusedMoment)}
           </span>
+          &nbsp;
           <span className={block + '__time'}>
             {formatTime(focusedMoment)}
           </span>
