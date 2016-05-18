@@ -104,7 +104,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     newTimeFrame.to = Math.max(0, newTimeFrame.to);
 
     if (newTimeFrame.to >= serverTime) {
-      newTimeFrame.to = null;
+      newTimeFrame.to = serverTime;
     } else {
       // lock the global focused moment if the timeframe was limited to the past
       // multi locking is checked by lockGlobalFousedMoment implementation
@@ -219,7 +219,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     if (!isFocusedMomentPanning && !focusedMoment) {
       const timeToSet = scale.getDomainTo();
       // if the user panns to the right border (servertime) set to live mode again
-      setGlobalTo(timeToSet >= serverTime ? null : timeToSet);
+      setGlobalTo(Math.min(timeToSet, serverTime));
     }
 
     isFocusedMomentPanning = false;

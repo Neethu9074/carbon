@@ -37,7 +37,7 @@ const timeFormats = [
     ceilToNearestStep: composeCeil(ceilToFullSecond)
   },
   {
-    maxMillis: 1000 * 60 * 10,
+    maxMillis: 1000 * 60 * 11,
     formatter: formatTime,
     relativeFormatter: msZeroDecimalPlaces,
     stepSize: 1000 * 60,
