@@ -25,6 +25,12 @@ echo "Publishing Docker image ..."
 docker push "registry-internal.instana.io/instana/$IMAGE:latest"
 docker push "registry-internal.instana.io/instana/$IMAGE:$VERSION"
 
+if [[ "$INSTANA_UICLIENT_BRANCH" == "master" ]]; then
+  echo "Docker image is public..."
+  docker tag -f registry-internal.instana.io/instana/$IMAGE:latest registry-public.instana.io/instana/$IMAGE:latest
+  docker push registry-public.instana.io/instana/$IMAGE:latest
+fi
+
 docker rmi registry-internal.instana.io/instana/$IMAGE:$VERSION || true
 docker rmi registry-internal.instana.io/instana/$IMAGE:latest || true
 docker rmi registry-public.instana.io/instana/$IMAGE:latest || true
