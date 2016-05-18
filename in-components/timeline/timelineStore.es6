@@ -11,7 +11,7 @@ import {createStore} from 'in-stores/store';
 
 
 export const MIN_ZOOM_LEVEL = 1000 * 60 * 60 * 24 * 30; // 1 month (30 days)
-export const MAX_ZOOM_LEVEL = 1000 * 10; // 1 second
+export const MAX_ZOOM_LEVEL = 1000 * 60 * 10; // 1 second
 
 
 const isCollapsed = createStore({
