@@ -18,11 +18,11 @@ import {
 const chartHeight = 200;
 
 function extractNodeName(nodeKey) {
-  return nodeKey.split(/_/)[1];
+  return nodeKey;
 }
 
 function extractQueueName(queueKey) {
-  return queueKey.split(/::/)[0];
+  return queueKey;
 }
 
 const RabbitMqDashboard = React.createClass({
@@ -45,8 +45,11 @@ const RabbitMqDashboard = React.createClass({
     const snapshot = this.props.snapshot;
     const data = snapshot.get('data');
     const nodeNames = data.get('nodes', emptyList).toArray();
+    nodeNames.sort();
     const queueNames = data.get('queues', emptyList).toArray();
+    queueNames.sort();
     const channelNames = data.get('channels', emptyList).toArray();
+    channelNames.sort();
 
     return (
       <div>
