@@ -16,7 +16,7 @@ const SpringbootInfo = React.createClass({
 
     return (
       <DescriptionList>
-        <DescriptionItem title='Version'>
+        <DescriptionItem title='Dropwizard Version'>
           {data.get('version')}
         </DescriptionItem>
       </DescriptionList>

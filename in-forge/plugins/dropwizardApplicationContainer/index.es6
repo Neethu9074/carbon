@@ -14,7 +14,7 @@ pluginName.setHumanReadablePluginName(
 
 addLabelFinder(
   constants.plugins.dropwizard,
-  snapshot => snapshot.getIn(['data', 'version'])
+  snapshot => 'Dropwizard ' + snapshot.getIn(['data', 'name'], '')
 );
 
 power.addMapping(
