@@ -24,7 +24,7 @@ const RabbitMqInfo = React.createClass({
           {data.get('pid')}
         </DescriptionItem>
         <DescriptionItem title='Ports'>
-          {data.get('overview.ports').join(', ')}
+          {data.get('overview.ports', emptyList).join(', ')}
         </DescriptionItem>
         <DescriptionItem title='Version'>
           {data.get('overview.version')}

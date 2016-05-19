@@ -2,12 +2,12 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
 import React from 'react';
 
-import {emptyList} from 'in-services/fixedImmutables';
-import Collapsible from 'in-components/Collapsible';
-import ResponsiveTable from 'in-components/ResponsiveTable';
 import DashboardSection from 'in-components/DashboardSection';
+import ResponsiveTable from 'in-components/ResponsiveTable';
 import ChartWithLegend from 'in-components/ChartWithLegend';
+import {emptyList} from 'in-services/fixedImmutables';
 import {timeframeShape} from 'in-stores/timeline';
+import {Row, Col} from 'in-components/Grid';
 
 import {
   bytesZeroDecimalPlaces,
@@ -28,10 +28,18 @@ function extractQueueName(queueKey) {
 const RabbitMqDashboard = React.createClass({
   mixins: [PureRenderMixin],
 
+  getInitialState() {
+    return {
+      selectedNode: null,
+      selectedQueue: null
+    };
+  },
+
   propTypes: {
     snapshot: irpt.map.isRequired,
     timeframe: timeframeShape
-    },
+  },
+
   render() {
     const timeframe = this.props.timeframe;
     const snapshot = this.props.snapshot;
@@ -42,12 +50,13 @@ const RabbitMqDashboard = React.createClass({
 
     return (
       <div>
-        <DashboardSection title='Overview'>
+        <DashboardSection title='Messages'>
           <ChartWithLegend  snapshot={snapshot}
                 timeframe={timeframe}
                 height={chartHeight}
                 margins={{
-                  left: 80
+                  left: 80,
+                  right: 80
                 }}
                 y1={{
                   metrics: [
@@ -61,14 +70,8 @@ const RabbitMqDashboard = React.createClass({
                     'Acknowledged messages'
                   ],
                   type: 'line'
-                }}/>
-          <ChartWithLegend  snapshot={snapshot}
-                timeframe={timeframe}
-                height={chartHeight}
-                margins={{
-                  left: 80
                 }}
-                y1={{
+                y2={{
                   metrics: [
                     'overview.publish_rate',
                     'overview.deliver_rate',
@@ -82,11 +85,13 @@ const RabbitMqDashboard = React.createClass({
                   type: 'line',
                   formatter: percentageZeroDecimalPlaces
                 }}/>
+
           <ChartWithLegend  snapshot={snapshot}
                 timeframe={timeframe}
                 height={chartHeight}
                 margins={{
-                  left: 80
+                  left: 80,
+                  right: 80
                 }}
                 y1={{
                   metrics: [
@@ -100,14 +105,8 @@ const RabbitMqDashboard = React.createClass({
                     'Messages total'
                   ],
                   type: 'line'
-                }}/>
-          <ChartWithLegend  snapshot={snapshot}
-                timeframe={timeframe}
-                height={chartHeight}
-                margins={{
-                  left: 80
                 }}
-                y1={{
+                y2={{
                   metrics: [
                     'overview.messages_ready_rate',
                     'overview.messages_unacknowledged_rate',
@@ -121,6 +120,9 @@ const RabbitMqDashboard = React.createClass({
                   type: 'line',
                   formatter: percentageZeroDecimalPlaces
                 }}/>
+        </DashboardSection>
+
+        <DashboardSection title='Overview'>
           <ChartWithLegend  snapshot={snapshot}
                 timeframe={timeframe}
                 height={chartHeight}
@@ -129,134 +131,139 @@ const RabbitMqDashboard = React.createClass({
                 }}
                 y1={{
                   metrics: [
-                    'overview.consumers'
-                  ],
-                  labels: [
-                    'Consumers'
-                  ],
-                  type: 'line'
-                }}/>
-          <ChartWithLegend  snapshot={snapshot}
-                timeframe={timeframe}
-                height={chartHeight}
-                margins={{
-                  left: 80
-                }}
-                y1={{
-                  metrics: [
+                    'overview.consumers',
                     'overview.connections'
                   ],
                   labels: [
+                    'Consumers',
                     'Connections'
                   ],
                   type: 'line'
                 }}/>
         </DashboardSection>
 
-        <DashboardSection title='Nodes'>
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>Nodes</Collapsible.Header>
-            <Collapsible.Content>
-              {nodeNames && nodeNames.length > 0 ?
-                nodeNames.map(nn =>
-                  <DashboardSection key={nn} title={extractNodeName(nn)}>
-                    <ChartWithLegend snapshot={snapshot}
-                          timeframe={timeframe}
-                          height={chartHeight}
-                          margins={{
-                            left: 80
-                          }}
-                          y1={{
-                            metrics: [
-                              'node_map.' + nn + '.fd_used',
-                              'node_map.' + nn + '.fd_total'
-                            ],
-                            labels: [
-                              'Used file descriptors',
-                              'Total file descriptors'
-                            ],
-                            type: 'line'
-                          }}/>
-                    <ChartWithLegend snapshot={snapshot}
-                          timeframe={timeframe}
-                          height={chartHeight}
-                          margins={{
-                            left: 80
-                          }}
-                          y1={{
-                            formatter: bytesZeroDecimalPlaces,
-                            tooltipFormatter: bytesTwoDecimalPlaces,
-                            metrics: [
-                              'node_map.' + nn + '.mem_used',
-                              'node_map.' + nn + '.mem_limit'
-                            ],
-                            labels: [
-                              'Used memory',
-                              'Memory limit'
-                            ],
-                            type: 'line'
-                          }}/>
-                    <ChartWithLegend snapshot={snapshot}
-                          timeframe={timeframe}
-                          height={chartHeight}
-                          margins={{
-                            left: 80
-                          }}
-                          y1={{
-                            metrics: [
-                              'node_map.' + nn + '.proc_used',
-                              'node_map.' + nn + '.proc_total'
-                            ],
-                            labels: [
-                              'Erlang processes in use',
-                              'Maximum number of Erlang processes'
-                            ],
-                            type: 'line'
-                          }}/>
-                    <ChartWithLegend snapshot={snapshot}
-                          timeframe={timeframe}
-                          height={chartHeight}
-                          margins={{
-                            left: 80
-                          }}
-                          y1={{
-                            formatter: bytesZeroDecimalPlaces,
-                            tooltipFormatter: bytesTwoDecimalPlaces,
-                            metrics: [
-                              'node_map.' + nn + '.disk_free',
-                              'node_map.' + nn + '.disk_free_limit'
-                            ],
-                            labels: [
-                              'Disk alarm threshold',
-                              'Disk free space in bytes'
-                            ],
-                            type: 'line'
-                          }}/>
-                  </DashboardSection>
-                )
-              : null}
-            </Collapsible.Content>
-          </Collapsible>
-        </DashboardSection>
+        {nodeNames && nodeNames.length > 0 ?
+          <DashboardSection title='Nodes'>
+            {this.state.selectedNode != null ?
+              <Row>
+                <Col cols={6}>
+                  <ChartWithLegend snapshot={snapshot}
+                        timeframe={timeframe}
+                        height={chartHeight}
+                        margins={{
+                          left: 80
+                        }}
+                        y1={{
+                          metrics: [
+                            'node_map.' + this.state.selectedNode + '.fd_used',
+                            'node_map.' + this.state.selectedNode + '.fd_total'
+                          ],
+                          labels: [
+                            'Used file descriptors',
+                            'Total file descriptors'
+                          ],
+                          type: 'line'
+                        }}/>
+                  <ChartWithLegend snapshot={snapshot}
+                        timeframe={timeframe}
+                        height={chartHeight}
+                        margins={{
+                          left: 80
+                        }}
+                        y1={{
+                          formatter: bytesZeroDecimalPlaces,
+                          tooltipFormatter: bytesTwoDecimalPlaces,
+                          metrics: [
+                            'node_map.' + this.state.selectedNode + '.mem_used',
+                            'node_map.' + this.state.selectedNode + '.mem_limit'
+                          ],
+                          labels: [
+                            'Used memory',
+                            'Memory limit'
+                          ],
+                          type: 'line'
+                        }}/>
+                </Col>
+                <Col cols={6}>
+                  <ChartWithLegend snapshot={snapshot}
+                        timeframe={timeframe}
+                        height={chartHeight}
+                        margins={{
+                          left: 80
+                        }}
+                        y1={{
+                          metrics: [
+                            'node_map.' + this.state.selectedNode + '.proc_used',
+                            'node_map.' + this.state.selectedNode + '.proc_total'
+                          ],
+                          labels: [
+                            'Erlang processes in use',
+                            'Maximum number of Erlang processes'
+                          ],
+                          type: 'line'
+                        }}/>
 
-        <DashboardSection title='Queues'>
-          <Collapsible initiallyOpen={false}>
-            <Collapsible.Header>Queues</Collapsible.Header>
-            <Collapsible.Content>
-              {queueNames && queueNames.length > 0 ?
-                queueNames.map(queueKey =>
-                  <DashboardSection key={queueKey} title={extractQueueName(queueKey)}>
+                  <ChartWithLegend snapshot={snapshot}
+                        timeframe={timeframe}
+                        height={chartHeight}
+                        margins={{
+                          left: 80
+                        }}
+                        y1={{
+                          formatter: bytesZeroDecimalPlaces,
+                          tooltipFormatter: bytesTwoDecimalPlaces,
+                          metrics: [
+                            'node_map.' + this.state.selectedNode + '.disk_free',
+                            'node_map.' + this.state.selectedNode + '.disk_free_limit'
+                          ],
+                          labels: [
+                            'Disk alarm threshold',
+                            'Disk free space in bytes'
+                          ],
+                          type: 'line'
+                        }}/>
+                </Col>
+              </Row>
+            : null}
+
+            <ResponsiveTable clickable={true}>
+              <thead>
+                <tr>
+                  <th>Node</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {nodeNames.map(nodeName =>
+                  <tr key={nodeName}
+                      onClick={() => this.setState({selectedNode: nodeName})}>
+                    <td>{extractNodeName(nodeName)}</td>
+                  </tr>
+                )}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+        : 0}
+
+
+        {queueNames && queueNames.length > 0 ?
+          <DashboardSection title='Queues'>
+            {this.state.selectedQueue != null ?
+              <div>
+                <Row>
+                  <Col cols={6}>
                     <ChartWithLegend snapshot={snapshot}
                           timeframe={timeframe}
                           height={chartHeight}
                           margins={{
-                            left: 80
+                            left: 80,
+                            right: 80
                           }}
                           y1={{
                             metrics: [
-                              'queue_map.' + queueKey + '.publish',
-                              'queue_map.' + queueKey + '.deliver',
-                              'queue_map.' + queueKey + '.ack'
+                              'queue_map.' + this.state.selectedQueue + '.publish',
+                              'queue_map.' + this.state.selectedQueue + '.deliver',
+                              'queue_map.' + this.state.selectedQueue + '.ack'
                             ],
                             labels: [
                               'Published messages',
@@ -264,18 +271,12 @@ const RabbitMqDashboard = React.createClass({
                               'Acknowledged messages'
                             ],
                             type: 'line'
-                          }}/>
-                    <ChartWithLegend  snapshot={snapshot}
-                          timeframe={timeframe}
-                          height={chartHeight}
-                          margins={{
-                            left: 80
                           }}
-                          y1={{
+                          y2={{
                             metrics: [
-                              'queue_map.' + queueKey + '.publish_rate',
-                              'queue_map.' + queueKey + '.deliver_rate',
-                              'queue_map.' + queueKey + '.ack_rate'
+                              'queue_map.' + this.state.selectedQueue + '.publish_rate',
+                              'queue_map.' + this.state.selectedQueue + '.deliver_rate',
+                              'queue_map.' + this.state.selectedQueue + '.ack_rate'
                             ],
                             labels: [
                               'Publish rate',
@@ -285,6 +286,8 @@ const RabbitMqDashboard = React.createClass({
                             type: 'line',
                             formatter: percentageZeroDecimalPlaces
                           }}/>
+                  </Col>
+                  <Col cols={6}>
                     <ChartWithLegend snapshot={snapshot}
                           timeframe={timeframe}
                           height={chartHeight}
@@ -293,9 +296,9 @@ const RabbitMqDashboard = React.createClass({
                           }}
                           y1={{
                             metrics: [
-                              'queue_map.' + queueKey + '.messages_ready',
-                              'queue_map.' + queueKey + '.messages_unacknowledged',
-                              'queue_map.' + queueKey + '.messages'
+                              'queue_map.' + this.state.selectedQueue + '.messages_ready',
+                              'queue_map.' + this.state.selectedQueue + '.messages_unacknowledged',
+                              'queue_map.' + this.state.selectedQueue + '.messages'
                             ],
                             labels: [
                               'Messages ready',
@@ -303,18 +306,12 @@ const RabbitMqDashboard = React.createClass({
                               'Messages total'
                             ],
                             type: 'line'
-                          }}/>
-                    <ChartWithLegend  snapshot={snapshot}
-                          timeframe={timeframe}
-                          height={chartHeight}
-                          margins={{
-                            left: 80
                           }}
-                          y1={{
+                          y2={{
                             metrics: [
-                              'queue_map.' + queueKey + '.messages_ready_rate',
-                              'queue_map.' + queueKey + '.messages_unacknowledged_rate',
-                              'queue_map.' + queueKey + '.messages_rate'
+                              'queue_map.' + this.state.selectedQueue + '.messages_ready_rate',
+                              'queue_map.' + this.state.selectedQueue + '.messages_unacknowledged_rate',
+                              'queue_map.' + this.state.selectedQueue + '.messages_rate'
                             ],
                             labels: [
                               'Messages ready rate',
@@ -324,6 +321,11 @@ const RabbitMqDashboard = React.createClass({
                             type: 'line',
                             formatter: percentageZeroDecimalPlaces
                           }}/>
+                  </Col>
+                </Row>
+
+                <Row>
+                  <Col cols={6}>
                     <ChartWithLegend snapshot={snapshot}
                           timeframe={timeframe}
                           height={chartHeight}
@@ -332,13 +334,15 @@ const RabbitMqDashboard = React.createClass({
                           }}
                           y1={{
                             metrics: [
-                              'queue_map.' + queueKey + '.consumers'
+                              'queue_map.' + this.state.selectedQueue + '.consumers'
                             ],
                             labels: [
                               'Consumers'
                             ],
                             type: 'line'
                           }}/>
+                  </Col>
+                  <Col cols={6}>
                     <ChartWithLegend snapshot={snapshot}
                           timeframe={timeframe}
                           height={chartHeight}
@@ -349,19 +353,37 @@ const RabbitMqDashboard = React.createClass({
                             formatter: bytesZeroDecimalPlaces,
                             tooltipFormatter: bytesTwoDecimalPlaces,
                             metrics: [
-                              'queue_map.' + queueKey + '.memory'
+                              'queue_map.' + this.state.selectedQueue + '.memory'
                             ],
                             labels: [
                               'Memory use'
                             ],
                             type: 'line'
                           }}/>
-                  </DashboardSection>
-                )
-              : null}
-            </Collapsible.Content>
-          </Collapsible>
-        </DashboardSection>
+                  </Col>
+                </Row>
+              </div>
+            : null}
+
+            <ResponsiveTable clickable={true}>
+              <thead>
+                <tr>
+                  <th>Node</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {queueNames.map(queueName =>
+                  <tr key={queueName}
+                      onClick={() => this.setState({selectedQueue: queueName})}>
+                    <td>{extractQueueName(queueName)}</td>
+                  </tr>
+                )}
+              </tbody>
+            </ResponsiveTable>
+          </DashboardSection>
+        : 0}
+
 
         {channelNames && channelNames.length > 0 ?
           <DashboardSection title='Channels'>
