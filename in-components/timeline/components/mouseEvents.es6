@@ -7,6 +7,7 @@ import {
   isCollapsed$,
   to$,
   setTimeFrame,
+  timeframe$,
   getValidWindowSize
 } from 'in-components/timeline/timelineStore';
 import {
@@ -37,6 +38,9 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
 
   let serverTime = Number.MAX_VALUE;
   const serverTimeSubscription = serverTime$.subscribe(time => serverTime = time);
+
+  let timeframe;
+  const timeframeSubscription = timeframe$.subscribe(_timeframe => timeframe = _timeframe);
 
   let focusedMomentXPosition;
   const focusedMomentXPositionSubscription = focusedMomentXPosition$.subscribe(newX => focusedMomentXPosition = newX);
@@ -104,7 +108,12 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     newTimeFrame.to = Math.max(0, newTimeFrame.to);
 
     if (newTimeFrame.to >= serverTime) {
-      newTimeFrame.to = serverTime;
+      // Only keep live when currently live. Clamp to servertime otherwise
+      if (timeframe.to == null) {
+        newTimeFrame.to = null;
+      } else {
+        newTimeFrame.to = serverTime;
+      }
     } else {
       // lock the global focused moment if the timeframe was limited to the past
       // multi locking is checked by lockGlobalFousedMoment implementation
@@ -274,6 +283,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     mouseLeaveSubscription.dispose();
     mouseDownSubscription.dispose();
     mouseMoveSubscription.dispose();
+    timeframeSubscription.dispose();
     mouseUpSubscription.dispose();
     eventsSubscription.dispose();
     scrollSubscription.dispose();

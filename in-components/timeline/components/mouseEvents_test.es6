@@ -88,7 +88,7 @@ describe('mouseEvents', () => {
     it('should move the window to right if mouse is on the right on the timeline', () => {
       const oldWindowSize = MIN_ZOOM_LEVEL + ((MAX_ZOOM_LEVEL - MIN_ZOOM_LEVEL) / 2);
       const frame = mouseEvents.getNewTimeframeByScroll(ZOOM_IN, 1, oldWindowSize, 1);
-      expect(frame.to).to.equal(100);
+      expect(frame.to).to.equal(null);
     });
 
     it('should move the window accroding to mouse position', () => {
@@ -121,7 +121,7 @@ describe('mouseEvents', () => {
       toMock.emit(20);
 
       const frame = mouseEvents.getNewTimeframeByScroll(ZOOM_OUT, 2, oldWindowSize, 1);
-      expect(frame.to).to.equal(20);
+      expect(frame.to).to.equal(null);
     });
   });
 });
