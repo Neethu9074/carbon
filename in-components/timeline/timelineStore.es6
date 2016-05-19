@@ -70,7 +70,7 @@ export function setWindowSize(windowSize) {
 function createTimeframe(windowSize, to) {
   return {
     windowSize: parseInt(windowSize, 10),
-    to: parseInt(to, 10)
+    to: to ? parseInt(to, 10) : null
   };
 }
 
