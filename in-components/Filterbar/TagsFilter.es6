@@ -4,7 +4,7 @@ import React from 'react';
 import {
   tagsFilter$,
   setTagsFilter
-} from 'in-components/Filterbar/filterBarStores';
+} from 'in-components/Filterbar/filterBarStores_tmp';
 import connectTo from 'in-hoc/connectTo';
 
 import './TagsFilter.less';
