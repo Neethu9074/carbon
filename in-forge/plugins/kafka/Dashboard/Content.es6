@@ -61,7 +61,7 @@ const KafkaDashboard = React.createClass({
                  height={chartHeight}
                  margins={{
                    left: 80,
-                   right: 40
+                   right: 80
                  }}
                  y1={{
                    formatter: zeroDecimalPlaces,
