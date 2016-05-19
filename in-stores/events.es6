@@ -49,22 +49,38 @@ export const retrievedEvents$ = createTrackingStore({
 
 
 export const eventsInTimeframe$ = combineLatest([
-    // TODO improve perf by subscribing to timeframe first and only subscribe to serverTime
-    // when this is actually necessary
-    to$.throttle(10000),
+    timeframe$.flatMap(timeframe => {
+      if (timeframe.to == null) {
+        return to$.throttle(10000);
+      }
+      return to$;
+    }),
     from$,
     retrievedEvents$
   ])
   .map(([to, from, events]) => {
-    // TODO improve perf by doing a binary search for from, to and get a subarray
+    // TODO improve perf by doing a binary search for from
     return {
-      issues: events.issues.filter(filter),
-      changes: events.changes.filter(filter),
-      incidents: events.incidents.filter(filter)
+      issues: filter(events.issues),
+      changes: filter(events.changes),
+      incidents: filter(events.incidents)
     };
 
-    function filter(event) {
-      return event.start >= from && event.start <= to;
+    function filter(eventsToFiler) {
+      const result = [];
+
+      for (let i = 0, len = eventsToFiler.length; i < len; i++) {
+        const event = eventsToFiler[i];
+        if (event.start < from) {
+          continue;
+        } else if (event.start > to) {
+          break;
+        }
+
+        result.push(event);
+      }
+
+      return result;
     }
   });
 
