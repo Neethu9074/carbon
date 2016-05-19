@@ -26,7 +26,7 @@ import {serverTime$} from 'in-stores/serverTime';
 export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   const changeSignal = true;
 
-  const minPixelToMoveForDragDetection = 5;
+  const minPixelToMoveForDragDetection = 20;
 
   let isFocusedMomentPanning = false;
   let xPositionOnMouseDown = null;
@@ -156,7 +156,6 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
     }
 
     xPositionOnMouseDown = null;
-    isFocusedMomentPanning = false;
     onPanEnd();
   }
 
@@ -225,7 +224,7 @@ export default function createMouseEvents(canvas, scale, realtimeDrawStream) {
   }
 
   function onPanEnd() {
-    if (!isFocusedMomentPanning && !focusedMoment) {
+    if (isPanning && !isFocusedMomentPanning && !focusedMoment) {
       const timeToSet = scale.getDomainTo();
       // if the user panns to the right border (servertime) set to live mode again
       setGlobalTo(Math.min(timeToSet, serverTime));
