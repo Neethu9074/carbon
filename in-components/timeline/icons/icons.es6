@@ -1,6 +1,6 @@
-import issueCriticalIcon from 'in-components/timeline/icons/issue_critical.png';
-import issueWarningIcon from 'in-components/timeline/icons/issue_warning.png';
-import incidentIcon from 'in-components/timeline/icons/incident.png';
+import issueCriticalIcon from 'in-components/timeline/icons/issue_critical.svg';
+import issueWarningIcon from 'in-components/timeline/icons/issue_warning.svg';
+import incidentIcon from 'in-components/timeline/icons/incident.svg';
 import {hexToRGB} from 'in-services/formatters/color';
 import theme from 'in-services/theme';
 
