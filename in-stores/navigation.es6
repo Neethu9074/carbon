@@ -71,3 +71,29 @@ export function goToTraceView() {
     return navParams;
   });
 }
+
+
+export function showHelp(id) {
+  mutateUrl(navParams => {
+    navParams.query.help = id;
+    return navParams;
+  });
+}
+
+
+export function closeHelpIfOpen(id) {
+  mutateUrl(navParams => {
+    if (navParams.query.help && parseInt(navParams.query.help, 10) === id) {
+      delete navParams.query.help;
+    }
+    return navParams;
+  });
+}
+
+
+export function closeHelp() {
+  mutateUrl(navParams => {
+    delete navParams.query.help;
+    return navParams;
+  });
+}

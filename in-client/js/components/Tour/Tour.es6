@@ -1,5 +1,4 @@
 import * as ro from 'reactive-observables';
-import {Navigation} from 'react-router';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PureRenderMixin from 'react-addons-pure-render-mixin';
@@ -23,8 +22,7 @@ const margin = 10;
 const GuidedTour = React.createClass({
   mixins: [
     PureRenderMixin,
-    SubscriptionMixin,
-    Navigation
+    SubscriptionMixin
   ],
 
   getInitialState() {

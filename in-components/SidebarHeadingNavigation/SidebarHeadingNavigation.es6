@@ -1,7 +1,6 @@
 /* eslint-disable react/no-multi-comp, react/prop-types */
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import {Navigation} from 'react-router';
 import React from 'react';
 
 import {setSelectedSnapshotId} from 'in-stores/snapshot';
@@ -37,10 +36,7 @@ const SidebarHeadingNavigation = React.createClass({
 export default SidebarHeadingNavigation;
 
 const ViewDashboardButton = React.createClass({
-  mixins: [
-    PureRenderMixin,
-    Navigation
-  ],
+  mixins: [PureRenderMixin],
 
   propTypes: {
     snapshot: irpt.map.isRequired
@@ -64,10 +60,7 @@ const ViewDashboardButton = React.createClass({
 SidebarHeadingNavigation.ViewDashboardButton = ViewDashboardButton;
 
 const BackToMap = React.createClass({
-  mixins: [
-    PureRenderMixin,
-    Navigation
-  ],
+  mixins: [PureRenderMixin],
 
   render() {
     return (

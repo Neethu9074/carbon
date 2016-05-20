@@ -4,7 +4,6 @@ const rpt = React.PropTypes;
 
 const ContextWrapper = React.createClass({
 
-  // Context types required by react-router
   propTypes: {
     context: rpt.object.isRequired,
     component: rpt.any.isRequired,

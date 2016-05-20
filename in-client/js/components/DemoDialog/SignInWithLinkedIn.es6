@@ -3,7 +3,7 @@ import {get} from 'lodash';
 import React from 'react';
 import {createLogger} from 'instalog';
 
-import helpify from 'in-hoc/helpify';
+import {showHelp} from 'in-stores/navigation';
 import {getClassName} from 'in-services/react';
 
 import './SignInWithLinkedIn.less';
@@ -26,12 +26,13 @@ const propMapping = [
   {from: ['publicProfileUrl'], to: 'linkedinurl'}
 ];
 
-const SignInWithLinkedIn = React.createClass({
+export default React.createClass({
+  displayName: 'SignInWithLinkedIn',
+
   propTypes: {
     onSignIn: rpt.func.isRequired,
     onError: rpt.func.isRequired,
-    className: rpt.string,
-    showHelp: rpt.func
+    className: rpt.string
   },
 
   getInitialState() {
@@ -74,7 +75,7 @@ const SignInWithLinkedIn = React.createClass({
           logger.info('LinkedIn access token seems to be invalid', error);
           IN.User.logout();
         } else {
-          this.props.showHelp(205143862);
+          showHelp(205143862);
           const msg = 'Failed to authenticate using LinkedIn';
           logger.error(msg, error);
           this.props.onError(msg);
@@ -104,5 +105,3 @@ const SignInWithLinkedIn = React.createClass({
     );
   }
 });
-
-export default helpify(SignInWithLinkedIn);

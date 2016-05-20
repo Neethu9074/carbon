@@ -1,6 +1,5 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
 import irpt from 'react-immutable-proptypes';
-import {Navigation} from 'react-router';
 import React from 'react';
 
 import HealthIconListing from 'in-components/HealthIconListing';
@@ -20,8 +19,7 @@ export default React.createClass({
   displayName: 'SidebarHeadingSnapshotMetadata',
 
   mixins: [
-    PureRenderMixin,
-    Navigation
+    PureRenderMixin
   ],
 
   propTypes: {
