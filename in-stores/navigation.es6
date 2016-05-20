@@ -1,7 +1,19 @@
-import {hashHistory} from 'react-router';
+/* global process:false, require:false */
+
 import {cloneDeep, isEqual} from 'lodash';
 
 import {createStore} from './store';
+
+let hashHistory;
+
+if (process.env.IS_TEST) {
+  hashHistory = {
+    push() {},
+    listen() {}
+  };
+} else {
+  hashHistory = require('react-router');
+}
 
 
 const store = createStore({
@@ -12,6 +24,7 @@ const store = createStore({
   }
 });
 export const navigationParameters = store.observable;
+export const navigationParameters$ = navigationParameters;
 
 hashHistory.listen(location => {
   store.applyStateMutation(() => {
@@ -36,7 +49,7 @@ export function mutateUrl(mutator) {
 
 export function goToDashboard() {
   mutateUrl(navParams => {
-    navParams.pathname = 'dashboard';
+    navParams.pathname = '/dashboard';
     return navParams;
   });
 }
@@ -44,7 +57,7 @@ export function goToDashboard() {
 
 export function goToMap() {
   mutateUrl(navParams => {
-    navParams.pathname = 'map';
+    navParams.pathname = '/';
     return navParams;
   });
 }
@@ -52,7 +65,7 @@ export function goToMap() {
 
 export function goToTraceView() {
   mutateUrl(navParams => {
-    navParams.pathname = 'traces';
+    navParams.pathname = '/traces';
     return navParams;
   });
 }

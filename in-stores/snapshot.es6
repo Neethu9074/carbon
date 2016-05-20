@@ -7,28 +7,41 @@ import createDeployedUnitsObservable from 'in-services/subscription/deployedUnit
 import createFoundationsObservable from 'in-services/subscription/foundations';
 import createRawPayloadObservable from 'in-services/subscription/rawPayload';
 import createSnapshotObservable from 'in-services/subscription/snapshot';
-import {mutateUrl, navigationParameters} from 'in-stores/navigation';
-import {createStore, createTrackingStore} from 'in-stores/store';
+import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
+import {createTrackingStore} from 'in-stores/store';
 import {alwaysNull} from 'in-services/fixedStreams';
 import {focusedMoment$} from 'in-stores/timeline';
 
 
-const selectedSnapshotIdStore = createStore({
+const selectedSnapshotIdStore = createTrackingStore({
   name: 'selectedSnapshotId',
-  initialValue: null
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('snapshotId' in query) {
+        return decodeURIComponent(query.snapshotId);
+      }
+
+      return null;
+    })
+    .distinct()
 });
-export const selectedSnapshotId = selectedSnapshotIdStore.observable.distinct();
+export const selectedSnapshotId = selectedSnapshotIdStore.observable;
 export const selectedSnapshotId$ = selectedSnapshotId;
+
 
 export const selectedSnapshot = createTrackingStore({
   name: 'selectedSnapshot',
-  observable: selectedSnapshotId.flatMap(snapshotId => {
-    if (snapshotId) {
-      return getSnapshot(snapshotId);
-    }
-    return alwaysNull;
-  })
+  observable: selectedSnapshotId
+    .flatMap(snapshotId => {
+      if (snapshotId) {
+        return getSnapshot(snapshotId);
+      }
+      return alwaysNull;
+    })
+    .distinct()
 }).observable;
+
 
 export const selectedSnapshotWithId = createTrackingStore({
   name: 'selectedSnapshotWithId',
@@ -53,6 +66,7 @@ export const selectedSnapshotWithId = createTrackingStore({
     })
 }).observable;
 
+
 export function setSelectedSnapshotId(id) {
   if (id == null) {
     clearSelectedSnapshotId();
@@ -65,6 +79,7 @@ export function setSelectedSnapshotId(id) {
   }
 }
 
+
 export function clearSelectedSnapshotId() {
   mutateUrl(navParams => {
     delete navParams.query.snapshotId;
@@ -72,47 +87,44 @@ export function clearSelectedSnapshotId() {
   });
 }
 
+
 export function getSnapshot(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
     createSnapshotObservable({snapshotId, time: focusedMoment})
   );
 }
 
+
 export function getPhysicalHierarchy(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
     createPhysicalHierarchyObservable({snapshotId, time: focusedMoment}));
 }
+
 
 export function getHighlightedMapEntity(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
     createHighlightedMapEntityObservable({snapshotId, time: focusedMoment}));
 }
 
+
 export function getFoundations(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
     createFoundationsObservable({snapshotId, time: focusedMoment}));
 }
+
 
 export function getRunningComponents(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
     createRunningComponentsObservable({snapshotId, time: focusedMoment}));
 }
 
+
 export function getDeployedUnits(snapshotId) {
   return focusedMoment$.flatMap(focusedMoment =>
     createDeployedUnitsObservable({snapshotId, time: focusedMoment}));
 }
 
+
 export function getRawPayload(snapshotId, payloadName) {
   return createRawPayloadObservable({snapshotId, payloadName});
 }
-
-navigationParameters.subscribe(navParams => {
-  const query = navParams.query;
-  if ('snapshotId' in query) {
-    const snapshotId = decodeURIComponent(query.snapshotId);
-    selectedSnapshotIdStore.applyStateMutation(() => snapshotId);
-  } else {
-    selectedSnapshotIdStore.applyStateMutation(() => null);
-  }
-});

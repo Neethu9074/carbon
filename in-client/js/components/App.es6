@@ -4,6 +4,7 @@ import React from 'react';
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
+import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
 import SidebarIncidents from 'in-components/SidebarIncidents';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
@@ -18,7 +19,6 @@ import connectTo from 'in-hoc/connectTo';
 import Map from 'in-map';
 
 import ConnectionStatus from './ConnectionStatus';
-import HelpDialog from './HelpDialog';
 import Settings from './Settings';
 
 import {
@@ -72,8 +72,8 @@ export default
     },
 
     render() {
+      // TODO
       const activePath = ['TODO react-router'];
-      // {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
       const hasChildren = this.props.children;
 
       return (
@@ -95,10 +95,12 @@ export default
           </section>
 
           <Timeline />
+
           {this.props.children}
 
 
           <MessageDialog />
+          <HelpPresenter />
           <TooltipPresenter />
           <ConnectionStatus />
           <TemporaryNotificationPresenter />

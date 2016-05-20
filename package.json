@@ -12,7 +12,7 @@
     "test": "npm run lint && npm run execute-tests",
     "lint": "eslint --ext .es6 in-* gulpfile.js",
     "check-style": "jscs --preset=airbnb $(find in-* -name '*.es6')",
-    "execute-tests": "gulp prepareTestExecution && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
+    "execute-tests": "export IS_TEST='true' && gulp prepareTestExecution && mocha --require ./build/testHarness --reporter dot $(find in-* -name '*_test.es6')",
     "dev": "export BUILD_DEV='true' && export NODE_ENV='development' && gulp dev",
     "check-updates": "ncu",
     "check-licenses": "license-checker > licenses.txt",

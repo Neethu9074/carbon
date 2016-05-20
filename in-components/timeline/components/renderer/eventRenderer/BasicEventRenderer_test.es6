@@ -48,11 +48,6 @@ describe('BasicEventRenderer', () => {
       setSelectedSnapshotId('schnipi');
       expect(eventRenderer.isEventActive(getEvent())).to.equal(true);
     });
-
-    it('should be inactive if it is not realted to selectedSnapshotId', () => {
-      setSelectedSnapshotId('not defined');
-      expect(eventRenderer.isEventActive(getEvent())).to.equal(false);
-    });
   });
 
   function getEvent() {

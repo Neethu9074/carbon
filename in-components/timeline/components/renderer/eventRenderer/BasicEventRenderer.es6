@@ -3,7 +3,7 @@ import {highlightedEntityId} from 'in-services/stores/highlightedEntityId';
 import {focusedMoment$} from 'in-components/timeline/timelineStore';
 import * as issueTracker from 'in-services/issueTracker';
 import {selectedSnapshotId} from 'in-stores/snapshot';
-import {selectedIncident} from 'in-stores/incident';
+import {selectedIncident$} from 'in-stores/incident';
 import {emptyArray} from 'in-services/fixedObjects';
 
 
@@ -22,7 +22,7 @@ export default class EventRenderer extends BasicRenderer {
     this.selectedIncident = null;
     this.recentEventIds = emptyArray;
 
-    this.selectedIncidentSubscription = selectedIncident.subscribe(_selectedIncident => {
+    this.selectedIncidentSubscription = selectedIncident$.subscribe(_selectedIncident => {
       this.selectedIncident = _selectedIncident;
       if (_selectedIncident) {
         this.recentEventIds = _selectedIncident.get('recentEvents').toArray();
