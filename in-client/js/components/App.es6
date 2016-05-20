@@ -1,17 +1,15 @@
 import PureRenderMixin from 'react-addons-pure-render-mixin';
-import {RouteHandler} from 'react-router';
 import React from 'react';
 
 import TemporaryNotificationPresenter from 'in-components/TemporaryNotificationPresenter';
 import TooltipPresenter from 'in-components/Tooltip/TooltipPresenter';
 import NotificationCounter from 'in-components/NotificationCounter';
+import HelpPresenter from 'in-components/helpSystem/HelpPresenter';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
 import SidebarIncidents from 'in-components/SidebarIncidents';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
-import RegisterForBeta from 'in-components/RegisterForBeta';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
-import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
@@ -20,10 +18,7 @@ import {isMonitoring} from 'in-stores/view';
 import connectTo from 'in-hoc/connectTo';
 import Map from 'in-map';
 
-import NavigationAdapter from './NavigationAdapter';
 import ConnectionStatus from './ConnectionStatus';
-import HelpDialog from './HelpDialog';
-import DemoDialog from './DemoDialog';
 import Settings from './Settings';
 
 import {
@@ -54,9 +49,9 @@ export default
 
     propTypes: {
       notMonitoringDialogShown: rpt.bool,
-      state: rpt.object.isRequired,
       showSettings: rpt.bool,
-      isMonitoring: rpt.bool
+      isMonitoring: rpt.bool,
+      children: rpt.any
     },
 
     componentWillMount() {
@@ -77,16 +72,13 @@ export default
     },
 
     render() {
-      const activePath = this.props.state.routes.map(route => route.name);
-      const hasChildren = this.props.state.routes.length > 1;
+      const hasChildren = this.props.children;
 
       return (
         <div>
-          <NavigationAdapter />
-
           {this.props.showSettings ? <Settings showMenu={setSettingsVisibility}/> : null }
 
-          <MapViewSwitcher activePath={activePath} />
+          <MapViewSwitcher />
 
           <Lettering className='in-root-lettering'/>
           <AccountMenu showMenu={setSettingsVisibility}
@@ -101,17 +93,12 @@ export default
           </section>
 
           <Timeline />
-          <RouteHandler />
 
-          {isDemoEnvironment() ?
-            <RegisterForBeta />
-          : null}
+          {this.props.children}
 
-          {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
-
-          {isDemoEnvironment() ? <DemoDialog /> : null}
 
           <MessageDialog />
+          <HelpPresenter />
           <TooltipPresenter />
           <ConnectionStatus />
           <TemporaryNotificationPresenter />

@@ -285,8 +285,7 @@ const RabbitMqDashboard = React.createClass({
                           timeframe={timeframe}
                           height={chartHeight}
                           margins={{
-                            left: 80,
-                            right: 80
+                            left: 80
                           }}
                           y1={{
                             metrics: [
@@ -300,8 +299,16 @@ const RabbitMqDashboard = React.createClass({
                               'Acknowledged messages'
                             ],
                             type: 'line'
+                          }}/>
+                  </Col>
+                  <Col cols={6}>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
                           }}
-                          y2={{
+                          y1={{
                             metrics: [
                               'queue_map.' + this.state.selectedQueue + '.publish_rate',
                               'queue_map.' + this.state.selectedQueue + '.deliver_rate',
@@ -313,9 +320,15 @@ const RabbitMqDashboard = React.createClass({
                               'Acknowledge rate'
                             ],
                             type: 'line',
+                            min: 0,
+                            max: 1,
                             formatter: percentageZeroDecimalPlaces
                           }}/>
                   </Col>
+                </Row>
+
+
+                <Row>
                   <Col cols={6}>
                     <ChartWithLegend snapshot={snapshot}
                           timeframe={timeframe}
@@ -335,8 +348,16 @@ const RabbitMqDashboard = React.createClass({
                               'Messages total'
                             ],
                             type: 'line'
+                          }}/>
+                  </Col>
+                  <Col cols={6}>
+                    <ChartWithLegend snapshot={snapshot}
+                          timeframe={timeframe}
+                          height={chartHeight}
+                          margins={{
+                            left: 80
                           }}
-                          y2={{
+                          y1={{
                             metrics: [
                               'queue_map.' + this.state.selectedQueue + '.messages_ready_rate',
                               'queue_map.' + this.state.selectedQueue + '.messages_unacknowledged_rate',
@@ -348,10 +369,13 @@ const RabbitMqDashboard = React.createClass({
                               'Messages total rate'
                             ],
                             type: 'line',
+                            min: 0,
+                            max: 1,
                             formatter: percentageZeroDecimalPlaces
                           }}/>
                   </Col>
                 </Row>
+
 
                 <Row>
                   <Col cols={6}>
