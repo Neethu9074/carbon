@@ -154,8 +154,8 @@ const KafkaDashboard = React.createClass({
                    left: 80
                  }}
                  y1={{
-                   formatter: twoDecimalPlaces,
-                   tooltipFormatter: twoDecimalPlaces,
+                   formatter: percentageZeroDecimalPlaces,
+                   tooltipFormatter: percentageZeroDecimalPlaces,
                    metrics: [
                      'broker.networkProcessorIdle',
                      'broker.requestHandlerIdle'
