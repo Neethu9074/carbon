@@ -8,10 +8,8 @@ import NotificationCounter from 'in-components/NotificationCounter';
 import {showHelp, closeHelpIfOpen} from 'in-stores/navigation';
 import SidebarIncidents from 'in-components/SidebarIncidents';
 import MapViewSwitcher from 'in-components/MapViewSwitcher';
-import RegisterForBeta from 'in-components/RegisterForBeta';
 import MessageDialog from 'in-components/MessageDialog';
 import Timeline from 'in-components/timeline/Timeline';
-import {isDemoEnvironment} from 'in-services/config';
 import AccountMenu from 'in-components/AccountMenu';
 import SidebarMap from 'in-components/SidebarMap';
 import Lettering from 'in-components/Lettering';
@@ -23,7 +21,6 @@ import Map from 'in-map';
 import NavigationAdapter from './NavigationAdapter';
 import ConnectionStatus from './ConnectionStatus';
 import HelpDialog from './HelpDialog';
-import DemoDialog from './DemoDialog';
 import Settings from './Settings';
 
 import {
@@ -103,13 +100,7 @@ export default
           <Timeline />
           <RouteHandler />
 
-          {isDemoEnvironment() ?
-            <RegisterForBeta />
-          : null}
-
           {this.props.state.query.help ? <HelpDialog id={this.props.state.query.help} /> : null}
-
-          {isDemoEnvironment() ? <DemoDialog /> : null}
 
           <MessageDialog />
           <TooltipPresenter />
