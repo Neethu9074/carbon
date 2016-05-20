@@ -9,7 +9,7 @@ import * as tracking from 'in-services/tracking';
 import {showHelp} from 'in-stores/navigation';
 import {getIn} from 'in-services/settings';
 import eventBus from 'in-map/eventbus';
-import enhance from 'in-hoc/enhance';
+import connectTo from 'in-hoc/connectTo';
 
 import Scene from './Scene';
 
@@ -19,7 +19,9 @@ import './index.less';
 const rpt = React.PropTypes;
 const block = 'in-map';
 
-export default enhance(React.createClass({
+export default connectTo({
+    antialias: getIn(['map', 'antialias'])
+  }, React.createClass({
 
   displayName: 'map',
 
@@ -30,14 +32,6 @@ export default enhance(React.createClass({
 
   propTypes: {
     antialias: rpt.string.isRequired
-  },
-
-  statics: {
-    createObservables() {
-      return {
-        antialias: getIn(['map', 'antialias'])
-      };
-    }
   },
 
   getInitialState() {
