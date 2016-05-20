@@ -3,7 +3,7 @@
 /* eslint-disable instana-import-order/instana-import-order */
 import 'in-forge';
 
-import * as reactRouter from 'react-router';
+import {Router, hashHistory} from 'react-router';
 import ReactDOM from 'react-dom';
 import logging from 'instalog';
 import React from 'react';
@@ -59,11 +59,8 @@ if (window.instana.user) {
   tracking.identify();
 }
 
-const router = reactRouter.create({
-  routes,
-  location: reactRouter.HashLocation
-});
-const container = document.getElementById('main');
-router.run((Root, state) => {
-  ReactDOM.render(<Root state={state} />, container);
-});
+ReactDOM.render((
+  <Router history={hashHistory}>
+    {routes}
+  </Router>
+), document.getElementById('main'));
