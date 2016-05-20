@@ -8,7 +8,8 @@ import {
   bytesZeroDecimalPlaces,
   bytesTwoDecimalPlaces,
   msZeroDecimalPlaces,
-  msTwoDecimalPlaces
+  msTwoDecimalPlaces,
+  percentageZeroDecimalPlaces
 } from 'in-services/formatters/number';
 
 import DashboardSection from 'in-components/DashboardSection';
