@@ -8,13 +8,13 @@ import * as constants from 'in-forge/constants';
 
 pluginName.setHumanReadablePluginName(
   constants.plugins.postgresql,
-  'PostgreSqL DB',
-  'PostgreSqL DBs'
+  'PostgreSQL DB',
+  'PostgreSQL DBs'
 );
 
 addLabelFinder(
   constants.plugins.postgresql,
-  snapshot => 'PostgreSql @ ' + snapshot.getIn(['data', 'port'])
+  snapshot => 'PostgreSQL @ ' + snapshot.getIn(['data', 'port'])
 );
 
 power.addMapping(
