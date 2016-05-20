@@ -72,15 +72,13 @@ export default
     },
 
     render() {
-      // TODO
-      const activePath = ['TODO react-router'];
       const hasChildren = this.props.children;
 
       return (
         <div>
           {this.props.showSettings ? <Settings showMenu={setSettingsVisibility}/> : null }
 
-          <MapViewSwitcher activePath={activePath} />
+          <MapViewSwitcher />
 
           <Lettering className='in-root-lettering'/>
           <AccountMenu showMenu={setSettingsVisibility}

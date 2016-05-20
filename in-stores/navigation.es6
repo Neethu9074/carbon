@@ -12,7 +12,7 @@ if (process.env.IS_TEST) {
     listen() {}
   };
 } else {
-  hashHistory = require('react-router');
+  hashHistory = require('react-router').hashHistory;
 }
 
 
