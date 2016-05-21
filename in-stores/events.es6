@@ -16,7 +16,9 @@ import {createStore, createTrackingStore} from 'in-stores/store';
 import getEvents from 'in-services/subscription/events';
 import {theme} from 'in-services/theme';
 
+
 const maxDataRetrieval = 1000 * 60 * 60 * 24 * 31; // one month
+
 
 export const retrievedEvents$ = createTrackingStore({
   name: 'retrievedEvents',

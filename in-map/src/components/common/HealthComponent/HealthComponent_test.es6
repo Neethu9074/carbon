@@ -21,7 +21,7 @@ describe('3D map', () => {
         maxSeverity: 0
       }))
     }
-  });
+  }).default;
 
   beforeEach(() => {
     global.window = {

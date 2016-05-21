@@ -48,7 +48,7 @@ export default React.createClass({
       require.ensure([], function onModLoad() {
         self.setState({
           componentType: type,
-          Component: context('./' + type + '/' + detailViewPath + '.es6')
+          Component: context('./' + type + '/' + detailViewPath + '.es6').default
         });
       });
     }

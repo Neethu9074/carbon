@@ -40,9 +40,9 @@ describe('3D map', () => {
 
     const LayerComponent = proxyquire('./LayerComponent.es6', {
       'in-map/src/3DSceneObjects/physical/Layer': proxyquire('in-map/src/3DSceneObjects/physical/Layer', {
-        '../common/SceneObjectWithSnapshot': SceneObjectWithSnapshotMock
+        '../common/SceneObjectWithSnapshot': {default: SceneObjectWithSnapshotMock}
       })
-    });
+    }).default;
 
     component = new LayerComponent({ sceneObject });
   });
