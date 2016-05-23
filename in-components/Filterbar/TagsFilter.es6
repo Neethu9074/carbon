@@ -26,7 +26,7 @@ export default connectTo({
     return (
       <div className={block}>
         <input placeholder='Search…'
-               type='text'
+               type='search'
                value={this.props.tagsFilter}
                onChange={this.onChange}
                className={block + '__input'} />
