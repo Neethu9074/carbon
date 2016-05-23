@@ -5,6 +5,7 @@ import * as issueTracker from 'in-services/issueTracker';
 import {selectedSnapshotId} from 'in-stores/snapshot';
 import {selectedIncident$} from 'in-stores/incident';
 import {emptyArray} from 'in-services/fixedObjects';
+import {selectedEventId$} from 'in-stores/events';
 
 
 const highlightedColor = '#ffffff';
@@ -43,6 +44,9 @@ export default class EventRenderer extends BasicRenderer {
 
     this.selectedSnapshotId = null;
     this.selectedSnapshotIdSubscription = selectedSnapshotId.subscribe(id => this.selectedSnapshotId = id);
+
+    this.selectedEventId = null;
+    this.selectedEventIdSubscription = selectedEventId$.subscribe(id => this.selectedEventId = id);
   }
 
   setWidth(width) {
@@ -92,7 +96,8 @@ export default class EventRenderer extends BasicRenderer {
   }
 
   draw(event, isHighlighted) {
-    const x = this.scale.getRange(event.get('start'));
+    const scale = this.scale;
+    const x = scale.getRange(event.get('start'));
     if (x <= 0 || x > this.width) {
       return null;
     }
@@ -103,6 +108,15 @@ export default class EventRenderer extends BasicRenderer {
     const prevValue = buffer.globalAlpha;
     buffer.globalAlpha = 0.2;
     buffer.fillRect(x, this.y, 1, 40);
+
+    if (event.get('id') === this.selectedEventId) {
+      const to = event.get('state') === 'open' ?
+        scale.getRange(scale.getDomainTo()) :
+        scale.getRange(event.get('end'));
+
+      buffer.fillRect(x, this.y, to - x, 40);
+    }
+
     buffer.globalAlpha = prevValue;
 
     return x;
@@ -126,6 +140,7 @@ export default class EventRenderer extends BasicRenderer {
     this.highlightedEntityIdSubscription.dispose();
     this.selectedSnapshotIdSubscription.dispose();
     this.selectedIncidentSubscription.dispose();
+    this.selectedEventIdSubscription.dispose();
     this.focusedMomentSubscription.dispose();
   }
 }

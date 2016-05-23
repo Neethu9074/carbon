@@ -8,6 +8,7 @@ import {hexToRGBNormalized} from 'in-services/formatters/color';
 import {setCursor, CURSOR_TYPES} from 'in-stores/cursorStore';
 import {clearSelectedIncident} from 'in-stores/incident';
 import {activeMetric} from 'in-services/stores/metrics';
+import {clearSelectedEvent} from 'in-stores/events';
 import * as snapshotStore from 'in-stores/snapshot';
 import * as tracking from 'in-services/tracking';
 import {theme} from 'in-services/theme';
@@ -449,6 +450,7 @@ export default class Scene {
   resetClicked() {
     clearSelectedSnapshotId();
     clearSelectedIncident();
+    clearSelectedEvent();
   }
 
   // is called by map
@@ -457,6 +459,7 @@ export default class Scene {
   clearStores() {
     clearSelectedSnapshotId();
     clearSelectedIncident();
+    clearSelectedEvent();
     stores.longClickedSceneObject.emit(null);
     stores.currentTooltip.emit(null);
     stores.cursorPosition.emit(null);

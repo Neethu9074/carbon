@@ -3,6 +3,7 @@ import {sortedIndexBy} from 'lodash';
 import Immutable from 'immutable';
 
 import {setHighlightedEntityId, clearHighlightedEntityId} from 'in-services/stores/highlightedEntityId';
+import {mutateUrl, navigationParameters$} from 'in-stores/navigation';
 import getEventUpdates from 'in-services/subscription/eventUpdates';
 import getOpenEvents from 'in-services/subscription/newOpenEvents';
 import {
@@ -316,10 +317,45 @@ export const highlightedEvent$ = highlightedEvent.observable.distinct();
 
 export function setHighlightedEvent(event) {
   highlightedEvent.applyStateMutation(() => event);
-
   if (event) {
     setHighlightedEntityId(event.get('snapshotId'));
   } else {
     clearHighlightedEntityId();
   }
 }
+
+export function selectEvent(event) {
+  if (event) {
+    mutateUrl(navParams => {
+      delete navParams.query.snapshotId;
+      navParams.query.eventId = encodeURIComponent(event.get('id'));
+      return navParams;
+    });
+  } else {
+    mutateUrl(navParams => {
+      delete navParams.query.eventId;
+      return navParams;
+    });
+  }
+}
+
+export function clearSelectedEvent() {
+  mutateUrl(navParams => {
+    delete navParams.query.eventId;
+    return navParams;
+  });
+}
+
+
+export const selectedEventId$ = createTrackingStore({
+  name: 'selectedEventId',
+  observable: navigationParameters$
+    .map(params => {
+      const query = params.query;
+      if ('eventId' in query) {
+        return decodeURIComponent(query.eventId);
+      }
+      return null;
+    })
+    .distinct()
+}).observable;
