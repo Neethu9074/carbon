@@ -139,9 +139,8 @@ const DropwizardDashboard = React.createClass({
                                  }}
                                  y1={{
                                    formatter: withSiPrefixThreeDecimalPlaces,
-                                   metrics: ['metrics.meters.' + this.state.selectedMetricMeter + '.c',
-                                             'metrics.meters.' + this.state.selectedMetricMeter + '.m'],
-                                   labels: [this.state.selectedMetricMeter],
+                                   metrics: ['metrics.meters.' + this.state.selectedMetricMeter],
+                                   labels: [this.state.selectedMetricMeter + ' rate'],
                                    type: 'line'
                                  }}/>
               : null}
@@ -149,8 +148,7 @@ const DropwizardDashboard = React.createClass({
                 <thead>
                   <tr>
                     <th>Name</th>
-                    <th>Count</th>
-                    <th>Mean</th>
+                    <th>Rate</th>
                   </tr>
                 </thead>
 
@@ -164,10 +162,7 @@ const DropwizardDashboard = React.createClass({
                       <td>
                         {meter}
                       </td>
-                      <Mtd metric={'metrics.meters.' + meter + '.c'}
-                           snapshot={snapshot}
-                           formatter={withSiPrefixThreeDecimalPlaces} />
-                      <Mtd metric={'metrics.meters.' + meter + '.m'}
+                      <Mtd metric={'metrics.meters.' + meter}
                            snapshot={snapshot}
                            formatter={withSiPrefixThreeDecimalPlaces} />
                     </tr>
