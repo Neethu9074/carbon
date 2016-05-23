@@ -44,7 +44,7 @@ export default class MarkedIncidentRenderer extends BasicRenderer {
     const buffer = this.backBuffer;
     buffer.globalAlpha = 0.2;
     buffer.fillStyle = white;
-    buffer.fillRect(x, 40, to - x, 122);
+    buffer.fillRect(x, 80, to - x, 122);
     buffer.globalAlpha = 1;
   }
 
