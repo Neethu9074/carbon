@@ -2,6 +2,8 @@ import PureRenderMixin from 'react-addons-pure-render-mixin';
 import React from 'react';
 import irpt from 'react-immutable-proptypes';
 
+import {emptyList} from 'in-services/fixedImmutables';
+
 import List from 'in-components/List';
 
 const AppPoolList = React.createClass({
@@ -12,7 +14,7 @@ const AppPoolList = React.createClass({
   },
 
   render() {
-    const pools = this.props.snapshot.getIn(['data', 'allpools']).toArray();
+    const pools = this.props.snapshot.getIn(['data', 'allpools'], emptyList).toArray();
     if (!pools || pools.length === 0) {
       return null;
     }
