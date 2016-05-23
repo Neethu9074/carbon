@@ -44,11 +44,10 @@ export function getMapStatistics(scene) {
         '#nodes': getAllNodes(map).length,
         '#layer': getAllLayer(map).length,
         factories: {
-          highlight: scene.highlightingSingleMeshFactory.numberUpdates | 0,
+          highlight: scene.highlightingSMF.numberUpdates | 0,
           metrics: scene.singleMeshMetricFactory.numberUpdates | 0,
-          ground: scene.groundSingleMeshFactory.numberUpdates | 0,
-          SMF_updates: scene.singleMeshFactory.numberUpdates | 0,
-          layer: scene.layerSingleMeshFactory.numberUpdates | 0
+          ground: scene.groundSMF.numberUpdates | 0,
+          layer: scene.layerSMF.numberUpdates | 0
         },
         details: {
           low: String(((detailLevels.low / allDetailSec) * 100) | 0) + '%',

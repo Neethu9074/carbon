@@ -89,7 +89,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory: this.scene.solidSingleMeshFactory
+      factory: this.scene.solidSMF
     });
 
     // add the collision component to handle the collision box
@@ -111,7 +111,7 @@ export default class Node extends SceneObjectWithSnapshot {
           })
         })
       }),
-      factory: this.scene.solidSingleMeshFactory
+      factory: this.scene.solidSMF
     });
     components.topMesh.sizeChanged({x: 0.9, y: 0.9, z: 0.9});
 

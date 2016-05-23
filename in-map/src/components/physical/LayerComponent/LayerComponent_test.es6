@@ -28,11 +28,11 @@ describe('3D map', () => {
 
     currentScene.emit({
       addCollisionObject: sinon.stub(),
-      layerSingleMeshFactory: {
+      layerSMF: {
         addFragment: sinon.stub(),
         removeFragment: sinon.stub()
       },
-      highlightingSingleMeshFactory: {
+      highlightingSMF: {
         addFragment: sinon.stub(),
         removeFragment: sinon.stub()
       }

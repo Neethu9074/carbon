@@ -106,14 +106,14 @@ export default class Layer extends SceneObjectWithSnapshot {
     components.mesh = new MeshComponent({
       sceneObject: this,
       contentProvider: new CMCM({ contentProvider: pcm }),
-      factory: this.scene.layerSingleMeshFactory
+      factory: this.scene.layerSMF
     });
 
     // add the solidMesh component to handle the solid fill color of a node
     components.solidMesh = new MeshComponent({
       sceneObject: this,
       contentProvider: new CMCM({ contentProvider: pcm }),
-      factory: this.scene.highlightingSingleMeshFactory
+      factory: this.scene.highlightingSMF
     });
     components.solidMesh.stateMachine.changeStateProperty(PROPERTIES.ACTIVE, PROPERTY_VALUES.OFF);
 
